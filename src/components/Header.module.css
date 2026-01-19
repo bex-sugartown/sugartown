@@ -38,7 +38,7 @@
 }
 
 .ctaButton:hover {
-  background-color: var(--st-seafoam);
+  background-color: var(--st-green);
   opacity: 1;
 }
 

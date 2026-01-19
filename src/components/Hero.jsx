@@ -11,8 +11,8 @@ export default function Hero({ hero }) {
     backgroundStyles.backgroundImage = `url(${urlFor(hero.backgroundMedia.image.asset).width(1920).url()})`
   } else if (hero.backgroundStyle === 'pink') {
     backgroundStyles.backgroundColor = 'var(--st-pink)'
-  } else if (hero.backgroundStyle === 'seafoam') {
-    backgroundStyles.backgroundColor = 'var(--st-seafoam)'
+  } else if (hero.backgroundStyle === 'green') {
+    backgroundStyles.backgroundColor = 'var(--st-green)'
   } else if (hero.backgroundStyle === 'white') {
     backgroundStyles.backgroundColor = 'var(--st-white)'
   }

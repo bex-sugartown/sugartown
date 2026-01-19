@@ -56,7 +56,7 @@
 }
 
 .primaryButton {
-  background-color: var(--st-seafoam);
+  background-color: var(--st-green);
   color: var(--st-black);
   padding: var(--st-space-sm) var(--st-space-lg);
   border-radius: var(--st-radius-md);
