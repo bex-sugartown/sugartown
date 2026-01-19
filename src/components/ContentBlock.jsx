@@ -1,10 +1,10 @@
 import { PortableText } from '@portabletext/react'
-import Media from './atoms/Media'
+import SanityMedia from './atoms/SanityMedia'
 import styles from './ContentBlock.module.css'
 
 const components = {
   types: {
-    media: ({ value }) => <Media image={value.image} caption={value.caption} />,
+    media: ({ value }) => <SanityMedia image={value.image} caption={value.caption} />,
   },
   block: {
     h2: ({ children }) => <h2 className={styles.h2}>{children}</h2>,

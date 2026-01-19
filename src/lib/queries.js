@@ -73,7 +73,9 @@ export const heroesQuery = `
     backgroundMedia{
       image{
         asset,
-        alt
+        alt,
+        crop,
+        hotspot
       },
       caption
     },
@@ -94,7 +96,9 @@ export const heroQuery = `
     backgroundMedia{
       image{
         asset,
-        alt
+        alt,
+        crop,
+        hotspot
       },
       caption
     },

@@ -11,7 +11,16 @@ export default function Hero({ hero }) {
   const backgroundStyles = {}
 
   if (hero.backgroundStyle === 'image' && hero.backgroundMedia?.image?.asset) {
-    backgroundStyles.backgroundImage = `url(${urlFor(hero.backgroundMedia.image.asset).width(1920).url()})`
+    const img = hero.backgroundMedia.image
+
+    // Default to center if no hotspot is set
+    const x = img.hotspot?.x ?? 0.5
+    const y = img.hotspot?.y ?? 0.5
+
+    backgroundStyles.backgroundImage = `url(${urlFor(img.asset).width(1920).quality(90).url()})`
+
+    // This is the key: aim the CSS crop at the hotspot
+    backgroundStyles.backgroundPosition = `${Math.round(x * 100)}% ${Math.round(y * 100)}%`
   } else if (hero.backgroundStyle === 'pink') {
     backgroundStyles.backgroundColor = 'var(--st-pink)'
   } else if (hero.backgroundStyle === 'green') {
