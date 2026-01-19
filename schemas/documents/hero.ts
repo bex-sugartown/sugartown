@@ -43,7 +43,7 @@ export default defineType({
       options: {
         list: [
           {title: 'Sugartown Pink', value: 'pink'},
-          {title: 'Seafoam', value: 'seafoam'},
+          {title: 'Green', value: 'green'},
           {title: 'White', value: 'white'},
           {title: 'Image', value: 'image'},
         ],
