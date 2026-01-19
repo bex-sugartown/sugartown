@@ -19,16 +19,12 @@ export default defineType({
       validation: (Rule) => Rule.max(200),
     },
     {
-      name: 'ctaButton',
-      title: 'Call-to-Action Button',
-      type: 'link',
-      description: 'Primary action button',
-    },
-    {
-      name: 'secondaryCta',
-      title: 'Secondary CTA',
-      type: 'link',
-      description: 'Optional second button (less prominent styling)',
+      name: "ctas",
+      title: "CTA Buttons",
+      type: "array",
+      of: [{ type: "link" }],
+      validation: (Rule: any) => Rule.max(2),
+      description: "Add 0–2 buttons. First = primary, second = secondary."
     },
     {
       name: 'backgroundMedia',
