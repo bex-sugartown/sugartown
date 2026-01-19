@@ -65,12 +65,7 @@ export const heroesQuery = `
     _id,
     heading,
     subheading,
-    ctaButton{
-      label,
-      url,
-      openInNewTab
-    },
-    secondaryCta{
+    ctas[]{
       label,
       url,
       openInNewTab
@@ -91,12 +86,7 @@ export const heroQuery = `
   *[_type == "hero" && _id == $id][0]{
     heading,
     subheading,
-    ctaButton{
-      label,
-      url,
-      openInNewTab
-    },
-    secondaryCta{
+    ctas[]{
       label,
       url,
       openInNewTab
