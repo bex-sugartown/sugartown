@@ -1,0 +1,130 @@
+// GROQ queries for fetching Sanity content
+
+// Fetch singleton header
+export const headerQuery = `
+  *[_type == "header" && _id == "singleton-header"][0]{
+    logo{
+      image{
+        asset,
+        alt
+      },
+      linkUrl,
+      width
+    },
+    navigation[]{
+      label,
+      url,
+      isActive,
+      openInNewTab
+    },
+    ctaButton{
+      label,
+      url,
+      openInNewTab
+    }
+  }
+`
+
+// Fetch singleton footer
+export const footerQuery = `
+  *[_type == "footer" && _id == "singleton-footer"][0]{
+    logo{
+      image{
+        asset,
+        alt
+      },
+      linkUrl,
+      width
+    },
+    tagline,
+    navigationColumns[]{
+      heading,
+      links[]{
+        label,
+        url,
+        openInNewTab
+      }
+    },
+    socialLinks[]{
+      platform,
+      url,
+      label
+    },
+    copyrightText,
+    legalLinks[]{
+      label,
+      url,
+      openInNewTab
+    }
+  }
+`
+
+// Fetch all hero banners
+export const heroesQuery = `
+  *[_type == "hero"] | order(_createdAt desc){
+    _id,
+    heading,
+    subheading,
+    ctaButton{
+      label,
+      url,
+      openInNewTab
+    },
+    secondaryCta{
+      label,
+      url,
+      openInNewTab
+    },
+    backgroundMedia{
+      image{
+        asset,
+        alt
+      },
+      caption
+    },
+    backgroundStyle
+  }
+`
+
+// Fetch single hero by ID
+export const heroQuery = `
+  *[_type == "hero" && _id == $id][0]{
+    heading,
+    subheading,
+    ctaButton{
+      label,
+      url,
+      openInNewTab
+    },
+    secondaryCta{
+      label,
+      url,
+      openInNewTab
+    },
+    backgroundMedia{
+      image{
+        asset,
+        alt
+      },
+      caption
+    },
+    backgroundStyle
+  }
+`
+
+// Fetch all content blocks
+export const contentBlocksQuery = `
+  *[_type == "contentBlock"] | order(_createdAt desc){
+    _id,
+    title,
+    content
+  }
+`
+
+// Fetch single content block by ID
+export const contentBlockQuery = `
+  *[_type == "contentBlock" && _id == $id][0]{
+    title,
+    content
+  }
+`

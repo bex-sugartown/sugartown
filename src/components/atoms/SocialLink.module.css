@@ -1,0 +1,25 @@
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--st-radius-full);
+  background-color: var(--st-gray-light);
+  transition: all var(--st-transition-fast);
+  text-decoration: none;
+}
+
+.socialLink:hover {
+  background-color: var(--st-pink);
+  transform: translateY(-2px);
+}
+
+.socialLink:focus {
+  outline: 2px solid var(--st-pink);
+  outline-offset: 2px;
+}
+
+.icon {
+  font-size: var(--st-text-lg);
+}

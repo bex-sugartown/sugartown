@@ -1,0 +1,123 @@
+.footer {
+  background-color: var(--st-black);
+  color: var(--st-white);
+  padding: var(--st-space-2xl) 0 var(--st-space-lg);
+  margin-top: var(--st-space-3xl);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--st-space-md);
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  gap: var(--st-space-xl);
+  margin-bottom: var(--st-space-xl);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-sm);
+}
+
+.tagline {
+  font-size: var(--st-text-sm);
+  color: var(--st-gray-medium);
+  margin: 0;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--st-space-lg);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-sm);
+}
+
+.columnHeading {
+  font-size: var(--st-text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 var(--st-space-xs);
+  color: var(--st-pink);
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-xs);
+}
+
+.linkList a {
+  color: var(--st-gray-medium);
+  font-size: var(--st-text-sm);
+}
+
+.linkList a:hover {
+  color: var(--st-white);
+}
+
+.social {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-sm);
+}
+
+.socialLinks {
+  display: flex;
+  gap: var(--st-space-xs);
+  flex-wrap: wrap;
+}
+
+.bottom {
+  border-top: 1px solid var(--st-gray-dark);
+  padding-top: var(--st-space-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--st-space-md);
+}
+
+.copyright {
+  font-size: var(--st-text-sm);
+  color: var(--st-gray-medium);
+  margin: 0;
+}
+
+.legalLinks {
+  display: flex;
+  gap: var(--st-space-md);
+}
+
+.legalLink {
+  font-size: var(--st-text-sm);
+  color: var(--st-gray-medium);
+}
+
+.legalLink:hover {
+  color: var(--st-white);
+}
+
+@media (max-width: 768px) {
+  .top {
+    grid-template-columns: 1fr;
+  }
+  
+  .bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

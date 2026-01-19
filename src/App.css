@@ -1,0 +1,74 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--st-font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--st-white);
+  color: var(--st-black);
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: var(--st-text-xl);
+  color: var(--st-pink);
+}
+
+.empty-state {
+  max-width: 600px;
+  margin: var(--st-space-3xl) auto;
+  padding: var(--st-space-2xl);
+  text-align: center;
+}
+
+.empty-state h2 {
+  color: var(--st-pink);
+  margin-bottom: var(--st-space-md);
+}
+
+.empty-state p {
+  color: var(--st-gray-medium);
+  font-size: var(--st-text-lg);
+}
+
+/* Error States - Maroon */
+.error {
+  color: var(--st-red);
+  background-color: rgba(185, 28, 104, 0.1);
+  padding: var(--st-space-md);
+  border-radius: var(--st-radius-md);
+  border-left: 4px solid var(--st-red);
+}
+
+.error-message {
+  color: var(--st-red);
+  font-size: var(--st-text-sm);
+  margin-top: var(--st-space-xs);
+}
+
+/* Form validation errors */
+input:invalid,
+textarea:invalid {
+  border-color: var(--st-red);
+}
+
+input:invalid:focus,
+textarea:invalid:focus {
+  outline-color: var(--st-red);
+}
