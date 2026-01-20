@@ -1,7 +1,7 @@
 .contentBlock {
-  max-width: 800px;
+  max-width: var(--st-page-max);
   margin: 0 auto;
-  padding: var(--st-space-2xl) var(--st-space-md);
+  padding: var(--st-space-xl) var(--st-page-gutter);
   font-size: var(--st-text-lg);
   line-height: 1.7;
   color: var(--st-black);
@@ -57,7 +57,7 @@
 .code {
   font-family: var(--st-font-mono);
   font-size: 0.9em;
-  background-color: var(--st-gray-light);
+background-color: transparent;
   padding: 2px 6px;
   border-radius: var(--st-radius-sm);
   color: var(--st-red);  /* Maroon for inline code */

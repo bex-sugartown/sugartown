@@ -1,0 +1,47 @@
+/* ============================================================
+   Sugartown Design System — Global Baseline
+   Purpose: predictable defaults for layout + typography.
+   ============================================================ */
+
+:root {
+  /* Common layout helpers */
+  --st-page-max: 1100px;
+  --st-page-gutter: var(--st-space-lg);
+  --st-line-height: 1.5;
+}
+
+/* Reset-ish */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--st-font-ui);
+  font-size: var(--st-text-md);
+  line-height: var(--st-line-height);
+  color: var(--st-gray-900);
+  background: var(--st-white);
+}
+
+/* Basic content spacing */
+main {
+  /* layout wrapper only */
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+p {
+  margin: 0 0 var(--st-space-md) 0;
+}
+
+h1, h2, h3 {
+  margin: 0 0 var(--st-space-md) 0;
+}
+

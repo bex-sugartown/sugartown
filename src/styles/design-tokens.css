@@ -1,61 +1,62 @@
-/* Sugartown Design System - Design Tokens */
-
 :root {
-  /* Brand Colors - Updated Palette */
-  --st-pink: #ff247d;         /* Sugartown Pink */
-  --st-green: #D1FF1D;      /* Sugartown Lime */
-  --st-black: #0D1226;        /* Deep Midnight Blue */
-  --st-red: #b91c68;          /* Maroon */
-  --st-gray-medium: #94A3B8;  /* Soft Cloud Gray */
-  
-  /* Semantic Colors */
-  --st-white: #FFFFFF;
-  --st-gray-light: #F5F5F5;
-  --st-gray-dark: #2A2A2A;
-  
-  /* Typography */
-  --st-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  --st-font-mono: 'SF Mono', Monaco, 'Courier New', monospace;
-  
-  /* Font Sizes */
-  --st-text-xs: 0.75rem;    /* 12px */
-  --st-text-sm: 0.875rem;   /* 14px */
-  --st-text-base: 1rem;     /* 16px */
-  --st-text-lg: 1.125rem;   /* 18px */
-  --st-text-xl: 1.25rem;    /* 20px */
-  --st-text-2xl: 1.5rem;    /* 24px */
-  --st-text-3xl: 1.875rem;  /* 30px */
-  --st-text-4xl: 2.25rem;   /* 36px */
-  --st-text-5xl: 3rem;      /* 48px */
-  
-  /* Spacing (8px grid) */
-  --st-space-xs: 0.5rem;   /* 8px */
-  --st-space-sm: 1rem;     /* 16px */
-  --st-space-md: 1.5rem;   /* 24px */
-  --st-space-lg: 2rem;     /* 32px */
-  --st-space-xl: 3rem;     /* 48px */
-  --st-space-2xl: 4rem;    /* 64px */
-  --st-space-3xl: 6rem;    /* 96px */
-  
-  /* Border Radius */
-  --st-radius-sm: 4px;
-  --st-radius-md: 8px;
-  --st-radius-lg: 16px;
-  --st-radius-full: 9999px;
-  
-  /* Shadows */
-  --st-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --st-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --st-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  
-  /* Transitions */
-  --st-transition-fast: 150ms ease;
-  --st-transition-base: 300ms ease;
-  --st-transition-slow: 500ms ease;
-  
-  /* Breakpoints (for reference in JS) */
-  --st-breakpoint-mobile: 320px;
-  --st-breakpoint-tablet: 768px;
-  --st-breakpoint-desktop: 1024px;
-  --st-breakpoint-wide: 1440px;
+  /* ============================================================
+     FOUNDATION TOKENS (raw, scale-based primitives)
+     Platform-agnostic. Do not use these directly in app layout.
+     ============================================================ */
+
+  /* --- Spacing scale --- */
+  --st-space-1: 4px;
+  --st-space-2: 8px;
+  --st-space-3: 12px;
+  --st-space-4: 16px;
+  --st-space-5: 20px;
+  --st-space-6: 24px;
+  --st-space-7: 32px;
+  --st-space-8: 40px;
+
+  /* --- Radius scale --- */
+  --st-radius-1: 8px;
+  --st-radius-2: 12px;
+  --st-radius-3: 16px;
+  --st-radius-4: 24px;
+
+  /* --- Typography foundations --- */
+  --st-font-sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  --st-text-1: 14px;
+  --st-text-2: 16px;
+
+  /* --- Accessibility foundations --- */
+  /* NOTE: --st-color-focus should be defined in the semantic color section */
+  --st-focus-ring-width: 2px;
+
+  /* ============================================================
+     SEMANTIC TOKENS (intent-mapped, stable names)
+     Rule: semantic tokens must map to foundation tokens.
+     ============================================================ */
+
+  /* --- Spacing aliases --- */
+  --st-space-xs: var(--st-space-1);
+  --st-space-sm: var(--st-space-2);
+  --st-space-md: var(--st-space-4);
+  --st-space-lg: var(--st-space-6);
+  --st-space-xl: var(--st-space-8);
+
+  /* --- Radius aliases --- */
+  --st-radius-xs: var(--st-radius-1);
+  --st-radius-sm: var(--st-radius-2);
+  --st-radius-md: var(--st-radius-3);
+  --st-radius-lg: var(--st-radius-4);
+
+  /* --- Typography aliases --- */
+  --st-font-ui: var(--st-font-sans);
+  --st-text-sm: var(--st-text-1);
+  --st-text-md: var(--st-text-2);
+
+  /* --- Color semantics (recommended next step) --- */
+  /* These should map to brand tokens like --st-pink / --st-green once those exist */
+  --st-color-brand: var(--st-pink);
+  --st-color-focus: var(--st-color-brand);
+
+  /* --- On-color (contrast) --- */
+  --st-color-on-brand: #ffffff;
 }

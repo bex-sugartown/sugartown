@@ -1,0 +1,68 @@
+:root {
+
+     /* ============================================================
+     FOUNDATION COLORS (raw palette)
+     Transitional: keeps legacy + current code working.
+     ============================================================ */
+  --st-pink: #FF247D;
+  --st-green: #D1FF1D;
+  --st-white: #ffffff;
+  --st-black: #111111;
+
+  --st-gray-900: #111827;
+  --st-gray-700: #374151;
+  --st-gray-500: #6b7280;
+  --st-gray-300: #d1d5db;
+
+/* Back-compat token used in older CSS */
+--st-gray-medium: var(--st-gray-500);
+
+/* ============================================================
+     SEMANTIC COLORS (intent)
+     ============================================================ */
+--st-color-brand: var(--st-pink);
+--st-color-accent: var(--st-green);
+--st-color-on-brand: var(--st-white);
+--st-color-focus: var(--st-color-brand);
+
+  
+/* ------------------------------------------------------------
+   Spacing (foundation scale)
+------------------------------------------------------------ */
+--st-space-1: 4px;
+--st-space-2: 8px;
+--st-space-3: 12px;
+--st-space-4: 16px;
+--st-space-5: 20px;
+--st-space-6: 24px;
+--st-space-7: 32px;
+--st-space-8: 40px;
+
+/* ------------------------------------------------------------
+   Spacing (semantic aliases) — platform-agnostic
+   Rule: aliases must map to the foundation scale above
+------------------------------------------------------------ */
+--st-space-xs: var(--st-space-1);
+--st-space-sm: var(--st-space-2);
+--st-space-md: var(--st-space-4);
+--st-space-lg: var(--st-space-6);
+--st-space-xl: var(--st-space-8);
+
+/* --- Foundation: radius --- */
+--st-radius-xs: 8px;
+--st-radius-sm: 12px;
+--st-radius-md: 16px;
+--st-radius-lg: 24px;
+
+/* --- Foundation: typography --- */
+--st-font-ui: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+--st-text-sm: 14px;
+--st-text-md: 16px;
+
+/* --- Foundation: accessibility --- */
+--st-focus: var(--st-pink);
+
+/* --- Foundation: color-on-color --- */
+--st-on-pink: #ffffff;
+}
+

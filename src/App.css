@@ -50,7 +50,7 @@ main {
 /* Error States - Maroon */
 .error {
   color: var(--st-red);
-  background-color: rgba(185, 28, 104, 0.1);
+background-color: transparent;
   padding: var(--st-space-md);
   border-radius: var(--st-radius-md);
   border-left: 4px solid var(--st-red);

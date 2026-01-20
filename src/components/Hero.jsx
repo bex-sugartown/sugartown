@@ -1,6 +1,7 @@
 import { urlFor } from '../lib/sanity'
 import Link from './atoms/Link'
 import styles from './Hero.module.css'
+import { Button } from '../design-system'
 
 export default function Hero({ hero }) {
   if (!hero) return null
@@ -39,27 +40,33 @@ export default function Hero({ hero }) {
         <div className={styles.content}>
           {hero.heading && <h1 className={styles.heading}>{hero.heading}</h1>}
           {hero.subheading && <p className={styles.subheading}>{hero.subheading}</p>}
+        {(primary || secondary) && (
+          <div className={styles.actions}>
+            {primary && (
+              <Button
+                variant="primary"
+                href={primary.url}
+                target={primary.openInNewTab ? '_blank' : undefined}
+                rel={primary.openInNewTab ? 'noreferrer' : undefined}
+                className={styles.primaryButton}
+              >
+                {primary.label}
+              </Button>
+            )}
 
-          {(primary || secondary) && (
-            <div className={styles.actions}>
-              {primary && (
-                <Link
-                  label={primary.label}
-                  url={primary.url}
-                  openInNewTab={primary.openInNewTab}
-                  className={styles.primaryButton}
-                />
-              )}
-              {secondary && (
-                <Link
-                  label={secondary.label}
-                  url={secondary.url}
-                  openInNewTab={secondary.openInNewTab}
-                  className={styles.secondaryButton}
-                />
-              )}
-            </div>
-          )}
+            {secondary && (
+              <Button
+                variant="secondary"
+                href={secondary.url}
+                target={secondary.openInNewTab ? '_blank' : undefined}
+                rel={secondary.openInNewTab ? 'noreferrer' : undefined}
+                className={styles.secondaryButton}
+              >
+                {secondary.label}
+              </Button>
+            )}
+          </div>
+        )}
         </div>
       </div>
     </section>

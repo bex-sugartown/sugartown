@@ -1,10 +1,16 @@
 .hero {
-  padding: var(--st-space-3xl) 0;
+  padding: var(--st-space-xl) var(--st-page-gutter);
+
+  /* Ensure the hero doesn't collapse on smaller screens */
+  min-height: 320px;
+
+  /* Background image behavior (works for color too) */
   background-size: cover;
-  background-position: center;
-  position: relative;
-  color: var(--st-white);
   background-repeat: no-repeat;
+  background-position: center;
+
+  display: flex;
+  align-items: center;
 }
 
 .hero[data-style="white"] {
@@ -19,11 +25,9 @@
 }
 
 .container {
-  max-width: 1200px;
+ max-width: var(--st-page-max);
   margin: 0 auto;
-  padding: 0 var(--st-space-md);
-  position: relative;
-  z-index: 1;
+  width: 100%;
 }
 
 .content {
@@ -57,36 +61,9 @@
 }
 
 .primaryButton {
-  background-color: var(--st-green);
-  color: var(--st-black);
-  padding: var(--st-space-sm) var(--st-space-lg);
-  border-radius: var(--st-radius-md);
-  font-weight: 600;
-  font-size: var(--st-text-lg);
-  transition: all var(--st-transition-fast);
-}
-
-.primaryButton:hover {
-  background-color: var(--st-white);
-  transform: translateY(-2px);
-  opacity: 1;
 }
 
 .secondaryButton {
-  background-color: transparent;
-  color: currentColor;
-  padding: var(--st-space-sm) var(--st-space-lg);
-  border: 2px solid currentColor;
-  border-radius: var(--st-radius-md);
-  font-weight: 600;
-  font-size: var(--st-text-lg);
-  transition: all var(--st-transition-fast);
-}
-
-.secondaryButton:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
-  opacity: 1;
 }
 
 @media (max-width: 768px) {
