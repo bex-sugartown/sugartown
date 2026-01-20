@@ -18,6 +18,7 @@
 /* Back-compat tokens used in older CSS */
 --st-gray-medium: var(--st-gray-500);
 --st-gray-dark: var(--st-gray-700);
+--st-gray-light: var(--st-gray-300);
 
 /* Status colors */
 --st-red: #dc2626;
@@ -62,6 +63,7 @@
 --st-radius-sm: 12px;
 --st-radius-md: 16px;
 --st-radius-lg: 24px;
+--st-radius-full: 9999px;
 
 /* --- Foundation: typography --- */
 --st-font-sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
@@ -73,6 +75,11 @@
 --st-text-xl: 20px;
 --st-text-2xl: 24px;
 --st-text-3xl: 32px;
+
+/* --- Foundation: transitions --- */
+--st-transition-fast: 150ms ease-in-out;
+--st-transition-medium: 250ms ease-in-out;
+--st-transition-slow: 350ms ease-in-out;
 
 /* --- Foundation: accessibility --- */
 --st-focus: var(--st-pink);
