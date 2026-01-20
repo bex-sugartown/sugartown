@@ -1,8 +1,8 @@
 .footer {
   background-color: var(--st-black);
   color: var(--st-white);
-  padding: var(--st-space-2xl) 0 var(--st-space-lg);
-  margin-top: var(--st-space-3xl);
+  padding: var(--st-space-2xl) 0;
+  margin-top: var(--st-space-2xl);
 }
 
 .container {

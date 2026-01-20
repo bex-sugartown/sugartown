@@ -13,9 +13,14 @@
   --st-gray-700: #374151;
   --st-gray-500: #6b7280;
   --st-gray-300: #d1d5db;
+  --st-gray-100: #f3f4f6;
 
-/* Back-compat token used in older CSS */
+/* Back-compat tokens used in older CSS */
 --st-gray-medium: var(--st-gray-500);
+--st-gray-dark: var(--st-gray-700);
+
+/* Status colors */
+--st-red: #dc2626;
 
 /* ============================================================
      SEMANTIC COLORS (intent)
@@ -37,6 +42,8 @@
 --st-space-6: 24px;
 --st-space-7: 32px;
 --st-space-8: 40px;
+--st-space-9: 48px;
+--st-space-10: 64px;
 
 /* ------------------------------------------------------------
    Spacing (semantic aliases) — platform-agnostic
@@ -47,6 +54,8 @@
 --st-space-md: var(--st-space-4);
 --st-space-lg: var(--st-space-6);
 --st-space-xl: var(--st-space-8);
+--st-space-2xl: var(--st-space-9);
+--st-space-3xl: var(--st-space-10);
 
 /* --- Foundation: radius --- */
 --st-radius-xs: 8px;
@@ -55,9 +64,15 @@
 --st-radius-lg: 24px;
 
 /* --- Foundation: typography --- */
---st-font-ui: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+--st-font-sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+--st-font-ui: var(--st-font-sans);
+
 --st-text-sm: 14px;
 --st-text-md: 16px;
+--st-text-lg: 18px;
+--st-text-xl: 20px;
+--st-text-2xl: 24px;
+--st-text-3xl: 32px;
 
 /* --- Foundation: accessibility --- */
 --st-focus: var(--st-pink);

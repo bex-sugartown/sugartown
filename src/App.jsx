@@ -5,7 +5,6 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
 import ContentBlock from './components/ContentBlock'
-import './styles/design-tokens.css'
 import './App.css'
 
 function App() {
