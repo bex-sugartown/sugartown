@@ -10,8 +10,10 @@ export default function Hero({ hero }) {
   const secondary = hero.ctas?.[1]
 
   const backgroundStyles = {}
+  const hasImage = hero.backgroundStyle === 'image' && hero.backgroundMedia?.image?.asset
+  const useDuotone = hero.backgroundMedia?.useDuotone && hasImage
 
-  if (hero.backgroundStyle === 'image' && hero.backgroundMedia?.image?.asset) {
+  if (hasImage) {
     const img = hero.backgroundMedia.image
 
     // Default to center if no hotspot is set
@@ -32,7 +34,7 @@ export default function Hero({ hero }) {
 
   return (
     <section
-      className={styles.hero}
+      className={`${styles.hero} ${useDuotone ? 'st-duotone-bg' : ''}`}
       style={backgroundStyles}
       data-style={hero.backgroundStyle}
     >

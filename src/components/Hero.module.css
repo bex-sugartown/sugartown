@@ -18,7 +18,8 @@
   color: var(--st-color-text-default);
 }
 
-.hero[data-style="image"]::before {
+/* Dark overlay for non-duotone images */
+.hero[data-style="image"]:not(.st-duotone-bg)::before {
   content: '';
   position: absolute;
   inset: 0;
