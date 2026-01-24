@@ -1,53 +1,54 @@
 .contentBlock {
   max-width: var(--st-page-max);
   margin: 0 auto;
-  padding: var(--st-space-xl) var(--st-page-gutter);
-  font-size: var(--st-text-lg);
-  line-height: 1.7;
-  color: var(--st-black);
+  padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
+  font-size: var(--st-font-heading-4);
+  line-height: var(--st-line-height-relaxed);
+  color: var(--st-color-text-default);
 }
 
 .contentBlock p {
-  margin: var(--st-space-md) 0;
+  margin: var(--st-spacing-stack-md) 0;
 }
 
 .h2 {
-  font-size: var(--st-text-3xl);
-  font-weight: 700;
-  margin: var(--st-space-xl) 0 var(--st-space-md);
-  color: var(--st-pink);
-  line-height: 1.2;
+  font-size: var(--st-font-heading-2);
+  font-weight: var(--st-font-weight-bold);
+  margin: var(--st-spacing-stack-xl) 0 var(--st-spacing-stack-md);
+  color: var(--st-color-brand-primary);
+  line-height: var(--st-line-height-tight);
 }
 
 .h3 {
-  font-size: var(--st-text-2xl);
-  font-weight: 600;
-  margin: var(--st-space-lg) 0 var(--st-space-sm);
-  color: var(--st-black);
+  font-size: var(--st-font-heading-3);
+  font-weight: var(--st-font-weight-semibold);
+  margin: var(--st-spacing-stack-lg) 0 var(--st-spacing-stack-sm);
+  color: var(--st-color-text-default);
   line-height: 1.3;
 }
 
 .blockquote {
-  border-left: 4px solid var(--st-pink);
-  padding-left: var(--st-space-md);
-  margin: var(--st-space-lg) 0;
+  border-left: 4px solid var(--st-color-brand-primary);
+  padding-left: var(--st-spacing-inset-md);
+  margin: var(--st-spacing-stack-lg) 0;
   font-style: italic;
-  color: var(--st-gray-dark);
+  color: var(--st-color-text-secondary);
 }
 
 .link {
-  color: var(--st-pink);
+  color: var(--st-color-link-default);
   text-decoration: underline;
-  transition: opacity var(--st-transition-fast);
+  transition: opacity 0.2s ease;
 }
 
 .link:hover {
-  opacity: 0.8;
+  color: var(--st-color-link-hover);
+  opacity: 1;
 }
 
 .strong {
-  font-weight: 700;
-  color: var(--st-black);
+  font-weight: var(--st-font-weight-bold);
+  color: var(--st-color-text-default);
 }
 
 .em {
@@ -57,22 +58,23 @@
 .code {
   font-family: var(--st-font-mono);
   font-size: 0.9em;
-background-color: transparent;
+  background-color: var(--st-code-inline-bg);
   padding: 2px 6px;
-  border-radius: var(--st-radius-sm);
-  color: var(--st-red);  /* Maroon for inline code */
+  border-radius: var(--st-code-radius);
+  border: 1px solid var(--st-code-inline-border);
+  color: var(--st-code-inline-text);
 }
 
 @media (max-width: 768px) {
   .contentBlock {
-    font-size: var(--st-text-base);
+    font-size: var(--st-font-body);
   }
-  
+
   .h2 {
-    font-size: var(--st-text-2xl);
+    font-size: var(--st-font-heading-3);
   }
-  
+
   .h3 {
-    font-size: var(--st-text-xl);
+    font-size: var(--st-font-heading-4);
   }
 }

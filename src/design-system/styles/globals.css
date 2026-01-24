@@ -6,8 +6,7 @@
 :root {
   /* Common layout helpers */
   --st-page-max: 1100px;
-  --st-page-gutter: var(--st-space-lg);
-  --st-line-height: 1.5;
+  --st-page-gutter: var(--st-spacing-stack-lg);
 }
 
 /* Reset-ish */
@@ -17,17 +16,17 @@
 
 html {
   height: 100%;
-  background: var(--st-white);
+  background: var(--st-color-bg-canvas);
 }
 
 body {
   height: 100%;
   margin: 0;
   font-family: var(--st-font-ui);
-  font-size: var(--st-text-md);
-  line-height: var(--st-line-height);
-  color: var(--st-gray-900);
-  background: var(--st-white);
+  font-size: var(--st-font-body);
+  line-height: var(--st-line-height-normal);
+  color: var(--st-color-text-default);
+  background: var(--st-color-bg-canvas);
 }
 
 /* Basic content spacing */
@@ -40,10 +39,10 @@ main {
 }
 
 p {
-  margin: 0 0 var(--st-space-md) 0;
+  margin: 0 0 var(--st-spacing-stack-md) 0;
 }
 
 h1, h2, h3 {
-  margin: 0 0 var(--st-space-md) 0;
+  margin: 0 0 var(--st-spacing-stack-md) 0;
 }
 

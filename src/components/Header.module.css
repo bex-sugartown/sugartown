@@ -1,7 +1,7 @@
 .header {
-  background-color: var(--st-white);
-  border-bottom: 1px solid var(--st-gray-light);
-  padding: var(--st-space-md) 0;
+  background-color: var(--st-color-bg-surface);
+  border-bottom: 1px solid var(--st-color-border-subtle);
+  padding: var(--st-spacing-stack-md) 0;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -10,16 +10,16 @@
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--st-space-md);
+  padding: 0 var(--st-spacing-inset-md);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--st-space-lg);
+  gap: var(--st-spacing-inline-lg);
 }
 
 .nav {
   display: flex;
-  gap: var(--st-space-sm);
+  gap: var(--st-spacing-inline-sm);
   flex: 1;
   justify-content: center;
 }
@@ -29,17 +29,18 @@
 }
 
 .ctaButton {
-  background-color: var(--st-pink);
-  color: var(--st-white);
-  padding: var(--st-space-xs) var(--st-space-md);
-  border-radius: var(--st-radius-md);
-  font-weight: 600;
-  transition: all var(--st-transition-fast);
+  background-color: var(--st-button-bg);
+  color: var(--st-button-text);
+  padding: var(--st-spacing-inset-xs) var(--st-spacing-inset-md);
+  border-radius: var(--st-button-radius);
+  font-weight: var(--st-font-weight-semibold);
+  transition: all 0.2s ease;
 }
 
 .ctaButton:hover {
-  background-color: var(--st-green);
-  opacity: 1;
+  background-color: var(--st-color-lime-500);
+  transform: translateY(var(--st-button-hover-translate-y));
+  box-shadow: var(--st-button-hover-shadow);
 }
 
 @media (max-width: 768px) {
