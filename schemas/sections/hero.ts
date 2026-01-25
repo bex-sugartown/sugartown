@@ -1,11 +1,11 @@
-import {defineType, defineField} from 'sanity'
+import {defineType, defineField, defineArrayMember} from 'sanity'
 import {ImageIcon} from '@sanity/icons'
 
 /**
  * Hero Section
  *
  * Large header section typically used at the top of pages and case studies
- * Supports heading, subheading, background image, and CTA
+ * Supports heading, subheading, background image, and CTAs (0-2)
  */
 export default defineType({
   name: 'heroSection',
@@ -33,21 +33,40 @@ export default defineType({
     defineField({
       name: 'backgroundImage',
       title: 'Background Image',
-      type: 'richImage',
-      description: 'Optional background image for the hero section'
+      type: 'image',
+      description: 'Optional background image for the hero section',
+      options: {
+        hotspot: true
+      },
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          description: 'Describe the image for accessibility and SEO'
+        })
+      ]
     }),
     defineField({
-      name: 'cta',
-      title: 'Call to Action',
-      type: 'ctaButton',
-      description: 'Optional CTA button in the hero'
+      name: 'ctas',
+      title: 'Call to Action Buttons',
+      type: 'array',
+      description: 'Add 0-2 CTA buttons. First = primary, second = secondary.',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'ctaButtonDoc'}]
+        })
+      ],
+      validation: (Rule) =>
+        Rule.max(2).warning('Hero sections work best with 2 or fewer CTAs')
     })
   ],
   preview: {
     select: {
       heading: 'heading',
       subheading: 'subheading',
-      media: 'backgroundImage.asset'
+      media: 'backgroundImage'
     },
     prepare({heading, subheading, media}) {
       return {
