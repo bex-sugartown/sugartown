@@ -5,6 +5,7 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Hero from './components/Hero'
 import ContentBlock from './components/ContentBlock'
+import NodesExample from './components/NodesExample'
 import './App.css'
 
 function App() {
@@ -38,11 +39,14 @@ function App() {
       
       <main>
         {heroes.length > 0 && <Hero hero={heroes[0]} />}
-        
+
         {contentBlocks.length > 0 && contentBlocks.map((block) => (
           <ContentBlock key={block._id} content={block.content} />
         ))}
-        
+
+        {/* Knowledge Graph Nodes */}
+        <NodesExample />
+
         {heroes.length === 0 && contentBlocks.length === 0 && (
           <div className="empty-state">
             <h2>No content yet</h2>
