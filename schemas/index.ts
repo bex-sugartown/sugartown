@@ -19,6 +19,7 @@
 import link from './objects/link'
 import richImage from './objects/richImage'
 import ctaButton from './objects/ctaButton'
+import editorialCard from './objects/editorialCard'
 
 // Legacy schemas
 import logo from './objects/logo'
@@ -57,8 +58,10 @@ import navigation from './documents/navigation'
 import siteSettings from './documents/siteSettings'
 import preheader from './documents/preheader'
 import ctaButtonDoc from './documents/ctaButtonDoc'
+import homepage from './documents/homepage'
 
-// Legacy Documents
+// Legacy Documents (DEPRECATED - kept for backwards compatibility only)
+// Use siteSettings for header/footer, homepage for hero, page sections for content
 import header from './documents/header'
 import footer from './documents/footer'
 import hero from './documents/hero'
@@ -79,6 +82,7 @@ export const schemaTypes = [
   link,
   richImage,
   ctaButton,
+  editorialCard,
 
   // Objects - Legacy
   logo,
@@ -108,8 +112,9 @@ export const schemaTypes = [
   siteSettings,
   preheader,
   ctaButtonDoc,
+  homepage,
 
-  // Documents - Legacy
+  // Documents - Legacy (DEPRECATED)
   header,
   footer,
   hero,

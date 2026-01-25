@@ -1,9 +1,19 @@
 import {defineType} from 'sanity'
+import {WarningOutlineIcon} from '@sanity/icons'
 
+/**
+ * @deprecated Use page schema with sections instead
+ * This schema is kept for backwards compatibility but should not be used for new content.
+ * Rich content is now managed via page sections (textSection, etc.)
+ */
 export default defineType({
   name: 'contentBlock',
-  title: 'Content Block',
+  title: '[DEPRECATED] Content Block',
   type: 'document',
+  icon: WarningOutlineIcon,
+  deprecated: {
+    reason: 'Use page schema with sections instead'
+  },
   fields: [
     {
       name: 'title',

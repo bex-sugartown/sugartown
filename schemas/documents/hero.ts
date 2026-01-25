@@ -1,9 +1,19 @@
 import {defineType} from 'sanity'
+import {WarningOutlineIcon} from '@sanity/icons'
 
+/**
+ * @deprecated Use homepage schema instead for hero content
+ * This schema is kept for backwards compatibility but should not be used for new content.
+ * Homepage hero is now managed via the homepage.title and homepage.subtitle fields.
+ */
 export default defineType({
   name: 'hero',
-  title: 'Hero Banner',
+  title: '[DEPRECATED] Hero Banner',
   type: 'document',
+  icon: WarningOutlineIcon,
+  deprecated: {
+    reason: 'Use homepage schema instead for hero content'
+  },
   fields: [
     {
       name: 'heading',

@@ -1,9 +1,19 @@
 import {defineType} from 'sanity'
+import {WarningOutlineIcon} from '@sanity/icons'
 
+/**
+ * @deprecated Use siteSettings instead for header configuration
+ * This schema is kept for backwards compatibility but should not be used for new content.
+ * Header config is now managed via siteSettings.primaryNav and siteSettings.headerCta
+ */
 export default defineType({
   name: 'header',
-  title: 'Site Header',
+  title: '[DEPRECATED] Site Header',
   type: 'document',
+  icon: WarningOutlineIcon,
+  deprecated: {
+    reason: 'Use siteSettings instead for header configuration'
+  },
   fields: [
     {
       name: 'logo',

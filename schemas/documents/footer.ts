@@ -1,9 +1,19 @@
 import {defineType} from 'sanity'
+import {WarningOutlineIcon} from '@sanity/icons'
 
+/**
+ * @deprecated Use siteSettings instead for footer configuration
+ * This schema is kept for backwards compatibility but should not be used for new content.
+ * Footer config is now managed via siteSettings.footerColumns, siteSettings.socialLinks, etc.
+ */
 export default defineType({
   name: 'footer',
-  title: 'Site Footer',
+  title: '[DEPRECATED] Site Footer',
   type: 'document',
+  icon: WarningOutlineIcon,
+  deprecated: {
+    reason: 'Use siteSettings instead for footer configuration'
+  },
   fields: [
     {
       name: 'logo',
