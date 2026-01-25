@@ -1,0 +1,30 @@
+.hero {
+  background: linear-gradient(
+    135deg,
+    var(--st-color-pink-50, #fff5f8) 0%,
+    var(--st-color-seafoam-50, #f0fdf9) 100%
+  );
+  padding: var(--st-spacing-stack-2xl) 0;
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--st-spacing-inset-md);
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: var(--st-font-weight-bold);
+  color: var(--st-color-text-primary);
+  margin: 0 0 var(--st-spacing-stack-md);
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  color: var(--st-color-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}

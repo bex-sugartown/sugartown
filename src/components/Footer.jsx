@@ -1,63 +1,64 @@
 import { useEffect, useState } from 'react'
 import { client } from '../lib/sanity'
-import { footerQuery } from '../lib/queries'
+import { siteSettingsQuery } from '../lib/queries'
 import Logo from './atoms/Logo'
 import Link from './atoms/Link'
 import SocialLink from './atoms/SocialLink'
 import styles from './Footer.module.css'
 
 export default function Footer() {
-  const [footer, setFooter] = useState(null)
+  const [settings, setSettings] = useState(null)
   const [loading, setLoading] = useState(true)
-  
+
   useEffect(() => {
     client
-      .fetch(footerQuery)
+      .fetch(siteSettingsQuery)
       .then((data) => {
-        setFooter(data)
+        setSettings(data)
         setLoading(false)
       })
       .catch((error) => {
-        console.error('Error fetching footer:', error)
+        console.error('Error fetching site settings:', error)
         setLoading(false)
       })
   }, [])
-  
+
   if (loading) return null
-  if (!footer) return null
-  
+  if (!settings) return null
+
+  const { siteLogo, tagline, footerColumns, socialLinks, copyrightText } = settings
+
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.top}>
           <div className={styles.brand}>
-            {footer.logo && (
+            {siteLogo && (
               <Logo
-                image={footer.logo.image}
-                linkUrl={footer.logo.linkUrl}
-                width={footer.logo.width}
+                image={siteLogo}
+                linkUrl="/"
               />
             )}
-            {footer.tagline && (
-              <p className={styles.tagline}>{footer.tagline}</p>
+            {tagline && (
+              <p className={styles.tagline}>{tagline}</p>
             )}
           </div>
-          
-          {footer.navigationColumns && footer.navigationColumns.length > 0 && (
+
+          {footerColumns && footerColumns.length > 0 && (
             <div className={styles.columns}>
-              {footer.navigationColumns.map((column, index) => (
+              {footerColumns.map((column, index) => (
                 <div key={index} className={styles.column}>
-                  {column.heading && (
-                    <h3 className={styles.columnHeading}>{column.heading}</h3>
+                  {column.title && (
+                    <h3 className={styles.columnHeading}>{column.title}</h3>
                   )}
-                  {column.links && column.links.length > 0 && (
+                  {column.items && column.items.length > 0 && (
                     <ul className={styles.linkList}>
-                      {column.links.map((link, linkIndex) => (
-                        <li key={linkIndex}>
+                      {column.items.map((item, itemIndex) => (
+                        <li key={itemIndex}>
                           <Link
-                            label={link.label}
-                            url={link.url}
-                            openInNewTab={link.openInNewTab}
+                            label={item.label}
+                            url={item.link?.url}
+                            openInNewTab={item.link?.openInNewTab}
                           />
                         </li>
                       ))}
@@ -67,15 +68,15 @@ export default function Footer() {
               ))}
             </div>
           )}
-          
-          {footer.socialLinks && footer.socialLinks.length > 0 && (
+
+          {socialLinks && socialLinks.length > 0 && (
             <div className={styles.social}>
               <h3 className={styles.columnHeading}>Connect</h3>
               <div className={styles.socialLinks}>
-                {footer.socialLinks.map((social, index) => (
+                {socialLinks.map((social, index) => (
                   <SocialLink
                     key={index}
-                    platform={social.platform}
+                    platform={social.icon}
                     url={social.url}
                     label={social.label}
                   />
@@ -84,23 +85,10 @@ export default function Footer() {
             </div>
           )}
         </div>
-        
+
         <div className={styles.bottom}>
-          {footer.copyrightText && (
-            <p className={styles.copyright}>{footer.copyrightText}</p>
-          )}
-          {footer.legalLinks && footer.legalLinks.length > 0 && (
-            <div className={styles.legalLinks}>
-              {footer.legalLinks.map((link, index) => (
-                <Link
-                  key={index}
-                  label={link.label}
-                  url={link.url}
-                  openInNewTab={link.openInNewTab}
-                  className={styles.legalLink}
-                />
-              ))}
-            </div>
+          {copyrightText && (
+            <p className={styles.copyright}>{copyrightText}</p>
           )}
         </div>
       </div>
