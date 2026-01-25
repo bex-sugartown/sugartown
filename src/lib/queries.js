@@ -3,7 +3,93 @@
 // This file contains both legacy queries (header, footer, hero, contentBlock)
 // and new Sugartown CMS queries (nodes, posts, pages, case studies)
 
-// Fetch singleton header
+// Fetch site settings with header configuration
+export const siteSettingsQuery = `
+  *[_type == "siteSettings"][0]{
+    siteTitle,
+    tagline,
+    siteLogo{
+      asset,
+      alt,
+      hotspot,
+      crop
+    },
+    favicon{
+      asset
+    },
+    primaryNav->{
+      title,
+      items[]{
+        label,
+        link{
+          url,
+          label,
+          openInNewTab
+        },
+        children[]{
+          label,
+          link{
+            url,
+            label,
+            openInNewTab
+          }
+        }
+      }
+    },
+    headerCta->{
+      _id,
+      internalTitle,
+      link{
+        url,
+        label,
+        openInNewTab
+      },
+      style
+    },
+    preheader->{
+      _id,
+      title,
+      message,
+      link{
+        url,
+        label,
+        openInNewTab
+      },
+      backgroundColor,
+      publishAt,
+      unpublishAt,
+      timezone
+    },
+    footerColumns[]->{
+      title,
+      items[]{
+        label,
+        link{
+          url,
+          label,
+          openInNewTab
+        }
+      }
+    },
+    socialLinks[]{
+      url,
+      label,
+      openInNewTab,
+      icon
+    },
+    copyrightText,
+    defaultMetaTitle,
+    defaultMetaDescription,
+    defaultOgImage{
+      asset,
+      alt,
+      hotspot,
+      crop
+    }
+  }
+`
+
+// Fetch singleton header (legacy - use siteSettingsQuery instead)
 export const headerQuery = `
   *[_type == "header" && _id == "singleton-header"][0]{
     logo{
