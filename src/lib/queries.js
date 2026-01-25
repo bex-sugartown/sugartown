@@ -111,7 +111,7 @@ export const headerQuery = `
   }
 `
 
-// Fetch singleton footer
+// @deprecated - Use siteSettingsQuery instead for footer configuration
 export const footerQuery = `
   *[_type == "footer" && _id == "singleton-footer"][0]{
     logo{
@@ -145,7 +145,7 @@ export const footerQuery = `
   }
 `
 
-// Fetch all hero banners
+// @deprecated - Use homepageQuery instead for hero content
 export const heroesQuery = `
   *[_type == "hero"] | order(_createdAt desc){
     _id,
@@ -169,7 +169,7 @@ export const heroesQuery = `
   }
 `
 
-// Fetch single hero by ID
+// @deprecated - Use homepageQuery instead for hero content
 export const heroQuery = `
   *[_type == "hero" && _id == $id][0]{
     heading,
@@ -192,7 +192,7 @@ export const heroQuery = `
   }
 `
 
-// Fetch all content blocks
+// @deprecated - Use page sections instead
 export const contentBlocksQuery = `
   *[_type == "contentBlock"] | order(_createdAt desc){
     _id,
@@ -201,10 +201,52 @@ export const contentBlocksQuery = `
   }
 `
 
-// Fetch single content block by ID
+// @deprecated - Use page sections instead
 export const contentBlockQuery = `
   *[_type == "contentBlock" && _id == $id][0]{
     title,
     content
+  }
+`
+
+// Fetch homepage content
+export const homepageQuery = `
+  *[_type == "homepage"][0]{
+    title,
+    subtitle,
+    callout{
+      text,
+      link{
+        url,
+        label,
+        openInNewTab
+      },
+      style
+    },
+    cards[]{
+      title,
+      description,
+      image{
+        asset,
+        alt,
+        hotspot,
+        crop
+      },
+      link{
+        url,
+        label,
+        openInNewTab
+      }
+    },
+    seo{
+      metaTitle,
+      metaDescription,
+      ogImage{
+        asset,
+        alt,
+        hotspot,
+        crop
+      }
+    }
   }
 `

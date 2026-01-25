@@ -1,56 +1,53 @@
 import { useEffect, useState } from 'react'
 import { client } from './lib/sanity'
-import { heroesQuery, contentBlocksQuery } from './lib/queries'
+import { homepageQuery } from './lib/queries'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import Hero from './components/Hero'
-import ContentBlock from './components/ContentBlock'
+import HomepageHero from './components/HomepageHero'
+import Callout from './components/Callout'
+import CardGrid from './components/CardGrid'
 import './App.css'
 
 function App() {
-  const [heroes, setHeroes] = useState([])
-  const [contentBlocks, setContentBlocks] = useState([])
+  const [homepage, setHomepage] = useState(null)
   const [loading, setLoading] = useState(true)
-  
+
   useEffect(() => {
-    Promise.all([
-      client.fetch(heroesQuery),
-      client.fetch(contentBlocksQuery),
-    ])
-      .then(([heroesData, contentBlocksData]) => {
-        setHeroes(heroesData || [])
-        setContentBlocks(contentBlocksData || [])
+    client
+      .fetch(homepageQuery)
+      .then((data) => {
+        setHomepage(data)
         setLoading(false)
       })
       .catch((error) => {
-        console.error('Error fetching content:', error)
+        console.error('Error fetching homepage:', error)
         setLoading(false)
       })
   }, [])
-  
+
   if (loading) {
     return <div className="loading">Loading...</div>
   }
-  
+
   return (
     <div className="app">
       <Header />
-      
+
       <main>
-        {heroes.length > 0 && <Hero hero={heroes[0]} />}
-        
-        {contentBlocks.length > 0 && contentBlocks.map((block) => (
-          <ContentBlock key={block._id} content={block.content} />
-        ))}
-        
-        {heroes.length === 0 && contentBlocks.length === 0 && (
+        {homepage ? (
+          <>
+            <HomepageHero title={homepage.title} subtitle={homepage.subtitle} />
+            <Callout callout={homepage.callout} />
+            <CardGrid cards={homepage.cards} />
+          </>
+        ) : (
           <div className="empty-state">
-            <h2>No content yet</h2>
-            <p>Add some content in Sanity Studio to see it here!</p>
+            <h2>No homepage content yet</h2>
+            <p>Add homepage content in Sanity Studio to see it here!</p>
           </div>
         )}
       </main>
-      
+
       <Footer />
     </div>
   )
