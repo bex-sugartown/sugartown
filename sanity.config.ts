@@ -1,11 +1,13 @@
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
+import {colorInput} from '@sanity/color-input'
+import {codeInput} from '@sanity/code-input'
 import {schemaTypes} from './schemas'
 
 export default defineConfig({
   name: 'default',
-  title: 'Sugartown.sanity',
+  title: 'Sugartown CMS',
 
   projectId: 'poalmzla',
   dataset: 'production',
@@ -14,33 +16,96 @@ export default defineConfig({
     structureTool({
       structure: (S) =>
         S.list()
-          .title('Content')
+          .title('Sugartown CMS')
           .items([
-            // Singletons (only one instance allowed)
+            // Knowledge Graph
             S.listItem()
-              .title('🎀 Site Header')
+              .title('💎 Knowledge Graph')
+              .icon(() => '💎')
               .child(
-                S.document()
-                  .schemaType('header')
-                  .documentId('singleton-header')
+                S.list()
+                  .title('Knowledge Graph')
+                  .items([
+                    S.documentTypeListItem('node').title('Nodes'),
+                  ])
               ),
-            S.listItem()
-              .title('🎀 Site Footer')
-              .child(
-                S.document()
-                  .schemaType('footer')
-                  .documentId('singleton-footer')
-              ),
-            
-            // Divider
+
             S.divider(),
-            
-            // Regular documents (can have multiple)
-            S.documentTypeListItem('hero').title('Hero Banners'),
-            S.documentTypeListItem('contentBlock').title('Content Blocks')
+
+            // Content
+            S.listItem()
+              .title('📝 Content')
+              .icon(() => '📝')
+              .child(
+                S.list()
+                  .title('Content')
+                  .items([
+                    S.documentTypeListItem('post').title('Blog Posts'),
+                    S.documentTypeListItem('page').title('Pages'),
+                    S.documentTypeListItem('caseStudy').title('Case Studies'),
+                  ])
+              ),
+
+            S.divider(),
+
+            // Taxonomy
+            S.listItem()
+              .title('🏷️ Taxonomy')
+              .icon(() => '🏷️')
+              .child(
+                S.list()
+                  .title('Taxonomy')
+                  .items([
+                    S.documentTypeListItem('category').title('Categories'),
+                    S.documentTypeListItem('tag').title('Tags'),
+                    S.documentTypeListItem('project').title('Projects'),
+                  ])
+              ),
+
+            S.divider(),
+
+            // Site Configuration
+            S.listItem()
+              .title('⚙️ Site Configuration')
+              .icon(() => '⚙️')
+              .child(
+                S.list()
+                  .title('Site Configuration')
+                  .items([
+                    // Site Settings (Singleton)
+                    S.listItem()
+                      .title('Site Settings')
+                      .icon(() => '⚙️')
+                      .child(
+                        S.document()
+                          .schemaType('siteSettings')
+                          .documentId('siteSettings')
+                      ),
+                    S.documentTypeListItem('navigation').title('Navigation Menus'),
+                  ])
+              ),
+
+            S.divider(),
+
+            // Legacy Content (old schemas)
+            S.listItem()
+              .title('🗂️ Legacy')
+              .icon(() => '🗂️')
+              .child(
+                S.list()
+                  .title('Legacy Content')
+                  .items([
+                    S.documentTypeListItem('header').title('Site Header (Old)'),
+                    S.documentTypeListItem('footer').title('Site Footer (Old)'),
+                    S.documentTypeListItem('hero').title('Hero Banners (Old)'),
+                    S.documentTypeListItem('contentBlock').title('Content Blocks (Old)'),
+                  ])
+              ),
           ])
     }),
-    visionTool()
+    visionTool(),
+    colorInput(),
+    codeInput()
   ],
 
   schema: {
