@@ -250,13 +250,17 @@ export const pageBySlugQuery = `
     sections[]{
       _type,
       _key,
-      _type == "heroSection" => {
+      // Support both "heroSection" (deployed) and "hero" (local schema)
+      _type in ["heroSection", "hero"] => {
         heading,
         subheading,
         backgroundImage {
           asset->,
-          alt
+          alt,
+          crop,
+          hotspot
         },
+        // Support both embedded cta object and ctas array of references
         cta {
           text,
           link {
@@ -264,6 +268,13 @@ export const pageBySlugQuery = `
             label,
             openInNewTab
           },
+          style
+        },
+        "ctas": ctas[]->{
+          _id,
+          "label": coalesce(link.label, internalTitle),
+          "url": link.url,
+          "openInNewTab": link.openInNewTab,
           style
         }
       },
@@ -364,6 +375,63 @@ export const siteSettingsQuery = `
     },
     "brandPink": brandColors.pink.hex,
     "brandSeafoam": brandColors.seafoam.hex,
+    headerStyle,
+    primaryNav->{
+      title,
+      items[]{
+        _key,
+        label,
+        link {
+          url,
+          label,
+          openInNewTab
+        },
+        children[]{
+          _key,
+          label,
+          link {
+            url,
+            label,
+            openInNewTab
+          }
+        }
+      }
+    },
+    headerCta->{
+      "label": coalesce(link.label, internalTitle),
+      "url": link.url,
+      "openInNewTab": link.openInNewTab,
+      style
+    },
+    announcementBar {
+      show,
+      message,
+      link {
+        url,
+        label,
+        openInNewTab
+      }
+    },
+    footerColumns[]->{
+      title,
+      items[]{
+        _key,
+        label,
+        link {
+          url,
+          label,
+          openInNewTab
+        }
+      }
+    },
+    socialLinks[]{
+      _key,
+      label,
+      url,
+      icon,
+      openInNewTab
+    },
+    copyrightText,
     defaultMetaTitle,
     defaultMetaDescription
   }
