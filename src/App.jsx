@@ -1,24 +1,30 @@
 import { useEffect, useState } from 'react'
 import { client } from './lib/sanity'
-import { pageBySlugQuery } from './lib/queries'
+import { heroesQuery, contentBlocksQuery } from './lib/queries'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import PageSections from './components/PageSections'
+import Hero from './components/Hero'
+import ContentBlock from './components/ContentBlock'
 import NodesExample from './components/NodesExample'
 import './App.css'
 
 function App() {
-  const [page, setPage] = useState(null)
+  const [heroes, setHeroes] = useState([])
+  const [contentBlocks, setContentBlocks] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    client.fetch(pageBySlugQuery, { slug: 'about' })
-      .then((pageData) => {
-        setPage(pageData)
+    Promise.all([
+      client.fetch(heroesQuery),
+      client.fetch(contentBlocksQuery),
+    ])
+      .then(([heroesData, contentBlocksData]) => {
+        setHeroes(heroesData || [])
+        setContentBlocks(contentBlocksData || [])
         setLoading(false)
       })
       .catch((error) => {
-        console.error('Error fetching page:', error)
+        console.error('Error fetching content:', error)
         setLoading(false)
       })
   }, [])
@@ -32,15 +38,19 @@ function App() {
       <Header />
 
       <main>
-        {page?.sections && <PageSections sections={page.sections} />}
+        {heroes.length > 0 && <Hero hero={heroes[0]} />}
+
+        {contentBlocks.length > 0 && contentBlocks.map((block) => (
+          <ContentBlock key={block._id} content={block.content} />
+        ))}
 
         {/* Knowledge Graph Nodes */}
         <NodesExample />
 
-        {!page && (
+        {heroes.length === 0 && contentBlocks.length === 0 && (
           <div className="empty-state">
-            <h2>No content yet</h2>
-            <p>Add some content in Sanity Studio to see it here!</p>
+            <h2>No homepage content yet</h2>
+            <p>Add homepage content in Sanity Studio to see it here!</p>
           </div>
         )}
       </main>

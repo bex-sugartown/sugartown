@@ -3,7 +3,93 @@
 // This file contains both legacy queries (header, footer, hero, contentBlock)
 // and new Sugartown CMS queries (nodes, posts, pages, case studies)
 
-// Fetch singleton header
+// Fetch site settings with header configuration
+export const siteSettingsQuery = `
+  *[_type == "siteSettings"][0]{
+    siteTitle,
+    tagline,
+    siteLogo{
+      asset,
+      alt,
+      hotspot,
+      crop
+    },
+    favicon{
+      asset
+    },
+    primaryNav->{
+      title,
+      items[]{
+        label,
+        link{
+          url,
+          label,
+          openInNewTab
+        },
+        children[]{
+          label,
+          link{
+            url,
+            label,
+            openInNewTab
+          }
+        }
+      }
+    },
+    headerCta->{
+      _id,
+      internalTitle,
+      link{
+        url,
+        label,
+        openInNewTab
+      },
+      style
+    },
+    preheader->{
+      _id,
+      title,
+      message,
+      link{
+        url,
+        label,
+        openInNewTab
+      },
+      backgroundColor,
+      publishAt,
+      unpublishAt,
+      timezone
+    },
+    footerColumns[]->{
+      title,
+      items[]{
+        label,
+        link{
+          url,
+          label,
+          openInNewTab
+        }
+      }
+    },
+    socialLinks[]{
+      url,
+      label,
+      openInNewTab,
+      icon
+    },
+    copyrightText,
+    defaultMetaTitle,
+    defaultMetaDescription,
+    defaultOgImage{
+      asset,
+      alt,
+      hotspot,
+      crop
+    }
+  }
+`
+
+// Fetch singleton header (legacy - use siteSettingsQuery instead)
 export const headerQuery = `
   *[_type == "header" && _id == "singleton-header"][0]{
     logo{
@@ -28,7 +114,7 @@ export const headerQuery = `
   }
 `
 
-// Fetch singleton footer
+// @deprecated - Use siteSettingsQuery instead for footer configuration
 export const footerQuery = `
   *[_type == "footer" && _id == "singleton-footer"][0]{
     logo{
@@ -62,7 +148,7 @@ export const footerQuery = `
   }
 `
 
-// Fetch all hero banners
+// @deprecated - Use homepageQuery instead for hero content
 export const heroesQuery = `
   *[_type == "hero"] | order(_createdAt desc){
     _id,
@@ -86,7 +172,7 @@ export const heroesQuery = `
   }
 `
 
-// Fetch single hero by ID
+// @deprecated - Use homepageQuery instead for hero content
 export const heroQuery = `
   *[_type == "hero" && _id == $id][0]{
     heading,
@@ -109,7 +195,7 @@ export const heroQuery = `
   }
 `
 
-// Fetch all content blocks
+// @deprecated - Use page sections instead
 export const contentBlocksQuery = `
   *[_type == "contentBlock"] | order(_createdAt desc){
     _id,
@@ -118,11 +204,53 @@ export const contentBlocksQuery = `
   }
 `
 
-// Fetch single content block by ID
+// @deprecated - Use page sections instead
 export const contentBlockQuery = `
   *[_type == "contentBlock" && _id == $id][0]{
     title,
     content
+  }
+`
+
+// Fetch homepage content
+export const homepageQuery = `
+  *[_type == "homepage"][0]{
+    title,
+    subtitle,
+    callout{
+      text,
+      link{
+        url,
+        label,
+        openInNewTab
+      },
+      style
+    },
+    cards[]{
+      title,
+      description,
+      image{
+        asset,
+        alt,
+        hotspot,
+        crop
+      },
+      link{
+        url,
+        label,
+        openInNewTab
+      }
+    },
+    seo{
+      metaTitle,
+      metaDescription,
+      ogImage{
+        asset,
+        alt,
+        hotspot,
+        crop
+      }
+    }
   }
 `
 
@@ -375,63 +503,6 @@ export const siteSettingsQuery = `
     },
     "brandPink": brandColors.pink.hex,
     "brandSeafoam": brandColors.seafoam.hex,
-    headerStyle,
-    primaryNav->{
-      title,
-      items[]{
-        _key,
-        label,
-        link {
-          url,
-          label,
-          openInNewTab
-        },
-        children[]{
-          _key,
-          label,
-          link {
-            url,
-            label,
-            openInNewTab
-          }
-        }
-      }
-    },
-    headerCta->{
-      "label": coalesce(link.label, internalTitle),
-      "url": link.url,
-      "openInNewTab": link.openInNewTab,
-      style
-    },
-    announcementBar {
-      show,
-      message,
-      link {
-        url,
-        label,
-        openInNewTab
-      }
-    },
-    footerColumns[]->{
-      title,
-      items[]{
-        _key,
-        label,
-        link {
-          url,
-          label,
-          openInNewTab
-        }
-      }
-    },
-    socialLinks[]{
-      _key,
-      label,
-      url,
-      icon,
-      openInNewTab
-    },
-    copyrightText,
     defaultMetaTitle,
     defaultMetaDescription
   }
