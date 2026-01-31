@@ -147,7 +147,7 @@ export default defineType({
       name: 'copyrightText',
       title: 'Copyright Text',
       type: 'string',
-      description: 'Footer copyright notice (e.g., "© 2024 Sugartown. All rights reserved.")',
+      description: 'Appended after "© {year} {siteTitle}." (e.g., "All rights reserved.")',
       group: 'footer',
       validation: (Rule) => Rule.max(100)
     }),
