@@ -219,6 +219,35 @@ Following **Resume Factory pattern**:
 
 ## 📊 Example Queries
 
+---
+
+## 📎 Appendix: Schema Tree (Reference)
+
+```
+schemas/
+├── index.ts                    # Schema registry (import this)
+├── objects/                    # Atomic, reusable objects
+│   ├── link.ts                 # Link with icon support
+│   ├── richImage.ts            # Image with metadata & accessibility
+│   ├── ctaButton.ts            # Call-to-action button component
+│   └── portableTextConfig.ts  # Portable Text configurations
+├── documents/                  # Top-level content types
+│   ├── category.ts             # Hierarchical categories with colors
+│   ├── tag.ts                  # Flat tagging system
+│   ├── project.ts              # Project registry (PROJ-XXX format)
+│   ├── node.ts                 # ⭐ AI collaboration documentation
+│   ├── post.ts                 # Blog posts
+│   ├── page.ts                 # Static pages with sections
+│   ├── caseStudy.ts            # Portfolio case studies
+│   ├── navigation.ts           # Reusable navigation menus
+│   └── siteSettings.ts         # Global site configuration (singleton)
+└── sections/                   # Page builder components
+    ├── hero.ts                 # Hero section
+    ├── textSection.ts          # Generic content section
+    ├── imageGallery.ts         # Image grid/carousel
+    └── ctaSection.ts           # Call-to-action section
+```
+
 ### Get all Nodes with AI tool and categories
 ```groq
 *[_type == "node"] | order(publishedAt desc) {
