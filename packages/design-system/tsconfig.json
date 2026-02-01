@@ -1,9 +1,7 @@
 {
   "extends": "@sugartown/tsconfig/react.json",
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "composite": true
+    "outDir": "./dist"
   },
   "include": ["src"]
 }
