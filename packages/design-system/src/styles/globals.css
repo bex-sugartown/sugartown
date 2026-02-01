@@ -1,0 +1,17 @@
+/**
+ * Sugartown Design System Global Styles
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--st-font-sans);
+  font-size: var(--st-font-size-base);
+  color: var(--st-black);
+  background-color: var(--st-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
