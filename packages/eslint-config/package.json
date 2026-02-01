@@ -1,0 +1,20 @@
+{
+  "name": "@sugartown/eslint-config",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shared ESLint configurations with architectural boundary enforcement",
+  "main": "index.js",
+  "files": [
+    "*.js"
+  ],
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "peerDependencies": {
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}
