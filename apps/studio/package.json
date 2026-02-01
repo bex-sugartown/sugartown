@@ -1,0 +1,25 @@
+{
+  "name": "studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sanity": "^3.24.0",
+    "styled-components": "^6.1.8"
+  },
+  "devDependencies": {
+    "@sugartown/eslint-config": "workspace:*",
+    "@sugartown/tsconfig": "workspace:*",
+    "@types/react": "^18.2.48",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  }
+}
