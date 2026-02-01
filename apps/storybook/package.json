@@ -5,7 +5,7 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "lint": "eslint . --ext .ts,.tsx",
+    "lint": "eslint .storybook --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf storybook-static .turbo"
   },
