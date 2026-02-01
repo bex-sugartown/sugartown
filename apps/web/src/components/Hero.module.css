@@ -1,0 +1,90 @@
+.hero {
+  position: relative;
+  padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
+
+  /* Ensure the hero doesn't collapse on smaller screens */
+  min-height: 320px;
+
+  /* Background image behavior (works for color too) */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  display: flex;
+  align-items: center;
+}
+
+.hero[data-style="white"] {
+  color: var(--st-color-text-default);
+}
+
+/* Dark overlay for non-duotone images */
+.hero[data-style="image"]:not(.st-duotone-bg)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+  z-index: 1;
+}
+
+.container {
+  position: relative;
+  z-index: 2;
+  max-width: var(--st-page-max);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-spacing-stack-lg);
+}
+
+.heading {
+  font-size: var(--st-font-heading-1);
+  font-weight: var(--st-font-weight-bold);
+  line-height: var(--st-line-height-tight);
+  margin: 0;
+}
+
+.subheading {
+  font-size: var(--st-font-heading-3);
+  line-height: var(--st-line-height-relaxed);
+  margin: 0;
+  opacity: 0.95;
+}
+
+.actions {
+  display: flex;
+  gap: var(--st-spacing-inline-lg);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+}
+
+.secondaryButton {
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: var(--st-space-8) 0;
+  }
+
+  .heading {
+    font-size: var(--st-font-heading-2);
+  }
+
+  .subheading {
+    font-size: var(--st-font-heading-4);
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}

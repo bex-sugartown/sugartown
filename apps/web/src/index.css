@@ -1,0 +1,20 @@
+/* ============================================================
+   Root Element Baseline
+   Purpose: Minimal root-level styles, defer to design system.
+   ============================================================ */
+
+:root {
+  /* Force light color scheme (disable dark mode auto-detection) */
+  color-scheme: light;
+
+  /* Text rendering optimizations */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  /* Root div should not interfere with layout */
+  min-height: 100vh;
+}

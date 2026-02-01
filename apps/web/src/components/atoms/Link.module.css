@@ -1,0 +1,14 @@
+.link {
+  color: var(--st-pink);
+  text-decoration: none;
+  transition: opacity var(--st-transition-fast);
+}
+
+.link:hover {
+  opacity: 0.8;
+}
+
+.link:focus {
+  outline: 2px solid var(--st-pink);
+  outline-offset: 2px;
+}
