@@ -3,5 +3,13 @@
   "compilerOptions": {
     "outDir": "./dist"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "**/*.stories.*",
+    "**/*.story.*",
+    ".storybook",
+    "storybook-static",
+    "dist",
+    "node_modules"
+  ]
 }
