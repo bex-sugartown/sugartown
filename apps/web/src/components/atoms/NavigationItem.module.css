@@ -1,0 +1,31 @@
+.navItem {
+  color: var(--st-black);
+  text-decoration: none;
+  padding: var(--st-space-xs) var(--st-space-sm);
+  transition: color var(--st-transition-fast);
+  font-weight: 500;
+}
+
+.navItem:hover {
+  color: var(--st-pink);
+}
+
+.navItem.active {
+  color: var(--st-pink);
+  position: relative;
+}
+
+.navItem.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: var(--st-space-sm);
+  right: var(--st-space-sm);
+  height: 2px;
+  background-color: var(--st-pink);
+}
+
+.navItem:focus {
+  outline: 2px solid var(--st-pink);
+  outline-offset: 2px;
+}

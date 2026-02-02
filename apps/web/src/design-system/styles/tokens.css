@@ -1,0 +1,241 @@
+/**
+ * Sugartown Pink Design System — Design Tokens
+ * Generated from: tokens/base.json, tokens/semantic.json, tokens/components.json
+ *
+ * Token Architecture:
+ * - Tier 1: Base/Primitives (raw values)
+ * - Tier 2: Semantic (purpose-based aliases)
+ * - Tier 3: Components (component-level tokens)
+ */
+
+:root {
+  /* ============================================================
+     TIER 1: BASE TOKENS (Primitives)
+     ============================================================ */
+
+  /* --- Colors: Brand --- */
+  --st-color-pink-500: #ff247d;
+  --st-color-lime-500: #D1FF1D;
+  --st-color-seafoam-500: #2BD4AA;
+  --st-color-maroon-500: #b91c68;
+
+  /* --- Colors: Neutrals --- */
+  --st-color-void-900: #0D1226;
+  --st-color-charcoal-900: #1e1e1e;
+  --st-color-grey-900: #171717;
+  --st-color-grey-600: #525252;
+  --st-color-grey-400: #94A3B8;
+  --st-color-grey-300: #D4D4D4;
+  --st-color-grey-200: #E5E5E5;
+  --st-color-grey-100: #F7F7F7;
+  --st-color-grey-050: #f8f8fa;
+  --st-color-grey-040: #f1f2f4;
+  --st-color-grey-030: #e1e3e6;
+  --st-color-white: #FFFFFF;
+
+  /* --- Colors: Semantic --- */
+  --st-color-blue-500: #0066CC;
+  --st-color-blue-600: #0052A3;
+  --st-color-red-500: #b91c68;
+
+  /* --- Radius --- */
+  --st-radius-xs: 4px;
+  --st-radius-sm: 8px;
+  --st-radius-md: 12px;
+  --st-radius-lg: 16px;
+  --st-radius-xl: 35px;
+  --st-radius-full: 9999px;
+
+  /* --- Typography: Families --- */
+  --st-font-family-narrative: "Playfair Display", serif;
+  --st-font-family-ui: "Fira Sans", sans-serif;
+  --st-font-family-mono: Menlo, Monaco, Consolas, monospace;
+
+  /* --- Typography: Sizes --- */
+  --st-font-size-xs: 0.75rem;
+  --st-font-size-sm: 0.875rem;
+  --st-font-size-md: 1rem;
+  --st-font-size-lg: 1.125rem;
+  --st-font-size-xl: 1.4rem;
+  --st-font-size-2xl: 1.75rem;
+  --st-font-size-display: 3rem;
+
+  /* --- Typography: Weights --- */
+  --st-font-weight-normal: 400;
+  --st-font-weight-medium: 500;
+  --st-font-weight-semibold: 600;
+  --st-font-weight-bold: 700;
+
+  /* --- Typography: Line Heights --- */
+  --st-line-height-tight: 1.25;
+  --st-line-height-normal: 1.5;
+  --st-line-height-relaxed: 1.75;
+
+  /* --- Spacing (8-point scale) --- */
+  --st-space-1: 4px;
+  --st-space-2: 8px;
+  --st-space-3: 12px;
+  --st-space-4: 16px;
+  --st-space-5: 24px;
+  --st-space-6: 32px;
+  --st-space-7: 40px;
+  --st-space-8: 60px;
+
+  /* --- Shadows --- */
+  --st-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --st-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.10);
+  --st-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.10);
+  --st-shadow-card: 0 4px 12px rgba(255, 36, 125, 0.05);
+  --st-shadow-card-hover: 0 12px 40px rgba(255, 36, 125, 0.15);
+  --st-shadow-card-deep: 0 10px 30px rgba(0, 0, 0, 0.06);
+
+  /* ============================================================
+     TIER 2: SEMANTIC TOKENS (Purpose-Based)
+     ============================================================ */
+
+  /* --- Brand Colors --- */
+  --st-color-brand-primary: var(--st-color-pink-500);
+  --st-color-brand-secondary: var(--st-color-maroon-500);
+
+  /* --- Background Colors --- */
+  --st-color-bg-canvas: var(--st-color-white);
+  --st-color-bg-surface: var(--st-color-white);
+  --st-color-bg-surface-alt: var(--st-color-grey-050);
+  --st-color-bg-subtle: var(--st-color-grey-040);
+  --st-color-bg-void: var(--st-color-void-900);
+  --st-color-bg-secondary: var(--st-color-grey-100);
+  --st-color-bg-tertiary: var(--st-color-grey-200);
+
+  /* --- Text Colors --- */
+  --st-color-text-default: var(--st-color-charcoal-900);
+  --st-color-text-primary: var(--st-color-charcoal-900);
+  --st-color-text-secondary: var(--st-color-grey-600);
+  --st-color-text-muted: var(--st-color-grey-400);
+  --st-color-text-brand: var(--st-color-maroon-500);
+
+  /* --- Border Colors --- */
+  --st-color-border-default: rgba(0, 0, 0, 0.08);
+  --st-color-border-subtle: var(--st-color-grey-030);
+  --st-color-border-medium: var(--st-color-grey-200);
+  --st-color-border-strong: var(--st-color-grey-600);
+
+  /* --- Accent Colors --- */
+  --st-color-accent-primary: var(--st-color-pink-500);
+  --st-color-accent-soft: rgba(255, 36, 125, 0.08);
+
+  /* --- Link Colors --- */
+  --st-color-link-default: var(--st-color-brand-primary);
+  --st-color-link-hover: var(--st-color-brand-secondary);
+
+  /* --- Interaction Colors --- */
+  --st-color-focus: var(--st-color-pink-500);
+  --st-color-danger: var(--st-color-red-500);
+
+  /* --- Semantic Radius --- */
+  --st-radius-button: var(--st-radius-xs);
+  --st-radius-tag: var(--st-radius-xs);
+  --st-radius-pill: var(--st-radius-xs);
+  --st-radius-callout: var(--st-radius-sm);
+  --st-radius-code: var(--st-radius-sm);
+  --st-radius-card: var(--st-radius-md);
+  --st-radius-hero: var(--st-radius-xl);
+  --st-radius-media: var(--st-radius-xl);
+
+  /* --- Semantic Typography --- */
+  --st-font-narrative: var(--st-font-family-narrative);
+  --st-font-ui: var(--st-font-family-ui);
+  --st-font-mono: var(--st-font-family-mono);
+  --st-font-body: var(--st-font-size-md);
+  --st-font-caption: var(--st-font-size-xs);
+  --st-font-heading-1: var(--st-font-size-display);
+  --st-font-heading-2: var(--st-font-size-2xl);
+  --st-font-heading-3: var(--st-font-size-xl);
+  --st-font-heading-4: var(--st-font-size-lg);
+
+  /* --- Semantic Spacing --- */
+  --st-spacing-stack-xs: var(--st-space-1);
+  --st-spacing-stack-sm: var(--st-space-2);
+  --st-spacing-stack-md: var(--st-space-4);
+  --st-spacing-stack-lg: var(--st-space-6);
+  --st-spacing-stack-xl: var(--st-space-8);
+  --st-spacing-inline-sm: var(--st-space-2);
+  --st-spacing-inline-md: var(--st-space-3);
+  --st-spacing-inline-lg: var(--st-space-4);
+  --st-spacing-inset-xs: var(--st-space-1);
+  --st-spacing-inset-sm: var(--st-space-2);
+  --st-spacing-inset-md: var(--st-space-4);
+  --st-spacing-inset-lg: var(--st-space-6);
+  --st-spacing-gutter: var(--st-space-4);
+
+  /* --- Semantic Shadows --- */
+  --st-shadow-card-semantic: var(--st-shadow-card-deep);
+  --st-shadow-card-hover-semantic: var(--st-shadow-card-hover);
+
+  /* ============================================================
+     TIER 3: COMPONENT TOKENS
+     ============================================================ */
+
+  /* --- Card Component --- */
+  --st-card-bg: var(--st-color-bg-surface);
+  --st-card-bg-alt: var(--st-color-bg-surface-alt);
+  --st-card-text: var(--st-color-text-default);
+  --st-card-text-muted: var(--st-color-text-muted);
+  --st-card-border: var(--st-color-brand-primary);
+  --st-card-radius: var(--st-radius-card);
+  --st-card-shadow: var(--st-shadow-card-deep);
+  --st-card-hover-translate-y: -4px;
+  --st-card-hover-shadow: var(--st-shadow-card-hover);
+  --st-card-media-height: 48px;
+
+  /* --- Pill/Tag Component --- */
+  --st-pill-bg: var(--st-color-bg-subtle);
+  --st-pill-text: var(--st-color-text-brand);
+  --st-pill-border: var(--st-color-border-subtle);
+  --st-pill-radius: var(--st-radius-pill);
+  --st-pill-font: var(--st-font-mono);
+  --st-pill-size: var(--st-font-size-xs);
+
+  --st-tag-bg: var(--st-color-bg-subtle);
+  --st-tag-text: var(--st-color-text-brand);
+  --st-tag-border: var(--st-color-border-subtle);
+  --st-tag-radius: var(--st-radius-tag);
+  --st-tag-font: var(--st-font-mono);
+  --st-tag-size: var(--st-font-size-xs);
+
+  /* --- Button Component --- */
+  --st-button-bg: var(--st-color-accent-primary);
+  --st-button-text: var(--st-color-white);
+  --st-button-radius: var(--st-radius-button);
+  --st-button-hover-translate-y: -2px;
+  --st-button-hover-shadow: 0 4px 12px rgba(255, 36, 125, 0.3);
+
+  /* --- Callout Component --- */
+  --st-callout-radius: var(--st-radius-callout);
+  --st-callout-bg: var(--st-color-bg-secondary);
+  --st-callout-border: var(--st-color-border-subtle);
+
+  /* --- Code Component --- */
+  --st-code-radius: var(--st-radius-code);
+  --st-code-bg: var(--st-color-void-900);
+  --st-code-inline-bg: var(--st-color-grey-040);
+  --st-code-inline-text: var(--st-color-maroon-500);
+  --st-code-inline-border: var(--st-color-grey-030);
+
+  /* --- Media Component --- */
+  --st-media-radius: var(--st-radius-media);
+  --st-media-hero-aspect-ratio: 3 / 1;
+  --st-media-article-aspect-ratio: 21 / 9;
+  --st-media-card-icon-strip-height: 48px;
+
+  /* ============================================================
+     LEGACY ALIASES (Back-compat)
+     Keep for existing code during migration
+     ============================================================ */
+  --st-pink: var(--st-color-pink-500);
+  --st-green: var(--st-color-lime-500);
+  --st-white: var(--st-color-white);
+  --st-black: var(--st-color-void-900);
+  --st-color-brand: var(--st-color-brand-primary);
+  --st-color-accent: var(--st-color-accent-primary);
+  --st-focus: var(--st-color-focus);
+}
