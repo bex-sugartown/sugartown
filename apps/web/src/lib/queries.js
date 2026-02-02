@@ -495,7 +495,7 @@ export const allProjectsQuery = `
 
 // ---- SITE SETTINGS ----
 
-export const siteSettingsQuery = `
+export const siteSettingsQuery_v2 = `
   *[_type == "siteSettings"][0] {
     siteTitle,
     siteLogo {
