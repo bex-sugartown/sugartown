@@ -1,8 +1,0 @@
-{
-  "extends": "@sugartown/tsconfig/react.json",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "noEmit": true
-  },
-  "include": ["**/*.ts", "**/*.tsx"]
-}
