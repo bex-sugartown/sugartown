@@ -1,0 +1,89 @@
+.header {
+  background-color: var(--st-color-bg-surface);
+  border-bottom: 1px solid var(--st-color-border-subtle);
+  padding: var(--st-spacing-stack-md) 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--st-spacing-inset-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--st-spacing-inline-lg);
+}
+
+.nav {
+  display: flex;
+  gap: var(--st-spacing-inline-sm);
+  flex: 1;
+  justify-content: center;
+}
+
+.cta {
+  display: flex;
+}
+
+/* Primary button (Sugartown Pink) */
+.ctaButton {
+  background-color: var(--st-color-pink-500, var(--st-button-bg));
+  color: var(--st-color-white, var(--st-button-text));
+  padding: var(--st-spacing-inset-xs) var(--st-spacing-inset-md);
+  border-radius: var(--st-button-radius);
+  font-weight: var(--st-font-weight-semibold);
+  transition: all 0.2s ease;
+}
+
+.ctaButton:hover {
+  background-color: var(--st-color-pink-600, var(--st-color-lime-500));
+  transform: translateY(var(--st-button-hover-translate-y));
+  box-shadow: var(--st-button-hover-shadow);
+}
+
+/* Secondary button (Seafoam) */
+.ctaButtonSecondary {
+  background-color: var(--st-color-seafoam-500, #2BD4AA);
+  color: var(--st-color-gray-900, #1a1a1a);
+  padding: var(--st-spacing-inset-xs) var(--st-spacing-inset-md);
+  border-radius: var(--st-button-radius);
+  font-weight: var(--st-font-weight-semibold);
+  transition: all 0.2s ease;
+}
+
+.ctaButtonSecondary:hover {
+  background-color: var(--st-color-seafoam-600, #25b895);
+  transform: translateY(var(--st-button-hover-translate-y));
+  box-shadow: var(--st-button-hover-shadow);
+}
+
+/* Ghost button (Outline) */
+.ctaButtonGhost {
+  background-color: transparent;
+  color: var(--st-color-text-primary, #1a1a1a);
+  padding: var(--st-spacing-inset-xs) var(--st-spacing-inset-md);
+  border-radius: var(--st-button-radius);
+  border: 2px solid var(--st-color-border-strong, #1a1a1a);
+  font-weight: var(--st-font-weight-semibold);
+  transition: all 0.2s ease;
+}
+
+.ctaButtonGhost:hover {
+  background-color: var(--st-color-gray-100, #f5f5f5);
+  transform: translateY(var(--st-button-hover-translate-y));
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-wrap: wrap;
+  }
+  
+  .nav {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+}

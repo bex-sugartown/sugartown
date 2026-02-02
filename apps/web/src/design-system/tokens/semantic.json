@@ -1,0 +1,93 @@
+{
+  "color": {
+    "brand": {
+      "primary": "{color.pink.500}",
+      "secondary": "{color.maroon.500}"
+    },
+    "bg": {
+      "canvas": "{color.white}",
+      "surface": "{color.white}",
+      "surfaceAlt": "{color.grey.050}",
+      "subtle": "{color.grey.040}",
+      "void": "{color.void.900}",
+      "secondary": "{color.grey.100}",
+      "tertiary": "{color.grey.200}"
+    },
+    "text": {
+      "default": "{color.charcoal.900}",
+      "primary": "{color.charcoal.900}",
+      "secondary": "{color.grey.600}",
+      "muted": "{color.grey.400}",
+      "brand": "{color.maroon.500}"
+    },
+    "border": {
+      "default": "rgba(0,0,0,0.08)",
+      "subtle": "{color.grey.030}",
+      "medium": "{color.grey.200}",
+      "strong": "{color.grey.600}"
+    },
+    "accent": {
+      "primary": "{color.pink.500}",
+      "soft": "rgba(255, 36, 125, 0.08)"
+    },
+    "link": {
+      "default": "{color.brand.primary}",
+      "hover": "{color.brand.secondary}"
+    },
+    "focus": "{color.pink.500}",
+    "danger": "{color.red.500}"
+  },
+  "radius": {
+    "button": "{radius.xs}",
+    "tag": "{radius.xs}",
+    "pill": "{radius.xs}",
+    "callout": "{radius.sm}",
+    "code": "{radius.sm}",
+    "card": "{radius.md}",
+    "hero": "{radius.xl}",
+    "media": "{radius.xl}",
+    "full": "{radius.full}"
+  },
+  "font": {
+    "narrative": "{font.family.narrative}",
+    "ui": "{font.family.ui}",
+    "mono": "{font.family.mono}",
+    "body": "{font.size.md}",
+    "caption": "{font.size.xs}",
+    "heading": {
+      "1": "{font.size.display}",
+      "2": "{font.size.2xl}",
+      "3": "{font.size.xl}",
+      "4": "{font.size.lg}"
+    }
+  },
+  "spacing": {
+    "stack": {
+      "xs": "{space.1}",
+      "sm": "{space.2}",
+      "md": "{space.4}",
+      "lg": "{space.6}",
+      "xl": "{space.8}"
+    },
+    "inline": {
+      "sm": "{space.2}",
+      "md": "{space.3}",
+      "lg": "{space.4}"
+    },
+    "inset": {
+      "xs": "{space.1}",
+      "sm": "{space.2}",
+      "md": "{space.4}",
+      "lg": "{space.6}"
+    },
+    "gutter": "{space.4}"
+  },
+  "shadow": {
+    "card": "{shadow.card}",
+    "cardHover": "{shadow.cardHover}",
+    "cardDeep": "{shadow.cardDeep}",
+    "sm": "{shadow.sm}",
+    "md": "{shadow.md}",
+    "lg": "{shadow.lg}"
+  }
+}

@@ -1,0 +1,71 @@
+.callout {
+  padding: var(--st-spacing-inset-lg);
+  border-radius: var(--st-radius-lg, 12px);
+  text-align: center;
+  margin: var(--st-spacing-stack-lg) 0;
+}
+
+.pink {
+  background-color: var(--st-color-pink-100, #fff0f5);
+  color: var(--st-color-pink-900, #4a0d26);
+}
+
+.pink .link {
+  color: var(--st-color-pink-600);
+}
+
+.pink .link:hover {
+  color: var(--st-color-pink-700);
+}
+
+.seafoam {
+  background-color: var(--st-color-seafoam-100, #e6faf5);
+  color: var(--st-color-seafoam-900, #0d4a3d);
+}
+
+.seafoam .link {
+  color: var(--st-color-seafoam-600);
+}
+
+.seafoam .link:hover {
+  color: var(--st-color-seafoam-700);
+}
+
+.dark {
+  background-color: var(--st-color-gray-900, #1a1a1a);
+  color: var(--st-color-white, #ffffff);
+}
+
+.dark .link {
+  color: var(--st-color-pink-300);
+}
+
+.dark .link:hover {
+  color: var(--st-color-pink-200);
+}
+
+.light {
+  background-color: var(--st-color-gray-100, #f5f5f5);
+  color: var(--st-color-gray-900, #1a1a1a);
+}
+
+.light .link {
+  color: var(--st-color-pink-600);
+}
+
+.light .link:hover {
+  color: var(--st-color-pink-700);
+}
+
+.text {
+  font-size: var(--st-font-size-lg, 1.25rem);
+  font-weight: var(--st-font-weight-medium);
+  margin: 0 0 var(--st-spacing-stack-sm);
+  line-height: 1.4;
+}
+
+.link {
+  font-weight: var(--st-font-weight-semibold);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}

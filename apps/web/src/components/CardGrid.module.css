@@ -1,0 +1,24 @@
+.section {
+  padding: var(--st-spacing-stack-xl) 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--st-spacing-inline-lg);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--st-spacing-inset-md);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

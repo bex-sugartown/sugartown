@@ -1,0 +1,18 @@
+.logoLink {
+  display: inline-block;
+  transition: opacity var(--st-transition-fast);
+}
+
+.logoLink:hover {
+  opacity: 0.8;
+}
+
+.logoLink:focus {
+  outline: 2px solid var(--st-pink);
+  outline-offset: 4px;
+}
+
+.logoImage {
+  display: block;
+  height: auto;
+}
