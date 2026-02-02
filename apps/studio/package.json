@@ -1,25 +1,40 @@
 {
-  "name": "studio",
-  "version": "1.0.0",
+  "name": "sugartownsanity",
   "private": true,
+  "version": "1.0.0",
+  "main": "package.json",
+  "license": "UNLICENSED",
   "scripts": {
     "dev": "sanity dev",
+    "start": "sanity start",
     "build": "sanity build",
-    "lint": "eslint . --ext .ts,.tsx",
-    "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist .turbo"
+    "deploy": "sanity deploy",
+    "deploy-graphql": "sanity graphql deploy"
   },
+  "keywords": [
+    "sanity"
+  ],
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sanity": "^3.24.0",
-    "styled-components": "^6.1.8"
+    "@sanity/code-input": "^7.0.6",
+    "@sanity/color-input": "^6.0.3",
+    "@sanity/icons": "^3.7.4",
+    "@sanity/vision": "^5.7.0",
+    "react": "^19.1",
+    "react-dom": "^19.1",
+    "sanity": "^5.7.0",
+    "styled-components": "^6.1.18"
   },
   "devDependencies": {
-    "@sugartown/eslint-config": "workspace:*",
-    "@sugartown/tsconfig": "workspace:*",
-    "@types/react": "^18.2.48",
-    "eslint": "^8.56.0",
-    "typescript": "^5.3.3"
+    "@sanity/eslint-config-studio": "^6.0.0",
+    "@types/react": "^19.1",
+    "eslint": "^9.28",
+    "prettier": "^3.5",
+    "typescript": "^5.8"
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100,
+    "bracketSpacing": false,
+    "singleQuote": true
   }
 }
