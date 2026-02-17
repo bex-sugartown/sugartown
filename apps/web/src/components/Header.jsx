@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { client } from '../lib/sanity'
-import { headerQuery } from '../lib/queries'
+import { headerQuery, siteSettingsQuery } from '../lib/queries'
 import Logo from './atoms/Logo'
 import NavigationItem from './atoms/NavigationItem'
 import Link from './atoms/Link'
@@ -28,10 +28,10 @@ export default function Header() {
 
   useEffect(() => {
     client
-      .fetch(siteSettingsQuery)
-      .then((data) => {
-        setSettings(data)
-        setLoading(false)
+    .fetch(headerQuery)         // ✅ Correct query
+    .then((data) => {
+      setHeader(data)           // ✅ Correct variable name
+      setLoading(false)
       })
       .catch((error) => {
         console.error('Error fetching site settings:', error)

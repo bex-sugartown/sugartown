@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { client } from '../lib/sanity'
-import { footerQuery } from '../lib/queries'
+import { footerQuery, siteSettingsQuery } from '../lib/queries'
 import Logo from './atoms/Logo'
 import Link from './atoms/Link'
 import SocialLink from './atoms/SocialLink'
