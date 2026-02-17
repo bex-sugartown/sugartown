@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react'
 import { client } from '../lib/sanity'
-import { footerQuery, siteSettingsQuery } from '../lib/queries'
+import { footerQuery } from '../lib/queries'
 import Logo from './atoms/Logo'
 import Link from './atoms/Link'
 import SocialLink from './atoms/SocialLink'
 import styles from './Footer.module.css'
 
 export default function Footer() {
-  const [settings, setSettings] = useState(null)
+  const [footer, setFooter] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     client
-      .fetch(siteSettingsQuery)
+      .fetch(footerQuery)
       .then((data) => {
-        setSettings(data)
+        setFooter(data)
         setLoading(false)
       })
       .catch((error) => {
-        console.error('Error fetching site settings:', error)
+        console.error('Error fetching footer:', error)
         setLoading(false)
       })
   }, [])
@@ -45,19 +45,19 @@ export default function Footer() {
           
           {footer.navigationColumns && footer.navigationColumns.length > 0 && (
             <div className={styles.columns}>
-              {footerColumns.map((column, index) => (
+              {footer.navigationColumns.map((column, index) => (
                 <div key={index} className={styles.column}>
-                  {column.title && (
-                    <h3 className={styles.columnHeading}>{column.title}</h3>
+                  {column.heading && (
+                    <h3 className={styles.columnHeading}>{column.heading}</h3>
                   )}
-                  {column.items && column.items.length > 0 && (
+                  {column.links && column.links.length > 0 && (
                     <ul className={styles.linkList}>
                       {column.links.map((link, linkIndex) => (
                         <li key={linkIndex}>
                           <Link
-                            label={item.label}
-                            url={item.link?.url}
-                            openInNewTab={item.link?.openInNewTab}
+                            label={link.label}
+                            url={link.url}
+                            openInNewTab={link.openInNewTab}
                           />
                         </li>
                       ))}

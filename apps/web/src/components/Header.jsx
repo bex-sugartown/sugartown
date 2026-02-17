@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { client } from '../lib/sanity'
-import { headerQuery, siteSettingsQuery } from '../lib/queries'
+import { headerQuery } from '../lib/queries'
 import Logo from './atoms/Logo'
 import NavigationItem from './atoms/NavigationItem'
 import Link from './atoms/Link'
@@ -23,18 +23,18 @@ function getButtonStyleClass(style) {
 }
 
 export default function Header() {
-  const [settings, setSettings] = useState(null)
+  const [header, setHeader] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     client
-    .fetch(headerQuery)         // ✅ Correct query
-    .then((data) => {
-      setHeader(data)           // ✅ Correct variable name
-      setLoading(false)
+      .fetch(headerQuery)
+      .then((data) => {
+        setHeader(data)
+        setLoading(false)
       })
       .catch((error) => {
-        console.error('Error fetching site settings:', error)
+        console.error('Error fetching header:', error)
         setLoading(false)
       })
   }, [])
@@ -73,7 +73,7 @@ export default function Header() {
               label={header.ctaButton.label}
               url={header.ctaButton.url}
               openInNewTab={header.ctaButton.openInNewTab}
-              className={styles.ctaButton}
+              className={getButtonStyleClass(header.ctaButton.style)}
             />
           </div>
         )}
