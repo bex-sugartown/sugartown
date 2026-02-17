@@ -20,6 +20,7 @@ import link from './objects/link'
 import richImage from './objects/richImage'
 import ctaButton from './objects/ctaButton'
 import editorialCard from './objects/editorialCard'
+import seoMetadata from './objects/seoMetadata'
 
 // Legacy schemas
 import logo from './objects/logo'
@@ -59,6 +60,7 @@ import siteSettings from './documents/siteSettings'
 import preheader from './documents/preheader'
 import ctaButtonDoc from './documents/ctaButtonDoc'
 import homepage from './documents/homepage'
+import archivePage from './documents/archivePage'
 
 // Legacy Documents (DEPRECATED - kept for backwards compatibility only)
 // Use siteSettings for header/footer, homepage for hero, page sections for content
@@ -83,6 +85,7 @@ export const schemaTypes = [
   richImage,
   ctaButton,
   editorialCard,
+  seoMetadata,
 
   // Objects - Legacy
   logo,
@@ -113,6 +116,7 @@ export const schemaTypes = [
   preheader,
   ctaButtonDoc,
   homepage,
+  archivePage,
 
   // Documents - Legacy (DEPRECATED)
   header,
@@ -126,7 +130,10 @@ export const schemaTypes = [
  *
  * Suggested groupings:
  * - Knowledge Graph: node
- * - Content: post, page, caseStudy
+ * - Content: post, page, caseStudy, archivePage
  * - Taxonomy: category, tag, project
  * - Site Config: navigation, siteSettings
+ *
+ * Embedded objects (not standalone documents):
+ * - seoMetadata: Reusable SEO object embedded in pages, posts, archive pages
  */

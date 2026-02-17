@@ -43,6 +43,7 @@ export default defineConfig({
                     S.documentTypeListItem('post').title('Blog Posts'),
                     S.documentTypeListItem('page').title('Pages'),
                     S.documentTypeListItem('caseStudy').title('Case Studies'),
+                    S.documentTypeListItem('archivePage').title('Archive Pages'),
                   ])
               ),
 
