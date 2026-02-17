@@ -1,26 +1,25 @@
 import { useEffect, useState } from 'react'
 import { client } from './lib/sanity'
-import { heroesQuery, contentBlocksQuery } from './lib/queries'
+import { siteSettingsQuery, pageBySlugQuery } from './lib/queries'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import Hero from './components/Hero'
-import ContentBlock from './components/ContentBlock'
+import PageSections from './components/PageSections'
 import NodesExample from './components/NodesExample'
 import './App.css'
 
 function App() {
-  const [heroes, setHeroes] = useState([])
-  const [contentBlocks, setContentBlocks] = useState([])
+  const [siteSettings, setSiteSettings] = useState(null)
+  const [page, setPage] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     Promise.all([
-      client.fetch(heroesQuery),
-      client.fetch(contentBlocksQuery),
+      client.fetch(siteSettingsQuery),
+      client.fetch(pageBySlugQuery, { slug: 'about' }),
     ])
-      .then(([heroesData, contentBlocksData]) => {
-        setHeroes(heroesData || [])
-        setContentBlocks(contentBlocksData || [])
+      .then(([settingsData, pageData]) => {
+        setSiteSettings(settingsData)
+        setPage(pageData)
         setLoading(false)
       })
       .catch((error) => {
@@ -35,27 +34,23 @@ function App() {
 
   return (
     <div className="app">
-      <Header />
+      <Header siteSettings={siteSettings} />
 
       <main>
-        {heroes.length > 0 && <Hero hero={heroes[0]} />}
-
-        {contentBlocks.length > 0 && contentBlocks.map((block) => (
-          <ContentBlock key={block._id} content={block.content} />
-        ))}
-
-        {/* Knowledge Graph Nodes */}
-        <NodesExample />
-
-        {heroes.length === 0 && contentBlocks.length === 0 && (
+        {page?.sections && page.sections.length > 0 ? (
+          <PageSections sections={page.sections} />
+        ) : (
           <div className="empty-state">
             <h2>No homepage content yet</h2>
             <p>Add homepage content in Sanity Studio to see it here!</p>
           </div>
         )}
+
+        {/* Knowledge Graph Nodes */}
+        <NodesExample />
       </main>
 
-      <Footer />
+      <Footer siteSettings={siteSettings} />
     </div>
   )
 }

@@ -1,9 +1,10 @@
 // GROQ queries for fetching Sanity content
 //
-// This file contains both legacy queries (header, footer, hero, contentBlock)
-// and new Sugartown CMS queries (nodes, posts, pages, case studies)
+// All queries for Sugartown CMS: site settings, pages, nodes, posts, case studies, taxonomy.
+// Site-wide config (header, footer, nav, preheader) comes from siteSettingsQuery.
+// Page content uses composable sections fetched via pageBySlugQuery.
 
-// Fetch site settings with header configuration
+// ---- SITE SETTINGS (header, footer, nav, preheader, branding) ----
 export const siteSettingsQuery = `
   *[_type == "siteSettings"][0]{
     siteTitle,
@@ -88,175 +89,6 @@ export const siteSettingsQuery = `
     }
   }
 `
-
-// Fetch singleton header (legacy - use siteSettingsQuery instead)
-export const headerQuery = `
-  *[_type == "header" && _id == "singleton-header"][0]{
-    logo{
-      image{
-        asset,
-        alt
-      },
-      linkUrl,
-      width
-    },
-    navigation[]{
-      label,
-      url,
-      isActive,
-      openInNewTab
-    },
-    ctaButton{
-      label,
-      url,
-      openInNewTab
-    }
-  }
-`
-
-// @deprecated - Use siteSettingsQuery instead for footer configuration
-export const footerQuery = `
-  *[_type == "footer" && _id == "singleton-footer"][0]{
-    logo{
-      image{
-        asset,
-        alt
-      },
-      linkUrl,
-      width
-    },
-    tagline,
-    navigationColumns[]{
-      heading,
-      links[]{
-        label,
-        url,
-        openInNewTab
-      }
-    },
-    socialLinks[]{
-      platform,
-      url,
-      label
-    },
-    copyrightText,
-    legalLinks[]{
-      label,
-      url,
-      openInNewTab
-    }
-  }
-`
-
-// @deprecated - Use homepageQuery instead for hero content
-export const heroesQuery = `
-  *[_type == "hero"] | order(_createdAt desc){
-    _id,
-    heading,
-    subheading,
-    ctas[]{
-      label,
-      url,
-      openInNewTab
-    },
-    backgroundMedia{
-      image{
-        asset,
-        alt,
-        crop,
-        hotspot
-      },
-      caption
-    },
-    backgroundStyle
-  }
-`
-
-// @deprecated - Use homepageQuery instead for hero content
-export const heroQuery = `
-  *[_type == "hero" && _id == $id][0]{
-    heading,
-    subheading,
-    ctas[]{
-      label,
-      url,
-      openInNewTab
-    },
-    backgroundMedia{
-      image{
-        asset,
-        alt,
-        crop,
-        hotspot
-      },
-      caption
-    },
-    backgroundStyle
-  }
-`
-
-// @deprecated - Use page sections instead
-export const contentBlocksQuery = `
-  *[_type == "contentBlock"] | order(_createdAt desc){
-    _id,
-    title,
-    content
-  }
-`
-
-// @deprecated - Use page sections instead
-export const contentBlockQuery = `
-  *[_type == "contentBlock" && _id == $id][0]{
-    title,
-    content
-  }
-`
-
-// Fetch homepage content
-export const homepageQuery = `
-  *[_type == "homepage"][0]{
-    title,
-    subtitle,
-    callout{
-      text,
-      link{
-        url,
-        label,
-        openInNewTab
-      },
-      style
-    },
-    cards[]{
-      title,
-      description,
-      image{
-        asset,
-        alt,
-        hotspot,
-        crop
-      },
-      link{
-        url,
-        label,
-        openInNewTab
-      }
-    },
-    seo{
-      metaTitle,
-      metaDescription,
-      ogImage{
-        asset,
-        alt,
-        hotspot,
-        crop
-      }
-    }
-  }
-`
-
-// ============================================================================
-// NEW SUGARTOWN CMS QUERIES
-// ============================================================================
 
 // ---- KNOWLEDGE GRAPH NODES ----
 
@@ -490,20 +322,5 @@ export const allProjectsQuery = `
     status,
     priority,
     kpis
-  }
-`
-
-// ---- SITE SETTINGS ----
-
-export const siteSettingsQuery_v2 = `
-  *[_type == "siteSettings"][0] {
-    siteTitle,
-    siteLogo {
-      asset->
-    },
-    "brandPink": brandColors.pink.hex,
-    "brandSeafoam": brandColors.seafoam.hex,
-    defaultMetaTitle,
-    defaultMetaDescription
   }
 `
