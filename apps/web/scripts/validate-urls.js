@@ -124,6 +124,7 @@ const query = `{
   "posts": *[_type == "post" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
   "caseStudies": *[_type == "caseStudy" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
   "nodes": *[_type == "node" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
+  "archivePages": *[_type == "archivePage" && defined(slug.current)] { _id, _type, title, "slug": slug.current, contentTypes },
   "pagesNoSlug": *[_type == "page" && !defined(slug.current)] { _id, _type, title },
   "postsNoSlug": *[_type == "post" && !defined(slug.current)] { _id, _type, title },
   "caseStudiesNoSlug": *[_type == "caseStudy" && !defined(slug.current)] { _id, _type, title },
@@ -156,13 +157,16 @@ async function run() {
     process.exit(1)
   }
 
-  const { pages, posts, caseStudies, nodes } = data
+  const { pages, posts, caseStudies, nodes, archivePages } = data
   const missingSlug = [
     ...data.pagesNoSlug,
     ...data.postsNoSlug,
     ...data.caseStudiesNoSlug,
     ...data.nodesNoSlug,
   ]
+
+  // Build a set of published archive slugs for nav cross-reference
+  const publishedArchiveSlugs = new Set(archivePages.map((a) => a.slug))
 
   // ── A) Build canonical URL map and detect duplicates ──────────────────────
 
@@ -193,10 +197,26 @@ async function run() {
   console.log('📋  URL Coverage Report')
   console.log('──────────────────────────────────────────────')
   console.log(`   Total docs with slugs inspected: ${totalDocs}`)
-  console.log(`     pages:       ${pages.length}`)
-  console.log(`     posts:       ${posts.length}`)
-  console.log(`     caseStudies: ${caseStudies.length}`)
-  console.log(`     nodes:       ${nodes.length}`)
+  console.log(`     pages:        ${pages.length}`)
+  console.log(`     posts:        ${posts.length}`)
+  console.log(`     caseStudies:  ${caseStudies.length}`)
+  console.log(`     nodes:        ${nodes.length}`)
+  console.log()
+
+  console.log('📁  Published Archive Pages')
+  console.log('──────────────────────────────────────────────')
+  if (archivePages.length === 0) {
+    console.log('   ⚠️   No published archivePage docs found — archive routes will render 404')
+  } else {
+    for (const ap of archivePages) {
+      const hasSlashIssue = ap.slug && (ap.slug.startsWith('/') || ap.slug.endsWith('/'))
+      const icon = hasSlashIssue ? '⚠️ ' : '✅'
+      console.log(`   ${icon}  /${ap.slug}  →  [${(ap.contentTypes || []).join(', ')}]  "${ap.title}"`)
+      if (hasSlashIssue) {
+        console.log(`        ↳ Slug has leading/trailing slash — will not match route. Fix in Studio.`)
+      }
+    }
+  }
   console.log()
 
   if (missingSlug.length === 0) {
@@ -241,15 +261,32 @@ async function run() {
     console.log(`\n   Nav: "${nav.title || 'untitled'}"`)
     for (const item of nav.items) {
       const { valid, reason } = validateNavItemUrl(item.url)
-      const icon = valid ? '✅' : '⚠️ '
+      // Extra check: if url is an archive path, verify a published archivePage doc exists for it
+      let archiveWarning = null
+      if (valid && item.url) {
+        const stripped = item.url.replace(/^\/|\/$/g, '')
+        if (ARCHIVE_PATHS.includes(`/${stripped}`) && !publishedArchiveSlugs.has(stripped)) {
+          archiveWarning = `no published archivePage doc with slug "${stripped}" — route will 404`
+        }
+      }
+      const icon = (valid && !archiveWarning) ? '✅' : '⚠️ '
       console.log(`     ${icon}  "${item.label}" → ${item.url ?? '(no url)'}`)
       if (!valid) navWarnings.push({ label: item.label, url: item.url, reason })
+      if (archiveWarning) navWarnings.push({ label: item.label, url: item.url, reason: archiveWarning })
 
       for (const child of item.children ?? []) {
         const cv = validateNavItemUrl(child.url)
-        const ci = cv.valid ? '  ✅' : '  ⚠️ '
+        let childArchiveWarning = null
+        if (cv.valid && child.url) {
+          const stripped = child.url.replace(/^\/|\/$/g, '')
+          if (ARCHIVE_PATHS.includes(`/${stripped}`) && !publishedArchiveSlugs.has(stripped)) {
+            childArchiveWarning = `no published archivePage doc with slug "${stripped}" — route will 404`
+          }
+        }
+        const ci = (cv.valid && !childArchiveWarning) ? '  ✅' : '  ⚠️ '
         console.log(`       ${ci}  "${child.label}" → ${child.url ?? '(no url)'}`)
         if (!cv.valid) navWarnings.push({ label: child.label, url: child.url, reason: cv.reason })
+        if (childArchiveWarning) navWarnings.push({ label: child.label, url: child.url, reason: childArchiveWarning })
       }
     }
   }

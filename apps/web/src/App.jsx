@@ -9,12 +9,10 @@ import Footer from './components/Footer'
 // Pages
 import HomePage from './pages/HomePage'
 import RootPage from './pages/RootPage'
+import ArchivePage from './pages/ArchivePage'
 import ArticlePage from './pages/ArticlePage'
-import ArticlesArchivePage from './pages/ArticlesArchivePage'
 import CaseStudyPage from './pages/CaseStudyPage'
-import CaseStudiesArchivePage from './pages/CaseStudiesArchivePage'
 import NodePage from './pages/NodePage'
-import KnowledgeGraphArchivePage from './pages/KnowledgeGraphArchivePage'
 import TaxonomyPlaceholderPage from './pages/TaxonomyPlaceholderPage'
 import NotFoundPage from './pages/NotFoundPage'
 
@@ -49,16 +47,16 @@ function App() {
         {/* ── Homepage ─────────────────────────────────────────────── */}
         <Route path="/" element={<HomePage />} />
 
-        {/* ── Articles (post type) ──────────────────────────────────── */}
-        <Route path="/articles" element={<ArticlesArchivePage />} />
+        {/* ── Archive pages — driven by Sanity archivePage documents ── */}
+        {/* Each archive slug is passed explicitly; 404 if doc unpublished */}
+        <Route path="/articles" element={<ArchivePage archiveSlug="articles" />} />
         <Route path="/articles/:slug" element={<ArticlePage />} />
 
-        {/* ── Case Studies ─────────────────────────────────────────── */}
-        <Route path="/case-studies" element={<CaseStudiesArchivePage />} />
+        <Route path="/case-studies" element={<ArchivePage archiveSlug="case-studies" />} />
         <Route path="/case-studies/:slug" element={<CaseStudyPage />} />
 
-        {/* ── Knowledge Graph / Nodes ───────────────────────────────── */}
-        <Route path="/knowledge-graph" element={<KnowledgeGraphArchivePage />} />
+        {/* /knowledge-graph is the canonical archive for nodes */}
+        <Route path="/knowledge-graph" element={<ArchivePage archiveSlug="knowledge-graph" />} />
         {/* /nodes redirects to /knowledge-graph (alias — canonical is /knowledge-graph) */}
         <Route path="/nodes" element={<Navigate to="/knowledge-graph" replace />} />
         <Route path="/nodes/:slug" element={<NodePage />} />

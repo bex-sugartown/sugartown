@@ -144,21 +144,21 @@ export default defineType({
       name: 'slug',
       title: 'URL Slug',
       type: 'slug',
-      description: 'Must start and end with / (e.g., /case-studies/)',
+      description: 'The URL path segment — no slashes (e.g., case-studies, knowledge-graph, articles). Must match the canonical route.',
       group: 'content',
       options: {
         source: 'title',
         maxLength: 96,
         slugify: (input: string) =>
-          `/${input.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}/`
+          input.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/^-+|-+$/g, '')
       },
       validation: (Rule) =>
         Rule.required().custom((slug) => {
           if (!slug?.current) return 'Slug is required'
-          const pattern = /^\/[a-z0-9-]+\/$/
+          const pattern = /^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$/
           return pattern.test(slug.current)
             ? true
-            : 'Slug must start and end with / and contain only lowercase letters, numbers, and hyphens (e.g., /case-studies/)'
+            : 'Slug must contain only lowercase letters, numbers, and hyphens — no leading or trailing slashes (e.g., case-studies)'
         })
     }),
     defineField({

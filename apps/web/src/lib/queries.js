@@ -328,6 +328,46 @@ export const caseStudyBySlugQuery = `
   }
 `
 
+// ---- ARCHIVE PAGES ----
+
+/**
+ * archivePageBySlugQuery
+ * Fetches an archivePage doc by its slug (no slashes).
+ * Used by ArchivePage to drive heading, description, SEO, and contentTypes.
+ * Returns null if unpublished → frontend renders 404.
+ */
+export const archivePageBySlugQuery = `
+  *[_type == "archivePage" && slug.current == $slug][0] {
+    _id,
+    title,
+    "slug": slug.current,
+    description,
+    contentTypes,
+    listStyle,
+    sortBy,
+    itemsPerPage,
+    hero {
+      heading,
+      subheading
+    },
+    ${SEO_FRAGMENT}
+  }
+`
+
+/**
+ * allPublishedArchivePagesQuery
+ * Returns all published archivePage docs with their slugs + contentTypes.
+ * Used by nav validation and validate-urls.js.
+ */
+export const allPublishedArchivePagesQuery = `
+  *[_type == "archivePage"] | order(title asc) {
+    _id,
+    title,
+    "slug": slug.current,
+    contentTypes
+  }
+`
+
 // ---- URL VALIDATION (dev-time only) ----
 // Fetches minimal slug + type data for all published docs that require unique URLs.
 // Used by scripts/validate-urls.js
