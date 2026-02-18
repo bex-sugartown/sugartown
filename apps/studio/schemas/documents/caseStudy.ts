@@ -4,8 +4,10 @@ import {CaseIcon} from '@sanity/icons'
 /**
  * Case Study Document - Portfolio Work
  *
- * Showcase portfolio projects and client work with flexible section-based layout
- * Similar to Page but with additional project-specific metadata
+ * Showcase portfolio projects and client work with flexible section-based layout.
+ * Similar to Page but with additional project-specific metadata.
+ *
+ * SEO: uses the shared `seoMetadata` object (Schema 1: SEO Metadata).
  */
 export default defineType({
   name: 'caseStudy',
@@ -15,7 +17,8 @@ export default defineType({
   groups: [
     {name: 'content', title: 'Content', default: true},
     {name: 'projectDetails', title: 'Project Details'},
-    {name: 'connections', title: 'Connections'}
+    {name: 'connections', title: 'Connections'},
+    {name: 'seo', title: 'SEO'},
   ],
   fields: [
     // CONTENT GROUP
@@ -193,7 +196,16 @@ export default defineType({
           to: [{type: 'project'}]
         })
       ]
-    })
+    }),
+
+    // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)
+    // Identical across page / post / caseStudy / node for Studio UI consistency.
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seoMetadata',
+      group: 'seo',
+    }),
   ],
   preview: {
     select: {

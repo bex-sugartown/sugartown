@@ -6,6 +6,9 @@ import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import { nodeBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
+import { useSiteSettings } from '../lib/SiteSettingsContext'
+import { resolveSeo } from '../lib/seo'
+import SeoHead from '../components/SeoHead'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -21,12 +24,22 @@ function formatDate(dateStr) {
 export default function NodePage() {
   const { slug } = useParams()
   const { data: node, loading, notFound } = useSanityDoc(nodeBySlugQuery, { slug })
+  const siteSettings = useSiteSettings()
+
+  const seo = resolveSeo({
+    docSeo: node?.seo ?? null,
+    docTitle: node?.title ?? null,
+    docType: 'node',
+    docSlug: slug,
+    siteDefaults: siteSettings,
+  })
 
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !node) return <NotFoundPage />
 
   return (
     <main className={styles.detailPage}>
+      <SeoHead seo={seo} />
       <Link to="/knowledge-graph" className={styles.backLink}>
         ← Knowledge Graph
       </Link>

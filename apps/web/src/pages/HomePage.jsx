@@ -9,17 +9,31 @@
  */
 import { pageBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
+import { useSiteSettings } from '../lib/SiteSettingsContext'
+import { resolveSeo } from '../lib/seo'
+import SeoHead from '../components/SeoHead'
 import PageSections from '../components/PageSections'
 import NodesExample from '../components/NodesExample'
 import styles from './pages.module.css'
 
 export default function HomePage() {
   const { data: page, loading } = useSanityDoc(pageBySlugQuery, { slug: 'home' })
+  const siteSettings = useSiteSettings()
+
+  const seo = resolveSeo({
+    docSeo: page?.seo ?? null,
+    docTitle: page?.title ?? null,
+    docType: 'page',
+    docSlug: 'home',
+    siteDefaults: siteSettings,
+  })
 
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
 
   return (
     <main>
+      <SeoHead seo={seo} />
+
       {page?.sections && page.sections.length > 0 ? (
         <PageSections sections={page.sections} />
       ) : (

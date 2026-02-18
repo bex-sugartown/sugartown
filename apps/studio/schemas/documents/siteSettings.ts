@@ -154,6 +154,14 @@ export default defineType({
 
     // SEO GROUP
     defineField({
+      name: 'siteUrl',
+      title: 'Site URL',
+      type: 'url',
+      description: 'Production base URL (e.g. https://sugartown.io) — used for canonical URLs and OG tags. No trailing slash.',
+      group: 'seo',
+      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+    }),
+    defineField({
       name: 'defaultMetaTitle',
       title: 'Default Meta Title',
       type: 'string',

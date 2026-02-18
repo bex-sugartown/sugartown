@@ -5,8 +5,11 @@ import {standardPortableText} from '../objects/portableTextConfig'
 /**
  * Post Document - Blog Post
  *
- * Standard blog post content type with rich content support
- * Migrated from WordPress posts
+ * Standard blog post content type with rich content support.
+ * Migrated from WordPress posts.
+ *
+ * SEO: uses the shared `seoMetadata` object (Schema 1: SEO Metadata).
+ * // TODO Stage 6: rename post → article; SEO already aligned
  */
 export default defineType({
   name: 'post',
@@ -16,7 +19,8 @@ export default defineType({
   groups: [
     {name: 'content', title: 'Content', default: true},
     {name: 'metadata', title: 'Metadata'},
-    {name: 'connections', title: 'Connections'}
+    {name: 'connections', title: 'Connections'},
+    {name: 'seo', title: 'SEO'},
   ],
   fields: [
     // CONTENT GROUP
@@ -140,7 +144,16 @@ export default defineType({
           to: [{type: 'project'}]
         })
       ]
-    })
+    }),
+
+    // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)
+    // Identical across page / post / caseStudy / node for Studio UI consistency.
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seoMetadata',
+      group: 'seo',
+    }),
   ],
   preview: {
     select: {

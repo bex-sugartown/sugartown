@@ -3,6 +3,11 @@
 // All queries for Sugartown CMS: site settings, pages, nodes, posts, case studies, taxonomy.
 // Site-wide config (header, footer, nav, preheader) comes from siteSettingsQuery.
 // Page content uses composable sections fetched via pageBySlugQuery.
+//
+// SEO: detail queries embed SEO_FRAGMENT from src/lib/seo.js.
+// Use resolveSeo() in page components to merge doc overrides with site defaults.
+
+import { SEO_FRAGMENT, SITE_SEO_FRAGMENT } from './seo'
 
 // ---- SITE SETTINGS (header, footer, nav, preheader, branding) ----
 export const siteSettingsQuery = `
@@ -79,14 +84,8 @@ export const siteSettingsQuery = `
       icon
     },
     copyrightText,
-    defaultMetaTitle,
-    defaultMetaDescription,
-    defaultOgImage{
-      asset,
-      alt,
-      hotspot,
-      crop
-    }
+    // SEO defaults (used by resolveSeo() as fallback for all pages)
+    ${SITE_SEO_FRAGMENT}
   }
 `
 
@@ -145,7 +144,8 @@ export const nodeBySlugQuery = `
       projectId,
       name,
       status
-    }
+    },
+    ${SEO_FRAGMENT}
   }
 `
 
@@ -195,7 +195,8 @@ export const postBySlugQuery = `
     tags[]->{
       name,
       slug
-    }
+    },
+    ${SEO_FRAGMENT}
   }
 `
 
@@ -264,9 +265,7 @@ export const pageBySlugQuery = `
         }
       }
     },
-    "seoTitle": coalesce(seo.metaTitle, title),
-    "seoDescription": seo.metaDescription,
-    "ogImage": seo.ogImage.asset->
+    ${SEO_FRAGMENT}
   }
 `
 
@@ -320,8 +319,7 @@ export const caseStudyBySlugQuery = `
       name,
       slug
     },
-    "seoTitle": coalesce(seoMetadata.metaTitle, title),
-    "seoDescription": seoMetadata.metaDescription
+    ${SEO_FRAGMENT}
   }
 `
 

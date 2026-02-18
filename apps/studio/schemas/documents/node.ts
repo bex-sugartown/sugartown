@@ -5,9 +5,11 @@ import {standardPortableText} from '../objects/portableTextConfig'
 /**
  * Node Document - Knowledge Graph Node
  *
- * Documents AI collaboration conversations as part of the "Agentic Caucus" methodology
- * Tracks interactions with Claude, ChatGPT, Gemini, and other AI tools
- * Creates a knowledge graph of insights, challenges, and learnings
+ * Documents AI collaboration conversations as part of the "Agentic Caucus" methodology.
+ * Tracks interactions with Claude, ChatGPT, Gemini, and other AI tools.
+ * Creates a knowledge graph of insights, challenges, and learnings.
+ *
+ * SEO: uses the shared `seoMetadata` object (Schema 1: SEO Metadata).
  */
 export default defineType({
   name: 'node',
@@ -19,7 +21,8 @@ export default defineType({
     {name: 'aiContext', title: 'AI Context'},
     {name: 'agenticCaucus', title: 'Agentic Caucus'},
     {name: 'connections', title: 'Connections'},
-    {name: 'metadata', title: 'Metadata'}
+    {name: 'metadata', title: 'Metadata'},
+    {name: 'seo', title: 'SEO'},
   ],
   fields: [
     // CONTENT GROUP
@@ -222,8 +225,17 @@ export default defineType({
       title: 'Updated At',
       type: 'datetime',
       description: 'Last significant update to this node',
-      group: 'metadata'
-    })
+      group: 'metadata',
+    }),
+
+    // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)
+    // Identical across page / post / caseStudy / node for Studio UI consistency.
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seoMetadata',
+      group: 'seo',
+    }),
   ],
   preview: {
     select: {

@@ -6,6 +6,9 @@ import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import { postBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
+import { useSiteSettings } from '../lib/SiteSettingsContext'
+import { resolveSeo } from '../lib/seo'
+import SeoHead from '../components/SeoHead'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -21,12 +24,22 @@ function formatDate(dateStr) {
 export default function ArticlePage() {
   const { slug } = useParams()
   const { data: post, loading, notFound } = useSanityDoc(postBySlugQuery, { slug })
+  const siteSettings = useSiteSettings()
+
+  const seo = resolveSeo({
+    docSeo: post?.seo ?? null,
+    docTitle: post?.title ?? null,
+    docType: 'post',
+    docSlug: slug,
+    siteDefaults: siteSettings,
+  })
 
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !post) return <NotFoundPage />
 
   return (
     <main className={styles.detailPage}>
+      <SeoHead seo={seo} />
       <Link to="/articles" className={styles.backLink}>
         ← All Articles
       </Link>

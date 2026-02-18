@@ -6,6 +6,9 @@ import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import { caseStudyBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
+import { useSiteSettings } from '../lib/SiteSettingsContext'
+import { resolveSeo } from '../lib/seo'
+import SeoHead from '../components/SeoHead'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -21,12 +24,22 @@ function formatDate(dateStr) {
 export default function CaseStudyPage() {
   const { slug } = useParams()
   const { data: caseStudy, loading, notFound } = useSanityDoc(caseStudyBySlugQuery, { slug })
+  const siteSettings = useSiteSettings()
+
+  const seo = resolveSeo({
+    docSeo: caseStudy?.seo ?? null,
+    docTitle: caseStudy?.title ?? null,
+    docType: 'caseStudy',
+    docSlug: slug,
+    siteDefaults: siteSettings,
+  })
 
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !caseStudy) return <NotFoundPage />
 
   return (
     <main className={styles.detailPage}>
+      <SeoHead seo={seo} />
       <Link to="/case-studies" className={styles.backLink}>
         ← All Case Studies
       </Link>

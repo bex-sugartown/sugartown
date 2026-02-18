@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { client } from './lib/sanity'
 import { siteSettingsQuery } from './lib/queries'
+import { SiteSettingsContext } from './lib/SiteSettingsContext'
 import Header from './components/Header'
 import Footer from './components/Footer'
 
@@ -36,9 +37,11 @@ function App() {
       })
   }, [])
 
-  // Site settings can still be loading while page content renders
-  // Header/Footer gracefully handle null siteSettings
+  // Site settings can still be loading while page content renders.
+  // Context provides siteSettings (null while loading) to all page components
+  // for SEO resolution. Header/Footer gracefully handle null siteSettings.
   return (
+    <SiteSettingsContext.Provider value={siteSettings}>
     <div className="app">
       <Header siteSettings={siteSettings} settingsLoading={settingsLoading} />
 
@@ -80,6 +83,7 @@ function App() {
 
       <Footer siteSettings={siteSettings} />
     </div>
+    </SiteSettingsContext.Provider>
   )
 }
 
