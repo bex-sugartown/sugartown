@@ -21,7 +21,7 @@ export const CATEGORY_FRAGMENT = `
   _id,
   name,
   "slug": slug.current,
-  "colorHex": color.hex
+  colorHex
 `
 
 /**
@@ -368,7 +368,7 @@ export const allCategoriesQuery = `
     _id,
     name,
     "slug": slug.current,
-    "colorHex": color.hex,
+    colorHex,
     description
   }
 `
@@ -396,7 +396,7 @@ export const categoryBySlugQuery = `
     name,
     "slug": slug.current,
     description,
-    "colorHex": color.hex
+    colorHex
   }
 `
 
