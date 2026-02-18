@@ -1,0 +1,246 @@
+/* Shared page layout styles */
+
+/* ── Loading state ────────────────────────────────────────────────── */
+.loadingPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: var(--color-text-muted, #888);
+  font-size: 1rem;
+}
+
+/* ── Placeholder / Coming Soon / 404 ─────────────────────────────── */
+.placeholderPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 4rem 1.5rem;
+}
+
+.placeholderContent {
+  max-width: 540px;
+  text-align: center;
+}
+
+.placeholderEyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #888);
+  margin-bottom: 0.75rem;
+}
+
+.placeholderHeading {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  color: var(--color-text, #111);
+}
+
+.placeholderBody {
+  font-size: 1.0625rem;
+  color: var(--color-text-muted, #555);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.placeholderLink {
+  display: inline-block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-accent, #0057ff);
+  text-decoration: none;
+}
+
+.placeholderLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Article / Node / CaseStudy detail pages ─────────────────────── */
+.detailPage {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+.detailEyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted, #888);
+  margin-bottom: 0.75rem;
+}
+
+.detailHeading {
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1rem;
+  color: var(--color-text, #111);
+}
+
+.detailExcerpt {
+  font-size: 1.125rem;
+  color: var(--color-text-muted, #555);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--color-border, #e5e5e5);
+  padding-bottom: 2rem;
+}
+
+.detailMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted, #888);
+  margin-bottom: 2.5rem;
+}
+
+.detailContent {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-text, #222);
+}
+
+.detailContent h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.detailContent h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.detailContent p {
+  margin-bottom: 1.25rem;
+}
+
+.detailContent a {
+  color: var(--color-accent, #0057ff);
+}
+
+.detailContent blockquote {
+  border-left: 3px solid var(--color-accent, #0057ff);
+  padding-left: 1.25rem;
+  margin-left: 0;
+  color: var(--color-text-muted, #555);
+  font-style: italic;
+}
+
+.backLink {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-muted, #888);
+  text-decoration: none;
+  margin-bottom: 2rem;
+}
+
+.backLink:hover {
+  color: var(--color-text, #111);
+}
+
+/* ── Tag chips ───────────────────────────────────────────────────── */
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  list-style: none;
+  padding: 0;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  background: var(--color-surface-raised, #f5f5f5);
+  color: var(--color-text-muted, #555);
+}
+
+/* ── Archive listing pages ───────────────────────────────────────── */
+.archivePage {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+.archiveHeading {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--color-text, #111);
+}
+
+.archiveDescription {
+  font-size: 1.0625rem;
+  color: var(--color-text-muted, #555);
+  margin-bottom: 3rem;
+  max-width: 620px;
+  line-height: 1.6;
+}
+
+.archiveGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.archiveCard {
+  display: block;
+  text-decoration: none;
+  border: 1px solid var(--color-border, #e5e5e5);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  color: inherit;
+}
+
+.archiveCard:hover {
+  border-color: var(--color-accent, #0057ff);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.archiveCardTitle {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-text, #111);
+}
+
+.archiveCardExcerpt {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted, #666);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.archiveCardMeta {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted, #888);
+  margin-top: 1rem;
+}
+
+.archiveEmpty {
+  color: var(--color-text-muted, #888);
+  font-size: 1rem;
+  padding: 2rem 0;
+}

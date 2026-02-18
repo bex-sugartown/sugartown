@@ -1,3 +1,4 @@
+import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import NavigationItem from './atoms/NavigationItem'
 import Link from './atoms/Link'
@@ -31,14 +32,14 @@ export default function Header({ siteSettings }) {
       <header className={styles.header}>
         <div className={styles.container}>
           {siteLogo?.asset && (
-            <a href="/" className={styles.logoLink}>
+            <RouterLink to="/" className={styles.logoLink}>
               <img
                 src={urlFor(siteLogo.asset).width(240).url()}
                 alt={siteLogo.alt || `Logo: ${siteTitle || 'Home'}`}
                 width={120}
                 className={styles.logoImage}
               />
-            </a>
+            </RouterLink>
           )}
 
           {primaryNav?.items && primaryNav.items.length > 0 && (

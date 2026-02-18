@@ -1,3 +1,4 @@
+import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import Link from './atoms/Link'
 import SocialLink from './atoms/SocialLink'
@@ -14,14 +15,14 @@ export default function Footer({ siteSettings }) {
         <div className={styles.top}>
           <div className={styles.brand}>
             {siteLogo?.asset && (
-              <a href="/" className={styles.logoLink}>
+              <RouterLink to="/" className={styles.logoLink}>
                 <img
                   src={urlFor(siteLogo.asset).width(240).url()}
                   alt={siteLogo.alt || `Logo: ${siteTitle || 'Home'}`}
                   width={120}
                   className={styles.logoImage}
                 />
-              </a>
+              </RouterLink>
             )}
             {tagline && (
               <p className={styles.tagline}>{tagline}</p>

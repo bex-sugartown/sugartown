@@ -293,6 +293,71 @@ export const allCaseStudiesQuery = `
   }
 `
 
+export const caseStudyBySlugQuery = `
+  *[_type == "caseStudy" && slug.current == $slug][0] {
+    _id,
+    title,
+    slug,
+    client,
+    role,
+    excerpt,
+    featuredImage {
+      asset->,
+      alt,
+      caption,
+      credit
+    },
+    dateRange,
+    publishedAt,
+    updatedAt,
+    content,
+    categories[]->{
+      name,
+      slug,
+      "color": color.hex
+    },
+    tags[]->{
+      name,
+      slug
+    },
+    "seoTitle": coalesce(seoMetadata.metaTitle, title),
+    "seoDescription": seoMetadata.metaDescription
+  }
+`
+
+// ---- URL VALIDATION (dev-time only) ----
+// Fetches minimal slug + type data for all published docs that require unique URLs.
+// Used by scripts/validate-urls.js
+
+export const allPublishedSlugsQuery = `
+  {
+    "pages": *[_type == "page" && defined(slug.current)] {
+      _id,
+      _type,
+      title,
+      "slug": slug.current
+    },
+    "posts": *[_type == "post" && defined(slug.current)] {
+      _id,
+      _type,
+      title,
+      "slug": slug.current
+    },
+    "caseStudies": *[_type == "caseStudy" && defined(slug.current)] {
+      _id,
+      _type,
+      title,
+      "slug": slug.current
+    },
+    "nodes": *[_type == "node" && defined(slug.current)] {
+      _id,
+      _type,
+      title,
+      "slug": slug.current
+    }
+  }
+`
+
 // ---- TAXONOMY ----
 
 export const allCategoriesQuery = `
@@ -310,6 +375,25 @@ export const allTagsQuery = `
     _id,
     name,
     slug
+  }
+`
+
+export const tagBySlugQuery = `
+  *[_type == "tag" && slug.current == $slug][0] {
+    _id,
+    name,
+    slug,
+    description
+  }
+`
+
+export const categoryBySlugQuery = `
+  *[_type == "category" && slug.current == $slug][0] {
+    _id,
+    name,
+    slug,
+    description,
+    "color": color.hex
   }
 `
 
