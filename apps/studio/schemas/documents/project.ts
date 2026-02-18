@@ -106,6 +106,17 @@ export default defineType({
       description: 'Thematic tags for this project'
     }),
     defineField({
+      name: 'colorHex',
+      title: 'Color (Hex)',
+      type: 'string',
+      description: 'Hex color used for knowledge graph visualization and archive filter chips (e.g., #0099FF).',
+      validation: (Rule) =>
+        Rule.regex(/^#([0-9a-fA-F]{6})$/, {
+          name: 'hex color',
+          invert: false,
+        }).warning('Use a 6-digit hex color like #0099FF.')
+    }),
+    defineField({
       name: 'kpis',
       title: 'Key Performance Indicators',
       type: 'array',
@@ -160,9 +171,10 @@ export default defineType({
       projectId: 'projectId',
       name: 'name',
       status: 'status',
-      priority: 'priority'
+      priority: 'priority',
+      colorHex: 'colorHex'
     },
-    prepare({projectId, name, status, priority}) {
+    prepare({projectId, name, status, priority, colorHex}) {
       const statusLabels = {
         planning: '📋 Planning',
         active: '🚀 Active',
@@ -175,9 +187,10 @@ export default defineType({
         4: '🟢',
         5: '⚪'
       }
+      const colorSuffix = colorHex ? ` • ${colorHex}` : ''
       return {
         title: name || 'Untitled Project',
-        subtitle: `${projectId || 'No ID'} • ${statusLabels[status as keyof typeof statusLabels] || status}`,
+        subtitle: `${projectId || 'No ID'} • ${statusLabels[status as keyof typeof statusLabels] || status}${colorSuffix}`,
         description: priority ? `Priority: ${priorityLabels[priority as keyof typeof priorityLabels]}` : undefined
       }
     }

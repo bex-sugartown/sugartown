@@ -9,6 +9,35 @@
 
 import { SEO_FRAGMENT, SITE_SEO_FRAGMENT } from './seo'
 
+// ---- TAXONOMY FRAGMENTS (centralized — use in every query that expands categories/projects) ----
+
+/**
+ * CATEGORY_FRAGMENT
+ * Expand a single category reference or an array item.
+ * category stores color via @sanity/color-input: color.hex → aliased to colorHex.
+ * Usage in GROQ: categories[]->{${CATEGORY_FRAGMENT}}
+ */
+export const CATEGORY_FRAGMENT = `
+  _id,
+  name,
+  "slug": slug.current,
+  "colorHex": color.hex
+`
+
+/**
+ * PROJECT_FRAGMENT
+ * Expand a single project reference or an array item.
+ * project stores colorHex as a plain hex string field.
+ * Usage in GROQ: relatedProjects[]->{${PROJECT_FRAGMENT}}
+ */
+export const PROJECT_FRAGMENT = `
+  _id,
+  projectId,
+  name,
+  status,
+  colorHex
+`
+
 // ---- SITE SETTINGS (header, footer, nav, preheader, branding) ----
 export const siteSettingsQuery = `
   *[_type == "siteSettings"][0]{
@@ -103,11 +132,7 @@ export const allNodesQuery = `
     challenge,
     insight,
     publishedAt,
-    categories[]->{
-      name,
-      slug,
-      "color": color.hex
-    },
+    categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{
       name,
       slug
@@ -131,20 +156,12 @@ export const nodeBySlugQuery = `
     publishedAt,
     updatedAt,
     conversationLink,
-    categories[]->{
-      name,
-      slug,
-      "color": color.hex
-    },
+    categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{
       name,
       slug
     },
-    relatedProjects[]->{
-      projectId,
-      name,
-      status
-    },
+    relatedProjects[]->{${PROJECT_FRAGMENT}},
     ${SEO_FRAGMENT}
   }
 `
@@ -164,10 +181,7 @@ export const allPostsQuery = `
     },
     author,
     publishedAt,
-    categories[]->{
-      name,
-      slug
-    }
+    categories[]->{${CATEGORY_FRAGMENT}}
   }
 `
 
@@ -187,15 +201,12 @@ export const postBySlugQuery = `
     author,
     publishedAt,
     updatedAt,
-    categories[]->{
-      name,
-      slug,
-      "color": color.hex
-    },
+    categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{
       name,
       slug
     },
+    relatedProjects[]->{${PROJECT_FRAGMENT}},
     ${SEO_FRAGMENT}
   }
 `
@@ -285,10 +296,7 @@ export const allCaseStudiesQuery = `
     },
     dateRange,
     publishedAt,
-    categories[]->{
-      name,
-      slug
-    }
+    categories[]->{${CATEGORY_FRAGMENT}}
   }
 `
 
@@ -310,15 +318,12 @@ export const caseStudyBySlugQuery = `
     publishedAt,
     updatedAt,
     content,
-    categories[]->{
-      name,
-      slug,
-      "color": color.hex
-    },
+    categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{
       name,
       slug
     },
+    relatedProjects[]->{${PROJECT_FRAGMENT}},
     ${SEO_FRAGMENT}
   }
 `
@@ -362,8 +367,8 @@ export const allCategoriesQuery = `
   *[_type == "category"] | order(name asc) {
     _id,
     name,
-    slug,
-    "color": color.hex,
+    "slug": slug.current,
+    "colorHex": color.hex,
     description
   }
 `
@@ -389,9 +394,9 @@ export const categoryBySlugQuery = `
   *[_type == "category" && slug.current == $slug][0] {
     _id,
     name,
-    slug,
+    "slug": slug.current,
     description,
-    "color": color.hex
+    "colorHex": color.hex
   }
 `
 
@@ -403,6 +408,20 @@ export const allProjectsQuery = `
     description,
     status,
     priority,
+    colorHex,
+    kpis
+  }
+`
+
+export const projectByIdQuery = `
+  *[_type == "project" && projectId == $projectId][0] {
+    _id,
+    projectId,
+    name,
+    description,
+    status,
+    priority,
+    colorHex,
     kpis
   }
 `
