@@ -10,6 +10,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getAuthorByline } from '../lib/person'
 import SeoHead from '../components/SeoHead'
+import TaxonomyChips from '../components/TaxonomyChips'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -92,15 +93,11 @@ export default function NodePage() {
         </div>
       )}
 
-      {node.categories?.length > 0 && (
-        <ul className={styles.tagList} style={{ marginTop: '2rem' }}>
-          {node.categories.map((cat) => (
-            <li key={cat.slug || cat.name} className={styles.tag}>
-              {cat.name}
-            </li>
-          ))}
-        </ul>
-      )}
+      <TaxonomyChips
+        projects={node.projects}
+        categories={node.categories}
+        tags={node.tags}
+      />
 
       {node.conversationLink && (
         <p style={{ marginTop: '2rem' }}>

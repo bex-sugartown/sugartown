@@ -74,6 +74,19 @@ export const PROJECT_FRAGMENT = `
   colorHex
 `
 
+/**
+ * TAXONOMY_FRAGMENT
+ * Composite canonical taxonomy projection for all top-level content types.
+ * Bundles all four taxonomy primitives into a single reusable spread.
+ * Usage in GROQ: spread at document level — ${TAXONOMY_FRAGMENT}
+ */
+export const TAXONOMY_FRAGMENT = `
+  "authors": authors[]->{${PERSON_FRAGMENT}},
+  "categories": categories[]->{${CATEGORY_FRAGMENT}},
+  "tags": tags[]->{${TAG_FRAGMENT}},
+  "projects": projects[]->{${PROJECT_FRAGMENT}}
+`
+
 // ---- SITE SETTINGS (header, footer, nav, preheader, branding) ----
 export const siteSettingsQuery = `
   *[_type == "siteSettings"][0]{

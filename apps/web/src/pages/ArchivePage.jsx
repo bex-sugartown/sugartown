@@ -7,7 +7,7 @@
  * unpublished) the route renders 404.
  *
  * Routes that use this component:
- *   /articles          → archivePage slug: articles        contentTypes: [post]
+ *   /articles          → archivePage slug: articles        contentTypes: [article]
  *   /case-studies      → archivePage slug: case-studies    contentTypes: [caseStudy]
  *   /knowledge-graph   → archivePage slug: knowledge-graph contentTypes: [node]
  *
@@ -24,12 +24,16 @@
  *     For now we use contentTypes[0] as the primary type for listing queries.
  *   - The listing query map (ARCHIVE_QUERIES) is the single place to add new types.
  *   - Filter UI, featured items, and rich hero are deferred to Stage 4/5.
+ *
+ * Stage 7: ARCHIVE_QUERIES upgraded with taxonomy projections (categories, tags,
+ *   projects). ItemCard now renders TaxonomyChips for uniform classification display.
  */
 import { Link } from 'react-router-dom'
 import { useSanityDoc, useSanityList } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import SeoHead from '../components/SeoHead'
+import TaxonomyChips from '../components/TaxonomyChips'
 import { getCanonicalPath } from '../lib/routes'
 import { archivePageBySlugQuery } from '../lib/queries'
 import NotFoundPage from './NotFoundPage'
@@ -37,10 +41,27 @@ import styles from './pages.module.css'
 
 // ─── Archive listing queries (one per content type) ───────────────────────────
 //
-// These are intentionally minimal for Stage 3. Richer projections (categories,
-// tags, featuredImage) are added in Stage 4 when the filter bar arrives.
+// Stage 7: taxonomy fields (categories, tags, projects) added to all queries.
+// Stage 3's minimal projections have been upgraded — TaxonomyChips now renders
+// classification chips on each archive card.
+
+const TAXONOMY_PROJECTION = `
+  "categories": categories[]->{_id, name, "slug": slug.current, colorHex},
+  "tags": tags[]->{_id, name, "slug": slug.current},
+  "projects": projects[]->{_id, name, "slug": slug.current, colorHex}
+`
 
 const ARCHIVE_QUERIES = {
+  article: `
+    *[_type == "article" && defined(slug.current)] | order(publishedAt desc)[0...50] {
+      _id,
+      title,
+      "slug": slug.current,
+      excerpt,
+      publishedAt,
+      ${TAXONOMY_PROJECTION}
+    }
+  `,
   node: `
     *[_type == "node" && defined(slug.current)] | order(publishedAt desc)[0...50] {
       _id,
@@ -49,16 +70,8 @@ const ARCHIVE_QUERIES = {
       excerpt,
       aiTool,
       conversationType,
-      publishedAt
-    }
-  `,
-  post: `
-    *[_type == "post" && defined(slug.current)] | order(publishedAt desc)[0...50] {
-      _id,
-      title,
-      "slug": slug.current,
-      excerpt,
-      publishedAt
+      publishedAt,
+      ${TAXONOMY_PROJECTION}
     }
   `,
   caseStudy: `
@@ -68,7 +81,8 @@ const ARCHIVE_QUERIES = {
       "slug": slug.current,
       excerpt,
       client,
-      role
+      role,
+      ${TAXONOMY_PROJECTION}
     }
   `,
 }
@@ -86,8 +100,8 @@ function formatDate(dateStr) {
 
 // Map archivePage contentType value → routes.js docType for getCanonicalPath
 const CONTENT_TYPE_TO_DOC_TYPE = {
+  article: 'article',
   node: 'node',
-  post: 'post',
   caseStudy: 'caseStudy',
 }
 
@@ -107,6 +121,11 @@ function ItemCard({ item, docType }) {
         {docType === 'caseStudy' && item.role && `${item.role} · `}
         {item.publishedAt && formatDate(item.publishedAt)}
       </p>
+      <TaxonomyChips
+        categories={item.categories}
+        tags={item.tags}
+        projects={item.projects}
+      />
     </Link>
   )
 }

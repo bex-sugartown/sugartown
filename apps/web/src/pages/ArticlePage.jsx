@@ -10,6 +10,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getAuthorByline } from '../lib/person'
 import SeoHead from '../components/SeoHead'
+import TaxonomyChips from '../components/TaxonomyChips'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -55,20 +56,13 @@ export default function ArticlePage() {
         {getAuthorByline(post.authors, post.author) && (
           <span>By {getAuthorByline(post.authors, post.author)}</span>
         )}
-        {post.categories?.length > 0 && (
-          <span>{post.categories.map((c) => c.name).join(', ')}</span>
-        )}
       </div>
 
-      {post.tags?.length > 0 && (
-        <ul className={styles.tagList}>
-          {post.tags.map((tag) => (
-            <li key={tag.slug || tag.name} className={styles.tag}>
-              {tag.name}
-            </li>
-          ))}
-        </ul>
-      )}
+      <TaxonomyChips
+        projects={post.projects}
+        categories={post.categories}
+        tags={post.tags}
+      />
 
       {post.content && (
         <div className={styles.detailContent}>

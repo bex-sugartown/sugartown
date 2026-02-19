@@ -10,6 +10,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getAuthorByline } from '../lib/person'
 import SeoHead from '../components/SeoHead'
+import TaxonomyChips from '../components/TaxonomyChips'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -59,15 +60,11 @@ export default function CaseStudyPage() {
         )}
       </div>
 
-      {caseStudy.categories?.length > 0 && (
-        <ul className={styles.tagList}>
-          {caseStudy.categories.map((cat) => (
-            <li key={cat.slug || cat.name} className={styles.tag}>
-              {cat.name}
-            </li>
-          ))}
-        </ul>
-      )}
+      <TaxonomyChips
+        projects={caseStudy.projects}
+        categories={caseStudy.categories}
+        tags={caseStudy.tags}
+      />
 
       {caseStudy.content && (
         <div className={styles.detailContent}>
