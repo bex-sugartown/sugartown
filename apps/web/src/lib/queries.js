@@ -22,7 +22,17 @@ export const PERSON_FRAGMENT = `
   _id,
   name,
   "slug": slug.current,
-  role
+  titles,
+  "primaryTitle": titles[0],
+  image{
+    asset->{_id, url},
+    alt
+  },
+  links[]{
+    label,
+    url,
+    kind
+  }
 `
 
 /**
@@ -450,7 +460,9 @@ export const allPersonsQuery = `
     _id,
     name,
     "slug": slug.current,
-    role
+    titles,
+    "primaryTitle": titles[0],
+    image{ asset->{ _id, url }, alt }
   }
 `
 
@@ -459,11 +471,13 @@ export const personBySlugQuery = `
     _id,
     name,
     "slug": slug.current,
-    role,
+    titles,
     bio,
-    email,
-    website,
-    image { asset->, alt }
+    image {
+      asset->{ _id, url },
+      alt
+    },
+    links[]{ label, url, kind }
   }
 `
 

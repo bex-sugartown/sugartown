@@ -8,6 +8,7 @@ import { postBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
+import { getAuthorByline } from '../lib/person'
 import SeoHead from '../components/SeoHead'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
@@ -51,7 +52,9 @@ export default function ArticlePage() {
 
       <div className={styles.detailMeta}>
         {post.publishedAt && <span>{formatDate(post.publishedAt)}</span>}
-        {post.author && <span>By {post.author}</span>}
+        {getAuthorByline(post.authors, post.author) && (
+          <span>By {getAuthorByline(post.authors, post.author)}</span>
+        )}
         {post.categories?.length > 0 && (
           <span>{post.categories.map((c) => c.name).join(', ')}</span>
         )}
@@ -60,7 +63,7 @@ export default function ArticlePage() {
       {post.tags?.length > 0 && (
         <ul className={styles.tagList}>
           {post.tags.map((tag) => (
-            <li key={tag.slug?.current || tag.name} className={styles.tag}>
+            <li key={tag.slug || tag.name} className={styles.tag}>
               {tag.name}
             </li>
           ))}

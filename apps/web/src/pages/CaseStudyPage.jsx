@@ -8,6 +8,7 @@ import { caseStudyBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
+import { getAuthorByline } from '../lib/person'
 import SeoHead from '../components/SeoHead'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
@@ -53,12 +54,15 @@ export default function CaseStudyPage() {
         {caseStudy.client && <span>Client: {caseStudy.client}</span>}
         {caseStudy.role && <span>Role: {caseStudy.role}</span>}
         {caseStudy.publishedAt && <span>{formatDate(caseStudy.publishedAt)}</span>}
+        {getAuthorByline(caseStudy.authors) && (
+          <span>By {getAuthorByline(caseStudy.authors)}</span>
+        )}
       </div>
 
       {caseStudy.categories?.length > 0 && (
         <ul className={styles.tagList}>
           {caseStudy.categories.map((cat) => (
-            <li key={cat.slug?.current || cat.name} className={styles.tag}>
+            <li key={cat.slug || cat.name} className={styles.tag}>
               {cat.name}
             </li>
           ))}

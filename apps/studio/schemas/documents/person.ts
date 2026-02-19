@@ -1,18 +1,22 @@
-import {defineType, defineField} from 'sanity'
+import {defineType, defineField, defineArrayMember} from 'sanity'
 import {UserIcon} from '@sanity/icons'
+import {standardPortableText} from '../objects/portableTextConfig'
 
 /**
- * Person Document - Author / Contributor Taxonomy Primitive
+ * Person Document - Author / Contributor / Profile
  *
- * Represents a person who authors or contributes to content (posts, case studies, nodes).
- * Used as a taxonomy reference across all top-level content types via the `authors` field.
+ * The canonical "person" entity across the Sugartown ecosystem.
+ * Used for author attribution on all content types (post, node, caseStudy, page)
+ * and later reusable by the Resume Factory engine.
  *
- * Stage 4: Taxonomy Relationship Architecture
- * - Introduced as a first-class taxonomy primitive (alongside category, tag, project).
- * - Content types reference persons via `authors[]` (array, even if usually one).
- * - Derived facet aggregation uses this to build filter options per archive.
+ * Stage 5: Person/Profile as Reusable Content Type
+ * - Upgraded from Stage 4 stub (name, slug, role, text bio, email, website)
+ * - Now includes: titles[], portable text bio, structured links[]
+ * - Legacy `role`, `email`, `website` fields hidden in favour of titles[] / links[]
+ * - Drives authors[] references across all content types
+ * - Usable as a taxonomy facet via buildFilterModel()
  *
- * Future: expand with bio, social links, headshot image, role.
+ * Route: /people/:slug (reserved — TaxonomyPlaceholderPage until Stage 6)
  */
 export default defineType({
   name: 'person',
@@ -21,15 +25,19 @@ export default defineType({
   icon: UserIcon,
   groups: [
     {name: 'identity', title: 'Identity', default: true},
-    {name: 'meta', title: 'Meta'},
+    {name: 'profile', title: 'Profile'},
+    {name: 'links', title: 'Links'},
+    {name: 'legacy', title: 'Legacy'},
   ],
   fields: [
-    // IDENTITY GROUP
+    // ════════════════════════════════════════════════════════════════════════
+    // IDENTITY GROUP — name, slug
+    // ════════════════════════════════════════════════════════════════════════
     defineField({
       name: 'name',
       title: 'Full Name',
       type: 'string',
-      description: 'Display name (e.g., "Alice Becky" or "Alice B.")',
+      description: 'Display name used everywhere this person is referenced.',
       group: 'identity',
       validation: (Rule) =>
         Rule.required()
@@ -40,7 +48,7 @@ export default defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      description: 'URL-friendly identifier — used for future /people/:slug route',
+      description: 'URL-friendly identifier — used for the /people/:slug route.',
       group: 'identity',
       options: {
         source: 'name',
@@ -49,71 +57,151 @@ export default defineType({
       validation: (Rule) =>
         Rule.required().error('Slug is required. Click "Generate" to create from name.'),
     }),
+
+    // ════════════════════════════════════════════════════════════════════════
+    // PROFILE GROUP — titles, bio, image
+    // ════════════════════════════════════════════════════════════════════════
     defineField({
-      name: 'role',
-      title: 'Role',
-      type: 'string',
-      description: 'Job title or role (e.g., "Designer", "Developer", "Strategist")',
-      group: 'identity',
-      validation: (Rule) => Rule.max(100),
+      name: 'titles',
+      title: 'Roles / Titles',
+      type: 'array',
+      description: 'Job titles or roles (e.g., "Product Manager", "Content Architect"). Shown in author bylines.',
+      group: 'profile',
+      of: [defineArrayMember({type: 'string'})],
+      validation: (Rule) => Rule.unique(),
     }),
     defineField({
       name: 'bio',
-      title: 'Short Bio',
-      type: 'text',
-      description: 'Brief bio shown on author pages and content detail pages',
-      group: 'identity',
-      rows: 3,
-      validation: (Rule) => Rule.max(500).warning('Keep bio concise — under 500 characters'),
+      title: 'Bio',
+      type: 'array',
+      description: 'Short bio for author attribution and profile surfaces. Supports rich text.',
+      group: 'profile',
+      of: standardPortableText,
     }),
     defineField({
       name: 'image',
-      title: 'Headshot',
+      title: 'Profile Image',
       type: 'image',
-      description: 'Author photo or avatar',
-      group: 'identity',
+      description: 'Headshot or avatar shown next to author bylines.',
+      group: 'profile',
       options: {hotspot: true},
       fields: [
         defineField({
           name: 'alt',
           title: 'Alt Text',
           type: 'string',
-          description: 'Describe the image for accessibility',
+          description: 'Describe the image for accessibility (e.g., "Becky smiling at camera")',
         }),
       ],
     }),
 
-    // META GROUP
+    // ════════════════════════════════════════════════════════════════════════
+    // LINKS GROUP — structured external links
+    // ════════════════════════════════════════════════════════════════════════
+    defineField({
+      name: 'links',
+      title: 'Links',
+      type: 'array',
+      description: 'Website, social profiles, and other external links.',
+      group: 'links',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          title: 'Link',
+          fields: [
+            defineField({
+              name: 'label',
+              title: 'Label',
+              type: 'string',
+              description: 'Display label (e.g., "My Portfolio", "@aliceb")',
+              validation: (Rule) => Rule.required().max(60),
+            }),
+            defineField({
+              name: 'url',
+              title: 'URL',
+              type: 'url',
+              validation: (Rule) =>
+                Rule.required().uri({allowRelative: false, scheme: ['http', 'https']}),
+            }),
+            defineField({
+              name: 'kind',
+              title: 'Link Type',
+              type: 'string',
+              description: 'Used for icon display and semantic meaning.',
+              options: {
+                list: [
+                  {title: 'Website', value: 'website'},
+                  {title: 'LinkedIn', value: 'linkedin'},
+                  {title: 'GitHub', value: 'github'},
+                  {title: 'Twitter / X', value: 'twitter'},
+                  {title: 'Instagram', value: 'instagram'},
+                  {title: 'Other', value: 'other'},
+                ],
+                layout: 'dropdown',
+              },
+              initialValue: 'other',
+            }),
+          ],
+          preview: {
+            select: {label: 'label', kind: 'kind', url: 'url'},
+            prepare({label, kind, url}) {
+              return {
+                title: label || url || 'Untitled Link',
+                subtitle: kind || 'other',
+              }
+            },
+          },
+        }),
+      ],
+    }),
+
+    // ════════════════════════════════════════════════════════════════════════
+    // LEGACY GROUP — Stage 4 stub fields, hidden from Studio
+    // Data is preserved in Sanity; these fields are no longer edited directly.
+    // TODO Stage 6+: run migration script, then remove these fields.
+    // ════════════════════════════════════════════════════════════════════════
+    defineField({
+      name: 'role',
+      title: 'Role (Legacy)',
+      type: 'string',
+      description: 'Superseded by "Roles / Titles" above. Kept for data safety only.',
+      group: 'legacy',
+      hidden: true,
+    }),
     defineField({
       name: 'email',
-      title: 'Email',
+      title: 'Email (Legacy)',
       type: 'email',
-      description: 'Contact email (optional — not shown publicly unless intended)',
-      group: 'meta',
+      description: 'Moved to Links. Kept for data safety only.',
+      group: 'legacy',
+      hidden: true,
     }),
     defineField({
       name: 'website',
-      title: 'Website',
+      title: 'Website (Legacy)',
       type: 'url',
-      description: 'Personal site or portfolio URL',
-      group: 'meta',
-      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+      description: 'Superseded by structured Links array. Kept for data safety only.',
+      group: 'legacy',
+      hidden: true,
     }),
   ],
+
   preview: {
     select: {
       title: 'name',
-      subtitle: 'role',
+      subtitle0: 'titles[0]',
+      subtitleLegacy: 'role',
       media: 'image',
     },
-    prepare({title, subtitle, media}) {
+    prepare({title, subtitle0, subtitleLegacy, media}) {
       return {
         title: title || 'Unnamed Person',
-        subtitle: subtitle || '',
+        subtitle: subtitle0 || subtitleLegacy || '',
         media,
       }
     },
   },
+
   orderings: [
     {
       title: 'Name (A-Z)',

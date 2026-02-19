@@ -8,6 +8,7 @@ import { nodeBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
+import { getAuthorByline } from '../lib/person'
 import SeoHead from '../components/SeoHead'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
@@ -56,6 +57,9 @@ export default function NodePage() {
 
       <div className={styles.detailMeta}>
         {node.publishedAt && <span>{formatDate(node.publishedAt)}</span>}
+        {getAuthorByline(node.authors) && (
+          <span>By {getAuthorByline(node.authors)}</span>
+        )}
         {node.status && <span>Status: {node.status}</span>}
       </div>
 
@@ -91,7 +95,7 @@ export default function NodePage() {
       {node.categories?.length > 0 && (
         <ul className={styles.tagList} style={{ marginTop: '2rem' }}>
           {node.categories.map((cat) => (
-            <li key={cat.slug?.current || cat.name} className={styles.tag}>
+            <li key={cat.slug || cat.name} className={styles.tag}>
               {cat.name}
             </li>
           ))}

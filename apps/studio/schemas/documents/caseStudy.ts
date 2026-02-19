@@ -160,14 +160,15 @@ export default defineType({
       name: 'authors',
       title: 'Authors',
       type: 'array',
-      description: 'Person references — the canonical author taxonomy field (array supports co-authors)',
+      description: 'Select existing persons or create new — the canonical author field.',
       group: 'connections',
       of: [
         defineArrayMember({
           type: 'reference',
           to: [{type: 'person'}]
         })
-      ]
+      ],
+      validation: (Rule) => Rule.unique()
     }),
     defineField({
       name: 'categories',

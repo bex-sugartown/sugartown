@@ -81,8 +81,11 @@ export default defineType({
       name: 'author',
       title: 'Author (Legacy)',
       type: 'string',
-      description: 'Legacy plain-text author. Prefer "Authors" (person references) going forward.',
+      // Stage 5: hidden from Studio — use authors[] (person references) instead.
+      // Data preserved in Sanity for migration. TODO Stage 6+: remove after migration.
+      description: 'Legacy plain-text author. Superseded by "Authors" (person references). Hidden from Studio.',
       group: 'metadata',
+      hidden: true,
       validation: (Rule) => Rule.max(100)
     }),
     defineField({
@@ -108,14 +111,15 @@ export default defineType({
       name: 'authors',
       title: 'Authors',
       type: 'array',
-      description: 'Person references — the canonical author taxonomy field (array supports co-authors)',
+      description: 'Select existing persons or create new — the canonical author field.',
       group: 'connections',
       of: [
         defineArrayMember({
           type: 'reference',
           to: [{type: 'person'}]
         })
-      ]
+      ],
+      validation: (Rule) => Rule.unique()
     }),
     defineField({
       name: 'categories',
