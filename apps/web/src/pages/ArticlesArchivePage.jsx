@@ -1,9 +1,9 @@
 /**
- * ArticlesArchivePage — lists all published `post` documents.
+ * ArticlesArchivePage — lists all published `article` documents.
  * Route: /articles
  */
 import { Link } from 'react-router-dom'
-import { allPostsQuery } from '../lib/queries'
+import { allArticlesQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
 import { useSanityList } from '../lib/useSanityDoc'
 import styles from './pages.module.css'
@@ -18,7 +18,7 @@ function formatDate(dateStr) {
 }
 
 export default function ArticlesArchivePage() {
-  const { data: posts, loading } = useSanityList(allPostsQuery)
+  const { data: posts, loading } = useSanityList(allArticlesQuery)
 
   return (
     <main className={styles.archivePage}>
@@ -38,7 +38,7 @@ export default function ArticlesArchivePage() {
           {posts.map((post) => (
             <Link
               key={post._id}
-              to={getCanonicalPath({ docType: 'post', slug: post.slug?.current })}
+              to={getCanonicalPath({ docType: 'article', slug: post.slug?.current })}
               className={styles.archiveCard}
             >
               <p className={styles.archiveCardTitle}>{post.title}</p>

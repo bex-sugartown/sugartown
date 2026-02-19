@@ -1,6 +1,6 @@
 // GROQ queries for fetching Sanity content
 //
-// All queries for Sugartown CMS: site settings, pages, nodes, posts, case studies, taxonomy.
+// All queries for Sugartown CMS: site settings, pages, nodes, articles, case studies, taxonomy.
 // Site-wide config (header, footer, nav, preheader) comes from siteSettingsQuery.
 // Page content uses composable sections fetched via pageBySlugQuery.
 //
@@ -201,10 +201,10 @@ export const nodeBySlugQuery = `
   }
 `
 
-// ---- BLOG POSTS ----
+// ---- ARTICLES ----
 
-export const allPostsQuery = `
-  *[_type == "post"] | order(publishedAt desc) {
+export const allArticlesQuery = `
+  *[_type == "article"] | order(publishedAt desc) {
     _id,
     title,
     slug,
@@ -224,8 +224,8 @@ export const allPostsQuery = `
   }
 `
 
-export const postBySlugQuery = `
-  *[_type == "post" && slug.current == $slug][0] {
+export const articleBySlugQuery = `
+  *[_type == "article" && slug.current == $slug][0] {
     _id,
     title,
     slug,
@@ -431,7 +431,7 @@ export const allPublishedSlugsQuery = `
       title,
       "slug": slug.current
     },
-    "posts": *[_type == "post" && defined(slug.current)] {
+    "articles": *[_type == "article" && defined(slug.current)] {
       _id,
       _type,
       title,
@@ -559,7 +559,7 @@ export const projectByIdQuery = `
 
 /**
  * FACETS_RAW_QUERY
- * For a set of contentTypes (e.g., ['node'] or ['post', 'caseStudy']),
+ * For a set of contentTypes (e.g., ['node'] or ['article', 'caseStudy']),
  * returns all items with their taxonomy references expanded.
  * Used by buildFilterModel() to derive available facet options + counts.
  *

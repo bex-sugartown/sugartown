@@ -52,7 +52,7 @@ loadEnv()
 // Duplicated here so the script has no bundler dependency.
 
 const TYPE_NAMESPACES = {
-  post: 'articles',
+  article: 'articles',
   caseStudy: 'case-studies',
   node: 'nodes',
 }
@@ -121,12 +121,12 @@ const client = createClient({ projectId, dataset, apiVersion, useCdn: false })
 
 const query = `{
   "pages": *[_type == "page" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
-  "posts": *[_type == "post" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
+  "articles": *[_type == "article" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
   "caseStudies": *[_type == "caseStudy" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
   "nodes": *[_type == "node" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
   "archivePages": *[_type == "archivePage" && defined(slug.current)] { _id, _type, title, "slug": slug.current, contentTypes },
   "pagesNoSlug": *[_type == "page" && !defined(slug.current)] { _id, _type, title },
-  "postsNoSlug": *[_type == "post" && !defined(slug.current)] { _id, _type, title },
+  "articlesNoSlug": *[_type == "article" && !defined(slug.current)] { _id, _type, title },
   "caseStudiesNoSlug": *[_type == "caseStudy" && !defined(slug.current)] { _id, _type, title },
   "nodesNoSlug": *[_type == "node" && !defined(slug.current)] { _id, _type, title },
   "navItems": *[_type == "navigation"][0...10] {
@@ -157,10 +157,10 @@ async function run() {
     process.exit(1)
   }
 
-  const { pages, posts, caseStudies, nodes, archivePages } = data
+  const { pages, articles, caseStudies, nodes, archivePages } = data
   const missingSlug = [
     ...data.pagesNoSlug,
-    ...data.postsNoSlug,
+    ...data.articlesNoSlug,
     ...data.caseStudiesNoSlug,
     ...data.nodesNoSlug,
   ]
@@ -174,7 +174,7 @@ async function run() {
   const duplicates = []
   const allDocs = [
     ...pages.map((d) => ({ ...d, docType: 'page' })),
-    ...posts.map((d) => ({ ...d, docType: 'post' })),
+    ...articles.map((d) => ({ ...d, docType: 'article' })),
     ...caseStudies.map((d) => ({ ...d, docType: 'caseStudy' })),
     ...nodes.map((d) => ({ ...d, docType: 'node' })),
   ]
@@ -198,7 +198,7 @@ async function run() {
   console.log('──────────────────────────────────────────────')
   console.log(`   Total docs with slugs inspected: ${totalDocs}`)
   console.log(`     pages:        ${pages.length}`)
-  console.log(`     posts:        ${posts.length}`)
+  console.log(`     articles:     ${articles.length}`)
   console.log(`     caseStudies:  ${caseStudies.length}`)
   console.log(`     nodes:        ${nodes.length}`)
   console.log()

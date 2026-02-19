@@ -6,7 +6,7 @@
  * Architecture:
  * - Objects: Atomic, reusable components (link, richImage, ctaButton, portableText configs)
  * - Sections: Page builder components (hero, textSection, imageGallery, ctaSection)
- * - Documents: Top-level content types (nodes, posts, pages, case studies, etc.)
+ * - Documents: Top-level content types (nodes, articles, pages, case studies, etc.)
  *
  * Pattern: Resume Factory-inspired - references over strings, atomic objects, composability
  */
@@ -51,7 +51,7 @@ import person from './documents/person'
 
 // Core Content (New)
 import node from './documents/node'
-import post from './documents/post'
+import article from './documents/article'
 import page from './documents/page'
 import caseStudy from './documents/caseStudy'
 
@@ -108,7 +108,7 @@ export const schemaTypes = [
 
   // Documents - Core Content (New)
   node,
-  post,
+  article,
   page,
   caseStudy,
 
@@ -132,10 +132,10 @@ export const schemaTypes = [
  *
  * Suggested groupings:
  * - Knowledge Graph: node
- * - Content: post, page, caseStudy, archivePage
+ * - Content: article, page, caseStudy, archivePage
  * - Taxonomy: category, tag, project
  * - Site Config: navigation, siteSettings
  *
  * Embedded objects (not standalone documents):
- * - seoMetadata: Reusable SEO object embedded in pages, posts, archive pages
+ * - seoMetadata: Reusable SEO object embedded in pages, articles, archive pages
  */

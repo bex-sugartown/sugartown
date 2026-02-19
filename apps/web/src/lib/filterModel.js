@@ -10,7 +10,7 @@
  *
  * Key principle: relationships are derived from content usage, not from taxonomy docs.
  * Taxonomy docs (category, tag, project, person) are labels/metadata.
- * Content items (node, post, caseStudy, page) are the source of truth for what appears.
+ * Content items (node, article, caseStudy, page) are the source of truth for what appears.
  *
  * FilterModel TypeScript contract (implemented here in plain JS):
  *

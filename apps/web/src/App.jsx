@@ -47,6 +47,12 @@ function App() {
         {/* ── Homepage ─────────────────────────────────────────────── */}
         <Route path="/" element={<HomePage />} />
 
+        {/* ── Legacy post/blog redirects (Stage 6: post → article rename) ── */}
+        <Route path="/blog" element={<Navigate to="/articles" replace />} />
+        <Route path="/blog/:slug" element={<Navigate to="/articles" replace />} />
+        <Route path="/posts" element={<Navigate to="/articles" replace />} />
+        <Route path="/post/:slug" element={<Navigate to="/articles" replace />} />
+
         {/* ── Archive pages — driven by Sanity archivePage documents ── */}
         {/* Each archive slug is passed explicitly; 404 if doc unpublished */}
         <Route path="/articles" element={<ArchivePage archiveSlug="articles" />} />

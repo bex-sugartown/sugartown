@@ -1,10 +1,10 @@
 /**
- * ArticlePage — renders a single Sanity `post` document.
+ * ArticlePage — renders a single Sanity `article` document.
  * Route: /articles/:slug
  */
 import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
-import { postBySlugQuery } from '../lib/queries'
+import { articleBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
@@ -24,13 +24,13 @@ function formatDate(dateStr) {
 
 export default function ArticlePage() {
   const { slug } = useParams()
-  const { data: post, loading, notFound } = useSanityDoc(postBySlugQuery, { slug })
+  const { data: post, loading, notFound } = useSanityDoc(articleBySlugQuery, { slug })
   const siteSettings = useSiteSettings()
 
   const seo = resolveSeo({
     docSeo: post?.seo ?? null,
     docTitle: post?.title ?? null,
-    docType: 'post',
+    docType: 'article',
     docSlug: slug,
     siteDefaults: siteSettings,
   })

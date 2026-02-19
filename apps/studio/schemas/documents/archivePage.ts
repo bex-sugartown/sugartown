@@ -73,7 +73,7 @@ import {MasterDetailIcon} from '@sanity/icons'
  *     tags[]->{ title, slug }
  *   }
  * `, {
- *   contentTypes: ['caseStudy', 'post', 'node'],
+ *   contentTypes: ['caseStudy', 'article', 'node'],
  *   categoryId: 'category-id-here',
  *   tagId: 'tag-id-here',
  *   searchTerm: 'ai*',
@@ -96,7 +96,7 @@ import {MasterDetailIcon} from '@sanity/icons'
  *     slug,
  *     "count": count(*[_type in $contentTypes && references(^._id)])
  *   }[count > 0]
- * }`, { contentTypes: ['caseStudy', 'post', 'node'] })
+ * }`, { contentTypes: ['caseStudy', 'article', 'node'] })
  *
  *
  * 4. Example: Query all Nodes for Knowledge Graph archive page:
@@ -252,7 +252,7 @@ export default defineType({
       options: {
         list: [
           {title: 'Case Studies', value: 'caseStudy'},
-          {title: 'Blog Posts', value: 'post'},
+          {title: 'Articles', value: 'article'},
           {title: 'Projects', value: 'project'},
           {title: 'Nodes (Knowledge Graph)', value: 'node'}
         ]
@@ -275,7 +275,7 @@ export default defineType({
           type: 'reference',
           to: [
             {type: 'caseStudy'},
-            {type: 'post'},
+            {type: 'article'},
             {type: 'project'},
             {type: 'node'}
           ]
@@ -480,7 +480,7 @@ export default defineType({
           name: 'showContentTypeFilter',
           title: 'Show Content Type Filter',
           type: 'boolean',
-          description: 'Let users filter by case study, blog post, node, etc.',
+          description: 'Let users filter by case study, article, node, etc.',
           initialValue: true
         }),
         defineField({
@@ -594,7 +594,7 @@ export default defineType({
     prepare({title, slug, contentTypes}) {
       const typeLabels: Record<string, string> = {
         caseStudy: 'Case Studies',
-        post: 'Blog Posts',
+        article: 'Articles',
         project: 'Projects',
         node: 'Nodes'
       }

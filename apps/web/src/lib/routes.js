@@ -8,10 +8,10 @@
  * URL namespace scheme (industry standard multi-type CMS):
  *   /                         → homepage (singleton)
  *   /:slug                    → page type (root pages: /about, /contact, etc.)
- *   /articles/:slug           → post type
+ *   /articles/:slug           → article type
  *   /case-studies/:slug       → caseStudy type
  *   /nodes/:slug              → node type (knowledge graph)
- *   /articles                 → post archive landing
+ *   /articles                 → article archive landing
  *   /case-studies             → caseStudy archive landing
  *   /knowledge-graph          → node archive landing
  *   /tags/:slug               → tag taxonomy (reserved, placeholder)
@@ -24,7 +24,7 @@
 
 /** Maps Sanity _type to its URL namespace prefix. */
 export const TYPE_NAMESPACES = {
-  post: 'articles',
+  article: 'articles',
   caseStudy: 'case-studies',
   node: 'nodes',
   // "page" has no prefix — it resolves at root: /:slug
@@ -80,12 +80,12 @@ export function normalizeSlug(input) {
  * This is the ONLY place URLs are constructed from doc type + slug.
  *
  * @param {object} params
- * @param {string} params.docType  – Sanity _type (e.g. "post", "page", "node")
+ * @param {string} params.docType  – Sanity _type (e.g. "article", "page", "node")
  * @param {string} params.slug     – slug.current value
  * @returns {string} Canonical path (always starts with /)
  *
  * Examples:
- *   getCanonicalPath({ docType: 'post', slug: 'my-post' })     → '/articles/my-post'
+ *   getCanonicalPath({ docType: 'article', slug: 'my-article' }) → '/articles/my-article'
  *   getCanonicalPath({ docType: 'caseStudy', slug: 'acme' })   → '/case-studies/acme'
  *   getCanonicalPath({ docType: 'node', slug: 'gpt-4' })       → '/nodes/gpt-4'
  *   getCanonicalPath({ docType: 'page', slug: 'about' })       → '/about'
@@ -121,7 +121,7 @@ export function getCanonicalPath({ docType, slug }) {
  */
 export function getArchivePath(docType) {
   const map = {
-    post: '/articles',
+    article: '/articles',
     caseStudy: '/case-studies',
     node: '/knowledge-graph',
   }

@@ -40,7 +40,7 @@ export default defineConfig({
                 S.list()
                   .title('Content')
                   .items([
-                    S.documentTypeListItem('post').title('Blog Posts'),
+                    S.documentTypeListItem('article').title('Articles'),
                     S.documentTypeListItem('page').title('Pages'),
                     S.documentTypeListItem('caseStudy').title('Case Studies'),
                     S.documentTypeListItem('archivePage').title('Archive Pages'),
