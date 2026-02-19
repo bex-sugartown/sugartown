@@ -153,20 +153,13 @@ export default defineType({
           input.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/^-+|-+$/g, '')
       },
       validation: (Rule) =>
-        Rule.required().custom(async (slug, context) => {
+        Rule.required().custom((slug) => {
           if (!slug?.current) return 'Slug is required'
           const pattern = /^[a-z0-9][a-z0-9-]*[a-z0-9]$|^[a-z0-9]$/
           if (!pattern.test(slug.current)) {
             return 'Slug must contain only lowercase letters, numbers, and hyphens — no leading or trailing slashes (e.g., case-studies)'
           }
-          const {document, getClient} = context
-          const client = getClient({apiVersion: '2024-01-01'})
-          const id = document._id.replace(/^drafts\./, '')
-          const existing = await client.fetch(
-            `*[_type == "archivePage" && slug.current == $slug && !(_id in [$id, $draftId])][0]`,
-            {slug: slug.current, id, draftId: `drafts.${id}`}
-          )
-          return existing ? `The slug "${slug.current}" is already used by another archive page` : true
+          return true
         })
     }),
     defineField({
