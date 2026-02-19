@@ -197,19 +197,9 @@ export default defineType({
 
   preview: {
     select: {
-      title: 'name',
-      shortName: 'shortName',
-      subtitle0: 'titles[0]',
-      subtitleLegacy: 'role',
+      title: 'shortName',
+      subtitle: 'name',
       media: 'image.asset',
-    },
-    prepare({title, shortName, subtitle0, subtitleLegacy, media}) {
-      const displayName = shortName ? `${title} (${shortName})` : title
-      return {
-        title: displayName || 'Unnamed Person',
-        subtitle: subtitle0 || subtitleLegacy || '',
-        media,
-      }
     },
   },
 
