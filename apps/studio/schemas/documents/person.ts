@@ -210,7 +210,7 @@ export default defineType({
       shortName: 'shortName',
       subtitle0: 'titles[0]',
       subtitleLegacy: 'role',
-      media: 'image',
+      media: 'image.asset',
     },
     prepare({title, shortName, subtitle0, subtitleLegacy, media}) {
       const displayName = shortName ? `${title} (${shortName})` : title
