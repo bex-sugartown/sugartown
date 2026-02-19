@@ -212,6 +212,37 @@ import { config } from '../../studio/sanity.config'
 // Error: apps/web cannot import from apps/studio
 ```
 
+## 🧩 Component & Schema Architecture
+
+### Current (use these)
+
+| Layer | What to use | Where config lives |
+|---|---|---|
+| **Site header** | `Header.jsx` | `siteSettings.primaryNav`, `siteSettings.headerCta`, `siteSettings.preheader` |
+| **Site footer** | `Footer.jsx` | `siteSettings.footerColumns`, `siteSettings.socialLinks`, `siteSettings.copyrightText` |
+| **Page sections** | `PageSections.jsx` | `page.sections[]` — heroSection, textSection, imageGallery, ctaSection |
+| **Branding/SEO** | `siteSettings` doc | Logo, favicon, default meta, OG image |
+
+**Data flow:** `App.jsx` fetches `siteSettingsQuery` + `pageBySlugQuery` once, then passes `siteSettings` as a prop to Header and Footer. Page sections are rendered by `PageSections.jsx`.
+
+### Deprecated (do not add new content here)
+
+These schemas and components still exist for backwards compatibility but are not wired to the frontend. They are marked with `WarningOutlineIcon` and `[DEPRECATED]` in Studio, and `@deprecated` JSDoc in code.
+
+| Deprecated | Replaced by | Notes |
+|---|---|---|
+| `header` schema / `singleton-header` doc | `siteSettings.primaryNav` | Studio shows warning icon |
+| `footer` schema / `singleton-footer` doc | `siteSettings.footerColumns` | Doc never existed — returns null |
+| `hero` schema | `page.sections[heroSection]` | Legacy data in Sanity, not rendered |
+| `contentBlock` schema | `page.sections[textSection]` | Legacy data in Sanity, not rendered |
+| `HomepageHero.jsx` | `PageSections.jsx` heroSection | Not imported anywhere, safe to delete |
+
+### Adding new page content
+
+1. Add a new section type to `apps/studio/schemas/documents/page.ts`
+2. Handle it in `apps/web/src/components/PageSections.jsx`
+3. Update `pageBySlugQuery` in `apps/web/src/lib/queries.js` to project the new fields
+
 ## 📁 Key File Locations
 
 ```

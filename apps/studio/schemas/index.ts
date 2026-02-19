@@ -6,7 +6,7 @@
  * Architecture:
  * - Objects: Atomic, reusable components (link, richImage, ctaButton, portableText configs)
  * - Sections: Page builder components (hero, textSection, imageGallery, ctaSection)
- * - Documents: Top-level content types (nodes, posts, pages, case studies, etc.)
+ * - Documents: Top-level content types (nodes, articles, pages, case studies, etc.)
  *
  * Pattern: Resume Factory-inspired - references over strings, atomic objects, composability
  */
@@ -20,6 +20,7 @@ import link from './objects/link'
 import richImage from './objects/richImage'
 import ctaButton from './objects/ctaButton'
 import editorialCard from './objects/editorialCard'
+import seoMetadata from './objects/seoMetadata'
 
 // Legacy schemas
 import logo from './objects/logo'
@@ -46,10 +47,11 @@ import ctaSection from './sections/ctaSection'
 import category from './documents/category'
 import tag from './documents/tag'
 import project from './documents/project'
+import person from './documents/person'
 
 // Core Content (New)
 import node from './documents/node'
-import post from './documents/post'
+import article from './documents/article'
 import page from './documents/page'
 import caseStudy from './documents/caseStudy'
 
@@ -59,6 +61,7 @@ import siteSettings from './documents/siteSettings'
 import preheader from './documents/preheader'
 import ctaButtonDoc from './documents/ctaButtonDoc'
 import homepage from './documents/homepage'
+import archivePage from './documents/archivePage'
 
 // Legacy Documents (DEPRECATED - kept for backwards compatibility only)
 // Use siteSettings for header/footer, homepage for hero, page sections for content
@@ -83,6 +86,7 @@ export const schemaTypes = [
   richImage,
   ctaButton,
   editorialCard,
+  seoMetadata,
 
   // Objects - Legacy
   logo,
@@ -100,10 +104,11 @@ export const schemaTypes = [
   category,
   tag,
   project,
+  person,
 
   // Documents - Core Content (New)
   node,
-  post,
+  article,
   page,
   caseStudy,
 
@@ -113,6 +118,7 @@ export const schemaTypes = [
   preheader,
   ctaButtonDoc,
   homepage,
+  archivePage,
 
   // Documents - Legacy (DEPRECATED)
   header,
@@ -126,7 +132,10 @@ export const schemaTypes = [
  *
  * Suggested groupings:
  * - Knowledge Graph: node
- * - Content: post, page, caseStudy
+ * - Content: article, page, caseStudy, archivePage
  * - Taxonomy: category, tag, project
  * - Site Config: navigation, siteSettings
+ *
+ * Embedded objects (not standalone documents):
+ * - seoMetadata: Reusable SEO object embedded in pages, articles, archive pages
  */

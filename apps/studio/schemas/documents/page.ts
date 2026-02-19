@@ -1,11 +1,23 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {DocumentIcon} from '@sanity/icons'
+// Stage 4: taxonomy references added to page — same primitives as post/caseStudy/node
 
 /**
  * Page Document - Flexible Page Builder
  *
- * Static pages with modular section-based layout
- * Supports hierarchical page structures (parent-child relationships)
+ * Static pages with modular section-based layout.
+ * Supports hierarchical page structures (parent-child relationships).
+ *
+ * SEO: uses the shared `seoMetadata` object (Schema 1: SEO Metadata).
+ * All four top-level content types (page, post, caseStudy, node) use the
+ * same `seo` field of type `seoMetadata` for a consistent Studio UI and
+ * a consistent GROQ projection shape.
+ *
+ * Migration note: previously `seo` was an inline object with
+ * metaTitle / metaDescription / ogImage. Those sub-field names no longer
+ * exist in this schema. Existing stored values are not erased — they are
+ * simply not projected. No Sanity data migration required at this stage;
+ * content teams can re-enter SEO values via Studio.
  */
 export default defineType({
   name: 'page',
@@ -58,6 +70,61 @@ export default defineType({
       ]
     }),
 
+    // CONNECTIONS GROUP (Stage 4: Taxonomy Relationship Architecture)
+    // Pages rarely need taxonomy, but having these fields unifies the model across all top-level types.
+    defineField({
+      name: 'authors',
+      title: 'Authors',
+      type: 'array',
+      description: 'Person references — canonical author taxonomy field',
+      group: 'settings',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'person'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
+      description: 'Page categories — optional for organisation',
+      group: 'settings',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'category'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      description: 'Page tags — optional for organisation',
+      group: 'settings',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'tag'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'projects',
+      title: 'Projects',
+      type: 'array',
+      description: 'Related projects — canonical project taxonomy field',
+      group: 'settings',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'project'}]
+        })
+      ]
+    }),
+
     // SETTINGS GROUP
     defineField({
       name: 'template',
@@ -93,41 +160,14 @@ export default defineType({
       }
     }),
 
-    // SEO GROUP
+    // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)
+    // Identical across page / post / caseStudy / node for Studio UI consistency.
     defineField({
       name: 'seo',
-      title: 'SEO Settings',
-      type: 'object',
-      description: 'Search engine optimization overrides',
+      title: 'SEO',
+      type: 'seoMetadata',
       group: 'seo',
-      fields: [
-        defineField({
-          name: 'metaTitle',
-          title: 'Meta Title',
-          type: 'string',
-          description: 'Override the page title for SEO (defaults to page title)',
-          validation: (Rule) =>
-            Rule.max(60)
-              .warning('Meta titles should be under 60 characters for best SEO')
-        }),
-        defineField({
-          name: 'metaDescription',
-          title: 'Meta Description',
-          type: 'text',
-          rows: 2,
-          description: 'Brief description for search results',
-          validation: (Rule) =>
-            Rule.max(160)
-              .warning('Meta descriptions should be under 160 characters for best SEO')
-        }),
-        defineField({
-          name: 'ogImage',
-          title: 'Social Share Image',
-          type: 'richImage',
-          description: 'Image for social media sharing (Open Graph)'
-        })
-      ]
-    })
+    }),
   ],
   preview: {
     select: {

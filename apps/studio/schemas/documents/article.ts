@@ -3,17 +3,17 @@ import {DocumentTextIcon} from '@sanity/icons'
 import {standardPortableText} from '../objects/portableTextConfig'
 
 /**
- * Post Document - Blog Post
+ * Article Document
  *
- * Standard blog post content type with rich content support.
- * Migrated from WordPress posts.
+ * Standard article content type with rich content support.
+ * Previously named "post" / "Blog Post" — renamed in Stage 6 for semantic clarity.
+ * Sugartown is not a feed; it is a structured content system.
  *
  * SEO: uses the shared `seoMetadata` object (Schema 1: SEO Metadata).
- * // TODO Stage 6: rename post → article; SEO already aligned
  */
 export default defineType({
-  name: 'post',
-  title: 'Blog Post',
+  name: 'article',
+  title: 'Article',
   type: 'document',
   icon: DocumentTextIcon,
   groups: [
@@ -28,7 +28,7 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      description: 'The blog post title',
+      description: 'The article title',
       group: 'content',
       validation: (Rule) =>
         Rule.required()
@@ -53,7 +53,7 @@ export default defineType({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
-      description: 'Brief summary for post listings and social sharing',
+      description: 'Brief summary for article listings and social sharing',
       group: 'content',
       rows: 3,
       validation: (Rule) =>
@@ -64,14 +64,14 @@ export default defineType({
       name: 'featuredImage',
       title: 'Featured Image',
       type: 'richImage',
-      description: 'Main image for the post (shown in listings and headers)',
+      description: 'Main image for the article (shown in listings and headers)',
       group: 'content'
     }),
     defineField({
       name: 'content',
       title: 'Content',
       type: 'array',
-      description: 'Full post content',
+      description: 'Full article content',
       group: 'content',
       of: standardPortableText
     }),
@@ -82,7 +82,7 @@ export default defineType({
       title: 'Author (Legacy)',
       type: 'string',
       // Stage 5: hidden from Studio — use authors[] (person references) instead.
-      // Data preserved in Sanity for migration. TODO Stage 6+: remove after migration.
+      // Data preserved in Sanity for migration. TODO Stage 7+: remove after migration.
       description: 'Legacy plain-text author. Superseded by "Authors" (person references). Hidden from Studio.',
       group: 'metadata',
       hidden: true,
@@ -92,7 +92,7 @@ export default defineType({
       name: 'publishedAt',
       title: 'Published At',
       type: 'datetime',
-      description: 'When was this post published?',
+      description: 'When was this article published?',
       group: 'metadata',
       validation: (Rule) => Rule.required().error('Published date is required'),
       initialValue: () => new Date().toISOString()
@@ -101,7 +101,7 @@ export default defineType({
       name: 'updatedAt',
       title: 'Updated At',
       type: 'datetime',
-      description: 'Last significant update to this post',
+      description: 'Last significant update to this article',
       group: 'metadata'
     }),
 
@@ -125,7 +125,7 @@ export default defineType({
       name: 'categories',
       title: 'Categories',
       type: 'array',
-      description: 'Post categories',
+      description: 'Article categories',
       group: 'connections',
       of: [
         defineArrayMember({
@@ -141,7 +141,7 @@ export default defineType({
       name: 'tags',
       title: 'Tags',
       type: 'array',
-      description: 'Post tags',
+      description: 'Article tags',
       group: 'connections',
       of: [
         defineArrayMember({
@@ -178,7 +178,7 @@ export default defineType({
     }),
 
     // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)
-    // Identical across page / post / caseStudy / node for Studio UI consistency.
+    // Identical across page / article / caseStudy / node for Studio UI consistency.
     defineField({
       name: 'seo',
       title: 'SEO',
@@ -189,17 +189,15 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
-      author: 'author',
       date: 'publishedAt',
       media: 'featuredImage.asset'
     },
-    prepare({title, author, date, media}) {
+    prepare({title, date, media}) {
       const formattedDate = date ? new Date(date).toLocaleDateString() : 'No date'
-
       return {
-        title: title || 'Untitled Post',
-        subtitle: `${author || 'No author'} • ${formattedDate}`,
-        media: media
+        title: title || 'Untitled Article',
+        subtitle: formattedDate,
+        media
       }
     }
   },

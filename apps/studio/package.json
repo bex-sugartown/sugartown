@@ -1,5 +1,5 @@
 {
-  "name": "sugartownsanity",
+  "name": "studio",
   "private": true,
   "version": "1.0.0",
   "main": "package.json",
@@ -18,10 +18,10 @@
     "@sanity/code-input": "^7.0.6",
     "@sanity/color-input": "^6.0.3",
     "@sanity/icons": "^3.7.4",
-    "@sanity/vision": "^5.7.0",
+    "@sanity/vision": "^5.11.0",
     "react": "^19.1",
     "react-dom": "^19.1",
-    "sanity": "^5.7.0",
+    "sanity": "^5.11.0",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {

@@ -4,8 +4,10 @@ import {CaseIcon} from '@sanity/icons'
 /**
  * Case Study Document - Portfolio Work
  *
- * Showcase portfolio projects and client work with flexible section-based layout
- * Similar to Page but with additional project-specific metadata
+ * Showcase portfolio projects and client work with flexible section-based layout.
+ * Similar to Page but with additional project-specific metadata.
+ *
+ * SEO: uses the shared `seoMetadata` object (Schema 1: SEO Metadata).
  */
 export default defineType({
   name: 'caseStudy',
@@ -15,7 +17,8 @@ export default defineType({
   groups: [
     {name: 'content', title: 'Content', default: true},
     {name: 'projectDetails', title: 'Project Details'},
-    {name: 'connections', title: 'Connections'}
+    {name: 'connections', title: 'Connections'},
+    {name: 'seo', title: 'SEO'},
   ],
   fields: [
     // CONTENT GROUP
@@ -152,6 +155,21 @@ export default defineType({
     }),
 
     // CONNECTIONS GROUP
+    // Stage 4: Canonical taxonomy primitives — authors, categories, tags, projects
+    defineField({
+      name: 'authors',
+      title: 'Authors',
+      type: 'array',
+      description: 'Select existing persons or create new — the canonical author field.',
+      group: 'connections',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'person'}]
+        })
+      ],
+      validation: (Rule) => Rule.unique()
+    }),
     defineField({
       name: 'categories',
       title: 'Categories',
@@ -182,10 +200,10 @@ export default defineType({
       ]
     }),
     defineField({
-      name: 'relatedProjects',
-      title: 'Related Projects',
+      name: 'projects',
+      title: 'Projects',
       type: 'array',
-      description: 'Link this case study to active projects',
+      description: 'Canonical project taxonomy field. Prefer this over "Related Projects".',
       group: 'connections',
       of: [
         defineArrayMember({
@@ -193,7 +211,29 @@ export default defineType({
           to: [{type: 'project'}]
         })
       ]
-    })
+    }),
+    defineField({
+      name: 'relatedProjects',
+      title: 'Related Projects (Legacy)',
+      type: 'array',
+      description: 'Legacy field — kept for backward compatibility. Prefer "Projects" above.',
+      group: 'connections',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'project'}]
+        })
+      ]
+    }),
+
+    // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)
+    // Identical across page / post / caseStudy / node for Studio UI consistency.
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seoMetadata',
+      group: 'seo',
+    }),
   ],
   preview: {
     select: {

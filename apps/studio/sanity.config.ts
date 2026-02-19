@@ -40,9 +40,10 @@ export default defineConfig({
                 S.list()
                   .title('Content')
                   .items([
-                    S.documentTypeListItem('post').title('Blog Posts'),
+                    S.documentTypeListItem('article').title('Articles'),
                     S.documentTypeListItem('page').title('Pages'),
                     S.documentTypeListItem('caseStudy').title('Case Studies'),
+                    S.documentTypeListItem('archivePage').title('Archive Pages'),
                   ])
               ),
 
@@ -56,6 +57,7 @@ export default defineConfig({
                 S.list()
                   .title('Taxonomy')
                   .items([
+                    S.documentTypeListItem('person').title('People'),
                     S.documentTypeListItem('category').title('Categories'),
                     S.documentTypeListItem('tag').title('Tags'),
                     S.documentTypeListItem('project').title('Projects'),

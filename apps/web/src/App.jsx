@@ -1,62 +1,93 @@
 import { useEffect, useState } from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { client } from './lib/sanity'
-import { heroesQuery, contentBlocksQuery } from './lib/queries'
+import { siteSettingsQuery } from './lib/queries'
+import { SiteSettingsContext } from './lib/SiteSettingsContext'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import Hero from './components/Hero'
-import ContentBlock from './components/ContentBlock'
-import NodesExample from './components/NodesExample'
+
+// Pages
+import HomePage from './pages/HomePage'
+import RootPage from './pages/RootPage'
+import ArchivePage from './pages/ArchivePage'
+import ArticlePage from './pages/ArticlePage'
+import CaseStudyPage from './pages/CaseStudyPage'
+import NodePage from './pages/NodePage'
+import TaxonomyPlaceholderPage from './pages/TaxonomyPlaceholderPage'
+import NotFoundPage from './pages/NotFoundPage'
+
 import './App.css'
 
 function App() {
-  const [heroes, setHeroes] = useState([])
-  const [contentBlocks, setContentBlocks] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [siteSettings, setSiteSettings] = useState(null)
+  const [settingsLoading, setSettingsLoading] = useState(true)
 
   useEffect(() => {
-    Promise.all([
-      client.fetch(heroesQuery),
-      client.fetch(contentBlocksQuery),
-    ])
-      .then(([heroesData, contentBlocksData]) => {
-        setHeroes(heroesData || [])
-        setContentBlocks(contentBlocksData || [])
-        setLoading(false)
+    client
+      .fetch(siteSettingsQuery)
+      .then((data) => {
+        setSiteSettings(data)
+        setSettingsLoading(false)
       })
-      .catch((error) => {
-        console.error('Error fetching content:', error)
-        setLoading(false)
+      .catch((err) => {
+        console.error('[App] Error fetching site settings:', err)
+        setSettingsLoading(false)
       })
   }, [])
 
-  if (loading) {
-    return <div className="loading">Loading...</div>
-  }
-
+  // Site settings can still be loading while page content renders.
+  // Context provides siteSettings (null while loading) to all page components
+  // for SEO resolution. Header/Footer gracefully handle null siteSettings.
   return (
+    <SiteSettingsContext.Provider value={siteSettings}>
     <div className="app">
-      <Header />
+      <Header siteSettings={siteSettings} settingsLoading={settingsLoading} />
 
-      <main>
-        {heroes.length > 0 && <Hero hero={heroes[0]} />}
+      <Routes>
+        {/* ── Homepage ─────────────────────────────────────────────── */}
+        <Route path="/" element={<HomePage />} />
 
-        {contentBlocks.length > 0 && contentBlocks.map((block) => (
-          <ContentBlock key={block._id} content={block.content} />
-        ))}
+        {/* ── Legacy post/blog redirects (Stage 6: post → article rename) ── */}
+        <Route path="/blog" element={<Navigate to="/articles" replace />} />
+        <Route path="/blog/:slug" element={<Navigate to="/articles" replace />} />
+        <Route path="/posts" element={<Navigate to="/articles" replace />} />
+        <Route path="/post/:slug" element={<Navigate to="/articles" replace />} />
 
-        {/* Knowledge Graph Nodes */}
-        <NodesExample />
+        {/* ── Archive pages — driven by Sanity archivePage documents ── */}
+        {/* Each archive slug is passed explicitly; 404 if doc unpublished */}
+        <Route path="/articles" element={<ArchivePage archiveSlug="articles" />} />
+        <Route path="/articles/:slug" element={<ArticlePage />} />
 
-        {heroes.length === 0 && contentBlocks.length === 0 && (
-          <div className="empty-state">
-            <h2>No homepage content yet</h2>
-            <p>Add homepage content in Sanity Studio to see it here!</p>
-          </div>
-        )}
-      </main>
+        <Route path="/case-studies" element={<ArchivePage archiveSlug="case-studies" />} />
+        <Route path="/case-studies/:slug" element={<CaseStudyPage />} />
 
-      <Footer />
+        {/* /knowledge-graph is the canonical archive for nodes */}
+        <Route path="/knowledge-graph" element={<ArchivePage archiveSlug="knowledge-graph" />} />
+        {/* /nodes redirects to /knowledge-graph (alias — canonical is /knowledge-graph) */}
+        <Route path="/nodes" element={<Navigate to="/knowledge-graph" replace />} />
+        <Route path="/nodes/:slug" element={<NodePage />} />
+
+        {/* ── Reserved taxonomy routes (placeholders) ───────────────── */}
+        <Route path="/tags" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/tags/:slug" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/categories" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/categories/:slug" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/projects" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/projects/:slug" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/people" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/people/:slug" element={<TaxonomyPlaceholderPage />} />
+
+        {/* ── Root pages (page type) — must come last among /:slug ─── */}
+        {/* NOTE: This catches any single-segment path not matched above */}
+        <Route path="/:slug" element={<RootPage />} />
+
+        {/* ── 404 catch-all ─────────────────────────────────────────── */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+
+      <Footer siteSettings={siteSettings} />
     </div>
+    </SiteSettingsContext.Provider>
   )
 }
 

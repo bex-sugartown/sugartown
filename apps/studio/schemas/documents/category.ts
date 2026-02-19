@@ -61,27 +61,30 @@ export default defineType({
       }
     }),
     defineField({
-      name: 'color',
-      title: 'Color',
-      type: 'color',
-      description: 'Color for knowledge graph visualization',
-      initialValue: {
-        hex: '#FF69B4' // Sugartown Pink
-      },
-      validation: (Rule) => Rule.required().error('Color is required for visualization')
+      name: 'colorHex',
+      title: 'Color (Hex)',
+      type: 'string',
+      description: 'Hex color used for knowledge graph visualization and archive filter chips (e.g., #FF69B4).',
+      initialValue: '#FF69B4', // Sugartown Pink
+      validation: (Rule) =>
+        Rule.regex(/^#([0-9a-fA-F]{6})$/, {
+          name: 'hex color',
+          invert: false,
+        }).warning('Use a 6-digit hex color like #FF69B4.')
     })
   ],
   preview: {
     select: {
       title: 'name',
       subtitle: 'description',
-      color: 'color.hex',
+      colorHex: 'colorHex',
       parentName: 'parent.name'
     },
-    prepare({title, subtitle, color, parentName}) {
+    prepare({title, subtitle, colorHex, parentName}) {
+      const color = colorHex || '#FF69B4'
       return {
         title: title || 'Untitled Category',
-        subtitle: parentName ? `↳ ${parentName} • ${color || '#FF69B4'}` : `${subtitle || ''} • ${color || '#FF69B4'}`
+        subtitle: parentName ? `↳ ${parentName} • ${color}` : `${subtitle || ''} • ${color}`
       }
     }
   },

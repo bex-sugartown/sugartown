@@ -1,49 +1,35 @@
-import { useEffect, useState } from 'react'
-import { client } from '../lib/sanity'
-import { footerQuery } from '../lib/queries'
-import Logo from './atoms/Logo'
+import { Link as RouterLink } from 'react-router-dom'
+import { urlFor } from '../lib/sanity'
 import Link from './atoms/Link'
 import SocialLink from './atoms/SocialLink'
 import styles from './Footer.module.css'
 
-export default function Footer() {
-  const [settings, setSettings] = useState(null)
-  const [loading, setLoading] = useState(true)
+export default function Footer({ siteSettings }) {
+  if (!siteSettings) return null
 
-  useEffect(() => {
-    client
-      .fetch(siteSettingsQuery)
-      .then((data) => {
-        setSettings(data)
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.error('Error fetching site settings:', error)
-        setLoading(false)
-      })
-  }, [])
+  const { siteLogo, siteTitle, tagline, footerColumns, socialLinks, copyrightText } = siteSettings
 
-  if (loading) return null
-  if (!footer) return null
-  
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.top}>
           <div className={styles.brand}>
-            {footer.logo && (
-              <Logo
-                image={footer.logo.image}
-                linkUrl={footer.logo.linkUrl}
-                width={footer.logo.width}
-              />
+            {siteLogo?.asset && (
+              <RouterLink to="/" className={styles.logoLink}>
+                <img
+                  src={urlFor(siteLogo.asset).width(240).url()}
+                  alt={siteLogo.alt || `Logo: ${siteTitle || 'Home'}`}
+                  width={120}
+                  className={styles.logoImage}
+                />
+              </RouterLink>
             )}
-            {footer.tagline && (
-              <p className={styles.tagline}>{footer.tagline}</p>
+            {tagline && (
+              <p className={styles.tagline}>{tagline}</p>
             )}
           </div>
-          
-          {footer.navigationColumns && footer.navigationColumns.length > 0 && (
+
+          {footerColumns && footerColumns.length > 0 && (
             <div className={styles.columns}>
               {footerColumns.map((column, index) => (
                 <div key={index} className={styles.column}>
@@ -52,8 +38,8 @@ export default function Footer() {
                   )}
                   {column.items && column.items.length > 0 && (
                     <ul className={styles.linkList}>
-                      {column.links.map((link, linkIndex) => (
-                        <li key={linkIndex}>
+                      {column.items.map((item, itemIndex) => (
+                        <li key={itemIndex}>
                           <Link
                             label={item.label}
                             url={item.link?.url}
@@ -67,15 +53,15 @@ export default function Footer() {
               ))}
             </div>
           )}
-          
-          {footer.socialLinks && footer.socialLinks.length > 0 && (
+
+          {socialLinks && socialLinks.length > 0 && (
             <div className={styles.social}>
               <h3 className={styles.columnHeading}>Connect</h3>
               <div className={styles.socialLinks}>
-                {footer.socialLinks.map((social, index) => (
+                {socialLinks.map((social, index) => (
                   <SocialLink
                     key={index}
-                    platform={social.platform}
+                    platform={social.icon}
                     url={social.url}
                     label={social.label}
                   />
@@ -86,21 +72,10 @@ export default function Footer() {
         </div>
 
         <div className={styles.bottom}>
-          {footer.copyrightText && (
-            <p className={styles.copyright}>{footer.copyrightText}</p>
-          )}
-          {footer.legalLinks && footer.legalLinks.length > 0 && (
-            <div className={styles.legalLinks}>
-              {footer.legalLinks.map((link, index) => (
-                <Link
-                  key={index}
-                  label={link.label}
-                  url={link.url}
-                  openInNewTab={link.openInNewTab}
-                  className={styles.legalLink}
-                />
-              ))}
-            </div>
+          {copyrightText && (
+            <p className={styles.copyright}>
+              &copy; {new Date().getFullYear()} {siteTitle}. {copyrightText}
+            </p>
           )}
         </div>
       </div>

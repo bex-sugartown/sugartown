@@ -5,9 +5,11 @@ import {standardPortableText} from '../objects/portableTextConfig'
 /**
  * Node Document - Knowledge Graph Node
  *
- * Documents AI collaboration conversations as part of the "Agentic Caucus" methodology
- * Tracks interactions with Claude, ChatGPT, Gemini, and other AI tools
- * Creates a knowledge graph of insights, challenges, and learnings
+ * Documents AI collaboration conversations as part of the "Agentic Caucus" methodology.
+ * Tracks interactions with Claude, ChatGPT, Gemini, and other AI tools.
+ * Creates a knowledge graph of insights, challenges, and learnings.
+ *
+ * SEO: uses the shared `seoMetadata` object (Schema 1: SEO Metadata).
  */
 export default defineType({
   name: 'node',
@@ -19,7 +21,8 @@ export default defineType({
     {name: 'aiContext', title: 'AI Context'},
     {name: 'agenticCaucus', title: 'Agentic Caucus'},
     {name: 'connections', title: 'Connections'},
-    {name: 'metadata', title: 'Metadata'}
+    {name: 'metadata', title: 'Metadata'},
+    {name: 'seo', title: 'SEO'},
   ],
   fields: [
     // CONTENT GROUP
@@ -145,18 +148,20 @@ export default defineType({
     }),
 
     // CONNECTIONS GROUP
+    // Stage 4: Canonical taxonomy primitives — authors, categories, tags, projects
     defineField({
-      name: 'relatedProjects',
-      title: 'Related Projects',
+      name: 'authors',
+      title: 'Authors',
       type: 'array',
-      description: 'Link this node to active projects',
+      description: 'Select existing persons or create new — the canonical author field.',
       group: 'connections',
       of: [
         defineArrayMember({
           type: 'reference',
-          to: [{type: 'project'}]
+          to: [{type: 'person'}]
         })
-      ]
+      ],
+      validation: (Rule) => Rule.unique()
     }),
     defineField({
       name: 'categories',
@@ -184,6 +189,32 @@ export default defineType({
         defineArrayMember({
           type: 'reference',
           to: [{type: 'tag'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'projects',
+      title: 'Projects',
+      type: 'array',
+      description: 'Canonical project taxonomy field. Prefer this over "Related Projects".',
+      group: 'connections',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'project'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'relatedProjects',
+      title: 'Related Projects (Legacy)',
+      type: 'array',
+      description: 'Legacy field — kept for backward compatibility. Prefer "Projects" above.',
+      group: 'connections',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'project'}]
         })
       ]
     }),
@@ -222,8 +253,17 @@ export default defineType({
       title: 'Updated At',
       type: 'datetime',
       description: 'Last significant update to this node',
-      group: 'metadata'
-    })
+      group: 'metadata',
+    }),
+
+    // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)
+    // Identical across page / post / caseStudy / node for Studio UI consistency.
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seoMetadata',
+      group: 'seo',
+    }),
   ],
   preview: {
     select: {

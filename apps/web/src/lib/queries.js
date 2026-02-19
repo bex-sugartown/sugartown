@@ -1,9 +1,93 @@
 // GROQ queries for fetching Sanity content
 //
-// This file contains both legacy queries (header, footer, hero, contentBlock)
-// and new Sugartown CMS queries (nodes, posts, pages, case studies)
+// All queries for Sugartown CMS: site settings, pages, nodes, articles, case studies, taxonomy.
+// Site-wide config (header, footer, nav, preheader) comes from siteSettingsQuery.
+// Page content uses composable sections fetched via pageBySlugQuery.
+//
+// SEO: detail queries embed SEO_FRAGMENT from src/lib/seo.js.
+// Use resolveSeo() in page components to merge doc overrides with site defaults.
 
-// Fetch site settings with header configuration
+import { SEO_FRAGMENT, SITE_SEO_FRAGMENT } from './seo'
+
+// ---- TAXONOMY FRAGMENTS (centralized — use in every query that expands categories/projects) ----
+// Stage 4: PERSON_FRAGMENT and TAG_FRAGMENT added alongside existing fragments.
+// All four taxonomy primitives (person, project, category, tag) now have canonical fragments.
+
+/**
+ * PERSON_FRAGMENT
+ * Expand a single person (author) reference or an array item.
+ * Usage in GROQ: authors[]->{${PERSON_FRAGMENT}}
+ */
+export const PERSON_FRAGMENT = `
+  _id,
+  name,
+  shortName,
+  "slug": slug.current,
+  titles,
+  "primaryTitle": titles[0],
+  image{
+    asset->{_id, url},
+    alt
+  },
+  links[]{
+    label,
+    url,
+    kind
+  }
+`
+
+/**
+ * CATEGORY_FRAGMENT
+ * Expand a single category reference or an array item.
+ * category stores colorHex as a plain hex string field (Stage 2).
+ * Usage in GROQ: categories[]->{${CATEGORY_FRAGMENT}}
+ */
+export const CATEGORY_FRAGMENT = `
+  _id,
+  name,
+  "slug": slug.current,
+  colorHex
+`
+
+/**
+ * TAG_FRAGMENT
+ * Expand a single tag reference or an array item.
+ * Usage in GROQ: tags[]->{${TAG_FRAGMENT}}
+ */
+export const TAG_FRAGMENT = `
+  _id,
+  name,
+  "slug": slug.current
+`
+
+/**
+ * PROJECT_FRAGMENT
+ * Expand a single project reference or an array item.
+ * project stores colorHex as a plain hex string field.
+ * Usage in GROQ: projects[]->{${PROJECT_FRAGMENT}}
+ */
+export const PROJECT_FRAGMENT = `
+  _id,
+  projectId,
+  name,
+  status,
+  colorHex
+`
+
+/**
+ * TAXONOMY_FRAGMENT
+ * Composite canonical taxonomy projection for all top-level content types.
+ * Bundles all four taxonomy primitives into a single reusable spread.
+ * Usage in GROQ: spread at document level — ${TAXONOMY_FRAGMENT}
+ */
+export const TAXONOMY_FRAGMENT = `
+  "authors": authors[]->{${PERSON_FRAGMENT}},
+  "categories": categories[]->{${CATEGORY_FRAGMENT}},
+  "tags": tags[]->{${TAG_FRAGMENT}},
+  "projects": projects[]->{${PROJECT_FRAGMENT}}
+`
+
+// ---- SITE SETTINGS (header, footer, nav, preheader, branding) ----
 export const siteSettingsQuery = `
   *[_type == "siteSettings"][0]{
     siteTitle,
@@ -78,185 +162,10 @@ export const siteSettingsQuery = `
       icon
     },
     copyrightText,
-    defaultMetaTitle,
-    defaultMetaDescription,
-    defaultOgImage{
-      asset,
-      alt,
-      hotspot,
-      crop
-    }
+    // SEO defaults (used by resolveSeo() as fallback for all pages)
+    ${SITE_SEO_FRAGMENT}
   }
 `
-
-// Fetch singleton header (legacy - use siteSettingsQuery instead)
-export const headerQuery = `
-  *[_type == "header" && _id == "singleton-header"][0]{
-    logo{
-      image{
-        asset,
-        alt
-      },
-      linkUrl,
-      width
-    },
-    navigation[]{
-      label,
-      url,
-      isActive,
-      openInNewTab
-    },
-    ctaButton{
-      label,
-      url,
-      openInNewTab
-    }
-  }
-`
-
-// @deprecated - Use siteSettingsQuery instead for footer configuration
-export const footerQuery = `
-  *[_type == "footer" && _id == "singleton-footer"][0]{
-    logo{
-      image{
-        asset,
-        alt
-      },
-      linkUrl,
-      width
-    },
-    tagline,
-    navigationColumns[]{
-      heading,
-      links[]{
-        label,
-        url,
-        openInNewTab
-      }
-    },
-    socialLinks[]{
-      platform,
-      url,
-      label
-    },
-    copyrightText,
-    legalLinks[]{
-      label,
-      url,
-      openInNewTab
-    }
-  }
-`
-
-// @deprecated - Use homepageQuery instead for hero content
-export const heroesQuery = `
-  *[_type == "hero"] | order(_createdAt desc){
-    _id,
-    heading,
-    subheading,
-    ctas[]{
-      label,
-      url,
-      openInNewTab
-    },
-    backgroundMedia{
-      image{
-        asset,
-        alt,
-        crop,
-        hotspot
-      },
-      caption
-    },
-    backgroundStyle
-  }
-`
-
-// @deprecated - Use homepageQuery instead for hero content
-export const heroQuery = `
-  *[_type == "hero" && _id == $id][0]{
-    heading,
-    subheading,
-    ctas[]{
-      label,
-      url,
-      openInNewTab
-    },
-    backgroundMedia{
-      image{
-        asset,
-        alt,
-        crop,
-        hotspot
-      },
-      caption
-    },
-    backgroundStyle
-  }
-`
-
-// @deprecated - Use page sections instead
-export const contentBlocksQuery = `
-  *[_type == "contentBlock"] | order(_createdAt desc){
-    _id,
-    title,
-    content
-  }
-`
-
-// @deprecated - Use page sections instead
-export const contentBlockQuery = `
-  *[_type == "contentBlock" && _id == $id][0]{
-    title,
-    content
-  }
-`
-
-// Fetch homepage content
-export const homepageQuery = `
-  *[_type == "homepage"][0]{
-    title,
-    subtitle,
-    callout{
-      text,
-      link{
-        url,
-        label,
-        openInNewTab
-      },
-      style
-    },
-    cards[]{
-      title,
-      description,
-      image{
-        asset,
-        alt,
-        hotspot,
-        crop
-      },
-      link{
-        url,
-        label,
-        openInNewTab
-      }
-    },
-    seo{
-      metaTitle,
-      metaDescription,
-      ogImage{
-        asset,
-        alt,
-        hotspot,
-        crop
-      }
-    }
-  }
-`
-
-// ============================================================================
-// NEW SUGARTOWN CMS QUERIES
-// ============================================================================
 
 // ---- KNOWLEDGE GRAPH NODES ----
 
@@ -272,15 +181,11 @@ export const allNodesQuery = `
     challenge,
     insight,
     publishedAt,
-    categories[]->{
-      name,
-      slug,
-      "color": color.hex
-    },
-    tags[]->{
-      name,
-      slug
-    }
+    authors[]->{${PERSON_FRAGMENT}},
+    categories[]->{${CATEGORY_FRAGMENT}},
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
+    relatedProjects[]->{${PROJECT_FRAGMENT}}
   }
 `
 
@@ -300,27 +205,19 @@ export const nodeBySlugQuery = `
     publishedAt,
     updatedAt,
     conversationLink,
-    categories[]->{
-      name,
-      slug,
-      "color": color.hex
-    },
-    tags[]->{
-      name,
-      slug
-    },
-    relatedProjects[]->{
-      projectId,
-      name,
-      status
-    }
+    authors[]->{${PERSON_FRAGMENT}},
+    categories[]->{${CATEGORY_FRAGMENT}},
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
+    relatedProjects[]->{${PROJECT_FRAGMENT}},
+    ${SEO_FRAGMENT}
   }
 `
 
-// ---- BLOG POSTS ----
+// ---- ARTICLES ----
 
-export const allPostsQuery = `
-  *[_type == "post"] | order(publishedAt desc) {
+export const allArticlesQuery = `
+  *[_type == "article"] | order(publishedAt desc) {
     _id,
     title,
     slug,
@@ -331,16 +228,17 @@ export const allPostsQuery = `
       caption
     },
     author,
+    authors[]->{${PERSON_FRAGMENT}},
     publishedAt,
-    categories[]->{
-      name,
-      slug
-    }
+    categories[]->{${CATEGORY_FRAGMENT}},
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
+    relatedProjects[]->{${PROJECT_FRAGMENT}}
   }
 `
 
-export const postBySlugQuery = `
-  *[_type == "post" && slug.current == $slug][0] {
+export const articleBySlugQuery = `
+  *[_type == "article" && slug.current == $slug][0] {
     _id,
     title,
     slug,
@@ -353,17 +251,14 @@ export const postBySlugQuery = `
       credit
     },
     author,
+    authors[]->{${PERSON_FRAGMENT}},
     publishedAt,
     updatedAt,
-    categories[]->{
-      name,
-      slug,
-      "color": color.hex
-    },
-    tags[]->{
-      name,
-      slug
-    }
+    categories[]->{${CATEGORY_FRAGMENT}},
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
+    relatedProjects[]->{${PROJECT_FRAGMENT}},
+    ${SEO_FRAGMENT}
   }
 `
 
@@ -432,9 +327,7 @@ export const pageBySlugQuery = `
         }
       }
     },
-    "seoTitle": coalesce(seo.metaTitle, title),
-    "seoDescription": seo.metaDescription,
-    "ogImage": seo.ogImage.asset->
+    ${SEO_FRAGMENT}
   }
 `
 
@@ -454,21 +347,162 @@ export const allCaseStudiesQuery = `
     },
     dateRange,
     publishedAt,
-    categories[]->{
-      name,
-      slug
+    authors[]->{${PERSON_FRAGMENT}},
+    categories[]->{${CATEGORY_FRAGMENT}},
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
+    relatedProjects[]->{${PROJECT_FRAGMENT}}
+  }
+`
+
+export const caseStudyBySlugQuery = `
+  *[_type == "caseStudy" && slug.current == $slug][0] {
+    _id,
+    title,
+    slug,
+    client,
+    role,
+    excerpt,
+    featuredImage {
+      asset->,
+      alt,
+      caption,
+      credit
+    },
+    dateRange,
+    publishedAt,
+    updatedAt,
+    content,
+    authors[]->{${PERSON_FRAGMENT}},
+    categories[]->{${CATEGORY_FRAGMENT}},
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
+    relatedProjects[]->{${PROJECT_FRAGMENT}},
+    ${SEO_FRAGMENT}
+  }
+`
+
+// ---- ARCHIVE PAGES ----
+
+/**
+ * archivePageBySlugQuery
+ * Fetches an archivePage doc by its slug (no slashes).
+ * Used by ArchivePage to drive heading, description, SEO, and contentTypes.
+ * Returns null if unpublished → frontend renders 404.
+ */
+export const archivePageBySlugQuery = `
+  *[_type == "archivePage" && slug.current == $slug][0] {
+    _id,
+    title,
+    "slug": slug.current,
+    description,
+    contentTypes,
+    listStyle,
+    sortBy,
+    itemsPerPage,
+    hero {
+      heading,
+      subheading
+    },
+    filterConfig {
+      facets[] {
+        facet,
+        label,
+        enabled,
+        order,
+        selection,
+        defaultSelectedSlugs
+      }
+    },
+    ${SEO_FRAGMENT}
+  }
+`
+
+/**
+ * allPublishedArchivePagesQuery
+ * Returns all published archivePage docs with their slugs + contentTypes.
+ * Used by nav validation and validate-urls.js.
+ */
+export const allPublishedArchivePagesQuery = `
+  *[_type == "archivePage"] | order(title asc) {
+    _id,
+    title,
+    "slug": slug.current,
+    contentTypes
+  }
+`
+
+// ---- URL VALIDATION (dev-time only) ----
+// Fetches minimal slug + type data for all published docs that require unique URLs.
+// Used by scripts/validate-urls.js
+
+export const allPublishedSlugsQuery = `
+  {
+    "pages": *[_type == "page" && defined(slug.current)] {
+      _id,
+      _type,
+      title,
+      "slug": slug.current
+    },
+    "articles": *[_type == "article" && defined(slug.current)] {
+      _id,
+      _type,
+      title,
+      "slug": slug.current
+    },
+    "caseStudies": *[_type == "caseStudy" && defined(slug.current)] {
+      _id,
+      _type,
+      title,
+      "slug": slug.current
+    },
+    "nodes": *[_type == "node" && defined(slug.current)] {
+      _id,
+      _type,
+      title,
+      "slug": slug.current
     }
   }
 `
 
 // ---- TAXONOMY ----
 
+// ---- PEOPLE ----
+
+export const allPersonsQuery = `
+  *[_type == "person"] | order(name asc) {
+    _id,
+    name,
+    "slug": slug.current,
+    titles,
+    "primaryTitle": titles[0],
+    image{ asset->{ _id, url }, alt }
+  }
+`
+
+export const personBySlugQuery = `
+  *[_type == "person" && slug.current == $slug][0] {
+    _id,
+    name,
+    "slug": slug.current,
+    titles,
+    bio,
+    image {
+      asset->{ _id, url },
+      alt
+    },
+    links[]{ label, url, kind }
+  }
+`
+
+// ---- TAXONOMY BROWSING ----
+
 export const allCategoriesQuery = `
   *[_type == "category"] | order(name asc) {
     _id,
     name,
-    slug,
-    "color": color.hex,
+    "slug": slug.current,
+    colorHex,
     description
   }
 `
@@ -481,6 +515,25 @@ export const allTagsQuery = `
   }
 `
 
+export const tagBySlugQuery = `
+  *[_type == "tag" && slug.current == $slug][0] {
+    _id,
+    name,
+    slug,
+    description
+  }
+`
+
+export const categoryBySlugQuery = `
+  *[_type == "category" && slug.current == $slug][0] {
+    _id,
+    name,
+    "slug": slug.current,
+    description,
+    colorHex
+  }
+`
+
 export const allProjectsQuery = `
   *[_type == "project"] | order(priority asc) {
     _id,
@@ -489,21 +542,76 @@ export const allProjectsQuery = `
     description,
     status,
     priority,
+    colorHex,
     kpis
   }
 `
 
-// ---- SITE SETTINGS ----
+export const projectByIdQuery = `
+  *[_type == "project" && projectId == $projectId][0] {
+    _id,
+    projectId,
+    name,
+    description,
+    status,
+    priority,
+    colorHex,
+    kpis
+  }
+`
 
-export const siteSettingsQuery_v2 = `
-  *[_type == "siteSettings"][0] {
-    siteTitle,
-    siteLogo {
-      asset->
-    },
-    "brandPink": brandColors.pink.hex,
-    "brandSeafoam": brandColors.seafoam.hex,
-    defaultMetaTitle,
-    defaultMetaDescription
+// ---- DERIVED FACET AGGREGATION (Stage 4: Filter Model) ----
+//
+// These queries fetch raw taxonomy references from content items of a given type.
+// Counts are aggregated in the frontend buildFilterModel() function (see filterModel.js)
+// rather than in GROQ, which keeps the queries fast and aggregation logic testable.
+//
+// Usage: pass contentTypes[] from the archivePage.contentTypes field.
+// Each query returns ALL items with their taxonomy arrays expanded.
+// buildFilterModel() then derives per-facet option counts from this data.
+
+/**
+ * FACETS_RAW_QUERY
+ * For a set of contentTypes (e.g., ['node'] or ['article', 'caseStudy']),
+ * returns all items with their taxonomy references expanded.
+ * Used by buildFilterModel() to derive available facet options + counts.
+ *
+ * Fetches all four taxonomy primitives: authors, categories, tags, projects.
+ * Also fetches relatedProjects for backward compat with legacy data.
+ */
+export const facetsRawQuery = `
+  *[_type in $contentTypes && defined(slug.current)] {
+    _id,
+    _type,
+    "slug": slug.current,
+    authors[]->{${PERSON_FRAGMENT}},
+    categories[]->{${CATEGORY_FRAGMENT}},
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
+    relatedProjects[]->{${PROJECT_FRAGMENT}}
+  }
+`
+
+/**
+ * archivePageWithFilterConfigQuery
+ * Fetches an archivePage document with its filterConfig and contentTypes.
+ * Used by validate-filters.js and buildFilterModel() entry point.
+ */
+export const archivePageWithFilterConfigQuery = `
+  *[_type == "archivePage" && slug.current == $slug][0] {
+    _id,
+    title,
+    "slug": slug.current,
+    contentTypes,
+    filterConfig {
+      facets[] {
+        facet,
+        label,
+        enabled,
+        order,
+        selection,
+        defaultSelectedSlugs
+      }
+    }
   }
 `

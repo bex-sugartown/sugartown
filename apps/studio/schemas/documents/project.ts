@@ -20,22 +20,19 @@ export default defineType({
       description: 'Unique identifier in format PROJ-XXX (e.g., PROJ-001)',
       validation: (Rule) =>
         Rule.required()
-          .regex(/^PROJ-\d{3}$/, {
-            name: 'Project ID format',
-            invert: false
-          })
-          .error('Project ID must follow format PROJ-XXX (e.g., PROJ-001)')
           .custom(async (value, context) => {
-            // Check for duplicate project IDs
             if (!value) return true
+            // Format check
+            if (!/^PROJ-\d{3}$/.test(value)) {
+              return 'Project ID must follow format PROJ-XXX (e.g., PROJ-001)'
+            }
+            // Uniqueness check
             const {document, getClient} = context
             const client = getClient({apiVersion: '2024-01-01'})
             const id = document._id.replace(/^drafts\./, '')
-
-            const query = '*[_type == "project" && projectId == $projectId && _id != $id][0]'
-            const params = {projectId: value, id}
+            const query = '*[_type == "project" && projectId == $projectId && !(_id in [$id, $draftId])][0]'
+            const params = {projectId: value, id, draftId: `drafts.${id}`}
             const existing = await client.fetch(query, params)
-
             return existing ? 'This Project ID is already in use' : true
           })
     }),
@@ -106,6 +103,17 @@ export default defineType({
       description: 'Thematic tags for this project'
     }),
     defineField({
+      name: 'colorHex',
+      title: 'Color (Hex)',
+      type: 'string',
+      description: 'Hex color used for knowledge graph visualization and archive filter chips (e.g., #0099FF).',
+      validation: (Rule) =>
+        Rule.regex(/^#([0-9a-fA-F]{6})$/, {
+          name: 'hex color',
+          invert: false,
+        }).warning('Use a 6-digit hex color like #0099FF.')
+    }),
+    defineField({
       name: 'kpis',
       title: 'Key Performance Indicators',
       type: 'array',
@@ -160,9 +168,10 @@ export default defineType({
       projectId: 'projectId',
       name: 'name',
       status: 'status',
-      priority: 'priority'
+      priority: 'priority',
+      colorHex: 'colorHex'
     },
-    prepare({projectId, name, status, priority}) {
+    prepare({projectId, name, status, priority, colorHex}) {
       const statusLabels = {
         planning: '📋 Planning',
         active: '🚀 Active',
@@ -175,9 +184,10 @@ export default defineType({
         4: '🟢',
         5: '⚪'
       }
+      const colorSuffix = colorHex ? ` • ${colorHex}` : ''
       return {
         title: name || 'Untitled Project',
-        subtitle: `${projectId || 'No ID'} • ${statusLabels[status as keyof typeof statusLabels] || status}`,
+        subtitle: `${projectId || 'No ID'} • ${statusLabels[status as keyof typeof statusLabels] || status}${colorSuffix}`,
         description: priority ? `Priority: ${priorityLabels[priority as keyof typeof priorityLabels]}` : undefined
       }
     }
