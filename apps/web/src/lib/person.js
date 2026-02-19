@@ -8,7 +8,8 @@
  * Author shape (from PERSON_FRAGMENT in queries.js):
  * {
  *   _id: string
- *   name: string
+ *   name: string              // Full legal name (resume/formal contexts)
+ *   shortName: string|null    // Preferred byline name (article attribution)
  *   slug: string
  *   titles: string[]          // e.g., ["Content Architect", "Designer"]
  *   primaryTitle: string      // titles[0] — convenience alias
@@ -41,7 +42,7 @@ export function getPrimaryAuthor(authors) {
  * @returns {string}
  */
 export function getAuthorDisplayName(author) {
-  return author?.name || 'Unknown Author'
+  return author?.shortName || author?.name || 'Unknown Author'
 }
 
 /**
@@ -57,7 +58,7 @@ export function getAuthorDisplayName(author) {
  */
 export function getAuthorByline(authors, legacy) {
   const primary = getPrimaryAuthor(authors)
-  if (primary?.name) return primary.name
+  if (primary) return primary.shortName || primary.name
 
   if (legacy) {
     if (import.meta.env.DEV) {

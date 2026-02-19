@@ -20,22 +20,19 @@ export default defineType({
       description: 'Unique identifier in format PROJ-XXX (e.g., PROJ-001)',
       validation: (Rule) =>
         Rule.required()
-          .regex(/^PROJ-\d{3}$/, {
-            name: 'Project ID format',
-            invert: false
-          })
-          .error('Project ID must follow format PROJ-XXX (e.g., PROJ-001)')
           .custom(async (value, context) => {
-            // Check for duplicate project IDs
             if (!value) return true
+            // Format check
+            if (!/^PROJ-\d{3}$/.test(value)) {
+              return 'Project ID must follow format PROJ-XXX (e.g., PROJ-001)'
+            }
+            // Uniqueness check
             const {document, getClient} = context
             const client = getClient({apiVersion: '2024-01-01'})
             const id = document._id.replace(/^drafts\./, '')
-
-            const query = '*[_type == "project" && projectId == $projectId && _id != $id][0]'
-            const params = {projectId: value, id}
+            const query = '*[_type == "project" && projectId == $projectId && !(_id in [$id, $draftId])][0]'
+            const params = {projectId: value, id, draftId: `drafts.${id}`}
             const existing = await client.fetch(query, params)
-
             return existing ? 'This Project ID is already in use' : true
           })
     }),

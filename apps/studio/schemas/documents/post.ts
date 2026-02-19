@@ -47,6 +47,17 @@ export default defineType({
       },
       validation: (Rule) =>
         Rule.required()
+          .custom(async (value, context) => {
+            if (!value?.current) return true
+            const {document, getClient} = context
+            const client = getClient({apiVersion: '2024-01-01'})
+            const id = document._id.replace(/^drafts\./, '')
+            const existing = await client.fetch(
+              `*[_type == "post" && slug.current == $slug && !(_id in [$id, $draftId])][0]`,
+              {slug: value.current, id, draftId: `drafts.${id}`}
+            )
+            return existing ? `The slug "${value.current}" is already used by another post` : true
+          })
           .error('Slug is required. Click "Generate" to create from title.')
     }),
     defineField({

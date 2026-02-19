@@ -37,12 +37,20 @@ export default defineType({
       name: 'name',
       title: 'Full Name',
       type: 'string',
-      description: 'Display name used everywhere this person is referenced.',
+      description: 'Legal / full name — used in formal contexts like resume, CV, and bios.',
       group: 'identity',
       validation: (Rule) =>
         Rule.required()
           .max(100)
-          .error('Name is required and must be under 100 characters'),
+          .error('Full name is required and must be under 100 characters'),
+    }),
+    defineField({
+      name: 'shortName',
+      title: 'Short Name',
+      type: 'string',
+      description: 'Preferred byline name — used for author attribution on articles, nodes, and case studies.',
+      group: 'identity',
+      validation: (Rule) => Rule.max(60),
     }),
     defineField({
       name: 'slug',
@@ -55,7 +63,17 @@ export default defineType({
         maxLength: 96,
       },
       validation: (Rule) =>
-        Rule.required().error('Slug is required. Click "Generate" to create from name.'),
+        Rule.required()
+          .custom(async (value, context) => {
+            if (!value?.current) return true
+            const {document, getClient} = context
+            const client = getClient({apiVersion: '2024-01-01'})
+            const id = document._id.replace(/^drafts\./, '')
+            const query = `*[_type == "person" && slug.current == $slug && !(_id in [$id, $draftId])][0]`
+            const existing = await client.fetch(query, {slug: value.current, id, draftId: `drafts.${id}`})
+            return existing ? `The slug "${value.current}" is already used by another person` : true
+          })
+          .error('Slug is required. Click "Generate" to create from name.'),
     }),
 
     // ════════════════════════════════════════════════════════════════════════
@@ -189,13 +207,15 @@ export default defineType({
   preview: {
     select: {
       title: 'name',
+      shortName: 'shortName',
       subtitle0: 'titles[0]',
       subtitleLegacy: 'role',
       media: 'image',
     },
-    prepare({title, subtitle0, subtitleLegacy, media}) {
+    prepare({title, shortName, subtitle0, subtitleLegacy, media}) {
+      const displayName = shortName ? `${title} (${shortName})` : title
       return {
-        title: title || 'Unnamed Person',
+        title: displayName || 'Unnamed Person',
         subtitle: subtitle0 || subtitleLegacy || '',
         media,
       }

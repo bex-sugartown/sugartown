@@ -57,6 +57,7 @@ export default defineConfig({
                 S.list()
                   .title('Taxonomy')
                   .items([
+                    S.documentTypeListItem('person').title('People'),
                     S.documentTypeListItem('category').title('Categories'),
                     S.documentTypeListItem('tag').title('Tags'),
                     S.documentTypeListItem('project').title('Projects'),

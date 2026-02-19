@@ -21,6 +21,7 @@ import { SEO_FRAGMENT, SITE_SEO_FRAGMENT } from './seo'
 export const PERSON_FRAGMENT = `
   _id,
   name,
+  shortName,
   "slug": slug.current,
   titles,
   "primaryTitle": titles[0],
