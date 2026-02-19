@@ -92,8 +92,7 @@ export default defineType({
       of: [
         defineArrayMember({
           type: 'reference',
-          to: [{type: 'person'}],
-          options: {filter: '!(_id in path("drafts.**"))'}
+          to: [{type: 'person'}]
         })
       ]
     }),
