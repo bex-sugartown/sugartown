@@ -10,11 +10,25 @@
 import { SEO_FRAGMENT, SITE_SEO_FRAGMENT } from './seo'
 
 // ---- TAXONOMY FRAGMENTS (centralized — use in every query that expands categories/projects) ----
+// Stage 4: PERSON_FRAGMENT and TAG_FRAGMENT added alongside existing fragments.
+// All four taxonomy primitives (person, project, category, tag) now have canonical fragments.
+
+/**
+ * PERSON_FRAGMENT
+ * Expand a single person (author) reference or an array item.
+ * Usage in GROQ: authors[]->{${PERSON_FRAGMENT}}
+ */
+export const PERSON_FRAGMENT = `
+  _id,
+  name,
+  "slug": slug.current,
+  role
+`
 
 /**
  * CATEGORY_FRAGMENT
  * Expand a single category reference or an array item.
- * category stores color via @sanity/color-input: color.hex → aliased to colorHex.
+ * category stores colorHex as a plain hex string field (Stage 2).
  * Usage in GROQ: categories[]->{${CATEGORY_FRAGMENT}}
  */
 export const CATEGORY_FRAGMENT = `
@@ -25,10 +39,21 @@ export const CATEGORY_FRAGMENT = `
 `
 
 /**
+ * TAG_FRAGMENT
+ * Expand a single tag reference or an array item.
+ * Usage in GROQ: tags[]->{${TAG_FRAGMENT}}
+ */
+export const TAG_FRAGMENT = `
+  _id,
+  name,
+  "slug": slug.current
+`
+
+/**
  * PROJECT_FRAGMENT
  * Expand a single project reference or an array item.
  * project stores colorHex as a plain hex string field.
- * Usage in GROQ: relatedProjects[]->{${PROJECT_FRAGMENT}}
+ * Usage in GROQ: projects[]->{${PROJECT_FRAGMENT}}
  */
 export const PROJECT_FRAGMENT = `
   _id,
@@ -132,11 +157,11 @@ export const allNodesQuery = `
     challenge,
     insight,
     publishedAt,
+    authors[]->{${PERSON_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
-    tags[]->{
-      name,
-      slug
-    }
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
+    relatedProjects[]->{${PROJECT_FRAGMENT}}
   }
 `
 
@@ -156,11 +181,10 @@ export const nodeBySlugQuery = `
     publishedAt,
     updatedAt,
     conversationLink,
+    authors[]->{${PERSON_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
-    tags[]->{
-      name,
-      slug
-    },
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
     ${SEO_FRAGMENT}
   }
@@ -180,8 +204,12 @@ export const allPostsQuery = `
       caption
     },
     author,
+    authors[]->{${PERSON_FRAGMENT}},
     publishedAt,
-    categories[]->{${CATEGORY_FRAGMENT}}
+    categories[]->{${CATEGORY_FRAGMENT}},
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
+    relatedProjects[]->{${PROJECT_FRAGMENT}}
   }
 `
 
@@ -199,13 +227,12 @@ export const postBySlugQuery = `
       credit
     },
     author,
+    authors[]->{${PERSON_FRAGMENT}},
     publishedAt,
     updatedAt,
     categories[]->{${CATEGORY_FRAGMENT}},
-    tags[]->{
-      name,
-      slug
-    },
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
     ${SEO_FRAGMENT}
   }
@@ -296,7 +323,11 @@ export const allCaseStudiesQuery = `
     },
     dateRange,
     publishedAt,
-    categories[]->{${CATEGORY_FRAGMENT}}
+    authors[]->{${PERSON_FRAGMENT}},
+    categories[]->{${CATEGORY_FRAGMENT}},
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
+    relatedProjects[]->{${PROJECT_FRAGMENT}}
   }
 `
 
@@ -318,11 +349,10 @@ export const caseStudyBySlugQuery = `
     publishedAt,
     updatedAt,
     content,
+    authors[]->{${PERSON_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
-    tags[]->{
-      name,
-      slug
-    },
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
     ${SEO_FRAGMENT}
   }
@@ -349,6 +379,16 @@ export const archivePageBySlugQuery = `
     hero {
       heading,
       subheading
+    },
+    filterConfig {
+      facets[] {
+        facet,
+        label,
+        enabled,
+        order,
+        selection,
+        defaultSelectedSlugs
+      }
     },
     ${SEO_FRAGMENT}
   }
@@ -402,6 +442,32 @@ export const allPublishedSlugsQuery = `
 `
 
 // ---- TAXONOMY ----
+
+// ---- PEOPLE ----
+
+export const allPersonsQuery = `
+  *[_type == "person"] | order(name asc) {
+    _id,
+    name,
+    "slug": slug.current,
+    role
+  }
+`
+
+export const personBySlugQuery = `
+  *[_type == "person" && slug.current == $slug][0] {
+    _id,
+    name,
+    "slug": slug.current,
+    role,
+    bio,
+    email,
+    website,
+    image { asset->, alt }
+  }
+`
+
+// ---- TAXONOMY BROWSING ----
 
 export const allCategoriesQuery = `
   *[_type == "category"] | order(name asc) {
@@ -463,5 +529,61 @@ export const projectByIdQuery = `
     priority,
     colorHex,
     kpis
+  }
+`
+
+// ---- DERIVED FACET AGGREGATION (Stage 4: Filter Model) ----
+//
+// These queries fetch raw taxonomy references from content items of a given type.
+// Counts are aggregated in the frontend buildFilterModel() function (see filterModel.js)
+// rather than in GROQ, which keeps the queries fast and aggregation logic testable.
+//
+// Usage: pass contentTypes[] from the archivePage.contentTypes field.
+// Each query returns ALL items with their taxonomy arrays expanded.
+// buildFilterModel() then derives per-facet option counts from this data.
+
+/**
+ * FACETS_RAW_QUERY
+ * For a set of contentTypes (e.g., ['node'] or ['post', 'caseStudy']),
+ * returns all items with their taxonomy references expanded.
+ * Used by buildFilterModel() to derive available facet options + counts.
+ *
+ * Fetches all four taxonomy primitives: authors, categories, tags, projects.
+ * Also fetches relatedProjects for backward compat with legacy data.
+ */
+export const facetsRawQuery = `
+  *[_type in $contentTypes && defined(slug.current)] {
+    _id,
+    _type,
+    "slug": slug.current,
+    authors[]->{${PERSON_FRAGMENT}},
+    categories[]->{${CATEGORY_FRAGMENT}},
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}},
+    relatedProjects[]->{${PROJECT_FRAGMENT}}
+  }
+`
+
+/**
+ * archivePageWithFilterConfigQuery
+ * Fetches an archivePage document with its filterConfig and contentTypes.
+ * Used by validate-filters.js and buildFilterModel() entry point.
+ */
+export const archivePageWithFilterConfigQuery = `
+  *[_type == "archivePage" && slug.current == $slug][0] {
+    _id,
+    title,
+    "slug": slug.current,
+    contentTypes,
+    filterConfig {
+      facets[] {
+        facet,
+        label,
+        enabled,
+        order,
+        selection,
+        defaultSelectedSlugs
+      }
+    }
   }
 `

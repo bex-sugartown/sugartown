@@ -155,6 +155,20 @@ export default defineType({
     }),
 
     // CONNECTIONS GROUP
+    // Stage 4: Canonical taxonomy primitives — authors, categories, tags, projects
+    defineField({
+      name: 'authors',
+      title: 'Authors',
+      type: 'array',
+      description: 'Person references — the canonical author taxonomy field (array supports co-authors)',
+      group: 'connections',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'person'}]
+        })
+      ]
+    }),
     defineField({
       name: 'categories',
       title: 'Categories',
@@ -185,10 +199,23 @@ export default defineType({
       ]
     }),
     defineField({
-      name: 'relatedProjects',
-      title: 'Related Projects',
+      name: 'projects',
+      title: 'Projects',
       type: 'array',
-      description: 'Link this case study to active projects',
+      description: 'Canonical project taxonomy field. Prefer this over "Related Projects".',
+      group: 'connections',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'project'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'relatedProjects',
+      title: 'Related Projects (Legacy)',
+      type: 'array',
+      description: 'Legacy field — kept for backward compatibility. Prefer "Projects" above.',
       group: 'connections',
       of: [
         defineArrayMember({

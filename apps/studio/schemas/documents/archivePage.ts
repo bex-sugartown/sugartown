@@ -343,6 +343,119 @@ export default defineType({
         })
     }),
 
+    // ════════════════════════════════════════════════════════════════════════
+    // FILTER CONFIG (Stage 4: Taxonomy Relationship Architecture)
+    // ════════════════════════════════════════════════════════════════════════
+    // filterConfig replaces the boolean-flag pattern of frontendFilters with a
+    // structured, ordered, per-facet configuration. The FilterModel builder reads
+    // this at runtime to produce a stable JSON model for the frontend filter UI.
+    //
+    // Facet options (the selectable values) are DERIVED from content usage at
+    // query time — they are NOT entered here manually.
+    defineField({
+      name: 'filterConfig',
+      title: 'Filter Configuration',
+      type: 'object',
+      description: 'Configure which taxonomy facets appear in the filter sidebar, their order, and selection behaviour',
+      group: 'filtering',
+      fields: [
+        defineField({
+          name: 'facets',
+          title: 'Facets',
+          type: 'array',
+          description: 'Ordered list of facets. Add, remove, or reorder. Options are derived from content — not entered here.',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              title: 'Facet',
+              fields: [
+                defineField({
+                  name: 'facet',
+                  title: 'Facet',
+                  type: 'string',
+                  description: 'Which taxonomy dimension this facet represents',
+                  options: {
+                    list: [
+                      {title: 'Author (person)', value: 'author'},
+                      {title: 'Project', value: 'project'},
+                      {title: 'Category', value: 'category'},
+                      {title: 'Tag', value: 'tag'},
+                    ]
+                  },
+                  validation: (Rule) => Rule.required()
+                }),
+                defineField({
+                  name: 'label',
+                  title: 'Label Override',
+                  type: 'string',
+                  description: 'Optional: override the default facet label (e.g., "Topic" instead of "Category")',
+                  validation: (Rule) => Rule.max(50)
+                }),
+                defineField({
+                  name: 'enabled',
+                  title: 'Enabled',
+                  type: 'boolean',
+                  description: 'Show this facet in the filter sidebar',
+                  initialValue: true
+                }),
+                defineField({
+                  name: 'order',
+                  title: 'Order',
+                  type: 'number',
+                  description: 'Display position (1 = first). Facets are sorted by this value.',
+                  initialValue: 1
+                }),
+                defineField({
+                  name: 'selection',
+                  title: 'Selection Mode',
+                  type: 'string',
+                  description: 'Single: selecting one option deselects others. Multi: multiple options can be active at once.',
+                  options: {
+                    list: [
+                      {title: 'Single select', value: 'single'},
+                      {title: 'Multi select', value: 'multi'},
+                    ],
+                    layout: 'radio'
+                  },
+                  initialValue: 'multi'
+                }),
+                defineField({
+                  name: 'defaultSelectedSlugs',
+                  title: 'Default Selected Slugs',
+                  type: 'array',
+                  description: 'Optional: slugs of options pre-selected when the archive loads. Leave empty for no default.',
+                  of: [{type: 'string'}]
+                })
+              ],
+              preview: {
+                select: {
+                  facet: 'facet',
+                  label: 'label',
+                  enabled: 'enabled',
+                  order: 'order',
+                  selection: 'selection',
+                },
+                prepare({facet, label, enabled, order, selection}) {
+                  const facetLabels: Record<string, string> = {
+                    author: 'Author',
+                    project: 'Project',
+                    category: 'Category',
+                    tag: 'Tag',
+                  }
+                  const displayLabel = label || facetLabels[facet] || facet
+                  const status = enabled === false ? ' (disabled)' : ''
+                  return {
+                    title: `${order ?? '?'}. ${displayLabel}${status}`,
+                    subtitle: `${selection || 'multi'}-select`,
+                  }
+                }
+              }
+            })
+          ]
+        })
+      ]
+    }),
+
     // Frontend Filter Sidebar Toggle
     defineField({
       name: 'enableFrontendFilters',

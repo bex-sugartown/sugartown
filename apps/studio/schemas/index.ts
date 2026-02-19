@@ -47,6 +47,7 @@ import ctaSection from './sections/ctaSection'
 import category from './documents/category'
 import tag from './documents/tag'
 import project from './documents/project'
+import person from './documents/person'
 
 // Core Content (New)
 import node from './documents/node'
@@ -103,6 +104,7 @@ export const schemaTypes = [
   category,
   tag,
   project,
+  person,
 
   // Documents - Core Content (New)
   node,

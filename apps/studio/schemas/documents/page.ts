@@ -1,5 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {DocumentIcon} from '@sanity/icons'
+// Stage 4: taxonomy references added to page — same primitives as post/caseStudy/node
 
 /**
  * Page Document - Flexible Page Builder
@@ -66,6 +67,61 @@ export default defineType({
         defineArrayMember({type: 'textSection'}),
         defineArrayMember({type: 'imageGallery'}),
         defineArrayMember({type: 'ctaSection'})
+      ]
+    }),
+
+    // CONNECTIONS GROUP (Stage 4: Taxonomy Relationship Architecture)
+    // Pages rarely need taxonomy, but having these fields unifies the model across all top-level types.
+    defineField({
+      name: 'authors',
+      title: 'Authors',
+      type: 'array',
+      description: 'Person references — canonical author taxonomy field',
+      group: 'settings',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'person'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
+      description: 'Page categories — optional for organisation',
+      group: 'settings',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'category'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      description: 'Page tags — optional for organisation',
+      group: 'settings',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'tag'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'projects',
+      title: 'Projects',
+      type: 'array',
+      description: 'Related projects — canonical project taxonomy field',
+      group: 'settings',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'project'}]
+        })
       ]
     }),
 
