@@ -201,6 +201,13 @@ export default defineType({
       subtitle: 'name',
       media: 'image.asset',
     },
+    prepare({title, subtitle, media}) {
+      return {
+        title: title || subtitle || 'Unnamed Person',
+        subtitle: title ? subtitle : '',
+        media,
+      }
+    },
   },
 
   orderings: [
