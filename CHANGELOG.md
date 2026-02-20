@@ -5,6 +5,11 @@ All notable changes to the Sugartown monorepo are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
+> **Version note:** Entries from `[0.0.0]` onwards use SemVer and track the monorepo.
+> Entries marked `[Pre-monorepo]` are historical records reconstructed from preserved
+> git history in `sugartown-frontend`, `sugartown-sanity`, `repos/sugartown-pink`, and
+> `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
+
 ---
 
 ## [0.8.0] — 2026-02-19
@@ -97,7 +102,153 @@ tags[]       → tag refs (neutral chip)
 
 ---
 
-## [0.0.0] — baseline
+## [0.0.0] — 2026-01-31 — Monorepo baseline
 
-Initial monorepo scaffold. Frontend and Studio imported as subtrees.
+Initial monorepo scaffold: `sugartown-frontend` and `sugartown-sanity` imported as git
+subtrees into a pnpm workspaces + Turborepo root. History from both repos preserved intact.
 Tag: `v1.0.0-baseline`
+
+Repos merged:
+- `sugartown-frontend` (Jan 19–31) → `apps/web`
+- `sugartown-sanity` (Jan 18–31) → `apps/studio`
+
+> See `[Pre-monorepo / v1]` below for the full history of what was imported.
+
+---
+
+<!-- ============================================================ -->
+<!-- PRE-MONOREPO HISTORY                                         -->
+<!-- Reconstructed from preserved git repos. Not SemVer releases. -->
+<!-- Live site = WordPress throughout both eras below.            -->
+<!-- ============================================================ -->
+
+## [Pre-monorepo / v1] — 2026-01-18 to 2026-01-31 — Dual-Repo React + Sanity MVP
+
+**Repos:** `sugartown-frontend` · `sugartown-sanity`
+**Stack:** React 19 + Vite 7 · Sanity Studio v3 · separate git repos
+**Status:** Dev only — never deployed to production. WP live site unchanged.
+
+This era established the React + Sanity stack and the foundational content model.
+Both repos were created Jan 18–19, developed in parallel through Jan 31, then
+merged into the monorepo via git subtree on the same day.
+
+### sugartown-frontend
+
+#### Added
+- Initial React + Vite app with Sanity client integration (`ae05d2c` 2026-01-19)
+- Design System setup: media split, `SanityMedia` component (`f20eb6b` 2026-01-19)
+- Design tokens extracted from legacy CSS; components migrated to token architecture (`8e62c3c`, `a5213dc` 2026-01-24)
+- Duotone image effect utility (`6649f74` 2026-01-24)
+- Complete Sanity CMS schema architecture — Phase 1: `node`, `post`, `page`, `caseStudy`, taxonomy (`db6d192` 2026-01-24)
+- `NodesExample` component to display Knowledge Graph Nodes (`1f46649` 2026-01-25)
+- `siteSettings` integration: preheader and CTA button wired to frontend (`9f7af5c` 2026-01-25)
+- Homepage migrated to new Sanity schema (`2c48b58` 2026-01-25)
+- New Sanity content model for pages and site settings (`3447b7f` 2026-01-31)
+
+#### Changed
+- DS color: seafoam → green (`627eae3` 2026-01-19)
+- Hero: load button array (`04f5088` 2026-01-19)
+- Various layout and background fixes (2026-01-20)
+- `siteSettings` homepage schema with deprecations merged from branch `reverent-herschel` (`5d39793` 2026-01-25)
+
+### sugartown-sanity
+
+#### Added
+- Sanity Studio bootstrapped (`1c62923` 2026-01-18)
+- Initial Studio with atomic design schemas (`7f3f07a` 2026-01-19)
+- `preheader` and `ctaButtonDoc` schemas; `siteSettings` updated (`6542514` 2026-01-25)
+- `homepage` schema; legacy schemas deprecated (`b429e00` 2026-01-25)
+- `heroSection` updated to use `ctaButtonDoc` references (`f897d9f` 2026-01-25)
+- Legacy schemas deprecated; `editorialCard` object introduced (`3ff91b0` 2026-01-31)
+- Legacy MVP docs added; V1 CMS strategy PRD published (`0cfae4e`, `13454c1` 2026-01-31)
+- Architecture and schema reference docs consolidated via PRs #1–4 (`2026-01-31`)
+- `siteSettings` schema updated (`f3bba7a` 2026-01-31)
+
+#### Schema registry at merge (from `schemas/index.ts`):
+- **Objects (new):** `link`, `richImage`, `ctaButton`, `editorialCard`
+- **Objects (legacy):** `logo`, `media`, `navigationItem`, `socialLink`
+- **Sections:** `heroSection`, `textSection`, `imageGallery`, `ctaSection`
+- **Documents — taxonomy:** `category`, `tag`, `project`
+- **Documents — content:** `node`, `post`, `page`, `caseStudy`
+- **Documents — infrastructure:** `navigation`, `siteSettings`, `preheader`, `ctaButtonDoc`, `homepage`
+- **Documents — deprecated:** `header`, `footer`, `hero`, `contentBlock`
+
+#### GROQ queries at merge (from `sugartown-frontend/src/lib/queries.js`):
+- `siteSettingsQuery`, `homepageQuery`, `allNodesQuery`, `nodeBySlugQuery`
+- `allPostsQuery`, `postBySlugQuery`, `pageBySlugQuery`, `allCaseStudiesQuery`
+- `allCategoriesQuery`, `allTagsQuery`, `allProjectsQuery`
+- Legacy deprecated: `headerQuery`, `footerQuery`, `heroesQuery`, `contentBlocksQuery`
+
+---
+
+## [Pre-monorepo / v0] — 2025-11-27 to 2026-01-17 — WordPress + Python Pipeline
+
+**Repos:** `repos/sugartown-pink` (WP Block Theme) · `repos/sugartown-cms` (Python pipeline)
+**Stack:** WordPress Block Theme (PHP) · Python content pipeline (`publish_gem.py`) · no frontend framework
+**Status:** Production — live site throughout this era and all subsequent eras.
+
+The original platform. A custom WordPress Block Theme delivering the public site,
+with a Python-based content pipeline (`publish_gem.py`) for publishing gems to WP via API.
+Six named releases shipped to production during this era.
+
+### repos/sugartown-pink (WordPress Block Theme)
+
+#### Release history (all production)
+
+**2026-01-11 — Design System Alignment + Token Updates**
+- Upgraded Sugartown Pink to `#FF247D`; semantic tokens for single posts/pages
+- Fixed chip sizing, code block background CSS variable, content width constraints
+- Standardized footer pattern across archive and single templates
+- Accessibility and layout fixes for footer heading hierarchy
+
+**2026-01-03 — Responsive Tables Stabilization**
+- Fixed mobile table card layout: overflow, box-sizing, width constraints
+- Canonical design tokens confirmed loading correctly post-cache invalidation
+- Added `st-table`, `st-table--wide`; deprecated `st-table--review`
+- Added `st-filter`; deprecated `kg-filter`
+
+**2026-01-01 — Design System Alignment & Accessibility Audit**
+- Canonicalized `st-chip` as single interactive primitive across archive filters, hero nav, and metadata tags
+- Removed competing chip variant classes; normalized card border colors and grid spacing
+- Refactored CSS architecture: element styles moved to global base rules
+- Accessibility audit: 16 documented issues with priority levels
+- Created `CSS_FILE_ORGANIZATION_RULES.md`; standardized `ds-` → `st-` namespace
+
+**2025-12-29 — AI Governance + Design System Foundations**
+- Three-tier design token system: brand colors, spacing, typography
+- `st-*` namespace standardized across tokens and docs
+- AI Ethics & Operations policy published; design system ruleset and prompt templates published
+
+**2025-12-27 — Taxonomy v4 + Interactive Filter System**
+- `st-chip` interactive primitives for archive filters; floating multi-column dropdowns
+- Taxonomy v4 complete: WordPress categories as single source of truth; `gem_category` meta eliminated
+- Publisher v4.1: dynamic category ID lookup; auto-creates missing categories
+- Archive result counter reflects actual filtered results; pagination accuracy fixed
+
+**2025-12-24 — Knowledge Graph Landing + Template Integration**
+- `/knowledge-graph/` established as intentional section landing with narrative context
+- WP Block Theme template parts (`do_blocks()`) integrated in PHP templates
+- Content model rule established: narrative content as Gems; archive templates render structure only
+
+**2025-12-21 — Canonical st-card Adoption**
+- `st-card` replaces archive-specific gem cards; dark variant (`st-card--dark`) for system/infra gems
+
+**2025-12-19 — st-card Migration**
+- `pink-card` → `st-card`; canonical gradient recipe, unified tag/term styling
+
+**2025-12-17 — Design System v3.3**
+- Grid layout decoupled; overlap fixes; automation hook
+
+**2025-12-03–07 — Initial commits**
+- `Initial commit: Sugartown Pink Theme` (`7671c1c` 2025-12-03)
+- Stink Pink color iteration; post type updates (`5b4042c` 2025-12-07)
+
+### repos/sugartown-cms (Python pipeline)
+
+#### Added
+- Initial commit: pipeline scripts, README (`e8c40b7` 2025-11-27)
+- Resume ingestion workflow (`b883867` 2025-11-30)
+- Publishing Architecture Gem; upsert logic; Resume workflow gems (`2544791`, `274aed1` 2025-11-27–12-03)
+- `publish_gem.py` v3.7: draft-aware, fuzzy match, taxonomy-aware (`4012fd0` 2025-12-05)
+- Finalized README with v3.7 architecture (`69c6edd` 2025-12-05)
+- Synced with WP theme release history through Jan 2026
