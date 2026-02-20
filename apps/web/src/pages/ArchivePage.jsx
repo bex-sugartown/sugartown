@@ -63,10 +63,13 @@ const PAGE_SIZE = 12
 // works across the full content set. Pagination controls the display slice.
 //
 // Stage 7: taxonomy fields (categories, tags, projects) added to all queries.
+// Stage 8 fix: authors added to TAXONOMY_PROJECTION so applyFilters can match
+// against item.authors[] — previously omitted, causing author filter to never match.
 // Stage 3's minimal projections have been upgraded — TaxonomyChips now renders
 // classification chips on each archive card.
 
 const TAXONOMY_PROJECTION = `
+  "authors": authors[]->{_id, name, "slug": slug.current},
   "categories": categories[]->{_id, name, "slug": slug.current, colorHex},
   "tags": tags[]->{_id, name, "slug": slug.current},
   "projects": projects[]->{_id, name, "slug": slug.current, colorHex}
