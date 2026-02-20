@@ -1,0 +1,90 @@
+/* Pagination — archive page navigation */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+/* ─── Page list ─────────────────────────────────────────────────────────────── */
+
+.pageList {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Base button ───────────────────────────────────────────────────────────── */
+
+.pageButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--color-text, #111827);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  line-height: 1;
+}
+
+.pageButton:hover:not(:disabled) {
+  background: var(--color-surface-hover, #f9fafb);
+  border-color: var(--color-border-hover, #d1d5db);
+}
+
+.pageButton:focus-visible {
+  outline: 2px solid var(--color-accent, #FF69B4);
+  outline-offset: 2px;
+}
+
+.pageButton:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* ─── Current page ──────────────────────────────────────────────────────────── */
+
+.currentPage {
+  background: var(--color-accent, #FF69B4);
+  border-color: var(--color-accent, #FF69B4);
+  color: #fff;
+  cursor: default;
+}
+
+.currentPage:hover:not(:disabled) {
+  background: var(--color-accent, #FF69B4);
+  border-color: var(--color-accent, #FF69B4);
+}
+
+/* ─── Prev / Next ───────────────────────────────────────────────────────────── */
+
+.navButton {
+  padding: 0 0.75rem;
+  font-size: 0.8125rem;
+}
+
+/* ─── Ellipsis ──────────────────────────────────────────────────────────────── */
+
+.ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  color: var(--color-text-muted, #6b7280);
+  font-size: 0.875rem;
+  user-select: none;
+}

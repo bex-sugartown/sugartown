@@ -244,3 +244,56 @@
   font-size: 1rem;
   padding: 2rem 0;
 }
+
+/* ── Archive filter + content layout ─────────────────────────────── */
+
+/* Two-column layout: FilterBar sidebar + content area */
+.archiveLayout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Single-column on narrow viewports */
+@media (max-width: 640px) {
+  .archiveLayout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Content column (grid + pagination) */
+.archiveContent {
+  min-width: 0; /* prevent overflow in grid */
+}
+
+/* Result count line shown when filters are active */
+.archiveResultCount {
+  font-size: 0.875rem;
+  color: var(--color-text-muted, #888);
+  margin-bottom: 1rem;
+}
+
+/* "Clear filters" inline button in empty state */
+.clearFiltersLink {
+  display: inline;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-accent, #FF69B4);
+  font-size: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.clearFiltersLink:hover {
+  opacity: 0.8;
+}
+
+.clearFiltersLink:focus-visible {
+  outline: 2px solid var(--color-accent, #FF69B4);
+  outline-offset: 2px;
+  border-radius: 2px;
+}

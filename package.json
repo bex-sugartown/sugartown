@@ -1,6 +1,6 @@
 {
   "name": "sugartown-monorepo",
-  "version": "1.0.0",
+  "version": "0.9.0",
   "private": true,
   "description": "Sugartown.io mini-monorepo: composable MACH reference architecture",
   "scripts": {
@@ -8,6 +8,8 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
+    "validate:urls": "pnpm --filter web validate:urls",
+    "validate:filters": "pnpm --filter web validate:filters",
     "storybook": "turbo run storybook",
     "storybook:build": "turbo run storybook:build",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",

@@ -1,128 +1,71 @@
 # Sugartown Monorepo
 
-> Mini-monorepo composable MACH reference architecture
+> Mini-monorepo: React + Sanity Studio, pnpm workspaces, Turborepo
 
-A production-ready monorepo showcasing modern web architecture with strict boundary enforcement, CMS portability, and design system best practices.
+## Workspaces
 
-## Architecture
+| Workspace | Role | Dev URL |
+|---|---|---|
+| `apps/web` | React 19 + Vite 7 SPA | http://localhost:5173 |
+| `apps/studio` | Sanity Studio v5 (CMS) | http://localhost:3333 |
+| `packages/design-system` | CMS-agnostic component library | — |
 
-### Apps
-
-- **apps/web** - Frontend application (Vite + React + TypeScript)
-- **apps/studio** - Sanity Studio (CMS)
-- **apps/storybook** - Component documentation
-
-### Packages
-
-- **packages/design-system** - CMS-agnostic React component library
-- **packages/tsconfig** - Shared TypeScript configurations
-- **packages/eslint-config** - Shared ESLint configurations with boundary enforcement
-
-### Tooling
-
-- **tooling/scripts** - Build and deployment scripts
-- **tooling/ci** - CI/CD configurations
-
-## Architectural Boundaries
-
-### Import Rules (Enforced via ESLint)
-
-1. **Packages CANNOT import from apps** - Ensures reusability
-2. **Apps CAN import from packages** - Standard consumption pattern
-3. **apps/web CANNOT import from apps/studio** - Prevents coupling
-4. **packages/design-system is CMS-agnostic** - No Sanity, GROQ, or CMS imports
-
-### CMS Portability
-
-- **apps/web** accesses CMS only through future `packages/content` adapter
-- **packages/design-system** remains framework and CMS agnostic
-- **apps/studio** is the only place for Sanity-specific code
-
-This architecture enables switching CMSes without rewriting the design system or core application logic.
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js >= 20.0.0
-- pnpm >= 9.0.0
-
-### Installation
+## Quick Start
 
 ```bash
 pnpm install
+pnpm dev          # web + studio concurrently
 ```
 
-### Development
+## Key Commands
 
 ```bash
-# Run web app and studio concurrently
-pnpm dev
-
-# Run Storybook
-pnpm storybook
+pnpm lint                # ESLint across all workspaces
+pnpm typecheck           # TypeScript across all workspaces
+pnpm validate:urls       # Validate canonical URLs and nav (requires Sanity env vars)
+pnpm validate:filters    # Validate archive filter models (requires Sanity env vars)
+pnpm build               # Production build across all workspaces
+pnpm format              # Prettier (not a CI gate — run locally)
 ```
 
-### Build
+## Architectural Boundaries
 
-```bash
-# Build all apps and packages
-pnpm build
+1. `packages/` cannot import from `apps/`
+2. `apps/web` cannot import from `apps/studio`
+3. `packages/design-system` is CMS-agnostic — no Sanity imports
 
-# Build Storybook static site
-pnpm storybook:build
+These boundaries are enforced by ESLint rules in `packages/eslint-config/boundaries.js`.
+
+## Documentation
+
+All architectural, schema, and operational docs live in `/docs`:
+
+| Doc | Path |
+|---|---|
+| Monorepo overview | `docs/architecture/monorepo-overview.md` |
+| Sanity data flow | `docs/architecture/sanity-data-flow.md` |
+| Schema reference | `docs/schemas/schema-reference.md` |
+| URL namespace | `docs/routing/url-namespace.md` |
+| GROQ query reference | `docs/queries/groq-reference.md` |
+| CI pipeline | `docs/operations/ci.md` |
+
+## CI
+
+GitHub Actions runs on every push and PR to `main`:
+
+```
+install → lint → typecheck → validate:urls → validate:filters → build
 ```
 
-### Linting & Type Checking
+Any step failure halts the pipeline. See `docs/operations/ci.md` for details.
 
-```bash
-# Lint all workspaces
-pnpm lint
+## Release
 
-# Type check all workspaces
-pnpm typecheck
-```
+See `RELEASE_CHECKLIST.md` before every merge to `main`.
 
-## Project Structure
+## Sanity Project
 
-```
-sugartown/
-├── apps/
-│   ├── web/           # Frontend application
-│   ├── studio/        # Sanity Studio
-│   └── storybook/     # Component docs
-├── packages/
-│   ├── design-system/ # Component library
-│   ├── eslint-config/ # Shared linting
-│   └── tsconfig/      # Shared TS config
-├── tooling/
-│   ├── scripts/       # Build scripts
-│   └── ci/            # CI configs
-├── turbo.json         # Turborepo config
-└── package.json       # Workspace root
-```
-
-## Future Extensions
-
-### Planned Packages
-
-- **packages/content** - CMS adapter layer for content fetching
-- **packages/analytics** - Analytics abstraction
-- **packages/auth** - Authentication utilities
-
-### Documentation
-
-Place PRDs and architectural decision records in `/docs` directory (to be created).
-
-## Technology Stack
-
-- **Build**: Turborepo + pnpm workspaces
-- **Frontend**: Vite + React + TypeScript
-- **CMS**: Sanity v3
-- **Components**: Custom design system
-- **Docs**: Storybook
-- **Styling**: CSS Modules + Design Tokens
-
-## License
-
-MIT
+| Field | Value |
+|---|---|
+| Project ID | `poalmzla` |
+| Dataset | `production` |

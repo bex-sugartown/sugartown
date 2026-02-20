@@ -1,16 +1,51 @@
-# React + Vite
+# apps/web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + Vite 7 SPA frontend for Sugartown.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This workspace is the public-facing frontend. It fetches content from Sanity via GROQ queries and renders it as a client-side SPA using React Router v7.
 
-## React Compiler
+## Dev
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+pnpm dev        # from repo root — starts at http://localhost:5173
+```
 
-## Expanding the ESLint configuration
+Or from this directory:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+pnpm dev
+```
+
+## Key Commands
+
+```bash
+pnpm lint               # ESLint
+pnpm build              # Production build
+pnpm validate:urls      # Validate canonical URLs and nav items
+pnpm validate:filters   # Validate archive filter models
+```
+
+## Key Files
+
+| File | Role |
+|---|---|
+| `src/App.jsx` | React Router `<Routes>` tree |
+| `src/main.jsx` | Entry point — BrowserRouter wraps App |
+| `src/lib/routes.js` | Canonical URL registry (`getCanonicalPath`) |
+| `src/lib/queries.js` | All GROQ query definitions |
+| `src/lib/sanity.js` | Sanity client instance |
+| `src/lib/useSanityDoc.js` | Data-fetching hooks |
+| `src/lib/filterModel.js` | Archive filter model builder |
+| `src/pages/` | Page-level components |
+| `scripts/validate-urls.js` | URL validation script |
+| `scripts/validate-filters.js` | Filter model validation script |
+
+## Documentation
+
+- **URL namespace:** `docs/routing/url-namespace.md`
+- **GROQ queries:** `docs/queries/groq-reference.md`
+- **Schema reference:** `docs/schemas/schema-reference.md`
+- **Data flow:** `docs/architecture/sanity-data-flow.md`
+- **CI pipeline:** `docs/operations/ci.md`

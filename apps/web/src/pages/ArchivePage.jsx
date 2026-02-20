@@ -23,10 +23,19 @@
  *   - archivePage.contentTypes is an array to support multi-type archives in future.
  *     For now we use contentTypes[0] as the primary type for listing queries.
  *   - The listing query map (ARCHIVE_QUERIES) is the single place to add new types.
- *   - Filter UI, featured items, and rich hero are deferred to Stage 4/5.
+ *   - Filter UI and pagination are driven by URL query params via useFilterState.
+ *   - All items are fetched once; filtering and pagination are client-side.
  *
  * Stage 7: ARCHIVE_QUERIES upgraded with taxonomy projections (categories, tags,
  *   projects). ItemCard now renders TaxonomyChips for uniform classification display.
+ *
+ * Stage 8: URL-driven filter system added.
+ *   - useFilterState() manages filter + page state in URL query params
+ *   - applyFilters() applies AND/OR logic client-side across fetched items
+ *   - buildFilterModel() derives available facets from live content
+ *   - FilterBar renders taxonomy filter controls
+ *   - Pagination renders page navigation
+ *   - GROQ slice cap removed — all published items fetched for filtering accuracy
  */
 import { Link } from 'react-router-dom'
 import { useSanityDoc, useSanityList } from '../lib/useSanityDoc'
@@ -34,18 +43,33 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import SeoHead from '../components/SeoHead'
 import TaxonomyChips from '../components/TaxonomyChips'
+import FilterBar from '../components/FilterBar'
+import Pagination from '../components/Pagination'
 import { getCanonicalPath } from '../lib/routes'
-import { archivePageBySlugQuery } from '../lib/queries'
+import { archivePageBySlugQuery, facetsRawQuery } from '../lib/queries'
+import { buildFilterModel } from '../lib/filterModel'
+import { useFilterState } from '../lib/useFilterState'
+import { applyFilters, paginateItems } from '../lib/applyFilters'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
+// ─── Constants ────────────────────────────────────────────────────────────────
+
+const PAGE_SIZE = 12
+
 // ─── Archive listing queries (one per content type) ───────────────────────────
 //
+// No GROQ slice cap — all published items are fetched so client-side filtering
+// works across the full content set. Pagination controls the display slice.
+//
 // Stage 7: taxonomy fields (categories, tags, projects) added to all queries.
+// Stage 8 fix: authors added to TAXONOMY_PROJECTION so applyFilters can match
+// against item.authors[] — previously omitted, causing author filter to never match.
 // Stage 3's minimal projections have been upgraded — TaxonomyChips now renders
 // classification chips on each archive card.
 
 const TAXONOMY_PROJECTION = `
+  "authors": authors[]->{_id, name, "slug": slug.current},
   "categories": categories[]->{_id, name, "slug": slug.current, colorHex},
   "tags": tags[]->{_id, name, "slug": slug.current},
   "projects": projects[]->{_id, name, "slug": slug.current, colorHex}
@@ -53,7 +77,7 @@ const TAXONOMY_PROJECTION = `
 
 const ARCHIVE_QUERIES = {
   article: `
-    *[_type == "article" && defined(slug.current)] | order(publishedAt desc)[0...50] {
+    *[_type == "article" && defined(slug.current)] | order(publishedAt desc) {
       _id,
       title,
       "slug": slug.current,
@@ -63,7 +87,7 @@ const ARCHIVE_QUERIES = {
     }
   `,
   node: `
-    *[_type == "node" && defined(slug.current)] | order(publishedAt desc)[0...50] {
+    *[_type == "node" && defined(slug.current)] | order(publishedAt desc) {
       _id,
       title,
       "slug": slug.current,
@@ -75,7 +99,7 @@ const ARCHIVE_QUERIES = {
     }
   `,
   caseStudy: `
-    *[_type == "caseStudy" && defined(slug.current)] | order(publishedAt desc)[0...50] {
+    *[_type == "caseStudy" && defined(slug.current)] | order(publishedAt desc) {
       _id,
       title,
       "slug": slug.current,
@@ -130,12 +154,31 @@ function ItemCard({ item, docType }) {
   )
 }
 
-// ─── ArchiveListing — fetches + renders items for the bound content type ──────
+// ─── ArchiveListing — fetches, filters, paginates, and renders items ──────────
 
-function ArchiveListing({ contentType }) {
+function ArchiveListing({ contentType, archiveDoc }) {
   const query = ARCHIVE_QUERIES[contentType]
-  const { data: items, loading } = useSanityList(query || null)
   const docType = CONTENT_TYPE_TO_DOC_TYPE[contentType]
+
+  // Fetch all items for this content type (no slice — client-side filtering needs full set)
+  const { data: allItems, loading: itemsLoading } = useSanityList(query || null)
+
+  // Fetch raw items for FilterModel (includes authors + relatedProjects for legacy merge)
+  const contentTypes = archiveDoc?.contentTypes ?? []
+  const { data: rawItems, loading: rawLoading } = useSanityList(
+    contentTypes.length > 0 ? facetsRawQuery : null,
+    contentTypes.length > 0 ? { contentTypes } : {}
+  )
+
+  // URL-driven filter + pagination state
+  const {
+    activeFilters,
+    currentPage,
+    hasActiveFilters,
+    setFilter,
+    clearAll,
+    setPage,
+  } = useFilterState()
 
   if (!query || !docType) {
     if (import.meta.env.DEV) {
@@ -144,21 +187,80 @@ function ArchiveListing({ contentType }) {
     return <p className={styles.archiveEmpty}>Archive type not yet supported.</p>
   }
 
-  if (loading) return <p className={styles.archiveEmpty}>Loading…</p>
+  if (itemsLoading || rawLoading) return <p className={styles.archiveEmpty}>Loading…</p>
 
-  if (!items || items.length === 0) {
-    return (
-      <p className={styles.archiveEmpty}>
-        Nothing published yet. Check back soon.
-      </p>
-    )
-  }
+  // Build FilterModel from archiveDoc config + raw content items
+  const filterModel = buildFilterModel(archiveDoc, rawItems ?? [])
+
+  // Apply active filters (client-side AND/OR logic)
+  const filteredItems = applyFilters(allItems ?? [], activeFilters)
+
+  // Paginate the filtered result
+  const { pageItems, totalPages, totalItems } = paginateItems(
+    filteredItems,
+    currentPage,
+    PAGE_SIZE
+  )
+
+  const hasFilterUI = filterModel.facets.some((f) => f.options.length > 0)
 
   return (
-    <div className={styles.archiveGrid}>
-      {items.map((item) => (
-        <ItemCard key={item._id} item={item} docType={docType} />
-      ))}
+    <div className={styles.archiveLayout}>
+      {/* FilterBar — only render if facets have options */}
+      {hasFilterUI && (
+        <FilterBar
+          filterModel={filterModel}
+          activeFilters={activeFilters}
+          onFilterChange={setFilter}
+          onClearAll={clearAll}
+        />
+      )}
+
+      <div className={styles.archiveContent}>
+        {/* Result count — shown when filters are active */}
+        {hasActiveFilters && (
+          <p className={styles.archiveResultCount}>
+            {totalItems === 0
+              ? 'No results'
+              : `${totalItems} result${totalItems === 1 ? '' : 's'}`}
+          </p>
+        )}
+
+        {/* Empty state */}
+        {pageItems.length === 0 ? (
+          <div className={styles.archiveEmpty}>
+            {hasActiveFilters ? (
+              <>
+                <p>No results for the selected filters.</p>
+                <button
+                  type="button"
+                  onClick={clearAll}
+                  className={styles.clearFiltersLink}
+                >
+                  Clear filters
+                </button>
+              </>
+            ) : (
+              <p>Nothing published yet. Check back soon.</p>
+            )}
+          </div>
+        ) : (
+          <div className={styles.archiveGrid}>
+            {pageItems.map((item) => (
+              <ItemCard key={item._id} item={item} docType={docType} />
+            ))}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        )}
+      </div>
     </div>
   )
 }
@@ -200,7 +302,7 @@ export default function ArchivePage({ archiveSlug }) {
       )}
 
       {primaryType ? (
-        <ArchiveListing contentType={primaryType} />
+        <ArchiveListing contentType={primaryType} archiveDoc={archiveDoc} />
       ) : (
         <p className={styles.archiveEmpty}>
           No content type configured for this archive.
