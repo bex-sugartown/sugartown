@@ -10,3 +10,4 @@ The root [`RELEASE_NOTES.md`](../../RELEASE_NOTES.md) always reflects the latest
 | Version | Date | Summary |
 |---------|------|---------|
 | [v0.9.0](./RELEASE_NOTES_v0.9.0.md) | 2026-02-21 | Repository stabilization & URL-driven archive filtering |
+| [v0.8.0](./RELEASE_NOTES_v0.8.0.md) | 2026-02-19 | Foundation: routing, SEO, archives, taxonomy, authorship |
