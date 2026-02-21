@@ -41,3 +41,17 @@ coverage
 # Misc
 *.tsbuildinfo
 .cache
+
+# Migration artifacts — large export/import files are gitignored
+# The artifacts/ directory itself is tracked via artifacts/.gitkeep
+# Scripts, manifests, and reports that ARE committed are listed below as exceptions.
+artifacts/wp_export.ndjson
+artifacts/sanity_import.ndjson
+# Keep these — small enough to commit, needed for audit trail:
+# artifacts/image_manifest.json      ← commit: maps WP URLs to Sanity asset refs
+# artifacts/image_failures.csv       ← commit: audit of failed image transfers
+# artifacts/slug_collision_report.csv ← commit: slug resolution audit
+# artifacts/parity_report.md         ← commit: cutover validation report
+# artifacts/migration_report.json    ← commit: machine-readable parity data
+# wp_urls.csv from export-wp-urls.py:
+scripts/wp_urls.csv

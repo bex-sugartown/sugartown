@@ -21,6 +21,7 @@ import richImage from './objects/richImage'
 import ctaButton from './objects/ctaButton'
 import editorialCard from './objects/editorialCard'
 import seoMetadata from './objects/seoMetadata'
+import legacySource from './objects/legacySource'
 
 // Legacy schemas
 import logo from './objects/logo'
@@ -88,6 +89,7 @@ export const schemaTypes = [
   ctaButton,
   editorialCard,
   seoMetadata,
+  legacySource,
 
   // Objects - Legacy
   logo,

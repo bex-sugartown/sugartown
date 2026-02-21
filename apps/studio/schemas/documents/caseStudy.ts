@@ -19,6 +19,7 @@ export default defineType({
     {name: 'projectDetails', title: 'Project Details'},
     {name: 'connections', title: 'Connections'},
     {name: 'seo', title: 'SEO'},
+    {name: 'migration', title: 'Migration'},
   ],
   fields: [
     // CONTENT GROUP
@@ -233,6 +234,15 @@ export default defineType({
       title: 'SEO',
       type: 'seoMetadata',
       group: 'seo',
+    }),
+
+    // MIGRATION GROUP — populated by migrate:import, read-only in Studio
+    defineField({
+      name: 'legacySource',
+      title: 'Legacy Source',
+      type: 'legacySource',
+      group: 'migration',
+      description: 'Migration metadata from WordPress. Read-only — set by import script.',
     }),
   ],
   preview: {

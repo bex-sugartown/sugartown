@@ -13,7 +13,13 @@
     "storybook": "turbo run storybook",
     "storybook:build": "turbo run storybook:build",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "clean": "turbo run clean && rm -rf node_modules"
+    "clean": "turbo run clean && rm -rf node_modules",
+    "migrate:export":    "node scripts/migrate/export.js",
+    "migrate:images":    "node scripts/migrate/images.js",
+    "migrate:transform": "node scripts/migrate/transform.js",
+    "migrate:import":    "node scripts/migrate/import.js",
+    "migrate:redirects": "node scripts/migrate/redirects.js",
+    "migrate:parity":    "node scripts/migrate/parity.js"
   },
   "devDependencies": {
     "prettier": "^3.1.1",
