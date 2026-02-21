@@ -9,7 +9,7 @@
   padding: 0;
 }
 
-/* Base chip */
+/* Base chip — shared by both <span> (no slug) and <Link> variants */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -21,6 +21,18 @@
   white-space: nowrap;
   border: 1px solid currentColor;
   transition: opacity 0.15s ease;
+}
+
+/* Link chip — reset anchor defaults, inherit all chip styling */
+.chipLink {
+  text-decoration: none;
+  color: inherit;
+  border-color: inherit;
+  background-color: inherit;
+}
+
+.chipLink:hover {
+  opacity: 0.75;
 }
 
 /* Project chip — uses colorHex accent when present */
