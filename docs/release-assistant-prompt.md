@@ -266,10 +266,17 @@ This is the permanent historical record.
 AI must output:
 
 1. **CHANGELOG entry** (Markdown) — ready to prepend to `CHANGELOG.md`
-2. **RELEASE_NOTES.md** (Markdown) — full file content
-3. **Commit messages** — use conventional commits; suggest separate commits:
+2. **RELEASE_NOTES.md** (Markdown) — full file content, replaces root `RELEASE_NOTES.md` (current release only)
+3. **Archived release notes** — identical copy written to `docs/release-notes/RELEASE_NOTES_vX.Y.Z.md`
+4. **Commit messages** — use conventional commits; suggest separate commits:
    - `docs: add CHANGELOG entry for vX.Y.Z`
-   - `docs: add RELEASE_NOTES for vX.Y.Z`
+   - `docs: add release notes for vX.Y.Z`
+
+**Release notes file convention:**
+- `RELEASE_NOTES.md` (repo root) — always reflects the current/latest release. Replaced on each release.
+- `docs/release-notes/RELEASE_NOTES_vX.Y.Z.md` — permanent per-version archive. Never modified after creation.
+- Before writing a new `RELEASE_NOTES.md`, save the existing one to `docs/release-notes/` first.
+- Filename format: `RELEASE_NOTES_vMAJOR.MINOR.PATCH.md` (e.g. `RELEASE_NOTES_v0.9.0.md`).
 
 > **Note — RELEASE_STATE.json (retired):**
 > This artifact was carried over from the WP/Python pipeline era (`repos/sugartown-cms/.RELEASE_STATE.json`), where it functioned as a manually maintained accountability ledger — proof that the release had been consciously reviewed. It was never consumed programmatically by any script, CMS, or frontend. Its role in that era (tracking `gems_published`, `followup_items`, `verification` checklists) has no direct equivalent in the monorepo. The monorepo's equivalent accountability artifacts are `pnpm validate:urls` and `pnpm validate:filters` output, which are captured in the Release Notes "Validator state" section. Do not generate `RELEASE_STATE.json` unless automated release tooling is introduced that reads it.
