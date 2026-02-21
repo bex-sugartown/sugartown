@@ -519,7 +519,7 @@ export const tagBySlugQuery = `
   *[_type == "tag" && slug.current == $slug][0] {
     _id,
     name,
-    slug,
+    "slug": slug.current,
     description
   }
 `
@@ -547,7 +547,13 @@ export const allProjectsQuery = `
   }
 `
 
-export const projectByIdQuery = `
+/**
+ * projectByProjectIdQuery
+ * Fetches a project by its projectId field (format: PROJ-XXX).
+ * Projects have no slug field — projectId is used as the URL key for /projects/:slug.
+ * Renamed from projectByIdQuery (was unused) for clarity.
+ */
+export const projectByProjectIdQuery = `
   *[_type == "project" && projectId == $projectId][0] {
     _id,
     projectId,
@@ -557,6 +563,46 @@ export const projectByIdQuery = `
     priority,
     colorHex,
     kpis
+  }
+`
+
+/**
+ * contentByTaxonomyQuery
+ * Fetches all published content items (article, caseStudy, node) that reference
+ * a given taxonomy document by its Sanity _id.
+ *
+ * Works for any taxonomy type — tag, category, project, or person — because
+ * all content types use the same canonical taxonomy fields:
+ *   authors[], categories[], tags[], projects[], relatedProjects[]
+ *
+ * Usage:
+ *   client.fetch(contentByTaxonomyQuery, { taxonomyId: taxDoc._id })
+ *
+ * Returns items ordered by publishedAt desc with full taxonomy projections
+ * so TaxonomyChips can render on each listing card.
+ */
+export const contentByTaxonomyQuery = `
+  *[
+    _type in ["article", "caseStudy", "node"] &&
+    defined(slug.current) &&
+    $taxonomyId in [
+      ...authors[]._ref,
+      ...categories[]._ref,
+      ...tags[]._ref,
+      ...projects[]._ref,
+      ...relatedProjects[]._ref
+    ]
+  ] | order(publishedAt desc) {
+    _id,
+    _type,
+    title,
+    "slug": slug.current,
+    excerpt,
+    publishedAt,
+    "authors": authors[]->{_id, name, "slug": slug.current},
+    "categories": categories[]->{_id, name, "slug": slug.current, colorHex},
+    "tags": tags[]->{_id, name, "slug": slug.current},
+    "projects": projects[]->{_id, name, "slug": slug.current, colorHex}
   }
 `
 

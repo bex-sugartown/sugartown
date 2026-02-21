@@ -14,10 +14,10 @@
  *   /articles                 → article archive landing
  *   /case-studies             → caseStudy archive landing
  *   /knowledge-graph          → node archive landing
- *   /tags/:slug               → tag taxonomy (reserved, placeholder)
- *   /categories/:slug         → category taxonomy (reserved, placeholder)
- *   /projects/:slug           → project taxonomy (reserved, placeholder)
- *   /people/:slug             → people taxonomy (reserved, placeholder)
+ *   /tags/:slug               → tag taxonomy detail
+ *   /categories/:slug         → category taxonomy detail
+ *   /projects/:slug           → project taxonomy detail (keyed by projectId)
+ *   /people/:slug             → person taxonomy detail
  */
 
 // ─── Namespace prefixes ──────────────────────────────────────────────────────
@@ -28,6 +28,24 @@ export const TYPE_NAMESPACES = {
   caseStudy: 'case-studies',
   node: 'nodes',
   // "page" has no prefix — it resolves at root: /:slug
+}
+
+/**
+ * Maps taxonomy Sanity _type to its URL namespace prefix.
+ * Taxonomy detail pages are keyed by slug.current for tag/category/person,
+ * and by projectId for project (projects have no slug field).
+ *
+ * Examples:
+ *   getCanonicalPath({ docType: 'tag', slug: 'ai-generated' }) → '/tags/ai-generated'
+ *   getCanonicalPath({ docType: 'category', slug: 'systems' }) → '/categories/systems'
+ *   getCanonicalPath({ docType: 'person', slug: 'bhead' })     → '/people/bhead'
+ *   getCanonicalPath({ docType: 'project', slug: 'PROJ-001' }) → '/projects/PROJ-001'
+ */
+export const TAXONOMY_NAMESPACES = {
+  tag: 'tags',
+  category: 'categories',
+  project: 'projects',
+  person: 'people',
 }
 
 // ─── Archive paths ───────────────────────────────────────────────────────────
@@ -101,13 +119,20 @@ export function getCanonicalPath({ docType, slug }) {
     return `/${s}`
   }
 
-  const prefix = TYPE_NAMESPACES[docType]
-  if (!prefix) {
-    console.warn(`[routes] getCanonicalPath: unknown docType="${docType}", slug="${s}"`)
-    return `/${s}`
+  // Check content type namespaces first
+  const contentPrefix = TYPE_NAMESPACES[docType]
+  if (contentPrefix) {
+    return `/${contentPrefix}/${s}`
   }
 
-  return `/${prefix}/${s}`
+  // Check taxonomy namespaces
+  const taxonomyPrefix = TAXONOMY_NAMESPACES[docType]
+  if (taxonomyPrefix) {
+    return `/${taxonomyPrefix}/${s}`
+  }
+
+  console.warn(`[routes] getCanonicalPath: unknown docType="${docType}", slug="${s}"`)
+  return `/${s}`
 }
 
 // ─── Archive path for a doc type ─────────────────────────────────────────────
