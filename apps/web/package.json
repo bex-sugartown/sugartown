@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build:redirects": "node scripts/build-redirects.js",
+    "build": "node scripts/build-redirects.js && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "validate:urls": "node scripts/validate-urls.js",

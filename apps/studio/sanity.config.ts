@@ -89,6 +89,18 @@ export default defineConfig({
 
             S.divider(),
 
+            // Redirects
+            S.listItem()
+              .title('↪ Redirects')
+              .icon(() => '↪')
+              .child(
+                S.documentTypeList('redirect')
+                  .title('Redirects')
+                  .defaultOrdering([{field: 'fromPath', direction: 'asc'}])
+              ),
+
+            S.divider(),
+
             // Legacy Content (old schemas)
             S.listItem()
               .title('🗂️ Legacy')

@@ -62,6 +62,7 @@ import preheader from './documents/preheader'
 import ctaButtonDoc from './documents/ctaButtonDoc'
 import homepage from './documents/homepage'
 import archivePage from './documents/archivePage'
+import redirect from './documents/redirect'
 
 // Legacy Documents (DEPRECATED - kept for backwards compatibility only)
 // Use siteSettings for header/footer, homepage for hero, page sections for content
@@ -119,6 +120,7 @@ export const schemaTypes = [
   ctaButtonDoc,
   homepage,
   archivePage,
+  redirect,
 
   // Documents - Legacy (DEPRECATED)
   header,
