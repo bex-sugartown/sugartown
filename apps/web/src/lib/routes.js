@@ -16,7 +16,7 @@
  *   /knowledge-graph          → node archive landing
  *   /tags/:slug               → tag taxonomy detail
  *   /categories/:slug         → category taxonomy detail
- *   /projects/:slug           → project taxonomy detail (keyed by projectId)
+ *   /projects/:slug           → project taxonomy detail
  *   /people/:slug             → person taxonomy detail
  */
 
@@ -39,7 +39,7 @@ export const TYPE_NAMESPACES = {
  *   getCanonicalPath({ docType: 'tag', slug: 'ai-generated' }) → '/tags/ai-generated'
  *   getCanonicalPath({ docType: 'category', slug: 'systems' }) → '/categories/systems'
  *   getCanonicalPath({ docType: 'person', slug: 'bhead' })     → '/people/bhead'
- *   getCanonicalPath({ docType: 'project', slug: 'PROJ-001' }) → '/projects/PROJ-001'
+ *   getCanonicalPath({ docType: 'project', slug: 'sugartown-cms' }) → '/projects/sugartown-cms'
  */
 export const TAXONOMY_NAMESPACES = {
   tag: 'tags',

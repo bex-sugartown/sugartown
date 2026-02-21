@@ -70,6 +70,7 @@ export const PROJECT_FRAGMENT = `
   _id,
   projectId,
   name,
+  "slug": slug.current,
   status,
   colorHex
 `
@@ -539,6 +540,7 @@ export const allProjectsQuery = `
     _id,
     projectId,
     name,
+    "slug": slug.current,
     description,
     status,
     priority,
@@ -548,16 +550,17 @@ export const allProjectsQuery = `
 `
 
 /**
- * projectByProjectIdQuery
- * Fetches a project by its projectId field (format: PROJ-XXX).
- * Projects have no slug field — projectId is used as the URL key for /projects/:slug.
- * Renamed from projectByIdQuery (was unused) for clarity.
+ * projectBySlugQuery
+ * Fetches a project by slug.current — standard routing convention.
+ * projectId (PROJ-XXX) is retained as operator-facing metadata, displayed
+ * on the project detail page and Studio UI, but is not the URL key.
  */
-export const projectByProjectIdQuery = `
-  *[_type == "project" && projectId == $projectId][0] {
+export const projectBySlugQuery = `
+  *[_type == "project" && slug.current == $slug][0] {
     _id,
     projectId,
     name,
+    "slug": slug.current,
     description,
     status,
     priority,

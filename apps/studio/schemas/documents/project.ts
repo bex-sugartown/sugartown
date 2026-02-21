@@ -47,6 +47,17 @@ export default defineType({
           .error('Project name is required and must be under 100 characters')
     }),
     defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      description: 'URL-safe identifier. Auto-generated from name — click Generate.',
+      options: {
+        source: 'name',
+        maxLength: 96,
+      },
+      validation: (Rule) => Rule.required()
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',

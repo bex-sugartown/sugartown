@@ -26,7 +26,7 @@ import {
   tagBySlugQuery,
   categoryBySlugQuery,
   personBySlugQuery,
-  projectByProjectIdQuery,
+  projectBySlugQuery,
   contentByTaxonomyQuery,
 } from '../lib/queries'
 import TaxonomyChips from '../components/TaxonomyChips'
@@ -66,9 +66,8 @@ const TAXONOMY_CONFIG = {
     type: 'project',
     label: 'Project',
     pluralLabel: 'Projects',
-    query: projectByProjectIdQuery,
-    // Projects are keyed by projectId in the URL (no slug field on project schema)
-    buildParams: (slug) => ({ projectId: slug }),
+    query: projectBySlugQuery,
+    buildParams: (slug) => ({ slug }),
   },
 }
 
