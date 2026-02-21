@@ -92,7 +92,7 @@ export async function wpFetch(url) {
     const res = await fetch(url, {
       signal: controller.signal,
       headers: {
-        'User-Agent': 'sugartown-migration/1.0 (wp→sanity)',
+        'User-Agent': 'sugartown-migration/1.0 (wp-to-sanity)',
         Accept: 'application/json',
       },
     })

@@ -2,6 +2,7 @@
   "name": "sugartown-monorepo",
   "version": "0.9.0",
   "private": true,
+  "type": "module",
   "description": "Sugartown.io mini-monorepo: composable MACH reference architecture",
   "scripts": {
     "dev": "turbo run dev --filter=web --filter=studio",
@@ -14,12 +15,12 @@
     "storybook:build": "turbo run storybook:build",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "clean": "turbo run clean && rm -rf node_modules",
-    "migrate:export":    "node scripts/migrate/export.js",
-    "migrate:images":    "node scripts/migrate/images.js",
+    "migrate:export": "node scripts/migrate/export.js",
+    "migrate:images": "node scripts/migrate/images.js",
     "migrate:transform": "node scripts/migrate/transform.js",
-    "migrate:import":    "node scripts/migrate/import.js",
+    "migrate:import": "node scripts/migrate/import.js",
     "migrate:redirects": "node scripts/migrate/redirects.js",
-    "migrate:parity":    "node scripts/migrate/parity.js"
+    "migrate:parity": "node scripts/migrate/parity.js"
   },
   "devDependencies": {
     "prettier": "^3.1.1",
@@ -30,5 +31,8 @@
   "engines": {
     "node": ">=20.0.0",
     "pnpm": ">=9.0.0"
+  },
+  "dependencies": {
+    "@sanity/client": "^7.14.1"
   }
 }

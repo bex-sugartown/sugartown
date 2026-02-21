@@ -31,7 +31,7 @@
  */
 
 import { resolve } from 'path'
-import { readFileSync, existsSync } from 'fs'
+import { readFileSync, writeFileSync, existsSync } from 'fs'
 import {
   banner, section, ok, warn, info, fail,
   buildSanityClient, readNdjson, readJson,

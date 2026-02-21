@@ -1,0 +1,33 @@
+{
+  "generatedAt": "2026-02-21T16:20:14.939Z",
+  "exportCounts": {
+    "article": 7,
+    "page": 8,
+    "node": 38,
+    "caseStudy": 7,
+    "category": 20,
+    "tag": 246,
+    "person": 1
+  },
+  "sanityCounts": {
+    "article": 7,
+    "caseStudy": 7,
+    "category": 20,
+    "node": 38,
+    "page": 8,
+    "person": 1,
+    "postTypeCheck": 0,
+    "tag": 246
+  },
+  "imageManifestSize": 55,
+  "imageFailureCount": 1,
+  "prioritySvgCount": 5,
+  "wpUrlsRemainingInContent": 0,
+  "redirectRuleCount": 9,
+  "hasSpaFallback": true,
+  "checksTotal": 13,
+  "checksPassed": 12,
+  "checksFailed": 0,
+  "checksWarned": 1,
+  "overallPassed": true
+}

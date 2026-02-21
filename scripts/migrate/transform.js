@@ -84,6 +84,13 @@ function substituteInlineImages(blocks, manifest) {
   })
 }
 
+// ─── Author login guard ───────────────────────────────────────────────────────
+// WP CPTs (gem, case_study) may have no author field → authorLogin arrives as
+// the literal string "undefined" or "0". Treat those as "no author".
+function validAuthorLogin(login) {
+  return login && login !== 'undefined' && login !== '0'
+}
+
 // ─── Per-type transformers ────────────────────────────────────────────────────
 
 function transformArticle(record, manifest, termLookup, personLookup) {
@@ -103,7 +110,7 @@ function transformArticle(record, manifest, termLookup, personLookup) {
     .filter(Boolean)
     .map(refItem)
 
-  const authors = record.authorLogin
+  const authors = validAuthorLogin(record.authorLogin)
     ? [refItem(personLookup.get(record.authorLogin) ?? makeId('person', record.authorLogin))]
     : []
 
@@ -165,7 +172,7 @@ function transformNode(record, manifest, termLookup, personLookup) {
     .map((id) => termLookup.get(`tag::${id}`))
     .filter(Boolean).map(refItem)
 
-  const authors = record.authorLogin
+  const authors = validAuthorLogin(record.authorLogin)
     ? [refItem(personLookup.get(record.authorLogin) ?? makeId('person', record.authorLogin))]
     : []
 
@@ -203,7 +210,7 @@ function transformCaseStudy(record, manifest, termLookup, personLookup) {
     .map((id) => termLookup.get(`tag::${id}`))
     .filter(Boolean).map(refItem)
 
-  const authors = record.authorLogin
+  const authors = validAuthorLogin(record.authorLogin)
     ? [refItem(personLookup.get(record.authorLogin) ?? makeId('person', record.authorLogin))]
     : []
 

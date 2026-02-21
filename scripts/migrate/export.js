@@ -43,10 +43,10 @@ const SLUG_COLLISION_FILE = resolve(ARTIFACTS_DIR, 'slug_collision_report.csv')
 // Verify available types at: GET /wp-json/wp/v2/types
 
 const POST_TYPES = [
-  { restRoute: 'posts',         sanityType: 'article',   wpType: 'post'       },
-  { restRoute: 'pages',         sanityType: 'page',       wpType: 'page'       },
-  { restRoute: 'gems',          sanityType: 'node',       wpType: 'gem'        },  // ← confirm CPT key with WP admin
-  { restRoute: 'case-studies',  sanityType: 'caseStudy',  wpType: 'case_study' },  // ← confirm CPT key with WP admin
+  { restRoute: 'posts',       sanityType: 'article',   wpType: 'post'       },
+  { restRoute: 'pages',       sanityType: 'page',      wpType: 'page'       },
+  { restRoute: 'gem',         sanityType: 'node',      wpType: 'gem'        },  // WP REST base: /wp-json/wp/v2/gem
+  { restRoute: 'case_study',  sanityType: 'caseStudy', wpType: 'case_study' },  // WP REST base: /wp-json/wp/v2/case_study
 ]
 
 const TAXONOMY_TYPES = [
@@ -126,9 +126,9 @@ async function exportPostType(wpBase, { restRoute, sanityType, wpType }, usersMa
       featuredMediaUrl = await fetchFeaturedMediaUrl(wpBase, post.featured_media)
     }
 
-    // Author info
+    // Author info — authorId may be undefined for CPTs that have no author field
     const authorId = post.author
-    const author = usersMap.get(authorId) ?? { login: String(authorId), name: '', email: '' }
+    const author = usersMap.get(authorId) ?? (authorId ? { login: String(authorId), name: '', email: '' } : null)
 
     // Taxonomy terms
     const termCategoryIds = post.categories ?? []
@@ -150,8 +150,8 @@ async function exportPostType(wpBase, { restRoute, sanityType, wpType }, usersMa
       imageUrls,
       termCategoryIds,
       termTagIds,
-      authorLogin:      author.login,
-      authorName:       author.name,
+      authorLogin:      author?.login ?? null,
+      authorName:       author?.name ?? '',
       publishedAt:      post.date_gmt ? `${post.date_gmt}Z` : null,
       modifiedAt:       post.modified_gmt ? `${post.modified_gmt}Z` : null,
       seoTitle,
