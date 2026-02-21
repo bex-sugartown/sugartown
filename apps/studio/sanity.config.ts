@@ -18,20 +18,6 @@ export default defineConfig({
         S.list()
           .title('Sugartown CMS')
           .items([
-            // Knowledge Graph
-            S.listItem()
-              .title('💎 Knowledge Graph')
-              .icon(() => '💎')
-              .child(
-                S.list()
-                  .title('Knowledge Graph')
-                  .items([
-                    S.documentTypeListItem('node').title('Nodes'),
-                  ])
-              ),
-
-            S.divider(),
-
             // Content
             S.listItem()
               .title('📝 Content')
@@ -41,8 +27,9 @@ export default defineConfig({
                   .title('Content')
                   .items([
                     S.documentTypeListItem('article').title('Articles'),
-                    S.documentTypeListItem('page').title('Pages'),
                     S.documentTypeListItem('caseStudy').title('Case Studies'),
+                    S.documentTypeListItem('node').title('Knowledge Graph'),
+                    S.documentTypeListItem('page').title('Pages'),
                     S.documentTypeListItem('archivePage').title('Archive Pages'),
                   ])
               ),
