@@ -3,14 +3,15 @@
  * Route: /case-studies/:slug
  */
 import { useParams, Link } from 'react-router-dom'
-import { PortableText } from '@portabletext/react'
 import { caseStudyBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getAuthorByline } from '../lib/person'
+import { urlFor } from '../lib/sanity'
 import SeoHead from '../components/SeoHead'
 import TaxonomyChips from '../components/TaxonomyChips'
+import PageSections from '../components/PageSections'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -60,16 +61,22 @@ export default function CaseStudyPage() {
         )}
       </div>
 
+      {caseStudy.featuredImage?.asset && (
+        <img
+          src={urlFor(caseStudy.featuredImage.asset).width(1200).quality(85).url()}
+          alt={caseStudy.featuredImage.alt ?? ''}
+          className={styles.detailFeaturedImage}
+        />
+      )}
+
       <TaxonomyChips
         projects={caseStudy.projects}
         categories={caseStudy.categories}
         tags={caseStudy.tags}
       />
 
-      {caseStudy.content && (
-        <div className={styles.detailContent}>
-          <PortableText value={caseStudy.content} />
-        </div>
+      {caseStudy.sections?.length > 0 && (
+        <PageSections sections={caseStudy.sections} />
       )}
     </main>
   )

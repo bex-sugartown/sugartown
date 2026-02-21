@@ -373,7 +373,32 @@ export const caseStudyBySlugQuery = `
     dateRange,
     publishedAt,
     updatedAt,
-    content,
+    sections[]{
+      _type,
+      _key,
+      _type == "textSection" => {
+        heading,
+        content
+      },
+      _type == "imageGallery" => {
+        layout,
+        images[] {
+          asset->,
+          alt,
+          caption
+        }
+      },
+      _type in ["heroSection", "hero"] => {
+        heading,
+        subheading,
+        backgroundImage { asset->, alt, crop, hotspot }
+      },
+      _type == "ctaSection" => {
+        heading,
+        description,
+        buttons[] { text, link { url, label, openInNewTab }, style }
+      }
+    },
     authors[]->{${PERSON_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},

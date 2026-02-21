@@ -46,11 +46,17 @@ const OUTPUT_FILE   = resolve(ARTIFACTS_DIR, 'sanity_import.ndjson')
 
 // ─── Image substitution ───────────────────────────────────────────────────────
 
-function resolveImageRef(wpUrl, manifest) {
+/**
+ * Resolve a WP image URL to a Sanity image reference object.
+ * @param {string} wpUrl
+ * @param {object} manifest
+ * @param {'image'|'richImage'} blockType - use 'richImage' for inline PT blocks, 'image' for featuredImage
+ */
+function resolveImageRef(wpUrl, manifest, blockType = 'image') {
   if (!wpUrl || !manifest) return null
   const entry = manifest[wpUrl]
   if (!entry?.sanityAssetRef) return null
-  return { _type: 'image', asset: { _type: 'reference', _ref: entry.sanityAssetRef } }
+  return { _type: blockType, asset: { _type: 'reference', _ref: entry.sanityAssetRef } }
 }
 
 /**
@@ -61,7 +67,8 @@ function substituteInlineImages(blocks, manifest) {
   if (!blocks || !manifest) return blocks
   return blocks.map((block) => {
     if (block._type === 'image' && block._wpImageUrl) {
-      const resolved = resolveImageRef(block._wpImageUrl, manifest)
+      // textSection.content allows richImage (not plain image)
+      const resolved = resolveImageRef(block._wpImageUrl, manifest, 'richImage')
       if (resolved) {
         return { ...resolved, _key: block._key, alt: block.alt ?? '' }
       }
