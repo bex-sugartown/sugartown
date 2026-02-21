@@ -20,7 +20,6 @@ export default defineType({
     {name: 'content', title: 'Content', default: true},
     {name: 'aiContext', title: 'AI Context'},
     {name: 'agenticCaucus', title: 'Agentic Caucus'},
-    {name: 'connections', title: 'Connections'},
     {name: 'metadata', title: 'Metadata'},
     {name: 'seo', title: 'SEO'},
     {name: 'migration', title: 'Migration'},
@@ -148,79 +147,23 @@ export default defineType({
       validation: (Rule) => Rule.max(200)
     }),
 
-    // CONNECTIONS GROUP
-    // Stage 4: Canonical taxonomy primitives — authors, categories, tags, projects
+    // METADATA GROUP — dates, status, authors, taxonomy connections
     defineField({
-      name: 'authors',
-      title: 'Authors',
-      type: 'array',
-      description: 'Select existing persons or create new — the canonical author field.',
-      group: 'connections',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'person'}]
-        })
-      ],
-      validation: (Rule) => Rule.unique()
+      name: 'publishedAt',
+      title: 'Published At',
+      type: 'datetime',
+      description: 'When was this node created/published?',
+      group: 'metadata',
+      validation: (Rule) => Rule.required().error('Published date is required'),
+      initialValue: () => new Date().toISOString()
     }),
     defineField({
-      name: 'categories',
-      title: 'Categories',
-      type: 'array',
-      description: 'Primary topic categorization',
-      group: 'connections',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'category'}]
-        })
-      ],
-      validation: (Rule) =>
-        Rule.max(3)
-          .warning('Consider using 1-3 categories for clarity')
+      name: 'updatedAt',
+      title: 'Updated At',
+      type: 'datetime',
+      description: 'Last significant update to this node',
+      group: 'metadata',
     }),
-    defineField({
-      name: 'tags',
-      title: 'Tags',
-      type: 'array',
-      description: 'Cross-cutting themes and topics',
-      group: 'connections',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'tag'}]
-        })
-      ]
-    }),
-    defineField({
-      name: 'projects',
-      title: 'Projects',
-      type: 'array',
-      description: 'Canonical project taxonomy field. Prefer this over "Related Projects".',
-      group: 'connections',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'project'}]
-        })
-      ]
-    }),
-    defineField({
-      name: 'relatedProjects',
-      title: 'Related Projects (Legacy)',
-      type: 'array',
-      description: 'Legacy field — kept for backward compatibility. Prefer "Projects" above.',
-      group: 'connections',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'project'}]
-        })
-      ]
-    }),
-
-    // METADATA GROUP
     defineField({
       name: 'status',
       title: 'Status',
@@ -241,20 +184,73 @@ export default defineType({
       validation: (Rule) => Rule.required()
     }),
     defineField({
-      name: 'publishedAt',
-      title: 'Published At',
-      type: 'datetime',
-      description: 'When was this node created/published?',
+      name: 'authors',
+      title: 'Authors',
+      type: 'array',
+      description: 'Select existing persons or create new — the canonical author field.',
       group: 'metadata',
-      validation: (Rule) => Rule.required().error('Published date is required'),
-      initialValue: () => new Date().toISOString()
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'person'}]
+        })
+      ],
+      validation: (Rule) => Rule.unique()
     }),
     defineField({
-      name: 'updatedAt',
-      title: 'Updated At',
-      type: 'datetime',
-      description: 'Last significant update to this node',
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
+      description: 'Primary topic categorization',
       group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'category'}]
+        })
+      ],
+      validation: (Rule) =>
+        Rule.max(3)
+          .warning('Consider using 1-3 categories for clarity')
+    }),
+    defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      description: 'Cross-cutting themes and topics',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'tag'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'projects',
+      title: 'Projects',
+      type: 'array',
+      description: 'Canonical project taxonomy field. Prefer this over "Related Projects".',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'project'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'relatedProjects',
+      title: 'Related Projects (Legacy)',
+      type: 'array',
+      description: 'Legacy field — kept for backward compatibility. Prefer "Projects" above.',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'project'}]
+        })
+      ]
     }),
 
     // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)

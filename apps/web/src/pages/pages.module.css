@@ -92,6 +92,24 @@
   margin-bottom: 2rem;
 }
 
+.inlineImage {
+  margin: 1.5rem 0;
+}
+
+.inlineImageImg {
+  width: 100%;
+  border-radius: 6px;
+  display: block;
+}
+
+.inlineImageCaption {
+  font-size: 0.85rem;
+  color: var(--color-text-muted, #555);
+  margin-top: 0.5rem;
+  text-align: center;
+  font-style: italic;
+}
+
 .detailExcerpt {
   font-size: 1.125rem;
   color: var(--color-text-muted, #555);

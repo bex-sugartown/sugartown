@@ -16,8 +16,7 @@ export default defineType({
   icon: CaseIcon,
   groups: [
     {name: 'content', title: 'Content', default: true},
-    {name: 'projectDetails', title: 'Project Details'},
-    {name: 'connections', title: 'Connections'},
+    {name: 'metadata', title: 'Metadata'},
     {name: 'seo', title: 'SEO'},
     {name: 'migration', title: 'Migration'},
   ],
@@ -80,21 +79,61 @@ export default defineType({
       ]
     }),
 
-    // PROJECT DETAILS GROUP
+    // METADATA GROUP — dates, project details, CV fields, authors, taxonomy connections
+    defineField({
+      name: 'publishedAt',
+      title: 'Published At',
+      type: 'datetime',
+      description: 'When was this case study published?',
+      group: 'metadata',
+      validation: (Rule) => Rule.required().error('Published date is required'),
+      initialValue: () => new Date().toISOString()
+    }),
+    defineField({
+      name: 'updatedAt',
+      title: 'Updated At',
+      type: 'datetime',
+      description: 'Last significant update to this case study',
+      group: 'metadata',
+    }),
     defineField({
       name: 'client',
       title: 'Client',
       type: 'string',
       description: 'Client or company name',
-      group: 'projectDetails',
+      group: 'metadata',
       validation: (Rule) => Rule.max(100)
+    }),
+    defineField({
+      name: 'employer',
+      title: 'Employer',
+      type: 'string',
+      description: 'Employer or agency you worked through (for CV/resume context — e.g. "Freelance", "AKQA", "Accenture Song")',
+      group: 'metadata',
+      validation: (Rule) => Rule.max(100)
+    }),
+    defineField({
+      name: 'contractType',
+      title: 'Contract Type',
+      type: 'string',
+      description: 'Employment relationship for this project — used in CV/resume engine',
+      group: 'metadata',
+      options: {
+        list: [
+          {title: 'Full-time Employment', value: 'full-time'},
+          {title: 'Contract / Fixed Term', value: 'contract'},
+          {title: 'Freelance / Self-employed', value: 'freelance'},
+          {title: 'Advisory / Consulting', value: 'advisory'},
+        ],
+        layout: 'radio'
+      }
     }),
     defineField({
       name: 'role',
       title: 'Your Role',
       type: 'string',
       description: 'What was your role on this project? (e.g., "Lead Designer", "Full Stack Developer")',
-      group: 'projectDetails',
+      group: 'metadata',
       validation: (Rule) => Rule.max(100)
     }),
     defineField({
@@ -102,7 +141,7 @@ export default defineType({
       title: 'Project Date Range',
       type: 'object',
       description: 'When did this project take place?',
-      group: 'projectDetails',
+      group: 'metadata',
       fields: [
         defineField({
           name: 'startDate',
@@ -140,29 +179,17 @@ export default defineType({
               })
             : 'Present'
           return {
-            title: `${startFormatted} – ${endFormatted}`
+            title: `${startFormatted} \u2013 ${endFormatted}`
           }
         }
       }
     }),
     defineField({
-      name: 'publishedAt',
-      title: 'Published At',
-      type: 'datetime',
-      description: 'When was this case study published?',
-      group: 'projectDetails',
-      validation: (Rule) => Rule.required().error('Published date is required'),
-      initialValue: () => new Date().toISOString()
-    }),
-
-    // CONNECTIONS GROUP
-    // Stage 4: Canonical taxonomy primitives — authors, categories, tags, projects
-    defineField({
       name: 'authors',
       title: 'Authors',
       type: 'array',
       description: 'Select existing persons or create new — the canonical author field.',
-      group: 'connections',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -176,7 +203,7 @@ export default defineType({
       title: 'Categories',
       type: 'array',
       description: 'Case study categories (e.g., "Web Design", "Branding")',
-      group: 'connections',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -192,7 +219,7 @@ export default defineType({
       title: 'Tags',
       type: 'array',
       description: 'Skills and technologies used',
-      group: 'connections',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -205,7 +232,7 @@ export default defineType({
       title: 'Projects',
       type: 'array',
       description: 'Canonical project taxonomy field. Prefer this over "Related Projects".',
-      group: 'connections',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -218,7 +245,7 @@ export default defineType({
       title: 'Related Projects (Legacy)',
       type: 'array',
       description: 'Legacy field — kept for backward compatibility. Prefer "Projects" above.',
-      group: 'connections',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',

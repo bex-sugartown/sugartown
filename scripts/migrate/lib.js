@@ -269,8 +269,62 @@ export function isConversionSafe(html) {
 }
 
 /**
+ * Parse a single <li> element's innerHTML into Portable Text spans.
+ * Strips any nested <ul>/<ol> (those are handled separately as deeper-level blocks).
+ * Also strips any other stray tags left after nested list removal.
+ */
+function parseLiSpans(html) {
+  // Remove nested lists — they'll be emitted as separate level-2 blocks
+  let withoutNested = html.replace(/<ul[^>]*>[\s\S]*?<\/ul>/gi, '')
+                          .replace(/<ol[^>]*>[\s\S]*?<\/ol>/gi, '')
+  // Strip any remaining tags (e.g. leaked tag text after entity decode)
+  // but preserve inline markup tags for parseInlineMarkup
+  withoutNested = withoutNested.replace(/<(?!\/?(strong|b|em|i|a)\b)[^>]+>/gi, ' ')
+  return parseInlineMarkup(withoutNested.trim())
+}
+
+/**
+ * Extract list blocks from a <ul> or <ol> element string (may be nested).
+ * Returns flat array of PT block objects with listItem + level set.
+ * Handles one level of nesting (level 1 = top list, level 2 = nested list).
+ */
+function parseListBlocks(listHtml, listType, level = 1) {
+  const blocks = []
+  // Match top-level <li> elements — use a two-pass approach to avoid greedy issues
+  // with nested lists: first extract each <li>...</li> at this level
+  const LI_RE = /<li[^>]*>([\s\S]*?)<\/li>/gi
+  let match
+  while ((match = LI_RE.exec(listHtml)) !== null) {
+    const liContent = match[1]
+
+    // Emit the <li> text itself as a PT list block
+    const spans = parseLiSpans(liContent)
+    if (spans.length) {
+      blocks.push({
+        _type: 'block',
+        _key: nanoid(),
+        style: 'normal',
+        listItem: listType,
+        level,
+        markDefs: extractMarkDefs(spans),
+        children: spans,
+      })
+    }
+
+    // Recurse into nested <ul>/<ol> within this <li>
+    const NESTED_RE = /<(ul|ol)[^>]*>([\s\S]*?)<\/\1>/gi
+    let nested
+    while ((nested = NESTED_RE.exec(liContent)) !== null) {
+      const nestedType = nested[1].toLowerCase() === 'ol' ? 'number' : 'bullet'
+      blocks.push(...parseListBlocks(nested[2], nestedType, level + 1))
+    }
+  }
+  return blocks
+}
+
+/**
  * Convert simple HTML to Portable Text blocks.
- * Only handles: p, h1-h6, ul/ol/li, strong/b, em/i, a, br, img (placeholder).
+ * Handles: p, h1-h6, ul/ol/li (incl. one level of nesting), strong/b, em/i, a, br, img (placeholder).
  *
  * Returns { blocks, usedFallback }
  *   blocks       — array of Portable Text block objects
@@ -288,6 +342,11 @@ export function htmlToPortableText(html, docId) {
   // Strip WP-specific noise
   let cleaned = html
     .replace(/<!--[\s\S]*?-->/g, '')     // HTML comments (incl. WP block markers)
+    // Unwrap <figure> blocks — extract just the <img> (drop <button>, <figcaption>, etc.)
+    .replace(/<figure[^>]*>([\s\S]*?)<\/figure>/gi, (_, inner) => {
+      const imgMatch = inner.match(/<img[^>]+>/)
+      return imgMatch ? imgMatch[0] : ''
+    })
     .replace(/<\/?div[^>]*>/gi, '\n')    // divs → newlines
     .replace(/<br\s*\/?>/gi, '\n')       // br → newlines
     .replace(/&nbsp;/g, ' ')
@@ -297,9 +356,10 @@ export function htmlToPortableText(html, docId) {
     .replace(/&quot;/g, '"')
     .replace(/&#039;/g, "'")
 
-  // Match block-level elements
-  const BLOCK_RE = /<(p|h[1-6]|ul|ol|li|img)[^>]*>([\s\S]*?)<\/\1>|<(img)[^>]+\/?>|<(hr)\s*\/?>/gi
-  let lastIndex = 0
+  // Match block-level elements.
+  // Lists (ul/ol) are matched as whole units here and processed by parseListBlocks.
+  // We do NOT include <li> here — those are handled inside parseListBlocks.
+  const BLOCK_RE = /<(p|h[1-6]|ul|ol)[^>]*>([\s\S]*?)<\/\1>|<(img)[^>]+\/?>|<(hr)\s*\/?>/gi
   let match
 
   BLOCK_RE.lastIndex = 0
@@ -331,22 +391,25 @@ export function htmlToPortableText(html, docId) {
           children: [{ _type: 'span', _key: nanoid(), text, marks: [] }],
         })
       }
+    } else if (tag === 'ul') {
+      blocks.push(...parseListBlocks(inner, 'bullet', 1))
+    } else if (tag === 'ol') {
+      blocks.push(...parseListBlocks(inner, 'number', 1))
     } else if (tag === 'img') {
-      // Placeholder — will be replaced by migrate:import using image_manifest.json
+      // Placeholder — will be replaced at transform time using image_manifest.json
       const srcMatch = match[0].match(/src=["']([^"']+)["']/)
       const altMatch = match[0].match(/alt=["']([^"']*)["']/)
       if (srcMatch) {
         blocks.push({
           _type: 'image',
           _key: nanoid(),
-          _wpImageUrl: srcMatch[1],     // temporary field — replaced at import time
+          _wpImageUrl: srcMatch[1],     // temporary field — replaced at transform time
           alt: altMatch?.[1] ?? '',
         })
       }
     } else if (tag === 'hr') {
       // Horizontal rules → omit (no PT equivalent)
     }
-    lastIndex = BLOCK_RE.lastIndex
   }
 
   // If nothing parsed, treat as a single normal paragraph

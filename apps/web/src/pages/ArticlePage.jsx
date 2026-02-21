@@ -9,10 +9,31 @@ import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getAuthorByline } from '../lib/person'
+import { urlFor } from '../lib/sanity'
 import SeoHead from '../components/SeoHead'
 import TaxonomyChips from '../components/TaxonomyChips'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
+
+const portableTextComponents = {
+  types: {
+    richImage: ({ value }) => {
+      if (!value?.asset) return null
+      return (
+        <figure className={styles.inlineImage}>
+          <img
+            src={urlFor(value.asset).width(900).quality(85).url()}
+            alt={value.alt ?? ''}
+            className={styles.inlineImageImg}
+          />
+          {value.caption && (
+            <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
+          )}
+        </figure>
+      )
+    },
+  },
+}
 
 function formatDate(dateStr) {
   if (!dateStr) return null
@@ -64,9 +85,17 @@ export default function ArticlePage() {
         tags={post.tags}
       />
 
+      {post.featuredImage?.asset && (
+        <img
+          src={urlFor(post.featuredImage.asset).width(1200).quality(85).url()}
+          alt={post.featuredImage.alt ?? ''}
+          className={styles.detailFeaturedImage}
+        />
+      )}
+
       {post.content && (
         <div className={styles.detailContent}>
-          <PortableText value={post.content} />
+          <PortableText value={post.content} components={portableTextComponents} />
         </div>
       )}
     </main>

@@ -224,7 +224,7 @@ export const allArticlesQuery = `
     slug,
     excerpt,
     featuredImage {
-      asset->,
+      asset,
       alt,
       caption
     },
@@ -246,7 +246,7 @@ export const articleBySlugQuery = `
     content,
     excerpt,
     featuredImage {
-      asset->,
+      asset,
       alt,
       caption,
       credit
@@ -343,7 +343,7 @@ export const allCaseStudiesQuery = `
     role,
     excerpt,
     featuredImage {
-      asset->,
+      asset,
       alt
     },
     dateRange,
@@ -365,7 +365,7 @@ export const caseStudyBySlugQuery = `
     role,
     excerpt,
     featuredImage {
-      asset->,
+      asset,
       alt,
       caption,
       credit

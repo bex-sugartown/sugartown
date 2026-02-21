@@ -82,7 +82,7 @@ export default defineType({
       name: 'legacyHtml',
       title: 'Legacy HTML (Fallback)',
       type: 'text',
-      description: 'Raw HTML body content. Present ONLY if Portable Text conversion was skipped. This is the canonical content source for those documents.',
+      description: 'Raw HTML source. Empty = Portable Text conversion succeeded (this is normal and correct). Only populated when conversion was skipped due to complex markup (tables, shortcodes, embeds) — in those cases this field is the canonical content source and the content field may be incomplete.',
       readOnly: true,
       rows: 6,
     }),

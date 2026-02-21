@@ -8,6 +8,7 @@ const portableTextComponents = {
   block: {
     h2: ({ children }) => <h2 className={styles.h2}>{children}</h2>,
     h3: ({ children }) => <h3 className={styles.h3}>{children}</h3>,
+    h4: ({ children }) => <h4 className={styles.h4}>{children}</h4>,
     blockquote: ({ children }) => (
       <blockquote className={styles.blockquote}>{children}</blockquote>
     ),
@@ -25,6 +26,24 @@ const portableTextComponents = {
     strong: ({ children }) => <strong className={styles.strong}>{children}</strong>,
     em: ({ children }) => <em className={styles.em}>{children}</em>,
     code: ({ children }) => <code className={styles.code}>{children}</code>,
+  },
+  types: {
+    // richImage blocks inline in textSection.content
+    richImage: ({ value }) => {
+      if (!value?.asset) return null
+      return (
+        <figure className={styles.inlineImage}>
+          <img
+            src={urlFor(value.asset).width(900).quality(85).url()}
+            alt={value.alt ?? ''}
+            className={styles.inlineImageImg}
+          />
+          {value.caption && (
+            <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
+          )}
+        </figure>
+      )
+    },
   },
 }
 

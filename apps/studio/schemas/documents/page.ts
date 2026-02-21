@@ -26,7 +26,7 @@ export default defineType({
   icon: DocumentIcon,
   groups: [
     {name: 'content', title: 'Content', default: true},
-    {name: 'settings', title: 'Settings'},
+    {name: 'metadata', title: 'Metadata'},
     {name: 'seo', title: 'SEO'},
     {name: 'migration', title: 'Migration'},
   ],
@@ -71,14 +71,28 @@ export default defineType({
       ]
     }),
 
-    // CONNECTIONS GROUP (Stage 4: Taxonomy Relationship Architecture)
-    // Pages rarely need taxonomy, but having these fields unifies the model across all top-level types.
+    // METADATA GROUP — dates, authors, taxonomy connections, template, parent
+    defineField({
+      name: 'publishedAt',
+      title: 'Published At',
+      type: 'datetime',
+      description: 'When was this page published?',
+      group: 'metadata',
+      initialValue: () => new Date().toISOString()
+    }),
+    defineField({
+      name: 'updatedAt',
+      title: 'Updated At',
+      type: 'datetime',
+      description: 'Last significant update to this page',
+      group: 'metadata',
+    }),
     defineField({
       name: 'authors',
       title: 'Authors',
       type: 'array',
       description: 'Person references — canonical author taxonomy field',
-      group: 'settings',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -91,7 +105,7 @@ export default defineType({
       title: 'Categories',
       type: 'array',
       description: 'Page categories — optional for organisation',
-      group: 'settings',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -104,7 +118,7 @@ export default defineType({
       title: 'Tags',
       type: 'array',
       description: 'Page tags — optional for organisation',
-      group: 'settings',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -117,7 +131,7 @@ export default defineType({
       title: 'Projects',
       type: 'array',
       description: 'Related projects — canonical project taxonomy field',
-      group: 'settings',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -132,7 +146,7 @@ export default defineType({
       title: 'Page Template',
       type: 'string',
       description: 'Layout template for this page',
-      group: 'settings',
+      group: 'metadata',
       options: {
         list: [
           {title: 'Default (Standard Width)', value: 'default'},
@@ -149,7 +163,7 @@ export default defineType({
       type: 'reference',
       to: [{type: 'page'}],
       description: 'Optional: nest this page under another page',
-      group: 'settings',
+      group: 'metadata',
       options: {
         filter: ({document}) => {
           // Prevent selecting self as parent

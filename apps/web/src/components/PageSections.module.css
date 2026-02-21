@@ -99,6 +99,14 @@
   line-height: 1.3;
 }
 
+.h4 {
+  font-size: var(--st-font-heading-4);
+  font-weight: var(--st-font-weight-semibold);
+  margin: var(--st-spacing-stack-md) 0 var(--st-spacing-stack-xs);
+  color: var(--st-color-text-default);
+  line-height: 1.4;
+}
+
 .blockquote {
   border-left: 4px solid var(--st-color-brand-primary);
   padding-left: var(--st-spacing-inset-md);
@@ -135,6 +143,25 @@
   border-radius: var(--st-code-radius);
   border: 1px solid var(--st-code-inline-border);
   color: var(--st-code-inline-text);
+}
+
+/* Inline richImage in Portable Text */
+.inlineImage {
+  margin: var(--st-spacing-stack-lg) 0;
+}
+
+.inlineImageImg {
+  width: 100%;
+  border-radius: var(--st-radius-md, 6px);
+  display: block;
+}
+
+.inlineImageCaption {
+  font-size: var(--st-font-caption, 0.85rem);
+  color: var(--st-color-text-secondary);
+  margin-top: var(--st-spacing-stack-xs);
+  text-align: center;
+  font-style: italic;
 }
 
 /* Image Gallery */

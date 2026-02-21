@@ -47,30 +47,34 @@ const OUTPUT_FILE   = resolve(ARTIFACTS_DIR, 'sanity_import.ndjson')
 // ─── Image substitution ───────────────────────────────────────────────────────
 
 /**
- * Resolve a WP image URL to a Sanity image reference object.
- * @param {string} wpUrl
- * @param {object} manifest
- * @param {'image'|'richImage'} blockType - use 'richImage' for inline PT blocks, 'image' for featuredImage
+ * Resolve a WP image URL to a Sanity richImage reference object.
+ * The featuredImage field (and all standalone image fields) use the richImage
+ * object type: { _type:'richImage', asset:{_type:'reference',_ref:'...'}, alt:'' }
+ *
+ * For inline PT blocks in textSection.content, also use richImage.
  */
-function resolveImageRef(wpUrl, manifest, blockType = 'image') {
+function resolveImageRef(wpUrl, manifest, alt = '') {
   if (!wpUrl || !manifest) return null
   const entry = manifest[wpUrl]
   if (!entry?.sanityAssetRef) return null
-  return { _type: blockType, asset: { _type: 'reference', _ref: entry.sanityAssetRef } }
+  return {
+    _type: 'richImage',
+    asset: { _type: 'reference', _ref: entry.sanityAssetRef },
+    alt: alt ?? '',
+  }
 }
 
 /**
  * Walk Portable Text blocks and replace _wpImageUrl placeholder blocks
- * with resolved Sanity image blocks using the manifest.
+ * with resolved Sanity richImage blocks using the manifest.
  */
 function substituteInlineImages(blocks, manifest) {
   if (!blocks || !manifest) return blocks
   return blocks.map((block) => {
     if (block._type === 'image' && block._wpImageUrl) {
-      // textSection.content allows richImage (not plain image)
-      const resolved = resolveImageRef(block._wpImageUrl, manifest, 'richImage')
+      const resolved = resolveImageRef(block._wpImageUrl, manifest, block.alt ?? '')
       if (resolved) {
-        return { ...resolved, _key: block._key, alt: block.alt ?? '' }
+        return { ...resolved, _key: block._key }
       }
       // No manifest entry — keep placeholder with a warning annotation
       warn(`  Unresolved inline image: ${block._wpImageUrl}`)
@@ -89,6 +93,74 @@ function substituteInlineImages(blocks, manifest) {
     }
     return block
   })
+}
+
+// ─── Excerpt clipping ─────────────────────────────────────────────────────────
+
+/**
+ * Clip a string to the nearest full word boundary at or before `max` chars.
+ * Appends an ellipsis only if the string was actually clipped.
+ */
+function clipExcerpt(str, max = 300) {
+  if (!str || str.length <= max) return str ?? ''
+  // Find the last space at or before `max`
+  const clipped = str.slice(0, max)
+  const lastSpace = clipped.lastIndexOf(' ')
+  const cutAt = lastSpace > 0 ? lastSpace : max
+  return str.slice(0, cutAt).trimEnd() + '\u2026'
+}
+
+// ─── Auto-SEO builder ─────────────────────────────────────────────────────────
+
+/**
+ * Build a seoMetadata block from title + excerpt/first-paragraph text.
+ * If Yoast meta was exported, those values take precedence.
+ *
+ * metaTitle:       "${title} | Sugartown Digital" (capped at 60 chars total)
+ * metaDescription: clipped excerpt (≤ 160 chars) or empty string
+ */
+function buildSeoBlock(record, clippedExcerpt) {
+  const suffix = ' | Sugartown Digital'
+  // Prefer Yoast title if present, otherwise build from content title
+  const rawTitle = record.seoTitle || record.title || ''
+  const metaTitle = rawTitle.includes('Sugartown')
+    ? rawTitle.slice(0, 60)
+    : (rawTitle + suffix).slice(0, 60)
+
+  const rawDesc = record.seoDesc || clippedExcerpt || ''
+  const metaDescription = rawDesc.slice(0, 160)
+
+  return {
+    _type: 'seoMetadata',
+    metaTitle,
+    metaDescription,
+  }
+}
+
+// ─── Slug sanitiser ───────────────────────────────────────────────────────────
+/**
+ * Decode any percent-encoded characters in a WP slug and strip residual
+ * non-ASCII characters (e.g. emoji) so the result is a clean URL slug.
+ * Falls back to the original slug if decoding fails (malformed encoding).
+ *
+ * Examples:
+ *   '%f0%9f%92%8e-luxury-dot-com-%f0%9f%92%8e' → 'luxury-dot-com'
+ *   'normal-slug'                               → 'normal-slug'
+ */
+function sanitiseSlug(slug) {
+  if (!slug) return slug
+  let decoded = slug
+  try {
+    decoded = decodeURIComponent(slug)
+  } catch {
+    // malformed percent-encoding — keep original
+  }
+  // Strip non-ASCII characters (emoji, accented chars, etc.) and collapse dashes
+  return decoded
+    .replace(/[^\x00-\x7F]/g, '')   // remove non-ASCII
+    .replace(/-{2,}/g, '-')          // collapse consecutive dashes
+    .replace(/^-|-$/g, '')           // trim leading/trailing dashes
+    || slug                          // fallback to original if result is empty
 }
 
 // ─── Author login guard ───────────────────────────────────────────────────────
@@ -121,12 +193,14 @@ function transformArticle(record, manifest, termLookup, personLookup) {
     ? [refItem(personLookup.get(record.authorLogin) ?? makeId('person', record.authorLogin))]
     : []
 
+  const excerpt = clipExcerpt(record.excerpt ?? '')
+
   return {
     _id,
     _type: 'article',
     title: record.title,
-    slug: { _type: 'slug', current: record.slug },
-    excerpt: record.excerpt ?? '',
+    slug: { _type: 'slug', current: sanitiseSlug(record.slug) },
+    excerpt,
     ...(featuredImage ? { featuredImage } : {}),
     content: finalBlocks,
     authors,
@@ -135,13 +209,7 @@ function transformArticle(record, manifest, termLookup, personLookup) {
     projects: [],
     publishedAt: record.publishedAt,
     updatedAt:   record.modifiedAt,
-    ...(record.seoTitle || record.seoDesc ? {
-      seo: {
-        _type: 'seoMetadata',
-        metaTitle: record.seoTitle ?? '',
-        metaDescription: record.seoDesc ?? '',
-      }
-    } : {}),
+    seo: buildSeoBlock(record, excerpt),
     legacySource: buildLegacySource(record, usedFallback),
   }
 }
@@ -154,7 +222,7 @@ function transformPage(record, manifest) {
     _id,
     _type: 'page',
     title: record.title,
-    slug: { _type: 'slug', current: record.slug },
+    slug: { _type: 'slug', current: sanitiseSlug(record.slug) },
     sections: blocks.length ? [{
       _type: 'textSection',
       _key: `ts_${record.wpId}`,
@@ -162,6 +230,9 @@ function transformPage(record, manifest) {
       content: substituteInlineImages(blocks, manifest),
     }] : [],
     template: 'default',
+    publishedAt: record.publishedAt,
+    updatedAt:   record.modifiedAt,
+    seo: buildSeoBlock(record, ''),
     legacySource: buildLegacySource(record, usedFallback),
   }
 }
@@ -183,12 +254,14 @@ function transformNode(record, manifest, termLookup, personLookup) {
     ? [refItem(personLookup.get(record.authorLogin) ?? makeId('person', record.authorLogin))]
     : []
 
+  const excerpt = clipExcerpt(record.excerpt ?? '')
+
   return {
     _id,
     _type: 'node',
     title: record.title,
-    slug: { _type: 'slug', current: record.slug },
-    excerpt: record.excerpt ?? '',
+    slug: { _type: 'slug', current: sanitiseSlug(record.slug) },
+    excerpt,
     content: finalBlocks,
     aiTool: 'mixed',             // WP nodes predate AI tool tracking — default to mixed
     conversationType: 'learning',
@@ -199,6 +272,7 @@ function transformNode(record, manifest, termLookup, personLookup) {
     projects: [],
     publishedAt: record.publishedAt,
     updatedAt:   record.modifiedAt,
+    seo: buildSeoBlock(record, excerpt),
     legacySource: buildLegacySource(record, usedFallback),
   }
 }
@@ -221,12 +295,14 @@ function transformCaseStudy(record, manifest, termLookup, personLookup) {
     ? [refItem(personLookup.get(record.authorLogin) ?? makeId('person', record.authorLogin))]
     : []
 
+  const excerpt = clipExcerpt(record.excerpt ?? '')
+
   return {
     _id,
     _type: 'caseStudy',
     title: record.title,
-    slug: { _type: 'slug', current: record.slug },
-    excerpt: record.excerpt ?? '',
+    slug: { _type: 'slug', current: sanitiseSlug(record.slug) },
+    excerpt,
     ...(featuredImage ? { featuredImage } : {}),
     sections: blocks.length ? [{
       _type: 'textSection',
@@ -235,10 +311,12 @@ function transformCaseStudy(record, manifest, termLookup, personLookup) {
       content: substituteInlineImages(blocks, manifest),
     }] : [],
     publishedAt: record.publishedAt,
+    updatedAt:   record.modifiedAt,
     authors,
     categories,
     tags,
     projects: [],
+    seo: buildSeoBlock(record, excerpt),
     legacySource: buildLegacySource(record, usedFallback),
   }
 }
@@ -248,7 +326,7 @@ function transformCategory(record) {
     _id:  makeId('category', record.wpId),
     _type: 'category',
     name: record.name,
-    slug: { _type: 'slug', current: record.slug },
+    slug: { _type: 'slug', current: sanitiseSlug(record.slug) },
     description: record.description ?? '',
     legacySource: buildLegacySource(record, false),
   }
@@ -259,7 +337,7 @@ function transformTag(record) {
     _id:  makeId('tag', record.wpId),
     _type: 'tag',
     name: record.name,
-    slug: { _type: 'slug', current: record.slug },
+    slug: { _type: 'slug', current: sanitiseSlug(record.slug) },
     legacySource: buildLegacySource(record, false),
   }
 }
@@ -269,7 +347,7 @@ function transformPerson(record) {
     _id:  makeId('person', record.slug),  // slug = authorLogin
     _type: 'person',
     name: record.name || record.slug,
-    slug: { _type: 'slug', current: record.slug },
+    slug: { _type: 'slug', current: sanitiseSlug(record.slug) },
     legacySource: buildLegacySource(record, false),
   }
 }

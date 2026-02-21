@@ -53,6 +53,10 @@ function App() {
         <Route path="/posts" element={<Navigate to="/articles" replace />} />
         <Route path="/post/:slug" element={<Navigate to="/articles" replace />} />
 
+        {/* ── Legacy WP slug redirects (percent-encoded / renamed slugs) ── */}
+        {/* WP post 814 had an emoji slug that was decoded to luxury-dot-com */}
+        <Route path="/articles/%f0%9f%92%8e-luxury-dot-com-%f0%9f%92%8e" element={<Navigate to="/articles/luxury-dot-com" replace />} />
+
         {/* ── Archive pages — driven by Sanity archivePage documents ── */}
         {/* Each archive slug is passed explicitly; 404 if doc unpublished */}
         <Route path="/articles" element={<ArchivePage archiveSlug="articles" />} />

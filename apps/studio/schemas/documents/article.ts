@@ -19,7 +19,6 @@ export default defineType({
   groups: [
     {name: 'content', title: 'Content', default: true},
     {name: 'metadata', title: 'Metadata'},
-    {name: 'connections', title: 'Connections'},
     {name: 'seo', title: 'SEO'},
     {name: 'migration', title: 'Migration'},
   ],
@@ -77,18 +76,7 @@ export default defineType({
       of: standardPortableText
     }),
 
-    // METADATA GROUP
-    defineField({
-      name: 'author',
-      title: 'Author (Legacy)',
-      type: 'string',
-      // Stage 5: hidden from Studio — use authors[] (person references) instead.
-      // Data preserved in Sanity for migration. TODO Stage 7+: remove after migration.
-      description: 'Legacy plain-text author. Superseded by "Authors" (person references). Hidden from Studio.',
-      group: 'metadata',
-      hidden: true,
-      validation: (Rule) => Rule.max(100)
-    }),
+    // METADATA GROUP — dates, authors, taxonomy connections all in one tab
     defineField({
       name: 'publishedAt',
       title: 'Published At',
@@ -105,15 +93,12 @@ export default defineType({
       description: 'Last significant update to this article',
       group: 'metadata'
     }),
-
-    // CONNECTIONS GROUP
-    // Stage 4: Canonical taxonomy primitives — authors, categories, tags, projects
     defineField({
       name: 'authors',
       title: 'Authors',
       type: 'array',
       description: 'Select existing persons or create new — the canonical author field.',
-      group: 'connections',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -127,7 +112,7 @@ export default defineType({
       title: 'Categories',
       type: 'array',
       description: 'Article categories',
-      group: 'connections',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -143,7 +128,7 @@ export default defineType({
       title: 'Tags',
       type: 'array',
       description: 'Article tags',
-      group: 'connections',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -156,7 +141,7 @@ export default defineType({
       title: 'Projects',
       type: 'array',
       description: 'Canonical project taxonomy field. Prefer this over "Related Projects".',
-      group: 'connections',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -169,13 +154,23 @@ export default defineType({
       title: 'Related Projects (Legacy)',
       type: 'array',
       description: 'Legacy field — kept for backward compatibility. Prefer "Projects" above.',
-      group: 'connections',
+      group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
           to: [{type: 'project'}]
         })
       ]
+    }),
+    // Legacy plain-text author — hidden, data preserved for audit
+    defineField({
+      name: 'author',
+      title: 'Author (Legacy)',
+      type: 'string',
+      description: 'Legacy plain-text author. Superseded by "Authors" (person references). Hidden from Studio.',
+      group: 'metadata',
+      hidden: true,
+      validation: (Rule) => Rule.max(100)
     }),
 
     // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)
