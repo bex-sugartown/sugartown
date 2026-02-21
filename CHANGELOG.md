@@ -12,6 +12,100 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.10.0] — 2026-02-21
+Taxonomy detail pages, redirect infrastructure, WP→Sanity migration pipeline, and frontend content fixes. Branches: `epic/taxonomy-detail`, `epic/redirect-infrastructure`, `epic/wp-migration` → `main`
+
+### apps/web
+
+#### Added
+- `TaxonomyDetailPage` (`src/pages/TaxonomyDetailPage.jsx`, `TaxonomyDetailPage.module.css`) — single component handles all four taxonomy types (`tag`, `category`, `project`, `person`); taxonomy type derived from URL path segment; renders taxonomy header (name, description, optional `colorHex` accent bar) + paginated content listing of associated articles, case studies, and nodes; 404 for unknown slugs; empty state for valid taxonomy with no content
+- `scripts/build-redirects.js` — build-time script that queries Sanity for all published `redirect` documents and writes `apps/web/public/_redirects` (Netlify/Cloudflare format); run as part of the pre-build step
+- `apps/web/public/_redirects` — generated redirect file committed for CI reproducibility; contains WP legacy URL rules derived from migration parity report
+- `VITE_SANITY_TOKEN` wired into `src/lib/sanity.js` — read-only viewer token required to query documents with `wp.*` dot-namespace IDs (system namespace, invisible to unauthenticated queries even on a public dataset)
+
+#### Changed
+- `TaxonomyPlaceholderPage.jsx` — replaced entire content with re-export shell: `export { default } from './TaxonomyDetailPage'`; no `App.jsx` route changes needed
+- `TaxonomyChips.jsx` + `TaxonomyChips.module.css` — chips now link to canonical taxonomy URLs via `getCanonicalPath()`; previously chips were non-interactive display-only elements
+- `App.jsx` — added legacy WP redirect: `/articles/%f0%9f%92%8e-luxury-dot-com-%f0%9f%92%8e` → `/articles/luxury-dot-com` (WP post 814 had a percent-encoded emoji slug)
+- `CaseStudyPage.jsx` — added `featuredImage` rendering and `sections` rendering via `<PageSections>`; previously case study detail pages showed title/metadata only with no body content
+- `ArticlePage.jsx` — minor cleanup pass
+
+#### Fixed
+- Case study detail pages (`/case-studies/:slug`) were blank below the metadata block — `featuredImage` and `sections` were never rendered; fixed by wiring both into `CaseStudyPage`
+
+### apps/studio
+
+#### Added
+- `redirect` document schema (`schemas/documents/redirect.ts`) — fields: `from` (source path), `to` (destination URL or path), `statusCode` (301/302), `note` (editorial context); registered in `schemas/index.ts`
+- `legacySource` object schema (`schemas/objects/legacySource.ts`) — migration metadata object embedded in `article`, `caseStudy`, `node`, `page`; fields: `platform` (`wordpress`), `wpId`, `wpType`, `wpSlug`, `importedAt`; populated by import script, read-only in Studio
+- `slug` field added to `project` schema — projects now have a `slug.current` field alongside `projectId`; allows `getCanonicalPath({ docType: 'project', slug })` to work without special-casing
+
+#### Changed
+- `article`, `caseStudy`, `node`, `page` schemas — each gained a `legacySource` field (Migration group, read-only in Studio) to carry WP provenance data
+- `project` schema — `slug` field added; `projectId` retained as legacy identifier
+- `schemas/index.ts` — registered `redirect` and `legacySource`
+- `sanity.config.ts` — desk structure updated: Knowledge Graph moved into Content section
+
+### scripts/migrate (new workspace)
+
+#### Added
+New pipeline at `scripts/migrate/` — complete WordPress → Sanity migration system. Seven scripts, run in order:
+
+| Script | Role |
+|---|---|
+| `export.js` | WP REST API → raw JSON export for all CPTs, pages, media, users, categories, tags |
+| `transform.js` | Raw WP JSON → Sanity document shape; 7 type transformers (`transformArticle`, `transformPage`, `transformNode`, `transformCaseStudy`, `transformCategory`, `transformTag`, `transformPerson`); includes `sanitiseSlug()` (decode percent-encoding, strip non-ASCII, collapse dashes) |
+| `import.js` | Batch-upsert transformed documents into Sanity via `createOrReplace()` transactions |
+| `images.js` | Download WP media, upload to Sanity CDN, patch image refs in published docs |
+| `redirects.js` | Generate `redirect` Sanity documents from WP permalink → Sanity slug mapping |
+| `parity.js` | Post-import parity check: queries Sanity for each expected doc, reports missing/slug-mismatched items; writes `artifacts/parity_report.md` |
+| `lib.js` | Shared utilities: WP REST client, Sanity mutation helpers, slug normalization, CPT field mappers |
+
+`transform.js` includes `sanitiseSlug()` wired into all 7 transformers — decodes percent-encoded WP slugs (e.g. `%f0%9f%92%8e`) and strips non-ASCII characters to produce clean URL slugs.
+
+#### Added (artifacts)
+- `artifacts/migration_report.json` — machine-readable import summary (counts per type, error list)
+- `artifacts/parity_report.md` — human-readable parity check output from post-import `parity.js` run
+- `artifacts/image_manifest.json` — map of WP media ID → Sanity asset ID for all uploaded images
+- `artifacts/image_failures.csv` — list of images that failed to upload with error reasons
+- `artifacts/.gitkeep` — ensures `artifacts/` directory is committed
+
+### docs
+
+#### Added
+- `docs/migration/wp-freeze-cutover.md` — WP freeze and DNS cutover runbook: pre-cutover checklist, content freeze procedure, DNS swap steps, rollback plan, post-cutover verification
+- `docs/release-notes/RELEASE_NOTES_v0.9.0.md` — archived release notes for v0.9.0
+- `docs/release-notes/README.md` — index of all archived release note files
+
+### Sanity production data
+
+- 327 documents imported from WordPress: articles (posts + custom nodes), case studies, pages, taxonomy (categories, tags, people, projects)
+- All imported documents use `wp.*` dot-namespace IDs (e.g. `wp.article.1804`) — requires authenticated client to query; resolved by `VITE_SANITY_TOKEN` read-only viewer token in `apps/web`
+- Article `wp.article.814` slug patched: `%f0%9f%92%8e-luxury-dot-com-%f0%9f%92%8e` → `luxury-dot-com`
+- `archivePage` documents remain: `articles`, `case-studies`, `knowledge-graph`
+
+### Validator state at release
+
+```
+pnpm validate:urls
+──────────────────
+✅  /knowledge-graph  →  [node]  "Knowledge Graph"
+✅  /case-studies  →  [caseStudy]  "Case Studies"
+✅  /articles  →  [article]  "Articles"
+✅  No docs with missing slugs
+✅  No duplicate canonical URLs detected
+✅  All checks passed — URL authority is clean.
+
+pnpm validate:filters
+──────────────────────
+✅  FilterModel produced for /knowledge-graph  (4 facets)
+✅  FilterModel produced for /articles         (1 facet)
+✅  FilterModel produced for /case-studies     (4 facets)
+✅  All filter models produced successfully
+```
+
+---
+
 ## [0.9.0] — 2026-02-21
 Repository stabilization and URL-driven archive filtering. Branch: `epic/repository-stabilization` → `main`
 
