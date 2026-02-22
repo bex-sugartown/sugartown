@@ -50,7 +50,8 @@ export default defineType({
       name: 'title',
       title: 'Meta Title',
       type: 'string',
-      description: 'Leave empty to use site default + page title',
+      description:
+        'Only used when Auto-generate is OFF. Enter the exact title you want search engines to use. Leave empty to fall back to site default.',
       validation: (Rule) =>
         Rule.max(60)
           .warning('Meta titles should be under 60 characters for best SEO')
@@ -60,7 +61,8 @@ export default defineType({
       title: 'Meta Description',
       type: 'text',
       rows: 3,
-      description: 'Leave empty to use site default description',
+      description:
+        'Overrides the auto-generated description in both modes. Leave empty to let the frontend derive from excerpt or body text (auto mode), or fall back to site default.',
       validation: (Rule) =>
         Rule.max(160)
           .warning('Meta descriptions should be under 160 characters for best SEO')

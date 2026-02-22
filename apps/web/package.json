@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "validate:urls": "node scripts/validate-urls.js",
     "validate:filters": "node scripts/validate-filters.js",
-    "validate:taxonomy": "node scripts/validate-taxonomy.js"
+    "validate:taxonomy": "node scripts/validate-taxonomy.js",
+    "migrate:seo-fields": "node scripts/migrate-seo-fields.js"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.2",
