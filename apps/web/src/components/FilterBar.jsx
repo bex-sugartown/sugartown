@@ -24,15 +24,18 @@ import styles from './FilterBar.module.css'
 // ─── FacetGroup — one <fieldset> per taxonomy facet ──────────────────────────
 
 function FacetGroup({ facet, activeFilters, onFilterChange }) {
-  const activeSlugs = activeFilters[facet.id] ?? []
+  const activeValues = activeFilters[facet.id] ?? []
 
   return (
     <fieldset className={styles.facetGroup}>
       <legend className={styles.facetLabel}>{facet.label}</legend>
       <ul className={styles.optionList} role="list">
         {facet.options.map((option) => {
-          const checked = activeSlugs.includes(option.slug)
-          const id = `filter-${facet.id}-${option.slug}`
+          // Reference facets use slug as the URL param value.
+          // Enum facets have no slug — fall back to id (the raw string value).
+          const paramValue = option.slug ?? option.id
+          const checked = activeValues.includes(paramValue)
+          const id = `filter-${facet.id}-${paramValue}`
 
           return (
             <li key={option.id} className={styles.optionItem}>
@@ -40,10 +43,10 @@ function FacetGroup({ facet, activeFilters, onFilterChange }) {
                 type="checkbox"
                 id={id}
                 name={facet.id}
-                value={option.slug}
+                value={paramValue}
                 checked={checked}
                 onChange={(e) =>
-                  onFilterChange(facet.id, option.slug, e.target.checked)
+                  onFilterChange(facet.id, paramValue, e.target.checked)
                 }
                 className={styles.optionCheckbox}
               />
