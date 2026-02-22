@@ -673,6 +673,7 @@ export const facetsRawQuery = `
     _id,
     _type,
     "slug": slug.current,
+    client,
     status,
     tools,
     authors[]->{${PERSON_FRAGMENT}},

@@ -5,32 +5,48 @@
  *
  * Filter semantics (per spec):
  *   - AND logic across facets: item must satisfy ALL active facets
- *   - OR logic within a facet: item needs at least one matching slug
+ *   - OR logic within a facet: item needs at least one matching value
  *
  * Example:
  *   activeFilters = { tags: ['ai', 'design'], categories: ['systems'] }
  *   → item must have (tag 'ai' OR 'design') AND (category 'systems')
  *
- * Taxonomy field mapping (matches filterModel.js extractFacetItems convention):
- *   'author'   → item.authors[]   — { slug }
- *   'project'  → item.projects[]  — { slug }
- *   'category' → item.categories[] — { slug }
- *   'tag'      → item.tags[]      — { slug }
+ * Facet types:
+ *
+ *   Reference facets (Sanity doc refs) — match by slug:
+ *     'author'   → item.authors[]    — [{ slug }]
+ *     'project'  → item.projects[]   — [{ slug }]
+ *     'category' → item.categories[] — [{ slug }]
+ *     'tag'      → item.tags[]       — [{ slug }]
+ *
+ *   Enum facets (plain string values) — match by value string:
+ *     'tools'  → item.tools[]  — string[]  (array of tool name strings)
+ *     'status' → item.status   — string    (single status string)
+ *     'client' → item.client   — string    (single client name string)
  *
  * Edge cases:
  *   - activeFilters is empty → return all items unchanged
- *   - Item missing a taxonomy field → treated as empty array (no match for that facet)
- *   - Unknown facetId in activeFilters → silently ignored (not in FIELD_MAP)
- *   - Invalid slug → simply won't match, item excluded gracefully
+ *   - Item missing a field → treated as no-match for that facet
+ *   - Unknown facetId in activeFilters → silently ignored
+ *   - Invalid value → simply won't match, item excluded gracefully
  */
 
-// Maps facet IDs (URL param names) to the item field they filter against.
-// Matches the convention in filterModel.js extractFacetItems().
-const FIELD_MAP = {
-  author: 'authors',
-  project: 'projects',
+// Reference facets: maps facet ID → array field name on content items.
+// Each array item has a { slug } property used for matching.
+const REFERENCE_FIELD_MAP = {
+  author:   'authors',
+  project:  'projects',
   category: 'categories',
-  tag: 'tags',
+  tag:      'tags',
+}
+
+// Enum facets: maps facet ID → { field, isArray }
+// - isArray: true  → item[field] is a string[]; match if any element is in active set
+// - isArray: false → item[field] is a string;   match if value is in active set
+const ENUM_FIELD_MAP = {
+  tools:  { field: 'tools',  isArray: true  },
+  status: { field: 'status', isArray: false },
+  client: { field: 'client', isArray: false },
 }
 
 /**
@@ -45,21 +61,39 @@ export function applyFilters(items, activeFilters) {
 
   // Fast path: no active filters → return all items
   const facetEntries = Object.entries(activeFilters).filter(
-    ([, slugs]) => slugs && slugs.length > 0
+    ([, values]) => values && values.length > 0
   )
   if (facetEntries.length === 0) return items
 
   return items.filter((item) => {
     // All active facets must match (AND)
-    return facetEntries.every(([facetId, activeSlugs]) => {
-      const field = FIELD_MAP[facetId]
-      if (!field) return true // unknown facet — pass through
+    return facetEntries.every(([facetId, activeValues]) => {
+      // ── Reference facets: match by slug ─────────────────────────────────
+      const refField = REFERENCE_FIELD_MAP[facetId]
+      if (refField) {
+        const itemRefs = item[refField]
+        if (!Array.isArray(itemRefs) || itemRefs.length === 0) return false
+        // At least one slug on the item must be in the active set (OR)
+        return itemRefs.some((ref) => ref?.slug && activeValues.includes(ref.slug))
+      }
 
-      const itemRefs = item[field]
-      if (!Array.isArray(itemRefs) || itemRefs.length === 0) return false
+      // ── Enum facets: match by value string ───────────────────────────────
+      const enumDef = ENUM_FIELD_MAP[facetId]
+      if (enumDef) {
+        const rawValue = item[enumDef.field]
+        if (enumDef.isArray) {
+          // tools[] — string array; at least one must match
+          if (!Array.isArray(rawValue) || rawValue.length === 0) return false
+          return rawValue.some((v) => typeof v === 'string' && activeValues.includes(v))
+        } else {
+          // status / client — single string; must match
+          if (!rawValue || typeof rawValue !== 'string') return false
+          return activeValues.includes(rawValue)
+        }
+      }
 
-      // At least one slug on the item must be in the active set (OR)
-      return itemRefs.some((ref) => ref?.slug && activeSlugs.includes(ref.slug))
+      // Unknown facet — pass through (don't exclude)
+      return true
     })
   })
 }

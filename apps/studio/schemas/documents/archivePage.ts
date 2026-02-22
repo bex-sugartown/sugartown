@@ -398,6 +398,7 @@ export default defineType({
                       {title: 'Category', value: 'category'},
                       {title: 'Tag', value: 'tag'},
                       // v0.11.0: enum facets (string values, not references)
+                      {title: 'Client', value: 'client'},
                       {title: 'Tool / Platform', value: 'tools'},
                       {title: 'Status', value: 'status'},
                     ]
@@ -461,6 +462,7 @@ export default defineType({
                     project: 'Project',
                     category: 'Category',
                     tag: 'Tag',
+                    client: 'Client',
                     tools: 'Tool / Platform',
                     status: 'Status',
                   }

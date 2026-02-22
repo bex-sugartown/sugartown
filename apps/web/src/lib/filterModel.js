@@ -63,6 +63,7 @@ const FACET_TYPE = {
   tag:      'reference',
   tools:    'enum',
   status:   'enum',
+  client:   'enum',
 }
 
 // ─── Default facet labels ─────────────────────────────────────────────────────
@@ -74,6 +75,7 @@ const DEFAULT_FACET_LABELS = {
   tag:      'Tag',
   tools:    'Tool / Platform',
   status:   'Status',
+  client:   'Client',
 }
 
 // ─── Facet extractors ─────────────────────────────────────────────────────────
@@ -132,6 +134,12 @@ function extractFacetItems(item, facetId) {
       // status is a single string field — emit as single-item array if set
       if (!item.status) return []
       return [{ _id: item.status, name: item.status }]
+    }
+
+    case 'client': {
+      // client is a single string field — emit as single-item array if set
+      if (!item.client) return []
+      return [{ _id: item.client, name: item.client }]
     }
 
     default:
@@ -223,7 +231,7 @@ export function buildFilterModel(archivePage, contentItems, options = {}) {
   const items = contentItems ?? []
   const facetConfigs = archivePage.filterConfig?.facets ?? []
 
-  // If no filterConfig, produce a default model with the four reference facets
+  // If no filterConfig, produce a default model with all supported facets
   const configs = facetConfigs.length > 0
     ? facetConfigs
     : [
@@ -231,6 +239,9 @@ export function buildFilterModel(archivePage, contentItems, options = {}) {
         { facet: 'project',  label: null, enabled: true, order: 2, selection: 'multi', defaultSelectedSlugs: [] },
         { facet: 'category', label: null, enabled: true, order: 3, selection: 'multi', defaultSelectedSlugs: [] },
         { facet: 'tag',      label: null, enabled: true, order: 4, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'client',   label: null, enabled: true, order: 5, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'tools',    label: null, enabled: true, order: 6, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'status',   label: null, enabled: true, order: 7, selection: 'multi', defaultSelectedSlugs: [] },
       ]
 
   // Sort by configured order

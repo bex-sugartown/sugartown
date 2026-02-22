@@ -27,7 +27,8 @@ import { useSearchParams } from 'react-router-dom'
 
 // Recognized facet IDs — only these are treated as filter params.
 // Other URL params (e.g. ?utm_source=...) are preserved and ignored.
-const FACET_IDS = ['author', 'project', 'category', 'tag']
+// Reference facets use slug values; enum facets use the raw string value as the URL param value.
+const FACET_IDS = ['author', 'project', 'category', 'tag', 'client', 'tools', 'status']
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 

@@ -126,12 +126,13 @@ const archivePageWithFilterConfigQuery = `
   }
 `
 
-// facetsRawQuery — includes status and tools (v0.11.0+)
+// facetsRawQuery — includes client, status and tools (v0.11.0+)
 const facetsRawQuery = `
   *[_type in $contentTypes && defined(slug.current)] {
     _id,
     _type,
     "slug": slug.current,
+    client,
     status,
     tools,
     authors[]->{${PERSON_FRAGMENT}},
@@ -157,6 +158,7 @@ const FACET_TYPE = {
   tag:      'reference',
   tools:    'enum',
   status:   'enum',
+  client:   'enum',
 }
 
 const DEFAULT_FACET_LABELS = {
@@ -166,6 +168,7 @@ const DEFAULT_FACET_LABELS = {
   tag:      'Tag',
   tools:    'Tool / Platform',
   status:   'Status',
+  client:   'Client',
 }
 
 function extractFacetItems(item, facetId) {
@@ -190,6 +193,10 @@ function extractFacetItems(item, facetId) {
     case 'status': {
       if (!item.status) return []
       return [{ _id: item.status, name: item.status }]
+    }
+    case 'client': {
+      if (!item.client) return []
+      return [{ _id: item.client, name: item.client }]
     }
     default: return []
   }
@@ -231,6 +238,9 @@ function buildFilterModel(archivePage, contentItems) {
         { facet: 'project',  label: null, enabled: true, order: 2, selection: 'multi', defaultSelectedSlugs: [] },
         { facet: 'category', label: null, enabled: true, order: 3, selection: 'multi', defaultSelectedSlugs: [] },
         { facet: 'tag',      label: null, enabled: true, order: 4, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'client',   label: null, enabled: true, order: 5, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'tools',    label: null, enabled: true, order: 6, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'status',   label: null, enabled: true, order: 7, selection: 'multi', defaultSelectedSlugs: [] },
       ]
 
   const sortedConfigs = [...configs].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
@@ -415,6 +425,13 @@ async function run() {
     if (configuredFacetIds.includes('status') && !modelFacetIds.has('status')) {
       console.log(`\n   ⚠️   'status' facet is configured but returned 0 options.`)
       console.log(`        Content may not have status values set.`)
+      hasWarning = true
+    }
+
+    // ── client facet coverage warn ──────────────────────────────────────────
+    if (configuredFacetIds.includes('client') && !modelFacetIds.has('client')) {
+      console.log(`\n   ⚠️   'client' facet is configured but returned 0 options.`)
+      console.log(`        Content may not have client values set.`)
       hasWarning = true
     }
 
