@@ -1,6 +1,6 @@
 {
   "name": "sugartown-monorepo",
-  "version": "0.10.0",
+  "version": "0.12.0",
   "private": true,
   "type": "module",
   "description": "Sugartown.io mini-monorepo: composable MACH reference architecture",
@@ -11,6 +11,8 @@
     "typecheck": "turbo run typecheck",
     "validate:urls": "pnpm --filter web validate:urls",
     "validate:filters": "pnpm --filter web validate:filters",
+    "validate:taxonomy": "pnpm --filter web validate:taxonomy",
+    "migrate:taxonomy": "node scripts/migrate-taxonomy.js",
     "storybook": "turbo run storybook",
     "storybook:build": "turbo run storybook:build",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",

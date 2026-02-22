@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useParams } from 'react-router-dom'
 import { client } from './lib/sanity'
 import { siteSettingsQuery } from './lib/queries'
 import { SiteSettingsContext } from './lib/SiteSettingsContext'
@@ -17,6 +17,13 @@ import TaxonomyPlaceholderPage from './pages/TaxonomyPlaceholderPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 import './App.css'
+
+// Redirect /nodes/:slug → /knowledge-graph/:slug, preserving the slug param.
+// <Navigate> alone cannot interpolate params, so we use a thin wrapper component.
+function NodeSlugRedirect() {
+  const { slug } = useParams()
+  return <Navigate to={`/knowledge-graph/${slug}`} replace />
+}
 
 function App() {
   const [siteSettings, setSiteSettings] = useState(null)
@@ -67,9 +74,11 @@ function App() {
 
         {/* /knowledge-graph is the canonical archive for nodes */}
         <Route path="/knowledge-graph" element={<ArchivePage archiveSlug="knowledge-graph" />} />
-        {/* /nodes redirects to /knowledge-graph (alias — canonical is /knowledge-graph) */}
+        <Route path="/knowledge-graph/:slug" element={<NodePage />} />
+
+        {/* /nodes and /nodes/:slug redirect to canonical /knowledge-graph equivalents */}
         <Route path="/nodes" element={<Navigate to="/knowledge-graph" replace />} />
-        <Route path="/nodes/:slug" element={<NodePage />} />
+        <Route path="/nodes/:slug" element={<NodeSlugRedirect />} />
 
         {/* ── Reserved taxonomy routes (placeholders) ───────────────── */}
         <Route path="/tags" element={<TaxonomyPlaceholderPage />} />
@@ -82,10 +91,13 @@ function App() {
         <Route path="/people/:slug" element={<TaxonomyPlaceholderPage />} />
 
         {/* ── Root pages (page type) — must come last among /:slug ─── */}
-        {/* NOTE: This catches any single-segment path not matched above */}
+        {/* NOTE: This catches any single-segment path not matched above.         */}
+        {/* RootPage fetches by slug; if no Sanity page doc is found it renders   */}
+        {/* <NotFoundPage> directly (see RootPage.jsx: if notFound || !page).     */}
         <Route path="/:slug" element={<RootPage />} />
 
         {/* ── 404 catch-all ─────────────────────────────────────────── */}
+        {/* Catches all multi-segment paths not matched by any route above. */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 

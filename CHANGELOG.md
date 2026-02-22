@@ -12,6 +12,173 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.12.0] — 2026-02-22
+SEO auto-extraction and resolver system. Branch: `main` (direct)
+
+### apps/web
+
+#### Added
+- `src/lib/seo.js` — `extractPlainText(body, maxLength)` added as a named export: pure-JS Portable Text walker; extracts text from `children[].text` of `_type: 'block'` blocks only; skips `style: 'code'` blocks and embedded non-block objects; strips HTML tags; collapses whitespace; sentence-safe truncation (backs up to last space before maxLength cut; hard-truncates only when no space exists in the segment); returns `''` for null/undefined/empty body without throwing
+
+#### Changed
+- `src/lib/seo.js` — `resolveSeo()` fully rewritten:
+  - **Signature change:** `resolveSeo({ docSeo, docTitle, docType, docSlug, siteDefaults })` → `resolveSeo(doc, siteSettings)` — full document object passed; resolver reads `doc.seo`, `doc.title`, `doc.excerpt`, `doc.body`, `doc._type`, `doc.slug` directly
+  - **Auto mode** (`doc.seo.autoGenerate !== false`, or field absent — treated as `true`): title = `"${doc.title} | Sugartown Digital"`
+  - **Manual mode** (`doc.seo.autoGenerate === false`): title = `doc.seo.title` (exact, as entered)
+  - **Fallback** (both modes): empty title → `siteSettings.defaultMetaTitle ?? 'Sugartown Digital'`
+  - **Description chain** (auto mode): `doc.seo.description` (explicit override, respected in both modes) → `doc.excerpt` → `extractPlainText(doc.body, 160)` → `siteSettings.defaultMetaDescription` → `''`
+  - **Description chain** (manual mode): `doc.seo.description` → `siteSettings.defaultMetaDescription` → `''`
+  - All descriptions passed through `normaliseDescription()`: HTML stripped, sentence-safe 160-char trim
+  - Canonical URL derivation updated to read `doc._type` and `doc.slug` (string or object) from doc directly
+  - `SEO_FRAGMENT` updated to include `autoGenerate` field in the `seo {}` GROQ projection
+  - Backward-compatible: documents without `autoGenerate` set behave identically to `autoGenerate: true`
+- `src/lib/queries.js`:
+  - `nodeBySlugQuery` — added `_type`, `"body": content[]` (alias for Portable Text body; enables `extractPlainText` fallback in auto description mode)
+  - `articleBySlugQuery` — added `_type`, `"body": content[]`
+  - `caseStudyBySlugQuery` — added `_type` (no body alias; caseStudy body is `sections[]`, not a Portable Text field; `excerpt` covers auto-description fallback)
+  - `pageBySlugQuery` — added `_type`
+  - `archivePageBySlugQuery` — added `_type`
+- `src/pages/ArticlePage.jsx`, `NodePage.jsx`, `CaseStudyPage.jsx`, `RootPage.jsx`, `HomePage.jsx`, `ArchivePage.jsx` — all six `resolveSeo()` call sites migrated to new `resolveSeo(doc ?? null, siteSettings)` signature
+- `src/components/SeoHead.jsx` — JSDoc usage example updated to new signature (no runtime logic change)
+
+### apps/studio
+
+#### Added
+- `schemas/objects/seoMetadata.ts` — `autoGenerate` boolean field added as the first field in the `seoMetadata` object: `type: 'boolean'`, `initialValue: true`; description instructs editors that disabling switches title/description to exact manual override mode; all existing fields (`title`, `description`, `canonicalUrl`, `noIndex`, `noFollow`, `openGraph`) left unchanged and in original order
+
+### Validator state at release
+
+```
+pnpm validate:urls    ✅  All checks passed — URL authority is clean.
+pnpm validate:filters ✅  All filter models produced successfully. No WP-era keys.
+pnpm --filter web build  ✅  341 modules transformed. Built in ~1s. Zero errors.
+```
+
+---
+
+## [0.11.0] — 2026-02-22
+Taxonomy architecture refactor, controlled vocabulary, routing hardening, and URL namespace protection. Branch: `main` (direct — multiple micro-epics)
+
+### apps/web
+
+#### Added
+- `scripts/validate-taxonomy.js` — taxonomy integrity validator; 4 checks: (A) WARN on >2 categories per doc, (B) WARN on 0 categories, (C) FAIL on non-canonical `tools[]` values, (D) FAIL on dangling `tags[]` refs pointing to non-existent tag documents; exits 1 on FAIL, 0 on clean
+- `"validate:taxonomy"` pnpm script registered in `apps/web/package.json`
+
+#### Changed
+- `src/lib/queries.js` — fixed `allTagsQuery` bug: `slug` was returning raw Sanity slug object `{current: "..."}` instead of aliased string; changed to `"slug": slug.current`; added `description` to `allTagsQuery` projection
+- `src/lib/queries.js` — added `status` and `tools` to `facetsRawQuery`, `allArticlesQuery`, `allCaseStudiesQuery`; added `tools` to `allNodesQuery`
+
+#### Fixed
+- `scripts/validate-urls.js` — added `RESERVED_PAGE_SLUGS` constant and check block (C) "Reserved Namespace Collision Check"; detects when a `page` document slug would collide with an archive route namespace (`articles`, `case-studies`, `knowledge-graph`, `nodes`, `tags`, `categories`, `projects`, `people`); collision count wired into error tally (hard fail, exits non-zero); summary sections re-labelled C→D, D→E
+
+### apps/studio
+
+#### Added
+- `schemas/documents/tag.ts` — added `description` field (text, max 300 chars) to tag documents; enables editors to document vocabulary intent and usage guidelines
+- `schemas/documents/article.ts` — added `status` field (string enum: draft/published/archived, initialValue: published, radio layout) and `tools[]` field (array of strings, 30-item controlled enum matching schema across all content types)
+- `schemas/documents/caseStudy.ts` — same `status` and `tools[]` additions as article
+- `schemas/documents/node.ts` — added `tools[]` field (same 30-item enum; note on relationship to existing `aiTool` field)
+
+#### Changed
+- `schemas/documents/tag.ts` — expanded doc comment to document controlled vocabulary rules; `name` max length raised from 30 → 50 characters
+- `schemas/documents/article.ts` — `categories[]` validation changed from `max(3)` → `max(2)` with updated warning text; `tags[]` gained `Rule.unique()` and controlled vocabulary comment
+- `schemas/documents/caseStudy.ts` — same `categories[]` and `tags[]` changes as article
+- `schemas/documents/node.ts` — `categories[]` validation changed from `max(3)` → `max(2)`; `tags[]` gained `Rule.unique()`
+
+### scripts
+
+#### Added
+- `scripts/migrate-taxonomy.js` — full taxonomy migration script; `TAG_MAP` object (~200 entries mapping 256 WP-era tag IDs to `tool | keep | remap | archive` actions); `CANONICAL_TOOLS` Set (30 values, matches schema enums); dry-run by default (`--execute` for live writes); 5-second abort window in execute mode; per-document change log with action types (TOOL/KEEP/REMAP/ARCHIVE/UNMAPPED); summary counters; exits non-zero on unmapped tags in execute mode
+- Root `"migrate:taxonomy"` and `"validate:taxonomy"` scripts registered in root `package.json`
+
+### App.jsx (routing hardening)
+
+#### Added
+- `NodeSlugRedirect` component — thin wrapper using `useParams()` to interpolate `:slug` into redirect target; required because `<Navigate>` cannot reference URL params directly
+- `/knowledge-graph/:slug` route — canonical node detail route was entirely missing; added with `<NodePage />`
+
+#### Fixed
+- `/nodes/:slug` was routing directly to `<NodePage />` instead of redirecting to `/knowledge-graph/:slug`; fixed by replacing with `<NodeSlugRedirect />`
+
+### Sanity production data
+
+- 53 content documents patched via `migrate-taxonomy.js --execute`:
+  - 77 tool-type tags extracted into `tools[]` arrays (e.g. `"contentful" → tools["contentful"]`)
+  - 26 near-duplicate tags remapped to canonical IDs (e.g. `"design systems" → wp.tag.234 "design system"`)
+  - 62 garbage/status/client-name tags archived (removed from content)
+  - 191 conceptual/thematic tags retained in controlled vocabulary
+  - 9 previously unmapped tags (omnichannel, PRD, alt text, content-as-code, content audit) resolved as controlled-vocabulary keeps
+
+### Filter Model Architecture (Archive Filter System epic)
+
+#### apps/web
+
+##### Changed
+- `src/lib/filterModel.js` — major update:
+  - Added JSDoc output contract (`FilterModel`, `FilterModelFacet`, `FilterModelOption` typedefs) at top of file
+  - Added `FACET_TYPE` map distinguishing `'reference'` (author, project, category, tag) from `'enum'` (tools, status)
+  - Added `tools` and `status` as enum-type facet dimensions to `DEFAULT_FACET_LABELS`, `extractFacetItems()`, `normalizeTaxonomyItem()`
+  - Enum facets synthesize `{_id, name}` objects from raw string values; normalized to `{id, label}` shape (no `slug`)
+  - `normalizeTaxonomyItem()` now attaches `parent` to category options (for hierarchy support)
+  - `buildFilterModel()` now accepts optional `options` param: `{ groupByParent?: boolean }` (default `false`)
+    - When `groupByParent: true`: category facet gains `grouped: true`; each category option carries a `parent` property if the category has one; flat behavior is fully preserved when `false`
+  - Facets with 0 options are **omitted** from output (previously emitted as empty arrays)
+  - Each facet in output now carries a `type` field (`'reference' | 'enum'`)
+  - `fetchFilterModel()` updated to pass `options` through to `buildFilterModel()`
+  - Added field naming disambiguation comment: `filterConfig` (Stage 4, read by this file) vs `frontendFilters` (legacy Studio UI booleans, NOT read here)
+- `src/lib/queries.js` — `CATEGORY_FRAGMENT` extended with `"parent": parent->{ _id, name, "slug": slug.current }` to support optional groupByParent hierarchy in FilterModel
+- `scripts/validate-filters.js` — hardened for v0.11.0 taxonomy:
+  - Added `VITE_SANITY_TOKEN` for reading `wp.*` dot-namespace docs
+  - WP-era key guard: `detectWpKeysInString()` checks GROQ query strings at startup; `detectWpKeys()` recursively checks FilterModel output per archive; **hard fail (exit 1)** if any `wp_category`, `wp_tag`, `gem_status`, or `gem_related_project` key detected
+  - Updated inline `CATEGORY_FRAGMENT` to include `parent->` (parity with queries.js)
+  - Updated inline `facetsRawQuery` to project `status` and `tools` (parity with queries.js)
+  - Updated inline `extractFacetItems()`, `normalizeTaxonomyItem()`, `buildFilterModel()` to match new filterModel.js (tools/status enum facets, parent on categories, empty facet omission, `type` field)
+  - Added tools/status coverage warnings (⚠️) when a facet is configured but returns 0 options
+  - Added ℹ️ report of facets configured but empty (omitted from model) per archive
+  - Updated facet display to show `[ref]` / `[enum]` type labels and parent annotation
+
+#### apps/studio
+
+##### Changed
+- `schemas/documents/archivePage.ts`:
+  - Added canonical field naming disambiguation comment (filterConfig vs frontendFilters vs enableFrontendFilters)
+  - Added `tools` (`Tool / Platform`) and `status` (`Status`) to `filterConfig.facets[].facet` options enum — editors can now configure these as facets for any archive
+  - Updated `preview.prepare` facetLabels map to include `tools` and `status`
+
+### Validator state at release
+
+```
+pnpm validate:urls
+──────────────────
+✅  /knowledge-graph  →  [node]  "Knowledge Graph"
+✅  /case-studies  →  [caseStudy]  "Case Studies"
+✅  /articles  →  [article]  "Articles"
+✅  No docs with missing slugs
+✅  No duplicate canonical URLs detected
+✅  No page slugs collide with reserved namespaces
+✅  All checks passed — URL authority is clean.
+
+pnpm validate:taxonomy
+───────────────────────
+✅  All tools[] values are in the canonical enum
+✅  All tags[] refs point to existing tag documents
+⚠️  1 WARNING: Beauty Retail case study has 3 categories (editorial fix)
+    (exits 0 — warning only, not a schema error)
+
+pnpm validate:filters
+──────────────────────
+✅  No WP-era keys in GROQ query strings
+✅  FilterModel produced for /knowledge-graph  (4 facets: author, project, category, tag)
+✅  FilterModel produced for /articles         (4 facets: author, project, category, tag)
+✅  FilterModel produced for /case-studies     (4 facets: author, project, category, tag)
+    (No filterConfig on archivePage docs yet — default 4-facet fallback active.
+     tools/status facets will appear once configured in Studio filterConfig.facets[].)
+✅  All filter models produced successfully.
+```
+
+---
+
 ## [0.10.0] — 2026-02-21
 Taxonomy detail pages, redirect infrastructure, WP→Sanity migration pipeline, and frontend content fixes. Branches: `epic/taxonomy-detail`, `epic/redirect-infrastructure`, `epic/wp-migration` → `main`
 

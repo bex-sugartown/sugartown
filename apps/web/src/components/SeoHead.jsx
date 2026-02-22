@@ -12,7 +12,7 @@
  *   import { useSiteSettings } from '../lib/SiteSettingsContext'
  *
  *   const siteSettings = useSiteSettings()
- *   const seo = resolveSeo({ docSeo: doc.seo, docTitle: doc.title, docType: 'post', docSlug: doc.slug?.current, siteDefaults: siteSettings })
+ *   const seo = resolveSeo(doc, siteSettings)
  *   return <><SeoHead seo={seo} /><main>...</main></>
  *
  * Props:

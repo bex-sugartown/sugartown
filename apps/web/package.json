@@ -1,7 +1,7 @@
 {
   "name": "web",
   "private": true,
-  "version": "0.10.0",
+  "version": "0.12.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "validate:urls": "node scripts/validate-urls.js",
-    "validate:filters": "node scripts/validate-filters.js"
+    "validate:filters": "node scripts/validate-filters.js",
+    "validate:taxonomy": "node scripts/validate-taxonomy.js"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.2",

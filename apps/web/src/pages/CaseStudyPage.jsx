@@ -29,13 +29,7 @@ export default function CaseStudyPage() {
   const { data: caseStudy, loading, notFound } = useSanityDoc(caseStudyBySlugQuery, { slug })
   const siteSettings = useSiteSettings()
 
-  const seo = resolveSeo({
-    docSeo: caseStudy?.seo ?? null,
-    docTitle: caseStudy?.title ?? null,
-    docType: 'caseStudy',
-    docSlug: slug,
-    siteDefaults: siteSettings,
-  })
+  const seo = resolveSeo(caseStudy ?? null, siteSettings)
 
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !caseStudy) return <NotFoundPage />

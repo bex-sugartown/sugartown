@@ -10,66 +10,103 @@
  *
  * Key principle: relationships are derived from content usage, not from taxonomy docs.
  * Taxonomy docs (category, tag, project, person) are labels/metadata.
- * Content items (node, article, caseStudy, page) are the source of truth for what appears.
+ * Content items (node, article, caseStudy) are the source of truth for what appears.
  *
- * FilterModel TypeScript contract (implemented here in plain JS):
+ * ─────────────────────────────────────────────────────────────────────────────
+ * FilterModel — canonical output contract v2
+ * ─────────────────────────────────────────────────────────────────────────────
  *
- * type FilterModel = {
- *   archive: {
- *     id: string
- *     slug: string
- *     title: string
- *     contentTypes: string[]
- *   }
- *   facets: Array<{
- *     id: 'author' | 'project' | 'category' | 'tag'
- *     label: string
- *     selection: 'single' | 'multi'
- *     order: number
- *     defaultSelectedSlugs?: string[]
- *     options: Array<{
- *       id: string       // Sanity _id
- *       title: string    // display name
- *       slug: string     // for URL params
- *       colorHex?: string // from Stage 2 (category / project only)
- *       count: number    // number of content items referencing this option
- *     }>
- *   }>
- * }
+ * @typedef {Object} FilterModelOption
+ * @property {string}  id         - Sanity _id for reference facets; enum value string for tools/status
+ * @property {string}  label      - Display label (tag.name, enum value, etc.)
+ * @property {string}  [slug]     - URL-friendly slug. Reference types only (author, category, tag, project).
+ *                                  Absent for enum facets (tools, status) — use `id` as URL param value instead.
+ * @property {string}  [colorHex] - Hex color. categories and projects only.
+ * @property {number}  count      - Content items in the current archive scope with this value.
+ * @property {{id: string, label: string, slug: string}} [parent]
+ *                                - Parent category. Present only on category options when groupByParent=true.
+ *
+ * @typedef {Object} FilterModelFacet
+ * @property {string}  id         - 'author' | 'project' | 'category' | 'tag' | 'tools' | 'status'
+ * @property {string}  label      - Display label for UI (from config or DEFAULT_FACET_LABELS)
+ * @property {'reference'|'enum'} type  - 'reference' for Sanity doc refs; 'enum' for string enum arrays
+ * @property {'single'|'multi'}   selection - Selection mode
+ * @property {number}  order      - Sort order within sidebar
+ * @property {string[]} defaultSelectedSlugs - Pre-selected option slugs/values on load
+ * @property {FilterModelOption[]} options  - Derived options, sorted by count desc then alpha
+ * @property {boolean} [grouped]  - True if groupByParent was applied (category facet only)
+ *
+ * @typedef {Object} FilterModel
+ * @property {{ id: string, slug: string, title: string, contentTypes: string[] }} archive
+ * @property {FilterModelFacet[]} facets
+ * @property {string}  [_error]   - Present only if something went wrong (archivePage null, etc.)
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Field naming — canonical references:
+ *
+ *   archivePage.filterConfig.facets[]  → Stage 4 structured facet config. READ BY THIS FILE.
+ *   archivePage.frontendFilters.*      → Legacy boolean toggles in Studio UI. NOT read here.
+ *   archivePage.enableFrontendFilters  → Legacy master toggle. NOT read here.
+ *
+ * See archivePage.ts for full documentation of this distinction.
+ * ─────────────────────────────────────────────────────────────────────────────
  */
+
+// ─── Facet type map ───────────────────────────────────────────────────────────
+// Identifies which facets are reference-based (Sanity doc refs) vs enum-based
+// (string arrays directly on content documents).
+
+const FACET_TYPE = {
+  author:   'reference',
+  project:  'reference',
+  category: 'reference',
+  tag:      'reference',
+  tools:    'enum',
+  status:   'enum',
+}
 
 // ─── Default facet labels ─────────────────────────────────────────────────────
 
 const DEFAULT_FACET_LABELS = {
-  author: 'Author',
-  project: 'Project',
+  author:   'Author',
+  project:  'Project',
   category: 'Category',
-  tag: 'Tag',
+  tag:      'Tag',
+  tools:    'Tool / Platform',
+  status:   'Status',
 }
 
 // ─── Facet extractors ─────────────────────────────────────────────────────────
-// Each extractor takes a content item and returns an array of taxonomy option
-// objects present on that item for the given facet dimension.
+// Each extractor takes a content item and returns an array of objects suitable
+// for normalization into FilterModelOption entries.
 
 /**
  * extractFacetItems(item, facetId)
  *
- * Returns the array of taxonomy references on a content item for a given facet.
- * Merges canonical field (`projects`) with legacy field (`relatedProjects`) for project facet
- * so existing data is not lost.
+ * Returns the raw values for a given facet from a content item.
  *
- * @param {object} item  - content item from facetsRawQuery
- * @param {string} facetId - 'author' | 'project' | 'category' | 'tag'
- * @returns {Array<{_id, slug, name|title, colorHex?, role?}>}
+ * For reference facets: returns expanded taxonomy reference objects
+ *   (each has _id, name/title, slug, colorHex? from facetsRawQuery).
+ * For enum facets (tools, status): returns synthetic objects shaped like
+ *   {_id: value, name: value} so they pass through normalizeTaxonomyItem unchanged.
+ *
+ * Merges canonical `projects` + legacy `relatedProjects` for project facet.
+ *
+ * @param {object} item    - content item from facetsRawQuery
+ * @param {string} facetId - facet dimension identifier
+ * @returns {Array}
  */
 function extractFacetItems(item, facetId) {
   switch (facetId) {
     case 'author':
       return item.authors ?? []
+
     case 'category':
       return item.categories ?? []
+
     case 'tag':
       return item.tags ?? []
+
     case 'project': {
       // Merge canonical `projects` + legacy `relatedProjects` — deduplicate by _id
       const canonical = item.projects ?? []
@@ -84,6 +121,19 @@ function extractFacetItems(item, facetId) {
       }
       return merged
     }
+
+    case 'tools': {
+      // tools[] is a string enum array — synthesize reference-shaped objects
+      const toolValues = item.tools ?? []
+      return toolValues.map((v) => ({ _id: v, name: v }))
+    }
+
+    case 'status': {
+      // status is a single string field — emit as single-item array if set
+      if (!item.status) return []
+      return [{ _id: item.status, name: item.status }]
+    }
+
     default:
       return []
   }
@@ -92,26 +142,50 @@ function extractFacetItems(item, facetId) {
 /**
  * normalizeTaxonomyItem(raw, facetId)
  *
- * Normalizes a taxonomy reference object into a consistent shape.
- * PERSON_FRAGMENT uses `name`, others use `name` too.
- * All have `slug` as a pre-aliased string from GROQ (not slug.current).
+ * Normalizes a raw taxonomy reference (or synthetic enum object) into a
+ * consistent FilterModelOption shape.
+ *
+ * Reference facets: require _id + slug (pre-aliased string from GROQ).
+ * Enum facets (tools, status): only require _id; slug is omitted.
  *
  * @param {object} raw
  * @param {string} facetId
- * @returns {{ id: string, title: string, slug: string, colorHex?: string }}
+ * @returns {FilterModelOption|null}
  */
 function normalizeTaxonomyItem(raw, facetId) {
-  if (!raw || !raw._id || !raw.slug) return null
+  if (!raw || !raw._id) return null
 
-  const base = {
-    id: raw._id,
-    title: raw.name ?? raw.title ?? '(unnamed)',
-    slug: raw.slug,
+  const type = FACET_TYPE[facetId] ?? 'reference'
+
+  if (type === 'enum') {
+    // Enum values: id = value string, label = value string, no slug
+    return {
+      id:    raw._id,
+      label: raw.name ?? raw._id,
+    }
   }
 
-  // Include colorHex for category and project (Stage 2 integration)
+  // Reference types require a slug
+  if (!raw.slug) return null
+
+  const base = {
+    id:    raw._id,
+    label: raw.name ?? raw.title ?? '(unnamed)',
+    slug:  raw.slug,
+  }
+
+  // colorHex for category and project (Stage 2 integration)
   if ((facetId === 'category' || facetId === 'project') && raw.colorHex) {
     base.colorHex = raw.colorHex
+  }
+
+  // parent for category (hierarchy support)
+  if (facetId === 'category' && raw.parent?._id) {
+    base.parent = {
+      id:    raw.parent._id,
+      label: raw.parent.name ?? '(unnamed)',
+      slug:  raw.parent.slug ?? '',
+    }
   }
 
   return base
@@ -120,28 +194,36 @@ function normalizeTaxonomyItem(raw, facetId) {
 // ─── Core builder ─────────────────────────────────────────────────────────────
 
 /**
- * buildFilterModel(archivePage, contentItems) → FilterModel
+ * buildFilterModel(archivePage, contentItems, options?) → FilterModel
  *
  * Takes:
- * - archivePage: result of archivePageWithFilterConfigQuery (has filterConfig, contentTypes, etc.)
- * - contentItems: result of facetsRawQuery — all content items for the archive's contentTypes
+ * - archivePage: result of archivePageWithFilterConfigQuery
+ *                (has filterConfig.facets[], contentTypes, etc.)
+ * - contentItems: result of facetsRawQuery — all content items for this archive
+ * - options: optional behaviour flags
+ *   - groupByParent {boolean} (default false) — for category facet, attach parent
+ *     metadata to each option. The UI epic can use this to render grouped lists.
+ *     When false: flat list, no change to existing behavior.
+ *     When true: options carry a `parent` property where applicable; facet gains `grouped: true`.
  *
  * Returns a stable FilterModel JSON object.
- * Facets with no options are still included (as empty arrays) — UI decides whether to hide them.
+ * Facets with no options are omitted (empty facet groups add no value to the UI).
  *
- * @param {object} archivePage
- * @param {Array}  contentItems
- * @returns {object} FilterModel
+ * @param {object}  archivePage
+ * @param {Array}   contentItems
+ * @param {{ groupByParent?: boolean }} [options]
+ * @returns {FilterModel}
  */
-export function buildFilterModel(archivePage, contentItems) {
+export function buildFilterModel(archivePage, contentItems, options = {}) {
   if (!archivePage) {
     return { archive: null, facets: [], _error: 'archivePage is null' }
   }
 
+  const { groupByParent = false } = options
   const items = contentItems ?? []
   const facetConfigs = archivePage.filterConfig?.facets ?? []
 
-  // If no filterConfig, produce a default model with all four facets enabled
+  // If no filterConfig, produce a default model with the four reference facets
   const configs = facetConfigs.length > 0
     ? facetConfigs
     : [
@@ -161,9 +243,10 @@ export function buildFilterModel(archivePage, contentItems) {
     if (config.enabled === false) continue
 
     const facetId = config.facet
+    const type = FACET_TYPE[facetId] ?? 'reference'
     const label = config.label || DEFAULT_FACET_LABELS[facetId] || facetId
 
-    // Tally: map from taxonomy _id → { optionData, count }
+    // Tally: map from option id → { optionData, count }
     const tally = new Map()
 
     for (const item of items) {
@@ -180,27 +263,40 @@ export function buildFilterModel(archivePage, contentItems) {
       }
     }
 
-    // Sort options: by count descending, then alphabetically
+    // Skip facets with no options — empty groups add no value to the filter UI
+    if (tally.size === 0) continue
+
+    // Sort options: by count descending, then alphabetically by label
     const options = [...tally.values()].sort((a, b) => {
       if (b.count !== a.count) return b.count - a.count
-      return a.title.localeCompare(b.title)
+      return a.label.localeCompare(b.label)
     })
 
-    facets.push({
-      id: facetId,
+    const facetEntry = {
+      id:                  facetId,
       label,
-      selection: config.selection ?? 'multi',
-      order: config.order ?? 0,
+      type,
+      selection:           config.selection ?? 'multi',
+      order:               config.order ?? 0,
       defaultSelectedSlugs: config.defaultSelectedSlugs ?? [],
       options,
-    })
+    }
+
+    // groupByParent flag for category facet (hierarchy support)
+    if (facetId === 'category' && groupByParent) {
+      facetEntry.grouped = true
+      // parent metadata is already attached to each option by normalizeTaxonomyItem
+      // The UI epic will use option.parent to render grouped lists
+    }
+
+    facets.push(facetEntry)
   }
 
   return {
     archive: {
-      id: archivePage._id,
-      slug: archivePage.slug,
-      title: archivePage.title,
+      id:           archivePage._id,
+      slug:         archivePage.slug,
+      title:        archivePage.title,
       contentTypes: archivePage.contentTypes ?? [],
     },
     facets,
@@ -210,7 +306,7 @@ export function buildFilterModel(archivePage, contentItems) {
 // ─── Async entry point ────────────────────────────────────────────────────────
 
 /**
- * fetchFilterModel(slug, sanityClient) → Promise<FilterModel>
+ * fetchFilterModel(slug, sanityClient, options?) → Promise<FilterModel>
  *
  * High-level convenience function.
  * Fetches the archivePage and its content items, then builds the FilterModel.
@@ -218,9 +314,10 @@ export function buildFilterModel(archivePage, contentItems) {
  *
  * @param {string} slug - archive page slug (e.g., 'knowledge-graph', 'articles')
  * @param {import('@sanity/client').SanityClient} client
+ * @param {{ groupByParent?: boolean }} [options]
  * @returns {Promise<FilterModel>}
  */
-export async function fetchFilterModel(slug, client) {
+export async function fetchFilterModel(slug, client, options = {}) {
   const { archivePageWithFilterConfigQuery, facetsRawQuery } = await import('./queries.js')
 
   const archivePage = await client.fetch(archivePageWithFilterConfigQuery, { slug })
@@ -237,5 +334,5 @@ export async function fetchFilterModel(slug, client) {
     ? await client.fetch(facetsRawQuery, { contentTypes })
     : []
 
-  return buildFilterModel(archivePage, contentItems)
+  return buildFilterModel(archivePage, contentItems, options)
 }

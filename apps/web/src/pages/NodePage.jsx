@@ -28,13 +28,7 @@ export default function NodePage() {
   const { data: node, loading, notFound } = useSanityDoc(nodeBySlugQuery, { slug })
   const siteSettings = useSiteSettings()
 
-  const seo = resolveSeo({
-    docSeo: node?.seo ?? null,
-    docTitle: node?.title ?? null,
-    docType: 'node',
-    docSlug: slug,
-    siteDefaults: siteSettings,
-  })
+  const seo = resolveSeo(node ?? null, siteSettings)
 
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !node) return <NotFoundPage />

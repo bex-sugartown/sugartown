@@ -20,13 +20,7 @@ export default function HomePage() {
   const { data: page, loading } = useSanityDoc(pageBySlugQuery, { slug: 'home' })
   const siteSettings = useSiteSettings()
 
-  const seo = resolveSeo({
-    docSeo: page?.seo ?? null,
-    docTitle: page?.title ?? null,
-    docType: 'page',
-    docSlug: 'home',
-    siteDefaults: siteSettings,
-  })
+  const seo = resolveSeo(page ?? null, siteSettings)
 
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
 

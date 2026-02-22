@@ -274,13 +274,7 @@ export default function ArchivePage({ archiveSlug }) {
   )
   const siteSettings = useSiteSettings()
 
-  const seo = resolveSeo({
-    docSeo: archiveDoc?.seo ?? null,
-    docTitle: archiveDoc?.title ?? null,
-    docType: 'archivePage',
-    docSlug: archiveSlug,
-    siteDefaults: siteSettings,
-  })
+  const seo = resolveSeo(archiveDoc ?? null, siteSettings)
 
   // archivePage not found or unpublished → 404
   if (loading) return <div className={styles.loadingPage}>Loading…</div>

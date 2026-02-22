@@ -4,8 +4,17 @@ import {TagsIcon} from '@sanity/icons'
 /**
  * Tag Document
  *
- * Flat tagging system for cross-cutting themes and topics
- * Complements hierarchical categories with flexible, ad-hoc classification
+ * Controlled vocabulary for cross-cutting conceptual and thematic classification.
+ * Tags are bridges between content — they surface relationships in the Knowledge Graph.
+ *
+ * Vocabulary rules:
+ * - Tags must be conceptual or thematic (not tool names, not statuses, not client names)
+ * - Tags must be cross-cutting — useful across article, caseStudy, and node types
+ * - Tool names belong in the tools[] enum field on each content type
+ * - Status values belong in the status field on each content type
+ * - New tags require editorial review before creation (see docs/taxonomy/controlled-vocabulary.md)
+ *
+ * Canonical vocabulary: ~60–100 approved tags. Do not create tags outside this list.
  */
 export default defineType({
   name: 'tag',
@@ -17,11 +26,11 @@ export default defineType({
       name: 'name',
       title: 'Tag Name',
       type: 'string',
-      description: 'The tag label (e.g., "AI Ethics", "TypeScript", "Debugging")',
+      description: 'The tag label — conceptual/thematic only (e.g., "AI Ethics", "Governance", "Content Modeling")',
       validation: (Rule) =>
         Rule.required()
-          .max(30)
-          .error('Tag name is required and must be under 30 characters')
+          .max(50)
+          .error('Tag name is required and must be under 50 characters')
     }),
     defineField({
       name: 'slug',
@@ -35,7 +44,15 @@ export default defineType({
       validation: (Rule) =>
         Rule.required()
           .error('Slug is required. Click "Generate" to create from name.')
-    })
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      description: 'What does this tag mean and when should it be applied? Helps editors maintain consistent vocabulary.',
+      rows: 2,
+      validation: (Rule) => Rule.max(300)
+    }),
   ],
   preview: {
     select: {

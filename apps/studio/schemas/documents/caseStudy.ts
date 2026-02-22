@@ -199,10 +199,76 @@ export default defineType({
       validation: (Rule) => Rule.unique()
     }),
     defineField({
+      name: 'status',
+      title: 'Status',
+      type: 'string',
+      description: 'Editorial lifecycle status for this case study.',
+      group: 'metadata',
+      options: {
+        list: [
+          {title: '✏️ Draft', value: 'draft'},
+          {title: '✅ Published', value: 'published'},
+          {title: '📦 Archived', value: 'archived'},
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'published',
+    }),
+    defineField({
+      name: 'tools',
+      title: 'Tools & Platforms',
+      type: 'array',
+      // Controlled enum — do not add values here without updating validate-taxonomy.js
+      // and the migration script canonical list.
+      description: 'Tools, platforms, or technologies used in this project. Use tags for conceptual themes.',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'string',
+        })
+      ],
+      options: {
+        list: [
+          {title: 'Acquia', value: 'acquia'},
+          {title: 'AEM', value: 'aem'},
+          {title: 'Celum', value: 'celum'},
+          {title: 'ChatGPT', value: 'chatgpt'},
+          {title: 'Claude', value: 'claude'},
+          {title: 'Claude Code', value: 'claude-code'},
+          {title: 'Contentful', value: 'contentful'},
+          {title: 'CSS', value: 'css'},
+          {title: 'Drupal', value: 'drupal'},
+          {title: 'Figma', value: 'figma'},
+          {title: 'Gemini', value: 'gemini'},
+          {title: 'Git', value: 'git'},
+          {title: 'GitHub', value: 'github'},
+          {title: 'JavaScript', value: 'javascript'},
+          {title: 'Linear', value: 'linear'},
+          {title: 'Matplotlib', value: 'matplotlib'},
+          {title: 'Mermaid', value: 'mermaid'},
+          {title: 'Netlify', value: 'netlify'},
+          {title: 'NetworkX', value: 'networkx'},
+          {title: 'OpenAI Codex', value: 'codex'},
+          {title: 'Oracle ATG', value: 'oracle-atg'},
+          {title: 'Python', value: 'python'},
+          {title: 'React', value: 'react'},
+          {title: 'Sanity', value: 'sanity'},
+          {title: 'Shopify', value: 'shopify'},
+          {title: 'Storybook', value: 'storybook'},
+          {title: 'Turborepo', value: 'turborepo'},
+          {title: 'TypeScript', value: 'typescript'},
+          {title: 'Vite', value: 'vite'},
+          {title: 'WordPress', value: 'wordpress'},
+        ]
+      },
+      validation: (Rule) => Rule.unique()
+    }),
+    defineField({
       name: 'categories',
       title: 'Categories',
       type: 'array',
-      description: 'Case study categories (e.g., "Web Design", "Branding")',
+      // Guided multiplicity: 1–2 categories strongly preferred. Warning fires at 3+.
+      description: 'Case study categories. Aim for 1–2; a warning appears at 3 or more.',
       group: 'metadata',
       of: [
         defineArrayMember({
@@ -211,21 +277,25 @@ export default defineType({
         })
       ],
       validation: (Rule) =>
-        Rule.max(3)
-          .warning('Consider using 1-3 categories for clarity')
+        Rule.max(2)
+          .warning('Prefer 1–2 categories per case study for clarity. Add more only if genuinely cross-domain.')
     }),
     defineField({
       name: 'tags',
       title: 'Tags',
       type: 'array',
-      description: 'Skills and technologies used',
+      // Tags must be references to published tag documents — no freeform strings.
+      // The controlled vocabulary lives in the tag document collection.
+      // See docs/taxonomy/controlled-vocabulary.md for the canonical list.
+      description: 'Conceptual and thematic tags from the controlled vocabulary. Do not create new tags without editorial review.',
       group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
           to: [{type: 'tag'}]
         })
-      ]
+      ],
+      validation: (Rule) => Rule.unique()
     }),
     defineField({
       name: 'projects',

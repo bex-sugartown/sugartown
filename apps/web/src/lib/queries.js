@@ -40,13 +40,15 @@ export const PERSON_FRAGMENT = `
  * CATEGORY_FRAGMENT
  * Expand a single category reference or an array item.
  * category stores colorHex as a plain hex string field (Stage 2).
+ * parent-> is projected to support optional groupByParent in buildFilterModel().
  * Usage in GROQ: categories[]->{${CATEGORY_FRAGMENT}}
  */
 export const CATEGORY_FRAGMENT = `
   _id,
   name,
   "slug": slug.current,
-  colorHex
+  colorHex,
+  "parent": parent->{ _id, name, "slug": slug.current }
 `
 
 /**
@@ -179,6 +181,7 @@ export const allNodesQuery = `
     aiTool,
     conversationType,
     status,
+    tools,
     challenge,
     insight,
     publishedAt,
@@ -193,9 +196,11 @@ export const allNodesQuery = `
 export const nodeBySlugQuery = `
   *[_type == "node" && slug.current == $slug][0] {
     _id,
+    _type,
     title,
     slug,
     content,
+    "body": content[],
     excerpt,
     aiTool,
     conversationType,
@@ -230,6 +235,8 @@ export const allArticlesQuery = `
     },
     author,
     authors[]->{${PERSON_FRAGMENT}},
+    status,
+    tools,
     publishedAt,
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
@@ -241,9 +248,11 @@ export const allArticlesQuery = `
 export const articleBySlugQuery = `
   *[_type == "article" && slug.current == $slug][0] {
     _id,
+    _type,
     title,
     slug,
     content,
+    "body": content[],
     excerpt,
     featuredImage {
       asset,
@@ -268,6 +277,7 @@ export const articleBySlugQuery = `
 export const pageBySlugQuery = `
   *[_type == "page" && slug.current == $slug][0] {
     _id,
+    _type,
     title,
     slug,
     template,
@@ -348,6 +358,8 @@ export const allCaseStudiesQuery = `
     },
     dateRange,
     publishedAt,
+    status,
+    tools,
     authors[]->{${PERSON_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
@@ -359,6 +371,7 @@ export const allCaseStudiesQuery = `
 export const caseStudyBySlugQuery = `
   *[_type == "caseStudy" && slug.current == $slug][0] {
     _id,
+    _type,
     title,
     slug,
     client,
@@ -419,6 +432,7 @@ export const caseStudyBySlugQuery = `
 export const archivePageBySlugQuery = `
   *[_type == "archivePage" && slug.current == $slug][0] {
     _id,
+    _type,
     title,
     "slug": slug.current,
     description,
@@ -537,7 +551,8 @@ export const allTagsQuery = `
   *[_type == "tag"] | order(name asc) {
     _id,
     name,
-    slug
+    "slug": slug.current,
+    description
   }
 `
 
@@ -658,6 +673,8 @@ export const facetsRawQuery = `
     _id,
     _type,
     "slug": slug.current,
+    status,
+    tools,
     authors[]->{${PERSON_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},

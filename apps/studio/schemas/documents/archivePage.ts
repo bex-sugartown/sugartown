@@ -347,6 +347,22 @@ export default defineType({
     // ════════════════════════════════════════════════════════════════════════
     // FILTER CONFIG (Stage 4: Taxonomy Relationship Architecture)
     // ════════════════════════════════════════════════════════════════════════
+    //
+    // CANONICAL FIELD NAMES — DO NOT CONFUSE:
+    //
+    //   filterConfig          → Stage 4 structured facet configuration (this block).
+    //                           Read by buildFilterModel() in filterModel.js.
+    //                           Contains filterConfig.facets[] (ordered, per-facet config).
+    //                           This is the source of truth for the frontend filter sidebar.
+    //
+    //   frontendFilters       → Legacy boolean-toggle object (further below).
+    //                           showCategoryFilter, showTagFilter, etc.
+    //                           NOT read by buildFilterModel() — kept for Studio UI only.
+    //                           Superseded by filterConfig; may be removed in a future version.
+    //
+    //   enableFrontendFilters → Master boolean toggle (separate field, further below).
+    //                           Guards display of frontendFilters in Studio only.
+    //
     // filterConfig replaces the boolean-flag pattern of frontendFilters with a
     // structured, ordered, per-facet configuration. The FilterModel builder reads
     // this at runtime to produce a stable JSON model for the frontend filter UI.
@@ -381,6 +397,9 @@ export default defineType({
                       {title: 'Project', value: 'project'},
                       {title: 'Category', value: 'category'},
                       {title: 'Tag', value: 'tag'},
+                      // v0.11.0: enum facets (string values, not references)
+                      {title: 'Tool / Platform', value: 'tools'},
+                      {title: 'Status', value: 'status'},
                     ]
                   },
                   validation: (Rule) => Rule.required()
@@ -442,6 +461,8 @@ export default defineType({
                     project: 'Project',
                     category: 'Category',
                     tag: 'Tag',
+                    tools: 'Tool / Platform',
+                    status: 'Status',
                   }
                   const displayLabel = label || facetLabels[facet] || facet
                   const status = enabled === false ? ' (disabled)' : ''

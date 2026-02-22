@@ -49,13 +49,7 @@ export default function ArticlePage() {
   const { data: post, loading, notFound } = useSanityDoc(articleBySlugQuery, { slug })
   const siteSettings = useSiteSettings()
 
-  const seo = resolveSeo({
-    docSeo: post?.seo ?? null,
-    docTitle: post?.title ?? null,
-    docType: 'article',
-    docSlug: slug,
-    siteDefaults: siteSettings,
-  })
+  const seo = resolveSeo(post ?? null, siteSettings)
 
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !post) return <NotFoundPage />

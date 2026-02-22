@@ -70,6 +70,19 @@ function getCanonicalPath({ docType, slug }) {
 const ARCHIVE_PATHS = ['/articles', '/case-studies', '/knowledge-graph', '/nodes']
 const TAXONOMY_BASE_PATHS = ['/tags', '/categories', '/projects', '/people']
 
+// Reserved namespace slugs that page documents must never use.
+// A page slug matching any of these would shadow the canonical archive/taxonomy route.
+const RESERVED_PAGE_SLUGS = [
+  'articles',
+  'case-studies',
+  'knowledge-graph',
+  'nodes',
+  'tags',
+  'categories',
+  'projects',
+  'people',
+]
+
 function validateNavItemUrl(rawUrl) {
   if (!rawUrl) return { valid: false, reason: 'url is empty/null' }
   if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) return { valid: true }
@@ -244,7 +257,32 @@ async function run() {
     }
   }
 
-  // ── C) Print Nav Resolution Report ───────────────────────────────────────
+  // ── C) Reserved namespace collision check ────────────────────────────────
+  // Page slugs must not collide with reserved URL namespace prefixes.
+  // A page with slug "articles" would shadow /articles (the article archive).
+
+  const reservedCollisions = pages.filter((p) => RESERVED_PAGE_SLUGS.includes(p.slug))
+
+  console.log('\n🚫  Reserved Namespace Collision Check')
+  console.log('──────────────────────────────────────────────')
+  if (reservedCollisions.length === 0) {
+    console.log('   ✅  No page slugs collide with reserved namespaces')
+  } else {
+    console.log(
+      `   ❌  ${reservedCollisions.length} page slug(s) collide with reserved namespace(s):`,
+    )
+    for (const doc of reservedCollisions) {
+      console.log(
+        `        [page] slug="${doc.slug}" — shadows /${doc.slug} route  (${doc._id})`,
+      )
+    }
+    console.log(
+      `\n   Reserved slugs: ${RESERVED_PAGE_SLUGS.map((s) => `"${s}"`).join(', ')}`,
+    )
+  }
+  console.log()
+
+  // ── D) Print Nav Resolution Report ───────────────────────────────────────
 
   console.log('\n🧭  Nav Resolution Report')
   console.log('──────────────────────────────────────────────')
@@ -291,10 +329,11 @@ async function run() {
     }
   }
 
-  // ── D) Summary ────────────────────────────────────────────────────────────
+  // ── E) Summary ────────────────────────────────────────────────────────────
 
   console.log('\n══════════════════════════════════════════════')
-  const errors = duplicates.length
+  // Reserved namespace collisions are hard errors — they would silently break routing.
+  const errors = duplicates.length + reservedCollisions.length
   const warnings = missingSlug.length + navWarnings.length
 
   if (errors === 0 && warnings === 0) {
@@ -302,8 +341,11 @@ async function run() {
     process.exit(0)
   }
 
-  if (errors > 0) {
-    console.log(`❌  ${errors} ERROR(S) found — duplicate canonical URLs must be resolved.`)
+  if (duplicates.length > 0) {
+    console.log(`❌  ${duplicates.length} ERROR(S) found — duplicate canonical URLs must be resolved.`)
+  }
+  if (reservedCollisions.length > 0) {
+    console.log(`❌  ${reservedCollisions.length} ERROR(S) found — page slug(s) collide with reserved namespaces.`)
   }
   if (warnings > 0) {
     console.log(`⚠️   ${warnings} WARNING(S) found — review missing slugs and nav items.`)

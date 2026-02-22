@@ -39,6 +39,14 @@ export default defineType({
   icon: SearchIcon,
   fields: [
     defineField({
+      name: 'autoGenerate',
+      title: 'Auto-generate from content',
+      type: 'boolean',
+      description:
+        'When enabled, title and description are derived automatically from the document\u2019s title, excerpt, or body text. Turn off to use the fields below as exact overrides.',
+      initialValue: true,
+    }),
+    defineField({
       name: 'title',
       title: 'Meta Title',
       type: 'string',

@@ -217,16 +217,30 @@ export function validateNavItem(rawUrl) {
   }
 
   // Root page: /:slug (single segment, no reserved prefix)
+  // IMPORTANT: This also enforces that content-type paths appear with their namespace prefix.
+  // e.g. /my-article (article type, no prefix) is rejected here because:
+  //   - it has 1 segment, but "my-article" is not in reservedPrefixes
+  //   wait — actually that would be accepted. The rejection happens below for multi-segment
+  //   paths and for single-segment paths that ARE reserved prefixes (e.g. /articles alone).
+  //
+  // Non-canonical content paths like /articles-no-prefix/my-article (2 segments, no known
+  // namespace prefix) fall through all checks above and are caught by the final `return false`.
+  // A bare content slug /my-article (1 segment) resolves as a /:slug root page — this is
+  // intentional: the router hands it to RootPage, which 404s if no page doc is found.
   const segments = url.replace(/^\//, '').split('/')
   const reservedPrefixes = [
     ...Object.values(TYPE_NAMESPACES),
     ...ARCHIVE_PATHS.map((p) => p.replace(/^\//, '')),
     ...TAXONOMY_BASE_PATHS.map((p) => p.replace(/^\//, '')),
   ]
+  // Single-segment paths that are NOT reserved prefixes are valid root page candidates.
+  // Single-segment paths that ARE reserved prefixes (e.g. /articles, /nodes) are already
+  // caught by isArchivePath() above — so they won't reach this branch.
   if (segments.length === 1 && !reservedPrefixes.includes(segments[0])) {
     return { valid: true }
   }
 
+  // All other paths — including multi-segment paths with unrecognised prefixes — are invalid.
   return {
     valid: false,
     reason: `"${url}" does not match any canonical route pattern`,
