@@ -65,7 +65,7 @@ function FacetGroup({ facet, activeFilters, onFilterChange }) {
                     .join(' ')}
                   aria-hidden="true"
                 />
-                <span className={styles.optionName}>{option.title}</span>
+                <span className={styles.optionName}>{option.label}</span>
                 <span className={styles.optionCount} aria-label={`${option.count} items`}>
                   ({option.count})
                 </span>
