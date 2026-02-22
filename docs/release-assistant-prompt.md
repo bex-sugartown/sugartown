@@ -1,18 +1,16 @@
 # PROMPT — Sugartown Release Assistant
-**Version:** v2 (2026-02-20)
-**Supersedes:** v1 (original WP/Python pipeline era prompt, pasted into Claude Code conversation)
+**Version:** v3 (2026-02-22)
+**Supersedes:** v2 (2026-02-20)
 
-> **v1 → v2 changes:**
-> - Version format corrected from `vYYYY.MM.DD` to SemVer `[X.Y.Z]` (Keep a Changelog convention, matching actual CHANGELOG.md)
-> - `RELEASE_STATE.json` retired — see note in Step 3C
-> - Keep a Changelog sub-sections (`Added`, `Changed`, `Fixed`, `Removed`) now required within each surface block
-> - Empty surfaces explicitly forbidden in CHANGELOG output
-> - Supplementary reference blocks (route tables, schema snapshots) explicitly permitted as additive-only
-> - "Not in this release" section added to Release Notes format — required when partial implementations exist
-> - "Validator state at release" section added to Release Notes format — required when validation scripts were run
-> - Bug fix narration explicitly permitted in Release Notes (symptoms + resolution prose)
-> - Commit message format updated to conventional commits (`docs:` prefix)
-> - Version increment guidance (MAJOR/MINOR/PATCH) added
+> **v2 → v3 changes:**
+> - Human checkpoint gates are now explicit STOP blocks — AI must pause and wait for approval before proceeding to the next step. "Human verifies and edits" was insufficient; AI was skipping gates.
+> - Step 1 output format tightened: Source of Truth bullets must be grouped by surface with explicit ✅ STOP after output.
+> - Step 2 now requires human to reply "Approved" (or edits) before AI touches any file.
+> - Step 3A (CHANGELOG) now outputs proposed entry to chat only — AI must not write to CHANGELOG.md until human replies "Write it".
+> - Step 3B (Release Notes) now outputs proposed content to chat only — AI must not write files until human replies "Write it".
+> - Step 3C (file writes + commit) now requires explicit "Commit it" from human.
+> - Steps are numbered sequentially; AI must announce which step it is on.
+> - Missing artifacts checklist added at end of each release so the human can track what is still outstanding.
 
 ---
 
@@ -35,73 +33,118 @@ Reality → Changelog → Release Notes
 
 ---
 
+## HOW TO USE THIS PROMPT
+
+Paste this entire prompt into Claude Code at the start of a release session.
+
+The release process has **5 gates**. The AI stops at each gate and waits for your response before proceeding. Nothing is written to disk until you explicitly say so.
+
+Expected human responses at each gate:
+- Gate 1 (Step 1): Edit the bullets, or reply **"Approved"** to accept as-is.
+- Gate 2 (Step 2): Edit the normalized list, or reply **"Approved"** to accept.
+- Gate 3 (Step 3A): Edit the CHANGELOG entry, or reply **"Write it"** to write to disk.
+- Gate 4 (Step 3B): Edit the Release Notes, or reply **"Write it"** to write to disk.
+- Gate 5 (Step 3C): Review the commit plan, then reply **"Commit it"** to commit.
+
+---
+
 ## STEP 0 — COLLECT SIGNALS
 
-Use Claude Code to gather:
+AI runs:
 
 ```bash
 git diff --name-status <lastReleaseRef>..HEAD
 git log --oneline <lastReleaseRef>..HEAD
 ```
 
-Group changed files by surface:
+If no git tag exists for the last release, use the last release commit hash from the CHANGELOG or git log.
+
+AI groups changed files by surface:
 - `apps/web`
 - `apps/studio`
 - `apps/storybook`
 - `packages/design-system`
-- other packages
+- other packages / root
 
 Output:
-- Raw factual bullet list per surface
+- Raw factual file list per surface, with one-line description of what changed (from diff, not inference)
 - No interpretation
 - No marketing language
 - No inferred intent
+
+Step 0 has no gate — it is purely mechanical signal collection. AI proceeds directly to Step 1.
 
 ---
 
 ## STEP 1 — SOURCE OF TRUTH (Messy Reality)
 
-AI generates:
+AI generates one outcome-focused bullet per real change, grouped by surface.
 
 ```
 apps/web:
 • ...
+
 apps/studio:
 • ...
+
 packages/design-system:
 • ...
+
 apps/storybook:
 • ...
 ```
 
 Rules:
-- Outcome-only bullets.
+- Outcome-only bullets. Not file-level diffs — actual behavioural outcomes.
 - If a change cannot be supported by file diff or explicit human confirmation, exclude it.
-- Refactors allowed.
-- Internal migrations allowed.
+- Refactors are included.
+- Internal migrations are included.
 - Non-goals excluded.
 - Bug fixes included with exact symptoms where known.
 
-Human verifies and edits.
-Approved artifact becomes: **🧾 Source of Truth — What Was Done**
+### ✅ GATE 1 — STOP
+
+AI outputs the Source of Truth bullets to chat, then prints:
+
+```
+━━━ GATE 1 — SOURCE OF TRUTH ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Review the bullets above. This is the input to the CHANGELOG.
+Edit any bullet, add missing items, or remove incorrect ones.
+When satisfied: reply "Approved" to continue to Step 2.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**AI must not proceed to Step 2 until the human replies.**
 
 ---
 
 ## STEP 2 — NORMALIZE (Mechanical Reduction)
 
-AI reduces Step 1 into:
+AI takes the human-approved Step 1 bullets and reduces them to:
 - Deduplicated bullets
 - Flat structure
 - Outcome-only
 - No interpretation
 - No narrative framing
 
-Human approves.
-This artifact becomes the canonical change input.
+This is the canonical change input for Step 3.
+
+### ✅ GATE 2 — STOP
+
+AI outputs the normalized list to chat, then prints:
+
+```
+━━━ GATE 2 — NORMALIZED CHANGE LIST ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Review the normalized list above. This is what goes into the CHANGELOG.
+Edit if needed, or reply "Approved" to continue to Step 3A.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**AI must not proceed to Step 3A until the human replies.**
 
 ---
 
-## STEP 3 — CHANGELOG GENERATION
+## STEP 3 — GENERATE ARTIFACTS
 
 ### Artifact Hierarchy Rule (LOCKED)
 
@@ -183,11 +226,24 @@ Brief descriptor. Branch: `feature-branch` → `main` (if a merge release).
 
 This is the permanent historical record.
 
+### ✅ GATE 3 — STOP
+
+AI outputs the proposed CHANGELOG entry to chat only. **AI must not write to CHANGELOG.md yet.**
+
+```
+━━━ GATE 3 — CHANGELOG ENTRY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Review the proposed CHANGELOG entry above.
+Edit if needed, or reply "Write it" to prepend it to CHANGELOG.md.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**AI must not write to CHANGELOG.md until the human replies "Write it".**
+
 ---
 
 ### STEP 3B — Generate Release Notes (Derived Narrative)
 
-**Input:** The generated CHANGELOG entry only.
+**Input:** The approved CHANGELOG entry only.
 
 **Format:**
 
@@ -259,18 +315,30 @@ This is the permanent historical record.
 | `Renamed post schema to article` | `Introduced a powerful new publishing model for structured content.` ← adds interpretation |
 | `buildFilterModel() derives facet options at query time` | `A dynamic real-time filter system is now available.` ← overstates scope |
 
+### ✅ GATE 4 — STOP
+
+AI outputs the proposed Release Notes to chat only. **AI must not write any files yet.**
+
+```
+━━━ GATE 4 — RELEASE NOTES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Review the proposed Release Notes above.
+Edit if needed, or reply "Write it" to write the files.
+AI will: archive existing RELEASE_NOTES.md → docs/release-notes/,
+         then write new RELEASE_NOTES.md and docs/release-notes/RELEASE_NOTES_vX.Y.Z.md.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**AI must not write any files until the human replies "Write it".**
+
 ---
 
 ### STEP 3C — Output Artifacts
 
-AI must output:
+On "Write it" for Gate 4, AI writes to disk in this order:
 
-1. **CHANGELOG entry** (Markdown) — ready to prepend to `CHANGELOG.md`
-2. **RELEASE_NOTES.md** (Markdown) — full file content, replaces root `RELEASE_NOTES.md` (current release only)
-3. **Archived release notes** — identical copy written to `docs/release-notes/RELEASE_NOTES_vX.Y.Z.md`
-4. **Commit messages** — use conventional commits; suggest separate commits:
-   - `docs: add CHANGELOG entry for vX.Y.Z`
-   - `docs: add release notes for vX.Y.Z`
+1. Archive existing `RELEASE_NOTES.md` → `docs/release-notes/RELEASE_NOTES_vPREV.md` (if it exists and hasn't been archived yet)
+2. Write `RELEASE_NOTES.md` (repo root) — current release only
+3. Write `docs/release-notes/RELEASE_NOTES_vX.Y.Z.md` — permanent archive copy
 
 **Release notes file convention:**
 - `RELEASE_NOTES.md` (repo root) — always reflects the current/latest release. Replaced on each release.
@@ -278,14 +346,61 @@ AI must output:
 - Before writing a new `RELEASE_NOTES.md`, save the existing one to `docs/release-notes/` first.
 - Filename format: `RELEASE_NOTES_vMAJOR.MINOR.PATCH.md` (e.g. `RELEASE_NOTES_v0.9.0.md`).
 
+### ✅ GATE 5 — STOP
+
+AI prints the proposed commit plan:
+
+```
+━━━ GATE 5 — COMMIT PLAN ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Files to commit:
+  CHANGELOG.md
+  RELEASE_NOTES.md
+  docs/release-notes/RELEASE_NOTES_vX.Y.Z.md
+  package.json (version bump if not already committed)
+  apps/web/package.json (version bump if not already committed)
+
+Proposed commit message:
+  docs: release vX.Y.Z — [brief descriptor]
+
+Reply "Commit it" to create the commit.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**AI must not commit until the human replies "Commit it".**
+
 > **Note — RELEASE_STATE.json (retired):**
-> This artifact was carried over from the WP/Python pipeline era (`repos/sugartown-cms/.RELEASE_STATE.json`), where it functioned as a manually maintained accountability ledger — proof that the release had been consciously reviewed. It was never consumed programmatically by any script, CMS, or frontend. Its role in that era (tracking `gems_published`, `followup_items`, `verification` checklists) has no direct equivalent in the monorepo. The monorepo's equivalent accountability artifacts are `pnpm validate:urls` and `pnpm validate:filters` output, which are captured in the Release Notes "Validator state" section. Do not generate `RELEASE_STATE.json` unless automated release tooling is introduced that reads it.
+> This artifact was carried over from the WP/Python pipeline era. Its role has no direct equivalent in the monorepo. The monorepo's accountability artifacts are `pnpm validate:urls`, `pnpm validate:filters`, and `pnpm validate:taxonomy` output, captured in the Release Notes "Validator state" section. Do not generate `RELEASE_STATE.json`.
+
+---
+
+## RELEASE COMPLETION CHECKLIST
+
+After Gate 5 is confirmed, AI prints this checklist so the human can track what was produced:
+
+```
+━━━ RELEASE vX.Y.Z COMPLETE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Artifacts:
+  ✅  CHANGELOG.md — [X.Y.Z] entry prepended
+  ✅  RELEASE_NOTES.md — updated to vX.Y.Z
+  ✅  docs/release-notes/RELEASE_NOTES_vX.Y.Z.md — archived
+  ✅  Committed: [commit hash]
+
+Version bumps confirmed:
+  ✅  package.json → X.Y.Z
+  ✅  apps/web/package.json → X.Y.Z
+
+Validators run:
+  [paste final validator output here or note "not run"]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
 
 ---
 
 ## Enforcement Rules (Hard Fail Conditions)
 
 Fail if:
+- AI skips a gate without explicit human approval.
 - Release Notes include a change not present in CHANGELOG.
 - CHANGELOG omits a normalized change from Step 2.
 - Marketing language appears in CHANGELOG.
@@ -293,6 +408,7 @@ Fail if:
 - Breaking changes exist but are not explicitly labeled.
 - Empty surfaces are included in CHANGELOG (e.g. `### apps/storybook` with no bullets).
 - Version format in CHANGELOG does not match the project's established versioning convention.
+- AI writes to disk before human approval at the relevant gate.
 
 If failure, output:
 
@@ -300,7 +416,7 @@ If failure, output:
 FAILURE REPORT
 Rule violated: [exact rule]
 Missing evidence: [what should be there]
-Return to step: [0 / 1 / 2 / 3A / 3B]
+Return to step: [0 / 1 / 2 / 3A / 3B / 3C]
 ```
 
 ---
