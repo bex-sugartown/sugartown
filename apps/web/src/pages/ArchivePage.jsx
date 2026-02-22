@@ -75,6 +75,15 @@ const TAXONOMY_PROJECTION = `
   "projects": projects[]->{_id, name, "slug": slug.current, colorHex}
 `
 
+// Enum fields needed by applyFilters for client/tools/status facets.
+// Must be projected on every ARCHIVE_QUERY so applyFilters can match against them.
+// (facetsRawQuery projects these for counts; ARCHIVE_QUERIES must project them for filtering.)
+const ENUM_PROJECTION = `
+  client,
+  status,
+  tools
+`
+
 const ARCHIVE_QUERIES = {
   article: `
     *[_type == "article" && defined(slug.current)] | order(publishedAt desc) {
@@ -83,7 +92,8 @@ const ARCHIVE_QUERIES = {
       "slug": slug.current,
       excerpt,
       publishedAt,
-      ${TAXONOMY_PROJECTION}
+      ${TAXONOMY_PROJECTION},
+      ${ENUM_PROJECTION}
     }
   `,
   node: `
@@ -95,7 +105,8 @@ const ARCHIVE_QUERIES = {
       aiTool,
       conversationType,
       publishedAt,
-      ${TAXONOMY_PROJECTION}
+      ${TAXONOMY_PROJECTION},
+      ${ENUM_PROJECTION}
     }
   `,
   caseStudy: `
@@ -104,9 +115,9 @@ const ARCHIVE_QUERIES = {
       title,
       "slug": slug.current,
       excerpt,
-      client,
       role,
-      ${TAXONOMY_PROJECTION}
+      ${TAXONOMY_PROJECTION},
+      ${ENUM_PROJECTION}
     }
   `,
 }
