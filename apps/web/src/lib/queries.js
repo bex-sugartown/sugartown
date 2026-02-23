@@ -202,6 +202,43 @@ export const nodeBySlugQuery = `
     content,
     "body": content[],
     excerpt,
+    sections[]{
+      _type,
+      _key,
+      _type in ["heroSection", "hero"] => {
+        heading,
+        subheading,
+        backgroundImage {
+          asset->,
+          alt,
+          crop,
+          hotspot
+        },
+        cta {
+          text,
+          link { url, label, openInNewTab },
+          style
+        },
+        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": link.url, "openInNewTab": link.openInNewTab, style }
+      },
+      _type == "textSection" => {
+        heading,
+        content
+      },
+      _type == "imageGallery" => {
+        layout,
+        images[] { asset->, alt, caption }
+      },
+      _type == "ctaSection" => {
+        heading,
+        description,
+        buttons[] { text, link { url, label, openInNewTab }, style }
+      },
+      _type == "htmlSection" => {
+        html,
+        label
+      }
+    },
     aiTool,
     conversationType,
     challenge,
@@ -228,11 +265,7 @@ export const allArticlesQuery = `
     title,
     slug,
     excerpt,
-    featuredImage {
-      asset,
-      alt,
-      caption
-    },
+    // TODO: card thumbnail — revisit in card revamp epic
     author,
     authors[]->{${PERSON_FRAGMENT}},
     status,
@@ -254,11 +287,42 @@ export const articleBySlugQuery = `
     content,
     "body": content[],
     excerpt,
-    featuredImage {
-      asset,
-      alt,
-      caption,
-      credit
+    sections[]{
+      _type,
+      _key,
+      _type in ["heroSection", "hero"] => {
+        heading,
+        subheading,
+        backgroundImage {
+          asset->,
+          alt,
+          crop,
+          hotspot
+        },
+        cta {
+          text,
+          link { url, label, openInNewTab },
+          style
+        },
+        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": link.url, "openInNewTab": link.openInNewTab, style }
+      },
+      _type == "textSection" => {
+        heading,
+        content
+      },
+      _type == "imageGallery" => {
+        layout,
+        images[] { asset->, alt, caption }
+      },
+      _type == "ctaSection" => {
+        heading,
+        description,
+        buttons[] { text, link { url, label, openInNewTab }, style }
+      },
+      _type == "htmlSection" => {
+        html,
+        label
+      }
     },
     author,
     authors[]->{${PERSON_FRAGMENT}},
@@ -336,6 +400,10 @@ export const pageBySlugQuery = `
           },
           style
         }
+      },
+      _type == "htmlSection" => {
+        html,
+        label
       }
     },
     ${SEO_FRAGMENT}
@@ -352,10 +420,7 @@ export const allCaseStudiesQuery = `
     client,
     role,
     excerpt,
-    featuredImage {
-      asset,
-      alt
-    },
+    // TODO: card thumbnail — revisit in card revamp epic
     dateRange,
     publishedAt,
     status,
@@ -377,12 +442,6 @@ export const caseStudyBySlugQuery = `
     client,
     role,
     excerpt,
-    featuredImage {
-      asset,
-      alt,
-      caption,
-      credit
-    },
     dateRange,
     publishedAt,
     updatedAt,
@@ -410,6 +469,10 @@ export const caseStudyBySlugQuery = `
         heading,
         description,
         buttons[] { text, link { url, label, openInNewTab }, style }
+      },
+      _type == "htmlSection" => {
+        html,
+        label
       }
     },
     authors[]->{${PERSON_FRAGMENT}},

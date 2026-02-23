@@ -11,6 +11,7 @@ import { resolveSeo } from '../lib/seo'
 import { getAuthorByline } from '../lib/person'
 import SeoHead from '../components/SeoHead'
 import TaxonomyChips from '../components/TaxonomyChips'
+import PageSections from '../components/PageSections'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -85,6 +86,10 @@ export default function NodePage() {
         <div className={styles.detailContent}>
           <PortableText value={node.content} />
         </div>
+      )}
+
+      {node.sections?.length > 0 && (
+        <PageSections sections={node.sections} />
       )}
 
       <TaxonomyChips

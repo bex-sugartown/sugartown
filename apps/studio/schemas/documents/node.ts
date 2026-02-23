@@ -70,6 +70,20 @@ export default defineType({
       group: 'content',
       of: standardPortableText
     }),
+    defineField({
+      name: 'sections',
+      title: 'Page Sections',
+      type: 'array',
+      description: 'Flexible section builder — used for migrated HTML and structured content blocks',
+      group: 'content',
+      of: [
+        defineArrayMember({type: 'heroSection'}),
+        defineArrayMember({type: 'textSection'}),
+        defineArrayMember({type: 'imageGallery'}),
+        defineArrayMember({type: 'ctaSection'}),
+        defineArrayMember({type: 'htmlSection'}),
+      ]
+    }),
 
     // AI CONTEXT GROUP
     defineField({
