@@ -1,10 +1,17 @@
 /**
  * Sugartown Design System Tokens
  * CMS-agnostic design tokens
+ *
+ * Token layers:
+ *   Raw      — concrete values  (--st-pink, --st-space-4, --st-radius-2)
+ *   Semantic — named aliases    (--st-color-brand-primary, --st-spacing-4, --st-radius-sm)
+ *
+ * Always prefer semantic tokens in component CSS.
+ * Raw tokens exist for backwards-compatibility and as the single source of truth.
  */
 
 :root {
-  /* Colors */
+  /* ── Raw: Colors ─────────────────────────────── */
   --st-pink: #FF69B4;
   --st-black: #000000;
   --st-white: #FFFFFF;
@@ -12,7 +19,7 @@
   --st-gray: #6B7280;
   --st-green: #2BD4AA;
 
-  /* Spacing */
+  /* ── Raw: Spacing ────────────────────────────── */
   --st-space-1: 0.25rem;
   --st-space-2: 0.5rem;
   --st-space-3: 0.75rem;
@@ -20,16 +27,27 @@
   --st-space-5: 1.5rem;
   --st-space-6: 2rem;
 
-  /* Border Radius */
+  /* ── Raw: Border Radius ──────────────────────── */
   --st-radius-1: 0.25rem;
   --st-radius-2: 0.5rem;
   --st-radius-3: 0.75rem;
 
-  /* Typography */
+  /* ── Raw: Typography ─────────────────────────── */
   --st-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --st-font-size-base: 1rem;
   --st-font-weight-semibold: 600;
 
-  /* Shadow */
+  /* ── Raw: Shadow ─────────────────────────────── */
   --st-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+
+  /* ── Semantic: Colors ────────────────────────── */
+  --st-color-brand-primary: var(--st-pink);   /* #FF69B4 — primary brand pink */
+  --st-color-accent: var(--st-pink);          /* #FF69B4 — accent (matches brand) */
+
+  /* ── Semantic: Spacing ───────────────────────── */
+  --st-spacing-3: var(--st-space-3);          /* 0.75rem */
+  --st-spacing-4: var(--st-space-4);          /* 1rem */
+
+  /* ── Semantic: Border Radius ─────────────────── */
+  --st-radius-sm: var(--st-radius-2);         /* 0.5rem — standard component radius */
 }

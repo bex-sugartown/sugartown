@@ -37,3 +37,30 @@ export const Disabled: Story = {
     disabled: true,
   },
 };
+
+export const LongLabel: Story = {
+  args: {
+    children: 'This is a very long button label that tests layout overflow behaviour',
+    variant: 'primary',
+  },
+};
+
+// TODO: add loading prop to ButtonProps when a spinner/loading state is designed
+export const Loading: Story = {
+  args: {
+    children: 'Loading…',
+    variant: 'primary',
+    disabled: true,
+  },
+};
+
+export const AllVariants: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="primary" disabled>Primary Disabled</Button>
+      <Button variant="secondary" disabled>Secondary Disabled</Button>
+    </div>
+  ),
+};
