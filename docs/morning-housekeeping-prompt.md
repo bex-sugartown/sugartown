@@ -1,5 +1,5 @@
 # PROMPT — Sugartown Morning Housekeeping
-**Version:** v1 (2026-02-20)
+**Version:** v2 (2026-02-23)
 **Run with:** Claude Code (project context required)
 **When to use:** First thing in the morning, before starting new work
 
@@ -42,6 +42,23 @@ Then check remote-only branches:
 git fetch --dry-run
 ```
 
+Then check the health of active local services:
+
+**Storybook** — is the dev server running?
+```bash
+curl -s -o /dev/null -w "%{http_code}" http://localhost:6006/
+```
+- `200` → running ✅
+- anything else → not running. Report this in the briefing and offer to start it with `pnpm --filter storybook storybook`.
+
+**Sanity Studio** — are there available package updates?
+```bash
+cd apps/studio && npx --yes sanity@latest upgrade --dry-run 2>&1 | head -30
+```
+- If updates are available, list them in the briefing.
+- If already up to date, note that briefly.
+- Do not run the upgrade; only check.
+
 Do not take any action yet. Collect everything first.
 
 ---
@@ -53,6 +70,13 @@ Write a plain-English morning briefing using exactly this structure. Use plain l
 ---
 
 #### 🗓 Morning Briefing — [today's date]
+
+---
+
+#### 🖥 Service Health
+
+- **Storybook** — running on :6006? If not, say so clearly and offer to start it.
+- **Sanity** — any packages out of date? List them if so; say "up to date" if not.
 
 ---
 
@@ -179,7 +203,7 @@ For context when interpreting branch names and states:
 
 - `apps/web` — React + Vite frontend
 - `apps/studio` — Sanity Studio CMS
-- `apps/storybook` — component library (not yet active)
+- `apps/storybook` — component library (active — dev server on :6006)
 - `packages/design-system` — shared design tokens and components
 - `CHANGELOG.md` and `RELEASE_NOTES.md` — release documentation at repo root
 - `docs/` — internal project documentation (prompt files, strategy docs)

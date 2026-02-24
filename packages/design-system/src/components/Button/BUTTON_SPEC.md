@@ -31,8 +31,8 @@ Two valid `variant` prop values.
 
 | Property | Token | Resolved value |
 |---|---|---|
-| Background | `--st-color-brand-primary` | `#FF69B4` |
-| Border | `--st-color-brand-primary` | `#FF69B4` |
+| Background | `--st-color-brand-primary` | `#ff247d` |
+| Border | `--st-color-brand-primary` | `#ff247d` |
 | Label colour | `--st-white` | `#FFFFFF` |
 
 ### Secondary
