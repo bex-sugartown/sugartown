@@ -67,7 +67,8 @@ export default defineType({
         defineArrayMember({type: 'heroSection'}),
         defineArrayMember({type: 'textSection'}),
         defineArrayMember({type: 'imageGallery'}),
-        defineArrayMember({type: 'ctaSection'})
+        defineArrayMember({type: 'ctaSection'}),
+        defineArrayMember({type: 'htmlSection'})
       ]
     }),
 

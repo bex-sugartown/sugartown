@@ -22,7 +22,9 @@
     "migrate:transform": "node scripts/migrate/transform.js",
     "migrate:import": "node scripts/migrate/import.js",
     "migrate:redirects": "node scripts/migrate/redirects.js",
-    "migrate:parity": "node scripts/migrate/parity.js"
+    "migrate:parity": "node scripts/migrate/parity.js",
+    "migrate:featured-to-hero": "node scripts/migrate/featured-to-hero.js",
+    "migrate:backfill-html-section": "node scripts/migrate/backfill-html-section.js"
   },
   "devDependencies": {
     "prettier": "^3.1.1",

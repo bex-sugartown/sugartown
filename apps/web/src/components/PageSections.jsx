@@ -143,6 +143,18 @@ function ImageGallerySection({ section }) {
   )
 }
 
+// HTML Section Component
+// htmlSection — renders raw HTML as-is; no sanitization applied
+function HtmlSection({ section }) {
+  if (!section.html) return null
+  return (
+    <div
+      className="st-html-section"
+      dangerouslySetInnerHTML={{ __html: section.html }}
+    />
+  )
+}
+
 // CTA Section Component
 function CTASection({ section }) {
   const { heading, description, buttons } = section
@@ -189,6 +201,8 @@ export default function PageSections({ sections }) {
             return <ImageGallerySection key={key} section={section} />
           case 'ctaSection':
             return <CTASection key={key} section={section} />
+          case 'htmlSection':
+            return <HtmlSection key={key} section={section} />
           default:
             console.warn(`Unknown section type: ${section._type}`)
             return null

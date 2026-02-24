@@ -12,6 +12,7 @@ import { getAuthorByline } from '../lib/person'
 import { urlFor } from '../lib/sanity'
 import SeoHead from '../components/SeoHead'
 import TaxonomyChips from '../components/TaxonomyChips'
+import PageSections from '../components/PageSections'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -79,12 +80,8 @@ export default function ArticlePage() {
         tags={post.tags}
       />
 
-      {post.featuredImage?.asset && (
-        <img
-          src={urlFor(post.featuredImage.asset).width(1200).quality(85).url()}
-          alt={post.featuredImage.alt ?? ''}
-          className={styles.detailFeaturedImage}
-        />
+      {post.sections?.length > 0 && (
+        <PageSections sections={post.sections} />
       )}
 
       {post.content && (

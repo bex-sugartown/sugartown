@@ -8,7 +8,6 @@ import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getAuthorByline } from '../lib/person'
-import { urlFor } from '../lib/sanity'
 import SeoHead from '../components/SeoHead'
 import TaxonomyChips from '../components/TaxonomyChips'
 import PageSections from '../components/PageSections'
@@ -54,14 +53,6 @@ export default function CaseStudyPage() {
           <span>By {getAuthorByline(caseStudy.authors)}</span>
         )}
       </div>
-
-      {caseStudy.featuredImage?.asset && (
-        <img
-          src={urlFor(caseStudy.featuredImage.asset).width(1200).quality(85).url()}
-          alt={caseStudy.featuredImage.alt ?? ''}
-          className={styles.detailFeaturedImage}
-        />
-      )}
 
       <TaxonomyChips
         projects={caseStudy.projects}

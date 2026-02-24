@@ -61,13 +61,6 @@ export default defineType({
           .warning('Keep excerpts concise - under 300 characters recommended')
     }),
     defineField({
-      name: 'featuredImage',
-      title: 'Featured Image',
-      type: 'richImage',
-      description: 'Main image for the article (shown in listings and headers)',
-      group: 'content'
-    }),
-    defineField({
       name: 'content',
       title: 'Content',
       type: 'array',
@@ -266,14 +259,12 @@ export default defineType({
     select: {
       title: 'title',
       date: 'publishedAt',
-      media: 'featuredImage.asset'
     },
-    prepare({title, date, media}) {
+    prepare({title, date}) {
       const formattedDate = date ? new Date(date).toLocaleDateString() : 'No date'
       return {
         title: title || 'Untitled Article',
         subtitle: formattedDate,
-        media
       }
     }
   },

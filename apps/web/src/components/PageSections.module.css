@@ -241,6 +241,27 @@
   flex-wrap: wrap;
 }
 
+/* ============================================
+   HTML Section — raw HTML containment wrapper
+   ============================================ */
+:global(.st-html-section) {
+  max-width: var(--st-content-width, 800px);
+  margin-inline: auto;
+  padding-block: var(--st-spacing-inset-md, 1.5rem);
+}
+
+/* Scoped resets to prevent HTML paste from breaking layout */
+:global(.st-html-section) img {
+  max-width: 100%;
+  height: auto;
+}
+
+:global(.st-html-section) table {
+  width: 100%;
+  overflow-x: auto;
+  display: block;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .heroSection {

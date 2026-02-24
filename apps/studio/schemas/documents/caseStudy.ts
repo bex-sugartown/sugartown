@@ -59,13 +59,6 @@ export default defineType({
           .warning('Keep excerpts concise - under 300 characters recommended')
     }),
     defineField({
-      name: 'featuredImage',
-      title: 'Featured Image',
-      type: 'richImage',
-      description: 'Main project image (shown in portfolio listings)',
-      group: 'content'
-    }),
-    defineField({
       name: 'sections',
       title: 'Case Study Sections',
       type: 'array',
@@ -75,7 +68,8 @@ export default defineType({
         defineArrayMember({type: 'heroSection'}),
         defineArrayMember({type: 'textSection'}),
         defineArrayMember({type: 'imageGallery'}),
-        defineArrayMember({type: 'ctaSection'})
+        defineArrayMember({type: 'ctaSection'}),
+        defineArrayMember({type: 'htmlSection'})
       ]
     }),
 
@@ -347,16 +341,14 @@ export default defineType({
       title: 'title',
       client: 'client',
       role: 'role',
-      media: 'featuredImage.asset',
       startDate: 'dateRange.startDate'
     },
-    prepare({title, client, role, media, startDate}) {
+    prepare({title, client, role, startDate}) {
       const year = startDate ? new Date(startDate).getFullYear() : null
 
       return {
         title: title || 'Untitled Case Study',
         subtitle: [client, role, year].filter(Boolean).join(' • '),
-        media: media
       }
     }
   },

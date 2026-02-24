@@ -39,6 +39,7 @@ import heroSectionType from './sections/hero'
 import textSection from './sections/textSection'
 import imageGallery from './sections/imageGallery'
 import ctaSection from './sections/ctaSection'
+import htmlSection from './sections/htmlSection'
 
 // ============================================================================
 // DOCUMENTS - Top-level content types
@@ -102,6 +103,7 @@ export const schemaTypes = [
   textSection,
   imageGallery,
   ctaSection,
+  htmlSection,
 
   // Documents - Taxonomy (New)
   category,
