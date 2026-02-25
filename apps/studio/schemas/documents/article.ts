@@ -61,6 +61,20 @@ export default defineType({
           .warning('Keep excerpts concise - under 300 characters recommended')
     }),
     defineField({
+      name: 'sections',
+      title: 'Article Sections',
+      type: 'array',
+      description: 'Build your article layout with flexible sections (hero, text, gallery, CTA, raw HTML)',
+      group: 'content',
+      of: [
+        defineArrayMember({type: 'heroSection'}),
+        defineArrayMember({type: 'textSection'}),
+        defineArrayMember({type: 'imageGallery'}),
+        defineArrayMember({type: 'ctaSection'}),
+        defineArrayMember({type: 'htmlSection'})
+      ]
+    }),
+    defineField({
       name: 'content',
       title: 'Content',
       type: 'array',

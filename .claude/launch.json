@@ -6,6 +6,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["--filter", "web", "dev"],
       "port": 5173
+    },
+    {
+      "name": "studio",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "studio", "dev"],
+      "port": 3333
     }
   ]
 }

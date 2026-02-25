@@ -12,6 +12,90 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.13.0] — 2026-02-25
+Design system component library, adapter layer, htmlSection rendering, and filter model hardening. Branch: `feat/v7c-legacy-components`
+
+### packages/design-system
+
+#### Added
+- Card component (`src/components/Card/`): 4 variants (default, compact, listing, dark), polymorphic `as` prop for SPA routing, slots for eyebrow (`ReactNode`), title, subtitle, children, footer; hover lifts -4px with brand pink glow shadow
+- Chip component (`src/components/Chip/`): renders as `<span>`, `<a>`, or `<button>` based on props; `color-mix()` color system via single `--chip-color` custom property; `colorHex` override; `isActive` state with solid fill; sm/md sizes; 4px squircle border-radius
+- FilterBar component (`src/components/FilterBar/`): sidebar facet UI rendered as `<aside>`; accepts `FilterModel` array of facets with options; native checkboxes with `accent-color` brand tinting; color swatches for taxonomy options; `onFilterChange`/`onClearAll` callbacks; renders `null` when filter model is empty
+- Table component (`src/components/Table/`): 3 variants (default, responsive, wide); zebra striping; pink accent header; responsive card collapse at ≤860px; exports `Table` and `TableWrap`
+- Blockquote component (`src/components/Blockquote/`): 3px pink left border (`--st-color-brand-primary`), italic text, muted grey; optional `citation` prop renders as `<footer><cite>`
+- Callout component (`src/components/Callout/`): 5 variants (default/info/tip/warn/danger) with Lucide React icons; optional `title` prop; variant-specific background colors from tokens
+- CodeBlock component (`src/components/CodeBlock/`): Prism.js syntax highlighting with 12 language grammars (JS, TS, CSS, HTML, JSON, Bash, Python, JSX, TSX, Markdown, YAML, SQL); custom Sugartown Prism theme (pink keywords, seafoam strings, lime comments); `filename` prop; meta bar with language label; also exports `InlineCode` sibling component for inline `<code>` in prose
+- Media component (`src/components/Media/`): responsive `<figure>` with duotone overlay (3 presets: standard, featured, subtle; plus custom mode) and color overlay mode (arbitrary CSS color + opacity); hover zoom; optional `<figcaption>` caption
+- `COMPONENT_CONTRACTS.md`: authoritative visual spec for Chip, FilterBar, Card — anatomy diagrams, sizing tables, color system details, state tables, Figma guidance, do/don't rules, production migration status, web adapter sync workflow
+- `VISUAL_AUDIT.md`: component visual audit tracking document
+- Foundation documentation stories: `Colors.stories.tsx` (brand palette, neutral palette, status colors, all swatches grid) and `Typefaces.stories.tsx` (font families, type scale, weights, line heights) under `Foundations/` Storybook path
+
+#### Changed
+- Button visual contract overhauled (`Button.tsx`, `Button.module.css`): primary uses correct brand pink (`#ff247d`) with hover lift (-2px) and `--st-shadow-pink-glow`; secondary changed from grey ghost to lime accent (`#D1FF1D`) with hover lift and `--st-shadow-lime-glow`; new tertiary variant (transparent background, brand-pink border and text, hover fills with 8% pink); Pink Moon theme adaptation added (frosted-glass substrate, `backdrop-filter: blur(14px)`, pill `border-radius`, inner glow rings per variant)
+- Brand pink corrected from `#FF69B4` (hot pink) to `#ff247d` (canonical Sugartown brand pink) across all token references
+- Token system (`tokens.css`) restructured from flat variables to explicit 3-tier architecture: Tier 1 raw primitives (full color scales including void-900 through white neutral ramp, 8-point rem spacing, 3 font family stacks, 7-step type scale, shadow primitives with brand-colored glows), Tier 2 semantic aliases (role-named: `--st-color-brand-primary`, `--st-color-text-primary`, `--st-color-bg-surface`, etc.), Tier 3 component tokens (Card, Button, Table, Blockquote, Callout, Code, Media groups); legacy flat aliases retained for back-compat
+
+### apps/web
+
+#### Added
+- DS adapter layer: JSX mirrors of all 8 DS components in `src/design-system/components/` (card, blockquote, callout, codeblock, table, media adapters created; button adapter updated) — bridges DS primitives to the web app via `src/design-system/index.js` barrel export
+- ContentCard data adapter (`src/components/ContentCard.jsx`): replaces inline card functions previously duplicated in ArchivePage and TaxonomyDetailPage; standardizes docType derivation via `DOC_TYPE_MAP`, SPA routing via `as={Link}` with `getCanonicalPath()`, eyebrow composition with status badges (`STATUS_DISPLAY` map), dot-separated meta line (aiTool for nodes, client + role for case studies, publishedAt for all), taxonomy chips in footer, HTML entity decoding for excerpts; always uses `variant="listing"` for archive density
+- HtmlSection component in PageSections: renders raw HTML via `dangerouslySetInnerHTML` with class `st-html-section` for scoped CSS targeting
+- Legacy HTML styles (`PageSections.module.css`): 200+ lines scoped to `:global(.st-html-section)` for WordPress-migrated content — container (max-width 800px centered), typography resets (p, h2-h4, ul/ol, hr, a with brand pink), table styles matching DS Table (pink accent thead, zebra striping, thumbnail cells, column width utilities, responsive card layout at 860px breakpoint), blockquote matching DS Blockquote, code block matching DS CodeBlock, inline code matching DS InlineCode
+- 3 new filter model enum facets: `client` (order 5), `tools` (order 6), `status` (order 7) — with enum-specific handling in `buildFilterModel()` and `applyFilters()`
+- `htmlUtils.js`: HTML entity decoder utility for excerpt rendering
+- Pink Moon theme CSS file (`src/design-system/styles/theme.pink-moon.css`)
+- SEO field migration script (`scripts/migrate-seo-fields.js`): migrates legacy `seo.metaTitle`/`seo.metaDescription` → canonical `seo.title`/`seo.description`; sets `autoGenerate` based on whether content had real Yoast overrides
+- Array key migration script (`scripts/migrate-add-array-keys.js`): adds missing `_key` to `tags[]` on WP-imported documents
+- Content validator script (`scripts/validate-content.js`)
+
+#### Changed
+- PageSections (`src/components/PageSections.jsx`) wired to DS components: Sanity blockquote blocks route through `<Blockquote>`; inline code marks route through `<InlineCode>`; `@sanity/code-input` blocks route through `<CodeBlock>` with Prism highlighting; hero/CTA buttons use DS `<Button>` with `variant="primary"`/`"secondary"` instead of raw `<button>` elements
+- Button adapter (`src/design-system/components/button/`) updated to match new DS visual contract (lime secondary, tertiary variant, Pink Moon theme)
+- Media adapter (`src/design-system/components/media/`) updated with duotone and color overlay support
+- seoMetadata field descriptions updated for editorial clarity in Studio UX
+
+#### Fixed
+- FilterBar rendered `option.title` (undefined) instead of `option.label` — filter option labels were blank
+- FilterBar enum facets used `option.slug` (undefined for enums) as URL param value — filter checkboxes produced empty URL params; now falls back to `option.id`
+- `ARCHIVE_QUERIES` were not projecting `client`, `status`, `tools` fields — `buildFilterModel()` received no data for these facets, producing empty enum options
+
+### apps/studio
+
+#### Added
+- `htmlSection` schema (`schemas/sections/htmlSection.ts`): section type for raw HTML content with `label` and `htmlContent` fields; HTML-stripping preview via `prepare()`
+- `mediaOverlay` schema (`schemas/objects/mediaOverlay.ts`): per-image overlay configuration with `overlayType` (none/duotone/color), duotone presets (standard/featured/subtle), custom duotone colors, color overlay (CSS color + opacity 0–100)
+- `sections[]` field added to `node` schema (`schemas/documents/node.ts`): array of heroSection, textSection, imageGallery, ctaSection, htmlSection — bringing node into section builder parity with page and caseStudy
+- `sections[]` field added to `article` schema (`schemas/documents/article.ts`): same 5 section types — completing section builder parity across all 4 content types (page, caseStudy, node, article)
+- `htmlSection` and `mediaOverlay` registered in schema index (`schemas/index.ts`)
+
+#### Changed
+- `richImage` schema (`schemas/objects/richImage.ts`) updated to embed `mediaOverlay` object for per-image overlay configuration
+- Node `aiTool` option "Mixed" renamed to "Agentic Caucus"
+- `@sanity/code-input` updated 7.0.7 → 7.0.8
+
+### apps/storybook
+
+#### Added
+- Google Fonts loading via `<link>` tags in `preview-head.html` (Playfair Display: 400/700 normal + 400 italic; Fira Sans: 400/500/600/700) — resolves unreliable CSS `@import url()` in Storybook's Vite config
+- Stories for all 8 new DS components (Card, Chip, FilterBar, Table, Blockquote, Callout, CodeBlock, Media) and updated Button stories
+
+### Sanity production data
+
+- 62 documents: SEO fields migrated from legacy `seo.metaTitle`/`seo.metaDescription` to canonical `seo.title`/`seo.description` with `autoGenerate` set based on Yoast override detection
+- 50 WP-imported documents: missing `_key` property added to `tags[]` arrays, restoring Studio editability (tags were read-only without `_key`)
+
+### Other
+
+- Stylelint config (`.stylelintrc.json`): enforces `--st-*` custom property namespace, forbids `!important`, limits nesting depth to 3, whitelists CSS Modules pseudo-classes and `color-mix()`
+- Token validator script (`scripts/validate-tokens.js`): detects drift between `apps/web/src/design-system/styles/tokens.css` and `packages/design-system/src/styles/tokens.css`; reports missing or mismatched tokens; exits non-zero on errors
+- Epic template (`docs/epic-template.md`): structural template with lessons from htmlSection post-mortem
+- Post-mortem prompt template (`docs/post-mortem-prompt.md`)
+- Migration scripts added: `scripts/migrate/backfill-html-section.js` (appends legacy HTML as sections), `scripts/migrate/featured-to-hero.js` (migrates featuredImage to heroSection)
+- `.claude/launch.json` added for dev server configurations (web on 5173, studio on 3333)
+
+---
+
 ## [0.12.0] — 2026-02-22
 SEO auto-extraction and resolver system. Branch: `main` (direct)
 
