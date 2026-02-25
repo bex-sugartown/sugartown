@@ -1,6 +1,6 @@
 import { urlFor } from '../lib/sanity'
 import { PortableText } from '@portabletext/react'
-import { Button } from '../design-system'
+import { Button, Blockquote, CodeBlock, InlineCode } from '../design-system'
 import styles from './PageSections.module.css'
 
 // Portable Text components for text sections
@@ -9,9 +9,7 @@ const portableTextComponents = {
     h2: ({ children }) => <h2 className={styles.h2}>{children}</h2>,
     h3: ({ children }) => <h3 className={styles.h3}>{children}</h3>,
     h4: ({ children }) => <h4 className={styles.h4}>{children}</h4>,
-    blockquote: ({ children }) => (
-      <blockquote className={styles.blockquote}>{children}</blockquote>
-    ),
+    blockquote: ({ children }) => <Blockquote>{children}</Blockquote>,
   },
   marks: {
     link: ({ value, children }) => {
@@ -25,7 +23,7 @@ const portableTextComponents = {
     },
     strong: ({ children }) => <strong className={styles.strong}>{children}</strong>,
     em: ({ children }) => <em className={styles.em}>{children}</em>,
-    code: ({ children }) => <code className={styles.code}>{children}</code>,
+    code: ({ children }) => <InlineCode>{children}</InlineCode>,
   },
   types: {
     // richImage blocks inline in textSection.content
@@ -44,23 +42,15 @@ const portableTextComponents = {
         </figure>
       )
     },
-    // Code blocks from Sanity's code input plugin
+    // Code blocks from Sanity's code input plugin — DS CodeBlock with Prism highlighting
     code: ({ value }) => {
       if (!value?.code) return null
-      const language = value.language ?? ''
-      const filename = value.filename ?? ''
       return (
-        <div>
-          {(language || filename) && (
-            <div className={styles.codeBlockMeta}>
-              {filename && <span className={styles.codeBlockFilename}>{filename}</span>}
-              {language && <span className={styles.codeBlockLanguage}>{language}</span>}
-            </div>
-          )}
-          <pre className={styles.codeBlock}>
-            <code>{value.code}</code>
-          </pre>
-        </div>
+        <CodeBlock
+          code={value.code}
+          language={value.language ?? undefined}
+          filename={value.filename ?? undefined}
+        />
       )
     },
   },

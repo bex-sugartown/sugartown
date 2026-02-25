@@ -299,16 +299,223 @@
   padding-block: var(--st-spacing-inset-md, 1.5rem);
 }
 
-/* Scoped resets to prevent HTML paste from breaking layout */
+/* ── Scoped resets ────────────────────────────────────────────────────────── */
 :global(.st-html-section) img {
   max-width: 100%;
   height: auto;
 }
 
-:global(.st-html-section) table {
+/* ── Typography — raw WP paragraphs, headings, lists ─────────────────────── */
+:global(.st-html-section) p {
+  line-height: var(--st-line-height-relaxed, 1.75);
+  margin: var(--st-spacing-stack-md, 1rem) 0;
+}
+
+:global(.st-html-section) h2,
+:global(.st-html-section) h3,
+:global(.st-html-section) h4 {
+  font-family: var(--st-font-narrative, var(--st-font-family-narrative));
+  line-height: var(--st-line-height-tight, 1.15);
+  margin-top: var(--st-spacing-stack-xl, 2.5rem);
+  margin-bottom: var(--st-spacing-stack-sm, 0.5rem);
+}
+
+:global(.st-html-section) ul,
+:global(.st-html-section) ol {
+  padding-left: 1.5em;
+  margin: var(--st-spacing-stack-md, 1rem) 0;
+  line-height: var(--st-line-height-relaxed, 1.75);
+}
+
+:global(.st-html-section) li + li {
+  margin-top: 0.35em;
+}
+
+/* ── Tables — matches DS Table component ─────────────────────────────────── */
+:global(.st-html-section) table,
+:global(.st-html-section) :global(.st-table) {
+  border-collapse: collapse;
   width: 100%;
-  overflow-x: auto;
+  margin: 2rem 0;
+  font-size: 0.9rem;
+  box-shadow: var(--st-table-shadow, 0 4px 6px rgba(0, 0, 0, 0.05));
+  background: var(--st-color-surface, #fff);
+  display: table;  /* override old block reset */
+}
+
+:global(.st-html-section) table th,
+:global(.st-html-section) table td {
+  padding: 12px 16px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--st-table-border, rgba(0, 0, 0, 0.08));
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+:global(.st-html-section) table thead th {
+  background-color: var(--st-table-header-bg, var(--st-color-accent, #ff247d));
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  border-bottom: 2px solid #000;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+:global(.st-html-section) table thead th a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+:global(.st-html-section) table thead th a:hover {
+  text-decoration: none;
+}
+
+/* Automatic zebra striping — all htmlSection tables */
+:global(.st-html-section) table tbody tr:nth-child(odd) {
+  background-color: var(--st-table-zebra-bg, #f9f9f9);
+}
+
+/* Thumb cell pattern (WP legacy) */
+:global(.st-html-section) td:global(.st-table__thumb) {
+  vertical-align: middle;
+  text-align: center;
+}
+
+:global(.st-html-section) td:global(.st-table__thumb) img,
+:global(.st-html-section) td:global(.st-table__thumb) video {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--st-table-card-radius, var(--st-radius-md, 12px));
   display: block;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Column width tokens (WP legacy uses col.st-col--*) */
+:global(.st-html-section) :global(col.st-col--xs) { width: 60px; }
+:global(.st-html-section) :global(col.st-col--sm) { width: 110px; }
+:global(.st-html-section) :global(col.st-col--md) { width: 150px; }
+:global(.st-html-section) :global(col.st-col--lg) { width: 200px; }
+:global(.st-html-section) :global(col.st-col--xl) { width: 250px; }
+:global(.st-html-section) :global(col.st-col--flex-sm) { width: 20%; }
+:global(.st-html-section) :global(col.st-col--flex-md) { width: 30%; }
+:global(.st-html-section) :global(col.st-col--flex-lg) { width: 40%; }
+
+/* Table responsive cards at 860px (NOT 768px — matches legacy) */
+@media (max-width: 860px) {
+  :global(.st-html-section) table thead {
+    display: none;
+  }
+
+  :global(.st-html-section) table,
+  :global(.st-html-section) table tbody,
+  :global(.st-html-section) table tr,
+  :global(.st-html-section) table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  :global(.st-html-section) table tr {
+    margin: 14px 0;
+    padding: 14px 16px;
+    border: 1px solid var(--st-color-border-default, rgba(0, 0, 0, 0.16));
+    border-radius: var(--st-table-card-radius, var(--st-radius-md, 12px));
+    background: var(--st-color-surface, #fff);
+    box-shadow: var(--st-table-card-shadow, 0 6px 14px rgba(0, 0, 0, 0.08));
+    overflow: hidden;
+  }
+
+  :global(.st-html-section) table td {
+    border: none;
+    padding: 8px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  :global(.st-html-section) table td + td {
+    border-top: 1px solid var(--st-color-border-subtle, rgba(0, 0, 0, 0.08));
+    padding-top: 10px;
+  }
+}
+
+/* ── Blockquote — matches DS Blockquote component ────────────────────────── */
+:global(.st-html-section) blockquote {
+  border-left: var(--st-blockquote-border-width, 3px) solid var(--st-blockquote-border-color, var(--st-color-brand-primary, #ff247d));
+  padding-left: var(--st-blockquote-padding-left, 1rem);
+  margin: var(--st-blockquote-margin-block, 1.5rem) 0;
+  font-style: italic;
+  color: var(--st-blockquote-color, var(--st-color-grey-600, #525252));
+}
+
+:global(.st-html-section) blockquote cite {
+  display: block;
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  font-style: normal;
+  color: var(--st-color-grey-600, #525252);
+}
+
+/* ── Code (block) — matches DS CodeBlock component ───────────────────────── */
+:global(.st-html-section) pre {
+  background-color: var(--st-code-bg, #0D1226);
+  color: var(--st-code-color, #f8f8f2);
+  padding: var(--st-code-padding, 2rem);
+  border-radius: var(--st-radius-sm, 8px);
+  border-left: var(--st-code-border-left, 4px solid var(--st-color-accent, #ff247d));
+  box-shadow: var(--st-code-shadow, 0 4px 10px rgba(0, 0, 0, 0.2));
+  margin: var(--st-code-margin-block, 3rem) 0;
+  font-family: var(--st-font-family-mono, var(--st-font-mono, monospace));
+  font-size: 0.9rem;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+:global(.st-html-section) pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  border: none;
+  border-radius: 0;
+}
+
+/* ── Code (inline, NOT inside pre) — matches DS InlineCode component ─────── */
+:global(.st-html-section) :not(pre) > code {
+  font-family: var(--st-font-family-mono, var(--st-font-mono, monospace));
+  font-size: 0.85em;
+  background-color: var(--st-code-inline-bg, #f1f2f4);
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  border: var(--st-code-inline-border, 1px solid #e1e3e6);
+  color: var(--st-code-inline-color, #b91c68);
+}
+
+/* ── Horizontal rules (WP separator blocks) ──────────────────────────────── */
+:global(.st-html-section) hr {
+  border: none;
+  border-top: 1px solid var(--st-color-border-subtle, rgba(0, 0, 0, 0.08));
+  margin: var(--st-spacing-stack-xl, 2.5rem) 0;
+}
+
+/* ── Strong/em in htmlSection ─────────────────────────────────────────────── */
+:global(.st-html-section) strong {
+  font-weight: var(--st-font-weight-bold, 700);
+}
+
+/* ── Links in htmlSection ─────────────────────────────────────────────────── */
+:global(.st-html-section) a {
+  color: var(--st-color-link-default, var(--st-color-brand-primary, #ff247d));
+  text-decoration: underline;
+  transition: opacity 0.2s ease;
+}
+
+:global(.st-html-section) a:hover {
+  color: var(--st-color-link-hover, var(--st-color-brand-primary, #ff247d));
+  opacity: 0.8;
 }
 
 /* Responsive */
