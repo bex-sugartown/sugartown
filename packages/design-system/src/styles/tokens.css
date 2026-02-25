@@ -6,19 +6,26 @@
  * This file mirrors the canonical token set so Storybook renders identically to the web app.
  *
  * Token layers:
- *   Tier 1  — Raw primitives  (--st-color-pink-500, --st-space-4, --st-radius-2)
- *   Tier 2  — Semantic aliases (--st-color-brand-primary, --st-spacing-4, --st-radius-sm)
- *   Legacy  — Back-compat shorthands (--st-pink, --st-white, --st-black, --st-gray)
+ *   Tier 1  — Raw primitives  (--st-color-pink-500, --st-space-4, --st-radius-xs)
+ *   Tier 2  — Semantic aliases (--st-color-brand-primary, --st-color-text-secondary)
+ *   Tier 3  — Component tokens (--st-card-border, --st-card-shadow)
+ *   Legacy  — Back-compat shorthands (--st-pink, --st-white, --st-black)
  *
  * Always prefer semantic tokens in component CSS.
  */
 
 :root {
-  /* ── Tier 1: Raw Colors ───────────────────────────── */
+  /* ══════════════════════════════════════════════════════
+     TIER 1: RAW PRIMITIVES
+     ══════════════════════════════════════════════════════ */
+
+  /* ── Colors: Brand ───────────────────────────────────── */
   --st-color-pink-500: #ff247d;        /* Sugartown brand pink */
   --st-color-maroon-500: #b91c68;      /* Brand secondary / hover */
   --st-color-lime-500: #D1FF1D;
   --st-color-seafoam-500: #2BD4AA;
+
+  /* ── Colors: Neutrals ────────────────────────────────── */
   --st-color-void-900: #0D1226;
   --st-color-charcoal-900: #1e1e1e;
   --st-color-grey-600: #525252;
@@ -31,46 +38,211 @@
   --st-color-grey-030: #e1e3e6;
   --st-color-white: #FFFFFF;
 
-  /* ── Tier 1: Raw Spacing (rem scale) ─────────────── */
-  --st-space-1: 0.25rem;
-  --st-space-2: 0.5rem;
-  --st-space-3: 0.75rem;
-  --st-space-4: 1rem;
-  --st-space-5: 1.5rem;
-  --st-space-6: 2rem;
+  /* ── Spacing (rem scale, 8-point base) ───────────────── */
+  --st-space-1: 0.25rem;   /* 4px  */
+  --st-space-2: 0.5rem;    /* 8px  */
+  --st-space-3: 0.75rem;   /* 12px */
+  --st-space-4: 1rem;      /* 16px */
+  --st-space-5: 1.5rem;    /* 24px */
+  --st-space-6: 2rem;      /* 32px */
 
-  /* ── Tier 1: Raw Border Radius ───────────────────── */
-  --st-radius-1: 0.25rem;
-  --st-radius-2: 0.5rem;
-  --st-radius-3: 0.75rem;
+  /* ── Border Radius ───────────────────────────────────── */
+  /* Numeric series (low-level, prefer semantic names below) */
+  --st-radius-1: 0.25rem;  /* 4px  */
+  --st-radius-2: 0.5rem;   /* 8px  */
+  --st-radius-3: 0.75rem;  /* 12px */
+  --st-radius-full: 9999px;
 
-  /* ── Tier 1: Typography ──────────────────────────── */
-  --st-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --st-font-size-base: 1rem;
+  /* Semantic radius names (match apps/web token names exactly) */
+  --st-radius-xs: 4px;     /* chip, tag — squircle */
+  --st-radius-sm: 8px;     /* standard component radius */
+  --st-radius-md: 12px;    /* card, modal */
+  --st-radius-lg: 16px;    /* large containers */
+  --st-radius-xl: 35px;    /* hero, media */
+
+  /* ── Typography: Families ────────────────────────────── */
+  --st-font-family-narrative: "Playfair Display", serif;
+  --st-font-family-ui:        "Fira Sans", "Helvetica Neue", Arial, sans-serif;
+  --st-font-family-mono:      Menlo, Monaco, Consolas, "Courier New", monospace;
+  /* Legacy back-compat — prefer --st-font-family-* names */
+  --st-font-sans: var(--st-font-family-ui);
+  --st-font-mono: var(--st-font-family-mono);
+
+  /* ── Typography: Sizes ───────────────────────────────── */
+  --st-font-size-xs:      0.75rem;   /* 12px — chip, eyebrow, captions */
+  --st-font-size-sm:      0.875rem;  /* 14px — secondary body, option labels */
+  --st-font-size-md:      1rem;      /* 16px — canonical name (matches web app) */
+  --st-font-size-base:    1rem;      /* 16px — legacy alias, prefer --st-font-size-md */
+  --st-font-size-lg:      1.125rem;  /* 18px — card title (base) */
+  --st-font-size-xl:      1.4rem;    /* ~22px — card title (spec) */
+  --st-font-size-2xl:     1.75rem;   /* 28px */
+  --st-font-size-display: 3rem;      /* 48px */
+
+  /* ── Typography: Line Heights ────────────────────────── */
+  --st-line-height-tight:   1.25;
+  --st-line-height-normal:  1.5;
+  --st-line-height-relaxed: 1.75;
+
+  /* ── Typography: Weights ─────────────────────────────── */
+  --st-font-weight-normal:   400;
+  --st-font-weight-medium:   500;
   --st-font-weight-semibold: 600;
+  --st-font-weight-bold:     700;
 
-  /* ── Tier 1: Shadow ──────────────────────────────── */
-  --st-shadow-1: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  /* ── Shadows ─────────────────────────────────────────── */
+  --st-shadow-1:          0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --st-shadow-sm:         0 1px 2px rgba(0, 0, 0, 0.05);
 
-  /* ── Tier 2: Semantic Colors ─────────────────────── */
-  --st-color-brand-primary: var(--st-color-pink-500);    /* #ff247d */
+  /* Brand-coloured glows (button + chip) */
+  --st-shadow-pink-glow:  0 4px 12px rgba(255, 36, 125, 0.3);
+  --st-shadow-lime-glow:  0 4px 12px rgba(209, 255, 29, 0.45);
+
+  /* Card shadows */
+  --st-shadow-card:       0 4px 12px rgba(255, 36, 125, 0.05);
+  --st-shadow-card-hover: 0 12px 40px rgba(255, 36, 125, 0.15);
+  --st-shadow-card-deep:  0 10px 30px rgba(0, 0, 0, 0.06);
+
+
+  /* ══════════════════════════════════════════════════════
+     TIER 2: SEMANTIC TOKENS
+     ══════════════════════════════════════════════════════ */
+
+  /* ── Brand Colors ────────────────────────────────────── */
+  --st-color-brand-primary:   var(--st-color-pink-500);    /* #ff247d */
   --st-color-brand-secondary: var(--st-color-maroon-500);
-  --st-color-accent: var(--st-color-pink-500);            /* #ff247d */
-  --st-color-accent-primary: var(--st-color-pink-500);
-  --st-color-focus: var(--st-color-pink-500);
 
-  /* ── Tier 2: Semantic Spacing ────────────────────── */
-  --st-spacing-3: var(--st-space-3);          /* 0.75rem */
-  --st-spacing-4: var(--st-space-4);          /* 1rem */
+  /* ── Accent ──────────────────────────────────────────── */
+  --st-color-accent:          var(--st-color-pink-500);    /* #ff247d */
+  --st-color-accent-primary:  var(--st-color-pink-500);
+  --st-color-accent-soft:     rgba(255, 36, 125, 0.08);
+  --st-color-focus:           var(--st-color-pink-500);
 
-  /* ── Tier 2: Semantic Border Radius ──────────────── */
-  --st-radius-sm: var(--st-radius-2);         /* 0.5rem — standard component radius */
+  /* ── Backgrounds ─────────────────────────────────────── */
+  --st-color-bg-canvas:         var(--st-color-white);           /* page/story background */
+  --st-color-bg-surface:        var(--st-color-white);
+  --st-color-bg-surface-strong: var(--st-color-white);      /* Pink Moon overrides */
+  --st-color-bg-surface-alt:    var(--st-color-grey-050);
+  --st-color-bg-subtle:         var(--st-color-grey-040);
 
-  /* ── Legacy Aliases (back-compat) ────────────────── */
-  --st-pink: var(--st-color-pink-500);        /* #ff247d */
-  --st-black: #000000;
-  --st-white: var(--st-color-white);          /* #FFFFFF */
-  --st-gray-light: var(--st-color-grey-100);  /* #F7F7F7 */
-  --st-gray: #6B7280;
-  --st-green: var(--st-color-seafoam-500);    /* #2BD4AA */
+  /* ── Text ────────────────────────────────────────────── */
+  --st-color-text-primary:    var(--st-color-void-900);
+  --st-color-text-default:    var(--st-color-charcoal-900);
+  --st-color-text-secondary:  var(--st-color-grey-600);
+  --st-color-text-muted:      var(--st-color-grey-400);
+
+  /* ── Borders ─────────────────────────────────────────── */
+  --st-color-border-default:  rgba(13, 18, 38, 0.08);      /* Pink Moon overrides */
+  --st-color-border-subtle:   var(--st-color-grey-030);
+  --st-color-border-medium:   var(--st-color-grey-200);
+  --st-color-border-strong:   var(--st-color-grey-600);
+
+  /* ── Effects (theme-overridable) ─────────────────────── */
+  --st-effect-backdrop-blur-md: 0;           /* Pink Moon → 14px */
+  --st-effect-accent-glow:      transparent; /* Pink Moon → rgba(255,36,125,0.18) */
+  --st-shadow-elevation-float:  var(--st-shadow-1);
+
+  /* ── Typography: Semantic Aliases ───────────────────── */
+  --st-font-narrative: var(--st-font-family-narrative);  /* Playfair Display — headings */
+  --st-font-ui:        var(--st-font-family-ui);         /* Fira Sans — body + UI chrome */
+  --st-font-body:      var(--st-font-size-md);           /* 1rem body copy */
+  --st-font-caption:   var(--st-font-size-xs);           /* 0.75rem small text */
+
+  /* ── Semantic Spacing ────────────────────────────────── */
+  --st-spacing-3:         var(--st-space-3);   /* 0.75rem */
+  --st-spacing-4:         var(--st-space-4);   /* 1rem */
+
+  --st-spacing-stack-xs:  var(--st-space-1);   /* 4px  — tight rhythm */
+  --st-spacing-stack-sm:  var(--st-space-2);   /* 8px  */
+  --st-spacing-stack-md:  var(--st-space-4);   /* 16px */
+  --st-spacing-stack-lg:  var(--st-space-6);   /* 32px */
+
+  --st-spacing-inset-md:  var(--st-space-4);   /* 16px — card, panel padding */
+  --st-spacing-inset-lg:  var(--st-space-6);   /* 32px */
+
+
+  /* ══════════════════════════════════════════════════════
+     TIER 3: COMPONENT TOKENS
+     ══════════════════════════════════════════════════════ */
+
+  /* ── Card ────────────────────────────────────────────── */
+  --st-card-bg:                var(--st-color-bg-surface);
+  --st-card-bg-alt:            var(--st-color-bg-surface-alt);
+  --st-card-text:              var(--st-color-text-default);
+  --st-card-text-muted:        var(--st-color-text-muted);
+  --st-card-border:            var(--st-color-brand-primary); /* pink — brand signature */
+  --st-card-radius:            var(--st-radius-md);           /* 12px */
+  --st-card-shadow:            var(--st-shadow-card-deep);
+  --st-card-hover-shadow:      var(--st-shadow-card-hover);
+  --st-card-hover-translate-y: -4px;
+
+  /* ── Button ──────────────────────────────────────────── */
+  --st-button-bg:                       var(--st-color-accent-primary);
+  --st-button-text:                     var(--st-color-white);
+  --st-button-radius:                   var(--st-radius-sm);  /* 8px — matches --st-radius-2 */
+  --st-button-hover-translate-y:        -2px;
+  --st-button-hover-shadow:             var(--st-shadow-pink-glow);
+  --st-button-secondary-bg:             var(--st-color-lime-500);
+  --st-button-secondary-text:           var(--st-color-void-900);
+  --st-button-secondary-hover-shadow:   var(--st-shadow-lime-glow);
+  --st-button-tertiary-border:          var(--st-color-brand-primary);
+  --st-button-tertiary-text:            var(--st-color-brand-primary);
+  --st-button-tertiary-hover-bg:        var(--st-color-accent-soft);
+
+
+  /* ── Table ───────────────────────────────────────────── */
+  --st-table-header-bg:     var(--st-color-accent);          /* pink header */
+  --st-table-zebra-bg:      #f9f9f9;
+  --st-table-border:        rgba(0, 0, 0, 0.08);
+  --st-table-shadow:        0 4px 6px rgba(0, 0, 0, 0.05);
+  --st-table-card-shadow:   0 6px 14px rgba(0, 0, 0, 0.08); /* mobile cards */
+  --st-table-card-radius:   var(--st-radius-md);             /* 12px */
+
+  /* ── Blockquote ─────────────────────────────────────── */
+  --st-blockquote-border-width:  3px;
+  --st-blockquote-border-color:  var(--st-color-brand-primary);
+  --st-blockquote-color:         var(--st-color-grey-600);       /* #525252 secondary */
+  --st-blockquote-padding-left:  1rem;
+  --st-blockquote-margin-block:  1.5rem;
+
+  /* ── Callout ────────────────────────────────────────── */
+  --st-callout-bg:            #fff0f5;                          /* default pink wash */
+  --st-callout-border-color:  rgba(214, 51, 132, 0.35);
+  --st-callout-radius:        var(--st-radius-sm);              /* 8px */
+  --st-callout-padding:       1.25rem 1.5rem;
+  --st-callout-margin-block:  2.5rem;
+
+  /* ── Code ───────────────────────────────────────────── */
+  --st-code-bg:            var(--st-color-void-900);            /* dark block bg */
+  --st-code-color:         #f8f8f2;                             /* light text */
+  --st-code-border-left:   4px solid var(--st-color-accent);    /* pink accent */
+  --st-code-shadow:        0 4px 10px rgba(0, 0, 0, 0.2);
+  --st-code-padding:       2rem;
+  --st-code-margin-block:  3rem;
+  --st-code-inline-bg:     var(--st-color-grey-040);            /* #f1f2f4 */
+  --st-code-inline-color:  var(--st-color-maroon-500);          /* #b91c68 */
+  --st-code-inline-border: 1px solid var(--st-color-grey-030);  /* #e1e3e6 */
+
+  /* ── Media Overlay / Duotone ────────────────────────── */
+  --st-media-duotone-pink:            #ff247d;                  /* canonical brand pink */
+  --st-media-duotone-seafoam:         #2bd4aa;                  /* canonical seafoam */
+  --st-media-duotone-standard-start:  rgba(255, 36, 125, 0.55);
+  --st-media-duotone-standard-end:    rgba(43, 212, 170, 0.45);
+  --st-media-duotone-featured-start:  rgba(255, 36, 125, 0.70);
+  --st-media-duotone-featured-end:    rgba(43, 212, 170, 0.50);
+  --st-media-duotone-subtle-start:    rgba(255, 36, 125, 0.30);
+  --st-media-duotone-subtle-end:      rgba(43, 212, 170, 0.25);
+  --st-media-overlay-blend-mode:      hard-light;
+  --st-media-duotone-radius:          35px;
+  --st-media-duotone-angle:           135deg;
+
+
+  /* ══════════════════════════════════════════════════════
+     LEGACY ALIASES (back-compat)
+     ══════════════════════════════════════════════════════ */
+  --st-pink:       var(--st-color-pink-500);      /* #ff247d */
+  --st-black:      #000000;
+  --st-white:      var(--st-color-white);          /* #FFFFFF */
+  --st-gray-light: var(--st-color-grey-100);       /* #F7F7F7 */
+  --st-gray:       #6B7280;
+  --st-green:      var(--st-color-seafoam-500);    /* #2BD4AA */
 }

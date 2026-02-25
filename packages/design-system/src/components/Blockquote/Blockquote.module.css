@@ -1,0 +1,51 @@
+/**
+ * Blockquote — Sugartown Design System
+ * Canonical CSS extracted from: artifacts/style 260118.css §02
+ *
+ * Single style: pink left border, italic, muted colour.
+ * No variants — this is the complete blockquote treatment.
+ *
+ * Legacy note: Blockquotes had NO visual styling for months in production.
+ * This is the canonical style that was eventually shipped.
+ */
+
+/* ── Base + component tokens ──────────────────────────────────────────────── */
+.blockquote {
+  /* tokens */
+  --st-blockquote-border-width: 3px;
+  --st-blockquote-border-color: var(--st-color-brand-primary, #ff247d);
+  --st-blockquote-color: var(--st-color-grey-600, #525252);
+  --st-blockquote-padding-left: 1rem;
+  --st-blockquote-margin-block: 1.5rem;
+
+  /* styles */
+  margin: var(--st-blockquote-margin-block) 0;
+  padding-left: var(--st-blockquote-padding-left);
+  border-left: var(--st-blockquote-border-width) solid var(--st-blockquote-border-color);
+  color: var(--st-blockquote-color);
+  font-style: italic;
+}
+
+.blockquote p {
+  margin: 0 0 0.75rem;
+}
+
+.blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Citation ─────────────────────────────────────────────────────────────── */
+.footer {
+  margin-top: 0.75rem;
+}
+
+.cite {
+  font-style: normal;
+  font-size: 0.875rem;
+  color: var(--st-color-grey-600, #525252);
+  opacity: 0.8;
+}
+
+.cite::before {
+  content: "\2014\00A0"; /* — followed by non-breaking space */
+}

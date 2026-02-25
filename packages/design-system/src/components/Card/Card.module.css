@@ -1,0 +1,230 @@
+/*
+ * Card — canonical content card primitive.
+ *
+ * Visual spec: artifacts/style 260118.css → .st-card
+ *
+ * Key brand signatures:
+ *   - 1px solid pink border (--st-card-border = --st-color-brand-primary)
+ *   - Pink title text (color: var(--st-card-border))
+ *   - Hover: translateY(-4px) + pink-tinted box-shadow
+ *   - Footer: dashed pink top border (rgba(255,36,125,0.35))
+ *   - Eyebrow: font-mono, uppercase, pink accent
+ *
+ * BEM elements: .card, .inner, .header, .eyebrow, .title, .subtitle, .content, .footer
+ * Modifiers:    .compact, .listing, .dark
+ */
+
+/* ── Base card ────────────────────────────────────────── */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 420px;
+  width: 100%;
+  box-sizing: border-box;
+
+  background: var(--st-card-bg);
+  border: 1px solid var(--st-card-border);  /* pink — brand signature */
+  border-radius: var(--st-card-radius);     /* 12px */
+  padding: 28px;
+
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: var(--st-card-shadow);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  /* Reset when card is rendered as <a> */
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  transform: translateY(var(--st-card-hover-translate-y, -4px));
+  box-shadow: var(--st-card-hover-shadow);  /* 0 12px 40px rgba(255,36,125,0.15) */
+}
+
+/* ── Compact modifier ─────────────────────────────────── */
+
+.compact {
+  padding: 20px;
+  min-height: 360px;
+}
+
+/* ── Dark modifier ────────────────────────────────────── */
+
+.dark {
+  /* Override card component tokens locally */
+  --st-card-bg:          #0f1117;
+  --st-card-border:      rgba(255, 255, 255, 0.08);
+  --st-card-text:        #e5e7eb;
+  --st-card-text-muted:  #9ca3af;
+}
+
+.dark:hover {
+  /* Add pink glow ring on top of the standard hover shadow */
+  box-shadow:
+    var(--st-card-hover-shadow),
+    0 0 0 1px rgba(255, 36, 125, 0.28);
+}
+
+/* ── Listing modifier (archive density) ────────────────── */
+/* Compact content card for archive grids (/articles, /case-studies,
+   /knowledge-graph). Sans-serif title, clamped content, lower min-height.
+   Shares the same pink-border DNA as default — just tighter density. */
+
+.listing {
+  min-height: 200px;
+}
+
+.listing .header {
+  margin-bottom: 8px;
+}
+
+.listing .eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.65rem;
+  /* Override base eyebrow truncation — listing eyebrow may contain
+     a status badge alongside the label, so allow normal flow. */
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.listing .title {
+  font-family: var(--st-font-ui);     /* Fira Sans — not serif */
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.listing .content {
+  font-size: 0.9375rem;
+  flex: 1;                            /* grow to push footer down */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  padding-bottom: 0;
+  margin-bottom: var(--st-spacing-stack-sm, 8px);
+}
+
+.listing .content p:last-child {
+  margin-bottom: 0;
+}
+
+.listing .footer {
+  border-top-color: color-mix(in srgb, var(--st-card-border) 25%, transparent);
+  padding-top: var(--st-spacing-stack-md, 16px);
+}
+
+/* ── Inner (text column + pinning model) ──────────────── */
+
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;   /* enables footer pinning via margin-top: auto */
+  min-width: 0;
+}
+
+/* ── Header (eyebrow + title + subtitle grid) ─────────── */
+
+.header {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+/* ── Eyebrow ──────────────────────────────────────────── */
+
+.eyebrow {
+  font-family: var(--st-font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--st-color-accent);
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Title ────────────────────────────────────────────── */
+
+.title {
+  margin: 0;
+  font-size: var(--st-font-size-xl);   /* 1.4rem — brand spec */
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--st-card-border);        /* pink — pulls from the border token */
+}
+
+/* Title as link */
+.titleLink {
+  color: inherit;
+  text-decoration: none;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.1em;
+}
+
+.titleLink:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+/* ── Subtitle ─────────────────────────────────────────── */
+
+.subtitle {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--st-card-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Content ──────────────────────────────────────────── */
+
+.content {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--st-card-text);
+  padding-bottom: 1.5rem;
+}
+
+.content p {
+  margin: 0 0 0.75rem 0;
+  color: var(--st-card-text);
+  line-height: 1.55;
+}
+
+.content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Footer (pinned to bottom) ────────────────────────── */
+
+.footer {
+  margin-top: auto;         /* pins footer to bottom of .inner */
+  padding-top: 12px;
+  border-top: 1px dashed rgba(255, 36, 125, 0.35); /* dashed pink divider */
+  font-size: 0.85rem;
+}
+
+/* ════════════════════════════════════════════════════════
+   PINK MOON THEME ADAPTATIONS
+   TODO: Pink Moon frosted card adaptation (frosted glass,
+   hairline border, ambient glow) to be specified in a
+   follow-up iteration once broader component patterns are scoped.
+   ════════════════════════════════════════════════════════ */

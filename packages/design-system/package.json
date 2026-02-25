@@ -36,5 +36,10 @@
     "eslint": "^8.56.0",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@types/prismjs": "^1.26.6",
+    "lucide-react": "^0.575.0",
+    "prismjs": "^1.30.0"
   }
 }

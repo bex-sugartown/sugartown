@@ -1,17 +1,46 @@
 /**
- * Sugartown Design System Global Styles
+ * Sugartown Design System — Global Baseline (Storybook)
+ *
+ * Mirrors apps/web/src/design-system/styles/globals.css.
+ * Loaded by apps/storybook/.storybook/preview.ts so all stories
+ * share the same body font, heading rules, and baseline resets.
+ *
+ * Previously used obsolete token names --st-font-sans / --st-font-size-base
+ * which don't exist in the current namespace → body fell back to browser
+ * serif default instead of Fira Sans. Fixed to use --st-font-ui etc.
  */
 
-* {
+/* ── Google Fonts ────────────────────────────────────────────
+   Playfair Display → --st-font-narrative (headings, card titles)
+   Fira Sans        → --st-font-ui        (body, UI chrome)
+   ──────────────────────────────────────────────────────────── */
+/* Google Fonts loaded by the consuming environment:
+   - Storybook: apps/storybook/.storybook/preview-head.html  ← <link> tags (reliable)
+   - Web app:   @import in apps/web/src/design-system/styles/globals.css (Vite 7 preserves it)
+   CSS @import url() from a Vite-bundled JS import may be dropped in Storybook's Vite config,
+   so Storybook injects fonts via preview-head.html instead. */
+
+/* Reset-ish */
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: var(--st-font-sans);
-  font-size: var(--st-font-size-base);
-  color: var(--st-black);
-  background-color: var(--st-white);
+  font-family: var(--st-font-ui);           /* Fira Sans — was --st-font-sans (undefined) */
+  font-size: var(--st-font-size-md);        /* 1rem — was --st-font-size-base (undefined) */
+  line-height: var(--st-line-height-normal);
+  color: var(--st-color-text-default);      /* charcoal-900 — was --st-black (legacy alias) */
+  background-color: var(--st-color-bg-canvas);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  margin: 0 0 var(--st-spacing-stack-md) 0;
+}
+
+h1, h2, h3, h4 {
+  margin: 0 0 var(--st-spacing-stack-md) 0;
+  font-family: var(--st-font-narrative);    /* Playfair Display */
 }

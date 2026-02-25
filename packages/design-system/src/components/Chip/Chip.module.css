@@ -1,0 +1,97 @@
+/*
+ * Chip — canonical taxonomy / filter chip primitive.
+ *
+ * Visual spec: artifacts/style 260118.css → .st-chip
+ *
+ * Color system:
+ *   All chips resolve their accent colour through a single internal variable:
+ *     --_chip-color: var(--chip-color, var(--st-color-accent))
+ *
+ *   To create a colour-aware chip, set --chip-color as an inline style:
+ *     style={{ '--chip-color': '#a855f7' }}
+ *   The background, border, and text all derive from that one value via color-mix().
+ *   Default (no --chip-color) resolves to Sugartown pink (#ff247d).
+ */
+
+/* ── Base ────────────────────────────────────────────── */
+
+.chip {
+  /* Internal colour resolution — callers override via --chip-color inline style */
+  --_chip-color: var(--chip-color, var(--st-color-accent));
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  box-sizing: border-box;
+
+  font-family: var(--st-font-mono);
+  font-size: var(--st-font-size-xs); /* 0.75rem / 12px */
+  font-weight: 400;
+  line-height: 1.2;
+
+  padding: 0.45em 0.75em;
+  border-radius: var(--st-radius-xs); /* 4px — squircle, NOT pill */
+
+  background: color-mix(in srgb, var(--_chip-color) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--_chip-color) 35%, transparent);
+  color: var(--_chip-color);
+
+  user-select: none;
+  text-decoration: none !important; /* prevent global link underline */
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* ── Interactive modifier (a or button chips) ────────── */
+
+.interactive {
+  cursor: pointer;
+}
+
+.interactive:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--_chip-color) 15%, transparent);
+  border-color: var(--_chip-color);
+  box-shadow: 0 2px 5px color-mix(in srgb, var(--_chip-color) 15%, transparent);
+}
+
+.interactive:focus-visible {
+  outline: 2px solid var(--_chip-color);
+  outline-offset: 2px;
+}
+
+/* ── Active state ────────────────────────────────────── */
+
+.active {
+  background: var(--_chip-color);
+  border-color: var(--_chip-color);
+  color: var(--st-color-white);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--_chip-color) 20%, transparent);
+}
+
+/* Active + interactive hover: slightly deeper fill */
+.active.interactive:hover {
+  background: color-mix(in srgb, var(--_chip-color) 85%, #000);
+  border-color: color-mix(in srgb, var(--_chip-color) 85%, #000);
+  box-shadow: 0 2px 5px color-mix(in srgb, var(--_chip-color) 30%, transparent);
+}
+
+/* ── Size modifier ───────────────────────────────────── */
+
+.sm {
+  font-size: 0.7rem;
+  padding: 0.3em 0.6em;
+  min-height: 24px;
+}
+
+/* ════════════════════════════════════════════════════════
+   PINK MOON THEME ADAPTATIONS
+   TODO: Pink Moon frosted-glass chip adaptation to be specified
+   in a follow-up iteration once component patterns for cards,
+   hero sections, and filter bars are scoped.
+   ════════════════════════════════════════════════════════ */

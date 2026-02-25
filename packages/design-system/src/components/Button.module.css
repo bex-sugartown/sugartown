@@ -1,12 +1,28 @@
 .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--st-space-2);
+
   padding: var(--st-space-2) var(--st-space-4);
   border-radius: var(--st-radius-2);
+  border: 1px solid transparent;
+
+  font-family: var(--st-font-sans);
   font-size: var(--st-font-size-base);
   font-weight: var(--st-font-weight-semibold);
-  font-family: var(--st-font-sans);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+
   cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .button:disabled {
@@ -14,24 +30,134 @@
   cursor: not-allowed;
 }
 
+/* ── Primary ──────────────────────────────────────── */
+
 .primary {
-  background-color: var(--st-pink);
-  color: var(--st-white);
-  border-color: var(--st-pink);
+  background-color: var(--st-color-brand-primary);
+  color: var(--st-color-white);
+  border-color: var(--st-color-brand-primary);
 }
 
 .primary:hover:not(:disabled) {
-  background-color: var(--st-black);
-  border-color: var(--st-black);
+  background-color: var(--st-color-void-900);
+  border-color: var(--st-color-void-900);
+  transform: translateY(-2px);
+  box-shadow: var(--st-shadow-pink-glow);
 }
 
+.primary:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* ── Secondary ────────────────────────────────────── */
+
 .secondary {
-  background-color: var(--st-white);
-  color: var(--st-black);
-  border-color: var(--st-gray);
+  background-color: var(--st-color-lime-500);
+  color: var(--st-color-void-900);
+  border-color: var(--st-color-lime-500);
 }
 
 .secondary:hover:not(:disabled) {
-  border-color: var(--st-black);
-  background-color: var(--st-gray-light);
+  transform: translateY(-2px);
+  box-shadow: var(--st-shadow-lime-glow);
+}
+
+.secondary:focus-visible {
+  outline: 2px solid var(--st-color-lime-500);
+  outline-offset: 2px;
+}
+
+/* ── Tertiary ─────────────────────────────────────── */
+
+.tertiary {
+  background-color: transparent;
+  color: var(--st-color-brand-primary);
+  border-color: var(--st-color-brand-primary);
+}
+
+.tertiary:hover:not(:disabled) {
+  background-color: var(--st-color-accent-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--st-shadow-pink-glow);
+}
+
+.tertiary:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* ════════════════════════════════════════════════════
+   PINK MOON THEME ADAPTATIONS
+   Activated by data-st-theme="pink-moon" on a parent.
+   Frosted glass substrate replaces solid fills.
+   Variant identity shifts to edge-light rather than fill.
+   ════════════════════════════════════════════════════ */
+
+/* ── Shared glass substrate ───────────────────────── */
+
+:global([data-st-theme="pink-moon"]) .button {
+  background-color: var(--st-color-bg-surface);
+  border-color: var(--st-color-border-default);
+  backdrop-filter: blur(var(--st-effect-backdrop-blur-md));
+  -webkit-backdrop-filter: blur(var(--st-effect-backdrop-blur-md));
+  box-shadow: var(--st-shadow-sm);
+  border-radius: var(--st-radius-full);
+  color: var(--st-color-text-primary);
+}
+
+:global([data-st-theme="pink-moon"]) .button:hover:not(:disabled) {
+  background-color: var(--st-color-bg-surface-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--st-shadow-elevation-float);
+}
+
+:global([data-st-theme="pink-moon"]) .button:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* ── Primary: pink edge-light ─────────────────────── */
+
+:global([data-st-theme="pink-moon"]) .primary {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 36, 125, 0.28),
+    var(--st-shadow-sm);
+}
+
+:global([data-st-theme="pink-moon"]) .primary:hover:not(:disabled) {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 36, 125, 0.50),
+    var(--st-shadow-elevation-float),
+    0 0 14px var(--st-effect-accent-glow);
+}
+
+/* ── Secondary: lime edge-light ───────────────────── */
+
+:global([data-st-theme="pink-moon"]) .secondary {
+  box-shadow:
+    inset 0 0 0 1px rgba(209, 255, 29, 0.40),
+    var(--st-shadow-sm);
+}
+
+:global([data-st-theme="pink-moon"]) .secondary:hover:not(:disabled) {
+  box-shadow:
+    inset 0 0 0 1px rgba(209, 255, 29, 0.65),
+    var(--st-shadow-elevation-float);
+}
+
+/* ── Tertiary: pink hairline, transparent fill ────── */
+
+:global([data-st-theme="pink-moon"]) .tertiary {
+  background-color: transparent;
+  border-color: rgba(255, 36, 125, 0.38);
+  color: var(--st-color-brand-primary);
+}
+
+:global([data-st-theme="pink-moon"]) .tertiary:hover:not(:disabled) {
+  background-color: var(--st-color-accent-soft);
+  border-color: rgba(255, 36, 125, 0.65);
+  box-shadow:
+    var(--st-shadow-elevation-float),
+    0 0 14px var(--st-effect-accent-glow);
 }
