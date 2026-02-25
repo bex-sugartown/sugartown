@@ -57,6 +57,12 @@ export default defineType({
           scheme: ['http', 'https'],
           allowRelative: true
         })
+    }),
+    defineField({
+      name: 'overlay',
+      title: 'Image Overlay',
+      type: 'mediaOverlay',
+      description: 'Optional duotone or colour overlay treatment',
     })
   ],
   preview: {

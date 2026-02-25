@@ -22,6 +22,7 @@ import ctaButton from './objects/ctaButton'
 import editorialCard from './objects/editorialCard'
 import seoMetadata from './objects/seoMetadata'
 import legacySource from './objects/legacySource'
+import mediaOverlay from './objects/mediaOverlay'
 
 // Legacy schemas
 import logo from './objects/logo'
@@ -91,6 +92,7 @@ export const schemaTypes = [
   editorialCard,
   seoMetadata,
   legacySource,
+  mediaOverlay,
 
   // Objects - Legacy
   logo,

@@ -97,7 +97,7 @@ export default defineType({
           {title: '🤖 Claude', value: 'claude'},
           {title: '💬 ChatGPT', value: 'chatgpt'},
           {title: '✨ Gemini', value: 'gemini'},
-          {title: '🔀 Mixed Tools', value: 'mixed'}
+          {title: '🔀 Agentic Caucus', value: 'mixed'}
         ],
         layout: 'radio'
       },
