@@ -8,9 +8,12 @@
     "dev": "turbo run dev --filter=web --filter=studio",
     "build": "turbo run build",
     "lint": "turbo run lint",
+    "lint:css": "stylelint \"**/*.css\" --ignore-path .gitignore",
     "typecheck": "turbo run typecheck",
     "validate:urls": "pnpm --filter web validate:urls",
     "validate:filters": "pnpm --filter web validate:filters",
+    "validate:content": "pnpm --filter web validate:content",
+    "validate:tokens": "node scripts/validate-tokens.js",
     "validate:taxonomy": "pnpm --filter web validate:taxonomy",
     "migrate:taxonomy": "node scripts/migrate-taxonomy.js",
     "storybook": "turbo run storybook",
@@ -28,6 +31,8 @@
   },
   "devDependencies": {
     "prettier": "^3.1.1",
+    "stylelint": "^17.3.0",
+    "stylelint-config-standard": "^40.0.0",
     "turbo": "^1.11.3",
     "typescript": "^5.3.3"
   },

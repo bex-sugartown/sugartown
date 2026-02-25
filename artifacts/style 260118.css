@@ -1,0 +1,2917 @@
+/*
+Theme Name: Sugartown Pink
+Theme URI: https://sugartown.io
+Author: Sugartown Digital
+Description: A minimalist theme for the Atomic Design System.
+Version: 3.3.4 (implemented st-filter, Fixed z-index)
+*/
+
+/*
+====================================================
+SUGARTOWN DESIGN SYSTEM — CANONICAL CSS (Diff-Friendly)
+====================================================
+
+SECTION INDEX
+-------------
+§00 RESET & CORE FIXES
+§01 DESIGN TOKENS (FOUNDATIONS)
+§02 CANONICAL HTML (SEMANTIC DEFAULTS)
+§03 PLATFORM BRIDGES (WORDPRESS)
+§04 COMPONENTS
+§05 DEPRECATED COMPONENTS
+§06 UTILITIES & HELPERS
+
+RULES OF THE CASCADE
+-------------------
+• Tokens live only in §01 (no token redefs later).
+• Raw HTML selectors live only in §02 (platform-agnostic defaults).
+• WordPress selectors live only in §03 (adapter layer).
+• Components are class-scoped and live in §04.
+• Deprecated stays quarantined in §05.
+• Utilities may use !important sparingly in §06.
+
+====================================================
+*/
+
+
+/* ==================================================
+   §00 RESET & CORE FIXES
+   (WordPress core fixes + base resets)
+   ================================================== */
+a {
+    text-decoration-thickness: 1px;
+    text-underline-offset: .1em;
+}
+
+/* Focus styles */
+:where(.wp-site-blocks *:focus) {
+    outline-width: 2px;
+    outline-style: solid;
+}
+
+/* Navigation Spacing Fixes */
+.wp-block-navigation .wp-block-navigation-submenu .wp-block-navigation-item:not(:last-child) {
+    margin-bottom: 3px;
+}
+.wp-block-navigation .wp-block-navigation-item .wp-block-navigation-item__content {
+    outline-offset: 4px;
+}
+.wp-block-navigation .wp-block-navigation-item ul.wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+    outline-offset: 0;
+}
+
+/* Typography Resets */
+h1, h2, h3, h4, h5, h6, blockquote, caption, figcaption, p {
+    text-wrap: pretty;
+}
+.more-link { display: block; }
+
+/* ==================================================
+   §01 DESIGN TOKENS (FOUNDATIONS)
+   ================================================== */
+
+/*
+Token architecture (diff-friendly)
+----------------------------------
+Tier 1: Primitives  (raw values; palette, scales)
+Tier 2: Semantics   (purpose-based aliases)
+Tier 3: Components  (optional component-level knobs)
+
+Rules
+• Define tokens once, here.
+• Prefer semantic tokens in component styles.
+• If you need to change a value globally, change it here—not in components.
+*/
+
+:root {
+  /* ==========================================
+     TIER 1: PRIMITIVES (Raw Values)
+     ========================================== */
+
+  /* Palette */
+  --st-color-white: #FFFFFF;
+  --st-color-black: #0D1226;
+
+  --st-color-gray-100: #F7F7F7;
+  --st-color-gray-200: #E5E5E5;
+  --st-color-gray-300: #D4D4D4;
+  --st-color-gray-400: #94A3B8;
+  --st-color-gray-600: #525252;
+  --st-color-gray-900: #171717;
+
+  --st-color-pink-500: #ff247d;    /* Sugartown Pink */
+  --st-color-seafoam-500: #D1FF1D; /* Sugartown Seafoam */
+
+  --st-color-blue-500: #0066CC;
+  --st-color-blue-600: #0052A3;
+  --st-color-red-500: #b91c68;
+
+  /* Spacing scale (4px base) */
+  --st-spacing-1: 0.25rem;  /* 4px */
+  --st-spacing-2: 0.5rem;   /* 8px */
+  --st-spacing-3: 0.75rem;  /* 12px */
+  --st-spacing-4: 1rem;     /* 16px */
+  --st-spacing-5: 1.25rem;  /* 20px */
+  --st-spacing-6: 1.5rem;   /* 24px */
+  --st-spacing-8: 2rem;     /* 32px */
+  --st-spacing-10: 2.5rem;  /* 40px */
+  --st-spacing-12: 3rem;    /* 48px */
+  --st-spacing-16: 4rem;    /* 64px */
+  --st-spacing-20: 5rem;    /* 80px */
+  --st-spacing-24: 6rem;    /* 96px */
+
+  /* Typography scale */
+  --st-font-size-xs: 0.75rem;    /* 12px */
+  --st-font-size-sm: 0.875rem;   /* 14px */
+  --st-font-size-base: 1rem;     /* 16px */
+  --st-font-size-lg: 1.125rem;   /* 18px */
+  --st-font-size-xl: 1.25rem;    /* 20px */
+  --st-font-size-2xl: 1.5rem;    /* 24px */
+  --st-font-size-3xl: 1.875rem;  /* 30px */
+  --st-font-size-4xl: 2.25rem;   /* 36px */
+
+  --st-font-weight-normal: 400;
+  --st-font-weight-medium: 500;
+  --st-font-weight-semibold: 600;
+  --st-font-weight-bold: 700;
+
+  --st-line-height-tight: 1.25;
+  --st-line-height-normal: 1.5;
+  --st-line-height-relaxed: 1.75;
+
+  /* Font stacks (Typography tokens with WordPress preset bridge) */
+  --st-font-sans: var(--wp--preset--font-family--fira-sans, "Fira Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
+  --st-font-serif: var(--wp--preset--font-family--playfair, "Playfair", Georgia, "Times New Roman", Times, serif);
+  --st-font-display: var(--wp--preset--font-family--playfair-display, var(--st-font-serif));
+  --st-font-display-sc: var(--wp--preset--font-family--playfair-display-sc, var(--st-font-display));
+  --st-font-mono: var(--wp--preset--font-family--mono, "Menlo", "Monaco", "SF Mono", ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace);
+
+  /* Radius (NOTE: keep existing system values; add aliases, not overrides) */
+  --st-radius-xs: 4px;     /* buttons, tags */
+  --st-radius-sm: 8px;     /* code, callouts */
+  --st-radius-md: 12px;    /* cards */
+  --st-radius-lg: 16px;
+  --st-radius-xl: 35px;    /* hero */
+  --st-radius-full: 9999px;
+
+  /* Shadows */
+  --st-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --st-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.10);
+  --st-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.10);
+
+  /* ==========================================
+     TIER 2: SEMANTIC TOKENS (Purpose-Based)
+     ========================================== */
+
+  /* WordPress preset bridge (kept for block themes / editor parity) */
+  --wp--preset--color--brand-primary: var(--st-color-pink-500);
+  --wp--preset--color--bg-void: var(--st-color-black);
+
+  /* Brand */
+  --st-color-brand-primary: var(--st-color-pink-500);
+  --st-color-brand-secondary: var(--st-color-red-500);
+
+  /* Accent (legacy + common) */
+  --st-color-accent: var(--st-color-brand-primary);
+  --st-color-accent-soft: rgba(255, 36, 125, 0.08);
+
+  /* Text */
+  --st-color-text: var(--st-color-black); 
+  --st-color-text-primary: var(--st-color-text);
+  --st-color-text-secondary: var(--st-color-gray-600);
+  --st-color-text-muted: var(--st-color-gray-400);
+  --st-color-muted: #94A3B8; /* legacy alias used in some rules */
+
+  /* Surfaces */
+  --st-color-surface: var(--st-color-white);
+  --st-color-surface-primary: var(--st-color-white);
+  --st-color-surface-alt: #f8f8fa; /* theme-specific */
+  --st-color-surface-secondary: var(--st-color-gray-100);
+  --st-color-surface-tertiary: var(--st-color-gray-200);
+
+  /* Borders */
+  --st-color-border: rgba(0,0,0,0.08); /* theme-specific */
+  --st-color-border-default: var(--st-color-gray-400);
+  --st-color-border-subtle: var(--st-color-gray-200);
+  --st-color-border-strong: var(--st-color-gray-600);
+
+  /* Links */
+  --st-color-link: var(--st-color-brand-primary);
+  --st-color-link-hover: var(--st-color-brand-secondary);
+
+  /* States */
+  --st-color-danger: var(--st-color-red-500);
+  --st-color-focus: var(--st-color-accent);
+
+  /* Spacing (contextual aliases) */
+  --st-spacing-stack-xs: var(--st-spacing-1);
+  --st-spacing-stack-sm: var(--st-spacing-2);
+  --st-spacing-stack-md: var(--st-spacing-4);
+  --st-spacing-stack-lg: var(--st-spacing-6);
+  --st-spacing-stack-xl: var(--st-spacing-8);
+  --st-spacing-stack-2xl: var(--st-spacing-12);
+
+  --st-spacing-inline-sm: var(--st-spacing-2);
+  --st-spacing-inline-md: var(--st-spacing-3);
+  --st-spacing-inline-lg: var(--st-spacing-4);
+
+  --st-spacing-inset-xs: var(--st-spacing-1);
+  --st-spacing-inset-sm: var(--st-spacing-2);
+  --st-spacing-inset-md: var(--st-spacing-4);
+  --st-spacing-inset-lg: var(--st-spacing-6);
+
+  --st-spacing-gutter: var(--st-spacing-4);
+
+  /* Content widths */
+  --st-content-width-narrow: 600px;
+  --st-content-width: 800px;
+  --st-content-width-wide: 1200px;
+  --wp--style--global--content-size: var(--st-content-width);
+
+  /* Typography (semantic aliases) */
+  --st-font-body: var(--st-font-size-base);
+  --st-font-caption: var(--st-font-size-xs);
+  --st-font-heading-1: var(--st-font-size-3xl);
+  --st-font-heading-2: var(--st-font-size-2xl);
+  --st-font-heading-3: var(--st-font-size-xl);
+  --st-font-heading-4: var(--st-font-size-lg);
+
+  /* Shadow alias used by components */
+  --st-shadow-card: 0 4px 12px rgba(255, 36, 125, 0.05);
+
+  /* ==========================================
+     TIER 3: COMPONENT TOKENS (Optional)
+     ========================================== */
+
+  /* Metadata component */
+  --st-metadata-bg: var(--st-color-surface-secondary);
+  --st-metadata-border: var(--st-color-border-subtle);
+  --st-metadata-padding: var(--st-spacing-inset-md);
+  --st-metadata-gap-inline: var(--st-spacing-4);
+  --st-metadata-gap-stack: var(--st-spacing-2);
+
+  /* Content container */
+  --st-content-padding: var(--st-spacing-gutter);
+
+  --st-table-min-width: 1000px;
+  --st-table-max-width: 1400px;
+}
+
+
+/* ==================================================
+   §02 CANONICAL HTML (SEMANTIC DEFAULTS)
+   Platform-agnostic styling for clean semantic HTML.
+   ================================================== */
+
+/* Typography — Unified Font Family Application */
+html, body, button, input, select, textarea {
+  font-family: var(--st-font-sans);
+}
+
+h1 { font-family: var(--st-font-display-sc); }
+h2, h3 { font-family: var(--st-font-display); }
+h4, h5, h6 { font-family: var(--st-font-serif); }
+pre, code, kbd, samp { font-family: var(--st-font-mono); }
+blockquote, caption, figcaption, p { font-family: var(--st-font-sans); }
+
+/* Base styles */
+body {
+  color: var(--st-color-text);
+  background: var(--st-color-surface);
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6,
+blockquote, caption, figcaption, p {
+  text-wrap: pretty;
+}
+
+p { max-width: 100%; }
+.more-link { display: block; }
+
+/* Links */
+a {
+  color: var(--st-color-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .1em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--st-color-focus);
+  outline-offset: 2px;
+}
+
+/* Lists */
+ul, ol { padding-left: 1.5rem; }
+li { margin-top: 0.35rem; }
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Smooth scrolling for anchor links */
+html { scroll-behavior: smooth; }
+
+/* Code blocks */
+pre {
+  background-color: var(--st-color-black);
+  color: #f8f8f2;
+  box-sizing: border-box;
+  padding: 2rem;
+  border-radius: var(--st-radius-sm);
+  border-left: 4px solid var(--st-color-accent);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  margin: 3rem auto;
+  width: 100%;
+  font-family: var(--st-font-mono);
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+:not(pre) > code {
+  background-color: #f1f2f4;
+  color: #b91c68;
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  border: 1px solid #e1e3e6;
+  font-family: var(--st-font-mono);
+  font-size: 0.85em;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 2rem 0;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  background: var(--st-color-surface);
+}
+
+th, td {
+  padding: 12px 16px;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+thead th {
+  background-color: var(--st-color-accent);
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  border-bottom: 2px solid #000;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+thead th a{
+  color: #ffffff;
+  text-decoration: underline;
+}
+thead th a:hover{
+  color: #ffffff;
+  text-decoration: none;
+}
+
+tbody tr:nth-child(odd) { background-color: #f9f9f9; }
+
+.st-doc-link {
+  margin-top: var(--st-spacing-stack-md);
+}
+
+.st-doc-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  font-family: var(--st-font-mono);
+  font-size: var(--st-font-size-sm);
+
+  padding: 0.6em 0.9em;
+  border-radius: var(--st-radius-sm);
+
+  background: var(--st-color-surface-secondary);
+  border: 1px solid var(--st-color-border-subtle);
+
+  color: var(--st-color-link);
+  text-decoration: none;
+}
+
+.st-doc-link a:hover {
+  background: var(--st-color-surface-tertiary);
+  text-decoration: underline;
+}
+
+/* Buttons */
+button,
+input[type="submit"],
+input[type="button"],
+.button {
+  border-radius: var(--st-radius-xs);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 400;
+  transition: all 0.2s ease;
+  background-color: var(--st-color-accent);
+  color: #fff;
+  border: none;
+  padding: 0.6em 1.2em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+button:hover,
+.button:hover,
+input[type="submit"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 36, 125, 0.3);
+}
+
+/* Blockquote / rules */
+hr {
+  height: 0;
+  border: 0;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  margin: 3rem 0;
+}
+
+blockquote, .dialogue{
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--st-color-brand-primary);
+  color: var(--st-color-muted);
+  font-style: italic;
+}
+
+/* ==================================================
+   §03 PLATFORM BRIDGES (WORDPRESS)
+   Adapter layer: align WP block markup to canonical HTML.
+   ================================================== */
+
+   /* Hide the default “terms” block at the bottom on single gem posts */
+body.single-gem .wp-block-post-content > .wp-block-post-terms {
+  display: none;
+}
+
+/* Buttons: remove WP "theme.json" defaults so canonical button styles can apply */
+.wp-element-button,
+.wp-block-button__link,
+.wp-block-search .wp-element-button {
+    all: unset;
+    display: inline-flex;
+}
+
+/* Tables: let <table>, <th>, <td> canonicals drive the look */
+.wp-block-table table {
+    all: unset;
+    display: table;
+    width: 100%;
+}
+
+/* Code: let <pre> + <code> canonicals drive the look */
+.wp-block-code {
+    all: unset;
+    /* Restore layout constraints to match other content blocks */
+    max-width: var(--wp--style--global--content-size);
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* ==================================================
+   WP → ST bridge: make WP term/tag links render as ST chips
+   (No Tailwind @apply; just selector mapping)
+   ================================================== */
+
+:where(.wp-block-post-terms a, .wp-block-tag-cloud a) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-family: var(--st-font-mono, "Menlo", "Monaco", monospace) !important;
+  font-size: 0.75rem !important;
+  line-height: 1.2 !important;
+
+  padding: 0.375em 0.625em !important;
+  border-radius: 2px !important;
+
+  background: rgba(255, 36, 125, 0.08);
+  border: 1px solid rgba(255, 36, 125, 0.35);
+  color: var(--st-color-accent, #ff247d) !important;
+
+  text-decoration: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+:where(.wp-block-post-terms a:hover, .wp-block-tag-cloud a:hover) {
+  transform: translateY(-1px);
+  background: rgba(255, 36, 125, 0.15);
+  border-color: var(--st-color-accent, #ff247d);
+  box-shadow: 0 2px 5px rgba(255, 36, 125, 0.15);
+}
+
+/* Ensure the WP containers lay out like chip rows */
+.wp-block-post-terms,
+.wp-block-tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide WordPress default separator between terms */
+.wp-block-post-terms .wp-block-post-terms__separator {
+  display: none;
+}
+
+
+/* ==================================================
+   §04 COMPONENTS
+   ================================================== */
+
+/* ==================================================
+   ST TABLE — Wide wrapper + Responsive row-cards
+   ================================================== */
+
+/* Wide tables: opt-in wrapper (prevents "vertical syllables") */
+.st-table-wrap {
+  max-width: var(--st-table-max-width);
+  margin: 0 auto;  /* Horizontal centering */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--st-radius-md, 12px);
+}
+
+/* Force minimum width on all wrapped tables */
+.st-table-wrap > table {
+  min-width: var(--st-table-min-width);
+  margin: 0;
+}
+
+/* Table → row-cards on small screens (opt-in via .st-table--responsive) */
+@media (max-width: 860px) {
+  /* Card mode doesn't need horizontal scroll */
+  .st-table-wrap { overflow-x: visible; }
+
+  /* Ensure wrapper baseline doesn't force 1000px cards */
+  .st-table-wrap > table.st-table--responsive {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Hide header row */
+  table.st-table--responsive thead { display: none; }
+
+  /* Convert table structure to blocks */
+  table.st-table--responsive,
+  table.st-table--responsive tbody,
+  table.st-table--responsive tr,
+  table.st-table--responsive td {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* For .st-table--responsive */
+table.st-table--responsive tr {
+  margin: var(--st-spacing-3, 14px) 16px;  /* top/bottom left/right */
+  padding: 14px 16px;
+  border: 1px solid var(--st-color-border-default, rgba(0, 0, 0, 0.16));
+  border-radius: var(--st-radius-md, 12px);
+  background: var(--st-color-surface-primary, var(--st-color-surface, #fff));
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+  /* Card rows */
+  table.st-table--responsive td {
+    border: none;
+    padding: 8px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  /* Optional: subtle dividers between fields inside card */
+  table.st-table--responsive td + td {
+    border-top: 1px solid var(--st-color-border-subtle, rgba(0, 0, 0, 0.08));
+    padding-top: 10px;
+  }
+}
+
+
+/* =========================================
+   ST TABLE — WIDE (custom columns + styling)
+   Scope: .st-table--wide only
+   ========================================= */
+
+.st-table--wide {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* critical: stops column chaos */
+  margin: 2rem 0;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  background: #fff;
+}
+
+/* DEPRECATE, DO NOT USE: Column sizing (via colgroup) */
+.st-table--wide col.col-thumb  { width: 110px; }
+.st-table--wide col.col-ethics { width: 120px; }
+.st-table--wide col.col-a11y   { width: 130px; }
+.st-table--wide col.col-ip     { width: 170px; }
+.st-table--wide col.col-alt    { width: 28%; }
+.st-table--wide col.col-notes  { width: 28%; }
+
+
+/* =================================================================
+   TABLE COLUMN WIDTH TOKENS
+   Design System: Sugartown Pink
+   Component: st-table
+   
+   Usage: Apply to <col> elements inside <colgroup> for ANY table.
+   Mobile: Auto-width in card view (responsive override)
+   ================================================================= */
+
+/* Fixed-width tokens (pixel-based) */
+.st-table col.st-col--xs { width: 60px; }   /* Icons, checkboxes, tiny badges */
+.st-table col.st-col--sm { width: 110px; }  /* Dates, short IDs, status */
+.st-table col.st-col--md { width: 150px; }  /* Medium text, categories */
+.st-table col.st-col--lg { width: 200px; }  /* Longer text, titles */
+.st-table col.st-col--xl { width: 250px; }  /* Descriptions, long content */
+
+/* Flexible-width tokens (percentage-based) */
+.st-table col.st-col--flex-sm { width: 20%; }
+.st-table col.st-col--flex-md { width: 30%; }
+.st-table col.st-col--flex-lg { width: 40%; }
+
+/* Responsive override: ignore column widths in card view */
+@media (max-width: 768px) {
+  .st-table col[class*="st-col--"] {
+    width: auto !important;
+  }
+}
+
+
+/* Cells */
+.st-table--wide th,
+.st-table--wide td {
+  padding: 14px 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  vertical-align: top;
+  text-align: left;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+/* Header */
+.st-table--wide thead th {
+  background: var(--st-color-accent);
+  color: #fff;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  border-bottom: 2px solid rgba(0,0,0,0.9);
+  white-space: nowrap; /* prevents header bricks */
+}
+
+/* Allow long headers to wrap if needed */
+.st-table--wide thead th:nth-child(5),
+.st-table--wide thead th:nth-child(6) {
+  white-space: normal;
+}
+
+/* Zebra */
+.st-table--wide tbody tr:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+/* Thumbnail cell */
+.st-table td.st-table__thumb {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.st-table td.st-table__thumb a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.st-table td.st-table__thumb img,
+.st-table td.st-table__thumb video {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--st-radius-md, 12px);
+  display: block;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.10);
+}
+
+/* Status columns: keep tidy */
+.st-table--wide td.st-table__status {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+/* Paragraph feel for long text columns */
+.st-table--wide td:nth-child(5),
+.st-table--wide td:nth-child(6) {
+  font-size: 0.95rem;
+}
+
+/* Optional: soften crowded look */
+.st-table--wide tbody tr:hover {
+  background: rgba(255, 36, 125, 0.04);
+}
+
+/* Mobile: convert rows to cards */
+@media (max-width: 860px) {
+  .st-table--wide {
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .st-table--wide thead {
+    display: none;
+  }
+
+  .st-table--wide,
+  .st-table--wide tbody,
+  .st-table--wide tr,
+  .st-table--wide td {
+    display: block;
+    /* width: 100%; */
+  }
+
+  /* For .st-table--wide */
+.st-table--wide tr {
+  background: #fff;
+  border: 1px solid var(--st-color-border-default, rgba(0,0,0,0.16));
+  border-radius: var(--st-radius-md, 12px);
+  padding: 14px 16px;
+  margin: var(--st-spacing-3, 14px) 16px;  /* Match responsive pattern */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+  .st-table--wide td {
+    border: none;
+    padding: 8px 0;
+  }
+
+  .st-table--wide td.st-table__thumb {
+    display: flex;
+    justify-content: center;
+    padding: 4px 0 12px 0;
+  }
+
+  .st-table--wide td.st-table__status {
+    font-weight: 700;
+  }
+
+  .st-table--wide td:nth-child(5),
+  .st-table--wide td:nth-child(6) {
+    padding-top: 10px;
+  }
+}
+
+
+
+/* ==========================================================================
+   4. GEM ARCHIVE GRID - WRAPPER PATTERN
+   ========================================================================== */
+.st-grid-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    margin-bottom: 3rem;
+    align-items: stretch;
+}
+/* =========================================
+   GEM ARCHIVE GRID - WRAPPER PATTERN
+   Add this to the END of style.css
+   ========================================= */
+
+/* Outer wrapper for centering and max-width */
+.gem-archive {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Grid container - forces grid layout */
+.gem-grid,
+.st-grid {
+    position: relative;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)) !important;
+    gap: 40px !important;  /* Increased from 30px to show graph between cards */
+    margin-bottom: 40px !important;
+    width: 100% !important;
+}
+
+
+/* Knowledge graph background - extends beyond grid into margins */
+.gem-grid::before,
+.st-grid::before {
+    content: '';
+    position: absolute;
+    top: -40px;  /* Start above grid */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120%;  /* Extends 10% beyond each side */
+    height: calc(100% + 80px);  /* Extends above and below */
+    background-image: url('https://sugartown.io/wp-content/uploads/2025/12/knowledge_graph_light.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 110%;  /* Slightly larger than container */
+    opacity: 0.65;  /* Bumped from 0.5 for visibility */
+    pointer-events: none;
+    z-index: 0;
+}
+/* ==================================================
+   KG BG ::before — force behind everything
+   ================================================== */
+
+/* Make the grid a stacking context */
+.st-grid,
+.gem-grid {
+  position: relative;     /* required for ::before positioning */
+  isolation: isolate;     /* keeps z-index battles local */
+  z-index: 1;             /* grid sits above page background */
+}
+
+/* Push the background layer *behind* content + siblings */
+.st-grid::before,
+.gem-grid::before {
+  z-index: -1;            /* key change */
+}
+
+/* Ensure "HUD" elements are always above the grid BG bleed */
+.gem-results-info,
+.archive-header,
+.kg-intro {
+  position: relative;
+  z-index: 5;
+}
+
+
+.gem-grid > *,
+.st-grid > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* If using wrapper pattern */
+.st-grid-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.st-grid-wrapper .st-grid,
+.st-grid-wrapper .gem-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 30px;
+}
+
+/* Force cards to fill grid cells properly */
+.gem-grid > article,
+.st-grid > article {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Responsive: Single column on mobile */
+@media (max-width: 768px) {
+    .gem-grid,
+    .st-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ==========================================================================
+   5.0 ST-CARD (Light Variant) â€” canonical card primitive (single-column)
+   Header pinned top, footer pinned bottom, content grows between.
+   Media strip centered at bottom.
+   ========================================================================== */
+
+:root{
+  --st-card-border: var(--st-color-accent, #ff247d);
+  --st-card-bg: var(--st-color-surface, #fff);
+  --st-card-bg-alt: var(--st-color-surface-alt, #fff0f5);
+  --st-card-text: var(--st-color-text, #222);
+  --st-card-muted: var(--st-color-muted, #666);
+
+  /* If not already defined elsewhere */
+}
+
+/* Base card */
+.st-card{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 420px;
+  width: 100%;
+  box-sizing: border-box;
+
+  background: var(--st-card-bg);
+  border: 1px solid var(--st-card-border);
+  border-radius: var(--st-radius-md);
+  padding: 28px;
+
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.st-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(255, 36, 125, 0.15);
+}
+
+/* Optional: tighter card */
+.st-card--compact{
+  padding: 20px;
+  min-height: 360px;
+}
+
+/* Background layer */
+.st-card__bg{
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.14;
+  filter: grayscale(100%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.st-card--illustrative .st-card__bg{
+  opacity: 0.15;
+  background-size: 90%;
+}
+
+/* Inner (text column + pinning model) */
+.st-card__inner{
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;   /* allows footer pinning */
+  min-width: 0;
+}
+
+
+/* =========================================
+   ST-CARD HEADER - Full Featured Layout
+   Eyebrow/Title/Subtitle stack left, Badge floats right
+   ========================================= */
+
+.st-card__header {
+  display: grid;
+  grid-template-columns: 1fr auto; /* eyebrow fills, badge shrinks */
+  gap: 8px 16px; /* vertical | horizontal */
+  align-items: end; /* align eyebrow and badge at bottom edge */
+  margin: 0 0 14px 0;
+}
+/* .st-card__header-content - REMOVED, not needed with grid */
+
+/* Eyebrow - row 1, column 1 */
+.st-card__eyebrow {
+  grid-column: 1;
+  grid-row: 1;
+  font-family: 'Menlo', 'Monaco', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--st-color-accent, #FF69B4);
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.st-card__eyebrow a {
+  color: var(--st-color-accent, #FF69B4);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.st-card__eyebrow a:hover {
+  color: #E5007D;
+  text-decoration: underline;
+}
+
+/* Title - row 2, full width */
+.st-card__title {
+  grid-column: 1 / -1; /* span both columns */
+  grid-row: 2;
+  margin: 0;
+  font-family: var(--wp--preset--font-family--playfair-display), serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--st-card-border, #FF69B4); /* ensure title text color is set */
+  white-space: wrap; /* no wrap for short titles 
+  overflow: hidden;
+  text-overflow: ellipsis;*/
+}
+
+.st-card__title a {
+  color: inherit; /* match parent title color */
+  text-decoration: none;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.10em;
+}
+
+.st-card__title a:hover {
+  color: inherit; /* match parent title color */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.10em;
+}
+
+/* Subtitle - row 3, full width */
+.st-card__subtitle,
+.st-card__subtitle a {
+  grid-column: 1 / -1; /* span both columns */
+  grid-row: 3;
+  margin: 0;
+  font-family: var(--wp--preset--font-family--fira-sans), sans-serif;
+  font-size: 0.9rem;
+  color: var(--st-color-muted, #666);
+  white-space: nowrap; /* no wrap for short subtitles */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.st-card__subtitle a:hover {
+  text-decoration: underline;
+}
+
+/* Content (main text, pushes footer down) */
+.st-card__content {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+  margin-bottom: 10px 0 auto 0;
+  padding-bottom: 1.5rem;
+}
+
+.st-card__content p{
+  margin: 0 0 0.75rem 0;
+  color: var(--st-card-text);
+  line-height: 1.55;
+  font-size: 0.95rem;
+  text-wrap: pretty;
+}
+
+.st-card__content p:last-child{
+  margin-bottom: 0;
+}
+
+.st-card__sup,
+sup{
+  text-decoration: none;
+  color: var(--st-card-border);
+}
+
+/* Footer pinned to bottom */
+.st-card__footer{
+  margin-top: auto;   /* <-- pin */
+  padding-top: 12px;
+  font-size: 0.85rem;
+}
+.gem-archive .st-card__footer {
+  display: flex;
+  align-items: flex-end;        /* Date aligns with bottom of action */
+  justify-content: space-between; /* Push action left, date right */
+  gap: 12px;
+}
+
+/* Divider lives in footer */
+.st-card__footer::before{
+  content: "";
+  display: block;
+  border-top: 1px dashed rgba(255, 36, 125, 0.35);
+  margin-bottom: 12px;
+}
+
+/* Citation */
+.st-card__citation,
+cite{
+  font-family: 'Menlo','Monaco', monospace;
+  font-size: 0.7rem;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.st-card__citation a,
+cite a{
+  color: inherit;
+  text-decoration: none;
+}
+
+.st-card__citation a:hover
+cite a:hover{
+  text-decoration: underline;
+}
+
+
+/* =========================================
+   ST-LABEL: The Canonical Metadata Label
+   Usage: "Filter:", "Category:", "Start Here:"
+   ========================================= */
+.st-label {
+    /* Typography: Matches the card headers exactly */
+    font-family: var(--wp--preset--font-family--fira-sans, sans-serif);
+    font-weight: 500;
+    font-size: 0.95rem; /* Readable, not tiny */
+    color: #999;       /* Muted gray */
+    
+    /* Layout */
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-right: 8px; /* Consistent gap between label and content */
+    display: inline-block;
+}
+
+
+
+/* =========================================
+   ST-LINK: Metadata Links
+   ========================================= */
+
+.st-link {
+  color: #FF69B4;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.st-link:hover {
+  color: #E5007D;
+  text-decoration: underline;
+}
+
+
+/* Label (eyebrow text) */
+.st-card__label {
+  font-family: 'Menlo', 'Monaco', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #ff247d;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+/* Meta row (label + value pairs) */
+.st-card__meta {
+  display: flex;
+  margin-top: 12px;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Action item container */
+.st-card__action {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.st-card__action-text {
+  color: #555;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Date/timestamp */
+.st-card__date {
+  color: #999;
+  white-space: nowrap;
+  font-size: 0.8rem;
+}
+
+/* Meta badges container */
+.st-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+/* =========================================
+   ST-BADGE: Status Indicators
+   ========================================= */
+
+/* Badge - floats to upper right */
+.st-badge {
+  flex-shrink: 0;
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  align-self: end; /* ← CHANGED: was 'start' */
+}
+
+
+/* Status colors */
+.st-badge--active {
+  background: #D4EDDA;
+  color: #155724;
+}
+
+.st-badge--shipped {
+  background: #D1ECF1;
+  color: #0C5460;
+}
+
+.st-badge--draft {
+  background: #FFF3CD;
+  color: #856404;
+}
+
+.st-badge--backlog {
+  background: #E2E3E5;
+  color: #383D41;
+}
+
+.st-badge--done {
+  background: #E7D4F5;
+  color: #5A2A7A;
+}
+
+.st-badge--progress {
+  background: #FFE5CC;
+  color: #CC5500;
+}
+.st-badge--live {
+  background: #20ed50;
+  color: #01381a;
+}
+
+
+
+/* Media strip centered bottom */
+.st-card__media{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 48px;
+  margin-top: 2rem;
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.st-card__media img{
+  display: block;
+  width: auto !important;
+  height: 100% !important;
+  object-fit: contain;
+  filter: none !important;
+  border-radius: 0 !important;
+}
+
+
+/* WP sometimes injects <br> and/or <p> around inline media; neutralize */
+.st-card__content br { display: none; }
+.st-card__media br { display: none !important; }
+.st-card__media p { margin: 0 !important; }
+.st-card__media a{
+  display: flex;
+  height: 100%;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+
+/* Responsive: nothing special needed; itâ€™s already single-column */
+@media (max-width: 780px){
+  .st-card{
+    min-height: unset;
+  }
+}
+
+/* ==========================================================================
+   ST-CARD â€” Dark Variant (Scoped / Not Site-Wide Dark Mode)
+   Usage: <article class="st-card st-card--dark">â€¦</article>
+   ========================================================================== */
+
+.st-card--dark{
+  /* Card surface */
+  background: #0f1117;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+}
+
+.st-card--dark:hover{
+  transform: translateY(-4px);
+  box-shadow:
+    0 18px 55px rgba(0,0,0,0.22),
+    0 0 0 1px rgba(255, 36, 125, 0.28);
+}
+
+/* Typography */
+.st-card--dark .st-card__eyebrow,
+.st-card--dark .st-card__eyebrow a{
+  color: rgba(255, 111, 184, 0.9); /* cooled pink */
+}
+
+.st-card--dark .st-card__title a{
+  color: (#ff247d 0.98);
+  text-decoration-color: (#ff247d, 0.25);
+}
+
+.st-card--dark .st-card__subtitle,
+.st-card--dark .st-card__subtitle a {
+  color: rgba(148,163,184,0.95);
+  text-decoration: none;
+}
+
+.st-card--dark .st-label{
+  color: rgba(148,163,184,0.72);
+}
+
+.st-card--dark .st-card__action-text{
+  color: rgba(148,163,184,0.65);
+}
+
+/* Footer divider + date */
+.st-card--dark .st-card__footer::before{
+  border-top: 5px dashed rgba(255, 111, 184, 0.22);
+}
+.st-card--dark .st-card__date{
+  color: rgba(148,163,184,0.55);
+}
+
+/* Tags: inverted, more â€œterminalâ€ */
+.st-card--dark .st-chip{
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 111, 184, 0.28);
+  color: rgba(255, 111, 184, 0.95);
+}
+
+.st-card--dark .st-card__tag:hover{
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(255, 111, 184, 0.45);
+  box-shadow: 0 2px 10px rgba(255, 111, 184, 0.12);
+}
+
+/* Badges: flatten so they donâ€™t look like â€œpastel stickersâ€ on dark */
+.st-card--dark .st-badge{
+  background: rgba(255,255,255,0.08) !important;
+  color: rgba(148,163,184,0.95) !important;
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+/* =========================================
+   GEM ARCHIVE - RESULT COUNT & PAGINATION
+   Add to end of style.css
+   ========================================= */
+
+   /* ==================================================
+   GEM RESULTS INFO
+   ================================================== */
+
+.gem-results-info {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: var(--st-spacing-4, 24px) 0;
+  font-size: 0.9rem;
+  color: var(--st-color-text-secondary, #666);
+}
+
+
+.gem-results-info .results-count {
+  margin: 0;
+  text-align: center;
+}
+
+.results-count {
+    font-family: 'Menlo', 'Monaco', monospace;
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    text-align: center;
+}
+
+.results-count strong {
+    color: var(--st-color-accent);
+    font-weight: 700;
+}
+
+/* ==================================================
+   ARCHIVE (Knowledge Graph) — Results bar layering fix
+   Prevent overlap with the background visualization layer
+   ================================================== */
+
+/* Make sure the archive main content is its own stacking context */
+.gem-archive,
+.gem-archive-main,
+main#primary.site-main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==================================================
+   GEM RESULTS INFO — Isolated surface
+   ================================================== */
+
+.gem-results-info {
+  max-width: 100%;
+  margin: var(--st-spacing-4, 24px) auto;
+  padding: 12px 16px;
+
+  background: #ffffff;
+  border-radius: var(--st-radius-sm, 6px);
+
+  /* Isolation */
+  position: relative;
+  z-index: 2;
+
+  /* This is the key */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+
+  /* Clean white surface - no shadow */
+  box-shadow: none !important;
+
+  text-align: center;
+}
+
+
+
+
+/* The grid should also be above the background */
+.st-grid,
+.gem-grid,
+.kg-grid {
+  position: relative;
+  z-index: 2;
+}
+
+/* If your graph/hero layer is an element, force it behind everything */
+.kg-hero__visual,
+.kg-bg,
+.kg-viz,
+.kg-background,
+.st-kg-background {
+  position: relative;
+  z-index: 0;
+  pointer-events: none; /* makes UI interactions sane */
+}
+
+
+/* Pagination container */
+.gem-pagination {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+}
+
+/* Pagination list */
+.gem-pagination .page-numbers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Pagination links */
+.gem-pagination .page-numbers li {
+    display: inline-block;
+}
+
+.gem-pagination a.page-numbers,
+.gem-pagination span.page-numbers {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 4px;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* Pagination hover state */
+.gem-pagination a.page-numbers:hover {
+    background: var(--st-color-accent-soft);
+    border-color: var(--st-color-accent);
+    color: var(--st-color-accent);
+    transform: translateY(-2px);
+}
+
+/* Current page */
+.gem-pagination span.page-numbers.current {
+    background: var(--st-color-accent);
+    border-color: var(--st-color-accent);
+    color: #fff;
+    font-weight: 700;
+}
+
+/* Prev/Next links */
+.gem-pagination .prev,
+.gem-pagination .next {
+    font-weight: 600;
+}
+
+/* No results message */
+.no-gems-message {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--st-color-surface-alt);
+    border-radius: var(--st-radius-md);
+    margin-top: 40px;
+}
+
+.no-gems-message p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.no-gems-message .button {
+    display: inline-block;
+    padding: 12px 24px;
+    background: var(--st-color-accent);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.no-gems-message .button:hover {
+    background: #E5007D;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 36, 125, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .results-count {
+        font-size: 0.85rem;
+    }
+    
+    .gem-pagination a.page-numbers,
+    .gem-pagination span.page-numbers {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 8px;
+        font-size: 0.85rem;
+    }
+}
+
+/* ==========================================================================
+   6. COMPONENT: FEATURED IMAGES (PROD MATCH)
+   ========================================================================== */
+.wp-block-post-featured-image {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin-bottom: 3rem;
+    width: 100%;
+    border-radius: 35px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transform: translateZ(0); 
+}
+.wp-block-post-featured-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%) contrast(1.1);
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.wp-block-post-featured-image:hover img {
+    transform: scale(1.05);
+}
+.wp-block-post-featured-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg, 
+        #ff247d,    
+        #2AD4A973   
+    );
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: inherit;
+}
+
+/* Context Switching */
+body.single-post .wp-block-post-featured-image,
+body.page .wp-block-post-featured-image { 
+    aspect-ratio: 21 / 9; 
+    display: block;
+    mix-blend-mode: hard-light;
+    
+}
+
+
+/* ==========================================================================
+   7. COMPONENT: SYSTEM DUOTONE (.st-media--duotone)
+   ========================================================================== */
+.st-media--duotone {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: 35px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transform: translateZ(0);
+}
+.st-media--duotone img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: grayscale(100%) contrast(1.1);
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.st-media--duotone:hover img {
+    transform: scale(1.05);
+}
+.st-media--duotone::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg, 
+        #ED008E52,    
+        #2AD4A973   
+    );
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+    z-index: 2;
+}
+
+
+/* ================================================
+   GEM ARCHIVE STYLES - v4 NEW LAYOUT
+   Add to: style.css (after existing styles)
+   ================================================ */
+
+/* Archive Header */
+.gem-archive {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.archive-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.archive-header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #0D1226;
+}
+
+.archive-header p {
+    font-size: 1.1rem;
+    color: #666;
+    font-style: italic;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+
+/* ================================================
+   FILTER ACTIVE NOTICE
+   ================================================ */
+
+.filter-active-notice {
+    background: #F8F8FA;
+    border-left: 4px solid #FF69B4;
+    padding: 20px 30px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.filter-value {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #FF69B4;
+}
+
+.clear-filter {
+    margin-left: auto;
+    padding: 6px 16px;
+    background: #FFF;
+    border: 1px solid #DDD;
+    border-radius: 4px;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.clear-filter:hover {
+    background: #FF69B4;
+    color: #FFF;
+    border-color: #FF69B4;
+}
+
+/* ==================================================
+   KNOWLEDGE GRAPH ARCHIVE — Fix stacking so text is above viz bg
+   ================================================== */
+
+/* 1) Create a single stacking context for the whole archive */
+.gem-archive {
+  position: relative;
+  isolation: isolate; /* key: z-index now behaves sanely inside */
+}
+
+/* 2) Force any “background viz layer” to the bottom */
+.gem-archive svg,
+.gem-archive .kg-hero__visual,
+.gem-archive .kg-bg,
+.gem-archive .kg-graph,
+.gem-archive .kg-network {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 4) Your results pill stays a "HUD surface" */
+.gem-results-info {
+  background: #fff;
+  border-radius: var(--st-radius-sm, 6px);
+  box-shadow: none !important; /* Clean white surface - no shadow */
+}
+
+
+
+/* ==========================================================================
+   COMPONENT: ST-CHIP (Canonical Primitive — no modifiers for now)
+   All chips are pink. Everything else maps to this look.
+   ========================================================================== */
+
+.st-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.st-chips--center {
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Normalize top bar chip/button heights so "Browse All" aligns with dropdown buttons
+   -------------------------------------------------------------------------- */
+.st-chips .st-chip,
+.st-chips button.st-chip {
+  box-sizing: border-box;
+  min-height: 28px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Canonical chip */
+.st-chip,
+a.st-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-family: var(--st-font-mono, "Menlo", "Monaco", monospace);
+  font-size: 0.75rem;
+  line-height: 1.2;
+
+  padding: 0.45em 0.75em;
+  border-radius: var(--st-radius-xs, 4px);
+
+  background: rgba(255, 36, 125, 0.08);
+  border: 1px solid rgba(255, 36, 125, 0.35);
+  color: var(--st-color-accent, #ff247d);
+
+  cursor: pointer;
+  user-select: none;
+
+  /* IMPORTANT: prevents global link underline from “infecting” chips */
+  text-decoration: none !important;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.st-chip:hover,
+a.st-chip:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 36, 125, 0.15);
+  border-color: var(--st-color-accent, #ff247d);
+  box-shadow: 0 2px 5px rgba(255, 36, 125, 0.15);
+}
+
+.st-chip.is-active,
+.st-chip[aria-expanded="true"] {
+  background: var(--st-color-accent, #ff247d);
+  border-color: var(--st-color-accent, #ff247d);
+  color: #fff;
+  box-shadow: 0 0 0 2px rgba(255, 36, 125, 0.2);
+}
+
+/* ==========================================================================
+   ST-FILTER (Clickable Filter Chip — matches st-chip exactly)
+   ========================================================================== */
+
+
+a.st-filter,
+button.st-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-family: var(--st-font-mono, "Menlo", "Monaco", monospace);
+  font-size: 0.75rem;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+
+  padding: 0.45em 0.75em;
+  border-radius: var(--st-radius-xs, 4px);
+
+  background: rgba(#ff247d, 0.08);
+  border: 1px solid rgba(255, 36, 125, 0.35);
+  color: var(--st-color-accent, #ff247d);
+
+  cursor: pointer;
+  user-select: none;
+
+  text-decoration: none !important;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.st-filter:hover,
+a.st-filter:hover,
+button.st-filter:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 36, 125, 0.15);
+  border-color: var(--st-color-accent, #ff247d);
+  box-shadow: 0 2px 5px rgba(255, 36, 125, 0.15);
+}
+
+.st-filter.is-active,
+.st-filter[aria-expanded="true"] {
+  background: var(--st-color-accent, #ff247d);
+  border-color: var(--st-color-accent, #ff247d);
+  color: #fff;
+  box-shadow: 0 0 0 2px rgba(#ff247d, 0.2);
+}
+
+/* ==========================================================================
+   SEE ST-CHIPS --- ST-CHIP-ROW (Flex Container for Filter Bars)
+   ========================================================================== */
+
+.st-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.st-chip-row--center {
+  justify-content: center;
+}
+
+.st-chip-row--start {
+  justify-content: flex-start;
+}
+
+.st-chip-row--end {
+  justify-content: flex-end;
+}
+
+
+/* Map legacy tag classes to chip look (until markup is refactored) */
+:where(.st-card__tag, .st-tag, .pink-card__tag, .skill-tag) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-family: var(--st-font-mono, "Menlo", "Monaco", monospace);
+  font-size: 0.75rem !important;
+  line-height: 1.2;
+
+  padding: 0.45em 0.75em;
+  border-radius: var(--st-radius-xs, 4px);
+
+  background: rgba(255, 36, 125, 0.08);
+  border: 1px solid rgba(255, 36, 125, 0.35);
+  color: var(--st-color-accent, #ff247d);
+
+  text-decoration: none !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+:where(.st-card__tag:hover, .st-tag:hover, .pink-card__tag:hover, .skill-tag:hover) {
+  transform: translateY(-1px);
+  background: rgba(255, 36, 125, 0.15);
+  border-color: var(--st-color-accent, #ff247d);
+  box-shadow: 0 2px 5px rgba(255, 36, 125, 0.15);
+}
+
+
+/* ==========================================================================
+   COMPONENT: ST-FILTER (Filter Dropdown System)
+   Standalone filter component with dropdown menu - NOT based on st-chip
+   Usage: Filter bars, taxonomy selectors, multi-option pickers
+   ========================================================================== */
+
+/* Filter Container (Wrapper for toggle + dropdown) */
+.st-filter {
+  position: relative;
+  display: inline-block;
+  z-index: 100; /* Ensure dropdown parent can stack above cards */
+}
+
+/* Filter Toggle Button */
+.st-filter__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  font-family: var(--st-font-mono, "Menlo", "Monaco", monospace);
+  font-size: 0.75rem;
+  line-height: 1.2;
+
+  padding: 0.45em 0.75em;
+  border-radius: var(--st-radius-xs, 4px);
+
+  background: rgba(255, 36, 125, 0.08);
+  border: 1px solid rgba(255, 36, 125, 0.35);
+  color: var(--st-color-accent, #ff247d);
+
+  cursor: pointer;
+  user-select: none;
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.st-filter__toggle:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 36, 125, 0.15);
+  border-color: var(--st-color-accent, #ff247d);
+  box-shadow: 0 2px 5px rgba(255, 36, 125, 0.15);
+}
+
+.st-filter__toggle:focus {
+  outline: 2px solid var(--st-color-accent, #ff247d);
+  outline-offset: 2px;
+}
+
+/* Active/Open State */
+.st-filter__toggle[aria-expanded="true"] {
+  background: var(--st-color-accent, #ff247d);
+  border-color: var(--st-color-accent, #ff247d);
+  color: #fff;
+  box-shadow: 0 0 0 2px rgba(255, 36, 125, 0.2);
+}
+
+/* Toggle Icon (Chevron) */
+.st-filter__icon {
+  font-size: 0.9em;
+  transition: transform 0.2s ease;
+}
+
+.st-filter__toggle[aria-expanded="true"] .st-filter__icon {
+  transform: rotate(180deg);
+}
+
+/* Dropdown Menu Container */
+.st-filter__dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 100000; /* Very high z-index to appear above callouts and cards */
+
+  min-width: 220px;
+  max-width: 400px;
+
+  background: transparent; /* Transparent wrapper - menu provides background */
+  border: none;
+  border-radius: 0;
+  box-shadow: none; /* Shadow on menu instead */
+
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  transform-origin: top left;
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+/* Hidden State */
+.st-filter__dropdown[hidden] {
+  display: block !important;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px) scale(0.98);
+  pointer-events: none;
+}
+
+/* Dropdown Menu List */
+.st-filter__menu {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0; /* Vertical padding for spacing */
+  max-height: 400px;
+  overflow-y: auto;
+
+  /* Menu provides the actual visual container */
+  background: var(--st-color-surface-primary);
+  border-radius: var(--st-radius-sm, 8px);
+  border: 1px solid var(--st-color-gray-400);
+  box-shadow:
+    0 2px 12px var(--st-color-gray-300);
+}
+
+/* Menu Item */
+.st-filter__item {
+  margin: 0;
+  padding: 0;
+}
+
+.st-filter__item a {
+  display: block;
+  padding: 10px 16px;
+
+  font-family: var(--st-font-sans);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: #444;
+
+  text-decoration: none;
+  text-transform: none; /* Match st-chip - no uppercase */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.st-filter__item a:hover {
+  background: rgba(255, 36, 125, 0.06);
+  color: var(--st-color-accent, #ff247d);
+}
+
+.st-filter__item a:focus {
+  outline: 2px solid var(--st-color-accent, #ff247d);
+  outline-offset: -2px;
+  background: rgba(255, 36, 125, 0.06);
+}
+
+/* Round corners on first and last items to match menu border-radius */
+.st-filter__item:first-child a {
+  border-radius: 0 0;
+}
+
+.st-filter__item:last-child a {
+  border-radius: 0 0;
+}
+
+/* Grid Layout Modifier (for long lists) */
+.st-filter__dropdown--grid .st-filter__menu {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 16px;
+  padding: 0px;
+}
+
+.st-filter__dropdown--grid .st-filter__item a {
+  padding: 8px 12px;
+  white-space: normal;
+}
+
+/* Wide Dropdown Modifier */
+.st-filter__dropdown--wide {
+  min-width: 600px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  /* Re-anchor dropdowns to parent container on mobile */
+  .st-filter {
+    position: static;
+  }
+
+  .st-filter__dropdown {
+    left: 0;
+    right: 0;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    border-radius: 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  }
+
+  /* Single column grid on mobile */
+  .st-filter__dropdown--grid .st-filter__menu {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: 8px 0;
+  }
+
+  .st-filter__dropdown--grid .st-filter__item a {
+    padding: 14px 16px;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .st-filter__dropdown--grid .st-filter__item:last-child a {
+    border-bottom: none;
+  }
+
+  /* Fat finger targets for mobile */
+  .st-filter__item a {
+    padding: 14px 16px;
+    font-size: 1rem;
+  }
+}
+
+
+/* =========================================
+   UTILITY: CONTENT CONTAINER (800px)
+   ========================================= */
+.st-container {
+    width: 100%;
+    max-width: var(--wp--style--global--content-size, 800px);
+    margin: 0 auto; /* Center the container itself */
+    padding: 0 20px; /* Prevent edge collision on mobile */
+    box-sizing: border-box;
+}
+
+
+
+/* =========================================
+   UPDATED: FILTER BAR (Behavior Only)
+   Layout is now handled by .st-chip-row
+   ========================================= */
+.kg-filter-bar {
+    /* Layout handled by .st-chip-row */
+    
+    /* Behavior / Context for Dropdowns */
+    position: relative;
+    z-index: 10; 
+    margin-bottom: 40px;
+}
+
+/* Mobile Dropdown Logic (Updates to target the specific filter bar) */
+@media (max-width: 768px) {
+    .kg-filter-bar .st-filter-group {
+        position: static; /* Dropdown anchor reset */
+    }
+}
+
+/* 2. The Dropdown Wrapper (The Anchor) */
+.st-filter-group {
+    position: relative; /* Anchors the absolute dropdown */
+}
+
+/* 3. The Dropdown Menu (The Floating Overlay) */
+.kg-filter-dropdown {
+    position: absolute;
+    top: calc(100% + 8px); /* 8px gap below chip */
+    left: 0;
+    z-index: 9999; /* Float OVER everything */
+    
+    background: #fff;
+    border: 1px solid rgba(255, 36, 125, 0.25);
+    border-radius: 8px;
+    box-shadow: 
+        0 4px 12px rgba(0,0,0,0.08),
+        0 12px 32px rgba(255, 36, 125, 0.12); /* Pink-tinted deep shadow */
+    
+    min-width: 240px;
+    padding: 8px 0;
+    
+    /* Animation (optional but nice) */
+    transform-origin: top left;
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+
+/* Hidden state */
+.kg-filter-dropdown[hidden] {
+    display: block !important; /* Override UA style to allow transition */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-5px) scale(0.98);
+    pointer-events: none;
+}
+
+/* 4. Dropdown List Items */
+.kg-filter-dropdown__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    /* Default: Single Column (like Project list) */
+    display: flex;
+    flex-direction: column; 
+}
+
+.kg-filter-dropdown__list li a {
+    display: block;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-family: 'Fira Sans', sans-serif; /* Readable UI font */
+    color: #444;
+    text-decoration: none;
+    transition: background 0.1s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 0; /* No border-radius for full edge-to-edge fill */
+}
+
+.kg-filter-dropdown__list li a:hover {
+    background: #FFB3D9; /* Light pink, 100% opacity, full edge-to-edge */
+    color: #444; /* Text remains readable with sufficient contrast */
+}
+
+/* 5. VARIANT: Multi-Column (Netflix "Genres" Style) 
+   Usage: <div class="kg-filter-dropdown kg-filter-dropdown--wide"> */
+.kg-filter-dropdown--wide {
+    min-width: 600px; /* Wide canvas */
+    padding: 16px;
+}
+
+.kg-filter-dropdown--wide .kg-filter-dropdown__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 Columns */
+    gap: 8px 16px; /* Row Gap | Col Gap */
+}
+
+.kg-filter-dropdown--wide li a {
+    border-radius: 0; /* No border-radius for full edge-to-edge fill */
+}
+
+/* Mobile Fallback */
+@media (max-width: 768px) {
+    .kg-filter-bar {
+        flex-wrap: wrap; /* Allow wrapping on small screens */
+    }
+    
+    .kg-filter-dropdown--wide {
+        min-width: 300px;
+        max-width: 90vw;
+    }
+    
+    .kg-filter-dropdown--wide .kg-filter-dropdown__list {
+        grid-template-columns: repeat(2, 1fr); /* 2 cols on mobile */
+    }
+}
+
+/* ==========================================================================
+   10. CALLOUT / NOTE BLOCK (Editorial)
+   ========================================================================== */
+
+.st-callout {
+    background: #fff0f5;
+    border: 1px solid rgba(214, 51, 132, 0.35);
+    border-radius: 8px;
+    border-radius: var(--st-radius-sm);
+    padding: 1.25rem 1.5rem;
+    margin: 2.5rem 0;
+}
+
+.st-callout p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #444;
+}
+
+.st-callout a {
+    color: var(--st-color-accent);
+    font-weight: 600;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+}
+
+/* Optional variants (future-proofing) */
+.st-callout--info   { background: var(--st-color-surface-secondary); border-color: var(--st-color-border-subtle); }
+.st-callout--tip    { background: #f3fff8; border-color: rgba(43, 212, 170, 0.35); }
+.st-callout--warn   { background: #fff9e6; border-color: rgba(255, 193, 7, 0.45); }
+.st-callout--danger { background: #fff1f2; border-color: rgba(220, 38, 38, 0.35); }
+
+
+/* Block Utilities */
+.wp-block-post-content { margin-top: 0; }
+.wp-site-blocks { gap: 0 !important; }
+
+
+
+/* ==========================================================================
+   11. MERMAID & FOOTER
+   ========================================================================== */
+pre.mermaid {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 3rem auto !important;
+    max-width: 1000px !important;
+    display: flex !important;
+    justify-content: center !important;
+    box-shadow: none !important;
+}
+
+/* Footer Layout */
+footer.wp-block-template-part {
+    margin-top: 4rem;
+    border-top: 1px solid #eee;
+    padding-top: 2rem;
+}
+.wp-site-footer .wp-block-site-title,
+.wp-site-footer .wp-block-site-title a {
+    font-family: var(--wp--preset--font-family--playfair-display), serif !important;
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+/* Dark Footer Styling */
+footer .has-accent-5-background-color,
+.has-accent-5-background-color {
+    background-color: #0d1226 !important;
+}
+
+/* Force vertical stacking of title and tagline */
+footer .has-accent-5-background-color > .wp-block-group:first-child {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: var(--wp--preset--spacing--10);
+}
+
+footer .has-accent-5-background-color h1,
+footer .has-accent-5-background-color .wp-block-site-title,
+footer .has-accent-5-background-color .wp-block-site-title a {
+    color: var(--st-color-white) !important;
+    text-align: center;
+    font-family: var(--wp--preset--font-family--playfair-display-sc), serif !important;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 0;
+    display: block;
+    width: 100%;
+}
+
+footer .has-accent-5-background-color .wp-block-site-tagline {
+    color: #D1FF1D !important;
+    text-align: center;
+    font-family: var(--wp--preset--font-family--playfair-display), serif !important;
+    display: block;
+    width: 100%;
+    margin: 0;
+}
+
+footer .has-accent-5-background-color a,
+footer .has-accent-5-background-color p  {
+    color: #94A3B8 !important;
+}
+footer .has-accent-5-background-color a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    text-decoration-thickness: 1px;
+}
+
+footer .has-accent-5-background-color .wp-block-navigation {
+    justify-content: center;
+}
+
+/* EXPERIMENT */
+
+
+/* =========================================
+   CONTENT ELEMENTS
+   ========================================= */
+
+
+
+
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 768px) {
+  .st-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .st-badge {
+    align-self: flex-start;
+  }
+  
+  .st-card__footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .st-card__date {
+    align-self: flex-end;
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE - Mobile Grid Stacking
+   ========================================= */
+
+@media (max-width: 768px) {
+  .st-card__header {
+    grid-template-columns: 1fr; /* single column */
+    align-items: start; /* reset to top alignment on mobile */
+  }
+  
+  .st-badge {
+    grid-column: 1;
+    grid-row: 2; /* badge moves below eyebrow */
+    justify-self: start;
+    align-self: start;
+  }
+  
+  .st-card__title {
+    grid-row: 3;
+    white-space: normal; /* allow wrapping on mobile */
+  }
+  
+  .st-card__subtitle {
+    grid-row: 4;
+    white-space: normal; /* allow wrapping on mobile */
+  }
+}
+
+/* ==========================================================================
+   6. DEPRECATED (Keep for now)
+   ========================================================================== */
+
+/* ==================================================
+   §05 DEPRECATED COMPONENTS
+   (Quarantined: do not extend; migrate away)
+   ================================================== */
+
+/* ==========================================================================
+   DEPRECATED: THE PINK CARD (.pink-card)
+   ==========================================================================
+*/
+/* 5.1 WRAPPER */
+.pink-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 400px;
+    width: 100%; 
+    box-sizing: border-box !important; 
+    
+    background-color: #fff;
+    /* RESTORED: The Pink Border */
+    border: 1px solid var(--st-color-accent);
+    border-radius: var(--st-radius-md);
+    padding: 2rem;
+    
+    overflow: hidden;
+    isolation: isolate; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pink-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(255, 36, 125, 0.15);
+}
+
+/* 5.2 TEXTURE */
+.pink-card__bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: grayscale(100%);
+    opacity: 0.15; 
+    pointer-events: none;
+}
+
+/* 5.3 CONTENT LAYER */
+.pink-card__content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    z-index: 2; 
+    position: relative;
+}
+.pink-card__content br { display: none; }
+
+/* 5.4 HEADER (UPDATED TYPOGRAPHY) */
+.pink-card__header {
+    margin-bottom: 1rem;
+}
+
+.pink-card__eyebrow {
+    font-family: 'Menlo', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--st-color-accent);
+    margin-bottom: 0.75rem;
+}
+
+.pink-card__title {
+    font-family: var(--wp--preset--font-family--playfair-display), serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #ff247d;
+    text-decoration: underline;
+    text-decoration-thickness: 1px !important;
+    text-underline-offset: .1em;
+    margin: 0 0 0.5rem 0;
+}
+.pink-card__title a { text-decoration: inherit; color: inherit; }
+
+.pink-card__subtitle {
+    font-family: var(--wp--preset--font-family--fira-sans), sans-serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #666;
+    margin: 0 0 1rem 0;
+}
+
+.pink-card__body {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+}
+.pink-card__body p { margin-bottom: 1rem; }
+
+/* 5.5 FOOTER (Citation) - RESTORED */
+.pink-card__citation {
+    padding-top: 0.75rem;
+    padding-bottom: 1.25rem;
+    margin-top: auto; /* Ensures it sits at the bottom */
+    font-family: 'Menlo', 'Monaco', monospace;
+    font-size: 0.7rem;
+    color: #888;
+    border-top: 1px dashed rgba(255, 36, 125, 0.3);
+    font-style: normal;
+}
+.pink-card__citation a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* 5.6 MEDIA STRIP */
+.pink-card__media {
+    position: relative;
+    width: 100%;
+    height: 48px;
+    margin-top: 2rem;
+    background: transparent;
+    z-index: 2;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+}
+.pink-card__media img {
+    display: block;
+    width: auto !important;
+    height: 100% !important;
+    object-fit: contain;
+    filter: none !important;
+    border-radius: 0 !important;
+}
+
+.pink-card__body { font-size: 0.95rem; line-height: 1.55; }
+.pink-card__body p { margin: 0 0 0.75rem 0; }
+.pink-card__sup { text-decoration: none; color: var(--st-color-accent); }
+
+/* ==================================================
+   §06 UTILITIES & HELPERS
+   ================================================== */
+
+/* ==========================================
+   CONTENT WRAPPER (Optional)
+   Adds vertical rhythm to sibling elements
+   ========================================== */
+
+.st-prose > * + * {
+  margin-top: var(--st-spacing-stack-md);
+}
+
+.st-prose > h2,
+.st-prose > h3,
+.st-prose > h4 {
+  margin-top: var(--st-spacing-stack-2xl);
+}
+
+/* Use this wrapper when you want automatic spacing between content blocks */
+/* Example: <article class="st-prose">...</article> */
+
+/* ==========================================
+   CONTENT CONTAINER
+   Max-width constraint for readability
+   ========================================== */
+
+.st-content-constrained {
+  max-width: var(--st-content-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--st-spacing-gutter);
+  padding-right: var(--st-spacing-gutter);
+}
+
+.st-content-constrained--narrow {
+  max-width: var(--st-content-width-narrow);
+}
+
+.st-content-constrained--wide {
+  max-width: var(--st-content-width-wide);
+}
+
+/* ==========================================
+   CONTENT FOOTER
+   Page attribution/metadata
+   ========================================== */
+
+.st-content-footer {
+  margin-top: var(--st-spacing-stack-2xl);
+  padding-top: var(--st-spacing-4);
+  border-top: 1px solid var(--st-color-border-subtle);
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-secondary);
+}
+
+.st-content-footer p {
+  margin: 0;
+}
+
+.st-content-footer p + p {
+  margin-top: var(--st-spacing-2);
+}
+
+/* ==========================================
+   COMPONENT: ST-METADATA CARD (compact)
+   ========================================== */
+
+.st-metadata {
+  --st-metadata-border: var(--st-color-border-default, rgba(0,0,0,0.16));
+  --st-metadata-bg: var(--st-color-surface-secondary, #f7f7f7);
+  --st-metadata-pad-y: var(--st-spacing-3, 12px);
+  --st-metadata-pad-x: var(--st-spacing-4, 16px);
+  --st-metadata-row-pad: 10px;
+  --st-metadata-col-gap: var(--st-spacing-4, 16px);
+
+  display: grid;
+  grid-template-columns: minmax(90px, 120px) 1fr;
+  column-gap: var(--st-metadata-col-gap);
+
+  border: 1px solid var(--st-metadata-border);
+  border-radius: var(--st-radius-lg, 16px);
+  background: var(--st-metadata-bg);
+  background-clip: padding-box;
+
+  padding: var(--st-metadata-pad-y) var(--st-metadata-pad-x);
+
+  font-size: var(--st-font-size-sm, 0.875rem);
+  line-height: var(--st-line-height-normal, 1.5);
+}
+
+.st-metadata dt,
+.st-metadata dd {
+  margin: 0;
+  padding: var(--st-metadata-row-pad) 0;
+}
+
+.st-metadata dt {
+  font-weight: var(--st-font-weight-semibold, 600);
+  color: var(--st-color-text-secondary, #525252);
+  white-space: nowrap;
+}
+
+.st-metadata dd {
+  color: var(--st-color-text-primary, #111);
+  overflow-wrap: anywhere;
+  border-bottom: 1px solid var(--st-metadata-border);
+}
+
+.st-metadata dd:last-of-type {
+  border-bottom: 0;
+}
+
+/* Links inside metadata: no “content link underline” behavior */
+.st-metadata a {
+  text-decoration: none !important;
+}
+
+/* Tags row inside metadata should wrap nicely */
+.st-metadata .st-chips {
+  gap: 8px;
+}
+
+
+/* Gem spacing */
+.st-metadata--gem {
+  margin-top: var(--st-spacing-4, 16px);
+  margin-bottom: var(--st-spacing-6, 24px);
+}
+
+/* Metadata links: use real underline, not border-bottom (prevents border optical conflicts) */
+.st-metadata--gem a:not(.st-chip){
+  text-decoration: none;
+}
+
+/* ==========================================
+   RESPONSIVE BREAKPOINTS
+   ========================================== */
+
+:root {
+  --st-breakpoint-sm: 640px;
+  --st-breakpoint-md: 768px;
+  --st-breakpoint-lg: 1024px;
+  --st-breakpoint-xl: 1280px;
+}
+
+/* Responsive gutter adjustments */
+@media (min-width: 640px) {
+  :root {
+    --st-spacing-gutter: var(--st-spacing-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --st-spacing-gutter: var(--st-spacing-8);
+  }
+}
+
+/* ==========================================
+   UTILITY CLASSES (Keep Minimal)
+   ========================================== */
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus visible (keyboard navigation) */
+/* ==================================================
+   KG layering: background stays behind, HUD stays above
+   ================================================== */
+
+/* 0) Make the archive a stable stacking context */
+.gem-archive {
+  position: relative;
+  isolation: isolate;
+}
+
+/* 1) Grid sits below the HUD elements */
+.gem-grid,
+.st-grid {
+  position: relative;
+  z-index: 1 !important; /* was competing at 2+ */
+}
+
+/* 2) Background layer lives behind grid content */
+.gem-grid::before,
+.st-grid::before {
+  z-index: 0 !important; /* behind cards, still visible */
+}
+
+/* 3) HUD/controls always above the grid AND its oversized ::before */
+.gem-results-info,
+.archive-header,
+.archive-header p {
+  position: relative;
+  z-index: 10 !important;
+}
+
+/* 4) Results bar: readable, "recessive", not a border-heavy pill */
+.gem-results-info {
+  max-width: 100%;
+  margin: var(--st-spacing-4, 24px) auto;
+  padding: 12px 16px;
+
+  background: #ffffff; /* Solid white background */
+  border: 0;
+  border-radius: var(--st-radius-sm, 8px);
+
+  /* box-shadow removed per design spec */
+
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+
+  text-align: center;
+
+  /* Maintain z-index to sit above grid background */
+  position: relative;
+  z-index: 10;
+}
+
+/* 5) Center the archive subtitle <p> even with max-width rules */
+.archive-header p {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}

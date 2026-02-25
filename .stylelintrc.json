@@ -1,0 +1,72 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "custom-property-pattern": [
+      "^(st-|_|chip-)",
+      {
+        "message": "Custom properties must use the --st-* namespace (or --_* for scoped privates, --chip-* for Chip internals). Found \"--${property}\"."
+      }
+    ],
+    "declaration-no-important": true,
+    "max-nesting-depth": [
+      3,
+      {
+        "message": "Nesting depth exceeds 3 levels — consider flattening."
+      }
+    ],
+    "property-no-vendor-prefix": [
+      true,
+      {
+        "ignoreProperties": [
+          "webkit-line-clamp",
+          "webkit-box-orient"
+        ]
+      }
+    ],
+    "value-no-vendor-prefix": [
+      true,
+      {
+        "ignoreValues": [
+          "webkit-box"
+        ]
+      }
+    ],
+    "function-no-unknown": [
+      true,
+      {
+        "ignoreFunctions": ["color-mix"]
+      }
+    ],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global", "local"]
+      }
+    ],
+    "declaration-property-value-no-unknown": null,
+    "no-descending-specificity": null,
+    "selector-class-pattern": null,
+    "custom-property-no-missing-var-function": null,
+    "import-notation": null,
+    "no-invalid-double-slash-comments": null,
+    "color-hex-length": null,
+    "value-keyword-case": null,
+    "color-function-alias-notation": null,
+    "color-function-notation": null,
+    "alpha-value-notation": null,
+    "number-max-precision": null,
+    "shorthand-property-no-redundant-values": null,
+    "length-zero-no-unit": null,
+    "custom-property-empty-line-before": null,
+    "comment-empty-line-before": null,
+    "declaration-empty-line-before": null,
+    "media-feature-range-notation": null
+  },
+  "ignoreFiles": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/storybook-static/**",
+    "**/.turbo/**"
+  ]
+}

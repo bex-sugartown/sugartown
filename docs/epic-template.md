@@ -58,6 +58,7 @@
 - [ ] GROQ query projections (see Query Layer Checklist below)
 - [ ] Frontend renderer
 - [ ] CSS / styles
+- [ ] Web adapter sync (if DS component created or modified — see Technical Constraints)
 - [ ] Migration script (if backfilling existing data)
 - [ ] Dry-run verification of migration script
 
@@ -123,6 +124,15 @@
 - CSS in `PageSections.module.css`; global class names require `:global(.classname)` wrapper in the module file
 - All page templates that render `sections[]`: `ArticlePage.jsx`, `CaseStudyPage.jsx`, `NodePage.jsx`, `RootPage.jsx` — verify each is in scope per doc type audit
 
+**Design System → Web Adapter Sync**
+- `apps/web` does NOT import from `@sugartown/design-system`. It has its own JSX adapter layer at `apps/web/src/design-system/components/`.
+- When a DS component is created or modified in `packages/design-system/src/components/`, a matching web adapter **must** be created or updated in the same epic:
+  1. **JSX adapter** — `apps/web/src/design-system/components/{name}/{Name}.jsx` — thin JSX wrapper mirroring the DS `.tsx` (strip TypeScript, same props/structure)
+  2. **CSS module** — copy the `.module.css` from the DS component directory verbatim
+  3. **Index** — add the export to `apps/web/src/design-system/index.js`
+  4. **Dependencies** — if the DS component uses a library (e.g. `lucide-react`, `prismjs`), add it to `apps/web/package.json` too
+- If a DS component's CSS module changes, the web adapter's CSS module must be updated to match (same drift rule as `tokens.css`)
+
 ---
 
 ## Migration Script Constraints [REQUIRED if script is included in Scope]
@@ -167,6 +177,12 @@ State how re-running the script produces no change:
 - `apps/web/src/components/PageSections.jsx` — new case + sub-component
 - `apps/web/src/components/PageSections.module.css` — new styles
 - `apps/web/src/pages/[Page].jsx` — one entry per in-scope page from doc type audit
+
+**Web Adapter Sync** (if DS component created or modified)
+- `apps/web/src/design-system/components/[name]/[Name].jsx` — CREATE or UPDATE
+- `apps/web/src/design-system/components/[name]/[Name].module.css` — COPY from DS
+- `apps/web/src/design-system/index.js` — add export
+- `apps/web/package.json` — add runtime deps if needed (e.g. `lucide-react`, `prismjs`)
 
 **Scripts**
 - `scripts/migrate/[name].js` — CREATE (if migration in scope)
