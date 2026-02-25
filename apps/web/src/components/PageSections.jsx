@@ -44,6 +44,25 @@ const portableTextComponents = {
         </figure>
       )
     },
+    // Code blocks from Sanity's code input plugin
+    code: ({ value }) => {
+      if (!value?.code) return null
+      const language = value.language ?? ''
+      const filename = value.filename ?? ''
+      return (
+        <div>
+          {(language || filename) && (
+            <div className={styles.codeBlockMeta}>
+              {filename && <span className={styles.codeBlockFilename}>{filename}</span>}
+              {language && <span className={styles.codeBlockLanguage}>{language}</span>}
+            </div>
+          )}
+          <pre className={styles.codeBlock}>
+            <code>{value.code}</code>
+          </pre>
+        </div>
+      )
+    },
   },
 }
 

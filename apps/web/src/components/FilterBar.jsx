@@ -1,4 +1,15 @@
 /**
+ * TODO Epic 7 — This component has been extracted to @sugartown/design-system:
+ *   packages/design-system/src/components/FilterBar/
+ * The design system version is a drop-in replacement (identical props).
+ * Migration blocker: FilterBar.module.css uses --color-* tokens (not --st-*);
+ * migrating requires updating FilterBar.module.css to use --st- namespace,
+ * which is already done in the design system version.
+ * To migrate: replace this import with:
+ *   import { FilterBar } from '@sugartown/design-system'
+ */
+
+/**
  * FilterBar — dumb, fully controlled filter UI component.
  *
  * Renders facet groups from a FilterModel. No data fetching inside.

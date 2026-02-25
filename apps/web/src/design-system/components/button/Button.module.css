@@ -9,31 +9,70 @@
   border: 1px solid transparent;
 
   font-family: var(--st-font-ui);
-  font-size: var(--st-text-md);
+  font-size: var(--st-font-size-md);
   font-weight: 600;
   line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
   text-decoration: none;
 
   cursor: pointer;
-  transition: transform 150ms ease, box-shadow 150ms ease;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
 }
 
-.buttonPrimary {
-  background: var(--st-color-brand);
-  color: var(--st-color-on-brand);
-}
-
-.buttonSecondary {
-  background: transparent;
-  border-color: var(--st-color-brand);
-  color: var(--st-color-brand);
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .button:focus-visible {
-  outline: var(--st-focus-ring-width) solid var(--st-color-focus);
+  outline: 2px solid var(--st-color-focus);
   outline-offset: 2px;
 }
 
-.button:hover {
-  transform: translateY(-2px);
+/* ── Primary ──────────────────────────────────────── */
+
+.buttonPrimary {
+  background-color: var(--st-color-brand-primary);
+  color: var(--st-color-white);
+  border-color: var(--st-color-brand-primary);
+}
+
+.buttonPrimary:hover:not(:disabled) {
+  background-color: var(--st-color-void-900);
+  border-color: var(--st-color-void-900);
+  transform: translateY(var(--st-button-hover-translate-y));
+  box-shadow: var(--st-button-hover-shadow);
+}
+
+/* ── Secondary ────────────────────────────────────── */
+
+.buttonSecondary {
+  background-color: var(--st-button-secondary-bg);
+  color: var(--st-button-secondary-text);
+  border-color: var(--st-button-secondary-bg);
+}
+
+.buttonSecondary:hover:not(:disabled) {
+  transform: translateY(var(--st-button-hover-translate-y));
+  box-shadow: var(--st-button-secondary-hover-shadow);
+}
+
+/* ── Tertiary ─────────────────────────────────────── */
+
+.buttonTertiary {
+  background-color: transparent;
+  color: var(--st-button-tertiary-text);
+  border-color: var(--st-button-tertiary-border);
+}
+
+.buttonTertiary:hover:not(:disabled) {
+  background-color: var(--st-button-tertiary-hover-bg);
+  transform: translateY(var(--st-button-hover-translate-y));
+  box-shadow: var(--st-button-hover-shadow);
 }

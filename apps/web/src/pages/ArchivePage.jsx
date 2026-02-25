@@ -27,7 +27,7 @@
  *   - All items are fetched once; filtering and pagination are client-side.
  *
  * Stage 7: ARCHIVE_QUERIES upgraded with taxonomy projections (categories, tags,
- *   projects). ItemCard now renders TaxonomyChips for uniform classification display.
+ *   projects). ContentCard renders TaxonomyChips for uniform classification display.
  *
  * Stage 8: URL-driven filter system added.
  *   - useFilterState() manages filter + page state in URL query params
@@ -37,15 +37,13 @@
  *   - Pagination renders page navigation
  *   - GROQ slice cap removed — all published items fetched for filtering accuracy
  */
-import { Link } from 'react-router-dom'
 import { useSanityDoc, useSanityList } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import SeoHead from '../components/SeoHead'
-import TaxonomyChips from '../components/TaxonomyChips'
+import ContentCard from '../components/ContentCard'
 import FilterBar from '../components/FilterBar'
 import Pagination from '../components/Pagination'
-import { getCanonicalPath } from '../lib/routes'
 import { archivePageBySlugQuery, facetsRawQuery } from '../lib/queries'
 import { buildFilterModel } from '../lib/filterModel'
 import { useFilterState } from '../lib/useFilterState'
@@ -122,47 +120,11 @@ const ARCHIVE_QUERIES = {
   `,
 }
 
-// ─── helpers ──────────────────────────────────────────────────────────────────
-
-function formatDate(dateStr) {
-  if (!dateStr) return null
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
-}
-
 // Map archivePage contentType value → routes.js docType for getCanonicalPath
 const CONTENT_TYPE_TO_DOC_TYPE = {
   article: 'article',
   node: 'node',
   caseStudy: 'caseStudy',
-}
-
-// ─── ItemCard — renders one listing row for any content type ──────────────────
-
-function ItemCard({ item, docType }) {
-  const path = getCanonicalPath({ docType, slug: item.slug })
-  return (
-    <Link to={path} className={styles.archiveCard}>
-      <p className={styles.archiveCardTitle}>{item.title}</p>
-      {item.excerpt && (
-        <p className={styles.archiveCardExcerpt}>{item.excerpt}</p>
-      )}
-      <p className={styles.archiveCardMeta}>
-        {docType === 'node' && item.aiTool && `${item.aiTool} · `}
-        {docType === 'caseStudy' && item.client && `${item.client} · `}
-        {docType === 'caseStudy' && item.role && `${item.role} · `}
-        {item.publishedAt && formatDate(item.publishedAt)}
-      </p>
-      <TaxonomyChips
-        categories={item.categories}
-        tags={item.tags}
-        projects={item.projects}
-      />
-    </Link>
-  )
 }
 
 // ─── ArchiveListing — fetches, filters, paginates, and renders items ──────────
@@ -258,7 +220,7 @@ function ArchiveListing({ contentType, archiveDoc }) {
         ) : (
           <div className={styles.archiveGrid}>
             {pageItems.map((item) => (
-              <ItemCard key={item._id} item={item} docType={docType} />
+              <ContentCard key={item._id} item={item} docType={docType} />
             ))}
           </div>
         )}

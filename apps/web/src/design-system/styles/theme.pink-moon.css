@@ -1,0 +1,36 @@
+/**
+ * Sugartown Pink Moon — Theme Overrides
+ *
+ * Marketing name:  Sugartown Pink Moon / Pink Moon (short)
+ * Activation:      Set data-st-theme="pink-moon" on :root or any container.
+ *
+ * Architecture
+ * ─────────────────────────────────────────────────────────
+ * Overrides Tier 2 semantic tokens only. No component CSS changes.
+ * No token names contain "moon" — the theme identity lives in the
+ * data attribute, not the token namespace.
+ *
+ * Aesthetic intent
+ * ─────────────────────────────────────────────────────────
+ * Milky translucency, hairline borders, gentle elevation.
+ * Pink shifts from bold fill → edge-lighting, focus rings,
+ * and ambient glow. Calm, dimensional, quietly confident.
+ */
+
+:root[data-st-theme="pink-moon"],
+[data-st-theme="pink-moon"] {
+
+  /* ── Surface ──────────────────────────────────────── */
+  --st-color-bg-surface:        rgba(255, 255, 255, 0.72);
+  --st-color-bg-surface-strong: rgba(255, 255, 255, 0.86);
+
+  /* ── Borders ──────────────────────────────────────── */
+  --st-color-border-default:    rgba(13, 18, 38, 0.10);
+
+  /* ── Effects ──────────────────────────────────────── */
+  --st-effect-backdrop-blur-md: 14px;
+  --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
+
+  /* ── Elevation ────────────────────────────────────── */
+  --st-shadow-elevation-float:  0 12px 30px rgba(13, 18, 38, 0.10);
+}

@@ -21,7 +21,6 @@ import { useParams, useLocation, Link } from 'react-router-dom'
 import { useSanityDoc, useSanityList } from '../lib/useSanityDoc'
 import { useFilterState } from '../lib/useFilterState'
 import { paginateItems } from '../lib/applyFilters'
-import { getCanonicalPath } from '../lib/routes'
 import {
   tagBySlugQuery,
   categoryBySlugQuery,
@@ -29,7 +28,7 @@ import {
   projectBySlugQuery,
   contentByTaxonomyQuery,
 } from '../lib/queries'
-import TaxonomyChips from '../components/TaxonomyChips'
+import ContentCard from '../components/ContentCard'
 import Pagination from '../components/Pagination'
 import NotFoundPage from './NotFoundPage'
 import styles from './TaxonomyDetailPage.module.css'
@@ -71,13 +70,6 @@ const TAXONOMY_CONFIG = {
   },
 }
 
-// Maps Sanity _type → docType key for getCanonicalPath()
-const DOC_TYPE_MAP = {
-  article: 'article',
-  caseStudy: 'caseStudy',
-  node: 'node',
-}
-
 // ─── TaxonomyHeader ───────────────────────────────────────────────────────────
 
 function TaxonomyHeader({ taxDoc, config }) {
@@ -104,39 +96,6 @@ function TaxonomyHeader({ taxDoc, config }) {
         <p className={styles.taxonomyDescription}>{description}</p>
       )}
     </div>
-  )
-}
-
-// ─── ItemCard ─────────────────────────────────────────────────────────────────
-
-function formatDate(dateStr) {
-  if (!dateStr) return null
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
-}
-
-function ItemCard({ item }) {
-  const docType = DOC_TYPE_MAP[item._type] ?? item._type
-  const path = getCanonicalPath({ docType, slug: item.slug })
-
-  return (
-    <Link to={path} className={pageStyles.archiveCard}>
-      <p className={pageStyles.archiveCardTitle}>{item.title}</p>
-      {item.excerpt && (
-        <p className={pageStyles.archiveCardExcerpt}>{item.excerpt}</p>
-      )}
-      <p className={pageStyles.archiveCardMeta}>
-        {item.publishedAt && formatDate(item.publishedAt)}
-      </p>
-      <TaxonomyChips
-        categories={item.categories}
-        tags={item.tags}
-        projects={item.projects}
-      />
-    </Link>
   )
 }
 
@@ -196,7 +155,7 @@ export default function TaxonomyDetailPage() {
             </p>
             <div className={pageStyles.archiveGrid}>
               {pageItems.map((item) => (
-                <ItemCard key={item._id} item={item} />
+                <ContentCard key={item._id} item={item} />
               ))}
             </div>
             {totalPages > 1 && (

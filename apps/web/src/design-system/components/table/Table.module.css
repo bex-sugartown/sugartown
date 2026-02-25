@@ -1,0 +1,186 @@
+/**
+ * Table — Sugartown Design System
+ * Canonical CSS extracted from: artifacts/style 260118.css §02 + §ST TABLE
+ *
+ * Variants: default (base), responsive (mobile cards), wide (fixed layout)
+ * Column tokens: .st-col--xs through .st-col--xl + .st-col--flex-sm/md/lg
+ * Mobile breakpoint: 860px (NOT 768px — matches legacy)
+ *
+ * ⚠ Zebra striping is automatic via tbody tr:nth-child(odd).
+ *   There is NO --striped modifier. Do NOT add one.
+ */
+
+/* ── Base table + component tokens ────────────────────────────────────────── */
+.table {
+  /* tokens */
+  --st-table-header-bg: var(--st-color-accent, #ff247d);
+  --st-table-zebra-bg: #f9f9f9;
+  --st-table-border: rgba(0, 0, 0, 0.08);
+  --st-table-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --st-table-card-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+  --st-table-card-radius: var(--st-radius-md, 12px);
+
+  /* styles */
+  border-collapse: collapse;
+  width: 100%;
+  margin: 2rem 0;
+  font-size: 0.9rem;
+  box-shadow: var(--st-table-shadow);
+  background: var(--st-color-surface, #fff);
+}
+
+.table th,
+.table td {
+  padding: 12px 16px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--st-table-border);
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+.table thead th {
+  background-color: var(--st-table-header-bg);
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  border-bottom: 2px solid #000;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+.table thead th a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.table thead th a:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Automatic zebra striping — ALL tables */
+.table tbody tr:nth-child(odd) {
+  background-color: var(--st-table-zebra-bg);
+}
+
+/* ── Thumb cell ───────────────────────────────────────────────────────────── */
+.table td.st-table__thumb {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.table td.st-table__thumb a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table td.st-table__thumb img,
+.table td.st-table__thumb video {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--st-table-card-radius);
+  display: block;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ── Status cell ──────────────────────────────────────────────────────────── */
+.table td.st-table__status {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+/* ── Wrap (scroll container) ──────────────────────────────────────────────── */
+.wrap {
+  max-width: var(--st-table-max-width, 100%);
+  margin: 0 auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--st-table-card-radius);
+}
+
+.wrap > .table {
+  min-width: var(--st-table-min-width, 600px);
+  margin: 0;
+}
+
+/* ── Wide variant ─────────────────────────────────────────────────────────── */
+.wide {
+  table-layout: fixed; /* critical: enables column width tokens */
+}
+
+.wide th,
+.wide td {
+  padding: 14px 14px;
+  line-height: 1.4;
+  hyphens: auto;
+}
+
+.wide thead th {
+  font-weight: 800;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+/* ── Column width tokens (generic only — legacy named columns deprecated) ─ */
+.table :global(col.st-col--xs) { width: 60px; }
+.table :global(col.st-col--sm) { width: 110px; }
+.table :global(col.st-col--md) { width: 150px; }
+.table :global(col.st-col--lg) { width: 200px; }
+.table :global(col.st-col--xl) { width: 250px; }
+
+.table :global(col.st-col--flex-sm) { width: 20%; }
+.table :global(col.st-col--flex-md) { width: 30%; }
+.table :global(col.st-col--flex-lg) { width: 40%; }
+
+/* ── Responsive variant (mobile card layout) ──────────────────────────────── */
+/* Breakpoint: 860px — matches legacy, NOT 768px */
+@media (max-width: 860px) {
+  .wrap:has(.responsive) {
+    overflow-x: visible;
+  }
+
+  .wrap > .responsive {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .responsive thead {
+    display: none;
+  }
+
+  .responsive,
+  .responsive tbody,
+  .responsive tr,
+  .responsive td {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .responsive tr {
+    margin: 14px 16px;
+    padding: 14px 16px;
+    border: 1px solid var(--st-color-border-default, rgba(0, 0, 0, 0.16));
+    border-radius: var(--st-table-card-radius);
+    background: var(--st-color-surface, #fff);
+    box-shadow: var(--st-table-card-shadow);
+    overflow: hidden;
+  }
+
+  .responsive td {
+    border: none;
+    padding: 8px 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .responsive td + td {
+    border-top: 1px solid var(--st-color-border-subtle, rgba(0, 0, 0, 0.08));
+    padding-top: 10px;
+  }
+}

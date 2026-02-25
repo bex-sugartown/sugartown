@@ -3,6 +3,12 @@
    Purpose: predictable defaults for layout + typography.
    ============================================================ */
 
+/* ── Google Fonts ────────────────────────────────────────────
+   Playfair Display → --st-font-narrative (headings, card titles)
+   Fira Sans        → --st-font-ui        (body, UI chrome)
+   ──────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Fira+Sans:wght@400;500;600;700&display=swap');
+
 :root {
   /* Common layout helpers */
   --st-page-max: 1100px;
@@ -42,7 +48,20 @@ p {
   margin: 0 0 var(--st-spacing-stack-md) 0;
 }
 
-h1, h2, h3 {
+/* ── Headings → Playfair Display ──────────────────────── */
+h1, h2, h3, h4, h5, h6 {
   margin: 0 0 var(--st-spacing-stack-md) 0;
+  font-family: var(--st-font-narrative);
+}
+
+/* ── Code → Mono ──────────────────────────────────────── */
+code, kbd, samp, pre {
+  font-family: var(--st-font-mono);
+}
+
+/* ── Form elements inherit body font (browser resets use system-ui) ── */
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: inherit;
 }
 

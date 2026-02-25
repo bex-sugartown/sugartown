@@ -1,4 +1,12 @@
 /**
+ * TODO Epic 7 — TaxonomyChips owns routing + Sanity data-shaping and must stay
+ * in apps/web. The canonical visual primitive for chips now lives in:
+ *   @sugartown/design-system → Chip (packages/design-system/src/components/Chip/)
+ * Long-term: render <Chip> from the design system inside this component, passing
+ * href and colorHex as props, to achieve visual consistency with Storybook.
+ */
+
+/**
  * TaxonomyChips — generic chip renderer for taxonomy classification surface.
  *
  * Renders projects, categories, and tags as linked pills in a consistent order.
@@ -27,7 +35,7 @@ import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
 import styles from './TaxonomyChips.module.css'
 
-export default function TaxonomyChips({ categories, tags, projects, className }) {
+export default function TaxonomyChips({ categories, tags, projects, className, size = 'md' }) {
   // Build ordered chip list: projects → categories → tags
   const raw = [
     ...(projects ?? []).map((p) => ({ ...p, kind: 'project' })),
@@ -51,7 +59,7 @@ export default function TaxonomyChips({ categories, tags, projects, className })
       aria-label="Content classification"
     >
       {chips.map((chip) => {
-        const chipClass = [styles.chip, styles[chip.kind]].join(' ')
+        const chipClass = [styles.chip, styles[chip.kind], size === 'sm' && styles.sm].filter(Boolean).join(' ')
         const chipStyle = chip.colorHex ? { '--chip-color': chip.colorHex } : undefined
 
         // Chips with no slug fall back to a non-linked span (no broken links)

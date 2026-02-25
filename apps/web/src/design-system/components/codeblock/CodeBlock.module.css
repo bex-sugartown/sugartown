@@ -1,0 +1,205 @@
+/**
+ * CodeBlock — Sugartown Design System
+ * Canonical CSS extracted from: artifacts/style 260118.css §02
+ *
+ * Block code: dark background, pink left border, monospace.
+ * Inline code: light grey background, maroon text.
+ * Syntax theme: Sugartown custom (pink keywords, seafoam strings, lime comments).
+ */
+
+/* ── Block code container + component tokens ─────────────────────────────── */
+.block {
+  /* tokens */
+  --st-code-bg: var(--st-color-void-900, #0D1226);
+  --st-code-color: #f8f8f2;
+  --st-code-border-left: 4px solid var(--st-color-accent, #ff247d);
+  --st-code-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  --st-code-padding: 2rem;
+  --st-code-margin-block: 3rem;
+  --st-code-radius: var(--st-radius-sm, 8px);
+  --st-code-font-size: 0.9rem;
+
+  /* styles */
+  position: relative;
+  margin: var(--st-code-margin-block) auto;
+  width: 100%;
+}
+
+.pre {
+  background-color: var(--st-code-bg);
+  color: var(--st-code-color);
+  box-sizing: border-box;
+  padding: var(--st-code-padding);
+  border-radius: var(--st-code-radius);
+  border-left: var(--st-code-border-left);
+  box-shadow: var(--st-code-shadow);
+  font-family: var(--st-font-family-mono, Menlo, Monaco, Consolas, "Courier New", monospace);
+  font-size: var(--st-code-font-size);
+  overflow-x: auto;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+/* ── Meta bar (filename + language label) ─────────────────────────────────── */
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem var(--st-code-padding);
+  background-color: var(--st-code-bg);
+  border-top-left-radius: var(--st-code-radius);
+  border-top-right-radius: var(--st-code-radius);
+  border-left: var(--st-code-border-left);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.meta + .pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-left: var(--st-code-border-left);
+}
+
+.label {
+  font-family: var(--st-font-family-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-left: auto;
+}
+
+.filename {
+  font-family: var(--st-font-family-mono, monospace);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ── Line numbers ─────────────────────────────────────────────────────────── */
+.lineNumbers .pre {
+  counter-reset: line;
+}
+
+.lineNumbers .code {
+  display: block;
+}
+
+/* ── Mermaid variant ──────────────────────────────────────────────────────── */
+.mermaid .pre {
+  background: transparent;
+  border-left: none;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ── Inline code ──────────────────────────────────────────────────────────── */
+.inline {
+  --st-code-inline-bg: var(--st-color-grey-040, #f1f2f4);
+  --st-code-inline-color: var(--st-color-maroon-500, #b91c68);
+  --st-code-inline-border: 1px solid var(--st-color-grey-030, #e1e3e6);
+
+  background-color: var(--st-code-inline-bg);
+  color: var(--st-code-inline-color);
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  border: var(--st-code-inline-border);
+  font-family: var(--st-font-family-mono, Menlo, Monaco, Consolas, "Courier New", monospace);
+  font-size: 0.85em;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   SUGARTOWN PRISM.JS THEME
+   Overrides default Prism styles with brand colours.
+   Pink keywords · Seafoam strings · Lime comments
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Comments ─────────────────────────────────────────────────────────────── */
+.code :global(.token.comment),
+.code :global(.token.prolog),
+.code :global(.token.doctype),
+.code :global(.token.cdata) {
+  color: rgba(209, 255, 29, 0.5); /* --st-color-lime-500 at 50% */
+  font-style: italic;
+}
+
+/* ── Punctuation ──────────────────────────────────────────────────────────── */
+.code :global(.token.punctuation) {
+  color: #f8f8f2;
+  opacity: 0.7;
+}
+
+/* ── Strings ──────────────────────────────────────────────────────────────── */
+.code :global(.token.string),
+.code :global(.token.attr-value),
+.code :global(.token.template-string) {
+  color: #2bd4aa; /* --st-color-seafoam-500 */
+}
+
+/* ── Keywords ─────────────────────────────────────────────────────────────── */
+.code :global(.token.keyword),
+.code :global(.token.boolean),
+.code :global(.token.constant),
+.code :global(.token.deleted) {
+  color: #ff247d; /* --st-color-pink-500 */
+}
+
+/* ── Functions ────────────────────────────────────────────────────────────── */
+.code :global(.token.function),
+.code :global(.token.class-name) {
+  color: #f8f8f2;
+  font-weight: 600;
+}
+
+/* ── Numbers ──────────────────────────────────────────────────────────────── */
+.code :global(.token.number),
+.code :global(.token.symbol) {
+  color: #D1FF1D; /* --st-color-lime-500 */
+}
+
+/* ── Operators ────────────────────────────────────────────────────────────── */
+.code :global(.token.operator),
+.code :global(.token.entity),
+.code :global(.token.url) {
+  color: #f8f8f2;
+  opacity: 0.85;
+}
+
+/* ── Tags (HTML/JSX) ──────────────────────────────────────────────────────── */
+.code :global(.token.tag) {
+  color: #ff247d; /* --st-color-pink-500 */
+}
+
+.code :global(.token.attr-name) {
+  color: #2bd4aa; /* --st-color-seafoam-500 */
+}
+
+/* ── Properties (CSS) ─────────────────────────────────────────────────────── */
+.code :global(.token.property) {
+  color: #2bd4aa; /* --st-color-seafoam-500 */
+}
+
+/* ── Selectors (CSS) ──────────────────────────────────────────────────────── */
+.code :global(.token.selector) {
+  color: #ff247d; /* --st-color-pink-500 */
+}
+
+/* ── Regex ────────────────────────────────────────────────────────────────── */
+.code :global(.token.regex) {
+  color: #D1FF1D; /* --st-color-lime-500 */
+}
+
+/* ── Important ────────────────────────────────────────────────────────────── */
+.code :global(.token.important) {
+  color: #ff247d;
+  font-weight: bold;
+}

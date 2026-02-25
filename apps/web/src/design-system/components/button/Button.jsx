@@ -9,7 +9,11 @@ export default function Button({
   ...props
 }) {
   const variantClass =
-    variant === 'secondary' ? styles.buttonSecondary : styles.buttonPrimary
+    variant === 'secondary'
+      ? styles.buttonSecondary
+      : variant === 'tertiary'
+        ? styles.buttonTertiary
+        : styles.buttonPrimary
 
   const classes = `${styles.button} ${variantClass} ${className}`.trim()
 

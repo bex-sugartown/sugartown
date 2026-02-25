@@ -1,3 +1,7 @@
 export { default as Media } from './components/media/Media'
 export { default as Button } from './components/button/Button'
-
+export { default as Card } from './components/card/Card'
+export { default as Table, TableWrap } from './components/table/Table'
+export { default as Blockquote } from './components/blockquote/Blockquote'
+export { default as Callout } from './components/callout/Callout'
+export { default as CodeBlock, InlineCode } from './components/codeblock/CodeBlock'

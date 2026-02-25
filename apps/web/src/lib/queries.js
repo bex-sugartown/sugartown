@@ -705,6 +705,7 @@ export const contentByTaxonomyQuery = `
     "slug": slug.current,
     excerpt,
     publishedAt,
+    status,
     "authors": authors[]->{_id, name, "slug": slug.current},
     "categories": categories[]->{_id, name, "slug": slug.current, colorHex},
     "tags": tags[]->{_id, name, "slug": slug.current},

@@ -88,6 +88,8 @@
   --st-shadow-card: 0 4px 12px rgba(255, 36, 125, 0.05);
   --st-shadow-card-hover: 0 12px 40px rgba(255, 36, 125, 0.15);
   --st-shadow-card-deep: 0 10px 30px rgba(0, 0, 0, 0.06);
+  --st-shadow-pink-glow: 0 4px 12px rgba(255, 36, 125, 0.3);
+  --st-shadow-lime-glow: 0 4px 12px rgba(209, 255, 29, 0.45);
 
   /* ============================================================
      TIER 2: SEMANTIC TOKENS (Purpose-Based)
@@ -100,6 +102,7 @@
   /* --- Background Colors --- */
   --st-color-bg-canvas: var(--st-color-white);
   --st-color-bg-surface: var(--st-color-white);
+  --st-color-bg-surface-strong: var(--st-color-white);
   --st-color-bg-surface-alt: var(--st-color-grey-050);
   --st-color-bg-subtle: var(--st-color-grey-040);
   --st-color-bg-void: var(--st-color-void-900);
@@ -170,6 +173,11 @@
   /* --- Semantic Shadows --- */
   --st-shadow-card-semantic: var(--st-shadow-card-deep);
   --st-shadow-card-hover-semantic: var(--st-shadow-card-hover);
+  --st-shadow-elevation-float: 0 12px 30px rgba(13, 18, 38, 0.10);
+
+  /* --- Effects (default = no blur; Pink Moon overrides these) --- */
+  --st-effect-backdrop-blur-md: 0;
+  --st-effect-accent-glow:      transparent;
 
   /* ============================================================
      TIER 3: COMPONENT TOKENS
@@ -207,25 +215,70 @@
   --st-button-text: var(--st-color-white);
   --st-button-radius: var(--st-radius-button);
   --st-button-hover-translate-y: -2px;
-  --st-button-hover-shadow: 0 4px 12px rgba(255, 36, 125, 0.3);
+  --st-button-hover-shadow: var(--st-shadow-pink-glow);
+
+  --st-button-secondary-bg: var(--st-color-lime-500);
+  --st-button-secondary-text: var(--st-color-void-900);
+  --st-button-secondary-hover-shadow: var(--st-shadow-lime-glow);
+
+  --st-button-tertiary-border: var(--st-color-brand-primary);
+  --st-button-tertiary-text: var(--st-color-brand-primary);
+  --st-button-tertiary-hover-bg: var(--st-color-accent-soft);
+
+  /* --- Table Component --- */
+  --st-table-header-bg:     var(--st-color-accent);
+  --st-table-zebra-bg:      #f9f9f9;
+  --st-table-border:        rgba(0, 0, 0, 0.08);
+  --st-table-shadow:        0 4px 6px rgba(0, 0, 0, 0.05);
+  --st-table-card-shadow:   0 6px 14px rgba(0, 0, 0, 0.08);
+  --st-table-card-radius:   var(--st-radius-md);
+
+  /* --- Blockquote Component --- */
+  --st-blockquote-border-width:  3px;
+  --st-blockquote-border-color:  var(--st-color-brand-primary);
+  --st-blockquote-color:         var(--st-color-grey-600);
+  --st-blockquote-padding-left:  1rem;
+  --st-blockquote-margin-block:  1.5rem;
 
   /* --- Callout Component --- */
   --st-callout-radius: var(--st-radius-callout);
-  --st-callout-bg: var(--st-color-bg-secondary);
+  --st-callout-bg: #fff0f5;
+  --st-callout-border-color: rgba(214, 51, 132, 0.35);
   --st-callout-border: var(--st-color-border-subtle);
+  --st-callout-padding: 1.25rem 1.5rem;
+  --st-callout-margin-block: 2.5rem;
 
   /* --- Code Component --- */
   --st-code-radius: var(--st-radius-code);
   --st-code-bg: var(--st-color-void-900);
+  --st-code-color: #f8f8f2;
+  --st-code-border-left: 4px solid var(--st-color-accent);
+  --st-code-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  --st-code-padding: 2rem;
+  --st-code-margin-block: 3rem;
   --st-code-inline-bg: var(--st-color-grey-040);
+  --st-code-inline-color: var(--st-color-maroon-500);
   --st-code-inline-text: var(--st-color-maroon-500);
-  --st-code-inline-border: var(--st-color-grey-030);
+  --st-code-inline-border: 1px solid var(--st-color-grey-030);
 
   /* --- Media Component --- */
   --st-media-radius: var(--st-radius-media);
   --st-media-hero-aspect-ratio: 3 / 1;
   --st-media-article-aspect-ratio: 21 / 9;
   --st-media-card-icon-strip-height: 48px;
+
+  /* --- Media Overlay / Duotone --- */
+  --st-media-duotone-pink:            #ff247d;
+  --st-media-duotone-seafoam:         #2bd4aa;
+  --st-media-duotone-standard-start:  rgba(255, 36, 125, 0.55);
+  --st-media-duotone-standard-end:    rgba(43, 212, 170, 0.45);
+  --st-media-duotone-featured-start:  rgba(255, 36, 125, 0.70);
+  --st-media-duotone-featured-end:    rgba(43, 212, 170, 0.50);
+  --st-media-duotone-subtle-start:    rgba(255, 36, 125, 0.30);
+  --st-media-duotone-subtle-end:      rgba(43, 212, 170, 0.25);
+  --st-media-overlay-blend-mode:      hard-light;
+  --st-media-duotone-radius:          35px;
+  --st-media-duotone-angle:           135deg;
 
   /* ============================================================
      LEGACY ALIASES (Back-compat)

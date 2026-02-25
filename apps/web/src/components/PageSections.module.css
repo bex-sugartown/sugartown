@@ -107,12 +107,13 @@
   line-height: 1.4;
 }
 
+/* Canonical blockquote — matches DS Blockquote component */
 .blockquote {
-  border-left: 4px solid var(--st-color-brand-primary);
-  padding-left: var(--st-spacing-inset-md);
-  margin: var(--st-spacing-stack-lg) 0;
+  border-left: var(--st-blockquote-border-width, 3px) solid var(--st-blockquote-border-color, var(--st-color-brand-primary));
+  padding-left: var(--st-blockquote-padding-left, 1rem);
+  margin: var(--st-blockquote-margin-block, 1.5rem) 0;
   font-style: italic;
-  color: var(--st-color-text-secondary);
+  color: var(--st-blockquote-color, var(--st-color-grey-600));
 }
 
 .link {
@@ -135,14 +136,62 @@
   font-style: italic;
 }
 
+/* Inline code — matches DS InlineCode component */
 .code {
-  font-family: var(--st-font-mono);
-  font-size: 0.9em;
-  background-color: var(--st-code-inline-bg);
-  padding: 2px 6px;
-  border-radius: var(--st-code-radius);
-  border: 1px solid var(--st-code-inline-border);
-  color: var(--st-code-inline-text);
+  font-family: var(--st-font-family-mono, var(--st-font-mono));
+  font-size: 0.85em;
+  background-color: var(--st-code-inline-bg, #f1f2f4);
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  border: var(--st-code-inline-border, 1px solid #e1e3e6);
+  color: var(--st-code-inline-color, var(--st-code-inline-text, #b91c68));
+}
+
+/* Block code — matches DS CodeBlock component */
+.codeBlock {
+  background-color: var(--st-code-bg, #0D1226);
+  color: var(--st-code-color, #f8f8f2);
+  padding: var(--st-code-padding, 2rem);
+  border-radius: var(--st-radius-sm, 8px);
+  border-left: var(--st-code-border-left, 4px solid var(--st-color-accent, #ff247d));
+  box-shadow: var(--st-code-shadow, 0 4px 10px rgba(0, 0, 0, 0.2));
+  margin: var(--st-code-margin-block, 3rem) auto;
+  width: 100%;
+  font-family: var(--st-font-family-mono, var(--st-font-mono));
+  font-size: 0.9rem;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+.codeBlock code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  border: none;
+}
+
+.codeBlockMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.codeBlockLanguage {
+  font-family: var(--st-font-family-mono, monospace);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.codeBlockFilename {
+  font-family: var(--st-font-family-mono, monospace);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Inline richImage in Portable Text */

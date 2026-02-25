@@ -10,7 +10,7 @@
  * ─── Resolution order ─────────────────────────────────────────────────────────
  *
  *   autoGenerate === true (or missing/null — missing is treated as true):
- *     title       → `${doc.title} | Sugartown Digital`
+ *     title       → `${doc.title} | Sugartown Digital`  (doc.title capped at 40 chars → 60 total)
  *     description → doc.seo?.description (explicit override even in auto mode)
  *                   ?? doc.excerpt
  *                   ?? extractPlainText(doc.body, 160)
@@ -224,12 +224,21 @@ export function resolveSeo(doc, siteSettings) {
   const autoGenerate = docSeo?.autoGenerate !== false
 
   // ── Title ──────────────────────────────────────────────────────────────────
+  const TITLE_SUFFIX = ' | Sugartown Digital'       // 20 chars
+  const MAX_TITLE_LENGTH = 60
+  const MAX_DOC_TITLE = MAX_TITLE_LENGTH - TITLE_SUFFIX.length  // 40 chars
+
   let title
   if (autoGenerate) {
-    // Auto mode: always use doc.title with site suffix
-    title = doc?.title
-      ? `${doc.title} | Sugartown Digital`
-      : null
+    // Auto mode: use doc.title with site suffix, truncated to 60 chars total
+    if (doc?.title) {
+      const docTitle = doc.title.length > MAX_DOC_TITLE
+        ? doc.title.slice(0, MAX_DOC_TITLE - 1).trimEnd() + '…'
+        : doc.title
+      title = `${docTitle}${TITLE_SUFFIX}`
+    } else {
+      title = null
+    }
   } else {
     // Manual override mode: use the exact seo.title value
     title = docSeo?.title || null

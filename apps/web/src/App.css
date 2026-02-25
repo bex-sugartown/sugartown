@@ -2,14 +2,7 @@
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-family: var(--st-font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: var(--st-white);
-  color: var(--st-black);
-}
+/* body font/color/bg → globals.css (tokens-aware, do not re-declare here) */
 
 .app {
   min-height: 100vh;
