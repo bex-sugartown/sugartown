@@ -44,6 +44,13 @@ git fetch --dry-run
 
 Then check the health of active local services:
 
+**Web app (Vite)** — is the dev server running?
+```bash
+curl -s -o /dev/null -w "%{http_code}" http://localhost:5173/
+```
+- `200` → running ✅
+- anything else → not running. Report this in the briefing and offer to start it with `pnpm --filter web dev`.
+
 **Storybook** — is the dev server running?
 ```bash
 curl -s -o /dev/null -w "%{http_code}" http://localhost:6006/
@@ -75,6 +82,7 @@ Write a plain-English morning briefing using exactly this structure. Use plain l
 
 #### 🖥 Service Health
 
+- **Web app** — running on :5173? If not, say so clearly and offer to start it.
 - **Storybook** — running on :6006? If not, say so clearly and offer to start it.
 - **Sanity** — any packages out of date? List them if so; say "up to date" if not.
 
