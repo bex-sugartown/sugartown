@@ -28,7 +28,9 @@
     "migrate:parity": "node scripts/migrate/parity.js",
     "migrate:featured-to-hero": "node scripts/migrate/featured-to-hero.js",
     "migrate:backfill-html-section": "node scripts/migrate/backfill-html-section.js",
-    "audit:urls": "node scripts/audit/wp-url-spider.js"
+    "audit:urls": "node scripts/audit/wp-url-spider.js",
+    "bulk:export": "node scripts/bulk/export-csv.js",
+    "bulk:import": "node scripts/bulk/import-csv.js"
   },
   "devDependencies": {
     "prettier": "^3.1.1",
