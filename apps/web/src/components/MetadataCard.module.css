@@ -1,0 +1,68 @@
+/*
+ * MetadataCard — detail-page metadata surface.
+ * Card shell: variant="metadata" in Card.module.css.
+ * Only layout/field/chip styles live here.
+ *
+ * WCAG: fieldLabel uses --st-color-text-secondary (#525252) which achieves
+ * 7.1:1 contrast on white (--st-card-bg), exceeding the 3:1 minimum.
+ */
+
+/* ── Field grid ── */
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-1);
+}
+
+.fieldLabel {
+  font-family: var(--st-font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-color-text-secondary, #525252); /* 7.1:1 on white — WCAG AA */
+  margin: 0;
+}
+
+.fieldValue {
+  font-family: var(--st-font-ui);
+  font-size: var(--st-font-size-sm);
+  color: var(--st-card-text, var(--st-color-text-primary));
+  margin: 0;
+}
+
+/* ── Tool chips (string array, seafoam outlined) ── */
+
+.toolChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toolChip {
+  --_tool-color: var(--st-color-seafoam-500, #2bd4aa);
+
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3em 0.6em;
+  border-radius: var(--st-radius-xs);
+  font-family: var(--st-font-mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  white-space: nowrap;
+  min-height: 24px;
+
+  background: color-mix(in srgb, var(--_tool-color) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--_tool-color) 35%, transparent);
+  color: var(--_tool-color);
+}

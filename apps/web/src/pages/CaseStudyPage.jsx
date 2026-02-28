@@ -9,19 +9,11 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getAuthorByline } from '../lib/person'
 import SeoHead from '../components/SeoHead'
-import TaxonomyChips from '../components/TaxonomyChips'
+import MetadataCard from '../components/MetadataCard'
+import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
-
-function formatDate(dateStr) {
-  if (!dateStr) return null
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
 
 export default function CaseStudyPage() {
   const { slug } = useParams()
@@ -43,26 +35,29 @@ export default function CaseStudyPage() {
       <p className={styles.detailEyebrow}>Case Study</p>
       <h1 className={styles.detailHeading}>{caseStudy.title}</h1>
 
-      {caseStudy.excerpt && <p className={styles.detailExcerpt}>{caseStudy.excerpt}</p>}
-
-      <div className={styles.detailMeta}>
-        {caseStudy.client && <span>Client: {caseStudy.client}</span>}
-        {caseStudy.role && <span>Role: {caseStudy.role}</span>}
-        {caseStudy.publishedAt && <span>{formatDate(caseStudy.publishedAt)}</span>}
-        {getAuthorByline(caseStudy.authors) && (
+      {getAuthorByline(caseStudy.authors) && (
+        <div className={styles.detailMeta}>
           <span>By {getAuthorByline(caseStudy.authors)}</span>
-        )}
-      </div>
+        </div>
+      )}
 
-      <TaxonomyChips
-        projects={caseStudy.projects}
+      <MetadataCard
+        contentType="Case Study"
+        publishedAt={caseStudy.publishedAt}
+        status={caseStudy.status}
+        client={caseStudy.client}
+        role={caseStudy.role}
+        tools={caseStudy.tools}
         categories={caseStudy.categories}
         tags={caseStudy.tags}
+        projects={caseStudy.projects}
       />
 
       {caseStudy.sections?.length > 0 && (
         <PageSections sections={caseStudy.sections} />
       )}
+
+      <ContentNav prev={caseStudy.prev} next={caseStudy.next} docType="caseStudy" />
     </main>
   )
 }

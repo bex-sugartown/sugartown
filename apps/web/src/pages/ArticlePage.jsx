@@ -11,7 +11,8 @@ import { resolveSeo } from '../lib/seo'
 import { getAuthorByline } from '../lib/person'
 import { urlFor } from '../lib/sanity'
 import SeoHead from '../components/SeoHead'
-import TaxonomyChips from '../components/TaxonomyChips'
+import MetadataCard from '../components/MetadataCard'
+import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
@@ -36,15 +37,6 @@ const portableTextComponents = {
   },
 }
 
-function formatDate(dateStr) {
-  if (!dateStr) return null
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
-
 export default function ArticlePage() {
   const { slug } = useParams()
   const { data: post, loading, notFound } = useSanityDoc(articleBySlugQuery, { slug })
@@ -65,19 +57,20 @@ export default function ArticlePage() {
       <p className={styles.detailEyebrow}>Article</p>
       <h1 className={styles.detailHeading}>{post.title}</h1>
 
-      {post.excerpt && <p className={styles.detailExcerpt}>{post.excerpt}</p>}
-
-      <div className={styles.detailMeta}>
-        {post.publishedAt && <span>{formatDate(post.publishedAt)}</span>}
-        {getAuthorByline(post.authors, post.author) && (
+      {getAuthorByline(post.authors, post.author) && (
+        <div className={styles.detailMeta}>
           <span>By {getAuthorByline(post.authors, post.author)}</span>
-        )}
-      </div>
+        </div>
+      )}
 
-      <TaxonomyChips
-        projects={post.projects}
+      <MetadataCard
+        contentType="Article"
+        publishedAt={post.publishedAt}
+        status={post.status}
+        tools={post.tools}
         categories={post.categories}
         tags={post.tags}
+        projects={post.projects}
       />
 
       {post.sections?.length > 0 && (
@@ -89,6 +82,8 @@ export default function ArticlePage() {
           <PortableText value={post.content} components={portableTextComponents} />
         </div>
       )}
+
+      <ContentNav prev={post.prev} next={post.next} docType="article" />
     </main>
   )
 }

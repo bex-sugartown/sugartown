@@ -27,6 +27,7 @@ export default function Card({
     variant === 'compact' && styles.compact,
     variant === 'listing' && styles.listing,
     variant === 'dark' && styles.dark,
+    variant === 'metadata' && styles.metadata,
     className,
   ]
     .filter(Boolean)
@@ -38,12 +39,14 @@ export default function Card({
 
   const inner = (
     <div className={styles.inner}>
-      {/* Header — eyebrow + title + subtitle */}
-      <div className={styles.header}>
-        {eyebrow && <div className={styles.eyebrow}>{eyebrow}</div>}
-        <h3 className={styles.title}>{titleNode}</h3>
-        {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-      </div>
+      {/* Header — eyebrow + title + subtitle (omitted when all are absent) */}
+      {(eyebrow || title || subtitle) && (
+        <div className={styles.header}>
+          {eyebrow && <div className={styles.eyebrow}>{eyebrow}</div>}
+          {title && <h3 className={styles.title}>{titleNode}</h3>}
+          {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+        </div>
+      )}
 
       {/* Body content */}
       {children && <div className={styles.content}>{children}</div>}

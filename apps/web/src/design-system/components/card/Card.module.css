@@ -222,3 +222,22 @@
   border-top: 1px dashed rgba(255, 36, 125, 0.35); /* dashed pink divider */
   font-size: 0.85rem;
 }
+
+/* ── Metadata modifier (detail page sidebar) ─────────────── */
+/* Non-interactive information surface for content detail pages.
+   Suppresses hover lift. Content-height (no enforced min-height).
+   Shares the pink-border DNA of the base card. */
+
+.metadata {
+  min-height: 0;
+  cursor: default;
+}
+
+.metadata:hover {
+  transform: none;
+  box-shadow: var(--st-card-shadow);
+}
+
+.metadata .content {
+  padding-bottom: 0;
+}

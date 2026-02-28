@@ -241,6 +241,7 @@ export const nodeBySlugQuery = `
     },
     aiTool,
     conversationType,
+    tools,
     challenge,
     insight,
     actionItem,
@@ -253,6 +254,12 @@ export const nodeBySlugQuery = `
     tags[]->{${TAG_FRAGMENT}},
     projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
+    "prev": *[_type == "node" && defined(slug.current) && publishedAt < ^.publishedAt] | order(publishedAt desc)[0] {
+      title, "slug": slug.current
+    },
+    "next": *[_type == "node" && defined(slug.current) && publishedAt > ^.publishedAt] | order(publishedAt asc)[0] {
+      title, "slug": slug.current
+    },
     ${SEO_FRAGMENT}
   }
 `
@@ -326,12 +333,20 @@ export const articleBySlugQuery = `
     },
     author,
     authors[]->{${PERSON_FRAGMENT}},
+    status,
+    tools,
     publishedAt,
     updatedAt,
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
     projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
+    "prev": *[_type == "article" && defined(slug.current) && publishedAt < ^.publishedAt] | order(publishedAt desc)[0] {
+      title, "slug": slug.current
+    },
+    "next": *[_type == "article" && defined(slug.current) && publishedAt > ^.publishedAt] | order(publishedAt asc)[0] {
+      title, "slug": slug.current
+    },
     ${SEO_FRAGMENT}
   }
 `
@@ -476,10 +491,18 @@ export const caseStudyBySlugQuery = `
       }
     },
     authors[]->{${PERSON_FRAGMENT}},
+    status,
+    tools,
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
     projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
+    "prev": *[_type == "caseStudy" && defined(slug.current) && publishedAt < ^.publishedAt] | order(publishedAt desc)[0] {
+      title, "slug": slug.current
+    },
+    "next": *[_type == "caseStudy" && defined(slug.current) && publishedAt > ^.publishedAt] | order(publishedAt asc)[0] {
+      title, "slug": slug.current
+    },
     ${SEO_FRAGMENT}
   }
 `
@@ -516,6 +539,11 @@ export const archivePageBySlugQuery = `
         selection,
         defaultSelectedSlugs
       }
+    },
+    cardOptions {
+      showExcerpt,
+      showHeroImage,
+      imageOverride { asset-> }
     },
     ${SEO_FRAGMENT}
   }

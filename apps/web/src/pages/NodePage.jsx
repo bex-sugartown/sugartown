@@ -10,19 +10,11 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getAuthorByline } from '../lib/person'
 import SeoHead from '../components/SeoHead'
-import TaxonomyChips from '../components/TaxonomyChips'
+import MetadataCard from '../components/MetadataCard'
+import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
-
-function formatDate(dateStr) {
-  if (!dateStr) return null
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
 
 export default function NodePage() {
   const { slug } = useParams()
@@ -41,23 +33,27 @@ export default function NodePage() {
         ← Knowledge Graph
       </Link>
 
-      <p className={styles.detailEyebrow}>
-        Knowledge Node
-        {node.aiTool && ` · ${node.aiTool}`}
-        {node.conversationType && ` · ${node.conversationType}`}
-      </p>
+      <p className={styles.detailEyebrow}>Knowledge Node</p>
 
       <h1 className={styles.detailHeading}>{node.title}</h1>
 
-      {node.excerpt && <p className={styles.detailExcerpt}>{node.excerpt}</p>}
-
-      <div className={styles.detailMeta}>
-        {node.publishedAt && <span>{formatDate(node.publishedAt)}</span>}
-        {getAuthorByline(node.authors) && (
+      {getAuthorByline(node.authors) && (
+        <div className={styles.detailMeta}>
           <span>By {getAuthorByline(node.authors)}</span>
-        )}
-        {node.status && <span>Status: {node.status}</span>}
-      </div>
+        </div>
+      )}
+
+      <MetadataCard
+        contentType="Node"
+        publishedAt={node.publishedAt}
+        status={node.status}
+        aiTool={node.aiTool}
+        conversationType={node.conversationType}
+        tools={node.tools}
+        categories={node.categories}
+        tags={node.tags}
+        projects={node.projects}
+      />
 
       {(node.challenge || node.insight || node.actionItem) && (
         <div className={styles.detailContent}>
@@ -92,12 +88,6 @@ export default function NodePage() {
         <PageSections sections={node.sections} />
       )}
 
-      <TaxonomyChips
-        projects={node.projects}
-        categories={node.categories}
-        tags={node.tags}
-      />
-
       {node.conversationLink && (
         <p style={{ marginTop: '2rem' }}>
           <a
@@ -110,6 +100,8 @@ export default function NodePage() {
           </a>
         </p>
       )}
+
+      <ContentNav prev={node.prev} next={node.next} docType="node" />
     </main>
   )
 }
