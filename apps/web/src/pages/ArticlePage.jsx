@@ -8,7 +8,6 @@ import { articleBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
-import { getAuthorByline } from '../lib/person'
 import { urlFor } from '../lib/sanity'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
@@ -57,13 +56,9 @@ export default function ArticlePage() {
       <p className={styles.detailEyebrow}>Article</p>
       <h1 className={styles.detailHeading}>{post.title}</h1>
 
-      {getAuthorByline(post.authors, post.author) && (
-        <div className={styles.detailMeta}>
-          <span>By {getAuthorByline(post.authors, post.author)}</span>
-        </div>
-      )}
-
       <MetadataCard
+        authors={post.authors}
+        legacyAuthor={post.author}
         contentType="Article"
         publishedAt={post.publishedAt}
         status={post.status}

@@ -8,7 +8,6 @@ import { nodeBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
-import { getAuthorByline } from '../lib/person'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
@@ -37,13 +36,8 @@ export default function NodePage() {
 
       <h1 className={styles.detailHeading}>{node.title}</h1>
 
-      {getAuthorByline(node.authors) && (
-        <div className={styles.detailMeta}>
-          <span>By {getAuthorByline(node.authors)}</span>
-        </div>
-      )}
-
       <MetadataCard
+        authors={node.authors}
         contentType="Node"
         publishedAt={node.publishedAt}
         status={node.status}

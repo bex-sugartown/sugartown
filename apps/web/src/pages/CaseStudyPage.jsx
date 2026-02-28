@@ -7,7 +7,6 @@ import { caseStudyBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
-import { getAuthorByline } from '../lib/person'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
@@ -35,13 +34,8 @@ export default function CaseStudyPage() {
       <p className={styles.detailEyebrow}>Case Study</p>
       <h1 className={styles.detailHeading}>{caseStudy.title}</h1>
 
-      {getAuthorByline(caseStudy.authors) && (
-        <div className={styles.detailMeta}>
-          <span>By {getAuthorByline(caseStudy.authors)}</span>
-        </div>
-      )}
-
       <MetadataCard
+        authors={caseStudy.authors}
         contentType="Case Study"
         publishedAt={caseStudy.publishedAt}
         status={caseStudy.status}
