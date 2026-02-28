@@ -626,6 +626,114 @@ export const personBySlugQuery = `
   }
 `
 
+/**
+ * personProfileQuery
+ * Fetches a full person profile by slug, including all Stage 7 fields and
+ * backreferences to articles, nodes, and caseStudies that reference this person.
+ *
+ * Backreferences use references(^._id) so any content type that stores
+ * authors[] as reference[] to person will be picked up.
+ *
+ * Usage: client.fetch(personProfileQuery, { slug })
+ */
+export const personProfileQuery = `
+  *[_type == "person" && slug.current == $slug][0] {
+    _id,
+    name,
+    shortName,
+    "slug": slug.current,
+    headline,
+    location,
+    pronouns,
+    titles,
+    "primaryTitle": titles[0],
+    bio,
+    expertise,
+    featured,
+    image {
+      asset->{ _id, url },
+      alt
+    },
+    socialLinks[]{
+      platform,
+      url,
+      label
+    },
+    links[]{ label, url, kind },
+    seo,
+    "articles": *[_type == "article" && references(^._id)] | order(publishedAt desc) {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      status,
+      publishedAt
+    },
+    "nodes": *[_type == "node" && references(^._id)] | order(publishedAt desc) {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      status,
+      publishedAt
+    },
+    "caseStudies": *[_type == "caseStudy" && references(^._id)] | order(publishedAt desc) {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      status,
+      publishedAt
+    }
+  }
+`
+
+/**
+ * projectDetailQuery
+ * Fetches a full project detail by slug, including all project fields and
+ * backreferences to articles, caseStudies, and nodes that reference this project.
+ *
+ * Usage: client.fetch(projectDetailQuery, { slug })
+ */
+export const projectDetailQuery = `
+  *[_type == "project" && slug.current == $slug][0] {
+    _id,
+    projectId,
+    name,
+    "slug": slug.current,
+    description,
+    status,
+    priority,
+    colorHex,
+    kpis,
+    tags[]->{${TAG_FRAGMENT}},
+    "articles": *[_type == "article" && references(^._id)] | order(publishedAt desc) {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      status,
+      publishedAt
+    },
+    "caseStudies": *[_type == "caseStudy" && references(^._id)] | order(publishedAt desc) {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      status,
+      publishedAt
+    },
+    "nodes": *[_type == "node" && references(^._id)] | order(publishedAt desc) {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      status,
+      publishedAt
+    }
+  }
+`
+
 // ---- TAXONOMY BROWSING ----
 
 export const allCategoriesQuery = `

@@ -16,8 +16,10 @@
  * Used by: NodePage, ArticlePage, CaseStudyPage.
  * Not used by: RootPage / static pages (no content taxonomy).
  */
+import { Link } from 'react-router-dom'
 import { Card } from '../design-system'
-import { getAuthorByline } from '../lib/person'
+import { getAuthorByline, getPrimaryAuthor } from '../lib/person'
+import { getCanonicalPath } from '../lib/routes'
 import TaxonomyChips from './TaxonomyChips'
 import styles from './MetadataCard.module.css'
 
@@ -87,12 +89,29 @@ export default function MetadataCard({
 }) {
   const statusKey       = status?.toLowerCase().replace(/[\s_]+/g, '-')
   const authorByline    = getAuthorByline(authors, legacyAuthor)
+  const primaryAuthor   = getPrimaryAuthor(authors)
   const aiToolDisplay   = aiTool         ? (AI_TOOL_LABELS[aiTool]                 ?? aiTool)         : null
   const convTypeDisplay = conversationType ? (CONVERSATION_TYPE_LABELS[conversationType] ?? conversationType) : null
 
+  // Build the author value — a <Link> when the primary author has a slug, plain
+  // text otherwise (legacy string fallback or person without slug).
+  let authorValue = null
+  if (authorByline) {
+    if (primaryAuthor?.slug) {
+      const personPath = getCanonicalPath({ docType: 'person', slug: primaryAuthor.slug })
+      authorValue = (
+        <Link to={personPath} className={styles.authorLink}>
+          {authorByline}
+        </Link>
+      )
+    } else {
+      authorValue = authorByline
+    }
+  }
+
   // Ordered scalar fields — only truthy entries render
   const fields = [
-    authorByline               && { label: 'Author',       value: authorByline },
+    authorValue                && { label: 'Author',       value: authorValue },
     contentType                && { label: 'Type',         value: contentType },
     statusKey                  && { label: 'Status',       value: STATUS_LABELS[statusKey] ?? status },
     aiToolDisplay              && { label: 'AI Tool',      value: aiToolDisplay },

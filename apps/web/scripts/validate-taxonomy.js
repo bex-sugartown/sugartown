@@ -103,6 +103,28 @@ const tagDocsQuery = `
   *[_type == "tag"] { _id, name, "slug": slug.current }
 `
 
+// Fetch all person docs for slug/name presence checks and dangling ref validation
+const personDocsQuery = `
+  *[_type == "person"] { _id, name, "slug": slug.current }
+`
+
+// Fetch all project docs for slug presence checks and dangling ref validation
+const projectDocsQuery = `
+  *[_type == "project"] { _id, name, "slug": slug.current }
+`
+
+// Fetch all content docs with person/project reference arrays for dangling checks
+const contentRefQuery = `
+  *[_type in ["article", "caseStudy", "node"] && defined(slug.current)] {
+    _id,
+    _type,
+    title,
+    "slug": slug.current,
+    "authorIds": authors[]._ref,
+    "projectIds": projects[]._ref
+  }
+`
+
 // ─── Run ──────────────────────────────────────────────────────────────────────
 
 async function run() {
@@ -110,11 +132,14 @@ async function run() {
   console.log('══════════════════════════════════════════════\n')
   console.log(`   Project: ${projectId}  |  Dataset: ${dataset}\n`)
 
-  let docs, tagDocs
+  let docs, tagDocs, personDocs, projectDocs, contentRefs
   try {
-    ;[docs, tagDocs] = await Promise.all([
+    ;[docs, tagDocs, personDocs, projectDocs, contentRefs] = await Promise.all([
       client.fetch(contentQuery),
       client.fetch(tagDocsQuery),
+      client.fetch(personDocsQuery),
+      client.fetch(projectDocsQuery),
+      client.fetch(contentRefQuery),
     ])
   } catch (err) {
     console.error('[validate-taxonomy] Sanity fetch failed:', err.message)
@@ -208,13 +233,118 @@ async function run() {
 
   console.log()
 
+  // ── Check E: person docs with no slug ─────────────────────────────────────
+
+  console.log('👤  Person Checks')
+  console.log('──────────────────────────────────────────────')
+
+  const personsWithoutSlug = personDocs.filter((p) => !p.slug)
+  const personsWithoutName = personDocs.filter((p) => !p.name)
+
+  if (personsWithoutSlug.length === 0) {
+    console.log('   ✅  All person docs have a slug')
+  } else {
+    console.log(`   ⚠️   ${personsWithoutSlug.length} person doc(s) with no slug:`)
+    for (const p of personsWithoutSlug) {
+      console.log(`        [person] "${p.name || 'Unnamed'}" (${p._id})`)
+    }
+  }
+
+  // ── Check F: person docs with no name ─────────────────────────────────────
+
+  if (personsWithoutName.length === 0) {
+    console.log('   ✅  All person docs have a name')
+  } else {
+    console.log(`   ⚠️   ${personsWithoutName.length} person doc(s) with no name:`)
+    for (const p of personsWithoutName) {
+      console.log(`        [person] (${p._id})`)
+    }
+  }
+
+  console.log()
+
+  // ── Check G: project docs with no slug ────────────────────────────────────
+
+  console.log('🚀  Project Checks')
+  console.log('──────────────────────────────────────────────')
+
+  const projectsWithoutSlug = projectDocs.filter((p) => !p.slug)
+
+  if (projectsWithoutSlug.length === 0) {
+    console.log('   ✅  All project docs have a slug')
+  } else {
+    console.log(`   ⚠️   ${projectsWithoutSlug.length} project doc(s) with no slug:`)
+    for (const p of projectsWithoutSlug) {
+      console.log(`        [project] "${p.name || 'Unnamed'}" (${p._id})`)
+    }
+  }
+
+  console.log()
+
+  // ── Check H: dangling authors[] person refs ────────────────────────────────
+
+  console.log('🔗  Entity Reference Checks')
+  console.log('──────────────────────────────────────────────')
+
+  const allPersonIds = new Set(personDocs.map((p) => p._id))
+  const allProjectIds = new Set(projectDocs.map((p) => p._id))
+
+  const danglingPersonRefs = []
+  for (const doc of contentRefs) {
+    const authorIds = doc.authorIds ?? []
+    for (const authorId of authorIds) {
+      if (!allPersonIds.has(authorId)) {
+        danglingPersonRefs.push({ doc, authorId })
+      }
+    }
+  }
+
+  if (danglingPersonRefs.length === 0) {
+    console.log('   ✅  All authors[] refs point to existing person documents')
+  } else {
+    console.log(`   ❌  ${danglingPersonRefs.length} dangling authors[] reference(s) (person doc deleted but ref still on content):`)
+    for (const { doc, authorId } of danglingPersonRefs) {
+      console.log(`        [${doc._type}] "${doc.title || doc.slug}" → missing person ${authorId}`)
+    }
+  }
+
+  // ── Check I: dangling projects[] project refs ──────────────────────────────
+
+  const danglingProjectRefs = []
+  for (const doc of contentRefs) {
+    const projectIds = doc.projectIds ?? []
+    for (const projectId of projectIds) {
+      if (!allProjectIds.has(projectId)) {
+        danglingProjectRefs.push({ doc, projectId })
+      }
+    }
+  }
+
+  if (danglingProjectRefs.length === 0) {
+    console.log('   ✅  All projects[] refs point to existing project documents')
+  } else {
+    console.log(`   ⚠️   ${danglingProjectRefs.length} dangling projects[] reference(s) (project doc deleted but ref still on content):`)
+    for (const { doc, projectId } of danglingProjectRefs) {
+      console.log(`        [${doc._type}] "${doc.title || doc.slug}" → missing project ${projectId}`)
+    }
+  }
+
+  console.log()
+
   // ── Summary ────────────────────────────────────────────────────────────────
 
   console.log('══════════════════════════════════════════════')
 
-  const errors = toolErrors.length + dangling.length
-  // Category issues are warnings only — not schema errors
-  const warnings = overCategorized.length + uncategorized.length
+  const errors = toolErrors.length + dangling.length + danglingPersonRefs.length
+  // Category issues and entity slug/name issues are warnings only — not schema errors
+  // danglingProjectRefs are also WARN level
+  const warnings =
+    overCategorized.length +
+    uncategorized.length +
+    personsWithoutSlug.length +
+    personsWithoutName.length +
+    projectsWithoutSlug.length +
+    danglingProjectRefs.length
 
   if (errors === 0 && warnings === 0) {
     console.log('✅  All taxonomy checks passed.\n')
@@ -225,7 +355,7 @@ async function run() {
     console.log(`❌  ${errors} ERROR(S) found — taxonomy integrity issues must be resolved.`)
   }
   if (warnings > 0) {
-    console.log(`⚠️   ${warnings} WARNING(S) — review category assignments.`)
+    console.log(`⚠️   ${warnings} WARNING(S) — review taxonomy assignments.`)
   }
   console.log()
 

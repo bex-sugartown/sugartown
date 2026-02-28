@@ -1,0 +1,157 @@
+/* PersonProfilePage.module.css
+ *
+ * Layout styles for /people/:slug dedicated profile pages.
+ * Uses --st-* tokens only. No hardcoded hex colors.
+ *
+ * EPIC-0145 constraint: Deep Pink (#ff247d) must not be used as text color on
+ * light backgrounds. Brand primary is used only for links/accents that meet
+ * contrast requirements (white text on brand-primary, or brand-primary on muted).
+ */
+
+/* ── Page wrapper ────────────────────────────────────────────────── */
+.profilePage {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+/* ── Profile header ──────────────────────────────────────────────── */
+.profileHeader {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 520px) {
+  .profileHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* ── Avatar ──────────────────────────────────────────────────────── */
+.profileAvatar {
+  flex-shrink: 0;
+}
+
+.avatarImg {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 2px solid var(--st-color-border-default, #e5e5e5);
+}
+
+.avatarFallback {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--st-color-surface-subtle, #f5f5f5);
+  border: 2px solid var(--st-color-border-default, #e5e5e5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--st-color-text-muted, #888);
+  user-select: none;
+}
+
+/* ── Identity block ──────────────────────────────────────────────── */
+.profileIdentity {
+  flex: 1;
+  min-width: 0;
+}
+
+.profileName {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 0.4rem;
+  color: var(--st-color-text-default, #111);
+}
+
+.profileHeadline {
+  font-size: 1.0625rem;
+  color: var(--st-color-text-muted, #555);
+  line-height: 1.5;
+  margin: 0 0 0.5rem;
+}
+
+.profileMeta {
+  font-size: 0.875rem;
+  color: var(--st-color-text-muted, #888);
+  margin: 0 0 0.75rem;
+}
+
+/* ── Social links ────────────────────────────────────────────────── */
+.socialLinks {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.socialLinkItem {
+  display: inline-flex;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--st-color-text-muted, #666);
+  text-decoration: none;
+  padding: 0.3em 0.7em;
+  border: 1px solid var(--st-color-border-default, #e5e5e5);
+  border-radius: var(--st-radius-sm, 6px);
+  background: var(--st-color-surface-subtle, #fafafa);
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.socialLink:hover {
+  border-color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-default, #111);
+}
+
+.socialPlatform {
+  /* Platform-specific styling can be extended here via data-platform attribute */
+}
+
+/* ── Bio ─────────────────────────────────────────────────────────── */
+.profileBio {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--st-color-border-default, #e5e5e5);
+}
+
+/* ── Content sections ────────────────────────────────────────────── */
+.profileSection {
+  margin-bottom: 2.5rem;
+}
+
+.sectionHeading {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--st-color-text-default, #111);
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--st-color-border-default, #e5e5e5);
+}
+
+/* ── Content item list ───────────────────────────────────────────── */
+.contentList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

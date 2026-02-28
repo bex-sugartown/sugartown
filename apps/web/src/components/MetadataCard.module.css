@@ -38,6 +38,19 @@
   margin: 0;
 }
 
+/* ── Author link — rendered inside fieldValue when person has a slug ── */
+/* Uses text-primary color (not brand-primary / Deep Pink) to maintain WCAG contrast */
+
+.authorLink {
+  color: var(--st-card-text, var(--st-color-text-primary));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.authorLink:hover {
+  color: var(--st-color-text-default, #111);
+}
+
 /* ── Tool chips (string array, seafoam outlined) ── */
 
 .toolChips {

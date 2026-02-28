@@ -14,6 +14,8 @@ import ArticlePage from './pages/ArticlePage'
 import CaseStudyPage from './pages/CaseStudyPage'
 import NodePage from './pages/NodePage'
 import TaxonomyPlaceholderPage from './pages/TaxonomyPlaceholderPage'
+import PersonProfilePage from './pages/PersonProfilePage'
+import ProjectDetailPage from './pages/ProjectDetailPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 import './App.css'
@@ -86,9 +88,9 @@ function App() {
         <Route path="/categories" element={<TaxonomyPlaceholderPage />} />
         <Route path="/categories/:slug" element={<TaxonomyPlaceholderPage />} />
         <Route path="/projects" element={<TaxonomyPlaceholderPage />} />
-        <Route path="/projects/:slug" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/projects/:slug" element={<ProjectDetailPage />} />
         <Route path="/people" element={<TaxonomyPlaceholderPage />} />
-        <Route path="/people/:slug" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/people/:slug" element={<PersonProfilePage />} />
 
         {/* ── Root pages (page type) — must come last among /:slug ─── */}
         {/* NOTE: This catches any single-segment path not matched above.         */}

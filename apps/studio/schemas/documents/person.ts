@@ -105,6 +105,67 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════════════
+    // PROFILE GROUP — new fields (Stage 7: EPIC-0145)
+    // headline, location, pronouns, expertise, featured
+    // ════════════════════════════════════════════════════════════════════════
+    defineField({
+      name: 'headline',
+      title: 'Headline',
+      type: 'string',
+      description: 'One-line professional description',
+      group: 'profile',
+      validation: (Rule) => Rule.max(200),
+    }),
+    defineField({
+      name: 'location',
+      title: 'Location',
+      type: 'string',
+      description: 'City, region, or country (e.g., "London, UK")',
+      group: 'profile',
+      validation: (Rule) => Rule.max(100),
+    }),
+    defineField({
+      name: 'pronouns',
+      title: 'Pronouns',
+      type: 'string',
+      description: 'Personal pronouns (e.g., "she/her", "they/them")',
+      group: 'profile',
+      validation: (Rule) => Rule.max(50),
+    }),
+    defineField({
+      name: 'expertise',
+      title: 'Expertise',
+      type: 'array',
+      description: 'Areas of expertise shown as chips',
+      group: 'profile',
+      of: [
+        defineArrayMember({
+          type: 'string',
+          validation: (Rule) => Rule.max(50),
+        }),
+      ],
+    }),
+    defineField({
+      name: 'featured',
+      title: 'Featured',
+      type: 'boolean',
+      description: 'Feature on homepage or listings',
+      group: 'profile',
+      initialValue: false,
+    }),
+
+    // ════════════════════════════════════════════════════════════════════════
+    // SEO GROUP — seoMetadata object (Stage 7: EPIC-0145)
+    // Pattern mirrors article.ts seo field.
+    // ════════════════════════════════════════════════════════════════════════
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seoMetadata',
+      group: 'profile',
+    }),
+
+    // ════════════════════════════════════════════════════════════════════════
     // LINKS GROUP — structured external links
     // ════════════════════════════════════════════════════════════════════════
     defineField({
@@ -157,6 +218,63 @@ export default defineType({
               return {
                 title: label || url || 'Untitled Link',
                 subtitle: kind || 'other',
+              }
+            },
+          },
+        }),
+      ],
+    }),
+
+    defineField({
+      name: 'socialLinks',
+      title: 'Social Links',
+      type: 'array',
+      description: 'Structured social profile links with platform icons (Stage 7 replacement for Links).',
+      group: 'links',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          title: 'Social Link',
+          fields: [
+            defineField({
+              name: 'platform',
+              title: 'Platform',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Website', value: 'website'},
+                  {title: 'LinkedIn', value: 'linkedin'},
+                  {title: 'GitHub', value: 'github'},
+                  {title: 'Twitter/X', value: 'twitter'},
+                  {title: 'Mastodon', value: 'mastodon'},
+                  {title: 'Bluesky', value: 'bluesky'},
+                  {title: 'Dribbble', value: 'dribbble'},
+                  {title: 'Link', value: 'other'},
+                ],
+                layout: 'dropdown',
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'url',
+              title: 'URL',
+              type: 'url',
+              validation: (Rule) =>
+                Rule.required().uri({allowRelative: false, scheme: ['http', 'https']}),
+            }),
+            defineField({
+              name: 'label',
+              title: 'Label (optional override)',
+              type: 'string',
+              description: 'Override the default platform label for display',
+            }),
+          ],
+          preview: {
+            select: {platform: 'platform', url: 'url', label: 'label'},
+            prepare({platform, url, label}) {
+              return {
+                title: label || platform || 'Link',
+                subtitle: url || '',
               }
             },
           },
