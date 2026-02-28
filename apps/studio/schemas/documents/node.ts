@@ -177,6 +177,7 @@ export default defineType({
       type: 'datetime',
       description: 'Last significant update to this node',
       group: 'metadata',
+      initialValue: () => new Date().toISOString()
     }),
     defineField({
       name: 'status',

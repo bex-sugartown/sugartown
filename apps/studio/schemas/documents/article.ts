@@ -98,7 +98,8 @@ export default defineType({
       title: 'Updated At',
       type: 'datetime',
       description: 'Last significant update to this article',
-      group: 'metadata'
+      group: 'metadata',
+      initialValue: () => new Date().toISOString()
     }),
     defineField({
       name: 'authors',

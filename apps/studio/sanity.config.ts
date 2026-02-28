@@ -4,6 +4,7 @@ import {visionTool} from '@sanity/vision'
 import {colorInput} from '@sanity/color-input'
 import {codeInput} from '@sanity/code-input'
 import {schemaTypes} from './schemas'
+import {autoTimestampsPlugin} from './plugins/autoTimestamps'
 
 export default defineConfig({
   name: 'default',
@@ -106,7 +107,8 @@ export default defineConfig({
     }),
     visionTool(),
     colorInput(),
-    codeInput()
+    codeInput(),
+    autoTimestampsPlugin(),
   ],
 
   schema: {

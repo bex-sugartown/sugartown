@@ -89,6 +89,7 @@ export default defineType({
       type: 'datetime',
       description: 'Last significant update to this case study',
       group: 'metadata',
+      initialValue: () => new Date().toISOString()
     }),
     defineField({
       name: 'client',
