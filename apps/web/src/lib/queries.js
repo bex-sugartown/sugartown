@@ -652,7 +652,9 @@ export const personProfileQuery = `
     featured,
     image {
       asset->{ _id, url },
-      alt
+      alt,
+      hotspot,
+      crop
     },
     socialLinks[]{
       platform,

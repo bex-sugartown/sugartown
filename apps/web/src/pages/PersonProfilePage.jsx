@@ -79,7 +79,7 @@ export default function PersonProfilePage() {
   let avatarUrl = null
   if (person.image?.asset) {
     try {
-      avatarUrl = urlFor(person.image.asset).width(240).height(240).fit('crop').url()
+      avatarUrl = urlFor(person.image).width(240).height(240).fit('crop').url()
     } catch {
       // malformed asset ref — render without image
     }
