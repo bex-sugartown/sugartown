@@ -111,6 +111,19 @@ export default defineConfig({
     autoTimestampsPlugin(),
   ],
 
+  document: {
+    // Suppress Sanity's cloud-injected scheduling action — not available on free tier.
+    // The built-in action surfaces as 'ScheduledPublishing.ScheduleAction'; filter by
+    // title as a belt-and-suspenders fallback since the action identifier can vary by
+    // Studio version.
+    actions: (prev) =>
+      prev.filter(
+        (action) =>
+          action.action !== 'ScheduledPublishing.ScheduleAction' &&
+          !/schedule/i.test(action.action ?? ''),
+      ),
+  },
+
   schema: {
     types: schemaTypes,
   },
