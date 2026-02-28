@@ -595,6 +595,32 @@ export default defineType({
       group: 'display',
       initialValue: true
     }),
+    defineField({
+      name: 'cardOptions',
+      title: 'Card Display',
+      type: 'object',
+      group: 'display',
+      fields: [
+        defineField({
+          name: 'showExcerpt',
+          title: 'Show excerpt on cards?',
+          type: 'boolean',
+          initialValue: true,
+        }),
+        defineField({
+          name: 'showHeroImage',
+          title: 'Show hero image on cards?',
+          type: 'boolean',
+          initialValue: true,
+        }),
+        defineField({
+          name: 'imageOverride',
+          title: 'Default card image (overrides per-item image)',
+          type: 'image',
+          options: {hotspot: true},
+        }),
+      ],
+    }),
 
     // ════════════════════════════════════════════════════════════════════════
     // SEO GROUP — Embedded SEO metadata

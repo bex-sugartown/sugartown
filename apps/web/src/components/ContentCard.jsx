@@ -58,7 +58,7 @@ function formatDate(dateStr) {
 
 // ─── ContentCard ─────────────────────────────────────────────────────────────
 
-export default function ContentCard({ item, docType: docTypeProp }) {
+export default function ContentCard({ item, docType: docTypeProp, showExcerpt = true, showHeroImage = true, imageOverride = null }) {
   const docType   = docTypeProp ?? DOC_TYPE_MAP[item._type] ?? item._type
   const path      = getCanonicalPath({ docType, slug: item.slug })
   const typeLabel = CONTENT_TYPE_LABELS[docType]
@@ -84,6 +84,9 @@ export default function ContentCard({ item, docType: docTypeProp }) {
   if (item.publishedAt) metaParts.push(formatDate(item.publishedAt))
   const metaText = metaParts.filter(Boolean).join(' · ')
 
+  // Resolve card image: imageOverride takes precedence over per-item heroImage
+  const cardImage = imageOverride ?? item.heroImage ?? null
+
   return (
     <Card
       as={Link}
@@ -103,7 +106,16 @@ export default function ContentCard({ item, docType: docTypeProp }) {
         </div>
       }
     >
-      {item.excerpt && <p>{decodeHtml(item.excerpt)}</p>}
+      {showHeroImage && cardImage && (
+        <div className={styles.cardImage}>
+          <img
+            src={cardImage.asset?.url}
+            alt={cardImage.alt ?? ''}
+            className={styles.cardImageImg}
+          />
+        </div>
+      )}
+      {showExcerpt && item.excerpt && <p>{decodeHtml(item.excerpt)}</p>}
     </Card>
   )
 }

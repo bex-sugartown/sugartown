@@ -220,7 +220,14 @@ function ArchiveListing({ contentType, archiveDoc }) {
         ) : (
           <div className={styles.archiveGrid}>
             {pageItems.map((item) => (
-              <ContentCard key={item._id} item={item} docType={docType} />
+              <ContentCard
+                key={item._id}
+                item={item}
+                docType={docType}
+                showExcerpt={archiveDoc?.cardOptions?.showExcerpt ?? true}
+                showHeroImage={archiveDoc?.cardOptions?.showHeroImage ?? true}
+                imageOverride={archiveDoc?.cardOptions?.imageOverride ?? null}
+              />
             ))}
           </div>
         )}

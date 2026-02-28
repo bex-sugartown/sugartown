@@ -39,6 +39,22 @@
   gap: 8px;
 }
 
+/* ── Card image (imageOverride or per-item heroImage) ── */
+
+.cardImage {
+  margin: 0 0 var(--st-space-3) 0;
+  border-radius: var(--st-radius-sm);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+}
+
+.cardImageImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* ── Meta line — mono, muted, secondary info ── */
 
 .meta {
