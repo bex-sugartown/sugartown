@@ -8,6 +8,7 @@
 
 ---
 
+**Epic ID:** EPIC-0000
 ## EPIC NAME: [REQUIRED]
 
 ---
@@ -85,6 +86,61 @@
 
 ---
 
+## Schema Enum Audit [REQUIRED if any enum field is rendered or displayed]
+
+> Before writing any display-label map or rendering any `select` / `radio`
+> enum field from Sanity, open the schema file and read the field's
+> `options.list` array. The stored `value` is **not** the same as the UI
+> `title` — never assume they match, and never build a label map from memory.
+>
+> **Cross-doc-type coverage**: if the same logical field (e.g. `status`)
+> appears on multiple doc types, check **all** of them — option lists differ
+> between types. A map that covers `article` status values is not complete
+> for `node` status values.
+>
+> Complete this table before writing any render code:
+
+| Field name | Schema file | `value` → Display title (copy from `options.list`) |
+|-----------|-------------|-----------------------------------------------------|
+| `status` | `article.ts` / `node.ts` / `caseStudy.ts` | e.g. `active → Active`, `implemented → 🚀 Implemented` |
+| `aiTool` | `node.ts` | e.g. `claude → 🤖 Claude`, `mixed → 🔀 Agentic Caucus` |
+| `conversationType` | `node.ts` | e.g. `architecture → 🏗️ Architecture Planning` |
+
+> Leave rows blank for fields not in scope. Add rows for any other enum field touched.
+
+---
+
+## Metadata Field Inventory [REQUIRED if MetadataCard or any metadata surface is in scope]
+
+> For any epic that adds, moves, or changes fields rendered in MetadataCard
+> or a similar structured metadata surface: complete this table before
+> writing code. It prevents fields being missed, rendered outside the
+> component, or merged incorrectly.
+>
+> **Taxonomy display rule (non-negotiable):**
+> `projects[]`, `categories[]`, and `tags[]` always render as **three
+> separately labelled rows** — never merged into a single "Classification",
+> "Taxonomy", or combined row. This applies to MetadataCard and any future
+> metadata surface. Enforce it in the AC and in code review.
+
+| Field | Sanity field name | Doc types that have it | Current render location | Post-epic render location |
+|-------|------------------|----------------------|------------------------|--------------------------|
+| Author | `authors[]` / `author` (legacy) | article, caseStudy, node | | |
+| Status | `status` | article, caseStudy, node | | |
+| AI Tool | `aiTool` | node | | |
+| Conversation type | `conversationType` | node | | |
+| Client | `client` | caseStudy | | |
+| Role | `role` | caseStudy | | |
+| Tools | `tools[]` | article, caseStudy, node | | |
+| Projects | `projects[]` | article, caseStudy, node | | |
+| Categories | `categories[]` | article, caseStudy, node | | |
+| Tags | `tags[]` | article, caseStudy, node | | |
+
+> Add or remove rows to match what's actually in scope. "Not in scope" is a
+> valid entry for Post-epic render location — but it must be deliberate.
+
+---
+
 ## Non-Goals [REQUIRED]
 
 > Explicit exclusions. Every exclusion must be deliberate, not a default.
@@ -123,6 +179,8 @@
 - `PageSections.jsx` uses a switch statement; new section types require a new case AND a new sub-component
 - CSS in `PageSections.module.css`; global class names require `:global(.classname)` wrapper in the module file
 - All page templates that render `sections[]`: `ArticlePage.jsx`, `CaseStudyPage.jsx`, `NodePage.jsx`, `RootPage.jsx` — verify each is in scope per doc type audit
+- **Taxonomy display (non-negotiable)**: `projects[]`, `categories[]`, and `tags[]` must each render as their own separately labelled row. Never merge into a combined row or group. Violating this is a bug, not a style choice.
+- **Enum display-label maps**: every enum field rendered must have a label map built from the schema's `options.list` (see Schema Enum Audit above). Raw stored values (`"architecture"`, `"claude"`) must never appear in the UI.
 
 **Design System → Web Adapter Sync**
 - `apps/web` does NOT import from `@sugartown/design-system`. It has its own JSX adapter layer at `apps/web/src/design-system/components/`.
@@ -215,6 +273,8 @@ State how re-running the script produces no change:
 - [ ] After `--execute`, re-running dry-run reports 0 documents to patch (idempotency)
 - [ ] Frontend: navigating to a detail page for a doc that has the new section type renders the section (not blank, not error)
 - [ ] GROQ query projection test: `nodeBySlugQuery` (and all other in-scope slug queries) return the new section's fields when queried against a document that has that section
+- [ ] **Enum coverage**: for every enum field rendered, every `options.list` entry in the schema is represented in the display-label map — verified by reading the schema, not from memory. Verified across all doc types in scope (a map that covers `article` `status` values is not necessarily complete for `node` `status` values)
+- [ ] **Taxonomy rows**: if taxonomy fields are rendered, each type (`projects[]`, `categories[]`, `tags[]`) appears as its own separately labelled row in the UI — confirmed by visual inspection on a document that has all three populated
 
 ---
 
@@ -240,3 +300,6 @@ State how re-running the script produces no change:
 - [ ] What renders if `section.html` (or the primary field) is null/undefined? (Explicit null guard in the component)
 - [ ] Does `dangerouslySetInnerHTML` or similar require a security note in the deliverables?
 - [ ] Is the new component wrapped in the correct CSS containment?
+- [ ] **Enum display**: has the Schema Enum Audit been completed for every enum field in scope? Raw stored values must never reach the UI.
+- [ ] **Enum cross-doc-type coverage**: if a field (e.g. `status`) exists on multiple doc types, has the label map been verified against the schema for each type separately?
+- [ ] **Taxonomy layout**: if taxonomy fields are rendered, is each type (`projects[]`, `categories[]`, `tags[]`) rendered as its own row — not merged?
