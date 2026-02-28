@@ -1,0 +1,66 @@
+/*
+ * ContentNav — prev/next sequential navigation for content detail pages.
+ * Sits at the bottom of the page, above the footer, inside <main>.
+ */
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--st-space-4);
+  margin-top: var(--st-space-7);
+  padding-top: var(--st-space-5);
+  border-top: 1px solid var(--st-color-border-subtle, #e1e3e6);
+}
+
+/* ── Each direction slot ── */
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-1);
+  max-width: 45%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.item--prev {
+  align-items: flex-start;
+  margin-right: auto;
+}
+
+.item--next {
+  align-items: flex-end;
+  margin-left: auto;
+  text-align: right;
+}
+
+/* ── Direction label (PREV / NEXT) ── */
+
+.label {
+  font-family: var(--st-font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted, #94a3b8);
+  margin: 0;
+}
+
+/* ── Arrow + title line ── */
+
+.title {
+  font-family: var(--st-font-ui);
+  font-size: var(--st-font-size-sm);
+  font-weight: 600;
+  color: var(--st-color-brand-primary, #ff247d);
+  margin: 0;
+  line-height: 1.3;
+  transition: color 0.15s ease;
+}
+
+.item:hover .title {
+  color: var(--st-color-brand-secondary, #b91c68);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
