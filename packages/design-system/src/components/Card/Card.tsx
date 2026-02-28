@@ -12,8 +12,9 @@ export interface CardProps {
    * Card title — rendered in brand pink.
    * Default/compact/dark variants use serif (1.4rem).
    * Listing variant uses sans-serif (1.0625rem) for archive density.
+   * Metadata variant: title is optional — MetadataCard omits it.
    */
-  title: string;
+  title?: string;
   /**
    * When provided, wraps the title in an <a> tag.
    * For routing in apps/web, convert your canonical path to an href before passing.
@@ -38,8 +39,9 @@ export interface CardProps {
    * - `compact`  — reduced padding (20px) and min-height (360px)
    * - `listing`  — archive density: 200px min, sans title, 3-line content clamp
    * - `dark`     — void-900 background, translucent white border, hover glow ring
+   * - `metadata` — non-interactive sidebar surface; no min-height, no hover lift
    */
-  variant?: 'default' | 'compact' | 'listing' | 'dark';
+  variant?: 'default' | 'compact' | 'listing' | 'dark' | 'metadata';
   /**
    * When provided (and no `as` override), the card renders as an <a> tag.
    * Pass a full URL; routing is the caller's responsibility.
@@ -77,9 +79,10 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   const cardClassNames = [
     styles.card,
-    variant === 'compact' && styles.compact,
-    variant === 'listing' && styles.listing,
-    variant === 'dark' && styles.dark,
+    variant === 'compact'  && styles.compact,
+    variant === 'listing'  && styles.listing,
+    variant === 'dark'     && styles.dark,
+    variant === 'metadata' && styles.metadata,
     className,
   ]
     .filter(Boolean)
@@ -95,12 +98,14 @@ export const Card: React.FC<CardProps> = ({
 
   const inner = (
     <div className={styles.inner}>
-      {/* Header — eyebrow + title + subtitle */}
-      <div className={styles.header}>
-        {eyebrow && <div className={styles.eyebrow}>{eyebrow}</div>}
-        <h3 className={styles.title}>{titleNode}</h3>
-        {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-      </div>
+      {/* Header — omitted when eyebrow, title, and subtitle are all absent */}
+      {(eyebrow || title || subtitle) && (
+        <div className={styles.header}>
+          {eyebrow && <div className={styles.eyebrow}>{eyebrow}</div>}
+          {title && <h3 className={styles.title}>{titleNode}</h3>}
+          {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
+        </div>
+      )}
 
       {/* Body content */}
       {children && <div className={styles.content}>{children}</div>}

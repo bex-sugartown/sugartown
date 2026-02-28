@@ -11,7 +11,7 @@ const meta: Meta<typeof Card> = {
     layout: 'padded',
   },
   argTypes: {
-    variant: { control: { type: 'select' }, options: ['default', 'compact', 'listing', 'dark'] },
+    variant: { control: { type: 'select' }, options: ['default', 'compact', 'listing', 'dark', 'metadata'] },
     eyebrow: { control: 'text' },
     title: { control: 'text' },
     titleHref: { control: 'text' },
@@ -373,4 +373,127 @@ export const ListingGrid: Story = {
   ),
   parameters: { layout: 'padded' },
   decorators: [],
+};
+
+// ─── Metadata variant (detail page sidebar) ───────────────────────────────────
+// Non-interactive information surface for content detail pages.
+// Suppresses hover lift, removes min-height. Used by MetadataCard on
+// NodePage / ArticlePage / CaseStudyPage.
+
+/** Label/value field row — mirrors MetadataCard.module.css .field */
+function MetaField({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      <p style={{
+        fontFamily: 'var(--st-font-mono)', fontSize: '0.6rem', fontWeight: 700,
+        letterSpacing: '0.1em', textTransform: 'uppercase',
+        color: 'var(--st-color-text-secondary, #525252)', margin: 0,
+      }}>
+        {label}
+      </p>
+      <p style={{ fontFamily: 'var(--st-font-ui)', fontSize: '0.875rem', margin: 0 }}>
+        {value}
+      </p>
+    </div>
+  );
+}
+
+/** Seafoam outlined tool chip — mirrors MetadataCard.module.css .toolChip */
+function ToolChip({ label }: { label: string }) {
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', padding: '0.3em 0.6em',
+      borderRadius: '4px', fontFamily: 'var(--st-font-mono)',
+      fontSize: '0.7rem', fontWeight: 400, whiteSpace: 'nowrap',
+      background: 'color-mix(in srgb, #2BD4AA 8%, transparent)',
+      border: '1px solid color-mix(in srgb, #2BD4AA 35%, transparent)',
+      color: '#2BD4AA',
+    }}>
+      {label}
+    </span>
+  );
+}
+
+export const MetadataNode: Story = {
+  name: 'Metadata — Node (all fields)',
+  render: () => (
+    <Card variant="metadata" as="aside">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <MetaField label="Type"         value="Node" />
+        <MetaField label="Status"       value="Explored" />
+        <MetaField label="AI Tool"      value="Claude Sonnet 4.5" />
+        <MetaField label="Conversation" value="Technical Deep-Dive" />
+        <MetaField label="Published"    value="February 15, 2026" />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <p style={{
+            fontFamily: 'var(--st-font-mono)', fontSize: '0.6rem', fontWeight: 700,
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            color: 'var(--st-color-text-secondary, #525252)', margin: 0,
+          }}>
+            Tools
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            <ToolChip label="Claude Sonnet" />
+            <ToolChip label="Vite" />
+            <ToolChip label="React" />
+          </div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <p style={{
+            fontFamily: 'var(--st-font-mono)', fontSize: '0.6rem', fontWeight: 700,
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            color: 'var(--st-color-text-secondary, #525252)', margin: 0,
+          }}>
+            Classification
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            <Chip label="AI Collaboration" size="sm" />
+            <Chip label="Design Systems"   size="sm" />
+          </div>
+        </div>
+      </div>
+    </Card>
+  ),
+};
+
+export const MetadataArticle: Story = {
+  name: 'Metadata — Article (minimal)',
+  render: () => (
+    <Card variant="metadata" as="aside">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <MetaField label="Type"      value="Article" />
+        <MetaField label="Status"    value="Active" />
+        <MetaField label="Published" value="January 4, 2026" />
+      </div>
+    </Card>
+  ),
+};
+
+export const MetadataCaseStudy: Story = {
+  name: 'Metadata — Case Study (client + role)',
+  render: () => (
+    <Card variant="metadata" as="aside">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <MetaField label="Type"      value="Case Study" />
+        <MetaField label="Status"    value="Shipped" />
+        <MetaField label="Client"    value="Sugartown Creative" />
+        <MetaField label="Role"      value="Lead Designer & Engineer" />
+        <MetaField label="Published" value="March 1, 2026" />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <p style={{
+            fontFamily: 'var(--st-font-mono)', fontSize: '0.6rem', fontWeight: 700,
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            color: 'var(--st-color-text-secondary, #525252)', margin: 0,
+          }}>
+            Tools
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            <ToolChip label="Figma" />
+            <ToolChip label="Sanity" />
+            <ToolChip label="React" />
+          </div>
+        </div>
+      </div>
+    </Card>
+  ),
 };
