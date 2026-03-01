@@ -44,6 +44,7 @@ const TAXONOMY_CONFIG = {
     type: 'tag',
     label: 'Tag',
     pluralLabel: 'Tags',
+    archivePath: '/tags',
     query: tagBySlugQuery,
     buildParams: (slug) => ({ slug }),
   },
@@ -51,6 +52,7 @@ const TAXONOMY_CONFIG = {
     type: 'category',
     label: 'Category',
     pluralLabel: 'Categories',
+    archivePath: '/categories',
     query: categoryBySlugQuery,
     buildParams: (slug) => ({ slug }),
   },
@@ -58,6 +60,7 @@ const TAXONOMY_CONFIG = {
     type: 'person',
     label: 'Person',
     pluralLabel: 'People',
+    archivePath: '/people',
     query: personBySlugQuery,
     buildParams: (slug) => ({ slug }),
   },
@@ -65,6 +68,7 @@ const TAXONOMY_CONFIG = {
     type: 'project',
     label: 'Project',
     pluralLabel: 'Projects',
+    archivePath: '/projects',
     query: projectBySlugQuery,
     buildParams: (slug) => ({ slug }),
   },
@@ -76,7 +80,7 @@ function TaxonomyHeader({ taxDoc, config }) {
   const name = taxDoc.name ?? taxDoc.title ?? taxDoc.projectId ?? 'Untitled'
   const description = taxDoc.description ?? null
   const colorHex = taxDoc.colorHex ?? null
-  const backPath = `/${config.type === 'person' ? 'people' : config.type + 's'}`
+  const backPath = config.archivePath
 
   return (
     <div className={styles.taxonomyHeader}>
