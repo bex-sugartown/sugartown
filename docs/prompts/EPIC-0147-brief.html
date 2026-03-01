@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPIC-0147 · Schema ERD Page — apps/web</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --st-color-midnight: #0D1226;
+    --st-color-pink: #FF247D;
+    --st-color-seafoam: #2BD4AA;
+    --st-color-lime: #D1FF1D;
+    --st-color-surface: #141830;
+    --st-color-surface-raised: #1C2240;
+    --st-color-border: rgba(255,36,125,0.2);
+    --st-color-border-subtle: rgba(255,255,255,0.06);
+    --st-color-text: #F8F8FA;
+    --st-color-muted: #8890AA;
+    --st-font-mono: 'Fira Code', monospace;
+    --st-font-sans: 'Fira Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--st-color-midnight);
+    color: var(--st-color-text);
+    font-family: var(--st-font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .epic-header {
+    background: var(--st-color-surface);
+    border-bottom: 1px solid var(--st-color-border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .epic-id {
+    font-family: var(--st-font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(255,36,125,0.1);
+    border: 1px solid rgba(255,36,125,0.3);
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  .epic-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--st-color-text);
+    flex: 1;
+  }
+
+  .epic-meta-pill {
+    font-family: var(--st-font-mono);
+    font-size: 0.7rem;
+    color: var(--st-color-muted);
+    background: rgba(255,255,255,0.05);
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .epic-meta-pill--p1 {
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    border-color: rgba(43,212,170,0.25);
+  }
+
+  /* ── Layout ── */
+  .epic-body {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    display: grid;
+    gap: 40px;
+  }
+
+  /* ── Sections ── */
+  .section {
+    background: var(--st-color-surface);
+    border: 1px solid var(--st-color-border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .section__header {
+    padding: 14px 20px;
+    background: rgba(255,36,125,0.07);
+    border-bottom: 1px solid var(--st-color-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .section__body {
+    padding: 24px;
+  }
+
+  /* ── Overview block ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 640px) {
+    .overview-grid { grid-template-columns: 1fr; }
+  }
+
+  .overview-item__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--st-color-muted);
+    margin-bottom: 6px;
+  }
+
+  .overview-item__value {
+    font-size: 0.9rem;
+    color: var(--st-color-text);
+    line-height: 1.5;
+  }
+
+  .overview-item__value code {
+    font-family: var(--st-font-mono);
+    font-size: 0.8em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ── Story list ── */
+  .story-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .story {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 0 14px;
+    align-items: start;
+    padding: 14px 16px;
+    background: var(--st-color-surface-raised);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+  }
+
+  .story__id {
+    font-family: var(--st-font-mono);
+    font-size: 0.7rem;
+    color: var(--st-color-pink);
+    font-weight: 700;
+    padding-top: 2px;
+  }
+
+  .story__title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--st-color-text);
+  }
+
+  .story__desc {
+    grid-column: 2 / 4;
+    margin-top: 6px;
+    font-size: 0.82rem;
+    color: var(--st-color-muted);
+    line-height: 1.55;
+  }
+
+  .story__ac {
+    grid-column: 2 / 4;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--st-color-muted);
+  }
+
+  .story__ac strong {
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--st-color-seafoam);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .story__ac ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 3px;
+  }
+
+  .story__ac ul li::before {
+    content: '✓ ';
+    color: var(--st-color-seafoam);
+    font-family: var(--st-font-mono);
+    font-size: 0.75em;
+  }
+
+  .badge {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    align-self: start;
+  }
+
+  .badge--p1 {
+    background: rgba(43,212,170,0.12);
+    color: var(--st-color-seafoam);
+    border: 1px solid rgba(43,212,170,0.3);
+  }
+
+  .badge--p2 {
+    background: rgba(255,255,255,0.06);
+    color: var(--st-color-muted);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* ── File tree ── */
+  .file-tree {
+    font-family: var(--st-font-mono);
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: var(--st-color-muted);
+    background: var(--st-color-surface-raised);
+    padding: 20px 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .file-tree .dir { color: var(--st-color-text); font-weight: 600; }
+  .file-tree .file-new { color: var(--st-color-lime); }
+  .file-tree .file-edit { color: var(--st-color-seafoam); }
+  .file-tree .file-ref { color: var(--st-color-muted); }
+  .file-tree .badge-new {
+    font-size: 0.6rem;
+    background: rgba(209,255,29,0.12);
+    color: var(--st-color-lime);
+    border: 1px solid rgba(209,255,29,0.25);
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .file-tree .badge-edit {
+    font-size: 0.6rem;
+    background: rgba(43,212,170,0.1);
+    color: var(--st-color-seafoam);
+    border: 1px solid rgba(43,212,170,0.25);
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── Code block ── */
+  .code-block {
+    font-family: var(--st-font-mono);
+    font-size: 0.8rem;
+    line-height: 1.7;
+    background: var(--st-color-surface-raised);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    color: var(--st-color-muted);
+    white-space: pre;
+  }
+
+  .code-block .comment { color: rgba(136,144,170,0.5); }
+  .code-block .key { color: var(--st-color-seafoam); }
+  .code-block .val { color: var(--st-color-lime); }
+  .code-block .str { color: var(--st-color-pink); }
+  .code-block .kw { color: #c792ea; }
+
+  /* ── Risk table ── */
+  .risk-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+  }
+
+  .risk-table th {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--st-color-muted);
+    text-align: left;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--st-color-border);
+    font-weight: 500;
+  }
+
+  .risk-table td {
+    padding: 11px 14px;
+    border-bottom: 1px dashed rgba(255,255,255,0.05);
+    vertical-align: top;
+    color: var(--st-color-muted);
+    line-height: 1.5;
+  }
+
+  .risk-table tr:last-child td { border-bottom: none; }
+  .risk-table td:first-child { color: var(--st-color-text); font-weight: 500; }
+
+  /* ── Claude Code prompt ── */
+  .prompt-block {
+    background: var(--st-color-surface-raised);
+    border: 1px solid rgba(255,36,125,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .prompt-block__header {
+    padding: 10px 16px;
+    background: rgba(255,36,125,0.06);
+    border-bottom: 1px solid rgba(255,36,125,0.12);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .prompt-block__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .prompt-block__body {
+    padding: 20px 24px;
+    font-family: var(--st-font-mono);
+    font-size: 0.8rem;
+    line-height: 1.75;
+    color: var(--st-color-muted);
+    white-space: pre-wrap;
+  }
+
+  .prompt-block__body .gate {
+    color: var(--st-color-lime);
+    font-weight: 700;
+  }
+
+  .prompt-block__body .cmd {
+    color: var(--st-color-seafoam);
+  }
+
+  .prompt-block__body .warn {
+    color: var(--st-color-pink);
+    font-weight: 600;
+  }
+
+  /* ── Non-goals ── */
+  .nongoal-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .nongoal {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 14px;
+    background: var(--st-color-surface-raised);
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
+    color: var(--st-color-muted);
+  }
+
+  .nongoal::before {
+    content: '✕';
+    font-family: var(--st-font-mono);
+    font-size: 0.75rem;
+    color: rgba(255,36,125,0.4);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 1px dashed rgba(255,36,125,0.15);
+    margin: 20px 0;
+  }
+
+  /* ── Prose ── */
+  .prose {
+    font-size: 0.88rem;
+    color: var(--st-color-muted);
+    line-height: 1.7;
+  }
+
+  .prose p + p { margin-top: 10px; }
+
+  .prose code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .prose strong {
+    color: var(--st-color-text);
+    font-weight: 600;
+  }
+
+  /* ── Future path callout ── */
+  .callout {
+    border: 1px solid rgba(209,255,29,0.2);
+    background: rgba(209,255,29,0.04);
+    border-radius: 4px;
+    padding: 16px 20px;
+    font-size: 0.85rem;
+    color: var(--st-color-muted);
+    line-height: 1.6;
+  }
+
+  .callout__title {
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--st-color-lime);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .callout code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-lime);
+    background: rgba(209,255,29,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+</style>
+</head>
+<body>
+
+<header class="epic-header">
+  <span class="epic-id">EPIC-0147</span>
+  <span class="epic-title">Schema ERD — Static Page in apps/web</span>
+  <span class="epic-meta-pill">apps/web · P1</span>
+  <span class="epic-meta-pill">Created 2026-02-28</span>
+  <span class="epic-meta-pill epic-meta-pill--p1">Non-blocking</span>
+</header>
+
+<div class="epic-body">
+
+  <!-- Overview -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Overview</span>
+    </div>
+    <div class="section__body">
+      <div class="overview-grid">
+        <div>
+          <div class="overview-item__label">What</div>
+          <div class="overview-item__value">Add a live, interactive Schema ERD page to <code>apps/web</code> at route <code>/schema-erd</code>. The ERD component and its data manifest are committed to the monorepo. No external data fetching at runtime.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Why</div>
+          <div class="overview-item__value">Demonstrates MACH architecture literacy in the portfolio. Gives Bex and future collaborators a navigable map of the content model without opening Sanity Studio. Useful for onboarding, documentation, and press.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Surface</div>
+          <div class="overview-item__value"><code>apps/web</code> — React/Vite frontend only. No Sanity schema changes. No Studio changes. No new packages.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Upgrade path</div>
+          <div class="overview-item__value">Static manifest today → swappable with a GROQ-fetched or build-time generated manifest in the future. The component is data-source agnostic by design.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Non-goals -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Non-Goals (Explicit Scope Exclusions)</span>
+    </div>
+    <div class="section__body">
+      <div class="nongoal-list">
+        <div class="nongoal">Does <strong>not</strong> read live Sanity schema files or TypeScript source at runtime. The ERD data is a maintained JS constant in the repo.</div>
+        <div class="nongoal">Does <strong>not</strong> require a build-time codegen step. That is Option A — a future upgrade.</div>
+        <div class="nongoal">Does <strong>not</strong> modify any Sanity Studio schemas, GROQ queries, or <code>apps/studio</code> files.</div>
+        <div class="nongoal">Does <strong>not</strong> require a new package in <code>packages/</code>. This is app-local, not shared.</div>
+        <div class="nongoal">Is <strong>not</strong> a P0 cutover blocker. Backlog priority: P1. Ships when other P1 items allow bandwidth.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- File deliverables -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">File Deliverables</span>
+    </div>
+    <div class="section__body">
+      <div class="file-tree">
+<span class="dir">apps/web/src/</span>
+├── <span class="dir">data/</span>
+│   └── <span class="file-new">schemaManifest.js</span> <span class="badge-new">new</span>
+│       <span class="file-ref">// Entity definitions + relationship map</span>
+│       <span class="file-ref">// Mirrors the 35 deployed schema types</span>
+│       <span class="file-ref">// Single export: { entities, relationships }</span>
+│
+├── <span class="dir">components/</span>
+│   └── <span class="file-new">SchemaERD/</span> <span class="badge-new">new</span>
+│       ├── <span class="file-new">SchemaERD.jsx</span>
+│       │   <span class="file-ref">// Interactive ERD component (ported from artifact)</span>
+│       │   <span class="file-ref">// Accepts { entities, relationships } props</span>
+│       │   <span class="file-ref">// Data-source agnostic — no imports from schemaManifest</span>
+│       └── <span class="file-new">SchemaERD.module.css</span>
+│           <span class="file-ref">// Scoped styles using st-* tokens</span>
+│
+└── <span class="dir">pages/</span> (or <span class="dir">views/</span> — match existing app convention)
+    └── <span class="file-new">SchemaErdPage.jsx</span> <span class="badge-new">new</span>
+        <span class="file-ref">// Route wrapper: imports manifest, passes to ERD component</span>
+        <span class="file-ref">// Sets page &lt;title&gt; and meta description</span>
+        <span class="file-ref">// No data fetching — renders immediately</span>
+
+<span class="dir">apps/web/src/</span>
+└── <span class="file-edit">App.jsx</span> (or router config) <span class="badge-edit">edit</span>
+    <span class="file-ref">// Add route: /schema-erd → SchemaErdPage</span>
+    <span class="file-ref">// Optional: add to nav if desired</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- User stories -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">User Stories</span>
+    </div>
+    <div class="section__body">
+      <div class="story-list">
+
+        <div class="story">
+          <span class="story__id">ERD-001</span>
+          <span class="story__title">Static manifest file</span>
+          <span class="badge badge--p1">P1</span>
+          <div class="story__desc">As a developer, I want a committed <code>schemaManifest.js</code> in <code>apps/web/src/data/</code> so that the ERD has a canonical, version-controlled data source that is easy to update when the schema changes.</div>
+          <div class="story__ac">
+            <strong>Acceptance Criteria</strong>
+            <ul>
+              <li>File exports two named arrays: <code>entities</code> and <code>relationships</code></li>
+              <li>All 35 Sanity schema types are represented across four groups: atoms, taxonomy, content, infrastructure</li>
+              <li>Each entity includes: <code>id</code>, <code>label</code>, <code>kind</code> (object|document), <code>group</code>, <code>color</code>, <code>fields[]</code></li>
+              <li>Each relationship includes: <code>from</code>, <code>to</code>, <code>label</code>, <code>type</code> (one|many|self)</li>
+              <li>File has a comment header: <code>// Last synced: YYYY-MM-DD — update when schema changes</code></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="story">
+          <span class="story__id">ERD-002</span>
+          <span class="story__title">ERD component — props-driven</span>
+          <span class="badge badge--p1">P1</span>
+          <div class="story__desc">As a developer, I want <code>SchemaERD.jsx</code> to accept data as props rather than importing directly from the manifest, so that the component is reusable, testable, and ready for a future dynamic data source.</div>
+          <div class="story__ac">
+            <strong>Acceptance Criteria</strong>
+            <ul>
+              <li>Component signature: <code>&lt;SchemaERD entities={[]} relationships={[]} /&gt;</code></li>
+              <li>No direct imports of <code>schemaManifest.js</code> inside the component file</li>
+              <li>Group filter tabs render from <code>entities</code> data — not hardcoded strings</li>
+              <li>Clicking an entity highlights it and shows its relationships in the sidebar</li>
+              <li>Clicking a related entity in the sidebar navigates to that entity</li>
+              <li>Clear selection button resets state</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="story">
+          <span class="story__id">ERD-003</span>
+          <span class="story__title">Route at /schema-erd</span>
+          <span class="badge badge--p1">P1</span>
+          <div class="story__desc">As a visitor, I want to navigate to <code>/schema-erd</code> and see the interactive content model diagram so I can understand the Sugartown CMS architecture without access to Sanity Studio.</div>
+          <div class="story__ac">
+            <strong>Acceptance Criteria</strong>
+            <ul>
+              <li>Route <code>/schema-erd</code> is registered in the app router</li>
+              <li>Page renders without Sanity API calls — no loading spinner on first paint</li>
+              <li>Page <code>&lt;title&gt;</code> is "Schema ERD · Sugartown"</li>
+              <li>Page includes a meta description suitable for SEO</li>
+              <li>No console errors on mount</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="story">
+          <span class="story__id">ERD-004</span>
+          <span class="story__title">Design system tokens applied</span>
+          <span class="badge badge--p1">P1</span>
+          <div class="story__desc">As Bex, I want the ERD page to use Sugartown design tokens so it looks native to the site and doesn't break the visual system.</div>
+          <div class="story__ac">
+            <strong>Acceptance Criteria</strong>
+            <ul>
+              <li>All colors reference <code>st-*</code> CSS tokens — no hardcoded hex values in the component CSS</li>
+              <li>Typography uses <code>--st-font-mono</code> and <code>--st-font-sans</code> variables</li>
+              <li>Background, surface, and border colors match the midnight dark theme palette</li>
+              <li>Passes visual inspection against existing site pages</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="story">
+          <span class="story__id">ERD-005</span>
+          <span class="story__title">Maintenance documentation</span>
+          <span class="badge badge--p2">P2</span>
+          <div class="story__desc">As a solo operator, I want clear instructions for updating the manifest when the schema changes so I don't have to rediscover the process 6 months from now.</div>
+          <div class="story__ac">
+            <strong>Acceptance Criteria</strong>
+            <ul>
+              <li>Comment block at top of <code>schemaManifest.js</code> explains the data structure</li>
+              <li>A 3-5 line "How to update" note is added to the relevant section of the Sanity README</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Data structure spec -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">schemaManifest.js — Data Shape Reference</span>
+    </div>
+    <div class="section__body">
+      <div class="code-block"><span class="comment">// apps/web/src/data/schemaManifest.js
+// Last synced: 2026-02-28
+// Update this file whenever a schema type is added, removed, or renamed in apps/studio.
+// See apps/studio/schemas/README.md for full schema reference.</span>
+
+<span class="kw">export const</span> <span class="key">entities</span> = [
+  <span class="comment">// kind: 'object' | 'document'</span>
+  <span class="comment">// group: 'atoms' | 'taxonomy' | 'content' | 'infra'</span>
+  {
+    <span class="key">id</span>: <span class="str">'node'</span>,
+    <span class="key">label</span>: <span class="str">'node ★'</span>,
+    <span class="key">kind</span>: <span class="str">'document'</span>,
+    <span class="key">group</span>: <span class="str">'content'</span>,
+    <span class="key">color</span>: <span class="str">'var(--st-color-pink)'</span>,
+    <span class="key">fields</span>: [
+      <span class="str">'title (string) *'</span>,
+      <span class="str">'slug (slug) *'</span>,
+      <span class="str">'publishedAt (datetime)'</span>,
+      <span class="str">'status (select)'</span>,
+      <span class="str">'aiTool (string)'</span>,
+      <span class="str">'categories[] → category'</span>,
+      <span class="str">'tags[] → tag'</span>,
+      <span class="str">'projects[] → project'</span>,
+      <span class="str">'authors[] → person'</span>,
+      <span class="str">'body (portableText)'</span>,
+      <span class="str">'seo → seoMetadata'</span>,
+    ],
+  },
+  <span class="comment">// ... all 35 types</span>
+];
+
+<span class="kw">export const</span> <span class="key">relationships</span> = [
+  <span class="comment">// type: 'one' | 'many' | 'self'</span>
+  { <span class="key">from</span>: <span class="str">'node'</span>, <span class="key">to</span>: <span class="str">'category'</span>, <span class="key">label</span>: <span class="str">'categories[]'</span>, <span class="key">type</span>: <span class="str">'many'</span> },
+  { <span class="key">from</span>: <span class="str">'node'</span>, <span class="key">to</span>: <span class="str">'tag'</span>,      <span class="key">label</span>: <span class="str">'tags[]'</span>,       <span class="key">type</span>: <span class="str">'many'</span> },
+  { <span class="key">from</span>: <span class="str">'node'</span>, <span class="key">to</span>: <span class="str">'person'</span>,   <span class="key">label</span>: <span class="str">'authors[]'</span>,    <span class="key">type</span>: <span class="str">'many'</span> },
+  { <span class="key">from</span>: <span class="str">'node'</span>, <span class="key">to</span>: <span class="str">'seoMetadata'</span>, <span class="key">label</span>: <span class="str">'seo'</span>,        <span class="key">type</span>: <span class="str">'one'</span>  },
+  { <span class="key">from</span>: <span class="str">'category'</span>, <span class="key">to</span>: <span class="str">'category'</span>, <span class="key">label</span>: <span class="str">'parent'</span>,   <span class="key">type</span>: <span class="str">'self'</span> },
+  <span class="comment">// ... all mapped relationships</span>
+];</div>
+    </div>
+  </div>
+
+  <!-- Risks -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Risks &amp; Mitigations</span>
+    </div>
+    <div class="section__body">
+      <table class="risk-table">
+        <thead>
+          <tr>
+            <th>Risk</th>
+            <th>Impact</th>
+            <th>Mitigation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Manifest drifts from actual schema after future schema changes</td>
+            <td>ERD shows stale or incorrect relationships</td>
+            <td>Comment header with "Last synced" date. Note in Sanity README: "Update schemaManifest.js when adding schema types." Add to release checklist.</td>
+          </tr>
+          <tr>
+            <td>CSS token names differ between apps/web token file and ERD component expectations</td>
+            <td>Styling breaks silently or falls back to defaults</td>
+            <td>Use <code>var(--st-color-pink)</code> etc. directly — these are already defined in the web app. Verify in ERD-004 acceptance test.</td>
+          </tr>
+          <tr>
+            <td>Route path conflicts with existing pages</td>
+            <td>Router error or 404</td>
+            <td>Confirm <code>/schema-erd</code> is not reserved. Fallback: <code>/about/schema</code> or <code>/colophon/schema</code>.</td>
+          </tr>
+          <tr>
+            <td>Component performance with 35+ entities on low-end mobile</td>
+            <td>Laggy filter interactions</td>
+            <td>ERD-002 keeps component pure/stateless below SchemaErdPage. No virtualization needed at this scale — 35 cards is trivial for React.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Claude Code Prompt -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Claude Code Prompt</span>
+    </div>
+    <div class="section__body">
+      <div class="prompt-block">
+        <div class="prompt-block__header">
+          <span class="prompt-block__label">Copy → Paste into Claude Code at monorepo root</span>
+        </div>
+        <div class="prompt-block__body"><span class="warn">EPIC-0147 — Schema ERD Page (apps/web)</span>
+<span class="warn">Read this entire prompt before taking any action.</span>
+
+<span class="gate">── ORIENTATION ──────────────────────────────────────────</span>
+
+<span class="cmd">ls apps/web/src/</span>
+<span class="cmd">cat apps/web/src/App.jsx</span>   (or App.tsx — check which exists)
+<span class="cmd">ls apps/web/src/pages/</span>     (or views/ — confirm naming convention)
+<span class="cmd">ls apps/web/src/components/</span>
+<span class="cmd">cat apps/web/src/index.css</span>  (or global.css — check token variable names)
+
+Confirm before proceeding:
+- What is the router file? (App.jsx, router.jsx, routes.js?)
+- What is the pages/views directory name?
+- Which CSS token variable names are defined? (st-color-pink, etc.)
+- Is TypeScript in use? (.jsx vs .tsx)
+
+<span class="gate">── CONFIRMATION GATE 1 ──────────────────────────────────</span>
+
+Report what you found. Do not create any files yet.
+Wait for my go-ahead.
+
+<span class="gate">── STEP 1: schemaManifest.js ─────────────────────────────</span>
+
+Create <span class="cmd">apps/web/src/data/schemaManifest.js</span>
+
+The file must export two named arrays: `entities` and `relationships`.
+Populate it with all 35 Sanity schema types from project ID poalmzla.
+Use the data shape documented in EPIC-0147 brief.
+
+Entity groups: atoms (5), taxonomy (3), content (4), infra (5).
+For color values, use CSS variable strings like 'var(--st-color-pink)' —
+confirm the actual variable names match what exists in the app's CSS.
+
+Add this comment header:
+// apps/web/src/data/schemaManifest.js
+// Last synced: [today's date]
+// Update this file when schema types are added or renamed in apps/studio.
+// Full schema reference: apps/studio/schemas/README.md
+
+<span class="gate">── CONFIRMATION GATE 2 ──────────────────────────────────</span>
+
+Show me the complete schemaManifest.js before continuing.
+Confirm entity count = 35. Confirm relationship count matches EPIC-0147 brief.
+Wait for approval.
+
+<span class="gate">── STEP 2: SchemaERD component ──────────────────────────</span>
+
+Create <span class="cmd">apps/web/src/components/SchemaERD/SchemaERD.jsx</span>
+Create <span class="cmd">apps/web/src/components/SchemaERD/SchemaERD.module.css</span>
+
+Component must:
+- Accept props: { entities, relationships }
+- NOT import from schemaManifest.js directly
+- Render group filter tabs (derived from entity data, not hardcoded)
+- Render entity cards grouped by group key
+- On entity click: highlight selected, dim unrelated entities, show details in sidebar
+- Sidebar shows: entity label, kind, all fields, related entities with direction arrows
+- Clicking a related entity in sidebar sets it as selected
+- All CSS uses st-* token variables — no hardcoded hex values
+
+Reference the ERD artifact from the conversation for interaction logic.
+Match the visual style to the Sugartown dark theme.
+
+<span class="gate">── CONFIRMATION GATE 3 ──────────────────────────────────</span>
+
+Show me SchemaERD.jsx and SchemaERD.module.css before continuing.
+Confirm: no direct manifest import. Confirm: no hardcoded colors.
+Wait for approval.
+
+<span class="gate">── STEP 3: Page + Route ─────────────────────────────────</span>
+
+Create <span class="cmd">apps/web/src/pages/SchemaErdPage.jsx</span>
+(use the correct pages/views directory from orientation)
+
+This file must:
+- Import entities and relationships from schemaManifest.js
+- Import SchemaERD component
+- Set document title to "Schema ERD · Sugartown"
+- Render &lt;SchemaERD entities={entities} relationships={relationships} /&gt;
+- Add a brief meta description via whatever SEO pattern the app uses
+
+Then edit the router file to add:
+  /schema-erd → SchemaErdPage
+
+<span class="gate">── CONFIRMATION GATE 4 ──────────────────────────────────</span>
+
+Show me the router change (diff only). Confirm the route path is /schema-erd.
+Wait for approval before saving.
+
+<span class="gate">── STEP 4: README update ────────────────────────────────</span>
+
+Add to <span class="cmd">apps/studio/schemas/README.md</span> under a new section "Schema ERD":
+
+## Schema ERD
+
+An interactive ERD of this schema is available at `/schema-erd` on the frontend.
+The data source is `apps/web/src/data/schemaManifest.js`.
+When you add, remove, or rename a schema type, update that file and its
+"Last synced" date comment. This is a manual step — it is not automated.
+
+<span class="gate">── DEFINITION OF DONE ───────────────────────────────────</span>
+
+✓ schemaManifest.js committed with 35 entities
+✓ SchemaERD.jsx renders without errors, no direct manifest import
+✓ /schema-erd route resolves to SchemaErdPage
+✓ Page loads with no console errors, no loading spinner
+✓ All CSS uses st-* token variables
+✓ README updated
+✓ No changes to apps/studio, packages/, or pnpm-workspace.yaml
+
+<span class="warn">ROLLBACK PLAN</span>
+This epic touches only apps/web. If anything breaks:
+- Delete the three new files (schemaManifest.js, SchemaERD/, SchemaErdPage.jsx)
+- Revert the router change
+- No schema, studio, or package changes to undo
+</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Future path -->
+  <div class="callout">
+    <div class="callout__title">Future Upgrade Path → Option A (Dynamic)</div>
+    When bandwidth allows, <code>schemaManifest.js</code> can be replaced by a build-time codegen script
+    (<code>scripts/generateSchemaManifest.mjs</code>) that reads the TypeScript schema files in
+    <code>apps/studio/schemas/</code> and outputs the same <code>{ entities, relationships }</code> shape.
+    Because <code>SchemaERD.jsx</code> is props-driven and data-source agnostic, <strong>zero component changes are
+    required</strong> for this upgrade. The page simply swaps its import.
+    This is EPIC-0148 when you're ready for it.
+  </div>
+
+</div><!-- /epic-body -->
+
+</body>
+</html>
