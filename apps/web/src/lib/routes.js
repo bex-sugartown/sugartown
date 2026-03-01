@@ -35,6 +35,14 @@ export const TYPE_NAMESPACES = {
  * Taxonomy detail pages are keyed by slug.current for tag/category/person,
  * and by projectId for project (projects have no slug field).
  *
+ * ⚠️  PLURALIZATION WARNING — these are IRREGULAR. Never compute a URL segment
+ * by appending 's' to the _type string:
+ *   category + 's' = 'categorys'  ← WRONG  →  use 'categories'
+ *   person   + 's' = 'persons'    ← WRONG  →  use 'people'
+ * Always look up the prefix here. TaxonomyDetailPage back-link configs,
+ * TAXONOMY_CONFIG entries, and any other code that builds taxonomy URLs
+ * MUST use an explicit archivePath / prefix from this map — not string arithmetic.
+ *
  * Examples:
  *   getCanonicalPath({ docType: 'tag', slug: 'ai-generated' }) → '/tags/ai-generated'
  *   getCanonicalPath({ docType: 'category', slug: 'systems' }) → '/categories/systems'

@@ -168,6 +168,7 @@
 - Section types are `object` schemas registered in `apps/studio/schemas/sections/`
 - Must be imported and added to `schemaTypes` in `apps/studio/schemas/index.ts`
 - Must be added as `defineArrayMember({type: '...'})` in EVERY doc type's `sections[]` field that is in scope per the doc type audit above
+- **Explicit field types (non-negotiable)**: every new schema field added by this epic must have its Sanity `type` explicitly declared in this epic doc before code is written (e.g. `string`, `text`, `number`, `boolean`, `slug`, `reference`, `array of reference`, `object`, `image`). Do not leave field types implicit or rely on Sanity default inference — type must be specified in both the epic definition and the `defineField` call.
 
 **Query (GROQ)**
 - All queries in `apps/web/src/lib/queries.js`
@@ -275,6 +276,7 @@ State how re-running the script produces no change:
 - [ ] GROQ query projection test: `nodeBySlugQuery` (and all other in-scope slug queries) return the new section's fields when queried against a document that has that section
 - [ ] **Enum coverage**: for every enum field rendered, every `options.list` entry in the schema is represented in the display-label map — verified by reading the schema, not from memory. Verified across all doc types in scope (a map that covers `article` `status` values is not necessarily complete for `node` `status` values)
 - [ ] **Taxonomy rows**: if taxonomy fields are rendered, each type (`projects[]`, `categories[]`, `tags[]`) appears as its own separately labelled row in the UI — confirmed by visual inspection on a document that has all three populated
+- [ ] **Route smoke-test**: navigate to the archive route (e.g. `/projects`) AND the detail route (e.g. `/projects/sugartown-cms`) for at least one real published document — both routes must render without 404, without runtime errors, and with correct Sanity data (not an empty/placeholder state). If this epic adds a new doc type, test both archive and detail.
 
 ---
 
