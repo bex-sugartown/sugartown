@@ -12,6 +12,9 @@ export const client = createClient({
   // CDN disabled: freshly imported docs (wp.* IDs) may not propagate to
   // the CDN cache immediately. Re-enable for production builds once content is stable.
   useCdn: import.meta.env.PROD,
+  // Always query the published perspective — prevents empty drafts from shadowing
+  // published docs when both share the same slug (e.g. drafts.wp.* vs wp.*).
+  perspective: 'published',
 })
 
 // Helper for generating image URLs
