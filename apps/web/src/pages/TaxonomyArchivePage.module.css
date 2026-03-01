@@ -1,0 +1,132 @@
+/* TaxonomyArchivePage.module.css
+ *
+ * Styles for /people, /categories, /tags, /projects archive listings.
+ * Uses --st-* tokens throughout.
+ */
+
+/* ── Page wrapper ────────────────────────────────────────────────── */
+.archivePage {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+
+/* ── Header row ──────────────────────────────────────────────────── */
+.archiveHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--st-color-border-default, #e5e5e5);
+}
+
+.archiveTitle {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  margin: 0;
+  color: var(--st-color-text-default, #111);
+}
+
+.archiveCount {
+  font-size: 0.875rem;
+  color: var(--st-color-text-muted, #888);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Item list ───────────────────────────────────────────────────── */
+.itemList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Item row ────────────────────────────────────────────────────── */
+.item {
+  border-bottom: 1px solid var(--st-color-border-default, #e5e5e5);
+}
+
+.itemLink {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.875rem 0.25rem;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.1s;
+  border-radius: var(--st-radius-sm, 4px);
+}
+
+.itemLink:hover {
+  background: var(--st-color-surface-subtle, #fafafa);
+}
+
+.itemLink:hover .itemLabel {
+  color: var(--st-color-brand-primary, #ff247d);
+}
+
+/* ── Color dot (categories, projects) ────────────────────────────── */
+.itemColorDot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ── Person avatar ───────────────────────────────────────────────── */
+.itemAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid var(--st-color-border-default, #e5e5e5);
+}
+
+.itemAvatarFallback {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--st-color-surface-subtle, #f5f5f5);
+  border: 1px solid var(--st-color-border-default, #e5e5e5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--st-color-text-muted, #888);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* ── Text block ──────────────────────────────────────────────────── */
+.itemText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.itemLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--st-color-text-default, #111);
+  transition: color 0.1s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemSublabel {
+  font-size: 0.8125rem;
+  color: var(--st-color-text-muted, #888);
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}

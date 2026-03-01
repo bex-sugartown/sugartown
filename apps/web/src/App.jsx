@@ -14,6 +14,7 @@ import ArticlePage from './pages/ArticlePage'
 import CaseStudyPage from './pages/CaseStudyPage'
 import NodePage from './pages/NodePage'
 import TaxonomyPlaceholderPage from './pages/TaxonomyPlaceholderPage'
+import TaxonomyArchivePage from './pages/TaxonomyArchivePage'
 import PersonProfilePage from './pages/PersonProfilePage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -82,14 +83,14 @@ function App() {
         <Route path="/nodes" element={<Navigate to="/knowledge-graph" replace />} />
         <Route path="/nodes/:slug" element={<NodeSlugRedirect />} />
 
-        {/* ── Reserved taxonomy routes (placeholders) ───────────────── */}
-        <Route path="/tags" element={<TaxonomyPlaceholderPage />} />
+        {/* ── Taxonomy archive routes ─────────────────────────────────── */}
+        <Route path="/tags" element={<TaxonomyArchivePage />} />
         <Route path="/tags/:slug" element={<TaxonomyPlaceholderPage />} />
-        <Route path="/categories" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/categories" element={<TaxonomyArchivePage />} />
         <Route path="/categories/:slug" element={<TaxonomyPlaceholderPage />} />
-        <Route path="/projects" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/projects" element={<TaxonomyArchivePage />} />
         <Route path="/projects/:slug" element={<ProjectDetailPage />} />
-        <Route path="/people" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/people" element={<TaxonomyArchivePage />} />
         <Route path="/people/:slug" element={<PersonProfilePage />} />
 
         {/* ── Root pages (page type) — must come last among /:slug ─── */}
