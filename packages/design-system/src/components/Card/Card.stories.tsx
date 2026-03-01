@@ -497,3 +497,69 @@ export const MetadataCaseStudy: Story = {
     </Card>
   ),
 };
+
+export const MetadataProject: Story = {
+  name: 'Metadata — Project (projectId, priority, KPIs, taxonomy)',
+  render: () => (
+    <Card variant="metadata" as="aside">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <MetaField label="Project ID" value="PROJ-001" />
+        <MetaField label="Status"     value="🚀 Active" />
+        <MetaField label="Priority"   value="🟠 High" />
+        {/* KPI list — mirrors MetadataCard.module.css .kpiList / .kpiItem */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <p style={{
+            fontFamily: 'var(--st-font-mono)', fontSize: '0.6rem', fontWeight: 700,
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            color: 'var(--st-color-text-secondary, #525252)', margin: 0,
+          }}>
+            KPIs
+          </p>
+          <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
+            {[
+              { metric: 'Monthly Active Users', current: '742', target: '1,000' },
+              { metric: 'Content Nodes Published', current: '18', target: '30' },
+              { metric: 'Case Studies Shipped', current: '2', target: '5' },
+            ].map(({ metric, current, target }) => (
+              <li key={metric} style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', fontSize: '0.875rem' }}>
+                <span style={{ flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {metric}
+                </span>
+                <span style={{ fontFamily: 'var(--st-font-mono)', fontSize: '0.7rem', fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                  <strong>{current}</strong>
+                  <span style={{ color: 'var(--st-color-text-secondary, #525252)' }}> / {target}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {/* Taxonomy chips */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <p style={{
+            fontFamily: 'var(--st-font-mono)', fontSize: '0.6rem', fontWeight: 700,
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            color: 'var(--st-color-text-secondary, #525252)', margin: 0,
+          }}>
+            Category
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            <Chip label="AI Collaboration" colorHex="#0099FF" size="sm" />
+          </div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <p style={{
+            fontFamily: 'var(--st-font-mono)', fontSize: '0.6rem', fontWeight: 700,
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            color: 'var(--st-color-text-secondary, #525252)', margin: 0,
+          }}>
+            Tags
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+            <Chip label="agile" size="sm" />
+            <Chip label="sanity-cms" size="sm" />
+          </div>
+        </div>
+      </div>
+    </Card>
+  ),
+};
