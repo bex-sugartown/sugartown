@@ -7,18 +7,19 @@ import styles from './Footer.module.css'
 export default function Footer({ siteSettings }) {
   if (!siteSettings) return null
 
-  const { siteLogo, siteTitle, tagline, footerColumns, socialLinks, copyrightText } = siteSettings
+  const { siteLogo, footerLogo, siteTitle, tagline, footerColumns, socialLinks, copyrightText } = siteSettings
+  const displayLogo = footerLogo?.asset ? footerLogo : siteLogo
 
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.top}>
           <div className={styles.brand}>
-            {siteLogo?.asset && (
+            {displayLogo?.asset && (
               <RouterLink to="/" className={styles.logoLink}>
                 <img
-                  src={urlFor(siteLogo.asset).width(360).url()}
-                  alt={siteLogo.alt || `Logo: ${siteTitle || 'Home'}`}
+                  src={urlFor(displayLogo.asset).width(360).url()}
+                  alt={displayLogo.alt || `Logo: ${siteTitle || 'Home'}`}
                   width={180}
                   className={styles.logoImage}
                 />

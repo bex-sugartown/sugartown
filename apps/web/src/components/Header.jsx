@@ -1,3 +1,4 @@
+import { resolveNavLink } from '../lib/resolveNavUrl'
 import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import NavigationItem from './atoms/NavigationItem'
@@ -44,14 +45,17 @@ export default function Header({ siteSettings }) {
 
           {primaryNav?.items && primaryNav.items.length > 0 && (
             <nav className={styles.nav}>
-              {primaryNav.items.map((item, index) => (
-                <NavigationItem
-                  key={index}
-                  label={item.label}
-                  url={item.link?.url}
-                  openInNewTab={item.link?.openInNewTab}
-                />
-              ))}
+              {primaryNav.items.map((item, index) => {
+                const {url, openInNewTab} = resolveNavLink(item)
+                return (
+                  <NavigationItem
+                    key={index}
+                    label={item.label}
+                    url={url}
+                    openInNewTab={openInNewTab}
+                  />
+                )
+              })}
             </nav>
           )}
 

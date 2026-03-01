@@ -26,7 +26,8 @@
 
 .tagline {
   font-size: var(--st-font-size-sm);
-  color: var(--st-color-grey-400);
+  font-family: var(--st-font-family-ui);
+  color: var(--st-color-lime-500);
   margin: 0;
 }
 

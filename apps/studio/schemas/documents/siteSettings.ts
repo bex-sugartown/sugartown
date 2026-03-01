@@ -61,29 +61,10 @@ export default defineType({
         accept: 'image/png,image/x-icon,image/svg+xml'
       }
     }),
-    defineField({
-      name: 'brandColors',
-      title: 'Brand Colors',
-      type: 'object',
-      description: 'Primary brand color palette',
-      group: 'general',
-      fields: [
-        defineField({
-          name: 'pink',
-          title: 'Sugartown Pink',
-          type: 'color',
-          description: 'Primary brand color',
-          initialValue: {hex: '#FF69B4'}
-        }),
-        defineField({
-          name: 'seafoam',
-          title: 'Seafoam',
-          type: 'color',
-          description: 'Secondary brand color',
-          initialValue: {hex: '#2BD4AA'}
-        })
-      ]
-    }),
+    // Brand colors are managed exclusively via design tokens.
+    // Do not add color picker fields here — the frontend never reads siteSettings.brandColors.
+    // Token file (canonical): packages/design-system/src/styles/tokens.css
+    // Web mirror:             apps/web/src/design-system/styles/tokens.css
 
     // HEADER GROUP
     defineField({
@@ -112,6 +93,16 @@ export default defineType({
     }),
 
     // FOOTER GROUP
+    defineField({
+      name: 'footerLogo',
+      title: 'Footer Logo',
+      type: 'image',
+      description: 'Optional: different logo for the footer. Falls back to Site Logo if not set.',
+      group: 'footer',
+      options: {
+        hotspot: true
+      }
+    }),
     defineField({
       name: 'footerColumns',
       title: 'Footer Navigation Columns',

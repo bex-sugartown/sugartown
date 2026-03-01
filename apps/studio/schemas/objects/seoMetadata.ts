@@ -50,8 +50,9 @@ export default defineType({
       name: 'title',
       title: 'Meta Title',
       type: 'string',
+      hidden: ({parent}) => parent?.autoGenerate !== false,
       description:
-        'Only used when Auto-generate is OFF. Enter the exact title you want search engines to use. Leave empty to fall back to site default.',
+        'Enter the exact title for search engines to use. Leave empty to fall back to the site default. (Only shown when Auto-generate is OFF.)',
       validation: (Rule) =>
         Rule.max(60)
           .warning('Meta titles should be under 60 characters for best SEO')

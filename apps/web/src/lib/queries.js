@@ -104,22 +104,30 @@ export const siteSettingsQuery = `
     favicon{
       asset
     },
+    footerLogo{
+      asset,
+      alt,
+      hotspot,
+      crop
+    },
     primaryNav->{
       title,
       items[]{
         label,
-        link{
-          url,
-          label,
-          openInNewTab
-        },
+        linkType,
+        "internalPage": internalPage->{ _type, "slug": slug.current },
+        "archiveRef": archiveRef->{ _type, "slug": slug.current },
+        externalUrl,
+        openInNewTab,
+        link{ url, openInNewTab },
         children[]{
           label,
-          link{
-            url,
-            label,
-            openInNewTab
-          }
+          linkType,
+          "internalPage": internalPage->{ _type, "slug": slug.current },
+          "archiveRef": archiveRef->{ _type, "slug": slug.current },
+          externalUrl,
+          openInNewTab,
+          link{ url, openInNewTab }
         }
       }
     },

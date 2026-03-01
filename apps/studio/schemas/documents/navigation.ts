@@ -22,11 +22,59 @@ const navItem = {
           .error('Label is required and must be under 50 characters')
     }),
     defineField({
+      name: 'linkType',
+      title: 'Link Type',
+      type: 'string',
+      description: 'How this nav item navigates',
+      options: {
+        list: [
+          {title: 'Internal Page', value: 'internal'},
+          {title: 'Archive / Listing', value: 'archive'},
+          {title: 'External URL', value: 'external'}
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'external'
+    }),
+    defineField({
+      name: 'internalPage',
+      title: 'Internal Page',
+      type: 'reference',
+      to: [{type: 'page'}],
+      hidden: ({parent}) => parent?.linkType !== 'internal',
+      description: 'Links to a Page document — URL resolves from its slug automatically'
+    }),
+    defineField({
+      name: 'archiveRef',
+      title: 'Archive / Listing Page',
+      type: 'reference',
+      to: [{type: 'archivePage'}],
+      hidden: ({parent}) => parent?.linkType !== 'archive',
+      description: 'Links to an Archive Page document (e.g. Articles, Case Studies)'
+    }),
+    defineField({
+      name: 'externalUrl',
+      title: 'External URL',
+      type: 'url',
+      hidden: ({parent}) => parent?.linkType !== 'external',
+      description: 'Full URL including https://',
+      validation: (Rule) => Rule.uri({scheme: ['http', 'https', 'mailto', 'tel']})
+    }),
+    defineField({
+      name: 'openInNewTab',
+      title: 'Open in New Tab',
+      type: 'boolean',
+      hidden: ({parent}) => parent?.linkType !== 'external',
+      description: 'External links only — internal/archive links always open in same tab',
+      initialValue: false
+    }),
+    // Legacy field — hidden in Studio, preserved for backward compat.
+    // Do not remove until all nav items are migrated to typed linkType fields.
+    defineField({
       name: 'link',
-      title: 'Link',
+      title: 'Link (legacy)',
       type: 'link',
-      description: 'Where this menu item navigates to',
-      validation: (Rule) => Rule.required().error('Link is required')
+      hidden: () => true
     }),
     defineField({
       name: 'children',
@@ -46,21 +94,74 @@ const navItem = {
               validation: (Rule) => Rule.required().max(50)
             }),
             defineField({
+              name: 'linkType',
+              title: 'Link Type',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Internal Page', value: 'internal'},
+                  {title: 'Archive / Listing', value: 'archive'},
+                  {title: 'External URL', value: 'external'}
+                ],
+                layout: 'radio'
+              },
+              initialValue: 'external'
+            }),
+            defineField({
+              name: 'internalPage',
+              title: 'Internal Page',
+              type: 'reference',
+              to: [{type: 'page'}],
+              hidden: ({parent}) => parent?.linkType !== 'internal',
+              description: 'Links to a Page document — URL resolves from its slug automatically'
+            }),
+            defineField({
+              name: 'archiveRef',
+              title: 'Archive / Listing Page',
+              type: 'reference',
+              to: [{type: 'archivePage'}],
+              hidden: ({parent}) => parent?.linkType !== 'archive',
+              description: 'Links to an Archive Page document (e.g. Articles, Case Studies)'
+            }),
+            defineField({
+              name: 'externalUrl',
+              title: 'External URL',
+              type: 'url',
+              hidden: ({parent}) => parent?.linkType !== 'external',
+              validation: (Rule) => Rule.uri({scheme: ['http', 'https', 'mailto', 'tel']})
+            }),
+            defineField({
+              name: 'openInNewTab',
+              title: 'Open in New Tab',
+              type: 'boolean',
+              hidden: ({parent}) => parent?.linkType !== 'external',
+              initialValue: false
+            }),
+            // Legacy field — hidden, preserved for backward compat
+            defineField({
               name: 'link',
-              title: 'Link',
+              title: 'Link (legacy)',
               type: 'link',
-              validation: (Rule) => Rule.required()
+              hidden: () => true
             })
           ],
           preview: {
             select: {
               title: 'label',
-              url: 'link.url'
+              linkType: 'linkType',
+              internalSlug: 'internalPage.slug.current',
+              archiveSlug: 'archiveRef.slug.current',
+              externalUrl: 'externalUrl',
+              legacyUrl: 'link.url'
             },
-            prepare({title, url}) {
+            prepare({title, linkType, internalSlug, archiveSlug, externalUrl, legacyUrl}) {
+              let url = legacyUrl || 'No URL'
+              if (linkType === 'internal') url = internalSlug ? `/${internalSlug}` : '⚠ No page'
+              if (linkType === 'archive') url = archiveSlug ? `/${archiveSlug}` : '⚠ No archive'
+              if (linkType === 'external') url = externalUrl || '⚠ No URL'
               return {
                 title: title || 'Untitled Item',
-                subtitle: url || 'No URL'
+                subtitle: url
               }
             }
           }
@@ -74,13 +175,21 @@ const navItem = {
   preview: {
     select: {
       title: 'label',
-      url: 'link.url',
+      linkType: 'linkType',
+      internalSlug: 'internalPage.slug.current',
+      archiveSlug: 'archiveRef.slug.current',
+      externalUrl: 'externalUrl',
+      legacyUrl: 'link.url',
       hasChildren: 'children'
     },
-    prepare({title, url, hasChildren}) {
+    prepare({title, linkType, internalSlug, archiveSlug, externalUrl, legacyUrl, hasChildren}) {
+      let url = legacyUrl || 'No URL'
+      if (linkType === 'internal') url = internalSlug ? `/${internalSlug}` : '⚠ No page'
+      if (linkType === 'archive') url = archiveSlug ? `/${archiveSlug}` : '⚠ No archive'
+      if (linkType === 'external') url = externalUrl || '⚠ No URL'
       return {
         title: title || 'Untitled Item',
-        subtitle: `${url || 'No URL'}${hasChildren?.length ? ` (${hasChildren.length} items)` : ''}`
+        subtitle: `${url}${hasChildren?.length ? ` (${hasChildren.length} items)` : ''}`
       }
     }
   }

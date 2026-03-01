@@ -35,7 +35,7 @@ export default defineType({
       title: 'Open in New Tab',
       type: 'boolean',
       description: 'Whether the link should open in a new browser tab',
-      initialValue: true
+      initialValue: false
     }),
     defineField({
       name: 'icon',

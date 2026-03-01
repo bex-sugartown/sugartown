@@ -123,6 +123,7 @@
   --st-color-bg-surface-strong: var(--st-color-white);      /* Pink Moon overrides */
   --st-color-bg-surface-alt:    var(--st-color-grey-050);
   --st-color-bg-subtle:         var(--st-color-grey-040);
+  --st-color-bg-void:           var(--st-color-void-900);       /* darkest bg — near-black */
 
   /* ── Text ────────────────────────────────────────────── */
   --st-color-text-primary:    var(--st-color-void-900);

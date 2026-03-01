@@ -31,39 +31,39 @@
 
 /* Background color variants */
 .bgPink {
-  background-color: var(--st-color-pink-500, #FF69B4);
-  color: var(--st-color-white, #FFFFFF);
+  background-color: var(--st-color-brand-primary);
+  color: var(--st-color-white);
 }
 
 .bgPink .link {
-  color: var(--st-color-white, #FFFFFF);
+  color: var(--st-color-white);
 }
 
 .bgSeafoam {
-  background-color: var(--st-color-seafoam-500, #2BD4AA);
-  color: var(--st-color-gray-900, #1a1a1a);
+  background-color: var(--st-color-seafoam-500);
+  color: var(--st-color-void-900);
 }
 
 .bgSeafoam .link {
-  color: var(--st-color-gray-900, #1a1a1a);
+  color: var(--st-color-void-900);
 }
 
 .bgDark {
-  background-color: var(--st-color-gray-900, #1a1a1a);
-  color: var(--st-color-white, #FFFFFF);
+  background-color: var(--st-color-bg-void);
+  color: var(--st-color-white);
 }
 
 .bgDark .link {
-  color: var(--st-color-white, #FFFFFF);
+  color: var(--st-color-white);
 }
 
 .bgLight {
-  background-color: var(--st-color-gray-100, #f5f5f5);
-  color: var(--st-color-gray-900, #1a1a1a);
+  background-color: var(--st-color-bg-surface-alt);
+  color: var(--st-color-void-900);
 }
 
 .bgLight .link {
-  color: var(--st-color-gray-900, #1a1a1a);
+  color: var(--st-color-void-900);
 }
 
 @media (max-width: 768px) {
