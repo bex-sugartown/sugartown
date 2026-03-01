@@ -34,9 +34,9 @@ export default function Header({ siteSettings }) {
           {siteLogo?.asset && (
             <RouterLink to="/" className={styles.logoLink}>
               <img
-                src={urlFor(siteLogo.asset).width(240).url()}
+                src={urlFor(siteLogo.asset).width(360).url()}
                 alt={siteLogo.alt || `Logo: ${siteTitle || 'Home'}`}
-                width={120}
+                width={180}
                 className={styles.logoImage}
               />
             </RouterLink>
