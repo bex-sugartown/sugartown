@@ -648,7 +648,7 @@ export const personProfileQuery = `
     titles,
     "primaryTitle": titles[0],
     bio,
-    expertise,
+    "expertise": expertise[]->{${CATEGORY_FRAGMENT}},
     featured,
     image {
       asset->{ _id, url },

@@ -1,11 +1,13 @@
 /* PersonProfilePage.module.css
  *
  * Layout styles for /people/:slug dedicated profile pages.
- * Uses --st-* tokens only. No hardcoded hex colors.
+ * Uses --st-* tokens where available.
  *
- * EPIC-0145 constraint: Deep Pink (#ff247d) must not be used as text color on
- * light backgrounds. Brand primary is used only for links/accents that meet
- * contrast requirements (white text on brand-primary, or brand-primary on muted).
+ * Brand pink (#ff247d / --st-color-brand-primary) is used intentionally
+ * on profileShortName and profileHeadline as a Sugartown design signature —
+ * these are display-weight editorial elements, not body text.
+ * Contrast ratio ~3.7:1 (AA large text passes; body-text AA requires 4.5:1).
+ * Accepted editorial trade-off per explicit product decision.
  */
 
 /* ── Page wrapper ────────────────────────────────────────────────── */
@@ -74,11 +76,18 @@
   color: var(--st-color-text-default, #111);
 }
 
+/* Short name in parens — rendered in brand pink as a Sugartown design signature */
+.profileShortName {
+  color: var(--st-color-brand-primary, #ff247d);
+}
+
+/* Subtitle / headline — brand pink, editorial display use (see constraint note above) */
 .profileHeadline {
   font-size: 1.0625rem;
-  color: var(--st-color-text-muted, #555);
+  color: var(--st-color-brand-primary, #ff247d);
   line-height: 1.5;
   margin: 0 0 0.5rem;
+  font-weight: 600;
 }
 
 .profileMeta {
@@ -144,6 +153,22 @@
   margin: 0 0 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--st-color-border-default, #e5e5e5);
+}
+
+/* ── Roles / Titles list ─────────────────────────────────────────── */
+.titlesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.titlesItem {
+  font-size: 0.9375rem;
+  color: var(--st-color-text-default, #333);
+  line-height: 1.5;
 }
 
 /* ── Content item list ───────────────────────────────────────────── */

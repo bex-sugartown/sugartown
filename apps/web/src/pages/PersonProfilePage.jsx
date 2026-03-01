@@ -85,13 +85,9 @@ export default function PersonProfilePage() {
     }
   }
 
-  // Expertise chips are plain strings — wrap them to match TaxonomyChips' "tags" shape
-  // TaxonomyChips expects: { _id, name, slug? } — for expertise we pass no slug so
-  // they render as non-linked spans (correct per epic spec).
-  const expertiseChips = (person.expertise ?? []).map((item, i) => ({
-    _id: `expertise-${i}`,
-    name: item,
-  }))
+  // Expertise is now an array of expanded category references: { _id, name, slug, colorHex }
+  // Pass directly as `categories` to TaxonomyChips so they render as linked, coloured chips.
+  const expertiseCategories = person.expertise ?? []
 
   return (
     <main className={styles.profilePage}>
@@ -120,7 +116,12 @@ export default function PersonProfilePage() {
         </div>
 
         <div className={styles.profileIdentity}>
-          <h1 className={styles.profileName}>{person.name}</h1>
+          <h1 className={styles.profileName}>
+            {person.name}
+            {person.shortName && (
+              <span className={styles.profileShortName}> ({person.shortName})</span>
+            )}
+          </h1>
 
           {person.headline && (
             <p className={styles.profileHeadline}>{person.headline}</p>
@@ -166,11 +167,23 @@ export default function PersonProfilePage() {
         </section>
       )}
 
+      {/* ── Roles / Titles ───────────────────────────────────────────── */}
+      {person.titles?.length > 0 && (
+        <section className={styles.profileSection}>
+          <h2 className={styles.sectionHeading}>Roles &amp; Titles</h2>
+          <ul className={styles.titlesList}>
+            {person.titles.map((title, i) => (
+              <li key={i} className={styles.titlesItem}>{title}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {/* ── Expertise ────────────────────────────────────────────────── */}
-      {expertiseChips.length > 0 && (
+      {expertiseCategories.length > 0 && (
         <section className={styles.profileSection}>
           <h2 className={styles.sectionHeading}>Expertise</h2>
-          <TaxonomyChips tags={expertiseChips} />
+          <TaxonomyChips categories={expertiseCategories} />
         </section>
       )}
 

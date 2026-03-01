@@ -6,17 +6,20 @@ import {standardPortableText} from '../objects/portableTextConfig'
  * Person Document - Author / Contributor / Profile
  *
  * The canonical "person" entity across the Sugartown ecosystem.
- * Used for author attribution on all content types (post, node, caseStudy, page)
+ * Used for author attribution on all content types (article, node, caseStudy, page)
  * and later reusable by the Resume Factory engine.
  *
  * Stage 5: Person/Profile as Reusable Content Type
- * - Upgraded from Stage 4 stub (name, slug, role, text bio, email, website)
- * - Now includes: titles[], portable text bio, structured links[]
- * - Legacy `role`, `email`, `website` fields hidden in favour of titles[] / links[]
- * - Drives authors[] references across all content types
- * - Usable as a taxonomy facet via buildFilterModel()
+ * Stage 7 (EPIC-0145): headline, location, pronouns, expertise, featured, seo, socialLinks
  *
- * Route: /people/:slug (reserved — TaxonomyPlaceholderPage until Stage 6)
+ * Schema groups (tabs):
+ *   Basics   — name, shortName, slug (was "Identity")
+ *   Profile  — titles, bio, image, subtitle/headline, location, pronouns, featured
+ *   Links    — socialLinks, links (legacy)
+ *   SEO      — seoMetadata object
+ *   Legacy   — hidden back-compat fields
+ *
+ * Route: /people/:slug
  */
 export default defineType({
   name: 'person',
@@ -24,21 +27,23 @@ export default defineType({
   type: 'document',
   icon: UserIcon,
   groups: [
-    {name: 'identity', title: 'Identity', default: true},
+    {name: 'basics', title: 'Basics', default: true},
     {name: 'profile', title: 'Profile'},
     {name: 'links', title: 'Links'},
+    {name: 'seo', title: 'SEO'},
     {name: 'legacy', title: 'Legacy'},
   ],
   fields: [
     // ════════════════════════════════════════════════════════════════════════
-    // IDENTITY GROUP — name, slug
+    // BASICS GROUP — name, shortName, slug
+    // Core identifying data: the minimum required to route and attribute content.
     // ════════════════════════════════════════════════════════════════════════
     defineField({
       name: 'name',
       title: 'Full Name',
       type: 'string',
       description: 'Legal / full name — used in formal contexts like resume, CV, and bios.',
-      group: 'identity',
+      group: 'basics',
       validation: (Rule) =>
         Rule.required()
           .max(100)
@@ -48,8 +53,8 @@ export default defineType({
       name: 'shortName',
       title: 'Short Name',
       type: 'string',
-      description: 'Preferred byline name — used for author attribution on articles, nodes, and case studies.',
-      group: 'identity',
+      description: 'Preferred byline name — used for author attribution on articles, nodes, and case studies. Shown in parens after full name on the profile page.',
+      group: 'basics',
       validation: (Rule) => Rule.max(60),
     }),
     defineField({
@@ -57,7 +62,7 @@ export default defineType({
       title: 'Slug',
       type: 'slug',
       description: 'URL-friendly identifier — used for the /people/:slug route.',
-      group: 'identity',
+      group: 'basics',
       options: {
         source: 'name',
         maxLength: 96,
@@ -68,13 +73,13 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════════════
-    // PROFILE GROUP — titles, bio, image
+    // PROFILE GROUP — titles, bio, image, subtitle, location, pronouns
     // ════════════════════════════════════════════════════════════════════════
     defineField({
       name: 'titles',
       title: 'Roles / Titles',
       type: 'array',
-      description: 'Job titles or roles (e.g., "Product Manager", "Content Architect"). Shown in author bylines.',
+      description: 'Job titles or roles (e.g., "Product Manager", "Content Architect"). Shown in author bylines and on the profile page.',
       group: 'profile',
       of: [defineArrayMember({type: 'string'})],
       validation: (Rule) => Rule.unique(),
@@ -103,16 +108,11 @@ export default defineType({
         }),
       ],
     }),
-
-    // ════════════════════════════════════════════════════════════════════════
-    // PROFILE GROUP — new fields (Stage 7: EPIC-0145)
-    // headline, location, pronouns, expertise, featured
-    // ════════════════════════════════════════════════════════════════════════
     defineField({
       name: 'headline',
-      title: 'Headline',
+      title: 'Subtitle',
       type: 'string',
-      description: 'One-line professional description',
+      description: 'One-line tagline — renders as the pink (#ff247d) subtitle directly below the name on the profile page.',
       group: 'profile',
       validation: (Rule) => Rule.max(200),
     }),
@@ -120,7 +120,7 @@ export default defineType({
       name: 'location',
       title: 'Location',
       type: 'string',
-      description: 'City, region, or country (e.g., "London, UK")',
+      description: 'City, region, or country (e.g., "San Francisco Bay Area")',
       group: 'profile',
       validation: (Rule) => Rule.max(100),
     }),
@@ -128,7 +128,7 @@ export default defineType({
       name: 'pronouns',
       title: 'Pronouns',
       type: 'string',
-      description: 'Personal pronouns (e.g., "she/her", "they/them")',
+      description: 'Personal pronouns (e.g., "she/her/hers", "they/them")',
       group: 'profile',
       validation: (Rule) => Rule.max(50),
     }),
@@ -136,12 +136,12 @@ export default defineType({
       name: 'expertise',
       title: 'Expertise',
       type: 'array',
-      description: 'Areas of expertise shown as chips',
+      description: 'Areas of expertise — select from the category taxonomy. Displayed as linked chips on the profile page.',
       group: 'profile',
       of: [
         defineArrayMember({
-          type: 'string',
-          validation: (Rule) => Rule.max(50),
+          type: 'reference',
+          to: [{type: 'category'}],
         }),
       ],
     }),
@@ -155,24 +155,80 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════════════
-    // SEO GROUP — seoMetadata object (Stage 7: EPIC-0145)
-    // Pattern mirrors article.ts seo field.
+    // SEO GROUP — seoMetadata object
+    // Mirrors the SEO tab pattern used by article, node, caseStudy, and page.
     // ════════════════════════════════════════════════════════════════════════
     defineField({
       name: 'seo',
       title: 'SEO',
       type: 'seoMetadata',
-      group: 'profile',
+      group: 'seo',
     }),
 
     // ════════════════════════════════════════════════════════════════════════
     // LINKS GROUP — structured external links
     // ════════════════════════════════════════════════════════════════════════
     defineField({
-      name: 'links',
-      title: 'Links',
+      name: 'socialLinks',
+      title: 'Social Links',
       type: 'array',
-      description: 'Website, social profiles, and other external links.',
+      description: 'Structured social profile links with platform icons.',
+      group: 'links',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          title: 'Social Link',
+          fields: [
+            defineField({
+              name: 'platform',
+              title: 'Platform',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'Website', value: 'website'},
+                  {title: 'LinkedIn', value: 'linkedin'},
+                  {title: 'GitHub', value: 'github'},
+                  {title: 'Twitter/X', value: 'twitter'},
+                  {title: 'Mastodon', value: 'mastodon'},
+                  {title: 'Bluesky', value: 'bluesky'},
+                  {title: 'Dribbble', value: 'dribbble'},
+                  {title: 'Link', value: 'other'},
+                ],
+                layout: 'dropdown',
+              },
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'url',
+              title: 'URL',
+              type: 'url',
+              validation: (Rule) =>
+                Rule.required().uri({allowRelative: false, scheme: ['http', 'https']}),
+            }),
+            defineField({
+              name: 'label',
+              title: 'Label (optional override)',
+              type: 'string',
+              description: 'Override the default platform label for display',
+            }),
+          ],
+          preview: {
+            select: {platform: 'platform', url: 'url', label: 'label'},
+            prepare({platform, url, label}) {
+              return {
+                title: label || platform || 'Link',
+                subtitle: url || '',
+              }
+            },
+          },
+        }),
+      ],
+    }),
+    defineField({
+      name: 'links',
+      title: 'Links (Legacy)',
+      type: 'array',
+      description: 'Legacy unstructured link list — prefer Social Links above.',
       group: 'links',
       of: [
         defineArrayMember({
@@ -225,63 +281,6 @@ export default defineType({
       ],
     }),
 
-    defineField({
-      name: 'socialLinks',
-      title: 'Social Links',
-      type: 'array',
-      description: 'Structured social profile links with platform icons (Stage 7 replacement for Links).',
-      group: 'links',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          title: 'Social Link',
-          fields: [
-            defineField({
-              name: 'platform',
-              title: 'Platform',
-              type: 'string',
-              options: {
-                list: [
-                  {title: 'Website', value: 'website'},
-                  {title: 'LinkedIn', value: 'linkedin'},
-                  {title: 'GitHub', value: 'github'},
-                  {title: 'Twitter/X', value: 'twitter'},
-                  {title: 'Mastodon', value: 'mastodon'},
-                  {title: 'Bluesky', value: 'bluesky'},
-                  {title: 'Dribbble', value: 'dribbble'},
-                  {title: 'Link', value: 'other'},
-                ],
-                layout: 'dropdown',
-              },
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: 'url',
-              title: 'URL',
-              type: 'url',
-              validation: (Rule) =>
-                Rule.required().uri({allowRelative: false, scheme: ['http', 'https']}),
-            }),
-            defineField({
-              name: 'label',
-              title: 'Label (optional override)',
-              type: 'string',
-              description: 'Override the default platform label for display',
-            }),
-          ],
-          preview: {
-            select: {platform: 'platform', url: 'url', label: 'label'},
-            prepare({platform, url, label}) {
-              return {
-                title: label || platform || 'Link',
-                subtitle: url || '',
-              }
-            },
-          },
-        }),
-      ],
-    }),
-
     // ════════════════════════════════════════════════════════════════════════
     // LEGACY GROUP — Stage 4 stub fields, hidden from Studio
     // Data is preserved in Sanity; these fields are no longer edited directly.
@@ -315,14 +314,16 @@ export default defineType({
 
   preview: {
     select: {
-      title: 'shortName',
-      subtitle: 'name',
-      media: 'image.asset',
+      name: 'name',
+      shortName: 'shortName',
+      media: 'image',
     },
-    prepare({title, subtitle, media}) {
+    prepare({name, shortName, media}) {
+      // Show "Becky Alice (Bex)" format when shortName is set
+      const displayName = name && shortName ? `${name} (${shortName})` : name || shortName
       return {
-        title: title || subtitle || 'Unnamed Person',
-        subtitle: title ? subtitle : '',
+        title: displayName || 'Unnamed Person',
+        subtitle: 'Person',
         media,
       }
     },
