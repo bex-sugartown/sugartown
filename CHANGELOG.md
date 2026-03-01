@@ -12,6 +12,69 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.14.0] — 2026-03-01
+
+Taxonomy entity pages, detail-page metadata consolidation, content tooling, and routing fixes. Branch: `epic/taxonomy-governance` → `main`
+
+### apps/web
+
+#### Added
+- TaxonomyArchivePage (`src/pages/TaxonomyArchivePage.jsx`): linked listing at `/people`, `/categories`, `/tags`, `/projects` — people render avatar (or initial fallback) + name + primaryTitle; categories/projects render colour dot + name + description; tags render name + description; replaces previous 404/placeholder routes
+- PersonProfilePage (`src/pages/PersonProfilePage.jsx`) at `/people/:slug`: profile header with name rendered as "Full Name (Short Name)" in brand pink, bio, expertise chips (linked category refs), roles/titles section, social links, backreferenced content grouped by type via ContentCard
+- ProjectDetailPage (`src/pages/ProjectDetailPage.jsx`) at `/projects/:slug`: colour accent bar derived from project colour, status badge, categories/tags chips, priority with emoji label, KPI list (metric / current / target), unified content timeline via ContentCard
+- MetadataCard component (`src/components/MetadataCard.jsx`): sidebar surface consolidating content type, status, AI tool, conversation type, client, role, published date, authors, and taxonomy chips (per-type rows: Project / Category / Tags); project-specific fields: projectId, priority with PRIORITY_LABELS map, KPI list; replaces inline metadata blocks in NodePage, ArticlePage, CaseStudyPage
+- ContentNav component (`src/components/ContentNav.jsx`): prev/next sequential navigation at the bottom of NodePage, ArticlePage, CaseStudyPage; adjacent items resolved via GROQ using `^.publishedAt` — no extra API round-trips; renders null when neither neighbour exists
+
+#### Changed
+- ContentCard: `cardOptions` prop wired — compact/full size variants and `showMeta` toggle driven by `archivePage.cardOptions`
+- Card web adapter: `'metadata'` variant added (suppresses hover lift and min-height for sidebar context)
+- ProjectDetailPage: custom inline metacard div replaced with MetadataCard; projectId, priority, kpis props added to MetadataCard; PRIORITY_LABELS and STATUS_LABELS centralised in MetadataCard; duplicate local style rules removed
+
+#### Fixed
+- Sanity web client (`src/lib/sanity.js`): `perspective: 'published'` added — raw-mode queries were returning `drafts.*` documents before published ones when both shared a slug, causing the empty draft to shadow published content
+- MetadataCard display labels: conversationType and aiTool raw Sanity keys now resolve to full display titles (e.g. `"architecture"` → `"🏗️ Architecture Planning"`, `"claude"` → `"🤖 Claude"`); node status map extended with validated / implemented / deprecated / evergreen; taxonomy display split from single "Classification" row into per-type rows
+- TaxonomyDetailPage back-link URL: `type + 's'` computation replaced with explicit `archivePath` per TAXONOMY_CONFIG entry — was producing `'categorys'` and `'persons'` instead of `'categories'` and `'people'`
+- Person profile image: `personProfileQuery` now projects `hotspot` and `crop` fields; `urlFor` receives full image object (not `.asset`) — hotspot/crop was previously ignored
+
+### apps/studio
+
+#### Added
+- autoTimestamps plugin (`plugins/autoTimestamps.ts`): wraps the Publish action for article, node, caseStudy, page; `publishedAt` auto-set to now() on first publish only (user-set values preserved); `updatedAt` always set to now() on every publish; `initialValue` pre-fills `updatedAt` on new document creation
+
+#### Changed
+- person schema: Basics and SEO field groups added; `expertise` field migrated from `string[]` to `category` reference array; 7 new fields: `headline`, `location`, `pronouns`, `featured`, `socialLinks[]`, `seo`; preview format updated to `"Full Name (Short Name)"`
+- project schema: Basics, Profile, and SEO field groups added; `categories[]` (category reference array) added; `seo` object field added
+- archivePage schema: `cardOptions` object field added — `size` (compact | full) and `showMeta` (boolean) allow editors to set card density per archive
+- sanity + @sanity/vision bumped 5.11 → 5.12
+
+#### Fixed
+- 'Schedule publish' action suppressed via `document.actions` filter in `sanity.config.ts` — Sanity was injecting the platform-level scheduling action on the free-tier project even without `@sanity/scheduled-publishing` installed, displacing the standard Publish button
+
+### packages/design-system
+
+#### Added
+- `ContentNav/ContentNav.stories.tsx`: 4 variant stories (both / prev-only / next-only / neither) using plain `<a>` tags to keep DS package self-contained
+
+#### Changed
+- `Card/Card.tsx`: `'metadata'` added to variant union; `title` prop made optional; header block made conditional — aligns TypeScript types with web adapter behaviour
+- `Card/Card.stories.tsx`: Metadata variant stories added (Node full, Article minimal, CaseStudy with client/role, MetadataProject with projectId / priority / KPI list / taxonomy chip rows)
+- `Button/`: Button component moved from flat component root into own subdirectory (`Button.tsx`, `Button.module.css`, `Button.stories.tsx`) — no behaviour change
+
+### Other
+
+#### Added
+- `scripts/bulk/`: field-contract-driven CSV export (`pnpm bulk:export`) and re-import (`pnpm bulk:import`) — `field-contract.js` as single source of truth; `export-csv.js` with `--type`, `--fields`, `--published-only` flags; `import-csv.js` with validation pipeline (enum, date, ref resolution), dry-run diff preview, backup snapshots, patch-only writes
+- `scripts/audit/wp-url-spider.js` (`pnpm audit:urls`): crawls WordPress REST API + sitemap, cross-references Sanity docs and existing redirects, classifies all legacy URLs; first run: 326 WP URLs found, 59 matched, 266 taxonomy
+- `.claude/commands/morning.md`, `.claude/skills/morning/SKILL.md`: morning housekeeping skill added
+
+#### Changed
+- `apps/web/scripts/validate-taxonomy.js`: 5 new checks added (E–I) covering person/project slug+name coverage and dangling `authors[]` / `projects[]` references; 9 checks total (was 4)
+- `MEMORY.md`: component-check rule, URL pluralization rule (archivePath requirement), Sanity client `perspective` rule, and validate-content.js path added
+- `docs/epic-template.md`: route smoke-test acceptance criteria added to standard Acceptance Criteria section
+- `docs/backlog/EPIC-tool-doctype.md`, `docs/studio-setup.md`, `docs/tasks/url-audit-spider-spec.md` added
+
+---
+
 ## [0.13.0] — 2026-02-25
 Design system component library, adapter layer, htmlSection rendering, and filter model hardening. Branch: `feat/v7c-legacy-components`
 
