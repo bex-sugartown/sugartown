@@ -3,9 +3,9 @@
  * Route: /projects/:slug
  *
  * EPIC-0145: replaces TaxonomyPlaceholderPage for /projects/:slug.
- * Shows a colour-accented header, a metacard with status / ID / description /
- * categories / tags / priority / KPIs, then a unified content timeline
- * (articles + nodes + caseStudies) using ContentCard.
+ * Shows a colour-accented header, description, and a MetaCard (MetadataCard)
+ * with status / ID / priority / categories / tags / KPIs, then a unified
+ * content timeline (articles + nodes + caseStudies) using ContentCard.
  */
 import { useParams, Link } from 'react-router-dom'
 import { projectDetailQuery } from '../lib/queries'
@@ -13,26 +13,10 @@ import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
-import TaxonomyChips from '../components/TaxonomyChips'
+import MetadataCard from '../components/MetadataCard'
 import NotFoundPage from './NotFoundPage'
 import styles from './ProjectDetailPage.module.css'
 import pageStyles from './pages.module.css'
-
-// ─── Display maps ─────────────────────────────────────────────────────────────
-
-const PROJECT_STATUS_LABELS = {
-  planning: 'Planning',
-  active:   'Active',
-  archived: 'Archived',
-}
-
-const PRIORITY_LABELS = {
-  1: '🔴 Critical',
-  2: '🟠 High',
-  3: '🟡 Medium',
-  4: '🟢 Low',
-  5: '⚪ Backlog',
-}
 
 // ─── Merge and sort content timeline ─────────────────────────────────────────
 
@@ -55,7 +39,7 @@ function buildTimeline(articles, nodes, caseStudies) {
 
 function buildProjectSeo(project, siteSettings) {
   if (!project) return null
-  const siteSuffix = siteSettings?.siteTitle ? ` — ${siteSettings.siteTitle}` : ''
+  const siteSuffix  = siteSettings?.siteTitle ? ` — ${siteSettings.siteTitle}` : ''
   const title       = (project.seo?.metaTitle || project.name) + siteSuffix
   const description = project.seo?.metaDescription ?? project.description ?? null
   return {
@@ -63,12 +47,7 @@ function buildProjectSeo(project, siteSettings) {
     description,
     canonicalUrl: null,
     robots: { index: true, follow: true },
-    openGraph: {
-      title,
-      description,
-      type: 'website',
-      image: null,
-    },
+    openGraph: { title, description, type: 'website', image: null },
   }
 }
 
@@ -84,15 +63,9 @@ export default function ProjectDetailPage() {
   if (loading) return <div className={pageStyles.loadingPage}>Loading…</div>
   if (notFound || !project) return <NotFoundPage />
 
-  const statusLabel   = project.status   ? (PROJECT_STATUS_LABELS[project.status]   ?? project.status)   : null
-  const priorityLabel = project.priority ? (PRIORITY_LABELS[project.priority]        ?? String(project.priority)) : null
-  const timeline      = buildTimeline(project.articles, project.nodes, project.caseStudies)
-  const hasCategories = project.categories?.length > 0
-  const hasTags       = project.tags?.length > 0
-  const hasKpis       = project.kpis?.length > 0
-  const hasChips      = hasCategories || hasTags
+  const timeline = buildTimeline(project.articles, project.nodes, project.caseStudies)
 
-  // --project-accent drives both the accentBar and the metacard border.
+  // --project-accent drives the accentBar colour from colorHex when set.
   const accentStyle = {
     '--project-accent': project.colorHex || 'var(--st-color-brand-primary)',
   }
@@ -111,77 +84,20 @@ export default function ProjectDetailPage() {
       {/* ── Project name ──────────────────────────────────────────────── */}
       <h1 className={styles.projectName}>{project.name}</h1>
 
-      {/* ── Metacard ──────────────────────────────────────────────────── */}
-      <div className={styles.metacard} style={accentStyle}>
+      {/* ── Description — editorial copy, sits above the MetaCard ────── */}
+      {project.description && (
+        <p className={styles.projectDescription}>{project.description}</p>
+      )}
 
-        {/* Status */}
-        {statusLabel && (
-          <div className={styles.metacardRow}>
-            <span className={styles.metaKey}>Status</span>
-            <span
-              className={styles.statusBadge}
-              data-status={project.status}
-              aria-label={`Status: ${statusLabel}`}
-            >
-              {statusLabel}
-            </span>
-          </div>
-        )}
-
-        {/* Project ID */}
-        {project.projectId && (
-          <div className={styles.metacardRow}>
-            <span className={styles.metaKey}>Project ID</span>
-            <span className={styles.metaVal}>{project.projectId}</span>
-          </div>
-        )}
-
-        {/* Description */}
-        {project.description && (
-          <p className={styles.projectDescription}>{project.description}</p>
-        )}
-
-        {/* Categories + Tags */}
-        {hasChips && (
-          <div className={styles.metacardChips}>
-            <TaxonomyChips
-              categories={project.categories}
-              tags={project.tags}
-              size="sm"
-            />
-          </div>
-        )}
-
-        {/* Priority */}
-        {priorityLabel && (
-          <div className={styles.metacardRow}>
-            <span className={styles.metaKey}>Priority</span>
-            <span className={styles.metaVal} data-priority={project.priority}>
-              {priorityLabel}
-            </span>
-          </div>
-        )}
-
-        {/* KPIs */}
-        {hasKpis && (
-          <div className={styles.metacardKpis}>
-            <span className={styles.metaKey}>KPIs</span>
-            <ul className={styles.kpiList}>
-              {project.kpis.map((kpi, i) => (
-                <li key={i} className={styles.kpiItem}>
-                  <span className={styles.kpiMetric}>{kpi.metric}</span>
-                  <span className={styles.kpiProgress}>
-                    <span className={styles.kpiCurrent}>{kpi.current || '—'}</span>
-                    {kpi.target && (
-                      <span className={styles.kpiTarget}> / {kpi.target}</span>
-                    )}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      {/* ── MetaCard — structured metadata (status, ID, priority, taxonomy, KPIs) */}
+      <MetadataCard
+        projectId={project.projectId}
+        status={project.status}
+        priority={project.priority}
+        kpis={project.kpis}
+        categories={project.categories}
+        tags={project.tags}
+      />
 
       {/* ── Content timeline ─────────────────────────────────────────── */}
       {timeline.length > 0 && (
