@@ -2,11 +2,8 @@
  *
  * Layout styles for /projects/:slug dedicated project detail pages.
  * Uses --st-* tokens only. No hardcoded hex colors.
- * Color accent bar uses --project-accent CSS custom property, set inline
- * from colorHex (with var(--st-color-brand-primary) as CSS fallback).
- *
- * EPIC-0145 constraint: Deep Pink (#ff247d) must not be used as text color on
- * light backgrounds.
+ * Color accent bar + metacard border both use --project-accent,
+ * set inline from colorHex (with var(--st-color-brand-primary) as fallback).
  */
 
 /* ── Page wrapper ────────────────────────────────────────────────── */
@@ -21,28 +18,52 @@
   height: 6px;
   border-radius: var(--st-radius-xs, 3px);
   background: var(--project-accent, var(--st-color-brand-primary));
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.25rem;
 }
 
-/* ── Project header ──────────────────────────────────────────────── */
-.projectHeader {
-  margin-bottom: 2.5rem;
-}
-
-.projectHeadingRow {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
-}
-
+/* ── Project name (h1) ───────────────────────────────────────────── */
 .projectName {
   font-size: clamp(1.75rem, 4vw, 2.5rem);
   font-weight: 700;
   line-height: 1.15;
-  margin: 0;
+  margin: 0 0 1.25rem;
   color: var(--st-color-text-default, #111);
+}
+
+/* ── Metacard ────────────────────────────────────────────────────── */
+/* Border colour matches the project accent via CSS custom property  */
+.metacard {
+  border: 1.5px solid var(--project-accent, var(--st-color-border-default, #e5e5e5));
+  border-radius: var(--st-radius-sm, 6px);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+/* ── Key/value row (status, project ID, priority) ────────────────── */
+.metacardRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Shared label style for all meta keys inside the card */
+.metaKey {
+  font-family: var(--st-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted, #888);
+  flex-shrink: 0;
+}
+
+.metaVal {
+  font-size: 0.875rem;
+  color: var(--st-color-text-default, #333);
 }
 
 /* ── Status badge ────────────────────────────────────────────────── */
@@ -57,7 +78,6 @@
   padding: 0.25em 0.65em;
   border-radius: var(--st-radius-xs, 4px);
   border: 1px solid currentColor;
-  /* Default color — overridden by data-status selectors below */
   color: var(--st-color-text-muted, #666);
   background: transparent;
 }
@@ -81,56 +101,72 @@
   opacity: 0.75;
 }
 
-/* ── Project meta (ID etc.) ──────────────────────────────────────── */
-.projectMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1.5rem;
-  margin: 0.5rem 0 0;
-  font-size: 0.875rem;
-}
-
-.metaLabel {
-  font-weight: 600;
-  color: var(--st-color-text-muted, #888);
-  font-family: var(--st-font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.metaValue {
-  color: var(--st-color-text-default, #333);
-  margin: 0;
-}
-
 /* ── Description ─────────────────────────────────────────────────── */
 .projectDescription {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   color: var(--st-color-text-muted, #555);
   line-height: 1.65;
-  margin: 1rem 0 0;
+  margin: 0;
 }
 
-/* ── Tags row ────────────────────────────────────────────────────── */
-.projectTags {
-  margin-top: 1.25rem;
+/* ── Category + tag chips row ────────────────────────────────────── */
+.metacardChips {
+  /* TaxonomyChips renders its own ul; just needs a container */
 }
 
-.tagsLabel {
-  font-size: 0.75rem;
-  font-weight: 700;
+/* ── KPI block ───────────────────────────────────────────────────── */
+.metacardKpis {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.kpiList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.kpiItem {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.kpiMetric {
+  flex: 1;
+  min-width: 0;
+  color: var(--st-color-text-default, #333);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kpiProgress {
+  font-variant-numeric: tabular-nums;
   font-family: var(--st-font-mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.kpiCurrent {
+  font-weight: 700;
+  color: var(--st-color-text-default, #222);
+}
+
+.kpiTarget {
   color: var(--st-color-text-muted, #888);
-  margin: 0 0 0.4rem;
+  font-weight: 400;
 }
 
 /* ── Content timeline ────────────────────────────────────────────── */
 .timelineSection {
-  margin-top: 2.5rem;
   padding-top: 2rem;
   border-top: 1px solid var(--st-color-border-default, #e5e5e5);
 }

@@ -3,8 +3,9 @@
  * Route: /projects/:slug
  *
  * EPIC-0145: replaces TaxonomyPlaceholderPage for /projects/:slug.
- * Shows a color-accented header, status badge, project metadata, and a unified
- * content timeline (articles + nodes + caseStudies) using ContentCard.
+ * Shows a colour-accented header, a metacard with status / ID / description /
+ * categories / tags / priority / KPIs, then a unified content timeline
+ * (articles + nodes + caseStudies) using ContentCard.
  */
 import { useParams, Link } from 'react-router-dom'
 import { projectDetailQuery } from '../lib/queries'
@@ -17,25 +18,30 @@ import NotFoundPage from './NotFoundPage'
 import styles from './ProjectDetailPage.module.css'
 import pageStyles from './pages.module.css'
 
-// ─── Project status display labels ───────────────────────────────────────────
-// Derived from the status options.list in
-// apps/studio/schemas/documents/project.ts.
-// Values: planning, active, archived
+// ─── Display maps ─────────────────────────────────────────────────────────────
+
 const PROJECT_STATUS_LABELS = {
   planning: 'Planning',
   active:   'Active',
   archived: 'Archived',
 }
 
+const PRIORITY_LABELS = {
+  1: '🔴 Critical',
+  2: '🟠 High',
+  3: '🟡 Medium',
+  4: '🟢 Low',
+  5: '⚪ Backlog',
+}
+
 // ─── Merge and sort content timeline ─────────────────────────────────────────
 
 function buildTimeline(articles, nodes, caseStudies) {
   const items = [
-    ...(articles   ?? []),
-    ...(nodes      ?? []),
+    ...(articles    ?? []),
+    ...(nodes       ?? []),
     ...(caseStudies ?? []),
   ]
-  // Sort by publishedAt descending; items without a date sort to the end
   items.sort((a, b) => {
     if (!a.publishedAt && !b.publishedAt) return 0
     if (!a.publishedAt) return 1
@@ -45,12 +51,13 @@ function buildTimeline(articles, nodes, caseStudies) {
   return items
 }
 
-// ─── Simple SEO builder ───────────────────────────────────────────────────────
+// ─── SEO builder ─────────────────────────────────────────────────────────────
 
 function buildProjectSeo(project, siteSettings) {
   if (!project) return null
-  const title = `${project.name}${siteSettings?.siteTitle ? ` — ${siteSettings.siteTitle}` : ''}`
-  const description = project.description ?? null
+  const siteSuffix = siteSettings?.siteTitle ? ` — ${siteSettings.siteTitle}` : ''
+  const title       = (project.seo?.metaTitle || project.name) + siteSuffix
+  const description = project.seo?.metaDescription ?? project.description ?? null
   return {
     title,
     description,
@@ -77,16 +84,18 @@ export default function ProjectDetailPage() {
   if (loading) return <div className={pageStyles.loadingPage}>Loading…</div>
   if (notFound || !project) return <NotFoundPage />
 
-  const statusLabel = project.status ? (PROJECT_STATUS_LABELS[project.status] ?? project.status) : null
-  const timeline    = buildTimeline(project.articles, project.nodes, project.caseStudies)
-  const hasTags     = project.tags?.length > 0
+  const statusLabel   = project.status   ? (PROJECT_STATUS_LABELS[project.status]   ?? project.status)   : null
+  const priorityLabel = project.priority ? (PRIORITY_LABELS[project.priority]        ?? String(project.priority)) : null
+  const timeline      = buildTimeline(project.articles, project.nodes, project.caseStudies)
+  const hasCategories = project.categories?.length > 0
+  const hasTags       = project.tags?.length > 0
+  const hasKpis       = project.kpis?.length > 0
+  const hasChips      = hasCategories || hasTags
 
-  // Color accent bar — use colorHex if set and valid, otherwise fall back to CSS var.
-  // colorHex is stored as #rrggbb (validated in schema). We never hardcode a fallback
-  // hex here — we use the CSS variable fallback mechanism via inline style.
-  const accentStyle = project.colorHex
-    ? { '--project-accent': project.colorHex }
-    : { '--project-accent': 'var(--st-color-brand-primary)' }
+  // --project-accent drives both the accentBar and the metacard border.
+  const accentStyle = {
+    '--project-accent': project.colorHex || 'var(--st-color-brand-primary)',
+  }
 
   return (
     <main className={styles.projectPage}>
@@ -96,14 +105,19 @@ export default function ProjectDetailPage() {
         ← All Projects
       </Link>
 
-      {/* ── Color accent bar ─────────────────────────────────────────── */}
+      {/* ── Colour accent bar ─────────────────────────────────────────── */}
       <div className={styles.accentBar} style={accentStyle} aria-hidden="true" />
 
-      {/* ── Project header ───────────────────────────────────────────── */}
-      <header className={styles.projectHeader}>
-        <div className={styles.projectHeadingRow}>
-          <h1 className={styles.projectName}>{project.name}</h1>
-          {statusLabel && (
+      {/* ── Project name ──────────────────────────────────────────────── */}
+      <h1 className={styles.projectName}>{project.name}</h1>
+
+      {/* ── Metacard ──────────────────────────────────────────────────── */}
+      <div className={styles.metacard} style={accentStyle}>
+
+        {/* Status */}
+        {statusLabel && (
+          <div className={styles.metacardRow}>
+            <span className={styles.metaKey}>Status</span>
             <span
               className={styles.statusBadge}
               data-status={project.status}
@@ -111,29 +125,63 @@ export default function ProjectDetailPage() {
             >
               {statusLabel}
             </span>
-          )}
-        </div>
+          </div>
+        )}
 
-        <dl className={styles.projectMeta}>
-          {project.projectId && (
-            <>
-              <dt className={styles.metaLabel}>Project ID</dt>
-              <dd className={styles.metaValue}>{project.projectId}</dd>
-            </>
-          )}
-        </dl>
+        {/* Project ID */}
+        {project.projectId && (
+          <div className={styles.metacardRow}>
+            <span className={styles.metaKey}>Project ID</span>
+            <span className={styles.metaVal}>{project.projectId}</span>
+          </div>
+        )}
 
+        {/* Description */}
         {project.description && (
           <p className={styles.projectDescription}>{project.description}</p>
         )}
 
-        {hasTags && (
-          <div className={styles.projectTags}>
-            <p className={styles.tagsLabel}>Tags</p>
-            <TaxonomyChips tags={project.tags} size="sm" />
+        {/* Categories + Tags */}
+        {hasChips && (
+          <div className={styles.metacardChips}>
+            <TaxonomyChips
+              categories={project.categories}
+              tags={project.tags}
+              size="sm"
+            />
           </div>
         )}
-      </header>
+
+        {/* Priority */}
+        {priorityLabel && (
+          <div className={styles.metacardRow}>
+            <span className={styles.metaKey}>Priority</span>
+            <span className={styles.metaVal} data-priority={project.priority}>
+              {priorityLabel}
+            </span>
+          </div>
+        )}
+
+        {/* KPIs */}
+        {hasKpis && (
+          <div className={styles.metacardKpis}>
+            <span className={styles.metaKey}>KPIs</span>
+            <ul className={styles.kpiList}>
+              {project.kpis.map((kpi, i) => (
+                <li key={i} className={styles.kpiItem}>
+                  <span className={styles.kpiMetric}>{kpi.metric}</span>
+                  <span className={styles.kpiProgress}>
+                    <span className={styles.kpiCurrent}>{kpi.current || '—'}</span>
+                    {kpi.target && (
+                      <span className={styles.kpiTarget}> / {kpi.target}</span>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
 
       {/* ── Content timeline ─────────────────────────────────────────── */}
       {timeline.length > 0 && (

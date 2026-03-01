@@ -708,7 +708,9 @@ export const projectDetailQuery = `
     priority,
     colorHex,
     kpis,
+    categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
+    seo,
     "articles": *[_type == "article" && references(^._id)] | order(publishedAt desc) {
       _id,
       _type,

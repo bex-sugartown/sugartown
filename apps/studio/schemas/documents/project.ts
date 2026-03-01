@@ -4,29 +4,39 @@ import {RocketIcon} from '@sanity/icons'
 /**
  * Project Document
  *
- * Project registry - controlled vocabulary for work tracking and KPI measurement
- * Links content (nodes, posts, case studies) to active projects
+ * Project registry - controlled vocabulary for work tracking and KPI measurement.
+ * Links content (nodes, articles, case studies) to active projects.
+ *
+ * Tabs: Basics (ID, name, slug, status, priority, color) | Profile (description,
+ *       categories, tags, KPIs) | SEO
  */
 export default defineType({
   name: 'project',
   title: 'Project',
   type: 'document',
   icon: RocketIcon,
+
+  groups: [
+    {name: 'basics',  title: 'Basics',  default: true},
+    {name: 'profile', title: 'Profile'},
+    {name: 'seo',     title: 'SEO'},
+  ],
+
   fields: [
+    // ── Basics ────────────────────────────────────────────────────────────────
     defineField({
       name: 'projectId',
       title: 'Project ID',
       type: 'string',
       description: 'Unique identifier in format PROJ-XXX (e.g., PROJ-001)',
+      group: 'basics',
       validation: (Rule) =>
         Rule.required()
           .custom(async (value, context) => {
             if (!value) return true
-            // Format check
             if (!/^PROJ-\d{3}$/.test(value)) {
               return 'Project ID must follow format PROJ-XXX (e.g., PROJ-001)'
             }
-            // Uniqueness check
             const {document, getClient} = context
             const client = getClient({apiVersion: '2024-01-01'})
             const id = document._id.replace(/^drafts\./, '')
@@ -41,6 +51,7 @@ export default defineType({
       title: 'Project Name',
       type: 'string',
       description: 'Human-readable project name',
+      group: 'basics',
       validation: (Rule) =>
         Rule.required()
           .max(100)
@@ -51,6 +62,7 @@ export default defineType({
       title: 'Slug',
       type: 'slug',
       description: 'URL-safe identifier. Auto-generated from name — click Generate.',
+      group: 'basics',
       options: {
         source: 'name',
         maxLength: 96,
@@ -58,22 +70,15 @@ export default defineType({
       validation: (Rule) => Rule.required()
     }),
     defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-      description: 'Brief overview of the project goals and scope',
-      rows: 4,
-      validation: (Rule) => Rule.max(500)
-    }),
-    defineField({
       name: 'status',
       title: 'Status',
       type: 'string',
       description: 'Current project lifecycle stage',
+      group: 'basics',
       options: {
         list: [
           {title: '📋 Planning', value: 'planning'},
-          {title: '🚀 Active', value: 'active'},
+          {title: '🚀 Active',   value: 'active'},
           {title: '📦 Archived', value: 'archived'}
         ],
         layout: 'radio'
@@ -86,13 +91,14 @@ export default defineType({
       title: 'Priority',
       type: 'number',
       description: 'Priority ranking (1 = highest, 5 = lowest)',
+      group: 'basics',
       options: {
         list: [
           {title: '🔴 Critical (1)', value: 1},
-          {title: '🟠 High (2)', value: 2},
-          {title: '🟡 Medium (3)', value: 3},
-          {title: '🟢 Low (4)', value: 4},
-          {title: '⚪ Backlog (5)', value: 5}
+          {title: '🟠 High (2)',     value: 2},
+          {title: '🟡 Medium (3)',   value: 3},
+          {title: '🟢 Low (4)',      value: 4},
+          {title: '⚪ Backlog (5)',  value: 5}
         ]
       },
       validation: (Rule) =>
@@ -102,33 +108,60 @@ export default defineType({
           .warning('Priority should be between 1 (critical) and 5 (backlog)')
     }),
     defineField({
-      name: 'tags',
-      title: 'Tags',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'tag'}]
-        })
-      ],
-      description: 'Thematic tags for this project'
-    }),
-    defineField({
       name: 'colorHex',
       title: 'Color (Hex)',
       type: 'string',
-      description: 'Hex color used for knowledge graph visualization and archive filter chips (e.g., #0099FF).',
+      description: 'Hex color for knowledge graph visualization and archive filter chips (e.g., #0099FF).',
+      group: 'basics',
       validation: (Rule) =>
         Rule.regex(/^#([0-9a-fA-F]{6})$/, {
           name: 'hex color',
           invert: false,
         }).warning('Use a 6-digit hex color like #0099FF.')
     }),
+
+    // ── Profile ───────────────────────────────────────────────────────────────
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      description: 'Brief overview of the project goals and scope',
+      group: 'profile',
+      rows: 4,
+      validation: (Rule) => Rule.max(500)
+    }),
+    defineField({
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
+      description: 'Category classification for this project',
+      group: 'profile',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'category'}]
+        })
+      ]
+    }),
+    defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      description: 'Thematic tags for this project',
+      group: 'profile',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'tag'}]
+        })
+      ]
+    }),
     defineField({
       name: 'kpis',
       title: 'Key Performance Indicators',
       type: 'array',
       description: 'Measurable goals and current progress',
+      group: 'profile',
       of: [
         defineArrayMember({
           type: 'object',
@@ -159,33 +192,42 @@ export default defineType({
           ],
           preview: {
             select: {
-              metric: 'metric',
+              metric:  'metric',
               current: 'current',
-              target: 'target'
+              target:  'target'
             },
             prepare({metric, current, target}) {
               return {
-                title: metric || 'Untitled KPI',
+                title:    metric || 'Untitled KPI',
                 subtitle: `${current || '—'} / ${target || '—'}`
               }
             }
           }
         })
       ]
-    })
+    }),
+
+    // ── SEO ───────────────────────────────────────────────────────────────────
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seoMetadata',
+      group: 'seo',
+    }),
   ],
+
   preview: {
     select: {
       projectId: 'projectId',
-      name: 'name',
-      status: 'status',
-      priority: 'priority',
-      colorHex: 'colorHex'
+      name:      'name',
+      status:    'status',
+      priority:  'priority',
+      colorHex:  'colorHex'
     },
     prepare({projectId, name, status, priority, colorHex}) {
       const statusLabels = {
         planning: '📋 Planning',
-        active: '🚀 Active',
+        active:   '🚀 Active',
         archived: '📦 Archived'
       }
       const priorityLabels = {
@@ -197,27 +239,28 @@ export default defineType({
       }
       const colorSuffix = colorHex ? ` • ${colorHex}` : ''
       return {
-        title: name || 'Untitled Project',
+        title:    name || 'Untitled Project',
         subtitle: `${projectId || 'No ID'} • ${statusLabels[status as keyof typeof statusLabels] || status}${colorSuffix}`,
         description: priority ? `Priority: ${priorityLabels[priority as keyof typeof priorityLabels]}` : undefined
       }
     }
   },
+
   orderings: [
     {
       title: 'Priority (High to Low)',
-      name: 'priorityAsc',
-      by: [{field: 'priority', direction: 'asc'}]
+      name:  'priorityAsc',
+      by:    [{field: 'priority', direction: 'asc'}]
     },
     {
       title: 'Project ID',
-      name: 'projectIdAsc',
-      by: [{field: 'projectId', direction: 'asc'}]
+      name:  'projectIdAsc',
+      by:    [{field: 'projectId', direction: 'asc'}]
     },
     {
       title: 'Name (A-Z)',
-      name: 'nameAsc',
-      by: [{field: 'name', direction: 'asc'}]
+      name:  'nameAsc',
+      by:    [{field: 'name', direction: 'asc'}]
     }
   ]
 })
