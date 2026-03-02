@@ -139,6 +139,7 @@ Phase 2 includes:
 4. Update MetadataCard and FilterBar to handle reference objects (`tool.name`, `tool.slug`) rather than raw strings
 5. Update `validate-taxonomy.js` Check C: replace string enum validation with reference-existence check
 6. Create `ToolsArchivePage.jsx` (or equivalent) and register route in `App.jsx` and `routes.js`
+7. **Wire legacy WP tool-tag redirects:** For each tool document, create a `301` redirect from `/tag/[tool-slug]` → `/tools/[tool-slug]` in Sanity redirect schema and `apps/web/public/_redirects`. These were deferred from EPIC-0155 (URL Audit) because the `/tools/:slug` route must exist before the redirect target is valid. At implementation time, cross-reference the EPIC-0155 decision registry for the confirmed list of tool-tag slugs to wire.
 
 ---
 
@@ -259,6 +260,7 @@ if (existing) { skipped++; continue }
 - [ ] `pnpm validate:filters` passes — filter model unaffected
 - [ ] `pnpm validate:taxonomy` passes — Check C still validates string enum on content docs (no regression)
 - [ ] **Enum coverage:** `toolType` options in `tool.ts` exactly match the 7 values listed in Schema Enum Audit — verified by reading the schema, not from memory
+- [ ] **Phase 2 gate (record now):** EPIC-0155 decision registry contains a DEFER entry for each tool-related `/tag/:slug` URL, with note referencing this epic. At Phase 2 activation, confirm that list before wiring redirects.
 
 ---
 

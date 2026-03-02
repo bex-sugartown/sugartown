@@ -1,0 +1,267 @@
+source_url,action,destination,status_code,note
+/blog/ai-automation,redirect,/categories/ai-automation,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/ai-collaboration,redirect,/categories/ai-collaboration,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/blog,redirect,/categories/blog,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/career-engineering,redirect,/categories/career-engineering,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/content-architecture,redirect,/categories/content-architecture,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/data-visualization,redirect,/categories/data-visualization,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/design-systems,redirect,/categories/design-systems,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/documentation,redirect,/categories/documentation,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/engineering-dx,redirect,/categories/engineering-dx,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/governance,redirect,/categories/governance,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/meta,redirect,/categories/meta,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/personalization,redirect,/categories/personalization,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/process-insight,redirect,/categories/process-insight,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/product-platform-strategy,redirect,/categories/product-platform-strategy,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/product-ops,redirect,/categories/product-ops,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/sugartown-notes,redirect,/categories/sugartown-notes,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/system,redirect,/categories/system,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/uncategorized,redirect,/categories/uncategorized,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/ux-ui-interaction,redirect,/categories/ux-ui-interaction,301,WP blog category archive — redirect to new canonical taxonomy URL
+/blog/ways-of-working,redirect,/categories/ways-of-working,301,WP blog category archive — redirect to new canonical taxonomy URL
+/tag/resist,redirect,/tags/resist,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/accessibility,redirect,/tags/accessibility,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/acquia,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/adwords,redirect,/tags/adwords,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/aem,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/agency,redirect,/tags/agency,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/agentic-caucus,redirect,/tags/agentic-caucus,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/agentic-interfaces,redirect,/tags/agentic-interfaces,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/agile,redirect,/tags/agile,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/agile-workflows,redirect,/tags/agile-workflows,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ai,redirect,/tags/ai,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ai-assisted-authoring,redirect,/tags/ai-assisted-authoring,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ai-collaboration,redirect,/tags/ai-collaboration,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ai-ethics,redirect,/tags/ai-ethics,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ai-hallucinations,redirect,/tags/ai-hallucinations,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ai-limitations,redirect,/tags/ai-limitations,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ai-safety,redirect,/tags/ai-safety,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ai-workflows,redirect,/tags/ai-workflows,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/alt-text,redirect,/tags/alt-text,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/app-development,redirect,/tags/app-development,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/apple,redirect,/tags/apple,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/architecture,redirect,/tags/architecture,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/artist,redirect,/tags/artist,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/atomic,redirect,/tags/atomic,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/atomic-content-model,redirect,/tags/atomic-content-model,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/atomic-design,redirect,/tags/atomic-design,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/audit,redirect,/tags/audit,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/auto-tagging,redirect,/tags/auto-tagging,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/automation,redirect,/tags/automation,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/b2c,redirect,/tags/b2c,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/beauty-retail,redirect,/tags/beauty-retail,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/best-practices,redirect,/tags/best-practices,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/branding,redirect,/tags/branding,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/calver,redirect,/tags/calver,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/campaign,redirect,/tags/campaign,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/career-platform,redirect,/tags/career-platform,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/case-studies,redirect,/tags/case-studies,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/celum,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/ceramics,redirect,/tags/ceramics,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/changelog,redirect,/tags/changelog,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/chatgpt,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/claude,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/claude-code-2,defer,,,Tool-variant tag — deferred alongside claude-code tool tag (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/claude-code,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/cms-rfp,redirect,/tags/cms-rfp,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/codex,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/cognitive-load,redirect,/tags/cognitive-load,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/community,redirect,/tags/community,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/component-governance,redirect,/tags/component-governance,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/composable,redirect,/tags/composable,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/comps,redirect,/tags/comps,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/construction,redirect,/tags/construction,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/content-architecture,redirect,/tags/content-architecture,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/content-as-data,redirect,/tags/content-as-data,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/content-audit,redirect,/tags/content-audit,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/content-migration,redirect,/tags/content-migration,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/content-model,redirect,/tags/content-model,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/content-modeling,redirect,/tags/content-modeling,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/content-ops,redirect,/tags/content-ops,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/content-strategy,redirect,/tags/content-strategy,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/content-as-code,redirect,/tags/content-as-code,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/contentful,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/contentstack,redirect,/tags/contentstack,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/core-web-vitals,redirect,/tags/core-web-vitals,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/cpg,redirect,/tags/cpg,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/creative-director,redirect,/tags/creative-director,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/crm,redirect,/tags/crm,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/cross-functional-collaboration,redirect,/tags/cross-functional-collaboration,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/css,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/css-grid,redirect,/tags/css-grid,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/customer-journey-mapping,redirect,/tags/customer-journey-mapping,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/dam,redirect,/tags/dam,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/dashboards,redirect,/tags/dashboards,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/data-integrity,redirect,/tags/data-integrity,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/data-science,redirect,/tags/data-science,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/data-visualization,redirect,/tags/data-visualization,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/debugging,redirect,/tags/debugging,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/demand-generation,redirect,/tags/demand-generation,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/design-engineering,redirect,/tags/design-engineering,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/design-ops,redirect,/tags/design-ops,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/design-system,redirect,/tags/design-system,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/design-system-governance,redirect,/tags/design-system-governance,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/design-systems,redirect,/tags/design-systems,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/design-tokens,redirect,/tags/design-tokens,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/designer,redirect,/tags/designer,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/developer-experience,redirect,/tags/developer-experience,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/devtools,redirect,/tags/devtools,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/digital,redirect,/tags/digital,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/digital-pm,redirect,/tags/digital-pm,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/digital-transformation,redirect,/tags/digital-transformation,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/discovery-vs-delivery,redirect,/tags/discovery-vs-delivery,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/documentation,redirect,/tags/documentation,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/drupal,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/drupal-8,defer,,,Tool-variant tag — deferred alongside drupal tool tag (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/dynamic-content,redirect,/tags/dynamic-content,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ecommerce,redirect,/tags/ecommerce,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/editorial-illustration,redirect,/tags/editorial-illustration,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/education,redirect,/tags/education,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/entertainment,redirect,/tags/entertainment,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/etl-pipeline,redirect,/tags/etl-pipeline,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/facebook,redirect,/tags/facebook,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/figma,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/figma-variables,redirect,/tags/figma-variables,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/forms,redirect,/tags/forms,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/forum,redirect,/tags/forum,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/fx-networks,redirect,/tags/fx-networks,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/gemini,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/generative-ui,redirect,/tags/generative-ui,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/git,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/github,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/governance,redirect,/tags/governance,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/governance-models,redirect,/tags/governance-models,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/grid,redirect,/tags/grid,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/hallucination,redirect,/tags/hallucination,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/headless-architecture,redirect,/tags/headless-architecture,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/headless-cms,redirect,/tags/headless-cms,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/health-beauty,redirect,/tags/health-beauty,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/human-in-the-loop,redirect,/tags/human-in-the-loop,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/humility,redirect,/tags/humility,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/icloud,redirect,/tags/icloud,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/information-design,redirect,/tags/information-design,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/input-fields,redirect,/tags/input-fields,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/intellectual-property,redirect,/tags/intellectual-property,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/interaction-patterns,redirect,/tags/interaction-patterns,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/irony,redirect,/tags/irony,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/json-schema,redirect,/tags/json-schema,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/knowledge-graph,redirect,/tags/knowledge-graph,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/landing-page,redirect,/tags/landing-page,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/layout,redirect,/tags/layout,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/linear,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/llm-workflows,redirect,/tags/llm-workflows,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/mach,redirect,/tags/mach,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/market-research,redirect,/tags/market-research,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/marketing,redirect,/tags/marketing,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/meta,redirect,/tags/meta,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/metadata-strategy,redirect,/tags/metadata-strategy,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/migration,redirect,/tags/migration,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/mobile,redirect,/tags/mobile,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/mockup,redirect,/tags/mockup,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/monorepo,redirect,/tags/monorepo,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/multi-brand-theming,redirect,/tags/multi-brand-theming,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/mvp,redirect,/tags/mvp,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/napa,redirect,/tags/napa,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/netsuite,redirect,/tags/netsuite,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/networkx,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/non-profit,redirect,/tags/non-profit,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/omnichannel,redirect,/tags/omnichannel,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ontology,redirect,/tags/ontology,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/opinion,redirect,/tags/opinion,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/oracle-atg,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/oracle-bcc,defer,,,Tool-variant tag — deferred alongside oracle-atg tool tag (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/p13n,redirect,/tags/p13n,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/performance,redirect,/tags/performance,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/pilot,redirect,/tags/pilot,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/pim,redirect,/tags/pim,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/pim-pxm,redirect,/tags/pim-pxm,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/pinterest,redirect,/tags/pinterest,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/platform-strategy,redirect,/tags/platform-strategy,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/portfolio,redirect,/tags/portfolio,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/prd,redirect,/tags/prd,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/prestige-brands,redirect,/tags/prestige-brands,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/prioritization-frameworks,redirect,/tags/prioritization-frameworks,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/process-insight,redirect,/tags/process-insight,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/procurement,redirect,/tags/procurement,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/product-discovery,redirect,/tags/product-discovery,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/product-management,redirect,/tags/product-management,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/product-operations,redirect,/tags/product-operations,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/product-ops,redirect,/tags/product-ops,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/product-platform-strategy,redirect,/tags/product-platform-strategy,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/product-roadmap,redirect,/tags/product-roadmap,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/product-strategy,redirect,/tags/product-strategy,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/production,redirect,/tags/production,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/project-management,redirect,/tags/project-management,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/prompt,redirect,/tags/prompt,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/prompt-engineering,redirect,/tags/prompt-engineering,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/pxm,redirect,/tags/pxm,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/python,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/qa-workflows,redirect,/tags/qa-workflows,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/rant,redirect,/tags/rant,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/react,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/redesign,redirect,/tags/redesign,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/refactoring,redirect,/tags/refactoring,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/release-engineering,redirect,/tags/release-engineering,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/release-management,redirect,/tags/release-management,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/release-notes,redirect,/tags/release-notes,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/release-notes-2,redirect,/tags/release-notes-2,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/release-process,redirect,/tags/release-process,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/requirements,redirect,/tags/requirements,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/responsive,redirect,/tags/responsive,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/resume-builder,redirect,/tags/resume-builder,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/resume-as-code,redirect,/tags/resume-as-code,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/reusable,redirect,/tags/reusable,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/rfp,redirect,/tags/rfp,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/roadmap,redirect,/tags/roadmap,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/salesforce,redirect,/tags/salesforce,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/sanity,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/schema-org,redirect,/tags/schema-org,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/scope-creep,redirect,/tags/scope-creep,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/scrum-but,redirect,/tags/scrum-but,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/sem,redirect,/tags/sem,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/semantic-tokens,redirect,/tags/semantic-tokens,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/semver,redirect,/tags/semver,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/seo,redirect,/tags/seo,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/separation-of-concerns,redirect,/tags/separation-of-concerns,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/shopify,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/slop,redirect,/tags/slop,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/small-business,redirect,/tags/small-business,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/smb,redirect,/tags/smb,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/social-media,redirect,/tags/social-media,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/source-control,redirect,/tags/source-control,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/squarespace,redirect,/tags/squarespace,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/stakeholder-alignment,redirect,/tags/stakeholder-alignment,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/storybook,defer,,,Tool-related tag — redirect target /tools/:slug doesn't exist until Tools epic (EPIC-tool-doctype). Wire in Phase 2 of Tools epic.
+/tag/strategy,redirect,/tags/strategy,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/structured-content,redirect,/tags/structured-content,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/sugartown,redirect,/tags/sugartown,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/sugartown-pink,redirect,/tags/sugartown-pink,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/system,redirect,/tags/system,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/system-architecture,redirect,/tags/system-architecture,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/system-drift,redirect,/tags/system-drift,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/system-thinking,redirect,/tags/system-thinking,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/systemic-documentation,redirect,/tags/systemic-documentation,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/taxonomy,redirect,/tags/taxonomy,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/team-topology,redirect,/tags/team-topology,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/tech,redirect,/tags/tech,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/tech-debt,redirect,/tags/tech-debt,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/technical-debt,redirect,/tags/technical-debt,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/token-pipelines,redirect,/tags/token-pipelines,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/tooling,redirect,/tags/tooling,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/travel,redirect,/tags/travel,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/twitter,redirect,/tags/twitter,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ui-design,redirect,/tags/ui-design,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ux,redirect,/tags/ux,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/vendor-selection,redirect,/tags/vendor-selection,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/version-control,redirect,/tags/version-control,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/versioning,redirect,/tags/versioning,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/visualization,redirect,/tags/visualization,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/ways-of-working,redirect,/tags/ways-of-working,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/wcag,redirect,/tags/wcag,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/web-app,redirect,/tags/web-app,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/web-design,redirect,/tags/web-design,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/wine-beverage,redirect,/tags/wine-beverage,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/wireframes,redirect,/tags/wireframes,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/workflow,redirect,/tags/workflow,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/working-agreements,redirect,/tags/working-agreements,301,WP tag archive — redirect to new canonical taxonomy URL
+/tag/youtube,redirect,/tags/youtube,301,WP tag archive — redirect to new canonical taxonomy URL

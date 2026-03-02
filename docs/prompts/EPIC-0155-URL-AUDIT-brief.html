@@ -571,40 +571,46 @@
             <td><span class="action-redirect">301 REDIRECT</span></td>
           </tr>
           <tr>
-            <td>/tag/:slug</td>
+            <td>/tag/:slug <em style="color:var(--st-color-muted);font-size:0.8em">(non-tool tags)</em></td>
             <td>WP tag archive</td>
             <td><code>/tags/:slug</code></td>
             <td><span class="action-redirect">301 REDIRECT</span></td>
           </tr>
           <tr>
+            <td>/tag/:slug <em style="color:var(--st-color-muted);font-size:0.8em">(tool-related tags)</em></td>
+            <td>WP tag archive — tags that map to a tool slug (e.g. <code>/tag/chatgpt</code>, <code>/tag/figma</code>)</td>
+            <td><code>/tools/:slug</code> — target doesn't exist until Tools epic establishes routing</td>
+            <td><span class="action-tbd">DEFER → Tools epic</span></td>
+          </tr>
+          <tr>
             <td>/?cat=:id</td>
             <td>WP category query param</td>
-            <td><code>/categories/:slug</code> (requires slug lookup)</td>
-            <td><span class="action-tbd">TBD</span></td>
+            <td><code>/categories/</code> (redirect to parent)</td>
+            <td><span class="action-redirect">301 REDIRECT</span></td>
           </tr>
           <tr>
             <td>/?tag=:id</td>
             <td>WP tag query param</td>
-            <td><code>/tags/:slug</code> (requires slug lookup)</td>
-            <td><span class="action-tbd">TBD</span></td>
+            <td><code>/tags/</code> (redirect to parent)</td>
+            <td><span class="action-redirect">301 REDIRECT</span></td>
           </tr>
           <tr>
             <td>/?p=:id</td>
             <td>WP post ID permalinks</td>
-            <td><code>/articles/:slug</code> (requires ID → slug map)</td>
-            <td><span class="action-tbd">TBD</span></td>
+            <td><code>/articles/</code> (redirect to parent)</td>
+            <td><span class="action-redirect">301 REDIRECT</span></td>
           </tr>
           <tr>
             <td>/wp-content/uploads/...</td>
             <td>WP media URLs</td>
             <td>Sanity CDN or static asset path</td>
-            <td><span class="action-tbd">TBD</span></td>
+            <td><span class="action-tbd">DEFER -> Image Epic TBD</span></td>
           </tr>
           <tr>
             <td>/author/:slug</td>
             <td>WP author archives</td>
             <td><code>/people/:slug</code> or drop</td>
-            <td><span class="action-tbd">TBD</span></td>
+            <td><span class="action-redirect">301 REDIRECT</span></td>
           </tr>
           <tr>
             <td>/feed, /feed/rss2</td>
@@ -622,7 +628,7 @@
             <td>/sitemap.xml, /sitemap_index.xml</td>
             <td>WP Yoast sitemaps</td>
             <td>New sitemap (if generated)</td>
-            <td><span class="action-tbd">TBD</span></td>
+            <td><span class="action-tbd">DEFER -> Sitemap Epic TBD</span></td>
           </tr>
         </tbody>
       </table>
@@ -631,6 +637,24 @@
         <span class="callout__icon">★</span>
         <div>
           <strong>Phase 1 deliverable:</strong> Open the audit artifacts in <code>scripts/migrate/artifacts/</code> and the <code>_redirects</code> file. For each URL group, record your decision in the decision registry (Phase 1 output). <strong>You don't need Claude Code for this.</strong> This is editorial and product judgment, not implementation.
+        </div>
+      </div>
+      <div class="callout" style="margin-top:12px;border-color:rgba(209,255,29,0.25);background:rgba(209,255,29,0.04);">
+        <span class="callout__icon" style="color:var(--st-color-lime)">⚑</span>
+        <div>
+          <strong style="color:var(--st-color-lime)">Tool-tag defer note:</strong> Tool-related <code>/tag/:slug</code> URLs (e.g. <code>/tag/chatgpt</code>, <code>/tag/figma</code>, <code>/tag/claude</code>) cannot be wired in EPIC-0155 because their redirect target — <code>/tools/:slug</code> — doesn't exist until the Tools epic establishes routing. Log these in the decision registry as <strong>DEFER — pending Tools epic</strong> with note: <em>"Redirect target is /tools/:slug — implement after tools routing is established."</em> Generic (non-tool) tag redirects can proceed normally as <code>301 /tag/:slug → /tags/:slug</code>.
+        </div>
+      </div>
+            <div class="callout" style="margin-top:12px;border-color:rgba(209,255,29,0.25);background:rgba(209,255,29,0.04);">
+        <span class="callout__icon" style="color:var(--st-color-lime)">⚑</span>
+        <div>
+          <strong style="color:var(--st-color-lime)">Image Redirect defer note:</strong> Image-related <code>/wp-content/uploads/...</code> URLs cannot be wired in EPIC-0155 because their redirect target — <code>/images/:slug</code> — doesn't exist until the Images epic establishes routing. Log these in the decision registry as <strong>DEFER — pending Images epic</strong> with note: <em>"Redirect target is /images/:slug — implement after images routing is established."</em>
+        </div>
+      </div>
+            <div class="callout" style="margin-top:12px;border-color:rgba(209,255,29,0.25);background:rgba(209,255,29,0.04);">
+        <span class="callout__icon" style="color:var(--st-color-lime)">⚑</span>
+        <div>
+          <strong style="color:var(--st-color-lime)">Sitemap defer note:</strong> Sitemap-related <code>/sitemap.xml</code> URLs cannot be wired in EPIC-0155 because their redirect target — <code>/sitemap.xml</code> — doesn't exist until the Sitemap epic establishes routing. Log these in the decision registry as <strong>DEFER — pending Sitemap epic</strong> with note: <em>"Redirect target is /sitemap.xml — implement after sitemap routing is established."</em>
         </div>
       </div>
     </div>

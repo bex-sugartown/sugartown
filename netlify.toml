@@ -1,0 +1,34 @@
+# netlify.toml — Sugartown
+#
+# Build settings are configured in the Netlify dashboard (base: apps/web,
+# command: pnpm build, publish: apps/web/dist). This file exists solely for
+# redirect rules that the _redirects file format cannot express.
+#
+# Per-URL slug redirects (WP taxonomy archives) live in apps/web/public/_redirects,
+# generated at build time by apps/web/scripts/build-redirects.js from Sanity
+# redirect documents.
+
+# ─── WP query-parameter permalink redirects ───────────────────────────────────
+# These cannot be expressed in _redirects format — query-param matching
+# requires netlify.toml [[redirects]] with a query table.
+
+# /?p=:id  →  /articles/  (WP numeric post ID permalinks)
+[[redirects]]
+  from   = "/"
+  to     = "/articles/"
+  status = 301
+  query  = {p = ":p"}
+
+# /?cat=:id  →  /categories/  (WP category query param)
+[[redirects]]
+  from   = "/"
+  to     = "/categories/"
+  status = 301
+  query  = {cat = ":cat"}
+
+# /?tag=:id  →  /tags/  (WP tag query param)
+[[redirects]]
+  from   = "/"
+  to     = "/tags/"
+  status = 301
+  query  = {tag = ":tag"}
