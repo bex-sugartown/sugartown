@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPIC-0152 · Light/Dark Theme Bones</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --st-color-midnight: #0D1226;
+    --st-color-pink: #FF247D;
+    --st-color-seafoam: #2BD4AA;
+    --st-color-lime: #D1FF1D;
+    --st-color-surface: #141830;
+    --st-color-surface-raised: #1C2240;
+    --st-color-border: rgba(255,36,125,0.2);
+    --st-color-border-subtle: rgba(255,255,255,0.06);
+    --st-color-text: #F8F8FA;
+    --st-color-muted: #8890AA;
+    --st-font-mono: 'Fira Code', monospace;
+    --st-font-sans: 'Fira Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--st-color-midnight);
+    color: var(--st-color-text);
+    font-family: var(--st-font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .epic-header {
+    background: var(--st-color-surface);
+    border-bottom: 1px solid var(--st-color-border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .epic-id {
+    font-family: var(--st-font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(255,36,125,0.1);
+    border: 1px solid rgba(255,36,125,0.3);
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  .epic-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--st-color-text);
+    flex: 1;
+  }
+
+  .epic-meta-pill {
+    font-family: var(--st-font-mono);
+    font-size: 0.7rem;
+    color: var(--st-color-muted);
+    background: rgba(255,255,255,0.05);
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .epic-meta-pill--p1 {
+    color: var(--st-color-lime);
+    background: rgba(209,255,29,0.08);
+    border-color: rgba(209,255,29,0.25);
+  }
+
+  .epic-body {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    display: grid;
+    gap: 40px;
+  }
+
+  .section {
+    background: var(--st-color-surface);
+    border: 1px solid var(--st-color-border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .section__header {
+    padding: 14px 20px;
+    background: rgba(255,36,125,0.07);
+    border-bottom: 1px solid var(--st-color-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .section__body {
+    padding: 24px;
+  }
+
+  /* ── Overview grid ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .overview-item__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    color: var(--st-color-pink);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .overview-item__value {
+    font-size: 0.88rem;
+    color: var(--st-color-muted);
+    line-height: 1.65;
+  }
+
+  .overview-item__value code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ── Stories ── */
+  .story-list { display: grid; gap: 16px; }
+
+  .story {
+    padding: 20px;
+    background: var(--st-color-surface-raised);
+    border-radius: 5px;
+    border: 1px solid var(--st-color-border-subtle);
+    display: grid;
+    gap: 10px;
+  }
+
+  .story__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .story__id {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    background: rgba(255,36,125,0.12);
+    border: 1px solid rgba(255,36,125,0.28);
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+  }
+
+  .story__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--st-color-text);
+    flex: 1;
+  }
+
+  .badge {
+    font-family: var(--st-font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .badge--p0 { background: rgba(255,36,125,0.2); color: #FF247D; border: 1px solid rgba(255,36,125,0.35); }
+  .badge--p1 { background: rgba(209,255,29,0.1); color: #D1FF1D; border: 1px solid rgba(209,255,29,0.3); }
+  .badge--p2 { background: rgba(255,255,255,0.05); color: var(--st-color-muted); border: 1px solid rgba(255,255,255,0.1); }
+
+  .story__desc {
+    font-size: 0.85rem;
+    color: var(--st-color-muted);
+    line-height: 1.65;
+  }
+
+  .story__ac {
+    font-size: 0.83rem;
+    color: var(--st-color-muted);
+    background: var(--st-color-midnight);
+    border-radius: 4px;
+    padding: 14px 16px;
+    border-left: 3px solid rgba(255,36,125,0.4);
+  }
+
+  .story__ac strong {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    color: var(--st-color-pink);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .story__ac ul {
+    padding-left: 18px;
+    display: grid;
+    gap: 5px;
+  }
+
+  .story__ac li { line-height: 1.55; }
+
+  .story__ac code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+
+  /* ── Token tables ── */
+  .token-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+  }
+
+  .token-table th {
+    font-family: var(--st-font-mono);
+    font-size: 0.62rem;
+    color: var(--st-color-pink);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--st-color-border);
+  }
+
+  .token-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--st-color-border-subtle);
+    vertical-align: middle;
+    color: var(--st-color-muted);
+  }
+
+  .token-table tr:last-child td { border-bottom: none; }
+
+  .token-table td:first-child {
+    font-family: var(--st-font-mono);
+    font-size: 0.78rem;
+    color: var(--st-color-seafoam);
+  }
+
+  .token-table td code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-text);
+    background: rgba(255,255,255,0.06);
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+
+  .swatch {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .swatch__dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+
+  /* ── Dep chain ── */
+  .dep-chain {
+    display: grid;
+    gap: 4px;
+    font-family: var(--st-font-mono);
+    font-size: 0.8rem;
+  }
+
+  .dep-chain__item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--st-color-surface-raised);
+    border-radius: 4px;
+    border: 1px solid var(--st-color-border-subtle);
+  }
+
+  .dep-chain__item--current {
+    border-color: rgba(255,36,125,0.35);
+    background: rgba(255,36,125,0.06);
+  }
+
+  .dep-chain__arrow {
+    color: var(--st-color-muted);
+    font-size: 0.7rem;
+    padding-left: 20px;
+  }
+
+  .dep-chain__label { color: var(--st-color-text); font-weight: 500; }
+  .dep-chain__note { color: var(--st-color-muted); font-size: 0.72rem; margin-left: auto; }
+
+  /* ── Callout ── */
+  .callout {
+    border: 1px solid rgba(209,255,29,0.2);
+    background: rgba(209,255,29,0.04);
+    border-radius: 4px;
+    padding: 16px 20px;
+    font-size: 0.85rem;
+    color: var(--st-color-muted);
+    line-height: 1.65;
+    display: flex;
+    gap: 12px;
+  }
+
+  .callout__icon {
+    color: var(--st-color-lime);
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .callout code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-lime);
+    background: rgba(209,255,29,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .callout strong { color: var(--st-color-text); }
+
+  /* ── Nongoal ── */
+  .nongoal-list { display: grid; gap: 8px; }
+
+  .nongoal {
+    display: flex;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--st-color-surface-raised);
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
+    color: var(--st-color-muted);
+  }
+
+  .nongoal::before {
+    content: '✕';
+    font-family: var(--st-font-mono);
+    font-size: 0.75rem;
+    color: rgba(255,36,125,0.5);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── Prompt block ── */
+  .prompt-block {
+    background: var(--st-color-midnight);
+    border: 1px solid var(--st-color-border);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .prompt-block__header {
+    padding: 10px 16px;
+    background: rgba(255,36,125,0.08);
+    border-bottom: 1px solid var(--st-color-border);
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    color: var(--st-color-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .prompt-block__body {
+    padding: 20px 24px;
+    font-family: var(--st-font-mono);
+    font-size: 0.78rem;
+    line-height: 1.75;
+    color: var(--st-color-muted);
+    white-space: pre-wrap;
+  }
+
+  .gate {
+    color: var(--st-color-lime);
+    font-weight: 700;
+  }
+
+  .cmd { color: var(--st-color-seafoam); }
+  .warn { color: var(--st-color-pink); font-weight: 700; }
+  .comment { color: #5a6070; }
+
+  /* ── Light preview mock ── */
+  .light-preview {
+    background: #FFFFFF;
+    border: 1px solid #E2E2E8;
+    border-radius: 6px;
+    overflow: hidden;
+    font-family: var(--st-font-sans);
+  }
+
+  .light-preview__bar {
+    background: #F7F7FA;
+    border-bottom: 1px solid #E2E2E8;
+    padding: 10px 16px;
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    color: #9090AA;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .light-preview__body {
+    padding: 20px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .light-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E2E8;
+    border-radius: 5px;
+    padding: 16px;
+    display: grid;
+    gap: 8px;
+  }
+
+  .light-card__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1A1A2E;
+  }
+
+  .light-card__meta {
+    font-size: 0.75rem;
+    color: #9090AA;
+    font-family: var(--st-font-mono);
+  }
+
+  .light-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: rgba(255,36,125,0.08);
+    color: #C0145A;
+    border: 1px solid rgba(255,36,125,0.2);
+  }
+
+  code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px dashed rgba(255,36,125,0.15);
+    margin: 20px 0;
+  }
+</style>
+</head>
+<body>
+
+<header class="epic-header">
+  <span class="epic-id">EPIC-0152</span>
+  <span class="epic-title">Light/Dark Theme Bones — Token Foundation + Archive Test Surface</span>
+  <span class="epic-meta-pill">packages/design-system · apps/web</span>
+  <span class="epic-meta-pill">Sprint 0.16.0</span>
+  <span class="epic-meta-pill--p1 epic-meta-pill">P1 · Unblocks EPIC-0151</span>
+</header>
+
+<div class="epic-body">
+
+  <!-- Overview -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Overview</span>
+    </div>
+    <div class="section__body">
+      <div class="overview-grid">
+        <div>
+          <div class="overview-item__label">What</div>
+          <div class="overview-item__value">Establish the minimum viable token foundation for light and dark themes in the Sugartown design system. Rename <code>void</code> → <code>midnight</code>. Confirm the lime token. Wire a theme-switching mechanism at the token layer. Validate on the existing archive page — not a new page.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Why</div>
+          <div class="overview-item__value">EPIC-0151 (Library Catalog Card) and EPIC-0150 nav enhancements are blocked until light mode token surfaces exist. This epic ships the bones so those can start. Visual polish (texture, shadows, Pink Moon refinements) is explicitly out of scope.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Test Surface</div>
+          <div class="overview-item__value">Use the existing <code>/knowledge-graph</code> or <code>/articles</code> archive page as the live test surface for theme switching. No new page. No dummy homepage. Archive already has cards, chips, filter bar, and metadata — sufficient coverage.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Downstream Unlocks</div>
+          <div class="overview-item__value">EPIC-0151 full card audit (on light tokens) · EPIC-0150 nav light/dark treatment · EPIC-0153 hero surface tokens · Footer tagline lime token (0150 gate).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dependency chain -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Dependency Chain</span>
+    </div>
+    <div class="section__body">
+      <div class="dep-chain">
+        <div class="dep-chain__item dep-chain__item--current">
+          <span class="dep-chain__label">EPIC-0152 — Light/Dark Bones</span>
+          <span class="dep-chain__note">← YOU ARE HERE</span>
+        </div>
+        <div class="dep-chain__arrow">↓ unlocks</div>
+        <div class="dep-chain__item">
+          <span class="dep-chain__label">EPIC-0150 — Site Settings (nav + footer lime token)</span>
+          <span class="dep-chain__note">lime token confirmed here</span>
+        </div>
+        <div class="dep-chain__arrow">↓ unlocks</div>
+        <div class="dep-chain__item">
+          <span class="dep-chain__label">EPIC-0151 — Library Catalog Card Component</span>
+          <span class="dep-chain__note">light surface tokens needed</span>
+        </div>
+        <div class="dep-chain__arrow">↓ unlocks</div>
+        <div class="dep-chain__item">
+          <span class="dep-chain__label">EPIC Pink Moon — Full Visual Layer</span>
+          <span class="dep-chain__note">texture, shadows, refinements on top</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Non-goals -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Explicit Non-Goals (Out of Scope)</span>
+    </div>
+    <div class="section__body">
+      <div class="nongoal-list">
+        <div class="nongoal">Texture, grain, or surface effects — those are Pink Moon</div>
+        <div class="nongoal">New page creation (dummy homepage, card audit page) — that's EPIC-0151</div>
+        <div class="nongoal">Full component reskin in light mode — only the archive card gets a basic light treatment here</div>
+        <div class="nongoal">Navigation visual redesign — nav gets basic light/dark token application, no new structure</div>
+        <div class="nongoal">System-level OS preference detection (prefers-color-scheme) — optional stretch, not required</div>
+        <div class="nongoal">Animations or theme-switch transitions — plain toggle only</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stories -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Stories — 5 Total</span>
+    </div>
+    <div class="section__body">
+      <div class="story-list">
+
+        <!-- 152-01 -->
+        <div class="story">
+          <div class="story__header">
+            <span class="story__id">152-01</span>
+            <span class="story__title">Token rename — <code>void</code> → <code>midnight</code></span>
+            <span class="badge badge--p0">P0</span>
+          </div>
+          <div class="story__desc">
+            The dark background token is currently named <code>void</code> in some parts of the codebase. This is semantically wrong — midnight is the correct name for this navy-black. Rename the token alias; value stays <code>#0D1226</code>. All components referencing <code>void</code> must be updated to <code>midnight</code> in the same pass.
+          </div>
+          <div class="story__ac">
+            <strong>Acceptance Criteria</strong>
+            <ul>
+              <li>Token renamed: <code>--st-color-void</code> → <code>--st-color-midnight</code> everywhere it appears in token JSON and CSS</li>
+              <li>Value unchanged: <code>#0D1226</code></li>
+              <li>Grep for <code>void</code> in all <code>st-*</code> token contexts returns zero hits after rename</li>
+              <li>Dark theme renders identically before and after rename (visual regression check)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 152-02 -->
+        <div class="story">
+          <div class="story__header">
+            <span class="story__id">152-02</span>
+            <span class="story__title">Confirm and name the lime token</span>
+            <span class="badge badge--p0">P0</span>
+          </div>
+          <div class="story__desc">
+            Lime exists in the dark theme reference (<code>#D1FF1D</code>) but may not have a canonical semantic token name in the design system yet. Confirm whether <code>--st-color-lime</code> or <code>--st-color-accent-lime</code> is the correct name and register it as an official primitive + semantic token. This unblocks EPIC-0150 footer tagline and EPIC-0151 chip variants.
+          </div>
+          <div class="story__ac">
+            <strong>Acceptance Criteria</strong>
+            <ul>
+              <li>Primitive token defined: <code>--st-color-lime-400: #D1FF1D</code></li>
+              <li>Semantic alias defined: <code>--st-color-accent-lime: var(--st-color-lime-400)</code></li>
+              <li>Token appears in token JSON file alongside pink, seafoam, midnight</li>
+              <li>Dark theme epic HTML reference <code>--st-color-lime</code> matches the registered value</li>
+              <li>No hardcoded <code>#D1FF1D</code> hex values remain in any component — all reference the token</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 152-03 -->
+        <div class="story">
+          <div class="story__header">
+            <span class="story__id">152-03</span>
+            <span class="story__title">Light mode token set — semantic layer</span>
+            <span class="badge badge--p1">P1</span>
+          </div>
+          <div class="story__desc">
+            Define the light mode semantic tokens. These are surface, text, border, and accent values for a white-canvas context. Brand colors (pink, seafoam, lime) remain the same in both themes — only canvas, surface, and text roles change. Model the light palette on the Sugartown Pink PRD's Appendix A light mode spec.
+          </div>
+          <div class="story__ac">
+            <strong>Acceptance Criteria</strong>
+            <ul>
+              <li>Light mode tokens defined under <code>[data-theme="light"]</code> or <code>.theme-light</code> selector (confirm which pattern the codebase uses)</li>
+              <li>Minimum token set covers: canvas bg, surface bg, surface-raised bg, text primary, text secondary/muted, border default, border subtle</li>
+              <li>Light mode values reference existing primitives (gray-100, gray-200, gray-900, etc.) — no new raw hex values without a corresponding primitive</li>
+              <li>Deep Pink Rule respected: <code>--st-color-brand-primary</code> (#FF247D) is NOT used for text on light canvas — <code>--st-color-text-brand</code> (#b91c68) is used instead</li>
+              <li>Token table below is implemented as documented</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 152-04 -->
+        <div class="story">
+          <div class="story__header">
+            <span class="story__id">152-04</span>
+            <span class="story__title">Theme switch mechanism — token layer only</span>
+            <span class="badge badge--p1">P1</span>
+          </div>
+          <div class="story__desc">
+            Wire a minimal theme toggle that swaps between dark and light token sets. Mechanism lives at the HTML or body attribute level (<code>data-theme</code>). No JS framework needed — a simple attribute toggle on <code>&lt;html&gt;</code> is sufficient. Persist to <code>localStorage</code> so preference survives navigation. Test on the existing archive page only.
+          </div>
+          <div class="story__ac">
+            <strong>Acceptance Criteria</strong>
+            <ul>
+              <li>Theme toggle button renders in the site header (minimal, icon or text — no design required yet)</li>
+              <li>Toggle sets <code>data-theme="light"</code> or <code>data-theme="dark"</code> on <code>&lt;html&gt;</code></li>
+              <li>CSS uses <code>[data-theme="dark"]</code> for dark tokens and <code>[data-theme="light"]</code> for light — or equivalent pattern confirmed from codebase</li>
+              <li>Preference persists in <code>localStorage</code> across page loads</li>
+              <li>Default theme is <code>dark</code> (Sugartown Dark is the canonical default)</li>
+              <li>Toggle is accessible: keyboard focusable, has ARIA label</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 152-05 -->
+        <div class="story">
+          <div class="story__header">
+            <span class="story__id">152-05</span>
+            <span class="story__title">Archive card — basic light mode treatment</span>
+            <span class="badge badge--p1">P1</span>
+          </div>
+          <div class="story__desc">
+            Apply the new light mode tokens to the existing archive card component. This is not a redesign — it's a token swap. Cards, chips, filter bar, and metadata row should all read from semantic tokens and respond correctly to the theme toggle. This validates the token system is wired end-to-end. Full card audit and new card variants come in EPIC-0151.
+          </div>
+          <div class="story__ac">
+            <strong>Acceptance Criteria</strong>
+            <ul>
+              <li>Archive card renders correctly in both dark and light themes via the 152-04 toggle</li>
+              <li>No hardcoded hex or RGB values remain in the card component's CSS — all reference <code>--st-*</code> tokens</li>
+              <li>Chip components (<code>st-chip</code>, <code>st-chip--outlined</code>) render legibly on light canvas</li>
+              <li>Filter bar tokens respond to theme change</li>
+              <li>WCAG AA contrast passes for all text in light mode (visual check minimum)</li>
+              <li>Deep Pink Rule applied: pink brand color does not appear as body text on white canvas</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Token reference -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Token Reference — Dark (Canonical) + Light (New)</span>
+    </div>
+    <div class="section__body">
+
+      <div style="font-family:var(--st-font-mono);font-size:0.65rem;font-weight:700;color:var(--st-color-pink);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px;">Dark Theme — Sugartown Dark (Canonical / Locked)</div>
+      <table class="token-table" style="margin-bottom:32px;">
+        <thead>
+          <tr>
+            <th>Token Name</th>
+            <th>Value</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>--st-color-midnight</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#0D1226;"></span><code>#0D1226</code></span></td>
+            <td>Body background — Layer 0</td>
+          </tr>
+          <tr>
+            <td>--st-color-surface</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#141830;"></span><code>#141830</code></span></td>
+            <td>Section cards — Layer 1</td>
+          </tr>
+          <tr>
+            <td>--st-color-surface-raised</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#1C2240;"></span><code>#1C2240</code></span></td>
+            <td>Inset rows/tables — Layer 2</td>
+          </tr>
+          <tr>
+            <td>--st-color-text</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#F8F8FA;border-color:rgba(255,255,255,0.3);"></span><code>#F8F8FA</code></span></td>
+            <td>Primary text</td>
+          </tr>
+          <tr>
+            <td>--st-color-muted</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#8890AA;"></span><code>#8890AA</code></span></td>
+            <td>Secondary / label text</td>
+          </tr>
+          <tr>
+            <td>--st-color-border</td>
+            <td><code>rgba(255,36,125,0.2)</code></td>
+            <td>Section card borders (pink tint)</td>
+          </tr>
+          <tr>
+            <td>--st-color-border-subtle</td>
+            <td><code>rgba(255,255,255,0.06)</code></td>
+            <td>Inset element borders</td>
+          </tr>
+          <tr>
+            <td>--st-color-pink</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#FF247D;"></span><code>#FF247D</code></span></td>
+            <td>Brand primary — unchanged in both themes</td>
+          </tr>
+          <tr>
+            <td>--st-color-seafoam</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#2BD4AA;"></span><code>#2BD4AA</code></span></td>
+            <td>Accent / success — unchanged in both themes</td>
+          </tr>
+          <tr>
+            <td>--st-color-accent-lime</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#D1FF1D;"></span><code>#D1FF1D</code></span></td>
+            <td>New / highlight — unchanged in both themes</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="font-family:var(--st-font-mono);font-size:0.65rem;font-weight:700;color:var(--st-color-seafoam);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:14px;">Light Theme — Sugartown Light (New in EPIC-0152)</div>
+      <table class="token-table" style="margin-bottom:24px;">
+        <thead>
+          <tr>
+            <th>Token Name</th>
+            <th>Target Value</th>
+            <th>Role / Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>--st-color-midnight</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#FFFFFF;border:1px solid #ccc;"></span><code>#FFFFFF</code></span></td>
+            <td>Body background — white canvas</td>
+          </tr>
+          <tr>
+            <td>--st-color-surface</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#F7F7FA;border:1px solid #ccc;"></span><code>#F7F7FA</code></span></td>
+            <td>Card / section surface — off-white</td>
+          </tr>
+          <tr>
+            <td>--st-color-surface-raised</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#EEEEF4;border:1px solid #ccc;"></span><code>#EEEEF4</code></span></td>
+            <td>Inset rows — slightly elevated</td>
+          </tr>
+          <tr>
+            <td>--st-color-text</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#1A1A2E;"></span><code>#1A1A2E</code></span></td>
+            <td>Primary text — near-black with blue tone</td>
+          </tr>
+          <tr>
+            <td>--st-color-muted</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#6B6B88;"></span><code>#6B6B88</code></span></td>
+            <td>Secondary text — mid-gray</td>
+          </tr>
+          <tr>
+            <td>--st-color-border</td>
+            <td><code>#E2E2EC</code></td>
+            <td>Default border — light gray</td>
+          </tr>
+          <tr>
+            <td>--st-color-border-subtle</td>
+            <td><code>#EBEBF2</code></td>
+            <td>Subtle separator</td>
+          </tr>
+          <tr>
+            <td>--st-color-text-brand</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#b91c68;"></span><code>#b91c68</code></span></td>
+            <td>Deep Pink Rule — brand text on light canvas only. NOT #FF247D.</td>
+          </tr>
+          <tr>
+            <td>--st-color-pink</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#FF247D;"></span><code>#FF247D</code></span></td>
+            <td>Brand primary — same as dark. Decorative use only on light.</td>
+          </tr>
+          <tr>
+            <td>--st-color-seafoam</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#2BD4AA;"></span><code>#2BD4AA</code></span></td>
+            <td>Unchanged — verify contrast on light canvas</td>
+          </tr>
+          <tr>
+            <td>--st-color-accent-lime</td>
+            <td><span class="swatch"><span class="swatch__dot" style="background:#D1FF1D;border:1px solid #ccc;"></span><code>#D1FF1D</code></span></td>
+            <td>Unchanged — decorative only on light (fails text contrast, use sparingly)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout">
+        <span class="callout__icon">★</span>
+        <div>
+          <strong>Light theme values are proposals, not mandates.</strong> Claude Code must confirm actual token values exist in <code>packages/design-system/tokens/</code> before using them. If primitives like <code>gray-100</code> map cleanly to these values, use them. If not, create new primitives first, then create semantic aliases. Never use raw hex in semantic tokens.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Light preview mock -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Light Mode — Visual Target (Archive Card)</span>
+    </div>
+    <div class="section__body">
+      <p style="font-size:0.83rem;color:var(--st-color-muted);margin-bottom:16px;line-height:1.6;">This is the <em>bones</em> target — not a polished design. Token-correct, contrast-compliant, no texture or shadows. Pink Moon adds the polish layer later.</p>
+      <div class="light-preview">
+        <div class="light-preview__bar">Archive Card — Light Mode Preview (token-correct)</div>
+        <div class="light-preview__body">
+          <div class="light-card">
+            <div class="light-card__title">How the Knowledge Graph Evolved</div>
+            <div class="light-card__meta">2026-01-15 · Knowledge Graph · Evergreen</div>
+            <div style="font-size:0.83rem;color:#6B6B88;line-height:1.5;">A deep dive into the architecture decisions behind the Sugartown node schema and how topology-first thinking changed the data model.</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+              <span class="light-chip">Sanity</span>
+              <span class="light-chip">GROQ</span>
+              <span class="light-chip">Architecture</span>
+            </div>
+          </div>
+          <div class="light-card">
+            <div class="light-card__title">Agentic Caucus Methodology</div>
+            <div class="light-card__meta">2026-01-20 · AI Operations · Validated</div>
+            <div style="font-size:0.83rem;color:#6B6B88;line-height:1.5;">Deploying Claude, ChatGPT, and Gemini based on documented strengths — systematic AI collaboration over ad-hoc prompting.</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+              <span class="light-chip">Claude</span>
+              <span class="light-chip">AI Ethics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Claude Code Prompt -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Claude Code Prompt</span>
+    </div>
+    <div class="section__body">
+      <div class="prompt-block">
+        <div class="prompt-block__header">Copy → Paste into Claude Code at monorepo root</div>
+        <div class="prompt-block__body"><span class="warn">EPIC-0152 — Light/Dark Theme Bones</span>
+<span class="warn">Read this entire prompt before taking any action.</span>
+
+<span class="gate">── ORIENTATION ──────────────────────────────────────────</span>
+
+Before writing a single line, read these files:
+
+<span class="cmd">ls packages/design-system/</span>
+<span class="cmd">find packages/design-system -name "*.json" | head -20</span>   <span class="comment"># find token JSON files</span>
+<span class="cmd">find packages/design-system -name "*.css" | head -20</span>    <span class="comment"># find token CSS files</span>
+<span class="cmd">grep -rn "void" packages/design-system/</span>                 <span class="comment"># find void token usage</span>
+<span class="cmd">grep -rn "void" apps/web/src/</span>                           <span class="comment"># find in frontend too</span>
+<span class="cmd">grep -rn "\-\-st-color-lime" packages/ apps/web/src/</span>    <span class="comment"># find lime token status</span>
+<span class="cmd">grep -rn "data-theme\|theme-light\|theme-dark" apps/web/src/</span>   <span class="comment"># existing theme mechanism?</span>
+<span class="cmd">cat apps/web/src/App.jsx</span>   <span class="comment"># or App.tsx</span>
+<span class="cmd">ls apps/web/src/components/</span>   <span class="comment"># find header component</span>
+
+Confirm before proceeding:
+- Where do token JSON files live? (packages/design-system/tokens/ or elsewhere?)
+- Where does the compiled token CSS live?
+- Does <code>--st-color-void</code> appear in any file? If not, document what name is used for #0D1226.
+- Does <code>--st-color-lime</code> or <code>--st-color-accent-lime</code> already exist?
+- Is there any existing theme switching mechanism? (data-theme, class toggle, etc.)
+- What is the archive page route? (/knowledge-graph or /articles — find the component)
+
+<span class="gate">── CONFIRMATION GATE 0 ──────────────────────────────────</span>
+Report orientation findings in a table. Wait for approval.
+────────────────────────────────────────────────────────
+
+<span class="gate">── STEP 1 — Token rename: void → midnight ───────────────</span>
+
+TASK: Rename <code>--st-color-void</code> to <code>--st-color-midnight</code> everywhere.
+
+Rules:
+- Value stays exactly #0D1226 — do NOT change the hex value
+- Search: token JSON files, compiled CSS, component CSS modules, any inline styles
+- If the token was never named "void", document what name is currently used for #0D1226
+  and skip this step (nothing to rename)
+
+Show me:
+1. Every file that contains the void token (or confirm it doesn't exist)
+2. The proposed rename diff
+
+<span class="gate">── CONFIRMATION GATE 1 ──────────────────────────────────</span>
+Show all affected files and diff. Wait for approval before writing.
+────────────────────────────────────────────────────────
+
+<span class="gate">── STEP 2 — Confirm and register lime token ─────────────</span>
+
+TASK: Confirm the lime token exists with a canonical name, or create it.
+
+Target state:
+  Primitive:  --st-color-lime-400: #D1FF1D
+  Semantic:   --st-color-accent-lime: var(--st-color-lime-400)
+
+Rules:
+- If a lime token already exists under a different name, RENAME it (do not duplicate)
+- Add to the same token file(s) where pink and seafoam are defined
+- Grep for any hardcoded #D1FF1D in component files and replace with the token
+- Do NOT add it to component CSS directly — tokens only in the token layer
+
+Show proposed diff before writing.
+
+<span class="gate">── CONFIRMATION GATE 2 ──────────────────────────────────</span>
+Show diff. Confirm lime token is in token layer, not component layer.
+Wait for approval.
+────────────────────────────────────────────────────────
+
+<span class="gate">── STEP 3 — Light mode semantic token set ───────────────</span>
+
+TASK: Define light mode tokens under [data-theme="light"] selector.
+
+Proposed light token values (confirm these map to existing primitives — adjust if primitives differ):
+
+  --st-color-midnight:      #FFFFFF          (canvas bg)
+  --st-color-surface:       #F7F7FA          (card/section surface)
+  --st-color-surface-raised:#EEEEF4          (inset rows)
+  --st-color-text:          #1A1A2E          (primary text)
+  --st-color-muted:         #6B6B88          (secondary text)
+  --st-color-border:        #E2E2EC          (default border)
+  --st-color-border-subtle: #EBEBF2          (subtle separator)
+  --st-color-text-brand:    #b91c68          (Deep Pink Rule — brand text on light only)
+
+Brand colors (pink, seafoam, lime) are the SAME in both themes.
+
+Rules:
+- Before defining new values, check if gray-100, gray-200 etc primitives already
+  cover these values. Use primitives if they exist.
+- Light tokens go in the same token file as dark tokens, under a separate selector
+- If the codebase currently uses a class-based theme (e.g. .theme-light), use that
+  pattern — do not introduce a new mechanism
+
+Show proposed diff.
+
+<span class="gate">── CONFIRMATION GATE 3 ──────────────────────────────────</span>
+Show diff. Confirm brand colors are NOT duplicated in light section.
+Confirm Deep Pink Rule token exists. Wait for approval.
+────────────────────────────────────────────────────────
+
+<span class="gate">── STEP 4 — Theme toggle mechanism ─────────────────────</span>
+
+TASK: Add a minimal theme toggle to the site header.
+
+Behavior:
+- Clicking the toggle sets data-theme="light" or data-theme="dark" on <html>
+- Default is "dark"
+- Persists in localStorage key: "st-theme"
+- On page load, read localStorage and apply before first paint (avoid flash)
+
+Implementation:
+- Add a small ThemeToggle component (inline if simple enough)
+- Place it in the site header component
+- Style is minimal — a text label or icon. No design work required.
+- Must be keyboard accessible with aria-label
+
+Find the header component during orientation. Do not create a new layout.
+
+Show the ThemeToggle implementation and the localStorage init script before writing.
+
+<span class="gate">── CONFIRMATION GATE 4 ──────────────────────────────────</span>
+Show ThemeToggle component code and localStorage init placement.
+Confirm: ARIA label present. Confirm: default is dark.
+Wait for approval.
+────────────────────────────────────────────────────────
+
+<span class="gate">── STEP 5 — Archive card light mode audit ───────────────</span>
+
+TASK: Audit the archive card component and fix any hardcoded values.
+
+Find the archive card component used on the /knowledge-graph or /articles page.
+
+Rules:
+- Search for any hex values or rgb() in the component CSS — replace with tokens
+- Chip components must also be audited (<code>st-chip</code>, <code>st-chip--outlined</code>)
+- Filter bar component must use token variables
+- Do NOT redesign the card — only replace hardcoded values with tokens
+
+Test manually:
+1. Toggle to light mode — card should be legible on white surface
+2. Toggle back to dark — card should look identical to before this epic started
+
+Show audit findings and proposed diff.
+
+<span class="gate">── CONFIRMATION GATE 5 ──────────────────────────────────</span>
+Show audit table (file → hardcoded value → replacement token).
+Show diff. Wait for approval.
+────────────────────────────────────────────────────────
+
+<span class="gate">── STEP 6 — Validation ──────────────────────────────────</span>
+
+After all approved changes are written:
+
+1. pnpm --filter web build
+   — Zero errors required. Show output.
+
+2. Grep for remaining hardcoded hex in touched files:
+   grep -rn "#[0-9a-fA-F]\{3,6\}" [list of touched component files]
+   — Report any hits. Fix before declaring done.
+
+3. Grep for "void" in all st-* contexts:
+   grep -rn "\-\-st-color-void\|st-color-void" packages/ apps/
+   — Must return zero results.
+
+4. Confirm lime token is reachable:
+   grep -rn "accent-lime\|st-color-lime" packages/design-system/
+   — Must return at least one result in the token file.
+
+<span class="gate">── FINAL CONFIRMATION GATE ──────────────────────────────</span>
+Show build output. Show grep results.
+Confirm all 5 stories complete:
+  [ ] void → midnight rename done (or confirmed never existed)
+  [ ] Lime token registered as primitive + semantic alias
+  [ ] Light mode tokens defined under [data-theme="light"]
+  [ ] Theme toggle in header, persists to localStorage, default dark
+  [ ] Archive card renders legibly in both themes, zero hardcoded hex
+────────────────────────────────────────────────────────
+
+GLOBAL RULES
+- Read before writing. Always.
+- Show diffs before saving. Always.
+- Wait at every gate. Always.
+- Zero hardcoded hex in any touched file.
+- Token names must use st-* namespace.
+- If a token doesn't exist yet, create it in the token layer first — never in a component.
+- This is bones work. Boring and correct beats clever.
+</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPIC-0155 · URL Audit & Redirect Decision Registry</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --st-color-midnight: #0D1226;
+    --st-color-pink: #FF247D;
+    --st-color-seafoam: #2BD4AA;
+    --st-color-lime: #D1FF1D;
+    --st-color-surface: #141830;
+    --st-color-surface-raised: #1C2240;
+    --st-color-border: rgba(255,36,125,0.2);
+    --st-color-border-subtle: rgba(255,255,255,0.06);
+    --st-color-text: #F8F8FA;
+    --st-color-muted: #8890AA;
+    --st-font-mono: 'Fira Code', monospace;
+    --st-font-sans: 'Fira Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--st-color-midnight);
+    color: var(--st-color-text);
+    font-family: var(--st-font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .epic-header {
+    background: var(--st-color-surface);
+    border-bottom: 1px solid var(--st-color-border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .epic-id {
+    font-family: var(--st-font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(255,36,125,0.1);
+    border: 1px solid rgba(255,36,125,0.3);
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  .epic-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--st-color-text);
+    flex: 1;
+  }
+
+  .epic-meta-pill {
+    font-family: var(--st-font-mono);
+    font-size: 0.7rem;
+    color: var(--st-color-muted);
+    background: rgba(255,255,255,0.05);
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .epic-meta-pill--warn {
+    color: var(--st-color-lime);
+    background: rgba(209,255,29,0.08);
+    border-color: rgba(209,255,29,0.25);
+  }
+
+  .epic-meta-pill--p0 {
+    color: var(--st-color-pink);
+    background: rgba(255,36,125,0.1);
+    border-color: rgba(255,36,125,0.3);
+  }
+
+  .epic-body {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    display: grid;
+    gap: 40px;
+  }
+
+  .section {
+    background: var(--st-color-surface);
+    border: 1px solid var(--st-color-border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .section__header {
+    padding: 14px 20px;
+    background: rgba(255,36,125,0.07);
+    border-bottom: 1px solid var(--st-color-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .section__body { padding: 24px; }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .overview-item__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    color: var(--st-color-pink);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .overview-item__value {
+    font-size: 0.88rem;
+    color: var(--st-color-muted);
+    line-height: 1.65;
+  }
+
+  .overview-item__value code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ── Phase blocks ── */
+  .phase-list { display: grid; gap: 16px; }
+
+  .phase {
+    padding: 20px;
+    background: var(--st-color-surface-raised);
+    border-radius: 5px;
+    border: 1px solid var(--st-color-border-subtle);
+    display: grid;
+    gap: 10px;
+  }
+
+  .phase__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .phase__id {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    background: rgba(255,36,125,0.12);
+    border: 1px solid rgba(255,36,125,0.28);
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+  }
+
+  .phase__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--st-color-text);
+    flex: 1;
+  }
+
+  .badge {
+    font-family: var(--st-font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .badge--bex   { background: rgba(209,255,29,0.1);   color: var(--st-color-lime);    border: 1px solid rgba(209,255,29,0.3); }
+  .badge--code  { background: rgba(43,212,170,0.1);   color: var(--st-color-seafoam); border: 1px solid rgba(43,212,170,0.3); }
+  .badge--p0    { background: rgba(255,36,125,0.15);  color: var(--st-color-pink);    border: 1px solid rgba(255,36,125,0.3); }
+
+  .phase__desc {
+    font-size: 0.85rem;
+    color: var(--st-color-muted);
+    line-height: 1.65;
+  }
+
+  .phase__ac {
+    font-size: 0.83rem;
+    color: var(--st-color-muted);
+    background: var(--st-color-midnight);
+    border-radius: 4px;
+    padding: 14px 16px;
+    border-left: 3px solid rgba(255,36,125,0.4);
+  }
+
+  .phase__ac strong {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    color: var(--st-color-pink);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .phase__ac ul { padding-left: 18px; display: grid; gap: 5px; }
+  .phase__ac li { line-height: 1.55; }
+
+  /* ── Decision table ── */
+  .decision-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+
+  .decision-table th {
+    font-family: var(--st-font-mono);
+    font-size: 0.62rem;
+    color: var(--st-color-pink);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--st-color-border);
+  }
+
+  .decision-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--st-color-border-subtle);
+    vertical-align: top;
+    color: var(--st-color-muted);
+    line-height: 1.5;
+  }
+
+  .decision-table tr:last-child td { border-bottom: none; }
+
+  .decision-table td:first-child {
+    font-family: var(--st-font-mono);
+    font-size: 0.75rem;
+    color: var(--st-color-seafoam);
+    white-space: nowrap;
+  }
+
+  .action-keep    { color: var(--st-color-seafoam); font-family: var(--st-font-mono); font-size:0.72rem; font-weight:700; }
+  .action-redirect { color: var(--st-color-pink);   font-family: var(--st-font-mono); font-size:0.72rem; font-weight:700; }
+  .action-drop    { color: var(--st-color-muted);   font-family: var(--st-font-mono); font-size:0.72rem; font-weight:700; }
+  .action-tbd     { color: var(--st-color-lime);    font-family: var(--st-font-mono); font-size:0.72rem; font-weight:700; }
+
+  /* ── Infra status ── */
+  .infra-grid { display: grid; gap: 10px; }
+
+  .infra-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    background: var(--st-color-surface-raised);
+    border-radius: 4px;
+    border: 1px solid var(--st-color-border-subtle);
+  }
+
+  .infra-item__status {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .status-done    { background: rgba(43,212,170,0.12); color: var(--st-color-seafoam); border: 1px solid rgba(43,212,170,0.3); }
+  .status-partial { background: rgba(209,255,29,0.1);  color: var(--st-color-lime);    border: 1px solid rgba(209,255,29,0.25); }
+  .status-todo    { background: rgba(255,36,125,0.1);  color: var(--st-color-pink);    border: 1px solid rgba(255,36,125,0.25); }
+
+  .infra-item__body { flex: 1; }
+  .infra-item__title { font-size: 0.88rem; font-weight: 600; color: var(--st-color-text); margin-bottom: 4px; }
+  .infra-item__desc  { font-size: 0.8rem;  color: var(--st-color-muted); line-height: 1.55; }
+
+  /* ── Callout ── */
+  .callout {
+    border: 1px solid rgba(209,255,29,0.2);
+    background: rgba(209,255,29,0.04);
+    border-radius: 4px;
+    padding: 16px 20px;
+    font-size: 0.85rem;
+    color: var(--st-color-muted);
+    line-height: 1.65;
+    display: flex;
+    gap: 12px;
+  }
+
+  .callout--pink {
+    border-color: rgba(255,36,125,0.2);
+    background: rgba(255,36,125,0.04);
+  }
+
+  .callout__icon { color: var(--st-color-lime); font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+  .callout--pink .callout__icon { color: var(--st-color-pink); }
+  .callout strong { color: var(--st-color-text); }
+
+  /* ── Prompt block ── */
+  .prompt-block {
+    background: var(--st-color-midnight);
+    border: 1px solid var(--st-color-border);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .prompt-block__header {
+    padding: 10px 16px;
+    background: rgba(255,36,125,0.08);
+    border-bottom: 1px solid var(--st-color-border);
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    color: var(--st-color-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .prompt-block__body {
+    padding: 20px 24px;
+    font-family: var(--st-font-mono);
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--st-color-muted);
+    white-space: pre-wrap;
+  }
+
+  .gate    { color: var(--st-color-lime);    font-weight: 700; }
+  .cmd     { color: var(--st-color-seafoam); }
+  .warn    { color: var(--st-color-pink);    font-weight: 700; }
+  .comment { color: #4a5060; }
+
+  hr {
+    border: none;
+    border-top: 1px dashed rgba(255,36,125,0.15);
+    margin: 20px 0;
+  }
+
+  .url-count {
+    font-family: var(--st-font-mono);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: var(--st-color-surface-raised);
+    border: 1px solid var(--st-color-border-subtle);
+    border-radius: 5px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .stat-card__num {
+    font-family: var(--st-font-mono);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    display: block;
+  }
+
+  .stat-card__num--seafoam { color: var(--st-color-seafoam); }
+  .stat-card__num--lime    { color: var(--st-color-lime); }
+  .stat-card__num--muted   { color: var(--st-color-muted); }
+
+  .stat-card__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    color: var(--st-color-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<header class="epic-header">
+  <span class="epic-id">EPIC-0155</span>
+  <span class="epic-title">URL Audit & Redirect Decision Registry</span>
+  <span class="epic-meta-pill">Parallel Track · Pre-Launch</span>
+  <span class="epic-meta-pill">scripts/migrate · apps/web/public</span>
+  <span class="epic-meta-pill--warn epic-meta-pill">⚠ Blocks Launch Routing Epic</span>
+  <span class="epic-meta-pill--p0 epic-meta-pill">P0 Pre-Launch</span>
+</header>
+
+<div class="epic-body">
+
+  <!-- Positioning note -->
+  <div class="callout callout--pink">
+    <span class="callout__icon">!</span>
+    <div>
+      <strong>This is not a sprint epic.</strong> EPIC-0155 runs as a parallel pre-launch workstream — not gated to 0.15.0 or 0.16.0. Phase 1 is decision work by Bex, not code. Phase 2 (implementation) only begins after redirect decisions are made and approved. The downstream launch routing epic cannot start until this is complete.
+    </div>
+  </div>
+
+  <!-- Overview -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Overview</span>
+    </div>
+    <div class="section__body">
+      <div class="overview-grid">
+        <div>
+          <div class="overview-item__label">What</div>
+          <div class="overview-item__value">Review the 266 legacy WordPress taxonomy-namespace URLs surfaced in the URL audit artifacts. Make keep / redirect / drop decisions for each group. Then wire those decisions into the existing redirect infrastructure so the <code>_redirects</code> file and Sanity redirect documents are authoritative and complete before cutover.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Why</div>
+          <div class="overview-item__value">Redirect infrastructure already exists — <code>redirect</code> schema, <code>redirects.js</code> migration script, <code>build-redirects.js</code>, and <code>apps/web/public/_redirects</code> are all live. What's missing is editorial decisions on the 266 URLs. Without those, the launch routing epic cannot be scoped or started. Every day these are undecided is a day of SEO equity at risk on cutover.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Who Does What</div>
+          <div class="overview-item__value"><strong style="color:var(--st-color-lime)">Bex</strong> — Phase 1: reviews audit artifacts, makes routing decisions, fills in the decision registry CSV. No code required. <strong style="color:var(--st-color-seafoam)">Claude Code</strong> — Phase 2: implements approved decisions into Sanity redirect documents and <code>_redirects</code> file, runs validation.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Definition of Done</div>
+          <div class="overview-item__value">Every one of the 266 URLs has an explicit decision (redirect / drop / keep). All redirect decisions are implemented in the Sanity <code>redirect</code> schema and <code>_redirects</code> file. <code>pnpm validate:urls</code> passes clean. Launch routing epic can begin.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What already exists -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Infrastructure Audit — What Already Exists</span>
+    </div>
+    <div class="section__body">
+      <p style="font-size:0.85rem;color:var(--st-color-muted);margin-bottom:20px;line-height:1.6;">The redirect system was partially built during the migration sprint (v0.10.0). More is done than you might think.</p>
+      <div class="infra-grid">
+        <div class="infra-item">
+          <span class="infra-item__status status-done">DONE</span>
+          <div class="infra-item__body">
+            <div class="infra-item__title"><code>redirect</code> document schema — <code>apps/studio/schemas/documents/redirect.ts</code></div>
+            <div class="infra-item__desc">Fields: <code>from</code> (source path), <code>to</code> (destination), <code>statusCode</code> (301/302), <code>note</code> (editorial context). Registered in schema index. Ready for Sanity Studio editorial use.</div>
+          </div>
+        </div>
+        <div class="infra-item">
+          <span class="infra-item__status status-done">DONE</span>
+          <div class="infra-item__body">
+            <div class="infra-item__title"><code>redirects.js</code> migration script — <code>scripts/migrate/redirects.js</code></div>
+            <div class="infra-item__desc">Generates Sanity <code>redirect</code> documents from WP permalink → Sanity slug mapping. Was run as part of the v0.10.0 import pipeline. Existing WP-era redirects already populated.</div>
+          </div>
+        </div>
+        <div class="infra-item">
+          <span class="infra-item__status status-done">DONE</span>
+          <div class="infra-item__body">
+            <div class="infra-item__title"><code>build-redirects.js</code> — <code>apps/web/scripts/build-redirects.js</code></div>
+            <div class="infra-item__desc">Build-time script: queries all published Sanity <code>redirect</code> documents → writes <code>apps/web/public/_redirects</code> in Netlify/Cloudflare format. Runs as part of pre-build step. Output committed for CI reproducibility.</div>
+          </div>
+        </div>
+        <div class="infra-item">
+          <span class="infra-item__status status-done">DONE</span>
+          <div class="infra-item__body">
+            <div class="infra-item__title"><code>_redirects</code> file — <code>apps/web/public/_redirects</code></div>
+            <div class="infra-item__desc">Generated redirect file committed. Contains WP legacy URL rules derived from migration parity report. Netlify-native format. Needs the 266 taxonomy decisions added.</div>
+          </div>
+        </div>
+        <div class="infra-item">
+          <span class="infra-item__status status-done">DONE</span>
+          <div class="infra-item__body">
+            <div class="infra-item__title">Known legacy redirects already wired (App.jsx)</div>
+            <div class="infra-item__desc"><code>/blog</code>, <code>/blog/:slug</code>, <code>/posts</code>, <code>/post/:slug</code> → <code>/articles</code>. Emoji slug redirect (<code>wp.article.814</code>). <code>/nodes/:slug</code> → <code>/knowledge-graph/:slug</code>. These are handled — not part of the 266.</div>
+          </div>
+        </div>
+        <div class="infra-item">
+          <span class="infra-item__status status-todo">MISSING</span>
+          <div class="infra-item__body">
+            <div class="infra-item__title">266 taxonomy-namespace URL decisions</div>
+            <div class="infra-item__desc">Legacy WP URLs using taxonomy namespace paths (e.g. <code>/category/...</code>, <code>/tag/...</code>, <code>/?cat=</code>, <code>/?tag=</code>, etc.) are identified in audit artifacts but have no redirect decisions yet. This is the gap EPIC-0155 closes.</div>
+          </div>
+        </div>
+        <div class="infra-item">
+          <span class="infra-item__status status-todo">MISSING</span>
+          <div class="infra-item__body">
+            <div class="infra-item__title">Server-side redirect deployment confirmation</div>
+            <div class="infra-item__desc">Netlify / hosting platform redirect deployment needs to be verified as working end-to-end with a live test. Format is correct, but server-side behavior on the new domain hasn't been smoke-tested against the current <code>_redirects</code> entries.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- URL inventory -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">URL Inventory — The 266</span>
+    </div>
+    <div class="section__body">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-card__num">266</span>
+          <span class="stat-card__label">Total URLs to decide</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__num stat-card__num--seafoam">—</span>
+          <span class="stat-card__label">Redirects (TBD)</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__num stat-card__num--lime">—</span>
+          <span class="stat-card__label">Drops (TBD)</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__num stat-card__num--muted">—</span>
+          <span class="stat-card__label">Keeps (TBD)</span>
+        </div>
+      </div>
+
+      <p style="font-size:0.85rem;color:var(--st-color-muted);margin-bottom:20px;line-height:1.6;">These URL groups are present in the audit artifacts. Each group requires a decision. Typical WP taxonomy namespace patterns to expect:</p>
+
+      <table class="decision-table">
+        <thead>
+          <tr>
+            <th>URL Pattern</th>
+            <th>WP Source</th>
+            <th>New Equivalent</th>
+            <th>Likely Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>/category/:slug</td>
+            <td>WP category archive</td>
+            <td><code>/categories/:slug</code></td>
+            <td><span class="action-redirect">301 REDIRECT</span></td>
+          </tr>
+          <tr>
+            <td>/tag/:slug</td>
+            <td>WP tag archive</td>
+            <td><code>/tags/:slug</code></td>
+            <td><span class="action-redirect">301 REDIRECT</span></td>
+          </tr>
+          <tr>
+            <td>/?cat=:id</td>
+            <td>WP category query param</td>
+            <td><code>/categories/:slug</code> (requires slug lookup)</td>
+            <td><span class="action-tbd">TBD</span></td>
+          </tr>
+          <tr>
+            <td>/?tag=:id</td>
+            <td>WP tag query param</td>
+            <td><code>/tags/:slug</code> (requires slug lookup)</td>
+            <td><span class="action-tbd">TBD</span></td>
+          </tr>
+          <tr>
+            <td>/?p=:id</td>
+            <td>WP post ID permalinks</td>
+            <td><code>/articles/:slug</code> (requires ID → slug map)</td>
+            <td><span class="action-tbd">TBD</span></td>
+          </tr>
+          <tr>
+            <td>/wp-content/uploads/...</td>
+            <td>WP media URLs</td>
+            <td>Sanity CDN or static asset path</td>
+            <td><span class="action-tbd">TBD</span></td>
+          </tr>
+          <tr>
+            <td>/author/:slug</td>
+            <td>WP author archives</td>
+            <td><code>/people/:slug</code> or drop</td>
+            <td><span class="action-tbd">TBD</span></td>
+          </tr>
+          <tr>
+            <td>/feed, /feed/rss2</td>
+            <td>WP RSS feeds</td>
+            <td>No equivalent yet</td>
+            <td><span class="action-drop">DROP / 410</span></td>
+          </tr>
+          <tr>
+            <td>/wp-admin, /wp-login.php</td>
+            <td>WP admin paths</td>
+            <td>Drop entirely</td>
+            <td><span class="action-drop">DROP / 410</span></td>
+          </tr>
+          <tr>
+            <td>/sitemap.xml, /sitemap_index.xml</td>
+            <td>WP Yoast sitemaps</td>
+            <td>New sitemap (if generated)</td>
+            <td><span class="action-tbd">TBD</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout" style="margin-top:20px;">
+        <span class="callout__icon">★</span>
+        <div>
+          <strong>Phase 1 deliverable:</strong> Open the audit artifacts in <code>scripts/migrate/artifacts/</code> and the <code>_redirects</code> file. For each URL group, record your decision in the decision registry (Phase 1 output). <strong>You don't need Claude Code for this.</strong> This is editorial and product judgment, not implementation.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decision framework -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Decision Framework — How to Evaluate Each URL</span>
+    </div>
+    <div class="section__body">
+      <div style="display:grid;gap:12px;">
+
+        <div style="padding:16px;background:var(--st-color-surface-raised);border-radius:5px;border-left:3px solid var(--st-color-seafoam);">
+          <div style="font-family:var(--st-font-mono);font-size:0.7rem;font-weight:700;color:var(--st-color-seafoam);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">301 REDIRECT — Preserve</div>
+          <div style="font-size:0.85rem;color:var(--st-color-muted);line-height:1.6;">URL has a meaningful canonical equivalent in the new system. Preserves SEO equity. Use for: category/tag archives → new taxonomy URLs, post ID URLs → article slugs, any URL with inbound links or search indexing worth keeping.</div>
+        </div>
+
+        <div style="padding:16px;background:var(--st-color-surface-raised);border-radius:5px;border-left:3px solid var(--st-color-pink);">
+          <div style="font-family:var(--st-font-mono);font-size:0.7rem;font-weight:700;color:var(--st-color-pink);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">410 GONE — Drop</div>
+          <div style="font-size:0.85rem;color:var(--st-color-muted);line-height:1.6;">URL has no equivalent and no SEO value worth preserving. 410 (Gone) is better than 404 for intentional deletions — tells crawlers it's gone for good. Use for: /wp-admin, /wp-login, RSS feeds without replacements, WP cruft paths.</div>
+        </div>
+
+        <div style="padding:16px;background:var(--st-color-surface-raised);border-radius:5px;border-left:3px solid var(--st-color-lime);">
+          <div style="font-family:var(--st-font-mono);font-size:0.7rem;font-weight:700;color:var(--st-color-lime);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">KEEP — No Change</div>
+          <div style="font-size:0.85rem;color:var(--st-color-muted);line-height:1.6;">URL path is identical in the new system and content is already mapped. No redirect rule needed. Confirm the slug is clean and live in Sanity. Use for: pages that kept their exact slug through migration.</div>
+        </div>
+
+        <div style="padding:16px;background:var(--st-color-surface-raised);border-radius:5px;border-left:3px solid var(--st-color-muted);">
+          <div style="font-family:var(--st-font-mono);font-size:0.7rem;font-weight:700;color:var(--st-color-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;">DEFER — Needs More Info</div>
+          <div style="font-size:0.85rem;color:var(--st-color-muted);line-height:1.6;">Decision requires data you don't have yet (e.g. which WP media URLs are linked from outside, whether /author pages are indexed). Flag it, note what info is needed, and return after gathering. Don't let defers block Phase 2 from starting on clear decisions.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Phases -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Phases — 3 Total</span>
+    </div>
+    <div class="section__body">
+      <div class="phase-list">
+
+        <!-- Phase 1 -->
+        <div class="phase">
+          <div class="phase__header">
+            <span class="phase__id">PHASE 1</span>
+            <span class="phase__title">Decision Review — Bex reviews audit artifacts, fills registry</span>
+            <span class="badge badge--bex">Bex · No Code</span>
+          </div>
+          <div class="phase__desc">
+            Open <code>scripts/migrate/artifacts/parity_report.md</code> and <code>apps/web/public/_redirects</code>. Group the 266 URLs by pattern. Apply the decision framework above to each group. Record decisions in a simple CSV or Notion table with columns: <code>source_url</code>, <code>action</code> (redirect/drop/keep/defer), <code>destination</code> (if redirect), <code>status_code</code>, <code>note</code>. Aim for zero defers where possible.
+          </div>
+          <div class="phase__ac">
+            <strong>Done When</strong>
+            <ul>
+              <li>All 266 URLs have an action assigned (redirect / drop / keep / defer)</li>
+              <li>Every redirect has a destination URL and a status code (301 or 302)</li>
+              <li>Every drop has a status code (410 preferred over 404 for intentional removals)</li>
+              <li>Defers have a note explaining what information is needed before deciding</li>
+              <li>Decision registry is handed to Claude Code for Phase 2</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="phase">
+          <div class="phase__header">
+            <span class="phase__id">PHASE 2</span>
+            <span class="phase__title">Implementation — Claude Code wires decisions into redirect infrastructure</span>
+            <span class="badge badge--code">Claude Code</span>
+          </div>
+          <div class="phase__desc">
+            Using the approved decision registry, Claude Code creates Sanity <code>redirect</code> documents for each redirect decision and rebuilds the <code>_redirects</code> file. Drop decisions (410) are added as catch-all entries. Existing WP-era redirect documents in Sanity are audited for conflicts with the new decisions. <code>build-redirects.js</code> is run to regenerate <code>_redirects</code> from the complete Sanity document set.
+          </div>
+          <div class="phase__ac">
+            <strong>Done When</strong>
+            <ul>
+              <li>Sanity redirect documents created for all 266 decisions (or confirmed already present from migration script)</li>
+              <li><code>_redirects</code> file regenerated from complete Sanity document set</li>
+              <li>No conflicts between new decisions and existing redirect documents</li>
+              <li>No duplicate source paths in <code>_redirects</code></li>
+              <li><code>pnpm validate:urls</code> passes clean</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="phase">
+          <div class="phase__header">
+            <span class="phase__id">PHASE 3</span>
+            <span class="phase__title">Smoke Test — verify server-side redirects work on staging/preview</span>
+            <span class="badge badge--bex">Bex</span>
+            <span class="badge badge--code">Claude Code</span>
+          </div>
+          <div class="phase__desc">
+            Deploy the updated <code>_redirects</code> to the Netlify preview URL. Spot-check a sample of 10–15 redirects across all pattern types (category, tag, post ID, drop). Confirm 301 responses return correct destination. Confirm 410 responses are correct for drop decisions. Document the smoke test results. Once passing, the launch routing epic can begin.
+          </div>
+          <div class="phase__ac">
+            <strong>Done When</strong>
+            <ul>
+              <li>Deployed to Netlify preview / staging URL</li>
+              <li>10–15 spot-check redirects verified with correct HTTP status codes</li>
+              <li>At least one of each type verified: 301 redirect, 410 drop, keep (no redirect)</li>
+              <li>Smoke test results documented in <code>docs/migration/redirect-smoke-test.md</code></li>
+              <li>Launch routing epic formally unblocked</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Claude Code prompt -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Claude Code Prompt — Phase 2 (run after Phase 1 decisions are complete)</span>
+    </div>
+    <div class="section__body">
+      <div class="callout callout--pink" style="margin-bottom:20px;">
+        <span class="callout__icon">!</span>
+        <div><strong>Do not run this prompt until Phase 1 is complete.</strong> You need the decision registry CSV or equivalent before handing off to Claude Code. The prompt below expects that file to exist.</div>
+      </div>
+      <div class="prompt-block">
+        <div class="prompt-block__header">Copy → Paste into Claude Code at monorepo root (Phase 2 only)</div>
+        <div class="prompt-block__body"><span class="warn">EPIC-0155 Phase 2 — Redirect Decision Implementation</span>
+<span class="warn">Read this entire prompt before taking any action.</span>
+<span class="warn">Phase 1 decision registry must exist before starting.</span>
+
+<span class="gate">── ORIENTATION ──────────────────────────────────────────</span>
+
+Read these files before touching anything:
+
+<span class="cmd">cat apps/web/public/_redirects</span>
+<span class="cmd">ls scripts/migrate/artifacts/</span>
+<span class="cmd">cat scripts/migrate/artifacts/parity_report.md</span>
+<span class="cmd">cat apps/studio/schemas/documents/redirect.ts</span>
+<span class="cmd">cat apps/web/scripts/build-redirects.js</span>
+<span class="cmd">cat [DECISION_REGISTRY_PATH]</span>   <span class="comment"># the CSV or file Bex produced in Phase 1</span>
+
+Confirm before proceeding:
+- How many redirect documents already exist in Sanity? (query or estimate from migration report)
+- How many records are in the decision registry?
+- Are there any source paths in the registry that already exist in _redirects?
+- What is the exact format of the existing _redirects file? (Netlify format confirmed?)
+
+<span class="gate">── CONFIRMATION GATE 0 ──────────────────────────────────</span>
+Report orientation findings. List any conflicts between existing
+redirects and new decisions. Wait for approval before continuing.
+────────────────────────────────────────────────────────
+
+<span class="gate">── STEP 1 — Conflict resolution ─────────────────────────</span>
+
+For any source path that appears in BOTH the existing _redirects
+AND the new decision registry:
+
+1. Show me the conflict (old rule vs new decision)
+2. Ask which takes precedence before writing anything
+3. Never silently overwrite an existing redirect rule
+
+<span class="gate">── CONFIRMATION GATE 1 ──────────────────────────────────</span>
+Show all conflicts. Wait for resolution instructions.
+────────────────────────────────────────────────────────
+
+<span class="gate">── STEP 2 — Create Sanity redirect documents ────────────</span>
+
+For each REDIRECT decision in the registry, create a Sanity
+redirect document using the redirect schema:
+  from:       source path (e.g. /category/design)
+  to:         destination (e.g. /categories/design)
+  statusCode: 301 (default) or 302 if specified
+  note:       value from registry note column
+
+For each DROP decision, create a redirect document with:
+  from:       source path
+  to:         /gone (or agreed convention for 410)
+  statusCode: 410
+  note:       "Intentional removal — no equivalent in new system"
+
+KEEP decisions require no redirect document — skip them.
+
+Show me the proposed Sanity mutation batch before executing.
+Provide count: X redirects + Y drops = Z total documents.
+
+<span class="gate">── CONFIRMATION GATE 2 ──────────────────────────────────</span>
+Show mutation batch summary. Confirm counts match registry.
+Wait for approval before writing to Sanity.
+────────────────────────────────────────────────────────
+
+<span class="gate">── STEP 3 — Rebuild _redirects file ─────────────────────</span>
+
+Run the build script to regenerate _redirects from Sanity:
+
+<span class="cmd">node apps/web/scripts/build-redirects.js</span>
+
+Confirm the output file was updated. Show a diff of the generated
+_redirects against the previous committed version.
+
+Check for:
+- Duplicate source paths (should be zero)
+- Any 301 entries pointing to themselves (redirect loop)
+- Any entries missing a destination
+
+<span class="gate">── CONFIRMATION GATE 3 ──────────────────────────────────</span>
+Show diff and duplicate/loop check results.
+Wait for approval before committing.
+────────────────────────────────────────────────────────
+
+<span class="gate">── STEP 4 — Validation ──────────────────────────────────</span>
+
+Run the URL validator:
+<span class="cmd">pnpm validate:urls</span>
+
+Show the full output. All checks must pass.
+
+If any failures exist — report them, do not attempt to auto-fix
+without showing me the proposed fix first.
+
+<span class="gate">── STEP 5 — Documentation ───────────────────────────────</span>
+
+Create <span class="cmd">docs/migration/redirect-decisions.md</span>
+
+Content:
+- Date decisions were made
+- Total URL count by action (X redirects, Y drops, Z keeps, N defers)
+- List of any deferred decisions and what information is needed
+- Link to decision registry source file
+- Note: "Smoke test required before this epic is closed — see Phase 3"
+
+<span class="gate">── FINAL CONFIRMATION GATE ──────────────────────────────</span>
+Show docs/migration/redirect-decisions.md.
+Confirm:
+  [ ] All registry decisions implemented in Sanity
+  [ ] _redirects rebuilt and diff reviewed
+  [ ] Zero duplicate source paths
+  [ ] Zero redirect loops
+  [ ] pnpm validate:urls passes clean
+  [ ] redirect-decisions.md committed
+Phase 2 is complete. Hand back to Bex for Phase 3 smoke test.
+────────────────────────────────────────────────────────
+
+GLOBAL RULES
+- Never overwrite an existing redirect without showing the conflict first.
+- Never batch-create Sanity documents without showing the mutation summary.
+- Show diffs before committing any file.
+- Wait at every gate.
+- Deferred decisions are NOT implemented — document them only.
+</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
