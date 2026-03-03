@@ -10,7 +10,7 @@
 /* ── Block code container + component tokens ─────────────────────────────── */
 .block {
   /* tokens */
-  --st-code-bg: var(--st-color-void-900, #0D1226);
+  --st-code-bg: var(--st-color-midnight, #0D1226);
   --st-code-color: #f8f8f2;
   --st-code-border-left: 4px solid var(--st-color-accent, #ff247d);
   --st-code-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -83,13 +83,57 @@
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* ── Line numbers ─────────────────────────────────────────────────────────── */
-.lineNumbers .pre {
-  counter-reset: line;
+/* ── Dark-theme block: differentiate from void canvas ─────────────────────── */
+/* In dark theme the canvas bg is midnight-900 (#0D1226); code uses midnight-800
+   plus a ring shadow so the block has visible elevation. */
+[data-theme="dark"] .block,
+[data-theme="dark-pink-moon"] .block {
+  --st-code-bg: var(--st-color-midnight-800, #141830);
+  --st-code-shadow: 0 4px 24px rgba(0, 0, 0, 0.40), 0 0 0 1px rgba(255, 255, 255, 0.07);
 }
 
-.lineNumbers .code {
+/* ── Inline code — dark theme: dark maroon pill ───────────────────────────── */
+[data-theme="dark"] .inline,
+[data-theme="dark-pink-moon"] .inline {
+  --st-code-inline-bg: rgba(185, 28, 104, 0.18);
+  --st-code-inline-color: var(--st-color-maroon-300, #f48ab8);
+  --st-code-inline-border: 1px solid rgba(185, 28, 104, 0.30);
+}
+
+/* ── Line numbers (Prism line-numbers plugin) ─────────────────────────────── */
+/* The plugin adds class="line-numbers" to <pre> and injects
+   <span class="line-numbers-rows"> with one child per line. */
+:global(.line-numbers) {
+  position: relative !important;
+  padding-left: 3.8em !important;
+  counter-reset: linenumber;
+  overflow: hidden !important;
+}
+
+:global(.line-numbers-rows) {
+  position: absolute;
+  pointer-events: none;
+  top: 0;
+  padding-top: var(--st-code-padding, 2rem);
+  font-size: 100%;
+  left: 0;
+  width: 3em;
+  letter-spacing: -1px;
+  border-right: 1px solid rgba(255, 255, 255, 0.10);
+  user-select: none;
+}
+
+:global(.line-numbers-rows > span) {
   display: block;
+  counter-increment: linenumber;
+}
+
+:global(.line-numbers-rows > span::before) {
+  content: counter(linenumber);
+  color: rgba(255, 255, 255, 0.25);
+  display: block;
+  padding-right: 0.6em;
+  text-align: right;
 }
 
 /* ── Mermaid variant ──────────────────────────────────────────────────────── */
@@ -104,9 +148,9 @@
 
 /* ── Inline code ──────────────────────────────────────────────────────────── */
 .inline {
-  --st-code-inline-bg: var(--st-color-grey-040, #f1f2f4);
-  --st-code-inline-color: var(--st-color-maroon-500, #b91c68);
-  --st-code-inline-border: 1px solid var(--st-color-grey-030, #e1e3e6);
+  --st-code-inline-bg: var(--st-color-softgrey-100, #f1f2f4);
+  --st-code-inline-color: var(--st-color-maroon, #b91c68);
+  --st-code-inline-border: 1px solid var(--st-color-softgrey-200, #e1e3e6);
 
   background-color: var(--st-code-inline-bg);
   color: var(--st-code-inline-color);
@@ -128,7 +172,7 @@
 .code :global(.token.prolog),
 .code :global(.token.doctype),
 .code :global(.token.cdata) {
-  color: rgba(209, 255, 29, 0.5); /* --st-color-lime-500 at 50% */
+  color: rgba(209, 255, 29, 0.5); /* --st-color-lime at 50% */
   font-style: italic;
 }
 
@@ -163,7 +207,7 @@
 /* ── Numbers ──────────────────────────────────────────────────────────────── */
 .code :global(.token.number),
 .code :global(.token.symbol) {
-  color: #D1FF1D; /* --st-color-lime-500 */
+  color: #D1FF1D; /* --st-color-lime */
 }
 
 /* ── Operators ────────────────────────────────────────────────────────────── */
@@ -195,7 +239,7 @@
 
 /* ── Regex ────────────────────────────────────────────────────────────────── */
 .code :global(.token.regex) {
-  color: #D1FF1D; /* --st-color-lime-500 */
+  color: #D1FF1D; /* --st-color-lime */
 }
 
 /* ── Important ────────────────────────────────────────────────────────────── */

@@ -4,6 +4,7 @@ import { urlFor } from '../lib/sanity'
 import NavigationItem from './atoms/NavigationItem'
 import Link from './atoms/Link'
 import Preheader from './Preheader'
+import ThemeToggle from './ThemeToggle'
 import styles from './Header.module.css'
 
 /**
@@ -59,16 +60,17 @@ export default function Header({ siteSettings }) {
             </nav>
           )}
 
-          {headerCta?.link && (
-            <div className={styles.cta}>
+          <div className={styles.cta}>
+            {headerCta?.link && (
               <Link
                 label={headerCta.link.label || headerCta.internalTitle}
                 url={headerCta.link.url}
                 openInNewTab={headerCta.link.openInNewTab}
                 className={getButtonStyleClass(headerCta.style)}
               />
-            </div>
-          )}
+            )}
+            <ThemeToggle />
+          </div>
         </div>
       </header>
     </>

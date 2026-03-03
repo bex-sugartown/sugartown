@@ -156,7 +156,7 @@ No dedicated `loading` prop exists yet. The proxy pattern is `disabled: true` wi
 ## Pink Moon Theme
 
 **Marketing name:** Sugartown Pink Moon / Pink Moon
-**Activation:** `data-st-theme="pink-moon"` on `:root` or any ancestor container.
+**Activation:** `data-theme="dark-pink-moon"` or `data-theme="light-pink-moon"` on `:root` or any ancestor container.
 
 Pink Moon is a theme evolution — not a redesign. It overrides Tier 2 semantic tokens to shift the system toward milky translucency, hairline borders, and gentle elevation. Pink moves from bold fill into edge-lighting, focus rings, and ambient glow. All component contracts, token governance, and accessibility targets remain unchanged; only resolved values differ.
 

@@ -12,6 +12,16 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Theme init: read persisted preference before first paint to avoid FOUC -->
+    <script>
+      (function () {
+        var t = localStorage.getItem('st-theme')
+        document.documentElement.setAttribute(
+          'data-theme',
+          t === 'light' || t === 'dark' ? t : 'dark'
+        )
+      })()
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

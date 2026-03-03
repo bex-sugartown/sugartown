@@ -41,15 +41,15 @@
 
 .bgSeafoam {
   background-color: var(--st-color-seafoam-500);
-  color: var(--st-color-void-900);
+  color: var(--st-color-midnight);
 }
 
 .bgSeafoam .link {
-  color: var(--st-color-void-900);
+  color: var(--st-color-midnight);
 }
 
 .bgDark {
-  background-color: var(--st-color-bg-void);
+  background-color: var(--st-color-bg-midnight);
   color: var(--st-color-white);
 }
 
@@ -59,11 +59,11 @@
 
 .bgLight {
   background-color: var(--st-color-bg-surface-alt);
-  color: var(--st-color-void-900);
+  color: var(--st-color-midnight);
 }
 
 .bgLight .link {
-  color: var(--st-color-void-900);
+  color: var(--st-color-midnight);
 }
 
 @media (max-width: 768px) {

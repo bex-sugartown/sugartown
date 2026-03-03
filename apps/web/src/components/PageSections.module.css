@@ -113,7 +113,7 @@
   padding-left: var(--st-blockquote-padding-left, 1rem);
   margin: var(--st-blockquote-margin-block, 1.5rem) 0;
   font-style: italic;
-  color: var(--st-blockquote-color, var(--st-color-grey-600));
+  color: var(--st-blockquote-color, var(--st-color-text-secondary));
 }
 
 .link {
@@ -339,7 +339,7 @@
   margin: 2rem 0;
   font-size: 0.9rem;
   box-shadow: var(--st-table-shadow, 0 4px 6px rgba(0, 0, 0, 0.05));
-  background: var(--st-color-surface, #fff);
+  background: var(--st-color-bg-surface);
   display: table;  /* override old block reset */
 }
 
@@ -423,7 +423,7 @@
     padding: 14px 16px;
     border: 1px solid var(--st-color-border-default, rgba(0, 0, 0, 0.16));
     border-radius: var(--st-table-card-radius, var(--st-radius-md, 12px));
-    background: var(--st-color-surface, #fff);
+    background: var(--st-color-bg-surface);
     box-shadow: var(--st-table-card-shadow, 0 6px 14px rgba(0, 0, 0, 0.08));
     overflow: hidden;
   }
@@ -447,7 +447,7 @@
   padding-left: var(--st-blockquote-padding-left, 1rem);
   margin: var(--st-blockquote-margin-block, 1.5rem) 0;
   font-style: italic;
-  color: var(--st-blockquote-color, var(--st-color-grey-600, #525252));
+  color: var(--st-blockquote-color, var(--st-color-text-secondary, #525252));
 }
 
 :global(.st-html-section) blockquote cite {
@@ -455,7 +455,7 @@
   margin-top: 0.75rem;
   font-size: 0.875rem;
   font-style: normal;
-  color: var(--st-color-grey-600, #525252);
+  color: var(--st-color-text-secondary, #525252);
 }
 
 /* ── Code (block) — matches DS CodeBlock component ───────────────────────── */

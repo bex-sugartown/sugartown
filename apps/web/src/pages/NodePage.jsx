@@ -4,6 +4,7 @@
  */
 import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
+import { decodeHtml, decodePortableText } from '../lib/htmlUtils'
 import { nodeBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -34,7 +35,7 @@ export default function NodePage() {
 
       <p className={styles.detailEyebrow}>Knowledge Node</p>
 
-      <h1 className={styles.detailHeading}>{node.title}</h1>
+      <h1 className={styles.detailHeading}>{decodeHtml(node.title)}</h1>
 
       <MetadataCard
         authors={node.authors}
@@ -54,19 +55,19 @@ export default function NodePage() {
           {node.challenge && (
             <>
               <h2>Challenge</h2>
-              <p>{node.challenge}</p>
+              <p>{decodeHtml(node.challenge)}</p>
             </>
           )}
           {node.insight && (
             <>
               <h2>Insight</h2>
-              <p>{node.insight}</p>
+              <p>{decodeHtml(node.insight)}</p>
             </>
           )}
           {node.actionItem && (
             <>
               <h2>Action Item</h2>
-              <p>{node.actionItem}</p>
+              <p>{decodeHtml(node.actionItem)}</p>
             </>
           )}
         </div>
@@ -74,7 +75,7 @@ export default function NodePage() {
 
       {node.content && (
         <div className={styles.detailContent}>
-          <PortableText value={node.content} />
+          <PortableText value={decodePortableText(node.content)} />
         </div>
       )}
 

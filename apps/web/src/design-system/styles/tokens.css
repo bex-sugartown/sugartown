@@ -1,77 +1,139 @@
 /**
- * Sugartown Pink Design System — Design Tokens
+ * Sugartown Design System Tokens — Web Canonical
  * Generated from: tokens/base.json, tokens/semantic.json, tokens/components.json
  *
- * Token Architecture:
- * - Tier 1: Base/Primitives (raw values)
- * - Tier 2: Semantic (purpose-based aliases)
- * - Tier 3: Components (component-level tokens)
+ * Token layers:
+ *   Tier 1  — Raw primitives   (--st-color-pink-500, --st-space-4, --st-radius-xs)
+ *   Tier 2  — Semantic aliases (--st-color-brand-primary, --st-color-text-secondary)
+ *   Tier 3  — Component tokens (--st-card-border, --st-card-shadow)
+ *   Legacy  — Back-compat shorthands — Step 3 TARGET: remove after component audit
+ *
+ * Theme architecture:
+ *   Dark defaults live here in :root.
+ *   [data-theme="light"] overrides → theme.light.css  (Step 2)
+ *   [data-theme="dark-pink-moon"] / [data-theme="light-pink-moon"] → theme.pink-moon.css  (Step 2)
+ *
+ * Always prefer semantic tokens in component CSS.
  */
 
 :root {
-  /* ============================================================
-     TIER 1: BASE TOKENS (Primitives)
-     ============================================================ */
 
-  /* --- Colors: Brand --- */
-  --st-color-pink-500: #ff247d;
-  --st-color-lime-500: #D1FF1D;
-  --st-color-seafoam-500: #2BD4AA;
-  --st-color-maroon-500: #b91c68;
+  /* ══════════════════════════════════════════════════════
+     TIER 1: RAW PRIMITIVES
+     ══════════════════════════════════════════════════════ */
 
-  /* --- Colors: Neutrals --- */
-  --st-color-void-900: #0D1226;
-  --st-color-charcoal-900: #1e1e1e;
-  --st-color-grey-900: #171717;
-  --st-color-grey-600: #525252;
-  --st-color-grey-400: #94A3B8;
-  --st-color-grey-300: #D4D4D4;
-  --st-color-grey-200: #E5E5E5;
-  --st-color-grey-100: #F7F7F7;
-  --st-color-grey-050: #f8f8fa;
-  --st-color-grey-040: #f1f2f4;
-  --st-color-grey-030: #e1e3e6;
+  /* ── Pink ─────────────────────────────────────────────── */
+  --st-color-pink-50:  #fff0f6;
+  --st-color-pink-100: #ffe1ed;
+  --st-color-pink-200: #ffb3d1;
+  --st-color-pink-300: #ff80b5;
+  --st-color-pink-400: #ff4d99;
+  --st-color-pink-500: #FF247D;   /* Sugartown brand pink — canonical */
+  --st-color-pink-600: #e00069;
+  --st-color-pink-700: #b30054;
+  --st-color-pink-800: #860040;
+  --st-color-pink-900: #59002b;
+  --st-color-pink:     var(--st-color-pink-500);
+
+  /* ── Maroon ───────────────────────────────────────────── */
+  --st-color-maroon-50:  #fef2f8;
+  --st-color-maroon-100: #fcdcea;
+  --st-color-maroon-200: #f9b8d4;
+  --st-color-maroon-300: #f48ab8;
+  --st-color-maroon-400: #e75596;
+  --st-color-maroon-500: #d42b7a;
+  --st-color-maroon-600: #b91c68;   /* canonical (was maroon-500 pre-scale) */
+  --st-color-maroon-700: #961553;
+  --st-color-maroon-800: #72103f;
+  --st-color-maroon-900: #4d0a2a;
+  --st-color-maroon:     var(--st-color-maroon-600);
+
+  /* ── Lime ─────────────────────────────────────────────── */
+  --st-color-lime-50:  #f9ffe5;
+  --st-color-lime-100: #f2ffbf;
+  --st-color-lime-200: #e8ff8a;
+  --st-color-lime-300: #dcff52;
+  --st-color-lime-400: #D1FF1D;     /* canonical */
+  --st-color-lime-500: #b8e000;
+  --st-color-lime-600: #96b800;
+  --st-color-lime-700: #748f00;
+  --st-color-lime-800: #526600;
+  --st-color-lime-900: #314000;
+  --st-color-lime:     var(--st-color-lime-400);
+
+  /* ── Seafoam ──────────────────────────────────────────── */
+  --st-color-seafoam-50:  #f0fdf9;
+  --st-color-seafoam-100: #e6faf5;
+  --st-color-seafoam-200: #b3ece0;
+  --st-color-seafoam-300: #72d9c6;
+  --st-color-seafoam-400: #48d4b8;
+  --st-color-seafoam-500: #2BD4AA;  /* canonical */
+  --st-color-seafoam-600: #25b895;
+  --st-color-seafoam-700: #1d9679;
+  --st-color-seafoam-800: #15735c;
+  --st-color-seafoam-900: #0d4a3d;
+  --st-color-seafoam:     var(--st-color-seafoam-500);
+
+  /* ── Midnight ─────────────────────────────────────────── */
+  --st-color-midnight-50:  #eef0f8;
+  --st-color-midnight-100: #d5d9ee;
+  --st-color-midnight-200: #abb3dd;
+  --st-color-midnight-300: #808dcc;
+  --st-color-midnight-400: #5567bb;
+  --st-color-midnight-500: #3547a3;
+  --st-color-midnight-600: #28358c;
+  --st-color-midnight-700: #1C2240;   /* dark surface L2 — raised/inset */
+  --st-color-midnight-800: #141830;   /* dark surface L1 — card/section */
+  --st-color-midnight-900: #0D1226;  /* canonical */
+  --st-color-midnight:     var(--st-color-midnight-900);
+
+  /* ── Charcoal ─────────────────────────────────────────── */
+  --st-color-charcoal-50:  #f5f5f5;
+  --st-color-charcoal-100: #e8e8e8;
+  --st-color-charcoal-200: #d1d1d1;
+  --st-color-charcoal-300: #b0b0b0;
+  --st-color-charcoal-400: #888888;
+  --st-color-charcoal-500: #666666;
+  --st-color-charcoal-600: #444444;
+  --st-color-charcoal-700: #333333;
+  --st-color-charcoal-800: #282828;
+  --st-color-charcoal-900: #1e1e1e;  /* canonical */
+  --st-color-charcoal:     var(--st-color-charcoal-900);
+
+  /* ── Softgrey (Sugartown blue-cast UI tones) ──────────── */
+  --st-color-softgrey-50:  #f8f8fa;   /* was grey-050 */
+  --st-color-softgrey-100: #f1f2f4;   /* was grey-040 */
+  --st-color-softgrey-200: #e1e3e6;   /* was grey-030 */
+  --st-color-softgrey-300: #bcc5d1;
+  --st-color-softgrey-400: #94A3B8;   /* canonical — was grey-400 */
+  --st-color-softgrey-500: #6e7f96;
+  --st-color-softgrey-600: #526070;
+  --st-color-softgrey-700: #3d4a57;
+  --st-color-softgrey-800: #2b3540;
+  --st-color-softgrey-900: #1a2128;
+  --st-color-softgrey:     var(--st-color-softgrey-400);
+
+  /* ── Neutral (true greyscale) ─────────────────────────── */
+  --st-color-neutral-50:  #fafafa;
+  --st-color-neutral-100: #f5f5f5;    /* was grey-100 */
+  --st-color-neutral-200: #e5e5e5;    /* was grey-200 */
+  --st-color-neutral-300: #d4d4d4;    /* was grey-300 */
+  --st-color-neutral-400: #a3a3a3;
+  --st-color-neutral-500: #737373;
+  --st-color-neutral-600: #525252;    /* was grey-600 */
+  --st-color-neutral-700: #404040;
+  --st-color-neutral-800: #262626;
+  --st-color-neutral-900: #171717;    /* was grey-900 */
+
+  /* ── Base ─────────────────────────────────────────────── */
+  --st-color-black: #000000;
   --st-color-white: #FFFFFF;
 
-  /* --- Colors: Semantic --- */
+  /* ── Blue (UI utility, not brand) ────────────────────── */
   --st-color-blue-500: #0066CC;
   --st-color-blue-600: #0052A3;
-  --st-color-red-500: #b91c68;
 
-  /* --- Radius --- */
-  --st-radius-xs: 4px;
-  --st-radius-sm: 8px;
-  --st-radius-md: 12px;
-  --st-radius-lg: 16px;
-  --st-radius-xl: 35px;
-  --st-radius-full: 9999px;
-
-  /* --- Typography: Families --- */
-  --st-font-family-narrative: "Playfair Display", serif;
-  --st-font-family-ui: "Fira Sans", sans-serif;
-  --st-font-family-mono: Menlo, Monaco, Consolas, monospace;
-
-  /* --- Typography: Sizes --- */
-  --st-font-size-xs: 0.75rem;
-  --st-font-size-sm: 0.875rem;
-  --st-font-size-md: 1rem;
-  --st-font-size-lg: 1.125rem;
-  --st-font-size-xl: 1.4rem;
-  --st-font-size-2xl: 1.75rem;
-  --st-font-size-display: 3rem;
-
-  /* --- Typography: Weights --- */
-  --st-font-weight-normal: 400;
-  --st-font-weight-medium: 500;
-  --st-font-weight-semibold: 600;
-  --st-font-weight-bold: 700;
-
-  /* --- Typography: Line Heights --- */
-  --st-line-height-tight: 1.25;
-  --st-line-height-normal: 1.5;
-  --st-line-height-relaxed: 1.75;
-
-  /* --- Spacing (8-point scale) --- */
+  /* ── Spacing (rem scale, 8-point base) ───────────────── */
   --st-space-1: 4px;
   --st-space-2: 8px;
   --st-space-3: 12px;
@@ -81,214 +143,318 @@
   --st-space-7: 40px;
   --st-space-8: 60px;
 
-  /* --- Shadows --- */
-  --st-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --st-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.10);
-  --st-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.10);
-  --st-shadow-card: 0 4px 12px rgba(255, 36, 125, 0.05);
+  /* ── Border Radius ───────────────────────────────────── */
+  --st-radius-xs:   4px;
+  --st-radius-sm:   8px;
+  --st-radius-md:   12px;
+  --st-radius-lg:   16px;
+  --st-radius-xl:   35px;
+  --st-radius-full: 9999px;
+
+  /* ── Typography: Families ────────────────────────────── */
+  --st-font-family-narrative: "Playfair Display", serif;
+  --st-font-family-ui:        "Fira Sans", "Helvetica Neue", Arial, sans-serif;
+  --st-font-family-mono:      Menlo, Monaco, Consolas, "Courier New", monospace;
+
+  /* ── Typography: Sizes ───────────────────────────────── */
+  --st-font-size-xs:      0.75rem;   /* 12px */
+  --st-font-size-sm:      0.875rem;  /* 14px */
+  --st-font-size-md:      1rem;      /* 16px */
+  --st-font-size-base:    1rem;      /* legacy alias — prefer --st-font-size-md */
+  --st-font-size-lg:      1.125rem;  /* 18px */
+  --st-font-size-xl:      1.4rem;    /* ~22px */
+  --st-font-size-2xl:     1.75rem;   /* 28px */
+  --st-font-size-display: 3rem;      /* 48px */
+
+  /* ── Typography: Line Heights ────────────────────────── */
+  --st-line-height-tight:   1.25;
+  --st-line-height-normal:  1.5;
+  --st-line-height-relaxed: 1.75;
+
+  /* ── Typography: Weights ─────────────────────────────── */
+  --st-font-weight-normal:   400;
+  --st-font-weight-medium:   500;
+  --st-font-weight-semibold: 600;
+  --st-font-weight-bold:     700;
+
+  /* ── Shadows ─────────────────────────────────────────── */
+  --st-shadow-1:          0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --st-shadow-sm:         0 1px 2px rgba(0, 0, 0, 0.05);
+  --st-shadow-md:         0 4px 6px rgba(0, 0, 0, 0.10);
+  --st-shadow-lg:         0 10px 15px rgba(0, 0, 0, 0.10);
+  --st-shadow-pink-glow:  0 4px 12px rgba(255, 36, 125, 0.3);
+  --st-shadow-lime-glow:  0 4px 12px rgba(209, 255, 29, 0.45);
+  --st-shadow-card:       0 4px 12px rgba(255, 36, 125, 0.05);
   --st-shadow-card-hover: 0 12px 40px rgba(255, 36, 125, 0.15);
-  --st-shadow-card-deep: 0 10px 30px rgba(0, 0, 0, 0.06);
-  --st-shadow-pink-glow: 0 4px 12px rgba(255, 36, 125, 0.3);
-  --st-shadow-lime-glow: 0 4px 12px rgba(209, 255, 29, 0.45);
+  --st-shadow-card-deep:  0 10px 30px rgba(0, 0, 0, 0.06);
 
-  /* ============================================================
-     TIER 2: SEMANTIC TOKENS (Purpose-Based)
-     ============================================================ */
 
-  /* --- Brand Colors --- */
-  --st-color-brand-primary: var(--st-color-pink-500);
-  --st-color-brand-secondary: var(--st-color-maroon-500);
+  /* ══════════════════════════════════════════════════════
+     TIER 2: SEMANTIC TOKENS
+     ══════════════════════════════════════════════════════ */
 
-  /* --- Background Colors --- */
-  --st-color-bg-canvas: var(--st-color-white);
-  --st-color-bg-surface: var(--st-color-white);
-  --st-color-bg-surface-strong: var(--st-color-white);
-  --st-color-bg-surface-alt: var(--st-color-grey-050);
-  --st-color-bg-subtle: var(--st-color-grey-040);
-  --st-color-bg-void: var(--st-color-void-900);
-  --st-color-bg-secondary: var(--st-color-grey-100);
-  --st-color-bg-tertiary: var(--st-color-grey-200);
+  /* ── Brand Colors ────────────────────────────────────── */
+  --st-color-brand-primary:   var(--st-color-pink);
+  --st-color-brand-secondary: var(--st-color-maroon);
 
-  /* --- Text Colors --- */
-  --st-color-text-default: var(--st-color-charcoal-900);
-  --st-color-text-primary: var(--st-color-charcoal-900);
-  --st-color-text-secondary: var(--st-color-grey-600);
-  --st-color-text-muted: var(--st-color-grey-400);
-  --st-color-text-brand: var(--st-color-maroon-500);
+  /* ── Accent ──────────────────────────────────────────── */
+  --st-color-accent:         var(--st-color-pink);
+  --st-color-accent-primary: var(--st-color-pink);
+  --st-color-accent-soft:    rgba(255, 36, 125, 0.08);
+  --st-color-accent-lime:    var(--st-color-lime);             /* brief 152-02 AC */
+  --st-color-focus:          var(--st-color-pink);
 
-  /* --- Border Colors --- */
-  --st-color-border-default: rgba(0, 0, 0, 0.08);
-  --st-color-border-subtle: var(--st-color-grey-030);
-  --st-color-border-medium: var(--st-color-grey-200);
-  --st-color-border-strong: var(--st-color-grey-600);
+  /* ── Backgrounds (dark defaults) ─────────────────────── */
+  --st-color-bg-canvas:         var(--st-color-midnight);        /* #0D1226 Layer 0 */
+  --st-color-bg-surface:        var(--st-color-midnight-800);    /* #141830 Layer 1 */
+  --st-color-bg-surface-strong: var(--st-color-midnight-700);    /* #1C2240 Layer 2 */
+  --st-color-bg-surface-alt:    var(--st-color-midnight-800);
+  --st-color-bg-subtle:         var(--st-color-midnight-700);
+  --st-color-bg-midnight:       var(--st-color-midnight);
+  --st-color-bg-secondary:      var(--st-color-midnight-800);
+  --st-color-bg-tertiary:       var(--st-color-midnight-700);
 
-  /* --- Accent Colors --- */
-  --st-color-accent-primary: var(--st-color-pink-500);
-  --st-color-accent-soft: rgba(255, 36, 125, 0.08);
+  /* ── Text (dark defaults) ────────────────────────────── */
+  --st-color-text-default:   var(--st-color-softgrey-50);    /* #F8F8FA */
+  --st-color-text-primary:   var(--st-color-softgrey-50);    /* #F8F8FA */
+  --st-color-text-secondary: var(--st-color-softgrey-400);   /* #94A3B8 */
+  --st-color-text-muted:     var(--st-color-softgrey-400);   /* #94A3B8 */
+  --st-color-text-brand:     var(--st-color-pink);           /* on dark, pink is OK for brand text */
 
-  /* --- Link Colors --- */
+  /* ── Borders (dark defaults) ─────────────────────────── */
+  --st-color-border-default: rgba(255, 36, 125, 0.20);       /* pink-tinted dark border */
+  --st-color-border-subtle:  rgba(255, 255, 255, 0.06);      /* barely-there inset border */
+  --st-color-border-medium:  rgba(255, 255, 255, 0.12);
+  --st-color-border-strong:  rgba(255, 255, 255, 0.30);
+
+  /* ── Link ────────────────────────────────────────────── */
   --st-color-link-default: var(--st-color-brand-primary);
-  --st-color-link-hover: var(--st-color-brand-secondary);
+  --st-color-link-hover:   var(--st-color-brand-secondary);
 
-  /* --- Interaction Colors --- */
-  --st-color-focus: var(--st-color-pink-500);
-  --st-color-danger: var(--st-color-red-500);
+  /* ── State ───────────────────────────────────────────── */
+  --st-color-danger: var(--st-color-maroon);
 
-  /* --- Semantic Radius --- */
-  --st-radius-button: var(--st-radius-xs);
-  --st-radius-tag: var(--st-radius-xs);
-  --st-radius-pill: var(--st-radius-xs);
+  /* ── Effects (theme-overridable) ─────────────────────── */
+  --st-effect-backdrop-blur-md: 0;            /* pink-moon themes → 14px */
+  --st-effect-accent-glow:      transparent;  /* pink-moon themes → rgba(255,36,125,0.18) */
+  --st-shadow-elevation-float:  var(--st-shadow-1);
+
+  /* ── Semantic Radius ─────────────────────────────────── */
+  --st-radius-button:  var(--st-radius-xs);
+  --st-radius-tag:     var(--st-radius-xs);
+  --st-radius-pill:    var(--st-radius-xs);
   --st-radius-callout: var(--st-radius-sm);
-  --st-radius-code: var(--st-radius-sm);
-  --st-radius-card: var(--st-radius-md);
-  --st-radius-hero: var(--st-radius-xl);
-  --st-radius-media: var(--st-radius-xl);
+  --st-radius-code:    var(--st-radius-sm);
+  --st-radius-card:    var(--st-radius-md);
+  --st-radius-hero:    var(--st-radius-xl);
+  --st-radius-media:   var(--st-radius-xl);
 
-  /* --- Semantic Typography --- */
-  --st-font-narrative: var(--st-font-family-narrative);
-  --st-font-ui: var(--st-font-family-ui);
-  --st-font-mono: var(--st-font-family-mono);
-  --st-font-body: var(--st-font-size-md);
-  --st-font-caption: var(--st-font-size-xs);
-  --st-font-heading-1: var(--st-font-size-display);
-  --st-font-heading-2: var(--st-font-size-2xl);
-  --st-font-heading-3: var(--st-font-size-xl);
-  --st-font-heading-4: var(--st-font-size-lg);
+  /* ── Semantic Typography ─────────────────────────────── */
+  --st-font-narrative:  var(--st-font-family-narrative);
+  --st-font-ui:         var(--st-font-family-ui);
+  --st-font-body:       var(--st-font-size-md);
+  --st-font-caption:    var(--st-font-size-xs);
+  --st-font-heading-1:  var(--st-font-size-display);
+  --st-font-heading-2:  var(--st-font-size-2xl);
+  --st-font-heading-3:  var(--st-font-size-xl);
+  --st-font-heading-4:  var(--st-font-size-lg);
 
-  /* --- Semantic Spacing --- */
-  --st-spacing-stack-xs: var(--st-space-1);
-  --st-spacing-stack-sm: var(--st-space-2);
-  --st-spacing-stack-md: var(--st-space-4);
-  --st-spacing-stack-lg: var(--st-space-6);
-  --st-spacing-stack-xl: var(--st-space-8);
+  /* ── Semantic Spacing ────────────────────────────────── */
+  --st-spacing-stack-xs:  var(--st-space-1);
+  --st-spacing-stack-sm:  var(--st-space-2);
+  --st-spacing-stack-md:  var(--st-space-4);
+  --st-spacing-stack-lg:  var(--st-space-6);
+  --st-spacing-stack-xl:  var(--st-space-8);
   --st-spacing-inline-sm: var(--st-space-2);
   --st-spacing-inline-md: var(--st-space-3);
   --st-spacing-inline-lg: var(--st-space-4);
-  --st-spacing-inset-xs: var(--st-space-1);
-  --st-spacing-inset-sm: var(--st-space-2);
-  --st-spacing-inset-md: var(--st-space-4);
-  --st-spacing-inset-lg: var(--st-space-6);
-  --st-spacing-gutter: var(--st-space-4);
+  --st-spacing-inset-xs:  var(--st-space-1);
+  --st-spacing-inset-sm:  var(--st-space-2);
+  --st-spacing-inset-md:  var(--st-space-4);
+  --st-spacing-inset-lg:  var(--st-space-6);
+  --st-spacing-gutter:    var(--st-space-4);
+  --st-spacing-3:         var(--st-space-3);
+  --st-spacing-4:         var(--st-space-4);
 
-  /* --- Semantic Shadows --- */
-  --st-shadow-card-semantic: var(--st-shadow-card-deep);
+  /* ── Semantic Shadows ────────────────────────────────── */
+  --st-shadow-card-semantic:       var(--st-shadow-card-deep);
   --st-shadow-card-hover-semantic: var(--st-shadow-card-hover);
-  --st-shadow-elevation-float: 0 12px 30px rgba(13, 18, 38, 0.10);
 
-  /* --- Effects (default = no blur; Pink Moon overrides these) --- */
-  --st-effect-backdrop-blur-md: 0;
-  --st-effect-accent-glow:      transparent;
 
-  /* ============================================================
+  /* ══════════════════════════════════════════════════════
      TIER 3: COMPONENT TOKENS
-     ============================================================ */
+     ══════════════════════════════════════════════════════ */
 
-  /* --- Card Component --- */
-  --st-card-bg: var(--st-color-bg-surface);
-  --st-card-bg-alt: var(--st-color-bg-surface-alt);
-  --st-card-text: var(--st-color-text-default);
-  --st-card-text-muted: var(--st-color-text-muted);
-  --st-card-border: var(--st-color-brand-primary);
-  --st-card-radius: var(--st-radius-card);
-  --st-card-shadow: var(--st-shadow-card-deep);
+  /* ── Card ────────────────────────────────────────────── */
+  --st-card-bg:                var(--st-color-bg-surface);
+  --st-card-bg-alt:            var(--st-color-bg-surface-alt);
+  --st-card-text:              var(--st-color-text-default);
+  --st-card-text-muted:        var(--st-color-text-muted);
+  --st-card-border:            var(--st-color-brand-primary);
+  --st-card-radius:            var(--st-radius-card);
+  --st-card-shadow:            var(--st-shadow-card-deep);
   --st-card-hover-translate-y: -4px;
-  --st-card-hover-shadow: var(--st-shadow-card-hover);
-  --st-card-media-height: 48px;
+  --st-card-hover-shadow:      var(--st-shadow-card-hover);
+  --st-card-media-height:      48px;
 
-  /* --- Pill/Tag Component --- */
-  --st-pill-bg: var(--st-color-bg-subtle);
-  --st-pill-text: var(--st-color-text-brand);
+  /* ── Pill / Tag ──────────────────────────────────────── */
+  --st-pill-bg:     var(--st-color-bg-subtle);
+  --st-pill-text:   var(--st-color-text-brand);
   --st-pill-border: var(--st-color-border-subtle);
   --st-pill-radius: var(--st-radius-pill);
-  --st-pill-font: var(--st-font-mono);
-  --st-pill-size: var(--st-font-size-xs);
+  --st-pill-font:   var(--st-font-family-mono);
+  --st-pill-size:   var(--st-font-size-xs);
 
-  --st-tag-bg: var(--st-color-bg-subtle);
-  --st-tag-text: var(--st-color-text-brand);
+  --st-tag-bg:     var(--st-color-bg-subtle);
+  --st-tag-text:   var(--st-color-text-brand);
   --st-tag-border: var(--st-color-border-subtle);
   --st-tag-radius: var(--st-radius-tag);
-  --st-tag-font: var(--st-font-mono);
-  --st-tag-size: var(--st-font-size-xs);
+  --st-tag-font:   var(--st-font-family-mono);
+  --st-tag-size:   var(--st-font-size-xs);
 
-  /* --- Button Component --- */
-  --st-button-bg: var(--st-color-accent-primary);
-  --st-button-text: var(--st-color-white);
-  --st-button-radius: var(--st-radius-button);
-  --st-button-hover-translate-y: -2px;
-  --st-button-hover-shadow: var(--st-shadow-pink-glow);
-
-  --st-button-secondary-bg: var(--st-color-lime-500);
-  --st-button-secondary-text: var(--st-color-void-900);
+  /* ── Button ──────────────────────────────────────────── */
+  --st-button-bg:                     var(--st-color-accent-primary);
+  --st-button-text:                   var(--st-color-white);
+  --st-button-radius:                 var(--st-radius-button);
+  --st-button-hover-translate-y:      -2px;
+  --st-button-hover-shadow:           var(--st-shadow-pink-glow);
+  --st-button-secondary-bg:           var(--st-color-lime);
+  --st-button-secondary-text:         var(--st-color-midnight);
   --st-button-secondary-hover-shadow: var(--st-shadow-lime-glow);
+  --st-button-tertiary-border:        var(--st-color-brand-primary);
+  --st-button-tertiary-text:          var(--st-color-brand-primary);
+  --st-button-tertiary-hover-bg:      var(--st-color-accent-soft);
 
-  --st-button-tertiary-border: var(--st-color-brand-primary);
-  --st-button-tertiary-text: var(--st-color-brand-primary);
-  --st-button-tertiary-hover-bg: var(--st-color-accent-soft);
+  /* ── Table ───────────────────────────────────────────── */
+  --st-table-header-bg:   var(--st-color-accent);
+  --st-table-zebra-bg:    var(--st-color-midnight-700); /* dark default: slightly raised */
+  --st-table-border:      rgba(255, 255, 255, 0.08);
+  --st-table-shadow:      0 4px 24px rgba(0, 0, 0, 0.40);
+  --st-table-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.50);
+  --st-table-card-radius: var(--st-radius-md);
 
-  /* --- Table Component --- */
-  --st-table-header-bg:     var(--st-color-accent);
-  --st-table-zebra-bg:      #f9f9f9;
-  --st-table-border:        rgba(0, 0, 0, 0.08);
-  --st-table-shadow:        0 4px 6px rgba(0, 0, 0, 0.05);
-  --st-table-card-shadow:   0 6px 14px rgba(0, 0, 0, 0.08);
-  --st-table-card-radius:   var(--st-radius-md);
+  /* ── Blockquote ──────────────────────────────────────── */
+  --st-blockquote-border-width: 3px;
+  --st-blockquote-border-color: var(--st-color-brand-primary);
+  --st-blockquote-color:        var(--st-color-text-secondary);
+  --st-blockquote-padding-left: 1rem;
+  --st-blockquote-margin-block: 1.5rem;
 
-  /* --- Blockquote Component --- */
-  --st-blockquote-border-width:  3px;
-  --st-blockquote-border-color:  var(--st-color-brand-primary);
-  --st-blockquote-color:         var(--st-color-grey-600);
-  --st-blockquote-padding-left:  1rem;
-  --st-blockquote-margin-block:  1.5rem;
-
-  /* --- Callout Component --- */
-  --st-callout-radius: var(--st-radius-callout);
-  --st-callout-bg: #fff0f5;
-  --st-callout-border-color: rgba(214, 51, 132, 0.35);
-  --st-callout-border: var(--st-color-border-subtle);
-  --st-callout-padding: 1.25rem 1.5rem;
+  /* ── Callout ─────────────────────────────────────────── */
+  --st-callout-radius:       var(--st-radius-callout);
+  --st-callout-bg:           rgba(255, 36, 125, 0.08);   /* dark default: pink wash */
+  --st-callout-border-color: rgba(255, 36, 125, 0.25);
+  --st-callout-border:       var(--st-color-border-subtle);
+  --st-callout-padding:      1.25rem 1.5rem;
   --st-callout-margin-block: 2.5rem;
 
-  /* --- Code Component --- */
-  --st-code-radius: var(--st-radius-code);
-  --st-code-bg: var(--st-color-void-900);
-  --st-code-color: #f8f8f2;
-  --st-code-border-left: 4px solid var(--st-color-accent);
-  --st-code-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  --st-code-padding: 2rem;
-  --st-code-margin-block: 3rem;
-  --st-code-inline-bg: var(--st-color-grey-040);
-  --st-code-inline-color: var(--st-color-maroon-500);
-  --st-code-inline-text: var(--st-color-maroon-500);
-  --st-code-inline-border: 1px solid var(--st-color-grey-030);
+  /* ── Code ────────────────────────────────────────────── */
+  --st-code-radius:        var(--st-radius-code);
+  --st-code-bg:            var(--st-color-midnight);
+  --st-code-color:         #f8f8f2;
+  --st-code-border-left:   4px solid var(--st-color-accent);
+  --st-code-shadow:        0 4px 10px rgba(0, 0, 0, 0.2);
+  --st-code-padding:       2rem;
+  --st-code-margin-block:  3rem;
+  --st-code-inline-bg:     rgba(209, 255, 29, 0.10);    /* dark default: lime pill */
+  --st-code-inline-color:  var(--st-color-lime);
+  --st-code-inline-text:   var(--st-color-lime);        /* legacy alias */
+  --st-code-inline-border: 1px solid rgba(209, 255, 29, 0.30);
 
-  /* --- Media Component --- */
-  --st-media-radius: var(--st-radius-media);
-  --st-media-hero-aspect-ratio: 3 / 1;
+  /* ── Media ───────────────────────────────────────────── */
+  --st-media-radius:              var(--st-radius-media);
+  --st-media-hero-aspect-ratio:   3 / 1;
   --st-media-article-aspect-ratio: 21 / 9;
   --st-media-card-icon-strip-height: 48px;
 
-  /* --- Media Overlay / Duotone --- */
-  --st-media-duotone-pink:            #ff247d;
-  --st-media-duotone-seafoam:         #2bd4aa;
-  --st-media-duotone-standard-start:  rgba(255, 36, 125, 0.55);
-  --st-media-duotone-standard-end:    rgba(43, 212, 170, 0.45);
-  --st-media-duotone-featured-start:  rgba(255, 36, 125, 0.70);
-  --st-media-duotone-featured-end:    rgba(43, 212, 170, 0.50);
-  --st-media-duotone-subtle-start:    rgba(255, 36, 125, 0.30);
-  --st-media-duotone-subtle-end:      rgba(43, 212, 170, 0.25);
-  --st-media-overlay-blend-mode:      hard-light;
-  --st-media-duotone-radius:          35px;
-  --st-media-duotone-angle:           135deg;
+  /* ── Media Overlay / Duotone ─────────────────────────── */
+  --st-media-duotone-pink:           var(--st-color-pink);
+  --st-media-duotone-seafoam:        var(--st-color-seafoam);
+  --st-media-duotone-standard-start: rgba(255, 36, 125, 0.55);
+  --st-media-duotone-standard-end:   rgba(43, 212, 170, 0.45);
+  --st-media-duotone-featured-start: rgba(255, 36, 125, 0.70);
+  --st-media-duotone-featured-end:   rgba(43, 212, 170, 0.50);
+  --st-media-duotone-subtle-start:   rgba(255, 36, 125, 0.30);
+  --st-media-duotone-subtle-end:     rgba(43, 212, 170, 0.25);
+  --st-media-overlay-blend-mode:     hard-light;
+  --st-media-duotone-radius:         35px;
+  --st-media-duotone-angle:          135deg;
 
-  /* ============================================================
-     LEGACY ALIASES (Back-compat)
-     Keep for existing code during migration
-     ============================================================ */
-  --st-pink: var(--st-color-pink-500);
-  --st-green: var(--st-color-lime-500);
-  --st-white: var(--st-color-white);
-  --st-black: var(--st-color-void-900);
-  --st-color-brand: var(--st-color-brand-primary);
-  --st-color-accent: var(--st-color-accent-primary);
-  --st-focus: var(--st-color-focus);
+
+  /* ══════════════════════════════════════════════════════
+     LEGACY ALIASES — Step 3 TARGET: remove after component audit
+     Maps old token names to new equivalents so components
+     don't silently break before the audit pass.
+     ══════════════════════════════════════════════════════ */
+
+  /* void → midnight */
+  --st-color-void-900: var(--st-color-midnight);
+  --st-color-bg-void:  var(--st-color-bg-midnight);
+
+  /* grey → neutral / softgrey */
+  --st-color-grey-900: var(--st-color-neutral-900);
+  --st-color-grey-600: var(--st-color-neutral-600);
+  --st-color-grey-400: var(--st-color-softgrey);
+  --st-color-grey-300: var(--st-color-neutral-300);
+  --st-color-grey-200: var(--st-color-neutral-200);
+  --st-color-grey-100: var(--st-color-neutral-100);
+  --st-color-grey-050: var(--st-color-softgrey-50);
+  --st-color-grey-040: var(--st-color-softgrey-100);
+  --st-color-grey-030: var(--st-color-softgrey-200);
+
+  /* Misc legacy */
+  --st-color-brand:    var(--st-color-brand-primary);
+  --st-color-red-500:  var(--st-color-maroon);  /* was incorrectly set to maroon hex */
+  --st-pink:           var(--st-color-pink);
+  --st-black:          var(--st-color-black);   /* fixed: was var(--st-color-void-900) */
+  --st-white:          var(--st-color-white);
+  --st-green:          var(--st-color-seafoam);
+  --st-gray-light:     var(--st-color-neutral-100);
+  --st-gray:           #6B7280;
+  --st-focus:          var(--st-color-focus);
+
+  /* Legacy font aliases */
+  --st-font-sans: var(--st-font-family-ui);
+  --st-font-mono: var(--st-font-family-mono);
+}
+
+
+/* ══════════════════════════════════════════════════════
+   [data-theme="dark"] — Sugartown Dark (explicit, same as :root)
+   Exists so Storybook story decorators can isolate dark-theme
+   rendering without relying on :root inheritance.
+   ══════════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  --st-color-bg-canvas:         var(--st-color-midnight);
+  --st-color-bg-surface:        var(--st-color-midnight-800);
+  --st-color-bg-surface-strong: var(--st-color-midnight-700);
+  --st-color-bg-surface-alt:    var(--st-color-midnight-800);
+  --st-color-bg-subtle:         var(--st-color-midnight-700);
+  --st-color-bg-secondary:      var(--st-color-midnight-800);
+  --st-color-bg-tertiary:       var(--st-color-midnight-700);
+
+  --st-color-text-default:      var(--st-color-softgrey-50);
+  --st-color-text-primary:      var(--st-color-softgrey-50);
+  --st-color-text-secondary:    var(--st-color-softgrey-400);
+  --st-color-text-muted:        var(--st-color-softgrey-400);
+  --st-color-text-brand:        var(--st-color-pink);
+
+  --st-color-border-default:    rgba(255, 36, 125, 0.20);
+  --st-color-border-subtle:     rgba(255, 255, 255, 0.06);
+  --st-color-border-medium:     rgba(255, 255, 255, 0.12);
+  --st-color-border-strong:     rgba(255, 255, 255, 0.30);
+
+  --st-callout-bg:              rgba(255, 36, 125, 0.08);
+  --st-callout-border-color:    rgba(255, 36, 125, 0.25);
+
+  /* Table — dark contrast */
+  --st-table-zebra-bg:    var(--st-color-midnight-700);  /* #1C2240 — slightly raised */
+  --st-table-border:      rgba(255, 255, 255, 0.08);
+  --st-table-shadow:      0 4px 24px rgba(0, 0, 0, 0.40);
+  --st-table-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.50);
+
+  /* Inline code — dark lime pill */
+  --st-code-inline-bg:     rgba(209, 255, 29, 0.10);
+  --st-code-inline-color:  var(--st-color-lime);
+  --st-code-inline-border: 1px solid rgba(209, 255, 29, 0.30);
 }

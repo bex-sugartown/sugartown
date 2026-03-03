@@ -1,57 +1,57 @@
 {
   "card": {
-    "bg": "{color.bg.surface}",
-    "bgAlt": "{color.bg.surfaceAlt}",
-    "text": "{color.text.default}",
+    "bg":      "{color.bg.surface}",
+    "bgAlt":   "{color.bg.surfaceAlt}",
+    "text":    "{color.text.default}",
     "textMuted": "{color.text.muted}",
-    "border": "{color.brand.primary}",
-    "radius": "{radius.card}",
-    "shadow": "{shadow.cardDeep}",
+    "border":  "{color.brand.primary}",
+    "radius":  "{radius.card}",
+    "shadow":  "{shadow.cardDeep}",
     "hover": {
       "translateY": "-4px",
-      "shadow": "{shadow.cardHover}"
+      "shadow":     "{shadow.cardHover}"
     },
     "media": {
       "height": "48px"
     }
   },
   "pill": {
-    "bg": "{color.bg.subtle}",
-    "text": "{color.text.brand}",
+    "bg":     "{color.bg.subtle}",
+    "text":   "{color.text.brand}",
     "border": "{color.border.subtle}",
     "radius": "{radius.pill}",
-    "font": "{font.mono}",
-    "size": "{font.size.xs}"
+    "font":   "{font.mono}",
+    "size":   "{font.size.xs}"
   },
   "tag": {
-    "bg": "{color.bg.subtle}",
-    "text": "{color.text.brand}",
+    "bg":     "{color.bg.subtle}",
+    "text":   "{color.text.brand}",
     "border": "{color.border.subtle}",
     "radius": "{radius.tag}",
-    "font": "{font.mono}",
-    "size": "{font.size.xs}"
+    "font":   "{font.mono}",
+    "size":   "{font.size.xs}"
   },
   "button": {
-    "bg": "{color.accent.primary}",
-    "text": "{color.white}",
+    "bg":     "{color.accent.primary}",
+    "text":   "{color.white}",
     "radius": "{radius.button}",
     "hover": {
       "translateY": "-2px",
-      "shadow": "0 4px 12px rgba(255, 36, 125, 0.3)"
+      "shadow":     "0 4px 12px rgba(255, 36, 125, 0.3)"
     }
   },
   "callout": {
     "radius": "{radius.callout}",
-    "bg": "{color.bg.secondary}",
+    "bg":     "{color.bg.secondary}",
     "border": "{color.border.subtle}"
   },
   "code": {
     "radius": "{radius.code}",
-    "bg": "{color.void.900}",
+    "bg":     "{color.midnight.900}",
     "inline": {
-      "bg": "{color.grey.040}",
-      "text": "{color.maroon.500}",
-      "border": "{color.grey.030}"
+      "bg":     "{color.softgrey.100}",
+      "text":   "{color.maroon.600}",
+      "border": "{color.softgrey.200}"
     }
   },
   "media": {

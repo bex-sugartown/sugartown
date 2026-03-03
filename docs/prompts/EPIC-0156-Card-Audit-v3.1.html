@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPIC-0156 v3.1 · st-card Foundation — Final Brief</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+  :root{--pk:#FF247D;--sf:#2BD4AA;--lm:#D1FF1D;--mn:#0D1226;--s1:#141830;--s2:#1C2240;--bd:rgba(255,36,125,0.2);--b2:rgba(255,255,255,0.06);--tx:#F8F8FA;--mu:#8890AA;--mo:'Fira Code',monospace;--sa:'Fira Sans',sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--mn);color:var(--tx);font-family:var(--sa);font-size:15px;line-height:1.6}
+  .hdr{background:var(--s1);border-bottom:1px solid var(--bd);padding:18px 40px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .eid{font-family:var(--mo);font-size:.72rem;font-weight:700;color:var(--pk);letter-spacing:.12em;text-transform:uppercase;background:rgba(255,36,125,.1);border:1px solid rgba(255,36,125,.3);padding:3px 9px;border-radius:3px}
+  .etitle{font-size:1.05rem;font-weight:600;flex:1}
+  .estat{font-family:var(--mo);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:3px;background:rgba(43,212,170,.12);color:var(--sf);border:1px solid rgba(43,212,170,.3)}
+  .body{max-width:980px;margin:0 auto;padding:36px 40px;display:flex;flex-direction:column;gap:36px}
+  .sec{background:var(--s1);border:1px solid var(--b2);border-radius:6px;overflow:hidden}
+  .sh{padding:12px 20px;background:rgba(255,36,125,.07);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px}
+  .sn{font-family:var(--mo);font-size:.65rem;font-weight:700;color:var(--pk);letter-spacing:.14em;text-transform:uppercase}
+  .st{font-size:.92rem;font-weight:600}
+  .sb{padding:22px}
+  p{color:var(--mu);margin-bottom:10px;line-height:1.7}p:last-child{margin-bottom:0}
+  strong{color:var(--tx);font-weight:600}
+  h3{font-size:.8rem;font-weight:700;color:var(--sf);text-transform:uppercase;letter-spacing:.1em;font-family:var(--mo);margin:18px 0 8px}
+  h3:first-child{margin-top:0}
+  .alert{border-radius:4px;padding:12px 16px;margin-bottom:14px;border-left:3px solid}
+  .alert p{color:inherit;margin-bottom:0}.alert strong{color:inherit}
+  .warn{background:rgba(255,36,125,.08);border-color:var(--pk);color:#FF6BAE}
+  .info{background:rgba(43,212,170,.08);border-color:var(--sf);color:var(--sf)}
+  table{width:100%;border-collapse:collapse;font-size:.82rem}
+  th{font-family:var(--mo);font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pk);padding:7px 12px;text-align:left;border-bottom:1px solid var(--bd)}
+  td{padding:9px 12px;color:var(--mu);border-bottom:1px solid var(--b2);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td:first-child{font-family:var(--mo);font-size:.73rem;color:var(--tx);white-space:nowrap}
+  .tag{display:inline-block;font-family:var(--mo);font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:3px;margin:1px 2px}
+  .keep{background:rgba(43,212,170,.12);color:var(--sf);border:1px solid rgba(43,212,170,.3)}
+  .new{background:rgba(255,255,255,.06);color:var(--tx);border:1px solid rgba(255,255,255,.12)}
+  .defer{background:rgba(209,255,29,.08);color:var(--lm);border:1px solid rgba(209,255,29,.2)}
+  .depr{background:rgba(255,36,125,.1);color:#FF6BAE;border:1px solid rgba(255,36,125,.3)}
+  code{font-family:var(--mo);font-size:.78em;background:rgba(255,255,255,.06);padding:2px 5px;border-radius:3px;color:#FF6BAE}
+  pre{background:var(--s2);border:1px solid var(--b2);border-radius:4px;padding:14px 18px;overflow-x:auto;margin:10px 0}
+  pre code{background:none;padding:0;font-size:.78rem;color:var(--mu);line-height:1.7}
+  .kw{color:#FF6BAE}.str{color:#2BD4AA}.cm{color:rgba(148,163,184,.5);font-style:italic}
+  .mr{display:flex;flex-wrap:wrap;gap:20px;padding:14px 20px;background:var(--s2);border-radius:4px;margin-bottom:18px}
+  .ml{font-family:var(--mo);font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pk);margin-bottom:2px}
+  .mv{font-size:.83rem;color:var(--tx)}
+  .vg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
+  .vc{background:var(--s2);border:1px solid var(--b2);border-radius:5px;padding:14px}
+  .vcn{font-family:var(--mo);font-size:.68rem;font-weight:700;color:var(--pk);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+  .vcd{font-size:.78rem;color:var(--mu);line-height:1.55;margin-bottom:8px}
+  .vcl{font-size:.74rem;color:var(--tx);list-style:none}
+  .vcl li::before{content:'-> ';color:var(--sf)}
+  .cl{list-style:none;display:flex;flex-direction:column;gap:7px}
+  .cl li{display:flex;align-items:flex-start;gap:9px;font-size:.86rem;color:var(--mu)}
+  .cl li::before{content:'[ ]';font-size:.85rem;color:var(--pk);flex-shrink:0;margin-top:1px;font-family:var(--mo)}
+  .phases{display:flex;flex-direction:column;gap:10px}
+  .phase{display:flex;gap:14px;align-items:flex-start;background:var(--s2);border:1px solid var(--b2);border-radius:4px;padding:12px 16px}
+  .pn{font-family:var(--mo);font-size:.72rem;font-weight:700;color:var(--pk);background:rgba(255,36,125,.1);border:1px solid rgba(255,36,125,.25);border-radius:3px;padding:2px 7px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+  .pc{flex:1}
+  .pt{font-weight:600;font-size:.88rem;color:var(--tx);margin-bottom:3px}
+  .pd{font-size:.8rem;color:var(--mu);line-height:1.6}
+  .pg{font-family:var(--mo);font-size:.62rem;font-weight:700;color:var(--lm);background:rgba(209,255,29,.08);border:1px solid rgba(209,255,29,.2);border-radius:3px;padding:2px 7px;margin-top:6px;display:inline-block}
+  .ant{background:var(--s2);border:1px solid var(--b2);border-radius:4px;padding:18px;font-family:var(--mo);font-size:.76rem;color:var(--mu);line-height:1.85;margin:10px 0}
+  .zh{color:var(--pk);font-weight:700}.zb{color:var(--sf);font-weight:700}.zf{color:var(--lm);font-weight:700}
+  .bi{background:var(--s2);border:1px solid var(--b2);border-radius:4px;padding:12px 16px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start}
+  .bi.depr-item{border-color:rgba(255,36,125,.3);background:rgba(255,36,125,.05)}
+  .bin{font-family:var(--mo);font-size:.65rem;font-weight:700;color:var(--lm);white-space:nowrap;margin-top:2px}
+  .bin.depr{color:#FF6BAE}
+  .bib{font-size:.82rem;color:var(--mu);line-height:1.6}
+  .bib strong{color:var(--tx)}
+  ul.bare{list-style:none;display:flex;flex-direction:column;gap:5px;margin:6px 0}
+  ul.bare li{font-size:.83rem;color:var(--mu)}
+  .dec{background:var(--s2);border:1px solid var(--bd);border-radius:5px;padding:14px 18px;margin:10px 0}
+  .dq{font-family:var(--mo);font-size:.62rem;font-weight:700;color:var(--pk);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px}
+  .da{font-size:.84rem;color:var(--tx);line-height:1.65}
+  .da em{color:var(--mu);font-style:italic}
+  .depr-box{background:rgba(255,36,125,.07);border:1px solid rgba(255,36,125,.3);border-radius:4px;padding:10px 14px;margin-top:10px}
+  .depr-box .dq{color:#FF6BAE}
+  .depr-box .da{color:#FF6BAE}
+  @media(max-width:720px){.body{padding:18px}.vg{grid-template-columns:1fr}.hdr{padding:14px 18px}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <span class="eid">EPIC-0156 v3.1</span>
+  <h1 class="etitle">st-card Foundation &mdash; Final Brief</h1>
+  <span class="estat">Ready for Claude Code</span>
+</header>
+
+<div class="body">
+
+  <div class="mr">
+    <div><div class="ml">Package</div><div class="mv">packages/design-system</div></div>
+    <div><div class="ml">Path</div><div class="mv">src/components/Card/</div></div>
+    <div><div class="ml">Replaces</div><div class="mv">EPIC-0151 + v1/v2/v3 of EPIC-0156</div></div>
+    <div><div class="ml">Depends On</div><div class="mv">EPIC-0152 (light/dark tokens)</div></div>
+    <div><div class="ml">Changes from v3</div><div class="mv">featuredImage deprecated throughout</div></div>
+  </div>
+
+  <!-- DEPRECATION NOTICE -->
+  <div class="alert warn" style="border-radius:6px;padding:16px 20px;">
+    <p><strong>&#x26A0;&#xFE0F; Deprecation in effect: featuredImage</strong> &mdash; The <code>featuredImage</code> field on <code>article</code> and <code>caseStudy</code> schemas must not appear in any new GROQ queries, components, or documentation produced by this epic. It exists in the schema for legacy data continuity only. See Section 01 (Image Strategy) and Backlog BL-07 for full context.</p>
+  </div>
+
+  <!-- 01 LOCKED DECISIONS -->
+  <section class="sec">
+    <div class="sh"><span class="sn">01</span><span class="st">Decisions Locked &mdash; Do Not Re-Open These</span></div>
+    <div class="sb">
+      <p>These were open questions in earlier versions. They are resolved. Implement exactly as stated.</p>
+
+      <div class="dec">
+        <div class="dq">Category placement</div>
+        <div class="da">Category renders as a plain text link &mdash; <em>"Category: [linked label]"</em> &mdash; in a dedicated <code>__category</code> element. Not a chip. Two stories show both positions (above title vs. below eyebrow/above title) for visual comparison. Final position locked after Storybook review &mdash; tracked in Backlog BL-06. The component supports both via a <code>categoryPosition</code> prop defaulting to <em>'below-eyebrow'</em> (current legacy behaviour from screenshots).</div>
+      </div>
+
+      <div class="dec">
+        <div class="dq">Project colorway / accentColor</div>
+        <div class="da"><code>accentColor?: string</code> accepts a raw hex string from <code>project.colorHex</code>. Component derives tints using <code>color-mix()</code>: left border strip, eyebrow color override, header wash. Absent prop = no style applied = default. Brand color picker dropdown in Sanity Studio is Backlog BL-01.</div>
+      </div>
+
+      <div class="dec">
+        <div class="dq">KPIs in metadata</div>
+        <div class="da">KPI fields removed from <code>variant="metadata"</code>. KPIs surface as: (1) a pinned article/node at top of project page, or (2) a <code>kpiLink</code> prop rendering as <em>"KPIs: [View Dashboard &rarr;]"</em> in the footer. No data, no bars, no numbers inside any card.</div>
+      </div>
+
+      <div class="dec">
+        <div class="dq">Thumbnail position</div>
+        <div class="da"><code>variant="default"</code>: thumbnail renders as full-width hero above the header (inside card boundary). <code>variant="listing"</code>: thumbnail renders as fixed-width left-rail column. No <code>thumbnailPosition</code> prop &mdash; position is determined by variant. No <code>thumbnailUrl</code> prop = slot is absent, card fills gracefully.</div>
+      </div>
+
+      <div class="dec">
+        <div class="dq">Full-card-clickable pattern</div>
+        <div class="da">A card with <code>href</code> and no other interactive children uses the CSS expanded hit-target pattern: root is <code>position:relative</code>, title link gets <code>::after { position:absolute; inset:0 }</code>. Other interactive children get <code>position:relative; z-index:1</code>. Never a wrapping <code>&lt;a&gt;</code> around other links &mdash; invalid HTML and inaccessible.</div>
+      </div>
+
+      <div class="dec" style="border-color:rgba(255,36,125,.4)">
+        <div class="dq" style="color:#FF6BAE">&#x26A0;&#xFE0F; Image strategy &mdash; featuredImage is deprecated</div>
+        <div class="da"><strong>Option A (bridge now):</strong> <code>thumbnailUrl</code> is derived from <code>hero.media[0]</code> or the first image in <code>sections[]</code> via GROQ projection in <code>apps/web</code>. Component receives a resolved URL string or nothing. A dedicated <code>cardImage</code> schema field is Backlog BL-02.
+          <div class="depr-box" style="margin-top:10px">
+            <div class="dq">DEPRECATED: featuredImage</div>
+            <div class="da" style="color:#FF6BAE;font-size:.82rem">The <code>featuredImage</code> field exists on <code>article</code> and <code>caseStudy</code> schemas for legacy data continuity only. <strong style="color:#FF6BAE">Do not reference it in any new GROQ query, component, adapter, story, or documentation.</strong> It has been wired into <code>CaseStudyPage.jsx</code> and <code>ArticlePage.jsx</code> historically &mdash; those references are legacy and will be unwired in a future cleanup epic. The canonical image source going forward is <code>sections[]</code> content. Schema field removal is blocked by data-loss risk; Studio hide task is tracked in BL-07.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dec">
+        <div class="dq">Density naming</div>
+        <div class="da">Renamed from "dense" to <strong>"compact"</strong>. <code>density="compact"</code>. Applies to all variants. Produces tighter padding AND smaller type scale &mdash; not padding-only.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 VARIANT MAP -->
+  <section class="sec">
+    <div class="sh"><span class="sn">02</span><span class="st">Variant Map &mdash; Final</span></div>
+    <div class="sb">
+      <div class="vg">
+        <div class="vc">
+          <div class="vcn">Default</div>
+          <div class="vcd">Vertical. Full prop set. Hero thumbnail above header (if provided). Category as text link. Tags + tools as chips. Full-card-clickable when no other links present.</div>
+          <ul class="vcl">
+            <li>Gem Archive grid</li>
+            <li>Article cards</li>
+            <li>General content</li>
+          </ul>
+        </div>
+        <div class="vc">
+          <div class="vcn">Listing</div>
+          <div class="vcd">Single-column, content-width. Limited props: title, excerpt, date, project, status. Left-rail thumbnail (if provided). Full-card-clickable when no other links.</div>
+          <ul class="vcl">
+            <li>Archive list view</li>
+            <li>Search results</li>
+            <li>Sidebar recent items</li>
+          </ul>
+        </div>
+        <div class="vc">
+          <div class="vcn">Metadata</div>
+          <div class="vcd">Vertical, structured field grid. No thumbnail. 4 documented sub-types (stories only &mdash; not code branches). Used on detail pages, not archive grids.</div>
+          <ul class="vcl">
+            <li>KG node detail</li>
+            <li>Article sidebar</li>
+            <li>Case study sidebar</li>
+            <li>Project detail page</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Modifiers &mdash; apply to any variant</h3>
+      <table>
+        <thead><tr><th>Modifier</th><th>Prop</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td>Compact</td><td><code>density="compact"</code></td><td>Tighter padding + smaller type scale. Not padding-only.</td></tr>
+          <tr><td>Project Colorway</td><td><code>accentColor="#hex"</code></td><td>Left border strip + eyebrow tint + header wash via color-mix(). No prop = default style.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>What is NOT a variant</h3>
+      <ul class="bare">
+        <li>&#x2192; Light / dark theme &mdash; token inheritance via [data-theme] on parent. No prop.</li>
+        <li>&#x2192; Compact density &mdash; modifier, not a layout variant.</li>
+        <li>&#x2192; Project colorway &mdash; accentColor prop, not a variant.</li>
+        <li>&#x2192; Linked vs static &mdash; href prop changes behavior, not layout.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 03 PROPS -->
+  <section class="sec">
+    <div class="sh"><span class="sn">03</span><span class="st">Final Props Interface</span></div>
+    <div class="sb">
+      <pre><code><span class="cm">// packages/design-system/src/components/Card/Card.tsx</span>
+
+<span class="kw">interface</span> CardProps {
+
+  <span class="cm">// Layout</span>
+  variant?:          <span class="str">'default'</span> | <span class="str">'listing'</span> | <span class="str">'metadata'</span>  <span class="cm">// default: 'default'</span>
+  density?:          <span class="str">'default'</span> | <span class="str">'compact'</span>                 <span class="cm">// default: 'default'</span>
+
+  <span class="cm">// Header</span>
+  title:             string
+  eyebrow?:          string              <span class="cm">// "Node . PROJ-001" format</span>
+  category?:         { label: string; href: string }   <span class="cm">// plain text link, not a chip</span>
+  categoryPosition?: <span class="str">'below-eyebrow'</span> | <span class="str">'above-title'</span>  <span class="cm">// default: 'below-eyebrow'</span>
+  subtitle?:         string              <span class="cm">// default variant only</span>
+  status?:           <span class="str">'draft'</span> | <span class="str">'active'</span> | <span class="str">'archived'</span> | <span class="str">'evergreen'</span>
+                     <span class="cm">// | 'implemented' | 'validated' | 'deprecated'</span>
+
+  <span class="cm">// Body</span>
+  excerpt?:          string              <span class="cm">// default + listing only</span>
+
+  <span class="cm">// Metadata grid (variant="metadata" only)</span>
+  metadata?:         Array&lt;{ label: string; value: string }&gt;
+
+  <span class="cm">// Chip rows (default + metadata)</span>
+  tags?:             Array&lt;{ label: string; href?: string }&gt;  <span class="cm">// filled pink chips</span>
+  tools?:            Array&lt;{ label: string; href?: string }&gt;  <span class="cm">// outlined seafoam chips</span>
+
+  <span class="cm">// Footer</span>
+  date?:             string              <span class="cm">// ISO - component formats display</span>
+  nextStep?:         string              <span class="cm">// "Next Step: [text]" - from legacy, optional</span>
+  aiTool?:           string              <span class="cm">// "Claude" | "ChatGPT" | "Gemini" | "Agentic Caucus"</span>
+  stamp?:            string              <span class="cm">// "Reviewed" | "Implemented" | "Due" etc.</span>
+  kpiLink?:          { label: string; href: string }   <span class="cm">// link only - no data</span>
+
+  <span class="cm">// Media - position determined by variant</span>
+  <span class="cm">// Source: hero.media[0] or sections[] — NOT featuredImage (deprecated)</span>
+  thumbnailUrl?:     string
+  thumbnailAlt?:     string
+
+  <span class="cm">// Project colorway</span>
+  accentColor?:      string              <span class="cm">// hex from project.colorHex</span>
+
+  <span class="cm">// Linking</span>
+  href?:             string              <span class="cm">// full-card-link via ::after pattern</span>
+  className?:        string
+}</code></pre>
+
+      <h3>Metadata sub-types &mdash; story conventions, not code branches</h3>
+      <table>
+        <thead><tr><th>Sub-type</th><th>Fields used</th><th>Story name</th></tr></thead>
+        <tbody>
+          <tr><td>Node (full)</td><td>aiTool, conversationType, status, project, category, tags, tools, date, stamp</td><td><code>MetadataNode</code></td></tr>
+          <tr><td>Article (minimal)</td><td>status, category, date, aiTool only</td><td><code>MetadataArticle</code></td></tr>
+          <tr><td>Case Study</td><td>client (metadata row), role (metadata row), status, category, project, tags</td><td><code>MetadataCaseStudy</code></td></tr>
+          <tr><td>Project</td><td>projectId, status, priority, category, tags &mdash; kpiLink in footer</td><td><code>MetadataProject</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 04 ANATOMY -->
+  <section class="sec">
+    <div class="sh"><span class="sn">04</span><span class="st">Base Anatomy + Invariants</span></div>
+    <div class="sb">
+      <div class="ant">
+<span class="zh">+--------------------------------------------------+
+|  __thumbnail-hero (default variant + thumbnailUrl)|
+|  full-width above header; absent if no url       |
+|  source: hero.media[0] or sections[] via GROQ    |
++--------------------------------------------------+
+|  __header  (flex-shrink:0 -- LOCKED)             |</span>
+|  |-- __eyebrow     "Node . PROJ-001"             |
+|  |-- __category    "Category: [linked text]"     |
+|  |   (position: below-eyebrow OR above-title)    |
+|  |-- __status-badge  (floats right in header)    |
+|  +-- __title  [linked if href; ::after hit-tgt]  |
+|       +-- __subtitle  (default only)             |
+<span class="zb">+--------------------------------------------------+
+|  __body  (flex:1 1 auto -- LOCKED)               |</span>
+|  |-- __excerpt       (prose)                     |
+|  |-- __metadata-grid (metadata variant)          |
+|  |    |-- __metadata-label  (mono, muted)        |
+|  |    +-- __metadata-value                       |
+|  |-- __tools-row     (outlined seafoam chips)    |
+|  +-- __tags-row      (filled pink chips)         |
+<span class="zf">+--------------------------------------------------+
+|  __footer  (flex-shrink:0 -- LOCKED)             |</span>
+|  |-- __footer-left                               |
+|  |    |-- __next-step   "Next Step: [text]"      |
+|  |    |-- __ai-tool     attribution              |
+|  |    +-- __kpi-link    "KPIs: [View ->]"        |
+|  +-- __footer-right                              |
+|       |-- __date                                 |
+|       +-- __stamp   "Reviewed" / "Implemented"   |
++--------------------------------------------------+
+      </div>
+
+      <div class="alert info" style="margin-top:12px">
+        <p><strong>Listing variant with thumbnail:</strong> root switches to <code>flex-direction:row</code>. Thumbnail becomes fixed-width left column (<code>--st-card-thumb-rail-width</code>). All other elements stack in right column using same slot names. Without thumbnail: <code>flex-direction:column</code> normal stack.</p>
+      </div>
+
+      <h3>Invariants &mdash; what cannot change</h3>
+      <ul class="bare">
+        <li>&#x2192; Root: <code>display:flex; flex-direction:column</code> (row when listing+thumb)</li>
+        <li>&#x2192; __header and __footer: <code>flex-shrink:0</code> &mdash; never compress or float</li>
+        <li>&#x2192; __body: <code>flex:1 1 auto</code> &mdash; expands to fill space</li>
+        <li>&#x2192; DOM order is semantic order: header &rarr; body &rarr; footer. No exceptions.</li>
+        <li>&#x2192; No min-height on card root or grid wrapper</li>
+        <li>&#x2192; No inline styles &mdash; all appearance via tokens and CSS Modules</li>
+        <li>&#x2192; .st-card class always present on root</li>
+        <li>&#x2192; No CMS types, GROQ, or Sanity shapes inside the component</li>
+        <li>&#x2192; thumbnailUrl source is <strong>never</strong> featuredImage &mdash; use hero.media[0] or sections[]</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 05 TOKENS -->
+  <section class="sec">
+    <div class="sh"><span class="sn">05</span><span class="st">Token Requirements &mdash; Confirm Post EPIC-0152</span></div>
+    <div class="sb">
+      <div class="alert warn">
+        <p><strong>Do not begin component CSS until EPIC-0152 tokens are confirmed in tokens.css.</strong> Every value below must resolve via a semantic token. No raw hex in the component. Add gaps to the token layer, not to the component.</p>
+      </div>
+      <table>
+        <thead><tr><th>Token</th><th>Light Value</th><th>Dark Value</th><th>Used For</th></tr></thead>
+        <tbody>
+          <tr><td>--st-card-bg</td><td>#FFFFFF</td><td>#141830</td><td>Card surface</td></tr>
+          <tr><td>--st-card-border</td><td>rgba(255,36,125,0.2)</td><td>rgba(255,36,125,0.2)</td><td>Card outline</td></tr>
+          <tr><td>--st-card-shadow</td><td>0 4px 20px rgba(0,0,0,.06)</td><td>0 14px 40px rgba(0,0,0,.18)</td><td>Elevation</td></tr>
+          <tr><td>--st-card-hover-shadow</td><td>0 8px 32px rgba(255,36,125,.12)</td><td>0 18px 55px rgba(0,0,0,.22)</td><td>Hover lift</td></tr>
+          <tr><td>--st-color-text-primary</td><td>#0D1226</td><td>#F8F8FA</td><td>Title, values</td></tr>
+          <tr><td>--st-color-text-muted</td><td>#666680</td><td>#8890AA</td><td>Labels, dates, footer</td></tr>
+          <tr><td>--st-color-text-eyebrow</td><td>#FF247D</td><td>rgba(255,111,184,.9)</td><td>Eyebrow, mono metadata labels</td></tr>
+          <tr><td>--st-color-category-link</td><td>#666680</td><td>#8890AA</td><td>Category text link (muted, not pink)</td></tr>
+          <tr><td>--st-color-footer-divider</td><td>rgba(255,36,125,.25)</td><td>rgba(255,111,184,.22)</td><td>Footer ::before dashed line</td></tr>
+          <tr><td>--st-color-chip-bg</td><td>rgba(255,36,125,.08)</td><td>rgba(255,255,255,.06)</td><td>Filled tag chips background</td></tr>
+          <tr><td>--st-card-thumb-rail-width</td><td>96px</td><td>96px</td><td>Listing variant thumbnail column width</td></tr>
+          <tr><td>--st-font-mono</td><td>Fira Code, monospace</td><td>same</td><td>Eyebrow, metadata labels, nextStep label</td></tr>
+        </tbody>
+      </table>
+
+      <h3>accentColor CSS pattern</h3>
+      <pre><code><span class="cm">/* Component sets CSS var from prop via inline style={{ '--accent': accentColor }} */</span>
+<span class="cm">/* Applied only when --accent is present */</span>
+
+.st-card[style*="--accent"] {
+  border-left: 3px solid <span class="kw">color-mix</span>(in srgb, var(--accent) 80%, transparent);
+}
+.st-card[style*="--accent"] .<span class="kw">st-card__header</span> {
+  background: <span class="kw">color-mix</span>(in srgb, var(--accent) 6%, transparent);
+}
+.st-card[style*="--accent"] .<span class="kw">st-card__eyebrow</span> {
+  color: var(--accent);
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- 06 STORIES -->
+  <section class="sec">
+    <div class="sh"><span class="sn">06</span><span class="st">Required Storybook Stories &mdash; 17 Total</span></div>
+    <div class="sb">
+      <div class="alert info">
+        <p>All stories use realistic Sugartown content data. No lorem ipsum. thumbnailUrl in stories must use a placeholder image URL &mdash; never reference featuredImage in story fixtures.</p>
+      </div>
+      <table>
+        <thead><tr><th>Story Name</th><th>Variant</th><th>Key Verification Points</th></tr></thead>
+        <tbody>
+          <tr><td><code>DefaultFull</code></td><td>default</td><td>All props. Eyebrow, category link, title, status badge, tags, tools, next-step, date. Light theme. Match legacy screenshot.</td></tr>
+          <tr><td><code>DefaultDark</code></td><td>default</td><td>Same data, dark theme via decorator. No prop change. Verify all token overrides.</td></tr>
+          <tr><td><code>DefaultWithAccent</code></td><td>default</td><td><code>accentColor="#2BD4AA"</code> &mdash; left strip, eyebrow tint, header wash all present.</td></tr>
+          <tr><td><code>DefaultTitleOnly</code></td><td>default</td><td>Title only. All optional props omitted. Must not collapse or break.</td></tr>
+          <tr><td><code>DefaultWithHero</code></td><td>default</td><td>thumbnailUrl provided (placeholder URL) &mdash; hero renders above header. Omitted = no slot.</td></tr>
+          <tr><td><code>DefaultCompact</code></td><td>default + compact</td><td>Visibly tighter. Type scale difference required, not just padding.</td></tr>
+          <tr><td><code>CategoryBelowEyebrow</code></td><td>default</td><td>categoryPosition='below-eyebrow' (default). Match legacy screenshot position.</td></tr>
+          <tr><td><code>CategoryAboveTitle</code></td><td>default</td><td>categoryPosition='above-title'. Side-by-side comparison for visual decision (BL-06).</td></tr>
+          <tr><td><code>ListingBasic</code></td><td>listing</td><td>title, excerpt, date, project, status. Single column, content-width. No thumbnail.</td></tr>
+          <tr><td><code>ListingWithThumb</code></td><td>listing</td><td>Left-rail thumbnail. Verify column layout and vertical alignment.</td></tr>
+          <tr><td><code>ListingFullCard</code></td><td>listing</td><td>href set, no other links. Full-card hit target. Keyboard nav. Focus ring via brand token.</td></tr>
+          <tr><td><code>MetadataNode</code></td><td>metadata</td><td>All node fields: aiTool, conversationType, status, project, category, tags, tools, stamp.</td></tr>
+          <tr><td><code>MetadataArticle</code></td><td>metadata</td><td>Minimal: status, category, date, aiTool only.</td></tr>
+          <tr><td><code>MetadataCaseStudy</code></td><td>metadata</td><td>client + role as metadata rows, status, category, project, tags.</td></tr>
+          <tr><td><code>MetadataProject</code></td><td>metadata</td><td>projectId, status, priority, category, tags. kpiLink in footer. No KPI data in body.</td></tr>
+          <tr><td><code>CardGrid</code></td><td>default</td><td>6 cards in st-layout-grid. Varying content lengths. Header + footer pinned at all heights.</td></tr>
+          <tr><td><code>ListingGrid</code></td><td>listing</td><td>Stack of listing cards, content-width container. Consistent spacing.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 07 FILES -->
+  <section class="sec">
+    <div class="sh"><span class="sn">07</span><span class="st">Files to Create or Modify</span></div>
+    <div class="sb">
+      <table>
+        <thead><tr><th>File</th><th>Action</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><code>Card/Card.tsx</code></td><td><span class="tag new">Create</span></td><td>Base + variant switcher. Thumbnail position by variant. accentColor via CSS var inline style. thumbnailUrl source comment: hero.media[0] or sections[] only.</td></tr>
+          <tr><td><code>Card/Card.module.css</code></td><td><span class="tag new">Create</span></td><td>Base + 3 variants + compact modifier + accentColor pattern. Both themes via tokens only. Zero hardcoded hex.</td></tr>
+          <tr><td><code>Card/index.ts</code></td><td><span class="tag new">Create</span></td><td>Exports Card and CardProps.</td></tr>
+          <tr><td><code>Card/Card.stories.tsx</code></td><td><span class="tag new">Create</span></td><td>All 17 stories. Realistic data. thumbnailUrl uses placeholder image URLs &mdash; never featuredImage.</td></tr>
+          <tr><td><code>Card/README.md</code></td><td><span class="tag new">Create</span></td><td>Purpose, decisions, anatomy, props, tokens, accessibility, non-goals, backlog. Must include featuredImage deprecation notice in image strategy section.</td></tr>
+          <tr><td><code>design-system/src/index.ts</code></td><td><span class="tag keep">Update</span></td><td>Add Card re-export. Remove legacy CatalogCard if present.</td></tr>
+          <tr><td><code>tokens.css</code></td><td><span class="tag keep">Update if needed</span></td><td>Fill gaps from Section 05 only.</td></tr>
+          <tr><td><code>article.ts</code>, <code>caseStudy.ts</code></td><td><span class="tag depr">Do Not Touch</span></td><td><strong>featuredImage is deprecated.</strong> Field exists for legacy data continuity. Do not remove (data loss risk). Do not reference in new code. Studio hide task is BL-07.</td></tr>
+          <tr><td><code>.storybook/preview.ts</code></td><td><span class="tag defer">Low priority</span></td><td>Wide viewport preset. Not a blocker.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 08 PHASES -->
+  <section class="sec">
+    <div class="sh"><span class="sn">08</span><span class="st">Implementation Phases &mdash; In This Order</span></div>
+    <div class="sb">
+      <div class="phases">
+        <div class="phase"><div class="pn">Phase 1</div><div class="pc"><div class="pt">Confirm Token Layer</div><div class="pd">Cross-reference Section 05 against current tokens.css post-EPIC-0152. Add gaps. Confirm --st-font-mono exists. Do not write component CSS before this step.</div><span class="pg">Gate: Zero unresolved CSS custom properties in browser inspector</span></div></div>
+        <div class="phase"><div class="pn">Phase 2</div><div class="pc"><div class="pt">Audit Existing Card CSS</div><div class="pd">Read style_260118.css and style_old_260119.css. Document every card rule: keep / retire / promote. No new code. Reading and mapping only.</div><span class="pg">Gate: Every existing card rule has a documented fate</span></div></div>
+        <div class="phase"><div class="pn">Phase 3</div><div class="pc"><div class="pt">Build Default Variant</div><div class="pd">Base invariants. Default in light mode. Verify header/footer pinning, body expansion, all slots. Dark token overrides. Compact modifier. accentColor CSS pattern.</div><span class="pg">Gate: Default renders in light + dark. TypeScript compiles clean.</span></div></div>
+        <div class="phase"><div class="pn">Phase 4</div><div class="pc"><div class="pt">Build Listing Variant</div><div class="pd">Vertical (no thumb) and horizontal with left-rail thumb layouts. Full-card-link ::after pattern. Compact modifier on listing.</div><span class="pg">Gate: Both listing sub-types render. Keyboard nav verified.</span></div></div>
+        <div class="phase"><div class="pn">Phase 5</div><div class="pc"><div class="pt">Build Metadata Variant</div><div class="pd">Metadata grid (grid-template-columns: max-content 1fr). Tools row (outlined). Tags row (filled). kpiLink as footer link. accentColor applies.</div><span class="pg">Gate: All 4 sub-types render. Grid aligns at all label lengths.</span></div></div>
+        <div class="phase"><div class="pn">Phase 6</div><div class="pc"><div class="pt">Wire All 17 Stories</div><div class="pd">Realistic Sugartown data. Placeholder image URLs for thumbnail stories &mdash; never featuredImage. CategoryBelowEyebrow and CategoryAboveTitle side by side. All grid stories use st-layout-grid.</div><span class="pg">Gate: Storybook builds clean. All 17 stories render.</span></div></div>
+        <div class="phase"><div class="pn">Phase 7</div><div class="pc"><div class="pt">README + Index Export</div><div class="pd">README must include featuredImage deprecation notice in image strategy section, plus full decisions log and backlog. Update design-system index. Mark .pink-card and .gem-card deprecated.</div><span class="pg">Gate: README complete. Exports verified. Aliases documented.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 AC -->
+  <section class="sec">
+    <div class="sh"><span class="sn">09</span><span class="st">Acceptance Criteria &mdash; Done Means All of These</span></div>
+    <div class="sb">
+      <ul class="cl">
+        <li>Header and footer lock at 1-line and 10-line body content in a grid</li>
+        <li>Body expands without breaking card grid boundaries</li>
+        <li>Metadata grid label/value columns align at all label lengths</li>
+        <li>Default, Listing, and Metadata variants are visually distinct &mdash; not just padding differences</li>
+        <li>Compact modifier: tighter padding AND smaller type scale on all 3 variants</li>
+        <li>Light and dark themes render correctly with zero prop change</li>
+        <li>accentColor: left strip + eyebrow tint + header wash present. Absent prop = no style change.</li>
+        <li>Category renders as plain text link with label prefix, not as a chip</li>
+        <li>categoryPosition prop controls placement correctly in both modes</li>
+        <li>Listing with href + no other links: full card keyboard-navigable; ::after hit target pattern used</li>
+        <li>Listing without thumbnail: vertical layout. With thumbnail: left-rail column layout.</li>
+        <li>Default without thumbnail: no hero slot. With thumbnail: full-width hero above header.</li>
+        <li>kpiLink: renders as a plain link label only. No data, no bars, no numbers.</li>
+        <li>No min-height on card root or grid wrapper</li>
+        <li>Zero unresolved CSS custom properties in browser inspector</li>
+        <li>Zero hardcoded hex values or pixel values in component CSS</li>
+        <li>Zero CMS-specific types, imports, or logic in the component</li>
+        <li>No reference to featuredImage anywhere in component code, stories, or GROQ adapters produced by this epic</li>
+        <li>TypeScript compiles clean. Storybook builds clean.</li>
+        <li>CategoryBelowEyebrow and CategoryAboveTitle stories exist for visual comparison</li>
+        <li>Component re-exports correctly from design-system/src/index.ts</li>
+        <li>Legacy aliases (.pink-card, .gem-card) documented as deprecated in README with migration path</li>
+        <li>README includes featuredImage deprecation notice in image strategy section</li>
+        <li>README complete: purpose, decisions, anatomy, props, tokens, accessibility, non-goals, backlog</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 10 BACKLOG -->
+  <section class="sec">
+    <div class="sh"><span class="sn">10</span><span class="st">Backlog &mdash; Deferred with Intent</span></div>
+    <div class="sb">
+      <p>Document in the README so these don't get lost or re-litigated.</p>
+      <div class="bi"><div class="bin">BL-01</div><div class="bib"><strong>Brand color picker in Sanity Studio</strong> &mdash; Replace raw hex colorHex on project with a dropdown of named brand palette colors. Requires a brandColors options list in project schema or a shared config. The accentColor prop interface on Card does not change.</div></div>
+      <div class="bi"><div class="bin">BL-02</div><div class="bib"><strong>Dedicated cardImage schema field</strong> &mdash; Add explicit <code>cardImage</code> to article, node, caseStudy schemas. Currently bridged by <code>hero.media[0]</code> or <code>sections[]</code> GROQ projection in apps/web. Component interface unchanged. Note: <code>featuredImage</code> is deprecated and is not the bridge &mdash; do not use it.</div></div>
+      <div class="bi"><div class="bin">BL-03</div><div class="bib"><strong>Stat card family (st-stat)</strong> &mdash; stat-card, bar-card, insight-card for KPI dashboards. Separate component family, separate epic. Does not share the header/body/footer contract. Reference: /docs/reports/sugartown-kpi-dashboard.html</div></div>
+      <div class="bi"><div class="bin">BL-04</div><div class="bib"><strong>Image card hero treatment</strong> &mdash; Full-bleed hero layout with overlay text handling. Interface already supported via thumbnailUrl + variant="default". Pending: overlay and bleed layout specifics. thumbnailUrl source: sections[] or hero.media[0], never featuredImage.</div></div>
+      <div class="bi"><div class="bin">BL-05</div><div class="bib"><strong>Storybook wide viewport</strong> &mdash; Add viewport preset to .storybook/preview.ts. 10-line config change. After stories are wired.</div></div>
+      <div class="bi"><div class="bin">BL-06</div><div class="bib"><strong>Category placement final decision</strong> &mdash; above-title vs. below-eyebrow. Blocked on visual review of CategoryAboveTitle and CategoryBelowEyebrow stories. Not a code change once decided &mdash; categoryPosition prop default update only.</div></div>
+      <div class="bi depr-item"><div class="bin depr">BL-07</div><div class="bib"><strong>Mark featuredImage hidden in Sanity Studio</strong> &mdash; <code>featuredImage</code> on <code>article</code> and <code>caseStudy</code> is deprecated. Set <code>hidden: true</code> on the field definition in both schema files so editors can no longer populate it. <strong>Do not remove the field</strong> &mdash; that destroys existing image data stored against it. New content uses <code>sections[]</code> for media. Studio-only schema change, zero frontend impact. Also unwind the legacy <code>featuredImage</code> rendering in <code>CaseStudyPage.jsx</code> and <code>ArticlePage.jsx</code> as a follow-on cleanup once BL-02 (dedicated cardImage field) ships.</div></div>
+    </div>
+  </section>
+
+  <!-- 11 NON-GOALS -->
+  <section class="sec">
+    <div class="sh"><span class="sn">11</span><span class="st">Explicit Non-Goals</span></div>
+    <div class="sb">
+      <ul class="bare">
+        <li>&#x2717; No skeuomorphism &mdash; not paper, not tape, not catalog texture. Information discipline as modern UI.</li>
+        <li>&#x2717; No CMS shapes inside the component &mdash; no Sanity types, no GROQ, no _type checks.</li>
+        <li>&#x2717; No KPI data rendering on any card &mdash; kpiLink is a link only.</li>
+        <li>&#x2717; No page-specific CSS &mdash; must work on any surface.</li>
+        <li>&#x2717; No WordPress dependencies.</li>
+        <li>&#x2717; No parallel card component classes &mdash; extend props, don't create siblings.</li>
+        <li>&#x2717; No fixed heights &mdash; the grid decides, the card fills.</li>
+        <li>&#x2717; No styled-components, Tailwind, or global class pollution. CSS Modules only.</li>
+        <li>&#x2717; No wrapping &lt;a&gt; tag around cards with child links &mdash; use ::after hit target pattern.</li>
+        <li>&#x2717; No thumbnail position prop &mdash; position is determined by variant, period.</li>
+        <li>&#x2717; No reference to featuredImage in any new code, query, story, or documentation produced by this epic.</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

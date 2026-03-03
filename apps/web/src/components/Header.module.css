@@ -26,6 +26,8 @@
 
 .cta {
   display: flex;
+  align-items: center;
+  gap: var(--st-spacing-inline-sm);
 }
 
 /* Primary button (Sugartown Pink) */
@@ -39,7 +41,7 @@
 }
 
 .ctaButton:hover {
-  background-color: var(--st-color-pink-600, var(--st-color-lime-500));
+  background-color: var(--st-color-pink-600, var(--st-color-lime));
   transform: translateY(var(--st-button-hover-translate-y));
   box-shadow: var(--st-button-hover-shadow);
 }
@@ -47,7 +49,7 @@
 /* Secondary button (Seafoam) */
 .ctaButtonSecondary {
   background-color: var(--st-color-seafoam-500, #2BD4AA);
-  color: var(--st-color-gray-900, #1a1a1a);
+  color: var(--st-color-charcoal, #1e1e1e);
   padding: var(--st-spacing-inset-xs) var(--st-spacing-inset-md);
   border-radius: var(--st-button-radius);
   font-weight: var(--st-font-weight-semibold);
@@ -72,7 +74,7 @@
 }
 
 .ctaButtonGhost:hover {
-  background-color: var(--st-color-gray-100, #f5f5f5);
+  background-color: var(--st-color-neutral-100, #f5f5f5);
   transform: translateY(var(--st-button-hover-translate-y));
 }
 

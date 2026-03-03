@@ -2,7 +2,15 @@
  * Sugartown Pink Moon — Theme Overrides
  *
  * Marketing name:  Sugartown Pink Moon / Pink Moon (short)
- * Activation:      Set data-st-theme="pink-moon" on :root or any container.
+ *
+ * Variants
+ * ─────────────────────────────────────────────────────────
+ * data-theme="dark-pink-moon"   Dark Classic + Pink Moon glass layer
+ * data-theme="light-pink-moon"  Light Classic + Pink Moon glass layer
+ *
+ * Both share the same glass/glow overrides below.
+ * The base palette (dark vs light) is inherited from [data-theme="dark"]
+ * and [data-theme="light"] which load first.
  *
  * Architecture
  * ─────────────────────────────────────────────────────────
@@ -17,20 +25,54 @@
  * and ambient glow. Calm, dimensional, quietly confident.
  */
 
-:root[data-st-theme="pink-moon"],
-[data-st-theme="pink-moon"] {
+/* ── Dark Pink Moon ────────────────────────────────────── */
+:root[data-theme="dark-pink-moon"],
+[data-theme="dark-pink-moon"] {
 
-  /* ── Surface ──────────────────────────────────────── */
-  --st-color-bg-surface:        rgba(255, 255, 255, 0.72);
-  --st-color-bg-surface-strong: rgba(255, 255, 255, 0.86);
+  /* Surface — frosted glass over dark midnight canvas */
+  --st-color-bg-surface:        rgba(255, 255, 255, 0.06);
+  --st-color-bg-surface-strong: rgba(255, 255, 255, 0.10);
 
-  /* ── Borders ──────────────────────────────────────── */
-  --st-color-border-default:    rgba(13, 18, 38, 0.10);
+  /* Borders — hairline pink at low opacity */
+  --st-color-border-default:    rgba(255, 36, 125, 0.20);
+  --st-color-border-subtle:     rgba(255, 255, 255, 0.06);
 
-  /* ── Effects ──────────────────────────────────────── */
+  /* Effects */
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
 
-  /* ── Elevation ────────────────────────────────────── */
+  /* Elevation */
+  --st-shadow-elevation-float:  0 12px 30px rgba(13, 18, 38, 0.20);
+}
+
+/* ── Light Pink Moon ───────────────────────────────────── */
+:root[data-theme="light-pink-moon"],
+[data-theme="light-pink-moon"] {
+
+  /* Light mode base (mirrors [data-theme="light"]) */
+  --st-color-bg-canvas:         var(--st-color-white);
+  --st-color-bg-subtle:         var(--st-color-softgrey-100);
+  --st-color-text-default:      var(--st-color-charcoal);
+  --st-color-text-primary:      var(--st-color-charcoal);
+  --st-color-text-secondary:    var(--st-color-neutral-600);
+  --st-color-text-muted:        var(--st-color-softgrey-500);
+  --st-color-text-brand:        var(--st-color-maroon);
+  --st-callout-bg:              #fff0f5;
+  --st-callout-border-color:    rgba(214, 51, 132, 0.35);
+  --st-table-zebra-bg:          #f9f9f9;
+
+  /* Surface — frosted glass over white canvas */
+  --st-color-bg-surface:        rgba(255, 255, 255, 0.72);
+  --st-color-bg-surface-strong: rgba(255, 255, 255, 0.86);
+
+  /* Borders — hairline at low opacity */
+  --st-color-border-default:    rgba(13, 18, 38, 0.10);
+  --st-color-border-subtle:     rgba(13, 18, 38, 0.05);
+
+  /* Effects */
+  --st-effect-backdrop-blur-md: 14px;
+  --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
+
+  /* Elevation */
   --st-shadow-elevation-float:  0 12px 30px rgba(13, 18, 38, 0.10);
 }

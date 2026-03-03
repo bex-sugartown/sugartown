@@ -1,5 +1,5 @@
 .footer {
-  background-color: var(--st-color-bg-void);
+  background-color: var(--st-color-bg-midnight);
   color: var(--st-color-white);
   padding: var(--st-space-8) 0;
   margin-top: var(--st-space-8);
@@ -27,7 +27,7 @@
 .tagline {
   font-size: var(--st-font-size-sm);
   font-family: var(--st-font-family-ui);
-  color: var(--st-color-lime-500);
+  color: var(--st-color-lime);
   margin: 0;
 }
 
@@ -62,7 +62,7 @@
 }
 
 .linkList a {
-  color: var(--st-color-grey-400);
+  color: var(--st-color-text-muted);
   font-size: var(--st-font-size-sm);
 }
 
@@ -83,7 +83,7 @@
 }
 
 .bottom {
-  border-top: 1px solid var(--st-color-grey-600);
+  border-top: 1px solid var(--st-color-border-default);
   padding-top: var(--st-spacing-stack-lg);
   display: flex;
   justify-content: space-between;
@@ -94,7 +94,7 @@
 
 .copyright {
   font-size: var(--st-font-size-sm);
-  color: var(--st-color-grey-400);
+  color: var(--st-color-text-muted);
   margin: 0;
 }
 
@@ -105,7 +105,7 @@
 
 .legalLink {
   font-size: var(--st-font-size-sm);
-  color: var(--st-color-grey-400);
+  color: var(--st-color-text-muted);
 }
 
 .legalLink:hover {

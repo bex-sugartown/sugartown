@@ -8,9 +8,7 @@
 
 /* ── Base + component tokens ──────────────────────────────────────────────── */
 .callout {
-  /* tokens */
-  --st-callout-bg: #fff0f5;
-  --st-callout-border-color: rgba(214, 51, 132, 0.35);
+  /* tokens — bg + border-color managed by tokens.css (dark) + theme.light.css (light) */
   --st-callout-radius: var(--st-radius-sm, 8px);
   --st-callout-padding: 1.25rem 1.5rem;
   --st-callout-margin-block: 2.5rem;
@@ -50,7 +48,7 @@
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.55;
-  color: #444;
+  color: var(--st-color-text-default);
 }
 
 .body p + p {
@@ -70,29 +68,58 @@
   --st-callout-icon-color: var(--st-color-brand-primary, #ff247d);
 }
 
-/* ── Variant: info ────────────────────────────────────────────────────────── */
+/* ── Variant: info (dark default) ─────────────────────────────────────────── */
 .info {
-  --st-callout-bg: var(--st-color-surface-secondary, #f8f8fa);
-  --st-callout-border-color: var(--st-color-border-subtle, rgba(0, 0, 0, 0.08));
-  --st-callout-icon-color: var(--st-color-grey-600, #525252);
+  --st-callout-bg: rgba(255, 255, 255, 0.05);
+  --st-callout-border-color: rgba(255, 255, 255, 0.10);
+  --st-callout-icon-color: var(--st-color-text-secondary, #94a3b8);
 }
 
-/* ── Variant: tip ─────────────────────────────────────────────────────────── */
+/* ── Variant: tip (dark default) ──────────────────────────────────────────── */
 .tip {
+  --st-callout-bg: rgba(43, 212, 170, 0.08);
+  --st-callout-border-color: rgba(43, 212, 170, 0.30);
+  --st-callout-icon-color: #2bd4aa;
+}
+
+/* ── Variant: warn (dark default) ─────────────────────────────────────────── */
+.warn {
+  --st-callout-bg: rgba(255, 193, 7, 0.10);
+  --st-callout-border-color: rgba(255, 193, 7, 0.35);
+  --st-callout-icon-color: #f0b429;
+}
+
+/* ── Variant: danger (dark default) ───────────────────────────────────────── */
+.danger {
+  --st-callout-bg: rgba(220, 38, 38, 0.10);
+  --st-callout-border-color: rgba(220, 38, 38, 0.35);
+  --st-callout-icon-color: #f87171;
+}
+
+/* ── Light theme overrides — all variants ─────────────────────────────────── */
+[data-theme="light"] .info,
+[data-theme="light-pink-moon"] .info {
+  --st-callout-bg: var(--st-color-softgrey-50, #f8f8fa);
+  --st-callout-border-color: rgba(0, 0, 0, 0.08);
+  --st-callout-icon-color: var(--st-color-neutral-600, #525252);
+}
+
+[data-theme="light"] .tip,
+[data-theme="light-pink-moon"] .tip {
   --st-callout-bg: #f3fff8;
   --st-callout-border-color: rgba(43, 212, 170, 0.35);
   --st-callout-icon-color: #2bd4aa;
 }
 
-/* ── Variant: warn ────────────────────────────────────────────────────────── */
-.warn {
+[data-theme="light"] .warn,
+[data-theme="light-pink-moon"] .warn {
   --st-callout-bg: #fff9e6;
   --st-callout-border-color: rgba(255, 193, 7, 0.45);
   --st-callout-icon-color: #d4a017;
 }
 
-/* ── Variant: danger ──────────────────────────────────────────────────────── */
-.danger {
+[data-theme="light"] .danger,
+[data-theme="light-pink-moon"] .danger {
   --st-callout-bg: #fff1f2;
   --st-callout-border-color: rgba(220, 38, 38, 0.35);
   --st-callout-icon-color: #dc2626;

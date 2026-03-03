@@ -1,17 +1,17 @@
 .navItem {
-  color: var(--st-black);
+  color: var(--st-color-text-primary);
   text-decoration: none;
-  padding: var(--st-space-xs) var(--st-space-sm);
-  transition: color var(--st-transition-fast);
+  padding: var(--st-spacing-inset-xs) var(--st-spacing-inline-sm);
+  transition: color 150ms ease;
   font-weight: 500;
 }
 
 .navItem:hover {
-  color: var(--st-pink);
+  color: var(--st-color-brand-primary);
 }
 
 .navItem.active {
-  color: var(--st-pink);
+  color: var(--st-color-brand-primary);
   position: relative;
 }
 
@@ -19,13 +19,13 @@
   content: '';
   position: absolute;
   bottom: 0;
-  left: var(--st-space-sm);
-  right: var(--st-space-sm);
+  left: var(--st-spacing-inline-sm);
+  right: var(--st-spacing-inline-sm);
   height: 2px;
-  background-color: var(--st-pink);
+  background-color: var(--st-color-brand-primary);
 }
 
 .navItem:focus {
-  outline: 2px solid var(--st-pink);
+  outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
 }

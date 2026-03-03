@@ -15,6 +15,10 @@ import 'prismjs/components/prism-markdown';
 import 'prismjs/components/prism-yaml';
 import 'prismjs/components/prism-sql';
 
+// Line-numbers plugin — registers the after-highlight hook that injects
+// .line-numbers-rows into <pre class="line-numbers"> after each highlight.
+import 'prismjs/plugins/line-numbers/prism-line-numbers';
+
 import styles from './CodeBlock.module.css';
 
 /**
@@ -93,7 +97,7 @@ export function CodeBlock({
           {label && <span className={styles.label}>{label}</span>}
         </div>
       )}
-      <pre className={styles.pre}>
+      <pre className={[styles.pre, showLineNumbers ? 'line-numbers' : ''].filter(Boolean).join(' ')}>
         <code ref={codeRef} className={`${styles.code} ${langClass}`}>
           {code}
         </code>

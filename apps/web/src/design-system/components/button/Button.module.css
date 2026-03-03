@@ -44,8 +44,8 @@
 }
 
 .buttonPrimary:hover:not(:disabled) {
-  background-color: var(--st-color-void-900);
-  border-color: var(--st-color-void-900);
+  background-color: var(--st-color-midnight);
+  border-color: var(--st-color-midnight);
   transform: translateY(var(--st-button-hover-translate-y));
   box-shadow: var(--st-button-hover-shadow);
 }

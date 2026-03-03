@@ -30,7 +30,7 @@
 .caption {
   margin-top: var(--st-space-2, 0.5rem);
   font-size: var(--st-font-size-sm, 0.875rem);
-  color: var(--st-color-grey-400, #94A3B8);
+  color: var(--st-color-text-muted, #94A3B8);
   text-align: center;
 }
 

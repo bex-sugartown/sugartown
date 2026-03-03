@@ -1,0 +1,69 @@
+/*
+ * ================================================================
+ * Storybook Docs canvas overrides — Sugartown theme-aware
+ * ================================================================
+ *
+ * Storybook's addon-docs renders story canvases inside
+ * .sbdocs-preview divs. These divs have hardcoded white
+ * backgrounds from Storybook's internal Emotion (css-*) stylesheet
+ * that we cannot remove any other way.
+ *
+ * Our withTheme decorator stamps data-theme on <html> inside the
+ * preview iframe. These rules use that attribute to keep each
+ * story canvas in sync with the selected theme.
+ *
+ * Emotion class names (css-xxxxxx) are NOT targeted here —
+ * they are build-time hashes that change between Storybook
+ * versions. Only stable semantic classes are used.
+ * ================================================================
+ */
+
+/* ── Story canvas box ─────────────────────────────────────── */
+
+html[data-theme^='dark'] .sbdocs-preview {
+  background-color: #0d1226 !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html[data-theme^='light'] .sbdocs-preview {
+  background-color: #ffffff !important;
+}
+
+/* ── Zoom controls toolbar (first direct child of canvas box) ─ */
+
+html[data-theme^='dark'] .sbdocs-preview > div:first-child {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+html[data-theme^='light'] .sbdocs-preview > div:first-child {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ── "Show code" footer bar (last direct child of .docs-story) ─ */
+
+html[data-theme^='dark'] .docs-story > div:last-child {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+html[data-theme^='dark'] .docblock-code-toggle {
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+html[data-theme^='dark'] .docblock-code-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html[data-theme^='light'] .docs-story > div:last-child {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.07) !important;
+}
+
+/* ── sb-preparing loaders (shown while story loads) ─────────── */
+
+html[data-theme^='dark'] .sb-wrapper {
+  background-color: #0d1226 !important;
+}

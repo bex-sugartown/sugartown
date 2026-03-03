@@ -12,12 +12,9 @@
 
 /* ── Base table + component tokens ────────────────────────────────────────── */
 .table {
-  /* tokens */
+  /* Structural tokens only — visual tokens (zebra-bg, border, shadow) come
+     from tokens.css [data-theme] blocks so theme switching works correctly. */
   --st-table-header-bg: var(--st-color-accent, #ff247d);
-  --st-table-zebra-bg: #f9f9f9;
-  --st-table-border: rgba(0, 0, 0, 0.08);
-  --st-table-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  --st-table-card-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
   --st-table-card-radius: var(--st-radius-md, 12px);
 
   /* styles */
@@ -26,7 +23,8 @@
   margin: 2rem 0;
   font-size: 0.9rem;
   box-shadow: var(--st-table-shadow);
-  background: var(--st-color-surface, #fff);
+  background: var(--st-color-bg-surface);
+  color: var(--st-color-text-default);
 }
 
 .table th,
@@ -165,9 +163,9 @@
   .responsive tr {
     margin: 14px 16px;
     padding: 14px 16px;
-    border: 1px solid var(--st-color-border-default, rgba(0, 0, 0, 0.16));
+    border: 1px solid var(--st-color-border-default);
     border-radius: var(--st-table-card-radius);
-    background: var(--st-color-surface, #fff);
+    background: var(--st-color-bg-surface);
     box-shadow: var(--st-table-card-shadow);
     overflow: hidden;
   }

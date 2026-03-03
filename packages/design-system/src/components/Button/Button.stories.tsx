@@ -12,7 +12,7 @@ const meta: Meta<typeof Button> = {
           'Three-variant button component from the Sugartown design system. ' +
           'Primary (pink/void), Secondary (lime/void), Tertiary (transparent/pink outline). ' +
           'All variants lift on hover with a brand-coloured glow shadow. ' +
-          'Supports the **Pink Moon** theme via `data-st-theme="pink-moon"` on a parent element, ' +
+          'Supports the **Pink Moon** theme via `data-theme="dark-pink-moon"` or `data-theme="light-pink-moon"` on a parent element, ' +
           'shifting to frosted-glass pill style with edge-light accents.',
       },
     },
@@ -106,7 +106,7 @@ export const OnDarkBackground: Story = {
 
 /* ══════════════════════════════════════════════════════
    PINK MOON THEME
-   Wrap with data-st-theme="pink-moon" to activate the
+   Wrap with data-theme="dark-pink-moon" to activate the
    frosted-glass overrides. The background below the
    buttons is representative — the glass needs a backdrop
    to read correctly.
@@ -115,7 +115,7 @@ export const OnDarkBackground: Story = {
 /** Shared wrapper that provides the Pink Moon context + a representative backdrop */
 const PinkMoonFrame = ({ children }: { children: React.ReactNode }) => (
   <div
-    data-st-theme="pink-moon"
+    data-theme="dark-pink-moon"
     style={{
       display: 'flex',
       gap: '1rem',
@@ -182,7 +182,7 @@ export const PinkMoonOnVoid: Story = {
   name: 'Pink Moon / On Void',
   render: () => (
     <div
-      data-st-theme="pink-moon"
+      data-theme="dark-pink-moon"
       style={{
         display: 'flex',
         gap: '1rem',

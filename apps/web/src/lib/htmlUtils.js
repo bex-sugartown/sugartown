@@ -29,3 +29,30 @@ export function decodeHtml(str) {
   el.innerHTML = str
   return el.value
 }
+
+/**
+ * Decode HTML entities in all span text nodes within a PortableText value.
+ *
+ * Why: Sanity content migrated from WordPress stores literal HTML entity
+ * strings (e.g. &#8220;) in PortableText span.text fields. @portabletext/react
+ * passes span.text through React's JSX renderer which does NOT decode HTML
+ * entities (unlike innerHTML). This pre-processes the blocks array so entities
+ * are resolved to actual Unicode characters before the tree reaches React.
+ *
+ * Only `_type: "block"` blocks with `children` arrays are walked.
+ * All other block types (richImage, code, etc.) are returned unchanged.
+ *
+ * @param {Array|null|undefined} blocks  — Portable Text value array
+ * @returns {Array}
+ */
+export function decodePortableText(blocks) {
+  if (!blocks || !Array.isArray(blocks)) return blocks
+  return blocks.map((block) => {
+    if (block._type !== 'block' || !Array.isArray(block.children)) return block
+    const decodedChildren = block.children.map((span) => {
+      if (span._type !== 'span' || typeof span.text !== 'string') return span
+      return { ...span, text: decodeHtml(span.text) }
+    })
+    return { ...block, children: decodedChildren }
+  })
+}
