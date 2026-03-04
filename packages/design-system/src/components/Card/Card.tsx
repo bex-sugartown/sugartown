@@ -3,13 +3,25 @@ import styles from './Card.module.css';
 
 // ─── Status badge colours ───────────────────────────────────────────────────
 const STATUS_BADGE_CLASS: Record<string, string> = {
-  draft:       styles.statusDraft,
-  active:      styles.statusActive,
-  archived:    styles.statusArchived,
-  evergreen:   styles.statusEvergreen,
-  implemented: styles.statusImplemented,
-  validated:   styles.statusValidated,
-  deprecated:  styles.statusDeprecated,
+  // Legacy / generic
+  draft:            styles.statusDraft,
+  active:           styles.statusActive,
+  archived:         styles.statusArchived,
+  implemented:      styles.statusImplemented,
+  // Shared / evergreen
+  evergreen:        styles.statusEvergreen,
+  validated:        styles.statusValidated,
+  deprecated:       styles.statusDeprecated,
+  // Node evolution (Studio: node.status)
+  exploring:        styles.statusExploring,
+  operationalized:  styles.statusOperationalized,
+  // Project lifecycle (Studio: project.status)
+  dreaming:         styles.statusDreaming,
+  designing:        styles.statusDesigning,
+  developing:       styles.statusDeveloping,
+  testing:          styles.statusTesting,
+  deploying:        styles.statusDeploying,
+  iterating:        styles.statusIterating,
 };
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -37,8 +49,21 @@ export interface CardProps {
   categoryPosition?: 'below-eyebrow' | 'above-title';
   /** Optional subtitle — default variant only. */
   subtitle?: string;
-  /** Status badge — rendered as a floated pill in the header. */
-  status?: 'draft' | 'active' | 'archived' | 'evergreen' | 'implemented' | 'validated' | 'deprecated';
+  /**
+   * Status badge — rendered as a floated pill in the header.
+   * Legacy values (draft, active, archived, implemented) kept for backward compat.
+   * Node evolution values: exploring | validated | operationalized | deprecated | evergreen
+   * Project lifecycle values: dreaming | designing | developing | testing | deploying | iterating
+   */
+  status?:
+    // Legacy / generic
+    | 'draft' | 'active' | 'archived' | 'implemented'
+    // Shared
+    | 'evergreen' | 'validated' | 'deprecated'
+    // Node evolution (Studio: node.status)
+    | 'exploring' | 'operationalized'
+    // Project lifecycle (Studio: project.status)
+    | 'dreaming' | 'designing' | 'developing' | 'testing' | 'deploying' | 'iterating';
 
   // Body
   /** Short description prose — default + listing variants. */

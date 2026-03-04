@@ -124,13 +124,25 @@
   line-height: 1.6;
 }
 
+/* Legacy / generic */
 .statusDraft       { background: rgba(255, 255, 255, 0.06); color: var(--st-color-text-muted); border-color: rgba(255, 255, 255, 0.12); }
-.statusActive      { background: rgba(43, 212, 170, 0.12);  color: var(--st-color-seafoam);    border-color: rgba(43, 212, 170, 0.3); }
+.statusActive      { background: rgba(43, 212, 170, 0.12);  color: var(--st-color-seafoam);    border-color: rgba(43, 212, 170, 0.30); }
 .statusArchived    { background: rgba(255, 255, 255, 0.04); color: var(--st-color-text-muted); border-color: rgba(255, 255, 255, 0.08); }
-.statusEvergreen   { background: rgba(209, 255, 29, 0.10);  color: var(--st-color-lime);       border-color: rgba(209, 255, 29, 0.25); }
 .statusImplemented { background: rgba(43, 212, 170, 0.10);  color: var(--st-color-seafoam);    border-color: rgba(43, 212, 170, 0.25); }
-.statusValidated   { background: rgba(255, 36, 125, 0.10);  color: var(--st-color-pink);       border-color: rgba(255, 36, 125, 0.25); }
-.statusDeprecated  { background: rgba(255, 36, 125, 0.08);  color: var(--st-color-text-muted); border-color: rgba(255, 36, 125, 0.20); }
+/* Shared */
+.statusEvergreen   { background: rgba(209, 255, 29,  0.10); color: var(--st-color-lime);       border-color: rgba(209, 255, 29,  0.25); }
+.statusValidated   { background: rgba(255, 36,  125, 0.10); color: var(--st-color-pink);       border-color: rgba(255, 36,  125, 0.25); }
+.statusDeprecated  { background: rgba(255, 36,  125, 0.08); color: var(--st-color-text-muted); border-color: rgba(255, 36,  125, 0.20); }
+/* Node evolution (Studio: node.status) */
+.statusExploring      { background: rgba(43, 212, 170, 0.07);  color: rgba(43, 212, 170, 0.65); border-color: rgba(43, 212, 170, 0.18); }
+.statusOperationalized { background: rgba(43, 212, 170, 0.14); color: var(--st-color-seafoam);  border-color: rgba(43, 212, 170, 0.32); }
+/* Project lifecycle (Studio: project.status) */
+.statusDreaming    { background: rgba(167, 139, 250, 0.10); color: #A78BFA;                    border-color: rgba(167, 139, 250, 0.25); }
+.statusDesigning   { background: rgba(251, 191, 36,  0.10); color: #FBBA24;                    border-color: rgba(251, 191, 36,  0.25); }
+.statusDeveloping  { background: rgba(43, 212, 170, 0.12);  color: var(--st-color-seafoam);    border-color: rgba(43, 212, 170, 0.30); }
+.statusTesting     { background: rgba(251, 146, 60,  0.10); color: #FB923C;                    border-color: rgba(251, 146, 60,  0.25); }
+.statusDeploying   { background: rgba(209, 255, 29,  0.10); color: var(--st-color-lime);       border-color: rgba(209, 255, 29,  0.25); }
+.statusIterating   { background: rgba(99,  179, 237, 0.10); color: #7EC8F5;                    border-color: rgba(99,  179, 237, 0.25); }
 
 /* ── Title ───────────────────────────────────────────────────────────────── */
 .title {
