@@ -8,6 +8,8 @@
  *   C) Orphaned taxonomy references (refs pointing to deleted/unpublished docs)
  *   D) archivePage docs with empty or invalid contentTypes
  *   E) Duplicate slugs within the same _type
+ *   F) HTML entities as literal strings in PortableText spans (e.g. &#8220; &#8221;)
+ *      — these are not decoded by @portabletext/react and render as raw codes in the UI
  *
  * Complements:
  *   validate:urls    — URL authority and routing correctness
@@ -23,6 +25,8 @@
  *   VITE_SANITY_PROJECT_ID
  *   VITE_SANITY_DATASET
  *   VITE_SANITY_API_VERSION
+ *   VITE_SANITY_TOKEN (optional but recommended — required to see wp.* dot-namespace
+ *                      documents, which are only visible to authenticated queries)
  */
 
 import { createClient } from '@sanity/client'
@@ -59,13 +63,20 @@ loadEnv()
 const projectId = process.env.VITE_SANITY_PROJECT_ID
 const dataset = process.env.VITE_SANITY_DATASET ?? 'production'
 const apiVersion = process.env.VITE_SANITY_API_VERSION ?? '2025-02-02'
+const token = process.env.VITE_SANITY_TOKEN // optional — required for wp.* dot-namespace IDs
 
 if (!projectId) {
   console.error('[validate-content] ERROR: VITE_SANITY_PROJECT_ID is not set.')
   process.exit(1)
 }
 
-const client = createClient({ projectId, dataset, apiVersion, useCdn: false })
+if (!token) {
+  console.warn(
+    '[validate-content] WARN: VITE_SANITY_TOKEN is not set — wp.* dot-namespace documents will not be visible. Set a read-only viewer token to get full coverage.\n',
+  )
+}
+
+const client = createClient({ projectId, dataset, apiVersion, useCdn: false, token })
 
 // ─── Known content types that require slugs ──────────────────────────────────
 
@@ -88,6 +99,14 @@ const query = `{
     "categoryRefs": categories[]._ref,
     "tagRefs": tags[]._ref,
     "projectRefs": projects[]._ref
+  },
+  "portableTextDocs": *[_type in $contentTypes && defined(slug.current)] {
+    _id,
+    _type,
+    title,
+    "slug": slug.current,
+    "contentBlocks": content[]{ _type, children[]{ _type, text } },
+    "bodyBlocks": body[]{ _type, children[]{ _type, text } }
   },
   "taxonomies": *[_type in $taxonomyTypes && defined(slug.current)] {
     _id,
@@ -354,6 +373,63 @@ async function run() {
 
   if (dupCount === 0) {
     console.log('   ✅  No duplicate slugs within any type')
+  }
+  console.log()
+
+  // ── F) HTML entities as literal strings in PortableText ──────────────────
+
+  console.log('🔤  PortableText HTML Entity Check')
+  console.log('──────────────────────────────────────────────')
+
+  // Matches numeric entities (&#8220;) and named entities (&amp; &nbsp; etc.)
+  // but NOT bare ampersands that are part of valid text
+  const ENTITY_RE = /&#\d+;|&[a-zA-Z]+;/
+
+  const portableDocs = data.portableTextDocs ?? []
+  let entityIssues = 0
+
+  for (const doc of portableDocs) {
+    const hitSpans = []
+    // nodes use `content`, articles/caseStudies use `body` — fetch both
+    const allBlocks = [...(doc.contentBlocks ?? []), ...(doc.bodyBlocks ?? [])]
+
+    for (const block of allBlocks) {
+      if (block._type !== 'block') continue
+      for (const span of block.children ?? []) {
+        if (span._type !== 'span' || typeof span.text !== 'string') continue
+        const matches = span.text.match(new RegExp(ENTITY_RE.source, 'g'))
+        if (matches) {
+          hitSpans.push({
+            preview: span.text.slice(0, 80),
+            entities: [...new Set(matches)],
+          })
+        }
+      }
+    }
+
+    if (hitSpans.length > 0) {
+      console.log(
+        `   ⚠️   [${doc._type}] "${doc.title}" (/${doc.slug}) — ${hitSpans.length} span(s) with literal HTML entities:`,
+      )
+      const maxShow = 3
+      for (let i = 0; i < Math.min(hitSpans.length, maxShow); i++) {
+        const { preview, entities } = hitSpans[i]
+        console.log(`        Entities: ${entities.join(', ')}`)
+        console.log(`        Text: "${preview}${preview.length >= 80 ? '…' : ''}"`)
+      }
+      if (hitSpans.length > maxShow) {
+        console.log(`        … and ${hitSpans.length - maxShow} more span(s)`)
+      }
+      console.log(
+        `        Fix: apply decodePortableText() in the page component, or clean the source in Studio`,
+      )
+      entityIssues++
+      warnings++
+    }
+  }
+
+  if (entityIssues === 0) {
+    console.log('   ✅  No literal HTML entities found in PortableText spans')
   }
   console.log()
 

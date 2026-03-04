@@ -141,6 +141,30 @@
 
 ---
 
+## Themed Colour Variant Audit [REQUIRED if any component or surface is themed]
+
+> Any epic that touches CSS tokens, component styles, or creates/modifies
+> a themed surface must complete this table. "Will inherit from tokens" is
+> not a sufficient answer — specify the actual value or token for each theme.
+>
+> Omitting this table is what causes post-delivery change requests like
+> "change inline code from maroon to lime in dark mode."
+>
+> Themes in scope: **dark** (default) | **light** | **pink-moon**
+> Token files: `apps/web/src/design-system/styles/tokens.css` (web canonical)
+>             `packages/design-system/src/styles/tokens.css` (DS package, must stay in sync)
+
+| Surface / component | Dark | Light | Pink Moon | Token(s) to set |
+|---------------------|------|-------|-----------|-----------------|
+| e.g. Inline code bg | `rgba(209,255,29,0.10)` | `--st-color-softgrey-100` | TBD | `--st-code-inline-bg` |
+| e.g. Inline code text | `var(--st-color-lime)` | `var(--st-color-maroon)` | TBD | `--st-code-inline-color` |
+
+> If a surface is genuinely not themed (e.g. it always inherits from a parent
+> that is already covered), state that explicitly: "inherits from `--st-color-bg-canvas`
+> — no per-theme override needed."
+
+---
+
 ## Non-Goals [REQUIRED]
 
 > Explicit exclusions. Every exclusion must be deliberate, not a default.
