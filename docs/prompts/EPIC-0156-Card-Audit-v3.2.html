@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EPIC-0156 v3.1 · st-card Foundation — Final Brief</title>
+<title>EPIC-0156 v3.2 · st-card Foundation — Final Brief</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
   :root{--pk:#FF247D;--sf:#2BD4AA;--lm:#D1FF1D;--mn:#0D1226;--s1:#141830;--s2:#1C2240;--bd:rgba(255,36,125,0.2);--b2:rgba(255,255,255,0.06);--tx:#F8F8FA;--mu:#8890AA;--mo:'Fira Code',monospace;--sa:'Fira Sans',sans-serif}
@@ -83,7 +83,7 @@
 <body>
 
 <header class="hdr">
-  <span class="eid">EPIC-0156 v3.1</span>
+  <span class="eid">EPIC-0156 v3.2</span>
   <h1 class="etitle">st-card Foundation &mdash; Final Brief</h1>
   <span class="estat">Ready for Claude Code</span>
 </header>
@@ -95,13 +95,34 @@
     <div><div class="ml">Path</div><div class="mv">src/components/Card/</div></div>
     <div><div class="ml">Replaces</div><div class="mv">EPIC-0151 + v1/v2/v3 of EPIC-0156</div></div>
     <div><div class="ml">Depends On</div><div class="mv">EPIC-0152 (light/dark tokens)</div></div>
-    <div><div class="ml">Changes from v3</div><div class="mv">featuredImage deprecated throughout</div></div>
+    <div><div class="ml">Changes from v3.1</div><div class="mv">Aesthetic section added; project prop gap fixed; Phase 2 audit files corrected; st-layout-grid defined; metadata sub-type prop clarification</div></div>
   </div>
 
   <!-- DEPRECATION NOTICE -->
   <div class="alert warn" style="border-radius:6px;padding:16px 20px;">
     <p><strong>&#x26A0;&#xFE0F; Deprecation in effect: featuredImage</strong> &mdash; The <code>featuredImage</code> field on <code>article</code> and <code>caseStudy</code> schemas must not appear in any new GROQ queries, components, or documentation produced by this epic. It exists in the schema for legacy data continuity only. See Section 01 (Image Strategy) and Backlog BL-07 for full context.</p>
   </div>
+
+  <!-- 00 AESTHETIC & INTENT -->
+  <section class="sec">
+    <div class="sh"><span class="sn">00</span><span class="st">Card Aesthetic &amp; Intent</span></div>
+    <div class="sb">
+      <div class="dec">
+        <div class="dq">The aesthetic (from EPIC-0151)</div>
+        <div class="da">Modern UI with library catalog structure cues. Think metadata discipline, monospaced labels, systematic layout &mdash; <em>not paper, not tape, not skeuomorphic cosplay.</em></div>
+      </div>
+
+      <h3>The Layout Contract</h3>
+      <p>This is the intent behind the technical invariants in Section 04. State it plainly so no implementer rationalises their way around it:</p>
+      <ul class="bare" style="margin-top:8px">
+        <li>&#x2192; <strong>Header is pinned to the top</strong> &mdash; never shifts down, regardless of body length</li>
+        <li>&#x2192; <strong>Footer is pinned to the bottom</strong> &mdash; never floats up, never absent when content is short</li>
+        <li>&#x2192; <strong>Body expands and contracts between them</strong> based on content &mdash; it does the work, not the card</li>
+        <li>&#x2192; <strong>Card works in a grid without fixed heights or brittle assumptions</strong> &mdash; no min-height, no percentage tricks, no magic numbers</li>
+      </ul>
+      <p style="margin-top:10px">These are the reasons <code>__header</code> and <code>__footer</code> get <code>flex-shrink:0</code> and <code>__body</code> gets <code>flex:1 1 auto</code>. The CSS is the contract; the contract is the intent.</p>
+    </div>
+  </section>
 
   <!-- 01 LOCKED DECISIONS -->
   <section class="sec">
@@ -228,6 +249,7 @@
 
   <span class="cm">// Body</span>
   excerpt?:          string              <span class="cm">// default + listing only</span>
+  project?:          { label: string; href?: string }  <span class="cm">// listing variant — project attribution</span>
 
   <span class="cm">// Metadata grid (variant="metadata" only)</span>
   metadata?:         Array&lt;{ label: string; value: string }&gt;
@@ -266,6 +288,9 @@
           <tr><td>Project</td><td>projectId, status, priority, category, tags &mdash; kpiLink in footer</td><td><code>MetadataProject</code></td></tr>
         </tbody>
       </table>
+      <div class="alert info" style="margin-top:14px">
+        <p><strong>Sub-type fields not in CardProps:</strong> <code>conversationType</code>, <code>projectId</code>, <code>priority</code>, <code>client</code>, <code>role</code> are story fixture data passed through the <code>metadata[]</code> array as <code>{ label, value }</code> rows &mdash; they are not named props. Do not add named props for fields that belong to a single sub-type. The <code>metadata[]</code> array handles all structured field grid content for the metadata variant.</p>
+      </div>
     </div>
   </section>
 
@@ -322,6 +347,7 @@
         <li>&#x2192; No CMS types, GROQ, or Sanity shapes inside the component</li>
         <li>&#x2192; thumbnailUrl source is <strong>never</strong> featuredImage &mdash; use hero.media[0] or sections[]</li>
       </ul>
+      <p style="margin-top:12px;font-size:.82rem">These invariants encode the Layout Contract stated in Section 00. They are not styling preferences &mdash; they are the contract. If a future change would require overriding <code>flex-shrink</code> on header or footer, or adding <code>min-height</code> to the card root, the correct response is to re-open the brief, not to patch the component.</p>
     </div>
   </section>
 
@@ -372,6 +398,9 @@
     <div class="sb">
       <div class="alert info">
         <p>All stories use realistic Sugartown content data. No lorem ipsum. thumbnailUrl in stories must use a placeholder image URL &mdash; never reference featuredImage in story fixtures.</p>
+      </div>
+      <div class="alert warn" style="margin-top:0">
+        <p><strong>st-layout-grid</strong> &mdash; The <code>CardGrid</code> and <code>ListingGrid</code> stories reference <code>st-layout-grid</code> as a wrapper class. This class does not yet exist in the codebase. Before wiring grid stories, add a minimal utility to <code>packages/design-system/src/styles/globals.css</code>: <code>.st-layout-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--st-space-6, 24px); }</code>. Confirm the token resolves; if not, use the px fallback. Grid stories depend on this class existing &mdash; do not hardcode grid styles inside the story file.</p>
       </div>
       <table>
         <thead><tr><th>Story Name</th><th>Variant</th><th>Key Verification Points</th></tr></thead>
@@ -425,7 +454,7 @@
     <div class="sb">
       <div class="phases">
         <div class="phase"><div class="pn">Phase 1</div><div class="pc"><div class="pt">Confirm Token Layer</div><div class="pd">Cross-reference Section 05 against current tokens.css post-EPIC-0152. Add gaps. Confirm --st-font-mono exists. Do not write component CSS before this step.</div><span class="pg">Gate: Zero unresolved CSS custom properties in browser inspector</span></div></div>
-        <div class="phase"><div class="pn">Phase 2</div><div class="pc"><div class="pt">Audit Existing Card CSS</div><div class="pd">Read style_260118.css and style_old_260119.css. Document every card rule: keep / retire / promote. No new code. Reading and mapping only.</div><span class="pg">Gate: Every existing card rule has a documented fate</span></div></div>
+        <div class="phase"><div class="pn">Phase 2</div><div class="pc"><div class="pt">Audit Existing Card CSS</div><div class="pd">Read <code>packages/design-system/src/components/Card/Card.module.css</code> (current implementation — primary rewrite target) and <code>artifacts/style 260118.css</code> (original reference spec, note the space in filename). Also read <code>Card.tsx</code> to map existing prop contract. Document every rule: keep / retire / promote. No new code. Reading and mapping only. <strong>Pay explicit attention to banned patterns already present in the current implementation:</strong> <code>min-height</code> on card root, wrapping <code>&lt;a&gt;</code> as card element for linked cards, <code>dark</code> as a CSS class modifier (must become token swap), and <code>height: 100%</code> on card root. All four are retiring in this epic.</div><span class="pg">Gate: Every existing card rule has a documented fate</span></div></div>
         <div class="phase"><div class="pn">Phase 3</div><div class="pc"><div class="pt">Build Default Variant</div><div class="pd">Base invariants. Default in light mode. Verify header/footer pinning, body expansion, all slots. Dark token overrides. Compact modifier. accentColor CSS pattern.</div><span class="pg">Gate: Default renders in light + dark. TypeScript compiles clean.</span></div></div>
         <div class="phase"><div class="pn">Phase 4</div><div class="pc"><div class="pt">Build Listing Variant</div><div class="pd">Vertical (no thumb) and horizontal with left-rail thumb layouts. Full-card-link ::after pattern. Compact modifier on listing.</div><span class="pg">Gate: Both listing sub-types render. Keyboard nav verified.</span></div></div>
         <div class="phase"><div class="pn">Phase 5</div><div class="pc"><div class="pt">Build Metadata Variant</div><div class="pd">Metadata grid (grid-template-columns: max-content 1fr). Tools row (outlined). Tags row (filled). kpiLink as footer link. accentColor applies.</div><span class="pg">Gate: All 4 sub-types render. Grid aligns at all label lengths.</span></div></div>
