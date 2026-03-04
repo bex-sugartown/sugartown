@@ -44,3 +44,10 @@ h1, h2, h3, h4 {
   margin: 0 0 var(--st-spacing-stack-md) 0;
   font-family: var(--st-font-narrative);    /* Playfair Display */
 }
+
+/* ── Layout utilities ─────────────────────────────────── */
+.st-layout-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--st-space-6, 24px);
+}

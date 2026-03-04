@@ -47,4 +47,12 @@
   --st-callout-bg:           #fff0f5;                             /* light pink wash */
   --st-callout-border-color: rgba(214, 51, 132, 0.35);
   --st-table-zebra-bg:       #f9f9f9;
+
+  /* ── Card extended overrides (EPIC-0156) ──────────────── */
+  --st-color-text-eyebrow:   var(--st-color-pink);               /* #FF247D — label, not body text */
+  --st-color-category-link:  #666680;                            /* muted blue-grey for light */
+  --st-color-footer-divider: rgba(255, 36, 125, 0.25);
+  --st-color-chip-bg:        rgba(255, 36, 125, 0.08);           /* light pink wash */
+  --st-card-shadow:          0 4px 20px rgba(0, 0, 0, 0.06);
+  --st-card-hover-shadow:    0 8px 32px rgba(255, 36, 125, 0.12);
 }

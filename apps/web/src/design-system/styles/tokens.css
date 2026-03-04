@@ -154,7 +154,7 @@
   /* ── Typography: Families ────────────────────────────── */
   --st-font-family-narrative: "Playfair Display", serif;
   --st-font-family-ui:        "Fira Sans", "Helvetica Neue", Arial, sans-serif;
-  --st-font-family-mono:      Menlo, Monaco, Consolas, "Courier New", monospace;
+  --st-font-family-mono:      "Fira Code", Menlo, Monaco, Consolas, "Courier New", monospace;
 
   /* ── Typography: Sizes ───────────────────────────────── */
   --st-font-size-xs:      0.75rem;   /* 12px */
@@ -290,12 +290,19 @@
   --st-card-bg-alt:            var(--st-color-bg-surface-alt);
   --st-card-text:              var(--st-color-text-default);
   --st-card-text-muted:        var(--st-color-text-muted);
-  --st-card-border:            var(--st-color-brand-primary);
+  --st-card-border:            rgba(255, 36, 125, 0.2);      /* same light + dark */
   --st-card-radius:            var(--st-radius-card);
-  --st-card-shadow:            var(--st-shadow-card-deep);
+  --st-card-shadow:            0 14px 40px rgba(0, 0, 0, 0.18);   /* dark default */
   --st-card-hover-translate-y: -4px;
-  --st-card-hover-shadow:      var(--st-shadow-card-hover);
+  --st-card-hover-shadow:      0 18px 55px rgba(0, 0, 0, 0.22);   /* dark default */
   --st-card-media-height:      48px;
+
+  /* ── Card extended tokens (EPIC-0156) ─────────────────── */
+  --st-color-text-eyebrow:     rgba(255, 111, 184, 0.9);    /* dark: pink-wash label */
+  --st-color-category-link:    var(--st-color-softgrey-400); /* #8890AA dark */
+  --st-color-footer-divider:   rgba(255, 111, 184, 0.22);   /* dark: dashed footer line */
+  --st-color-chip-bg:          rgba(255, 255, 255, 0.06);   /* dark: filled tag chip bg */
+  --st-card-thumb-rail-width:  96px;                         /* listing variant left col */
 
   /* ── Pill / Tag ──────────────────────────────────────── */
   --st-pill-bg:     var(--st-color-bg-subtle);
@@ -457,4 +464,12 @@
   --st-code-inline-bg:     rgba(209, 255, 29, 0.10);
   --st-code-inline-color:  var(--st-color-lime);
   --st-code-inline-border: 1px solid rgba(209, 255, 29, 0.30);
+
+  /* Card extended — dark restates (EPIC-0156) */
+  --st-color-text-eyebrow:   rgba(255, 111, 184, 0.9);
+  --st-color-category-link:  var(--st-color-softgrey-400);
+  --st-color-footer-divider: rgba(255, 111, 184, 0.22);
+  --st-color-chip-bg:        rgba(255, 255, 255, 0.06);
+  --st-card-shadow:          0 14px 40px rgba(0, 0, 0, 0.18);
+  --st-card-hover-shadow:    0 18px 55px rgba(0, 0, 0, 0.22);
 }

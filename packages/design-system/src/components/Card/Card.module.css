@@ -1,249 +1,457 @@
-/*
- * Card — canonical content card primitive.
+/**
+ * Card — Sugartown Design System
  *
- * Visual spec: artifacts/style 260118.css → .st-card
+ * Architecture: flex column, header + footer shrink-0, body flex:1 1 auto.
+ * This is the Layout Contract from EPIC-0156 Section 00.
+ * Do NOT add min-height to .card or any grid wrapper — see invariants.
  *
- * Key brand signatures:
- *   - 1px solid pink border (--st-card-border = --st-color-brand-primary)
- *   - Pink title text (color: var(--st-card-border))
- *   - Hover: translateY(-4px) + pink-tinted box-shadow
- *   - Footer: dashed pink top border (rgba(255,36,125,0.35))
- *   - Eyebrow: font-mono, uppercase, pink accent
+ * Three variants: default | listing | metadata
+ * One modifier:   compact (density="compact")
+ * One colorway:   accentColor via --accent CSS custom property
  *
- * BEM elements: .card, .inner, .header, .eyebrow, .title, .subtitle, .content, .footer
- * Modifiers:    .compact, .listing, .dark
+ * All colour/spacing values via tokens. Zero hardcoded hex.
  */
 
-/* ── Base card ────────────────────────────────────────── */
-
+/* ── Root ──────────────────────────────────────────────────────────────────── */
 .card {
-  position: relative;
+  position: relative;       /* required for full-card ::after hit-target */
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 420px;
-  width: 100%;
-  box-sizing: border-box;
-
   background: var(--st-card-bg);
-  border: 1px solid var(--st-card-border);  /* pink — brand signature */
-  border-radius: var(--st-card-radius);     /* 12px */
-  padding: 28px;
-
-  overflow: hidden;
-  isolation: isolate;
+  border: 1px solid var(--st-card-border);
+  border-radius: var(--st-card-radius);
   box-shadow: var(--st-card-shadow);
-
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  /* Reset when card is rendered as <a> */
-  text-decoration: none;
-  color: inherit;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.card:hover {
+/* Hover lift — only when card has a link (title link ::after covers the card) */
+.card:has(.titleLink):hover {
+  box-shadow: var(--st-card-hover-shadow);
   transform: translateY(var(--st-card-hover-translate-y, -4px));
-  box-shadow: var(--st-card-hover-shadow);  /* 0 12px 40px rgba(255,36,125,0.15) */
 }
 
-/* ── Compact modifier ─────────────────────────────────── */
-
-.compact {
-  padding: 20px;
-  min-height: 360px;
+/* ── accentColor colorway ──────────────────────────────────────────────────── */
+/* Applied via inline style="--accent:#hex" on root — absent prop = no rule fires */
+.card[style*="--accent"] {
+  border-left: 3px solid color-mix(in srgb, var(--accent) 80%, transparent);
 }
 
-/* ── Dark modifier ────────────────────────────────────── */
-
-.dark {
-  /* Override card component tokens locally */
-  --st-card-bg:          #0f1117;
-  --st-card-border:      rgba(255, 255, 255, 0.08);
-  --st-card-text:        #e5e7eb;
-  --st-card-text-muted:  #9ca3af;
+.card[style*="--accent"] .header {
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
 }
 
-.dark:hover {
-  /* Add pink glow ring on top of the standard hover shadow */
-  box-shadow:
-    var(--st-card-hover-shadow),
-    0 0 0 1px rgba(255, 36, 125, 0.28);
+.card[style*="--accent"] .eyebrow {
+  color: var(--accent);
 }
 
-/* ── Listing modifier (archive density) ────────────────── */
-/* Compact content card for archive grids (/articles, /case-studies,
-   /knowledge-graph). Sans-serif title, clamped content, lower min-height.
-   Shares the same pink-border DNA as default — just tighter density. */
-
-.listing {
-  min-height: 200px;
+/* ── Hero thumbnail (default variant) ─────────────────────────────────────── */
+.thumbnailHero {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
-.listing .header {
-  margin-bottom: 8px;
+.thumbnailImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.listing .eyebrow {
+/* ── Header ────────────────────────────────────────────────────────────────── */
+.header {
+  position: relative;   /* for status badge absolute positioning */
+  flex-shrink: 0;       /* LOCKED — never compress */
+  padding: var(--st-space-5) var(--st-space-5) var(--st-space-3);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 0.65rem;
-  /* Override base eyebrow truncation — listing eyebrow may contain
-     a status badge alongside the label, so allow normal flow. */
-  white-space: normal;
-  overflow: visible;
-  text-overflow: clip;
+  flex-direction: column;
+  gap: var(--st-space-2);
 }
 
-.listing .title {
-  font-family: var(--st-font-ui);     /* Fira Sans — not serif */
-  font-size: 1.0625rem;
-  font-weight: 600;
+/* ── Eyebrow ─────────────────────────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-color-text-eyebrow);
+  line-height: 1.2;
+}
+
+/* ── Category ────────────────────────────────────────────────────────────── */
+.category {
+  font-size: var(--st-font-size-xs);
+  color: var(--st-color-text-muted);
   line-height: 1.3;
 }
 
-.listing .content {
-  font-size: 0.9375rem;
-  flex: 1;                            /* grow to push footer down */
+.categoryLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+}
+
+.categoryLink {
+  color: var(--st-color-category-link);
+  text-decoration: none;
+  position: relative;   /* above full-card ::after */
+  z-index: 1;
+}
+
+.categoryLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Status badge ────────────────────────────────────────────────────────── */
+.statusBadge {
+  position: absolute;
+  top: var(--st-space-5);
+  right: var(--st-space-5);
+  font-family: var(--st-font-family-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--st-radius-xs);
+  border: 1px solid;
+  line-height: 1.6;
+}
+
+.statusDraft       { background: rgba(255, 255, 255, 0.06); color: var(--st-color-text-muted); border-color: rgba(255, 255, 255, 0.12); }
+.statusActive      { background: rgba(43, 212, 170, 0.12);  color: var(--st-color-seafoam);    border-color: rgba(43, 212, 170, 0.3); }
+.statusArchived    { background: rgba(255, 255, 255, 0.04); color: var(--st-color-text-muted); border-color: rgba(255, 255, 255, 0.08); }
+.statusEvergreen   { background: rgba(209, 255, 29, 0.10);  color: var(--st-color-lime);       border-color: rgba(209, 255, 29, 0.25); }
+.statusImplemented { background: rgba(43, 212, 170, 0.10);  color: var(--st-color-seafoam);    border-color: rgba(43, 212, 170, 0.25); }
+.statusValidated   { background: rgba(255, 36, 125, 0.10);  color: var(--st-color-pink);       border-color: rgba(255, 36, 125, 0.25); }
+.statusDeprecated  { background: rgba(255, 36, 125, 0.08);  color: var(--st-color-text-muted); border-color: rgba(255, 36, 125, 0.20); }
+
+/* ── Title ───────────────────────────────────────────────────────────────── */
+.title {
+  margin: 0;
+  font-family: var(--st-font-narrative);
+  font-size: var(--st-font-size-xl);    /* 1.4rem — default + metadata */
+  font-weight: 700;
+  line-height: var(--st-line-height-tight);
+  color: var(--st-color-text-primary);
+}
+
+/* ── Title link — full-card hit target via ::after ─────────────────────────
+   Root is position:relative; this link covers the entire card via ::after.
+   All other interactive children must be position:relative; z-index:1.      */
+.titleLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.titleLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--st-card-radius);
+}
+
+.titleLink:focus-visible::after {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* ── Subtitle ────────────────────────────────────────────────────────────── */
+.subtitle {
+  margin: 0;
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-muted);
+  line-height: var(--st-line-height-normal);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ── Body ────────────────────────────────────────────────────────────────── */
+.body {
+  flex: 1 1 auto;       /* LOCKED — expands to fill available space */
+  padding: 0 var(--st-space-5) var(--st-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-3);
+}
+
+/* ── Excerpt ─────────────────────────────────────────────────────────────── */
+.excerpt {
+  margin: 0;
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-secondary);
+  line-height: var(--st-line-height-relaxed);
+}
+
+/* ── Project attribution ─────────────────────────────────────────────────── */
+.projectAttribution {
+  font-size: var(--st-font-size-xs);
+  color: var(--st-color-text-muted);
+}
+
+.projectLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+}
+
+.projectLink {
+  color: var(--st-color-category-link);
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+}
+
+.projectLink:hover {
+  text-decoration: underline;
+}
+
+.projectValue {
+  color: var(--st-color-text-muted);
+}
+
+/* ── Metadata grid (metadata variant) ────────────────────────────────────── */
+.metadataGrid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--st-space-2) var(--st-space-4);
+  margin: 0;
+  padding: 0;
+}
+
+.metadataLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-eyebrow);
+  white-space: nowrap;
+  line-height: 1.6;
+}
+
+.metadataValue {
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-primary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Chip rows ───────────────────────────────────────────────────────────── */
+.toolsRow,
+.tagsRow {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--st-space-2);
+}
+
+/* Base chip */
+.chip {
+  display: inline-block;
+  font-family: var(--st-font-family-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--st-radius-xs);
+  line-height: 1.5;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+/* Interactive chips sit above full-card ::after */
+a.chip {
+  position: relative;
+  z-index: 1;
+}
+
+a.chip:hover {
+  opacity: 0.8;
+}
+
+/* Tag chips — filled pink */
+.chipTag {
+  background: var(--st-color-chip-bg);
+  color: var(--st-color-text-eyebrow);
+  border: 1px solid rgba(255, 36, 125, 0.25);
+}
+
+/* Tool chips — outlined seafoam */
+.chipTool {
+  background: transparent;
+  color: var(--st-color-seafoam);
+  border: 1px solid rgba(43, 212, 170, 0.35);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.footer {
+  position: relative;   /* for ::before dashed line */
+  flex-shrink: 0;       /* LOCKED — never floats up */
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--st-space-3);
+  padding: var(--st-space-4) var(--st-space-5) var(--st-space-5);
+  margin-top: auto;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--st-space-5);
+  right: var(--st-space-5);
+  border-top: 1px dashed var(--st-color-footer-divider);
+}
+
+.footerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-1);
+  flex: 1;
+  min-width: 0;
+}
+
+.footerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--st-space-1);
+  flex-shrink: 0;
+}
+
+/* ── Footer items ────────────────────────────────────────────────────────── */
+.nextStep,
+.aiTool,
+.date,
+.stamp {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-color-text-muted);
+  line-height: 1.4;
+}
+
+.nextStepLabel {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--st-color-text-eyebrow);
+}
+
+.stamp {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-eyebrow);
+}
+
+.kpiLink {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: 700;
+  color: var(--st-color-text-eyebrow);
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.04em;
+}
+
+.kpiLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Variant: listing ────────────────────────────────────────────────────── */
+.variant-listing .title {
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-md);   /* 1rem — archive density */
+  font-weight: 600;
+}
+
+/* Listing + thumbnail: row layout */
+.listingRow {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+.thumbnailRail {
+  flex: 0 0 var(--st-card-thumb-rail-width);
+  overflow: hidden;
+}
+
+.listingContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Listing: excerpt clamped to 3 lines */
+.variant-listing .excerpt {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  padding-bottom: 0;
-  margin-bottom: var(--st-spacing-stack-sm, 8px);
 }
 
-.listing .content p:last-child {
-  margin-bottom: 0;
-}
-
-.listing .footer {
-  border-top-color: color-mix(in srgb, var(--st-card-border) 25%, transparent);
-  padding-top: var(--st-spacing-stack-md, 16px);
-}
-
-/* ── Inner (text column + pinning model) ──────────────── */
-
-.inner {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;   /* enables footer pinning via margin-top: auto */
-  min-width: 0;
-}
-
-/* ── Header (eyebrow + title + subtitle grid) ─────────── */
-
-.header {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 6px;
-  margin-bottom: 14px;
-}
-
-/* ── Eyebrow ──────────────────────────────────────────── */
-
-.eyebrow {
-  font-family: var(--st-font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--st-color-accent);
-  margin: 0;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ── Title ────────────────────────────────────────────── */
-
-.title {
-  margin: 0;
-  font-size: var(--st-font-size-xl);   /* 1.4rem — brand spec */
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--st-card-border);        /* pink — pulls from the border token */
-}
-
-/* Title as link */
-.titleLink {
-  color: inherit;
-  text-decoration: none;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.1em;
-}
-
-.titleLink:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-}
-
-/* ── Subtitle ─────────────────────────────────────────── */
-
-.subtitle {
-  margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-  color: var(--st-card-text-muted);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ── Content ──────────────────────────────────────────── */
-
-.content {
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: var(--st-card-text);
-  padding-bottom: 1.5rem;
-}
-
-.content p {
-  margin: 0 0 0.75rem 0;
-  color: var(--st-card-text);
-  line-height: 1.55;
-}
-
-.content p:last-child {
-  margin-bottom: 0;
-}
-
-/* ── Footer (pinned to bottom) ────────────────────────── */
-
-.footer {
-  margin-top: auto;         /* pins footer to bottom of .inner */
-  padding-top: 12px;
-  border-top: 1px dashed rgba(255, 36, 125, 0.35); /* dashed pink divider */
-  font-size: 0.85rem;
-}
-
-/* ── Metadata modifier (detail page sidebar) ─────────────── */
-/* Non-interactive information surface for content detail pages.
-   Suppresses hover lift. Content-height (no enforced min-height).
-   Shares the pink-border DNA of the base card. */
-
-.metadata {
-  min-height: 0;
+/* ── Variant: metadata ───────────────────────────────────────────────────── */
+.variant-metadata {
   cursor: default;
 }
 
-.metadata:hover {
-  transform: none;
+.variant-metadata.card:has(.titleLink):hover {
   box-shadow: var(--st-card-shadow);
+  transform: none;
 }
 
-.metadata .content {
-  padding-bottom: 0;
+.variant-metadata .header {
+  padding-bottom: var(--st-space-2);
 }
 
-/* ════════════════════════════════════════════════════════
-   PINK MOON THEME ADAPTATIONS
-   TODO: Pink Moon frosted card adaptation (frosted glass,
-   hairline border, ambient glow) to be specified in a
-   follow-up iteration once broader component patterns are scoped.
-   ════════════════════════════════════════════════════════ */
+/* ── Compact density modifier ────────────────────────────────────────────── */
+.compact .header {
+  padding: var(--st-space-4) var(--st-space-4) var(--st-space-2);
+  gap: var(--st-space-1);
+}
+
+.compact .body {
+  padding: 0 var(--st-space-4) var(--st-space-2);
+  gap: var(--st-space-2);
+}
+
+.compact .footer {
+  padding: var(--st-space-3) var(--st-space-4) var(--st-space-4);
+}
+
+.compact .title {
+  font-size: var(--st-font-size-lg);  /* step down from xl */
+}
+
+.compact .eyebrow {
+  font-size: 0.68rem;
+}
+
+.compact .excerpt {
+  font-size: var(--st-font-size-xs);
+}
+
+/* ── hasCardLink: interactive child inside a full-card-link card ────────── */
+.hasCardLink {
+  position: relative;
+  z-index: 1;
+}
