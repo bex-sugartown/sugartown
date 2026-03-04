@@ -50,20 +50,30 @@ export interface CardProps {
   /** Optional subtitle — default variant only. */
   subtitle?: string;
   /**
-   * Status badge — rendered as a floated pill in the header.
-   * Legacy values (draft, active, archived, implemented) kept for backward compat.
-   * Node evolution values: exploring | validated | operationalized | deprecated | evergreen
-   * Project lifecycle values: dreaming | designing | developing | testing | deploying | iterating
+   * Status badge for project lifecycle (and legacy generic values).
+   * Project lifecycle (Studio: project.status):
+   *   dreaming | designing | developing | testing | deploying | iterating
+   * Legacy / generic:
+   *   draft | active | archived | implemented | evergreen | deprecated
+   *
+   * For node evolution use the `evolution` prop instead.
+   * Never set both status and evolution on the same card.
    */
   status?:
-    // Legacy / generic
-    | 'draft' | 'active' | 'archived' | 'implemented'
-    // Shared
-    | 'evergreen' | 'validated' | 'deprecated'
-    // Node evolution (Studio: node.status)
-    | 'exploring' | 'operationalized'
-    // Project lifecycle (Studio: project.status)
-    | 'dreaming' | 'designing' | 'developing' | 'testing' | 'deploying' | 'iterating';
+    | 'draft' | 'active' | 'archived' | 'implemented'           // legacy / generic
+    | 'evergreen' | 'deprecated'                                  // shared longevity states
+    | 'dreaming' | 'designing' | 'developing'                     // project lifecycle
+    | 'testing' | 'deploying' | 'iterating';
+  /**
+   * Evolution badge for knowledge graph nodes (Studio: node.status).
+   * Values: exploring | validated | operationalized | deprecated | evergreen
+   *
+   * For project lifecycle use the `status` prop instead.
+   * Never set both status and evolution on the same card.
+   */
+  evolution?:
+    | 'exploring' | 'validated' | 'operationalized'
+    | 'deprecated' | 'evergreen';
 
   // Body
   /** Short description prose — default + listing variants. */
@@ -153,6 +163,7 @@ export const Card: React.FC<CardProps> = ({
   categoryPosition = 'below-eyebrow',
   subtitle,
   status,
+  evolution,
   excerpt,
   project,
   metadata,
@@ -205,16 +216,19 @@ export const Card: React.FC<CardProps> = ({
   ) : null;
 
   // ── Header ────────────────────────────────────────────────────────────────
+  // evolution takes priority; status is the fallback. Never both simultaneously.
+  const badgeValue = evolution ?? status;
+
   const headerEl = (
     <div className={styles.header}>
       {eyebrow && <div className={styles.eyebrow}>{eyebrow}</div>}
       {categoryPosition === 'below-eyebrow' && categoryEl}
-      {status && (
+      {badgeValue && (
         <span
-          className={[styles.statusBadge, STATUS_BADGE_CLASS[status]].filter(Boolean).join(' ')}
-          aria-label={`Status: ${status}`}
+          className={[styles.statusBadge, STATUS_BADGE_CLASS[badgeValue]].filter(Boolean).join(' ')}
+          aria-label={`Status: ${badgeValue}`}
         >
-          {status}
+          {badgeValue}
         </span>
       )}
       <h3 className={styles.title}>{titleNode}</h3>

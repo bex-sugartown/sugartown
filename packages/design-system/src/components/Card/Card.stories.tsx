@@ -25,7 +25,7 @@ const NODE_FULL = {
   eyebrow: 'Node · PROJ-002',
   category: { label: 'AI Methodology', href: '/categories/ai-methodology' },
   title: 'Prompt Architecture for Long-Form Reasoning',
-  status: 'exploring' as const,
+  evolution: 'exploring' as const,
   excerpt:
     'Structured prompt decomposition strategies that improve coherence in multi-step reasoning tasks. Covers chain-of-thought scaffolding, context window discipline, and output normalisation.',
   tags: [
@@ -59,7 +59,7 @@ const CASE_STUDY_FULL = {
   title: 'Building a Token-Driven Design System for a Live Product',
   subtitle: 'Sugartown · 2024–2025',
   category: { label: 'Systems Design', href: '/categories/systems-design' },
-  status: 'validated' as const,
+  status: 'evergreen' as const,
   excerpt:
     'How we extracted a scalable three-tier token architecture from a WordPress theme, migrated to CSS custom properties, and shipped Storybook alongside the production codebase without a rewrite.',
   tags: [
@@ -86,15 +86,16 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     variant:          { control: { type: 'select' }, options: ['default', 'listing', 'metadata'] },
     density:          { control: { type: 'select' }, options: ['default', 'compact'] },
+    // Project lifecycle + legacy generic values. Never combine with evolution.
     status:           { control: { type: 'select' }, options: [
-      // Legacy / generic
-      'draft', 'active', 'archived', 'implemented',
-      // Shared
-      'evergreen', 'validated', 'deprecated',
-      // Node evolution
-      'exploring', 'operationalized',
-      // Project lifecycle
-      'dreaming', 'designing', 'developing', 'testing', 'deploying', 'iterating',
+      'draft', 'active', 'archived', 'implemented',  // legacy / generic
+      'evergreen', 'deprecated',                      // shared longevity states
+      'dreaming', 'designing', 'developing',          // project lifecycle
+      'testing', 'deploying', 'iterating',
+    ]},
+    // Node evolution values (Studio: node.status). Never combine with status.
+    evolution:        { control: { type: 'select' }, options: [
+      'exploring', 'validated', 'operationalized', 'deprecated', 'evergreen',
     ]},
     categoryPosition: { control: { type: 'select' }, options: ['below-eyebrow', 'above-title'] },
     title:            { control: 'text' },
@@ -285,7 +286,7 @@ export const ListingBasic: Story = {
     excerpt:
       'Structured prompt decomposition strategies that improve coherence in multi-step reasoning tasks. Covers chain-of-thought scaffolding and context window discipline.',
     project: { label: 'PROJ-002 · Knowledge Platform', href: '/projects/knowledge-platform' },
-    status: 'exploring',
+    evolution: 'exploring',
     date: '2025-11-14',
   },
 };
@@ -309,7 +310,7 @@ export const ListingWithThumb: Story = {
     excerpt:
       'How we extracted a scalable three-tier token architecture from a WordPress theme and shipped Storybook alongside the production codebase.',
     project: { label: 'PROJ-001 · Sugartown', href: '/projects/sugartown' },
-    status: 'validated',
+    status: 'evergreen',
     date: '2025-03-01',
     thumbnailUrl: THUMB_RAIL,
     thumbnailAlt: 'Token architecture diagram',
@@ -364,7 +365,7 @@ export const MetadataNode: Story = {
     eyebrow: 'Node · PROJ-002',
     title: 'Prompt Architecture for Long-Form Reasoning',
     category: { label: 'AI Methodology', href: '/categories/ai-methodology' },
-    status: 'exploring',
+    evolution: 'exploring',
     metadata: [
       { label: 'Conversation Type', value: 'Research' },
       { label: 'AI Tool',           value: 'Claude' },
@@ -428,7 +429,7 @@ export const MetadataCaseStudy: Story = {
     eyebrow: 'Case Study',
     title: 'Building a Token-Driven Design System for a Live Product',
     category: { label: 'Systems Design', href: '/categories/systems-design' },
-    status: 'validated',
+    status: 'evergreen',
     metadata: [
       { label: 'Client',  value: 'Sugartown (internal)' },
       { label: 'Role',    value: 'Lead Designer + Engineer' },
@@ -485,25 +486,28 @@ export const MetadataProject: Story = {
 
 const GRID_CARDS = [
   {
+    // Node — uses evolution
     title: 'Prompt Architecture for Long-Form Reasoning',
     eyebrow: 'Node · PROJ-002',
     category: { label: 'AI Methodology', href: '/categories/ai-methodology' },
-    status: 'exploring' as const,
+    evolution: 'exploring' as const,
     excerpt: 'Structured prompt decomposition that improves coherence in multi-step reasoning tasks.',
     tags: [{ label: 'Prompting' }, { label: 'LLM' }],
     date: '2025-11-14',
   },
   {
+    // Case Study — uses status (legacy/shared)
     title: 'Building a Token-Driven Design System',
     eyebrow: 'Case Study · PROJ-001',
     category: { label: 'Systems Design', href: '/categories/systems-design' },
-    status: 'validated' as const,
+    status: 'evergreen' as const,
     excerpt: 'Three-tier CSS token architecture extracted from a live WordPress theme.',
     tags: [{ label: 'Design Systems' }, { label: 'Tokens' }, { label: 'CSS' }],
     date: '2025-03-01',
     stamp: 'Reviewed',
   },
   {
+    // Article — uses status (legacy/shared)
     title: 'Typography at Scale: Variable Fonts in Production',
     eyebrow: 'Article',
     category: { label: 'Engineering', href: '/categories/engineering' },
@@ -514,6 +518,7 @@ const GRID_CARDS = [
     date: '2024-01-08',
   },
   {
+    // Node — uses status legacy (draft = not yet published)
     title: 'Agentic Caucus Protocol v1',
     eyebrow: 'Node · PROJ-002',
     category: { label: 'AI Methodology', href: '/categories/ai-methodology' },
@@ -524,19 +529,21 @@ const GRID_CARDS = [
     date: '2025-12-01',
   },
   {
+    // Document — uses status legacy (implemented = shipped)
     title: 'Sugartown IA Brief — Phase 1',
     eyebrow: 'Document',
     category: { label: 'Strategy', href: '/categories/strategy' },
-    status: 'operationalized' as const,
+    status: 'implemented' as const,
     excerpt: 'Constraint doc for routing, nav, content creation, and archive setup for Phase 1.',
     date: '2026-02-26',
-    stamp: 'Operationalized',
+    stamp: 'Implemented',
   },
   {
+    // Node — uses evolution
     title: 'Knowledge Graph Archive Design',
     eyebrow: 'Node · PROJ-002',
     category: { label: 'Product', href: '/categories/product' },
-    status: 'exploring' as const,
+    evolution: 'exploring' as const,
     excerpt: 'Filter model, facet architecture, and URL namespace scheme for the KG archive.',
     tags: [{ label: 'IA' }, { label: 'Filters' }],
     date: '2025-10-12',
@@ -563,20 +570,22 @@ export const CardGrid: Story = {
 
 const LISTING_CARDS = [
   {
+    // Node — uses evolution
     variant: 'listing' as const,
     title: 'Prompt Architecture for Long-Form Reasoning',
     excerpt: 'Structured prompt decomposition that improves coherence in multi-step reasoning tasks. Covers chain-of-thought scaffolding, context window discipline, and output normalisation.',
     project: { label: 'PROJ-002 · Knowledge Platform', href: '/projects/knowledge-platform' },
-    status: 'exploring' as const,
+    evolution: 'exploring' as const,
     date: '2025-11-14',
     href: '/nodes/prompt-architecture-long-form',
   },
   {
+    // Case Study — uses status (legacy/shared)
     variant: 'listing' as const,
     title: 'Building a Token-Driven Design System for a Live Product',
     excerpt: 'Three-tier CSS token architecture extracted from a live WordPress theme, migrated without a rewrite.',
     project: { label: 'PROJ-001 · Sugartown', href: '/projects/sugartown' },
-    status: 'validated' as const,
+    status: 'evergreen' as const,
     date: '2025-03-01',
     href: '/case-studies/token-driven-design-system',
   },
