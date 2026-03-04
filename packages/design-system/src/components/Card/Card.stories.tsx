@@ -48,7 +48,6 @@ const ARTICLE_MINIMAL = {
   eyebrow: 'Article',
   title: 'Typography at Scale: Variable Fonts in Production',
   category: { label: 'Engineering', href: '/categories/engineering' },
-  status: 'evergreen' as const,
   date: '2024-01-08',
   aiTool: 'Claude',
 };
@@ -59,7 +58,6 @@ const CASE_STUDY_FULL = {
   title: 'Building a Token-Driven Design System for a Live Product',
   subtitle: 'Sugartown · 2024–2025',
   category: { label: 'Systems Design', href: '/categories/systems-design' },
-  status: 'evergreen' as const,
   excerpt:
     'How we extracted a scalable three-tier token architecture from a WordPress theme, migrated to CSS custom properties, and shipped Storybook alongside the production codebase without a rewrite.',
   tags: [
@@ -86,14 +84,11 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     variant:          { control: { type: 'select' }, options: ['default', 'listing', 'metadata'] },
     density:          { control: { type: 'select' }, options: ['default', 'compact'] },
-    // Project lifecycle + legacy generic values. Never combine with evolution.
+    // Project lifecycle (Studio: project.status). Never combine with evolution.
     status:           { control: { type: 'select' }, options: [
-      'draft', 'active', 'archived', 'implemented',  // legacy / generic
-      'evergreen', 'deprecated',                      // shared longevity states
-      'dreaming', 'designing', 'developing',          // project lifecycle
-      'testing', 'deploying', 'iterating',
+      'dreaming', 'designing', 'developing', 'testing', 'deploying', 'iterating',
     ]},
-    // Node evolution values (Studio: node.status). Never combine with status.
+    // Node evolution (Studio: node.status). Never combine with status.
     evolution:        { control: { type: 'select' }, options: [
       'exploring', 'validated', 'operationalized', 'deprecated', 'evergreen',
     ]},
@@ -310,7 +305,6 @@ export const ListingWithThumb: Story = {
     excerpt:
       'How we extracted a scalable three-tier token architecture from a WordPress theme and shipped Storybook alongside the production codebase.',
     project: { label: 'PROJ-001 · Sugartown', href: '/projects/sugartown' },
-    status: 'evergreen',
     date: '2025-03-01',
     thumbnailUrl: THUMB_RAIL,
     thumbnailAlt: 'Token architecture diagram',
@@ -335,7 +329,6 @@ export const ListingFullCard: Story = {
     title: 'Typography at Scale: Variable Fonts in Production',
     excerpt:
       'An exploration of variable font axes, performance trade-offs, and how font subsetting enabled a 60% reduction in web font payload.',
-    status: 'evergreen',
     date: '2024-01-08',
     href: '/articles/variable-fonts-production',
   },
@@ -403,7 +396,6 @@ export const MetadataArticle: Story = {
     eyebrow: 'Article',
     title: 'Typography at Scale: Variable Fonts in Production',
     category: { label: 'Engineering', href: '/categories/engineering' },
-    status: 'evergreen',
     metadata: [
       { label: 'AI Tool', value: 'Claude' },
     ],
@@ -429,7 +421,6 @@ export const MetadataCaseStudy: Story = {
     eyebrow: 'Case Study',
     title: 'Building a Token-Driven Design System for a Live Product',
     category: { label: 'Systems Design', href: '/categories/systems-design' },
-    status: 'evergreen',
     metadata: [
       { label: 'Client',  value: 'Sugartown (internal)' },
       { label: 'Role',    value: 'Lead Designer + Engineer' },
@@ -496,47 +487,43 @@ const GRID_CARDS = [
     date: '2025-11-14',
   },
   {
-    // Case Study — uses status (legacy/shared)
+    // Case Study — no badge
     title: 'Building a Token-Driven Design System',
     eyebrow: 'Case Study · PROJ-001',
     category: { label: 'Systems Design', href: '/categories/systems-design' },
-    status: 'evergreen' as const,
     excerpt: 'Three-tier CSS token architecture extracted from a live WordPress theme.',
     tags: [{ label: 'Design Systems' }, { label: 'Tokens' }, { label: 'CSS' }],
     date: '2025-03-01',
     stamp: 'Reviewed',
   },
   {
-    // Article — uses status (legacy/shared)
+    // Article — no badge
     title: 'Typography at Scale: Variable Fonts in Production',
     eyebrow: 'Article',
     category: { label: 'Engineering', href: '/categories/engineering' },
-    status: 'evergreen' as const,
     excerpt:
       'Variable font axes, performance trade-offs, and how subsetting cut web font load time by 60%.',
     tools: [{ label: 'Figma' }],
     date: '2024-01-08',
   },
   {
-    // Node — uses status legacy (draft = not yet published)
+    // Node — evolution
     title: 'Agentic Caucus Protocol v1',
     eyebrow: 'Node · PROJ-002',
     category: { label: 'AI Methodology', href: '/categories/ai-methodology' },
-    status: 'draft' as const,
+    evolution: 'exploring' as const,
     excerpt: 'Structured multi-agent deliberation framework for high-stakes decisions.',
     tags: [{ label: 'Agents' }, { label: 'Governance' }],
     tools: [{ label: 'Claude' }],
     date: '2025-12-01',
   },
   {
-    // Document — uses status legacy (implemented = shipped)
+    // Document — no badge
     title: 'Sugartown IA Brief — Phase 1',
     eyebrow: 'Document',
     category: { label: 'Strategy', href: '/categories/strategy' },
-    status: 'implemented' as const,
     excerpt: 'Constraint doc for routing, nav, content creation, and archive setup for Phase 1.',
     date: '2026-02-26',
-    stamp: 'Implemented',
   },
   {
     // Node — uses evolution
@@ -580,29 +567,29 @@ const LISTING_CARDS = [
     href: '/nodes/prompt-architecture-long-form',
   },
   {
-    // Case Study — uses status (legacy/shared)
+    // Case Study — no badge
     variant: 'listing' as const,
     title: 'Building a Token-Driven Design System for a Live Product',
     excerpt: 'Three-tier CSS token architecture extracted from a live WordPress theme, migrated without a rewrite.',
     project: { label: 'PROJ-001 · Sugartown', href: '/projects/sugartown' },
-    status: 'evergreen' as const,
     date: '2025-03-01',
     href: '/case-studies/token-driven-design-system',
   },
   {
+    // Article — no badge
     variant: 'listing' as const,
     title: 'Typography at Scale: Variable Fonts in Production',
     excerpt: 'Variable font axes, performance trade-offs, and how subsetting cut web font load time by 60%.',
-    status: 'evergreen' as const,
     date: '2024-01-08',
     href: '/articles/variable-fonts-production',
   },
   {
     variant: 'listing' as const,
+    // Node — evolution
     title: 'Agentic Caucus Protocol v1',
     excerpt: 'Structured multi-agent deliberation framework for high-stakes product and strategy decisions.',
     project: { label: 'PROJ-002 · Knowledge Platform', href: '/projects/knowledge-platform' },
-    status: 'draft' as const,
+    evolution: 'exploring' as const,
     date: '2025-12-01',
   },
 ];
