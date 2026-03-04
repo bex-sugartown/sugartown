@@ -73,17 +73,20 @@ export default defineType({
       name: 'status',
       title: 'Status',
       type: 'string',
-      description: 'Current project lifecycle stage',
+      description: 'Phase of development',
       group: 'basics',
       options: {
         list: [
-          {title: '📋 Planning', value: 'planning'},
-          {title: '🚀 Active',   value: 'active'},
-          {title: '📦 Archived', value: 'archived'}
+          {title: '💭 Dreaming',   value: 'dreaming'},
+          {title: '🎨 Designing',  value: 'designing'},
+          {title: '⚙️ Developing', value: 'developing'},
+          {title: '🧪 Testing',    value: 'testing'},
+          {title: '🚀 Deploying',  value: 'deploying'},
+          {title: '🔄 Iterating',  value: 'iterating'}
         ],
         layout: 'radio'
       },
-      initialValue: 'planning',
+      initialValue: 'dreaming',
       validation: (Rule) => Rule.required()
     }),
     defineField({
@@ -226,9 +229,16 @@ export default defineType({
     },
     prepare({projectId, name, status, priority, colorHex}) {
       const statusLabels = {
-        planning: '📋 Planning',
-        active:   '🚀 Active',
-        archived: '📦 Archived'
+        dreaming:   '💭 Dreaming',
+        designing:  '🎨 Designing',
+        developing: '⚙️ Developing',
+        testing:    '🧪 Testing',
+        deploying:  '🚀 Deploying',
+        iterating:  '🔄 Iterating',
+        // legacy values — kept so existing docs don't show blank in preview
+        planning: '📋 Planning (legacy)',
+        active:   '🚀 Active (legacy)',
+        archived: '📦 Archived (legacy)',
       }
       const priorityLabels = {
         1: '🔴',

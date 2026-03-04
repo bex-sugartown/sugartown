@@ -181,21 +181,21 @@ export default defineType({
     }),
     defineField({
       name: 'status',
-      title: 'Status',
+      title: 'Evolution',
       type: 'string',
-      description: 'Where is this knowledge in your workflow?',
+      description: "Where y'at?",
       group: 'metadata',
       options: {
         list: [
-          {title: '🔍 Explored', value: 'explored'},
+          {title: '🔍 Exploring', value: 'exploring'},
           {title: '✅ Validated', value: 'validated'},
-          {title: '🚀 Implemented', value: 'implemented'},
+          {title: '🚀 Operationalized', value: 'operationalized'},
           {title: '⚠️ Deprecated', value: 'deprecated'},
           {title: '♾️ Evergreen', value: 'evergreen'}
         ],
         layout: 'radio'
       },
-      initialValue: 'explored',
+      initialValue: 'exploring',
       validation: (Rule) => Rule.required()
     }),
     defineField({
@@ -359,11 +359,14 @@ export default defineType({
         mixed: '🔀 Mixed'
       }
       const statusLabels = {
-        explored: '🔍 Explored',
+        exploring: '🔍 Exploring',
         validated: '✅ Validated',
-        implemented: '🚀 Implemented',
+        operationalized: '🚀 Operationalized',
         deprecated: '⚠️ Deprecated',
-        evergreen: '♾️ Evergreen'
+        evergreen: '♾️ Evergreen',
+        // legacy values — kept so existing docs don't show blank in preview
+        explored: '🔍 Explored (legacy)',
+        implemented: '🚀 Implemented (legacy)',
       }
       const formattedDate = date ? new Date(date).toLocaleDateString() : 'No date'
 
