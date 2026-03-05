@@ -12,6 +12,23 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.14.4] — 2026-03-05
+
+EPIC-0157: Chip Primitive. DS Chip component and matching web adapter with
+polymorphic element, three variants, and per-chip accent color override.
+
+### packages/design-system
+
+- `Chip` component: polymorphic `<span>`/`<a>`, variants `tag` (filled pink), `tool` (outlined seafoam), `category` (neutral); optional `colorHex` accent via `color-mix()`
+- Chip stories: Tag, Tool, Category, Link, Grid scenarios
+- `Button/index.ts` export added (was missing)
+
+### apps/web
+
+- Web Chip adapter (`design-system/components/chip/`): mirrors DS Chip, replaces `<a>` with react-router-dom `<Link>` for SPA navigation
+
+---
+
 ## [0.14.3] — 2026-03-04
 
 EPIC-0156: st-card Foundation. New DS Card primitive with named-prop API, token
