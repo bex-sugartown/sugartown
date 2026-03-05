@@ -12,6 +12,21 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.14.1] — 2026-03-04
+
+EPIC-0155: URL Audit & Redirect Decision Registry. Legacy WordPress URL
+inventory, redirect decision classification, and Netlify redirect implementation.
+
+### apps/web
+- `netlify.toml`: 326 legacy WordPress URLs classified; batch redirects implemented across 5 decision batches
+- `build-redirects.js`: updated to incorporate redirect decision registry
+
+### Other
+- `scripts/audit/artifacts/`: full URL inventory (url_inventory.json), redirect decisions CSV (267 entries), gap analysis (redirect_gaps.md)
+- `docs/reports/`: ERD diagram and KPI dashboard added as reference artifacts
+
+---
+
 ## [0.14.0] — 2026-03-01
 
 Taxonomy entity pages, detail-page metadata consolidation, content tooling, and routing fixes. Branch: `epic/taxonomy-governance` → `main`
