@@ -1,7 +1,8 @@
 /*
- * Chip — canonical taxonomy / filter chip primitive.
+ * Chip — web app adapter CSS.
  *
- * Visual spec: artifacts/style 260118.css → .st-chip
+ * Mirrors: packages/design-system/src/components/Chip/Chip.module.css
+ * CSS sync: Must match DS Chip.module.css (see MEMORY.md token drift rules).
  *
  * Color system:
  *   All chips resolve their accent colour through a single internal variable:
@@ -47,7 +48,7 @@
     border-color 0.2s ease;
 }
 
-/* ── Interactive modifier (a or button chips) ────────── */
+/* ── Interactive modifier (Link or button chips) ────── */
 
 .interactive {
   cursor: pointer;
@@ -118,10 +119,3 @@
 :global([data-theme="light"]) .lime    { --chip-color: var(--st-color-lime-700, #748f00); }
 :global([data-theme="light"]) .amber   { --chip-color: #b8860b; }
 :global([data-theme="light"]) .grey    { --chip-color: var(--st-color-softgrey-600, #526070); }
-
-/* ════════════════════════════════════════════════════════
-   PINK MOON THEME ADAPTATIONS
-   TODO: Pink Moon frosted-glass chip adaptation to be specified
-   in a follow-up iteration once component patterns for cards,
-   hero sections, and filter bars are scoped.
-   ════════════════════════════════════════════════════════ */

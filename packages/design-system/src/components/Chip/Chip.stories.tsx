@@ -13,6 +13,7 @@ const meta: Meta<typeof Chip> = {
     label: { control: 'text' },
     href: { control: 'text' },
     isActive: { control: 'boolean' },
+    color: { control: { type: 'select' }, options: [undefined, 'pink', 'seafoam', 'lime', 'violet', 'amber'] },
     colorHex: { control: 'color' },
     size: { control: { type: 'select' }, options: ['sm', 'md'] },
   },
@@ -58,7 +59,48 @@ export const Medium: Story = {
   args: { label: 'md chip', href: '#', size: 'md' },
 };
 
-// ─── Color-aware ──────────────────────────────────────────────────────────────
+// ─── Named color presets ──────────────────────────────────────────────────────
+
+/** Pink — Sugartown brand pink (default when no color prop set) */
+export const PresetPink: Story = {
+  args: { label: 'Design Systems', href: '#', color: 'pink' },
+};
+
+/** Seafoam — tools & platforms accent */
+export const PresetSeafoam: Story = {
+  args: { label: 'TypeScript', href: '#', color: 'seafoam' },
+};
+
+/** Lime — evergreen / validated content */
+export const PresetLime: Story = {
+  args: { label: 'Evergreen', color: 'lime' },
+};
+
+/** Violet — project / strategic accent */
+export const PresetViolet: Story = {
+  args: { label: 'Brand Strategy', href: '#', color: 'violet' },
+};
+
+/** Amber — status / warning accent */
+export const PresetAmber: Story = {
+  args: { label: 'In Progress', color: 'amber' },
+};
+
+/** All five named presets in a row */
+export const AllPresets: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+      <Chip label="Pink (default)" color="pink" href="#" />
+      <Chip label="Seafoam"        color="seafoam" href="#" />
+      <Chip label="Lime"           color="lime" href="#" />
+      <Chip label="Violet"         color="violet" href="#" />
+      <Chip label="Amber"          color="amber" href="#" />
+    </div>
+  ),
+  parameters: { layout: 'padded' },
+};
+
+// ─── Color-aware (custom hex override) ────────────────────────────────────────
 
 /** Colour-aware chip using a project/category color via colorHex prop */
 export const ColorAwareProject: Story = {
@@ -69,9 +111,9 @@ export const ColorAwareCategory: Story = {
   args: { label: 'Design Systems', href: '#', colorHex: '#0891B2' },
 };
 
-/** Tag chip — no colorHex, renders in default grey neutral */
-export const TagNeutral: Story = {
-  args: { label: 'accessibility', href: '#', colorHex: '#9CA3AF' },
+/** colorHex overrides named preset — inline style wins over class */
+export const ColorHexOverridesPreset: Story = {
+  args: { label: 'Custom Override', href: '#', color: 'pink', colorHex: '#059669' },
 };
 
 // ─── All variants — taxonomy chip row ─────────────────────────────────────────
@@ -79,16 +121,19 @@ export const TagNeutral: Story = {
 export const TaxonomyChipRow: Story = {
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', maxWidth: '600px' }}>
-      {/* Projects */}
-      <Chip label="Brand Strategy"    href="#" colorHex="#7C3AED" />
+      {/* Projects — violet preset or custom colorHex from project.colorHex */}
+      <Chip label="Brand Strategy"    href="#" color="violet" />
       <Chip label="Web Platform"      href="#" colorHex="#0891B2" />
-      {/* Categories */}
+      {/* Categories — custom colorHex from category.colorHex */}
       <Chip label="Design Systems"    href="#" colorHex="#D97706" />
       <Chip label="Engineering"       href="#" colorHex="#059669" />
-      {/* Tags — neutral grey */}
-      <Chip label="accessibility"     href="#" colorHex="#9CA3AF" />
-      <Chip label="performance"       href="#" colorHex="#9CA3AF" />
-      <Chip label="typography"        href="#" colorHex="#9CA3AF" />
+      {/* Tags — default pink (brand accent) */}
+      <Chip label="accessibility"     href="#" />
+      <Chip label="performance"       href="#" />
+      <Chip label="typography"        href="#" />
+      {/* Tools — seafoam preset */}
+      <Chip label="TypeScript"        href="#" color="seafoam" />
+      <Chip label="React"             href="#" color="seafoam" />
     </div>
   ),
   parameters: { layout: 'padded' },

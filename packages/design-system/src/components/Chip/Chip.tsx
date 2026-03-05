@@ -1,6 +1,9 @@
 import React from 'react';
 import styles from './Chip.module.css';
 
+/** Named color presets for the Chip component. */
+export type ChipColor = 'pink' | 'seafoam' | 'lime' | 'violet' | 'amber' | 'grey';
+
 export interface ChipProps {
   /** Text label displayed inside the chip */
   label: string;
@@ -17,9 +20,20 @@ export interface ChipProps {
   /** Active / selected state — solid accent fill, white label */
   isActive?: boolean;
   /**
+   * Named color preset from the Sugartown palette.
+   * Sets the chip's accent via a CSS class (--chip-color token).
+   * Overridden by `colorHex` if both are provided.
+   *
+   * Presets: pink (brand), seafoam (tools), lime (evergreen),
+   *          violet (project), amber (status/warning).
+   * Default (no color, no colorHex) = brand pink.
+   */
+  color?: ChipColor;
+  /**
    * Optional hex colour to override the default pink accent.
    * Injects `--chip-color` as an inline style; the CSS resolves
    * background, border, and text from this single value.
+   * Takes precedence over the `color` preset prop.
    */
   colorHex?: string;
   /** Size variant. Defaults to 'md'. */
@@ -35,6 +49,7 @@ export const Chip: React.FC<ChipProps> = ({
   href,
   onClick,
   isActive = false,
+  color,
   colorHex,
   size = 'md',
   className,
@@ -47,6 +62,9 @@ export const Chip: React.FC<ChipProps> = ({
     isInteractive && styles.interactive,
     isActive && styles.active,
     size === 'sm' && styles.sm,
+    // Named color preset class — sets --chip-color via CSS token.
+    // colorHex inline style takes precedence when both are present.
+    color && styles[color],
     className,
   ]
     .filter(Boolean)
