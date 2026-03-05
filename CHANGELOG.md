@@ -12,6 +12,30 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.14.3] — 2026-03-04
+
+EPIC-0156: st-card Foundation. New DS Card primitive with named-prop API, token
+layer, evolution/status badge system, and 17 Storybook stories. Includes token
+validator tooling and content validator extensions.
+
+### packages/design-system
+
+- `Card` component rewritten with named-prop API: `variant`, `density`, `category`, `tags[]`, `tools[]`, `metadata[]`, `accentColor`, `href`, `thumbnailUrl`, `status`, `evolution`
+- `status` and `evolution` badge props added to Card — `status` tracks project lifecycle stages; `evolution` tracks node maturity
+- 17 stories covering all variants, densities, badge states, and theme modes
+- Token layer extended with card-specific design tokens
+
+### apps/studio
+
+- Node `Status` field renamed to `Evolution`; project lifecycle stages expanded to cover full arc (Seed → Sunset)
+
+### Other
+
+- `validate:tokens` script added — checks all `var(--st-*)` references in CSS resolve to defined tokens
+- Content validator extended with additional integrity checks
+
+---
+
 ## [0.14.2] — 2026-03-04
 
 EPIC-0152: Light/Dark Theme System. Introduced `[data-theme]` token architecture,
