@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPIC-0159 · st-citation — Knowledge Notation System</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --st-color-midnight: #0D1226;
+    --st-color-pink: #FF247D;
+    --st-color-seafoam: #2BD4AA;
+    --st-color-lime: #D1FF1D;
+    --st-color-surface: #141830;
+    --st-color-surface-raised: #1C2240;
+    --st-color-border: rgba(255,36,125,0.2);
+    --st-color-border-subtle: rgba(255,255,255,0.06);
+    --st-color-text: #F8F8FA;
+    --st-color-muted: #8890AA;
+    --st-font-mono: 'Fira Code', monospace;
+    --st-font-sans: 'Fira Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--st-color-midnight);
+    color: var(--st-color-text);
+    font-family: var(--st-font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .epic-header {
+    background: var(--st-color-surface);
+    border-bottom: 1px solid var(--st-color-border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .epic-id {
+    font-family: var(--st-font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(255,36,125,0.1);
+    border: 1px solid rgba(255,36,125,0.3);
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  .epic-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--st-color-text);
+    flex: 1;
+  }
+
+  .epic-meta-pill {
+    font-family: var(--st-font-mono);
+    font-size: 0.7rem;
+    color: var(--st-color-muted);
+    background: rgba(255,255,255,0.05);
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .epic-meta-pill--p1 {
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    border-color: rgba(43,212,170,0.25);
+  }
+
+  .epic-meta-pill--layer {
+    color: var(--st-color-lime);
+    background: rgba(209,255,29,0.06);
+    border-color: rgba(209,255,29,0.2);
+  }
+
+  /* ── Layout ── */
+  .epic-body {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    display: grid;
+    gap: 40px;
+  }
+
+  /* ── Sections ── */
+  .section {
+    background: var(--st-color-surface);
+    border: 1px solid var(--st-color-border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .section__header {
+    padding: 14px 20px;
+    background: rgba(255,36,125,0.07);
+    border-bottom: 1px solid var(--st-color-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .section__body { padding: 24px; }
+
+  /* ── Overview block ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  @media (max-width: 640px) {
+    .overview-grid { grid-template-columns: 1fr; }
+  }
+
+  .overview-item__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--st-color-muted);
+    margin-bottom: 6px;
+  }
+
+  .overview-item__value {
+    font-size: 0.9rem;
+    color: var(--st-color-text);
+    line-height: 1.5;
+  }
+
+  .overview-item__value code {
+    font-family: var(--st-font-mono);
+    font-size: 0.8em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ── Story list ── */
+  .story-list { display: grid; gap: 12px; }
+
+  .story {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 0 14px;
+    align-items: start;
+    padding: 14px 16px;
+    background: var(--st-color-surface-raised);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+  }
+
+  .story__id {
+    font-family: var(--st-font-mono);
+    font-size: 0.7rem;
+    color: var(--st-color-pink);
+    font-weight: 700;
+    padding-top: 2px;
+  }
+
+  .story__title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--st-color-text);
+  }
+
+  .story__desc {
+    grid-column: 2 / 4;
+    margin-top: 6px;
+    font-size: 0.82rem;
+    color: var(--st-color-muted);
+    line-height: 1.55;
+  }
+
+  .story__ac {
+    grid-column: 2 / 4;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--st-color-muted);
+  }
+
+  .story__ac strong {
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--st-color-seafoam);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .story__ac ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 3px;
+  }
+
+  .story__ac ul li::before {
+    content: '✓ ';
+    color: var(--st-color-seafoam);
+    font-family: var(--st-font-mono);
+    font-size: 0.75em;
+  }
+
+  .badge {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    align-self: start;
+  }
+
+  .badge--p1 {
+    background: rgba(43,212,170,0.12);
+    color: var(--st-color-seafoam);
+    border: 1px solid rgba(43,212,170,0.3);
+  }
+
+  .badge--p2 {
+    background: rgba(255,255,255,0.06);
+    color: var(--st-color-muted);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .badge--ds {
+    background: rgba(255,36,125,0.1);
+    color: var(--st-color-pink);
+    border: 1px solid rgba(255,36,125,0.25);
+  }
+
+  /* ── File tree ── */
+  .file-tree {
+    font-family: var(--st-font-mono);
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: var(--st-color-muted);
+    background: var(--st-color-surface-raised);
+    padding: 20px 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .file-tree .dir { color: var(--st-color-text); font-weight: 600; }
+  .file-tree .file-new { color: var(--st-color-lime); }
+  .file-tree .file-edit { color: var(--st-color-seafoam); }
+  .file-tree .file-ref { color: var(--st-color-muted); opacity: 0.75; }
+
+  .file-tree .badge-new {
+    font-size: 0.6rem;
+    background: rgba(209,255,29,0.12);
+    color: var(--st-color-lime);
+    border: 1px solid rgba(209,255,29,0.25);
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .file-tree .badge-edit {
+    font-size: 0.6rem;
+    background: rgba(43,212,170,0.1);
+    color: var(--st-color-seafoam);
+    border: 1px solid rgba(43,212,170,0.25);
+    padding: 1px 5px;
+    border-radius: 2px;
+    margin-left: 8px;
+    vertical-align: middle;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── Code block ── */
+  .code-block {
+    font-family: var(--st-font-mono);
+    font-size: 0.8rem;
+    line-height: 1.7;
+    background: var(--st-color-surface-raised);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    padding: 20px 24px;
+    overflow-x: auto;
+    color: var(--st-color-muted);
+    white-space: pre;
+  }
+
+  .code-block .comment { color: rgba(136,144,170,0.5); }
+  .code-block .key { color: var(--st-color-seafoam); }
+  .code-block .val { color: var(--st-color-lime); }
+  .code-block .str { color: var(--st-color-pink); }
+  .code-block .kw { color: #c792ea; }
+  .code-block .cls { color: var(--st-color-text); }
+
+  /* ── Risk table ── */
+  .risk-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+  }
+
+  .risk-table th {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--st-color-muted);
+    text-align: left;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--st-color-border);
+    font-weight: 500;
+  }
+
+  .risk-table td {
+    padding: 11px 14px;
+    border-bottom: 1px dashed rgba(255,255,255,0.05);
+    vertical-align: top;
+    color: var(--st-color-muted);
+    line-height: 1.5;
+  }
+
+  .risk-table tr:last-child td { border-bottom: none; }
+  .risk-table td:first-child { color: var(--st-color-text); font-weight: 500; }
+
+  /* ── Non-goals ── */
+  .nongoal-list { display: grid; gap: 8px; }
+
+  .nongoal {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 14px;
+    background: var(--st-color-surface-raised);
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.85rem;
+    color: var(--st-color-muted);
+  }
+
+  .nongoal::before {
+    content: '✕';
+    font-family: var(--st-font-mono);
+    font-size: 0.75rem;
+    color: rgba(255,36,125,0.4);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── Prose ── */
+  .prose {
+    font-size: 0.88rem;
+    color: var(--st-color-muted);
+    line-height: 1.7;
+  }
+
+  .prose p + p { margin-top: 10px; }
+
+  .prose code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .prose strong {
+    color: var(--st-color-text);
+    font-weight: 600;
+  }
+
+  /* ── Callout ── */
+  .callout {
+    border: 1px solid rgba(209,255,29,0.2);
+    background: rgba(209,255,29,0.04);
+    border-radius: 4px;
+    padding: 16px 20px;
+    font-size: 0.85rem;
+    color: var(--st-color-muted);
+    line-height: 1.6;
+  }
+
+  .callout__title {
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--st-color-lime);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .callout code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-lime);
+    background: rgba(209,255,29,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 1px dashed rgba(255,36,125,0.15);
+    margin: 20px 0;
+  }
+
+  /* ── Token table ── */
+  .token-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+
+  .token-table th {
+    font-family: var(--st-font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--st-color-muted);
+    text-align: left;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--st-color-border);
+    font-weight: 500;
+  }
+
+  .token-table td {
+    padding: 10px 14px;
+    border-bottom: 1px dashed rgba(255,255,255,0.05);
+    vertical-align: top;
+    color: var(--st-color-muted);
+    line-height: 1.5;
+  }
+
+  .token-table tr:last-child td { border-bottom: none; }
+  .token-table td:first-child {
+    font-family: var(--st-font-mono);
+    font-size: 0.75rem;
+    color: var(--st-color-seafoam);
+  }
+
+  .token-table td:nth-child(2) {
+    font-family: var(--st-font-mono);
+    font-size: 0.75rem;
+    color: var(--st-color-lime);
+  }
+
+  /* ── Visual mockup ── */
+  .mock-card {
+    background: #fff;
+    border: 1px solid #ff247d;
+    border-radius: 8px;
+    padding: 24px 28px;
+    font-family: var(--st-font-sans);
+    color: #222;
+    max-width: 460px;
+  }
+
+  .mock-eyebrow {
+    font-family: var(--st-font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff247d;
+    margin-bottom: 6px;
+  }
+
+  .mock-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .mock-subtitle {
+    font-size: 0.82rem;
+    color: #666;
+    margin-bottom: 14px;
+  }
+
+  .mock-body {
+    font-size: 0.87rem;
+    color: #333;
+    line-height: 1.65;
+    margin-bottom: 12px;
+  }
+
+  .mock-citation-inline {
+    display: inline-block;
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #fff;
+    background: #ff247d;
+    padding: 1px 5px;
+    border-radius: 2px;
+    vertical-align: super;
+    line-height: 1;
+    margin-left: 1px;
+    cursor: pointer;
+  }
+
+  .mock-citation-footer {
+    border-top: 1px dashed rgba(255,36,125,0.3);
+    padding-top: 10px;
+    font-family: var(--st-font-mono);
+    font-size: 0.72rem;
+    color: #888;
+    line-height: 1.7;
+  }
+
+  .mock-citation-num {
+    color: #ff247d;
+    font-weight: 700;
+  }
+
+  .mock-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .mock-chip {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    border-radius: 3px;
+    background: rgba(255,36,125,0.08);
+    color: #ff6bae;
+    border: 1px solid rgba(255,36,125,0.22);
+  }
+
+  /* ── Phase block ── */
+  .phase-list { display: grid; gap: 16px; }
+
+  .phase {
+    padding: 20px;
+    background: var(--st-color-surface-raised);
+    border-radius: 5px;
+    border: 1px solid var(--st-color-border-subtle);
+    display: grid;
+    gap: 10px;
+  }
+
+  .phase__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .phase__id {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    background: rgba(255,36,125,0.12);
+    border: 1px solid rgba(255,36,125,0.28);
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+  }
+
+  .phase__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--st-color-text);
+    flex: 1;
+  }
+
+  .phase__desc {
+    font-size: 0.84rem;
+    color: var(--st-color-muted);
+    line-height: 1.6;
+  }
+
+  .phase__desc code {
+    font-family: var(--st-font-mono);
+    font-size: 0.82em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .phase__steps {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 4px;
+    font-size: 0.82rem;
+    color: var(--st-color-muted);
+  }
+
+  .phase__steps li::before {
+    content: '→ ';
+    font-family: var(--st-font-mono);
+    color: var(--st-color-seafoam);
+    font-size: 0.8em;
+  }
+
+  .phase__steps li code {
+    font-family: var(--st-font-mono);
+    font-size: 0.8em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+
+  /* ── Storybook spec ── */
+  .story-spec-list { display: grid; gap: 8px; }
+
+  .story-spec {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 14px;
+    background: var(--st-color-surface-raised);
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.05);
+    font-size: 0.84rem;
+    color: var(--st-color-muted);
+  }
+
+  .story-spec__num {
+    font-family: var(--st-font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    width: 24px;
+    flex-shrink: 0;
+    padding-top: 1px;
+  }
+
+  .story-spec__label {
+    font-weight: 600;
+    color: var(--st-color-text);
+    font-size: 0.85rem;
+  }
+
+  .story-spec__detail {
+    margin-top: 3px;
+    font-size: 0.8rem;
+    color: var(--st-color-muted);
+  }
+
+  .story-spec__detail code {
+    font-family: var(--st-font-mono);
+    font-size: 0.8em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+
+  /* ── Gate list ── */
+  .gate-list { display: grid; gap: 6px; }
+
+  .gate {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 9px 14px;
+    background: var(--st-color-surface-raised);
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.83rem;
+    color: var(--st-color-muted);
+  }
+
+  .gate::before {
+    content: '□';
+    font-family: var(--st-font-mono);
+    font-size: 0.8rem;
+    color: rgba(43,212,170,0.5);
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .gate code {
+    font-family: var(--st-font-mono);
+    font-size: 0.8em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+
+  /* ── Backlog future ── */
+  .future-list { display: grid; gap: 8px; }
+
+  .future-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px 14px;
+    background: var(--st-color-surface-raised);
+    border-radius: 4px;
+    border: 1px solid rgba(209,255,29,0.1);
+    font-size: 0.84rem;
+    color: var(--st-color-muted);
+  }
+
+  .future-item__id {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--st-color-lime);
+    flex-shrink: 0;
+    padding-top: 2px;
+    width: 52px;
+  }
+
+  .future-item__body { flex: 1; }
+
+  .future-item__label {
+    font-weight: 600;
+    color: var(--st-color-text);
+    font-size: 0.85rem;
+    margin-bottom: 2px;
+  }
+
+  .future-item__desc {
+    font-size: 0.79rem;
+    color: var(--st-color-muted);
+  }
+
+</style>
+</head>
+<body>
+
+<header class="epic-header">
+  <span class="epic-id">EPIC-0159</span>
+  <span class="epic-title">st-citation — Knowledge Notation System</span>
+  <span class="epic-meta-pill">packages/design-system · Pink Moon era</span>
+  <span class="epic-meta-pill">Created 2026-03-05</span>
+  <span class="epic-meta-pill epic-meta-pill--layer">Typography Layer</span>
+  <span class="epic-meta-pill epic-meta-pill--p1">P1 · Non-blocking</span>
+</header>
+
+<div class="epic-body">
+
+  <!-- Origin Note -->
+  <div class="callout">
+    <div class="callout__title">Origin — Legacy Proof of Concept</div>
+    This component was not invented here. The citation pattern — inline superscript <code>[n]</code> + monospace footnote caption — was already shipping in the legacy WordPress card layout, as visible in the pre-migration archive UI. This epic formalises what was discovered, not designed. The goal is extraction, not invention.
+  </div>
+
+  <!-- Overview -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Overview</span>
+    </div>
+    <div class="section__body">
+      <div class="overview-grid">
+        <div>
+          <div class="overview-item__label">What</div>
+          <div class="overview-item__value">A formally specified <code>st-citation</code> component — consisting of an inline superscript marker and a footnote caption zone — extracted from the legacy card layout and codified into the design system typography layer with named tokens.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Why</div>
+          <div class="overview-item__value">Citations are what make Sugartown a knowledge system rather than a blog. They are the single most distinctive UI pattern in the site. Without a formal component contract, the pattern drifts, duplicates, and loses its scholarly intentionality across content types.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Layer</div>
+          <div class="overview-item__value"><strong>Typography layer</strong> — not the card layer. Cards <em>accommodate</em> citations; they do not own them. The component must render correctly inside <code>st-card__body</code>, inside long-form article prose, and anywhere body copy appears.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Scope</div>
+          <div class="overview-item__value"><code>packages/design-system</code> — tokens, CSS, React component, Storybook stories. No Sanity schema changes. No new routes. No hover behaviour or JS interaction in this epic.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Non-goals -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Non-Goals — Explicit Scope Exclusions</span>
+    </div>
+    <div class="section__body">
+      <div class="nongoal-list">
+        <div class="nongoal">Does <strong>not</strong> include hover preview cards or JavaScript tooltip behaviour. That is <code>st-definition-card</code> — a separate future epic.</div>
+        <div class="nongoal">Does <strong>not</strong> include a full bibliography page or <code>st-citation-list</code> organism. Tokens are specced here; the organism ships in a later epic.</div>
+        <div class="nongoal">Does <strong>not</strong> wire citations to live Sanity node data. This epic delivers the visual primitive only. CMS wiring is an application concern.</div>
+        <div class="nongoal">Does <strong>not</strong> auto-number citations. Numbering is handled in content authoring (Sanity portable text), not the component.</div>
+        <div class="nongoal">Does <strong>not</strong> modify any existing card components. <code>st-card</code> is untouched. The citation component slots into <code>st-card__body</code> naturally as body copy.</div>
+        <div class="nongoal">Is <strong>not</strong> a cutover blocker. This is a P1 typography enrichment. It ships when Pink Moon bandwidth allows.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Visual Contract (mockup) -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Visual Contract — Rendered Example</span>
+    </div>
+    <div class="section__body">
+      <div class="prose" style="margin-bottom: 20px;">
+        <p>The component has two parts: an <strong>inline marker</strong> (<code>st-citation__marker</code>) that appears inline within body copy, and a <strong>footnote caption</strong> (<code>st-citation__note</code>) that appears in a dedicated footnote zone at the bottom of the content surface. The example below shows both parts in a light-mode card context — which is where the pattern was first observed in the legacy UI.</p>
+      </div>
+
+      <!-- Light mode card mock -->
+      <div class="mock-card">
+        <div class="mock-eyebrow">Sugartown-CMS</div>
+        <div class="mock-title">CV / Resume</div>
+        <div class="mock-subtitle">A Systems View of a Career</div>
+        <div class="mock-body">
+          The Resume Factory is a rules-based composition engine that assembles resumes from a single source of truth. Content is selected via variants, slots, and deterministic fallbacks so tailoring reflects intent, not AI guesswork.<span class="mock-citation-inline">[1]</span>
+        </div>
+        <div class="mock-citation-footer">
+          <span class="mock-citation-num">[1]</span> Source: Resume Engine v2.0
+        </div>
+        <div class="mock-chips">
+          <span class="mock-chip">p13n</span>
+          <span class="mock-chip">json</span>
+          <span class="mock-chip">python</span>
+        </div>
+      </div>
+
+      <div class="prose" style="margin-top: 20px;">
+        <p>Note that the citation footnote renders in <code>IBM Plex Mono</code> at a reduced size with muted colour — the same typographic register used for metadata throughout the system. This is not a coincidence; it is a semantic signal that the footnote is reference material, not narrative content.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Component Anatomy -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Component Anatomy — BEM Structure</span>
+    </div>
+    <div class="section__body">
+      <div class="code-block"><span class="comment">/* ── Inline marker ── */</span>
+<span class="comment">/* Rendered inside body copy as a superscript */</span>
+
+<span class="cls">&lt;sup</span> <span class="key">class</span>=<span class="str">"st-citation__marker"</span> <span class="key">aria-label</span>=<span class="str">"Citation 1"</span><span class="cls">&gt;</span>
+  <span class="cls">&lt;a</span> <span class="key">href</span>=<span class="str">"#st-citation-1"</span><span class="cls">&gt;</span><span class="val">[1]</span><span class="cls">&lt;/a&gt;</span>
+<span class="cls">&lt;/sup&gt;</span>
+
+<span class="comment">/* ── Footnote zone ── */</span>
+<span class="comment">/* Placed at bottom of content surface (card body, article body) */</span>
+
+<span class="cls">&lt;footer</span> <span class="key">class</span>=<span class="str">"st-citation-zone"</span><span class="cls">&gt;</span>
+  <span class="cls">&lt;p</span> <span class="key">id</span>=<span class="str">"st-citation-1"</span> <span class="key">class</span>=<span class="str">"st-citation__note"</span><span class="cls">&gt;</span>
+    <span class="cls">&lt;span</span> <span class="key">class</span>=<span class="str">"st-citation__index"</span><span class="cls">&gt;</span><span class="val">[1]</span><span class="cls">&lt;/span&gt;</span>
+    Source: Resume Engine v2.0
+  <span class="cls">&lt;/p&gt;</span>
+<span class="cls">&lt;/footer&gt;</span>
+
+<span class="comment">/* ── BEM classes summary ── */</span>
+<span class="comment">/*
+  st-citation__marker   — inline superscript anchor
+  st-citation__note     — single footnote line item
+  st-citation__index    — the [n] number within the note
+  st-citation-zone      — wrapper for all footnotes on a surface
+*/</span></div>
+    </div>
+  </div>
+
+  <!-- Token Specification -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Token Specification — New Semantic Aliases</span>
+    </div>
+    <div class="section__body">
+      <div class="prose" style="margin-bottom:16px;">
+        <p>No new base primitives are required. All citation tokens are <strong>semantic aliases</strong> that point to existing base tokens. This is cheap to implement and keeps the token graph clean. Read existing token files before writing anything.</p>
+      </div>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Maps to</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>--st-citation-color</td>
+            <td>var(--st-color-muted)</td>
+            <td>Footnote text colour — same register as metadata</td>
+          </tr>
+          <tr>
+            <td>--st-citation-index-color</td>
+            <td>var(--st-color-pink)</td>
+            <td>The [n] number in the footnote — anchors to brand</td>
+          </tr>
+          <tr>
+            <td>--st-citation-font</td>
+            <td>var(--st-font-mono)</td>
+            <td>IBM Plex Mono — scholarly apparatus register</td>
+          </tr>
+          <tr>
+            <td>--st-citation-size</td>
+            <td>0.72rem</td>
+            <td>Smaller than body — clearly reference, not narrative</td>
+          </tr>
+          <tr>
+            <td>--st-citation-marker-bg</td>
+            <td>var(--st-color-pink)</td>
+            <td>Inline marker pill background (light mode)</td>
+          </tr>
+          <tr>
+            <td>--st-citation-marker-color</td>
+            <td>#ffffff</td>
+            <td>Inline marker text — white on pink</td>
+          </tr>
+          <tr>
+            <td>--st-citation-zone-border</td>
+            <td>rgba(255,36,125,0.2)</td>
+            <td>Dashed divider above footnote zone</td>
+          </tr>
+          <tr>
+            <td>--st-citation-zone-gap</td>
+            <td>var(--st-space-3)</td>
+            <td>Top padding on footnote zone</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout" style="margin-top: 16px;">
+        <div class="callout__title">Claude Code Instruction</div>
+        Run <code>grep -r "st-font-mono\|st-color-muted\|st-color-pink" packages/design-system/src/tokens/</code> before writing any token values. Confirm the exact variable names as they exist in the token files. Do not guess or infer from memory.
+      </div>
+    </div>
+  </div>
+
+  <!-- File Deliverables -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">File Deliverables</span>
+    </div>
+    <div class="section__body">
+      <div class="file-tree">
+<span class="dir">packages/design-system/src/</span>
+├── <span class="dir">tokens/</span>
+│   └── <span class="file-edit">semantic.css</span> <span class="badge-edit">edit</span>
+│       <span class="file-ref">// Add --st-citation-* aliases (8 tokens listed above)</span>
+│       <span class="file-ref">// Confirm file name by reading the tokens directory first</span>
+│
+├── <span class="dir">components/</span>
+│   └── <span class="file-new">Citation/</span> <span class="badge-new">new</span>
+│       ├── <span class="file-new">Citation.tsx</span>
+│       │   <span class="file-ref">// CitationMarker — inline superscript</span>
+│       │   <span class="file-ref">// CitationNote — single footnote item</span>
+│       │   <span class="file-ref">// CitationZone — wrapper for all notes</span>
+│       ├── <span class="file-new">Citation.module.css</span>
+│       │   <span class="file-ref">// All styles consume --st-citation-* tokens</span>
+│       │   <span class="file-ref">// Light mode only in this epic</span>
+│       └── <span class="file-new">Citation.stories.tsx</span>
+│           <span class="file-ref">// Stories listed in Storybook spec section</span>
+│
+└── <span class="dir">index.ts</span> <span class="badge-edit">edit</span>
+    <span class="file-ref">// Export CitationMarker, CitationNote, CitationZone</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Storybook Spec -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Storybook Spec — Required Stories</span>
+    </div>
+    <div class="section__body">
+      <div class="story-spec-list">
+        <div class="story-spec">
+          <span class="story-spec__num">①</span>
+          <div>
+            <div class="story-spec__label">Default — Single citation in card body</div>
+            <div class="story-spec__detail">Shows <code>CitationMarker</code> inline within body copy, with a single <code>CitationNote</code> in a <code>CitationZone</code> below. Uses light mode card context. This is the canonical, approved usage.</div>
+          </div>
+        </div>
+        <div class="story-spec">
+          <span class="story-spec__num">②</span>
+          <div>
+            <div class="story-spec__label">Multiple — Three citations in one zone</div>
+            <div class="story-spec__detail">Three inline markers, three corresponding notes. Validates that the zone stacks notes correctly and the index numbers align. Use the legacy CV / Resume card as the content reference.</div>
+          </div>
+        </div>
+        <div class="story-spec">
+          <span class="story-spec__num">③</span>
+          <div>
+            <div class="story-spec__label">In-prose — Citation inside long-form article body</div>
+            <div class="story-spec__detail">Shows the component outside a card context, embedded inside a block of article copy. Validates that <code>CitationZone</code> is not card-dependent — it can follow any prose block.</div>
+          </div>
+        </div>
+        <div class="story-spec">
+          <span class="story-spec__num">④</span>
+          <div>
+            <div class="story-spec__label">Stress — Long footnote text</div>
+            <div class="story-spec__detail">A citation note that wraps to two lines. Validates that multi-line notes don't break alignment of the <code>[n]</code> index with the note text.</div>
+          </div>
+        </div>
+        <div class="story-spec">
+          <span class="story-spec__num">⑤</span>
+          <div>
+            <div class="story-spec__label">Token audit — Documented tokens</div>
+            <div class="story-spec__detail">A static story that renders all eight <code>--st-citation-*</code> token names alongside their current resolved values. Serves as a living reference in the DS documentation.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Implementation Phases -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Implementation Phases</span>
+    </div>
+    <div class="section__body">
+      <div class="phase-list">
+
+        <div class="phase">
+          <div class="phase__header">
+            <span class="phase__id">PHASE 1</span>
+            <span class="phase__title">Orientation — Read Before Touching</span>
+            <span class="badge badge--p1">No code</span>
+          </div>
+          <div class="phase__desc">Claude Code reads existing files before any edits. Mandatory pre-flight.</div>
+          <ul class="phase__steps">
+            <li>Read <code>packages/design-system/src/tokens/</code> — list all existing token files and their naming conventions</li>
+            <li>Read <code>packages/design-system/src/index.ts</code> — understand current export pattern</li>
+            <li>Read one existing component folder (e.g. <code>Button/</code>) — understand file structure and CSS Module patterns in use</li>
+            <li>Read <code>SUGARTOWN_DESIGN_SYSTEM_RULESET.md</code> — confirm nothing in this epic contradicts the ruleset</li>
+            <li>Confirm gate with Bex: "I have read the token files. The semantic token file is at [path]. Here are the existing token naming conventions I observed: [list]. Ready to proceed?"</li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase__header">
+            <span class="phase__id">PHASE 2</span>
+            <span class="phase__title">Token Authoring — Add semantic aliases</span>
+            <span class="badge badge--p1">DS · Tokens</span>
+          </div>
+          <div class="phase__desc">Add the eight <code>--st-citation-*</code> tokens to the semantic token file. No other files change in this phase.</div>
+          <ul class="phase__steps">
+            <li>Add all eight tokens from the Token Specification table above to the semantic token file</li>
+            <li>Follow the exact naming convention observed in Phase 1 — do not introduce a new pattern</li>
+            <li>Add a comment block: <code>/* ── Citation / Knowledge Notation ── */</code> above the new entries</li>
+            <li>Confirm gate: "Tokens added. Here is the diff: [show diff]. No other files modified. Ready for Phase 3?"</li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase__header">
+            <span class="phase__id">PHASE 3</span>
+            <span class="phase__title">Component Build — Citation.tsx + Citation.module.css</span>
+            <span class="badge badge--ds">DS · Components</span>
+          </div>
+          <div class="phase__desc">Create the <code>Citation/</code> folder with three exports: <code>CitationMarker</code>, <code>CitationNote</code>, <code>CitationZone</code>. CSS Module only. Light mode first.</div>
+          <ul class="phase__steps">
+            <li>Create <code>packages/design-system/src/components/Citation/Citation.tsx</code> — three named exports, all consuming CSS Module classes</li>
+            <li>Create <code>Citation.module.css</code> — all rules use <code>--st-citation-*</code> tokens. Zero hardcoded colour or font values</li>
+            <li><code>CitationMarker</code> renders as <code>&lt;sup&gt;</code> with an anchor linking to the matching note ID</li>
+            <li><code>CitationNote</code> accepts <code>id</code> and <code>index</code> props; renders the footnote line with the styled <code>[n]</code> prefix</li>
+            <li><code>CitationZone</code> is a semantic <code>&lt;footer&gt;</code> wrapper with the dashed top border</li>
+            <li>Confirm gate: "Component built. Runs without errors. Here is the component API surface: [list props]. Ready for stories?"</li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase__header">
+            <span class="phase__id">PHASE 4</span>
+            <span class="phase__title">Storybook — Five required stories</span>
+            <span class="badge badge--p1">Storybook</span>
+          </div>
+          <div class="phase__desc">All five stories from the Storybook Spec section, in <code>Citation.stories.tsx</code>.</div>
+          <ul class="phase__steps">
+            <li>Write all five stories matching the spec above</li>
+            <li>Story ③ (in-prose) must show the component <em>outside</em> a card — plain white background, body copy context</li>
+            <li>Story ⑤ (token audit) renders a simple table of token names → values using CSS <code>var()</code> on inline styles</li>
+            <li>Run Storybook locally and confirm all five stories render without console errors</li>
+            <li>Confirm gate: "All five stories render. No console errors. Screenshots attached."</li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase__header">
+            <span class="phase__id">PHASE 5</span>
+            <span class="phase__title">Export + CHANGELOG</span>
+            <span class="badge badge--p2">Housekeeping</span>
+          </div>
+          <div class="phase__desc">Wire exports and update project records.</div>
+          <ul class="phase__steps">
+            <li>Add <code>CitationMarker</code>, <code>CitationNote</code>, <code>CitationZone</code> exports to <code>packages/design-system/src/index.ts</code></li>
+            <li>Run <code>pnpm build --filter @sugartown/design-system</code> — confirm clean build, zero type errors</li>
+            <li>Draft CHANGELOG entry — <em>shipped work only, no planning language</em></li>
+            <li>Confirm final gate: "Build clean. Exports confirmed. CHANGELOG drafted. Ready for Bex review."</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Definition of Done -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Definition of Done</span>
+    </div>
+    <div class="section__body">
+      <div class="gate-list">
+        <div class="gate">Eight <code>--st-citation-*</code> semantic token aliases exist in the token file and resolve correctly.</div>
+        <div class="gate"><code>Citation/</code> folder exists in <code>packages/design-system/src/components/</code> with <code>Citation.tsx</code>, <code>Citation.module.css</code>, and <code>Citation.stories.tsx</code>.</div>
+        <div class="gate">Zero hardcoded colour or font values in <code>Citation.module.css</code> — all values consumed via <code>--st-citation-*</code> tokens.</div>
+        <div class="gate">All three component exports (<code>CitationMarker</code>, <code>CitationNote</code>, <code>CitationZone</code>) are accessible via <code>@sugartown/design-system</code>.</div>
+        <div class="gate">All five Storybook stories render without console errors in local Storybook dev.</div>
+        <div class="gate">Story ③ demonstrates the component <em>outside</em> a card context — validating the typography layer ownership claim.</div>
+        <div class="gate"><code>pnpm build --filter @sugartown/design-system</code> exits cleanly with zero TypeScript errors.</div>
+        <div class="gate">No existing components were modified. <code>st-card</code>, <code>st-chip</code>, and all other existing DS files are untouched.</div>
+        <div class="gate">CHANGELOG entry written — completed items only, no planning or speculative language.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risk Assessment -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Risk Assessment</span>
+    </div>
+    <div class="section__body">
+      <table class="risk-table">
+        <thead>
+          <tr>
+            <th>Risk</th>
+            <th>Likelihood</th>
+            <th>Mitigation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Token file naming mismatch — Claude Code guesses the wrong filename</td>
+            <td>Medium</td>
+            <td>Phase 1 requires listing the actual token file paths before touching anything. Hard gate before Phase 2.</td>
+          </tr>
+          <tr>
+            <td>Hardcoded values creep into Citation.module.css</td>
+            <td>Medium</td>
+            <td>Definition of Done explicitly checks for zero hardcoded values. Run <code>grep -n "#\|rgb\|rem\|px" Citation.module.css</code> and review each hit.</td>
+          </tr>
+          <tr>
+            <td>Citation component placed in card layer instead of typography layer</td>
+            <td>Low</td>
+            <td>Component lives in <code>design-system/components/Citation/</code>, not inside any card folder. Card components are not modified.</td>
+          </tr>
+          <tr>
+            <td>Export collision with a future <code>st-citation-list</code> organism</td>
+            <td>Low</td>
+            <td><code>CitationZone</code> is intentionally named as a container, not a list. The future bibliography organism will be a separate export with its own folder.</td>
+          </tr>
+          <tr>
+            <td>Dark mode styling regression — citation not visible on midnight background</td>
+            <td>Low — deferred</td>
+            <td>Light mode only in this epic, explicitly. Dark mode token aliases are a named backlog item (BL-01 below). No dark mode CSS is written here.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Future Backlog -->
+  <div class="section">
+    <div class="section__header">
+      <span class="section__label">Backlog Items — Out of Scope for This Epic</span>
+    </div>
+    <div class="section__body">
+      <div class="prose" style="margin-bottom:16px;">
+        <p>These items are formally deferred. They are listed here so they do not get lost, not because they are scheduled.</p>
+      </div>
+      <div class="future-list">
+        <div class="future-item">
+          <span class="future-item__id">BL-01</span>
+          <div class="future-item__body">
+            <div class="future-item__label">Dark mode citation tokens</div>
+            <div class="future-item__desc">Add <code>--st-citation-marker-bg</code> and <code>--st-citation-index-color</code> overrides for the dark theme. Depends on EPIC-0152 (light/dark theme system) being stable.</div>
+          </div>
+        </div>
+        <div class="future-item">
+          <span class="future-item__id">BL-02</span>
+          <div class="future-item__body">
+            <div class="future-item__label">st-citation-list — Bibliography organism</div>
+            <div class="future-item__desc">A page-level bibliography component that collects all <code>CitationNote</code> items from a long-form article into a structured reference section. Requires article body architecture to be stable first.</div>
+          </div>
+        </div>
+        <div class="future-item">
+          <span class="future-item__id">BL-03</span>
+          <div class="future-item__body">
+            <div class="future-item__label">st-definition-card — Hover preview</div>
+            <div class="future-item__desc">JavaScript-powered tooltip that renders a node preview on citation marker hover. Requires Sanity node data wiring and a JS interaction pattern decision. A separate epic, not an extension of this one.</div>
+          </div>
+        </div>
+        <div class="future-item">
+          <span class="future-item__id">BL-04</span>
+          <div class="future-item__body">
+            <div class="future-item__label">Sanity Portable Text integration</div>
+            <div class="future-item__desc">Configure Sanity Studio's portable text renderer to output <code>CitationMarker</code> and <code>CitationZone</code> from a custom annotation type. Application layer concern — lives in <code>apps/web</code>, not the design system.</div>
+          </div>
+        </div>
+        <div class="future-item">
+          <span class="future-item__id">BL-05</span>
+          <div class="future-item__body">
+            <div class="future-item__label">Knowledge Index page</div>
+            <div class="future-item__desc">The back-of-book index concept — a full browse system organised alphabetically by concept, linking to nodes. Intellectually the most powerful long-term feature. Requires taxonomy stability. A full epic, not a component.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.epic-body -->
+
+</body>
+</html>
