@@ -1,68 +1,11 @@
 /*
- * ContentCard — app-specific styles for status badge and meta line.
- * Card shell styling lives in the DS Card component (design-system/components/card/).
- * Only styles that are content/data concerns live here.
+ * ContentCard — app-specific styles.
+ *
+ * EPIC-0158: Status badge, card image, and footer CSS retired.
+ * Status badges now handled by Card's named `status` / `evolution` props.
+ * Card images now handled by Card's `thumbnailUrl` prop.
+ * Footer layout now handled by Card's named footer props (date, aiTool, etc.).
+ *
+ * This file is intentionally minimal — kept for any future
+ * ContentCard-specific layout needs.
  */
-
-/* ── Status badge — colour driven by data-status attribute ── */
-
-.statusBadge {
-  --_status-color: #9ca3af; /* grey fallback */
-  display: inline-flex;
-  align-items: center;
-  padding: 0.15em 0.5em;
-  border-radius: var(--st-radius-xs, 4px);
-  font-family: var(--st-font-mono);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_status-color) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--_status-color) 35%, transparent);
-  color: var(--_status-color);
-}
-
-.statusBadge[data-status="active"]       { --_status-color: #059669; }
-.statusBadge[data-status="shipped"]      { --_status-color: #d97706; }
-.statusBadge[data-status="in-progress"]  { --_status-color: #2563eb; }
-.statusBadge[data-status="paused"]       { --_status-color: #9ca3af; }
-.statusBadge[data-status="archived"]     { --_status-color: #6b7280; }
-.statusBadge[data-status="draft"]        { --_status-color: #7c3aed; }
-.statusBadge[data-status="explored"]     { --_status-color: #0891B2; }
-
-/* ── Footer layout (chips + meta stacked) ── */
-
-.footer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-/* ── Card image (imageOverride or per-item heroImage) ── */
-
-.cardImage {
-  margin: 0 0 var(--st-space-3) 0;
-  border-radius: var(--st-radius-sm);
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-}
-
-.cardImageImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* ── Meta line — mono, muted, secondary info ── */
-
-.meta {
-  font-family: var(--st-font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--st-color-text-muted, #888);
-  margin: 0;
-}

@@ -298,7 +298,7 @@
   --st-card-media-height:      48px;
 
   /* ── Card extended tokens (EPIC-0156) ─────────────────── */
-  --st-color-text-eyebrow:     rgba(255, 111, 184, 0.9);    /* dark: pink-wash label */
+  --st-color-text-eyebrow:     var(--st-color-pink);         /* canonical brand pink #FF247D */
   --st-color-category-link:    var(--st-color-softgrey-400); /* #8890AA dark */
   --st-color-footer-divider:   rgba(255, 111, 184, 0.22);   /* dark: dashed footer line */
   --st-color-chip-bg:          rgba(255, 255, 255, 0.06);   /* dark: filled tag chip bg */
@@ -466,7 +466,7 @@
   --st-code-inline-border: 1px solid rgba(209, 255, 29, 0.30);
 
   /* Card extended — dark restates (EPIC-0156) */
-  --st-color-text-eyebrow:   rgba(255, 111, 184, 0.9);
+  --st-color-text-eyebrow:   var(--st-color-pink);
   --st-color-category-link:  var(--st-color-softgrey-400);
   --st-color-footer-divider: rgba(255, 111, 184, 0.22);
   --st-color-chip-bg:        rgba(255, 255, 255, 0.06);

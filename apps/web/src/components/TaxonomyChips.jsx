@@ -1,18 +1,13 @@
 /**
- * TODO Epic 7 — TaxonomyChips owns routing + Sanity data-shaping and must stay
- * in apps/web. The canonical visual primitive for chips now lives in:
- *   @sugartown/design-system → Chip (packages/design-system/src/components/Chip/)
- * Long-term: render <Chip> from the design system inside this component, passing
- * href and colorHex as props, to achieve visual consistency with Storybook.
- */
-
-/**
  * TaxonomyChips — generic chip renderer for taxonomy classification surface.
  *
- * Renders projects, categories, and tags as linked pills in a consistent order.
+ * Renders projects, categories, and tags as linked chips in a consistent order.
  * Each chip links to its canonical taxonomy detail page via getCanonicalPath().
  * Color-aware: project and category chips use colorHex (via CSS custom property)
  * for border and text accent when available.
+ *
+ * Visual rendering delegates to the DS Chip component (via web adapter),
+ * achieving visual consistency with Storybook and the Card component.
  *
  * Usage:
  *   <TaxonomyChips
@@ -26,13 +21,14 @@
  *   tags       — array of { _id, name, slug }
  *   projects   — array of { _id, name, slug, colorHex? }
  *   className  — optional extra class on the chip list wrapper
+ *   size       — 'sm' | 'md' (default: 'md')
  *
  * Safe fallback: chips with a missing slug render as a non-linked <span>.
  * Chips render in order: projects → categories → tags.
  * Duplicates (by _id) are removed before render.
  */
-import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
+import { Chip } from '../design-system'
 import styles from './TaxonomyChips.module.css'
 
 export default function TaxonomyChips({ categories, tags, projects, className, size = 'md' }) {
@@ -59,31 +55,19 @@ export default function TaxonomyChips({ categories, tags, projects, className, s
       aria-label="Content classification"
     >
       {chips.map((chip) => {
-        const chipClass = [styles.chip, styles[chip.kind], size === 'sm' && styles.sm].filter(Boolean).join(' ')
-        const chipStyle = chip.colorHex ? { '--chip-color': chip.colorHex } : undefined
-
-        // Chips with no slug fall back to a non-linked span (no broken links)
-        if (!chip.slug) {
-          return (
-            <li key={chip._id}>
-              <span className={chipClass} style={chipStyle}>
-                {chip.name}
-              </span>
-            </li>
-          )
-        }
-
-        const path = getCanonicalPath({ docType: chip.kind, slug: chip.slug })
+        // Resolve the canonical URL path (or undefined if no slug)
+        const href = chip.slug
+          ? getCanonicalPath({ docType: chip.kind, slug: chip.slug })
+          : undefined
 
         return (
           <li key={chip._id}>
-            <Link
-              to={path}
-              className={[chipClass, styles.chipLink].join(' ')}
-              style={chipStyle}
-            >
-              {chip.name}
-            </Link>
+            <Chip
+              label={chip.name}
+              href={href}
+              colorHex={chip.colorHex}
+              size={size}
+            />
           </li>
         )
       })}

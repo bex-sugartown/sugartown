@@ -41,11 +41,10 @@ All appearance via design tokens. No hardcoded colour values.
 |  __footer  (flex-shrink:0 — LOCKED)              |
 |  |-- __footerLeft                                |
 |  |    |-- __nextStep   "Next Step: [text]"       |
-|  |    |-- __aiTool                               |
+|  |    |-- __aiTool     "AI: [tool name]"           |
 |  |    +-- __kpiLink    "KPIs: [View →]"          |
 |  +-- __footerRight                               |
-|       |-- __date                                 |
-|       +-- __stamp                                |
+|       +-- __date                                 |
 +--------------------------------------------------+
 ```
 
@@ -87,7 +86,7 @@ interface CardProps {
   title:             string                             // required
   eyebrow?:          string                             // "Node · PROJ-001"
   category?:         { label: string; href: string }
-  categoryPosition?: 'below-eyebrow' | 'above-title'   // default: 'below-eyebrow'
+  categoryPosition?: 'before' | 'after'                 // default: 'before'
   subtitle?:         string                             // default variant only
   status?:           'draft' | 'active' | 'archived' | 'evergreen'
                      | 'implemented' | 'validated' | 'deprecated'
@@ -105,7 +104,6 @@ interface CardProps {
   date?:             string              // ISO
   nextStep?:         string
   aiTool?:           string
-  stamp?:            string
   kpiLink?:          { label: string; href: string }
 
   // Media
@@ -174,8 +172,13 @@ to produce:
 - `border-left: 3px solid color-mix(in srgb, var(--accent) 80%, transparent)`
 - `background: color-mix(in srgb, var(--accent) 6%, transparent)` on header
 - `color: var(--accent)` on eyebrow
+- Tag chips inherit the accent color (bg/border/text via `color-mix()`)
 
 Absent prop = no style attribute = no rules fire = default appearance.
+
+The chip cascade means project-tinted cards get project-colored tag chips by
+default. Individual chip `colorHex` overrides (via inline `--chip-color`) still
+win when the unified Chip primitive is integrated.
 
 ---
 
@@ -185,7 +188,7 @@ All values via design tokens. New tokens added by EPIC-0156:
 
 | Token                       | Dark default                | Light override              |
 | --------------------------- | --------------------------- | --------------------------- |
-| `--st-color-text-eyebrow`   | `rgba(255,111,184,.9)`      | `var(--st-color-pink)`      |
+| `--st-color-text-eyebrow`   | `var(--st-color-pink)`      | `var(--st-color-pink)`      |
 | `--st-color-category-link`  | `var(--softgrey-400)`       | `#666680`                   |
 | `--st-color-footer-divider` | `rgba(255,111,184,.22)`     | `rgba(255,36,125,.25)`      |
 | `--st-color-chip-bg`        | `rgba(255,255,255,.06)`     | `rgba(255,36,125,.08)`      |
@@ -247,5 +250,5 @@ Grid wrapper utility class. Added to `globals.css` in EPIC-0156:
 The web adapter at `apps/web/src/design-system/components/card/Card.jsx` is a
 legacy copy with the old slot-based API (`children`, `footer`, `titleHref`).
 All app-level callers (ContentCard, EditorialCard, MetadataCard) currently use
-the old API. Migration to the new named-prop API is a follow-up task (EPIC-0153
-scope or later). The web adapter should not be updated until callers are ready.
+the old API. Migration to the new named-prop API is a follow-up task (not yet
+scoped as an epic). The web adapter should not be updated until callers are ready.

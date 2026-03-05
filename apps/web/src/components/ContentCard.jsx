@@ -1,23 +1,26 @@
 /**
  * ContentCard — shared listing card for archive grids and taxonomy detail pages.
  *
- * Maps Sanity content items to the DS Card visual primitive (variant="listing").
- * Handles: docType derivation, react-router linking, status badges, taxonomy chips,
- * excerpt decoding, and docType-specific meta lines.
+ * Maps Sanity content items to the DS Card visual primitive.
+ * Handles: docType derivation, SPA linking (via Card's href + <Link>), status/evolution
+ * badges, taxonomy-to-structured-prop mapping, excerpt decoding, and docType-specific
+ * footer fields.
  *
- * Replaces the inline ItemCard functions that were previously duplicated in
- * ArchivePage.jsx and TaxonomyDetailPage.jsx.
+ * Taxonomy mapping (post EPIC-0158):
+ *   - First project  → eyebrow suffix  ("Node · Sugartown CMS")
+ *   - First category  → category prop   ("CATEGORY: AI Methodology" above/below title)
+ *   - tools[]         → grey tool chips (Card tools prop)
+ *   - tags[]          → pink tag chips  (Card tags prop)
+ *   - Overflow projects/categories (2nd+) → added to tags[] as chips
  *
  * Usage:
  *   <ContentCard item={item} docType="article" />       // explicit docType
  *   <ContentCard item={item} />                          // derives from item._type
+ *   <ContentCard item={item} variant="listing" />        // list display style
  */
-import { Link } from 'react-router-dom'
 import { Card } from '../design-system'
 import { getCanonicalPath } from '../lib/routes'
 import { decodeHtml } from '../lib/htmlUtils'
-import TaxonomyChips from './TaxonomyChips'
-import styles from './ContentCard.module.css'
 
 // ─── Shared constants ────────────────────────────────────────────────────────
 
@@ -35,87 +38,120 @@ const CONTENT_TYPE_LABELS = {
   caseStudy: 'Case Study',
 }
 
-// Status badge display labels — union of all values across content types
-const STATUS_DISPLAY = {
-  active:        'Active',
-  shipped:       'Shipped',
-  'in-progress': 'In Progress',
-  in_progress:   'In Progress',
-  paused:        'Paused',
-  archived:      'Archived',
-  draft:         'Draft',
-  explored:      'Explored',
-}
-
-function formatDate(dateStr) {
-  if (!dateStr) return null
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  })
+// Node statuses map to the `evolution` prop; all others to `status`.
+// Values must match STATUS_BADGE_CLASS keys in Card.module.css.
+const NODE_EVOLUTION_MAP = {
+  explored:         'exploring',
+  validated:        'validated',
+  implemented:      'implemented',
+  operationalized:  'operationalized',
+  deprecated:       'deprecated',
+  evergreen:        'evergreen',
 }
 
 // ─── ContentCard ─────────────────────────────────────────────────────────────
 
-export default function ContentCard({ item, docType: docTypeProp, showExcerpt = true, showHeroImage = true, imageOverride = null }) {
+export default function ContentCard({
+  item,
+  docType: docTypeProp,
+  variant = 'default',
+  showExcerpt = true,
+  showHeroImage = true,
+  imageOverride = null,
+}) {
   const docType   = docTypeProp ?? DOC_TYPE_MAP[item._type] ?? item._type
   const path      = getCanonicalPath({ docType, slug: item.slug })
   const typeLabel = CONTENT_TYPE_LABELS[docType]
-  const statusKey = item.status?.toLowerCase().replace(/[\s_]+/g, '-')
+  const isNode    = docType === 'node'
 
-  // ── Eyebrow: type label + optional status badge ──
-  const eyebrow = (
-    <>
-      {typeLabel && <span>{typeLabel}</span>}
-      {statusKey && (
-        <span className={styles.statusBadge} data-status={statusKey}>
-          {STATUS_DISPLAY[statusKey] ?? item.status}
-        </span>
-      )}
-    </>
-  )
+  // ── Status → evolution (nodes) or status (articles / case studies) ──
+  const rawStatus = item.status?.toLowerCase()
+  let statusProp = undefined
+  let evolutionProp = undefined
 
-  // ── Meta line: docType-specific fields + date ──
-  const metaParts = []
-  if (docType === 'node' && item.aiTool) metaParts.push(item.aiTool)
-  if (docType === 'caseStudy' && item.client) metaParts.push(item.client)
-  if (docType === 'caseStudy' && item.role) metaParts.push(item.role)
-  if (item.publishedAt) metaParts.push(formatDate(item.publishedAt))
-  const metaText = metaParts.filter(Boolean).join(' · ')
+  if (rawStatus) {
+    if (isNode) {
+      evolutionProp = NODE_EVOLUTION_MAP[rawStatus] ?? rawStatus
+    } else {
+      statusProp = rawStatus
+    }
+  }
 
-  // Resolve card image: imageOverride takes precedence over per-item heroImage
-  const cardImage = imageOverride ?? item.heroImage ?? null
+  // ── Thumbnail URL — imageOverride takes precedence ──
+  const thumbnailUrl = showHeroImage
+    ? (imageOverride?.asset?.url ?? item.heroImageUrl ?? item.heroImage?.asset?.url ?? null)
+    : null
+
+  // ── Eyebrow — content type label + first project name ──
+  const firstProject = item.projects?.[0]
+  const eyebrow = firstProject
+    ? `${typeLabel} · ${firstProject.name}`
+    : typeLabel
+
+  // ── Category — first category promoted to structured label ──
+  const firstCat = item.categories?.[0]
+  const categoryProp = firstCat
+    ? { label: firstCat.name, href: getCanonicalPath({ docType: 'category', slug: firstCat.slug }) }
+    : undefined
+
+  // ── Tools — string array → grey chip objects ──
+  const toolChips = item.tools?.length
+    ? item.tools.map((t) => ({ label: t }))
+    : undefined
+
+  // ── Tags — actual tags + overflow projects/categories (2nd+) ──
+  const tagChips = []
+  // Remaining projects (2nd, 3rd, etc.) stay as chips
+  if (item.projects?.length > 1) {
+    for (const p of item.projects.slice(1)) {
+      tagChips.push({
+        label: p.name,
+        href: getCanonicalPath({ docType: 'project', slug: p.slug }),
+        colorHex: p.colorHex || undefined,
+      })
+    }
+  }
+  // Remaining categories (2nd, 3rd, etc.) stay as chips
+  if (item.categories?.length > 1) {
+    for (const c of item.categories.slice(1)) {
+      tagChips.push({
+        label: c.name,
+        href: getCanonicalPath({ docType: 'category', slug: c.slug }),
+        colorHex: c.colorHex || undefined,
+      })
+    }
+  }
+  // All actual tags
+  if (item.tags?.length) {
+    for (const t of item.tags) {
+      tagChips.push({
+        label: t.name,
+        href: getCanonicalPath({ docType: 'tag', slug: t.slug }),
+      })
+    }
+  }
+
+  // ── Excerpt — decoded HTML entities ──
+  const excerptText = showExcerpt && item.excerpt
+    ? decodeHtml(item.excerpt)
+    : undefined
 
   return (
     <Card
-      as={Link}
-      to={path}
-      variant="listing"
+      variant={variant}
+      href={path}
       eyebrow={eyebrow}
+      category={categoryProp}
       title={item.title}
-      footer={
-        <div className={styles.footer}>
-          <TaxonomyChips
-            categories={item.categories}
-            tags={item.tags}
-            projects={item.projects}
-            size="sm"
-          />
-          {metaText && <p className={styles.meta}>{metaText}</p>}
-        </div>
-      }
-    >
-      {showHeroImage && cardImage && (
-        <div className={styles.cardImage}>
-          <img
-            src={cardImage.asset?.url}
-            alt={cardImage.alt ?? ''}
-            className={styles.cardImageImg}
-          />
-        </div>
-      )}
-      {showExcerpt && item.excerpt && <p>{decodeHtml(item.excerpt)}</p>}
-    </Card>
+      status={statusProp}
+      evolution={evolutionProp}
+      excerpt={excerptText}
+      thumbnailUrl={thumbnailUrl}
+      thumbnailAlt={item.heroImageAlt ?? ''}
+      tools={toolChips}
+      tags={tagChips.length > 0 ? tagChips : undefined}
+      date={item.publishedAt}
+      aiTool={isNode && item.aiTool ? item.aiTool : undefined}
+    />
   )
 }

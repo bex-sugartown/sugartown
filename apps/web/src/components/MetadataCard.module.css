@@ -1,7 +1,10 @@
 /*
  * MetadataCard — detail-page metadata surface.
  * Card shell: variant="metadata" in Card.module.css.
- * Only layout/field/chip styles live here.
+ * Only layout/field/chip/kpi styles live here.
+ *
+ * EPIC-0158: .toolChip CSS retired — tool chips now use the DS Chip component
+ * with color="seafoam" preset. .chipList provides the flex layout container.
  *
  * WCAG: fieldLabel uses --st-color-text-secondary (#525252) which achieves
  * 7.1:1 contrast on white (--st-card-bg), exceeding the 3:1 minimum.
@@ -51,33 +54,15 @@
   color: var(--st-color-text-default, #111);
 }
 
-/* ── Tool chips (string array, seafoam outlined) ── */
+/* ── Chip list (tools, taxonomy) — flex container for Chip components ── */
 
-.toolChips {
+.chipList {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.toolChip {
-  --_tool-color: var(--st-color-seafoam-500, #2bd4aa);
-
-  display: inline-flex;
-  align-items: center;
-  padding: 0.3em 0.6em;
-  border-radius: var(--st-radius-xs);
-  font-family: var(--st-font-mono);
-  font-size: 0.7rem;
-  font-weight: 400;
-  white-space: nowrap;
-  min-height: 24px;
-
-  background: color-mix(in srgb, var(--_tool-color) 8%, transparent);
-  border: 1px solid color-mix(in srgb, var(--_tool-color) 35%, transparent);
-  color: var(--_tool-color);
 }
 
 /* ── KPI list (project-specific) ── */

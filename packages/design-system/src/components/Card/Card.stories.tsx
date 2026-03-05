@@ -40,7 +40,7 @@ const NODE_FULL = {
   nextStep: 'Cross-reference with Validation Protocol node',
   aiTool: 'Claude',
   date: '2025-11-14',
-  stamp: 'Reviewed',
+  href: '/nodes/prompt-architecture-long-form',
 };
 
 const ARTICLE_MINIMAL = {
@@ -50,13 +50,13 @@ const ARTICLE_MINIMAL = {
   category: { label: 'Engineering', href: '/categories/engineering' },
   date: '2024-01-08',
   aiTool: 'Claude',
+  href: '/articles/variable-fonts-production',
 };
 
 const CASE_STUDY_FULL = {
   variant: 'default' as const,
   eyebrow: 'Case Study',
   title: 'Building a Token-Driven Design System for a Live Product',
-  subtitle: 'Sugartown · 2024–2025',
   category: { label: 'Systems Design', href: '/categories/systems-design' },
   excerpt:
     'How we extracted a scalable three-tier token architecture from a WordPress theme, migrated to CSS custom properties, and shipped Storybook alongside the production codebase without a rewrite.',
@@ -70,6 +70,7 @@ const CASE_STUDY_FULL = {
     { label: 'Storybook' },
   ],
   date: '2025-03-01',
+  href: '/case-studies/token-driven-design-system',
 };
 
 // ─── Meta ──────────────────────────────────────────────────────────────────────
@@ -92,10 +93,9 @@ const meta: Meta<typeof Card> = {
     evolution:        { control: { type: 'select' }, options: [
       'exploring', 'validated', 'operationalized', 'deprecated', 'evergreen',
     ]},
-    categoryPosition: { control: { type: 'select' }, options: ['below-eyebrow', 'above-title'] },
+    categoryPosition: { control: { type: 'select' }, options: ['before', 'after'] },
     title:            { control: 'text' },
     eyebrow:          { control: 'text' },
-    subtitle:         { control: 'text' },
     excerpt:          { control: 'text' },
     href:             { control: 'text' },
     accentColor:      { control: 'color' },
@@ -221,11 +221,11 @@ export const DefaultCompact: Story = {
 };
 
 /**
- * Category below eyebrow (default position).
- * Match legacy screenshot position.
+ * Category before title (default position).
+ * Renders between eyebrow and title.
  */
-export const CategoryBelowEyebrow: Story = {
-  name: 'CategoryBelowEyebrow',
+export const CategoryBefore: Story = {
+  name: 'CategoryBefore',
   decorators: [
     (Story) => (
       <div style={{ maxWidth: '420px' }}>
@@ -235,16 +235,16 @@ export const CategoryBelowEyebrow: Story = {
   ],
   args: {
     ...NODE_FULL,
-    categoryPosition: 'below-eyebrow',
+    categoryPosition: 'before',
   },
 };
 
 /**
- * Category above title — alternative position for BL-06 visual decision.
- * Side-by-side comparison with CategoryBelowEyebrow.
+ * Category after title — alternative position.
+ * Side-by-side comparison with CategoryBefore.
  */
-export const CategoryAboveTitle: Story = {
-  name: 'CategoryAboveTitle',
+export const CategoryAfter: Story = {
+  name: 'CategoryAfter',
   decorators: [
     (Story) => (
       <div style={{ maxWidth: '420px' }}>
@@ -254,7 +254,7 @@ export const CategoryAboveTitle: Story = {
   ],
   args: {
     ...NODE_FULL,
-    categoryPosition: 'above-title',
+    categoryPosition: 'after',
   },
 };
 
@@ -342,7 +342,7 @@ export const ListingFullCard: Story = {
 
 /**
  * Metadata: Node (full)
- * All node fields: aiTool, conversationType, status, project, category, tags, tools, stamp.
+ * All node fields: aiTool, conversationType, evolution, project, category, tags, tools.
  */
 export const MetadataNode: Story = {
   name: 'MetadataNode',
@@ -374,7 +374,6 @@ export const MetadataNode: Story = {
       { label: 'Agentic Caucus' },
     ],
     date: '2025-11-14',
-    stamp: 'Reviewed',
   },
 };
 
@@ -458,7 +457,6 @@ export const MetadataProject: Story = {
     metadata: [
       { label: 'Project ID', value: 'PROJ-002' },
       { label: 'Priority',   value: 'High' },
-      { label: 'Phase',      value: 'Developing' },
     ],
     tags: [
       { label: 'AI' },
@@ -485,6 +483,7 @@ const GRID_CARDS = [
     excerpt: 'Structured prompt decomposition that improves coherence in multi-step reasoning tasks.',
     tags: [{ label: 'Prompting' }, { label: 'LLM' }],
     date: '2025-11-14',
+    href: '/nodes/prompt-architecture-long-form',
   },
   {
     // Case Study — no badge
@@ -494,7 +493,7 @@ const GRID_CARDS = [
     excerpt: 'Three-tier CSS token architecture extracted from a live WordPress theme.',
     tags: [{ label: 'Design Systems' }, { label: 'Tokens' }, { label: 'CSS' }],
     date: '2025-03-01',
-    stamp: 'Reviewed',
+    href: '/case-studies/token-driven-design-system',
   },
   {
     // Article — no badge
@@ -505,6 +504,7 @@ const GRID_CARDS = [
       'Variable font axes, performance trade-offs, and how subsetting cut web font load time by 60%.',
     tools: [{ label: 'Figma' }],
     date: '2024-01-08',
+    href: '/articles/variable-fonts-production',
   },
   {
     // Node — evolution
@@ -516,6 +516,7 @@ const GRID_CARDS = [
     tags: [{ label: 'Agents' }, { label: 'Governance' }],
     tools: [{ label: 'Claude' }],
     date: '2025-12-01',
+    href: '/nodes/agentic-caucus-protocol',
   },
   {
     // Document — no badge
@@ -524,6 +525,7 @@ const GRID_CARDS = [
     category: { label: 'Strategy', href: '/categories/strategy' },
     excerpt: 'Constraint doc for routing, nav, content creation, and archive setup for Phase 1.',
     date: '2026-02-26',
+    href: '/nodes/ia-brief-phase-1',
   },
   {
     // Node — uses evolution
@@ -534,6 +536,7 @@ const GRID_CARDS = [
     excerpt: 'Filter model, facet architecture, and URL namespace scheme for the KG archive.',
     tags: [{ label: 'IA' }, { label: 'Filters' }],
     date: '2025-10-12',
+    href: '/nodes/knowledge-graph-archive-design',
   },
 ];
 

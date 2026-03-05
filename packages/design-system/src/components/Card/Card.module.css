@@ -45,6 +45,13 @@
   color: var(--accent);
 }
 
+/* Chips inside accent-tinted cards inherit the project color.
+   Sets --chip-color so the Chip component's color-mix() formulas resolve consistently.
+   Individual chip colorHex overrides (via inline --chip-color) still win. */
+.card[style*="--accent"] .chipTag {
+  --chip-color: var(--accent);
+}
+
 /* ── Hero thumbnail (default variant) ─────────────────────────────────────── */
 .thumbnailHero {
   width: 100%;
@@ -175,15 +182,10 @@
   outline-offset: 2px;
 }
 
-/* ── Subtitle ────────────────────────────────────────────────────────────── */
-.subtitle {
-  margin: 0;
-  font-size: var(--st-font-size-sm);
-  color: var(--st-color-text-muted);
-  line-height: var(--st-line-height-normal);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+/* ── Header-only padding fix ─────────────────────────────────────────────
+   When no body or footer follows the header, balance top/bottom padding.  */
+.header:last-child {
+  padding-bottom: var(--st-space-5);
 }
 
 /* ── Body ────────────────────────────────────────────────────────────────── */
@@ -261,6 +263,11 @@
 }
 
 /* ── Chip rows ───────────────────────────────────────────────────────────── */
+/* Visual chip rendering is handled by the DS Chip component (<Chip />).
+   These classes provide:
+   - toolsRow / tagsRow: flex layout containers
+   - chipTag: marker class for accentColor cascade (see above)
+*/
 .toolsRow,
 .tagsRow {
   list-style: none;
@@ -271,44 +278,9 @@
   gap: var(--st-space-2);
 }
 
-/* Base chip */
-.chip {
-  display: inline-block;
-  font-family: var(--st-font-family-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border-radius: var(--st-radius-xs);
-  line-height: 1.5;
-  text-decoration: none;
-  transition: opacity 0.15s ease;
-}
-
-/* Interactive chips sit above full-card ::after */
-a.chip {
-  position: relative;
-  z-index: 1;
-}
-
-a.chip:hover {
-  opacity: 0.8;
-}
-
-/* Tag chips — filled pink */
-.chipTag {
-  background: var(--st-color-chip-bg);
-  color: var(--st-color-text-eyebrow);
-  border: 1px solid rgba(255, 36, 125, 0.25);
-}
-
-/* Tool chips — outlined seafoam */
-.chipTool {
-  background: transparent;
-  color: var(--st-color-seafoam);
-  border: 1px solid rgba(43, 212, 170, 0.35);
-}
+/* Marker class — hook for accentColor cascade on tag chips.
+   No visual styles; Chip component handles all rendering. */
+.chipTag {}
 
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 .footer {
@@ -350,24 +322,17 @@ a.chip:hover {
 /* ── Footer items ────────────────────────────────────────────────────────── */
 .nextStep,
 .aiTool,
-.date,
-.stamp {
+.date {
   font-family: var(--st-font-family-mono);
   font-size: var(--st-font-size-xs);
   color: var(--st-color-text-muted);
   line-height: 1.4;
 }
 
-.nextStepLabel {
+.nextStepLabel,
+.aiToolLabel {
   font-weight: 700;
   letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--st-color-text-eyebrow);
-}
-
-.stamp {
-  font-weight: 700;
-  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--st-color-text-eyebrow);
 }
@@ -467,3 +432,46 @@ a.chip:hover {
   position: relative;
   z-index: 1;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LIGHT-THEME STATUS BADGE OVERRIDES
+   ─────────────────────────────────────────────────────────────────────────
+   Dark-theme badges use bright palette colors (seafoam, lime, amber, etc.)
+   which fail WCAG AA contrast on white/light backgrounds.
+
+   Approach: shift text + border to darker shades from the same hue family;
+   background wash stays light via lower-opacity mix.
+
+   Colour families:
+     seafoam → seafoam-700 (#1d9679) / seafoam-800 (#15735c)
+     lime    → lime-800 (#526600)
+     amber   → dark goldenrod (#92700c)
+     violet  → violet-600 (#7c3aed)
+     orange  → orange-700 (#c2410c)
+     sky     → sky-700 (#0369a1)
+     pink    → maroon (#b91c68)  — Deep Pink Rule
+     grey    → softgrey-500 (#6e7f96)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Legacy / generic */
+:global([data-theme="light"]) .statusDraft       { background: rgba(148, 163, 184, 0.08); color: #6e7f96;  border-color: rgba(110, 127, 150, 0.25); }
+:global([data-theme="light"]) .statusActive      { background: rgba(29, 150, 121, 0.08);  color: #1d9679;  border-color: rgba(29, 150, 121, 0.35); }
+:global([data-theme="light"]) .statusArchived    { background: rgba(148, 163, 184, 0.06); color: #94A3B8;  border-color: rgba(148, 163, 184, 0.20); }
+:global([data-theme="light"]) .statusImplemented { background: rgba(29, 150, 121, 0.08);  color: #1d9679;  border-color: rgba(29, 150, 121, 0.35); }
+
+/* Shared */
+:global([data-theme="light"]) .statusEvergreen   { background: rgba(116, 143, 0, 0.08);   color: #526600;  border-color: rgba(116, 143, 0, 0.30); }
+:global([data-theme="light"]) .statusValidated   { background: rgba(185, 28, 104, 0.08);  color: #b91c68;  border-color: rgba(185, 28, 104, 0.30); }
+:global([data-theme="light"]) .statusDeprecated  { background: rgba(148, 163, 184, 0.08); color: #6e7f96;  border-color: rgba(110, 127, 150, 0.25); }
+
+/* Node evolution */
+:global([data-theme="light"]) .statusExploring      { background: rgba(29, 150, 121, 0.07);  color: #1d9679;  border-color: rgba(29, 150, 121, 0.30); }
+:global([data-theme="light"]) .statusOperationalized { background: rgba(21, 115, 92, 0.08);  color: #15735c;  border-color: rgba(21, 115, 92, 0.30); }
+
+/* Project lifecycle */
+:global([data-theme="light"]) .statusDreaming    { background: rgba(124, 58, 237, 0.08);  color: #7c3aed;  border-color: rgba(124, 58, 237, 0.30); }
+:global([data-theme="light"]) .statusDesigning   { background: rgba(146, 112, 12, 0.08);  color: #92700c;  border-color: rgba(146, 112, 12, 0.30); }
+:global([data-theme="light"]) .statusDeveloping  { background: rgba(21, 115, 92, 0.08);   color: #15735c;  border-color: rgba(21, 115, 92, 0.30); }
+:global([data-theme="light"]) .statusTesting     { background: rgba(194, 65, 12, 0.08);   color: #c2410c;  border-color: rgba(194, 65, 12, 0.30); }
+:global([data-theme="light"]) .statusDeploying   { background: rgba(116, 143, 0, 0.08);   color: #526600;  border-color: rgba(116, 143, 0, 0.30); }
+:global([data-theme="light"]) .statusIterating   { background: rgba(3, 105, 161, 0.08);   color: #0369a1;  border-color: rgba(3, 105, 161, 0.30); }

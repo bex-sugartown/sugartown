@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Card.module.css';
+import { Chip } from '../Chip/Chip';
 
 // ─── Status badge colours ───────────────────────────────────────────────────
 const STATUS_BADGE_CLASS: Record<string, string> = {
@@ -41,14 +42,13 @@ export interface CardProps {
   /** Category text link. "Category: [linked label]" treatment. */
   category?: { label: string; href: string };
   /**
-   * Category vertical position.
-   * 'below-eyebrow' (default) = between eyebrow and title.
-   * 'above-title' = between eyebrow + any spacer and title.
-   * Position locked after Storybook review (BL-06).
+   * Category position relative to the title.
+   * 'before' (default) — renders between eyebrow and title.
+   * 'after' — renders after the title.
+   * Semantic naming enables responsive reflow where spatial direction changes
+   * across viewports (top/bottom vs left/right) but logical order is preserved.
    */
-  categoryPosition?: 'below-eyebrow' | 'above-title';
-  /** Optional subtitle — default variant only. */
-  subtitle?: string;
+  categoryPosition?: 'before' | 'after';
   /**
    * Status badge for project lifecycle (and legacy generic values).
    * Project lifecycle (Studio: project.status):
@@ -92,7 +92,7 @@ export interface CardProps {
   // Chips
   /** Filled pink chips. */
   tags?: Array<{ label: string; href?: string }>;
-  /** Outlined seafoam chips. */
+  /** Outlined grey chips (tools/platforms). */
   tools?: Array<{ label: string; href?: string }>;
 
   // Footer
@@ -102,8 +102,6 @@ export interface CardProps {
   nextStep?: string;
   /** AI tool attribution — "Claude" | "ChatGPT" | "Gemini" | etc. */
   aiTool?: string;
-  /** Stamp label — "Reviewed" | "Implemented" | "Due" etc. */
-  stamp?: string;
   /** KPI link — "KPIs: [View →]". No data, no bars. */
   kpiLink?: { label: string; href: string };
 
@@ -160,8 +158,7 @@ export const Card: React.FC<CardProps> = ({
   title,
   eyebrow,
   category,
-  categoryPosition = 'below-eyebrow',
-  subtitle,
+  categoryPosition = 'before',
   status,
   evolution,
   excerpt,
@@ -172,7 +169,6 @@ export const Card: React.FC<CardProps> = ({
   date,
   nextStep,
   aiTool,
-  stamp,
   kpiLink,
   thumbnailUrl,
   thumbnailAlt = '',
@@ -222,7 +218,7 @@ export const Card: React.FC<CardProps> = ({
   const headerEl = (
     <div className={styles.header}>
       {eyebrow && <div className={styles.eyebrow}>{eyebrow}</div>}
-      {categoryPosition === 'below-eyebrow' && categoryEl}
+      {categoryPosition === 'before' && categoryEl}
       {badgeValue && (
         <span
           className={[styles.statusBadge, STATUS_BADGE_CLASS[badgeValue]].filter(Boolean).join(' ')}
@@ -232,8 +228,7 @@ export const Card: React.FC<CardProps> = ({
         </span>
       )}
       <h3 className={styles.title}>{titleNode}</h3>
-      {categoryPosition === 'above-title' && categoryEl}
-      {subtitle && variant === 'default' && <p className={styles.subtitle}>{subtitle}</p>}
+      {categoryPosition === 'after' && categoryEl}
     </div>
   );
 
@@ -277,16 +272,13 @@ export const Card: React.FC<CardProps> = ({
         <ul className={styles.toolsRow} aria-label="Tools">
           {tools.map(({ label, href: chipHref }) => (
             <li key={label}>
-              {chipHref ? (
-                <a
-                  href={chipHref}
-                  className={[styles.chip, styles.chipTool, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
-                >
-                  {label}
-                </a>
-              ) : (
-                <span className={[styles.chip, styles.chipTool].join(' ')}>{label}</span>
-              )}
+              <Chip
+                label={label}
+                href={chipHref}
+                color="grey"
+                size="sm"
+                className={chipHref && href ? styles.hasCardLink : undefined}
+              />
             </li>
           ))}
         </ul>
@@ -296,16 +288,15 @@ export const Card: React.FC<CardProps> = ({
         <ul className={styles.tagsRow} aria-label="Tags">
           {tags.map(({ label, href: chipHref }) => (
             <li key={label}>
-              {chipHref ? (
-                <a
-                  href={chipHref}
-                  className={[styles.chip, styles.chipTag, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
-                >
-                  {label}
-                </a>
-              ) : (
-                <span className={[styles.chip, styles.chipTag].join(' ')}>{label}</span>
-              )}
+              <Chip
+                label={label}
+                href={chipHref}
+                size="sm"
+                className={[
+                  styles.chipTag,
+                  chipHref && href ? styles.hasCardLink : '',
+                ].filter(Boolean).join(' ') || undefined}
+              />
             </li>
           ))}
         </ul>
@@ -314,7 +305,7 @@ export const Card: React.FC<CardProps> = ({
   ) : null;
 
   // ── Footer ────────────────────────────────────────────────────────────────
-  const hasFooter = nextStep || aiTool || kpiLink || date || stamp;
+  const hasFooter = nextStep || aiTool || kpiLink || date;
 
   const footerEl = hasFooter ? (
     <div className={styles.footer}>
@@ -325,7 +316,12 @@ export const Card: React.FC<CardProps> = ({
             {nextStep}
           </span>
         )}
-        {aiTool && <span className={styles.aiTool}>{aiTool}</span>}
+        {aiTool && (
+          <span className={styles.aiTool}>
+            <span className={styles.aiToolLabel}>AI: </span>
+            {aiTool}
+          </span>
+        )}
         {kpiLink && (
           <a
             href={kpiLink.href}
@@ -337,7 +333,6 @@ export const Card: React.FC<CardProps> = ({
       </div>
       <div className={styles.footerRight}>
         {date && <time className={styles.date} dateTime={date}>{formatDate(date)}</time>}
-        {stamp && <span className={styles.stamp}>{stamp}</span>}
       </div>
     </div>
   ) : null;

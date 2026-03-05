@@ -224,6 +224,7 @@ function ArchiveListing({ contentType, archiveDoc }) {
                 key={item._id}
                 item={item}
                 docType={docType}
+                variant={archiveDoc?.displayStyle === 'list' ? 'listing' : 'default'}
                 showExcerpt={archiveDoc?.cardOptions?.showExcerpt ?? true}
                 showHeroImage={archiveDoc?.cardOptions?.showHeroImage ?? true}
                 imageOverride={archiveDoc?.cardOptions?.imageOverride ?? null}

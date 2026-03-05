@@ -4,69 +4,316 @@
  * Mirrors: packages/design-system/src/components/Card/Card.tsx
  * CSS sync: Card.module.css must match DS Card.module.css (see MEMORY.md token drift rules).
  *
+ * Key differences from DS Card:
+ *   - Uses react-router-dom <Link> instead of <a> for SPA navigation
+ *     (titleLink, categoryLink, projectLink, kpiLink).
+ *   - Uses the web Chip adapter (also <Link>-based) for tags/tools.
+ *   - Accepts `children` escape hatch for custom body content
+ *     (used by MetadataCard for field grid, KPI list, taxonomy rows).
+ *   - tags[] extended with optional `colorHex` for per-chip colour override.
+ *
  * TODO: When @sugartown/design-system becomes a build-time dependency of apps/web,
  * replace this with a direct re-export from the package.
  */
+import { Fragment } from 'react'
+import { Link } from 'react-router-dom'
+import Chip from '../chip/Chip'
 import styles from './Card.module.css'
 
+// ── Status badge colours (synced with DS Card.tsx) ──────────────────────────
+const STATUS_BADGE_CLASS = {
+  // Legacy / generic
+  draft:            styles.statusDraft,
+  active:           styles.statusActive,
+  archived:         styles.statusArchived,
+  implemented:      styles.statusImplemented,
+  // Shared / evergreen
+  evergreen:        styles.statusEvergreen,
+  validated:        styles.statusValidated,
+  deprecated:       styles.statusDeprecated,
+  // Node evolution (Studio: node.status)
+  exploring:        styles.statusExploring,
+  operationalized:  styles.statusOperationalized,
+  // Project lifecycle (Studio: project.status)
+  dreaming:         styles.statusDreaming,
+  designing:        styles.statusDesigning,
+  developing:       styles.statusDeveloping,
+  testing:          styles.statusTesting,
+  deploying:        styles.statusDeploying,
+  iterating:        styles.statusIterating,
+}
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+function formatDate(iso) {
+  try {
+    return new Intl.DateTimeFormat('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    }).format(new Date(iso))
+  } catch {
+    return iso
+  }
+}
+
+// ── Component ────────────────────────────────────────────────────────────────
+
 export default function Card({
-  eyebrow,
-  title,
-  titleHref,
-  subtitle,
-  children,
-  footer,
+  // Layout
   variant = 'default',
+  density = 'default',
+  // Header
+  title,
+  eyebrow,
+  category,
+  categoryPosition = 'before',
+  status,
+  evolution,
+  // Body
+  excerpt,
+  project,
+  // Metadata grid (variant="metadata" only)
+  metadata,
+  // Chips — tags[] extended with optional colorHex for per-chip colour
+  tags,
+  tools,
+  // Footer
+  date,
+  nextStep,
+  aiTool,
+  kpiLink,
+  // Media
+  thumbnailUrl,
+  thumbnailAlt = '',
+  // Colorway
+  accentColor,
+  // Linking
   href,
-  as: Root,
+  // Escape hatch for custom body content (MetadataCard)
+  children,
+  // Layout overrides
   className,
-  ...restProps
 }) {
-  const cardClassNames = [
+  // ── Root class list ─────────────────────────────────────────────────────
+  const rootClasses = [
     styles.card,
-    variant === 'compact' && styles.compact,
-    variant === 'listing' && styles.listing,
-    variant === 'dark' && styles.dark,
-    variant === 'metadata' && styles.metadata,
+    styles[`variant-${variant}`],
+    density === 'compact' && styles.compact,
     className,
   ]
     .filter(Boolean)
     .join(' ')
 
-  const titleNode = titleHref
-    ? <a href={titleHref} className={styles.titleLink}>{title}</a>
-    : title
+  // ── Accent color via CSS custom property ───────────────────────────────
+  const accentStyle = accentColor
+    ? { '--accent': accentColor }
+    : undefined
 
-  const inner = (
-    <div className={styles.inner}>
-      {/* Header — eyebrow + title + subtitle (omitted when all are absent) */}
-      {(eyebrow || title || subtitle) && (
-        <div className={styles.header}>
-          {eyebrow && <div className={styles.eyebrow}>{eyebrow}</div>}
-          {title && <h3 className={styles.title}>{titleNode}</h3>}
-          {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
-        </div>
+  // ── Listing + thumbnail → row layout ───────────────────────────────────
+  const isListingWithThumb = variant === 'listing' && !!thumbnailUrl
+
+  // ── Title node: full-card link via ::after, or plain text ──────────────
+  // Uses <Link to> for SPA navigation instead of <a href>
+  const titleNode = href ? (
+    <Link to={href} className={styles.titleLink} aria-label={title}>
+      {title}
+    </Link>
+  ) : (
+    title
+  )
+
+  // ── Category element ───────────────────────────────────────────────────
+  const categoryEl = category ? (
+    <div className={styles.category}>
+      <span className={styles.categoryLabel}>Category: </span>
+      <Link to={category.href} className={styles.categoryLink}>
+        {category.label}
+      </Link>
+    </div>
+  ) : null
+
+  // ── Header ─────────────────────────────────────────────────────────────
+  // evolution takes priority; status is the fallback. Never both simultaneously.
+  const badgeValue = evolution ?? status
+
+  const headerEl = (
+    <div className={styles.header}>
+      {eyebrow && <div className={styles.eyebrow}>{eyebrow}</div>}
+      {categoryPosition === 'before' && categoryEl}
+      {badgeValue && (
+        <span
+          className={[styles.statusBadge, STATUS_BADGE_CLASS[badgeValue]].filter(Boolean).join(' ')}
+          aria-label={`Status: ${badgeValue}`}
+        >
+          {badgeValue}
+        </span>
       )}
-
-      {/* Body content */}
-      {children && <div className={styles.content}>{children}</div>}
-
-      {/* Footer — pinned to bottom */}
-      {footer && <div className={styles.footer}>{footer}</div>}
+      <h3 className={styles.title}>{titleNode}</h3>
+      {categoryPosition === 'after' && categoryEl}
     </div>
   )
 
-  // Determine root element: caller override > <a> when href > <article>
-  const Element = Root ?? (href ? 'a' : 'article')
+  // ── Body ───────────────────────────────────────────────────────────────
+  const hasBody =
+    excerpt ||
+    (metadata && metadata.length > 0) ||
+    (tools && tools.length > 0) ||
+    (tags && tags.length > 0) ||
+    project ||
+    children
 
+  const bodyEl = hasBody ? (
+    <div className={styles.body}>
+      {excerpt && <p className={styles.excerpt}>{excerpt}</p>}
+
+      {project && (
+        <div className={styles.projectAttribution}>
+          <span className={styles.projectLabel}>Project: </span>
+          {project.href ? (
+            <Link
+              to={project.href}
+              className={[styles.projectLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
+            >
+              {project.label}
+            </Link>
+          ) : (
+            <span className={styles.projectValue}>{project.label}</span>
+          )}
+        </div>
+      )}
+
+      {metadata && metadata.length > 0 && (
+        <dl className={styles.metadataGrid}>
+          {metadata.map(({ label, value }) => (
+            <Fragment key={label}>
+              <dt className={styles.metadataLabel}>{label}</dt>
+              <dd className={styles.metadataValue}>{value}</dd>
+            </Fragment>
+          ))}
+        </dl>
+      )}
+
+      {tools && tools.length > 0 && (
+        <ul className={styles.toolsRow} aria-label="Tools">
+          {tools.map(({ label, href: chipHref }) => (
+            <li key={label}>
+              <Chip
+                label={label}
+                href={chipHref}
+                color="grey"
+                size="sm"
+                className={chipHref && href ? styles.hasCardLink : undefined}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {tags && tags.length > 0 && (
+        <ul className={styles.tagsRow} aria-label="Tags">
+          {tags.map(({ label, href: chipHref, colorHex }) => (
+            <li key={label}>
+              <Chip
+                label={label}
+                href={chipHref}
+                colorHex={colorHex}
+                size="sm"
+                className={
+                  [
+                    styles.chipTag,
+                    chipHref && href ? styles.hasCardLink : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ') || undefined
+                }
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* Escape hatch: custom body content (MetadataCard field grid, etc.) */}
+      {children}
+    </div>
+  ) : null
+
+  // ── Footer ─────────────────────────────────────────────────────────────
+  const hasFooter = nextStep || aiTool || kpiLink || date
+
+  const footerEl = hasFooter ? (
+    <div className={styles.footer}>
+      <div className={styles.footerLeft}>
+        {nextStep && (
+          <span className={styles.nextStep}>
+            <span className={styles.nextStepLabel}>Next Step: </span>
+            {nextStep}
+          </span>
+        )}
+        {aiTool && (
+          <span className={styles.aiTool}>
+            <span className={styles.aiToolLabel}>AI: </span>
+            {aiTool}
+          </span>
+        )}
+        {kpiLink && (
+          <Link
+            to={kpiLink.href}
+            className={[styles.kpiLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
+          >
+            KPIs: {kpiLink.label} →
+          </Link>
+        )}
+      </div>
+      <div className={styles.footerRight}>
+        {date && (
+          <time className={styles.date} dateTime={date}>
+            {formatDate(date)}
+          </time>
+        )}
+      </div>
+    </div>
+  ) : null
+
+  // ── Render ─────────────────────────────────────────────────────────────
   return (
-    <Element
-      className={cardClassNames}
-      {...(href && !Root ? { href } : {})}
-      {...(!Root && href ? { 'aria-label': title } : {})}
-      {...restProps}
-    >
-      {inner}
-    </Element>
+    <article className={rootClasses} style={accentStyle}>
+      {/* Hero thumbnail — default variant, full-width above header */}
+      {variant === 'default' && thumbnailUrl && (
+        <div className={styles.thumbnailHero}>
+          <img
+            src={thumbnailUrl}
+            alt={thumbnailAlt}
+            className={styles.thumbnailImg}
+            loading="lazy"
+          />
+        </div>
+      )}
+
+      {/* Listing variant: row layout when thumbnail present */}
+      {isListingWithThumb ? (
+        <div className={styles.listingRow}>
+          <div className={styles.thumbnailRail}>
+            <img
+              src={thumbnailUrl}
+              alt={thumbnailAlt}
+              className={styles.thumbnailImg}
+              loading="lazy"
+            />
+          </div>
+          <div className={styles.listingContent}>
+            {headerEl}
+            {bodyEl}
+            {footerEl}
+          </div>
+        </div>
+      ) : (
+        <>
+          {headerEl}
+          {bodyEl}
+          {footerEl}
+        </>
+      )}
+    </article>
   )
 }
