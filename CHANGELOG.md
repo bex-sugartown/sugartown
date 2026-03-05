@@ -12,6 +12,32 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.14.5] — 2026-03-05
+
+EPIC-0158: Card Adapter Migration. Web Card adapter, ContentCard, MetadataCard,
+and TaxonomyChips migrated to DS Card named-prop API. ArchivePage wired to
+displayStyle field. Studio schemas updated for cardOptions and displayStyle.
+
+### packages/design-system
+
+- `Card.tsx` updated with final named-prop API refinements; `Card.module.css` and README synced
+
+### apps/web
+
+- Web `Card` adapter rewritten to mirror DS Card API: named props (`variant`, `density`, `status`, `evolution`, `category`, `tags[]`, `tools[]`), react-router-dom `<Link>` for SPA nav
+- `ContentCard`: maps Sanity document fields to DS Card props; derives chips from `projects[]`, `categories[]`, `tools[]`, `tags[]`
+- `MetadataCard`: sidebar surface using `variant='metadata'`; structured label/value rows and per-type chip rows
+- `TaxonomyChips`: refactored to use web Chip adapter with `tag`/`tool`/`category` variants
+- `ArchivePage`: `displayStyle` field drives Card `variant` prop (`grid` → `default`, `list` → `listing`)
+- Token files synced between web adapter and DS package
+
+### apps/studio
+
+- `archivePage`: `displayStyle` field added (`grid` | `list`); `cardOptions` expanded to object with `showExcerpt`, `showHeroImage`, `compact`, `defaultImage`; legacy `listStyle` hidden
+- `article`, `caseStudy`: `status` field removed — editorial lifecycle handled by Sanity document state
+
+---
+
 ## [0.14.4] — 2026-03-05
 
 EPIC-0157: Chip Primitive. DS Chip component and matching web adapter with
