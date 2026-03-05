@@ -193,22 +193,10 @@ export default defineType({
       ],
       validation: (Rule) => Rule.unique()
     }),
-    defineField({
-      name: 'status',
-      title: 'Status',
-      type: 'string',
-      description: 'Editorial lifecycle status for this case study.',
-      group: 'metadata',
-      options: {
-        list: [
-          {title: '✏️ Draft', value: 'draft'},
-          {title: '✅ Published', value: 'published'},
-          {title: '📦 Archived', value: 'archived'},
-        ],
-        layout: 'radio'
-      },
-      initialValue: 'published',
-    }),
+    // STATUS REMOVED — editorial lifecycle (draft/published/archived) is handled
+    // natively by Sanity's document state + perspective:'published' on the web client.
+    // Semantic status fields are kept on node (evolution) and project (lifecycle) only.
+
     defineField({
       name: 'tools',
       title: 'Tools & Platforms',

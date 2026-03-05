@@ -542,13 +542,73 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════════════
-    // DISPLAY GROUP — List style, sort order, pagination
+    // DISPLAY GROUP — Layout style, card options, sort order, pagination
     // ════════════════════════════════════════════════════════════════════════
+
+    // Display Style — overall layout of the archive
+    defineField({
+      name: 'displayStyle',
+      title: 'Display Style',
+      type: 'string',
+      description: 'Grid: cards with image on top. List: cards with image on left.',
+      group: 'display',
+      options: {
+        list: [
+          {title: 'Grid (image on top)', value: 'grid'},
+          {title: 'List (image on left)', value: 'list'},
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'grid'
+    }),
+
+    // Card Options — toggle features on/off for cards
+    defineField({
+      name: 'cardOptions',
+      title: 'Card Options',
+      type: 'object',
+      description: 'Control what appears on each card in the archive listing',
+      group: 'display',
+      fields: [
+        defineField({
+          name: 'showExcerpt',
+          title: 'Show Excerpt',
+          type: 'boolean',
+          description: 'Display the excerpt / summary text on cards',
+          initialValue: true,
+        }),
+        defineField({
+          name: 'showHeroImage',
+          title: 'Show Hero Image',
+          type: 'boolean',
+          description: 'Display the hero image on cards',
+          initialValue: true,
+        }),
+        defineField({
+          name: 'compact',
+          title: 'Compact',
+          type: 'boolean',
+          description: 'Use compact density — tighter padding and smaller type',
+          initialValue: false,
+        }),
+        defineField({
+          name: 'defaultImage',
+          title: 'Default Card Image',
+          type: 'image',
+          description: 'Fallback image used when a content item has no hero image. Does not override per-item images.',
+          options: {hotspot: true},
+        }),
+      ],
+    }),
+
+    // Legacy field — kept for backward compat with existing data
+    // TODO: Migrate existing archivePage docs from listStyle → displayStyle + cardOptions
     defineField({
       name: 'listStyle',
-      title: 'List Display Style',
+      title: 'List Display Style (Legacy)',
       type: 'string',
       group: 'display',
+      hidden: true,
       options: {
         list: [
           {title: 'Text Only', value: 'text-only'},
@@ -557,8 +617,8 @@ export default defineType({
         ],
         layout: 'radio'
       },
-      initialValue: 'card-with-image-excerpt'
     }),
+
     defineField({
       name: 'sortBy',
       title: 'Sort Order',
@@ -594,32 +654,6 @@ export default defineType({
       type: 'boolean',
       group: 'display',
       initialValue: true
-    }),
-    defineField({
-      name: 'cardOptions',
-      title: 'Card Display',
-      type: 'object',
-      group: 'display',
-      fields: [
-        defineField({
-          name: 'showExcerpt',
-          title: 'Show excerpt on cards?',
-          type: 'boolean',
-          initialValue: true,
-        }),
-        defineField({
-          name: 'showHeroImage',
-          title: 'Show hero image on cards?',
-          type: 'boolean',
-          initialValue: true,
-        }),
-        defineField({
-          name: 'imageOverride',
-          title: 'Default card image (overrides per-item image)',
-          type: 'image',
-          options: {hotspot: true},
-        }),
-      ],
     }),
 
     // ════════════════════════════════════════════════════════════════════════
