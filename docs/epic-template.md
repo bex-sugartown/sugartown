@@ -13,6 +13,21 @@
 
 ---
 
+## Pre-Execution Completeness Gate [REQUIRED — complete before writing Scope or Phases]
+
+> This checklist must be fully ticked before execution begins. An incomplete brief is a
+> process failure, not a starting condition. If any item cannot be answered, resolve it
+> first — do not proceed.
+
+- [ ] **Layout contract** — positive statement of the component/section layout contract is written (not just a non-goals list)
+- [ ] **All prop value enumerations** — every `select` / enum prop has its full `options.list` copied from the schema (see Schema Enum Audit below); none reconstructed from memory
+- [ ] **Correct audit file paths** — every file listed in the audit phase has been verified to exist at the stated path (`ls` or Read the file before referencing it in the brief)
+- [ ] **Dark / theme modifier treatment** — explicit statement of how dark mode, light mode, or themed variants are handled by this component (token inheritance, `[data-theme]`, `accentColor`, or "not applicable — why")
+- [ ] **Studio schema changes scoped** — if this epic requires schema changes, they are either (a) explicitly in scope with their own commit prefix `feat(studio):`, or (b) explicitly out of scope with a reference to the epic that owns them. No implicit schema changes.
+- [ ] **Web adapter sync scoped** — if a DS component is created or modified, the web adapter update is either (a) in scope (listed in Files to Modify), or (b) explicitly deferred to a named follow-on epic
+
+---
+
 ## Context [REQUIRED]
 
 > State the current repo state relevant to this epic. Include:
@@ -108,6 +123,23 @@
 
 > Leave rows blank for fields not in scope. Add rows for any other enum field touched.
 
+> **Badge-rendering components (status, evolution, lifecycle):**
+> If this epic renders status/badge values from Sanity fields on a card or listing surface,
+> complete the following per-doc-type vocabulary table **before writing any STATUS_BADGE_CLASS
+> or display-label map**. Copy `value` strings verbatim from the schema `options.list` — do
+> not reconstruct from memory. A single missing value causes a silent badge failure (no class,
+> no visible badge) that is hard to detect in testing.
+>
+> | Doc type    | Field name | Schema file        | All valid `value` strings (copy from `options.list`) |
+> |-------------|------------|--------------------|------------------------------------------------------|
+> | `node`      | `status`   | `node.ts`          | _e.g. exploring, validated, operationalized, deprecated, evergreen_ |
+> | `project`   | `status`   | `project.ts`       | _e.g. dreaming, designing, developing, testing, deploying, iterating_ |
+> | `article`   | `status`   | `article.ts`       | _e.g. draft, active, archived_ |
+> | `caseStudy` | `status`   | `caseStudy.ts`     | _e.g. draft, active, archived_ |
+>
+> Leave rows blank for doc types not in scope. The `value` column must be **exhaustive** —
+> "etc." is not valid. If legacy values exist (kept for backward compat), list them too.
+
 ---
 
 ## Metadata Field Inventory [REQUIRED if MetadataCard or any metadata surface is in scope]
@@ -170,6 +202,10 @@
 > Explicit exclusions. Every exclusion must be deliberate, not a default.
 > If you're excluding a doc type, write why (architectural reason, not
 > "not currently present").
+>
+> **Studio schema changes**: if this epic does NOT own schema changes, say so explicitly here
+> and name the epic that does. Studio changes bundled silently into component epics make
+> history harder to bisect and revert.
 
 ---
 
@@ -329,3 +365,18 @@ State how re-running the script produces no change:
 - [ ] **Enum display**: has the Schema Enum Audit been completed for every enum field in scope? Raw stored values must never reach the UI.
 - [ ] **Enum cross-doc-type coverage**: if a field (e.g. `status`) exists on multiple doc types, has the label map been verified against the schema for each type separately?
 - [ ] **Taxonomy layout**: if taxonomy fields are rendered, is each type (`projects[]`, `categories[]`, `tags[]`) rendered as its own row — not merged?
+
+---
+
+## Post-Epic Close-Out [REQUIRED]
+
+> Run these steps in order after all Acceptance Criteria are met and the working tree is committed.
+
+1. **Confirm clean tree** — `git status` must show nothing staged or unstaged
+2. **Run mini-release** — `/mini-release EPIC-XXXX [Epic name]`
+   - Produces a patch version bump and lightweight CHANGELOG stub
+   - Two gates: review stub → "Write it", then commit plan → "Commit it"
+3. **Start next epic** — only after mini-release commit is confirmed
+
+> If this epic warrants a MINOR version bump (new feature surface, new schema fields,
+> new page component) rather than a patch, run `/release` instead of `/mini-release`.

@@ -164,6 +164,8 @@ If violated → FAIL and output a rule violation report.
 **Version format:** `[MAJOR.MINOR.PATCH]` using SemVer with date annotation.
 Do not use date-only versions (`vYYYY.MM.DD`).
 
+**If mini-release patches exist since the last MINOR:** The new MINOR entry must include an `aggregates` line in its descriptor (e.g. `aggregates 0.14.1–0.14.4`) so the CHANGELOG stays navigable. The MINOR entry's bullet lists summarize across patches — they do not duplicate every bullet already recorded in the patch stubs.
+
 **Format:**
 
 ```markdown
@@ -442,7 +444,30 @@ Ledger always precedes narrative.
 - Do NOT use date-only versions in the CHANGELOG header.
 - The Release Notes file header and branch metadata use `vX.Y.Z` (with `v` prefix).
 - Increment guidance:
-  - `PATCH`: bug fixes, internal refactors with no schema or API surface change
-  - `MINOR`: new features, new schema fields, new page components, new validators
+  - `PATCH`: per-epic mini-releases (see below) — one epic, no release notes
+  - `MINOR`: full releases — aggregates one or more patch mini-releases into a cohesive entry with release notes
   - `MAJOR`: breaking schema changes, URL namespace changes, removed public APIs
 - When uncertain, ask the human before generating.
+
+### Mini-release cadence
+
+Sugartown uses a two-tier release model:
+
+| Tier | Command | Version bump | CHANGELOG | Release notes |
+|------|---------|-------------|-----------|---------------|
+| **Mini-release** | `/mini-release` | PATCH | Lightweight stub per epic | None |
+| **Full release** | `/release` | MINOR (or MAJOR) | Aggregated narrative entry | Yes |
+
+**How CHANGELOG entries nest:**
+```
+## [0.15.0] — 2026-03-15          ← full release (MINOR) — aggregates patches below
+...full narrative entry...
+
+## [0.14.4] — 2026-03-05          ← mini-release patch (EPIC-0158)
+## [0.14.3] — 2026-03-04          ← mini-release patch (EPIC-0157)
+## [0.14.2] — 2026-03-04          ← mini-release patch (EPIC-0156)
+```
+
+The MINOR entry is a **summary that references the patches** — it does not duplicate their bullets. The patches stay as-is and serve as the detail record.
+
+**Full release Step 0 adjustment:** If patch mini-releases exist since the last MINOR release, list them at the top of the Step 0 output with their CHANGELOG stubs. The Step 1 Source of Truth bullets may reference them by epic ID rather than repeating file-level diffs already captured in the stubs.
