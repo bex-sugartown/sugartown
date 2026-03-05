@@ -12,6 +12,71 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.15.0] — 2026-03-05
+
+Design system foundation: Card primitive, Chip primitive, light/dark theme system,
+URL redirect implementation, and card adapter migration across all archive surfaces.
+aggregates 0.14.1–0.14.5.
+
+### apps/web
+
+#### Added
+- `ThemeToggle` component in Header — toggles `[data-theme]` on `<html>`, persists to `localStorage`; `index.html` defaults to `data-theme="dark"`
+- Light theme stylesheet (`theme.light.css`) deployed to design system; semantic/base/component token JSON files updated with theme-aware values
+- Web Chip adapter (`design-system/components/chip/`) — mirrors DS Chip, uses react-router-dom `<Link>`
+- `validate:tokens` script — checks all `var(--st-*)` references in CSS resolve to defined tokens
+- 326 legacy WordPress URLs classified and redirected via `netlify.toml` (5 decision batches)
+
+#### Changed
+- Web Card adapter rewritten to DS Card named-prop API (`variant`, `density`, `status`, `evolution`, `category`, `tags[]`, `tools[]`, `href`)
+- `ContentCard` maps Sanity document fields to DS Card props; derives chips from `projects[]`, `categories[]`, `tools[]`, `tags[]`
+- `MetadataCard` uses `variant='metadata'` with structured label/value rows and per-type chip rows
+- `TaxonomyChips` refactored to use web Chip adapter with `tag`/`tool`/`category` variants
+- `ArchivePage` wires `displayStyle` field to Card `variant` prop (`grid` → `default`, `list` → `listing`)
+- Dark-mode overrides applied to all web design system component CSS modules
+- `theme.pink-moon.css` updated to new token structure; token JSON files extended with theme-aware values
+
+#### Fixed
+- `NodePage` content section rendering corrected
+- `validate:content` extended with additional integrity checks
+- `--st-radius-1/2/3` numeric series added to web token file to match DS package
+
+### apps/studio
+
+#### Changed
+- Node `Status` field renamed to `Evolution`; project lifecycle stages expanded (Seed → Sunset)
+- `archivePage`: `displayStyle` field added (`grid` | `list`); `cardOptions` expanded to structured object (`showExcerpt`, `showHeroImage`, `compact`, `defaultImage`); legacy `listStyle` hidden
+- `article` and `caseStudy`: `status` field removed — editorial lifecycle handled by Sanity document state
+- Sanity + `@sanity/vision` bumped 5.12 → 5.13
+
+### packages/design-system
+
+#### Added
+- `Card` component: named-prop API (`variant`, `density`, `category`, `tags[]`, `tools[]`, `metadata[]`, `accentColor`, `href`, `thumbnailUrl`, `status`, `evolution`); 17 Storybook stories; card-specific token layer
+- `Chip` component: polymorphic `<span>`/`<a>`, variants `tag` (filled pink), `tool` (outlined seafoam), `category` (neutral); optional `colorHex` accent via `color-mix()`; 5 stories
+- `Button/index.ts` export (was missing)
+- Light theme stylesheet (`theme.light.css`); `theme.pink-moon.css` updated to new token structure
+
+#### Changed
+- Dark-mode overrides applied across all DS component CSS modules (Blockquote, Button, Callout, CodeBlock, Media, Table)
+- Token layer extended with theme-aware semantic tokens and card-specific tokens
+
+#### Fixed
+- Token drift resolved: 54 tokens missing from DS package added pre-release (spacing `--st-space-7/8`; semantic radius aliases; background, text, link, state color aliases; font heading aliases; spacing stack/inline/inset/gutter aliases; shadow semantic aliases; Pill/Tag component tokens; media component tokens; legacy aliases)
+- `--st-button-radius` corrected from `var(--st-radius-sm)` (8 px) to `var(--st-radius-button)` (= 4 px, matching web)
+
+### apps/storybook
+
+#### Changed
+- Docs canvas background matches active theme (`docs-overrides.css`); `preview.ts` wires `withTheme` decorator to docs canvas
+
+### Other
+
+#### Added
+- Mini-release cadence established (two-tier: PATCH per epic, MINOR aggregating patches); `CLAUDE.md` created with epic close-out sequence and studio schema isolation rule; epic template updated with pre-execution completeness gate and post-epic close-out section
+
+---
+
 ## [0.14.5] — 2026-03-05
 
 EPIC-0158: Card Adapter Migration. Web Card adapter, ContentCard, MetadataCard,

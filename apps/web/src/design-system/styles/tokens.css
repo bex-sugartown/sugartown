@@ -144,6 +144,10 @@
   --st-space-8: 60px;
 
   /* ── Border Radius ───────────────────────────────────── */
+  /* Numeric series (low-level, prefer semantic names below) */
+  --st-radius-1:    0.25rem;  /* 4px  */
+  --st-radius-2:    0.5rem;   /* 8px  */
+  --st-radius-3:    0.75rem;  /* 12px */
   --st-radius-xs:   4px;
   --st-radius-sm:   8px;
   --st-radius-md:   12px;

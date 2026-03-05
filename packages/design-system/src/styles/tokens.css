@@ -137,6 +137,8 @@
   --st-space-4: 1rem;      /* 16px */
   --st-space-5: 1.5rem;    /* 24px */
   --st-space-6: 2rem;      /* 32px */
+  --st-space-7: 2.5rem;    /* 40px */
+  --st-space-8: 3.75rem;   /* 60px */
 
   /* ── Border Radius ───────────────────────────────────── */
   /* Numeric series (low-level, prefer semantic names below) */
@@ -151,6 +153,16 @@
   --st-radius-md: 12px;   /* card, modal */
   --st-radius-lg: 16px;   /* large containers */
   --st-radius-xl: 35px;   /* hero, media */
+
+  /* Semantic radius names (component aliases) */
+  --st-radius-button:  var(--st-radius-xs);
+  --st-radius-tag:     var(--st-radius-xs);
+  --st-radius-pill:    var(--st-radius-xs);
+  --st-radius-callout: var(--st-radius-sm);
+  --st-radius-code:    var(--st-radius-sm);
+  --st-radius-card:    var(--st-radius-md);
+  --st-radius-hero:    var(--st-radius-xl);
+  --st-radius-media:   var(--st-radius-xl);
 
   /* ── Typography: Families ────────────────────────────── */
   --st-font-family-narrative: "Playfair Display", serif;
@@ -181,6 +193,8 @@
   /* ── Shadows ─────────────────────────────────────────── */
   --st-shadow-1:          0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
   --st-shadow-sm:         0 1px 2px rgba(0, 0, 0, 0.05);
+  --st-shadow-md:         0 4px 6px rgba(0, 0, 0, 0.10);
+  --st-shadow-lg:         0 10px 15px rgba(0, 0, 0, 0.10);
   --st-shadow-pink-glow:  0 4px 12px rgba(255, 36, 125, 0.3);
   --st-shadow-lime-glow:  0 4px 12px rgba(209, 255, 29, 0.45);
   --st-shadow-card:       0 4px 12px rgba(255, 36, 125, 0.05);
@@ -210,18 +224,28 @@
   --st-color-bg-surface-alt:    var(--st-color-midnight-800);
   --st-color-bg-subtle:         var(--st-color-midnight-700);
   --st-color-bg-midnight:       var(--st-color-midnight);
+  --st-color-bg-secondary:      var(--st-color-midnight-800);
+  --st-color-bg-tertiary:       var(--st-color-midnight-700);
 
   /* ── Text (dark defaults) ────────────────────────────── */
   --st-color-text-primary:   var(--st-color-softgrey-50);
   --st-color-text-default:   var(--st-color-softgrey-50);
   --st-color-text-secondary: var(--st-color-softgrey-400);
   --st-color-text-muted:     var(--st-color-softgrey-400);
+  --st-color-text-brand:     var(--st-color-pink);
 
   /* ── Borders (dark defaults) ─────────────────────────── */
   --st-color-border-default: rgba(255, 36, 125, 0.20);
   --st-color-border-subtle:  rgba(255, 255, 255, 0.06);
   --st-color-border-medium:  rgba(255, 255, 255, 0.12);
   --st-color-border-strong:  rgba(255, 255, 255, 0.30);
+
+  /* ── Link ────────────────────────────────────────────── */
+  --st-color-link-default: var(--st-color-brand-primary);
+  --st-color-link-hover:   var(--st-color-brand-secondary);
+
+  /* ── State ───────────────────────────────────────────── */
+  --st-color-danger: var(--st-color-maroon);
 
   /* ── Effects (theme-overridable) ─────────────────────── */
   --st-effect-backdrop-blur-md: 0;            /* pink-moon themes → 14px */
@@ -233,16 +257,31 @@
   --st-font-ui:        var(--st-font-family-ui);
   --st-font-body:      var(--st-font-size-md);
   --st-font-caption:   var(--st-font-size-xs);
+  --st-font-heading-1: var(--st-font-size-display);
+  --st-font-heading-2: var(--st-font-size-2xl);
+  --st-font-heading-3: var(--st-font-size-xl);
+  --st-font-heading-4: var(--st-font-size-lg);
 
   /* ── Semantic Spacing ────────────────────────────────── */
-  --st-spacing-3:        var(--st-space-3);
-  --st-spacing-4:        var(--st-space-4);
-  --st-spacing-stack-xs: var(--st-space-1);
-  --st-spacing-stack-sm: var(--st-space-2);
-  --st-spacing-stack-md: var(--st-space-4);
-  --st-spacing-stack-lg: var(--st-space-6);
-  --st-spacing-inset-md: var(--st-space-4);
-  --st-spacing-inset-lg: var(--st-space-6);
+  --st-spacing-3:         var(--st-space-3);
+  --st-spacing-4:         var(--st-space-4);
+  --st-spacing-stack-xs:  var(--st-space-1);
+  --st-spacing-stack-sm:  var(--st-space-2);
+  --st-spacing-stack-md:  var(--st-space-4);
+  --st-spacing-stack-lg:  var(--st-space-6);
+  --st-spacing-stack-xl:  var(--st-space-8);
+  --st-spacing-inline-sm: var(--st-space-2);
+  --st-spacing-inline-md: var(--st-space-3);
+  --st-spacing-inline-lg: var(--st-space-4);
+  --st-spacing-inset-xs:  var(--st-space-1);
+  --st-spacing-inset-sm:  var(--st-space-2);
+  --st-spacing-inset-md:  var(--st-space-4);
+  --st-spacing-inset-lg:  var(--st-space-6);
+  --st-spacing-gutter:    var(--st-space-4);
+
+  /* ── Semantic Shadows ────────────────────────────────── */
+  --st-shadow-card-semantic:       var(--st-shadow-card-deep);
+  --st-shadow-card-hover-semantic: var(--st-shadow-card-hover);
 
 
   /* ══════════════════════════════════════════════════════
@@ -259,6 +298,7 @@
   --st-card-shadow:            0 14px 40px rgba(0, 0, 0, 0.18);   /* dark default */
   --st-card-hover-shadow:      0 18px 55px rgba(0, 0, 0, 0.22);   /* dark default */
   --st-card-hover-translate-y: -4px;
+  --st-card-media-height:      48px;
 
   /* ── Card extended tokens (EPIC-0156) ─────────────────── */
   --st-color-text-eyebrow:     var(--st-color-pink);         /* canonical brand pink #FF247D */
@@ -267,10 +307,25 @@
   --st-color-chip-bg:          rgba(255, 255, 255, 0.06);   /* dark: filled tag chip bg */
   --st-card-thumb-rail-width:  96px;                         /* listing variant left col */
 
+  /* ── Pill / Tag ──────────────────────────────────────── */
+  --st-pill-bg:     var(--st-color-bg-subtle);
+  --st-pill-text:   var(--st-color-text-brand);
+  --st-pill-border: var(--st-color-border-subtle);
+  --st-pill-radius: var(--st-radius-pill);
+  --st-pill-font:   var(--st-font-family-mono);
+  --st-pill-size:   var(--st-font-size-xs);
+
+  --st-tag-bg:     var(--st-color-bg-subtle);
+  --st-tag-text:   var(--st-color-text-brand);
+  --st-tag-border: var(--st-color-border-subtle);
+  --st-tag-radius: var(--st-radius-tag);
+  --st-tag-font:   var(--st-font-family-mono);
+  --st-tag-size:   var(--st-font-size-xs);
+
   /* ── Button ──────────────────────────────────────────── */
   --st-button-bg:                     var(--st-color-accent-primary);
   --st-button-text:                   var(--st-color-white);
-  --st-button-radius:                 var(--st-radius-sm);
+  --st-button-radius:                 var(--st-radius-button);
   --st-button-hover-translate-y:      -2px;
   --st-button-hover-shadow:           var(--st-shadow-pink-glow);
   --st-button-secondary-bg:           var(--st-color-lime);
@@ -296,13 +351,15 @@
   --st-blockquote-margin-block: 1.5rem;
 
   /* ── Callout ─────────────────────────────────────────── */
+  --st-callout-radius:       var(--st-radius-callout);
   --st-callout-bg:           rgba(255, 36, 125, 0.08);   /* dark default */
   --st-callout-border-color: rgba(255, 36, 125, 0.25);
-  --st-callout-radius:       var(--st-radius-sm);
+  --st-callout-border:       var(--st-color-border-subtle);
   --st-callout-padding:      1.25rem 1.5rem;
   --st-callout-margin-block: 2.5rem;
 
   /* ── Code ────────────────────────────────────────────── */
+  --st-code-radius:        var(--st-radius-code);
   --st-code-bg:            var(--st-color-midnight);
   --st-code-color:         #f8f8f2;
   --st-code-border-left:   4px solid var(--st-color-accent);
@@ -311,7 +368,14 @@
   --st-code-margin-block:  3rem;
   --st-code-inline-bg:     var(--st-color-softgrey-100);
   --st-code-inline-color:  var(--st-color-maroon);
+  --st-code-inline-text:   var(--st-color-maroon);        /* legacy alias */
   --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
+
+  /* ── Media ───────────────────────────────────────────── */
+  --st-media-radius:                  var(--st-radius-media);
+  --st-media-hero-aspect-ratio:       3 / 1;
+  --st-media-article-aspect-ratio:    21 / 9;
+  --st-media-card-icon-strip-height:  48px;
 
   /* ── Media Overlay / Duotone ─────────────────────────── */
   --st-media-duotone-pink:           var(--st-color-pink);
@@ -336,6 +400,7 @@
   --st-color-bg-void:  var(--st-color-bg-midnight);
 
   /* grey → neutral / softgrey */
+  --st-color-grey-900: var(--st-color-neutral-900);
   --st-color-grey-600: var(--st-color-neutral-600);
   --st-color-grey-400: var(--st-color-softgrey);
   --st-color-grey-300: var(--st-color-neutral-300);
@@ -344,6 +409,11 @@
   --st-color-grey-050: var(--st-color-softgrey-50);
   --st-color-grey-040: var(--st-color-softgrey-100);
   --st-color-grey-030: var(--st-color-softgrey-200);
+
+  /* Misc legacy */
+  --st-color-brand:    var(--st-color-brand-primary);
+  --st-color-red-500:  var(--st-color-maroon);
+  --st-focus:          var(--st-color-focus);
 
   /* Legacy back-compat shorthands */
   --st-pink:       var(--st-color-pink);
