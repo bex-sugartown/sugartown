@@ -12,6 +12,30 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.14.2] — 2026-03-04
+
+EPIC-0152: Light/Dark Theme System. Introduced `[data-theme]` token architecture,
+ThemeToggle component, light theme stylesheet, and Storybook docs canvas theming fix.
+
+### packages/design-system
+
+- `[data-theme="light"]` token layer added (`theme.light.css`); `theme.pink-moon.css` updated to new token structure
+- Dark-mode overrides applied across all DS component CSS modules (Blockquote, Button, Callout, CodeBlock, Media, Table)
+- Token files (`tokens.css`, base/semantic/components JSON) updated with theme-aware color tokens
+
+### apps/web
+
+- `ThemeToggle` component added to Header — toggles `[data-theme]` on `<html>`; persists selection to `localStorage`
+- Light theme stylesheet (`theme.light.css`) and updated `theme.pink-moon.css` deployed to web design system
+- Dark-mode overrides applied to all web component CSS modules; `index.html` defaults to `data-theme="dark"`
+- `NodePage`: corrected rendering of node content sections
+
+### apps/storybook
+
+- Docs canvas background now matches active theme (`docs-overrides.css`); `preview.ts` wires `withTheme` decorator to docs mode
+
+---
+
 ## [0.14.1] — 2026-03-04
 
 EPIC-0155: URL Audit & Redirect Decision Registry. Legacy WordPress URL
