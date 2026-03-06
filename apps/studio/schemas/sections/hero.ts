@@ -48,6 +48,22 @@ export default defineType({
       ]
     }),
     defineField({
+      name: 'imageWidth',
+      title: 'Image Width',
+      type: 'string',
+      description:
+        'How wide the hero background image should render. Content-width keeps it within the reading column; full-width stretches edge to edge.',
+      options: {
+        list: [
+          {title: 'Content width', value: 'content-width'},
+          {title: 'Full width', value: 'full-width'}
+        ],
+        layout: 'radio',
+        direction: 'horizontal'
+      },
+      initialValue: 'content-width'
+    }),
+    defineField({
       name: 'ctas',
       title: 'Call to Action Buttons',
       type: 'array',
