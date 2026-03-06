@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sugartown — Backlog & Priority List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --midnight: #0D1226;
+    --midnight-2: #121828;
+    --midnight-3: #1a2035;
+    --pink: #ff247d;
+    --lime: #D1FF1D;
+    --seafoam: #2bd4aa;
+    --muted: #6b7a99;
+    --border: rgba(209,255,29,0.12);
+    --border-pink: rgba(255,36,125,0.2);
+    --text: #e8eaf0;
+    --text-dim: #9aa3bb;
+    --font-mono: 'IBM Plex Mono', monospace;
+    --font-sans: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--midnight);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 40px 24px 80px;
+  }
+
+  .page-header {
+    max-width: 860px;
+    margin: 0 auto 48px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 28px;
+  }
+  .page-header__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: 10px;
+    opacity: 0.8;
+  }
+  .page-header h1 {
+    font-family: var(--font-mono);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  .page-header h1 span { color: var(--pink); }
+  .page-header__meta {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--muted);
+  }
+
+  .legend {
+    max-width: 860px;
+    margin: 0 auto 36px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .section-heading {
+    max-width: 860px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-heading__label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--lime);
+    white-space: nowrap;
+  }
+  .section-heading__rule {
+    flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+  .items-list {
+    max-width: 860px;
+    margin: 0 auto 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .item {
+    background: var(--midnight-2);
+    border: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    border-radius: 6px;
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0 16px;
+    align-items: start;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .item:hover { background: var(--midnight-3); }
+
+  .item--p0 { border-left-color: var(--pink); }
+  .item--p1 { border-left-color: var(--seafoam); }
+  .item--p2 { border-left-color: #7c6ff7; }
+  .item--p3 { border-left-color: var(--muted); }
+  .item--deferred { border-left-color: #3a4060; opacity: 0.65; }
+  .item--shipped {
+    border-left-color: rgba(43,212,170,0.35);
+    opacity: 0.55;
+    background: rgba(43,212,170,0.03);
+  }
+  .item--shipped:hover { opacity: 0.75; background: rgba(43,212,170,0.05); }
+
+  .item__rank {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--muted);
+    padding-top: 2px;
+    min-width: 20px;
+    text-align: right;
+  }
+  .item__rank--check {
+    color: var(--seafoam);
+    font-size: 0.85rem;
+  }
+
+  .item__title {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--text);
+    line-height: 1.35;
+    margin-bottom: 4px;
+  }
+  .item--shipped .item__title {
+    text-decoration: line-through;
+    text-decoration-color: rgba(43,212,170,0.4);
+    color: var(--text-dim);
+  }
+
+  .item__summary {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+
+  .item__tags {
+    margin-top: 8px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    border: 1px solid;
+  }
+  .tag--epic   { border-color: var(--pink);    color: var(--pink);    background: rgba(255,36,125,0.07); }
+  .tag--design { border-color: var(--seafoam);  color: var(--seafoam); background: rgba(43,212,170,0.07); }
+  .tag--query  { border-color: #7c6ff7;         color: #a89ff7;        background: rgba(124,111,247,0.08); }
+  .tag--schema { border-color: #f0a04b;         color: #f0a04b;        background: rgba(240,160,75,0.07); }
+  .tag--content{ border-color: var(--lime);     color: var(--lime);    background: rgba(209,255,29,0.06); }
+  .tag--defer  { border-color: #3a4060;         color: var(--muted); }
+  .tag--ux     { border-color: #e670c8;         color: #e670c8;        background: rgba(230,112,200,0.07); }
+  .tag--shipped{ border-color: rgba(43,212,170,0.35); color: var(--seafoam); background: rgba(43,212,170,0.05); }
+
+  .item__priority {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .priority--now    { background: rgba(255,36,125,0.15);    color: var(--pink); }
+  .priority--next   { background: rgba(43,212,170,0.12);    color: var(--seafoam); }
+  .priority--soon   { background: rgba(124,111,247,0.12);   color: #a89ff7; }
+  .priority--later  { background: rgba(107,122,153,0.15);   color: var(--muted); }
+  .priority--defer  { background: rgba(58,64,96,0.3);       color: #4a5070; }
+  .priority--shipped{ background: rgba(43,212,170,0.1);     color: var(--seafoam); border: 1px solid rgba(43,212,170,0.2); }
+
+  .blocker {
+    max-width: 860px;
+    margin: 0 auto 40px;
+    background: rgba(255,36,125,0.06);
+    border: 1px solid var(--border-pink);
+    border-left: 3px solid var(--pink);
+    border-radius: 6px;
+    padding: 14px 18px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .blocker__icon {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--pink);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-top: 2px;
+    white-space: nowrap;
+  }
+  .blocker__text {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+  }
+  .blocker__text strong { color: var(--text); font-weight: 600; }
+
+  .page-footer {
+    max-width: 860px;
+    margin: 48px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    color: var(--lime);
+  }
+  .item--shipped code { color: var(--seafoam); }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <p class="page-header__eyebrow">Sugartown Digital · sugartown.io · Backlog</p>
+  <h1>Issues &amp; To-Do — <span>Priority Stack</span></h1>
+  <p class="page-header__meta">Updated 2026-03-06 · EPIC-0152, EPIC-0155, BL-07, BL-05 marked shipped · Sequenced against EPIC-0158, EPIC-0159, EPIC-0160</p>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--pink)"></div> Now — blocks epics</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--seafoam)"></div> Next — high value, ready</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7c6ff7"></div> Soon — post-current sprint</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--muted)"></div> Later — pre-launch</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#3a4060"></div> Deferred — post-launch</div>
+  <div class="legend-item"><div class="legend-dot" style="background:rgba(43,212,170,0.4)"></div> Shipped ✓</div>
+</div>
+
+<div class="blocker">
+  <span class="blocker__icon">⚑ Dep chain</span>
+  <p class="blocker__text"><strong>EPIC-0157 (Chip primitive)</strong> must land before <strong>EPIC-0158</strong>. EPIC-0158 must land before <strong>EPIC-0160</strong>. EPIC-0159 (Citation) can run in parallel — its output is consumed by EPIC-0160's card footer. Respect this sequence.</p>
+</div>
+
+<!-- ══ NOW ══ -->
+<div class="section-heading">
+  <span class="section-heading__label">01 · Now — active / blocks epics</span>
+  <div class="section-heading__rule"></div>
+</div>
+<div class="items-list">
+
+  <div class="item item--p0">
+    <span class="item__rank">1</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0158 · Web Card Adapter Migration</div>
+      <p class="item__summary">Converge the old slot-based web Card API onto the DS Card named-prop API. Retire polymorphic root wrapping, fix invalid nested anchors, migrate ContentCard + MetadataCard. Prerequisite for everything downstream that touches card rendering.</p>
+      <div class="item__tags">
+        <span class="tag tag--epic">EPIC-0158</span>
+        <span class="tag tag--design">Design System</span>
+        <span class="tag tag--query">GROQ</span>
+      </div>
+    </div>
+    <span class="item__priority priority--now">Now</span>
+  </div>
+
+  <div class="item item--p0">
+    <span class="item__rank">2</span>
+    <div class="item__body">
+      <div class="item__title">GROQ: resolve <code>thumbnailUrl</code> projection per content type</div>
+      <p class="item__summary">Deferred because hero images are nested in <code>sections[].media[]</code>, not a top-level field. Must audit article, caseStudy, and node schemas to write correct per-type projections before EPIC-0158 can fully land. <code>accentColor</code> is straightforward via <code>projects[0]->colorHex</code>.</p>
+      <div class="item__tags">
+        <span class="tag tag--query">GROQ</span>
+        <span class="tag tag--schema">Schema Audit</span>
+        <span class="tag tag--epic">EPIC-0158</span>
+      </div>
+    </div>
+    <span class="item__priority priority--now">Now</span>
+  </div>
+
+  <div class="item item--p0">
+    <span class="item__rank">3</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0159 · Citation primitive (CitationMarker, CitationNote, CitationZone)</div>
+      <p class="item__summary">Can run in parallel with EPIC-0158. Outputs the citation footer component consumed by EPIC-0160's card builder. Until this lands, EPIC-0160 renders a <code>&lt;small&gt;</code> placeholder in the card footer.</p>
+      <div class="item__tags">
+        <span class="tag tag--epic">EPIC-0159</span>
+        <span class="tag tag--design">Design System</span>
+      </div>
+    </div>
+    <span class="item__priority priority--now">Now</span>
+  </div>
+
+</div>
+
+<!-- ══ NEXT ══ -->
+<div class="section-heading">
+  <span class="section-heading__label">02 · Next — high value, ready to pick up</span>
+  <div class="section-heading__rule"></div>
+</div>
+<div class="items-list">
+
+  <div class="item item--p1">
+    <span class="item__rank">4</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0160 · Card Builder Section (depends on 0158 + 0159)</div>
+      <p class="item__summary">New <code>cardBuilderSection</code> schema + web component for editor-assembled card grids on any page. Deprecates orphaned EditorialCard + CardGrid. Wires into PageSections renderer. Full-card click via DS Card <code>::after</code> hit-target.</p>
+      <div class="item__tags">
+        <span class="tag tag--epic">EPIC-0160</span>
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--design">Design System</span>
+      </div>
+    </div>
+    <span class="item__priority priority--next">Next</span>
+  </div>
+
+  <div class="item item--p1">
+    <span class="item__rank">5</span>
+    <div class="item__body">
+      <div class="item__title">Card grid: fix layout when filterBar is active (narrowed columns)</div>
+      <p class="item__summary">With the filter bar present, auto-fill grid squeezes cards well below the designed minimum. Enforce <strong>1-column layout on narrow viewports and list-view only below 900px</strong>. Reserve 2–3 column grid for full-content-width contexts only (homepage, no sidebar). Evaluate adding an explicit layout toggle (grid / list) as a user control.</p>
+      <div class="item__tags">
+        <span class="tag tag--ux">UX</span>
+        <span class="tag tag--design">Layout</span>
+        <span class="tag tag--epic">EPIC-0158</span>
+      </div>
+    </div>
+    <span class="item__priority priority--next">Next</span>
+  </div>
+
+  <div class="item item--p1">
+    <span class="item__rank">6</span>
+    <div class="item__body">
+      <div class="item__title">Card title: scale down + switch to DM Sans (or Fira Sans)</div>
+      <p class="item__summary">Current title weight is too dominant in a dense catalog grid — reads as a hero element rather than a list item label. Reduce to ~1rem, font-weight 600, DM Sans (already loaded). Reserve IBM Plex Mono for eyebrows and metadata labels only.</p>
+      <div class="item__tags">
+        <span class="tag tag--ux">Typography</span>
+        <span class="tag tag--design">Design System</span>
+      </div>
+    </div>
+    <span class="item__priority priority--next">Next</span>
+  </div>
+
+  <div class="item item--p1">
+    <span class="item__rank">7</span>
+    <div class="item__body">
+      <div class="item__title">Add "Tools" and "Tags" group labels to chip rows</div>
+      <p class="item__summary">Without labels, users can't distinguish tool chips from tag chips at a glance. Add a short <code>st-label</code> prefix ("Tools ·" / "Tags ·") before each chip group in the card footer. CSS class already exists — apply it.</p>
+      <div class="item__tags">
+        <span class="tag tag--ux">UX</span>
+        <span class="tag tag--design">Design System</span>
+      </div>
+    </div>
+    <span class="item__priority priority--next">Next</span>
+  </div>
+
+</div>
+
+<!-- ══ SOON ══ -->
+<div class="section-heading">
+  <span class="section-heading__label">03 · Soon — post-sprint, pre-launch</span>
+  <div class="section-heading__rule"></div>
+</div>
+<div class="items-list">
+
+  <div class="item item--p2">
+    <span class="item__rank">8</span>
+    <div class="item__body">
+      <div class="item__title">Expose "catalog subtitle" before/after position in Studio UI</div>
+      <p class="item__summary">The <code>categoryPosition</code> prop (before/after) was implemented in DS Card but never surfaced to editors as a Studio field. Add the field to the relevant schema objects. Tracked as BL-06 in EPIC-0156 backlog.</p>
+      <div class="item__tags">
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--ux">Editor UX</span>
+      </div>
+    </div>
+    <span class="item__priority priority--soon">Soon</span>
+  </div>
+
+  <div class="item item--p2">
+    <span class="item__rank">9</span>
+    <div class="item__body">
+      <div class="item__title">Configure Sections for all pages: section, blockquote, code, callout, table</div>
+      <p class="item__summary">All page documents should have the full section builder available so editors can construct content without dev intervention. Wire existing section types (textSection, blockquote, codeBlock, calloutSection) into pages that don't yet have them.</p>
+      <div class="item__tags">
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--content">Content</span>
+      </div>
+    </div>
+    <span class="item__priority priority--soon">Soon</span>
+  </div>
+
+  <div class="item item--p2">
+    <span class="item__rank">10</span>
+    <div class="item__body">
+      <div class="item__title">Static Schema ERD page (EPIC-0147, Option B)</div>
+      <p class="item__summary">Hardcoded schema manifest rendered as a visual ERD page. Option B is immediately implementable without a build step. Useful as a portfolio and internal reference artefact for the MACH architecture showcase.</p>
+      <div class="item__tags">
+        <span class="tag tag--epic">EPIC-0147</span>
+        <span class="tag tag--content">Content</span>
+      </div>
+    </div>
+    <span class="item__priority priority--soon">Soon</span>
+  </div>
+
+</div>
+
+<!-- ══ LATER ══ -->
+<div class="section-heading">
+  <span class="section-heading__label">04 · Later — pre-launch, not sprint-gated</span>
+  <div class="section-heading__rule"></div>
+</div>
+<div class="items-list">
+
+  <div class="item item--p3">
+    <span class="item__rank">11</span>
+    <div class="item__body">
+      <div class="item__title">Hosting platform decision for DNS cutover</div>
+      <p class="item__summary">Evaluate Netlify, Cloudflare Pages, Vercel, or self-hosted against cost, preview URL support, redirect file compatibility, and Sanity webhook integration. Decision gates the cutover timeline.</p>
+      <div class="item__tags">
+        <span class="tag tag--content">Infrastructure</span>
+      </div>
+    </div>
+    <span class="item__priority priority--later">Later</span>
+  </div>
+
+  <div class="item item--p3">
+    <span class="item__rank">12</span>
+    <div class="item__body">
+      <div class="item__title">PersonProfilePage + ProjectDetailPage dedicated components</div>
+      <p class="item__summary">Currently rendered via generic taxonomy layouts. These entity types deserve purpose-built page components that surface relationships, project color, and associated content properly.</p>
+      <div class="item__tags">
+        <span class="tag tag--design">Component</span>
+        <span class="tag tag--query">GROQ</span>
+      </div>
+    </div>
+    <span class="item__priority priority--later">Later</span>
+  </div>
+
+  <div class="item item--p3">
+    <span class="item__rank">13</span>
+    <div class="item__body">
+      <div class="item__title">Brand color picker for Sanity Studio (BL-01)</div>
+      <p class="item__summary">Lets editors set <code>colorHex</code> on project documents via a visual colour picker rather than raw hex input. Nice-to-have UX improvement for Studio editors. Tracked as BL-01 from EPIC-0156.</p>
+      <div class="item__tags">
+        <span class="tag tag--schema">Studio UX</span>
+        <span class="tag tag--epic">BL-01</span>
+      </div>
+    </div>
+    <span class="item__priority priority--later">Later</span>
+  </div>
+
+  <div class="item item--p3">
+    <span class="item__rank">14</span>
+    <div class="item__body">
+      <div class="item__title">Dedicated <code>cardImage</code> schema field (BL-02)</div>
+      <p class="item__summary">Separate from heroImage/sections media. Allows editors to set a specific thumbnail for a content item when it appears in card grids, without affecting the hero display. Tracked as BL-02.</p>
+      <div class="item__tags">
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--epic">BL-02</span>
+      </div>
+    </div>
+    <span class="item__priority priority--later">Later</span>
+  </div>
+
+</div>
+
+<!-- ══ DEFERRED ══ -->
+<div class="section-heading">
+  <span class="section-heading__label">05 · Deferred — post-launch</span>
+  <div class="section-heading__rule"></div>
+</div>
+<div class="items-list">
+
+  <div class="item item--deferred">
+    <span class="item__rank">—</span>
+    <div class="item__body">
+      <div class="item__title">Sitemap epic (EPIC TBD)</div>
+      <p class="item__summary">Auto-generated XML sitemap for Sanity content. Not required at launch but needed shortly after for SEO indexing.</p>
+      <div class="item__tags">
+        <span class="tag tag--defer">Deferred</span>
+        <span class="tag tag--content">SEO</span>
+      </div>
+    </div>
+    <span class="item__priority priority--defer">Defer</span>
+  </div>
+
+  <div class="item item--deferred">
+    <span class="item__rank">—</span>
+    <div class="item__body">
+      <div class="item__title">Image redirect epic: <code>/wp-content/uploads/…</code> → Sanity CDN</div>
+      <p class="item__summary">WP media URLs embedded in content need redirecting to Sanity CDN or static asset paths. Low urgency unless referenced in inbound links with SEO value.</p>
+      <div class="item__tags">
+        <span class="tag tag--defer">Deferred</span>
+        <span class="tag tag--content">Infrastructure</span>
+      </div>
+    </div>
+    <span class="item__priority priority--defer">Defer</span>
+  </div>
+
+  <div class="item item--deferred">
+    <span class="item__rank">—</span>
+    <div class="item__body">
+      <div class="item__title">Future layout components: 2-col, 3-col banner, carousel</div>
+      <p class="item__summary">Enhanced section builder layout options for editorial page building. Carousel needs accessibility and mobile performance consideration. Phase 2 scope.</p>
+      <div class="item__tags">
+        <span class="tag tag--defer">Deferred</span>
+        <span class="tag tag--design">Component</span>
+      </div>
+    </div>
+    <span class="item__priority priority--defer">Defer</span>
+  </div>
+
+  <div class="item item--deferred">
+    <span class="item__rank">—</span>
+    <div class="item__body">
+      <div class="item__title">KPI dashboard card family: stat-card, bar-card, insight-card (BL-03)</div>
+      <p class="item__summary">New card use cases for a KPI dashboard surface. High design ambition, lower immediate priority. Scope as a standalone epic when the dashboard page is prioritised.</p>
+      <div class="item__tags">
+        <span class="tag tag--defer">Deferred</span>
+        <span class="tag tag--design">Design System</span>
+        <span class="tag tag--epic">BL-03</span>
+      </div>
+    </div>
+    <span class="item__priority priority--defer">Defer</span>
+  </div>
+
+</div>
+
+<!-- ══ SHIPPED ══ -->
+<div class="section-heading">
+  <span class="section-heading__label">06 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.15.0</span>
+  <div class="section-heading__rule"></div>
+</div>
+<div class="items-list">
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0152 · Light/Dark Theme System</div>
+      <p class="item__summary">Shipped v0.14.2. <code>[data-theme]</code> token architecture, ThemeToggle component, light theme stylesheet, dark-mode overrides across all DS component CSS modules, Storybook docs canvas theming fix. Token renamed <code>void</code> → <code>midnight</code>.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.14.2</span>
+        <span class="tag tag--design">Design System</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0155 · URL Audit &amp; Redirect Decision Registry</div>
+      <p class="item__summary">Shipped v0.14.1. 326 legacy WordPress URLs classified and redirected via <code>netlify.toml</code> (5 decision batches). <code>build-redirects.js</code> updated. Full URL inventory, redirect decisions CSV (267 entries), and gap analysis artifacts committed.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.14.1</span>
+        <span class="tag tag--content">Infrastructure</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">BL-07 · <code>featuredImage</code> deprecation (Studio <code>hidden: true</code>)</div>
+      <p class="item__summary">Shipped as part of v0.15.0 card adapter migration. Field is hidden in Studio. Canonical thumbnail sources are <code>hero.media[0]</code> or <code>sections[]</code>. <code>featuredImage</code> must not appear in any new implementation.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.15.0</span>
+        <span class="tag tag--schema">Schema</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">BL-05 · Storybook viewport / docs canvas fix</div>
+      <p class="item__summary">Shipped v0.14.2. Docs canvas background now matches active theme via <code>docs-overrides.css</code>; <code>preview.ts</code> wires <code>withTheme</code> decorator to docs mode. Cards and layout components render correctly in Storybook viewports.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.14.2</span>
+        <span class="tag tag--design">Storybook</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  <span>sugartown.io · docs/backlog/priority-stack · updated 2026-03-06</span>
+  <span>IBM Plex Mono · DM Sans · Sugartown Dark</span>
+</footer>
+
+</body>
+</html>
