@@ -12,6 +12,7 @@
 
   display: flex;
   align-items: center;
+  border-radius: 0;           /* Hard rule — heroes never have rounded corners */
 }
 
 .hero[data-style="white"] {

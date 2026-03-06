@@ -59,7 +59,7 @@ const portableTextComponents = {
 
 // Hero Section Component
 function HeroSection({ section }) {
-  const { heading, subheading, backgroundImage, ctas } = section
+  const { heading, subheading, backgroundImage, ctas, imageWidth } = section
 
   const backgroundStyles = {}
   const hasImage = backgroundImage?.asset
@@ -75,8 +75,12 @@ function HeroSection({ section }) {
   const primary = ctas?.[0]
   const secondary = ctas?.[1]
 
+  const widthClass = imageWidth === 'full-width'
+    ? styles.heroFullWidth
+    : styles.heroContentWidth
+
   return (
-    <section className={styles.heroSection} style={backgroundStyles}>
+    <section className={`${styles.heroSection} ${widthClass}`} style={backgroundStyles}>
       <div className={styles.heroContainer}>
         <div className={styles.heroContent}>
           {heading && <h1 className={styles.heroHeading}>{heading}</h1>}
