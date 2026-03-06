@@ -1,7 +1,8 @@
 /**
- * TODO Epic 7 — CardGrid wraps EditorialCard (Sanity-connected CMS component).
- * Once a grid context is needed in the design system, consider a layout-only
- * wrapper in packages/design-system that composes <Card> components.
+ * @deprecated EPIC-0160 — replaced by CardBuilderSection.
+ * Use CardBuilderSection for editor-assembled card grids on pages.
+ * This component is kept for backward compatibility with existing content only.
+ * Do not use in new code — it will be removed in a future version.
  */
 import EditorialCard from './EditorialCard'
 import styles from './CardGrid.module.css'

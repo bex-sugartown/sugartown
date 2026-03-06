@@ -1,6 +1,7 @@
 import { urlFor } from '../lib/sanity'
 import { PortableText } from '@portabletext/react'
 import { Button, Blockquote, CodeBlock, InlineCode } from '../design-system'
+import CardBuilderSection from './CardBuilderSection'
 import styles from './PageSections.module.css'
 
 // Portable Text components for text sections
@@ -212,6 +213,8 @@ export default function PageSections({ sections }) {
             return <CTASection key={key} section={section} />
           case 'htmlSection':
             return <HtmlSection key={key} section={section} />
+          case 'cardBuilderSection':
+            return <CardBuilderSection key={key} section={section} />
           default:
             console.warn(`Unknown section type: ${section._type}`)
             return null

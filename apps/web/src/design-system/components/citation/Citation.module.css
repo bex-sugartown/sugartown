@@ -1,0 +1,66 @@
+/* ══════════════════════════════════════════════════════
+   st-citation — Knowledge Notation System
+   Typography layer component — not card layer.
+   All values consumed via --st-citation-* tokens.
+   ══════════════════════════════════════════════════════ */
+
+/* ── Inline Marker ─────────────────────────────────── */
+
+.marker {
+  display: inline;
+  vertical-align: super;
+  font-size: var(--st-citation-size);
+  line-height: 1;
+}
+
+.markerLink {
+  display: inline-block;
+  background-color: var(--st-citation-marker-bg);
+  color: var(--st-citation-marker-color);
+  font-family: var(--st-citation-font);
+  font-size: var(--st-citation-size);
+  font-weight: var(--st-font-weight-bold);
+  line-height: 1;
+  padding: 0.1em 0.35em;
+  border-radius: var(--st-radius-xs);
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.markerLink:hover {
+  opacity: 0.85;
+}
+
+.markerLink:focus-visible {
+  outline: 2px solid var(--st-color-focus);
+  outline-offset: 2px;
+}
+
+
+/* ── Footnote Zone ─────────────────────────────────── */
+
+.zone {
+  border-top: 1px dashed var(--st-citation-zone-border);
+  padding-top: var(--st-citation-zone-gap);
+  margin-top: var(--st-citation-zone-gap);
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-1);
+}
+
+
+/* ── Footnote Note ─────────────────────────────────── */
+
+.note {
+  font-family: var(--st-citation-font);
+  font-size: var(--st-citation-size);
+  line-height: var(--st-line-height-normal);
+  color: var(--st-citation-color);
+  margin: 0;
+}
+
+.index {
+  color: var(--st-citation-index-color);
+  font-weight: var(--st-font-weight-bold);
+  margin-right: 0.4em;
+}

@@ -1,11 +1,8 @@
 /**
- * TODO Epic 7 — EditorialCard is a CMS-connected component (uses urlFor from Sanity)
- * and cannot be directly replaced by the design system Card.
- * The canonical visual primitive for content cards lives in:
- *   @sugartown/design-system → Card (packages/design-system/src/components/Card/)
- * The design system Card follows the st-card spec: pink border, serif title,
- * eyebrow/header/footer BEM structure, spec-compliant hover shadow.
- * This component serves CMS page sections where Sanity image transformation is needed.
+ * @deprecated EPIC-0160 — replaced by CardBuilderSection + cardBuilderItem schema.
+ * Use CardBuilderSection for editor-assembled card grids on pages.
+ * This component is kept for backward compatibility with existing content only.
+ * Do not use in new code — it will be removed in a future version.
  */
 import { urlFor } from '../lib/sanity'
 import Link from './atoms/Link'

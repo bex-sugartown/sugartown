@@ -1,0 +1,119 @@
+/* ═══════════════════════════════════════════════════════
+   CardBuilderSection — EPIC-0160
+   Grid/list layout + image effects for editor-assembled cards
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Section wrapper ──────────────────────────────────── */
+.section {
+  width: 100%;
+}
+
+.heading {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-size-2xl);
+  font-weight: var(--st-font-weight-bold);
+  color: var(--st-color-text-default);
+  margin-bottom: var(--st-space-6);
+}
+
+/* ── Grid layout ──────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--st-space-6);
+}
+
+/* ── List layout ──────────────────────────────────────── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-4);
+}
+
+/* ── Card wrapper ─────────────────────────────────────── */
+.cardWrap {
+  height: 100%;
+}
+
+/* ── Body text (portable text inside card) ────────────── */
+.body {
+  font-size: var(--st-font-size-sm);
+  line-height: var(--st-line-height-normal);
+  color: var(--st-color-text-secondary);
+}
+
+.bodyParagraph {
+  margin: 0 0 0.5em;
+}
+
+.bodyParagraph:last-child {
+  margin-bottom: 0;
+}
+
+.bodyLink {
+  color: var(--st-color-text-brand);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.bodyLink:hover {
+  opacity: 0.8;
+}
+
+/* ── Image effects ────────────────────────────────────── */
+/*
+ * The Card adapter renders the thumbnail internally via its
+ * own <img>. We apply effects by targeting img descendants
+ * of the wrapper div that carries the effect class.
+ */
+
+/* Greyscale filter */
+.effectGreyscale img {
+  filter: grayscale(1);
+}
+
+/* Greyscale + brand colour overlay */
+.effectGreyscaleOverlay img {
+  filter: grayscale(1);
+}
+
+.effectGreyscaleOverlay {
+  position: relative;
+}
+
+/*
+ * Pink brand overlay on greyscale images.
+ * We target the Card's thumbnail container (first child div)
+ * with a pseudo-element overlay.
+ */
+.effectGreyscaleOverlay > :first-child > :first-child {
+  position: relative;
+}
+
+.effectGreyscaleOverlay > :first-child > :first-child::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--st-color-pink) 15%, transparent);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+/* ── Citation link inside card footer ─────────────────── */
+.citationLink {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.citationLink:hover {
+  opacity: 0.8;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

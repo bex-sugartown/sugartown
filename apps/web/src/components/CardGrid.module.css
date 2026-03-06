@@ -1,3 +1,5 @@
+/* @deprecated EPIC-0160 — replaced by CardBuilderSection.module.css */
+
 .section {
   padding: var(--st-spacing-stack-xl) 0;
 }

@@ -2,10 +2,10 @@ import {defineType, defineField} from 'sanity'
 import {BlockContentIcon} from '@sanity/icons'
 
 /**
- * Editorial Card Object
- *
- * Reusable card component for homepage and other sections
- * Supports title, description, image, and optional CTA
+ * @deprecated EPIC-0160 — replaced by cardBuilderItem.
+ * Use cardBuilderItem for editor-assembled card grids.
+ * This schema is kept for backward compatibility with existing content only.
+ * Do not reference in new sections — it will be removed in a future version.
  */
 export default defineType({
   name: 'editorialCard',

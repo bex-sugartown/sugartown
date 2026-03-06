@@ -245,6 +245,26 @@ export const nodeBySlugQuery = `
       _type == "htmlSection" => {
         html,
         label
+      },
+      _type == "cardBuilderSection" => {
+        heading,
+        layout,
+        cards[]{
+          title,
+          titleLink {
+            type,
+            "internalUrl": internalRef->slug.current,
+            "internalType": internalRef->_type,
+            externalUrl
+          },
+          image { asset->, alt, crop, hotspot },
+          imageEffect,
+          eyebrow,
+          subtitle,
+          body,
+          citation,
+          tags[]->{ _id, title, slug }
+        }
       }
     },
     aiTool,
@@ -337,6 +357,26 @@ export const articleBySlugQuery = `
       _type == "htmlSection" => {
         html,
         label
+      },
+      _type == "cardBuilderSection" => {
+        heading,
+        layout,
+        cards[]{
+          title,
+          titleLink {
+            type,
+            "internalUrl": internalRef->slug.current,
+            "internalType": internalRef->_type,
+            externalUrl
+          },
+          image { asset->, alt, crop, hotspot },
+          imageEffect,
+          eyebrow,
+          subtitle,
+          body,
+          citation,
+          tags[]->{ _id, title, slug }
+        }
       }
     },
     author,
@@ -427,6 +467,26 @@ export const pageBySlugQuery = `
       _type == "htmlSection" => {
         html,
         label
+      },
+      _type == "cardBuilderSection" => {
+        heading,
+        layout,
+        cards[]{
+          title,
+          titleLink {
+            type,
+            "internalUrl": internalRef->slug.current,
+            "internalType": internalRef->_type,
+            externalUrl
+          },
+          image { asset->, alt, crop, hotspot },
+          imageEffect,
+          eyebrow,
+          subtitle,
+          body,
+          citation,
+          tags[]->{ _id, title, slug }
+        }
       }
     },
     ${SEO_FRAGMENT}
@@ -496,6 +556,26 @@ export const caseStudyBySlugQuery = `
       _type == "htmlSection" => {
         html,
         label
+      },
+      _type == "cardBuilderSection" => {
+        heading,
+        layout,
+        cards[]{
+          title,
+          titleLink {
+            type,
+            "internalUrl": internalRef->slug.current,
+            "internalType": internalRef->_type,
+            externalUrl
+          },
+          image { asset->, alt, crop, hotspot },
+          imageEffect,
+          eyebrow,
+          subtitle,
+          body,
+          citation,
+          tags[]->{ _id, title, slug }
+        }
       }
     },
     authors[]->{${PERSON_FRAGMENT}},
