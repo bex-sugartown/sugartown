@@ -154,9 +154,9 @@
 /* ── Title ───────────────────────────────────────────────────────────────── */
 .title {
   margin: 0;
-  font-family: var(--st-font-narrative);
-  font-size: var(--st-font-size-xl);    /* 1.4rem — default + metadata */
-  font-weight: 700;
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-card-title-size, 1rem);   /* EPIC-0161: compact scannable scale */
+  font-weight: 600;
   line-height: var(--st-line-height-tight);
   color: var(--st-color-text-primary);
 }

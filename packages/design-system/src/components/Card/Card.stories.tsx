@@ -598,6 +598,50 @@ const LISTING_CARDS = [
 ];
 
 /**
+ * CardTypography — EPIC-0161 Workstream B.
+ * Side-by-side comparison: old Playfair/1.4rem/700 vs new Fira Sans/1rem/600.
+ * Left card shows the new (active) style; right card shows legacy for reference.
+ */
+export const CardTypography: Story = {
+  name: 'CardTypography · Before/After',
+  parameters: { layout: 'padded' },
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', maxWidth: '760px' }}>
+      <div>
+        <p style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', marginBottom: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          New · Fira Sans 1rem / 600
+        </p>
+        <Card
+          eyebrow="Node · PROJ-002"
+          title="Prompt Architecture for Long-Form Reasoning"
+          category={{ label: 'AI Methodology', href: '/categories/ai-methodology' }}
+          excerpt="Structured prompt decomposition strategies that improve coherence in multi-step reasoning tasks."
+          tags={[{ label: 'Prompting' }, { label: 'LLM' }]}
+          date="2025-11-14"
+          href="/nodes/prompt-architecture-long-form"
+        />
+      </div>
+      <div>
+        <p style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', marginBottom: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          Legacy · Playfair 1.4rem / 700
+        </p>
+        <div style={{ '--st-card-title-size': '1.4rem' } as React.CSSProperties}>
+          <Card
+            eyebrow="Node · PROJ-002"
+            title="Prompt Architecture for Long-Form Reasoning"
+            category={{ label: 'AI Methodology', href: '/categories/ai-methodology' }}
+            excerpt="Structured prompt decomposition strategies that improve coherence in multi-step reasoning tasks."
+            tags={[{ label: 'Prompting' }, { label: 'LLM' }]}
+            date="2025-11-14"
+            href="/nodes/prompt-architecture-long-form"
+          />
+        </div>
+      </div>
+    </div>
+  ),
+};
+
+/**
  * Narrow context: 620px-wide viewport simulating FilterBar sidebar present.
  * Cards should stack single-column — verifies container query / narrow-context collapse.
  * EPIC-0161 Workstream A.

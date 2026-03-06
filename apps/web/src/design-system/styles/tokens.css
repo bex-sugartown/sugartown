@@ -304,6 +304,7 @@
   --st-card-hover-translate-y: -4px;
   --st-card-hover-shadow:      0 18px 55px rgba(0, 0, 0, 0.22);   /* dark default */
   --st-card-media-height:      48px;
+  --st-card-title-size:        var(--st-font-size-md);   /* 1rem — EPIC-0161 compact scan */
 
   /* ── Card extended tokens (EPIC-0156) ─────────────────── */
   --st-color-text-eyebrow:     var(--st-color-pink);         /* canonical brand pink #FF247D */
