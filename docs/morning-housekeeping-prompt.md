@@ -66,6 +66,26 @@ cd apps/studio && npx --yes sanity@latest upgrade --dry-run 2>&1 | head -30
 - If already up to date, note that briefly.
 - Do not run the upgrade; only check.
 
+**Vite caches** — are any stale?
+```bash
+# Check Storybook Vite dep cache age (stale caches cause "Failed to fetch dynamically imported module" errors)
+if [ -d "node_modules/.cache/sb-vite" ]; then
+  echo "storybook-cache: exists, last modified $(stat -f '%Sm' -t '%Y-%m-%d %H:%M' node_modules/.cache/sb-vite)"
+else
+  echo "storybook-cache: none"
+fi
+
+# Check web app Vite dep cache age
+if [ -d "apps/web/node_modules/.vite" ]; then
+  echo "web-cache: exists, last modified $(stat -f '%Sm' -t '%Y-%m-%d %H:%M' apps/web/node_modules/.vite)"
+else
+  echo "web-cache: none"
+fi
+```
+- If a cache exists and is more than 24 hours old, flag it in the briefing and recommend clearing it.
+- Stale Vite caches cause "Failed to fetch dynamically imported module" errors across multiple pages.
+- Clear commands: `rm -rf node_modules/.cache/sb-vite` (Storybook), `rm -rf apps/web/node_modules/.vite` (web).
+
 Do not take any action yet. Collect everything first.
 
 ---
@@ -85,6 +105,7 @@ Write a plain-English morning briefing using exactly this structure. Use plain l
 - **Web app** — running on :5173? If not, say so clearly and offer to start it.
 - **Storybook** — running on :6006? If not, say so clearly and offer to start it.
 - **Sanity** — any packages out of date? List them if so; say "up to date" if not.
+- **Vite caches** — any stale caches? If a cache is >24h old, flag it and recommend clearing before starting work.
 
 ---
 
