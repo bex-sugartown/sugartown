@@ -371,6 +371,16 @@
   --st-code-inline-text:   var(--st-color-maroon);        /* legacy alias */
   --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
 
+  /* ── Citation / Knowledge Notation ───────────────────── */
+  --st-citation-color:         var(--st-color-text-secondary);   /* footnote text — legible at 0.72rem on both themes */
+  --st-citation-index-color:   var(--st-color-pink);             /* [n] number in footnote — anchors to brand */
+  --st-citation-font:          var(--st-font-family-mono);       /* scholarly apparatus register */
+  --st-citation-size:          0.72rem;                          /* smaller than body — clearly reference */
+  --st-citation-marker-bg:     var(--st-color-pink);             /* inline marker pill background */
+  --st-citation-marker-color:  var(--st-color-white);            /* inline marker text — white on pink */
+  --st-citation-zone-border:   rgba(255, 36, 125, 0.2);         /* dashed divider above footnote zone */
+  --st-citation-zone-gap:      var(--st-space-3);                /* top padding on footnote zone */
+
   /* ── Media ───────────────────────────────────────────── */
   --st-media-radius:                  var(--st-radius-media);
   --st-media-hero-aspect-ratio:       3 / 1;

@@ -12,6 +12,17 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [Unreleased]
+
+### packages/design-system
+
+#### Added
+- `CitationMarker`, `CitationNote`, `CitationZone` components — knowledge notation system extracted from legacy card layout
+- 8 semantic `--st-citation-*` tokens (colour, font, size, marker, zone border/gap)
+- 5 Storybook stories: single citation, multiple, in-prose (non-card context), stress (long text wrap), token audit reference
+
+---
+
 ## [0.15.0] — 2026-03-05
 
 Design system foundation: Card primitive, Chip primitive, light/dark theme system,

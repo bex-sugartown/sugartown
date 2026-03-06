@@ -15,6 +15,10 @@ export type { ChipProps } from './components/Chip';
 export { FilterBar } from './components/FilterBar';
 export type { FilterBarProps, FilterModel, FilterFacet, FilterOption } from './components/FilterBar';
 
+// ── Citation ─────────────────────────────────────────────────────────────────
+export { CitationMarker, CitationNote, CitationZone } from './components/Citation';
+export type { CitationMarkerProps, CitationNoteProps, CitationZoneProps } from './components/Citation';
+
 // ── Card ──────────────────────────────────────────────────────────────────────
 export { Card } from './components/Card';
 export type { CardProps } from './components/Card';
