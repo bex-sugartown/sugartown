@@ -122,7 +122,6 @@ export default defineType({
   groups: [
     {name: 'content', title: 'Content', default: true},
     {name: 'filtering', title: 'Filtering'},
-    {name: 'display', title: 'Display'},
     {name: 'seo', title: 'SEO'},
     {name: 'deferred', title: 'Advanced (coming soon)'}
   ],
@@ -544,7 +543,8 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════════════
-    // DISPLAY GROUP — Layout style, card options, sort order, pagination
+    // DEFERRED: Display — Layout style, card options, sort order, pagination
+    // (none of these fields are wired in the web app yet)
     // ════════════════════════════════════════════════════════════════════════
 
     // Display Style — DEFERRED: not yet wired in web app (always renders grid)
@@ -609,7 +609,7 @@ export default defineType({
       name: 'listStyle',
       title: 'List Display Style (Legacy)',
       type: 'string',
-      group: 'display',
+      group: 'deferred',
       hidden: true,
       options: {
         list: [
@@ -623,10 +623,10 @@ export default defineType({
 
     defineField({
       name: 'sortBy',
-      title: 'Sort Order',
+      title: 'Sort Order (coming soon)',
       type: 'string',
-      description: 'How to order content (after featured items)',
-      group: 'display',
+      description: 'Coming soon — how to order content (after featured items). Not yet wired in the web app.',
+      group: 'deferred',
       options: {
         list: [
           {title: 'Newest First', value: 'publishedAt-desc'},
@@ -639,10 +639,10 @@ export default defineType({
     }),
     defineField({
       name: 'itemsPerPage',
-      title: 'Items Per Page',
+      title: 'Items Per Page (coming soon)',
       type: 'number',
-      description: 'Number of items to show before pagination',
-      group: 'display',
+      description: 'Coming soon — number of items to show before pagination. Not yet wired in the web app.',
+      group: 'deferred',
       validation: (Rule) =>
         Rule.required()
           .min(6)
@@ -652,9 +652,9 @@ export default defineType({
     }),
     defineField({
       name: 'showPagination',
-      title: 'Enable Pagination',
+      title: 'Enable Pagination (coming soon)',
       type: 'boolean',
-      group: 'display',
+      group: 'deferred',
       initialValue: true
     }),
 
