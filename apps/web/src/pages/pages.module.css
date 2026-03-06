@@ -207,10 +207,14 @@
 }
 
 /* ── Archive listing pages ───────────────────────────────────────── */
+/* Archive pages need more width than detail pages to accommodate the
+   220px filter sidebar + multi-column card grid side-by-side.
+   1140px → ~850px content area → comfortable 2-up at 280px min-card. */
 .archivePage {
-  max-width: 960px;
+  max-width: 1140px;
   margin: 0 auto;
   padding: 3rem 1.5rem 5rem;
+  container-type: inline-size;
 }
 
 /* ── Layout toggle toolbar ────────────────────────────────────────── */
@@ -297,8 +301,10 @@
   align-items: start;
 }
 
-/* Single-column on narrow viewports */
-@media (max-width: 640px) {
+/* Stack sidebar above content when the archive page container is narrow.
+   Uses container query (not viewport media query) so the layout responds
+   to the actual available width — works in split views, devtools, etc. */
+@container (max-width: 640px) {
   .archiveLayout {
     grid-template-columns: 1fr;
   }
@@ -312,9 +318,9 @@
 }
 
 /* Narrow content area → single column.
-   With a 220px sidebar + 2rem gap inside a 960px max-width container,
-   the content area is ~660px — well above the 280px card minimum for 2-up.
-   Only collapse to 1 column when truly narrow (mobile / very small panels). */
+   With a 220px sidebar + 2rem gap inside a 1140px max-width container,
+   the content area is ~850px — room for 2–3 cards at 280px min.
+   Only collapse to 1 column when truly narrow (mobile / stacked sidebar). */
 @container (max-width: 480px) {
   .archiveGrid {
     grid-template-columns: 1fr;
