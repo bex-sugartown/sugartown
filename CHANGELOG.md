@@ -23,6 +23,26 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.15.1] — 2026-03-06
+
+EPIC-0153: Hero Full-Width & Content Width Normalisation. Canonical width tokens for detail and archive pages; hero sections gain an editor-controlled full-width / content-width option with enforced zero border-radius.
+
+### packages/design-system
+
+- `--st-width-detail` (760px) and `--st-width-archive` (960px) tokens added and synced across both token files
+
+### apps/web
+
+- All detail-page containers now use `var(--st-width-detail)` instead of hardcoded `760px` or retired `--st-page-max` / `--st-content-width` tokens
+- HeroSection reads `imageWidth` from Sanity and applies content-width (default, constrained) or full-width (viewport breakout via `calc(-50vw + 50%)`)
+- Explicit `border-radius: 0` enforced on all hero surfaces and overlay pseudo-elements
+
+### apps/studio
+
+- `heroSection` schema gains `imageWidth` radio field (`content-width` | `full-width`, default `content-width`)
+
+---
+
 ## [0.15.0] — 2026-03-05
 
 Design system foundation: Card primitive, Chip primitive, light/dark theme system,
