@@ -123,7 +123,8 @@ export default defineType({
     {name: 'content', title: 'Content', default: true},
     {name: 'filtering', title: 'Filtering'},
     {name: 'display', title: 'Display'},
-    {name: 'seo', title: 'SEO'}
+    {name: 'seo', title: 'SEO'},
+    {name: 'deferred', title: 'Advanced (coming soon)'}
   ],
   fields: [
     // ════════════════════════════════════════════════════════════════════════
@@ -196,8 +197,9 @@ export default defineType({
         }),
         defineField({
           name: 'backgroundImage',
-          title: 'Background Image',
+          title: 'Background Image (coming soon)',
           type: 'image',
+          description: 'Not yet wired up in the web app. Will be enabled in a future release.',
           options: {hotspot: true},
           fields: [
             defineField({
@@ -263,13 +265,13 @@ export default defineType({
           .error('Select at least one content type')
     }),
 
-    // Featured Items (Pinned to top)
+    // Featured Items (Pinned to top) — DEFERRED: not yet wired in web app
     defineField({
       name: 'featuredItems',
       title: 'Featured Items',
       type: 'array',
-      description: 'Pin specific items to appear first, before auto-sorted content',
-      group: 'filtering',
+      description: 'Coming soon — pin specific items to appear first, before auto-sorted content',
+      group: 'deferred',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -286,13 +288,13 @@ export default defineType({
           .warning('Consider limiting to 6 featured items for a clean layout')
     }),
 
-    // Taxonomy Filters (Editor pre-filtering)
+    // Taxonomy Filters (Editor pre-filtering) — DEFERRED: not yet wired in web app
     defineField({
       name: 'taxonomyFilters',
       title: 'Default Taxonomy Filters',
       type: 'object',
-      description: 'Pre-filter content by taxonomy (editors only). Leave empty to show all.',
-      group: 'filtering',
+      description: 'Coming soon — pre-filter content by taxonomy (editors only). Leave empty to show all.',
+      group: 'deferred',
       fields: [
         defineField({
           name: 'categories',
@@ -315,13 +317,13 @@ export default defineType({
       ]
     }),
 
-    // Date Range Filter (Optional)
+    // Date Range Filter (Optional) — DEFERRED: not yet wired in web app
     defineField({
       name: 'dateRange',
       title: 'Date Range Filter',
       type: 'object',
-      description: 'Optional. Limit content to specific date range',
-      group: 'filtering',
+      description: 'Coming soon — limit content to specific date range',
+      group: 'deferred',
       fields: [
         defineField({
           name: 'startDate',
@@ -374,7 +376,7 @@ export default defineType({
       title: 'Filter Configuration',
       type: 'object',
       description: 'Configure which taxonomy facets appear in the filter sidebar, their order, and selection behaviour',
-      group: 'filtering',
+      group: 'deferred',
       fields: [
         defineField({
           name: 'facets',
@@ -480,23 +482,23 @@ export default defineType({
       ]
     }),
 
-    // Frontend Filter Sidebar Toggle
+    // Frontend Filter Sidebar Toggle — DEFERRED: not yet wired in web app
     defineField({
       name: 'enableFrontendFilters',
       title: 'Enable Frontend Filters',
       type: 'boolean',
-      description: 'Show filter sidebar for website visitors',
-      group: 'filtering',
+      description: 'Coming soon — show filter sidebar for website visitors',
+      group: 'deferred',
       initialValue: true
     }),
 
-    // Frontend Filter Sidebar Configuration
+    // Frontend Filter Sidebar Configuration — DEFERRED: not yet wired in web app
     defineField({
       name: 'frontendFilters',
       title: 'Frontend Filter Options',
       type: 'object',
-      description: 'Configure which filters visitors can use on the website',
-      group: 'filtering',
+      description: 'Coming soon — configure which filters visitors can use on the website',
+      group: 'deferred',
       hidden: ({parent}) => !parent?.enableFrontendFilters,
       fields: [
         defineField({
@@ -545,13 +547,13 @@ export default defineType({
     // DISPLAY GROUP — Layout style, card options, sort order, pagination
     // ════════════════════════════════════════════════════════════════════════
 
-    // Display Style — overall layout of the archive
+    // Display Style — DEFERRED: not yet wired in web app (always renders grid)
     defineField({
       name: 'displayStyle',
       title: 'Display Style',
       type: 'string',
-      description: 'Grid: cards with image on top. List: cards with image on left.',
-      group: 'display',
+      description: 'Coming soon — Grid: cards with image on top. List: cards with image on left.',
+      group: 'deferred',
       options: {
         list: [
           {title: 'Grid (image on top)', value: 'grid'},
@@ -562,13 +564,13 @@ export default defineType({
       initialValue: 'grid'
     }),
 
-    // Card Options — toggle features on/off for cards
+    // Card Options — DEFERRED: not yet wired in web app
     defineField({
       name: 'cardOptions',
       title: 'Card Options',
       type: 'object',
-      description: 'Control what appears on each card in the archive listing',
-      group: 'display',
+      description: 'Coming soon — control what appears on each card in the archive listing',
+      group: 'deferred',
       fields: [
         defineField({
           name: 'showExcerpt',
