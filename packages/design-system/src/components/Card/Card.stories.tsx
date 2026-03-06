@@ -664,6 +664,60 @@ export const NarrowContext: Story = {
 };
 
 /**
+ * CardChipLabels — EPIC-0161 Workstream C.
+ * Three states: tools only, tags only, both groups.
+ * Verifies "Tools ·" and "Tags ·" labels appear/disappear correctly with empty data.
+ */
+export const CardChipLabels: Story = {
+  name: 'CardChipLabels · Group Labels',
+  parameters: { layout: 'padded' },
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem', maxWidth: '960px' }}>
+      <div>
+        <p style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', marginBottom: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          Tools only
+        </p>
+        <Card
+          eyebrow="Case Study"
+          title="Token-Driven Design System"
+          category={{ label: 'Systems Design', href: '/categories/systems-design' }}
+          tools={[{ label: 'Figma' }, { label: 'Storybook' }]}
+          date="2025-03-01"
+          href="/case-studies/token-driven-design-system"
+        />
+      </div>
+      <div>
+        <p style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', marginBottom: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          Tags only
+        </p>
+        <Card
+          eyebrow="Article"
+          title="Variable Fonts in Production"
+          category={{ label: 'Engineering', href: '/categories/engineering' }}
+          tags={[{ label: 'CSS' }, { label: 'Typography' }, { label: 'Performance' }]}
+          date="2024-01-08"
+          href="/articles/variable-fonts-production"
+        />
+      </div>
+      <div>
+        <p style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', marginBottom: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+          Both groups
+        </p>
+        <Card
+          eyebrow="Node · PROJ-002"
+          title="Prompt Architecture for Long-Form Reasoning"
+          category={{ label: 'AI Methodology', href: '/categories/ai-methodology' }}
+          tools={[{ label: 'Claude' }, { label: 'Agentic Caucus' }]}
+          tags={[{ label: 'Prompting' }, { label: 'LLM' }, { label: 'Reasoning' }]}
+          date="2025-11-14"
+          href="/nodes/prompt-architecture-long-form"
+        />
+      </div>
+    </div>
+  ),
+};
+
+/**
  * Stack of listing cards, content-width container. Consistent spacing.
  */
 export const ListingGrid: Story = {

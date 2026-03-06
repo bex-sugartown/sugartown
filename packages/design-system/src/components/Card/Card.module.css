@@ -268,6 +268,30 @@
    - toolsRow / tagsRow: flex layout containers
    - chipTag: marker class for accentColor cascade (see above)
 */
+/* ── Chip group wrapper + label ──────────────────────────────────────── */
+.chipGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--st-space-2);
+}
+
+.chipGroupLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* Separator dot rendered via CSS — keeps label string clean for i18n */
+.chipGroupLabel::after {
+  content: ' ·';
+}
+
 .toolsRow,
 .tagsRow {
   list-style: none;

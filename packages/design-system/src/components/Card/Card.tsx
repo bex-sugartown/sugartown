@@ -94,6 +94,10 @@ export interface CardProps {
   tags?: Array<{ label: string; href?: string }>;
   /** Outlined grey chips (tools/platforms). */
   tools?: Array<{ label: string; href?: string }>;
+  /** Label shown before the tools chip group (default: 'Tools'). */
+  toolsLabel?: string;
+  /** Label shown before the tags chip group (default: 'Tags'). */
+  tagsLabel?: string;
 
   // Footer
   /** ISO date string — component formats for display. */
@@ -166,6 +170,8 @@ export const Card: React.FC<CardProps> = ({
   metadata,
   tags,
   tools,
+  toolsLabel = 'Tools',
+  tagsLabel = 'Tags',
   date,
   nextStep,
   aiTool,
@@ -269,37 +275,43 @@ export const Card: React.FC<CardProps> = ({
       )}
 
       {tools && tools.length > 0 && (
-        <ul className={styles.toolsRow} aria-label="Tools">
-          {tools.map(({ label, href: chipHref }) => (
-            <li key={label}>
-              <Chip
-                label={label}
-                href={chipHref}
-                color="grey"
-                size="sm"
-                className={chipHref && href ? styles.hasCardLink : undefined}
-              />
-            </li>
-          ))}
-        </ul>
+        <div className={styles.chipGroup}>
+          <span className={styles.chipGroupLabel}>{toolsLabel}</span>
+          <ul className={styles.toolsRow} aria-label={toolsLabel}>
+            {tools.map(({ label, href: chipHref }) => (
+              <li key={label}>
+                <Chip
+                  label={label}
+                  href={chipHref}
+                  color="grey"
+                  size="sm"
+                  className={chipHref && href ? styles.hasCardLink : undefined}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
       {tags && tags.length > 0 && (
-        <ul className={styles.tagsRow} aria-label="Tags">
-          {tags.map(({ label, href: chipHref }) => (
-            <li key={label}>
-              <Chip
-                label={label}
-                href={chipHref}
-                size="sm"
-                className={[
-                  styles.chipTag,
-                  chipHref && href ? styles.hasCardLink : '',
-                ].filter(Boolean).join(' ') || undefined}
-              />
-            </li>
-          ))}
-        </ul>
+        <div className={styles.chipGroup}>
+          <span className={styles.chipGroupLabel}>{tagsLabel}</span>
+          <ul className={styles.tagsRow} aria-label={tagsLabel}>
+            {tags.map(({ label, href: chipHref }) => (
+              <li key={label}>
+                <Chip
+                  label={label}
+                  href={chipHref}
+                  size="sm"
+                  className={[
+                    styles.chipTag,
+                    chipHref && href ? styles.hasCardLink : '',
+                  ].filter(Boolean).join(' ') || undefined}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   ) : null;
