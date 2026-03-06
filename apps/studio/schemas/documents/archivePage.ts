@@ -175,13 +175,13 @@ export default defineType({
           .warning('Keep descriptions concise')
     }),
 
-    // Hero Section
+    // Hero Section — DEFERRED: not yet wired in web app
     defineField({
       name: 'hero',
-      title: 'Hero Section',
+      title: 'Hero Section (coming soon)',
       type: 'object',
-      description: 'Optional hero banner at the top of the archive page',
-      group: 'content',
+      description: 'Coming soon — optional hero banner at the top of the archive page. Not yet wired up in the web app.',
+      group: 'deferred',
       fields: [
         defineField({
           name: 'heading',
