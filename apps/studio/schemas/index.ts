@@ -20,6 +20,7 @@ import link from './objects/link'
 import richImage from './objects/richImage'
 import ctaButton from './objects/ctaButton'
 import editorialCard from './objects/editorialCard'
+import cardBuilderItem from './objects/cardBuilderItem'
 import seoMetadata from './objects/seoMetadata'
 import legacySource from './objects/legacySource'
 import mediaOverlay from './objects/mediaOverlay'
@@ -41,6 +42,7 @@ import textSection from './sections/textSection'
 import imageGallery from './sections/imageGallery'
 import ctaSection from './sections/ctaSection'
 import htmlSection from './sections/htmlSection'
+import cardBuilderSection from './sections/cardBuilderSection'
 
 // ============================================================================
 // DOCUMENTS - Top-level content types
@@ -90,6 +92,7 @@ export const schemaTypes = [
   richImage,
   ctaButton,
   editorialCard,
+  cardBuilderItem,
   seoMetadata,
   legacySource,
   mediaOverlay,
@@ -106,6 +109,7 @@ export const schemaTypes = [
   imageGallery,
   ctaSection,
   htmlSection,
+  cardBuilderSection,
 
   // Documents - Taxonomy (New)
   category,
