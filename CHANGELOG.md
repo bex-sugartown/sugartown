@@ -16,6 +16,26 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.15.4] — 2026-03-06
+
+EPIC-0161: Card Grid & Typography Polish. Narrow-context layout, typography scale, and chip label UX across DS Card and archive pages.
+
+### packages/design-system
+
+- Card title typography changed from Playfair Display 1.4rem/700 to Fira Sans (`--st-font-family-ui`) 1rem/600 via new `--st-card-title-size` component token
+- Chip rows now render group labels ("Tools ·" / "Tags ·") via `toolsLabel` and `tagsLabel` props with CSS-rendered separator dot
+- Three new stories: CardTypography (before/after), NarrowContext (620px), CardChipLabels (3 states)
+
+### apps/web
+
+- Archive grid collapses to single column when FilterBar narrows content below 700px (container query)
+- Grid/list layout toggle with sessionStorage persistence per archive slug
+- `--st-card-title-size` token synced to web canonical file
+
+Also includes: two EPIC-0153 hero bug fixes (imageWidth GROQ, white text on image heroes, ghost→tertiary button mapping) and a Studio label rename (Seafoam → Lime).
+
+---
+
 ## [0.15.3] — 2026-03-06
 
 EPIC-0160: Card Builder Section. Editors can compose freeform card grids from Sanity with per-card editorial content, optional citations, and layout control.
