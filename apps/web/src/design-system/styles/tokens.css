@@ -253,6 +253,10 @@
   --st-radius-hero:    var(--st-radius-xl);
   --st-radius-media:   var(--st-radius-xl);
 
+  /* ── Content Width Scale ────────────────────────────── */
+  --st-width-detail:   760px;   /* reading/detail pages: Article, CaseStudy, Node, Page */
+  --st-width-archive:  960px;   /* listing/archive pages — defined now, applied in archive epic */
+
   /* ── Semantic Typography ─────────────────────────────── */
   --st-font-narrative:  var(--st-font-family-narrative);
   --st-font-ui:         var(--st-font-family-ui);

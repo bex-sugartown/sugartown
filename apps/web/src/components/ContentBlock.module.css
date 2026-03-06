@@ -1,5 +1,5 @@
 .contentBlock {
-  max-width: var(--st-page-max);
+  max-width: var(--st-width-detail);
   margin: 0 auto;
   padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
   font-size: var(--st-font-heading-4);

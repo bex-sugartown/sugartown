@@ -252,6 +252,10 @@
   --st-effect-accent-glow:      transparent;  /* pink-moon themes → rgba(255,36,125,0.18) */
   --st-shadow-elevation-float:  var(--st-shadow-1);
 
+  /* ── Content Width Scale ────────────────────────────── */
+  --st-width-detail:   760px;   /* reading/detail pages: Article, CaseStudy, Node, Page */
+  --st-width-archive:  960px;   /* listing/archive pages — defined now, applied in archive epic */
+
   /* ── Typography: Semantic Aliases ───────────────────── */
   --st-font-narrative: var(--st-font-family-narrative);
   --st-font-ui:        var(--st-font-family-ui);

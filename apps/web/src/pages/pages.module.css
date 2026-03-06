@@ -67,7 +67,7 @@
 
 /* ── Article / Node / CaseStudy detail pages ─────────────────────── */
 .detailPage {
-  max-width: 760px;
+  max-width: var(--st-width-detail);
   margin: 0 auto;
   padding: 3rem 1.5rem 5rem;
 }

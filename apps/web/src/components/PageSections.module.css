@@ -22,7 +22,7 @@
 .heroContainer {
   position: relative;
   z-index: 2;
-  max-width: var(--st-page-max);
+  max-width: var(--st-width-detail);
   margin: 0 auto;
   width: 100%;
 }
@@ -59,7 +59,7 @@
 
 /* Text Section */
 .textSection {
-  max-width: var(--st-page-max);
+  max-width: var(--st-width-detail);
   margin: 0 auto;
   padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
 }
@@ -215,7 +215,7 @@
 
 /* Image Gallery */
 .imageGallery {
-  max-width: var(--st-page-max);
+  max-width: var(--st-width-detail);
   margin: 0 auto;
   padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
   display: grid;
@@ -264,7 +264,7 @@
 
 /* CTA Section */
 .ctaSection {
-  max-width: var(--st-page-max);
+  max-width: var(--st-width-detail);
   margin: 0 auto;
   padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
   text-align: center;
@@ -294,7 +294,7 @@
    HTML Section — raw HTML containment wrapper
    ============================================ */
 :global(.st-html-section) {
-  max-width: var(--st-content-width, 800px);
+  max-width: var(--st-width-detail);
   margin-inline: auto;
   padding-block: var(--st-spacing-inset-md, 1.5rem);
 }
