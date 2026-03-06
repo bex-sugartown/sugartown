@@ -14,12 +14,31 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+---
+
+## [0.15.3] — 2026-03-06
+
+EPIC-0160: Card Builder Section. Editors can compose freeform card grids from Sanity with per-card editorial content, optional citations, and layout control.
+
+### apps/studio
+
+- `cardBuilderItem` object and `cardBuilderSection` section type registered for page builder use
+
+### apps/web
+
+- `CardBuilderSection` renderer wired into `PageSections` with GROQ projection for card builder data
+- Citation web adapter added at `design-system/components/citation/` to bridge DS Citation into the web app
+
+---
+
+## [0.15.2] — 2026-03-06
+
+EPIC-0159: Citation Components. Knowledge notation primitives for marking sourced claims with inline markers and endnote-style footnotes.
+
 ### packages/design-system
 
-#### Added
-- `CitationMarker`, `CitationNote`, `CitationZone` components — knowledge notation system extracted from legacy card layout
-- 8 semantic `--st-citation-*` tokens (colour, font, size, marker, zone border/gap)
-- 5 Storybook stories: single citation, multiple, in-prose (non-card context), stress (long text wrap), token audit reference
+- `CitationMarker`, `CitationNote`, and `CitationZone` components with 8 semantic `--st-citation-*` tokens
+- 5 Storybook stories covering single, multiple, in-prose, stress, and token audit scenarios
 
 ---
 
