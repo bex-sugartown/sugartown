@@ -49,6 +49,19 @@ const NODE_EVOLUTION_MAP = {
   evergreen:        'evergreen',
 }
 
+// ─── Chip truncation ─────────────────────────────────────────────────────────
+// Grid cards cap visible chips per group to keep card height manageable.
+// List variant shows all chips — it has the horizontal space.
+const MAX_CHIPS_GRID = 3
+
+function truncateChips(chips, max, variant) {
+  if (!chips || !chips.length || variant === 'listing') return chips
+  if (chips.length <= max) return chips
+  const visible = chips.slice(0, max)
+  visible.push({ label: `+${chips.length - max}` })
+  return visible
+}
+
 // ─── ContentCard ─────────────────────────────────────────────────────────────
 
 export default function ContentCard({
@@ -136,6 +149,14 @@ export default function ContentCard({
     ? decodeHtml(item.excerpt)
     : undefined
 
+  // ── Truncate chip arrays for grid view ──
+  const toolsDisplay = truncateChips(toolChips, MAX_CHIPS_GRID, variant)
+  const tagsDisplay = truncateChips(
+    tagChips.length > 0 ? tagChips : undefined,
+    MAX_CHIPS_GRID,
+    variant
+  )
+
   return (
     <Card
       variant={variant}
@@ -148,8 +169,8 @@ export default function ContentCard({
       excerpt={excerptText}
       thumbnailUrl={thumbnailUrl}
       thumbnailAlt={item.heroImageAlt ?? ''}
-      tools={toolChips}
-      tags={tagChips.length > 0 ? tagChips : undefined}
+      tools={toolsDisplay}
+      tags={tagsDisplay}
       date={item.publishedAt}
       aiTool={isNode && item.aiTool ? item.aiTool : undefined}
     />

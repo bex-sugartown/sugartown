@@ -312,9 +312,10 @@
 }
 
 /* Narrow content area → single column.
-   When FilterBar sidebar is present, the content area shrinks to ~600–700px;
-   below 700px the auto-fill grid squeezes cards below their designed minimum. */
-@container (max-width: 700px) {
+   With a 220px sidebar + 2rem gap inside a 960px max-width container,
+   the content area is ~660px — well above the 280px card minimum for 2-up.
+   Only collapse to 1 column when truly narrow (mobile / very small panels). */
+@container (max-width: 480px) {
   .archiveGrid {
     grid-template-columns: 1fr;
   }
