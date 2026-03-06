@@ -77,7 +77,9 @@ function HeroSection({ section }) {
 
   const widthClass = imageWidth === 'full-width'
     ? styles.heroFullWidth
-    : styles.heroContentWidth
+    : imageWidth === 'content-width'
+      ? styles.heroContentWidth
+      : ''
 
   return (
     <section className={`${styles.heroSection} ${widthClass}`} style={backgroundStyles}>
@@ -89,7 +91,7 @@ function HeroSection({ section }) {
             <div className={styles.heroActions}>
               {primary && (
                 <Button
-                  variant="primary"
+                  variant={primary.style || 'primary'}
                   href={primary.url}
                   target={primary.openInNewTab ? '_blank' : undefined}
                   rel={primary.openInNewTab ? 'noreferrer' : undefined}
@@ -99,7 +101,7 @@ function HeroSection({ section }) {
               )}
               {secondary && (
                 <Button
-                  variant="secondary"
+                  variant={secondary.style || 'secondary'}
                   href={secondary.url}
                   target={secondary.openInNewTab ? '_blank' : undefined}
                   rel={secondary.openInNewTab ? 'noreferrer' : undefined}
