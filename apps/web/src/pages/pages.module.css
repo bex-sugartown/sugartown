@@ -213,6 +213,44 @@
   padding: 3rem 1.5rem 5rem;
 }
 
+/* ── Layout toggle toolbar ────────────────────────────────────────── */
+.layoutToolbar {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--st-space-1, 4px);
+  margin-bottom: var(--st-space-3, 12px);
+}
+
+.layoutToggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--st-color-border-subtle, rgba(255, 255, 255, 0.06));
+  border-radius: var(--st-radius-xs, 4px);
+  background: transparent;
+  color: var(--st-color-text-muted, #94A3B8);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.layoutToggleBtn:hover {
+  color: var(--st-color-text-default, #f8f8fa);
+  border-color: var(--st-color-border-medium, rgba(255, 255, 255, 0.12));
+}
+
+.layoutToggleBtnActive {
+  color: var(--st-color-brand-primary, #ff247d);
+  border-color: var(--st-color-brand-primary, #ff247d);
+}
+
+.layoutToggleBtn:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary, #ff247d);
+  outline-offset: 2px;
+}
+
 .archiveHeading {
   /* font-family inherits from globals h1-h4 narrative rule */
   font-size: clamp(2rem, 5vw, 3rem);
@@ -229,10 +267,18 @@
   line-height: 1.6;
 }
 
+/* Multi-column grid: for full-content-width contexts only (no sidebar).
+   When FilterBar narrows the content area, container query below forces 1-column.
+   See Workstream A — EPIC-0161 for constraint rationale. */
 .archiveGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
+}
+
+/* User-selected list layout — always single column */
+.archiveGrid[data-layout="list"] {
+  grid-template-columns: 1fr;
 }
 
 .archiveEmpty {
@@ -258,9 +304,20 @@
   }
 }
 
-/* Content column (grid + pagination) */
+/* Content column (grid + pagination).
+   container-type enables @container queries for narrow-context grid collapse. */
 .archiveContent {
+  container-type: inline-size;
   min-width: 0; /* prevent overflow in grid */
+}
+
+/* Narrow content area → single column.
+   When FilterBar sidebar is present, the content area shrinks to ~600–700px;
+   below 700px the auto-fill grid squeezes cards below their designed minimum. */
+@container (max-width: 700px) {
+  .archiveGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* Result count line shown when filters are active */

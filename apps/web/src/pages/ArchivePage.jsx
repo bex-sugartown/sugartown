@@ -37,6 +37,7 @@
  *   - Pagination renders page navigation
  *   - GROQ slice cap removed — all published items fetched for filtering accuracy
  */
+import { useState } from 'react'
 import { useSanityDoc, useSanityList } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
@@ -129,7 +130,7 @@ const CONTENT_TYPE_TO_DOC_TYPE = {
 
 // ─── ArchiveListing — fetches, filters, paginates, and renders items ──────────
 
-function ArchiveListing({ contentType, archiveDoc }) {
+function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
   const query = ARCHIVE_QUERIES[contentType]
   const docType = CONTENT_TYPE_TO_DOC_TYPE[contentType]
 
@@ -152,6 +153,26 @@ function ArchiveListing({ contentType, archiveDoc }) {
     clearAll,
     setPage,
   } = useFilterState()
+
+  // Layout toggle: default from Sanity displayStyle, user can override.
+  // Persists user choice in sessionStorage keyed to the archive slug.
+  const defaultLayout = archiveDoc?.displayStyle === 'list' ? 'list' : 'grid'
+  const [layout, setLayout] = useState(() => {
+    try {
+      return sessionStorage.getItem(`archive-layout-${archiveSlug}`) || defaultLayout
+    } catch {
+      return defaultLayout
+    }
+  })
+
+  const handleLayoutChange = (newLayout) => {
+    setLayout(newLayout)
+    try {
+      sessionStorage.setItem(`archive-layout-${archiveSlug}`, newLayout)
+    } catch {
+      // sessionStorage not available
+    }
+  }
 
   if (!query || !docType) {
     if (import.meta.env.DEV) {
@@ -190,14 +211,43 @@ function ArchiveListing({ contentType, archiveDoc }) {
       )}
 
       <div className={styles.archiveContent}>
-        {/* Result count — shown when filters are active */}
-        {hasActiveFilters && (
-          <p className={styles.archiveResultCount}>
-            {totalItems === 0
-              ? 'No results'
-              : `${totalItems} result${totalItems === 1 ? '' : 's'}`}
-          </p>
-        )}
+        {/* Layout toggle + result count toolbar */}
+        <div className={styles.layoutToolbar}>
+          {hasActiveFilters && (
+            <p className={styles.archiveResultCount} style={{ marginRight: 'auto', marginBottom: 0 }}>
+              {totalItems === 0
+                ? 'No results'
+                : `${totalItems} result${totalItems === 1 ? '' : 's'}`}
+            </p>
+          )}
+          <button
+            type="button"
+            className={`${styles.layoutToggleBtn} ${layout === 'grid' ? styles.layoutToggleBtnActive : ''}`}
+            onClick={() => handleLayoutChange('grid')}
+            aria-label="Grid view"
+            aria-pressed={layout === 'grid'}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className={`${styles.layoutToggleBtn} ${layout === 'list' ? styles.layoutToggleBtnActive : ''}`}
+            onClick={() => handleLayoutChange('list')}
+            aria-label="List view"
+            aria-pressed={layout === 'list'}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
+              <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
+              <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
 
         {/* Empty state */}
         {pageItems.length === 0 ? (
@@ -218,13 +268,13 @@ function ArchiveListing({ contentType, archiveDoc }) {
             )}
           </div>
         ) : (
-          <div className={styles.archiveGrid}>
+          <div className={styles.archiveGrid} data-layout={layout}>
             {pageItems.map((item) => (
               <ContentCard
                 key={item._id}
                 item={item}
                 docType={docType}
-                variant={archiveDoc?.displayStyle === 'list' ? 'listing' : 'default'}
+                variant={layout === 'list' ? 'listing' : 'default'}
                 showExcerpt={archiveDoc?.cardOptions?.showExcerpt ?? true}
                 showHeroImage={archiveDoc?.cardOptions?.showHeroImage ?? true}
                 imageOverride={archiveDoc?.cardOptions?.imageOverride ?? null}
@@ -277,7 +327,7 @@ export default function ArchivePage({ archiveSlug }) {
       )}
 
       {primaryType ? (
-        <ArchiveListing contentType={primaryType} archiveDoc={archiveDoc} />
+        <ArchiveListing contentType={primaryType} archiveDoc={archiveDoc} archiveSlug={archiveSlug} />
       ) : (
         <p className={styles.archiveEmpty}>
           No content type configured for this archive.

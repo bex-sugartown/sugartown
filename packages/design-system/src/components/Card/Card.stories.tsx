@@ -598,6 +598,28 @@ const LISTING_CARDS = [
 ];
 
 /**
+ * Narrow context: 620px-wide viewport simulating FilterBar sidebar present.
+ * Cards should stack single-column — verifies container query / narrow-context collapse.
+ * EPIC-0161 Workstream A.
+ */
+export const NarrowContext: Story = {
+  name: 'Grid · Narrow Context (620px)',
+  parameters: { layout: 'fullscreen' },
+  render: () => (
+    <div style={{ padding: '2rem', maxWidth: '620px', margin: '0 auto', border: '1px dashed rgba(255,255,255,0.1)' }}>
+      <p style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.7rem', color: 'var(--st-color-text-muted)', marginBottom: '1rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+        Narrow context · 620px (FilterBar present)
+      </p>
+      <div className="st-layout-grid" style={{ gridTemplateColumns: '1fr' }}>
+        {GRID_CARDS.slice(0, 6).map((card) => (
+          <Card key={card.title} {...card} />
+        ))}
+      </div>
+    </div>
+  ),
+};
+
+/**
  * Stack of listing cards, content-width container. Consistent spacing.
  */
 export const ListingGrid: Story = {
