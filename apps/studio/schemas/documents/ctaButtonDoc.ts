@@ -34,7 +34,7 @@ export default defineType({
       options: {
         list: [
           {title: 'Primary (Sugartown Pink)', value: 'primary'},
-          {title: 'Secondary (Seafoam)', value: 'secondary'},
+          {title: 'Secondary (Lime)', value: 'secondary'},
           {title: 'Ghost (Outline)', value: 'ghost'}
         ],
         layout: 'radio'
