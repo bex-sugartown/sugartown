@@ -216,6 +216,7 @@ export const nodeBySlugQuery = `
       _type in ["heroSection", "hero"] => {
         heading,
         subheading,
+        imageWidth,
         backgroundImage {
           asset->,
           alt,
@@ -328,6 +329,7 @@ export const articleBySlugQuery = `
       _type in ["heroSection", "hero"] => {
         heading,
         subheading,
+        imageWidth,
         backgroundImage {
           asset->,
           alt,
@@ -415,6 +417,7 @@ export const pageBySlugQuery = `
       _type in ["heroSection", "hero"] => {
         heading,
         subheading,
+        imageWidth,
         backgroundImage {
           asset->,
           alt,
@@ -546,7 +549,9 @@ export const caseStudyBySlugQuery = `
       _type in ["heroSection", "hero"] => {
         heading,
         subheading,
-        backgroundImage { asset->, alt, crop, hotspot }
+        imageWidth,
+        backgroundImage { asset->, alt, crop, hotspot },
+        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": link.url, "openInNewTab": link.openInNewTab, style }
       },
       _type == "ctaSection" => {
         heading,

@@ -11,8 +11,12 @@
   border-radius: 0;           /* Hard rule — heroes never have rounded corners */
 }
 
-/* Dark overlay for images */
-.heroSection::before {
+/* White text + dark overlay — only when a background image is present */
+.heroWithImage {
+  color: #fff;
+}
+
+.heroWithImage::before {
   content: '';
   position: absolute;
   inset: 0;

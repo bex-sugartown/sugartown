@@ -57,6 +57,12 @@ const portableTextComponents = {
   },
 }
 
+// Map Sanity CTA style values to DS Button variant props
+// Schema stores 'ghost' but the Button component expects 'tertiary'
+const CTA_STYLE_TO_VARIANT = { primary: 'primary', secondary: 'secondary', ghost: 'tertiary' }
+const mapCtaStyle = (style, fallback = 'primary') =>
+  CTA_STYLE_TO_VARIANT[style] || fallback
+
 // Hero Section Component
 function HeroSection({ section }) {
   const { heading, subheading, backgroundImage, ctas, imageWidth } = section
@@ -81,8 +87,14 @@ function HeroSection({ section }) {
       ? styles.heroContentWidth
       : ''
 
+  const sectionClasses = [
+    styles.heroSection,
+    widthClass,
+    hasImage ? styles.heroWithImage : '',
+  ].filter(Boolean).join(' ')
+
   return (
-    <section className={`${styles.heroSection} ${widthClass}`} style={backgroundStyles}>
+    <section className={sectionClasses} style={backgroundStyles}>
       <div className={styles.heroContainer}>
         <div className={styles.heroContent}>
           {heading && <h1 className={styles.heroHeading}>{heading}</h1>}
@@ -91,7 +103,7 @@ function HeroSection({ section }) {
             <div className={styles.heroActions}>
               {primary && (
                 <Button
-                  variant={primary.style || 'primary'}
+                  variant={mapCtaStyle(primary.style, 'primary')}
                   href={primary.url}
                   target={primary.openInNewTab ? '_blank' : undefined}
                   rel={primary.openInNewTab ? 'noreferrer' : undefined}
@@ -101,7 +113,7 @@ function HeroSection({ section }) {
               )}
               {secondary && (
                 <Button
-                  variant={secondary.style || 'secondary'}
+                  variant={mapCtaStyle(secondary.style, 'secondary')}
                   href={secondary.url}
                   target={secondary.openInNewTab ? '_blank' : undefined}
                   rel={secondary.openInNewTab ? 'noreferrer' : undefined}
@@ -184,7 +196,7 @@ function CTASection({ section }) {
           {buttons.map((button, index) => (
             <Button
               key={index}
-              variant={button.style || 'primary'}
+              variant={mapCtaStyle(button.style)}
               href={button.link?.url}
               target={button.link?.openInNewTab ? '_blank' : undefined}
               rel={button.link?.openInNewTab ? 'noreferrer' : undefined}
