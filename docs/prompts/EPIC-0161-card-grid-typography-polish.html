@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPIC-0161 · Card Grid & Typography Polish</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --st-color-midnight: #0D1226;
+    --st-color-pink: #FF247D;
+    --st-color-seafoam: #2BD4AA;
+    --st-color-lime: #D1FF1D;
+    --st-color-surface: #141830;
+    --st-color-surface-raised: #1C2240;
+    --st-color-border: rgba(255,36,125,0.2);
+    --st-color-border-subtle: rgba(255,255,255,0.06);
+    --st-color-text: #F8F8FA;
+    --st-color-muted: #8890AA;
+    --st-font-mono: 'IBM Plex Mono', monospace;
+    --st-font-sans: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--st-color-midnight);
+    color: var(--st-color-text);
+    font-family: var(--st-font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .epic-header {
+    background: var(--st-color-surface);
+    border-bottom: 1px solid var(--st-color-border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .epic-id {
+    font-family: var(--st-font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(255,36,125,0.1);
+    border: 1px solid rgba(255,36,125,0.3);
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+
+  .epic-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--st-color-text);
+    flex: 1;
+  }
+
+  .epic-meta-pill {
+    font-family: var(--st-font-mono);
+    font-size: 0.7rem;
+    color: var(--st-color-muted);
+    background: rgba(255,255,255,0.05);
+    padding: 4px 10px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .epic-meta-pill--p1 {
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    border-color: rgba(43,212,170,0.25);
+  }
+
+  .epic-meta-pill--layer {
+    color: var(--st-color-lime);
+    background: rgba(209,255,29,0.06);
+    border-color: rgba(209,255,29,0.2);
+  }
+
+  .epic-body {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    display: grid;
+    gap: 36px;
+  }
+
+  .section {
+    background: var(--st-color-surface);
+    border: 1px solid var(--st-color-border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .section__header {
+    padding: 14px 20px;
+    background: rgba(255,36,125,0.07);
+    border-bottom: 1px solid var(--st-color-border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--st-color-pink);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .section__label--seafoam { color: var(--st-color-seafoam); }
+  .section__label--lime { color: var(--st-color-lime); }
+
+  .section__body { padding: 24px; }
+
+  .prose {
+    font-size: 0.9rem;
+    color: var(--st-color-text);
+    line-height: 1.7;
+  }
+  .prose p { margin-bottom: 12px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose code {
+    font-family: var(--st-font-mono);
+    font-size: 0.8em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+  .prose strong { font-weight: 600; }
+  .prose ul { padding-left: 20px; margin-bottom: 12px; }
+  .prose li { margin-bottom: 6px; }
+
+  .callout {
+    background: rgba(209,255,29,0.05);
+    border: 1px solid rgba(209,255,29,0.2);
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .callout--warning {
+    background: rgba(255,36,125,0.06);
+    border-color: rgba(255,36,125,0.25);
+  }
+
+  .callout:last-child { margin-bottom: 0; }
+
+  /* task table */
+  .task-group { margin-bottom: 28px; }
+  .task-group:last-child { margin-bottom: 0; }
+
+  .task-group__title {
+    font-family: var(--st-font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--st-color-seafoam);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(43,212,170,0.15);
+  }
+
+  .task-row {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    gap: 12px;
+    align-items: start;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--st-color-border-subtle);
+    font-size: 0.88rem;
+  }
+
+  .task-row:last-child { border-bottom: none; }
+
+  .task-num {
+    font-family: var(--st-font-mono);
+    font-size: 0.72rem;
+    color: var(--st-color-muted);
+    padding-top: 2px;
+  }
+
+  .task-desc { color: var(--st-color-text); line-height: 1.5; }
+  .task-desc code {
+    font-family: var(--st-font-mono);
+    font-size: 0.78em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+  .task-desc small {
+    display: block;
+    color: var(--st-color-muted);
+    font-size: 0.82em;
+    margin-top: 3px;
+  }
+
+  .tag {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  .tag--ux { color: var(--st-color-pink); background: rgba(255,36,125,0.1); border: 1px solid rgba(255,36,125,0.25); }
+  .tag--ds { color: var(--st-color-seafoam); background: rgba(43,212,170,0.08); border: 1px solid rgba(43,212,170,0.25); }
+  .tag--layout { color: var(--st-color-lime); background: rgba(209,255,29,0.06); border: 1px solid rgba(209,255,29,0.2); }
+  .tag--type { color: #c8a2f0; background: rgba(200,162,240,0.08); border: 1px solid rgba(200,162,240,0.25); }
+
+  /* file table */
+  .file-table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+  .file-table th {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--st-color-muted);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--st-color-border);
+  }
+  .file-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--st-color-border-subtle);
+    color: var(--st-color-text);
+    vertical-align: top;
+  }
+  .file-table tr:last-child td { border-bottom: none; }
+  .file-table td code {
+    font-family: var(--st-font-mono);
+    font-size: 0.8em;
+    color: var(--st-color-seafoam);
+  }
+  .file-table td.action--edit { color: var(--st-color-lime); font-size: 0.8em; }
+  .file-table td.action--new { color: var(--st-color-pink); font-size: 0.8em; }
+
+  /* gate boxes */
+  .gate-list { display: grid; gap: 12px; }
+  .gate {
+    background: var(--st-color-surface-raised);
+    border: 1px solid var(--st-color-border-subtle);
+    border-radius: 4px;
+    padding: 14px 18px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: start;
+  }
+  .gate__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--st-color-seafoam);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .gate__desc {
+    font-size: 0.86rem;
+    color: var(--st-color-text);
+    line-height: 1.5;
+  }
+  .gate__desc code {
+    font-family: var(--st-font-mono);
+    font-size: 0.8em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+  .gate__confirm {
+    font-family: var(--st-font-mono);
+    font-size: 0.7rem;
+    color: var(--st-color-muted);
+    white-space: nowrap;
+  }
+
+  /* code block */
+  pre {
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    padding: 16px 18px;
+    font-family: var(--st-font-mono);
+    font-size: 0.8rem;
+    color: #c8d3f5;
+    overflow-x: auto;
+    line-height: 1.6;
+    margin: 12px 0;
+  }
+  pre .c { color: var(--st-color-muted); }
+  pre .k { color: var(--st-color-pink); }
+  pre .s { color: var(--st-color-lime); }
+  pre .p { color: var(--st-color-seafoam); }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 640px) { .overview-grid { grid-template-columns: 1fr; } }
+
+  .overview-item__label {
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--st-color-muted);
+    margin-bottom: 5px;
+  }
+  .overview-item__value {
+    font-size: 0.9rem;
+    color: var(--st-color-text);
+    line-height: 1.5;
+  }
+  .overview-item__value code {
+    font-family: var(--st-font-mono);
+    font-size: 0.8em;
+    color: var(--st-color-seafoam);
+    background: rgba(43,212,170,0.08);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--st-color-border-subtle);
+    margin: 24px 0;
+  }
+
+  .workstream-badge {
+    display: inline-block;
+    font-family: var(--st-font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-right: 8px;
+  }
+  .ws-a { color: var(--st-color-lime); background: rgba(209,255,29,0.08); border: 1px solid rgba(209,255,29,0.2); }
+  .ws-b { color: #c8a2f0; background: rgba(200,162,240,0.08); border: 1px solid rgba(200,162,240,0.2); }
+  .ws-c { color: var(--st-color-seafoam); background: rgba(43,212,170,0.08); border: 1px solid rgba(43,212,170,0.2); }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="epic-header">
+  <span class="epic-id">EPIC-0161</span>
+  <h1 class="epic-title">Card Grid &amp; Typography Polish</h1>
+  <span class="epic-meta-pill epic-meta-pill--p1">Priority · NEXT</span>
+  <span class="epic-meta-pill epic-meta-pill--layer">Design System · UX</span>
+  <span class="epic-meta-pill">3 workstreams · ~1 sprint</span>
+</header>
+
+<main class="epic-body">
+
+  <!-- ── CONTEXT ── -->
+  <section class="section">
+    <div class="section__header">
+      <span class="section__label">Context &amp; Motivation</span>
+    </div>
+    <div class="section__body">
+      <div class="prose">
+        <p>Three related visual polish issues have been accumulating since EPIC-0158 shipped the card adapter migration. They share a single surface — the archive card grid — and a single root cause: the DS Card component was built to spec for full-width contexts (homepage, case study pages) but hasn't been tuned for the narrowed viewport created when the <code>FilterBar</code> sidebar is present.</p>
+        <p>These are bundled into one epic because all three changes touch <code>packages/design-system/src/components/Card/</code>, and shipping them separately would generate three near-identical PRs to the same files.</p>
+      </div>
+      <hr class="divider">
+      <div class="overview-grid">
+        <div>
+          <div class="overview-item__label">Affected surfaces</div>
+          <div class="overview-item__value">Archive page (all doctypes) · Any future page using <code>CardBuilderSection</code> with FilterBar</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Dependency</div>
+          <div class="overview-item__value">EPIC-0158 (card adapter) must be merged. EPIC-0160 (CardBuilderSection) may run in parallel — share token decisions.</div>
+        </div>
+        <div>
+          <div class="overview-item__label">Layers touched</div>
+          <div class="overview-item__value"><code>packages/design-system</code> · <code>apps/web</code> · <code>apps/storybook</code></div>
+        </div>
+        <div>
+          <div class="overview-item__label">Hard constraints</div>
+          <div class="overview-item__value">No new CSS class names without checking existing classes first. Token changes must update DS token file + web token file in the same commit.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WORKSTREAM A ── -->
+  <section class="section">
+    <div class="section__header">
+      <span class="section__label ws-a" style="color:var(--st-color-lime);">Workstream A</span>
+      <span class="section__label" style="margin-left:4px;">Card Grid Layout — FilterBar Narrow Context</span>
+    </div>
+    <div class="section__body">
+
+      <div class="callout">
+        <strong>Problem:</strong> When <code>FilterBar</code> is present, the grid container width drops to ~600–700px. <code>auto-fill minmax(300px, 1fr)</code> produces 2 narrow columns that squeeze cards below their designed minimum. The card visually degrades into an unreadable sliver.
+      </div>
+
+      <div class="task-group">
+        <div class="task-group__title">Implementation tasks</div>
+
+        <div class="task-row">
+          <span class="task-num">A1</span>
+          <div class="task-desc">
+            <strong>Read before writing.</strong> Open <code>packages/design-system/src/components/Card/Card.module.css</code> and <code>apps/web/src/components/ArchivePage/ArchivePage.module.css</code> (or equivalent). List every existing grid / layout class. Do not proceed until this is done.
+          </div>
+          <span class="tag tag--ds">gate</span>
+        </div>
+
+        <div class="task-row">
+          <span class="task-num">A2</span>
+          <div class="task-desc">
+            Enforce <strong>1-column layout below 900px container width</strong> for archive contexts where FilterBar is active. Use a <code>data-context="narrow"</code> attribute on the grid wrapper (set by the archive page when FilterBar is mounted) rather than a breakpoint media query, so this doesn't accidentally fire on full-width grids at the same viewport width.
+            <small>Preferred approach: container queries (<code>@container</code>) if browser support is confirmed in the project. Fallback: <code>[data-layout-context="narrow"] .st-card-grid { grid-template-columns: 1fr; }</code></small>
+          </div>
+          <span class="tag tag--layout">layout</span>
+        </div>
+
+        <div class="task-row">
+          <span class="task-num">A3</span>
+          <div class="task-desc">
+            Reserve <strong>2–3 column grid</strong> for full-content-width contexts only (homepage, no sidebar). Document this constraint in a CSS comment above the grid rule.
+          </div>
+          <span class="tag tag--ds">ds</span>
+        </div>
+
+        <div class="task-row">
+          <span class="task-num">A4</span>
+          <div class="task-desc">
+            Add a <strong>layout toggle prop</strong> (<code>layout: 'grid' | 'list'</code>) to the archive page, wired to Sanity Studio's existing <code>displayStyle</code> field (already shipped in v0.14.5). The toggle should persist the user's choice in <code>sessionStorage</code> keyed to the archive slug — not a URL param.
+            <small>This is the "explicit user control" option from the backlog item. Scope to archive page only for now — do not generalise to a DS component.</small>
+          </div>
+          <span class="tag tag--ux">ux</span>
+        </div>
+
+        <div class="task-row">
+          <span class="task-num">A5</span>
+          <div class="task-desc">
+            Add a Storybook story: <code>CardGrid/NarrowContext.stories.tsx</code> that renders a 620px-wide viewport with 6 cards to verify single-column collapse. Add to the existing card stories file if one exists — do not create a new file without checking.
+          </div>
+          <span class="tag tag--ds">storybook</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WORKSTREAM B ── -->
+  <section class="section">
+    <div class="section__header">
+      <span class="section__label" style="color:#c8a2f0;">Workstream B</span>
+      <span class="section__label" style="margin-left:4px;">Card Title Typography — Scale &amp; Font Switch</span>
+    </div>
+    <div class="section__body">
+
+      <div class="callout">
+        <strong>Problem:</strong> The card title renders at too large a weight and size for a dense catalog grid. It reads like a hero heading. In a 3-column grid with 6–12 cards, every title competes for dominance. The result is visual noise rather than scannable hierarchy.
+      </div>
+
+      <div class="task-group">
+        <div class="task-group__title">Typography decisions (locked)</div>
+        <div class="task-row">
+          <span class="task-num">—</span>
+          <div class="task-desc">
+            Card title: <code>font-family: var(--st-font-sans)</code> (DM Sans, already loaded globally) · <code>font-size: ~1rem</code> · <code>font-weight: 600</code>
+            <small>IBM Plex Mono is reserved for eyebrows and metadata labels only. DM Sans at 600 weight is readable and compact without shouting.</small>
+          </div>
+          <span class="tag tag--type">decision</span>
+        </div>
+      </div>
+
+      <div class="task-group">
+        <div class="task-group__title">Implementation tasks</div>
+
+        <div class="task-row">
+          <span class="task-num">B1</span>
+          <div class="task-desc">
+            <strong>Read before writing.</strong> Open <code>packages/design-system/src/components/Card/Card.module.css</code>. Find the existing selector for <code>.title</code> or <code>.card__title</code>. Confirm the current font-size and font-family values. Record them before any edit.
+          </div>
+          <span class="tag tag--ds">gate</span>
+        </div>
+
+        <div class="task-row">
+          <span class="task-num">B2</span>
+          <div class="task-desc">
+            Update the card title CSS selector. Change <code>font-family</code> to <code>var(--st-font-sans)</code>. Change <code>font-size</code> to <code>var(--st-card-title-size, 1rem)</code>. Change <code>font-weight</code> to <code>600</code>.
+            <small>Add <code>--st-card-title-size</code> to the card token layer in the DS token file. Default value: <code>1rem</code>. This allows per-context override without a modifier class.</small>
+          </div>
+          <span class="tag tag--ds">ds</span>
+        </div>
+
+        <div class="task-row">
+          <span class="task-num">B3</span>
+          <div class="task-desc">
+            Confirm eyebrow (<code>.eyebrow</code> or <code>.card__eyebrow</code>) is still <code>font-family: var(--st-font-mono)</code>. If it is, leave it. If it has drifted, correct it. Same check for metadata label elements.
+          </div>
+          <span class="tag tag--ds">audit</span>
+        </div>
+
+        <div class="task-row">
+          <span class="task-num">B4</span>
+          <div class="task-desc">
+            Update Storybook: add a <code>CardTypography</code> comparison story showing title at old vs. new size side-by-side. Use Storybook's <code>name</code> field to label clearly. Add to existing card stories file.
+          </div>
+          <span class="tag tag--ds">storybook</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WORKSTREAM C ── -->
+  <section class="section">
+    <div class="section__header">
+      <span class="section__label section__label--seafoam">Workstream C</span>
+      <span class="section__label" style="margin-left:4px;">Chip Row Group Labels — Tools · / Tags ·</span>
+    </div>
+    <div class="section__body">
+
+      <div class="callout">
+        <strong>Problem:</strong> In the card body, tool chips and tag chips render in the same visual style with no label to distinguish them. A user scanning the archive cannot tell whether a chip is a tool used or a topical tag without prior knowledge of the taxonomy.
+      </div>
+
+      <div class="callout callout--warning">
+        <strong>Note:</strong> The CSS class <code>.st-label</code> already exists in the legacy stylesheet (<code>style_260118.css</code>). Verify whether it has been ported to the design system token/component layer before creating anything new. Do not duplicate.
+      </div>
+
+      <div class="task-group">
+        <div class="task-group__title">Implementation tasks</div>
+
+        <div class="task-row">
+          <span class="task-num">C1</span>
+          <div class="task-desc">
+            <strong>Read before writing.</strong> Search <code>packages/design-system/src/</code> for any existing <code>st-label</code>, <code>.label</code>, or chip-group-label pattern. Search <code>apps/web/src/</code> for the same. Record findings before writing any code.
+          </div>
+          <span class="tag tag--ds">gate</span>
+        </div>
+
+        <div class="task-row">
+          <span class="task-num">C2</span>
+          <div class="task-desc">
+            In the DS <code>Card</code> component's chip-row rendering in the <strong>card body</strong>, prepend a <code>&lt;span className={styles.chipGroupLabel}&gt;</code> element before each chip group. The label text is passed as a new optional prop: <code>toolsLabel?: string</code> (default: <code>'Tools'</code>) and <code>tagsLabel?: string</code> (default: <code>'Tags'</code>).
+            <small>The separator dot (·) should be rendered in CSS via <code>::after</code> pseudo-element, not hard-coded in the label string. This keeps the label string clean for i18n.</small>
+          </div>
+          <span class="tag tag--ds">ds</span>
+        </div>
+
+        <div class="task-row">
+          <span class="task-num">C3</span>
+          <div class="task-desc">
+            Style the group label. If <code>.st-label</code> has been ported to the DS token layer, apply it. If not, create <code>.chipGroupLabel</code> in <code>Card.module.css</code> using tokens: <code>font-family: var(--st-font-mono)</code> · <code>font-size: 0.65rem</code> · <code>color: var(--st-color-text-muted)</code> · <code>white-space: nowrap</code>. Do not hardcode hex values.
+          </div>
+          <span class="tag tag--ds">ds</span>
+        </div>
+
+        <div class="task-row">
+          <span class="task-num">C4</span>
+          <div class="task-desc">
+            Only render the label if the chip group is non-empty. If <code>tools[]</code> is empty, do not render the Tools label. Same for tags.
+          </div>
+          <span class="tag tag--ux">ux</span>
+        </div>
+
+        <div class="task-row">
+          <span class="task-num">C5</span>
+          <div class="task-desc">
+            Add a Storybook story: <code>CardChipLabels</code> showing three states — tools only, tags only, both groups — to confirm labels appear and disappear correctly with empty data.
+          </div>
+          <span class="tag tag--ds">storybook</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FILES MODIFIED ── -->
+  <section class="section">
+    <div class="section__header">
+      <span class="section__label">Files Modified</span>
+    </div>
+    <div class="section__body">
+      <table class="file-table">
+        <thead>
+          <tr>
+            <th>File</th>
+            <th>Workstream</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>packages/design-system/src/components/Card/Card.module.css</code></td>
+            <td><span class="workstream-badge ws-a">A</span><span class="workstream-badge ws-b">B</span><span class="workstream-badge ws-c">C</span></td>
+            <td class="action--edit">Edit</td>
+          </tr>
+          <tr>
+            <td><code>packages/design-system/src/components/Card/Card.tsx</code></td>
+            <td><span class="workstream-badge ws-c">C</span></td>
+            <td class="action--edit">Edit — add <code>toolsLabel</code> / <code>tagsLabel</code> props + conditional label render</td>
+          </tr>
+          <tr>
+            <td><code>packages/design-system/src/tokens/*.ts</code> (or equivalent)</td>
+            <td><span class="workstream-badge ws-b">B</span></td>
+            <td class="action--edit">Edit — add <code>--st-card-title-size</code> token</td>
+          </tr>
+          <tr>
+            <td><code>apps/web/src/components/ArchivePage/ArchivePage.module.css</code></td>
+            <td><span class="workstream-badge ws-a">A</span></td>
+            <td class="action--edit">Edit — add narrow-context grid rule</td>
+          </tr>
+          <tr>
+            <td><code>apps/web/src/components/ArchivePage/ArchivePage.tsx</code> (or .jsx)</td>
+            <td><span class="workstream-badge ws-a">A</span></td>
+            <td class="action--edit">Edit — set <code>data-layout-context</code> attribute; wire layout toggle + sessionStorage</td>
+          </tr>
+          <tr>
+            <td><code>apps/storybook/src/stories/Card.stories.tsx</code> (or equivalent)</td>
+            <td><span class="workstream-badge ws-a">A</span><span class="workstream-badge ws-b">B</span><span class="workstream-badge ws-c">C</span></td>
+            <td class="action--edit">Edit — add NarrowContext, CardTypography, CardChipLabels stories</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout" style="margin-top:20px;">
+        <strong>Commit sequence:</strong> Ship workstreams in order A → B → C, one commit each. Each commit must pass <code>pnpm run build</code> and Storybook build independently. Do not batch all three into a single commit.
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONFIRMATION GATES ── -->
+  <section class="section">
+    <div class="section__header">
+      <span class="section__label">Confirmation Gates</span>
+    </div>
+    <div class="section__body">
+      <div class="gate-list">
+
+        <div class="gate">
+          <div>
+            <div class="gate__label">Gate 0 — Orientation</div>
+            <div class="gate__desc">Before writing any code, run: <code>find packages/design-system/src/components/Card -type f | sort</code> and list every file. Confirm you can see <code>Card.module.css</code> and <code>Card.tsx</code> (or their equivalents). Paste the file list into your reasoning. Do not proceed until complete.</div>
+          </div>
+          <span class="gate__confirm">confirm → proceed</span>
+        </div>
+
+        <div class="gate">
+          <div>
+            <div class="gate__label">Gate A — After Workstream A</div>
+            <div class="gate__desc">Open the archive page in browser. Resize viewport to 800px wide with FilterBar visible. Cards should stack single column. Resize to 1200px wide without FilterBar — cards should return to 2–3 columns. Screenshot or describe both states before proceeding to B.</div>
+          </div>
+          <span class="gate__confirm">confirm → proceed</span>
+        </div>
+
+        <div class="gate">
+          <div>
+            <div class="gate__label">Gate B — After Workstream B</div>
+            <div class="gate__desc">Open Storybook. Navigate to the Card component. Confirm card titles render in DM Sans at ~1rem / weight 600. Confirm eyebrows are still in IBM Plex Mono. If both are true, proceed.</div>
+          </div>
+          <span class="gate__confirm">confirm → proceed</span>
+        </div>
+
+        <div class="gate">
+          <div>
+            <div class="gate__label">Gate C — After Workstream C</div>
+            <div class="gate__desc">In Storybook, open the <code>CardChipLabels</code> story. Verify: (1) "Tools ·" label appears only when <code>tools[]</code> is non-empty. (2) "Tags ·" label appears only when <code>tags[]</code> is non-empty. (3) No duplicate <code>.st-label</code> class created if the DS already had one.</div>
+          </div>
+          <span class="gate__confirm">confirm → proceed</span>
+        </div>
+
+        <div class="gate">
+          <div>
+            <div class="gate__label">Gate Final — Full Build</div>
+            <div class="gate__desc">Run <code>pnpm run build</code> from monorepo root. Zero errors. Run <code>pnpm run build-storybook</code>. Zero errors. Archive page renders correctly in <code>apps/web</code> dev server with no console errors.</div>
+          </div>
+          <span class="gate__confirm">ship</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ROLLBACK ── -->
+  <section class="section">
+    <div class="section__header">
+      <span class="section__label">Rollback Plan</span>
+    </div>
+    <div class="section__body prose">
+      <p>Each workstream is a separate commit. If any workstream introduces a regression, revert that single commit with <code>git revert &lt;sha&gt;</code> without touching the others. The workstreams are independent: reverting A does not undo B or C.</p>
+      <p>No Sanity schema changes in this epic. No migration scripts. No data risk. All changes are CSS/TSX within the DS and web app.</p>
+    </div>
+  </section>
+
+  <!-- ── DEFINITION OF DONE ── -->
+  <section class="section">
+    <div class="section__header">
+      <span class="section__label">Definition of Done</span>
+    </div>
+    <div class="section__body">
+      <div class="task-group">
+        <div class="task-row">
+          <span class="task-num">✓</span>
+          <div class="task-desc">Archive grid collapses to 1 column when FilterBar is present at viewports below 900px</div>
+          <span class="tag tag--layout">A</span>
+        </div>
+        <div class="task-row">
+          <span class="task-num">✓</span>
+          <div class="task-desc">Full-width grid (homepage, no sidebar) retains 2–3 column layout unchanged</div>
+          <span class="tag tag--layout">A</span>
+        </div>
+        <div class="task-row">
+          <span class="task-num">✓</span>
+          <div class="task-desc">Layout toggle (grid / list) visible on archive page, persists per session</div>
+          <span class="tag tag--ux">A</span>
+        </div>
+        <div class="task-row">
+          <span class="task-num">✓</span>
+          <div class="task-desc">Card titles render in DM Sans, ~1rem, weight 600 across all variants</div>
+          <span class="tag tag--type">B</span>
+        </div>
+        <div class="task-row">
+          <span class="task-num">✓</span>
+          <div class="task-desc">Eyebrows and metadata labels remain IBM Plex Mono — no drift introduced</div>
+          <span class="tag tag--type">B</span>
+        </div>
+        <div class="task-row">
+          <span class="task-num">✓</span>
+          <div class="task-desc">"Tools ·" and "Tags ·" labels visible in card body; absent when group is empty</div>
+          <span class="tag tag--ds">C</span>
+        </div>
+        <div class="task-row">
+          <span class="task-num">✓</span>
+          <div class="task-desc">No new hardcoded hex values or px measurements. All values use <code>--st-*</code> tokens.</div>
+          <span class="tag tag--ds">all</span>
+        </div>
+        <div class="task-row">
+          <span class="task-num">✓</span>
+          <div class="task-desc">Storybook builds clean. Three new stories added (NarrowContext, CardTypography, CardChipLabels).</div>
+          <span class="tag tag--ds">all</span>
+        </div>
+        <div class="task-row">
+          <span class="task-num">✓</span>
+          <div class="task-desc"><code>pnpm run build</code> passes from monorepo root with zero errors.</div>
+          <span class="tag tag--ds">all</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

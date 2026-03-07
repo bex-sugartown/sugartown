@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EPIC-0153 · Hero Full-Width &amp; Content Width Normalisation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --st-color-midnight: #0D1226;
+    --st-color-pink: #FF247D;
+    --st-color-seafoam: #2BD4AA;
+    --st-color-lime: #D1FF1D;
+    --st-color-surface: #141830;
+    --st-color-surface-raised: #1C2240;
+    --st-color-border: rgba(255,36,125,0.2);
+    --st-color-border-subtle: rgba(255,255,255,0.06);
+    --st-color-text: #F8F8FA;
+    --st-color-muted: #8890AA;
+    --st-font-mono: 'IBM Plex Mono', monospace;
+    --st-font-sans: 'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--st-color-midnight); color: var(--st-color-text); font-family: var(--st-font-sans); font-size: 15px; line-height: 1.6; }
+
+  .epic-header { background: var(--st-color-surface); border-bottom: 1px solid var(--st-color-border); padding: 20px 40px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .epic-id { font-family: var(--st-font-mono); font-size: 0.75rem; font-weight: 700; color: var(--st-color-pink); letter-spacing: 0.12em; text-transform: uppercase; background: rgba(255,36,125,0.1); border: 1px solid rgba(255,36,125,0.3); padding: 4px 10px; border-radius: 3px; }
+  .epic-title { font-size: 1.1rem; font-weight: 600; color: var(--st-color-text); flex: 1; }
+  .pill { font-family: var(--st-font-mono); font-size: 0.7rem; padding: 4px 10px; border-radius: 3px; }
+  .pill-muted { color: var(--st-color-muted); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); }
+  .pill-seafoam { color: var(--st-color-seafoam); background: rgba(43,212,170,0.08); border: 1px solid rgba(43,212,170,0.25); }
+  .pill-lime { color: var(--st-color-lime); background: rgba(209,255,29,0.06); border: 1px solid rgba(209,255,29,0.2); }
+
+  .tabs { display: flex; border-bottom: 1px solid var(--st-color-border); background: var(--st-color-surface); padding: 0 40px; }
+  .tab-btn { font-family: var(--st-font-mono); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--st-color-muted); background: none; border: none; border-bottom: 2px solid transparent; padding: 14px 20px; cursor: pointer; transition: color .15s, border-color .15s; }
+  .tab-btn:hover { color: var(--st-color-text); }
+  .tab-btn.active { color: var(--st-color-pink); border-bottom-color: var(--st-color-pink); }
+  .tab-btn.tab-deferred.active { color: var(--st-color-muted); border-bottom-color: rgba(255,255,255,0.3); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .body { max-width: 1000px; margin: 0 auto; padding: 48px 40px; display: grid; gap: 40px; }
+
+  .sec { background: var(--st-color-surface); border: 1px solid var(--st-color-border); border-radius: 6px; overflow: hidden; }
+  .sec--dim { border-color: rgba(255,255,255,0.1); }
+  .sec__hd { padding: 14px 20px; background: rgba(255,36,125,0.07); border-bottom: 1px solid var(--st-color-border); display: flex; align-items: center; gap: 10px; }
+  .sec--dim .sec__hd { background: rgba(255,255,255,0.03); border-bottom-color: rgba(255,255,255,0.08); }
+  .sec__label { font-family: var(--st-font-mono); font-size: 0.68rem; font-weight: 700; color: var(--st-color-pink); letter-spacing: 0.12em; text-transform: uppercase; }
+  .sec--dim .sec__label { color: var(--st-color-muted); }
+  .sec__body { padding: 24px; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media(max-width:640px){ .grid2 { grid-template-columns: 1fr; } }
+  .lbl { font-family: var(--st-font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--st-color-muted); margin-bottom: 6px; }
+  .val { font-size: 0.9rem; color: var(--st-color-text); line-height: 1.5; }
+
+  .prose { font-size: 0.9rem; color: var(--st-color-text); line-height: 1.7; }
+  .prose p { margin-bottom: 12px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose strong { font-weight: 600; }
+
+  c, code { font-family: var(--st-font-mono); font-size: 0.8em; color: var(--st-color-seafoam); background: rgba(43,212,170,0.08); padding: 1px 5px; border-radius: 2px; }
+
+  .callout { border-radius: 4px; padding: 14px 18px; font-size: 0.88rem; line-height: 1.6; margin-bottom: 20px; }
+  .callout:last-child { margin-bottom: 0; }
+  .callout-lime { background: rgba(209,255,29,0.06); border: 1px solid rgba(209,255,29,0.2); }
+  .callout-pink { background: rgba(255,36,125,0.06); border: 1px solid rgba(255,36,125,0.25); }
+  .callout-dim { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); }
+  .callout__lbl { font-family: var(--st-font-mono); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+  .callout-lime .callout__lbl { color: var(--st-color-lime); }
+  .callout-pink .callout__lbl { color: var(--st-color-pink); }
+  .callout-dim .callout__lbl { color: var(--st-color-muted); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th { font-family: var(--st-font-mono); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--st-color-muted); text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--st-color-border); }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--st-color-border-subtle); color: var(--st-color-text); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+
+  .badge { display: inline-block; font-family: var(--st-font-mono); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
+  .b-ds  { color: var(--st-color-lime);    background: rgba(209,255,29,0.08);  border: 1px solid rgba(209,255,29,0.25); }
+  .b-web { color: var(--st-color-seafoam); background: rgba(43,212,170,0.08);  border: 1px solid rgba(43,212,170,0.25); }
+  .b-lay { color: #c4b5fd;                 background: rgba(196,181,253,0.08); border: 1px solid rgba(196,181,253,0.25); }
+  .b-sch { color: #fbbf24;                 background: rgba(251,191,36,0.08);  border: 1px solid rgba(251,191,36,0.25); }
+  .b-dim { color: var(--st-color-muted);   background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); }
+
+  .stories { display: grid; gap: 12px; }
+  .story { display: grid; grid-template-columns: 90px 1fr auto; gap: 0 14px; align-items: start; padding: 14px 16px; background: var(--st-color-surface-raised); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; }
+  .story__id { font-family: var(--st-font-mono); font-size: 0.7rem; color: var(--st-color-pink); font-weight: 700; padding-top: 2px; }
+  .story__title { font-size: 0.9rem; font-weight: 600; }
+  .story__desc { grid-column: 2/4; margin-top: 6px; font-size: 0.82rem; color: var(--st-color-muted); line-height: 1.5; }
+
+  .phases { display: grid; gap: 16px; }
+  .phase { background: var(--st-color-surface-raised); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+  .phase__hd { padding: 12px 16px; background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .phase__id { font-family: var(--st-font-mono); font-size: 0.65rem; font-weight: 700; color: var(--st-color-lime); letter-spacing: 0.1em; text-transform: uppercase; }
+  .phase__title { font-size: 0.9rem; font-weight: 600; flex: 1; }
+  .phase__desc { padding: 12px 16px; font-size: 0.85rem; color: var(--st-color-muted); border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .phase__steps { padding: 12px 16px; list-style: none; display: grid; gap: 8px; }
+  .phase__steps li { font-size: 0.84rem; padding-left: 16px; position: relative; line-height: 1.5; }
+  .phase__steps li::before { content: '→'; position: absolute; left: 0; color: var(--st-color-pink); font-family: var(--st-font-mono); font-size: 0.75rem; top: 2px; }
+
+  .gates { display: grid; gap: 10px; }
+  .gate { padding: 12px 16px 12px 40px; background: var(--st-color-surface-raised); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; font-size: 0.85rem; line-height: 1.5; position: relative; }
+  .gate::before { content: '✓'; position: absolute; left: 14px; top: 12px; font-family: var(--st-font-mono); font-size: 0.75rem; color: var(--st-color-lime); font-weight: 700; }
+
+  .bl-list { display: grid; gap: 10px; }
+  .bl-item { display: grid; grid-template-columns: 56px 1fr; gap: 14px; padding: 12px 14px; background: var(--st-color-surface-raised); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; }
+  .bl-item__id { font-family: var(--st-font-mono); font-size: 0.68rem; font-weight: 700; color: var(--st-color-pink); padding-top: 2px; }
+  .bl-item__name { font-size: 0.87rem; font-weight: 600; margin-bottom: 4px; }
+  .bl-item__desc { font-size: 0.81rem; color: var(--st-color-muted); line-height: 1.5; }
+
+  .risk-table td:nth-child(2) { color: var(--st-color-lime); font-family: var(--st-font-mono); font-size: 0.75rem; }
+
+  .diagram { font-family: var(--st-font-mono); font-size: 0.78rem; color: var(--st-color-seafoam); background: rgba(43,212,170,0.04); border: 1px solid rgba(43,212,170,0.15); border-radius: 4px; padding: 20px; line-height: 1.8; white-space: pre; overflow-x: auto; margin-bottom: 20px; }
+  .diagram .dim { color: var(--st-color-muted); }
+  .diagram .hi  { color: var(--st-color-lime); }
+  .diagram .pk  { color: var(--st-color-pink); }
+  .diagram .sf  { color: var(--st-color-seafoam); }
+
+  .token-row { display: grid; grid-template-columns: 220px 90px 1fr; gap: 14px; padding: 10px 14px; background: var(--st-color-surface-raised); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; margin-bottom: 8px; align-items: center; font-size: 0.84rem; }
+  .token-row:last-child { margin-bottom: 0; }
+  .tok-name { font-family: var(--st-font-mono); color: var(--st-color-seafoam); font-size: 0.78rem; }
+  .tok-val  { font-family: var(--st-font-mono); color: var(--st-color-lime); font-size: 0.78rem; }
+  .tok-desc { color: var(--st-color-muted); }
+
+  .deferred-notice { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15); border-radius: 4px; padding: 16px 20px; font-size: 0.85rem; color: var(--st-color-muted); line-height: 1.6; }
+  .deferred-notice strong { color: var(--st-color-text); }
+
+  .spacer { margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="epic-header">
+  <span class="epic-id">EPIC-0153</span>
+  <span class="epic-title">Hero Full-Width &amp; Content Width Normalisation</span>
+  <span class="pill pill-muted">Priority: P1 — Pre-launch</span>
+  <span class="pill pill-lime">Layout · CSS · Schema</span>
+  <span class="pill pill-seafoam">Depends on: EPIC-0150</span>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('active',this)">🟢 In Scope</button>
+  <button class="tab-btn tab-deferred" onclick="switchTab('deferred',this)">⏸ Deferred</button>
+</div>
+
+
+<!-- ══════════════ IN SCOPE ══════════════ -->
+<div id="tab-active" class="tab-panel active">
+<div class="body">
+
+  <!-- Overview -->
+  <div class="sec">
+    <div class="sec__hd"><span class="sec__label">Overview</span></div>
+    <div class="sec__body">
+      <div class="grid2">
+        <div><div class="lbl">Epic ID</div><div class="val">EPIC-0153</div></div>
+        <div><div class="lbl">Status</div><div class="val">Ready to scope — pending EPIC-0150 close</div></div>
+        <div><div class="lbl">Scope</div><div class="val">Layout · CSS token normalisation · <code>heroSection</code> schema addition · No new content types</div></div>
+        <div><div class="lbl">Affected surfaces</div><div class="val"><code>page</code>, <code>article</code>, <code>caseStudy</code>, <code>node</code> — detail pages and their hero sections. <strong>Archive pages deferred.</strong></div></div>
+        <div><div class="lbl">Hard dependency</div><div class="val">EPIC-0150 header must be stable. Hero positioning is relative to the header — any header height or z-index change after this epic ships creates regression risk.</div></div>
+        <div><div class="lbl">Downstream epics</div><div class="val">EPIC-IA-03 (About rewrite), EPIC-IA-05 (Platform page) — both assume a consistent hero and content-width pattern once this lands</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What this epic does -->
+  <div class="sec">
+    <div class="sec__hd"><span class="sec__label">What This Epic Does</span></div>
+    <div class="sec__body">
+      <div class="callout callout-lime">
+        <span class="callout__lbl">Two workstreams, one epic</span>
+        This epic has two distinct but related bodies of work: <strong>(A)</strong> giving editors a choice of hero image display width, and <strong>(B)</strong> normalising content-width containers across all detail page types. Both are layout/CSS changes — no new schema document types.
+      </div>
+      <div class="prose">
+        <p><strong>Workstream A — Hero image width option.</strong> The <code>heroSection</code> schema gains a new <code>imageWidth</code> field with two values: <code>full-width</code> (edge-to-edge viewport banner) and <code>content-width</code> (fills the content area, respects the page's max-width column). Zero border-radius on all hero banners regardless of option chosen.</p>
+        <p><strong>Workstream B — Content width normalisation.</strong> The current site has at least two conflicting content-width values in use: <code>800px</code> (About page, via <code>--st-content-width</code>) and <code>1036–1100px</code> (via <code>--st-page-max</code>). The canonical targets are <code>760px</code> for detail/reading pages and <code>960px</code> for archive/listing pages (archive application deferred). This epic defines the tokens, audits all containers, and applies the detail width consistently.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Workstream A -->
+  <div class="sec">
+    <div class="sec__hd"><span class="sec__label">Workstream A — Hero Image Width Option</span></div>
+    <div class="sec__body">
+      <div class="prose" style="margin-bottom:20px;">
+        <p>The <code>heroSection</code> schema object receives a single new field: <code>imageWidth</code>. This is an <strong>editorial choice per page</strong> — not a global default. The option controls how the hero banner renders relative to the page layout.</p>
+      </div>
+
+      <div class="lbl" style="margin-bottom:12px;">The Two Options — Visual Contract</div>
+      <div class="diagram"><span class="dim">OPTION 1 — full-width  (value: 'full-width')</span>
+<span class="dim">┌────────────────────────────────────────────────────────────┐</span>
+<span class="dim">│</span>  <span class="pk">HEADER</span>                                                     <span class="dim">│</span>
+<span class="dim">├────────────────────────────────────────────────────────────┤</span>
+<span class="hi">│  HERO IMAGE — viewport width, zero radius, bleeds edges    │</span>
+<span class="dim">├────────────────────────────────────────────────────────────┤</span>
+<span class="dim">│        page content — max-width container centred          │</span>
+<span class="dim">└────────────────────────────────────────────────────────────┘</span>
+
+<span class="dim">OPTION 2 — content-width  (value: 'content-width')  ← DEFAULT</span>
+<span class="dim">┌────────────────────────────────────────────────────────────┐</span>
+<span class="dim">│</span>  <span class="pk">HEADER</span>                                                     <span class="dim">│</span>
+<span class="dim">├────────────────────┬──────────────────────┬────────────────┤</span>
+<span class="dim">│      gutter        │</span><span class="sf">  HERO — fills the    </span><span class="dim">│    gutter       │</span>
+<span class="dim">│                    │</span><span class="sf">  content column,     </span><span class="dim">│                 │</span>
+<span class="dim">│                    │</span><span class="sf">  zero radius         </span><span class="dim">│                 │</span>
+<span class="dim">├────────────────────┴──────────────────────┴────────────────┤</span>
+<span class="dim">│        page content — same max-width column below          │</span>
+<span class="dim">└────────────────────────────────────────────────────────────┘</span></div>
+
+      <div class="lbl" style="margin-bottom:12px;">Schema Addition — <code>heroSection</code> object</div>
+      <table style="margin-bottom:20px;">
+        <thead><tr><th>Field</th><th>Type</th><th>Options</th><th>Default</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>imageWidth</code></td>
+            <td>string (radio)</td>
+            <td><code>full-width</code> | <code>content-width</code></td>
+            <td><code>content-width</code></td>
+            <td>Default conservative — editors opt in to full-width. Help text: "Full width: hero bleeds to viewport edge. Content width: hero fills the reading column and aligns with text below."</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-pink" style="margin-bottom:0;">
+        <span class="callout__lbl">Zero border-radius — non-negotiable</span>
+        Both options render with <code>border-radius: 0</code>. Hero banners are never rounded. This is a hard visual rule — not a configurable field and not exposed to editors.
+      </div>
+    </div>
+  </div>
+
+  <!-- Workstream B -->
+  <div class="sec">
+    <div class="sec__hd"><span class="sec__label">Workstream B — Content Width Normalisation</span></div>
+    <div class="sec__body">
+
+      <div class="callout callout-pink">
+        <span class="callout__lbl">Audit First — Read Before Write</span>
+        The About page currently has two conflicting width values in play. Claude Code must audit all content container widths before touching any CSS file. Understand what exists, then normalise — never blindly overwrite.
+      </div>
+
+      <div class="lbl" style="margin-bottom:12px;">Known Current State (About page, as observed)</div>
+      <table style="margin-bottom:24px;">
+        <thead><tr><th>Observed value</th><th>Token / class</th><th>Where seen</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><code>800px</code></td><td><code>var(--st-content-width, 800px)</code></td><td>About page content container</td><td>❌ Replace with canonical token</td></tr>
+          <tr><td><code>1036–1100px</code></td><td><code>var(--st-page-max)</code></td><td>About page outer wrapper</td><td>❌ Replace with canonical token</td></tr>
+          <tr><td><code>760px</code></td><td><code>--st-width-detail</code> (to be defined)</td><td>Target for all detail/reading pages</td><td>✅ Canonical target</td></tr>
+          <tr><td><code>960px</code></td><td><code>--st-width-archive</code> (to be defined)</td><td>Target for archive/listing pages — token defined now, applied later</td><td>✅ Defined this epic, applied in archive epic</td></tr>
+        </tbody>
+      </table>
+
+      <div class="lbl" style="margin-bottom:12px;">Canonical Token Definitions</div>
+      <div class="token-row">
+        <span class="tok-name">--st-width-detail</span>
+        <span class="tok-val">760px</span>
+        <span class="tok-desc">Reading/detail pages: ArticlePage, CaseStudyPage, NodePage, Page (catch-all, incl. About). Optimised for long-form reading.</span>
+      </div>
+      <div class="token-row">
+        <span class="tok-name">--st-width-archive</span>
+        <span class="tok-val">960px</span>
+        <span class="tok-desc">Wider listing/archive contexts. Token defined in this epic for future use. <strong>Not applied to any component in this epic</strong> — archive work is deferred.</span>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="lbl" style="margin-bottom:12px;">Page Type → Target Width Mapping</div>
+      <table>
+        <thead><tr><th>Page Component</th><th>Route</th><th>Target Width</th><th>In Scope This Epic</th></tr></thead>
+        <tbody>
+          <tr><td><code>ArticlePage</code></td><td><code>/articles/:slug</code></td><td><code>--st-width-detail</code> (760px)</td><td><span class="badge b-web">Yes</span></td></tr>
+          <tr><td><code>CaseStudyPage</code></td><td><code>/case-studies/:slug</code></td><td><code>--st-width-detail</code> (760px)</td><td><span class="badge b-web">Yes</span></td></tr>
+          <tr><td><code>NodePage</code></td><td><code>/knowledge-graph/:slug</code></td><td><code>--st-width-detail</code> (760px)</td><td><span class="badge b-web">Yes</span></td></tr>
+          <tr><td><code>Page</code> (catch-all, incl. About)</td><td><code>/:slug</code></td><td><code>--st-width-detail</code> (760px)</td><td><span class="badge b-web">Yes</span></td></tr>
+          <tr><td><code>ArchivePage</code></td><td><code>/articles</code>, <code>/case-studies</code>, etc.</td><td><code>--st-width-archive</code> (960px)</td><td><span class="badge b-dim">Deferred</span></td></tr>
+          <tr><td><code>TaxonomyDetailPage</code></td><td><code>/tags/:slug</code>, etc.</td><td>TBD — audit in ORIENT-01</td><td><span class="badge b-lay">Audit only</span></td></tr>
+          <tr><td><code>HomePage</code></td><td><code>/</code></td><td>TBD — pending EPIC-IA-06</td><td><span class="badge b-dim">Out of scope</span></td></tr>
+        </tbody>
+      </table>
+
+      <div class="prose spacer">
+        <p>The existing tokens <code>--st-content-width</code> and <code>--st-page-max</code> are <strong>replaced</strong> — not aliased. Any CSS referencing them is updated to the new token names. Old names are removed to prevent future confusion.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- User Stories -->
+  <div class="sec">
+    <div class="sec__hd"><span class="sec__label">User Stories</span></div>
+    <div class="sec__body">
+      <div class="stories">
+
+        <div class="story">
+          <span class="story__id">0153-S1</span>
+          <span class="story__title">Audit — Inventory all content-width containers</span>
+          <span class="badge b-lay">Audit</span>
+          <div class="story__desc">Claude Code reads every page component and its CSS. Documents: which width tokens/values are in use, where <code>--st-content-width</code> and <code>--st-page-max</code> are referenced, actual rendered widths on each page type. Produces written inventory before any file is modified. Confirms canonical token names with Bex.</div>
+        </div>
+
+        <div class="story">
+          <span class="story__id">0153-S2</span>
+          <span class="story__title">Define canonical width tokens</span>
+          <span class="badge b-lay">CSS Tokens</span>
+          <div class="story__desc">Add <code>--st-width-detail: 760px</code> and <code>--st-width-archive: 960px</code> to the semantic token file. Add comment block: <code>/* ── Content Width Scale ── */</code>. Remove <code>--st-content-width</code> and <code>--st-page-max</code> after all references have been updated. No page components modified in this story.</div>
+        </div>
+
+        <div class="story">
+          <span class="story__id">0153-S3</span>
+          <span class="story__title">Apply <code>--st-width-detail</code> to all in-scope detail pages</span>
+          <span class="badge b-web">Web · Pages</span>
+          <div class="story__desc">Update content container max-width on <code>ArticlePage</code>, <code>CaseStudyPage</code>, <code>NodePage</code>, and catch-all <code>Page</code> (incl. About) to <code>max-width: var(--st-width-detail)</code>. Remove any references to old tokens. Confirm each page renders at 760px with appropriate horizontal padding on mobile. Visually verify About page at 760px — this is 40px narrower than its current 800px; flag if content feels cramped.</div>
+        </div>
+
+        <div class="story">
+          <span class="story__id">0153-S4</span>
+          <span class="story__title">Add <code>imageWidth</code> field to <code>heroSection</code> schema</span>
+          <span class="badge b-sch">Studio · Schema</span>
+          <div class="story__desc">Add <code>imageWidth</code> radio field to <code>apps/studio/schemas/objects/heroSection.ts</code>. Options: <code>full-width</code> | <code>content-width</code>. Default: <code>content-width</code>. Help text in Studio UI as specified. No other schema fields changed in this story.</div>
+        </div>
+
+        <div class="story">
+          <span class="story__id">0153-S5</span>
+          <span class="story__title">Wire <code>imageWidth</code> to frontend hero rendering</span>
+          <span class="badge b-web">Web · Component</span>
+          <div class="story__desc">The heroSection renderer (in <code>PageSections.jsx</code> or the <code>HeroSection</code> component) reads <code>imageWidth</code> from the Sanity block and applies: <code>full-width</code> → full-viewport breakout class; <code>content-width</code> → max-width container class aligned with <code>--st-width-detail</code>. Both options: <code>border-radius: 0</code>.</div>
+        </div>
+
+        <div class="story">
+          <span class="story__id">0153-S6</span>
+          <span class="story__title">Border-radius sweep — all hero contexts</span>
+          <span class="badge b-lay">CSS · Sweep</span>
+          <div class="story__desc">Grep sweep for <code>border-radius</code> in hero-related CSS and <code>borderRadius</code> in JSX/TSX. Remove or zero-out any radius on hero containers, image wrappers, background overlays. Border-radius is permitted on elements <em>inside</em> the hero (chips, buttons, badges) — not on the hero band itself.</div>
+        </div>
+
+        <div class="story">
+          <span class="story__id">0153-S7</span>
+          <span class="story__title">Confirm no radius-control field in <code>heroSection</code> schema</span>
+          <span class="badge b-sch">Schema · Audit</span>
+          <div class="story__desc">Audit <code>heroSection</code> schema for any field named <code>borderRadius</code>, <code>rounded</code>, or similar. If found: remove (if unused) or apply <code>hidden: true</code> and add a comment explaining why. Editors must not be able to re-enable rounding on heroes.</div>
+        </div>
+
+        <div class="story">
+          <span class="story__id">0153-S8</span>
+          <span class="story__title">Responsive — all widths hold at mobile / tablet / desktop</span>
+          <span class="badge b-lay">Layout · QA</span>
+          <div class="story__desc">Verify at 320px, 768px, 1280px: full-width hero has no horizontal scroll; content-width hero aligns with the content column below it; 760px content columns have enough horizontal padding that text doesn't touch the viewport edge on mobile.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Pre-Execution Orientation -->
+  <div class="sec">
+    <div class="sec__hd"><span class="sec__label">Pre-Execution Orientation — Required Before Any File Changes</span></div>
+    <div class="sec__body">
+      <div class="callout callout-pink">
+        <span class="callout__lbl">Hard Gate</span>
+        Claude Code must complete this orientation and produce a written summary before touching any file. This epic touches multiple page components across two workstreams — incorrect assumptions about the current hero CSS or token structure will cause regressions simultaneously.
+      </div>
+      <div class="phases">
+        <div class="phase">
+          <div class="phase__hd"><span class="phase__id">ORIENT-01</span><span class="phase__title">Audit all content-width values in use</span></div>
+          <ul class="phase__steps">
+            <li>Search for all references to <code>--st-content-width</code>, <code>--st-page-max</code>, <code>max-width</code>, and numeric width values (800, 1036, 1100, 960, 760) across <code>apps/web/src</code></li>
+            <li>For each page component, record the actual max-width container value in use today</li>
+            <li>Identify which CSS file defines the existing width tokens and whether they live in the design system package or web-only stylesheets</li>
+            <li>Record the current width of <code>TaxonomyDetailPage</code> — no changes required, audit only</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <div class="phase__hd"><span class="phase__id">ORIENT-02</span><span class="phase__title">Locate the heroSection render path</span></div>
+          <ul class="phase__steps">
+            <li>Find <code>PageSections.jsx</code> (or equivalent) and trace exactly how a <code>heroSection</code> block is rendered</li>
+            <li>Identify whether the hero renders <em>inside</em> a max-width container or <em>outside</em> it — this determines how the full-width breakout must be implemented</li>
+            <li>Find existing heroSection CSS. Record any <code>border-radius</code> values present</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <div class="phase__hd"><span class="phase__id">ORIENT-03</span><span class="phase__title">Confirm findings with Bex before proceeding</span></div>
+          <ul class="phase__steps">
+            <li>Present: "Current width tokens found at [paths]. Pages currently using [values]. HeroSection renders [inside/outside] the max-width container. Proposed plan: [describe]. Ready to proceed?"</li>
+            <li>Do not begin Phase 1 implementation without explicit confirmation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phases -->
+  <div class="sec">
+    <div class="sec__hd"><span class="sec__label">Phased Implementation</span></div>
+    <div class="sec__body">
+      <div class="phases">
+
+        <div class="phase">
+          <div class="phase__hd"><span class="phase__id">PHASE 1</span><span class="phase__title">Define canonical width tokens</span><span class="badge b-lay">Tokens · CSS</span></div>
+          <div class="phase__desc">Token layer only. No page components modified.</div>
+          <ul class="phase__steps">
+            <li>Add <code>--st-width-detail: 760px</code> and <code>--st-width-archive: 960px</code> to the semantic token file. Add comment: <code>/* ── Content Width Scale ── */</code></li>
+            <li>Do not remove old tokens yet — references are updated in Phase 2</li>
+            <li>Confirm gate: "Tokens added at [path]. Old tokens still present — will remove after Phase 2. Diff: [show]. Ready for Phase 2?"</li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase__hd"><span class="phase__id">PHASE 2</span><span class="phase__title">Apply <code>--st-width-detail</code> to detail pages — one at a time</span><span class="badge b-web">Web · Pages</span></div>
+          <div class="phase__desc">Update content container max-width on each in-scope page component. One page per confirm gate. After all four pages are updated, remove old tokens.</div>
+          <ul class="phase__steps">
+            <li>Start with <code>ArticlePage</code> — update content container to <code>max-width: var(--st-width-detail)</code>. Confirm renders at 760px. No horizontal scroll. Confirm gate.</li>
+            <li>Repeat for <code>CaseStudyPage</code>, then <code>NodePage</code></li>
+            <li>Apply to catch-all <code>Page</code> component (covers About). Visually verify About at 760px — flag if layout feels cramped at this width</li>
+            <li>After all four pages updated: remove <code>--st-content-width</code> and <code>--st-page-max</code> from the token file. Confirm no remaining references in the codebase</li>
+            <li>Confirm gate: "All four detail pages at 760px. Old tokens removed. No remaining references. Diff: [show]."</li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase__hd"><span class="phase__id">PHASE 3</span><span class="phase__title">Add <code>imageWidth</code> to <code>heroSection</code> schema</span><span class="badge b-sch">Studio · Schema</span></div>
+          <div class="phase__desc">Schema-only change. No frontend components modified in this phase.</div>
+          <ul class="phase__steps">
+            <li>Open <code>apps/studio/schemas/objects/heroSection.ts</code></li>
+            <li>Add <code>imageWidth</code>: type <code>string</code>, UI <code>radio</code>, options <code>[{ value: 'full-width', title: 'Full width — edge to edge' }, { value: 'content-width', title: 'Content width — fills reading column' }]</code>, <code>initialValue: 'content-width'</code></li>
+            <li>Add help text: "Full width: hero image bleeds to the viewport edge. Content width: hero fills the reading column and aligns with the text below."</li>
+            <li>Audit for any existing <code>borderRadius</code> / <code>rounded</code> field — remove or apply <code>hidden: true</code> per story S7</li>
+            <li>Confirm gate: "Schema updated. Studio builds without errors. Diff: [show]. Ready for Phase 4?"</li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase__hd"><span class="phase__id">PHASE 4</span><span class="phase__title">Wire <code>imageWidth</code> to frontend + border-radius sweep</span><span class="badge b-web">Web · Component</span></div>
+          <div class="phase__desc">HeroSection renderer reads the new field and applies the correct CSS class. Border-radius sweep happens in this phase.</div>
+          <ul class="phase__steps">
+            <li>In <code>PageSections.jsx</code> (or the heroSection render component), read <code>block.imageWidth</code></li>
+            <li>Conditionally apply CSS class: <code>'full-width'</code> → viewport-width breakout class; else → content-width container class (aligned with <code>--st-width-detail</code>)</li>
+            <li>Define both CSS classes. Full-width: <code>width: 100vw; margin-left: calc(-50vw + 50%)</code> (or technique confirmed in ORIENT-02). Content-width: <code>max-width: var(--st-width-detail); margin: 0 auto</code></li>
+            <li>Both classes explicitly: <code>border-radius: 0</code></li>
+            <li>Border-radius sweep: <code>grep -rn "border-radius" apps/web/src --include="*.css"</code> and <code>grep -rn "borderRadius" apps/web/src --include="*.jsx" --include="*.tsx"</code> — review all hero-context hits, zero them out</li>
+            <li>Confirm gate: "imageWidth wired. Both options render correctly. Sweep complete — [n] hits found, resolved as follows: [list]."</li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase__hd"><span class="phase__id">PHASE 5</span><span class="phase__title">Storybook + CHANGELOG</span><span class="badge b-ds">Storybook · Housekeeping</span></div>
+          <ul class="phase__steps">
+            <li>Update or create a <code>HeroSection</code> Storybook story showing both <code>imageWidth</code> options. Zero border-radius visible in both. Note that full-width breakout is only fully visible in a full-page context (not in the Storybook canvas)</li>
+            <li>Run <code>pnpm build --filter @sugartown/design-system</code> — confirm clean build</li>
+            <li>Draft CHANGELOG entry — completed items only, no planning language</li>
+            <li>Final gate: "Build clean. Storybook updated. CHANGELOG drafted. Ready for Bex review."</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Definition of Done -->
+  <div class="sec">
+    <div class="sec__hd"><span class="sec__label">Definition of Done</span></div>
+    <div class="sec__body">
+      <div class="gates">
+        <div class="gate">Tokens <code>--st-width-detail: 760px</code> and <code>--st-width-archive: 960px</code> exist in the semantic token file. Old tokens <code>--st-content-width</code> and <code>--st-page-max</code> are removed with no remaining references.</div>
+        <div class="gate"><code>ArticlePage</code>, <code>CaseStudyPage</code>, <code>NodePage</code>, and catch-all <code>Page</code> (incl. About) all render their content container at <code>max-width: var(--st-width-detail)</code> (760px).</div>
+        <div class="gate"><code>heroSection</code> schema has an <code>imageWidth</code> radio field with <code>full-width</code> and <code>content-width</code> options. Default is <code>content-width</code>.</div>
+        <div class="gate">The heroSection frontend renderer reads <code>imageWidth</code> and applies the correct CSS class. Full-width bleeds to the viewport edge; content-width aligns with the 760px reading column.</div>
+        <div class="gate">Both hero options render with <code>border-radius: 0</code>. Border-radius sweep is complete.</div>
+        <div class="gate"><code>heroSection</code> schema has no editor-facing border-radius control field.</div>
+        <div class="gate">No horizontal scroll at 320px, 768px, or 1280px. Content-width hero aligns with content below. Full-width hero has no gap or overflow at any breakpoint.</div>
+        <div class="gate">Storybook has at least one story showing both <code>imageWidth</code> variants with zero border-radius.</div>
+        <div class="gate"><code>pnpm build --filter @sugartown/design-system</code> exits cleanly. CHANGELOG entry written — shipped items only, no planning language.</div>
+        <div class="gate"><code>ArchivePage</code> is untouched. Archive width and hero treatment remain deferred.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Risk Assessment -->
+  <div class="sec">
+    <div class="sec__hd"><span class="sec__label">Risk Assessment</span></div>
+    <div class="sec__body">
+      <table class="risk-table">
+        <thead><tr><th>Risk</th><th>Likelihood</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>About page looks notably narrower at 760px vs current ~800px</td>
+            <td>Medium</td>
+            <td>760px is intentionally reading-optimised. Visually verify on About before shipping. If the About rewrite (EPIC-IA-03) runs concurrently, coordinate — new content may be written for the new width.</td>
+          </tr>
+          <tr>
+            <td>Full-width hero breakout introduces horizontal scroll</td>
+            <td>Medium</td>
+            <td>The <code>100vw</code> negative-margin technique can interact with <code>overflow-x: hidden</code> set upstream. ORIENT-02 audit confirms the render context. If scroll appears, add <code>overflow-x: hidden</code> to the nearest scrollable ancestor and document it.</td>
+          </tr>
+          <tr>
+            <td>HeroSection rendered inside the max-width container in <code>PageSections.jsx</code></td>
+            <td>High</td>
+            <td>ORIENT-02 explicitly traces this. If heroSection is inside the same wrapper as all other sections, the full-width option requires extracting it or applying a breakout. This is the most likely structural issue.</td>
+          </tr>
+          <tr>
+            <td>Old token names referenced in files outside the initial audit scope</td>
+            <td>Low</td>
+            <td>Phase 1 grep sweep must find all references before removal. Old tokens are not removed until Phase 2 confirms all references are updated.</td>
+          </tr>
+          <tr>
+            <td>EPIC-0150 header changes post-ship break hero positioning</td>
+            <td>Low (dependency gate)</td>
+            <td>Hard dependency on EPIC-0150 stability. If EPIC-0150 reopens, re-verify layout assumptions before shipping this epic.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Backlog -->
+  <div class="sec">
+    <div class="sec__hd"><span class="sec__label">Backlog Items — Out of Scope for This Epic</span></div>
+    <div class="sec__body">
+      <div class="bl-list">
+        <div class="bl-item">
+          <span class="bl-item__id">BL-01</span>
+          <div>
+            <div class="bl-item__name">Archive page content width — <code>--st-width-archive</code> application</div>
+            <div class="bl-item__desc">The <code>--st-width-archive: 960px</code> token is defined in this epic but deliberately not applied. Archive page layout is deferred to a separate archive polish epic.</div>
+          </div>
+        </div>
+        <div class="bl-item">
+          <span class="bl-item__id">BL-02</span>
+          <div>
+            <div class="bl-item__name">TaxonomyDetailPage width normalisation</div>
+            <div class="bl-item__desc">Width is recorded in ORIENT-01 audit but not updated. Deferred to archive/taxonomy polish epic — its layout is a different code path from the detail pages in this epic.</div>
+          </div>
+        </div>
+        <div class="bl-item">
+          <span class="bl-item__id">BL-03</span>
+          <div>
+            <div class="bl-item__name">Hero height / aspect-ratio control</div>
+            <div class="bl-item__desc">A Sanity field allowing editors to select hero height (<code>compact</code> | <code>standard</code> | <code>tall</code>). This epic standardises width and radius only.</div>
+          </div>
+        </div>
+        <div class="bl-item">
+          <span class="bl-item__id">BL-04</span>
+          <div>
+            <div class="bl-item__name">Transparent header / hero-behind-header variant</div>
+            <div class="bl-item__desc">Pattern where the hero bleeds under a transparent header for full-screen editorial impact. Requires a <code>transparentHeader</code> flag on the page schema and a header CSS variant. Not in scope for this epic.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /#tab-active -->
+
+
+<!-- ══════════════ DEFERRED ══════════════ -->
+<div id="tab-deferred" class="tab-panel">
+<div class="body">
+
+  <div class="deferred-notice">
+    <strong>These items were considered during EPIC-0153 scoping and explicitly deferred.</strong> They are recorded here so they are not lost and can be picked up in future epics without re-litigating the decisions made here.
+  </div>
+
+  <!-- Archive page -->
+  <div class="sec sec--dim">
+    <div class="sec__hd"><span class="sec__label">Archive Page — Width &amp; Hero Treatment</span></div>
+    <div class="sec__body">
+      <div class="prose">
+        <p><strong>Why deferred:</strong> Archive pages have a more complex layout (potential filter column, card grid, pagination) that warrants its own scoping pass. Mixing archive layout work into this epic risks scope creep and regression in the filter/grid system.</p>
+        <p><strong>What was decided in this epic:</strong> The canonical token <code>--st-width-archive: 960px</code> is defined and ready to use. The <code>ArchivePage</code> component is untouched — it retains whatever max-width it currently has until the archive polish epic picks this up.</p>
+        <p><strong>What the future epic needs to do:</strong> Apply <code>--st-width-archive</code> to the ArchivePage content container. Decide on archive hero treatment — the <code>imageWidth</code> field added to <code>heroSection</code> in this epic was <em>not</em> added to <code>archivePage</code>'s hero field. That is an archive epic concern. Verify the filter column layout is compatible with 960px.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Templates -->
+  <div class="sec sec--dim">
+    <div class="sec__hd"><span class="sec__label">Page Templates — Not Active, Not Scoped</span></div>
+    <div class="sec__body">
+      <div class="callout callout-dim">
+        <span class="callout__lbl">Status: Deferred indefinitely — open questions unresolved</span>
+        The concept of editor-selectable page layout templates was raised during scoping. It is explicitly not in scope and is parked here pending resolution of the questions below. <strong>Do not add a <code>pageTemplate</code> field to the <code>page</code> schema until at least one concrete non-default use case exists and has been designed.</strong>
+      </div>
+
+      <table style="margin-bottom:20px;">
+        <thead><tr><th>Proposed Template</th><th>Intent</th><th>Open Question / Concern</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Default (Standard Width)</strong></td>
+            <td>Narrow reading column — maps to <code>--st-width-detail</code> (760px)</td>
+            <td>This is already the normalised default applied in this epic. Is there a genuine need for this to be a <em>selectable template</em> if all detail pages default to it? Likely redundant as a picker option — it is simply the base behaviour.</td>
+          </tr>
+          <tr>
+            <td><strong>Full Width</strong></td>
+            <td>Named "full width" but <strong>this does not mean edge-to-edge</strong> — that is the hero image option. "Full width" here means "wider than default" — i.e. a page whose content container uses <code>--st-width-archive</code> (960px) or larger.</td>
+            <td>What is the concrete use case for a detail page (not an archive) that needs a wider content area? If it is primarily for card grids or gallery layouts, a section-level width override may be cleaner than a page-level template. Needs a real content example before scoping.</td>
+          </tr>
+          <tr>
+            <td><strong>With Sidebar</strong></td>
+            <td>Two-column layout with a sidebar</td>
+            <td><strong>What goes in the sidebar?</strong> No current content types or design patterns include a sidebar concept. This requires a design decision — related content? table of contents? navigation? — before any technical work. Do not build a sidebar without a defined, designed use case.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="prose">
+        <p><strong>Recommendation:</strong> The current implementation — all detail pages at 760px, controlled by a CSS token — is cleaner than exposing an unmotivated template picker to editors. Revisit page templates when a specific layout need arises that cannot be served by the existing section builder.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TaxonomyDetailPage -->
+  <div class="sec sec--dim">
+    <div class="sec__hd"><span class="sec__label">TaxonomyDetailPage — Width Normalisation</span></div>
+    <div class="sec__body">
+      <div class="prose">
+        <p>The ORIENT-01 audit should record the current max-width of <code>TaxonomyDetailPage</code> but updating it is out of scope for this epic. Its taxonomy name + accent bar header is a custom implementation that touches different code paths than the section-builder pages in this epic.</p>
+        <p><strong>Future work:</strong> Decide whether TaxonomyDetailPage uses <code>--st-width-archive</code> (960px — it lists content, so this is likely right) or <code>--st-width-detail</code>. Apply in the archive/taxonomy polish epic alongside <code>ArchivePage</code>.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /#tab-deferred -->
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
