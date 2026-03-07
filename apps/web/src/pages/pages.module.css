@@ -294,28 +294,32 @@
 
 /* ── Archive filter + content layout ─────────────────────────────── */
 
-/* Two-column layout: FilterBar sidebar + content area */
+/* Flex-wrap layout: sidebar + content sit side-by-side when there's room,
+   content wraps below the sidebar when the container is too narrow.
+   No media query needed — flex-basis on .archiveContent (min 400px)
+   triggers the wrap intrinsically. Works in DevTools, iframes, split
+   views, and any context where the available width is constrained. */
 .archiveLayout {
-  display: grid;
-  grid-template-columns: 220px 1fr;
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
-  align-items: start;
+  align-items: flex-start;
 }
 
-/* Stack sidebar above content on narrow viewports.
-   768px covers tablets and small laptops where 220px sidebar + cards
-   would be cramped. Below 768px the sidebar goes full-width above cards. */
-@media (max-width: 768px) {
-  .archiveLayout {
-    grid-template-columns: 1fr;
-  }
+/* FilterBar sidebar — fixed 220px when side-by-side, full-width when wrapped */
+.archiveLayout > aside {
+  flex: 0 0 220px;
+  min-width: 0;
 }
 
 /* Content column (grid + pagination).
-   container-type enables @container queries for narrow-context grid collapse. */
+   flex: 1 1 400px → grows to fill remaining space; wraps below sidebar
+   when container can't fit 220px + 32px gap + 400px = 652px.
+   container-type enables @container queries for card grid collapse. */
 .archiveContent {
+  flex: 1 1 400px;
   container-type: inline-size;
-  min-width: 0; /* prevent overflow in grid */
+  min-width: 0;
 }
 
 /* Narrow content area → single column.
