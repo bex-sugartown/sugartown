@@ -66,3 +66,10 @@
   --st-card-shadow:          0 4px 20px rgba(0, 0, 0, 0.06);
   --st-card-hover-shadow:    0 8px 32px rgba(255, 36, 125, 0.12);
 }
+
+/* ── Light-theme background image ────────────────────── */
+[data-theme="light"] body {
+  background-image: url('/std-bg-light.png');
+  background-position: top center;
+  background-repeat: no-repeat;
+}

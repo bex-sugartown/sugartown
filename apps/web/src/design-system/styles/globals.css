@@ -31,7 +31,7 @@ body {
   font-size: var(--st-font-body);
   line-height: var(--st-line-height-normal);
   color: var(--st-color-text-default);
-  background: var(--st-color-bg-canvas);
+  background: var(--st-color-bg-canvas) url('/std-bg-dark.png') top center no-repeat;
 }
 
 /* Basic content spacing */
