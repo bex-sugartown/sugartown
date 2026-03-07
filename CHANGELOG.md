@@ -16,6 +16,55 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.16.0] — 2026-03-07
+
+Content primitives, hero layout control, and archive grid rework. Aggregates 0.15.1–0.15.4.
+
+### apps/web
+
+#### Added
+- `CardBuilderSection` renderer — editors compose freeform card grids from Sanity with per-card editorial content and optional citations (EPIC-0160)
+- Citation web adapter at `design-system/components/citation/` bridges DS Citation into the web app (EPIC-0160)
+- Grid/list layout toggle on archive pages with `sessionStorage` persistence per archive slug (EPIC-0161)
+
+#### Changed
+- Detail pages use canonical `--st-width-detail` (760px) token; archive pages use `--st-width-archive` (1140px) token — retired `--st-page-max` and `--st-content-width` references removed (EPIC-0153)
+- HeroSection reads `imageWidth` from Sanity: content-width (constrained, default) or full-width (viewport breakout via `calc(-50vw + 50%)`); `border-radius: 0` enforced on all hero surfaces and overlay pseudo-elements (EPIC-0153)
+- Hero text forced to white on image-bearing heroes; ghost CTA button maps to tertiary variant (EPIC-0153)
+- Card titles changed from Playfair Display 1.4rem/700 to Fira Sans (`--st-font-family-ui`) 1rem/600 via `--st-card-title-size` component token (EPIC-0161)
+- Chip rows render group labels ("Tools ·" / "Tags ·") via passthrough props from ContentCard (EPIC-0161)
+
+#### Fixed
+- Archive layout: `container-type: inline-size` removed (interfered with flex-grow negotiation); replaced with media queries; sidebar uses `flex-wrap` instead of rigid CSS grid; 420px 2-up grid breakpoint, 640px list breakpoint, unified title styling across grid and list variants
+
+### apps/studio
+
+#### Added
+- `heroSection` schema gains `imageWidth` radio field (`content-width` | `full-width`, default `content-width`) (EPIC-0153)
+- `cardBuilderItem` object and `cardBuilderSection` section type registered for page builder use (EPIC-0160)
+
+#### Changed
+- 8 deferred `archivePage` fields moved to "Advanced (coming soon)" tab; display tab fields also deferred (none currently wired)
+- Hero section on `archivePage` moved to Advanced tab
+- CTA button secondary label renamed from "Seafoam" to "Lime"
+
+### packages/design-system
+
+#### Added
+- `CitationMarker`, `CitationNote`, and `CitationZone` components with 8 semantic `--st-citation-*` tokens (EPIC-0159)
+- `--st-width-detail` (760px) and `--st-width-archive` (960px) width tokens added and synced across both token files (EPIC-0153)
+- `--st-card-title-size` component token for card title typography (EPIC-0161)
+- Chip rows support `toolsLabel` / `tagsLabel` props for group label rendering (EPIC-0161)
+- 3 new Card stories: CardTypography, NarrowContext, CardChipLabels; 5 Citation stories (EPIC-0159, EPIC-0161)
+
+### Other
+
+- Epic briefs added for EPIC-0153, EPIC-0159, EPIC-0160, EPIC-0161
+- Archive deferred fields backlog and backlog priorities export added
+- Morning housekeeping prompt updated with Vite cache staleness check
+
+---
+
 ## [0.15.4] — 2026-03-06
 
 EPIC-0161: Card Grid & Typography Polish. Narrow-context layout, typography scale, and chip label UX across DS Card and archive pages.
