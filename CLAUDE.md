@@ -19,6 +19,22 @@ Do not carry uncommitted changes across epic boundaries. If the working tree is 
 
 A dirty tree at epic start is a process failure, not a starting condition.
 
+### CSS layout fix escalation rule
+
+When a CSS layout fix fails and requires a follow-up commit, **stop and diagnose before patching**. Write a 1-paragraph root-cause analysis covering the full cascade (containment → flex/grid → margin → max-width → child sizing) before writing the next fix.
+
+If 2+ fix commits address the same layout surface in sequence, treat it as a signal to step back, map the full constraint chain, and fix the root cause — not the symptom.
+
+### `container-type` guardrail
+
+`container-type: inline-size` establishes size containment that can interfere with flex-grow negotiation. Before applying it:
+
+1. Verify the element does **not** use `margin: auto` on the inline axis (auto margins + containment prevents stretch)
+2. Verify the element's parent flex/grid context does not rely on the child growing beyond its basis
+3. If the element is a flex child, add `width: 100%` explicitly — do not rely on `align-items: stretch` surviving containment
+
+If a layout collapses after adding `container-type`, remove the containment first and replace the `@container` query with a `@media` query or intrinsic grid sizing (`minmax()`).
+
 ### Studio schema changes get their own commit
 
 Any change to `apps/studio/schemas/` that is **not** a direct consequence of a DS component API decision belongs in a separate commit scoped to a studio concern — it must **not** be bundled into a component, tooling, or web epic commit.

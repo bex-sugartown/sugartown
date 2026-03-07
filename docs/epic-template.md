@@ -19,7 +19,7 @@
 > process failure, not a starting condition. If any item cannot be answered, resolve it
 > first — do not proceed.
 
-- [ ] **Layout contract** — positive statement of the component/section layout contract is written (not just a non-goals list)
+- [ ] **Layout contract** — positive statement of the component/section layout contract is written (not just a non-goals list). For grid/card layouts, include a **dimensional contract**: target card width, max-width for list view, sidebar width, gap, and the resulting page max-width (formula: `card_w × cols + gap × (cols-1) + sidebar + sidebar_gap + padding = max-width`)
 - [ ] **All prop value enumerations** — every `select` / enum prop has its full `options.list` copied from the schema (see Schema Enum Audit below); none reconstructed from memory
 - [ ] **Correct audit file paths** — every file listed in the audit phase has been verified to exist at the stated path (`ls` or Read the file before referencing it in the brief)
 - [ ] **Dark / theme modifier treatment** — explicit statement of how dark mode, light mode, or themed variants are handled by this component (token inheritance, `[data-theme]`, `accentColor`, or "not applicable — why")

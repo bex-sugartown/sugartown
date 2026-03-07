@@ -209,13 +209,15 @@
 /* ── Archive listing pages ───────────────────────────────────────── */
 /* Archive pages need more width than detail pages to accommodate the
    220px filter sidebar + multi-column card grid side-by-side.
-   1140px → ~850px content area → comfortable 2-up at 280px min-card.
+   1164px → ~864px content area → 2-up at ~420px cards (+ 24px gap).
    No container-type here — size containment near the top of the DOM
    interferes with flex/grid parent negotiation and collapses the page. */
 .archivePage {
-  max-width: 1140px;
+  width: 100%;          /* stretch inside flex-column parent (.app) */
+  max-width: 1164px;
   margin: 0 auto;
   padding: 3rem 1.5rem 5rem;
+  box-sizing: border-box;
 }
 
 /* ── Layout toggle toolbar ────────────────────────────────────────── */
@@ -272,18 +274,19 @@
   line-height: 1.6;
 }
 
-/* Multi-column grid: for full-content-width contexts only (no sidebar).
-   When FilterBar narrows the content area, container query below forces 1-column.
-   See Workstream A — EPIC-0161 for constraint rationale. */
+/* Multi-column grid: 2-up at ~420px on desktop with 220px sidebar.
+   minmax(340px, 1fr) prevents 3-column at ~840px content width
+   (3 × 340 = 1020 > 840 → only 2 columns fit).
+   Container query below collapses to 1-column when content area is narrow. */
 .archiveGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1.5rem;
 }
 
-/* User-selected list layout — always single column */
+/* User-selected list layout — always single column, capped at 640px */
 .archiveGrid[data-layout="list"] {
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 640px);
 }
 
 .archiveEmpty {
@@ -315,21 +318,12 @@
 /* Content column (grid + pagination).
    flex: 1 1 400px → grows to fill remaining space; wraps below sidebar
    when container can't fit 220px + 32px gap + 400px = 652px.
-   container-type enables @container queries for card grid collapse. */
+   No container-type — inline-size containment interferes with flex-grow
+   negotiation and can collapse the content to its flex-basis.
+   Grid column collapse is handled intrinsically by minmax(340px, 1fr). */
 .archiveContent {
   flex: 1 1 400px;
-  container-type: inline-size;
   min-width: 0;
-}
-
-/* Narrow content area → single column.
-   With a 220px sidebar + 2rem gap inside a 1140px max-width container,
-   the content area is ~850px — room for 2–3 cards at 280px min.
-   Only collapse to 1 column when truly narrow (mobile / stacked sidebar). */
-@container (max-width: 480px) {
-  .archiveGrid {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* Result count line shown when filters are active */

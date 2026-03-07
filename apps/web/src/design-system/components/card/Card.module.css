@@ -157,9 +157,9 @@
 /* ── Title ───────────────────────────────────────────────────────────────── */
 .title {
   margin: 0;
-  font-family: var(--st-font-narrative);
-  font-size: var(--st-font-size-xl);    /* 1.4rem — default + metadata */
-  font-weight: 700;
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-md);    /* 1rem / 16px — Fira Sans for all variants */
+  font-weight: 600;
   line-height: var(--st-line-height-tight);
   color: var(--st-color-text-primary);
 }
@@ -356,11 +356,7 @@
 }
 
 /* ── Variant: listing ────────────────────────────────────────────────────── */
-.variant-listing .title {
-  font-family: var(--st-font-family-ui);
-  font-size: var(--st-font-size-md);   /* 1rem — archive density */
-  font-weight: 600;
-}
+/* Title font/size now matches root .title — no override needed */
 
 /* Listing + thumbnail: row layout */
 .listingRow {
@@ -419,7 +415,7 @@
 }
 
 .compact .title {
-  font-size: var(--st-font-size-lg);  /* step down from xl */
+  font-size: var(--st-font-size-sm);  /* step down from md */
 }
 
 .compact .eyebrow {

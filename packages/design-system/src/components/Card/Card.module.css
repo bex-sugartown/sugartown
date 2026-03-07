@@ -377,11 +377,7 @@
 }
 
 /* ── Variant: listing ────────────────────────────────────────────────────── */
-.variant-listing .title {
-  font-family: var(--st-font-family-ui);
-  font-size: var(--st-font-size-md);   /* 1rem — archive density */
-  font-weight: 600;
-}
+/* Title font/size now matches root .title — no override needed */
 
 /* Listing + thumbnail: row layout */
 .listingRow {
@@ -440,7 +436,7 @@
 }
 
 .compact .title {
-  font-size: var(--st-font-size-lg);  /* step down from xl */
+  font-size: var(--st-font-size-sm);  /* step down from md */
 }
 
 .compact .eyebrow {
