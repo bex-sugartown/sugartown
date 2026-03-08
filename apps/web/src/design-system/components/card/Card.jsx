@@ -195,42 +195,48 @@ export default function Card({
       )}
 
       {tools && tools.length > 0 && (
-        <ul className={styles.toolsRow} aria-label="Tools">
-          {tools.map(({ label, href: chipHref }) => (
-            <li key={label}>
-              <Chip
-                label={label}
-                href={chipHref}
-                color="grey"
-                size="sm"
-                className={chipHref && href ? styles.hasCardLink : undefined}
-              />
-            </li>
-          ))}
-        </ul>
+        <div className={styles.chipGroup}>
+          <span className={styles.chipGroupLabel}>Tools</span>
+          <ul className={styles.toolsRow} aria-label="Tools">
+            {tools.map(({ label, href: chipHref }) => (
+              <li key={label}>
+                <Chip
+                  label={label}
+                  href={chipHref}
+                  color="grey"
+                  size="sm"
+                  className={chipHref && href ? styles.hasCardLink : undefined}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
       {tags && tags.length > 0 && (
-        <ul className={styles.tagsRow} aria-label="Tags">
-          {tags.map(({ label, href: chipHref, colorHex }) => (
-            <li key={label}>
-              <Chip
-                label={label}
-                href={chipHref}
-                colorHex={colorHex}
-                size="sm"
-                className={
-                  [
-                    styles.chipTag,
-                    chipHref && href ? styles.hasCardLink : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ') || undefined
-                }
-              />
-            </li>
-          ))}
-        </ul>
+        <div className={styles.chipGroup}>
+          <span className={styles.chipGroupLabel}>Tags</span>
+          <ul className={styles.tagsRow} aria-label="Tags">
+            {tags.map(({ label, href: chipHref, colorHex }) => (
+              <li key={label}>
+                <Chip
+                  label={label}
+                  href={chipHref}
+                  colorHex={colorHex}
+                  size="sm"
+                  className={
+                    [
+                      styles.chipTag,
+                      chipHref && href ? styles.hasCardLink : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ') || undefined
+                  }
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
       {/* Escape hatch: custom body content (MetadataCard field grid, etc.) */}

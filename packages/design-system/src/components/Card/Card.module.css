@@ -271,8 +271,8 @@
 /* ── Chip group wrapper + label ──────────────────────────────────────── */
 .chipGroup {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-wrap: nowrap;        /* default: single-line for grid cards */
+  align-items: baseline;    /* label aligns to first chip row baseline */
   gap: var(--st-space-2);
 }
 
@@ -285,11 +285,14 @@
   color: var(--st-color-text-muted);
   white-space: nowrap;
   line-height: 1;
+  min-width: 3.5em;         /* align chips across TOOLS / TAGS rows */
+  flex-shrink: 0;
 }
 
-/* Separator dot rendered via CSS — keeps label string clean for i18n */
-.chipGroupLabel::after {
-  content: ' ·';
+/* Listing & metadata variants: chips wrap, label stays top-left */
+.variant-listing .chipGroup,
+.variant-metadata .chipGroup {
+  flex-wrap: wrap;
 }
 
 .toolsRow,
@@ -300,6 +303,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--st-space-2);
+  flex: 1;                  /* fill available width in listing cards */
+  min-width: 0;
 }
 
 /* Marker class — hook for accentColor cascade on tag chips.

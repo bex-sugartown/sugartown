@@ -271,6 +271,33 @@
    - toolsRow / tagsRow: flex layout containers
    - chipTag: marker class for accentColor cascade (see above)
 */
+/* ── Chip group wrapper + label ──────────────────────────────────────── */
+.chipGroup {
+  display: flex;
+  flex-wrap: nowrap;        /* default: single-line for grid cards */
+  align-items: baseline;    /* label aligns to first chip row baseline */
+  gap: var(--st-space-2);
+}
+
+.chipGroupLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  white-space: nowrap;
+  line-height: 1;
+  min-width: 3.5em;         /* align chips across TOOLS / TAGS rows */
+  flex-shrink: 0;
+}
+
+/* Listing & metadata variants: chips wrap, label stays top-left */
+.variant-listing .chipGroup,
+.variant-metadata .chipGroup {
+  flex-wrap: wrap;
+}
+
 .toolsRow,
 .tagsRow {
   list-style: none;
@@ -279,6 +306,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--st-space-2);
+  flex: 1;                  /* fill available width in listing cards */
+  min-width: 0;
 }
 
 /* Marker class — hook for accentColor cascade on tag chips.
