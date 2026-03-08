@@ -18,9 +18,9 @@
  *     'project'  → item.projects[]   — [{ slug }]
  *     'category' → item.categories[] — [{ slug }]
  *     'tag'      → item.tags[]       — [{ slug }]
+ *     'tools'    → item.tools[]      — [{ slug }]
  *
  *   Enum facets (plain string values) — match by value string:
- *     'tools'  → item.tools[]  — string[]  (array of tool name strings)
  *     'status' → item.status   — string    (single status string)
  *     'client' → item.client   — string    (single client name string)
  *
@@ -38,13 +38,13 @@ const REFERENCE_FIELD_MAP = {
   project:  'projects',
   category: 'categories',
   tag:      'tags',
+  tools:    'tools',
 }
 
 // Enum facets: maps facet ID → { field, isArray }
 // - isArray: true  → item[field] is a string[]; match if any element is in active set
 // - isArray: false → item[field] is a string;   match if value is in active set
 const ENUM_FIELD_MAP = {
-  tools:  { field: 'tools',  isArray: true  },
   status: { field: 'status', isArray: false },
   client: { field: 'client', isArray: false },
 }

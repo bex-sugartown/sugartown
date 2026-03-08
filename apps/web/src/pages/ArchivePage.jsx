@@ -71,16 +71,17 @@ const TAXONOMY_PROJECTION = `
   "authors": authors[]->{_id, name, "slug": slug.current},
   "categories": categories[]->{_id, name, "slug": slug.current, colorHex},
   "tags": tags[]->{_id, name, "slug": slug.current},
-  "projects": projects[]->{_id, name, "slug": slug.current, colorHex}
+  "projects": projects[]->{_id, name, "slug": slug.current, colorHex},
+  "tools": tools[]->{_id, name, "slug": slug.current}
 `
 
-// Enum fields needed by applyFilters for client/tools/status facets.
+// Enum fields needed by applyFilters for client/status facets.
 // Must be projected on every ARCHIVE_QUERY so applyFilters can match against them.
 // (facetsRawQuery projects these for counts; ARCHIVE_QUERIES must project them for filtering.)
+// Note: tools moved to TAXONOMY_PROJECTION — now a reference array, not a string enum.
 const ENUM_PROJECTION = `
   client,
-  status,
-  tools
+  status
 `
 
 const ARCHIVE_QUERIES = {

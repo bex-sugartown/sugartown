@@ -17,10 +17,10 @@
  * ─────────────────────────────────────────────────────────────────────────────
  *
  * @typedef {Object} FilterModelOption
- * @property {string}  id         - Sanity _id for reference facets; enum value string for tools/status
+ * @property {string}  id         - Sanity _id for reference facets; enum value string for status/client
  * @property {string}  label      - Display label (tag.name, enum value, etc.)
- * @property {string}  [slug]     - URL-friendly slug. Reference types only (author, category, tag, project).
- *                                  Absent for enum facets (tools, status) — use `id` as URL param value instead.
+ * @property {string}  [slug]     - URL-friendly slug. Reference types only (author, category, tag, project, tool).
+ *                                  Absent for enum facets (status, client) — use `id` as URL param value instead.
  * @property {string}  [colorHex] - Hex color. categories and projects only.
  * @property {number}  count      - Content items in the current archive scope with this value.
  * @property {{id: string, label: string, slug: string}} [parent]
@@ -61,7 +61,7 @@ const FACET_TYPE = {
   project:  'reference',
   category: 'reference',
   tag:      'reference',
-  tools:    'enum',
+  tools:    'reference',
   status:   'enum',
   client:   'enum',
 }
@@ -124,11 +124,9 @@ function extractFacetItems(item, facetId) {
       return merged
     }
 
-    case 'tools': {
-      // tools[] is a string enum array — synthesize reference-shaped objects
-      const toolValues = item.tools ?? []
-      return toolValues.map((v) => ({ _id: v, name: v }))
-    }
+    case 'tools':
+      // tools[] is now a reference array — dereferenced by facetsRawQuery
+      return item.tools ?? []
 
     case 'status': {
       // status is a single string field — emit as single-item array if set

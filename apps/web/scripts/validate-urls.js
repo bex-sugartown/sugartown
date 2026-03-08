@@ -68,7 +68,7 @@ function getCanonicalPath({ docType, slug }) {
 }
 
 const ARCHIVE_PATHS = ['/articles', '/case-studies', '/knowledge-graph', '/nodes']
-const TAXONOMY_BASE_PATHS = ['/tags', '/categories', '/projects', '/people']
+const TAXONOMY_BASE_PATHS = ['/tags', '/categories', '/projects', '/people', '/tools']
 
 // Reserved namespace slugs that page documents must never use.
 // A page slug matching any of these would shadow the canonical archive/taxonomy route.
@@ -81,6 +81,7 @@ const RESERVED_PAGE_SLUGS = [
   'categories',
   'projects',
   'people',
+  'tools',
 ]
 
 function validateNavItemUrl(rawUrl) {

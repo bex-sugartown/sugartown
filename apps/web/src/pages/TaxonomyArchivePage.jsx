@@ -6,6 +6,7 @@
  *   /categories  → list all category docs
  *   /tags        → list all tag docs
  *   /projects    → list all project docs
+ *   /tools       → list all tool docs
  *
  * Derives type from the first URL path segment (same pattern as TaxonomyDetailPage).
  * Each item links to its canonical detail route.
@@ -22,6 +23,7 @@ import {
   allCategoriesQuery,
   allTagsQuery,
   allProjectsQuery,
+  allToolsQuery,
 } from '../lib/queries'
 import NotFoundPage from './NotFoundPage'
 import styles from './TaxonomyArchivePage.module.css'
@@ -64,6 +66,15 @@ const ARCHIVE_CONFIG = {
     getLabel: (doc) => doc.name,
     getSublabel: (doc) => doc.description ?? null,
     getColor: (doc) => doc.colorHex ?? null,
+    hasImage: false,
+  },
+  tools: {
+    title: 'Tools & Platforms',
+    query: allToolsQuery,
+    getPath: (doc) => `/tools/${doc.slug}`,
+    getLabel: (doc) => doc.name,
+    getSublabel: (doc) => doc.description ?? null,
+    getColor: () => null,
     hasImage: false,
   },
 }

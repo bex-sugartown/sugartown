@@ -18,6 +18,7 @@
  *   /categories/:slug         → category taxonomy detail
  *   /projects/:slug           → project taxonomy detail
  *   /people/:slug             → person taxonomy detail
+ *   /tools/:slug              → tool taxonomy detail
  */
 
 // ─── Namespace prefixes ──────────────────────────────────────────────────────
@@ -54,6 +55,7 @@ export const TAXONOMY_NAMESPACES = {
   category: 'categories',
   project: 'projects',
   person: 'people',
+  tool: 'tools',
 }
 
 // ─── Archive paths ───────────────────────────────────────────────────────────
@@ -81,6 +83,7 @@ export const TAXONOMY_BASE_PATHS = [
   '/categories',
   '/projects',
   '/people',
+  '/tools',
 ]
 
 // ─── Slug normalization ───────────────────────────────────────────────────────

@@ -9,7 +9,7 @@
  * Taxonomy mapping (post EPIC-0158):
  *   - First project  → eyebrow suffix  ("Node · Sugartown CMS")
  *   - First category  → category prop   ("CATEGORY: AI Methodology" above/below title)
- *   - tools[]         → grey tool chips (Card tools prop)
+ *   - tools[]         → linked grey tool chips (Card tools prop)
  *   - tags[]          → pink tag chips  (Card tags prop)
  *   - Overflow projects/categories (2nd+) → added to tags[] as chips
  *
@@ -107,9 +107,15 @@ export default function ContentCard({
     ? { label: firstCat.name, href: getCanonicalPath({ docType: 'category', slug: firstCat.slug }) }
     : undefined
 
-  // ── Tools — string array → grey chip objects ──
+  // ── Tools — reference array → linked chip objects ──
+  // Guard: pre-migration data may contain nulls (unresolved string→ref dereferences)
   const toolChips = item.tools?.length
-    ? item.tools.map((t) => ({ label: t }))
+    ? item.tools
+        .filter((t) => t && typeof t === 'object' && t.name)
+        .map((t) => ({
+          label: t.name,
+          href: getCanonicalPath({ docType: 'tool', slug: t.slug }),
+        }))
     : undefined
 
   // ── Tags — actual tags + overflow projects/categories (2nd+) ──

@@ -105,6 +105,7 @@ function detectWpKeysInString(str) {
 const PERSON_FRAGMENT   = `_id, name, "slug": slug.current`
 const CATEGORY_FRAGMENT = `_id, name, "slug": slug.current, colorHex, "parent": parent->{ _id, name, "slug": slug.current }`
 const TAG_FRAGMENT      = `_id, name, "slug": slug.current`
+const TOOL_FRAGMENT     = `_id, name, "slug": slug.current`
 const PROJECT_FRAGMENT  = `_id, projectId, name, "slug": slug.current, status, colorHex`
 
 const archivePageWithFilterConfigQuery = `
@@ -126,7 +127,7 @@ const archivePageWithFilterConfigQuery = `
   }
 `
 
-// facetsRawQuery — includes client, status and tools (v0.11.0+)
+// facetsRawQuery — includes client, status and tools (v0.11.0+; tools promoted to reference in v0.12.0+)
 const facetsRawQuery = `
   *[_type in $contentTypes && defined(slug.current)] {
     _id,
@@ -134,7 +135,7 @@ const facetsRawQuery = `
     "slug": slug.current,
     client,
     status,
-    tools,
+    "tools": tools[]->{${TOOL_FRAGMENT}},
     authors[]->{${PERSON_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
@@ -156,7 +157,7 @@ const FACET_TYPE = {
   project:  'reference',
   category: 'reference',
   tag:      'reference',
-  tools:    'enum',
+  tools:    'reference',
   status:   'enum',
   client:   'enum',
 }
@@ -186,10 +187,8 @@ function extractFacetItems(item, facetId) {
       }
       return merged
     }
-    case 'tools': {
-      const toolValues = item.tools ?? []
-      return toolValues.map((v) => ({ _id: v, name: v }))
-    }
+    case 'tools':
+      return item.tools ?? []
     case 'status': {
       if (!item.status) return []
       return [{ _id: item.status, name: item.status }]
@@ -417,7 +416,7 @@ async function run() {
     // ── tools facet coverage warn ───────────────────────────────────────────
     if (configuredFacetIds.includes('tools') && !modelFacetIds.has('tools')) {
       console.log(`\n   ⚠️   'tools' facet is configured but returned 0 options.`)
-      console.log(`        Content may not be tagged with tools[] yet, or the enum values are missing.`)
+      console.log(`        Content may not be tagged with tools[] yet, or tool documents may not be published.`)
       hasWarning = true
     }
 

@@ -149,7 +149,9 @@ export default function MetadataCard({
     formatDate(publishedAt)    && { label: 'Published',    value: formatDate(publishedAt) },
   ].filter(Boolean)
 
-  const hasTools      = tools?.length > 0
+  // Guard: pre-migration data may contain nulls (unresolved string→ref dereferences)
+  const validTools    = tools?.filter((t) => t && typeof t === 'object' && t.name) ?? []
+  const hasTools      = validTools.length > 0
   const hasKpis       = kpis?.length > 0
   const hasProjects   = projects?.length > 0
   const hasCategories = categories?.length > 0
@@ -170,14 +172,19 @@ export default function MetadataCard({
             </div>
           ))}
 
-          {/* Tools (DS Chip component, seafoam colour) */}
+          {/* Tools (DS Chip component, linked to /tools/:slug) */}
           {hasTools && (
             <div className={styles.field}>
               <p className={styles.fieldLabel}>Tools</p>
               <ul className={styles.chipList}>
-                {tools.map((tool) => (
-                  <li key={tool}>
-                    <Chip label={tool} color="grey" size="sm" />
+                {validTools.map((tool) => (
+                  <li key={tool._id}>
+                    <Chip
+                      label={tool.name}
+                      href={tool.slug ? getCanonicalPath({ docType: 'tool', slug: tool.slug }) : undefined}
+                      color="grey"
+                      size="sm"
+                    />
                   </li>
                 ))}
               </ul>

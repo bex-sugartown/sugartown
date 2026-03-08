@@ -11,7 +11,7 @@ import { SEO_FRAGMENT, SITE_SEO_FRAGMENT } from './seo'
 
 // ---- TAXONOMY FRAGMENTS (centralized — use in every query that expands categories/projects) ----
 // Stage 4: PERSON_FRAGMENT and TAG_FRAGMENT added alongside existing fragments.
-// All four taxonomy primitives (person, project, category, tag) now have canonical fragments.
+// All five taxonomy primitives (person, project, category, tag, tool) have canonical fragments.
 
 /**
  * PERSON_FRAGMENT
@@ -63,6 +63,17 @@ export const TAG_FRAGMENT = `
 `
 
 /**
+ * TOOL_FRAGMENT
+ * Expand a single tool reference or an array item.
+ * Usage in GROQ: tools[]->{${TOOL_FRAGMENT}}
+ */
+export const TOOL_FRAGMENT = `
+  _id,
+  name,
+  "slug": slug.current
+`
+
+/**
  * PROJECT_FRAGMENT
  * Expand a single project reference or an array item.
  * project stores colorHex as a plain hex string field.
@@ -80,14 +91,15 @@ export const PROJECT_FRAGMENT = `
 /**
  * TAXONOMY_FRAGMENT
  * Composite canonical taxonomy projection for all top-level content types.
- * Bundles all four taxonomy primitives into a single reusable spread.
+ * Bundles all five taxonomy primitives into a single reusable spread.
  * Usage in GROQ: spread at document level — ${TAXONOMY_FRAGMENT}
  */
 export const TAXONOMY_FRAGMENT = `
   "authors": authors[]->{${PERSON_FRAGMENT}},
   "categories": categories[]->{${CATEGORY_FRAGMENT}},
   "tags": tags[]->{${TAG_FRAGMENT}},
-  "projects": projects[]->{${PROJECT_FRAGMENT}}
+  "projects": projects[]->{${PROJECT_FRAGMENT}},
+  "tools": tools[]->{${TOOL_FRAGMENT}}
 `
 
 // ---- SITE SETTINGS (header, footer, nav, preheader, branding) ----
@@ -189,7 +201,7 @@ export const allNodesQuery = `
     aiTool,
     conversationType,
     status,
-    tools,
+    "tools": tools[]->{${TOOL_FRAGMENT}},
     challenge,
     insight,
     publishedAt,
@@ -270,7 +282,7 @@ export const nodeBySlugQuery = `
     },
     aiTool,
     conversationType,
-    tools,
+    "tools": tools[]->{${TOOL_FRAGMENT}},
     challenge,
     insight,
     actionItem,
@@ -305,7 +317,7 @@ export const allArticlesQuery = `
     author,
     authors[]->{${PERSON_FRAGMENT}},
     status,
-    tools,
+    "tools": tools[]->{${TOOL_FRAGMENT}},
     publishedAt,
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
@@ -384,7 +396,7 @@ export const articleBySlugQuery = `
     author,
     authors[]->{${PERSON_FRAGMENT}},
     status,
-    tools,
+    "tools": tools[]->{${TOOL_FRAGMENT}},
     publishedAt,
     updatedAt,
     categories[]->{${CATEGORY_FRAGMENT}},
@@ -510,7 +522,7 @@ export const allCaseStudiesQuery = `
     dateRange,
     publishedAt,
     status,
-    tools,
+    "tools": tools[]->{${TOOL_FRAGMENT}},
     authors[]->{${PERSON_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
@@ -585,7 +597,7 @@ export const caseStudyBySlugQuery = `
     },
     authors[]->{${PERSON_FRAGMENT}},
     status,
-    tools,
+    "tools": tools[]->{${TOOL_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
     projects[]->{${PROJECT_FRAGMENT}},
@@ -871,6 +883,26 @@ export const categoryBySlugQuery = `
   }
 `
 
+// ---- TOOLS ----
+
+export const allToolsQuery = `
+  *[_type == "tool"] | order(name asc) {
+    _id,
+    name,
+    "slug": slug.current,
+    description
+  }
+`
+
+export const toolBySlugQuery = `
+  *[_type == "tool" && slug.current == $slug][0] {
+    _id,
+    name,
+    "slug": slug.current,
+    description
+  }
+`
+
 export const allProjectsQuery = `
   *[_type == "project"] | order(priority asc) {
     _id,
@@ -910,9 +942,9 @@ export const projectBySlugQuery = `
  * Fetches all published content items (article, caseStudy, node) that reference
  * a given taxonomy document by its Sanity _id.
  *
- * Works for any taxonomy type — tag, category, project, or person — because
+ * Works for any taxonomy type — tag, category, project, person, or tool — because
  * all content types use the same canonical taxonomy fields:
- *   authors[], categories[], tags[], projects[], relatedProjects[]
+ *   authors[], categories[], tags[], projects[], tools[], relatedProjects[]
  *
  * Usage:
  *   client.fetch(contentByTaxonomyQuery, { taxonomyId: taxDoc._id })
@@ -929,6 +961,7 @@ export const contentByTaxonomyQuery = `
       ...categories[]._ref,
       ...tags[]._ref,
       ...projects[]._ref,
+      ...tools[]._ref,
       ...relatedProjects[]._ref
     ]
   ] | order(publishedAt desc) {
@@ -942,7 +975,8 @@ export const contentByTaxonomyQuery = `
     "authors": authors[]->{_id, name, "slug": slug.current},
     "categories": categories[]->{_id, name, "slug": slug.current, colorHex},
     "tags": tags[]->{_id, name, "slug": slug.current},
-    "projects": projects[]->{_id, name, "slug": slug.current, colorHex}
+    "projects": projects[]->{_id, name, "slug": slug.current, colorHex},
+    "tools": tools[]->{_id, name, "slug": slug.current}
   }
 `
 
@@ -962,7 +996,7 @@ export const contentByTaxonomyQuery = `
  * returns all items with their taxonomy references expanded.
  * Used by buildFilterModel() to derive available facet options + counts.
  *
- * Fetches all four taxonomy primitives: authors, categories, tags, projects.
+ * Fetches all five taxonomy primitives: authors, categories, tags, projects, tools.
  * Also fetches relatedProjects for backward compat with legacy data.
  */
 export const facetsRawQuery = `
@@ -972,7 +1006,7 @@ export const facetsRawQuery = `
     "slug": slug.current,
     client,
     status,
-    tools,
+    "tools": tools[]->{${TOOL_FRAGMENT}},
     authors[]->{${PERSON_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},

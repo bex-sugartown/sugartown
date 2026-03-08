@@ -26,6 +26,7 @@ import {
   categoryBySlugQuery,
   personBySlugQuery,
   projectBySlugQuery,
+  toolBySlugQuery,
   contentByTaxonomyQuery,
 } from '../lib/queries'
 import ContentCard from '../components/ContentCard'
@@ -70,6 +71,14 @@ const TAXONOMY_CONFIG = {
     pluralLabel: 'Projects',
     archivePath: '/projects',
     query: projectBySlugQuery,
+    buildParams: (slug) => ({ slug }),
+  },
+  tools: {
+    type: 'tool',
+    label: 'Tool',
+    pluralLabel: 'Tools & Platforms',
+    archivePath: '/tools',
+    query: toolBySlugQuery,
     buildParams: (slug) => ({ slug }),
   },
 }

@@ -81,7 +81,7 @@ const client = createClient({ projectId, dataset, apiVersion, useCdn: false, tok
 // ─── Known content types that require slugs ──────────────────────────────────
 
 const CONTENT_TYPES = ['article', 'caseStudy', 'node']
-const TAXONOMY_TYPES = ['category', 'tag', 'project', 'person']
+const TAXONOMY_TYPES = ['category', 'tag', 'project', 'person', 'tool']
 const ALL_SLUGGED_TYPES = ['page', ...CONTENT_TYPES, ...TAXONOMY_TYPES, 'archivePage']
 const VALID_ARCHIVE_CONTENT_TYPES = ['article', 'caseStudy', 'node']
 
@@ -98,7 +98,8 @@ const query = `{
     "authorRefs": authors[]._ref,
     "categoryRefs": categories[]._ref,
     "tagRefs": tags[]._ref,
-    "projectRefs": projects[]._ref
+    "projectRefs": projects[]._ref,
+    "toolRefs": tools[]._ref
   },
   "portableTextDocs": *[_type in $contentTypes && defined(slug.current)] {
     _id,
@@ -273,6 +274,7 @@ async function run() {
       ...(doc.categoryRefs ?? []),
       ...(doc.tagRefs ?? []),
       ...(doc.projectRefs ?? []),
+      ...(doc.toolRefs ?? []),
     ]
 
     for (const refId of allRefs) {

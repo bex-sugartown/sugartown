@@ -1,7 +1,7 @@
 /**
  * TaxonomyChips — generic chip renderer for taxonomy classification surface.
  *
- * Renders projects, categories, and tags as linked chips in a consistent order.
+ * Renders projects, categories, tags, and tools as linked chips in a consistent order.
  * Each chip links to its canonical taxonomy detail page via getCanonicalPath().
  * Color-aware: project and category chips use colorHex (via CSS custom property)
  * for border and text accent when available.
@@ -14,29 +14,32 @@
  *     categories={doc.categories}
  *     tags={doc.tags}
  *     projects={doc.projects}
+ *     tools={doc.tools}
  *   />
  *
  * Props:
  *   categories — array of { _id, name, slug, colorHex? }
  *   tags       — array of { _id, name, slug }
  *   projects   — array of { _id, name, slug, colorHex? }
+ *   tools      — array of { _id, name, slug }
  *   className  — optional extra class on the chip list wrapper
  *   size       — 'sm' | 'md' (default: 'md')
  *
  * Safe fallback: chips with a missing slug render as a non-linked <span>.
- * Chips render in order: projects → categories → tags.
+ * Chips render in order: projects → categories → tags → tools.
  * Duplicates (by _id) are removed before render.
  */
 import { getCanonicalPath } from '../lib/routes'
 import { Chip } from '../design-system'
 import styles from './TaxonomyChips.module.css'
 
-export default function TaxonomyChips({ categories, tags, projects, className, size = 'md' }) {
-  // Build ordered chip list: projects → categories → tags
+export default function TaxonomyChips({ categories, tags, projects, tools, className, size = 'md' }) {
+  // Build ordered chip list: projects → categories → tags → tools
   const raw = [
     ...(projects ?? []).map((p) => ({ ...p, kind: 'project' })),
     ...(categories ?? []).map((c) => ({ ...c, kind: 'category' })),
     ...(tags ?? []).map((t) => ({ ...t, kind: 'tag' })),
+    ...(tools ?? []).map((t) => ({ ...t, kind: 'tool' })),
   ]
 
   // Deduplicate by _id (guards against duplicate references in Sanity data)
