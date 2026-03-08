@@ -52,6 +52,7 @@ import cardBuilderSection from './sections/cardBuilderSection'
 // Taxonomy (New)
 import category from './documents/category'
 import tag from './documents/tag'
+import tool from './documents/tool'
 import project from './documents/project'
 import person from './documents/person'
 
@@ -116,6 +117,7 @@ export const schemaTypes = [
   // Documents - Taxonomy (New)
   category,
   tag,
+  tool,
   project,
   person,
 
@@ -147,7 +149,7 @@ export const schemaTypes = [
  * Suggested groupings:
  * - Knowledge Graph: node
  * - Content: article, page, caseStudy, archivePage
- * - Taxonomy: category, tag, project
+ * - Taxonomy: category, tag, tool, project
  * - Site Config: navigation, siteSettings
  *
  * Embedded objects (not standalone documents):

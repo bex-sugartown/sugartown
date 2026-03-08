@@ -1,47 +1,44 @@
 import {defineType, defineField} from 'sanity'
 import {defineIncomingReferenceDecoration} from 'sanity/structure'
-import {TagsIcon} from '@sanity/icons'
+import {WrenchIcon} from '@sanity/icons'
 import {createRemoveReferenceAction} from '../../components/RemoveReferenceAction'
 
 /**
- * Tag Document
+ * Tool Document
  *
- * Controlled vocabulary for cross-cutting conceptual and thematic classification.
- * Tags are bridges between content — they surface relationships in the Knowledge Graph.
+ * Tools, platforms, and technologies used across content.
+ * Tools are the 5th taxonomy primitive (alongside tag, category, project, person).
  *
- * Vocabulary rules:
- * - Tags must be conceptual or thematic (not tool names, not statuses, not client names)
- * - Tags must be cross-cutting — useful across article, caseStudy, and node types
- * - Tool names belong in the tools[] enum field on each content type
- * - Status values belong in the status field on each content type
- * - New tags require editorial review before creation (see docs/taxonomy/controlled-vocabulary.md)
+ * Unlike tags (which are conceptual/thematic), tools represent specific named
+ * software, platforms, languages, or frameworks (e.g., "Claude Code", "React", "Sanity").
  *
- * Canonical vocabulary: ~60–100 approved tags. Do not create tags outside this list.
+ * Editors can create new tool documents directly in Studio — no code changes required.
+ * Tools participate in the knowledge graph as first-class nodes.
  */
 export default defineType({
-  name: 'tag',
-  title: 'Tag',
+  name: 'tool',
+  title: 'Tool',
   type: 'document',
-  icon: TagsIcon,
+  icon: WrenchIcon,
   renderMembers: (members) => [
     ...members,
     defineIncomingReferenceDecoration({
       name: 'assignedContent',
       title: 'Assigned content',
       types: [{type: 'article'}, {type: 'node'}, {type: 'caseStudy'}],
-      actions: [createRemoveReferenceAction('tags')],
+      actions: [createRemoveReferenceAction('tools')],
     }),
   ],
   fields: [
     defineField({
       name: 'name',
-      title: 'Tag Name',
+      title: 'Tool Name',
       type: 'string',
-      description: 'The tag label — conceptual/thematic only (e.g., "AI Ethics", "Governance", "Content Modeling")',
+      description: 'The tool, platform, or technology name (e.g., "Claude Code", "React", "Figma")',
       validation: (Rule) =>
         Rule.required()
-          .max(50)
-          .error('Tag name is required and must be under 50 characters')
+          .max(60)
+          .error('Tool name is required and must be under 60 characters')
     }),
     defineField({
       name: 'slug',
@@ -60,7 +57,7 @@ export default defineType({
       name: 'description',
       title: 'Description',
       type: 'text',
-      description: 'What does this tag mean and when should it be applied? Helps editors maintain consistent vocabulary.',
+      description: 'What is this tool and when should it be tagged? Helps editors maintain consistent vocabulary.',
       rows: 2,
       validation: (Rule) => Rule.max(300)
     }),
@@ -71,8 +68,8 @@ export default defineType({
     },
     prepare({title}) {
       return {
-        title: title || 'Untitled Tag',
-        subtitle: 'Tag'
+        title: title || 'Untitled Tool',
+        subtitle: 'Tool'
       }
     }
   },

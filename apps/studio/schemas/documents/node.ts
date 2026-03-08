@@ -216,51 +216,16 @@ export default defineType({
       name: 'tools',
       title: 'Tools & Platforms',
       type: 'array',
-      // Controlled enum — do not add values here without updating validate-taxonomy.js
-      // and the migration script canonical list.
       // Note: The aiTool field (AI Context group) captures the AI model specifically.
       // tools[] captures the broader technology stack involved in this node.
-      description: 'Tools and platforms involved in this node (beyond the primary AI tool). Use tags for conceptual themes.',
+      description: 'Tools and platforms involved in this node (beyond the primary AI tool). Select from published tool documents. Use tags for conceptual themes.',
       group: 'metadata',
       of: [
         defineArrayMember({
-          type: 'string',
+          type: 'reference',
+          to: [{type: 'tool'}]
         })
       ],
-      options: {
-        list: [
-          {title: 'Acquia', value: 'acquia'},
-          {title: 'AEM', value: 'aem'},
-          {title: 'Celum', value: 'celum'},
-          {title: 'ChatGPT', value: 'chatgpt'},
-          {title: 'Claude', value: 'claude'},
-          {title: 'Claude Code', value: 'claude-code'},
-          {title: 'Contentful', value: 'contentful'},
-          {title: 'CSS', value: 'css'},
-          {title: 'Drupal', value: 'drupal'},
-          {title: 'Figma', value: 'figma'},
-          {title: 'Gemini', value: 'gemini'},
-          {title: 'Git', value: 'git'},
-          {title: 'GitHub', value: 'github'},
-          {title: 'JavaScript', value: 'javascript'},
-          {title: 'Linear', value: 'linear'},
-          {title: 'Matplotlib', value: 'matplotlib'},
-          {title: 'Mermaid', value: 'mermaid'},
-          {title: 'Netlify', value: 'netlify'},
-          {title: 'NetworkX', value: 'networkx'},
-          {title: 'OpenAI Codex', value: 'codex'},
-          {title: 'Oracle ATG', value: 'oracle-atg'},
-          {title: 'Python', value: 'python'},
-          {title: 'React', value: 'react'},
-          {title: 'Sanity', value: 'sanity'},
-          {title: 'Shopify', value: 'shopify'},
-          {title: 'Storybook', value: 'storybook'},
-          {title: 'Turborepo', value: 'turborepo'},
-          {title: 'TypeScript', value: 'typescript'},
-          {title: 'Vite', value: 'vite'},
-          {title: 'WordPress', value: 'wordpress'},
-        ]
-      },
       validation: (Rule) => Rule.unique()
     }),
     defineField({

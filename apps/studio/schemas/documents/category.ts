@@ -1,5 +1,7 @@
 import {defineType, defineField} from 'sanity'
+import {defineIncomingReferenceDecoration} from 'sanity/structure'
 import {TagIcon} from '@sanity/icons'
+import {createRemoveReferenceAction} from '../../components/RemoveReferenceAction'
 
 /**
  * Category Document
@@ -12,6 +14,15 @@ export default defineType({
   title: 'Category',
   type: 'document',
   icon: TagIcon,
+  renderMembers: (members) => [
+    ...members,
+    defineIncomingReferenceDecoration({
+      name: 'assignedContent',
+      title: 'Assigned content',
+      types: [{type: 'article'}, {type: 'node'}, {type: 'caseStudy'}],
+      actions: [createRemoveReferenceAction('categories')],
+    }),
+  ],
   fields: [
     defineField({
       name: 'name',
