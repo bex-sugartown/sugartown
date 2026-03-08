@@ -284,9 +284,9 @@
   gap: 1.5rem;
 }
 
-/* User-selected list layout — always single column, capped at 640px */
+/* User-selected list layout — always single column, full content width */
 .archiveGrid[data-layout="list"] {
-  grid-template-columns: minmax(0, 640px);
+  grid-template-columns: 1fr;
 }
 
 .archiveEmpty {
