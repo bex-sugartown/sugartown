@@ -16,6 +16,26 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.16.1] — 2026-03-08
+
+EPIC-0162: Tools Taxonomy. Promoted tools from a hardcoded 27-value string enum to a first-class taxonomy document type with its own routes, filters, and linked chips.
+
+### apps/studio
+
+- `tool` document type added as 5th taxonomy primitive (name, slug, description)
+- `tools[]` field on article, caseStudy, node converted from string enum to reference array
+
+### apps/web
+
+- Tools wired end-to-end: GROQ dereferencing, `/tools` archive, `/tools/:slug` detail, filter facet, validators
+- Chip group labels (TOOLS / TAGS) rendered inline with baseline-aligned chips; list-layout cards stretch to full content width
+
+### scripts
+
+- `migrate-tools.js` added: seeds 30 tool documents, migrates 49 content docs from string to reference, reports 25 tag-tool overlaps for editorial review
+
+---
+
 ## [0.16.0] — 2026-03-07
 
 Content primitives, hero layout control, and archive grid rework. Aggregates 0.15.1–0.15.4.
