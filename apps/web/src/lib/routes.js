@@ -123,7 +123,7 @@ export function getCanonicalPath({ docType, slug }) {
     return '/'
   }
 
-  if (docType === 'page') {
+  if (docType === 'page' || docType === 'archivePage') {
     return `/${s}`
   }
 

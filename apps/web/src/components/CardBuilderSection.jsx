@@ -8,11 +8,14 @@
  * Title links: internal (via getCanonicalPath) or external URL
  * Citation: rendered as footnote in card footer (CitationNote from DS)
  * Tags: chip links navigating to /tags/:slug
+ *
+ * Grid layout: max 3 columns, column count derived from card count.
+ *   1 card → 1 col, 2 or 4 cards → 2 cols, 3/5/6+ → 3 cols.
  */
 import { PortableText } from '@portabletext/react'
 import { urlFor } from '../lib/sanity'
 import { getCanonicalPath } from '../lib/routes'
-import { Card, CitationNote, CitationZone } from '../design-system'
+import { Card, CitationMarker, CitationNote, CitationZone } from '../design-system'
 import styles from './CardBuilderSection.module.css'
 
 // Minimal portable text renderer for card body — styled text only, no images
@@ -32,6 +35,12 @@ const bodyComponents = {
       >
         {children}
       </a>
+    ),
+    citationRef: ({ value, children }) => (
+      <>
+        {children}
+        <CitationMarker index={value?.index || 1} />
+      </>
     ),
   },
 }
@@ -63,11 +72,21 @@ function resolveHref(titleLink) {
 function mapTags(tags) {
   if (!tags?.length) return undefined
   return tags
-    .filter((t) => t.title && t.slug?.current)
+    .filter((t) => t && t.title && t.slug?.current)
     .map((t) => ({
       label: t.title,
       href: getCanonicalPath({ docType: 'tag', slug: t.slug.current }),
     }))
+}
+
+/**
+ * Compute grid column count from card count.
+ * 1 → 1 col, 2 or 4 → 2 cols, 3/5/6+ → 3 cols.
+ */
+function getGridCols(count) {
+  if (count === 1) return 1
+  if (count === 2 || count === 4) return 2
+  return 3
 }
 
 /**
@@ -109,25 +128,27 @@ function BuilderCard({ card }) {
           </div>
         )}
 
-        {/* Citation footer */}
+        {/* Citation footer — margin-top: auto pushes to bottom of card body */}
         {card.citation?.text && (
-          <CitationZone>
-            <CitationNote index={1}>
-              {card.citation.url ? (
-                <a
-                  href={card.citation.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.citationLink}
-                  aria-label={card.citation.label || card.citation.text}
-                >
-                  {card.citation.text}
-                </a>
-              ) : (
-                card.citation.text
-              )}
-            </CitationNote>
-          </CitationZone>
+          <div className={styles.citationFooter}>
+            <CitationZone>
+              <CitationNote index={1}>
+                {card.citation.url ? (
+                  <a
+                    href={card.citation.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.citationLink}
+                    aria-label={card.citation.label || card.citation.text}
+                  >
+                    {card.citation.text}
+                  </a>
+                ) : (
+                  card.citation.text
+                )}
+              </CitationNote>
+            </CitationZone>
+          </div>
         )}
       </Card>
     </div>
@@ -143,12 +164,14 @@ export default function CardBuilderSection({ section }) {
 
   if (!cards?.length) return null
 
-  const layoutClass = layout === 'list' ? styles.list : styles.grid
+  const isGrid = layout !== 'list'
+  const layoutClass = isGrid ? styles.grid : styles.list
+  const gridStyle = isGrid ? { '--grid-cols': getGridCols(cards.length) } : undefined
 
   return (
     <section className={styles.section}>
       {heading && <h2 className={styles.heading}>{heading}</h2>}
-      <div className={layoutClass}>
+      <div className={layoutClass} style={gridStyle}>
         {cards.map((card, index) => (
           <BuilderCard key={card._key || index} card={card} />
         ))}

@@ -1,6 +1,5 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {BlockContentIcon} from '@sanity/icons'
-import {summaryPortableText} from './portableTextConfig'
 
 /**
  * Card Builder Item — EPIC-0160
@@ -9,6 +8,13 @@ import {summaryPortableText} from './portableTextConfig'
  * Replaces the minimal editorialCard with a full-featured card model:
  * title link (internal/external), image effects, eyebrow, subtitle,
  * rich body, citation footer, and tag chips.
+ *
+ * titleLink uses the reusable `linkItem` object type — all link items
+ * share the same reference list so adding a new linkable type (e.g.
+ * archivePage) only needs one update.
+ *
+ * Body text supports a `citationRef` annotation for inline superscript
+ * citation markers that link to the citation footnote.
  *
  * Rendered via the DS Card → Web Card adapter pipeline.
  */
@@ -29,43 +35,8 @@ export default defineType({
     defineField({
       name: 'titleLink',
       title: 'Title Link',
-      type: 'object',
-      description: 'Primary card link — drives the full-card click target',
-      fields: [
-        defineField({
-          name: 'type',
-          title: 'Link Type',
-          type: 'string',
-          options: {
-            list: [
-              {title: 'Internal page', value: 'internal'},
-              {title: 'External URL', value: 'external'}
-            ],
-            layout: 'radio'
-          },
-          initialValue: 'internal'
-        }),
-        defineField({
-          name: 'internalRef',
-          title: 'Internal Page',
-          type: 'reference',
-          to: [
-            {type: 'page'},
-            {type: 'article'},
-            {type: 'caseStudy'},
-            {type: 'node'}
-          ],
-          hidden: ({parent}) => parent?.type !== 'internal'
-        }),
-        defineField({
-          name: 'externalUrl',
-          title: 'External URL',
-          type: 'url',
-          validation: (Rule) =>
-            Rule.uri({scheme: ['http', 'https']}).error('Must be a valid URL'),
-          hidden: ({parent}) => parent?.type !== 'external'
-        })
-      ]
+      type: 'linkItem',
+      description: 'Primary card link — drives the full-card click target'
     }),
 
     // ── Media ────────────────────────────────────────────────────────
@@ -118,8 +89,55 @@ export default defineType({
       name: 'body',
       title: 'Body',
       type: 'array',
-      description: 'Card body text — styled text only, no images',
-      of: summaryPortableText
+      description: 'Card body text — styled text only, no images. Use Citation Reference to add superscript markers.',
+      of: [
+        defineArrayMember({
+          type: 'block',
+          styles: [{title: 'Normal', value: 'normal'}],
+          lists: [],
+          marks: {
+            decorators: [
+              {title: 'Bold', value: 'strong'},
+              {title: 'Italic', value: 'em'},
+              {title: 'Underline', value: 'underline'}
+            ],
+            annotations: [
+              defineArrayMember({
+                name: 'link',
+                type: 'object',
+                title: 'Link',
+                fields: [
+                  {
+                    name: 'href',
+                    type: 'url',
+                    title: 'URL',
+                    validation: (Rule: any) => Rule.required()
+                      .uri({
+                        scheme: ['http', 'https', 'mailto', 'tel'],
+                        allowRelative: true
+                      })
+                  }
+                ]
+              }),
+              defineArrayMember({
+                name: 'citationRef',
+                type: 'object',
+                title: 'Citation Reference',
+                fields: [
+                  {
+                    name: 'index',
+                    type: 'number',
+                    title: 'Citation Number',
+                    description: 'The footnote number (e.g. 1 for [1])',
+                    initialValue: 1,
+                    validation: (Rule: any) => Rule.required().min(1)
+                  }
+                ]
+              })
+            ]
+          }
+        })
+      ]
     }),
 
     // ── Footer ───────────────────────────────────────────────────────

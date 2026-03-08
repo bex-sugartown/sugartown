@@ -264,7 +264,7 @@ export const nodeBySlugQuery = `
           subtitle,
           body,
           citation,
-          tags[]->{ _id, title, slug }
+          tags[]->{ _id, "title": name, slug }
         }
       }
     },
@@ -377,7 +377,7 @@ export const articleBySlugQuery = `
           subtitle,
           body,
           citation,
-          tags[]->{ _id, title, slug }
+          tags[]->{ _id, "title": name, slug }
         }
       }
     },
@@ -488,7 +488,7 @@ export const pageBySlugQuery = `
           subtitle,
           body,
           citation,
-          tags[]->{ _id, title, slug }
+          tags[]->{ _id, "title": name, slug }
         }
       }
     },
@@ -579,7 +579,7 @@ export const caseStudyBySlugQuery = `
           subtitle,
           body,
           citation,
-          tags[]->{ _id, title, slug }
+          tags[]->{ _id, "title": name, slug }
         }
       }
     },

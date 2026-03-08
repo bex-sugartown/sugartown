@@ -20,6 +20,7 @@ import link from './objects/link'
 import richImage from './objects/richImage'
 import ctaButton from './objects/ctaButton'
 import editorialCard from './objects/editorialCard'
+import linkItem from './objects/linkItem'
 import cardBuilderItem from './objects/cardBuilderItem'
 import seoMetadata from './objects/seoMetadata'
 import legacySource from './objects/legacySource'
@@ -89,6 +90,7 @@ import contentBlock from './documents/contentBlock'
 export const schemaTypes = [
   // Objects - New
   link,
+  linkItem,
   richImage,
   ctaButton,
   editorialCard,

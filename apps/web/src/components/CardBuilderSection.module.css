@@ -6,6 +6,9 @@
 /* ── Section wrapper ──────────────────────────────────── */
 .section {
   width: 100%;
+  max-width: 1164px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .heading {
@@ -19,7 +22,7 @@
 /* ── Grid layout ──────────────────────────────────────── */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(var(--grid-cols, 3), 1fr);
   gap: var(--st-space-6);
 }
 
@@ -31,7 +34,15 @@
 }
 
 /* ── Card wrapper ─────────────────────────────────────── */
+/* Grid stretches cardWrap to row height; the nested Card
+   <article> must also fill the wrapper so its flex layout
+   (header shrink / body grow / footer auto) aligns footers
+   across cards of different content heights. */
 .cardWrap {
+  height: 100%;
+}
+
+.cardWrap > :first-child {
   height: 100%;
 }
 
@@ -109,6 +120,11 @@
 
 .citationLink:hover {
   opacity: 0.8;
+}
+
+/* ── Citation footer — push to bottom of card body ───── */
+.citationFooter {
+  margin-top: auto;
 }
 
 /* ── Responsive ───────────────────────────────────────── */
