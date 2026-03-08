@@ -46,39 +46,49 @@ export default function ArticlePage() {
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !post) return <NotFoundPage />
 
+  // Extract leading hero section so it renders flush against the header,
+  // above the back-nav / title / metadata card.
+  const sections = post.sections ?? []
+  const isHero = (s) => s._type === 'heroSection' || s._type === 'hero'
+  const leadHero = sections[0] && isHero(sections[0]) ? sections[0] : null
+  const restSections = leadHero ? sections.slice(1) : sections
+
   return (
-    <main className={styles.detailPage}>
+    <main>
       <SeoHead seo={seo} />
-      <Link to="/articles" className={styles.backLink}>
-        ← All Articles
-      </Link>
+      {leadHero && <PageSections sections={[leadHero]} />}
+      <div className={styles.detailPage}>
+        <Link to="/articles" className={styles.backLink}>
+          ← All Articles
+        </Link>
 
-      <p className={styles.detailEyebrow}>Article</p>
-      <h1 className={styles.detailHeading}>{post.title}</h1>
+        <p className={styles.detailEyebrow}>Article</p>
+        <h1 className={styles.detailHeading}>{post.title}</h1>
 
-      <MetadataCard
-        authors={post.authors}
-        legacyAuthor={post.author}
-        contentType="Article"
-        publishedAt={post.publishedAt}
-        status={post.status}
-        tools={post.tools}
-        categories={post.categories}
-        tags={post.tags}
-        projects={post.projects}
-      />
+        <MetadataCard
+          authors={post.authors}
+          legacyAuthor={post.author}
+          contentType="Article"
+          publishedAt={post.publishedAt}
+          status={post.status}
+          tools={post.tools}
+          categories={post.categories}
+          tags={post.tags}
+          projects={post.projects}
+        />
 
-      {post.sections?.length > 0 && (
-        <PageSections sections={post.sections} />
-      )}
+        {restSections.length > 0 && (
+          <PageSections sections={restSections} />
+        )}
 
-      {post.content && (
-        <div className={styles.detailContent}>
-          <PortableText value={post.content} components={portableTextComponents} />
-        </div>
-      )}
+        {post.content && (
+          <div className={styles.detailContent}>
+            <PortableText value={post.content} components={portableTextComponents} />
+          </div>
+        )}
 
-      <ContentNav prev={post.prev} next={post.next} docType="article" />
+        <ContentNav prev={post.prev} next={post.next} docType="article" />
+      </div>
     </main>
   )
 }

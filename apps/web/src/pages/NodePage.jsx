@@ -26,77 +26,86 @@ export default function NodePage() {
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !node) return <NotFoundPage />
 
+  // Extract leading hero section so it renders flush against the header
+  const sections = node.sections ?? []
+  const isHero = (s) => s._type === 'heroSection' || s._type === 'hero'
+  const leadHero = sections[0] && isHero(sections[0]) ? sections[0] : null
+  const restSections = leadHero ? sections.slice(1) : sections
+
   return (
-    <main className={styles.detailPage}>
+    <main>
       <SeoHead seo={seo} />
-      <Link to="/knowledge-graph" className={styles.backLink}>
-        ← Knowledge Graph
-      </Link>
+      {leadHero && <PageSections sections={[leadHero]} />}
+      <div className={styles.detailPage}>
+        <Link to="/knowledge-graph" className={styles.backLink}>
+          ← Knowledge Graph
+        </Link>
 
-      <p className={styles.detailEyebrow}>Knowledge Node</p>
+        <p className={styles.detailEyebrow}>Knowledge Node</p>
 
-      <h1 className={styles.detailHeading}>{decodeHtml(node.title)}</h1>
+        <h1 className={styles.detailHeading}>{decodeHtml(node.title)}</h1>
 
-      <MetadataCard
-        authors={node.authors}
-        contentType="Node"
-        publishedAt={node.publishedAt}
-        status={node.status}
-        aiTool={node.aiTool}
-        conversationType={node.conversationType}
-        tools={node.tools}
-        categories={node.categories}
-        tags={node.tags}
-        projects={node.projects}
-      />
+        <MetadataCard
+          authors={node.authors}
+          contentType="Node"
+          publishedAt={node.publishedAt}
+          status={node.status}
+          aiTool={node.aiTool}
+          conversationType={node.conversationType}
+          tools={node.tools}
+          categories={node.categories}
+          tags={node.tags}
+          projects={node.projects}
+        />
 
-      {(node.challenge || node.insight || node.actionItem) && (
-        <div className={styles.detailContent}>
-          {node.challenge && (
-            <>
-              <h2>Challenge</h2>
-              <p>{decodeHtml(node.challenge)}</p>
-            </>
-          )}
-          {node.insight && (
-            <>
-              <h2>Insight</h2>
-              <p>{decodeHtml(node.insight)}</p>
-            </>
-          )}
-          {node.actionItem && (
-            <>
-              <h2>Action Item</h2>
-              <p>{decodeHtml(node.actionItem)}</p>
-            </>
-          )}
-        </div>
-      )}
+        {(node.challenge || node.insight || node.actionItem) && (
+          <div className={styles.detailContent}>
+            {node.challenge && (
+              <>
+                <h2>Challenge</h2>
+                <p>{decodeHtml(node.challenge)}</p>
+              </>
+            )}
+            {node.insight && (
+              <>
+                <h2>Insight</h2>
+                <p>{decodeHtml(node.insight)}</p>
+              </>
+            )}
+            {node.actionItem && (
+              <>
+                <h2>Action Item</h2>
+                <p>{decodeHtml(node.actionItem)}</p>
+              </>
+            )}
+          </div>
+        )}
 
-      {node.content && (
-        <div className={styles.detailContent}>
-          <PortableText value={decodePortableText(node.content)} />
-        </div>
-      )}
+        {node.content && (
+          <div className={styles.detailContent}>
+            <PortableText value={decodePortableText(node.content)} />
+          </div>
+        )}
 
-      {node.sections?.length > 0 && (
-        <PageSections sections={node.sections} />
-      )}
+        {restSections.length > 0 && (
+          <PageSections sections={restSections} />
+        )}
 
-      {node.conversationLink && (
-        <p style={{ marginTop: '2rem' }}>
-          <a
-            href={node.conversationLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.placeholderLink}
-          >
-            View original conversation →
-          </a>
-        </p>
-      )}
+        {node.conversationLink && (
+          <p style={{ marginTop: '2rem' }}>
+            <a
+              href={node.conversationLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.placeholderLink}
+            >
+              View original conversation →
+            </a>
+          </p>
+        )}
 
-      <ContentNav prev={node.prev} next={node.next} docType="node" />
+        <ContentNav prev={node.prev} next={node.next} docType="node" />
+      </div>
     </main>
   )
 }

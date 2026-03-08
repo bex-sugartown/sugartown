@@ -24,34 +24,43 @@ export default function CaseStudyPage() {
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !caseStudy) return <NotFoundPage />
 
+  // Extract leading hero section so it renders flush against the header
+  const sections = caseStudy.sections ?? []
+  const isHero = (s) => s._type === 'heroSection' || s._type === 'hero'
+  const leadHero = sections[0] && isHero(sections[0]) ? sections[0] : null
+  const restSections = leadHero ? sections.slice(1) : sections
+
   return (
-    <main className={styles.detailPage}>
+    <main>
       <SeoHead seo={seo} />
-      <Link to="/case-studies" className={styles.backLink}>
-        ← All Case Studies
-      </Link>
+      {leadHero && <PageSections sections={[leadHero]} />}
+      <div className={styles.detailPage}>
+        <Link to="/case-studies" className={styles.backLink}>
+          ← All Case Studies
+        </Link>
 
-      <p className={styles.detailEyebrow}>Case Study</p>
-      <h1 className={styles.detailHeading}>{caseStudy.title}</h1>
+        <p className={styles.detailEyebrow}>Case Study</p>
+        <h1 className={styles.detailHeading}>{caseStudy.title}</h1>
 
-      <MetadataCard
-        authors={caseStudy.authors}
-        contentType="Case Study"
-        publishedAt={caseStudy.publishedAt}
-        status={caseStudy.status}
-        client={caseStudy.client}
-        role={caseStudy.role}
-        tools={caseStudy.tools}
-        categories={caseStudy.categories}
-        tags={caseStudy.tags}
-        projects={caseStudy.projects}
-      />
+        <MetadataCard
+          authors={caseStudy.authors}
+          contentType="Case Study"
+          publishedAt={caseStudy.publishedAt}
+          status={caseStudy.status}
+          client={caseStudy.client}
+          role={caseStudy.role}
+          tools={caseStudy.tools}
+          categories={caseStudy.categories}
+          tags={caseStudy.tags}
+          projects={caseStudy.projects}
+        />
 
-      {caseStudy.sections?.length > 0 && (
-        <PageSections sections={caseStudy.sections} />
-      )}
+        {restSections.length > 0 && (
+          <PageSections sections={restSections} />
+        )}
 
-      <ContentNav prev={caseStudy.prev} next={caseStudy.next} docType="caseStudy" />
+        <ContentNav prev={caseStudy.prev} next={caseStudy.next} docType="caseStudy" />
+      </div>
     </main>
   )
 }
