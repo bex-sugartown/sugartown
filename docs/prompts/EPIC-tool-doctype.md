@@ -1,6 +1,6 @@
 # Sugartown — Claude Code Epic Prompt
 
-**Epic ID:** EPIC-TBD _(assign on activation)_
+**Epic ID:** EPIC-0162 _(assign on activation)_
 ## EPIC NAME: Tool Document Type — Phase 1: Schema, Seed & Desk Structure
 
 **Status:** ✅ SHIPPED as EPIC-0162 (v0.16.1, 2026-03-08)
