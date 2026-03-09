@@ -276,7 +276,7 @@
 <header class="page-header">
   <p class="page-header__eyebrow">Sugartown Digital · sugartown.io · Backlog</p>
   <h1>Issues &amp; To-Do — <span>Priority Stack</span></h1>
-  <p class="page-header__meta">Updated 2026-03-09 · EPIC-0158–0162 shipped · IA brief pages queued · Sequenced against Services → Contact → About → Platform → Homepage</p>
+  <p class="page-header__meta">Updated 2026-03-09 · EPIC-0158–0162 shipped · 0162 gaps closed · IA brief pages queued · Sequenced against Services → Contact → About → Platform → Homepage</p>
 </header>
 
 <div class="legend">
@@ -396,7 +396,7 @@
 <div class="items-list">
 
   <div class="item item--p2">
-    <span class="item__rank">8</span>
+    <span class="item__rank">7</span>
     <div class="item__body">
       <div class="item__title">Expose "catalog subtitle" before/after position in Studio UI</div>
       <p class="item__summary">The <code>categoryPosition</code> prop (before/after) was implemented in DS Card but never surfaced to editors as a Studio field. Add the field to the relevant schema objects. Tracked as BL-06 in EPIC-0156 backlog.</p>
@@ -409,7 +409,7 @@
   </div>
 
   <div class="item item--p2">
-    <span class="item__rank">9</span>
+    <span class="item__rank">8</span>
     <div class="item__body">
       <div class="item__title">Configure Sections for all pages: section, blockquote, code, callout, table</div>
       <p class="item__summary">All page documents should have the full section builder available so editors can construct content without dev intervention. Wire existing section types (textSection, blockquote, codeBlock, calloutSection) into pages that don't yet have them.</p>
@@ -422,7 +422,7 @@
   </div>
 
   <div class="item item--p2">
-    <span class="item__rank">10</span>
+    <span class="item__rank">9</span>
     <div class="item__body">
       <div class="item__title">Static Schema ERD page (EPIC-0147, Option B)</div>
       <p class="item__summary">Hardcoded schema manifest rendered as a visual ERD page. Option B is immediately implementable without a build step. Useful as a portfolio and internal reference artefact for the MACH architecture showcase. Good candidate for the Platform page.</p>
@@ -435,13 +435,40 @@
   </div>
 
   <div class="item item--p2">
-    <span class="item__rank">11</span>
+    <span class="item__rank">10</span>
     <div class="item__body">
       <div class="item__title">Footer update — wire IA brief footer links</div>
       <p class="item__summary">IA brief footer: Contact, Privacy, Terms, Accessibility Statement. Current footer likely doesn't match. Wire footer nav from Sanity or hardcode initial structure. Privacy/Terms/Accessibility pages may need creating as minimal <code>page</code> docs.</p>
       <div class="item__tags">
         <span class="tag tag--content">Content</span>
         <span class="tag tag--ux">UX</span>
+      </div>
+    </div>
+    <span class="item__priority priority--soon">Soon</span>
+  </div>
+
+  <div class="item item--p2">
+    <span class="item__rank">11</span>
+    <div class="item__body">
+      <div class="item__title">FilterBar &amp; MetadataCard cleanup</div>
+      <p class="item__summary">Post-EPIC-0162 housekeeping. MetadataCard and FilterBar both carry legacy code paths from when tools were string enums — null guards, coercion helpers, and fallback renders that are no longer needed now that all content docs use reference arrays. Clean up dead branches, remove string-type guards, and align both components to the reference-only contract. Also audit facet label maps and <code>CONTENT_TYPE_LABELS</code> for stale entries.</p>
+      <div class="item__tags">
+        <span class="tag tag--design">Component</span>
+        <span class="tag tag--query">GROQ</span>
+      </div>
+    </div>
+    <span class="item__priority priority--soon">Soon</span>
+  </div>
+
+  <div class="item item--p2">
+    <span class="item__rank">12</span>
+    <div class="item__body">
+      <div class="item__title">Content State Governance — draft vs published enforcement</div>
+      <p class="item__summary">IA brief §5.3 dependency. Ensure published content has no orphaned references, missing required fields, or stale draft shadows. Extend <code>validate-content.js</code> with a "publication readiness" check that flags docs with drafts-only references or unpublished taxonomy refs. Feeds into Platform page content integrity story. May include a Studio document badge or custom action to surface publication state.</p>
+      <div class="item__tags">
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--content">Data Quality</span>
+        <span class="tag tag--ux">Editor UX</span>
       </div>
     </div>
     <span class="item__priority priority--soon">Soon</span>
@@ -457,7 +484,7 @@
 <div class="items-list">
 
   <div class="item item--p3">
-    <span class="item__rank">12</span>
+    <span class="item__rank">13</span>
     <div class="item__body">
       <div class="item__title">Hosting platform decision for DNS cutover</div>
       <p class="item__summary">Evaluate Netlify, Cloudflare Pages, Vercel, or self-hosted against cost, preview URL support, redirect file compatibility, and Sanity webhook integration. Decision gates the cutover timeline.</p>
@@ -471,6 +498,20 @@
   <div class="item item--p3">
     <span class="item__rank">14</span>
     <div class="item__body">
+      <div class="item__title">Add Search — site-wide content search</div>
+      <p class="item__summary">No search exists today. Options: Sanity's built-in text search API, a lightweight client-side index (e.g. Fuse.js over a pre-built JSON manifest), or a hosted search service (Algolia, Typesense). Needs design decision on scope (full-text vs title/tag), UI placement (nav bar, dedicated page, command palette), and whether to index all 5 content types or start with articles + nodes. High user value but no existing infrastructure — design spike needed first.</p>
+      <div class="item__tags">
+        <span class="tag tag--ux">UX</span>
+        <span class="tag tag--query">GROQ</span>
+        <span class="tag tag--content">Infrastructure</span>
+      </div>
+    </div>
+    <span class="item__priority priority--later">Later</span>
+  </div>
+
+  <div class="item item--p3">
+    <span class="item__rank">15</span>
+    <div class="item__body">
       <div class="item__title">Brand color picker for Sanity Studio (BL-01)</div>
       <p class="item__summary">Lets editors set <code>colorHex</code> on project documents via a visual colour picker rather than raw hex input. Nice-to-have UX improvement for Studio editors. Tracked as BL-01 from EPIC-0156.</p>
       <div class="item__tags">
@@ -482,7 +523,7 @@
   </div>
 
   <div class="item item--p3">
-    <span class="item__rank">15</span>
+    <span class="item__rank">16</span>
     <div class="item__body">
       <div class="item__title">Dedicated <code>cardImage</code> schema field (BL-02)</div>
       <p class="item__summary">Separate from heroImage/sections media. Allows editors to set a specific thumbnail for a content item when it appears in card grids, without affecting the hero display. Tracked as BL-02.</p>
@@ -565,6 +606,34 @@
         <span class="tag tag--defer">Deferred</span>
         <span class="tag tag--design">Design System</span>
         <span class="tag tag--epic">BL-03</span>
+      </div>
+    </div>
+    <span class="item__priority priority--defer">Defer</span>
+  </div>
+
+  <div class="item item--deferred">
+    <span class="item__rank">—</span>
+    <div class="item__body">
+      <div class="item__title">Icon &amp; Emoji Preload Strategy</div>
+      <p class="item__summary">Audit icon and emoji usage across the web app, Studio, and Storybook. Define a loading strategy that avoids FOUT (flash of unstyled text) for icon fonts and layout shift from late-loading emoji. Candidates: <code>@sanity/icons</code> tree-shaking, SVG sprite sheet, emoji polyfill vs native rendering, <code>&lt;link rel="preload"&gt;</code> for critical icon sets. Performance-focused — measure before optimising.</p>
+      <div class="item__tags">
+        <span class="tag tag--defer">Deferred</span>
+        <span class="tag tag--design">Performance</span>
+        <span class="tag tag--ux">UX</span>
+      </div>
+    </div>
+    <span class="item__priority priority--defer">Defer</span>
+  </div>
+
+  <div class="item item--deferred">
+    <span class="item__rank">—</span>
+    <div class="item__body">
+      <div class="item__title">EPIC Pink Moon — runtime theme toggle &amp; polish</div>
+      <p class="item__summary">CSS exists (<code>theme.pink-moon.css</code>) with dark-pink-moon and light-pink-moon variants — milky translucency, hairline borders, ambient glow. But there is no runtime toggle to activate it; the ThemeToggle component only switches between dark and light. This epic wires the Pink Moon variants into the theme switcher UI, adds Storybook stories for all 4 theme combinations, and polishes any component-level visual regressions under the glass aesthetic.</p>
+      <div class="item__tags">
+        <span class="tag tag--defer">Deferred</span>
+        <span class="tag tag--design">Design System</span>
+        <span class="tag tag--ux">UX</span>
       </div>
     </div>
     <span class="item__priority priority--defer">Defer</span>
