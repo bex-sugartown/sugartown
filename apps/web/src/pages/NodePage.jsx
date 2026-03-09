@@ -4,6 +4,7 @@
  */
 import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
+import sharedPTComponents from '../lib/portableTextComponents'
 import { decodeHtml, decodePortableText } from '../lib/htmlUtils'
 import { nodeBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
@@ -83,7 +84,7 @@ export default function NodePage() {
 
         {node.content && (
           <div className={styles.detailContent}>
-            <PortableText value={decodePortableText(node.content)} />
+            <PortableText value={decodePortableText(node.content)} components={sharedPTComponents} />
           </div>
         )}
 

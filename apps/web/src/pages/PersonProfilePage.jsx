@@ -9,6 +9,7 @@
  */
 import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
+import sharedPTComponents from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -162,7 +163,7 @@ export default function PersonProfilePage() {
       {person.bio?.length > 0 && (
         <section className={styles.profileBio}>
           <div className={pageStyles.detailContent}>
-            <PortableText value={person.bio} />
+            <PortableText value={person.bio} components={sharedPTComponents} />
           </div>
         </section>
       )}

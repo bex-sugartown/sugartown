@@ -4,6 +4,7 @@
  */
 import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
+import sharedPTComponents from '../lib/portableTextComponents'
 import { decodeHtml, decodePortableText } from '../lib/htmlUtils'
 import { articleBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
@@ -18,6 +19,7 @@ import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
 const portableTextComponents = {
+  ...sharedPTComponents,
   types: {
     richImage: ({ value }) => {
       if (!value?.asset) return null
