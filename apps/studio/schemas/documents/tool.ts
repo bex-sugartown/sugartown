@@ -54,6 +54,27 @@ export default defineType({
           .error('Slug is required. Click "Generate" to create from name.')
     }),
     defineField({
+      name: 'toolType',
+      title: 'Tool Type',
+      type: 'string',
+      description: 'Categorises tools by function — used for filtering and grouping on archive pages.',
+      options: {
+        list: [
+          {title: 'AI', value: 'ai'},
+          {title: 'Design', value: 'design'},
+          {title: 'Development', value: 'development'},
+          {title: 'CMS', value: 'cms'},
+          {title: 'Analytics', value: 'analytics'},
+          {title: 'Productivity', value: 'productivity'},
+          {title: 'Other', value: 'other'},
+        ],
+        layout: 'dropdown',
+      },
+      validation: (Rule) =>
+        Rule.required()
+          .error('Tool type is required — choose the best-fit category.')
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
@@ -61,15 +82,42 @@ export default defineType({
       rows: 2,
       validation: (Rule) => Rule.max(300)
     }),
+    defineField({
+      name: 'url',
+      title: 'Website URL',
+      type: 'url',
+      description: 'Official website or documentation link for this tool.',
+    }),
+    defineField({
+      name: 'logo',
+      title: 'Logo',
+      type: 'image',
+      description: 'Tool logo or icon. Square aspect ratio recommended.',
+      options: {
+        hotspot: true,
+      },
+    }),
   ],
   preview: {
     select: {
-      title: 'name'
+      title: 'name',
+      toolType: 'toolType',
+      media: 'logo',
     },
-    prepare({title}) {
+    prepare({title, toolType, media}) {
+      const typeLabels: Record<string, string> = {
+        ai: 'AI',
+        design: 'Design',
+        development: 'Development',
+        cms: 'CMS',
+        analytics: 'Analytics',
+        productivity: 'Productivity',
+        other: 'Other',
+      }
       return {
         title: title || 'Untitled Tool',
-        subtitle: 'Tool'
+        subtitle: toolType ? typeLabels[toolType] ?? toolType : 'Tool',
+        media,
       }
     }
   },
