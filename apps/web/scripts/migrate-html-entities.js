@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * migrate-html-entities.js — One-time migration: decode HTML entities in
- * `excerpt` and `title` fields across all article, caseStudy, and node documents.
+ * `title`, `excerpt`, and PortableText `content` fields across all article,
+ * caseStudy, and node documents.
  *
  * Background:
  *   The WordPress REST API import serialised smart quotes, dashes, ampersands,
@@ -24,9 +25,10 @@
  *
  * What this script does:
  *   For each article, caseStudy, or node document (raw perspective — includes drafts):
- *   - Decode HTML entities in `excerpt` if present
  *   - Decode HTML entities in `title` if present
- *   - Skip documents where neither field changes after decoding
+ *   - Decode HTML entities in `excerpt` if present
+ *   - Decode HTML entities in PortableText `content` span.text fields if present
+ *   - Skip documents where no field changes after decoding
  *   - Patch only changed fields on affected documents
  *
  * Note: patching a published doc ID creates a new draft with the changes.
@@ -90,6 +92,56 @@ function hasHtmlEntities(str) {
   return /&#\d+;|&amp;|&lt;|&gt;|&quot;|&nbsp;|&#038;/.test(str)
 }
 
+// ─── PortableText block walkers ──────────────────────────────────────────────
+
+/**
+ * Check if any span.text in PortableText blocks contains HTML entities.
+ */
+function hasPortableTextEntities(blocks) {
+  if (!blocks || !Array.isArray(blocks)) return false
+  return blocks.some(
+    (block) =>
+      block._type === 'block' &&
+      Array.isArray(block.children) &&
+      block.children.some(
+        (span) => span._type === 'span' && hasHtmlEntities(span.text)
+      )
+  )
+}
+
+/**
+ * Decode HTML entities in all span.text fields within PortableText blocks.
+ * Returns a new array (immutable). Non-block types are returned unchanged.
+ */
+function decodePortableTextBlocks(blocks) {
+  if (!blocks || !Array.isArray(blocks)) return blocks
+  return blocks.map((block) => {
+    if (block._type !== 'block' || !Array.isArray(block.children)) return block
+    return {
+      ...block,
+      children: block.children.map((span) => {
+        if (span._type !== 'span' || !hasHtmlEntities(span.text)) return span
+        return { ...span, text: decodeHtmlEntities(span.text) }
+      }),
+    }
+  })
+}
+
+/**
+ * Count how many spans in a PortableText array have HTML entities.
+ */
+function countAffectedSpans(blocks) {
+  if (!blocks || !Array.isArray(blocks)) return 0
+  let count = 0
+  for (const block of blocks) {
+    if (block._type !== 'block' || !Array.isArray(block.children)) continue
+    for (const span of block.children) {
+      if (span._type === 'span' && hasHtmlEntities(span.text)) count++
+    }
+  }
+  return count
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -98,9 +150,10 @@ async function main() {
   console.log()
 
   // Fetch all content documents (raw = published + drafts)
+  // Include `content` (PortableText array) so we can check span.text for entities
   const docs = await client.fetch(
     `*[_type in ["article", "caseStudy", "node"]] {
-      _id, _type, title, excerpt
+      _id, _type, title, excerpt, content
     }`,
     {},
     {perspective: 'raw'}
@@ -114,13 +167,16 @@ async function main() {
   for (const doc of docs) {
     const excerptHasEntities = hasHtmlEntities(doc.excerpt)
     const titleHasEntities   = hasHtmlEntities(doc.title)
+    const contentHasEntities = hasPortableTextEntities(doc.content)
 
-    if (!excerptHasEntities && !titleHasEntities) continue
+    if (!excerptHasEntities && !titleHasEntities && !contentHasEntities) continue
 
-    const newExcerpt = excerptHasEntities ? decodeHtmlEntities(doc.excerpt) : null
-    const newTitle   = titleHasEntities   ? decodeHtmlEntities(doc.title)   : null
+    const newExcerpt  = excerptHasEntities ? decodeHtmlEntities(doc.excerpt) : null
+    const newTitle    = titleHasEntities   ? decodeHtmlEntities(doc.title)   : null
+    const newContent  = contentHasEntities ? decodePortableTextBlocks(doc.content) : null
+    const spanCount   = contentHasEntities ? countAffectedSpans(doc.content) : 0
 
-    toMigrate.push({doc, newExcerpt, newTitle, excerptHasEntities, titleHasEntities})
+    toMigrate.push({doc, newExcerpt, newTitle, newContent, excerptHasEntities, titleHasEntities, contentHasEntities, spanCount})
   }
 
   console.log(`Found ${toMigrate.length} document(s) with HTML entities to decode.\n`)
@@ -131,7 +187,7 @@ async function main() {
   }
 
   // Log what will change
-  for (const {doc, newExcerpt, newTitle, excerptHasEntities, titleHasEntities} of toMigrate) {
+  for (const {doc, newExcerpt, newTitle, newContent, excerptHasEntities, titleHasEntities, contentHasEntities, spanCount} of toMigrate) {
     console.log(`  [${doc._type}] ${doc._id}`)
     if (titleHasEntities) {
       console.log(`    title (before): ${doc.title}`)
@@ -142,6 +198,9 @@ async function main() {
       const after  = (newExcerpt ?? '').slice(0, 120).replace(/\n/g, ' ')
       console.log(`    excerpt (before): ${before}…`)
       console.log(`    excerpt (after):  ${after}…`)
+    }
+    if (contentHasEntities) {
+      console.log(`    content: ${spanCount} span(s) with HTML entities`)
     }
     console.log()
   }
@@ -157,11 +216,12 @@ async function main() {
   let successCount = 0
   let errorCount   = 0
 
-  for (const {doc, newExcerpt, newTitle, excerptHasEntities, titleHasEntities} of toMigrate) {
+  for (const {doc, newExcerpt, newTitle, newContent, excerptHasEntities, titleHasEntities, contentHasEntities} of toMigrate) {
     try {
       const patch = client.patch(doc._id)
       if (titleHasEntities)   patch.set({title:   newTitle})
       if (excerptHasEntities) patch.set({excerpt: newExcerpt})
+      if (contentHasEntities) patch.set({content: newContent})
       await patch.commit()
       console.log(`  ✓ patched: ${doc._id}`)
       successCount++

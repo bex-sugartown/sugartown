@@ -4,6 +4,7 @@
  */
 import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
+import { decodeHtml, decodePortableText } from '../lib/htmlUtils'
 import { articleBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -63,7 +64,7 @@ export default function ArticlePage() {
         </Link>
 
         <p className={styles.detailEyebrow}>Article</p>
-        <h1 className={styles.detailHeading}>{post.title}</h1>
+        <h1 className={styles.detailHeading}>{decodeHtml(post.title)}</h1>
 
         <MetadataCard
           authors={post.authors}
@@ -83,7 +84,7 @@ export default function ArticlePage() {
 
         {post.content && (
           <div className={styles.detailContent}>
-            <PortableText value={post.content} components={portableTextComponents} />
+            <PortableText value={decodePortableText(post.content)} components={portableTextComponents} />
           </div>
         )}
 
