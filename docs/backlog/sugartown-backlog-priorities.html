@@ -276,7 +276,7 @@
 <header class="page-header">
   <p class="page-header__eyebrow">Sugartown Digital · sugartown.io · Backlog</p>
   <h1>Issues &amp; To-Do — <span>Priority Stack</span></h1>
-  <p class="page-header__meta">Updated 2026-03-06 · EPIC-0152, EPIC-0155, BL-07, BL-05 marked shipped · Sequenced against EPIC-0158, EPIC-0159, EPIC-0160</p>
+  <p class="page-header__meta">Updated 2026-03-09 · EPIC-0158–0162 shipped · IA brief pages queued · Sequenced against Services → Contact → About → Platform → Homepage</p>
 </header>
 
 <div class="legend">
@@ -289,13 +289,13 @@
 </div>
 
 <div class="blocker">
-  <span class="blocker__icon">⚑ Dep chain</span>
-  <p class="blocker__text"><strong>EPIC-0157 (Chip primitive)</strong> must land before <strong>EPIC-0158</strong>. EPIC-0158 must land before <strong>EPIC-0160</strong>. EPIC-0159 (Citation) can run in parallel — its output is consumed by EPIC-0160's card footer. Respect this sequence.</p>
+  <span class="blocker__icon">⚑ IA brief</span>
+  <p class="blocker__text">All DS primitives and card infrastructure are shipped (EPIC-0152–0162). The priority order from the <strong>IA brief</strong> is: <strong>Services → Contact → About rewrite → Platform → Homepage teasers</strong>. These are content/page creation tasks using the existing section builder — no new DS components needed.</p>
 </div>
 
 <!-- ══ NOW ══ -->
 <div class="section-heading">
-  <span class="section-heading__label">01 · Now — active / blocks epics</span>
+  <span class="section-heading__label">01 · Now — active / blocks launch</span>
   <div class="section-heading__rule"></div>
 </div>
 <div class="items-list">
@@ -303,12 +303,11 @@
   <div class="item item--p0">
     <span class="item__rank">1</span>
     <div class="item__body">
-      <div class="item__title">EPIC-0158 · Web Card Adapter Migration</div>
-      <p class="item__summary">Converge the old slot-based web Card API onto the DS Card named-prop API. Retire polymorphic root wrapping, fix invalid nested anchors, migrate ContentCard + MetadataCard. Prerequisite for everything downstream that touches card rendering.</p>
+      <div class="item__title">Services page — <code>/services</code></div>
+      <p class="item__summary">New page required per IA brief §5. Uses existing section builder. Content needs authoring in Sanity (textSection, cardBuilderSection, CTA). First in the IA brief priority order — the page that "sells your brain".</p>
       <div class="item__tags">
-        <span class="tag tag--epic">EPIC-0158</span>
-        <span class="tag tag--design">Design System</span>
-        <span class="tag tag--query">GROQ</span>
+        <span class="tag tag--content">Content</span>
+        <span class="tag tag--schema">Page Builder</span>
       </div>
     </div>
     <span class="item__priority priority--now">Now</span>
@@ -317,12 +316,11 @@
   <div class="item item--p0">
     <span class="item__rank">2</span>
     <div class="item__body">
-      <div class="item__title">GROQ: resolve <code>thumbnailUrl</code> projection per content type</div>
-      <p class="item__summary">Deferred because hero images are nested in <code>sections[].media[]</code>, not a top-level field. Must audit article, caseStudy, and node schemas to write correct per-type projections before EPIC-0158 can fully land. <code>accentColor</code> is straightforward via <code>projects[0]->colorHex</code>.</p>
+      <div class="item__title">Contact page — <code>/contact</code></div>
+      <p class="item__summary">New page required per IA brief §5. Minimal template — intro text, contact method(s), possibly a form. Route already reserved in namespace validator. Second in IA brief priority order.</p>
       <div class="item__tags">
-        <span class="tag tag--query">GROQ</span>
-        <span class="tag tag--schema">Schema Audit</span>
-        <span class="tag tag--epic">EPIC-0158</span>
+        <span class="tag tag--content">Content</span>
+        <span class="tag tag--schema">Page Builder</span>
       </div>
     </div>
     <span class="item__priority priority--now">Now</span>
@@ -331,11 +329,10 @@
   <div class="item item--p0">
     <span class="item__rank">3</span>
     <div class="item__body">
-      <div class="item__title">EPIC-0159 · Citation primitive (CitationMarker, CitationNote, CitationZone)</div>
-      <p class="item__summary">Can run in parallel with EPIC-0158. Outputs the citation footer component consumed by EPIC-0160's card builder. Until this lands, EPIC-0160 renders a <code>&lt;small&gt;</code> placeholder in the card footer.</p>
+      <div class="item__title">About page rewrite — <code>/about</code></div>
+      <p class="item__summary">Page exists but needs a content rewrite per IA brief §5.4. Current content is placeholder-grade. Rewrite using section builder with updated bio, approach narrative, and links to Work/Library/Platform.</p>
       <div class="item__tags">
-        <span class="tag tag--epic">EPIC-0159</span>
-        <span class="tag tag--design">Design System</span>
+        <span class="tag tag--content">Content</span>
       </div>
     </div>
     <span class="item__priority priority--now">Now</span>
@@ -353,12 +350,11 @@
   <div class="item item--p1">
     <span class="item__rank">4</span>
     <div class="item__body">
-      <div class="item__title">EPIC-0160 · Card Builder Section (depends on 0158 + 0159)</div>
-      <p class="item__summary">New <code>cardBuilderSection</code> schema + web component for editor-assembled card grids on any page. Deprecates orphaned EditorialCard + CardGrid. Wires into PageSections renderer. Full-card click via DS Card <code>::after</code> hit-target.</p>
+      <div class="item__title">Platform page — <code>/platform</code></div>
+      <p class="item__summary">New content page per IA brief §5.3. The "differentiator" — showcases the MACH architecture, Sanity schema, CI/CD pipeline, design system. Uses section builder. Decide which sub-content gets its own page vs. section on the parent page.</p>
       <div class="item__tags">
-        <span class="tag tag--epic">EPIC-0160</span>
-        <span class="tag tag--schema">Schema</span>
-        <span class="tag tag--design">Design System</span>
+        <span class="tag tag--content">Content</span>
+        <span class="tag tag--schema">Page Builder</span>
       </div>
     </div>
     <span class="item__priority priority--next">Next</span>
@@ -367,12 +363,11 @@
   <div class="item item--p1">
     <span class="item__rank">5</span>
     <div class="item__body">
-      <div class="item__title">Card grid: fix layout when filterBar is active (narrowed columns)</div>
-      <p class="item__summary">With the filter bar present, auto-fill grid squeezes cards well below the designed minimum. Enforce <strong>1-column layout on narrow viewports and list-view only below 900px</strong>. Reserve 2–3 column grid for full-content-width contexts only (homepage, no sidebar). Evaluate adding an explicit layout toggle (grid / list) as a user control.</p>
+      <div class="item__title">Homepage teasers — curated content grid</div>
+      <p class="item__summary">Homepage currently has minimal content. Add teaser sections pulling latest articles, featured case studies, and knowledge graph highlights via GROQ. Can use <code>cardBuilderSection</code> or a new homepage-specific layout.</p>
       <div class="item__tags">
-        <span class="tag tag--ux">UX</span>
-        <span class="tag tag--design">Layout</span>
-        <span class="tag tag--epic">EPIC-0158</span>
+        <span class="tag tag--content">Content</span>
+        <span class="tag tag--query">GROQ</span>
       </div>
     </div>
     <span class="item__priority priority--next">Next</span>
@@ -381,24 +376,11 @@
   <div class="item item--p1">
     <span class="item__rank">6</span>
     <div class="item__body">
-      <div class="item__title">Card title: scale down + switch to DM Sans (or Fira Sans)</div>
-      <p class="item__summary">Current title weight is too dominant in a dense catalog grid — reads as a hero element rather than a list item label. Reduce to ~1rem, font-weight 600, DM Sans (already loaded). Reserve IBM Plex Mono for eyebrows and metadata labels only.</p>
+      <div class="item__title">Nav update — wire IA brief nav structure</div>
+      <p class="item__summary">Current nav reflects old structure (About, Knowledge Graph, Case Studies, Blog, CV/Resume). IA brief nav: Work | Library (Knowledge Graph, Articles) | Platform | About | Services. Requires Sanity nav document update + any dropdown component for Library.</p>
       <div class="item__tags">
-        <span class="tag tag--ux">Typography</span>
-        <span class="tag tag--design">Design System</span>
-      </div>
-    </div>
-    <span class="item__priority priority--next">Next</span>
-  </div>
-
-  <div class="item item--p1">
-    <span class="item__rank">7</span>
-    <div class="item__body">
-      <div class="item__title">Add "Tools" and "Tags" group labels to chip rows</div>
-      <p class="item__summary">Without labels, users can't distinguish tool chips from tag chips at a glance. Add a short <code>st-label</code> prefix ("Tools ·" / "Tags ·") before each chip group in the card footer. CSS class already exists — apply it.</p>
-      <div class="item__tags">
+        <span class="tag tag--content">Content</span>
         <span class="tag tag--ux">UX</span>
-        <span class="tag tag--design">Design System</span>
       </div>
     </div>
     <span class="item__priority priority--next">Next</span>
@@ -443,10 +425,23 @@
     <span class="item__rank">10</span>
     <div class="item__body">
       <div class="item__title">Static Schema ERD page (EPIC-0147, Option B)</div>
-      <p class="item__summary">Hardcoded schema manifest rendered as a visual ERD page. Option B is immediately implementable without a build step. Useful as a portfolio and internal reference artefact for the MACH architecture showcase.</p>
+      <p class="item__summary">Hardcoded schema manifest rendered as a visual ERD page. Option B is immediately implementable without a build step. Useful as a portfolio and internal reference artefact for the MACH architecture showcase. Good candidate for the Platform page.</p>
       <div class="item__tags">
         <span class="tag tag--epic">EPIC-0147</span>
         <span class="tag tag--content">Content</span>
+      </div>
+    </div>
+    <span class="item__priority priority--soon">Soon</span>
+  </div>
+
+  <div class="item item--p2">
+    <span class="item__rank">11</span>
+    <div class="item__body">
+      <div class="item__title">Footer update — wire IA brief footer links</div>
+      <p class="item__summary">IA brief footer: Contact, Privacy, Terms, Accessibility Statement. Current footer likely doesn't match. Wire footer nav from Sanity or hardcode initial structure. Privacy/Terms/Accessibility pages may need creating as minimal <code>page</code> docs.</p>
+      <div class="item__tags">
+        <span class="tag tag--content">Content</span>
+        <span class="tag tag--ux">UX</span>
       </div>
     </div>
     <span class="item__priority priority--soon">Soon</span>
@@ -462,7 +457,7 @@
 <div class="items-list">
 
   <div class="item item--p3">
-    <span class="item__rank">11</span>
+    <span class="item__rank">12</span>
     <div class="item__body">
       <div class="item__title">Hosting platform decision for DNS cutover</div>
       <p class="item__summary">Evaluate Netlify, Cloudflare Pages, Vercel, or self-hosted against cost, preview URL support, redirect file compatibility, and Sanity webhook integration. Decision gates the cutover timeline.</p>
@@ -474,20 +469,7 @@
   </div>
 
   <div class="item item--p3">
-    <span class="item__rank">12</span>
-    <div class="item__body">
-      <div class="item__title">PersonProfilePage + ProjectDetailPage dedicated components</div>
-      <p class="item__summary">Currently rendered via generic taxonomy layouts. These entity types deserve purpose-built page components that surface relationships, project color, and associated content properly.</p>
-      <div class="item__tags">
-        <span class="tag tag--design">Component</span>
-        <span class="tag tag--query">GROQ</span>
-      </div>
-    </div>
-    <span class="item__priority priority--later">Later</span>
-  </div>
-
-  <div class="item item--p3">
-    <span class="item__rank">13</span>
+    <span class="item__rank">14</span>
     <div class="item__body">
       <div class="item__title">Brand color picker for Sanity Studio (BL-01)</div>
       <p class="item__summary">Lets editors set <code>colorHex</code> on project documents via a visual colour picker rather than raw hex input. Nice-to-have UX improvement for Studio editors. Tracked as BL-01 from EPIC-0156.</p>
@@ -500,7 +482,7 @@
   </div>
 
   <div class="item item--p3">
-    <span class="item__rank">14</span>
+    <span class="item__rank">15</span>
     <div class="item__body">
       <div class="item__title">Dedicated <code>cardImage</code> schema field (BL-02)</div>
       <p class="item__summary">Separate from heroImage/sections media. Allows editors to set a specific thumbnail for a content item when it appears in card grids, without affecting the hero display. Tracked as BL-02.</p>
@@ -563,6 +545,20 @@
   <div class="item item--deferred">
     <span class="item__rank">—</span>
     <div class="item__body">
+      <div class="item__title">Archive page deferred fields — wire Display + Advanced tab configs</div>
+      <p class="item__summary">8 <code>archivePage</code> fields moved to "Advanced (coming soon)" tab in Studio: hero section, custom description, featured items, display density, card variant, sort options, pagination, empty state. None are currently wired in the web app. Wire them when archive page UX is revisited post-launch.</p>
+      <div class="item__tags">
+        <span class="tag tag--defer">Deferred</span>
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--ux">Editor UX</span>
+      </div>
+    </div>
+    <span class="item__priority priority--defer">Defer</span>
+  </div>
+
+  <div class="item item--deferred">
+    <span class="item__rank">—</span>
+    <div class="item__body">
       <div class="item__title">KPI dashboard card family: stat-card, bar-card, insight-card (BL-03)</div>
       <p class="item__summary">New card use cases for a KPI dashboard surface. High design ambition, lower immediate priority. Scope as a standalone epic when the dashboard page is prioritised.</p>
       <div class="item__tags">
@@ -578,10 +574,119 @@
 
 <!-- ══ SHIPPED ══ -->
 <div class="section-heading">
-  <span class="section-heading__label">06 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.15.0</span>
+  <span class="section-heading__label">06 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.16.1</span>
   <div class="section-heading__rule"></div>
 </div>
 <div class="items-list">
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">HTML entity cleanup + shared PortableText serializer</div>
+      <p class="item__summary">Shipped 2026-03-09. Migration script extended to decode entities in PortableText <code>content</code> span.text fields. Runtime <code>decodeHtml</code>/<code>decodePortableText</code> wired into ArticlePage. Shared <code>portableTextComponents.jsx</code> module created and applied to ArticlePage, NodePage, and PersonProfilePage — fixes missing inline code styling across all detail pages.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped</span>
+        <span class="tag tag--content">Data Quality</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0162 · Tools Taxonomy</div>
+      <p class="item__summary">Shipped v0.16.1. Promoted tools from a 27-value string enum to first-class <code>tool</code> documents with routes (<code>/tools</code>, <code>/tools/:slug</code>), filter facets, GROQ dereferencing, and TOOLS/TAGS chip group labels. Migration script seeds 30 tool docs, migrates 49 content docs.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.16.1</span>
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--design">Design System</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0161 · Card Grid &amp; Typography Polish</div>
+      <p class="item__summary">Shipped v0.15.4. Card title switched from Playfair Display 1.4rem/700 to Fira Sans 1rem/600. Chip row group labels ("Tools ·" / "Tags ·"). Grid/list layout toggle with sessionStorage persistence. Narrow-context archive layout fixes.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.15.4</span>
+        <span class="tag tag--design">Design System</span>
+        <span class="tag tag--ux">UX</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0160 · Card Builder Section</div>
+      <p class="item__summary">Shipped v0.15.3. <code>cardBuilderSection</code> schema + <code>CardBuilderSection</code> renderer for editor-assembled card grids. Citation web adapter bridges DS Citation into the web app. GROQ projection for card builder data wired into PageSections.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.15.3</span>
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--design">Design System</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0159 · Citation Primitive</div>
+      <p class="item__summary">Shipped v0.15.2. <code>CitationMarker</code>, <code>CitationNote</code>, <code>CitationZone</code> components with 8 semantic <code>--st-citation-*</code> tokens. 5 Storybook stories. Consumed by EPIC-0160 card builder footer.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.15.2</span>
+        <span class="tag tag--design">Design System</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0158 · Web Card Adapter Migration + <code>thumbnailUrl</code> GROQ</div>
+      <p class="item__summary">Shipped v0.14.5 / v0.15.0. Converged old slot-based web Card API onto DS Card named-prop API. Fixed invalid nested anchors. Resolved <code>thumbnailUrl</code> per-type GROQ projections (hero media, sections). <code>accentColor</code> via <code>projects[0]->colorHex</code>.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.15.0</span>
+        <span class="tag tag--design">Design System</span>
+        <span class="tag tag--query">GROQ</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0153 · Hero Full-Width &amp; Content Width Normalisation</div>
+      <p class="item__summary">Shipped v0.15.1. <code>imageWidth</code> field on <code>heroSection</code> schema (content-width / full-width). Detail pages use <code>--st-width-detail</code> (760px), archives use <code>--st-width-archive</code> (1140px). Hero text forced white on image heroes.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.15.1</span>
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--design">Layout</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">PersonProfilePage + ProjectDetailPage dedicated components</div>
+      <p class="item__summary">Both entity types now have purpose-built page components. PersonProfilePage shows profile header, bio as PortableText, expertise chips, and content grouped by type. ProjectDetailPage surfaces project color, relationships, and associated content.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped</span>
+        <span class="tag tag--design">Component</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
 
   <div class="item item--shipped">
     <span class="item__rank item__rank--check">✓</span>
@@ -638,7 +743,7 @@
 </div>
 
 <footer class="page-footer">
-  <span>sugartown.io · docs/backlog/priority-stack · updated 2026-03-06</span>
+  <span>sugartown.io · docs/backlog/priority-stack · updated 2026-03-09</span>
   <span>IBM Plex Mono · DM Sans · Sugartown Dark</span>
 </footer>
 

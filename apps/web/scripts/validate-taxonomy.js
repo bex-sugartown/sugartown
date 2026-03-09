@@ -6,7 +6,7 @@
  *
  *   A) [WARN]  Documents with > 2 categories
  *   B) [WARN]  Documents with 0 categories
- *   C) [FAIL]  tools[] values not in the canonical enum
+ *   C) [FAIL]  tools[] refs pointing to non-existent tool documents
  *   D) [FAIL]  tags[] referencing tag docs not in the controlled vocabulary
  *              (only active after running migrate-taxonomy.js --execute)
  *
@@ -54,18 +54,6 @@ function loadEnv() {
 
 loadEnv()
 
-// ─── Canonical tools enum ─────────────────────────────────────────────────────
-// Must match options.list in article.ts, caseStudy.ts, node.ts schemas.
-// Also must match CANONICAL_TOOLS in scripts/migrate-taxonomy.js.
-
-const CANONICAL_TOOLS = new Set([
-  'acquia', 'aem', 'celum', 'chatgpt', 'claude', 'claude-code',
-  'contentful', 'css', 'drupal', 'figma', 'gemini', 'git', 'github',
-  'javascript', 'linear', 'matplotlib', 'mermaid', 'netlify', 'networkx',
-  'codex', 'oracle-atg', 'python', 'react', 'sanity', 'shopify',
-  'storybook', 'turborepo', 'typescript', 'vite', 'wordpress',
-])
-
 // ─── Sanity client ────────────────────────────────────────────────────────────
 
 const projectId = process.env.VITE_SANITY_PROJECT_ID
@@ -91,9 +79,14 @@ const contentQuery = `
     "slug": slug.current,
     "categoryCount": count(categories),
     "categoryIds": categories[]._ref,
-    tools,
+    "toolIds": tools[]._ref,
     "tagIds": tags[]._ref
   }
+`
+
+// Fetch all published tool doc IDs — used to validate tools[] refs
+const toolDocsQuery = `
+  *[_type == "tool"] { _id, name, "slug": slug.current }
 `
 
 // Fetch all published tag doc IDs — used to validate tag[] refs after migration
@@ -132,10 +125,11 @@ async function run() {
   console.log('══════════════════════════════════════════════\n')
   console.log(`   Project: ${projectId}  |  Dataset: ${dataset}\n`)
 
-  let docs, tagDocs, personDocs, projectDocs, contentRefs
+  let docs, toolDocs, tagDocs, personDocs, projectDocs, contentRefs
   try {
-    ;[docs, tagDocs, personDocs, projectDocs, contentRefs] = await Promise.all([
+    ;[docs, toolDocs, tagDocs, personDocs, projectDocs, contentRefs] = await Promise.all([
       client.fetch(contentQuery),
+      client.fetch(toolDocsQuery),
       client.fetch(tagDocsQuery),
       client.fetch(personDocsQuery),
       client.fetch(projectDocsQuery),
@@ -177,29 +171,40 @@ async function run() {
 
   console.log()
 
-  // ── Check B: tools[] values ────────────────────────────────────────────────
+  // ── Check B: tools[] references valid tool docs ───────────────────────────
 
-  console.log('🔧  Tools Enum Checks')
+  console.log('🔧  Tool Reference Checks')
   console.log('──────────────────────────────────────────────')
+  console.log(`   Total tool documents in dataset: ${toolDocs.length}`)
 
+  const allToolIds = new Set(toolDocs.map((t) => t._id))
   const toolErrors = []
   for (const doc of docs) {
-    const tools = doc.tools ?? []
-    for (const tool of tools) {
-      if (!CANONICAL_TOOLS.has(tool)) {
-        toolErrors.push({ doc, tool })
+    const toolIds = doc.toolIds ?? []
+    for (const toolId of toolIds) {
+      if (!allToolIds.has(toolId)) {
+        toolErrors.push({ doc, toolId })
       }
     }
   }
 
   if (toolErrors.length === 0) {
-    console.log('   ✅  All tools[] values are in the canonical enum')
+    console.log('   ✅  All tools[] refs point to existing tool documents')
   } else {
-    console.log(`   ❌  ${toolErrors.length} non-canonical tools[] value(s):`)
-    for (const { doc, tool } of toolErrors) {
-      console.log(`        [${doc._type}] "${doc.title || doc.slug}" — tools value "${tool}" not in enum (${doc._id})`)
+    console.log(`   ❌  ${toolErrors.length} dangling tool reference(s) (tool doc deleted but ref still on content):`)
+    for (const { doc, toolId } of toolErrors) {
+      console.log(`        [${doc._type}] "${doc.title || doc.slug}" → missing tool ${toolId}`)
     }
-    console.log(`\n   Canonical tools: ${[...CANONICAL_TOOLS].sort().join(', ')}`)
+  }
+
+  const toolsWithoutSlug = toolDocs.filter((t) => !t.slug)
+  if (toolsWithoutSlug.length === 0) {
+    console.log('   ✅  All tool docs have a slug')
+  } else {
+    console.log(`   ⚠️   ${toolsWithoutSlug.length} tool doc(s) with no slug:`)
+    for (const t of toolsWithoutSlug) {
+      console.log(`        [tool] "${t.name || 'Unnamed'}" (${t._id})`)
+    }
   }
 
   console.log()
@@ -341,6 +346,7 @@ async function run() {
   const warnings =
     overCategorized.length +
     uncategorized.length +
+    toolsWithoutSlug.length +
     personsWithoutSlug.length +
     personsWithoutName.length +
     projectsWithoutSlug.length +

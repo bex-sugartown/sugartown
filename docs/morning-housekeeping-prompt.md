@@ -49,22 +49,26 @@ Then check the health of active local services:
 curl -s -o /dev/null -w "%{http_code}" http://localhost:5173/
 ```
 - `200` → running ✅
-- anything else → not running. Report this in the briefing and offer to start it with `pnpm --filter web dev`.
+- anything else → not running. **Start it automatically** using `preview_start` with the `web` launch config. Report that it was down and has been restarted.
+
+**Sanity Studio** — is the dev server running?
+```bash
+curl -s -o /dev/null -w "%{http_code}" http://localhost:3333/
+```
+- `200` → running ✅
+- anything else → not running. **Start it automatically** using `preview_start` with the `studio` launch config. Report that it was down and has been restarted.
 
 **Storybook** — is the dev server running?
 ```bash
 curl -s -o /dev/null -w "%{http_code}" http://localhost:6006/
 ```
 - `200` → running ✅
-- anything else → not running. Report this in the briefing and offer to start it with `pnpm --filter storybook storybook`.
+- anything else → not running. **Start it automatically** using `preview_start` with the `storybook` launch config. Report that it was down and has been restarted.
+
+All three dev servers are defined in `.claude/launch.json`. Use `preview_start` (not Bash) to start them — this ensures they are tracked and reusable across the session.
 
 **Sanity Studio** — are there available package updates?
-```bash
-cd apps/studio && npx --yes sanity@latest upgrade --dry-run 2>&1 | head -30
-```
-- If updates are available, list them in the briefing.
-- If already up to date, note that briefly.
-- Do not run the upgrade; only check.
+Check the installed `sanity` version in `apps/studio/package.json` and note it in the briefing. A full upgrade check can be done manually if needed.
 
 **Vite caches** — are any stale?
 ```bash
@@ -102,9 +106,10 @@ Write a plain-English morning briefing using exactly this structure. Use plain l
 
 #### 🖥 Service Health
 
-- **Web app** — running on :5173? If not, say so clearly and offer to start it.
-- **Storybook** — running on :6006? If not, say so clearly and offer to start it.
-- **Sanity** — any packages out of date? List them if so; say "up to date" if not.
+- **Web app** — running on :5173? If not, it was auto-started. Report the status.
+- **Sanity Studio** — running on :3333? If not, it was auto-started. Report the status.
+- **Storybook** — running on :6006? If not, it was auto-started. Report the status.
+- **Sanity packages** — note the installed version from package.json.
 - **Vite caches** — any stale caches? If a cache is >24h old, flag it and recommend clearing before starting work.
 
 ---

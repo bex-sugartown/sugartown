@@ -3,9 +3,9 @@
 **Epic ID:** EPIC-TBD _(assign on activation)_
 ## EPIC NAME: Tool Document Type — Phase 1: Schema, Seed & Desk Structure
 
-**Status:** BACKLOG — deferred
-**Activation trigger:** When a Tools archive page (`/tools`) or tool detail page (`/tools/:slug`) enters the IA roadmap.
-**Last reviewed:** 2026-02-28 — descoped from EPIC-0145 (taxonomy governance); captured as standalone backlog item.
+**Status:** ✅ SHIPPED as EPIC-0162 (v0.16.1, 2026-03-08)
+**Activation trigger:** ~~When a Tools archive page (`/tools`) or tool detail page (`/tools/:slug`) enters the IA roadmap.~~ Shipped — combined Phase 1 + Phase 2 in single execution.
+**Last reviewed:** 2026-03-09 — gap audit completed; validator fixed, schema fields backfilled, tool-tag redirects wired.
 
 ---
 
