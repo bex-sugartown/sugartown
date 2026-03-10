@@ -169,6 +169,7 @@ export default function ContentCard({
       href={path}
       eyebrow={eyebrow}
       category={categoryProp}
+      categoryPosition={item.categoryPosition || undefined}
       title={item.title}
       status={statusProp}
       evolution={evolutionProp}
