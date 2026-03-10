@@ -8,6 +8,26 @@
 
 ---
 
+## Epic Lifecycle
+
+Epics follow a two-stage lifecycle:
+
+**1. Backlog** (`docs/backlog/EPIC-{name}.md`)
+- Authored without a number; filename is `EPIC-{descriptive-name}.md`
+- Status: BACKLOG (not yet scheduled for execution)
+
+**2. Activation** (when execution begins)
+- Move the file from `docs/backlog/` to `docs/prompts/`
+- Assign the next sequential EPIC number (e.g. EPIC-0163)
+- Rename the file: `EPIC-0163-{name}.md`
+- Update the **Epic ID** field inside the file to match
+- Commit the activation as part of the epic's first commit
+
+> The `docs/prompts/` folder holds only **completed** and **in-flight** numbered epics.
+> The `docs/backlog/` folder holds **unscheduled** epics awaiting prioritization.
+
+---
+
 **Epic ID:** EPIC-0000
 ## EPIC NAME: [REQUIRED]
 
