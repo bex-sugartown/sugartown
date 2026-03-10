@@ -278,6 +278,11 @@ export const nodeBySlugQuery = `
           citation,
           tags[]->{ _id, "title": name, slug }
         }
+      },
+      _type == "calloutSection" => {
+        variant,
+        title,
+        body
       }
     },
     aiTool,
@@ -391,6 +396,11 @@ export const articleBySlugQuery = `
           citation,
           tags[]->{ _id, "title": name, slug }
         }
+      },
+      _type == "calloutSection" => {
+        variant,
+        title,
+        body
       }
     },
     author,
@@ -502,6 +512,11 @@ export const pageBySlugQuery = `
           citation,
           tags[]->{ _id, "title": name, slug }
         }
+      },
+      _type == "calloutSection" => {
+        variant,
+        title,
+        body
       }
     },
     ${SEO_FRAGMENT}
@@ -593,6 +608,11 @@ export const caseStudyBySlugQuery = `
           citation,
           tags[]->{ _id, "title": name, slug }
         }
+      },
+      _type == "calloutSection" => {
+        variant,
+        title,
+        body
       }
     },
     authors[]->{${PERSON_FRAGMENT}},

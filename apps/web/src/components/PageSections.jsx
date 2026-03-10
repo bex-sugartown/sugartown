@@ -1,6 +1,6 @@
 import { urlFor } from '../lib/sanity'
 import { PortableText } from '@portabletext/react'
-import { Button, Blockquote, CodeBlock, InlineCode, Table, TableWrap } from '../design-system'
+import { Button, Blockquote, CodeBlock, InlineCode, Table, TableWrap, Callout } from '../design-system'
 import CardBuilderSection from './CardBuilderSection'
 import styles from './PageSections.module.css'
 
@@ -214,6 +214,16 @@ function HtmlSection({ section }) {
   )
 }
 
+// Callout Section Component (EPIC-0164)
+function CalloutSection({ section }) {
+  if (!section.body) return null
+  return (
+    <Callout variant={section.variant} title={section.title}>
+      <p style={{ whiteSpace: 'pre-line' }}>{section.body}</p>
+    </Callout>
+  )
+}
+
 // CTA Section Component
 function CTASection({ section }) {
   const { heading, description, buttons } = section
@@ -264,6 +274,8 @@ export default function PageSections({ sections }) {
             return <HtmlSection key={key} section={section} />
           case 'cardBuilderSection':
             return <CardBuilderSection key={key} section={section} />
+          case 'calloutSection':
+            return <CalloutSection key={key} section={section} />
           default:
             console.warn(`Unknown section type: ${section._type}`)
             return null
