@@ -1,9 +1,9 @@
 # Sugartown — Claude Code Epic Prompt
 
-**Epic ID:** EPIC-TBD _(assign on activation)_
+**Epic ID:** EPIC-0164
 ## EPIC NAME: Callout Section Type — Schema, GROQ & Renderer
 
-**Status:** BACKLOG
+**Status:** ACTIVE
 **Backlog ref:** Dependency for Item #8 (Soon) — "Configure Sections for all pages"
 **Origin:** DS Callout component exists (Storybook ✅, web adapter ✅) but has no Sanity authoring path
 
