@@ -70,6 +70,7 @@ export default defineType({
         defineArrayMember({type: 'imageGallery'}),
         defineArrayMember({type: 'ctaSection'}),
         defineArrayMember({type: 'htmlSection'}),
+        defineArrayMember({type: 'cardBuilderSection'}),
         defineArrayMember({type: 'calloutSection'})
       ]
     }),

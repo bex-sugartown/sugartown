@@ -1,9 +1,9 @@
 # Sugartown — Claude Code Epic Prompt
 
-**Epic ID:** EPIC-TBD _(assign on activation)_
+**Epic ID:** EPIC-0165
 ## EPIC NAME: Section Builder Parity — All Section Types on All Content Doc Types
 
-**Status:** BACKLOG
+**Status:** ACTIVE
 **Backlog ref:** Item #8 (Soon) — "Configure Sections for all pages: section, blockquote, code, callout, table"
 **Origin:** Gap identified during EPIC-0160 (Card Builder Section) — `cardBuilderSection` was added to `page.ts` only
 
