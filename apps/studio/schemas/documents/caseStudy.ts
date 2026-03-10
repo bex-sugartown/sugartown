@@ -231,6 +231,20 @@ export default defineType({
           .warning('Prefer 1–2 categories per case study for clarity. Add more only if genuinely cross-domain.')
     }),
     defineField({
+      name: 'categoryPosition',
+      title: 'Category Position',
+      type: 'string',
+      description: 'Controls whether the category label appears above or below the case study title on cards.',
+      group: 'metadata',
+      options: {
+        list: [
+          {title: 'Before title (default)', value: 'before'},
+          {title: 'After title', value: 'after'},
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
       name: 'tags',
       title: 'Tags',
       type: 'array',
