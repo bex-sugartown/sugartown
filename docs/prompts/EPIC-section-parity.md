@@ -1,17 +1,23 @@
 # Sugartown — Claude Code Epic Prompt
 
 **Epic ID:** EPIC-TBD _(assign on activation)_
-## EPIC NAME: Section Builder Parity — `cardBuilderSection` on All Content Doc Types
+## EPIC NAME: Section Builder Parity — All Section Types on All Content Doc Types
 
 **Status:** BACKLOG
 **Backlog ref:** Item #8 (Soon) — "Configure Sections for all pages: section, blockquote, code, callout, table"
 **Origin:** Gap identified during EPIC-0160 (Card Builder Section) — `cardBuilderSection` was added to `page.ts` only
 
+**Prerequisites (execute in order before this epic):**
+1. **EPIC — Table as PortableText Custom Block Type** (`docs/prompts/EPIC-table-portable-text.md`) — creates `tableBlock` schema + PT rendering. No `sections[]` change needed (table lives inside PortableText).
+2. **EPIC — Callout Section Type** (`docs/prompts/EPIC-callout-section.md`) — creates `calloutSection` schema, registers it, adds GROQ projections, adds PageSections renderer. Adds `calloutSection` to `sections[]` on ALL 4 doc types as part of that epic.
+
+Once both prerequisites are shipped, this epic adds `cardBuilderSection` to the 3 doc types that are missing it. The `calloutSection` wiring is handled by its own epic — this epic does NOT duplicate that work.
+
 ---
 
 ## Pre-Execution Completeness Gate
 
-- [x] **Layout contract** — No new layout. All section types and their renderers already exist and are production-tested. This epic only opens the Studio `sections[]` array to accept `cardBuilderSection` on doc types that currently exclude it.
+- [x] **Layout contract** — No new layout. All section types and their renderers already exist and are production-tested. This epic only opens the Studio `sections[]` array to accept `cardBuilderSection` on the 3 doc types that currently exclude it. The `calloutSection` and `tableBlock` prerequisites must be shipped first.
 - [x] **All prop value enumerations** — No new enums. `cardBuilderSection` has an existing schema with `layout` enum (`grid | list`). Already defined in `apps/studio/schemas/sections/cardBuilderSection.ts`.
 - [x] **Correct audit file paths** — all paths verified (see Context below)
 - [x] **Dark / theme modifier treatment** — Not applicable. No new component, no new CSS. `CardBuilderSection` renderer and Card theme tokens are already production-complete.
@@ -24,27 +30,30 @@
 
 ### What already exists — DO NOT recreate
 
-**Section types (6 total, all registered in `schemas/index.ts`):**
+**Section types (7 total after prerequisites, all registered in `schemas/index.ts`):**
 
-| Section type | Schema file | Renderer | GROQ projection |
-|-------------|-------------|----------|-----------------|
-| `heroSection` | `schemas/sections/hero.ts` | `HeroSection` in `PageSections.jsx` | All 4 slug queries |
-| `textSection` | `schemas/sections/textSection.ts` | `TextSection` in `PageSections.jsx` | All 4 slug queries |
-| `imageGallery` | `schemas/sections/imageGallery.ts` | `ImageGallerySection` in `PageSections.jsx` | All 4 slug queries |
-| `ctaSection` | `schemas/sections/ctaSection.ts` | `CTASection` in `PageSections.jsx` | All 4 slug queries |
-| `htmlSection` | `schemas/sections/htmlSection.ts` | `HtmlSection` in `PageSections.jsx` | All 4 slug queries |
-| `cardBuilderSection` | `schemas/sections/cardBuilderSection.ts` | `CardBuilderSection` in `PageSections.jsx` | All 4 slug queries |
+| Section type | Schema file | Renderer | GROQ projection | `sections[]` gap |
+|-------------|-------------|----------|-----------------|-----------------|
+| `heroSection` | `schemas/sections/hero.ts` | `HeroSection` | All 4 slug queries | None — all 4 doc types |
+| `textSection` | `schemas/sections/textSection.ts` | `TextSection` | All 4 slug queries | None — all 4 doc types |
+| `imageGallery` | `schemas/sections/imageGallery.ts` | `ImageGallerySection` | All 4 slug queries | None — all 4 doc types |
+| `ctaSection` | `schemas/sections/ctaSection.ts` | `CTASection` | All 4 slug queries | None — all 4 doc types |
+| `htmlSection` | `schemas/sections/htmlSection.ts` | `HtmlSection` | All 4 slug queries | None — all 4 doc types |
+| `cardBuilderSection` | `schemas/sections/cardBuilderSection.ts` | `CardBuilderSection` | All 4 slug queries | **Missing on article, caseStudy, node** |
+| `calloutSection` | `schemas/sections/calloutSection.ts` | `CalloutSection` | All 4 slug queries | Shipped by prerequisite epic on all 4 |
 
-**Current `sections[]` allowances per doc type:**
+**Note:** `tableBlock` is a PortableText custom block type (lives inside `standardPortableText`), not a section type. It is shipped by its own prerequisite epic and does not appear in `sections[]`.
 
-| Doc type | `heroSection` | `textSection` | `imageGallery` | `ctaSection` | `htmlSection` | `cardBuilderSection` |
-|----------|:---:|:---:|:---:|:---:|:---:|:---:|
-| `page` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| `article` | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
-| `caseStudy` | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
-| `node` | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+**Current `sections[]` allowances per doc type (after prerequisites, before this epic):**
 
-**Key observation:** The GROQ queries for `article`, `caseStudy`, and `node` already project `cardBuilderSection` (added during EPIC-0160 for forward compatibility). The `PageSections.jsx` renderer already handles `cardBuilderSection`. The ONLY gap is the Studio schema — editors cannot add `cardBuilderSection` to articles, case studies, or nodes because the `sections[]` array definition in those schemas doesn't include it.
+| Doc type | `hero` | `text` | `gallery` | `cta` | `html` | `cardBuilder` | `callout` |
+|----------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| `page` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `article` | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| `caseStudy` | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+| `node` | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ |
+
+**Remaining gap this epic closes:** `cardBuilderSection` on article, caseStudy, node. The GROQ queries already project it (added during EPIC-0160 for forward compatibility). The `PageSections.jsx` renderer already handles it. The ONLY gap is the Studio schema.
 
 **GROQ proof — all 4 slug queries already project `cardBuilderSection`:**
 - `queries.js` line 262: `_type == "cardBuilderSection" => { ... }` (inside `nodeBySlugQuery`)
@@ -72,13 +81,15 @@
 
 ## Objective
 
-After this epic: editors can add `cardBuilderSection` blocks to articles, case studies, and nodes in Sanity Studio — the same section builder capability that already exists on pages. No new code is created; the existing query projections and renderer handle the section type already.
+After this epic: all section types are available on all content doc types. Specifically, `cardBuilderSection` is added to article, caseStudy, and node (the only remaining gap after the prerequisite epics ship `calloutSection` and `tableBlock`). No new code is created; the existing query projections and renderer handle the section type already.
 
-**Data layer:** `sections[]` array definition widened on `article.ts`, `caseStudy.ts`, `node.ts`.
+**Data layer:** `sections[]` array definition widened on `article.ts`, `caseStudy.ts`, `node.ts` to include `cardBuilderSection`.
 **Query layer:** Already complete — no changes needed (projections were added in EPIC-0160).
 **Render layer:** Already complete — `PageSections.jsx` handles `cardBuilderSection`.
 
 This is a 3-line schema change. The query and render layers are already wired.
+
+**Post-epic state:** Every content doc type (`page`, `article`, `caseStudy`, `node`) has access to every section type (`heroSection`, `textSection`, `imageGallery`, `ctaSection`, `htmlSection`, `cardBuilderSection`, `calloutSection`), and `tableBlock` is available in all PortableText `content` fields.
 
 ---
 
@@ -138,8 +149,10 @@ N/A — no CSS, tokens, or themed surfaces are modified.
 
 ## Non-Goals
 
-- **New section types** — the backlog item title mentions "blockquote, code, callout, table". These section types do NOT currently exist as Sanity schema objects. Creating new section types (schema + renderer + GROQ + CSS) is out of scope for this epic. This epic only addresses the concrete, immediately actionable gap: `cardBuilderSection` exists but isn't available on 3 of 4 content doc types. New section types (blockquote, code block, callout, table) are a separate epic requiring schema design, renderer implementation, and CSS.
-- **GROQ query changes** — projections are already wired for all 4 slug queries.
+- **Callout section creation** — handled by prerequisite epic `EPIC-callout-section.md`. That epic creates the schema, registers it, adds GROQ projections, adds the PageSections renderer, and adds `calloutSection` to all 4 doc types. This epic does NOT duplicate that work.
+- **Table PortableText block** — handled by prerequisite epic `EPIC-table-portable-text.md`. Table is a PortableText custom block type, not a section type, so it has no `sections[]` entry.
+- **Blockquote / Code block** — these already work. Blockquote is a PortableText block style in `standardPortableText`. Code block is a PortableText object type (`code`) in `standardPortableText`. Both are already rendered by `PageSections.jsx` and `portableTextComponents.jsx`. No new schema or wiring needed.
+- **GROQ query changes** — projections for `cardBuilderSection` are already wired for all 4 slug queries.
 - **PageSections.jsx changes** — renderer already handles `cardBuilderSection`.
 - **New DS component** — no new component.
 - **Migration script** — no data migration. Existing documents have no `cardBuilderSection` entries in their `sections[]`; adding the type to the allowed list doesn't affect existing data.
@@ -220,14 +233,17 @@ N/A — no migration script. This is a schema-only change that widens the allowe
 
 ---
 
-## Future Scope (not this epic)
+## Execution Order
 
-The backlog item title references "blockquote, code, callout, table" section types. These do not currently exist as Sanity schema objects and would each require:
-1. A new schema object in `apps/studio/schemas/sections/`
-2. Registration in `schemas/index.ts`
-3. Addition to `sections[]` on all relevant doc types
-4. A GROQ conditional projection in all 4 slug queries
-5. A new renderer case in `PageSections.jsx`
-6. CSS styles in `PageSections.module.css`
+This epic is the **final step** in a 3-epic sequence that delivers backlog item #8:
 
-Each of these is a feature epic in its own right. They should be scoped separately when editorial need arises, not bundled into this schema-parity fix.
+1. **EPIC — Table as PortableText Custom Block Type** → `tableBlock` schema + PT rendering
+2. **EPIC — Callout Section Type** → `calloutSection` schema + GROQ + renderer + `sections[]` wiring on all 4 doc types
+3. **This epic** → `cardBuilderSection` added to `sections[]` on article, caseStudy, node (the last gap)
+
+After all three are shipped, the "blockquote, code, callout, table" items from the backlog title are fully resolved:
+- **Blockquote** — already works (PortableText block style, no changes needed)
+- **Code** — already works (PortableText `code` type, no changes needed)
+- **Table** — shipped by prerequisite 1 (PortableText `tableBlock` type)
+- **Callout** — shipped by prerequisite 2 (standalone `calloutSection` section type)
+- **cardBuilderSection parity** — shipped by this epic
