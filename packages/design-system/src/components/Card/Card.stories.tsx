@@ -83,7 +83,7 @@ const meta: Meta<typeof Card> = {
     layout: 'padded',
   },
   argTypes: {
-    variant:          { control: { type: 'select' }, options: ['default', 'listing', 'metadata'] },
+    variant:          { control: { type: 'select' }, options: ['default', 'listing'] },
     density:          { control: { type: 'select' }, options: ['default', 'compact'] },
     // Project lifecycle (Studio: project.status). Never combine with evolution.
     status:           { control: { type: 'select' }, options: [
@@ -331,140 +331,6 @@ export const ListingFullCard: Story = {
       'An exploration of variable font axes, performance trade-offs, and how font subsetting enabled a 60% reduction in web font payload.',
     date: '2024-01-08',
     href: '/articles/variable-fonts-production',
-  },
-};
-
-// ═══════════════════════════════════════════════════════════════════
-// METADATA VARIANT — 4 sub-types (story conventions, not code branches)
-// Sub-type fields that apply to a single sub-type (conversationType,
-// projectId, priority, client, role) are passed via metadata[] rows.
-// ═══════════════════════════════════════════════════════════════════
-
-/**
- * Metadata: Node (full)
- * All node fields: aiTool, conversationType, evolution, project, category, tags, tools.
- */
-export const MetadataNode: Story = {
-  name: 'MetadataNode',
-  decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '340px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  args: {
-    variant: 'metadata',
-    eyebrow: 'Node · PROJ-002',
-    title: 'Prompt Architecture for Long-Form Reasoning',
-    category: { label: 'AI Methodology', href: '/categories/ai-methodology' },
-    evolution: 'exploring',
-    metadata: [
-      { label: 'Conversation Type', value: 'Research' },
-      { label: 'AI Tool',           value: 'Claude' },
-      { label: 'Project',           value: 'PROJ-002 · Knowledge Platform' },
-    ],
-    tags: [
-      { label: 'Prompting' },
-      { label: 'LLM' },
-      { label: 'Reasoning' },
-    ],
-    tools: [
-      { label: 'Claude' },
-      { label: 'Agentic Caucus' },
-    ],
-    date: '2025-11-14',
-  },
-};
-
-/**
- * Metadata: Article (minimal)
- * status, category, date, aiTool only.
- */
-export const MetadataArticle: Story = {
-  name: 'MetadataArticle',
-  decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '340px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  args: {
-    variant: 'metadata',
-    eyebrow: 'Article',
-    title: 'Typography at Scale: Variable Fonts in Production',
-    category: { label: 'Engineering', href: '/categories/engineering' },
-    metadata: [
-      { label: 'AI Tool', value: 'Claude' },
-    ],
-    date: '2024-01-08',
-  },
-};
-
-/**
- * Metadata: Case Study
- * client + role as metadata rows, status, category, project, tags.
- */
-export const MetadataCaseStudy: Story = {
-  name: 'MetadataCaseStudy',
-  decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '340px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  args: {
-    variant: 'metadata',
-    eyebrow: 'Case Study',
-    title: 'Building a Token-Driven Design System for a Live Product',
-    category: { label: 'Systems Design', href: '/categories/systems-design' },
-    metadata: [
-      { label: 'Client',  value: 'Sugartown (internal)' },
-      { label: 'Role',    value: 'Lead Designer + Engineer' },
-      { label: 'Project', value: 'PROJ-001 · Sugartown' },
-    ],
-    tags: [
-      { label: 'Design Systems' },
-      { label: 'CSS' },
-      { label: 'Tokens' },
-    ],
-    date: '2025-03-01',
-  },
-};
-
-/**
- * Metadata: Project
- * projectId, status, priority, category, tags. kpiLink in footer.
- * No KPI data in body.
- */
-export const MetadataProject: Story = {
-  name: 'MetadataProject',
-  decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '340px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  args: {
-    variant: 'metadata',
-    eyebrow: 'Project',
-    title: 'Knowledge Platform',
-    category: { label: 'Platform', href: '/categories/platform' },
-    status: 'developing',
-    metadata: [
-      { label: 'Project ID', value: 'PROJ-002' },
-      { label: 'Priority',   value: 'High' },
-    ],
-    tags: [
-      { label: 'AI' },
-      { label: 'Knowledge Graph' },
-      { label: 'Architecture' },
-    ],
-    kpiLink: { label: 'View Dashboard →', href: '/projects/knowledge-platform/kpis' },
-    date: '2025-01-01',
   },
 };
 

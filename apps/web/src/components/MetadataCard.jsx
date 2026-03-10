@@ -2,23 +2,21 @@
  * MetadataCard — structured metadata surface for content detail pages.
  * (Colloquially: "MetaCard" throughout the codebase.)
  *
- * Renders a non-interactive Card (variant="metadata") containing:
- *   - Author byline (absorbed from detailMeta — authors[] via getAuthorByline)
- *   - Scalar field rows (projectId, status, priority, aiTool, conversationType,
- *     client, role, publishedAt)
- *   - Tool chips (via DS Chip component, seafoam colour)
- *   - KPI list (project KPIs — metric / current / target)
- *   - Taxonomy chips — split by type: Project / Category / Tags (separate rows)
+ * Layout inspired by library catalog cards — a single CSS grid (4 columns)
+ * with scalar fields split into left + right columns, chip rows spanning
+ * the full width, and published date right-aligned at the bottom.
+ *
+ *   PROJ-001
+ *   AUTHOR        Bex              STATUS     Evergreen
+ *   CONVERSATION  Reflection       TYPE       Node
+ *                                  AI TOOL    Claude
+ *   TOOLS         [Claude Code] [Sanity]
+ *   CATEGORY      [AI Collaboration] [Ways of Working]
+ *   TAGS          [prompt eng] [ai workflows] …
+ *                                  PUBLISHED  Feb 28 2026
  *
  * All props are optional — a row is suppressed entirely when its value is absent.
  * Returns null when no content would render (guards against empty card in UI).
- *
- * EPIC-0158: Migrated from old Card slot API (as="aside", children slot) to new
- * Card named-prop API with `children` escape hatch for custom body content.
- * Tool chips now use the DS Chip component instead of inline .toolChip CSS.
- *
- * Display label maps mirror the Sanity schema option lists so the raw stored
- * key (e.g. "architecture") shows the full title ("Architecture Planning").
  *
  * Used by: NodePage, ArticlePage, CaseStudyPage, ProjectDetailPage.
  * Not used by: RootPage / static pages (no content taxonomy).
@@ -33,13 +31,11 @@ import styles from './MetadataCard.module.css'
 // ─── Display label maps (mirror Sanity schema option lists) ───────────────────
 
 const STATUS_LABELS = {
-  // Node statuses
   explored:      'Explored',
   validated:     'Validated',
   implemented:   'Implemented',
   deprecated:    'Deprecated',
   evergreen:     'Evergreen',
-  // Article / CaseStudy statuses
   active:        'Active',
   shipped:       'Shipped',
   'in-progress': 'In Progress',
@@ -47,7 +43,6 @@ const STATUS_LABELS = {
   paused:        'Paused',
   archived:      'Archived',
   draft:         'Draft',
-  // Project statuses
   planning:      'Planning',
 }
 
@@ -78,13 +73,14 @@ const PRIORITY_LABELS = {
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function formatDate(dateStr) {
+/** Short mono-friendly date: "Feb 28 2026" */
+function formatDateShort(dateStr) {
   if (!dateStr) return null
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+  const d = new Date(dateStr)
+  const month = d.toLocaleDateString('en-US', { month: 'short' })
+  const day   = d.getDate()
+  const year  = d.getFullYear()
+  return `${month} ${day} ${year}`
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -117,8 +113,7 @@ export default function MetadataCard({
   const convTypeDisplay = conversationType  ? (CONVERSATION_TYPE_LABELS[conversationType]   ?? conversationType) : null
   const priorityDisplay = priority != null  ? (PRIORITY_LABELS[priority]                    ?? `P${priority}`)   : null
 
-  // Build the author value — a <Link> when the primary author has a slug, plain
-  // text otherwise (legacy string fallback or person without slug).
+  // Author value — <Link> when person has a slug, plain text otherwise
   let authorValue = null
   if (authorByline) {
     if (primaryAuthor?.slug) {
@@ -133,48 +128,91 @@ export default function MetadataCard({
     }
   }
 
-  // Ordered scalar fields — only truthy entries render.
-  // projectId and priority are inserted between contentType and aiTool so they
-  // read naturally in both pure-project and mixed-content MetaCard usage.
-  const fields = [
-    authorValue                && { label: 'Author',       value: authorValue },
-    contentType                && { label: 'Type',         value: contentType },
-    projectId                  && { label: 'Project ID',   value: projectId },
-    statusKey                  && { label: 'Status',       value: STATUS_LABELS[statusKey] ?? status },
-    priorityDisplay            && { label: 'Priority',     value: priorityDisplay },
-    aiToolDisplay              && { label: 'AI Tool',      value: aiToolDisplay },
-    convTypeDisplay            && { label: 'Conversation', value: convTypeDisplay },
-    client                     && { label: 'Client',       value: client },
-    role                       && { label: 'Role',         value: role },
-    formatDate(publishedAt)    && { label: 'Published',    value: formatDate(publishedAt) },
+  // ── Call number: project ID as catalog-card shelf label ──────────────────
+  const callNumber = projectId || projects?.[0]?.projectId || null
+  const callNumberProject = projects?.[0]
+  const callNumberPath = callNumberProject?.slug
+    ? getCanonicalPath({ docType: 'project', slug: callNumberProject.slug })
+    : null
+
+  // ── Scalar fields — split into left + right columns ─────────────────────
+  // Left column: identity/context fields
+  // Right column: classification/status fields (Status at top)
+  const leftCol = [
+    authorValue     && { label: 'Author',       value: authorValue },
+    convTypeDisplay && { label: 'Conversation', value: convTypeDisplay },
+    client          && { label: 'Client',       value: client },
+    role            && { label: 'Role',         value: role },
   ].filter(Boolean)
 
-  // Guard: pre-migration data may contain nulls (unresolved string→ref dereferences)
+  const rightCol = [
+    statusKey       && { label: 'Status',   value: STATUS_LABELS[statusKey] ?? status },
+    contentType     && { label: 'Type',     value: contentType },
+    aiToolDisplay   && { label: 'AI Tool',  value: aiToolDisplay },
+    priorityDisplay && { label: 'Priority', value: priorityDisplay },
+  ].filter(Boolean)
+
+  // Interleave left/right into sequential grid cells:
+  // [left₁, right₁, left₂, right₂, …] — each pair fills one grid row
+  const maxRows = Math.max(leftCol.length, rightCol.length)
+  const scalarCells = []
+  for (let i = 0; i < maxRows; i++) {
+    scalarCells.push({ side: 'left',  field: leftCol[i]  || null })
+    scalarCells.push({ side: 'right', field: rightCol[i] || null })
+  }
+
+  // ── Chip / taxonomy guards ──────────────────────────────────────────────
   const validTools    = tools?.filter((t) => t && typeof t === 'object' && t.name) ?? []
   const hasTools      = validTools.length > 0
   const hasKpis       = kpis?.length > 0
-  const hasProjects   = projects?.length > 0
   const hasCategories = categories?.length > 0
   const hasTags       = tags?.length > 0
+  const publishedDisplay = formatDateShort(publishedAt)
 
-  if (!fields.length && !hasTools && !hasKpis && !hasProjects && !hasCategories && !hasTags) return null
+  // Project chips only when no call number ID available (fallback)
+  const hasProjects      = projects?.length > 0
+  const showProjectChips = hasProjects && !callNumber
+
+  const hasScalars = leftCol.length > 0 || rightCol.length > 0
+
+  if (
+    !callNumber && !hasScalars && !hasTools && !hasKpis &&
+    !showProjectChips && !hasCategories && !hasTags && !publishedDisplay
+  ) return null
 
   return (
     <aside>
       <Card variant="metadata">
         <div className={styles.grid}>
 
-          {/* Scalar field rows */}
-          {fields.map(({ label, value }) => (
-            <div key={label} className={styles.field}>
-              <p className={styles.fieldLabel}>{label}</p>
-              <p className={styles.fieldValue}>{value}</p>
-            </div>
-          ))}
+          {/* Call number — project ID */}
+          {callNumber && (
+            <p className={styles.callNumber}>
+              {callNumberPath ? (
+                <Link to={callNumberPath} className={styles.callNumberLink}>
+                  {callNumber}
+                </Link>
+              ) : (
+                callNumber
+              )}
+            </p>
+          )}
+
+          {/* Scalar fields — interleaved left/right pairs */}
+          {scalarCells.map(({ side, field }, i) =>
+            field ? (
+              <div key={field.label} className={styles.field}>
+                <p className={styles.fieldLabel}>{field.label}</p>
+                <p className={styles.fieldValue}>{field.value}</p>
+              </div>
+            ) : (
+              <span key={`pad-${side}-${i}`} className={styles.fieldPad} />
+            )
+          )}
 
           {/* Tools (DS Chip component, linked to /tools/:slug) */}
           {hasTools && (
-            <div className={styles.field}>
+            <div className={styles.chipField}>
               <p className={styles.fieldLabel}>Tools</p>
               <ul className={styles.chipList}>
                 {validTools.map((tool) => (
@@ -193,7 +231,7 @@ export default function MetadataCard({
 
           {/* KPIs (project-specific — metric / current / target) */}
           {hasKpis && (
-            <div className={styles.field}>
+            <div className={styles.chipField}>
               <p className={styles.fieldLabel}>KPIs</p>
               <ul className={styles.kpiList}>
                 {kpis.map((kpi, i) => (
@@ -211,25 +249,33 @@ export default function MetadataCard({
             </div>
           )}
 
-          {/* Taxonomy — one row per type, not a merged "Classification" block */}
-          {hasProjects && (
-            <div className={styles.field}>
+          {/* Projects — fallback chip row when no call number ID */}
+          {showProjectChips && (
+            <div className={styles.chipField}>
               <p className={styles.fieldLabel}>Project</p>
               <TaxonomyChips projects={projects} size="sm" />
             </div>
           )}
 
           {hasCategories && (
-            <div className={styles.field}>
+            <div className={styles.chipField}>
               <p className={styles.fieldLabel}>Category</p>
               <TaxonomyChips categories={categories} size="sm" />
             </div>
           )}
 
           {hasTags && (
-            <div className={styles.field}>
+            <div className={styles.chipField}>
               <p className={styles.fieldLabel}>Tags</p>
               <TaxonomyChips tags={tags} size="sm" />
+            </div>
+          )}
+
+          {/* Published date — right-aligned in cols 3–4 */}
+          {publishedDisplay && (
+            <div className={styles.dateRow}>
+              <p className={styles.fieldLabel}>Published</p>
+              <p className={styles.dateValue}>{publishedDisplay}</p>
             </div>
           )}
 
