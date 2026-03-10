@@ -1,6 +1,6 @@
 import { urlFor } from '../lib/sanity'
 import { PortableText } from '@portabletext/react'
-import { Button, Blockquote, CodeBlock, InlineCode } from '../design-system'
+import { Button, Blockquote, CodeBlock, InlineCode, Table, TableWrap } from '../design-system'
 import CardBuilderSection from './CardBuilderSection'
 import styles from './PageSections.module.css'
 
@@ -52,6 +52,37 @@ const portableTextComponents = {
           language={value.language ?? undefined}
           filename={value.filename ?? undefined}
         />
+      )
+    },
+    // Table blocks (EPIC-0163) — DS Table component with semantic HTML
+    tableBlock: ({ value }) => {
+      if (!value?.rows?.length) return null
+      const { variant = 'default', hasHeaderRow = true, rows } = value
+      const headerRow = hasHeaderRow ? rows[0] : null
+      const bodyRows = hasHeaderRow ? rows.slice(1) : rows
+      return (
+        <TableWrap>
+          <Table variant={variant}>
+            {headerRow && (
+              <thead>
+                <tr>
+                  {headerRow.cells?.map((cell, i) => (
+                    <th key={i}>{cell}</th>
+                  ))}
+                </tr>
+              </thead>
+            )}
+            <tbody>
+              {bodyRows.map((row, ri) => (
+                <tr key={row._key ?? ri}>
+                  {row.cells?.map((cell, ci) => (
+                    <td key={ci}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </TableWrap>
       )
     },
   },
