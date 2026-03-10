@@ -25,6 +25,7 @@ import cardBuilderItem from './objects/cardBuilderItem'
 import seoMetadata from './objects/seoMetadata'
 import legacySource from './objects/legacySource'
 import mediaOverlay from './objects/mediaOverlay'
+import tableBlock from './objects/tableBlock'
 
 // Legacy schemas
 import logo from './objects/logo'
@@ -99,6 +100,7 @@ export const schemaTypes = [
   seoMetadata,
   legacySource,
   mediaOverlay,
+  tableBlock,
 
   // Objects - Legacy
   logo,

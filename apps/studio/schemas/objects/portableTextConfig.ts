@@ -1,5 +1,5 @@
 import {defineArrayMember} from 'sanity'
-import {ImageIcon, CodeIcon} from '@sanity/icons'
+import {ImageIcon, CodeIcon, ThListIcon} from '@sanity/icons'
 
 /**
  * Portable Text Configurations
@@ -135,6 +135,11 @@ export const standardPortableText = [
       ],
       withFilename: true
     }
+  }),
+  // Table block (EPIC-0163)
+  defineArrayMember({
+    type: 'tableBlock',
+    icon: ThListIcon
   })
 ]
 
