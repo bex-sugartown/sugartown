@@ -16,6 +16,22 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.16.3] — 2026-03-11
+
+EPIC-0168: Link & Button Unification. Eliminated competing button rendering paths by giving the Button component Router awareness and migrating all CTA surfaces to a single visual contract.
+
+### apps/web
+
+- Button renders React Router `<Link>` for internal hrefs and `<a target="_blank">` for external — callers no longer pass manual `target`/`rel`
+- Header CTA now renders through the Button component; seafoam-coloured `.ctaButton*` CSS rules removed
+- New `linkUtils.js` utility (`isExternalUrl`, `getLinkProps`) shared by Button, Link atom, and NavigationItem
+
+### apps/studio
+
+- ctaButton schema label corrected from "Secondary (Seafoam)" to "Secondary (Lime)" to match rendered colour
+
+---
+
 ## [0.16.2] — 2026-03-11
 
 EPIC-0167: Section Layout Cohesion. Fixed visual inconsistencies between standalone content and section-based rendering on detail pages by unifying GROQ projections, spacing, and typography.
