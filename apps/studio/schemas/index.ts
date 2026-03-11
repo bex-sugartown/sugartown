@@ -26,6 +26,7 @@ import seoMetadata from './objects/seoMetadata'
 import legacySource from './objects/legacySource'
 import mediaOverlay from './objects/mediaOverlay'
 import tableBlock from './objects/tableBlock'
+import citationItem from './objects/citationItem'
 
 // Legacy schemas
 import logo from './objects/logo'
@@ -102,6 +103,7 @@ export const schemaTypes = [
   legacySource,
   mediaOverlay,
   tableBlock,
+  citationItem,
 
   // Objects - Legacy
   logo,

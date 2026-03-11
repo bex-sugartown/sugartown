@@ -87,6 +87,16 @@ export default defineType({
         defineArrayMember({type: 'calloutSection'}),
       ]
     }),
+    defineField({
+      name: 'citations',
+      title: 'Citations / Endnotes',
+      type: 'array',
+      description: 'Endnote definitions for [1], [2] etc. markers placed in content via the Citation Reference annotation. Each entry appears in the endnote zone at the bottom of the node.',
+      group: 'content',
+      of: [
+        defineArrayMember({type: 'citationItem'})
+      ]
+    }),
 
     // AGENTIC CAUCUS GROUP — AI tool context + reflection fields
     defineField({

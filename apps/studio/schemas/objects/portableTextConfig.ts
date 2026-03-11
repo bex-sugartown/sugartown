@@ -103,6 +103,23 @@ export const standardPortableText = [
               initialValue: true
             }
           ]
+        }),
+        // Inline citation marker — renders as superscript [n] in the web frontend.
+        // Endnote definitions live in the document-level citations[] array.
+        defineArrayMember({
+          name: 'citationRef',
+          type: 'object',
+          title: 'Citation Reference',
+          fields: [
+            {
+              name: 'index',
+              type: 'number',
+              title: 'Citation Number',
+              description: 'The footnote number (e.g. 1 for [1])',
+              initialValue: 1,
+              validation: (Rule) => Rule.required().min(1)
+            }
+          ]
         })
       ]
     }

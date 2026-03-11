@@ -86,6 +86,16 @@ export default defineType({
       deprecated: {reason: 'Use a Text Section in the Article Sections array instead. Sections provide consistent typography and spacing.'},
       of: standardPortableText
     }),
+    defineField({
+      name: 'citations',
+      title: 'Citations / Endnotes',
+      type: 'array',
+      description: 'Endnote definitions for [1], [2] etc. markers placed in content via the Citation Reference annotation. Each entry appears in the endnote zone at the bottom of the article.',
+      group: 'content',
+      of: [
+        defineArrayMember({type: 'citationItem'})
+      ]
+    }),
 
     // METADATA GROUP — dates, authors, taxonomy connections all in one tab
     defineField({
