@@ -52,6 +52,36 @@ Known pairs:
 
 When adding a new object/document pair, register it in this list. A fix to one half of a pair that misses the other is a bug, not a follow-up.
 
+### Section Layout Contract
+
+All page sections rendered by `PageSections.jsx` must share:
+
+1. **Horizontal containment** — inherited from parent when inside a detail page (`context="detail"`). Sections must not define their own `max-width` or `padding-inline` in this context.
+2. **Vertical rhythm** — `padding-block` only, using `--st-spacing-stack-lg` (32px) for standard sections in detail context.
+3. **Typography** — body text uses `var(--st-font-heading-4)`, headings use `var(--st-font-heading-*)` scale, h2 colour is `var(--st-color-brand-primary)`.
+
+When adding a new section type, verify it renders correctly:
+- Adjacent to existing section types on a real page (not just in isolation)
+- Inside both `context="detail"` (detail pages) and `context="full"` (standalone pages)
+- Check `.detailContext` overrides in `PageSections.module.css` and add the new section class if it has its own `max-width` / `padding-inline`
+
+### GROQ projection audit for nested image types
+
+When writing a GROQ projection for an array of objects that contain image fields, verify the depth of the asset reference. Schema types that wrap `image` in another object (like `richImage`) require flattening:
+
+```groq
+// richImage: asset is a field of type 'image', which itself contains asset._ref
+images[] {
+  "asset": asset.asset->,   // dereference the INNER reference
+  "hotspot": asset.hotspot,
+  "crop": asset.crop,
+  alt,
+  caption
+}
+```
+
+Do **not** write `asset->` on a `richImage` — that dereferences the `image` object, not the reference inside it, and silently returns null.
+
 ---
 
 ## Pre-Commit Checklist for CSS Token Changes

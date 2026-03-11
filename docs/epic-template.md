@@ -359,6 +359,7 @@ State how re-running the script produces no change:
 - [ ] **Enum coverage**: for every enum field rendered, every `options.list` entry in the schema is represented in the display-label map — verified by reading the schema, not from memory. Verified across all doc types in scope (a map that covers `article` `status` values is not necessarily complete for `node` `status` values)
 - [ ] **Taxonomy rows**: if taxonomy fields are rendered, each type (`projects[]`, `categories[]`, `tags[]`) appears as its own separately labelled row in the UI — confirmed by visual inspection on a document that has all three populated
 - [ ] **Route smoke-test**: navigate to the archive route (e.g. `/projects`) AND the detail route (e.g. `/projects/sugartown-cms`) for at least one real published document — both routes must render without 404, without runtime errors, and with correct Sanity data (not an empty/placeholder state). If this epic adds a new doc type, test both archive and detail.
+- [ ] **Visual QA** (required for any epic that changes visible output): render the new component/section on a real page with realistic adjacent content. Screenshot or preview-inspect to verify spacing, typography, and colour consistency with neighbouring elements. Check at desktop and mobile breakpoints. Specifically verify: no double-padding when sections render inside a detail page container, heading colours match the brand-primary token, and font sizes match the design system type scale.
 
 ---
 
