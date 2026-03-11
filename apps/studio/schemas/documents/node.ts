@@ -249,20 +249,6 @@ export default defineType({
           .warning('Prefer 1–2 categories per node for clarity. Nodes spanning domains are intentional — just be deliberate.')
     }),
     defineField({
-      name: 'categoryPosition',
-      title: 'Category Position',
-      type: 'string',
-      description: 'Controls whether the category label appears above or below the node title on cards.',
-      group: 'metadata',
-      options: {
-        list: [
-          {title: 'Before title (default)', value: 'before'},
-          {title: 'After title', value: 'after'},
-        ],
-        layout: 'radio',
-      },
-    }),
-    defineField({
       name: 'tags',
       title: 'Tags',
       type: 'array',

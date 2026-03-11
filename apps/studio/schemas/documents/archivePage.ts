@@ -594,6 +594,19 @@ export default defineType({
           initialValue: false,
         }),
         defineField({
+          name: 'categoryPosition',
+          title: 'Category Position',
+          type: 'string',
+          description: 'Controls whether the category label appears above or below the title on cards.',
+          options: {
+            list: [
+              {title: 'Before title (default)', value: 'before'},
+              {title: 'After title', value: 'after'},
+            ],
+            layout: 'radio',
+          },
+        }),
+        defineField({
           name: 'defaultImage',
           title: 'Default Card Image',
           type: 'image',

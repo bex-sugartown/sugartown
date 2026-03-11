@@ -79,6 +79,19 @@ export default defineType({
       validation: (Rule) => Rule.max(50)
     }),
     defineField({
+      name: 'categoryPosition',
+      title: 'Category Position',
+      type: 'string',
+      description: 'Controls whether the eyebrow/category label appears above or below the title.',
+      options: {
+        list: [
+          {title: 'Before title (default)', value: 'before'},
+          {title: 'After title', value: 'after'},
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
       name: 'subtitle',
       title: 'Subtitle',
       type: 'string',
