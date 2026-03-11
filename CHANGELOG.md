@@ -16,6 +16,27 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.16.2] — 2026-03-11
+
+EPIC-0167: Section Layout Cohesion. Fixed visual inconsistencies between standalone content and section-based rendering on detail pages by unifying GROQ projections, spacing, and typography.
+
+### apps/web
+
+- Fixed imageGallery GROQ projections to resolve images via `asset->url` across all detail queries
+- Added `context="detail"` prop to PageSections with detailContext CSS overrides for consistent section spacing
+- Tokenised `.detailContent` typography to use DS font/size/weight tokens instead of hard-coded values
+
+### apps/studio
+
+- Deprecated standalone `content` field on node and article schemas; moved to Legacy group with migration guidance
+- Added `calloutSection` to node and article section builders
+
+### scripts
+
+- Added `migrate-content-to-sections.js` to batch-convert standalone content[] blocks into textSection entries
+
+---
+
 ## [0.16.1] — 2026-03-08
 
 EPIC-0162: Tools Taxonomy. Promoted tools from a hardcoded 27-value string enum to a first-class taxonomy document type with its own routes, filters, and linked chips.
