@@ -56,7 +56,7 @@ export default function CaseStudyPage() {
         />
 
         {restSections.length > 0 && (
-          <PageSections sections={restSections} />
+          <PageSections sections={restSections} context="detail" />
         )}
 
         <ContentNav prev={caseStudy.prev} next={caseStudy.next} docType="caseStudy" />

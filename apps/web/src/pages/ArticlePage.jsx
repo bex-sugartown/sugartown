@@ -81,7 +81,7 @@ export default function ArticlePage() {
         />
 
         {restSections.length > 0 && (
-          <PageSections sections={restSections} />
+          <PageSections sections={restSections} context="detail" />
         )}
 
         {post.content && (

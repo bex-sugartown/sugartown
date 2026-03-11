@@ -252,35 +252,39 @@ function CTASection({ section }) {
 }
 
 // Main Section Renderer
-export default function PageSections({ sections }) {
+// context="detail" — sections inherit containment from parent .detailPage (no own max-width / padding-inline)
+// context="full"   — sections self-contain (default, used on standalone pages)
+export default function PageSections({ sections, context = 'full' }) {
   if (!sections || sections.length === 0) return null
 
-  return (
-    <>
-      {sections.map((section) => {
-        const key = section._key
+  const content = sections.map((section) => {
+    const key = section._key
 
-        switch (section._type) {
-          case 'heroSection':
-          case 'hero':
-            return <HeroSection key={key} section={section} />
-          case 'textSection':
-            return <TextSection key={key} section={section} />
-          case 'imageGallery':
-            return <ImageGallerySection key={key} section={section} />
-          case 'ctaSection':
-            return <CTASection key={key} section={section} />
-          case 'htmlSection':
-            return <HtmlSection key={key} section={section} />
-          case 'cardBuilderSection':
-            return <CardBuilderSection key={key} section={section} />
-          case 'calloutSection':
-            return <CalloutSection key={key} section={section} />
-          default:
-            console.warn(`Unknown section type: ${section._type}`)
-            return null
-        }
-      })}
-    </>
-  )
+    switch (section._type) {
+      case 'heroSection':
+      case 'hero':
+        return <HeroSection key={key} section={section} />
+      case 'textSection':
+        return <TextSection key={key} section={section} />
+      case 'imageGallery':
+        return <ImageGallerySection key={key} section={section} />
+      case 'ctaSection':
+        return <CTASection key={key} section={section} />
+      case 'htmlSection':
+        return <HtmlSection key={key} section={section} />
+      case 'cardBuilderSection':
+        return <CardBuilderSection key={key} section={section} />
+      case 'calloutSection':
+        return <CalloutSection key={key} section={section} />
+      default:
+        console.warn(`Unknown section type: ${section._type}`)
+        return null
+    }
+  })
+
+  if (context === 'detail') {
+    return <div className={styles.detailContext}>{content}</div>
+  }
+
+  return <>{content}</>
 }

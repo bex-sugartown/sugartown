@@ -574,3 +574,24 @@
     flex-direction: column;
   }
 }
+
+/* ============================================
+   Detail Context — sections inside .detailPage
+   ============================================
+   When sections render inside a detail page (Article, Node, CaseStudy),
+   the parent container already provides max-width + horizontal gutter.
+   Sections drop their own containment and use reduced vertical spacing
+   to avoid double-padding and 120px inter-section gaps.
+*/
+.detailContext .textSection,
+.detailContext .ctaSection,
+.detailContext .imageGallery {
+  max-width: none;
+  padding-inline: 0;
+  padding-block: var(--st-spacing-stack-lg);
+}
+
+.detailContext :global(.st-html-section) {
+  max-width: none;
+  padding-inline: 0;
+}

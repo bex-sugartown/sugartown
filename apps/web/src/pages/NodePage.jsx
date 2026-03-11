@@ -89,7 +89,7 @@ export default function NodePage() {
         )}
 
         {restSections.length > 0 && (
-          <PageSections sections={restSections} />
+          <PageSections sections={restSections} context="detail" />
         )}
 
         {node.conversationLink && (

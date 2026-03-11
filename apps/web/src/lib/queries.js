@@ -248,7 +248,13 @@ export const nodeBySlugQuery = `
       },
       _type == "imageGallery" => {
         layout,
-        images[] { asset->, alt, caption }
+        images[] {
+          "asset": asset.asset->,
+          "hotspot": asset.hotspot,
+          "crop": asset.crop,
+          alt,
+          caption
+        }
       },
       _type == "ctaSection" => {
         heading,
@@ -367,7 +373,13 @@ export const articleBySlugQuery = `
       },
       _type == "imageGallery" => {
         layout,
-        images[] { asset->, alt, caption }
+        images[] {
+          "asset": asset.asset->,
+          "hotspot": asset.hotspot,
+          "crop": asset.crop,
+          alt,
+          caption
+        }
       },
       _type == "ctaSection" => {
         heading,
@@ -473,7 +485,9 @@ export const pageBySlugQuery = `
       _type == "imageGallery" => {
         layout,
         images[] {
-          asset->,
+          "asset": asset.asset->,
+          "hotspot": asset.hotspot,
+          "crop": asset.crop,
           alt,
           caption
         }
@@ -571,7 +585,9 @@ export const caseStudyBySlugQuery = `
       _type == "imageGallery" => {
         layout,
         images[] {
-          asset->,
+          "asset": asset.asset->,
+          "hotspot": asset.hotspot,
+          "crop": asset.crop,
           alt,
           caption
         }
