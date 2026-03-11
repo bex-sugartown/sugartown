@@ -10,6 +10,7 @@ import { nodeBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
+import { CitationNote, CitationZone } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
@@ -90,6 +91,20 @@ export default function NodePage() {
 
         {restSections.length > 0 && (
           <PageSections sections={restSections} context="detail" />
+        )}
+
+        {node.citations?.length > 0 && (
+          <CitationZone>
+            {node.citations.map((cite, i) => (
+              <CitationNote
+                key={cite._key ?? i}
+                index={i + 1}
+                text={cite.text}
+                url={cite.url}
+                label={cite.label}
+              />
+            ))}
+          </CitationZone>
         )}
 
         {node.conversationLink && (

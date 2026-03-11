@@ -307,6 +307,7 @@ export const nodeBySlugQuery = `
     tags[]->{${TAG_FRAGMENT}},
     projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
+    citations[],
     "prev": *[_type == "node" && defined(slug.current) && publishedAt < ^.publishedAt] | order(publishedAt desc)[0] {
       title, "slug": slug.current
     },
@@ -427,6 +428,7 @@ export const articleBySlugQuery = `
     tags[]->{${TAG_FRAGMENT}},
     projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
+    citations[],
     "prev": *[_type == "article" && defined(slug.current) && publishedAt < ^.publishedAt] | order(publishedAt desc)[0] {
       title, "slug": slug.current
     },
@@ -642,6 +644,7 @@ export const caseStudyBySlugQuery = `
     tags[]->{${TAG_FRAGMENT}},
     projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
+    citations[],
     "prev": *[_type == "caseStudy" && defined(slug.current) && publishedAt < ^.publishedAt] | order(publishedAt desc)[0] {
       title, "slug": slug.current
     },

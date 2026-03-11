@@ -7,6 +7,7 @@ import { caseStudyBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
+import { CitationNote, CitationZone } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
@@ -57,6 +58,20 @@ export default function CaseStudyPage() {
 
         {restSections.length > 0 && (
           <PageSections sections={restSections} context="detail" />
+        )}
+
+        {caseStudy.citations?.length > 0 && (
+          <CitationZone>
+            {caseStudy.citations.map((cite, i) => (
+              <CitationNote
+                key={cite._key ?? i}
+                index={i + 1}
+                text={cite.text}
+                url={cite.url}
+                label={cite.label}
+              />
+            ))}
+          </CitationZone>
         )}
 
         <ContentNav prev={caseStudy.prev} next={caseStudy.next} docType="caseStudy" />

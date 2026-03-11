@@ -11,6 +11,7 @@ import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { urlFor } from '../lib/sanity'
+import { CitationNote, CitationZone } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
@@ -88,6 +89,20 @@ export default function ArticlePage() {
           <div className={styles.detailContent}>
             <PortableText value={decodePortableText(post.content)} components={portableTextComponents} />
           </div>
+        )}
+
+        {post.citations?.length > 0 && (
+          <CitationZone>
+            {post.citations.map((cite, i) => (
+              <CitationNote
+                key={cite._key ?? i}
+                index={i + 1}
+                text={cite.text}
+                url={cite.url}
+                label={cite.label}
+              />
+            ))}
+          </CitationZone>
         )}
 
         <ContentNav prev={post.prev} next={post.next} docType="article" />

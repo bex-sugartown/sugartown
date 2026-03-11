@@ -7,11 +7,16 @@
  * Page-specific type handlers (e.g. richImage in ArticlePage) can be merged
  * via spread: { ...portableTextComponents, types: { ...portableTextComponents.types, richImage: … } }
  */
-import { InlineCode, Table, TableWrap } from '../design-system'
+import { InlineCode, Table, TableWrap, CitationMarker } from '../design-system'
 
 const portableTextComponents = {
   marks: {
     code: ({ children }) => <InlineCode>{children}</InlineCode>,
+    // Inline citation marker [n] — rendered as CitationMarker superscript pill.
+    // Links to the matching endnote anchor in the CitationZone.
+    citationRef: ({ value }) => (
+      <CitationMarker index={value?.index || 1} />
+    ),
   },
   types: {
     // Table blocks (EPIC-0163) — DS Table component with semantic HTML
