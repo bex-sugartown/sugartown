@@ -43,6 +43,15 @@ Commit prefix: `feat(studio):` or `fix(studio):`.
 
 If a schema change is needed to unblock a component epic, commit the schema change first, then begin the component work in a subsequent commit.
 
+### Paired schema convention
+
+When an **object schema** and a **document schema** represent the same logical concept, they are a linked pair. Any change to option labels, field names, validation rules, or field descriptions on one must be reviewed against the other in the same commit.
+
+Known pairs:
+- `ctaButton` (object, `schemas/objects/ctaButton.ts`) ↔ `ctaButtonDoc` (document, `schemas/documents/ctaButtonDoc.ts`)
+
+When adding a new object/document pair, register it in this list. A fix to one half of a pair that misses the other is a bug, not a follow-up.
+
 ---
 
 ## Pre-Commit Checklist for CSS Token Changes
