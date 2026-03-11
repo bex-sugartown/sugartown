@@ -16,12 +16,12 @@ Epics follow a two-stage lifecycle:
 - Authored without a number; filename is `EPIC-{descriptive-name}.md`
 - Status: BACKLOG (not yet scheduled for execution)
 
-**2. Activation** (when execution begins)
+**2. Activation** (when execution begins, or at close-out if missed)
 - Move the file from `docs/backlog/` to `docs/prompts/`
 - Assign the next sequential EPIC number (e.g. EPIC-0163)
 - Rename the file: `EPIC-0163-{name}.md`
 - Update the **Epic ID** field inside the file to match
-- Commit the activation as part of the epic's first commit
+- Commit the activation as part of the epic's first commit (or as step 1 of Post-Epic Close-Out)
 
 > The `docs/prompts/` folder holds only **completed** and **in-flight** numbered epics.
 > The `docs/backlog/` folder holds **unscheduled** epics awaiting prioritization.
@@ -395,11 +395,16 @@ State how re-running the script produces no change:
 
 > Run these steps in order after all Acceptance Criteria are met and the working tree is committed.
 
-1. **Confirm clean tree** — `git status` must show nothing staged or unstaged
-2. **Run mini-release** — `/mini-release EPIC-XXXX [Epic name]`
+1. **Activate the epic file** (if not already done at execution start):
+   - Assign the next sequential EPIC number (check `docs/prompts/` for the latest)
+   - Move the file: `docs/backlog/EPIC-{name}.md` → `docs/prompts/EPIC-{NNNN}-{name}.md`
+   - Update the **Epic ID** field inside the file to match
+   - Commit: `docs: activate EPIC-{NNNN} {Epic name}`
+2. **Confirm clean tree** — `git status` must show nothing staged or unstaged
+3. **Run mini-release** — `/mini-release EPIC-{NNNN} [Epic name]`
    - Produces a patch version bump and lightweight CHANGELOG stub
    - Two gates: review stub → "Write it", then commit plan → "Commit it"
-3. **Start next epic** — only after mini-release commit is confirmed
+4. **Start next epic** — only after mini-release commit is confirmed
 
 > If this epic warrants a MINOR version bump (new feature surface, new schema fields,
 > new page component) rather than a patch, run `/release` instead of `/mini-release`.

@@ -1,6 +1,7 @@
-# EPIC: Section Layout Cohesion
+# EPIC-0167: Section Layout Cohesion
 
-> **Status:** Backlog
+> **Epic ID:** EPIC-0167
+> **Status:** Complete
 > **Priority:** High — affects visual consistency of every detail page
 > **Triggered by:** Visual audit of the "Seafoam vs Lime" node page (2026-03-11)
 
