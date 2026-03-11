@@ -71,6 +71,7 @@ export default function ContentCard({
   showExcerpt = true,
   showHeroImage = true,
   imageOverride = null,
+  categoryPosition,
 }) {
   const docType   = docTypeProp ?? DOC_TYPE_MAP[item._type] ?? item._type
   const path      = getCanonicalPath({ docType, slug: item.slug })
@@ -169,7 +170,7 @@ export default function ContentCard({
       href={path}
       eyebrow={eyebrow}
       category={categoryProp}
-      categoryPosition={item.categoryPosition || undefined}
+      categoryPosition={categoryPosition || undefined}
       title={item.title}
       status={statusProp}
       evolution={evolutionProp}

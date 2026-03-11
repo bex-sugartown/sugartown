@@ -279,6 +279,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
                 showExcerpt={archiveDoc?.cardOptions?.showExcerpt ?? true}
                 showHeroImage={archiveDoc?.cardOptions?.showHeroImage ?? true}
                 imageOverride={archiveDoc?.cardOptions?.imageOverride ?? null}
+                categoryPosition={archiveDoc?.cardOptions?.categoryPosition}
               />
             ))}
           </div>
