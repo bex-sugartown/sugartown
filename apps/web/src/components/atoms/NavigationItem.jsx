@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { validateNavItem } from '../../lib/routes'
+import { isExternalUrl } from '../../lib/linkUtils'
 import styles from './NavigationItem.module.css'
 
 /**
@@ -9,11 +10,10 @@ import styles from './NavigationItem.module.css'
  * (automatic active state via `aria-current`) or a plain <a> for
  * external URLs.
  *
+ * External detection delegated to shared linkUtils.isExternalUrl().
  * Dev-only: warns via console if `url` is not a canonical path.
  */
 export default function NavigationItem({ label, url, openInNewTab }) {
-  const isExternal = url?.startsWith('http://') || url?.startsWith('https://')
-
   // Dev-only canonical URL validation
   if (import.meta.env.DEV && url) {
     const { valid, reason } = validateNavItem(url)
@@ -24,7 +24,7 @@ export default function NavigationItem({ label, url, openInNewTab }) {
     }
   }
 
-  if (isExternal || openInNewTab) {
+  if (isExternalUrl(url) || openInNewTab) {
     return (
       <a
         href={url}

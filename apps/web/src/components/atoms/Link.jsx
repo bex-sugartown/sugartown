@@ -1,15 +1,15 @@
 import { Link as RouterLink } from 'react-router-dom'
+import { isExternalUrl } from '../../lib/linkUtils'
 import styles from './Link.module.css'
 
 /**
  * Link atom
  *
  * Uses React Router's Link for internal paths, plain <a> for external URLs.
+ * External detection delegated to shared linkUtils.isExternalUrl().
  */
 export default function Link({ label, url, openInNewTab, className = '' }) {
-  const isExternal = url?.startsWith('http://') || url?.startsWith('https://')
-
-  if (isExternal || openInNewTab) {
+  if (isExternalUrl(url) || openInNewTab) {
     return (
       <a
         href={url}

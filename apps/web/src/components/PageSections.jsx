@@ -136,8 +136,7 @@ function HeroSection({ section }) {
                 <Button
                   variant={mapCtaStyle(primary.style, 'primary')}
                   href={primary.url}
-                  target={primary.openInNewTab ? '_blank' : undefined}
-                  rel={primary.openInNewTab ? 'noreferrer' : undefined}
+                  openInNewTab={primary.openInNewTab}
                 >
                   {primary.label}
                 </Button>
@@ -146,8 +145,7 @@ function HeroSection({ section }) {
                 <Button
                   variant={mapCtaStyle(secondary.style, 'secondary')}
                   href={secondary.url}
-                  target={secondary.openInNewTab ? '_blank' : undefined}
-                  rel={secondary.openInNewTab ? 'noreferrer' : undefined}
+                  openInNewTab={secondary.openInNewTab}
                 >
                   {secondary.label}
                 </Button>
@@ -239,8 +237,7 @@ function CTASection({ section }) {
               key={index}
               variant={mapCtaStyle(button.style)}
               href={button.link?.url}
-              target={button.link?.openInNewTab ? '_blank' : undefined}
-              rel={button.link?.openInNewTab ? 'noreferrer' : undefined}
+              openInNewTab={button.link?.openInNewTab}
             >
               {button.text}
             </Button>

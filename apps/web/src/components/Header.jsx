@@ -1,26 +1,15 @@
 import { resolveNavLink } from '../lib/resolveNavUrl'
 import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
+import { Button } from '../design-system'
 import NavigationItem from './atoms/NavigationItem'
-import Link from './atoms/Link'
 import Preheader from './Preheader'
 import ThemeToggle from './ThemeToggle'
 import styles from './Header.module.css'
 
-/**
- * Get button style class based on CTA button style from Sanity
- */
-function getButtonStyleClass(style) {
-  switch (style) {
-    case 'secondary':
-      return styles.ctaButtonSecondary
-    case 'ghost':
-      return styles.ctaButtonGhost
-    case 'primary':
-    default:
-      return styles.ctaButton
-  }
-}
+// Map Sanity CTA style values to DS Button variant props
+// Schema stores 'ghost' but the Button component expects 'tertiary'
+const CTA_STYLE_TO_VARIANT = { primary: 'primary', secondary: 'secondary', ghost: 'tertiary' }
 
 export default function Header({ siteSettings }) {
   if (!siteSettings) return null
@@ -62,12 +51,14 @@ export default function Header({ siteSettings }) {
 
           <div className={styles.cta}>
             {headerCta?.link && (
-              <Link
-                label={headerCta.link.label || headerCta.internalTitle}
-                url={headerCta.link.url}
+              <Button
+                variant={CTA_STYLE_TO_VARIANT[headerCta.style] || 'primary'}
+                href={headerCta.link.url}
                 openInNewTab={headerCta.link.openInNewTab}
-                className={getButtonStyleClass(headerCta.style)}
-              />
+                className={styles.headerCtaButton}
+              >
+                {headerCta.link.label || headerCta.internalTitle}
+              </Button>
             )}
             <ThemeToggle />
           </div>

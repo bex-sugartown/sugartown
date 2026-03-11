@@ -1,5 +1,4 @@
 import { urlFor } from '../lib/sanity'
-import Link from './atoms/Link'
 import styles from './Hero.module.css'
 import { Button } from '../design-system'
 
@@ -48,8 +47,7 @@ export default function Hero({ hero }) {
               <Button
                 variant="primary"
                 href={primary.url}
-                target={primary.openInNewTab ? '_blank' : undefined}
-                rel={primary.openInNewTab ? 'noreferrer' : undefined}
+                openInNewTab={primary.openInNewTab}
                 className={styles.primaryButton}
               >
                 {primary.label}
@@ -60,8 +58,7 @@ export default function Hero({ hero }) {
               <Button
                 variant="secondary"
                 href={secondary.url}
-                target={secondary.openInNewTab ? '_blank' : undefined}
-                rel={secondary.openInNewTab ? 'noreferrer' : undefined}
+                openInNewTab={secondary.openInNewTab}
                 className={styles.secondaryButton}
               >
                 {secondary.label}

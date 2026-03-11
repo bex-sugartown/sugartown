@@ -1,7 +1,8 @@
-# EPIC TEMPLATE
+# EPIC-0168: Link & Button Unification
 # Sugartown — Claude Code Epic Prompt
 
-**Epic ID:** EPIC-0000
+**Epic ID:** EPIC-0168
+**Status:** In Progress
 ## EPIC NAME: Link & Button Unification
 
 ---
