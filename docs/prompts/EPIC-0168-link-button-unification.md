@@ -2,7 +2,7 @@
 # Sugartown — Claude Code Epic Prompt
 
 **Epic ID:** EPIC-0168
-**Status:** In Progress
+**Status:** Complete
 ## EPIC NAME: Link & Button Unification
 
 ---
