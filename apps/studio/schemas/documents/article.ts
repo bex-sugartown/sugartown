@@ -21,6 +21,7 @@ export default defineType({
     {name: 'metadata', title: 'Metadata'},
     {name: 'seo', title: 'SEO'},
     {name: 'migration', title: 'Migration'},
+    {name: 'legacy', title: 'Legacy'},
   ],
   fields: [
     // CONTENT GROUP
@@ -78,10 +79,11 @@ export default defineType({
     }),
     defineField({
       name: 'content',
-      title: 'Content',
+      title: 'Content (Legacy)',
       type: 'array',
-      description: 'Full article content',
-      group: 'content',
+      description: '⚠️ Deprecated — use Article Sections → Text Section instead. This field renders with different typography than sections. Existing content still displays but new content should use the sections array.',
+      group: 'legacy',
+      deprecated: {reason: 'Use a Text Section in the Article Sections array instead. Sections provide consistent typography and spacing.'},
       of: standardPortableText
     }),
 
