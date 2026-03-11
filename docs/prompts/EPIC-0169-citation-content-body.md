@@ -1,9 +1,9 @@
 # Sugartown — Claude Code Epic Prompt
 
-**Epic ID:** EPIC-TBD _(assign on activation)_
+**Epic ID:** EPIC-0169
 ## EPIC NAME: Citations in Content Body — Schema, Shared PT Renderer & Endnotes
 
-**Status:** BACKLOG
+**Status:** COMPLETE
 **Backlog ref:** Pre-launch IA content work — citation support for migrated WordPress articles and new content
 **Origin:** Legacy WP article (`core-web-vitals-dont-belong-to-frontend`) uses hand-coded `<abbr>` + `<sup><a href="#n1">` citation pattern that has no Sanity authoring path. DS Citation components (`CitationMarker`, `CitationNote`, `CitationZone`) and web adapter already exist (EPIC-0159). Card Builder Section (EPIC-0160) has working `citationRef` annotation + `citation` footer — but only on `cardBuilderItem.body`, not on the main `content` field or `textSection.content`.
 
