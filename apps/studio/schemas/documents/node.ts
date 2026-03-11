@@ -18,7 +18,6 @@ export default defineType({
   icon: DiamondIcon,
   groups: [
     {name: 'content', title: 'Content', default: true},
-    {name: 'aiContext', title: 'AI Context'},
     {name: 'agenticCaucus', title: 'Agentic Caucus'},
     {name: 'metadata', title: 'Metadata'},
     {name: 'seo', title: 'SEO'},
@@ -89,13 +88,13 @@ export default defineType({
       ]
     }),
 
-    // AI CONTEXT GROUP
+    // AGENTIC CAUCUS GROUP — AI tool context + reflection fields
     defineField({
       name: 'aiTool',
       title: 'AI Tool',
       type: 'string',
       description: 'Which AI tool(s) were used for this conversation',
-      group: 'aiContext',
+      group: 'agenticCaucus',
       options: {
         list: [
           {title: '🤖 Claude', value: 'claude'},
@@ -112,7 +111,7 @@ export default defineType({
       title: 'Conversation Type',
       type: 'string',
       description: 'What kind of interaction was this?',
-      group: 'aiContext',
+      group: 'agenticCaucus',
       options: {
         list: [
           {title: '🤔 Problem Solving', value: 'problem'},
@@ -130,14 +129,13 @@ export default defineType({
       title: 'Conversation Link',
       type: 'url',
       description: 'Link to shared conversation (Claude.ai share, ChatGPT share, etc.)',
-      group: 'aiContext',
+      group: 'agenticCaucus',
       validation: (Rule) =>
         Rule.uri({
           scheme: ['http', 'https']
         })
     }),
 
-    // AGENTIC CAUCUS GROUP
     defineField({
       name: 'challenge',
       title: 'Challenge',
