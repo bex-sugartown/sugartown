@@ -16,6 +16,24 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.16.4] — 2026-03-11
+
+EPIC-0169: Citations in Content Body. Wired existing DS citation components to the standard content authoring path so authors can add inline [1] [2] markers and document-level endnotes on articles, nodes, and case studies.
+
+### apps/studio
+
+- `citationRef` annotation added to `standardPortableText` — inline citation markers available in all rich text fields using the shared config
+- `citationItem` reusable object schema created for endnote definitions (text, optional URL, optional label)
+- `citations[]` array field added to article, node, and caseStudy document types
+
+### apps/web
+
+- Shared PT renderer handles `citationRef` mark → `CitationMarker` superscript; all pages using the shared config get citation rendering automatically
+- `citations[]` projected in articleBySlugQuery, nodeBySlugQuery, caseStudyBySlugQuery
+- ArticlePage, NodePage, CaseStudyPage render `CitationZone` + `CitationNote` list after content body when citations are present
+
+---
+
 ## [0.16.3] — 2026-03-11
 
 EPIC-0168: Link & Button Unification. Eliminated competing button rendering paths by giving the Button component Router awareness and migrating all CTA surfaces to a single visual contract.
