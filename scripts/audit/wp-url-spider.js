@@ -17,7 +17,7 @@
  *   redirect_gaps.md           — human-readable gap report for editorial review
  *   proposed_redirects.ndjson  — import-ready Sanity mutation documents
  *
- * Spec: docs/tasks/url-audit-spider-spec.md
+ * Spec: docs/briefs/url-audit-spider-spec.md
  *
  * Environment variables (reads from apps/web/.env or process.env):
  *   VITE_SANITY_PROJECT_ID

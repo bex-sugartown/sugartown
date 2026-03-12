@@ -82,7 +82,7 @@ After this epic, the footer renders a legal links row (Contact, Privacy, Terms, 
 - [ ] **Footer rendering** — Wire `legalLinks` into `Footer.jsx` using existing `.legalLinks` / `.legalLink` CSS classes
 - [ ] **Sanity content creation** — Create minimal `page` documents for Privacy, Terms, Accessibility Statement (stub content with slug)
 - [ ] **Sanity content wiring** — Populate `legalLinks` in siteSettings with links to Contact (`/contact`), Privacy (`/privacy`), Terms (`/terms`), Accessibility Statement (`/accessibility`)
-- [ ] **IA brief amendment** — Update `docs/ia-brief.md` footer section if any URLs differ from the brief's expectation (user review required)
+- [ ] **IA brief amendment** — Update `docs/briefs/ia-brief.md` footer section if any URLs differ from the brief's expectation (user review required)
 
 **Not in scope:**
 - [ ] Migration script — no existing data to migrate, `legalLinks` is a new field
@@ -189,7 +189,7 @@ After page docs are created and published, `legalLinks` on siteSettings is popul
 - `apps/web/src/components/Footer.module.css` — VERIFY existing `.legalLinks` / `.legalLink` styles are sufficient (may need minor adjustments for separator styling)
 
 **Docs**
-- `docs/ia-brief.md` — AMEND if any footer URLs differ from brief expectations (user review gate)
+- `docs/briefs/ia-brief.md` — AMEND if any footer URLs differ from brief expectations (user review gate)
 
 ---
 
@@ -200,7 +200,7 @@ After page docs are created and published, `legalLinks` on siteSettings is popul
 3. **Render** — Footer renders legal links row in `.bottom` section when `legalLinks` has entries; renders nothing extra when empty
 4. **Content** — Minimal page documents exist for Privacy, Terms, Accessibility Statement (published, with slugs)
 5. **Wiring** — `legalLinks` on siteSettings populated with 4 links (Contact, Privacy, Terms, Accessibility)
-6. **IA brief** — `docs/ia-brief.md` updated if URLs changed (user-approved)
+6. **IA brief** — `docs/briefs/ia-brief.md` updated if URLs changed (user-approved)
 
 ---
 

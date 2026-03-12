@@ -18,7 +18,7 @@ The `tools[]` field on `article`, `caseStudy`, and `node` is already a working s
 
 A `tool` document type would add richer metadata (description, URL, `toolType` category, logo image) — but that metadata has nowhere to surface until a Tools archive or tool detail page exists in the IA. Creating the schema before the product surface adds complexity with no user benefit: the desk structure gains an untested section, the seed script must be maintained, and the reference migration (Phase 2) becomes a future liability.
 
-**Do not execute this epic until the IA brief (`docs/ia-brief.md`) is updated to include `/tools`.**
+**Do not execute this epic until the IA brief (`docs/briefs/ia-brief.md`) is updated to include `/tools`.**
 
 ---
 

@@ -8,7 +8,7 @@
 - Epic 2 (Redirect Authoring) ✅ — all redirect rules imported into Sanity, `_redirects` regenerated
 - **Hosting platform decision** ⚠️ — must be resolved before Phase 2
 
-**This epic is irreversible once DNS is switched.** Every step has a confirmation gate. The cutover runbook at `docs/migration/wp-freeze-cutover.md` is the authoritative procedure; this prompt supplements it with redirect-specific validation.
+**This epic is irreversible once DNS is switched.** Every step has a confirmation gate. The cutover runbook at `docs/briefs/wp-freeze-cutover.md` is the authoritative procedure; this prompt supplements it with redirect-specific validation.
 
 ---
 
@@ -42,7 +42,7 @@ pnpm audit:urls 2>/dev/null | tail -10
 pnpm build
 
 # 6. Cutover runbook exists
-cat docs/migration/wp-freeze-cutover.md
+cat docs/briefs/wp-freeze-cutover.md
 ```
 
 Present a gate check summary:
@@ -309,7 +309,7 @@ Before DNS cutover, WordPress needs to be frozen and configured to hand off clea
 ### 4A — Review the cutover runbook
 
 ```bash
-cat docs/migration/wp-freeze-cutover.md
+cat docs/briefs/wp-freeze-cutover.md
 ```
 
 Present the runbook steps as a checklist. Do not improvise — follow the documented procedure.

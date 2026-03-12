@@ -42,7 +42,7 @@ cat apps/web/public/_redirects
 cat scripts/migrate/artifacts/parity_report.md
 
 # Read the detailed task spec for the spider script
-cat docs/tasks/url-audit-spider-spec.md
+cat docs/briefs/url-audit-spider-spec.md
 
 # Check existing validate scripts for pattern conventions
 cat apps/web/scripts/validate-urls.js | head -60
@@ -61,7 +61,7 @@ Wait for my confirmation that your understanding is correct before proceeding to
 
 ## Phase 2 — Build the WP URL Spider
 
-Create the script at `scripts/audit/wp-url-spider.js` following the detailed specification in `docs/tasks/url-audit-spider-spec.md`.
+Create the script at `scripts/audit/wp-url-spider.js` following the detailed specification in `docs/briefs/url-audit-spider-spec.md`.
 
 **Key implementation constraints** (these override anything ambiguous in the spec):
 

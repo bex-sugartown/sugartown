@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | **Epic** | 1 — Routing & 301s |
-| **IA Brief Ref** | `docs/ia-brief.md` §7 (Route Namespace), §8 (Phase Gates) |
+| **IA Brief Ref** | `docs/briefs/ia-brief.md` §7 (Route Namespace), §8 (Phase Gates) |
 | **Status** | In Progress |
 | **Script** | `scripts/audit/wp-url-spider.js` |
 | **Run** | `pnpm audit:urls` or `node scripts/audit/wp-url-spider.js [--verbose]` |
