@@ -155,31 +155,49 @@ export default defineType({
 
     // ── Footer ───────────────────────────────────────────────────────
     defineField({
-      name: 'citation',
-      title: 'Citation',
-      type: 'object',
-      description: 'Footnote citation displayed in the card footer',
-      fields: [
-        defineField({
-          name: 'text',
-          title: 'Citation Text',
-          type: 'string',
-          description: 'Source attribution or footnote text'
-        }),
-        defineField({
-          name: 'url',
-          title: 'Citation URL',
-          type: 'url',
-          description: 'Optional link to the source',
-          validation: (Rule) =>
-            Rule.uri({scheme: ['http', 'https']})
-        }),
-        defineField({
-          name: 'label',
-          title: 'Link Label',
-          type: 'string',
-          description: 'Accessible label for the citation link (defaults to citation text)',
-          validation: (Rule) => Rule.max(100)
+      name: 'citations',
+      title: 'Citations',
+      type: 'array',
+      description: 'Footnote citations displayed in the card footer. Each item is a numbered footnote matching citationRef markers in the body.',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'cardCitation',
+          title: 'Citation',
+          fields: [
+            defineField({
+              name: 'text',
+              title: 'Citation Prefix',
+              type: 'string',
+              description: 'Unlinked label text (e.g. "Source:", "Filter:", "See also:")'
+            }),
+            defineField({
+              name: 'link',
+              title: 'Citation Link',
+              type: 'linkItem',
+              description: 'Internal page or external URL for the citation source'
+            }),
+            defineField({
+              name: 'linkLabel',
+              title: 'Link Display Text',
+              type: 'string',
+              description: 'Visible linked text (e.g. "Resume Factory v2.0"). For internal links, defaults to the page title if empty.',
+              validation: (Rule) => Rule.max(100)
+            })
+          ],
+          preview: {
+            select: {
+              text: 'text',
+              linkLabel: 'linkLabel',
+              linkType: 'link.type'
+            },
+            prepare({text, linkLabel, linkType}) {
+              return {
+                title: `${text || ''} ${linkLabel || ''}`.trim() || 'Untitled citation',
+                subtitle: linkType === 'internal' ? 'Internal link' : linkType === 'external' ? 'External link' : 'No link'
+              }
+            }
+          }
         })
       ]
     }),
