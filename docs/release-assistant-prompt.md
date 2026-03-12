@@ -37,7 +37,7 @@ Reality → Changelog → Release Notes
 
 Paste this entire prompt into Claude Code at the start of a release session.
 
-The release process has **5 gates**. The AI stops at each gate and waits for your response before proceeding. Nothing is written to disk until you explicitly say so.
+The release process has **7 gates**. The AI stops at each gate and waits for your response before proceeding. Nothing is written to disk until you explicitly say so.
 
 Expected human responses at each gate:
 - Gate 1 (Step 1): Edit the bullets, or reply **"Approved"** to accept as-is.
@@ -45,6 +45,8 @@ Expected human responses at each gate:
 - Gate 3 (Step 3A): Edit the CHANGELOG entry, or reply **"Write it"** to write to disk.
 - Gate 4 (Step 3B): Edit the Release Notes, or reply **"Write it"** to write to disk.
 - Gate 5 (Step 3C): Review the commit plan, then reply **"Commit it"** to commit.
+- Gate 6 (Step 4): Review the backlog reconciliation, or reply **"Write it"** to update the backlog file.
+- Gate 7 (Step 4): Review the backlog commit plan, then reply **"Commit it"** to commit.
 
 ---
 
@@ -375,9 +377,90 @@ Reply "Commit it" to create the commit.
 
 ---
 
+## STEP 4 — BACKLOG RECONCILIATION
+
+After the release commit lands, reconcile the backlog priority stack (`docs/backlog/sugartown-backlog-priorities.html`) against reality.
+
+### 4A — Ship completed items
+
+Cross-reference the CHANGELOG entry against the backlog. For every backlog item that was delivered in this release:
+
+1. Move it to the **Shipped** section at the bottom of the file.
+2. Change its CSS class to `item--shipped`, rank to `✓` (`item__rank--check`), and priority badge to `priority--shipped`.
+3. Update its summary with the release version and date (e.g. "Shipped v0.17.0, 2026-03-12").
+4. Update the shipped tag: `<span class="tag tag--shipped">Shipped vX.Y.Z</span>`.
+
+### 4B — Log new scope items
+
+Review the release scope for work that surfaced during implementation but was **not** completed. Sources:
+
+- "Not in this release" section of the Release Notes
+- Tech debt, TODOs, or partial implementations noted in commit messages or epic close-out docs
+- New epic prompts created in `docs/prompts/` that have no backlog entry yet
+- Validator warnings or errors that represent actionable future work
+
+For each new item, draft a backlog entry with: title, summary, tags, and a suggested priority tier (Now / Next / Soon / Later / Deferred).
+
+### 4C — Re-prioritize the queue
+
+With shipped items removed and new items added, re-sequence the remaining backlog:
+
+1. Renumber active items (ranks 1, 2, 3…) — shipped items have no rank.
+2. Update the **header meta** line (`page-header__meta`) with the current date, shipped epic range, and current focus.
+3. Update the **blocker** block to reflect the new current focus and next priorities.
+4. Update the **Shipped section heading** label to include the new version range (e.g. `v0.14.x–0.17.x`).
+5. Update the **footer** date.
+
+### ✅ GATE 6 — STOP
+
+AI outputs the proposed backlog changes to chat as a summary:
+
+```
+━━━ GATE 6 — BACKLOG RECONCILIATION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Shipped (moved to bottom):
+  - [item title] — was rank N, now shipped
+  - ...
+
+New items added:
+  - [item title] — [priority tier] — [1-line reason]
+  - ...
+
+Priority restack:
+  1. [new rank 1 title] — [tier]
+  2. [new rank 2 title] — [tier]
+  ...
+
+Review above. Edit if needed, or reply "Write it" to update the backlog file.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**AI must not write to the backlog file until the human replies "Write it".**
+
+On "Write it", AI updates `docs/backlog/sugartown-backlog-priorities.html` in place.
+
+### ✅ GATE 7 — STOP
+
+AI prints the proposed commit plan for the backlog update:
+
+```
+━━━ GATE 7 — BACKLOG COMMIT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Files to commit:
+  docs/backlog/sugartown-backlog-priorities.html
+
+Proposed commit message:
+  docs(backlog): reconcile priority stack after vX.Y.Z release
+
+Reply "Commit it" to create the commit.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**AI must not commit until the human replies "Commit it".**
+
+---
+
 ## RELEASE COMPLETION CHECKLIST
 
-After Gate 5 is confirmed, AI prints this checklist so the human can track what was produced:
+After all gates are confirmed, AI prints this checklist so the human can track what was produced:
 
 ```
 ━━━ RELEASE vX.Y.Z COMPLETE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -394,6 +477,10 @@ Version bumps confirmed:
 
 Validators run:
   [paste final validator output here or note "not run"]
+
+Backlog reconciled:
+  ✅  docs/backlog/sugartown-backlog-priorities.html — shipped items moved, new items added, priorities restacked
+  ✅  Committed: [commit hash]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

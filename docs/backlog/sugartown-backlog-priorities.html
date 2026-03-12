@@ -276,7 +276,7 @@
 <header class="page-header">
   <p class="page-header__eyebrow">Sugartown Digital · sugartown.io · Backlog</p>
   <h1>Issues &amp; To-Do — <span>Priority Stack</span></h1>
-  <p class="page-header__meta">Updated 2026-03-11 · EPIC-0158–0162 shipped · Services &amp; Contact pages live · Section cohesion audit queued · Sequenced against About → Platform → Homepage</p>
+  <p class="page-header__meta">Updated 2026-03-12 · v0.17.0 released (EPIC-0162–0169 shipped) · About rewrite in progress · Sequenced against About → Platform → Homepage → Nav/Footer</p>
 </header>
 
 <div class="legend">
@@ -290,7 +290,7 @@
 
 <div class="blocker">
   <span class="blocker__icon">⚑ Current focus</span>
-  <p class="blocker__text">DS primitives and card infrastructure shipped (EPIC-0152–0162). <strong>Services</strong> and <strong>Contact</strong> pages are live. A visual audit surfaced section layout drift and a gallery rendering bug — <strong>Section Layout Cohesion</strong> is the top priority. IA brief page sequence continues: <strong>About rewrite → Platform → Homepage teasers</strong>.</p>
+  <p class="blocker__text">v0.17.0 shipped: tools taxonomy, section parity, link/button unification, citations in content body. All 5 taxonomy types operational. <strong>About page rewrite</strong> is the current priority. IA brief page sequence continues: <strong>About → Platform → Homepage teasers → Nav/Footer update</strong>.</p>
 </div>
 
 <!-- ══ NOW ══ -->
@@ -302,21 +302,6 @@
 
   <div class="item item--p0">
     <span class="item__rank">1</span>
-    <div class="item__body">
-      <div class="item__title">Section Layout Cohesion — fix gallery bug + unify spacing &amp; typography</div>
-      <p class="item__summary">Visual audit revealed 4 issues: (1) image gallery GROQ projection bug — <code>richImage.asset</code> dereference targets wrong depth, gallery renders empty; (2) CSS drift between <code>.detailContent</code> (hardcoded) and <code>.textSection</code> (tokenised); (3) padding stacking — sections inside <code>.detailPage</code> double up horizontal padding and produce 120px inter-section gaps; (4) standalone <code>content</code> field should be deprecated on schemas that support <code>sections[]</code>. Phase 1 (gallery fix) is a bug — ship immediately. Backlog epic: <code>EPIC-section-layout-cohesion.md</code>.</p>
-      <div class="item__tags">
-        <span class="tag tag--epic">EPIC</span>
-        <span class="tag tag--query">GROQ</span>
-        <span class="tag tag--design">CSS</span>
-        <span class="tag tag--schema">Schema</span>
-      </div>
-    </div>
-    <span class="item__priority priority--now">Now</span>
-  </div>
-
-  <div class="item item--p0">
-    <span class="item__rank">2</span>
     <div class="item__body">
       <div class="item__title">About page rewrite — <code>/about</code></div>
       <p class="item__summary">Page exists but needs a content rewrite per IA brief §5.4. Current content is placeholder-grade. Rewrite using section builder with updated bio, approach narrative, and links to Work/Library/Platform.</p>
@@ -337,7 +322,7 @@
 <div class="items-list">
 
   <div class="item item--p1">
-    <span class="item__rank">3</span>
+    <span class="item__rank">2</span>
     <div class="item__body">
       <div class="item__title">Platform page — <code>/platform</code></div>
       <p class="item__summary">New content page per IA brief §5.3. The "differentiator" — showcases the MACH architecture, Sanity schema, CI/CD pipeline, design system. Uses section builder. Decide which sub-content gets its own page vs. section on the parent page.</p>
@@ -350,7 +335,7 @@
   </div>
 
   <div class="item item--p1">
-    <span class="item__rank">4</span>
+    <span class="item__rank">3</span>
     <div class="item__body">
       <div class="item__title">Homepage teasers — curated content grid</div>
       <p class="item__summary">Homepage currently has minimal content. Add teaser sections pulling latest articles, featured case studies, and knowledge graph highlights via GROQ. Can use <code>cardBuilderSection</code> or a new homepage-specific layout.</p>
@@ -363,7 +348,7 @@
   </div>
 
   <div class="item item--p1">
-    <span class="item__rank">5</span>
+    <span class="item__rank">4</span>
     <div class="item__body">
       <div class="item__title">Nav update — wire IA brief nav structure</div>
       <p class="item__summary">Current nav reflects old structure (About, Knowledge Graph, Case Studies, Blog, CV/Resume). IA brief nav: Work | Library (Knowledge Graph, Articles) | Platform | About | Services. Requires Sanity nav document update + any dropdown component for Library.</p>
@@ -385,48 +370,7 @@
 <div class="items-list">
 
   <div class="item item--p2">
-    <span class="item__rank">6</span>
-    <div class="item__body">
-      <div class="item__title">Link &amp; Button Unification — single CTA rendering path</div>
-      <p class="item__summary">Audit found two competing button implementations (Button.jsx vs Header CTA classes), a lime/seafoam color mismatch for secondary style, and no shared internal/external link resolution. Epic unifies all CTA surfaces through one <code>Button</code> component with Router awareness via a new <code>linkUtils.js</code> utility. Schema label fix: "Seafoam" → "Lime". Backlog epic: <code>EPIC-link-button-unification.md</code>.</p>
-      <div class="item__tags">
-        <span class="tag tag--epic">EPIC</span>
-        <span class="tag tag--design">Component</span>
-        <span class="tag tag--schema">Schema</span>
-      </div>
-    </div>
-    <span class="item__priority priority--soon">Soon</span>
-  </div>
-
-  <div class="item item--p2">
-    <span class="item__rank">7</span>
-    <div class="item__body">
-      <div class="item__title">Citations in Content Body — schema, shared PT renderer &amp; endnotes</div>
-      <p class="item__summary">DS Citation components (EPIC-0159) and Card Builder citation pattern (EPIC-0160) exist but only on <code>cardBuilderItem.body</code>. This epic wires <code>citationRef</code> annotation into <code>standardPortableText</code> and adds <code>citations[]</code> endnote arrays to article, node, and caseStudy schemas. Shared PT renderer gets a <code>citationRef</code> mark handler. No new DS components needed. Backlog epic: <code>EPIC-citation-content-body.md</code>.</p>
-      <div class="item__tags">
-        <span class="tag tag--epic">EPIC</span>
-        <span class="tag tag--schema">Schema</span>
-        <span class="tag tag--design">Component</span>
-      </div>
-    </div>
-    <span class="item__priority priority--soon">Soon</span>
-  </div>
-
-  <div class="item item--p2">
-    <span class="item__rank">8</span>
-    <div class="item__body">
-      <div class="item__title">Configure Sections for all pages: section, blockquote, code, callout, table</div>
-      <p class="item__summary">All page documents should have the full section builder available so editors can construct content without dev intervention. Wire existing section types (textSection, blockquote, codeBlock, calloutSection) into pages that don't yet have them.</p>
-      <div class="item__tags">
-        <span class="tag tag--schema">Schema</span>
-        <span class="tag tag--content">Content</span>
-      </div>
-    </div>
-    <span class="item__priority priority--soon">Soon</span>
-  </div>
-
-  <div class="item item--p2">
-    <span class="item__rank">9</span>
+    <span class="item__rank">5</span>
     <div class="item__body">
       <div class="item__title">Static Schema ERD page (EPIC-0147, Option B)</div>
       <p class="item__summary">Hardcoded schema manifest rendered as a visual ERD page. Option B is immediately implementable without a build step. Useful as a portfolio and internal reference artefact for the MACH architecture showcase. Good candidate for the Platform page.</p>
@@ -439,7 +383,7 @@
   </div>
 
   <div class="item item--p2">
-    <span class="item__rank">10</span>
+    <span class="item__rank">6</span>
     <div class="item__body">
       <div class="item__title">Footer update — wire IA brief footer links</div>
       <p class="item__summary">IA brief footer: Contact, Privacy, Terms, Accessibility Statement. Current footer likely doesn't match. Wire footer nav from Sanity or hardcode initial structure. Privacy/Terms/Accessibility pages may need creating as minimal <code>page</code> docs.</p>
@@ -452,7 +396,7 @@
   </div>
 
   <div class="item item--p2">
-    <span class="item__rank">11</span>
+    <span class="item__rank">7</span>
     <div class="item__body">
       <div class="item__title">FilterBar &amp; MetadataCard cleanup</div>
       <p class="item__summary">Post-EPIC-0162 housekeeping. MetadataCard and FilterBar both carry legacy code paths from when tools were string enums — null guards, coercion helpers, and fallback renders that are no longer needed now that all content docs use reference arrays. Clean up dead branches, remove string-type guards, and align both components to the reference-only contract. Also audit facet label maps and <code>CONTENT_TYPE_LABELS</code> for stale entries.</p>
@@ -465,7 +409,7 @@
   </div>
 
   <div class="item item--p2">
-    <span class="item__rank">12</span>
+    <span class="item__rank">8</span>
     <div class="item__body">
       <div class="item__title">Content State Governance — draft vs published enforcement</div>
       <p class="item__summary">IA brief §5.3 dependency. Ensure published content has no orphaned references, missing required fields, or stale draft shadows. Extend <code>validate-content.js</code> with a "publication readiness" check that flags docs with drafts-only references or unpublished taxonomy refs. Feeds into Platform page content integrity story. May include a Studio document badge or custom action to surface publication state.</p>
@@ -473,6 +417,19 @@
         <span class="tag tag--schema">Schema</span>
         <span class="tag tag--content">Data Quality</span>
         <span class="tag tag--ux">Editor UX</span>
+      </div>
+    </div>
+    <span class="item__priority priority--soon">Soon</span>
+  </div>
+
+  <div class="item item--p2">
+    <span class="item__rank">9</span>
+    <div class="item__body">
+      <div class="item__title">Token reference cleanup — 52 unknown <code>var(--st-*)</code> refs</div>
+      <p class="item__summary">Token validator reports 52 broken token references across 19 CSS files. Pre-existing legacy debt: <code>App.css</code> uses retired names (<code>--st-red</code>, <code>--st-space-md</code>), <code>--st-page-gutter</code> defined in <code>globals.css</code> not <code>tokens.css</code>, Media/Table/Callout/CodeBlock component tokens not registered. Browser silently falls back to UA defaults (e.g. Times New Roman for font-family). No regressions from v0.17.0 — all pre-existing.</p>
+      <div class="item__tags">
+        <span class="tag tag--design">CSS</span>
+        <span class="tag tag--content">Data Quality</span>
       </div>
     </div>
     <span class="item__priority priority--soon">Soon</span>
@@ -488,7 +445,7 @@
 <div class="items-list">
 
   <div class="item item--p3">
-    <span class="item__rank">13</span>
+    <span class="item__rank">10</span>
     <div class="item__body">
       <div class="item__title">Hosting platform decision for DNS cutover</div>
       <p class="item__summary">Evaluate Netlify, Cloudflare Pages, Vercel, or self-hosted against cost, preview URL support, redirect file compatibility, and Sanity webhook integration. Decision gates the cutover timeline.</p>
@@ -500,7 +457,7 @@
   </div>
 
   <div class="item item--p3">
-    <span class="item__rank">14</span>
+    <span class="item__rank">11</span>
     <div class="item__body">
       <div class="item__title">Add Search — site-wide content search</div>
       <p class="item__summary">No search exists today. Options: Sanity's built-in text search API, a lightweight client-side index (e.g. Fuse.js over a pre-built JSON manifest), or a hosted search service (Algolia, Typesense). Needs design decision on scope (full-text vs title/tag), UI placement (nav bar, dedicated page, command palette), and whether to index all 5 content types or start with articles + nodes. High user value but no existing infrastructure — design spike needed first.</p>
@@ -514,7 +471,20 @@
   </div>
 
   <div class="item item--p3">
-    <span class="item__rank">15</span>
+    <span class="item__rank">12</span>
+    <div class="item__body">
+      <div class="item__title">Themed background images — finalize or remove</div>
+      <p class="item__summary">Dark/light flourish PNGs (<code>std-bg-dark.png</code>, <code>std-bg-light.png</code>) added to <code>apps/web/public/</code> in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight.</p>
+      <div class="item__tags">
+        <span class="tag tag--design">Design</span>
+        <span class="tag tag--ux">UX</span>
+      </div>
+    </div>
+    <span class="item__priority priority--later">Later</span>
+  </div>
+
+  <div class="item item--p3">
+    <span class="item__rank">13</span>
     <div class="item__body">
       <div class="item__title">Brand color picker for Sanity Studio (BL-01)</div>
       <p class="item__summary">Lets editors set <code>colorHex</code> on project documents via a visual colour picker rather than raw hex input. Nice-to-have UX improvement for Studio editors. Tracked as BL-01 from EPIC-0156.</p>
@@ -527,7 +497,7 @@
   </div>
 
   <div class="item item--p3">
-    <span class="item__rank">16</span>
+    <span class="item__rank">14</span>
     <div class="item__body">
       <div class="item__title">Dedicated <code>cardImage</code> schema field (BL-02)</div>
       <p class="item__summary">Separate from heroImage/sections media. Allows editors to set a specific thumbnail for a content item when it appears in card grids, without affecting the hero display. Tracked as BL-02.</p>
@@ -547,6 +517,19 @@
   <div class="section-heading__rule"></div>
 </div>
 <div class="items-list">
+
+  <div class="item item--deferred">
+    <span class="item__rank">—</span>
+    <div class="item__body">
+      <div class="item__title">Web Card adapter migration — old slot-based → DS named-props API</div>
+      <p class="item__summary">DS Card got a new named-props API in EPIC-0156 but the web adapter layer (<code>apps/web/src/design-system/components/card/Card.jsx</code>) still wraps the old slot-based API. All callers (ContentCard, EditorialCard, MetadataCard, and 8+ page files) need coordinated migration. No epic scoped. Recognized tech debt documented in MEMORY.md conventions.</p>
+      <div class="item__tags">
+        <span class="tag tag--defer">Deferred</span>
+        <span class="tag tag--design">Component</span>
+      </div>
+    </div>
+    <span class="item__priority priority--defer">Defer</span>
+  </div>
 
   <div class="item item--deferred">
     <span class="item__rank">—</span>
@@ -647,10 +630,67 @@
 
 <!-- ══ SHIPPED ══ -->
 <div class="section-heading">
-  <span class="section-heading__label">06 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.16.x</span>
+  <span class="section-heading__label">06 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.17.x</span>
   <div class="section-heading__rule"></div>
 </div>
 <div class="items-list">
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0167 · Section Layout Cohesion — fix gallery bug + unify spacing &amp; typography</div>
+      <p class="item__summary">Shipped v0.17.0, 2026-03-12. Fixed imageGallery GROQ projection, unified section spacing via <code>context="detail"</code> on PageSections, tokenised <code>.detailContent</code> typography, deprecated standalone <code>content</code> field on node and article schemas. Migration script for content-to-sections conversion.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.17.0</span>
+        <span class="tag tag--query">GROQ</span>
+        <span class="tag tag--design">CSS</span>
+        <span class="tag tag--schema">Schema</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0168 · Link &amp; Button Unification — single CTA rendering path</div>
+      <p class="item__summary">Shipped v0.17.0, 2026-03-12. Button component renders React Router <code>&lt;Link&gt;</code> for internal hrefs, <code>&lt;a target="_blank"&gt;</code> for external. Shared <code>linkUtils.js</code> utility. Header CTA unified through Button. Schema label corrected: "Seafoam" → "Lime".</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.17.0</span>
+        <span class="tag tag--design">Component</span>
+        <span class="tag tag--schema">Schema</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0169 · Citations in Content Body — schema, shared PT renderer &amp; endnotes</div>
+      <p class="item__summary">Shipped v0.17.0, 2026-03-12. <code>citationRef</code> annotation wired into <code>standardPortableText</code>. <code>citations[]</code> endnote arrays on article, node, caseStudy. Shared PT renderer handles <code>citationRef</code> mark → <code>CitationMarker</code> superscript. Detail pages render <code>CitationZone</code> + <code>CitationNote</code> list.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.17.0</span>
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--design">Component</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0163/0164/0165 · Configure Sections for all pages: table, callout, card builder</div>
+      <p class="item__summary">Shipped v0.17.0, 2026-03-12. <code>tableBlock</code> schema + PT renderer (EPIC-0163). <code>calloutSection</code> schema + renderer wired to all doc types (EPIC-0164). <code>cardBuilderSection</code> added to article, caseStudy, node section builders (EPIC-0165). All section types now available on all content doc types.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.17.0</span>
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--content">Content</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
 
   <div class="item item--shipped">
     <span class="item__rank item__rank--check">✓</span>
@@ -856,7 +896,7 @@
 </div>
 
 <footer class="page-footer">
-  <span>sugartown.io · docs/backlog/priority-stack · updated 2026-03-11</span>
+  <span>sugartown.io · docs/backlog/priority-stack · updated 2026-03-12</span>
   <span>IBM Plex Mono · DM Sans · Sugartown Dark</span>
 </footer>
 
