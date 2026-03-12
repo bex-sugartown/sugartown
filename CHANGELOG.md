@@ -16,6 +16,79 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.17.0] — 2026-03-12
+
+Content authoring expansion, section parity, and rendering unification. Aggregates 0.16.1–0.16.4.
+
+### apps/web
+
+#### Added
+- Hero-first layout on detail pages — hero image renders flush to header, above back-nav/title
+- Tools taxonomy wired end-to-end: GROQ dereferencing, `/tools` archive, `/tools/:slug` detail, filter facet, validators (EPIC-0162)
+- Chip group labels (TOOLS / TAGS) rendered inline with baseline-aligned chips; list-layout cards stretch to full width (EPIC-0162)
+- `tableBlock` PortableText renderer for structured tables in rich text (EPIC-0163)
+- `calloutSection` GROQ projection and renderer (EPIC-0164)
+- `categoryPosition` wired through queries and ContentCard — archive pages and card builders control chip placement (EPIC-0166)
+- `linkUtils.js` utility (`isExternalUrl`, `getLinkProps`) shared by Button, Link atom, and NavigationItem (EPIC-0168)
+- Shared PT renderer handles `citationRef` mark → `CitationMarker` superscript; detail pages render `CitationZone` + `CitationNote` list when citations present (EPIC-0169)
+- `citations[]` projected in article, node, and caseStudy detail queries (EPIC-0169)
+- Shared PortableText serializer for inline code marks
+- MetadataCard redesigned as catalog card layout with Storybook stories
+- Themed background images (dark/light flourish PNGs) added to public assets, then commented out for design iteration
+
+#### Changed
+- Button renders React Router `<Link>` for internal hrefs and `<a target="_blank">` for external; callers no longer pass manual `target`/`rel` (EPIC-0168)
+- Header CTA renders through Button component; seafoam `.ctaButton*` CSS rules removed (EPIC-0168)
+- `context="detail"` prop added to PageSections with detailContext CSS overrides for consistent section spacing (EPIC-0167)
+- `.detailContent` typography tokenised to DS font/size/weight tokens instead of hard-coded values (EPIC-0167)
+- Card builder grid layout updated: tags rendering fix, citations support, reusable linkItem
+
+#### Fixed
+- `imageGallery` GROQ projections fixed to resolve images via `asset->url` across all detail queries (EPIC-0167)
+- HTML entity decoding added to PortableText content spans
+- EPIC-0162 validator, redirect, and documentation gaps closed
+
+### apps/studio
+
+#### Added
+- `tool` document type added as 5th taxonomy primitive (name, slug, description) (EPIC-0162)
+- `toolType`, `url`, `logo` fields added to tool schema
+- `tableBlock` schema for Portable Text tables (EPIC-0163)
+- `calloutSection` schema created and wired to all doc types (EPIC-0164)
+- `cardBuilderSection` added to article, caseStudy, node section builders (EPIC-0165)
+- `citationRef` annotation added to `standardPortableText` — inline citation markers available in all rich text fields (EPIC-0169)
+- `citationItem` reusable object schema for endnote definitions (EPIC-0169)
+- `citations[]` array field added to article, node, and caseStudy (EPIC-0169)
+- Reusable `linkItem` object schema
+- `RemoveReferenceAction` and `TaxonomyRefItem` custom Studio components (EPIC-0162)
+
+#### Changed
+- `tools[]` on article, caseStudy, node converted from string enum to reference array (EPIC-0162)
+- `categoryPosition` field added to content docs, then refactored to archive/cardBuilder (EPIC-0166)
+- Standalone `content` field on node and article deprecated — moved to Legacy group with migration guidance (EPIC-0167)
+- `ctaButton` label corrected from "Secondary (Seafoam)" to "Secondary (Lime)" (EPIC-0168)
+- AI Context and Agentic Caucus tabs merged into single tab on node schema
+
+### packages/design-system
+
+#### Changed
+- Card CSS and stories updated for alignment with web Card typography and chip label changes
+
+### scripts
+
+#### Added
+- `migrate-tools.js`: seeds 30 tool documents, migrates 49 content docs from string to reference, reports 25 tag-tool overlaps (EPIC-0162)
+- `migrate-content-to-sections.js`: batch-converts standalone content[] blocks into textSection entries (EPIC-0167)
+- `backfill-tool-type.js`: backfills toolType field on tool documents
+
+### Other
+
+- Epic prompts added for EPIC-0162 through EPIC-0169
+- Backlog priorities updated
+- Epic template updated with lifecycle guidance
+
+---
+
 ## [0.16.4] — 2026-03-11
 
 EPIC-0169: Citations in Content Body. Wired existing DS citation components to the standard content authoring path so authors can add inline [1] [2] markers and document-level endnotes on articles, nodes, and case studies.
