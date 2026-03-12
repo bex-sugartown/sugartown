@@ -282,7 +282,17 @@ export const nodeBySlugQuery = `
           categoryPosition,
           subtitle,
           body,
-          citation,
+          citations[]{
+            text,
+            link {
+              type,
+              "internalUrl": internalRef->slug.current,
+              "internalType": internalRef->_type,
+              "internalTitle": internalRef->title,
+              externalUrl
+            },
+            linkLabel
+          },
           tags[]->{ _id, "title": name, slug }
         }
       },
@@ -408,7 +418,17 @@ export const articleBySlugQuery = `
           categoryPosition,
           subtitle,
           body,
-          citation,
+          citations[]{
+            text,
+            link {
+              type,
+              "internalUrl": internalRef->slug.current,
+              "internalType": internalRef->_type,
+              "internalTitle": internalRef->title,
+              externalUrl
+            },
+            linkLabel
+          },
           tags[]->{ _id, "title": name, slug }
         }
       },
@@ -528,7 +548,17 @@ export const pageBySlugQuery = `
           categoryPosition,
           subtitle,
           body,
-          citation,
+          citations[]{
+            text,
+            link {
+              type,
+              "internalUrl": internalRef->slug.current,
+              "internalType": internalRef->_type,
+              "internalTitle": internalRef->title,
+              externalUrl
+            },
+            linkLabel
+          },
           tags[]->{ _id, "title": name, slug }
         }
       },
@@ -627,7 +657,17 @@ export const caseStudyBySlugQuery = `
           categoryPosition,
           subtitle,
           body,
-          citation,
+          citations[]{
+            text,
+            link {
+              type,
+              "internalUrl": internalRef->slug.current,
+              "internalType": internalRef->_type,
+              "internalTitle": internalRef->title,
+              externalUrl
+            },
+            linkLabel
+          },
           tags[]->{ _id, "title": name, slug }
         }
       },

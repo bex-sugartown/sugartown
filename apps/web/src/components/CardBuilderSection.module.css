@@ -111,7 +111,11 @@
   border-radius: inherit;
 }
 
-/* ── Citation link inside card footer ─────────────────── */
+/* ── Citation footnotes inside card footer ────────────── */
+.citationPrefix {
+  color: var(--st-color-text-secondary, inherit);
+}
+
 .citationLink {
   color: inherit;
   text-decoration: underline;

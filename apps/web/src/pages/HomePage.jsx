@@ -13,7 +13,6 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import SeoHead from '../components/SeoHead'
 import PageSections from '../components/PageSections'
-import NodesExample from '../components/NodesExample'
 import styles from './pages.module.css'
 
 export default function HomePage() {
@@ -38,9 +37,6 @@ export default function HomePage() {
           </p>
         </div>
       )}
-
-      {/* Knowledge Graph Nodes — preserved from original App.jsx */}
-      <NodesExample />
     </main>
   )
 }

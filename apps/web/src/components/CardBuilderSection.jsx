@@ -46,21 +46,22 @@ const bodyComponents = {
 }
 
 /**
- * Resolve the card's primary href from its titleLink field.
+ * Resolve href from a linkItem-shaped object.
+ * Used for both titleLink and citation links (same GROQ projection shape).
  * Internal links use getCanonicalPath; external links pass through.
  */
-function resolveHref(titleLink) {
-  if (!titleLink) return undefined
+function resolveLinkHref(link) {
+  if (!link) return undefined
 
-  if (titleLink.type === 'internal' && titleLink.internalUrl && titleLink.internalType) {
+  if (link.type === 'internal' && link.internalUrl && link.internalType) {
     return getCanonicalPath({
-      docType: titleLink.internalType,
-      slug: titleLink.internalUrl,
+      docType: link.internalType,
+      slug: link.internalUrl,
     })
   }
 
-  if (titleLink.type === 'external' && titleLink.externalUrl) {
-    return titleLink.externalUrl
+  if (link.type === 'external' && link.externalUrl) {
+    return link.externalUrl
   }
 
   return undefined
@@ -95,7 +96,7 @@ function getGridCols(count) {
  * CSS can target the thumbnail <img> for greyscale/overlay effects.
  */
 function BuilderCard({ card }) {
-  const href = resolveHref(card.titleLink)
+  const href = resolveLinkHref(card.titleLink)
   const tags = mapTags(card.tags)
   const thumbnailUrl = card.image?.asset
     ? urlFor(card.image.asset).width(600).quality(85).url()
@@ -130,24 +131,31 @@ function BuilderCard({ card }) {
         )}
 
         {/* Citation footer — margin-top: auto pushes to bottom of card body */}
-        {card.citation?.text && (
+        {card.citations?.length > 0 && (
           <div className={styles.citationFooter}>
             <CitationZone>
-              <CitationNote index={1}>
-                {card.citation.url ? (
-                  <a
-                    href={card.citation.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.citationLink}
-                    aria-label={card.citation.label || card.citation.text}
-                  >
-                    {card.citation.text}
-                  </a>
-                ) : (
-                  card.citation.text
-                )}
-              </CitationNote>
+              {card.citations.map((cite, i) => {
+                const href = resolveLinkHref(cite.link)
+                const displayLabel = cite.linkLabel || cite.link?.internalTitle || cite.text
+                return (
+                  <CitationNote key={i} index={i + 1}>
+                    {cite.text && <span className={styles.citationPrefix}>{cite.text} </span>}
+                    {href ? (
+                      <a
+                        href={href}
+                        target={cite.link?.type === 'external' ? '_blank' : undefined}
+                        rel={cite.link?.type === 'external' ? 'noopener noreferrer' : undefined}
+                        className={styles.citationLink}
+                        aria-label={displayLabel}
+                      >
+                        {displayLabel}
+                      </a>
+                    ) : (
+                      displayLabel !== cite.text && displayLabel
+                    )}
+                  </CitationNote>
+                )
+              })}
             </CitationZone>
           </div>
         )}
