@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Bot, MessageSquare, Sparkles, Shuffle } from 'lucide-react'
 import { client } from '../lib/sanity'
 import { allNodesQuery } from '../lib/queries'
 
@@ -137,14 +138,16 @@ export default function NodesExample() {
 }
 
 // Helper functions
+const AI_TOOL_ICONS = {
+  claude: Bot,
+  chatgpt: MessageSquare,
+  gemini: Sparkles,
+  mixed: Shuffle,
+}
+
 function getAIToolEmoji(tool) {
-  const emojis = {
-    claude: '🤖',
-    chatgpt: '💬',
-    gemini: '✨',
-    mixed: '🔀'
-  }
-  return <span style={{ fontSize: '1.5rem' }}>{emojis[tool] || '🤖'}</span>
+  const IconComponent = AI_TOOL_ICONS[tool] || Bot
+  return <IconComponent size={24} color="currentColor" style={{ flexShrink: 0 }} />
 }
 
 function getStatusBadge(status) {
