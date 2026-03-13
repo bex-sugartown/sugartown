@@ -16,6 +16,24 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.17.2] — 2026-03-13
+
+EPIC-0171: Icon & Emoji Strategy. Replace emoji-based icons with tree-shakeable SVG components; align and DRY all Studio icon option lists; nav dropdown menus and focus state cleanup.
+
+### apps/web
+
+- SVG icon components (Simple Icons + Lucide) replace emoji across SocialLink, ThemeToggle, NodesExample, PersonProfilePage
+- Nav dropdown menus: hover-triggered when parent has URL, click-triggered when label-only; keyboard/Escape/click-outside support
+- Social icons default brand pink with muted hover state; solid LinkedIn icon
+
+### apps/studio
+
+- All icon/platform option lists consolidated into shared `iconOptions.ts` — single source of truth across link, socialLink, person schemas
+- Nav internal page picker now includes archivePage documents
+- CTA button icon field hidden (was exposing social icon list incorrectly)
+
+---
+
 ## [0.17.1] — 2026-03-13
 
 EPIC-0170: Footer IA Brief Links. Fix broken footer link resolution, add editor-controlled column headings, and polish footer brand/separator styling.
