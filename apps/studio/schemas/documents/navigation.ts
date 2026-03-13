@@ -40,9 +40,9 @@ const navItem = {
       name: 'internalPage',
       title: 'Internal Page',
       type: 'reference',
-      to: [{type: 'page'}],
+      to: [{type: 'page'}, {type: 'archivePage'}],
       hidden: ({parent}) => parent?.linkType !== 'internal',
-      description: 'Links to a Page document — URL resolves from its slug automatically'
+      description: 'Links to a Page or Archive Page — URL resolves from its slug automatically'
     }),
     defineField({
       name: 'archiveRef',
@@ -111,9 +111,9 @@ const navItem = {
               name: 'internalPage',
               title: 'Internal Page',
               type: 'reference',
-              to: [{type: 'page'}],
+              to: [{type: 'page'}, {type: 'archivePage'}],
               hidden: ({parent}) => parent?.linkType !== 'internal',
-              description: 'Links to a Page document — URL resolves from its slug automatically'
+              description: 'Links to a Page or Archive Page — URL resolves from its slug automatically'
             }),
             defineField({
               name: 'archiveRef',
