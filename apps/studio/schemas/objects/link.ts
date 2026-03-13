@@ -44,9 +44,17 @@ export default defineType({
       description: 'Optional icon name (e.g., "twitter", "github", "linkedin")',
       options: {
         list: [
-          {title: 'Twitter/X', value: 'twitter'},
           {title: 'LinkedIn', value: 'linkedin'},
           {title: 'GitHub', value: 'github'},
+          {title: 'X (Twitter)', value: 'x'},
+          {title: 'Twitter (legacy)', value: 'twitter'},
+          {title: 'Instagram', value: 'instagram'},
+          {title: 'YouTube', value: 'youtube'},
+          {title: 'Facebook', value: 'facebook'},
+          {title: 'Dribbble', value: 'dribbble'},
+          {title: 'Behance', value: 'behance'},
+          {title: 'Bluesky', value: 'bluesky'},
+          {title: 'Mastodon', value: 'mastodon'},
           {title: 'Email', value: 'email'},
           {title: 'RSS', value: 'rss'},
           {title: 'External Link', value: 'external'}
