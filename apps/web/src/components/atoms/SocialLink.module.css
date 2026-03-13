@@ -8,11 +8,11 @@
   background-color: var(--st-gray-light);
   transition: all var(--st-transition-fast);
   text-decoration: none;
-  color: var(--st-color-text-muted);
+  color: var(--st-color-brand-primary);
 }
 
 .socialLink:hover {
-  background-color: var(--st-pink);
+  background-color: var(--st-color-brand-primary);
   color: var(--st-color-white, #fff);
   transform: translateY(-2px);
 }

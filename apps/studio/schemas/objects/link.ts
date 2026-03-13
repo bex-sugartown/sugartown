@@ -45,7 +45,11 @@ export default defineType({
       description: 'Optional icon name (e.g., "twitter", "github", "linkedin")',
       options: {
         list: [...LINK_ICON_OPTIONS]
-      }
+      },
+      // Hide the icon picker when the link is used inside a CTA button document —
+      // CTA buttons don't render icons; this field is only for social links.
+      hidden: ({document}) =>
+        document?._type === 'ctaButtonDoc'
     })
   ],
   preview: {
