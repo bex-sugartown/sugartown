@@ -222,7 +222,7 @@ export default defineType({
       title: 'Display Header',
       type: 'string',
       description:
-        'Optional public-facing heading for this menu (e.g. shown as footer column heading). If empty, the Menu Title is used as fallback.',
+        'Optional public-facing heading for this menu (e.g. shown as footer column heading). If empty, no heading is displayed.',
       validation: (Rule) => Rule.max(50)
     }),
     defineField({

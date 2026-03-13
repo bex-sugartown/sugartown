@@ -34,7 +34,7 @@ export default function Footer({ siteSettings }) {
           {footerColumns && footerColumns.length > 0 && (
             <div className={styles.columns}>
               {footerColumns.map((column, index) => {
-                const heading = column.header || column.title
+                const heading = column.header || null
                 return (
                   <div key={index} className={styles.column}>
                     {heading && (
