@@ -43,6 +43,7 @@ export default function Header({ siteSettings }) {
                     label={item.label}
                     url={url}
                     openInNewTab={openInNewTab}
+                    children={item.children}
                   />
                 )
               })}
