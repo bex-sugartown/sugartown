@@ -169,13 +169,15 @@ export const siteSettingsQuery = `
     },
     footerColumns[]->{
       title,
+      header,
       items[]{
         label,
-        link{
-          url,
-          label,
-          openInNewTab
-        }
+        linkType,
+        "internalPage": internalPage->{ _type, "slug": slug.current },
+        "archiveRef": archiveRef->{ _type, "slug": slug.current },
+        externalUrl,
+        openInNewTab,
+        link{ url, openInNewTab }
       }
     },
     socialLinks[]{

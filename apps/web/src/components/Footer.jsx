@@ -1,5 +1,6 @@
 import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
+import { resolveNavLink } from '../lib/resolveNavUrl'
 import Link from './atoms/Link'
 import SocialLink from './atoms/SocialLink'
 import styles from './Footer.module.css'
@@ -32,26 +33,32 @@ export default function Footer({ siteSettings }) {
 
           {footerColumns && footerColumns.length > 0 && (
             <div className={styles.columns}>
-              {footerColumns.map((column, index) => (
-                <div key={index} className={styles.column}>
-                  {column.title && (
-                    <h3 className={styles.columnHeading}>{column.title}</h3>
-                  )}
-                  {column.items && column.items.length > 0 && (
-                    <ul className={styles.linkList}>
-                      {column.items.map((item, itemIndex) => (
-                        <li key={itemIndex}>
-                          <Link
-                            label={item.label}
-                            url={item.link?.url}
-                            openInNewTab={item.link?.openInNewTab}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
+              {footerColumns.map((column, index) => {
+                const heading = column.header || column.title
+                return (
+                  <div key={index} className={styles.column}>
+                    {heading && (
+                      <h3 className={styles.columnHeading}>{heading}</h3>
+                    )}
+                    {column.items && column.items.length > 0 && (
+                      <ul className={styles.linkList}>
+                        {column.items.map((item, itemIndex) => {
+                          const { url, openInNewTab } = resolveNavLink(item)
+                          return (
+                            <li key={itemIndex}>
+                              <Link
+                                label={item.label}
+                                url={url}
+                                openInNewTab={openInNewTab}
+                              />
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           )}
 

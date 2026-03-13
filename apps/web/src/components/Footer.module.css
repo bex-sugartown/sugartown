@@ -13,7 +13,7 @@
 
 .top {
   display: grid;
-  grid-template-columns: 1fr 2fr auto;
+  grid-template-columns: auto 2fr auto;
   gap: var(--st-spacing-stack-xl);
   margin-bottom: var(--st-spacing-stack-xl);
 }
@@ -21,6 +21,7 @@
 .brand {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--st-spacing-stack-sm);
 }
 
@@ -29,6 +30,7 @@
   font-family: var(--st-font-family-ui);
   color: var(--st-color-lime);
   margin: 0;
+  text-align: center;
 }
 
 .columns {
@@ -83,7 +85,7 @@
 }
 
 .bottom {
-  border-top: 1px solid var(--st-color-border-default);
+  border-top: 1px solid var(--st-color-brand-primary);
   padding-top: var(--st-spacing-stack-lg);
   display: flex;
   justify-content: space-between;
