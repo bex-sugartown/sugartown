@@ -218,6 +218,14 @@ export default defineType({
           .error('Title is required and must be under 50 characters')
     }),
     defineField({
+      name: 'header',
+      title: 'Display Header',
+      type: 'string',
+      description:
+        'Optional public-facing heading for this menu (e.g. shown as footer column heading). If empty, the Menu Title is used as fallback.',
+      validation: (Rule) => Rule.max(50)
+    }),
+    defineField({
       name: 'items',
       title: 'Menu Items',
       type: 'array',
@@ -232,13 +240,15 @@ export default defineType({
   preview: {
     select: {
       title: 'title',
+      header: 'header',
       items: 'items'
     },
-    prepare({title, items}) {
+    prepare({title, header, items}) {
       const itemCount = items?.length || 0
+      const headerNote = header ? ` → "${header}"` : ''
       return {
         title: title || 'Untitled Menu',
-        subtitle: `${itemCount} item${itemCount !== 1 ? 's' : ''}`
+        subtitle: `${itemCount} item${itemCount !== 1 ? 's' : ''}${headerNote}`
       }
     }
   }
