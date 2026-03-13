@@ -9,6 +9,8 @@
  */
 import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
+import { SiGithub, SiX, SiInstagram, SiYoutube, SiFacebook, SiDribbble, SiBehance, SiBluesky, SiMastodon } from '@icons-pack/react-simple-icons'
+import { Linkedin, Globe, Mail, Rss, ExternalLink } from 'lucide-react'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
@@ -21,19 +23,26 @@ import NotFoundPage from './NotFoundPage'
 import styles from './PersonProfilePage.module.css'
 import pageStyles from './pages.module.css'
 
-// ─── Social link platform labels ─────────────────────────────────────────────
-// Derived from the socialLinks[].platform options.list defined in
-// apps/studio/schemas/documents/person.ts (Stage 7 extension).
-// Values: website, linkedin, github, twitter, mastodon, bluesky, dribbble, other
-const PLATFORM_LABELS = {
-  website:  'Website',
-  linkedin: 'LinkedIn',
-  github:   'GitHub',
-  twitter:  'Twitter/X',
-  mastodon: 'Mastodon',
-  bluesky:  'Bluesky',
-  dribbble: 'Dribbble',
-  other:    'Link',
+// ─── Social link platform config ─────────────────────────────────────────────
+// Maps socialLinks[].platform values (from person.ts schema) to display labels
+// and SVG icon components. Brand icons → Simple Icons, UI icons → Lucide.
+const PLATFORM_CONFIG = {
+  linkedin:  { label: 'LinkedIn',   icon: Linkedin },
+  github:    { label: 'GitHub',     icon: SiGithub },
+  x:         { label: 'X',          icon: SiX },
+  twitter:   { label: 'Twitter/X',  icon: SiX },
+  instagram: { label: 'Instagram',  icon: SiInstagram },
+  youtube:   { label: 'YouTube',    icon: SiYoutube },
+  facebook:  { label: 'Facebook',   icon: SiFacebook },
+  dribbble:  { label: 'Dribbble',   icon: SiDribbble },
+  behance:   { label: 'Behance',    icon: SiBehance },
+  bluesky:   { label: 'Bluesky',    icon: SiBluesky },
+  mastodon:  { label: 'Mastodon',   icon: SiMastodon },
+  website:   { label: 'Website',    icon: Globe },
+  email:     { label: 'Email',      icon: Mail },
+  rss:       { label: 'RSS',        icon: Rss },
+  other:     { label: 'Link',       icon: ExternalLink },
+  external:  { label: 'Link',       icon: ExternalLink },
 }
 
 // ─── Helper: minimal SEO object for person pages ─────────────────────────────
@@ -137,7 +146,9 @@ export default function PersonProfilePage() {
           {person.socialLinks?.length > 0 && (
             <ul className={styles.socialLinks} aria-label="Social profiles">
               {person.socialLinks.map((link, i) => {
-                const label = link.label || PLATFORM_LABELS[link.platform] || link.platform
+                const config = PLATFORM_CONFIG[link.platform] || PLATFORM_CONFIG.other
+                const label = link.label || config.label || link.platform
+                const IconComponent = config.icon
                 return (
                   <li key={i} className={styles.socialLinkItem}>
                     <a
@@ -146,8 +157,10 @@ export default function PersonProfilePage() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
+                      title={label}
                     >
-                      <span className={styles.socialPlatform} data-platform={link.platform}>
+                      <IconComponent size={18} color="currentColor" aria-hidden="true" />
+                      <span className={styles.socialPlatform}>
                         {label}
                       </span>
                     </a>
