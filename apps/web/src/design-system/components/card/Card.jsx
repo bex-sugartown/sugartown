@@ -83,6 +83,8 @@ export default function Card({
   nextStep,
   aiTool,
   kpiLink,
+  // Escape hatch for custom footer content (CardBuilderSection citations/tags)
+  footerChildren,
   // Media
   thumbnailUrl,
   thumbnailAlt = '',
@@ -245,39 +247,44 @@ export default function Card({
   ) : null
 
   // ── Footer ─────────────────────────────────────────────────────────────
-  const hasFooter = nextStep || aiTool || kpiLink || date
+  const hasFooter = nextStep || aiTool || kpiLink || date || footerChildren
 
   const footerEl = hasFooter ? (
     <div className={styles.footer}>
-      <div className={styles.footerLeft}>
-        {nextStep && (
-          <span className={styles.nextStep}>
-            <span className={styles.nextStepLabel}>Next Step: </span>
-            {nextStep}
-          </span>
-        )}
-        {aiTool && (
-          <span className={styles.aiTool}>
-            <span className={styles.aiToolLabel}>AI: </span>
-            {aiTool}
-          </span>
-        )}
-        {kpiLink && (
-          <Link
-            to={kpiLink.href}
-            className={[styles.kpiLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
-          >
-            KPIs: {kpiLink.label} →
-          </Link>
-        )}
-      </div>
-      <div className={styles.footerRight}>
-        {date && (
-          <time className={styles.date} dateTime={date}>
-            {formatDate(date)}
-          </time>
-        )}
-      </div>
+      {(nextStep || aiTool || kpiLink || date) && (
+        <>
+          <div className={styles.footerLeft}>
+            {nextStep && (
+              <span className={styles.nextStep}>
+                <span className={styles.nextStepLabel}>Next Step: </span>
+                {nextStep}
+              </span>
+            )}
+            {aiTool && (
+              <span className={styles.aiTool}>
+                <span className={styles.aiToolLabel}>AI: </span>
+                {aiTool}
+              </span>
+            )}
+            {kpiLink && (
+              <Link
+                to={kpiLink.href}
+                className={[styles.kpiLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
+              >
+                KPIs: {kpiLink.label} →
+              </Link>
+            )}
+          </div>
+          <div className={styles.footerRight}>
+            {date && (
+              <time className={styles.date} dateTime={date}>
+                {formatDate(date)}
+              </time>
+            )}
+          </div>
+        </>
+      )}
+      {footerChildren}
     </div>
   ) : null
 

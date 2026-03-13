@@ -280,6 +280,13 @@
   text-align: center;
 }
 
+/* Callout Section — uses page-width (1164px), not detail-width (760px) */
+.calloutSection {
+  max-width: 1164px;
+  margin: 0 auto;
+  padding: var(--st-spacing-stack-lg) var(--st-page-gutter);
+}
+
 /* CTA Section */
 .ctaSection {
   max-width: var(--st-width-detail);
@@ -585,6 +592,7 @@
 */
 .detailContext .textSection,
 .detailContext .ctaSection,
+.detailContext .calloutSection,
 .detailContext .imageGallery {
   max-width: none;
   padding-inline: 0;

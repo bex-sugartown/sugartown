@@ -126,9 +126,33 @@
   opacity: 0.8;
 }
 
-/* ── Citation footer — push to bottom of card body ───── */
-.citationFooter {
-  margin-top: auto;
+/* ── Footer content wrapper (citations + tags beneath dashed line) ─── */
+.cardFooterContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-3, 0.75rem);
+}
+
+/* ── Citation footer ─────────────────────────────────── */
+/* CitationZone renders its own dashed border-top, but the Card footer already
+   has a ::before dashed separator. Suppress the duplicate inside the footer. */
+.cardFooterContent [role="doc-endnotes"] {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* ── Tag chips in card footer ────────────────────────── */
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--st-space-2, 0.5rem);
+}
+
+/* Lift DS Chip above the card ::after full-card hit target */
+.footerChip {
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Responsive ───────────────────────────────────────── */

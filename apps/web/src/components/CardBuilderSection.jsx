@@ -15,34 +15,64 @@
 import { PortableText } from '@portabletext/react'
 import { urlFor } from '../lib/sanity'
 import { getCanonicalPath } from '../lib/routes'
-import { Card, CitationMarker, CitationNote, CitationZone } from '../design-system'
+import { Card, Chip, CitationMarker, CitationNote, CitationZone } from '../design-system'
 import styles from './CardBuilderSection.module.css'
 
-// Minimal portable text renderer for card body — styled text only, no images
-const bodyComponents = {
-  block: {
-    normal: ({ children }) => <p className={styles.bodyParagraph}>{children}</p>,
-  },
-  marks: {
-    strong: ({ children }) => <strong>{children}</strong>,
-    em: ({ children }) => <em>{children}</em>,
-    link: ({ value, children }) => (
-      <a
-        href={value?.href}
-        target={value?.href?.startsWith('http') ? '_blank' : undefined}
-        rel={value?.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-        className={styles.bodyLink}
-      >
-        {children}
-      </a>
-    ),
-    citationRef: ({ value, children }) => (
-      <>
-        {children}
-        <CitationMarker index={value?.index || 1} />
-      </>
-    ),
-  },
+/**
+ * Pre-scan portable text blocks for citationRef mark definitions.
+ * Returns a Map<sanityIndex, cardLocalIndex> so body markers use
+ * card-local numbering (1..N) regardless of what the editor stored.
+ */
+function buildCitationIndexMap(body) {
+  const map = new Map()
+  let localIndex = 0
+  if (!body) return map
+  for (const block of body) {
+    if (!block.markDefs) continue
+    for (const def of block.markDefs) {
+      if (def._type === 'citationRef' && def.index != null && !map.has(def.index)) {
+        localIndex++
+        map.set(def.index, localIndex)
+      }
+    }
+  }
+  return map
+}
+
+/**
+ * Minimal portable text renderer for card body — styled text only, no images.
+ * Factory function: accepts a citation index map so body markers use
+ * card-local numbering that matches the footnote numbering in the footer.
+ */
+function makeBodyComponents(citationIndexMap) {
+  return {
+    block: {
+      normal: ({ children }) => <p className={styles.bodyParagraph}>{children}</p>,
+    },
+    marks: {
+      strong: ({ children }) => <strong>{children}</strong>,
+      em: ({ children }) => <em>{children}</em>,
+      link: ({ value, children }) => (
+        <a
+          href={value?.href}
+          target={value?.href?.startsWith('http') ? '_blank' : undefined}
+          rel={value?.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+          className={styles.bodyLink}
+        >
+          {children}
+        </a>
+      ),
+      citationRef: ({ value, children }) => {
+        const localIndex = citationIndexMap.get(value?.index) ?? value?.index ?? 1
+        return (
+          <>
+            {children}
+            <CitationMarker index={localIndex} />
+          </>
+        )
+      },
+    },
+  }
 }
 
 /**
@@ -102,6 +132,10 @@ function BuilderCard({ card }) {
     ? urlFor(card.image.asset).width(600).quality(85).url()
     : undefined
 
+  // Build card-local citation index map so body markers match footnote numbering
+  const citationIndexMap = buildCitationIndexMap(card.body)
+  const cardBodyComponents = makeBodyComponents(citationIndexMap)
+
   const imageEffect = card.imageEffect || 'original'
   const wrapperClass = [
     styles.cardWrap,
@@ -110,6 +144,55 @@ function BuilderCard({ card }) {
   ]
     .filter(Boolean)
     .join(' ')
+
+  // Build footer content: citations + tags rendered beneath the dashed line
+  const hasFooterContent = card.citations?.length > 0 || tags?.length > 0
+  const footerContent = hasFooterContent ? (
+    <div className={styles.cardFooterContent}>
+      {card.citations?.length > 0 && (
+        <div className={styles.citationFooter}>
+          <CitationZone>
+            {card.citations.map((cite, i) => {
+              const citeHref = resolveLinkHref(cite.link)
+              const displayLabel = cite.linkLabel || cite.link?.internalTitle || cite.text
+              return (
+                <CitationNote key={i} index={i + 1}>
+                  {cite.text && <span className={styles.citationPrefix}>{cite.text} </span>}
+                  {citeHref ? (
+                    <a
+                      href={citeHref}
+                      target={cite.link?.type === 'external' ? '_blank' : undefined}
+                      rel={cite.link?.type === 'external' ? 'noopener noreferrer' : undefined}
+                      className={styles.citationLink}
+                      aria-label={displayLabel}
+                    >
+                      {displayLabel}
+                    </a>
+                  ) : (
+                    displayLabel !== cite.text && displayLabel
+                  )}
+                </CitationNote>
+              )
+            })}
+          </CitationZone>
+        </div>
+      )}
+
+      {tags?.length > 0 && (
+        <div className={styles.tagRow}>
+          {tags.map((tag) => (
+            <Chip
+              key={tag.label}
+              label={tag.label}
+              href={tag.href}
+              size="sm"
+              className={styles.footerChip}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  ) : undefined
 
   return (
     <div className={wrapperClass}>
@@ -121,42 +204,12 @@ function BuilderCard({ card }) {
         href={href}
         thumbnailUrl={thumbnailUrl}
         thumbnailAlt={card.image?.alt || ''}
-        tags={tags}
+        footerChildren={footerContent}
       >
         {/* Body portable text */}
         {card.body && (
           <div className={styles.body}>
-            <PortableText value={card.body} components={bodyComponents} />
-          </div>
-        )}
-
-        {/* Citation footer — margin-top: auto pushes to bottom of card body */}
-        {card.citations?.length > 0 && (
-          <div className={styles.citationFooter}>
-            <CitationZone>
-              {card.citations.map((cite, i) => {
-                const href = resolveLinkHref(cite.link)
-                const displayLabel = cite.linkLabel || cite.link?.internalTitle || cite.text
-                return (
-                  <CitationNote key={i} index={i + 1}>
-                    {cite.text && <span className={styles.citationPrefix}>{cite.text} </span>}
-                    {href ? (
-                      <a
-                        href={href}
-                        target={cite.link?.type === 'external' ? '_blank' : undefined}
-                        rel={cite.link?.type === 'external' ? 'noopener noreferrer' : undefined}
-                        className={styles.citationLink}
-                        aria-label={displayLabel}
-                      >
-                        {displayLabel}
-                      </a>
-                    ) : (
-                      displayLabel !== cite.text && displayLabel
-                    )}
-                  </CitationNote>
-                )
-              })}
-            </CitationZone>
+            <PortableText value={card.body} components={cardBodyComponents} />
           </div>
         )}
       </Card>

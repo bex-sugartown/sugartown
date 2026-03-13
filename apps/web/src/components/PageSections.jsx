@@ -216,9 +216,11 @@ function HtmlSection({ section }) {
 function CalloutSection({ section }) {
   if (!section.body) return null
   return (
-    <Callout variant={section.variant} title={section.title}>
-      <p style={{ whiteSpace: 'pre-line' }}>{section.body}</p>
-    </Callout>
+    <div className={styles.calloutSection}>
+      <Callout variant={section.variant} title={section.title}>
+        <p style={{ whiteSpace: 'pre-line' }}>{section.body}</p>
+      </Callout>
+    </div>
   )
 }
 
