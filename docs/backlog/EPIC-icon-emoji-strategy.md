@@ -5,9 +5,9 @@
 
 ## Epic Lifecycle
 
-**Status:** BACKLOG (unscheduled — awaiting prioritization)
+**Status:** ✅ COMPLETE — shipped v0.17.2 (2026-03-13)
 
-**Epic ID:** EPIC-0000
+**Epic ID:** EPIC-0171
 ## EPIC NAME: Icon & Emoji Preload Strategy
 
 **Backlog ref:** Icon & Emoji Preload Strategy (Deferred tier)

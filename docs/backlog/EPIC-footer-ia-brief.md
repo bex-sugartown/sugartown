@@ -5,9 +5,9 @@
 
 ## Epic Lifecycle
 
-**Status:** BACKLOG (unscheduled — awaiting prioritization)
+**Status:** ✅ COMPLETE — shipped v0.17.1 (2026-03-13)
 
-**Epic ID:** EPIC-0000
+**Epic ID:** EPIC-0170
 ## EPIC NAME: Footer Update — Wire IA Brief Footer Links
 
 **Backlog ref:** Item #6 (Nav/Footer update — wire IA brief footer links)

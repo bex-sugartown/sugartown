@@ -276,7 +276,7 @@
 <header class="page-header">
   <p class="page-header__eyebrow">Sugartown Digital · sugartown.io · Backlog</p>
   <h1>Issues &amp; To-Do — <span>Priority Stack</span></h1>
-  <p class="page-header__meta">Updated 2026-03-12 · v0.17.0 released (EPIC-0162–0169 shipped) · About rewrite in progress · Sequenced against About → Platform → Homepage → Nav/Footer</p>
+  <p class="page-header__meta">Updated 2026-03-13 · v0.17.2 released (EPIC-0170–0171 shipped) · All IA brief Phase 1 content pages live · Remaining: ERD, cleanup, governance, infra</p>
 </header>
 
 <div class="legend">
@@ -290,7 +290,7 @@
 
 <div class="blocker">
   <span class="blocker__icon">⚑ Current focus</span>
-  <p class="blocker__text">v0.17.0 shipped: tools taxonomy, section parity, link/button unification, citations in content body. All 5 taxonomy types operational. <strong>About page rewrite</strong> is the current priority. IA brief page sequence continues: <strong>About → Platform → Homepage teasers → Nav/Footer update</strong>.</p>
+  <p class="blocker__text">v0.17.2 shipped: EPIC-0170 footer IA brief links, EPIC-0171 icon &amp; emoji strategy. All IA brief Phase 1 content pages are live (Services, Contact, About, Platform, Homepage). Nav wired with Library dropdown. <strong>Next priorities:</strong> ERD page, FilterBar/MetadataCard cleanup, token reference cleanup, content governance.</p>
 </div>
 
 <!-- ══ NOW ══ -->
@@ -303,9 +303,10 @@
   <div class="item item--p0">
     <span class="item__rank">1</span>
     <div class="item__body">
-      <div class="item__title">About page rewrite — <code>/about</code></div>
-      <p class="item__summary">Page exists but needs a content rewrite per IA brief §5.4. Current content is placeholder-grade. Rewrite using section builder with updated bio, approach narrative, and links to Work/Library/Platform.</p>
+      <div class="item__title">Static Schema ERD page (EPIC-0147, Option B)</div>
+      <p class="item__summary">Hardcoded schema manifest rendered as a visual ERD page. Option B is immediately implementable without a build step. Useful as a portfolio and internal reference artefact for the MACH architecture showcase. Good candidate for the Platform page.</p>
       <div class="item__tags">
+        <span class="tag tag--epic">EPIC-0147</span>
         <span class="tag tag--content">Content</span>
       </div>
     </div>
@@ -324,11 +325,11 @@
   <div class="item item--p1">
     <span class="item__rank">2</span>
     <div class="item__body">
-      <div class="item__title">Platform page — <code>/platform</code></div>
-      <p class="item__summary">New content page per IA brief §5.3. The "differentiator" — showcases the MACH architecture, Sanity schema, CI/CD pipeline, design system. Uses section builder. Decide which sub-content gets its own page vs. section on the parent page.</p>
+      <div class="item__title">FilterBar &amp; MetadataCard cleanup</div>
+      <p class="item__summary">Post-EPIC-0162 housekeeping. MetadataCard and FilterBar both carry legacy code paths from when tools were string enums — null guards, coercion helpers, and fallback renders that are no longer needed now that all content docs use reference arrays. Clean up dead branches, remove string-type guards, and align both components to the reference-only contract. Also audit facet label maps and <code>CONTENT_TYPE_LABELS</code> for stale entries.</p>
       <div class="item__tags">
-        <span class="tag tag--content">Content</span>
-        <span class="tag tag--schema">Page Builder</span>
+        <span class="tag tag--design">Component</span>
+        <span class="tag tag--query">GROQ</span>
       </div>
     </div>
     <span class="item__priority priority--next">Next</span>
@@ -337,11 +338,12 @@
   <div class="item item--p1">
     <span class="item__rank">3</span>
     <div class="item__body">
-      <div class="item__title">Homepage teasers — curated content grid</div>
-      <p class="item__summary">Homepage currently has minimal content. Add teaser sections pulling latest articles, featured case studies, and knowledge graph highlights via GROQ. Can use <code>cardBuilderSection</code> or a new homepage-specific layout.</p>
+      <div class="item__title">Content State Governance — draft vs published enforcement</div>
+      <p class="item__summary">IA brief §5.3 dependency. Ensure published content has no orphaned references, missing required fields, or stale draft shadows. Extend <code>validate-content.js</code> with a "publication readiness" check that flags docs with drafts-only references or unpublished taxonomy refs. Feeds into Platform page content integrity story. May include a Studio document badge or custom action to surface publication state.</p>
       <div class="item__tags">
-        <span class="tag tag--content">Content</span>
-        <span class="tag tag--query">GROQ</span>
+        <span class="tag tag--schema">Schema</span>
+        <span class="tag tag--content">Data Quality</span>
+        <span class="tag tag--ux">Editor UX</span>
       </div>
     </div>
     <span class="item__priority priority--next">Next</span>
@@ -350,11 +352,11 @@
   <div class="item item--p1">
     <span class="item__rank">4</span>
     <div class="item__body">
-      <div class="item__title">Nav update — wire IA brief nav structure</div>
-      <p class="item__summary">Current nav reflects old structure (About, Knowledge Graph, Case Studies, Blog, CV/Resume). IA brief nav: Work | Library (Knowledge Graph, Articles) | Platform | About | Services. Requires Sanity nav document update + any dropdown component for Library.</p>
+      <div class="item__title">Token reference cleanup — 52 unknown <code>var(--st-*)</code> refs</div>
+      <p class="item__summary">Token validator reports 52 broken token references across 19 CSS files. Pre-existing legacy debt: <code>App.css</code> uses retired names (<code>--st-red</code>, <code>--st-space-md</code>), <code>--st-page-gutter</code> defined in <code>globals.css</code> not <code>tokens.css</code>, Media/Table/Callout/CodeBlock component tokens not registered. Browser silently falls back to UA defaults (e.g. Times New Roman for font-family). No regressions from v0.17.0 — all pre-existing.</p>
       <div class="item__tags">
-        <span class="tag tag--content">Content</span>
-        <span class="tag tag--ux">UX</span>
+        <span class="tag tag--design">CSS</span>
+        <span class="tag tag--content">Data Quality</span>
       </div>
     </div>
     <span class="item__priority priority--next">Next</span>
@@ -372,11 +374,10 @@
   <div class="item item--p2">
     <span class="item__rank">5</span>
     <div class="item__body">
-      <div class="item__title">Static Schema ERD page (EPIC-0147, Option B)</div>
-      <p class="item__summary">Hardcoded schema manifest rendered as a visual ERD page. Option B is immediately implementable without a build step. Useful as a portfolio and internal reference artefact for the MACH architecture showcase. Good candidate for the Platform page.</p>
+      <div class="item__title">Hosting platform decision for DNS cutover</div>
+      <p class="item__summary">Evaluate Netlify, Cloudflare Pages, Vercel, or self-hosted against cost, preview URL support, redirect file compatibility, and Sanity webhook integration. Decision gates the cutover timeline.</p>
       <div class="item__tags">
-        <span class="tag tag--epic">EPIC-0147</span>
-        <span class="tag tag--content">Content</span>
+        <span class="tag tag--content">Infrastructure</span>
       </div>
     </div>
     <span class="item__priority priority--soon">Soon</span>
@@ -384,80 +385,6 @@
 
   <div class="item item--p2">
     <span class="item__rank">6</span>
-    <div class="item__body">
-      <div class="item__title">Footer update — wire IA brief footer links</div>
-      <p class="item__summary">IA brief footer: Contact, Privacy, Terms, Accessibility Statement. Current footer likely doesn't match. Wire footer nav from Sanity or hardcode initial structure. Privacy/Terms/Accessibility pages may need creating as minimal <code>page</code> docs.</p>
-      <div class="item__tags">
-        <span class="tag tag--content">Content</span>
-        <span class="tag tag--ux">UX</span>
-      </div>
-    </div>
-    <span class="item__priority priority--soon">Soon</span>
-  </div>
-
-  <div class="item item--p2">
-    <span class="item__rank">7</span>
-    <div class="item__body">
-      <div class="item__title">FilterBar &amp; MetadataCard cleanup</div>
-      <p class="item__summary">Post-EPIC-0162 housekeeping. MetadataCard and FilterBar both carry legacy code paths from when tools were string enums — null guards, coercion helpers, and fallback renders that are no longer needed now that all content docs use reference arrays. Clean up dead branches, remove string-type guards, and align both components to the reference-only contract. Also audit facet label maps and <code>CONTENT_TYPE_LABELS</code> for stale entries.</p>
-      <div class="item__tags">
-        <span class="tag tag--design">Component</span>
-        <span class="tag tag--query">GROQ</span>
-      </div>
-    </div>
-    <span class="item__priority priority--soon">Soon</span>
-  </div>
-
-  <div class="item item--p2">
-    <span class="item__rank">8</span>
-    <div class="item__body">
-      <div class="item__title">Content State Governance — draft vs published enforcement</div>
-      <p class="item__summary">IA brief §5.3 dependency. Ensure published content has no orphaned references, missing required fields, or stale draft shadows. Extend <code>validate-content.js</code> with a "publication readiness" check that flags docs with drafts-only references or unpublished taxonomy refs. Feeds into Platform page content integrity story. May include a Studio document badge or custom action to surface publication state.</p>
-      <div class="item__tags">
-        <span class="tag tag--schema">Schema</span>
-        <span class="tag tag--content">Data Quality</span>
-        <span class="tag tag--ux">Editor UX</span>
-      </div>
-    </div>
-    <span class="item__priority priority--soon">Soon</span>
-  </div>
-
-  <div class="item item--p2">
-    <span class="item__rank">9</span>
-    <div class="item__body">
-      <div class="item__title">Token reference cleanup — 52 unknown <code>var(--st-*)</code> refs</div>
-      <p class="item__summary">Token validator reports 52 broken token references across 19 CSS files. Pre-existing legacy debt: <code>App.css</code> uses retired names (<code>--st-red</code>, <code>--st-space-md</code>), <code>--st-page-gutter</code> defined in <code>globals.css</code> not <code>tokens.css</code>, Media/Table/Callout/CodeBlock component tokens not registered. Browser silently falls back to UA defaults (e.g. Times New Roman for font-family). No regressions from v0.17.0 — all pre-existing.</p>
-      <div class="item__tags">
-        <span class="tag tag--design">CSS</span>
-        <span class="tag tag--content">Data Quality</span>
-      </div>
-    </div>
-    <span class="item__priority priority--soon">Soon</span>
-  </div>
-
-</div>
-
-<!-- ══ LATER ══ -->
-<div class="section-heading">
-  <span class="section-heading__label">04 · Later — pre-launch, not sprint-gated</span>
-  <div class="section-heading__rule"></div>
-</div>
-<div class="items-list">
-
-  <div class="item item--p3">
-    <span class="item__rank">10</span>
-    <div class="item__body">
-      <div class="item__title">Hosting platform decision for DNS cutover</div>
-      <p class="item__summary">Evaluate Netlify, Cloudflare Pages, Vercel, or self-hosted against cost, preview URL support, redirect file compatibility, and Sanity webhook integration. Decision gates the cutover timeline.</p>
-      <div class="item__tags">
-        <span class="tag tag--content">Infrastructure</span>
-      </div>
-    </div>
-    <span class="item__priority priority--later">Later</span>
-  </div>
-
-  <div class="item item--p3">
-    <span class="item__rank">11</span>
     <div class="item__body">
       <div class="item__title">Add Search — site-wide content search</div>
       <p class="item__summary">No search exists today. Options: Sanity's built-in text search API, a lightweight client-side index (e.g. Fuse.js over a pre-built JSON manifest), or a hosted search service (Algolia, Typesense). Needs design decision on scope (full-text vs title/tag), UI placement (nav bar, dedicated page, command palette), and whether to index all 5 content types or start with articles + nodes. High user value but no existing infrastructure — design spike needed first.</p>
@@ -467,11 +394,11 @@
         <span class="tag tag--content">Infrastructure</span>
       </div>
     </div>
-    <span class="item__priority priority--later">Later</span>
+    <span class="item__priority priority--soon">Soon</span>
   </div>
 
-  <div class="item item--p3">
-    <span class="item__rank">12</span>
+  <div class="item item--p2">
+    <span class="item__rank">7</span>
     <div class="item__body">
       <div class="item__title">Themed background images — finalize or remove</div>
       <p class="item__summary">Dark/light flourish PNGs (<code>std-bg-dark.png</code>, <code>std-bg-light.png</code>) added to <code>apps/web/public/</code> in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight.</p>
@@ -480,11 +407,11 @@
         <span class="tag tag--ux">UX</span>
       </div>
     </div>
-    <span class="item__priority priority--later">Later</span>
+    <span class="item__priority priority--soon">Soon</span>
   </div>
 
-  <div class="item item--p3">
-    <span class="item__rank">13</span>
+  <div class="item item--p2">
+    <span class="item__rank">8</span>
     <div class="item__body">
       <div class="item__title">Brand color picker for Sanity Studio (BL-01)</div>
       <p class="item__summary">Lets editors set <code>colorHex</code> on project documents via a visual colour picker rather than raw hex input. Nice-to-have UX improvement for Studio editors. Tracked as BL-01 from EPIC-0156.</p>
@@ -496,8 +423,8 @@
     <span class="item__priority priority--later">Later</span>
   </div>
 
-  <div class="item item--p3">
-    <span class="item__rank">14</span>
+  <div class="item item--p2">
+    <span class="item__rank">9</span>
     <div class="item__body">
       <div class="item__title">Dedicated <code>cardImage</code> schema field (BL-02)</div>
       <p class="item__summary">Separate from heroImage/sections media. Allows editors to set a specific thumbnail for a content item when it appears in card grids, without affecting the hero display. Tracked as BL-02.</p>
@@ -506,14 +433,14 @@
         <span class="tag tag--epic">BL-02</span>
       </div>
     </div>
-    <span class="item__priority priority--later">Later</span>
+    <span class="item__priority priority--soon">Soon</span>
   </div>
 
 </div>
 
 <!-- ══ DEFERRED ══ -->
 <div class="section-heading">
-  <span class="section-heading__label">05 · Deferred — post-launch</span>
+  <span class="section-heading__label">04 · Deferred — post-launch</span>
   <div class="section-heading__rule"></div>
 </div>
 <div class="items-list">
@@ -601,20 +528,6 @@
   <div class="item item--deferred">
     <span class="item__rank">—</span>
     <div class="item__body">
-      <div class="item__title">Icon &amp; Emoji Preload Strategy</div>
-      <p class="item__summary">Audit icon and emoji usage across the web app, Studio, and Storybook. Define a loading strategy that avoids FOUT (flash of unstyled text) for icon fonts and layout shift from late-loading emoji. Candidates: <code>@sanity/icons</code> tree-shaking, SVG sprite sheet, emoji polyfill vs native rendering, <code>&lt;link rel="preload"&gt;</code> for critical icon sets. Performance-focused — measure before optimising.</p>
-      <div class="item__tags">
-        <span class="tag tag--defer">Deferred</span>
-        <span class="tag tag--design">Performance</span>
-        <span class="tag tag--ux">UX</span>
-      </div>
-    </div>
-    <span class="item__priority priority--defer">Defer</span>
-  </div>
-
-  <div class="item item--deferred">
-    <span class="item__rank">—</span>
-    <div class="item__body">
       <div class="item__title">EPIC Pink Moon — runtime theme toggle &amp; polish</div>
       <p class="item__summary">CSS exists (<code>theme.pink-moon.css</code>) with dark-pink-moon and light-pink-moon variants — milky translucency, hairline borders, ambient glow. But there is no runtime toggle to activate it; the ThemeToggle component only switches between dark and light. This epic wires the Pink Moon variants into the theme switcher UI, adds Storybook stories for all 4 theme combinations, and polishes any component-level visual regressions under the glass aesthetic.</p>
       <div class="item__tags">
@@ -630,10 +543,90 @@
 
 <!-- ══ SHIPPED ══ -->
 <div class="section-heading">
-  <span class="section-heading__label">06 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.17.x</span>
+  <span class="section-heading__label">05 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.17.x</span>
   <div class="section-heading__rule"></div>
 </div>
 <div class="items-list">
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0171 · Icon &amp; Emoji Strategy — SVG icons, DRY schema options</div>
+      <p class="item__summary">Shipped v0.17.2, 2026-03-13. Replaced emoji icons with tree-shakeable SVG components (Simple Icons + Lucide) across SocialLink, ThemeToggle, NodesExample, PersonProfilePage. All Studio icon/platform option lists consolidated into shared <code>iconOptions.ts</code>. Social icons default brand pink with muted hover. Solid LinkedIn icon.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.17.2</span>
+        <span class="tag tag--design">Component</span>
+        <span class="tag tag--schema">Schema</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">EPIC-0170 · Footer IA Brief Links — link resolution, column headings, brand polish</div>
+      <p class="item__summary">Shipped v0.17.1, 2026-03-13. Footer nav items resolve via <code>resolveNavLink()</code>, fixing broken external links. Navigation schema gains optional <code>header</code> field. Brand column centered, bottom bar separator uses brand pink.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.17.1</span>
+        <span class="tag tag--ux">UX</span>
+        <span class="tag tag--schema">Schema</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">Nav update — Library dropdown, archive picker, focus states</div>
+      <p class="item__summary">Shipped v0.17.2, 2026-03-13. Nav dropdown menus: hover-triggered when parent has URL, click-triggered when label-only. Keyboard/Escape/click-outside support. Archive pages selectable in nav internal page picker. Focus-visible underline replaces outline box.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped v0.17.2</span>
+        <span class="tag tag--ux">UX</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">Homepage teasers — content authored in Sanity</div>
+      <p class="item__summary">Shipped 2026-03-13. Homepage content sections authored using section builder. Leader content per major section: Work, Library, Platform, Services teasers.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped</span>
+        <span class="tag tag--content">Content</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">Platform page — <code>/platform</code></div>
+      <p class="item__summary">Shipped 2026-03-13. New page per IA brief §5.3. Built using section builder — architecture overview, current version, design system philosophy, links to platform artifacts.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped</span>
+        <span class="tag tag--content">Content</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
+
+  <div class="item item--shipped">
+    <span class="item__rank item__rank--check">✓</span>
+    <div class="item__body">
+      <div class="item__title">About page rewrite — <code>/about</code></div>
+      <p class="item__summary">Shipped 2026-03-13. Content rewrite per IA brief §5.4. Section builder with updated bio, approach narrative, and links to Work/Library/Platform.</p>
+      <div class="item__tags">
+        <span class="tag tag--shipped">Shipped</span>
+        <span class="tag tag--content">Content</span>
+      </div>
+    </div>
+    <span class="item__priority priority--shipped">Shipped</span>
+  </div>
 
   <div class="item item--shipped">
     <span class="item__rank item__rank--check">✓</span>
@@ -896,7 +889,7 @@
 </div>
 
 <footer class="page-footer">
-  <span>sugartown.io · docs/backlog/priority-stack · updated 2026-03-12</span>
+  <span>sugartown.io · docs/backlog/priority-stack · updated 2026-03-13</span>
   <span>IBM Plex Mono · DM Sans · Sugartown Dark</span>
 </footer>
 
