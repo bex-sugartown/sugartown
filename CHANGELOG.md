@@ -16,6 +16,22 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.17.1] — 2026-03-13
+
+EPIC-0170: Footer IA Brief Links. Fix broken footer link resolution, add editor-controlled column headings, and polish footer brand/separator styling.
+
+### apps/studio
+
+- Navigation document gains optional `header` field for public-facing column headings (no heading shown when empty)
+
+### apps/web
+
+- Footer nav items now resolve via `resolveNavLink()` — fixes external links not clickable (GROQ projection matched to primaryNav pattern)
+- Footer column headings use `header` field only; no fallback to internal menu title
+- Brand column centers logo + tagline; bottom bar separator uses brand pink
+
+---
+
 ## [0.17.0] — 2026-03-12
 
 Content authoring expansion, section parity, and rendering unification. Aggregates 0.16.1–0.16.4.
