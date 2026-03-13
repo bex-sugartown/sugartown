@@ -1,4 +1,5 @@
 import {defineType} from 'sanity'
+import {SOCIAL_PLATFORM_OPTIONS, PLATFORM_LABELS} from '../lib/iconOptions'
 
 export default defineType({
   name: 'socialLink',
@@ -11,23 +12,7 @@ export default defineType({
       type: 'string',
       description: 'Social media platform (determines icon)',
       options: {
-        list: [
-          {title: 'LinkedIn', value: 'linkedin'},
-          {title: 'GitHub', value: 'github'},
-          {title: 'X (Twitter)', value: 'x'},
-          {title: 'Twitter (legacy)', value: 'twitter'},
-          {title: 'Instagram', value: 'instagram'},
-          {title: 'YouTube', value: 'youtube'},
-          {title: 'Facebook', value: 'facebook'},
-          {title: 'Dribbble', value: 'dribbble'},
-          {title: 'Behance', value: 'behance'},
-          {title: 'Bluesky', value: 'bluesky'},
-          {title: 'Mastodon', value: 'mastodon'},
-          {title: 'Website', value: 'website'},
-          {title: 'Email', value: 'email'},
-          {title: 'RSS', value: 'rss'},
-          {title: 'Other', value: 'external'},
-        ],
+        list: [...SOCIAL_PLATFORM_OPTIONS],
       },
       validation: (Rule) => Rule.required(),
     },
@@ -52,25 +37,8 @@ export default defineType({
       url: 'url',
     },
     prepare({platform, url}) {
-      const labels: Record<string, string> = {
-        linkedin: 'LinkedIn',
-        github: 'GitHub',
-        x: 'X',
-        twitter: 'Twitter/X',
-        instagram: 'Instagram',
-        youtube: 'YouTube',
-        facebook: 'Facebook',
-        dribbble: 'Dribbble',
-        behance: 'Behance',
-        bluesky: 'Bluesky',
-        mastodon: 'Mastodon',
-        website: 'Website',
-        email: 'Email',
-        rss: 'RSS',
-        external: 'Link',
-      }
       return {
-        title: labels[platform] || (platform ? platform.charAt(0).toUpperCase() + platform.slice(1) : 'Unknown'),
+        title: PLATFORM_LABELS[platform] || (platform ? platform.charAt(0).toUpperCase() + platform.slice(1) : 'Unknown'),
         subtitle: url,
       }
     },
