@@ -33,9 +33,9 @@ export default defineType({
       description: 'Visual style of the button',
       options: {
         list: [
-          {title: 'Primary (Sugartown Pink)', value: 'primary'},
-          {title: 'Secondary (Lime)', value: 'secondary'},
-          {title: 'Ghost (Outline)', value: 'ghost'}
+          {title: 'Primary', value: 'primary'},
+          {title: 'Secondary', value: 'secondary'},
+          {title: 'Tertiary', value: 'tertiary'}
         ],
         layout: 'radio'
       },
@@ -52,7 +52,7 @@ export default defineType({
       const styleLabels = {
         primary: '🎀 Primary',
         secondary: '🍋 Secondary',
-        ghost: '👻 Ghost'
+        tertiary: '◽ Tertiary'
       }
       return {
         title: text || 'Untitled Button',

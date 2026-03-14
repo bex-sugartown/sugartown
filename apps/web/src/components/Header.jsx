@@ -8,8 +8,8 @@ import ThemeToggle from './ThemeToggle'
 import styles from './Header.module.css'
 
 // Map Sanity CTA style values to DS Button variant props
-// Schema stores 'ghost' but the Button component expects 'tertiary'
-const CTA_STYLE_TO_VARIANT = { primary: 'primary', secondary: 'secondary', ghost: 'tertiary' }
+// 'ghost' kept for backward compat with existing Sanity docs not yet re-saved
+const CTA_STYLE_TO_VARIANT = { primary: 'primary', secondary: 'secondary', tertiary: 'tertiary', ghost: 'tertiary' }
 
 export default function Header({ siteSettings }) {
   if (!siteSettings) return null
