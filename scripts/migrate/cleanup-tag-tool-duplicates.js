@@ -15,7 +15,8 @@
 import { buildSanityClient } from './lib.js'
 
 const EXECUTE = process.argv.includes('--execute')
-const CONTENT_TYPES = ['article', 'caseStudy', 'node']
+// All doc types that may reference tags (content + taxonomy)
+const ALL_REF_TYPES = ['article', 'caseStudy', 'node', 'project', 'page', 'archivePage']
 
 // ─── Tag-tool duplicate pairs (all 25) ─────────────────────────────────────
 // Only the 4 marked 'migrate' have content refs that need moving.
@@ -83,35 +84,28 @@ async function main() {
   console.log(`Found ${tags.length} / ${DUPLICATE_PAIRS.length} duplicate tags`)
   console.log(`Found ${tools.length} / ${DUPLICATE_PAIRS.length} matching tools\n`)
 
-  // ── Step 2: Migrate refs for the 4 pairs that have content references ──
-  const migratePairs = DUPLICATE_PAIRS.filter((p) => p.action === 'migrate')
+  // ── Step 2: Remove tag refs from ALL docs, migrate to tool where applicable ──
   let totalPatched = 0
 
-  for (const pair of migratePairs) {
+  for (const pair of DUPLICATE_PAIRS) {
     const tagId = tagBySlug[pair.tagSlug]
     const toolId = toolBySlug[pair.toolSlug]
 
-    if (!tagId) {
-      console.log(`⚠️  Tag "${pair.tagSlug}" not found — skipping migration`)
-      continue
-    }
-    if (!toolId) {
-      console.log(`⚠️  Tool "${pair.toolSlug}" not found — skipping migration`)
-      continue
-    }
+    if (!tagId) continue
 
-    // Find content docs that reference this tag
+    // Find ALL docs that reference this tag (any doc type)
     const docs = await client.fetch(
-      `*[_type in $types && references($tagId)]{ _id, _type, "hasToolRef": references($toolId) }`,
-      { types: CONTENT_TYPES, tagId, toolId }
+      `*[references($tagId)]{ _id, _type, "hasToolRef": references($toolId) }`,
+      { tagId, toolId: toolId || '__none__' }
     )
 
+    if (docs.length === 0) continue
     console.log(`── ${pair.tagSlug}: ${docs.length} doc(s) referencing tag`)
 
     for (const doc of docs) {
-      if (doc.hasToolRef) {
-        // Already has the tool ref — just remove the tag ref
-        console.log(`  ${doc._id} — already has tool ref, removing tag ref only`)
+      if (doc.hasToolRef || !toolId) {
+        // Already has the tool ref or no tool to migrate to — just remove the tag ref
+        console.log(`  ${doc._id} (${doc._type}) — removing tag ref`)
         if (EXECUTE) {
           await client
             .patch(doc._id)
@@ -120,7 +114,7 @@ async function main() {
         }
       } else {
         // Add tool ref, remove tag ref
-        console.log(`  ${doc._id} — adding tool ref + removing tag ref`)
+        console.log(`  ${doc._id} (${doc._type}) — adding tool ref + removing tag ref`)
         if (EXECUTE) {
           await client
             .patch(doc._id)
@@ -144,20 +138,24 @@ async function main() {
   console.log(`── Deleting ${tagIdsToDelete.length} duplicate tag documents`)
 
   if (EXECUTE) {
-    // Batch in groups of 20 with 1s delay between
-    const BATCH_SIZE = 20
-    for (let i = 0; i < tagIdsToDelete.length; i += BATCH_SIZE) {
-      const batch = tagIdsToDelete.slice(i, i + BATCH_SIZE)
-      const tx = client.transaction()
-      for (const id of batch) {
-        tx.delete(id)
-      }
-      await tx.commit()
-      console.log(`  Deleted batch ${Math.floor(i / BATCH_SIZE) + 1} (${batch.length} tags)`)
-      if (i + BATCH_SIZE < tagIdsToDelete.length) {
-        await new Promise((r) => setTimeout(r, 1000))
+    let deleted = 0
+    let skipped = 0
+    for (const id of tagIdsToDelete) {
+      try {
+        await client.delete(id)
+        deleted++
+      } catch (err) {
+        if (err.statusCode === 409) {
+          // Still has references — skip and report
+          const slug = DUPLICATE_PAIRS.find((p) => tagBySlug[p.tagSlug] === id)?.tagSlug
+          console.log(`  ⚠️  Skipped "${slug}" (${id}) — still has references`)
+          skipped++
+        } else {
+          throw err
+        }
       }
     }
+    console.log(`  Deleted: ${deleted}, Skipped (still referenced): ${skipped}`)
   }
 
   console.log(`\n✅ Tag deletion: ${tagIdsToDelete.length} tag(s) ${EXECUTE ? 'deleted' : 'would be deleted'}`)

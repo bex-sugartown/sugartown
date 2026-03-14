@@ -38,12 +38,12 @@ async function main() {
   )
   console.log(`Total tags: ${allTags.length}\n`)
 
-  // For each tag, check if any content doc references it (including drafts)
+  // For each tag, check if ANY document references it (all doc types)
   const orphans = []
   for (const tag of allTags) {
     const refCount = await client.fetch(
-      `count(*[_type in $types && references($tagId)])`,
-      { types: CONTENT_TYPES, tagId: tag._id }
+      `count(*[references($tagId)])`,
+      { tagId: tag._id }
     )
     if (refCount === 0) {
       orphans.push(tag)
@@ -66,21 +66,22 @@ async function main() {
 
   if (EXECUTE) {
     console.log(`\nDeleting ${orphans.length} orphan tags...`)
-    const BATCH_SIZE = 20
-    const ids = orphans.map((t) => t._id)
-
-    for (let i = 0; i < ids.length; i += BATCH_SIZE) {
-      const batch = ids.slice(i, i + BATCH_SIZE)
-      const tx = client.transaction()
-      for (const id of batch) {
-        tx.delete(id)
-      }
-      await tx.commit()
-      console.log(`  Deleted batch ${Math.floor(i / BATCH_SIZE) + 1} (${batch.length} tags)`)
-      if (i + BATCH_SIZE < ids.length) {
-        await new Promise((r) => setTimeout(r, 1000))
+    let deleted = 0
+    let skipped = 0
+    for (const tag of orphans) {
+      try {
+        await client.delete(tag._id)
+        deleted++
+      } catch (err) {
+        if (err.statusCode === 409) {
+          console.log(`  ⚠️  Skipped "${tag.slug}" (${tag._id}) — still has references`)
+          skipped++
+        } else {
+          throw err
+        }
       }
     }
+    console.log(`  Deleted: ${deleted}, Skipped: ${skipped}`)
   }
 
   // Verify
