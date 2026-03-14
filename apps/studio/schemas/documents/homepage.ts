@@ -4,8 +4,10 @@ import {HomeIcon} from '@sanity/icons'
 /**
  * Homepage Document (Singleton)
  *
- * Main landing page content including hero content, callout, and editorial cards
- * Only one instance of this document should exist
+ * @deprecated The site uses a `page` document with slug "home" instead.
+ * This singleton is no longer referenced by any web query or component.
+ * Kept registered for backward compatibility with existing Sanity data only.
+ * Do not use in new code — it will be removed in a future version.
  */
 export default defineType({
   name: 'homepage',

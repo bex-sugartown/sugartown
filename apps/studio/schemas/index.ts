@@ -70,15 +70,15 @@ import navigation from './documents/navigation'
 import siteSettings from './documents/siteSettings'
 import preheader from './documents/preheader'
 import ctaButtonDoc from './documents/ctaButtonDoc'
-import homepage from './documents/homepage'
 import archivePage from './documents/archivePage'
 import redirect from './documents/redirect'
 
 // Legacy Documents (DEPRECATED - kept for backwards compatibility only)
-// Use siteSettings for header/footer, homepage for hero, page sections for content
+// Use siteSettings for header/footer, page (slug: "home") for homepage, page sections for content
 import header from './documents/header'
 import footer from './documents/footer'
 import hero from './documents/hero'
+import homepage from './documents/homepage'
 import contentBlock from './documents/contentBlock'
 
 // ============================================================================
@@ -138,7 +138,6 @@ export const schemaTypes = [
   siteSettings,
   preheader,
   ctaButtonDoc,
-  homepage,
   archivePage,
   redirect,
 
@@ -146,6 +145,7 @@ export const schemaTypes = [
   header,
   footer,
   hero,
+  homepage,
   contentBlock
 ]
 

@@ -1,5 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {InfoOutlineIcon} from '@sanity/icons'
+import {summaryPortableText} from '../objects/portableTextConfig'
 
 /**
  * calloutSection — section builder block for highlighted callouts.
@@ -8,8 +9,8 @@ import {InfoOutlineIcon} from '@sanity/icons'
  *   default (pink/Heart), info (muted/Info), tip (seafoam/Lightbulb),
  *   warn (amber/AlertTriangle), danger (red/AlertOctagon).
  *
- * Body is plain text (multiline string). Rich text body is a future
- * enhancement requiring nested PortableText config.
+ * Body uses summaryPortableText (inline links, bold, italic — no headings,
+ * no lists, no images). Upgraded from plain text in EPIC-0173.
  *
  * EPIC-0164: Callout Section Type
  */
@@ -46,9 +47,9 @@ export default defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'text',
-      rows: 4,
-      description: 'The callout content. Plain text; line breaks are preserved.',
+      type: 'array',
+      of: summaryPortableText,
+      description: 'The callout content. Supports bold, italic, and inline links.',
       validation: (Rule) => Rule.required(),
     }),
   ],
@@ -66,9 +67,12 @@ export default defineType({
         warn: 'Warning',
         danger: 'Danger',
       }
+      // Extract first text span from Portable Text body for preview
+      const block = Array.isArray(body) ? body.find((b: any) => b._type === 'block') : null
+      const previewText = block?.children?.[0]?.text ?? ''
       return {
         title: title || 'Callout',
-        subtitle: `${VARIANT_LABELS[variant] ?? variant ?? 'Default'}${body ? ` — ${body.slice(0, 60)}` : ''}`,
+        subtitle: `${VARIANT_LABELS[variant] ?? variant ?? 'Default'}${previewText ? ` — ${previewText.slice(0, 60)}` : ''}`,
       }
     },
   },
