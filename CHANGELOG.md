@@ -4,6 +4,26 @@ All notable changes to the Sugartown monorepo are documented here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [0.17.4] — 2026-03-14
+
+EPIC-0173: Link Atom Consolidation & CTA Cleanup. Migrated active schemas from the old `link` atom to `linkItem` with internal reference support, upgraded callout body to Portable Text with inline links, and deprecated the unused homepage singleton.
+
+### apps/studio
+
+- Extended `linkItem` with `label`, `openInNewTab`, expanded URL validation (mailto, tel, relative)
+- Swapped `ctaButton`, `ctaButtonDoc`, `preheader`, `homepage` from `link` → `linkItem`; `siteSettings.socialLinks` now uses `socialLink`
+- Upgraded `calloutSection.body` from plain text to Portable Text (summaryPortableText — bold, italic, inline links)
+
+### apps/web
+
+- Added `LINKITEM_URL_EXPR` to resolve internal refs at query time, flattening to existing `{url, label, openInNewTab}` shape
+- Updated Header, Preheader, PageSections to read flat link fields; calloutSection renders body via PortableText with backward compat for plain text
+- Updated schema manifest for linkItem fields, socialLink relationships, deprecated homepage singleton
+
+### apps/studio (migrations)
+
+- Added `link-to-linkItem.js` migration script with `DRY_RUN=1` support for transforming existing link data
+
 ## [0.17.3] — 2026-03-14
 
 EPIC-0172: Schema ERD Page. Interactive schema explorer at /platform/schema with full site shell, group filtering, relationship highlighting, and sticky detail sidebar.
