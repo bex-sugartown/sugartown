@@ -3,6 +3,19 @@
 All notable changes to the Sugartown monorepo are documented here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+
+## [0.17.3] — 2026-03-14
+
+EPIC-0172: Schema ERD Page. Interactive schema explorer at /platform/schema with full site shell, group filtering, relationship highlighting, and sticky detail sidebar.
+
+### apps/web
+
+- Code-driven Schema ERD page at `/platform/schema` — 30 entities, 44 relationships from static manifest with group filter tabs, click-to-select cards, and pink reference links
+- CTA style maps updated with `tertiary` as canonical value; `ghost` retained for backward compat with existing Sanity content
+
+### apps/studio
+
+- CTA button style enum renamed from `Primary (Sugartown Pink) / Secondary (Lime) / Ghost (Outline)` to `Primary / Secondary / Tertiary` on both `ctaButton` and `ctaButtonDoc` paired schemas
 Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > **Version note:** Entries from `[0.0.0]` onwards use SemVer and track the monorepo.
