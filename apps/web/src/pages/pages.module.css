@@ -29,7 +29,7 @@
 }
 
 .placeholderEyebrow {
-  font-family: var(--st-font-mono);
+  font-family: var(--st-font-family-mono);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -73,7 +73,7 @@
 }
 
 .detailEyebrow {
-  font-family: var(--st-font-mono);
+  font-family: var(--st-font-family-mono);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -197,7 +197,7 @@
 
 .tag {
   display: inline-block;
-  font-family: var(--st-font-mono);
+  font-family: var(--st-font-family-mono);
   font-size: 0.7rem;
   font-weight: 400;
   letter-spacing: 0.05em;

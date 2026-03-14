@@ -5,7 +5,7 @@
   width: 40px;
   height: 40px;
   border-radius: var(--st-radius-full);
-  background-color: var(--st-gray-light);
+  background-color: var(--st-color-neutral-100);
   transition: all var(--st-transition-fast);
   text-decoration: none;
   color: var(--st-color-brand-primary);
@@ -18,7 +18,7 @@
 }
 
 .socialLink:focus {
-  outline: 2px solid var(--st-pink);
+  outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
 }
 

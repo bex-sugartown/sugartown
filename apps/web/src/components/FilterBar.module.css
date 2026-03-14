@@ -28,7 +28,7 @@
 }
 
 .filterTitle {
-  font-family: var(--st-font-mono);
+  font-family: var(--st-font-family-mono);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -77,7 +77,7 @@
 
 .facetLabel {
   display: block;
-  font-family: var(--st-font-mono);
+  font-family: var(--st-font-family-mono);
   font-size: 0.7rem;
   font-weight: 700;
   color: var(--st-color-text-muted, #6b7280);

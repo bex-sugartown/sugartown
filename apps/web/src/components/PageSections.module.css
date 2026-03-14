@@ -156,7 +156,7 @@
 
 /* Inline code — matches DS InlineCode component */
 .code {
-  font-family: var(--st-font-family-mono, var(--st-font-mono));
+  font-family: var(--st-font-family-mono);
   font-size: 0.85em;
   background-color: var(--st-code-inline-bg, #f1f2f4);
   padding: 0.2em 0.5em;
@@ -175,7 +175,7 @@
   box-shadow: var(--st-code-shadow, 0 4px 10px rgba(0, 0, 0, 0.2));
   margin: var(--st-code-margin-block, 3rem) auto;
   width: 100%;
-  font-family: var(--st-font-family-mono, var(--st-font-mono));
+  font-family: var(--st-font-family-mono);
   font-size: 0.9rem;
   overflow-x: auto;
   line-height: 1.6;
@@ -274,7 +274,7 @@
 }
 
 .galleryCaption {
-  font-size: var(--st-font-small);
+  font-size: var(--st-font-caption);
   color: var(--st-color-text-secondary);
   margin-top: var(--st-spacing-stack-sm);
   text-align: center;
@@ -492,7 +492,7 @@
   border-left: var(--st-code-border-left, 4px solid var(--st-color-accent, #ff247d));
   box-shadow: var(--st-code-shadow, 0 4px 10px rgba(0, 0, 0, 0.2));
   margin: var(--st-code-margin-block, 3rem) 0;
-  font-family: var(--st-font-family-mono, var(--st-font-mono, monospace));
+  font-family: var(--st-font-family-mono, monospace);
   font-size: 0.9rem;
   overflow-x: auto;
   line-height: 1.6;
@@ -510,7 +510,7 @@
 
 /* ── Code (inline, NOT inside pre) — matches DS InlineCode component ─────── */
 :global(.st-html-section) :not(pre) > code {
-  font-family: var(--st-font-family-mono, var(--st-font-mono, monospace));
+  font-family: var(--st-font-family-mono, monospace);
   font-size: 0.85em;
   background-color: var(--st-code-inline-bg, #f1f2f4);
   padding: 0.2em 0.5em;

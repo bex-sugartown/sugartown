@@ -1,5 +1,5 @@
 .link {
-  color: var(--st-pink);
+  color: var(--st-color-brand-primary);
   text-decoration: none;
   transition: opacity var(--st-transition-fast);
 }
@@ -9,6 +9,6 @@
 }
 
 .link:focus {
-  outline: 2px solid var(--st-pink);
+  outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
 }

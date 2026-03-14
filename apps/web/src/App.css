@@ -19,49 +19,49 @@ main {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  font-size: var(--st-text-xl);
-  color: var(--st-pink);
+  font-size: var(--st-font-size-xl);
+  color: var(--st-color-brand-primary);
 }
 
 .empty-state {
   max-width: 600px;
-  margin: var(--st-space-3xl) auto;
-  padding: var(--st-space-2xl);
+  margin: var(--st-space-8) auto;
+  padding: var(--st-space-7);
   text-align: center;
 }
 
 .empty-state h2 {
-  color: var(--st-pink);
-  margin-bottom: var(--st-space-md);
+  color: var(--st-color-brand-primary);
+  margin-bottom: var(--st-spacing-stack-md);
 }
 
 .empty-state p {
-  color: var(--st-gray-medium);
-  font-size: var(--st-text-lg);
+  color: var(--st-color-softgrey);
+  font-size: var(--st-font-size-lg);
 }
 
 /* Error States - Maroon */
 .error {
-  color: var(--st-red);
+  color: var(--st-color-danger);
 background-color: transparent;
-  padding: var(--st-space-md);
+  padding: var(--st-spacing-stack-md);
   border-radius: var(--st-radius-md);
-  border-left: 4px solid var(--st-red);
+  border-left: 4px solid var(--st-color-danger);
 }
 
 .error-message {
-  color: var(--st-red);
-  font-size: var(--st-text-sm);
-  margin-top: var(--st-space-xs);
+  color: var(--st-color-danger);
+  font-size: var(--st-font-size-sm);
+  margin-top: var(--st-spacing-stack-xs);
 }
 
 /* Form validation errors */
 input:invalid,
 textarea:invalid {
-  border-color: var(--st-red);
+  border-color: var(--st-color-danger);
 }
 
 input:invalid:focus,
 textarea:invalid:focus {
-  outline-color: var(--st-red);
+  outline-color: var(--st-color-danger);
 }

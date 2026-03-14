@@ -26,6 +26,7 @@
   --st-color-bg-surface-strong: var(--st-color-softgrey-100);    /* #f1f2f4  ≈ brief #EEEEF4 */
   --st-color-bg-surface-alt:    var(--st-color-softgrey-50);
   --st-color-bg-subtle:         var(--st-color-softgrey-100);
+  --st-color-surface-subtle:    var(--st-color-neutral-100);      /* #f5f5f5 — light subtle bg */
   --st-color-bg-secondary:      var(--st-color-neutral-100);     /* #f5f5f5 */
   --st-color-bg-tertiary:       var(--st-color-neutral-200);     /* #e5e5e5 */
   /* --st-color-bg-midnight stays dark — used for code blocks */

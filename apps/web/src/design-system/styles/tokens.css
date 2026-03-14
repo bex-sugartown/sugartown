@@ -237,6 +237,7 @@
 
   /* ── State ───────────────────────────────────────────── */
   --st-color-danger: var(--st-color-maroon);
+  --st-color-surface-subtle: var(--st-color-softgrey-900);  /* subtle bg — dark default */
 
   /* ── Effects (theme-overridable) ─────────────────────── */
   --st-effect-backdrop-blur-md: 0;            /* pink-moon themes → 14px */
@@ -283,6 +284,12 @@
   --st-spacing-gutter:    var(--st-space-4);
   --st-spacing-3:         var(--st-space-3);
   --st-spacing-4:         var(--st-space-4);
+
+  /* ── Layout Helpers ────────────────────────────────────── */
+  --st-page-gutter:       var(--st-spacing-stack-lg);
+
+  /* ── Transitions ───────────────────────────────────────── */
+  --st-transition-fast:   150ms ease;
 
   /* ── Semantic Shadows ────────────────────────────────── */
   --st-shadow-card-semantic:       var(--st-shadow-card-deep);

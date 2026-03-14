@@ -35,7 +35,7 @@
 
 .callNumber {
   grid-column: 1 / -1;
-  font-family: var(--st-font-mono);
+  font-family: var(--st-font-family-mono);
   font-size: var(--st-font-size-sm);
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -64,7 +64,7 @@
 }
 
 .fieldLabel {
-  font-family: var(--st-font-mono);
+  font-family: var(--st-font-family-mono);
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -131,7 +131,7 @@
 }
 
 .dateValue {
-  font-family: var(--st-font-mono);
+  font-family: var(--st-font-family-mono);
   font-size: var(--st-font-size-sm);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
@@ -167,7 +167,7 @@
 }
 
 .kpiProgress {
-  font-family: var(--st-font-mono);
+  font-family: var(--st-font-family-mono);
   font-size: 0.7rem;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
