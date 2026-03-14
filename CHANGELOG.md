@@ -4,6 +4,25 @@ All notable changes to the Sugartown monorepo are documented here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [0.17.6] — 2026-03-14
+
+EPIC-0175: Token Reference Cleanup. Resolved all broken `var(--st-*)` references across 19 CSS files, registered missing utility tokens, and enhanced the token validator with reference scanning.
+
+### packages/design-system
+
+- Migrated legacy alias references (`--st-font-mono`, `--st-font-sans`) to canonical names in Chip and Button CSS
+- Registered `--st-transition-fast`, `--st-color-surface-subtle`, and `--st-page-gutter` in tokens.css (synced with web)
+
+### apps/web
+
+- Replaced 14 broken legacy token names in App.css (`--st-red`, `--st-text-xl`, `--st-space-3xl`, etc.) with canonical equivalents — error states, loading, and empty states now render with correct colours and spacing
+- Migrated 24 legacy alias references to canonical names across 12 component CSS files (`--st-font-mono` → `--st-font-family-mono`, `--st-pink` → `--st-color-brand-primary`, `--st-gray-light` → `--st-color-neutral-100`)
+- Deleted orphaned `design-tokens.css` (legacy parallel token file with no consumers)
+
+### scripts
+
+- Token validator now scans all CSS files for unknown `var(--st-*)` references and supports a component-scoped API token allowlist — reports 0 errors (was 39+)
+
 ## [0.17.5] — 2026-03-14
 
 EPIC-0174: FilterBar & MetadataCard Cleanup + Tag Taxonomy Audit. Removed legacy defensive code paths, audited status label maps, cleaned up tag taxonomy, and backfilled default author.
