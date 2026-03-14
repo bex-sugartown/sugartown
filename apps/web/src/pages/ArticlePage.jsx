@@ -71,7 +71,6 @@ export default function ArticlePage() {
 
         <MetadataCard
           authors={post.authors}
-          legacyAuthor={post.author}
           contentType="Article"
           publishedAt={post.publishedAt}
           status={post.status}

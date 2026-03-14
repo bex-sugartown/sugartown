@@ -46,30 +46,18 @@ export function getAuthorDisplayName(author) {
 }
 
 /**
- * getAuthorByline(authors, legacyAuthorString)
+ * getAuthorByline(authors)
  *
- * Returns the best available author string for a byline.
- * Prefers authors[] (canonical), falls back to legacy string field.
- * Logs a console warning in dev if falling back to legacy.
+ * Returns the display name of the primary author for a byline.
+ * All content docs should have authors[] set (backfilled by
+ * backfill-default-author.js migration).
  *
- * @param {Array|null|undefined} authors   - from authors[]->
- * @param {string|null|undefined} legacy   - from post.author (legacy string)
- * @returns {string|null} display name, or null if neither is available
+ * @param {Array|null|undefined} authors - from authors[]->
+ * @returns {string|null} display name, or null if no authors
  */
-export function getAuthorByline(authors, legacy) {
+export function getAuthorByline(authors) {
   const primary = getPrimaryAuthor(authors)
   if (primary) return primary.shortName || primary.name
-
-  if (legacy) {
-    if (import.meta.env.DEV) {
-      console.warn(
-        '[person] Falling back to legacy author string. ' +
-        'Create a Person doc and link it via authors[] to resolve this warning.'
-      )
-    }
-    return legacy
-  }
-
   return null
 }
 

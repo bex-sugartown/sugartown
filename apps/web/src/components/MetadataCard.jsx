@@ -90,7 +90,6 @@ function formatDateShort(dateStr) {
 export default function MetadataCard({
   // Content fields
   authors,
-  legacyAuthor,
   contentType,
   publishedAt,
   status,
@@ -109,7 +108,7 @@ export default function MetadataCard({
   projects,
 }) {
   const statusKey       = status?.toLowerCase().replace(/[\s_]+/g, '-')
-  const authorByline    = getAuthorByline(authors, legacyAuthor)
+  const authorByline    = getAuthorByline(authors)
   const primaryAuthor   = getPrimaryAuthor(authors)
   const aiToolDisplay   = aiTool           ? (AI_TOOL_LABELS[aiTool]                       ?? aiTool)           : null
   const convTypeDisplay = conversationType  ? (CONVERSATION_TYPE_LABELS[conversationType]   ?? conversationType) : null
