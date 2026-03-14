@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-14 · v0.17.5 released · EPIC-0174 FilterBar/MetadataCard cleanup shipped · Remaining: governance, token cleanup, infra
+> Updated 2026-03-14 · v0.17.6 released · EPIC-0175 Token Reference Cleanup shipped · Remaining: governance, infra
 
 ---
 
@@ -8,7 +8,7 @@
 
 ---
 
-> **⚑ Current focus:** EPIC-0174 FilterBar/MetadataCard cleanup complete. v0.17.5 shipped. All IA brief Phase 1 content pages live. **Next priorities:** content state governance, token reference cleanup.
+> **⚑ Current focus:** EPIC-0175 Token Reference Cleanup complete. v0.17.6 shipped. All IA brief Phase 1 content pages live. All token references resolved. **Next priorities:** content state governance.
 
 ---
 
@@ -19,7 +19,7 @@
 | 1 | ~~**Link Atom Consolidation & CTA Cleanup**~~ — ✅ Shipped as EPIC-0173. Active schemas migrated to `linkItem`, CTA pair synced, GROQ projections flatten to existing component shape, migration script ready. | `Schema` `Data Quality` `Studio UX` | ✅ Shipped |
 | 2 | ~~**FilterBar & MetadataCard cleanup**~~ — ✅ Shipped as EPIC-0174. Removed legacy tool string-type guards, audited status label maps, cleaned up legacy author fallback. Tag taxonomy audit: 256→92 tags (25 duplicates + 132 orphans deleted, 7 tag→tool ref migrations). Author backfill: 35 node docs patched. | `Component` `Data Quality` | ✅ Shipped |
 | 3 | **Content State Governance — draft vs published enforcement** — IA brief §5.3 dependency. Ensure published content has no orphaned references, missing required fields, or stale draft shadows. Extend `validate-content.js` with a "publication readiness" check that flags docs with drafts-only references or unpublished taxonomy refs. Feeds into Platform page content integrity story. May include a Studio document badge or custom action to surface publication state. | `Schema` `Data Quality` `Editor UX` | 🟢 Next |
-| 4 | **Token reference cleanup — 52 unknown `var(--st-*)` refs** — Token validator reports 52 broken token references across 19 CSS files. Pre-existing legacy debt: `App.css` uses retired names (`--st-red`, `--st-space-md`), `--st-page-gutter` defined in `globals.css` not `tokens.css`, Media/Table/Callout/CodeBlock component tokens not registered. Browser silently falls back to UA defaults (e.g. Times New Roman for font-family). No regressions from v0.17.0 — all pre-existing. | `CSS` `Data Quality` | 🟢 Next |
+| 4 | ~~**Token reference cleanup — 52 unknown `var(--st-*)` refs**~~ — ✅ Shipped as EPIC-0175. All 39 broken token references resolved, 24 legacy alias references migrated to canonical names, orphaned `design-tokens.css` deleted. Validator enhanced with reference scanning + component-scoped API token allowlist. | `CSS` `Data Quality` | ✅ Shipped |
 
 ---
 
@@ -54,6 +54,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**EPIC-0175 · Token Reference Cleanup** — Resolved all broken `var(--st-*)` references across 19 CSS files. Registered `--st-transition-fast`, `--st-color-surface-subtle`, `--st-page-gutter`. Migrated 24 legacy alias refs (`--st-font-mono`, `--st-pink`, `--st-gray-light`, `--st-font-sans`). Deleted orphaned `design-tokens.css`. Validator enhanced with reference scanning + component-scoped API token allowlist.~~ | v0.17.6 | 2026-03-14 |
 | ~~**EPIC-0174 · FilterBar & MetadataCard Cleanup + Tag Taxonomy Audit** — Removed legacy tool string-type guards, audited status label maps (node evolution + project lifecycle), removed legacy author fallback. Tag taxonomy: 256→92 tags (25 duplicates deleted, 132 orphans deleted, 7 tag→tool ref migrations). Author backfill: 35 node docs patched. Migration scripts: `cleanup-tag-tool-duplicates.js`, `cleanup-orphan-tags.js`, `backfill-default-author.js`.~~ | v0.17.5 | 2026-03-14 |
 | ~~**EPIC-0173 · Link Atom Consolidation & CTA Cleanup** — Active schemas migrated to `linkItem`, CTA pair synced, GROQ projections flatten to existing component shape, migration script ready.~~ | v0.17.4 | 2026-03-14 |
 | ~~**EPIC-0171 · Icon & Emoji Strategy** — SVG icons, DRY schema options. Replaced emoji icons with tree-shakeable SVG components (Simple Icons + Lucide) across SocialLink, ThemeToggle, NodesExample, PersonProfilePage. All Studio icon/platform option lists consolidated into shared `iconOptions.ts`. Social icons default brand pink with muted hover. Solid LinkedIn icon.~~ | v0.17.2 | 2026-03-13 |
@@ -84,4 +85,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-03-13*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-03-14*

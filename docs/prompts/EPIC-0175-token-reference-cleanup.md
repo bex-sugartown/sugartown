@@ -5,7 +5,7 @@
 
 ## Epic Lifecycle
 
-**Status:** IN PROGRESS
+**Status:** COMPLETE
 
 **Epic ID:** EPIC-0175
 ## EPIC NAME: Token Reference Cleanup — 52 Unknown `var(--st-*)` Refs
