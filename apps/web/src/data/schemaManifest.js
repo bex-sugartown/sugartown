@@ -37,6 +37,8 @@ export const entities = [
       'type (enum: internal/external)',
       'internalRef → page | article | caseStudy | node | archivePage',
       'externalUrl (url)',
+      'label (string)',
+      'openInNewTab (boolean)',
     ],
   },
   {
@@ -46,7 +48,7 @@ export const entities = [
     group: 'atoms',
     fields: [
       'text (string)',
-      'link → link',
+      'link → linkItem',
       'style (enum: primary/secondary/tertiary)',
     ],
   },
@@ -376,7 +378,7 @@ export const entities = [
       'headerCta → ctaButtonDoc',
       'preheader → preheader',
       'footerColumns[] → navigation',
-      'socialLinks[] → link',
+      'socialLinks[] → socialLink',
       'copyrightText (string)',
       'siteUrl (url)',
       'defaultMetaTitle (string)',
@@ -401,7 +403,7 @@ export const entities = [
     group: 'infra',
     fields: [
       'internalTitle (string) *',
-      'link → link',
+      'link → linkItem',
       'style (enum: primary/secondary/tertiary)',
     ],
   },
@@ -413,7 +415,7 @@ export const entities = [
     fields: [
       'title (string) *',
       'message (string)',
-      'link → link',
+      'link → linkItem',
       'backgroundColor (enum)',
       'publishAt (datetime)',
       'unpublishAt (datetime)',
@@ -490,6 +492,7 @@ export const relationships = [
   { from: 'project', to: 'category', label: 'categories[]', type: 'many' },
   { from: 'project', to: 'tag', label: 'tags[]', type: 'many' },
   { from: 'person', to: 'category', label: 'expertise[]', type: 'many' },
+  { from: 'person', to: 'socialLink', label: 'socialLinks[]', type: 'many' },
   { from: 'person', to: 'seoMetadata', label: 'seo', type: 'one' },
 
   // ── Infra → everything ─────────────────────────────────
@@ -497,9 +500,12 @@ export const relationships = [
   { from: 'siteSettings', to: 'navigation', label: 'footerColumns[]', type: 'many' },
   { from: 'siteSettings', to: 'ctaButtonDoc', label: 'headerCta', type: 'one' },
   { from: 'siteSettings', to: 'preheader', label: 'preheader', type: 'one' },
+  { from: 'siteSettings', to: 'socialLink', label: 'socialLinks[]', type: 'many' },
+  { from: 'preheader', to: 'linkItem', label: 'link', type: 'one' },
 
   // ── Atom cross-refs ─────────────────────────────────────
-  { from: 'ctaButtonDoc', to: 'link', label: 'link', type: 'one' },
+  { from: 'ctaButton', to: 'linkItem', label: 'link', type: 'one' },
+  { from: 'ctaButtonDoc', to: 'linkItem', label: 'link', type: 'one' },
   { from: 'richImage', to: 'mediaOverlay', label: 'overlay', type: 'one' },
   { from: 'cardBuilderItem', to: 'linkItem', label: 'titleLink', type: 'one' },
   { from: 'cardBuilderItem', to: 'tag', label: 'tags[]', type: 'many' },
