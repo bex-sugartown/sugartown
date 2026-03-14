@@ -436,7 +436,7 @@ export const entities = [
   },
   {
     id: 'homepage',
-    label: 'homepage (legacy)',
+    label: 'homepage (deprecated)',
     kind: 'document',
     group: 'infra',
     fields: [
