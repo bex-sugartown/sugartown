@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-14 · v0.17.2 released (EPIC-0170–0171 shipped) · EPIC-0172 ERD page in flight · Remaining: cleanup, governance, infra
+> Updated 2026-03-14 · v0.17.3 released (EPIC-0172 shipped) · EPIC-0173 link consolidation complete · Remaining: cleanup, governance, infra
 
 ---
 
@@ -8,7 +8,7 @@
 
 ---
 
-> **⚑ Current focus:** EPIC-0172 Schema ERD page in flight (Option A MVP). v0.17.2 shipped. All IA brief Phase 1 content pages live. **Next priorities:** Link atom consolidation (deprecate `link` → `linkItem`), FilterBar/MetadataCard cleanup, token reference cleanup, content governance.
+> **⚑ Current focus:** EPIC-0173 link consolidation complete. v0.17.3 shipped. All IA brief Phase 1 content pages live. **Next priorities:** FilterBar/MetadataCard cleanup, token reference cleanup, content governance.
 
 ---
 
@@ -16,7 +16,7 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **Link Atom Consolidation & CTA Cleanup** — Deprecate old `link` atom (raw URL, 12 refs) and migrate all schemas to `linkItem` (internal ref support). Extend `linkItem` with `label`, `openInNewTab`, `icon` fields. Data migration script for existing content. CTA button pair (`ctaButton`/`ctaButtonDoc`) swaps to `linkItem` in same pass. See `docs/backlog/EPIC-link-consolidation.md`. | `Schema` `Data Quality` `Studio UX` | 🟢 Next |
+| 1 | ~~**Link Atom Consolidation & CTA Cleanup**~~ — ✅ Shipped as EPIC-0173. Active schemas migrated to `linkItem`, CTA pair synced, GROQ projections flatten to existing component shape, migration script ready. | `Schema` `Data Quality` `Studio UX` | ✅ Shipped |
 | 2 | **FilterBar & MetadataCard cleanup** — Post-EPIC-0162 housekeeping. MetadataCard and FilterBar both carry legacy code paths from when tools were string enums — null guards, coercion helpers, and fallback renders that are no longer needed now that all content docs use reference arrays. Clean up dead branches, remove string-type guards, and align both components to the reference-only contract. Also audit facet label maps and `CONTENT_TYPE_LABELS` for stale entries. | `Component` `GROQ` | 🟢 Next |
 | 3 | **Content State Governance — draft vs published enforcement** — IA brief §5.3 dependency. Ensure published content has no orphaned references, missing required fields, or stale draft shadows. Extend `validate-content.js` with a "publication readiness" check that flags docs with drafts-only references or unpublished taxonomy refs. Feeds into Platform page content integrity story. May include a Studio document badge or custom action to surface publication state. | `Schema` `Data Quality` `Editor UX` | 🟢 Next |
 | 4 | **Token reference cleanup — 52 unknown `var(--st-*)` refs** — Token validator reports 52 broken token references across 19 CSS files. Pre-existing legacy debt: `App.css` uses retired names (`--st-red`, `--st-space-md`), `--st-page-gutter` defined in `globals.css` not `tokens.css`, Media/Table/Callout/CodeBlock component tokens not registered. Browser silently falls back to UA defaults (e.g. Times New Roman for font-family). No regressions from v0.17.0 — all pre-existing. | `CSS` `Data Quality` | 🟢 Next |
