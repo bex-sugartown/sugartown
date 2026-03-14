@@ -30,7 +30,7 @@ export default defineType({
     defineField({
       name: 'link',
       title: 'Link',
-      type: 'link',
+      type: 'linkItem',
       description: 'Optional link for the announcement'
     }),
     defineField({

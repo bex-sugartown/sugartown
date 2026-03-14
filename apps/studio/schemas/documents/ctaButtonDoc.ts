@@ -23,7 +23,7 @@ export default defineType({
     defineField({
       name: 'link',
       title: 'Link',
-      type: 'link',
+      type: 'linkItem',
       description: 'Button destination and label'
     }),
     defineField({
@@ -47,17 +47,22 @@ export default defineType({
       internalTitle: 'internalTitle',
       label: 'link.label',
       style: 'style',
-      url: 'link.url'
+      linkType: 'link.type',
+      internalSlug: 'link.internalRef.slug.current',
+      externalUrl: 'link.externalUrl'
     },
-    prepare({internalTitle, label, style, url}) {
+    prepare({internalTitle, label, style, linkType, internalSlug, externalUrl}) {
       const styleLabels: Record<string, string> = {
         primary: 'Primary',
         secondary: 'Secondary',
         tertiary: 'Tertiary'
       }
+      let dest = 'No URL'
+      if (linkType === 'internal') dest = internalSlug ? `/${internalSlug}` : '⚠ No page'
+      if (linkType === 'external') dest = externalUrl || '⚠ No URL'
       return {
         title: internalTitle || label || 'Untitled Button',
-        subtitle: `${styleLabels[style] || style} | "${label || 'No label'}" → ${url || 'No URL'}`
+        subtitle: `${styleLabels[style] || style} | "${label || 'No label'}" → ${dest}`
       }
     }
   },

@@ -123,11 +123,11 @@ export default defineType({
       name: 'socialLinks',
       title: 'Social Media Links',
       type: 'array',
-      description: 'Links to social media profiles',
+      description: 'Links to social media profiles (uses socialLink for platform-specific icons)',
       group: 'footer',
       of: [
         defineArrayMember({
-          type: 'link'
+          type: 'socialLink'
         })
       ],
       validation: (Rule) =>

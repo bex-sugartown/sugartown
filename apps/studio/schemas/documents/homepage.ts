@@ -52,7 +52,7 @@ export default defineType({
         defineField({
           name: 'link',
           title: 'Callout Link',
-          type: 'link',
+          type: 'linkItem',
           description: 'Optional link for the callout'
         }),
         defineField({
