@@ -5,7 +5,7 @@
 
 ## Epic Lifecycle
 
-**Status:** IN PROGRESS
+**Status:** COMPLETE
 
 **Epic ID:** EPIC-0174
 ## EPIC NAME: FilterBar & MetadataCard Cleanup + Tag Taxonomy Audit
