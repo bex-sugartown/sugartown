@@ -212,13 +212,19 @@ function HtmlSection({ section }) {
   )
 }
 
-// Callout Section Component (EPIC-0164)
+// Callout Section Component (EPIC-0164, upgraded to Portable Text in EPIC-0173)
 function CalloutSection({ section }) {
   if (!section.body) return null
+  // body can be Portable Text (array) or legacy plain text (string)
+  const isPortableText = Array.isArray(section.body)
   return (
     <div className={styles.calloutSection}>
       <Callout variant={section.variant} title={section.title}>
-        <p style={{ whiteSpace: 'pre-line' }}>{section.body}</p>
+        {isPortableText ? (
+          <PortableText value={section.body} components={portableTextComponents} />
+        ) : (
+          <p style={{ whiteSpace: 'pre-line' }}>{section.body}</p>
+        )}
       </Callout>
     </div>
   )

@@ -1,3 +1,9 @@
+/**
+ * @deprecated This component was built for the homepage singleton callout.
+ * The site now uses a `page` doc with slug "home" and the `calloutSection`
+ * section type rendered by PageSections.jsx via the DS Callout component.
+ * Not imported anywhere — will be removed in a future cleanup.
+ */
 import Link from './atoms/Link'
 import styles from './Callout.module.css'
 
