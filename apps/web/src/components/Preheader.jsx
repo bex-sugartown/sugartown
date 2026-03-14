@@ -39,11 +39,11 @@ export default function Preheader({ preheader }) {
         {preheader.message && (
           <span className={styles.message}>{preheader.message}</span>
         )}
-        {preheader.link?.url && (
+        {preheader.url && (
           <Link
-            label={preheader.link.label || 'Learn more'}
-            url={preheader.link.url}
-            openInNewTab={preheader.link.openInNewTab}
+            label={preheader.label || 'Learn more'}
+            url={preheader.url}
+            openInNewTab={preheader.openInNewTab}
             className={styles.link}
           />
         )}

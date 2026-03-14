@@ -51,14 +51,14 @@ export default function Header({ siteSettings }) {
           )}
 
           <div className={styles.cta}>
-            {headerCta?.link && (
+            {headerCta?.url && (
               <Button
                 variant={CTA_STYLE_TO_VARIANT[headerCta.style] || 'primary'}
-                href={headerCta.link.url}
-                openInNewTab={headerCta.link.openInNewTab}
+                href={headerCta.url}
+                openInNewTab={headerCta.openInNewTab}
                 className={styles.headerCtaButton}
               >
-                {headerCta.link.label || headerCta.internalTitle}
+                {headerCta.label || headerCta.internalTitle}
               </Button>
             )}
             <ThemeToggle />

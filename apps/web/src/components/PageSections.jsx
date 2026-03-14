@@ -238,8 +238,8 @@ function CTASection({ section }) {
             <Button
               key={index}
               variant={mapCtaStyle(button.style)}
-              href={button.link?.url}
-              openInNewTab={button.link?.openInNewTab}
+              href={button.url}
+              openInNewTab={button.openInNewTab}
             >
               {button.text}
             </Button>

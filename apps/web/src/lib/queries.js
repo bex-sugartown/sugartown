@@ -102,6 +102,37 @@ export const TAXONOMY_FRAGMENT = `
   "tools": tools[]->{${TOOL_FRAGMENT}}
 `
 
+// ---- LINK ITEM RESOLUTION ----
+// Resolves a linkItem object to the flat { url, label, openInNewTab } shape
+// that web components expect. Handles both internal refs and external URLs.
+// Usage: "url": ${LINKITEM_URL}, or spread the full fragment.
+//
+// For internal refs the URL is built from the referenced doc's _type + slug.
+// page and archivePage are root-level (/:slug), others have type prefixes.
+
+const LINKITEM_URL_EXPR = `select(
+  link.type == "internal" => select(
+    link.internalRef->_type == "page" => "/" + link.internalRef->slug.current,
+    link.internalRef->_type == "archivePage" => "/" + link.internalRef->slug.current,
+    link.internalRef->_type == "article" => "/articles/" + link.internalRef->slug.current,
+    link.internalRef->_type == "caseStudy" => "/case-studies/" + link.internalRef->slug.current,
+    link.internalRef->_type == "node" => "/knowledge-graph/" + link.internalRef->slug.current,
+    "/" + link.internalRef->slug.current
+  ),
+  link.type == "external" => link.externalUrl
+)`
+
+/**
+ * LINKITEM_FRAGMENT — resolves linkItem to flat shape for web components.
+ * Use inside a ctaButtonDoc or any doc that has a `link` field of type linkItem.
+ * Produces: { url, label, openInNewTab }
+ */
+export const LINKITEM_FRAGMENT = `
+  "url": ${LINKITEM_URL_EXPR},
+  "label": link.label,
+  "openInNewTab": link.openInNewTab
+`
+
 // ---- SITE SETTINGS (header, footer, nav, preheader, branding) ----
 export const siteSettingsQuery = `
   *[_type == "siteSettings"][0]{
@@ -146,22 +177,14 @@ export const siteSettingsQuery = `
     headerCta->{
       _id,
       internalTitle,
-      link{
-        url,
-        label,
-        openInNewTab
-      },
+      ${LINKITEM_FRAGMENT},
       style
     },
     preheader->{
       _id,
       title,
       message,
-      link{
-        url,
-        label,
-        openInNewTab
-      },
+      ${LINKITEM_FRAGMENT},
       backgroundColor,
       publishAt,
       unpublishAt,
@@ -181,10 +204,10 @@ export const siteSettingsQuery = `
       }
     },
     socialLinks[]{
+      platform,
       url,
       label,
-      openInNewTab,
-      icon
+      "icon": platform
     },
     copyrightText,
     // SEO defaults (used by resolveSeo() as fallback for all pages)
@@ -239,10 +262,10 @@ export const nodeBySlugQuery = `
         },
         cta {
           text,
-          link { url, label, openInNewTab },
+          "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
           style
         },
-        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": link.url, "openInNewTab": link.openInNewTab, style }
+        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
       },
       _type == "textSection" => {
         heading,
@@ -261,7 +284,7 @@ export const nodeBySlugQuery = `
       _type == "ctaSection" => {
         heading,
         description,
-        buttons[] { text, link { url, label, openInNewTab }, style }
+        buttons[] { text, "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab, style }
       },
       _type == "htmlSection" => {
         html,
@@ -375,10 +398,10 @@ export const articleBySlugQuery = `
         },
         cta {
           text,
-          link { url, label, openInNewTab },
+          "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
           style
         },
-        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": link.url, "openInNewTab": link.openInNewTab, style }
+        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
       },
       _type == "textSection" => {
         heading,
@@ -397,7 +420,7 @@ export const articleBySlugQuery = `
       _type == "ctaSection" => {
         heading,
         description,
-        buttons[] { text, link { url, label, openInNewTab }, style }
+        buttons[] { text, "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab, style }
       },
       _type == "htmlSection" => {
         html,
@@ -487,17 +510,13 @@ export const pageBySlugQuery = `
         // Support both embedded cta object and ctas array of references
         cta {
           text,
-          link {
-            url,
-            label,
-            openInNewTab
-          },
+          "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
           style
         },
         "ctas": ctas[]->{
           _id,
           "label": coalesce(link.label, internalTitle),
-          "url": link.url,
+          "url": ${LINKITEM_URL_EXPR},
           "openInNewTab": link.openInNewTab,
           style
         }
@@ -521,11 +540,7 @@ export const pageBySlugQuery = `
         description,
         buttons[] {
           text,
-          link {
-            url,
-            label,
-            openInNewTab
-          },
+          "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
           style
         }
       },
@@ -631,12 +646,12 @@ export const caseStudyBySlugQuery = `
         subheading,
         imageWidth,
         backgroundImage { asset->, alt, crop, hotspot },
-        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": link.url, "openInNewTab": link.openInNewTab, style }
+        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
       },
       _type == "ctaSection" => {
         heading,
         description,
-        buttons[] { text, link { url, label, openInNewTab }, style }
+        buttons[] { text, "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab, style }
       },
       _type == "htmlSection" => {
         html,
