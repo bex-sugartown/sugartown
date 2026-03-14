@@ -17,6 +17,7 @@ import TaxonomyPlaceholderPage from './pages/TaxonomyPlaceholderPage'
 import TaxonomyArchivePage from './pages/TaxonomyArchivePage'
 import PersonProfilePage from './pages/PersonProfilePage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
+import SchemaErdPage from './pages/SchemaErdPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 import './App.css'
@@ -94,6 +95,9 @@ function App() {
         <Route path="/people/:slug" element={<PersonProfilePage />} />
         <Route path="/tools" element={<TaxonomyArchivePage />} />
         <Route path="/tools/:slug" element={<TaxonomyPlaceholderPage />} />
+
+        {/* ── Code-driven pages ────────────────────────────────────── */}
+        <Route path="/platform/schema" element={<SchemaErdPage />} />
 
         {/* ── Root pages (page type) — must come last among /:slug ─── */}
         {/* NOTE: This catches any single-segment path not matched above.         */}

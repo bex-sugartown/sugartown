@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-13 · v0.17.2 released (EPIC-0170–0171 shipped) · All IA brief Phase 1 content pages live · Remaining: ERD, cleanup, governance, infra
+> Updated 2026-03-14 · v0.17.2 released (EPIC-0170–0171 shipped) · EPIC-0172 ERD page in flight · Remaining: cleanup, governance, infra
 
 ---
 
@@ -8,29 +8,22 @@
 
 ---
 
-> **⚑ Current focus:** v0.17.2 shipped: EPIC-0170 footer IA brief links, EPIC-0171 icon & emoji strategy. All IA brief Phase 1 content pages are live (Services, Contact, About, Platform, Homepage). Nav wired with Library dropdown. **Next priorities:** ERD page, FilterBar/MetadataCard cleanup, token reference cleanup, content governance.
+> **⚑ Current focus:** EPIC-0172 Schema ERD page in flight (Option A MVP). v0.17.2 shipped. All IA brief Phase 1 content pages live. **Next priorities:** Link atom consolidation (deprecate `link` → `linkItem`), FilterBar/MetadataCard cleanup, token reference cleanup, content governance.
 
 ---
 
-## 01 · Now — active / blocks launch
+## 01 · Next — high value, ready to pick up
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **Static Schema ERD page (EPIC-0147, Option B)** — Hardcoded schema manifest rendered as a visual ERD page. Option B is immediately implementable without a build step. Useful as a portfolio and internal reference artefact for the MACH architecture showcase. Good candidate for the Platform page. | `EPIC-0147` `Content` | 🔴 Now |
-
----
-
-## 02 · Next — high value, ready to pick up
-
-| # | Item | Tags | Priority |
-|---|------|------|----------|
+| 1 | **Link Atom Consolidation & CTA Cleanup** — Deprecate old `link` atom (raw URL, 12 refs) and migrate all schemas to `linkItem` (internal ref support). Extend `linkItem` with `label`, `openInNewTab`, `icon` fields. Data migration script for existing content. CTA button pair (`ctaButton`/`ctaButtonDoc`) swaps to `linkItem` in same pass. See `docs/backlog/EPIC-link-consolidation.md`. | `Schema` `Data Quality` `Studio UX` | 🟢 Next |
 | 2 | **FilterBar & MetadataCard cleanup** — Post-EPIC-0162 housekeeping. MetadataCard and FilterBar both carry legacy code paths from when tools were string enums — null guards, coercion helpers, and fallback renders that are no longer needed now that all content docs use reference arrays. Clean up dead branches, remove string-type guards, and align both components to the reference-only contract. Also audit facet label maps and `CONTENT_TYPE_LABELS` for stale entries. | `Component` `GROQ` | 🟢 Next |
 | 3 | **Content State Governance — draft vs published enforcement** — IA brief §5.3 dependency. Ensure published content has no orphaned references, missing required fields, or stale draft shadows. Extend `validate-content.js` with a "publication readiness" check that flags docs with drafts-only references or unpublished taxonomy refs. Feeds into Platform page content integrity story. May include a Studio document badge or custom action to surface publication state. | `Schema` `Data Quality` `Editor UX` | 🟢 Next |
 | 4 | **Token reference cleanup — 52 unknown `var(--st-*)` refs** — Token validator reports 52 broken token references across 19 CSS files. Pre-existing legacy debt: `App.css` uses retired names (`--st-red`, `--st-space-md`), `--st-page-gutter` defined in `globals.css` not `tokens.css`, Media/Table/Callout/CodeBlock component tokens not registered. Browser silently falls back to UA defaults (e.g. Times New Roman for font-family). No regressions from v0.17.0 — all pre-existing. | `CSS` `Data Quality` | 🟢 Next |
 
 ---
 
-## 03 · Soon — post-sprint, pre-launch
+## 02 · Soon — post-sprint, pre-launch
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
@@ -42,7 +35,7 @@
 
 ---
 
-## 04 · Deferred — post-launch
+## 03 · Deferred — post-launch
 
 | Item | Tags |
 |------|------|
@@ -52,11 +45,12 @@
 | **Future layout components: 2-col, 3-col banner, carousel** — Enhanced section builder layout options for editorial page building. Carousel needs accessibility and mobile performance consideration. Phase 2 scope. | `Deferred` `Component` |
 | **Archive page deferred fields — wire Display + Advanced tab configs** — 8 `archivePage` fields moved to "Advanced (coming soon)" tab in Studio: hero section, custom description, featured items, display density, card variant, sort options, pagination, empty state. None are currently wired in the web app. Wire them when archive page UX is revisited post-launch. | `Deferred` `Schema` `Editor UX` |
 | **KPI dashboard card family: stat-card, bar-card, insight-card (BL-03)** — New card use cases for a KPI dashboard surface. High design ambition, lower immediate priority. Scope as a standalone epic when the dashboard page is prioritised. | `Deferred` `Design System` `BL-03` |
+| **Schema ERD Sanity Hybrid (Option C)** — Upgrade ERD from code-driven page (EPIC-0172) to a `schemaErdSection` type embeddable via section builder. Component unchanged — adds schema, GROQ projection, and PageSections case. Depends on EPIC-0172. | `Deferred` `Schema` `Content` |
 | **EPIC Pink Moon — runtime theme toggle & polish** — CSS exists (`theme.pink-moon.css`) with dark-pink-moon and light-pink-moon variants — milky translucency, hairline borders, ambient glow. But there is no runtime toggle to activate it; the ThemeToggle component only switches between dark and light. This epic wires the Pink Moon variants into the theme switcher UI, adds Storybook stories for all 4 theme combinations, and polishes any component-level visual regressions under the glass aesthetic. | `Deferred` `Design System` `UX` |
 
 ---
 
-## 05 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.17.x
+## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.17.x
 
 | Item | Version | Date |
 |------|---------|------|
