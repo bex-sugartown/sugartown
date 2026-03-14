@@ -30,20 +30,22 @@ import styles from './MetadataCard.module.css'
 
 // ─── Display label maps (mirror Sanity schema option lists) ───────────────────
 
+// Node evolution values (node.ts status field)
+// Project lifecycle values (project.ts status field)
 const STATUS_LABELS = {
-  explored:      'Explored',
-  validated:     'Validated',
-  implemented:   'Implemented',
-  deprecated:    'Deprecated',
-  evergreen:     'Evergreen',
-  active:        'Active',
-  shipped:       'Shipped',
-  'in-progress': 'In Progress',
-  in_progress:   'In Progress',
-  paused:        'Paused',
-  archived:      'Archived',
-  draft:         'Draft',
-  planning:      'Planning',
+  // Node evolution
+  exploring:      'Exploring',
+  validated:      'Validated',
+  operationalized:'Operationalized',
+  deprecated:     'Deprecated',
+  evergreen:      'Evergreen',
+  // Project lifecycle
+  dreaming:       'Dreaming',
+  designing:      'Designing',
+  developing:     'Developing',
+  testing:        'Testing',
+  deploying:      'Deploying',
+  iterating:      'Iterating',
 }
 
 const AI_TOOL_LABELS = {
@@ -162,7 +164,7 @@ export default function MetadataCard({
   }
 
   // ── Chip / taxonomy guards ──────────────────────────────────────────────
-  const validTools    = tools?.filter((t) => t && typeof t === 'object' && t.name) ?? []
+  const validTools    = tools?.filter((t) => t && t.name) ?? []
   const hasTools      = validTools.length > 0
   const hasKpis       = kpis?.length > 0
   const hasCategories = categories?.length > 0

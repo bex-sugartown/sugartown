@@ -82,7 +82,7 @@ export function applyFilters(items, activeFilters) {
       if (enumDef) {
         const rawValue = item[enumDef.field]
         if (enumDef.isArray) {
-          // tools[] — string array; at least one must match
+          // Array-type enum facet; at least one element must match
           if (!Array.isArray(rawValue) || rawValue.length === 0) return false
           return rawValue.some((v) => typeof v === 'string' && activeValues.includes(v))
         } else {

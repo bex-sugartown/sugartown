@@ -40,10 +40,10 @@ const CONTENT_TYPE_LABELS = {
 
 // Node statuses map to the `evolution` prop; all others to `status`.
 // Values must match STATUS_BADGE_CLASS keys in Card.module.css.
+// Schema values (node.ts): exploring, validated, operationalized, deprecated, evergreen
 const NODE_EVOLUTION_MAP = {
-  explored:         'exploring',
+  exploring:        'exploring',
   validated:        'validated',
-  implemented:      'implemented',
   operationalized:  'operationalized',
   deprecated:       'deprecated',
   evergreen:        'evergreen',
@@ -109,10 +109,9 @@ export default function ContentCard({
     : undefined
 
   // ── Tools — reference array → linked chip objects ──
-  // Guard: pre-migration data may contain nulls (unresolved string→ref dereferences)
   const toolChips = item.tools?.length
     ? item.tools
-        .filter((t) => t && typeof t === 'object' && t.name)
+        .filter((t) => t && t.name)
         .map((t) => ({
           label: t.name,
           href: getCanonicalPath({ docType: 'tool', slug: t.slug }),
