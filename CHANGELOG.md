@@ -4,6 +4,22 @@ All notable changes to the Sugartown monorepo are documented here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [0.17.5] — 2026-03-14
+
+EPIC-0174: FilterBar & MetadataCard Cleanup + Tag Taxonomy Audit. Removed legacy defensive code paths, audited status label maps, cleaned up tag taxonomy, and backfilled default author.
+
+### apps/web
+
+- Removed `typeof t === 'object'` string-type guards from ContentCard and MetadataCard tool rendering — all tools are now reference-only
+- Audited and corrected NODE_EVOLUTION_MAP and STATUS_LABELS to match current schema enum values (node evolution + project lifecycle)
+- Removed legacy author string fallback from `getAuthorByline()` and `legacyAuthor` prop from MetadataCard/ArticlePage
+
+### scripts/migrate
+
+- Added `cleanup-tag-tool-duplicates.js`: migrated 7 tag→tool refs across content and project docs, deleted 25 duplicate tag documents
+- Added `cleanup-orphan-tags.js`: deleted 132 zero-reference orphan tags (tags reduced from 256 → 92)
+- Added `backfill-default-author.js`: set default author on 35 node docs with empty `authors[]`
+
 ## [0.17.4] — 2026-03-14
 
 EPIC-0173: Link Atom Consolidation & CTA Cleanup. Migrated active schemas from the old `link` atom to `linkItem` with internal reference support, upgraded callout body to Portable Text with inline links, and deprecated the unused homepage singleton.
