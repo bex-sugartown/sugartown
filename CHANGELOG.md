@@ -4,6 +4,20 @@ All notable changes to the Sugartown monorepo are documented here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [0.17.7] — 2026-03-15
+
+EPIC-0176: Content State Governance. Makes the published-only content posture explicit with documentation, build-time safety, preview mode infrastructure, and draft-only document detection.
+
+### apps/web
+
+- Content perspective logic extracted into `contentState.js` — Sanity client delegates draft/published decision to a centralized helper
+- Build-time safety plugin blocks production builds when `VITE_SANITY_PREVIEW=true` is set, preventing draft content from shipping
+- Draft-only document detection added to `validate-content.js` (check G) — warns when documents exist only as drafts but have slugs that would 404 in production
+
+### docs
+
+- Content state policy document covers the published-only contract, preview mode usage, unpublish implications, and build-time enforcement rationale
+
 ## [0.17.6] — 2026-03-14
 
 EPIC-0175: Token Reference Cleanup. Resolved all broken `var(--st-*)` references across 19 CSS files, registered missing utility tokens, and enhanced the token validator with reference scanning.
