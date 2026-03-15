@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-15 · v0.18.0 released · EPIC-0170–0176 shipped · Remaining: hosting, search, polish
+> Updated 2026-03-15 · v0.18.0 released · Hosting decision: Netlify selected · Remaining: search, polish, cutover
 
 ---
 
@@ -8,7 +8,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.18.0 shipped. All IA brief Phase 1 content pages live. All token references resolved. Content state governance formalized. **Next priorities:** hosting decision, search, visual polish.
+> **⚑ Current focus:** v0.18.0 shipped. Hosting decided: Netlify. **Next priorities:** DNS cutover execution, search, visual polish.
 
 ---
 
@@ -16,7 +16,7 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **Hosting platform decision for DNS cutover** — Evaluate Netlify, Cloudflare Pages, Vercel, or self-hosted against cost, preview URL support, redirect file compatibility, and Sanity webhook integration. Decision gates the cutover timeline. | `Infrastructure` | 🟢 Next |
+| 1 | **DNS cutover to Netlify** — Hosting decided (Netlify). Remaining: connect GitHub repo for deploy previews, set up Sanity webhook → Netlify build hook, configure `sugartown.io` custom domain, execute DNS cutover. See `docs/reports/hosting-evaluation.md` for full plan. | `Infrastructure` | 🟢 Next |
 | 2 | **Add Search — site-wide content search** — No search exists today. Options: Sanity's built-in text search API, a lightweight client-side index (e.g. Fuse.js over a pre-built JSON manifest), or a hosted search service (Algolia, Typesense). Needs design decision on scope (full-text vs title/tag), UI placement (nav bar, dedicated page, command palette), and whether to index all 5 content types or start with articles + nodes. High user value but no existing infrastructure — design spike needed first. | `UX` `GROQ` `Infrastructure` | 🟢 Next |
 
 ---
@@ -50,6 +50,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**Hosting platform decision** — Evaluated Netlify, Cloudflare Pages, Vercel, self-hosted. Selected Netlify: zero migration cost, native redirect compatibility (296 exact-match + 3 query-param rules), automatic deploy previews, Sanity build hook support, free tier sufficient. Report: `docs/reports/hosting-evaluation.md`.~~ | — | 2026-03-15 |
 | ~~**EPIC-0176 · Content State Governance** — Published-only content posture made explicit. `contentState.js` centralizes perspective decision. Build-time safety plugin blocks `VITE_SANITY_PREVIEW=true` in production. Draft-only document detection added to `validate-content.js` (check G). Content state policy documented.~~ | v0.17.7 | 2026-03-15 |
 | ~~**EPIC-0175 · Token Reference Cleanup** — Resolved all broken `var(--st-*)` references across 19 CSS files. Registered `--st-transition-fast`, `--st-color-surface-subtle`, `--st-page-gutter`. Migrated 24 legacy alias refs (`--st-font-mono`, `--st-pink`, `--st-gray-light`, `--st-font-sans`). Deleted orphaned `design-tokens.css`. Validator enhanced with reference scanning + component-scoped API token allowlist.~~ | v0.17.6 | 2026-03-14 |
 | ~~**EPIC-0174 · FilterBar & MetadataCard Cleanup + Tag Taxonomy Audit** — Removed legacy tool string-type guards, audited status label maps (node evolution + project lifecycle), removed legacy author fallback. Tag taxonomy: 256→92 tags (25 duplicates deleted, 132 orphans deleted, 7 tag→tool ref migrations). Author backfill: 35 node docs patched. Migration scripts: `cleanup-tag-tool-duplicates.js`, `cleanup-orphan-tags.js`, `backfill-default-author.js`.~~ | v0.17.5 | 2026-03-14 |
@@ -83,4 +84,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-03-15*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-03-15 · hosting decided*
