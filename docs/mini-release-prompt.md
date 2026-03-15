@@ -1,5 +1,5 @@
 # PROMPT — Sugartown Mini-Release Assistant
-**Version:** v2 (2026-03-15)
+**Version:** v3 (2026-03-15)
 
 Run this after every epic is fully committed and the working tree is clean.
 
@@ -7,14 +7,14 @@ Run this after every epic is fully committed and the working tree is clean.
 
 ## What a mini-release is
 
-A mini-release is a **patch version bump + lightweight CHANGELOG stub** scoped to a single epic. It is not a full release. It produces:
+A mini-release is a **patch version bump** scoped to a single epic. It is not a full release. It produces:
 
-- One commit: version bump + CHANGELOG stub
+- One commit: version bump only
+- No CHANGELOG stub (full releases pull data from git log)
 - No release notes
 - No release notes archive
-- No full surface-by-surface breakdown
 
-Mini-releases accumulate in CHANGELOG.md as patch entries. A **full release** (run separately via `/release`) aggregates them into a MINOR or MAJOR entry with narrative, release notes, and the full 5-gate ceremony.
+Mini-releases accumulate as tagged patch versions. A **full release** (run separately via `/release`) aggregates them into a MINOR or MAJOR CHANGELOG entry with narrative, release notes, and the full 5-gate ceremony.
 
 ---
 
@@ -22,7 +22,6 @@ Mini-releases accumulate in CHANGELOG.md as patch entries. A **full release** (r
 
 - Working tree must be clean before starting. If it is not, stop and tell the human to commit or stash first.
 - One mini-release per epic. Do not bundle multiple epics into a single patch.
-- The stub is a factual record, not a narrative. No marketing tone.
 - Nothing is written to disk until the human says "Write it".
 - Nothing is committed until the human says "Commit it".
 
@@ -50,49 +49,23 @@ Step 0 has no gate — purely mechanical.
 
 ---
 
-## STEP 1 — PROPOSE STUB
+## STEP 1 — PROPOSE VERSION BUMP
 
-AI produces a mini CHANGELOG entry to chat. **AI must not write to disk yet.**
-
-**Format:**
-
-```markdown
-## [X.Y.Z] — YYYY-MM-DD
-
-EPIC-XXXX: [Epic name]. [One sentence describing the overall scope.]
-
-### packages/design-system
-
-- [Outcome bullet]
-- [Outcome bullet]
-
-### apps/web
-
-- [Outcome bullet]
-
-### apps/studio
-
-- [Outcome bullet]
-```
-
-**Rules:**
-
-- Max 3 bullets per surface. If more changed, group into one higher-level bullet.
-- Omit surfaces with no meaningful changes.
-- Outcome-focused — what exists now that didn't before, or what behaves differently.
-- No `Added` / `Changed` / `Fixed` sub-headers (that is full-release format).
-- No file names as bullets (e.g. not "Updated Card.tsx" — say what it does now).
-- No marketing tone.
-- Legacy values, backward-compat scaffolding, and "kept for compat" notes are fine to include — they are real changes.
-
-### ✅ GATE 1 — STOP
-
-AI outputs the proposed stub to chat, then prints:
+AI produces a summary of what will happen:
 
 ```
-━━━ GATE 1 — MINI-RELEASE STUB ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Review the CHANGELOG stub above.
-Edit if needed, or reply "Write it" to write to CHANGELOG.md and bump versions.
+━━━ GATE 1 — VERSION BUMP ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Epic: EPIC-XXXX — [Epic name]
+Version: X.Y.Z → X.Y.Z+1
+
+Files to update:
+  package.json → X.Y.Z+1
+  apps/web/package.json → X.Y.Z+1
+
+Proposed commit message:
+  chore(release): mini-release vX.Y.Z+1 — EPIC-XXXX [Epic name]
+
+Reply "Write it" to bump versions and commit.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -104,29 +77,11 @@ Edit if needed, or reply "Write it" to write to CHANGELOG.md and bump versions.
 
 On "Write it":
 
-1. Prepend the approved stub to `CHANGELOG.md`
-2. Bump version in `package.json` (root) to `X.Y.Z+1`
-3. Bump version in `apps/web/package.json` to `X.Y.Z+1` (if it tracks version separately)
+1. Bump version in `package.json` (root) to `X.Y.Z+1`
+2. Bump version in `apps/web/package.json` to `X.Y.Z+1` (if it tracks version separately)
+3. Stage and commit with message: `chore(release): mini-release vX.Y.Z+1 — EPIC-XXXX [Epic name]`
 
-### ✅ GATE 2 — STOP
-
-AI prints the proposed commit plan:
-
-```
-━━━ GATE 2 — COMMIT PLAN ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Files to commit:
-  CHANGELOG.md
-  package.json → X.Y.Z+1
-  apps/web/package.json → X.Y.Z+1
-
-Proposed commit message:
-  chore(release): mini-release vX.Y.Z+1 — EPIC-XXXX [Epic name]
-
-Reply "Commit it" to create the commit.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
-
-**AI must not commit until the human replies "Commit it".**
+No separate gate for commit — "Write it" authorizes both the version bump and the commit.
 
 ---
 
@@ -171,7 +126,6 @@ After all steps complete, AI prints:
 
 ```
 ━━━ MINI-RELEASE vX.Y.Z+1 COMPLETE ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ✅  CHANGELOG.md — [X.Y.Z+1] stub prepended
   ✅  package.json → X.Y.Z+1
   ✅  Committed: [hash]
   ✅  Backlog cleaned: [deleted file(s) listed, or "no backlog file to remove"]
@@ -189,9 +143,8 @@ Next: start the next epic, or run /release for a full release
 Fail if:
 - Working tree is dirty when mini-release starts.
 - Multiple epics bundled into one patch.
-- Marketing or roadmap language in the stub.
 - AI writes to disk before "Write it".
-- AI commits before "Commit it".
 - Version is bumped by MINOR or MAJOR (patches only — if the epic warrants a MINOR bump, run the full `/release` instead).
 - Shipped epic's backlog file is left in `docs/backlog/` when a matching `docs/prompts/EPIC-NNNN-*` exists.
 - Backlog priority stack is not updated after shipping an epic that appears as an active item.
+- AI writes a CHANGELOG stub (CHANGELOG is only updated during full releases).

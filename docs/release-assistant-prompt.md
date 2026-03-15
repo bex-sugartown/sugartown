@@ -531,8 +531,8 @@ Ledger always precedes narrative.
 - Do NOT use date-only versions in the CHANGELOG header.
 - The Release Notes file header and branch metadata use `vX.Y.Z` (with `v` prefix).
 - Increment guidance:
-  - `PATCH`: per-epic mini-releases (see below) — one epic, no release notes
-  - `MINOR`: full releases — aggregates one or more patch mini-releases into a cohesive entry with release notes
+  - `PATCH`: per-epic mini-releases (see below) — one epic, version bump only, no CHANGELOG entry
+  - `MINOR`: full releases — aggregates one or more patch mini-releases into a single CHANGELOG entry with release notes
   - `MAJOR`: breaking schema changes, URL namespace changes, removed public APIs
 - When uncertain, ask the human before generating.
 
@@ -542,19 +542,9 @@ Sugartown uses a two-tier release model:
 
 | Tier | Command | Version bump | CHANGELOG | Release notes |
 |------|---------|-------------|-----------|---------------|
-| **Mini-release** | `/mini-release` | PATCH | Lightweight stub per epic | None |
+| **Mini-release** | `/mini-release` | PATCH | None | None |
 | **Full release** | `/release` | MINOR (or MAJOR) | Aggregated narrative entry | Yes |
 
-**How CHANGELOG entries nest:**
-```
-## [0.15.0] — 2026-03-15          ← full release (MINOR) — aggregates patches below
-...full narrative entry...
+Mini-releases only bump the version and clean up the backlog. The CHANGELOG is **only written during full releases**, which pull data from `git log` and `git diff` to construct the aggregated entry. This avoids redundant patch stubs that duplicate the MINOR entry.
 
-## [0.14.4] — 2026-03-05          ← mini-release patch (EPIC-0158)
-## [0.14.3] — 2026-03-04          ← mini-release patch (EPIC-0157)
-## [0.14.2] — 2026-03-04          ← mini-release patch (EPIC-0156)
-```
-
-The MINOR entry is a **summary that references the patches** — it does not duplicate their bullets. The patches stay as-is and serve as the detail record.
-
-**Full release Step 0 adjustment:** If patch mini-releases exist since the last MINOR release, list them at the top of the Step 0 output with their CHANGELOG stubs. The Step 1 Source of Truth bullets may reference them by epic ID rather than repeating file-level diffs already captured in the stubs.
+**Full release Step 0 adjustment:** Use `git log` and `git diff` since the last MINOR release tag to collect all changes across patch mini-releases. Group by epic ID from commit messages.
