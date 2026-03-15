@@ -1,5 +1,6 @@
 import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
+import { getContentPerspective, logPreviewWarning } from './contentState.js'
 
 export const client = createClient({
   projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
@@ -9,13 +10,18 @@ export const client = createClient({
   // queries even on a public dataset. VITE_SANITY_TOKEN should be a read-only
   // viewer token (create one at sanity.io/manage → API → Tokens).
   token: import.meta.env.VITE_SANITY_TOKEN,
-  // CDN disabled: freshly imported docs (wp.* IDs) may not propagate to
-  // the CDN cache immediately. Re-enable for production builds once content is stable.
+  // CDN enabled in production only — freshly imported docs (wp.* IDs) may not
+  // propagate to the CDN cache immediately. CDN is not used in preview mode
+  // because draft content is not cached.
   useCdn: import.meta.env.PROD,
-  // Always query the published perspective — prevents empty drafts from shadowing
-  // published docs when both share the same slug (e.g. drafts.wp.* vs wp.*).
-  perspective: 'published',
+  // Content perspective decision delegated to contentState.js.
+  // Default: 'published' — prevents empty drafts from shadowing published docs.
+  // Preview: 'previewDrafts' — opt-in via VITE_SANITY_PREVIEW=true (dev only).
+  perspective: getContentPerspective(),
 })
+
+// Log a visible warning when preview mode is active
+logPreviewWarning()
 
 // Helper for generating image URLs
 const builder = imageUrlBuilder(client)

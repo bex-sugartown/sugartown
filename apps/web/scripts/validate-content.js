@@ -10,6 +10,8 @@
  *   E) Duplicate slugs within the same _type
  *   F) HTML entities as literal strings in PortableText spans (e.g. &#8220; &#8221;)
  *      — these are not decoded by @portabletext/react and render as raw codes in the UI
+ *   G) Draft-only documents — docs that exist as drafts but have never been published,
+ *      meaning their slugs would 404 in production (EPIC-0176)
  *
  * Complements:
  *   validate:urls    — URL authority and routing correctness
@@ -77,6 +79,13 @@ if (!token) {
 }
 
 const client = createClient({ projectId, dataset, apiVersion, useCdn: false, token })
+
+// Raw-perspective client — sees both drafts and published documents.
+// Used by check G (draft-only detection) to compare draft vs published state.
+const rawClient = createClient({
+  projectId, dataset, apiVersion, useCdn: false, token,
+  perspective: 'raw',
+})
 
 // ─── Known content types that require slugs ──────────────────────────────────
 
@@ -432,6 +441,72 @@ async function run() {
 
   if (entityIssues === 0) {
     console.log('   ✅  No literal HTML entities found in PortableText spans')
+  }
+  console.log()
+
+  // ── G) Draft-only documents ──────────────────────────────────────────────
+  //    Documents that exist only as drafts (never published) — their slugs
+  //    would 404 in production. Uses raw perspective to see both states.
+  //    EPIC-0176 · Content State Governance
+
+  console.log('👻  Draft-Only Document Detection')
+  console.log('──────────────────────────────────────────────')
+
+  if (!token) {
+    console.log('   ⏭️   Skipped — VITE_SANITY_TOKEN required for draft-only detection')
+  } else {
+    const ROUTED_TYPES = ['page', 'article', 'caseStudy', 'node', ...TAXONOMY_TYPES]
+
+    // Fetch ALL documents (drafts.* and published) for routed types that have slugs
+    const draftQuery = `*[_type in $routedTypes && defined(slug.current)] {
+      _id,
+      _type,
+      title,
+      name,
+      "slug": slug.current
+    }`
+
+    let rawDocs
+    try {
+      rawDocs = await rawClient.fetch(draftQuery, { routedTypes: ROUTED_TYPES })
+    } catch (err) {
+      console.log(`   ⚠️   Raw-perspective query failed: ${err.message}`)
+      rawDocs = []
+    }
+
+    // Separate into draft IDs and published IDs
+    const publishedIds = new Set()
+    const draftDocs = []
+
+    for (const doc of rawDocs) {
+      if (doc._id.startsWith('drafts.')) {
+        draftDocs.push(doc)
+      } else {
+        publishedIds.add(doc._id)
+      }
+    }
+
+    // A draft-only doc has a drafts.* ID but no matching published ID
+    const draftOnly = draftDocs.filter((d) => {
+      const publishedId = d._id.replace(/^drafts\./, '')
+      return !publishedIds.has(publishedId)
+    })
+
+    if (draftOnly.length === 0) {
+      console.log('   ✅  No draft-only documents with slugs detected')
+    } else {
+      console.log(
+        `   ⚠️   ${draftOnly.length} draft-only document(s) — these will 404 in production:`,
+      )
+      for (const doc of draftOnly.sort((a, b) => a._type.localeCompare(b._type))) {
+        const label = doc.title || doc.name || '(untitled)'
+        console.log(`        [${doc._type}] "${label}" → /${doc.slug}`)
+      }
+      console.log(
+        '        Fix: publish these documents in Sanity Studio, or delete if no longer needed.',
+      )
+      warnings += draftOnly.length
+    }
   }
   console.log()
 

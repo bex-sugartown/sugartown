@@ -5,7 +5,7 @@
 
 ## Epic Lifecycle
 
-**Status:** IN PROGRESS
+**Status:** COMPLETE
 
 **Epic ID:** EPIC-0176
 ## EPIC NAME: Content State Governance — Draft vs Published Enforcement
@@ -98,11 +98,11 @@ After this epic, Sugartown's content state contract is **explicit, documented, e
 ## Scope
 
 - [x] **Content state helper** — Create `src/lib/contentState.js` with environment-aware client factory and preview mode toggle
-- [ ] **Build-time safety check** — Add assertion to Vite build config or pre-build script that fails if `perspective` is not `'published'` in production
-- [ ] **Preview mode infrastructure** — Environment variable (`VITE_SANITY_PREVIEW`) that, when explicitly set, switches client to `'previewDrafts'` perspective. Dev-only — blocked in production by build check.
-- [ ] **Validator enhancement** — Add check (G) to `validate-content.js`: detect draft-only documents with slugs matching known route patterns
-- [ ] **Documentation** — Create `docs/content-state-policy.md` explaining the content state contract
-- [ ] **Sanity client refactor** — Extract client creation from `sanity.js` into `contentState.js`, making the perspective decision explicit and testable
+- [x] **Build-time safety check** — Add assertion to Vite build config or pre-build script that fails if `perspective` is not `'published'` in production
+- [x] **Preview mode infrastructure** — Environment variable (`VITE_SANITY_PREVIEW`) that, when explicitly set, switches client to `'previewDrafts'` perspective. Dev-only — blocked in production by build check.
+- [x] **Validator enhancement** — Add check (G) to `validate-content.js`: detect draft-only documents with slugs matching known route patterns
+- [x] **Documentation** — Create `docs/content-state-policy.md` explaining the content state contract
+- [x] **Sanity client refactor** — Extract client creation from `sanity.js` into `contentState.js`, making the perspective decision explicit and testable
 
 **Not in scope:**
 - [ ] Migration script — no data to migrate, this is infrastructure-only
