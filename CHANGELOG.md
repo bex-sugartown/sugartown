@@ -4,6 +4,74 @@ All notable changes to the Sugartown monorepo are documented here.
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [0.18.0] — 2026-03-15
+
+IA brief delivery, schema consolidation, content tooling, and content state governance. Aggregates 0.17.1–0.17.7.
+
+### apps/web
+
+#### Added
+- Footer nav items resolve via `resolveNavLink()` — fixes broken external links; column headings use editor-controlled `header` field only; brand column centered with pink separator (EPIC-0170)
+- SVG icon components (Simple Icons + Lucide) replace emoji icons across SocialLink, ThemeToggle, NodesExample, PersonProfilePage; social icons default brand pink with muted hover (EPIC-0171)
+- Nav dropdown menus: hover-triggered when parent has URL, click-triggered when label-only; keyboard/Escape/click-outside support (EPIC-0171)
+- Interactive Schema ERD page at `/platform/schema` — 30 entities, 44 relationships from static manifest with group filter tabs, click-to-select cards, and pink reference links (EPIC-0172)
+- GROQ projections and components updated for `linkItem` schema; calloutSection renders body via PortableText with backward compat for plain text (EPIC-0173)
+- Content perspective logic extracted into `contentState.js` — Sanity client delegates draft/published decision to centralized helper (EPIC-0176)
+- Build-time safety plugin blocks production builds when `VITE_SANITY_PREVIEW=true` is set (EPIC-0176)
+- Draft-only document detection added to `validate-content.js` (check G) — warns when docs exist only as drafts with slugs that would 404 in production (EPIC-0176)
+
+#### Changed
+- CTA style maps updated with `tertiary` as canonical; `ghost` retained for backward compat (EPIC-0172)
+- Schema manifest updated for linkItem fields, socialLink relationships, deprecated homepage singleton (EPIC-0173)
+- Citation renderer/queries updated for `citations[]` array; card footer layout, citation numbering, callout width fixes; NodesExample removed
+
+#### Fixed
+- Replaced 14 broken legacy token names in App.css with canonical equivalents — error states, loading, and empty states now render correctly (EPIC-0175)
+- Migrated 24 legacy alias references to canonical names across 12 component CSS files (EPIC-0175)
+- Deleted orphaned `design-tokens.css` (legacy parallel token file with no consumers) (EPIC-0175)
+
+#### Removed
+- Legacy `typeof` string-type guards from ContentCard/MetadataCard tool rendering (EPIC-0174)
+- Legacy author string fallback from `getAuthorByline()` and `legacyAuthor` prop from MetadataCard/ArticlePage (EPIC-0174)
+- Audited and corrected `NODE_EVOLUTION_MAP` and `STATUS_LABELS` to match current schema enum values (EPIC-0174)
+
+### apps/studio
+
+#### Added
+- Navigation document gains optional `header` field for column headings (EPIC-0170)
+- All icon/platform option lists consolidated into shared `iconOptions.ts` — single source across link, socialLink, person schemas (EPIC-0171)
+- Nav internal page picker now includes archivePage documents (EPIC-0171)
+- `linkItem` extended with `label`, `openInNewTab`, expanded URL validation; active schemas swapped from `link` → `linkItem` across ctaButton, ctaButtonDoc, preheader, homepage, siteSettings (EPIC-0173)
+- `calloutSection` body upgraded from plain text to Portable Text with inline link support (EPIC-0173)
+
+#### Changed
+- CTA button icon field hidden (was exposing social icon list) (EPIC-0171)
+- CTA button style enum renamed `ghost` → `tertiary` on both `ctaButton` and `ctaButtonDoc` paired schemas (EPIC-0172)
+- Homepage singleton deprecated (EPIC-0173)
+- `citation` → `citations[]` array with `linkItem` on `cardBuilderItem`
+
+### packages/design-system
+
+#### Fixed
+- Migrated legacy alias references (`--st-font-mono`, `--st-font-sans`) to canonical names in Chip and Button CSS (EPIC-0175)
+- Registered `--st-transition-fast`, `--st-color-surface-subtle`, and `--st-page-gutter` in tokens.css (synced with web) (EPIC-0175)
+
+### scripts
+
+#### Added
+- `cleanup-tag-tool-duplicates.js`: migrated 7 tag→tool refs, deleted 25 duplicate tags (EPIC-0174)
+- `cleanup-orphan-tags.js`: deleted 132 zero-reference orphan tags (256 → 92) (EPIC-0174)
+- `backfill-default-author.js`: set default author on 35 node docs (EPIC-0174)
+- `link-to-linkItem.js` migration script with `DRY_RUN=1` support (EPIC-0173)
+- Token validator scans all CSS files for unknown `var(--st-*)` references with component-scoped API token allowlist (EPIC-0175)
+
+### docs
+
+#### Added
+- Content state policy document (`docs/content-state-policy.md`) covers published-only contract, preview mode, unpublish implications, build-time enforcement (EPIC-0176)
+- Backlog priorities converted from HTML to Markdown; shipped epics marked
+- Legacy PRDs curated into canonical `docs/briefs/` library
+
 ## [0.17.7] — 2026-03-15
 
 EPIC-0176: Content State Governance. Makes the published-only content posture explicit with documentation, build-time safety, preview mode infrastructure, and draft-only document detection.
