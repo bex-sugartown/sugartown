@@ -1,5 +1,5 @@
 # PROMPT — Sugartown Mini-Release Assistant
-**Version:** v1 (2026-03-05)
+**Version:** v2 (2026-03-15)
 
 Run this after every epic is fully committed and the working tree is clean.
 
@@ -130,15 +130,52 @@ Reply "Commit it" to create the commit.
 
 ---
 
+## STEP 3 — BACKLOG CLEANUP
+
+After the commit lands, AI performs these cleanup tasks **automatically** (no gate — these are mechanical):
+
+### 3A — Delete shipped epic from backlog directory
+
+If the epic has a file in `docs/backlog/` **and** has been activated to `docs/prompts/EPIC-NNNN-*`, delete the backlog copy. The prompt file is the permanent record; the backlog copy is a staging artifact.
+
+```bash
+# Example: EPIC-0176 shipped
+rm docs/backlog/EPIC-content-state-governance.md  # if it exists
+```
+
+Only delete files that match the shipped epic. Do not touch other backlog files.
+
+### 3B — Update backlog priority stack
+
+In `docs/backlog/sugartown-backlog-priorities.md`:
+
+1. **Ship the epic** — if it appears as an active item (in sections 01 or 02), move it to the Shipped section (04) with the version and date.
+2. **Update header meta** — update the `> Updated` line with current date, version, and shipped epic name.
+3. **Update current focus** — update the `⚑ Current focus` block to reflect what shipped and what's next.
+4. **Renumber** — if active items were removed, renumber the remaining items sequentially.
+5. **Update footer date**.
+
+### 3C — Commit backlog cleanup
+
+Stage and commit the backlog changes (deleted file + updated priority stack):
+
+```
+docs: mark EPIC-NNNN shipped in backlog and close epic prompt
+```
+
+---
+
 ## COMPLETION
 
-After committing, AI prints:
+After all steps complete, AI prints:
 
 ```
 ━━━ MINI-RELEASE vX.Y.Z+1 COMPLETE ━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ✅  CHANGELOG.md — [X.Y.Z+1] stub prepended
   ✅  package.json → X.Y.Z+1
   ✅  Committed: [hash]
+  ✅  Backlog cleaned: [deleted file(s) listed, or "no backlog file to remove"]
+  ✅  Priority stack updated
 
 Next: start the next epic, or run /release for a full release
       when the cycle is done.
@@ -156,3 +193,5 @@ Fail if:
 - AI writes to disk before "Write it".
 - AI commits before "Commit it".
 - Version is bumped by MINOR or MAJOR (patches only — if the epic warrants a MINOR bump, run the full `/release` instead).
+- Shipped epic's backlog file is left in `docs/backlog/` when a matching `docs/prompts/EPIC-NNNN-*` exists.
+- Backlog priority stack is not updated after shipping an epic that appears as an active item.
