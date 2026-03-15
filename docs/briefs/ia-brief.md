@@ -223,6 +223,25 @@ The manifesto proposed 8 sections. Here's the reality check — what maps to exi
 
 ---
 
+### 5.9 CV / Resume (Added 2026-03-15)
+
+**Route:** `/cv` (new page, redirect from `/cv-resume/`)
+
+**What exists:** WordPress site has `/cv-resume/` as an L1 nav item. No equivalent exists in the new site. The Resume Factory PRD (`docs/briefs/resume-factory-prd.md`) describes a separate multi-variant resume builder tool — that is an internal authoring system, not a public page.
+
+**What's needed:**
+- A single `/cv` page using the section builder — professional summary, experience timeline, skills, education
+- Redirect from legacy `/cv-resume/` → `/cv` (301)
+- Optional: downloadable PDF link (static asset or Sanity-hosted)
+
+**Decision (added 2026-03-15):** CV moves from **L1 nav to footer link**. Rationale: in the new IA, the L1 nav serves the visitor conversion arc (Work → Library → Platform → Services). A CV is complementary to About — it's a credentialing artifact, not a primary navigation destination. Placing it in the footer alongside Contact keeps it accessible without competing with the content hierarchy.
+
+**Placement:** Footer nav, alongside Contact, Privacy, Terms, Accessibility Statement. Not in L1 header nav.
+
+**Route:** `/cv` (short, clean). Legacy `/cv-resume/` gets a 301 redirect.
+
+---
+
 ## 6. Primary Navigation (Proposed)
 
 Based on the decisions above, here's the locked nav structure:
@@ -235,7 +254,7 @@ Based on the decisions above, here's the locked nav structure:
 └─────────────────────────────────────────────────────┘
 ```
 
-**Footer nav adds:** Contact, Privacy, Terms, Accessibility Statement
+**Footer nav adds:** Contact, CV, Privacy, Terms, Accessibility Statement
 
 **Notes:**
 - "Work" links to `/case-studies`
@@ -256,6 +275,8 @@ Additions to the existing canonical namespace:
 /platform                      → Page (section builder)
 /services                      → Page (section builder)
 /contact                       → Page (section builder)
+/cv                            → Page (section builder) — added 2026-03-15
+/cv-resume                     → redirect → /cv (301, legacy WP URL)
 
 # Confirmed unchanged
 /case-studies                  → Archive (Work section)
@@ -274,7 +295,7 @@ Additions to the existing canonical namespace:
 ```
 
 **Reserved namespace additions for `validate-urls.js`:**
-- `platform`, `services`, `contact`, `docs`, `governance`, `ai-ethics`
+- `platform`, `services`, `contact`, `cv`, `docs`, `governance`, `ai-ethics`
 
 ---
 
@@ -333,6 +354,7 @@ Additions to the existing canonical namespace:
 | 3 | Platform depth at launch | **Single page** with links to existing platform artifacts |
 | 4 | Services priority | **Services ships before Platform** — single page, strength/service list |
 | 5 | Homepage | **Phase 1 homepage** — leader content per section via promo banners or Library Catalog Card component |
+| 6 | CV / resume placement | **Footer link**, not L1 nav. See §5.9 below. Added 2026-03-15. |
 
 ### Homepage (Phase 1 Scope)
 

@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-15 · v0.18.0 released · Hosting decision: Netlify selected · Remaining: search, polish, cutover
+> Updated 2026-03-15 · v0.18.0 released · Hosting decision: Netlify selected · Remaining: polish, cutover
 
 ---
 
@@ -8,7 +8,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.18.0 shipped. Hosting decided: Netlify. **Next priorities:** DNS cutover execution, search, visual polish.
+> **⚑ Current focus:** v0.18.0 shipped. Hosting decided: Netlify. **Next priorities:** DNS cutover execution, visual polish.
 
 ---
 
@@ -17,7 +17,6 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **DNS cutover to Netlify** — Hosting decided (Netlify). Remaining: connect GitHub repo for deploy previews, set up Sanity webhook → Netlify build hook, configure `sugartown.io` custom domain, execute DNS cutover. See `docs/reports/hosting-evaluation.md` for full plan. | `Infrastructure` | 🟢 Next |
-| 2 | **Add Search — site-wide content search** — No search exists today. Options: Sanity's built-in text search API, a lightweight client-side index (e.g. Fuse.js over a pre-built JSON manifest), or a hosted search service (Algolia, Typesense). Needs design decision on scope (full-text vs title/tag), UI placement (nav bar, dedicated page, command palette), and whether to index all 5 content types or start with articles + nodes. High user value but no existing infrastructure — design spike needed first. | `UX` `GROQ` `Infrastructure` | 🟢 Next |
 
 ---
 
@@ -26,8 +25,10 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 3 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
-| 4 | **Brand color picker for Sanity Studio (BL-01)** — Lets editors set `colorHex` on project documents via a visual colour picker rather than raw hex input. Nice-to-have UX improvement for Studio editors. Tracked as BL-01 from EPIC-0156. | `Studio UX` `BL-01` | 🟣 Soon |
-| 5 | **Dedicated `cardImage` schema field (BL-02)** — Separate from heroImage/sections media. Allows editors to set a specific thumbnail for a content item when it appears in card grids, without affecting the hero display. Tracked as BL-02. | `Schema` `BL-02` | 🟣 Soon |
+| 4 | **Brand color picker for Sanity Studio (BL-01)** — Replace raw hex string input for `colorHex` on project documents with `@sanity/color-input` visual picker (already installed). Requires field type migration (`string` → `color`), GROQ projection updates (`colorHex` → `colorHex.hex`), and data migration script. Epic prompt: `docs/backlog/EPIC-brand-color-picker.md`. | `Studio UX` `BL-01` | 🟣 Soon |
+| 5 | **Dedicated `cardImage` schema field (BL-02)** — Optional thumbnail override for card grids, separate from hero image. Adds `cardImage` field to article, caseStudy, node schemas. GROQ thumbnail resolution becomes `cardImage → hero.media[0] → null`. No visual change until editors populate the field. Epic prompt: `docs/backlog/EPIC-card-image-field.md`. | `Schema` `BL-02` | 🟣 Soon |
+| 6 | **Contact form** — Working web form on `/contact` page: name, email, message fields → sends to `bex@sugartown.io` via Netlify Forms. Inline success/error feedback, honeypot spam protection, dark/light theme aware. Depends on DNS cutover (Netlify hosting must be active). Epic prompt: `docs/backlog/EPIC-contact-form.md`. | `UX` `Infrastructure` | 🟣 Soon |
+| 7 | **Studio UX polish — section type labels + archive rich text** — Two editor QoL fixes: (1) section previews in page builder show type labels (Text, Hero, CTA, etc.) so editors can identify section types at a glance; (2) archive `description` field upgraded from plain text to `summaryPortableText` for inline formatting and links. Epic prompt: `docs/backlog/EPIC-studio-ux-polish.md`. | `Studio UX` `Schema` | 🟣 Soon |
 
 ---
 
@@ -35,7 +36,8 @@
 
 | Item | Tags |
 |------|------|
-| **Web Card adapter migration — old slot-based → DS named-props API** — DS Card got a new named-props API in EPIC-0156 but the web adapter layer (`apps/web/src/design-system/components/card/Card.jsx`) still wraps the old slot-based API. All callers (ContentCard, EditorialCard, MetadataCard, and 8+ page files) need coordinated migration. No epic scoped. Recognized tech debt documented in MEMORY.md conventions. | `Deferred` `Component` |
+| **Card adapter migration v2 — passthrough convergence** — EPIC-0158 shipped the initial API migration (v0.15.0) but the web adapter remains a standalone JSX component with its own rendering logic, not a true passthrough to the DS Card. CSS drift, SPA navigation pattern, and TaxonomyChips boundary need resolution. Epic prompt: `docs/backlog/EPIC-card-adapter-v2.md`. | `Deferred` `Component` |
+| **Preview UI chrome — banner, draft badges, editing overlay** — Preview mode infrastructure shipped in EPIC-0176 (env var toggle, perspective switch, build-time safety, console warning) but no visual preview chrome exists. Editors have no on-screen indication they are viewing draft content. Epic prompt: `docs/backlog/EPIC-preview-ui.md`. | `Deferred` `UX` `Infrastructure` |
 | **Sitemap epic (EPIC TBD)** — Auto-generated XML sitemap for Sanity content. Not required at launch but needed shortly after for SEO indexing. | `Deferred` `SEO` |
 | **Image redirect epic: `/wp-content/uploads/…` → Sanity CDN** — WP media URLs embedded in content need redirecting to Sanity CDN or static asset paths. Low urgency unless referenced in inbound links with SEO value. | `Deferred` `Infrastructure` |
 | **Future layout components: 2-col, 3-col banner, carousel** — Enhanced section builder layout options for editorial page building. Carousel needs accessibility and mobile performance consideration. Phase 2 scope. | `Deferred` `Component` |
@@ -43,6 +45,7 @@
 | **KPI dashboard card family: stat-card, bar-card, insight-card (BL-03)** — New card use cases for a KPI dashboard surface. High design ambition, lower immediate priority. Scope as a standalone epic when the dashboard page is prioritised. | `Deferred` `Design System` `BL-03` |
 | **Schema ERD Sanity Hybrid (Option C)** — Upgrade ERD from code-driven page (EPIC-0172) to a `schemaErdSection` type embeddable via section builder. Component unchanged — adds schema, GROQ projection, and PageSections case. Depends on EPIC-0172. | `Deferred` `Schema` `Content` |
 | **EPIC Pink Moon — runtime theme toggle & polish** — CSS exists (`theme.pink-moon.css`) with dark-pink-moon and light-pink-moon variants — milky translucency, hairline borders, ambient glow. But there is no runtime toggle to activate it; the ThemeToggle component only switches between dark and light. This epic wires the Pink Moon variants into the theme switcher UI, adds Storybook stories for all 4 theme combinations, and polishes any component-level visual regressions under the glass aesthetic. | `Deferred` `Design System` `UX` |
+| **Site-wide content search (EPIC TBD)** — No search exists today. Options: Sanity's built-in text search API, a lightweight client-side index (e.g. Fuse.js over a pre-built JSON manifest), or a hosted search service (Algolia, Typesense). Needs design decision on scope (full-text vs title/tag), UI placement (nav bar, dedicated page, command palette), and whether to index all 5 content types or start with articles + nodes. High user value but no existing infrastructure — design spike needed first. | `Deferred` `UX` `GROQ` `Infrastructure` |
 
 ---
 
