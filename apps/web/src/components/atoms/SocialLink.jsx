@@ -53,12 +53,12 @@ const SOCIAL_ICONS = {
 
 export default function SocialLink({ platform, url, label }) {
   const IconComponent = SOCIAL_ICONS[platform] || ExternalLink
+  const isExternal = url?.startsWith('http')
 
   return (
     <a
       href={url}
-      target="_blank"
-      rel="noopener noreferrer"
+      {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
       className={styles.socialLink}
       aria-label={label}
       title={label}
