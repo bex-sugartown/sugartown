@@ -19,6 +19,21 @@ Do not carry uncommitted changes across epic boundaries. If the working tree is 
 
 A dirty tree at epic start is a process failure, not a starting condition.
 
+### Mid-epic commit checkpoints
+
+Within a multi-feature epic, commit after each independently-working feature. Do not accumulate all changes for a single end-of-epic commit.
+
+If a session may run out of context, commit work-in-progress with `wip(epic):` prefix before the session ends. Uncommitted code that survives a session break is lost context — treat it as a process failure.
+
+### CSS Triage Protocol
+
+Before writing a CSS fix for overflow, scrollbar, or layout collapse: **identify the exact DOM element** that owns the misbehavior (via DevTools screenshot or `preview_inspect`). Document:
+1. The element's class name
+2. Its computed `overflow`, `width`, and `box-sizing` values
+3. Its parent's containment context
+
+Do not write CSS until this is documented. Guessing which container has the overflow leads to multi-round blind patching.
+
 ### CSS layout fix escalation rule
 
 When a CSS layout fix fails and requires a follow-up commit, **stop and diagnose before patching**. Write a 1-paragraph root-cause analysis covering the full cascade (containment → flex/grid → margin → max-width → child sizing) before writing the next fix.
@@ -52,6 +67,12 @@ Known pairs:
 
 When adding a new object/document pair, register it in this list. A fix to one half of a pair that misses the other is a bug, not a follow-up.
 
+### Single Field Authority
+
+Each user-facing concept (label, title, description, URL) must resolve from **exactly one field**. If a sub-object (e.g. `linkItem`) brings a field that overlaps with a parent schema field (e.g. `ctaButton.text` vs `linkItem.label`), one must be canonical and the other must be hidden or removed in the same commit.
+
+Two fields that could plausibly hold the same value is a bug, not a feature. When composing a sub-object into an existing schema, audit the parent for field-purpose overlap before merging.
+
 ### Section Layout Contract
 
 All page sections rendered by `PageSections.jsx` must share:
@@ -81,6 +102,18 @@ images[] {
 ```
 
 Do **not** write `asset->` on a `richImage` — that dereferences the `image` object, not the reference inside it, and silently returns null.
+
+---
+
+## Atomic Reuse Gate (blocking)
+
+Before creating ANY new component, schema object, CSS surface, or utility, answer three questions **in writing** (in the epic doc, commit message, or inline comment):
+
+1. **Does this pattern already exist?** — Search all 5 layers per MEMORY.md §Before You Build. If yes, extend via props — do not fork.
+2. **Will this be consumed by more than one caller?** — If yes, it must live in a shared location (`lib/`, `design-system/`, `schemas/objects/`), never inline in a page file.
+3. **Is the API composable?** — Props/fields should be named so the component can be extended without forking. Prefer `children` over fixed slots. Prefer token-driven styling over hardcoded values.
+
+This is the "Before You Build" reuse audit formalized as a **blocking checklist**, not a suggestion. A new component that fails any of these three checks is a process failure.
 
 ---
 

@@ -47,6 +47,8 @@ Epics follow a two-stage lifecycle:
 - [ ] **Dark / theme modifier treatment** — explicit statement of how dark mode, light mode, or themed variants are handled by this component (token inheritance, `[data-theme]`, `accentColor`, or "not applicable — why")
 - [ ] **Studio schema changes scoped** — if this epic requires schema changes, they are either (a) explicitly in scope with their own commit prefix `feat(studio):`, or (b) explicitly out of scope with a reference to the epic that owns them. No implicit schema changes.
 - [ ] **Web adapter sync scoped** — if a DS component is created or modified, the web adapter update is either (a) in scope (listed in Files to Modify), or (b) explicitly deferred to a named follow-on epic
+- [ ] **Composition overlap audit** — if this epic adds a sub-object (e.g. `linkItem`, `richImage`) to an existing schema, list all fields on the parent schema that serve the same purpose as any field on the sub-object. If overlap exists, state which field is canonical and hide/deprecate the other. Two fields that could plausibly hold the same value is a bug (see CLAUDE.md §Single Field Authority).
+- [ ] **Atomic Reuse Gate** — for every new component, schema object, CSS surface, or utility in this epic: (1) confirm no existing equivalent across all 5 layers, (2) confirm it will be consumed by >1 caller or justify single-use, (3) confirm the API is composable (children over fixed slots, tokens over hardcoded values). See CLAUDE.md §Atomic Reuse Gate.
 
 ---
 
