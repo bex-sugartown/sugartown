@@ -9,6 +9,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import SeoHead from '../components/SeoHead'
 import PageSections from '../components/PageSections'
+import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -30,7 +31,7 @@ export default function RootPage() {
         <PageSections sections={page.sections} />
       ) : (
         <div className={styles.detailPage}>
-          <h1 className={styles.detailHeading}>{page.title}</h1>
+          <h1 className={styles.detailHeading}>{page.title}<DraftBadge docId={page._id} /></h1>
         </div>
       )}
     </main>

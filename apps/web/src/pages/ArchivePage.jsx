@@ -38,7 +38,7 @@
  *   - GROQ slice cap removed — all published items fetched for filtering accuracy
  */
 import { useState } from 'react'
-import { useSanityDoc, useSanityList } from '../lib/useSanityDoc'
+import { useSanityDoc, useSanityList, useDraftIds } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import SeoHead from '../components/SeoHead'
@@ -49,6 +49,7 @@ import { archivePageBySlugQuery, facetsRawQuery } from '../lib/queries'
 import { buildFilterModel } from '../lib/filterModel'
 import { useFilterState } from '../lib/useFilterState'
 import { applyFilters, paginateItems } from '../lib/applyFilters'
+import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -137,6 +138,10 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
 
   // Fetch all items for this content type (no slice — client-side filtering needs full set)
   const { data: allItems, loading: itemsLoading } = useSanityList(query || null)
+
+  // Draft detection — preview mode only. Queries raw perspective to find
+  // documents with "drafts." prefix, which previewDrafts strips from _id.
+  const draftIds = useDraftIds(contentType)
 
   // Fetch raw items for FilterModel (includes authors + relatedProjects for legacy merge)
   const contentTypes = archiveDoc?.contentTypes ?? []
@@ -280,6 +285,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
                 showHeroImage={archiveDoc?.cardOptions?.showHeroImage ?? true}
                 imageOverride={archiveDoc?.cardOptions?.imageOverride ?? null}
                 categoryPosition={archiveDoc?.cardOptions?.categoryPosition}
+                draftIds={draftIds}
               />
             ))}
           </div>
@@ -323,7 +329,7 @@ export default function ArchivePage({ archiveSlug }) {
     <main className={styles.archivePage}>
       <SeoHead seo={seo} />
 
-      <h1 className={styles.archiveHeading}>{heading}</h1>
+      <h1 className={styles.archiveHeading}>{heading}<DraftBadge docId={archiveDoc._id} /></h1>
       {subheading && (
         <p className={styles.archiveDescription}>{subheading}</p>
       )}

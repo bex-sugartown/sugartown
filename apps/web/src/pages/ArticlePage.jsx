@@ -7,7 +7,7 @@ import { PortableText } from '@portabletext/react'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { decodeHtml, decodePortableText } from '../lib/htmlUtils'
 import { articleBySlugQuery } from '../lib/queries'
-import { useSanityDoc } from '../lib/useSanityDoc'
+import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { urlFor } from '../lib/sanity'
@@ -16,12 +16,14 @@ import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
+import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
 const portableTextComponents = {
   ...sharedPTComponents,
   types: {
+    ...sharedPTComponents.types,
     richImage: ({ value }) => {
       if (!value?.asset) return null
       return (
@@ -44,6 +46,7 @@ export default function ArticlePage() {
   const { slug } = useParams()
   const { data: post, loading, notFound } = useSanityDoc(articleBySlugQuery, { slug })
   const siteSettings = useSiteSettings()
+  const hasDraft = useDocHasDraft(post?._id)
 
   const seo = resolveSeo(post ?? null, siteSettings)
 
@@ -67,7 +70,7 @@ export default function ArticlePage() {
         </Link>
 
         <p className={styles.detailEyebrow}>Article</p>
-        <h1 className={styles.detailHeading}>{decodeHtml(post.title)}</h1>
+        <h1 className={styles.detailHeading}>{decodeHtml(post.title)}<DraftBadge docId={post._id} hasDraft={hasDraft} /></h1>
 
         <MetadataCard
           authors={post.authors}
@@ -93,13 +96,17 @@ export default function ArticlePage() {
         {post.citations?.length > 0 && (
           <CitationZone>
             {post.citations.map((cite, i) => (
-              <CitationNote
-                key={cite._key ?? i}
-                index={i + 1}
-                text={cite.text}
-                url={cite.url}
-                label={cite.label}
-              />
+              <CitationNote key={cite._key ?? i} index={i + 1}>
+                {cite.text}
+                {cite.url && (
+                  <>
+                    {' '}
+                    <a href={cite.url} target="_blank" rel="noopener noreferrer">
+                      {cite.label || cite.url}
+                    </a>
+                  </>
+                )}
+              </CitationNote>
             ))}
           </CitationZone>
         )}

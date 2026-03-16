@@ -20,6 +20,18 @@ export const client = createClient({
   perspective: getContentPerspective(),
 })
 
+// Raw client — bypasses perspective overlay so we can detect draft documents
+// by their actual _id (including the "drafts." prefix). Only used in preview mode
+// for draft badge detection. Never use for content rendering.
+export const rawClient = createClient({
+  projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
+  dataset: import.meta.env.VITE_SANITY_DATASET,
+  apiVersion: import.meta.env.VITE_SANITY_API_VERSION,
+  token: import.meta.env.VITE_SANITY_TOKEN,
+  useCdn: false,
+  perspective: 'raw',
+})
+
 // Log a visible warning when preview mode is active
 logPreviewWarning()
 

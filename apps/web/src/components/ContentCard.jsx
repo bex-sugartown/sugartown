@@ -21,6 +21,7 @@
 import { Card } from '../design-system'
 import { getCanonicalPath } from '../lib/routes'
 import { decodeHtml } from '../lib/htmlUtils'
+import { isPreviewMode } from '../lib/contentState'
 
 // ─── Shared constants ────────────────────────────────────────────────────────
 
@@ -72,19 +73,25 @@ export default function ContentCard({
   showHeroImage = true,
   imageOverride = null,
   categoryPosition,
+  draftIds,
 }) {
   const docType   = docTypeProp ?? DOC_TYPE_MAP[item._type] ?? item._type
   const path      = getCanonicalPath({ docType, slug: item.slug })
   const typeLabel = CONTENT_TYPE_LABELS[docType]
   const isNode    = docType === 'node'
 
+  // ── Draft detection (preview mode only) ──────────────────────────────────
+  // previewDrafts perspective strips "drafts." prefix from _id, so we check
+  // against a Set of draft IDs fetched via raw perspective (useDraftIds hook).
+  const isDraftOnly = isPreviewMode() && draftIds?.has(item._id)
+
   // ── Status → evolution (nodes) or status (articles / case studies) ──
-  const rawStatus = item.status?.toLowerCase()
+  const rawStatus = isDraftOnly ? 'draft' : item.status?.toLowerCase()
   let statusProp = undefined
   let evolutionProp = undefined
 
   if (rawStatus) {
-    if (isNode) {
+    if (isNode && !isDraftOnly) {
       evolutionProp = NODE_EVOLUTION_MAP[rawStatus] ?? rawStatus
     } else {
       statusProp = rawStatus

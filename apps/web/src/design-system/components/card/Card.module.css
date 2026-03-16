@@ -135,7 +135,7 @@
 }
 
 /* Legacy / generic */
-.statusDraft       { background: rgba(255, 255, 255, 0.06); color: var(--st-color-text-muted); border-color: rgba(255, 255, 255, 0.12); }
+.statusDraft       { background: rgba(229, 160, 0, 0.12);  color: var(--st-color-warning, #e5a000); border-color: rgba(229, 160, 0, 0.30); }
 .statusActive      { background: rgba(43, 212, 170, 0.12);  color: var(--st-color-seafoam);    border-color: rgba(43, 212, 170, 0.30); }
 .statusArchived    { background: rgba(255, 255, 255, 0.04); color: var(--st-color-text-muted); border-color: rgba(255, 255, 255, 0.08); }
 .statusImplemented { background: rgba(43, 212, 170, 0.10);  color: var(--st-color-seafoam);    border-color: rgba(43, 212, 170, 0.25); }
@@ -472,7 +472,7 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Legacy / generic */
-:global([data-theme="light"]) .statusDraft       { background: rgba(148, 163, 184, 0.08); color: #6e7f96;  border-color: rgba(110, 127, 150, 0.25); }
+:global([data-theme="light"]) .statusDraft       { background: rgba(180, 120, 0, 0.08);  color: #946200;  border-color: rgba(148, 98, 0, 0.35); }
 :global([data-theme="light"]) .statusActive      { background: rgba(29, 150, 121, 0.08);  color: #1d9679;  border-color: rgba(29, 150, 121, 0.35); }
 :global([data-theme="light"]) .statusArchived    { background: rgba(148, 163, 184, 0.06); color: #94A3B8;  border-color: rgba(148, 163, 184, 0.20); }
 :global([data-theme="light"]) .statusImplemented { background: rgba(29, 150, 121, 0.08);  color: #1d9679;  border-color: rgba(29, 150, 121, 0.35); }

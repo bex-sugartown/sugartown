@@ -3,8 +3,10 @@ import { Routes, Route, Navigate, useParams } from 'react-router-dom'
 import { client } from './lib/sanity'
 import { siteSettingsQuery } from './lib/queries'
 import { SiteSettingsContext } from './lib/SiteSettingsContext'
+import { isPreviewMode } from './lib/contentState'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import PreviewBanner from './components/PreviewBanner'
 
 // Pages
 import HomePage from './pages/HomePage'
@@ -52,6 +54,7 @@ function App() {
   return (
     <SiteSettingsContext.Provider value={siteSettings}>
     <div className="app">
+      {isPreviewMode() && <PreviewBanner />}
       <Header siteSettings={siteSettings} settingsLoading={settingsLoading} />
 
       <Routes>

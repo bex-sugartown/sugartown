@@ -64,3 +64,14 @@
   font-weight: var(--st-font-weight-bold);
   margin-right: 0.4em;
 }
+
+/* Links inside footnotes inherit theme link colour */
+.note a {
+  color: var(--st-color-brand-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.note a:hover {
+  opacity: 0.85;
+}

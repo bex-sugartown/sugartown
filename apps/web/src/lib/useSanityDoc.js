@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { client } from './sanity'
+import { client, rawClient } from './sanity'
+import { isPreviewMode } from './contentState'
 
 /**
  * useSanityDoc(query, params)
@@ -78,4 +79,66 @@ export function useSanityList(query, params) {
   }, [query, JSON.stringify(params)])
 
   return { data, loading }
+}
+
+/**
+ * useDraftIds(type)
+ *
+ * Preview-mode-only hook. Queries the raw perspective to find all documents
+ * of the given type whose _id starts with "drafts." — these are documents
+ * with unpublished changes (draft-only or published-with-edits).
+ *
+ * Returns a Set of clean IDs (without the "drafts." prefix) for easy lookup.
+ * Returns an empty Set when preview mode is off.
+ */
+export function useDraftIds(type) {
+  const [draftIds, setDraftIds] = useState(new Set())
+
+  useEffect(() => {
+    if (!isPreviewMode() || !type) return
+
+    rawClient
+      .fetch(
+        `*[_type == $type && _id in path("drafts.**")]._id`,
+        { type }
+      )
+      .then((ids) => {
+        // Strip "drafts." prefix so IDs match what previewDrafts perspective returns
+        const cleaned = new Set(ids.map((id) => id.replace(/^drafts\./, '')))
+        setDraftIds(cleaned)
+      })
+      .catch((err) => {
+        console.error('[useDraftIds] fetch error:', err)
+      })
+  }, [type])
+
+  return draftIds
+}
+
+/**
+ * useDocHasDraft(docId)
+ *
+ * Preview-mode-only hook for detail pages. Checks if a specific document
+ * has a draft version (by querying raw perspective for "drafts.{docId}").
+ *
+ * Returns boolean. Always false when preview mode is off.
+ */
+export function useDocHasDraft(docId) {
+  const [hasDraft, setHasDraft] = useState(false)
+
+  useEffect(() => {
+    if (!isPreviewMode() || !docId) return
+
+    rawClient
+      .fetch(
+        `defined(*[_id == $draftId][0])`,
+        { draftId: `drafts.${docId}` }
+      )
+      .then((result) => setHasDraft(!!result))
+      .catch((err) => {
+        console.error('[useDocHasDraft] fetch error:', err)
+      })
+  }, [docId])
+
+  return hasDraft
 }

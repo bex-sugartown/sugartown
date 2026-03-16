@@ -41,6 +41,7 @@ import { urlFor } from '../lib/sanity'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import TaxonomyChips from '../components/TaxonomyChips'
+import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import styles from './PersonProfilePage.module.css'
 import pageStyles from './pages.module.css'
@@ -153,6 +154,7 @@ export default function PersonProfilePage() {
             {person.shortName && (
               <span className={styles.profileShortName}> ({person.shortName})</span>
             )}
+            <DraftBadge docId={person._id} />
           </h1>
 
           {person.headline && (

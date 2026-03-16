@@ -4,7 +4,7 @@
  */
 import { useParams, Link } from 'react-router-dom'
 import { caseStudyBySlugQuery } from '../lib/queries'
-import { useSanityDoc } from '../lib/useSanityDoc'
+import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { CitationNote, CitationZone } from '../design-system'
@@ -12,6 +12,7 @@ import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
+import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -19,6 +20,7 @@ export default function CaseStudyPage() {
   const { slug } = useParams()
   const { data: caseStudy, loading, notFound } = useSanityDoc(caseStudyBySlugQuery, { slug })
   const siteSettings = useSiteSettings()
+  const hasDraft = useDocHasDraft(caseStudy?._id)
 
   const seo = resolveSeo(caseStudy ?? null, siteSettings)
 
@@ -41,7 +43,7 @@ export default function CaseStudyPage() {
         </Link>
 
         <p className={styles.detailEyebrow}>Case Study</p>
-        <h1 className={styles.detailHeading}>{caseStudy.title}</h1>
+        <h1 className={styles.detailHeading}>{caseStudy.title}<DraftBadge docId={caseStudy._id} hasDraft={hasDraft} /></h1>
 
         <MetadataCard
           authors={caseStudy.authors}
@@ -63,13 +65,17 @@ export default function CaseStudyPage() {
         {caseStudy.citations?.length > 0 && (
           <CitationZone>
             {caseStudy.citations.map((cite, i) => (
-              <CitationNote
-                key={cite._key ?? i}
-                index={i + 1}
-                text={cite.text}
-                url={cite.url}
-                label={cite.label}
-              />
+              <CitationNote key={cite._key ?? i} index={i + 1}>
+                {cite.text}
+                {cite.url && (
+                  <>
+                    {' '}
+                    <a href={cite.url} target="_blank" rel="noopener noreferrer">
+                      {cite.label || cite.url}
+                    </a>
+                  </>
+                )}
+              </CitationNote>
             ))}
           </CitationZone>
         )}

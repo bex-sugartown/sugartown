@@ -14,6 +14,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import MetadataCard from '../components/MetadataCard'
+import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import styles from './ProjectDetailPage.module.css'
 import pageStyles from './pages.module.css'
@@ -82,7 +83,7 @@ export default function ProjectDetailPage() {
       <div className={styles.accentBar} style={accentStyle} aria-hidden="true" />
 
       {/* ── Project name ──────────────────────────────────────────────── */}
-      <h1 className={styles.projectName}>{project.name}</h1>
+      <h1 className={styles.projectName}>{project.name}<DraftBadge docId={project._id} /></h1>
 
       {/* ── Description — editorial copy, sits above the MetaCard ────── */}
       {project.description && (
