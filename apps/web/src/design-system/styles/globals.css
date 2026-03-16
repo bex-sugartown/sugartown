@@ -17,6 +17,7 @@
 html {
   height: 100%;
   background: var(--st-color-bg-canvas);
+  overflow-x: hidden;
 }
 
 body {
@@ -52,6 +53,16 @@ h1, h2, h3, h4, h5, h6 {
 /* ── Code → Mono ──────────────────────────────────────── */
 code, kbd, samp, pre {
   font-family: var(--st-font-family-mono);
+}
+
+/* ── Inline code (not inside pre) — Sugartown pill style ── */
+:not(pre) > code {
+  font-size: 0.85em;
+  background-color: var(--st-code-inline-bg);
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  border: var(--st-code-inline-border);
+  color: var(--st-code-inline-color);
 }
 
 /* ── Form elements inherit body font (browser resets use system-ui) ── */

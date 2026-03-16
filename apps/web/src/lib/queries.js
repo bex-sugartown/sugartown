@@ -133,6 +133,23 @@ export const LINKITEM_FRAGMENT = `
   "openInNewTab": link.openInNewTab
 `
 
+// ---- PORTABLE TEXT INTERNAL LINK RESOLUTION ----
+// When PortableText content contains link marks with type === 'internal',
+// the markDefs need dereferencing to resolve internalRef → _type + slug.
+// This projection is spread inside content[] array projections.
+
+const PT_CONTENT_PROJECTION = `[] {
+  ...,
+  markDefs[] {
+    ...,
+    _type == "link" => {
+      ...,
+      "internalType": internalRef->_type,
+      "internalSlug": internalRef->slug.current
+    }
+  }
+}`
+
 // ---- SITE SETTINGS (header, footer, nav, preheader, branding) ----
 export const siteSettingsQuery = `
   *[_type == "siteSettings"][0]{
@@ -220,6 +237,7 @@ export const siteSettingsQuery = `
 export const allNodesQuery = `
   *[_type == "node"] | order(publishedAt desc) {
     _id,
+
     title,
     slug,
     excerpt,
@@ -241,11 +259,12 @@ export const allNodesQuery = `
 export const nodeBySlugQuery = `
   *[_type == "node" && slug.current == $slug][0] {
     _id,
+
     _type,
     title,
     slug,
-    content,
-    "body": content[],
+    "content": content${PT_CONTENT_PROJECTION},
+    "body": content${PT_CONTENT_PROJECTION},
     excerpt,
     sections[]{
       _type,
@@ -269,7 +288,7 @@ export const nodeBySlugQuery = `
       },
       _type == "textSection" => {
         heading,
-        content
+        "content": content${PT_CONTENT_PROJECTION}
       },
       _type == "imageGallery" => {
         layout,
@@ -358,6 +377,7 @@ export const nodeBySlugQuery = `
 export const allArticlesQuery = `
   *[_type == "article"] | order(publishedAt desc) {
     _id,
+
     title,
     slug,
     excerpt,
@@ -377,11 +397,12 @@ export const allArticlesQuery = `
 export const articleBySlugQuery = `
   *[_type == "article" && slug.current == $slug][0] {
     _id,
+
     _type,
     title,
     slug,
-    content,
-    "body": content[],
+    "content": content${PT_CONTENT_PROJECTION},
+    "body": content${PT_CONTENT_PROJECTION},
     excerpt,
     sections[]{
       _type,
@@ -405,7 +426,7 @@ export const articleBySlugQuery = `
       },
       _type == "textSection" => {
         heading,
-        content
+        "content": content${PT_CONTENT_PROJECTION}
       },
       _type == "imageGallery" => {
         layout,
@@ -523,7 +544,7 @@ export const pageBySlugQuery = `
       },
       _type == "textSection" => {
         heading,
-        content
+        "content": content${PT_CONTENT_PROJECTION}
       },
       _type == "imageGallery" => {
         layout,
@@ -594,6 +615,7 @@ export const pageBySlugQuery = `
 export const allCaseStudiesQuery = `
   *[_type == "caseStudy"] | order(publishedAt desc) {
     _id,
+
     title,
     slug,
     client,
@@ -615,6 +637,7 @@ export const allCaseStudiesQuery = `
 export const caseStudyBySlugQuery = `
   *[_type == "caseStudy" && slug.current == $slug][0] {
     _id,
+
     _type,
     title,
     slug,
@@ -629,7 +652,7 @@ export const caseStudyBySlugQuery = `
       _key,
       _type == "textSection" => {
         heading,
-        content
+        "content": content${PT_CONTENT_PROJECTION}
       },
       _type == "imageGallery" => {
         layout,

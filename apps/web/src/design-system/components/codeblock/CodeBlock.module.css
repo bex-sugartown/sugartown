@@ -36,6 +36,8 @@
   font-family: var(--st-font-family-mono, Menlo, Monaco, Consolas, "Courier New", monospace);
   font-size: var(--st-code-font-size);
   overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
   margin: 0;
   line-height: 1.6;
 }

@@ -49,7 +49,7 @@
 /tag/ai-workflows  /tags/ai-workflows  301
 /tag/alt-text  /tags/alt-text  301
 /tag/app-development  /tags/app-development  301
-/tag/apple  /tools/apple  301
+/tag/apple  /tags/apple  301
 /tag/architecture  /tags/architecture  301
 /tag/artist  /tags/artist  301
 /tag/atomic  /tags/atomic  301
@@ -253,46 +253,6 @@
 /tag/workflow  /tags/workflow  301
 /tag/working-agreements  /tags/working-agreements  301
 /tag/youtube  /tags/youtube  301
-
-# ─── Tool-tag redirects (EPIC-0162 Phase 2) ──────────────────────────────────
-# Deferred from EPIC-0155 (URL Audit) — tool slugs that had WordPress /tag/ URLs
-# now redirect to /tools/:slug instead of /tags/:slug.
-/tag/acquia  /tools/acquia  301
-/tag/aem  /tools/aem  301
-/tag/celum  /tools/celum  301
-/tag/chatgpt  /tools/chatgpt  301
-/tag/claude  /tools/claude  301
-/tag/claude-code  /tools/claude-code  301
-/tag/codex  /tools/codex  301
-/tag/contentful  /tools/contentful  301
-/tag/css  /tools/css  301
-/tag/drupal  /tools/drupal  301
-/tag/figma  /tools/figma  301
-/tag/gemini  /tools/gemini  301
-/tag/git  /tools/git  301
-/tag/github  /tools/github  301
-/tag/ios  /tools/ios  301
-/tag/javascript  /tools/javascript  301
-/tag/linear  /tools/linear  301
-/tag/matplotlib  /tools/matplotlib  301
-/tag/mermaid  /tools/mermaid  301
-/tag/netlify  /tools/netlify  301
-/tag/networkx  /tools/networkx  301
-/tag/oracle-atg  /tools/oracle-atg  301
-/tag/python  /tools/python  301
-/tag/react  /tools/react  301
-/tag/sanity  /tools/sanity  301
-/tag/shopify  /tools/shopify  301
-/tag/storyblok  /tools/storyblok  301
-/tag/storybook  /tools/storybook  301
-/tag/turborepo  /tools/turborepo  301
-/tag/typescript  /tools/typescript  301
-/tag/vite  /tools/vite  301
-/tag/wordpress  /tools/wordpress  301
-# Tool-variant slugs — WP tags that map to canonical tool slugs
-/tag/claude-code-2  /tools/claude-code  301
-/tag/drupal-8  /tools/drupal  301
-/tag/oracle-bcc  /tools/oracle-atg  301
 
 # SPA fallback — must be last
 /*  /index.html  200

@@ -70,6 +70,7 @@
   max-width: var(--st-width-detail);
   margin: 0 auto;
   padding: 3rem 1.5rem 5rem;
+  overflow-x: hidden;
 }
 
 .detailEyebrow {
@@ -138,6 +139,7 @@
   font-size: var(--st-font-heading-4);
   line-height: var(--st-line-height-relaxed);
   color: var(--st-color-text-default);
+  overflow: hidden;
 }
 
 .detailContent h2 {
@@ -170,6 +172,16 @@
   margin: var(--st-blockquote-margin-block) 0;
   color: var(--st-blockquote-color);
   font-style: italic;
+}
+
+.detailContent hr {
+  border: none;
+  border-top: 1px solid rgba(255, 111, 184, 0.35);
+  margin: var(--st-spacing-stack-xl, 2.5rem) 0;
+}
+
+:global([data-theme="light"]) .detailContent hr {
+  border-top-color: rgba(255, 36, 125, 0.25);
 }
 
 .backLink {

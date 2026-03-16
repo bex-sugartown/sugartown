@@ -1,5 +1,5 @@
-import {defineArrayMember} from 'sanity'
-import {ImageIcon, CodeIcon, ThListIcon} from '@sanity/icons'
+import {defineArrayMember, defineField} from 'sanity'
+import {ImageIcon, CodeIcon, ThListIcon, RemoveIcon, LinkIcon} from '@sanity/icons'
 
 /**
  * Portable Text Configurations
@@ -33,21 +33,73 @@ export const summaryPortableText = [
           name: 'link',
           type: 'object',
           title: 'Link',
+          icon: LinkIcon,
           fields: [
-            {
+            defineField({
+              name: 'type',
+              title: 'Link Type',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'External URL', value: 'external'},
+                  {title: 'Internal Page', value: 'internal'},
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'external',
+            }),
+            defineField({
               name: 'href',
               type: 'url',
               title: 'URL',
-              validation: (Rule) => Rule.required()
-                .uri({
+              validation: (Rule) =>
+                Rule.uri({
                   scheme: ['http', 'https', 'mailto', 'tel'],
-                  allowRelative: true
-                })
-            }
+                  allowRelative: true,
+                }),
+              hidden: ({parent}) => parent?.type === 'internal',
+            }),
+            defineField({
+              name: 'internalRef',
+              title: 'Internal Page',
+              type: 'reference',
+              to: [
+                {type: 'page'},
+                {type: 'article'},
+                {type: 'caseStudy'},
+                {type: 'node'},
+                {type: 'archivePage'},
+              ],
+              hidden: ({parent}) => parent?.type !== 'internal',
+            }),
           ]
         })
       ]
     }
+  }),
+  // Divider — horizontal rule in summary text
+  defineArrayMember({
+    name: 'divider',
+    type: 'object',
+    title: 'Divider',
+    icon: RemoveIcon,
+    fields: [
+      defineField({
+        name: 'style',
+        type: 'string',
+        title: 'Style',
+        options: {
+          list: [
+            {title: 'Default', value: 'default'},
+            {title: 'Subtle', value: 'subtle'},
+          ],
+        },
+        initialValue: 'default',
+      }),
+    ],
+    preview: {
+      prepare: () => ({title: '── Divider ──'}),
+    },
   })
 ]
 
@@ -84,24 +136,53 @@ export const standardPortableText = [
         defineArrayMember({
           name: 'link',
           type: 'object',
-          title: 'External Link',
+          title: 'Link',
+          icon: LinkIcon,
           fields: [
-            {
+            defineField({
+              name: 'type',
+              title: 'Link Type',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'External URL', value: 'external'},
+                  {title: 'Internal Page', value: 'internal'},
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'external',
+            }),
+            defineField({
               name: 'href',
               type: 'url',
               title: 'URL',
-              validation: (Rule) => Rule.required()
-                .uri({
+              validation: (Rule) =>
+                Rule.uri({
                   scheme: ['http', 'https', 'mailto', 'tel'],
-                  allowRelative: true
-                })
-            },
-            {
+                  allowRelative: true,
+                }),
+              hidden: ({parent}) => parent?.type === 'internal',
+            }),
+            defineField({
+              name: 'internalRef',
+              title: 'Internal Page',
+              type: 'reference',
+              to: [
+                {type: 'page'},
+                {type: 'article'},
+                {type: 'caseStudy'},
+                {type: 'node'},
+                {type: 'archivePage'},
+              ],
+              hidden: ({parent}) => parent?.type !== 'internal',
+            }),
+            defineField({
               name: 'openInNewTab',
               type: 'boolean',
               title: 'Open in new tab',
-              initialValue: true
-            }
+              initialValue: true,
+              hidden: ({parent}) => parent?.type === 'internal',
+            }),
           ]
         }),
         // Inline citation marker — renders as superscript [n] in the web frontend.
@@ -157,6 +238,30 @@ export const standardPortableText = [
   defineArrayMember({
     type: 'tableBlock',
     icon: ThListIcon
+  }),
+  // Divider — horizontal rule between content blocks
+  defineArrayMember({
+    name: 'divider',
+    type: 'object',
+    title: 'Divider',
+    icon: RemoveIcon,
+    fields: [
+      defineField({
+        name: 'style',
+        type: 'string',
+        title: 'Style',
+        options: {
+          list: [
+            {title: 'Default', value: 'default'},
+            {title: 'Subtle', value: 'subtle'},
+          ],
+        },
+        initialValue: 'default',
+      }),
+    ],
+    preview: {
+      prepare: () => ({title: '── Divider ──'}),
+    },
   })
 ]
 

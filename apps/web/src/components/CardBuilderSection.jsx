@@ -16,6 +16,7 @@ import { PortableText } from '@portabletext/react'
 import { urlFor } from '../lib/sanity'
 import { getCanonicalPath } from '../lib/routes'
 import { Card, Chip, CitationMarker, CitationNote, CitationZone } from '../design-system'
+import { LinkAnnotation } from './portableTextComponents'
 import styles from './CardBuilderSection.module.css'
 
 /**
@@ -52,15 +53,9 @@ function makeBodyComponents(citationIndexMap) {
     marks: {
       strong: ({ children }) => <strong>{children}</strong>,
       em: ({ children }) => <em>{children}</em>,
+      code: ({ children }) => <code>{children}</code>,
       link: ({ value, children }) => (
-        <a
-          href={value?.href}
-          target={value?.href?.startsWith('http') ? '_blank' : undefined}
-          rel={value?.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-          className={styles.bodyLink}
-        >
-          {children}
-        </a>
+        <LinkAnnotation value={value} className={styles.bodyLink}>{children}</LinkAnnotation>
       ),
       citationRef: ({ value, children }) => {
         const localIndex = citationIndexMap.get(value?.index) ?? value?.index ?? 1

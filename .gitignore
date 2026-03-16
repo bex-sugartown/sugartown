@@ -55,3 +55,6 @@ artifacts/sanity_import.ndjson
 # artifacts/migration_report.json    ← commit: machine-readable parity data
 # wp_urls.csv from export-wp-urls.py:
 scripts/wp_urls.csv
+
+# Local Netlify folder
+.netlify

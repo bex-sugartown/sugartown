@@ -1,10 +1,12 @@
 import { PortableText } from '@portabletext/react'
 import SanityMedia from './atoms/SanityMedia'
+import { LinkAnnotation, DividerBlock } from './portableTextComponents'
 import styles from './ContentBlock.module.css'
 
 const components = {
   types: {
     media: ({ value }) => <SanityMedia image={value.image} caption={value.caption} />,
+    divider: ({ value }) => <DividerBlock value={value} />,
   },
   block: {
     h2: ({ children }) => <h2 className={styles.h2}>{children}</h2>,
@@ -14,23 +16,12 @@ const components = {
     ),
   },
   marks: {
-    link: ({ value, children }) => {
-      const target = value?.href?.startsWith('http') ? '_blank' : undefined
-      const rel = target === '_blank' ? 'noopener noreferrer' : undefined
-      return (
-        <a
-          href={value?.href}
-          target={target}
-          rel={rel}
-          className={styles.link}
-        >
-          {children}
-        </a>
-      )
-    },
+    link: ({ value, children }) => (
+      <LinkAnnotation value={value} className={styles.link}>{children}</LinkAnnotation>
+    ),
     strong: ({ children }) => <strong className={styles.strong}>{children}</strong>,
     em: ({ children }) => <em className={styles.em}>{children}</em>,
-    code: ({ children }) => <code className={styles.code}>{children}</code>,
+    code: ({ children }) => <code>{children}</code>,
   },
 }
 

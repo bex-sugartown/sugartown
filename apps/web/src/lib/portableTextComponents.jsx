@@ -7,18 +7,37 @@
  * Page-specific type handlers (e.g. richImage in ArticlePage) can be merged
  * via spread: { ...portableTextComponents, types: { ...portableTextComponents.types, richImage: … } }
  */
-import { InlineCode, Table, TableWrap, CitationMarker } from '../design-system'
+import { CodeBlock, Table, TableWrap, CitationMarker } from '../design-system'
+import { LinkAnnotation, DividerBlock } from '../components/portableTextComponents'
 
 const portableTextComponents = {
   marks: {
-    code: ({ children }) => <InlineCode>{children}</InlineCode>,
+    code: ({ children }) => <code>{children}</code>,
+    // Link annotation — supports internal refs (React Router) + external URLs.
+    // Uses shared LinkAnnotation from components/portableTextComponents.jsx.
+    link: ({ value, children }) => (
+      <LinkAnnotation value={value}>{children}</LinkAnnotation>
+    ),
     // Inline citation marker [n] — rendered as CitationMarker superscript pill.
     // Links to the matching endnote anchor in the CitationZone.
-    citationRef: ({ value }) => (
-      <CitationMarker index={value?.index || 1} />
+    citationRef: ({ value, children }) => (
+      <>{children}<CitationMarker index={value?.index || 1} /></>
     ),
   },
   types: {
+    // Divider — horizontal rule between content blocks
+    divider: ({ value }) => <DividerBlock value={value} />,
+    // Code blocks from Sanity's code input plugin — DS CodeBlock with overflow containment
+    code: ({ value }) => {
+      if (!value?.code) return null
+      return (
+        <CodeBlock
+          code={value.code}
+          language={value.language ?? undefined}
+          filename={value.filename ?? undefined}
+        />
+      )
+    },
     // Table blocks (EPIC-0163) — DS Table component with semantic HTML
     tableBlock: ({ value }) => {
       if (!value?.rows?.length) return null

@@ -1,7 +1,8 @@
 import { urlFor } from '../lib/sanity'
 import { PortableText } from '@portabletext/react'
-import { Button, Blockquote, CodeBlock, InlineCode, Table, TableWrap, Callout } from '../design-system'
+import { Button, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker } from '../design-system'
 import CardBuilderSection from './CardBuilderSection'
+import { LinkAnnotation, DividerBlock } from './portableTextComponents'
 import styles from './PageSections.module.css'
 
 // Portable Text components for text sections
@@ -13,18 +14,15 @@ const portableTextComponents = {
     blockquote: ({ children }) => <Blockquote>{children}</Blockquote>,
   },
   marks: {
-    link: ({ value, children }) => {
-      const target = value?.href?.startsWith('http') ? '_blank' : undefined
-      const rel = target === '_blank' ? 'noopener noreferrer' : undefined
-      return (
-        <a href={value?.href} target={target} rel={rel} className={styles.link}>
-          {children}
-        </a>
-      )
-    },
+    link: ({ value, children }) => (
+      <LinkAnnotation value={value} className={styles.link}>{children}</LinkAnnotation>
+    ),
     strong: ({ children }) => <strong className={styles.strong}>{children}</strong>,
     em: ({ children }) => <em className={styles.em}>{children}</em>,
-    code: ({ children }) => <InlineCode>{children}</InlineCode>,
+    code: ({ children }) => <code>{children}</code>,
+    citationRef: ({ value, children }) => (
+      <>{children}<CitationMarker index={value?.index || 1} /></>
+    ),
   },
   types: {
     // richImage blocks inline in textSection.content
@@ -54,6 +52,8 @@ const portableTextComponents = {
         />
       )
     },
+    // Divider — horizontal rule between content blocks
+    divider: ({ value }) => <DividerBlock value={value} />,
     // Table blocks (EPIC-0163) — DS Table component with semantic HTML
     tableBlock: ({ value }) => {
       if (!value?.rows?.length) return null

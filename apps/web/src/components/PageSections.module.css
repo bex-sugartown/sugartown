@@ -94,6 +94,7 @@
   font-size: var(--st-font-heading-4);
   line-height: var(--st-line-height-relaxed);
   color: var(--st-color-text-default);
+  overflow: hidden;
 }
 
 .textContent p {
@@ -175,6 +176,7 @@
   box-shadow: var(--st-code-shadow, 0 4px 10px rgba(0, 0, 0, 0.2));
   margin: var(--st-code-margin-block, 3rem) auto;
   width: 100%;
+  box-sizing: border-box;
   font-family: var(--st-font-family-mono);
   font-size: 0.9rem;
   overflow-x: auto;
@@ -522,8 +524,11 @@
 /* ── Horizontal rules (WP separator blocks) ──────────────────────────────── */
 :global(.st-html-section) hr {
   border: none;
-  border-top: 1px solid var(--st-color-border-subtle, rgba(0, 0, 0, 0.08));
+  border-top: 1px solid rgba(255, 111, 184, 0.35);
   margin: var(--st-spacing-stack-xl, 2.5rem) 0;
+}
+:global([data-theme="light"]) :global(.st-html-section) hr {
+  border-top-color: rgba(255, 36, 125, 0.25);
 }
 
 /* ── Strong/em in htmlSection ─────────────────────────────────────────────── */
