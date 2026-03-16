@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-15 · v0.18.0 released · Hosting decision: Netlify selected · Remaining: polish, cutover
+> Updated 2026-03-16 · v0.18.2 · EPIC-0177 Preview UI + EPIC-0178 PortableText Updates shipped
 
 ---
 
@@ -8,7 +8,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.18.0 shipped. Hosting decided: Netlify. **Next priorities:** DNS cutover execution, image optimization & responsive breakpoints, visual polish.
+> **⚑ Current focus:** v0.18.2 shipped. Preview UI and PortableText updates complete. **Next priorities:** DNS cutover execution, image optimization & responsive breakpoints, visual polish.
 
 ---
 
@@ -31,7 +31,7 @@
 | 6 | **Contact form** — Working web form on `/contact` page: name, email, message fields → sends to `bex@sugartown.io` via Netlify Forms. Inline success/error feedback, honeypot spam protection, dark/light theme aware. Depends on DNS cutover (Netlify hosting must be active). Epic prompt: `docs/backlog/EPIC-contact-form.md`. | `UX` `Infrastructure` | 🟣 Soon |
 | 7 | **Studio UX polish — section type labels + archive rich text** — Two editor QoL fixes: (1) section previews in page builder show type labels (Text, Hero, CTA, etc.) so editors can identify section types at a glance; (2) archive `description` field upgraded from plain text to `summaryPortableText` for inline formatting and links. Epic prompt: `docs/backlog/EPIC-studio-ux-polish.md`. | `Studio UX` `Schema` | 🟣 Soon |
 | 8 | **Content metadata audit & taxonomy backfill** — Audit all published articles, case studies, and nodes for missing taxonomy assignments. Backfill to minimums: ≥ 1 category, ≥ 3 tags, ≥ 1 tool (articles/nodes), ≥ 1 author. Extend `validate:content` with checks H–J for ongoing enforcement. Gatekeeping protocol prevents new one-off tags. Epic prompt: `docs/backlog/EPIC-content-metadata-audit.md`. | `Content` `Schema` `Quality` | 🟣 Soon |
-| 9 | **PortableText link & divider updates** — Extend PT `link` annotation to support internal page references (matching `linkItem` pattern). Add `divider` custom block type for horizontal rules. Consolidate 3 duplicated link renderers into shared `portableTextComponents.jsx` using `linkUtils.js` + React Router. Backward compatible — no migration needed. Epic prompt: `docs/backlog/EPIC-portable-text-updates.md`. | `Schema` `Component` `UX` | 🟣 Soon |
+| 9 | **Mermaid diagram section type** — New `mermaidSection` for the section builder. Editor enters Mermaid markup in a code textarea; frontend renders themed SVG via dynamic-imported `mermaid` library. Auto-themes dark/light with brand colours; editor `%%{init}` overrides respected. Code-split (~2MB only on pages with diagrams). Epic prompt: `docs/backlog/EPIC-mermaid-diagrams.md`. | `Schema` `Component` `UX` | 🟣 Soon |
 
 ---
 
@@ -40,7 +40,6 @@
 | Item | Tags |
 |------|------|
 | **Card adapter migration v2 — passthrough convergence** — EPIC-0158 shipped the initial API migration (v0.15.0) but the web adapter remains a standalone JSX component with its own rendering logic, not a true passthrough to the DS Card. CSS drift, SPA navigation pattern, and TaxonomyChips boundary need resolution. Epic prompt: `docs/backlog/EPIC-card-adapter-v2.md`. | `Deferred` `Component` |
-| **Preview UI chrome — banner, draft badges, editing overlay** — Preview mode infrastructure shipped in EPIC-0176 (env var toggle, perspective switch, build-time safety, console warning) but no visual preview chrome exists. Editors have no on-screen indication they are viewing draft content. Epic prompt: `docs/backlog/EPIC-preview-ui.md`. | `Deferred` `UX` `Infrastructure` |
 | **Sitemap epic (EPIC TBD)** — Auto-generated XML sitemap for Sanity content. Not required at launch but needed shortly after for SEO indexing. | `Deferred` `SEO` |
 | **Image redirect epic: `/wp-content/uploads/…` → Sanity CDN** — WP media URLs embedded in content need redirecting to Sanity CDN or static asset paths. Low urgency unless referenced in inbound links with SEO value. | `Deferred` `Infrastructure` |
 | **Future layout components: 2-col, 3-col banner, carousel** — Enhanced section builder layout options for editorial page building. Carousel needs accessibility and mobile performance consideration. Phase 2 scope. | `Deferred` `Component` |
@@ -56,6 +55,8 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**EPIC-0178 · PortableText Updates** — Inline code decorator in Studio portableTextConfig. citationRef mark handler in PageSections (was missing). Global inline code styling: lime pill (dark), magenta pill (light). Code block overflow fixes. Shared portableTextComponents for page sections.~~ | v0.18.2 | 2026-03-16 |
+| ~~**EPIC-0177 · Preview UI** — PreviewBanner (lime green), DraftBadge (amber chip), rawClient for draft detection, useDraftIds/useDocHasDraft hooks. Draft badges on archive cards and all detail pages. Citation footnote link styling. Card statusDraft amber.~~ | v0.18.1 | 2026-03-16 |
 | ~~**Hosting platform decision** — Evaluated Netlify, Cloudflare Pages, Vercel, self-hosted. Selected Netlify: zero migration cost, native redirect compatibility (296 exact-match + 3 query-param rules), automatic deploy previews, Sanity build hook support, free tier sufficient. Report: `docs/reports/hosting-evaluation.md`.~~ | — | 2026-03-15 |
 | ~~**EPIC-0176 · Content State Governance** — Published-only content posture made explicit. `contentState.js` centralizes perspective decision. Build-time safety plugin blocks `VITE_SANITY_PREVIEW=true` in production. Draft-only document detection added to `validate-content.js` (check G). Content state policy documented.~~ | v0.17.7 | 2026-03-15 |
 | ~~**EPIC-0175 · Token Reference Cleanup** — Resolved all broken `var(--st-*)` references across 19 CSS files. Registered `--st-transition-fast`, `--st-color-surface-subtle`, `--st-page-gutter`. Migrated 24 legacy alias refs (`--st-font-mono`, `--st-pink`, `--st-gray-light`, `--st-font-sans`). Deleted orphaned `design-tokens.css`. Validator enhanced with reference scanning + component-scoped API token allowlist.~~ | v0.17.6 | 2026-03-14 |
@@ -90,4 +91,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-03-15 · hosting decided*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-03-16 · v0.18.2*
