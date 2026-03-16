@@ -303,7 +303,7 @@ export const nodeBySlugQuery = `
       _type == "ctaSection" => {
         heading,
         description,
-        buttons[] { text, "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab, style }
+        buttons[] { "text": coalesce(link.label, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
       },
       _type == "htmlSection" => {
         html,
@@ -441,7 +441,7 @@ export const articleBySlugQuery = `
       _type == "ctaSection" => {
         heading,
         description,
-        buttons[] { text, "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab, style }
+        buttons[] { "text": coalesce(link.label, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
       },
       _type == "htmlSection" => {
         html,
@@ -559,11 +559,7 @@ export const pageBySlugQuery = `
       _type == "ctaSection" => {
         heading,
         description,
-        buttons[] {
-          text,
-          "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
-          style
-        }
+        buttons[] { "text": coalesce(link.label, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
       },
       _type == "htmlSection" => {
         html,
@@ -674,7 +670,7 @@ export const caseStudyBySlugQuery = `
       _type == "ctaSection" => {
         heading,
         description,
-        buttons[] { text, "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab, style }
+        buttons[] { "text": coalesce(link.label, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
       },
       _type == "htmlSection" => {
         html,
