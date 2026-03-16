@@ -8,7 +8,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.18.0 shipped. Hosting decided: Netlify. **Next priorities:** DNS cutover execution, visual polish.
+> **⚑ Current focus:** v0.18.0 shipped. Hosting decided: Netlify. **Next priorities:** DNS cutover execution, image optimization & responsive breakpoints, visual polish.
 
 ---
 
@@ -17,6 +17,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **DNS cutover to Netlify** — Hosting decided (Netlify). Remaining: connect GitHub repo for deploy previews, set up Sanity webhook → Netlify build hook, configure `sugartown.io` custom domain, execute DNS cutover. See `docs/reports/hosting-evaluation.md` for full plan. | `Infrastructure` | 🟢 Next |
+| 2 | **Image optimization & responsive breakpoints** — Standardize breakpoint tokens (`--st-breakpoint-sm/md/lg`, "large"/"small" naming). Add `.auto('format')` to all Sanity images (WebP/AVIF via CDN). Add `width`/`height`/`loading="lazy"`/`decoding="async"` to all `<img>` elements. Preload hero images. Add `srcset` for responsive sizing. Compress static PNGs. Migrate all 14 `@media` queries across 13 CSS files to use shared breakpoints. Epic prompt: `docs/backlog/EPIC-image-responsive-optimization.md`. | `Performance` `UX` `Infrastructure` | 🟢 Next |
 
 ---
 
@@ -29,6 +30,8 @@
 | 5 | **Dedicated `cardImage` schema field (BL-02)** — Optional thumbnail override for card grids, separate from hero image. Adds `cardImage` field to article, caseStudy, node schemas. GROQ thumbnail resolution becomes `cardImage → hero.media[0] → null`. No visual change until editors populate the field. Epic prompt: `docs/backlog/EPIC-card-image-field.md`. | `Schema` `BL-02` | 🟣 Soon |
 | 6 | **Contact form** — Working web form on `/contact` page: name, email, message fields → sends to `bex@sugartown.io` via Netlify Forms. Inline success/error feedback, honeypot spam protection, dark/light theme aware. Depends on DNS cutover (Netlify hosting must be active). Epic prompt: `docs/backlog/EPIC-contact-form.md`. | `UX` `Infrastructure` | 🟣 Soon |
 | 7 | **Studio UX polish — section type labels + archive rich text** — Two editor QoL fixes: (1) section previews in page builder show type labels (Text, Hero, CTA, etc.) so editors can identify section types at a glance; (2) archive `description` field upgraded from plain text to `summaryPortableText` for inline formatting and links. Epic prompt: `docs/backlog/EPIC-studio-ux-polish.md`. | `Studio UX` `Schema` | 🟣 Soon |
+| 8 | **Content metadata audit & taxonomy backfill** — Audit all published articles, case studies, and nodes for missing taxonomy assignments. Backfill to minimums: ≥ 1 category, ≥ 3 tags, ≥ 1 tool (articles/nodes), ≥ 1 author. Extend `validate:content` with checks H–J for ongoing enforcement. Gatekeeping protocol prevents new one-off tags. Epic prompt: `docs/backlog/EPIC-content-metadata-audit.md`. | `Content` `Schema` `Quality` | 🟣 Soon |
+| 9 | **PortableText link & divider updates** — Extend PT `link` annotation to support internal page references (matching `linkItem` pattern). Add `divider` custom block type for horizontal rules. Consolidate 3 duplicated link renderers into shared `portableTextComponents.jsx` using `linkUtils.js` + React Router. Backward compatible — no migration needed. Epic prompt: `docs/backlog/EPIC-portable-text-updates.md`. | `Schema` `Component` `UX` | 🟣 Soon |
 
 ---
 
