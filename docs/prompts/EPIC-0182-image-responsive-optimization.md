@@ -1,6 +1,6 @@
 # EPIC — Image Optimization & Responsive Breakpoint Standardization
 
-**Epic ID:** (unassigned — backlog)
+**Epic ID:** EPIC-0182
 **Surface:** `apps/web` + `packages/design-system`
 **Priority:** 🟢 Next
 **Created:** 2026-03-15
