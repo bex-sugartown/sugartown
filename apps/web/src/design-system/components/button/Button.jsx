@@ -60,7 +60,7 @@ export default function Button({
   }
 
   return (
-    <button className={classes} onClick={onClick} type="button" {...props}>
+    <button className={classes} onClick={onClick} type={props.type || 'button'} {...props}>
       {children}
     </button>
   )

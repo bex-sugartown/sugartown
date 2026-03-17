@@ -1,0 +1,126 @@
+/* ContactForm — EPIC-0179
+ * Token-driven, dark/light theme aware.
+ * Follows Section Layout Contract for detail pages. */
+
+.contactForm {
+  max-width: var(--st-width-detail, 760px);
+  margin: 0 auto;
+  padding: var(--st-spacing-stack-lg) var(--st-page-gutter);
+}
+
+/* ── Fields ───────────────────────────────────────────────────── */
+
+.field {
+  margin-bottom: var(--st-spacing-stack-md);
+}
+
+.label {
+  display: block;
+  font-family: var(--st-font-family-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--st-color-text-default);
+  margin-bottom: var(--st-spacing-stack-xs);
+}
+
+.input,
+.textarea {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: var(--st-font-family-ui);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--st-color-text-default);
+  background: var(--st-color-bg-surface, rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--st-color-border-medium);
+  border-radius: var(--st-radius-sm);
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--st-color-focus);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--st-color-focus) 25%, transparent);
+}
+
+.input:disabled,
+.textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ── Error states ─────────────────────────────────────────────── */
+
+.inputError {
+  border-color: var(--st-color-danger);
+}
+
+.inputError:focus {
+  border-color: var(--st-color-danger);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--st-color-danger) 25%, transparent);
+}
+
+.errorText {
+  font-size: 0.8125rem;
+  color: var(--st-color-danger);
+  margin: var(--st-spacing-stack-xs) 0 0;
+}
+
+.formError {
+  font-size: 0.875rem;
+  color: var(--st-color-danger);
+  margin-bottom: var(--st-spacing-stack-md);
+  padding: 0.75rem 1rem;
+  background: color-mix(in srgb, var(--st-color-danger) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--st-color-danger) 30%, transparent);
+  border-radius: var(--st-radius-sm);
+}
+
+/* ── Success state ────────────────────────────────────────────── */
+
+.successMessage {
+  text-align: center;
+  padding: var(--st-spacing-stack-xl) 0;
+}
+
+.successHeading {
+  font-size: var(--st-font-heading-3);
+  font-weight: var(--st-font-weight-bold);
+  color: var(--st-color-brand-primary);
+  margin-bottom: var(--st-spacing-stack-sm);
+}
+
+.successBody {
+  font-size: 1.0625rem;
+  color: var(--st-color-text-default);
+  line-height: 1.6;
+}
+
+/* ── Honeypot (hidden from users) ─────────────────────────────── */
+
+.honeypot {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+/* ── Light theme overrides ────────────────────────────────────── */
+
+:global([data-theme="light"]) .input,
+:global([data-theme="light"]) .textarea {
+  background: var(--st-color-bg-surface, rgba(0, 0, 0, 0.02));
+  border-color: var(--st-color-border-medium, rgba(0, 0, 0, 0.15));
+}

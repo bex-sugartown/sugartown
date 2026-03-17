@@ -10,6 +10,7 @@ import { resolveSeo } from '../lib/seo'
 import SeoHead from '../components/SeoHead'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
+import ContactForm from '../components/ContactForm'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -34,6 +35,8 @@ export default function RootPage() {
           <h1 className={styles.detailHeading}>{page.title}<DraftBadge docId={page._id} /></h1>
         </div>
       )}
+
+      {slug === 'contact' && <ContactForm />}
     </main>
   )
 }
