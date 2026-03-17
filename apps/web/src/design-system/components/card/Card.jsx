@@ -78,6 +78,8 @@ export default function Card({
   // Chips — tags[] extended with optional colorHex for per-chip colour
   tags,
   tools,
+  toolsLabel = 'Tools',
+  tagsLabel = 'Tags',
   // Footer
   date,
   nextStep,
@@ -198,8 +200,8 @@ export default function Card({
 
       {tools && tools.length > 0 && (
         <div className={styles.chipGroup}>
-          <span className={styles.chipGroupLabel}>Tools</span>
-          <ul className={styles.toolsRow} aria-label="Tools">
+          <span className={styles.chipGroupLabel}>{toolsLabel}</span>
+          <ul className={styles.toolsRow} aria-label={toolsLabel}>
             {tools.map(({ label, href: chipHref }) => (
               <li key={label}>
                 <Chip
@@ -217,8 +219,8 @@ export default function Card({
 
       {tags && tags.length > 0 && (
         <div className={styles.chipGroup}>
-          <span className={styles.chipGroupLabel}>Tags</span>
-          <ul className={styles.tagsRow} aria-label="Tags">
+          <span className={styles.chipGroupLabel}>{tagsLabel}</span>
+          <ul className={styles.tagsRow} aria-label={tagsLabel}>
             {tags.map(({ label, href: chipHref, colorHex }) => (
               <li key={label}>
                 <Chip
