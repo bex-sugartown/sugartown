@@ -98,9 +98,9 @@ export default function ContentCard({
     }
   }
 
-  // ── Thumbnail URL — imageOverride takes precedence ──
+  // ── Thumbnail URL — cardImage → imageOverride → heroImage fallback chain ──
   const thumbnailUrl = showHeroImage
-    ? (imageOverride?.asset?.url ?? item.heroImageUrl ?? item.heroImage?.asset?.url ?? null)
+    ? (item.cardImageUrl ?? imageOverride?.asset?.url ?? item.heroImageUrl ?? item.heroImage?.asset?.url ?? null)
     : null
 
   // ── Eyebrow — content type label + first project name ──
@@ -182,7 +182,7 @@ export default function ContentCard({
       evolution={evolutionProp}
       excerpt={excerptText}
       thumbnailUrl={thumbnailUrl}
-      thumbnailAlt={item.heroImageAlt ?? ''}
+      thumbnailAlt={item.cardImageAlt ?? item.heroImageAlt ?? ''}
       tools={toolsDisplay}
       tags={tagsDisplay}
       date={item.publishedAt}

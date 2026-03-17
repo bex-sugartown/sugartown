@@ -241,6 +241,8 @@ export const allNodesQuery = `
     title,
     slug,
     excerpt,
+    "cardImageUrl": cardImage.asset->url,
+    "cardImageAlt": cardImage.alt,
     aiTool,
     conversationType,
     status,
@@ -381,7 +383,8 @@ export const allArticlesQuery = `
     title,
     slug,
     excerpt,
-    // TODO: card thumbnail — revisit in card revamp epic
+    "cardImageUrl": cardImage.asset->url,
+    "cardImageAlt": cardImage.alt,
     author,
     authors[]->{${PERSON_FRAGMENT}},
     status,
@@ -617,7 +620,8 @@ export const allCaseStudiesQuery = `
     client,
     role,
     excerpt,
-    // TODO: card thumbnail — revisit in card revamp epic
+    "cardImageUrl": cardImage.asset->url,
+    "cardImageAlt": cardImage.alt,
     dateRange,
     publishedAt,
     status,
