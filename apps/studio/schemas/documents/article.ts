@@ -99,6 +99,22 @@ export default defineType({
 
     // METADATA GROUP — dates, authors, taxonomy connections all in one tab
     defineField({
+      name: 'cardImage',
+      title: 'Card Image',
+      type: 'image',
+      description: 'Optional thumbnail for card grids. If empty, the hero image is used.',
+      group: 'metadata',
+      options: {hotspot: true},
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          description: 'Describe the image for screen readers',
+        }),
+      ],
+    }),
+    defineField({
       name: 'publishedAt',
       title: 'Published At',
       type: 'datetime',
