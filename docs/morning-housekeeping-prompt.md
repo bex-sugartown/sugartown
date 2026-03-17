@@ -169,14 +169,27 @@ If an action requires a judgment call (e.g. "should I delete this branch?"), ask
 
 ---
 
+#### 📋 Linear Status
+
+Check the Linear backlog for the Sugartown team using the Linear MCP tools:
+- **In Progress issues** — list any issues currently in progress (should match the branch you're on)
+- **High-priority Backlog items** — list the top 3 highest-priority issues not yet started
+- **Blocked issues** — flag any issues with blocking dependencies that are now resolvable
+- **Stale issues** — flag any issues marked In Progress that have no recent git activity
+
+If Linear MCP tools are not available, skip this section and note it was skipped.
+
+---
+
 #### 🔮 What I think today's starting point should be
 
-Based on the branch map and the MEMORY.md context you have about this project:
+Based on the branch map, Linear backlog, and the MEMORY.md context you have about this project:
 - What branch should I be on when I start new work?
 - Is there anything obviously next in the project's progression that I should pick up?
 - Are there any blockers that would prevent starting new work cleanly?
+- Does the Linear backlog suggest a different priority than what the git state shows?
 
-Keep this section short — 3–5 sentences max. Do not invent work. Only suggest what is visible from the git state and project memory.
+Keep this section short — 3–5 sentences max. Do not invent work. Only suggest what is visible from the git state, Linear backlog, and project memory.
 
 ---
 

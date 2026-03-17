@@ -85,6 +85,18 @@ No separate gate for commit — "Write it" authorizes both the version bump and 
 
 ---
 
+## STEP 2B — LINEAR STATUS UPDATE
+
+After the version commit lands, update the Linear issue linked to this epic:
+
+1. Transition the parent issue (e.g. `SUG-5`) to **Done**
+2. If the issue has sub-issues, transition all completed sub-issues to **Done** as well
+3. If any sub-issues are NOT complete (deferred to a follow-on epic), leave them open and note which ones in the mini-release completion output
+
+This step is mechanical — no gate required.
+
+---
+
 ## STEP 3 — BACKLOG CLEANUP
 
 After the commit lands, AI performs these cleanup tasks **automatically** (no gate — these are mechanical):
@@ -128,6 +140,7 @@ After all steps complete, AI prints:
 ━━━ MINI-RELEASE vX.Y.Z+1 COMPLETE ━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ✅  package.json → X.Y.Z+1
   ✅  Committed: [hash]
+  ✅  Linear: SUG-XX → Done [or "no Linear issue linked"]
   ✅  Backlog cleaned: [deleted file(s) listed, or "no backlog file to remove"]
   ✅  Priority stack updated
 

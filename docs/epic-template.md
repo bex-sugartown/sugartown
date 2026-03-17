@@ -29,6 +29,7 @@ Epics follow a two-stage lifecycle:
 ---
 
 **Epic ID:** EPIC-0000
+**Linear Issue:** SUG-XX _(link the Linear issue that tracks this epic)_
 ## EPIC NAME: [REQUIRED]
 
 ---
@@ -406,7 +407,8 @@ State how re-running the script produces no change:
 3. **Run mini-release** — `/mini-release EPIC-{NNNN} [Epic name]`
    - Produces a patch version bump and lightweight CHANGELOG stub
    - Two gates: review stub → "Write it", then commit plan → "Commit it"
-4. **Start next epic** — only after mini-release commit is confirmed
+4. **Update Linear** — transition the linked Linear issue (SUG-XX) to **Done**. If the epic has sub-issues, close those first.
+5. **Start next epic** — only after mini-release commit is confirmed
 
 > If this epic warrants a MINOR version bump (new feature surface, new schema fields,
 > new page component) rather than a patch, run `/release` instead of `/mini-release`.
