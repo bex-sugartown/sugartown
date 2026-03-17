@@ -2,6 +2,7 @@ import { urlFor } from '../lib/sanity'
 import { PortableText } from '@portabletext/react'
 import { Button, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker } from '../design-system'
 import CardBuilderSection from './CardBuilderSection'
+import SanityImage from './atoms/SanityImage'
 import { LinkAnnotation, DividerBlock } from './portableTextComponents'
 import styles from './PageSections.module.css'
 
@@ -30,12 +31,12 @@ const portableTextComponents = {
       if (!value?.asset) return null
       return (
         <figure className={styles.inlineImage}>
-          <img
-            src={urlFor(value.asset).width(900).quality(85).url()}
+          <SanityImage
+            asset={value.asset}
             alt={value.alt ?? ''}
+            width={900}
+            sizes="(max-width: 768px) 100vw, 900px"
             className={styles.inlineImageImg}
-            loading="lazy"
-            decoding="async"
           />
           {value.caption && (
             <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
@@ -187,12 +188,12 @@ function ImageGallerySection({ section }) {
       {images.map((image, index) => (
         <figure key={index} className={styles.galleryItem}>
           {image.asset && (
-            <img
-              src={urlFor(image.asset).width(800).quality(85).url()}
+            <SanityImage
+              asset={image.asset}
               alt={image.alt || ''}
+              width={800}
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
               className={styles.galleryImage}
-              loading="lazy"
-              decoding="async"
             />
           )}
           {image.caption && (
