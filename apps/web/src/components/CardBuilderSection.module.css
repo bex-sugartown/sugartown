@@ -156,7 +156,7 @@
 }
 
 /* ── Responsive ───────────────────────────────────────── */
-@media (max-width: 640px) {
+@media (max-width: 768px) /* --st-breakpoint-md (was 640px, merged EPIC-0182) */ {
   .grid {
     grid-template-columns: 1fr;
   }

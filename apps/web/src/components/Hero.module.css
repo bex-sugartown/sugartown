@@ -72,7 +72,7 @@
 .secondaryButton {
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) /* --st-breakpoint-md */ {
   .hero {
     padding: var(--st-space-8) 0;
   }

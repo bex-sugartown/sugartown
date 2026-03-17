@@ -134,8 +134,8 @@
 .table :global(col.st-col--flex-lg) { width: 40%; }
 
 /* ── Responsive variant (mobile card layout) ──────────────────────────────── */
-/* Breakpoint: 860px — matches legacy, NOT 768px */
-@media (max-width: 860px) {
+/* Breakpoint: 860px — matches legacy, NOT --st-breakpoint-md */
+@media (max-width: 860px) /* component: table-responsive — intentional deviation from --st-breakpoint-md */ {
   .wrap:has(.responsive) {
     overflow-x: visible;
   }

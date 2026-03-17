@@ -253,6 +253,16 @@
   --st-effect-accent-glow:      transparent;  /* pink-moon themes → rgba(255,36,125,0.18) */
   --st-shadow-elevation-float:  var(--st-shadow-1);
 
+  /* ── Breakpoints (documentation tokens — EPIC-0182) ── */
+  /* CSS custom properties cannot be used inside @media queries.
+     These tokens document the canonical breakpoint scale.
+     Each @media query in the codebase references the token name
+     in a comment for auditability: @media (max-width: 768px) /* --st-breakpoint-md */
+     "small" = below threshold; "large" = at or above threshold. */
+  --st-breakpoint-sm:  520px;    /* very small screens */
+  --st-breakpoint-md:  768px;    /* primary large/small threshold */
+  --st-breakpoint-lg:  1024px;   /* wide layout activation */
+
   /* ── Content Width Scale ────────────────────────────── */
   --st-width-detail:   760px;   /* reading/detail pages: Article, CaseStudy, Node, Page */
   --st-width-archive:  960px;   /* listing/archive pages — defined now, applied in archive epic */

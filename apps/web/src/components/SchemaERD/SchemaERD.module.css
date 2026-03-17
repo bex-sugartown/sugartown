@@ -83,7 +83,7 @@
   align-items: start;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 900px) /* component: SchemaERD sidebar — intentional deviation from --st-breakpoint-lg */ {
   .layout {
     grid-template-columns: 1fr;
   }

@@ -114,7 +114,7 @@
   color: var(--st-color-white);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) /* --st-breakpoint-md */ {
   .top {
     grid-template-columns: 1fr;
   }

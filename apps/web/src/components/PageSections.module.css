@@ -430,8 +430,8 @@
 :global(.st-html-section) :global(col.st-col--flex-md) { width: 30%; }
 :global(.st-html-section) :global(col.st-col--flex-lg) { width: 40%; }
 
-/* Table responsive cards at 860px (NOT 768px — matches legacy) */
-@media (max-width: 860px) {
+/* Table responsive cards at 860px (NOT --st-breakpoint-md — matches legacy table layout) */
+@media (max-width: 860px) /* component: table-responsive — intentional deviation from --st-breakpoint-md */ {
   :global(.st-html-section) table thead {
     display: none;
   }
@@ -549,7 +549,7 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 768px) /* --st-breakpoint-md */ {
   .heroSection {
     padding: var(--st-space-8) var(--st-page-gutter);
   }

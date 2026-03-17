@@ -66,7 +66,7 @@
   color: var(--st-color-midnight);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) /* --st-breakpoint-md */ {
   .preheader {
     padding: var(--st-spacing-stack-sm) 0;
   }

@@ -123,7 +123,7 @@
   background-color: var(--st-color-bg-elevated, rgba(255, 36, 125, 0.05));
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) /* --st-breakpoint-md */ {
   .dropdownMenu {
     position: static;
     box-shadow: none;
