@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-17 · v0.18.3 · EPIC-0179 Contact Form shipped
+> Updated 2026-03-17 · v0.18.4 · EPIC-0180 Card Adapter Convergence shipped
 
 ---
 
@@ -8,7 +8,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.18.3 shipped. Contact form complete (In Review — pending Netlify production test). **Next priorities:** DNS cutover execution (unblocks contact form + deploy previews), image optimization & responsive breakpoints.
+> **⚑ Current focus:** v0.18.4 shipped. Card adapter converged. Contact form in review. **Next:** EPIC-0181 cardImage field, then DNS cutover execution.
 
 ---
 
@@ -38,7 +38,6 @@
 
 | Item | Tags |
 |------|------|
-| **Card adapter migration v2 — passthrough convergence** — EPIC-0158 shipped the initial API migration (v0.15.0) but the web adapter remains a standalone JSX component with its own rendering logic, not a true passthrough to the DS Card. CSS drift, SPA navigation pattern, and TaxonomyChips boundary need resolution. Epic prompt: `docs/backlog/EPIC-card-adapter-v2.md`. | `Deferred` `Component` |
 | **Sitemap epic (EPIC TBD)** — Auto-generated XML sitemap for Sanity content. Not required at launch but needed shortly after for SEO indexing. | `Deferred` `SEO` |
 | **Image redirect epic: `/wp-content/uploads/…` → Sanity CDN** — WP media URLs embedded in content need redirecting to Sanity CDN or static asset paths. Low urgency unless referenced in inbound links with SEO value. | `Deferred` `Infrastructure` |
 | **Future layout components: 2-col, 3-col banner, carousel** — Enhanced section builder layout options for editorial page building. Carousel needs accessibility and mobile performance consideration. Phase 2 scope. | `Deferred` `Component` |
@@ -54,6 +53,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**EPIC-0180 · Card Adapter Convergence** — CSS parity sync (title token), configurable `toolsLabel`/`tagsLabel` props, SPA contract documented. Web Card adapter verified as thin mirror of DS Card with explicit SPA extensions (`children`, `footerChildren`, `colorHex`, `<Link to>`). MEMORY.md updated.~~ | v0.18.4 | 2026-03-17 |
 | ~~**EPIC-0179 · Contact Form** — `ContactForm.jsx` with name/email/message fields, client-side validation, honeypot spam protection, Netlify Forms `fetch()` POST. Hidden static form in `index.html` for SPA detection. Renders on `/contact` via RootPage. Button `type` prop fix. In Review pending Netlify production test.~~ | v0.18.3 | 2026-03-17 |
 | ~~**EPIC-0178 · PortableText Updates** — Inline code decorator in Studio portableTextConfig. citationRef mark handler in PageSections (was missing). Global inline code styling: lime pill (dark), magenta pill (light). Code block overflow fixes. Shared portableTextComponents for page sections.~~ | v0.18.2 | 2026-03-16 |
 | ~~**EPIC-0177 · Preview UI** — PreviewBanner (lime green), DraftBadge (amber chip), rawClient for draft detection, useDraftIds/useDocHasDraft hooks. Draft badges on archive cards and all detail pages. Citation footnote link styling. Card statusDraft amber.~~ | v0.18.1 | 2026-03-16 |
@@ -91,4 +91,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-03-17 · v0.18.3*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-03-17 · v0.18.4*
