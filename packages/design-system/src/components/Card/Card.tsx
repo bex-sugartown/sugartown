@@ -355,7 +355,7 @@ export const Card: React.FC<CardProps> = ({
       {/* Hero thumbnail — default variant, full-width above header */}
       {variant === 'default' && thumbnailUrl && (
         <div className={styles.thumbnailHero}>
-          <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" />
+          <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" decoding="async" />
         </div>
       )}
 
@@ -363,7 +363,7 @@ export const Card: React.FC<CardProps> = ({
       {isListingWithThumb ? (
         <div className={styles.listingRow}>
           <div className={styles.thumbnailRail}>
-            <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" />
+            <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" decoding="async" />
           </div>
           <div className={styles.listingContent}>
             {headerEl}

@@ -34,6 +34,8 @@ const portableTextComponents = {
             src={urlFor(value.asset).width(900).quality(85).url()}
             alt={value.alt ?? ''}
             className={styles.inlineImageImg}
+            loading="lazy"
+            decoding="async"
           />
           {value.caption && (
             <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
@@ -189,6 +191,8 @@ function ImageGallerySection({ section }) {
               src={urlFor(image.asset).width(800).quality(85).url()}
               alt={image.alt || ''}
               className={styles.galleryImage}
+              loading="lazy"
+              decoding="async"
             />
           )}
           {image.caption && (

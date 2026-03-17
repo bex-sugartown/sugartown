@@ -22,6 +22,7 @@
  *     .canonicalUrl  {string|null}
  *     .robots        { index: bool, follow: bool }
  *     .openGraph     { title, description, image: { asset: { url } }, type }
+ *   heroImageUrl {string|null} — resolved URL for a hero/LCP image to preload
  */
 import { useEffect } from 'react'
 import { urlFor } from '../lib/sanity'
@@ -58,7 +59,7 @@ function removeEl(el) {
 
 // ─── component ────────────────────────────────────────────────────────────────
 
-export default function SeoHead({ seo }) {
+export default function SeoHead({ seo, heroImageUrl }) {
   useEffect(() => {
     if (!seo) return
 
@@ -100,6 +101,16 @@ export default function SeoHead({ seo }) {
       }
     }
 
+    // ── Hero image preload (LCP optimisation — EPIC-0182) ────────────────────
+    let heroPreloadEl = null
+    if (heroImageUrl) {
+      heroPreloadEl = document.createElement('link')
+      heroPreloadEl.setAttribute('rel', 'preload')
+      heroPreloadEl.setAttribute('as', 'image')
+      heroPreloadEl.setAttribute('href', heroImageUrl)
+      document.head.appendChild(heroPreloadEl)
+    }
+
     // ── Twitter Card ─────────────────────────────────────────────────────────
     const twitterCardEl = setMeta('twitter:card', 'summary_large_image')
     const twitterTitleEl = setMeta('twitter:title', seo.openGraph?.title || seo.title)
@@ -124,8 +135,9 @@ export default function SeoHead({ seo }) {
       if (twitterCardEl) twitterCardEl.setAttribute('content', '')
       if (twitterTitleEl) twitterTitleEl.setAttribute('content', '')
       if (twitterDescEl) twitterDescEl.setAttribute('content', '')
+      removeEl(heroPreloadEl)
     }
-  }, [seo])
+  }, [seo, heroImageUrl])
 
   // Renders nothing — side-effects only
   return null

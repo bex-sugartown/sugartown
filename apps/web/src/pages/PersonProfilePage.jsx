@@ -140,6 +140,8 @@ export default function PersonProfilePage() {
               className={styles.avatarImg}
               width={120}
               height={120}
+              loading="lazy"
+              decoding="async"
             />
           ) : (
             <div className={styles.avatarFallback} aria-hidden="true">

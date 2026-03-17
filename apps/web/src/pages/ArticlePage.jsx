@@ -59,10 +59,13 @@ export default function ArticlePage() {
   const isHero = (s) => s._type === 'heroSection' || s._type === 'hero'
   const leadHero = sections[0] && isHero(sections[0]) ? sections[0] : null
   const restSections = leadHero ? sections.slice(1) : sections
+  const heroImageUrl = leadHero?.backgroundImage?.asset
+    ? urlFor(leadHero.backgroundImage.asset).width(1920).quality(90).url()
+    : undefined
 
   return (
     <main>
-      <SeoHead seo={seo} />
+      <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
       {leadHero && <PageSections sections={[leadHero]} />}
       <div className={styles.detailPage}>
         <Link to="/articles" className={styles.backLink}>
