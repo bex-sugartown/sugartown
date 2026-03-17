@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-16 · v0.18.2 · EPIC-0177 Preview UI + EPIC-0178 PortableText Updates shipped
+> Updated 2026-03-17 · v0.18.3 · EPIC-0179 Contact Form shipped
 
 ---
 
@@ -8,7 +8,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.18.2 shipped. Preview UI and PortableText updates complete. **Next priorities:** DNS cutover execution, image optimization & responsive breakpoints, visual polish.
+> **⚑ Current focus:** v0.18.3 shipped. Contact form complete (In Review — pending Netlify production test). **Next priorities:** DNS cutover execution (unblocks contact form + deploy previews), image optimization & responsive breakpoints.
 
 ---
 
@@ -28,10 +28,9 @@
 | 3 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 | 4 | **Brand color picker for Sanity Studio (BL-01)** — Replace raw hex string input for `colorHex` on project documents with `@sanity/color-input` visual picker (already installed). Requires field type migration (`string` → `color`), GROQ projection updates (`colorHex` → `colorHex.hex`), and data migration script. Epic prompt: `docs/backlog/EPIC-brand-color-picker.md`. | `Studio UX` `BL-01` | 🟣 Soon |
 | 5 | **Dedicated `cardImage` schema field (BL-02)** — Optional thumbnail override for card grids, separate from hero image. Adds `cardImage` field to article, caseStudy, node schemas. GROQ thumbnail resolution becomes `cardImage → hero.media[0] → null`. No visual change until editors populate the field. Epic prompt: `docs/backlog/EPIC-card-image-field.md`. | `Schema` `BL-02` | 🟣 Soon |
-| 6 | **Contact form** — Working web form on `/contact` page: name, email, message fields → sends to `bex@sugartown.io` via Netlify Forms. Inline success/error feedback, honeypot spam protection, dark/light theme aware. Depends on DNS cutover (Netlify hosting must be active). Epic prompt: `docs/backlog/EPIC-contact-form.md`. | `UX` `Infrastructure` | 🟣 Soon |
-| 7 | **Studio UX polish — section type labels + archive rich text** — Two editor QoL fixes: (1) section previews in page builder show type labels (Text, Hero, CTA, etc.) so editors can identify section types at a glance; (2) archive `description` field upgraded from plain text to `summaryPortableText` for inline formatting and links. Epic prompt: `docs/backlog/EPIC-studio-ux-polish.md`. | `Studio UX` `Schema` | 🟣 Soon |
-| 8 | **Content metadata audit & taxonomy backfill** — Audit all published articles, case studies, and nodes for missing taxonomy assignments. Backfill to minimums: ≥ 1 category, ≥ 3 tags, ≥ 1 tool (articles/nodes), ≥ 1 author. Extend `validate:content` with checks H–J for ongoing enforcement. Gatekeeping protocol prevents new one-off tags. Epic prompt: `docs/backlog/EPIC-content-metadata-audit.md`. | `Content` `Schema` `Quality` | 🟣 Soon |
-| 9 | **Mermaid diagram section type** — New `mermaidSection` for the section builder. Editor enters Mermaid markup in a code textarea; frontend renders themed SVG via dynamic-imported `mermaid` library. Auto-themes dark/light with brand colours; editor `%%{init}` overrides respected. Code-split (~2MB only on pages with diagrams). Epic prompt: `docs/backlog/EPIC-mermaid-diagrams.md`. | `Schema` `Component` `UX` | 🟣 Soon |
+| 6 | **Studio UX polish — section type labels + archive rich text** — Two editor QoL fixes: (1) section previews in page builder show type labels (Text, Hero, CTA, etc.) so editors can identify section types at a glance; (2) archive `description` field upgraded from plain text to `summaryPortableText` for inline formatting and links. Epic prompt: `docs/backlog/EPIC-studio-ux-polish.md`. | `Studio UX` `Schema` | 🟣 Soon |
+| 7 | **Content metadata audit & taxonomy backfill** — Audit all published articles, case studies, and nodes for missing taxonomy assignments. Backfill to minimums: ≥ 1 category, ≥ 3 tags, ≥ 1 tool (articles/nodes), ≥ 1 author. Extend `validate:content` with checks H–J for ongoing enforcement. Gatekeeping protocol prevents new one-off tags. Epic prompt: `docs/backlog/EPIC-content-metadata-audit.md`. | `Content` `Schema` `Quality` | 🟣 Soon |
+| 8 | **Mermaid diagram section type** — New `mermaidSection` for the section builder. Editor enters Mermaid markup in a code textarea; frontend renders themed SVG via dynamic-imported `mermaid` library. Auto-themes dark/light with brand colours; editor `%%{init}` overrides respected. Code-split (~2MB only on pages with diagrams). Epic prompt: `docs/backlog/EPIC-mermaid-diagrams.md`. | `Schema` `Component` `UX` | 🟣 Soon |
 
 ---
 
@@ -55,6 +54,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**EPIC-0179 · Contact Form** — `ContactForm.jsx` with name/email/message fields, client-side validation, honeypot spam protection, Netlify Forms `fetch()` POST. Hidden static form in `index.html` for SPA detection. Renders on `/contact` via RootPage. Button `type` prop fix. In Review pending Netlify production test.~~ | v0.18.3 | 2026-03-17 |
 | ~~**EPIC-0178 · PortableText Updates** — Inline code decorator in Studio portableTextConfig. citationRef mark handler in PageSections (was missing). Global inline code styling: lime pill (dark), magenta pill (light). Code block overflow fixes. Shared portableTextComponents for page sections.~~ | v0.18.2 | 2026-03-16 |
 | ~~**EPIC-0177 · Preview UI** — PreviewBanner (lime green), DraftBadge (amber chip), rawClient for draft detection, useDraftIds/useDocHasDraft hooks. Draft badges on archive cards and all detail pages. Citation footnote link styling. Card statusDraft amber.~~ | v0.18.1 | 2026-03-16 |
 | ~~**Hosting platform decision** — Evaluated Netlify, Cloudflare Pages, Vercel, self-hosted. Selected Netlify: zero migration cost, native redirect compatibility (296 exact-match + 3 query-param rules), automatic deploy previews, Sanity build hook support, free tier sufficient. Report: `docs/reports/hosting-evaluation.md`.~~ | — | 2026-03-15 |
@@ -91,4 +91,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-03-16 · v0.18.2*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-03-17 · v0.18.3*
