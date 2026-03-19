@@ -12,6 +12,14 @@
  *      — these are not decoded by @portabletext/react and render as raw codes in the UI
  *   G) Draft-only documents — docs that exist as drafts but have never been published,
  *      meaning their slugs would 404 in production (EPIC-0176)
+ *   H) Minimum taxonomy coverage — categories ≥1, tags ≥3, tools ≥1 (articles/nodes)
+ *      (EPIC-0183)
+ *   I) Missing author attribution — every content doc should have ≥1 author (EPIC-0183)
+ *   J) SEO metadata completeness — seo.title and seo.description (EPIC-0183)
+ *
+ * Flags:
+ *   --strict   Treat quality warnings (H, I, J) as errors — exits non-zero
+ *   --report   Output taxonomy utilization summary after all checks
  *
  * Complements:
  *   validate:urls    — URL authority and routing correctness
@@ -78,6 +86,9 @@ if (!token) {
   )
 }
 
+const STRICT = process.argv.includes('--strict')
+const REPORT = process.argv.includes('--report')
+
 const client = createClient({ projectId, dataset, apiVersion, useCdn: false, token })
 
 // Raw-perspective client — sees both drafts and published documents.
@@ -108,7 +119,13 @@ const query = `{
     "categoryRefs": categories[]._ref,
     "tagRefs": tags[]._ref,
     "projectRefs": projects[]._ref,
-    "toolRefs": tools[]._ref
+    "toolRefs": tools[]._ref,
+    "toolCount": count(tools),
+    "categoryCount": count(categories),
+    "tagCount": count(tags),
+    "authorCount": count(authors),
+    "hasSeoTitle": defined(seo.title) && seo.title != "",
+    "hasSeoDescription": defined(seo.description) && seo.description != ""
   },
   "portableTextDocs": *[_type in $contentTypes && defined(slug.current)] {
     _id,
@@ -157,6 +174,20 @@ const query = `{
         "url": link.url
       }
     }
+  },
+  "taxonomyUsage": {
+    "categories": *[_type == "category" && !(_id in path("drafts.**"))] {
+      _id, name,
+      "total": count(*[_type in ["article", "caseStudy", "node"] && references(^._id)])
+    } | order(name),
+    "tags": *[_type == "tag" && !(_id in path("drafts.**"))] {
+      _id, name,
+      "total": count(*[_type in ["article", "caseStudy", "node"] && references(^._id)])
+    } | order(name),
+    "tools": *[_type == "tool" && !(_id in path("drafts.**"))] {
+      _id, name,
+      "total": count(*[_type in ["article", "caseStudy", "node"] && references(^._id)])
+    } | order(name)
   }
 }`
 
@@ -510,6 +541,139 @@ async function run() {
   }
   console.log()
 
+  // ── H) Minimum taxonomy coverage ──────────────────────────────────────────
+  //    EPIC-0183: categories ≥1, tags ≥3, tools ≥1 (articles & nodes only)
+
+  console.log('📊  Minimum Taxonomy Coverage (H)')
+  console.log('──────────────────────────────────────────────')
+
+  const MINIMUMS = {
+    categories: 1,
+    tags: 3,
+    tools: { article: 1, node: 1, caseStudy: 0 },
+  }
+
+  let taxonomyGaps = 0
+  const contentDocs = data.content ?? []
+
+  for (const doc of contentDocs) {
+    const issues = []
+    if ((doc.categoryCount ?? 0) < MINIMUMS.categories) {
+      issues.push(`categories: ${doc.categoryCount ?? 0}/${MINIMUMS.categories}`)
+    }
+    if ((doc.tagCount ?? 0) < MINIMUMS.tags) {
+      issues.push(`tags: ${doc.tagCount ?? 0}/${MINIMUMS.tags}`)
+    }
+    const toolMin = MINIMUMS.tools[doc._type] ?? 0
+    if (toolMin > 0 && (doc.toolCount ?? 0) < toolMin) {
+      issues.push(`tools: ${doc.toolCount ?? 0}/${toolMin}`)
+    }
+    if (issues.length > 0) {
+      const prefix = STRICT ? '❌' : '⚠️  '
+      console.log(`   ${prefix} [${doc._type}] "${doc.title}" — ${issues.join(', ')}`)
+      taxonomyGaps++
+      if (STRICT) { errors++ } else { warnings++ }
+    }
+  }
+
+  if (taxonomyGaps === 0) {
+    console.log('   ✅  All content docs meet minimum taxonomy thresholds')
+  } else {
+    console.log(`\n   ${taxonomyGaps} doc(s) below minimum taxonomy coverage`)
+  }
+  console.log()
+
+  // ── I) Missing author attribution ─────────────────────────────────────────
+  //    EPIC-0183: every content doc should have ≥1 author
+
+  console.log('👤  Author Attribution (I)')
+  console.log('──────────────────────────────────────────────')
+
+  let missingAuthors = 0
+
+  for (const doc of contentDocs) {
+    if ((doc.authorCount ?? 0) < 1) {
+      const prefix = STRICT ? '❌' : '⚠️  '
+      console.log(`   ${prefix} [${doc._type}] "${doc.title}" — no authors assigned`)
+      missingAuthors++
+      if (STRICT) { errors++ } else { warnings++ }
+    }
+  }
+
+  if (missingAuthors === 0) {
+    console.log('   ✅  All content docs have at least one author')
+  }
+  console.log()
+
+  // ── J) SEO metadata completeness ──────────────────────────────────────────
+  //    EPIC-0183: seo.title and seo.description should be set
+
+  console.log('🔍  SEO Metadata Completeness (J)')
+  console.log('──────────────────────────────────────────────')
+
+  let seoGaps = 0
+
+  for (const doc of contentDocs) {
+    const issues = []
+    if (!doc.hasSeoTitle) issues.push('missing seo.title')
+    if (!doc.hasSeoDescription) issues.push('missing seo.description')
+    if (issues.length > 0) {
+      const prefix = STRICT ? '❌' : '⚠️  '
+      console.log(`   ${prefix} [${doc._type}] "${doc.title}" — ${issues.join(', ')}`)
+      seoGaps++
+      if (STRICT) { errors++ } else { warnings++ }
+    }
+  }
+
+  if (seoGaps === 0) {
+    console.log('   ✅  All content docs have SEO title and description')
+  }
+  console.log()
+
+  // ── Report: taxonomy utilization (--report) ──────────────────────────────
+
+  if (REPORT) {
+    console.log('📈  Taxonomy Utilization Report')
+    console.log('══════════════════════════════════════════════')
+
+    const usage = data.taxonomyUsage ?? {}
+
+    for (const [type, items] of Object.entries(usage)) {
+      if (!items || items.length === 0) continue
+      const sorted = [...items].sort((a, b) => b.total - a.total)
+      const unused = sorted.filter((i) => i.total === 0)
+      const underused = sorted.filter((i) => i.total === 1)
+      const top = sorted.slice(0, 5)
+
+      console.log(`\n   ${type} (${items.length} total):`)
+      console.log('     Most used:')
+      for (const item of top) {
+        console.log(`       ${item.name}: ${item.total} refs`)
+      }
+      if (unused.length > 0) {
+        console.log(`     Unused (0 refs): ${unused.map((i) => i.name).join(', ')}`)
+      }
+      if (underused.length > 0) {
+        console.log(`     Underused (1 ref): ${underused.map((i) => i.name).join(', ')}`)
+      }
+    }
+
+    // Coverage summary
+    const total = contentDocs.length
+    const meetAll = contentDocs.filter((d) => {
+      const toolMin = MINIMUMS.tools[d._type] ?? 0
+      return (
+        (d.categoryCount ?? 0) >= MINIMUMS.categories &&
+        (d.tagCount ?? 0) >= MINIMUMS.tags &&
+        (toolMin === 0 || (d.toolCount ?? 0) >= toolMin) &&
+        (d.authorCount ?? 0) >= 1
+      )
+    }).length
+
+    console.log(`\n   Coverage: ${meetAll} of ${total} content docs meet all minimums`)
+    console.log()
+  }
+
   // ── Summary ─────────────────────────────────────────────────────────────────
 
   console.log('══════════════════════════════════════════════')
@@ -524,6 +688,9 @@ async function run() {
   }
   if (warnings > 0) {
     console.log(`⚠️   ${warnings} WARNING(S) found — review in Sanity Studio.`)
+  }
+  if (STRICT) {
+    console.log('   (--strict mode: quality warnings treated as errors)')
   }
   console.log()
 
