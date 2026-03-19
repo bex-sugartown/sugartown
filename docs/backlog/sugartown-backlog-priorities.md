@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-19 · v0.18.7 · EPIC-0183 Content Metadata Audit shipped
+> Updated 2026-03-19 · v0.19.0 · Full release shipped (EPIC-0177–0183)
 
 ---
 
@@ -8,7 +8,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.18.7 shipped. EPIC-0183 Content Metadata Audit landed: 57 content docs audited, 18 backfilled to minimums, 9 unused taxonomy entries deleted, validator checks H/I/J added with --strict and --report flags. **Next:** DNS cutover execution.
+> **⚑ Current focus:** v0.19.0 released. Seven epics (EPIC-0177–0183): preview UI, PortableText polish, contact form, card convergence, image optimization, content metadata governance, taxonomy refinement. **Next:** DNS cutover execution.
 
 ---
 
@@ -24,10 +24,10 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 3 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
-| 4 | **Brand color picker for Sanity Studio (BL-01)** — Replace raw hex string input for `colorHex` on project documents with `@sanity/color-input` visual picker (already installed). Requires field type migration (`string` → `color`), GROQ projection updates (`colorHex` → `colorHex.hex`), and data migration script. Epic prompt: `docs/backlog/EPIC-brand-color-picker.md`. | `Studio UX` `BL-01` | 🟣 Soon |
-| 5 | **Studio UX polish — section type labels + archive rich text** — Two editor QoL fixes: (1) section previews in page builder show type labels (Text, Hero, CTA, etc.) so editors can identify section types at a glance; (2) archive `description` field upgraded from plain text to `summaryPortableText` for inline formatting and links. Epic prompt: `docs/backlog/EPIC-studio-ux-polish.md`. | `Studio UX` `Schema` | 🟣 Soon |
-| 6 | **Mermaid diagram section type** — New `mermaidSection` for the section builder. Editor enters Mermaid markup in a code textarea; frontend renders themed SVG via dynamic-imported `mermaid` library. Auto-themes dark/light with brand colours; editor `%%{init}` overrides respected. Code-split (~2MB only on pages with diagrams). Epic prompt: `docs/backlog/EPIC-mermaid-diagrams.md`. | `Schema` `Component` `UX` | 🟣 Soon |
+| 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
+| 3 | **Brand color picker for Sanity Studio (BL-01)** — Replace raw hex string input for `colorHex` on project documents with `@sanity/color-input` visual picker (already installed). Requires field type migration (`string` → `color`), GROQ projection updates (`colorHex` → `colorHex.hex`), and data migration script. Epic prompt: `docs/backlog/EPIC-brand-color-picker.md`. | `Studio UX` `BL-01` | 🟣 Soon |
+| 4 | **Studio UX polish — section type labels + archive rich text** — Two editor QoL fixes: (1) section previews in page builder show type labels (Text, Hero, CTA, etc.) so editors can identify section types at a glance; (2) archive `description` field upgraded from plain text to `summaryPortableText` for inline formatting and links. Epic prompt: `docs/backlog/EPIC-studio-ux-polish.md`. | `Studio UX` `Schema` | 🟣 Soon |
+| 5 | **Mermaid diagram section type** — New `mermaidSection` for the section builder. Editor enters Mermaid markup in a code textarea; frontend renders themed SVG via dynamic-imported `mermaid` library. Auto-themes dark/light with brand colours; editor `%%{init}` overrides respected. Code-split (~2MB only on pages with diagrams). Epic prompt: `docs/backlog/EPIC-mermaid-diagrams.md`. | `Schema` `Component` `UX` | 🟣 Soon |
 
 ---
 
@@ -46,7 +46,7 @@
 
 ---
 
-## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.18.x
+## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.19.x
 
 | Item | Version | Date |
 |------|---------|------|
@@ -91,4 +91,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-03-19 · v0.18.7*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-03-19 · v0.19.0*
