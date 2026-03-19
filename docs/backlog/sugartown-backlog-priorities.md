@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-17 · v0.18.6 · EPIC-0182 Image Optimization shipped
+> Updated 2026-03-19 · v0.18.7 · EPIC-0183 Content Metadata Audit shipped
 
 ---
 
@@ -8,7 +8,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.18.6 shipped. EPIC-0182 Image Optimization landed: breakpoint tokens, Sanity CDN auto-format, loading/decoding attrs, hero preload, SanityImage srcset, WebP background assets. **Next:** DNS cutover execution.
+> **⚑ Current focus:** v0.18.7 shipped. EPIC-0183 Content Metadata Audit landed: 57 content docs audited, 18 backfilled to minimums, 9 unused taxonomy entries deleted, validator checks H/I/J added with --strict and --report flags. **Next:** DNS cutover execution.
 
 ---
 
@@ -27,8 +27,7 @@
 | 3 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 | 4 | **Brand color picker for Sanity Studio (BL-01)** — Replace raw hex string input for `colorHex` on project documents with `@sanity/color-input` visual picker (already installed). Requires field type migration (`string` → `color`), GROQ projection updates (`colorHex` → `colorHex.hex`), and data migration script. Epic prompt: `docs/backlog/EPIC-brand-color-picker.md`. | `Studio UX` `BL-01` | 🟣 Soon |
 | 5 | **Studio UX polish — section type labels + archive rich text** — Two editor QoL fixes: (1) section previews in page builder show type labels (Text, Hero, CTA, etc.) so editors can identify section types at a glance; (2) archive `description` field upgraded from plain text to `summaryPortableText` for inline formatting and links. Epic prompt: `docs/backlog/EPIC-studio-ux-polish.md`. | `Studio UX` `Schema` | 🟣 Soon |
-| 6 | **Content metadata audit & taxonomy backfill** — Audit all published articles, case studies, and nodes for missing taxonomy assignments. Backfill to minimums: ≥ 1 category, ≥ 3 tags, ≥ 1 tool (articles/nodes), ≥ 1 author. Extend `validate:content` with checks H–J for ongoing enforcement. Gatekeeping protocol prevents new one-off tags. Epic prompt: `docs/backlog/EPIC-content-metadata-audit.md`. | `Content` `Schema` `Quality` | 🟣 Soon |
-| 7 | **Mermaid diagram section type** — New `mermaidSection` for the section builder. Editor enters Mermaid markup in a code textarea; frontend renders themed SVG via dynamic-imported `mermaid` library. Auto-themes dark/light with brand colours; editor `%%{init}` overrides respected. Code-split (~2MB only on pages with diagrams). Epic prompt: `docs/backlog/EPIC-mermaid-diagrams.md`. | `Schema` `Component` `UX` | 🟣 Soon |
+| 6 | **Mermaid diagram section type** — New `mermaidSection` for the section builder. Editor enters Mermaid markup in a code textarea; frontend renders themed SVG via dynamic-imported `mermaid` library. Auto-themes dark/light with brand colours; editor `%%{init}` overrides respected. Code-split (~2MB only on pages with diagrams). Epic prompt: `docs/backlog/EPIC-mermaid-diagrams.md`. | `Schema` `Component` `UX` | 🟣 Soon |
 
 ---
 
@@ -51,6 +50,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**EPIC-0183 · Content Metadata Audit & Taxonomy Backfill** — 57 content docs audited, 18 backfilled to taxonomy minimums (≥1 category, ≥3 tags, ≥1 tool, ≥1 author). 9 unused taxonomy entries deleted. Validator checks H (taxonomy coverage), I (author attribution), J (SEO metadata) added to `validate-content.js` with `--strict` and `--report` flags.~~ | v0.18.7 | 2026-03-19 |
 | ~~**EPIC-0182 · Image Optimization & Responsive Breakpoints** — Breakpoint tokens (`--st-breakpoint-sm/md/lg`) with annotated `@media` queries across 13 CSS files. Sanity CDN `.auto('format')` for WebP/AVIF. `loading="lazy"` + `decoding="async"` on all `<img>` elements. Hero image `<link rel="preload">` on detail pages. `SanityImage` component with responsive `srcset` (400w/800w/1200w). Background PNGs converted to WebP (2.4 MB → 383 KB).~~ | v0.18.6 | 2026-03-17 |
 | ~~**EPIC-0181 · cardImage Field** — `cardImage` (image + hotspot + alt) added to article, caseStudy, node schemas. GROQ archive queries project `cardImageUrl` and `cardImageAlt`. ContentCard thumbnail chain: `cardImageUrl → imageOverride → heroImageUrl → null`. No visual change until editors populate.~~ | v0.18.5 | 2026-03-17 |
 | ~~**EPIC-0180 · Card Adapter Convergence** — CSS parity sync (title token), configurable `toolsLabel`/`tagsLabel` props, SPA contract documented. Web Card adapter verified as thin mirror of DS Card with explicit SPA extensions (`children`, `footerChildren`, `colorHex`, `<Link to>`). MEMORY.md updated.~~ | v0.18.4 | 2026-03-17 |
@@ -91,4 +91,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-03-17 · v0.18.6*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-03-19 · v0.18.7*
