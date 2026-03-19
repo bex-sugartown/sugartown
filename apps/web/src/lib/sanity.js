@@ -1,5 +1,5 @@
 import { createClient } from '@sanity/client'
-import imageUrlBuilder from '@sanity/image-url'
+import { createImageUrlBuilder } from '@sanity/image-url'
 import { getContentPerspective, logPreviewWarning } from './contentState.js'
 
 export const client = createClient({
@@ -36,7 +36,7 @@ export const rawClient = createClient({
 logPreviewWarning()
 
 // Helper for generating image URLs
-const builder = imageUrlBuilder(client)
+const builder = createImageUrlBuilder(client)
 
 export function urlFor(source) {
   return builder.image(source).auto('format')

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate, useParams } from 'react-router-dom'
-import { client } from './lib/sanity'
+import { client, urlFor } from './lib/sanity'
 import { siteSettingsQuery } from './lib/queries'
 import { SiteSettingsContext } from './lib/SiteSettingsContext'
 import { isPreviewMode } from './lib/contentState'
@@ -47,6 +47,21 @@ function App() {
         setSettingsLoading(false)
       })
   }, [])
+
+  // ── Favicon: replace Vite default with Sanity siteSettings.favicon ────────
+  useEffect(() => {
+    if (!siteSettings?.favicon?.asset) return
+    try {
+      const faviconUrl = urlFor(siteSettings.favicon).width(64).height(64).url()
+      const link = document.querySelector('link[rel="icon"]')
+      if (link) {
+        link.setAttribute('href', faviconUrl)
+        link.setAttribute('type', 'image/png')
+      }
+    } catch {
+      // urlFor may throw if asset ref is malformed — keep default favicon
+    }
+  }, [siteSettings])
 
   // Site settings can still be loading while page content renders.
   // Context provides siteSettings (null while loading) to all page components
