@@ -939,6 +939,7 @@ export const projectDetailQuery = `
     kpis,
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
+    "tools": tools[]->{${TOOL_FRAGMENT}},
     seo,
     "articles": *[_type == "article" && references(^._id)] | order(publishedAt desc) {
       _id,
@@ -1037,7 +1038,8 @@ export const allProjectsQuery = `
     status,
     priority,
     colorHex,
-    kpis
+    kpis,
+    "tools": tools[]->{${TOOL_FRAGMENT}}
   }
 `
 
@@ -1057,7 +1059,8 @@ export const projectBySlugQuery = `
     status,
     priority,
     colorHex,
-    kpis
+    kpis,
+    "tools": tools[]->{${TOOL_FRAGMENT}}
   }
 `
 

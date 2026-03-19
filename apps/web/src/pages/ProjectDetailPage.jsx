@@ -98,6 +98,7 @@ export default function ProjectDetailPage() {
         kpis={project.kpis}
         categories={project.categories}
         tags={project.tags}
+        tools={project.tools}
       />
 
       {/* ── Content timeline ─────────────────────────────────────────── */}

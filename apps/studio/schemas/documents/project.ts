@@ -160,6 +160,20 @@ export default defineType({
       ]
     }),
     defineField({
+      name: 'tools',
+      title: 'Tools & Platforms',
+      type: 'array',
+      description: 'Tools, platforms, or technologies used in this project',
+      group: 'profile',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'tool'}]
+        })
+      ],
+      validation: (Rule) => Rule.unique()
+    }),
+    defineField({
       name: 'kpis',
       title: 'Key Performance Indicators',
       type: 'array',
