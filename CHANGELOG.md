@@ -16,6 +16,76 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.19.0] — 2026-03-19
+
+Preview UI, PortableText polish, contact form, card convergence, image optimization, content metadata governance, and taxonomy refinement. Aggregates 0.18.1–0.18.7.
+
+### apps/web
+
+#### Added
+- PreviewBanner (lime green) and DraftBadge (amber chip) on archive cards and all detail pages; rawClient + useDraftIds/useDocHasDraft hooks for draft detection (EPIC-0177)
+- Contact form with Netlify Forms integration: name/email/message fields, client-side validation, honeypot spam protection, fetch() POST; hidden static form in index.html for SPA detection; renders on /contact via RootPage (EPIC-0179)
+- SanityImage component with responsive srcset (400w/800w/1200w) and Sanity CDN auto-format for WebP/AVIF (EPIC-0182)
+- Hero image `<link rel="preload">` on detail pages (EPIC-0182)
+- `loading="lazy"` + `decoding="async"` on all `<img>` elements (EPIC-0182)
+- Breakpoint tokens (`--st-breakpoint-sm/md/lg`) with annotated `@media` queries across 13 CSS files (EPIC-0182)
+- Content metadata audit script (`audit-content-metadata.js`) for taxonomy coverage gap reporting (EPIC-0183)
+- Validator checks H (minimum taxonomy coverage), I (author attribution), J (SEO metadata completeness) added to `validate-content.js` with `--strict` and `--report` flags (EPIC-0183)
+- Favicon injection from Sanity siteSettings via useEffect in App.jsx — replaces Vite default
+- Tools taxonomy wired through projectDetailQuery, allProjectsQuery, projectBySlugQuery GROQ projections; MetadataCard on ProjectDetailPage renders tools
+
+#### Changed
+- Card adapter converged: CSS parity sync between DS Card and web Card (title token); configurable `toolsLabel`/`tagsLabel` props (EPIC-0180)
+- cardImage thumbnail chain in ContentCard: `cardImageUrl → imageOverride → heroImageUrl → null` (EPIC-0181)
+- Background PNGs converted to WebP (2.4 MB → 383 KB) (EPIC-0182)
+- Filter nav default facet order standardized: Author → Project → Status → Tools → Category → Tag
+- `@sanity/image-url` import updated from deprecated default export to named `createImageUrlBuilder`
+
+#### Fixed
+- citationRef mark handler added to PageSections — was missing, causing `unknown__pt__mark__citationRef` (EPIC-0178)
+- Code block horizontal overflow fixed (EPIC-0178)
+- SocialLink: mailto and tel links handled correctly
+- Button component: `type` prop fix for form submission (EPIC-0179)
+
+### apps/studio
+
+#### Added
+- Inline code decorator added to Studio portableTextConfig (EPIC-0178)
+- `cardImage` field (image + hotspot + alt) added to article, caseStudy, node schemas (EPIC-0181)
+- Tools taxonomy (`tools[]` reference array to `tool` documents) added to project schema Profile tab
+- Taxonomy field order standardized across article, node, caseStudy, project schemas: Author → Project → Status → Tools → Category → Tag
+
+#### Changed
+- CTA button: deprecated `text` field hidden, `link.label` is canonical source
+- Global inline code styling: lime pill (dark), magenta pill (light) (EPIC-0178)
+- Shared portableTextComponents.jsx for page-level PT rendering (EPIC-0178)
+
+### packages/design-system
+
+#### Added
+- Breakpoint tokens (`--st-breakpoint-sm/md/lg`) added to tokens.css (EPIC-0182)
+
+#### Changed
+- CSS parity sync with web Card: title token, configurable toolsLabel/tagsLabel props (EPIC-0180)
+
+#### Fixed
+- CodeBlock horizontal overflow fix (EPIC-0178)
+
+### Sanity production data
+
+- 9 unused taxonomy entries deleted (categories and tags with zero references) (EPIC-0183)
+- 18 content documents backfilled to taxonomy minimums (≥1 category, ≥3 tags, ≥1 tool, ≥1 author) and published (EPIC-0183)
+
+### docs
+
+- Epic prompts added: EPIC-0177 through EPIC-0183; backlog prompts for brand color picker, mermaid diagrams, studio UX polish
+- Node style guide and platform behaviors documentation added
+- Linear integration added to epic, mini-release, and morning housekeeping workflows
+- Post-mortem system: 8 process guardrails documented
+- Hosting decision: Netlify selected; evaluation report at `docs/reports/hosting-evaluation.md`
+
+---
+
 ## [0.18.0] — 2026-03-15
 
 IA brief delivery, schema consolidation, content tooling, and content state governance. Aggregates 0.17.1–0.17.7.
