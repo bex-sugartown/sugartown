@@ -134,6 +134,20 @@ export default defineType({
       validation: (Rule) => Rule.max(500)
     }),
     defineField({
+      name: 'tools',
+      title: 'Tools & Platforms',
+      type: 'array',
+      description: 'Tools, platforms, or technologies used in this project',
+      group: 'profile',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'tool'}]
+        })
+      ],
+      validation: (Rule) => Rule.unique()
+    }),
+    defineField({
       name: 'categories',
       title: 'Categories',
       type: 'array',
@@ -158,20 +172,6 @@ export default defineType({
           to: [{type: 'tag'}]
         })
       ]
-    }),
-    defineField({
-      name: 'tools',
-      title: 'Tools & Platforms',
-      type: 'array',
-      description: 'Tools, platforms, or technologies used in this project',
-      group: 'profile',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'tool'}]
-        })
-      ],
-      validation: (Rule) => Rule.unique()
     }),
     defineField({
       name: 'kpis',

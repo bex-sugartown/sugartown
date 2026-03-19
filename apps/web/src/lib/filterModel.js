@@ -235,11 +235,11 @@ export function buildFilterModel(archivePage, contentItems, options = {}) {
     : [
         { facet: 'author',   label: null, enabled: true, order: 1, selection: 'multi', defaultSelectedSlugs: [] },
         { facet: 'project',  label: null, enabled: true, order: 2, selection: 'multi', defaultSelectedSlugs: [] },
-        { facet: 'category', label: null, enabled: true, order: 3, selection: 'multi', defaultSelectedSlugs: [] },
-        { facet: 'tag',      label: null, enabled: true, order: 4, selection: 'multi', defaultSelectedSlugs: [] },
-        { facet: 'client',   label: null, enabled: true, order: 5, selection: 'multi', defaultSelectedSlugs: [] },
-        { facet: 'tools',    label: null, enabled: true, order: 6, selection: 'multi', defaultSelectedSlugs: [] },
-        { facet: 'status',   label: null, enabled: true, order: 7, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'status',   label: null, enabled: true, order: 3, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'tools',    label: null, enabled: true, order: 4, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'category', label: null, enabled: true, order: 5, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'tag',      label: null, enabled: true, order: 6, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'client',   label: null, enabled: true, order: 7, selection: 'multi', defaultSelectedSlugs: [] },
       ]
 
   // Sort by configured order

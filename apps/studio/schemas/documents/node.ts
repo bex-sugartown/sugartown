@@ -208,6 +208,33 @@ export default defineType({
       initialValue: () => new Date().toISOString()
     }),
     defineField({
+      name: 'authors',
+      title: 'Authors',
+      type: 'array',
+      description: 'Select existing persons or create new — the canonical author field.',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'person'}]
+        })
+      ],
+      validation: (Rule) => Rule.unique()
+    }),
+    defineField({
+      name: 'projects',
+      title: 'Projects',
+      type: 'array',
+      description: 'Canonical project taxonomy field. Prefer this over "Related Projects".',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'project'}]
+        })
+      ]
+    }),
+    defineField({
       name: 'status',
       title: 'Evolution',
       type: 'string',
@@ -225,20 +252,6 @@ export default defineType({
       },
       initialValue: 'exploring',
       validation: (Rule) => Rule.required()
-    }),
-    defineField({
-      name: 'authors',
-      title: 'Authors',
-      type: 'array',
-      description: 'Select existing persons or create new — the canonical author field.',
-      group: 'metadata',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'person'}]
-        })
-      ],
-      validation: (Rule) => Rule.unique()
     }),
     defineField({
       name: 'tools',
@@ -290,19 +303,6 @@ export default defineType({
         })
       ],
       validation: (Rule) => Rule.unique()
-    }),
-    defineField({
-      name: 'projects',
-      title: 'Projects',
-      type: 'array',
-      description: 'Canonical project taxonomy field. Prefer this over "Related Projects".',
-      group: 'metadata',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'project'}]
-        })
-      ]
     }),
     defineField({
       name: 'relatedProjects',

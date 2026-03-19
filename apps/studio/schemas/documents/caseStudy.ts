@@ -221,6 +221,19 @@ export default defineType({
       ],
       validation: (Rule) => Rule.unique()
     }),
+    defineField({
+      name: 'projects',
+      title: 'Projects',
+      type: 'array',
+      description: 'Canonical project taxonomy field. Prefer this over "Related Projects".',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'project'}]
+        })
+      ]
+    }),
     // STATUS REMOVED — editorial lifecycle (draft/published/archived) is handled
     // natively by Sanity's document state + perspective:'published' on the web client.
     // Semantic status fields are kept on node (evolution) and project (lifecycle) only.
@@ -272,19 +285,6 @@ export default defineType({
         })
       ],
       validation: (Rule) => Rule.unique()
-    }),
-    defineField({
-      name: 'projects',
-      title: 'Projects',
-      type: 'array',
-      description: 'Canonical project taxonomy field. Prefer this over "Related Projects".',
-      group: 'metadata',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'project'}]
-        })
-      ]
     }),
     defineField({
       name: 'relatedProjects',
