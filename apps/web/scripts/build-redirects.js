@@ -151,8 +151,9 @@ const STRUCTURAL_REDIRECTS = [
   '# WP author archives',
   '/author/*  /people/:splat  301',
   '',
-  '# WP query-param redirects → see netlify.toml [[redirects]]',
-  '# (/?cat= /?tag= /?p= require netlify.toml query conditions)',
+  '# WP query-param redirects (/?p= /?cat= /?tag=) — not handled.',
+  '# netlify.toml query rules were shadowed by SPA catch-all; removed 2026-03-20.',
+  '# If needed, implement as Netlify Edge Function (runs before _redirects).',
   '',
   '# ─── Sanity-managed redirects (populated at build time) ──────────────────────',
 ]
