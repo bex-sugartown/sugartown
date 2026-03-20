@@ -27,6 +27,8 @@ import legacySource from './objects/legacySource'
 import mediaOverlay from './objects/mediaOverlay'
 import tableBlock from './objects/tableBlock'
 import citationItem from './objects/citationItem'
+import navItem from './objects/navItem'
+import childNavItem from './objects/childNavItem'
 
 // Legacy schemas
 import logo from './objects/logo'
@@ -104,6 +106,8 @@ export const schemaTypes = [
   mediaOverlay,
   tableBlock,
   citationItem,
+  navItem,
+  childNavItem,
 
   // Objects - Legacy
   logo,
