@@ -50,6 +50,8 @@ import { buildFilterModel } from '../lib/filterModel'
 import { useFilterState } from '../lib/useFilterState'
 import { applyFilters, paginateItems } from '../lib/applyFilters'
 import DraftBadge from '../components/DraftBadge'
+import { PortableText } from '@portabletext/react'
+import { portableTextComponents } from '../lib/portableTextComponents'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -331,7 +333,9 @@ export default function ArchivePage({ archiveSlug }) {
 
       <h1 className={styles.archiveHeading}>{heading}<DraftBadge docId={archiveDoc._id} /></h1>
       {subheading && (
-        <p className={styles.archiveDescription}>{subheading}</p>
+        Array.isArray(subheading)
+          ? <div className={styles.archiveDescription}><PortableText value={subheading} components={portableTextComponents} /></div>
+          : <p className={styles.archiveDescription}>{subheading}</p>
       )}
 
       {primaryType ? (

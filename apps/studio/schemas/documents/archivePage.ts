@@ -1,5 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {MasterDetailIcon} from '@sanity/icons'
+import {summaryPortableText} from '../objects/portableTextConfig'
 
 /**
  * Archive Page Document - Listing/Index Pages
@@ -165,13 +166,13 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Archive Description',
-      type: 'text',
-      description: 'Intro text shown at top of archive page',
+      type: 'array',
+      description: 'Intro text shown at top of archive page. Supports bold, italic, and inline links.',
       group: 'content',
-      rows: 3,
+      of: summaryPortableText,
       validation: (Rule) =>
-        Rule.max(500)
-          .warning('Keep descriptions concise')
+        Rule.max(3)
+          .warning('Keep to 2–3 paragraphs')
     }),
 
     // Hero Section — DEFERRED: not yet wired in web app
