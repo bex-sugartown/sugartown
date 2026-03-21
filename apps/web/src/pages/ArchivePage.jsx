@@ -51,7 +51,7 @@ import { useFilterState } from '../lib/useFilterState'
 import { applyFilters, paginateItems } from '../lib/applyFilters'
 import DraftBadge from '../components/DraftBadge'
 import { PortableText } from '@portabletext/react'
-import { portableTextComponents } from '../lib/portableTextComponents'
+import portableTextComponents from '../lib/portableTextComponents'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
