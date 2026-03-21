@@ -112,15 +112,23 @@ export default defineType({
     }),
     defineField({
       name: 'colorHex',
-      title: 'Color (Hex)',
-      type: 'string',
-      description: 'Hex color for knowledge graph visualization and archive filter chips (e.g., #0099FF).',
+      title: 'Brand Color',
+      type: 'color',
+      description: 'Color for knowledge graph visualization and archive filter chips.',
       group: 'basics',
-      validation: (Rule) =>
-        Rule.regex(/^#([0-9a-fA-F]{6})$/, {
-          name: 'hex color',
-          invert: false,
-        }).warning('Use a 6-digit hex color like #0099FF.')
+      options: {
+        disableAlpha: true,
+        colorList: [
+          {title: 'Sugartown Pink',  value: '#FF247D'},
+          {title: 'Maroon',          value: '#b91c68'},
+          {title: 'Lime',            value: '#D1FF1D'},
+          {title: 'Seafoam',         value: '#2BD4AA'},
+          {title: 'Midnight',        value: '#0D1226'},
+          {title: 'Charcoal',        value: '#1e1e1e'},
+          {title: 'Softgrey',        value: '#94A3B8'},
+          {title: 'Blue',            value: '#0066CC'},
+        ],
+      },
     }),
 
     // ── Profile ───────────────────────────────────────────────────────────────
@@ -261,7 +269,7 @@ export default defineType({
         4: '🟢',
         5: '⚪'
       }
-      const colorSuffix = colorHex ? ` • ${colorHex}` : ''
+      const colorSuffix = colorHex?.hex ? ` • ${colorHex.hex}` : ''
       return {
         title:    name || 'Untitled Project',
         subtitle: `${projectId || 'No ID'} • ${statusLabels[status as keyof typeof statusLabels] || status}${colorSuffix}`,

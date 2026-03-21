@@ -73,15 +73,22 @@ export default defineType({
     }),
     defineField({
       name: 'colorHex',
-      title: 'Color (Hex)',
-      type: 'string',
-      description: 'Hex color used for knowledge graph visualization and archive filter chips (e.g., #FF69B4).',
-      initialValue: '#FF69B4', // Sugartown Pink
-      validation: (Rule) =>
-        Rule.regex(/^#([0-9a-fA-F]{6})$/, {
-          name: 'hex color',
-          invert: false,
-        }).warning('Use a 6-digit hex color like #FF69B4.')
+      title: 'Brand Color',
+      type: 'color',
+      description: 'Color for knowledge graph visualization and archive filter chips.',
+      options: {
+        disableAlpha: true,
+        colorList: [
+          {title: 'Sugartown Pink',  value: '#FF247D'},
+          {title: 'Maroon',          value: '#b91c68'},
+          {title: 'Lime',            value: '#D1FF1D'},
+          {title: 'Seafoam',         value: '#2BD4AA'},
+          {title: 'Midnight',        value: '#0D1226'},
+          {title: 'Charcoal',        value: '#1e1e1e'},
+          {title: 'Softgrey',        value: '#94A3B8'},
+          {title: 'Blue',            value: '#0066CC'},
+        ],
+      },
     })
   ],
   preview: {
@@ -92,7 +99,7 @@ export default defineType({
       parentName: 'parent.name'
     },
     prepare({title, subtitle, colorHex, parentName}) {
-      const color = colorHex || '#FF69B4'
+      const color = colorHex?.hex || '#FF69B4'
       return {
         title: title || 'Untitled Category',
         subtitle: parentName ? `↳ ${parentName} • ${color}` : `${subtitle || ''} • ${color}`
