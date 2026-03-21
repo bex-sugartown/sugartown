@@ -41,7 +41,7 @@ export default defineType({
       const preview = html ? html.replace(/<[^>]+>/g, '').trim().substring(0, 80) : ''
       return {
         title: label || 'HTML Section',
-        subtitle: preview ? preview + (html.length > 80 ? '…' : '') : 'No content',
+        subtitle: `HTML · ${preview ? preview + (html.length > 80 ? '…' : '') : 'No content'}`,
       }
     },
   },

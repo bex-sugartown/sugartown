@@ -58,7 +58,7 @@ export default defineType({
 
       return {
         title: heading || 'CTA Section',
-        subtitle: description || `${buttonCount} button${buttonCount !== 1 ? 's' : ''}`
+        subtitle: `CTA · ${description || `${buttonCount} button${buttonCount !== 1 ? 's' : ''}`}`
       }
     }
   }

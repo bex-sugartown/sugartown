@@ -72,7 +72,7 @@ export default defineType({
       const previewText = block?.children?.[0]?.text ?? ''
       return {
         title: title || 'Callout',
-        subtitle: `${VARIANT_LABELS[variant] ?? variant ?? 'Default'}${previewText ? ` — ${previewText.slice(0, 60)}` : ''}`,
+        subtitle: `Callout · ${VARIANT_LABELS[variant] ?? variant ?? 'Default'}${previewText ? ` — ${previewText.slice(0, 60)}` : ''}`,
       }
     },
   },

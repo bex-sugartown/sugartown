@@ -87,7 +87,7 @@ export default defineType({
     prepare({heading, subheading, media}) {
       return {
         title: heading || 'Hero Section',
-        subtitle: subheading || 'No subheading',
+        subtitle: `Hero · ${subheading || 'No subheading'}`,
         media: media
       }
     }

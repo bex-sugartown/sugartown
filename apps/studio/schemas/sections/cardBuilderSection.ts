@@ -59,7 +59,7 @@ export default defineType({
       const count = cards?.length ?? 0
       return {
         title: heading || 'Card Builder Section',
-        subtitle: `${count} card${count === 1 ? '' : 's'}`
+        subtitle: `Card Builder · ${count} card${count === 1 ? '' : 's'}`
       }
     }
   }

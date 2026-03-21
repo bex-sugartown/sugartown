@@ -60,7 +60,7 @@ export default defineType({
 
       return {
         title: `Image Gallery (${imageCount} image${imageCount !== 1 ? 's' : ''})`,
-        subtitle: `Layout: ${layoutLabels[layout as keyof typeof layoutLabels] || layout}`,
+        subtitle: `Image Gallery · ${layoutLabels[layout as keyof typeof layoutLabels] || layout}`,
         media: images?.[0]?.asset
       }
     }

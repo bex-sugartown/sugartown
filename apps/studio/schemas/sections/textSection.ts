@@ -44,7 +44,7 @@ export default defineType({
 
       return {
         title: heading || 'Text Section',
-        subtitle: previewText.substring(0, 100) + (previewText.length > 100 ? '...' : '')
+        subtitle: `Text · ${previewText.substring(0, 100)}${previewText.length > 100 ? '...' : ''}`
       }
     }
   }
