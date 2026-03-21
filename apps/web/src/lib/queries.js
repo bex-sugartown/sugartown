@@ -39,7 +39,7 @@ export const PERSON_FRAGMENT = `
 /**
  * CATEGORY_FRAGMENT
  * Expand a single category reference or an array item.
- * category stores colorHex as a plain hex string field (Stage 2).
+ * category stores colorHex as a @sanity/color-input object; projected as .hex string.
  * parent-> is projected to support optional groupByParent in buildFilterModel().
  * Usage in GROQ: categories[]->{${CATEGORY_FRAGMENT}}
  */
@@ -47,7 +47,7 @@ export const CATEGORY_FRAGMENT = `
   _id,
   name,
   "slug": slug.current,
-  colorHex,
+  "colorHex": colorHex.hex,
   "parent": parent->{ _id, name, "slug": slug.current }
 `
 
@@ -76,7 +76,7 @@ export const TOOL_FRAGMENT = `
 /**
  * PROJECT_FRAGMENT
  * Expand a single project reference or an array item.
- * project stores colorHex as a plain hex string field.
+ * project stores colorHex as a @sanity/color-input object; projected as .hex string.
  * Usage in GROQ: projects[]->{${PROJECT_FRAGMENT}}
  */
 export const PROJECT_FRAGMENT = `
@@ -85,7 +85,7 @@ export const PROJECT_FRAGMENT = `
   name,
   "slug": slug.current,
   status,
-  colorHex
+  "colorHex": colorHex.hex
 `
 
 /**
@@ -935,7 +935,7 @@ export const projectDetailQuery = `
     description,
     status,
     priority,
-    colorHex,
+    "colorHex": colorHex.hex,
     kpis,
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
@@ -975,7 +975,7 @@ export const allCategoriesQuery = `
     _id,
     name,
     "slug": slug.current,
-    colorHex,
+    "colorHex": colorHex.hex,
     description
   }
 `
@@ -1004,7 +1004,7 @@ export const categoryBySlugQuery = `
     name,
     "slug": slug.current,
     description,
-    colorHex
+    "colorHex": colorHex.hex
   }
 `
 
@@ -1037,7 +1037,7 @@ export const allProjectsQuery = `
     description,
     status,
     priority,
-    colorHex,
+    "colorHex": colorHex.hex,
     kpis,
     "tools": tools[]->{${TOOL_FRAGMENT}}
   }
@@ -1058,7 +1058,7 @@ export const projectBySlugQuery = `
     description,
     status,
     priority,
-    colorHex,
+    "colorHex": colorHex.hex,
     kpis,
     "tools": tools[]->{${TOOL_FRAGMENT}}
   }
@@ -1100,9 +1100,9 @@ export const contentByTaxonomyQuery = `
     publishedAt,
     status,
     "authors": authors[]->{_id, name, "slug": slug.current},
-    "categories": categories[]->{_id, name, "slug": slug.current, colorHex},
+    "categories": categories[]->{_id, name, "slug": slug.current, "colorHex": colorHex.hex},
     "tags": tags[]->{_id, name, "slug": slug.current},
-    "projects": projects[]->{_id, name, "slug": slug.current, colorHex},
+    "projects": projects[]->{_id, name, "slug": slug.current, "colorHex": colorHex.hex},
     "tools": tools[]->{_id, name, "slug": slug.current}
   }
 `
