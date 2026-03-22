@@ -4,6 +4,7 @@ import { urlFor } from '../lib/sanity'
 import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { PortableText } from '@portabletext/react'
 import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker } from '../design-system'
+import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
 import CardBuilderSection from './CardBuilderSection'
 import ImageLightbox from './ImageLightbox'
 import SanityImage from './atoms/SanityImage'
@@ -103,8 +104,7 @@ const mapCtaStyle = (style, fallback = 'primary') =>
 
 // Hero Section Component
 function HeroSection({ section }) {
-  const { heading, subheading, backgroundImage, ctas, imageWidth } = section
-
+  const { heading, subheading, eyebrow, imageTreatment, backgroundImage, ctas, imageWidth } = section
   const backgroundStyles = {}
   const hasImage = backgroundImage?.asset
 
@@ -116,8 +116,18 @@ function HeroSection({ section }) {
     backgroundStyles.backgroundPosition = `${Math.round(x * 100)}% ${Math.round(y * 100)}%`
   }
 
+  // Apply image treatment overlay styles (duotone, scrim, color)
+  const { parsedType: treatmentType } = parseOverlay(imageTreatment)
+  const hasTreatment = treatmentType && treatmentType !== 'none'
+
+  if (hasTreatment && hasImage) {
+    const overlayStyles = getOverlayStyles(imageTreatment)
+    Object.assign(backgroundStyles, overlayStyles)
+  }
+
   const primary = ctas?.[0]
   const secondary = ctas?.[1]
+  const tertiary = ctas?.[2]
 
   const widthClass = imageWidth === 'full-width'
     ? styles.heroFullWidth
@@ -129,15 +139,20 @@ function HeroSection({ section }) {
     styles.heroSection,
     widthClass,
     hasImage ? styles.heroWithImage : '',
+    hasTreatment ? styles.heroWithTreatment : '',
+    treatmentType === 'duotone' ? styles.heroTreatmentDuotone : '',
+    treatmentType === 'dark-scrim' ? styles.heroTreatmentScrim : '',
+    treatmentType === 'color' ? styles.heroTreatmentColor : '',
   ].filter(Boolean).join(' ')
 
   return (
     <section className={sectionClasses} style={backgroundStyles}>
       <div className={styles.heroContainer}>
         <div className={styles.heroContent}>
+          {eyebrow && <span className={styles.heroEyebrow}>{eyebrow}</span>}
           {heading && <h1 className={styles.heroHeading}>{heading}</h1>}
           {subheading && <p className={styles.heroSubheading}>{subheading}</p>}
-          {(primary || secondary) && (
+          {(primary || secondary || tertiary) && (
             <div className={styles.heroActions}>
               {primary && (
                 <Button
@@ -155,6 +170,15 @@ function HeroSection({ section }) {
                   openInNewTab={secondary.openInNewTab}
                 >
                   {secondary.label}
+                </Button>
+              )}
+              {tertiary && (
+                <Button
+                  variant={mapCtaStyle(tertiary.style, 'tertiary')}
+                  href={tertiary.url}
+                  openInNewTab={tertiary.openInNewTab}
+                >
+                  {tertiary.label}
                 </Button>
               )}
             </div>

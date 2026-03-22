@@ -25,11 +25,53 @@
   border-radius: 0;
 }
 
+/* ── Hero image treatment overrides ──────────────────────────────── */
+/* When an imageTreatment is set, replace the default dark overlay */
+.heroWithTreatment.heroWithImage::before {
+  background: var(--st-media-overlay-gradient, linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)));
+}
+
+.heroTreatmentDuotone.heroWithImage::before {
+  mix-blend-mode: var(--st-media-overlay-blend-mode, hard-light);
+}
+
+.heroTreatmentDuotone .heroContent img,
+.heroTreatmentDuotone {
+  /* Duotone applies grayscale + contrast to the background image */
+}
+
+.heroTreatmentScrim.heroWithImage::before {
+  /* Dark scrim uses the gradient from --st-media-overlay-gradient set via inline styles */
+  mix-blend-mode: normal;
+}
+
+.heroTreatmentColor.heroWithImage::before {
+  background: var(--st-media-overlay-color, rgba(0, 0, 0, 0.5));
+  opacity: var(--st-media-overlay-opacity, 0.5);
+  mix-blend-mode: var(--st-media-overlay-blend, normal);
+}
+
+/* ── Hero eyebrow ────────────────────────────────────────────────── */
+.heroEyebrow {
+  font-size: var(--st-font-caption, 0.8125rem);
+  font-weight: var(--st-font-weight-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--st-color-teal, #2bd4aa);
+  margin-bottom: var(--st-spacing-stack-sm, 0.5rem);
+}
+
 /* Hero width variants — controlled by heroSection.imageWidth schema field */
 .heroContentWidth {
   max-width: var(--st-width-detail);
   margin-left: auto;
   margin-right: auto;
+  border-radius: var(--st-media-duotone-radius, 35px);
+  overflow: hidden;
+}
+
+.heroContentWidth::before {
+  border-radius: inherit;
 }
 
 .heroFullWidth {
