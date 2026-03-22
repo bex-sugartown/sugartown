@@ -139,6 +139,11 @@
   overflow: hidden;
 }
 
+/* Collapse top margin on first child when no heading precedes it */
+.textContent > :first-child {
+  margin-top: 0;
+}
+
 .textContent p {
   margin: var(--st-spacing-stack-md) 0;
 }
