@@ -167,10 +167,11 @@ export default defineType({
     defineField({
       name: 'actionItem',
       title: 'Action Item',
-      type: 'string',
+      type: 'text',
       description: 'Next step or operational hook - what do you need to do with this?',
       group: 'agenticCaucus',
-      validation: (Rule) => Rule.max(200)
+      rows: 3,
+      validation: (Rule) => Rule.max(500)
     }),
 
     // METADATA GROUP — dates, status, authors, taxonomy connections
