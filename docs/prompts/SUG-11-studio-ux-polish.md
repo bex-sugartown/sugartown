@@ -1,6 +1,6 @@
 # EPIC — Studio UX Polish (Section Previews + Archive Rich Text)
 
-**Epic ID:** (unassigned — backlog)
+**Linear Issue:** [SUG-11](https://linear.app/sugartown/issue/SUG-11/studio-ux-polish-section-type-labels-archive-rich-text)
 **Surface:** `apps/studio`
 **Priority:** 🟣 Soon
 **Created:** 2026-03-15

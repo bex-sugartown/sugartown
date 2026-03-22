@@ -1,5 +1,6 @@
 # Archive Page — Deferred Fields
 
+**Linear Issue:** [SUG-18](https://linear.app/sugartown/issue/SUG-18/archive-page-deferred-fields-wire-display-advanced-tab-configs)
 **Status:** Backlog (post-launch)
 **Schema file:** `apps/studio/schemas/documents/archivePage.ts`
 **Date logged:** 2026-03-05

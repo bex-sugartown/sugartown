@@ -1,8 +1,7 @@
 # EPIC TEMPLATE
 # Sugartown — Claude Code Epic Prompt
 
-**Epic ID:** EPIC-0000
-**Linear Issue:** SUG-11
+**Linear Issue:** [SUG-30](https://linear.app/sugartown/issue/SUG-30/image-treatment-pipeline-and-gallery-layouts)
 
 ## EPIC NAME: Image Treatment Pipeline & Gallery Layouts
 

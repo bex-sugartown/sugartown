@@ -10,26 +10,27 @@
 
 ## Epic Lifecycle
 
-Epics follow a two-stage lifecycle:
+Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequential EPIC numbers):
 
-**1. Backlog** (`docs/backlog/EPIC-{name}.md`)
-- Authored without a number; filename is `EPIC-{descriptive-name}.md`
-- Status: BACKLOG (not yet scheduled for execution)
+**1. Backlog** (`docs/backlog/SUG-{N}-{name}.md`)
+- When authoring a new epic, **create a corresponding Linear backlog item first**
+- Use the Linear issue ID in the filename: `SUG-30-image-treatments-gallery.md`
+- Update the **Linear Issue** field in the file header with the issue link
+- Status in Linear: **Backlog** or **Todo**
 
-**2. Activation** (when execution begins, or at close-out if missed)
+**2. Production** (when the epic is complete and shipped)
 - Move the file from `docs/backlog/` to `docs/prompts/`
-- Assign the next sequential EPIC number (e.g. EPIC-0163)
-- Rename the file: `EPIC-0163-{name}.md`
-- Update the **Epic ID** field inside the file to match
-- Commit the activation as part of the epic's first commit (or as step 1 of Post-Epic Close-Out)
+- Keep the same filename (e.g. `SUG-30-image-treatments-gallery.md`)
+- Remove the file from `docs/backlog/` (it now lives in `docs/prompts/`)
+- Transition the Linear issue to **Done**
 
-> The `docs/prompts/` folder holds only **completed** and **in-flight** numbered epics.
-> The `docs/backlog/` folder holds **unscheduled** epics awaiting prioritization.
+> The `docs/prompts/` folder holds **completed** epics (shipped to production).
+> The `docs/backlog/` folder holds **unscheduled** and **in-flight** epics.
+> Linear is the **single source of truth** for prioritization — the backlog priority index (`docs/backlog/sugartown-backlog-priorities.md`) is a convenience view, not the authority.
 
 ---
 
-**Epic ID:** EPIC-0000
-**Linear Issue:** SUG-XX _(link the Linear issue that tracks this epic)_
+**Linear Issue:** SUG-XX _(create the Linear issue first, then link it here)_
 ## EPIC NAME: [REQUIRED]
 
 ---
@@ -398,16 +399,15 @@ State how re-running the script produces no change:
 
 > Run these steps in order after all Acceptance Criteria are met and the working tree is committed.
 
-1. **Activate the epic file** (if not already done at execution start):
-   - Assign the next sequential EPIC number (check `docs/prompts/` for the latest)
-   - Move the file: `docs/backlog/EPIC-{name}.md` → `docs/prompts/EPIC-{NNNN}-{name}.md`
-   - Update the **Epic ID** field inside the file to match
-   - Commit: `docs: activate EPIC-{NNNN} {Epic name}`
+1. **Move the epic doc to production**:
+   - Move: `docs/backlog/SUG-{N}-{name}.md` → `docs/prompts/SUG-{N}-{name}.md`
+   - Remove from `docs/backlog/`
+   - Commit: `docs: ship SUG-{N} {Epic name}`
 2. **Confirm clean tree** — `git status` must show nothing staged or unstaged
-3. **Run mini-release** — `/mini-release EPIC-{NNNN} [Epic name]`
+3. **Run mini-release** — `/mini-release SUG-{N} [Epic name]`
    - Produces a patch version bump and lightweight CHANGELOG stub
    - Two gates: review stub → "Write it", then commit plan → "Commit it"
-4. **Update Linear** — transition the linked Linear issue (SUG-XX) to **Done**. If the epic has sub-issues, close those first.
+4. **Update Linear** — transition SUG-{N} to **Done**. If the epic has sub-issues, close those first.
 5. **Start next epic** — only after mini-release commit is confirmed
 
 > If this epic warrants a MINOR version bump (new feature surface, new schema fields,

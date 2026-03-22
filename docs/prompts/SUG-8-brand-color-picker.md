@@ -1,6 +1,6 @@
 # EPIC — Brand Color Picker for Sanity Studio (BL-01)
 
-**Epic ID:** (unassigned — backlog)
+**Linear Issue:** [SUG-8](https://linear.app/sugartown/issue/SUG-8/brand-color-picker-for-sanity-studio-bl-01)
 **Surface:** `apps/studio`
 **Priority:** 🟣 Soon
 **Created:** 2026-03-15

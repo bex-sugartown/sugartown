@@ -1,6 +1,6 @@
 # EPIC — Schema ERD Sanity Hybrid (Option C)
 
-**Epic ID:** (unassigned — backlog)
+**Linear Issue:** [SUG-20](https://linear.app/sugartown/issue/SUG-20/schema-erd-sanity-hybrid-option-c)
 **Surface:** `apps/studio` + `apps/web`
 **Priority:** Deferred
 **Created:** 2026-03-14

@@ -12,12 +12,25 @@
 When an epic is complete, run these steps in order before starting the next epic:
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
-2. **Mini-release** — run `/mini-release` to produce a patch version bump and CHANGELOG stub
-3. **Clean tree** — confirm `git status` is clean before starting EPIC-N+1
+2. **Move epic doc** from `docs/backlog/` to `docs/prompts/` — commit: `docs: ship SUG-{N} {name}`
+3. **Mini-release** — run `/mini-release` to produce a patch version bump and CHANGELOG stub
+4. **Update Linear** — transition the SUG-{N} issue to **Done**
+5. **Clean tree** — confirm `git status` is clean before starting the next epic
 
-Do not carry uncommitted changes across epic boundaries. If the working tree is dirty when a new epic begins, stop and commit or stash (`git stash push -m "WIP: EPIC-XXXX — <reason>"`) before proceeding.
+Do not carry uncommitted changes across epic boundaries. If the working tree is dirty when a new epic begins, stop and commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) before proceeding.
 
 A dirty tree at epic start is a process failure, not a starting condition.
+
+### Epic authoring — Linear-first workflow
+
+When creating a new epic in `docs/backlog/`:
+
+1. **Create a Linear backlog item first** — this assigns the SUG-{N} tracking ID
+2. **Name the file** `docs/backlog/SUG-{N}-{descriptive-name}.md`
+3. **Link the Linear issue** in the file header (`**Linear Issue:** SUG-{N}`)
+4. **Prioritize in Linear** — the Linear queue is the single source of truth for priority order
+
+The `docs/prompts/` folder holds shipped epics. The `docs/backlog/` folder holds unscheduled and in-flight epics. Legacy `EPIC-NNNN` numbered files in `docs/prompts/` are retained as-is.
 
 ### Mid-epic commit checkpoints
 

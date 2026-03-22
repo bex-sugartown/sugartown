@@ -1,6 +1,9 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-19 · v0.19.0 · Full release shipped (EPIC-0177–0183)
+> Updated 2026-03-22 · v0.19.0 · Full release shipped (EPIC-0177–0183)
+>
+> **Linear is the single source of truth for prioritization.** This file is a convenience view.
+> Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/prompts/SUG-{N}-*.md`.
 
 ---
 
@@ -8,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.19.0 released. Seven epics (EPIC-0177–0183): preview UI, PortableText polish, contact form, card convergence, image optimization, content metadata governance, taxonomy refinement. **Next:** DNS cutover execution.
+> **⚑ Current focus:** v0.19.0 released. DNS cutover complete. **Next:** IA brief page epics (Services, Contact, About, Platform, Homepage teasers).
 
 ---
 
@@ -25,9 +28,9 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
-| 3 | **Brand color picker for Sanity Studio (BL-01)** — Replace raw hex string input for `colorHex` on project documents with `@sanity/color-input` visual picker (already installed). Requires field type migration (`string` → `color`), GROQ projection updates (`colorHex` → `colorHex.hex`), and data migration script. Epic prompt: `docs/backlog/EPIC-brand-color-picker.md`. | `Studio UX` `BL-01` | 🟣 Soon |
-| 4 | **Studio UX polish — section type labels + archive rich text** — Two editor QoL fixes: (1) section previews in page builder show type labels (Text, Hero, CTA, etc.) so editors can identify section types at a glance; (2) archive `description` field upgraded from plain text to `summaryPortableText` for inline formatting and links. Epic prompt: `docs/backlog/EPIC-studio-ux-polish.md`. | `Studio UX` `Schema` | 🟣 Soon |
-| 5 | **Mermaid diagram section type** — New `mermaidSection` for the section builder. Editor enters Mermaid markup in a code textarea; frontend renders themed SVG via dynamic-imported `mermaid` library. Auto-themes dark/light with brand colours; editor `%%{init}` overrides respected. Code-split (~2MB only on pages with diagrams). Epic prompt: `docs/backlog/EPIC-mermaid-diagrams.md`. | `Schema` `Component` `UX` | 🟣 Soon |
+| 3 | **Brand color picker for Sanity Studio (BL-01)** — ✅ Shipped. [SUG-8](https://linear.app/sugartown/issue/SUG-8). Epic: `docs/prompts/SUG-8-brand-color-picker.md`. | `Studio UX` `BL-01` | ✅ Shipped |
+| 4 | **Studio UX polish — section type labels + archive rich text** — ✅ Shipped. [SUG-11](https://linear.app/sugartown/issue/SUG-11). Epic: `docs/prompts/SUG-11-studio-ux-polish.md`. | `Studio UX` `Schema` | ✅ Shipped |
+| 5 | **Mermaid diagram section type** — [SUG-13](https://linear.app/sugartown/issue/SUG-13). Epic: `docs/backlog/SUG-13-mermaid-diagrams.md`. | `Schema` `Component` `UX` | 🟣 Soon |
 
 ---
 

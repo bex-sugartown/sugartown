@@ -5,9 +5,7 @@
 
 ## Epic Lifecycle
 
-**Status:** BACKLOG — `docs/backlog/EPIC-mermaid-diagrams.md`
-
-**Epic ID:** EPIC-0000
+**Linear Issue:** [SUG-13](https://linear.app/sugartown/issue/SUG-13/mermaid-diagram-section-type)
 
 ## EPIC NAME: Mermaid Diagram Section Type
 
