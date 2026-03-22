@@ -5,7 +5,7 @@ import {ImageIcon} from '@sanity/icons'
  * Hero Section
  *
  * Large header section typically used at the top of pages and case studies
- * Supports heading, subheading, background image, and CTAs (0-2)
+ * Supports eyebrow, heading, subheading, background image with overlay treatment, and CTAs (0-3)
  */
 export default defineType({
   name: 'heroSection',
@@ -13,6 +13,13 @@ export default defineType({
   type: 'object',
   icon: ImageIcon,
   fields: [
+    defineField({
+      name: 'eyebrow',
+      title: 'Eyebrow',
+      type: 'string',
+      description: 'Short label above the heading (e.g. section name, category). Renders in teal uppercase.',
+      validation: (Rule) => Rule.max(80)
+    }),
     defineField({
       name: 'heading',
       title: 'Heading',
@@ -48,6 +55,12 @@ export default defineType({
       ]
     }),
     defineField({
+      name: 'imageTreatment',
+      title: 'Image Treatment',
+      type: 'mediaOverlay',
+      description: 'Optional overlay effect applied to the background image (duotone, dark scrim, or colour overlay)',
+    }),
+    defineField({
       name: 'imageWidth',
       title: 'Image Width',
       type: 'string',
@@ -67,7 +80,7 @@ export default defineType({
       name: 'ctas',
       title: 'Call to Action Buttons',
       type: 'array',
-      description: 'Add 0-2 CTA buttons. First = primary, second = secondary.',
+      description: 'Add 0-3 CTA buttons. First = primary, second = secondary, third = tertiary.',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -75,7 +88,7 @@ export default defineType({
         })
       ],
       validation: (Rule) =>
-        Rule.max(2).warning('Hero sections work best with 2 or fewer CTAs')
+        Rule.max(3).warning('Hero sections work best with 3 or fewer CTAs')
     })
   ],
   preview: {

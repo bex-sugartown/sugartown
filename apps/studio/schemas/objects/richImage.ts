@@ -48,10 +48,17 @@ export default defineType({
       validation: (Rule) => Rule.max(100)
     }),
     defineField({
+      name: 'link',
+      title: 'Link',
+      type: 'linkItem',
+      description: 'Optional: make the image clickable. Supports internal pages (SPA navigation) and external URLs.',
+    }),
+    defineField({
       name: 'linkUrl',
-      title: 'Link URL',
+      title: 'Link URL (deprecated)',
       type: 'url',
-      description: 'Optional: make the image clickable',
+      description: 'Deprecated — use the "Link" field above instead. This field is retained for backward compatibility with existing data.',
+      hidden: true,
       validation: (Rule) =>
         Rule.uri({
           scheme: ['http', 'https'],
