@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Button from '../design-system/components/button/Button'
 import styles from './ContactForm.module.css'
 
@@ -9,22 +9,24 @@ const encode = (data) =>
     .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
     .join('&')
 
-/** Load the reCAPTCHA v2 script once, returns a promise that resolves when ready */
+/** Load the reCAPTCHA v3 script once, returns a promise that resolves when ready */
 function loadRecaptchaScript() {
-  if (window.grecaptcha) return Promise.resolve()
+  if (window.grecaptcha?.execute) return Promise.resolve()
   return new Promise((resolve, reject) => {
     if (document.querySelector('script[src*="recaptcha/api.js"]')) {
-      // Script tag exists but hasn't loaded yet — poll for it
       const check = setInterval(() => {
-        if (window.grecaptcha) { clearInterval(check); resolve() }
+        if (window.grecaptcha?.execute) { clearInterval(check); resolve() }
       }, 100)
       return
     }
     const script = document.createElement('script')
-    script.src = 'https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit'
+    script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`
     script.async = true
     script.defer = true
-    window.onRecaptchaLoad = () => { resolve() }
+    script.onload = () => {
+      // grecaptcha.ready fires when the library is fully initialised
+      window.grecaptcha.ready(() => resolve())
+    }
     script.onerror = () => reject(new Error('Failed to load reCAPTCHA'))
     document.head.appendChild(script)
   })
@@ -34,24 +36,12 @@ export default function ContactForm() {
   const [fields, setFields] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState('idle') // idle | submitting | success | error
   const [errors, setErrors] = useState({})
-  const recaptchaRef = useRef(null)
-  const widgetIdRef = useRef(null)
+  const recaptchaReady = useRef(false)
 
   useEffect(() => {
     loadRecaptchaScript().then(() => {
-      if (recaptchaRef.current && widgetIdRef.current === null) {
-        widgetIdRef.current = window.grecaptcha.render(recaptchaRef.current, {
-          sitekey: RECAPTCHA_SITE_KEY,
-          theme: 'dark',
-        })
-      }
+      recaptchaReady.current = true
     })
-  }, [])
-
-  const resetRecaptcha = useCallback(() => {
-    if (window.grecaptcha && widgetIdRef.current !== null) {
-      window.grecaptcha.reset(widgetIdRef.current)
-    }
   }, [])
 
   function validate() {
@@ -86,21 +76,19 @@ export default function ContactForm() {
       return
     }
 
-    // Get reCAPTCHA response token
-    const recaptchaResponse = window.grecaptcha?.getResponse(widgetIdRef.current)
-    if (!recaptchaResponse) {
-      setErrors((prev) => ({ ...prev, recaptcha: 'Please complete the reCAPTCHA' }))
-      return
-    }
-
     setStatus('submitting')
     try {
+      // Get reCAPTCHA v3 token (invisible, no user interaction needed)
+      const recaptchaToken = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, {
+        action: 'contact_submit',
+      })
+
       const res = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encode({
           'form-name': 'contact',
-          'g-recaptcha-response': recaptchaResponse,
+          'g-recaptcha-response': recaptchaToken,
           ...fields,
         }),
       })
@@ -108,7 +96,6 @@ export default function ContactForm() {
       setStatus('success')
     } catch {
       setStatus('error')
-      resetRecaptcha()
     }
   }
 
@@ -188,12 +175,6 @@ export default function ContactForm() {
           <input name="bot-field" tabIndex={-1} autoComplete="off" />
         </label>
       </p>
-
-      {/* reCAPTCHA v2 widget — rendered by Google script */}
-      <div ref={recaptchaRef} className={styles.recaptcha}></div>
-      {errors.recaptcha && (
-        <p className={styles.errorText} role="alert">{errors.recaptcha}</p>
-      )}
 
       {status === 'error' && (
         <p className={styles.formError} role="alert">
