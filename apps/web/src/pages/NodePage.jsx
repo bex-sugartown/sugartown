@@ -86,13 +86,7 @@ export default function NodePage() {
                 <PortableText value={node.actionItem} components={sharedPTComponents} />
               </>
             )}
-            {node.content && <hr className={styles.metadataDivider} />}
-          </div>
-        )}
-
-        {node.content && (
-          <div className={styles.detailContent}>
-            <PortableText value={decodePortableText(node.content)} components={sharedPTComponents} />
+            {restSections.length > 0 && <hr className={styles.metadataDivider} />}
           </div>
         )}
 
