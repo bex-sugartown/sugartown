@@ -18,6 +18,18 @@
 # netlify.toml query rules were shadowed by SPA catch-all; removed 2026-03-20.
 # If needed, implement as Netlify Edge Function (runs before _redirects).
 
+# ─── WordPress probe blocking (bot/spam prevention) ────────────────────────
+# Bots spray requests at WP endpoints to discover forms and admin panels.
+# Return 410 Gone so they stop retrying.
+/wp-login.php  /404  404
+/wp-admin/*  /404  404
+/wp-content/*  /404  404
+/wp-includes/*  /404  404
+/wp-json/*  /404  404
+/xmlrpc.php  /404  404
+/wp-cron.php  /404  404
+/wp-comments-post.php  /404  404
+
 # ─── Sanity-managed redirects (populated at build time) ──────────────────────
 /blog/ai-automation  /categories/ai-automation  301
 /blog/ai-collaboration  /categories/ai-collaboration  301
