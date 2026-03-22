@@ -66,26 +66,27 @@ export default function NodePage() {
           projects={node.projects}
         />
 
-        {(node.challenge || node.insight || node.actionItem) && (
+        {(node.challenge?.length > 0 || node.insight?.length > 0 || node.actionItem?.length > 0) && (
           <div className={styles.detailContent}>
-            {node.challenge && (
+            {node.challenge?.length > 0 && (
               <>
                 <h2>Challenge</h2>
-                <p>{decodeHtml(node.challenge)}</p>
+                <PortableText value={node.challenge} components={sharedPTComponents} />
               </>
             )}
-            {node.insight && (
+            {node.insight?.length > 0 && (
               <>
                 <h2>Insight</h2>
-                <p>{decodeHtml(node.insight)}</p>
+                <PortableText value={node.insight} components={sharedPTComponents} />
               </>
             )}
-            {node.actionItem && (
+            {node.actionItem?.length > 0 && (
               <>
                 <h2>Action Item</h2>
-                <p>{decodeHtml(node.actionItem)}</p>
+                <PortableText value={node.actionItem} components={sharedPTComponents} />
               </>
             )}
+            {node.content && <hr className={styles.metadataDivider} />}
           </div>
         )}
 

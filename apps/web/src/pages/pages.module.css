@@ -184,6 +184,17 @@
   border-top-color: rgba(255, 36, 125, 0.25);
 }
 
+/* Divider between metadata fields (challenge/insight/actionItem) and body content */
+.metadataDivider {
+  border: none;
+  border-top: 1px solid rgba(255, 111, 184, 0.25);
+  margin: var(--st-spacing-stack-xl, 2.5rem) 0 var(--st-spacing-stack-md, 1rem);
+}
+
+:global([data-theme="light"]) .metadataDivider {
+  border-top-color: rgba(255, 36, 125, 0.15);
+}
+
 .backLink {
   display: inline-block;
   font-size: 0.875rem;
