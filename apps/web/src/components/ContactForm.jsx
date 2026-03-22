@@ -1,16 +1,58 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Button from '../design-system/components/button/Button'
 import styles from './ContactForm.module.css'
+
+const RECAPTCHA_SITE_KEY = '6LeMBbgrAAAAAGBNaDpns-fW_HL-60XgHgEHz2BD'
 
 const encode = (data) =>
   Object.keys(data)
     .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
     .join('&')
 
+/** Load the reCAPTCHA v2 script once, returns a promise that resolves when ready */
+function loadRecaptchaScript() {
+  if (window.grecaptcha) return Promise.resolve()
+  return new Promise((resolve, reject) => {
+    if (document.querySelector('script[src*="recaptcha/api.js"]')) {
+      // Script tag exists but hasn't loaded yet — poll for it
+      const check = setInterval(() => {
+        if (window.grecaptcha) { clearInterval(check); resolve() }
+      }, 100)
+      return
+    }
+    const script = document.createElement('script')
+    script.src = 'https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoad&render=explicit'
+    script.async = true
+    script.defer = true
+    window.onRecaptchaLoad = () => { resolve() }
+    script.onerror = () => reject(new Error('Failed to load reCAPTCHA'))
+    document.head.appendChild(script)
+  })
+}
+
 export default function ContactForm() {
   const [fields, setFields] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState('idle') // idle | submitting | success | error
   const [errors, setErrors] = useState({})
+  const recaptchaRef = useRef(null)
+  const widgetIdRef = useRef(null)
+
+  useEffect(() => {
+    loadRecaptchaScript().then(() => {
+      if (recaptchaRef.current && widgetIdRef.current === null) {
+        widgetIdRef.current = window.grecaptcha.render(recaptchaRef.current, {
+          sitekey: RECAPTCHA_SITE_KEY,
+          theme: 'dark',
+        })
+      }
+    })
+  }, [])
+
+  const resetRecaptcha = useCallback(() => {
+    if (window.grecaptcha && widgetIdRef.current !== null) {
+      window.grecaptcha.reset(widgetIdRef.current)
+    }
+  }, [])
 
   function validate() {
     const next = {}
@@ -44,17 +86,29 @@ export default function ContactForm() {
       return
     }
 
+    // Get reCAPTCHA response token
+    const recaptchaResponse = window.grecaptcha?.getResponse(widgetIdRef.current)
+    if (!recaptchaResponse) {
+      setErrors((prev) => ({ ...prev, recaptcha: 'Please complete the reCAPTCHA' }))
+      return
+    }
+
     setStatus('submitting')
     try {
       const res = await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({ 'form-name': 'contact', ...fields }),
+        body: encode({
+          'form-name': 'contact',
+          'g-recaptcha-response': recaptchaResponse,
+          ...fields,
+        }),
       })
       if (!res.ok) throw new Error(`${res.status}`)
       setStatus('success')
     } catch {
       setStatus('error')
+      resetRecaptcha()
     }
   }
 
@@ -135,8 +189,11 @@ export default function ContactForm() {
         </label>
       </p>
 
-      {/* Netlify reCAPTCHA — rendered automatically by Netlify */}
-      <div data-netlify-recaptcha="true" className={styles.recaptcha}></div>
+      {/* reCAPTCHA v2 widget — rendered by Google script */}
+      <div ref={recaptchaRef} className={styles.recaptcha}></div>
+      {errors.recaptcha && (
+        <p className={styles.errorText} role="alert">{errors.recaptcha}</p>
+      )}
 
       {status === 'error' && (
         <p className={styles.formError} role="alert">
