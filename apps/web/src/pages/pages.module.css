@@ -188,11 +188,16 @@
 .metadataDivider {
   border: none;
   border-top: 1px solid rgba(255, 111, 184, 0.25);
-  margin: var(--st-spacing-stack-xl, 2.5rem) 0 var(--st-spacing-stack-md, 1rem);
+  margin: var(--st-spacing-stack-lg, 2rem) 0;
 }
 
 :global([data-theme="light"]) .metadataDivider {
   border-top-color: rgba(255, 36, 125, 0.15);
+}
+
+/* Collapse top margin on body content following metadata section */
+.detailContent + .detailContent > :first-child {
+  margin-top: 0;
 }
 
 .backLink {
