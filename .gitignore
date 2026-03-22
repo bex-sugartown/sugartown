@@ -56,5 +56,8 @@ artifacts/sanity_import.ndjson
 # wp_urls.csv from export-wp-urls.py:
 scripts/wp_urls.csv
 
+# Brand style guides — private, not published to repo
+docs/brand/
+
 # Local Netlify folder
 .netlify
