@@ -1,0 +1,136 @@
+/**
+ * ImageLightbox — fullscreen image viewer
+ *
+ * Fixed overlay with centred image, nav arrows, close button.
+ * z-index uses a high value to sit above all other content.
+ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--st-spacing-stack-lg, 2rem);
+  cursor: zoom-out;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 90vw;
+  max-height: 90vh;
+  cursor: default;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: var(--st-radius-md, 12px);
+}
+
+.caption {
+  margin-top: var(--st-spacing-stack-sm, 0.5rem);
+  color: var(--st-color-text-muted, #94A3B8);
+  font-size: var(--st-font-caption, 0.8125rem);
+  text-align: center;
+  max-width: 60ch;
+}
+
+.counter {
+  margin-top: var(--st-spacing-stack-xs, 0.25rem);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: var(--st-font-caption, 0.8125rem);
+}
+
+/* ── Close button ──────────────────────────────────────── */
+.closeButton {
+  position: absolute;
+  top: var(--st-spacing-stack-md, 1rem);
+  right: var(--st-spacing-stack-md, 1rem);
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+  z-index: 1;
+}
+
+.closeButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--st-color-pink, #ff247d);
+  outline-offset: 2px;
+}
+
+/* ── Nav arrows ────────────────────────────────────────── */
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s, border-color 0.2s;
+  z-index: 1;
+}
+
+.navButton:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.navButton:focus-visible {
+  outline: 2px solid var(--st-color-pink, #ff247d);
+  outline-offset: 2px;
+}
+
+.prevButton {
+  left: var(--st-spacing-stack-md, 1rem);
+}
+
+.nextButton {
+  right: var(--st-spacing-stack-md, 1rem);
+}
+
+/* ── Mobile adjustments ────────────────────────────────── */
+@media (max-width: 768px) {
+  .overlay {
+    padding: var(--st-spacing-stack-sm, 0.5rem);
+  }
+
+  .navButton {
+    width: 2.25rem;
+    height: 2.25rem;
+    font-size: 1.5rem;
+  }
+
+  .prevButton {
+    left: 0.5rem;
+  }
+
+  .nextButton {
+    right: 0.5rem;
+  }
+}

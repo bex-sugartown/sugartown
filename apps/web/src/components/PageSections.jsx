@@ -1,7 +1,11 @@
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
+import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { PortableText } from '@portabletext/react'
-import { Button, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker } from '../design-system'
+import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker } from '../design-system'
 import CardBuilderSection from './CardBuilderSection'
+import ImageLightbox from './ImageLightbox'
 import SanityImage from './atoms/SanityImage'
 import { LinkAnnotation, DividerBlock } from './portableTextComponents'
 import styles from './PageSections.module.css'
@@ -177,31 +181,192 @@ function TextSection({ section }) {
   )
 }
 
+/**
+ * Resolves the click target for a gallery image:
+ * - If it has a link (linkItem or legacy linkUrl): returns { url, isExternal, openInNewTab }
+ * - Otherwise: returns null (image should open lightbox)
+ */
+function resolveImageLink(image) {
+  const url = image.link?.url || image.legacyLinkUrl
+  if (!url) return null
+  return {
+    url,
+    isExternal: isExternalUrl(url) || image.link?.openInNewTab,
+    openInNewTab: image.link?.openInNewTab ?? false,
+  }
+}
+
+/**
+ * GalleryImage — renders a single image in the gallery.
+ * Wraps in <Link> (SPA), <a> (external), or attaches lightbox onClick.
+ */
+function GalleryImage({ image, index, onLightbox }) {
+  if (!image.asset) return null
+
+  const imgSrc = urlFor(image.asset).width(800).auto('format').url()
+  const linkTarget = resolveImageLink(image)
+
+  const mediaEl = (
+    <Media
+      src={imgSrc}
+      alt={image.alt || ''}
+      overlay={image.overlay}
+      caption={image.caption}
+      className={styles.galleryImage}
+    />
+  )
+
+  const credit = image.credit ? (
+    <span className={styles.galleryCredit}>{image.credit}</span>
+  ) : null
+
+  if (linkTarget) {
+    const { isExternal, linkProps } = getLinkProps(linkTarget.url, linkTarget.openInNewTab)
+    if (isExternal) {
+      return (
+        <figure className={`${styles.galleryItem} ${styles.galleryLinked}`}>
+          <a {...linkProps}>{mediaEl}</a>
+          {credit}
+        </figure>
+      )
+    }
+    return (
+      <figure className={`${styles.galleryItem} ${styles.galleryLinked}`}>
+        <Link {...linkProps}>{mediaEl}</Link>
+        {credit}
+      </figure>
+    )
+  }
+
+  // No link — lightbox on click
+  return (
+    <figure
+      className={`${styles.galleryItem} ${styles.galleryLightbox}`}
+      onClick={() => onLightbox(index)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onLightbox(index) } }}
+    >
+      {mediaEl}
+      {credit}
+    </figure>
+  )
+}
+
+/**
+ * CarouselDots — dot indicators tracking the active slide via IntersectionObserver.
+ */
+function CarouselDots({ count, activeIndex, onDotClick }) {
+  return (
+    <div className={styles.carouselDots} role="tablist" aria-label="Gallery slides">
+      {Array.from({ length: count }, (_, i) => (
+        <button
+          key={i}
+          className={`${styles.carouselDot} ${i === activeIndex ? styles.carouselDotActive : ''}`}
+          onClick={() => onDotClick(i)}
+          role="tab"
+          aria-selected={i === activeIndex}
+          aria-label={`Slide ${i + 1}`}
+        />
+      ))}
+    </div>
+  )
+}
+
 // Image Gallery Section Component
 function ImageGallerySection({ section }) {
   const { layout, images } = section
+  const [lightboxIndex, setLightboxIndex] = useState(null)
+  const [activeSlide, setActiveSlide] = useState(0)
+  const scrollRef = useRef(null)
+  const slideRefs = useRef([])
 
   if (!images || images.length === 0) return null
 
+  const isCarousel = layout === 'carousel'
+
+  // IntersectionObserver for carousel dot tracking
+  useEffect(() => {
+    if (!isCarousel || !scrollRef.current) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = slideRefs.current.indexOf(entry.target)
+            if (idx >= 0) setActiveSlide(idx)
+          }
+        })
+      },
+      { root: scrollRef.current, threshold: 0.6 }
+    )
+
+    slideRefs.current.forEach((el) => { if (el) observer.observe(el) })
+    return () => observer.disconnect()
+  }, [isCarousel, images.length])
+
+  function scrollToSlide(index) {
+    const target = slideRefs.current[index]
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  }
+
+  function scrollPrev() {
+    const next = (activeSlide - 1 + images.length) % images.length
+    scrollToSlide(next)
+  }
+
+  function scrollNext() {
+    const next = (activeSlide + 1) % images.length
+    scrollToSlide(next)
+  }
+
+  const galleryClassName = `${styles.imageGallery} ${styles[`gallery-${layout}`] || ''}`
+
+  // Images that can open the lightbox (those without links)
+  const lightboxImages = images.filter((img) => !resolveImageLink(img))
+
   return (
-    <section className={`${styles.imageGallery} ${styles[`gallery-${layout}`]}`}>
-      {images.map((image, index) => (
-        <figure key={index} className={styles.galleryItem}>
-          {image.asset && (
-            <SanityImage
-              asset={image.asset}
-              alt={image.alt || ''}
-              width={800}
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
-              className={styles.galleryImage}
-            />
-          )}
-          {image.caption && (
-            <figcaption className={styles.galleryCaption}>{image.caption}</figcaption>
-          )}
-        </figure>
-      ))}
-    </section>
+    <>
+      <section className={galleryClassName}>
+        {isCarousel && images.length > 1 && (
+          <button className={`${styles.carouselArrow} ${styles.carouselPrev}`} onClick={scrollPrev} aria-label="Previous slide">‹</button>
+        )}
+
+        <div
+          className={isCarousel ? styles.carouselTrack : undefined}
+          ref={isCarousel ? scrollRef : undefined}
+        >
+          {images.map((image, index) => (
+            <div
+              key={index}
+              ref={isCarousel ? (el) => (slideRefs.current[index] = el) : undefined}
+              className={isCarousel ? styles.carouselSlide : undefined}
+            >
+              <GalleryImage
+                image={image}
+                index={lightboxImages.indexOf(image)}
+                onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
+              />
+            </div>
+          ))}
+        </div>
+
+        {isCarousel && images.length > 1 && (
+          <>
+            <button className={`${styles.carouselArrow} ${styles.carouselNext}`} onClick={scrollNext} aria-label="Next slide">›</button>
+            <CarouselDots count={images.length} activeIndex={activeSlide} onDotClick={scrollToSlide} />
+          </>
+        )}
+      </section>
+
+      {lightboxIndex !== null && (
+        <ImageLightbox
+          images={lightboxImages}
+          initialIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+        />
+      )}
+    </>
   )
 }
 
