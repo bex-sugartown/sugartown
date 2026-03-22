@@ -59,6 +59,26 @@
   z-index: 2;
 }
 
+/* ── Dark scrim modifier ─────────────────────────────────────────────────── */
+.darkScrim {
+  overflow: hidden;
+  position: relative;
+  border-radius: var(--st-media-duotone-radius);
+}
+
+.darkScrim .image {
+  border-radius: 0; /* parent handles radius */
+}
+
+.darkScrim::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--st-media-overlay-gradient);
+  pointer-events: none;
+  z-index: 2;
+}
+
 /* ── Color overlay modifier ───────────────────────────────────────────────── */
 .colorOverlay {
   overflow: hidden;

@@ -11,42 +11,91 @@ import styles from './Media.module.css'
 
 const DUOTONE_PRESETS = {
   standard: {
-    start: 'rgba(255, 36, 125, 0.55)',
-    end: 'rgba(43, 212, 170, 0.45)',
+    start: 'var(--st-media-duotone-standard-start, rgba(255, 36, 125, 0.55))',
+    end: 'var(--st-media-duotone-standard-end, rgba(43, 212, 170, 0.45))',
   },
   featured: {
-    start: 'rgba(255, 36, 125, 0.70)',
-    end: 'rgba(43, 212, 170, 0.50)',
+    start: 'var(--st-media-duotone-featured-start, rgba(255, 36, 125, 0.70))',
+    end: 'var(--st-media-duotone-featured-end, rgba(43, 212, 170, 0.50))',
   },
   subtle: {
-    start: 'rgba(255, 36, 125, 0.30)',
-    end: 'rgba(43, 212, 170, 0.25)',
+    start: 'var(--st-media-duotone-subtle-start, rgba(255, 36, 125, 0.30))',
+    end: 'var(--st-media-duotone-subtle-end, rgba(43, 212, 170, 0.25))',
+  },
+  extreme: {
+    start: 'var(--st-media-duotone-extreme-start, rgba(255, 36, 125, 0.85))',
+    end: 'var(--st-media-duotone-extreme-end, rgba(43, 212, 170, 0.70))',
   },
 }
 
+/**
+ * Parse overlay type from Sanity schema values.
+ *
+ * Schema stores combined values like 'duotone-standard', 'duotone-featured'.
+ * The component needs to split these into a type ('duotone') and preset ('standard').
+ * Also handles legacy API where type='duotone' and duotonePreset is a separate field.
+ */
+function parseOverlay(overlay) {
+  if (!overlay?.type || overlay.type === 'none') return { parsedType: null }
+
+  if (overlay.type === 'dark-scrim') {
+    return { parsedType: 'dark-scrim' }
+  }
+
+  if (overlay.type === 'color') {
+    return { parsedType: 'color' }
+  }
+
+  // Handle schema values: 'duotone-standard', 'duotone-featured', etc.
+  if (overlay.type.startsWith('duotone')) {
+    const preset = overlay.type === 'duotone'
+      ? (overlay.duotonePreset ?? 'standard')  // legacy API
+      : overlay.type.replace('duotone-', '')     // schema value
+    return { parsedType: 'duotone', preset }
+  }
+
+  return { parsedType: null }
+}
+
 function getOverlayStyles(overlay) {
-  if (overlay.type === 'duotone') {
-    if (overlay.duotonePreset === 'custom' && overlay.customGradient) {
+  const { parsedType, preset } = parseOverlay(overlay)
+
+  if (parsedType === 'duotone') {
+    if (preset === 'custom' && overlay.customGradient) {
       const { startColor, endColor, angle = 135 } = overlay.customGradient
       return {
         '--st-media-overlay-gradient': `linear-gradient(${angle}deg, ${startColor}, ${endColor})`,
       }
     }
-    const preset = DUOTONE_PRESETS[overlay.duotonePreset ?? 'standard']
+    const presetConfig = DUOTONE_PRESETS[preset] ?? DUOTONE_PRESETS.standard
     const angle = overlay.customGradient?.angle ?? 135
     return {
-      '--st-media-overlay-gradient': `linear-gradient(${angle}deg, ${preset.start}, ${preset.end})`,
+      '--st-media-overlay-gradient': `linear-gradient(${angle}deg, ${presetConfig.start}, ${presetConfig.end})`,
     }
   }
 
-  // Color overlay
-  const alpha = (overlay.opacity ?? 50) / 100
-  return {
-    '--st-media-overlay-color': overlay.color ?? 'rgba(0, 0, 0, 0.5)',
-    '--st-media-overlay-opacity': String(alpha),
-    '--st-media-overlay-blend': overlay.blendMode ?? 'normal',
+  if (parsedType === 'dark-scrim') {
+    return {
+      '--st-media-overlay-gradient': 'var(--st-media-scrim-dark, linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.25) 50%, transparent 100%))',
+    }
   }
+
+  if (parsedType === 'color') {
+    const alpha = (overlay.opacity ?? overlay.overlayOpacity ?? 50) / 100
+    return {
+      '--st-media-overlay-color': overlay.color ?? overlay.overlayColor ?? 'rgba(0, 0, 0, 0.5)',
+      '--st-media-overlay-opacity': String(alpha),
+      '--st-media-overlay-blend': overlay.blendMode ?? 'normal',
+    }
+  }
+
+  return {}
 }
+
+/**
+ * Exported for reuse in HeroSection overlay rendering.
+ */
+export { getOverlayStyles, parseOverlay }
 
 export default function Media({
   src,
@@ -59,13 +108,16 @@ export default function Media({
 }) {
   if (!src) return null
 
-  const isDuotone = overlay?.type === 'duotone'
-  const isColorOverlay = overlay?.type === 'color'
+  const { parsedType } = parseOverlay(overlay)
+  const isDuotone = parsedType === 'duotone'
+  const isColorOverlay = parsedType === 'color'
+  const isDarkScrim = parsedType === 'dark-scrim'
   const shouldScale = hoverScale ?? isDuotone
 
   const figureClassNames = [
     styles.figure,
     isDuotone ? styles.duotone : '',
+    isDarkScrim ? styles.darkScrim : '',
     isColorOverlay ? styles.colorOverlay : '',
     shouldScale ? styles.hoverScale : '',
     className ?? '',

@@ -418,9 +418,13 @@
   --st-media-duotone-featured-end:   rgba(43, 212, 170, 0.50);
   --st-media-duotone-subtle-start:   rgba(255, 36, 125, 0.30);
   --st-media-duotone-subtle-end:     rgba(43, 212, 170, 0.25);
+  --st-media-duotone-extreme-start:  rgba(255, 36, 125, 0.85);
+  --st-media-duotone-extreme-end:    rgba(43, 212, 170, 0.70);
   --st-media-overlay-blend-mode:     hard-light;
   --st-media-duotone-radius:         35px;
   --st-media-duotone-angle:          135deg;
+  --st-media-scrim-dark:             linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.25) 50%, transparent 100%);
+  --st-hero-text-color:              #ffffff;
 
 
   /* ══════════════════════════════════════════════════════
