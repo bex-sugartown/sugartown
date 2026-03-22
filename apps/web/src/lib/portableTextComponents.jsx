@@ -10,15 +10,28 @@
 import { CodeBlock, Table, TableWrap, CitationMarker } from '../design-system'
 import { LinkAnnotation, DividerBlock } from '../components/portableTextComponents'
 
+import { Children } from 'react'
+
 /**
  * Block-level heading handlers.
  * - H1 is downgraded to H2 (page title owns the single H1 per page)
- * - Empty headings (whitespace-only) are suppressed to avoid layout gaps
+ * - Empty headings/paragraphs (whitespace-only) are suppressed to avoid layout gaps
+ *
+ * React children from PortableText are React elements wrapping text spans,
+ * not raw strings. We need to recursively extract text content.
  */
+function extractText(node) {
+  if (node == null || node === false) return ''
+  if (typeof node === 'string') return node
+  if (typeof node === 'number') return String(node)
+  if (Array.isArray(node)) return node.map(extractText).join('')
+  if (node.props?.children) return extractText(node.props.children)
+  return ''
+}
+
 function isEmptyBlock(children) {
-  if (!children) return true
-  const flat = Array.isArray(children) ? children : [children]
-  return flat.every((c) => typeof c === 'string' ? c.trim() === '' : !c)
+  const text = extractText(Children.toArray(children))
+  return text.trim() === ''
 }
 
 const portableTextComponents = {
