@@ -1,6 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {DiamondIcon} from '@sanity/icons'
-import {standardPortableText} from '../objects/portableTextConfig'
+import {standardPortableText, metadataPortableText} from '../objects/portableTextConfig'
 
 /**
  * Node Document - Knowledge Graph Node
@@ -149,29 +149,26 @@ export default defineType({
     defineField({
       name: 'challenge',
       title: 'Challenge',
-      type: 'text',
+      type: 'array',
       description: 'What were you trying to figure out? What problem were you solving?',
       group: 'agenticCaucus',
-      rows: 2,
-      validation: (Rule) => Rule.max(500)
+      of: metadataPortableText,
     }),
     defineField({
       name: 'insight',
       title: 'Insight',
-      type: 'text',
+      type: 'array',
       description: 'What did you learn from this interaction? Key takeaways?',
       group: 'agenticCaucus',
-      rows: 3,
-      validation: (Rule) => Rule.max(1000)
+      of: metadataPortableText,
     }),
     defineField({
       name: 'actionItem',
       title: 'Action Item',
-      type: 'text',
+      type: 'array',
       description: 'Next step or operational hook - what do you need to do with this?',
       group: 'agenticCaucus',
-      rows: 3,
-      validation: (Rule) => Rule.max(500)
+      of: metadataPortableText,
     }),
 
     // METADATA GROUP — dates, status, authors, taxonomy connections

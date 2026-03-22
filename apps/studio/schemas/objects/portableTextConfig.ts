@@ -104,6 +104,78 @@ export const summaryPortableText = [
 ]
 
 /**
+ * Metadata Config - For structured node fields (challenge, insight, actionItem)
+ * - Normal text only (no headings)
+ * - Bold, Italic, Code marks
+ * - Links allowed
+ * - NO headings, NO lists, NO images
+ * - Inline code for technical references (field names, tool names, etc.)
+ */
+export const metadataPortableText = [
+  defineArrayMember({
+    type: 'block',
+    styles: [
+      {title: 'Normal', value: 'normal'}
+    ],
+    lists: [],
+    marks: {
+      decorators: [
+        {title: 'Bold', value: 'strong'},
+        {title: 'Italic', value: 'em'},
+        {title: 'Code', value: 'code'}
+      ],
+      annotations: [
+        defineArrayMember({
+          name: 'link',
+          type: 'object',
+          title: 'Link',
+          icon: LinkIcon,
+          fields: [
+            defineField({
+              name: 'type',
+              title: 'Link Type',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'External URL', value: 'external'},
+                  {title: 'Internal Page', value: 'internal'},
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'external',
+            }),
+            defineField({
+              name: 'href',
+              type: 'url',
+              title: 'URL',
+              validation: (Rule) =>
+                Rule.uri({
+                  scheme: ['http', 'https', 'mailto', 'tel'],
+                  allowRelative: true,
+                }),
+              hidden: ({parent}) => parent?.type === 'internal',
+            }),
+            defineField({
+              name: 'internalRef',
+              title: 'Internal Page',
+              type: 'reference',
+              to: [
+                {type: 'page'},
+                {type: 'article'},
+                {type: 'caseStudy'},
+                {type: 'node'},
+                {type: 'archivePage'},
+              ],
+              hidden: ({parent}) => parent?.type !== 'internal',
+            }),
+          ]
+        })
+      ]
+    }
+  })
+]
+
+/**
  * Standard Content Config - For main content areas
  * - All heading levels (H2-H4)
  * - All text marks (bold, italic, underline, code, link)
