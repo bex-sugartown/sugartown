@@ -135,6 +135,9 @@ export default function ContactForm() {
         </label>
       </p>
 
+      {/* Netlify reCAPTCHA — rendered automatically by Netlify */}
+      <div data-netlify-recaptcha="true" className={styles.recaptcha}></div>
+
       {status === 'error' && (
         <p className={styles.formError} role="alert">
           Something went wrong. Please try again.
