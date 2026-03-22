@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sugartown — Image Treatment Mockups</title>
+<!-- SVG duotone filter definitions (hidden) — maps shadows→pink, highlights→seafoam -->
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <!-- Extreme: full remap, shadows=pink highlights=seafoam -->
+  <filter id="duotone-extreme">
+    <feColorMatrix type="saturate" values="0" />
+    <feComponentTransfer color-interpolation-filters="sRGB">
+      <feFuncR type="table" tableValues="1.0  0.17" />
+      <feFuncG type="table" tableValues="0.14 0.83" />
+      <feFuncB type="table" tableValues="0.49 0.67" />
+    </feComponentTransfer>
+  </filter>
+  <!-- Intense: full remap, shadows=deep pink highlights=light seafoam -->
+  <filter id="duotone-intense">
+    <feColorMatrix type="saturate" values="0" />
+    <feComponentTransfer color-interpolation-filters="sRGB">
+      <feFuncR type="table" tableValues="0.85 0.30" />
+      <feFuncG type="table" tableValues="0.05 0.90" />
+      <feFuncB type="table" tableValues="0.35 0.75" />
+    </feComponentTransfer>
+  </filter>
+</svg>
+<style>
+  :root {
+    --pink: #ff247d;
+    --lime: #D1FF1D;
+    --seafoam: #2BD4AA;
+    --bg-dark: #1a1127;
+    --bg-card: #231a30;
+    --text: #f0f0f0;
+    --text-muted: #a09aae;
+    --radius: 35px;
+    --angle: 135deg;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Fira Sans', -apple-system, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text);
+    padding: 2rem;
+    line-height: 1.5;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--pink);
+  }
+
+  h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.5rem;
+    margin: 3rem 0 1.5rem;
+    color: var(--seafoam);
+    border-bottom: 1px solid rgba(43, 212, 170, 0.2);
+    padding-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .card-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--pink);
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .card-desc code {
+    background: rgba(255,255,255,0.08);
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    font-size: 0.85em;
+    color: var(--seafoam);
+  }
+
+  /* ─── Shared image treatment container ─── */
+  .media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: translateZ(0);
+    isolation: isolate;
+    aspect-ratio: 16 / 10;
+  }
+
+  .media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .media:hover img {
+    transform: scale(1.05);
+  }
+
+  /* ─── No treatment (original) ─── */
+  .media--none img {
+    /* no filter */
+  }
+
+  /* ─── Duotone Standard ─── */
+  .media--duotone-standard img {
+    filter: grayscale(100%) contrast(1.1);
+  }
+  .media--duotone-standard::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      var(--angle),
+      rgba(255, 36, 125, 0.55),
+      rgba(43, 212, 170, 0.45)
+    );
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: inherit;
+  }
+
+  /* ─── Duotone Featured ─── */
+  .media--duotone-featured img {
+    filter: grayscale(100%) contrast(1.1);
+  }
+  .media--duotone-featured::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      var(--angle),
+      rgba(255, 36, 125, 0.70),
+      rgba(43, 212, 170, 0.50)
+    );
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: inherit;
+  }
+
+  /* ─── Duotone Subtle ─── */
+  .media--duotone-subtle img {
+    filter: grayscale(100%) contrast(1.1);
+  }
+  .media--duotone-subtle::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      var(--angle),
+      rgba(255, 36, 125, 0.30),
+      rgba(43, 212, 170, 0.25)
+    );
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: inherit;
+  }
+
+  /* ─── Duotone Extreme (SVG filter — true colour remap, no CSS gradient) ─── */
+  .media--duotone-extreme img {
+    filter: url(#duotone-extreme) contrast(1.15);
+  }
+
+  /* ─── Duotone Extreme + Gradient (SVG remap PLUS ::after overlay — WP double-layer) ─── */
+  .media--duotone-extreme-plus img {
+    filter: url(#duotone-extreme) contrast(1.15);
+  }
+  .media--duotone-extreme-plus::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      var(--angle),
+      rgba(255, 36, 125, 0.60),
+      rgba(43, 212, 170, 0.40)
+    );
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: inherit;
+  }
+
+  /* ─── Duotone Intense (SVG filter — deeper pink shadows) ─── */
+  .media--duotone-intense img {
+    filter: url(#duotone-intense) contrast(1.2);
+  }
+
+  /* ─── Duotone Intense + Gradient ─── */
+  .media--duotone-intense-plus img {
+    filter: url(#duotone-intense) contrast(1.2);
+  }
+  .media--duotone-intense-plus::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      var(--angle),
+      rgba(255, 36, 125, 0.55),
+      rgba(43, 212, 170, 0.35)
+    );
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: inherit;
+  }
+
+  /* ─── Color Overlay ─── */
+  .media--color-overlay img {
+    /* no grayscale — retains original colour */
+  }
+  .media--color-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 36, 125, 0.35);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: inherit;
+  }
+
+  /* ─── Hero 21:9 ─── */
+  .media--hero {
+    aspect-ratio: 21 / 9;
+  }
+
+  /* ─── Hero with content overlay ─── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: translateZ(0);
+    isolation: isolate;
+    aspect-ratio: 21 / 9;
+    margin-bottom: 1.5rem;
+  }
+  .hero img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Content overlay sits above image + duotone ::after */
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem 4rem;
+  }
+  .hero-eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+  .hero-subtitle {
+    font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+    max-width: 600px;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+  .hero-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    transform: translateY(0);
+  }
+
+  /* ─── Button themes for hero ─── */
+  /* Uses actual DS tokens: primary=pink, secondary=lime, tertiary=outline pink */
+
+  /* Primary — pink bg, white text, pink glow on hover */
+  .hero-btn--primary-white,
+  .hero-btn--primary-dark {
+    background: var(--pink);
+    color: #fff;
+    border-color: var(--pink);
+    box-shadow: 0 2px 8px rgba(255, 36, 125, 0.2);
+  }
+  .hero-btn--primary-white:hover,
+  .hero-btn--primary-dark:hover {
+    background: #e0206e;
+    border-color: #e0206e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 36, 125, 0.3);
+  }
+
+  /* Secondary — lime bg, dark text, lime glow on hover */
+  .hero-btn--secondary-white,
+  .hero-btn--secondary-dark {
+    background: var(--lime);
+    color: #1a1127;
+    border-color: var(--lime);
+    box-shadow: 0 2px 8px rgba(209, 255, 29, 0.2);
+  }
+  .hero-btn--secondary-white:hover,
+  .hero-btn--secondary-dark:hover {
+    background: #b8e000;
+    border-color: #b8e000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(209, 255, 29, 0.45);
+  }
+
+  /* Tertiary — outline, lime border + text (white context) */
+  .hero-btn--tertiary-white {
+    background: transparent;
+    color: var(--lime);
+    border-color: var(--lime);
+  }
+  .hero-btn--tertiary-white:hover {
+    background: rgba(209, 255, 29, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(209, 255, 29, 0.2);
+  }
+
+  /* Tertiary — outline, lime border + text (dark context) */
+  .hero-btn--tertiary-dark {
+    background: transparent;
+    color: var(--lime);
+    border-color: var(--lime);
+  }
+  .hero-btn--tertiary-dark:hover {
+    background: rgba(209, 255, 29, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(209, 255, 29, 0.2);
+  }
+
+  /* Text colour schemes */
+  .hero--text-white .hero-eyebrow { color: var(--seafoam); }
+  .hero--text-white .hero-title { color: #fff; }
+  .hero--text-white .hero-subtitle { color: rgba(255,255,255,0.85); }
+
+  .hero--text-dark .hero-eyebrow { color: var(--pink); }
+  .hero--text-dark .hero-title { color: #1a1127; }
+  .hero--text-dark .hero-subtitle { color: rgba(26,17,39,0.75); }
+
+  /* Scrim variants for extra contrast */
+  .hero-scrim-dark::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .hero-scrim-light::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .hero-treatment-label {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 10;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: rgba(0,0,0,0.5);
+    color: var(--seafoam);
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  .hero-wcag-badge {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    z-index: 10;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-weight: 700;
+  }
+  .hero-wcag-badge--pass { background: var(--seafoam); color: #1a1127; }
+  .hero-wcag-badge--warn { background: #f0c040; color: #1a1127; }
+  .hero-wcag-badge--fail { background: #e03050; color: #fff; }
+
+  /* ─── Figcaption ─── */
+  figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  figcaption .credit {
+    color: var(--seafoam);
+    font-style: italic;
+  }
+
+  /* ─── Comparison strip ─── */
+  .comparison {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .comparison .media {
+    aspect-ratio: 1;
+    border-radius: 16px;
+  }
+  .comparison .comp-label {
+    font-size: 0.7rem;
+    text-align: center;
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── Gallery layout demos ─── */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .gallery-grid .media { aspect-ratio: 4/3; border-radius: 16px; }
+
+  .gallery-masonry {
+    columns: 3;
+    column-gap: 1rem;
+  }
+  .gallery-masonry figure {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+  .gallery-masonry .media {
+    aspect-ratio: auto;
+    border-radius: 16px;
+  }
+  .gallery-masonry .media img { height: auto; }
+
+  .gallery-carousel {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-bottom: 1rem;
+  }
+  .gallery-carousel::-webkit-scrollbar { display: none; }
+  .gallery-carousel figure {
+    flex: 0 0 calc(33.333% - 0.67rem);
+    scroll-snap-align: start;
+  }
+  /* Clone slides are aria-hidden and have reduced opacity on hover to hint they're echoes */
+  .gallery-carousel figure[data-clone] { pointer-events: none; }
+  .gallery-carousel .media { aspect-ratio: 4/3; border-radius: 16px; }
+
+  .carousel-wrapper {
+    position: relative;
+  }
+  .carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,36,125,0.8);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    transition: background 0.2s;
+  }
+  .carousel-nav:hover { background: rgba(255,36,125,1); }
+  .carousel-nav--left { left: -12px; }
+  .carousel-nav--right { right: -12px; }
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 1rem;
+  }
+  .carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .carousel-dot--active { background: var(--pink); }
+
+  @media (max-width: 900px) {
+    .comparison { grid-template-columns: repeat(3, 1fr); }
+    .gallery-masonry { columns: 2; }
+    .gallery-carousel figure { flex: 0 0 calc(50% - 0.5rem); }
+  }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .comparison { grid-template-columns: repeat(2, 1fr); }
+    .gallery-masonry { columns: 1; }
+    .gallery-carousel figure { flex: 0 0 85%; }
+  }
+
+  /* Google Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Fira+Sans:wght@400;500;600;700&display=swap');
+</style>
+</head>
+<body>
+
+<h1>Image Treatment Mockups</h1>
+<p class="subtitle">Sugartown design system — duotone, overlay, and gallery layout proposals</p>
+
+<!-- ─── Side-by-side comparison strip ─── -->
+<h2>1. Treatment Comparison (same image)</h2>
+<div class="comparison">
+  <div>
+    <div class="media media--none">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Portrait original">
+    </div>
+    <div class="comp-label">Original</div>
+  </div>
+  <div>
+    <div class="media media--duotone-standard">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Duotone standard">
+    </div>
+    <div class="comp-label">Duotone Standard</div>
+  </div>
+  <div>
+    <div class="media media--duotone-featured">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Duotone featured">
+    </div>
+    <div class="comp-label">Duotone Featured</div>
+  </div>
+  <div>
+    <div class="media media--duotone-subtle">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Duotone subtle">
+    </div>
+    <div class="comp-label">Duotone Subtle</div>
+  </div>
+  <div>
+    <div class="media media--color-overlay">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Color overlay">
+    </div>
+    <div class="comp-label">Color Overlay</div>
+  </div>
+</div>
+
+<!-- ─── Extreme / Intense comparison ─── -->
+<h2>1b. SVG Duotone — True Colour Remap (the "extreme pink")</h2>
+<p class="subtitle">Uses SVG <code>&lt;feComponentTransfer&gt;</code> to remap shadow→pink, highlight→seafoam at the pixel level. This is how WP's duotone works. The "+gradient" variants layer the CSS gradient on top for the full WP double-stack effect.</p>
+
+<div class="comparison" style="grid-template-columns: repeat(4, 1fr);">
+  <div>
+    <div class="media media--duotone-extreme">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Extreme">
+    </div>
+    <div class="comp-label">Extreme<br>(SVG filter only)</div>
+  </div>
+  <div>
+    <div class="media media--duotone-extreme-plus">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Extreme + gradient">
+    </div>
+    <div class="comp-label">Extreme + Gradient<br>(WP match)</div>
+  </div>
+  <div>
+    <div class="media media--duotone-intense">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Intense">
+    </div>
+    <div class="comp-label">Intense<br>(deeper pink shadows)</div>
+  </div>
+  <div>
+    <div class="media media--duotone-intense-plus">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Intense + gradient">
+    </div>
+    <div class="comp-label">Intense + Gradient<br>(max saturation)</div>
+  </div>
+</div>
+
+<!-- ─── Full comparison: all 8 treatments ─── -->
+<h2>1c. All Treatments Side-by-Side</h2>
+<div class="comparison" style="grid-template-columns: repeat(4, 1fr);">
+  <div>
+    <div class="media media--none">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Original">
+    </div>
+    <div class="comp-label">Original</div>
+  </div>
+  <div>
+    <div class="media media--duotone-subtle">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Subtle">
+    </div>
+    <div class="comp-label">Subtle<br>(CSS only)</div>
+  </div>
+  <div>
+    <div class="media media--duotone-standard">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Standard">
+    </div>
+    <div class="comp-label">Standard<br>(CSS only)</div>
+  </div>
+  <div>
+    <div class="media media--duotone-featured">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Featured">
+    </div>
+    <div class="comp-label">Featured<br>(CSS only)</div>
+  </div>
+  <div>
+    <div class="media media--duotone-extreme">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Extreme">
+    </div>
+    <div class="comp-label">Extreme<br>(SVG remap)</div>
+  </div>
+  <div>
+    <div class="media media--duotone-extreme-plus">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Extreme+">
+    </div>
+    <div class="comp-label">Extreme + Gradient<br>(WP match)</div>
+  </div>
+  <div>
+    <div class="media media--duotone-intense-plus">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Intense+">
+    </div>
+    <div class="comp-label">Intense + Gradient<br>(max pink)</div>
+  </div>
+  <div>
+    <div class="media media--color-overlay">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop" alt="Color overlay">
+    </div>
+    <div class="comp-label">Color Overlay<br>(multiply)</div>
+  </div>
+</div>
+
+<!-- ─── Hero with extreme treatment ─── -->
+<h2>1d. Hero (21:9) — Extreme vs Featured</h2>
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:2rem;">
+  <div>
+    <div class="media media--duotone-extreme-plus media--hero">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1600&h=686&fit=crop" alt="Hero extreme">
+    </div>
+    <figcaption style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-muted);">Extreme + Gradient (WP match)</figcaption>
+  </div>
+  <div>
+    <div class="media media--duotone-featured media--hero">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1600&h=686&fit=crop" alt="Hero featured">
+    </div>
+    <figcaption style="margin-top:0.5rem;font-size:0.8rem;color:var(--text-muted);">Featured (CSS gradient only)</figcaption>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- HERO CONTENT OVERLAY — WCAG LEGIBILITY TESTS                           -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<h2>2. Hero Content Overlays — WCAG Legibility</h2>
+<p class="subtitle">Each hero shows title, subtitle, and primary/secondary/tertiary buttons. Treatment label top-left, WCAG assessment bottom-right.</p>
+
+<!-- ─── Row 1: White text on dark treatments ─── -->
+<h2 style="font-size:1.1rem; color:var(--text-muted); border:none; margin-top:1rem;">White text on duotone treatments</h2>
+
+<!-- Duotone Standard + white text -->
+<div class="hero media--duotone-standard hero--text-white" style="margin-bottom:1.5rem;">
+  <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=686&fit=crop" alt="Team collaboration">
+  <span class="hero-treatment-label">Duotone Standard</span>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Case Study</div>
+    <h1 class="hero-title">Headless CMS + Enterprise Design System</h1>
+    <p class="hero-subtitle">How a prestige beauty brand proved Composable Content & Design System unification at scale</p>
+    <div class="hero-buttons">
+      <a class="hero-btn hero-btn--primary-white" href="#">Read Case Study</a>
+      <a class="hero-btn hero-btn--secondary-white" href="#">View Portfolio</a>
+      <a class="hero-btn hero-btn--tertiary-white" href="#">Learn More</a>
+    </div>
+  </div>
+  <span class="hero-wcag-badge hero-wcag-badge--pass">AA Pass</span>
+</div>
+
+<!-- Duotone Featured + white text -->
+<div class="hero media--duotone-featured hero--text-white" style="margin-bottom:1.5rem;">
+  <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=686&fit=crop" alt="Team collaboration">
+  <span class="hero-treatment-label">Duotone Featured</span>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Case Study</div>
+    <h1 class="hero-title">Headless CMS + Enterprise Design System</h1>
+    <p class="hero-subtitle">How a prestige beauty brand proved Composable Content & Design System unification at scale</p>
+    <div class="hero-buttons">
+      <a class="hero-btn hero-btn--primary-white" href="#">Read Case Study</a>
+      <a class="hero-btn hero-btn--secondary-white" href="#">View Portfolio</a>
+      <a class="hero-btn hero-btn--tertiary-white" href="#">Learn More</a>
+    </div>
+  </div>
+  <span class="hero-wcag-badge hero-wcag-badge--warn">AA Varies</span>
+</div>
+
+<!-- Duotone Extreme + white text -->
+<div class="hero media--duotone-extreme-plus hero--text-white" style="margin-bottom:1.5rem;">
+  <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=686&fit=crop" alt="Team collaboration">
+  <span class="hero-treatment-label">Extreme + Gradient (WP match)</span>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Case Study</div>
+    <h1 class="hero-title">Headless CMS + Enterprise Design System</h1>
+    <p class="hero-subtitle">How a prestige beauty brand proved Composable Content & Design System unification at scale</p>
+    <div class="hero-buttons">
+      <a class="hero-btn hero-btn--primary-white" href="#">Read Case Study</a>
+      <a class="hero-btn hero-btn--secondary-white" href="#">View Portfolio</a>
+      <a class="hero-btn hero-btn--tertiary-white" href="#">Learn More</a>
+    </div>
+  </div>
+  <span class="hero-wcag-badge hero-wcag-badge--pass">AA Pass</span>
+</div>
+
+<!-- Duotone Subtle + white text (likely fails) -->
+<div class="hero media--duotone-subtle hero--text-white" style="margin-bottom:1.5rem;">
+  <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=686&fit=crop" alt="Team collaboration">
+  <span class="hero-treatment-label">Duotone Subtle</span>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Case Study</div>
+    <h1 class="hero-title">Headless CMS + Enterprise Design System</h1>
+    <p class="hero-subtitle">How a prestige beauty brand proved Composable Content & Design System unification at scale</p>
+    <div class="hero-buttons">
+      <a class="hero-btn hero-btn--primary-white" href="#">Read Case Study</a>
+      <a class="hero-btn hero-btn--secondary-white" href="#">View Portfolio</a>
+      <a class="hero-btn hero-btn--tertiary-white" href="#">Learn More</a>
+    </div>
+  </div>
+  <span class="hero-wcag-badge hero-wcag-badge--fail">AA Fail — needs scrim</span>
+</div>
+
+<!-- ─── Row 2: White text + dark scrim ─── -->
+<h2 style="font-size:1.1rem; color:var(--text-muted); border:none; margin-top:2rem;">White text + dark bottom scrim (contrast safety net)</h2>
+
+<!-- Subtle + scrim -->
+<div class="hero media--duotone-subtle hero--text-white hero-scrim-dark" style="margin-bottom:1.5rem;">
+  <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=686&fit=crop" alt="Team collaboration">
+  <span class="hero-treatment-label">Subtle + Dark Scrim</span>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Case Study</div>
+    <h1 class="hero-title">Headless CMS + Enterprise Design System</h1>
+    <p class="hero-subtitle">How a prestige beauty brand proved Composable Content & Design System unification at scale</p>
+    <div class="hero-buttons">
+      <a class="hero-btn hero-btn--primary-white" href="#">Read Case Study</a>
+      <a class="hero-btn hero-btn--secondary-white" href="#">View Portfolio</a>
+      <a class="hero-btn hero-btn--tertiary-white" href="#">Learn More</a>
+    </div>
+  </div>
+  <span class="hero-wcag-badge hero-wcag-badge--pass">AA Pass (scrim)</span>
+</div>
+
+<!-- No treatment + scrim (photo only) -->
+<div class="hero hero--text-white hero-scrim-dark" style="margin-bottom:1.5rem;">
+  <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=686&fit=crop" alt="Team collaboration">
+  <span class="hero-treatment-label">No Treatment + Dark Scrim</span>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Case Study</div>
+    <h1 class="hero-title">Headless CMS + Enterprise Design System</h1>
+    <p class="hero-subtitle">How a prestige beauty brand proved Composable Content & Design System unification at scale</p>
+    <div class="hero-buttons">
+      <a class="hero-btn hero-btn--primary-white" href="#">Read Case Study</a>
+      <a class="hero-btn hero-btn--secondary-white" href="#">View Portfolio</a>
+      <a class="hero-btn hero-btn--tertiary-white" href="#">Learn More</a>
+    </div>
+  </div>
+  <span class="hero-wcag-badge hero-wcag-badge--pass">AA Pass (scrim)</span>
+</div>
+
+<!-- ─── Row 3: Dark text on light treatments ─── -->
+<h2 style="font-size:1.1rem; color:var(--text-muted); border:none; margin-top:2rem;">Dark text on lighter treatments</h2>
+
+<!-- Color overlay + dark text -->
+<div class="hero media--color-overlay hero--text-dark" style="margin-bottom:1.5rem;">
+  <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=686&fit=crop" alt="Team collaboration">
+  <span class="hero-treatment-label">Color Overlay + Dark Text</span>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Case Study</div>
+    <h1 class="hero-title">Headless CMS + Enterprise Design System</h1>
+    <p class="hero-subtitle">How a prestige beauty brand proved Composable Content & Design System unification at scale</p>
+    <div class="hero-buttons">
+      <a class="hero-btn hero-btn--primary-dark" href="#">Read Case Study</a>
+      <a class="hero-btn hero-btn--secondary-dark" href="#">View Portfolio</a>
+      <a class="hero-btn hero-btn--tertiary-dark" href="#">Learn More</a>
+    </div>
+  </div>
+  <span class="hero-wcag-badge hero-wcag-badge--warn">AA Varies</span>
+</div>
+
+<!-- Subtle + light scrim + dark text -->
+<div class="hero media--duotone-subtle hero--text-dark hero-scrim-light" style="margin-bottom:1.5rem;">
+  <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&h=686&fit=crop" alt="Team collaboration">
+  <span class="hero-treatment-label">Subtle + Light Scrim + Dark Text</span>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Case Study</div>
+    <h1 class="hero-title">Headless CMS + Enterprise Design System</h1>
+    <p class="hero-subtitle">How a prestige beauty brand proved Composable Content & Design System unification at scale</p>
+    <div class="hero-buttons">
+      <a class="hero-btn hero-btn--primary-dark" href="#">Read Case Study</a>
+      <a class="hero-btn hero-btn--secondary-dark" href="#">View Portfolio</a>
+      <a class="hero-btn hero-btn--tertiary-dark" href="#">Learn More</a>
+    </div>
+  </div>
+  <span class="hero-wcag-badge hero-wcag-badge--pass">AA Pass (scrim)</span>
+</div>
+
+<!-- ─── Row 4: Different photo (busy background stress test) ─── -->
+<h2 style="font-size:1.1rem; color:var(--text-muted); border:none; margin-top:2rem;">Busy background stress test — different source photo</h2>
+
+<!-- Extreme on busy photo -->
+<div class="hero media--duotone-extreme-plus hero--text-white" style="margin-bottom:1.5rem;">
+  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1600&h=686&fit=crop" alt="Portrait close-up">
+  <span class="hero-treatment-label">Extreme + Gradient on portrait</span>
+  <div class="hero-content">
+    <div class="hero-eyebrow">About</div>
+    <h1 class="hero-title">Atoms & Ecosystems</h1>
+    <p class="hero-subtitle">Design systems architect, CMS strategist, and composable content enthusiast</p>
+    <div class="hero-buttons">
+      <a class="hero-btn hero-btn--primary-white" href="#">View CV</a>
+      <a class="hero-btn hero-btn--secondary-white" href="#">Contact</a>
+      <a class="hero-btn hero-btn--tertiary-white" href="#">LinkedIn</a>
+    </div>
+  </div>
+  <span class="hero-wcag-badge hero-wcag-badge--pass">AA Pass</span>
+</div>
+
+<!-- Standard on busy photo + scrim -->
+<div class="hero media--duotone-standard hero--text-white hero-scrim-dark" style="margin-bottom:1.5rem;">
+  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1600&h=686&fit=crop" alt="Portrait close-up">
+  <span class="hero-treatment-label">Standard + Dark Scrim on portrait</span>
+  <div class="hero-content">
+    <div class="hero-eyebrow">About</div>
+    <h1 class="hero-title">Atoms & Ecosystems</h1>
+    <p class="hero-subtitle">Design systems architect, CMS strategist, and composable content enthusiast</p>
+    <div class="hero-buttons">
+      <a class="hero-btn hero-btn--primary-white" href="#">View CV</a>
+      <a class="hero-btn hero-btn--secondary-white" href="#">Contact</a>
+      <a class="hero-btn hero-btn--tertiary-white" href="#">LinkedIn</a>
+    </div>
+  </div>
+  <span class="hero-wcag-badge hero-wcag-badge--pass">AA Pass (scrim)</span>
+</div>
+
+<!-- ─── Detailed treatment cards ─── -->
+<h2>3. Treatment Details</h2>
+<div class="grid">
+
+  <div class="card">
+    <div class="card-label">Duotone Standard</div>
+    <div class="card-title">Primary brand treatment</div>
+    <div class="media media--duotone-standard">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=500&fit=crop" alt="Cosmetics product">
+    </div>
+    <figure>
+      <figcaption>
+        Prestige beauty product photography
+        <span class="credit">— Photo: Studio Example</span>
+      </figcaption>
+    </figure>
+    <div class="card-desc">
+      <code>grayscale(100%) contrast(1.1)</code> on image.<br>
+      Gradient: <code>rgba(255,36,125,0.55)</code> → <code>rgba(43,212,170,0.45)</code><br>
+      Blend: <code>hard-light</code> at 135deg
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Duotone Featured</div>
+    <div class="card-title">High-impact hero & case study</div>
+    <div class="media media--duotone-featured">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=500&fit=crop" alt="Cosmetics featured">
+    </div>
+    <figure>
+      <figcaption>
+        Stronger pink saturation for featured content
+        <span class="credit">— Photo: Studio Example</span>
+      </figcaption>
+    </figure>
+    <div class="card-desc">
+      <code>grayscale(100%) contrast(1.1)</code> on image.<br>
+      Gradient: <code>rgba(255,36,125,0.70)</code> → <code>rgba(43,212,170,0.50)</code><br>
+      Blend: <code>hard-light</code> at 135deg — bolder contrast
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Duotone Subtle</div>
+    <div class="card-title">Background & supporting imagery</div>
+    <div class="media media--duotone-subtle">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=500&fit=crop" alt="Cosmetics subtle">
+    </div>
+    <figure>
+      <figcaption>
+        Lighter tint, lets more of the original through
+        <span class="credit">— Photo: Studio Example</span>
+      </figcaption>
+    </figure>
+    <div class="card-desc">
+      <code>grayscale(100%) contrast(1.1)</code> on image.<br>
+      Gradient: <code>rgba(255,36,125,0.30)</code> → <code>rgba(43,212,170,0.25)</code><br>
+      Blend: <code>hard-light</code> at 135deg — understated
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Color Overlay</div>
+    <div class="card-title">Brand tint on colour photography</div>
+    <div class="media media--color-overlay">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=500&fit=crop" alt="Color overlay">
+    </div>
+    <figure>
+      <figcaption>
+        Retains original colour, adds pink tint
+      </figcaption>
+    </figure>
+    <div class="card-desc">
+      No grayscale — original colours preserved.<br>
+      Flat <code>rgba(255,36,125,0.35)</code><br>
+      Blend: <code>multiply</code> — warms and unifies
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── Hero aspect ratio ─── -->
+<h2>3. Hero (21:9) with Duotone Featured</h2>
+<div class="media media--duotone-featured media--hero">
+  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=1600&h=686&fit=crop" alt="Hero image">
+</div>
+<figure>
+  <figcaption>Hero banner — 21:9 crop with featured duotone treatment</figcaption>
+</figure>
+
+<!-- ─── Gallery: Grid ─── -->
+<h2>4. Gallery — Grid (Equal Height)</h2>
+<div class="gallery-grid">
+  <figure>
+    <div class="media media--duotone-standard">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop" alt="Grid 1">
+    </div>
+    <figcaption>Product shot <span class="credit">— Credit A</span></figcaption>
+  </figure>
+  <figure>
+    <div class="media media--none">
+      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=300&fit=crop" alt="Grid 2">
+    </div>
+    <figcaption>No treatment</figcaption>
+  </figure>
+  <figure>
+    <div class="media media--duotone-subtle">
+      <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=300&fit=crop" alt="Grid 3">
+    </div>
+    <figcaption>Subtle duotone <span class="credit">— Credit B</span></figcaption>
+  </figure>
+  <figure>
+    <div class="media media--color-overlay">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=300&fit=crop" alt="Grid 4">
+    </div>
+    <figcaption>Color overlay</figcaption>
+  </figure>
+</div>
+
+<!-- ─── Gallery: Masonry ─── -->
+<h2>5. Gallery — Masonry (min 3 across)</h2>
+<div class="gallery-masonry">
+  <figure>
+    <div class="media media--duotone-standard">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop" alt="Masonry 1">
+    </div>
+    <figcaption>Tall image</figcaption>
+  </figure>
+  <figure>
+    <div class="media media--duotone-featured">
+      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=250&fit=crop" alt="Masonry 2">
+    </div>
+    <figcaption>Wide image</figcaption>
+  </figure>
+  <figure>
+    <div class="media media--none">
+      <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=400&fit=crop" alt="Masonry 3">
+    </div>
+    <figcaption>Square, no treatment</figcaption>
+  </figure>
+  <figure>
+    <div class="media media--duotone-subtle">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=350&fit=crop" alt="Masonry 4">
+    </div>
+    <figcaption>Landscape subtle</figcaption>
+  </figure>
+  <figure>
+    <div class="media media--color-overlay">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop" alt="Masonry 5">
+    </div>
+    <figcaption>Color overlay</figcaption>
+  </figure>
+  <figure>
+    <div class="media media--duotone-standard">
+      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=450&fit=crop" alt="Masonry 6">
+    </div>
+    <figcaption>Tall duotone</figcaption>
+  </figure>
+</div>
+
+<!-- ─── Gallery: Carousel ─── -->
+<h2>6. Gallery — Carousel (with nav + dots)</h2>
+<div class="carousel-wrapper">
+  <button class="carousel-nav carousel-nav--left" aria-label="Previous">&#8249;</button>
+  <button class="carousel-nav carousel-nav--right" aria-label="Next">&#8250;</button>
+  <div class="gallery-carousel" id="carousel">
+    <figure>
+      <div class="media media--duotone-standard">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop" alt="Slide 1">
+      </div>
+      <figcaption>Slide 1 — Duotone standard</figcaption>
+    </figure>
+    <figure>
+      <div class="media media--duotone-featured">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=400&fit=crop" alt="Slide 2">
+      </div>
+      <figcaption>Slide 2 — Featured</figcaption>
+    </figure>
+    <figure>
+      <div class="media media--none">
+        <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&h=400&fit=crop" alt="Slide 3">
+      </div>
+      <figcaption>Slide 3 — No treatment</figcaption>
+    </figure>
+    <figure>
+      <div class="media media--duotone-subtle">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" alt="Slide 4">
+      </div>
+      <figcaption>Slide 4 — Subtle</figcaption>
+    </figure>
+    <figure>
+      <div class="media media--color-overlay">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop" alt="Slide 5">
+      </div>
+      <figcaption>Slide 5 — Color overlay</figcaption>
+    </figure>
+  </div>
+  <div class="carousel-dots">
+    <button class="carousel-dot carousel-dot--active" aria-label="Slide 1"></button>
+    <button class="carousel-dot" aria-label="Slide 2"></button>
+    <button class="carousel-dot" aria-label="Slide 3"></button>
+    <button class="carousel-dot" aria-label="Slide 4"></button>
+    <button class="carousel-dot" aria-label="Slide 5"></button>
+  </div>
+</div>
+
+<script>
+  // Infinite carousel — clones edge slides for seamless wrapping
+  const carousel = document.getElementById('carousel');
+  const dots = document.querySelectorAll('.carousel-dot');
+  const leftBtn = document.querySelector('.carousel-nav--left');
+  const rightBtn = document.querySelector('.carousel-nav--right');
+
+  // Original (real) figures
+  const realFigures = Array.from(carousel.querySelectorAll('figure'));
+  const total = realFigures.length;
+
+  // Clone last 2 → prepend, first 2 → append (enough for peek + transition)
+  const clonesPerSide = 2;
+  for (let i = 0; i < clonesPerSide; i++) {
+    const tailClone = realFigures[total - 1 - i].cloneNode(true);
+    tailClone.setAttribute('data-clone', 'true');
+    tailClone.setAttribute('aria-hidden', 'true');
+    carousel.insertBefore(tailClone, carousel.firstChild);
+
+    const headClone = realFigures[i].cloneNode(true);
+    headClone.setAttribute('data-clone', 'true');
+    headClone.setAttribute('aria-hidden', 'true');
+    carousel.appendChild(headClone);
+  }
+
+  // All figures including clones
+  const allFigures = Array.from(carousel.querySelectorAll('figure'));
+  let current = 0; // index into realFigures (0-based)
+  let isJumping = false;
+
+  // Map real index → allFigures index (offset by clonesPerSide)
+  function realToAll(idx) { return idx + clonesPerSide; }
+
+  function getSlideLeft(allIdx) {
+    return allFigures[allIdx].offsetLeft - carousel.offsetLeft;
+  }
+
+  function updateDots(idx) {
+    current = ((idx % total) + total) % total;
+    dots.forEach((d, i) => d.classList.toggle('carousel-dot--active', i === current));
+  }
+
+  // Jump without animation (used after smooth scroll to clone → snap to real)
+  function jumpToReal(idx) {
+    isJumping = true;
+    carousel.style.scrollBehavior = 'auto';
+    carousel.scrollLeft = getSlideLeft(realToAll(idx));
+    // Restore after a frame
+    requestAnimationFrame(() => {
+      carousel.style.scrollBehavior = '';
+      isJumping = false;
+    });
+  }
+
+  function scrollToSlide(idx) {
+    const wrappedReal = ((idx % total) + total) % total;
+
+    if (idx >= total) {
+      // Going forward past last → scroll to clone, then snap
+      const cloneIdx = realToAll(total) + (idx - total);
+      carousel.scrollTo({ left: getSlideLeft(cloneIdx), behavior: 'smooth' });
+      updateDots(wrappedReal);
+      setTimeout(() => jumpToReal(wrappedReal), 400);
+    } else if (idx < 0) {
+      // Going backward past first → scroll to clone, then snap
+      const cloneIdx = clonesPerSide + idx; // e.g. idx=-1 → clone at position 1
+      carousel.scrollTo({ left: getSlideLeft(cloneIdx), behavior: 'smooth' });
+      updateDots(wrappedReal);
+      setTimeout(() => jumpToReal(wrappedReal), 400);
+    } else {
+      // Normal scroll within range
+      carousel.scrollTo({ left: getSlideLeft(realToAll(idx)), behavior: 'smooth' });
+      updateDots(idx);
+    }
+  }
+
+  // Track scroll position and update dots (for manual drag/swipe)
+  let scrollTimeout;
+  carousel.addEventListener('scroll', () => {
+    if (isJumping) return;
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const scrollLeft = carousel.scrollLeft;
+      let closest = 0;
+      let minDist = Infinity;
+      realFigures.forEach((_, i) => {
+        const allIdx = realToAll(i);
+        const dist = Math.abs(allFigures[allIdx].offsetLeft - carousel.offsetLeft - scrollLeft);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      updateDots(closest);
+    }, 50);
+  });
+
+  // Initialize: scroll to first real slide (skip prepended clones)
+  jumpToReal(0);
+
+  leftBtn.addEventListener('click', () => scrollToSlide(current - 1));
+  rightBtn.addEventListener('click', () => scrollToSlide(current + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => scrollToSlide(i)));
+</script>
+
+</body>
+</html>
