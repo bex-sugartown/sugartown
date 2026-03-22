@@ -10,7 +10,25 @@
 import { CodeBlock, Table, TableWrap, CitationMarker } from '../design-system'
 import { LinkAnnotation, DividerBlock } from '../components/portableTextComponents'
 
+/**
+ * Block-level heading handlers.
+ * - H1 is downgraded to H2 (page title owns the single H1 per page)
+ * - Empty headings (whitespace-only) are suppressed to avoid layout gaps
+ */
+function isEmptyBlock(children) {
+  if (!children) return true
+  const flat = Array.isArray(children) ? children : [children]
+  return flat.every((c) => typeof c === 'string' ? c.trim() === '' : !c)
+}
+
 const portableTextComponents = {
+  block: {
+    h1: ({ children }) => isEmptyBlock(children) ? null : <h2>{children}</h2>,
+    h2: ({ children }) => isEmptyBlock(children) ? null : <h2>{children}</h2>,
+    h3: ({ children }) => isEmptyBlock(children) ? null : <h3>{children}</h3>,
+    h4: ({ children }) => isEmptyBlock(children) ? null : <h4>{children}</h4>,
+    normal: ({ children }) => isEmptyBlock(children) ? null : <p>{children}</p>,
+  },
   marks: {
     code: ({ children }) => <code>{children}</code>,
     // Link annotation — supports internal refs (React Router) + external URLs.

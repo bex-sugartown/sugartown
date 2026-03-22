@@ -14,6 +14,7 @@ import styles from './PageSections.module.css'
 // Portable Text components for text sections
 const portableTextComponents = {
   block: {
+    h1: ({ children }) => <h2 className={styles.h2}>{children}</h2>,
     h2: ({ children }) => <h2 className={styles.h2}>{children}</h2>,
     h3: ({ children }) => <h3 className={styles.h3}>{children}</h3>,
     h4: ({ children }) => <h4 className={styles.h4}>{children}</h4>,
