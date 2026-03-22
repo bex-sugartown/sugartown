@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import Button from '../design-system/components/button/Button'
 import styles from './ContactForm.module.css'
 
-const RECAPTCHA_SITE_KEY = '6LeMBbgrAAAAAGBNaDpns-fW_HL-60XgHgEHz2BD'
+const RECAPTCHA_SITE_KEY = '6Lcf9pMsAAAAAOM7s8cUPaoyhFEnV3WE5cZfXusG'
 
 const encode = (data) =>
   Object.keys(data)
