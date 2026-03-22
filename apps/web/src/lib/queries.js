@@ -123,6 +123,23 @@ const LINKITEM_URL_EXPR = `select(
 )`
 
 /**
+ * LINKITEM_URL_EXPR_BARE — same routing logic as LINKITEM_URL_EXPR but with
+ * bare field paths (no `link.` prefix). Use inside a `link { ... }` sub-projection
+ * where the linkItem fields are at root level of the projection context.
+ */
+const LINKITEM_URL_EXPR_BARE = `select(
+  type == "internal" => select(
+    internalRef->_type == "page" => "/" + internalRef->slug.current,
+    internalRef->_type == "archivePage" => "/" + internalRef->slug.current,
+    internalRef->_type == "article" => "/articles/" + internalRef->slug.current,
+    internalRef->_type == "caseStudy" => "/case-studies/" + internalRef->slug.current,
+    internalRef->_type == "node" => "/knowledge-graph/" + internalRef->slug.current,
+    "/" + internalRef->slug.current
+  ),
+  type == "external" => externalUrl
+)`
+
+/**
  * LINKITEM_FRAGMENT — resolves linkItem to flat shape for web components.
  * Use inside a ctaButtonDoc or any doc that has a `link` field of type linkItem.
  * Produces: { url, label, openInNewTab }
@@ -274,6 +291,8 @@ export const nodeBySlugQuery = `
       _type in ["heroSection", "hero"] => {
         heading,
         subheading,
+        eyebrow,
+        imageTreatment,
         imageWidth,
         backgroundImage {
           asset->,
@@ -299,7 +318,16 @@ export const nodeBySlugQuery = `
           "hotspot": asset.hotspot,
           "crop": asset.crop,
           alt,
-          caption
+          caption,
+          credit,
+          overlay,
+          "link": link {
+            type,
+            "url": ${LINKITEM_URL_EXPR_BARE},
+            label,
+            openInNewTab
+          },
+          "legacyLinkUrl": linkUrl
         }
       },
       _type == "ctaSection" => {
@@ -413,6 +441,8 @@ export const articleBySlugQuery = `
       _type in ["heroSection", "hero"] => {
         heading,
         subheading,
+        eyebrow,
+        imageTreatment,
         imageWidth,
         backgroundImage {
           asset->,
@@ -438,7 +468,16 @@ export const articleBySlugQuery = `
           "hotspot": asset.hotspot,
           "crop": asset.crop,
           alt,
-          caption
+          caption,
+          credit,
+          overlay,
+          "link": link {
+            type,
+            "url": ${LINKITEM_URL_EXPR_BARE},
+            label,
+            openInNewTab
+          },
+          "legacyLinkUrl": linkUrl
         }
       },
       _type == "ctaSection" => {
@@ -556,7 +595,16 @@ export const pageBySlugQuery = `
           "hotspot": asset.hotspot,
           "crop": asset.crop,
           alt,
-          caption
+          caption,
+          credit,
+          overlay,
+          "link": link {
+            type,
+            "url": ${LINKITEM_URL_EXPR_BARE},
+            label,
+            openInNewTab
+          },
+          "legacyLinkUrl": linkUrl
         }
       },
       _type == "ctaSection" => {
@@ -661,12 +709,23 @@ export const caseStudyBySlugQuery = `
           "hotspot": asset.hotspot,
           "crop": asset.crop,
           alt,
-          caption
+          caption,
+          credit,
+          overlay,
+          "link": link {
+            type,
+            "url": ${LINKITEM_URL_EXPR_BARE},
+            label,
+            openInNewTab
+          },
+          "legacyLinkUrl": linkUrl
         }
       },
       _type in ["heroSection", "hero"] => {
         heading,
         subheading,
+        eyebrow,
+        imageTreatment,
         imageWidth,
         backgroundImage { asset->, alt, crop, hotspot },
         "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
