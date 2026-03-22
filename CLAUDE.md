@@ -116,6 +116,23 @@ images[] {
 
 Do **not** write `asset->` on a `richImage` — that dereferences the `image` object, not the reference inside it, and silently returns null.
 
+### Sanity MCP content writes — no AI rewriting
+
+When writing content to Sanity via MCP tools, **assume all content is final, proofed copy**. Do not use tools that pass content through Sanity's AI pipeline unless the user explicitly requests AI-assisted drafting.
+
+**Default tools (verbatim, no rewriting):**
+- `patch_document_from_json` — sets exact field values
+- `create_documents_from_json` — creates docs with precise content
+- `@sanity/client` via migration scripts — direct API, no intermediary
+
+**AI-assisted tools (rewrite content — require explicit user consent):**
+- `patch_document_from_markdown` — Sanity AI interprets and may reword
+- `create_documents_from_markdown` — same; AI restructures prose
+- `create_version` with `instruction` param — intentional AI rewrite
+- `generate_image` / `transform_image` — AI image generation
+
+**Rule:** If a user provides copy to write to Sanity, use `_from_json` tools or the Sanity client directly. Never route authored content through an AI rewriting layer without saying so. If AI-assisted drafting would be helpful, ask first: "Want me to use Sanity AI to help draft this, or should I save it exactly as written?"
+
 ---
 
 ## Atomic Reuse Gate (blocking)
