@@ -465,9 +465,9 @@
 .mermaidError {
   font-family: var(--st-font-family-mono, 'Fira Code', monospace);
   font-size: 0.8125rem;
-  color: var(--st-color-danger, #ff6b6b);
-  background: var(--st-color-bg-surface, rgba(255, 255, 255, 0.04));
-  border: 1px solid var(--st-color-border-subtle);
+  color: #ff4757;
+  background: rgba(255, 71, 87, 0.08);
+  border: 1px solid rgba(255, 71, 87, 0.3);
   border-radius: var(--st-radius-sm);
   padding: 1rem;
   white-space: pre-wrap;
