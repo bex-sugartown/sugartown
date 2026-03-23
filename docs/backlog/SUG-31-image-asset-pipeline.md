@@ -62,18 +62,20 @@ index:      optional, for multiple similar images (1, 2, 3)
 
 1. **Export inventory** — GROQ query to build manifest: asset ID, original filename, CDN URL, and every document + field that references it
 2. **Download archive** — bulk download all assets as backup
-3. **Rename locally** — apply naming convention
-4. **Re-upload** — upload renamed files via Sanity client (creates new asset IDs)
-5. **Patch references** — update every document field pointing to old asset IDs to point to new ones (image fields, PortableText inline images, array items)
-6. **Verify** — confirm all references resolve, no broken images on live site
-7. **Delete orphaned assets** — remove old unreferenced assets after verification
+3. **Convert formats** — convert `.jpg` to `.webp` (photos/screenshots), keep `.png` for diagrams with text/sharp edges, keep `.svg` for icons/logos. Use `cwebp` or `sharp` for batch conversion. Preserve originals in the archive as rollback reference.
+4. **Rename locally** — apply naming convention to converted files
+5. **Re-upload** — upload renamed + converted files via Sanity client (creates new asset IDs)
+6. **Patch references** — update every document field pointing to old asset IDs to point to new ones (image fields, PortableText inline images, array items)
+7. **Verify** — confirm all references resolve, no broken images on live site
+8. **Delete orphaned assets** — remove old unreferenced assets after verification
 
 ### Phase 2: WordPress legacy import
 
 1. **Export WP media library** — query `wp_posts` for `post_type = 'attachment'`, download from `wp-content/uploads/`
-2. **Rename** — apply naming convention
-3. **Upload to Sanity** — via Sanity client
-4. **Map to content** — assign to existing Sanity documents where applicable (case studies, about page, etc.)
+2. **Convert formats** — same rules as Phase 1: `.jpg` to `.webp`, keep `.png` for diagrams, `.svg` for icons
+3. **Rename** — apply naming convention
+4. **Upload to Sanity** — via Sanity client
+5. **Map to content** — assign to existing Sanity documents where applicable (case studies, about page, etc.)
 
 ---
 
