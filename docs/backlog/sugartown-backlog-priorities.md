@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-22 · v0.19.0 · Full release shipped (EPIC-0177–0183)
+> Updated 2026-03-23 · v0.19.1 · Shipped SUG-13 Mermaid Diagram Section Type
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/prompts/SUG-{N}-*.md`.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.19.0 released. DNS cutover complete. **Next:** IA brief page epics (Services, Contact, About, Platform, Homepage teasers).
+> **⚑ Current focus:** v0.19.1 shipped (SUG-13 Mermaid diagrams). **Next:** IA brief page epics (Services, Contact, About, Platform, Homepage teasers).
 
 ---
 
@@ -30,7 +30,7 @@
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 | 3 | **Brand color picker for Sanity Studio (BL-01)** — ✅ Shipped. [SUG-8](https://linear.app/sugartown/issue/SUG-8). Epic: `docs/prompts/SUG-8-brand-color-picker.md`. | `Studio UX` `BL-01` | ✅ Shipped |
 | 4 | **Studio UX polish — section type labels + archive rich text** — ✅ Shipped. [SUG-11](https://linear.app/sugartown/issue/SUG-11). Epic: `docs/prompts/SUG-11-studio-ux-polish.md`. | `Studio UX` `Schema` | ✅ Shipped |
-| 5 | **Mermaid diagram section type** — [SUG-13](https://linear.app/sugartown/issue/SUG-13). Epic: `docs/backlog/SUG-13-mermaid-diagrams.md`. | `Schema` `Component` `UX` | 🟣 Soon |
+| 5 | **Mermaid diagram section type** — ✅ Shipped v0.19.1. [SUG-13](https://linear.app/sugartown/issue/SUG-13). Epic: `docs/prompts/SUG-13-mermaid-diagrams.md`. | `Schema` `Component` `UX` | ✅ Shipped |
 
 ---
 
