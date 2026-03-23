@@ -374,6 +374,10 @@ export const nodeBySlugQuery = `
         variant,
         title,
         body
+      },
+      _type == "mermaidSection" => {
+        code,
+        caption
       }
     },
     aiTool,
@@ -524,6 +528,10 @@ export const articleBySlugQuery = `
         variant,
         title,
         body
+      },
+      _type == "mermaidSection" => {
+        code,
+        caption
       }
     },
     author,
@@ -651,6 +659,10 @@ export const pageBySlugQuery = `
         variant,
         title,
         body
+      },
+      _type == "mermaidSection" => {
+        code,
+        caption
       }
     },
     ${SEO_FRAGMENT}
@@ -774,6 +786,10 @@ export const caseStudyBySlugQuery = `
         variant,
         title,
         body
+      },
+      _type == "mermaidSection" => {
+        code,
+        caption
       }
     },
     authors[]->{${PERSON_FRAGMENT}},

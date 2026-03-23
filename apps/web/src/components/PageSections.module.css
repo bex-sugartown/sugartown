@@ -435,6 +435,45 @@
   padding: var(--st-spacing-stack-lg) var(--st-page-gutter);
 }
 
+/* Mermaid Diagram Section (SUG-13) */
+.mermaidSection {
+  max-width: var(--st-width-detail);
+  margin: 0 auto;
+  padding: var(--st-spacing-stack-lg) var(--st-page-gutter);
+}
+
+.mermaidContainer {
+  overflow-x: auto;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.mermaidContainer :global(svg) {
+  max-width: 100%;
+  height: auto;
+}
+
+.mermaidCaption {
+  font-size: 0.875rem;
+  color: var(--st-color-text-secondary);
+  text-align: center;
+  margin: var(--st-spacing-stack-sm) 0 0;
+  font-style: italic;
+}
+
+.mermaidError {
+  font-family: var(--st-font-family-mono, 'Fira Code', monospace);
+  font-size: 0.8125rem;
+  color: var(--st-color-danger, #ff6b6b);
+  background: var(--st-color-bg-surface, rgba(255, 255, 255, 0.04));
+  border: 1px solid var(--st-color-border-subtle);
+  border-radius: var(--st-radius-sm);
+  padding: 1rem;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
 /* CTA Section */
 .ctaSection {
   max-width: var(--st-width-detail);
@@ -761,7 +800,8 @@
 .detailContext .textSection,
 .detailContext .ctaSection,
 .detailContext .calloutSection,
-.detailContext .imageGallery {
+.detailContext .imageGallery,
+.detailContext .mermaidSection {
   max-width: none;
   padding-inline: 0;
   padding-block: var(--st-spacing-stack-lg);

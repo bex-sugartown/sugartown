@@ -395,6 +395,95 @@ function ImageGallerySection({ section }) {
   )
 }
 
+// Mermaid Diagram Section Component (SUG-13)
+// mermaidSection — renders Mermaid markup as themed SVG via dynamic import
+function MermaidDiagram({ section }) {
+  const containerRef = useRef(null)
+  const [error, setError] = useState(null)
+  const [rendering, setRendering] = useState(false)
+  const renderIdRef = useRef(`mermaid-${section._key || Math.random().toString(36).slice(2)}`)
+
+  const renderDiagram = useCallback(async () => {
+    if (!section.code || !containerRef.current) return
+    setRendering(true)
+    setError(null)
+    try {
+      const mermaid = (await import('mermaid')).default
+      const theme = document.documentElement.getAttribute('data-theme')
+      const isDark = theme !== 'light'
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: 'strict',
+        theme: isDark ? 'dark' : 'neutral',
+        themeVariables: isDark
+          ? {
+              primaryColor: '#1e1b4b',
+              primaryBorderColor: '#FF247D',
+              lineColor: '#FF247D',
+              textColor: '#e4dded',
+              mainBkg: '#1e1b4b',
+              nodeBorder: '#FF247D',
+              fontFamily: 'Fira Sans, system-ui, sans-serif',
+            }
+          : {
+              primaryColor: '#F5F6F8',
+              primaryBorderColor: '#0D1226',
+              lineColor: '#0D1226',
+              textColor: '#0D1226',
+              mainBkg: '#F5F6F8',
+              nodeBorder: '#0D1226',
+              fontFamily: 'Fira Sans, system-ui, sans-serif',
+            },
+      })
+      // Generate unique ID for each render to avoid collisions
+      const renderId = `${renderIdRef.current}-${Date.now()}`
+      const { svg } = await mermaid.render(renderId, section.code)
+      if (containerRef.current) {
+        containerRef.current.innerHTML = svg
+      }
+    } catch (err) {
+      setError(err.message || 'Failed to render diagram')
+    } finally {
+      setRendering(false)
+    }
+  }, [section.code])
+
+  useEffect(() => {
+    renderDiagram()
+    // Re-render on theme change
+    const observer = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.attributeName === 'data-theme') {
+          renderDiagram()
+          break
+        }
+      }
+    })
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+    return () => observer.disconnect()
+  }, [renderDiagram])
+
+  if (!section.code) return null
+
+  return (
+    <section className={styles.mermaidSection}>
+      {error ? (
+        <pre className={styles.mermaidError}>{error}</pre>
+      ) : (
+        <div
+          ref={containerRef}
+          className={styles.mermaidContainer}
+          aria-label={section.caption || 'Diagram'}
+          role="img"
+        />
+      )}
+      {section.caption && (
+        <p className={styles.mermaidCaption}>{section.caption}</p>
+      )}
+    </section>
+  )
+}
+
 // HTML Section Component
 // htmlSection — renders raw HTML as-is; no sanitization applied
 function HtmlSection({ section }) {
@@ -476,6 +565,8 @@ export default function PageSections({ sections, context = 'full' }) {
         return <CardBuilderSection key={key} section={section} />
       case 'calloutSection':
         return <CalloutSection key={key} section={section} />
+      case 'mermaidSection':
+        return <MermaidDiagram key={key} section={section} />
       default:
         console.warn(`Unknown section type: ${section._type}`)
         return null
