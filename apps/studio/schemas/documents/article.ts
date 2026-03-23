@@ -74,7 +74,8 @@ export default defineType({
         defineArrayMember({type: 'ctaSection'}),
         defineArrayMember({type: 'htmlSection'}),
         defineArrayMember({type: 'cardBuilderSection'}),
-        defineArrayMember({type: 'calloutSection'})
+        defineArrayMember({type: 'calloutSection'}),
+        defineArrayMember({type: 'mermaidSection'}),
       ]
     }),
     defineField({
