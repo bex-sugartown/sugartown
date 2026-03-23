@@ -135,6 +135,20 @@ When writing content to Sanity via MCP tools, **assume all content is final, pro
 
 ---
 
+## Image Asset Naming
+
+All images uploaded to Sanity must follow the naming convention in `docs/conventions/image-naming-convention.md`:
+
+```
+{docType}-{subject}-{descriptor}[-{index}].{ext}
+```
+
+- Prefixes: `article-`, `cs-`, `node-`, `project-`, `tool-`, `diagram-`, `site-`
+- Formats: `.webp` (photos), `.png` (diagrams), `.svg` (icons/logos)
+- Never upload with default camera/screenshot names (`IMG_1234.jpg`, `Screenshot 2026-...`)
+
+---
+
 ## Atomic Reuse Gate (blocking)
 
 Before creating ANY new component, schema object, CSS surface, or utility, answer three questions **in writing** (in the epic doc, commit message, or inline comment):
