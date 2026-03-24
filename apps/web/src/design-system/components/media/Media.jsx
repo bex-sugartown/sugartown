@@ -69,9 +69,14 @@ function getOverlayStyles(overlay) {
     }
     const presetConfig = DUOTONE_PRESETS[preset] ?? DUOTONE_PRESETS.standard
     const angle = overlay.customGradient?.angle ?? 135
-    return {
+    const styles = {
       '--st-media-overlay-gradient': `linear-gradient(${angle}deg, ${presetConfig.start}, ${presetConfig.end})`,
     }
+    // "featured" (Studio label: Standard) preserves image color depth
+    if (preset === 'featured') {
+      styles['--st-media-duotone-grayscale'] = '0%'
+    }
+    return styles
   }
 
   if (parsedType === 'dark-scrim') {

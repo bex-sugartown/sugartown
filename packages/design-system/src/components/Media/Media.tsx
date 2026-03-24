@@ -111,9 +111,14 @@ function getOverlayStyles(overlay: OverlayConfig): React.CSSProperties {
     }
     const presetConfig = DUOTONE_PRESETS[preset ?? 'standard'] ?? DUOTONE_PRESETS.standard;
     const angle = overlay.customGradient?.angle ?? 135;
-    return {
+    const styles: Record<string, string> = {
       '--st-media-overlay-gradient': `linear-gradient(${angle}deg, ${presetConfig.start}, ${presetConfig.end})`,
-    } as React.CSSProperties;
+    };
+    // "featured" (Studio label: Standard) preserves image color depth
+    if (preset === 'featured') {
+      styles['--st-media-duotone-grayscale'] = '0%';
+    }
+    return styles as React.CSSProperties;
   }
 
   if (parsedType === 'dark-scrim') {
