@@ -353,9 +353,9 @@
   --st-button-secondary-bg:           var(--st-color-lime);
   --st-button-secondary-text:         var(--st-color-midnight);
   --st-button-secondary-hover-shadow: var(--st-shadow-lime-glow);
-  --st-button-tertiary-border:        var(--st-color-brand-primary);
-  --st-button-tertiary-text:          var(--st-color-brand-primary);
-  --st-button-tertiary-hover-bg:      var(--st-color-accent-soft);
+  --st-button-tertiary-border:        var(--st-color-lime);
+  --st-button-tertiary-text:          var(--st-color-lime);
+  --st-button-tertiary-hover-bg:      rgba(209, 255, 29, 0.10);
 
   /* ── Table ───────────────────────────────────────────── */
   --st-table-header-bg:   var(--st-color-accent);

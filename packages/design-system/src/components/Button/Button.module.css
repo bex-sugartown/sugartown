@@ -72,18 +72,18 @@
 
 .tertiary {
   background-color: transparent;
-  color: var(--st-color-brand-primary);
-  border-color: var(--st-color-brand-primary);
+  color: var(--st-button-tertiary-text);
+  border-color: var(--st-button-tertiary-border);
 }
 
 .tertiary:hover:not(:disabled) {
-  background-color: var(--st-color-accent-soft);
+  background-color: var(--st-button-tertiary-hover-bg);
   transform: translateY(-2px);
-  box-shadow: var(--st-shadow-pink-glow);
+  box-shadow: var(--st-shadow-lime-glow);
 }
 
 .tertiary:focus-visible {
-  outline: 2px solid var(--st-color-brand-primary);
+  outline: 2px solid var(--st-button-tertiary-border);
   outline-offset: 2px;
 }
 
@@ -153,20 +153,20 @@
     var(--st-shadow-elevation-float);
 }
 
-/* ── Tertiary: pink hairline, transparent fill ────── */
+/* ── Tertiary: lime hairline, transparent fill ────── */
 
 :global([data-theme="dark-pink-moon"]) .tertiary,
 :global([data-theme="light-pink-moon"]) .tertiary {
   background-color: transparent;
-  border-color: rgba(255, 36, 125, 0.38);
-  color: var(--st-color-brand-primary);
+  border-color: rgba(209, 255, 29, 0.38);
+  color: var(--st-button-tertiary-text);
 }
 
 :global([data-theme="dark-pink-moon"]) .tertiary:hover:not(:disabled),
 :global([data-theme="light-pink-moon"]) .tertiary:hover:not(:disabled) {
-  background-color: var(--st-color-accent-soft);
-  border-color: rgba(255, 36, 125, 0.65);
+  background-color: var(--st-button-tertiary-hover-bg);
+  border-color: rgba(209, 255, 29, 0.65);
   box-shadow:
     var(--st-shadow-elevation-float),
-    0 0 14px var(--st-effect-accent-glow);
+    0 0 14px rgba(209, 255, 29, 0.3);
 }
