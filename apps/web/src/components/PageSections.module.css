@@ -14,6 +14,13 @@
 /* White text + dark overlay — only when a background image is present */
 .heroWithImage {
   color: #fff;
+  overflow: hidden;
+  background-size: 100%;
+  transition: background-size 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.heroWithImage:hover {
+  background-size: 105%;
 }
 
 .heroWithImage::before {
@@ -51,11 +58,16 @@
   inset: 0;
   background: inherit;
   background-image: var(--st-hero-bg-image);
-  background-size: cover;
+  background-size: 100%;
   background-repeat: no-repeat;
   background-position: inherit;
   filter: url(#st-duotone-extreme) contrast(1.1);
   z-index: 0;
+  transition: background-size 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.heroTreatmentExtreme.heroWithImage:hover::after {
+  background-size: 105%;
 }
 
 .heroTreatmentScrim.heroWithImage::before {
