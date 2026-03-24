@@ -40,11 +40,15 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
     return () => document.removeEventListener('keydown', handleKey)
   }, [onClose, goNext, goPrev, hasMultiple])
 
-  // Lock body scroll
+  // Lock body scroll and restore position on close
   useEffect(() => {
+    const scrollY = window.scrollY
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    return () => { document.body.style.overflow = prev }
+    return () => {
+      document.body.style.overflow = prev
+      window.scrollTo(0, scrollY)
+    }
   }, [])
 
   // Focus the close button on mount
@@ -97,9 +101,12 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
           alt={image.alt || ''}
           className={styles.image}
         />
-        {(image.alt || image.caption) && (
+        {(image.caption || image.credit || image.alt) && (
           <p className={styles.caption}>
             {image.caption || image.alt}
+            {image.credit && (
+              <span className={styles.credit}> — {image.credit}</span>
+            )}
           </p>
         )}
         {hasMultiple && (
