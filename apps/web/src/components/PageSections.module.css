@@ -294,11 +294,16 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
-/* ── Masonry — CSS columns, NOT grid ─────────────────────────────── */
+/* ── Masonry — CSS columns, Pinterest-style ──────────────────────── */
 .gallery-masonry {
   display: block;
   columns: 3;
   column-gap: var(--st-spacing-stack-md);
+}
+
+.gallery-masonry .galleryItem {
+  display: inline-block;
+  width: 100%;
 }
 
 /* ── Carousel — scroll-snap container + track ────────────────────── */
