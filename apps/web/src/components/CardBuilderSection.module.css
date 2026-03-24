@@ -78,19 +78,15 @@
  * are set by getOverlayStyles() on the wrapper div.
  */
 
+/*
+ * Overlay classes are now applied directly to the thumbnail container
+ * (.thumbnailHero or .thumbnailRail) via Card's thumbnailClassName prop.
+ */
+
 /* Shared: thumbnail container needs position for overlay pseudo-element */
-.cardOverlay > :first-child > :first-child {
+.cardOverlay {
   position: relative;
   overflow: hidden;
-}
-
-/* Hover zoom on all overlaid card images */
-.cardOverlay img {
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.cardOverlay:hover img {
-  transform: scale(1.05);
 }
 
 /* Duotone: grayscale + gradient overlay */
@@ -98,7 +94,7 @@
   filter: grayscale(var(--st-media-duotone-grayscale, 100%)) contrast(1.1);
 }
 
-.cardDuotone > :first-child > :first-child::after {
+.cardDuotone::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -115,7 +111,7 @@
 }
 
 /* Dark scrim */
-.cardDarkScrim > :first-child > :first-child::after {
+.cardDarkScrim::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -126,7 +122,7 @@
 }
 
 /* Colour overlay */
-.cardColorOverlay > :first-child > :first-child::after {
+.cardColorOverlay::after {
   content: '';
   position: absolute;
   inset: 0;

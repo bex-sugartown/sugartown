@@ -52,6 +52,12 @@
   background-image: none !important; /* image moves to ::after */
 }
 
+/* Extreme uses SVG colour remap — no gradient overlay needed */
+.heroTreatmentExtreme.heroWithImage::before {
+  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
+  mix-blend-mode: normal;
+}
+
 .heroTreatmentExtreme.heroWithImage::after {
   content: '';
   position: absolute;
@@ -406,15 +412,15 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: 1px solid var(--st-color-text-muted, rgba(255, 255, 255, 0.3));
-  background: transparent;
+  border: 1px solid var(--st-color-border-medium, rgba(255, 255, 255, 0.3));
+  background: var(--st-color-bg-subtle, rgba(255, 255, 255, 0.15));
   cursor: pointer;
   padding: 0;
   transition: background 0.2s, transform 0.2s;
 }
 
 .carouselDot:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--st-color-text-muted, rgba(255, 255, 255, 0.5));
 }
 
 .carouselDotActive {

@@ -90,6 +90,8 @@ export default function Card({
   // Media
   thumbnailUrl,
   thumbnailAlt = '',
+  thumbnailStyle,
+  thumbnailClassName,
   // Colorway
   accentColor,
   // Linking
@@ -295,7 +297,10 @@ export default function Card({
     <article className={rootClasses} style={accentStyle}>
       {/* Hero thumbnail — default variant, full-width above header */}
       {variant === 'default' && thumbnailUrl && (
-        <div className={styles.thumbnailHero}>
+        <div
+          className={[styles.thumbnailHero, thumbnailClassName].filter(Boolean).join(' ')}
+          style={thumbnailStyle}
+        >
           <img
             src={thumbnailUrl}
             alt={thumbnailAlt}
@@ -309,7 +314,10 @@ export default function Card({
       {/* Listing variant: row layout when thumbnail present */}
       {isListingWithThumb ? (
         <div className={styles.listingRow}>
-          <div className={styles.thumbnailRail}>
+          <div
+            className={[styles.thumbnailRail, thumbnailClassName].filter(Boolean).join(' ')}
+            style={thumbnailStyle}
+          >
             <img
               src={thumbnailUrl}
               alt={thumbnailAlt}

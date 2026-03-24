@@ -121,7 +121,7 @@ function getGridCols(count) {
  * Wraps the Card in a div with a data-image-effect attribute so
  * CSS can target the thumbnail <img> for greyscale/overlay effects.
  */
-function BuilderCard({ card }) {
+function BuilderCard({ card, variant }) {
   const href = resolveLinkHref(card.titleLink)
   const tags = mapTags(card.tags)
   const thumbnailUrl = card.image?.asset
@@ -136,8 +136,8 @@ function BuilderCard({ card }) {
   const hasOverlay = overlayType && overlayType !== 'none'
   const isExtreme = overlayType === 'duotone' && overlayPreset === 'extreme'
 
-  const wrapperClass = [
-    styles.cardWrap,
+  // Overlay classes + styles target the thumbnail, not the whole card
+  const thumbOverlayClass = [
     hasOverlay && styles.cardOverlay,
     overlayType === 'duotone' && styles.cardDuotone,
     isExtreme && styles.cardDuotoneExtreme,
@@ -145,9 +145,17 @@ function BuilderCard({ card }) {
     overlayType === 'color' && styles.cardColorOverlay,
   ]
     .filter(Boolean)
-    .join(' ')
+    .join(' ') || undefined
 
-  const overlayStyles = hasOverlay ? getOverlayStyles(card.overlay) : {}
+  const thumbOverlayStyles = hasOverlay ? getOverlayStyles(card.overlay) : undefined
+
+  // Hotspot → object-position on the thumbnail image
+  const hotspot = card.image?.hotspot
+  const thumbStyle = {
+    ...thumbOverlayStyles,
+    ...(hotspot ? { '--st-card-thumb-position': `${Math.round(hotspot.x * 100)}% ${Math.round(hotspot.y * 100)}%` } : {}),
+  }
+
   if (isExtreme) ensureSvgFilter()
 
   // Build footer content: citations + tags rendered beneath the dashed line
@@ -200,25 +208,26 @@ function BuilderCard({ card }) {
   ) : undefined
 
   return (
-    <div className={wrapperClass} style={overlayStyles}>
-      <Card
-        title={card.title}
-        eyebrow={card.eyebrow || undefined}
-        categoryPosition={card.categoryPosition || undefined}
-        excerpt={card.subtitle || undefined}
-        href={href}
-        thumbnailUrl={thumbnailUrl}
-        thumbnailAlt={card.image?.alt || ''}
-        footerChildren={footerContent}
-      >
-        {/* Body portable text */}
-        {card.body && (
-          <div className={styles.body}>
-            <PortableText value={card.body} components={cardBodyComponents} />
-          </div>
-        )}
-      </Card>
-    </div>
+    <Card
+      variant={variant}
+      title={card.title}
+      eyebrow={card.eyebrow || undefined}
+      categoryPosition={card.categoryPosition || undefined}
+      excerpt={card.subtitle || undefined}
+      href={href}
+      thumbnailUrl={thumbnailUrl}
+      thumbnailAlt={card.image?.alt || ''}
+      thumbnailClassName={thumbOverlayClass}
+      thumbnailStyle={Object.keys(thumbStyle).length ? thumbStyle : undefined}
+      footerChildren={footerContent}
+    >
+      {/* Body portable text */}
+      {card.body && (
+        <div className={styles.body}>
+          <PortableText value={card.body} components={cardBodyComponents} />
+        </div>
+      )}
+    </Card>
   )
 }
 
@@ -240,7 +249,7 @@ export default function CardBuilderSection({ section }) {
       {heading && <h2 className={styles.heading}>{heading}</h2>}
       <div className={layoutClass} style={gridStyle}>
         {cards.map((card, index) => (
-          <BuilderCard key={card._key || index} card={card} />
+          <BuilderCard key={card._key || index} card={card} variant={isGrid ? 'default' : 'listing'} />
         ))}
       </div>
     </section>

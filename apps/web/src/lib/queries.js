@@ -587,7 +587,7 @@ export const pageBySlugQuery = `
           style
         },
         "ctas": ctas[]{
-          "label": coalesce(link.label, text),
+          "label": coalesce(link.label, link.internalRef->title, text),
           "url": ${LINKITEM_URL_EXPR},
           "openInNewTab": link.openInNewTab,
           style
