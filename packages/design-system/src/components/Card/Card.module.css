@@ -392,8 +392,9 @@
 }
 
 .thumbnailRail {
-  flex: 0 0 var(--st-card-thumb-rail-width);
+  flex: 0 0 25%;
   overflow: hidden;
+  align-self: stretch;
 }
 
 .listingContent {
