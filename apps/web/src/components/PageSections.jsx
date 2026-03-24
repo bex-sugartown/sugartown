@@ -225,7 +225,7 @@ function resolveImageLink(image) {
  * GalleryImage — renders a single image in the gallery.
  * Wraps in <Link> (SPA), <a> (external), or attaches lightbox onClick.
  */
-function GalleryImage({ image, index, onLightbox }) {
+function GalleryImage({ image, index, onLightbox, treatment }) {
   if (!image.asset) return null
 
   const imgSrc = urlFor(image.asset).width(800).auto('format').url()
@@ -235,7 +235,7 @@ function GalleryImage({ image, index, onLightbox }) {
     <Media
       src={imgSrc}
       alt={image.alt || ''}
-      overlay={image.overlay}
+      overlay={treatment || image.overlay}
       className={styles.galleryImage}
     />
   )
@@ -243,7 +243,9 @@ function GalleryImage({ image, index, onLightbox }) {
   const captionOverlay = (image.caption || image.credit) ? (
     <div className={styles.galleryCaptionOverlay}>
       <span className={styles.galleryCaptionText}>
-        {image.caption}{image.caption && image.credit ? ' — ' : ''}{image.credit}
+        {image.caption}
+        {image.caption && image.credit && ' — '}
+        {image.credit && <span className={styles.galleryCreditText}>{image.credit}</span>}
       </span>
     </div>
   ) : null
@@ -303,7 +305,7 @@ function CarouselDots({ count, activeIndex, onDotClick }) {
 
 // Image Gallery Section Component
 function ImageGallerySection({ section }) {
-  const { layout, images } = section
+  const { layout, images, treatment } = section
   const [lightboxIndex, setLightboxIndex] = useState(null)
   const [activeSlide, setActiveSlide] = useState(0)
   const scrollRef = useRef(null)
@@ -372,6 +374,7 @@ function ImageGallerySection({ section }) {
                   image={image}
                   index={lightboxImages.indexOf(image)}
                   onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
+                  treatment={treatment}
                 />
               </div>
             ))}
@@ -383,6 +386,7 @@ function ImageGallerySection({ section }) {
               image={image}
               index={lightboxImages.indexOf(image)}
               onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
+              treatment={treatment}
             />
           ))
         )}

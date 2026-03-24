@@ -36,13 +36,18 @@ export default defineType({
       options: {
         list: [
           {title: 'Grid (Equal Height)', value: 'grid'},
-          {title: 'Carousel (Slideshow)', value: 'carousel'},
-          {title: 'Masonry (Pinterest Style)', value: 'masonry'}
+          {title: 'Carousel (Slideshow)', value: 'carousel'}
         ],
         layout: 'radio'
       },
       initialValue: 'grid',
       validation: (Rule) => Rule.required().error('Layout selection is required')
+    }),
+    defineField({
+      name: 'treatment',
+      title: 'Image Treatment',
+      type: 'mediaOverlay',
+      description: 'Overlay effect applied to all images in this gallery (duotone, dark scrim, or colour overlay)',
     })
   ],
   preview: {
@@ -55,7 +60,6 @@ export default defineType({
       const layoutLabels = {
         grid: 'Grid',
         carousel: 'Carousel',
-        masonry: 'Masonry'
       }
 
       return {

@@ -313,6 +313,7 @@ export const nodeBySlugQuery = `
       },
       _type == "imageGallery" => {
         layout,
+        treatment,
         images[] {
           "asset": asset.asset->,
           "hotspot": asset.hotspot,
@@ -467,6 +468,7 @@ export const articleBySlugQuery = `
       },
       _type == "imageGallery" => {
         layout,
+        treatment,
         images[] {
           "asset": asset.asset->,
           "hotspot": asset.hotspot,
@@ -597,6 +599,7 @@ export const pageBySlugQuery = `
       },
       _type == "imageGallery" => {
         layout,
+        treatment,
         images[] {
           "asset": asset.asset->,
           "hotspot": asset.hotspot,
@@ -715,6 +718,7 @@ export const caseStudyBySlugQuery = `
       },
       _type == "imageGallery" => {
         layout,
+        treatment,
         images[] {
           "asset": asset.asset->,
           "hotspot": asset.hotspot,
