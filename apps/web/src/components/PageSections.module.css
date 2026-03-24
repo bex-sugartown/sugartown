@@ -291,7 +291,7 @@
 }
 
 .gallery-grid {
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
 }
 
 /* ── Masonry — CSS columns, NOT grid ─────────────────────────────── */
@@ -777,6 +777,10 @@
     font-size: var(--st-font-heading-4);
   }
 
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .gallery-masonry {
     columns: 2;
   }
@@ -794,6 +798,10 @@
 }
 
 @media (max-width: 480px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
   .gallery-masonry {
     columns: 1;
   }
