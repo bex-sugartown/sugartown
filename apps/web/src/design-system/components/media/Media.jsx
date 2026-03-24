@@ -100,7 +100,7 @@ function getOverlayStyles(overlay) {
 /**
  * Exported for reuse in HeroSection overlay rendering.
  */
-export { getOverlayStyles, parseOverlay }
+export { getOverlayStyles, parseOverlay, ensureSvgFilter }
 
 /**
  * SVG duotone filter — true colour remap via feComponentTransfer.

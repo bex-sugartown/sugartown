@@ -4,7 +4,7 @@
  * Renders an editor-assembled card grid (or list) from `cardBuilderSection` data.
  * Each card maps cardBuilderItem fields to the web Card adapter props.
  *
- * Image effects: original | greyscale | greyscale-overlay (pink brand tint)
+ * Image overlays: mediaOverlay treatments (duotone, dark scrim, colour overlay)
  * Title links: internal (via getCanonicalPath) or external URL
  * Citation: rendered as footnote in card footer (CitationNote from DS)
  * Tags: chip links navigating to /tags/:slug
@@ -17,6 +17,7 @@ import { urlFor } from '../lib/sanity'
 import { getCanonicalPath } from '../lib/routes'
 import { Card, Chip, CitationMarker, CitationNote, CitationZone } from '../design-system'
 import { LinkAnnotation } from './portableTextComponents'
+import { getOverlayStyles, parseOverlay, ensureSvgFilter } from '../design-system/components/media/Media'
 import styles from './CardBuilderSection.module.css'
 
 /**
@@ -131,14 +132,23 @@ function BuilderCard({ card }) {
   const citationIndexMap = buildCitationIndexMap(card.body)
   const cardBodyComponents = makeBodyComponents(citationIndexMap)
 
-  const imageEffect = card.imageEffect || 'original'
+  const { parsedType: overlayType, preset: overlayPreset } = parseOverlay(card.overlay)
+  const hasOverlay = overlayType && overlayType !== 'none'
+  const isExtreme = overlayType === 'duotone' && overlayPreset === 'extreme'
+
   const wrapperClass = [
     styles.cardWrap,
-    imageEffect === 'greyscale' && styles.effectGreyscale,
-    imageEffect === 'greyscale-overlay' && styles.effectGreyscaleOverlay,
+    hasOverlay && styles.cardOverlay,
+    overlayType === 'duotone' && styles.cardDuotone,
+    isExtreme && styles.cardDuotoneExtreme,
+    overlayType === 'dark-scrim' && styles.cardDarkScrim,
+    overlayType === 'color' && styles.cardColorOverlay,
   ]
     .filter(Boolean)
     .join(' ')
+
+  const overlayStyles = hasOverlay ? getOverlayStyles(card.overlay) : {}
+  if (isExtreme) ensureSvgFilter()
 
   // Build footer content: citations + tags rendered beneath the dashed line
   const hasFooterContent = card.citations?.length > 0 || tags?.length > 0
@@ -190,7 +200,7 @@ function BuilderCard({ card }) {
   ) : undefined
 
   return (
-    <div className={wrapperClass}>
+    <div className={wrapperClass} style={overlayStyles}>
       <Card
         title={card.title}
         eyebrow={card.eyebrow || undefined}

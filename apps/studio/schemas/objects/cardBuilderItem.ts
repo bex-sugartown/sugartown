@@ -55,19 +55,10 @@ export default defineType({
       ]
     }),
     defineField({
-      name: 'imageEffect',
-      title: 'Image Effect',
-      type: 'string',
+      name: 'overlay',
+      title: 'Overlay Type',
+      type: 'mediaOverlay',
       description: 'Visual treatment applied to the card image',
-      options: {
-        list: [
-          {title: 'Original (no filter)', value: 'original'},
-          {title: 'Greyscale', value: 'greyscale'},
-          {title: 'Greyscale + Brand Overlay', value: 'greyscale-overlay'}
-        ],
-        layout: 'radio'
-      },
-      initialValue: 'greyscale-overlay'
     }),
 
     // ── Text ─────────────────────────────────────────────────────────

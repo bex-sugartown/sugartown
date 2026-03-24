@@ -352,7 +352,7 @@ export const nodeBySlugQuery = `
             externalUrl
           },
           image { asset->, alt, crop, hotspot },
-          imageEffect,
+          overlay,
           eyebrow,
           categoryPosition,
           subtitle,
@@ -507,7 +507,7 @@ export const articleBySlugQuery = `
             externalUrl
           },
           image { asset->, alt, crop, hotspot },
-          imageEffect,
+          overlay,
           eyebrow,
           categoryPosition,
           subtitle,
@@ -638,7 +638,7 @@ export const pageBySlugQuery = `
             externalUrl
           },
           image { asset->, alt, crop, hotspot },
-          imageEffect,
+          overlay,
           eyebrow,
           categoryPosition,
           subtitle,
@@ -766,7 +766,7 @@ export const caseStudyBySlugQuery = `
             externalUrl
           },
           image { asset->, alt, crop, hotspot },
-          imageEffect,
+          overlay,
           eyebrow,
           categoryPosition,
           subtitle,
