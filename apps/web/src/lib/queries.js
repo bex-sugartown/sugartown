@@ -305,7 +305,7 @@ export const nodeBySlugQuery = `
           "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
           style
         },
-        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
+        "ctas": ctas[]{ "label": coalesce(link.label, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
       },
       _type == "textSection" => {
         heading,
@@ -459,7 +459,7 @@ export const articleBySlugQuery = `
           "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
           style
         },
-        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
+        "ctas": ctas[]{ "label": coalesce(link.label, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
       },
       _type == "textSection" => {
         heading,
@@ -578,15 +578,14 @@ export const pageBySlugQuery = `
           crop,
           hotspot
         },
-        // Support both embedded cta object and ctas array of references
+        // Support both embedded cta object and ctas array of inline buttons
         cta {
           text,
           "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
           style
         },
-        "ctas": ctas[]->{
-          _id,
-          "label": coalesce(link.label, internalTitle),
+        "ctas": ctas[]{
+          "label": coalesce(link.label, text),
           "url": ${LINKITEM_URL_EXPR},
           "openInNewTab": link.openInNewTab,
           style
@@ -740,7 +739,7 @@ export const caseStudyBySlugQuery = `
         imageTreatment,
         imageWidth,
         backgroundImage { asset->, alt, crop, hotspot },
-        "ctas": ctas[]->{ _id, "label": coalesce(link.label, internalTitle), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
+        "ctas": ctas[]{ "label": coalesce(link.label, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
       },
       _type == "ctaSection" => {
         heading,

@@ -83,8 +83,7 @@ export default defineType({
       description: 'Add 0-3 CTA buttons. First = primary, second = secondary, third = tertiary.',
       of: [
         defineArrayMember({
-          type: 'reference',
-          to: [{type: 'ctaButtonDoc'}]
+          type: 'ctaButton',
         })
       ],
       validation: (Rule) =>
