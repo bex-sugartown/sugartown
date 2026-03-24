@@ -242,8 +242,9 @@ function GalleryImage({ image, index, onLightbox }) {
 
   const captionOverlay = (image.caption || image.credit) ? (
     <div className={styles.galleryCaptionOverlay}>
-      {image.caption && <span className={styles.galleryCaptionText}>{image.caption}</span>}
-      {image.credit && <span className={styles.galleryCreditText}>{image.credit}</span>}
+      <span className={styles.galleryCaptionText}>
+        {image.caption}{image.caption && image.credit ? ' — ' : ''}{image.credit}
+      </span>
     </div>
   ) : null
 
