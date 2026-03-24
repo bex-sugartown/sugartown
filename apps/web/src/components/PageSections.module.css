@@ -40,6 +40,24 @@
   /* Duotone applies grayscale + contrast to the background image */
 }
 
+/* ── Extreme duotone — SVG filter on a pseudo-element background ── */
+.heroTreatmentExtreme.heroWithImage {
+  background-image: none !important; /* image moves to ::after */
+}
+
+.heroTreatmentExtreme.heroWithImage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  background-image: var(--st-hero-bg-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: inherit;
+  filter: url(#st-duotone-extreme) contrast(1.1);
+  z-index: 0;
+}
+
 .heroTreatmentScrim.heroWithImage::before {
   /* Dark scrim uses the gradient from --st-media-overlay-gradient set via inline styles */
   mix-blend-mode: normal;

@@ -112,18 +112,45 @@ function HeroSection({ section }) {
   if (hasImage) {
     const x = backgroundImage.hotspot?.x ?? 0.5
     const y = backgroundImage.hotspot?.y ?? 0.5
+    const bgUrl = `url(${urlFor(backgroundImage.asset).width(1920).quality(90).url()})`
 
-    backgroundStyles.backgroundImage = `url(${urlFor(backgroundImage.asset).width(1920).quality(90).url()})`
+    backgroundStyles.backgroundImage = bgUrl
     backgroundStyles.backgroundPosition = `${Math.round(x * 100)}% ${Math.round(y * 100)}%`
+    // CSS variable for ::after pseudo-element (used by extreme duotone)
+    backgroundStyles['--st-hero-bg-image'] = bgUrl
   }
 
   // Apply image treatment overlay styles (duotone, scrim, color)
-  const { parsedType: treatmentType } = parseOverlay(imageTreatment)
+  const { parsedType: treatmentType, preset: treatmentPreset } = parseOverlay(imageTreatment)
   const hasTreatment = treatmentType && treatmentType !== 'none'
+  const isExtremeHero = treatmentType === 'duotone' && treatmentPreset === 'extreme'
 
   if (hasTreatment && hasImage) {
     const overlayStyles = getOverlayStyles(imageTreatment)
     Object.assign(backgroundStyles, overlayStyles)
+  }
+
+  // For extreme duotone, inject the SVG filter element
+  if (isExtremeHero && typeof window !== 'undefined') {
+    // Lazy-inject the SVG filter (same as Media component)
+    if (!document.getElementById('st-duotone-extreme')) {
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+      svg.setAttribute('width', '0')
+      svg.setAttribute('height', '0')
+      svg.setAttribute('aria-hidden', 'true')
+      svg.style.position = 'absolute'
+      svg.innerHTML = `
+        <filter id="st-duotone-extreme" color-interpolation-filters="sRGB">
+          <feColorMatrix type="saturate" values="0" />
+          <feComponentTransfer>
+            <feFuncR type="table" tableValues="1.0 0.17" />
+            <feFuncG type="table" tableValues="0.14 0.83" />
+            <feFuncB type="table" tableValues="0.49 0.67" />
+          </feComponentTransfer>
+        </filter>
+      `
+      document.body.appendChild(svg)
+    }
   }
 
   const primary = ctas?.[0]
@@ -142,6 +169,7 @@ function HeroSection({ section }) {
     hasImage ? styles.heroWithImage : '',
     hasTreatment ? styles.heroWithTreatment : '',
     treatmentType === 'duotone' ? styles.heroTreatmentDuotone : '',
+    isExtremeHero ? styles.heroTreatmentExtreme : '',
     treatmentType === 'dark-scrim' ? styles.heroTreatmentScrim : '',
     treatmentType === 'color' ? styles.heroTreatmentColor : '',
   ].filter(Boolean).join(' ')
