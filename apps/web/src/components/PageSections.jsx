@@ -359,24 +359,32 @@ function ImageGallerySection({ section }) {
           <button className={`${styles.carouselArrow} ${styles.carouselPrev}`} onClick={scrollPrev} aria-label="Previous slide">‹</button>
         )}
 
-        <div
-          className={isCarousel ? styles.carouselTrack : undefined}
-          ref={isCarousel ? scrollRef : undefined}
-        >
-          {images.map((image, index) => (
-            <div
+        {isCarousel ? (
+          <div className={styles.carouselTrack} ref={scrollRef}>
+            {images.map((image, index) => (
+              <div
+                key={index}
+                ref={(el) => (slideRefs.current[index] = el)}
+                className={styles.carouselSlide}
+              >
+                <GalleryImage
+                  image={image}
+                  index={lightboxImages.indexOf(image)}
+                  onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          images.map((image, index) => (
+            <GalleryImage
               key={index}
-              ref={isCarousel ? (el) => (slideRefs.current[index] = el) : undefined}
-              className={isCarousel ? styles.carouselSlide : undefined}
-            >
-              <GalleryImage
-                image={image}
-                index={lightboxImages.indexOf(image)}
-                onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
-              />
-            </div>
-          ))}
-        </div>
+              image={image}
+              index={lightboxImages.indexOf(image)}
+              onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
+            />
+          ))
+        )}
 
         {isCarousel && images.length > 1 && (
           <>
