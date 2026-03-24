@@ -23,7 +23,7 @@ export default defineType({
       options: {
         list: [
           {title: 'None', value: 'none'},
-          {title: 'Standard', value: 'duotone-featured'},
+          {title: 'Duotone', value: 'duotone-featured'},
           {title: 'Duotone (Subtle)', value: 'duotone-subtle'},
           {title: 'Duotone (Extreme)', value: 'duotone-extreme'},
           {title: 'Dark Scrim', value: 'dark-scrim'},
