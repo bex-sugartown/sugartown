@@ -102,6 +102,34 @@ function getOverlayStyles(overlay) {
  */
 export { getOverlayStyles, parseOverlay }
 
+/**
+ * SVG duotone filter — true colour remap via feComponentTransfer.
+ * Maps shadow→pink (#ff247d), highlight→seafoam (#2bd4aa) at the pixel level.
+ * Used for "extreme" preset to match WP duotone behaviour.
+ */
+let svgFilterInjected = false
+const SVG_FILTER_ID = 'st-duotone-extreme'
+function ensureSvgFilter() {
+  if (svgFilterInjected || typeof document === 'undefined') return
+  svgFilterInjected = true
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  svg.setAttribute('width', '0')
+  svg.setAttribute('height', '0')
+  svg.setAttribute('aria-hidden', 'true')
+  svg.style.position = 'absolute'
+  svg.innerHTML = `
+    <filter id="${SVG_FILTER_ID}" color-interpolation-filters="sRGB">
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues="1.0 0.17" />
+        <feFuncG type="table" tableValues="0.14 0.83" />
+        <feFuncB type="table" tableValues="0.49 0.67" />
+      </feComponentTransfer>
+    </filter>
+  `
+  document.body.appendChild(svg)
+}
+
 export default function Media({
   src,
   alt = '',
@@ -113,15 +141,20 @@ export default function Media({
 }) {
   if (!src) return null
 
-  const { parsedType } = parseOverlay(overlay)
+  const { parsedType, preset } = parseOverlay(overlay)
   const isDuotone = parsedType === 'duotone'
+  const isExtremeSvg = isDuotone && preset === 'extreme'
   const isColorOverlay = parsedType === 'color'
   const isDarkScrim = parsedType === 'dark-scrim'
   const shouldScale = hoverScale ?? isDuotone
 
+  // Inject the SVG filter element once if extreme duotone is used
+  if (isExtremeSvg) ensureSvgFilter()
+
   const figureClassNames = [
     styles.figure,
     isDuotone ? styles.duotone : '',
+    isExtremeSvg ? styles.duotoneExtreme : '',
     isDarkScrim ? styles.darkScrim : '',
     isColorOverlay ? styles.colorOverlay : '',
     shouldScale ? styles.hoverScale : '',

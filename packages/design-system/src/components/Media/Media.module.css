@@ -59,6 +59,11 @@
   z-index: 2;
 }
 
+/* ── Extreme duotone — SVG feComponentTransfer colour remap ──────────────── */
+.duotoneExtreme .image {
+  filter: url(#st-duotone-extreme) contrast(1.1);
+}
+
 /* ── Dark scrim modifier ─────────────────────────────────────────────────── */
 .darkScrim {
   overflow: hidden;
