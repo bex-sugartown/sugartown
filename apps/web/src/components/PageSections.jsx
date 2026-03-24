@@ -236,13 +236,15 @@ function GalleryImage({ image, index, onLightbox }) {
       src={imgSrc}
       alt={image.alt || ''}
       overlay={image.overlay}
-      caption={image.caption}
       className={styles.galleryImage}
     />
   )
 
-  const credit = image.credit ? (
-    <span className={styles.galleryCredit}>{image.credit}</span>
+  const captionOverlay = (image.caption || image.credit) ? (
+    <div className={styles.galleryCaptionOverlay}>
+      {image.caption && <span className={styles.galleryCaptionText}>{image.caption}</span>}
+      {image.credit && <span className={styles.galleryCreditText}>{image.credit}</span>}
+    </div>
   ) : null
 
   if (linkTarget) {
@@ -251,14 +253,14 @@ function GalleryImage({ image, index, onLightbox }) {
       return (
         <figure className={`${styles.galleryItem} ${styles.galleryLinked}`}>
           <a {...linkProps}>{mediaEl}</a>
-          {credit}
+          {captionOverlay}
         </figure>
       )
     }
     return (
       <figure className={`${styles.galleryItem} ${styles.galleryLinked}`}>
         <Link {...linkProps}>{mediaEl}</Link>
-        {credit}
+        {captionOverlay}
       </figure>
     )
   }
@@ -273,7 +275,7 @@ function GalleryImage({ image, index, onLightbox }) {
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onLightbox(index) } }}
     >
       {mediaEl}
-      {credit}
+      {captionOverlay}
     </figure>
   )
 }
