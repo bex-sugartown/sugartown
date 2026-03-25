@@ -28,9 +28,9 @@ export default defineType({
     // CONTENT GROUP
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Internal Title',
       type: 'string',
-      description: 'Clear, descriptive title for this node',
+      description: 'Internal reference title — used for SEO <title>, Studio previews, and slugs. The visible page title is the Hero Section heading.',
       group: 'content',
       validation: (Rule) =>
         Rule.required()
