@@ -2,7 +2,7 @@
 /**
  * backfill-hero-sections.js
  *
- * Ensures every detail-page document (article, caseStudy, node) has a
+ * Ensures every section-based document (article, caseStudy, node, page) has a
  * heroSection as sections[0]. Documents that already have one are skipped.
  *
  * For documents missing a hero, a minimal heroSection is prepended with:
@@ -19,7 +19,7 @@
 import { buildSanityClient } from './lib.js'
 import { randomUUID } from 'crypto'
 
-const DETAIL_TYPES = ['article', 'caseStudy', 'node']
+const DETAIL_TYPES = ['article', 'caseStudy', 'node', 'page']
 const HERO_TYPES = new Set(['heroSection', 'hero'])
 
 const mode = process.argv[2]
