@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-25 · v0.19.3 · Shipped SUG-31 Image Asset Pipeline
+> Updated 2026-03-25 · v0.19.4 · Shipped SUG-32 WordPress Media Import
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/prompts/SUG-{N}-*.md`.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.19.3 shipped (SUG-31 Image Asset Pipeline). **Next:** DNS cutover to Netlify, IA brief page epics.
+> **⚑ Current focus:** v0.19.4 shipped (SUG-32 WordPress Media Import). SUG-33 Detail Hero & Metadata also shipping. **Next:** DNS cutover to Netlify, SUG-34 Table Authoring UX.
 
 ---
 
@@ -54,6 +54,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-32 · WordPress Media Library Import & Asset Mapping** — Legacy WordPress media assets imported into Sanity with naming convention applied. Image-to-document mapping for case studies, articles, about page. Migration scripts and artifacts.~~ | v0.19.4 | 2026-03-25 |
 | ~~**SUG-31 · Image Asset Pipeline** — Naming convention established (`{docType}-{subject}-{descriptor}.{ext}`). 55 metadata renames, 19 format conversions (jpg→webp), 9 orphan deletions. All document references patched. Hero overlay GROQ projection fix + extreme duotone CSS parity fix.~~ | v0.19.3 | 2026-03-25 |
 | ~~**EPIC-0183 · Content Metadata Audit & Taxonomy Backfill** — 57 content docs audited, 18 backfilled to taxonomy minimums (≥1 category, ≥3 tags, ≥1 tool, ≥1 author). 9 unused taxonomy entries deleted. Validator checks H (taxonomy coverage), I (author attribution), J (SEO metadata) added to `validate-content.js` with `--strict` and `--report` flags.~~ | v0.18.7 | 2026-03-19 |
 | ~~**EPIC-0182 · Image Optimization & Responsive Breakpoints** — Breakpoint tokens (`--st-breakpoint-sm/md/lg`) with annotated `@media` queries across 13 CSS files. Sanity CDN `.auto('format')` for WebP/AVIF. `loading="lazy"` + `decoding="async"` on all `<img>` elements. Hero image `<link rel="preload">` on detail pages. `SanityImage` component with responsive `srcset` (400w/800w/1200w). Background PNGs converted to WebP (2.4 MB → 383 KB).~~ | v0.18.6 | 2026-03-17 |
@@ -96,4 +97,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-03-25 · v0.19.3*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-03-25 · v0.19.4*
