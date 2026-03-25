@@ -573,6 +573,8 @@ export const pageBySlugQuery = `
       _type in ["heroSection", "hero"] => {
         heading,
         subheading,
+        eyebrow,
+        imageTreatment,
         imageWidth,
         backgroundImage {
           asset->,
