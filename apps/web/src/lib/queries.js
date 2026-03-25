@@ -167,6 +167,26 @@ const PT_CONTENT_PROJECTION = `[] {
   }
 }`
 
+// ---- HERO FIELD PROJECTION (document-level hero object) ----
+// Projects the dedicated `hero` field (heroSection object) added to article,
+// caseStudy, node, and page schemas. Frontend checks doc.hero first, falls
+// back to sections[0] hero extraction for legacy content.
+
+const HERO_FIELD_PROJECTION = `hero {
+  heading,
+  subheading,
+  eyebrow,
+  imageTreatment,
+  imageWidth,
+  backgroundImage {
+    asset->,
+    alt,
+    crop,
+    hotspot
+  },
+  "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
+}`
+
 // ---- SITE SETTINGS (header, footer, nav, preheader, branding) ----
 export const siteSettingsQuery = `
   *[_type == "siteSettings"][0]{
@@ -282,6 +302,7 @@ export const nodeBySlugQuery = `
     _type,
     title,
     slug,
+    ${HERO_FIELD_PROJECTION},
     "content": content${PT_CONTENT_PROJECTION},
     "body": content${PT_CONTENT_PROJECTION},
     excerpt,
@@ -437,6 +458,7 @@ export const articleBySlugQuery = `
     _type,
     title,
     slug,
+    ${HERO_FIELD_PROJECTION},
     "content": content${PT_CONTENT_PROJECTION},
     "body": content${PT_CONTENT_PROJECTION},
     excerpt,
@@ -566,6 +588,7 @@ export const pageBySlugQuery = `
     title,
     slug,
     template,
+    ${HERO_FIELD_PROJECTION},
     sections[]{
       _type,
       _key,
@@ -705,6 +728,7 @@ export const caseStudyBySlugQuery = `
     _type,
     title,
     slug,
+    ${HERO_FIELD_PROJECTION},
     client,
     role,
     excerpt,

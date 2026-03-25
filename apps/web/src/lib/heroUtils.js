@@ -20,16 +20,33 @@ export function isHeroSection(section) {
 }
 
 /**
- * extractLeadHero(sections) → { leadHero, restSections, heroImageUrl }
+ * extractLeadHero(sections, docHero) → { leadHero, restSections, heroImageUrl }
  *
- * Extracts the leading hero section (if sections[0] is a hero type) and
- * returns the hero, remaining sections, and a pre-built OG image URL.
+ * Resolves the hero for a detail page from two possible sources:
+ * 1. `docHero` — the dedicated document-level `hero` field (Hero tab in Studio)
+ * 2. `sections[0]` — legacy: first section if it's a hero type
+ *
+ * When `docHero` is used, sections are returned unmodified (nothing stripped).
+ * When falling back to sections[0], the hero is removed from the rest.
  *
  * @param {Array} sections — the sections array from a Sanity document
+ * @param {object} [docHero] — the document-level hero field (optional)
  * @returns {{ leadHero: object|null, restSections: Array, heroImageUrl: string|undefined }}
  */
-export function extractLeadHero(sections) {
+export function extractLeadHero(sections, docHero) {
   const allSections = sections ?? []
+
+  // Prefer dedicated hero field (Hero tab) over sections[0] extraction
+  if (docHero?.heading) {
+    const heroImageUrl = docHero.backgroundImage?.asset
+      ? urlFor(docHero.backgroundImage.asset).width(1920).quality(90).url()
+      : undefined
+    // Ensure _type is set so PageSections/HeroSection recognises it
+    const leadHero = { _type: 'heroSection', ...docHero }
+    return { leadHero, restSections: allSections, heroImageUrl }
+  }
+
+  // Fallback: extract from sections[0]
   const leadHero = allSections[0] && isHeroSection(allSections[0]) ? allSections[0] : null
   const restSections = leadHero ? allSections.slice(1) : allSections
   const heroImageUrl = leadHero?.backgroundImage?.asset

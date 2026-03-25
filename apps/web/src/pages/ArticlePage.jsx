@@ -55,16 +55,21 @@ export default function ArticlePage() {
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !post) return <NotFoundPage />
 
-  // Extract leading hero section so it renders flush against the header
-  const { leadHero, restSections, heroImageUrl } = extractLeadHero(post.sections)
+  // Resolve hero: dedicated hero field first, sections[0] fallback
+  const { leadHero, restSections, heroImageUrl } = extractLeadHero(post.sections, post.hero)
 
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
       {leadHero && <PageSections sections={[leadHero]} />}
       <div className={styles.detailPage}>
-        <p className={styles.detailEyebrow}>Article</p>
-        <h1 className={styles.detailHeading}>{decodeHtml(post.title)}</h1>
+        {/* Hide eyebrow + title when hero is present — hero heading serves as the title */}
+        {!leadHero && (
+          <>
+            <p className={styles.detailEyebrow}>Article</p>
+            <h1 className={styles.detailHeading}>{decodeHtml(post.title)}</h1>
+          </>
+        )}
 
         <MetadataCard
           authors={post.authors}
