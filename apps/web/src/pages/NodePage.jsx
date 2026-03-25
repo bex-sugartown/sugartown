@@ -49,7 +49,6 @@ export default function NodePage() {
           contentTypeHref={getArchivePath('node')}
           publishedAt={node.publishedAt}
           status={node.status}
-          aiTool={node.aiTool}
           conversationType={node.conversationType}
           tools={node.tools}
           categories={node.categories}

@@ -4,12 +4,11 @@
  *
  * Layout inspired by library catalog cards — a single CSS grid (4 columns)
  * with scalar fields split into left + right columns, chip rows spanning
- * the full width, and published date right-aligned at the bottom.
+ * the full width, and published date in the right column at the bottom.
  *
- *   PROJ-001
+ *   PROJ-001                                    [DRAFT]
  *   AUTHOR        Bex              STATUS     Evergreen
  *   CONVERSATION  Reflection       TYPE       Node
- *                                  AI TOOL    Claude
  *   TOOLS         [Claude Code] [Sanity]
  *   CATEGORY      [AI Collaboration] [Ways of Working]
  *   TAGS          [prompt eng] [ai workflows] …
@@ -48,12 +47,7 @@ const STATUS_LABELS = {
   iterating:      'Iterating',
 }
 
-const AI_TOOL_LABELS = {
-  claude:   'Claude',
-  chatgpt:  'ChatGPT',
-  gemini:   'Gemini',
-  mixed:    'Agentic Caucus',
-}
+// AI_TOOL_LABELS removed — aiTool is duplicative with tools chips (SUG-33)
 
 const CONVERSATION_TYPE_LABELS = {
   problem:      'Problem Solving',
@@ -94,7 +88,6 @@ export default function MetadataCard({
   contentTypeHref,
   publishedAt,
   status,
-  aiTool,
   conversationType,
   client,
   role,
@@ -113,7 +106,6 @@ export default function MetadataCard({
   const statusKey       = status?.toLowerCase().replace(/[\s_]+/g, '-')
   const authorByline    = getAuthorByline(authors)
   const primaryAuthor   = getPrimaryAuthor(authors)
-  const aiToolDisplay   = aiTool           ? (AI_TOOL_LABELS[aiTool]                       ?? aiTool)           : null
   const convTypeDisplay = conversationType  ? (CONVERSATION_TYPE_LABELS[conversationType]   ?? conversationType) : null
   const priorityDisplay = priority != null  ? (PRIORITY_LABELS[priority]                    ?? `P${priority}`)   : null
 
@@ -159,7 +151,6 @@ export default function MetadataCard({
   const rightCol = [
     statusKey       && { label: 'Status',   value: STATUS_LABELS[statusKey] ?? status },
     typeValue       && { label: 'Type',     value: typeValue },
-    aiToolDisplay   && { label: 'AI Tool',  value: aiToolDisplay },
     priorityDisplay && { label: 'Priority', value: priorityDisplay },
   ].filter(Boolean)
 
