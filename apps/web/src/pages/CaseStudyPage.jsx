@@ -29,21 +29,14 @@ export default function CaseStudyPage() {
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !caseStudy) return <NotFoundPage />
 
-  // Resolve hero: dedicated hero field first, sections[0] fallback
-  const { leadHero, restSections, heroImageUrl } = extractLeadHero(caseStudy.sections, caseStudy.hero)
+  // Extract leading hero — hero heading is the page title
+  const { leadHero, restSections, heroImageUrl } = extractLeadHero(caseStudy.sections)
 
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
       {leadHero && <PageSections sections={[leadHero]} />}
       <div className={styles.detailPage}>
-        {/* Hide eyebrow + title when hero is present — hero heading serves as the title */}
-        {!leadHero && (
-          <>
-            <p className={styles.detailEyebrow}>Case Study</p>
-            <h1 className={styles.detailHeading}>{caseStudy.title}</h1>
-          </>
-        )}
 
         <MetadataCard
           authors={caseStudy.authors}

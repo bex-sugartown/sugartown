@@ -17,7 +17,6 @@ export default defineType({
   type: 'document',
   icon: DiamondIcon,
   groups: [
-    {name: 'hero', title: 'Hero'},
     {name: 'content', title: 'Content', default: true},
     {name: 'agenticCaucus', title: 'Agentic Caucus'},
     {name: 'metadata', title: 'Metadata'},
@@ -26,15 +25,6 @@ export default defineType({
     {name: 'legacy', title: 'Legacy'},
   ],
   fields: [
-    // HERO GROUP — dedicated hero config (optional, falls back to sections[0] on frontend)
-    defineField({
-      name: 'hero',
-      title: 'Hero',
-      type: 'heroSection',
-      description: 'Configure the hero banner for this page. If empty, the first hero section in the content sections array is used as a fallback.',
-      group: 'hero',
-    }),
-
     // CONTENT GROUP
     defineField({
       name: 'title',
