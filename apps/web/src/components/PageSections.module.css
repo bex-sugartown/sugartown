@@ -52,10 +52,11 @@
   background-image: none !important; /* image moves to ::after */
 }
 
-/* Extreme uses SVG colour remap — no gradient overlay needed */
+/* Extreme uses SVG colour remap on ::after + gradient overlay on ::before
+   to match the gallery Media component's dual-layer compositing */
 .heroTreatmentExtreme.heroWithImage::before {
-  background: linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
-  mix-blend-mode: normal;
+  background: var(--st-media-overlay-gradient, linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)));
+  mix-blend-mode: var(--st-media-overlay-blend-mode, hard-light);
 }
 
 .heroTreatmentExtreme.heroWithImage::after {
