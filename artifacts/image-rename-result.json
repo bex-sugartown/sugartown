@@ -1,0 +1,181 @@
+{
+  "executed": "2026-03-25T10:27:31.744Z",
+  "summary": {
+    "done": 19,
+    "failed": 0,
+    "total": 19
+  },
+  "results": [
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-4cab06596537405a2e1be2abdd3f4424525f6a83-466x331-jpg",
+      "newAssetId": "image-b421ea9b522b69b04315a3eac074cef97e53461e-466x331-jpg",
+      "oldFilename": "beckyalice.jpg",
+      "newFilename": "site-beckyalice-headshot.webp",
+      "patchedDocs": 2
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-3f3a352c79942f0447ade44d856fdc7f94fee55c-984x798-jpg",
+      "newAssetId": "image-a451c11990c4dba6e5efea93d1a18eddbcf2918f-984x798-jpg",
+      "oldFilename": "beebaby_of_berkeley.jpeg",
+      "newFilename": "site-beckyalice-beebaby.webp",
+      "patchedDocs": 0
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-7d6449059fcde2e48fee2f6f38fd089ff68cdb1b-1024x514-jpg",
+      "newAssetId": "image-e54263f6b49fdd2b62d78a3fbee39a24c78f2c5a-1024x514-jpg",
+      "oldFilename": "beehead01_banner.jpg",
+      "newFilename": "site-beckyalice-banner.webp",
+      "patchedDocs": 1
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-e50fbf05af934d3815752018655e8371b7533535-360x428-jpg",
+      "newAssetId": "image-fb47bebdf1d866f3ce3a19a1bef238f4c972f5c0-360x428-jpg",
+      "oldFilename": "beehead_1990.jpeg",
+      "newFilename": "site-beckyalice-1990.webp",
+      "patchedDocs": 0
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-fb1c8486c646ec9b8d992dcd14bbbeeb88102e14-1024x850-jpg",
+      "newAssetId": "image-527e7373087778c3fe09800b53438dd6409877af-1024x850-jpg",
+      "oldFilename": "beehead_feature.jpg",
+      "newFilename": "site-beckyalice-feature.webp",
+      "patchedDocs": 0
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-aa2edc7aee9f9fe0cc6b4cecd6cfafd97dc4a7b7-150x150-jpg",
+      "newAssetId": "image-93718476b67a2ae067d9d998d54549a64d6e6b97-150x150-jpg",
+      "oldFilename": "content-model-150x150.jpg",
+      "newFilename": "cs-bareminerals-content-model-thumb.webp",
+      "patchedDocs": 1
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-ef76629a9d8b821d0e053da0e026505cb3dbcab6-1584x1620-jpg",
+      "newAssetId": "image-f7c6bbc8c72b40c3a5584e6c030e5c42f3ea864b-1584x1620-jpg",
+      "oldFilename": "content-model.jpg",
+      "newFilename": "cs-bareminerals-content-model.webp",
+      "patchedDocs": 1
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-6ed42ed189688c4809a9e5f2012d33391b813b21-2431x1072-jpg",
+      "newAssetId": "image-6a313f3a6dd32351c5eec357d2fe33a953f2791a-2431x1072-jpg",
+      "oldFilename": "fx-networks-featured.jpg",
+      "newFilename": "cs-fx-networks-featured.webp",
+      "patchedDocs": 1
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-83c37b40a617854262ddd7c454605c027d38ba52-150x150-jpg",
+      "newAssetId": "image-3011ba81607d38864d0b286ce097ab5aabfe5e8a-150x150-jpg",
+      "oldFilename": "global-content-model-150x150.jpg",
+      "newFilename": "cs-bareminerals-global-content-model-thumb.webp",
+      "patchedDocs": 1
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-10451e4ee11f8bb38f77ea052a3240aea7c6c946-972x750-jpg",
+      "newAssetId": "image-b4017a1fe05b6e39341c1154b47745e63e529829-972x750-jpg",
+      "oldFilename": "luxury_dot_com-feature.jpg",
+      "newFilename": "article-luxury-dot-com-feature.webp",
+      "patchedDocs": 0
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-d9b404689e009c9c70aa2f594e2fdcac6d34059c-6000x4000-jpg",
+      "newAssetId": "image-571d156d28393fb9806756bb37d18a32cd07fdba-6000x4000-jpg",
+      "oldFilename": "retro-computer-desk-arrangement (3).jpg",
+      "newFilename": "site-retro-desk-2.webp",
+      "patchedDocs": 1
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-2169f1af72cafd5da7399633682d8a51b300e6c5-2560x1707-jpg",
+      "newAssetId": "image-da5fb7d0bad72d78d03ac606e47e2d4896bd84e6-2560x1707-jpg",
+      "oldFilename": "retro-computer-desk-arrangement-2-scaled.jpg",
+      "newFilename": "site-retro-desk-3-scaled.webp",
+      "patchedDocs": 0
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-0c9d9948a1f2b10a982e9d9a80138ba800b8e85e-6000x4000-jpg",
+      "newAssetId": "image-98246b3c6b5a759d9cef6b64d24c888901e5d075-6000x4000-jpg",
+      "oldFilename": "retro-computer-desk-arrangement-2.jpg",
+      "newFilename": "site-retro-desk-3.webp",
+      "patchedDocs": 2
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-539a42700ba08998f12bd4ed3a49c6503b23514e-6000x4000-jpg",
+      "newAssetId": "image-cf4f583d1eff5dcf2c90e3959cf28b1ac48ff940-6000x4000-jpg",
+      "oldFilename": "retro-computer-desk-arrangement-3.jpg",
+      "newFilename": "site-retro-desk-4.webp",
+      "patchedDocs": 2
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-e9a3f734afdd3ae8f7f6631a8b30aa548ec8e8d1-6000x4000-jpg",
+      "newAssetId": "image-fa6f97f14153a905916e572de10edb877eac7f45-6000x4000-jpg",
+      "oldFilename": "retro-computer-desk-arrangement-4.jpg",
+      "newFilename": "site-retro-desk-5.webp",
+      "patchedDocs": 4
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-51d35dd51b932f0d330a558c2aa3fafd3e97473a-6000x4000-jpg",
+      "newAssetId": "image-1639e4bee10a54fbef4c04289963bf38868160bc-6000x4000-jpg",
+      "oldFilename": "retro-computer-desk-arrangement-5.jpg",
+      "newFilename": "site-retro-desk-6.webp",
+      "patchedDocs": 0
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-6de9f87c0262e89887c7daa89976f8c2d5fa9402-6000x4000-jpg",
+      "newAssetId": "image-ae7a950a812e5f92ec7a3cb5f210de33e5eeaf08-6000x4000-jpg",
+      "oldFilename": "retro-computer-desk-arrangement-6.jpg",
+      "newFilename": "site-retro-desk-7.webp",
+      "patchedDocs": 2
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-4b305982dfa58915a8fe74a39ce26e8f0035b7ef-6000x4000-jpg",
+      "newAssetId": "image-5fae24a2651ef9a67b716bf14c6ede64b87d3432-6000x4000-jpg",
+      "oldFilename": "retro-computer-desk-arrangement-7.jpg",
+      "newFilename": "site-retro-desk-8.webp",
+      "patchedDocs": 1
+    },
+    {
+      "status": "ok",
+      "action": "convert-and-rename",
+      "oldAssetId": "image-d83fe4bd5a7b45dfbf9768d820ec59da476ec28a-6000x4500-jpg",
+      "newAssetId": "image-d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500-jpg",
+      "oldFilename": "retro-computer-desk-arrangement.jpg",
+      "newFilename": "site-retro-desk-1.webp",
+      "patchedDocs": 2
+    }
+  ]
+}

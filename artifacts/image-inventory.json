@@ -1,0 +1,1218 @@
+[
+  {
+    "_id": "image-7a1bf3dad420b14f7746c081c05c55e858fffcee-1536x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "article-doll-imac-1999.png",
+    "references": [
+      {
+        "_id": "drafts.228edf91-97ea-41be-b21a-481c87e853f7",
+        "_type": "article",
+        "slug": "test-preview-post",
+        "title": "Test Preview Post"
+      },
+      {
+        "_id": "wp.article.1804",
+        "_type": "article",
+        "slug": "the-great-icloud-divorce",
+        "title": "The Great iCloud Divorce: A Tale of Two AIs and One Very Angry Mac"
+      }
+    ],
+    "size": 2869082,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/7a1bf3dad420b14f7746c081c05c55e858fffcee-1536x1024.png"
+  },
+  {
+    "_id": "image-87fd542c85788d72bfac344342ca62f361d36693-1536x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "article-doll-travel-agency-1986.png",
+    "references": [
+      {
+        "_id": "drafts.228edf91-97ea-41be-b21a-481c87e853f7",
+        "_type": "article",
+        "slug": "test-preview-post",
+        "title": "Test Preview Post"
+      },
+      {
+        "_id": "wp.article.410",
+        "_type": "article",
+        "slug": "why-cms-and-design-systems-belong-together",
+        "title": "Oh, oh… Atomic: CMS and Design Systems 4evar"
+      }
+    ],
+    "size": 3101071,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/87fd542c85788d72bfac344342ca62f361d36693-1536x1024.png"
+  },
+  {
+    "_id": "image-5dd197724f810653a84305de2b8d9ce5ff0bab60-1536x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "article-dolly-mainframe-1978.png",
+    "references": [
+      {
+        "_id": "b44f2b69-6371-4e39-b0e1-aa6c84a53b84",
+        "_type": "page",
+        "slug": "about",
+        "title": "About"
+      },
+      {
+        "_id": "drafts.228edf91-97ea-41be-b21a-481c87e853f7",
+        "_type": "article",
+        "slug": "test-preview-post",
+        "title": "Test Preview Post"
+      },
+      {
+        "_id": "drafts.75515a2b-072d-465b-a7a2-4f10432eadd8",
+        "_type": "node",
+        "slug": "the-button-that-had-two-names",
+        "title": "The Button That Had Two Names (And Why Your Design System Is Lying to You)"
+      },
+      {
+        "_id": "drafts.wp.article.1788",
+        "_type": "article",
+        "slug": "claude-code-joins-the-agentic-caucus",
+        "title": "Claude Code Joins the Agentic Caucus"
+      },
+      {
+        "_id": "wp.article.1788",
+        "_type": "article",
+        "slug": "claude-code-joins-the-agentic-caucus",
+        "title": "Claude Code Joins the Agentic Caucus"
+      }
+    ],
+    "size": 3124061,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/5dd197724f810653a84305de2b8d9ce5ff0bab60-1536x1024.png"
+  },
+  {
+    "_id": "image-b4017a1fe05b6e39341c1154b47745e63e529829-972x750-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "article-luxury-dot-com-feature.webp",
+    "references": [],
+    "size": 68076,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/b4017a1fe05b6e39341c1154b47745e63e529829-972x750.jpg"
+  },
+  {
+    "_id": "image-b98d5ff642daaffbc11311e7296b059d1a532b1f-1024x683-png",
+    "mimeType": "image/png",
+    "originalFilename": "article-luxury-dot-com-illustration-sm.png",
+    "references": [
+      {
+        "_id": "wp.article.814",
+        "_type": "article",
+        "slug": "luxury-dot-com",
+        "title": "💎 LUXURY DOT COM 💎"
+      }
+    ],
+    "size": 450973,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/b98d5ff642daaffbc11311e7296b059d1a532b1f-1024x683.png"
+  },
+  {
+    "_id": "image-e866a7e1175c5d1ccdf81ebce595838ba8bd4dd5-1536x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "article-luxury-dot-com-illustration.png",
+    "references": [
+      {
+        "_id": "drafts.228edf91-97ea-41be-b21a-481c87e853f7",
+        "_type": "article",
+        "slug": "test-preview-post",
+        "title": "Test Preview Post"
+      },
+      {
+        "_id": "wp.article.814",
+        "_type": "article",
+        "slug": "luxury-dot-com",
+        "title": "💎 LUXURY DOT COM 💎"
+      }
+    ],
+    "size": 1188553,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/e866a7e1175c5d1ccdf81ebce595838ba8bd4dd5-1536x1024.png"
+  },
+  {
+    "_id": "image-fc8b98335e71933ab535f8bce8005931d9d878f6-1536x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "article-test-illustration.png",
+    "references": [
+      {
+        "_id": "drafts.228edf91-97ea-41be-b21a-481c87e853f7",
+        "_type": "article",
+        "slug": "test-preview-post",
+        "title": "Test Preview Post"
+      }
+    ],
+    "size": 2903239,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/fc8b98335e71933ab535f8bce8005931d9d878f6-1536x1024.png"
+  },
+  {
+    "_id": "image-4cab06596537405a2e1be2abdd3f4424525f6a83-466x331-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "beckyalice.jpg",
+    "references": [],
+    "size": 35621,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/4cab06596537405a2e1be2abdd3f4424525f6a83-466x331.jpg"
+  },
+  {
+    "_id": "image-3f3a352c79942f0447ade44d856fdc7f94fee55c-984x798-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "beebaby_of_berkeley.jpeg",
+    "references": [],
+    "size": 368690,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/3f3a352c79942f0447ade44d856fdc7f94fee55c-984x798.jpg"
+  },
+  {
+    "_id": "image-7d6449059fcde2e48fee2f6f38fd089ff68cdb1b-1024x514-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "beehead01_banner.jpg",
+    "references": [],
+    "size": 132425,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/7d6449059fcde2e48fee2f6f38fd089ff68cdb1b-1024x514.jpg"
+  },
+  {
+    "_id": "image-e50fbf05af934d3815752018655e8371b7533535-360x428-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "beehead_1990.jpeg",
+    "references": [],
+    "size": 52115,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/e50fbf05af934d3815752018655e8371b7533535-360x428.jpg"
+  },
+  {
+    "_id": "image-fb1c8486c646ec9b8d992dcd14bbbeeb88102e14-1024x850-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "beehead_feature.jpg",
+    "references": [],
+    "size": 291208,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/fb1c8486c646ec9b8d992dcd14bbbeeb88102e14-1024x850.jpg"
+  },
+  {
+    "_id": "image-aa2edc7aee9f9fe0cc6b4cecd6cfafd97dc4a7b7-150x150-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "content-model-150x150.jpg",
+    "references": [],
+    "size": 4670,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/aa2edc7aee9f9fe0cc6b4cecd6cfafd97dc4a7b7-150x150.jpg"
+  },
+  {
+    "_id": "image-ef76629a9d8b821d0e053da0e026505cb3dbcab6-1584x1620-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "content-model.jpg",
+    "references": [],
+    "size": 321342,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/ef76629a9d8b821d0e053da0e026505cb3dbcab6-1584x1620.jpg"
+  },
+  {
+    "_id": "image-8347c73bf9e8bea230d4ad90a2b0f4281fb11b37-1080x1080-webp",
+    "mimeType": "image/webp",
+    "originalFilename": "cs-backroads-photo.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.274",
+        "_type": "caseStudy",
+        "slug": "charting-a-new-course-for-backroads-com",
+        "title": "Charting a New Course for Backroads.com"
+      }
+    ],
+    "size": 43322,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/8347c73bf9e8bea230d4ad90a2b0f4281fb11b37-1080x1080.webp"
+  },
+  {
+    "_id": "image-be4d47e6c8d4b6b1addaf82f3e2d09f2fcc6039b-150x150-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-content-model-template-thumb.png",
+    "references": [
+      {
+        "_id": "wp.caseStudy.166",
+        "_type": "caseStudy",
+        "slug": "beauty-retail-from-monolith-to-microservice",
+        "title": "Beauty Retail: From Monolith to Microservice"
+      }
+    ],
+    "size": 10396,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/be4d47e6c8d4b6b1addaf82f3e2d09f2fcc6039b-150x150.png"
+  },
+  {
+    "_id": "image-93718476b67a2ae067d9d998d54549a64d6e6b97-150x150-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "cs-bareminerals-content-model-thumb.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.166",
+        "_type": "caseStudy",
+        "slug": "beauty-retail-from-monolith-to-microservice",
+        "title": "Beauty Retail: From Monolith to Microservice"
+      }
+    ],
+    "size": 4446,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/93718476b67a2ae067d9d998d54549a64d6e6b97-150x150.jpg"
+  },
+  {
+    "_id": "image-f7c6bbc8c72b40c3a5584e6c030e5c42f3ea864b-1584x1620-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "cs-bareminerals-content-model.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.166",
+        "_type": "caseStudy",
+        "slug": "beauty-retail-from-monolith-to-microservice",
+        "title": "Beauty Retail: From Monolith to Microservice"
+      }
+    ],
+    "size": 208720,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/f7c6bbc8c72b40c3a5584e6c030e5c42f3ea864b-1584x1620.jpg"
+  },
+  {
+    "_id": "image-1d713b04049019d8cb62eba71f2a9fac9c0d1866-1318x308-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-contentful-quote.png",
+    "references": [
+      {
+        "_id": "wp.caseStudy.166",
+        "_type": "caseStudy",
+        "slug": "beauty-retail-from-monolith-to-microservice",
+        "title": "Beauty Retail: From Monolith to Microservice"
+      }
+    ],
+    "size": 44998,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/1d713b04049019d8cb62eba71f2a9fac9c0d1866-1318x308.png"
+  },
+  {
+    "_id": "image-30dc4dc8c2dff2b485923f8f01e1e1f909031472-150x150-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-detail-1-thumb.png",
+    "references": [
+      {
+        "_id": "wp.caseStudy.280",
+        "_type": "caseStudy",
+        "slug": "bare-minerals-from-bottlenecks-to-brilliance",
+        "title": "Bare Minerals: From Bottlenecks to Brilliance"
+      }
+    ],
+    "size": 11619,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/30dc4dc8c2dff2b485923f8f01e1e1f909031472-150x150.png"
+  },
+  {
+    "_id": "image-1f5972024664cb180ea4b030bb3ff0e58481449d-150x150-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-detail-2-thumb.png",
+    "references": [
+      {
+        "_id": "wp.caseStudy.280",
+        "_type": "caseStudy",
+        "slug": "bare-minerals-from-bottlenecks-to-brilliance",
+        "title": "Bare Minerals: From Bottlenecks to Brilliance"
+      }
+    ],
+    "size": 10356,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/1f5972024664cb180ea4b030bb3ff0e58481449d-150x150.png"
+  },
+  {
+    "_id": "image-d0909e4b7a076e5541bfffc845e5b0282d6dd255-1500x2396-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-detail-2.png",
+    "references": [
+      {
+        "_id": "wp.caseStudy.280",
+        "_type": "caseStudy",
+        "slug": "bare-minerals-from-bottlenecks-to-brilliance",
+        "title": "Bare Minerals: From Bottlenecks to Brilliance"
+      }
+    ],
+    "size": 1944043,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/d0909e4b7a076e5541bfffc845e5b0282d6dd255-1500x2396.png"
+  },
+  {
+    "_id": "image-3011ba81607d38864d0b286ce097ab5aabfe5e8a-150x150-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "cs-bareminerals-global-content-model-thumb.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.166",
+        "_type": "caseStudy",
+        "slug": "beauty-retail-from-monolith-to-microservice",
+        "title": "Beauty Retail: From Monolith to Microservice"
+      }
+    ],
+    "size": 2416,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/3011ba81607d38864d0b286ce097ab5aabfe5e8a-150x150.jpg"
+  },
+  {
+    "_id": "image-fe296fa01516400a09c92db2c85ac3f26d279f36-1024x320-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-homepage-banner.png",
+    "references": [
+      {
+        "_id": "wp.article.736",
+        "_type": "article",
+        "slug": "lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "title": "Lessons from Replacing Oracle ATG/BCC with a Headless CMS"
+      }
+    ],
+    "size": 650422,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/fe296fa01516400a09c92db2c85ac3f26d279f36-1024x320.png"
+  },
+  {
+    "_id": "image-e9cc8b52a9cc0858f671ee1f9a73d7cfab6e906f-150x150-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-homepage-thumb.png",
+    "references": [
+      {
+        "_id": "wp.caseStudy.166",
+        "_type": "caseStudy",
+        "slug": "beauty-retail-from-monolith-to-microservice",
+        "title": "Beauty Retail: From Monolith to Microservice"
+      }
+    ],
+    "size": 11491,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/e9cc8b52a9cc0858f671ee1f9a73d7cfab6e906f-150x150.png"
+  },
+  {
+    "_id": "image-cbbac2e4e5a7640dcf7e91e5962a73232b977c08-1024x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-homepage.png",
+    "references": [
+      {
+        "_id": "wp.article.736",
+        "_type": "article",
+        "slug": "lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "title": "Lessons from Replacing Oracle ATG/BCC with a Headless CMS"
+      }
+    ],
+    "size": 1836224,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/cbbac2e4e5a7640dcf7e91e5962a73232b977c08-1024x1024.png"
+  },
+  {
+    "_id": "image-bd42516c6b0f5100131c1409aaa24d0c90128c35-138x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-references-chart.png",
+    "references": [
+      {
+        "_id": "wp.article.736",
+        "_type": "article",
+        "slug": "lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "title": "Lessons from Replacing Oracle ATG/BCC with a Headless CMS"
+      }
+    ],
+    "size": 50667,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/bd42516c6b0f5100131c1409aaa24d0c90128c35-138x1024.png"
+  },
+  {
+    "_id": "image-f81c07d02aad4d1b59a61ebd232cec6cb53d93e9-150x150-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-references-thumb.png",
+    "references": [
+      {
+        "_id": "wp.caseStudy.166",
+        "_type": "caseStudy",
+        "slug": "beauty-retail-from-monolith-to-microservice",
+        "title": "Beauty Retail: From Monolith to Microservice"
+      }
+    ],
+    "size": 9479,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/f81c07d02aad4d1b59a61ebd232cec6cb53d93e9-150x150.png"
+  },
+  {
+    "_id": "image-b7e8ce0f3bdf8a7c28a888cacf2137cb74cedc85-150x150-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-screenshot-thumb.png",
+    "references": [
+      {
+        "_id": "wp.caseStudy.166",
+        "_type": "caseStudy",
+        "slug": "beauty-retail-from-monolith-to-microservice",
+        "title": "Beauty Retail: From Monolith to Microservice"
+      }
+    ],
+    "size": 4570,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/b7e8ce0f3bdf8a7c28a888cacf2137cb74cedc85-150x150.png"
+  },
+  {
+    "_id": "image-e6d469439b843c74eedfa0df69298cf42236c67b-1024x406-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-bareminerals-screenshot.png",
+    "references": [
+      {
+        "_id": "wp.article.410",
+        "_type": "article",
+        "slug": "why-cms-and-design-systems-belong-together",
+        "title": "Oh, oh… Atomic: CMS and Design Systems 4evar"
+      }
+    ],
+    "size": 35393,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/e6d469439b843c74eedfa0df69298cf42236c67b-1024x406.png"
+  },
+  {
+    "_id": "image-93d1977eec08b974ff5f9d561307d85903fe866c-2500x1441-webp",
+    "mimeType": "image/webp",
+    "originalFilename": "cs-beringer-homepage-redesign.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.286",
+        "_type": "caseStudy",
+        "slug": "beringer-com-raising-a-glass-to-a-digital-refresh",
+        "title": "Beringer.com: Raising a Glass to a Digital Refresh"
+      }
+    ],
+    "size": 360910,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/93d1977eec08b974ff5f9d561307d85903fe866c-2500x1441.webp"
+  },
+  {
+    "_id": "image-ba0a971011caec4aa811b00e63fae7f3ff45692c-150x150-webp",
+    "mimeType": "image/webp",
+    "originalFilename": "cs-beringer-homepage-thumb.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.286",
+        "_type": "caseStudy",
+        "slug": "beringer-com-raising-a-glass-to-a-digital-refresh",
+        "title": "Beringer.com: Raising a Glass to a Digital Refresh"
+      }
+    ],
+    "size": 7558,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/ba0a971011caec4aa811b00e63fae7f3ff45692c-150x150.webp"
+  },
+  {
+    "_id": "image-1bcb892558c92e97616749e95b57c237d1f3c99d-150x150-webp",
+    "mimeType": "image/webp",
+    "originalFilename": "cs-beringer-recipes-thumb.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.286",
+        "_type": "caseStudy",
+        "slug": "beringer-com-raising-a-glass-to-a-digital-refresh",
+        "title": "Beringer.com: Raising a Glass to a Digital Refresh"
+      }
+    ],
+    "size": 8338,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/1bcb892558c92e97616749e95b57c237d1f3c99d-150x150.webp"
+  },
+  {
+    "_id": "image-6a313f3a6dd32351c5eec357d2fe33a953f2791a-2431x1072-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "cs-fx-networks-featured.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.271",
+        "_type": "caseStudy",
+        "slug": "fx-networks-website-redesign-nominated-for-webby",
+        "title": "FX Networks Website Redesign: Nominated for Webby!"
+      }
+    ],
+    "size": 386700,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/6a313f3a6dd32351c5eec357d2fe33a953f2791a-2431x1072.jpg"
+  },
+  {
+    "_id": "image-48fefe3e8fe3db3c93171851aa569acc6fb303cd-150x150-webp",
+    "mimeType": "image/webp",
+    "originalFilename": "cs-lyris-app-create-thumb.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.294",
+        "_type": "caseStudy",
+        "slug": "launching-lunar-landing",
+        "title": "Launching Lunar Landing"
+      }
+    ],
+    "size": 1690,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/48fefe3e8fe3db3c93171851aa569acc6fb303cd-150x150.webp"
+  },
+  {
+    "_id": "image-56bd50367c7ba5c4aa78eae6062d43c717a30ead-150x150-webp",
+    "mimeType": "image/webp",
+    "originalFilename": "cs-lyris-app-thumb.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.294",
+        "_type": "caseStudy",
+        "slug": "launching-lunar-landing",
+        "title": "Launching Lunar Landing"
+      }
+    ],
+    "size": 4996,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/56bd50367c7ba5c4aa78eae6062d43c717a30ead-150x150.webp"
+  },
+  {
+    "_id": "image-95931cf6f131ad879e4af05c06b58e4549c18988-150x150-webp",
+    "mimeType": "image/webp",
+    "originalFilename": "cs-lyris-landing-pages-thumb.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.294",
+        "_type": "caseStudy",
+        "slug": "launching-lunar-landing",
+        "title": "Launching Lunar Landing"
+      }
+    ],
+    "size": 5294,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/95931cf6f131ad879e4af05c06b58e4549c18988-150x150.webp"
+  },
+  {
+    "_id": "image-360d6f4351e2242bda6107a773f6cf6b2f78683d-1024x817-webp",
+    "mimeType": "image/webp",
+    "originalFilename": "cs-lyris-landing-pages.webp",
+    "references": [
+      {
+        "_id": "wp.caseStudy.294",
+        "_type": "caseStudy",
+        "slug": "launching-lunar-landing",
+        "title": "Launching Lunar Landing"
+      }
+    ],
+    "size": 456362,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/360d6f4351e2242bda6107a773f6cf6b2f78683d-1024x817.webp"
+  },
+  {
+    "_id": "image-b38a894e86773a1488a66137e8362f50070086b0-817x602-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-prestige-beauty-design-system.png",
+    "references": [
+      {
+        "_id": "wp.caseStudy.388",
+        "_type": "caseStudy",
+        "slug": "prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "title": "Prestige Beauty Pilot — Headless CMS + Enterprise Design System"
+      }
+    ],
+    "size": 670262,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/b38a894e86773a1488a66137e8362f50070086b0-817x602.png"
+  },
+  {
+    "_id": "image-7bf47353614ec2868a912c700a83b2566f95f924-2264x943-png",
+    "mimeType": "image/png",
+    "originalFilename": "cs-prestige-beauty-tfb-light.png",
+    "references": [
+      {
+        "_id": "wp.article.410",
+        "_type": "article",
+        "slug": "why-cms-and-design-systems-belong-together",
+        "title": "Oh, oh… Atomic: CMS and Design Systems 4evar"
+      },
+      {
+        "_id": "wp.caseStudy.388",
+        "_type": "caseStudy",
+        "slug": "prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "title": "Prestige Beauty Pilot — Headless CMS + Enterprise Design System"
+      }
+    ],
+    "size": 2783759,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/7bf47353614ec2868a912c700a83b2566f95f924-2264x943.png"
+  },
+  {
+    "_id": "image-59e90f0676ddecd217086a9cecf8f72733f4aaec-781x554-svg",
+    "mimeType": "image/svg+xml",
+    "originalFilename": "diagram-knowledge-graph-dark.svg",
+    "references": [
+      {
+        "_id": "wp.node.950",
+        "_type": "node",
+        "slug": "visualizing-the-knowledge-graph",
+        "title": "Visualizing the Knowledge Graph"
+      }
+    ],
+    "size": 57985,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/59e90f0676ddecd217086a9cecf8f72733f4aaec-781x554.svg"
+  },
+  {
+    "_id": "image-c7ffc41cd5817a2733881685bd90a9cb60d972ee-1890x1185-png",
+    "mimeType": "image/png",
+    "originalFilename": "diagram-knowledge-graph-latest.png",
+    "references": [],
+    "size": 181592,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/c7ffc41cd5817a2733881685bd90a9cb60d972ee-1890x1185.png"
+  },
+  {
+    "_id": "image-103e670840378157fc1b14cd0175da9f299224f0-2515x1447-png",
+    "mimeType": "image/png",
+    "originalFilename": "diagram-screenshot-2026-01-alt.png",
+    "references": [],
+    "size": 1294714,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/103e670840378157fc1b14cd0175da9f299224f0-2515x1447.png"
+  },
+  {
+    "_id": "image-e00c03568d8bf8abe742629fd8f573daf7d7ac45-2560x1432-png",
+    "mimeType": "image/png",
+    "originalFilename": "diagram-screenshot-2026-01.png",
+    "references": [],
+    "size": 1104099,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/e00c03568d8bf8abe742629fd8f573daf7d7ac45-2560x1432.png"
+  },
+  {
+    "_id": "image-6ed42ed189688c4809a9e5f2012d33391b813b21-2431x1072-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "fx-networks-featured.jpg",
+    "references": [],
+    "size": 597365,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/6ed42ed189688c4809a9e5f2012d33391b813b21-2431x1072.jpg"
+  },
+  {
+    "_id": "image-83c37b40a617854262ddd7c454605c027d38ba52-150x150-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "global-content-model-150x150.jpg",
+    "references": [],
+    "size": 2573,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/83c37b40a617854262ddd7c454605c027d38ba52-150x150.jpg"
+  },
+  {
+    "_id": "image-10451e4ee11f8bb38f77ea052a3240aea7c6c946-972x750-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "luxury_dot_com-feature.jpg",
+    "references": [],
+    "size": 110080,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/10451e4ee11f8bb38f77ea052a3240aea7c6c946-972x750.jpg"
+  },
+  {
+    "_id": "image-d9b404689e009c9c70aa2f594e2fdcac6d34059c-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "retro-computer-desk-arrangement (3).jpg",
+    "references": [],
+    "size": 4478187,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/d9b404689e009c9c70aa2f594e2fdcac6d34059c-6000x4000.jpg"
+  },
+  {
+    "_id": "image-2169f1af72cafd5da7399633682d8a51b300e6c5-2560x1707-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "retro-computer-desk-arrangement-2-scaled.jpg",
+    "references": [],
+    "size": 143881,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/2169f1af72cafd5da7399633682d8a51b300e6c5-2560x1707.jpg"
+  },
+  {
+    "_id": "image-0c9d9948a1f2b10a982e9d9a80138ba800b8e85e-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "retro-computer-desk-arrangement-2.jpg",
+    "references": [],
+    "size": 4653229,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/0c9d9948a1f2b10a982e9d9a80138ba800b8e85e-6000x4000.jpg"
+  },
+  {
+    "_id": "image-539a42700ba08998f12bd4ed3a49c6503b23514e-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "retro-computer-desk-arrangement-3.jpg",
+    "references": [],
+    "size": 4498837,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/539a42700ba08998f12bd4ed3a49c6503b23514e-6000x4000.jpg"
+  },
+  {
+    "_id": "image-e9a3f734afdd3ae8f7f6631a8b30aa548ec8e8d1-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "retro-computer-desk-arrangement-4.jpg",
+    "references": [],
+    "size": 4362104,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/e9a3f734afdd3ae8f7f6631a8b30aa548ec8e8d1-6000x4000.jpg"
+  },
+  {
+    "_id": "image-51d35dd51b932f0d330a558c2aa3fafd3e97473a-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "retro-computer-desk-arrangement-5.jpg",
+    "references": [],
+    "size": 4728529,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/51d35dd51b932f0d330a558c2aa3fafd3e97473a-6000x4000.jpg"
+  },
+  {
+    "_id": "image-6de9f87c0262e89887c7daa89976f8c2d5fa9402-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "retro-computer-desk-arrangement-6.jpg",
+    "references": [],
+    "size": 4345715,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/6de9f87c0262e89887c7daa89976f8c2d5fa9402-6000x4000.jpg"
+  },
+  {
+    "_id": "image-4b305982dfa58915a8fe74a39ce26e8f0035b7ef-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "retro-computer-desk-arrangement-7.jpg",
+    "references": [],
+    "size": 4826783,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/4b305982dfa58915a8fe74a39ce26e8f0035b7ef-6000x4000.jpg"
+  },
+  {
+    "_id": "image-d83fe4bd5a7b45dfbf9768d820ec59da476ec28a-6000x4500-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "retro-computer-desk-arrangement.jpg",
+    "references": [],
+    "size": 5410874,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/d83fe4bd5a7b45dfbf9768d820ec59da476ec28a-6000x4500.jpg"
+  },
+  {
+    "_id": "image-9d2336a3e4b6a6bd7d0adb781b6abd449231d3ae-1024x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-about-illustration.png",
+    "references": [
+      {
+        "_id": "b44f2b69-6371-4e39-b0e1-aa6c84a53b84",
+        "_type": "page",
+        "slug": "about",
+        "title": "About"
+      }
+    ],
+    "size": 2004137,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/9d2336a3e4b6a6bd7d0adb781b6abd449231d3ae-1024x1024.png"
+  },
+  {
+    "_id": "image-fb47bebdf1d866f3ce3a19a1bef238f4c972f5c0-360x428-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-beckyalice-1990.webp",
+    "references": [],
+    "size": 24460,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/fb47bebdf1d866f3ce3a19a1bef238f4c972f5c0-360x428.jpg"
+  },
+  {
+    "_id": "image-e54263f6b49fdd2b62d78a3fbee39a24c78f2c5a-1024x514-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-beckyalice-banner.webp",
+    "references": [
+      {
+        "_id": "wp.article.1025",
+        "_type": "article",
+        "slug": "dashboards-arent-dead-neither-are-design-systems",
+        "title": "Dashboards Aren’t Dead. Neither Are Design Systems. We Just Stopped Explaining Them Slowly Enough."
+      }
+    ],
+    "size": 73540,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/e54263f6b49fdd2b62d78a3fbee39a24c78f2c5a-1024x514.jpg"
+  },
+  {
+    "_id": "image-a451c11990c4dba6e5efea93d1a18eddbcf2918f-984x798-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-beckyalice-beebaby.webp",
+    "references": [],
+    "size": 224438,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/a451c11990c4dba6e5efea93d1a18eddbcf2918f-984x798.jpg"
+  },
+  {
+    "_id": "image-527e7373087778c3fe09800b53438dd6409877af-1024x850-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-beckyalice-feature.webp",
+    "references": [],
+    "size": 159274,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/527e7373087778c3fe09800b53438dd6409877af-1024x850.jpg"
+  },
+  {
+    "_id": "image-b421ea9b522b69b04315a3eac074cef97e53461e-466x331-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-beckyalice-headshot.webp",
+    "references": [
+      {
+        "_id": "drafts.fae09c00-beba-46a2-b1f3-b17cf9ebe53d",
+        "_type": "archivePage",
+        "slug": "articles",
+        "title": "Articles"
+      },
+      {
+        "_id": "fae09c00-beba-46a2-b1f3-b17cf9ebe53d",
+        "_type": "archivePage",
+        "slug": "articles",
+        "title": "Articles"
+      }
+    ],
+    "size": 20301,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/b421ea9b522b69b04315a3eac074cef97e53461e-466x331.jpg"
+  },
+  {
+    "_id": "image-966fc979f778d35e5670dc259ec4474abb4a1404-753x364-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-beckyalice-hero-2004.png",
+    "references": [
+      {
+        "_id": "db9ee4c2-a969-4acf-b3e0-c789a2a6b891",
+        "_type": "hero",
+        "slug": null,
+        "title": null
+      },
+      {
+        "_id": "drafts.db9ee4c2-a969-4acf-b3e0-c789a2a6b891",
+        "_type": "hero",
+        "slug": null,
+        "title": null
+      }
+    ],
+    "size": 475882,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/966fc979f778d35e5670dc259ec4474abb4a1404-753x364.png"
+  },
+  {
+    "_id": "image-6f6d3bc20192d9c2ccba9d2731b41ce76299f43e-743x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-beelady-alt-transparent.png",
+    "references": [],
+    "size": 336066,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/6f6d3bc20192d9c2ccba9d2731b41ce76299f43e-743x1024.png"
+  },
+  {
+    "_id": "image-df496cd9ecd7a31a4342830dbb0f4f2f3cb05f26-300x377-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-beelady-avatar-sm.png",
+    "references": [
+      {
+        "_id": "47fea186-e2ca-4421-ae09-11593be431da",
+        "_type": "archivePage",
+        "slug": "knowledge-graph",
+        "title": "Knowledge Graph"
+      }
+    ],
+    "size": 54029,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/df496cd9ecd7a31a4342830dbb0f4f2f3cb05f26-300x377.png"
+  },
+  {
+    "_id": "image-07c66211aa101f34172c5cea9ab02f2b34ee6fba-1024x1536-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-beelady-avatar.png",
+    "references": [
+      {
+        "_id": "wp.person.bhead",
+        "_type": "person",
+        "slug": "beehead",
+        "title": null
+      }
+    ],
+    "size": 1632800,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/07c66211aa101f34172c5cea9ab02f2b34ee6fba-1024x1536.png"
+  },
+  {
+    "_id": "image-a6c037bbe530d9d216c40c5c1c1b89138d738496-896x898-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-beelady-favicon.png",
+    "references": [],
+    "size": 1277209,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/a6c037bbe530d9d216c40c5c1c1b89138d738496-896x898.png"
+  },
+  {
+    "_id": "image-acade2475d6fe5476bd7a95d2aebfd5da53043f0-450x450-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-beelady-favicon.png",
+    "references": [
+      {
+        "_id": "siteSettings",
+        "_type": "siteSettings",
+        "slug": null,
+        "title": null
+      }
+    ],
+    "size": 406418,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/acade2475d6fe5476bd7a95d2aebfd5da53043f0-450x450.png"
+  },
+  {
+    "_id": "image-d59f6f4577ca0fca2368410964bb77b5aadb8332-1284x1213-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-beelady-feature-transparent.png",
+    "references": [],
+    "size": 811462,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/d59f6f4577ca0fca2368410964bb77b5aadb8332-1284x1213.png"
+  },
+  {
+    "_id": "image-a685f8d3aa4c29bd461323fa90a2fad6b42d615a-1024x1536-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-beelady-full-transparent.png",
+    "references": [
+      {
+        "_id": "wp.article.410",
+        "_type": "article",
+        "slug": "why-cms-and-design-systems-belong-together",
+        "title": "Oh, oh… Atomic: CMS and Design Systems 4evar"
+      }
+    ],
+    "size": 2517527,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/a685f8d3aa4c29bd461323fa90a2fad6b42d615a-1024x1536.png"
+  },
+  {
+    "_id": "image-4abdf220948a5eb7101b273d3f7eb8862437ac67-683x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-beelady-transparent-sm.png",
+    "references": [
+      {
+        "_id": "siteSettings",
+        "_type": "siteSettings",
+        "slug": null,
+        "title": null
+      },
+      {
+        "_id": "wp.article.1025",
+        "_type": "article",
+        "slug": "dashboards-arent-dead-neither-are-design-systems",
+        "title": "Dashboards Aren’t Dead. Neither Are Design Systems. We Just Stopped Explaining Them Slowly Enough."
+      }
+    ],
+    "size": 277079,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/4abdf220948a5eb7101b273d3f7eb8862437ac67-683x1024.png"
+  },
+  {
+    "_id": "image-13f0834d17179f2bb892a8e4555a9abb33f26dfc-900x1349-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-beelady-transparent.png",
+    "references": [],
+    "size": 1510642,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/13f0834d17179f2bb892a8e4555a9abb33f26dfc-900x1349.png"
+  },
+  {
+    "_id": "image-4f7b855d4b117b0e90b83ec80721cc5c7f776559-200x191-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-favicon.png",
+    "references": [],
+    "size": 20442,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/4f7b855d4b117b0e90b83ec80721cc5c7f776559-200x191.png"
+  },
+  {
+    "_id": "image-23790581beab46a679da8c7904ab8fdf88014a98-1536x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-illustration-landscape.png",
+    "references": [],
+    "size": 488825,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/23790581beab46a679da8c7904ab8fdf88014a98-1536x1024.png"
+  },
+  {
+    "_id": "image-8a2d0e5a884fd043170f120b2a49b570aa3e1872-1536x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-illustration-portrait-1.png",
+    "references": [],
+    "size": 3329984,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/8a2d0e5a884fd043170f120b2a49b570aa3e1872-1536x1024.png"
+  },
+  {
+    "_id": "image-238cbba618c687e6d4f17217dd2d66e5f7e47ad5-1024x1536-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-illustration-portrait-2.png",
+    "references": [
+      {
+        "_id": "siteSettings",
+        "_type": "siteSettings",
+        "slug": null,
+        "title": null
+      }
+    ],
+    "size": 3276178,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/238cbba618c687e6d4f17217dd2d66e5f7e47ad5-1024x1536.png"
+  },
+  {
+    "_id": "image-78b316a17e7224e361c81eebba8c1a3da17e520a-576x575-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-mushroom-illustration.png",
+    "references": [],
+    "size": 531478,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/78b316a17e7224e361c81eebba8c1a3da17e520a-576x575.png"
+  },
+  {
+    "_id": "image-d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-retro-desk-1.webp",
+    "references": [
+      {
+        "_id": "drafts.687bce25-3fda-45e4-b83f-6ff289c4e681",
+        "_type": "node",
+        "slug": "seafoam-vs-lime-component-reuse-guardrails",
+        "title": "The Seafoam That Should Have Been Lime: Guardrails for Component Reuse"
+      },
+      {
+        "_id": "wp.page.957",
+        "_type": "page",
+        "slug": "home",
+        "title": "Atoms &amp; Ecosystems"
+      }
+    ],
+    "size": 490871,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg"
+  },
+  {
+    "_id": "image-571d156d28393fb9806756bb37d18a32cd07fdba-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-retro-desk-2.webp",
+    "references": [
+      {
+        "_id": "wp.page.957",
+        "_type": "page",
+        "slug": "home",
+        "title": "Atoms &amp; Ecosystems"
+      }
+    ],
+    "size": 422920,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/571d156d28393fb9806756bb37d18a32cd07fdba-6000x4000.jpg"
+  },
+  {
+    "_id": "image-da5fb7d0bad72d78d03ac606e47e2d4896bd84e6-2560x1707-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-retro-desk-3-scaled.webp",
+    "references": [],
+    "size": 113152,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/da5fb7d0bad72d78d03ac606e47e2d4896bd84e6-2560x1707.jpg"
+  },
+  {
+    "_id": "image-98246b3c6b5a759d9cef6b64d24c888901e5d075-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-retro-desk-3.webp",
+    "references": [
+      {
+        "_id": "drafts.228edf91-97ea-41be-b21a-481c87e853f7",
+        "_type": "article",
+        "slug": "test-preview-post",
+        "title": "Test Preview Post"
+      },
+      {
+        "_id": "wp.page.957",
+        "_type": "page",
+        "slug": "home",
+        "title": "Atoms &amp; Ecosystems"
+      }
+    ],
+    "size": 479641,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/98246b3c6b5a759d9cef6b64d24c888901e5d075-6000x4000.jpg"
+  },
+  {
+    "_id": "image-cf4f583d1eff5dcf2c90e3959cf28b1ac48ff940-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-retro-desk-4.webp",
+    "references": [
+      {
+        "_id": "drafts.228edf91-97ea-41be-b21a-481c87e853f7",
+        "_type": "article",
+        "slug": "test-preview-post",
+        "title": "Test Preview Post"
+      },
+      {
+        "_id": "wp.page.207",
+        "_type": "page",
+        "slug": "cv-resume",
+        "title": "CV / Resume"
+      }
+    ],
+    "size": 392665,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/cf4f583d1eff5dcf2c90e3959cf28b1ac48ff940-6000x4000.jpg"
+  },
+  {
+    "_id": "image-fa6f97f14153a905916e572de10edb877eac7f45-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-retro-desk-5.webp",
+    "references": [
+      {
+        "_id": "456120f8-5fc9-4135-9eaa-c49891fe4de1",
+        "_type": "node",
+        "slug": "release-governance-storybook-smoke-check-design-system",
+        "title": "Release Governance: Storybook Smoke Check for Design System Changes"
+      },
+      {
+        "_id": "drafts.228edf91-97ea-41be-b21a-481c87e853f7",
+        "_type": "article",
+        "slug": "test-preview-post",
+        "title": "Test Preview Post"
+      },
+      {
+        "_id": "wp.caseStudy.271",
+        "_type": "caseStudy",
+        "slug": "fx-networks-website-redesign-nominated-for-webby",
+        "title": "FX Networks Website Redesign: Nominated for Webby!"
+      },
+      {
+        "_id": "wp.page.957",
+        "_type": "page",
+        "slug": "home",
+        "title": "Atoms &amp; Ecosystems"
+      }
+    ],
+    "size": 395191,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/fa6f97f14153a905916e572de10edb877eac7f45-6000x4000.jpg"
+  },
+  {
+    "_id": "image-1639e4bee10a54fbef4c04289963bf38868160bc-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-retro-desk-6.webp",
+    "references": [],
+    "size": 492848,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/1639e4bee10a54fbef4c04289963bf38868160bc-6000x4000.jpg"
+  },
+  {
+    "_id": "image-ae7a950a812e5f92ec7a3cb5f210de33e5eeaf08-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-retro-desk-7.webp",
+    "references": [
+      {
+        "_id": "drafts.228edf91-97ea-41be-b21a-481c87e853f7",
+        "_type": "article",
+        "slug": "test-preview-post",
+        "title": "Test Preview Post"
+      },
+      {
+        "_id": "drafts.687bce25-3fda-45e4-b83f-6ff289c4e681",
+        "_type": "node",
+        "slug": "seafoam-vs-lime-component-reuse-guardrails",
+        "title": "The Seafoam That Should Have Been Lime: Guardrails for Component Reuse"
+      }
+    ],
+    "size": 358889,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/ae7a950a812e5f92ec7a3cb5f210de33e5eeaf08-6000x4000.jpg"
+  },
+  {
+    "_id": "image-5fae24a2651ef9a67b716bf14c6ede64b87d3432-6000x4000-jpg",
+    "mimeType": "image/jpeg",
+    "originalFilename": "site-retro-desk-8.webp",
+    "references": [
+      {
+        "_id": "drafts.687bce25-3fda-45e4-b83f-6ff289c4e681",
+        "_type": "node",
+        "slug": "seafoam-vs-lime-component-reuse-guardrails",
+        "title": "The Seafoam That Should Have Been Lime: Guardrails for Component Reuse"
+      }
+    ],
+    "size": 449272,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/5fae24a2651ef9a67b716bf14c6ede64b87d3432-6000x4000.jpg"
+  },
+  {
+    "_id": "image-2efc98059ba9c28d93312c2e51f63feb76f8a3b6-30x30-svg",
+    "mimeType": "image/svg+xml",
+    "originalFilename": "site-submit-spinner.svg",
+    "references": [],
+    "size": 509,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/2efc98059ba9c28d93312c2e51f63feb76f8a3b6-30x30.svg"
+  },
+  {
+    "_id": "image-7b8598e0a9d61db14bde7c634208b442aa811ec1-1536x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-sugartown-logo-2026.png",
+    "references": [],
+    "size": 1494833,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/7b8598e0a9d61db14bde7c634208b442aa811ec1-1536x1024.png"
+  },
+  {
+    "_id": "image-819778f97ba84e271f2ce2e7e74db9a86d9c8dc3-1536x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-sugartown-logo-2026.png",
+    "references": [],
+    "size": 2448899,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/819778f97ba84e271f2ce2e7e74db9a86d9c8dc3-1536x1024.png"
+  },
+  {
+    "_id": "image-8b84de48aec61651f5f980a8e5bd4d0e13c20e9e-1536x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-sugartown-logo-2026.png",
+    "references": [],
+    "size": 1399929,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/8b84de48aec61651f5f980a8e5bd4d0e13c20e9e-1536x1024.png"
+  },
+  {
+    "_id": "image-a52fe5565d8380b786311f7823deb5018f471a4a-1195x507-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-sugartown-logo-light.png",
+    "references": [
+      {
+        "_id": "singleton-header",
+        "_type": "header",
+        "slug": null,
+        "title": null
+      }
+    ],
+    "size": 48682,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/a52fe5565d8380b786311f7823deb5018f471a4a-1195x507.png"
+  },
+  {
+    "_id": "image-8312230227f1c1b2545bcfe811a42f51f59371fc-1536x1024-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-sugartown-logo-sm-dark-2026.png",
+    "references": [],
+    "size": 701609,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/8312230227f1c1b2545bcfe811a42f51f59371fc-1536x1024.png"
+  },
+  {
+    "_id": "image-1a3444ae81dee63959d0386215aba2676f1979f4-780x317-png",
+    "mimeType": "image/png",
+    "originalFilename": "site-sugartown-logo.png",
+    "references": [
+      {
+        "_id": "siteSettings",
+        "_type": "siteSettings",
+        "slug": null,
+        "title": null
+      }
+    ],
+    "size": 55886,
+    "url": "https://cdn.sanity.io/images/poalmzla/production/1a3444ae81dee63959d0386215aba2676f1979f4-780x317.png"
+  }
+]

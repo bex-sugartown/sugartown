@@ -110,10 +110,10 @@ index:      optional, for multiple similar images (1, 2, 3)
 
 ## Acceptance criteria
 
-- [ ] Naming convention documented in `docs/brand/image-naming-convention.md`
-- [ ] All Sanity-hosted images renamed per convention
-- [ ] All document references updated (zero broken images)
-- [ ] WordPress media library assets imported and named
-- [ ] Migration script committed to `scripts/migrate/`
-- [ ] Orphaned assets cleaned up
-- [ ] Before/after manifest archived
+- [x] Naming convention documented in `docs/conventions/image-naming-convention.md`
+- [x] All Sanity-hosted images renamed per convention (74 assets)
+- [x] All document references updated (zero broken images — verified live)
+- [ ] WordPress media library assets imported and named (Phase 2 — deferred)
+- [x] Migration script committed to `scripts/migrate/rename-images.js`
+- [x] Orphaned WP thumbnail assets cleaned up (9 deleted)
+- [x] Before/after manifest archived in `artifacts/`

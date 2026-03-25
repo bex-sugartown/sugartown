@@ -1,0 +1,765 @@
+{
+  "generated": "2026-03-25T10:28:21.963Z",
+  "summary": {
+    "total": 102,
+    "rename": 19,
+    "convert": 19,
+    "delete": 9,
+    "unmapped": 74,
+    "keepAsIs": 0
+  },
+  "actions": [
+    {
+      "action": "delete",
+      "assetId": "image-2617e944bf22fc4edf1da57cb2bcad9c0d30bee8-150x150-png",
+      "currentFilename": "1978-dolly-mainframe-150x150.png",
+      "references": 0,
+      "notes": "WP thumbnail duplicate — delete"
+    },
+    {
+      "action": "delete",
+      "assetId": "image-87631508e786e63b187e10e783012c084b55bf38-150x150-png",
+      "currentFilename": "1986-doll-travel-agency-150x150.png",
+      "references": 0,
+      "notes": "WP thumbnail duplicate — delete"
+    },
+    {
+      "action": "delete",
+      "assetId": "image-2e7a09d902393fe3c24d4eb5001836e41b404911-1024x683-png",
+      "currentFilename": "1999-doll-imac-1024x683.png",
+      "references": 0,
+      "notes": "WP size variant — delete"
+    },
+    {
+      "action": "delete",
+      "assetId": "image-99f4fcc29f70a54211a166ad59086daa77f7517a-150x150-png",
+      "currentFilename": "1999-doll-imac-150x150.png",
+      "references": 0,
+      "notes": "WP thumbnail duplicate — delete"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-7a1bf3dad420b14f7746c081c05c55e858fffcee-1536x1024-png",
+      "currentFilename": "article-doll-imac-1999.png",
+      "references": 2,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-87fd542c85788d72bfac344342ca62f361d36693-1536x1024-png",
+      "currentFilename": "article-doll-travel-agency-1986.png",
+      "references": 2,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-5dd197724f810653a84305de2b8d9ce5ff0bab60-1536x1024-png",
+      "currentFilename": "article-dolly-mainframe-1978.png",
+      "references": 5,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-b4017a1fe05b6e39341c1154b47745e63e529829-972x750-jpg",
+      "currentFilename": "article-luxury-dot-com-feature.webp",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-b98d5ff642daaffbc11311e7296b059d1a532b1f-1024x683-png",
+      "currentFilename": "article-luxury-dot-com-illustration-sm.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-e866a7e1175c5d1ccdf81ebce595838ba8bd4dd5-1536x1024-png",
+      "currentFilename": "article-luxury-dot-com-illustration.png",
+      "references": 2,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-fc8b98335e71933ab535f8bce8005931d9d878f6-1536x1024-png",
+      "currentFilename": "article-test-illustration.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-4cab06596537405a2e1be2abdd3f4424525f6a83-466x331-jpg",
+      "currentFilename": "beckyalice.jpg",
+      "newFilename": "site-beckyalice-headshot.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-3f3a352c79942f0447ade44d856fdc7f94fee55c-984x798-jpg",
+      "currentFilename": "beebaby_of_berkeley.jpeg",
+      "newFilename": "site-beckyalice-beebaby.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-7d6449059fcde2e48fee2f6f38fd089ff68cdb1b-1024x514-jpg",
+      "currentFilename": "beehead01_banner.jpg",
+      "newFilename": "site-beckyalice-banner.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-e50fbf05af934d3815752018655e8371b7533535-360x428-jpg",
+      "currentFilename": "beehead_1990.jpeg",
+      "newFilename": "site-beckyalice-1990.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-fb1c8486c646ec9b8d992dcd14bbbeeb88102e14-1024x850-jpg",
+      "currentFilename": "beehead_feature.jpg",
+      "newFilename": "site-beckyalice-feature.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-aa2edc7aee9f9fe0cc6b4cecd6cfafd97dc4a7b7-150x150-jpg",
+      "currentFilename": "content-model-150x150.jpg",
+      "newFilename": "cs-bareminerals-content-model-thumb.webp",
+      "category": "cs",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-ef76629a9d8b821d0e053da0e026505cb3dbcab6-1584x1620-jpg",
+      "currentFilename": "content-model.jpg",
+      "newFilename": "cs-bareminerals-content-model.webp",
+      "category": "cs",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-8347c73bf9e8bea230d4ad90a2b0f4281fb11b37-1080x1080-webp",
+      "currentFilename": "cs-backroads-photo.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-be4d47e6c8d4b6b1addaf82f3e2d09f2fcc6039b-150x150-png",
+      "currentFilename": "cs-bareminerals-content-model-template-thumb.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-93718476b67a2ae067d9d998d54549a64d6e6b97-150x150-jpg",
+      "currentFilename": "cs-bareminerals-content-model-thumb.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-f7c6bbc8c72b40c3a5584e6c030e5c42f3ea864b-1584x1620-jpg",
+      "currentFilename": "cs-bareminerals-content-model.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-1d713b04049019d8cb62eba71f2a9fac9c0d1866-1318x308-png",
+      "currentFilename": "cs-bareminerals-contentful-quote.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-30dc4dc8c2dff2b485923f8f01e1e1f909031472-150x150-png",
+      "currentFilename": "cs-bareminerals-detail-1-thumb.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-1f5972024664cb180ea4b030bb3ff0e58481449d-150x150-png",
+      "currentFilename": "cs-bareminerals-detail-2-thumb.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-d0909e4b7a076e5541bfffc845e5b0282d6dd255-1500x2396-png",
+      "currentFilename": "cs-bareminerals-detail-2.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-3011ba81607d38864d0b286ce097ab5aabfe5e8a-150x150-jpg",
+      "currentFilename": "cs-bareminerals-global-content-model-thumb.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-fe296fa01516400a09c92db2c85ac3f26d279f36-1024x320-png",
+      "currentFilename": "cs-bareminerals-homepage-banner.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-e9cc8b52a9cc0858f671ee1f9a73d7cfab6e906f-150x150-png",
+      "currentFilename": "cs-bareminerals-homepage-thumb.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-cbbac2e4e5a7640dcf7e91e5962a73232b977c08-1024x1024-png",
+      "currentFilename": "cs-bareminerals-homepage.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-bd42516c6b0f5100131c1409aaa24d0c90128c35-138x1024-png",
+      "currentFilename": "cs-bareminerals-references-chart.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-f81c07d02aad4d1b59a61ebd232cec6cb53d93e9-150x150-png",
+      "currentFilename": "cs-bareminerals-references-thumb.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-b7e8ce0f3bdf8a7c28a888cacf2137cb74cedc85-150x150-png",
+      "currentFilename": "cs-bareminerals-screenshot-thumb.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-e6d469439b843c74eedfa0df69298cf42236c67b-1024x406-png",
+      "currentFilename": "cs-bareminerals-screenshot.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-93d1977eec08b974ff5f9d561307d85903fe866c-2500x1441-webp",
+      "currentFilename": "cs-beringer-homepage-redesign.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-ba0a971011caec4aa811b00e63fae7f3ff45692c-150x150-webp",
+      "currentFilename": "cs-beringer-homepage-thumb.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-1bcb892558c92e97616749e95b57c237d1f3c99d-150x150-webp",
+      "currentFilename": "cs-beringer-recipes-thumb.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-6a313f3a6dd32351c5eec357d2fe33a953f2791a-2431x1072-jpg",
+      "currentFilename": "cs-fx-networks-featured.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-48fefe3e8fe3db3c93171851aa569acc6fb303cd-150x150-webp",
+      "currentFilename": "cs-lyris-app-create-thumb.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-56bd50367c7ba5c4aa78eae6062d43c717a30ead-150x150-webp",
+      "currentFilename": "cs-lyris-app-thumb.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-95931cf6f131ad879e4af05c06b58e4549c18988-150x150-webp",
+      "currentFilename": "cs-lyris-landing-pages-thumb.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-360d6f4351e2242bda6107a773f6cf6b2f78683d-1024x817-webp",
+      "currentFilename": "cs-lyris-landing-pages.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-b38a894e86773a1488a66137e8362f50070086b0-817x602-png",
+      "currentFilename": "cs-prestige-beauty-design-system.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-7bf47353614ec2868a912c700a83b2566f95f924-2264x943-png",
+      "currentFilename": "cs-prestige-beauty-tfb-light.png",
+      "references": 2,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-59e90f0676ddecd217086a9cecf8f72733f4aaec-781x554-svg",
+      "currentFilename": "diagram-knowledge-graph-dark.svg",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-c7ffc41cd5817a2733881685bd90a9cb60d972ee-1890x1185-png",
+      "currentFilename": "diagram-knowledge-graph-latest.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-103e670840378157fc1b14cd0175da9f299224f0-2515x1447-png",
+      "currentFilename": "diagram-screenshot-2026-01-alt.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-e00c03568d8bf8abe742629fd8f573daf7d7ac45-2560x1432-png",
+      "currentFilename": "diagram-screenshot-2026-01.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "delete",
+      "assetId": "image-606cd5870ab8b571012a6532408a1949a38c04b4-150x150-jpg",
+      "currentFilename": "fx-networks-01-150x150.jpg",
+      "references": 0,
+      "notes": "WP thumbnail — delete"
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-6ed42ed189688c4809a9e5f2012d33391b813b21-2431x1072-jpg",
+      "currentFilename": "fx-networks-featured.jpg",
+      "newFilename": "cs-fx-networks-featured.webp",
+      "category": "cs",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "delete",
+      "assetId": "image-baef02217fc4fd552affd7e37520d3a92fef68c5-150x150-webp",
+      "currentFilename": "fx-wwdits-sq-150x150.webp",
+      "references": 0,
+      "notes": "WP thumbnail — delete"
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-83c37b40a617854262ddd7c454605c027d38ba52-150x150-jpg",
+      "currentFilename": "global-content-model-150x150.jpg",
+      "newFilename": "cs-bareminerals-global-content-model-thumb.webp",
+      "category": "cs",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "delete",
+      "assetId": "image-55842c592b76a9c3d47ec719af0d2ebb6237eab1-150x150-webp",
+      "currentFilename": "image-150x150.webp",
+      "references": 0,
+      "notes": "Generic WP thumbnail — delete"
+    },
+    {
+      "action": "delete",
+      "assetId": "image-e173ea7e94503416fb77698c026e9cc6a3839437-300x300-png",
+      "currentFilename": "image-300x300.png",
+      "references": 0,
+      "notes": "Generic WP size variant — delete"
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-10451e4ee11f8bb38f77ea052a3240aea7c6c946-972x750-jpg",
+      "currentFilename": "luxury_dot_com-feature.jpg",
+      "newFilename": "article-luxury-dot-com-feature.webp",
+      "category": "article",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-d9b404689e009c9c70aa2f594e2fdcac6d34059c-6000x4000-jpg",
+      "currentFilename": "retro-computer-desk-arrangement (3).jpg",
+      "newFilename": "site-retro-desk-2.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-2169f1af72cafd5da7399633682d8a51b300e6c5-2560x1707-jpg",
+      "currentFilename": "retro-computer-desk-arrangement-2-scaled.jpg",
+      "newFilename": "site-retro-desk-3-scaled.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-0c9d9948a1f2b10a982e9d9a80138ba800b8e85e-6000x4000-jpg",
+      "currentFilename": "retro-computer-desk-arrangement-2.jpg",
+      "newFilename": "site-retro-desk-3.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-539a42700ba08998f12bd4ed3a49c6503b23514e-6000x4000-jpg",
+      "currentFilename": "retro-computer-desk-arrangement-3.jpg",
+      "newFilename": "site-retro-desk-4.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-e9a3f734afdd3ae8f7f6631a8b30aa548ec8e8d1-6000x4000-jpg",
+      "currentFilename": "retro-computer-desk-arrangement-4.jpg",
+      "newFilename": "site-retro-desk-5.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-51d35dd51b932f0d330a558c2aa3fafd3e97473a-6000x4000-jpg",
+      "currentFilename": "retro-computer-desk-arrangement-5.jpg",
+      "newFilename": "site-retro-desk-6.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-6de9f87c0262e89887c7daa89976f8c2d5fa9402-6000x4000-jpg",
+      "currentFilename": "retro-computer-desk-arrangement-6.jpg",
+      "newFilename": "site-retro-desk-7.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-4b305982dfa58915a8fe74a39ce26e8f0035b7ef-6000x4000-jpg",
+      "currentFilename": "retro-computer-desk-arrangement-7.jpg",
+      "newFilename": "site-retro-desk-8.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "convert-and-rename",
+      "assetId": "image-d83fe4bd5a7b45dfbf9768d820ec59da476ec28a-6000x4500-jpg",
+      "currentFilename": "retro-computer-desk-arrangement.jpg",
+      "newFilename": "site-retro-desk-1.webp",
+      "category": "site",
+      "references": 0,
+      "referenceDetails": []
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-9d2336a3e4b6a6bd7d0adb781b6abd449231d3ae-1024x1024-png",
+      "currentFilename": "site-about-illustration.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-fb47bebdf1d866f3ce3a19a1bef238f4c972f5c0-360x428-jpg",
+      "currentFilename": "site-beckyalice-1990.webp",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-e54263f6b49fdd2b62d78a3fbee39a24c78f2c5a-1024x514-jpg",
+      "currentFilename": "site-beckyalice-banner.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-a451c11990c4dba6e5efea93d1a18eddbcf2918f-984x798-jpg",
+      "currentFilename": "site-beckyalice-beebaby.webp",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-527e7373087778c3fe09800b53438dd6409877af-1024x850-jpg",
+      "currentFilename": "site-beckyalice-feature.webp",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-b421ea9b522b69b04315a3eac074cef97e53461e-466x331-jpg",
+      "currentFilename": "site-beckyalice-headshot.webp",
+      "references": 2,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-966fc979f778d35e5670dc259ec4474abb4a1404-753x364-png",
+      "currentFilename": "site-beckyalice-hero-2004.png",
+      "references": 2,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-6f6d3bc20192d9c2ccba9d2731b41ce76299f43e-743x1024-png",
+      "currentFilename": "site-beelady-alt-transparent.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-df496cd9ecd7a31a4342830dbb0f4f2f3cb05f26-300x377-png",
+      "currentFilename": "site-beelady-avatar-sm.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-07c66211aa101f34172c5cea9ab02f2b34ee6fba-1024x1536-png",
+      "currentFilename": "site-beelady-avatar.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-a6c037bbe530d9d216c40c5c1c1b89138d738496-896x898-png",
+      "currentFilename": "site-beelady-favicon.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-acade2475d6fe5476bd7a95d2aebfd5da53043f0-450x450-png",
+      "currentFilename": "site-beelady-favicon.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-d59f6f4577ca0fca2368410964bb77b5aadb8332-1284x1213-png",
+      "currentFilename": "site-beelady-feature-transparent.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-a685f8d3aa4c29bd461323fa90a2fad6b42d615a-1024x1536-png",
+      "currentFilename": "site-beelady-full-transparent.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-4abdf220948a5eb7101b273d3f7eb8862437ac67-683x1024-png",
+      "currentFilename": "site-beelady-transparent-sm.png",
+      "references": 2,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-13f0834d17179f2bb892a8e4555a9abb33f26dfc-900x1349-png",
+      "currentFilename": "site-beelady-transparent.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-4f7b855d4b117b0e90b83ec80721cc5c7f776559-200x191-png",
+      "currentFilename": "site-favicon.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-23790581beab46a679da8c7904ab8fdf88014a98-1536x1024-png",
+      "currentFilename": "site-illustration-landscape.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-8a2d0e5a884fd043170f120b2a49b570aa3e1872-1536x1024-png",
+      "currentFilename": "site-illustration-portrait-1.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-238cbba618c687e6d4f17217dd2d66e5f7e47ad5-1024x1536-png",
+      "currentFilename": "site-illustration-portrait-2.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-78b316a17e7224e361c81eebba8c1a3da17e520a-576x575-png",
+      "currentFilename": "site-mushroom-illustration.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500-jpg",
+      "currentFilename": "site-retro-desk-1.webp",
+      "references": 2,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-571d156d28393fb9806756bb37d18a32cd07fdba-6000x4000-jpg",
+      "currentFilename": "site-retro-desk-2.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-da5fb7d0bad72d78d03ac606e47e2d4896bd84e6-2560x1707-jpg",
+      "currentFilename": "site-retro-desk-3-scaled.webp",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-98246b3c6b5a759d9cef6b64d24c888901e5d075-6000x4000-jpg",
+      "currentFilename": "site-retro-desk-3.webp",
+      "references": 2,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-cf4f583d1eff5dcf2c90e3959cf28b1ac48ff940-6000x4000-jpg",
+      "currentFilename": "site-retro-desk-4.webp",
+      "references": 2,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-fa6f97f14153a905916e572de10edb877eac7f45-6000x4000-jpg",
+      "currentFilename": "site-retro-desk-5.webp",
+      "references": 4,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-1639e4bee10a54fbef4c04289963bf38868160bc-6000x4000-jpg",
+      "currentFilename": "site-retro-desk-6.webp",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-ae7a950a812e5f92ec7a3cb5f210de33e5eeaf08-6000x4000-jpg",
+      "currentFilename": "site-retro-desk-7.webp",
+      "references": 2,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-5fae24a2651ef9a67b716bf14c6ede64b87d3432-6000x4000-jpg",
+      "currentFilename": "site-retro-desk-8.webp",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-2efc98059ba9c28d93312c2e51f63feb76f8a3b6-30x30-svg",
+      "currentFilename": "site-submit-spinner.svg",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-7b8598e0a9d61db14bde7c634208b442aa811ec1-1536x1024-png",
+      "currentFilename": "site-sugartown-logo-2026.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-819778f97ba84e271f2ce2e7e74db9a86d9c8dc3-1536x1024-png",
+      "currentFilename": "site-sugartown-logo-2026.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-8b84de48aec61651f5f980a8e5bd4d0e13c20e9e-1536x1024-png",
+      "currentFilename": "site-sugartown-logo-2026.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-a52fe5565d8380b786311f7823deb5018f471a4a-1195x507-png",
+      "currentFilename": "site-sugartown-logo-light.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-8312230227f1c1b2545bcfe811a42f51f59371fc-1536x1024-png",
+      "currentFilename": "site-sugartown-logo-sm-dark-2026.png",
+      "references": 0,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "unmapped",
+      "assetId": "image-1a3444ae81dee63959d0386215aba2676f1979f4-780x317-png",
+      "currentFilename": "site-sugartown-logo.png",
+      "references": 1,
+      "notes": "No mapping defined — review manually"
+    },
+    {
+      "action": "delete",
+      "assetId": "image-f74f27cf0feffb2ac7760568f42545cc21c37f5d-150x150-jpg",
+      "currentFilename": "wcag-scorecard-fx-150x150.jpg",
+      "references": 0,
+      "notes": "WP thumbnail — delete"
+    }
+  ]
+}

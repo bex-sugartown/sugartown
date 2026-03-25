@@ -31,6 +31,7 @@
     "migrate:cleanup-tags": "node scripts/migrate/cleanup-tag-tool-duplicates.js",
     "migrate:cleanup-orphan-tags": "node scripts/migrate/cleanup-orphan-tags.js",
     "migrate:backfill-author": "node scripts/migrate/backfill-default-author.js",
+    "migrate:rename-images": "node scripts/migrate/rename-images.js",
     "audit:urls": "node scripts/audit/wp-url-spider.js",
     "bulk:export": "node scripts/bulk/export-csv.js",
     "bulk:import": "node scripts/bulk/import-csv.js"
