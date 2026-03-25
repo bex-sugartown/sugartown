@@ -2,12 +2,13 @@
  * CaseStudyPage — renders a single Sanity `caseStudy` document.
  * Route: /case-studies/:slug
  */
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { caseStudyBySlugQuery } from '../lib/queries'
 import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
-import { urlFor } from '../lib/sanity'
+import { getArchivePath } from '../lib/routes'
+import { extractLeadHero } from '../lib/heroUtils'
 import { CitationNote, CitationZone } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
@@ -29,29 +30,20 @@ export default function CaseStudyPage() {
   if (notFound || !caseStudy) return <NotFoundPage />
 
   // Extract leading hero section so it renders flush against the header
-  const sections = caseStudy.sections ?? []
-  const isHero = (s) => s._type === 'heroSection' || s._type === 'hero'
-  const leadHero = sections[0] && isHero(sections[0]) ? sections[0] : null
-  const restSections = leadHero ? sections.slice(1) : sections
-  const heroImageUrl = leadHero?.backgroundImage?.asset
-    ? urlFor(leadHero.backgroundImage.asset).width(1920).quality(90).url()
-    : undefined
+  const { leadHero, restSections, heroImageUrl } = extractLeadHero(caseStudy.sections)
 
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
       {leadHero && <PageSections sections={[leadHero]} />}
       <div className={styles.detailPage}>
-        <Link to="/case-studies" className={styles.backLink}>
-          ← All Case Studies
-        </Link>
-
         <p className={styles.detailEyebrow}>Case Study</p>
-        <h1 className={styles.detailHeading}>{caseStudy.title}<DraftBadge docId={caseStudy._id} hasDraft={hasDraft} /></h1>
+        <h1 className={styles.detailHeading}>{caseStudy.title}</h1>
 
         <MetadataCard
           authors={caseStudy.authors}
           contentType="Case Study"
+          contentTypeHref={getArchivePath('caseStudy')}
           publishedAt={caseStudy.publishedAt}
           status={caseStudy.status}
           client={caseStudy.client}
@@ -60,6 +52,7 @@ export default function CaseStudyPage() {
           categories={caseStudy.categories}
           tags={caseStudy.tags}
           projects={caseStudy.projects}
+          draftBadge={<DraftBadge docId={caseStudy._id} hasDraft={hasDraft} />}
         />
 
         {restSections.length > 0 && (

@@ -81,6 +81,27 @@
   margin: 0;
 }
 
+/* ── Type link — rendered inside fieldValue when contentTypeHref is set ── */
+
+.typeLink {
+  color: var(--st-card-text, var(--st-color-text-primary));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.typeLink:hover {
+  color: var(--st-color-text-default, #111);
+}
+
+/* ── Draft badge slot — upper-right corner of grid ── */
+
+.draftBadgeSlot {
+  grid-column: 3 / -1;
+  grid-row: 1;
+  justify-self: end;
+  align-self: start;
+}
+
 /* ── Author link — rendered inside fieldValue when person has a slug ── */
 
 .authorLink {

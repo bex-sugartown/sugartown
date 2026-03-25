@@ -2,7 +2,7 @@
  * ArticlePage — renders a single Sanity `article` document.
  * Route: /articles/:slug
  */
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { decodeHtml, decodePortableText } from '../lib/htmlUtils'
@@ -11,6 +11,8 @@ import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { urlFor } from '../lib/sanity'
+import { getArchivePath } from '../lib/routes'
+import { extractLeadHero } from '../lib/heroUtils'
 import { CitationNote, CitationZone } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
@@ -53,37 +55,28 @@ export default function ArticlePage() {
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
   if (notFound || !post) return <NotFoundPage />
 
-  // Extract leading hero section so it renders flush against the header,
-  // above the back-nav / title / metadata card.
-  const sections = post.sections ?? []
-  const isHero = (s) => s._type === 'heroSection' || s._type === 'hero'
-  const leadHero = sections[0] && isHero(sections[0]) ? sections[0] : null
-  const restSections = leadHero ? sections.slice(1) : sections
-  const heroImageUrl = leadHero?.backgroundImage?.asset
-    ? urlFor(leadHero.backgroundImage.asset).width(1920).quality(90).url()
-    : undefined
+  // Extract leading hero section so it renders flush against the header
+  const { leadHero, restSections, heroImageUrl } = extractLeadHero(post.sections)
 
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
       {leadHero && <PageSections sections={[leadHero]} />}
       <div className={styles.detailPage}>
-        <Link to="/articles" className={styles.backLink}>
-          ← All Articles
-        </Link>
-
         <p className={styles.detailEyebrow}>Article</p>
-        <h1 className={styles.detailHeading}>{decodeHtml(post.title)}<DraftBadge docId={post._id} hasDraft={hasDraft} /></h1>
+        <h1 className={styles.detailHeading}>{decodeHtml(post.title)}</h1>
 
         <MetadataCard
           authors={post.authors}
           contentType="Article"
+          contentTypeHref={getArchivePath('article')}
           publishedAt={post.publishedAt}
           status={post.status}
           tools={post.tools}
           categories={post.categories}
           tags={post.tags}
           projects={post.projects}
+          draftBadge={<DraftBadge docId={post._id} hasDraft={hasDraft} />}
         />
 
         {restSections.length > 0 && (

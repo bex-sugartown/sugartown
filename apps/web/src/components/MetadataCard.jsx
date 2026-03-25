@@ -91,6 +91,7 @@ export default function MetadataCard({
   // Content fields
   authors,
   contentType,
+  contentTypeHref,
   publishedAt,
   status,
   aiTool,
@@ -106,6 +107,8 @@ export default function MetadataCard({
   categories,
   tags,
   projects,
+  // Slots
+  draftBadge,
 }) {
   const statusKey       = status?.toLowerCase().replace(/[\s_]+/g, '-')
   const authorByline    = getAuthorByline(authors)
@@ -146,9 +149,16 @@ export default function MetadataCard({
     role            && { label: 'Role',         value: role },
   ].filter(Boolean)
 
+  // Type value — <Link> when contentTypeHref is provided, plain text otherwise
+  const typeValue = contentType
+    ? contentTypeHref
+      ? <Link to={contentTypeHref} className={styles.typeLink}>{contentType}</Link>
+      : contentType
+    : null
+
   const rightCol = [
     statusKey       && { label: 'Status',   value: STATUS_LABELS[statusKey] ?? status },
-    contentType     && { label: 'Type',     value: contentType },
+    typeValue       && { label: 'Type',     value: typeValue },
     aiToolDisplay   && { label: 'AI Tool',  value: aiToolDisplay },
     priorityDisplay && { label: 'Priority', value: priorityDisplay },
   ].filter(Boolean)
@@ -178,7 +188,7 @@ export default function MetadataCard({
 
   if (
     !callNumber && !hasScalars && !hasTools && !hasKpis &&
-    !showProjectChips && !hasCategories && !hasTags && !publishedDisplay
+    !showProjectChips && !hasCategories && !hasTags && !publishedDisplay && !draftBadge
   ) return null
 
   return (
@@ -197,6 +207,13 @@ export default function MetadataCard({
                 callNumber
               )}
             </p>
+          )}
+
+          {/* Draft badge — upper-right of grid */}
+          {draftBadge && (
+            <div className={styles.draftBadgeSlot}>
+              {draftBadge}
+            </div>
           )}
 
           {/* Scalar fields — interleaved left/right pairs */}

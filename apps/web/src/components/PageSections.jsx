@@ -163,15 +163,26 @@ function HeroSection({ section }) {
       ? styles.heroContentWidth
       : ''
 
+  // Text glow class — keyed to treatment type when image is present
+  let glowClass = ''
+  if (hasImage) {
+    if (isExtremeHero) glowClass = styles.heroGlowExtreme
+    else if (treatmentType === 'duotone') glowClass = styles.heroGlowDuotone
+    else if (treatmentType === 'dark-scrim') glowClass = styles.heroGlowScrim
+    else if (treatmentType === 'color') glowClass = styles.heroGlowColor
+    else glowClass = styles.heroGlowDefault
+  }
+
   const sectionClasses = [
     styles.heroSection,
     widthClass,
-    hasImage ? styles.heroWithImage : '',
+    hasImage ? styles.heroWithImage : styles.heroImageless,
     hasTreatment ? styles.heroWithTreatment : '',
     treatmentType === 'duotone' ? styles.heroTreatmentDuotone : '',
     isExtremeHero ? styles.heroTreatmentExtreme : '',
     treatmentType === 'dark-scrim' ? styles.heroTreatmentScrim : '',
     treatmentType === 'color' ? styles.heroTreatmentColor : '',
+    glowClass,
   ].filter(Boolean).join(' ')
 
   return (

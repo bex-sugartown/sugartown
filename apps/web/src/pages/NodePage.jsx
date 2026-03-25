@@ -2,7 +2,7 @@
  * NodePage — renders a single Sanity `node` document (knowledge graph).
  * Route: /nodes/:slug
  */
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { decodeHtml, decodePortableText } from '../lib/htmlUtils'
@@ -10,7 +10,8 @@ import { nodeBySlugQuery } from '../lib/queries'
 import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
-import { urlFor } from '../lib/sanity'
+import { getArchivePath } from '../lib/routes'
+import { extractLeadHero } from '../lib/heroUtils'
 import { CitationNote, CitationZone } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
@@ -32,30 +33,20 @@ export default function NodePage() {
   if (notFound || !node) return <NotFoundPage />
 
   // Extract leading hero section so it renders flush against the header
-  const sections = node.sections ?? []
-  const isHero = (s) => s._type === 'heroSection' || s._type === 'hero'
-  const leadHero = sections[0] && isHero(sections[0]) ? sections[0] : null
-  const restSections = leadHero ? sections.slice(1) : sections
-  const heroImageUrl = leadHero?.backgroundImage?.asset
-    ? urlFor(leadHero.backgroundImage.asset).width(1920).quality(90).url()
-    : undefined
+  const { leadHero, restSections, heroImageUrl } = extractLeadHero(node.sections)
 
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
       {leadHero && <PageSections sections={[leadHero]} />}
       <div className={styles.detailPage}>
-        <Link to="/knowledge-graph" className={styles.backLink}>
-          ← Knowledge Graph
-        </Link>
-
         <p className={styles.detailEyebrow}>Knowledge Node</p>
-
-        <h1 className={styles.detailHeading}>{decodeHtml(node.title)}<DraftBadge docId={node._id} hasDraft={hasDraft} /></h1>
+        <h1 className={styles.detailHeading}>{decodeHtml(node.title)}</h1>
 
         <MetadataCard
           authors={node.authors}
           contentType="Node"
+          contentTypeHref={getArchivePath('node')}
           publishedAt={node.publishedAt}
           status={node.status}
           aiTool={node.aiTool}
@@ -64,6 +55,7 @@ export default function NodePage() {
           categories={node.categories}
           tags={node.tags}
           projects={node.projects}
+          draftBadge={<DraftBadge docId={node._id} hasDraft={hasDraft} />}
         />
 
         {(node.challenge?.length > 0 || node.insight?.length > 0 || node.actionItem?.length > 0) && (

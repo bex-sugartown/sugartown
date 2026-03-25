@@ -88,6 +88,62 @@
   mix-blend-mode: var(--st-media-overlay-blend, normal);
 }
 
+/* ── Imageless hero — dark text, no overlay, reduced height ─────── */
+.heroImageless {
+  color: var(--st-color-text-default, #111);
+  min-height: 180px;
+  background: transparent;
+}
+
+.heroImageless .heroEyebrow {
+  color: var(--st-color-teal, #2bd4aa);
+}
+
+.heroImageless .heroHeading {
+  color: var(--st-color-text-default, #111);
+}
+
+.heroImageless .heroSubheading {
+  color: var(--st-color-text-secondary, #525252);
+  opacity: 1;
+}
+
+/* ── Hero text glow / shadow — readability over images ───────────── */
+/* Default: subtle dark shadow for contrast over plain images */
+.heroGlowDefault .heroHeading,
+.heroGlowDefault .heroSubheading,
+.heroGlowDefault .heroEyebrow {
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Duotone standard/featured/subtle: warm pink-tinted glow */
+.heroGlowDuotone .heroHeading,
+.heroGlowDuotone .heroSubheading,
+.heroGlowDuotone .heroEyebrow {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 36, 125, 0.25);
+}
+
+/* Duotone extreme: stronger glow to pop off intense colour remap */
+.heroGlowExtreme .heroHeading,
+.heroGlowExtreme .heroSubheading,
+.heroGlowExtreme .heroEyebrow {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 36, 125, 0.35);
+}
+
+/* Dark scrim: minimal — scrim already provides contrast */
+.heroGlowScrim .heroHeading,
+.heroGlowScrim .heroSubheading,
+.heroGlowScrim .heroEyebrow {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Color overlay: adaptive darker shadow */
+.heroGlowColor .heroHeading,
+.heroGlowColor .heroSubheading,
+.heroGlowColor .heroEyebrow {
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 0, 0, 0.25);
+}
+
 /* ── Hero eyebrow ────────────────────────────────────────────────── */
 .heroEyebrow {
   font-size: var(--st-font-caption, 0.8125rem);
