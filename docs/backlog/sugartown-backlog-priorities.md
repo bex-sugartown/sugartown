@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-25 · v0.19.5 · Shipped SUG-33 Detail Hero & Metadata
+> Updated 2026-03-26 · v0.19.6 · Shipped SUG-15 XML Sitemap + Visual HTML Sitemap
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/prompts/SUG-{N}-*.md`.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.19.5 shipped (SUG-33 Detail Hero & Metadata). **Next:** DNS cutover to Netlify, SUG-34 Table Authoring UX.
+> **⚑ Current focus:** v0.19.6 shipped (SUG-15 XML Sitemap + Visual HTML Sitemap). **Next:** DNS cutover to Netlify, SUG-34 Table Authoring UX.
 
 ---
 
@@ -39,7 +39,7 @@
 
 | Item | Tags |
 |------|------|
-| **Sitemap epic (EPIC TBD)** — Auto-generated XML sitemap for Sanity content. Not required at launch but needed shortly after for SEO indexing. | `Deferred` `SEO` |
+| ~~**SUG-15 · XML Sitemap + Visual HTML Sitemap** — ✅ Shipped v0.19.6. Build-time sitemap.xml + robots.txt. Visual /sitemap page with governance stats.~~ | `SEO` | ✅ Shipped |
 | **Image redirect epic: `/wp-content/uploads/…` → Sanity CDN** — WP media URLs embedded in content need redirecting to Sanity CDN or static asset paths. Low urgency unless referenced in inbound links with SEO value. | `Deferred` `Infrastructure` |
 | **Future layout components: 2-col, 3-col banner, carousel** — Enhanced section builder layout options for editorial page building. Carousel needs accessibility and mobile performance consideration. Phase 2 scope. | `Deferred` `Component` |
 | **Archive page deferred fields — wire Display + Advanced tab configs** — 8 `archivePage` fields moved to "Advanced (coming soon)" tab in Studio: hero section, custom description, featured items, display density, card variant, sort options, pagination, empty state. None are currently wired in the web app. Wire them when archive page UX is revisited post-launch. | `Deferred` `Schema` `Editor UX` |
@@ -54,6 +54,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-15 · XML Sitemap + Visual HTML Sitemap** — Build-time `sitemap.xml` (218 URLs) + `robots.txt`. Visual `/sitemap` page with live Sanity data, grouped by content type, noIndex governance badges, stats bar.~~ | v0.19.6 | 2026-03-26 |
 | ~~**SUG-33 · Detail Page Hero & Metadata Refinement** — Hero tab on all detail doc schemas, MetadataCard compact grid layout, Internal Title rename, hero section backfill migration for all detail documents.~~ | v0.19.5 | 2026-03-25 |
 | ~~**SUG-32 · WordPress Media Library Import & Asset Mapping** — Legacy WordPress media assets imported into Sanity with naming convention applied. Image-to-document mapping for case studies, articles, about page. Migration scripts and artifacts.~~ | v0.19.4 | 2026-03-25 |
 | ~~**SUG-31 · Image Asset Pipeline** — Naming convention established (`{docType}-{subject}-{descriptor}.{ext}`). 55 metadata renames, 19 format conversions (jpg→webp), 9 orphan deletions. All document references patched. Hero overlay GROQ projection fix + extreme duotone CSS parity fix.~~ | v0.19.3 | 2026-03-25 |
