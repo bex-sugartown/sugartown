@@ -30,7 +30,7 @@ This fits the MLA/library thesis: citations reference *sources*, the knowledge g
 |---|-----|--------------|
 | **Purpose** | Classification metadata — groups content | Editorial definition — explains a concept |
 | **Lifecycle** | Created when needed for filtering | Authored deliberately as reference content |
-| **Content** | Name + 300-char description (usage guidance) | Name + rich definition (PortableText) + sources + related terms |
+| **Content** | Name + 200–300-char plain-text description (see Q4) | Name + rich definition (PortableText) + sources + related terms |
 | **Audience** | Editors (which tag to apply) | Readers (what does this mean) |
 | **URL** | `/tags/:slug` | `/glossary/:slug` |
 
@@ -59,6 +59,34 @@ Some nodes ARE terms. "Headless CMS" might be both a glossary entry and a knowle
 **Recommendation:** **Pattern B+C** — glossary terms render as links to `/glossary/:slug` (solid baseline, SEO-friendly), styled with a **dotted underline** to distinguish from regular links. Progressive enhancement adds a **hover preview popover** (WCAG 1.4.13 compliant: dismissible via Escape, hoverable, persistent). First occurrence in an article uses `<dfn>` for semantic markup.
 
 On mobile: tap navigates to the glossary page (no hover). The popover is desktop-only progressive enhancement.
+
+### Q4. Existing taxonomy `description` fields — upgrade path?
+
+**Current state:** All three taxonomy types already have a plain-text `description` field used for editor guidance:
+
+| Type | Field type | Max length | Current purpose |
+|------|-----------|-----------|-----------------|
+| `tag` | `text` (2 rows) | 300 chars | "What does this tag mean and when should it be applied?" |
+| `tool` | `text` (2 rows) | 300 chars | "What is this tool and when should it be tagged?" |
+| `category` | `text` (3 rows) | 200 chars | "Brief description of what this category covers" |
+
+These descriptions are editor-facing (Studio only) — they don't render on the frontend today. But they contain seed content that could bootstrap glossary definitions.
+
+**Recommendation: Upgrade `description` to PortableText on all three taxonomy types.**
+
+The current plain-text fields are undersized for reader-facing definitions and can't carry links, emphasis, or inline references. Upgrading to `summaryPortableText` (the same constrained PT config used elsewhere in Sugartown) would:
+
+1. **Enable rich definitions** — links to related terms, inline code, emphasis for technical precision
+2. **Surface on taxonomy detail pages** — `/tags/:slug`, `/tools/:slug`, `/categories/:slug` could render the definition as structured content instead of hiding it in Studio
+3. **Feed the glossary** — for terms that overlap with tags (e.g. "headless-cms"), the `glossaryTerm` can pull its short definition from the tag's enriched description via reference, avoiding duplicate authoring
+4. **Preserve backward compat** — existing plain-text values migrate cleanly into single-block PT (Sanity migration script: wrap each string in a `block` with a `span`)
+
+**Migration path:**
+- Phase 0 (pre-glossary): Rename field to `definition`, change type from `text` to `summaryPortableText`, run migration script to convert existing strings → PT blocks. Update `description` labels to "Definition — reader-facing explanation of this term". Increase Studio field height.
+- Phase 1 (glossary launch): `glossaryTerm.relatedTag` / `relatedTool` references allow cross-linking. Taxonomy detail pages render the PT definition.
+- Phase 3 (content enrichment): Authors review and enrich the migrated definitions with links, emphasis, and cross-references.
+
+**What NOT to do:** Don't try to make tags *become* glossary terms. The taxonomy `description` → `definition` upgrade makes taxonomy pages better independently. The glossary system remains its own doc type with its own editorial workflow. The two systems cross-reference — they don't merge.
 
 ---
 
@@ -254,6 +282,14 @@ This creates a visual hierarchy of reference types within body content — exact
 
 ## Phased Delivery
 
+### Phase 0 — Taxonomy Definition Upgrade (pre-glossary, independent value)
+- Rename `description` → `definition` on `tag`, `tool`, and `category` schemas
+- Change field type from `text` to `summaryPortableText`
+- Migration script: convert existing plain-text strings → single-block PT
+- Update Studio field labels + help text to "Definition — reader-facing explanation"
+- Render definitions on taxonomy detail pages (`/tags/:slug`, `/tools/:slug`, `/categories/:slug`)
+- _This phase delivers value independently — taxonomy pages get richer even if Phase 1 is deferred_
+
 ### Phase 1 — Schema + Archive Page (foundation)
 - `glossaryTerm` document type in Studio
 - GROQ queries + fragments
@@ -261,7 +297,7 @@ This creates a visual hierarchy of reference types within body content — exact
 - `/glossary/:slug` term detail page
 - Route registration in App.jsx + routes.js
 - DefinedTerm/DefinedTermSet JSON-LD
-- Seed 10-15 foundational terms from existing tag descriptions
+- Seed 10-15 foundational terms (bootstrap from upgraded taxonomy definitions)
 
 ### Phase 2 — Inline Annotations (the magic)
 - `glossaryTermRef` PT annotation in Studio
