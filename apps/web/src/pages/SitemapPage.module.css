@@ -1,0 +1,155 @@
+/* SitemapPage — Visual HTML Sitemap (SUG-15)
+ *
+ * Minimal, scannable layout. Inherits app typography tokens.
+ * Single column, grouped by content type, responsive by default.
+ */
+
+/* ── Page container ──────────────────────────────────────────── */
+
+.page {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ── Header / stats bar ──────────────────────────────────────── */
+
+.header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--st-color-border, rgba(255, 255, 255, 0.1));
+}
+
+.title {
+  font-family: var(--st-font-family-heading, var(--st-font-family-ui));
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0 0 0.75rem;
+  color: var(--st-color-brand-primary, #ff247d);
+}
+
+.stats {
+  font-family: var(--st-font-family-mono, monospace);
+  font-size: 0.8125rem;
+  color: var(--st-color-text-muted, #888);
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.statItem strong {
+  color: var(--st-color-text-default, #e0e0e0);
+}
+
+.statSep {
+  margin: 0 0.25rem;
+  opacity: 0.5;
+}
+
+/* ── Content type groups ─────────────────────────────────────── */
+
+.group {
+  margin-bottom: 2rem;
+}
+
+.groupHeading {
+  font-family: var(--st-font-family-heading, var(--st-font-family-ui));
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--st-color-brand-primary, #ff247d);
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--st-color-border, rgba(255, 255, 255, 0.08));
+}
+
+.groupCount {
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: var(--st-color-text-muted, #888);
+  margin-left: 0.5rem;
+}
+
+/* ── Link list ───────────────────────────────────────────────── */
+
+.linkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.linkItem {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.375rem 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.linkItem + .linkItem {
+  border-top: 1px solid var(--st-color-border, rgba(255, 255, 255, 0.04));
+}
+
+.link {
+  color: var(--st-color-link, var(--st-color-text-default, #e0e0e0));
+  text-decoration: none;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link:hover {
+  color: var(--st-color-link-hover, var(--st-color-brand-primary, #ff247d));
+  text-decoration: underline;
+}
+
+/* ── Date ────────────────────────────────────────────────────── */
+
+.date {
+  font-family: var(--st-font-family-mono, monospace);
+  font-size: 0.75rem;
+  color: var(--st-color-text-muted, #888);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── noIndex items ───────────────────────────────────────────── */
+
+.noIndex .link {
+  opacity: 0.5;
+}
+
+.noIndexBadge {
+  display: inline-block;
+  font-family: var(--st-font-family-mono, monospace);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted, #888);
+  background: var(--st-color-surface-raised, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--st-color-border, rgba(255, 255, 255, 0.1));
+  border-radius: 3px;
+  padding: 0.125rem 0.375rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .linkItem {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .date {
+    width: 100%;
+    padding-left: 0;
+  }
+}

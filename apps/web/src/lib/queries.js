@@ -1245,3 +1245,41 @@ export const archivePageWithFilterConfigQuery = `
     }
   }
 `
+
+// ─── Sitemap (HTML sitemap page — SUG-15) ────────────────────────────────────
+
+export const sitemapQuery = `
+  {
+    "content": *[
+      _type in [
+        "page", "article", "caseStudy", "node", "archivePage",
+        "category", "tag", "project", "person", "tool"
+      ]
+      && defined(slug.current)
+    ] | order(_type asc, title asc) {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      _updatedAt,
+      "noIndex": coalesce(seo.noIndex, false)
+    },
+    "stats": {
+      "totalPublished": count(*[
+        _type in [
+          "page", "article", "caseStudy", "node", "archivePage",
+          "category", "tag", "project", "person", "tool"
+        ]
+        && defined(slug.current)
+      ]),
+      "hiddenFromSearch": count(*[
+        _type in [
+          "page", "article", "caseStudy", "node", "archivePage",
+          "category", "tag", "project", "person", "tool"
+        ]
+        && defined(slug.current)
+        && seo.noIndex == true
+      ])
+    }
+  }
+`

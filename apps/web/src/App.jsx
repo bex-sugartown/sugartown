@@ -20,6 +20,7 @@ import TaxonomyArchivePage from './pages/TaxonomyArchivePage'
 import PersonProfilePage from './pages/PersonProfilePage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import SchemaErdPage from './pages/SchemaErdPage'
+import SitemapPage from './pages/SitemapPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 import './App.css'
@@ -116,6 +117,7 @@ function App() {
 
         {/* ── Code-driven pages ────────────────────────────────────── */}
         <Route path="/platform/schema" element={<SchemaErdPage />} />
+        <Route path="/sitemap" element={<SitemapPage />} />
 
         {/* ── Root pages (page type) — must come last among /:slug ─── */}
         {/* NOTE: This catches any single-segment path not matched above.         */}
