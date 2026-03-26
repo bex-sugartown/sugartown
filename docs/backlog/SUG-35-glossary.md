@@ -372,7 +372,7 @@ Three reference types, three visual treatments, three editorial purposes. The gl
 ## Not in Scope
 
 - **Automatic term detection** — no AI scanning content to suggest glossary links. Annotations are manual editorial choices.
-- **Full-text search** within glossary — defer to site-wide search epic (SUG-22)
+- **Full-text search** within glossary — defer to site-wide search epic (SUG-36)
 - **Studio autocomplete** — no inline term suggestion while typing in PT editor. Could be a Sanity plugin enhancement later.
 - **Glossary versioning** — definitions don't track historical changes (unlike nodes which have status/evolution)
 - **Multi-language glossary** — single-language site
