@@ -103,6 +103,10 @@
   margin: 1.5rem 0;
 }
 
+.inlineImageClickable {
+  cursor: zoom-in;
+}
+
 .inlineImageImg {
   width: 100%;
   border-radius: var(--st-radius-sm, 8px);

@@ -18,6 +18,7 @@
 // New schemas
 import link from './objects/link'
 import richImage from './objects/richImage'
+import galleryImage from './objects/galleryImage'
 import ctaButton from './objects/ctaButton'
 import editorialCard from './objects/editorialCard'
 import linkItem from './objects/linkItem'
@@ -99,6 +100,7 @@ export const schemaTypes = [
   link,
   linkItem,
   richImage,
+  galleryImage,
   ctaButton,
   editorialCard,
   cardBuilderItem,

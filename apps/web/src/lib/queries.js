@@ -312,6 +312,7 @@ export const nodeBySlugQuery = `
         "content": content${PT_CONTENT_PROJECTION}
       },
       _type == "imageGallery" => {
+        heading,
         layout,
         treatment,
         images[] {
@@ -321,7 +322,6 @@ export const nodeBySlugQuery = `
           alt,
           caption,
           credit,
-          overlay,
           "link": link {
             type,
             "url": ${LINKITEM_URL_EXPR_BARE},
@@ -467,6 +467,7 @@ export const articleBySlugQuery = `
         "content": content${PT_CONTENT_PROJECTION}
       },
       _type == "imageGallery" => {
+        heading,
         layout,
         treatment,
         images[] {
@@ -476,7 +477,6 @@ export const articleBySlugQuery = `
           alt,
           caption,
           credit,
-          overlay,
           "link": link {
             type,
             "url": ${LINKITEM_URL_EXPR_BARE},
@@ -600,6 +600,7 @@ export const pageBySlugQuery = `
         "content": content${PT_CONTENT_PROJECTION}
       },
       _type == "imageGallery" => {
+        heading,
         layout,
         treatment,
         images[] {
@@ -609,7 +610,6 @@ export const pageBySlugQuery = `
           alt,
           caption,
           credit,
-          overlay,
           "link": link {
             type,
             "url": ${LINKITEM_URL_EXPR_BARE},
@@ -719,6 +719,7 @@ export const caseStudyBySlugQuery = `
         "content": content${PT_CONTENT_PROJECTION}
       },
       _type == "imageGallery" => {
+        heading,
         layout,
         treatment,
         images[] {
@@ -728,7 +729,6 @@ export const caseStudyBySlugQuery = `
           alt,
           caption,
           credit,
-          overlay,
           "link": link {
             type,
             "url": ${LINKITEM_URL_EXPR_BARE},

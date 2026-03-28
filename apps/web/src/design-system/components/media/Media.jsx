@@ -136,6 +136,7 @@ export default function Media({
   caption,
   overlay,
   aspectRatio,
+  hotspot,
   hoverScale,
   className,
 }) {
@@ -169,9 +170,15 @@ export default function Media({
     ...(overlay ? getOverlayStyles(overlay) : {}),
   }
 
+  // Translate Sanity hotspot (x, y: 0–1) to CSS object-position for object-fit: cover.
+  // Defaults to center when no hotspot is defined.
+  const imgStyle = hotspot
+    ? { objectPosition: `${(hotspot.x * 100).toFixed(1)}% ${(hotspot.y * 100).toFixed(1)}%` }
+    : {}
+
   return (
     <figure className={figureClassNames} style={figureStyle}>
-      <img src={src} alt={alt} className={styles.image} />
+      <img src={src} alt={alt} className={styles.image} style={imgStyle} />
       {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
     </figure>
   )

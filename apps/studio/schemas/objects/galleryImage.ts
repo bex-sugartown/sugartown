@@ -2,14 +2,15 @@ import {defineType, defineField} from 'sanity'
 import {ImageIcon} from '@sanity/icons'
 
 /**
- * Rich Image Object
+ * Gallery Image Object
  *
- * Image with comprehensive metadata and accessibility support
- * Includes hotspot/crop, alt text, captions, credits, and optional linking
+ * Subset of richImage for use inside imageGallery sections.
+ * Omits the per-image overlay field — overlays are set at the gallery level
+ * via the section's "treatment" field.
  */
 export default defineType({
-  name: 'richImage',
-  title: 'Image',
+  name: 'galleryImage',
+  title: 'Gallery Image',
   type: 'object',
   icon: ImageIcon,
   fields: [
@@ -65,12 +66,6 @@ export default defineType({
           allowRelative: true
         })
     }),
-    defineField({
-      name: 'overlay',
-      title: 'Image Overlay',
-      type: 'mediaOverlay',
-      description: 'Optional duotone or colour overlay treatment. Not used when image is inside a gallery — use the gallery-level Image Treatment instead.',
-    })
   ],
   preview: {
     select: {

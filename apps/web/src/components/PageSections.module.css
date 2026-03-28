@@ -359,6 +359,10 @@
   margin: var(--st-spacing-stack-lg) 0;
 }
 
+.inlineImageClickable {
+  cursor: zoom-in;
+}
+
 .inlineImageImg {
   width: 100%;
   border-radius: var(--st-radius-md, 6px);
@@ -381,6 +385,11 @@
   display: grid;
   gap: var(--st-spacing-stack-md);
   position: relative;
+}
+
+/* Heading spans all grid columns in gallery layouts */
+.imageGallery > .sectionHeading {
+  grid-column: 1 / -1;
 }
 
 .gallery-grid {
@@ -489,8 +498,14 @@
 .galleryItem {
   margin: 0;
   break-inside: avoid;
-  margin-bottom: var(--st-spacing-stack-md);
   position: relative;
+  overflow: hidden;
+  border-radius: var(--st-radius-md, 12px);
+}
+
+/* Masonry needs margin-bottom since CSS columns don't support gap */
+.gallery-masonry .galleryItem {
+  margin-bottom: var(--st-spacing-stack-md);
 }
 
 .galleryLinked {
@@ -507,7 +522,6 @@
 
 .galleryImage {
   width: 100%;
-  height: auto;
   display: block;
   margin: 0;
   --st-media-duotone-radius: var(--st-radius-md, 12px); /* smaller radius for gallery thumbs */

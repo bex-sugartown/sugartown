@@ -7,9 +7,49 @@ import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, Citati
 import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
 import CardBuilderSection from './CardBuilderSection'
 import ImageLightbox from './ImageLightbox'
-import SanityImage from './atoms/SanityImage'
 import { LinkAnnotation, DividerBlock } from './portableTextComponents'
 import styles from './PageSections.module.css'
+
+/**
+ * InlineImage — richImage block in PortableText with lightbox support.
+ * Clicks open a full-size lightbox view (no link on the image).
+ */
+function InlineImage({ value }) {
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+
+  if (!value?.asset) return null
+  const imgSrc = urlFor(value.asset).width(900).auto('format').url()
+
+  return (
+    <>
+      <figure
+        className={`${styles.inlineImage} ${styles.inlineImageClickable}`}
+        onClick={() => setLightboxOpen(true)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLightboxOpen(true) } }}
+        aria-label={`View full size: ${value.alt || 'image'}`}
+      >
+        <Media
+          src={imgSrc}
+          alt={value.alt ?? ''}
+          overlay={value.overlay}
+          className={styles.inlineImageImg}
+        />
+        {value.caption && (
+          <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
+        )}
+      </figure>
+      {lightboxOpen && (
+        <ImageLightbox
+          images={[value]}
+          initialIndex={0}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
+    </>
+  )
+}
 
 // Portable Text components for text sections
 const portableTextComponents = {
@@ -32,24 +72,8 @@ const portableTextComponents = {
     ),
   },
   types: {
-    // richImage blocks inline in textSection.content
-    richImage: ({ value }) => {
-      if (!value?.asset) return null
-      return (
-        <figure className={styles.inlineImage}>
-          <SanityImage
-            asset={value.asset}
-            alt={value.alt ?? ''}
-            width={900}
-            sizes="(max-width: 768px) 100vw, 900px"
-            className={styles.inlineImageImg}
-          />
-          {value.caption && (
-            <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
-          )}
-        </figure>
-      )
-    },
+    // richImage blocks inline in textSection.content — clickable lightbox for full-size view
+    richImage: ({ value }) => <InlineImage value={value} />,
     // Code blocks from Sanity's code input plugin — DS CodeBlock with Prism highlighting
     code: ({ value }) => {
       if (!value?.code) return null
@@ -264,17 +288,22 @@ function resolveImageLink(image) {
  * GalleryImage — renders a single image in the gallery.
  * Wraps in <Link> (SPA), <a> (external), or attaches lightbox onClick.
  */
-function GalleryImage({ image, index, onLightbox, treatment }) {
+function GalleryImage({ image, index, onLightbox, treatment, layout }) {
   if (!image.asset) return null
 
   const imgSrc = urlFor(image.asset).width(800).auto('format').url()
   const linkTarget = resolveImageLink(image)
 
+  // Uniform aspect ratio per layout; hotspot controls crop focus point
+  const aspectRatio = layout === 'carousel' ? '16/9' : '4/3'
+
   const mediaEl = (
     <Media
       src={imgSrc}
       alt={image.alt || ''}
-      overlay={treatment || image.overlay}
+      overlay={treatment}
+      aspectRatio={aspectRatio}
+      hotspot={image.hotspot}
       className={styles.galleryImage}
     />
   )
@@ -344,7 +373,7 @@ function CarouselDots({ count, activeIndex, onDotClick }) {
 
 // Image Gallery Section Component
 function ImageGallerySection({ section }) {
-  const { layout, images, treatment } = section
+  const { heading, layout, images, treatment } = section
   const [lightboxIndex, setLightboxIndex] = useState(null)
   const [activeSlide, setActiveSlide] = useState(0)
   const scrollRef = useRef(null)
@@ -397,6 +426,7 @@ function ImageGallerySection({ section }) {
   return (
     <>
       <section className={galleryClassName}>
+        {heading && <h2 className={styles.sectionHeading}>{heading}</h2>}
         {isCarousel && images.length > 1 && (
           <button className={`${styles.carouselArrow} ${styles.carouselPrev}`} onClick={scrollPrev} aria-label="Previous slide">‹</button>
         )}
@@ -414,6 +444,7 @@ function ImageGallerySection({ section }) {
                   index={lightboxImages.indexOf(image)}
                   onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
                   treatment={treatment}
+                  layout={layout}
                 />
               </div>
             ))}
@@ -426,6 +457,7 @@ function ImageGallerySection({ section }) {
               index={lightboxImages.indexOf(image)}
               onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
               treatment={treatment}
+              layout={layout}
             />
           ))
         )}

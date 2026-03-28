@@ -13,7 +13,9 @@ import { resolveSeo } from '../lib/seo'
 import { urlFor } from '../lib/sanity'
 import { getArchivePath } from '../lib/routes'
 import { extractLeadHero } from '../lib/heroUtils'
-import { CitationNote, CitationZone } from '../design-system'
+import { useState } from 'react'
+import { CitationNote, CitationZone, Media } from '../design-system'
+import ImageLightbox from '../components/ImageLightbox'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
@@ -22,25 +24,48 @@ import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
+function ArticleInlineImage({ value }) {
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+
+  if (!value?.asset) return null
+  const imgSrc = urlFor(value.asset).width(900).auto('format').url()
+
+  return (
+    <>
+      <figure
+        className={`${styles.inlineImage} ${styles.inlineImageClickable}`}
+        onClick={() => setLightboxOpen(true)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLightboxOpen(true) } }}
+        aria-label={`View full size: ${value.alt || 'image'}`}
+      >
+        <Media
+          src={imgSrc}
+          alt={value.alt ?? ''}
+          overlay={value.overlay}
+          className={styles.inlineImageImg}
+        />
+        {value.caption && (
+          <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
+        )}
+      </figure>
+      {lightboxOpen && (
+        <ImageLightbox
+          images={[value]}
+          initialIndex={0}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
+    </>
+  )
+}
+
 const portableTextComponents = {
   ...sharedPTComponents,
   types: {
     ...sharedPTComponents.types,
-    richImage: ({ value }) => {
-      if (!value?.asset) return null
-      return (
-        <figure className={styles.inlineImage}>
-          <img
-            src={urlFor(value.asset).width(900).quality(85).url()}
-            alt={value.alt ?? ''}
-            className={styles.inlineImageImg}
-          />
-          {value.caption && (
-            <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
-          )}
-        </figure>
-      )
-    },
+    richImage: ({ value }) => <ArticleInlineImage value={value} />,
   },
 }
 

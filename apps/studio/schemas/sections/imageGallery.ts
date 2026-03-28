@@ -14,13 +14,20 @@ export default defineType({
   icon: ImagesIcon,
   fields: [
     defineField({
+      name: 'heading',
+      title: 'Section Heading',
+      type: 'string',
+      description: 'Optional heading displayed above the gallery',
+      validation: (Rule) => Rule.max(100)
+    }),
+    defineField({
       name: 'images',
       title: 'Images',
       type: 'array',
       description: 'The images to display in this gallery',
       of: [
         defineArrayMember({
-          type: 'richImage'
+          type: 'galleryImage'
         })
       ],
       validation: (Rule) =>
@@ -47,15 +54,16 @@ export default defineType({
       name: 'treatment',
       title: 'Image Treatment',
       type: 'mediaOverlay',
-      description: 'Overlay effect applied to all images in this gallery (duotone, dark scrim, or colour overlay)',
+      description: 'Overlay effect applied uniformly to all images in this gallery (duotone, dark scrim, or colour overlay). Per-image overlay settings are ignored in gallery context.',
     })
   ],
   preview: {
     select: {
+      heading: 'heading',
       images: 'images',
       layout: 'layout'
     },
-    prepare({images, layout}) {
+    prepare({heading, images, layout}) {
       const imageCount = images?.length || 0
       const layoutLabels = {
         grid: 'Grid',
@@ -63,8 +71,8 @@ export default defineType({
       }
 
       return {
-        title: `Image Gallery (${imageCount} image${imageCount !== 1 ? 's' : ''})`,
-        subtitle: `Image Gallery · ${layoutLabels[layout as keyof typeof layoutLabels] || layout}`,
+        title: heading || `Image Gallery (${imageCount} image${imageCount !== 1 ? 's' : ''})`,
+        subtitle: `Image Gallery · ${layoutLabels[layout as keyof typeof layoutLabels] || layout} · ${imageCount} image${imageCount !== 1 ? 's' : ''}`,
         media: images?.[0]?.asset
       }
     }

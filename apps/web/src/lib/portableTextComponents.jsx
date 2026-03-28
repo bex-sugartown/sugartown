@@ -7,10 +7,12 @@
  * Page-specific type handlers (e.g. richImage in ArticlePage) can be merged
  * via spread: { ...portableTextComponents, types: { ...portableTextComponents.types, richImage: … } }
  */
-import { CodeBlock, Table, TableWrap, CitationMarker } from '../design-system'
+import { CodeBlock, Table, TableWrap, CitationMarker, Media } from '../design-system'
 import { LinkAnnotation, DividerBlock } from '../components/portableTextComponents'
+import ImageLightbox from '../components/ImageLightbox'
+import { urlFor } from './sanity'
 
-import { Children } from 'react'
+import { useState, Children } from 'react'
 
 /**
  * Block-level heading handlers.
@@ -32,6 +34,48 @@ function extractText(node) {
 function isEmptyBlock(children) {
   const text = extractText(Children.toArray(children))
   return text.trim() === ''
+}
+
+/**
+ * SharedInlineImage — richImage block with overlay + lightbox.
+ * Default renderer for pages that don't override with CSS modules.
+ */
+function SharedInlineImage({ value }) {
+  const [lightboxOpen, setLightboxOpen] = useState(false)
+
+  if (!value?.asset) return null
+  const imgSrc = urlFor(value.asset).width(900).auto('format').url()
+
+  return (
+    <>
+      <figure
+        style={{ margin: '1.5rem 0', cursor: 'zoom-in' }}
+        onClick={() => setLightboxOpen(true)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLightboxOpen(true) } }}
+        aria-label={`View full size: ${value.alt || 'image'}`}
+      >
+        <Media
+          src={imgSrc}
+          alt={value.alt ?? ''}
+          overlay={value.overlay}
+        />
+        {value.caption && (
+          <figcaption style={{ fontSize: '0.85rem', color: 'var(--st-color-text-muted, #555)', marginTop: '0.5rem', textAlign: 'center', fontStyle: 'italic' }}>
+            {value.caption}
+          </figcaption>
+        )}
+      </figure>
+      {lightboxOpen && (
+        <ImageLightbox
+          images={[value]}
+          initialIndex={0}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
+    </>
+  )
 }
 
 const portableTextComponents = {
@@ -56,6 +100,8 @@ const portableTextComponents = {
     ),
   },
   types: {
+    // richImage blocks — overlay support + lightbox on click
+    richImage: ({ value }) => <SharedInlineImage value={value} />,
     // Divider — horizontal rule between content blocks
     divider: ({ value }) => <DividerBlock value={value} />,
     // Code blocks from Sanity's code input plugin — DS CodeBlock with overflow containment
