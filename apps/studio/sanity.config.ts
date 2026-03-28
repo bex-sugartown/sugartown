@@ -5,7 +5,6 @@ import {colorInput} from '@sanity/color-input'
 import {codeInput} from '@sanity/code-input'
 import {schemaTypes} from './schemas'
 import {autoTimestampsPlugin} from './plugins/autoTimestamps'
-import {TaxonomyRefItem} from './components/TaxonomyRefItem'
 
 export default defineConfig({
   name: 'default',
@@ -124,14 +123,6 @@ export default defineConfig({
           action.action !== 'ScheduledPublishing.ScheduleAction' &&
           !/schedule/i.test(action.action ?? ''),
       ),
-  },
-
-  form: {
-    components: {
-      // Adds a visible remove (X) button on items in categories[], tags[], and tools[] arrays.
-      // Works around missing hover context-menu on reference array items.
-      item: TaxonomyRefItem,
-    },
   },
 
   schema: {
