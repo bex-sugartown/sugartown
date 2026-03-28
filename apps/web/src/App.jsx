@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Routes, Route, Navigate, useParams } from 'react-router-dom'
+import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom'
 import { client, urlFor } from './lib/sanity'
 import { siteSettingsQuery } from './lib/queries'
 import { SiteSettingsContext } from './lib/SiteSettingsContext'
@@ -24,6 +24,14 @@ import SitemapPage from './pages/SitemapPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 import './App.css'
+
+// Scroll to top on route change — BrowserRouter preserves scroll position by default,
+// which causes prev/next navigation (e.g. case study footer links) to land mid-page.
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
 
 // Redirect /nodes/:slug → /knowledge-graph/:slug, preserving the slug param.
 // <Navigate> alone cannot interpolate params, so we use a thin wrapper component.
@@ -72,6 +80,7 @@ function App() {
     <div className="app">
       {isPreviewMode() && <PreviewBanner />}
       <Header siteSettings={siteSettings} settingsLoading={settingsLoading} />
+      <ScrollToTop />
 
       <Routes>
         {/* ── Homepage ─────────────────────────────────────────────── */}
