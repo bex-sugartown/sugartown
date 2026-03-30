@@ -32,11 +32,13 @@
     "migrate:cleanup-orphan-tags": "node scripts/migrate/cleanup-orphan-tags.js",
     "migrate:backfill-author": "node scripts/migrate/backfill-default-author.js",
     "migrate:rename-images": "node scripts/migrate/rename-images.js",
+    "migrate:html-tables": "node scripts/migrate/html-tables-to-tableblock.js",
     "audit:urls": "node scripts/audit/wp-url-spider.js",
     "bulk:export": "node scripts/bulk/export-csv.js",
     "bulk:import": "node scripts/bulk/import-csv.js"
   },
   "devDependencies": {
+    "linkedom": "^0.18.12",
     "prettier": "^3.1.1",
     "stylelint": "^17.3.0",
     "stylelint-config-standard": "^40.0.0",

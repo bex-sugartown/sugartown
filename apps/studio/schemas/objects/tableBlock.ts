@@ -1,5 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {ThListIcon} from '@sanity/icons'
+import TableBlockInput from '../../components/TableBlockInput'
 
 /**
  * tableBlock — Portable Text custom block type for structured tables.
@@ -17,12 +18,16 @@ import {ThListIcon} from '@sanity/icons'
  * the renderer straightforward. Rich text cells are a future enhancement.
  *
  * EPIC-0163: Table as PortableText Custom Block Type
+ * SUG-34: Custom grid input component with clipboard paste support
  */
 export default defineType({
   name: 'tableBlock',
   title: 'Table',
   type: 'object',
   icon: ThListIcon,
+  components: {
+    input: TableBlockInput,
+  },
   fields: [
     defineField({
       name: 'variant',
