@@ -306,29 +306,31 @@ const NODE_FIELDS = [
     enumValues: ['problem', 'learning', 'code', 'design', 'architecture', 'debug', 'reflection'],
     description: 'Conversation type',
   },
+  // Deprecated v2026.03.30 — challenge/insight/actionItem removed from active schema.
+  // Fields retained read-only for export/audit of legacy data.
   {
     csvColumn: 'challenge',
     groqPath: 'challenge',
     type: FIELD_TYPES.TEXT,
     patchPath: 'challenge',
-    editable: true,
-    description: 'Challenge description (max 500 chars)',
+    editable: false,
+    description: '⚠️ Deprecated — legacy challenge field (read-only)',
   },
   {
     csvColumn: 'insight',
     groqPath: 'insight',
     type: FIELD_TYPES.TEXT,
     patchPath: 'insight',
-    editable: true,
-    description: 'Key insight (max 1000 chars)',
+    editable: false,
+    description: '⚠️ Deprecated — legacy insight field (read-only)',
   },
   {
     csvColumn: 'actionItem',
     groqPath: 'actionItem',
     type: FIELD_TYPES.STRING,
     patchPath: 'actionItem',
-    editable: true,
-    description: 'Action item (max 200 chars)',
+    editable: false,
+    description: '⚠️ Deprecated — legacy action item field (read-only)',
   },
 ]
 

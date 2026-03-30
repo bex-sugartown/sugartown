@@ -188,7 +188,7 @@
   border-top-color: rgba(255, 36, 125, 0.25);
 }
 
-/* Divider between metadata fields (challenge/insight/actionItem) and body content */
+/* Divider between metadata fields and body content */
 .metadataDivider {
   border: none;
   border-top: 1px solid rgba(255, 111, 184, 0.25);

@@ -3,9 +3,6 @@
  * Route: /nodes/:slug
  */
 import { useParams } from 'react-router-dom'
-import { PortableText } from '@portabletext/react'
-import sharedPTComponents from '../lib/portableTextComponents'
-import { decodeHtml, decodePortableText } from '../lib/htmlUtils'
 import { nodeBySlugQuery } from '../lib/queries'
 import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -54,30 +51,6 @@ export default function NodePage() {
           projects={node.projects}
           draftBadge={<DraftBadge docId={node._id} hasDraft={hasDraft} />}
         />
-
-        {(node.challenge?.length > 0 || node.insight?.length > 0 || node.actionItem?.length > 0) && (
-          <div className={styles.detailContent}>
-            {node.challenge?.length > 0 && (
-              <>
-                <h2>Challenge</h2>
-                <PortableText value={node.challenge} components={sharedPTComponents} />
-              </>
-            )}
-            {node.insight?.length > 0 && (
-              <>
-                <h2>Insight</h2>
-                <PortableText value={node.insight} components={sharedPTComponents} />
-              </>
-            )}
-            {node.actionItem?.length > 0 && (
-              <>
-                <h2>Action Item</h2>
-                <PortableText value={node.actionItem} components={sharedPTComponents} />
-              </>
-            )}
-            {restSections.length > 0 && <hr className={styles.metadataDivider} />}
-          </div>
-        )}
 
         {restSections.length > 0 && (
           <PageSections sections={restSections} context="detail" />

@@ -94,7 +94,7 @@ These are composed into content queries to avoid repetition:
 // nodeBySlugQuery
 *[_type == "node" && slug.current == $slug][0] {
   _id, title, slug, body, aiTool, conversationType,
-  challenge, insight, actionItem,
+  // challenge, insight, actionItem — deprecated v2026.03.30
   ...TAXONOMY_FRAGMENT,
   seo
 }

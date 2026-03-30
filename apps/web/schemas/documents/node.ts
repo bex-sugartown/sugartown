@@ -116,32 +116,32 @@ export default defineType({
         })
     }),
 
-    // AGENTIC CAUCUS GROUP
+    // AGENTIC CAUCUS GROUP — deprecated fields (kept for backward compat)
     defineField({
       name: 'challenge',
-      title: 'Challenge',
+      title: 'Challenge (Legacy)',
       type: 'text',
-      description: 'What were you trying to figure out? What problem were you solving?',
+      description: '⚠️ Deprecated — work challenges into the node narrative arc.',
       group: 'agenticCaucus',
       rows: 2,
-      validation: (Rule) => Rule.max(500)
+      deprecated: {reason: 'Work challenges into the node narrative arc instead of a separate field.'},
     }),
     defineField({
       name: 'insight',
-      title: 'Insight',
+      title: 'Insight (Legacy)',
       type: 'text',
-      description: 'What did you learn from this interaction? Key takeaways?',
+      description: '⚠️ Deprecated — work insights into the node narrative arc.',
       group: 'agenticCaucus',
       rows: 3,
-      validation: (Rule) => Rule.max(1000)
+      deprecated: {reason: 'Work insights into the node narrative arc instead of a separate field.'},
     }),
     defineField({
       name: 'actionItem',
-      title: 'Action Item',
+      title: 'Action Item (Legacy)',
       type: 'string',
-      description: 'Next step or operational hook - what do you need to do with this?',
+      description: '⚠️ Deprecated — work action items into the node narrative arc.',
       group: 'agenticCaucus',
-      validation: (Rule) => Rule.max(200)
+      deprecated: {reason: 'Work action items into the node narrative arc instead of a separate field.'},
     }),
 
     // CONNECTIONS GROUP
