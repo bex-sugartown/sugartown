@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-26 · v0.19.6 · Shipped SUG-15 XML Sitemap + Visual HTML Sitemap
+> Updated 2026-03-30 · v0.19.7 · Shipped SUG-34 Table Authoring UX + HTML Table Migration
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/prompts/SUG-{N}-*.md`.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.19.6 shipped (SUG-15 XML Sitemap + Visual HTML Sitemap). **Next:** DNS cutover to Netlify, SUG-34 Table Authoring UX.
+> **⚑ Current focus:** v0.19.7 shipped (SUG-34 Table Authoring UX + HTML Table Migration). **Next:** DNS cutover to Netlify.
 
 ---
 
@@ -54,6 +54,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-34 · Table Authoring UX + HTML Table Migration** — Custom `TableBlockInput` spreadsheet-style grid with clipboard paste (TSV + HTML). Migration script converted 26 legacy `htmlSection` `<table>` blocks into native `tableBlock` objects. Idempotent.~~ | v0.19.7 | 2026-03-30 |
 | ~~**SUG-15 · XML Sitemap + Visual HTML Sitemap** — Build-time `sitemap.xml` (218 URLs) + `robots.txt`. Visual `/sitemap` page with live Sanity data, grouped by content type, noIndex governance badges, stats bar.~~ | v0.19.6 | 2026-03-26 |
 | ~~**SUG-33 · Detail Page Hero & Metadata Refinement** — Hero tab on all detail doc schemas, MetadataCard compact grid layout, Internal Title rename, hero section backfill migration for all detail documents.~~ | v0.19.5 | 2026-03-25 |
 | ~~**SUG-32 · WordPress Media Library Import & Asset Mapping** — Legacy WordPress media assets imported into Sanity with naming convention applied. Image-to-document mapping for case studies, articles, about page. Migration scripts and artifacts.~~ | v0.19.4 | 2026-03-25 |
@@ -99,4 +100,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-03-25 · v0.19.5*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-03-30 · v0.19.7*
