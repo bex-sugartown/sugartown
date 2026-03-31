@@ -229,7 +229,8 @@
   font-size: var(--st-font-heading-4);
   line-height: var(--st-line-height-relaxed);
   color: var(--st-color-text-default);
-  overflow: hidden;
+  /* overflow: hidden removed — clips wide table viewport breakout.
+     Child elements (code blocks, tables) handle their own overflow. */
 }
 
 /* Collapse top margin on first child when no heading precedes it */

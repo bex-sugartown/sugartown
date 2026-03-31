@@ -6,13 +6,23 @@ import styles from './Table.module.css';
  * Wraps <Table> for horizontal scroll on wide tables.
  */
 export interface TableWrapProps {
+  /** When 'wide', the wrap breaks out of the content column to near-viewport width. */
+  variant?: 'default' | 'responsive' | 'wide';
   children: React.ReactNode;
   className?: string;
 }
 
-export function TableWrap({ children, className }: TableWrapProps) {
+export function TableWrap({ variant, children, className }: TableWrapProps) {
+  const classNames = [
+    styles.wrap,
+    variant === 'wide' ? styles.wrapWide : '',
+    className ?? '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <div className={`${styles.wrap} ${className ?? ''}`}>
+    <div className={classNames}>
       {children}
     </div>
   );

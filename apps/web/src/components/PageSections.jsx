@@ -94,7 +94,7 @@ const portableTextComponents = {
       const headerRow = hasHeaderRow ? rows[0] : null
       const bodyRows = hasHeaderRow ? rows.slice(1) : rows
       return (
-        <TableWrap>
+        <TableWrap variant={variant}>
           <Table variant={variant}>
             {headerRow && (
               <thead>
@@ -501,6 +501,7 @@ function MermaidDiagram({ section }) {
         startOnLoad: false,
         securityLevel: 'strict',
         theme: isDark ? 'dark' : 'neutral',
+        flowchart: { curve: 'step', defaultRenderer: 'elk' },
         themeVariables: isDark
           ? {
               primaryColor: '#1e1b4b',
@@ -513,11 +514,11 @@ function MermaidDiagram({ section }) {
             }
           : {
               primaryColor: '#F5F6F8',
-              primaryBorderColor: '#0D1226',
-              lineColor: '#0D1226',
+              primaryBorderColor: '#FF247D',
+              lineColor: '#FF247D',
               textColor: '#0D1226',
               mainBkg: '#F5F6F8',
-              nodeBorder: '#0D1226',
+              nodeBorder: '#FF247D',
               fontFamily: 'Fira Sans, system-ui, sans-serif',
             },
       })

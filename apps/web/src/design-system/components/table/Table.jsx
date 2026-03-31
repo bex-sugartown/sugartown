@@ -9,9 +9,17 @@
  */
 import styles from './Table.module.css'
 
-export function TableWrap({ children, className }) {
+export function TableWrap({ variant, children, className }) {
+  const classNames = [
+    styles.wrap,
+    variant === 'wide' ? styles.wrapWide : '',
+    className ?? '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
-    <div className={`${styles.wrap} ${className ?? ''}`}>
+    <div className={classNames}>
       {children}
     </div>
   )
