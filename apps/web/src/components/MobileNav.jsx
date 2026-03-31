@@ -2,15 +2,21 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { resolveNavLink } from '../lib/resolveNavUrl'
 import { isExternalUrl } from '../lib/linkUtils'
+import SocialLink from './atoms/SocialLink'
 import styles from './MobileNav.module.css'
 
 /**
  * MobileNav — slide-out drawer with accordion submenus (SUG-37)
  *
  * Rendered by Header.jsx below the mobile breakpoint.
- * Accepts the same nav items array as the desktop NavigationItem list.
+ * Accepts the same nav items array as the desktop NavigationItem list,
+ * plus footer data (columns, social links, copyright) for a self-contained
+ * mobile experience.
  */
-export default function MobileNav({ items, cta, themeToggle, open, onClose }) {
+export default function MobileNav({
+  items, cta, themeToggle, footerColumns, socialLinks, copyrightText, siteTitle,
+  open, onClose,
+}) {
   const drawerRef = useRef(null)
   const closeButtonRef = useRef(null)
   const previousFocusRef = useRef(null)
@@ -128,58 +134,108 @@ export default function MobileNav({ items, cta, themeToggle, open, onClose }) {
             const { url, openInNewTab } = resolveNavLink(item)
             const hasChildren = item.children && item.children.length > 0
             const isExpanded = expandedIndex === index
+            const isLast = index === (items?.length ?? 0) - 1
 
             if (!hasChildren) {
               return (
-                <div key={index} className={styles.navItemRow}>
-                  {renderLink(url, item.label, openInNewTab, styles.navItem)}
+                <div key={index}>
+                  <div className={styles.navItemRow}>
+                    {renderLink(url, item.label, openInNewTab, styles.navItem)}
+                  </div>
+                  {!isLast && <hr className={styles.divider} />}
                 </div>
               )
             }
 
             return (
-              <div key={index} className={styles.navItemRow}>
-                {/* Accordion trigger — if item has a URL, render both a link and a toggle */}
-                <div className={styles.accordionHeader}>
-                  {url ? (
-                    renderLink(url, item.label, openInNewTab, styles.navItem)
-                  ) : (
-                    <span className={styles.navItem}>{item.label}</span>
-                  )}
-                  <button
-                    className={`${styles.accordionToggle} ${isExpanded ? styles.accordionToggleOpen : ''}`}
-                    onClick={() => toggleAccordion(index)}
-                    aria-expanded={isExpanded}
-                    aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${item.label} submenu`}
-                  >
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                      <polyline points="6 8 10 12 14 8" />
-                    </svg>
-                  </button>
-                </div>
+              <div key={index}>
+                <div className={styles.navItemRow}>
+                  {/* Accordion trigger — if item has a URL, render both a link and a toggle */}
+                  <div className={styles.accordionHeader}>
+                    {url ? (
+                      renderLink(url, item.label, openInNewTab, styles.navItem)
+                    ) : (
+                      <span className={styles.navItem}>{item.label}</span>
+                    )}
+                    <button
+                      className={`${styles.accordionToggle} ${isExpanded ? styles.accordionToggleOpen : ''}`}
+                      onClick={() => toggleAccordion(index)}
+                      aria-expanded={isExpanded}
+                      aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${item.label} submenu`}
+                    >
+                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                        <polyline points="6 8 10 12 14 8" />
+                      </svg>
+                    </button>
+                  </div>
 
-                {/* Accordion children — single inner wrapper for grid-row animation */}
-                <div className={`${styles.accordionPanel} ${isExpanded ? styles.accordionPanelOpen : ''}`}>
-                  <div className={styles.accordionInner}>
-                    {item.children.map((child, childIndex) => {
-                      const { url: childUrl, openInNewTab: childNewTab } = resolveNavLink(child)
-                      return (
-                        <div key={childIndex}>
-                          {renderLink(childUrl, child.label, childNewTab, styles.childItem)}
-                        </div>
-                      )
-                    })}
+                  {/* Accordion children — single inner wrapper for grid-row animation */}
+                  <div className={`${styles.accordionPanel} ${isExpanded ? styles.accordionPanelOpen : ''}`}>
+                    <div className={styles.accordionInner}>
+                      {item.children.map((child, childIndex) => {
+                        const { url: childUrl, openInNewTab: childNewTab } = resolveNavLink(child)
+                        return (
+                          <div key={childIndex}>
+                            {renderLink(childUrl, child.label, childNewTab, styles.childItem)}
+                          </div>
+                        )
+                      })}
+                    </div>
                   </div>
                 </div>
+                {!isLast && <hr className={styles.divider} />}
               </div>
             )
           })}
         </nav>
 
-        {/* Footer — CTA + theme toggle */}
+        {/* Footer — CTA, legal links, social, theme toggle */}
         <div className={styles.drawerFooter}>
-          {themeToggle}
-          {cta}
+          {/* CTA button */}
+          {cta && <div className={styles.footerCta}>{cta}</div>}
+
+          <hr className={styles.divider} />
+
+          {/* Footer columns (legal links etc.) */}
+          {footerColumns && footerColumns.length > 0 && (
+            <div className={styles.footerLinks}>
+              {footerColumns.map((column, colIndex) =>
+                column.items?.map((item, itemIndex) => {
+                  const { url, openInNewTab } = resolveNavLink(item)
+                  return renderLink(url, item.label, openInNewTab, styles.footerLink)
+                })
+              )}
+            </div>
+          )}
+
+          {/* Social / Connect */}
+          {socialLinks && socialLinks.length > 0 && (
+            <div className={styles.footerSocial}>
+              <span className={styles.footerSocialLabel}>Connect</span>
+              <div className={styles.footerSocialIcons}>
+                {socialLinks.map((social, index) => (
+                  <SocialLink
+                    key={index}
+                    platform={social.icon}
+                    url={social.url}
+                    label={social.label}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <hr className={styles.divider} />
+
+          {/* Theme toggle + copyright */}
+          <div className={styles.footerBottom}>
+            {themeToggle}
+            {copyrightText && (
+              <span className={styles.footerCopyright}>
+                &copy; {new Date().getFullYear()} {siteTitle}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </>

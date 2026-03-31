@@ -18,7 +18,7 @@ export default function Header({ siteSettings }) {
 
   if (!siteSettings) return null
 
-  const { siteLogo, siteTitle, primaryNav, headerCta, preheader } = siteSettings
+  const { siteLogo, siteTitle, primaryNav, headerCta, preheader, footerColumns, socialLinks, copyrightText } = siteSettings
 
   const ctaElement = headerCta?.url ? (
     <Button
@@ -92,6 +92,10 @@ export default function Header({ siteSettings }) {
         items={primaryNav?.items}
         cta={ctaElement}
         themeToggle={<ThemeToggle />}
+        footerColumns={footerColumns}
+        socialLinks={socialLinks}
+        copyrightText={copyrightText}
+        siteTitle={siteTitle}
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
       />

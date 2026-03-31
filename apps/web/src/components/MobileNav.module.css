@@ -65,6 +65,13 @@
   outline-offset: 2px;
 }
 
+/* ── Shared divider ──────────────────────────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--st-color-border-subtle);
+  margin: 0;
+}
+
 /* ── Nav list ────────────────────────────────────────────────────────────────── */
 .navList {
   flex: 1;
@@ -75,14 +82,6 @@
 }
 
 /* ── Nav item rows ───────────────────────────────────────────────────────────── */
-.navItemRow {
-  border-bottom: 1px solid var(--st-color-border-subtle);
-}
-
-.navItemRow:last-child {
-  border-bottom: none;
-}
-
 .navItem {
   display: block;
   padding: 14px 0;
@@ -176,16 +175,72 @@
 /* ── Drawer footer ───────────────────────────────────────────────────────────── */
 .drawerFooter {
   padding: var(--st-spacing-inset-md, 16px);
-  border-top: 1px solid var(--st-color-border-subtle);
   display: flex;
-  align-items: center;
-  gap: var(--st-spacing-inline-sm, 12px);
+  flex-direction: column;
+  gap: var(--st-spacing-stack-sm, 12px);
   flex-shrink: 0;
   margin-top: auto;
 }
 
-/* Make the CTA button fill available width in the footer */
-.drawerFooter > a,
-.drawerFooter > button:not(:first-child) {
+/* CTA button — full width */
+.footerCta {
+  display: flex;
+}
+
+.footerCta > * {
   flex: 1;
+  text-align: center;
+}
+
+/* Footer legal links */
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.footerLink {
+  color: var(--st-color-text-secondary, var(--st-color-text-primary));
+  text-decoration: none;
+  font-size: var(--st-font-size-sm, 0.875rem);
+  font-weight: 500;
+  padding: 4px 0;
+  transition: color 150ms ease;
+}
+
+.footerLink:hover {
+  color: var(--st-color-brand-primary);
+}
+
+/* Social / Connect */
+.footerSocial {
+  display: flex;
+  align-items: center;
+  gap: var(--st-spacing-inline-sm, 12px);
+}
+
+.footerSocialLabel {
+  color: var(--st-color-text-secondary, var(--st-color-text-primary));
+  font-size: var(--st-font-size-sm, 0.875rem);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.footerSocialIcons {
+  display: flex;
+  gap: var(--st-spacing-inline-sm, 12px);
+  align-items: center;
+}
+
+/* Theme toggle + copyright */
+.footerBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--st-spacing-inline-sm, 12px);
+}
+
+.footerCopyright {
+  color: var(--st-color-text-muted, var(--st-color-text-secondary));
+  font-size: var(--st-font-size-xs, 0.75rem);
 }
