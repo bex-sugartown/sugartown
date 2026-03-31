@@ -61,11 +61,17 @@ export default defineType({
       options: {
         list: [
           {title: 'AI', value: 'ai'},
+          {title: 'CMS', value: 'cms'},
+          {title: 'DAM', value: 'dam'},
+          {title: 'Data', value: 'data'},
           {title: 'Design', value: 'design'},
           {title: 'Development', value: 'development'},
-          {title: 'CMS', value: 'cms'},
-          {title: 'Analytics', value: 'analytics'},
+          {title: 'E-commerce', value: 'ecommerce'},
+          {title: 'OS', value: 'os'},
+          {title: 'PIM', value: 'pim'},
           {title: 'Productivity', value: 'productivity'},
+          {title: 'Visualization', value: 'visualization'},
+          {title: 'Analytics', value: 'analytics'},
           {title: 'Other', value: 'other'},
         ],
         layout: 'dropdown',
@@ -107,11 +113,17 @@ export default defineType({
     prepare({title, toolType, media}) {
       const typeLabels: Record<string, string> = {
         ai: 'AI',
+        cms: 'CMS',
+        dam: 'DAM',
+        data: 'Data',
         design: 'Design',
         development: 'Development',
-        cms: 'CMS',
-        analytics: 'Analytics',
+        ecommerce: 'E-commerce',
+        os: 'OS',
+        pim: 'PIM',
         productivity: 'Productivity',
+        visualization: 'Visualization',
+        analytics: 'Analytics',
         other: 'Other',
       }
       return {

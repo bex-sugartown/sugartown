@@ -73,6 +73,20 @@ const TOOL_TYPE_MAP = {
   'claude-code': 'ai',
   codex: 'ai',
   gemini: 'ai',
+  // CMS
+  acquia: 'cms',
+  aem: 'cms',
+  contentful: 'cms',
+  drupal: 'cms',
+  sanity: 'cms',
+  storyblok: 'cms',
+  wordpress: 'cms',
+  // DAM
+  'aem-assets': 'dam',
+  celum: 'dam',
+  // Data
+  'filemaker-pro': 'data',
+  networkx: 'data',
   // Design
   figma: 'design',
   // Development
@@ -80,33 +94,27 @@ const TOOL_TYPE_MAP = {
   git: 'development',
   github: 'development',
   javascript: 'development',
-  matplotlib: 'development',
-  mermaid: 'development',
-  networkx: 'development',
   python: 'development',
   react: 'development',
   storybook: 'development',
   turborepo: 'development',
   typescript: 'development',
   vite: 'development',
-  // CMS
-  acquia: 'cms',
-  aem: 'cms',
-  celum: 'cms',
-  contentful: 'cms',
-  drupal: 'cms',
-  'oracle-atg': 'cms',
-  sanity: 'cms',
-  shopify: 'cms',
-  storyblok: 'cms',
-  wordpress: 'cms',
+  // E-commerce
+  ewinery: 'ecommerce',
+  'oracle-atg': 'ecommerce',
+  shopify: 'ecommerce',
+  // OS
+  apple: 'os',
+  ios: 'os',
   // Productivity
   linear: 'productivity',
   netlify: 'productivity',
-  // Development (additional)
-  ios: 'development',
+  // Visualization
+  matplotlib: 'visualization',
+  mermaid: 'visualization',
   // Other
-  apple: 'other',
+  google: 'other',
 }
 
 // ─── Run ──────────────────────────────────────────────────────────────────────
