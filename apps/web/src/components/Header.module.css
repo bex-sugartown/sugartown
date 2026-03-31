@@ -35,14 +35,45 @@
   padding: var(--st-spacing-inset-xs) var(--st-spacing-inset-md);
 }
 
+/* Hamburger — hidden on desktop */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--st-color-text-primary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--st-radius-sm, 4px);
+  align-items: center;
+  justify-content: center;
+  transition: color 150ms ease;
+}
+
+.hamburger:hover {
+  color: var(--st-color-brand-primary);
+}
+
+.hamburger:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
 @media (max-width: 768px) /* --st-breakpoint-md */ {
-  .container {
-    flex-wrap: wrap;
-  }
-  
+  /* Hide desktop nav + CTA (CTA moves to drawer footer) */
   .nav {
-    order: 3;
-    width: 100%;
-    justify-content: center;
+    display: none;
+  }
+
+  .headerCtaButton {
+    display: none;
+  }
+
+  /* Show hamburger */
+  .hamburger {
+    display: flex;
+  }
+
+  .logoImage {
+    width: 140px;
   }
 }
