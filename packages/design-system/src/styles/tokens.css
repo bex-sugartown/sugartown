@@ -235,10 +235,10 @@
   --st-color-text-brand:     var(--st-color-pink);
 
   /* ── Borders (dark defaults) ─────────────────────────── */
-  --st-color-border-default: rgba(255, 36, 125, 0.20);
-  --st-color-border-subtle:  rgba(255, 255, 255, 0.06);
-  --st-color-border-medium:  rgba(255, 255, 255, 0.12);
-  --st-color-border-strong:  rgba(255, 255, 255, 0.30);
+  --st-color-border-default: rgba(255, 36, 125, 0.30);
+  --st-color-border-subtle:  rgba(255, 255, 255, 0.12);
+  --st-color-border-medium:  rgba(255, 255, 255, 0.20);
+  --st-color-border-strong:  rgba(255, 255, 255, 0.35);
 
   /* ── Link ────────────────────────────────────────────── */
   --st-color-link-default: var(--st-color-brand-primary);
@@ -480,10 +480,10 @@
   --st-color-text-secondary:    var(--st-color-softgrey-400);
   --st-color-text-muted:        var(--st-color-softgrey-400);
 
-  --st-color-border-default:    rgba(255, 36, 125, 0.20);
-  --st-color-border-subtle:     rgba(255, 255, 255, 0.06);
-  --st-color-border-medium:     rgba(255, 255, 255, 0.12);
-  --st-color-border-strong:     rgba(255, 255, 255, 0.30);
+  --st-color-border-default:    rgba(255, 36, 125, 0.30);
+  --st-color-border-subtle:     rgba(255, 255, 255, 0.12);
+  --st-color-border-medium:     rgba(255, 255, 255, 0.20);
+  --st-color-border-strong:     rgba(255, 255, 255, 0.35);
 
   --st-callout-bg:              rgba(255, 36, 125, 0.08);
   --st-callout-border-color:    rgba(255, 36, 125, 0.25);

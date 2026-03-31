@@ -226,10 +226,10 @@
   --st-color-text-brand:     var(--st-color-pink);           /* on dark, pink is OK for brand text */
 
   /* ── Borders (dark defaults) ─────────────────────────── */
-  --st-color-border-default: rgba(255, 36, 125, 0.20);       /* pink-tinted dark border */
-  --st-color-border-subtle:  rgba(255, 255, 255, 0.06);      /* barely-there inset border */
-  --st-color-border-medium:  rgba(255, 255, 255, 0.12);
-  --st-color-border-strong:  rgba(255, 255, 255, 0.30);
+  --st-color-border-default: rgba(255, 36, 125, 0.30);       /* pink-tinted dark border */
+  --st-color-border-subtle:  rgba(255, 255, 255, 0.12);      /* soft but visible inset border */
+  --st-color-border-medium:  rgba(255, 255, 255, 0.20);
+  --st-color-border-strong:  rgba(255, 255, 255, 0.35);
 
   /* ── Link ────────────────────────────────────────────── */
   --st-color-link-default: var(--st-color-brand-primary);
@@ -486,10 +486,10 @@
   --st-color-text-muted:        var(--st-color-softgrey-400);
   --st-color-text-brand:        var(--st-color-pink);
 
-  --st-color-border-default:    rgba(255, 36, 125, 0.20);
-  --st-color-border-subtle:     rgba(255, 255, 255, 0.06);
-  --st-color-border-medium:     rgba(255, 255, 255, 0.12);
-  --st-color-border-strong:     rgba(255, 255, 255, 0.30);
+  --st-color-border-default:    rgba(255, 36, 125, 0.30);
+  --st-color-border-subtle:     rgba(255, 255, 255, 0.12);
+  --st-color-border-medium:     rgba(255, 255, 255, 0.20);
+  --st-color-border-strong:     rgba(255, 255, 255, 0.35);
 
   --st-callout-bg:              rgba(255, 36, 125, 0.08);
   --st-callout-border-color:    rgba(255, 36, 125, 0.25);
