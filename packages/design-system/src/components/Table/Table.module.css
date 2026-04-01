@@ -33,15 +33,8 @@
   vertical-align: top;
   border-bottom: 1px solid var(--st-table-border);
   text-align: left;
-  white-space: nowrap;             /* shrink columns to content width        */
-}
-
-/* First column gets the remaining space — wraps long content (URLs, text)   */
-.table td:first-child,
-.table th:first-child {
-  white-space: normal;
-  overflow-wrap: anywhere;
-  width: 100%;                     /* greedy: absorb leftover space          */
+  overflow-wrap: break-word;       /* wrap at word boundaries; break mid-word
+                                      only when a single word exceeds the cell */
 }
 
 .table thead th {
