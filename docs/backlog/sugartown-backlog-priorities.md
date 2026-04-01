@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-03-31 · v0.19.8 · Shipped SUG-37 Responsive Mobile Nav
+> Updated 2026-04-01 · v0.20.0 · Full release (aggregates v0.19.1–v0.19.8)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/prompts/SUG-{N}-*.md`.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.19.8 shipped (SUG-37 Responsive Mobile Nav). **Next:** DNS cutover to Netlify.
+> **⚑ Current focus:** v0.20.0 shipped (8 epics: SUG-13/15/30–34/37). **Next:** SUG-38 Storybook parity & deployment.
 
 ---
 
@@ -19,7 +19,7 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **DNS cutover to Netlify** — Hosting decided (Netlify). Remaining: connect GitHub repo for deploy previews, set up Sanity webhook → Netlify build hook, configure `sugartown.io` custom domain, execute DNS cutover. See `docs/reports/hosting-evaluation.md` for full plan. | `Infrastructure` | 🟢 Next |
+| — | *(No items currently flagged as 🟢 Next)* | | |
 
 ---
 
@@ -27,6 +27,7 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
+| 1 | **[SUG-38](https://linear.app/sugartown/issue/SUG-38) · Storybook parity & deployment** — Bring Storybook into parity with web/studio (React 18→19, Vite 5→7, Storybook 7→9, 25+ missing component stories) and deploy to `pinkmoon.sugartown.io`. Epic: `docs/backlog/SUG-38-storybook-parity.md`. | `Design System` `Infrastructure` `Storybook` | 🟣 Soon |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 | 3 | **Brand color picker for Sanity Studio (BL-01)** — ✅ Shipped. [SUG-8](https://linear.app/sugartown/issue/SUG-8). Epic: `docs/prompts/SUG-8-brand-color-picker.md`. | `Studio UX` `BL-01` | ✅ Shipped |
 | 4 | **Studio UX polish — section type labels + archive rich text** — ✅ Shipped. [SUG-11](https://linear.app/sugartown/issue/SUG-11). Epic: `docs/prompts/SUG-11-studio-ux-polish.md`. | `Studio UX` `Schema` | ✅ Shipped |
@@ -50,10 +51,11 @@
 
 ---
 
-## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.19.x
+## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.20.x
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**DNS cutover to Netlify** — Connected GitHub repo for deploy previews, Sanity webhook → Netlify build hook, `sugartown.io` custom domain configured, DNS cutover executed. Site live.~~ | v0.20.0 | 2026-04-01 |
 | ~~**SUG-37 · Responsive Mobile Nav** — Hamburger trigger + slide-out drawer with accordion submenus, focus trap, body scroll lock, footer zone (CTA, legal links, social icons, theme toggle). Hero bg cover fix, border token visibility bump, tool taxonomy expansion.~~ | v0.19.8 | 2026-03-31 |
 | ~~**SUG-34 · Table Authoring UX + HTML Table Migration** — Custom `TableBlockInput` spreadsheet-style grid with clipboard paste (TSV + HTML). Migration script converted 26 legacy `htmlSection` `<table>` blocks into native `tableBlock` objects. Idempotent.~~ | v0.19.7 | 2026-03-30 |
 | ~~**SUG-15 · XML Sitemap + Visual HTML Sitemap** — Build-time `sitemap.xml` (218 URLs) + `robots.txt`. Visual `/sitemap` page with live Sanity data, grouped by content type, noIndex governance badges, stats bar.~~ | v0.19.6 | 2026-03-26 |
@@ -101,4 +103,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-03-31 · v0.19.8*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-01 · v0.20.0*
