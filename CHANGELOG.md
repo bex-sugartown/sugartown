@@ -16,6 +16,90 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.20.0] — 2026-04-01
+
+Responsive mobile nav, image treatments & gallery, detail hero refinement, table authoring UX, sitemap, mermaid diagrams, and WordPress media import. Aggregates 0.19.1–0.19.8.
+
+### apps/web
+
+#### Added
+- Responsive mobile navigation — hamburger button + slide-out drawer with nav links, CTA button, footer legal/social/copyright (SUG-37)
+- Mermaid diagram section renderer with theme-aware brand colours (SUG-13)
+- XML sitemap (`/sitemap.xml`), `robots.txt`, and visual HTML sitemap page at `/sitemap` (SUG-15)
+- Image gallery with carousel, masonry, and grid layouts plus lightbox overlay with scroll restoration, caption, and credit (SUG-30)
+- Hero enhancements — eyebrow field, image treatment system (duotone standard, extreme duotone, scrim), up to 3 CTA buttons (SUG-30/33)
+- Card builder thumbnail overlays using mediaOverlay treatment system
+- PortableText image overlay and lightbox integration in content sections
+- Detail page hero and MetadataCard compact grid layout with right-column alignment (SUG-33)
+- Google Analytics 4 tracking (`G-00MF2Q9YJW`)
+- Contact form reCAPTCHA v3 (invisible, score-based) spam protection — replaced earlier v2 and Netlify reCAPTCHA attempts
+
+#### Changed
+- Table wide-variant breaks out of content column to near-full viewport width
+- Node legacy `content` field migrated to `sections[]` textSection on the frontend
+- Structural redirects added for `/gem/*` and `/case-study/*`; dead `netlify.toml` query-param redirects removed
+- Homepage hero section temporarily hidden
+
+#### Fixed
+- Table column wrapping — removed `white-space: nowrap` and greedy `width: 100%` first-column pattern; all cells now use `overflow-wrap: break-word` for dynamic width distribution
+- PortableText rendering — empty block detection for React element children, h1→h2 downgrade, empty heading suppression, equalised HR spacing, collapsed top margin in textSection when heading absent
+- Scroll to top on SPA route changes
+- Hero background image not filling container on narrow viewports
+- Border token opacity increased for visibility
+
+### apps/studio
+
+#### Added
+- Custom `TableBlockInput` — spreadsheet-style grid editor with clipboard paste (TSV + HTML), keyboard navigation, row/column controls, header row toggle, variant selector (SUG-34)
+- HTML table migration script — converts 26 legacy `htmlSection` tables to `tableBlock` within `textSection` (SUG-34)
+- Mermaid section schema (`mermaidSection`) for diagram embedding (SUG-13)
+- Image treatment schemas — `mediaOverlay` extended with duotone/extreme/scrim variants, `galleryImage` schema, hero eyebrow field (SUG-30)
+- Hero tab on article, caseStudy, node, and page schemas with inline CTA buttons (SUG-33)
+- Tool type taxonomy expanded with `toolType` field + reassignment migration
+- `colorHex` migrated from plain string to `@sanity/color-input` object with migration script (SUG-8)
+- Generated `schema.json` added
+- `richImage` asset ref migration script
+
+#### Changed
+- Title fields relabeled to "Internal Title" on page and detail doc schemas (SUG-33)
+- Archive description upgraded from string to `summaryPortableText` (PortableText)
+- Node metadata fields (challenge, insight, actionItem) migrated to PortableText, then deprecated in favour of narrative sections
+- `richImage` `linkUrl` migrated to `linkItem` object
+- Section preview subtitles show type labels
+- Sanity upgraded to 5.17.1
+
+#### Fixed
+- `navItem` / `childNavItem` schema types now registered
+- Redundant `TaxonomyRefItem` X button removed
+
+### packages/design-system
+
+#### Changed
+- Table CSS — wide-variant viewport breakout; dynamic column wrapping replaces nowrap/greedy first-column pattern
+- Media overlay treatment variants (duotone standard, extreme via SVG `feComponentTransfer`, scrim)
+- Card thumbnail overlay scoped to thumb container with hover zoom
+- Button tertiary colour changed from pink to lime
+- Duotone standard preserves image colour depth
+- Border token opacity increased
+
+### Other
+
+#### Added
+- `/eod` skill for end-of-day push/deploy workflow
+- `/restart` command for dev server health checks
+- Image naming convention documented (`docs/conventions/image-naming-convention.md`)
+- Brand voice guide; brand style guides moved to `docs/brand/` and gitignored
+- 12 migration scripts in `scripts/migrate/`
+- WordPress media import artifacts (audit CSVs, inventories, rename plans)
+- Dev server start script
+
+#### Changed
+- Linear-first epic workflow adopted — backlog files use `SUG-*` naming
+- `docs/drafts/` gitignored for local scratchwork
+- Sanity MCP no-AI-rewriting rule added to CLAUDE.md
+
+---
+
 ## [0.19.0] — 2026-03-19
 
 Preview UI, PortableText polish, contact form, card convergence, image optimization, content metadata governance, and taxonomy refinement. Aggregates 0.18.1–0.18.7.
