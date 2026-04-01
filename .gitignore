@@ -56,6 +56,9 @@ artifacts/sanity_import.ndjson
 # wp_urls.csv from export-wp-urls.py:
 scripts/wp_urls.csv
 
+# Draft documents — local scratchwork, not published to repo
+docs/drafts/
+
 # Brand style guides — private, not published to repo
 docs/brand/
 
