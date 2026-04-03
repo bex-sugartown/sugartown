@@ -631,7 +631,7 @@ function CTASection({ section }) {
 function AccordionSection({ section }) {
   if (!section.items || section.items.length === 0) return null
   const accordionItems = section.items.map((item) => ({
-    id: item._key || String(Math.random()),
+    id: item._key,
     trigger: item.title,
     content: item.content ? (
       <PortableText value={item.content} components={portableTextComponents} />
