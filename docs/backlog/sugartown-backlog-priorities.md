@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-01 · v0.20.0 · Full release (aggregates v0.19.1–v0.19.8)
+> Updated 2026-04-03 · v0.20.1 · SUG-44 Accordion Component
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/prompts/SUG-{N}-*.md`.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.20.0 shipped (8 epics: SUG-13/15/30–34/37). **Next:** SUG-38 Storybook parity & deployment.
+> **⚑ Current focus:** v0.20.1 shipped (SUG-44 Accordion Component). **Next:** SUG-38 Storybook parity & deployment.
 
 ---
 
@@ -55,6 +55,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-44 · Accordion Component** — DS primitive (single/multi-expand, CSS grid-row animation, full a11y), `accordionSection` Sanity schema registered in all document types, GROQ projections, PageSections renderer, Storybook stories (5 variants). Visual QA passed.~~ | v0.20.1 | 2026-04-03 |
 | ~~**DNS cutover to Netlify** — Connected GitHub repo for deploy previews, Sanity webhook → Netlify build hook, `sugartown.io` custom domain configured, DNS cutover executed. Site live.~~ | v0.20.0 | 2026-04-01 |
 | ~~**SUG-37 · Responsive Mobile Nav** — Hamburger trigger + slide-out drawer with accordion submenus, focus trap, body scroll lock, footer zone (CTA, legal links, social icons, theme toggle). Hero bg cover fix, border token visibility bump, tool taxonomy expansion.~~ | v0.19.8 | 2026-03-31 |
 | ~~**SUG-34 · Table Authoring UX + HTML Table Migration** — Custom `TableBlockInput` spreadsheet-style grid with clipboard paste (TSV + HTML). Migration script converted 26 legacy `htmlSection` `<table>` blocks into native `tableBlock` objects. Idempotent.~~ | v0.19.7 | 2026-03-30 |
@@ -103,4 +104,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-01 · v0.20.0*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-03 · v0.20.1*
