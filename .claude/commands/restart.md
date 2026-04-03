@@ -1,5 +1,13 @@
 Check which Sugartown dev servers are running and restart any that are down.
 
+## Environment Guard
+
+**IMPORTANT:** Dev servers started inside a remote/cloud Claude Code session are NOT reachable from the user's local browser. Before starting any server:
+
+1. Check if `lsof` can see ports — if it can't, or if the environment is clearly remote (e.g. `/home/user/` not `/Users/`), **warn the user** that servers must be started from their local terminal.
+2. If the environment is local (macOS paths like `/Users/`), proceed normally.
+3. Never tell the user a server is "ready at localhost" unless you have confirmed the environment is local.
+
 ## Ports
 
 | Service    | Port | Start command |

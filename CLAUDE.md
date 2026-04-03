@@ -38,6 +38,23 @@ Within a multi-feature epic, commit after each independently-working feature. Do
 
 If a session may run out of context, commit work-in-progress with `wip(epic):` prefix before the session ends. Uncommitted code that survives a session break is lost context — treat it as a process failure.
 
+### Browser testing pre-flight
+
+Before asking the user to test anything in their browser:
+
+1. **Confirm they have pulled the latest code** — "Have you pulled the branch? `git pull origin <branch>`"
+2. **Never claim a dev server is reachable at `localhost`** unless the session is running on the user's local machine. If the environment is remote/cloud, tell the user to start the server from their local terminal.
+
+A white-screen debug cycle caused by local ↔ remote divergence is a process failure.
+
+### No speculative fixes
+
+When the user reports a bug (white screen, crash, visual regression):
+
+1. **Request the error first** — ask for the browser console output or a screenshot before writing code.
+2. **Do not commit a fix based on a guess.** Speculative patches add noise commits and can mask the real issue.
+3. If a fix commit turns out to be wrong, squash it into the original commit before merging.
+
 ### CSS Triage Protocol
 
 Before writing a CSS fix for overflow, scrollbar, or layout collapse: **identify the exact DOM element** that owns the misbehavior (via DevTools screenshot or `preview_inspect`). Document:
