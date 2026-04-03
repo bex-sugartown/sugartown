@@ -377,6 +377,15 @@ export const nodeBySlugQuery = `
       _type == "mermaidSection" => {
         code,
         caption
+      },
+      _type == "accordionSection" => {
+        heading,
+        multi,
+        items[] {
+          _key,
+          title,
+          "content": content${PT_CONTENT_PROJECTION}
+        }
       }
     },
     aiTool,
@@ -529,6 +538,15 @@ export const articleBySlugQuery = `
       _type == "mermaidSection" => {
         code,
         caption
+      },
+      _type == "accordionSection" => {
+        heading,
+        multi,
+        items[] {
+          _key,
+          title,
+          "content": content${PT_CONTENT_PROJECTION}
+        }
       }
     },
     author,
@@ -662,6 +680,15 @@ export const pageBySlugQuery = `
       _type == "mermaidSection" => {
         code,
         caption
+      },
+      _type == "accordionSection" => {
+        heading,
+        multi,
+        items[] {
+          _key,
+          title,
+          "content": content${PT_CONTENT_PROJECTION}
+        }
       }
     },
     ${SEO_FRAGMENT}
@@ -790,6 +817,15 @@ export const caseStudyBySlugQuery = `
       _type == "mermaidSection" => {
         code,
         caption
+      },
+      _type == "accordionSection" => {
+        heading,
+        multi,
+        items[] {
+          _key,
+          title,
+          "content": content${PT_CONTENT_PROJECTION}
+        }
       }
     },
     authors[]->{${PERSON_FRAGMENT}},

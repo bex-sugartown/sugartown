@@ -39,6 +39,10 @@ export type { CalloutProps } from './components/Callout';
 export { CodeBlock, InlineCode } from './components/CodeBlock';
 export type { CodeBlockProps, InlineCodeProps } from './components/CodeBlock';
 
+// ── Accordion ────────────────────────────────────────────────────────────────
+export { Accordion } from './components/Accordion';
+export type { AccordionProps, AccordionItem } from './components/Accordion';
+
 // ── Media ────────────────────────────────────────────────────────────────────
 export { Media } from './components/Media';
 export type { MediaProps, OverlayConfig, DuotonePreset } from './components/Media';

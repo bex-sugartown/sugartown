@@ -76,6 +76,7 @@ export default defineType({
         defineArrayMember({type: 'cardBuilderSection'}),
         defineArrayMember({type: 'calloutSection'}),
         defineArrayMember({type: 'mermaidSection'}),
+        defineArrayMember({type: 'accordionSection'}),
       ]
     }),
     defineField({

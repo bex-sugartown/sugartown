@@ -51,6 +51,7 @@ import htmlSection from './sections/htmlSection'
 import cardBuilderSection from './sections/cardBuilderSection'
 import calloutSection from './sections/calloutSection'
 import mermaidSection from './sections/mermaidSection'
+import accordionSection from './sections/accordionSection'
 
 // ============================================================================
 // DOCUMENTS - Top-level content types
@@ -127,6 +128,7 @@ export const schemaTypes = [
   cardBuilderSection,
   calloutSection,
   mermaidSection,
+  accordionSection,
 
   // Documents - Taxonomy (New)
   category,

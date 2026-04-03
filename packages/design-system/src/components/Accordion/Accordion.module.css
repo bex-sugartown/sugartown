@@ -1,0 +1,102 @@
+/**
+ * Accordion — Sugartown Design System
+ * CSS grid-row animation pattern (proven in MobileNav).
+ */
+
+/* ── Container ───────────────────────────────────────────────────────────── */
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Item ─────────────────────────────────────────────────────────────────── */
+.item {
+  border-bottom: 1px solid var(--st-color-border-subtle, rgba(255, 255, 255, 0.12));
+}
+
+.item:first-child {
+  border-top: 1px solid var(--st-color-border-subtle, rgba(255, 255, 255, 0.12));
+}
+
+/* ── Trigger button ──────────────────────────────────────────────────────── */
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--st-space-4, 1rem);
+  width: 100%;
+  padding: var(--st-space-5, 1.5rem) 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--st-color-text-primary, #f8f8fa);
+  font-family: inherit;
+  font-size: var(--st-font-size-lg, 1.125rem);
+  font-weight: var(--st-font-weight-semibold, 600);
+  line-height: var(--st-line-height-tight, 1.25);
+  transition: color 0.2s ease;
+}
+
+.trigger:hover {
+  color: var(--st-color-brand-primary, #ff247d);
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary, #ff247d);
+  outline-offset: 2px;
+  border-radius: var(--st-radius-xs, 4px);
+}
+
+.triggerLabel {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Chevron ─────────────────────────────────────────────────────────────── */
+.chevron {
+  flex-shrink: 0;
+  transition: transform 200ms ease;
+  color: var(--st-color-text-secondary, #94a3b8);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ── Panel — CSS grid-row animation ──────────────────────────────────────── */
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 200ms ease;
+}
+
+.panelOpen {
+  grid-template-rows: 1fr;
+}
+
+.panelInner {
+  overflow: hidden;
+}
+
+/* ── Panel content spacing ───────────────────────────────────────────────── */
+.panelInner > * {
+  padding-bottom: var(--st-space-5, 1.5rem);
+}
+
+/* ── Light theme overrides ───────────────────────────────────────────────── */
+[data-theme="light"] .item,
+[data-theme="light-pink-moon"] .item {
+  border-color: var(--st-color-border-subtle, rgba(0, 0, 0, 0.10));
+}
+
+[data-theme="light"] .trigger,
+[data-theme="light-pink-moon"] .trigger {
+  color: var(--st-color-text-primary, #1a1a2e);
+}
+
+[data-theme="light"] .chevron,
+[data-theme="light-pink-moon"] .chevron {
+  color: var(--st-color-text-secondary, #525252);
+}

@@ -604,6 +604,13 @@
   overflow-x: auto;
 }
 
+/* Accordion Section (SUG-44) */
+.accordionSection {
+  max-width: var(--st-width-detail);
+  margin: 0 auto;
+  padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
+}
+
 /* CTA Section */
 .ctaSection {
   max-width: var(--st-width-detail);
@@ -939,7 +946,8 @@
 .detailContext .ctaSection,
 .detailContext .calloutSection,
 .detailContext .imageGallery,
-.detailContext .mermaidSection {
+.detailContext .mermaidSection,
+.detailContext .accordionSection {
   max-width: none;
   padding-inline: 0;
   padding-block: var(--st-spacing-stack-lg);

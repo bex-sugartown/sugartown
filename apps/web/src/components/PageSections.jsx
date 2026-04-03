@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { PortableText } from '@portabletext/react'
-import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker } from '../design-system'
+import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
 import CardBuilderSection from './CardBuilderSection'
 import ImageLightbox from './ImageLightbox'
@@ -627,6 +627,26 @@ function CTASection({ section }) {
   )
 }
 
+// Accordion Section Component (SUG-44)
+function AccordionSection({ section }) {
+  if (!section.items || section.items.length === 0) return null
+  const accordionItems = section.items.map((item) => ({
+    id: item._key || String(Math.random()),
+    trigger: item.title,
+    content: item.content ? (
+      <PortableText value={item.content} components={portableTextComponents} />
+    ) : null,
+  }))
+  return (
+    <div className={styles.accordionSection}>
+      {section.heading && (
+        <h2 className={styles.sectionHeading}>{section.heading}</h2>
+      )}
+      <Accordion items={accordionItems} multi={section.multi ?? false} />
+    </div>
+  )
+}
+
 // Main Section Renderer
 // context="detail" — sections inherit containment from parent .detailPage (no own max-width / padding-inline)
 // context="full"   — sections self-contain (default, used on standalone pages)
@@ -654,6 +674,8 @@ export default function PageSections({ sections, context = 'full' }) {
         return <CalloutSection key={key} section={section} />
       case 'mermaidSection':
         return <MermaidDiagram key={key} section={section} />
+      case 'accordionSection':
+        return <AccordionSection key={key} section={section} />
       default:
         console.warn(`Unknown section type: ${section._type}`)
         return null
