@@ -10,6 +10,7 @@ const config: StorybookConfig = {
   stories: [
     '../../../packages/design-system/src/**/*.stories.@(js|jsx|ts|tsx)',
     '../../../apps/web/src/components/**/*.stories.@(js|jsx|ts|tsx)',
+    './stories/**/*.stories.@(js|jsx|ts|tsx)',
   ],
   framework: {
     name: '@storybook/react-vite',
@@ -34,7 +35,7 @@ const config: StorybookConfig = {
       'react/jsx-dev-runtime',
     ];
 
-    // Vite plugin to intercept sanity.js and contentState.js imports
+    // Mock sanity.js and contentState.js for web component stories
     viteConfig.plugins = viteConfig.plugins || [];
     viteConfig.plugins.push({
       name: 'storybook-mock-sanity',
