@@ -1,4 +1,4 @@
-import type { Preview, Decorator } from '@storybook/react';
+import type { Preview, Decorator } from '@storybook/react-vite';
 import { createElement } from 'react';
 
 // Import design system styles
@@ -60,7 +60,6 @@ const preview: Preview = {
   },
   decorators: [withTheme, withStoryLayout],
   parameters: {
-    actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
         color: /(background|color)$/i,
