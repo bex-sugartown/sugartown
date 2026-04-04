@@ -185,7 +185,7 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 |-------|------------------|----------------------|------------------------|--------------------------|
 | Author | `authors[]` / `author` (legacy) | article, caseStudy, node | | |
 | Status | `status` | article, caseStudy, node | | |
-| AI Tool | `aiTool` | node | | |
+| AI Tool (deprecated) | `aiTool` | node | | |
 | Conversation type | `conversationType` | node | | |
 | Client | `client` | caseStudy | | |
 | Role | `role` | caseStudy | | |
