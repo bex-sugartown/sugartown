@@ -23,6 +23,14 @@ Good morning. Please run the Sugartown morning housekeeping check. Here is what 
 
 Run the following and collect all output before doing anything else:
 
+First, check the runtime environment:
+```bash
+pwd
+```
+- If `pwd` returns `/Users/beckyalice/...` → running locally ✅
+- If `pwd` returns `/home/user/...` or any other path → **STOP and warn the user**: "This session is running in a cloud VM, not on your local machine. Files written here won't appear on your local filesystem. You may want to use the Claude CLI (`claude`) from your terminal instead."
+
+Then collect git state:
 ```bash
 git status
 git branch -a
@@ -36,6 +44,12 @@ Then for every local branch that is NOT `main`, run:
 git log main..<branch> --oneline
 git log <branch>..main --oneline
 ```
+
+Then check for **local-only branches** (committed but never pushed):
+```bash
+git branch -vv --no-merged main | grep -v '\[origin/'
+```
+Any branches listed here have commits that exist ONLY on this machine — flag them in the briefing as **critical unfinished business** and recommend pushing immediately.
 
 Then check remote-only branches:
 ```bash
@@ -129,7 +143,7 @@ For each branch (local and remote), one line:
 - Whether it has been merged into `main` or not
 - How many commits ahead of `main` it is (if any)
 - One-sentence plain description of what the branch appears to be for, based on its name and commit messages
-- Status tag: one of `✅ merged` / `⚠️ unmerged work` / `🔍 remote only` / `🗑 can probably be deleted`
+- Status tag: one of `✅ merged` / `⚠️ unmerged work` / `🔍 remote only` / `🗑 can probably be deleted` / `🚨 local only — never pushed`
 
 ---
 
@@ -138,6 +152,7 @@ For each branch (local and remote), one line:
 List anything that needs attention before starting new work. Be specific. Use plain language.
 
 Examples of things to flag:
+- **Local-only branches with no upstream** — these exist only on this machine and will be lost if the machine has issues. Flag as critical and recommend immediate push.
 - Files modified but not committed
 - Untracked files that look like they belong in the repo (docs, scripts, config)
 - Branches with commits that haven't reached `main`

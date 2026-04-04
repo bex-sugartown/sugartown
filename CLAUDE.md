@@ -36,7 +36,23 @@ The `docs/prompts/` folder holds shipped epics. The `docs/backlog/` folder holds
 
 Within a multi-feature epic, commit after each independently-working feature. Do not accumulate all changes for a single end-of-epic commit.
 
+**After each commit checkpoint, push the feature branch to remote.** Feature branch pushes do not trigger Netlify deploys — they are free. Code that exists only on a local machine is one hardware failure away from being lost.
+
 If a session may run out of context, commit work-in-progress with `wip(epic):` prefix before the session ends. Uncommitted code that survives a session break is lost context — treat it as a process failure.
+
+### Linear Done = code in remote
+
+Before transitioning any Linear issue to **Done**, verify that at least one commit referencing the issue exists on a remote branch (pushed to GitHub). No exceptions.
+
+A Linear issue marked Done with zero code on remote is a process failure. The close-out sequence enforces this naturally (commit → push → move doc → Done), but if the close-out is skipped, this rule is the backstop.
+
+### Merge conflict cleanup
+
+Never end a session with an unresolved merge conflict. If a merge conflicts:
+1. Resolve it and commit the merge, OR
+2. Abort the merge (`git merge --abort`) and document why
+
+An unresolved merge left overnight will block the next session's morning housekeeping and create confusion about the working tree state.
 
 ### Browser testing pre-flight
 
