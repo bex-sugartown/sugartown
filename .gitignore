@@ -64,3 +64,4 @@ docs/brand/
 
 # Local Netlify folder
 .netlify
+apps/storybook/debug-storybook.log
