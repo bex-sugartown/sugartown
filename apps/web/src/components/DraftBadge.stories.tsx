@@ -16,7 +16,7 @@ const withPreviewMode = (Story: React.ComponentType) => {
 };
 
 const meta: Meta<typeof DraftBadge> = {
-  title: 'Web Components/DraftBadge',
+  title: 'Patterns/DraftBadge',
   component: DraftBadge,
   tags: ['autodocs'],
   decorators: [withPreviewMode],

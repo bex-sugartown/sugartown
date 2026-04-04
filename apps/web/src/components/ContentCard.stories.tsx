@@ -17,7 +17,7 @@ const withRouter = (Story: React.ComponentType) => (
 );
 
 const meta: Meta<typeof ContentCard> = {
-  title: 'Web Components/ContentCard',
+  title: 'Patterns/ContentCard',
   component: ContentCard,
   tags: ['autodocs'],
   decorators: [withRouter],

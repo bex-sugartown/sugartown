@@ -3,21 +3,24 @@
   "configurations": [
     {
       "name": "web",
-      "runtimeExecutable": "pnpm",
+      "runtimeExecutable": "/opt/homebrew/bin/pnpm",
       "runtimeArgs": ["--filter", "web", "dev"],
-      "port": 5173
+      "port": 5173,
+      "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
     },
     {
       "name": "studio",
-      "runtimeExecutable": "pnpm",
+      "runtimeExecutable": "/opt/homebrew/bin/pnpm",
       "runtimeArgs": ["--filter", "studio", "dev"],
-      "port": 3333
+      "port": 3333,
+      "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
     },
     {
       "name": "storybook",
-      "runtimeExecutable": "pnpm",
+      "runtimeExecutable": "/opt/homebrew/bin/pnpm",
       "runtimeArgs": ["--filter", "storybook", "storybook"],
-      "port": 6006
+      "port": 6006,
+      "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
     }
   ]
 }

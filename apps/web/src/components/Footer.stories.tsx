@@ -24,7 +24,7 @@ const withRouter = (Story: React.ComponentType) => (
 );
 
 const meta: Meta<typeof Footer> = {
-  title: 'Web Components/Footer',
+  title: 'Layout/Footer',
   component: Footer,
   tags: ['autodocs'],
   decorators: [withRouter],

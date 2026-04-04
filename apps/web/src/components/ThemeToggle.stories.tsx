@@ -10,7 +10,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ThemeToggle from './ThemeToggle';
 
 const meta: Meta<typeof ThemeToggle> = {
-  title: 'Web Components/ThemeToggle',
+  title: 'Patterns/ThemeToggle',
   component: ThemeToggle,
   tags: ['autodocs'],
   parameters: {

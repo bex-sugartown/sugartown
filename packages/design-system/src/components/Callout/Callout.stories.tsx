@@ -20,7 +20,7 @@ import { Zap } from 'lucide-react';
  * Canonical CSS: `artifacts/style 260118.css` §.st-callout
  */
 const meta: Meta<typeof Callout> = {
-  title: 'Components/Callout',
+  title: 'Primitives/Callout',
   component: Callout,
   tags: ['autodocs'],
   parameters: {

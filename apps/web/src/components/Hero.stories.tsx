@@ -17,7 +17,7 @@ const withRouter = (Story: React.ComponentType) => (
 );
 
 const meta: Meta<typeof Hero> = {
-  title: 'Web Components/Hero',
+  title: 'Layout/Hero',
   component: Hero,
   tags: ['autodocs'],
   decorators: [withRouter],

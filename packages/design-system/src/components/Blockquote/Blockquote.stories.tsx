@@ -13,7 +13,7 @@ import { Blockquote } from './Blockquote';
  * Canonical CSS: `artifacts/style 260118.css` §02
  */
 const meta: Meta<typeof Blockquote> = {
-  title: 'Components/Blockquote',
+  title: 'Primitives/Blockquote',
   component: Blockquote,
   tags: ['autodocs'],
   parameters: {

@@ -49,7 +49,7 @@ function WelcomePage() {
 }
 
 const meta: Meta = {
-  title: 'Welcome',
+  title: 'Foundations/Welcome',
   component: WelcomePage,
   parameters: {
     layout: 'padded',

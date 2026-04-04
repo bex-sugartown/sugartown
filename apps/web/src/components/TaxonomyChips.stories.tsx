@@ -17,7 +17,7 @@ const withRouter = (Story: React.ComponentType) => (
 );
 
 const meta: Meta<typeof TaxonomyChips> = {
-  title: 'Web Components/TaxonomyChips',
+  title: 'Patterns/TaxonomyChips',
   component: TaxonomyChips,
   tags: ['autodocs'],
   decorators: [withRouter],

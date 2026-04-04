@@ -32,7 +32,7 @@ const withMobileWidth = (Story: React.ComponentType) => (
 );
 
 const meta: Meta<typeof MobileNav> = {
-  title: 'Web Components/MobileNav',
+  title: 'Layout/MobileNav',
   component: MobileNav,
   tags: ['autodocs'],
   decorators: [withRouter, withMobileWidth],

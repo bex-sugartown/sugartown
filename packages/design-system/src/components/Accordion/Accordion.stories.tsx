@@ -16,7 +16,7 @@ import { Accordion } from './Accordion';
  * SUG-44: Accordion Component
  */
 const meta: Meta<typeof Accordion> = {
-  title: 'Components/Accordion',
+  title: 'Primitives/Accordion',
   component: Accordion,
   tags: ['autodocs'],
   parameters: {

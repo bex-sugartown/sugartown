@@ -112,7 +112,7 @@ const NEXT_ITEM: NavItemData = {
 // ─── Meta ──────────────────────────────────────────────────────────────────────
 
 const meta: Meta = {
-  title: 'Components/ContentNav',
+  title: 'Primitives/ContentNav',
   tags: ['autodocs'],
   parameters: {
     layout: 'padded',

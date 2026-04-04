@@ -19,7 +19,7 @@ const withRouter = (Story: React.ComponentType) => (
 );
 
 const meta: Meta<typeof Header> = {
-  title: 'Web Components/Header',
+  title: 'Layout/Header',
   component: Header,
   tags: ['autodocs'],
   decorators: [withRouter],

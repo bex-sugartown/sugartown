@@ -76,7 +76,7 @@ const CASE_STUDY_FULL = {
 // ─── Meta ──────────────────────────────────────────────────────────────────────
 
 const meta: Meta<typeof Card> = {
-  title: 'Components/Card',
+  title: 'Primitives/Card',
   component: Card,
   tags: ['autodocs'],
   parameters: {

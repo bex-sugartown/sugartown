@@ -69,7 +69,7 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Foundations', 'Components', '*'],
+        order: ['Foundations', 'Primitives', 'Patterns', 'Layout', '*'],
       },
     },
     // Disable the built-in backgrounds addon overlay.

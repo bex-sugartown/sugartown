@@ -90,7 +90,7 @@ const PROJECTS = {
 // ─── Meta ───────────────────────────────────────────────────────────────────
 
 const meta: Meta<typeof MetadataCard> = {
-  title: 'Components/MetadataCard',
+  title: 'Patterns/MetadataCard',
   component: MetadataCard,
   tags: ['autodocs'],
   decorators: [withRouter],
