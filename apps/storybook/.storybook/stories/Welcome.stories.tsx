@@ -23,26 +23,25 @@ function WelcomePage() {
         </thead>
         <tbody>
           <tr><td style={{ padding: '0.5rem 1rem' }}><strong>Foundations</strong></td><td style={{ padding: '0.5rem 1rem' }}>Colour palette, typeface specimens, spacing scale</td></tr>
-          <tr><td style={{ padding: '0.5rem 1rem' }}><strong>Components</strong></td><td style={{ padding: '0.5rem 1rem' }}>Design system primitives &mdash; Button, Card, Chip, Callout, etc.</td></tr>
-          <tr><td style={{ padding: '0.5rem 1rem' }}><strong>Web Components</strong></td><td style={{ padding: '0.5rem 1rem' }}>App-level components &mdash; Header, Footer, ContentCard, Hero, etc.</td></tr>
+          <tr><td style={{ padding: '0.5rem 1rem' }}><strong>Primitives</strong></td><td style={{ padding: '0.5rem 1rem' }}>Design system primitives &mdash; Button, Card, Chip, Callout, Accordion, CodeBlock, Media, etc.</td></tr>
+          <tr><td style={{ padding: '0.5rem 1rem' }}><strong>Patterns</strong></td><td style={{ padding: '0.5rem 1rem' }}>Data-aware adapters &mdash; ContentCard, MetadataCard, TaxonomyChips, Pagination, etc.</td></tr>
+          <tr><td style={{ padding: '0.5rem 1rem' }}><strong>Layout</strong></td><td style={{ padding: '0.5rem 1rem' }}>Page-level components &mdash; Header, Footer, Hero, MobileNav, Preheader, PageSections</td></tr>
         </tbody>
       </table>
 
       <h2 style={{ fontSize: '1.3rem', marginBottom: '1rem' }}>Themes</h2>
       <p style={{ marginBottom: '1rem' }}>
-        Use the <strong>theme switcher</strong> in the toolbar (circle icon) to preview all four variants:
+        Use the <strong>theme switcher</strong> in the toolbar (circle icon) to preview both Pink Moon variants:
       </p>
       <ul style={{ paddingLeft: '1.5rem', marginBottom: '2rem' }}>
-        <li><strong>Dark</strong> (default) &mdash; deep navy with pink and green accents</li>
-        <li><strong>Light</strong> &mdash; white background with the same accent palette</li>
-        <li><strong>Dark Pink Moon</strong> &mdash; dark base with translucent glass effects</li>
-        <li><strong>Light Pink Moon</strong> &mdash; light base with ambient glow</li>
+        <li><strong>Pink Moon Light</strong> (default) &mdash; warm white canvas, neon accents as structural signal, frosted surfaces</li>
+        <li><strong>Pink Moon Dark</strong> &mdash; midnight canvas, pink edge-lighting, translucent glass with ambient glow</li>
       </ul>
 
       <hr style={{ border: 'none', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '2rem 0' }} />
 
       <p style={{ opacity: 0.5, fontSize: '0.85rem' }}>
-        Built with React 19, Vite 7, and Storybook 9.
+        Built with React 19, Vite 7, and Storybook 10.
       </p>
     </div>
   );
