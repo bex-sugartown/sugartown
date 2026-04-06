@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-03 · v0.20.1 · SUG-44 Accordion Component
+> Updated 2026-04-06 · v0.21.0 · Storybook v10, Accordion, argTypes audit
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/prompts/SUG-{N}-*.md`.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.20.1 shipped (SUG-44 Accordion Component). **Next:** SUG-38 Storybook parity & deployment.
+> **⚑ Current focus:** v0.21.0 shipped (SUG-46 Storybook v10, SUG-45 argTypes, SUG-44 Accordion). **Next:** SUG-21 Pink Moon design system identity.
 
 ---
 
@@ -19,7 +19,7 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| — | *(No items currently flagged as 🟢 Next)* | | |
+| 1 | **[SUG-21](https://linear.app/sugartown/issue/SUG-21) · Pink Moon design system identity** — Pink Moon becomes the primary DS identity (not a theme variant). Light default, stained glass principle, academic interface, WCAG AA built-in, component overrides across all 12 primitives. Specs TBD via updated PRD. Working docs: `pink-moon-manifesto.md`, `ai-slop-manifesto.md`, `pink-moon-mock.html` (local drafts). Epic: `docs/backlog/SUG-21-pink-moon-design-system.md`. | `Design System` `UX` | 🟢 Next |
 
 ---
 
@@ -27,12 +27,8 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-38](https://linear.app/sugartown/issue/SUG-38) · Storybook parity & deployment** — Bring Storybook into parity with web/studio (React 18→19, Vite 5→7, Storybook 7→9, 25+ missing component stories) and deploy to `pinkmoon.sugartown.io`. Epic: `docs/backlog/SUG-38-storybook-parity.md`. | `Design System` `Infrastructure` `Storybook` | 🟣 Soon |
-| 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
-| 3 | **Brand color picker for Sanity Studio (BL-01)** — ✅ Shipped. [SUG-8](https://linear.app/sugartown/issue/SUG-8). Epic: `docs/prompts/SUG-8-brand-color-picker.md`. | `Studio UX` `BL-01` | ✅ Shipped |
-| 4 | **Studio UX polish — section type labels + archive rich text** — ✅ Shipped. [SUG-11](https://linear.app/sugartown/issue/SUG-11). Epic: `docs/prompts/SUG-11-studio-ux-polish.md`. | `Studio UX` `Schema` | ✅ Shipped |
-| 5 | **Mermaid diagram section type** — ✅ Shipped v0.19.1. [SUG-13](https://linear.app/sugartown/issue/SUG-13). Epic: `docs/prompts/SUG-13-mermaid-diagrams.md`. | `Schema` `Component` `UX` | ✅ Shipped |
-| 6 | **Image treatments & gallery layouts** — ✅ Shipped v0.19.2. [SUG-30](https://linear.app/sugartown/issue/SUG-30). Epic: `docs/prompts/SUG-30-image-treatments-gallery.md`. | `Schema` `Design System` | ✅ Shipped |
+| 1 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
+| 2 | **[SUG-47](https://linear.app/sugartown/issue/SUG-47) · Storybook/Studio props alignment audit** — Cross-check every Storybook argTypes enum against its Sanity schema source. Studio is source of truth. Epic: `docs/backlog/SUG-47-storybook-studio-props-alignment.md`. | `Design System` `Infrastructure` | ⚪ Later |
 
 ---
 
@@ -46,15 +42,18 @@
 | **Archive page deferred fields — wire Display + Advanced tab configs** — 8 `archivePage` fields moved to "Advanced (coming soon)" tab in Studio: hero section, custom description, featured items, display density, card variant, sort options, pagination, empty state. None are currently wired in the web app. Wire them when archive page UX is revisited post-launch. | `Deferred` `Schema` `Editor UX` |
 | **[SUG-19](https://linear.app/sugartown/issue/SUG-19) · KPI dashboard card family (BL-03)** — stat-card, bar-card, insight-card variants on DS Card. Build-time content metrics at `/platform/metrics`. Phase 1: DS variants + Storybook. Phase 2: metrics page. Epic: `docs/backlog/SUG-19-kpi-dashboard-cards.md`. | `Deferred` `Design System` `BL-03` |
 | **Schema ERD Sanity Hybrid (Option C)** — Upgrade ERD from code-driven page (EPIC-0172) to a `schemaErdSection` type embeddable via section builder. Component unchanged — adds schema, GROQ projection, and PageSections case. Depends on EPIC-0172. | `Deferred` `Schema` `Content` |
-| **EPIC Pink Moon — runtime theme toggle & polish** — CSS exists (`theme.pink-moon.css`) with dark-pink-moon and light-pink-moon variants — milky translucency, hairline borders, ambient glow. But there is no runtime toggle to activate it; the ThemeToggle component only switches between dark and light. This epic wires the Pink Moon variants into the theme switcher UI, adds Storybook stories for all 4 theme combinations, and polishes any component-level visual regressions under the glass aesthetic. | `Deferred` `Design System` `UX` |
+| ~~**SUG-21 · Pink Moon** — Elevated to 🟢 Next. See §01.~~ | `Design System` `UX` |
 | **[SUG-36](https://linear.app/sugartown/issue/SUG-36) · Site-wide content search** — No search exists today. Recommended: Fuse.js client-side index (build-time JSON manifest, same pattern as sitemap). Nav search icon + `/search` page. Phase 1: articles + nodes + case studies. Design spike needed first. Epic: `docs/backlog/SUG-36-site-search.md`. | `Deferred` `UX` `GROQ` `Infrastructure` |
 
 ---
 
-## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.20.x
+## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.21.x
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-46 · Storybook v10 upgrade + parity restoration** — Storybook v7→v10.3.4, React 19 compat, sidebar reorg (Foundations/Primitives/Patterns/Layout), 18 new web stories, 5 documentation stories, custom manager theme, Netlify deploy to pinkmoon.sugartown.io.~~ | v0.21.0 | 2026-04-06 |
+| ~~**SUG-45 · Storybook argTypes audit** — Explicit argTypes on all 17 story files (7 DS primitives, 10 web adapters). Booleans→toggles, enums→dropdowns, colours→pickers, internals hidden.~~ | v0.21.0 | 2026-04-06 |
+| ~~**SUG-38 · Storybook parity & deployment** — Superseded by SUG-46. Original scope (React 18→19, Vite 5→7, SB 7→9) delivered via SUG-46 upgrade path.~~ | v0.21.0 | 2026-04-06 |
 | ~~**SUG-44 · Accordion Component** — DS primitive (single/multi-expand, CSS grid-row animation, full a11y), `accordionSection` Sanity schema registered in all document types, GROQ projections, PageSections renderer, Storybook stories (5 variants). Visual QA passed.~~ | v0.20.1 | 2026-04-03 |
 | ~~**DNS cutover to Netlify** — Connected GitHub repo for deploy previews, Sanity webhook → Netlify build hook, `sugartown.io` custom domain configured, DNS cutover executed. Site live.~~ | v0.20.0 | 2026-04-01 |
 | ~~**SUG-37 · Responsive Mobile Nav** — Hamburger trigger + slide-out drawer with accordion submenus, focus trap, body scroll lock, footer zone (CTA, legal links, social icons, theme toggle). Hero bg cover fix, border token visibility bump, tool taxonomy expansion.~~ | v0.19.8 | 2026-03-31 |
@@ -104,4 +103,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-03 · v0.20.1*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-06 · v0.21.0*
