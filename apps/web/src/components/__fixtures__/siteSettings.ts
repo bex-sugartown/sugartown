@@ -71,8 +71,8 @@ export const SOCIAL_LINKS = [
 ];
 
 export const MOCK_LOGO = {
-  asset: { _id: 'image-logo-abc123', url: 'https://placehold.co/360x80/0D1226/FF247D?text=Sugartown' },
-  alt: 'Sugartown Digital',
+  asset: { _id: 'image-logo-sugartown', url: 'https://cdn.sanity.io/images/poalmzla/production/1a3444ae81dee63959d0386215aba2676f1979f4-780x317.png' },
+  alt: 'Sugartown',
 };
 
 export const SITE_SETTINGS = {

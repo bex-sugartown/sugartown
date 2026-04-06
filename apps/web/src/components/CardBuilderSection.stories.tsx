@@ -1,10 +1,26 @@
+import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { MemoryRouter } from 'react-router-dom';
 import CardBuilderSection from './CardBuilderSection';
 import { bodyWithCitation, simpleParagraph } from './__fixtures__/portableText';
+
+const withRouter = (Story: React.ComponentType) => (
+  <MemoryRouter>
+    <Story />
+  </MemoryRouter>
+);
 
 const meta: Meta<typeof CardBuilderSection> = {
   title: 'Patterns/CardBuilderSection',
   component: CardBuilderSection,
+  tags: ['autodocs'],
+  decorators: [withRouter],
+  argTypes: {
+    section: { control: { type: 'object' }, description: 'CardBuilderSection data: cards[], each with title, body, tags, citations, image, overlay' },
+  },
+  parameters: {
+    layout: 'padded',
+  },
 };
 
 export default meta;

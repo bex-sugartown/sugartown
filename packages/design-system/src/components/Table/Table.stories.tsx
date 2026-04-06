@@ -180,7 +180,7 @@ export const WithThumbnails: Story = {
           <tr>
             <td className="st-table__thumb">
               <img
-                src="https://picsum.photos/seed/thumb1/100/100"
+                src="https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=100&h=100&fit=crop&crop=top"
                 alt="Placeholder thumbnail"
               />
             </td>
@@ -190,7 +190,7 @@ export const WithThumbnails: Story = {
           <tr>
             <td className="st-table__thumb">
               <img
-                src="https://picsum.photos/seed/thumb2/100/100"
+                src="https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=100&h=100&fit=crop&crop=center"
                 alt="Placeholder thumbnail"
               />
             </td>
@@ -200,7 +200,7 @@ export const WithThumbnails: Story = {
           <tr>
             <td className="st-table__thumb">
               <img
-                src="https://picsum.photos/seed/thumb3/100/100"
+                src="https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=100&h=100&fit=crop&crop=bottom"
                 alt="Placeholder thumbnail"
               />
             </td>

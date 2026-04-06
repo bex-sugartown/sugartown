@@ -6,7 +6,7 @@
  * real Sanity credentials in Storybook.
  */
 
-const PLACEHOLDER = 'https://placehold.co/600x400/0D1226/FF247D?text=Sugartown'
+const PLACEHOLDER = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=600&h=400&fit=crop'
 
 function createBuilder() {
   const builder = {

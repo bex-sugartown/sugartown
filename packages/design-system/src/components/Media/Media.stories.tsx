@@ -43,8 +43,8 @@ const meta: Meta<typeof Media> = {
 export default meta;
 type Story = StoryObj<typeof Media>;
 
-const SAMPLE_IMAGE = 'https://picsum.photos/seed/sugartown/1200/800';
-const SAMPLE_PORTRAIT = 'https://picsum.photos/seed/portrait/800/1200';
+const SAMPLE_IMAGE = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=1200&h=800&fit=crop';
+const SAMPLE_PORTRAIT = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=800&h=1200&fit=crop&crop=left';
 
 // ── Default (no overlay) ─────────────────────────────────────────────────────
 
@@ -220,19 +220,19 @@ export const AllPresets: Story = {
   render: () => (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
       <Media
-        src="https://picsum.photos/seed/dt-std/600/400"
+        src="https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=600&h=400&fit=crop&crop=top"
         alt="Standard preset"
         overlay={{ type: 'duotone', duotonePreset: 'standard' }}
         caption="Standard (content)"
       />
       <Media
-        src="https://picsum.photos/seed/dt-feat/600/400"
+        src="https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=600&h=400&fit=crop&crop=center"
         alt="Featured preset"
         overlay={{ type: 'duotone', duotonePreset: 'featured' }}
         caption="Featured (hero)"
       />
       <Media
-        src="https://picsum.photos/seed/dt-sub/600/400"
+        src="https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=600&h=400&fit=crop&crop=bottom"
         alt="Subtle preset"
         overlay={{ type: 'duotone', duotonePreset: 'subtle' }}
         caption="Subtle (bg wash)"

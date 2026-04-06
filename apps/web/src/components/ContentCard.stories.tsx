@@ -90,7 +90,7 @@ const CASE_STUDY_ITEM = {
   slug: 'enterprise-content-migration',
   excerpt: 'Migrating a global retailer from monolithic CMS to headless architecture.',
   publishedAt: '2023-08-10',
-  heroImageUrl: 'https://placehold.co/800x450/0D1226/2BD4AA?text=Case+Study',
+  heroImageUrl: 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=800&h=450&fit=crop',
   categories: [
     { _id: 'cat-003', name: 'Design Systems', slug: 'design-systems', colorHex: '#2BD4AA' },
   ],
