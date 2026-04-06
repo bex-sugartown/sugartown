@@ -21,6 +21,16 @@ const meta: Meta<typeof ContentCard> = {
   component: ContentCard,
   tags: ['autodocs'],
   decorators: [withRouter],
+  argTypes: {
+    variant: { control: { type: 'select' }, options: ['default', 'listing'] },
+    showExcerpt: { control: 'boolean' },
+    showHeroImage: { control: 'boolean' },
+    categoryPosition: { control: { type: 'select' }, options: ['before', 'after'] },
+    item: { control: { type: 'object' }, description: 'Sanity content document (article, node, caseStudy)' },
+    imageOverride: { table: { disable: true } },
+    draftIds: { table: { disable: true } },
+    docType: { table: { disable: true } },
+  },
   parameters: {
     layout: 'padded',
   },

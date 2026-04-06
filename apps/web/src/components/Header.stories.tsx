@@ -23,6 +23,9 @@ const meta: Meta<typeof Header> = {
   component: Header,
   tags: ['autodocs'],
   decorators: [withRouter],
+  argTypes: {
+    siteSettings: { control: { type: 'object' }, description: 'Site config: siteLogo, siteTitle, primaryNav, headerCta, preheader, footerColumns, socialLinks, copyrightText' },
+  },
   parameters: {
     layout: 'fullscreen',
   },

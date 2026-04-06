@@ -21,6 +21,14 @@ const meta: Meta<typeof TaxonomyChips> = {
   component: TaxonomyChips,
   tags: ['autodocs'],
   decorators: [withRouter],
+  argTypes: {
+    size: { control: { type: 'select' }, options: ['sm', 'md'], description: 'Chip size variant' },
+    projects: { control: { type: 'object' }, description: 'Project refs [{_id, name, slug, colorHex?}]' },
+    categories: { control: { type: 'object' }, description: 'Category refs [{_id, name, slug, colorHex?}]' },
+    tags: { control: { type: 'object' }, description: 'Tag refs [{_id, name, slug}]' },
+    tools: { control: { type: 'object' }, description: 'Tool refs [{_id, name, slug}]' },
+    className: { table: { disable: true } },
+  },
   parameters: {
     layout: 'padded',
   },

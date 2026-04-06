@@ -28,6 +28,9 @@ const meta: Meta<typeof Footer> = {
   component: Footer,
   tags: ['autodocs'],
   decorators: [withRouter],
+  argTypes: {
+    siteSettings: { control: { type: 'object' }, description: 'Site config: siteLogo, footerLogo, siteTitle, tagline, footerColumns, socialLinks, copyrightText' },
+  },
   parameters: {
     layout: 'fullscreen',
   },

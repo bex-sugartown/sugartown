@@ -36,6 +36,17 @@ const meta: Meta<typeof MobileNav> = {
   component: MobileNav,
   tags: ['autodocs'],
   decorators: [withRouter, withMobileWidth],
+  argTypes: {
+    open: { control: 'boolean', description: 'Drawer visibility state' },
+    items: { control: { type: 'object' }, description: 'Nav items array with optional children (accordion submenus)' },
+    footerColumns: { control: { type: 'object' } },
+    socialLinks: { control: { type: 'object' } },
+    copyrightText: { control: 'text' },
+    siteTitle: { control: 'text' },
+    onClose: { action: 'closed' },
+    cta: { table: { disable: true } },
+    themeToggle: { table: { disable: true } },
+  },
   parameters: {
     layout: 'fullscreen',
   },

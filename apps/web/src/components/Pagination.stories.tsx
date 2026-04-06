@@ -12,6 +12,11 @@ const meta: Meta<typeof Pagination> = {
   title: 'Patterns/Pagination',
   component: Pagination,
   tags: ['autodocs'],
+  argTypes: {
+    currentPage: { control: { type: 'number', min: 1 }, description: 'Current active page (1-indexed)' },
+    totalPages: { control: { type: 'number', min: 1 }, description: 'Total page count. Returns null when ≤ 1' },
+    onPageChange: { action: 'pageChanged', description: 'Callback with page number' },
+  },
   parameters: {
     layout: 'centered',
   },

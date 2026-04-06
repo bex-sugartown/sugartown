@@ -21,6 +21,9 @@ const meta: Meta<typeof Preheader> = {
   component: Preheader,
   tags: ['autodocs'],
   decorators: [withRouter],
+  argTypes: {
+    preheader: { control: { type: 'object' }, description: 'Banner config: message, url, label, backgroundColor (pink|green), publishAt, unpublishAt, openInNewTab' },
+  },
   parameters: {
     layout: 'fullscreen',
   },

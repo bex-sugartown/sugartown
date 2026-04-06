@@ -21,6 +21,9 @@ const meta: Meta<typeof Hero> = {
   component: Hero,
   tags: ['autodocs'],
   decorators: [withRouter],
+  argTypes: {
+    hero: { control: { type: 'object' }, description: 'Hero config: heading, subheading, backgroundStyle (default|pink|green|white|image), backgroundMedia, ctas[]' },
+  },
   parameters: {
     layout: 'fullscreen',
   },

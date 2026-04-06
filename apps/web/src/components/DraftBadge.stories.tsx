@@ -20,6 +20,10 @@ const meta: Meta<typeof DraftBadge> = {
   component: DraftBadge,
   tags: ['autodocs'],
   decorators: [withPreviewMode],
+  argTypes: {
+    docId: { control: 'text', description: 'Document ID — "drafts." prefix indicates draft-only' },
+    hasDraft: { control: 'boolean', description: 'Published doc has pending draft changes' },
+  },
   parameters: {
     layout: 'centered',
   },
