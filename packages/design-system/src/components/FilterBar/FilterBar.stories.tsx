@@ -44,6 +44,12 @@ const meta: Meta<typeof FilterBar> = {
   title: 'Primitives/FilterBar',
   component: FilterBar,
   tags: ['autodocs'],
+  argTypes: {
+    filterModel: { control: { type: 'object' }, description: 'Filter facets and options' },
+    activeFilters: { control: { type: 'object' }, description: 'Currently active filter selections' },
+    onFilterChange: { table: { disable: true } },
+    onClearAll: { table: { disable: true } },
+  },
   parameters: {
     layout: 'padded',
   },

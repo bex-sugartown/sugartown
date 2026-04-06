@@ -19,6 +19,12 @@ const meta: Meta<typeof Accordion> = {
   title: 'Primitives/Accordion',
   component: Accordion,
   tags: ['autodocs'],
+  argTypes: {
+    multi: { control: 'boolean', description: 'Allow multiple panels open simultaneously' },
+    defaultOpen: { control: { type: 'object' }, description: 'Array of item IDs to open by default' },
+    items: { table: { disable: true } },
+    className: { table: { disable: true } },
+  },
   parameters: {
     layout: 'padded',
   },

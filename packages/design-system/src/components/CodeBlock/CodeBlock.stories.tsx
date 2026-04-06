@@ -41,6 +41,9 @@ const meta: Meta<typeof CodeBlock> = {
       options: ['default', 'mermaid'],
     },
     showLineNumbers: { control: 'boolean' },
+    filename: { control: 'text', description: 'Filename shown in the meta bar above the code' },
+    code: { control: 'text' },
+    className: { table: { disable: true } },
   },
   decorators: [
     (Story) => (

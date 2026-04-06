@@ -83,10 +83,11 @@ const meta: Meta<typeof Card> = {
     layout: 'padded',
   },
   argTypes: {
-    variant:          { control: { type: 'select' }, options: ['default', 'listing'] },
+    variant:          { control: { type: 'select' }, options: ['default', 'listing', 'metadata'] },
     density:          { control: { type: 'select' }, options: ['default', 'compact'] },
     // Project lifecycle (Studio: project.status). Never combine with evolution.
     status:           { control: { type: 'select' }, options: [
+      'draft', 'active', 'archived', 'implemented',
       'dreaming', 'designing', 'developing', 'testing', 'deploying', 'iterating',
     ]},
     // Node evolution (Studio: node.status). Never combine with status.
@@ -100,6 +101,21 @@ const meta: Meta<typeof Card> = {
     href:             { control: 'text' },
     accentColor:      { control: 'color' },
     thumbnailUrl:     { control: 'text' },
+    thumbnailAlt:     { control: 'text' },
+    date:             { control: 'text' },
+    nextStep:         { control: 'text' },
+    aiTool:           { control: 'text' },
+    toolsLabel:       { control: 'text' },
+    tagsLabel:        { control: 'text' },
+    category:         { control: { type: 'object' } },
+    project:          { control: { type: 'object' } },
+    metadata:         { control: { type: 'object' } },
+    tags:             { control: { type: 'object' } },
+    tools:            { control: { type: 'object' } },
+    kpiLink:          { control: { type: 'object' } },
+    children:         { table: { disable: true } },
+    footerChildren:   { table: { disable: true } },
+    className:        { table: { disable: true } },
   },
 };
 

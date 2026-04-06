@@ -17,6 +17,17 @@ const meta: Meta<typeof Button> = {
       },
     },
   },
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'tertiary'],
+      description: 'Visual variant — determines fill colour and hover glow',
+    },
+    disabled: { control: 'boolean', description: 'Disables interaction and dims the button' },
+    children: { control: 'text', description: 'Button label text' },
+    onClick: { table: { disable: true } },
+    className: { table: { disable: true } },
+  },
   tags: ['autodocs'],
 };
 

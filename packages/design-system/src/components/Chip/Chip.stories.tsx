@@ -13,9 +13,16 @@ const meta: Meta<typeof Chip> = {
     label: { control: 'text' },
     href: { control: 'text' },
     isActive: { control: 'boolean' },
-    color: { control: { type: 'select' }, options: [undefined, 'pink', 'seafoam', 'lime', 'violet', 'amber'] },
-    colorHex: { control: 'color' },
+    color: {
+      control: { type: 'select' },
+      options: ['pink', 'seafoam', 'lime', 'violet', 'amber', 'grey'],
+      description: 'Named colour preset. Overridden by colorHex if both set.',
+    },
+    colorHex: { control: 'color', description: 'Custom hex colour — overrides named preset' },
     size: { control: { type: 'select' }, options: ['sm', 'md'] },
+    onClick: { table: { disable: true } },
+    className: { table: { disable: true } },
+    'aria-label': { table: { disable: true } },
   },
 };
 

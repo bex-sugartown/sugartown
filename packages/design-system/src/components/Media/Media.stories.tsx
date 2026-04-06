@@ -22,6 +22,15 @@ const meta: Meta<typeof Media> = {
   parameters: {
     layout: 'padded',
   },
+  argTypes: {
+    src: { control: 'text', description: 'Image URL (required)' },
+    alt: { control: 'text', description: 'Alt text for accessibility (required)' },
+    caption: { control: 'text', description: 'Optional figcaption below the image' },
+    aspectRatio: { control: 'text', description: 'CSS aspect-ratio value, e.g. "16/9", "1/1"' },
+    hoverScale: { control: 'boolean', description: 'Zoom on hover (default: true for duotone)' },
+    overlay: { control: { type: 'object' }, description: 'Overlay config — type, preset, colour, opacity' },
+    className: { table: { disable: true } },
+  },
   decorators: [
     (Story) => (
       <div style={{ maxWidth: '720px' }}>
