@@ -16,6 +16,81 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.21.0] — 2026-04-06
+
+Storybook v10 upgrade, Accordion component, full story coverage, argTypes audit. Aggregates 0.20.1.
+
+### apps/web
+
+#### Added
+- Accordion web adapter component (`Accordion.jsx`, `Accordion.module.css`), wired into `PageSections.jsx` as `accordionSection` renderer
+- GROQ projection for `accordionSection` in `queries.js`
+- Accordion exported from `design-system/index.js`
+- 18 Storybook story files for web components: ContentCard, DraftBadge, MetadataCard, Pagination, TaxonomyChips, ThemeToggle, Footer, Header, Hero, MobileNav, Preheader, CardBuilderSection, CardGrid, ContactForm, ContentBlock, EditorialCard, ImageLightbox, PreviewBanner, PageSections
+- Shared Storybook fixtures: `__fixtures__/siteSettings.ts`, `__fixtures__/portableText.ts`
+- Explicit `argTypes` on 10 web story files (ContentCard, DraftBadge, MetadataCard, Pagination, TaxonomyChips, Footer, Header, Hero, MobileNav, Preheader)
+
+#### Fixed
+- Accordion item IDs changed from `Math.random()` to deterministic generation
+- CardBuilderSection story crash — added missing `MemoryRouter` decorator (`useContext` null error)
+- All placeholder images (placehold.co) replaced with Sanity CDN URLs
+- Logo fixture updated to real Sugartown wordmark from Sanity CDN
+
+### apps/studio
+
+#### Added
+- `accordionSection` schema (`schemas/sections/accordionSection.ts`)
+- `accordionSection` registered in schema index
+- Accordion section added to section builder arrays in article, caseStudy, node, page document schemas
+
+### packages/design-system
+
+#### Added
+- Accordion primitive component (`Accordion.tsx`, `Accordion.module.css`, `Accordion.stories.tsx`, `index.ts`)
+- Accordion exported from package barrel (`src/index.ts`)
+- Explicit `argTypes` added to 7 DS story files: Accordion, Button, Card, Chip, CodeBlock, FilterBar, Media
+
+#### Changed
+- Card story argTypes expanded from 10 to 22 props; `metadata` variant added to select options
+- Chip story argTypes: `grey` preset added, `undefined` option removed
+- CodeBlock story argTypes: `filename` text control added
+- All placeholder images (placehold.co, picsum.photos) replaced with Sanity CDN URLs
+
+### apps/storybook
+
+#### Added
+- Storybook upgraded from v7 to v10.3.4 (new config format, React 19 compatibility)
+- Custom Sugartown manager theme (`manager.ts`)
+- Sidebar reorganized into 4 groups: Foundations, Primitives, Patterns, Layout
+- 5 documentation stories: Welcome, ThemeGuide, TokenReference, ComponentContracts, Contributing
+- Vite config (`vite.config.ts`) with alias mocks for Sanity client and contentState
+- Storybook mocks for `urlFor()` and `contentState` (`mocks/sanity.js`, `mocks/contentState.js`)
+- Netlify deployment config (`netlify.toml`) for pinkmoon.sugartown.io
+
+#### Changed
+- Welcome page intro copy updated to match new sidebar organisation (Foundations/Primitives/Patterns/Layout) and Pink Moon theme direction (2 modes, not 4)
+- Sanity mock `urlFor()` returns Sanity CDN URL instead of placehold.co
+- Storybook version reference updated to 10
+
+### Other
+
+#### Added
+- Monorepo architecture diagram (`docs/architecture/architecture-diagram.md`)
+- Post-mortem guardrails in `CLAUDE.md`: feature branch push rule, Linear Done gate, merge conflict cleanup, environment detection
+- Browser-testing pre-flight and no-speculative-fix rules in `CLAUDE.md`
+- Local-only directory convention in `CLAUDE.md` (`docs/drafts/`, `docs/brand/` gitignored, never committed)
+- Tooling upgrade template (`docs/tooling-upgrade-template.md`)
+- Desktop app cloud/local visibility feedback (`docs/feedback/`)
+
+#### Changed
+- `docs/brand/` and `docs/drafts/` untracked from git (were tracked despite gitignore)
+- `.gitignore` updated for `docs/drafts/`, `docs/brand/`
+- Morning housekeeping prompt updated with runtime environment detection
+- Epic template updated
+- SUG-38, SUG-41, SUG-46 epic docs shipped to `docs/prompts/`
+
+---
+
 ## [0.20.0] — 2026-04-01
 
 Responsive mobile nav, image treatments & gallery, detail hero refinement, table authoring UX, sitemap, mermaid diagrams, and WordPress media import. Aggregates 0.19.1–0.19.8.
