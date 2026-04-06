@@ -63,6 +63,19 @@ Before asking the user to test anything in their browser:
 
 A white-screen debug cycle caused by local ↔ remote divergence is a process failure.
 
+### Local-only directories (gitignored)
+
+Two `docs/` subdirectories are **local-only** — gitignored and never committed:
+
+- **`docs/drafts/`** — working drafts, manifestos, HTML mocks, GIFs, exploration docs. Content here is in flux and stays on Bex's machine until it's ready to move elsewhere (Sanity, `docs/briefs/`, `docs/prompts/`).
+- **`docs/brand/`** — brand voice guides, node style guide, voice cheatsheets. Private editorial reference, not published to the repo.
+
+**Rules:**
+- Never `git add` files in these directories. They are gitignored for a reason.
+- Never ask "should we commit these drafts?" — the answer is always no.
+- If a draft graduates to a brief or a Sanity document, copy it to the destination and leave the draft in place as a local archive.
+- If git shows these files as "deleted" in `git status`, it means they were previously tracked and need to be untracked with `git rm --cached`.
+
 ### No speculative fixes
 
 When the user reports a bug (white screen, crash, visual regression):
