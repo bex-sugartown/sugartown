@@ -27,6 +27,7 @@ const meta: Meta<typeof Callout> = {
     layout: 'padded',
   },
   argTypes: {
+    // Options synced with schemas/sections/calloutSection.ts → variant (SUG-47)
     variant: {
       control: { type: 'select' },
       options: ['default', 'info', 'tip', 'warn', 'danger'],

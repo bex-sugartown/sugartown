@@ -22,7 +22,10 @@ const meta: Meta<typeof Hero> = {
   tags: ['autodocs'],
   decorators: [withRouter],
   argTypes: {
-    hero: { control: { type: 'object' }, description: 'Hero config: heading, subheading, backgroundStyle (default|pink|green|white|image), backgroundMedia, ctas[]' },
+    // Sub-prop enums synced with schemas/sections/hero.ts (SUG-47):
+    //   imageWidth: 'content-width' | 'full-width'
+    //   backgroundMedia.imageTreatment.type (via mediaOverlay.ts): 'none' | 'duotone-featured' | 'duotone-subtle' | 'duotone-extreme' | 'dark-scrim' | 'color'
+    hero: { control: { type: 'object' }, description: 'Hero config: heading, subheading, backgroundStyle (default|pink|green|white|image), backgroundMedia {image, useDuotone, imageTreatment}, ctas[]' },
   },
   parameters: {
     layout: 'fullscreen',

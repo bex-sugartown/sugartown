@@ -18,6 +18,7 @@ const meta: Meta<typeof Button> = {
     },
   },
   argTypes: {
+    // Options synced with schemas/objects/ctaButton.ts → style (SUG-47)
     variant: {
       control: { type: 'select' },
       options: ['primary', 'secondary', 'tertiary'],

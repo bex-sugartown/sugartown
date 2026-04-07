@@ -97,10 +97,12 @@ const meta: Meta<typeof MetadataCard> = {
   argTypes: {
     contentType: { control: 'text', description: 'Display label: Node, Article, Case Study, Project' },
     contentTypeHref: { control: 'text' },
+    // Options synced with schemas/documents/node.ts → status + schemas/documents/project.ts → status (SUG-47)
     status: { control: { type: 'select' }, options: [
       'exploring', 'validated', 'operationalized', 'deprecated', 'evergreen',
       'dreaming', 'designing', 'developing', 'testing', 'deploying', 'iterating',
     ]},
+    // Options synced with schemas/documents/node.ts → conversationType (SUG-47)
     conversationType: { control: { type: 'select' }, options: [
       'problem', 'learning', 'code', 'design', 'architecture', 'debug', 'reflection',
     ]},

@@ -85,12 +85,11 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     variant:          { control: { type: 'select' }, options: ['default', 'listing', 'metadata'] },
     density:          { control: { type: 'select' }, options: ['default', 'compact'] },
-    // Project lifecycle (Studio: project.status). Never combine with evolution.
+    // Options synced with schemas/documents/project.ts → status field (SUG-47)
     status:           { control: { type: 'select' }, options: [
-      'draft', 'active', 'archived', 'implemented',
       'dreaming', 'designing', 'developing', 'testing', 'deploying', 'iterating',
     ]},
-    // Node evolution (Studio: node.status). Never combine with status.
+    // Options synced with schemas/documents/node.ts → status field (SUG-47)
     evolution:        { control: { type: 'select' }, options: [
       'exploring', 'validated', 'operationalized', 'deprecated', 'evergreen',
     ]},
