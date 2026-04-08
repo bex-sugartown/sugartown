@@ -45,10 +45,18 @@ p {
   margin: 0 0 var(--st-spacing-stack-md) 0;
 }
 
-/* ── Headings → Libre Caslon Display ─────────────────── */
-h1, h2, h3, h4, h5, h6 {
+/* ── Headings ─────────────────────────────────────────── */
+/* Libre Caslon Display (single weight 400) for h1/h2 — display scale.
+   Fira Sans bold for h3-h6 — needs weight variation that Libre Caslon lacks. */
+h1, h2 {
   margin: 0 0 var(--st-spacing-stack-md) 0;
   font-family: var(--st-font-narrative);
+  font-weight: 400; /* Libre Caslon Display has one weight — don't fake bold */
+}
+h3, h4, h5, h6 {
+  margin: 0 0 var(--st-spacing-stack-md) 0;
+  font-family: var(--st-font-ui);
+  font-weight: 700;
 }
 
 /* ── Code → Mono ──────────────────────────────────────── */

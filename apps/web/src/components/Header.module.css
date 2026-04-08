@@ -1,5 +1,8 @@
+/* Pink Moon: frosted header on scroll — one of two surfaces allowed blur (PRD §9) */
 .header {
-  background-color: var(--st-color-bg-surface);
+  background-color: var(--st-header-bg, var(--st-color-bg-surface));
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
   border-bottom: 1px solid var(--st-color-border-subtle);
   padding: var(--st-spacing-stack-md) 0;
   position: sticky;
