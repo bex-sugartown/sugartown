@@ -318,9 +318,9 @@
   --st-card-bg-alt:            var(--st-color-bg-surface-alt);
   --st-card-text:              var(--st-color-text-default);
   --st-card-text-muted:        var(--st-color-text-muted);
-  --st-card-border:            rgba(255, 36, 125, 0.2);      /* same light + dark */
+  --st-card-border:            var(--st-color-border-default); /* Pink Moon: grey default, pink on hover */
   --st-card-radius:            var(--st-radius-card);
-  --st-card-shadow:            0 14px 40px rgba(0, 0, 0, 0.18);   /* dark default */
+  --st-card-shadow:            0 2px 8px rgba(0, 0, 0, 0.06);    /* light default — theme overrides */
   --st-card-hover-translate-y: -4px;
   --st-card-hover-shadow:      0 18px 55px rgba(0, 0, 0, 0.22);   /* dark default */
   --st-card-media-height:      48px;
