@@ -100,19 +100,21 @@ export default defineType({
     }),
 
     // METADATA GROUP — dates, authors, taxonomy connections all in one tab
+    // SUG-48: cardImage deprecated — future: auto-derive from hero section image (SUG-50)
     defineField({
       name: 'cardImage',
-      title: 'Card Image',
+      title: 'Card Image (Deprecated)',
       type: 'image',
-      description: 'Optional thumbnail for card grids. If empty, the hero image is used.',
-      group: 'metadata',
+      description: '⚠️ Deprecated — card thumbnails will be auto-derived from the hero section image (SUG-50).',
+      group: 'legacy',
+      hidden: true,
+      deprecated: {reason: 'Card thumbnails will be auto-derived from the hero section image. See SUG-50.'},
       options: {hotspot: true},
       fields: [
         defineField({
           name: 'alt',
           title: 'Alt Text',
           type: 'string',
-          description: 'Describe the image for screen readers',
         }),
       ],
     }),
@@ -213,12 +215,15 @@ export default defineType({
       ],
       validation: (Rule) => Rule.unique()
     }),
+    // SUG-48: relatedProjects deprecated — projects[] is canonical
     defineField({
       name: 'relatedProjects',
-      title: 'Related Projects (Legacy)',
+      title: 'Related Projects (Deprecated)',
       type: 'array',
-      description: 'Legacy field — kept for backward compatibility. Prefer "Projects" above.',
-      group: 'metadata',
+      description: '⚠️ Deprecated — use "Projects" field instead.',
+      group: 'legacy',
+      hidden: true,
+      deprecated: {reason: 'Use the Projects taxonomy field instead.'},
       of: [
         defineArrayMember({
           type: 'reference',

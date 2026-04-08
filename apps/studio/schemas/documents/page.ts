@@ -57,6 +57,39 @@ export default defineType({
         Rule.required()
           .error('Slug is required. Click "Generate" to create from title.')
     }),
+    // SUG-48: parent and template moved to content tab, beneath slug
+    defineField({
+      name: 'parent',
+      title: 'Parent Page',
+      type: 'reference',
+      to: [{type: 'page'}],
+      description: 'Optional: nest this page under another page (enables /page/subpage/ URL nesting — see SUG-51)',
+      group: 'content',
+      options: {
+        filter: ({document}) => {
+          return {
+            filter: '_id != $id',
+            params: {id: document._id}
+          }
+        }
+      }
+    }),
+    defineField({
+      name: 'template',
+      title: 'Page Template',
+      type: 'string',
+      description: 'Layout template for this page (rendering: see SUG-52)',
+      group: 'content',
+      options: {
+        list: [
+          {title: 'Default (Standard Width)', value: 'default'},
+          {title: 'Full Width (Edge to Edge)', value: 'full-width'},
+          {title: 'With Sidebar', value: 'sidebar'}
+        ],
+        layout: 'radio'
+      },
+      initialValue: 'default'
+    }),
     defineField({
       name: 'sections',
       title: 'Page Sections',
@@ -73,6 +106,17 @@ export default defineType({
         defineArrayMember({type: 'calloutSection'}),
         defineArrayMember({type: 'mermaidSection'}),
         defineArrayMember({type: 'accordionSection'}),
+      ]
+    }),
+    // SUG-48: citations added to page (was missing — present on node, article, caseStudy)
+    defineField({
+      name: 'citations',
+      title: 'Citations / Endnotes',
+      type: 'array',
+      description: 'Endnote definitions for [1], [2] etc. markers placed in content via the Citation Reference annotation. Each entry appears in the endnote zone at the bottom of the page.',
+      group: 'content',
+      of: [
+        defineArrayMember({type: 'citationItem'})
       ]
     }),
 
@@ -146,40 +190,7 @@ export default defineType({
       ]
     }),
 
-    // SETTINGS GROUP
-    defineField({
-      name: 'template',
-      title: 'Page Template',
-      type: 'string',
-      description: 'Layout template for this page',
-      group: 'metadata',
-      options: {
-        list: [
-          {title: 'Default (Standard Width)', value: 'default'},
-          {title: 'Full Width (Edge to Edge)', value: 'full-width'},
-          {title: 'With Sidebar', value: 'sidebar'}
-        ],
-        layout: 'radio'
-      },
-      initialValue: 'default'
-    }),
-    defineField({
-      name: 'parent',
-      title: 'Parent Page',
-      type: 'reference',
-      to: [{type: 'page'}],
-      description: 'Optional: nest this page under another page',
-      group: 'metadata',
-      options: {
-        filter: ({document}) => {
-          // Prevent selecting self as parent
-          return {
-            filter: '_id != $id',
-            params: {id: document._id}
-          }
-        }
-      }
-    }),
+    // parent and template moved to content group (SUG-48)
 
     // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)
     // Identical across page / post / caseStudy / node for Studio UI consistency.

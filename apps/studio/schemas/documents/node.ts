@@ -18,7 +18,6 @@ export default defineType({
   icon: DiamondIcon,
   groups: [
     {name: 'content', title: 'Content', default: true},
-    {name: 'agenticCaucus', title: 'Agentic Caucus'},
     {name: 'metadata', title: 'Metadata'},
     {name: 'seo', title: 'SEO'},
     {name: 'migration', title: 'Migration'},
@@ -100,13 +99,15 @@ export default defineType({
       ]
     }),
 
-    // AGENTIC CAUCUS GROUP — AI tool context + reflection fields
+    // DEPRECATED — Agentic Caucus fields (SUG-48: hidden, tools[] is canonical for AI tools, categories/tags for conversation type)
     defineField({
       name: 'aiTool',
-      title: 'AI Tool',
+      title: 'AI Tool (Deprecated)',
       type: 'string',
-      description: 'Which AI tool(s) were used for this conversation',
-      group: 'agenticCaucus',
+      description: '⚠️ Deprecated — use Tools & Platforms taxonomy instead.',
+      group: 'legacy',
+      hidden: true,
+      deprecated: {reason: 'Use the Tools & Platforms taxonomy field instead. AI tools are now first-class tool documents.'},
       options: {
         list: [
           {title: '🤖 Claude', value: 'claude'},
@@ -116,14 +117,16 @@ export default defineType({
         ],
         layout: 'radio'
       },
-      validation: (Rule) => Rule.required().error('AI tool selection is required')
+      // validation removed — field is deprecated and hidden, required constraint would block publishing
     }),
     defineField({
       name: 'conversationType',
-      title: 'Conversation Type',
+      title: 'Conversation Type (Deprecated)',
       type: 'string',
-      description: 'What kind of interaction was this?',
-      group: 'agenticCaucus',
+      description: '⚠️ Deprecated — use categories and tags for conversation classification.',
+      group: 'legacy',
+      hidden: true,
+      deprecated: {reason: 'Use categories and tags for conversation classification instead of a dedicated enum.'},
       options: {
         list: [
           {title: '🤔 Problem Solving', value: 'problem'},
@@ -135,17 +138,6 @@ export default defineType({
           {title: '💭 Reflection', value: 'reflection'}
         ]
       }
-    }),
-    defineField({
-      name: 'conversationLink',
-      title: 'Conversation Link',
-      type: 'url',
-      description: 'Link to shared conversation (Claude.ai share, ChatGPT share, etc.)',
-      group: 'agenticCaucus',
-      validation: (Rule) =>
-        Rule.uri({
-          scheme: ['http', 'https']
-        })
     }),
 
     defineField({
@@ -177,19 +169,21 @@ export default defineType({
     }),
 
     // METADATA GROUP — dates, status, authors, taxonomy connections
+    // SUG-48: cardImage deprecated — future: auto-derive from hero section image (SUG-50)
     defineField({
       name: 'cardImage',
-      title: 'Card Image',
+      title: 'Card Image (Deprecated)',
       type: 'image',
-      description: 'Optional thumbnail for card grids. If empty, the hero image is used.',
-      group: 'metadata',
+      description: '⚠️ Deprecated — card thumbnails will be auto-derived from the hero section image (SUG-50).',
+      group: 'legacy',
+      hidden: true,
+      deprecated: {reason: 'Card thumbnails will be auto-derived from the hero section image. See SUG-50.'},
       options: {hotspot: true},
       fields: [
         defineField({
           name: 'alt',
           title: 'Alt Text',
           type: 'string',
-          description: 'Describe the image for screen readers',
         }),
       ],
     }),
@@ -307,12 +301,15 @@ export default defineType({
       ],
       validation: (Rule) => Rule.unique()
     }),
+    // SUG-48: relatedProjects deprecated — projects[] is canonical
     defineField({
       name: 'relatedProjects',
-      title: 'Related Projects (Legacy)',
+      title: 'Related Projects (Deprecated)',
       type: 'array',
-      description: 'Legacy field — kept for backward compatibility. Prefer "Projects" above.',
-      group: 'metadata',
+      description: '⚠️ Deprecated — use "Projects" field instead.',
+      group: 'legacy',
+      hidden: true,
+      deprecated: {reason: 'Use the Projects taxonomy field instead.'},
       of: [
         defineArrayMember({
           type: 'reference',
