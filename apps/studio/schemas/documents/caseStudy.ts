@@ -19,6 +19,7 @@ export default defineType({
     {name: 'metadata', title: 'Metadata'},
     {name: 'seo', title: 'SEO'},
     {name: 'migration', title: 'Migration'},
+    {name: 'legacy', title: 'Legacy'},
   ],
   fields: [
     // CONTENT GROUP
