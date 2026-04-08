@@ -1,18 +1,27 @@
-# Sugartown Design System Ruleset
-**Strategic Principles + Tactical Implementation + AI Agent Guidelines**
+# Sugartown Design System — Tactical Guide
+**Implementation Patterns + Pre-Ship Checklist**
 
-**Version:** v2025.12.29  
-**Namespace:** `st-*` (Sugartown Pink)  
+**Version:** v2026.04.08 (slimmed from Ruleset v2025.12.29)
+**Namespace:** `st-*` (Sugartown Pink Moon)
 **For:** Human developers, AI collaborators, design system maintainers
+
+> **SUG-21 consolidation note:** This file was the "Design System Ruleset" (1170 lines).
+> Sections absorbed into other documents:
+> - **Philosophy Layer** → PRD v3.0 §1-2 (`design-system-prd.md`)
+> - **AI Agent Guidelines** → `CLAUDE.md`
+> - **Anti-slop governance** → PRD v3.0 §11
+>
+> What remains: Tactical implementation guidance (naming, BEM, token consumption)
+> and the pre-ship validation checklist.
 
 ---
 
 ## Table of Contents
 
-1. [Philosophy Layer: Why Design Systems Exist](#philosophy-layer-why-design-systems-exist)
+1. ~~[Philosophy Layer](#)~~ — *moved to PRD v3.0 §1-2*
 2. [Tactical Layer: Implementation Guidance](#tactical-layer-implementation-guidance)
 3. [Validation Layer: Pre-Ship Checklist](#validation-layer-pre-ship-checklist)
-4. [AI Agent Guidelines](#ai-agent-guidelines)
+4. ~~[AI Agent Guidelines](#)~~ — *moved to CLAUDE.md*
 
 ---
 

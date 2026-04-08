@@ -1,543 +1,342 @@
-# Sugartown Pink Design System — Product Requirements Document (PRD) 2.0
+# Sugartown Pink Moon Design System — PRD 3.0
 
 | Metadata | Details |
 | :--- | :--- |
-| **Document** | Sugartown Pink Design System PRD |
-| **PRD Version** | **2.0 — Sanity Claus** |
-| **PRD Status** | 🟢 Active / Stable |
-| **Owner** | Product |
-| **Primary Repo** | `sugartown-frontend` |
+| **Document** | Sugartown Design System PRD |
+| **PRD Version** | **3.0 — Pink Moon** |
+| **PRD Status** | 🟢 Active |
+| **Owner** | Product (Bex Head) |
+| **Primary Repo** | `sugartown` (pnpm monorepo) |
 | **Scope** | Design System (Portable, CMS-Agnostic) |
-| **Related Standards** | Design System Contracts (Appendix A), Token Architecture Spec |
-| **Related Gems** | [Gem 21: The Pre-Design System](/gem/design-ops-the-pre-design-system-surviving-the-css-chaos) |
-| **Supersedes** | PRD v1.5 |
-| **Last Reviewed** | 2026-01-19 |
+| **Supersedes** | PRD v2.0 (Sanity Claus) |
+| **Last Reviewed** | 2026-04-08 |
 
-> **Reference Implementation Note:** Known current token values and component behaviors in this PRD are grounded in the existing `sugartown-pink/style.css` theme implementation. :contentReference[oaicite:0]{index=0}
->
-> **Versioning Note**
-> PRD versions are semantic and track the evolution of system intent and constraints.
-> Production releases follow calendar-based versioning (`vYYYY.MM.DD`) and are documented separately in `CHANGELOG.md`.
-> 
+> **v2.0 → v3.0 changes:**
+> - Pink Moon is now the primary design system identity (not a theme variant)
+> - WordPress references removed (migration complete)
+> - Repository structure updated to current monorepo (`packages/design-system`, `apps/web`, `apps/studio`, `apps/storybook`)
+> - Typography: Libre Caslon Display replaces Playfair Display for narrative headings, Courier Prime replaces Fira Code for metadata/catalogue mono
+> - Visual direction: sharp neutral surfaces + hot colour signal (from Pink Moon manifesto)
+> - Prose-as-design-SoT documented as an architectural decision
+> - Anti-slop governance integrated
+> - Figma references removed (design intent is expressed through PRD + manifesto + HTML mocks + CSS tokens + Storybook)
 
 ---
 
 ## 1. Overview
 
-Sugartown Pink is a **portable, stateless mini design system** designed to exist independently of any single CMS, theme, or rendering runtime. Today it is incubated inside a WordPress theme (based on Twenty Twenty-Five), but the north-star architecture is a **CMS-agnostic system** with a **single source of truth** for tokens, component contracts, and documentation.
+Sugartown Pink Moon is a **portable, stateless design system** implemented as a monorepo package (`packages/design-system`) consumed by the web app (`apps/web`) and documented in Storybook (`apps/storybook`). It provides tokens, component primitives, and visual governance for the Sugartown knowledge platform.
 
-Architectural philosophy:
-- **Single Source of Truth:** Tokens and contracts are authoritative; renderers are implementation details.
-- **Stateless Components:** Components render deterministically from input; no hidden platform dependencies.
-- **Canonical + Idempotent:** Canonical component structures produce stable markup, enabling predictable styling and easy migration.
-- **Subtle Tech:** Quiet precision, restrained color usage, standardized elevation, and interaction consistency.
+### Philosophy
 
----
-
-## 2. Problem Statement
-
-- The current state blends **theme styling** and **design system rules**, creating ambiguous ownership.
-- Component behavior can drift across surfaces without a single canonical contract.
-- Light mode needs explicit governance to avoid **contrast failures**, especially for brand pink usage.
-- Token usage is partially standardized, but not fully enforced across all UI primitives.
-- Lack of standardized scales (spacing, typography, radius) leads to one-off values and inconsistent rhythm.
-- Migration risk increases when markup/styling depends on WordPress block wrappers or editor-generated DOM.
+- **Single Source of Truth:** CSS token files are the canonical visual authority. Components consume semantic tokens. Everything else is derived.
+- **Sharp Neutral, Hot Signal:** Surfaces are solid and opaque. Colour appears only where it earns its place — at CTAs, links, chips, and taxonomy markers. The interface is a white page with neon ink.
+- **Academic Interface:** The system borrows from academic publishing, museum exhibition design, and card catalogue typography. Information is structured, labelled, and precisely placed.
+- **Prose as Design Source of Truth:** Design intent is expressed through this PRD, the Pink Moon manifesto, HTML mocks, and CSS tokens — not through Figma or other visual design tools. This is a deliberate architectural decision with documented trade-offs (see §10).
+- **Anti-Slop by Default:** The system's standards and governance are designed so that generic, AI-generated output is structurally incompatible with the design language. If you follow the system, slop doesn't happen.
 
 ---
 
-## 3. Goals & Non-Goals
+## 2. Visual Direction: Pink Moon
 
-| Goal | Description |
-|---|---|
-| Portability | System can be extracted from WordPress with minimal refactor; components do not require WP block classes. |
-| Token Governance | Enforce a three-layer token architecture with restricted, documented scales (spacing, typography, radius). |
-| Accessibility (a11y) | Light mode defaults meet contrast requirements via explicit color governance (decouple brand color from text color). |
-| Atomic Components | Define a small set of atomic components (Card, Pill/Tag, Button, Callout, Media) with clear contracts. |
-| Standardized Interaction & Elevation | Define canonical hover/focus/elevation patterns; avoid surface-specific interaction hacks. |
-| Documentation First | Maintain authoritative documentation in Figma and Storybook; README/PRD provide contract summaries. |
+Pink Moon is the visual language of a working library.
 
-| Goal | Description |
-|---|---|
-| Non-Goal: Full Enterprise DS | This is not intended to become a multi-product enterprise-scale system (Material/Carbon class). |
-| Non-Goal: CMS API Abstraction | The system will not attempt to unify CMS APIs or content workflows across platforms. |
-| Non-Goal: Pixel-Perfect WP Parity | WordPress editor quirks are not a design system feature; parity is not guaranteed. |
-| Non-Goal: Dark Mode Default | Dark mode exists as a variant; light mode is the default canvas. |
+The aesthetic borrows from:
+- **Academic publishing** — running headers, endnote marks, structured citation systems
+- **Museum exhibition design** — generous white space, deliberate object placement, surfaces that recede
+- **Letterpress printing** — the crispness of type against paper, the discipline of a limited ink palette
+- **Card catalogues** — Courier Prime on index cards, structured metadata in label/value grids
+
+### Default: Light
+
+Pink Moon Light is the default mode. Dark mode is the after-hours library — same structure, different mood. Only two modes exist: Pink Moon Light and Pink Moon Dark. Classic dark/light modes are deprecated.
+
+### Colour Discipline
+
+The palette is **vivid accent colour over restrained neutral ground**:
+- Canvas: warm white (light) / void-900 midnight (dark)
+- Signal colours: pink `#FF247D`, seafoam `#2BD4AA`, lime `#D1FF1D`, maroon `#B91C68`
+- Signal colours appear at structural boundaries only: chip fills, button fills, link text, blockquote borders, citation markers, status badges
+
+**The Signal Rule:** A colour must communicate hierarchy, state, category, or navigation. If it doesn't, remove it.
+
+### WCAG AA: Built-In
+
+| Surface | Approach |
+|---------|----------|
+| Body text | Charcoal on white / white on void. No negotiation. |
+| Headings | `--text-primary` (charcoal/white). Not brand colour. |
+| Links | Maroon on light, pink on dark. |
+| Chips | `color-mix()` with darkened variants for light mode (seafoam-700, lime-700). |
+| Buttons | White on pink (primary), charcoal on lime (secondary), midnight outline (tertiary). |
+| Hero overlays | Frosted panel with `backdrop-filter: blur(32px)`. Contrast guaranteed by panel, not image. |
+| Focus rings | 2px solid `#FF247D`, 2px offset. |
 
 ---
 
-## 4. User Stories
+## 3. Token Architecture
 
-| Story ID | Title | User Story ("As a... I want... So that...") | Acceptance Criteria | Priority |
-|---|---|---|---|---|
-| DS-001 | Three-Layer Tokens | As a designer, I want base/semantic/component tokens so that system decisions are consistent and portable. | Token files exist, mapping is documented, and components consume semantic/component tokens only. | P0 |
-| DS-002 | Canonical Card Contract | As a developer, I want a canonical card structure so that all card surfaces render consistently across platforms. | `st-card` contract exists, structure is validated, and no surface-specific variants are required. | P0 |
-| DS-003 | Light Mode Governance | As a user, I want readable UI in light mode so that the interface is accessible and comfortable. | Text never uses raw brand pink on white; deep pink text token is enforced. | P0 |
-| DS-004 | Restricted Scales | As a contributor, I want standardized scales for spacing/type/radius so that UI has consistent rhythm and fewer one-offs. | A single approved scale exists; off-scale values require explicit exception approval. | P0 |
-| DS-005 | Interaction & Focus Standard | As a keyboard user, I want consistent focus states so that navigation is predictable. | Focus ring, offsets, and hover transforms are standardized; no component disables focus visibility. | P1 |
-| DS-006 | Component Documentation | As a team member, I want Storybook + Figma docs so that components are discoverable and buildable without reverse-engineering. | All core components documented with anatomy, tokens used, and usage examples. | P1 |
-| DS-007 | Migration Readiness | As a platform owner, I want phased migration so that we can decouple without breaking production. | Migration phases exist; each phase has exit criteria and a measurable adoption target. | P1 |
+Three-tier CSS custom property system. All tokens use the `--st-` namespace.
+
+### Tier 1: Primitives
+Raw values: `--st-color-pink-500`, `--st-space-4`, `--st-radius-xs`. No semantic meaning.
+
+### Tier 2: Semantic
+Intent-mapped aliases: `--st-color-brand-primary`, `--st-color-text-secondary`, `--st-color-bg-surface`. Theme overrides operate at this tier.
+
+### Tier 3: Component
+Component-scoped tokens: `--st-card-border`, `--st-chip-bg`, `--st-button-radius`. Consumed by component CSS only.
+
+### Canonical Token Files
+- **DS package (canonical):** `packages/design-system/src/styles/tokens.css`
+- **Web app (mirror):** `apps/web/src/design-system/styles/tokens.css`
+- **Validation:** `pnpm validate:tokens` — must pass before any commit touching either file
+- **Sync rule:** both files updated in the same commit, always
+
+### Theme Files
+- `theme.light.css` — light mode semantic overrides
+- `theme.pink-moon.css` — Pink Moon overrides (both light and dark variants)
 
 ---
 
-## 5. Technical Architecture
+## 4. Typography
 
-### 5.1 Data Flow (North Star)
+### Font Stack
 
-- **Tokens** are the canonical source of visual truth (base → semantic → component).
-- **Components** consume semantic/component tokens and produce canonical DOM structures.
-- **Documentation** (Figma/Storybook) describes and validates component contracts.
-- **Host platforms** (WordPress today, future CMS later) provide content and routing, not structure.
+| Role | Font | Use |
+|------|------|-----|
+| **Narrative / Display** | Libre Caslon Display | h1, h2, hero titles, card titles. 1960s American Caslon revival — hand-lettered character, vintage-modern. |
+| **UI / Body** | Fira Sans | Body text, subtitles, UI prose, labels. 400/500/600/700 weights. |
+| **Catalogue / Metadata** | Courier Prime | Chips, eyebrows, metadata labels, section headers, call numbers, hero meta, colophon. Typewriter/catalogue feel. |
+| **Code** | Fira Code | Code blocks only (programming ligatures). Not used for metadata. |
 
-### 5.2 Tech Stack (Target)
+### Type Scale (Restricted)
 
-- **Tokens:** JSON token files (base/semantic/component) designed to be tool-agnostic.
-- **Styling:** CSS built from tokens (manually at first; eventually generated).
-- **Components:** Canonical HTML structures; optional framework wrappers must not change DOM contracts.
-- **Documentation:** Figma + Storybook as the authoritative reference.
+| Token | Size | Use |
+|-------|------|-----|
+| `--st-font-size-xs` | 0.75rem (12px) | Chips, eyebrow labels |
+| `--st-font-size-sm` | 0.875rem (14px) | Metadata, helper text |
+| `--st-font-size-md` | 1rem (16px) | Body |
+| `--st-font-size-lg` | 1.125rem (18px) | Subtitle |
+| `--st-font-size-xl` | 1.4rem (~22px) | Card titles |
+| `--st-font-size-2xl` | 1.75rem (28px) | Feature titles |
+| `--st-font-size-display` | 3rem (48px) | Hero headings |
 
-### 5.3 Repository Structure (Target State)
+### Line Heights
+- `--st-line-height-tight`: 1.25 (headings)
+- `--st-line-height-normal`: 1.5 (UI)
+- `--st-line-height-relaxed`: 1.75 (longform body)
 
-The Sugartown Pink design system is implemented as a **token-first, component-scoped system** within a React frontend, with a clear separation between **system primitives**, **component contracts**, and **rendering concerns**.
+---
 
-The structure below reflects the **current frontend-aligned architecture**, while preserving portability for future extraction.
+## 5. Radius & Borders
 
-```text
-sugartown-frontend/
-├── src/
-│   ├── design-system/
-│   │   ├── tokens/
-│   │   │   ├── base.json            (raw, brand-agnostic primitives)
-│   │   │   ├── semantic.json        (intent-mapped tokens)
-│   │   │   └── components.json      (component-level tokens)
-│   │   │
-│   │   ├── components/
-│   │   │   ├── card/
-│   │   │   │   ├── Card.jsx
-│   │   │   │   ├── Card.module.css
-│   │   │   │   └── card.contract.md
-│   │   │   ├── button/
-│   │   │   ├── pill/
-│   │   │   ├── callout/
-│   │   │   └── media/
-│   │   │
-│   │   ├── styles/
-│   │   │   ├── tokens.css           (compiled / curated CSS variables)
-│   │   │   └── globals.css          (minimal system-wide resets only)
-│   │   │
-│   │   └── index.ts                 (public design-system exports)
-│   │
-│   ├── components/
-│   │   ├── Hero.jsx                 (application-level composition)
-│   │   ├── Layout.jsx
-│   │   └── …                        (non-system, page-specific components)
-│   │
-│   ├── lib/
-│   │   ├── queries.js               (Sanity GROQ queries)
-│   │   └── sanity.js                (Sanity client config)
-│   │
-│   └── pages/ / routes/             (application routing layer)
+### Radius: Downplayed
+
+Pink Moon uses minimal radius throughout. Sharp edges read as precision and catalogue rigour.
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--st-radius-xs` | 2px | Buttons, chips |
+| `--st-radius-sm` | 4px | Callouts, code blocks |
+| `--st-radius-md` | 8px | Cards, hero panel |
+| `--st-radius-lg` | 12px | Reserved |
+| `--st-radius-xl` | 35px | Hero media (editorial) |
+
+### Borders: Visible
+
+Borders use `softgrey-400` (#94A3B8) in light mode — visible enough to define structure, not heavy enough to dominate. In dark mode: `rgba(255,255,255,0.12)`.
+
+---
+
+## 6. Spacing (Restricted Scale)
+
+8-point base. Off-scale values require explicit rationale.
+
+| Token | Value |
+|-------|-------|
+| `--st-space-1` | 0.25rem (4px) |
+| `--st-space-2` | 0.5rem (8px) |
+| `--st-space-3` | 0.75rem (12px) |
+| `--st-space-4` | 1rem (16px) |
+| `--st-space-5` | 1.5rem (24px) |
+| `--st-space-6` | 2rem (32px) |
+| `--st-space-7` | 2.5rem (40px) |
+| `--st-space-8` | 3.75rem (60px) |
+
+---
+
+## 7. Component Inventory
+
+### Primitives (DS Package)
+
+| Component | Status | Pink Moon Direction |
+|-----------|--------|---------------------|
+| Accordion | Shipped | Zero radius, visible border, pink caret accent |
+| Blockquote | Shipped | Solid bg, pink left-border, zero radius |
+| Button | Shipped | Solid fill (pink/lime/midnight outline), minimal radius |
+| Callout | Shipped | Solid bg, variant-coloured left border, zero radius |
+| Card | Shipped | Solid surface, visible border, zero radius. Hover: lift + pink border |
+| Chip | Shipped | Production `color-mix()` system. Courier Prime. Zero radius. |
+| Citation | Shipped | Courier Prime superscript numerals, pink accent |
+| CodeBlock | Shipped | Solid dark surface, Fira Code, branded syntax colours |
+| ContentNav | Shipped | Prev/next navigation pattern |
+| FilterBar | Shipped | Solid surface, active = solid chip |
+| Media | Shipped | Caption below, zero radius, duotone presets |
+| Table | Shipped | Visible header border, zebra striping |
+
+### Layout Additions (Pink Moon)
+
+| Component | Status | Description |
+|-----------|--------|-------------|
+| MetadataCard | Planned | Catalogue card between hero and body. Label/value grid + chip rows. |
+| Colophon | Planned | Publication footer: brand zone, nav columns, social, copyright, edition metadata strip |
+
+---
+
+## 8. Repository Structure
+
+```
+sugartown/
+├── packages/design-system/        ← DS primitives (TSX, CSS Modules)
+│   └── src/
+│       ├── components/             ← 12 component directories
+│       ├── styles/
+│       │   ├── tokens.css          ← Tier 1/2/3 token definitions
+│       │   ├── theme.light.css     ← Light mode overrides
+│       │   └── theme.pink-moon.css ← Pink Moon overrides
+│       └── index.ts                ← Barrel export
 │
-├── docs/
-│   ├── figma/                       (design source of truth)
-│   ├── storybook/                  (component contracts & usage)
-│   └── prd/                         (canonical system documentation)
+├── apps/web/                       ← React + Vite frontend
+│   └── src/
+│       ├── design-system/          ← Web adapter layer (JSX mirrors of DS TSX)
+│       │   ├── components/         ← Card, Button, Chip, Accordion, Media adapters
+│       │   ├── styles/             ← tokens.css (mirror), globals.css, utilities.css
+│       │   └── index.js            ← Adapter exports
+│       ├── components/             ← App-level: ContentCard, MetadataCard, Hero, etc.
+│       ├── pages/                  ← Route templates
+│       └── lib/                    ← queries.js, routes.js, sanity.js
 │
-└── legacy/
-    └── style_old_260119.css         (read-only migration reference)
+├── apps/studio/                    ← Sanity Studio v5
+│   └── schemas/                    ← Document + section + object schemas
+│
+├── apps/storybook/                 ← Storybook 10 (React 19, Vite 7)
+│   └── .storybook/                 ← Config, mocks, documentation stories
+│
+└── docs/
+    ├── briefs/design-system/       ← This PRD + tactical guide
+    ├── backlog/                    ← Active epic specs
+    ├── shipped/                    ← Completed epic archive
+    └── drafts/                     ← Local-only working docs (gitignored)
 ```
 
-src/styles is transitional. Only token outputs may live there during Phase 1–2; component styling must remain scoped to components (CSS Modules) and migrate into src/design-system/ as the system is extracted.
+---
 
-### 5.4 Standards & Restricted Scales (Authoritative)
+## 9. Interaction & Elevation Standards
 
-These standards are required to reduce variance and enable portability.
-
-### 5.5 Legacy CSS Reference (Migration Context)
-
-The legacy global stylesheet from the prior WordPress implementation has been intentionally preserved as a **read-only reference artifact**, not as an implementation dependency.
-
-- **File:** `style_old_260119.css`
-- **Origin:** Pre-Sanity / pre-React Sugartown site
-- **Status:** Reference only (not imported, not executed)
-
-📎 **Download / Reference:**  
-[`style_old_260119.css`](./style_old_260119.css)
-
-This file exists to:
-- Audit historical visual patterns (spacing, color usage, typography, layout)
-- Identify design intent worth translating into tokens or components
-- Support migration parity checks during system extraction and platform transitions
-
-It is **not part of the active build** and must not be imported into the application or component styles.
+- **Card hover:** `translateY(-4px)` + pink border appears. No shadow glow.
+- **Button hover:** `translateY(-2px)` + darken fill. Brand-coloured glow shadow.
+- **Chip hover:** `translateY(-1px)` + border brightens + subtle shadow.
+- **Media hover:** `scale(1.05)` with `cubic-bezier(0.25, 0.46, 0.45, 0.94)` easing.
+- **Focus rings:** 2px solid `#FF247D`, 2px offset. Never removed.
+- **Hero panel:** `backdrop-filter: blur(32px) saturate(1.4)` — bounded, sharp-edged.
+- **Sticky header:** `backdrop-filter: blur(20px)` — functional transparency on scroll.
+- **Transitions:** Property-specific, never `transition: all`. Name what you're transitioning.
 
 ---
 
-#### Legacy-to-System Translation Rules
+## 10. Prose as Design Source of Truth
 
-The Sugartown Pink design system is governed by **explicit tokens, scoped components, and canonical contracts**. As such:
+Sugartown has no Figma layer. This is a deliberate architectural decision, not an oversight.
 
-- **Do not copy or paste raw CSS** from `style_old_260119.css` into the new codebase
-- Legacy styles must be **interpreted and translated**, not reused verbatim
+### Where prose works
 
-Approved migration paths:
+- **Token definitions** — CSS files ARE the spec. Figma variables would be a mirror.
+- **Component behaviour** — README + Storybook is testable. Figma component pages are not.
+- **Design philosophy** — no visual tool captures governance rules.
+- **Editorial patterns** — citations, marginalia, colophon are content architecture.
 
-1. **Design Tokens**
-   - Colors → tokenized (`color.*`)
-   - Spacing → restricted scale (`space.*`)
-   - Radius → tokenized (`radius.*`)
-   - Typography → governed type scale and families
+### Where prose breaks down
 
-2. **Component Styles**
-   - Patterns become **component-scoped CSS modules**
-   - No new global selectors introduced
-   - Layout rules live with the component that owns the structure
+- **Spatial relationships** — can't feel whitespace in prose. HTML mocks partially solve this.
+- **Responsive behaviour** — need Storybook viewport testing for visual verification.
+- **Full-page composition** — component specs don't show hierarchy conflicts.
+- **Colour in context** — the "thumb test" requires human eyes.
 
-3. **Documented Decisions**
-   - Intentional departures from legacy behavior must be documented
-   - Parity is a validation tool, not a constraint
+### The mitigation
 
----
+Claude Code as design tool (interactive HTML mocking), Storybook as visual reference (always in sync), preview panel for composition checks, anti-slop governance as quality gate.
 
-#### Migration Principle (Authoritative)
+### Trade-offs accepted
 
-> **Legacy CSS is a historical record, not a dependency.**
-
-The source of truth for styling in the Sugartown platform is:
-- Design tokens
-- Component contracts
-- Canonical documentation (this PRD, Figma, Storybook)
-
-Legacy artifacts exist to inform decisions — not to bypass system governance.
-
-#### Typography Standards
-
-Approved typefaces:
-- **Narrative / Editorial:** Playfair Display (headings, titles)
-- **UI / Body:** Fira Sans (body, subtitles, UI prose)
-- **Data / Code:** Menlo / Monaco / Consolas (labels, pills/tags, code)
-
-Restricted type scale (recommended):
-- `xs` = 0.75rem (pills, eyebrow labels)
-- `sm` = 0.875rem (metadata, helper text)
-- `md` = 1rem (body)
-- `lg` = 1.125rem (subtitle)
-- `xl` = 1.4rem (card titles)
-- `2xl` = 1.75rem (feature titles)
-- `display` = 3rem (archive headers / hero headings)
-
-#### Radius Standards (Known)
-
-Radius must come from tokens only. Known current values: :contentReference[oaicite:1]{index=1}
-- `radius.xs` = 4px (buttons, tags)
-- `radius.sm` = 8px (code, callouts)
-- `radius.md` = 12px (cards)
-- `radius.lg` = 16px (reserved / large containers)
-- `radius.xl` = 35px (hero, featured media)
-
-#### Spacing Standards (Restricted Scale)
-
-All spacing must use a restricted scale (px-equivalent shown):
-- `space.1` = 4
-- `space.2` = 8
-- `space.3` = 12
-- `space.4` = 16
-- `space.5` = 24
-- `space.6` = 32
-- `space.7` = 40
-- `space.8` = 60
-
-Off-scale values require explicit rationale and should be treated as temporary debt.
-
-#### Aspect Ratio Standards (Encouraged)
-
-Establish canonical ratios for media surfaces:
-- `media.hero` = 3:1 (page hero)
-- `media.article` = 21:9 (single-post feature)
-- `media.cardIconStrip` = fixed height strip (48px) for card media row
-
-(These align with current theme behavior and should become explicit DS standards.) :contentReference[oaicite:2]{index=2}
-
-#### Interaction & Elevation Standards
-
-- Hover transforms must be subtle and standardized (e.g., translateY(-2px to -4px)).
-- Shadows must come from tokens, not ad hoc values.
-- Focus styles must be visible, consistent, and never removed.
+- No pixel-perfect handoff. The spec IS the code.
+- No visual version control. Git history + manifesto "Resolved Questions."
+- Scales to 1-2 people, not a team. If a visual designer joins, Figma enters the stack.
 
 ---
 
-## 6. Dependencies & Risks
+## 11. Anti-Slop Governance
 
-| Risk | Impact | Mitigation |
-|---|---|---|
-| Brand color contrast failures in light mode | Accessibility violations, poor readability | Enforce “Deep Pink for text” semantic token; lint for violations. |
-| Token drift / sprawl | Inconsistent UI, harder migration | Restricted scales; token review gate; ban hard-coded values in components. |
-| WordPress DOM coupling | Migration becomes expensive | Prohibit dependency on WP block wrappers for component internals. |
-| Incomplete documentation | Contributors reverse-engineer behavior | Storybook/Figma are required for core components; PR checklist enforces docs updates. |
-| Parallel component implementations | Conflicting behavior across surfaces | Canonical components only; deprecate legacy patterns with a migration plan. |
+Design quality is enforced through system standards, not visual review.
 
----
+### Tests
 
-## 7. Success Criteria
+1. **"Why Not Default?"** — for every token value, document why it isn't the generator default.
+2. **Brand Fingerprint Audit** — desaturate to greyscale. Can you still tell it's Sugartown?
+3. **"Generated or Designed?"** — could Cursor generate this with a one-line prompt? If yes, redesign.
+4. **Transition Specificity Rule** — never `transition: all`. Name your properties.
+5. **Theme Intent Documentation** — every theme variant needs a one-paragraph intent statement.
 
-| Area | Metric (e.g., Performance: <90% API calls) |
-|---|---|
-| Accessibility | 100% compliance with minimum contrast thresholds for text in light mode (automated checks where possible). |
-| Token Adoption | 0 hard-coded color/radius/spacing values inside canonical components. |
-| Portability | Canonical components render correctly without WordPress-specific markup. |
-| Consistency | >95% UI surfaces use canonical components (cards, pills/tags, callouts, buttons). |
-| Documentation Coverage | 100% of core components documented in Figma + Storybook with anatomy and token references. |
+### Where Sugartown passes
+
+Distinctive colour palette, branded shadows, radius hierarchy, transition specificity, card architecture, chip colour system, code block theming, editorial typography pairing.
+
+### Where to watch
+
+Callout status colours (generic), table zebra striping (no brand character), accordion (no visual personality), spacing scale (mechanically predictable).
 
 ---
 
-# Appendix A: Light Mode Default Logic (Governed)
+## 12. Migration Path
 
-### Default Canvas (Light Mode is the baseline)
+### Phase 1: Documentation Consolidation (Current — SUG-21)
+- PRD v3.0 (this document)
+- Ruleset slimmed to tactical guide
+- Stale docs archived
 
-- Default Background: `#FFFFFF` (White)  
-- Default Text: `#1e1e1e` (Charcoal)  
-- Dark Mode Variant (“Deep Void”): `#0D1226` (Explicitly not default) :contentReference[oaicite:3]{index=3}
+### Phase 2: Token Convergence
+- Reconcile Pink Moon Light ↔ Light Classic differences
+- Default mode flip to Pink Moon Light
+- Libre Caslon Display + Courier Prime wired into token files
 
-### Contrast Mitigation: The “Deep Pink Rule”
+### Phase 3: Component Adaptation
+- Card, Chip, MetadataCard, Colophon (High)
+- Accordion, Callout, CodeBlock, FilterBar (Medium)
+- All components × both Pink Moon modes in Storybook
 
-This PRD acknowledges that bright pink/cyan on white can fail accessibility. The system decouples **brand identity color** from **readable text color**:
+### Phase 4: Classic Deprecation
+- Classic dark/light removed from toggle
+- Pink Moon Light + Dark are the only modes
+- Token files simplified
 
-Constraint:
-- Do **not** use `color.brand.primary` (`#FE1295`) for text on light backgrounds.
-
-Solution:
-- Use `color.text.brand` (`#b91c68`) for text elements.
-
-Semantic token mapping (known intent + current usage alignment):
-| Intent | Token Name | Value (Light Mode) |
-|---|---|---|
-| Brand Identity | `color.brand.primary` | `#FE1295` |
-| Readable Text | `color.text.brand` | `#b91c68` |
-| Background | `color.bg.canvas` | `#FFFFFF` |
-| Pill Background | `color.bg.subtle` | `#f1f2f4` |
-
----
-
-# Appendix B: Core Component Constraints (North Star)
-
-## B.1 ST Card
-
-- Must render on a white canvas using `color.bg.canvas`.
-- Must use a **physical border** for definition (not glow-first separation).
-- Must standardize elevation and hover behavior via tokens.
-- Must not assume WordPress wrappers for layout or spacing.
-
-## B.2 Tech Pill
-
-- Typeface: Menlo/Consolas
-- Size: 0.75rem
-- Background: `color.bg.subtle` (`#f1f2f4`)
-- Text: `color.text.brand` (`#b91c68`)
-- Border: `1px solid` tokenized border value (known current: `#e1e3e6`) :contentReference[oaicite:4]{index=4}
+### Phase 5: Academic Layer
+- Sidenotes / marginalia at wide viewports
+- Archive index view
+- Glossary integration (SUG-35)
+- Running headers on detail pages
 
 ---
 
-# Appendix C: Migration Phases (Planned)
+## 13. Success Criteria
 
-Migration is phased to preserve production stability while increasing portability.
-
-## Phase 0 — Incubation (Current)
-- System primitives exist inside the WordPress theme.
-- Token values live in CSS variables and WP presets.
-- Canonical component structures begin to standardize.
-
-Exit criteria:
-- Token inventory documented (base/semantic/component).
-- Core components have written contracts (Card, Pill/Tag, Button, Callout, Media).
-
-## Phase 1 — Contract Hardening
-- Canonical DOM structures are enforced for core components.
-- Hard-coded values are removed from canonical components.
-- Storybook is established as the component contract validator.
-
-Exit criteria:
-- Token files exist in JSON (base/semantic/component).
-- Storybook contains at least Card + Pill + Button docs with anatomy and token references.
-
-## Phase 2 — Extraction
-- Tokens and component CSS are separated from WP theme-specific CSS.
-- WordPress becomes a consumer of the design system, not the owner.
-- Theme-specific overrides are isolated and minimized.
-
-Exit criteria:
-- `styles/tokens.css` and `styles/components.css` can be consumed outside WP.
-- A non-WP render proof exists (static page or small demo app) with parity.
-
-## Phase 3 — Platform Migration Enablement
-- Design system can be consumed by a new CMS/frontend with minimal translation.
-- WordPress theme becomes one of multiple possible render targets.
-
-Exit criteria:
-- New platform can render core pages using the system contracts and tokens.
-- Decommissioning plan exists for WP-coupled patterns.
+| Area | Metric |
+|------|--------|
+| Accessibility | WCAG AA on all text surfaces in both modes |
+| Token Adoption | 0 hardcoded colour/radius/spacing values in components |
+| Portability | DS package renders correctly without web app or Sanity |
+| Consistency | All components documented in Storybook with argTypes + stories |
+| Anti-Slop | Brand Fingerprint Audit passes (recognisable in greyscale) |
 
 ---
 
-# Appendix D: Token JSON (Known Tokens + Standards)
-
-> These JSON snippets represent the **known** tokens and standards currently visible in `style.css` plus the PRD’s governance intent for semantic mapping. :contentReference[oaicite:5]{index=5}
-
-## D.1 `tokens/base.json`
-
-```json
-{
-  "color": {
-    "pink": { "500": "#FE1295" },
-    "void": { "900": "#0D1226" },
-    "charcoal": { "900": "#1e1e1e" },
-    "grey": {
-      "600": "#666666",
-      "050": "#f8f8fa",
-      "040": "#f1f2f4",
-      "030": "#e1e3e6"
-    }
-  },
-  "radius": {
-    "xs": "4px",
-    "sm": "8px",
-    "md": "12px",
-    "lg": "16px",
-    "xl": "35px"
-  },
-  "font": {
-    "family": {
-      "narrative": "Playfair Display, serif",
-      "ui": "Fira Sans, sans-serif",
-      "mono": "Menlo, Monaco, Consolas, monospace"
-    }
-  },
-  "space": {
-    "1": "4px",
-    "2": "8px",
-    "3": "12px",
-    "4": "16px",
-    "5": "24px",
-    "6": "32px",
-    "7": "40px",
-    "8": "60px"
-  },
-  "shadow": {
-    "card": "0 4px 12px rgba(254, 18, 149, 0.05)"
-  }
-}
-```
-
-## D.2 `tokens/semantic.json`
-
-```json
-{
-  "color": {
-    "brand": {
-      "primary": "{color.pink.500}"
-    },
-    "bg": {
-      "canvas": "#FFFFFF",
-      "subtle": "{color.grey.040}",
-      "void": "{color.void.900}",
-      "surface": "#FFFFFF",
-      "surfaceAlt": "{color.grey.050}"
-    },
-    "text": {
-      "default": "{color.charcoal.900}",
-      "muted": "{color.grey.600}",
-      "brand": "#b91c68"
-    },
-    "border": {
-      "default": "rgba(0,0,0,0.08)",
-      "subtle": "{color.grey.030}"
-    }
-  },
-  "radius": {
-    "button": "{radius.xs}",
-    "tag": "{radius.xs}",
-    "callout": "{radius.sm}",
-    "code": "{radius.sm}",
-    "card": "{radius.md}",
-    "hero": "{radius.xl}"
-  },
-  "font": {
-    "narrative": "{font.family.narrative}",
-    "ui": "{font.family.ui}",
-    "mono": "{font.family.mono}"
-  }
-}
-```
-
-## D.3 `tokens/components.json`
-
-```json
-{
-  "card": {
-    "bg": "{color.bg.surface}",
-    "text": "{color.text.default}",
-    "muted": "{color.text.muted}",
-    "border": "{color.brand.primary}",
-    "radius": "{radius.card}",
-    "shadow": "0 10px 30px rgba(0,0,0,0.06)",
-    "hover": {
-      "translateY": "-4px",
-      "shadow": "0 12px 40px rgba(254, 18, 149, 0.15)"
-    },
-    "media": {
-      "height": "48px"
-    }
-  },
-  "pill": {
-    "bg": "{color.bg.subtle}",
-    "text": "{color.text.brand}",
-    "border": "{color.border.subtle}",
-    "radius": "{radius.tag}",
-    "font": "{font.mono}",
-    "size": "0.75rem"
-  },
-  "callout": {
-    "radius": "{radius.callout}"
-  },
-  "code": {
-    "radius": "{radius.code}",
-    "bg": "{color.text.default}"
-  }
-}
-```
-## D.4 Token Naming and Semantics
-
-Tokens must be semantic, platform-agnostic, and stable over time.
-We use a two-part model:
-
-- Foundation scale tokens provide consistent measurement steps (e.g., --st-space-1…8)
-- Semantic alias tokens map to the foundation scale for readability (e.g., --st-space-sm, --st-space-md)
-
-**Rule:** Semantic aliases must always map to the foundation scale. No ad-hoc values may be introduced directly in semantic tokens.
-
-# Appendix E: Design System vs Application Code — Ownership Rules
-
-The following table defines authoritative ownership boundaries between the **Sugartown Pink Design System** and the **application layer**. This distinction is required to preserve portability, prevent styling drift, and support future platform extraction.
-
-| Item | Belongs In | Reason |
-|---|---|---|
-| Design tokens (color, spacing, radius, typography) | **Design System** | Tokens are the canonical source of visual truth and must be portable and platform-agnostic. |
-| Token JSON files (`base.json`, `semantic.json`, `components.json`) | **Design System** | These define intent and scale; CSS is a derived artifact. |
-| Compiled token CSS variables | **Design System** | Tokens may be consumed by multiple renderers; generation is a system concern. |
-| Atomic UI components (Button, Card, Pill, Callout, Media) | **Design System** | These have stable contracts and predictable DOM structures. |
-| Component CSS Modules | **Design System** | Styling belongs with the component contract it implements. |
-| Component anatomy / contracts | **Design System** | Required for documentation, Storybook, and long-term stability. |
-| Global CSS resets (minimal) | **Design System** | Only if they are universally required (e.g., box-sizing). |
-| Layout composition (Hero, Page sections) | **Application** | These assemble components into page-specific structures. |
-| CMS-aware components (Sanity-driven layouts) | **Application** | CMS data shapes are not design system concerns. |
-| GROQ queries / CMS clients | **Application** | Data fetching is platform-specific. |
-| Page routing / templates | **Application** | Routing is not portable across platforms. |
-| Editorial logic (e.g., “if CTA exists show button”) | **Application** | Business rules live above the design system. |
-| Legacy CSS (`style_old_260119.css`) | **Neither (Reference Only)** | Historical artifact used for migration auditing only. |
-
-**Rule of thumb:**  
-If a component can be rendered without knowing *where the data came from*, it belongs in the **design system**.  
-If it needs to know *what page it’s on or which CMS supplied it*, it belongs in the **application**.
-
-
----
-
-**End of PRD**
+**End of PRD v3.0**

@@ -2,6 +2,11 @@
 
 > These conventions apply to all sessions in this repo. They supplement MEMORY.md
 > (auto-loaded) and docs/epic-template.md (used for epic authoring).
+>
+> **Pink Moon is the canonical design system identity.** PRD v3.0:
+> `docs/briefs/design-system/design-system-prd.md`. Visual direction: sharp
+> neutral surfaces, hot colour signal, Libre Caslon Display headings,
+> Courier Prime metadata, zero/minimal radius. Default mode: light.
 
 ---
 
