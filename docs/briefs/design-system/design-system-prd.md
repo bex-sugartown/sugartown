@@ -15,7 +15,7 @@
 > - Pink Moon is now the primary design system identity (not a theme variant)
 > - WordPress references removed (migration complete)
 > - Repository structure updated to current monorepo (`packages/design-system`, `apps/web`, `apps/studio`, `apps/storybook`)
-> - Typography: Libre Caslon Display replaces Playfair Display for narrative headings, Courier Prime replaces Fira Code for metadata/catalogue mono
+> - Typography: Libre Caslon Display replaces Playfair Display for narrative headings, Courier Prime replaces Fira Code for ALL monospace (metadata, code, catalogue)
 > - Visual direction: sharp neutral surfaces + hot colour signal (from Pink Moon manifesto)
 > - Prose-as-design-SoT documented as an architectural decision
 > - Anti-slop governance integrated
@@ -107,8 +107,9 @@ Component-scoped tokens: `--st-card-border`, `--st-chip-bg`, `--st-button-radius
 |------|------|-----|
 | **Narrative / Display** | Libre Caslon Display | h1, h2, hero titles, card titles. 1960s American Caslon revival — hand-lettered character, vintage-modern. |
 | **UI / Body** | Fira Sans | Body text, subtitles, UI prose, labels. 400/500/600/700 weights. |
-| **Catalogue / Metadata** | Courier Prime | Chips, eyebrows, metadata labels, section headers, call numbers, hero meta, colophon. Typewriter/catalogue feel. |
-| **Code** | Fira Code | Code blocks only (programming ligatures). Not used for metadata. |
+| **Catalogue / Metadata / Code** | Courier Prime | Chips, eyebrows, metadata labels, section headers, call numbers, hero meta, colophon, code blocks, inline code. Typewriter/catalogue feel throughout — one monospace voice, not two. |
+
+> **Fira Code removed.** The site's code blocks are illustrative (short snippets, GROQ examples, CLI commands), not dense programming. Programming ligatures don't justify a second monospace font. Courier Prime provides typographic consistency across all monospaced surfaces.
 
 ### Type Scale (Restricted)
 
@@ -197,7 +198,7 @@ Borders use `softgrey-400` (#94A3B8) in light mode — visible enough to define 
 | Card | Shipped | Solid surface, visible border, zero radius. Hover: lift + pink border |
 | Chip | Shipped | Production `color-mix()` system. Courier Prime. Zero radius. |
 | Citation | Shipped | Courier Prime superscript numerals, pink accent |
-| CodeBlock | Shipped | Solid dark surface, Fira Code, branded syntax colours |
+| CodeBlock | Shipped | Solid dark surface, Courier Prime, branded syntax colours |
 | ContentNav | Shipped | Prev/next navigation pattern |
 | FilterBar | Shipped | Solid surface, active = solid chip |
 | Media | Shipped | Caption below, zero radius, duotone presets |
