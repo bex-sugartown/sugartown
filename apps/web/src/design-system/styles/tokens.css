@@ -156,9 +156,10 @@
   --st-radius-full: 9999px;
 
   /* ── Typography: Families ────────────────────────────── */
-  --st-font-family-narrative: "Playfair Display", serif;
+  /* Pink Moon: Libre Caslon Display (narrative), Fira Sans (UI), Courier Prime (all mono) */
+  --st-font-family-narrative: "Libre Caslon Display", Georgia, serif;
   --st-font-family-ui:        "Fira Sans", "Helvetica Neue", Arial, sans-serif;
-  --st-font-family-mono:      "Fira Code", Menlo, Monaco, Consolas, "Courier New", monospace;
+  --st-font-family-mono:      "Courier Prime", "Courier New", Courier, monospace;
 
   /* ── Typography: Sizes ───────────────────────────────── */
   --st-font-size-xs:      0.75rem;   /* 12px */
