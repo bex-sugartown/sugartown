@@ -29,10 +29,10 @@
 :root[data-theme="light-pink-moon"],
 [data-theme="light-pink-moon"] {
 
-  /* ── Backgrounds ─────────────────────────────────────── */
+  /* ── Backgrounds — lightest pink/white frost (future: bg images show beneath) ── */
   --st-color-bg-canvas:         var(--st-color-white);
-  --st-color-bg-surface:        var(--st-color-white);
-  --st-color-bg-surface-strong: var(--st-color-white);
+  --st-color-bg-surface:        rgba(255, 248, 252, 0.80);        /* pink frost — matches header */
+  --st-color-bg-surface-strong: rgba(255, 248, 252, 0.92);
   --st-color-bg-surface-alt:    var(--st-color-softgrey-50);
   --st-color-bg-subtle:         var(--st-color-softgrey-100);
   --st-color-surface-subtle:    var(--st-color-neutral-100);
@@ -46,9 +46,9 @@
   --st-color-text-muted:        var(--st-color-softgrey-500);
   --st-color-text-brand:        var(--st-color-maroon);           /* Deep Pink Rule — WCAG AA */
 
-  /* ── Borders — visible, not hairline (Pink Moon: sharp edges) ── */
-  --st-color-border-default:    var(--st-color-softgrey-400);     /* visible structure */
-  --st-color-border-subtle:     var(--st-color-softgrey-200);
+  /* ── Borders — light grey, no glow ── */
+  --st-color-border-default:    var(--st-color-softgrey-200);     /* light grey, clean */
+  --st-color-border-subtle:     var(--st-color-softgrey-100);
   --st-color-border-medium:     var(--st-color-neutral-200);
   --st-color-border-strong:     var(--st-color-neutral-600);
 
@@ -74,8 +74,8 @@
   --st-color-category-link:     #666680;
   --st-color-footer-divider:    rgba(255, 36, 125, 0.25);
   --st-color-chip-bg:           rgba(255, 36, 125, 0.08);
-  --st-card-shadow:             0 4px 20px rgba(0, 0, 0, 0.06);
-  --st-card-hover-shadow:       0 8px 32px rgba(255, 36, 125, 0.12);
+  --st-card-shadow:             0 2px 8px rgba(0, 0, 0, 0.04);
+  --st-card-hover-shadow:       0 6px 20px rgba(0, 0, 0, 0.08);  /* neutral, no pink glow */
 
   /* Header — frosted with subtle pink tint (Mock B) */
   --st-header-bg: rgba(255, 248, 252, 0.80);
