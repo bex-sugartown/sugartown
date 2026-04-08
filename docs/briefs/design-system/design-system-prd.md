@@ -361,7 +361,80 @@ The Media component already supports `filter` via CSS — implementation is a CS
 
 ---
 
-## 11. Prose as Design Source of Truth
+## 11. Design System Architecture
+
+### Implementation Flow
+
+```
+┌─────────────────────────────────────────┐
+│  ① DS Primitives                        │
+│  packages/design-system/src/ (TSX)      │
+│  12 components + tokens + themes        │
+└──────────────────┬──────────────────────┘
+                   │
+                   ▼
+┌─────────────────────────────────────────┐
+│  ② Web Adapters                         │
+│  apps/web/src/design-system/ (JSX)      │
+│  Thin mirrors — strip TS, same props    │
+└──────────┬──────────────┬───────────────┘
+           │              │
+           ▼              ▼
+┌────────────────┐  ┌─────────────────────┐
+│  ③ App Layer   │  │  ④ Storybook        │
+│  ContentCard,  │  │  4 groups:          │
+│  MetadataCard, │  │  Foundations,        │
+│  Hero, Footer, │  │  Primitives,        │
+│  PageSections  │  │  Patterns,          │
+└───────┬────────┘  │  Layout             │
+        │           └─────────────────────┘
+        ▼
+┌─────────────────────────────────────────┐
+│  ⑤ Sanity Studio                        │
+│  Schemas + section builder              │
+│  Content drives component selection     │
+└─────────────────────────────────────────┘
+```
+
+### Layer Responsibilities
+
+| Layer | Owns | Does NOT Own |
+|-------|------|-------------|
+| **DS Primitives** | Tokens, component CSS, TSX props, visual contracts, theme overrides | CMS data shapes, routing, GROQ queries |
+| **Web Adapters** | JSX mirrors of DS components, SPA navigation (`<Link>`), web-specific extensions (`children`, `footerChildren`) | Visual styling (copies CSS from DS), business logic |
+| **App Components** | Content-to-component mapping, GROQ data → DS props, taxonomy display, draft detection | Component internals (delegates to DS), token definitions |
+| **Storybook** | Documentation, interactive controls, visual testing, fixture data | Production rendering, real Sanity data |
+| **Sanity Studio** | Content schemas, field validation, editor UX, section builder | Rendering, styling, frontend routing |
+
+### Token Flow
+
+```
+tokens.css (DS canonical)
+    │
+    ├──→ theme.pink-moon.css (semantic overrides)
+    │
+    ├──→ tokens.css (web mirror — must stay in sync)
+    │         │
+    │         └──→ globals.css + utilities.css
+    │
+    └──→ Component CSS Modules (consume semantic + component tokens)
+              │
+              └──→ Storybook renders with same tokens
+```
+
+### Data Flow
+
+```
+Sanity Studio (author) → GROQ queries → App Components → DS Primitives → DOM
+                                              │
+                                              └──→ routes.js (URL authority)
+                                              └──→ filterModel.js (taxonomy facets)
+                                              └──→ linkUtils.js (href resolution)
+```
+
+---
+
+## 12. Prose as Design Source of Truth
 
 Sugartown has no Figma layer. This is a deliberate architectural decision, not an oversight.
 
