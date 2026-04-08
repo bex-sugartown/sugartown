@@ -1,16 +1,29 @@
+/*
+ * Button — "Due Date Slip" (Pink Moon)
+ *
+ * Library pastiche: Courier Prime uppercase, hot solid fill,
+ * dark 3px top-edge stripe (shadow edge). Like an ink stamp
+ * on a checkout card.
+ *
+ * Visual spec: PRD v3.0 §9.1 Button spec
+ */
+
+/* ── Base ────────────────────────────────────────────── */
+
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--st-space-2);
 
-  padding: var(--st-space-3) var(--st-space-5);
-  border-radius: var(--st-radius-xs);
-  border: 1px solid transparent;
+  padding: 10px 20px 8px;  /* asymmetric — top stripe compensated */
+  border-radius: var(--st-radius-button);  /* 0 — Pink Moon */
+  border: none;
+  border-top: 3px solid transparent;
 
-  font-family: var(--st-font-ui);
-  font-size: var(--st-font-size-md);
-  font-weight: 600;
+  font-family: var(--st-font-family-mono);  /* Courier Prime */
+  font-size: 0.72rem;
+  font-weight: 400;
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -18,11 +31,9 @@
 
   cursor: pointer;
   transition:
-    transform 150ms ease,
-    box-shadow 150ms ease,
-    background-color 150ms ease,
-    border-color 150ms ease,
-    color 150ms ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .button:disabled {
@@ -31,48 +42,57 @@
 }
 
 .button:focus-visible {
-  outline: 2px solid var(--st-color-focus);
+  outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
 }
 
-/* ── Primary ──────────────────────────────────────── */
+/* ── Primary — pink fill, dark top stripe ────────────── */
 
-.buttonPrimary {
-  background-color: var(--st-color-brand-primary);
+.primary {
+  background-color: var(--st-color-brand-primary);     /* #FF247D */
   color: var(--st-color-white);
-  border-color: var(--st-color-brand-primary);
+  border-top-color: rgba(0, 0, 0, 0.15);               /* shadow edge */
 }
 
-.buttonPrimary:hover:not(:disabled) {
-  background-color: var(--st-color-midnight);
-  border-color: var(--st-color-midnight);
-  transform: translateY(var(--st-button-hover-translate-y));
-  box-shadow: var(--st-button-hover-shadow);
+.primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* ── Secondary ────────────────────────────────────── */
+/* ── Secondary — lime fill, dark top stripe ──────────── */
 
-.buttonSecondary {
-  background-color: var(--st-button-secondary-bg);
-  color: var(--st-button-secondary-text);
-  border-color: var(--st-button-secondary-bg);
+.secondary {
+  background-color: var(--st-color-lime);               /* #D1FF1D */
+  color: var(--st-color-charcoal, #1e1e1e);
+  border-top-color: rgba(0, 0, 0, 0.08);               /* shadow edge */
 }
 
-.buttonSecondary:hover:not(:disabled) {
-  transform: translateY(var(--st-button-hover-translate-y));
-  box-shadow: var(--st-button-secondary-hover-shadow);
+.secondary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* ── Tertiary ─────────────────────────────────────── */
+/* ── Tertiary — neutral fill, neutral top stripe ─────── */
 
-.buttonTertiary {
-  background-color: transparent;
-  color: var(--st-button-tertiary-text);
-  border-color: var(--st-button-tertiary-border);
+.tertiary {
+  background-color: var(--st-color-softgrey-200, #e1e3e6);
+  color: var(--st-color-charcoal, #1e1e1e);
+  border-top-color: var(--st-color-softgrey-400, #94A3B8);
 }
 
-.buttonTertiary:hover:not(:disabled) {
-  background-color: var(--st-button-tertiary-hover-bg);
-  transform: translateY(var(--st-button-hover-translate-y));
-  box-shadow: var(--st-button-hover-shadow);
+:global([data-theme="dark-pink-moon"]) .tertiary,
+:global([data-theme="dark"]) .tertiary {
+  background-color: var(--st-color-midnight-700, #1C2240);
+  color: rgba(255, 255, 255, 0.8);
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+.tertiary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+:global([data-theme="dark-pink-moon"]) .tertiary:hover:not(:disabled),
+:global([data-theme="dark"]) .tertiary:hover:not(:disabled) {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
