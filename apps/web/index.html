@@ -27,12 +27,14 @@
     </form>
     <div id="root"></div>
     <!-- Theme init: read persisted preference before first paint to avoid FOUC -->
+    <!-- Pink Moon is the primary DS identity. Default: light-pink-moon. -->
     <script>
       (function () {
         var t = localStorage.getItem('st-theme')
+        var valid = ['light-pink-moon', 'dark-pink-moon', 'light', 'dark']
         document.documentElement.setAttribute(
           'data-theme',
-          t === 'light' || t === 'dark' ? t : 'dark'
+          valid.indexOf(t) !== -1 ? t : 'light-pink-moon'
         )
       })()
     </script>
