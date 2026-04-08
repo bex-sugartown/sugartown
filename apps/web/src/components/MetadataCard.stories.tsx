@@ -102,10 +102,8 @@ const meta: Meta<typeof MetadataCard> = {
       'exploring', 'validated', 'operationalized', 'deprecated', 'evergreen',
       'dreaming', 'designing', 'developing', 'testing', 'deploying', 'iterating',
     ]},
-    // Options synced with schemas/documents/node.ts → conversationType (SUG-47)
-    conversationType: { control: { type: 'select' }, options: [
-      'problem', 'learning', 'code', 'design', 'architecture', 'debug', 'reflection',
-    ]},
+    // SUG-48: conversationType deprecated — hidden in schema, disabled in MetadataCard rendering
+    conversationType: { table: { disable: true } },
     priority: { control: { type: 'number', min: 1, max: 5 }, description: 'P1–P5 priority level' },
     publishedAt: { control: 'text', description: 'ISO date string' },
     client: { control: 'text' },

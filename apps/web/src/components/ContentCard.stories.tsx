@@ -48,7 +48,7 @@ const NODE_ITEM = {
   slug: 'prompt-engineering-structured-output',
   excerpt: 'A reflection on using Claude to generate structured content from freeform instructions.',
   status: 'evergreen',
-  aiTool: 'claude',
+  // aiTool removed — deprecated (SUG-48), tools[] taxonomy is canonical
   publishedAt: '2026-03-15',
   projects: [
     { _id: 'proj-001', name: 'Sugartown Digital', slug: 'sugartown-digital', projectId: 'PROJ-001', colorHex: '#FF247D' },
