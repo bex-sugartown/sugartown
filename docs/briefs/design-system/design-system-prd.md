@@ -15,7 +15,7 @@
 > - Pink Moon is now the primary design system identity (not a theme variant)
 > - WordPress references removed (migration complete)
 > - Repository structure updated to current monorepo (`packages/design-system`, `apps/web`, `apps/studio`, `apps/storybook`)
-> - Typography: Libre Caslon Display replaces Playfair Display for narrative headings, Courier Prime replaces Fira Code for ALL monospace (metadata, code, catalogue)
+> - Typography: EB Garamond replaces Playfair Display for narrative headings, Courier Prime replaces Fira Code for ALL monospace (metadata, code, catalogue)
 > - Visual direction: sharp neutral surfaces + hot colour signal (from Pink Moon manifesto)
 > - Prose-as-design-SoT documented as an architectural decision
 > - Anti-slop governance integrated
@@ -105,7 +105,7 @@ Component-scoped tokens: `--st-card-border`, `--st-chip-bg`, `--st-button-radius
 
 | Role | Font | Use |
 |------|------|-----|
-| **Narrative / Display** | Libre Caslon Display | h1, h2, hero titles, card titles. 1960s American Caslon revival — hand-lettered character, vintage-modern. |
+| **Narrative / Display** | EB Garamond | h1, h2, hero titles, card titles. 1960s American Caslon revival — hand-lettered character, vintage-modern. |
 | **UI / Body** | Fira Sans | Body text, subtitles, UI prose, labels. 400/500/600/700 weights. |
 | **Catalogue / Metadata / Code** | Courier Prime | Chips, eyebrows, metadata labels, section headers, call numbers, hero meta, colophon, code blocks, inline code. Typewriter/catalogue feel throughout — one monospace voice, not two. |
 
@@ -205,7 +205,7 @@ See SUG-53 for scope and approach.
 | Page | Status | Contents |
 |------|--------|----------|
 | Colors | Shipped | Full palette swatches: pink, maroon, seafoam, lime, midnight, charcoal, softgrey, neutral. Tier 1 primitives + Tier 2 semantic mappings. |
-| Typefaces | Shipped | Libre Caslon Display, Fira Sans, Courier Prime specimens. Weight/size scale. |
+| Typefaces | Shipped | EB Garamond, Fira Sans, Courier Prime specimens. Weight/size scale. |
 | Spacing | **Planned (SUG-53)** | 8-point mechanical scale + semantic spacing tokens (reading-gap, section-break, hero-bottom, card-gap, margin-column). Visual reference with live token values. |
 | Layout | **Planned (SUG-53)** | Page template patterns (default, full-width, sidebar). Content width tokens. Responsive breakpoints. Grid gap reference. |
 | Overlays | **Planned** | Image treatment presets (duotone standard/featured/subtle/extreme, greyscale, dark-scrim, color, none). Live previews with sample photography. |
@@ -496,7 +496,7 @@ Callout status colours (generic), table zebra striping (no brand character), acc
 ### Phase 2: Token Convergence
 - Reconcile Pink Moon Light ↔ Light Classic differences
 - Default mode flip to Pink Moon Light
-- Libre Caslon Display + Courier Prime wired into token files
+- EB Garamond + Courier Prime wired into token files
 
 ### Phase 3: Component Adaptation
 - Card, Chip, MetadataCard, Colophon (High)

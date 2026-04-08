@@ -5,7 +5,7 @@
 >
 > **Pink Moon is the canonical design system identity.** PRD v3.0:
 > `docs/briefs/design-system/design-system-prd.md`. Visual direction: sharp
-> neutral surfaces, hot colour signal, Libre Caslon Display headings,
+> neutral surfaces, hot colour signal, EB Garamond headings,
 > Courier Prime metadata, zero/minimal radius. Default mode: light.
 
 ---
