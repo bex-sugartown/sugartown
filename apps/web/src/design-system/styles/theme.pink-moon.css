@@ -1,78 +1,99 @@
 /**
  * Sugartown Pink Moon — Theme Overrides
  *
- * Marketing name:  Sugartown Pink Moon / Pink Moon (short)
+ * Marketing name: Sugartown Pink Moon / Pink Moon (short)
+ * PRD: v3.0 — Pink Moon is the primary design system identity.
  *
  * Variants
  * ─────────────────────────────────────────────────────────
- * data-theme="dark-pink-moon"   Dark Classic + Pink Moon glass layer
- * data-theme="light-pink-moon"  Light Classic + Pink Moon glass layer
- *
- * Both share the same glass/glow overrides below.
- * The base palette (dark vs light) is inherited from [data-theme="dark"]
- * and [data-theme="light"] which load first.
+ * data-theme="light-pink-moon"  DEFAULT — light canvas, solid surfaces,
+ *                               sharp edges, hot colour signal
+ * data-theme="dark-pink-moon"   Dark canvas — same structure, midnight mood
  *
  * Architecture
  * ─────────────────────────────────────────────────────────
- * Overrides Tier 2 semantic tokens only. No component CSS changes.
- * No token names contain "moon" — the theme identity lives in the
- * data attribute, not the token namespace.
+ * Overrides Tier 2 semantic tokens + targeted Tier 3 component tokens.
+ * Pink Moon Light absorbs all of the former theme.light.css overrides
+ * (theme.light.css is deprecated — retained during transition only).
  *
  * Aesthetic intent
  * ─────────────────────────────────────────────────────────
- * Milky translucency, hairline borders, gentle elevation.
- * Pink shifts from bold fill → edge-lighting, focus rings,
- * and ambient glow. Calm, dimensional, quietly confident.
+ * Sharp neutral surfaces, hot colour signal. Surfaces are solid and opaque.
+ * Colour only at CTAs, links, chips, taxonomy markers.
+ * Frosted blur limited to hero panel + sticky header on scroll.
  */
 
-/* ── Dark Pink Moon ────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   LIGHT PINK MOON (default mode)
+   ══════════════════════════════════════════════════════════ */
+:root[data-theme="light-pink-moon"],
+[data-theme="light-pink-moon"] {
+
+  /* ── Backgrounds ─────────────────────────────────────── */
+  --st-color-bg-canvas:         var(--st-color-white);
+  --st-color-bg-surface:        var(--st-color-white);
+  --st-color-bg-surface-strong: var(--st-color-white);
+  --st-color-bg-surface-alt:    var(--st-color-softgrey-50);
+  --st-color-bg-subtle:         var(--st-color-softgrey-100);
+  --st-color-surface-subtle:    var(--st-color-neutral-100);
+  --st-color-bg-secondary:      var(--st-color-neutral-100);
+  --st-color-bg-tertiary:       var(--st-color-neutral-200);
+
+  /* ── Text ────────────────────────────────────────────── */
+  --st-color-text-default:      var(--st-color-charcoal);
+  --st-color-text-primary:      var(--st-color-charcoal);
+  --st-color-text-secondary:    var(--st-color-neutral-600);
+  --st-color-text-muted:        var(--st-color-softgrey-500);
+  --st-color-text-brand:        var(--st-color-maroon);           /* Deep Pink Rule — WCAG AA */
+
+  /* ── Borders — visible, not hairline (Pink Moon: sharp edges) ── */
+  --st-color-border-default:    var(--st-color-softgrey-400);     /* visible structure */
+  --st-color-border-subtle:     var(--st-color-softgrey-200);
+  --st-color-border-medium:     var(--st-color-neutral-200);
+  --st-color-border-strong:     var(--st-color-neutral-600);
+
+  /* ── Effects (limited — hero panel + sticky header only) ── */
+  --st-effect-backdrop-blur-md: 14px;
+  --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
+  --st-shadow-elevation-float:  0 12px 30px rgba(13, 18, 38, 0.10);
+
+  /* ── Tier 3: Component overrides ─────────────────────── */
+  --st-callout-bg:              #fff0f5;
+  --st-callout-border-color:    rgba(214, 51, 132, 0.35);
+
+  --st-table-zebra-bg:          var(--st-color-softgrey-50);
+  --st-table-border:            var(--st-color-softgrey-200);
+  --st-table-shadow:            0 4px 12px rgba(0, 0, 0, 0.06);
+  --st-table-card-shadow:       0 6px 16px rgba(0, 0, 0, 0.08);
+
+  --st-code-inline-bg:          var(--st-color-softgrey-100);
+  --st-code-inline-color:       var(--st-color-maroon);
+  --st-code-inline-border:      1px solid var(--st-color-softgrey-200);
+
+  --st-color-text-eyebrow:      var(--st-color-pink);
+  --st-color-category-link:     #666680;
+  --st-color-footer-divider:    rgba(255, 36, 125, 0.25);
+  --st-color-chip-bg:           rgba(255, 36, 125, 0.08);
+  --st-card-shadow:             0 4px 20px rgba(0, 0, 0, 0.06);
+  --st-card-hover-shadow:       0 8px 32px rgba(255, 36, 125, 0.12);
+}
+
+/* ══════════════════════════════════════════════════════════
+   DARK PINK MOON
+   ══════════════════════════════════════════════════════════ */
 :root[data-theme="dark-pink-moon"],
 [data-theme="dark-pink-moon"] {
 
-  /* Surface — frosted glass over dark midnight canvas */
+  /* Surface — subtle separation on dark canvas */
   --st-color-bg-surface:        rgba(255, 255, 255, 0.06);
   --st-color-bg-surface-strong: rgba(255, 255, 255, 0.10);
 
-  /* Borders — hairline pink at low opacity */
-  --st-color-border-default:    rgba(255, 36, 125, 0.20);
+  /* Borders */
+  --st-color-border-default:    rgba(255, 255, 255, 0.12);
   --st-color-border-subtle:     rgba(255, 255, 255, 0.06);
 
   /* Effects */
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
-
-  /* Elevation */
-  --st-shadow-elevation-float:  0 12px 30px rgba(13, 18, 38, 0.20);
-}
-
-/* ── Light Pink Moon ───────────────────────────────────── */
-:root[data-theme="light-pink-moon"],
-[data-theme="light-pink-moon"] {
-
-  /* Light mode base (mirrors [data-theme="light"]) */
-  --st-color-bg-canvas:         var(--st-color-white);
-  --st-color-bg-subtle:         var(--st-color-softgrey-100);
-  --st-color-text-default:      var(--st-color-charcoal);
-  --st-color-text-primary:      var(--st-color-charcoal);
-  --st-color-text-secondary:    var(--st-color-neutral-600);
-  --st-color-text-muted:        var(--st-color-softgrey-500);
-  --st-color-text-brand:        var(--st-color-maroon);
-  --st-callout-bg:              #fff0f5;
-  --st-callout-border-color:    rgba(214, 51, 132, 0.35);
-  --st-table-zebra-bg:          #f9f9f9;
-
-  /* Surface — frosted glass over white canvas */
-  --st-color-bg-surface:        rgba(255, 255, 255, 0.72);
-  --st-color-bg-surface-strong: rgba(255, 255, 255, 0.86);
-
-  /* Borders — hairline at low opacity */
-  --st-color-border-default:    rgba(13, 18, 38, 0.10);
-  --st-color-border-subtle:     rgba(13, 18, 38, 0.05);
-
-  /* Effects */
-  --st-effect-backdrop-blur-md: 14px;
-  --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
-
-  /* Elevation */
-  --st-shadow-elevation-float:  0 12px 30px rgba(13, 18, 38, 0.10);
+  --st-shadow-elevation-float:  0 12px 30px rgba(13, 18, 38, 0.30);
 }
