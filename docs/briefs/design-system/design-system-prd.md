@@ -183,6 +183,19 @@ Borders use `softgrey-400` (#94A3B8) in light mode — visible enough to define 
 | `--st-space-7` | 2.5rem (40px) |
 | `--st-space-8` | 3.75rem (60px) |
 
+**Semantic spacing tokens (pending — SUG-53):**
+
+The mechanical 8-point scale above provides the building blocks. Semantic tokens that express *intent* (reading rhythm, section breathing room, editorial whitespace) are planned but not yet implemented. These will be added to both token files and documented in Storybook Foundations as a spacing + layout reference page.
+
+Planned tokens:
+- `--st-space-reading-gap` — paragraph spacing in longform body content (~20–24px)
+- `--st-space-section-break` — gap between major page sections (~80–100px)
+- `--st-space-hero-bottom` — breathing room below hero (~48–64px)
+- `--st-space-card-gap` — archive grid card gap (~32px)
+- `--st-space-margin-column` — marginalia column width at wide viewports (~240–280px)
+
+See SUG-53 for scope and approach.
+
 ---
 
 ## 7. Component Inventory
