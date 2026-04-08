@@ -29,10 +29,10 @@
 :root[data-theme="light-pink-moon"],
 [data-theme="light-pink-moon"] {
 
-  /* ── Backgrounds — lightest pink/white frost (future: bg images show beneath) ── */
+  /* ── Backgrounds — palest grey for cards + header ── */
   --st-color-bg-canvas:         var(--st-color-white);
-  --st-color-bg-surface:        rgba(255, 248, 252, 0.80);        /* pink frost — matches header */
-  --st-color-bg-surface-strong: rgba(255, 248, 252, 0.92);
+  --st-color-bg-surface:        var(--st-color-softgrey-50);      /* #f8f8fa — palest grey */
+  --st-color-bg-surface-strong: var(--st-color-softgrey-100);     /* #f1f2f4 */
   --st-color-bg-surface-alt:    var(--st-color-softgrey-50);
   --st-color-bg-subtle:         var(--st-color-softgrey-100);
   --st-color-surface-subtle:    var(--st-color-neutral-100);
@@ -75,10 +75,11 @@
   --st-color-footer-divider:    rgba(255, 36, 125, 0.25);
   --st-color-chip-bg:           rgba(255, 36, 125, 0.08);
   --st-card-shadow:             0 2px 8px rgba(0, 0, 0, 0.04);
-  --st-card-hover-shadow:       0 6px 20px rgba(0, 0, 0, 0.08);  /* neutral, no pink glow */
+  --st-card-hover-shadow:       0 6px 20px rgba(0, 0, 0, 0.08);  /* neutral, no glow */
+  --st-card-hover-border:       var(--st-color-pink);             /* hot pink on hover */
 
-  /* Header — frosted with subtle pink tint (Mock B) */
-  --st-header-bg: rgba(255, 248, 252, 0.80);
+  /* Header — palest grey, matching card surfaces */
+  --st-header-bg: rgba(248, 248, 250, 0.90);             /* softgrey-50 at 90% */
 }
 
 /* ══════════════════════════════════════════════════════════

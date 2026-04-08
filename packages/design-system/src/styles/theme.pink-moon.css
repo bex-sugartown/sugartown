@@ -27,8 +27,8 @@
 [data-theme="light-pink-moon"] {
 
   --st-color-bg-canvas:         var(--st-color-white);
-  --st-color-bg-surface:        rgba(255, 248, 252, 0.80);        /* pink frost */
-  --st-color-bg-surface-strong: rgba(255, 248, 252, 0.92);
+  --st-color-bg-surface:        var(--st-color-softgrey-50);      /* palest grey */
+  --st-color-bg-surface-strong: var(--st-color-softgrey-100);
   --st-color-bg-subtle:         var(--st-color-softgrey-100);
 
   --st-color-text-default:      var(--st-color-charcoal);
@@ -37,8 +37,9 @@
   --st-color-text-muted:        var(--st-color-softgrey-500);
   --st-color-text-brand:        var(--st-color-maroon);
 
-  --st-color-border-default:    var(--st-color-softgrey-200);     /* light grey, clean */
+  --st-color-border-default:    var(--st-color-softgrey-200);
   --st-color-border-subtle:     var(--st-color-softgrey-100);
+  --st-card-hover-border:       var(--st-color-pink);             /* hot pink on hover */
 
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);

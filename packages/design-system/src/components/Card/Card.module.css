@@ -28,6 +28,7 @@
 /* Hover lift — only when card has a link (title link ::after covers the card) */
 .card:has(.titleLink):hover {
   box-shadow: var(--st-card-hover-shadow);
+  border-color: var(--st-card-hover-border, var(--st-color-border-default));
   transform: translateY(var(--st-card-hover-translate-y, -4px));
 }
 
