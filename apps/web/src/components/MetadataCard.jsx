@@ -106,7 +106,8 @@ export default function MetadataCard({
   const statusKey       = status?.toLowerCase().replace(/[\s_]+/g, '-')
   const authorByline    = getAuthorByline(authors)
   const primaryAuthor   = getPrimaryAuthor(authors)
-  const convTypeDisplay = conversationType  ? (CONVERSATION_TYPE_LABELS[conversationType]   ?? conversationType) : null
+  // SUG-48: conversationType deprecated — categories/tags are canonical for classification
+  const convTypeDisplay = null
   const priorityDisplay = priority != null  ? (PRIORITY_LABELS[priority]                    ?? `P${priority}`)   : null
 
   // Author value — <Link> when person has a slug, plain text otherwise

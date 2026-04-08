@@ -186,7 +186,7 @@ export default function ContentCard({
       tools={toolsDisplay}
       tags={tagsDisplay}
       date={item.publishedAt}
-      aiTool={isNode && item.aiTool ? item.aiTool : undefined}
+      // SUG-48: aiTool removed — deprecated, tools[] taxonomy is canonical
     />
   )
 }
