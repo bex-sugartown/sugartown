@@ -381,7 +381,7 @@ Three reference types, three visual treatments, three editorial purposes. The gl
 
 ## Post-Epic Close-Out
 
-1. Move `docs/backlog/SUG-35-glossary.md` → `docs/prompts/SUG-35-glossary.md`
+1. Move `docs/backlog/SUG-35-glossary.md` → `docs/shipped/SUG-35-glossary.md`
 2. Commit: `docs: ship SUG-35 Glossary`
 3. Run `/mini-release SUG-35 Glossary`
 4. Transition SUG-35 to **Done** in Linear

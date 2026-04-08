@@ -12,7 +12,7 @@
 When an epic is complete, run these steps in order before starting the next epic:
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
-2. **Move epic doc** from `docs/backlog/` to `docs/prompts/` — commit: `docs: ship SUG-{N} {name}`
+2. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`
 3. **Mini-release** — run `/mini-release` to produce a patch version bump and CHANGELOG stub
 4. **Update Linear** — transition the SUG-{N} issue to **Done**
 5. **Clean tree** — confirm `git status` is clean before starting the next epic
@@ -30,7 +30,7 @@ When creating a new epic in `docs/backlog/`:
 3. **Link the Linear issue** in the file header (`**Linear Issue:** SUG-{N}`)
 4. **Prioritize in Linear** — the Linear queue is the single source of truth for priority order
 
-The `docs/prompts/` folder holds shipped epics. The `docs/backlog/` folder holds unscheduled and in-flight epics. Legacy `EPIC-NNNN` numbered files in `docs/prompts/` are retained as-is.
+The `docs/shipped/` folder holds shipped epics. The `docs/backlog/` folder holds unscheduled and in-flight epics. Legacy `EPIC-NNNN` numbered files in `docs/shipped/` are retained as-is.
 
 ### Mid-epic commit checkpoints
 
@@ -67,7 +67,7 @@ A white-screen debug cycle caused by local ↔ remote divergence is a process fa
 
 Two `docs/` subdirectories are **local-only** — gitignored and never committed:
 
-- **`docs/drafts/`** — working drafts, manifestos, HTML mocks, GIFs, exploration docs. Content here is in flux and stays on Bex's machine until it's ready to move elsewhere (Sanity, `docs/briefs/`, `docs/prompts/`).
+- **`docs/drafts/`** — working drafts, manifestos, HTML mocks, GIFs, exploration docs. Content here is in flux and stays on Bex's machine until it's ready to move elsewhere (Sanity, `docs/briefs/`, `docs/shipped/`).
 - **`docs/brand/`** — brand voice guides, node style guide, voice cheatsheets. Private editorial reference, not published to the repo.
 
 **Rules:**

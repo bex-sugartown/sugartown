@@ -103,7 +103,7 @@ After the commit lands, AI performs these cleanup tasks **automatically** (no ga
 
 ### 3A — Delete shipped epic from backlog directory
 
-If the epic has a file in `docs/backlog/` **and** has been activated to `docs/prompts/EPIC-NNNN-*`, delete the backlog copy. The prompt file is the permanent record; the backlog copy is a staging artifact.
+If the epic has a file in `docs/backlog/` **and** has been activated to `docs/shipped/EPIC-NNNN-*`, delete the backlog copy. The prompt file is the permanent record; the backlog copy is a staging artifact.
 
 ```bash
 # Example: EPIC-0176 shipped
@@ -158,6 +158,6 @@ Fail if:
 - Multiple epics bundled into one patch.
 - AI writes to disk before "Write it".
 - Version is bumped by MINOR or MAJOR (patches only — if the epic warrants a MINOR bump, run the full `/release` instead).
-- Shipped epic's backlog file is left in `docs/backlog/` when a matching `docs/prompts/EPIC-NNNN-*` exists.
+- Shipped epic's backlog file is left in `docs/backlog/` when a matching `docs/shipped/EPIC-NNNN-*` exists.
 - Backlog priority stack is not updated after shipping an epic that appears as an active item.
 - AI writes a CHANGELOG stub (CHANGELOG is only updated during full releases).

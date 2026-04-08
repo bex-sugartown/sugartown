@@ -35,8 +35,8 @@ Final specs will be delivered as an **updated PRD** (`docs/briefs/design-system/
 | **`docs/briefs/design-system/design-system-prd.md`** | 543 | 1 — Canonical | Strategy: token architecture, theme governance, migration phases, component contracts | **UPDATE** — absorb manifesto decisions, Pink Moon as primary identity, revised component direction, new layout patterns |
 | **`docs/briefs/design-system/design-system-ruleset.md`** | 1170 | 4 — Split | Philosophy + tactical naming + AI agent guidelines + a11y checklist + pre-ship checklist | **SPLIT** — extract philosophy into PRD §1, extract AI agent rules into CLAUDE.md, extract a11y into PRD §accessibility. What remains (~400 lines): tactical naming/BEM guide as a standalone reference. |
 | **`packages/design-system/src/styles/tokens.css`** | 546 | 1 — Canonical | Token definitions (Tier 1/2/3) | **KEEP** — living source of truth. Validated by `pnpm validate:tokens`. |
-| **`packages/design-system/src/components/COMPONENT_CONTRACTS.md`** | 382 | 2 → Retire | Chip, FilterBar, Card visual contracts | **RETIRE** — Chip and Card now have own README. Extract FilterBar into `FilterBar/README.md`, then archive this file to `docs/prompts/`. |
-| **`packages/design-system/VISUAL_AUDIT.md`** | 351 | 4 — Retire | Epic 7 drift analysis vs WordPress `style 260118.css` | **ARCHIVE** — drift it maps is against the old WordPress source. Components have been rebuilt since. Move to `docs/prompts/`. |
+| **`packages/design-system/src/components/COMPONENT_CONTRACTS.md`** | 382 | 2 → Retire | Chip, FilterBar, Card visual contracts | **RETIRE** — Chip and Card now have own README. Extract FilterBar into `FilterBar/README.md`, then archive this file to `docs/shipped/`. |
+| **`packages/design-system/VISUAL_AUDIT.md`** | 351 | 4 — Retire | Epic 7 drift analysis vs WordPress `style 260118.css` | **ARCHIVE** — drift it maps is against the old WordPress source. Components have been rebuilt since. Move to `docs/shipped/`. |
 | **`packages/design-system/src/components/Button/BUTTON_SPEC.md`** | 210 | 2 — Active | Button visual contract + Pink Moon overrides | **KEEP** — model for other component specs. Update Pink Moon section to reflect Mock B direction (solid fill, no frosted substrate). |
 | **`packages/design-system/src/components/Card/README.md`** | 255 | 2 — Active | Card anatomy, variants, web adapter notes | **UPDATE** — add Pink Moon direction (solid surface, zero radius, visible border, hover = lift + pink border). |
 | **`packages/design-system/src/components/Chip/README.md`** | 120 | 2 — Active | Chip anatomy, color system, render modes | **UPDATE** — add Courier Prime note, confirm production `color-mix()` system is the Pink Moon direction. |
@@ -63,7 +63,7 @@ Final specs will be delivered as an **updated PRD** (`docs/briefs/design-system/
 
 **Step 3: Retire stale docs**
 - `COMPONENT_CONTRACTS.md` → extract FilterBar README, then archive
-- `VISUAL_AUDIT.md` → archive to `docs/prompts/`
+- `VISUAL_AUDIT.md` → archive to `docs/shipped/`
 
 **Step 4: Update operational docs**
 - `CLAUDE.md` — add AI agent guidelines from ruleset, Pink Moon canonical direction

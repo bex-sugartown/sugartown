@@ -339,7 +339,7 @@ The Pink Moon theme variants (dark-pink-moon, light-pink-moon) should make these
 
 ## Post-Epic Close-Out
 
-1. Move `docs/backlog/SUG-19-kpi-dashboard-cards.md` → `docs/prompts/SUG-19-kpi-dashboard-cards.md`
+1. Move `docs/backlog/SUG-19-kpi-dashboard-cards.md` → `docs/shipped/SUG-19-kpi-dashboard-cards.md`
 2. Commit: `docs: ship SUG-19 KPI Dashboard Cards`
 3. Run `/mini-release SUG-19 KPI Dashboard Cards`
 4. Transition SUG-19 to **Done** in Linear

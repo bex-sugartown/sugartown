@@ -83,5 +83,5 @@ site-sugartown-favicon.png
 
 ## Migration reference
 
-- **SUG-31** (`docs/prompts/SUG-31-image-asset-pipeline.md`) — Phase 1: Sanity asset rename, convention enforcement, orphan cleanup
+- **SUG-31** (`docs/shipped/SUG-31-image-asset-pipeline.md`) — Phase 1: Sanity asset rename, convention enforcement, orphan cleanup
 - **SUG-32** (`docs/backlog/SUG-32-wp-media-import.md`) — Phase 2: WordPress media library import from beckyhead.com

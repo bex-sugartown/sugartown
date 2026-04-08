@@ -396,7 +396,7 @@ Review the release scope for work that surfaced during implementation but was **
 
 - "Not in this release" section of the Release Notes
 - Tech debt, TODOs, or partial implementations noted in commit messages or epic close-out docs
-- New epic prompts created in `docs/prompts/` that have no backlog entry yet
+- New epic prompts created in `docs/shipped/` that have no backlog entry yet
 - Validator warnings or errors that represent actionable future work
 
 For each new item, draft a backlog entry with: title, summary, tags, and a suggested priority tier (Now / Next / Soon / Later / Deferred).

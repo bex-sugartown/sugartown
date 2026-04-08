@@ -4,7 +4,7 @@ Canonical constraint documents that lock strategic decisions before implementati
 
 ## What belongs here
 
-A brief is a **prescriptive** document that constrains future work. It answers "what are we building and what are the rules?" — not "how did we build it?" (that's `docs/architecture/`) or "build it now" (that's `docs/prompts/`).
+A brief is a **prescriptive** document that constrains future work. It answers "what are we building and what are the rules?" — not "how did we build it?" (that's `docs/architecture/`) or "build it now" (that's `docs/shipped/`).
 
 ### Strategy & Governance
 
@@ -41,7 +41,7 @@ A brief is a **prescriptive** document that constrains future work. It answers "
 This project uses a structured AI-assisted development process where traditional product management artifacts have direct equivalents:
 
 - **Briefs** (`docs/briefs/`) — constraint documents equivalent to PRDs. They lock strategic decisions (information architecture, migration strategy, studio configuration) before implementation begins.
-- **Epic prompts** (`docs/prompts/`) — scoped implementation specs equivalent to engineering epics. Each contains context, acceptance criteria, phased scope, and technical constraints. They serve as both the engineering specification and the execution instruction for AI-assisted development.
+- **Epic prompts** (`docs/shipped/`) — scoped implementation specs equivalent to engineering epics. Each contains context, acceptance criteria, phased scope, and technical constraints. They serve as both the engineering specification and the execution instruction for AI-assisted development.
 - **Backlog** (`docs/backlog/`) — unscheduled epic prompts awaiting prioritization, equivalent to a product backlog.
 - **Releases** (`docs/release-notes/`) — versioned changelogs following semver, produced by a structured release process with pre-flight validation.
 

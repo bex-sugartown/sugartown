@@ -3,7 +3,7 @@
 > Updated 2026-04-06 · v0.21.0 · Storybook v10, Accordion, argTypes audit
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
-> Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/prompts/SUG-{N}-*.md`.
+> Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
 
 ---
 

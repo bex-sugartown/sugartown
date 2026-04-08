@@ -18,15 +18,16 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 - Update the **Linear Issue** field in the file header with the issue link
 - Status in Linear: **Backlog** or **Todo**
 
-**2. Production** (when the epic is complete and shipped)
-- Move the file from `docs/backlog/` to `docs/prompts/`
+**2. Shipped** (when the epic is complete)
+- Move the file from `docs/backlog/` to `docs/shipped/`
 - Keep the same filename (e.g. `SUG-30-image-treatments-gallery.md`)
-- Remove the file from `docs/backlog/` (it now lives in `docs/prompts/`)
+- Remove the file from `docs/backlog/` (it now lives in `docs/shipped/`)
 - Transition the Linear issue to **Done**
 
-> The `docs/prompts/` folder holds **completed** epics (shipped to production).
-> The `docs/backlog/` folder holds **unscheduled** and **in-flight** epics.
-> Linear is the **single source of truth** for prioritization — the backlog priority index (`docs/backlog/sugartown-backlog-priorities.md`) is a convenience view, not the authority.
+> **`docs/backlog/`** — full epic specs. The working document Claude Code reads during execution.
+> **`docs/shipped/`** — completed epics. Historical reference. (Renamed from `docs/prompts/`.)
+> **Linear** — tracking, prioritization, status. Short description + links. Not the full spec.
+> The backlog priority index (`docs/backlog/sugartown-backlog-priorities.md`) is a convenience view.
 
 ---
 
@@ -400,7 +401,7 @@ State how re-running the script produces no change:
 > Run these steps in order after all Acceptance Criteria are met and the working tree is committed.
 
 1. **Move the epic doc to production**:
-   - Move: `docs/backlog/SUG-{N}-{name}.md` → `docs/prompts/SUG-{N}-{name}.md`
+   - Move: `docs/backlog/SUG-{N}-{name}.md` → `docs/shipped/SUG-{N}-{name}.md`
    - Remove from `docs/backlog/`
    - Commit: `docs: ship SUG-{N} {Epic name}`
 2. **Confirm clean tree** — `git status` must show nothing staged or unstaged

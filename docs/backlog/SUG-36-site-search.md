@@ -243,7 +243,7 @@ All three share the build-time Sanity query pattern — the search index is a si
 
 ## Post-Epic Close-Out
 
-1. Move `docs/backlog/SUG-36-site-search.md` → `docs/prompts/SUG-36-site-search.md`
+1. Move `docs/backlog/SUG-36-site-search.md` → `docs/shipped/SUG-36-site-search.md`
 2. Commit: `docs: ship SUG-36 Site Search`
 3. Run `/mini-release SUG-36 Site Search`
 4. Transition SUG-36 to **Done** in Linear
