@@ -27,10 +27,10 @@ export default function Button({
 }) {
   const variantClass =
     variant === 'secondary'
-      ? styles.buttonSecondary
+      ? styles.secondary
       : variant === 'tertiary'
-        ? styles.buttonTertiary
-        : styles.buttonPrimary
+        ? styles.tertiary
+        : styles.primary
 
   const classes = `${styles.button} ${variantClass} ${className}`.trim()
 

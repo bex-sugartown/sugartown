@@ -4,7 +4,7 @@ import {ControlsIcon} from '@sanity/icons'
 /**
  * CTA Section
  *
- * Call-to-action section with heading, description, and up to 2 CTA buttons
+ * Call-to-action section with heading, description, and up to 3 CTA buttons
  * Typically used to drive conversions or encourage user actions
  */
 export default defineType({
@@ -35,7 +35,7 @@ export default defineType({
       name: 'buttons',
       title: 'CTA Buttons',
       type: 'array',
-      description: 'Call-to-action buttons (maximum 2 for layout)',
+      description: 'Call-to-action buttons (up to 3: primary, secondary, tertiary)',
       of: [
         defineArrayMember({
           type: 'ctaButton'
@@ -43,8 +43,8 @@ export default defineType({
       ],
       validation: (Rule) =>
         Rule.min(1)
-          .max(2)
-          .error('CTA section must have 1-2 buttons')
+          .max(3)
+          .error('CTA section must have 1-3 buttons')
     })
   ],
   preview: {
