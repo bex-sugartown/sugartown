@@ -311,7 +311,47 @@ The button is the most visible departure from the v2.0 design. It replaces the c
 
 ---
 
-## 10. Prose as Design Source of Truth
+## 10. Image Overlays & Treatments
+
+The Media component and HeroSection support configurable image overlays. These are a distinctive Sugartown surface — the duotone presets use the brand palette to unify diverse photography into a coherent visual language.
+
+### Overlay Presets (Current — Keep)
+
+| Preset | Effect | Use |
+|--------|--------|-----|
+| `duotone-standard` | Pink ~55% + Seafoam ~45% gradient map | Default for content images |
+| `duotone-featured` | Pink ~70% + Seafoam ~50% | Hero images, featured cards |
+| `duotone-subtle` | Pink ~30% + Seafoam ~25% | Background wash, supporting imagery |
+| `duotone-extreme` | Pink ~85% + Seafoam ~70% + SVG filter | Dramatic editorial effect |
+| `dark-scrim` | Dark gradient overlay | Text readability over images |
+| `color` | Solid colour overlay with opacity/blend mode | Brand-tinted surfaces |
+| `none` | No overlay | Unmodified photography |
+
+### New Preset: Greyscale + Scrim (Pink Moon)
+
+Added for the Pink Moon hero treatment. Desaturates the image to neutral greyscale, then applies a subtle gradient scrim for text contrast. The frosted panel sits over this — colour comes from the panel content (eyebrow, buttons, chips), not the image.
+
+| Preset | Effect | Use |
+|--------|--------|-----|
+| `greyscale` | `filter: grayscale(100%) contrast(0.9)` + light gradient scrim | Pink Moon hero backgrounds. Prevents colour clash between photography and accent colours. |
+| `greyscale-dark` | `filter: grayscale(100%) contrast(0.8) brightness(0.7)` + dark gradient scrim | Same, dark mode adaptation. Darker, lower contrast. |
+
+**Rationale:** In the Pink Moon visual direction, colour is structural signal — it belongs on chips, buttons, links, and borders, not on background imagery. Greyscale images provide atmosphere without competing with the signal colours. The frosted panel guarantees WCAG AA contrast regardless of image content.
+
+### Studio Schema
+
+Image treatments are configured via the `mediaOverlay` object type on `heroSection.imageTreatment`. The new greyscale presets will be added to the `type` field's `options.list`:
+
+```
+{title: 'Greyscale', value: 'greyscale'},
+{title: 'Greyscale (Dark)', value: 'greyscale-dark'},
+```
+
+The Media component already supports `filter` via CSS — implementation is a CSS addition, not a component rewrite.
+
+---
+
+## 11. Prose as Design Source of Truth
 
 Sugartown has no Figma layer. This is a deliberate architectural decision, not an oversight.
 
@@ -341,7 +381,7 @@ Claude Code as design tool (interactive HTML mocking), Storybook as visual refer
 
 ---
 
-## 11. Anti-Slop Governance
+## 12. Anti-Slop Governance
 
 Design quality is enforced through system standards, not visual review.
 
@@ -363,7 +403,7 @@ Callout status colours (generic), table zebra striping (no brand character), acc
 
 ---
 
-## 12. Migration Path
+## 13. Migration Path
 
 ### Phase 1: Documentation Consolidation (Current — SUG-21)
 - PRD v3.0 (this document)
@@ -393,7 +433,7 @@ Callout status colours (generic), table zebra striping (no brand character), acc
 
 ---
 
-## 13. Success Criteria
+## 14. Success Criteria
 
 | Area | Metric |
 |------|--------|
