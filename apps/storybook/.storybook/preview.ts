@@ -24,7 +24,7 @@ const THEME_BG: Record<string, string> = {
  * always matches the selected theme (no separate backgrounds toolbar needed).
  */
 const withTheme: Decorator = (StoryFn, context) => {
-  const theme = (context.globals.theme as string) ?? 'dark'
+  const theme = (context.globals.theme as string) ?? 'light-pink-moon'
   document.documentElement.setAttribute('data-theme', theme)
   document.body.style.backgroundColor = THEME_BG[theme] ?? '#0D1226'
   return createElement(StoryFn)
@@ -45,14 +45,14 @@ const preview: Preview = {
     theme: {
       name: 'Theme',
       description: 'Global theme for all components',
-      defaultValue: 'dark',
+      defaultValue: 'light-pink-moon',
       toolbar: {
         icon: 'circlehollow',
         items: [
-          { value: 'dark',            title: 'Dark (default)' },
-          { value: 'light',           title: 'Light' },
-          { value: 'dark-pink-moon',  title: 'Dark Pink Moon' },
-          { value: 'light-pink-moon', title: 'Light Pink Moon' },
+          { value: 'light-pink-moon', title: 'Pink Moon Light (default)' },
+          { value: 'dark-pink-moon',  title: 'Pink Moon Dark' },
+          { value: 'light',           title: 'Classic Light (deprecated)' },
+          { value: 'dark',            title: 'Classic Dark (deprecated)' },
         ],
         dynamicTitle: true,
       },
