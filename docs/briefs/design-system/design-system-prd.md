@@ -174,7 +174,7 @@ Borders use `softgrey-400` (#94A3B8) in light mode — visible enough to define 
 |-----------|--------|---------------------|
 | Accordion | Shipped | Zero radius, visible border, pink caret accent |
 | Blockquote | Shipped | Solid bg, pink left-border, zero radius |
-| Button | Shipped | Solid fill (pink/lime/midnight outline), minimal radius |
+| Button | Shipped — **redesign pending** | "Due Date Slip" style: Courier Prime UC, hot solid fill (pink/lime), neutral grey tertiary. Dark 3px top-edge stripe on primary/secondary. Zero radius. Hover: lift + shadow. |
 | Callout | Shipped | Solid bg, variant-coloured left border, zero radius |
 | Card | Shipped | Solid surface, visible border, zero radius. Hover: lift + pink border |
 | Chip | Shipped | Production `color-mix()` system. Courier Prime. Zero radius. |
@@ -235,13 +235,47 @@ sugartown/
 ## 9. Interaction & Elevation Standards
 
 - **Card hover:** `translateY(-4px)` + pink border appears. No shadow glow.
-- **Button hover:** `translateY(-2px)` + darken fill. Brand-coloured glow shadow.
+- **Button hover:** `translateY(-1px)` + subtle drop shadow. No glow.
 - **Chip hover:** `translateY(-1px)` + border brightens + subtle shadow.
 - **Media hover:** `scale(1.05)` with `cubic-bezier(0.25, 0.46, 0.45, 0.94)` easing.
 - **Focus rings:** 2px solid `#FF247D`, 2px offset. Never removed.
 - **Hero panel:** `backdrop-filter: blur(32px) saturate(1.4)` — bounded, sharp-edged.
 - **Sticky header:** `backdrop-filter: blur(20px)` — functional transparency on scroll.
 - **Transitions:** Property-specific, never `transition: all`. Name what you're transitioning.
+
+### Button: "Due Date Slip" Spec
+
+The button is the most visible departure from the v2.0 design. It replaces the current solid-fill-with-glow pattern with a library-pastiche "due date slip" metaphor: a coloured card with a dark top-edge stripe, like an ink stamp on a checkout card.
+
+**Typography:** Courier Prime, uppercase, 0.72rem, 400 weight, 0.06em letter-spacing.
+
+| Variant | Fill | Text | Top Stripe (3px) | Dark Mode Adaptation |
+|---------|------|------|-------------------|---------------------|
+| **Primary** | `--st-color-pink-500` | `--st-color-white` | `rgba(0,0,0,0.15)` (dark edge) | Same fill — pink reads on dark |
+| **Secondary** | `--st-color-lime-400` | `--st-color-charcoal` | `rgba(0,0,0,0.08)` (dark edge) | Same fill — lime reads on dark |
+| **Tertiary** | `--st-color-softgrey-200` | `--st-color-charcoal` | `--st-color-softgrey-400` (neutral) | `--st-color-void-700` fill, `rgba(255,255,255,0.12)` stripe |
+
+**States:**
+
+| State | Treatment |
+|-------|-----------|
+| Default | As above |
+| Hover | `translateY(-1px)`, `box-shadow: 0 2px 6px rgba(0,0,0,0.08)` (light) / `rgba(0,0,0,0.3)` (dark) |
+| Focus | 2px solid `#FF247D`, 2px offset |
+| Disabled | opacity 0.5, cursor not-allowed |
+
+**Sizing:**
+
+| Size | Padding | Font Size |
+|------|---------|-----------|
+| Default | `10px 20px 8px` (asymmetric — top-stripe compensated) | 0.72rem |
+| Small (`--sm`) | `7px 14px 5px` | 0.65rem |
+
+**Implementation notes:**
+- `border-top: 3px solid` is the stripe — it's a border, not a pseudo-element
+- Zero border-radius on all variants
+- The top-stripe on primary/secondary is a *dark* edge (shadow), not the brand colour — the fill IS the brand colour. This creates the letterpress/stamp dimension.
+- Tertiary's stripe is neutral (`softgrey-400`) — it's the only variant without hot colour
 
 ---
 
