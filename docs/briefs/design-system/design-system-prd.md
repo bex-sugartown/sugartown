@@ -200,6 +200,16 @@ See SUG-53 for scope and approach.
 
 ## 7. Component Inventory
 
+### Foundations (Storybook reference pages)
+
+| Page | Status | Contents |
+|------|--------|----------|
+| Colors | Shipped | Full palette swatches: pink, maroon, seafoam, lime, midnight, charcoal, softgrey, neutral. Tier 1 primitives + Tier 2 semantic mappings. |
+| Typefaces | Shipped | Libre Caslon Display, Fira Sans, Courier Prime specimens. Weight/size scale. |
+| Spacing | **Planned (SUG-53)** | 8-point mechanical scale + semantic spacing tokens (reading-gap, section-break, hero-bottom, card-gap, margin-column). Visual reference with live token values. |
+| Layout | **Planned (SUG-53)** | Page template patterns (default, full-width, sidebar). Content width tokens. Responsive breakpoints. Grid gap reference. |
+| Overlays | **Planned** | Image treatment presets (duotone standard/featured/subtle/extreme, greyscale, dark-scrim, color, none). Live previews with sample photography. |
+
 ### Primitives (DS Package)
 
 | Component | Status | Pink Moon Direction |
