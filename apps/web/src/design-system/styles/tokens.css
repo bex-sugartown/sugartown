@@ -246,14 +246,16 @@
   --st-shadow-elevation-float:  var(--st-shadow-1);
 
   /* ── Semantic Radius ─────────────────────────────────── */
-  --st-radius-button:  var(--st-radius-xs);
-  --st-radius-tag:     var(--st-radius-xs);
-  --st-radius-pill:    var(--st-radius-xs);
-  --st-radius-callout: var(--st-radius-sm);
-  --st-radius-code:    var(--st-radius-sm);
-  --st-radius-card:    var(--st-radius-md);
-  --st-radius-hero:    var(--st-radius-xl);
-  --st-radius-media:   var(--st-radius-xl);
+  /* Pink Moon: zero on most components for sharp catalogue edges.
+     Exceptions: media (editorial softness), pill (full-round affordance). */
+  --st-radius-button:  0;
+  --st-radius-tag:     0;
+  --st-radius-pill:    0;
+  --st-radius-callout: 0;
+  --st-radius-code:    0;
+  --st-radius-card:    0;
+  --st-radius-hero:    0;
+  --st-radius-media:   var(--st-radius-xl); /* exception — editorial image softness */
 
   /* ── Breakpoints (documentation tokens — EPIC-0182) ── */
   /* CSS custom properties cannot be used inside @media queries.

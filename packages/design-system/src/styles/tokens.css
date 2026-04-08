@@ -154,15 +154,17 @@
   --st-radius-lg: 16px;   /* large containers */
   --st-radius-xl: 35px;   /* hero, media */
 
-  /* Semantic radius names (component aliases) */
-  --st-radius-button:  var(--st-radius-xs);
-  --st-radius-tag:     var(--st-radius-xs);
-  --st-radius-pill:    var(--st-radius-xs);
-  --st-radius-callout: var(--st-radius-sm);
-  --st-radius-code:    var(--st-radius-sm);
-  --st-radius-card:    var(--st-radius-md);
-  --st-radius-hero:    var(--st-radius-xl);
-  --st-radius-media:   var(--st-radius-xl);
+  /* Semantic radius names (component aliases)
+     Pink Moon: zero on most components for sharp catalogue edges.
+     Exceptions: media (editorial softness), pill (full-round affordance). */
+  --st-radius-button:  0;
+  --st-radius-tag:     0;
+  --st-radius-pill:    0;
+  --st-radius-callout: 0;
+  --st-radius-code:    0;
+  --st-radius-card:    0;
+  --st-radius-hero:    0;
+  --st-radius-media:   var(--st-radius-xl); /* exception — editorial image softness */
 
   /* ── Typography: Families ────────────────────────────── */
   /* Pink Moon: Libre Caslon Display (narrative), Fira Sans (UI), Courier Prime (all mono) */
