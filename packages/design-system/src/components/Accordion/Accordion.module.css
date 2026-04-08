@@ -46,7 +46,7 @@
 .trigger:focus-visible {
   outline: 2px solid var(--st-color-brand-primary, #ff247d);
   outline-offset: 2px;
-  border-radius: var(--st-radius-xs, 4px);
+  border-radius: 0; /* Pink Moon */
 }
 
 .triggerLabel {

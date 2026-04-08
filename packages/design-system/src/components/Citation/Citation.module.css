@@ -22,7 +22,7 @@
   font-weight: var(--st-font-weight-bold);
   line-height: 1;
   padding: 0.1em 0.35em;
-  border-radius: var(--st-radius-xs);
+  border-radius: 0; /* Pink Moon */
   text-decoration: none;
   transition: opacity 0.15s ease;
 }

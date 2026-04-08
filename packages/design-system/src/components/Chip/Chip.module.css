@@ -31,7 +31,7 @@
   line-height: 1.2;
 
   padding: 0.45em 0.75em;
-  border-radius: var(--st-radius-xs); /* 4px — squircle, NOT pill */
+  border-radius: var(--st-radius-tag); /* 0 — Pink Moon sharp edges */
 
   background: color-mix(in srgb, var(--_chip-color) 8%, transparent);
   border: 1px solid color-mix(in srgb, var(--_chip-color) 35%, transparent);

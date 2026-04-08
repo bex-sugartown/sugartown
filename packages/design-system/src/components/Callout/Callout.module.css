@@ -9,7 +9,7 @@
 /* ── Base + component tokens ──────────────────────────────────────────────── */
 .callout {
   /* tokens — bg + border-color managed by tokens.css (dark) + theme.light.css (light) */
-  --st-callout-radius: var(--st-radius-sm, 8px);
+  --st-callout-radius: var(--st-radius-callout, 0); /* Pink Moon */
   --st-callout-padding: 1.25rem 1.5rem;
   --st-callout-margin-block: 2.5rem;
   --st-callout-icon-color: currentColor;

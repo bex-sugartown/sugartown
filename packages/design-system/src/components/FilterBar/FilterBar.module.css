@@ -14,7 +14,7 @@
   gap: 1.5rem;
   padding: 1rem;
   border: 1px solid var(--st-color-border-default);
-  border-radius: var(--st-radius-sm);     /* 8px */
+  border-radius: var(--st-radius-callout); /* 0 — Pink Moon */
   background: var(--st-color-bg-surface);
   font-size: var(--st-font-size-sm);      /* 0.875rem */
 }

@@ -15,7 +15,7 @@
   /* Structural tokens only — visual tokens (zebra-bg, border, shadow) come
      from tokens.css [data-theme] blocks so theme switching works correctly. */
   --st-table-header-bg: var(--st-color-accent, #ff247d);
-  --st-table-card-radius: var(--st-radius-md, 12px);
+  --st-table-card-radius: 0; /* Pink Moon */
 
   /* styles */
   border-collapse: collapse;
