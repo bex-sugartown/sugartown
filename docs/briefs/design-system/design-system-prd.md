@@ -94,8 +94,8 @@ Component-scoped tokens: `--st-card-border`, `--st-chip-bg`, `--st-button-radius
 - **Sync rule:** both files updated in the same commit, always
 
 ### Theme Files
-- `theme.light.css` — light mode semantic overrides
-- `theme.pink-moon.css` — Pink Moon overrides (both light and dark variants)
+- `theme.pink-moon.css` — Pink Moon overrides (both light and dark variants). This becomes the only theme file.
+- `theme.light.css` — **deprecated.** Light mode overrides merge into `theme.pink-moon.css` as part of the Pink Moon Light variant. File retained during transition, removed in Phase 4 (Classic Deprecation).
 
 ---
 
@@ -133,15 +133,33 @@ Component-scoped tokens: `--st-card-border`, `--st-chip-bg`, `--st-button-radius
 
 ### Radius: Downplayed
 
-Pink Moon uses minimal radius throughout. Sharp edges read as precision and catalogue rigour.
+Pink Moon uses minimal radius throughout. Sharp edges read as precision and catalogue rigour. The primitive token scale is retained for general use, but most components are reassigned to zero.
 
-| Token | Value | Use |
-|-------|-------|-----|
-| `--st-radius-xs` | 2px | Buttons, chips |
-| `--st-radius-sm` | 4px | Callouts, code blocks |
-| `--st-radius-md` | 8px | Cards, hero panel |
-| `--st-radius-lg` | 12px | Reserved |
-| `--st-radius-xl` | 35px | Hero media (editorial) |
+**Primitive scale (unchanged):**
+
+| Token | Value |
+|-------|-------|
+| `--st-radius-xs` | 4px |
+| `--st-radius-sm` | 8px |
+| `--st-radius-md` | 12px |
+| `--st-radius-lg` | 16px |
+| `--st-radius-xl` | 35px |
+
+**Component assignments (Pink Moon):**
+
+| Component | Radius | Rationale |
+|-----------|--------|-----------|
+| Buttons | `0` | Sharp stamp edge |
+| Chips | `0` | Index card label |
+| Cards | `0` | Catalogue card |
+| Hero panel | `0` | Sharp-edged frost panel |
+| Callouts | `0` | Block quote container |
+| Code blocks | `0` | Terminal frame |
+| Blockquotes | `0` | Pull-quote container |
+| Accordion | `0` | Panel edge |
+| MetadataCard | `0` | Catalogue card |
+| Media | `--st-radius-xl` (35px) | **Exception** — editorial image, rounded for softness |
+| Theme toggle | `--st-radius-full` (pill) | **Exception** — affordance indicator |
 
 ### Borders: Visible
 
