@@ -184,6 +184,24 @@ When writing content to Sanity via MCP tools, **assume all content is final, pro
 
 **Rule:** If a user provides copy to write to Sanity, use `_from_json` tools or the Sanity client directly. Never route authored content through an AI rewriting layer without saying so. If AI-assisted drafting would be helpful, ask first: "Want me to use Sanity AI to help draft this, or should I save it exactly as written?"
 
+### Anti-Slop Content Rules
+
+All AI-drafted content (copy, descriptions, alt text, commit messages, doc prose) must pass the anti-slop checks documented in `docs/brand/brand-voice-guide.md`. The key enforcement rules:
+
+**Banned in all non-node content:**
+- **Em dashes** (`—`). Use commas, parentheses, colons, or separate sentences. Em dashes are the single most reliable structural AI tell.
+- **Decorative emoji/icons.** No `🚀`, `✨`, `🌟` garnish. If an emoji doesn't earn its place through humour or irony, it doesn't appear.
+- **Filler transitions:** "That said," / "With that in mind," / "That being said," / "It's worth noting that" / "At the end of the day." If the next paragraph follows logically, it doesn't need a bridge.
+- **AI vocabulary:** "delve into", "leverage", "utilize", "facilitate", "synergize", "ideate", "learnings", "passionate about", "excited to announce", "in today's landscape."
+- **Hedge stacking:** "I think maybe this could possibly" — pick a position.
+- **Empty adjective triads:** "robust, scalable, and maintainable" — use one specific adjective or a number.
+- **Sentence-opening repetition:** Three consecutive sentences starting with the same word is a rewrite signal.
+- **List-itis:** Bullets are for parallel items, not for avoiding prose.
+
+**Node exemptions:** Nodes (AI-narrated, forensic storyteller voice) are exempt from the em dash and emoji bans. Em dashes are part of the register. Emoji in nodes is used sarcastically or as deadpan humour only.
+
+**Source of truth:** `docs/brand/brand-voice-guide.md` (full checklist with examples and rationale).
+
 ---
 
 ## Image Asset Naming
