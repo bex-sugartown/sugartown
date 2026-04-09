@@ -74,4 +74,14 @@ article schema additions:
 
 ---
 
+## AEO Cross-Reference (SUG-58)
+
+When this epic ships, update `generateArticleJsonLd()` in `lib/jsonLd.js` (from SUG-58) to include:
+- `readingTime` → `timeRequired` property (ISO 8601 duration format, e.g. `"PT5M"`)
+- `series` + `partNumber` → `isPartOf` with `position` in a `CreativeWorkSeries`
+
+These are additive changes to the JSON-LD utility, not blocking dependencies.
+
+---
+
 *Created 2026-04-08.*

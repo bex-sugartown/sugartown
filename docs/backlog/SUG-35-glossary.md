@@ -379,6 +379,14 @@ Three reference types, three visual treatments, three editorial purposes. The gl
 
 ---
 
+## AEO Cross-Reference (SUG-58)
+
+**JSON-LD is in scope for this epic.** The `DefinedTerm` and `DefinedTermSet` JSON-LD (already documented in the Structured Data section above) should use the `generateJsonLd()` utility from SUG-58 if it has shipped. If SUG-35 ships first, implement the JSON-LD inline and refactor to the shared utility when SUG-58 lands.
+
+Glossary pages are the single highest-value AEO surface for Sugartown. Each term page is an indexable ~250-word entity page with structured definitions that AI search engines can extract directly.
+
+---
+
 ## Post-Epic Close-Out
 
 1. Move `docs/backlog/SUG-35-glossary.md` → `docs/shipped/SUG-35-glossary.md`

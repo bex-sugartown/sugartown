@@ -92,4 +92,16 @@ TBD per sub-feature. Expected:
 
 ---
 
+## AEO Cross-Reference (SUG-58)
+
+When this epic ships, update `generateJsonLd()` in `lib/jsonLd.js` (from SUG-58) to include:
+- Bibliography blocks → `citation[]` array of `CreativeWork` references on Article JSON-LD
+- Figure captions → `ImageObject` with `caption`, `creditText` for image SEO
+- Colophon → enriches `Organization` JSON-LD with publisher/creator metadata
+- Archive index view → improves crawlability (table markup is more parseable than card grids for AI crawlers)
+
+These are additive enhancements to the JSON-LD utility, not blocking dependencies.
+
+---
+
 *Created 2026-04-08.*

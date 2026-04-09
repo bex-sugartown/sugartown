@@ -68,6 +68,10 @@ Wire the `parent` field into route resolution. Update GROQ projection to include
 - No depth > 2 nesting (only one level: parent/child, not grandparent/parent/child)
 - No breadcrumb component (note for future epic)
 
+## AEO Cross-Reference (SUG-58)
+
+**BreadcrumbList JSON-LD should ship with this epic.** Nested URLs create the hierarchy that `schema.org/BreadcrumbList` marks up. If SUG-58 has shipped, use the `generateJsonLd()` utility to emit breadcrumb JSON-LD on nested pages. If not, implement inline and refactor later. The breadcrumb schema includes `itemListElement` with `position`, `name`, and `item` (URL) for parent and child. URL hierarchy without breadcrumb markup is a missed SEO signal.
+
 ---
 
 ## Technical Constraints

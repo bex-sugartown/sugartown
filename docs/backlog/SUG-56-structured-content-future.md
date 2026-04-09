@@ -77,4 +77,15 @@ TBD after design decisions.
 
 ---
 
+## AEO Cross-Reference (SUG-58)
+
+When this epic ships, update `generateArticleJsonLd()` in `lib/jsonLd.js` (from SUG-58) to include:
+- `wordCount` → `wordCount` property on Article schema
+- Entity extraction → `mentions[]` array of `Thing` references
+- Link extraction → could feed `citation[]` array
+
+The computed enrichments from this epic are the data layer that powers richer structured data markup. SUG-56 produces the raw values; SUG-58's utility consumes them.
+
+---
+
 *Created 2026-04-08.*
