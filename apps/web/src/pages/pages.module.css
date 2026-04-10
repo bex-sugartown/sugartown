@@ -72,6 +72,12 @@
   padding: var(--st-space-meta-top) var(--st-page-gutter) var(--st-space-section-break);
 }
 
+/* MetadataCard sits outside .detailContext (not covered by flex gap).
+   Needs its own bottom margin to separate from the first section. */
+.detailPage > aside:first-child {
+  margin-bottom: var(--st-space-section-break-detail);
+}
+
 .detailEyebrow {
   font-family: var(--st-font-family-mono);
   font-size: 0.7rem;
