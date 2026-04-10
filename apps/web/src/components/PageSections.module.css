@@ -939,9 +939,22 @@
    ============================================
    When sections render inside a detail page (Article, Node, CaseStudy),
    the parent container already provides max-width + horizontal gutter.
-   Sections drop their own containment and use reduced vertical spacing
-   to avoid double-padding and 120px inter-section gaps.
+
+   Spacing strategy: the PARENT (.detailContext) owns the gap between
+   sections via CSS `gap`. Individual sections have ZERO vertical padding
+   in this context — they don't know about their neighbours.
+
+   This prevents:
+   - Double-padding at section boundaries (40+40=80px)
+   - Zero-gap when a section type isn't in the selector list
+   - Inconsistent gaps between different section type pairings
 */
+.detailContext {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-section-break-detail);
+}
+
 .detailContext .textSection,
 .detailContext .ctaSection,
 .detailContext .calloutSection,
@@ -950,10 +963,25 @@
 .detailContext .accordionSection {
   max-width: none;
   padding-inline: 0;
-  padding-block: var(--st-space-section-break-detail);
+  padding-block: 0;
+}
+
+/* Catch-all for sections not authored in PageSections.module.css
+   (e.g. CardBuilderSection with its own CSS module) */
+.detailContext > section,
+.detailContext > div {
+  max-width: none;
+  padding-inline: 0;
+}
+
+/* Heroes inside detail context: reduced vertical padding for internal
+   breathing room, but gap handles the section-to-section spacing */
+.detailContext .heroSection {
+  padding-block: var(--st-space-hero-bottom);
 }
 
 .detailContext :global(.st-html-section) {
   max-width: none;
   padding-inline: 0;
+  padding-block: 0;
 }

@@ -15,7 +15,7 @@
 .divider {
   border: none;
   border-top: 1px solid rgba(255, 111, 184, 0.25);
-  margin-block: var(--st-spacing-stack-xl, 2.5rem);
+  margin-block: var(--st-space-section-break-detail, 2.5rem);
   width: 100%;
 }
 

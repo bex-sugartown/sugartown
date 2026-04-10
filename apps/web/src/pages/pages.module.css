@@ -180,7 +180,7 @@
 .detailContent hr {
   border: none;
   border-top: 1px solid rgba(255, 111, 184, 0.35);
-  margin: var(--st-spacing-stack-xl, 2.5rem) 0;
+  margin: var(--st-space-section-break-detail, 2.5rem) 0;
 }
 
 :global([data-theme="light"]) .detailContent hr {
