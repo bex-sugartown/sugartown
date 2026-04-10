@@ -62,6 +62,16 @@ export default defineType({
           .warning('Keep excerpts concise - under 300 characters recommended')
     }),
     defineField({
+      name: 'keyTakeaway',
+      title: 'Key Takeaway',
+      type: 'string',
+      description: 'One-sentence takeaway — the lesson in structured form. Used for headless summaries and card previews.',
+      group: 'content',
+      validation: (Rule) =>
+        Rule.max(200)
+          .warning('Keep the takeaway to a single sentence under 200 characters.')
+    }),
+    defineField({
       name: 'content',
       title: 'Content (Legacy)',
       type: 'array',
@@ -297,6 +307,20 @@ export default defineType({
         defineArrayMember({
           type: 'reference',
           to: [{type: 'tag'}]
+        })
+      ],
+      validation: (Rule) => Rule.unique()
+    }),
+    defineField({
+      name: 'relatedNodes',
+      title: 'Related Nodes',
+      type: 'array',
+      description: 'Explicit cross-references to other knowledge graph nodes. Makes the graph queryable without body text parsing.',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'node'}]
         })
       ],
       validation: (Rule) => Rule.unique()
