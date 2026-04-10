@@ -17,10 +17,11 @@
 When an epic is complete, run these steps in order before starting the next epic:
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
-2. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`
-3. **Mini-release** — run `/mini-release` to produce a patch version bump and CHANGELOG stub
-4. **Update Linear** — transition the SUG-{N} issue to **Done**
-5. **Clean tree** — confirm `git status` is clean before starting the next epic
+2. **Deploy schema** (if epic touched `apps/studio/schemas/`) — run `npx sanity schema deploy` from `apps/studio/`. Schema changes are not live until deployed. MCP tools, the Content Lake API, and embedded Studios all validate against the deployed schema, not local code. Skipping this step causes silent write failures.
+3. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`
+4. **Mini-release** — run `/mini-release` to produce a patch version bump and CHANGELOG stub
+5. **Update Linear** — transition the SUG-{N} issue to **Done**
+6. **Clean tree** — confirm `git status` is clean before starting the next epic
 
 Do not carry uncommitted changes across epic boundaries. If the working tree is dirty when a new epic begins, stop and commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) before proceeding.
 
@@ -121,6 +122,14 @@ Any change to `apps/studio/schemas/` that is **not** a direct consequence of a D
 Commit prefix: `feat(studio):` or `fix(studio):`.
 
 If a schema change is needed to unblock a component epic, commit the schema change first, then begin the component work in a subsequent commit.
+
+**Schema changes are not live until deployed.** The local Studio uses your code directly, but MCP tools (`create_documents_from_json`, `patch_document_from_json`, etc.) and the Content Lake API validate against the **deployed** schema. After any schema change, run:
+
+```bash
+npx sanity schema deploy
+```
+
+If you skip this step, MCP writes will fail with validation errors listing the old allowed types, even though Studio works fine locally. This is the single most common cause of "the schema has the field but MCP rejects it" confusion.
 
 ### Paired schema convention
 
