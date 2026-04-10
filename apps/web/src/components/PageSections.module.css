@@ -973,3 +973,9 @@
   padding-block: var(--st-space-hero-bottom);
   overflow: visible;  /* hero overlays (::before, ::after) need to be visible */
 }
+
+/* Callout inner <aside> has its own margin-block from the component CSS.
+   Zero it out — the parent gap handles section spacing. */
+.detailContext .calloutSection :global(aside) {
+  margin-block: 0;
+}
