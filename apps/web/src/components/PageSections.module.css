@@ -955,33 +955,21 @@
   gap: var(--st-space-section-break-detail);
 }
 
-.detailContext .textSection,
-.detailContext .ctaSection,
-.detailContext .calloutSection,
-.detailContext .imageGallery,
-.detailContext .mermaidSection,
-.detailContext .accordionSection {
+/* All direct children: drop own containment, stretch to fill parent.
+   The parent .detailPage (max-width: 760px) controls width.
+   width:100% is critical — without it, flex children shrink to content
+   (callouts hug text, heroes shrink, carousels blow out). */
+.detailContext > * {
   max-width: none;
   padding-inline: 0;
   padding-block: 0;
+  width: 100%;
+  overflow: hidden;  /* prevent carousels/wide content from blowing out */
 }
 
-/* Catch-all for sections not authored in PageSections.module.css
-   (e.g. CardBuilderSection with its own CSS module) */
-.detailContext > section,
-.detailContext > div {
-  max-width: none;
-  padding-inline: 0;
-}
-
-/* Heroes inside detail context: reduced vertical padding for internal
-   breathing room, but gap handles the section-to-section spacing */
+/* Heroes keep internal vertical padding for background image breathing
+   room, but gap handles the section-to-section spacing */
 .detailContext .heroSection {
   padding-block: var(--st-space-hero-bottom);
-}
-
-.detailContext :global(.st-html-section) {
-  max-width: none;
-  padding-inline: 0;
-  padding-block: 0;
+  overflow: visible;  /* hero overlays (::before, ::after) need to be visible */
 }
