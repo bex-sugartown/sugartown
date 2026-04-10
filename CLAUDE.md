@@ -148,16 +148,42 @@ Two fields that could plausibly hold the same value is a bug, not a feature. Whe
 
 ### Section Layout Contract
 
-All page sections rendered by `PageSections.jsx` must share:
+All page sections rendered by `PageSections.jsx` must follow these layout rules:
 
-1. **Horizontal containment** — inherited from parent when inside a detail page (`context="detail"`). Sections must not define their own `max-width` or `padding-inline` in this context.
-2. **Vertical rhythm** — `padding-block` only, using `--st-spacing-stack-lg` (32px) for standard sections in detail context.
-3. **Typography** — body text uses `var(--st-font-heading-4)`, headings use `var(--st-font-heading-*)` scale, h2 colour is `var(--st-color-brand-primary)`.
+**1. Parent Owns Gap (the foundational rule)**
 
-When adding a new section type, verify it renders correctly:
-- Adjacent to existing section types on a real page (not just in isolation)
-- Inside both `context="detail"` (detail pages) and `context="full"` (standalone pages)
-- Check `.detailContext` overrides in `PageSections.module.css` and add the new section class if it has its own `max-width` / `padding-inline`
+In detail page context (`context="detail"`), the parent `.detailContext` container owns inter-section spacing via `display: flex; flex-direction: column; gap: var(--st-space-section-break-detail)`. Individual sections must have **zero vertical margin and zero vertical padding** in this context. Internal component padding (box inset for callouts, code blocks, etc.) is allowed; external margin is not.
+
+This prevents double-padding at section boundaries (the original failure mode: each section had its own padding-block, so adjacent sections stacked 40+40=80px).
+
+**2. Flex Child Width Contract**
+
+All direct children of `.detailContext` must have `width: 100%`. Without it, flex children shrink to their content width (heroes collapse to their inner max-width, callouts hug text, CTA sections shrink to button width). The parent `.detailPage` container controls max-width (760px); children stretch to fill it.
+
+**3. Catch-All Over Whitelist**
+
+The `.detailContext` override uses `> *` (catch-all) rather than a named selector list. This ensures new section types (including those with their own CSS modules, like CardBuilderSection) automatically inherit the layout rules without needing explicit registration. Targeted exceptions (e.g. hero `overflow: visible` for overlays) are applied as named overrides after the catch-all.
+
+**4. Component Margin Zero**
+
+When a component renders inside a layout container that uses `gap`, the component must zero its own external margin. Components like the callout `<aside>` have their own `margin-block` in standalone context, but this conflicts with the parent gap in detail context. Override with `.detailContext .calloutSection :global(aside) { margin-block: 0 }`.
+
+The rule: **internal padding = component's concern. External spacing = layout's concern.** If a component has `margin-block` in its own CSS module, it needs a zero-margin override in detail context.
+
+**5. Boundary Elements**
+
+Elements that sit between two spacing contexts (e.g. MetadataCard between the hero and detailContext) belong to neither flex container. They need explicit margin: `.detailPage > aside:first-child { margin-bottom: var(--st-space-section-break-detail) }`. When adding a new element to a detail page template, check whether it falls inside or outside the detailContext wrapper.
+
+**6. Typography** (unchanged)
+
+Body text uses `var(--st-font-heading-4)`, headings use `var(--st-font-heading-*)` scale, h2 colour is `var(--st-color-brand-primary)`.
+
+**When adding a new section type:**
+- Verify it renders correctly adjacent to existing section types on a real page (not just in isolation)
+- Test inside both `context="detail"` (detail pages) and `context="full"` (standalone pages)
+- Confirm it stretches to full width in detail context (the `> *` catch-all should handle this automatically)
+- If the component has its own `margin-block` in its CSS module, add a zero-margin override in the `.detailContext` section of `PageSections.module.css`
+- **Visual QA:** verify spacing against the test preview post at `/articles/test-preview-post`, which covers every section type and spacing transition
 
 ### GROQ projection audit for nested image types
 

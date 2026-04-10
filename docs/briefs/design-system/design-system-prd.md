@@ -183,18 +183,34 @@ Borders use `softgrey-400` (#94A3B8) in light mode — visible enough to define 
 | `--st-space-7` | 2.5rem (40px) |
 | `--st-space-8` | 3.75rem (60px) |
 
-**Semantic spacing tokens (pending — SUG-53):**
+**Semantic spacing tokens (shipped — SUG-53):**
 
-The mechanical 8-point scale above provides the building blocks. Semantic tokens that express *intent* (reading rhythm, section breathing room, editorial whitespace) are planned but not yet implemented. These will be added to both token files and documented in Storybook Foundations as a spacing + layout reference page.
+The mechanical 8-point scale provides building blocks. These semantic tokens express *intent*:
 
-Planned tokens:
-- `--st-space-reading-gap` — paragraph spacing in longform body content (~20–24px)
-- `--st-space-section-break` — gap between major page sections (~80–100px)
-- `--st-space-hero-bottom` — breathing room below hero (~48–64px)
-- `--st-space-card-gap` — archive grid card gap (~32px)
-- `--st-space-margin-column` — marginalia column width at wide viewports (~240–280px)
+| Token | Value | Purpose |
+|-------|-------|---------|
+| `--st-space-reading-gap` | 20px | Paragraph-to-paragraph in longform body content |
+| `--st-space-section-break` | 80px | Between major page sections (standalone context) |
+| `--st-space-section-break-detail` | 40px | Between sections inside detail pages |
+| `--st-space-hero-bottom` | 56px | Breathing room below hero |
+| `--st-space-card-gap` | 32px | Archive grid card gap |
+| `--st-space-meta-top` | 32px | Hero to metadata card |
+| `--st-space-footer-top` | 96px | Content-to-footer separation |
+| `--st-space-margin-column` | Deferred | Marginalia column width (SUG-57) |
 
-See SUG-53 for scope and approach.
+### Section Spacing Framework (Detail Pages)
+
+The spacing system for detail pages (articles, nodes, case studies) follows five rules that prevent the double-padding, shrink-to-content, and margin-stacking bugs that are endemic to section-builder layouts. These rules are **system-level constraints**, not per-epic decisions.
+
+**1. Parent Owns Gap.** The `.detailContext` container owns inter-section spacing via `display: flex; flex-direction: column; gap: var(--st-space-section-break-detail)`. Individual sections have zero vertical margin and zero vertical padding. Internal component padding (callout box inset, code block padding) is allowed; external margin is not. This is the single most important spacing rule. Without it, every section boundary doubles: 40+40=80px.
+
+**2. Flex Child Width Contract.** All children of `.detailContext` have `width: 100%`. Without this, flex children shrink to content (heroes collapse, callouts hug text, carousels blow out). The parent `.detailPage` controls max-width; children stretch to fill it.
+
+**3. Catch-All Over Whitelist.** The `.detailContext` override uses `> *` rather than a named selector list. New section types automatically inherit the layout rules without registration. Exceptions (e.g. hero `overflow: visible`) are named overrides applied after the catch-all.
+
+**4. Component Margin Zero.** Components with their own `margin-block` (callout `<aside>`, future components) must have that margin zeroed in detail context. Internal padding is the component's concern; external spacing is the layout's concern.
+
+**5. Boundary Elements.** Elements between two spacing contexts (MetadataCard sits between hero and detailContext) need explicit margin because they belong to neither flex container.
 
 ---
 
@@ -206,8 +222,8 @@ See SUG-53 for scope and approach.
 |------|--------|----------|
 | Colors | Shipped | Full palette swatches: pink, maroon, seafoam, lime, midnight, charcoal, softgrey, neutral. Tier 1 primitives + Tier 2 semantic mappings. |
 | Typefaces | Shipped | EB Garamond, Fira Sans, Courier Prime specimens. Weight/size scale. |
-| Spacing | **Planned (SUG-53)** | 8-point mechanical scale + semantic spacing tokens (reading-gap, section-break, hero-bottom, card-gap, margin-column). Visual reference with live token values. |
-| Layout | **Planned (SUG-53)** | Page template patterns (default, full-width, sidebar). Content width tokens. Responsive breakpoints. Grid gap reference. |
+| Spacing | **Tokens shipped (SUG-53)** | 8-point mechanical scale + 7 semantic spacing tokens. Section Spacing Framework (parent-owns-gap, flex child width contract, component margin zero). Storybook reference page still pending. |
+| Layout | **Framework shipped (SUG-53)** | Detail page flex-column layout with gap-based spacing. Catch-all child containment. Boundary element pattern. Storybook reference page still pending. |
 | Overlays | **Planned** | Image treatment presets (duotone standard/featured/subtle/extreme, greyscale, dark-scrim, color, none). Live previews with sample photography. |
 
 ### Primitives (DS Package)
