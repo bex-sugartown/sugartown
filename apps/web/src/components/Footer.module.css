@@ -2,7 +2,7 @@
   background-color: var(--st-color-bg-midnight);
   color: var(--st-color-white);
   padding: var(--st-space-8) 0;
-  margin-top: var(--st-space-8);
+  margin-top: var(--st-space-footer-top);
 }
 
 .container {

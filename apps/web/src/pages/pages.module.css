@@ -69,7 +69,7 @@
 .detailPage {
   max-width: var(--st-width-detail);
   margin: 0 auto;
-  padding: 3rem 1.5rem 5rem;
+  padding: var(--st-space-meta-top) var(--st-page-gutter) var(--st-space-section-break);
 }
 
 .detailEyebrow {
@@ -162,7 +162,7 @@
 }
 
 .detailContent p {
-  margin: var(--st-spacing-stack-md) 0;
+  margin: var(--st-space-reading-gap) 0;
 }
 
 .detailContent a {
@@ -314,7 +314,7 @@
 .archiveGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 1.5rem;
+  gap: var(--st-space-card-gap);
 }
 
 /* User-selected list layout — always single column, full content width */

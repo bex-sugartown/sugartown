@@ -1,7 +1,7 @@
 /* Hero Section */
 .heroSection {
   position: relative;
-  padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
+  padding: var(--st-space-section-break) var(--st-page-gutter) var(--st-space-hero-bottom);
   min-height: 320px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -217,7 +217,7 @@
 .textSection {
   max-width: var(--st-width-detail);
   margin: 0 auto;
-  padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
+  padding: var(--st-space-section-break) var(--st-page-gutter);
 }
 
 .sectionHeading {
@@ -242,7 +242,7 @@
 }
 
 .textContent p {
-  margin: var(--st-spacing-stack-md) 0;
+  margin: var(--st-space-reading-gap) 0;
 }
 
 /* Portable Text styles */
@@ -385,7 +385,7 @@
 .imageGallery {
   max-width: var(--st-width-detail);
   margin: 0 auto;
-  padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
+  padding: var(--st-space-section-break) var(--st-page-gutter);
   display: grid;
   gap: var(--st-spacing-stack-md);
   position: relative;
@@ -562,14 +562,14 @@
 .calloutSection {
   max-width: 1164px;
   margin: 0 auto;
-  padding: var(--st-spacing-stack-lg) var(--st-page-gutter);
+  padding: var(--st-space-section-break-detail) var(--st-page-gutter);
 }
 
 /* Mermaid Diagram Section (SUG-13) */
 .mermaidSection {
   max-width: var(--st-width-detail);
   margin: 0 auto;
-  padding: var(--st-spacing-stack-lg) var(--st-page-gutter);
+  padding: var(--st-space-section-break-detail) var(--st-page-gutter);
 }
 
 .mermaidContainer {
@@ -608,14 +608,14 @@
 .accordionSection {
   max-width: var(--st-width-detail);
   margin: 0 auto;
-  padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
+  padding: var(--st-space-section-break) var(--st-page-gutter);
 }
 
 /* CTA Section */
 .ctaSection {
   max-width: var(--st-width-detail);
   margin: 0 auto;
-  padding: var(--st-spacing-stack-xl) var(--st-page-gutter);
+  padding: var(--st-space-section-break) var(--st-page-gutter);
   text-align: center;
 }
 
@@ -950,7 +950,7 @@
 .detailContext .accordionSection {
   max-width: none;
   padding-inline: 0;
-  padding-block: var(--st-spacing-stack-lg);
+  padding-block: var(--st-space-section-break-detail);
 }
 
 .detailContext :global(.st-html-section) {

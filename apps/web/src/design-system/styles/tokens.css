@@ -301,6 +301,15 @@
   /* ── Layout Helpers ────────────────────────────────────── */
   --st-page-gutter:       var(--st-spacing-stack-lg);
 
+  /* ── Semantic Spacing: Purpose-Specific ─────────────────── */
+  --st-space-reading-gap:           20px;   /* paragraph to paragraph in longform     */
+  --st-space-section-break:         80px;   /* between major page sections             */
+  --st-space-section-break-detail:  40px;   /* between sections inside detail pages    */
+  --st-space-hero-bottom:           56px;   /* breathing room below hero               */
+  --st-space-card-gap:              32px;   /* archive grid card gap                   */
+  --st-space-meta-top:              32px;   /* hero to metadata card                   */
+  --st-space-footer-top:            96px;   /* clear content-to-footer separation      */
+
   /* ── Transitions ───────────────────────────────────────── */
   --st-transition-fast:   150ms ease;
 
