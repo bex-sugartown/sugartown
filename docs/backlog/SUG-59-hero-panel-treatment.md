@@ -60,6 +60,21 @@ After this epic, editors can select a "Greyscale + Panel" image treatment in the
 
 ## Scope
 
+### Phase 0: HTML mock
+
+Create an HTML mock in `docs/drafts/` showing the hero panel treatment with:
+- Greyscale background image with gradient scrim
+- Frosted glass panel (centred, backdrop-filter blur)
+- Lime eyebrow (Courier Prime), EB Garamond heading, subtitle
+- Metadata line (date, status, Courier Prime)
+- CTA buttons inside panel
+- Light and dark theme variants
+- Imageless hero variant with lime/pink eyebrow
+
+The existing `pink-moon-mock-B-sharp-paper.html` already contains this treatment. This phase validates that the mock values still align with the current token system before implementation.
+
+Mock must be reviewed and approved before Phase 1 implementation begins.
+
 ### Phase 1: Schema + New Overlay Preset (1 commit, `feat(studio):`)
 
 Add `'greyscale-panel'` to the `mediaOverlay.type` options list:

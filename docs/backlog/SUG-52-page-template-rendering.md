@@ -107,6 +107,16 @@ These items from the original SUG-52 spec are done:
 
 ## Remaining Scope
 
+### Phase 0: HTML mock
+
+Create an HTML mock in `docs/drafts/` showing the margin column layout at 1200px+ alongside the current single-column layout. Mock should use real content from an existing node (e.g. "The Great Disconnection") with:
+- Auto-generated TOC from section headings
+- Related nodes as linked list
+- Sticky behaviour on scroll
+- Mobile collapse behaviour
+
+Mock must be reviewed and approved before Phase 1 implementation begins.
+
 ### Phase 1: CSS layout (main + margin at 1200px+)
 
 Update `.detailPage` in `pages.module.css`:
