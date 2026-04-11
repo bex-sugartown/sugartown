@@ -12,11 +12,11 @@
 
 /* ── Item ─────────────────────────────────────────────────────────────────── */
 .item {
-  border-bottom: 1px solid var(--st-color-border-subtle, rgba(255, 255, 255, 0.12));
+  border-bottom: 1px solid var(--st-color-border-default, rgba(255, 255, 255, 0.18));
 }
 
 .item:first-child {
-  border-top: 1px solid var(--st-color-border-subtle, rgba(255, 255, 255, 0.12));
+  border-top: 1px solid var(--st-color-border-default, rgba(255, 255, 255, 0.18));
 }
 
 /* ── Trigger button ──────────────────────────────────────────────────────── */
@@ -80,15 +80,16 @@
   overflow: hidden;
 }
 
-/* ── Panel content spacing ───────────────────────────────────────────────── */
-.panelInner > * {
+/* Bottom padding only when panel is open — prevents the padding from
+   creating height when the CSS grid row collapses to 0fr. */
+.panelOpen .panelInner {
   padding-bottom: var(--st-space-5, 1.5rem);
 }
 
 /* ── Light theme overrides ───────────────────────────────────────────────── */
 [data-theme="light"] .item,
 [data-theme="light-pink-moon"] .item {
-  border-color: var(--st-color-border-subtle, rgba(0, 0, 0, 0.10));
+  border-color: var(--st-color-border-default, rgba(0, 0, 0, 0.15));
 }
 
 [data-theme="light"] .trigger,

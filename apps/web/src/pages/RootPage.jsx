@@ -28,7 +28,14 @@ export default function RootPage() {
     <main>
       <SeoHead seo={seo} />
 
-      {page.sections && page.sections.length > 0 ? (
+      {page.sections && page.sections.length > 0 && page.template !== 'full-width' ? (
+        <div className={styles.detailPage}>
+          <PageSections
+            sections={page.sections}
+            context="detail"
+          />
+        </div>
+      ) : page.sections && page.sections.length > 0 ? (
         <PageSections sections={page.sections} />
       ) : (
         <div className={styles.detailPage}>

@@ -218,6 +218,14 @@ No new projections needed. The `'greyscale-panel'` value is just a new enum entr
 - **No word count in metadata line yet.** Depends on SUG-56 (computed enrichments). The metadata line renders date + status initially.
 - **No CTA button style changes.** The existing primary/secondary/tertiary Button variants render inside the panel unchanged.
 
+### Also in scope: Imageless hero eyebrow colour
+
+The text-only hero (no background image) currently uses teal for the eyebrow. Update to match the Pink Moon palette:
+- **Dark mode:** lime (`var(--st-color-lime)`)
+- **Light mode:** pink (`var(--st-color-brand-primary)`)
+
+This applies to `.heroImageless .heroEyebrow` and is independent of the panel treatment (it fixes the imageless hero regardless).
+
 ---
 
 ## Files to Modify
