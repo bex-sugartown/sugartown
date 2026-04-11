@@ -968,10 +968,14 @@
 }
 
 /* Heroes keep internal vertical padding for background image breathing
-   room, but gap handles the section-to-section spacing */
+   room, but gap handles the section-to-section spacing.
+   Override the full-width breakout (width:100vw + negative margin) which
+   conflicts with the catch-all width:100% in detail context. */
 .detailContext .heroSection {
   padding-block: var(--st-space-hero-bottom);
   overflow: visible;  /* hero overlays (::before, ::after) need to be visible */
+  width: 100%;
+  margin-left: 0;
 }
 
 /* Callout inner <aside> has its own margin-block from the component CSS.
