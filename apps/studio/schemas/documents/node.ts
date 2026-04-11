@@ -224,6 +224,14 @@ export default defineType({
       validation: (Rule) => Rule.min(1).max(60).integer(),
     }),
     defineField({
+      name: 'aiDisclosure',
+      title: 'AI Collaboration Disclosure',
+      type: 'string',
+      description: 'AI collaboration disclosure — e.g. "Narrated by Claude, directed by Bex Head." Renders below byline on detail pages. Leave blank for fully human-authored content.',
+      group: 'metadata',
+      validation: (Rule) => Rule.max(300),
+    }),
+    defineField({
       name: 'authors',
       title: 'Authors',
       type: 'array',

@@ -138,6 +138,14 @@ export default defineType({
       initialValue: () => new Date().toISOString()
     }),
     defineField({
+      name: 'aiDisclosure',
+      title: 'AI Collaboration Disclosure',
+      type: 'string',
+      description: 'AI collaboration disclosure — e.g. "Content drafted with Claude, edited by Bex Head." Renders below byline on detail pages. Leave blank for fully human-authored content.',
+      group: 'metadata',
+      validation: (Rule) => Rule.max(300),
+    }),
+    defineField({
       name: 'authors',
       title: 'Authors',
       type: 'array',
