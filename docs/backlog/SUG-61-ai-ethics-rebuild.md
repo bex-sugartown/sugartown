@@ -17,7 +17,7 @@ The page needs to be rebuilt using structured sections: text sections for narrat
 
 ## Page Structure (H2 = inline text, H3 = accordion)
 
-The page has two types of content: narrative sections that should be read linearly, and reference sections where the reader scans and opens what they need. Only the operating principles are accordion candidates.
+The page has two types of content: narrative sections that should be read linearly, and reference sections where the reader scans and opens what they need. Two sections use accordion: Operating Principles (13 items) and Canonical References (5 categories).
 
 ```
 Hero (heroSection)
@@ -36,7 +36,10 @@ The Operating Principles (accordionSection, multi=true)
   H2 heading: "The Operating Principles"
   13 accordion items, each with:
     title: "1. Humans Stay Accountable — every decision traces back to a name"
-    body: principle text + "In practice" paragraph
+    body: principle text + bulleted criteria (where applicable)
+          + "In practice:" with inline `code` for tool/file refs
+          + citation refs for linked regulatory sources
+          + *italicised regulatory context* (principles #3, #8, #13)
 
 When Things Go Wrong (textSection)
   H2 heading, inline numbered list. NOT accordion — this is a
@@ -54,7 +57,9 @@ Canonical References (accordionSection, multi=true)
     "Model Providers & Safety Research" (Anthropic, OpenAI)
     "Practical Case Studies" (Partnership on AI)
     "Licensing & Copyright" (Creative Commons)
-  Links rendered as citations inline
+  Each panel: bulleted list of references with linked names
+  and one-line descriptions. Citation refs for endnotes where
+  applicable.
 
 The Quiet Truth (textSection)
   H2 heading, closing statement. NOT accordion.
@@ -94,13 +99,15 @@ For Sugartown, the pattern is: **principle name + summary sentence** separated b
 
 **3. Lead with the answer.** Users open a panel expecting resolution, not buildup. First sentence is a plain-English summary of what this panel covers. Then the detail.
 
-**4. Flat hierarchy inside panels.** The accordion schema supports bold, italic, links, and dividers inside panel body. No h2/h3 headings, no code blocks, no numbered/bullet lists (schema constraint). Use bold text for visual sub-structure. If you need deep hierarchy, the content belongs in a text section, not an accordion.
+**4. Flat hierarchy inside panels.** The accordion body uses `compactPortableText`: bold, italic, inline `code`, links, citation references, and bullet/numbered lists. No headings (h2/h3/h4), images, code blocks, tables, or blockquotes. Use bold text and lists for visual sub-structure. If you need headings or media, the content belongs in a text section, not an accordion.
 
-**5. Consistent structure across panels.** Every principle follows the same pattern:
+**5. Consistent structure across panels.** Every principle follows the same pattern (use bullet lists for criteria, numbered lists for steps):
+
 - Opening statement (the principle in one sentence)
 - Explanation (2-3 sentences, why this matters)
-- **In practice:** (concrete examples from the Sugartown workflow)
-- Regulatory/industry context (if applicable, italicised)
+- Criteria or rules as a bulleted list (where applicable)
+- **In practice:** concrete examples from the Sugartown workflow, with inline `code` for tool/file names and citation references for linked sources
+- *Regulatory/industry context* (if applicable, italicised)
 
 **6. 100-400 words per panel.** Under 100 feels like padding. Over 400 defeats the purpose of collapsing. If a panel exceeds 400 words, consider splitting it or moving detail to a linked page.
 
