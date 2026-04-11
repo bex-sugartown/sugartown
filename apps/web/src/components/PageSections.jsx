@@ -190,10 +190,12 @@ function HeroSection({ section }) {
   const isGreyscalePanel = treatmentType === 'greyscale-panel'
 
   // Text glow class — keyed to treatment type when image is present
-  // Greyscale-panel uses no glow (the frosted panel provides contrast)
+  // Greyscale-panel full-width uses no glow (the frosted panel provides contrast)
+  // Greyscale-panel content-width uses default glow (no panel, needs shadow)
+  const isFullWidthPanel = isGreyscalePanel && imageWidth === 'full-width'
   let glowClass = ''
   if (hasImage) {
-    if (isGreyscalePanel) glowClass = styles.heroGlowNone
+    if (isFullWidthPanel) glowClass = styles.heroGlowNone
     else if (isExtremeHero) glowClass = styles.heroGlowExtreme
     else if (treatmentType === 'duotone') glowClass = styles.heroGlowDuotone
     else if (treatmentType === 'dark-scrim') glowClass = styles.heroGlowScrim
@@ -265,7 +267,7 @@ function HeroSection({ section }) {
   return (
     <section className={sectionClasses} style={backgroundStyles}>
       <div className={styles.heroContainer}>
-        {isGreyscalePanel && hasImage ? (
+        {isGreyscalePanel && hasImage && imageWidth === 'full-width' ? (
           <div className={styles.heroPanel}>
             {heroElements}
           </div>

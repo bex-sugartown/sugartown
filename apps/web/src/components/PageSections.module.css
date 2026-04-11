@@ -73,7 +73,13 @@
   background-position: inherit;
   filter: url(#st-duotone-extreme) contrast(1.1);
   z-index: 0;
+  border-radius: inherit;
   transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Content-width extreme duotone needs overflow:hidden to clip ::after */
+.heroTreatmentExtreme.heroContentWidth {
+  overflow: hidden;
 }
 
 .heroTreatmentExtreme.heroWithImage:hover::after {
@@ -92,9 +98,15 @@
 }
 
 /* ── Greyscale + Panel — desaturated image + frosted glass panel ── */
-/* SUG-59: Pink Moon signature hero treatment */
-.heroTreatmentGreyscalePanel {
-  --st-media-duotone-grayscale: 100%;
+/* SUG-59: Pink Moon signature hero treatment
+   Full-width heroes: greyscale image + frosted panel over content
+   Content-width heroes: greyscale image + text shadow (no panel) */
+
+/* Greyscale filter applied directly on the section element.
+   CSS variable approach doesn't work because the hero uses background-image
+   directly, not the Media component's filter pipeline. */
+.heroTreatmentGreyscalePanel.heroWithImage {
+  filter: grayscale(100%) contrast(0.9);
 }
 
 .heroTreatmentGreyscalePanel.heroWithImage::before {
@@ -102,17 +114,17 @@
   mix-blend-mode: normal;
 }
 
-:global([data-theme="dark"]) .heroTreatmentGreyscalePanel.heroWithImage::before,
-:global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscalePanel.heroWithImage::before {
-  background: linear-gradient(180deg, transparent 15%, rgba(13,18,38,0.65) 100%);
-}
-
 :global([data-theme="dark"]) .heroTreatmentGreyscalePanel.heroWithImage,
 :global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscalePanel.heroWithImage {
   filter: grayscale(100%) contrast(0.8) brightness(0.7);
 }
 
-/* Greyscale panel eyebrow: lime in all themes (Courier Prime) */
+:global([data-theme="dark"]) .heroTreatmentGreyscalePanel.heroWithImage::before,
+:global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscalePanel.heroWithImage::before {
+  background: linear-gradient(180deg, transparent 15%, rgba(13,18,38,0.65) 100%);
+}
+
+/* Greyscale eyebrow: lime in all themes (Courier Prime) */
 .heroTreatmentGreyscalePanel .heroEyebrow {
   color: var(--st-color-lime, #D1FF1D);
   font-family: var(--st-font-family-metadata, 'Courier Prime', monospace);
