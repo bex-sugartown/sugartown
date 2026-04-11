@@ -27,6 +27,7 @@ export default defineType({
           {title: 'Duotone (Subtle)', value: 'duotone-subtle'},
           {title: 'Duotone (Extreme)', value: 'duotone-extreme'},
           {title: 'Dark Scrim', value: 'dark-scrim'},
+          {title: 'Greyscale + Panel', value: 'greyscale-panel'},
           {title: 'Color Overlay', value: 'color'},
         ],
         layout: 'radio',
