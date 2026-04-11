@@ -1,120 +1,187 @@
-# SUG-52 — Page Template Rendering
+# SUG-52 — Responsive Margin Column for Detail Pages
 
 **Linear Issue:** SUG-52
+**Revised:** 2026-04-11 (scope rethink from template selector to responsive margin column)
+
+---
+
+## What Changed (scope revision)
+
+The original spec proposed a `template` selector (default / full-width / sidebar) on the `page` schema. During SUG-61 implementation, two things became clear:
+
+1. **Default and full-width template rendering is already shipped.** RootPage now branches on `page.template`: default pages use `.detailPage` wrapper + `context="detail"`, full-width pages use `context="full"`. This was committed as part of the AI Ethics page rebuild.
+
+2. **The sidebar isn't a page template. It's a responsive detail-page feature.** The content that belongs in a sidebar (TOC, related nodes, marginalia, metadata) lives on nodes, articles, and case studies, not on root pages. The `page` schema's template selector is the wrong place for it.
+
+**New scope:** A responsive margin column on **all detail pages** (article, node, caseStudy) at wide viewports (1200px+). Not a template choice. Not limited to pages.
 
 ---
 
 ## Pre-Execution Completeness Gate
 
-- [ ] **Interaction surface audit** — RootPage.jsx is the renderer. PageSections.jsx handles section layout. No new components — extends existing page template logic.
-- [ ] **Use case coverage** — three templates: `default` (standard width, current behaviour), `full-width` (edge to edge sections), `sidebar` (main + sidebar layout at wide viewports)
-- [ ] **Layout contract** — `default`: max-width 760px (detail) or 1140px (archive). `full-width`: no max-width constraint on sections. `sidebar`: main column ~700px + sidebar ~300px at 1200px+ breakpoint.
-- [ ] **All prop value enumerations** — `template` options synced with schemas/documents/page.ts: `default`, `full-width`, `sidebar`
-- [ ] **Correct audit file paths** — verified
-- [ ] **Dark / theme modifier treatment** — templates inherit theme from parent — no per-template theme logic
-- [ ] **Studio schema changes scoped** — NO. `template` field already exists on page schema (moved to content tab in SUG-48). This epic wires it into rendering.
-- [ ] **Web adapter sync scoped** — N/A (page-level rendering, not DS component)
-- [ ] **Composition overlap audit** — `context="detail"` vs `context="full"` in PageSections already handles width. Template adds a layer above this.
-- [ ] **Atomic Reuse Gate** — no new components. CSS additions to RootPage or PageSections for template variants.
+- [ ] **Interaction surface audit** — affects ArticlePage, NodePage, CaseStudyPage layout CSS. Extends `.detailPage` container from single-column to main + margin at 1200px+.
+- [ ] **Use case coverage** — every detail page gets the margin column automatically at wide viewports. Content populates based on what's available (TOC, related nodes, metadata).
+- [ ] **Layout contract** — main column: 700-760px. Margin column: 240-280px. Gap: 40px. Total: ~1080px + page gutter. Below 1200px: single column, margin content relocates.
+- [ ] **Dark / theme modifier treatment** — margin column inherits theme. No per-column overrides.
+- [ ] **Studio schema changes scoped** — NO new schema. Uses existing fields (relatedNodes[], categories[], tags[], sections[] headings for TOC).
+- [ ] **Atomic Reuse Gate** — new CSS layout on `.detailPage`. May need a `MarginColumn` component to house the content slots.
 
 ---
 
-## Context
+## Revised Architecture
 
-The `template` field on the page schema has 3 options (`default`, `full-width`, `sidebar`) but is not currently queried or rendered. All pages render with the default template. This epic wires the template field into the GROQ projection and RootPage renderer so pages can use different layout templates.
+### Not a template selector. A responsive layout upgrade.
 
-## Objective
+```
+< 1200px (current, unchanged):
+┌─────────────────────────────────────┐
+│              Hero                   │
+├─────────────────────────────────────┤
+│         MetadataCard                │
+├─────────────────────────────────────┤
+│        Body Sections                │
+│    (detailContext, 760px)            │
+├─────────────────────────────────────┤
+│      [Margin content here]          │
+│   (TOC, related nodes, etc.)        │
+│   (below content on mobile)         │
+├─────────────────────────────────────┤
+│           Citations                 │
+├─────────────────────────────────────┤
+│           Prev / Next               │
+└─────────────────────────────────────┘
 
-Query the `template` field from Sanity and apply the selected layout template to the page rendering. `default` preserves current behaviour. `full-width` removes max-width constraints on sections. `sidebar` adds a main + sidebar layout at wide viewports.
+≥ 1200px (new):
+┌─────────────────────────────────────────────┐
+│                    Hero                     │
+├─────────────────────────────────────────────┤
+│               MetadataCard                  │
+│          (full width, above grid)           │
+├───────────────────────────┬─────────────────┤
+│     Body Sections         │  Margin Column  │
+│  (detailContext, 700px)   │  (sticky)       │
+│                           │  240-280px      │
+│                           │                 │
+│                           │  • TOC          │
+│                           │  • Related      │
+├───────────────────────────┴─────────────────┤
+│                 Citations                   │
+├─────────────────────────────────────────────┤
+│                Prev / Next                  │
+└─────────────────────────────────────────────┘
+```
+
+### What goes in the margin column
+
+Content populates based on what the document has. Empty slots are omitted. If all slots are empty, the margin column doesn't render (single-column layout).
+
+| Slot | Source | Doc types | Priority |
+|------|--------|-----------|----------|
+| **Table of Contents** | Auto-generated from h2/h3 headings in sections[] | article, node, caseStudy | High |
+| **Related Nodes** | `relatedNodes[]` field (SUG-54) | node | High |
+| **Categories + Tags** | Existing taxonomy refs (remain in MetadataCard above body) | all | N/A — stays in MetadataCard |
+| **Marginalia / Sidenotes** | Tufte-style annotations (SUG-57) | article, node | Deferred |
+| **Glossary terms** | Terms referenced in body (SUG-35) | article, node | Deferred |
+
+### Where margin content goes on mobile (< 1200px)
+
+| Slot | Mobile location |
+|------|----------------|
+| TOC | Sticky compressed header (SUG-57 running headers) or collapsible section above body |
+| Related Nodes | Section below body, above citations |
+| Categories + Tags | Stay in MetadataCard above body (never moves) |
+| Marginalia | Inline expandable footnotes |
 
 ---
 
-## Doc Type Coverage Audit
+## Already Shipped (from SUG-61 follow-up)
 
-| Doc Type | In scope? | Reason if excluded |
-|----------|-----------|-------------------|
-| `page` | ☑ Yes | Only doc type with `template` field |
-| `node` | ☐ No | Nodes always render in detail context |
-| `article` | ☐ No | Articles always render in detail context |
-| `caseStudy` | ☐ No | Case studies always render in detail context |
-| `archivePage` | ☐ No | Archive pages have their own layout logic |
+These items from the original SUG-52 spec are done:
 
----
-
-## Scope
-
-- [ ] GROQ projection — add `template` to `pageBySlugQuery`
-- [ ] RootPage.jsx — read `template` from page data, apply layout variant
-- [ ] PageSections.jsx or RootPage CSS — template-specific layout rules
-- [ ] CSS for `full-width` — remove max-width on section container
-- [ ] CSS for `sidebar` — two-column layout at wide viewport with sticky sidebar
+- [x] GROQ projection — `template` already projected in `pageBySlugQuery`
+- [x] RootPage branching — default pages use `.detailPage` + `context="detail"`, full-width pages use `context="full"`
+- [x] Default template rendering — matches article/node detail page behaviour
+- [x] Full-width template rendering — sections render standalone, no max-width wrapper
 
 ---
 
-## Query Layer Checklist
+## Remaining Scope
 
-- [ ] `pageBySlugQuery` — add `template` to projection
-- [ ] Archive queries — N/A
-- [ ] Other slug queries — N/A
+### Phase 1: CSS layout (main + margin at 1200px+)
 
----
+Update `.detailPage` in `pages.module.css`:
+- At < 1200px: unchanged (single column, max-width 760px)
+- At ≥ 1200px: CSS grid with `grid-template-columns: 1fr var(--st-space-margin-column, 260px)` and `gap: var(--st-space-section-break-detail)`
+- Max-width increases to ~1080px at wide viewports
+- Margin column: `position: sticky; top: var(--header-height, 80px)`
 
-## Themed Colour Variant Audit
+### Phase 2: MarginColumn component
 
-| Surface / component | Dark | Light | Pink Moon | Token(s) to set |
-|---------------------|------|-------|-----------|-----------------|
-| Sidebar background | `var(--canvas-subtle)` | `var(--canvas-subtle)` | Same | Inherits from existing token |
-| Sidebar border | `var(--border-subtle)` | `var(--border-subtle)` | Same | Inherits from existing token |
+New component that reads document data and renders available slots:
+- TOC: extract h2/h3 from sections[] at render time (no schema change)
+- Related Nodes: render `relatedNodes[]` as linked list
+- Conditional rendering: if no slots have content, component returns null (no empty column)
 
-Templates inherit theme — no per-template colour overrides needed.
+### Phase 3: Page component wiring
 
----
-
-## Non-Goals
-
-- No schema changes (template field already exists)
-- No new section types
-- No sidebar content source (sidebar layout creates the container; sidebar content TBD — could be MetadataCard, TOC, or related nodes in a future epic)
-- No mobile sidebar (sidebar collapses to single-column on mobile — standard responsive behaviour)
+- ArticlePage, NodePage, CaseStudyPage: pass document data to MarginColumn
+- MarginColumn renders inside `.detailPage` as the second grid column child
+- Below 1200px: MarginColumn relocates (CSS order or conditional rendering)
 
 ---
 
-## Technical Constraints
+## Dependencies
 
-**Layout containment:** `full-width` template must not break the header/footer layout. Only the section content area goes edge-to-edge — header and footer retain their max-width.
-
-**Sidebar content:** The `sidebar` template creates the two-column layout but does not define what goes in the sidebar. Initial implementation: sidebar is empty or contains metadata. Content for the sidebar is a future epic (SUG-21 Phase 4: marginalia/sidenotes).
-
-**Section context:** `PageSections` currently receives `context="detail"` or `context="full"`. Template may override this: `full-width` pages use `context="full"` for all sections.
+| Dependency | Status | Impact |
+|------------|--------|--------|
+| SUG-54 `relatedNodes[]` | ✅ Shipped | Enables "Related Nodes" slot |
+| SUG-53 spacing tokens | ✅ Shipped | `--st-space-margin-column` token (defined but not yet valued) |
+| SUG-57 marginalia/sidenotes | Backlog | Enables "Marginalia" slot (deferred) |
+| SUG-57 running headers | Backlog | Mobile TOC alternative (deferred) |
+| SUG-35 glossary | Backlog | Enables "Glossary terms" slot (deferred) |
 
 ---
 
 ## Files to Modify
 
-- `apps/web/src/lib/queries.js` — add `template` to page projection
-- `apps/web/src/pages/RootPage.jsx` — read template, apply layout variant
-- `apps/web/src/pages/RootPage.module.css` (or new CSS) — template variant styles
-- `apps/web/src/components/PageSections.module.css` — full-width overrides if needed
+- `apps/web/src/pages/pages.module.css` — `.detailPage` grid layout at 1200px+
+- `apps/web/src/components/MarginColumn.jsx` — CREATE
+- `apps/web/src/components/MarginColumn.module.css` — CREATE
+- `apps/web/src/pages/ArticlePage.jsx` — render MarginColumn
+- `apps/web/src/pages/NodePage.jsx` — render MarginColumn
+- `apps/web/src/pages/CaseStudyPage.jsx` — render MarginColumn
+
+---
+
+## Non-Goals
+
+- ~~Template selector on page schema~~ (default/full-width branching already shipped; sidebar is not a template)
+- No sidebar on root pages (content pages like AI Ethics don't need a margin column; they're self-contained)
+- No schema changes (uses existing relatedNodes[], sections[], categories[], tags[])
+- No marginalia/sidenote content (SUG-57)
+- No glossary term extraction (SUG-35)
 
 ---
 
 ## Acceptance Criteria
 
-- [ ] Page with `template: 'default'` renders identically to current (no regression)
-- [ ] Page with `template: 'full-width'` renders sections edge-to-edge
-- [ ] Page with `template: 'sidebar'` renders two-column layout at 1200px+ viewport
-- [ ] Sidebar template collapses to single-column on mobile
-- [ ] Template value read from Sanity via GROQ projection (not hardcoded)
-- [ ] Pages without a template value default to `'default'` (graceful fallback)
+- [ ] Detail pages (article, node, caseStudy) show margin column at ≥ 1200px
+- [ ] Margin column contains TOC (auto-generated from section headings)
+- [ ] Node detail pages show related nodes in margin column (from `relatedNodes[]`)
+- [ ] Below 1200px: single column, margin content relocates below body
+- [ ] If no margin content exists, column doesn't render (no empty space)
+- [ ] Margin column is sticky (follows scroll)
+- [ ] Existing spacing (Section Layout Contract) is not broken
 
 ---
 
 ## Risks / Edge Cases
 
-- [ ] Full-width sections with contained text — text needs its own max-width even when the section is full-width. Use `max-width` on the text content, not the section container.
-- [ ] Sidebar + hero section — hero should span full width above the sidebar layout, not be constrained to the main column. Handle with a `full-bleed` class on hero sections.
-- [ ] Empty sidebar — if no sidebar content is configured, the layout should gracefully collapse to single-column (not show an empty column).
+- [ ] Short pages — if body content is shorter than the margin column, sticky positioning looks awkward. Guard: margin column height should not exceed body height.
+- [ ] TOC extraction — needs to handle sections without headings gracefully (skip them).
+- [ ] Performance — TOC extraction at render time is cheap (array map over sections), not a concern.
+- [ ] Hero full-width — hero should span above the grid, not be constrained to the main column. Current architecture already handles this (hero renders outside `.detailPage`).
 
 ---
 
-*Created 2026-04-08.*
+*Revised 2026-04-11. Original spec 2026-04-08.*
