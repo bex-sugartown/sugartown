@@ -104,6 +104,98 @@ export const summaryPortableText = [
 ]
 
 /**
+ * Accordion Panel Config - For accordion item bodies
+ * - Normal text only (NO headings — hierarchy inside accordion is an anti-pattern)
+ * - Bold, Italic, Underline, inline Code marks
+ * - Links (external + internal) + Citation references
+ * - Bullet and numbered lists
+ * - NO images, NO code blocks, NO tables, NO blockquote, NO dividers
+ * - Designed for 100-400 word panels that stand alone
+ */
+export const accordionPortableText = [
+  defineArrayMember({
+    type: 'block',
+    styles: [
+      {title: 'Normal', value: 'normal'}
+    ],
+    lists: [
+      {title: 'Bullet', value: 'bullet'},
+      {title: 'Numbered', value: 'number'}
+    ],
+    marks: {
+      decorators: [
+        {title: 'Bold', value: 'strong'},
+        {title: 'Italic', value: 'em'},
+        {title: 'Underline', value: 'underline'},
+        {title: 'Code', value: 'code'}
+      ],
+      annotations: [
+        defineArrayMember({
+          name: 'link',
+          type: 'object',
+          title: 'Link',
+          icon: LinkIcon,
+          fields: [
+            defineField({
+              name: 'type',
+              title: 'Link Type',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'External URL', value: 'external'},
+                  {title: 'Internal Page', value: 'internal'},
+                ],
+                layout: 'radio',
+              },
+              initialValue: 'external',
+            }),
+            defineField({
+              name: 'href',
+              type: 'url',
+              title: 'URL',
+              validation: (Rule) =>
+                Rule.uri({
+                  scheme: ['http', 'https', 'mailto', 'tel'],
+                  allowRelative: true,
+                }),
+              hidden: ({parent}) => parent?.type === 'internal',
+            }),
+            defineField({
+              name: 'internalRef',
+              title: 'Internal Page',
+              type: 'reference',
+              to: [
+                {type: 'page'},
+                {type: 'article'},
+                {type: 'caseStudy'},
+                {type: 'node'},
+                {type: 'archivePage'},
+              ],
+              hidden: ({parent}) => parent?.type !== 'internal',
+            }),
+          ]
+        }),
+        defineArrayMember({
+          name: 'citationRef',
+          type: 'object',
+          title: 'Citation Reference',
+          fields: [
+            {
+              name: 'index',
+              type: 'number',
+              title: 'Citation Number',
+              description: 'The footnote number (e.g. 1 for [1])',
+              initialValue: 1,
+              validation: (Rule) => Rule.required().min(1)
+            }
+          ]
+        })
+      ]
+    }
+  })
+]
+
+/**
  * Metadata Config - For structured node fields (challenge, insight, actionItem)
  * - Normal text only (no headings)
  * - Bold, Italic, Code marks
