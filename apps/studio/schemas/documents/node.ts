@@ -52,24 +52,25 @@ export default defineType({
     }),
     defineField({
       name: 'excerpt',
-      title: 'Excerpt',
+      title: 'Excerpt / Takeaway',
       type: 'text',
-      description: 'Brief summary for card displays and previews',
+      description: 'One-sentence takeaway — the lesson this node teaches. Used for card displays, headless summaries, and AI search extraction. Lead with the principle, not the setup.',
       group: 'content',
       rows: 3,
       validation: (Rule) =>
         Rule.max(300)
-          .warning('Keep excerpts concise - under 300 characters recommended')
+          .warning('Keep to a single takeaway sentence — under 300 characters recommended')
     }),
     defineField({
       name: 'keyTakeaway',
-      title: 'Key Takeaway',
+      title: 'Key Takeaway (Deprecated)',
       type: 'string',
-      description: 'One-sentence takeaway — the lesson in structured form. Used for headless summaries and card previews.',
-      group: 'content',
+      description: '⚠️ Deprecated — use Excerpt / Takeaway instead. Single Field Authority: one summary field per document.',
+      group: 'legacy',
+      hidden: true,
+      deprecated: {reason: 'Use Excerpt / Takeaway instead. Two summary fields violates Single Field Authority.'},
       validation: (Rule) =>
         Rule.max(200)
-          .warning('Keep the takeaway to a single sentence under 200 characters.')
     }),
     defineField({
       name: 'content',
