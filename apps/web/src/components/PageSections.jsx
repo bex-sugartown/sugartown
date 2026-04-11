@@ -187,10 +187,14 @@ function HeroSection({ section }) {
       ? styles.heroContentWidth
       : ''
 
+  const isGreyscalePanel = treatmentType === 'greyscale-panel'
+
   // Text glow class — keyed to treatment type when image is present
+  // Greyscale-panel uses no glow (the frosted panel provides contrast)
   let glowClass = ''
   if (hasImage) {
-    if (isExtremeHero) glowClass = styles.heroGlowExtreme
+    if (isGreyscalePanel) glowClass = styles.heroGlowNone
+    else if (isExtremeHero) glowClass = styles.heroGlowExtreme
     else if (treatmentType === 'duotone') glowClass = styles.heroGlowDuotone
     else if (treatmentType === 'dark-scrim') glowClass = styles.heroGlowScrim
     else if (treatmentType === 'color') glowClass = styles.heroGlowColor
@@ -206,48 +210,70 @@ function HeroSection({ section }) {
     isExtremeHero ? styles.heroTreatmentExtreme : '',
     treatmentType === 'dark-scrim' ? styles.heroTreatmentScrim : '',
     treatmentType === 'color' ? styles.heroTreatmentColor : '',
+    isGreyscalePanel ? styles.heroTreatmentGreyscalePanel : '',
     glowClass,
   ].filter(Boolean).join(' ')
+
+  // Hero content elements — shared between panel and non-panel rendering
+  const heroElements = (
+    <>
+      {eyebrow && <span className={styles.heroEyebrow}>{eyebrow}</span>}
+      {heading && <h1 className={styles.heroHeading}>{heading}</h1>}
+      {subheading && <p className={styles.heroSubheading}>{subheading}</p>}
+      {isGreyscalePanel && section._meta && (
+        <p className={styles.heroMeta}>
+          {section._meta.date && new Date(section._meta.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+          {section._meta.date && section._meta.status && ' · '}
+          {section._meta.status}
+          {section._meta.readingTime && ` · ${section._meta.readingTime} min read`}
+        </p>
+      )}
+      {(primary || secondary || tertiary) && (
+        <div className={styles.heroActions}>
+          {primary && (
+            <Button
+              variant={mapCtaStyle(primary.style, 'primary')}
+              href={primary.url}
+              openInNewTab={primary.openInNewTab}
+            >
+              {primary.label}
+            </Button>
+          )}
+          {secondary && (
+            <Button
+              variant={mapCtaStyle(secondary.style, 'secondary')}
+              href={secondary.url}
+              openInNewTab={secondary.openInNewTab}
+            >
+              {secondary.label}
+            </Button>
+          )}
+          {tertiary && (
+            <Button
+              variant={mapCtaStyle(tertiary.style, 'tertiary')}
+              href={tertiary.url}
+              openInNewTab={tertiary.openInNewTab}
+            >
+              {tertiary.label}
+            </Button>
+          )}
+        </div>
+      )}
+    </>
+  )
 
   return (
     <section className={sectionClasses} style={backgroundStyles}>
       <div className={styles.heroContainer}>
-        <div className={styles.heroContent}>
-          {eyebrow && <span className={styles.heroEyebrow}>{eyebrow}</span>}
-          {heading && <h1 className={styles.heroHeading}>{heading}</h1>}
-          {subheading && <p className={styles.heroSubheading}>{subheading}</p>}
-          {(primary || secondary || tertiary) && (
-            <div className={styles.heroActions}>
-              {primary && (
-                <Button
-                  variant={mapCtaStyle(primary.style, 'primary')}
-                  href={primary.url}
-                  openInNewTab={primary.openInNewTab}
-                >
-                  {primary.label}
-                </Button>
-              )}
-              {secondary && (
-                <Button
-                  variant={mapCtaStyle(secondary.style, 'secondary')}
-                  href={secondary.url}
-                  openInNewTab={secondary.openInNewTab}
-                >
-                  {secondary.label}
-                </Button>
-              )}
-              {tertiary && (
-                <Button
-                  variant={mapCtaStyle(tertiary.style, 'tertiary')}
-                  href={tertiary.url}
-                  openInNewTab={tertiary.openInNewTab}
-                >
-                  {tertiary.label}
-                </Button>
-              )}
-            </div>
-          )}
-        </div>
+        {isGreyscalePanel && hasImage ? (
+          <div className={styles.heroPanel}>
+            {heroElements}
+          </div>
+        ) : (
+          <div className={styles.heroContent}>
+            {heroElements}
+          </div>
+        )}
       </div>
     </section>
   )
@@ -650,7 +676,7 @@ function AccordionSection({ section }) {
 // Main Section Renderer
 // context="detail" — sections inherit containment from parent .detailPage (no own max-width / padding-inline)
 // context="full"   — sections self-contain (default, used on standalone pages)
-export default function PageSections({ sections, context = 'full' }) {
+export default function PageSections({ sections, context = 'full', docMeta }) {
   if (!sections || sections.length === 0) return null
 
   const content = sections.map((section) => {
@@ -659,7 +685,8 @@ export default function PageSections({ sections, context = 'full' }) {
     switch (section._type) {
       case 'heroSection':
       case 'hero':
-        return <HeroSection key={key} section={section} />
+        // Thread document metadata (date, status, readingTime) to hero for the metadata line
+        return <HeroSection key={key} section={docMeta ? { ...section, _meta: docMeta } : section} />
       case 'textSection':
         return <TextSection key={key} section={section} />
       case 'imageGallery':

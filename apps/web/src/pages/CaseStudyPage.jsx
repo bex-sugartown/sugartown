@@ -35,7 +35,7 @@ export default function CaseStudyPage() {
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
-      {leadHero && <PageSections sections={[leadHero]} />}
+      {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: caseStudy.publishedAt, status: caseStudy.status }} />}
       <div className={styles.detailPage}>
 
         <MetadataCard

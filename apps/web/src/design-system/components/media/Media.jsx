@@ -42,6 +42,10 @@ function parseOverlay(overlay) {
     return { parsedType: 'dark-scrim' }
   }
 
+  if (overlay.type === 'greyscale-panel') {
+    return { parsedType: 'greyscale-panel' }
+  }
+
   if (overlay.type === 'color') {
     return { parsedType: 'color' }
   }

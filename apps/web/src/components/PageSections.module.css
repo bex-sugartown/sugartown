@@ -91,6 +91,67 @@
   mix-blend-mode: var(--st-media-overlay-blend, normal);
 }
 
+/* ── Greyscale + Panel — desaturated image + frosted glass panel ── */
+/* SUG-59: Pink Moon signature hero treatment */
+.heroTreatmentGreyscalePanel {
+  --st-media-duotone-grayscale: 100%;
+}
+
+.heroTreatmentGreyscalePanel.heroWithImage::before {
+  background: linear-gradient(180deg, rgba(13,18,38,0.05) 0%, rgba(13,18,38,0.25) 100%);
+  mix-blend-mode: normal;
+}
+
+:global([data-theme="dark"]) .heroTreatmentGreyscalePanel.heroWithImage::before,
+:global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscalePanel.heroWithImage::before {
+  background: linear-gradient(180deg, transparent 15%, rgba(13,18,38,0.65) 100%);
+}
+
+:global([data-theme="dark"]) .heroTreatmentGreyscalePanel.heroWithImage,
+:global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscalePanel.heroWithImage {
+  filter: grayscale(100%) contrast(0.8) brightness(0.7);
+}
+
+/* Greyscale panel eyebrow: lime in all themes (Courier Prime) */
+.heroTreatmentGreyscalePanel .heroEyebrow {
+  color: var(--st-color-lime, #D1FF1D);
+  font-family: var(--st-font-family-metadata, 'Courier Prime', monospace);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+/* ── Hero Panel — frosted glass container for text content ──────── */
+.heroPanel {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--st-space-7, 2.5rem) var(--st-space-6, 2rem);
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(32px) saturate(1.4);
+  -webkit-backdrop-filter: blur(32px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 0;
+  text-align: center;
+}
+
+:global([data-theme="dark"]) .heroPanel,
+:global([data-theme="dark-pink-moon"]) .heroPanel {
+  background: rgba(13,18,38,0.45);
+  border-color: rgba(255,255,255,0.08);
+}
+
+/* ── Hero metadata line — date, status, reading time ────────────── */
+.heroMeta {
+  font-family: var(--st-font-family-metadata, 'Courier Prime', monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--st-color-softgrey-200, #e1e3e6);
+  margin-top: var(--st-spacing-stack-sm, 0.5rem);
+  text-transform: uppercase;
+}
+
 /* ── Imageless hero — dark text, no overlay, reduced height ─────── */
 .heroImageless {
   color: var(--st-color-text-default, #111);
@@ -98,8 +159,14 @@
   background: transparent;
 }
 
+/* Imageless eyebrow: pink in light mode, lime in dark mode */
 .heroImageless .heroEyebrow {
-  color: var(--st-color-teal, #2bd4aa);
+  color: var(--st-color-brand-primary, #ff247d);
+}
+
+:global([data-theme="dark"]) .heroImageless .heroEyebrow,
+:global([data-theme="dark-pink-moon"]) .heroImageless .heroEyebrow {
+  color: var(--st-color-lime, #D1FF1D);
 }
 
 .heroImageless .heroHeading {
@@ -145,6 +212,13 @@
 .heroGlowColor .heroSubheading,
 .heroGlowColor .heroEyebrow {
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 0, 0, 0.25);
+}
+
+/* No glow: panel provides contrast, shadows on blur look muddy */
+.heroGlowNone .heroHeading,
+.heroGlowNone .heroSubheading,
+.heroGlowNone .heroEyebrow {
+  text-shadow: none;
 }
 
 /* ── Hero eyebrow ────────────────────────────────────────────────── */
@@ -886,6 +960,10 @@
 
   .heroActions {
     flex-direction: column;
+  }
+
+  .heroPanel {
+    padding: var(--st-space-5, 1.5rem) var(--st-space-4, 1rem);
   }
 
   .textContent {

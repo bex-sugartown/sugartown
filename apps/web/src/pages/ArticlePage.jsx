@@ -86,7 +86,7 @@ export default function ArticlePage() {
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
-      {leadHero && <PageSections sections={[leadHero]} />}
+      {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: post.publishedAt, status: post.status, readingTime: post.readingTime }} />}
       <div className={styles.detailPage}>
 
         <MetadataCard

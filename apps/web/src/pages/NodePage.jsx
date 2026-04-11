@@ -35,7 +35,7 @@ export default function NodePage() {
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
-      {leadHero && <PageSections sections={[leadHero]} />}
+      {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: node.publishedAt, status: node.status, readingTime: node.readingTime }} />}
       <div className={styles.detailPage}>
 
         <MetadataCard
