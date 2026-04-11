@@ -216,6 +216,14 @@ export default defineType({
       initialValue: () => new Date().toISOString()
     }),
     defineField({
+      name: 'readingTime',
+      title: 'Reading Time',
+      type: 'number',
+      description: 'Estimated reading time in minutes. Manual entry or computed from word count.',
+      group: 'metadata',
+      validation: (Rule) => Rule.min(1).max(60).integer(),
+    }),
+    defineField({
       name: 'authors',
       title: 'Authors',
       type: 'array',

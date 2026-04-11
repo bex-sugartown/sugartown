@@ -70,7 +70,32 @@ export default defineType({
       title: 'Image Overlay',
       type: 'mediaOverlay',
       description: 'Optional duotone or colour overlay treatment. Not used when image is inside a gallery — use the gallery-level Image Treatment instead.',
-    })
+    }),
+    // AI Ethics compliance (SUG-55): structured AI attribution for images
+    defineField({
+      name: 'aiGenerated',
+      title: 'AI-Generated',
+      type: 'boolean',
+      description: 'Is this image AI-generated or AI-manipulated?',
+      initialValue: false,
+    }),
+    defineField({
+      name: 'aiTool',
+      title: 'AI Tool',
+      type: 'string',
+      description: 'Which AI tool generated this image?',
+      hidden: ({parent}) => !parent?.aiGenerated,
+      options: {
+        list: [
+          {title: 'DALL-E', value: 'dall-e'},
+          {title: 'Midjourney', value: 'midjourney'},
+          {title: 'Stable Diffusion', value: 'stable-diffusion'},
+          {title: 'Adobe Firefly', value: 'adobe-firefly'},
+          {title: 'Other', value: 'other'},
+        ],
+        layout: 'dropdown',
+      },
+    }),
   ],
   preview: {
     select: {

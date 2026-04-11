@@ -213,6 +213,55 @@ export default defineType({
       }
     }),
     defineField({
+      name: 'outcomes',
+      title: 'Outcomes',
+      type: 'array',
+      description: 'Measurable results from this project. Each outcome has a metric name, a value (before → after or absolute), and optional context.',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'outcome',
+          title: 'Outcome',
+          fields: [
+            defineField({
+              name: 'metric',
+              title: 'Metric',
+              type: 'string',
+              description: 'What was measured (e.g. "Page load time", "Conversion rate")',
+              validation: (Rule) => Rule.required().max(100),
+            }),
+            defineField({
+              name: 'value',
+              title: 'Value',
+              type: 'string',
+              description: 'The result (e.g. "4.2s → 1.8s", "+40%", "$2.4M revenue")',
+              validation: (Rule) => Rule.required().max(100),
+            }),
+            defineField({
+              name: 'description',
+              title: 'Description',
+              type: 'text',
+              description: 'Optional context explaining the outcome.',
+              rows: 2,
+              validation: (Rule) => Rule.max(300),
+            }),
+          ],
+          preview: {
+            select: {title: 'metric', subtitle: 'value'},
+          },
+        }),
+      ],
+    }),
+    defineField({
+      name: 'aiDisclosure',
+      title: 'AI Collaboration Disclosure',
+      type: 'string',
+      description: 'AI collaboration disclosure — e.g. "Drafted with Claude, edited by Bex Head." Renders below byline on detail pages. Leave blank for fully human-authored content.',
+      group: 'metadata',
+      validation: (Rule) => Rule.max(300),
+    }),
+    defineField({
       name: 'authors',
       title: 'Authors',
       type: 'array',
