@@ -104,15 +104,18 @@ export const summaryPortableText = [
 ]
 
 /**
- * Accordion Panel Config - For accordion item bodies
- * - Normal text only (NO headings — hierarchy inside accordion is an anti-pattern)
+ * Compact Config - Rich inline content without layout blocks
+ * - Normal text only (NO headings)
  * - Bold, Italic, Underline, inline Code marks
  * - Links (external + internal) + Citation references
  * - Bullet and numbered lists
  * - NO images, NO code blocks, NO tables, NO blockquote, NO dividers
- * - Designed for 100-400 word panels that stand alone
+ *
+ * Use for: accordion panels, callout bodies, card descriptions,
+ * glossary definitions, taxonomy descriptions — anywhere you want
+ * rich inline formatting without structural layout elements.
  */
-export const accordionPortableText = [
+export const compactPortableText = [
   defineArrayMember({
     type: 'block',
     styles: [
