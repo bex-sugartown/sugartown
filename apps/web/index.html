@@ -5,13 +5,21 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>sugartown-frontend</title>
-    <!-- Google Analytics (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-00MF2Q9YJW"></script>
+    <!-- Google Analytics (gtag.js) — suppressed on localhost/dev -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-00MF2Q9YJW');
+      (function () {
+        var h = location.hostname;
+        if (h === 'localhost' || h === '127.0.0.1' || h.endsWith('.local')) return;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-00MF2Q9YJW';
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-00MF2Q9YJW');
+        window.gtag = gtag;
+      })();
     </script>
     <!-- Google Fonts: authoritative <link> instead of CSS @import -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
