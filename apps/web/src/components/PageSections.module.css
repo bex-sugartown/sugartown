@@ -15,15 +15,27 @@
 .heroWithImage {
   color: #fff;
   overflow: hidden;
+  background-image: none !important; /* image lives in ::after for independent zoom */
+}
+
+/* ::after — background image layer. Sits behind overlay (::before z:1) and
+   content (.heroContainer z:2). All treatments can filter/zoom this layer
+   without affecting child elements. */
+.heroWithImage::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--st-hero-bg-image);
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: inherit;
+  z-index: 0;
+  border-radius: inherit;
   transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.heroWithImage:hover {
-  /* Zoom via pseudo-element or scale — background-size: cover must stay to
-     fill the container on narrow viewports. Using a 105% trick on cover
-     would break the crop, so we keep cover and skip the zoom on the base
-     layer. Extreme treatment zooms via ::after which uses its own size. */
+.heroWithImage:hover::after {
+  transform: scale(1.05);
 }
 
 .heroWithImage::before {
@@ -32,7 +44,7 @@
   inset: 0;
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
   z-index: 1;
-  border-radius: 0;
+  border-radius: inherit;
 }
 
 /* ── Hero image treatment overrides ──────────────────────────────── */
@@ -50,40 +62,15 @@
   /* Duotone applies grayscale + contrast to the background image */
 }
 
-/* ── Extreme duotone — SVG filter on a pseudo-element background ── */
-.heroTreatmentExtreme.heroWithImage {
-  background-image: none !important; /* image moves to ::after */
-}
-
-/* Extreme uses SVG colour remap on ::after + gradient overlay on ::before
-   to match the gallery Media component's dual-layer compositing */
+/* ── Extreme duotone — SVG filter on ::after background ────────── */
+/* ::after already set up by .heroWithImage — just add the SVG filter */
 .heroTreatmentExtreme.heroWithImage::before {
   background: var(--st-media-overlay-gradient, linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)));
   mix-blend-mode: var(--st-media-overlay-blend-mode, hard-light);
 }
 
 .heroTreatmentExtreme.heroWithImage::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: inherit;
-  background-image: var(--st-hero-bg-image);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: inherit;
   filter: url(#st-duotone-extreme) contrast(1.1);
-  z-index: 0;
-  border-radius: inherit;
-  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* Content-width extreme duotone needs overflow:hidden to clip ::after */
-.heroTreatmentExtreme.heroContentWidth {
-  overflow: hidden;
-}
-
-.heroTreatmentExtreme.heroWithImage:hover::after {
-  transform: scale(1.05);
 }
 
 .heroTreatmentScrim.heroWithImage::before {
@@ -100,12 +87,10 @@
 /* ── Greyscale + Panel — desaturated image + frosted glass panel ── */
 /* SUG-59: Pink Moon signature hero treatment
    Full-width heroes: greyscale image + frosted panel over content
-   Content-width heroes: greyscale image + text shadow (no panel) */
+   Content-width heroes: greyscale image + text shadow (no panel)
+   Greyscale filter on ::after ONLY — child content retains colour. */
 
-/* Greyscale filter applied directly on the section element.
-   CSS variable approach doesn't work because the hero uses background-image
-   directly, not the Media component's filter pipeline. */
-.heroTreatmentGreyscalePanel.heroWithImage {
+.heroTreatmentGreyscalePanel.heroWithImage::after {
   filter: grayscale(100%) contrast(0.9);
 }
 
@@ -114,8 +99,8 @@
   mix-blend-mode: normal;
 }
 
-:global([data-theme="dark"]) .heroTreatmentGreyscalePanel.heroWithImage,
-:global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscalePanel.heroWithImage {
+:global([data-theme="dark"]) .heroTreatmentGreyscalePanel.heroWithImage::after,
+:global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscalePanel.heroWithImage::after {
   filter: grayscale(100%) contrast(0.8) brightness(0.7);
 }
 
@@ -1060,10 +1045,11 @@
 /* Heroes keep internal vertical padding for background image breathing
    room, but gap handles the section-to-section spacing.
    Override the full-width breakout (width:100vw + negative margin) which
-   conflicts with the catch-all width:100% in detail context. */
+   conflicts with the catch-all width:100% in detail context.
+   overflow:hidden clips the hover zoom ::after within the hero bounds. */
 .detailContext .heroSection {
   padding-block: var(--st-space-hero-bottom);
-  overflow: visible;  /* hero overlays (::before, ::after) need to be visible */
+  overflow: hidden;
   width: 100%;
   margin-left: 0;
 }

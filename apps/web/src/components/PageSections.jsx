@@ -138,9 +138,8 @@ function HeroSection({ section }) {
     const y = backgroundImage.hotspot?.y ?? 0.5
     const bgUrl = `url(${urlFor(backgroundImage.asset).width(1920).quality(90).url()})`
 
-    backgroundStyles.backgroundImage = bgUrl
     backgroundStyles.backgroundPosition = `${Math.round(x * 100)}% ${Math.round(y * 100)}%`
-    // CSS variable for ::after pseudo-element (used by extreme duotone)
+    // CSS variable consumed by ::after pseudo-element (all hero treatments)
     backgroundStyles['--st-hero-bg-image'] = bgUrl
   }
 
