@@ -63,7 +63,7 @@ title: 'Layout/MyComponent'`}</pre>
 }
 
 const meta: Meta = {
-  title: 'Foundations/Contributing',
+  title: 'Docs/Contributing',
   component: ContributingPage,
   parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true } },
 };

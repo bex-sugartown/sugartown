@@ -48,7 +48,7 @@ function WelcomePage() {
 }
 
 const meta: Meta = {
-  title: 'Foundations/Welcome',
+  title: 'Docs/Welcome',
   component: WelcomePage,
   parameters: {
     layout: 'padded',
