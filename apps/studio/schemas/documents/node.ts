@@ -328,19 +328,38 @@ export default defineType({
       ],
       validation: (Rule) => Rule.unique()
     }),
+    // SUG-52: renamed relatedNodes → related, broadened refs for margin column
     defineField({
-      name: 'relatedNodes',
-      title: 'Related Nodes',
+      name: 'related',
+      title: 'Related',
       type: 'array',
-      description: 'Explicit cross-references to other knowledge graph nodes. Makes the graph queryable without body text parsing.',
+      description: 'Cross-references to related content. Populates the margin column on detail pages.',
       group: 'metadata',
       of: [
         defineArrayMember({
           type: 'reference',
-          to: [{type: 'node'}]
+          to: [{type: 'node'}, {type: 'article'}, {type: 'caseStudy'}]
         })
       ],
       validation: (Rule) => Rule.unique()
+    }),
+    // SUG-52: series + partNumber added (same as article) for margin column series nav
+    defineField({
+      name: 'series',
+      title: 'Series',
+      type: 'reference',
+      description: 'If this node is part of a multi-part series, select the series.',
+      group: 'metadata',
+      to: [{type: 'series'}],
+    }),
+    defineField({
+      name: 'partNumber',
+      title: 'Part Number',
+      type: 'number',
+      description: 'Position in the series (e.g. 1, 2, 3).',
+      group: 'metadata',
+      hidden: ({document}) => !document?.series,
+      validation: (Rule) => Rule.min(1).integer(),
     }),
     // SUG-48: relatedProjects deprecated — projects[] is canonical
     defineField({

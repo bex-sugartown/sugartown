@@ -340,6 +340,21 @@ export default defineType({
       ],
       validation: (Rule) => Rule.unique()
     }),
+    // SUG-52: related content for margin column
+    defineField({
+      name: 'related',
+      title: 'Related',
+      type: 'array',
+      description: 'Cross-references to related content. Populates the margin column on detail pages.',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'node'}, {type: 'article'}, {type: 'caseStudy'}]
+        })
+      ],
+      validation: (Rule) => Rule.unique()
+    }),
     // SUG-48: relatedProjects deprecated — projects[] is canonical
     defineField({
       name: 'relatedProjects',
