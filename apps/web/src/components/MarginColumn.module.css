@@ -1,0 +1,184 @@
+/* MarginColumn.module.css — Responsive margin column for detail pages
+ *
+ * Card catalog aesthetic: dotted neutral outline, bg-through-gap dividers.
+ * Renders at ≥1200px as a sticky sidebar; below 1200px relocates below body.
+ * See SUG-52 for design spec and mock review decisions.
+ */
+
+.marginColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--st-margin-bg);
+  border: 2px dotted var(--st-margin-outline);
+  padding: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--st-color-text-default);
+}
+
+/* ── Section containers ──────────────────────────────── */
+/* bg-through-gap pattern: marginColumn bg = divider color between sections,
+   each section gets its own surface bg. But since sections don't use gap
+   (we want zero-gap), we use border-top on sections after the first. */
+
+.marginSection {
+  padding: 1rem;
+  background: var(--st-margin-bg);
+}
+
+.marginSection + .marginSection {
+  border-top: 1px solid var(--st-margin-divider);
+}
+
+/* ── Section headings (unified mono label tokens) ────── */
+.marginHeading {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  margin: 0 0 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--st-margin-divider);
+}
+
+/* ── TOC ─────────────────────────────────────────────── */
+.tocList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tocItem {
+  margin: 0;
+}
+
+.tocLink {
+  display: block;
+  padding: 0.25rem 0;
+  color: var(--st-color-text-default);
+  text-decoration: none;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  transition: color var(--st-transition-fast);
+}
+
+.tocLink:hover {
+  color: var(--st-color-brand-primary);
+}
+
+/* Indent h3-level TOC items */
+.tocLinkH3 {
+  padding-left: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--st-color-text-muted);
+}
+
+.tocLinkH3:hover {
+  color: var(--st-color-brand-primary);
+}
+
+/* ── Related content ─────────────────────────────────── */
+.relatedList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.relatedItem {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0 0.5rem;
+  align-items: baseline;
+}
+
+.relatedBadge {
+  font-family: var(--st-label-font);
+  font-size: 0.55rem;
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color-badge);
+  border: 1px solid var(--st-margin-divider);
+  padding: 0.1em 0.35em;
+  border-radius: 2px;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.relatedLink {
+  color: var(--st-color-text-default);
+  text-decoration: none;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  transition: color var(--st-transition-fast);
+}
+
+.relatedLink:hover {
+  color: var(--st-color-brand-primary);
+}
+
+/* ── Series navigation ───────────────────────────────── */
+.seriesPosition {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  margin-bottom: 0.5rem;
+}
+
+.seriesTitle {
+  font-size: 0.8125rem;
+  margin-bottom: 0.75rem;
+}
+
+.seriesLink {
+  color: var(--st-color-text-default);
+  text-decoration: none;
+  transition: color var(--st-transition-fast);
+}
+
+.seriesLink:hover {
+  color: var(--st-color-brand-primary);
+}
+
+/* ── AI Disclosure ───────────────────────────────────── */
+.aiDisclosure {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--st-color-text-default);
+}
+
+.aiDisclosureLink {
+  color: var(--st-color-text-default);
+  text-decoration: none;
+  transition: color var(--st-transition-fast);
+}
+
+.aiDisclosureLink:hover {
+  color: var(--st-color-brand-primary);
+}
+
+.ethicsLink {
+  display: block;
+  margin-top: 0.5rem;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  text-decoration: none;
+  transition: color var(--st-transition-fast);
+}
+
+.ethicsLink:hover {
+  color: var(--st-color-brand-primary);
+}

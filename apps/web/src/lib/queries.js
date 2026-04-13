@@ -395,6 +395,7 @@ export const nodeBySlugQuery = `
     publishedAt,
     updatedAt,
     conversationLink,
+    aiDisclosure,
     authors[]->{${PERSON_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
@@ -554,6 +555,7 @@ export const articleBySlugQuery = `
       }
     },
     author,
+    aiDisclosure,
     authors[]->{${PERSON_FRAGMENT}},
     status,
     "tools": tools[]->{${TOOL_FRAGMENT}},
@@ -836,6 +838,7 @@ export const caseStudyBySlugQuery = `
         }
       }
     },
+    aiDisclosure,
     authors[]->{${PERSON_FRAGMENT}},
     status,
     "tools": tools[]->{${TOOL_FRAGMENT}},

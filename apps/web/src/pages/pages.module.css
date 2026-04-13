@@ -72,10 +72,58 @@
   padding: var(--st-space-meta-top) var(--st-page-gutter) var(--st-space-section-break);
 }
 
+/* Wide viewport: CSS grid with main + margin column.
+   Breakpoint: 1200px (--st-breakpoint-xl, not a token — documented here).
+   Main column stays at --st-width-detail; margin column adds alongside.
+   Grid row placement: MetadataCard → row 1 (full span), detailContext → row 2 col 1,
+   MarginColumn → row 2 col 2, citations/nav → row 3+ (full span). */
+@media (min-width: 1200px) {
+  .detailPage {
+    max-width: var(--st-width-detail-wide);
+    display: grid;
+    grid-template-columns: 1fr var(--st-space-margin-column);
+    gap: 0 var(--st-space-margin-gap);
+  }
+
+  /* MetadataCard, citations, ContentNav, legacy content span both columns */
+  .detailPage > aside:first-child,
+  .detailPageFullSpan {
+    grid-column: 1 / -1;
+  }
+
+  /* Legacy .detailContent (PortableText body) stays in main column */
+  .detailPage > .detailContent {
+    grid-column: 1;
+  }
+}
+
 /* MetadataCard sits outside .detailContext (not covered by flex gap).
    Needs its own bottom margin to separate from the first section. */
 .detailPage > aside:first-child {
   margin-bottom: var(--st-space-section-break-detail);
+}
+
+/* Margin column: sticky, card-catalog aesthetic.
+   At ≥1200px, placed in grid column 2, same row as body content.
+   Sticky positioning keeps it visible while scrolling body. */
+.marginColumn {
+  align-self: start;
+}
+
+@media (min-width: 1200px) {
+  .marginColumn {
+    position: sticky;
+    top: calc(var(--st-header-height, 80px) + 1.5rem);
+    grid-column: 2;
+    grid-row: 2; /* sits alongside body content (row 1 = MetadataCard) */
+  }
+}
+
+/* Below 1200px: margin column renders inline after body content */
+@media (max-width: 1199px) {
+  .marginColumn {
+    margin-top: var(--st-space-section-break-detail);
+  }
 }
 
 .detailEyebrow {

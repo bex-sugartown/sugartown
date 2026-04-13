@@ -264,7 +264,7 @@ function HeroSection({ section }) {
   )
 
   return (
-    <section className={sectionClasses} style={backgroundStyles}>
+    <section className={sectionClasses} style={backgroundStyles} id={section._sectionId}>
       <div className={styles.heroContainer}>
         {isGreyscalePanel && hasImage && imageWidth === 'full-width' ? (
           <div className={styles.heroPanel}>
@@ -285,7 +285,7 @@ function TextSection({ section }) {
   const { heading, content } = section
 
   return (
-    <section className={styles.textSection}>
+    <section className={styles.textSection} id={section._sectionId}>
       {heading && <h2 className={styles.sectionHeading}>{heading}</h2>}
       {content && (
         <div className={styles.textContent}>
@@ -452,7 +452,7 @@ function ImageGallerySection({ section }) {
 
   return (
     <>
-      <section className={galleryClassName}>
+      <section className={galleryClassName} id={section._sectionId}>
         {heading && <h2 className={styles.sectionHeading}>{heading}</h2>}
         {isCarousel && images.length > 1 && (
           <button className={`${styles.carouselArrow} ${styles.carouselPrev}`} onClick={scrollPrev} aria-label="Previous slide">‹</button>
@@ -580,7 +580,7 @@ function MermaidDiagram({ section }) {
   if (!section.code) return null
 
   return (
-    <section className={styles.mermaidSection}>
+    <section className={styles.mermaidSection} id={section._sectionId}>
       {error ? (
         <pre className={styles.mermaidError}>{error}</pre>
       ) : (
@@ -605,6 +605,7 @@ function HtmlSection({ section }) {
   return (
     <div
       className="st-html-section"
+      id={section._sectionId}
       dangerouslySetInnerHTML={{ __html: section.html }}
     />
   )
@@ -616,7 +617,7 @@ function CalloutSection({ section }) {
   // body can be Portable Text (array) or legacy plain text (string)
   const isPortableText = Array.isArray(section.body)
   return (
-    <div className={styles.calloutSection}>
+    <div className={styles.calloutSection} id={section._sectionId}>
       <Callout variant={section.variant} title={section.title}>
         {isPortableText ? (
           <PortableText value={section.body} components={portableTextComponents} />
@@ -633,7 +634,7 @@ function CTASection({ section }) {
   const { heading, description, buttons } = section
 
   return (
-    <section className={styles.ctaSection}>
+    <section className={styles.ctaSection} id={section._sectionId}>
       {heading && <h2 className={styles.ctaHeading}>{heading}</h2>}
       {description && <p className={styles.ctaDescription}>{description}</p>}
       {buttons && buttons.length > 0 && (
@@ -665,7 +666,7 @@ function AccordionSection({ section }) {
     ) : null,
   }))
   return (
-    <div className={styles.accordionSection}>
+    <div className={styles.accordionSection} id={section._sectionId}>
       {section.heading && (
         <h2 className={styles.sectionHeading}>{section.heading}</h2>
       )}
@@ -682,28 +683,30 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
 
   const content = sections.map((section) => {
     const key = section._key
+    // Anchor ID for TOC links (SUG-52 margin column)
+    const sectionId = key ? `section-${key}` : undefined
 
     switch (section._type) {
       case 'heroSection':
       case 'hero':
         // Thread document metadata (date, status, readingTime) to hero for the metadata line
-        return <HeroSection key={key} section={docMeta ? { ...section, _meta: docMeta } : section} />
+        return <HeroSection key={key} section={docMeta ? { ...section, _meta: docMeta, _sectionId: sectionId } : { ...section, _sectionId: sectionId }} />
       case 'textSection':
-        return <TextSection key={key} section={section} />
+        return <TextSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'imageGallery':
-        return <ImageGallerySection key={key} section={section} />
+        return <ImageGallerySection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'ctaSection':
-        return <CTASection key={key} section={section} />
+        return <CTASection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'htmlSection':
-        return <HtmlSection key={key} section={section} />
+        return <HtmlSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'cardBuilderSection':
-        return <CardBuilderSection key={key} section={section} />
+        return <CardBuilderSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'calloutSection':
-        return <CalloutSection key={key} section={section} />
+        return <CalloutSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'mermaidSection':
-        return <MermaidDiagram key={key} section={section} />
+        return <MermaidDiagram key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'accordionSection':
-        return <AccordionSection key={key} section={section} />
+        return <AccordionSection key={key} section={{ ...section, _sectionId: sectionId }} />
       default:
         console.warn(`Unknown section type: ${section._type}`)
         return null

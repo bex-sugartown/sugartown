@@ -21,6 +21,7 @@ import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
+import MarginColumn from '../components/MarginColumn'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -112,25 +113,39 @@ export default function ArticlePage() {
           </div>
         )}
 
+        <MarginColumn
+          sections={post.sections}
+          related={post.related}
+          series={post.series}
+          partNumber={post.partNumber}
+          tools={post.tools}
+          authors={post.authors}
+          aiDisclosure={post.aiDisclosure}
+        />
+
         {post.citations?.length > 0 && (
-          <CitationZone>
-            {post.citations.map((cite, i) => (
-              <CitationNote key={cite._key ?? i} index={i + 1}>
-                {cite.text}
-                {cite.url && (
-                  <>
-                    {' '}
-                    <a href={cite.url} target="_blank" rel="noopener noreferrer">
-                      {cite.label || cite.url}
-                    </a>
-                  </>
-                )}
-              </CitationNote>
-            ))}
-          </CitationZone>
+          <div className={styles.detailPageFullSpan}>
+            <CitationZone>
+              {post.citations.map((cite, i) => (
+                <CitationNote key={cite._key ?? i} index={i + 1}>
+                  {cite.text}
+                  {cite.url && (
+                    <>
+                      {' '}
+                      <a href={cite.url} target="_blank" rel="noopener noreferrer">
+                        {cite.label || cite.url}
+                      </a>
+                    </>
+                  )}
+                </CitationNote>
+              ))}
+            </CitationZone>
+          </div>
         )}
 
-        <ContentNav prev={post.prev} next={post.next} docType="article" />
+        <div className={styles.detailPageFullSpan}>
+          <ContentNav prev={post.prev} next={post.next} docType="article" />
+        </div>
       </div>
     </main>
   )

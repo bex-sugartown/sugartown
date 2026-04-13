@@ -66,6 +66,11 @@
   --st-color-chip-bg:        rgba(255, 36, 125, 0.08);           /* light pink wash */
   --st-card-shadow:          0 4px 20px rgba(0, 0, 0, 0.06);
   --st-card-hover-shadow:    0 8px 32px rgba(255, 36, 125, 0.12);
+
+  /* Margin column — light mode */
+  --st-margin-bg:       var(--st-color-bg-surface);            /* #f8f8fa */
+  --st-margin-divider:  var(--st-color-softgrey-300);          /* #bcc5d1 */
+  --st-margin-outline:  var(--st-color-softgrey-500);          /* #6e7f96 */
 }
 
 /* ── Light-theme background image ────────────────────── */

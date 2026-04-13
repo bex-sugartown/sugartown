@@ -245,7 +245,7 @@ export default function CardBuilderSection({ section }) {
   const gridStyle = isGrid ? { '--grid-cols': getGridCols(cards.length) } : undefined
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id={section._sectionId}>
       {heading && <h2 className={styles.heading}>{heading}</h2>}
       <div className={layoutClass} style={gridStyle}>
         {cards.map((card, index) => (

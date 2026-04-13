@@ -15,6 +15,7 @@ import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
+import MarginColumn from '../components/MarginColumn'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -57,25 +58,37 @@ export default function CaseStudyPage() {
           <PageSections sections={restSections} context="detail" />
         )}
 
+        <MarginColumn
+          sections={caseStudy.sections}
+          related={caseStudy.related}
+          tools={caseStudy.tools}
+          authors={caseStudy.authors}
+          aiDisclosure={caseStudy.aiDisclosure}
+        />
+
         {caseStudy.citations?.length > 0 && (
-          <CitationZone>
-            {caseStudy.citations.map((cite, i) => (
-              <CitationNote key={cite._key ?? i} index={i + 1}>
-                {cite.text}
-                {cite.url && (
-                  <>
-                    {' '}
-                    <a href={cite.url} target="_blank" rel="noopener noreferrer">
-                      {cite.label || cite.url}
-                    </a>
-                  </>
-                )}
-              </CitationNote>
-            ))}
-          </CitationZone>
+          <div className={styles.detailPageFullSpan}>
+            <CitationZone>
+              {caseStudy.citations.map((cite, i) => (
+                <CitationNote key={cite._key ?? i} index={i + 1}>
+                  {cite.text}
+                  {cite.url && (
+                    <>
+                      {' '}
+                      <a href={cite.url} target="_blank" rel="noopener noreferrer">
+                        {cite.label || cite.url}
+                      </a>
+                    </>
+                  )}
+                </CitationNote>
+              ))}
+            </CitationZone>
+          </div>
         )}
 
-        <ContentNav prev={caseStudy.prev} next={caseStudy.next} docType="caseStudy" />
+        <div className={styles.detailPageFullSpan}>
+          <ContentNav prev={caseStudy.prev} next={caseStudy.next} docType="caseStudy" />
+        </div>
       </div>
     </main>
   )

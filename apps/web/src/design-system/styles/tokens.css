@@ -269,7 +269,23 @@
 
   /* ── Content Width Scale ────────────────────────────── */
   --st-width-detail:   760px;   /* reading/detail pages: Article, CaseStudy, Node, Page */
+  --st-width-detail-wide: 1080px; /* detail page with margin column at ≥1200px */
   --st-width-archive:  960px;   /* listing/archive pages — defined now, applied in archive epic */
+
+  /* ── Margin Column Layout ──────────────────────────── */
+  --st-space-margin-column: 260px;  /* margin column width at wide viewports */
+  --st-space-margin-gap:    2.5rem; /* gap between main content and margin column */
+
+  /* ── Unified Mono Label Tokens ─────────────────────── */
+  /* Applied to all uppercase mono labels: meta-labels, margin headings,
+     eyebrows, series position, citations heading, nav labels, type badges.
+     Courier Prime ships 400/700 only; 600 is browser-synthesized. */
+  --st-label-font:     var(--st-font-family-mono);
+  --st-label-size:     0.65rem;
+  --st-label-weight:   600;
+  --st-label-tracking: 0.1em;
+  --st-label-color:    var(--st-color-charcoal-600); /* #444 — one shade lighter than charcoal */
+  --st-label-color-badge: var(--st-color-neutral-600); /* #525252 — mini-badges */
 
   /* ── Semantic Typography ─────────────────────────────── */
   --st-font-narrative:  var(--st-font-family-narrative);
@@ -524,4 +540,13 @@
   --st-color-chip-bg:        rgba(255, 255, 255, 0.06);
   --st-card-shadow:          0 14px 40px rgba(0, 0, 0, 0.18);
   --st-card-hover-shadow:    0 18px 55px rgba(0, 0, 0, 0.22);
+
+  /* Margin column — opaque dark colors (prevent rgba stacking) */
+  --st-margin-bg:       #1b2033;
+  --st-margin-divider:  #2d3148;
+  --st-margin-outline:  #4a5068;
+
+  /* Label tokens — dark override */
+  --st-label-color:       var(--st-color-softgrey-400);
+  --st-label-color-badge: var(--st-color-softgrey-500);
 }

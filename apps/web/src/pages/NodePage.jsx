@@ -15,6 +15,7 @@ import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
+import MarginColumn from '../components/MarginColumn'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -56,26 +57,38 @@ export default function NodePage() {
           <PageSections sections={restSections} context="detail" />
         )}
 
+        <MarginColumn
+          sections={node.sections}
+          related={node.related}
+          series={node.series}
+          partNumber={node.partNumber}
+          tools={node.tools}
+          authors={node.authors}
+          aiDisclosure={node.aiDisclosure}
+        />
+
         {node.citations?.length > 0 && (
-          <CitationZone>
-            {node.citations.map((cite, i) => (
-              <CitationNote key={cite._key ?? i} index={i + 1}>
-                {cite.text}
-                {cite.url && (
-                  <>
-                    {' '}
-                    <a href={cite.url} target="_blank" rel="noopener noreferrer">
-                      {cite.label || cite.url}
-                    </a>
-                  </>
-                )}
-              </CitationNote>
-            ))}
-          </CitationZone>
+          <div className={styles.detailPageFullSpan}>
+            <CitationZone>
+              {node.citations.map((cite, i) => (
+                <CitationNote key={cite._key ?? i} index={i + 1}>
+                  {cite.text}
+                  {cite.url && (
+                    <>
+                      {' '}
+                      <a href={cite.url} target="_blank" rel="noopener noreferrer">
+                        {cite.label || cite.url}
+                      </a>
+                    </>
+                  )}
+                </CitationNote>
+              ))}
+            </CitationZone>
+          </div>
         )}
 
         {node.conversationLink && (
-          <p style={{ marginTop: '2rem' }}>
+          <p className={styles.detailPageFullSpan} style={{ marginTop: '2rem' }}>
             <a
               href={node.conversationLink}
               target="_blank"
@@ -87,7 +100,9 @@ export default function NodePage() {
           </p>
         )}
 
-        <ContentNav prev={node.prev} next={node.next} docType="node" />
+        <div className={styles.detailPageFullSpan}>
+          <ContentNav prev={node.prev} next={node.next} docType="node" />
+        </div>
       </div>
     </main>
   )
