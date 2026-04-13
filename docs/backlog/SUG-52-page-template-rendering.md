@@ -1,7 +1,7 @@
 # SUG-52 — Responsive Margin Column for Detail Pages
 
 **Linear Issue:** SUG-52
-**Revised:** 2026-04-11 (scope rethink from template selector to responsive margin column)
+**Revised:** 2026-04-13 (mock approved; design system tokens; implementation spec)
 
 ---
 
@@ -23,7 +23,7 @@ The original spec proposed a `template` selector (default / full-width / sidebar
 - [ ] **Use case coverage** — every detail page gets the margin column automatically at wide viewports. Content populates based on what's available (TOC, related nodes, metadata).
 - [ ] **Layout contract** — main column: 700-760px. Margin column: 240-280px. Gap: 40px. Total: ~1080px + page gutter. Below 1200px: single column, margin content relocates.
 - [ ] **Dark / theme modifier treatment** — margin column inherits theme. No per-column overrides.
-- [ ] **Studio schema changes scoped** — NO new schema. Uses existing fields (relatedNodes[], categories[], tags[], sections[] headings for TOC).
+- [ ] **Studio schema changes scoped** — Phase 0.5 schema prep: rename `relatedNodes` → `related` (broaden refs), add `related` + `series`/`partNumber` to missing types. Separate hygiene pass in SUG-62.
 - [ ] **Atomic Reuse Gate** — new CSS layout on `.detailPage`. May need a `MarginColumn` component to house the content slots.
 
 ---
@@ -78,7 +78,8 @@ Content populates based on what the document has. Empty slots are omitted. If al
 | Slot | Source | Doc types | Priority |
 |------|--------|-----------|----------|
 | **Table of Contents** | Auto-generated from h2/h3 headings in sections[] | article, node, caseStudy | High |
-| **Related Nodes** | `relatedNodes[]` field (SUG-54) | node | High |
+| **Related** | `related[]` field (renamed from `relatedNodes`, refs: node, article, caseStudy) | article, node, caseStudy | High |
+| **Series nav** | `series` + `partNumber` fields | article, node | High |
 | **Categories + Tags** | Existing taxonomy refs (remain in MetadataCard above body) | all | N/A — stays in MetadataCard |
 | **Marginalia / Sidenotes** | Tufte-style annotations (SUG-57) | article, node | Deferred |
 | **Glossary terms** | Terms referenced in body (SUG-35) | article, node | Deferred |
@@ -88,7 +89,8 @@ Content populates based on what the document has. Empty slots are omitted. If al
 | Slot | Mobile location |
 |------|----------------|
 | TOC | Sticky compressed header (SUG-57 running headers) or collapsible section above body |
-| Related Nodes | Section below body, above citations |
+| Related | Section below body, above citations |
+| Series nav | Inline prev/next within series, above citations |
 | Categories + Tags | Stay in MetadataCard above body (never moves) |
 | Marginalia | Inline expandable footnotes |
 
@@ -107,29 +109,86 @@ These items from the original SUG-52 spec are done:
 
 ## Remaining Scope
 
-### Phase 0: HTML mock
+### Phase 0: HTML mock ✅
 
-Create an HTML mock in `docs/drafts/` showing the margin column layout at 1200px+ alongside the current single-column layout. Mock should use real content from an existing node (e.g. "The Great Disconnection") with:
-- Auto-generated TOC from section headings
-- Related nodes as linked list
+HTML mock created at `docs/drafts/SUG-52-margin-column-mock.html` (local-only, gitignored).
+Shows margin column layout at 1200px+ alongside single-column layout. Uses "The Great Disconnection" node content with:
+- Auto-generated TOC from section headings (scroll-spy active highlight)
+- Related content as linked list (cross-type: node, article)
+- Series navigation slot
 - Sticky behaviour on scroll
-- Mobile collapse behaviour
+- Mobile collapse (margin content relocates below body)
+- Maxed-out MetadataCard (catalog-card grid with all fields populated)
+- Toggle controls: viewport switch, grid debug overlay, dark mode
 
-Mock must be reviewed and approved before Phase 1 implementation begins.
+**Design decisions from mock review (2026-04-13):**
+
+Visual:
+- Vintage card catalog aesthetic: neutral gray dotted outer borders (`--st-color-softgrey-500`) on MetadataCard + marginalia
+- Interior dividers: bg-through-gap pattern (zero CSS borders inside cards, uniform line rendering on retina)
+- Scalar fields: flex-wrap with `flex-grow` so wrapped rows fill full width
+- Chips: sm variant (0.6rem, tight padding, 2px radius)
+- All non-chip links: `text-default` color, `pink` on hover (consistent across card + marginalia)
+- Related content: mini grid with bordered type badge (NODE/ARTICLE) left column, title right column
+
+Typography:
+- Unified mono label token: `--st-label-font` / `--st-label-size` (0.65rem) / `--st-label-weight` (600) / `--st-label-tracking` (0.1em)
+- Applied to: meta-labels, margin headings, eyebrows, series position, citations heading, nav labels, related type badges
+- Mono heading color: `--st-color-charcoal-light` (#3a3a3a) - one shade lighter than charcoal
+- Mini-badges: `--st-color-neutral-600` (#525252)
+- Note: Courier Prime ships 400/700 only. 600 is browser-synthesized. Test in real app before locking.
+
+Colors (dark mode):
+- Opaque dark mode colors to prevent rgba stacking: surface `#1b2033`, divider `#2d3148`, dotted outline `#4a5068`
+
+AI Disclosure:
+- **Dynamically assembled, not a free-text field.** If `tools[]` includes AI-category tools, render: "Drafted with [AI tool names], edited by [person]. All analysis and conclusions are human-authored. [AI Ethics Statement link]"
+- `aiDisclosure` free-text field becomes optional override
+- Disclosure body matches marginalia text style (0.8125rem, default color, no italic)
+- Ethics link uses mono label tokens
+
+Mock approved 2026-04-13. Proceeding to implementation.
+
+### Phase 0.5: Schema prep
+
+Minimal schema changes required for the margin column to have cross-type content:
+
+1. **Rename `relatedNodes` → `related`** on `node` schema
+   - Broaden reference types: `[node, article, caseStudy]` (was node-only)
+   - Update field title: "Related Nodes" → "Related"
+   - Update description: "Cross-references to related content. Populates the margin column on detail pages."
+
+2. **Add `related` field to `article` and `caseStudy` schemas**
+   - Same definition as node: array of references to `[node, article, caseStudy]`
+   - Placed in metadata group
+
+3. **Add `series` + `partNumber` to `node` schema**
+   - Same definition as article: `series` ref → series doc, `partNumber` number
+   - Enables series navigation in margin column for nodes
+
+4. **Update GROQ queries** — `articleBySlugQuery`, `nodeBySlugQuery`, `caseStudyBySlugQuery` must project `related[]` and `series`/`partNumber` where added
+
+5. **Deploy schema** — `npx sanity schema deploy` from `apps/studio/`
+
+Separate hygiene pass (deprecations, page field removals, hidden fields) tracked in **SUG-62**.
 
 ### Phase 1: CSS layout (main + margin at 1200px+)
 
 Update `.detailPage` in `pages.module.css`:
 - At < 1200px: unchanged (single column, max-width 760px)
-- At ≥ 1200px: CSS grid with `grid-template-columns: 1fr var(--st-space-margin-column, 260px)` and `gap: var(--st-space-section-break-detail)`
+- At >= 1200px: CSS grid with `grid-template-columns: 1fr var(--st-space-margin-column, 260px)` and `gap: 0 2.5rem`
 - Max-width increases to ~1080px at wide viewports
-- Margin column: `position: sticky; top: var(--header-height, 80px)`
+- Margin column: `position: sticky; top: calc(var(--header-height, 80px) + 1.5rem)`; `align-self: start`
+- Margin column styling: `background: var(--st-color-bg-surface)`; `border: 2px dotted var(--st-color-softgrey-500)`; inner padding `1.25rem 1rem`
+- Margin section headings: unified `--st-label-*` tokens; `border-bottom: 1px solid var(--st-color-softgrey-300)` dividers
+- MetadataCard stays full-width above the grid (renders before `.detailPage` grid or spans both columns)
 
 ### Phase 2: MarginColumn component
 
 New component that reads document data and renders available slots:
 - TOC: extract h2/h3 from sections[] at render time (no schema change)
-- Related Nodes: render `relatedNodes[]` as linked list
+- Related: render `related[]` as linked list with per-item type label
+- Series nav: render series position + prev/next within series
 - Conditional rendering: if no slots have content, component returns null (no empty column)
 
 ### Phase 3: Page component wiring
@@ -144,8 +203,9 @@ New component that reads document data and renders available slots:
 
 | Dependency | Status | Impact |
 |------------|--------|--------|
-| SUG-54 `relatedNodes[]` | ✅ Shipped | Enables "Related Nodes" slot |
+| SUG-54 `relatedNodes[]` | ✅ Shipped | Original field; renamed to `related` in Phase 0.5 |
 | SUG-53 spacing tokens | ✅ Shipped | `--st-space-margin-column` token (defined but not yet valued) |
+| SUG-62 schema hygiene | Backlog | Deprecations + page field cleanup (independent of margin column) |
 | SUG-57 marginalia/sidenotes | Backlog | Enables "Marginalia" slot (deferred) |
 | SUG-57 running headers | Backlog | Mobile TOC alternative (deferred) |
 | SUG-35 glossary | Backlog | Enables "Glossary terms" slot (deferred) |
@@ -154,6 +214,13 @@ New component that reads document data and renders available slots:
 
 ## Files to Modify
 
+**Phase 0.5 (schema prep):**
+- `apps/studio/schemas/documents/node.ts` — rename `relatedNodes` → `related`, broaden refs; add `series` + `partNumber`
+- `apps/studio/schemas/documents/article.ts` — add `related` field
+- `apps/studio/schemas/documents/caseStudy.ts` — add `related` field
+- `apps/web/src/lib/queries.js` — update GROQ projections for `related[]`, `series`, `partNumber`
+
+**Phase 1-3 (layout + component):**
 - `apps/web/src/pages/pages.module.css` — `.detailPage` grid layout at 1200px+
 - `apps/web/src/components/MarginColumn.jsx` — CREATE
 - `apps/web/src/components/MarginColumn.module.css` — CREATE
@@ -165,22 +232,31 @@ New component that reads document data and renders available slots:
 
 ## Non-Goals
 
-- ~~Template selector on page schema~~ (default/full-width branching already shipped; sidebar is not a template)
+- ~~Template selector on page schema~~ (default/full-width branching already shipped; sidebar is not a template; `template` field deprecated in SUG-62)
 - No sidebar on root pages (content pages like AI Ethics don't need a margin column; they're self-contained)
-- No schema changes (uses existing relatedNodes[], sections[], categories[], tags[])
+- No schema hygiene (deprecations, page field removals, hidden fields) — tracked in SUG-62
 - No marginalia/sidenote content (SUG-57)
 - No glossary term extraction (SUG-35)
+- No breadcrumbs for nested pages (deferred to IA Phase 2)
 
 ---
 
 ## Acceptance Criteria
 
+- [ ] `relatedNodes` renamed to `related` with broadened refs (node, article, caseStudy)
+- [ ] `related` field added to article and caseStudy schemas
+- [ ] `series` + `partNumber` fields added to node schema
+- [ ] Schema deployed; GROQ queries updated
 - [ ] Detail pages (article, node, caseStudy) show margin column at ≥ 1200px
 - [ ] Margin column contains TOC (auto-generated from section headings)
-- [ ] Node detail pages show related nodes in margin column (from `relatedNodes[]`)
+- [ ] All detail page types show related content in margin column (from `related[]`)
+- [ ] Series navigation renders in margin column when doc belongs to a series
 - [ ] Below 1200px: single column, margin content relocates below body
 - [ ] If no margin content exists, column doesn't render (no empty space)
 - [ ] Margin column is sticky (follows scroll)
+- [ ] Margin column uses neutral surface bg with dotted softgrey-500 outline
+- [ ] AI Disclosure assembles dynamically from tools[] + author
+- [ ] Unified mono label tokens applied to all uppercase mono labels
 - [ ] Existing spacing (Section Layout Contract) is not broken
 
 ---
@@ -194,4 +270,4 @@ New component that reads document data and renders available slots:
 
 ---
 
-*Revised 2026-04-11. Original spec 2026-04-08.*
+*Revised 2026-04-13 (mock approved, design tokens, implementation spec). Previous: 2026-04-12 (Phase 0.5, field audit, SUG-62 split). Original spec 2026-04-08.*
