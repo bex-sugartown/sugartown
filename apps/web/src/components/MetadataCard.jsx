@@ -113,9 +113,10 @@ export default function MetadataCard({
     }
   }
 
-  // ── Call number: project ID as catalog-card shelf label ──────────────────
+  // ── Call number: project ID + name as catalog-card shelf label ───────────
   const callNumber = projectId || projects?.[0]?.projectId || null
   const callNumberProject = projects?.[0]
+  const callNumberName = callNumberProject?.name || null
   const callNumberPath = callNumberProject?.slug
     ? getCanonicalPath({ docType: 'project', slug: callNumberProject.slug })
     : null
@@ -175,16 +176,17 @@ export default function MetadataCard({
         {(callNumber || hasScalars) && (
           <div className={styles.scalarRow}>
 
-            {/* Call number — first cell in scalar row */}
+            {/* Call number — project ID + name as catalog shelf label */}
             {callNumber && (
               <div className={styles.scalarField}>
+                <p className={styles.scalarLabel}>Project</p>
                 <p className={styles.callNumber}>
                   {callNumberPath ? (
                     <Link to={callNumberPath} className={styles.callNumberLink}>
-                      {callNumber}
+                      {callNumber}{callNumberName ? ` ${callNumberName}` : ''}
                     </Link>
                   ) : (
-                    callNumber
+                    <>{callNumber}{callNumberName ? ` ${callNumberName}` : ''}</>
                   )}
                 </p>
               </div>

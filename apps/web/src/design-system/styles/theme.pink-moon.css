@@ -87,8 +87,8 @@
   --st-margin-outline:  var(--st-color-softgrey-500);     /* #6e7f96 — dotted outline */
 
   /* Label tokens — light override */
-  --st-label-color:       var(--st-color-charcoal-600);   /* #444 */
-  --st-label-color-badge: var(--st-color-neutral-600);    /* #525252 */
+  --st-label-color:       var(--st-color-charcoal-400);   /* #888 — neutral gray, lighter than body */
+  --st-label-color-badge: var(--st-color-charcoal-300);   /* #b0b0b0 — subtle badges */
 }
 
 /* ══════════════════════════════════════════════════════════

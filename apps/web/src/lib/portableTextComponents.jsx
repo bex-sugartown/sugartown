@@ -36,6 +36,12 @@ function isEmptyBlock(children) {
   return text.trim() === ''
 }
 
+/** Generate a slug-style anchor ID from heading text (matches MarginColumn extractToc). */
+function headingAnchor(children) {
+  const text = extractText(Children.toArray(children))
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+}
+
 /**
  * SharedInlineImage — richImage block with overlay + lightbox.
  * Default renderer for pages that don't override with CSS modules.
@@ -80,10 +86,10 @@ function SharedInlineImage({ value }) {
 
 const portableTextComponents = {
   block: {
-    h1: ({ children }) => isEmptyBlock(children) ? null : <h2>{children}</h2>,
-    h2: ({ children }) => isEmptyBlock(children) ? null : <h2>{children}</h2>,
-    h3: ({ children }) => isEmptyBlock(children) ? null : <h3>{children}</h3>,
-    h4: ({ children }) => isEmptyBlock(children) ? null : <h4>{children}</h4>,
+    h1: ({ children }) => isEmptyBlock(children) ? null : <h2 id={headingAnchor(children)}>{children}</h2>,
+    h2: ({ children }) => isEmptyBlock(children) ? null : <h2 id={headingAnchor(children)}>{children}</h2>,
+    h3: ({ children }) => isEmptyBlock(children) ? null : <h3 id={headingAnchor(children)}>{children}</h3>,
+    h4: ({ children }) => isEmptyBlock(children) ? null : <h4 id={headingAnchor(children)}>{children}</h4>,
     normal: ({ children }) => isEmptyBlock(children) ? null : <p>{children}</p>,
   },
   marks: {

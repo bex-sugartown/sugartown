@@ -117,6 +117,7 @@ export default function ArticlePage() {
 
         <MarginColumn
           sections={restSections}
+          content={post.content}
           related={post.related}
           series={post.series}
           partNumber={post.partNumber}

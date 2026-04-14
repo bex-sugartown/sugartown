@@ -62,6 +62,7 @@ export default function CaseStudyPage() {
 
         <MarginColumn
           sections={restSections}
+          content={caseStudy.content}
           related={caseStudy.related}
           tools={caseStudy.tools}
           authors={caseStudy.authors}

@@ -289,7 +289,7 @@
   --st-label-size:     0.65rem;
   --st-label-weight:   600;
   --st-label-tracking: 0.1em;
-  --st-label-color:    var(--st-color-charcoal-600); /* #444 — one shade lighter than charcoal */
+  --st-label-color:    var(--st-color-charcoal-400); /* #888 — neutral gray, lighter than body text */
   --st-label-color-badge: var(--st-color-neutral-600); /* #525252 — mini-badges */
 
   /* ── Semantic Typography ─────────────────────────────── */

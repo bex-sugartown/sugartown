@@ -285,7 +285,7 @@
   --st-label-size:     0.65rem;
   --st-label-weight:   600;
   --st-label-tracking: 0.1em;
-  --st-label-color:    var(--st-color-charcoal-600);
+  --st-label-color:    var(--st-color-charcoal-400);
   --st-label-color-badge: var(--st-color-neutral-600);
 
   /* ── Typography: Semantic Aliases ───────────────────── */

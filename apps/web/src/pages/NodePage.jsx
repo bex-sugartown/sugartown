@@ -60,6 +60,7 @@ export default function NodePage() {
 
         <MarginColumn
           sections={restSections}
+          content={node.content}
           related={node.related}
           series={node.series}
           partNumber={node.partNumber}

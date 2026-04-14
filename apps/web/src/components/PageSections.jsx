@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback, Children } from 'react'
 import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
@@ -51,13 +51,29 @@ function InlineImage({ value }) {
   )
 }
 
+/** Extract text from React children tree for anchor ID generation. */
+function extractTextFromChildren(node) {
+  if (node == null || node === false) return ''
+  if (typeof node === 'string') return node
+  if (typeof node === 'number') return String(node)
+  if (Array.isArray(node)) return node.map(extractTextFromChildren).join('')
+  if (node.props?.children) return extractTextFromChildren(node.props.children)
+  return ''
+}
+
+/** Generate a slug-style anchor ID from heading text (matches MarginColumn extractToc). */
+function headingAnchor(children) {
+  const text = extractTextFromChildren(Children.toArray(children))
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+}
+
 // Portable Text components for text sections
 const portableTextComponents = {
   block: {
-    h1: ({ children }) => <h2 className={styles.h2}>{children}</h2>,
-    h2: ({ children }) => <h2 className={styles.h2}>{children}</h2>,
-    h3: ({ children }) => <h3 className={styles.h3}>{children}</h3>,
-    h4: ({ children }) => <h4 className={styles.h4}>{children}</h4>,
+    h1: ({ children }) => <h2 className={styles.h2} id={headingAnchor(children)}>{children}</h2>,
+    h2: ({ children }) => <h2 className={styles.h2} id={headingAnchor(children)}>{children}</h2>,
+    h3: ({ children }) => <h3 className={styles.h3} id={headingAnchor(children)}>{children}</h3>,
+    h4: ({ children }) => <h4 className={styles.h4} id={headingAnchor(children)}>{children}</h4>,
     blockquote: ({ children }) => <Blockquote>{children}</Blockquote>,
   },
   marks: {

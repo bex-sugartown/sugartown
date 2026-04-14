@@ -18,21 +18,75 @@ import styles from './MarginColumn.module.css'
 import pageStyles from '../pages/pages.module.css'
 
 /**
- * Extract TOC entries from sections array.
- * Pulls heading + _key from any section that has a heading field.
- * textSection headings within body content (h2/h3 in PortableText)
- * are not extracted — only top-level section headings.
+ * Extract plain text from a PortableText block's children array.
  */
-function extractToc(sections) {
-  if (!sections?.length) return []
-  return sections
-    .filter((s) => s.heading && s._key)
-    .map((s) => ({
-      key: s._key,
-      text: s.heading,
-      // Section type determines heading level in rendered output
-      level: s._type === 'heroSection' ? 1 : 2,
-    }))
+function ptBlockText(block) {
+  if (!block?.children) return ''
+  return block.children.map((c) => c.text ?? '').join('')
+}
+
+/**
+ * Extract TOC entries from three sources (in order):
+ * 1. Section-level `heading` fields (textSection, ctaSection, etc.)
+ * 2. PortableText h2/h3 blocks inside each section's `content` array
+ * 3. PortableText h2/h3 blocks in the document-level `content` array
+ *    (articles have a separate `content` field outside sections)
+ *
+ * Each entry gets a stable key for React rendering and an anchor ID
+ * that matches the id= attributes set on rendered headings.
+ */
+function extractToc(sections, content) {
+  const entries = []
+
+  // Pass 1: section headings + inline PortableText headings
+  if (sections?.length) {
+    for (const s of sections) {
+      // Section-level heading
+      if (s.heading && s._key) {
+        entries.push({
+          key: s._key,
+          text: s.heading,
+          level: 2,
+          anchor: `section-${s._key}`,
+        })
+      }
+      // PortableText headings within section content
+      if (Array.isArray(s.content)) {
+        for (const block of s.content) {
+          if (block._type === 'block' && (block.style === 'h2' || block.style === 'h3')) {
+            const text = ptBlockText(block)
+            if (text && block._key) {
+              entries.push({
+                key: block._key,
+                text,
+                level: block.style === 'h2' ? 2 : 3,
+                anchor: text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+              })
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Pass 2: document-level content (articles)
+  if (Array.isArray(content)) {
+    for (const block of content) {
+      if (block._type === 'block' && (block.style === 'h2' || block.style === 'h3')) {
+        const text = ptBlockText(block)
+        if (text && block._key) {
+          entries.push({
+            key: block._key,
+            text,
+            level: block.style === 'h2' ? 2 : 3,
+            anchor: text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+          })
+        }
+      }
+    }
+  }
+
+  return entries
 }
 
 /** Map Sanity _type to display label for related badges */
@@ -59,8 +113,8 @@ function isAiTool(tool) {
  * Check whether margin column would render content for the given data.
  * Pages use this to conditionally enable the grid layout (data-has-margin).
  */
-export function hasMarginContent({ sections, related, series, tools, aiDisclosure }) {
-  const toc = extractToc(sections)
+export function hasMarginContent({ sections, content, related, series, tools, aiDisclosure }) {
+  const toc = extractToc(sections, content)
   const hasToc = toc.length > 1
   const hasRelated = related?.length > 0
   const hasSeries = !!series?.title
@@ -70,6 +124,7 @@ export function hasMarginContent({ sections, related, series, tools, aiDisclosur
 
 export default function MarginColumn({
   sections,
+  content,
   related,
   series,
   partNumber,
@@ -77,7 +132,7 @@ export default function MarginColumn({
   authors,
   aiDisclosure,
 }) {
-  const toc = extractToc(sections)
+  const toc = extractToc(sections, content)
   const hasRelated = related?.length > 0
   const hasSeries = series?.title
   const hasAiDisclosure = aiDisclosure || tools?.some(isAiTool)
@@ -116,7 +171,7 @@ export default function MarginColumn({
             {toc.map((entry) => (
               <li key={entry.key} className={styles.tocItem}>
                 <a
-                  href={`#section-${entry.key}`}
+                  href={`#${entry.anchor}`}
                   className={`${styles.tocLink} ${entry.level > 2 ? styles.tocLinkH3 : ''}`}
                 >
                   {entry.text}
