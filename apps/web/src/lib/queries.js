@@ -701,6 +701,9 @@ export const pageBySlugQuery = `
         }
       }
     },
+    publishedAt,
+    authors[]->{${PERSON_FRAGMENT}},
+    aiDisclosure,
     ${SEO_FRAGMENT}
   }
 `
@@ -739,6 +742,8 @@ export const caseStudyBySlugQuery = `
     slug,
     client,
     role,
+    employer,
+    contractType,
     excerpt,
     dateRange,
     publishedAt,

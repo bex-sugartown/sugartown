@@ -138,36 +138,6 @@
   padding: 0;
 }
 
-/* ── Date row — right-aligned, full width ── */
-
-.dateRow {
-  background: var(--st-margin-bg);
-  padding: 0.5rem 0.875rem;
-  display: flex;
-  justify-content: flex-end;
-  align-items: baseline;
-  gap: var(--st-space-2);
-}
-
-.dateLabel {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
-  color: var(--st-label-color);
-  margin: 0;
-}
-
-.dateValue {
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-font-size-sm);
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--st-color-text-default);
-  margin: 0;
-}
-
 /* ── Draft badge — floated into upper-right area ── */
 
 .draftBadgeSlot {
@@ -181,47 +151,3 @@
   position: relative;
 }
 
-/* ── KPI list (project-specific) ── */
-
-.kpiList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.kpiItem {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  font-size: var(--st-font-size-sm);
-}
-
-.kpiMetric {
-  flex: 1;
-  min-width: 0;
-  color: var(--st-color-text-default);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.kpiProgress {
-  font-family: var(--st-font-family-mono);
-  font-size: 0.7rem;
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.kpiCurrent {
-  font-weight: 700;
-  color: var(--st-color-text-default);
-}
-
-.kpiTarget {
-  color: var(--st-color-text-secondary, #525252);
-  font-weight: 400;
-}

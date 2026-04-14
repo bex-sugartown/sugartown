@@ -18,8 +18,7 @@
  * All props are optional — a row is suppressed entirely when its value is absent.
  * Returns null when no content would render (guards against empty card in UI).
  *
- * Used by: NodePage, ArticlePage, CaseStudyPage, ProjectDetailPage.
- * Not used by: RootPage / static pages (no content taxonomy).
+ * Used by: NodePage, ArticlePage, CaseStudyPage, ProjectDetailPage, RootPage.
  */
 import { Link } from 'react-router-dom'
 import { Chip } from '../design-system'
@@ -48,12 +47,11 @@ const STATUS_LABELS = {
   iterating:      'Iterating',
 }
 
-const PRIORITY_LABELS = {
-  1: 'P1 Critical',
-  2: 'P2 High',
-  3: 'P3 Medium',
-  4: 'P4 Low',
-  5: 'P5 Backlog',
+const CONTRACT_TYPE_LABELS = {
+  'full-time':  'Full-time',
+  'contract':   'Contract',
+  'freelance':  'Freelance',
+  'advisory':   'Advisory',
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -68,6 +66,18 @@ function formatDateShort(dateStr) {
   return `${month} ${day} ${year}`
 }
 
+/** Format date range: "Jan 2024 – Mar 2026" or "Jan 2024 – Present" */
+function formatDateRange(dateRange) {
+  if (!dateRange?.startDate) return null
+  const fmt = (d) => {
+    const date = new Date(d)
+    return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+  }
+  const start = fmt(dateRange.startDate)
+  const end = dateRange.endDate ? fmt(dateRange.endDate) : 'Present'
+  return `${start} – ${end}`
+}
+
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function MetadataCard({
@@ -77,15 +87,15 @@ export default function MetadataCard({
   contentTypeHref,
   publishedAt,
   status,
-  conversationType,
   client,
+  employer,
+  contractType,
   role,
+  dateRange,
   tools,
   readingTime,
   // Project-specific fields
   projectId,
-  priority,
-  kpis,
   // Taxonomy
   categories,
   tags,
@@ -96,7 +106,9 @@ export default function MetadataCard({
   const statusKey       = status?.toLowerCase().replace(/[\s_]+/g, '-')
   const authorByline    = getAuthorByline(authors)
   const primaryAuthor   = getPrimaryAuthor(authors)
-  const priorityDisplay = priority != null  ? (PRIORITY_LABELS[priority] ?? `P${priority}`)   : null
+  const contractDisplay = contractType ? (CONTRACT_TYPE_LABELS[contractType] ?? contractType) : null
+  const dateRangeDisplay = formatDateRange(dateRange)
+  const publishedDisplay = formatDateShort(publishedAt)
 
   // Author value — <Link> when person has a slug, plain text otherwise
   let authorValue = null
@@ -130,22 +142,23 @@ export default function MetadataCard({
 
   // ── Scalar fields — flat list, rendered in a wrapping flex row ──────────
   const scalarFields = [
-    authorValue     && { label: 'Author',       value: authorValue },
-    typeValue       && { label: 'Type',         value: typeValue },
-    statusKey       && { label: 'Status',       value: STATUS_LABELS[statusKey] ?? status },
-    client          && { label: 'Client',       value: client },
-    role            && { label: 'Role',         value: role },
-    priorityDisplay && { label: 'Priority',     value: priorityDisplay },
-    readingTime     && { label: 'Reading Time', value: `${readingTime} min` },
+    authorValue      && { label: 'Author',        value: authorValue },
+    typeValue        && { label: 'Type',           value: typeValue },
+    statusKey        && { label: 'Status',         value: STATUS_LABELS[statusKey] ?? status },
+    client           && { label: 'Client',         value: client },
+    employer         && { label: 'Employer',       value: employer },
+    contractDisplay  && { label: 'Contract',       value: contractDisplay },
+    role             && { label: 'Role',           value: role },
+    dateRangeDisplay && { label: 'Date Range',     value: dateRangeDisplay },
+    readingTime      && { label: 'Reading Time',   value: `${readingTime} min` },
+    publishedDisplay && { label: 'Published',      value: publishedDisplay },
   ].filter(Boolean)
 
   // ── Chip / taxonomy guards ──────────────────────────────────────────────
   const validTools    = tools?.filter((t) => t && t.name) ?? []
   const hasTools      = validTools.length > 0
-  const hasKpis       = kpis?.length > 0
   const hasCategories = categories?.length > 0
   const hasTags       = tags?.length > 0
-  const publishedDisplay = formatDateShort(publishedAt)
 
   // Project chips only when no call number ID available (fallback)
   const hasProjects      = projects?.length > 0
@@ -154,12 +167,12 @@ export default function MetadataCard({
   const hasScalars = scalarFields.length > 0
 
   if (
-    !callNumber && !hasScalars && !hasTools && !hasKpis &&
-    !showProjectChips && !hasCategories && !hasTags && !publishedDisplay && !draftBadge
+    !callNumber && !hasScalars && !hasTools &&
+    !showProjectChips && !hasCategories && !hasTags && !draftBadge
   ) return null
 
   // Check if any chip sections exist
-  const hasChips = hasTools || hasKpis || showProjectChips || hasCategories || hasTags
+  const hasChips = hasTools || showProjectChips || hasCategories || hasTags
 
   return (
     <aside>
@@ -223,25 +236,6 @@ export default function MetadataCard({
               </div>
             )}
 
-            {hasKpis && (
-              <div className={styles.chipRow}>
-                <p className={styles.chipLabel}>KPIs</p>
-                <ul className={styles.kpiList}>
-                  {kpis.map((kpi, i) => (
-                    <li key={i} className={styles.kpiItem}>
-                      <span className={styles.kpiMetric}>{kpi.metric}</span>
-                      <span className={styles.kpiProgress}>
-                        <span className={styles.kpiCurrent}>{kpi.current || '\u2014'}</span>
-                        {kpi.target && (
-                          <span className={styles.kpiTarget}> / {kpi.target}</span>
-                        )}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
             {showProjectChips && (
               <div className={styles.chipRow}>
                 <p className={styles.chipLabel}>Project</p>
@@ -262,14 +256,6 @@ export default function MetadataCard({
                 <TaxonomyChips tags={tags} size="sm" />
               </div>
             )}
-          </div>
-        )}
-
-        {/* Published date — right-aligned footer */}
-        {publishedDisplay && (
-          <div className={styles.dateRow}>
-            <p className={styles.dateLabel}>Published</p>
-            <p className={styles.dateValue}>{publishedDisplay}</p>
           </div>
         )}
 

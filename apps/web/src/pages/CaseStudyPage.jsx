@@ -48,7 +48,10 @@ export default function CaseStudyPage() {
           status={caseStudy.status}
           readingTime={caseStudy.readingTime}
           client={caseStudy.client}
+          employer={caseStudy.employer}
+          contractType={caseStudy.contractType}
           role={caseStudy.role}
+          dateRange={caseStudy.dateRange}
           tools={caseStudy.tools}
           categories={caseStudy.categories}
           tags={caseStudy.tags}

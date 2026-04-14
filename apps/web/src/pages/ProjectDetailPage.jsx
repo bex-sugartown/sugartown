@@ -90,12 +90,10 @@ export default function ProjectDetailPage() {
         <p className={styles.projectDescription}>{project.description}</p>
       )}
 
-      {/* ── MetaCard — structured metadata (status, ID, priority, taxonomy, KPIs) */}
+      {/* ── MetaCard — structured metadata (status, ID, taxonomy) */}
       <MetadataCard
         projectId={project.projectId}
         status={project.status}
-        priority={project.priority}
-        kpis={project.kpis}
         categories={project.categories}
         tags={project.tags}
         tools={project.tools}
