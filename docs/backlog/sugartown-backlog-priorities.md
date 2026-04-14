@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-06 · v0.21.0 · Storybook v10, Accordion, argTypes audit
+> Updated 2026-04-14 · v0.21.1 · SUG-52 Page Template Rendering (margin column, MetadataCard audit)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.21.0 shipped (SUG-46 Storybook v10, SUG-45 argTypes, SUG-44 Accordion). **Next:** SUG-21 Pink Moon design system identity.
+> **⚑ Current focus:** v0.21.1 shipped (SUG-52 Page Template Rendering). Responsive margin column with TOC, Related, Series, AI Disclosure. MetadataCard card-catalog aesthetic with full field audit. Chromatic visual regression testing. **Next:** SUG-21 Pink Moon design system identity.
 
 ---
 
@@ -51,6 +51,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-52 · Page Template Rendering** — Responsive margin column (sticky ≥1200px, inline below) with TOC, Related, Series, AI Disclosure slots. MetadataCard card-catalog aesthetic with bg-through-gap dividers, field audit (employer/contractType/dateRange added, kpis/priority deprecated). RootPage wired with MetadataCard + MarginColumn. Chromatic visual regression testing. Schema deprecated fields hidden.~~ | v0.21.1 | 2026-04-14 |
 | ~~**SUG-46 · Storybook v10 upgrade + parity restoration** — Storybook v7→v10.3.4, React 19 compat, sidebar reorg (Foundations/Primitives/Patterns/Layout), 18 new web stories, 5 documentation stories, custom manager theme, Netlify deploy to pinkmoon.sugartown.io.~~ | v0.21.0 | 2026-04-06 |
 | ~~**SUG-45 · Storybook argTypes audit** — Explicit argTypes on all 17 story files (7 DS primitives, 10 web adapters). Booleans→toggles, enums→dropdowns, colours→pickers, internals hidden.~~ | v0.21.0 | 2026-04-06 |
 | ~~**SUG-38 · Storybook parity & deployment** — Superseded by SUG-46. Original scope (React 18→19, Vite 5→7, SB 7→9) delivered via SUG-46 upgrade path.~~ | v0.21.0 | 2026-04-06 |
@@ -103,4 +104,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-06 · v0.21.0*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-14 · v0.21.1*
