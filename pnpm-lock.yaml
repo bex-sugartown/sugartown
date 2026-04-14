@@ -67,6 +67,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.18
         version: 18.3.7(@types/react@18.3.27)
+      chromatic:
+        specifier: ^16.2.0
+        version: 16.2.0
       eslint:
         specifier: ^8.56.0
         version: 8.57.1
@@ -3831,6 +3834,18 @@ packages:
   chownr@3.0.0:
     resolution: {integrity: sha512-+IxzY9BZOQd/XuYPRmrvEVjF/nqj5kgT4kEq7VofrDoM1MxoRjEWkrCC3EtLi59TVawxTAn+orJwFQcrqEN1+g==}
     engines: {node: '>=18'}
+
+  chromatic@16.2.0:
+    resolution: {integrity: sha512-yFUC0iCumsw5JDQPmrNAgYuln25HRh79iGdJgm+dj87lv7kFatlRBgRcw8Kmzdw1si3qzGlzu36aCABS7Wg5aQ==}
+    hasBin: true
+    peerDependencies:
+      '@chromatic-com/cypress': ^0.*.* || ^1.0.0
+      '@chromatic-com/playwright': ^0.*.* || ^1.0.0
+    peerDependenciesMeta:
+      '@chromatic-com/cypress':
+        optional: true
+      '@chromatic-com/playwright':
+        optional: true
 
   classnames@2.5.1:
     resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
@@ -11630,6 +11645,8 @@ snapshots:
       readdirp: 5.0.0
 
   chownr@3.0.0: {}
+
+  chromatic@16.2.0: {}
 
   classnames@2.5.1: {}
 

@@ -5,6 +5,7 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
+    "chromatic": "chromatic --build-script-name=storybook:build --exit-zero-on-changes",
     "lint": "eslint .storybook --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf storybook-static .turbo"
@@ -23,6 +24,7 @@
     "@sugartown/tsconfig": "workspace:*",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "chromatic": "^16.2.0",
     "eslint": "^8.56.0",
     "storybook": "^10.3.4",
     "typescript": "^5.3.3",
