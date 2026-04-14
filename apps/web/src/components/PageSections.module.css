@@ -1028,6 +1028,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--st-space-section-break-detail);
+  /* Grid item min-width fix: without min-width:0, wide content (tables with
+     width:100vw breakout pattern) pushes this grid item beyond its track size,
+     forcing the entire grid past max-width. Pairs with minmax(0,1fr) in
+     pages.module.css .detailPage[data-has-margin]. */
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* All direct children: drop own containment, stretch to fill parent.

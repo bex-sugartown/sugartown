@@ -78,9 +78,11 @@
    Without it, .detailPage stays at 760px single-column — no empty 260px gap. */
 @media (min-width: 1200px) {
   .detailPage[data-has-margin] {
-    max-width: var(--st-width-detail-wide);
+    max-width: var(--st-width-detail-wide, 1080px);
     display: grid;
-    grid-template-columns: 1fr var(--st-space-margin-column);
+    /* minmax(0, 1fr) prevents grid items with wide content (tables, code blocks,
+       long URLs) from forcing the 1fr track beyond max-width via min-width: auto. */
+    grid-template-columns: minmax(0, 1fr) var(--st-space-margin-column);
     gap: 0 var(--st-space-margin-gap);
   }
 
