@@ -21,7 +21,7 @@ import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
-import MarginColumn from '../components/MarginColumn'
+import MarginColumn, { hasMarginContent } from '../components/MarginColumn'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -83,12 +83,13 @@ export default function ArticlePage() {
 
   // Extract leading hero — hero heading is the page title
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(post.sections)
+  const showMargin = hasMarginContent(post)
 
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
       {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: post.publishedAt, status: post.status, readingTime: post.readingTime }} />}
-      <div className={styles.detailPage}>
+      <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
 
         <MetadataCard
           authors={post.authors}
@@ -96,6 +97,7 @@ export default function ArticlePage() {
           contentTypeHref={getArchivePath('article')}
           publishedAt={post.publishedAt}
           status={post.status}
+          readingTime={post.readingTime}
           tools={post.tools}
           categories={post.categories}
           tags={post.tags}

@@ -276,6 +276,11 @@
   --st-space-margin-column: 260px;  /* margin column width at wide viewports */
   --st-space-margin-gap:    2.5rem; /* gap between main content and margin column */
 
+  /* Margin column themed colors (dark defaults — overridden by light theme) */
+  --st-margin-bg:       #1b2033;   /* opaque dark surface */
+  --st-margin-divider:  #2d3148;   /* opaque dark divider (no rgba stacking) */
+  --st-margin-outline:  #4a5068;   /* opaque dark dotted outline */
+
   /* ── Unified Mono Label Tokens ─────────────────────── */
   /* Applied to all uppercase mono labels: meta-labels, margin headings,
      eyebrows, series position, citations heading, nav labels, type badges.

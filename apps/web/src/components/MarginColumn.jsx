@@ -55,6 +55,19 @@ function isAiTool(tool) {
   return AI_TOOL_NAMES.some((n) => lower.includes(n))
 }
 
+/**
+ * Check whether margin column would render content for the given data.
+ * Pages use this to conditionally enable the grid layout (data-has-margin).
+ */
+export function hasMarginContent({ sections, related, series, tools, aiDisclosure }) {
+  const toc = extractToc(sections)
+  const hasToc = toc.length > 1
+  const hasRelated = related?.length > 0
+  const hasSeries = !!series?.title
+  const hasAi = !!aiDisclosure || (tools?.some(isAiTool) ?? false)
+  return hasToc || hasRelated || hasSeries || hasAi
+}
+
 export default function MarginColumn({
   sections,
   related,

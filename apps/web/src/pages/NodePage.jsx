@@ -15,7 +15,7 @@ import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
-import MarginColumn from '../components/MarginColumn'
+import MarginColumn, { hasMarginContent } from '../components/MarginColumn'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -32,12 +32,13 @@ export default function NodePage() {
 
   // Extract leading hero — hero heading is the page title
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(node.sections)
+  const showMargin = hasMarginContent(node)
 
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
       {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: node.publishedAt, status: node.status, readingTime: node.readingTime }} />}
-      <div className={styles.detailPage}>
+      <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
 
         <MetadataCard
           authors={node.authors}
@@ -45,7 +46,7 @@ export default function NodePage() {
           contentTypeHref={getArchivePath('node')}
           publishedAt={node.publishedAt}
           status={node.status}
-          conversationType={node.conversationType}
+          readingTime={node.readingTime}
           tools={node.tools}
           categories={node.categories}
           tags={node.tags}

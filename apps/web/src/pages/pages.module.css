@@ -74,11 +74,10 @@
 
 /* Wide viewport: CSS grid with main + margin column.
    Breakpoint: 1200px (--st-breakpoint-xl, not a token — documented here).
-   Main column stays at --st-width-detail; margin column adds alongside.
-   Grid row placement: MetadataCard → row 1 (full span), detailContext → row 2 col 1,
-   MarginColumn → row 2 col 2, citations/nav → row 3+ (full span). */
+   Grid ONLY activates when data-has-margin is set (MarginColumn rendered content).
+   Without it, .detailPage stays at 760px single-column — no empty 260px gap. */
 @media (min-width: 1200px) {
-  .detailPage {
+  .detailPage[data-has-margin] {
     max-width: var(--st-width-detail-wide);
     display: grid;
     grid-template-columns: 1fr var(--st-space-margin-column);
@@ -86,13 +85,13 @@
   }
 
   /* MetadataCard, citations, ContentNav, legacy content span both columns */
-  .detailPage > aside:first-child,
+  .detailPage[data-has-margin] > aside:first-child,
   .detailPageFullSpan {
     grid-column: 1 / -1;
   }
 
   /* Legacy .detailContent (PortableText body) stays in main column */
-  .detailPage > .detailContent {
+  .detailPage[data-has-margin] > .detailContent {
     grid-column: 1;
   }
 }

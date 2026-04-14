@@ -2,17 +2,18 @@
  * MetadataCard — structured metadata surface for content detail pages.
  * (Colloquially: "MetaCard" throughout the codebase.)
  *
- * Layout inspired by library catalog cards — a single CSS grid (4 columns)
- * with scalar fields split into left + right columns, chip rows spanning
- * the full width, and published date in the right column at the bottom.
+ * SUG-52 card-catalog aesthetic:
+ * - Dotted neutral outline (matches MarginColumn)
+ * - bg-through-gap interior dividers (zero CSS borders inside)
+ * - Scalar fields in a wrapping row
+ * - Chip sections span full width below scalar row
  *
- *   PROJ-001                                    [DRAFT]
- *   AUTHOR        Bex              STATUS     Evergreen
- *   CONVERSATION  Reflection       TYPE       Node
- *   TOOLS         [Claude Code] [Sanity]
- *   CATEGORY      [AI Collaboration] [Ways of Working]
- *   TAGS          [prompt eng] [ai workflows] …
- *                                  PUBLISHED  Feb 28 2026
+ *   PROJ-001
+ *   AUTHOR  Bex    STATUS  Operationalized    TYPE  Node
+ *   TOOLS   [Claude Code] [Sanity]
+ *   CATEGORY [Engineering & DX]
+ *   TAGS    [table] [ux] [portable text] ...
+ *                                    PUBLISHED  Apr 1 2026
  *
  * All props are optional — a row is suppressed entirely when its value is absent.
  * Returns null when no content would render (guards against empty card in UI).
@@ -21,7 +22,7 @@
  * Not used by: RootPage / static pages (no content taxonomy).
  */
 import { Link } from 'react-router-dom'
-import { Card, Chip } from '../design-system'
+import { Chip } from '../design-system'
 import { getAuthorByline, getPrimaryAuthor } from '../lib/person'
 import { getCanonicalPath } from '../lib/routes'
 import TaxonomyChips from './TaxonomyChips'
@@ -45,18 +46,6 @@ const STATUS_LABELS = {
   testing:        'Testing',
   deploying:      'Deploying',
   iterating:      'Iterating',
-}
-
-// AI_TOOL_LABELS removed — aiTool is duplicative with tools chips (SUG-33)
-
-const CONVERSATION_TYPE_LABELS = {
-  problem:      'Problem Solving',
-  learning:     'Learning/Research',
-  code:         'Code Generation',
-  design:       'Design Discussion',
-  architecture: 'Architecture Planning',
-  debug:        'Debugging',
-  reflection:   'Reflection',
 }
 
 const PRIORITY_LABELS = {
@@ -92,6 +81,7 @@ export default function MetadataCard({
   client,
   role,
   tools,
+  readingTime,
   // Project-specific fields
   projectId,
   priority,
@@ -106,9 +96,7 @@ export default function MetadataCard({
   const statusKey       = status?.toLowerCase().replace(/[\s_]+/g, '-')
   const authorByline    = getAuthorByline(authors)
   const primaryAuthor   = getPrimaryAuthor(authors)
-  // SUG-48: conversationType deprecated — categories/tags are canonical for classification
-  const convTypeDisplay = null
-  const priorityDisplay = priority != null  ? (PRIORITY_LABELS[priority]                    ?? `P${priority}`)   : null
+  const priorityDisplay = priority != null  ? (PRIORITY_LABELS[priority] ?? `P${priority}`)   : null
 
   // Author value — <Link> when person has a slug, plain text otherwise
   let authorValue = null
@@ -132,16 +120,6 @@ export default function MetadataCard({
     ? getCanonicalPath({ docType: 'project', slug: callNumberProject.slug })
     : null
 
-  // ── Scalar fields — split into left + right columns ─────────────────────
-  // Left column: identity/context fields
-  // Right column: classification/status fields (Status at top)
-  const leftCol = [
-    authorValue     && { label: 'Author',       value: authorValue },
-    convTypeDisplay && { label: 'Conversation', value: convTypeDisplay },
-    client          && { label: 'Client',       value: client },
-    role            && { label: 'Role',         value: role },
-  ].filter(Boolean)
-
   // Type value — <Link> when contentTypeHref is provided, plain text otherwise
   const typeValue = contentType
     ? contentTypeHref
@@ -149,20 +127,16 @@ export default function MetadataCard({
       : contentType
     : null
 
-  const rightCol = [
-    statusKey       && { label: 'Status',   value: STATUS_LABELS[statusKey] ?? status },
-    typeValue       && { label: 'Type',     value: typeValue },
-    priorityDisplay && { label: 'Priority', value: priorityDisplay },
+  // ── Scalar fields — flat list, rendered in a wrapping flex row ──────────
+  const scalarFields = [
+    authorValue     && { label: 'Author',       value: authorValue },
+    typeValue       && { label: 'Type',         value: typeValue },
+    statusKey       && { label: 'Status',       value: STATUS_LABELS[statusKey] ?? status },
+    client          && { label: 'Client',       value: client },
+    role            && { label: 'Role',         value: role },
+    priorityDisplay && { label: 'Priority',     value: priorityDisplay },
+    readingTime     && { label: 'Reading Time', value: `${readingTime} min` },
   ].filter(Boolean)
-
-  // Interleave left/right into sequential grid cells:
-  // [left₁, right₁, left₂, right₂, …] — each pair fills one grid row
-  const maxRows = Math.max(leftCol.length, rightCol.length)
-  const scalarCells = []
-  for (let i = 0; i < maxRows; i++) {
-    scalarCells.push({ side: 'left',  field: leftCol[i]  || null })
-    scalarCells.push({ side: 'right', field: rightCol[i] || null })
-  }
 
   // ── Chip / taxonomy guards ──────────────────────────────────────────────
   const validTools    = tools?.filter((t) => t && t.name) ?? []
@@ -176,121 +150,128 @@ export default function MetadataCard({
   const hasProjects      = projects?.length > 0
   const showProjectChips = hasProjects && !callNumber
 
-  const hasScalars = leftCol.length > 0 || rightCol.length > 0
+  const hasScalars = scalarFields.length > 0
 
   if (
     !callNumber && !hasScalars && !hasTools && !hasKpis &&
     !showProjectChips && !hasCategories && !hasTags && !publishedDisplay && !draftBadge
   ) return null
 
+  // Check if any chip sections exist
+  const hasChips = hasTools || hasKpis || showProjectChips || hasCategories || hasTags
+
   return (
     <aside>
-      <Card variant="metadata">
-        <div className={styles.grid}>
+      <div className={styles.card}>
 
-          {/* Call number — project ID */}
-          {callNumber && (
-            <p className={styles.callNumber}>
-              {callNumberPath ? (
-                <Link to={callNumberPath} className={styles.callNumberLink}>
-                  {callNumber}
-                </Link>
-              ) : (
-                callNumber
-              )}
-            </p>
-          )}
+        {/* Draft badge — upper-right corner */}
+        {draftBadge && (
+          <div className={styles.draftBadgeSlot}>
+            {draftBadge}
+          </div>
+        )}
 
-          {/* Draft badge — upper-right of grid */}
-          {draftBadge && (
-            <div className={styles.draftBadgeSlot}>
-              {draftBadge}
-            </div>
-          )}
+        {/* Scalar fields — wrapping flex row with bg-through-gap dividers */}
+        {(callNumber || hasScalars) && (
+          <div className={styles.scalarRow}>
 
-          {/* Scalar fields — interleaved left/right pairs */}
-          {scalarCells.map(({ side, field }, i) =>
-            field ? (
-              <div key={field.label} className={styles.field}>
-                <p className={styles.fieldLabel}>{field.label}</p>
-                <p className={styles.fieldValue}>{field.value}</p>
+            {/* Call number — first cell in scalar row */}
+            {callNumber && (
+              <div className={styles.scalarField}>
+                <p className={styles.callNumber}>
+                  {callNumberPath ? (
+                    <Link to={callNumberPath} className={styles.callNumberLink}>
+                      {callNumber}
+                    </Link>
+                  ) : (
+                    callNumber
+                  )}
+                </p>
               </div>
-            ) : (
-              <span key={`pad-${side}-${i}`} className={styles.fieldPad} />
-            )
-          )}
+            )}
 
-          {/* Tools (DS Chip component, linked to /tools/:slug) */}
-          {hasTools && (
-            <div className={styles.chipField}>
-              <p className={styles.fieldLabel}>Tools</p>
-              <ul className={styles.chipList}>
-                {validTools.map((tool) => (
-                  <li key={tool._id}>
-                    <Chip
-                      label={tool.name}
-                      href={tool.slug ? getCanonicalPath({ docType: 'tool', slug: tool.slug }) : undefined}
-                      color="grey"
-                      size="sm"
-                    />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+            {scalarFields.map((field) => (
+              <div key={field.label} className={styles.scalarField}>
+                <p className={styles.scalarLabel}>{field.label}</p>
+                <p className={styles.scalarValue}>{field.value}</p>
+              </div>
+            ))}
+          </div>
+        )}
 
-          {/* KPIs (project-specific — metric / current / target) */}
-          {hasKpis && (
-            <div className={styles.chipField}>
-              <p className={styles.fieldLabel}>KPIs</p>
-              <ul className={styles.kpiList}>
-                {kpis.map((kpi, i) => (
-                  <li key={i} className={styles.kpiItem}>
-                    <span className={styles.kpiMetric}>{kpi.metric}</span>
-                    <span className={styles.kpiProgress}>
-                      <span className={styles.kpiCurrent}>{kpi.current || '\u2014'}</span>
-                      {kpi.target && (
-                        <span className={styles.kpiTarget}> / {kpi.target}</span>
-                      )}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+        {/* Chip sections — full-width rows with bg-through-gap */}
+        {hasChips && (
+          <div className={styles.chipColumns}>
 
-          {/* Projects — fallback chip row when no call number ID */}
-          {showProjectChips && (
-            <div className={styles.chipField}>
-              <p className={styles.fieldLabel}>Project</p>
-              <TaxonomyChips projects={projects} size="sm" />
-            </div>
-          )}
+            {hasTools && (
+              <div className={styles.chipRow}>
+                <p className={styles.chipLabel}>Tools</p>
+                <ul className={styles.chipList}>
+                  {validTools.map((tool) => (
+                    <li key={tool._id}>
+                      <Chip
+                        label={tool.name}
+                        href={tool.slug ? getCanonicalPath({ docType: 'tool', slug: tool.slug }) : undefined}
+                        color="grey"
+                        size="sm"
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-          {hasCategories && (
-            <div className={styles.chipField}>
-              <p className={styles.fieldLabel}>Category</p>
-              <TaxonomyChips categories={categories} size="sm" />
-            </div>
-          )}
+            {hasKpis && (
+              <div className={styles.chipRow}>
+                <p className={styles.chipLabel}>KPIs</p>
+                <ul className={styles.kpiList}>
+                  {kpis.map((kpi, i) => (
+                    <li key={i} className={styles.kpiItem}>
+                      <span className={styles.kpiMetric}>{kpi.metric}</span>
+                      <span className={styles.kpiProgress}>
+                        <span className={styles.kpiCurrent}>{kpi.current || '\u2014'}</span>
+                        {kpi.target && (
+                          <span className={styles.kpiTarget}> / {kpi.target}</span>
+                        )}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-          {hasTags && (
-            <div className={styles.chipField}>
-              <p className={styles.fieldLabel}>Tags</p>
-              <TaxonomyChips tags={tags} size="sm" />
-            </div>
-          )}
+            {showProjectChips && (
+              <div className={styles.chipRow}>
+                <p className={styles.chipLabel}>Project</p>
+                <TaxonomyChips projects={projects} size="sm" />
+              </div>
+            )}
 
-          {/* Published date — right-aligned in cols 3–4 */}
-          {publishedDisplay && (
-            <div className={styles.dateRow}>
-              <p className={styles.fieldLabel}>Published</p>
-              <p className={styles.dateValue}>{publishedDisplay}</p>
-            </div>
-          )}
+            {hasCategories && (
+              <div className={styles.chipRow}>
+                <p className={styles.chipLabel}>Category</p>
+                <TaxonomyChips categories={categories} size="sm" />
+              </div>
+            )}
 
-        </div>
-      </Card>
+            {hasTags && (
+              <div className={styles.chipRow}>
+                <p className={styles.chipLabel}>Tags</p>
+                <TaxonomyChips tags={tags} size="sm" />
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Published date — right-aligned footer */}
+        {publishedDisplay && (
+          <div className={styles.dateRow}>
+            <p className={styles.dateLabel}>Published</p>
+            <p className={styles.dateValue}>{publishedDisplay}</p>
+          </div>
+        )}
+
+      </div>
     </aside>
   )
 }
