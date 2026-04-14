@@ -1033,7 +1033,21 @@
      forcing the entire grid past max-width. Pairs with minmax(0,1fr) in
      pages.module.css .detailPage[data-has-margin]. */
   min-width: 0;
-  overflow: hidden;
+}
+
+/* Neutralise the TableWrap "wide" breakout pattern inside detail pages.
+   The breakout (width:100vw + negative margin) is designed for standalone
+   single-column pages where tables can span the full viewport. Inside the
+   grid-based detail layout, the table must stay within its column and scroll
+   horizontally instead.
+   Attribute selector targets the CSS-module-mangled class name (_wrapWide_*). */
+.detailContext [class*="wrapWide"] {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  padding-inline: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* All direct children: drop own containment, stretch to fill parent.
