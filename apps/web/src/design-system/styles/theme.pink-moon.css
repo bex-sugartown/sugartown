@@ -80,6 +80,15 @@
 
   /* Header — palest grey, matching card surfaces */
   --st-header-bg: rgba(248, 248, 250, 0.90);             /* softgrey-50 at 90% */
+
+  /* Margin column + MetadataCard — light mode (SUG-52) */
+  --st-margin-bg:       var(--st-color-softgrey-50);      /* #f8f8fa — surface */
+  --st-margin-divider:  var(--st-color-softgrey-300);     /* #bcc5d1 — interior lines */
+  --st-margin-outline:  var(--st-color-softgrey-500);     /* #6e7f96 — dotted outline */
+
+  /* Label tokens — light override */
+  --st-label-color:       var(--st-color-charcoal-600);   /* #444 */
+  --st-label-color-badge: var(--st-color-neutral-600);    /* #525252 */
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -103,4 +112,13 @@
 
   /* Header — frosted dark (Mock B) */
   --st-header-bg: rgba(13, 18, 38, 0.80);
+
+  /* Margin column + MetadataCard — opaque dark (SUG-52) */
+  --st-margin-bg:       #1b2033;
+  --st-margin-divider:  #2d3148;
+  --st-margin-outline:  #4a5068;
+
+  /* Label tokens — dark override */
+  --st-label-color:       var(--st-color-softgrey-400);
+  --st-label-color-badge: var(--st-color-softgrey-500);
 }

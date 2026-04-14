@@ -83,7 +83,7 @@ export default function ArticlePage() {
 
   // Extract leading hero — hero heading is the page title
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(post.sections)
-  const showMargin = hasMarginContent(post)
+  const showMargin = hasMarginContent({ ...post, sections: restSections })
 
   return (
     <main>
@@ -116,7 +116,7 @@ export default function ArticlePage() {
         )}
 
         <MarginColumn
-          sections={post.sections}
+          sections={restSections}
           related={post.related}
           series={post.series}
           partNumber={post.partNumber}

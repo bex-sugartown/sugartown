@@ -32,7 +32,7 @@ export default function NodePage() {
 
   // Extract leading hero — hero heading is the page title
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(node.sections)
-  const showMargin = hasMarginContent(node)
+  const showMargin = hasMarginContent({ ...node, sections: restSections })
 
   return (
     <main>
@@ -59,7 +59,7 @@ export default function NodePage() {
         )}
 
         <MarginColumn
-          sections={node.sections}
+          sections={restSections}
           related={node.related}
           series={node.series}
           partNumber={node.partNumber}

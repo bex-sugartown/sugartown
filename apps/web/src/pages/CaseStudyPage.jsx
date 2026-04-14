@@ -32,7 +32,7 @@ export default function CaseStudyPage() {
 
   // Extract leading hero — hero heading is the page title
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(caseStudy.sections)
-  const showMargin = hasMarginContent(caseStudy)
+  const showMargin = hasMarginContent({ ...caseStudy, sections: restSections })
 
   return (
     <main>
@@ -61,7 +61,7 @@ export default function CaseStudyPage() {
         )}
 
         <MarginColumn
-          sections={caseStudy.sections}
+          sections={restSections}
           related={caseStudy.related}
           tools={caseStudy.tools}
           authors={caseStudy.authors}
