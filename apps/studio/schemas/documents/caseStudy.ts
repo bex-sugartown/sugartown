@@ -218,6 +218,7 @@ export default defineType({
       type: 'array',
       description: 'Measurable results from this project. Each outcome has a metric name, a value (before → after or absolute), and optional context.',
       group: 'metadata',
+      hidden: true,
       of: [
         defineArrayMember({
           type: 'object',

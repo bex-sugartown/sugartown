@@ -80,6 +80,7 @@ export default defineType({
       type: 'string',
       description: 'Layout template for this page (rendering: see SUG-52)',
       group: 'content',
+      hidden: true,
       options: {
         list: [
           {title: 'Default (Standard Width)', value: 'default'},
@@ -164,6 +165,7 @@ export default defineType({
       type: 'array',
       description: 'Page categories — optional for organisation',
       group: 'metadata',
+      hidden: true,
       of: [
         defineArrayMember({
           type: 'reference',
@@ -177,6 +179,7 @@ export default defineType({
       type: 'array',
       description: 'Page tags — optional for organisation',
       group: 'metadata',
+      hidden: true,
       of: [
         defineArrayMember({
           type: 'reference',
@@ -190,6 +193,7 @@ export default defineType({
       type: 'array',
       description: 'Related projects — canonical project taxonomy field',
       group: 'metadata',
+      hidden: true,
       of: [
         defineArrayMember({
           type: 'reference',

@@ -95,6 +95,7 @@ export default defineType({
       type: 'number',
       description: 'Priority ranking (1 = highest, 5 = lowest)',
       group: 'basics',
+      hidden: true,
       options: {
         list: [
           {title: '🔴 Critical (1)', value: 1},
@@ -187,6 +188,7 @@ export default defineType({
       type: 'array',
       description: 'Measurable goals and current progress',
       group: 'profile',
+      hidden: true,
       of: [
         defineArrayMember({
           type: 'object',
