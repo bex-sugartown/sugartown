@@ -4,11 +4,12 @@
    ============================================================ */
 
 /* ── Google Fonts ────────────────────────────────────────────
+   Loaded via <link rel="stylesheet"> in apps/web/index.html for
+   earlier-in-waterfall parallel download (SUG-63 Phase 1).
    EB Garamond          → --st-font-narrative (headings, card titles)
    Fira Sans            → --st-font-ui        (body, UI chrome)
    Courier Prime        → --st-font-mono      (chips, metadata, code, colophon)
    ──────────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700;800&family=Fira+Sans:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap');
 
 /* Reset-ish */
 *, *::before, *::after {

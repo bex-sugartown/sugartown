@@ -352,10 +352,11 @@ export const Card: React.FC<CardProps> = ({
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <article className={rootClasses} style={accentStyle}>
-      {/* Hero thumbnail — default variant, full-width above header */}
+      {/* Hero thumbnail — default variant, full-width above header.
+          width/height attrs give browser intrinsic 16:9 ratio before image loads → no CLS. */}
       {variant === 'default' && thumbnailUrl && (
         <div className={styles.thumbnailHero}>
-          <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" decoding="async" />
+          <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" decoding="async" width="1600" height="900" />
         </div>
       )}
 
@@ -363,7 +364,7 @@ export const Card: React.FC<CardProps> = ({
       {isListingWithThumb ? (
         <div className={styles.listingRow}>
           <div className={styles.thumbnailRail}>
-            <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" decoding="async" />
+            <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" decoding="async" width="400" height="225" />
           </div>
           <div className={styles.listingContent}>
             {headerEl}

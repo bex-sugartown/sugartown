@@ -307,6 +307,8 @@ export default function Card({
             className={styles.thumbnailImg}
             loading="lazy"
             decoding="async"
+            width="1600"
+            height="900"
           />
         </div>
       )}
@@ -324,6 +326,8 @@ export default function Card({
               className={styles.thumbnailImg}
               loading="lazy"
               decoding="async"
+              width="400"
+              height="225"
             />
           </div>
           <div className={styles.listingContent}>

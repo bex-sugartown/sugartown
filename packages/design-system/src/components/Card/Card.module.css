@@ -402,6 +402,7 @@
   flex: 0 0 25%;
   overflow: hidden;
   align-self: stretch;
+  aspect-ratio: 16 / 9;
   border-radius: var(--st-card-radius) 0 0 var(--st-card-radius);
 }
 

@@ -303,3 +303,53 @@ Phases 2 (code splitting, bundle analysis) and 3 (Lighthouse CI) deferred pendin
 Phase 1 is a separate execution — not bundled into this epic's baseline deliverable. Top 3 issues are now documented; fixes require code changes that should be scoped as their own epic or committed here as Phase 1 follow-ups.
 
 **Recommendation:** Ship Phase 0 as the baseline artifact. Schedule Phase 1 as a new session (estimated 1–2 hours) focused on the three issues above. Re-run the baseline after Phase 1 lands to verify pass/fail shifts.
+
+---
+
+## Phase 1 — Quick wins (landed 2026-04-15)
+
+### Fixes applied
+
+**Issue 1 — CLS: Card image dimensions (both DS + web adapter)**
+
+- `packages/design-system/src/components/Card/Card.tsx` — added `width="1600" height="900"` to default-variant thumbnail `<img>`, `width="400" height="225"` to listing-variant thumbnail `<img>`
+- `apps/web/src/design-system/components/card/Card.jsx` — same changes (DS parity)
+- `packages/design-system/src/components/Card/Card.module.css` — added `aspect-ratio: 16 / 9` to `.thumbnailRail`
+- `apps/web/src/design-system/components/card/Card.module.css` — same (DS parity)
+
+Width/height attrs give the browser intrinsic 16:9 ratio before the image bytes arrive, so CSS can compute final dimensions without reflow. Final rendered size still controlled by CSS (`width: 100%`, `object-fit: cover`).
+
+**Issue 3 — Google Fonts: stale font list + render-blocking chain**
+
+Audit discovered the production `index.html` `<link rel="stylesheet">` was loading **Playfair Display + Fira Sans** — a stale set from before the SUG-21 Pink Moon switch. Meanwhile, `globals.css` `@import` was loading the **correct** Pink Moon stack (EB Garamond + Fira Sans + Courier Prime). Production was downloading both — stale fonts that rendered nowhere AND the current stack.
+
+Fix:
+- `apps/web/index.html` — updated `<link>` to load the correct 3 Pink Moon fonts (EB Garamond + Fira Sans + Courier Prime) with preconnect hints
+- `apps/web/src/design-system/styles/globals.css` — removed duplicate `@import` (now loaded via `<link>` in HTML head, earlier in waterfall)
+- MEMORY.md — updated §Google Fonts Loading Rules to document the new strategy + note the SUG-63 regression it caught
+
+**Issue 2 — Node detail LCP 5006ms**
+
+Not addressed in Phase 1. The ImageDelivery insight flagged 42kB wasted bytes on a single node's hero image — likely a content-side fix (replace the hero asset with a smaller version, or verify `urlFor()` params are applying). Deferred to Phase 2 or content pass (SUG-64).
+
+### Verification
+
+Post-deploy re-audit is **pending** — changes are committed locally but not yet pushed/deployed. Production audit against current `origin/main` will show the Phase 0 numbers, not the Phase 1 improvements. After `/eod` pushes these commits and Netlify builds, re-run the audit on the 3 worst baseline pages:
+
+- `/articles/test-preview-post` (CLS was 0.47)
+- `/case-studies/fx-networks` (CLS was 0.47)
+- `/articles` (CLS was 0.47)
+
+Expected improvements:
+- Card-CLS pages: **0.47 → near 0** (entire CLS budget recovers when thumbnails have reserved space)
+- Render delay: modest reduction (~100-300ms) from earlier font discovery + one less @import chain
+- LCP on node detail: unchanged (Issue 2 not addressed)
+
+### Phase status
+
+| Phase | Status |
+|---|---|
+| Phase 0 baseline | ✅ Shipped |
+| Phase 1 quick wins | ✅ Shipped (verification pending deploy) |
+| Phase 2 structural | ⏸ Reassess after Phase 1 verification |
+| Phase 3 CI monitoring | ⏸ Deferred |
