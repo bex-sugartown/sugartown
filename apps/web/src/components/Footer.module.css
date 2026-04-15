@@ -84,9 +84,18 @@
   flex-wrap: wrap;
 }
 
-.bottom {
+.utilityRow {
   border-top: 1px solid var(--st-color-brand-primary);
   padding-top: var(--st-spacing-stack-lg);
+  padding-bottom: var(--st-spacing-stack-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--st-spacing-inline-md);
+}
+
+.bottom {
+  border-top: 1px solid var(--st-color-border-subtle);
+  padding-top: var(--st-spacing-stack-md);
   display: flex;
   justify-content: space-between;
   align-items: center;

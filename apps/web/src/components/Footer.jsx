@@ -5,6 +5,13 @@ import Link from './atoms/Link'
 import SocialLink from './atoms/SocialLink'
 import styles from './Footer.module.css'
 
+const LEGAL_LINKS = [
+  { label: 'AI Ethics', url: '/ai-ethics' },
+  { label: 'Privacy & Terms of Use', url: '/privacy-and-terms' },
+  { label: 'Sitemap', url: '/sitemap' },
+  { label: 'Contact', url: '/contact' },
+]
+
 export default function Footer({ siteSettings }) {
   if (!siteSettings) return null
 
@@ -78,6 +85,14 @@ export default function Footer({ siteSettings }) {
             </div>
           )}
         </div>
+
+        <nav className={styles.utilityRow} aria-label="Legal and utility links">
+          {LEGAL_LINKS.map(({ label, url }) => (
+            <RouterLink key={url} to={url} className={styles.legalLink}>
+              {label}
+            </RouterLink>
+          ))}
+        </nav>
 
         <div className={styles.bottom}>
           {copyrightText && (
