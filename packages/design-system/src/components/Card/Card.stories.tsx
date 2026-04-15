@@ -614,3 +614,35 @@ export const ListingGrid: Story = {
     </div>
   ),
 };
+
+// ═══════════════════════════════════════════════════════════════════
+// SNAPSHOT — Chromatic composite (all variants in one screenshot)
+// ═══════════════════════════════════════════════════════════════════
+
+/**
+ * Chromatic snapshot — node, article, case study card variants
+ * composed into a single screenshot for VRT baseline.
+ */
+export const Snapshot: Story = {
+  name: 'Snapshot (Chromatic)',
+  parameters: {
+    chromatic: { disableSnapshot: false },
+    layout: 'padded',
+  },
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', maxWidth: '1100px' }}>
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Node (full)</h4>
+        <Card {...NODE_FULL} />
+      </div>
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Case Study (full)</h4>
+        <Card {...CASE_STUDY_FULL} />
+      </div>
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Article (minimal)</h4>
+        <Card {...ARTICLE_MINIMAL} />
+      </div>
+    </div>
+  ),
+};

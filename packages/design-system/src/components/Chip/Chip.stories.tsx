@@ -200,3 +200,62 @@ export const OnVoidBackground: Story = {
   ),
   parameters: { layout: 'padded' },
 };
+
+// ═══════════════════════════════════════════════════════════════════
+// SNAPSHOT — Chromatic composite (all variants in one screenshot)
+// ═══════════════════════════════════════════════════════════════════
+
+/**
+ * Chromatic snapshot — all sizes, presets, and modes composed into a
+ * single screenshot for VRT baseline.
+ */
+export const Snapshot: Story = {
+  name: 'Snapshot (Chromatic)',
+  parameters: {
+    chromatic: { disableSnapshot: false },
+    layout: 'padded',
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '720px' }}>
+      {/* Sizes */}
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Sizes</h4>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
+          <Chip label="Small" href="#" size="sm" />
+          <Chip label="Medium (default)" href="#" size="md" />
+        </div>
+      </div>
+      {/* Named presets */}
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Named Presets</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          <Chip label="Pink" color="pink" href="#" />
+          <Chip label="Seafoam" color="seafoam" href="#" />
+          <Chip label="Lime" color="lime" href="#" />
+          <Chip label="Violet" color="violet" href="#" />
+          <Chip label="Amber" color="amber" href="#" />
+          <Chip label="Grey" color="grey" href="#" />
+        </div>
+      </div>
+      {/* Render modes */}
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Render Modes</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          <Chip label="Static span" />
+          <Chip label="Link" href="#" />
+          <Chip label="Button" onClick={() => {}} />
+          <Chip label="Active button" onClick={() => {}} isActive />
+        </div>
+      </div>
+      {/* Color-aware */}
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Color-aware (custom hex)</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          <Chip label="Brand Strategy" href="#" colorHex="#7C3AED" />
+          <Chip label="Engineering" href="#" colorHex="#059669" />
+          <Chip label="Design Systems" href="#" colorHex="#D97706" />
+        </div>
+      </div>
+    </div>
+  ),
+};

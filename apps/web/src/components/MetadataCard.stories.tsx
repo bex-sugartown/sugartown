@@ -313,8 +313,7 @@ export const Snapshot: Story = {
     chromatic: { disableSnapshot: false },
   },
   render: () => (
-    <MemoryRouter>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '640px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '640px' }}>
         {/* Node — full */}
         <div>
           <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Node (full)</h4>
@@ -373,6 +372,5 @@ export const Snapshot: Story = {
           />
         </div>
       </div>
-    </MemoryRouter>
   ),
 };

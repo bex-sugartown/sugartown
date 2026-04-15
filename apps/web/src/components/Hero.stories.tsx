@@ -132,3 +132,28 @@ export const HeadingOnly: Story = {
     },
   },
 };
+
+// ═══════════════════════════════════════════════════════════════════
+// SNAPSHOT — Chromatic composite (all background variants)
+// ═══════════════════════════════════════════════════════════════════
+
+/**
+ * Chromatic snapshot — all background style variants stacked into a
+ * single screenshot for VRT baseline.
+ */
+export const Snapshot: Story = {
+  name: 'Snapshot (Chromatic)',
+  parameters: {
+    chromatic: { disableSnapshot: false },
+    layout: 'fullscreen',
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', background: '#888' }}>
+      <Hero hero={{ ...BASE_HERO, heading: 'Default (dark)' }} />
+      <Hero hero={{ ...BASE_HERO, heading: 'Pink Background', backgroundStyle: 'pink' }} />
+      <Hero hero={{ ...BASE_HERO, heading: 'Green Background', backgroundStyle: 'green' }} />
+      <Hero hero={{ ...BASE_HERO, heading: 'White Background', backgroundStyle: 'white' }} />
+      <Hero hero={{ heading: 'Heading Only', backgroundStyle: 'pink' }} />
+    </div>
+  ),
+};

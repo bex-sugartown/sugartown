@@ -203,8 +203,7 @@ export const Snapshot: Story = {
     chromatic: { disableSnapshot: false },
   },
   render: () => (
-    <MemoryRouter>
-      <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'start' }}>
+    <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'start' }}>
         {/* All slots */}
         <div style={{ maxWidth: '280px' }}>
           <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>All Slots</h4>
@@ -243,6 +242,5 @@ export const Snapshot: Story = {
           <MarginColumn aiDisclosure="Co-authored with Claude Code. All decisions are human-made." />
         </div>
       </div>
-    </MemoryRouter>
   ),
 };

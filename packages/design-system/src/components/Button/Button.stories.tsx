@@ -211,3 +211,42 @@ export const PinkMoonOnVoid: Story = {
     </div>
   ),
 };
+
+// ═══════════════════════════════════════════════════════════════════
+// SNAPSHOT — Chromatic composite (all variants in one screenshot)
+// ═══════════════════════════════════════════════════════════════════
+
+/**
+ * Chromatic snapshot — all variants and states composed into a single
+ * screenshot for VRT baseline.
+ */
+export const Snapshot: Story = {
+  name: 'Snapshot (Chromatic)',
+  parameters: {
+    chromatic: { disableSnapshot: false },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', padding: '1rem' }}>
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Variants</h4>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <Button variant="primary">Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="tertiary">Tertiary</Button>
+        </div>
+      </div>
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Disabled</h4>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <Button variant="primary" disabled>Primary</Button>
+          <Button variant="secondary" disabled>Secondary</Button>
+          <Button variant="tertiary" disabled>Tertiary</Button>
+        </div>
+      </div>
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Long label</h4>
+        <Button variant="primary">This is a very long button label that tests wrapping</Button>
+      </div>
+    </div>
+  ),
+};

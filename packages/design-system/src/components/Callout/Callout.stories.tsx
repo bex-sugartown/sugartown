@@ -256,3 +256,40 @@ export const AllVariants: Story = {
     </div>
   ),
 };
+
+// ═══════════════════════════════════════════════════════════════════
+// SNAPSHOT — Chromatic composite (all variants in one screenshot)
+// ═══════════════════════════════════════════════════════════════════
+
+/**
+ * Chromatic snapshot — all five variants composed into a single
+ * screenshot for VRT baseline.
+ */
+export const Snapshot: Story = {
+  name: 'Snapshot (Chromatic)',
+  parameters: {
+    chromatic: { disableSnapshot: false },
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '640px' }}>
+      <Callout variant="default" title="Default">
+        <p>Pink brand callout with default heart icon.</p>
+      </Callout>
+      <Callout variant="info" title="Info">
+        <p>Neutral surface callout with info icon.</p>
+      </Callout>
+      <Callout variant="tip" title="Tip">
+        <p>Seafoam tint callout with lightbulb icon.</p>
+      </Callout>
+      <Callout variant="warn" title="Warning">
+        <p>Yellow tint callout with alert triangle icon.</p>
+      </Callout>
+      <Callout variant="danger" title="Danger">
+        <p>Red tint callout with alert octagon icon.</p>
+      </Callout>
+      <Callout variant="info" title="No icon variant" icon={null}>
+        <p>Same surface, icon suppressed.</p>
+      </Callout>
+    </div>
+  ),
+};
