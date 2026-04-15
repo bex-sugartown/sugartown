@@ -227,3 +227,79 @@ N/A.
 2. Confirm clean tree
 3. Run `/mini-release`
 4. Transition SUG-63 to Done in Linear
+
+---
+
+## Phase 0 — Baseline Audit (completed 2026-04-15)
+
+**Methodology:**
+- Tool: Chrome DevTools performance trace (via MCP)
+- Emulation: Slow 4G network, 4× CPU throttling, 375×812 mobile viewport
+- Mode: navigation (reload + auto-stop trace)
+- Field data: CrUX reports "no data" for all URLs — site is too new for real-user data
+- Notes: Each URL measured once. CWV values vary between runs; these are indicative baselines, not statistically stable medians.
+
+### Results
+
+| # | Page | URL | LCP (ms) | CLS | LCP ✓ | CLS ✓ |
+|---|------|-----|----------|-----|-------|-------|
+| 1 | Homepage | `/` | 1315 | 0.03 | ✅ | ✅ |
+| 2 | Article archive | `/articles` | 1320 | **0.47** | ✅ | ❌ |
+| 3 | Knowledge graph archive | `/knowledge-graph` | 1316 | 0.03 | ✅ | ✅ |
+| 4 | Case studies archive | `/case-studies` | 1312 | **0.39** | ✅ | ❌ |
+| 5 | Node detail | `/nodes/the-great-disconnection` → `/knowledge-graph/...` | **5006** | 0.03 | ❌ | ✅ |
+| 6 | Article detail | `/articles/test-preview-post` | 1290 | **0.47** | ✅ | ❌ |
+| 7 | Case study detail | `/case-studies/fx-networks` | 1301 | **0.47** | ✅ | ❌ |
+| 8 | Taxonomy archive | `/categories` | 1899 | **0.14** | ✅ | ❌ |
+| 9 | Taxonomy detail | `/tags/ai-collaboration` | 1911 | **0.31** | ✅ | ❌ |
+
+**Pass rate:** LCP 8/9 (89%). CLS 3/9 (33%). INP not measured (requires user interaction — deferred to Phase 3 CI).
+
+### Top 3 issues by impact
+
+**Issue 1 — Systemic CLS on image-bearing pages (6/9 fail, up to 0.47 = 4.7× threshold)**
+
+Every detail page and every image-grid archive page fails CLS. The pattern is consistent at 0.47 on article/case study detail pages and 0.39–0.47 on archive grids. Likely cause: hero images and card thumbnails rendered without explicit `width`/`height` or `aspect-ratio` reservations, so the layout reflows when images load.
+
+Investigation paths:
+- Hero image markup in `PageSections.jsx` heroSection renderer — verify width/height or aspect-ratio on `<img>`
+- `SanityImage` component — confirm responsive srcset includes dimensions
+- Card thumbnail rendering in `ContentCard` / archive grids — audit dimension hints
+- Font swap may contribute (em dash appears at CLS event time ~60ms after FCP — suggests late-arriving content)
+
+**Issue 2 — Node detail LCP 5006ms (2× threshold)**
+
+The Great Disconnection node detail page has LCP load duration of 3681ms, dominating the budget. DevTools flagged an `ImageDelivery` insight with 42.1kB of wasted bytes — the hero image is larger than needed at the rendered size.
+
+Investigation paths:
+- Hero image size — is it being served at intrinsic resolution when a smaller version would do?
+- `urlFor()` params — verify `?w=`, `&fit=`, `&auto=format` are applied
+- `<link rel="preload">` — is the hero image preload hint present on detail pages? MEMORY.md EPIC-0182 says yes. Verify it's working post-SUG-52.
+- Only this page type was checked. Article/case study detail hit 1290-1301ms, so the issue may be specific to this one doc's image size, not the template.
+
+**Issue 3 — Uniform 1.2–1.3s load delay across all page types**
+
+Every page except node detail shows ~1200-1900ms LCP dominated by either "Load delay" (time before image fetch starts) or "Render delay" (time between fetch and paint). This pattern is consistent with the known risk from the epic:
+
+> Google Fonts via CSS `@import url()` in `globals.css` is a known render-blocking pattern
+
+The render-blocking insight appeared on 8/9 pages but with "FCP 0ms, LCP 0ms" estimated savings — meaning Lighthouse judges these specific requests non-critical. However the 1200ms+ render delay across all pages suggests a render-blocking chain (likely fonts + CSS) is delaying the first paint.
+
+Investigation paths:
+- `apps/web/src/design-system/styles/globals.css` — audit `@import url()` for Google Fonts
+- Switch Google Fonts to `<link rel="preconnect">` + `<link href>` in `index.html` with `font-display: swap`
+- Bundle analyzer: run `npx vite-bundle-visualizer` in `apps/web/` to quantify JS bundle parse cost
+
+### Phase 1 recommendations (priority order)
+
+1. **Fix CLS root cause** — add `width`/`height` or `aspect-ratio` to hero images and card thumbnails. This alone would move 6 pages from fail to pass. Biggest impact, smallest code change.
+2. **Audit hero image preload** — verify EPIC-0182 `<link rel="preload">` still works post-SUG-52 and that `urlFor()` params produce the correct responsive size for each hero surface.
+3. **Google Fonts loading strategy** — move from CSS `@import` in `globals.css` to `<link>` tags in `index.html` (same pattern as Storybook — see MEMORY.md §Google Fonts Loading Rules).
+
+Phases 2 (code splitting, bundle analysis) and 3 (Lighthouse CI) deferred pending Phase 1 results. If Phase 1 fixes land 9/9 at Good, Phase 2 structural work may not be needed.
+
+### Phase 1 decision
+
+Phase 1 is a separate execution — not bundled into this epic's baseline deliverable. Top 3 issues are now documented; fixes require code changes that should be scoped as their own epic or committed here as Phase 1 follow-ups.
+
+**Recommendation:** Ship Phase 0 as the baseline artifact. Schedule Phase 1 as a new session (estimated 1–2 hours) focused on the three issues above. Re-run the baseline after Phase 1 lands to verify pass/fail shifts.
