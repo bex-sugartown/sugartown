@@ -240,3 +240,128 @@ A hiring manager or prospective client landing on the homepage can:
 2. Confirm clean tree
 3. Run `/release` (minor version bump, new content surface)
 4. Transition SUG-64 to Done in Linear
+
+---
+
+## Phase 0 — Audit (completed 2026-04-15)
+
+| Page | Slug | Doc ID | Status | Sections |
+|------|------|--------|--------|----------|
+| Homepage | `home` | `wp.page.957` | 🟡 WP leftover | textSection ("Atoms & Ecosystems") + calloutSection + cardBuilderSection (4 cards). NO hero. Title is legacy. |
+| Services | `services` | `40df3ddc...` | 🔴 Placeholder | hero ("Services") + textSection (no heading) + ctaSection ("Get in Touch") |
+| Platform | `platform` | `146e3afb...` | 🔴 Placeholder | hero ("Platform") + textSection (no heading) + ctaSection ("CTA Heading" — literal placeholder) |
+| About | `about` | `b44f2b69...` | 🟡 Minimal (out of scope) | 2 sections |
+| AI Ethics | `ai-ethics` | `wp.page.1644` | ✅ Complete | 9 sections (SUG-61) |
+| Contact | `contact` | `wp.page.218` | ✅ Complete | EPIC-0179 |
+
+**Nav fixes done in Phase 0:** Library > Blog label updated to "Articles" (post→article rename in Stage 6 left a stale label). Reference target was already correct.
+
+---
+
+## Phase 1 — Content Briefs
+
+### Brief: Homepage
+
+**Goal:** Within 5 seconds a hiring manager understands what Bex does and why this site itself is the credential.
+
+**Suggested template:** `default` (currently `full-width` — change to `default` so MetadataCard could appear if useful, OR keep `full-width` for marketing-style layout. Decision needed.)
+
+**Section structure (proposed):**
+
+| # | Section type | Purpose | Status |
+|---|---|---|---|
+| 1 | `heroSection` | Value prop + primary CTA. Hero image optional (text-only is valid). | ⚠️ Not currently present — needs adding |
+| 2 | `textSection` | "Why Sugartown" — 2–3 paragraphs framing the site as portfolio + product. | Needs copy |
+| 3 | `cardBuilderSection` (3 cards) | Curated teasers: Featured Case Study, Featured Node, Services entry point | Cards exist (4) — needs editorial review |
+| 4 | `calloutSection` | Optional: pull a notable quote or methodology callout | Currently exists — review |
+| 5 | `ctaSection` | Primary CTA to /services or /contact | Missing |
+
+**Bex needs to decide:**
+- [ ] **Value proposition** — one sentence answering "what do you do?" Suggestion based on services draft: _"Senior product leadership for digital teams navigating CMS migrations, design systems, and AI workflow strategy."_ Approve / rewrite.
+- [ ] **Hero treatment** — text-only / pink fill / image with greyscale-panel overlay (SUG-59)?
+- [ ] **Primary CTA** — Book a call (`/contact`) or See services (`/services`)?
+- [ ] **3 teaser picks** — which case study, which node, which service category goes in the card grid?
+- [ ] **Page title** — keep "Atoms & Ecosystems" (current — not obviously homepage) or rename to "Sugartown Digital" / "Home"?
+
+**Image requirements:**
+- Optional hero image: 1600×900 minimum, `.webp`, naming convention `site-home-hero.webp`
+- Card thumbnails: auto-derived from referenced docs (per SUG-50 when shipped) or supplied per-card
+
+**Copy guardrails:** anti-slop checks per `docs/brand/brand-voice-guide.md` — no em dashes, no AI vocabulary, no decorative emoji, direct/specific voice.
+
+---
+
+### Brief: Services (consulting framing)
+
+**Source:** `docs/drafts/services.html` (local-only). The draft is well-developed and ships-ready content; this brief documents the structure for Sanity authoring.
+
+**Goal:** Position Sugartown as senior fractional/consulting product leadership. Show offerings, engagement models, fit signal, clear booking CTA. The site itself is the proof.
+
+**Suggested template:** `default` (single column, MetadataCard optional)
+
+**Section structure (mapped from draft):**
+
+| # | Section type | Mock element | Content |
+|---|---|---|---|
+| 1 | `heroSection` | Hero | Eyebrow: "Services". H1: _"I know what I'm doing. I have room in my calendar."_ Subhead: _"Senior product leadership for digital teams navigating CMS migrations, design system governance, and AI workflow strategy. Fractional or contract. Remote-first."_ Side card: 5-bullet credential list (FX Networks, beauty retailer, design systems, multi-agent AI, stack listing). |
+| 2 | `cardBuilderSection` (6 cards) | Services grid | The 6 offerings from draft: Fractional PM, CMS Architecture, Design System Governance, AI Workflow Strategy, RFP Support, Change Management. Each card: number badge, title, ~2 sentence body, 3–4 tags. |
+| 3 | `textSection` or new `engagementListSection` | "How I engage" | 4 engagement models: Fractional, Sprint, Advisory, Contract. Each with type label + heading + ~2 sentence description. **Schema gap:** no current section type renders this 2-col label/content list cleanly. Options: (a) compose with `textSection` using PT headings, (b) defer the typed-engagement-list section to a follow-on epic. Recommend (a) for now. |
+| 4 | `cardBuilderSection` (2 cards) | "Is this a fit?" | Two cards: "Good fit" (6 bullets, seafoam accent) and "Probably not" (4 bullets, neutral). Card variant should be different from the 6-services grid above. |
+| 5 | `ctaSection` | Final CTA | Heading: _"If this sounds like your problem, my calendar is here."_ Body: _"The site itself is the portfolio. You can see how I think, what I've built, and how I document it."_ Primary CTA: "Book a call" → `/contact`. Secondary: "See the work" → `/case-studies`. |
+
+**Bex needs to decide:**
+- [ ] **Approve hero copy verbatim from draft?** Or rewrite the headline.
+- [ ] **Approve all 6 service offerings as listed?** Trim, reorder, rename, expand?
+- [ ] **Approve engagement model copy verbatim?**
+- [ ] **Card variant choice for fit cards** — Card primitive supports `variant`, `accentColor`. Confirm seafoam accent for "Good fit", neutral for "Probably not".
+- [ ] **Hero treatment** — text-only / image (greyscale-panel)?
+- [ ] **Schema gap decision** — accept textSection for engagement list, or carve out a follow-on epic for `engagementListSection`?
+
+**Image requirements:**
+- Optional hero image: `site-services-hero.webp`. Draft is text-only.
+
+**Copy guardrails:** Draft already passes anti-slop checks. Em dashes present in draft (e.g. "—") — these need replacement before authoring per CLAUDE.md.
+
+---
+
+### Brief: Platform — ship or defer
+
+**Goal:** Decide whether `/platform` is a content surface for v1, or whether it's deferred to Phase 2 of the IA brief.
+
+**Current state:** Hero ("Platform") + textSection (no heading) + ctaSection ("CTA Heading" placeholder). Linked from main nav. Live but empty.
+
+**Two paths:**
+
+**Path A — Ship lightweight:** position the site itself as "the platform"
+- Hero: _"This site is a platform."_ or similar self-referential framing
+- 3 sections explaining: the design system, the schema/CMS architecture, the AI collaboration framework
+- Each section links to the corresponding artifact (Storybook, schema ERD page, AI Ethics page)
+- Acts as a meta-tour of how the portfolio is built
+- Light editorial lift; reuses existing surfaces
+
+**Path B — Defer:**
+- Remove Platform from main nav (Sanity nav config patch)
+- Optionally redirect `/platform` → `/about` to avoid 404s for any existing inbound links
+- Move Platform sub-pages (per IA brief Phase 2 §9) to backlog
+
+**Bex needs to decide:**
+- [ ] **A or B?** If A, draft the 3 platform pillars (suggested: Design System, Content Architecture, AI Collaboration).
+- [ ] **If B**, confirm: remove from nav this session? Set up redirect?
+
+**Recommendation:** Path A is low-effort and reinforces the portfolio thesis (the site IS the platform). It can be authored in 1–2 hours with existing infrastructure once the 3 pillar topics are picked.
+
+---
+
+## Phase 1 status
+
+Briefs are skeleton-complete and ready for Bex's editorial decisions. Phase 2 (Sanity authoring) cannot proceed until briefs are reviewed and the open decisions above are answered.
+
+**Next session checkpoint:**
+1. Bex reviews the 3 briefs above
+2. Bex answers the open decisions (marked `[ ]`)
+3. Phase 2 authoring begins: services first (most ready), then homepage, then platform per A/B decision
+
+**Estimated Phase 2 effort once briefs are approved:**
+- Services: 1–2 hours (content largely drafted)
+- Homepage: 2–3 hours (needs hero copy, teaser picks, image sourcing)
+- Platform: 1–2 hours if A, 15 min if B
