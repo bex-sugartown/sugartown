@@ -183,7 +183,16 @@ export const CaseStudy: Story = {
     contentType: 'Case Study',
     publishedAt: '2023-08-10',
     tools: [TOOLS.aem, TOOLS.contentful, TOOLS.oracleAtg],
-    categories: [CATEGORIES.contentArch, CATEGORIES.designSys, CATEGORIES.platformStr],
+    categories: [{
+      "_id": "cat-design-sys",
+      "name": "Design Systems",
+      "slug": "design-systems",
+      "colorHex": "#2BD4AA"
+    }, {
+      "_id": "cat-platform-str",
+      "name": "Product & Platform Strategy",
+      "slug": "product-platform-strategy"
+    }],
     tags: [
       TAGS.composable, TAGS.dam, TAGS.designSystem,
       TAGS.digitalTrans, TAGS.headlessCms, TAGS.omnichannel, TAGS.pimPxm,
@@ -234,6 +243,16 @@ export const ArticleMinimal: Story = {
     aiTool: 'claude',
     categories: [CATEGORIES.designSys],
     tags: [TAGS.designSystem],
+
+    tools: [{
+      "_id": "tool-claude-code",
+      "name": "Claude Code",
+      "slug": "claude-code"
+    }, {
+      "_id": "tool-sanity",
+      "name": "Sanity",
+      "slug": "sanity"
+    }]
   },
 };
 
@@ -257,13 +276,103 @@ export const ProjectDetail: Story = {
     projectId: 'PROJ-002',
     status: 'in-progress',
     priority: 2,
+
     kpis: [
       { metric: 'Node Coverage',     current: '47',  target: '100' },
       { metric: 'Taxonomy Accuracy',  current: '82%', target: '95%' },
       { metric: 'Archive Completeness', current: '3/5' },
     ],
+
     categories: [CATEGORIES.aiCollab],
     tags: [TAGS.aiWorkflows, TAGS.contextEng],
     publishedAt: '2025-01-01',
+
+    tools: [{
+      "_id": "tool-claude-code",
+      "name": "Claude Code",
+      "slug": "claude-code"
+    }, {
+      "_id": "tool-sanity",
+      "name": "Sanity",
+      "slug": "sanity"
+    }]
   },
+};
+
+// ═══════════════════════════════════════════════════════════════════
+// SNAPSHOT — Chromatic composite (all variants in one screenshot)
+// ═══════════════════════════════════════════════════════════════════
+
+/**
+ * Chromatic snapshot — all MetadataCard variants composed into a
+ * single screenshot for VRT baseline. Keeps snapshot count low.
+ */
+export const Snapshot: Story = {
+  name: 'Snapshot (Chromatic)',
+  parameters: {
+    chromatic: { disableSnapshot: false },
+  },
+  render: () => (
+    <MemoryRouter>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '640px' }}>
+        {/* Node — full */}
+        <div>
+          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Node (full)</h4>
+          <MetadataCard
+            authors={[PERSON_BEX]}
+            contentType="Node"
+            publishedAt="2026-02-28"
+            status="evergreen"
+            aiTool="claude"
+            tools={[TOOLS.claudeCode, TOOLS.sanity]}
+            categories={[CATEGORIES.aiCollab, CATEGORIES.waysWorking]}
+            tags={[TAGS.promptEng, TAGS.aiWorkflows, TAGS.humanInLoop, TAGS.llmWorkflows, TAGS.waysWorking, TAGS.claudeCode]}
+            projects={[PROJECTS.sugartown]}
+          />
+        </div>
+        {/* Case Study — with client */}
+        <div>
+          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Case Study (client + role)</h4>
+          <MetadataCard
+            authors={[PERSON_BEX]}
+            contentType="Case Study"
+            publishedAt="2023-08-10"
+            client="Sugartown (internal)"
+            role="Lead Designer + Engineer"
+            tools={[TOOLS.aem, TOOLS.contentful, TOOLS.oracleAtg]}
+            categories={[CATEGORIES.contentArch, CATEGORIES.designSys]}
+            tags={[TAGS.composable, TAGS.dam, TAGS.headlessCms]}
+          />
+        </div>
+        {/* Article — minimal */}
+        <div>
+          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Article (minimal)</h4>
+          <MetadataCard
+            authors={[PERSON_BEX]}
+            contentType="Article"
+            publishedAt="2024-01-08"
+            aiTool="claude"
+            categories={[CATEGORIES.designSys]}
+            tags={[TAGS.designSystem]}
+          />
+        </div>
+        {/* Project — with KPIs */}
+        <div>
+          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Project (KPIs)</h4>
+          <MetadataCard
+            projectId="PROJ-002"
+            status="in-progress"
+            priority={2}
+            kpis={[
+              { metric: 'Node Coverage', current: '47', target: '100' },
+              { metric: 'Taxonomy Accuracy', current: '82%', target: '95%' },
+            ]}
+            categories={[CATEGORIES.aiCollab]}
+            tags={[TAGS.aiWorkflows, TAGS.contextEng]}
+            publishedAt="2025-01-01"
+          />
+        </div>
+      </div>
+    </MemoryRouter>
+  ),
 };

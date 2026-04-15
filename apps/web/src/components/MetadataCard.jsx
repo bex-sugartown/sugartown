@@ -218,21 +218,32 @@ export default function MetadataCard({
         {hasChips && (
           <div className={styles.chipColumns}>
 
-            {hasTools && (
-              <div className={styles.chipRow}>
-                <p className={styles.chipLabel}>Tools</p>
-                <ul className={styles.chipList}>
-                  {validTools.map((tool) => (
-                    <li key={tool._id}>
-                      <Chip
-                        label={tool.name}
-                        href={tool.slug ? getCanonicalPath({ docType: 'tool', slug: tool.slug }) : undefined}
-                        color="grey"
-                        size="sm"
-                      />
-                    </li>
-                  ))}
-                </ul>
+            {/* Tools + Categories — side by side per SUG-52 mock */}
+            {(hasTools || hasCategories) && (
+              <div className={styles.chipRowPair}>
+                {hasTools && (
+                  <div className={styles.chipRow}>
+                    <p className={styles.chipLabel}>Tools</p>
+                    <ul className={styles.chipList}>
+                      {validTools.map((tool) => (
+                        <li key={tool._id}>
+                          <Chip
+                            label={tool.name}
+                            href={tool.slug ? getCanonicalPath({ docType: 'tool', slug: tool.slug }) : undefined}
+                            color="grey"
+                            size="sm"
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {hasCategories && (
+                  <div className={styles.chipRow}>
+                    <p className={styles.chipLabel}>Category</p>
+                    <TaxonomyChips categories={categories} size="sm" />
+                  </div>
+                )}
               </div>
             )}
 
@@ -240,13 +251,6 @@ export default function MetadataCard({
               <div className={styles.chipRow}>
                 <p className={styles.chipLabel}>Project</p>
                 <TaxonomyChips projects={projects} size="sm" />
-              </div>
-            )}
-
-            {hasCategories && (
-              <div className={styles.chipRow}>
-                <p className={styles.chipLabel}>Category</p>
-                <TaxonomyChips categories={categories} size="sm" />
               </div>
             )}
 

@@ -25,14 +25,14 @@
 }
 
 /* ── Scalar field row — bg-through-gap dividers ── */
-/* Container bg = divider color, each field bg = surface → gap exposes lines */
+/* Container bg = divider color, each field bg = surface → gap exposes lines.
+   padding-bottom: 1px creates the divider between scalars and chip sections. */
 
 .scalarRow {
   display: flex;
   flex-wrap: wrap;
   gap: 1px;
   background-color: var(--st-margin-divider);
-  /* Bottom border via padding — exposes container bg as a 1px line */
   padding-bottom: 1px;
 }
 
@@ -63,22 +63,20 @@
 /* ── Call number — project ID, catalog-card shelf label ── */
 
 .callNumber {
-  font-family: var(--st-label-font);
+  font-family: var(--st-font-ui);
   font-size: var(--st-font-size-sm);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  color: var(--st-label-color);
+  color: var(--st-color-text-default);
   margin: 0;
-  /* Call number sits as a scalar field in the flow */
 }
 
 .callNumberLink {
-  color: inherit;
-  text-decoration: none;
+  color: var(--st-color-text-default);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .callNumberLink:hover {
-  text-decoration: underline;
+  color: var(--st-color-brand-primary);
 }
 
 /* ── Links within scalar values ── */
@@ -95,16 +93,26 @@
   color: var(--st-color-brand-primary);
 }
 
-/* ── Chip sections — each section is a full-width row ── */
-/* bg-through-gap between chip sections */
+/* ── Chip sections — bg-through-gap between chip sections ── */
+/* Single divider layer: chipColumns owns all horizontal lines.
+   chipRowPair is transparent — it only adds the vertical gap between
+   Tools and Categories. No nested divider bg to avoid doubled lines. */
 
 .chipColumns {
   display: flex;
   flex-direction: column;
   gap: 1px;
   background-color: var(--st-margin-divider);
-  /* bottom padding exposes divider below last chip section */
-  padding-bottom: 1px;
+}
+
+/* Tools + Categories side-by-side (per SUG-52 mock).
+   auto-fit collapses to 1 column when only one child exists.
+   bg is transparent — the vertical 1px gap exposes chipColumns' divider bg. */
+.chipRowPair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1px;
+  background-color: var(--st-margin-divider);
 }
 
 .chipRow {

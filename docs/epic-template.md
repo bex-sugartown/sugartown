@@ -365,6 +365,46 @@ State how re-running the script produces no change:
 - [ ] **Taxonomy rows**: if taxonomy fields are rendered, each type (`projects[]`, `categories[]`, `tags[]`) appears as its own separately labelled row in the UI — confirmed by visual inspection on a document that has all three populated
 - [ ] **Route smoke-test**: navigate to the archive route (e.g. `/projects`) AND the detail route (e.g. `/projects/sugartown-cms`) for at least one real published document — both routes must render without 404, without runtime errors, and with correct Sanity data (not an empty/placeholder state). If this epic adds a new doc type, test both archive and detail.
 - [ ] **Visual QA** (required for any epic that changes visible output): render the new component/section on a real page with realistic adjacent content. Screenshot or preview-inspect to verify spacing, typography, and colour consistency with neighbouring elements. Check at desktop and mobile breakpoints. Specifically verify: no double-padding when sections render inside a detail page container, heading colours match the brand-primary token, and font sizes match the design system type scale.
+- [ ] **Mock fidelity** (required if Phase 0 produced an HTML mock): agent produces the mock-to-implementation comparison table in the Visual QA Gate below. Human reviews and approves before close-out. This line item cannot be ticked by the agent alone.
+
+---
+
+## Visual QA Gate [REQUIRED if epic touches CSS, layout, or component rendering]
+
+> This gate runs AFTER all acceptance criteria pass and BEFORE post-epic close-out.
+> It is a **human gate** — the agent prepares the evidence, the human makes the call.
+> Build success is not visual correctness. Do not skip this section.
+
+### Evidence the agent must prepare:
+
+1. **Storybook story exists** for every new or modified component
+   - Story covers: default state, all variants, edge cases (long text, missing fields, empty arrays)
+   - Story renders without console errors
+
+2. **Mock-to-implementation comparison table** (required if Phase 0 produced an HTML mock)
+   - List every visual element in the mock and confirm or flag each one:
+
+   | Mock Element | Status | Notes |
+   |---|---|---|
+   | _e.g. Metadata field order_ | _Match / Drift / Missing_ | _detail_ |
+   | _e.g. Chip gap spacing_ | _Match / Drift / Missing_ | _Mock: 8px, Impl: 12px_ |
+
+   - If no mock exists: agent produces a self-audit against the component contract or DS ruleset
+
+3. **Token compliance audit**
+   - `grep` the modified CSS for any hardcoded values (hex colors, px font sizes, font stacks)
+   - Report count: "0 hardcoded values found" or list each violation
+
+4. **Cross-surface spot check**
+   - List every page/route that renders this component
+   - Confirm the component renders without errors on at least 2 different routes with real Sanity data
+   - Flag any route where the component appears visually different from Storybook
+
+### Human gate:
+> Agent presents the evidence table above.
+> Human reviews Storybook rendering and cross-surface spot check.
+> Human approves or returns with specific visual corrections.
+> Agent does NOT proceed to close-out until human says "Visual QA approved."
 
 ---
 

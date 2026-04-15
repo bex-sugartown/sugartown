@@ -103,7 +103,9 @@ Do not write CSS until this is documented. Guessing which container has the over
 
 When a CSS layout fix fails and requires a follow-up commit, **stop and diagnose before patching**. Write a 1-paragraph root-cause analysis covering the full cascade (containment → flex/grid → margin → max-width → child sizing) before writing the next fix.
 
-If 2+ fix commits address the same layout surface in sequence, treat it as a signal to step back, map the full constraint chain, and fix the root cause — not the symptom.
+If 2+ fix commits address the same layout surface in sequence, treat it as a signal to step back, map the full constraint chain, and fix the root cause, not the symptom.
+
+**Self-check after every CSS fix commit:** grep for the same selector(s) in the prior 3 commits. If the same surface appears in a recent fix, halt and write the root-cause paragraph before the next fix. Two consecutive fix commits on the same CSS surface without a documented root-cause analysis is a process failure.
 
 ### `container-type` guardrail
 
@@ -273,3 +275,28 @@ Whenever `apps/web/src/design-system/styles/tokens.css` **or** `packages/design-
 2. Update **both** token files in the same commit — they must stay in sync at all times.
 
 This catches: duplicate definitions, renamed tokens with lingering references, and cross-file drift. See MEMORY.md §Token Drift Rules for background.
+
+---
+
+## Visual Verification Rules
+
+Build success does not equal visual correctness. Never declare CSS or layout work "done" based solely on a clean build or runtime error absence.
+
+### When a visual mock or spec exists
+
+Produce a **mock-to-implementation comparison table** before requesting close-out. The table must list every visual element in the mock (field order, spacing values, chip styles, typography, colours) and flag each as Match, Drift, or Missing. Present this table to Bex for review. Do not close the epic until "Visual QA approved."
+
+### For every CSS property you write
+
+Confirm:
+1. The value is a token reference (`var(--st-*)`) not a hardcoded value. If hardcoded, state why.
+2. The computed layout matches the dimensional contract. Show the arithmetic (e.g. "Mock: 3-col grid at 1200px. Card 340px, gap 24px. 340x3 + 24x2 = 1068px + padding = 1200px").
+3. Spacing and gap values match the mock or spec. Numbers, not vibes.
+
+### Storybook coverage requirement
+
+Every new or modified component that has visual output must have a Storybook story before close-out. The story must cover: default state, all meaningful variants, and at least one edge case (long text, missing fields, empty arrays). Components without stories are invisible to Chromatic VRT.
+
+### Honesty over confidence
+
+List visual elements you cannot verify without a browser. "I cannot confirm the hover state transition timing matches the mock" is acceptable. "Everything looks good" without evidence is not.

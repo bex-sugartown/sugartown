@@ -552,6 +552,6 @@
   --st-margin-outline:  #4a5068;
 
   /* Label tokens — dark override */
-  --st-label-color:       var(--st-color-softgrey-400);
+  --st-label-color:       var(--st-color-charcoal-400);
   --st-label-color-badge: var(--st-color-softgrey-500);
 }

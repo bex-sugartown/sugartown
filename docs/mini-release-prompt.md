@@ -29,6 +29,22 @@ Mini-releases accumulate as tagged patch versions. A **full release** (run separ
 
 ## STEP 0 — COLLECT
 
+### 0A — Chromatic VRT check (if epic touched CSS or components)
+
+If the epic modified any CSS files, component JSX, or Storybook stories, run Chromatic before proceeding:
+
+```bash
+pnpm --filter storybook chromatic --exit-zero-on-changes
+```
+
+- If Chromatic reports **no changes**: proceed to 0B.
+- If Chromatic reports **visual changes**: tell the human "Chromatic detected visual diffs — review and approve baselines at [Chromatic URL] before continuing." Wait for confirmation.
+- If Chromatic is not configured or fails: note it in the release output and proceed. This is advisory, not blocking (until the team decides otherwise).
+
+The `--exit-zero-on-changes` flag prevents CI failure on expected visual changes; human review is the gate.
+
+### 0B — Version collection
+
 AI runs:
 
 ```bash

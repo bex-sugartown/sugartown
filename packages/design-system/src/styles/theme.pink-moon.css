@@ -44,6 +44,15 @@
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
   --st-shadow-elevation-float:  0 12px 30px rgba(13, 18, 38, 0.10);
+
+  /* Margin column + MetadataCard — light surface (SUG-52) */
+  --st-margin-bg:       var(--st-color-softgrey-50);      /* #f8f8fa — surface */
+  --st-margin-divider:  var(--st-color-softgrey-300);     /* #bcc5d1 — interior lines */
+  --st-margin-outline:  var(--st-color-softgrey-500);     /* #6e7f96 — dotted outline */
+
+  /* Label tokens — light override */
+  --st-label-color:       var(--st-color-charcoal-400);   /* #888 — neutral gray */
+  --st-label-color-badge: var(--st-color-charcoal-300);   /* #b0b0b0 — subtle badges */
 }
 
 /* ── Dark Pink Moon ────────────────────────────────────── */
@@ -59,4 +68,13 @@
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
   --st-shadow-elevation-float:  0 12px 30px rgba(13, 18, 38, 0.30);
+
+  /* Margin column + MetadataCard — opaque dark (SUG-52) */
+  --st-margin-bg:       #1b2033;
+  --st-margin-divider:  #2d3148;
+  --st-margin-outline:  #4a5068;
+
+  /* Label tokens — dark override (charcoal-400 shared with light for consistency) */
+  --st-label-color:       var(--st-color-charcoal-400);
+  --st-label-color-badge: var(--st-color-softgrey-500);
 }
