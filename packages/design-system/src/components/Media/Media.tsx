@@ -51,6 +51,10 @@ export interface MediaProps {
   /** Zoom on hover — default true for duotone, false otherwise */
   hoverScale?: boolean;
   className?: string;
+  /** Intrinsic image width — rendered as <img width=""> for CLS prevention (SUG-63) */
+  width?: number;
+  /** Intrinsic image height — rendered as <img height=""> for CLS prevention (SUG-63) */
+  height?: number;
 }
 
 /**
@@ -174,6 +178,8 @@ export function Media({
   aspectRatio,
   hoverScale,
   className,
+  width,
+  height,
 }: MediaProps) {
   if (!src) return null;
 
@@ -206,7 +212,15 @@ export function Media({
 
   return (
     <figure className={figureClassNames} style={figureStyle}>
-      <img src={src} alt={alt} className={styles.image} />
+      <img
+        src={src}
+        alt={alt}
+        className={styles.image}
+        {...(width ? { width } : {})}
+        {...(height ? { height } : {})}
+        loading="lazy"
+        decoding="async"
+      />
       {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
     </figure>
   );

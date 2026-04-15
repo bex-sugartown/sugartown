@@ -157,6 +157,14 @@ export const LINKITEM_FRAGMENT = `
 
 const PT_CONTENT_PROJECTION = `[] {
   ...,
+  // Project richImage asset metadata dimensions so InlineImage can render
+  // width/height attrs on <img> for CLS prevention (SUG-63 Phase 1b).
+  // richImage.asset is an image object with its own asset ref — dereference
+  // the inner ref (asset.asset->) per MEMORY.md nested image rule.
+  _type == "richImage" => {
+    ...,
+    "dimensions": asset.asset->metadata.dimensions
+  },
   markDefs[] {
     ...,
     _type == "link" => {

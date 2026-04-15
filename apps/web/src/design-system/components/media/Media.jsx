@@ -143,6 +143,8 @@ export default function Media({
   hotspot,
   hoverScale,
   className,
+  width,   // Intrinsic image width — rendered as <img width=""> for CLS prevention
+  height,  // Intrinsic image height — rendered as <img height=""> for CLS prevention
 }) {
   if (!src) return null
 
@@ -182,7 +184,16 @@ export default function Media({
 
   return (
     <figure className={figureClassNames} style={figureStyle}>
-      <img src={src} alt={alt} className={styles.image} style={imgStyle} />
+      <img
+        src={src}
+        alt={alt}
+        className={styles.image}
+        style={imgStyle}
+        {...(width ? { width } : {})}
+        {...(height ? { height } : {})}
+        loading="lazy"
+        decoding="async"
+      />
       {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
     </figure>
   )

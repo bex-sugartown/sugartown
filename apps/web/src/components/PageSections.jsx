@@ -20,6 +20,11 @@ function InlineImage({ value }) {
   if (!value?.asset) return null
   const imgSrc = urlFor(value.asset).width(900).auto('format').url()
 
+  // Pass intrinsic dimensions to Media so the browser can reserve space
+  // before the image loads (SUG-63 Phase 1b — prevents CLS from unsized images).
+  // GROQ projects asset.asset->metadata.dimensions as `value.dimensions`.
+  const { width, height } = value.dimensions ?? {}
+
   return (
     <>
       <figure
@@ -35,6 +40,8 @@ function InlineImage({ value }) {
           alt={value.alt ?? ''}
           overlay={value.overlay}
           className={styles.inlineImageImg}
+          width={width}
+          height={height}
         />
         {value.caption && (
           <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
