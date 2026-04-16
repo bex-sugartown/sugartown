@@ -142,6 +142,37 @@ export default defineType({
       group: 'footer',
       validation: (Rule) => Rule.max(100)
     }),
+    defineField({
+      name: 'footerToolchain',
+      title: 'Footer Toolchain',
+      type: 'array',
+      description: 'Tools displayed as chips in the footer colophon. Each chip links to /tools/:slug. Configure up to 12.',
+      group: 'footer',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'tool'}]
+        })
+      ],
+      validation: (Rule) =>
+        Rule.max(12).warning('Footer layout is optimised for 12 or fewer chips')
+    }),
+    defineField({
+      name: 'licenseLabel',
+      title: 'License Label',
+      type: 'string',
+      description: 'e.g. "Content CC BY-NC 4.0 · Code MIT"',
+      group: 'footer',
+      validation: (Rule) => Rule.max(100)
+    }),
+    defineField({
+      name: 'licenseUrl',
+      title: 'License URL',
+      type: 'url',
+      description: 'Optional link for the license label (opens in new tab)',
+      group: 'footer',
+      validation: (Rule) => Rule.uri({scheme: ['http', 'https']})
+    }),
 
     // SEO GROUP
     defineField({
