@@ -46,22 +46,35 @@ export const HEADER_CTA = {
 
 export const FOOTER_COLUMNS = [
   {
-    header: 'Navigate',
+    header: 'Work',
     items: [
-      { label: 'Work', linkType: 'archive', archiveRef: { slug: 'case-studies' } },
-      { label: 'Knowledge Graph', linkType: 'archive', archiveRef: { slug: 'knowledge-graph' } },
-      { label: 'Articles', linkType: 'archive', archiveRef: { slug: 'articles' } },
-      { label: 'About', linkType: 'internal', internalPage: { slug: 'about' } },
+      { label: 'Case Studies', linkType: 'archive', archiveRef: { slug: 'case-studies' } },
+      { label: 'Services', linkType: 'internal', internalPage: { slug: 'services' } },
+      { label: 'Platform', linkType: 'internal', internalPage: { slug: 'platform' } },
     ],
   },
   {
-    header: 'Legal',
+    header: 'Library',
     items: [
-      { label: 'Privacy Policy', linkType: 'internal', internalPage: { slug: 'privacy' } },
-      { label: 'Terms of Use', linkType: 'internal', internalPage: { slug: 'terms' } },
-      { label: 'Accessibility', linkType: 'internal', internalPage: { slug: 'accessibility' } },
+      { label: 'Knowledge Graph', linkType: 'archive', archiveRef: { slug: 'knowledge-graph' } },
+      { label: 'Articles', linkType: 'archive', archiveRef: { slug: 'articles' } },
     ],
   },
+  {
+    header: 'About',
+    items: [
+      { label: 'Overview', linkType: 'internal', internalPage: { slug: 'about' } },
+      { label: 'CV / Resume', linkType: 'internal', internalPage: { slug: 'cv' } },
+    ],
+  },
+];
+
+export const FOOTER_TOOLCHAIN = [
+  { _id: 'tool-claude', name: 'Claude Code', slug: 'claude-code' },
+  { _id: 'tool-sanity', name: 'Sanity', slug: 'sanity' },
+  { _id: 'tool-react', name: 'React', slug: 'react' },
+  { _id: 'tool-storybook', name: 'Storybook', slug: 'storybook' },
+  { _id: 'tool-netlify', name: 'Netlify', slug: 'netlify' },
 ];
 
 export const SOCIAL_LINKS = [
@@ -92,4 +105,7 @@ export const SITE_SETTINGS = {
   footerColumns: FOOTER_COLUMNS,
   socialLinks: SOCIAL_LINKS,
   copyrightText: 'All rights reserved.',
+  footerToolchain: FOOTER_TOOLCHAIN,
+  licenseLabel: 'Content CC BY-NC 4.0 · Code MIT',
+  licenseUrl: null,
 };

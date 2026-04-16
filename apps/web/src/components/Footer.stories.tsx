@@ -1,9 +1,8 @@
 /**
- * Footer stories — site footer with logo, tagline, nav columns,
- * social links, and copyright.
+ * Footer stories — site footer with brand zone (logo + tagline + social),
+ * nav columns, utility row, and colophon strip (version / toolchain / license / build date).
  *
- * Uses MemoryRouter (for Link/NavLink), urlFor (mocked via vite alias),
- * and fixture siteSettings data.
+ * SUG-65 — Footer Reset
  */
 
 import React from 'react';
@@ -13,6 +12,7 @@ import Footer from './Footer';
 import {
   SITE_SETTINGS,
   FOOTER_COLUMNS,
+  FOOTER_TOOLCHAIN,
   SOCIAL_LINKS,
   MOCK_LOGO,
 } from './__fixtures__/siteSettings';
@@ -28,9 +28,6 @@ const meta: Meta<typeof Footer> = {
   component: Footer,
   tags: ['autodocs'],
   decorators: [withRouter],
-  argTypes: {
-    siteSettings: { control: { type: 'object' }, description: 'Site config: siteLogo, footerLogo, siteTitle, tagline, footerColumns, socialLinks, copyrightText' },
-  },
   parameters: {
     layout: 'fullscreen',
   },
@@ -39,14 +36,36 @@ const meta: Meta<typeof Footer> = {
 export default meta;
 type Story = StoryObj<typeof Footer>;
 
-/** Full footer — logo, tagline, nav columns, social links, copyright. */
+/** Full footer — all zones populated: brand, 3-col nav, utility row, colophon. */
 export const Full: Story = {
   args: {
     siteSettings: SITE_SETTINGS,
   },
 };
 
-/** Without social links. */
+/** With a license URL — license label becomes a link. */
+export const WithLicenseLink: Story = {
+  name: 'License Link',
+  args: {
+    siteSettings: {
+      ...SITE_SETTINGS,
+      licenseUrl: 'https://creativecommons.org/licenses/by-nc/4.0/',
+    },
+  },
+};
+
+/** Without toolchain chips — built date moves to first colophon row. */
+export const NoToolchain: Story = {
+  name: 'No Toolchain',
+  args: {
+    siteSettings: {
+      ...SITE_SETTINGS,
+      footerToolchain: [],
+    },
+  },
+};
+
+/** Without social links — social icon strip absent from brand zone. */
 export const NoSocial: Story = {
   name: 'No Social Links',
   args: {
@@ -57,7 +76,7 @@ export const NoSocial: Story = {
   },
 };
 
-/** Minimal — logo and copyright only, no columns or social. */
+/** Minimal — logo and copyright only; no columns, social, or colophon data. */
 export const Minimal: Story = {
   name: 'Minimal',
   args: {
@@ -67,4 +86,19 @@ export const Minimal: Story = {
       copyrightText: 'All rights reserved.',
     },
   },
+};
+
+/** Snapshot composite — all major states stacked for Chromatic VRT. */
+export const Snapshot: Story = {
+  name: 'Snapshot (VRT)',
+  render: () => (
+    <MemoryRouter>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', background: '#eee' }}>
+        <Footer siteSettings={SITE_SETTINGS} />
+        <Footer siteSettings={{ ...SITE_SETTINGS, footerToolchain: [] }} />
+        <Footer siteSettings={{ siteLogo: MOCK_LOGO, siteTitle: 'Sugartown Digital', copyrightText: 'All rights reserved.' }} />
+      </div>
+    </MemoryRouter>
+  ),
+  decorators: [],
 };

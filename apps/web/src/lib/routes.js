@@ -58,6 +58,22 @@ export const TAXONOMY_NAMESPACES = {
   tool: 'tools',
 }
 
+// ─── Footer utility links ─────────────────────────────────────────────────────
+
+/**
+ * FOOTER_UTILITY_LINKS — canonical legal/utility row in the site footer.
+ *
+ * These are root-level page slugs (/:slug) that don't belong in primary nav
+ * but must be reachable from every page. Import from here — never define
+ * path strings inline in Footer.jsx or any other component.
+ */
+export const FOOTER_UTILITY_LINKS = [
+  { label: 'AI Ethics',            path: '/ai-ethics' },
+  { label: 'Privacy & Terms of Use', path: '/privacy-and-terms' },
+  { label: 'Sitemap',              path: '/sitemap' },
+  { label: 'Contact',              path: '/contact' },
+]
+
 // ─── Archive paths ───────────────────────────────────────────────────────────
 
 /**

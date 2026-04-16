@@ -1,6 +1,8 @@
 import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { resolveNavLink } from '../lib/resolveNavUrl'
+import { getCanonicalPath, FOOTER_UTILITY_LINKS } from '../lib/routes'
+import { APP_VERSION, BUILD_DATE } from '../lib/buildInfo'
 import Link from './atoms/Link'
 import SocialLink from './atoms/SocialLink'
 import styles from './Footer.module.css'
@@ -8,84 +10,157 @@ import styles from './Footer.module.css'
 export default function Footer({ siteSettings }) {
   if (!siteSettings) return null
 
-  const { siteLogo, footerLogo, siteTitle, tagline, footerColumns, socialLinks, copyrightText } = siteSettings
+  const {
+    siteLogo,
+    footerLogo,
+    siteTitle,
+    tagline,
+    footerColumns,
+    socialLinks,
+    copyrightText,
+    footerToolchain,
+    licenseLabel,
+    licenseUrl,
+  } = siteSettings
+
+  // Footer logo = 75% of header logo width.
+  // Header renders siteLogo at width(360) → width={180}px.
+  // Footer renders at width(270) → width={135}px (both footerLogo and siteLogo fallback).
   const displayLogo = footerLogo?.asset ? footerLogo : siteLogo
 
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
+
+        {/* ── Zone 1: brand (left) + nav columns (right) ─────────── */}
         <div className={styles.top}>
           <div className={styles.brand}>
             {displayLogo?.asset && (
               <RouterLink to="/" className={styles.logoLink}>
                 <img
-                  src={urlFor(displayLogo.asset).width(360).url()}
+                  src={urlFor(displayLogo.asset).width(270).url()}
                   alt={displayLogo.alt || `Logo: ${siteTitle || 'Home'}`}
-                  width={180}
+                  width={135}
                   className={styles.logoImage}
                 />
               </RouterLink>
             )}
-            {tagline && (
-              <p className={styles.tagline}>{tagline}</p>
-            )}
-          </div>
-
-          {footerColumns && footerColumns.length > 0 && (
-            <div className={styles.columns}>
-              {footerColumns.map((column, index) => {
-                const heading = column.header || null
-                return (
-                  <div key={index} className={styles.column}>
-                    {heading && (
-                      <h3 className={styles.columnHeading}>{heading}</h3>
-                    )}
-                    {column.items && column.items.length > 0 && (
-                      <ul className={styles.linkList}>
-                        {column.items.map((item, itemIndex) => {
-                          const { url, openInNewTab } = resolveNavLink(item)
-                          return (
-                            <li key={itemIndex}>
-                              <Link
-                                label={item.label}
-                                url={url}
-                                openInNewTab={openInNewTab}
-                              />
-                            </li>
-                          )
-                        })}
-                      </ul>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          )}
-
-          {socialLinks && socialLinks.length > 0 && (
-            <div className={styles.social}>
-              <h3 className={styles.columnHeading}>Connect</h3>
+            {tagline && <p className={styles.tagline}>{tagline}</p>}
+            {socialLinks && socialLinks.length > 0 && (
               <div className={styles.socialLinks}>
-                {socialLinks.map((social, index) => (
+                {socialLinks.map((social, i) => (
                   <SocialLink
-                    key={index}
+                    key={i}
                     platform={social.icon}
                     url={social.url}
                     label={social.label}
                   />
                 ))}
               </div>
+            )}
+          </div>
+
+          {footerColumns && footerColumns.length > 0 && (
+            <div className={styles.columns}>
+              {footerColumns.map((column, i) => (
+                <div key={i} className={styles.column}>
+                  {column.header && (
+                    <h3 className={styles.columnHeading}>{column.header}</h3>
+                  )}
+                  {column.items && column.items.length > 0 && (
+                    <ul className={styles.linkList}>
+                      {column.items.map((item, j) => {
+                        const { url, openInNewTab } = resolveNavLink(item)
+                        return (
+                          <li key={j}>
+                            <Link
+                              label={item.label}
+                              url={url}
+                              openInNewTab={openInNewTab}
+                            />
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  )}
+                </div>
+              ))}
             </div>
           )}
         </div>
 
-        <div className={styles.bottom}>
+        {/* ── Zone 2: utility row ─────────────────────────────────── */}
+        <div className={styles.utility}>
+          {FOOTER_UTILITY_LINKS.map(({ label, path }) => (
+            <RouterLink key={path} to={path} className={styles.utilityLink}>
+              {label}
+            </RouterLink>
+          ))}
+        </div>
+
+        {/* ── Zone 3: colophon ────────────────────────────────────── */}
+        <div className={styles.colophon}>
+          <div className={styles.colophonGrid}>
+            <span className={styles.colophonLabel}>Version</span>
+            <span className={styles.colophonValue}>{APP_VERSION}</span>
+
+            {footerToolchain && footerToolchain.length > 0 ? (
+              <>
+                <span className={styles.colophonLabel}>Toolchain</span>
+                <div className={styles.chips}>
+                  {footerToolchain.map((tool) => (
+                    <RouterLink
+                      key={tool._id}
+                      to={getCanonicalPath({ docType: 'tool', slug: tool.slug })}
+                      className={styles.chip}
+                    >
+                      {tool.name}
+                    </RouterLink>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>
+                <span className={styles.colophonLabel}>Built</span>
+                <span className={styles.colophonValue}>{BUILD_DATE}</span>
+              </>
+            )}
+
+            {licenseLabel && (
+              <>
+                <span className={styles.colophonLabel}>License</span>
+                <span className={styles.colophonValue}>
+                  {licenseUrl ? (
+                    <a
+                      href={licenseUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.colophonLink}
+                    >
+                      {licenseLabel}
+                    </a>
+                  ) : (
+                    licenseLabel
+                  )}
+                </span>
+              </>
+            )}
+
+            {footerToolchain && footerToolchain.length > 0 && (
+              <>
+                <span className={styles.colophonLabel}>Built</span>
+                <span className={styles.colophonValue}>{BUILD_DATE}</span>
+              </>
+            )}
+          </div>
+
           {copyrightText && (
             <p className={styles.copyright}>
               &copy; {new Date().getFullYear()} {siteTitle}. {copyrightText}
             </p>
           )}
         </div>
+
       </div>
     </footer>
   )

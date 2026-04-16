@@ -252,6 +252,9 @@ export const siteSettingsQuery = `
       "icon": platform
     },
     copyrightText,
+    footerToolchain[]->{ _id, name, "slug": slug.current },
+    licenseLabel,
+    licenseUrl,
     // SEO defaults (used by resolveSeo() as fallback for all pages)
     ${SITE_SEO_FRAGMENT}
   }

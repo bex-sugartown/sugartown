@@ -1,7 +1,7 @@
 .footer {
-  background-color: var(--st-color-bg-midnight);
-  color: var(--st-color-white);
-  padding: var(--st-space-8) 0;
+  background-color: var(--st-color-bg-canvas);
+  color: var(--st-color-text-default);
+  border-top: 1px solid var(--st-color-border-subtle);
   margin-top: var(--st-space-footer-top);
 }
 
@@ -11,47 +11,73 @@
   padding: 0 var(--st-spacing-inset-md);
 }
 
+/* ── Zone 1: brand (left) + nav columns (right) ─────────────── */
+
 .top {
   display: grid;
-  grid-template-columns: auto 2fr auto;
+  grid-template-columns: auto 1fr;
   gap: var(--st-spacing-stack-xl);
-  margin-bottom: var(--st-spacing-stack-xl);
+  padding: 2.5rem 0 2rem;
+  border-bottom: 1px solid var(--st-color-border-subtle);
+  align-items: start;
 }
 
 .brand {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: var(--st-spacing-stack-sm);
+  min-width: 160px;
+}
+
+.logoLink {
+  display: inline-block;
+}
+
+.logoImage {
+  display: block;
 }
 
 .tagline {
   font-size: var(--st-font-size-sm);
-  font-family: var(--st-font-family-ui);
-  color: var(--st-color-lime);
+  font-family: var(--st-font-family-narrative);
+  font-style: italic;
+  color: var(--st-color-text-secondary);
   margin: 0;
-  text-align: center;
+  max-width: 26ch;
 }
 
+.socialLinks {
+  display: flex;
+  gap: var(--st-spacing-inline-sm);
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+/* Nav columns: flex-wrap so columns stay horizontal and reflow at narrow widths.
+   flex: 1 1 120px — grows to fill space, never starts smaller than 120px.
+   At 375px: 2 columns on row 1, 1 wraps to row 2. */
 .columns {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: var(--st-spacing-stack-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--st-spacing-stack-lg) var(--st-spacing-stack-xl);
 }
 
 .column {
+  flex: 1 1 120px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: var(--st-spacing-stack-sm);
 }
 
 .columnHeading {
-  font-size: var(--st-font-size-sm);
-  font-weight: var(--st-font-weight-semibold);
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  color: var(--st-label-color);
   margin: 0 0 var(--st-spacing-stack-xs);
-  color: var(--st-color-brand-primary);
 }
 
 .linkList {
@@ -64,63 +90,151 @@
 }
 
 .linkList a {
-  color: var(--st-color-text-muted);
+  color: var(--st-color-text-default);
   font-size: var(--st-font-size-sm);
+  font-family: var(--st-font-family-ui);
+  text-decoration: none;
+  text-underline-offset: 2px;
 }
 
 .linkList a:hover {
-  color: var(--st-color-white);
+  color: var(--st-color-brand-primary);
+  text-decoration: underline;
 }
 
-.social {
+/* ── Zone 2: utility row ─────────────────────────────────────── */
+
+.utility {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem var(--st-spacing-stack-lg);
+  padding: var(--st-spacing-stack-md) 0;
+  border-bottom: 1px solid var(--st-color-border-subtle);
+}
+
+.utilityLink {
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-muted);
+  text-decoration: none;
+  text-underline-offset: 2px;
+}
+
+.utilityLink:hover {
+  color: var(--st-color-brand-primary);
+  text-decoration: underline;
+}
+
+/* ── Zone 3: colophon ────────────────────────────────────────── */
+
+.colophon {
+  padding: var(--st-spacing-stack-lg) 0 2rem;
   display: flex;
   flex-direction: column;
-  gap: var(--st-spacing-stack-sm);
+  gap: var(--st-spacing-stack-md);
 }
 
-.socialLinks {
+/* 4-col: label | value | label | value */
+.colophonGrid {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  gap: 0.5rem var(--st-spacing-stack-md);
+  align-items: start;
+}
+
+.colophonLabel {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  padding-top: 2px; /* optical baseline-align with chip */
+  white-space: nowrap;
+}
+
+.colophonValue {
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-secondary);
+}
+
+.colophonLink {
+  color: var(--st-color-text-secondary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.colophonLink:hover {
+  color: var(--st-color-brand-primary);
+}
+
+/* Toolchain chips — pink in light mode, lime in dark mode */
+.chips {
   display: flex;
-  gap: var(--st-spacing-inline-sm);
   flex-wrap: wrap;
+  gap: 0.375rem;
 }
 
-.bottom {
-  border-top: 1px solid var(--st-color-brand-primary);
-  padding-top: var(--st-spacing-stack-lg);
-  display: flex;
-  justify-content: space-between;
+.chip {
+  display: inline-flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: var(--st-spacing-inline-md);
+  background: var(--st-color-brand-primary);
+  color: #fff;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0; /* zero radius — Pink Moon identity */
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  opacity: 0.8;
+}
+
+:global([data-theme*="dark"]) .chip {
+  background: var(--st-color-lime);
+  color: var(--st-color-bg-midnight, #0D1226);
 }
 
 .copyright {
-  font-size: var(--st-font-size-sm);
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-caption);
   color: var(--st-color-text-muted);
   margin: 0;
+  padding-top: var(--st-spacing-stack-sm);
+  border-top: 1px solid var(--st-color-border-subtle);
 }
 
-.legalLinks {
-  display: flex;
-  gap: var(--st-spacing-inline-md);
-}
-
-.legalLink {
-  font-size: var(--st-font-size-sm);
-  color: var(--st-color-text-muted);
-}
-
-.legalLink:hover {
-  color: var(--st-color-white);
-}
+/* ── Mobile ──────────────────────────────────────────────────── */
 
 @media (max-width: 768px) /* --st-breakpoint-md */ {
   .top {
     grid-template-columns: 1fr;
   }
-  
-  .bottom {
-    flex-direction: column;
+
+  /* On mobile the brand zone goes horizontal: logo + tagline/social side by side */
+  .brand {
+    flex-direction: row;
     align-items: flex-start;
+    gap: var(--st-spacing-inline-md);
+  }
+
+  .logoImage {
+    flex-shrink: 0;
+  }
+
+  .tagline {
+    max-width: none;
+  }
+
+  /* colophon grid collapses to 2-col: label | value */
+  .colophonGrid {
+    grid-template-columns: auto 1fr;
   }
 }
