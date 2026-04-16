@@ -94,6 +94,16 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 
 > Bullet list of included tasks. Every task must map to at least one
 > Deliverable and at least one Acceptance Criterion below.
+>
+> **If this epic includes a Phase 0 (mockup / design review):**
+> - The mock file MUST be created at `docs/drafts/SUG-{N}-{name}-mock.html` before any
+>   implementation phases begin. A layout diagram in the epic doc is NOT a substitute.
+> - No code in `apps/web/src/` or `apps/studio/schemas/` may be written until the mock
+>   file exists on disk and Phase 0 checkboxes are marked complete by the human.
+> - If the backlog spec changes mid-epic (before Phase 0 sign-off), update the mock
+>   in the same response as the spec change. Backlog doc and mock must stay in sync.
+> - Phase 0 sign-off is a **human gate** — the agent marks it complete only after
+>   the human explicitly approves the mock.
 
 - [ ] Studio schema changes
 - [ ] Schema registration (`index.ts`)

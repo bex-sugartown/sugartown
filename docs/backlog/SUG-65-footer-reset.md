@@ -11,12 +11,12 @@
 
 - [ ] **Interaction surface audit** — extends existing `Footer.jsx` component, `siteSettings` schema, and Sanity `navigation` doc type. No new interactive patterns beyond one small external-link cluster (toolchain mentions). Nav item resolution already handled by `resolveNavLink()`.
 - [ ] **Use case coverage** — single consumer: site-wide `<Footer>` on every route. No other surfaces render this content.
-- [ ] **Layout contract** — three horizontal zones stacked vertically:
-  1. Brand strip (logo, tagline, social) — full width, top
-  2. Columns zone (3-col nav links) — full width, middle
-  3. Colophon strip (copyright + version + toolchain + license) — full width, bottom
-  Max-width: same as current `.container` (inherits from global container). Below 768px, columns collapse to single column, colophon wraps.
-- [ ] **All prop value enumerations** — no new enum fields. Colophon data comes from `package.json` build-time injection + 3 new Sanity string fields.
+- [ ] **Layout contract** — two rows stacked vertically:
+  1. **Top row** — Brand zone (logo, tagline, social) as left column + Columns zone (3-col nav links) as right columns, side by side. Desktop: `grid-template-columns: auto 1fr`. Below 768px: brand stacks above columns (single column, brand first).
+  2. **Utility row** — single inline row of 4 legal/utility links (full width).
+  3. **Colophon strip** — version + toolchain chips + license + build date, then copyright line (full width, bottom).
+  Max-width: same as current `.container` (inherits from global container).
+- [ ] **All prop value enumerations** — no new enum fields. Colophon data: version from CHANGELOG.md (build-time injection), build date from `Date` (build-time injection), toolchain chips from `tool` reference array (Sanity), license from plain string field (Sanity).
 - [ ] **Correct audit file paths** — verified: `apps/web/src/components/Footer.jsx` (88 lines), `Footer.module.css`, `apps/studio/schemas/documents/siteSettings.ts` (footer group at lines 95-141).
 - [ ] **Dark / theme modifier treatment** — inherits `--st-color-bg-canvas` / `--st-color-text-*` tokens. Courier Prime for colophon labels matches MetadataCard + MarginColumn typography pattern (SUG-52).
 - [ ] **Studio schema changes scoped** — yes, in-scope. New `colophon` fields added to siteSettings. Commit prefix `feat(studio): SUG-65 — colophon fields`.
@@ -74,25 +74,31 @@ N/A — this is a site-wide component served on every route. No doc-type-specifi
 
 ### Phase 1 — Schema
 
-- [ ] Add `colophon` field group to `siteSettings` schema:
-  - `toolchainText` (string) — e.g., "Built with Claude Code, Sanity, React, Storybook, Netlify"
+- [ ] Add colophon fields to `siteSettings` schema (footer group):
+  - `footerToolchain` (array of `reference` → `tool`) — curated set of tool documents to display as chips. Configurable in Studio under Footer. Max 12 for layout.
   - `licenseLabel` (string) — e.g., "Content CC BY-NC 4.0 · Code MIT"
   - `licenseUrl` (url, optional) — link to license page
+- [ ] `toolchainText` (plain string) is **removed** from scope — replaced by `footerToolchain` references. Do not add `toolchainText`.
 - [ ] Deploy schema (`npx sanity schema deploy`)
-- [ ] Backfill the siteSettings document with default values
+- [ ] Backfill the siteSettings document with toolchain references + license string in Studio
 
 ### Phase 2 — Build-time version injection
 
-- [ ] Vite define plugin: inject `__APP_VERSION__` from `package.json` at build time
-- [ ] Inject `__BUILD_DATE__` as ISO string at build time
-- [ ] Constants exposed via a small `lib/buildInfo.js` utility
+- [ ] Vite define plugin: inject `__APP_VERSION__` sourced from **`CHANGELOG.md`** (parse the latest `## [x.y.z]` heading) at build time, not `package.json`. Keeps the displayed version in sync with the changelog rather than a potentially-stale package version.
+- [ ] Inject `__BUILD_DATE__` as UTC ISO date string (`YYYY-MM-DD`) at build time via `new Date().toISOString().slice(0,10)`.
+- [ ] Constants exposed via a small `lib/buildInfo.js` utility (`APP_VERSION`, `BUILD_DATE`)
+- [ ] Version parse must be robust: fallback to `package.json` `version` field if CHANGELOG.md has no parseable version heading.
 
 ### Phase 3 — Footer component rewrite
 
-- [ ] Rewrite `Footer.jsx` with new 3-zone layout (brand / columns / colophon)
-- [ ] Update `Footer.module.css` to support the new layout + Pink Moon treatment
-- [ ] Update `Footer.stories.tsx` with the new structure + Snapshot composite story
-- [ ] Update `queries.js` `siteSettingsQuery` to project the new colophon fields
+- [ ] Rewrite `Footer.jsx` with new layout (brand+columns row / utility row / colophon strip)
+- [ ] **Logo sizing rule** — header renders `siteLogo` at `width(360)` → `width={180}px`.
+  - If `footerLogo` exists: render `footerLogo` at **75% of header logo width** → `width(270)` / `width={135}px`.
+  - If no `footerLogo`: fall back to `siteLogo` at **75% of header logo width** → same dimensions as above.
+  - Both paths resolve to: `urlFor(asset).width(270).url()` + `width={135}` HTML attribute.
+- [ ] Update `Footer.module.css` to support new layout + Pink Moon treatment
+- [ ] Update `Footer.stories.tsx` with new structure + Snapshot composite story
+- [ ] Update `queries.js` `siteSettingsQuery` to project the new colophon fields + toolchain references
 
 ### Phase 4 — Content authoring
 
@@ -103,7 +109,9 @@ N/A — this is a site-wide component served on every route. No doc-type-specifi
 
 ## Query Layer Checklist
 
-- [ ] `siteSettingsQuery` — add `colophon { toolchainText, licenseLabel, licenseUrl }` projection
+- [ ] `siteSettingsQuery` — add:
+  - `footerToolchain[]->{ _id, _type, title, "slug": slug.current }` (dereferences tool references → slug for archive link)
+  - `licenseLabel`, `licenseUrl`
 - [ ] No other queries affected
 
 ---
@@ -128,8 +136,10 @@ N/A — this is layout/content authoring, not metadata surfaces.
 | Colophon label text | `var(--st-label-color)` (charcoal-400 #888) | `var(--st-label-color)` (charcoal-400 #888) | Existing (SUG-52 post-mortem) |
 | Colophon value text | `var(--st-color-text-muted)` | `var(--st-color-text-secondary)` | Existing |
 | Divider (brand/columns/colophon) | `var(--st-color-border-subtle)` | `var(--st-color-border-subtle)` | Existing |
+| Toolchain chips (bg) | `var(--st-color-lime)` (lime) | `var(--st-color-brand-primary)` (pink/hot) | Existing chip tokens |
+| Toolchain chips (text) | dark text on lime | dark text on pink | Inherits from Chip component |
 
-Colophon uses only existing tokens — no new theme work.
+Colophon uses only existing tokens — no new theme work needed.
 
 ---
 
@@ -145,11 +155,15 @@ Colophon uses only existing tokens — no new theme work.
 ## Technical Constraints
 
 **Studio schema**
-- `colophon` lives inside the existing `footer` field group in siteSettings.
-- All three new fields are plain `string` + `url`. No new object types. No migration required (backfilling the existing singleton document is trivial).
+- New fields live inside the existing `footer` field group in siteSettings.
+- `footerToolchain` is an array of references to `tool` documents (already a registered schema type). No new object types needed.
+- `licenseLabel` (string) + `licenseUrl` (url) are plain fields. No migration required.
+- No migration required; backfilling the singleton document in Studio after Phase 1 deploys.
 
 **Build-time version injection**
-- Vite's `define` option replaces `__APP_VERSION__` and `__BUILD_DATE__` at build time. Values read from `package.json` and `new Date().toISOString()` in `vite.config.js`.
+- Vite's `define` option replaces `__APP_VERSION__` and `__BUILD_DATE__` at build time.
+- `__APP_VERSION__` parsed from the latest `## [x.y.z]` heading in `CHANGELOG.md` at config load. Falls back to `package.json` `version` if no parseable heading found.
+- `__BUILD_DATE__` = `new Date().toISOString().slice(0,10)` (UTC, `YYYY-MM-DD`).
 - `import.meta.env` alternative is acceptable but less ergonomic.
 
 **Render**
@@ -173,8 +187,9 @@ N/A. Only the siteSettings singleton document needs patching, which Bex can do i
 - `apps/studio/schemas/documents/siteSettings.ts` — add colophon fields
 
 **Frontend**
-- `apps/web/vite.config.js` — add define for `__APP_VERSION__` + `__BUILD_DATE__`
-- `apps/web/src/lib/buildInfo.js` — CREATE, exports version + build date constants
+- `apps/web/vite.config.js` — add define for `__APP_VERSION__` (parsed from `CHANGELOG.md`) + `__BUILD_DATE__`
+- `apps/web/src/lib/buildInfo.js` — CREATE, exports `APP_VERSION` + `BUILD_DATE` constants
+- `CHANGELOG.md` (repo root) — **read-only at build time**, not modified by this epic
 - `apps/web/src/lib/queries.js` — extend `siteSettingsQuery` projection
 - `apps/web/src/components/Footer.jsx` — rewrite layout
 - `apps/web/src/components/Footer.module.css` — rewrite styles
@@ -199,9 +214,10 @@ N/A. Only the siteSettings singleton document needs patching, which Bex can do i
 
 ## Acceptance Criteria
 
-- [ ] Footer renders version string in the colophon strip (e.g., `v0.21.2`)
+- [ ] Footer renders version string in the colophon strip, sourced from CHANGELOG.md (e.g., `v0.21.2`)
 - [ ] Footer renders build date in the colophon strip (ISO or human-friendly)
-- [ ] Footer renders toolchain text authored in Sanity
+- [ ] Footer renders toolchain as chips sourced from `tool` documents, linking to `/tools/:slug`
+- [ ] Toolchain chips render pink in light mode, lime in dark mode (existing chip token system)
 - [ ] Footer renders license label authored in Sanity, linked if `licenseUrl` set
 - [ ] Courier Prime mono labels used for all colophon labels (matches MetadataCard pattern)
 - [ ] Colophon strip is visually distinct from the columns zone (divider or spacing)
@@ -235,7 +251,7 @@ Human reviews Storybook rendering + production preview on approved branch. Appro
 - [ ] **Version string during dev** — `pnpm dev` should show the current `package.json` version, not `0.0.0`. Vite's define handles this if we read `package.json` at config load time.
 - [ ] **Build-time date timezone** — use ISO UTC to avoid "last built 4 hours ago" confusion from Netlify's build server timezone. Display as YYYY-MM-DD (no time).
 - [ ] **License link** — if `licenseUrl` is external (e.g., Creative Commons), open in new tab. Use existing link component.
-- [ ] **Toolchain text length** — "Built with Claude Code, Sanity, React, Storybook, Netlify" is ~50 chars. Check mobile wrap behaviour. Allow intentional line breaks via string authoring (no markdown).
+- [ ] **Toolchain chip count / wrap** — chips must wrap gracefully on mobile. The colophon row must not overflow at 375px with up to 8 chips.
 - [ ] **Footer nav ref model change** — EPIC-0170 left the 4-column `footerColumns` (array of navigation references) in place. Reset proposal drops columns entirely in favour of a single `footerUtilityLinks` array of 4 links (AI Ethics, Privacy & Terms, Sitemap, Contact). Schema change: deprecate `footerColumns` (hide, don't remove), add `footerUtilityLinks` as array of `linkItem` or nav reference. Existing populated nav references can migrate manually in Studio.
 
 ---
@@ -257,16 +273,19 @@ Human reviews Storybook rendering + production preview on approved branch. Appro
 
 ```
 ┌──────────────────────────────────────────────────────────┐
-│  [Logo]                                                   │
-│  Tagline                                                  │
-│  [ln] [gh] [ig] [rss]                                    │
+│  [Logo]         │  [Col A]     [Col B]     [Col C]       │
+│  Tagline        │  Link        Link        Link          │
+│  [ln][gh][rss]  │  Link        Link        Link          │
 ├──────────────────────────────────────────────────────────┤
 │  AI Ethics · Privacy & Terms of Use · Sitemap · Contact  │
 ├──────────────────────────────────────────────────────────┤
-│  VERSION    v0.21.2    TOOLCHAIN    Claude · Sanity...   │
-│  LICENSE    CC BY-NC   BUILT        2026-04-15           │
+│  VERSION  v0.21.2   TOOLCHAIN  [chip] [chip] [chip]...  │
+│  LICENSE  CC BY-NC             BUILT  2026-04-15         │
 │  © 2026 Sugartown Digital. All rights reserved.          │
 └──────────────────────────────────────────────────────────┘
+
+Mobile (< 768px): brand zone stacks above columns (single column),
+utility row wraps, colophon wraps.
 ```
 
 ### Link proposal — utility row, not navigation columns
@@ -288,12 +307,12 @@ This removes the "which column does X go in" debate and keeps the footer scan-ab
 
 ### Colophon strip
 
-Three label-value pairs + copyright line:
+Three label-value areas + copyright line:
 
-- **VERSION** — injected from package.json (e.g., `v0.21.2`)
-- **TOOLCHAIN** — authored string (e.g., "Claude Code · Sanity · React · Storybook · Netlify")
+- **VERSION** — injected from CHANGELOG.md latest heading (e.g., `v0.21.2`). Falls back to package.json.
+- **TOOLCHAIN** — array of `tool` document chips. Light mode: pink chips. Dark mode: lime chips. Each chip links to `/tools/:slug`. Curated via siteSettings → Footer → Toolchain.
 - **LICENSE** — authored string + optional link (e.g., "Content CC BY-NC 4.0 · Code MIT")
-- **BUILT** — injected build date (e.g., `2026-04-15`)
+- **BUILT** — injected UTC build date (e.g., `2026-04-15`)
 - Copyright line below, smaller
 
 All labels in Courier Prime uppercase mono (matches the SUG-52 label token system).
@@ -310,7 +329,7 @@ All labels in Courier Prime uppercase mono (matches the SUG-52 label token syste
   - Or: All Rights Reserved (no license — current state)
 - [ ] **Build date format** — `2026-04-15` (ISO) or `April 15, 2026` or `Apr 15 2026`? Proposal: ISO UTC for compactness.
 - [ ] **Version prefix** — `v0.21.2` or `0.21.2`? Proposal: `v` prefix.
-- [ ] **Toolchain text** — authoring decision. Starter: "Built with Claude Code · Sanity · React · Storybook · Netlify". Too long? Too namecheck-y?
+- [ ] **Toolchain chips** — which `tool` docs to include? Candidates: Claude Code, Sanity, React, Storybook, Netlify. Bex configures in Studio under siteSettings → Footer → Toolchain after Phase 1 deploys.
 
 ---
 

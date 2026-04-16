@@ -82,6 +82,21 @@ Two `docs/` subdirectories are **local-only** — gitignored and never committed
 - If a draft graduates to a brief or a Sanity document, copy it to the destination and leave the draft in place as a local archive.
 - If git shows these files as "deleted" in `git status`, it means they were previously tracked and need to be untracked with `git rm --cached`.
 
+### Phase 0 hard-stop (mockup gate)
+
+For any epic that includes a mockup/design phase (Phase 0 or equivalent):
+
+**No code in `apps/web/src/`, `apps/studio/schemas/`, or any other implementation path may be written until:**
+1. The HTML mock exists on disk at `docs/drafts/SUG-{N}-*.html`
+2. The user has reviewed the mock and Phase 0 checkboxes are marked complete
+
+Permitted before Phase 0 sign-off: backlog doc edits, schema planning notes, query design notes.
+Not permitted: any JSX, CSS, schema TypeScript, or migration scripts.
+
+Updating the backlog spec (e.g. in response to user feedback) triggers a corresponding mock update in the same response — backlog doc and mock must stay in sync. If the user asks to update the spec, update the mock too before closing the response.
+
+A Phase 0 violation (FE code committed before mock approval) is a process failure, not a shortcut.
+
 ### No speculative fixes
 
 When the user reports a bug (white screen, crash, visual regression):
@@ -252,6 +267,21 @@ All images uploaded to Sanity must follow the naming convention in `docs/convent
 - Prefixes: `article-`, `cs-`, `node-`, `project-`, `tool-`, `diagram-`, `site-`
 - Formats: `.webp` (photos), `.png` (diagrams), `.svg` (icons/logos)
 - Never upload with default camera/screenshot names (`IMG_1234.jpg`, `Screenshot 2026-...`)
+
+---
+
+## URL Authority Rule (blocking)
+
+All internal URLs must be built via `getCanonicalPath({ docType, slug })` from `apps/web/src/lib/routes.js`. This applies everywhere — components, pages, config maps, and constants.
+
+**Specifically prohibited:**
+- Hard-coded path strings like `'/ai-ethics'` or `'/contact'` outside of `routes.js`
+- A `LEGAL_LINKS`, `NAV_LINKS`, or similar constant array inside a component file that contains path strings
+- Any `to="..."` or `href="..."` with a literal path that isn't derived from `getCanonicalPath()` or a registered route constant
+
+**The only exception:** redirects in `App.jsx` that explicitly map legacy routes (e.g. `/blog → /articles`). These are route definitions, not link targets.
+
+If a utility link set (e.g. footer legal row) needs hardcoded paths, those paths must be registered as named constants in `routes.js` and imported from there — not defined inline in the component.
 
 ---
 
