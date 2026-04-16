@@ -236,7 +236,7 @@ Human reviews Storybook rendering + production preview on approved branch. Appro
 - [ ] **Build-time date timezone** — use ISO UTC to avoid "last built 4 hours ago" confusion from Netlify's build server timezone. Display as YYYY-MM-DD (no time).
 - [ ] **License link** — if `licenseUrl` is external (e.g., Creative Commons), open in new tab. Use existing link component.
 - [ ] **Toolchain text length** — "Built with Claude Code, Sanity, React, Storybook, Netlify" is ~50 chars. Check mobile wrap behaviour. Allow intentional line breaks via string authoring (no markdown).
-- [ ] **Footer columns still rely on Sanity nav refs** — EPIC-0170 left the 4-column system in place. Reorg proposal reduces to 3 fixed columns (see Open Decisions below). This may break the navigation document's `footer` variant — audit before schema change.
+- [ ] **Footer nav ref model change** — EPIC-0170 left the 4-column `footerColumns` (array of navigation references) in place. Reset proposal drops columns entirely in favour of a single `footerUtilityLinks` array of 4 links (AI Ethics, Privacy & Terms, Sitemap, Contact). Schema change: deprecate `footerColumns` (hide, don't remove), add `footerUtilityLinks` as array of `linkItem` or nav reference. Existing populated nav references can migrate manually in Studio.
 
 ---
 
@@ -261,10 +261,7 @@ Human reviews Storybook rendering + production preview on approved branch. Appro
 │  Tagline                                                  │
 │  [ln] [gh] [ig] [rss]                                    │
 ├──────────────────────────────────────────────────────────┤
-│  WORK              LIBRARY            ABOUT              │
-│  Case Studies      Knowledge Graph    About              │
-│  Services          Articles           CV / Resume        │
-│                                       Contact            │
+│  AI Ethics · Privacy & Terms of Use · Sitemap · Contact  │
 ├──────────────────────────────────────────────────────────┤
 │  VERSION    v0.21.2    TOOLCHAIN    Claude · Sanity...   │
 │  LICENSE    CC BY-NC   BUILT        2026-04-15           │
@@ -272,17 +269,22 @@ Human reviews Storybook rendering + production preview on approved branch. Appro
 └──────────────────────────────────────────────────────────┘
 ```
 
-### Column proposal
+### Link proposal — utility row, not navigation columns
 
-Three columns mapped to the nav IA:
+**The footer is NOT a duplicate of the main nav.** The header handles content discovery (Work, Library, About, Services). The footer handles legal, compliance, and utility links that don't belong in primary nav but must be reachable from every page.
 
-| Column | Purpose | Items |
-|--------|---------|-------|
-| **WORK** | Portfolio surface | Case Studies, Services |
-| **LIBRARY** | Knowledge surface | Knowledge Graph, Articles |
-| **ABOUT** | Identity surface | About (Overview), CV/Resume, Contact |
+Four links in a single inline utility row (not column headers, not editorial groupings):
 
-Social moves into the brand zone (top) so the columns zone is pure navigation. This gives each column a single editorial purpose instead of the current "whatever fit in 4 cells" arrangement.
+| Link | Target | Purpose |
+|------|--------|---------|
+| **AI Ethics** | `/ai-ethics` | Compliance + editorial stance (SUG-61 shipped) |
+| **Privacy & Terms of Use** | `/privacy-and-terms` | Legal boilerplate |
+| **Sitemap** | `/sitemap` | Site structure reference (SUG-15 shipped) |
+| **Contact** | `/contact` | Conversion surface (also in CTA treatments) |
+
+Social icons stay in the brand zone. No column headers needed — the 4 links are self-labelling and visually flat.
+
+This removes the "which column does X go in" debate and keeps the footer scan-able in a single horizontal row.
 
 ### Colophon strip
 
@@ -300,7 +302,7 @@ All labels in Courier Prime uppercase mono (matches the SUG-52 label token syste
 
 ## Open Decisions
 
-- [ ] **Column count — 3 or 4?** Proposal is 3 (Work / Library / About). Alternative: 4 (Work / Library / Platform / About) if Platform ships per SUG-64.
+- [ ] **Utility row layout** — inline single row (proposed) vs 2 short columns (Legal / Site). Proposal: inline flat row, scan in one glance.
 - [ ] **Social position — brand zone or separate row?** Proposal: top brand zone. Alternative: keep its own column.
 - [ ] **License text** — what IS the license? Suggestions:
   - Content: CC BY-NC 4.0 (non-commercial sharing with attribution)
