@@ -21,6 +21,14 @@
       "runtimeArgs": ["--filter", "storybook", "storybook"],
       "port": 6006,
       "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
+    },
+    {
+      "name": "mock",
+      "runtimeExecutable": "/usr/bin/python3",
+      "runtimeArgs": ["-m", "http.server", "8765"],
+      "cwd": "/Users/beckyalice/SUGARTOWN_DEV/sugartown/docs/drafts",
+      "port": 8765,
+      "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
     }
   ]
 }
