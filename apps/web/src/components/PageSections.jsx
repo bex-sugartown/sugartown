@@ -543,32 +543,62 @@ function MermaidDiagram({ section }) {
     setError(null)
     try {
       const mermaid = (await import('mermaid')).default
-      const theme = document.documentElement.getAttribute('data-theme')
-      const isDark = theme !== 'light'
+      const theme = document.documentElement.getAttribute('data-theme') || ''
+      const isDark = !theme.includes('light')
+
+      // Read theme palette from CSS custom properties so Mermaid stays in sync
+      // with the token layer. Fallbacks cover first-paint before tokens resolve.
+      const rootStyles = getComputedStyle(document.documentElement)
+      const token = (name, fallback) => rootStyles.getPropertyValue(name).trim() || fallback
+
+      // WCAG AA palette (≥ 4.5:1 text on node, ≥ 3:1 node on canvas)
+      const palette = isDark
+        ? {
+            nodeBg:      token('--st-color-midnight-800',  '#141830'),
+            nodeBorder:  token('--st-color-pink-500',      '#FF247D'),
+            nodeText:    token('--st-color-softgrey-50',   '#f8f8fa'),
+            edge:        token('--st-color-pink-400',      '#ff4d99'),
+            clusterBg:   token('--st-color-midnight-900',  '#0D1226'),
+            clusterText: token('--st-color-softgrey-200',  '#e1e3e6'),
+          }
+        : {
+            nodeBg:      token('--st-color-softgrey-50',   '#f8f8fa'),
+            nodeBorder:  token('--st-color-maroon-600',    '#b91c68'),
+            nodeText:    token('--st-color-charcoal-900',  '#1e1e1e'),
+            edge:        token('--st-color-maroon-600',    '#b91c68'),
+            clusterBg:   token('--st-color-softgrey-100',  '#f1f2f4'),
+            clusterText: token('--st-color-charcoal-700',  '#333333'),
+          }
+
       mermaid.initialize({
         startOnLoad: false,
         securityLevel: 'strict',
-        theme: isDark ? 'dark' : 'neutral',
-        flowchart: { curve: 'step', defaultRenderer: 'elk' },
-        themeVariables: isDark
-          ? {
-              primaryColor: '#1e1b4b',
-              primaryBorderColor: '#FF247D',
-              lineColor: '#FF247D',
-              textColor: '#e4dded',
-              mainBkg: '#1e1b4b',
-              nodeBorder: '#FF247D',
-              fontFamily: 'Fira Sans, system-ui, sans-serif',
-            }
-          : {
-              primaryColor: '#F5F6F8',
-              primaryBorderColor: '#FF247D',
-              lineColor: '#FF247D',
-              textColor: '#0D1226',
-              mainBkg: '#F5F6F8',
-              nodeBorder: '#FF247D',
-              fontFamily: 'Fira Sans, system-ui, sans-serif',
-            },
+        theme: 'base',
+        flowchart: {
+          curve: 'step',
+          defaultRenderer: 'elk',
+          htmlLabels: true,
+          useMaxWidth: true,
+        },
+        themeVariables: {
+          fontFamily: token('--st-font-family-ui', 'Fira Sans, system-ui, sans-serif'),
+          primaryColor:       palette.nodeBg,
+          primaryBorderColor: palette.nodeBorder,
+          primaryTextColor:   palette.nodeText,
+          secondaryColor:     palette.nodeBg,
+          secondaryBorderColor: palette.nodeBorder,
+          secondaryTextColor: palette.nodeText,
+          tertiaryColor:      palette.clusterBg,
+          tertiaryBorderColor: palette.nodeBorder,
+          tertiaryTextColor:  palette.clusterText,
+          lineColor:          palette.edge,
+          textColor:          palette.nodeText,
+          mainBkg:            palette.nodeBg,
+          nodeBorder:         palette.nodeBorder,
+          clusterBkg:         palette.clusterBg,
+          clusterBorder:      palette.nodeBorder,
+          edgeLabelBackground: palette.clusterBg,
+        },
       })
       // Generate unique ID for each render to avoid collisions
       const renderId = `${renderIdRef.current}-${Date.now()}`
