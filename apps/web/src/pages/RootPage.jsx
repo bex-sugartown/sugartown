@@ -7,6 +7,7 @@ import { pageBySlugQuery } from '../lib/queries'
 import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
+import { generateJsonLd } from '../lib/jsonLd'
 import { extractLeadHero } from '../lib/heroUtils'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
@@ -32,7 +33,7 @@ export default function RootPage() {
   if (page.template === 'full-width') {
     return (
       <main>
-        <SeoHead seo={seo} />
+        <SeoHead seo={seo} jsonLd={generateJsonLd(page, siteSettings)} />
         {page.sections?.length > 0 && <PageSections sections={page.sections} />}
         {slug === 'contact' && <ContactForm />}
       </main>
@@ -48,7 +49,7 @@ export default function RootPage() {
 
   return (
     <main>
-      <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
+      <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(page, siteSettings)} />
       {leadHero && <PageSections sections={[leadHero]} />}
       <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
 

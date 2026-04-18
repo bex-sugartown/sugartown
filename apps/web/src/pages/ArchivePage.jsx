@@ -41,6 +41,7 @@ import { useState } from 'react'
 import { useSanityDoc, useSanityList, useDraftIds } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
+import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import FilterBar from '../components/FilterBar'
@@ -329,7 +330,7 @@ export default function ArchivePage({ archiveSlug }) {
 
   return (
     <main className={styles.archivePage}>
-      <SeoHead seo={seo} />
+      <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
       <h1 className={styles.archiveHeading}>{heading}<DraftBadge docId={archiveDoc._id} /></h1>
       {subheading && (

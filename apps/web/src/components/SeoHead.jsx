@@ -23,6 +23,8 @@
  *     .robots        { index: bool, follow: bool }
  *     .openGraph     { title, description, image: { asset: { url } }, type }
  *   heroImageUrl {string|null} — resolved URL for a hero/LCP image to preload
+ *   jsonLd {object|null} — JSON-LD @graph object from generateJsonLd(). Injected
+ *     as <script type="application/ld+json"> and removed on route change.
  */
 import { useEffect } from 'react'
 import { urlFor } from '../lib/sanity'
@@ -59,7 +61,7 @@ function removeEl(el) {
 
 // ─── component ────────────────────────────────────────────────────────────────
 
-export default function SeoHead({ seo, heroImageUrl }) {
+export default function SeoHead({ seo, heroImageUrl, jsonLd }) {
   useEffect(() => {
     if (!seo) return
 
@@ -111,6 +113,15 @@ export default function SeoHead({ seo, heroImageUrl }) {
       document.head.appendChild(heroPreloadEl)
     }
 
+    // ── JSON-LD structured data ───────────────────────────────────────────────
+    let jsonLdEl = null
+    if (jsonLd) {
+      jsonLdEl = document.createElement('script')
+      jsonLdEl.setAttribute('type', 'application/ld+json')
+      jsonLdEl.textContent = JSON.stringify(jsonLd)
+      document.head.appendChild(jsonLdEl)
+    }
+
     // ── Twitter Card ─────────────────────────────────────────────────────────
     const twitterCardEl = setMeta('twitter:card', 'summary_large_image')
     const twitterTitleEl = setMeta('twitter:title', seo.openGraph?.title || seo.title)
@@ -132,12 +143,13 @@ export default function SeoHead({ seo, heroImageUrl }) {
       if (ogTypeEl) ogTypeEl.setAttribute('content', '')
       if (ogUrlEl) ogUrlEl.setAttribute('content', '')
       removeEl(ogImageEl)
+      removeEl(jsonLdEl)
       if (twitterCardEl) twitterCardEl.setAttribute('content', '')
       if (twitterTitleEl) twitterTitleEl.setAttribute('content', '')
       if (twitterDescEl) twitterDescEl.setAttribute('content', '')
       removeEl(heroPreloadEl)
     }
-  }, [seo, heroImageUrl])
+  }, [seo, heroImageUrl, jsonLd])
 
   // Renders nothing — side-effects only
   return null

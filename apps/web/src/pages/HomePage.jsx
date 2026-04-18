@@ -11,6 +11,7 @@ import { pageBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
+import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import PageSections from '../components/PageSections'
 import styles from './pages.module.css'
@@ -25,7 +26,7 @@ export default function HomePage() {
 
   return (
     <main>
-      <SeoHead seo={seo} />
+      <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
       {page?.sections && page.sections.length > 0 ? (
         <PageSections sections={page.sections.filter(s => s._type !== 'heroSection' && s._type !== 'hero')} />

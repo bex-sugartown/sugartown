@@ -11,6 +11,7 @@ import { useParams, Link } from 'react-router-dom'
 import { projectDetailQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
+import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import MetadataCard from '../components/MetadataCard'
@@ -73,7 +74,7 @@ export default function ProjectDetailPage() {
 
   return (
     <main className={styles.projectPage}>
-      <SeoHead seo={seo} />
+      <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
       <Link to="/projects" className={pageStyles.backLink}>
         ← All Projects

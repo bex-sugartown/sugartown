@@ -38,6 +38,7 @@ import { personProfileQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { urlFor } from '../lib/sanity'
+import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import TaxonomyChips from '../components/TaxonomyChips'
@@ -124,7 +125,7 @@ export default function PersonProfilePage() {
 
   return (
     <main className={styles.profilePage}>
-      <SeoHead seo={seo} />
+      <SeoHead seo={seo} jsonLd={generateJsonLd(person, siteSettings)} />
 
       <Link to="/people" className={pageStyles.backLink}>
         ← All People

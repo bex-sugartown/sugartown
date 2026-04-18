@@ -8,6 +8,7 @@ import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getArchivePath } from '../lib/routes'
+import { generateJsonLd } from '../lib/jsonLd'
 import { extractLeadHero } from '../lib/heroUtils'
 import { CitationNote, CitationZone } from '../design-system'
 import SeoHead from '../components/SeoHead'
@@ -36,7 +37,7 @@ export default function NodePage() {
 
   return (
     <main>
-      <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
+      <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(node, siteSettings)} />
       {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: node.publishedAt, status: node.status, readingTime: node.readingTime }} />}
       <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
 

@@ -12,6 +12,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { urlFor } from '../lib/sanity'
 import { getArchivePath } from '../lib/routes'
+import { generateJsonLd } from '../lib/jsonLd'
 import { extractLeadHero } from '../lib/heroUtils'
 import { useState } from 'react'
 import { CitationNote, CitationZone, Media } from '../design-system'
@@ -87,7 +88,7 @@ export default function ArticlePage() {
 
   return (
     <main>
-      <SeoHead seo={seo} heroImageUrl={heroImageUrl} />
+      <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(post, siteSettings)} />
       {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: post.publishedAt, status: post.status, readingTime: post.readingTime }} />}
       <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
 
