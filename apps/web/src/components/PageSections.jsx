@@ -600,9 +600,19 @@ function MermaidDiagram({ section }) {
           edgeLabelBackground: palette.clusterBg,
         },
       })
+      // Strip inline style/classDef directives so the themed palette isn't
+      // overridden by hardcoded fills/strokes stored in Sanity content.
+      // Also strip `:::className` inline class markers referenced by those
+      // stripped classDefs so Mermaid doesn't error on unknown classes.
+      const themedCode = section.code
+        .split('\n')
+        .filter((line) => !/^\s*(style|classDef|class)\s/.test(line))
+        .join('\n')
+        .replace(/:::\w+/g, '')
+
       // Generate unique ID for each render to avoid collisions
       const renderId = `${renderIdRef.current}-${Date.now()}`
-      const { svg } = await mermaid.render(renderId, section.code)
+      const { svg } = await mermaid.render(renderId, themedCode)
       if (containerRef.current) {
         containerRef.current.innerHTML = svg
       }
