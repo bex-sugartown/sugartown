@@ -36,6 +36,12 @@
   padding-bottom: 1px;
 }
 
+/* No chip sections follow — suppress the bottom divider line that would
+   otherwise show as an orphaned stripe under the last scalar row. */
+.scalarRow.noChipsBelow {
+  padding-bottom: 0;
+}
+
 .scalarField {
   flex: 1 0 auto;
   min-width: 120px;

@@ -187,7 +187,7 @@ export default function MetadataCard({
 
         {/* Scalar fields — wrapping flex row with bg-through-gap dividers */}
         {(callNumber || hasScalars) && (
-          <div className={styles.scalarRow}>
+          <div className={`${styles.scalarRow} ${!hasChips ? styles.noChipsBelow : ''}`.trim()}>
 
             {/* Call number — project ID + name as catalog shelf label */}
             {callNumber && (
