@@ -10,7 +10,6 @@ import { resolveSeo } from '../lib/seo'
 import { generateJsonLd } from '../lib/jsonLd'
 import { extractLeadHero } from '../lib/heroUtils'
 import SeoHead from '../components/SeoHead'
-import MetadataCard from '../components/MetadataCard'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
 import MarginColumn, { hasMarginContent } from '../components/MarginColumn'
@@ -44,8 +43,13 @@ export default function RootPage() {
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(page.sections)
   const showMargin = hasMarginContent({ ...page, sections: restSections })
 
-  // MetadataCard only renders when there's metadata to show
-  const hasMetadata = page.authors?.length > 0 || page.publishedAt || page.aiDisclosure
+  // Thin mono-caps eyebrow strip replaces MetadataCard on page-type docs.
+  // Format: "PLATFORM · UPDATED APR 2026" (page-type slug · month year).
+  const pageTypeLabel = slug ? slug.replace(/-/g, ' ').toUpperCase() : null
+  const updatedLabel = page.publishedAt
+    ? new Date(page.publishedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()
+    : null
+  const hasEyebrow = pageTypeLabel || updatedLabel || hasDraft
 
   return (
     <main>
@@ -53,13 +57,15 @@ export default function RootPage() {
       {leadHero && <PageSections sections={[leadHero]} />}
       <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
 
-        {hasMetadata && (
-          <MetadataCard
-            authors={page.authors}
-            contentType="Page"
-            publishedAt={page.publishedAt}
-            draftBadge={<DraftBadge docId={page._id} hasDraft={hasDraft} />}
-          />
+        {hasEyebrow && (
+          <div className={styles.pageEyebrow}>
+            <span className={styles.pageEyebrowText}>
+              {pageTypeLabel}
+              {pageTypeLabel && updatedLabel && <span aria-hidden> · </span>}
+              {updatedLabel && <>UPDATED {updatedLabel}</>}
+            </span>
+            <DraftBadge docId={page._id} hasDraft={hasDraft} />
+          </div>
         )}
 
         {restSections.length > 0 && (

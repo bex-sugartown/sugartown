@@ -104,6 +104,26 @@
   margin-bottom: var(--st-space-section-break-detail);
 }
 
+/* Page-type eyebrow strip — replaces MetadataCard on /:slug root pages.
+   Mono caps, muted, thin rule above the first section. */
+.pageEyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--st-space-3);
+  padding-bottom: var(--st-space-3);
+  margin-bottom: var(--st-space-section-break-detail);
+  border-bottom: 1px solid var(--st-color-border-subtle, var(--st-color-border-default));
+}
+
+.pageEyebrowText {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  color: var(--st-label-color);
+}
+
 /* Margin column: sticky, card-catalog aesthetic.
    At ≥1200px, placed in grid column 2, same row as body content.
    Sticky positioning keeps it visible while scrolling body. */
