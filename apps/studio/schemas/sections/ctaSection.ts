@@ -17,11 +17,9 @@ export default defineType({
       name: 'heading',
       title: 'Heading',
       type: 'string',
-      description: 'Main CTA heading',
+      description: 'Main CTA heading. Optional — leave blank for a buttons-only section.',
       validation: (Rule) =>
-        Rule.required()
-          .max(100)
-          .error('Heading is required and must be under 100 characters')
+        Rule.max(100).error('Heading must be under 100 characters')
     }),
     defineField({
       name: 'description',
