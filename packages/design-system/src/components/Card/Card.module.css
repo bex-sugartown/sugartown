@@ -32,6 +32,14 @@
   transform: translateY(var(--st-card-hover-translate-y, -4px));
 }
 
+/* Hover/focus underline on title — affordance for "card is a link" */
+.card:has(.titleLink):hover .titleLink,
+.titleLink:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
 /* ── accentColor colorway ──────────────────────────────────────────────────── */
 /* Applied via inline style="--accent:#hex" on root — absent prop = no rule fires */
 .card[style*="--accent"] {
