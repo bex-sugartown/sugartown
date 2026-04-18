@@ -224,7 +224,7 @@
   font-weight: var(--st-font-weight-semibold, 600);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--st-color-teal, #2bd4aa);
+  color: var(--st-color-lime, #D1FF1D);
   margin-bottom: var(--st-spacing-stack-sm, 0.5rem);
 }
 
@@ -282,6 +282,7 @@
   gap: var(--st-spacing-inline-lg);
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: var(--st-spacing-stack-lg);
 }
 
 /* Text Section */
