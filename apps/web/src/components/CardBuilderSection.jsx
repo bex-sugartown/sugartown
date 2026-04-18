@@ -143,6 +143,7 @@ function BuilderCard({ card, variant }) {
     isExtreme && styles.cardDuotoneExtreme,
     overlayType === 'dark-scrim' && styles.cardDarkScrim,
     overlayType === 'color' && styles.cardColorOverlay,
+    overlayType === 'greyscale-panel' && styles.cardGreyscalePanel,
   ]
     .filter(Boolean)
     .join(' ') || undefined

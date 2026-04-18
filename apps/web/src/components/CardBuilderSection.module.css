@@ -135,6 +135,22 @@
   border-radius: inherit;
 }
 
+/* Greyscale + Panel */
+.cardGreyscalePanel img {
+  filter: grayscale(100%) contrast(0.9);
+}
+
+.cardGreyscalePanel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 18, 38, 0.05) 0%, rgba(13, 18, 38, 0.25) 100%);
+  mix-blend-mode: normal;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: inherit;
+}
+
 /* ── Citation footnotes inside card footer ────────────── */
 .citationPrefix {
   color: var(--st-color-text-secondary, inherit);
