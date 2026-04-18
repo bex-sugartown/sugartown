@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-16 · v0.21.3 · SUG-65 Footer Reset (colophon + IA reorg + version strip)
+> Updated 2026-04-18 · v0.21.4 · SUG-58 AI Search Optimization (JSON-LD structured data + llms.txt)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.21.3 shipped (SUG-65 Footer Reset — colophon strip, build-time version/date injection, toolchain chips, utility row, flex-wrap nav columns). Phase 4 (Studio content backfill: toolchain refs + license label) remains for Bex. **Next:** SUG-21 Pink Moon design system identity.
+> **⚑ Current focus:** v0.21.4 shipped (SUG-58 AI Search Optimization — schema.org JSON-LD on all pages, llms.txt, robots.txt confirmed AI-crawler-open, SSR spike documented). **Next:** SUG-21 Pink Moon design system identity.
 
 ---
 
@@ -51,6 +51,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-58 · AI Search Optimization** — schema.org JSON-LD on all pages (Organization, WebSite, Article, Person, WebPage/ProfilePage). `generateJsonLd()` utility in `lib/jsonLd.js`. SeoHead extended with `jsonLd` prop. `llms.txt` at site root. robots.txt confirmed AI-crawler-open. SSR spike documented (client-rendered; Google sees it, non-rendering crawlers use llms.txt).~~ | v0.21.4 | 2026-04-18 |
 | ~~**SUG-65 · Footer Reset** — Colophon strip (VERSION from CHANGELOG.md, TOOLCHAIN chips from tool refs, LICENSE, BUILD date). Brand zone (logo at 135px/75% of header, tagline, social). Nav columns (flex-wrap, 3 cols). Utility row (AI Ethics, Privacy & Terms, Sitemap, Contact). Vite define for `__APP_VERSION__`/`__BUILD_DATE__`. New siteSettings fields: footerToolchain, licenseLabel, licenseUrl. Phase 4 content backfill deferred to Studio.~~ | v0.21.3 | 2026-04-16 |
 | ~~**SUG-62 · Schema Hygiene** — Deprecated fields hidden across page (categories/tags/projects/template), project (priority/kpis), caseStudy (outcomes), confirmed already-hidden on article/node (cardImage/relatedProjects/aiTool/conversationType/author legacy). aiDisclosure added to page schema. Schema deployed. Data preserved (hidden, not removed).~~ | v0.21.2 | 2026-04-15 |
 | ~~**SUG-52 · Page Template Rendering** — Responsive margin column (sticky ≥1200px, inline below) with TOC, Related, Series, AI Disclosure slots. MetadataCard card-catalog aesthetic with bg-through-gap dividers, field audit (employer/contractType/dateRange added, kpis/priority deprecated). RootPage wired with MetadataCard + MarginColumn. Chromatic visual regression testing. Schema deprecated fields hidden.~~ | v0.21.1 | 2026-04-14 |
@@ -106,4 +107,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-16 · v0.21.3*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-18 · v0.21.4*
