@@ -1,6 +1,8 @@
 **Linear Issue:** [SUG-67](https://linear.app/sugartown/issue/SUG-67/dynamic-changelog-data-pipeline-build-time-parse-to-json)
 
-## EPIC NAME: Dynamic CHANGELOG data pipeline — build-time parse to JSON with PortableText variables
+## EPIC NAME: Dynamic build-time stats pipeline — CHANGELOG + DS + Storybook → JSON with PortableText variables
+
+> Originally scoped as CHANGELOG-only. Expanded to include design-system token counts, Storybook story counts, and other repo-derivable stats so editors can reference live numbers throughout the site (e.g. the `/platform` governance callout: "7 primitives. 79 component tokens. N stories.").
 
 ---
 
@@ -93,11 +95,19 @@ This epic is a **build tooling + render utility** epic. No doc type gains or los
    }
    ```
 
-3. **Interpolation syntax locked.** Proposed: `{{release.<path>}}` with dot-path access.
+3. **Interpolation syntax locked.** Proposed: `{{<namespace>.<path>}}` with dot-path access. Multiple namespaces share a single interpolator + one merged JSON artifact (`apps/web/src/generated/stats.json`):
    - `{{release.current.version}}` → `"0.21.3"`
    - `{{release.current.descriptor}}` → `"Footer reset"`
    - `{{release.count.minor}}` → `12`
    - `{{release.latestN.0.version}}` → `"0.21.3"`
+   - `{{ds.tokens.total}}` → `377` (all `--st-*` definitions in canonical `tokens.css`)
+   - `{{ds.tokens.primitives}}` → `7` (color, typography, space, radius, shadow, motion, breakpoint)
+   - `{{ds.tokens.component}}` → `79` (card + button + pill + chip + tag + table + label + callout + blockquote + code + citation)
+   - `{{ds.tokens.byCategory.color}}` → `136`
+   - `{{storybook.stories}}` → count of `*.stories.{js,jsx,ts,tsx}` under `apps/storybook/` or `packages/design-system/`
+   - `{{storybook.components}}` → distinct component dirs with at least one story
+   - `{{repo.commits}}` → total commits on `main` (derived from `git rev-list --count HEAD`)
+   - `{{repo.epicsShipped}}` → count of files in `docs/shipped/SUG-*.md`
    - Unknown paths render as the raw token (fail-visible) in dev; stripped in prod (fail-quiet). Decision required in Phase 0.
 
 4. **PortableText integration pattern decided.** Two options:
@@ -111,15 +121,20 @@ This epic is a **build tooling + render utility** epic. No doc type gains or los
 
 ## Scope
 
-- [ ] `scripts/parse-changelog.js` — pure Node, no deps beyond `fs`/`path`; exports a function so it can be unit-tested
-- [ ] Vite plugin registration in `apps/web/vite.config.js` (runs parser on `buildStart`, re-runs on `CHANGELOG.md` change during dev)
-- [ ] `apps/web/src/generated/releases.json` — add `apps/web/src/generated/` to `.gitignore`
-- [ ] `apps/web/src/lib/releases.js` — exports `releases` (the imported JSON) + helpers:
-  - `getCurrent()` → current release
-  - `getLatestN(n)` → top N
-  - `getCountByKind()` → `{ major, minor, patch, total }`
-  - `interpolateReleaseVars(text, data?)` — pure string transform
-- [ ] PortableText pre-processor utility: `apps/web/src/lib/portableTextReleaseVars.js` — walks `block.children[].text` and runs `interpolateReleaseVars`
+- [ ] `scripts/collect-stats.js` — orchestrator; pure Node, no deps beyond `fs`/`path` + `child_process` for `git rev-list`. Calls each collector module and merges output.
+- [ ] Collector modules (one file each, pure functions):
+  - `scripts/stats/changelog.js` — parse root `CHANGELOG.md` → `release` namespace
+  - `scripts/stats/design-system.js` — parse `apps/web/src/design-system/styles/tokens.css` + component CSS dirs → `ds` namespace (tokens total, primitives, component tokens, byCategory)
+  - `scripts/stats/storybook.js` — glob `*.stories.{js,jsx,ts,tsx}` → `storybook` namespace
+  - `scripts/stats/repo.js` — `git rev-list --count HEAD` + `docs/shipped/` count → `repo` namespace
+- [ ] Vite plugin registration in `apps/web/vite.config.js` (runs orchestrator on `buildStart`, re-runs when any source file changes during dev)
+- [ ] `apps/web/src/generated/stats.json` — merged output. Add `apps/web/src/generated/` to `.gitignore`
+- [ ] `apps/web/src/lib/stats.js` — exports `stats` (the imported JSON) + helpers:
+  - `getRelease()` / `getLatestReleases(n)` / `getReleaseCountByKind()`
+  - `getDsTokenCounts()` → `{ total, primitives, component, byCategory }`
+  - `getStorybookCounts()` → `{ stories, components }`
+  - `interpolateStatsVars(text, data?)` — pure string transform; supports all namespaces via `{{<ns>.<path>}}` dot-paths
+- [ ] PortableText pre-processor utility: `apps/web/src/lib/portableTextStatsVars.js` — walks `block.children[].text` and runs `interpolateStatsVars`
 - [ ] Wire pre-processor into the three serializer entry points OR centralise into a shared `renderPortableText()` consumed by all three (MEMORY.md §PortableText Serializer Registry)
 - [ ] Unit tests for parser (fixture-based) and interpolator (edge cases: unknown path, nested array index, non-string input)
 - [ ] Storybook story demonstrating variable rendering inside a PortableText block
@@ -148,10 +163,10 @@ N/A — no GROQ queries. This epic's "query" is reading a local JSON file import
 
 1. Running `pnpm build` (or `pnpm dev`) from `apps/web/` produces `apps/web/src/generated/releases.json` matching the locked shape.
 2. Editing `CHANGELOG.md` during `pnpm dev` triggers a re-parse and HMR update within one reload.
-3. A PortableText block containing `The site is at version {{release.current.version}}.` renders as `The site is at version 0.21.3.` on every page type (article, node, case study, page section builder).
+3. A PortableText block containing `The site is at version {{release.current.version}}. {{ds.tokens.primitives}} primitives. {{ds.tokens.component}} component tokens.` renders with live values on every page type (article, node, case study, page section builder).
 4. An unknown token (`{{release.nonsense}}`) renders as the literal string in dev builds; strips to empty in prod builds.
 5. If `CHANGELOG.md` is missing or unparseable, the build fails with a message pointing at the offending line.
-6. Unit tests cover: MAJOR / MINOR / PATCH semver classification, date parsing, descriptor extraction, malformed entry handling, dot-path resolution with array indices, unknown-path behaviour per environment.
+6. Unit tests cover: MAJOR / MINOR / PATCH semver classification, date parsing, descriptor extraction, malformed entry handling, dot-path resolution with array indices, unknown-path behaviour per environment, DS token counting against a fixture `tokens.css`, Storybook story globbing against a fixture directory.
 7. The Linear issue (SUG-67) has at least one commit referencing it on `origin/main` before transitioning to Done (CLAUDE.md §Linear Done = code in remote).
 
 ---
