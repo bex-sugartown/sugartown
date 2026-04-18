@@ -29,7 +29,7 @@ export default function HomePage() {
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
       {page?.sections && page.sections.length > 0 ? (
-        <PageSections sections={page.sections.filter(s => s._type !== 'heroSection' && s._type !== 'hero')} />
+        <PageSections sections={page.sections} />
       ) : (
         <div className={styles.detailPage}>
           <h1 className={styles.detailHeading}>Welcome to Sugartown</h1>

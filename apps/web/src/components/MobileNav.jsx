@@ -199,10 +199,14 @@ export default function MobileNav({
           {/* Footer columns (legal links etc.) */}
           {footerColumns && footerColumns.length > 0 && (
             <div className={styles.footerLinks}>
-              {footerColumns.map((column, colIndex) =>
-                column.items?.map((item, itemIndex) => {
+              {footerColumns.flatMap((column, colIndex) =>
+                (column.items ?? []).map((item, itemIndex) => {
                   const { url, openInNewTab } = resolveNavLink(item)
-                  return renderLink(url, item.label, openInNewTab, styles.footerLink)
+                  return (
+                    <span key={`${colIndex}-${itemIndex}`}>
+                      {renderLink(url, item.label, openInNewTab, styles.footerLink)}
+                    </span>
+                  )
                 })
               )}
             </div>

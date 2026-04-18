@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { resolveNavLink } from '../lib/resolveNavUrl'
 import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
@@ -15,6 +15,13 @@ const CTA_STYLE_TO_VARIANT = { primary: 'primary', secondary: 'secondary', terti
 
 export default function Header({ siteSettings }) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   if (!siteSettings) return null
 
@@ -35,7 +42,7 @@ export default function Header({ siteSettings }) {
     <>
       {preheader && <Preheader preheader={preheader} />}
 
-      <header className={styles.header}>
+      <header className={`${styles.header}${scrolled ? ` ${styles.scrolled}` : ''}`}>
         <div className={styles.container}>
           {siteLogo?.asset && (
             <RouterLink to="/" className={styles.logoLink}>

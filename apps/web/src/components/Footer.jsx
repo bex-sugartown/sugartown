@@ -15,7 +15,7 @@ export default function Footer({ siteSettings }) {
     footerLogo,
     siteTitle,
     tagline,
-    footerColumns,
+    primaryNav,
     socialLinks,
     copyrightText,
     footerToolchain,
@@ -60,31 +60,34 @@ export default function Footer({ siteSettings }) {
             )}
           </div>
 
-          {footerColumns && footerColumns.length > 0 && (
+          {primaryNav?.items && primaryNav.items.length > 0 && (
             <div className={styles.columns}>
-              {footerColumns.map((column, i) => (
-                <div key={i} className={styles.column}>
-                  {column.header && (
-                    <h3 className={styles.columnHeading}>{column.header}</h3>
-                  )}
-                  {column.items && column.items.length > 0 && (
-                    <ul className={styles.linkList}>
-                      {column.items.map((item, j) => {
-                        const { url, openInNewTab } = resolveNavLink(item)
-                        return (
-                          <li key={j}>
-                            <Link
-                              label={item.label}
-                              url={url}
-                              openInNewTab={openInNewTab}
-                            />
-                          </li>
-                        )
-                      })}
-                    </ul>
-                  )}
-                </div>
-              ))}
+              {primaryNav.items.map((item, i) => {
+                const children = item.children ?? []
+                return (
+                  <div key={i} className={styles.column}>
+                    {item.label && (
+                      <h3 className={styles.columnHeading}>{item.label}</h3>
+                    )}
+                    {children.length > 0 && (
+                      <ul className={styles.linkList}>
+                        {children.map((child, j) => {
+                          const { url, openInNewTab } = resolveNavLink(child)
+                          return (
+                            <li key={j}>
+                              <Link
+                                label={child.label}
+                                url={url}
+                                openInNewTab={openInNewTab}
+                              />
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>

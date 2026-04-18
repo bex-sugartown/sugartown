@@ -9,6 +9,7 @@
   max-width: 1164px;
   margin-left: auto;
   margin-right: auto;
+  padding-block: var(--st-space-section-break);
 }
 
 .heading {
