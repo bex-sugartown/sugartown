@@ -71,10 +71,9 @@ A white-screen debug cycle caused by local ↔ remote divergence is a process fa
 
 ### Local-only directories (gitignored)
 
-Two `docs/` subdirectories are **local-only** — gitignored and never committed:
+One `docs/` subdirectory is **local-only** — gitignored and never committed:
 
 - **`docs/drafts/`** — working drafts, manifestos, HTML mocks, GIFs, exploration docs. Content here is in flux and stays on Bex's machine until it's ready to move elsewhere (Sanity, `docs/briefs/`, `docs/shipped/`).
-- **`docs/brand/`** — brand voice guides, node style guide, voice cheatsheets. Private editorial reference, not published to the repo.
 
 **Rules:**
 - Never `git add` files in these directories. They are gitignored for a reason.

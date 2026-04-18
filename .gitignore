@@ -59,9 +59,6 @@ scripts/wp_urls.csv
 # Draft documents — local scratchwork, not published to repo
 docs/drafts/
 
-# Brand style guides — private, not published to repo
-docs/brand/
-
 # Local Netlify folder
 .netlify
 apps/storybook/debug-storybook.log
