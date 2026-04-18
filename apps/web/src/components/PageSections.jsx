@@ -167,7 +167,7 @@ function HeroSection({ section }) {
   }
 
   // Apply image treatment overlay styles (duotone, scrim, color)
-  const { parsedType: treatmentType, preset: treatmentPreset } = parseOverlay(imageTreatment)
+  const { parsedType: treatmentType, preset: treatmentPreset, showPanel } = parseOverlay(imageTreatment)
   const hasTreatment = treatmentType && treatmentType !== 'none'
   const isExtremeHero = treatmentType === 'duotone' && treatmentPreset === 'extreme'
 
@@ -209,15 +209,13 @@ function HeroSection({ section }) {
       ? styles.heroContentWidth
       : ''
 
-  const isGreyscalePanel = treatmentType === 'greyscale-panel'
+  const isGreyscale = treatmentType === 'greyscale'
 
-  // Text glow class — keyed to treatment type when image is present
-  // Greyscale-panel full-width uses no glow (the frosted panel provides contrast)
-  // Greyscale-panel content-width uses default glow (no panel, needs shadow)
-  const isFullWidthPanel = isGreyscalePanel && imageWidth === 'full-width'
+  // Text glow class — panel suppresses glow regardless of treatment type
+  // (the frosted panel provides contrast instead of glow)
   let glowClass = ''
   if (hasImage) {
-    if (isFullWidthPanel) glowClass = styles.heroGlowNone
+    if (showPanel) glowClass = styles.heroGlowNone
     else if (isExtremeHero) glowClass = styles.heroGlowExtreme
     else if (treatmentType === 'duotone') glowClass = styles.heroGlowDuotone
     else if (treatmentType === 'dark-scrim') glowClass = styles.heroGlowScrim
@@ -234,7 +232,7 @@ function HeroSection({ section }) {
     isExtremeHero ? styles.heroTreatmentExtreme : '',
     treatmentType === 'dark-scrim' ? styles.heroTreatmentScrim : '',
     treatmentType === 'color' ? styles.heroTreatmentColor : '',
-    isGreyscalePanel ? styles.heroTreatmentGreyscalePanel : '',
+    isGreyscale ? styles.heroTreatmentGreyscale : '',
     glowClass,
   ].filter(Boolean).join(' ')
 
@@ -244,7 +242,7 @@ function HeroSection({ section }) {
       {eyebrow && <span className={styles.heroEyebrow}>{eyebrow}</span>}
       {heading && <h1 className={styles.heroHeading}>{heading}</h1>}
       {subheading && <p className={styles.heroSubheading}>{subheading}</p>}
-      {isGreyscalePanel && section._meta && (
+      {showPanel && section._meta && (
         <p className={styles.heroMeta}>
           {section._meta.date && new Date(section._meta.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           {section._meta.date && section._meta.status && ' · '}
@@ -289,7 +287,7 @@ function HeroSection({ section }) {
   return (
     <section className={sectionClasses} style={backgroundStyles} id={section._sectionId}>
       <div className={styles.heroContainer}>
-        {isGreyscalePanel && hasImage && imageWidth === 'full-width' ? (
+        {showPanel && hasImage ? (
           <div className={styles.heroPanel}>
             {heroElements}
           </div>

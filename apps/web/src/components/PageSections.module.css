@@ -90,27 +90,27 @@
    Content-width heroes: greyscale image + text shadow (no panel)
    Greyscale filter on ::after ONLY — child content retains colour. */
 
-.heroTreatmentGreyscalePanel.heroWithImage::after {
+.heroTreatmentGreyscale.heroWithImage::after {
   filter: grayscale(100%) contrast(0.9);
 }
 
-.heroTreatmentGreyscalePanel.heroWithImage::before {
+.heroTreatmentGreyscale.heroWithImage::before {
   background: linear-gradient(180deg, rgba(13,18,38,0.05) 0%, rgba(13,18,38,0.25) 100%);
   mix-blend-mode: normal;
 }
 
-:global([data-theme="dark"]) .heroTreatmentGreyscalePanel.heroWithImage::after,
-:global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscalePanel.heroWithImage::after {
+:global([data-theme="dark"]) .heroTreatmentGreyscale.heroWithImage::after,
+:global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscale.heroWithImage::after {
   filter: grayscale(100%) contrast(0.8) brightness(0.7);
 }
 
-:global([data-theme="dark"]) .heroTreatmentGreyscalePanel.heroWithImage::before,
-:global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscalePanel.heroWithImage::before {
+:global([data-theme="dark"]) .heroTreatmentGreyscale.heroWithImage::before,
+:global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscale.heroWithImage::before {
   background: linear-gradient(180deg, transparent 15%, rgba(13,18,38,0.65) 100%);
 }
 
 /* Greyscale eyebrow: lime in all themes (Courier Prime) */
-.heroTreatmentGreyscalePanel .heroEyebrow {
+.heroTreatmentGreyscale .heroEyebrow {
   color: var(--st-color-lime, #D1FF1D);
   font-family: var(--st-font-family-metadata, 'Courier Prime', monospace);
   font-size: 0.68rem;

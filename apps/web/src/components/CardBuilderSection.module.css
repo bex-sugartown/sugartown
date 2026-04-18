@@ -135,12 +135,13 @@
   border-radius: inherit;
 }
 
-/* Greyscale + Panel */
-.cardGreyscalePanel img {
+/* Greyscale — desaturated image */
+.cardGreyscale img {
   filter: grayscale(100%) contrast(0.9);
 }
 
-.cardGreyscalePanel::after {
+/* Panel — dark gradient overlay (can combine with any treatment) */
+.cardPanel::after {
   content: '';
   position: absolute;
   inset: 0;

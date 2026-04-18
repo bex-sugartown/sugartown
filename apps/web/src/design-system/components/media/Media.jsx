@@ -36,18 +36,25 @@ const DUOTONE_PRESETS = {
  * Also handles legacy API where type='duotone' and duotonePreset is a separate field.
  */
 function parseOverlay(overlay) {
-  if (!overlay?.type || overlay.type === 'none') return { parsedType: null }
+  if (!overlay?.type || overlay.type === 'none') return { parsedType: null, showPanel: false }
+
+  const showPanel = overlay.panel ?? false
 
   if (overlay.type === 'dark-scrim') {
-    return { parsedType: 'dark-scrim' }
+    return { parsedType: 'dark-scrim', showPanel }
   }
 
+  // Backward compat: legacy 'greyscale-panel' type treated as greyscale + panel
   if (overlay.type === 'greyscale-panel') {
-    return { parsedType: 'greyscale-panel' }
+    return { parsedType: 'greyscale', showPanel: true }
+  }
+
+  if (overlay.type === 'greyscale') {
+    return { parsedType: 'greyscale', showPanel }
   }
 
   if (overlay.type === 'color') {
-    return { parsedType: 'color' }
+    return { parsedType: 'color', showPanel }
   }
 
   // Handle schema values: 'duotone-standard', 'duotone-featured', etc.
@@ -55,10 +62,10 @@ function parseOverlay(overlay) {
     const preset = overlay.type === 'duotone'
       ? (overlay.duotonePreset ?? 'standard')  // legacy API
       : overlay.type.replace('duotone-', '')     // schema value
-    return { parsedType: 'duotone', preset }
+    return { parsedType: 'duotone', preset, showPanel }
   }
 
-  return { parsedType: null }
+  return { parsedType: null, showPanel: false }
 }
 
 function getOverlayStyles(overlay) {

@@ -132,18 +132,19 @@ function BuilderCard({ card, variant }) {
   const citationIndexMap = buildCitationIndexMap(card.body)
   const cardBodyComponents = makeBodyComponents(citationIndexMap)
 
-  const { parsedType: overlayType, preset: overlayPreset } = parseOverlay(card.overlay)
+  const { parsedType: overlayType, preset: overlayPreset, showPanel } = parseOverlay(card.overlay)
   const hasOverlay = overlayType && overlayType !== 'none'
   const isExtreme = overlayType === 'duotone' && overlayPreset === 'extreme'
 
   // Overlay classes + styles target the thumbnail, not the whole card
   const thumbOverlayClass = [
-    hasOverlay && styles.cardOverlay,
+    (hasOverlay || showPanel) && styles.cardOverlay,
     overlayType === 'duotone' && styles.cardDuotone,
     isExtreme && styles.cardDuotoneExtreme,
     overlayType === 'dark-scrim' && styles.cardDarkScrim,
     overlayType === 'color' && styles.cardColorOverlay,
-    overlayType === 'greyscale-panel' && styles.cardGreyscalePanel,
+    overlayType === 'greyscale' && styles.cardGreyscale,
+    showPanel && styles.cardPanel,
   ]
     .filter(Boolean)
     .join(' ') || undefined
