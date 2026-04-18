@@ -182,6 +182,39 @@ After this epic, every page on sugartown.io has appropriate schema.org JSON-LD s
 2. If not: evaluate `vite-plugin-prerender` or `@vite/plugin-ssr` for build-time injection
 3. Document findings and recommendation as a decision record
 
+#### Decision Record (April 2026)
+
+**Finding:** `curl https://sugartown.io/` returns a bare Vite SPA shell. The raw HTML
+response contains no `<script type="application/ld+json">` tags, no resolved `<title>`,
+and no populated meta tags. JSON-LD is injected by React's `useEffect` post-hydration —
+it is not present in the static HTML served to crawlers.
+
+**Implication by crawler type:**
+- **Googlebot / Google AI Overviews** — Google's full crawler renders JavaScript. JSON-LD
+  injected via `useEffect` will be visible after rendering. Google Rich Results Test
+  should pass once these changes are deployed.
+- **ChatGPT / PerplexityBot / other raw-fetch crawlers** — these crawlers typically fetch
+  raw HTML without executing JavaScript. They will NOT see the JSON-LD. The structured
+  data is invisible to them.
+
+**Remediation options evaluated:**
+1. `vite-plugin-prerender` — builds static HTML snapshots at build time. Each route gets
+   a pre-rendered HTML file with all head tags (including JSON-LD) already present.
+   Pros: no runtime changes, works with the existing Vite config, JSON-LD is in static HTML.
+   Cons: requires a route manifest, build time increases proportionally to content count,
+   does not solve dynamic data (content changes require a rebuild).
+2. `@vite/plugin-ssr` (now Vike) — full SSR or pre-rendering. More powerful but a
+   significant infrastructure change (server, edge functions, or static generation).
+   Pros: solves the problem completely. Cons: major architectural change.
+3. **Accept the limitation** — JSON-LD ships now, visible to Google. Non-rendering
+   crawlers miss it. The `llms.txt` file fills the gap for AI crawlers that use it.
+   Google AI Overviews and Bing are the high-value targets; both render JS.
+
+**Recommendation:** Accept the limitation for now. Ship JSON-LD for Google (high value),
+ship `llms.txt` for non-rendering AI crawlers. Track pre-rendering as a separate
+infrastructure epic when content volume justifies the build-time cost. This is a known
+limitation, not a blocker.
+
 ---
 
 ## Deliverables
