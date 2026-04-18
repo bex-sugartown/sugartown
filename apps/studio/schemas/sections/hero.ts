@@ -17,8 +17,8 @@ export default defineType({
       name: 'eyebrow',
       title: 'Eyebrow',
       type: 'string',
-      description: 'Short label above the heading (e.g. section name, category). Renders in teal uppercase.',
-      validation: (Rule) => Rule.max(80)
+      description: 'Short label above the heading (e.g. section name, category). Renders in lime uppercase.',
+      validation: (Rule) => Rule.max(80).warning('Eyebrow labels work best under 80 characters')
     }),
     defineField({
       name: 'heading',
