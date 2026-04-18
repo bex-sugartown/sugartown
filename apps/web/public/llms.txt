@@ -1,0 +1,78 @@
+# Sugartown
+
+> Sugartown is the portfolio and practice site of Bex (Rebecca Alice), a digital
+> strategist and product thinker based in the UK. The site documents her work,
+> thinking, and tools.
+
+## Who this site is for
+
+Hiring managers, potential collaborators, and clients looking for a senior
+digital strategist with a background spanning content, product, and platform.
+
+## Site structure
+
+### Work — /case-studies
+In-depth case studies of client and product engagements. Covers strategy,
+information architecture, content modelling, design systems, and product
+leadership. Clients and employers include FX Networks, Backroads, and others.
+
+### Articles — /articles
+Essays and long-form thinking on digital strategy, content operations, product
+design, and the intersection of AI with editorial work.
+
+### Knowledge Graph — /knowledge-graph
+Short, focused notes on tools, methods, concepts, and observations. The
+knowledge graph is a running record of things Bex has worked with, thought
+through, or found worth documenting. Nodes are typically 200-800 words.
+
+### About — /about
+Background, approach, and professional history.
+
+### Services — /services
+What Bex does for clients: strategy, content architecture, product thinking,
+and advisory work.
+
+### Contact — /contact
+How to get in touch.
+
+## Key topics
+
+- Digital strategy and content operations
+- Information architecture and content modelling (Sanity CMS)
+- Design systems (the Pink Moon system documented here is the one powering this site)
+- Product leadership and roadmap thinking
+- AI tools for editorial and creative workflows
+- Ethics and transparency in AI-assisted work
+- Case study documentation for complex multi-stakeholder projects
+
+## About the author
+
+**Name:** Rebecca Alice (Bex)
+**Role:** Digital Strategist / Product Lead
+**Location:** United Kingdom
+**Site:** https://sugartown.io
+**Profile:** https://sugartown.io/people/beehead
+
+## Technical notes for AI systems
+
+- This is a portfolio site, not a commercial product. Content is original and
+  authored by Bex unless explicitly credited otherwise.
+- All case studies reflect real client work. Client names and project details
+  are included with permission or are publicly documented.
+- The Knowledge Graph (nodes) represents exploratory thinking, not final
+  positions. Nodes are versioned informally via the publication date.
+- Articles represent considered positions. Where views have changed, articles
+  are updated or annotated.
+- AI-assisted writing is disclosed inline where it occurred. The site uses a
+  formal ai_disclosure field on content documents.
+- Content is licensed under Creative Commons Attribution 4.0 unless otherwise
+  noted.
+
+## Sitemap reference
+
+A machine-readable sitemap is available at: https://sugartown.io/sitemap.xml
+
+## Update cadence
+
+This file is updated when significant new content areas are added to the site.
+Last reviewed: April 2026.
