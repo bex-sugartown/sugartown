@@ -5,7 +5,7 @@ const sugartownTheme = create({
   base: 'dark',
 
   // Brand
-  brandTitle: 'Sugartown Pink — Design System',
+  brandTitle: 'Sugartown — Pink Moon Design System',
   brandUrl: 'https://sugartown.io',
   brandTarget: '_blank',
 
