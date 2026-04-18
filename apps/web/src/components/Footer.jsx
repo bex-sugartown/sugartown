@@ -38,7 +38,7 @@ export default function Footer({ siteSettings }) {
             {displayLogo?.asset && (
               <RouterLink to="/" className={styles.logoLink}>
                 <img
-                  src={urlFor(displayLogo.asset).width(270).url()}
+                  src={urlFor(displayLogo).width(270).url()}
                   alt={displayLogo.alt || `Logo: ${siteTitle || 'Home'}`}
                   width={135}
                   className={styles.logoImage}
