@@ -86,8 +86,10 @@
     gap: 0 var(--st-space-margin-gap);
   }
 
-  /* MetadataCard, citations, ContentNav, legacy content span both columns */
+  /* MetadataCard, page eyebrow, citations, ContentNav, legacy content
+     span both columns */
   .detailPage[data-has-margin] > aside:first-child,
+  .detailPage[data-has-margin] > .pageEyebrow,
   .detailPageFullSpan {
     grid-column: 1 / -1;
   }
