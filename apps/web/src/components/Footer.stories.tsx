@@ -88,17 +88,16 @@ export const Minimal: Story = {
   },
 };
 
-/** Snapshot composite — all major states stacked for Chromatic VRT. */
+/** Snapshot composite — all major states stacked for Chromatic VRT.
+    Router wrap comes from the meta-level `withRouter` decorator; wrapping
+    again here would nest Routers and crash the snapshot. */
 export const Snapshot: Story = {
   name: 'Snapshot (VRT)',
   render: () => (
-    <MemoryRouter>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', background: '#eee' }}>
-        <Footer siteSettings={SITE_SETTINGS} />
-        <Footer siteSettings={{ ...SITE_SETTINGS, footerToolchain: [] }} />
-        <Footer siteSettings={{ siteLogo: MOCK_LOGO, siteTitle: 'Sugartown Digital', copyrightText: 'All rights reserved.' }} />
-      </div>
-    </MemoryRouter>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', background: '#eee' }}>
+      <Footer siteSettings={SITE_SETTINGS} />
+      <Footer siteSettings={{ ...SITE_SETTINGS, footerToolchain: [] }} />
+      <Footer siteSettings={{ siteLogo: MOCK_LOGO, siteTitle: 'Sugartown Digital', copyrightText: 'All rights reserved.' }} />
+    </div>
   ),
-  decorators: [],
 };
