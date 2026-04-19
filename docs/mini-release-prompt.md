@@ -31,7 +31,9 @@ Mini-releases accumulate as tagged patch versions. A **full release** (run separ
 
 ### 0A — Chromatic VRT check (if epic touched CSS or components)
 
-If the epic modified any CSS files, component JSX, or Storybook stories, run Chromatic before proceeding:
+If the epic modified any CSS files, component JSX, or Storybook stories, Chromatic must run before the work reaches `origin/main`. Two paths:
+
+**Path A — Run now (default for solo or pre-push releases):**
 
 ```bash
 pnpm --filter storybook chromatic --exit-zero-on-changes
@@ -42,6 +44,12 @@ pnpm --filter storybook chromatic --exit-zero-on-changes
 - If Chromatic is not configured or fails: note it in the release output and proceed. This is advisory, not blocking (until the team decides otherwise).
 
 The `--exit-zero-on-changes` flag prevents CI failure on expected visual changes; human review is the gate.
+
+**Path B — Defer to /eod (cheap-path mode):**
+
+When the human is batching multiple mini-releases between pushes (cheap-path, no per-epic push), Chromatic can be deferred to the `/eod` push step, which runs Chromatic once across all accumulated commits before triggering the Netlify deploy. This avoids burning Chromatic snapshots per mini-release.
+
+To defer: ask the human "Run Chromatic now or defer to /eod?" If they choose defer, note it in the release output (`Chromatic: deferred to /eod`) and proceed.
 
 ### 0B — Version collection
 

@@ -73,12 +73,20 @@ After delivering the summary, propose actions in this order:
    - Draft a commit message and show it
    - Wait for confirmation
 
-2. **Push to origin** (single push for all accumulated commits)
+2. **Chromatic VRT pre-flight** (if any pushed commits touched CSS, component JSX, or Storybook stories)
+   - Detect: `git diff --name-only origin/main..HEAD` — if any match `**/*.css`, `**/*.jsx`, `**/*.tsx`, or `apps/storybook/**`, run Chromatic.
+   - Run: `pnpm --filter storybook chromatic --exit-zero-on-changes`
+   - If Chromatic reports **no changes**: proceed to push.
+   - If Chromatic reports **visual changes**: print the Chromatic review URL and wait for confirmation. Do NOT push until the human says "approved" (or "skip chromatic" to override).
+   - If Chromatic fails or is misconfigured: note it and ask whether to push anyway.
+   - This catches drift accumulated across mid-session mini-releases that skipped their own Chromatic check.
+
+3. **Push to origin** (single push for all accumulated commits)
    - Show: "This will push N commits to origin/main, triggering 1 Netlify deploy"
    - List the commits that will be pushed
    - Wait for confirmation
 
-3. **Verify deploy** (after push)
+4. **Verify deploy** (after push)
    - Wait 30 seconds, then check if the site is responding:
    ```bash
    curl -sI https://sugartown.io | head -5
@@ -102,6 +110,7 @@ End-of-day wrap-up complete.
 
 Branch: [current branch]
 Commits pushed: [count or "none"]
+Chromatic: [no changes / N changes (approved | overridden) / skipped — no visual surfaces / not run]
 Netlify deploy: [triggered / not needed]
 Uncommitted changes: [none / list]
 Stashes: [none / list]
