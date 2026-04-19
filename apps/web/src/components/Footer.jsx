@@ -41,6 +41,7 @@ export default function Footer({ siteSettings }) {
                   src={urlFor(displayLogo).width(270).url()}
                   alt={displayLogo.alt || `Logo: ${siteTitle || 'Home'}`}
                   width={135}
+                  height={55}
                   className={styles.logoImage}
                 />
               </RouterLink>

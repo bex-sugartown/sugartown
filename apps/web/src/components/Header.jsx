@@ -50,6 +50,7 @@ export default function Header({ siteSettings }) {
                 src={urlFor(siteLogo.asset).width(360).url()}
                 alt={siteLogo.alt || `Logo: ${siteTitle || 'Home'}`}
                 width={180}
+                height={73}
                 className={styles.logoImage}
               />
             </RouterLink>
