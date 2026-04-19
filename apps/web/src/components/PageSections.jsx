@@ -68,7 +68,7 @@ function extractTextFromChildren(node) {
   return ''
 }
 
-/** Generate a slug-style anchor ID from heading text (matches MarginColumn extractToc). */
+/** Generate a slug-style anchor ID from heading text (matches PageSidebar extractToc). */
 function headingAnchor(children) {
   const text = extractTextFromChildren(Children.toArray(children))
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
@@ -769,7 +769,7 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
 
   const content = sections.map((section) => {
     const key = section._key
-    // Anchor ID for TOC links (SUG-52 margin column)
+    // Anchor ID for TOC links (SUG-69 page sidebar)
     const sectionId = key ? `section-${key}` : undefined
 
     switch (section._type) {

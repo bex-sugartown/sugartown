@@ -16,7 +16,7 @@ import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
-import MarginColumn, { hasMarginContent } from '../components/MarginColumn'
+import PageSidebar, { hasSidebarContent } from '../components/PageSidebar'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -33,7 +33,7 @@ export default function NodePage() {
 
   // Extract leading hero — hero heading is the page title
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(node.sections)
-  const showMargin = hasMarginContent({ ...node, sections: restSections })
+  const showMargin = hasSidebarContent({ ...node, sections: restSections })
 
   return (
     <main>
@@ -59,17 +59,6 @@ export default function NodePage() {
           <PageSections sections={restSections} context="detail" />
         )}
 
-        <MarginColumn
-          sections={restSections}
-          content={node.content}
-          related={node.related}
-          series={node.series}
-          partNumber={node.partNumber}
-          tools={node.tools}
-          authors={node.authors}
-          aiDisclosure={node.aiDisclosure}
-        />
-
         {node.citations?.length > 0 && (
           <div className={styles.detailPageFullSpan}>
             <CitationZone>
@@ -89,6 +78,17 @@ export default function NodePage() {
             </CitationZone>
           </div>
         )}
+
+        <PageSidebar
+          sections={restSections}
+          content={node.content}
+          related={node.related}
+          series={node.series}
+          partNumber={node.partNumber}
+          tools={node.tools}
+          authors={node.authors}
+          aiDisclosure={node.aiDisclosure}
+        />
 
         {node.conversationLink && (
           <p className={styles.detailPageFullSpan} style={{ marginTop: '2rem' }}>

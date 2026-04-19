@@ -1,0 +1,207 @@
+/* PageSidebar.module.css — right-rail at ≥1024px, disclosure below content otherwise.
+ *
+ * SUG-69: replaces MarginColumn. The dotted card-catalog surface is dropped in favour
+ * of a cleaner editorial rail: mono labels, left-border-accent TOC active state,
+ * disclosure-under-content pattern for tablet/mobile.
+ *
+ * Placement in the grid is handled by `.detailPage[data-has-margin]` in pages.module.css.
+ * This module styles the sidebar internals only.
+ */
+
+.pageSidebar {
+  margin-top: var(--st-space-section-break-detail);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--st-color-border-subtle);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--st-color-text-default);
+}
+
+.disclosure { margin: 0; }
+
+.summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  font-family: var(--st-label-font);
+  font-size: 0.7rem;
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-color-text-default);
+}
+.summary::-webkit-details-marker { display: none; }
+.summary::before {
+  content: '▸';
+  transition: transform 0.15s ease;
+  color: var(--st-color-text-muted);
+}
+.disclosure[open] > .summary::before { transform: rotate(90deg); }
+.summary:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+.blocks { padding-top: 1rem; }
+.block + .block { margin-top: 1.5rem; }
+
+/* TOC is desktop-only — hidden below the grid breakpoint */
+@media (max-width: 1023.98px) {
+  .tocOnly { display: none; }
+}
+
+/* ── Desktop rail ───────────────────────────────────────────────────
+ * The aside is the grid item; it stretches to fill row 2 (align-self
+ * defaults to stretch). The inner .disclosure is the sticky element —
+ * its containing block is the aside, which equals the row, so sticky
+ * releases at the bottom of row 2 instead of escaping into citations
+ * and ContentNav. (If sticky is on the aside itself, its containing
+ * block is .detailPage and it overlaps every later row.)
+ */
+@media (min-width: 1024px) {
+  .pageSidebar {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    padding-left: 1rem;
+    border-left: 1px solid var(--st-color-border-subtle);
+  }
+  .disclosure {
+    position: sticky;
+    top: calc(var(--st-header-height) + 1.5rem);
+    max-height: calc(100vh - var(--st-header-height) - 3rem);
+    overflow-y: auto;
+  }
+  .summary { display: none; }
+  .blocks { padding-top: 0; }
+  .block + .block { margin-top: 2rem; }
+}
+
+/* ── Shared block styles ────────────────────────────────── */
+.label {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+
+/* ── TOC ────────────────────────────────────────────────── */
+.tocList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tocItem { margin: 0; }
+.tocLink {
+  display: block;
+  padding: 0.375rem 0 0.375rem 0.75rem;
+  margin-left: -1px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--st-color-text-muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: color var(--st-transition-fast), border-color var(--st-transition-fast);
+}
+.tocLink:hover { color: var(--st-color-text-default); }
+.tocLink[aria-current='location'] {
+  color: var(--st-color-text-default);
+  border-left-color: var(--st-color-brand-primary);
+  font-weight: 500;
+}
+.tocLink:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+.tocLinkH3 {
+  padding-left: 1.5rem;
+  font-size: 0.8125rem;
+  color: var(--st-color-text-muted);
+}
+
+/* ── Related ────────────────────────────────────────────── */
+.relatedList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.relatedItem {
+  display: block;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--st-color-border-subtle);
+}
+.relatedItem:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.relatedType {
+  display: block;
+  font-family: var(--st-label-font);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  margin-bottom: 0.125rem;
+}
+.relatedLink {
+  color: var(--st-color-text-default);
+  text-decoration: none;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  transition: color var(--st-transition-fast);
+}
+.relatedLink:hover { color: var(--st-color-brand-primary); }
+
+/* ── Series ─────────────────────────────────────────────── */
+.series {
+  font-size: 0.8125rem;
+  color: var(--st-color-text-muted);
+}
+.seriesLink {
+  color: var(--st-color-text-default);
+  text-decoration: none;
+  transition: color var(--st-transition-fast);
+}
+.seriesLink strong {
+  display: block;
+  color: var(--st-color-text-default);
+  margin-bottom: 0.125rem;
+  font-weight: 500;
+}
+.seriesLink:hover,
+.seriesLink:hover strong { color: var(--st-color-brand-primary); }
+.seriesPart {
+  display: block;
+  font-family: var(--st-label-font);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+}
+
+/* ── AI Disclosure ──────────────────────────────────────── */
+.ai {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin: 0 0 0.5rem;
+  color: var(--st-color-text-muted);
+}
+.ethicsLink {
+  display: block;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  text-decoration: none;
+  transition: color var(--st-transition-fast);
+}
+.ethicsLink:hover { color: var(--st-color-brand-primary); }

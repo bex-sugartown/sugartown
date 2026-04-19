@@ -106,7 +106,7 @@
 .lime    { --chip-color: var(--st-color-lime); }
 .violet  { --chip-color: #A78BFA; }
 .amber   { --chip-color: #FBBA24; }
-.grey    { --chip-color: var(--st-color-softgrey); }
+.grey    { --chip-color: var(--st-color-softgrey-700, #3d4a57); }
 
 /* ── Light-theme chip color overrides ─────────────────────
    On light backgrounds, bright palette colors (seafoam, lime, amber)
@@ -117,7 +117,7 @@
 :global([data-theme="light"]) .seafoam { --chip-color: var(--st-color-seafoam-700, #1d9679); }
 :global([data-theme="light"]) .lime    { --chip-color: var(--st-color-lime-700, #748f00); }
 :global([data-theme="light"]) .amber   { --chip-color: #b8860b; }
-:global([data-theme="light"]) .grey    { --chip-color: var(--st-color-softgrey-600, #526070); }
+:global([data-theme="light"]) .grey    { --chip-color: var(--st-color-softgrey-700, #3d4a57); }
 
 /* ════════════════════════════════════════════════════════
    PINK MOON THEME ADAPTATIONS

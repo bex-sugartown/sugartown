@@ -16,7 +16,7 @@ import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
-import MarginColumn, { hasMarginContent } from '../components/MarginColumn'
+import PageSidebar, { hasSidebarContent } from '../components/PageSidebar'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -33,7 +33,7 @@ export default function CaseStudyPage() {
 
   // Extract leading hero — hero heading is the page title
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(caseStudy.sections)
-  const showMargin = hasMarginContent({ ...caseStudy, sections: restSections })
+  const showMargin = hasSidebarContent({ ...caseStudy, sections: restSections })
 
   return (
     <main>
@@ -64,15 +64,6 @@ export default function CaseStudyPage() {
           <PageSections sections={restSections} context="detail" />
         )}
 
-        <MarginColumn
-          sections={restSections}
-          content={caseStudy.content}
-          related={caseStudy.related}
-          tools={caseStudy.tools}
-          authors={caseStudy.authors}
-          aiDisclosure={caseStudy.aiDisclosure}
-        />
-
         {caseStudy.citations?.length > 0 && (
           <div className={styles.detailPageFullSpan}>
             <CitationZone>
@@ -92,6 +83,15 @@ export default function CaseStudyPage() {
             </CitationZone>
           </div>
         )}
+
+        <PageSidebar
+          sections={restSections}
+          content={caseStudy.content}
+          related={caseStudy.related}
+          tools={caseStudy.tools}
+          authors={caseStudy.authors}
+          aiDisclosure={caseStudy.aiDisclosure}
+        />
 
         <div className={styles.detailPageFullSpan}>
           <ContentNav prev={caseStudy.prev} next={caseStudy.next} docType="caseStudy" />

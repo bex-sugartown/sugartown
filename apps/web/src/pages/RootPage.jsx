@@ -12,7 +12,7 @@ import { extractLeadHero } from '../lib/heroUtils'
 import SeoHead from '../components/SeoHead'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
-import MarginColumn, { hasMarginContent } from '../components/MarginColumn'
+import PageSidebar, { hasSidebarContent } from '../components/PageSidebar'
 import ContactForm from '../components/ContactForm'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
@@ -39,9 +39,9 @@ export default function RootPage() {
     )
   }
 
-  // Detail layout — with optional margin column
+  // Detail layout — with optional page sidebar
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(page.sections)
-  const showMargin = hasMarginContent({ ...page, sections: restSections })
+  const showMargin = hasSidebarContent({ ...page, sections: restSections })
 
   // Thin mono-caps eyebrow strip replaces MetadataCard on page-type docs.
   // Format: "PLATFORM · UPDATED APR 2026" (page-type slug · month year).
@@ -72,11 +72,12 @@ export default function RootPage() {
           <PageSections sections={restSections} context="detail" />
         )}
 
-        <MarginColumn
+        <PageSidebar
           sections={restSections}
           content={page.content}
-          aiDisclosure={page.aiDisclosure}
+          tools={page.tools}
           authors={page.authors}
+          aiDisclosure={page.aiDisclosure}
         />
 
       </div>

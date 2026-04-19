@@ -22,7 +22,7 @@ import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
-import MarginColumn, { hasMarginContent } from '../components/MarginColumn'
+import PageSidebar, { hasSidebarContent } from '../components/PageSidebar'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -84,7 +84,7 @@ export default function ArticlePage() {
 
   // Extract leading hero — hero heading is the page title
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(post.sections)
-  const showMargin = hasMarginContent({ ...post, sections: restSections })
+  const showMargin = hasSidebarContent({ ...post, sections: restSections })
 
   return (
     <main>
@@ -116,17 +116,6 @@ export default function ArticlePage() {
           </div>
         )}
 
-        <MarginColumn
-          sections={restSections}
-          content={post.content}
-          related={post.related}
-          series={post.series}
-          partNumber={post.partNumber}
-          tools={post.tools}
-          authors={post.authors}
-          aiDisclosure={post.aiDisclosure}
-        />
-
         {post.citations?.length > 0 && (
           <div className={styles.detailPageFullSpan}>
             <CitationZone>
@@ -146,6 +135,17 @@ export default function ArticlePage() {
             </CitationZone>
           </div>
         )}
+
+        <PageSidebar
+          sections={restSections}
+          content={post.content}
+          related={post.related}
+          series={post.series}
+          partNumber={post.partNumber}
+          tools={post.tools}
+          authors={post.authors}
+          aiDisclosure={post.aiDisclosure}
+        />
 
         <div className={styles.detailPageFullSpan}>
           <ContentNav prev={post.prev} next={post.next} docType="article" />

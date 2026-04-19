@@ -12,7 +12,9 @@
 
 main {
   flex: 1;
-  overflow-x: hidden;
+  /* `clip` (not `hidden`) avoids creating a scroll containing block,
+     which would break `position: sticky` on descendants like PageSidebar. */
+  overflow-x: clip;
 }
 
 .loading {

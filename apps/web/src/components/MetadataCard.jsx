@@ -3,7 +3,7 @@
  * (Colloquially: "MetaCard" throughout the codebase.)
  *
  * SUG-52 card-catalog aesthetic:
- * - Dotted neutral outline (matches MarginColumn)
+ * - Dotted neutral outline (shared --st-margin-* aesthetic tokens)
  * - bg-through-gap interior dividers (zero CSS borders inside)
  * - Scalar fields in a wrapping row
  * - Chip sections span full width below scalar row

@@ -718,6 +718,7 @@ export const pageBySlugQuery = `
     publishedAt,
     authors[]->{${PERSON_FRAGMENT}},
     aiDisclosure,
+    "tools": tools[]->{${TOOL_FRAGMENT}},
     ${SEO_FRAGMENT}
   }
 `

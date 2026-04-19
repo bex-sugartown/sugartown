@@ -72,22 +72,22 @@
   padding: var(--st-space-meta-top) var(--st-page-gutter) var(--st-space-section-break);
 }
 
-/* Wide viewport: CSS grid with main + margin column.
-   Breakpoint: 1200px (--st-breakpoint-xl, not a token — documented here).
-   Grid ONLY activates when data-has-margin is set (MarginColumn rendered content).
-   Without it, .detailPage stays at 760px single-column — no empty 260px gap. */
-@media (min-width: 1200px) {
+/* Wide viewport: CSS grid with main + page sidebar.
+   Breakpoint: 1024px (--st-breakpoint-lg). SUG-69 dropped this from 1200px to
+   activate the rail on a common laptop class (MacBook 13"/14").
+   Grid ONLY activates when data-has-margin is set (sidebar would render content).
+   Without it, .detailPage stays at 760px single-column — no empty sidebar gap. */
+@media (min-width: 1024px) {
   .detailPage[data-has-margin] {
     max-width: var(--st-width-detail-wide, 1080px);
     display: grid;
     /* minmax(0, 1fr) prevents grid items with wide content (tables, code blocks,
        long URLs) from forcing the 1fr track beyond max-width via min-width: auto. */
-    grid-template-columns: minmax(0, 1fr) var(--st-space-margin-column);
-    gap: 0 var(--st-space-margin-gap);
+    grid-template-columns: minmax(0, 1fr) var(--st-space-sidebar, 220px);
+    gap: 0 var(--st-space-sidebar-gap, 2.5rem);
   }
 
-  /* MetadataCard, page eyebrow, citations, ContentNav, legacy content
-     span both columns */
+  /* MetadataCard (first aside), page eyebrow, full-span nodes span both columns */
   .detailPage[data-has-margin] > aside:first-child,
   .detailPage[data-has-margin] > .pageEyebrow,
   .detailPageFullSpan {
@@ -97,6 +97,14 @@
   /* Legacy .detailContent (PortableText body) stays in main column */
   .detailPage[data-has-margin] > .detailContent {
     grid-column: 1;
+  }
+
+  /* Pin PageSidebar to col 2, row 2 (next to the first content row).
+     Without this, moving full-span elements (citations, ContentNav) before
+     the sidebar in source order pushes the sidebar into a later grid row. */
+  .detailPage[data-has-margin] > aside[aria-label="Page details"] {
+    grid-column: 2;
+    grid-row: 2;
   }
 }
 
@@ -124,29 +132,6 @@
   font-weight: var(--st-label-weight);
   letter-spacing: var(--st-label-tracking);
   color: var(--st-label-color);
-}
-
-/* Margin column: sticky, card-catalog aesthetic.
-   At ≥1200px, placed in grid column 2, same row as body content.
-   Sticky positioning keeps it visible while scrolling body. */
-.marginColumn {
-  align-self: start;
-}
-
-@media (min-width: 1200px) {
-  .marginColumn {
-    position: sticky;
-    top: calc(var(--st-header-height, 80px) + 1.5rem);
-    grid-column: 2;
-    grid-row: 2; /* sits alongside body content (row 1 = MetadataCard) */
-  }
-}
-
-/* Below 1200px: margin column renders inline after body content */
-@media (max-width: 1199px) {
-  .marginColumn {
-    margin-top: var(--st-space-section-break-detail);
-  }
 }
 
 .detailEyebrow {

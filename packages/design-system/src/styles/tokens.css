@@ -272,8 +272,8 @@
   --st-width-archive:  960px;   /* listing/archive pages — defined now, applied in archive epic */
 
   /* ── Margin Column Layout ──────────────────────────── */
-  --st-space-margin-column: 260px;  /* margin column width at wide viewports */
-  --st-space-margin-gap:    2.5rem; /* gap between main content and margin column */
+  --st-space-sidebar:       220px;  /* page sidebar width at 1024px+ (SUG-69) */
+  --st-space-sidebar-gap:   2.5rem; /* gap between main content and sidebar */
 
   /* Margin column themed colors (dark defaults — overridden by light theme) */
   --st-margin-bg:       #1b2033;
@@ -317,6 +317,7 @@
 
   /* ── Layout Helpers ────────────────────────────────────── */
   --st-page-gutter:       var(--st-spacing-stack-lg);
+  --st-header-height:     72px;   /* sticky header reservation — used for sticky-top offsets and scroll-margin */
 
   /* ── Semantic Spacing: Purpose-Specific ─────────────────── */
   --st-space-reading-gap:           1.25rem;  /* paragraph to paragraph in longform     */

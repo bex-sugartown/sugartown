@@ -36,7 +36,7 @@ function isEmptyBlock(children) {
   return text.trim() === ''
 }
 
-/** Generate a slug-style anchor ID from heading text (matches MarginColumn extractToc). */
+/** Generate a slug-style anchor ID from heading text (matches PageSidebar extractToc). */
 function headingAnchor(children) {
   const text = extractText(Children.toArray(children))
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')

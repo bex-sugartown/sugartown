@@ -113,7 +113,7 @@
 .heroTreatmentGreyscale .heroEyebrow {
   color: var(--st-color-lime, #D1FF1D);
   font-family: var(--st-font-family-metadata, 'Courier Prime', monospace);
-  font-size: 0.68rem;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.1em;
 }
@@ -226,10 +226,10 @@
 /* ── Hero eyebrow ────────────────────────────────────────────────── */
 .heroEyebrow {
   font-family: var(--st-font-family-mono);
-  font-size: var(--st-font-caption, 0.75rem);   /* 12px */
+  font-size: 1rem;                              /* 16px min */
   font-weight: var(--st-font-weight-semibold, 600);
-  line-height: 1.36;                            /* 16.32px / 12px */
-  letter-spacing: 0.09em;                       /* ≈ 1.088px at 12px */
+  line-height: 1.4;
+  letter-spacing: 0.09em;
   text-align: center;
   text-transform: uppercase;
   color: var(--st-color-lime, #D1FF1D);
@@ -1120,13 +1120,13 @@
 
 /* SUG-70 — wide/full breakout inside .detailContext.
    .detailContext (≈716px) is the LEFT track of .detailPage's grid
-   (1fr + margin column at ≥1200px). It is NOT centered in .detailPage,
+   (1fr + page sidebar at ≥1024px). It is NOT centered in .detailPage,
    so the standard `calc(50% - 50vw)` viewport-center trick mis-aligns.
    .detailPage IS centered in viewport, so we break out by:
      wide: span .detailPage's full content frame (1080px). Negative
            margin-start equal to .detailPage's gutter aligns the left
            edge with .detailPage's content edge; the element naturally
-           overflows right into the margin column.
+           overflows right into the sidebar column.
      full: extend further to (viewport - 2 * gutter). */
 .detailContext .mermaidSectionWide,
 .detailContext .mermaidSectionFull {
@@ -1153,6 +1153,19 @@
 @media (max-width: 768px) {
   .detailContext .mermaidSectionWide,
   .detailContext .mermaidSectionFull {
+    width: 100%;
+    max-width: 100%;
+    margin-inline: 0;
+  }
+}
+
+/* SUG-69 sidebar present → suppress wide/full breakout. The breakout above
+   intentionally overflows right (when there's no sidebar to collide with).
+   With the right rail occupying col 2 at ≥1024px, the same overflow lands
+   on top of the sidebar — clamp back to the content column instead. */
+@media (min-width: 1024px) {
+  :global([data-has-margin]) .detailContext .mermaidSectionWide,
+  :global([data-has-margin]) .detailContext .mermaidSectionFull {
     width: 100%;
     max-width: 100%;
     margin-inline: 0;

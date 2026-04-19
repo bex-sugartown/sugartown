@@ -201,6 +201,19 @@ export default defineType({
         })
       ]
     }),
+    defineField({
+      name: 'tools',
+      title: 'Tools',
+      type: 'array',
+      description: 'Tools used in producing this page. AI tools (Claude, ChatGPT, etc.) trigger the auto AI Disclosure block in the page sidebar.',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'tool'}]
+        })
+      ]
+    }),
 
     // parent and template moved to content group (SUG-48)
 
