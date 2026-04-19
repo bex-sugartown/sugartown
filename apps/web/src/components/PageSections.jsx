@@ -640,8 +640,18 @@ function MermaidDiagram({ section }) {
 
   if (!section.code) return null
 
+  const widthClass =
+    section.width === 'full'
+      ? styles.mermaidSectionFull
+      : section.width === 'wide'
+        ? styles.mermaidSectionWide
+        : ''
+
   return (
-    <section className={styles.mermaidSection} id={section._sectionId}>
+    <section
+      className={`${styles.mermaidSection}${widthClass ? ` ${widthClass}` : ''}`}
+      id={section._sectionId}
+    >
       {error ? (
         <pre className={styles.mermaidError}>{error}</pre>
       ) : (

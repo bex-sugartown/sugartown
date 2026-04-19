@@ -387,7 +387,8 @@ export const nodeBySlugQuery = `
       },
       _type == "mermaidSection" => {
         code,
-        caption
+        caption,
+        width
       },
       _type == "accordionSection" => {
         heading,
@@ -553,7 +554,8 @@ export const articleBySlugQuery = `
       },
       _type == "mermaidSection" => {
         code,
-        caption
+        caption,
+        width
       },
       _type == "accordionSection" => {
         heading,
@@ -700,7 +702,8 @@ export const pageBySlugQuery = `
       },
       _type == "mermaidSection" => {
         code,
-        caption
+        caption,
+        width
       },
       _type == "accordionSection" => {
         heading,
@@ -842,7 +845,8 @@ export const caseStudyBySlugQuery = `
       },
       _type == "mermaidSection" => {
         code,
-        caption
+        caption,
+        width
       },
       _type == "accordionSection" => {
         heading,

@@ -652,6 +652,31 @@
   padding: var(--st-space-section-break-detail) var(--st-page-gutter);
 }
 
+/* SUG-70 — width breakout modifiers.
+   `wide` and `full` escape the .detailContext prose column via a negative
+   inline margin trick so flowcharts get room to breathe. Mobile (<768px)
+   collapses both back to column to avoid horizontal scroll. */
+.mermaidSectionWide,
+.mermaidSectionFull {
+  margin-inline: calc(50% - 50vw + var(--st-page-gutter));
+}
+
+.mermaidSectionWide {
+  max-width: min(1080px, calc(100vw - 2 * var(--st-page-gutter)));
+}
+
+.mermaidSectionFull {
+  max-width: calc(100vw - 2 * var(--st-page-gutter));
+}
+
+@media (max-width: 768px) {
+  .mermaidSectionWide,
+  .mermaidSectionFull {
+    margin-inline: 0;
+    max-width: var(--st-width-detail);
+  }
+}
+
 .mermaidContainer {
   overflow-x: auto;
   max-width: 100%;
@@ -1087,4 +1112,32 @@
    Zero it out — the parent gap handles section spacing. */
 .detailContext .calloutSection :global(aside) {
   margin-block: 0;
+}
+
+/* SUG-70 — restore the wide/full breakout inside .detailContext.
+   The catch-all above resets max-width:none + width:100% + overflow:hidden,
+   which clips and constrains the breakout. Re-apply the modifiers and
+   replace overflow:hidden with overflow:visible so the negative margin
+   isn't clipped. */
+.detailContext .mermaidSectionWide,
+.detailContext .mermaidSectionFull {
+  width: auto;
+  overflow: visible;
+  margin-inline: calc(50% - 50vw + var(--st-page-gutter));
+}
+
+.detailContext .mermaidSectionWide {
+  max-width: min(1080px, calc(100vw - 2 * var(--st-page-gutter)));
+}
+
+.detailContext .mermaidSectionFull {
+  max-width: calc(100vw - 2 * var(--st-page-gutter));
+}
+
+@media (max-width: 768px) {
+  .detailContext .mermaidSectionWide,
+  .detailContext .mermaidSectionFull {
+    margin-inline: 0;
+    max-width: 100%;
+  }
 }
