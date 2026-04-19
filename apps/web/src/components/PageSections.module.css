@@ -653,27 +653,31 @@
 }
 
 /* SUG-70 — width breakout modifiers.
-   `wide` and `full` escape the .detailContext prose column via a negative
-   inline margin trick so flowcharts get room to breathe. Mobile (<768px)
-   collapses both back to column to avoid horizontal scroll. */
-.mermaidSectionWide,
-.mermaidSectionFull {
-  margin-inline: calc(50% - 50vw + var(--st-page-gutter));
-}
-
+   `wide` (1080px) matches the .detailPage frame, which IS centered in
+   the viewport. `full` extends to the viewport edges using a
+   margin-inline trick that assumes a centered parent (works on
+   non-detail pages where the section sits in a centered container).
+   Mobile (<768px) collapses both back to column width. */
 .mermaidSectionWide {
-  max-width: min(1080px, calc(100vw - 2 * var(--st-page-gutter)));
+  max-width: 1080px;
+  margin-inline: auto;
 }
 
 .mermaidSectionFull {
-  max-width: calc(100vw - 2 * var(--st-page-gutter));
+  width: 100vw;
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding-inline: var(--st-page-gutter);
+  box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
   .mermaidSectionWide,
   .mermaidSectionFull {
-    margin-inline: 0;
+    width: auto;
     max-width: var(--st-width-detail);
+    margin-inline: auto;
+    padding-inline: var(--st-page-gutter);
   }
 }
 
@@ -1114,30 +1118,43 @@
   margin-block: 0;
 }
 
-/* SUG-70 — restore the wide/full breakout inside .detailContext.
-   The catch-all above resets max-width:none + width:100% + overflow:hidden,
-   which clips and constrains the breakout. Re-apply the modifiers and
-   replace overflow:hidden with overflow:visible so the negative margin
-   isn't clipped. */
+/* SUG-70 — wide/full breakout inside .detailContext.
+   .detailContext (≈716px) is the LEFT track of .detailPage's grid
+   (1fr + margin column at ≥1200px). It is NOT centered in .detailPage,
+   so the standard `calc(50% - 50vw)` viewport-center trick mis-aligns.
+   .detailPage IS centered in viewport, so we break out by:
+     wide: span .detailPage's full content frame (1080px). Negative
+           margin-start equal to .detailPage's gutter aligns the left
+           edge with .detailPage's content edge; the element naturally
+           overflows right into the margin column.
+     full: extend further to (viewport - 2 * gutter). */
 .detailContext .mermaidSectionWide,
 .detailContext .mermaidSectionFull {
-  width: auto;
   overflow: visible;
-  margin-inline: calc(50% - 50vw + var(--st-page-gutter));
 }
 
 .detailContext .mermaidSectionWide {
-  max-width: min(1080px, calc(100vw - 2 * var(--st-page-gutter)));
+  width: var(--st-width-detail-wide, 1080px);
+  max-width: calc(100vw - 2 * var(--st-page-gutter));
+  margin-inline-start: calc(-1 * var(--st-page-gutter));
+  margin-inline-end: 0;
 }
 
 .detailContext .mermaidSectionFull {
+  width: calc(100vw - 2 * var(--st-page-gutter));
   max-width: calc(100vw - 2 * var(--st-page-gutter));
+  margin-inline-start: calc(
+    -1 * var(--st-page-gutter)
+    - ((100vw - 2 * var(--st-page-gutter) - var(--st-width-detail-wide, 1080px)) / 2)
+  );
+  margin-inline-end: 0;
 }
 
 @media (max-width: 768px) {
   .detailContext .mermaidSectionWide,
   .detailContext .mermaidSectionFull {
-    margin-inline: 0;
+    width: 100%;
     max-width: 100%;
+    margin-inline: 0;
   }
 }
