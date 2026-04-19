@@ -1,5 +1,5 @@
 **Linear Issue:** [SUG-73](https://linear.app/sugartown/issue/SUG-73/dynamic-knowledge-graph-force-directed-viz-on-knowledge-graph-sanity)
-**Status:** Draft — Phase 0 ready to start (taxonomy CSV audit); Phase 1+ blocked on SUG-67 Phase 1a
+**Status:** Draft — Phase 0 CSV audit **shipped** (output/audit/); Phase 1+ blocked on SUG-74 (taxonomy cleanup) + SUG-67 Phase 1a
 **Route:** `/knowledge-graph` (existing archive, add graph view)
 **Merge strategy:** merge-as-you-go (one phase per commit batch)
 **Created:** 2026-04-19
@@ -201,6 +201,7 @@ If Option B is chosen, edge kind includes `"sharedTag"` with a `weight` field (n
 
 ## Dependencies
 
+- **SUG-74** — Taxonomy Cleanup. Must complete before Phase 1 runs GROQ against the graph data; otherwise duplicates, orphans, and misfiled items render into the visualization.
 - **SUG-67 Phase 1a** — the stats pipeline must exist before Phase 1 of this epic lands. Until then, Phase 0 (CSV audit) runs standalone with its own ad-hoc `@sanity/client` invocation.
 - **SUG-68** — if colour palette analysis in Phase 0 finds that Pink Moon tokens lack a distinct cyan-equivalent + gold-equivalent for project/category hubs, token additions must ship first. Flag at end of Phase 0.
 
