@@ -26,6 +26,11 @@ git status
 git log --oneline -10
 git rev-list --count origin/main..main 2>/dev/null || echo 0
 git stash list
+# Branches ahead of main (stranded feature work):
+for b in $(git for-each-ref --format='%(refname:short)' refs/heads/ | grep -v '^main$'); do
+  ahead=$(git rev-list --count main..$b 2>/dev/null || echo 0)
+  if [ "$ahead" != "0" ]; then echo "$b: $ahead commits ahead of main"; git log --oneline main..$b | head -5; fi
+done
 ```
 
 Do not take any action yet. Collect everything first.
@@ -62,6 +67,15 @@ Write a short end-of-day summary using this structure:
 
 - List any stashes that exist
 - Flag any that look like they might be forgotten WIP
+
+---
+
+#### Branches Ahead of main (stranded work)
+
+- List any feature branch with commits not on `main`
+- For each: SUG-ID, commit count, last commit date, last commit subject
+- For each, ask: **merge today? hold (why)? abandon?**
+- A branch pushed to `origin/<branch>` but never merged to `main` is NOT shipped. Do not let `/eod` close with stranded branches unaccounted for.
 
 ---
 

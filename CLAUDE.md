@@ -46,11 +46,28 @@ Within a multi-feature epic, commit after each independently-working feature. Do
 
 If a session may run out of context, commit work-in-progress with `wip(epic):` prefix before the session ends. Uncommitted code that survives a session break is lost context — treat it as a process failure.
 
-### Linear Done = code in remote
+### Linear Done = code on main
 
-Before transitioning any Linear issue to **Done**, verify that at least one commit referencing the issue exists on a remote branch (pushed to GitHub). No exceptions.
+Before transitioning any Linear issue to **Done**, verify that the work is merged to `origin/main` — not merely pushed to a feature branch. A branch that exists at `origin/<feat-branch>` but is not merged into `main` is **not shipped**.
 
-A Linear issue marked Done with zero code on remote is a process failure. The close-out sequence enforces this naturally (commit → push → move doc → Done), but if the close-out is skipped, this rule is the backstop.
+Verification command:
+```bash
+git branch --contains <commit-sha> | grep -qE '^(\*|\s)+ main$' && echo "on main" || echo "NOT on main"
+```
+
+A Linear issue marked Done with commits only on a feature branch is a process failure. The close-out sequence enforces this naturally (merge → mini-release → ship doc → Linear Done), but if the close-out is skipped or partial (e.g. multi-phase epic where one phase didn't merge), this rule is the backstop.
+
+### Multi-phase epic merge cadence
+
+When an epic has numbered phases (e.g. SUG-63 Phase 1 / 1b / 1c), pick **one** of two strategies at the start of the epic and stick with it:
+
+**(a) Merge-as-you-go** — each phase merges to `main` on completion with its own mini-release. All phases ship independently. Phase N is "Done" in Linear only after its own merge.
+
+**(b) Single close-out** — all phases accumulate on one long-lived feature branch. Nothing merges until the full epic ships. One mini-release at the end.
+
+**Do not mix.** Merging Phase 1 + 1b to main but leaving Phase 1c on a side branch is the failure mode that stranded SUG-63 Phase 1c invisibly for days. If you start with strategy (a), every subsequent phase uses (a). If strategy (b), no phase merges until the epic closes.
+
+Declare the strategy in the epic doc header when the epic is opened. At `/eod`, any branch with commits ahead of main that belongs to an (a)-strategy epic must be resolved (merge, hold with explicit reason, or abandon) before the day closes.
 
 ### Merge conflict cleanup
 
@@ -310,6 +327,18 @@ This catches: duplicate definitions, renamed tokens with lingering references, a
 ## Visual Verification Rules
 
 Build success does not equal visual correctness. Never declare CSS or layout work "done" based solely on a clean build or runtime error absence.
+
+### Pre-audit branch check
+
+Before running any **post-deploy verification** against production (Lighthouse, Chromatic prod, link checker, CWV audit, etc.), confirm the commits under test are on `origin/main`. Auditing production for an effect that lives on an unmerged feature branch wastes time and produces misleading "no improvement" readings.
+
+Recipe:
+```bash
+git branch --contains <commit-sha>     # must list main
+git log origin/main..<branch>          # must be empty (branch merged)
+```
+
+If the commits are not on `origin/main`, halt the audit and surface the gap to the user before running anything.
 
 ### When a visual mock or spec exists
 
