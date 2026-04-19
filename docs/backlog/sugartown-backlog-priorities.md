@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-19 · v0.21.5 · SUG-70 Mermaid Legibility (ELK orthogonal routing + width breakout for /platform diagrams)
+> Updated 2026-04-19 · v0.21.6 · SUG-69 Page Sidebar (TOC + Related + AI Disclosure rail; sticky grid at ≥1024px)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.21.5 shipped (SUG-70 Mermaid Legibility — ELK orthogonal edge routing + linear curves, width breakout system aligned to centered `.detailPage` frame, restructured Diagram A as three-layer TB stack). **Next:** SUG-21 Pink Moon design system identity.
+> **⚑ Current focus:** v0.21.6 shipped (SUG-69 Page Sidebar — sticky right rail at ≥1024px with TOC + Related + Series + auto AI Disclosure; replaces MarginColumn; citations reordered above rail; sticky split pattern; wide mermaid clamped inside grid). **Next:** SUG-21 Pink Moon design system identity.
 
 ---
 
@@ -51,6 +51,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-69 · Page Sidebar** — Replaces MarginColumn with PageSidebar: sticky right rail at ≥1024px (TOC with IO scroll-spy, Related, Series, auto AI Disclosure), disclosure-under-content below. CSS grid `minmax(0,1fr) + var(--st-space-sidebar)` on `.detailPage[data-has-margin]`; citations reordered above rail on Article/Node/CaseStudy; sticky split (outer aside stretches row 2, inner `<details>` stickies). `tools` field added to page schema so AI Disclosure fires on root pages. Wide mermaid breakout suppressed when rail present. Tools chip grey → softgrey-700 (≥7:1). Hero eyebrow 12px → 16px. Mobile chip rows stack label-above-chips for Tools/Categories parity.~~ | v0.21.6 | 2026-04-19 |
 | ~~**SUG-70 · Mermaid Legibility** — ELK ORTHOGONAL edge routing + linear curve config in mermaid.initialize. New `width` field on `mermaidSection` schema (`column` / `wide` / `full`) with viewport-centered breakout aligned to `.detailPage`'s 1080px frame (handles off-center `.detailContext` grid track). Restructured /platform Diagram A as three-layer TB stack (Tooling → Apps → Packages) with dropped BLOCKED edge. CSS prompt updates: Chromatic VRT now deferrable to `/eod` in cheap-path mode.~~ | v0.21.5 | 2026-04-19 |
 | ~~**SUG-58 · AI Search Optimization** — schema.org JSON-LD on all pages (Organization, WebSite, Article, Person, WebPage/ProfilePage). `generateJsonLd()` utility in `lib/jsonLd.js`. SeoHead extended with `jsonLd` prop. `llms.txt` at site root. robots.txt confirmed AI-crawler-open. SSR spike documented (client-rendered; Google sees it, non-rendering crawlers use llms.txt).~~ | v0.21.4 | 2026-04-18 |
 | ~~**SUG-65 · Footer Reset** — Colophon strip (VERSION from CHANGELOG.md, TOOLCHAIN chips from tool refs, LICENSE, BUILD date). Brand zone (logo at 135px/75% of header, tagline, social). Nav columns (flex-wrap, 3 cols). Utility row (AI Ethics, Privacy & Terms, Sitemap, Contact). Vite define for `__APP_VERSION__`/`__BUILD_DATE__`. New siteSettings fields: footerToolchain, licenseLabel, licenseUrl. Phase 4 content backfill deferred to Studio.~~ | v0.21.3 | 2026-04-16 |
@@ -108,4 +109,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-19 · v0.21.5*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-19 · v0.21.6*
