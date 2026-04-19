@@ -32,6 +32,22 @@ export default defineType({
       type: 'string',
       description: 'Optional caption displayed below the diagram.',
     }),
+    defineField({
+      name: 'width',
+      title: 'Width',
+      type: 'string',
+      description:
+        'Column (760px, default) for inline diagrams; Wide (1080px) or Full viewport for large flowcharts that need more room.',
+      options: {
+        list: [
+          {title: 'Column (760px, default)', value: 'column'},
+          {title: 'Wide (1080px breakout)', value: 'wide'},
+          {title: 'Full viewport', value: 'full'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'column',
+    }),
   ],
   preview: {
     select: {
