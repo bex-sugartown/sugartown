@@ -531,6 +531,18 @@ function ImageGallerySection({ section }) {
 
 // Mermaid Diagram Section Component (SUG-13)
 // mermaidSection — renders Mermaid markup as themed SVG via dynamic import
+//
+// Renderer config (locked SUG-70 Phase 0):
+//   layout: 'elk' (via flowchart.defaultRenderer) — only renderer that
+//     supports true orthogonal edge routing.
+//   flowchart.curve: 'linear' — combined with ORTHOGONAL routing, produces
+//     clean 90° joins; 'step' added visible step bumps.
+//   flowchart.htmlLabels: true — better text wrapping + token font inheritance.
+//   elk.edgeRouting: 'ORTHOGONAL' — perpendicular gridded arrows per Pink
+//     Moon "honest structure" aesthetic, replacing the default soft Béziers.
+// If you change any of these, retest against the 3 /platform diagrams
+// (architecture flow, release process, token architecture) at column +
+// wide width before merging.
 function MermaidDiagram({ section }) {
   const containerRef = useRef(null)
   const [error, setError] = useState(null)
@@ -575,10 +587,13 @@ function MermaidDiagram({ section }) {
         securityLevel: 'strict',
         theme: 'base',
         flowchart: {
-          curve: 'step',
+          curve: 'linear',
           defaultRenderer: 'elk',
           htmlLabels: true,
           useMaxWidth: true,
+        },
+        elk: {
+          'elk.edgeRouting': 'ORTHOGONAL',
         },
         themeVariables: {
           fontFamily: token('--st-font-family-ui', 'Fira Sans, system-ui, sans-serif'),
