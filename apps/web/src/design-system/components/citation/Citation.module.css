@@ -21,8 +21,8 @@
   font-size: var(--st-citation-size);
   font-weight: var(--st-font-weight-bold);
   line-height: 1;
-  padding: 0.1em 0.35em;
-  border-radius: var(--st-radius-xs);
+  padding: 0;
+  border-radius: 0;
   text-decoration: none;
   transition: opacity 0.15s ease;
 }

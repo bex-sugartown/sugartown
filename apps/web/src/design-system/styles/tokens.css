@@ -433,8 +433,8 @@
   --st-citation-index-color:   var(--st-color-pink);             /* [n] number in footnote — anchors to brand */
   --st-citation-font:          var(--st-font-family-mono);       /* scholarly apparatus register */
   --st-citation-size:          0.72rem;                          /* smaller than body — clearly reference */
-  --st-citation-marker-bg:     var(--st-color-pink);             /* inline marker pill background */
-  --st-citation-marker-color:  var(--st-color-white);            /* inline marker text — white on pink */
+  --st-citation-marker-bg:     transparent;                      /* no pill — plain superscript */
+  --st-citation-marker-color:  var(--st-color-pink);             /* inline marker text — pink on transparent */
   --st-citation-zone-border:   rgba(255, 36, 125, 0.2);         /* dashed divider above footnote zone */
   --st-citation-zone-gap:      var(--st-space-3);                /* top padding on footnote zone */
 
