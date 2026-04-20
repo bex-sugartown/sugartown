@@ -94,15 +94,15 @@ function resolveLinkHref(link) {
 }
 
 /**
- * Map tag references → chip props with navigation hrefs.
+ * Map tag/tool references → chip props with navigation hrefs.
  */
-function mapTags(tags) {
-  if (!tags?.length) return undefined
-  return tags
-    .filter((t) => t && t.title && t.slug?.current)
-    .map((t) => ({
-      label: t.title,
-      href: getCanonicalPath({ docType: 'tag', slug: t.slug.current }),
+function mapTaxonomyRefs(refs, docType) {
+  if (!refs?.length) return undefined
+  return refs
+    .filter((r) => r && r.title && r.slug?.current)
+    .map((r) => ({
+      label: r.title,
+      href: getCanonicalPath({ docType, slug: r.slug.current }),
     }))
 }
 
@@ -123,7 +123,8 @@ function getGridCols(count) {
  */
 function BuilderCard({ card, variant }) {
   const href = resolveLinkHref(card.titleLink)
-  const tags = mapTags(card.tags)
+  const tags = mapTaxonomyRefs(card.tags, 'tag')
+  const tools = mapTaxonomyRefs(card.tools, 'tool')
   const thumbnailUrl = card.image?.asset
     ? urlFor(card.image.asset).width(600).quality(85).url()
     : undefined
@@ -160,8 +161,8 @@ function BuilderCard({ card, variant }) {
 
   if (isExtreme) ensureSvgFilter()
 
-  // Build footer content: citations + tags rendered beneath the dashed line
-  const hasFooterContent = card.citations?.length > 0 || tags?.length > 0
+  // Build footer content: citations + tools + tags rendered beneath the dashed line
+  const hasFooterContent = card.citations?.length > 0 || tools?.length > 0 || tags?.length > 0
   const footerContent = hasFooterContent ? (
     <div className={styles.cardFooterContent}>
       {card.citations?.length > 0 && (
@@ -190,6 +191,21 @@ function BuilderCard({ card, variant }) {
               )
             })}
           </CitationZone>
+        </div>
+      )}
+
+      {tools?.length > 0 && (
+        <div className={styles.tagRow}>
+          {tools.map((tool) => (
+            <Chip
+              key={tool.label}
+              label={tool.label}
+              href={tool.href}
+              size="sm"
+              color="grey"
+              className={styles.footerChip}
+            />
+          ))}
         </div>
       )}
 

@@ -377,6 +377,7 @@ export const nodeBySlugQuery = `
             },
             linkLabel
           },
+          tools[]->{ _id, "title": name, slug },
           tags[]->{ _id, "title": name, slug }
         }
       },
@@ -544,6 +545,7 @@ export const articleBySlugQuery = `
             },
             linkLabel
           },
+          tools[]->{ _id, "title": name, slug },
           tags[]->{ _id, "title": name, slug }
         }
       },
@@ -692,6 +694,7 @@ export const pageBySlugQuery = `
             },
             linkLabel
           },
+          tools[]->{ _id, "title": name, slug },
           tags[]->{ _id, "title": name, slug }
         }
       },
@@ -836,6 +839,7 @@ export const caseStudyBySlugQuery = `
             },
             linkLabel
           },
+          tools[]->{ _id, "title": name, slug },
           tags[]->{ _id, "title": name, slug }
         }
       },
