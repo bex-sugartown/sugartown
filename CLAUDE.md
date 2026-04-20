@@ -235,6 +235,23 @@ images[] {
 
 Do **not** write `asset->` on a `richImage` — that dereferences the `image` object, not the reference inside it, and silently returns null.
 
+### Taxonomy pre-flight (blocking)
+
+Before creating **any** new taxonomy document (`tag`, `category`, `person`, `tool`, `project`), run a pre-flight query:
+
+```groq
+*[_type == "tag"]{ _id, name, slug }          // or category / person / tool / project
+```
+
+Then:
+
+1. **Diff the requested label against existing `name` values.** If an 80%+ semantic match exists, use the existing document — do not create a new one.
+2. **Check Linear/backlog for an active cleanup or dedup epic** (e.g. SUG-74). If one is in-flight, do not add new taxonomy without explicit user approval.
+3. **Check the field is correct for the type** — all five taxonomy primitives use `name` as the display field (not `title`). GROQ projects `"title": name` in fragments. Querying `title` directly will return null and make existing docs look empty.
+4. **Flag tool/platform names** — the tag schema vocabulary says tool names (Figma, Sanity, Shopify, etc.) belong in `tools[]` on content documents, not as `tag` docs. If a requested tag label is a tool or platform name, surface this before creating: "This is a platform name — confirm it should be a tag rather than a tool ref."
+
+Shape content to the schema, not the schema to the content. If a requested label has no good match, note what doesn't exist and create only those — not everything on the list.
+
 ### Sanity MCP content writes — no AI rewriting
 
 When writing content to Sanity via MCP tools, **assume all content is final, proofed copy**. Do not use tools that pass content through Sanity's AI pipeline unless the user explicitly requests AI-assisted drafting.
@@ -303,13 +320,13 @@ If a utility link set (e.g. footer legal row) needs hardcoded paths, those paths
 
 ## Atomic Reuse Gate (blocking)
 
-Before creating ANY new component, schema object, CSS surface, or utility, answer three questions **in writing** (in the epic doc, commit message, or inline comment):
+Before creating ANY new component, schema object, CSS surface, utility, **or taxonomy document**, answer these questions **in writing** (in the epic doc, commit message, or inline comment):
 
-1. **Does this pattern already exist?** — Search all 5 layers per MEMORY.md §Before You Build. If yes, extend via props — do not fork.
+1. **Does this pattern already exist?** — Search all 5 layers per MEMORY.md §Before You Build. For taxonomy: run the pre-flight query (see §Taxonomy pre-flight above). If yes, extend — do not fork or duplicate.
 2. **Will this be consumed by more than one caller?** — If yes, it must live in a shared location (`lib/`, `design-system/`, `schemas/objects/`), never inline in a page file.
 3. **Is the API composable?** — Props/fields should be named so the component can be extended without forking. Prefer `children` over fixed slots. Prefer token-driven styling over hardcoded values.
 
-This is the "Before You Build" reuse audit formalized as a **blocking checklist**, not a suggestion. A new component that fails any of these three checks is a process failure.
+This is the "Before You Build" reuse audit formalized as a **blocking checklist**, not a suggestion. A new component or taxonomy item that fails any of these three checks is a process failure.
 
 ---
 
