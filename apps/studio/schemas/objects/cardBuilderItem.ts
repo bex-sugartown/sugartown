@@ -103,7 +103,8 @@ export default defineType({
             decorators: [
               {title: 'Bold', value: 'strong'},
               {title: 'Italic', value: 'em'},
-              {title: 'Underline', value: 'underline'}
+              {title: 'Underline', value: 'underline'},
+              {title: 'Code', value: 'code'}
             ],
             annotations: [
               defineArrayMember({
@@ -189,6 +190,18 @@ export default defineType({
               }
             }
           }
+        })
+      ]
+    }),
+    defineField({
+      name: 'tools',
+      title: 'Tools',
+      type: 'array',
+      description: 'Tool chips displayed in the card footer (above tags)',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'tool'}]
         })
       ]
     }),
