@@ -11,8 +11,8 @@
  */
 
 /* ── Google Fonts ────────────────────────────────────────────
-   Playfair Display → --st-font-narrative (headings, card titles)
-   Fira Sans        → --st-font-ui        (body, UI chrome)
+   Cormorant Garamond → --st-font-narrative (headings, card titles)
+   DM Sans            → --st-font-ui        (body, UI chrome)
    ──────────────────────────────────────────────────────────── */
 /* Google Fonts loaded by the consuming environment:
    - Storybook: apps/storybook/.storybook/preview-head.html  ← <link> tags (reliable)
@@ -27,7 +27,7 @@
 
 body {
   margin: 0;
-  font-family: var(--st-font-ui);           /* Fira Sans — was --st-font-sans (undefined) */
+  font-family: var(--st-font-ui);           /* DM Sans */
   font-size: var(--st-font-size-md);        /* 1rem — was --st-font-size-base (undefined) */
   line-height: var(--st-line-height-normal);
   color: var(--st-color-text-default);      /* charcoal-900 — was --st-black (legacy alias) */
@@ -42,7 +42,7 @@ p {
 
 h1, h2, h3, h4 {
   margin: 0 0 var(--st-spacing-stack-md) 0;
-  font-family: var(--st-font-narrative);    /* Playfair Display */
+  font-family: var(--st-font-narrative);    /* Cormorant Garamond */
 }
 
 /* ── Layout utilities ─────────────────────────────────── */

@@ -109,10 +109,10 @@
   background: linear-gradient(180deg, transparent 15%, rgba(13,18,38,0.65) 100%);
 }
 
-/* Greyscale eyebrow: lime in all themes (Courier Prime) */
+/* Greyscale eyebrow: lime in all themes */
 .heroTreatmentGreyscale .heroEyebrow {
   color: var(--st-color-lime, #D1FF1D);
-  font-family: var(--st-font-family-metadata, 'Courier Prime', monospace);
+  font-family: var(--st-font-family-mono);
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -141,7 +141,7 @@
 
 /* ── Hero metadata line — date, status, reading time ────────────── */
 .heroMeta {
-  font-family: var(--st-font-family-metadata, 'Courier Prime', monospace);
+  font-family: var(--st-font-family-mono);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   color: var(--st-color-softgrey-200, #e1e3e6);

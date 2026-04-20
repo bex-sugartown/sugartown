@@ -167,10 +167,10 @@
   --st-radius-media:   var(--st-radius-xl); /* exception — editorial image softness */
 
   /* ── Typography: Families ────────────────────────────── */
-  /* Pink Moon: EB Garamond (narrative), Fira Sans (UI), Courier Prime (all mono) */
-  --st-font-family-narrative: "EB Garamond", "Times New Roman", serif;
-  --st-font-family-ui:        "Fira Sans", "Helvetica Neue", Arial, sans-serif;
-  --st-font-family-mono:      "Courier Prime", "Courier New", Courier, monospace;
+  /* Ledger Tradition (AB-001): Cormorant Garamond (narrative), DM Sans (UI), IBM Plex Mono (mono) */
+  --st-font-family-narrative: "Cormorant Garamond", "Times New Roman", serif;
+  --st-font-family-ui:        "DM Sans", "Helvetica Neue", Arial, sans-serif;
+  --st-font-family-mono:      "IBM Plex Mono", "Courier New", Courier, monospace;
 
   /* ── Typography: Sizes ───────────────────────────────── */
   --st-font-size-xs:      0.75rem;   /* 12px */

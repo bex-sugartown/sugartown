@@ -6,9 +6,9 @@
 /* ── Google Fonts ────────────────────────────────────────────
    Loaded via <link rel="stylesheet"> in apps/web/index.html for
    earlier-in-waterfall parallel download (SUG-63 Phase 1).
-   EB Garamond          → --st-font-narrative (headings, card titles)
-   Fira Sans            → --st-font-ui        (body, UI chrome)
-   Courier Prime        → --st-font-mono      (chips, metadata, code, colophon)
+   Cormorant Garamond   → --st-font-narrative (headings, card titles)
+   DM Sans              → --st-font-ui        (body, UI chrome)
+   IBM Plex Mono        → --st-font-mono      (chips, metadata, code, colophon)
    ──────────────────────────────────────────────────────────── */
 
 /* Reset-ish */
@@ -46,8 +46,8 @@ p {
   margin: 0 0 var(--st-spacing-stack-md) 0;
 }
 
-/* ── Headings → EB Garamond ───────────────────────────── */
-/* EB Garamond has weights 400–800, so all heading levels can use it. */
+/* ── Headings → Cormorant Garamond ───────────────────── */
+/* Cormorant Garamond has weights 300–700 (regular + italic). */
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 var(--st-spacing-stack-md) 0;
   font-family: var(--st-font-narrative);

@@ -156,10 +156,10 @@
   --st-radius-full: 9999px;
 
   /* ── Typography: Families ────────────────────────────── */
-  /* Pink Moon: EB Garamond (narrative), Fira Sans (UI), Courier Prime (all mono) */
-  --st-font-family-narrative: "EB Garamond", "Times New Roman", serif;
-  --st-font-family-ui:        "Fira Sans", "Helvetica Neue", Arial, sans-serif;
-  --st-font-family-mono:      "Courier Prime", "Courier New", Courier, monospace;
+  /* Ledger Tradition (AB-001): Cormorant Garamond (narrative), DM Sans (UI), IBM Plex Mono (mono) */
+  --st-font-family-narrative: "Cormorant Garamond", "Times New Roman", serif;
+  --st-font-family-ui:        "DM Sans", "Helvetica Neue", Arial, sans-serif;
+  --st-font-family-mono:      "IBM Plex Mono", "Courier New", Courier, monospace;
 
   /* ── Typography: Sizes ───────────────────────────────── */
   --st-font-size-xs:      0.75rem;   /* 12px */
@@ -284,7 +284,7 @@
   /* ── Unified Mono Label Tokens ─────────────────────── */
   /* Applied to all uppercase mono labels: meta-labels, margin headings,
      eyebrows, series position, citations heading, nav labels, type badges.
-     Courier Prime ships 400/700 only; 600 is browser-synthesized. */
+     IBM Plex Mono ships 400/500/600/700 natively — weight 600 is a real weight. */
   --st-label-font:     var(--st-font-family-mono);
   --st-label-size:     0.65rem;
   --st-label-weight:   600;
