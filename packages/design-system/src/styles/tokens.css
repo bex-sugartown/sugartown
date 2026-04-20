@@ -229,6 +229,7 @@
   --st-color-bg-midnight:       var(--st-color-midnight);
   --st-color-bg-secondary:      var(--st-color-midnight-800);
   --st-color-bg-tertiary:       var(--st-color-midnight-700);
+  --st-color-bg-elevated:       rgba(255, 36, 125, 0.05);   /* subtle pink tint — nav hover */
 
   /* ── Text (dark defaults) ────────────────────────────── */
   --st-color-text-primary:   var(--st-color-softgrey-50);
@@ -250,6 +251,7 @@
   /* ── State ───────────────────────────────────────────── */
   --st-color-danger: var(--st-color-maroon);
   --st-color-surface-subtle: var(--st-color-softgrey-900);  /* subtle bg — dark default */
+  --st-color-warning:        #e5a000;                        /* amber — draft/caution state */
 
   /* ── Effects (theme-overridable) ─────────────────────── */
   --st-effect-backdrop-blur-md: 0;            /* pink-moon themes → 14px */
@@ -359,6 +361,8 @@
   --st-color-footer-divider:   rgba(255, 111, 184, 0.22);   /* dark: dashed footer line */
   --st-color-chip-bg:          rgba(255, 255, 255, 0.06);   /* dark: filled tag chip bg */
   --st-card-thumb-rail-width:  96px;                         /* listing variant left col */
+  --st-card-thumb-position:    center;                       /* per-card object-position override */
+  --st-card-hover-border:      var(--st-color-border-default); /* border color on card hover */
 
   /* ── Pill / Tag ──────────────────────────────────────── */
   --st-pill-bg:     var(--st-color-bg-subtle);
@@ -395,6 +399,8 @@
   --st-table-shadow:      0 4px 24px rgba(0, 0, 0, 0.40);
   --st-table-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.50);
   --st-table-card-radius: var(--st-radius-md);
+  --st-table-max-width:   100%;
+  --st-table-min-width:   600px;
 
   /* ── Blockquote ──────────────────────────────────────── */
   --st-blockquote-border-width: 3px;
@@ -410,6 +416,7 @@
   --st-callout-border:       var(--st-color-border-subtle);
   --st-callout-padding:      1.25rem 1.5rem;
   --st-callout-margin-block: 2.5rem;
+  --st-callout-icon-color:   currentColor;  /* per-variant override */
 
   /* ── Code ────────────────────────────────────────────── */
   --st-code-radius:        var(--st-radius-code);
@@ -423,6 +430,7 @@
   --st-code-inline-color:  var(--st-color-maroon);
   --st-code-inline-text:   var(--st-color-maroon);        /* legacy alias */
   --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
+  --st-code-font-size:     0.9rem;
 
   /* ── Citation / Knowledge Notation ───────────────────── */
   --st-citation-color:         var(--st-color-text-secondary);   /* footnote text — legible at 0.72rem on both themes */
@@ -456,6 +464,16 @@
   --st-media-duotone-angle:          135deg;
   --st-media-scrim-dark:             linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.25) 50%, transparent 100%);
   --st-hero-text-color:              #ffffff;
+  --st-media-duotone-shadow:         0 10px 30px rgba(0, 0, 0, 0.08);
+  --st-media-duotone-grayscale:      100%;
+  --st-media-overlay-gradient:       none;
+  --st-media-overlay-color:          rgba(0, 0, 0, 0.5);
+  --st-media-overlay-opacity:        0.5;
+  --st-media-overlay-blend:          normal;
+
+  /* ── Header / Nav / Hero ────────────────────────────────── */
+  --st-header-bg:                    var(--st-color-bg-surface);
+  --st-hero-bg-image:                none;
 
 
   /* ══════════════════════════════════════════════════════

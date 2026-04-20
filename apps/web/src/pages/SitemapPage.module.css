@@ -17,11 +17,11 @@
 .header {
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--st-color-border, rgba(255, 255, 255, 0.1));
+  border-bottom: 1px solid var(--st-color-border-default, rgba(255, 255, 255, 0.1));
 }
 
 .title {
-  font-family: var(--st-font-family-heading, var(--st-font-family-ui));
+  font-family: var(--st-font-family-narrative);
   font-size: clamp(2rem, 4vw, 2.5rem);
   font-weight: 700;
   line-height: 1.1;
@@ -56,13 +56,13 @@
 }
 
 .groupHeading {
-  font-family: var(--st-font-family-heading, var(--st-font-family-ui));
+  font-family: var(--st-font-family-narrative);
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--st-color-brand-primary, #ff247d);
   margin: 0 0 0.75rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--st-color-border, rgba(255, 255, 255, 0.08));
+  border-bottom: 1px solid var(--st-color-border-default, rgba(255, 255, 255, 0.08));
 }
 
 .groupCount {
@@ -90,11 +90,11 @@
 }
 
 .linkItem + .linkItem {
-  border-top: 1px solid var(--st-color-border, rgba(255, 255, 255, 0.04));
+  border-top: 1px solid var(--st-color-border-default, rgba(255, 255, 255, 0.04));
 }
 
 .link {
-  color: var(--st-color-link, var(--st-color-text-default, #e0e0e0));
+  color: var(--st-color-link-default);
   text-decoration: none;
   flex: 1;
   min-width: 0;
@@ -132,8 +132,8 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--st-color-text-muted, #888);
-  background: var(--st-color-surface-raised, rgba(255, 255, 255, 0.06));
-  border: 1px solid var(--st-color-border, rgba(255, 255, 255, 0.1));
+  background: var(--st-color-chip-bg);
+  border: 1px solid var(--st-color-border-default, rgba(255, 255, 255, 0.1));
   border-radius: 3px;
   padding: 0.125rem 0.375rem;
   white-space: nowrap;
