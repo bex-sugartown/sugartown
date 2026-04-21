@@ -28,13 +28,13 @@
   font-family: var(--st-font-family-mono);
   font-size: var(--st-font-size-xs); /* 0.75rem / 12px */
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1; /* IBM Plex Mono: keep line box at 1em so em-padding is predictable */
 
   padding: 0.45em 0.75em;
   border-radius: var(--st-radius-tag); /* 0 — Pink Moon sharp edges */
 
-  background: color-mix(in srgb, var(--_chip-color) 8%, transparent);
-  border: 1px solid color-mix(in srgb, var(--_chip-color) 35%, transparent);
+  background: color-mix(in srgb, var(--_chip-color) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--_chip-color) 50%, transparent);
   color: var(--_chip-color);
 
   user-select: none;
@@ -55,7 +55,7 @@
 
 .interactive:hover {
   transform: translateY(-1px);
-  background: color-mix(in srgb, var(--_chip-color) 15%, transparent);
+  background: color-mix(in srgb, var(--_chip-color) 25%, transparent);
   border-color: var(--_chip-color);
   box-shadow: 0 2px 5px color-mix(in srgb, var(--_chip-color) 15%, transparent);
 }
@@ -106,7 +106,7 @@
 .lime    { --chip-color: var(--st-color-lime); }
 .violet  { --chip-color: #A78BFA; }
 .amber   { --chip-color: #FBBA24; }
-.grey    { --chip-color: var(--st-color-softgrey); }
+.grey    { --chip-color: var(--st-color-softgrey-500, #6e7f96); }
 
 /* ── Light-theme chip color overrides ─────────────────────
    On light backgrounds, bright palette colors (seafoam, lime, amber)
@@ -117,7 +117,7 @@
 :global([data-theme="light"]) .seafoam { --chip-color: var(--st-color-seafoam-700, #1d9679); }
 :global([data-theme="light"]) .lime    { --chip-color: var(--st-color-lime-700, #748f00); }
 :global([data-theme="light"]) .amber   { --chip-color: #b8860b; }
-:global([data-theme="light"]) .grey    { --chip-color: var(--st-color-softgrey-600, #526070); }
+:global([data-theme="light"]) .grey    { --chip-color: var(--st-color-softgrey-700, #3d4a57); }
 
 /* ════════════════════════════════════════════════════════
    PINK MOON THEME ADAPTATIONS

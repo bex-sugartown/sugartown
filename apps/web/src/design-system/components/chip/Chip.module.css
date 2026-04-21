@@ -28,13 +28,13 @@
   font-family: var(--st-font-family-mono);
   font-size: var(--st-font-size-xs); /* 0.75rem / 12px */
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1; /* IBM Plex Mono: keep line box at 1em so em-padding is predictable */
 
   padding: 0.45em 0.75em;
   border-radius: var(--st-radius-tag); /* 0 — Pink Moon sharp edges */
 
-  background: color-mix(in srgb, var(--_chip-color) 8%, transparent);
-  border: 1px solid color-mix(in srgb, var(--_chip-color) 35%, transparent);
+  background: color-mix(in srgb, var(--_chip-color) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--_chip-color) 50%, transparent);
   color: var(--_chip-color);
 
   user-select: none;
@@ -55,7 +55,7 @@
 
 .interactive:hover {
   transform: translateY(-1px);
-  background: color-mix(in srgb, var(--_chip-color) 15%, transparent);
+  background: color-mix(in srgb, var(--_chip-color) 25%, transparent);
   border-color: var(--_chip-color);
   box-shadow: 0 2px 5px color-mix(in srgb, var(--_chip-color) 15%, transparent);
 }
