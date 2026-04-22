@@ -8,9 +8,9 @@
 
 ## Context — historic baseline
 
-The WP-era POC (see `repos/sugartown-cms/docs/knowledge-graph-project/`) shipped a Python + NetworkX force-directed graph rendered to SVG and injected into a WordPress GEM post. It proved the concept and produced the visual baseline Bex has shared:
+The WP-era POC (see `repos/sugartown-cms/docs/knowledge-graph-project/`) shipped a Python + NetworkX force-directed graph rendered to SVG and injected into a WordPress node post. It proved the concept and produced the visual baseline Bex has shared:
 
-![historic graph baseline — cyan PROJ nodes, yellow category nodes, pink gem nodes](../briefs/reference/kg-historic-baseline.png)
+![historic graph baseline — cyan PROJ nodes, yellow category nodes, pink node-type vertices](../briefs/reference/kg-historic-baseline.png)
 *(Screenshot saved separately for reference if needed.)*
 
 The current stack (Sanity + React + Vite) has none of that code. `/knowledge-graph` currently renders `KnowledgeGraphArchivePage.jsx` — a flat card grid. This epic revives the topology-first philosophy in the modern stack.
@@ -19,7 +19,7 @@ The current stack (Sanity + React + Vite) has none of that code. `/knowledge-gra
 
 ## Objective
 
-Add a **graph view** to `/knowledge-graph`, toggleable with the existing grid. The graph is a force-directed network of `node` + `project` + `category` vertices, rendered via `react-force-graph-2d`, styled with Pink Moon tokens, fed by a build-time JSON artifact sourced from Sanity. Clicks on vertices navigate or filter. The aesthetic matches the historic POC (large project hubs, smaller category hubs, small gem dots).
+Add a **graph view** to `/knowledge-graph`, toggleable with the existing grid. The graph is a force-directed network of `node` + `project` + `category` vertices, rendered via `react-force-graph-2d`, styled with Pink Moon tokens, fed by a build-time JSON artifact sourced from Sanity. Clicks on vertices navigate or filter. The aesthetic matches the historic POC (large project hubs, smaller category hubs, small node dots).
 
 ---
 
@@ -39,7 +39,7 @@ Add a **graph view** to `/knowledge-graph`, toggleable with the existing grid. T
 | Decision | Resolution |
 |----------|-----------|
 | Placement | Grid↔graph toggle on `/knowledge-graph` (single route, two view modes) |
-| Node types | `node` (gem) · `project` · `category` |
+| Node types | `node` · `project` · `category` |
 | Tags | Not graph nodes. Surface via hover tooltip + sidebar panel, link to `/tags/:slug` |
 | Graph library | `react-force-graph-2d` (canvas) |
 | Data pipeline | Build-time — rides SUG-67 as a new `graph` namespace |
@@ -55,48 +55,48 @@ Phase 0 deliverable: a static HTML mock page with all three rendered against rea
 
 ### Option A — Membership only (recommended; matches historic baseline)
 
-Each gem has exactly 2 edges: one to its project, one to its category.
+Each node has exactly 2 edges: one to its project, one to its category.
 
 ```
-PROJ-001 ──┬── gem1
-           ├── gem2
-           ├── gem3 ─── Engineering & DX
-           ├── gem4 ────────┤
-           └── gem5 ─── Governance
+PROJ-001 ──┬── node-1
+           ├── node-2
+           ├── node-3 ─── Engineering & DX
+           ├── node-4 ────────┤
+           └── node-5 ─── Governance
 ```
 
-- Visual: bipartite clusters. Projects anchor one side, categories anchor the other, gems bridge them.
-- Pros: clean, readable, matches the historic POC Bex has approved. Edge count = 2 × gem count (~74 edges for 37 gems).
-- Cons: no lateral connections between gems.
+- Visual: bipartite clusters. Projects anchor one side, categories anchor the other, nodes bridge them.
+- Pros: clean, readable, matches the historic POC Bex has approved. Edge count = 2 × node count (~74 edges for 37 nodes).
+- Cons: no lateral connections between nodes.
 
 ### Option B — Membership + shared-tag proximity
 
-Option A, plus a thin dashed edge between any two gems that share 2+ tags.
+Option A, plus a thin dashed edge between any two nodes that share 2+ tags.
 
 ```
-gem1 ┄┄┄ gem4  (share: "python", "visualization")
-gem1 ┄┄┄ gem2  (share: "design system", "documentation")
+node-1 ┄┄┄ node-4  (share: "python", "visualization")
+node-1 ┄┄┄ node-2  (share: "design system", "documentation")
 ```
 
-- Visual: dense web of gem-to-gem edges, overlaid on bipartite backbone.
+- Visual: dense web of node-to-node edges, overlaid on bipartite backbone.
 - Pros: shows lateral thinking, rewards readers who explore.
 - Cons: noisy. Could hide the structural pattern underneath. Edge count scales quadratically.
 
 ### Option C — Tag-hub floating (lowest weight)
 
-Tags render as tiny floating unlabeled nodes (no text, no click target) that gems are force-pulled toward. Visual attractor, not a navigable vertex.
+Tags render as tiny floating unlabeled nodes (no text, no click target) that nodes are force-pulled toward. Visual attractor, not a navigable vertex.
 
 ```
        [•]                 [•]
         |                   |
-     gem1 ── gem4        gem2
+     node-1 ── node-4    node-2
         \                  /
          [•] ─────────── [•]
 ```
 
 - Visual: clusters form around thematic centroids without explicit edges.
 - Pros: visually expressive; structure emerges.
-- Cons: not informative — viewers can't tell *which* tag pulled two gems together.
+- Cons: not informative — viewers can't tell *which* tag pulled two nodes together.
 
 **Recommendation: Option A** for MVP. Option B as a later toggle ("Show lateral connections"). Option C skipped.
 
@@ -157,16 +157,16 @@ If Option B is chosen, edge kind includes `"sharedTag"` with a `weight` field (n
   - edge → `--st-color-border-subtle`
   - Exact token names locked in Phase 0 mock pass (may need new tokens; flag SUG-68 dependency if yes).
 - Typography — Courier Prime labels on hover/active state only (keeps the canvas clean until interaction).
-- `KnowledgeGraphSidebar.jsx` — when a gem is selected, sidebar shows title, project, category, tag list (each tag → `/tags/:slug`), action item, published date, CTA to detail page.
+- `KnowledgeGraphSidebar.jsx` — when a node is selected, sidebar shows title, project, category, tag list (each tag → `/tags/:slug`), action item, published date, CTA to detail page.
 
 ### Phase 3 — Interactivity + toggle
 
 **Deliverable:** grid↔graph toggle UI on `KnowledgeGraphArchivePage.jsx`.
 
 - Top of page: segmented control `[Grid] [Graph]`. State persisted in URL (`?view=graph`).
-- Click gem node → sidebar populates (does NOT navigate immediately — gives hover/click a two-step affordance).
+- Click node → sidebar populates (does NOT navigate immediately — gives hover/click a two-step affordance).
 - Click project/category node → filter the archive (keep existing filter logic), switch back to grid view automatically.
-- Shift-click or double-click gem → navigate to `/nodes/:slug`.
+- Shift-click or double-click node → navigate to `/nodes/:slug`.
 - Hover → show minimal label (title only).
 - Sidebar's tag chips navigate to `/tags/:slug`.
 
@@ -174,7 +174,7 @@ If Option B is chosen, edge kind includes `"sharedTag"` with a `weight` field (n
 
 **Deliverable:** mobile fallback + a11y + SSR safety.
 
-- Viewport `<768px`: render a simplified cluster list ("Sugartown CMS (14 gems)" expandable to the gems under it) instead of a squished graph. No force simulation on mobile.
+- Viewport `<768px`: render a simplified cluster list ("Sugartown CMS (14 nodes)" expandable to the nodes under it) instead of a squished graph. No force simulation on mobile.
 - A11y: text-equivalent list always present in a visually-hidden `<nav>` for screen readers. All tooltip content is in the DOM, not just canvas-painted.
 - SSR safety: `react-force-graph-2d` touches `window` on import — must be lazy-loaded via `React.lazy()` or dynamic import inside a `useEffect`. Build must not crash on SSG prerender.
 - Dark/light parity: verify canvas colours render correctly in both themes (Pink Moon is primarily light-mode first; dark-mode graph may need a token swap).
@@ -213,8 +213,8 @@ If Option B is chosen, edge kind includes `"sharedTag"` with a `weight` field (n
 2. Bex reviews CSVs, fixes data, picks edge-semantic option.
 3. SUG-67 Phase 1a ships.
 4. `stats.graph` namespace populates at build time.
-5. `/knowledge-graph?view=graph` renders a force-directed network of projects, categories, gems with the chosen edge semantics.
-6. Clicking a gem opens the sidebar; clicking a project/category filters the grid; sidebar tag chips link to tag archives.
+5. `/knowledge-graph?view=graph` renders a force-directed network of projects, categories, nodes with the chosen edge semantics.
+6. Clicking a node opens the sidebar; clicking a project/category filters the grid; sidebar tag chips link to tag archives.
 7. Mobile viewport renders the fallback list, not the graph.
 8. Lighthouse a11y score on `/knowledge-graph?view=graph` ≥ 95.
 9. No runtime errors on SSG prerender.
