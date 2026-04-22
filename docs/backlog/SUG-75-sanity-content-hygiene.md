@@ -26,43 +26,53 @@ Stale page slug updated to `home-old` and document unpublished. Live homepage
 
 ---
 
-## Warnings — SEO fields, 12 documents
+## Warnings — SEO fields
 
-`pnpm validate:content` reports 41 warnings total: 14 are known unbuilt nav
-route stubs (out of scope — see §Out of scope below) and 12 are missing
-`seo.title` / `seo.description` fields on published content.
+`pnpm validate:content` reports warnings for missing `seo.title` / `seo.description`
+on published content documents, plus 14 known unbuilt nav route stubs (out of scope).
 
-### Next steps — Studio SEO pass
+### ✅ SEO patches applied via MCP (2026-04-22)
 
-Open each document below in Studio → **SEO tab** → fill `seo.title`
-(50–60 chars) and `seo.description` (120–160 chars).
+The following 7 published documents were patched via `patch_document_from_json`
+(verbatim copy, no AI rewrite pipeline). Drafts created — **pending Studio publish**.
 
-**Articles (4):**
+**Articles (1):**
 
-| Document | Missing |
-|----------|---------|
-| "We Never Actually Adopted Structured Content" | title + description |
-| "Bunk: Use Your Own Product (or: How 47 Clicks Taught Me a Lesson)" | title + description |
-| "I Built a Spreadsheet Inside My CMS (Because the Alternative Was 47 Clicks Per Table)" | title + description |
-| "Test Preview Post" | title + description — consider leaving intentionally blank or keeping as draft-only |
+| Document | seo.title | Status |
+|----------|-----------|--------|
+| "I Built a Spreadsheet Inside My CMS" | "I Built a Spreadsheet Inside My CMS — Sugartown" | Draft pending publish |
 
-**Nodes (8):**
+**Nodes (6):**
 
-| Document | Missing |
-|----------|---------|
-| "I Audited My Human's Table Input and It Was 47 Clicks of Pure Suffering" | title + description |
-| "Post-Mortems as System Upgrades: How Breaking Things Builds Better AI Workflows" | title + description |
-| "The 80px Gap That Wasn't Supposed to Be There" | title + description |
-| "The Button That Had Two Names" | title + description |
-| "The Em Dash That Came Back From the Dead (Or, How My CMS Hired a Ghostwriter Without Telling Me)" | title + description |
-| "The Great Disconnection" | title + description |
-| `"I Can't Do That" (Yes I Can): Post-Mortem of Epic v7c` | title + description |
-| "test node" | description only — consider keeping intentionally blank or converting to draft |
+| Document | seo.title | Status |
+|----------|-----------|--------|
+| "I Audited My Human's Table Input" | "I Audited My Human's Table Input — Sugartown" | Draft pending publish |
+| "Post-Mortems as System Upgrades" | "Post-Mortems as System Upgrades — Sugartown" | Draft pending publish |
+| "The Button That Had Two Names" | "The Button That Had Two Names — Sugartown" | Draft pending publish |
+| "The Em Dash That Came Back From the Dead" | "The Em Dash That Came Back From the Dead — Sugartown" | Draft pending publish |
+| "The Great Disconnection" | "The Great Disconnection — Sugartown" | Draft pending publish |
+| `"I Can't Do That" (Yes I Can)` | `"I Can't Do That" (Yes I Can) — Sugartown` | Draft pending publish |
 
-**Suggested SEO copy approach:** `seo.title` = document title + ` — Sugartown`
-(trim if over 60 chars). `seo.description` = 1–2 sentences drawn from the
-lede or excerpt. Do not use the AI rewrite pipeline — use `patch_document_from_json`
-or fill manually in Studio so copy stays verbatim.
+### Remaining SEO — Studio manual pass required
+
+The following documents still need SEO fields. These were not auto-patched because
+copy must be written from scratch or confirmed by a human:
+
+| Document | Missing | Note |
+|----------|---------|------|
+| "We Never Actually Adopted Structured Content" | title + description | Article |
+| "Bunk: Use Your Own Product (or: How 47 Clicks Taught Me a Lesson)" | title + description | Article |
+| "The 80px Gap That Wasn't Supposed to Be There" | title + description | Node |
+
+### Intentional omissions (2026-04-22)
+
+| Document | Decision |
+|----------|----------|
+| "Test Preview Post" | Unpublished draft — SEO intentionally blank. Validator fix (perspective: 'published') excludes it. |
+| "test node" | Unpublished draft — SEO intentionally blank. Excluded by same fix. |
+
+`validate-content.js` now uses `perspective: 'published'` explicitly (commit `fb1f9b4`),
+so unpublished drafts no longer appear as SEO warnings.
 
 ---
 
@@ -79,7 +89,11 @@ IA brief). No action here.
 - [x] `pnpm validate:content` exits 0 (zero errors) — confirmed 2026-04-22
 - [x] Duplicate `design-tokens` tag resolved in Studio
 - [x] Duplicate `home` page resolved in Studio (`home-old`, unpublished)
-- [ ] SEO fields filled in for 11 content documents (or omissions documented)
-- [ ] "Test Preview Post" and "test node" disposition decided (SEO fill or intentional omission noted)
+- [x] Test docs disposition decided — unpublished drafts, intentionally blank, excluded by validator fix
+- [x] Validator fix: `perspective: 'published'` added to `validate-content.js` (commit `fb1f9b4`)
+- [x] SEO auto-patched for 7 published documents — drafts pending Studio publish
+- [ ] Publish 7 SEO drafts in Studio
+- [ ] Studio manual SEO pass for 3 remaining documents
+- [ ] Re-run `pnpm validate:content` after publish to confirm warning count drops
 - [ ] Epic doc moved `docs/backlog/` → `docs/shipped/`
 - [ ] Linear SUG-75 → Done
