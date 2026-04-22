@@ -289,6 +289,16 @@ All AI-drafted content (copy, descriptions, alt text, commit messages, doc prose
 
 ---
 
+## Schema Conventions
+
+Full schema authoring rules are in `docs/conventions/schema-conventions.md`. Key rules enforced here:
+
+- **Taxonomy primary field is `name`** — all five taxonomy types (`tag`, `category`, `person`, `project`, `tool`) use `name` as the field identifier, not `title`. GROQ queries use `->name`; never `->title`. The `queries.js` fragments alias it as `"title": name` for component consumption.
+- **Preview block** must use `select: { title: 'name' }` so Studio lists display correctly.
+- When creating a new taxonomy type, follow the required-fields table in `docs/conventions/schema-conventions.md`.
+
+---
+
 ## Image Asset Naming
 
 All images uploaded to Sanity must follow the naming convention in `docs/conventions/image-naming-convention.md`:
