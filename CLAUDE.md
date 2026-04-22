@@ -330,14 +330,32 @@ This is the "Before You Build" reuse audit formalized as a **blocking checklist*
 
 ---
 
+## DS Component Authoring — Token-First Rule (blocking)
+
+When writing or modifying any component CSS file (in `apps/web/src/design-system/` or `packages/design-system/src/`):
+
+**No raw color value may appear in a component CSS file.** Every color must resolve through a `--st-*` token reference. If the token doesn't exist yet, add it to `tokens.css` first — in a separate commit — before writing the component CSS.
+
+**Fallback syntax rule:** `var(--st-token, #hex)` is banned. The only permitted fallback form is `var(--st-token, var(--st-primitive))`. If a matching primitive doesn't exist, add it to `tokens.css` first. If no fallback is needed, omit it entirely.
+
+**Theme files are override-only:** `theme.light.css`, `theme.pink-moon.css`, and any future theme files may only *override* existing `--st-*` token names with other token references. They may not introduce a color value (hex, rgba, hsla) that has no primitive anchor in `tokens.css`. If a theme-specific color value (e.g. a shadow, a glow, a callout wash) doesn't exist as a named primitive, add the primitive first.
+
+These rules exist because a hardcoded value in a component bypasses the token graph entirely — the theme system cannot override it, the validator cannot audit it, and every DS mirror compounds the violation. One inline rgba in a first-pass component becomes four violations by the time both mirrors and both theme overrides are written. 386 of them became an epic. See: node *"The Validator Said Zero Errors. It Was Watching the Wrong Door."*
+
+**When creating a component with chip/badge/status color states** (any enumerated set of visual states with distinct colors): define all `--st-status-<state>-{bg,fg,border}` tokens for every state in `tokens.css` before writing the component CSS. Add light-theme overrides in the same commit. This is not deferrable — the status chip system in Card accumulated 90 hardcoded values by skipping this step.
+
+---
+
 ## Pre-Commit Checklist for CSS Token Changes
 
-Whenever `apps/web/src/design-system/styles/tokens.css` **or** `packages/design-system/src/styles/tokens.css` is edited:
+Whenever `apps/web/src/design-system/styles/tokens.css` **or** `packages/design-system/src/styles/tokens.css` is edited, or whenever any component CSS file is created or modified:
 
 1. Run `pnpm validate:tokens` from `apps/web/` and confirm **zero errors** before committing.
-2. Update **both** token files in the same commit — they must stay in sync at all times.
+2. Run `pnpm validate:tokens --strict-colors` from `apps/web/` and confirm **zero hardcoded color violations** before committing.
+3. Update **both** token files in the same commit — they must stay in sync at all times.
 
-This catches: duplicate definitions, renamed tokens with lingering references, and cross-file drift. See MEMORY.md §Token Drift Rules for background.
+`validate:tokens` catches: undefined `var(--st-*)` references, renamed tokens with lingering references, cross-file drift.
+`validate:tokens --strict-colors` catches: raw hex, rgba, or hsla values in any component or theme CSS file outside `tokens.css`. This is the rule that SUG-68 enforced retroactively — run it proactively so the audit never needs to happen again.
 
 ---
 
