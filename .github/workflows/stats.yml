@@ -1,0 +1,71 @@
+name: Stats — daily trust signal collection
+
+# SUG-67: Runs network collectors (Lighthouse, CrUX, security, GitHub, Sanity)
+# and commits updated stats.json back to main.
+#
+# Runs: daily at 06:00 UTC, or manually via workflow_dispatch.
+# Stats.json is gitignored from local dev but committed by this workflow so
+# that deployed builds and CI builds have fresh network data without network access.
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # 06:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  collect:
+    name: Collect trust signals
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.1.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Lighthouse CI
+        run: pnpm add -g @lhci/cli
+
+      - name: Run Lighthouse CI
+        run: lhci autorun
+        env:
+          LHCI_ORIGIN: https://sugartown.io
+        continue-on-error: true  # Lighthouse flakiness should not block stats commit
+
+      - name: Collect all stats
+        run: pnpm --filter web collect:stats
+        env:
+          VITE_SANITY_PROJECT_ID:   ${{ secrets.VITE_SANITY_PROJECT_ID }}
+          VITE_SANITY_DATASET:      ${{ secrets.VITE_SANITY_DATASET }}
+          VITE_SANITY_API_VERSION:  ${{ secrets.VITE_SANITY_API_VERSION }}
+          VITE_SANITY_TOKEN:        ${{ secrets.VITE_SANITY_TOKEN }}
+          GITHUB_TOKEN:             ${{ secrets.GITHUB_TOKEN }}
+          CRUX_API_KEY:             ${{ secrets.CRUX_API_KEY }}
+
+      - name: Commit updated stats.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # stats.json is in .gitignore for local dev, but CI needs to commit it.
+          # Force-add to bypass the ignore rule.
+          git add -f apps/web/src/generated/stats.json
+          if git diff --cached --quiet; then
+            echo "No stats changes — nothing to commit."
+          else
+            git commit -m "chore(stats): update trust signals [skip ci]"
+            git push
+          fi
