@@ -13,7 +13,7 @@
 
 /* White text + dark overlay — only when a background image is present */
 .heroWithImage {
-  color: #fff;
+  color: var(--st-color-white);
   overflow: hidden;
   background-image: none !important; /* image lives in ::after for independent zoom */
 }
@@ -42,7 +42,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+  background: var(--st-scrim-overlay-40);
   z-index: 1;
   border-radius: inherit;
 }
@@ -50,7 +50,7 @@
 /* ── Hero image treatment overrides ──────────────────────────────── */
 /* When an imageTreatment is set, replace the default dark overlay */
 .heroWithTreatment.heroWithImage::before {
-  background: var(--st-media-overlay-gradient, linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)));
+  background: var(--st-media-overlay-gradient, var(--st-scrim-overlay-40));
 }
 
 .heroTreatmentDuotone.heroWithImage::before {
@@ -65,7 +65,7 @@
 /* ── Extreme duotone — SVG filter on ::after background ────────── */
 /* ::after already set up by .heroWithImage — just add the SVG filter */
 .heroTreatmentExtreme.heroWithImage::before {
-  background: var(--st-media-overlay-gradient, linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25)));
+  background: var(--st-media-overlay-gradient, var(--st-scrim-overlay-25));
   mix-blend-mode: var(--st-media-overlay-blend-mode, hard-light);
 }
 
@@ -79,7 +79,7 @@
 }
 
 .heroTreatmentColor.heroWithImage::before {
-  background: var(--st-media-overlay-color, rgba(0, 0, 0, 0.5));
+  background: var(--st-media-overlay-color);
   opacity: var(--st-media-overlay-opacity, 0.5);
   mix-blend-mode: var(--st-media-overlay-blend, normal);
 }
@@ -95,7 +95,7 @@
 }
 
 .heroTreatmentGreyscale.heroWithImage::before {
-  background: linear-gradient(180deg, rgba(13,18,38,0.05) 0%, rgba(13,18,38,0.25) 100%);
+  background: var(--st-scrim-card-gradient);
   mix-blend-mode: normal;
 }
 
@@ -106,12 +106,12 @@
 
 :global([data-theme="dark"]) .heroTreatmentGreyscale.heroWithImage::before,
 :global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscale.heroWithImage::before {
-  background: linear-gradient(180deg, transparent 15%, rgba(13,18,38,0.65) 100%);
+  background: var(--st-scrim-dark-gradient);
 }
 
 /* Greyscale eyebrow: lime in all themes */
 .heroTreatmentGreyscale .heroEyebrow {
-  color: var(--st-color-lime, #D1FF1D);
+  color: var(--st-color-lime);
   font-family: var(--st-font-family-mono);
   font-size: 1rem;
   font-weight: 500;
@@ -125,18 +125,18 @@
   max-width: 640px;
   margin: 0 auto;
   padding: var(--st-space-7, 2.5rem) var(--st-space-6, 2rem);
-  background: rgba(255,255,255,0.18);
+  background: var(--st-color-white-18);
   backdrop-filter: blur(32px) saturate(1.4);
   -webkit-backdrop-filter: blur(32px) saturate(1.4);
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid var(--st-color-white-15);
   border-radius: 0;
   text-align: center;
 }
 
 :global([data-theme="dark"]) .heroPanel,
 :global([data-theme="dark-pink-moon"]) .heroPanel {
-  background: rgba(13,18,38,0.45);
-  border-color: rgba(255,255,255,0.08);
+  background: var(--st-color-midnight-45);
+  border-color: var(--st-color-white-08);
 }
 
 /* ── Hero metadata line — date, status, reading time ────────────── */
@@ -144,76 +144,76 @@
   font-family: var(--st-font-family-mono);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
-  color: var(--st-color-softgrey-200, #e1e3e6);
+  color: var(--st-color-softgrey-200);
   margin-top: var(--st-spacing-stack-sm, 0.5rem);
   text-transform: uppercase;
 }
 
 /* ── Imageless hero — dark text, no overlay, reduced height ─────── */
 .heroImageless {
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
   min-height: 180px;
   background: transparent;
 }
 
 /* Imageless eyebrow: pink in light mode, lime in dark mode */
 .heroImageless .heroEyebrow {
-  color: var(--st-color-brand-primary, #ff247d);
+  color: var(--st-color-brand-primary);
 }
 
 :global([data-theme="dark"]) .heroImageless .heroEyebrow,
 :global([data-theme="dark-pink-moon"]) .heroImageless .heroEyebrow {
-  color: var(--st-color-lime, #D1FF1D);
+  color: var(--st-color-lime);
 }
 
 .heroImageless .heroHeading {
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
 }
 
 .heroImageless .heroSubheading {
-  color: var(--st-color-text-secondary, #525252);
+  color: var(--st-color-text-secondary);
   opacity: 1;
 }
 
 /* ── Hero text glow / shadow — readability over images ───────────── */
 /* Base shadow for all image heroes; glow subclasses override below */
 .heroWithImage .heroEyebrow {
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--st-text-shadow-overlay);
 }
 
 /* Default: subtle dark shadow for contrast over plain images */
 .heroGlowDefault .heroHeading,
 .heroGlowDefault .heroSubheading,
 .heroGlowDefault .heroEyebrow {
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 0, 0, 0.3);
+  text-shadow: var(--st-text-shadow-overlay);
 }
 
 /* Duotone standard/featured/subtle: warm pink-tinted glow */
 .heroGlowDuotone .heroHeading,
 .heroGlowDuotone .heroSubheading,
 .heroGlowDuotone .heroEyebrow {
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 24px rgba(255, 36, 125, 0.25);
+  text-shadow: var(--st-text-shadow-glow-pink);
 }
 
 /* Duotone extreme: stronger glow to pop off intense colour remap */
 .heroGlowExtreme .heroHeading,
 .heroGlowExtreme .heroSubheading,
 .heroGlowExtreme .heroEyebrow {
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 36, 125, 0.35);
+  text-shadow: var(--st-text-shadow-glow-strong);
 }
 
 /* Dark scrim: minimal — scrim already provides contrast */
 .heroGlowScrim .heroHeading,
 .heroGlowScrim .heroSubheading,
 .heroGlowScrim .heroEyebrow {
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  text-shadow: var(--st-text-shadow-subtle);
 }
 
 /* Color overlay: adaptive darker shadow */
 .heroGlowColor .heroHeading,
 .heroGlowColor .heroSubheading,
 .heroGlowColor .heroEyebrow {
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 0, 0, 0.25);
+  text-shadow: var(--st-text-shadow-dark);
 }
 
 /* No glow: panel provides contrast, shadows on blur look muddy */
@@ -232,7 +232,7 @@
   letter-spacing: 0.09em;
   text-align: center;
   text-transform: uppercase;
-  color: var(--st-color-lime, #D1FF1D);
+  color: var(--st-color-lime);
   margin-bottom: var(--st-spacing-stack-sm, 0.5rem);
 }
 
@@ -352,11 +352,11 @@
 
 /* Canonical blockquote — matches DS Blockquote component */
 .blockquote {
-  border-left: var(--st-blockquote-border-width, 3px) solid var(--st-blockquote-border-color, var(--st-color-brand-primary));
+  border-left: var(--st-blockquote-border-width, 3px) solid var(--st-blockquote-border-color);
   padding-left: var(--st-blockquote-padding-left, 1rem);
   margin: var(--st-blockquote-margin-block, 1.5rem) 0;
   font-style: italic;
-  color: var(--st-blockquote-color, var(--st-color-text-secondary));
+  color: var(--st-blockquote-color);
 }
 
 .link {
@@ -383,21 +383,21 @@
 .code {
   font-family: var(--st-font-family-mono);
   font-size: 0.85em;
-  background-color: var(--st-code-inline-bg, #f1f2f4);
+  background-color: var(--st-code-inline-bg);
   padding: 0.2em 0.5em;
   border-radius: 4px;
-  border: var(--st-code-inline-border, 1px solid #e1e3e6);
-  color: var(--st-code-inline-color, var(--st-code-inline-text, #b91c68));
+  border: var(--st-code-inline-border);
+  color: var(--st-code-inline-color);
 }
 
 /* Block code — matches DS CodeBlock component */
 .codeBlock {
-  background-color: var(--st-code-bg, #0D1226);
-  color: var(--st-code-color, #f8f8f2);
+  background-color: var(--st-code-bg);
+  color: var(--st-code-color);
   padding: var(--st-code-padding, 2rem);
   border-radius: var(--st-radius-sm, 8px);
-  border-left: var(--st-code-border-left, 4px solid var(--st-color-accent, #ff247d));
-  box-shadow: var(--st-code-shadow, 0 4px 10px rgba(0, 0, 0, 0.2));
+  border-left: var(--st-code-border-left);
+  box-shadow: var(--st-code-shadow);
   margin: var(--st-code-margin-block, 3rem) auto;
   width: 100%;
   box-sizing: border-box;
@@ -429,13 +429,13 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--st-color-white-40);
 }
 
 .codeBlockFilename {
   font-family: var(--st-font-family-mono, monospace);
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--st-color-white-60);
 }
 
 /* Inline richImage in Portable Text */
@@ -524,9 +524,9 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 3;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  background: var(--st-color-scrim-backdrop);
+  border: 1px solid var(--st-color-white-20);
+  color: var(--st-color-white);
   font-size: 1.5rem;
   cursor: pointer;
   width: 2.5rem;
@@ -539,11 +539,11 @@
 }
 
 .carouselArrow:hover {
-  background: rgba(0, 0, 0, 0.7);
+  background: var(--st-color-scrim-backdrop-70);
 }
 
 .carouselArrow:focus-visible {
-  outline: 2px solid var(--st-color-pink, #ff247d);
+  outline: 2px solid var(--st-color-pink);
   outline-offset: 2px;
 }
 
@@ -562,19 +562,19 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: 1px solid var(--st-color-border-medium, rgba(255, 255, 255, 0.3));
-  background: var(--st-color-bg-subtle, rgba(255, 255, 255, 0.15));
+  border: 1px solid var(--st-color-border-medium);
+  background: var(--st-color-white-15);
   cursor: pointer;
   padding: 0;
   transition: background 0.2s, transform 0.2s;
 }
 
 .carouselDot:hover {
-  background: var(--st-color-text-muted, rgba(255, 255, 255, 0.5));
+  background: var(--st-color-white-50);
 }
 
 .carouselDotActive {
-  background: var(--st-color-pink, #ff247d);
+  background: var(--st-color-pink);
   transform: scale(1.25);
 }
 
@@ -617,7 +617,7 @@
   left: 0;
   right: 0;
   padding: 0.375rem 0.625rem;
-  background: rgba(0, 0, 0, 0.50);
+  background: var(--st-color-scrim-backdrop);
   pointer-events: none;
   z-index: 3; /* above treatment overlay (z-index: 2) */
   border-radius: 0 0 var(--st-radius-md, 12px) var(--st-radius-md, 12px);
@@ -625,7 +625,7 @@
 
 .galleryCaptionText {
   font-size: var(--st-font-caption, 0.8125rem);
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--st-color-white-85);
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -635,7 +635,7 @@
 }
 
 .galleryCreditText {
-  color: var(--st-color-seafoam, #2bd4aa);
+  color: var(--st-color-seafoam);
 }
 
 /* Callout Section — uses page-width (1164px), not detail-width (760px) */
@@ -704,9 +704,9 @@
 .mermaidError {
   font-family: var(--st-font-family-mono, 'Fira Code', monospace);
   font-size: 0.8125rem;
-  color: #ff4757;
-  background: rgba(255, 71, 87, 0.08);
-  border: 1px solid rgba(255, 71, 87, 0.3);
+  color: var(--st-color-error);
+  background: var(--st-color-error-bg);
+  border: 1px solid var(--st-color-error-border);
   border-radius: var(--st-radius-sm);
   padding: 1rem;
   white-space: pre-wrap;
@@ -796,7 +796,7 @@
   width: 100%;
   margin: 2rem 0;
   font-size: 0.9rem;
-  box-shadow: var(--st-table-shadow, 0 4px 6px rgba(0, 0, 0, 0.05));
+  box-shadow: var(--st-table-shadow);
   background: var(--st-color-bg-surface);
   display: table;  /* override old block reset */
 }
@@ -805,24 +805,24 @@
 :global(.st-html-section) table td {
   padding: 12px 16px;
   vertical-align: top;
-  border-bottom: 1px solid var(--st-table-border, rgba(0, 0, 0, 0.08));
+  border-bottom: 1px solid var(--st-table-border);
   overflow-wrap: anywhere;
   text-align: left;
 }
 
 :global(.st-html-section) table thead th {
-  background-color: var(--st-table-header-bg, var(--st-color-accent, #ff247d));
-  color: #ffffff;
+  background-color: var(--st-table-header-bg);
+  color: var(--st-color-white);
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.8em;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid var(--st-color-black);
   letter-spacing: 0.06em;
   line-height: 1.2;
 }
 
 :global(.st-html-section) table thead th a {
-  color: #ffffff;
+  color: var(--st-color-white);
   text-decoration: underline;
 }
 
@@ -832,7 +832,7 @@
 
 /* Automatic zebra striping — all htmlSection tables */
 :global(.st-html-section) table tbody tr:nth-child(odd) {
-  background-color: var(--st-table-zebra-bg, #f9f9f9);
+  background-color: var(--st-table-zebra-bg);
 }
 
 /* Thumb cell pattern (WP legacy) */
@@ -848,7 +848,7 @@
   object-fit: cover;
   border-radius: var(--st-table-card-radius, var(--st-radius-md, 12px));
   display: block;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--st-shadow-table-inner);
 }
 
 /* Column width tokens (WP legacy uses col.st-col--*) */
@@ -879,10 +879,10 @@
   :global(.st-html-section) table tr {
     margin: 14px 0;
     padding: 14px 16px;
-    border: 1px solid var(--st-color-border-default, rgba(0, 0, 0, 0.16));
+    border: 1px solid var(--st-color-border-default);
     border-radius: var(--st-table-card-radius, var(--st-radius-md, 12px));
     background: var(--st-color-bg-surface);
-    box-shadow: var(--st-table-card-shadow, 0 6px 14px rgba(0, 0, 0, 0.08));
+    box-shadow: var(--st-table-card-shadow);
     overflow: hidden;
   }
 
@@ -894,18 +894,18 @@
   }
 
   :global(.st-html-section) table td + td {
-    border-top: 1px solid var(--st-color-border-subtle, rgba(0, 0, 0, 0.08));
+    border-top: 1px solid var(--st-color-border-subtle);
     padding-top: 10px;
   }
 }
 
 /* ── Blockquote — matches DS Blockquote component ────────────────────────── */
 :global(.st-html-section) blockquote {
-  border-left: var(--st-blockquote-border-width, 3px) solid var(--st-blockquote-border-color, var(--st-color-brand-primary, #ff247d));
+  border-left: var(--st-blockquote-border-width, 3px) solid var(--st-blockquote-border-color);
   padding-left: var(--st-blockquote-padding-left, 1rem);
   margin: var(--st-blockquote-margin-block, 1.5rem) 0;
   font-style: italic;
-  color: var(--st-blockquote-color, var(--st-color-text-secondary, #525252));
+  color: var(--st-blockquote-color);
 }
 
 :global(.st-html-section) blockquote cite {
@@ -913,17 +913,17 @@
   margin-top: 0.75rem;
   font-size: 0.875rem;
   font-style: normal;
-  color: var(--st-color-text-secondary, #525252);
+  color: var(--st-color-text-secondary);
 }
 
 /* ── Code (block) — matches DS CodeBlock component ───────────────────────── */
 :global(.st-html-section) pre {
-  background-color: var(--st-code-bg, #0D1226);
-  color: var(--st-code-color, #f8f8f2);
+  background-color: var(--st-code-bg);
+  color: var(--st-code-color);
   padding: var(--st-code-padding, 2rem);
   border-radius: var(--st-radius-sm, 8px);
-  border-left: var(--st-code-border-left, 4px solid var(--st-color-accent, #ff247d));
-  box-shadow: var(--st-code-shadow, 0 4px 10px rgba(0, 0, 0, 0.2));
+  border-left: var(--st-code-border-left);
+  box-shadow: var(--st-code-shadow);
   margin: var(--st-code-margin-block, 3rem) 0;
   font-family: var(--st-font-family-mono, monospace);
   font-size: 0.9rem;
@@ -945,21 +945,21 @@
 :global(.st-html-section) :not(pre) > code {
   font-family: var(--st-font-family-mono, monospace);
   font-size: 0.85em;
-  background-color: var(--st-code-inline-bg, #f1f2f4);
+  background-color: var(--st-code-inline-bg);
   padding: 0.2em 0.5em;
   border-radius: 4px;
-  border: var(--st-code-inline-border, 1px solid #e1e3e6);
-  color: var(--st-code-inline-color, #b91c68);
+  border: var(--st-code-inline-border);
+  color: var(--st-code-inline-color);
 }
 
 /* ── Horizontal rules (WP separator blocks) ──────────────────────────────── */
 :global(.st-html-section) hr {
   border: none;
-  border-top: 1px solid rgba(255, 111, 184, 0.35);
+  border-top: 1px solid var(--st-color-pt-divider-light-strong);
   margin: var(--st-spacing-stack-xl, 2.5rem) 0;
 }
 :global([data-theme="light"]) :global(.st-html-section) hr {
-  border-top-color: rgba(255, 36, 125, 0.25);
+  border-top-color: var(--st-color-pt-divider-dark-mid);
 }
 
 /* ── Strong/em in htmlSection ─────────────────────────────────────────────── */
@@ -969,13 +969,13 @@
 
 /* ── Links in htmlSection ─────────────────────────────────────────────────── */
 :global(.st-html-section) a {
-  color: var(--st-color-link-default, var(--st-color-brand-primary, #ff247d));
+  color: var(--st-color-link-default, var(--st-color-brand-primary));
   text-decoration: underline;
   transition: opacity 0.2s ease;
 }
 
 :global(.st-html-section) a:hover {
-  color: var(--st-color-link-hover, var(--st-color-brand-primary, #ff247d));
+  color: var(--st-color-link-hover, var(--st-color-brand-primary));
   opacity: 0.8;
 }
 

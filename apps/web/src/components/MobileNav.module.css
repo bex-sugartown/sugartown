@@ -2,7 +2,7 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--st-color-scrim-backdrop);
   z-index: 199;
   opacity: 0;
   visibility: hidden;

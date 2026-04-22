@@ -23,14 +23,14 @@
 .backLink {
   display: inline-block;
   font-size: 0.875rem;
-  color: var(--color-text-muted, #888);
+  color: var(--st-color-text-muted);
   text-decoration: none;
   margin-bottom: 0.75rem;
   transition: color 0.15s ease;
 }
 
 .backLink:hover {
-  color: var(--color-accent, #e91e8c);
+  color: var(--st-color-brand-primary);
 }
 
 .taxonomyTypeLabel {
@@ -38,7 +38,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-text-muted, #888);
+  color: var(--st-color-text-muted);
   margin: 0 0 0.375rem;
 }
 
@@ -47,12 +47,12 @@
   font-weight: 700;
   line-height: 1.15;
   margin: 0 0 0.75rem;
-  color: var(--color-text, #111);
+  color: var(--st-color-text-default);
 }
 
 .taxonomyDescription {
   font-size: 1.0625rem;
-  color: var(--color-text-muted, #555);
+  color: var(--st-color-text-secondary);
   max-width: 620px;
   line-height: 1.6;
   margin: 0;
@@ -66,6 +66,6 @@
 
 .taxonomyResultCount {
   font-size: 0.875rem;
-  color: var(--color-text-muted, #888);
+  color: var(--st-color-text-muted);
   margin-bottom: 1rem;
 }

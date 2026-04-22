@@ -10,10 +10,10 @@
 /* ── Block code container + component tokens ─────────────────────────────── */
 .block {
   /* tokens */
-  --st-code-bg: var(--st-color-midnight, #0D1226);
-  --st-code-color: #f8f8f2;
-  --st-code-border-left: 4px solid var(--st-color-accent, #ff247d);
-  --st-code-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  --st-code-bg: var(--st-color-midnight);
+  --st-code-color: var(--st-code-color-default);
+  --st-code-border-left: 4px solid var(--st-color-accent);
+  --st-code-shadow: var(--st-shadow-code-base);
   --st-code-padding: 2rem;
   --st-code-margin-block: 3rem;
   --st-code-radius: var(--st-radius-code, 0); /* Pink Moon */
@@ -60,7 +60,7 @@
   border-top-left-radius: var(--st-code-radius);
   border-top-right-radius: var(--st-code-radius);
   border-left: var(--st-code-border-left);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--st-code-color-meta-border);
 }
 
 .meta + .pre {
@@ -75,14 +75,14 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--st-code-color-meta-dim);
   margin-left: auto;
 }
 
 .filename {
   font-family: var(--st-font-family-mono, monospace);
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--st-code-color-meta-mid);
 }
 
 /* ── Dark-theme block: differentiate from void canvas ─────────────────────── */
@@ -90,16 +90,16 @@
    plus a ring shadow so the block has visible elevation. */
 [data-theme="dark"] .block,
 [data-theme="dark-pink-moon"] .block {
-  --st-code-bg: var(--st-color-midnight-800, #141830);
-  --st-code-shadow: 0 4px 24px rgba(0, 0, 0, 0.40), 0 0 0 1px rgba(255, 255, 255, 0.07);
+  --st-code-bg: var(--st-color-midnight-800);
+  --st-code-shadow: var(--st-shadow-code-dark);
 }
 
 /* ── Inline code — dark theme: dark maroon pill ───────────────────────────── */
 [data-theme="dark"] .inline,
 [data-theme="dark-pink-moon"] .inline {
-  --st-code-inline-bg: rgba(185, 28, 104, 0.18);
-  --st-code-inline-color: var(--st-color-maroon-300, #f48ab8);
-  --st-code-inline-border: 1px solid rgba(185, 28, 104, 0.30);
+  --st-code-inline-bg: var(--st-code-inline-bg-dark-maroon);
+  --st-code-inline-color: var(--st-color-maroon-300);
+  --st-code-inline-border: var(--st-code-inline-border-dark-maroon);
 }
 
 /* ── Line numbers (Prism line-numbers plugin) ─────────────────────────────── */
@@ -121,7 +121,7 @@
   left: 0;
   width: 3em;
   letter-spacing: -1px;
-  border-right: 1px solid rgba(255, 255, 255, 0.10);
+  border-right: 1px solid var(--st-code-color-line-border);
   user-select: none;
 }
 
@@ -132,7 +132,7 @@
 
 :global(.line-numbers-rows > span::before) {
   content: counter(linenumber);
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--st-code-color-line-num);
   display: block;
   padding-right: 0.6em;
   text-align: right;
@@ -150,9 +150,9 @@
 
 /* ── Inline code ──────────────────────────────────────────────────────────── */
 .inline {
-  --st-code-inline-bg: var(--st-color-softgrey-100, #f1f2f4);
-  --st-code-inline-color: var(--st-color-maroon, #b91c68);
-  --st-code-inline-border: 1px solid var(--st-color-softgrey-200, #e1e3e6);
+  --st-code-inline-bg: var(--st-color-softgrey-100);
+  --st-code-inline-color: var(--st-color-maroon);
+  --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
 
   background-color: var(--st-code-inline-bg);
   color: var(--st-code-inline-color);
@@ -174,13 +174,13 @@
 .code :global(.token.prolog),
 .code :global(.token.doctype),
 .code :global(.token.cdata) {
-  color: rgba(209, 255, 29, 0.5); /* --st-color-lime at 50% */
+  color: var(--st-code-color-comment); /* lime at 50% */
   font-style: italic;
 }
 
 /* ── Punctuation ──────────────────────────────────────────────────────────── */
 .code :global(.token.punctuation) {
-  color: #f8f8f2;
+  color: var(--st-code-color-default);
   opacity: 0.7;
 }
 
@@ -188,7 +188,7 @@
 .code :global(.token.string),
 .code :global(.token.attr-value),
 .code :global(.token.template-string) {
-  color: #2bd4aa; /* --st-color-seafoam-500 */
+  color: var(--st-color-seafoam);
 }
 
 /* ── Keywords ─────────────────────────────────────────────────────────────── */
@@ -196,56 +196,56 @@
 .code :global(.token.boolean),
 .code :global(.token.constant),
 .code :global(.token.deleted) {
-  color: #ff247d; /* --st-color-pink-500 */
+  color: var(--st-color-pink);
 }
 
 /* ── Functions ────────────────────────────────────────────────────────────── */
 .code :global(.token.function),
 .code :global(.token.class-name) {
-  color: #f8f8f2;
+  color: var(--st-code-color-default);
   font-weight: 600;
 }
 
 /* ── Numbers ──────────────────────────────────────────────────────────────── */
 .code :global(.token.number),
 .code :global(.token.symbol) {
-  color: #D1FF1D; /* --st-color-lime */
+  color: var(--st-color-lime);
 }
 
 /* ── Operators ────────────────────────────────────────────────────────────── */
 .code :global(.token.operator),
 .code :global(.token.entity),
 .code :global(.token.url) {
-  color: #f8f8f2;
+  color: var(--st-code-color-default);
   opacity: 0.85;
 }
 
 /* ── Tags (HTML/JSX) ──────────────────────────────────────────────────────── */
 .code :global(.token.tag) {
-  color: #ff247d; /* --st-color-pink-500 */
+  color: var(--st-color-pink);
 }
 
 .code :global(.token.attr-name) {
-  color: #2bd4aa; /* --st-color-seafoam-500 */
+  color: var(--st-color-seafoam);
 }
 
 /* ── Properties (CSS) ─────────────────────────────────────────────────────── */
 .code :global(.token.property) {
-  color: #2bd4aa; /* --st-color-seafoam-500 */
+  color: var(--st-color-seafoam);
 }
 
 /* ── Selectors (CSS) ──────────────────────────────────────────────────────── */
 .code :global(.token.selector) {
-  color: #ff247d; /* --st-color-pink-500 */
+  color: var(--st-color-pink);
 }
 
 /* ── Regex ────────────────────────────────────────────────────────────────── */
 .code :global(.token.regex) {
-  color: #D1FF1D; /* --st-color-lime */
+  color: var(--st-color-lime);
 }
 
 /* ── Important ────────────────────────────────────────────────────────────── */
 .code :global(.token.important) {
-  color: #ff247d;
+  color: var(--st-color-pink);
   font-weight: bold;
 }

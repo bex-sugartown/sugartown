@@ -477,6 +477,35 @@
   --st-shadow-table-inner:            0 4px 10px rgba(0, 0, 0, 0.10);
   --st-shadow-code-dark:              0 4px 24px rgba(0, 0, 0, 0.40), 0 0 0 1px rgba(255, 255, 255, 0.07);
   --st-shadow-code-base:              0 4px 10px rgba(0, 0, 0, 0.20);
+  --st-shadow-media-duotone:          0 10px 30px rgba(0, 0, 0, 0.08);
+  --st-shadow-header:                 0 2px 12px rgba(0, 0, 0, 0.06);
+  --st-shadow-editorial-card:         0 8px 24px rgba(0, 0, 0, 0.10);
+
+  /* ── Scrim / overlay tokens ────────────────────────────── */
+  --st-scrim-overlay-40:              linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40));
+  --st-scrim-card-gradient:           linear-gradient(180deg, rgba(13, 18, 38, 0.05) 0%, rgba(13, 18, 38, 0.25) 100%);
+  --st-color-scrim-backdrop:          rgba(0, 0, 0, 0.50);
+  --st-color-scrim-backdrop-heavy:    rgba(0, 0, 0, 0.90);
+  --st-color-white-85:                rgba(255, 255, 255, 0.85);
+  --st-color-white-55:                rgba(255, 255, 255, 0.55);
+  --st-color-white-50:                rgba(255, 255, 255, 0.50);
+  --st-color-white-40:                rgba(255, 255, 255, 0.40);
+  --st-color-white-18:                rgba(255, 255, 255, 0.18);
+  --st-color-white-15:                rgba(255, 255, 255, 0.15);
+  --st-color-white-10:                rgba(255, 255, 255, 0.10);
+  --st-color-white-08:                rgba(255, 255, 255, 0.08);
+  --st-color-white-60:                rgba(255, 255, 255, 0.60);
+  --st-color-white-20:                rgba(255, 255, 255, 0.20);
+  --st-color-white-30:                rgba(255, 255, 255, 0.30);
+  --st-color-midnight-45:             rgba(13, 18, 38, 0.45);
+  --st-color-brand-primary-tint-10:   rgba(255, 36, 125, 0.10);
+
+  /* ── PortableText divider colors ────────────────────────── */
+  --st-color-pt-divider-light:        rgba(255, 111, 184, 0.25);
+  --st-color-pt-divider-light-strong: rgba(255, 111, 184, 0.35);
+  --st-color-pt-divider-dark:         rgba(255, 36, 125, 0.18);
+  --st-color-pt-divider-dark-mid:     rgba(255, 36, 125, 0.25);
+  --st-color-pt-divider-dark-subtle:  rgba(255, 36, 125, 0.15);
 
   /* ── Code block interior color tokens ────────────────── */
   --st-code-color-default:            #f8f8f2;   /* Monokai base text */
@@ -496,6 +525,20 @@
   --st-callout-bg-light:              #fff0f5;  /* light pink wash for callout */
   --st-color-utility-duotone-pink:    rgba(237, 0, 142, 0.32);   /* utilities.css duotone */
   --st-color-utility-duotone-seafoam: rgba(42, 212, 169, 0.45);  /* utilities.css duotone */
+  --st-color-preview-bg:              #a3e635;
+  --st-color-preview-fg:              #0f172a;
+  --st-color-error:                   #ff4757;
+  --st-color-error-bg:                rgba(255, 71, 87, 0.08);
+  --st-color-error-border:            rgba(255, 71, 87, 0.30);
+  --st-scrim-overlay-25:              linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25));
+  --st-scrim-dark-gradient:           linear-gradient(180deg, transparent 15%, rgba(13, 18, 38, 0.65) 100%);
+  --st-color-scrim-backdrop-70:       rgba(0, 0, 0, 0.70);
+  --st-color-scrim-backdrop-45:       rgba(0, 0, 0, 0.45);
+  --st-text-shadow-overlay:     0 1px 6px rgba(0, 0, 0, 0.60), 0 0 20px rgba(0, 0, 0, 0.30);
+  --st-text-shadow-glow-pink:   0 1px 4px rgba(0, 0, 0, 0.50), 0 0 24px rgba(255, 36, 125, 0.25);
+  --st-text-shadow-glow-strong: 0 2px 8px rgba(0, 0, 0, 0.70), 0 0 30px rgba(255, 36, 125, 0.35);
+  --st-text-shadow-subtle:      0 1px 3px rgba(0, 0, 0, 0.40);
+  --st-text-shadow-dark:        0 1px 6px rgba(0, 0, 0, 0.50), 0 0 16px rgba(0, 0, 0, 0.25);
 
   /* ── Card ────────────────────────────────────────────── */
   --st-card-bg:                var(--st-color-bg-surface);

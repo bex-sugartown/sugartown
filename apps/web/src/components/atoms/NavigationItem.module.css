@@ -82,7 +82,7 @@
   background-color: var(--st-color-bg-surface);
   border: 1px solid var(--st-color-border-subtle);
   border-radius: var(--st-radius-md, 8px);
-  box-shadow: var(--st-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.15));
+  box-shadow: var(--st-shadow-md);
   padding: var(--st-spacing-stack-xs, 4px) 0;
   z-index: 200;
   opacity: 0;
@@ -111,7 +111,7 @@
 
 .childItem:hover {
   color: var(--st-color-brand-primary);
-  background-color: var(--st-color-bg-elevated, rgba(255, 36, 125, 0.05));
+  background-color: var(--st-color-bg-elevated);
 }
 
 .childItem:focus {
@@ -120,7 +120,7 @@
 
 .childItem:focus-visible {
   color: var(--st-color-brand-primary);
-  background-color: var(--st-color-bg-elevated, rgba(255, 36, 125, 0.05));
+  background-color: var(--st-color-bg-elevated);
 }
 
 @media (max-width: 768px) /* --st-breakpoint-md */ {

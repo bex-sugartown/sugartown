@@ -51,48 +51,48 @@
 .primary {
   background-color: var(--st-color-brand-primary);     /* #FF247D */
   color: var(--st-color-white);
-  border-top-color: rgba(0, 0, 0, 0.15);               /* shadow edge */
+  border-top-color: var(--st-shadow-button-edge-primary);   /* shadow edge */
 }
 
 .primary:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--st-shadow-button-active);
 }
 
 /* ── Secondary — lime fill, dark top stripe ──────────── */
 
 .secondary {
   background-color: var(--st-color-lime);               /* #D1FF1D */
-  color: var(--st-color-charcoal, #1e1e1e);
-  border-top-color: rgba(0, 0, 0, 0.08);               /* shadow edge */
+  color: var(--st-color-charcoal);
+  border-top-color: var(--st-shadow-button-edge-secondary);  /* shadow edge */
 }
 
 .secondary:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--st-shadow-button-active);
 }
 
 /* ── Tertiary — neutral fill, neutral top stripe ─────── */
 
 .tertiary {
-  background-color: var(--st-color-softgrey-200, #e1e3e6);
-  color: var(--st-color-charcoal, #1e1e1e);
-  border-top-color: var(--st-color-softgrey-400, #94A3B8);
+  background-color: var(--st-color-softgrey-200);
+  color: var(--st-color-charcoal);
+  border-top-color: var(--st-color-softgrey-400);
 }
 
 :global([data-theme="dark-pink-moon"]) .tertiary,
 :global([data-theme="dark"]) .tertiary {
-  background-color: var(--st-color-midnight-700, #1C2240);
-  color: rgba(255, 255, 255, 0.8);
-  border-top-color: rgba(255, 255, 255, 0.12);
+  background-color: var(--st-color-midnight-700);
+  color: var(--st-code-color-button-ghost);
+  border-top-color: var(--st-code-border-ghost);
 }
 
 .tertiary:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--st-shadow-button-active);
 }
 
 :global([data-theme="dark-pink-moon"]) .tertiary:hover:not(:disabled),
 :global([data-theme="dark"]) .tertiary:hover:not(:disabled) {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--st-shadow-button-active-dark);
 }

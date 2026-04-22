@@ -180,7 +180,7 @@
   display: inline-flex;
   align-items: center;
   background: var(--st-color-brand-primary);
-  color: #fff;
+  color: var(--st-color-white);
   font-family: var(--st-label-font);
   font-size: var(--st-label-size);
   font-weight: var(--st-label-weight);
@@ -199,7 +199,7 @@
 
 :global([data-theme*="dark"]) .chip {
   background: var(--st-color-lime);
-  color: var(--st-color-bg-midnight, #0D1226);
+  color: var(--st-color-bg-midnight);
 }
 
 .copyright {

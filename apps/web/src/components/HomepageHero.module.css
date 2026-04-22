@@ -1,8 +1,8 @@
 .hero {
   background: linear-gradient(
     135deg,
-    var(--st-color-pink-50, #fff5f8) 0%,
-    var(--st-color-seafoam-50, #f0fdf9) 100%
+    var(--st-color-pink-50) 0%,
+    var(--st-color-seafoam-50) 100%
   );
   padding: var(--st-spacing-stack-xl) 0;
   text-align: center;

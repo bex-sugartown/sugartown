@@ -149,24 +149,24 @@
 }
 
 /* Legacy / generic */
-.statusDraft       { background: rgba(229, 160, 0, 0.12);  color: var(--st-color-warning, #e5a000); border-color: rgba(229, 160, 0, 0.30); }
-.statusActive      { background: rgba(43, 212, 170, 0.12);  color: var(--st-color-seafoam);    border-color: rgba(43, 212, 170, 0.30); }
-.statusArchived    { background: rgba(255, 255, 255, 0.04); color: var(--st-color-text-muted); border-color: rgba(255, 255, 255, 0.08); }
-.statusImplemented { background: rgba(43, 212, 170, 0.10);  color: var(--st-color-seafoam);    border-color: rgba(43, 212, 170, 0.25); }
+.statusDraft       { background: var(--st-status-draft-bg);           color: var(--st-status-draft-fg);           border-color: var(--st-status-draft-border); }
+.statusActive      { background: var(--st-status-active-bg);          color: var(--st-status-active-fg);          border-color: var(--st-status-active-border); }
+.statusArchived    { background: var(--st-status-archived-bg);        color: var(--st-status-archived-fg);        border-color: var(--st-status-archived-border); }
+.statusImplemented { background: var(--st-status-implemented-bg);     color: var(--st-status-implemented-fg);     border-color: var(--st-status-implemented-border); }
 /* Shared */
-.statusEvergreen   { background: rgba(209, 255, 29,  0.10); color: var(--st-color-lime);       border-color: rgba(209, 255, 29,  0.25); }
-.statusValidated   { background: rgba(255, 36,  125, 0.10); color: var(--st-color-pink);       border-color: rgba(255, 36,  125, 0.25); }
-.statusDeprecated  { background: rgba(255, 36,  125, 0.08); color: var(--st-color-text-muted); border-color: rgba(255, 36,  125, 0.20); }
+.statusEvergreen   { background: var(--st-status-evergreen-bg);       color: var(--st-status-evergreen-fg);       border-color: var(--st-status-evergreen-border); }
+.statusValidated   { background: var(--st-status-validated-bg);       color: var(--st-status-validated-fg);       border-color: var(--st-status-validated-border); }
+.statusDeprecated  { background: var(--st-status-deprecated-bg);      color: var(--st-status-deprecated-fg);      border-color: var(--st-status-deprecated-border); }
 /* Node evolution (Studio: node.status) */
-.statusExploring      { background: rgba(43, 212, 170, 0.07);  color: rgba(43, 212, 170, 0.65); border-color: rgba(43, 212, 170, 0.18); }
-.statusOperationalized { background: rgba(43, 212, 170, 0.14); color: var(--st-color-seafoam);  border-color: rgba(43, 212, 170, 0.32); }
+.statusExploring       { background: var(--st-status-exploring-bg);       color: var(--st-status-exploring-fg);       border-color: var(--st-status-exploring-border); }
+.statusOperationalized { background: var(--st-status-operationalized-bg); color: var(--st-status-operationalized-fg); border-color: var(--st-status-operationalized-border); }
 /* Project lifecycle (Studio: project.status) */
-.statusDreaming    { background: rgba(167, 139, 250, 0.10); color: #A78BFA;                    border-color: rgba(167, 139, 250, 0.25); }
-.statusDesigning   { background: rgba(251, 191, 36,  0.10); color: #FBBA24;                    border-color: rgba(251, 191, 36,  0.25); }
-.statusDeveloping  { background: rgba(43, 212, 170, 0.12);  color: var(--st-color-seafoam);    border-color: rgba(43, 212, 170, 0.30); }
-.statusTesting     { background: rgba(251, 146, 60,  0.10); color: #FB923C;                    border-color: rgba(251, 146, 60,  0.25); }
-.statusDeploying   { background: rgba(209, 255, 29,  0.10); color: var(--st-color-lime);       border-color: rgba(209, 255, 29,  0.25); }
-.statusIterating   { background: rgba(99,  179, 237, 0.10); color: #7EC8F5;                    border-color: rgba(99,  179, 237, 0.25); }
+.statusDreaming    { background: var(--st-status-dreaming-bg);        color: var(--st-status-dreaming-fg);        border-color: var(--st-status-dreaming-border); }
+.statusDesigning   { background: var(--st-status-designing-bg);       color: var(--st-status-designing-fg);       border-color: var(--st-status-designing-border); }
+.statusDeveloping  { background: var(--st-status-developing-bg);      color: var(--st-status-developing-fg);      border-color: var(--st-status-developing-border); }
+.statusTesting     { background: var(--st-status-testing-bg);         color: var(--st-status-testing-fg);         border-color: var(--st-status-testing-border); }
+.statusDeploying   { background: var(--st-status-deploying-bg);       color: var(--st-status-deploying-fg);       border-color: var(--st-status-deploying-border); }
+.statusIterating   { background: var(--st-status-iterating-bg);       color: var(--st-status-iterating-fg);       border-color: var(--st-status-iterating-border); }
 
 /* ── Title ───────────────────────────────────────────────────────────────── */
 .title {
@@ -487,25 +487,6 @@
    background wash stays light via lower-opacity mix.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Legacy / generic */
-:global([data-theme="light"]) .statusDraft       { background: rgba(180, 120, 0, 0.08);  color: #946200;  border-color: rgba(148, 98, 0, 0.35); }
-:global([data-theme="light"]) .statusActive      { background: rgba(29, 150, 121, 0.08);  color: #1d9679;  border-color: rgba(29, 150, 121, 0.35); }
-:global([data-theme="light"]) .statusArchived    { background: rgba(148, 163, 184, 0.06); color: #94A3B8;  border-color: rgba(148, 163, 184, 0.20); }
-:global([data-theme="light"]) .statusImplemented { background: rgba(29, 150, 121, 0.08);  color: #1d9679;  border-color: rgba(29, 150, 121, 0.35); }
-
-/* Shared */
-:global([data-theme="light"]) .statusEvergreen   { background: rgba(116, 143, 0, 0.08);   color: #526600;  border-color: rgba(116, 143, 0, 0.30); }
-:global([data-theme="light"]) .statusValidated   { background: rgba(185, 28, 104, 0.08);  color: #b91c68;  border-color: rgba(185, 28, 104, 0.30); }
-:global([data-theme="light"]) .statusDeprecated  { background: rgba(148, 163, 184, 0.08); color: #6e7f96;  border-color: rgba(110, 127, 150, 0.25); }
-
-/* Node evolution */
-:global([data-theme="light"]) .statusExploring      { background: rgba(29, 150, 121, 0.07);  color: #1d9679;  border-color: rgba(29, 150, 121, 0.30); }
-:global([data-theme="light"]) .statusOperationalized { background: rgba(21, 115, 92, 0.08);  color: #15735c;  border-color: rgba(21, 115, 92, 0.30); }
-
-/* Project lifecycle */
-:global([data-theme="light"]) .statusDreaming    { background: rgba(124, 58, 237, 0.08);  color: #7c3aed;  border-color: rgba(124, 58, 237, 0.30); }
-:global([data-theme="light"]) .statusDesigning   { background: rgba(146, 112, 12, 0.08);  color: #92700c;  border-color: rgba(146, 112, 12, 0.30); }
-:global([data-theme="light"]) .statusDeveloping  { background: rgba(21, 115, 92, 0.08);   color: #15735c;  border-color: rgba(21, 115, 92, 0.30); }
-:global([data-theme="light"]) .statusTesting     { background: rgba(194, 65, 12, 0.08);   color: #c2410c;  border-color: rgba(194, 65, 12, 0.30); }
-:global([data-theme="light"]) .statusDeploying   { background: rgba(116, 143, 0, 0.08);   color: #526600;  border-color: rgba(116, 143, 0, 0.30); }
-:global([data-theme="light"]) .statusIterating   { background: rgba(3, 105, 161, 0.08);   color: #0369a1;  border-color: rgba(3, 105, 161, 0.30); }
+/* Status token overrides for light/light-pink-moon themes are handled via
+   --st-status-* token overrides in theme.light.css and theme.pink-moon.css.
+   The token approach means no per-selector overrides are needed here. */

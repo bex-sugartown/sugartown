@@ -18,19 +18,19 @@
   gap: 0.75rem;
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid var(--st-color-border-default, #e5e5e5);
+  border-bottom: 2px solid var(--st-color-border-default);
 }
 
 .archiveTitle {
   font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 700;
   margin: 0;
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
 }
 
 .archiveCount {
   font-size: 0.875rem;
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   font-variant-numeric: tabular-nums;
 }
 
@@ -46,7 +46,7 @@
 
 /* ── Item row ────────────────────────────────────────────────────── */
 .item {
-  border-bottom: 1px solid var(--st-color-border-default, #e5e5e5);
+  border-bottom: 1px solid var(--st-color-border-default);
 }
 
 .itemLink {
@@ -61,11 +61,11 @@
 }
 
 .itemLink:hover {
-  background: var(--st-color-surface-subtle, #fafafa);
+  background: var(--st-color-surface-subtle);
 }
 
 .itemLink:hover .itemLabel {
-  color: var(--st-color-brand-primary, #ff247d);
+  color: var(--st-color-brand-primary);
 }
 
 /* ── Color dot (categories, projects) ────────────────────────────── */
@@ -84,21 +84,21 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  border: 1px solid var(--st-color-border-default, #e5e5e5);
+  border: 1px solid var(--st-color-border-default);
 }
 
 .itemAvatarFallback {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--st-color-surface-subtle, #f5f5f5);
-  border: 1px solid var(--st-color-border-default, #e5e5e5);
+  background: var(--st-color-surface-subtle);
+  border: 1px solid var(--st-color-border-default);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
   font-weight: 700;
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   flex-shrink: 0;
   user-select: none;
 }
@@ -114,7 +114,7 @@
 .itemLabel {
   font-size: 1rem;
   font-weight: 600;
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
   transition: color 0.1s;
   white-space: nowrap;
   overflow: hidden;
@@ -123,7 +123,7 @@
 
 .itemSublabel {
   font-size: 0.8125rem;
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   line-height: 1.4;
   overflow: hidden;
   display: -webkit-box;

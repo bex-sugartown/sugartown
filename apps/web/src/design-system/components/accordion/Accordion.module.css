@@ -12,11 +12,11 @@
 
 /* ── Item ─────────────────────────────────────────────────────────────────── */
 .item {
-  border-bottom: 1px solid var(--st-color-border-default, rgba(255, 255, 255, 0.18));
+  border-bottom: 1px solid var(--st-color-border-default);
 }
 
 .item:first-child {
-  border-top: 1px solid var(--st-color-border-default, rgba(255, 255, 255, 0.18));
+  border-top: 1px solid var(--st-color-border-default);
 }
 
 /* ── Trigger button ──────────────────────────────────────────────────────── */
@@ -31,20 +31,20 @@
   border: none;
   cursor: pointer;
   text-align: left;
-  color: var(--st-color-text-primary, #f8f8fa);
+  color: var(--st-color-text-primary);
   font-family: inherit;
-  font-size: var(--st-font-size-lg, 1.125rem);
-  font-weight: var(--st-font-weight-semibold, 600);
-  line-height: var(--st-line-height-tight, 1.25);
+  font-size: var(--st-font-size-lg);
+  font-weight: var(--st-font-weight-semibold);
+  line-height: var(--st-line-height-tight);
   transition: color 0.2s ease;
 }
 
 .trigger:hover {
-  color: var(--st-color-brand-primary, #ff247d);
+  color: var(--st-color-brand-primary);
 }
 
 .trigger:focus-visible {
-  outline: 2px solid var(--st-color-brand-primary, #ff247d);
+  outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
   border-radius: 0; /* Pink Moon */
 }
@@ -58,7 +58,7 @@
 .chevron {
   flex-shrink: 0;
   transition: transform 200ms ease;
-  color: var(--st-color-text-secondary, #94a3b8);
+  color: var(--st-color-text-secondary);
 }
 
 .chevronOpen {
@@ -89,15 +89,15 @@
 /* ── Light theme overrides ───────────────────────────────────────────────── */
 [data-theme="light"] .item,
 [data-theme="light-pink-moon"] .item {
-  border-color: var(--st-color-border-default, rgba(0, 0, 0, 0.15));
+  border-color: var(--st-color-border-default);
 }
 
 [data-theme="light"] .trigger,
 [data-theme="light-pink-moon"] .trigger {
-  color: var(--st-color-text-primary, #1a1a2e);
+  color: var(--st-color-text-primary);
 }
 
 [data-theme="light"] .chevron,
 [data-theme="light-pink-moon"] .chevron {
-  color: var(--st-color-text-secondary, #525252);
+  color: var(--st-color-text-secondary);
 }

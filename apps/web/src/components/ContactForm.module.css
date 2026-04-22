@@ -32,7 +32,7 @@
   font-size: 1rem;
   line-height: 1.5;
   color: var(--st-color-text-default);
-  background: var(--st-color-bg-surface, rgba(255, 255, 255, 0.04));
+  background: var(--st-color-bg-surface);
   border: 1px solid var(--st-color-border-medium);
   border-radius: var(--st-radius-sm);
   box-sizing: border-box;
@@ -127,6 +127,6 @@
 
 :global([data-theme="light"]) .input,
 :global([data-theme="light"]) .textarea {
-  background: var(--st-color-bg-surface, rgba(0, 0, 0, 0.02));
-  border-color: var(--st-color-border-medium, rgba(0, 0, 0, 0.15));
+  background: var(--st-color-bg-surface);
+  border-color: var(--st-color-border-medium);
 }

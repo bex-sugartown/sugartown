@@ -11,7 +11,7 @@
 .figure {
   /* tokens */
   --st-media-duotone-radius: 35px;
-  --st-media-duotone-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --st-media-duotone-shadow: var(--st-shadow-media-duotone);
   --st-media-overlay-blend-mode: hard-light;
   --st-media-duotone-angle: 135deg;
 
@@ -30,7 +30,7 @@
 .caption {
   margin-top: var(--st-space-2, 0.5rem);
   font-size: var(--st-font-size-sm, 0.875rem);
-  color: var(--st-color-text-muted, #94A3B8);
+  color: var(--st-color-text-muted);
   text-align: center;
 }
 
@@ -98,7 +98,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--st-media-overlay-color, rgba(0, 0, 0, 0.5));
+  background: var(--st-media-overlay-color);
   opacity: var(--st-media-overlay-opacity, 0.5);
   mix-blend-mode: var(--st-media-overlay-blend, normal);
   pointer-events: none;

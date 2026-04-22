@@ -9,7 +9,7 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.9);
+  background: var(--st-color-scrim-backdrop-heavy);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,20 +35,20 @@
 
 .caption {
   margin-top: var(--st-spacing-stack-sm, 0.5rem);
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--st-color-white-85);
   font-size: var(--st-font-caption, 0.8125rem);
   text-align: center;
   max-width: 60ch;
 }
 
 .credit {
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--st-color-white-55);
   font-style: italic;
 }
 
 .counter {
   margin-top: var(--st-spacing-stack-xs, 0.25rem);
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--st-color-white-50);
   font-size: var(--st-font-caption, 0.8125rem);
 }
 
@@ -59,7 +59,7 @@
   right: var(--st-spacing-stack-md, 1rem);
   background: none;
   border: none;
-  color: #fff;
+  color: var(--st-color-white);
   font-size: 1.5rem;
   cursor: pointer;
   width: 2.5rem;
@@ -73,11 +73,11 @@
 }
 
 .closeButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--st-color-white-10);
 }
 
 .closeButton:focus-visible {
-  outline: 2px solid var(--st-color-pink, #ff247d);
+  outline: 2px solid var(--st-color-pink);
   outline-offset: 2px;
 }
 
@@ -86,9 +86,9 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #fff;
+  background: var(--st-color-white-08);
+  border: 1px solid var(--st-color-white-15);
+  color: var(--st-color-white);
   font-size: 2rem;
   cursor: pointer;
   width: 3rem;
@@ -102,12 +102,12 @@
 }
 
 .navButton:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
+  background: var(--st-color-white-15);
+  border-color: var(--st-color-white-18);
 }
 
 .navButton:focus-visible {
-  outline: 2px solid var(--st-color-pink, #ff247d);
+  outline: 2px solid var(--st-color-pink);
   outline-offset: 2px;
 }
 

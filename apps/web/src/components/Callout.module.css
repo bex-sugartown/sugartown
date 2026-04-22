@@ -6,8 +6,8 @@
 }
 
 .pink {
-  background-color: var(--st-color-pink-100, #fff0f5);
-  color: var(--st-color-pink-900, #4a0d26);
+  background-color: var(--st-color-pink-100);
+  color: var(--st-color-pink-900);
 }
 
 .pink .link {
@@ -19,8 +19,8 @@
 }
 
 .seafoam {
-  background-color: var(--st-color-seafoam-100, #e6faf5);
-  color: var(--st-color-seafoam-900, #0d4a3d);
+  background-color: var(--st-color-seafoam-100);
+  color: var(--st-color-seafoam-900);
 }
 
 .seafoam .link {
@@ -32,8 +32,8 @@
 }
 
 .dark {
-  background-color: var(--st-color-charcoal, #1a1a1a);
-  color: var(--st-color-white, #ffffff);
+  background-color: var(--st-color-charcoal);
+  color: var(--st-color-white);
 }
 
 .dark .link {
@@ -45,8 +45,8 @@
 }
 
 .light {
-  background-color: var(--st-color-neutral-100, #f5f5f5);
-  color: var(--st-color-charcoal, #1a1a1a);
+  background-color: var(--st-color-neutral-100);
+  color: var(--st-color-charcoal);
 }
 
 .light .link {

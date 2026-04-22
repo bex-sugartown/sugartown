@@ -14,14 +14,14 @@
   margin-left: var(--st-spacing-inline-sm);
 
   /* Amber colorway — matches Card status badge pattern */
-  background: rgba(229, 160, 0, 0.12);
-  color: var(--st-color-warning, #e5a000);
-  border-color: rgba(229, 160, 0, 0.30);
+  background: var(--st-status-draft-bg);
+  color: var(--st-status-draft-fg);
+  border-color: var(--st-status-draft-border);
 }
 
 /* Light theme override — darken for WCAG AA contrast on white */
 :global([data-theme="light"]) .badge {
-  background: rgba(180, 120, 0, 0.08);
-  color: #946200;
-  border-color: rgba(148, 98, 0, 0.35);
+  background: var(--st-status-draft-bg);
+  color: var(--st-status-draft-fg);
+  border-color: var(--st-status-draft-border);
 }

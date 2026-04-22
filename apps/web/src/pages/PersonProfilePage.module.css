@@ -44,21 +44,21 @@
   border-radius: 50%;
   object-fit: cover;
   display: block;
-  border: 2px solid var(--st-color-border-default, #e5e5e5);
+  border: 2px solid var(--st-color-border-default);
 }
 
 .avatarFallback {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  background: var(--st-color-surface-subtle, #f5f5f5);
-  border: 2px solid var(--st-color-border-default, #e5e5e5);
+  background: var(--st-color-surface-subtle);
+  border: 2px solid var(--st-color-border-default);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2.5rem;
   font-weight: 700;
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   user-select: none;
 }
 
@@ -73,18 +73,18 @@
   font-weight: 700;
   line-height: 1.15;
   margin: 0 0 0.4rem;
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
 }
 
 /* Short name in parens — rendered in brand pink as a Sugartown design signature */
 .profileShortName {
-  color: var(--st-color-brand-primary, #ff247d);
+  color: var(--st-color-brand-primary);
 }
 
 /* Subtitle / headline — brand pink, editorial display use (see constraint note above) */
 .profileHeadline {
   font-size: 1.0625rem;
-  color: var(--st-color-brand-primary, #ff247d);
+  color: var(--st-color-brand-primary);
   line-height: 1.5;
   margin: 0 0 0.5rem;
   font-weight: 600;
@@ -92,7 +92,7 @@
 
 .profileMeta {
   font-size: 0.875rem;
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   margin: 0 0 0.75rem;
 }
 
@@ -116,18 +116,18 @@
   gap: 0.25rem;
   font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--st-color-text-muted, #666);
+  color: var(--st-color-text-muted);
   text-decoration: none;
   padding: 0.3em 0.7em;
-  border: 1px solid var(--st-color-border-default, #e5e5e5);
+  border: 1px solid var(--st-color-border-default);
   border-radius: var(--st-radius-sm, 6px);
-  background: var(--st-color-surface-subtle, #fafafa);
+  background: var(--st-color-surface-subtle);
   transition: border-color 0.15s, color 0.15s;
 }
 
 .socialLink:hover {
-  border-color: var(--st-color-text-muted, #888);
-  color: var(--st-color-text-default, #111);
+  border-color: var(--st-color-text-muted);
+  color: var(--st-color-text-default);
 }
 
 .socialPlatform {
@@ -138,7 +138,7 @@
 .profileBio {
   margin-bottom: 2rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid var(--st-color-border-default, #e5e5e5);
+  border-bottom: 1px solid var(--st-color-border-default);
 }
 
 /* ── Content sections ────────────────────────────────────────────── */
@@ -149,10 +149,10 @@
 .sectionHeading {
   font-size: 1.125rem;
   font-weight: 700;
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
   margin: 0 0 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--st-color-border-default, #e5e5e5);
+  border-bottom: 1px solid var(--st-color-border-default);
 }
 
 /* ── Roles / Titles list ─────────────────────────────────────────── */
@@ -167,7 +167,7 @@
 
 .titlesItem {
   font-size: 0.9375rem;
-  color: var(--st-color-text-default, #333);
+  color: var(--st-color-text-default);
   line-height: 1.5;
 }
 

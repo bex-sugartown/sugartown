@@ -14,8 +14,8 @@
 .table {
   /* Structural tokens only — visual tokens (zebra-bg, border, shadow) come
      from tokens.css [data-theme] blocks so theme switching works correctly. */
-  --st-table-header-bg: var(--st-color-accent, #ff247d);
-  --st-table-card-radius: 0; /* Pink Moon */
+  --st-table-header-bg: var(--st-color-accent);
+  --st-table-card-radius: var(--st-radius-md, 12px);
 
   /* styles */
   border-collapse: collapse;
@@ -39,22 +39,22 @@
 
 .table thead th {
   background-color: var(--st-table-header-bg);
-  color: #ffffff;
+  color: var(--st-color-white);
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.8em;
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid var(--st-color-black);
   letter-spacing: 0.06em;
   line-height: 1.2;
 }
 
 .table thead th a {
-  color: #ffffff;
+  color: var(--st-color-white);
   text-decoration: underline;
 }
 
 .table thead th a:hover {
-  color: #ffffff;
+  color: var(--st-color-white);
   text-decoration: none;
 }
 
@@ -82,7 +82,7 @@
   object-fit: cover;
   border-radius: var(--st-table-card-radius);
   display: block;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--st-shadow-table-inner);
 }
 
 /* ── Status cell ──────────────────────────────────────────────────────────── */
@@ -197,7 +197,7 @@
   }
 
   .responsive td + td {
-    border-top: 1px solid var(--st-color-border-subtle, rgba(0, 0, 0, 0.08));
+    border-top: 1px solid var(--st-color-border-subtle);
     padding-top: 10px;
   }
 }

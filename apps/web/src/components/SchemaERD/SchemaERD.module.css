@@ -237,7 +237,7 @@
   text-transform: uppercase;
   padding: 0.2rem 0.5rem;
   border-radius: 3px;
-  background: rgba(255, 36, 125, 0.1);
+  background: var(--st-color-brand-primary-tint-10);
   color: var(--st-color-brand-primary);
 }
 

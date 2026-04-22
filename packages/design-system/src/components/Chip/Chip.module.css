@@ -76,8 +76,8 @@
 
 /* Active + interactive hover: slightly deeper fill */
 .active.interactive:hover {
-  background: color-mix(in srgb, var(--_chip-color) 85%, #000);
-  border-color: color-mix(in srgb, var(--_chip-color) 85%, #000);
+  background: color-mix(in srgb, var(--_chip-color) 85%, var(--st-color-black));
+  border-color: color-mix(in srgb, var(--_chip-color) 85%, var(--st-color-black));
   box-shadow: 0 2px 5px color-mix(in srgb, var(--_chip-color) 30%, transparent);
 }
 
@@ -104,9 +104,9 @@
 .pink    { --chip-color: var(--st-color-pink); }
 .seafoam { --chip-color: var(--st-color-seafoam); }
 .lime    { --chip-color: var(--st-color-lime); }
-.violet  { --chip-color: #A78BFA; }
-.amber   { --chip-color: #FBBA24; }
-.grey    { --chip-color: var(--st-color-softgrey-500, #6e7f96); }
+.violet  { --chip-color: var(--st-color-violet); }
+.amber   { --chip-color: var(--st-color-amber); }
+.grey    { --chip-color: var(--st-color-softgrey-500); }
 
 /* ── Light-theme chip color overrides ─────────────────────
    On light backgrounds, bright palette colors (seafoam, lime, amber)
@@ -114,10 +114,10 @@
    shade so the color-mix() formulas produce readable bg/border/text.
    ──────────────────────────────────────────────────────── */
 
-:global([data-theme="light"]) .seafoam { --chip-color: var(--st-color-seafoam-700, #1d9679); }
-:global([data-theme="light"]) .lime    { --chip-color: var(--st-color-lime-700, #748f00); }
-:global([data-theme="light"]) .amber   { --chip-color: #b8860b; }
-:global([data-theme="light"]) .grey    { --chip-color: var(--st-color-softgrey-700, #3d4a57); }
+:global([data-theme="light"]) .seafoam { --chip-color: var(--st-color-seafoam-700); }
+:global([data-theme="light"]) .lime    { --chip-color: var(--st-color-lime-700); }
+:global([data-theme="light"]) .amber   { --chip-color: var(--st-color-amber-600); }
+:global([data-theme="light"]) .grey    { --chip-color: var(--st-color-softgrey-700); }
 
 /* ════════════════════════════════════════════════════════
    PINK MOON THEME ADAPTATIONS

@@ -12,11 +12,11 @@
 
 /* ── Item ─────────────────────────────────────────────────────────────────── */
 .item {
-  border-bottom: 1px solid var(--st-color-border-subtle, rgba(255, 255, 255, 0.12));
+  border-bottom: 1px solid var(--st-color-border-subtle);
 }
 
 .item:first-child {
-  border-top: 1px solid var(--st-color-border-subtle, rgba(255, 255, 255, 0.12));
+  border-top: 1px solid var(--st-color-border-subtle);
 }
 
 /* ── Trigger button ──────────────────────────────────────────────────────── */
@@ -31,7 +31,7 @@
   border: none;
   cursor: pointer;
   text-align: left;
-  color: var(--st-color-text-primary, #f8f8fa);
+  color: var(--st-color-text-primary);
   font-family: inherit;
   font-size: var(--st-font-size-lg, 1.125rem);
   font-weight: var(--st-font-weight-semibold, 600);
@@ -40,11 +40,11 @@
 }
 
 .trigger:hover {
-  color: var(--st-color-brand-primary, #ff247d);
+  color: var(--st-color-brand-primary);
 }
 
 .trigger:focus-visible {
-  outline: 2px solid var(--st-color-brand-primary, #ff247d);
+  outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
   border-radius: 0; /* Pink Moon */
 }
@@ -58,7 +58,7 @@
 .chevron {
   flex-shrink: 0;
   transition: transform 200ms ease;
-  color: var(--st-color-text-secondary, #94a3b8);
+  color: var(--st-color-text-secondary);
 }
 
 .chevronOpen {
@@ -88,15 +88,15 @@
 /* ── Light theme overrides ───────────────────────────────────────────────── */
 [data-theme="light"] .item,
 [data-theme="light-pink-moon"] .item {
-  border-color: var(--st-color-border-subtle, rgba(0, 0, 0, 0.10));
+  border-color: var(--st-color-border-subtle);
 }
 
 [data-theme="light"] .trigger,
 [data-theme="light-pink-moon"] .trigger {
-  color: var(--st-color-text-primary, #1a1a2e);
+  color: var(--st-color-text-primary);
 }
 
 [data-theme="light"] .chevron,
 [data-theme="light-pink-moon"] .chevron {
-  color: var(--st-color-text-secondary, #525252);
+  color: var(--st-color-text-secondary);
 }

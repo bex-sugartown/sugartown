@@ -127,7 +127,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--st-media-overlay-color, rgba(0, 0, 0, 0.5));
+  background: var(--st-media-overlay-color);
   opacity: var(--st-media-overlay-opacity, 0.5);
   mix-blend-mode: var(--st-media-overlay-blend, normal);
   pointer-events: none;
@@ -145,7 +145,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(13, 18, 38, 0.05) 0%, rgba(13, 18, 38, 0.25) 100%);
+  background: var(--st-scrim-card-gradient);
   mix-blend-mode: normal;
   pointer-events: none;
   z-index: 1;

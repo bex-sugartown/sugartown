@@ -29,10 +29,10 @@
   min-width: 2rem;
   height: 2rem;
   padding: 0 0.5rem;
-  border: 1px solid var(--color-border, #e5e7eb);
+  border: 1px solid var(--st-color-border-default);
   border-radius: 0.375rem;
   background: transparent;
-  color: var(--color-text, #111827);
+  color: var(--st-color-text-default);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
@@ -41,12 +41,12 @@
 }
 
 .pageButton:hover:not(:disabled) {
-  background: var(--color-surface-hover, #f9fafb);
-  border-color: var(--color-border-hover, #d1d5db);
+  background: var(--st-color-bg-surface);
+  border-color: var(--st-color-border-medium);
 }
 
 .pageButton:focus-visible {
-  outline: 2px solid var(--color-accent, #FF69B4);
+  outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
 }
 
@@ -58,15 +58,15 @@
 /* ─── Current page ──────────────────────────────────────────────────────────── */
 
 .currentPage {
-  background: var(--color-accent, #FF69B4);
-  border-color: var(--color-accent, #FF69B4);
-  color: #fff;
+  background: var(--st-color-brand-primary);
+  border-color: var(--st-color-brand-primary);
+  color: var(--st-color-white);
   cursor: default;
 }
 
 .currentPage:hover:not(:disabled) {
-  background: var(--color-accent, #FF69B4);
-  border-color: var(--color-accent, #FF69B4);
+  background: var(--st-color-brand-primary);
+  border-color: var(--st-color-brand-primary);
 }
 
 /* ─── Prev / Next ───────────────────────────────────────────────────────────── */
@@ -84,7 +84,7 @@
   justify-content: center;
   min-width: 2rem;
   height: 2rem;
-  color: var(--color-text-muted, #6b7280);
+  color: var(--st-color-text-muted);
   font-size: 0.875rem;
   user-select: none;
 }

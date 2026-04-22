@@ -31,14 +31,14 @@
   font-weight: 700;
   line-height: 1.15;
   margin: 0 0 1rem;
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
 }
 
 /* ── Description ─────────────────────────────────────────────────── */
 /* Editorial copy — sits between the h1 and the MetaCard */
 .projectDescription {
   font-size: 1rem;
-  color: var(--st-color-text-muted, #555);
+  color: var(--st-color-text-muted);
   line-height: 1.65;
   margin: 0 0 1.25rem;
 }
@@ -47,13 +47,13 @@
 .timelineSection {
   margin-top: 2rem;
   padding-top: 2rem;
-  border-top: 1px solid var(--st-color-border-default, #e5e5e5);
+  border-top: 1px solid var(--st-color-border-default);
 }
 
 .timelineHeading {
   font-size: 1.125rem;
   font-weight: 700;
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
   margin: 0 0 1.25rem;
 }
 
@@ -67,7 +67,7 @@
 }
 
 .timelineEmpty {
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   font-size: 1rem;
   margin-top: 2rem;
 }

@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   min-height: 60vh;
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   font-size: 1rem;
 }
 
@@ -34,7 +34,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   margin-bottom: 0.75rem;
 }
 
@@ -43,12 +43,12 @@
   font-weight: 700;
   line-height: 1.1;
   margin-bottom: 1rem;
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
 }
 
 .placeholderBody {
   font-size: 1.0625rem;
-  color: var(--st-color-text-muted, #555);
+  color: var(--st-color-text-muted);
   line-height: 1.6;
   margin-bottom: 2rem;
 }
@@ -57,7 +57,7 @@
   display: inline-block;
   font-size: 0.9375rem;
   font-weight: 600;
-  color: var(--st-color-brand-primary, #ff247d);
+  color: var(--st-color-brand-primary);
   text-decoration: none;
 }
 
@@ -140,7 +140,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   margin-bottom: 0.75rem;
 }
 
@@ -149,7 +149,7 @@
   font-weight: 700;
   line-height: 1.15;
   margin-bottom: 1rem;
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
 }
 
 .detailFeaturedImage {
@@ -176,7 +176,7 @@
 
 .inlineImageCaption {
   font-size: 0.85rem;
-  color: var(--st-color-text-muted, #555);
+  color: var(--st-color-text-muted);
   margin-top: 0.5rem;
   text-align: center;
   font-style: italic;
@@ -184,10 +184,10 @@
 
 .detailExcerpt {
   font-size: 1.125rem;
-  color: var(--st-color-text-muted, #555);
+  color: var(--st-color-text-muted);
   line-height: 1.6;
   margin-bottom: 2rem;
-  border-bottom: 1px solid var(--st-color-border-default, #e5e5e5);
+  border-bottom: 1px solid var(--st-color-border-default);
   padding-bottom: 2rem;
 }
 
@@ -196,7 +196,7 @@
   flex-wrap: wrap;
   gap: 0.5rem 1.5rem;
   font-size: 0.875rem;
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   margin-bottom: 2.5rem;
 }
 
@@ -241,23 +241,23 @@
 
 .detailContent hr {
   border: none;
-  border-top: 1px solid rgba(255, 111, 184, 0.35);
+  border-top: 1px solid var(--st-color-pt-divider-light-strong);
   margin: var(--st-space-section-break-detail, 2.5rem) 0;
 }
 
 :global([data-theme="light"]) .detailContent hr {
-  border-top-color: rgba(255, 36, 125, 0.25);
+  border-top-color: var(--st-color-pt-divider-dark-mid);
 }
 
 /* Divider between metadata fields and body content */
 .metadataDivider {
   border: none;
-  border-top: 1px solid rgba(255, 111, 184, 0.25);
+  border-top: 1px solid var(--st-color-pt-divider-light);
   margin: var(--st-spacing-stack-lg, 2rem) 0;
 }
 
 :global([data-theme="light"]) .metadataDivider {
-  border-top-color: rgba(255, 36, 125, 0.15);
+  border-top-color: var(--st-color-pt-divider-dark-subtle);
 }
 
 /* Collapse top margin on body content following metadata section */
@@ -269,13 +269,13 @@
   display: inline-block;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   text-decoration: none;
   margin-bottom: 2rem;
 }
 
 .backLink:hover {
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
 }
 
 /* ── Tag chips ───────────────────────────────────────────────────── */
@@ -296,9 +296,9 @@
   letter-spacing: 0.05em;
   padding: 0.45em 0.75em;
   border-radius: var(--st-radius-xs, 4px);
-  background: color-mix(in srgb, var(--st-color-accent, #ff247d) 8%, transparent);
-  border: 1px solid color-mix(in srgb, var(--st-color-accent, #ff247d) 35%, transparent);
-  color: var(--st-color-accent, #ff247d);
+  background: color-mix(in srgb, var(--st-color-accent) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--st-color-accent) 35%, transparent);
+  color: var(--st-color-accent);
 }
 
 /* ── Archive listing pages ───────────────────────────────────────── */
@@ -330,26 +330,26 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  border: 1px solid var(--st-color-border-subtle, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--st-color-border-subtle);
   border-radius: var(--st-radius-xs, 4px);
   background: transparent;
-  color: var(--st-color-text-muted, #94A3B8);
+  color: var(--st-color-text-muted);
   cursor: pointer;
   transition: color 0.15s, border-color 0.15s;
 }
 
 .layoutToggleBtn:hover {
-  color: var(--st-color-text-default, #f8f8fa);
-  border-color: var(--st-color-border-medium, rgba(255, 255, 255, 0.12));
+  color: var(--st-color-text-default);
+  border-color: var(--st-color-border-medium);
 }
 
 .layoutToggleBtnActive {
-  color: var(--st-color-brand-primary, #ff247d);
-  border-color: var(--st-color-brand-primary, #ff247d);
+  color: var(--st-color-brand-primary);
+  border-color: var(--st-color-brand-primary);
 }
 
 .layoutToggleBtn:focus-visible {
-  outline: 2px solid var(--st-color-brand-primary, #ff247d);
+  outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
 }
 
@@ -358,12 +358,12 @@
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   margin-bottom: 0.75rem;
-  color: var(--st-color-text-default, #111);
+  color: var(--st-color-text-default);
 }
 
 .archiveDescription {
   font-size: 1.0625rem;
-  color: var(--st-color-text-default, #1e1e1e);  /* charcoal — was text-muted (#94A3B8) */
+  color: var(--st-color-text-default);  /* charcoal — was text-muted (#94A3B8) */
   margin-bottom: 3rem;
   max-width: 620px;
   line-height: 1.6;
@@ -385,7 +385,7 @@
 }
 
 .archiveEmpty {
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   font-size: 1rem;
   padding: 2rem 0;
 }
@@ -424,7 +424,7 @@
 /* Result count line shown when filters are active */
 .archiveResultCount {
   font-size: 0.875rem;
-  color: var(--st-color-text-muted, #888);
+  color: var(--st-color-text-muted);
   margin-bottom: 1rem;
 }
 
@@ -434,7 +434,7 @@
   padding: 0;
   border: none;
   background: transparent;
-  color: var(--st-color-brand-primary, #ff247d);
+  color: var(--st-color-brand-primary);
   font-size: inherit;
   font-weight: 600;
   cursor: pointer;
@@ -447,7 +447,7 @@
 }
 
 .clearFiltersLink:focus-visible {
-  outline: 2px solid var(--st-color-brand-primary, #ff247d);
+  outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
   border-radius: 2px;
 }

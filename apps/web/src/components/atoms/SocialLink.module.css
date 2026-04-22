@@ -13,7 +13,7 @@
 
 .socialLink:hover {
   background-color: var(--st-color-brand-primary);
-  color: var(--st-color-white, #fff);
+  color: var(--st-color-white);
   transform: translateY(-2px);
 }
 

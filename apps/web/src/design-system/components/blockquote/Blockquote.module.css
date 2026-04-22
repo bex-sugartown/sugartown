@@ -13,8 +13,8 @@
 .blockquote {
   /* tokens */
   --st-blockquote-border-width: 3px;
-  --st-blockquote-border-color: var(--st-color-brand-primary, #ff247d);
-  --st-blockquote-color: var(--st-color-text-secondary, #525252);
+  --st-blockquote-border-color: var(--st-color-brand-primary);
+  --st-blockquote-color: var(--st-color-text-secondary);
   --st-blockquote-padding-left: 1rem;
   --st-blockquote-margin-block: 1.5rem;
 
@@ -42,7 +42,7 @@
 .cite {
   font-style: normal;
   font-size: 0.875rem;
-  color: var(--st-color-text-secondary, #525252);
+  color: var(--st-color-text-secondary);
   opacity: 0.8;
 }
 

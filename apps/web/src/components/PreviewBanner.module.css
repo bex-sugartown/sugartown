@@ -1,6 +1,6 @@
 .banner {
-  background-color: #a3e635;
-  color: #0f172a;
+  background-color: var(--st-color-preview-bg);
+  color: var(--st-color-preview-fg);
   font-family: var(--st-font-family-ui);
   font-size: var(--st-font-size-sm);
   font-weight: 600;
@@ -24,7 +24,7 @@
 }
 
 .studioLink {
-  color: #0f172a;
+  color: var(--st-color-preview-fg);
   text-decoration: underline;
   text-underline-offset: 2px;
   margin-left: var(--st-spacing-inline-sm);

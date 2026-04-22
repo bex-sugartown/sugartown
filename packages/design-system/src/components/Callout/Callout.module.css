@@ -56,7 +56,7 @@
 }
 
 .body a {
-  color: var(--st-color-accent, #ff247d);
+  color: var(--st-color-accent);
   font-weight: 600;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.15em;
@@ -65,62 +65,62 @@
 /* ── Variant: default (pink) ──────────────────────────────────────────────── */
 /* Uses base tokens — no overrides needed */
 .default {
-  --st-callout-icon-color: var(--st-color-brand-primary, #ff247d);
+  --st-callout-icon-color: var(--st-color-brand-primary);
 }
 
 /* ── Variant: info (dark default) ─────────────────────────────────────────── */
 .info {
-  --st-callout-bg: rgba(255, 255, 255, 0.05);
-  --st-callout-border-color: rgba(255, 255, 255, 0.10);
-  --st-callout-icon-color: var(--st-color-text-secondary, #94a3b8);
+  --st-callout-bg: var(--st-callout-info-bg);
+  --st-callout-border-color: var(--st-callout-info-border);
+  --st-callout-icon-color: var(--st-callout-info-icon);
 }
 
 /* ── Variant: tip (dark default) ──────────────────────────────────────────── */
 .tip {
-  --st-callout-bg: rgba(43, 212, 170, 0.08);
-  --st-callout-border-color: rgba(43, 212, 170, 0.30);
-  --st-callout-icon-color: #2bd4aa;
+  --st-callout-bg: var(--st-callout-tip-bg);
+  --st-callout-border-color: var(--st-callout-tip-border);
+  --st-callout-icon-color: var(--st-callout-tip-icon);
 }
 
 /* ── Variant: warn (dark default) ─────────────────────────────────────────── */
 .warn {
-  --st-callout-bg: rgba(255, 193, 7, 0.10);
-  --st-callout-border-color: rgba(255, 193, 7, 0.35);
-  --st-callout-icon-color: #f0b429;
+  --st-callout-bg: var(--st-callout-warn-bg);
+  --st-callout-border-color: var(--st-callout-warn-border);
+  --st-callout-icon-color: var(--st-callout-warn-icon);
 }
 
 /* ── Variant: danger (dark default) ───────────────────────────────────────── */
 .danger {
-  --st-callout-bg: rgba(220, 38, 38, 0.10);
-  --st-callout-border-color: rgba(220, 38, 38, 0.35);
-  --st-callout-icon-color: #f87171;
+  --st-callout-bg: var(--st-callout-danger-bg);
+  --st-callout-border-color: var(--st-callout-danger-border);
+  --st-callout-icon-color: var(--st-callout-danger-icon);
 }
 
 /* ── Light theme overrides — all variants ─────────────────────────────────── */
 [data-theme="light"] .info,
 [data-theme="light-pink-moon"] .info {
-  --st-callout-bg: var(--st-color-softgrey-50, #f8f8fa);
-  --st-callout-border-color: rgba(0, 0, 0, 0.08);
-  --st-callout-icon-color: var(--st-color-neutral-600, #525252);
+  --st-callout-bg: var(--st-callout-info-bg-light);
+  --st-callout-border-color: var(--st-callout-info-border-light);
+  --st-callout-icon-color: var(--st-callout-info-icon-light);
 }
 
 [data-theme="light"] .tip,
 [data-theme="light-pink-moon"] .tip {
-  --st-callout-bg: #f3fff8;
-  --st-callout-border-color: rgba(43, 212, 170, 0.35);
-  --st-callout-icon-color: #2bd4aa;
+  --st-callout-bg: var(--st-callout-tip-bg-light);
+  --st-callout-border-color: var(--st-callout-tip-border-light);
+  --st-callout-icon-color: var(--st-callout-tip-icon-light);
 }
 
 [data-theme="light"] .warn,
 [data-theme="light-pink-moon"] .warn {
-  --st-callout-bg: #fff9e6;
-  --st-callout-border-color: rgba(255, 193, 7, 0.45);
-  --st-callout-icon-color: #d4a017;
+  --st-callout-bg: var(--st-callout-warn-bg-light);
+  --st-callout-border-color: var(--st-callout-warn-border-light);
+  --st-callout-icon-color: var(--st-callout-warn-icon-light);
 }
 
 [data-theme="light"] .danger,
 [data-theme="light-pink-moon"] .danger {
-  --st-callout-bg: #fff1f2;
-  --st-callout-border-color: rgba(220, 38, 38, 0.35);
-  --st-callout-icon-color: #dc2626;
+  --st-callout-bg: var(--st-callout-danger-bg-light);
+  --st-callout-border-color: var(--st-callout-danger-border-light);
+  --st-callout-icon-color: var(--st-callout-danger-icon-light);
 }
