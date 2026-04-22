@@ -68,8 +68,9 @@ async function run() {
 
   // Categories
   const categories = await client.fetch(`
-    *[_type == "category" && !(_id in path("drafts.**"))] | order(title asc) {
-      "id": _id, title, "slug": slug.current, description,
+    *[_type == "category" && !(_id in path("drafts.**"))] | order(name asc) {
+      "id": _id, "name": name, "slug": slug.current, description,
+      "parent": parent->name,
       "articles": count(*[_type == "article" && references(^._id)]),
       "caseStudies": count(*[_type == "caseStudy" && references(^._id)]),
       "nodes": count(*[_type == "node" && references(^._id)])
@@ -79,13 +80,13 @@ async function run() {
     ...c, total: (c.articles || 0) + (c.caseStudies || 0) + (c.nodes || 0)
   }))
   writeFileSync(resolve(outDir, 'categories.csv'),
-    toCsv(catRows, ['id', 'title', 'slug', 'description', 'articles', 'caseStudies', 'nodes', 'total']))
+    toCsv(catRows, ['id', 'name', 'slug', 'description', 'parent', 'articles', 'caseStudies', 'nodes', 'total']))
   console.log(`  categories.csv — ${catRows.length} rows`)
 
   // Tags
   const tags = await client.fetch(`
-    *[_type == "tag" && !(_id in path("drafts.**"))] | order(title asc) {
-      "id": _id, title, "slug": slug.current, description,
+    *[_type == "tag" && !(_id in path("drafts.**"))] | order(name asc) {
+      "id": _id, "name": name, "slug": slug.current, description,
       "articles": count(*[_type == "article" && references(^._id)]),
       "caseStudies": count(*[_type == "caseStudy" && references(^._id)]),
       "nodes": count(*[_type == "node" && references(^._id)])
@@ -95,13 +96,13 @@ async function run() {
     ...t, total: (t.articles || 0) + (t.caseStudies || 0) + (t.nodes || 0)
   }))
   writeFileSync(resolve(outDir, 'tags.csv'),
-    toCsv(tagRows, ['id', 'title', 'slug', 'description', 'articles', 'caseStudies', 'nodes', 'total']))
+    toCsv(tagRows, ['id', 'name', 'slug', 'description', 'articles', 'caseStudies', 'nodes', 'total']))
   console.log(`  tags.csv — ${tagRows.length} rows`)
 
   // Tools
   const tools = await client.fetch(`
-    *[_type == "tool" && !(_id in path("drafts.**"))] | order(title asc) {
-      "id": _id, title, "slug": slug.current, description,
+    *[_type == "tool" && !(_id in path("drafts.**"))] | order(name asc) {
+      "id": _id, "name": name, "slug": slug.current, "toolType": toolType, description,
       "articles": count(*[_type == "article" && references(^._id)]),
       "caseStudies": count(*[_type == "caseStudy" && references(^._id)]),
       "nodes": count(*[_type == "node" && references(^._id)])
@@ -111,12 +112,12 @@ async function run() {
     ...t, total: (t.articles || 0) + (t.caseStudies || 0) + (t.nodes || 0)
   }))
   writeFileSync(resolve(outDir, 'tools.csv'),
-    toCsv(toolRows, ['id', 'title', 'slug', 'description', 'articles', 'caseStudies', 'nodes', 'total']))
+    toCsv(toolRows, ['id', 'name', 'slug', 'toolType', 'description', 'articles', 'caseStudies', 'nodes', 'total']))
   console.log(`  tools.csv — ${toolRows.length} rows`)
 
   // Projects
   const projects = await client.fetch(`
-    *[_type == "project" && !(_id in path("drafts.**"))] | order(title asc) {
+    *[_type == "project" && !(_id in path("drafts.**"))] | order(name asc) {
       "id": _id, title, "slug": slug.current, description, "accentColor": accentColor.hex,
       "articles": count(*[_type == "article" && references(^._id)]),
       "caseStudies": count(*[_type == "caseStudy" && references(^._id)]),
@@ -134,10 +135,10 @@ async function run() {
   const nodes = await client.fetch(`
     *[_type == "node" && !(_id in path("drafts.**"))] | order(title asc) {
       "id": _id, title, "slug": slug.current,
-      "categoryRefs": categories[]->title,
-      "projectRefs": projects[]->title,
-      "tagRefs": tags[]->title,
-      "toolRefs": tools[]->title
+      "categoryRefs": categories[]->name,
+      "projectRefs": projects[]->name,
+      "tagRefs": tags[]->name,
+      "toolRefs": tools[]->name
     }
   `)
   const nodeRows = nodes.map(n => ({
