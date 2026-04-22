@@ -89,7 +89,7 @@ if (!token) {
 const STRICT = process.argv.includes('--strict')
 const REPORT = process.argv.includes('--report')
 
-const client = createClient({ projectId, dataset, apiVersion, useCdn: false, token })
+const client = createClient({ projectId, dataset, apiVersion, useCdn: false, token, perspective: 'published' })
 
 // Raw-perspective client — sees both drafts and published documents.
 // Used by check G (draft-only detection) to compare draft vs published state.
