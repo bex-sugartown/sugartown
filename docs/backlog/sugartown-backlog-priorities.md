@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-22 · v0.22.0 · Pink Moon DS + Ledger Tradition font stack + page layout overhaul (margin column, sidebar TOC) + AI search optimization + footer rebuild
+> Updated 2026-04-22 · v0.22.1 · SUG-68 eliminate hardcoded colors (zero raw hex/rgba outside tokens.css; --strict-colors validator added) + SUG-75 Sanity content hygiene
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -52,6 +52,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-68 · Eliminate hardcoded color values** — 386 raw hex/rgba literals across 24 CSS files replaced with `--st-*` token references. 90 new status chip tokens (`--st-status-<state>-{bg,fg,border}` × 15 states × dark + light), shadow tokens, callout tokens, and color primitives added to both `tokens.css` files in lockstep. `validate-tokens.js` extended with `--strict-colors` flag (allowlists only `tokens.css`; CI-hard exit 1). Zero visual change.~~ | v0.22.1 | 2026-04-22 |
 | ~~**SUG-75 · Sanity content hygiene** — Duplicate slugs resolved in Studio. 7 SEO fields auto-patched via `patch_document_from_json` and published. Validator fix (`perspective: 'published'`) excludes unpublished drafts from SEO check. Check J clean: `✅ All content docs have SEO title and description`.~~ | v0.22.0 | 2026-04-22 |
 | ~~**SUG-21 · Pink Moon design system identity** — Pink Moon Light is now the primary DS identity (not a theme variant). Cormorant Garamond/DM Sans/IBM Plex Mono (Ledger Tradition AB-001) replaces EB Garamond/Fira Sans/Courier Prime. Zero border-radius applied consistently. Button weight 400→700. Card hover state: pink border, frost surface, title-link underline. 13 new CSS tokens. 51 missing `--st-*` references resolved. Classic modes deprecated and removed from Storybook.~~ | v0.22.0 | 2026-04-22 |
 | ~~**SUG-47 · Storybook/Studio props alignment** — Storybook now titled "Pink Moon Design System." Chromatic VRT integration live with snapshot composite stories. `__APP_VERSION__` + `__BUILD_DATE__` defined in Vite config. Storybook prop coverage verified against deployed schema.~~ | v0.22.0 | 2026-04-22 |
@@ -113,4 +114,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-22 · v0.22.0*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-22 · v0.22.1*
