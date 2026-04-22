@@ -19,6 +19,13 @@
  *
  * Usage:
  *   pnpm validate:tokens
+ *   pnpm validate:tokens -- --strict-colors   (also checks for hardcoded hex/rgba)
+ *
+ * --strict-colors flag:
+ *   Checks component and page CSS files for hardcoded color values (hex, rgba, rgb)
+ *   used directly as property values. Token definition files (tokens.css, theme*.css)
+ *   are excluded — they are the definition layer and are permitted to contain raw values.
+ *   Exits with code 1 if any hardcoded colors are found in non-token files.
  *
  * Exits with code 1 if any unknown token references are found.
  */
@@ -30,6 +37,10 @@ import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '../../..')
+
+// ─── CLI flags ────────────────────────────────────────────────────────────────
+
+const STRICT_COLORS = process.argv.includes('--strict-colors')
 
 // ─── Token source files (define the valid --st-* universe) ───────────────────
 
@@ -48,6 +59,60 @@ const SCAN_DIRS = [
 
 // Directories to always skip during walk
 const SKIP_DIRS = new Set(['node_modules', 'dist', 'build', '.turbo', 'coverage'])
+
+// ─── Strict-colors configuration ─────────────────────────────────────────────
+
+/**
+ * Files that are EXEMPT from --strict-colors checks.
+ * These are the token definition layer — they are permitted to contain raw color values.
+ * Also includes Storybook override files that intentionally force raw CSS on Storybook UI.
+ * Pattern match is against the relative path from ROOT.
+ */
+const STRICT_COLORS_EXEMPT_PATTERNS = [
+  /\/tokens\.css$/,
+  /\/theme\..*\.css$/,
+  /\/theme\.css$/,
+  /\.storybook\/docs-overrides\.css$/,  // Storybook UI overrides — intentional raw values
+]
+
+/** Regex to find a hardcoded color value used as a CSS property value. */
+const HARDCODED_COLOR_RE = /(?::\s*|,\s*|\(\s*)(#[0-9a-fA-F]{3,8}|rgba?\s*\([^)]+\))/
+
+/**
+ * Find hardcoded color values in a CSS file.
+ * Returns array of { lineNum, line, match } objects.
+ *
+ * Algorithm:
+ * 1. Strip all CSS block comments (multi-line safe) from the full file content.
+ * 2. Split into lines, then check each line for hardcoded values.
+ * 3. Skip token definition lines (--st-*: ...) which belong to the definition layer.
+ */
+function findHardcodedColors(filePath) {
+  const content = readFileSync(filePath, 'utf8')
+  // Strip all block comments (including multi-line) before line-by-line analysis
+  const noComments = content.replace(/\/\*[\s\S]*?\*\//g, (match) => {
+    // Replace with same number of newlines to preserve line numbers
+    return match.replace(/[^\n]/g, '')
+  })
+  const violations = []
+  const rawLines = content.split('\n')
+  const strippedLines = noComments.split('\n')
+  for (let i = 0; i < strippedLines.length; i++) {
+    const stripped = strippedLines[i].replace(/\/\/.*$/, '').trim()
+
+    // Skip blank or effectively empty lines
+    if (!stripped) continue
+
+    // Skip token definition lines (--st-*: ...) — those belong to the token layer
+    if (/^\s*--st-[\w-]+\s*:/.test(rawLines[i])) continue
+
+    const m = HARDCODED_COLOR_RE.exec(stripped)
+    if (m) {
+      violations.push({ lineNum: i + 1, line: rawLines[i].trim(), match: m[0].trim() })
+    }
+  }
+  return violations
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -112,6 +177,7 @@ function extractReferences(filePath) {
 
 function run() {
   console.log('\n🎨  Sugartown CSS Token Reference Validator')
+  if (STRICT_COLORS) console.log('   (--strict-colors mode: also checking for hardcoded hex/rgba)')
   console.log('══════════════════════════════════════════════\n')
 
   // 1. Build the union of all defined --st-* tokens
@@ -155,29 +221,73 @@ function run() {
     }
   }
 
-  // 4. Report
+  // 4. Report token reference errors
   if (fileErrors.size === 0) {
-    console.log('✅  All var(--st-*) references resolve to defined tokens.\n')
-    process.exit(0)
+    console.log('✅  All var(--st-*) references resolve to defined tokens.')
+  } else {
+    console.log(`❌  Found ${errorCount} unknown token reference(s) in ${fileErrors.size} file(s):\n`)
+    console.log('──────────────────────────────────────────────')
+
+    for (const [file, refs] of fileErrors) {
+      const rel = relative(ROOT, file)
+      console.log(`\n   📄  ${rel}`)
+      for (const { token, line, src } of refs) {
+        console.log(`        Line ${line}: ${token}`)
+        console.log(`        ↳  ${src}`)
+      }
+    }
+
+    console.log('\n──────────────────────────────────────────────')
+    console.log(`\n   Fix: check token name spelling against apps/web/src/design-system/styles/tokens.css`)
+    console.log(`   Common cause: token renamed but reference not updated (silent fallback to hardcoded value)\n`)
   }
 
-  console.log(`❌  Found ${errorCount} unknown token reference(s) in ${fileErrors.size} file(s):\n`)
-  console.log('──────────────────────────────────────────────')
+  // 5. --strict-colors: scan for hardcoded hex/rgba in non-exempt files
+  let colorErrorCount = 0
+  const colorFileErrors = new Map()
 
-  for (const [file, refs] of fileErrors) {
-    const rel = relative(ROOT, file)
-    console.log(`\n   📄  ${rel}`)
-    for (const { token, line, src } of refs) {
-      console.log(`        Line ${line}: ${token}`)
-      console.log(`        ↳  ${src}`)
+  if (STRICT_COLORS) {
+    console.log('\n   🎨  Checking for hardcoded color values (--strict-colors)...\n')
+
+    for (const file of cssFiles) {
+      const rel = relative(ROOT, file)
+
+      // Skip exempt files (token + theme files)
+      if (STRICT_COLORS_EXEMPT_PATTERNS.some((p) => p.test(rel))) continue
+
+      const violations = findHardcodedColors(file)
+      if (violations.length > 0) {
+        colorFileErrors.set(file, violations)
+        colorErrorCount += violations.length
+      }
+    }
+
+    if (colorFileErrors.size === 0) {
+      console.log('✅  No hardcoded color values found in component/page CSS.\n')
+    } else {
+      console.log(`❌  Found ${colorErrorCount} hardcoded color value(s) in ${colorFileErrors.size} file(s):\n`)
+      console.log('──────────────────────────────────────────────')
+
+      for (const [file, violations] of colorFileErrors) {
+        const rel = relative(ROOT, file)
+        console.log(`\n   📄  ${rel}`)
+        for (const { lineNum, line, match } of violations) {
+          console.log(`        Line ${lineNum}: ${match}`)
+          console.log(`        ↳  ${line}`)
+        }
+      }
+
+      console.log('\n──────────────────────────────────────────────')
+      console.log(`\n   Fix: replace hardcoded values with --st-* token references.`)
+      console.log(`   Add new tokens to both token files if no suitable token exists.\n`)
     }
   }
 
-  console.log('\n──────────────────────────────────────────────')
-  console.log(`\n   Fix: check token name spelling against apps/web/src/design-system/styles/tokens.css`)
-  console.log(`   Common cause: token renamed but reference not updated (silent fallback to hardcoded value)\n`)
-
-  process.exit(1)
+  // Exit with error if any checks failed
+  if (fileErrors.size > 0 || colorErrorCount > 0) {
+    process.exit(1)
+  }
+  process.exit(0)
 }
 
 run()
