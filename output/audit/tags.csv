@@ -1,115 +1,115 @@
-id,title,slug,description,articles,caseStudies,nodes,total
+id,name,slug,description,articles,caseStudies,nodes,total
+wp.tag.455,#resist,resist,,1,0,0,1
+6e4a2a26-5343-4126-8353-692e36266977,AI,ai,,0,0,0,0
+wp.tag.382,AI Workflows,ai-workflows,,1,0,6,7
+wp.tag.383,AI collaboration,ai-collaboration,,0,0,11,11
+651d7859-12a2-4bea-8ede-a4b3c52919a0,Agentic Systems,agentic-systems,,0,0,0,0
+wp.tag.313,Agentic Systems,agentic-interfaces,,0,0,1,1
+dd5ec3e2-d556-4916-b112-47784c7ae099,BEM / CSS Modules,bem-css-modules,,0,0,0,0
+73432380-fb84-4cab-b98d-d54e8d47d035,Change Management,change-management,,0,0,0,0
+wp.tag.306,Content Modeling,content-modeling,,4,0,4,8
+896cf74b-5c42-4fcd-9825-874737d420a2,Contentful,contentful,,0,0,0,0
 ace3d14c-498d-4a20-987a-93042f586d1b,Context Engineering,context-engineering,,1,0,3,4
-da9dedbd-62f2-485c-868e-92124b71600c,Post-Mortem,post-mortem,,1,0,5,6
-01ffa64b-f2bd-411a-b4dd-62d8965abcc9,,storybook,,0,0,0,0
-0f611e4f-d4d4-47e5-9ebe-4a44714212ca,,table,,3,0,1,4
-10f7db6c-6d62-48b6-9319-87328a30a412,,ats,,0,0,0,0
-15690652-a4ed-4d7c-ab1e-1bf41423bea9,,em-dash,,0,0,1,1
-1814fc30-1cfd-4dda-bfdf-3d0c8a7cb120,,generative-ai,,1,0,0,1
-1d013359-bca0-45e8-91dc-0cac6b8fd28f,,roadmapping,,0,0,0,0
-20ae783f-562a-421e-9940-04c3a417ab94,,customer-journey,,0,1,0,1
-223141fa-bb3d-4aff-9217-a8ef40049973,,figma,,0,0,0,0
-309f7685-21c9-4392-a891-bfa51a6ffa51,,citation,,0,0,0,0
-32a55277-9d65-4083-8e4a-df8bd94ca811,,api,,1,0,0,1
-439fa4cb-e786-49ac-b107-6b0d0776e9d0,,vendor-evaluation,,0,0,0,0
-44151028-51d4-4df3-8a8a-06fed6e79c59,,rfp,,0,0,0,0
-48ca7818-352c-4607-b3f3-9f0b6eab565e,,process-design,,0,0,0,0
-5557d4fd-080d-44d1-8eac-06afd9b465bc,,fractional,,0,0,0,0
-651d7859-12a2-4bea-8ede-a4b3c52919a0,,agentic-systems,,0,0,0,0
-68701468-5724-489d-80ab-ca1b3f5d3a5a,,prioritization,,0,1,0,1
-6e4a2a26-5343-4126-8353-692e36266977,,ai,,0,0,0,0
-73432380-fb84-4cab-b98d-d54e8d47d035,,change-management,,0,0,0,0
-85ad81a5-6a71-4d6d-b607-556989d1d0dd,,tokens,,0,0,0,0
-896cf74b-5c42-4fcd-9825-874737d420a2,,contentful,,0,0,0,0
-969ac270-6322-4977-8911-82ce2ffc5d65,,agile,,1,1,0,2
-a72699c7-8d87-4dfb-be3e-692c5538419f,,shopify,,0,0,0,0
-b804c462-f8f4-4bee-ad1c-4bec67913e50,,sanity,,0,0,0,0
-be336d39-1ac4-4d52-9b07-0220aef0b58e,,requirements,,0,0,0,0
-c27100a8-7eec-470d-b1fd-133d3e9baa99,,blob,,0,0,0,0
-c909c9fb-7312-4d30-9539-425a565cec48,,enablement,,0,0,0,0
-cdb2d3c1-456d-4b58-85d1-63527c085d21,,pdf,,0,0,0,0
-d243c4fc-f102-4b9a-96a6-d8243d31f19a,,mach,,0,0,0,0
-d40bfa72-f43e-410f-8ca5-09117d2c498d,,portable-text,"Portable Text is an open specification for structured block content. Rich text, images, code blocks, and any custom type you define, stored as JSON and renderable anywhere.",1,0,1,2
-dd5ec3e2-d556-4916-b112-47784c7ae099,,bem-css-modules,,0,0,0,0
-eee7c7da-a0bf-4430-93a1-1ae4c67887d7,,britbox,,0,0,1,1
-wp.tag.103,,composable,,2,3,0,5
-wp.tag.12,,ux,,2,1,2,5
-wp.tag.20,,best-practices,,0,0,2,2
-wp.tag.234,,design-system,,0,2,11,13
-wp.tag.235,,design-tokens,,1,2,2,5
-wp.tag.239,,dam,,1,2,0,3
-wp.tag.242,,workflow,,1,1,0,2
-wp.tag.243,,content-audit,,0,1,0,1
-wp.tag.247,,wcag,,0,1,0,1
-wp.tag.248,,accessibility,,0,1,1,2
-wp.tag.257,,content-architecture,,2,1,1,4
-wp.tag.258,,reusable,,0,0,1,1
-wp.tag.259,,atomic-design,,2,0,2,4
-wp.tag.264,,stakeholder-alignment,,0,2,1,3
-wp.tag.270,,omnichannel,,1,1,0,2
-wp.tag.271,,digital-transformation,,1,3,0,4
-wp.tag.274,,tech-debt,,1,0,4,5
-wp.tag.301,,design-ops,,0,1,1,2
-wp.tag.305,,system-drift,,0,0,0,0
-wp.tag.306,,content-modeling,,4,0,4,8
-wp.tag.307,,structured-content,,2,0,4,6
-wp.tag.308,,metadata-strategy,,0,0,2,2
-wp.tag.309,,taxonomy,,0,0,2,2
-wp.tag.311,,pim-pxm,,1,1,0,2
-wp.tag.313,,agentic-interfaces,,0,0,1,1
-wp.tag.317,,llm-workflows,,0,0,3,3
-wp.tag.318,,dashboards,,1,0,1,2
-wp.tag.325,,cross-functional-collaboration,,0,0,1,1
-wp.tag.328,,content-ops,,0,0,3,3
-wp.tag.335,,qa-workflows,,0,0,1,1
-wp.tag.339,,data-integrity,,0,0,1,1
-wp.tag.340,,audit,,0,0,1,1
-wp.tag.341,,automation,,0,0,2,2
-wp.tag.343,,data-visualization,,0,0,2,2
-wp.tag.344,,knowledge-graph,,0,0,5,5
-wp.tag.346,,source-control,,0,0,2,2
-wp.tag.351,,prd,,0,0,4,4
-wp.tag.352,,visualization,,0,0,3,3
-wp.tag.353,,data-science,,0,0,2,2
-wp.tag.355,,governance,,1,0,12,13
-wp.tag.357,,resume-as-code,,0,0,4,4
-wp.tag.368,,project-management,,0,1,0,1
-wp.tag.372,,architecture,,0,0,6,6
-wp.tag.373,,migration,,1,2,4,7
-wp.tag.374,,monorepo,,0,0,2,2
-wp.tag.378,,ai-limitations,,0,0,2,2
-wp.tag.379,,documentation,,0,0,9,9
-wp.tag.381,,product-discovery,,0,0,1,1
-wp.tag.382,,ai-workflows,,1,0,6,7
-wp.tag.383,,ai-collaboration,,0,0,11,11
-wp.tag.385,,human-in-the-loop,,1,0,3,4
-wp.tag.386,,core-web-vitals,,1,0,1,2
-wp.tag.387,,devtools,,0,0,1,1
-wp.tag.388,,performance,,1,0,0,1
-wp.tag.389,,seo,,1,0,0,1
-wp.tag.393,,version-control,,1,0,2,3
-wp.tag.394,,refactoring,,0,0,2,2
-wp.tag.396,,release-management,,0,0,6,6
-wp.tag.402,,ways-of-working,,0,0,7,7
-wp.tag.409,,product-ops,,0,0,2,2
-wp.tag.410,,separation-of-concerns,,0,0,1,1
-wp.tag.411,,ontology,,0,0,1,1
-wp.tag.413,,product-management,,0,0,2,2
-wp.tag.415,,ai-hallucinations,,0,0,1,1
-wp.tag.421,,system-thinking,,2,0,9,11
-wp.tag.422,,roadmap,,0,0,3,3
-wp.tag.423,,scope-creep,,0,0,2,2
-wp.tag.424,,content-as-data,,0,0,1,1
-wp.tag.425,,platform-strategy,,1,0,2,3
-wp.tag.426,,system-architecture,,0,0,0,0
-wp.tag.428,,content-as-code,,0,0,1,1
-wp.tag.432,,semver,,0,0,0,0
-wp.tag.434,,debugging,,0,0,2,2
-wp.tag.436,,agentic-caucus,,3,0,7,10
-wp.tag.437,,prompt-engineering,,0,0,3,3
-wp.tag.440,,ai-ethics,,0,0,2,2
-wp.tag.441,,alt-text,,0,0,1,1
-wp.tag.451,,tooling,,0,0,2,2
-wp.tag.455,,resist,,1,0,0,1
-wp.tag.456,,process-insight,,0,0,2,2
-wp.tag.81,,headless-cms,,4,3,10,17
+wp.tag.235,Design Tokens,design-tokens,,1,1,2,4
+wp.tag.379,Documentation,documentation,,0,0,9,9
+c909c9fb-7312-4d30-9539-425a565cec48,Enablement,enablement,,0,0,0,0
+223141fa-bb3d-4aff-9217-a8ef40049973,Figma,figma,,0,0,0,0
+5557d4fd-080d-44d1-8eac-06afd9b465bc,Fractional,fractional,,0,0,0,0
+wp.tag.317,LLM workflows,llm-workflows,,0,0,3,3
+d243c4fc-f102-4b9a-96a6-d8243d31f19a,MACH,mach,,0,0,0,0
+wp.tag.311,PIM / PXM,pim-pxm,,1,1,0,2
+wp.tag.351,PRD,prd,,0,0,4,4
+da9dedbd-62f2-485c-868e-92124b71600c,Post Mortem,post-mortem,,1,0,5,6
+48ca7818-352c-4607-b3f3-9f0b6eab565e,Process Design,process-design,,0,0,0,0
+wp.tag.335,QA workflows,qa-workflows,,0,0,1,1
+44151028-51d4-4df3-8a8a-06fed6e79c59,RFP,rfp,,0,0,0,0
+be336d39-1ac4-4d52-9b07-0220aef0b58e,Requirements,requirements,,0,0,0,0
+wp.tag.422,Roadmap,roadmap,,0,0,3,3
+1d013359-bca0-45e8-91dc-0cac6b8fd28f,Roadmapping,roadmapping,,0,0,0,0
+wp.tag.389,SEO,seo,,1,0,0,1
+b804c462-f8f4-4bee-ad1c-4bec67913e50,Sanity,sanity,,0,0,0,0
+a72699c7-8d87-4dfb-be3e-692c5538419f,Shopify,shopify,,0,0,0,0
+wp.tag.264,Stakeholder Alignment,stakeholder-alignment,,0,2,1,3
+01ffa64b-f2bd-411a-b4dd-62d8965abcc9,Storybook,storybook,,0,0,0,0
+85ad81a5-6a71-4d6d-b607-556989d1d0dd,Tokens,tokens,,0,0,0,0
+439fa4cb-e786-49ac-b107-6b0d0776e9d0,Vendor Evaluation,vendor-evaluation,,0,0,0,0
+wp.tag.248,accessibility,accessibility,,0,1,1,2
+wp.tag.436,agentic caucus,agentic-caucus,,3,0,7,10
+969ac270-6322-4977-8911-82ce2ffc5d65,agile,agile,,1,1,0,2
+wp.tag.440,ai ethics,ai-ethics,,0,0,2,2
+wp.tag.415,ai hallucinations,ai-hallucinations,,0,0,1,1
+wp.tag.378,ai limitations,ai-limitations,,0,0,2,2
+wp.tag.441,alt text,alt-text,,0,0,1,1
+32a55277-9d65-4083-8e4a-df8bd94ca811,api,api,,1,0,0,1
+wp.tag.372,architecture,architecture,,0,0,6,6
+wp.tag.259,atomic design,atomic-design,,2,0,2,4
+10f7db6c-6d62-48b6-9319-87328a30a412,ats,ats,,0,0,0,0
+wp.tag.340,audit,audit,,0,0,1,1
+wp.tag.341,automation,automation,,0,0,2,2
+wp.tag.20,best practices,best-practices,,0,0,2,2
+c27100a8-7eec-470d-b1fd-133d3e9baa99,blob,blob,,0,0,0,0
+eee7c7da-a0bf-4430-93a1-1ae4c67887d7,britbox,britbox,,0,0,1,1
+309f7685-21c9-4392-a891-bfa51a6ffa51,citation,citation,,0,0,0,0
+wp.tag.103,composable,composable,,2,2,0,4
+wp.tag.257,content architecture,content-architecture,,2,1,1,4
+wp.tag.424,content as data,content-as-data,,0,0,1,1
+wp.tag.243,content audit,content-audit,,0,1,0,1
+wp.tag.328,content ops,content-ops,,0,0,3,3
+wp.tag.428,content-as-code,content-as-code,,0,0,1,1
+wp.tag.386,core web vitals,core-web-vitals,,1,0,1,2
+wp.tag.325,cross-functional collaboration,cross-functional-collaboration,,0,0,1,1
+20ae783f-562a-421e-9940-04c3a417ab94,customer journey,customer-journey,,0,1,0,1
+wp.tag.239,dam,dam,,1,2,0,3
+wp.tag.318,dashboards,dashboards,,1,0,1,2
+wp.tag.339,data integrity,data-integrity,,0,0,1,1
+wp.tag.353,data science,data-science,,0,0,2,2
+wp.tag.343,data visualization,data-visualization,,0,0,2,2
+wp.tag.434,debugging,debugging,,0,0,2,2
+wp.tag.301,design ops,design-ops,,0,1,1,2
+wp.tag.234,design system,design-system,,0,1,11,12
+wp.tag.387,devtools,devtools,,0,0,1,1
+wp.tag.271,digital transformation,digital-transformation,,1,3,0,4
+15690652-a4ed-4d7c-ab1e-1bf41423bea9,em dash,em-dash,,0,0,1,1
+1814fc30-1cfd-4dda-bfdf-3d0c8a7cb120,generative ai,generative-ai,,1,0,0,1
+wp.tag.355,governance,governance,,1,0,12,13
+wp.tag.81,headless cms,headless-cms,,4,2,10,16
+wp.tag.385,human-in-the-loop,human-in-the-loop,,1,0,3,4
+wp.tag.344,knowledge graph,knowledge-graph,,0,0,5,5
+wp.tag.308,metadata strategy,metadata-strategy,,0,0,2,2
+wp.tag.373,migration,migration,,1,2,4,7
+wp.tag.374,monorepo,monorepo,,0,0,2,2
+wp.tag.270,omnichannel,omnichannel,,1,1,0,2
+wp.tag.411,ontology,ontology,,0,0,1,1
+cdb2d3c1-456d-4b58-85d1-63527c085d21,pdf,pdf,,0,0,0,0
+wp.tag.388,performance,performance,,1,0,0,1
+wp.tag.425,platform strategy,platform-strategy,,1,0,2,3
+d40bfa72-f43e-410f-8ca5-09117d2c498d,portable text,portable-text,"Portable Text is an open specification for structured block content. Rich text, images, code blocks, and any custom type you define, stored as JSON and renderable anywhere.",1,0,1,2
+68701468-5724-489d-80ab-ca1b3f5d3a5a,prioritization,prioritization,,0,1,0,1
+wp.tag.456,process insight,process-insight,,0,0,2,2
+wp.tag.381,product discovery,product-discovery,,0,0,1,1
+wp.tag.413,product management,product-management,,0,0,2,2
+wp.tag.409,product ops,product-ops,,0,0,2,2
+wp.tag.368,project management,project-management,,0,1,0,1
+wp.tag.437,prompt engineering,prompt-engineering,,0,0,3,3
+wp.tag.394,refactoring,refactoring,,0,0,2,2
+wp.tag.396,release management,release-management,,0,0,6,6
+wp.tag.357,resume-as-code,resume-as-code,,0,0,4,4
+wp.tag.258,reusable,reusable,,0,0,1,1
+wp.tag.423,scope creep,scope-creep,,0,0,2,2
+wp.tag.432,semver,semver,,0,0,0,0
+wp.tag.410,separation of concerns,separation-of-concerns,,0,0,1,1
+wp.tag.346,source control,source-control,,0,0,2,2
+wp.tag.307,structured content,structured-content,,2,0,4,6
+wp.tag.426,system architecture,system-architecture,,0,0,0,0
+wp.tag.305,system drift,system-drift,,0,0,0,0
+wp.tag.421,system thinking,system-thinking,,2,0,9,11
+0f611e4f-d4d4-47e5-9ebe-4a44714212ca,table,table,,2,0,1,3
+wp.tag.309,taxonomy,taxonomy,,0,0,2,2
+wp.tag.274,tech debt,tech-debt,,1,0,4,5
+wp.tag.451,tooling,tooling,,0,0,2,2
+wp.tag.12,ux,ux,,1,1,2,4
+wp.tag.393,version control,version-control,,1,0,2,3
+wp.tag.352,visualization,visualization,,0,0,3,3
+wp.tag.402,ways of working,ways-of-working,,0,0,7,7
+wp.tag.247,wcag,wcag,,0,1,0,1
+wp.tag.242,workflow,workflow,,1,1,0,2

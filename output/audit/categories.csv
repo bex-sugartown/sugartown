@@ -1,15 +1,15 @@
-id,title,slug,description,articles,caseStudies,nodes,total
-17ccdd54-52cd-4dcf-b875-97f744dcd4bc,,ai-entropy,,1,0,1,2
-5497aabf-7a7f-4963-a7d1-792f6a6bf358,,e-commerce,,0,1,0,1
-wp.category.290,,design-systems,,2,2,4,8
-wp.category.291,,content-architecture,,5,4,3,12
-wp.category.292,,product-platform-strategy,,3,4,4,11
-wp.category.293,,ai-automation,,0,0,6,6
-wp.category.295,,engineering-dx,,1,0,9,10
-wp.category.296,,sugartown-notes,,1,0,2,3
-wp.category.297,,ways-of-working,,0,2,4,6
-wp.category.405,,documentation,,0,0,0,0
-wp.category.406,,career-engineering,,0,0,6,6
-wp.category.412,,data-visualization,,0,0,2,2
-wp.category.417,,governance,,1,0,13,14
-wp.category.444,,ai-collaboration,,4,0,4,8
+id,name,slug,description,parent,articles,caseStudies,nodes,total
+wp.category.293,AI & Automation,ai-automation,,,0,0,6,6
+wp.category.444,AI Collaboration,ai-collaboration,,,4,0,4,8
+17ccdd54-52cd-4dcf-b875-97f744dcd4bc,AI Entropy,ai-entropy,,,1,0,1,2
+wp.category.406,Career Engineering,career-engineering,,,0,0,6,6
+wp.category.291,Content Architecture,content-architecture,,,4,3,3,10
+wp.category.412,Data Visualization,data-visualization,,,0,0,2,2
+wp.category.290,Design Systems,design-systems,,,2,1,4,7
+wp.category.405,Documentation,documentation,,,0,0,0,0
+5497aabf-7a7f-4963-a7d1-792f6a6bf358,E-Commerce,e-commerce,,Product & Platform Strategy,0,1,0,1
+wp.category.295,Engineering & DX,engineering-dx,,,1,0,9,10
+wp.category.417,Governance,governance,,,1,0,13,14
+wp.category.292,Product & Platform Strategy,product-platform-strategy,,,2,4,4,10
+wp.category.296,Sugartown Notes,sugartown-notes,,,1,0,2,3
+wp.category.297,Ways of Working,ways-of-working,,,0,2,4,6
