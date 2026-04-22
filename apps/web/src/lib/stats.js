@@ -62,11 +62,18 @@ function resolvePath(obj, path) {
  * @param {boolean} [options.dev]  If true, unknown tokens render as literal.
  *                                 If false (prod), unknown tokens are stripped.
  */
-export function interpolateStatsVars(text, data = stats, { dev = false } = {}) {
+const IS_DEV = typeof import.meta !== 'undefined' && import.meta.env?.DEV
+
+export function interpolateStatsVars(text, data = stats, { dev = IS_DEV } = {}) {
   if (!text || !text.includes('{{')) return text
   return text.replace(/\{\{([\w.]+)\}\}/g, (match, path) => {
     const value = resolvePath(data, path)
-    if (value === undefined || value === null) return dev ? match : ''
+    if (value === undefined || value === null) {
+      if (dev) {
+        console.warn(`[stats] Unknown token: ${match} — check docs/conventions/stats-pipeline.md`)
+      }
+      return dev ? match : ''
+    }
     return String(value)
   })
 }
