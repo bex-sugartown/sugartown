@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-19 · v0.21.6 · SUG-69 Page Sidebar (TOC + Related + AI Disclosure rail; sticky grid at ≥1024px)
+> Updated 2026-04-22 · v0.22.0 · Pink Moon DS + Ledger Tradition font stack + page layout overhaul (margin column, sidebar TOC) + AI search optimization + footer rebuild
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,24 +11,33 @@
 
 ---
 
-> **⚑ Current focus:** v0.21.6 shipped (SUG-69 Page Sidebar — sticky right rail at ≥1024px with TOC + Related + Series + auto AI Disclosure; replaces MarginColumn; citations reordered above rail; sticky split pattern; wide mermaid clamped inside grid). **Next:** SUG-21 Pink Moon design system identity.
+> **⚑ Current focus:** v0.22.0 shipped (Pink Moon DS identity, Ledger Tradition font stack, margin column layout + sidebar TOC, AI search optimization, Mermaid improvements, footer rebuild, structured content fields). **Now:** SUG-75 Sanity content hygiene (SEO drafts pending publish, 3 manual docs outstanding). **Next:** SUG-74 Taxonomy Cleanup, SUG-67 Trust Reporting Pipeline.
 
 ---
 
-## 01 · Next — high value, ready to pick up
+## 01 · Now — active / blocking
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-21](https://linear.app/sugartown/issue/SUG-21) · Pink Moon design system identity** — Pink Moon becomes the primary DS identity (not a theme variant). Light default, stained glass principle, academic interface, WCAG AA built-in, component overrides across all 12 primitives. Specs TBD via updated PRD. Working docs: `pink-moon-manifesto.md`, `ai-slop-manifesto.md`, `pink-moon-mock.html` (local drafts). Epic: `docs/backlog/SUG-21-pink-moon-design-system.md`. | `Design System` `UX` | 🟢 Next |
+| 1 | **[SUG-75](https://linear.app/sugartown/issue/SUG-75) · Sanity content hygiene** — Duplicate slugs resolved. 7 SEO drafts pending Studio publish; 3 documents still need manual SEO copy. Validator fix committed (`perspective: 'published'`). Epic: `docs/backlog/SUG-75-sanity-content-hygiene.md`. | `Content` `SEO` | 🔴 Now |
 
 ---
 
-## 02 · Soon — post-sprint, pre-launch
+## 02 · Next — high value, ready to pick up
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
-| 2 | **[SUG-47](https://linear.app/sugartown/issue/SUG-47) · Storybook/Studio props alignment audit** — Cross-check every Storybook argTypes enum against its Sanity schema source. Studio is source of truth. Epic: `docs/backlog/SUG-47-storybook-studio-props-alignment.md`. | `Design System` `Infrastructure` | ⚪ Later |
+| 1 | **[SUG-74](https://linear.app/sugartown/issue/SUG-74) · Taxonomy Cleanup** — CSV export script and audit CSVs shipped. Dedup/consolidation work not started. Pre-flight gate blocks new taxonomy creation during active cleanup. Epic: `docs/backlog/SUG-74-taxonomy-cleanup.md`. | `Content` `Schema` | 🟢 Next |
+| 2 | **[SUG-67](https://linear.app/sugartown/issue/SUG-67) · Dynamic Trust Reporting Pipeline** — Not started. Stats pipeline for trust signals, versioned output. Epic: `docs/backlog/SUG-67-dynamic-trust-reporting-pipeline.md`. | `Infrastructure` `Content` | 🟢 Next |
+
+---
+
+## 03 · Soon — post-sprint, pre-launch
+
+| # | Item | Tags | Priority |
+|---|------|------|----------|
+| 1 | **[SUG-73](https://linear.app/sugartown/issue/SUG-73) · Dynamic Knowledge Graph** — Phase 0 CSV audit shipped. Phases 1–4 (graph rendering, node clustering, interactive drill-down) blocked on SUG-74 taxonomy cleanup and SUG-67 stats pipeline. Epic: `docs/backlog/SUG-73-dynamic-knowledge-graph.md`. | `UX` `Infrastructure` | 🟣 Soon |
+| 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 
 ---
 
@@ -47,10 +56,12 @@
 
 ---
 
-## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.21.x
+## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.22.x
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-21 · Pink Moon design system identity** — Pink Moon Light is now the primary DS identity (not a theme variant). Cormorant Garamond/DM Sans/IBM Plex Mono (Ledger Tradition AB-001) replaces EB Garamond/Fira Sans/Courier Prime. Zero border-radius applied consistently. Button weight 400→700. Card hover state: pink border, frost surface, title-link underline. 13 new CSS tokens. 51 missing `--st-*` references resolved. Classic modes deprecated and removed from Storybook.~~ | v0.22.0 | 2026-04-22 |
+| ~~**SUG-47 · Storybook/Studio props alignment** — Storybook now titled "Pink Moon Design System." Chromatic VRT integration live with snapshot composite stories. `__APP_VERSION__` + `__BUILD_DATE__` defined in Vite config. Storybook prop coverage verified against deployed schema.~~ | v0.22.0 | 2026-04-22 |
 | ~~**SUG-69 · Page Sidebar** — Replaces MarginColumn with PageSidebar: sticky right rail at ≥1024px (TOC with IO scroll-spy, Related, Series, auto AI Disclosure), disclosure-under-content below. CSS grid `minmax(0,1fr) + var(--st-space-sidebar)` on `.detailPage[data-has-margin]`; citations reordered above rail on Article/Node/CaseStudy; sticky split (outer aside stretches row 2, inner `<details>` stickies). `tools` field added to page schema so AI Disclosure fires on root pages. Wide mermaid breakout suppressed when rail present. Tools chip grey → softgrey-700 (≥7:1). Hero eyebrow 12px → 16px. Mobile chip rows stack label-above-chips for Tools/Categories parity.~~ | v0.21.6 | 2026-04-19 |
 | ~~**SUG-70 · Mermaid Legibility** — ELK ORTHOGONAL edge routing + linear curve config in mermaid.initialize. New `width` field on `mermaidSection` schema (`column` / `wide` / `full`) with viewport-centered breakout aligned to `.detailPage`'s 1080px frame (handles off-center `.detailContext` grid track). Restructured /platform Diagram A as three-layer TB stack (Tooling → Apps → Packages) with dropped BLOCKED edge. CSS prompt updates: Chromatic VRT now deferrable to `/eod` in cheap-path mode.~~ | v0.21.5 | 2026-04-19 |
 | ~~**SUG-58 · AI Search Optimization** — schema.org JSON-LD on all pages (Organization, WebSite, Article, Person, WebPage/ProfilePage). `generateJsonLd()` utility in `lib/jsonLd.js`. SeoHead extended with `jsonLd` prop. `llms.txt` at site root. robots.txt confirmed AI-crawler-open. SSR spike documented (client-rendered; Google sees it, non-rendering crawlers use llms.txt).~~ | v0.21.4 | 2026-04-18 |
@@ -109,4 +120,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-19 · v0.21.6*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-22 · v0.22.0*
