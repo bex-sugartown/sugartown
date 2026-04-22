@@ -11,19 +11,11 @@
 
 ---
 
-> **⚑ Current focus:** v0.22.0 shipped (Pink Moon DS identity, Ledger Tradition font stack, margin column layout + sidebar TOC, AI search optimization, Mermaid improvements, footer rebuild, structured content fields). **Now:** SUG-75 Sanity content hygiene (SEO drafts pending publish, 3 manual docs outstanding). **Next:** SUG-74 Taxonomy Cleanup, SUG-67 Trust Reporting Pipeline.
+> **⚑ Current focus:** v0.22.0 shipped (Pink Moon DS identity, Ledger Tradition font stack, margin column layout + sidebar TOC, AI search optimization, Mermaid improvements, footer rebuild, structured content fields). SUG-75 Sanity content hygiene closed (all SEO fields filled, validator clean). **Next:** SUG-74 Taxonomy Cleanup, SUG-67 Trust Reporting Pipeline.
 
 ---
 
-## 01 · Now — active / blocking
-
-| # | Item | Tags | Priority |
-|---|------|------|----------|
-| 1 | **[SUG-75](https://linear.app/sugartown/issue/SUG-75) · Sanity content hygiene** — Duplicate slugs resolved. 7 SEO drafts pending Studio publish; 3 documents still need manual SEO copy. Validator fix committed (`perspective: 'published'`). Epic: `docs/backlog/SUG-75-sanity-content-hygiene.md`. | `Content` `SEO` | 🔴 Now |
-
----
-
-## 02 · Next — high value, ready to pick up
+## 01 · Next — high value, ready to pick up
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
@@ -60,6 +52,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-75 · Sanity content hygiene** — Duplicate slugs resolved in Studio. 7 SEO fields auto-patched via `patch_document_from_json` and published. Validator fix (`perspective: 'published'`) excludes unpublished drafts from SEO check. Check J clean: `✅ All content docs have SEO title and description`.~~ | v0.22.0 | 2026-04-22 |
 | ~~**SUG-21 · Pink Moon design system identity** — Pink Moon Light is now the primary DS identity (not a theme variant). Cormorant Garamond/DM Sans/IBM Plex Mono (Ledger Tradition AB-001) replaces EB Garamond/Fira Sans/Courier Prime. Zero border-radius applied consistently. Button weight 400→700. Card hover state: pink border, frost surface, title-link underline. 13 new CSS tokens. 51 missing `--st-*` references resolved. Classic modes deprecated and removed from Storybook.~~ | v0.22.0 | 2026-04-22 |
 | ~~**SUG-47 · Storybook/Studio props alignment** — Storybook now titled "Pink Moon Design System." Chromatic VRT integration live with snapshot composite stories. `__APP_VERSION__` + `__BUILD_DATE__` defined in Vite config. Storybook prop coverage verified against deployed schema.~~ | v0.22.0 | 2026-04-22 |
 | ~~**SUG-69 · Page Sidebar** — Replaces MarginColumn with PageSidebar: sticky right rail at ≥1024px (TOC with IO scroll-spy, Related, Series, auto AI Disclosure), disclosure-under-content below. CSS grid `minmax(0,1fr) + var(--st-space-sidebar)` on `.detailPage[data-has-margin]`; citations reordered above rail on Article/Node/CaseStudy; sticky split (outer aside stretches row 2, inner `<details>` stickies). `tools` field added to page schema so AI Disclosure fires on root pages. Wide mermaid breakout suppressed when rail present. Tools chip grey → softgrey-700 (≥7:1). Hero eyebrow 12px → 16px. Mobile chip rows stack label-above-chips for Tools/Categories parity.~~ | v0.21.6 | 2026-04-19 |
