@@ -45,7 +45,7 @@
   --st-color-border-strong:  var(--st-color-neutral-600);        /* #525252 */
 
   /* ── Tier 3 component overrides (dark defaults → light) ── */
-  --st-callout-bg:           #fff0f5;                             /* light pink wash */
+  --st-callout-bg:           var(--st-callout-bg-light);
   --st-callout-border-color: rgba(214, 51, 132, 0.35);
 
   /* Table — light complementary colorway (Sugartown blue-cast softgrey zebra) */
@@ -61,16 +61,63 @@
 
   /* ── Card extended overrides (EPIC-0156) ──────────────── */
   --st-color-text-eyebrow:   var(--st-color-pink);               /* #FF247D — label, not body text */
-  --st-color-category-link:  #666680;                            /* muted blue-grey for light */
+  --st-color-category-link:  var(--st-color-category-link-light);
   --st-color-footer-divider: rgba(255, 36, 125, 0.25);
   --st-color-chip-bg:        rgba(255, 36, 125, 0.08);           /* light pink wash */
-  --st-card-shadow:          0 4px 20px rgba(0, 0, 0, 0.06);
-  --st-card-hover-shadow:    0 8px 32px rgba(255, 36, 125, 0.12);
+  --st-card-shadow:          var(--st-shadow-card-light);
+  --st-card-hover-shadow:    var(--st-shadow-card-hover-light);
 
   /* Margin column — light mode */
   --st-margin-bg:       var(--st-color-bg-surface);            /* #f8f8fa */
   --st-margin-divider:  var(--st-color-softgrey-300);          /* #bcc5d1 */
   --st-margin-outline:  var(--st-color-softgrey-500);          /* #6e7f96 */
+
+  /* ── Status chips — light overrides ──────────────────── */
+  --st-status-draft-bg:               rgba(180, 120, 0, 0.08);
+  --st-status-draft-fg:               var(--st-color-amber-800);
+  --st-status-draft-border:           rgba(148, 98, 0, 0.35);
+  --st-status-active-bg:              rgba(29, 150, 121, 0.08);
+  --st-status-active-fg:              var(--st-color-seafoam-700);
+  --st-status-active-border:          rgba(29, 150, 121, 0.35);
+  --st-status-archived-bg:            rgba(148, 163, 184, 0.06);
+  --st-status-archived-fg:            var(--st-color-softgrey-400);
+  --st-status-archived-border:        rgba(148, 163, 184, 0.20);
+  --st-status-implemented-bg:         rgba(29, 150, 121, 0.08);
+  --st-status-implemented-fg:         var(--st-color-seafoam-700);
+  --st-status-implemented-border:     rgba(29, 150, 121, 0.35);
+  --st-status-evergreen-bg:           rgba(116, 143, 0, 0.08);
+  --st-status-evergreen-fg:           var(--st-color-lime-800);
+  --st-status-evergreen-border:       rgba(116, 143, 0, 0.30);
+  --st-status-validated-bg:           rgba(185, 28, 104, 0.08);
+  --st-status-validated-fg:           var(--st-color-maroon);
+  --st-status-validated-border:       rgba(185, 28, 104, 0.30);
+  --st-status-deprecated-bg:          rgba(148, 163, 184, 0.08);
+  --st-status-deprecated-fg:          var(--st-color-softgrey-500);
+  --st-status-deprecated-border:      rgba(110, 127, 150, 0.25);
+  --st-status-exploring-bg:           rgba(29, 150, 121, 0.07);
+  --st-status-exploring-fg:           var(--st-color-seafoam-700);
+  --st-status-exploring-border:       rgba(29, 150, 121, 0.30);
+  --st-status-operationalized-bg:     rgba(21, 115, 92, 0.08);
+  --st-status-operationalized-fg:     var(--st-color-seafoam-800);
+  --st-status-operationalized-border: rgba(21, 115, 92, 0.30);
+  --st-status-dreaming-bg:            rgba(124, 58, 237, 0.08);
+  --st-status-dreaming-fg:            var(--st-color-violet-600);
+  --st-status-dreaming-border:        rgba(124, 58, 237, 0.30);
+  --st-status-designing-bg:           rgba(146, 112, 12, 0.08);
+  --st-status-designing-fg:           var(--st-color-amber-700);
+  --st-status-designing-border:       rgba(146, 112, 12, 0.30);
+  --st-status-developing-bg:          rgba(21, 115, 92, 0.08);
+  --st-status-developing-fg:          var(--st-color-seafoam-800);
+  --st-status-developing-border:      rgba(21, 115, 92, 0.30);
+  --st-status-testing-bg:             rgba(194, 65, 12, 0.08);
+  --st-status-testing-fg:             var(--st-color-orange-700);
+  --st-status-testing-border:         rgba(194, 65, 12, 0.30);
+  --st-status-deploying-bg:           rgba(116, 143, 0, 0.08);
+  --st-status-deploying-fg:           var(--st-color-lime-800);
+  --st-status-deploying-border:       rgba(116, 143, 0, 0.30);
+  --st-status-iterating-bg:           rgba(3, 105, 161, 0.08);
+  --st-status-iterating-fg:           var(--st-color-sky-700);
+  --st-status-iterating-border:       rgba(3, 105, 161, 0.30);
 }
 
 /* ── Light-theme background image ────────────────────── */

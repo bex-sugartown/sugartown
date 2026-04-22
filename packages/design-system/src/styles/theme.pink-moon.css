@@ -43,7 +43,7 @@
 
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
-  --st-shadow-elevation-float:  0 12px 30px rgba(13, 18, 38, 0.10);
+  --st-shadow-elevation-float:  var(--st-shadow-elevation-float-light);
 
   /* Margin column + MetadataCard — light surface (SUG-52) */
   --st-margin-bg:       var(--st-color-softgrey-50);      /* #f8f8fa — surface */
@@ -67,7 +67,7 @@
 
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
-  --st-shadow-elevation-float:  0 12px 30px rgba(13, 18, 38, 0.30);
+  --st-shadow-elevation-float:  var(--st-shadow-elevation-float-dark);
 
   /* Margin column + MetadataCard — opaque dark (SUG-52) */
   --st-margin-bg:       #1b2033;

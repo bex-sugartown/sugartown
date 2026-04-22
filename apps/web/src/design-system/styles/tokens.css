@@ -129,6 +129,31 @@
   --st-color-black: #000000;
   --st-color-white: #FFFFFF;
 
+  /* ── Violet ──────────────────────────────────────────── */
+  --st-color-violet-400: #c4b5fd;
+  --st-color-violet-500: #A78BFA;  /* canonical */
+  --st-color-violet-600: #7c3aed;
+  --st-color-violet:     var(--st-color-violet-500);
+
+  /* ── Amber ───────────────────────────────────────────── */
+  --st-color-amber-400: #fcd34d;
+  --st-color-amber-500: #FBBA24;  /* canonical */
+  --st-color-amber-600: #d97706;
+  --st-color-amber-700: #92700c;
+  --st-color-amber-800: #946200;
+  --st-color-amber:     var(--st-color-amber-500);
+
+  /* ── Orange ──────────────────────────────────────────── */
+  --st-color-orange-400: #fb923c;  /* canonical */
+  --st-color-orange-500: #f97316;
+  --st-color-orange-700: #c2410c;
+  --st-color-orange:     var(--st-color-orange-400);
+
+  /* ── Sky ─────────────────────────────────────────────── */
+  --st-color-sky-400: #7EC8F5;   /* canonical */
+  --st-color-sky-700: #0369a1;
+  --st-color-sky:     var(--st-color-sky-400);
+
   /* ── Blue (UI utility, not brand) ────────────────────── */
   --st-color-blue-500: #0066CC;
   --st-color-blue-600: #0052A3;
@@ -345,6 +370,136 @@
   /* ══════════════════════════════════════════════════════
      TIER 3: COMPONENT TOKENS
      ══════════════════════════════════════════════════════ */
+
+  /* ── Status Chip Tokens (dark defaults) ─────────────── */
+  --st-status-draft-bg:               rgba(229, 160, 0, 0.12);
+  --st-status-draft-fg:               var(--st-color-warning);
+  --st-status-draft-border:           rgba(229, 160, 0, 0.30);
+
+  --st-status-active-bg:              rgba(43, 212, 170, 0.12);
+  --st-status-active-fg:              var(--st-color-seafoam);
+  --st-status-active-border:          rgba(43, 212, 170, 0.30);
+
+  --st-status-archived-bg:            rgba(255, 255, 255, 0.04);
+  --st-status-archived-fg:            var(--st-color-text-muted);
+  --st-status-archived-border:        rgba(255, 255, 255, 0.08);
+
+  --st-status-implemented-bg:         rgba(43, 212, 170, 0.10);
+  --st-status-implemented-fg:         var(--st-color-seafoam);
+  --st-status-implemented-border:     rgba(43, 212, 170, 0.25);
+
+  --st-status-evergreen-bg:           rgba(209, 255, 29, 0.10);
+  --st-status-evergreen-fg:           var(--st-color-lime);
+  --st-status-evergreen-border:       rgba(209, 255, 29, 0.25);
+
+  --st-status-validated-bg:           rgba(255, 36, 125, 0.10);
+  --st-status-validated-fg:           var(--st-color-pink);
+  --st-status-validated-border:       rgba(255, 36, 125, 0.25);
+
+  --st-status-deprecated-bg:          rgba(255, 36, 125, 0.08);
+  --st-status-deprecated-fg:          var(--st-color-text-muted);
+  --st-status-deprecated-border:      rgba(255, 36, 125, 0.20);
+
+  --st-status-exploring-bg:           rgba(43, 212, 170, 0.07);
+  --st-status-exploring-fg:           rgba(43, 212, 170, 0.65);
+  --st-status-exploring-border:       rgba(43, 212, 170, 0.18);
+
+  --st-status-operationalized-bg:     rgba(43, 212, 170, 0.14);
+  --st-status-operationalized-fg:     var(--st-color-seafoam);
+  --st-status-operationalized-border: rgba(43, 212, 170, 0.32);
+
+  --st-status-dreaming-bg:            rgba(167, 139, 250, 0.10);
+  --st-status-dreaming-fg:            var(--st-color-violet);
+  --st-status-dreaming-border:        rgba(167, 139, 250, 0.25);
+
+  --st-status-designing-bg:           rgba(251, 191, 36, 0.10);
+  --st-status-designing-fg:           var(--st-color-amber);
+  --st-status-designing-border:       rgba(251, 191, 36, 0.25);
+
+  --st-status-developing-bg:          rgba(43, 212, 170, 0.12);
+  --st-status-developing-fg:          var(--st-color-seafoam);
+  --st-status-developing-border:      rgba(43, 212, 170, 0.30);
+
+  --st-status-testing-bg:             rgba(251, 146, 60, 0.10);
+  --st-status-testing-fg:             var(--st-color-orange);
+  --st-status-testing-border:         rgba(251, 146, 60, 0.25);
+
+  --st-status-deploying-bg:           rgba(209, 255, 29, 0.10);
+  --st-status-deploying-fg:           var(--st-color-lime);
+  --st-status-deploying-border:       rgba(209, 255, 29, 0.25);
+
+  --st-status-iterating-bg:           rgba(99, 179, 237, 0.10);
+  --st-status-iterating-fg:           var(--st-color-sky);
+  --st-status-iterating-border:       rgba(99, 179, 237, 0.25);
+
+  /* ── Callout variant tokens (dark defaults) ──────────── */
+  --st-callout-info-bg:               rgba(255, 255, 255, 0.05);
+  --st-callout-info-border:           rgba(255, 255, 255, 0.10);
+  --st-callout-info-icon:             var(--st-color-text-secondary);
+
+  --st-callout-tip-bg:                rgba(43, 212, 170, 0.08);
+  --st-callout-tip-border:            rgba(43, 212, 170, 0.30);
+  --st-callout-tip-icon:              var(--st-color-seafoam);
+
+  --st-callout-warn-bg:               rgba(255, 193, 7, 0.10);
+  --st-callout-warn-border:           rgba(255, 193, 7, 0.35);
+  --st-callout-warn-icon:             #f0b429;   /* amber-mid — no exact primitive match */
+
+  --st-callout-danger-bg:             rgba(220, 38, 38, 0.10);
+  --st-callout-danger-border:         rgba(220, 38, 38, 0.35);
+  --st-callout-danger-icon:           #f87171;   /* red-400 — no exact primitive match */
+
+  /* ── Callout variant light overrides ─────────────────── */
+  --st-callout-info-bg-light:         var(--st-color-softgrey-50);
+  --st-callout-info-border-light:     rgba(0, 0, 0, 0.08);
+  --st-callout-info-icon-light:       var(--st-color-neutral-600);
+
+  --st-callout-tip-bg-light:          #f3fff8;
+  --st-callout-tip-border-light:      rgba(43, 212, 170, 0.35);
+  --st-callout-tip-icon-light:        var(--st-color-seafoam);
+
+  --st-callout-warn-bg-light:         #fff9e6;
+  --st-callout-warn-border-light:     rgba(255, 193, 7, 0.45);
+  --st-callout-warn-icon-light:       #d4a017;   /* amber-dark — no exact primitive match */
+
+  --st-callout-danger-bg-light:       #fff1f2;
+  --st-callout-danger-border-light:   rgba(220, 38, 38, 0.35);
+  --st-callout-danger-icon-light:     #dc2626;   /* red-600 — no exact primitive match */
+
+  /* ── Shadow tokens for theme files ───────────────────── */
+  --st-shadow-card-light:             0 4px 20px rgba(0, 0, 0, 0.06);
+  --st-shadow-card-hover-light:       0 8px 32px rgba(255, 36, 125, 0.12);
+  --st-shadow-card-hover-neutral:     0 6px 20px rgba(0, 0, 0, 0.08);
+  --st-shadow-table-light:            0 4px 12px rgba(0, 0, 0, 0.06);
+  --st-shadow-table-card-light:       0 6px 16px rgba(0, 0, 0, 0.08);
+  --st-shadow-elevation-float-light:  0 12px 30px rgba(13, 18, 38, 0.10);
+  --st-shadow-elevation-float-dark:   0 12px 30px rgba(13, 18, 38, 0.30);
+  --st-shadow-button-active:          0 2px 6px rgba(0, 0, 0, 0.08);
+  --st-shadow-button-active-dark:     0 2px 6px rgba(0, 0, 0, 0.30);
+  --st-shadow-button-edge-primary:    rgba(0, 0, 0, 0.15);
+  --st-shadow-button-edge-secondary:  rgba(0, 0, 0, 0.08);
+  --st-shadow-table-inner:            0 4px 10px rgba(0, 0, 0, 0.10);
+  --st-shadow-code-dark:              0 4px 24px rgba(0, 0, 0, 0.40), 0 0 0 1px rgba(255, 255, 255, 0.07);
+  --st-shadow-code-base:              0 4px 10px rgba(0, 0, 0, 0.20);
+
+  /* ── Code block interior color tokens ────────────────── */
+  --st-code-color-default:            #f8f8f2;   /* Monokai base text */
+  --st-code-color-comment:            rgba(209, 255, 29, 0.50);  /* lime at 50% */
+  --st-code-color-meta-dim:           rgba(255, 255, 255, 0.40);
+  --st-code-color-meta-mid:           rgba(255, 255, 255, 0.60);
+  --st-code-color-line-num:           rgba(255, 255, 255, 0.25);
+  --st-code-color-line-border:        rgba(255, 255, 255, 0.10);
+  --st-code-color-meta-border:        rgba(255, 255, 255, 0.08);
+  --st-code-inline-bg-dark-maroon:    rgba(185, 28, 104, 0.18);
+  --st-code-inline-border-dark-maroon: 1px solid rgba(185, 28, 104, 0.30);
+  --st-code-color-button-ghost:       rgba(255, 255, 255, 0.80);
+  --st-code-border-ghost:             rgba(255, 255, 255, 0.12);
+
+  /* ── Misc component tokens ────────────────────────────── */
+  --st-color-category-link-light:     #666680;  /* muted blue-grey — light theme only */
+  --st-callout-bg-light:              #fff0f5;  /* light pink wash for callout */
+  --st-color-utility-duotone-pink:    rgba(237, 0, 142, 0.32);   /* utilities.css duotone */
+  --st-color-utility-duotone-seafoam: rgba(42, 212, 169, 0.45);  /* utilities.css duotone */
 
   /* ── Card ────────────────────────────────────────────── */
   --st-card-bg:                var(--st-color-bg-surface);
@@ -573,4 +728,51 @@
   /* Label tokens — dark override */
   --st-label-color:       var(--st-color-charcoal-400);
   --st-label-color-badge: var(--st-color-softgrey-500);
+
+  /* Status chip — dark restates */
+  --st-status-draft-bg:               rgba(229, 160, 0, 0.12);
+  --st-status-draft-fg:               var(--st-color-warning);
+  --st-status-draft-border:           rgba(229, 160, 0, 0.30);
+  --st-status-active-bg:              rgba(43, 212, 170, 0.12);
+  --st-status-active-fg:              var(--st-color-seafoam);
+  --st-status-active-border:          rgba(43, 212, 170, 0.30);
+  --st-status-archived-bg:            rgba(255, 255, 255, 0.04);
+  --st-status-archived-fg:            var(--st-color-text-muted);
+  --st-status-archived-border:        rgba(255, 255, 255, 0.08);
+  --st-status-implemented-bg:         rgba(43, 212, 170, 0.10);
+  --st-status-implemented-fg:         var(--st-color-seafoam);
+  --st-status-implemented-border:     rgba(43, 212, 170, 0.25);
+  --st-status-evergreen-bg:           rgba(209, 255, 29, 0.10);
+  --st-status-evergreen-fg:           var(--st-color-lime);
+  --st-status-evergreen-border:       rgba(209, 255, 29, 0.25);
+  --st-status-validated-bg:           rgba(255, 36, 125, 0.10);
+  --st-status-validated-fg:           var(--st-color-pink);
+  --st-status-validated-border:       rgba(255, 36, 125, 0.25);
+  --st-status-deprecated-bg:          rgba(255, 36, 125, 0.08);
+  --st-status-deprecated-fg:          var(--st-color-text-muted);
+  --st-status-deprecated-border:      rgba(255, 36, 125, 0.20);
+  --st-status-exploring-bg:           rgba(43, 212, 170, 0.07);
+  --st-status-exploring-fg:           rgba(43, 212, 170, 0.65);
+  --st-status-exploring-border:       rgba(43, 212, 170, 0.18);
+  --st-status-operationalized-bg:     rgba(43, 212, 170, 0.14);
+  --st-status-operationalized-fg:     var(--st-color-seafoam);
+  --st-status-operationalized-border: rgba(43, 212, 170, 0.32);
+  --st-status-dreaming-bg:            rgba(167, 139, 250, 0.10);
+  --st-status-dreaming-fg:            var(--st-color-violet);
+  --st-status-dreaming-border:        rgba(167, 139, 250, 0.25);
+  --st-status-designing-bg:           rgba(251, 191, 36, 0.10);
+  --st-status-designing-fg:           var(--st-color-amber);
+  --st-status-designing-border:       rgba(251, 191, 36, 0.25);
+  --st-status-developing-bg:          rgba(43, 212, 170, 0.12);
+  --st-status-developing-fg:          var(--st-color-seafoam);
+  --st-status-developing-border:      rgba(43, 212, 170, 0.30);
+  --st-status-testing-bg:             rgba(251, 146, 60, 0.10);
+  --st-status-testing-fg:             var(--st-color-orange);
+  --st-status-testing-border:         rgba(251, 146, 60, 0.25);
+  --st-status-deploying-bg:           rgba(209, 255, 29, 0.10);
+  --st-status-deploying-fg:           var(--st-color-lime);
+  --st-status-deploying-border:       rgba(209, 255, 29, 0.25);
+  --st-status-iterating-bg:           rgba(99, 179, 237, 0.10);
+  --st-status-iterating-fg:           var(--st-color-sky);
+  --st-status-iterating-border:       rgba(99, 179, 237, 0.25);
 }
