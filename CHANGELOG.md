@@ -16,6 +16,152 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.22.0] — 2026-04-22
+
+Pink Moon design system implementation, Ledger Tradition font stack, page layout
+overhaul (margin column + sidebar TOC), AI search optimization, Mermaid improvements,
+structured content fields, footer rebuild, and build-time version injection.
+Aggregates 0.21.1–0.21.6.
+
+### apps/web
+
+#### Added
+- `PageSidebar` component: TOC panel, related content list, and AI disclosure rail;
+  wired into article, node, case study, and root page templates
+- JSON-LD structured data (`lib/jsonLd.js`): Organization, WebSite, and BreadcrumbList
+  schemas injected via `SeoHead`
+- `/llms.txt` at public root for AI crawler discoverability
+- `lib/buildInfo.js`: build-time `__APP_VERSION__` and `__BUILD_DATE__` injection via
+  Vite config; consumed by footer version strip
+- 13 new CSS tokens in both token files: `--st-color-warning`,
+  `--st-color-bg-elevated`, `--st-card-thumb-position`, `--st-card-hover-border`,
+  `--st-callout-icon-color`, `--st-code-font-size`, `--st-table-max-width`,
+  `--st-table-min-width`, `--st-media-duotone-shadow`, `--st-media-duotone-grayscale`,
+  `--st-media-overlay-gradient`, `--st-media-overlay-color`,
+  `--st-media-overlay-opacity`, `--st-media-overlay-blend`, `--st-header-bg`,
+  `--st-hero-bg-image`
+- `scripts/audit/export-taxonomy-csv.js`: build-time GROQ → CSV export for taxonomy
+  audit (SUG-74 Phase 0); outputs to `output/audit/`
+
+#### Changed
+- Default theme switched to Pink Moon Light; Classic modes deprecated
+- Font stack migrated to Ledger Tradition (AB-001): Cormorant Garamond replaces EB
+  Garamond (narrative), DM Sans replaces Fira Sans (UI), IBM Plex Mono replaces
+  Courier Prime (mono/labels); both token files updated in sync
+- `h2` and `h3` heading size tokens bumped to compensate for Cormorant Garamond
+  x-height difference
+- Section spacing refactored: per-child `padding-block` removed; parent flex container
+  (`detailContext`) now owns spacing via `gap` with semantic spacing tokens
+- Detail pages: 2-column margin column layout added; content in primary column,
+  sidebar rail in secondary column
+- `MetadataCard` field audit: publish date, word count, project reference, TOC
+  extraction from PortableText headings, card-catalog aesthetic applied
+- Wide tables now scroll horizontally inside detail page containers (previously broke
+  out of column without scroll)
+- `detailContext`: width stretch and overflow containment corrected
+- Footer rebuilt: colophon (mission + copyright), IA reordered, legal utility link row,
+  version + build date strip
+- Homepage hero, scroll-triggered header transparency, and footer nav sourced from
+  `siteSettings.primaryNav` GROQ projection
+- Header: scroll transparency threshold and frosted blur applied
+- `robots.txt` updated with AI crawler rules (GPTBot, ClaudeBot, PerplexityBot, etc.)
+- `index.html`: placeholder title and meta description replaced with real site values
+- Mermaid diagrams: ELK ORTHOGONAL layout engine and linear curve applied; Studio
+  width field wired (standard / wide / full-bleed); wide breakout aligned to centered
+  `.detailPage` frame; token-driven colour palette; inline `style` and `classDef`
+  directives stripped before render
+- `CardBuilderSection`: greyscale-panel overlay wired; panel/width split driven by
+  Studio field
+- `CardBuilderSection`: `tools[]` chips rendered in card footer
+- `PageEyebrow` spans both grid columns when sidebar rail has no content
+- GA4 tracking suppressed on localhost and dev environments (was firing during
+  development)
+
+#### Fixed
+- Button font-weight corrected: 400 → 700 (was rendering regular weight)
+- Chip visibility and alignment corrected for Ledger Tradition font metrics
+- Card title link: hover/focus-visible underline added (was missing)
+- Hero overlay: moved to `::after` pseudo-element to isolate CSS filter from child
+  content; greyscale-panel preset wired
+- Hero eyebrow: Courier Prime, 12px, drop shadow on image heroes (was misaligned)
+- Callout `<aside>` external margin zeroed in detail context (was adding double
+  spacing against parent gap)
+- Citation superscript: pill-style marker replaced with plain superscript
+- 51 CSS token references resolved across component and page files (were referencing
+  undefined `--st-*` variables, causing silent UA fallbacks)
+- 4 stale token references in `SitemapPage.module.css` replaced: `--st-color-border`
+  → `--st-color-border-default`, `--st-font-family-heading` →
+  `--st-font-family-narrative`, `--st-color-link` → `--st-color-link-default`,
+  `--st-color-surface-raised` → `--st-color-chip-bg`
+
+### apps/studio
+
+#### Added
+- `aiDisclosure` field on `node` and `page` schemas
+- `relatedNodes[]` reference array on `node` schema
+- Colophon fields on `siteSettings`: mission statement, copyright line, social links
+- `width` field on `mermaidSection` schema (standard / wide / full-bleed)
+- Greyscale-panel overlay preset in `mediaOverlay` schema
+
+#### Changed
+- `hero`: panel boolean and overlay type separated into distinct fields (was a single
+  combined field; prevented independent control)
+- `ctaSection`: heading field made optional (previously required; blocked
+  buttons-only layouts)
+- `cardBuilderItem`: `tools[]` reference array added; inline `code` decorator added
+  to richText
+- `accordionPortableText` renamed to `compactPortableText`; upgraded with list marks,
+  inline code, and citation marks
+- `richImage` schema updated for media overlay field compatibility
+- `eyebrow` field: validation advisory and editorial description updated
+- `ctaButton` and `ctaButtonDoc` paired schemas kept in sync (label/URL fields
+  aligned)
+- Deprecated fields hidden across `article`, `caseStudy`, `node`, `page` schemas
+  (`cardImage`, `postType`, legacy metadata fields)
+
+#### Fixed
+- `keyTakeaway` field: added then immediately deprecated and hidden in Studio (Single
+  Field Authority — `excerpt` is canonical)
+
+### packages/design-system
+
+#### Added
+- 13 new CSS tokens (in sync with `apps/web` — see apps/web Added section)
+
+#### Changed
+- Font stack tokens switched to Ledger Tradition (Cormorant Garamond / DM Sans /
+  IBM Plex Mono) in `tokens.css`
+- `Button`: weight 400 → 700; "Due Date Slip" variant added (stacked 2-line layout
+  for action + date callout)
+- `Card`: hover/focus-visible underline on title link; grey default border, pink hover
+  border; frost surface applied; glow removed
+- Zero border-radius applied across all components (Chip, Callout, Card, Button,
+  Accordion, Citation, CodeBlock)
+- `Callout`, `Chip`, `Table`, `CodeBlock`, `FilterBar` styles updated for Pink Moon
+  token alignment
+- `Media` component: overlay treatment wired to `mediaOverlay` token slots
+
+### apps/storybook
+
+#### Added
+- Snapshot composite stories for Chromatic VRT baselines
+- Chromatic visual regression testing integration
+
+#### Changed
+- App title renamed to "Pink Moon Design System"
+- Google Fonts updated to Ledger Tradition stack in `preview-head.html`
+- `__APP_VERSION__` and `__BUILD_DATE__` defined in Vite config (resolves undefined
+  variable errors in version-aware stories)
+- Legacy theme options removed; Pink Moon Light is the only default
+- `Typefaces` story updated to document Ledger Tradition stack
+- `ComponentContracts` and `Welcome` story content updated
+
+#### Fixed
+- Nested `MemoryRouter` removed from Footer Snapshot story (was causing crash on
+  render)
+
+---
+
 ## [0.21.0] — 2026-04-06
 
 Storybook v10 upgrade, Accordion component, full story coverage, argTypes audit. Aggregates 0.20.1.
