@@ -128,3 +128,24 @@ used by 2 documents. Both are Sanity content conflicts tracked in
 [SUG-75](https://linear.app/sugartown/issue/SUG-75). Must resolve before the
 next content-dependent deploy.
 Warnings: 41 documents missing `seo.title` / `seo.description`. Non-blocking.
+
+---
+
+## Post-release addendum — 2026-04-22
+
+**SUG-75 closed.** All `validate:content` errors and SEO warnings resolved same day.
+
+**Errors resolved (Studio):**
+Duplicate `design-tokens` tag deleted; canonical tag retained. Duplicate `home`
+page slug renamed to `home-old` and unpublished. `validate:content` exits 0.
+
+**SEO warnings resolved:**
+7 published documents patched with `seo.title` / `seo.description` via
+`patch_document_from_json` (verbatim copy, no AI rewrite pipeline) and published
+in Studio. `validate:content` check J now reports
+`✅ All content docs have SEO title and description`.
+
+**Validator fix:**
+`validate-content.js` updated to use `perspective: 'published'` explicitly on the
+main Sanity client (commit `fb1f9b4`). Unpublished draft documents (test-preview-post,
+test node) no longer appear as false positives in SEO completeness check J.
