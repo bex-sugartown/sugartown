@@ -8,6 +8,7 @@ import { getOverlayStyles, parseOverlay } from '../design-system/components/medi
 import CardBuilderSection from './CardBuilderSection'
 import ImageLightbox from './ImageLightbox'
 import { LinkAnnotation, DividerBlock } from './portableTextComponents'
+import { preprocessPortableText } from '../lib/portableTextStatsVars'
 import styles from './PageSections.module.css'
 
 /**
@@ -310,7 +311,7 @@ function TextSection({ section }) {
       {heading && <h2 className={styles.sectionHeading}>{heading}</h2>}
       {content && (
         <div className={styles.textContent}>
-          <PortableText value={content} components={portableTextComponents} />
+          <PortableText value={preprocessPortableText(content)} components={portableTextComponents} />
         </div>
       )}
     </section>
@@ -706,7 +707,7 @@ function CalloutSection({ section }) {
     <div className={styles.calloutSection} id={section._sectionId}>
       <Callout variant={section.variant} title={section.title}>
         {isPortableText ? (
-          <PortableText value={section.body} components={portableTextComponents} />
+          <PortableText value={preprocessPortableText(section.body)} components={portableTextComponents} />
         ) : (
           <p style={{ whiteSpace: 'pre-line' }}>{section.body}</p>
         )}
@@ -748,7 +749,7 @@ function AccordionSection({ section }) {
     id: item._key,
     trigger: item.title,
     content: item.content ? (
-      <PortableText value={item.content} components={portableTextComponents} />
+      <PortableText value={preprocessPortableText(item.content)} components={portableTextComponents} />
     ) : null,
   }))
   return (

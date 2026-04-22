@@ -5,6 +5,7 @@
 import { useParams } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import sharedPTComponents from '../lib/portableTextComponents'
+import { preprocessPortableText } from '../lib/portableTextStatsVars'
 import { decodeHtml, decodePortableText } from '../lib/htmlUtils'
 import { articleBySlugQuery } from '../lib/queries'
 import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
@@ -112,7 +113,7 @@ export default function ArticlePage() {
 
         {post.content && (
           <div className={styles.detailContent}>
-            <PortableText value={decodePortableText(post.content)} components={portableTextComponents} />
+            <PortableText value={preprocessPortableText(decodePortableText(post.content))} components={portableTextComponents} />
           </div>
         )}
 

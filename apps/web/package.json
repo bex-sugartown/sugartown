@@ -17,7 +17,8 @@
     "validate:tokens:strict": "node scripts/validate-tokens.js --strict-colors",
     "validate:taxonomy": "node scripts/validate-taxonomy.js",
     "migrate:seo-fields": "node scripts/migrate-seo-fields.js",
-    "migrate:array-keys": "node scripts/migrate-add-array-keys.js"
+    "migrate:array-keys": "node scripts/migrate-add-array-keys.js",
+    "collect:stats": "node scripts/collect-stats.js"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^13.12.0",

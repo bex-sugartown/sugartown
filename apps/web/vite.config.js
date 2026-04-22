@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { readFileSync } from 'fs'
+import { readFileSync, mkdirSync, writeFileSync } from 'fs'
+import { spawnSync } from 'child_process'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -46,9 +47,57 @@ function contentStateSafety() {
   }
 }
 
+/**
+ * statsPlugin — SUG-67
+ *
+ * Runs collect-stats.js on buildStart to generate src/generated/stats.json.
+ * In dev mode, watches CHANGELOG.md and tokens.css for HMR re-generation.
+ */
+function statsPlugin() {
+  const outputPath = resolve(__dirname, 'src/generated/stats.json')
+  const watchTargets = [
+    resolve(__dirname, '../../CHANGELOG.md'),
+    resolve(__dirname, 'src/design-system/styles/tokens.css'),
+    resolve(__dirname, '../../docs/shipped'),
+  ]
+
+  function generate() {
+    // Run as a child process — keeps Node-only collector code out of the
+    // client bundle entirely; Vite never tries to resolve the dynamic
+    // imports inside collect-stats.js.
+    mkdirSync(resolve(__dirname, 'src/generated'), { recursive: true })
+    const result = spawnSync('node', ['scripts/collect-stats.js'], {
+      cwd: __dirname,
+      stdio: 'inherit',
+    })
+    if (result.status !== 0) {
+      console.error('[stats] collect-stats.js exited with status', result.status)
+      // Write minimal fallback so stats.js import doesn't hard-fail the build
+      const fallback = { generatedAt: new Date().toISOString(), _error: 'collector failed' }
+      writeFileSync(outputPath, JSON.stringify(fallback, null, 2))
+    }
+  }
+
+  return {
+    name: 'sugartown:stats',
+    buildStart() {
+      generate()
+    },
+    configureServer(server) {
+      for (const t of watchTargets) server.watcher.add(t)
+      server.watcher.on('change', (file) => {
+        if (watchTargets.some(t => file.startsWith(t))) {
+          generate()
+          server.ws.send({ type: 'full-reload' })
+        }
+      })
+    },
+  }
+}
+
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), contentStateSafety()],
+  plugins: [react(), contentStateSafety(), statsPlugin()],
   define: {
     __APP_VERSION__: JSON.stringify(parseAppVersion()),
     __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
