@@ -293,6 +293,55 @@
   margin-top: var(--st-spacing-stack-lg);
 }
 
+/* ── Hero stat rail ─────────────────────────────────────────────── */
+.heroStatRail {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--st-color-white-20);
+  border-top: 1px solid var(--st-color-white-20);
+  margin-top: var(--st-spacing-stack-xl);
+  width: 100%;
+}
+
+.heroStatItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-2);
+  padding: var(--st-space-4) var(--st-space-5);
+  background: transparent;
+  text-decoration: none;
+  transition: background 120ms ease;
+}
+
+.heroStatItem:hover {
+  background: var(--st-color-white-08);
+}
+
+.heroStatValue {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-3);
+  font-weight: 600;
+  line-height: 1;
+  color: inherit;
+}
+
+.heroStatLabel {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: inherit;
+  opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+  .heroStatRail {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* Text Section */
 .textSection {
   max-width: var(--st-width-detail);

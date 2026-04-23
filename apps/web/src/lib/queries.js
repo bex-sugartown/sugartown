@@ -314,7 +314,8 @@ export const nodeBySlugQuery = `
           "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
           style
         },
-        "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
+        "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style },
+        showStatRail
       },
       _type == "textSection" => {
         heading,
@@ -482,7 +483,8 @@ export const articleBySlugQuery = `
           "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
           style
         },
-        "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
+        "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style },
+        showStatRail
       },
       _type == "textSection" => {
         heading,
@@ -631,7 +633,8 @@ export const pageBySlugQuery = `
           "url": ${LINKITEM_URL_EXPR},
           "openInNewTab": link.openInNewTab,
           style
-        }
+        },
+        showStatRail
       },
       _type == "textSection" => {
         heading,
@@ -800,7 +803,8 @@ export const caseStudyBySlugQuery = `
         imageTreatment,
         imageWidth,
         backgroundImage { asset->, alt, crop, hotspot },
-        "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
+        "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style },
+        showStatRail
       },
       _type == "ctaSection" => {
         heading,
@@ -1350,5 +1354,28 @@ export const sitemapQuery = `
         && seo.noIndex == true
       ])
     }
+  }
+`
+
+// ── Recent Content Ticker (SUG-76) ─────────────────────────────────────────
+// Minimal projections — one latest doc per type, used by recentContentSection.
+
+export const latestArticleQuery = `
+  *[_type == "article" && defined(slug.current)] | order(publishedAt desc) [0] {
+    _type,
+    title,
+    "slug": slug.current,
+    publishedAt,
+    "category": categories[0]->{ "title": name, "slug": slug.current }
+  }
+`
+
+export const latestNodeQuery = `
+  *[_type == "node" && defined(slug.current)] | order(publishedAt desc) [0] {
+    _type,
+    title,
+    "slug": slug.current,
+    publishedAt,
+    "category": categories[0]->{ "title": name, "slug": slug.current }
   }
 `

@@ -1,7 +1,7 @@
 import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { resolveNavLink } from '../lib/resolveNavUrl'
-import { getCanonicalPath, FOOTER_UTILITY_LINKS } from '../lib/routes'
+import { getCanonicalPath, FOOTER_UTILITY_LINKS, TRUST_LINKS } from '../lib/routes'
 import { APP_VERSION, BUILD_DATE } from '../lib/buildInfo'
 import Link from './atoms/Link'
 import SocialLink from './atoms/SocialLink'
@@ -105,9 +105,20 @@ export default function Footer({ siteSettings }) {
         {/* ── Zone 3: colophon ────────────────────────────────────── */}
         <div className={styles.colophon}>
           <div className={styles.colophonGrid}>
+            {/* Row 1 left: version (always a link to changelog) */}
             <span className={styles.colophonLabel}>Version</span>
-            <span className={styles.colophonValue}>{APP_VERSION}</span>
+            <span className={styles.colophonValue}>
+              <a
+                href={TRUST_LINKS.changelog}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.colophonLink}
+              >
+                {APP_VERSION}
+              </a>
+            </span>
 
+            {/* Row 1 right: toolchain chips if available, otherwise empty */}
             {footerToolchain && footerToolchain.length > 0 ? (
               <>
                 <span className={styles.colophonLabel}>Toolchain</span>
@@ -124,13 +135,15 @@ export default function Footer({ siteSettings }) {
                 </div>
               </>
             ) : (
-              <>
-                <span className={styles.colophonLabel}>Built</span>
-                <span className={styles.colophonValue}>{BUILD_DATE}</span>
-              </>
+              <><span /><span /></>
             )}
 
-            {licenseLabel && (
+            {/* Row 2 left: build date */}
+            <span className={styles.colophonLabel}>Built</span>
+            <span className={styles.colophonValue}>{BUILD_DATE}</span>
+
+            {/* Row 2 right: license if available, otherwise empty */}
+            {licenseLabel ? (
               <>
                 <span className={styles.colophonLabel}>License</span>
                 <span className={styles.colophonValue}>
@@ -148,13 +161,8 @@ export default function Footer({ siteSettings }) {
                   )}
                 </span>
               </>
-            )}
-
-            {footerToolchain && footerToolchain.length > 0 && (
-              <>
-                <span className={styles.colophonLabel}>Built</span>
-                <span className={styles.colophonValue}>{BUILD_DATE}</span>
-              </>
+            ) : (
+              <><span /><span /></>
             )}
           </div>
 

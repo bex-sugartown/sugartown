@@ -58,6 +58,21 @@ export const TAXONOMY_NAMESPACES = {
   tool: 'tools',
 }
 
+// ─── External trust links ────────────────────────────────────────────────────
+
+/**
+ * TRUST_LINKS — canonical external URLs for trust/transparency surfaces.
+ *
+ * Version badge, stat rail, and colophon version link all point here.
+ * Never hard-code these URLs in components — import from here.
+ */
+export const TRUST_LINKS = {
+  changelog:  'https://github.com/bex-sugartown/sugartown/blob/main/CHANGELOG.md',
+  security:   'https://github.com/bex-sugartown/sugartown/security',
+  commits:    'https://github.com/bex-sugartown/sugartown/commits/main',
+  storybook:  'https://pinkmoon.sugartown.io/',
+}
+
 // ─── Footer utility links ─────────────────────────────────────────────────────
 
 /**

@@ -77,6 +77,13 @@ export default defineType({
       initialValue: 'content-width'
     }),
     defineField({
+      name: 'showStatRail',
+      title: 'Show Trust Stat Rail',
+      type: 'boolean',
+      description: 'Display build-time trust metrics (version, tokens, commits, vulnerabilities) below the CTAs. Intended for Platform hero.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'ctas',
       title: 'Call to Action Buttons',
       type: 'array',

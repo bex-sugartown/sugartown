@@ -5,7 +5,10 @@ import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { PortableText } from '@portabletext/react'
 import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
+import stats from '../generated/stats.json'
+import { TRUST_LINKS } from '../lib/routes'
 import CardBuilderSection from './CardBuilderSection'
+import RecentContentSection from './RecentContentSection'
 import ImageLightbox from './ImageLightbox'
 import { LinkAnnotation, DividerBlock } from './portableTextComponents'
 import { preprocessPortableText } from '../lib/portableTextStatsVars'
@@ -151,9 +154,29 @@ const CTA_STYLE_TO_VARIANT = { primary: 'primary', secondary: 'secondary', terti
 const mapCtaStyle = (style, fallback = 'primary') =>
   CTA_STYLE_TO_VARIANT[style] || fallback
 
+// Trust stat rail — build-time metrics, rendered inside hero when showStatRail is true
+function StatRail() {
+  const items = [
+    { value: `v${stats.release?.current?.version ?? '—'}`, label: 'Current release', href: TRUST_LINKS.changelog },
+    { value: stats.ds?.tokens?.total ?? '—',               label: 'Design tokens',   href: TRUST_LINKS.storybook },
+    { value: stats.repo?.commits ?? '—',                   label: 'Commits',          href: TRUST_LINKS.commits },
+    { value: stats.security?.vulnerabilities?.total ?? 0,  label: 'Vulnerabilities',  href: TRUST_LINKS.security },
+  ]
+  return (
+    <div className={styles.heroStatRail}>
+      {items.map(({ value, label, href }) => (
+        <a key={label} href={href} target="_blank" rel="noopener noreferrer" className={styles.heroStatItem}>
+          <span className={styles.heroStatValue}>{value}</span>
+          <span className={styles.heroStatLabel}>{label}</span>
+        </a>
+      ))}
+    </div>
+  )
+}
+
 // Hero Section Component
 function HeroSection({ section }) {
-  const { heading, subheading, eyebrow, imageTreatment, backgroundImage, ctas, imageWidth } = section
+  const { heading, subheading, eyebrow, imageTreatment, backgroundImage, ctas, imageWidth, showStatRail } = section
   const backgroundStyles = {}
   const hasImage = backgroundImage?.asset
 
@@ -282,6 +305,7 @@ function HeroSection({ section }) {
           )}
         </div>
       )}
+      {showStatRail && <StatRail />}
     </>
   )
 
@@ -794,6 +818,8 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
         return <MermaidDiagram key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'accordionSection':
         return <AccordionSection key={key} section={{ ...section, _sectionId: sectionId }} />
+      case 'recentContentSection':
+        return <RecentContentSection key={key} section={section} />
       default:
         console.warn(`Unknown section type: ${section._type}`)
         return null

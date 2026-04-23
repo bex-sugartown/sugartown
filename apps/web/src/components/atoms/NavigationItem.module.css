@@ -79,8 +79,10 @@
   top: calc(100% + var(--st-spacing-stack-xs, 4px));
   left: 0;
   min-width: 200px;
-  background-color: var(--st-color-bg-surface);
-  border: 1px solid var(--st-color-border-subtle);
+  background-color: var(--st-color-bg-surface-strong);
+  backdrop-filter: blur(var(--st-effect-backdrop-blur-md));
+  -webkit-backdrop-filter: blur(var(--st-effect-backdrop-blur-md));
+  border: 1px solid var(--st-color-border-medium);
   border-radius: var(--st-radius-md, 8px);
   box-shadow: var(--st-shadow-md);
   padding: var(--st-spacing-stack-xs, 4px) 0;
@@ -89,6 +91,7 @@
   visibility: hidden;
   transform: translateY(-4px);
   transition: opacity 150ms ease, transform 150ms ease, visibility 150ms ease;
+  isolation: isolate;
 }
 
 .dropdown.open .dropdownMenu {
