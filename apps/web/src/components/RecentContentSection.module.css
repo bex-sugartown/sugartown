@@ -1,0 +1,130 @@
+.section {
+  width: 100%;
+  max-width: 1164px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-block-start: var(--st-space-section-break);
+  padding-block-end: 0;
+  padding-inline: var(--st-page-gutter);
+}
+
+.heading {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  margin: 0 0 var(--st-space-4);
+
+  /* Rule extends to the right of the heading */
+  display: flex;
+  align-items: center;
+  gap: var(--st-space-4);
+}
+
+.heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--st-color-border-default);
+}
+
+/* ── Ticker grid ────────────────────────────────────────────────────────────
+   gap: 1px with a border-coloured background = hairline dividers, zero space.
+   Cards have no border — the container provides the outer frame.
+───────────────────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--st-card-border);
+  border: 1px solid var(--st-card-border);
+  overflow: hidden; /* clips card backgrounds to outer border */
+}
+
+/* ── TickerCard ─────────────────────────────────────────────────────────────
+   No border — grid provides all edges.
+   Uses card tokens so colours + typography stay in sync with Card component.
+───────────────────────────────────────────────────────────────────────────── */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-3);
+  padding: var(--st-space-6);
+  background: var(--st-card-bg);
+  text-decoration: none;
+  color: inherit;
+  transition: background 120ms ease;
+  min-height: 140px;
+}
+
+a.card:hover {
+  background: var(--st-card-bg-alt);
+  box-shadow: inset 0 2px 0 var(--st-color-brand-primary);
+}
+
+.cardType {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-color-brand-primary);
+}
+
+.cardTitle {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-4);
+  font-weight: 600;
+  line-height: var(--st-line-height-tight);
+  color: var(--st-color-text-primary);
+  flex: 1;
+}
+
+.cardDescriptor {
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-secondary);
+  line-height: var(--st-line-height-relaxed);
+  margin: 0;
+
+  /* Clamp to 2 lines so columns stay equal height */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardMeta {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  color: var(--st-label-color);
+  letter-spacing: var(--st-label-tracking);
+  margin-top: auto;
+  padding-top: var(--st-space-3);
+  border-top: 1px solid var(--st-card-border);
+}
+
+/* ── Skeleton loading state ─────────────────────────────────────────────── */
+.skeleton {
+  display: block;
+  height: 1em;
+  background: var(--st-color-bg-subtle);
+  border-radius: 2px;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ── Responsive ────────────────────────────────────────────────────────────
+   Below md: stack vertically — ticker becomes a column.
+───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
