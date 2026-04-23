@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-22 · v0.22.2 · SUG-67 dynamic trust reporting pipeline (build-time stats aggregator, PortableText interpolation, network collectors, CI workflow)
+> Updated 2026-04-23 · v0.22.3 · SUG-76 trust render surfaces (footer version badge as changelog link, hero stat rail, Chromatic VRT fix for Sanity mock)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-67 trust reporting pipeline shipped (v0.22.2) — build-time stats aggregator, {{token}} interpolation in PortableText, 7 collector modules, daily CI workflow. **Next:** SUG-74 Taxonomy Cleanup, SUG-73 Dynamic Knowledge Graph (unblocked by SUG-67).
+> **⚑ Current focus:** SUG-76 trust render surfaces shipped (v0.22.3) — footer version badge as changelog link, Platform hero stat rail (4 build-time metrics), Chromatic VRT unblocked. **Next:** SUG-74 Taxonomy Cleanup, SUG-73 Dynamic Knowledge Graph.
 
 ---
 
@@ -51,6 +51,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-76 · Trust Render Surfaces** — Footer version badge links to CHANGELOG.md. Platform hero `showStatRail` boolean on `heroSection` schema renders a 4-metric build-time stat rail (version, tokens, commits, vulns) as external links. `TRUST_LINKS` canonical constant in `routes.js`. Storybook Sanity mock fixed to intercept relative imports (`./sanity` from `useSanityDoc.js`), unblocking Chromatic VRT. Chromatic Build 9 passed (211 stories).~~ | v0.22.3 | 2026-04-23 |
 | ~~**SUG-67 · Dynamic Trust Reporting Pipeline** — Build-time stats aggregator (`scripts/collect-stats.js`) with 4 local collectors (changelog, ds, storybook, repo) and 5 network collectors (security, sanity, github, crux, perf). Vite plugin regenerates `src/generated/stats.json` on every build. `{{namespace.path}}` token interpolation in PortableText via `preprocessPortableText()`. Daily CI workflow (`.github/workflows/stats.yml`). `lighthouserc.js` auditing 8 key pages. `docs/conventions/stats-pipeline.md` reference.~~ | v0.22.2 | 2026-04-22 |
 | ~~**SUG-68 · Eliminate hardcoded color values** — 386 raw hex/rgba literals across 24 CSS files replaced with `--st-*` token references. 90 new status chip tokens (`--st-status-<state>-{bg,fg,border}` × 15 states × dark + light), shadow tokens, callout tokens, and color primitives added to both `tokens.css` files in lockstep. `validate-tokens.js` extended with `--strict-colors` flag (allowlists only `tokens.css`; CI-hard exit 1). Zero visual change.~~ | v0.22.1 | 2026-04-22 |
 | ~~**SUG-75 · Sanity content hygiene** — Duplicate slugs resolved in Studio. 7 SEO fields auto-patched via `patch_document_from_json` and published. Validator fix (`perspective: 'published'`) excludes unpublished drafts from SEO check. Check J clean: `✅ All content docs have SEO title and description`.~~ | v0.22.0 | 2026-04-22 |
@@ -114,4 +115,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-22 · v0.22.1*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-23 · v0.22.3*

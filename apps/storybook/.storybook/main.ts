@@ -35,17 +35,29 @@ const config: StorybookConfig = {
       'react/jsx-dev-runtime',
     ];
 
-    // Mock sanity.js and contentState.js for web component stories
+    // Mock sanity.js and contentState.js for web component stories.
+    // Checks both the bare import string (e.g. '../lib/sanity') AND the resolved
+    // absolute path (e.g. './sanity' imported from within lib/ — useSanityDoc.js
+    // uses this form and was previously escaping the mock, causing createClient
+    // to be called without a projectId during Chromatic story extraction).
     viteConfig.plugins = viteConfig.plugins || [];
     viteConfig.plugins.push({
       name: 'storybook-mock-sanity',
       enforce: 'pre',
-      resolveId(source) {
-        if (source.endsWith('/lib/sanity') || source.endsWith('/lib/sanity.js')) {
-          return resolve(mocks, 'sanity.js');
-        }
-        if (source.endsWith('/lib/contentState') || source.endsWith('/lib/contentState.js')) {
-          return resolve(mocks, 'contentState.js');
+      resolveId(source, importer) {
+        const isSanity = (s: string) =>
+          s.endsWith('/lib/sanity') || s.endsWith('/lib/sanity.js');
+        const isContentState = (s: string) =>
+          s.endsWith('/lib/contentState') || s.endsWith('/lib/contentState.js');
+
+        if (isSanity(source)) return resolve(mocks, 'sanity.js');
+        if (isContentState(source)) return resolve(mocks, 'contentState.js');
+
+        // Catch relative imports (e.g. './sanity' from lib/useSanityDoc.js)
+        if (importer) {
+          const abs = resolve(dirname(importer), source);
+          if (isSanity(abs)) return resolve(mocks, 'sanity.js');
+          if (isContentState(abs)) return resolve(mocks, 'contentState.js');
         }
         return null;
       },
