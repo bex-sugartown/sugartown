@@ -36,7 +36,35 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 
 ---
 
+## Model & Mode [REQUIRED]
+
+> Use Claude Code's `opusplan` alias for this epic. Opus handles planning
+> (Pre-Execution Gate → Files to Modify), Sonnet handles execution
+> (code changes, migration runs, acceptance tests). The handoff is automatic
+> when you exit plan mode.
+>
+> **Session setup:**
+> 1. `/model opusplan` — set once at session start
+> 2. `Shift+Tab` until status bar reads "plan mode"
+> 3. Paste this epic as the first prompt
+> 4. Review Opus's plan against the gates below; push back until aligned
+> 5. Exit plan mode (`Shift+Tab`) — Sonnet takes over for execution
+>
+> **Override rule:** if Sonnet stalls during execution on something that's
+> architectural rather than mechanical (e.g. an unexpected cross-workspace
+> type error, a token cascade that isn't resolving), type `/model opus`
+> for that single question, then `/model opusplan` to return. Note the
+> override in the epic's post-mortem so we learn where Sonnet's ceiling is.
+>
+> **When to deviate from opusplan:**
+> - Pure copy/content epics (no code): use `/model sonnet` — no planning depth needed
+> - Pure architecture epics (Schema ERD, SSR strategy, monorepo boundary changes): use `/model opus` — execution benefits from sustained depth too
+
+---
+
 ## Pre-Execution Completeness Gate [REQUIRED — complete before writing Scope or Phases]
+
+> **Model phase:** Opus (plan mode). Do not exit plan mode until this gate and the audits below are clean.
 
 > This checklist must be fully ticked before execution begins. An incomplete brief is a
 > process failure, not a starting condition. If any item cannot be answered, resolve it
@@ -353,6 +381,8 @@ State how re-running the script produces no change:
 **Scripts**
 - `scripts/migrate/[name].js` — CREATE (if migration in scope)
 - `package.json` — add `migrate:[name]` script entry
+
+> **Model handoff point:** once Files to Modify is locked, exit plan mode. Sonnet executes from here down.
 
 ---
 
