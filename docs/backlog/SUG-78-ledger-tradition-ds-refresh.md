@@ -55,8 +55,8 @@ Aesthetic brief AB-001 (*The Ledger Tradition*) defines the visual philosophy fo
 
 **Key primitives proposed in AB-001 (not yet in tokens.css):**
 - `--st-color-ink` (`#0a0f1a`) — near-black with blue undertone; proposed for body text, rules, primary UI. Relationship to existing `--st-color-charcoal` (`#1e1e1e`) and `--st-color-midnight` (`#0d1226`) needs resolution.
-- `--st-color-gold` — subtle ruling, faint grid lines, paper-background accents. No hex specified in brief; requires decision.
-- `--st-color-paper` — warm off-white for long-form reading surfaces. No hex specified; requires decision.
+- `--st-color-gold` — ruling accent, faint dividers, folio markers. No hex specified; requires decision.
+- `--st-color-canvas` — cool neutral grey page field so white card/table surfaces read as elevated. Not warm; not atmospheric. The grey establishes the grid; white is the card. (**Note:** the brief's earlier `--st-color-paper` (warm off-white) was retired in v2 — the direction is neutral/cool, not paper-toned.)
 
 ---
 
@@ -147,16 +147,16 @@ Resolution options:
 Decision needed at Phase 0 before adding to tokens.css.
 
 ### `--st-color-gold`
-Brief intent: dry-point ruling lines, subtle paper-background accent. No hex specified.
+Brief intent: ruling accent, faint dividers, folio markers on structured surfaces. No hex specified.
 
-Candidates: a warm neutral in the 80–90% lightness range, distinct from the blue-cast softgrey palette. Something like `#d4b483` or `#c9a96e`. Requires color decision from Bex before adding as a primitive.
+Candidates: a warm mid-tone distinct from the blue-cast softgrey palette — something like `#c9a96e` or `#b8975a`. Should read as a ruled line, not as a brand colour. Requires color decision from Bex before adding as a primitive.
 
-### `--st-color-paper`
-Brief intent: warm off-white for long-form reading (case studies, long nodes). Distinct from the current `softgrey-50` (`#f8f8fa`, blue-cast).
+### `--st-color-canvas`
+Brief intent (v2): cool neutral grey page field, so white-background cards and tables read as elevated. The grey is structural — it establishes the grid; white is the card. Not atmospheric, not warm.
 
-This would be used as a `[data-theme="light-pink-moon"]` override for `--st-color-bg-canvas` on specific detail page templates — not globally, since the current canvas is pure white. A scoped override is likely more appropriate than a global primitive change.
+This replaces the earlier `--st-color-paper` (warm off-white) proposal, which was retired when the brief moved to a neutral grey direction.
 
-Candidates: something in the `#fafaf7`–`#f8f6f0` range (warm, not sepia). Requires decision from Bex.
+Candidates: `#eeeef2` (the value used in the AB-001 v2 mock HTML — a very pale cool grey, similar to `softgrey-100` but with a slightly cooler cast). The existing `--st-color-softgrey-50` (`#f8f8fa`) is too close to white to achieve the elevation contrast. Requires decision from Bex on exact value before adding as a primitive.
 
 ---
 
