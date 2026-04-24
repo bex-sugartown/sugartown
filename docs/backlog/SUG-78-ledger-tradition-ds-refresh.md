@@ -55,7 +55,7 @@ Aesthetic brief AB-001 (*The Ledger Tradition*) defines the visual philosophy fo
 
 **Key primitives proposed in AB-001 (not yet in tokens.css):**
 - `--st-color-ink` (`#0a0f1a`) — near-black with blue undertone; proposed for body text, rules, primary UI. Relationship to existing `--st-color-charcoal` (`#1e1e1e`) and `--st-color-midnight` (`#0d1226`) needs resolution.
-- `--st-color-gold` — ruling accent, faint dividers, folio markers. No hex specified; requires decision.
+- `--st-color-rule-accent` — structural ruling; a cool mid-grey one step darker than the canvas, for visible dividers, folio markers, ruled grid lines. (**Note:** formerly `--st-color-gold` — that name implied warmth and was wrong for the neutral grey direction.)
 - `--st-color-canvas` — cool neutral grey page field so white card/table surfaces read as elevated. Not warm; not atmospheric. The grey establishes the grid; white is the card. (**Note:** the brief's earlier `--st-color-paper` (warm off-white) was retired in v2 — the direction is neutral/cool, not paper-toned.)
 
 ---
@@ -146,10 +146,12 @@ Resolution options:
 
 Decision needed at Phase 0 before adding to tokens.css.
 
-### `--st-color-gold`
-Brief intent: ruling accent, faint dividers, folio markers on structured surfaces. No hex specified.
+### `--st-color-rule-accent`
+Brief intent: a visible structural ruling colour — one step darker than the `--st-color-canvas` page field, used for dividers, folio markers, and ruled grid lines. Cool-neutral, no warmth.
 
-Candidates: a warm mid-tone distinct from the blue-cast softgrey palette — something like `#c9a96e` or `#b8975a`. Should read as a ruled line, not as a brand colour. Requires color decision from Bex before adding as a primitive.
+Formerly called `--st-color-gold` in the brief's v1 palette; that name was a mistake — it implied warmth that the neutral grey direction explicitly rejects. Renamed in AB-001 v2.
+
+Candidates: a cool mid-grey around `#a8a8b2` or `#9898a6` — visible against `#eeeef2` canvas but lighter than the main `--st-color-border-default`. Worth checking whether an existing softgrey primitive (`--st-color-softgrey-300` or `--st-color-softgrey-400`) already serves this role before adding a new token. Requires decision from Bex.
 
 ### `--st-color-canvas`
 Brief intent (v2): cool neutral grey page field, so white-background cards and tables read as elevated. The grey is structural — it establishes the grid; white is the card. Not atmospheric, not warm.
