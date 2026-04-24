@@ -12,6 +12,7 @@ const config: StorybookConfig = {
     '../../../apps/web/src/components/**/*.stories.@(js|jsx|ts|tsx)',
     './stories/**/*.stories.@(js|jsx|ts|tsx)',
   ],
+  addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
   framework: {
     name: '@storybook/react-vite',
     options: {},

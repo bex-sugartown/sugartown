@@ -49,6 +49,9 @@ importers:
         specifier: ^7.0.0
         version: 7.13.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
+      '@storybook/addon-a11y':
+        specifier: ^10.3.4
+        version: 10.3.5(storybook@10.3.4(@testing-library/dom@9.3.4)(prettier@3.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       '@storybook/addon-docs':
         specifier: ^10.3.4
         version: 10.3.4(@types/react@18.3.27)(esbuild@0.27.3)(rollup@4.57.1)(storybook@10.3.4(@testing-library/dom@9.3.4)(prettier@3.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@5.4.21(@types/node@25.1.0))
@@ -2870,6 +2873,11 @@ packages:
   '@sindresorhus/merge-streams@4.0.0':
     resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
     engines: {node: '>=18'}
+
+  '@storybook/addon-a11y@10.3.5':
+    resolution: {integrity: sha512-5k6lpgfIeLxvNhE8v3wEzdiu73ONKjF4gmH1AHvfqYd8kIVzQJai0KCDxgvqNncXHQhIWkaf1fg6+9hKaYJyaw==}
+    peerDependencies:
+      storybook: ^10.3.5
 
   '@storybook/addon-docs@10.3.4':
     resolution: {integrity: sha512-ohS8fX8UIP3LN6+mDZJLCDS4Qd2rsmGwes6V6fD0sbLOmIyCVY5y68r6NHMMGJKFRwadDQOmtOt8Vc6snExrIQ==}
@@ -10518,6 +10526,12 @@ snapshots:
       react: 19.2.4
 
   '@sindresorhus/merge-streams@4.0.0': {}
+
+  '@storybook/addon-a11y@10.3.5(storybook@10.3.4(@testing-library/dom@9.3.4)(prettier@3.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
+    dependencies:
+      '@storybook/global': 5.0.0
+      axe-core: 4.11.1
+      storybook: 10.3.4(@testing-library/dom@9.3.4)(prettier@3.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   '@storybook/addon-docs@10.3.4(@types/react@18.3.27)(esbuild@0.27.3)(rollup@4.57.1)(storybook@10.3.4(@testing-library/dom@9.3.4)(prettier@3.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@5.4.21(@types/node@25.1.0))':
     dependencies:
