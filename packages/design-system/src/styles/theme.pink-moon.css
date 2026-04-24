@@ -29,6 +29,7 @@
   --st-color-bg-canvas:         var(--st-color-white);
   --st-color-bg-surface:        var(--st-color-softgrey-50);      /* palest grey */
   --st-color-bg-surface-strong: var(--st-color-softgrey-100);
+  --st-color-bg-surface-alt:    var(--st-color-softgrey-50);
   --st-color-bg-subtle:         var(--st-color-softgrey-100);
 
   --st-color-text-default:      var(--st-color-charcoal);
