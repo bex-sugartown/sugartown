@@ -1,8 +1,21 @@
 **Linear Issue:** [SUG-73](https://linear.app/sugartown/issue/SUG-73/dynamic-knowledge-graph-force-directed-viz-on-knowledge-graph-sanity)
-**Status:** Draft — Phase 0 CSV audit **shipped** (output/audit/); Phase 1+ blocked on SUG-74 (taxonomy cleanup) + SUG-67 Phase 1a
+**Status:** Phase 0 CSV audit ✅ shipped · Phase 0.5 Visual Mock — **in progress** · Phase 1+ blocked on Phase 0.5 sign-off
 **Route:** `/knowledge-graph` (existing archive, add graph view)
 **Merge strategy:** merge-as-you-go (one phase per commit batch)
 **Created:** 2026-04-19
+
+---
+
+## Phase 0.5 Hard-Stop
+
+**No code in `apps/web/src/`, `packages/design-system/src/`, or `scripts/stats/` may be written until:**
+
+1. The HTML mock exists at `docs/drafts/SUG-73-knowledge-graph-mock.html`
+2. The edge-semantic option (A / B / C) has been explicitly chosen by Bex
+3. The Phase 0.5 decision table is complete (see Phase 0.5 deliverable below)
+4. Bex has reviewed the mock and approved Phase 0.5
+
+Phase 0.5 produces the visual contract and the locked decisions for Phases 1–4. Do not begin Phase 1 without that sign-off.
 
 ---
 
@@ -71,7 +84,7 @@ Add a **graph view** to `/knowledge-graph`, toggleable with the existing grid. T
 | Data pipeline | Build-time — rides SUG-67 as a new `graph` namespace |
 | Priority relative to SUG-67 | Wait for SUG-67 Phase 1a. Phase 0 of this epic (CSV audit) can start now. |
 | Merge strategy | Merge-as-you-go |
-| Edge semantics | **TBD after mock review — see Phase 0** |
+| Edge semantics | **TBD — locked in Phase 0.5 mock sign-off** |
 
 ---
 
@@ -130,24 +143,50 @@ Tags render as tiny floating unlabeled nodes (no text, no click target) that nod
 
 ## Phases
 
-### Phase 0 — Data audit (standalone; ship first)
+### Phase 0 — Data audit ✅ shipped
 
 **Deliverable:** `apps/web/scripts/audit/export-taxonomy-csv.js`
 
-Queries Sanity via `@sanity/client` (existing config) and writes 4 CSVs under `output/audit/` (add to `.gitignore`):
+Shipped. CSVs at `output/audit/` (gitignored). Taxonomy cleaned as part of SUG-74.
 
-| File | Columns |
-|------|---------|
-| `nodes.csv` | `_id, slug, title, projectSlug, categorySlug, tagSlugs (semicolon-separated), hasDraft, publishedAt, modifiedAt` |
-| `projects.csv` | `_id, slug, title, nodeCount, articleCount, caseStudyCount` |
-| `categories.csv` | `_id, slug, title, nodeCount, articleCount` |
-| `tags.csv` | `_id, slug, title, usageCount, orphaned (nodeCount==0 && articleCount==0)` |
+Edge-semantic option is **not** picked here — that decision moves to Phase 0.5 where the mock makes the options visual.
 
-Plus an HTML mock at `output/audit/graph-edge-options.html` rendering A, B, C with live data so Bex can pick.
+### Phase 0.5 — Visual Mock & POC (gated — no code until approved)
 
-**Acceptance:** Bex reviews CSVs in a spreadsheet, fixes data errors in Studio, picks the edge-semantic option. No production code lands in this phase.
+**Deliverable:** `docs/drafts/SUG-73-knowledge-graph-mock.html`
 
-### Phase 1 — Data pipeline (blocked on SUG-67 Phase 1a)
+A static HTML file (no React, no build step) that renders the graph visual using SVG or Canvas 2D directly. The goal is to prove the visual language and lock decisions before a single component is written.
+
+**The mock must show:**
+
+| # | Surface | What to demonstrate |
+|---|---------|---------------------|
+| 1 | Edge option A | Bipartite layout: project hubs (large), category hubs (medium), node dots (small), 2 edges per node |
+| 2 | Edge option B | Same backbone + dashed lateral edges between nodes sharing 2+ tags |
+| 3 | Node colour mapping | Project = `--st-color-accent-secondary` candidate; Category = one of lime/seafoam; Node = hot pink; background = dark surface |
+| 4 | Label legibility | IBM Plex Mono labels on hover-state nodes (render a few "active" nodes to test size at density) |
+| 5 | Sidebar panel | Static mockup of the sidebar that appears on node click: title, project, category, tag chips, CTA |
+| 6 | Toggle control | The grid↔graph segmented control — visual treatment, hover state, active state |
+| 7 | Mobile fallback | The cluster list that replaces the canvas below 768px |
+
+Use real node/project/category names from `output/audit/nodes.csv`. The graph does not need to be force-simulated — position nodes manually or with a rough radial layout. The aesthetic is what needs approval, not the physics.
+
+**Phase 0.5 decision table — complete before sign-off:**
+
+| Decision | Options | Chosen |
+|----------|---------|--------|
+| Edge semantics | A (membership only) / B (membership + lateral) / C (tag-hub) | ? |
+| Project node colour | Token candidate(s) | ? |
+| Category node colour | Token candidate(s) | ? |
+| Node dot colour | `--st-color-brand-primary` (#ff247d) confirmed? | ? |
+| Canvas background | `--st-color-surface-inset` / dark theme surface / other | ? |
+| Label font face | IBM Plex Mono confirmed for canvas labels? | ? |
+| New tokens needed | List any net-new tokens required (blocks Phase 1 if yes) | ? |
+| Sidebar breakpoint | Where sidebar collapses to bottom sheet or disappears | ? |
+
+**Acceptance:** Bex reviews mock in browser, all decision table cells filled, edge option chosen, Phase 0.5 sign-off given explicitly before Phase 1 begins.
+
+### Phase 1 — Data pipeline (blocked on Phase 0.5 sign-off + SUG-67 Phase 1a)
 
 **Deliverable:** `scripts/stats/graph.js` collector — GROQ → `graph` namespace in `stats.json`.
 
@@ -263,7 +302,8 @@ Each phase is an independent commit batch:
 
 ## Definition of Done
 
-- [ ] Phase 0 CSV export tool shipped; Bex has reviewed and picked edge semantics
+- [x] Phase 0 CSV export tool shipped (`output/audit/`)
+- [ ] Phase 0.5 mock at `docs/drafts/SUG-73-knowledge-graph-mock.html`; decision table complete; Bex sign-off given; edge semantics locked
 - [ ] Phase 1 graph collector in SUG-67 pipeline; `stats.graph` populates
 - [ ] Phase 2 `KnowledgeGraph` component rendering tokens-only palette
 - [ ] Phase 3 grid↔graph toggle live at `/knowledge-graph?view=graph`
