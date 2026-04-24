@@ -158,7 +158,7 @@ Brief intent (v2): cool neutral grey page field, so white-background cards and t
 
 This replaces the earlier `--st-color-paper` (warm off-white) proposal, which was retired when the brief moved to a neutral grey direction.
 
-Candidates: `#eeeef2` (the value used in the AB-001 v2 mock HTML — a very pale cool grey, similar to `softgrey-100` but with a slightly cooler cast). The existing `--st-color-softgrey-50` (`#f8f8fa`) is too close to white to achieve the elevation contrast. Requires decision from Bex on exact value before adding as a primitive.
+Candidates: `#f2f2f6` (the value used in the AB-001 v2 mock HTML — a very pale cool grey, similar to `softgrey-100` but with a slightly cooler cast). The existing `--st-color-softgrey-50` (`#f8f8fa`) is too close to white to achieve the elevation contrast. Requires decision from Bex on exact value before adding as a primitive.
 
 ---
 
