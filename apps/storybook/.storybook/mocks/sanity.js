@@ -26,8 +26,14 @@ export function urlFor(source) {
   return createBuilder(assetUrl)
 }
 
+// Default: return null (no data). Stories override this via __setClientFetch.
+let _fetch = () => Promise.resolve(null)
+
+export function __setClientFetch(fn) { _fetch = fn }
+export function __resetClientFetch() { _fetch = () => Promise.resolve(null) }
+
 export const client = {
-  fetch: () => Promise.resolve([]),
+  fetch: (...args) => _fetch(...args),
 }
 
 export const rawClient = {

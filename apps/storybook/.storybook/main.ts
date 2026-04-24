@@ -33,6 +33,7 @@ const config: StorybookConfig = {
       'react-dom',
       'react/jsx-runtime',
       'react/jsx-dev-runtime',
+      'react-router-dom',
     ];
 
     // Mock sanity.js and contentState.js for web component stories.

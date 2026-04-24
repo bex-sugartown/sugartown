@@ -51,6 +51,9 @@ function formatDate(iso) {
 }
 
 // ── RecentContentSection ────────────────────────────────────────────────────
+// Three fixed columns: release (build-time), article, node.
+// caseStudy is intentionally excluded — publish cadence is too low to warrant
+// a permanent column; it would routinely show stale content beside fresher articles.
 
 export default function RecentContentSection({ section }) {
   const heading = section?.heading || 'Recently shipped'
