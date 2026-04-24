@@ -1,6 +1,6 @@
 id,name,slug,toolType,description,articles,caseStudies,nodes,total
-tool-aem,AEM,aem,cms,,0,1,0,1
-e0b6850a-4a6a-4ede-aa2e-fe15f6e538c1,AEM Assets,aem-assets,dam,,1,0,0,1
+tool-aem,AEM,aem,cms,,0,0,0,0
+e0b6850a-4a6a-4ede-aa2e-fe15f6e538c1,AEM Assets,aem-assets,dam,,1,1,0,2
 tool-acquia,Acquia,acquia,cms,,1,0,0,1
 94df817c-15a8-4f19-a47e-cc93fc5a883d,Apple,apple,os,,1,0,0,1
 tool-css,CSS,css,development,,0,1,5,6
@@ -16,8 +16,7 @@ fe659e15-969e-42d8-93fa-1fedb57c5323,Eraser.io,eraser-io,visualization,,0,0,1,1
 tool-figma,Figma,figma,design,,1,0,1,2
 8d4ae4b4-b4e1-40a6-ad2b-e7b118a6ae2c,FileMaker Pro,filemaker-pro,data,,0,1,0,1
 tool-gemini,Gemini,gemini,ai,,1,0,19,20
-tool-git,Git,git,development,,0,0,2,2
-tool-github,GitHub,github,development,,1,0,0,1
+tool-github,GitHub,github,development,,1,0,2,3
 e853496b-ca23-4a8e-a865-38ea672ad08b,Google,google,other,,1,1,0,2
 tool-javascript,JavaScript,javascript,development,,0,0,0,0
 tool-linear,Linear,linear,productivity,,0,0,0,0
@@ -29,12 +28,12 @@ tool-codex,OpenAI Codex,codex,ai,,0,0,1,1
 tool-oracle-atg,Oracle ATG,oracle-atg,ecommerce,,0,1,0,1
 tool-python,Python,python,development,,0,0,9,9
 tool-react,React,react,development,,0,0,3,3
-b9727392-5ca1-45a5-9a5e-ca1e838ac650,Riversand,riversand,pim,,1,0,0,1
+b9727392-5ca1-45a5-9a5e-ca1e838ac650,Riversand,riversand,pim,,1,1,0,2
 tool-sanity,Sanity,sanity,cms,,2,0,8,10
 tool-shopify,Shopify,shopify,ecommerce,,0,0,1,1
 ffa71aae-af60-492e-9dc9-8018ddd4faba,Storyblok,storyblok,cms,,0,1,0,1
 tool-storybook,Storybook,storybook,development,,0,0,2,2
-tool-turborepo,Turborepo,turborepo,development,,0,0,0,0
+tool-turborepo,Turborepo,turborepo,development,,0,0,1,1
 tool-typescript,TypeScript,typescript,development,,0,0,0,0
 tool-vite,Vite,vite,development,,0,0,0,0
 tool-wordpress,WordPress,wordpress,cms,,0,0,5,5

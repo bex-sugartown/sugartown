@@ -1,6 +1,6 @@
 id,title,slug,description,accentColor,articles,caseStudies,nodes,total
 6b0b2219-7757-41da-9ab7-d118d233bae0,,knowledge-graph-viz,"A suite of scripts transforming static content data into dynamic ""Sugartown Pink"" styled visual artifacts.",,0,0,8,8
 101d00b0-7ab6-47b7-a6db-77bc9fe743a5,,mini-repo,"A Consolidation of Sugartown frontend, Sanity Studio, design system, and Storybook into a single monorepo",,0,0,4,4
-ae8a5c40-f1b6-459b-830e-230ccc1b41f4,,sugartown-cms,The core Python-to-WordPress publishing engine. Replaces legacy PHP themes with a content-as-code architecture.,,4,0,23,27
-80a2e315-bd20-458d-8d84-e7b11f694c31,,sugartown-pink-design-system,"A strict, utility-first CSS framework enforcing the Sugartown Pink palette and atomic component hierarchy.",,1,0,9,10
-b252a92b-29d3-4abb-b068-504ab86bc941,,resume-factory,Automated CV generation system that renders tailored resumes from a single JSON source of truth.,,0,0,6,6
+80a2e315-bd20-458d-8d84-e7b11f694c31,,sugartown-design-system,"A strict, utility-first CSS framework enforcing the Sugartown Pink palette and atomic component hierarchy.",,1,0,9,10
+ae8a5c40-f1b6-459b-830e-230ccc1b41f4,,sugartown-cms,The core Python-to-WordPress publishing engine. Replaces legacy PHP themes with a content-as-code architecture.,,4,0,24,28
+b252a92b-29d3-4abb-b068-504ab86bc941,,resume-factory,Automated CV generation system that renders tailored resumes,,0,0,6,6
