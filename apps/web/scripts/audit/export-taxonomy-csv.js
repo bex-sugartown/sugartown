@@ -70,7 +70,6 @@ async function run() {
   const categories = await client.fetch(`
     *[_type == "category" && !(_id in path("drafts.**"))] | order(name asc) {
       "id": _id, "name": name, "slug": slug.current, description,
-      "parent": parent->name,
       "articles": count(*[_type == "article" && references(^._id)]),
       "caseStudies": count(*[_type == "caseStudy" && references(^._id)]),
       "nodes": count(*[_type == "node" && references(^._id)])
@@ -80,7 +79,7 @@ async function run() {
     ...c, total: (c.articles || 0) + (c.caseStudies || 0) + (c.nodes || 0)
   }))
   writeFileSync(resolve(outDir, 'categories.csv'),
-    toCsv(catRows, ['id', 'name', 'slug', 'description', 'parent', 'articles', 'caseStudies', 'nodes', 'total']))
+    toCsv(catRows, ['id', 'name', 'slug', 'description', 'articles', 'caseStudies', 'nodes', 'total']))
   console.log(`  categories.csv — ${catRows.length} rows`)
 
   // Tags

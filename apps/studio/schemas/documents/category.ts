@@ -6,8 +6,8 @@ import {createRemoveReferenceAction} from '../../components/RemoveReferenceActio
 /**
  * Category Document
  *
- * Hierarchical topic categorization with color coding for knowledge graph visualization
- * Supports parent-child relationships for nested category structures
+ * Broad domain classification for content, with color coding for knowledge graph visualization.
+ * Specificity is handled by tags, not nested categories.
  */
 export default defineType({
   name: 'category',
@@ -56,22 +56,6 @@ export default defineType({
       validation: (Rule) => Rule.max(200)
     }),
     defineField({
-      name: 'parent',
-      title: 'Parent Category',
-      type: 'reference',
-      to: [{type: 'category'}],
-      description: 'Optional: nest this category under another category',
-      options: {
-        filter: ({document}) => {
-          // Prevent selecting self as parent
-          return {
-            filter: '_id != $id',
-            params: {id: document._id}
-          }
-        }
-      }
-    }),
-    defineField({
       name: 'colorHex',
       title: 'Brand Color',
       type: 'color',
@@ -96,13 +80,12 @@ export default defineType({
       title: 'name',
       subtitle: 'description',
       colorHex: 'colorHex',
-      parentName: 'parent.name'
     },
-    prepare({title, subtitle, colorHex, parentName}) {
+    prepare({title, subtitle, colorHex}) {
       const color = colorHex?.hex || '#FF69B4'
       return {
         title: title || 'Untitled Category',
-        subtitle: parentName ? `↳ ${parentName} • ${color}` : `${subtitle || ''} • ${color}`
+        subtitle: `${subtitle || ''} • ${color}`
       }
     }
   },
