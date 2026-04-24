@@ -89,14 +89,15 @@ async function run() {
       "id": _id, "name": name, "slug": slug.current, description,
       "articles": count(*[_type == "article" && references(^._id)]),
       "caseStudies": count(*[_type == "caseStudy" && references(^._id)]),
-      "nodes": count(*[_type == "node" && references(^._id)])
+      "nodes": count(*[_type == "node" && references(^._id)]),
+      "projects": count(*[_type == "project" && references(^._id)])
     }
   `)
   const tagRows = tags.map(t => ({
-    ...t, total: (t.articles || 0) + (t.caseStudies || 0) + (t.nodes || 0)
+    ...t, total: (t.articles || 0) + (t.caseStudies || 0) + (t.nodes || 0) + (t.projects || 0)
   }))
   writeFileSync(resolve(outDir, 'tags.csv'),
-    toCsv(tagRows, ['id', 'name', 'slug', 'description', 'articles', 'caseStudies', 'nodes', 'total']))
+    toCsv(tagRows, ['id', 'name', 'slug', 'description', 'articles', 'caseStudies', 'nodes', 'projects', 'total']))
   console.log(`  tags.csv — ${tagRows.length} rows`)
 
   // Tools

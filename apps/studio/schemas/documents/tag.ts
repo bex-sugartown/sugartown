@@ -28,7 +28,7 @@ export default defineType({
     defineIncomingReferenceDecoration({
       name: 'assignedContent',
       title: 'Assigned content',
-      types: [{type: 'article'}, {type: 'node'}, {type: 'caseStudy'}],
+      types: [{type: 'article'}, {type: 'node'}, {type: 'caseStudy'}, {type: 'project'}],
       actions: [createRemoveReferenceAction('tags')],
     }),
   ],
