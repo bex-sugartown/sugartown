@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-74 taxonomy cleanup shipped (v0.22.5) — AI category consolidation, parent category relationship removed, project refs in tag Studio panel, CSV exports updated. **Next:** SUG-73 Dynamic Knowledge Graph (taxonomy cleanup pre-req now complete).
+> **⚑ Current focus:** SUG-78 Ledger Tradition DS Refresh — Phase 0 mock in progress. SUG-73 Knowledge Graph paused at Phase 0.5 (mock built, awaiting Bex sign-off before Phase 1).
 
 ---
 
@@ -19,7 +19,8 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-73](https://linear.app/sugartown/issue/SUG-73) · Dynamic Knowledge Graph** — SUG-74 taxonomy cleanup now complete. Phases 1–4 (graph rendering, node clustering, interactive drill-down) unblocked. Epic: `docs/backlog/SUG-73-dynamic-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
+| 1 | **[SUG-78](https://linear.app/sugartown/issue/SUG-78) · Ledger Tradition DS Refresh** — Phase 0 mock gate. AB-001 brief updated with 8th reference (Allen, *The Notebook*). Token decisions (ink, rule-accent, canvas) and structural vs CSS-only split to be resolved in mock. Epic: `docs/backlog/SUG-78-ledger-tradition-ds-refresh.md`. | `Design System` `CSS` | 🟢 Next |
+| 2 | **[SUG-73](https://linear.app/sugartown/issue/SUG-73) · Dynamic Knowledge Graph** — Phase 0.5 mock built (`docs/drafts/SUG-73-knowledge-graph-mock.html`). Paused at Bex sign-off gate. Resumes after SUG-78 Phase 0 or when edge-semantic decision is made. Epic: `docs/backlog/SUG-73-dynamic-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
 
 ---
 
