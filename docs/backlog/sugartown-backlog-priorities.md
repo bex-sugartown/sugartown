@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-24 · v0.22.5 · SUG-74 taxonomy cleanup (AI category consolidation, parent category removal, project refs in tag panel + CSV)
+> Updated 2026-04-25 · v0.22.6 · SUG-78 Ledger Tradition DS refresh Phase 1 (canvas bg, card borders+font, chips, FilterBar, inline code, self-hosted Storybook fonts)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-78 Ledger Tradition DS Refresh — Phase 0 mock in progress. SUG-73 Knowledge Graph paused at Phase 0.5 (mock built, awaiting Bex sign-off before Phase 1).
+> **⚑ Current focus:** SUG-78 Phase 1 shipped (v0.22.6). Next: SUG-79 Storybook audit (Card primitive slim + CardGrid stories) or SUG-73 Knowledge Graph (paused at Phase 0.5 mock, awaiting sign-off). SUG-80 (Ledger Phase 2: WCAG contrast audit + callout structural) in backlog.
 
 ---
 
@@ -19,8 +19,9 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-78](https://linear.app/sugartown/issue/SUG-78) · Ledger Tradition DS Refresh** — Phase 0 mock gate. AB-001 brief updated with 8th reference (Allen, *The Notebook*). Token decisions (ink, rule-accent, canvas) and structural vs CSS-only split to be resolved in mock. Epic: `docs/backlog/SUG-78-ledger-tradition-ds-refresh.md`. | `Design System` `CSS` | 🟢 Next |
-| 2 | **[SUG-73](https://linear.app/sugartown/issue/SUG-73) · Dynamic Knowledge Graph** — Phase 0.5 mock built (`docs/drafts/SUG-73-knowledge-graph-mock.html`). Paused at Bex sign-off gate. Resumes after SUG-78 Phase 0 or when edge-semantic decision is made. Epic: `docs/backlog/SUG-73-dynamic-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
+| 1 | **[SUG-79](https://linear.app/sugartown/issue/SUG-79) · Storybook Audit** — Slim Card primitive to ~10 API stories, move grid/layout stories to CardGrid file, retire EditorialCard to Legacy. Chromatic coverage at light+dark-pink-moon. Epic: `docs/backlog/SUG-79-storybook-audit.md`. | `Tooling` `DX` | 🟢 Next |
+| 2 | **[SUG-73](https://linear.app/sugartown/issue/SUG-73) · Dynamic Knowledge Graph** — Phase 0.5 mock built (`docs/drafts/SUG-73-knowledge-graph-mock.html`). Paused at Bex sign-off gate. Epic: `docs/backlog/SUG-73-dynamic-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
+| 3 | **[SUG-80](https://linear.app/sugartown/issue/SUG-80) · Ledger Tradition Phase 2** — WCAG contrast audit (token-only fixes for softgrey/charcoal scale), then callout structural treatment (horizontal rule pair + inline grid label). Phase 0 gate applies to callout only. Epic: `docs/backlog/SUG-80-ledger-tradition-phase-2.md`. | `Design System` `Accessibility` | 🟣 Soon |
 
 ---
 
@@ -51,6 +52,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-78 · Ledger Tradition DS Refresh Phase 1** — Canvas bg neutral-100, card borders rule-accent, card title Cormorant Garamond 18px, chip Ledger treatment, FilterBar token migration, inline code white surface, self-hosted Storybook fonts for Chromatic VRT. Chromatic Build 12 approved (75 intentional diffs).~~ | v0.22.6 | 2026-04-25 |
 | ~~**SUG-74 · Taxonomy Cleanup** — AI sub-categories (ai-entropy, ai-automation, ai-collaboration) demoted to tags, single `AI` category created. Parent category relationship removed (zero usage). Projects added to tag "Assigned content" panel in Studio. CSV exports updated with project column + parent removed. Orphan tag cleanup and Services/Resume Factory tag refs cleared.~~ | v0.22.5 | 2026-04-24 |
 | ~~**SUG-76 · Trust Render Surfaces** — Footer version badge links to CHANGELOG.md. Platform hero `showStatRail` boolean on `heroSection` schema renders a 4-metric build-time stat rail (version, tokens, commits, vulns) as external links. `TRUST_LINKS` canonical constant in `routes.js`. Storybook Sanity mock fixed to intercept relative imports (`./sanity` from `useSanityDoc.js`), unblocking Chromatic VRT. Chromatic Build 9 passed (211 stories).~~ | v0.22.3 | 2026-04-23 |
 | ~~**SUG-67 · Dynamic Trust Reporting Pipeline** — Build-time stats aggregator (`scripts/collect-stats.js`) with 4 local collectors (changelog, ds, storybook, repo) and 5 network collectors (security, sanity, github, crux, perf). Vite plugin regenerates `src/generated/stats.json` on every build. `{{namespace.path}}` token interpolation in PortableText via `preprocessPortableText()`. Daily CI workflow (`.github/workflows/stats.yml`). `lighthouserc.js` auditing 8 key pages. `docs/conventions/stats-pipeline.md` reference.~~ | v0.22.2 | 2026-04-22 |
@@ -116,4 +118,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-24 · v0.22.5*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-25 · v0.22.6*
