@@ -26,8 +26,8 @@
 .heading::after {
   content: '';
   flex: 1;
-  height: 1px;
-  background: var(--st-color-border-default);
+  height: 2px;
+  background: var(--st-color-ink);
 }
 
 /* ── Ticker grid ────────────────────────────────────────────────────────────
@@ -38,9 +38,10 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
-  background: var(--st-card-border);
-  border: 1px solid var(--st-card-border);
-  overflow: hidden; /* clips card backgrounds to outer border */
+  background: var(--st-color-rule-accent);
+  border: 1px solid var(--st-color-rule-accent);
+  border-top: 2px solid var(--st-color-pink);
+  overflow: hidden;
 }
 
 /* ── TickerCard ─────────────────────────────────────────────────────────────
@@ -103,7 +104,7 @@ a.card:hover {
   letter-spacing: var(--st-label-tracking);
   margin-top: auto;
   padding-top: var(--st-space-3);
-  border-top: 1px solid var(--st-card-border);
+  border-top: 1px solid var(--st-color-rule-accent);
 }
 
 /* ── Skeleton loading state ─────────────────────────────────────────────── */
