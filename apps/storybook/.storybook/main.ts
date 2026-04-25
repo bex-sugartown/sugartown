@@ -9,6 +9,7 @@ const mocks = resolve(__dirname, './mocks');
 const config: StorybookConfig = {
   stories: [
     '../../../packages/design-system/src/**/*.stories.@(js|jsx|ts|tsx)',
+    '../../../apps/web/src/design-system/**/*.stories.@(js|jsx|ts|tsx)',
     '../../../apps/web/src/components/**/*.stories.@(js|jsx|ts|tsx)',
     './stories/**/*.stories.@(js|jsx|ts|tsx)',
   ],
