@@ -73,6 +73,7 @@
   font-size: var(--st-font-size-sm);
   color: var(--st-color-text-default);
   margin: 0;
+  padding: 0.375rem 0.625rem;
 }
 
 .callNumberLink {
