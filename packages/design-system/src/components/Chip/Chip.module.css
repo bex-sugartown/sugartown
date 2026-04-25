@@ -122,7 +122,7 @@
 /* ── Light Pink Moon — Ledger Tradition treatment ──────
    Transparent bg: color is carried by border + text only.
    ──────────────────────────────────────────────────────── */
-:global([data-theme="light-pink-moon"]) .chip {
+:global([data-theme="light-pink-moon"]) .chip:not(.active) {
   background: transparent;
   border-color: color-mix(in srgb, var(--_chip-color) 35%, var(--st-color-rule-accent));
 }
