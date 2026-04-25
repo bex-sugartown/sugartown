@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-25 · v0.22.7 · SUG-73 Dynamic Knowledge Graph (force-directed graph viz, grid↔graph toggle, card rail, zoom controls)
+> Updated 2026-04-25 · v0.22.8 · SUG-80 Ledger Tradition Phase 2 (WCAG audit + Callout structural)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-73 shipped (v0.22.7). Next: SUG-79 Storybook audit (Card primitive slim + CardGrid stories) or SUG-80 (Ledger Phase 2: WCAG contrast audit + callout structural). SUG-81 Site-wide Knowledge Graph in backlog.
+> **⚑ Current focus:** SUG-80 shipped (v0.22.8) — WCAG contrast fixes + Callout structural rewrite. SUG-79 Storybook audit also shipped in v0.22.8. Next: SUG-81 Site-wide Knowledge Graph or SUG-82 Ledger Tradition structural Phase 2 (Card, MetadataCard, archive density).
 
 ---
 
@@ -19,9 +19,8 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-79](https://linear.app/sugartown/issue/SUG-79) · Storybook Audit** — Slim Card primitive to ~10 API stories, move grid/layout stories to CardGrid file, retire EditorialCard to Legacy. Chromatic coverage at light+dark-pink-moon. Epic: `docs/backlog/SUG-79-storybook-audit.md`. | `Tooling` `DX` | 🟢 Next |
-| 2 | **[SUG-80](https://linear.app/sugartown/issue/SUG-80) · Ledger Tradition Phase 2** — WCAG contrast audit (token-only fixes for softgrey/charcoal scale), then callout structural treatment (horizontal rule pair + inline grid label). Phase 0 gate applies to callout only. Epic: `docs/backlog/SUG-80-ledger-tradition-phase-2.md`. | `Design System` `Accessibility` | 🟣 Soon |
-| 3 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. | `UX` `Infrastructure` | 🟣 Soon |
+| 1 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
+| 2 | **[SUG-82](https://linear.app/sugartown/issue/SUG-82) · Ledger Tradition Structural Phase 2** — Card layout restructure, MetadataCard ruled-row pattern, archive density, new primitives (RuledRow, LabelValue). Phase 0 gate required. Epic: `docs/backlog/SUG-82-ledger-tradition-structural.md`. | `Design System` | 🟣 Soon |
 
 ---
 
@@ -52,6 +51,8 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-80 · Ledger Tradition Phase 2** — WCAG AA contrast audit (token-only fixes: neutral-500 darkened, label-color-badge/status-archived/deprecated/active/implemented/exploring fg rebounded). Callout structural rewrite: rule-pair box (2px pink top + 1px hairline bottom), CSS grid label column (72px), 5 variants (default/info/tip/warn/danger), multi-word label support. Storybook stories under Primitives/Callout.~~ | v0.22.8 | 2026-04-25 |
+| ~~**SUG-79 · Storybook Audit** — Slim Card primitive, add CardGrid stories, retire EditorialCard to Legacy. Shipped alongside SUG-80 in v0.22.8.~~ | v0.22.8 | 2026-04-25 |
 | ~~**SUG-73 · Dynamic Knowledge Graph** — Force-directed graph viz on `/knowledge-graph`. Grid↔graph toggle, `react-force-graph-2d` canvas renderer, build-time GROQ collector in SUG-67 stats pipeline, project/category hub nodes, ContentCard rail (compact, no excerpt), zoom controls, hub card CTA for taxonomy nodes. Chromatic Build 13 passed (no changes).~~ | v0.22.7 | 2026-04-25 |
 | ~~**SUG-78 · Ledger Tradition DS Refresh Phase 1** — Canvas bg neutral-100, card borders rule-accent, card title Cormorant Garamond 18px, chip Ledger treatment, FilterBar token migration, inline code white surface, self-hosted Storybook fonts for Chromatic VRT. Chromatic Build 12 approved (75 intentional diffs).~~ | v0.22.6 | 2026-04-25 |
 | ~~**SUG-74 · Taxonomy Cleanup** — AI sub-categories (ai-entropy, ai-automation, ai-collaboration) demoted to tags, single `AI` category created. Parent category relationship removed (zero usage). Projects added to tag "Assigned content" panel in Studio. CSV exports updated with project column + parent removed. Orphan tag cleanup and Services/Resume Factory tag refs cleared.~~ | v0.22.5 | 2026-04-24 |
@@ -119,4 +120,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-25 · v0.22.7*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-25 · v0.22.8*
