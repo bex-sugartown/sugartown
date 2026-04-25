@@ -241,7 +241,7 @@ export default function MetadataCard({
                 {hasCategories && (
                   <div className={styles.chipRow}>
                     <p className={styles.chipLabel}>Category</p>
-                    <TaxonomyChips categories={categories} size="sm" />
+                    <TaxonomyChips categories={categories} size="sm" className={styles.chipList} />
                   </div>
                 )}
               </div>
@@ -250,14 +250,14 @@ export default function MetadataCard({
             {showProjectChips && (
               <div className={styles.chipRow}>
                 <p className={styles.chipLabel}>Project</p>
-                <TaxonomyChips projects={projects} size="sm" />
+                <TaxonomyChips projects={projects} size="sm" className={styles.chipList} />
               </div>
             )}
 
             {hasTags && (
               <div className={styles.chipRow}>
                 <p className={styles.chipLabel}>Tags</p>
-                <TaxonomyChips tags={tags} size="sm" />
+                <TaxonomyChips tags={tags} size="sm" className={styles.chipList} />
               </div>
             )}
           </div>

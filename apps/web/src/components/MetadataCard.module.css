@@ -54,7 +54,7 @@
   margin: 0;
   padding: 0.25rem 0.625rem;
   background: var(--st-color-canvas);
-  border-bottom: 1px solid var(--st-margin-divider);
+  border-bottom: 2px solid var(--st-color-ink);
   display: block;
 }
 
