@@ -680,6 +680,14 @@
   --st-header-bg:                    var(--st-color-bg-surface);
   --st-hero-bg-image:                none;
 
+  /* ── Graph Visualisation (SUG-73) ───────────────────────── */
+  --st-graph-node-project:    var(--st-color-seafoam);       /* project hub nodes */
+  --st-graph-node-category:   var(--st-color-lime);          /* category hub nodes */
+  --st-graph-node-item:       var(--st-color-brand-primary); /* knowledge node items */
+  --st-graph-edge-membership: var(--st-color-border-medium); /* node → project/category edges */
+  --st-graph-edge-lateral:    var(--st-color-border-subtle); /* dashed lateral (2+ shared tags) */
+  --st-graph-bg:              var(--st-color-bg-canvas);     /* canvas background, theme-responsive */
+
 
   /* ══════════════════════════════════════════════════════
      LEGACY ALIASES — Step 3 TARGET: remove after component audit
