@@ -165,11 +165,11 @@ Candidates: `#F8F8FA` — this is `--st-color-softgrey-50`, already defined in `
 ## Scope
 
 ### Phase 0 (Mock + Decision) — gated, no code
-- [ ] Read AB-001 brief in full; cross-reference current token files and component CSS
-- [ ] Build `docs/drafts/SUG-78-ledger-tradition-mock.html` with 7 component pairs (current vs Ledger Tradition)
-- [ ] Complete Phase 0 decision table (structural vs token/CSS for each component)
-- [ ] Resolve the three palette primitive questions (ink, gold, paper) — or flag as Bex decisions
-- [ ] **Human gate:** Bex reviews mock and approves before Phase 1 begins
+- [x] Read AB-001 brief in full; cross-reference current token files and component CSS
+- [x] Build `docs/drafts/SUG-78-ledger-tradition-mock.html` with 7 component pairs (current vs Ledger Tradition)
+- [x] Complete Phase 0 decision table (structural vs token/CSS for each component)
+- [x] Resolve the three palette primitive questions (ink, canvas, rule-accent) — confirmed 24 Apr 2026
+- [x] **Human gate:** Bex reviews mock and approves before Phase 1 begins — approved 24 Apr 2026
 
 ### Phase 1 (Token/CSS-only changes) — post Phase 0 sign-off
 Scope to be finalized at Phase 0, but expected to include:
