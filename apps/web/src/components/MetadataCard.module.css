@@ -1,25 +1,22 @@
 /*
- * MetadataCard — detail-page metadata surface (SUG-52 card-catalog aesthetic).
+ * MetadataCard — detail-page metadata surface (Ledger Tradition aesthetic).
  *
- * Layout: dotted neutral outline, bg-through-gap interior dividers.
- * Scalar fields flow in a wrapping row. Chip sections span full width.
- *
- * Key patterns:
- * - Outer: 2px dotted outline (--st-margin-outline) — shared card-catalog aesthetic
- * - Interior dividers: bg-through-gap on .scalarRow and .chipColumns
- *   (container bg = divider color, children bg = surface color, gap = line)
- * - Zero CSS borders inside — prevents retina rendering mismatches
+ * Layout:
+ * - Outer: 1px rule-accent border + 2px pink top rubrication
+ * - Scalar fields: CSS grid (auto-fit minmax 90px), canvas-bg label header above each value
+ * - Chip sections: bg-through-gap on chipColumns (canvas label column + chip list)
  *
  * Token usage:
  * - Labels: --st-label-* unified mono label system
  * - Colors: --st-margin-* themed surface/divider/outline
+ *           --st-color-canvas for label header backgrounds
  */
 
-/* ── Card outer frame — solid ink border, pink rubrication top ── */
+/* ── Card outer frame — rule-accent border, pink rubrication top ── */
 
 .card {
   background: var(--st-margin-bg);
-  border: 1px solid var(--st-margin-outline);
+  border: 1px solid var(--st-margin-divider);
   border-top: 2px solid var(--st-color-pink);
   padding: 0;
   overflow: hidden;
@@ -30,24 +27,21 @@
    padding-bottom: 1px creates the divider between scalars and chip sections. */
 
 .scalarRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1px;
-  background-color: var(--st-margin-divider);
-  padding-bottom: 1px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  background-color: var(--st-margin-bg);
+  border-bottom: 1px solid var(--st-margin-divider);
 }
 
-/* No chip sections follow — suppress the bottom divider line that would
-   otherwise show as an orphaned stripe under the last scalar row. */
+/* No chip sections follow — suppress the bottom divider line. */
 .scalarRow.noChipsBelow {
-  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .scalarField {
-  flex: 1 0 auto;
-  min-width: 120px;
   background: var(--st-margin-bg);
-  padding: 0.625rem 0.875rem;
+  padding: 0;
+  border-right: 1px solid var(--st-margin-divider);
 }
 
 .scalarLabel {
@@ -57,7 +51,11 @@
   letter-spacing: var(--st-label-tracking);
   text-transform: uppercase;
   color: var(--st-label-color);
-  margin: 0 0 0.25rem;
+  margin: 0;
+  padding: 0.25rem 0.625rem;
+  background: var(--st-color-canvas);
+  border-bottom: 1px solid var(--st-margin-divider);
+  display: block;
 }
 
 .scalarValue {
@@ -65,6 +63,7 @@
   font-size: var(--st-font-size-sm);
   color: var(--st-color-text-default);
   margin: 0;
+  padding: 0.375rem 0.625rem;
 }
 
 /* ── Call number — project ID, catalog-card shelf label ── */
@@ -125,7 +124,7 @@
 .chipRow {
   background: var(--st-margin-bg);
   display: grid;
-  grid-template-columns: 72px 1fr;
+  grid-template-columns: 88px 1fr;
   align-items: center;
 }
 
@@ -138,7 +137,8 @@
   color: var(--st-label-color);
   margin: 0;
   white-space: nowrap;
-  padding: 0.5rem 0.875rem;
+  overflow: hidden;
+  padding: 0.5rem 0.75rem;
   background: var(--st-color-canvas);
   border-right: 1px solid var(--st-margin-divider);
   align-self: stretch;
@@ -148,7 +148,7 @@
 
 @media (max-width: 600px) {
   .chipRow {
-    grid-template-columns: 56px 1fr;
+    grid-template-columns: 68px 1fr;
   }
 }
 
