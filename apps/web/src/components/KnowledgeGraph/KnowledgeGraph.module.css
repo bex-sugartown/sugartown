@@ -1,0 +1,67 @@
+.wrap {
+  width: 100%;
+}
+
+.graphArea {
+  display: flex;
+  border: 1px solid var(--st-color-rule-accent);
+  overflow: hidden;
+}
+
+.canvasWrap {
+  flex: 1;
+  position: relative;
+  min-height: 520px;
+  background: var(--st-graph-bg);
+  overflow: hidden;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 520px;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+}
+
+/* ── Legend ──────────────────────────────────────────────── */
+
+.legend {
+  position: absolute;
+  bottom: var(--st-space-4);
+  left: var(--st-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-1);
+  pointer-events: none;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--st-space-2);
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+}
+
+.dotProject,
+.dotCategory,
+.dotItem {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dotProject  { background: var(--st-graph-node-project); }
+.dotCategory { background: var(--st-graph-node-category); }
+.dotItem     { background: var(--st-graph-node-item); }

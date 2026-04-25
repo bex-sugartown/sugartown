@@ -1,0 +1,166 @@
+.sidebar {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.22s ease;
+  background: var(--st-color-bg-surface);
+  border-left: 1px solid var(--st-color-rule-accent);
+  flex-shrink: 0;
+}
+
+.sidebar.open {
+  width: 300px;
+}
+
+.inner {
+  width: 300px;
+  padding: var(--st-space-6) var(--st-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Close button ─────────────────────────────────────────── */
+
+.close {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  margin-bottom: var(--st-space-3);
+  padding: 0;
+}
+
+.close:hover {
+  color: var(--st-color-text-default);
+}
+
+/* ── Type label ───────────────────────────────────────────── */
+
+.type {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-color-brand-primary);
+  margin-bottom: var(--st-space-2);
+}
+
+/* ── Title ────────────────────────────────────────────────── */
+
+.title {
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-base);
+  font-weight: 600;
+  color: var(--st-color-text-default);
+  line-height: 1.35;
+  margin-bottom: var(--st-space-5);
+}
+
+/* ── Fields ───────────────────────────────────────────────── */
+
+.field {
+  margin-bottom: var(--st-space-4);
+}
+
+.fieldLabel {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  margin-bottom: var(--st-space-2);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--st-space-1);
+}
+
+/* ── Chips ────────────────────────────────────────────────── */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--st-space-1) var(--st-space-3);
+  border-radius: var(--st-radius-xs);
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity 0.12s;
+}
+
+.chip:hover {
+  opacity: 0.8;
+}
+
+.chipProject {
+  background: var(--st-status-active-bg);
+  color: var(--st-status-active-fg);
+  border: 1px solid var(--st-status-active-border);
+}
+
+.chipCategory {
+  background: var(--st-status-evergreen-bg);
+  color: var(--st-status-evergreen-fg);
+  border: 1px solid var(--st-status-evergreen-border);
+}
+
+/* Light theme: lime fg has poor contrast — use text colour */
+[data-theme="light-pink-moon"] .chipCategory {
+  color: var(--st-color-text-default);
+}
+
+.chipTag {
+  background: var(--st-color-bg-surface);
+  color: var(--st-label-color);
+  border: 1px solid var(--st-color-rule-accent);
+}
+
+.chipTag:hover {
+  color: var(--st-color-text-default);
+  opacity: 1;
+  border-color: var(--st-color-border-default);
+}
+
+/* ── Divider + CTA ────────────────────────────────────────── */
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--st-color-rule-accent);
+  margin: var(--st-space-4) 0;
+}
+
+.cta {
+  display: block;
+  width: 100%;
+  padding: var(--st-space-3) var(--st-space-4);
+  background: transparent;
+  border: 1px solid var(--st-color-brand-primary);
+  color: var(--st-color-brand-primary);
+  font-family: var(--st-label-font);
+  font-size: var(--st-font-size-sm);
+  font-weight: 700;
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  border-radius: var(--st-radius-xs);
+  transition: background 0.15s, color 0.15s;
+}
+
+.cta:hover {
+  background: var(--st-color-brand-primary);
+  color: var(--st-color-white);
+}

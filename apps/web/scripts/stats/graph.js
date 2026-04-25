@@ -66,7 +66,7 @@ export async function collectGraph() {
       "slug": slug.current,
       "projects": projects[]->{_id, name, "slug": slug.current},
       "categories": categories[]->{_id, name, "slug": slug.current},
-      "tags": tags[]->{_id, "slug": slug.current}
+      "tags": tags[]->{_id, "slug": slug.current, name}
     }
   `)
 
@@ -113,7 +113,7 @@ export async function collectGraph() {
       label: n.title,
       href:  `/nodes/${n.slug}`,
       size:  'small',
-      tags:  (n.tags ?? []).map(t => t.slug).filter(Boolean),
+      tags:  (n.tags ?? []).map(t => ({ slug: t.slug, label: t.name })).filter(t => t.slug),
     })
   }
 

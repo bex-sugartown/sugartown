@@ -54,7 +54,10 @@ import DraftBadge from '../components/DraftBadge'
 import { PortableText } from '@portabletext/react'
 import portableTextComponents from '../lib/portableTextComponents'
 import NotFoundPage from './NotFoundPage'
+import KnowledgeGraph from '../components/KnowledgeGraph/KnowledgeGraph'
+import statsJson from '../generated/stats.json'
 import styles from './pages.module.css'
+import kgStyles from './KnowledgeGraphArchivePage.module.css'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -337,6 +340,13 @@ export default function ArchivePage({ archiveSlug }) {
         Array.isArray(subheading)
           ? <div className={styles.archiveDescription}><PortableText value={subheading} components={portableTextComponents} /></div>
           : <p className={styles.archiveDescription}>{subheading}</p>
+      )}
+
+      {/* Phase 2: graph view for knowledge-graph archive. Phase 3 adds grid↔graph toggle. */}
+      {archiveSlug === 'knowledge-graph' && statsJson?.graph && (
+        <div className={kgStyles.graphSection}>
+          <KnowledgeGraph graphData={statsJson.graph} />
+        </div>
       )}
 
       {primaryType ? (
