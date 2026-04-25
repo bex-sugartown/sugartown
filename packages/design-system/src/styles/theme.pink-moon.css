@@ -27,33 +27,44 @@
 [data-theme="light-pink-moon"] {
 
   --st-color-bg-canvas:         var(--st-color-white);
-  --st-color-bg-surface:        var(--st-color-softgrey-50);      /* palest grey */
-  --st-color-bg-surface-strong: var(--st-color-softgrey-100);
-  --st-color-bg-surface-alt:    var(--st-color-softgrey-50);
-  --st-color-bg-subtle:         var(--st-color-softgrey-100);
+  --st-color-bg-surface:        var(--st-color-neutral-50);       /* #FAFAFA — card surface */
+  --st-color-bg-surface-strong: var(--st-color-neutral-100);      /* #F2F2F3 */
+  --st-color-bg-surface-alt:    var(--st-color-neutral-50);
+  --st-color-bg-subtle:         var(--st-color-neutral-100);
 
-  --st-color-text-default:      var(--st-color-charcoal);
-  --st-color-text-primary:      var(--st-color-charcoal);
+  /* Ledger Tradition: semantic canvas + structural divider */
+  --st-color-canvas:            var(--st-color-neutral-100);      /* #F2F2F3 — page field */
+  --st-color-rule-accent:       var(--st-color-neutral-300);      /* #C6C6C8 — hairlines */
+
+  --st-color-text-default:      var(--st-color-ink);
+  --st-color-text-primary:      var(--st-color-ink);
   --st-color-text-secondary:    var(--st-color-neutral-600);
-  --st-color-text-muted:        var(--st-color-softgrey-500);
+  --st-color-text-muted:        var(--st-color-neutral-500);      /* #7A7A7D — no blue cast */
   --st-color-text-brand:        var(--st-color-maroon);
 
-  --st-color-border-default:    var(--st-color-softgrey-200);
-  --st-color-border-subtle:     var(--st-color-softgrey-100);
+  --st-color-border-default:    var(--st-color-neutral-200);      /* #E4E4E5 — no blue cast */
+  --st-color-border-subtle:     var(--st-color-neutral-100);
+  --st-card-bg:                 var(--st-color-white);
+  --st-card-border:             var(--st-color-neutral-200);
+  --st-card-shadow:             none;
+  --st-card-hover-shadow:       none;
+  --st-card-hover-translate-y:  0px;
   --st-card-hover-border:       var(--st-color-pink);             /* hot pink on hover */
+  --st-color-chip-bg:           transparent;
+  --st-color-chip-border:       var(--st-color-rule-accent);
 
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
   --st-shadow-elevation-float:  var(--st-shadow-elevation-float-light);
 
-  /* Margin column + MetadataCard — light surface (SUG-52) */
-  --st-margin-bg:       var(--st-color-softgrey-50);      /* #f8f8fa — surface */
-  --st-margin-divider:  var(--st-color-softgrey-300);     /* #bcc5d1 — interior lines */
-  --st-margin-outline:  var(--st-color-softgrey-500);     /* #6e7f96 — dotted outline */
+  /* Margin column + MetadataCard — Ledger Tradition (SUG-78) */
+  --st-margin-bg:       var(--st-color-white);            /* white field, elevated on canvas */
+  --st-margin-divider:  var(--st-color-rule-accent);      /* #C6C6C8 — neutral hairlines */
+  --st-margin-outline:  var(--st-color-ink);              /* #0a0f1a — solid ink border */
 
   /* Label tokens — light override */
-  --st-label-color:       var(--st-color-charcoal-400);   /* #888 — neutral gray */
-  --st-label-color-badge: var(--st-color-charcoal-300);   /* #b0b0b0 — subtle badges */
+  --st-label-color:       var(--st-color-neutral-500);    /* #7A7A7D — neutral, no blue cast */
+  --st-label-color-badge: var(--st-color-neutral-400);    /* #a3a3a3 — subtle badges */
 }
 
 /* ── Dark Pink Moon ────────────────────────────────────── */
@@ -65,6 +76,9 @@
 
   --st-color-border-default:    rgba(255, 255, 255, 0.12);
   --st-color-border-subtle:     rgba(255, 255, 255, 0.06);
+
+  --st-color-canvas:            var(--st-color-midnight-800);
+  --st-color-rule-accent:       rgba(255, 255, 255, 0.15);
 
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);

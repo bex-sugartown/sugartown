@@ -261,6 +261,10 @@
   --st-color-border-medium:  rgba(255, 255, 255, 0.20);
   --st-color-border-strong:  rgba(255, 255, 255, 0.35);
 
+  /* ── Ledger Tradition surfaces (dark defaults) ──────── */
+  --st-color-canvas:      var(--st-color-midnight-800);       /* overridden light: neutral-100 */
+  --st-color-rule-accent: rgba(255, 255, 255, 0.15);          /* overridden light: neutral-300 */
+
   /* ── Link ────────────────────────────────────────────── */
   --st-color-link-default: var(--st-color-brand-primary);
   --st-color-link-hover:   var(--st-color-brand-secondary);
