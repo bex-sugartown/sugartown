@@ -172,7 +172,7 @@
 /* ── Title ───────────────────────────────────────────────────────────────── */
 .title {
   margin: 0;
-  font-family: var(--st-font-family-ui);
+  font-family: var(--st-font-family-narrative);
   font-size: var(--st-card-title-size, 1rem);   /* EPIC-0161: compact scannable scale */
   font-weight: 600;
   line-height: var(--st-line-height-tight);
