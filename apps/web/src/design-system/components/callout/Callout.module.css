@@ -1,54 +1,48 @@
 /**
- * Callout — Sugartown Design System
- * Canonical CSS extracted from: artifacts/style 260118.css §.st-callout
+ * Callout — Sugartown Design System · Ledger Tradition structural treatment (SUG-80)
  *
- * Variants: default (pink), info, tip, warn, danger
- * Each variant overrides --st-callout-bg and --st-callout-border-color.
+ * Structure: horizontal rule-pair (top: brand colour, bottom: hairline) + CSS grid label column.
+ * No background tint. No box border. No border-radius.
+ *
+ * Variants: default (pink), info (neutral), tip (seafoam), warn (amber), danger (maroon)
+ * Each variant overrides --st-callout-rule-top and the .label colour.
  */
 
-/* ── Base + component tokens ──────────────────────────────────────────────── */
+/* ── Base ─────────────────────────────────────────────────────────────────── */
 .callout {
-  /* tokens — bg + border-color managed by tokens.css (dark) + theme.light.css (light) */
-  --st-callout-radius: var(--st-radius-sm, 8px);
-  --st-callout-padding: 1.25rem 1.5rem;
-  --st-callout-margin-block: 2.5rem;
-  --st-callout-icon-color: currentColor;
-
-  /* styles */
-  background: var(--st-callout-bg);
-  border: 1px solid var(--st-callout-border-color);
-  border-radius: var(--st-callout-radius);
-  padding: var(--st-callout-padding);
+  border-top:    var(--st-callout-rule-top);
+  border-bottom: var(--st-callout-rule-bottom);
+  padding: 1rem 0;
   margin: var(--st-callout-margin-block) 0;
+
+  display: grid;
+  grid-template-columns: var(--st-callout-label-width) 1fr;
+  gap: 0 1.5rem;
+  align-items: start;
 }
 
-/* ── Header (icon + title row) ────────────────────────────────────────────── */
-.header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+/* ── Label column ─────────────────────────────────────────────────────────── */
+.label {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  padding-top: 0.2rem;  /* optical alignment with body first line */
+  color: var(--st-color-pink);
+  word-break: break-word;
 }
 
-.icon {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  color: var(--st-callout-icon-color);
-}
-
-.title {
+/* ── Body column ──────────────────────────────────────────────────────────── */
+.body {
   font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.6;
+  color: var(--st-color-text-default);
 }
 
-/* ── Body ─────────────────────────────────────────────────────────────────── */
 .body p {
   margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: var(--st-color-text-default);
 }
 
 .body p + p {
@@ -62,65 +56,29 @@
   text-underline-offset: 0.15em;
 }
 
-/* ── Variant: default (pink) ──────────────────────────────────────────────── */
-/* Uses base tokens — no overrides needed */
-.default {
-  --st-callout-icon-color: var(--st-color-brand-primary);
-}
+/* ── Variant: default (pink) — base label colour, no rule override needed ── */
+/* .default is a no-op — base tokens supply the pink rule and label */
 
-/* ── Variant: info (dark default) ─────────────────────────────────────────── */
+/* ── Variant: info ─────────────────────────────────────────────────────────── */
 .info {
-  --st-callout-bg: var(--st-callout-info-bg);
-  --st-callout-border-color: var(--st-callout-info-border);
-  --st-callout-icon-color: var(--st-callout-info-icon);
+  --st-callout-rule-top: 2px solid var(--st-color-neutral-300);
 }
+.info .label { color: var(--st-color-neutral-600); }
 
-/* ── Variant: tip (dark default) ──────────────────────────────────────────── */
+/* ── Variant: tip ──────────────────────────────────────────────────────────── */
 .tip {
-  --st-callout-bg: var(--st-callout-tip-bg);
-  --st-callout-border-color: var(--st-callout-tip-border);
-  --st-callout-icon-color: var(--st-callout-tip-icon);
+  --st-callout-rule-top: 2px solid var(--st-color-seafoam);
 }
+.tip .label { color: var(--st-color-seafoam-800); }
 
-/* ── Variant: warn (dark default) ─────────────────────────────────────────── */
+/* ── Variant: warn ─────────────────────────────────────────────────────────── */
 .warn {
-  --st-callout-bg: var(--st-callout-warn-bg);
-  --st-callout-border-color: var(--st-callout-warn-border);
-  --st-callout-icon-color: var(--st-callout-warn-icon);
+  --st-callout-rule-top: 2px solid var(--st-color-amber-600);
 }
+.warn .label { color: var(--st-color-amber-700); }
 
-/* ── Variant: danger (dark default) ───────────────────────────────────────── */
+/* ── Variant: danger ───────────────────────────────────────────────────────── */
 .danger {
-  --st-callout-bg: var(--st-callout-danger-bg);
-  --st-callout-border-color: var(--st-callout-danger-border);
-  --st-callout-icon-color: var(--st-callout-danger-icon);
+  --st-callout-rule-top: 2px solid var(--st-color-maroon);
 }
-
-/* ── Light theme overrides — all variants ─────────────────────────────────── */
-[data-theme="light"] .info,
-[data-theme="light-pink-moon"] .info {
-  --st-callout-bg: var(--st-callout-info-bg-light);
-  --st-callout-border-color: var(--st-callout-info-border-light);
-  --st-callout-icon-color: var(--st-callout-info-icon-light);
-}
-
-[data-theme="light"] .tip,
-[data-theme="light-pink-moon"] .tip {
-  --st-callout-bg: var(--st-callout-tip-bg-light);
-  --st-callout-border-color: var(--st-callout-tip-border-light);
-  --st-callout-icon-color: var(--st-callout-tip-icon-light);
-}
-
-[data-theme="light"] .warn,
-[data-theme="light-pink-moon"] .warn {
-  --st-callout-bg: var(--st-callout-warn-bg-light);
-  --st-callout-border-color: var(--st-callout-warn-border-light);
-  --st-callout-icon-color: var(--st-callout-warn-icon-light);
-}
-
-[data-theme="light"] .danger,
-[data-theme="light-pink-moon"] .danger {
-  --st-callout-bg: var(--st-callout-danger-bg-light);
-  --st-callout-border-color: var(--st-callout-danger-border-light);
-  --st-callout-icon-color: var(--st-callout-danger-icon-light);
-}
+.danger .label { color: var(--st-color-maroon); }

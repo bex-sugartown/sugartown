@@ -622,6 +622,9 @@
   --st-callout-padding:      1.25rem 1.5rem;
   --st-callout-margin-block: 2.5rem;
   --st-callout-icon-color:   currentColor;  /* per-variant override */
+  --st-callout-rule-top:     2px solid var(--st-color-pink);       /* Ledger: 2px brand rule */
+  --st-callout-rule-bottom:  1px solid var(--st-color-rule-accent); /* Ledger: hairline closure */
+  --st-callout-label-width:  72px;                                  /* Ledger: grid label column */
 
   /* ── Code ────────────────────────────────────────────── */
   --st-code-radius:        var(--st-radius-code);
