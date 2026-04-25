@@ -370,7 +370,6 @@
   font-size: 1.0625rem;
   color: var(--st-color-text-default);  /* charcoal — was text-muted (#94A3B8) */
   margin-bottom: 3rem;
-  max-width: 620px;
   line-height: 1.6;
 }
 
