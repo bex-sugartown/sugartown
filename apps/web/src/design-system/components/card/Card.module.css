@@ -25,13 +25,14 @@
   border-radius: var(--st-card-radius);
   box-shadow: var(--st-card-shadow);
   overflow: hidden;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 
 /* Hover lift — only when card has a link (title link ::after covers the card) */
 .card:has(.titleLink):hover {
   box-shadow: var(--st-card-hover-shadow);
   transform: translateY(var(--st-card-hover-translate-y, -4px));
+  border-color: var(--st-card-hover-border, var(--st-color-border-default));
 }
 
 /* Hover/focus underline on title — affordance for "card is a link" */
