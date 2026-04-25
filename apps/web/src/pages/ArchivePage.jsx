@@ -235,26 +235,67 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
 
   return (
     <>
-      {contentType === 'node' && (
-        <div className={styles.viewToggle}>
+      {/* Unified icon toolbar: grid / list / knowledge-graph toggle + result count */}
+      <div className={styles.archiveToolbar}>
+        <div className={styles.layoutToggleGroup}>
           <button
             type="button"
-            className={`${styles.viewToggleBtn} ${view === 'grid' ? styles.viewToggleBtnActive : ''}`}
-            onClick={() => { setView('grid'); setSelectedNodeId(null) }}
-            aria-pressed={view === 'grid'}
+            className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'grid' ? styles.layoutToggleBtnActive : ''}`}
+            onClick={() => { if (isGraphView) { setView('grid'); setSelectedNodeId(null) }; handleLayoutChange('grid') }}
+            aria-label="Grid view"
+            aria-pressed={!isGraphView && layout === 'grid'}
           >
-            Grid
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
+            </svg>
           </button>
           <button
             type="button"
-            className={`${styles.viewToggleBtn} ${view === 'graph' ? styles.viewToggleBtnActive : ''}`}
-            onClick={() => setView('graph')}
-            aria-pressed={view === 'graph'}
+            className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'list' ? styles.layoutToggleBtnActive : ''}`}
+            onClick={() => { if (isGraphView) { setView('grid'); setSelectedNodeId(null) }; handleLayoutChange('list') }}
+            aria-label="List view"
+            aria-pressed={!isGraphView && layout === 'list'}
           >
-            Graph
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
+              <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
+              <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
+            </svg>
           </button>
+          {contentType === 'node' && (
+            <button
+              type="button"
+              className={`${styles.layoutToggleBtn} ${isGraphView ? styles.layoutToggleBtnActive : ''}`}
+              onClick={() => setView('graph')}
+              aria-label="Knowledge graph view"
+              aria-pressed={isGraphView}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
+                <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
+                <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
+                <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
+                <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
+                <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
+              </svg>
+            </button>
+          )}
         </div>
-      )}
+        {!isGraphView && hasActiveFilters && (
+          <p className={styles.archiveResultCount} style={{ marginBottom: 0 }}>
+            {totalItems === 0
+              ? 'No results'
+              : `${totalItems} result${totalItems === 1 ? '' : 's'}`}
+          </p>
+        )}
+      </div>
 
       {isGraphView ? (
         <div className={styles.graphViewLayout}>
@@ -295,44 +336,6 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
           )}
 
           <div className={styles.archiveContent}>
-            {/* Layout toggle + result count toolbar */}
-            <div className={styles.layoutToolbar}>
-              {hasActiveFilters && (
-                <p className={styles.archiveResultCount} style={{ marginRight: 'auto', marginBottom: 0 }}>
-                  {totalItems === 0
-                    ? 'No results'
-                    : `${totalItems} result${totalItems === 1 ? '' : 's'}`}
-                </p>
-              )}
-              <button
-                type="button"
-                className={`${styles.layoutToggleBtn} ${layout === 'grid' ? styles.layoutToggleBtnActive : ''}`}
-                onClick={() => handleLayoutChange('grid')}
-                aria-label="Grid view"
-                aria-pressed={layout === 'grid'}
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
-                  <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
-                  <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
-                  <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                className={`${styles.layoutToggleBtn} ${layout === 'list' ? styles.layoutToggleBtnActive : ''}`}
-                onClick={() => handleLayoutChange('list')}
-                aria-label="List view"
-                aria-pressed={layout === 'list'}
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
-                  <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
-                  <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
-                </svg>
-              </button>
-            </div>
-
             {/* Empty state */}
             {pageItems.length === 0 ? (
               <div className={styles.archiveEmpty}>

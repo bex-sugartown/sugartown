@@ -315,12 +315,17 @@
   box-sizing: border-box;
 }
 
-/* ── Layout toggle toolbar ────────────────────────────────────────── */
-.layoutToolbar {
+/* ── Unified archive toolbar — view toggle icons + result count ───── */
+.archiveToolbar {
   display: flex;
-  justify-content: flex-end;
-  gap: var(--st-space-1, 4px);
-  margin-bottom: var(--st-space-3, 12px);
+  align-items: center;
+  gap: var(--st-space-4);
+  margin-bottom: var(--st-space-5);
+}
+
+.layoutToggleGroup {
+  display: flex;
+  gap: var(--st-space-1);
 }
 
 .layoutToggleBtn {
@@ -450,44 +455,6 @@
   outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
   border-radius: 2px;
-}
-
-/* ── Graph ↔ Grid view toggle ─────────────────────────────────────── */
-.viewToggle {
-  display: flex;
-  gap: var(--st-space-2);
-  margin-bottom: var(--st-space-5);
-}
-
-.viewToggleBtn {
-  padding: var(--st-space-2) var(--st-space-4);
-  border: 1px solid var(--st-color-border-subtle);
-  border-radius: var(--st-radius-xs);
-  background: transparent;
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
-  color: var(--st-label-color);
-  cursor: pointer;
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
-}
-
-.viewToggleBtnActive {
-  background: var(--st-color-brand-primary);
-  border-color: var(--st-color-brand-primary);
-  color: var(--st-color-white);
-}
-
-.viewToggleBtn:not(.viewToggleBtnActive):hover {
-  border-color: var(--st-color-brand-primary);
-  color: var(--st-color-brand-primary);
-}
-
-.viewToggleBtn:focus-visible {
-  outline: 2px solid var(--st-color-brand-primary);
-  outline-offset: 2px;
 }
 
 /* ── Graph view two-column layout ─────────────────────────────────── */
