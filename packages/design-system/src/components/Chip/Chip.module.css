@@ -124,7 +124,7 @@
    Grey uses neutral-600 (no blue cast, darker contrast).
    ──────────────────────────────────────────────────────── */
 :global([data-theme="light-pink-moon"]) .chip:not(.active) {
-  background: color-mix(in srgb, var(--_chip-color) 12%, transparent);
+  background: transparent;
   border-color: color-mix(in srgb, var(--_chip-color) 60%, transparent);
 }
 
