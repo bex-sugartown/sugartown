@@ -110,17 +110,20 @@
   --st-color-softgrey-900: #1a2128;
   --st-color-softgrey:     var(--st-color-softgrey-400);
 
-  /* ── Neutral (true greyscale) ─────────────────────────── */
-  --st-color-neutral-50:  #fafafa;
-  --st-color-neutral-100: #f5f5f5;    /* was grey-100 */
-  --st-color-neutral-200: #e5e5e5;    /* was grey-200 */
-  --st-color-neutral-300: #d4d4d4;    /* was grey-300 */
+  /* ── Neutral (Ledger Tradition scale — no blue cast) ─── */
+  --st-color-neutral-50:  #FAFAFA;
+  --st-color-neutral-100: #F2F2F3;    /* canvas page field */
+  --st-color-neutral-200: #E4E4E5;    /* card borders */
+  --st-color-neutral-300: #C6C6C8;    /* rule-accent structural dividers */
   --st-color-neutral-400: #a3a3a3;
-  --st-color-neutral-500: #737373;
+  --st-color-neutral-500: #7A7A7D;    /* muted / label text */
   --st-color-neutral-600: #525252;    /* was grey-600 */
-  --st-color-neutral-700: #404040;
+  --st-color-neutral-700: #4A4A4D;    /* dark text */
   --st-color-neutral-800: #262626;
   --st-color-neutral-900: #171717;    /* was grey-900 */
+
+  /* ── Ink (Ledger Tradition near-black) ───────────────── */
+  --st-color-ink: #0a0f1a;            /* body text + rules on light canvas */
 
   /* ── Base ─────────────────────────────────────────────── */
   --st-color-black: #000000;
