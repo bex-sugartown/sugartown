@@ -80,7 +80,7 @@
   /* Ledger: card — visible border, no shadow, white surface */
   --st-card-bg:                 var(--st-color-white);
   --st-card-bg-alt:             var(--st-color-neutral-50);
-  --st-card-border:             var(--st-color-neutral-200);
+  --st-card-border:             var(--st-color-rule-accent);       /* neutral-300 — matches MetadataCard */
   --st-card-shadow:             none;
   --st-card-hover-shadow:       none;
   --st-card-hover-translate-y:  0px;
