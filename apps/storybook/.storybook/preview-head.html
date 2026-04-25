@@ -1,6 +1,54 @@
-<!-- Google Fonts: injected into Storybook's <head> via preview-head.html -->
-<!-- CSS @import url() in bundled files is unreliable; <link> tags are authoritative -->
+<!-- Self-hosted fonts: loaded via @font-face so Chromatic's headless Chromium can access them -->
 <!-- Ledger Tradition (AB-001): Cormorant Garamond (narrative), DM Sans (UI), IBM Plex Mono (mono) -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Latin subset only — sufficient for all Storybook/Chromatic story content -->
+<style>
+  @font-face {
+    font-family: 'Cormorant Garamond';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: block;
+    src: url('/fonts/cormorant-garamond-normal.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Cormorant Garamond';
+    font-style: italic;
+    font-weight: 400 500;
+    font-display: block;
+    src: url('/fonts/cormorant-garamond-italic.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'DM Sans';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: block;
+    src: url('/fonts/dm-sans-normal.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url('/fonts/ibm-plex-mono-400.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: block;
+    src: url('/fonts/ibm-plex-mono-500.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 600;
+    font-display: block;
+    src: url('/fonts/ibm-plex-mono-600.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 700;
+    font-display: block;
+    src: url('/fonts/ibm-plex-mono-700.woff2') format('woff2');
+  }
+</style>
