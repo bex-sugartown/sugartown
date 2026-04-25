@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import EditorialCard from './EditorialCard';
 
 const meta: Meta<typeof EditorialCard> = {
-  title: 'Patterns/EditorialCard',
+  title: 'Legacy/EditorialCard',
   component: EditorialCard,
   parameters: {
     docs: {

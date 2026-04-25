@@ -151,3 +151,54 @@ export const NoExcerpt: Story = {
     showExcerpt: false,
   },
 };
+
+/** Node — dark theme (Ledger Tradition dark-pink-moon). */
+export const NodeDark: Story = {
+  name: 'Node · Dark',
+  globals: { theme: 'dark' },
+  decorators: [(Story) => <div style={{ maxWidth: '380px' }}><Story /></div>],
+  args: {
+    item: NODE_ITEM,
+    docType: 'node',
+  },
+};
+
+/** Node — compact density (graph card rail, tight padding + smaller type). */
+export const NodeCompact: Story = {
+  name: 'Node · Compact',
+  decorators: [(Story) => <div style={{ maxWidth: '230px' }}><Story /></div>],
+  args: {
+    item: NODE_ITEM,
+    docType: 'node',
+    density: 'compact',
+    showHeroImage: false,
+    showExcerpt: false,
+  },
+};
+
+/** Node with draft badge — draftIds Set contains the item _id. */
+export const NodeWithDraft: Story = {
+  name: 'Node · Draft Badge',
+  decorators: [(Story) => <div style={{ maxWidth: '380px' }}><Story /></div>],
+  args: {
+    item: NODE_ITEM,
+    docType: 'node',
+    draftIds: new Set(['node-001']),
+  },
+};
+
+/** Chromatic snapshot — node, article, case study at light-pink-moon. */
+export const Snapshot: Story = {
+  name: 'Snapshot (Chromatic)',
+  parameters: {
+    chromatic: { disableSnapshot: false },
+    layout: 'padded',
+  },
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 380px)', gap: '1.5rem' }}>
+      <ContentCard item={NODE_ITEM} docType="node" />
+      <ContentCard item={ARTICLE_ITEM} />
+      <ContentCard item={CASE_STUDY_ITEM} />
+    </div>
+  ),
+};

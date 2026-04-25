@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import CardGrid from './CardGrid';
 
 const meta: Meta<typeof CardGrid> = {
-  title: 'Patterns/CardGrid',
+  title: 'Legacy/CardGrid',
   component: CardGrid,
   parameters: {
     docs: {
