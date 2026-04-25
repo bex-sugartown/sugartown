@@ -1,5 +1,5 @@
 **Linear Issue:** [SUG-73](https://linear.app/sugartown/issue/SUG-73/dynamic-knowledge-graph-force-directed-viz-on-knowledge-graph-sanity)
-**Status:** Phase 0 CSV audit ✅ shipped · Phase 0.5 Visual Mock ✅ signed off (2026-04-25) · Phase 1 ✅ shipped (2026-04-25) · Phase 2 unblocked
+**Status:** Phase 0 CSV audit ✅ shipped · Phase 0.5 Visual Mock ✅ signed off (2026-04-25) · Phase 1 ✅ shipped (2026-04-25) · Phase 2 ✅ shipped (2026-04-25) · Phase 3 unblocked
 **Route:** `/knowledge-graph` (existing archive, add graph view)
 **Merge strategy:** merge-as-you-go (one phase per commit batch)
 **Created:** 2026-04-19
@@ -306,7 +306,7 @@ Each phase is an independent commit batch:
 - [x] Phase 0 CSV export tool shipped (`output/audit/`)
 - [x] Phase 0.5 mock at `docs/drafts/SUG-73-knowledge-graph-mock.html`; decision table complete; Bex sign-off given 2026-04-25; edge semantics locked (Option B)
 - [x] Phase 1 graph collector in SUG-67 pipeline; `stats.graph` populates (2026-04-25)
-- [ ] Phase 2 `KnowledgeGraph` component rendering tokens-only palette
+- [x] Phase 2 `KnowledgeGraph` component rendering tokens-only palette (2026-04-25)
 - [ ] Phase 3 grid↔graph toggle live at `/knowledge-graph?view=graph`
 - [ ] Phase 4 mobile fallback + a11y + SSR-safe load verified
 - [ ] Storybook stories for graph + sidebar + toggle
