@@ -162,6 +162,11 @@
   padding: 0.375rem 0.75rem;
 }
 
+/* ── Dark Pink Moon — ink rule unreadable on dark bg, shift to neutral ── */
+:global([data-theme="dark-pink-moon"]) .scalarLabel {
+  border-bottom-color: var(--st-color-softgrey-500);
+}
+
 /* ── Draft badge — floated into upper-right area ── */
 
 .draftBadgeSlot {
