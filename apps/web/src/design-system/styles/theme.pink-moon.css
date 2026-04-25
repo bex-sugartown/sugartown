@@ -77,9 +77,6 @@
   --st-color-text-eyebrow:      var(--st-color-pink);
   --st-color-category-link:     var(--st-color-category-link-light);
   --st-color-footer-divider:    rgba(255, 36, 125, 0.25);
-  --st-color-chip-bg:           transparent;
-  --st-color-chip-border:       var(--st-color-rule-accent);
-
   /* Ledger: card — visible border, no shadow, white surface */
   --st-card-bg:                 var(--st-color-white);
   --st-card-bg-alt:             var(--st-color-neutral-50);

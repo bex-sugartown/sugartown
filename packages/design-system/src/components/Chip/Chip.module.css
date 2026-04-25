@@ -119,9 +119,20 @@
 :global([data-theme="light"]) .amber   { --chip-color: var(--st-color-amber-600); }
 :global([data-theme="light"]) .grey    { --chip-color: var(--st-color-softgrey-700); }
 
-/* ════════════════════════════════════════════════════════
-   PINK MOON THEME ADAPTATIONS
-   TODO: Pink Moon frosted-glass chip adaptation to be specified
-   in a follow-up iteration once component patterns for cards,
-   hero sections, and filter bars are scoped.
-   ════════════════════════════════════════════════════════ */
+/* ── Light Pink Moon — Ledger Tradition treatment ──────
+   Transparent bg: color is carried by border + text only.
+   ──────────────────────────────────────────────────────── */
+:global([data-theme="light-pink-moon"]) .chip {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--_chip-color) 35%, var(--st-color-rule-accent));
+}
+
+:global([data-theme="light-pink-moon"]) .seafoam {
+  --chip-color: var(--st-color-seafoam-700);
+}
+:global([data-theme="light-pink-moon"]) .lime {
+  --chip-color: var(--st-color-lime-700);
+}
+:global([data-theme="light-pink-moon"]) .amber {
+  --chip-color: var(--st-color-amber-600);
+}

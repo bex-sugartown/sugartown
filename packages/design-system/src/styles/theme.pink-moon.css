@@ -50,9 +50,6 @@
   --st-card-hover-shadow:       none;
   --st-card-hover-translate-y:  0px;
   --st-card-hover-border:       var(--st-color-pink);             /* hot pink on hover */
-  --st-color-chip-bg:           transparent;
-  --st-color-chip-border:       var(--st-color-rule-accent);
-
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
   --st-shadow-elevation-float:  var(--st-shadow-elevation-float-light);
