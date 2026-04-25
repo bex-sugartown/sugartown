@@ -15,11 +15,12 @@
  * - Colors: --st-margin-* themed surface/divider/outline
  */
 
-/* ── Card outer frame — dotted neutral outline ── */
+/* ── Card outer frame — solid ink border, pink rubrication top ── */
 
 .card {
   background: var(--st-margin-bg);
-  border: 2px dotted var(--st-margin-outline);
+  border: 1px solid var(--st-margin-outline);
+  border-top: 2px solid var(--st-color-pink);
   padding: 0;
   overflow: hidden;
 }
@@ -123,11 +124,9 @@
 
 .chipRow {
   background: var(--st-margin-bg);
-  padding: 0.5rem 0.875rem;
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  align-items: center;
 }
 
 .chipLabel {
@@ -139,18 +138,17 @@
   color: var(--st-label-color);
   margin: 0;
   white-space: nowrap;
-  flex-shrink: 0;
-  padding-top: 0.15em; /* baseline align label with first chip */
+  padding: 0.5rem 0.875rem;
+  background: var(--st-color-canvas);
+  border-right: 1px solid var(--st-margin-divider);
+  align-self: stretch;
+  display: flex;
+  align-items: center;
 }
 
-/* Mobile: stack label above chips so Tools and Categories rows align identically.
-   Inline label+chips parity breaks once the chip list wraps — stacking guarantees
-   both rows share the same vertical rhythm regardless of chip count. */
 @media (max-width: 600px) {
   .chipRow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.375rem;
+    grid-template-columns: 56px 1fr;
   }
 }
 
@@ -160,7 +158,7 @@
   gap: 6px;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0.375rem 0.75rem;
 }
 
 /* ── Draft badge — floated into upper-right area ── */
