@@ -26,7 +26,7 @@
 :root[data-theme="light-pink-moon"],
 [data-theme="light-pink-moon"] {
 
-  --st-color-bg-canvas:         var(--st-color-white);
+  --st-color-bg-canvas:         var(--st-color-neutral-100);      /* #F2F2F3 — Ledger Tradition page field */
   --st-color-bg-surface:        var(--st-color-neutral-50);       /* #FAFAFA — card surface */
   --st-color-bg-surface-strong: var(--st-color-neutral-100);      /* #F2F2F3 */
   --st-color-bg-surface-alt:    var(--st-color-neutral-50);

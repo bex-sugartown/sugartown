@@ -30,7 +30,7 @@
 [data-theme="light-pink-moon"] {
 
   /* ── Backgrounds — Ledger Tradition surface hierarchy ── */
-  --st-color-bg-canvas:         var(--st-color-white);
+  --st-color-bg-canvas:         var(--st-color-neutral-100);      /* #F2F2F3 — Ledger Tradition page field */
   --st-color-bg-surface:        var(--st-color-neutral-50);       /* #FAFAFA — card surface */
   --st-color-bg-surface-strong: var(--st-color-neutral-100);      /* #F2F2F3 */
   --st-color-bg-surface-alt:    var(--st-color-neutral-50);
@@ -70,7 +70,7 @@
   --st-table-shadow:            var(--st-shadow-table-light);
   --st-table-card-shadow:       var(--st-shadow-table-card-light);
 
-  --st-code-inline-bg:          var(--st-color-softgrey-100);
+  --st-code-inline-bg:          var(--st-color-white);
   --st-code-inline-color:       var(--st-color-maroon);
   --st-code-inline-border:      1px solid var(--st-color-softgrey-200);
 
