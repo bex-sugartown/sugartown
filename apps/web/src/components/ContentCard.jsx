@@ -69,6 +69,7 @@ export default function ContentCard({
   item,
   docType: docTypeProp,
   variant = 'default',
+  density,
   showExcerpt = true,
   showHeroImage = true,
   imageOverride = null,
@@ -173,6 +174,7 @@ export default function ContentCard({
   return (
     <Card
       variant={variant}
+      density={density}
       href={path}
       eyebrow={eyebrow}
       category={categoryProp}

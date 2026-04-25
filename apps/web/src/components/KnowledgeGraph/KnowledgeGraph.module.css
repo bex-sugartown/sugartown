@@ -1,15 +1,10 @@
 .wrap {
   width: 100%;
-}
-
-.graphArea {
-  display: flex;
   border: 1px solid var(--st-color-rule-accent);
   overflow: hidden;
 }
 
 .canvasWrap {
-  flex: 1;
   position: relative;
   min-height: 520px;
   background: var(--st-graph-bg);

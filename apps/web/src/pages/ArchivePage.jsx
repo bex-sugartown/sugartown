@@ -37,7 +37,8 @@
  *   - Pagination renders page navigation
  *   - GROQ slice cap removed — all published items fetched for filtering accuracy
  */
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useSanityDoc, useSanityList, useDraftIds } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
@@ -57,7 +58,6 @@ import NotFoundPage from './NotFoundPage'
 import KnowledgeGraph from '../components/KnowledgeGraph/KnowledgeGraph'
 import statsJson from '../generated/stats.json'
 import styles from './pages.module.css'
-import kgStyles from './KnowledgeGraphArchivePage.module.css'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -186,6 +186,26 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     }
   }
 
+  // Graph ↔ grid view toggle — persisted in ?view=graph URL param
+  const [searchParams, setSearchParams] = useSearchParams()
+  const view = searchParams.get('view') === 'graph' ? 'graph' : 'grid'
+  const isGraphView = view === 'graph' && contentType === 'node'
+  const setView = useCallback((v) => {
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev)
+      if (v === 'graph') next.set('view', 'graph')
+      else next.delete('view')
+      return next
+    }, { replace: true })
+  }, [setSearchParams])
+
+  // Selected node slug for card rail (graph view only)
+  const [selectedNodeId, setSelectedNodeId] = useState(null)
+  const handleNodeClick = useCallback((node) => {
+    if (!node || node.type !== 'item') { setSelectedNodeId(null); return }
+    setSelectedNodeId(node.id.replace(/^item:/, ''))
+  }, [])
+
   if (!query || !docType) {
     if (import.meta.env.DEV) {
       console.warn(`[ArchivePage] Unknown contentType: "${contentType}" — no listing query defined`)
@@ -209,104 +229,158 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
   )
 
   const hasFilterUI = filterModel.facets.some((f) => f.options.length > 0)
+  const selectedItem = selectedNodeId
+    ? (allItems ?? []).find(i => i.slug === selectedNodeId) ?? null
+    : null
 
   return (
-    <div className={styles.archiveLayout}>
-      {/* FilterBar — only render if facets have options */}
-      {hasFilterUI && (
-        <FilterBar
-          filterModel={filterModel}
-          activeFilters={activeFilters}
-          onFilterChange={setFilter}
-          onClearAll={clearAll}
-        />
-      )}
-
-      <div className={styles.archiveContent}>
-        {/* Layout toggle + result count toolbar */}
-        <div className={styles.layoutToolbar}>
-          {hasActiveFilters && (
-            <p className={styles.archiveResultCount} style={{ marginRight: 'auto', marginBottom: 0 }}>
-              {totalItems === 0
-                ? 'No results'
-                : `${totalItems} result${totalItems === 1 ? '' : 's'}`}
-            </p>
-          )}
+    <>
+      {contentType === 'node' && (
+        <div className={styles.viewToggle}>
           <button
             type="button"
-            className={`${styles.layoutToggleBtn} ${layout === 'grid' ? styles.layoutToggleBtnActive : ''}`}
-            onClick={() => handleLayoutChange('grid')}
-            aria-label="Grid view"
-            aria-pressed={layout === 'grid'}
+            className={`${styles.viewToggleBtn} ${view === 'grid' ? styles.viewToggleBtnActive : ''}`}
+            onClick={() => { setView('grid'); setSelectedNodeId(null) }}
+            aria-pressed={view === 'grid'}
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
-            </svg>
+            Grid
           </button>
           <button
             type="button"
-            className={`${styles.layoutToggleBtn} ${layout === 'list' ? styles.layoutToggleBtnActive : ''}`}
-            onClick={() => handleLayoutChange('list')}
-            aria-label="List view"
-            aria-pressed={layout === 'list'}
+            className={`${styles.viewToggleBtn} ${view === 'graph' ? styles.viewToggleBtnActive : ''}`}
+            onClick={() => setView('graph')}
+            aria-pressed={view === 'graph'}
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
-              <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
-              <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
-            </svg>
+            Graph
           </button>
         </div>
+      )}
 
-        {/* Empty state */}
-        {pageItems.length === 0 ? (
-          <div className={styles.archiveEmpty}>
-            {hasActiveFilters ? (
-              <>
-                <p>No results for the selected filters.</p>
-                <button
-                  type="button"
-                  onClick={clearAll}
-                  className={styles.clearFiltersLink}
-                >
-                  Clear filters
-                </button>
-              </>
-            ) : (
-              <p>Nothing published yet. Check back soon.</p>
+      {isGraphView ? (
+        <div className={styles.graphViewLayout}>
+          <div className={styles.graphPane}>
+            {statsJson?.graph && (
+              <KnowledgeGraph
+                graphData={statsJson.graph}
+                onNodeClick={handleNodeClick}
+              />
             )}
           </div>
-        ) : (
-          <div className={styles.archiveGrid} data-layout={layout}>
-            {pageItems.map((item) => (
+          <div className={styles.graphCardRail}>
+            {selectedItem ? (
               <ContentCard
-                key={item._id}
-                item={item}
+                item={selectedItem}
                 docType={docType}
-                variant={layout === 'list' ? 'listing' : 'default'}
+                density="compact"
+                showHeroImage={false}
                 showExcerpt={archiveDoc?.cardOptions?.showExcerpt ?? true}
-                showHeroImage={archiveDoc?.cardOptions?.showHeroImage ?? true}
-                imageOverride={archiveDoc?.cardOptions?.imageOverride ?? null}
-                categoryPosition={archiveDoc?.cardOptions?.categoryPosition}
-                draftIds={draftIds}
               />
-            ))}
+            ) : (
+              <div className={styles.graphCardRailHint}>
+                Select a node to preview
+              </div>
+            )}
           </div>
-        )}
+        </div>
+      ) : (
+        <div className={styles.archiveLayout}>
+          {/* FilterBar — only render if facets have options */}
+          {hasFilterUI && (
+            <FilterBar
+              filterModel={filterModel}
+              activeFilters={activeFilters}
+              onFilterChange={setFilter}
+              onClearAll={clearAll}
+            />
+          )}
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setPage}
-          />
-        )}
-      </div>
-    </div>
+          <div className={styles.archiveContent}>
+            {/* Layout toggle + result count toolbar */}
+            <div className={styles.layoutToolbar}>
+              {hasActiveFilters && (
+                <p className={styles.archiveResultCount} style={{ marginRight: 'auto', marginBottom: 0 }}>
+                  {totalItems === 0
+                    ? 'No results'
+                    : `${totalItems} result${totalItems === 1 ? '' : 's'}`}
+                </p>
+              )}
+              <button
+                type="button"
+                className={`${styles.layoutToggleBtn} ${layout === 'grid' ? styles.layoutToggleBtnActive : ''}`}
+                onClick={() => handleLayoutChange('grid')}
+                aria-label="Grid view"
+                aria-pressed={layout === 'grid'}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
+                  <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
+                  <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
+                  <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className={`${styles.layoutToggleBtn} ${layout === 'list' ? styles.layoutToggleBtnActive : ''}`}
+                onClick={() => handleLayoutChange('list')}
+                aria-label="List view"
+                aria-pressed={layout === 'list'}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
+                  <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
+                  <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Empty state */}
+            {pageItems.length === 0 ? (
+              <div className={styles.archiveEmpty}>
+                {hasActiveFilters ? (
+                  <>
+                    <p>No results for the selected filters.</p>
+                    <button
+                      type="button"
+                      onClick={clearAll}
+                      className={styles.clearFiltersLink}
+                    >
+                      Clear filters
+                    </button>
+                  </>
+                ) : (
+                  <p>Nothing published yet. Check back soon.</p>
+                )}
+              </div>
+            ) : (
+              <div className={styles.archiveGrid} data-layout={layout}>
+                {pageItems.map((item) => (
+                  <ContentCard
+                    key={item._id}
+                    item={item}
+                    docType={docType}
+                    variant={layout === 'list' ? 'listing' : 'default'}
+                    showExcerpt={archiveDoc?.cardOptions?.showExcerpt ?? true}
+                    showHeroImage={archiveDoc?.cardOptions?.showHeroImage ?? true}
+                    imageOverride={archiveDoc?.cardOptions?.imageOverride ?? null}
+                    categoryPosition={archiveDoc?.cardOptions?.categoryPosition}
+                    draftIds={draftIds}
+                  />
+                ))}
+              </div>
+            )}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setPage}
+              />
+            )}
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 
@@ -340,13 +414,6 @@ export default function ArchivePage({ archiveSlug }) {
         Array.isArray(subheading)
           ? <div className={styles.archiveDescription}><PortableText value={subheading} components={portableTextComponents} /></div>
           : <p className={styles.archiveDescription}>{subheading}</p>
-      )}
-
-      {/* Phase 2: graph view for knowledge-graph archive. Phase 3 adds grid↔graph toggle. */}
-      {archiveSlug === 'knowledge-graph' && statsJson?.graph && (
-        <div className={kgStyles.graphSection}>
-          <KnowledgeGraph graphData={statsJson.graph} />
-        </div>
       )}
 
       {primaryType ? (

@@ -1,6 +1,11 @@
 /**
  * KnowledgeGraphArchivePage — lists all published `node` documents.
  * Route: /knowledge-graph  (also handles /nodes via router alias)
+ *
+ * Legacy component — /knowledge-graph is now handled by ArchivePage
+ * (archiveSlug="knowledge-graph") which includes the graph + toggle.
+ * This file is retained as a fallback in case the archivePage doc is
+ * unpublished; ArchivePage renders 404 in that case, not this component.
  */
 import { Link } from 'react-router-dom'
 import { allNodesQuery } from '../lib/queries'

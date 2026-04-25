@@ -7,7 +7,6 @@
  * MutationObserver on data-theme triggers re-resolution on theme switch.
  */
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
-import KnowledgeGraphSidebar from './KnowledgeGraphSidebar'
 import styles from './KnowledgeGraph.module.css'
 
 // Node visual radii by type
@@ -46,7 +45,7 @@ function rRect(ctx, x, y, w, h, r) {
   ctx.closePath()
 }
 
-export default function KnowledgeGraph({ graphData }) {
+export default function KnowledgeGraph({ graphData, onNodeClick }) {
   const [FG, setFG]             = useState(null)
   const [colors, setColors]     = useState(null)
   const [selected, setSelected] = useState(null)
@@ -205,8 +204,12 @@ export default function KnowledgeGraph({ graphData }) {
   const linkLineDash = useCallback(l => l.kind === 'sharedTag' ? [4, 5] : [], [])
 
   const handleNodeClick = useCallback(node => {
-    setSelected(prev => prev?.id === node.id ? null : node)
-  }, [])
+    setSelected(prev => {
+      const next = prev?.id === node.id ? null : node
+      onNodeClick?.(next)
+      return next
+    })
+  }, [onNodeClick])
 
   const handleNodeHover = useCallback(node => {
     hoveredRef.current = node
@@ -217,49 +220,42 @@ export default function KnowledgeGraph({ graphData }) {
 
   return (
     <div className={styles.wrap}>
-      <div className={styles.graphArea}>
-        <div className={styles.canvasWrap} ref={containerRef}>
-          {(!FG || !colors) && (
-            <div className={styles.loading}>Initialising graph…</div>
-          )}
-          {FG && colors && (
-            <FG
-              graphData={fgData}
-              backgroundColor={colors.bg}
-              width={dims.width}
-              height={dims.height}
-              nodeCanvasObject={nodeCanvasObject}
-              nodeCanvasObjectMode={() => 'replace'}
-              nodePointerAreaPaint={nodePointerAreaPaint}
-              nodeLabel=""
-              linkColor={linkColor}
-              linkWidth={linkWidth}
-              linkLineDash={linkLineDash}
-              onNodeClick={handleNodeClick}
-              onNodeHover={handleNodeHover}
-              cooldownTicks={300}
-              d3AlphaDecay={0.028}
-              d3VelocityDecay={0.4}
-              enableNodeDrag
-            />
-          )}
-          <div className={styles.legend}>
-            <span className={styles.legendItem}>
-              <span className={styles.dotProject} />Project hub
-            </span>
-            <span className={styles.legendItem}>
-              <span className={styles.dotCategory} />Category hub
-            </span>
-            <span className={styles.legendItem}>
-              <span className={styles.dotItem} />Node
-            </span>
-          </div>
+      <div className={styles.canvasWrap} ref={containerRef}>
+        {(!FG || !colors) && (
+          <div className={styles.loading}>Initialising graph…</div>
+        )}
+        {FG && colors && (
+          <FG
+            graphData={fgData}
+            backgroundColor={colors.bg}
+            width={dims.width}
+            height={dims.height}
+            nodeCanvasObject={nodeCanvasObject}
+            nodeCanvasObjectMode={() => 'replace'}
+            nodePointerAreaPaint={nodePointerAreaPaint}
+            nodeLabel=""
+            linkColor={linkColor}
+            linkWidth={linkWidth}
+            linkLineDash={linkLineDash}
+            onNodeClick={handleNodeClick}
+            onNodeHover={handleNodeHover}
+            cooldownTicks={300}
+            d3AlphaDecay={0.028}
+            d3VelocityDecay={0.4}
+            enableNodeDrag
+          />
+        )}
+        <div className={styles.legend}>
+          <span className={styles.legendItem}>
+            <span className={styles.dotProject} />Project hub
+          </span>
+          <span className={styles.legendItem}>
+            <span className={styles.dotCategory} />Category hub
+          </span>
+          <span className={styles.legendItem}>
+            <span className={styles.dotItem} />Node
+          </span>
         </div>
-
-        <KnowledgeGraphSidebar
-          node={selected}
-          onClose={() => setSelected(null)}
-        />
       </div>
     </div>
   )

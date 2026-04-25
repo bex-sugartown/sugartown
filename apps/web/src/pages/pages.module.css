@@ -451,3 +451,79 @@
   outline-offset: 2px;
   border-radius: 2px;
 }
+
+/* ── Graph ↔ Grid view toggle ─────────────────────────────────────── */
+.viewToggle {
+  display: flex;
+  gap: var(--st-space-2);
+  margin-bottom: var(--st-space-5);
+}
+
+.viewToggleBtn {
+  padding: var(--st-space-2) var(--st-space-4);
+  border: 1px solid var(--st-color-border-subtle);
+  border-radius: var(--st-radius-xs);
+  background: transparent;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.viewToggleBtnActive {
+  background: var(--st-color-brand-primary);
+  border-color: var(--st-color-brand-primary);
+  color: var(--st-color-white);
+}
+
+.viewToggleBtn:not(.viewToggleBtnActive):hover {
+  border-color: var(--st-color-brand-primary);
+  color: var(--st-color-brand-primary);
+}
+
+.viewToggleBtn:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* ── Graph view two-column layout ─────────────────────────────────── */
+/* Graph canvas (flex-grow) + 230px card rail (same width as FilterBar).
+   align-items: flex-start prevents the rail from stretching to canvas height. */
+.graphViewLayout {
+  display: flex;
+  gap: var(--st-space-6);
+  align-items: flex-start;
+}
+
+.graphPane {
+  flex: 1;
+  min-width: 0;
+}
+
+.graphCardRail {
+  width: 230px;
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--st-space-6);
+}
+
+.graphCardRailHint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  padding: var(--st-space-5);
+  border: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  text-align: center;
+}
