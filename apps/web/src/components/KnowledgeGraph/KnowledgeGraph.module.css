@@ -60,3 +60,41 @@
 .dotProject  { background: var(--st-graph-node-project); }
 .dotCategory { background: var(--st-graph-node-category); }
 .dotItem     { background: var(--st-graph-node-item); }
+
+/* ── Zoom controls ───────────────────────────────────────────── */
+
+.zoomControls {
+  position: absolute;
+  top: var(--st-space-4);
+  right: var(--st-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-1);
+}
+
+.zoomBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--st-color-border-subtle);
+  border-radius: var(--st-radius-xs, 4px);
+  background: var(--st-color-bg-surface);
+  color: var(--st-color-text-muted);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.zoomBtn:hover {
+  color: var(--st-color-text-default);
+  border-color: var(--st-color-border-medium);
+}
+
+.zoomBtn:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}

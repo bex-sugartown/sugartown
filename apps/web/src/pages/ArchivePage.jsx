@@ -38,7 +38,7 @@
  *   - GROQ slice cap removed — all published items fetched for filtering accuracy
  */
 import { useState, useCallback } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useSanityDoc, useSanityList, useDraftIds } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
@@ -199,11 +199,10 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     }, { replace: true })
   }, [setSearchParams])
 
-  // Selected node slug for card rail (graph view only)
-  const [selectedNodeId, setSelectedNodeId] = useState(null)
+  // Selected graph node (full node object) for card rail
+  const [selectedGraphNode, setSelectedGraphNode] = useState(null)
   const handleNodeClick = useCallback((node) => {
-    if (!node || node.type !== 'item') { setSelectedNodeId(null); return }
-    setSelectedNodeId(node.id.replace(/^item:/, ''))
+    setSelectedGraphNode(node ?? null)
   }, [])
 
   if (!query || !docType) {
@@ -229,8 +228,8 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
   )
 
   const hasFilterUI = filterModel.facets.some((f) => f.options.length > 0)
-  const selectedItem = selectedNodeId
-    ? (allItems ?? []).find(i => i.slug === selectedNodeId) ?? null
+  const selectedItem = selectedGraphNode?.type === 'item'
+    ? (allItems ?? []).find(i => i.slug === selectedGraphNode.id.replace(/^item:/, '')) ?? null
     : null
 
   return (
@@ -241,7 +240,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
           <button
             type="button"
             className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'grid' ? styles.layoutToggleBtnActive : ''}`}
-            onClick={() => { if (isGraphView) { setView('grid'); setSelectedNodeId(null) }; handleLayoutChange('grid') }}
+            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('grid') }}
             aria-label="Grid view"
             aria-pressed={!isGraphView && layout === 'grid'}
           >
@@ -255,7 +254,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
           <button
             type="button"
             className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'list' ? styles.layoutToggleBtnActive : ''}`}
-            onClick={() => { if (isGraphView) { setView('grid'); setSelectedNodeId(null) }; handleLayoutChange('list') }}
+            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('list') }}
             aria-label="List view"
             aria-pressed={!isGraphView && layout === 'list'}
           >
@@ -308,17 +307,27 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
             )}
           </div>
           <div className={styles.graphCardRail}>
-            {selectedItem ? (
+            {!selectedGraphNode && (
+              <div className={styles.graphCardRailHint}>
+                Select a node to preview
+              </div>
+            )}
+            {selectedGraphNode?.type === 'item' && selectedItem && (
               <ContentCard
                 item={selectedItem}
                 docType={docType}
                 density="compact"
                 showHeroImage={false}
-                showExcerpt={archiveDoc?.cardOptions?.showExcerpt ?? true}
+                showExcerpt={false}
               />
-            ) : (
-              <div className={styles.graphCardRailHint}>
-                Select a node to preview
+            )}
+            {(selectedGraphNode?.type === 'project' || selectedGraphNode?.type === 'category') && (
+              <div className={styles.graphHubCard}>
+                <span className={styles.graphHubCardType}>{selectedGraphNode.type}</span>
+                <p className={styles.graphHubCardTitle}>{selectedGraphNode.label}</p>
+                <Link to={selectedGraphNode.href} className={styles.graphHubCardCta}>
+                  View {selectedGraphNode.label} →
+                </Link>
               </div>
             )}
           </div>

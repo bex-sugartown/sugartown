@@ -52,6 +52,8 @@ export default function KnowledgeGraph({ graphData, onNodeClick }) {
   const [dims, setDims]         = useState({ width: 800, height: 520 })
   const containerRef            = useRef(null)
   const hoveredRef              = useRef(null)
+  const fgRef                   = useRef(null)
+  const zoomRef                 = useRef(1)
 
   // SSR-safe dynamic import — react-force-graph-2d accesses window at module level
   useEffect(() => {
@@ -203,6 +205,27 @@ export default function KnowledgeGraph({ graphData, onNodeClick }) {
   const linkWidth    = useCallback(l => l.kind === 'sharedTag' ? 0.8 : 1, [])
   const linkLineDash = useCallback(l => l.kind === 'sharedTag' ? [4, 5] : [], [])
 
+  // Callback ref: set D3 forces on FG mount for better spread
+  const fgCallbackRef = useCallback((instance) => {
+    if (!instance) return
+    fgRef.current = instance
+    instance.d3Force('charge').strength(-150)
+    instance.d3Force('link').distance(50)
+  }, [])
+
+  const handleEngineStop = useCallback(() => {
+    fgRef.current?.zoomToFit(400, 20)
+  }, [])
+
+  const handleZoom = useCallback(({ k }) => { zoomRef.current = k }, [])
+
+  const handleZoomIn  = useCallback(() => {
+    fgRef.current?.zoom(zoomRef.current * 1.4, 300)
+  }, [])
+  const handleZoomOut = useCallback(() => {
+    fgRef.current?.zoom(zoomRef.current / 1.4, 300)
+  }, [])
+
   const handleNodeClick = useCallback(node => {
     setSelected(prev => {
       const next = prev?.id === node.id ? null : node
@@ -226,6 +249,7 @@ export default function KnowledgeGraph({ graphData, onNodeClick }) {
         )}
         {FG && colors && (
           <FG
+            ref={fgCallbackRef}
             graphData={fgData}
             backgroundColor={colors.bg}
             width={dims.width}
@@ -239,12 +263,18 @@ export default function KnowledgeGraph({ graphData, onNodeClick }) {
             linkLineDash={linkLineDash}
             onNodeClick={handleNodeClick}
             onNodeHover={handleNodeHover}
+            onEngineStop={handleEngineStop}
+            onZoom={handleZoom}
             cooldownTicks={300}
             d3AlphaDecay={0.028}
             d3VelocityDecay={0.4}
             enableNodeDrag
           />
         )}
+        <div className={styles.zoomControls}>
+          <button type="button" className={styles.zoomBtn} onClick={handleZoomIn} aria-label="Zoom in">+</button>
+          <button type="button" className={styles.zoomBtn} onClick={handleZoomOut} aria-label="Zoom out">−</button>
+        </div>
         <div className={styles.legend}>
           <span className={styles.legendItem}>
             <span className={styles.dotProject} />Project hub

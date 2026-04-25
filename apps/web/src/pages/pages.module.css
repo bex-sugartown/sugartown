@@ -494,3 +494,44 @@
   color: var(--st-label-color);
   text-align: center;
 }
+
+/* Hub node card (project / category) in graph card rail */
+.graphHubCard {
+  padding: var(--st-space-5);
+  border: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-3);
+}
+
+.graphHubCardType {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+}
+
+.graphHubCardTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--st-color-text-default);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.graphHubCardCta {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-color-brand-primary);
+  text-decoration: none;
+}
+
+.graphHubCardCta:hover {
+  text-decoration: underline;
+}
