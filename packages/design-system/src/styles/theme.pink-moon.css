@@ -61,7 +61,7 @@
 
   /* Label tokens — light override */
   --st-label-color:       var(--st-color-neutral-500);    /* #7A7A7D — neutral, no blue cast */
-  --st-label-color-badge: var(--st-color-neutral-400);    /* #a3a3a3 — subtle badges */
+  --st-label-color-badge: var(--st-color-neutral-600);    /* #525252 — WCAG AA: neutral-400 (#a3a3a3) failed at 2.53:1 */
 }
 
 /* ── Dark Pink Moon ────────────────────────────────────── */

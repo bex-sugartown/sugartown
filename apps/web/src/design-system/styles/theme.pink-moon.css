@@ -96,20 +96,20 @@
 
   /* Label tokens — light override */
   --st-label-color:       var(--st-color-neutral-500);    /* #7A7A7D — neutral, no blue cast */
-  --st-label-color-badge: var(--st-color-neutral-400);    /* #a3a3a3 — subtle badges */
+  --st-label-color-badge: var(--st-color-neutral-600);    /* #525252 — WCAG AA: neutral-400 (#a3a3a3) failed at 2.53:1 */
 
   /* ── Status chips — light overrides ──────────────────── */
   --st-status-draft-bg:               rgba(180, 120, 0, 0.08);
   --st-status-draft-fg:               var(--st-color-amber-800);
   --st-status-draft-border:           rgba(148, 98, 0, 0.35);
   --st-status-active-bg:              rgba(29, 150, 121, 0.08);
-  --st-status-active-fg:              var(--st-color-seafoam-700);
+  --st-status-active-fg:              var(--st-color-seafoam-800);  /* seafoam-700 (#1d9679) failed at 3.66:1 */
   --st-status-active-border:          rgba(29, 150, 121, 0.35);
   --st-status-archived-bg:            rgba(148, 163, 184, 0.06);
-  --st-status-archived-fg:            var(--st-color-softgrey-400);
+  --st-status-archived-fg:            var(--st-color-softgrey-700);  /* softgrey-400 (#94A3B8) failed at 2.57:1 */
   --st-status-archived-border:        rgba(148, 163, 184, 0.20);
   --st-status-implemented-bg:         rgba(29, 150, 121, 0.08);
-  --st-status-implemented-fg:         var(--st-color-seafoam-700);
+  --st-status-implemented-fg:         var(--st-color-seafoam-800);  /* seafoam-700 failed at 3.66:1 */
   --st-status-implemented-border:     rgba(29, 150, 121, 0.35);
   --st-status-evergreen-bg:           rgba(116, 143, 0, 0.08);
   --st-status-evergreen-fg:           var(--st-color-lime-800);
@@ -118,10 +118,10 @@
   --st-status-validated-fg:           var(--st-color-maroon);
   --st-status-validated-border:       rgba(185, 28, 104, 0.30);
   --st-status-deprecated-bg:          rgba(148, 163, 184, 0.08);
-  --st-status-deprecated-fg:          var(--st-color-softgrey-500);
+  --st-status-deprecated-fg:          var(--st-color-softgrey-700);  /* softgrey-500 (#6e7f96) failed at 4.09:1 */
   --st-status-deprecated-border:      rgba(110, 127, 150, 0.25);
   --st-status-exploring-bg:           rgba(29, 150, 121, 0.07);
-  --st-status-exploring-fg:           var(--st-color-seafoam-700);
+  --st-status-exploring-fg:           var(--st-color-seafoam-800);  /* seafoam-700 failed at 3.66:1 */
   --st-status-exploring-border:       rgba(29, 150, 121, 0.30);
   --st-status-operationalized-bg:     rgba(21, 115, 92, 0.08);
   --st-status-operationalized-fg:     var(--st-color-seafoam-800);

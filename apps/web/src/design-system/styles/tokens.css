@@ -119,7 +119,7 @@
   --st-color-neutral-200: #E4E4E5;    /* card borders */
   --st-color-neutral-300: #C6C6C8;    /* rule-accent structural dividers */
   --st-color-neutral-400: #a3a3a3;
-  --st-color-neutral-500: #7A7A7D;    /* muted / label text */
+  --st-color-neutral-500: #6C6C6F;    /* muted / label text — WCAG AA on white (5.24:1) and canvas (4.68:1) */
   --st-color-neutral-600: #525252;    /* was grey-600 */
   --st-color-neutral-700: #4A4A4D;    /* dark text */
   --st-color-neutral-800: #262626;
