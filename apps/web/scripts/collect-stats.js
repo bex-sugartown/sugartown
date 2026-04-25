@@ -69,6 +69,7 @@ export async function run(outputPath = OUTPUT_PATH) {
     security: () => tryNetworkCollector('security', () => import('./stats/security.js').then(m => m.collectSecurity)),
     github:   () => tryNetworkCollector('github',   () => import('./stats/github.js').then(m => m.collectGithub)),
     sanity:   () => tryNetworkCollector('sanity',   () => import('./stats/sanity.js').then(m => m.collectSanity)),
+    graph:    () => tryNetworkCollector('graph',    () => import('./stats/graph.js').then(m => m.collectGraph)),
   }
 
   const networkResults = {}
