@@ -1,22 +1,16 @@
-/*
- * FilterBar — archive filter sidebar.
- *
- * Migrated from apps/web/src/components/FilterBar.module.css.
- * Token namespace corrected: --color-* → --st-* throughout.
- * Brand accent corrected: #FF69B4 → var(--st-color-brand-primary) (#ff247d).
- */
+/* FilterBar — archive filter sidebar */
 
 /* ─── Outer wrapper ──────────────────────────────────────────────────────────── */
 
 .filterBar {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  padding: 1rem;
-  border: 1px solid var(--st-color-border-default);
-  border-radius: var(--st-radius-callout); /* 0 — Pink Moon */
-  background: var(--st-color-bg-surface);
-  font-size: var(--st-font-size-sm);      /* 0.875rem */
+  gap: var(--st-space-5);
+  padding: var(--st-space-4);
+  border: 1px solid var(--st-color-rule-accent);
+  border-radius: var(--st-radius-card);
+  background: var(--st-color-white);
+  font-size: var(--st-font-size-sm);
 }
 
 /* ─── Header row (title + clear all) ────────────────────────────────────────── */
@@ -25,21 +19,22 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: var(--st-space-2);
 }
 
 .filterTitle {
-  font-size: var(--st-font-size-xs);      /* 0.75rem */
-  font-weight: var(--st-font-weight-semibold);
-  letter-spacing: 0.06em;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
   text-transform: uppercase;
-  color: var(--st-color-text-muted);
+  color: var(--st-label-color);
 }
 
 .clearAllButton {
   padding: 0.2em 0.6em;
   border: 1px solid currentColor;
-  border-radius: var(--st-radius-full);   /* pill */
+  border-radius: var(--st-radius-xs);
   background: transparent;
   color: var(--st-color-text-muted);
   font-size: var(--st-font-size-xs);
@@ -77,12 +72,13 @@
 
 .facetLabel {
   display: block;
-  font-size: var(--st-font-size-xs);
-  font-weight: var(--st-font-weight-semibold);
-  color: var(--st-color-text-muted);
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.04em;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
   text-transform: uppercase;
+  color: var(--st-label-color);
+  margin-bottom: var(--st-space-2);
 }
 
 /* ─── Option list ────────────────────────────────────────────────────────────── */
@@ -161,6 +157,6 @@
 
 .optionCount {
   font-size: var(--st-font-size-xs);
-  color: var(--st-color-text-muted);
+  color: var(--st-label-color);
   flex-shrink: 0;
 }
