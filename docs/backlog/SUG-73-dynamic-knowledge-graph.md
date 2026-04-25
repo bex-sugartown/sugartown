@@ -1,5 +1,5 @@
 **Linear Issue:** [SUG-73](https://linear.app/sugartown/issue/SUG-73/dynamic-knowledge-graph-force-directed-viz-on-knowledge-graph-sanity)
-**Status:** Phase 0 CSV audit ✅ shipped · Phase 0.5 Visual Mock — **in progress** · Phase 1+ blocked on Phase 0.5 sign-off
+**Status:** Phase 0 CSV audit ✅ shipped · Phase 0.5 Visual Mock ✅ signed off (2026-04-25) · Phase 1 unblocked
 **Route:** `/knowledge-graph` (existing archive, add graph view)
 **Merge strategy:** merge-as-you-go (one phase per commit batch)
 **Created:** 2026-04-19
@@ -84,7 +84,7 @@ Add a **graph view** to `/knowledge-graph`, toggleable with the existing grid. T
 | Data pipeline | Build-time — rides SUG-67 as a new `graph` namespace |
 | Priority relative to SUG-67 | Wait for SUG-67 Phase 1a. Phase 0 of this epic (CSV audit) can start now. |
 | Merge strategy | Merge-as-you-go |
-| Edge semantics | **TBD — locked in Phase 0.5 mock sign-off** |
+| Edge semantics | **Option B — membership + shared-tag proximity (dashed lateral edges, 2+ shared tags threshold)** |
 
 ---
 
@@ -175,14 +175,15 @@ Use real node/project/category names from `output/audit/nodes.csv`. The graph do
 
 | Decision | Options | Chosen |
 |----------|---------|--------|
-| Edge semantics | A (membership only) / B (membership + lateral) / C (tag-hub) | ? |
-| Project node colour | Token candidate(s) | ? |
-| Category node colour | Token candidate(s) | ? |
-| Node dot colour | `--st-color-brand-primary` (#ff247d) confirmed? | ? |
-| Canvas background | `--st-color-surface-inset` / dark theme surface / other | ? |
-| Label font face | IBM Plex Mono confirmed for canvas labels? | ? |
-| New tokens needed | List any net-new tokens required (blocks Phase 1 if yes) | ? |
-| Sidebar breakpoint | Where sidebar collapses to bottom sheet or disappears | ? |
+| Edge semantics | A / B / C | **B — membership + shared-tag lateral edges (dashed, 2+ shared tags)** |
+| Project node colour | Token candidate(s) | **`--st-graph-node-project` → `--st-color-seafoam` (#2BD4AA)** |
+| Category node colour | Token candidate(s) | **`--st-graph-node-category` → `--st-color-lime` (#D1FF1D)** |
+| Node dot colour | `--st-color-brand-primary` (#ff247d) confirmed? | **`--st-graph-node-item` → `--st-color-brand-primary` (#FF247D) ✅** |
+| Canvas background | `--st-color-surface-inset` / dark theme surface / other | **`--st-graph-bg` → `--st-color-bg-canvas` — theme-responsive (light: #F2F2F3, dark: midnight)** |
+| Light/dark mode | Single theme or theme-responsive | **Fully theme-responsive — `getComputedStyle` reads resolved token values at render; MutationObserver on `data-theme` triggers re-render** |
+| Label font face | IBM Plex Mono confirmed for canvas labels? | **IBM Plex Mono confirmed ✅** |
+| New tokens needed | List any net-new tokens required (blocks Phase 1 if yes) | **Yes — 6 graph Tier 3 tokens: `--st-graph-node-{project,category,item}`, `--st-graph-edge-{membership,lateral}`, `--st-graph-bg`. Ship in Phase 1 token commit before component.** |
+| Sidebar breakpoint | Where sidebar collapses to bottom sheet or disappears | **<768px: graph replaced by cluster list (no sidebar); 768–1024px: sidebar below graph; ≥1024px: sidebar right rail** |
 
 **Acceptance:** Bex reviews mock in browser, all decision table cells filled, edge option chosen, Phase 0.5 sign-off given explicitly before Phase 1 begins.
 
@@ -303,7 +304,7 @@ Each phase is an independent commit batch:
 ## Definition of Done
 
 - [x] Phase 0 CSV export tool shipped (`output/audit/`)
-- [ ] Phase 0.5 mock at `docs/drafts/SUG-73-knowledge-graph-mock.html`; decision table complete; Bex sign-off given; edge semantics locked
+- [x] Phase 0.5 mock at `docs/drafts/SUG-73-knowledge-graph-mock.html`; decision table complete; Bex sign-off given 2026-04-25; edge semantics locked (Option B)
 - [ ] Phase 1 graph collector in SUG-67 pipeline; `stats.graph` populates
 - [ ] Phase 2 `KnowledgeGraph` component rendering tokens-only palette
 - [ ] Phase 3 grid↔graph toggle live at `/knowledge-graph?view=graph`
