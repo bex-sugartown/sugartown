@@ -152,17 +152,6 @@ export const NoExcerpt: Story = {
   },
 };
 
-/** Node — dark theme (Ledger Tradition dark-pink-moon). */
-export const NodeDark: Story = {
-  name: 'Node · Dark',
-  globals: { theme: 'dark' },
-  decorators: [(Story) => <div style={{ maxWidth: '380px' }}><Story /></div>],
-  args: {
-    item: NODE_ITEM,
-    docType: 'node',
-  },
-};
-
 /** Node — compact density (graph card rail, tight padding + smaller type). */
 export const NodeCompact: Story = {
   name: 'Node · Compact',
