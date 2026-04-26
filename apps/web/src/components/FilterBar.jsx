@@ -117,20 +117,6 @@ export default function FilterBar({
 
   return (
     <aside className={styles.filterBar} aria-label="Filter content">
-      <div className={styles.filterHeader}>
-        <span className={styles.filterTitle}>Filter</span>
-        {hasActiveFilters && (
-          <button
-            type="button"
-            onClick={onClearAll}
-            className={styles.clearAllButton}
-            aria-label="Clear all filters"
-          >
-            Clear all
-          </button>
-        )}
-      </div>
-
       <div className={styles.facetList}>
         {visibleFacets.map((facet) => (
           <FacetGroup

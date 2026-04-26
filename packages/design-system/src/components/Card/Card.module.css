@@ -96,6 +96,7 @@
   align-items: center;
   gap: var(--st-space-3);
   padding: var(--st-space-1) var(--st-space-3);
+  min-height: 2rem;
   background: var(--st-card-folio-bg);
   border-bottom: 1px solid var(--st-color-rule-accent);
 }
