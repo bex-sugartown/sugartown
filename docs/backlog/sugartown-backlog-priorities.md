@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-26 · v0.22.9 · SUG-82 Ledger Tradition structural
+> Updated 2026-04-26 · v0.22.10 · SUG-83 Retire legacy theme selectors
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-82 shipped (v0.22.9) — Card folio slot, FilterBar Ledger density, dark mode token fixes, font swap, responsive rail. Next: SUG-81 Site-wide Knowledge Graph or SUG-83 dead-selector CSS cleanup.
+> **⚑ Current focus:** SUG-83 shipped (v0.22.10) — retired all legacy [data-theme="light/dark"] selectors, deprecated token blocks annotated, Storybook THEME_BG cleaned. Next: SUG-81 Site-wide Knowledge Graph.
 
 ---
 
@@ -50,6 +50,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-83 · Retire legacy theme selectors** — Removed all `[data-theme="light"]` and `[data-theme="dark"]` dead selectors from 10 component CSS files (Accordion, Button, Chip, CodeBlock, Callout, DraftBadge, ContactForm, PageSections, portableTextComponents, pages). Deprecated token blocks annotated in both `tokens.css` files and both `theme.light.css` files. Storybook `THEME_BG` map trimmed to pink-moon variants only. validate:tokens — 0 errors.~~ | v0.22.10 | 2026-04-26 |
 | ~~**SUG-82 · Ledger Tradition structural** — Card folio slot (eyebrow/badge strip, canvas footer, section hairlines). FilterBar Ledger density (compact options, grey section headers with ink borders, zebra items, dark mode token fix). Font swap `display=swap`. Responsive graph rail. 2nd+ categories joined in footer label. Storybook Node·Dark story removed. Chromatic Build 15 approved (44 diffs).~~ | v0.22.9 | 2026-04-26 |
 | ~~**SUG-80 · Ledger Tradition Phase 2** — WCAG AA contrast audit (token-only fixes: neutral-500 darkened, label-color-badge/status-archived/deprecated/active/implemented/exploring fg rebounded). Callout structural rewrite: rule-pair box (2px pink top + 1px hairline bottom), CSS grid label column (72px), 5 variants (default/info/tip/warn/danger), multi-word label support. Storybook stories under Primitives/Callout.~~ | v0.22.8 | 2026-04-25 |
 | ~~**SUG-79 · Storybook Audit** — Slim Card primitive, add CardGrid stories, retire EditorialCard to Legacy. Shipped alongside SUG-80 in v0.22.8.~~ | v0.22.8 | 2026-04-25 |
@@ -120,4 +121,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-26 · v0.22.9*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-26 · v0.22.10*
