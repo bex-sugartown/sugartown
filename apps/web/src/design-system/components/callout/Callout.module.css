@@ -4,8 +4,8 @@
  * Structure: horizontal rule-pair (top: brand colour, bottom: hairline) + CSS grid label column.
  * No background tint. No box border. No border-radius.
  *
- * Variants: default (pink), info (neutral), tip (seafoam), warn (amber), danger (maroon)
- * Each variant overrides --st-callout-rule-top and the .label colour.
+ * Variants: default (pink), info (lime), tip (seafoam), warn (amber), danger (maroon)
+ * Base token state = dark mode. Light theme overrides use darker shades for contrast.
  */
 
 /* ── Base ─────────────────────────────────────────────────────────────────── */
@@ -24,7 +24,7 @@
 /* ── Label column ─────────────────────────────────────────────────────────── */
 .label {
   font-family: var(--st-font-family-mono);
-  font-size: 0.58rem;
+  font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -36,7 +36,7 @@
 
 /* ── Body column ──────────────────────────────────────────────────────────── */
 .body {
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.6;
   color: var(--st-color-text-default);
 }
@@ -59,26 +59,39 @@
 /* ── Variant: default (pink) — base label colour, no rule override needed ── */
 /* .default is a no-op — base tokens supply the pink rule and label */
 
-/* ── Variant: info ─────────────────────────────────────────────────────────── */
+/* ── Variant: info (lime) ──────────────────────────────────────────────────── */
 .info {
-  --st-callout-rule-top: 2px solid var(--st-color-neutral-300);
+  --st-callout-rule-top: 2px solid var(--st-color-lime);
 }
-.info .label { color: var(--st-color-neutral-600); }
+.info .label { color: var(--st-color-lime); }
 
-/* ── Variant: tip ──────────────────────────────────────────────────────────── */
+/* ── Variant: tip (seafoam) ────────────────────────────────────────────────── */
 .tip {
   --st-callout-rule-top: 2px solid var(--st-color-seafoam);
 }
-.tip .label { color: var(--st-color-seafoam-800); }
+.tip .label { color: var(--st-color-seafoam); }
 
-/* ── Variant: warn ─────────────────────────────────────────────────────────── */
+/* ── Variant: warn (amber) ─────────────────────────────────────────────────── */
 .warn {
   --st-callout-rule-top: 2px solid var(--st-color-amber-600);
 }
-.warn .label { color: var(--st-color-amber-700); }
+.warn .label { color: var(--st-color-amber); }
 
-/* ── Variant: danger ───────────────────────────────────────────────────────── */
+/* ── Variant: danger (maroon) ──────────────────────────────────────────────── */
 .danger {
   --st-callout-rule-top: 2px solid var(--st-color-maroon);
 }
-.danger .label { color: var(--st-color-maroon); }
+.danger .label { color: var(--st-color-maroon-400); }
+
+/* ── Light theme overrides — darker shades for contrast on white ───────────── */
+[data-theme="light"] .info .label,
+[data-theme="light-pink-moon"] .info .label { color: var(--st-color-lime-800); }
+
+[data-theme="light"] .tip .label,
+[data-theme="light-pink-moon"] .tip .label { color: var(--st-color-seafoam-800); }
+
+[data-theme="light"] .warn .label,
+[data-theme="light-pink-moon"] .warn .label { color: var(--st-color-amber-700); }
+
+[data-theme="light"] .danger .label,
+[data-theme="light-pink-moon"] .danger .label { color: var(--st-color-maroon); }
