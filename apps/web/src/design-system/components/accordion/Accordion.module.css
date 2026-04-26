@@ -87,17 +87,14 @@
 }
 
 /* ── Light theme overrides ───────────────────────────────────────────────── */
-[data-theme="light"] .item,
 [data-theme="light-pink-moon"] .item {
   border-color: var(--st-color-border-default);
 }
 
-[data-theme="light"] .trigger,
 [data-theme="light-pink-moon"] .trigger {
   color: var(--st-color-text-primary);
 }
 
-[data-theme="light"] .chevron,
 [data-theme="light-pink-moon"] .chevron {
   color: var(--st-color-text-secondary);
 }
