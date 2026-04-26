@@ -99,12 +99,10 @@
   mix-blend-mode: normal;
 }
 
-:global([data-theme="dark"]) .heroTreatmentGreyscale.heroWithImage::after,
 :global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscale.heroWithImage::after {
   filter: grayscale(100%) contrast(0.8) brightness(0.7);
 }
 
-:global([data-theme="dark"]) .heroTreatmentGreyscale.heroWithImage::before,
 :global([data-theme="dark-pink-moon"]) .heroTreatmentGreyscale.heroWithImage::before {
   background: var(--st-scrim-dark-gradient);
 }
@@ -133,7 +131,6 @@
   text-align: center;
 }
 
-:global([data-theme="dark"]) .heroPanel,
 :global([data-theme="dark-pink-moon"]) .heroPanel {
   background: var(--st-color-midnight-45);
   border-color: var(--st-color-white-08);
@@ -161,7 +158,6 @@
   color: var(--st-color-brand-primary);
 }
 
-:global([data-theme="dark"]) .heroImageless .heroEyebrow,
 :global([data-theme="dark-pink-moon"]) .heroImageless .heroEyebrow {
   color: var(--st-color-lime);
 }
@@ -1007,7 +1003,7 @@
   border-top: 1px solid var(--st-color-pt-divider-light-strong);
   margin: var(--st-spacing-stack-xl, 2.5rem) 0;
 }
-:global([data-theme="light"]) :global(.st-html-section) hr {
+:global([data-theme="light-pink-moon"]) :global(.st-html-section) hr {
   border-top-color: var(--st-color-pt-divider-dark-mid);
 }
 

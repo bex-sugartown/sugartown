@@ -245,7 +245,7 @@
   margin: var(--st-space-section-break-detail, 2.5rem) 0;
 }
 
-:global([data-theme="light"]) .detailContent hr {
+:global([data-theme="light-pink-moon"]) .detailContent hr {
   border-top-color: var(--st-color-pt-divider-dark-mid);
 }
 
@@ -256,7 +256,7 @@
   margin: var(--st-spacing-stack-lg, 2rem) 0;
 }
 
-:global([data-theme="light"]) .metadataDivider {
+:global([data-theme="light-pink-moon"]) .metadataDivider {
   border-top-color: var(--st-color-pt-divider-dark-subtle);
 }
 

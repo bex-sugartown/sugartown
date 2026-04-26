@@ -123,10 +123,3 @@
   border: 0;
 }
 
-/* ── Light theme overrides ────────────────────────────────────── */
-
-:global([data-theme="light"]) .input,
-:global([data-theme="light"]) .textarea {
-  background: var(--st-color-bg-surface);
-  border-color: var(--st-color-border-medium);
-}

@@ -19,7 +19,7 @@
   width: 100%;
 }
 
-:global([data-theme="light"]) .divider {
+:global([data-theme="light-pink-moon"]) .divider {
   border-top-color: var(--st-color-pt-divider-dark);
 }
 

@@ -19,9 +19,3 @@
   border-color: var(--st-status-draft-border);
 }
 
-/* Light theme override — darken for WCAG AA contrast on white */
-:global([data-theme="light"]) .badge {
-  background: var(--st-status-draft-bg);
-  color: var(--st-status-draft-fg);
-  border-color: var(--st-status-draft-border);
-}
