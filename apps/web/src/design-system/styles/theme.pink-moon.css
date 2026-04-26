@@ -99,9 +99,9 @@
   --st-label-color-badge: var(--st-color-neutral-600);    /* #525252 — WCAG AA: neutral-400 (#a3a3a3) failed at 2.53:1 */
 
   /* ── Status chips — light overrides ──────────────────── */
-  --st-status-draft-bg:               rgba(180, 120, 0, 0.08);
-  --st-status-draft-fg:               var(--st-color-amber-800);
-  --st-status-draft-border:           rgba(148, 98, 0, 0.35);
+  --st-status-draft-bg:               var(--st-color-error-bg);
+  --st-status-draft-fg:               var(--st-color-error);
+  --st-status-draft-border:           var(--st-color-error-border);
   --st-status-active-bg:              rgba(29, 150, 121, 0.08);
   --st-status-active-fg:              var(--st-color-seafoam-800);  /* seafoam-700 (#1d9679) failed at 3.66:1 */
   --st-status-active-border:          rgba(29, 150, 121, 0.35);

@@ -375,9 +375,9 @@
      ══════════════════════════════════════════════════════ */
 
   /* ── Status Chip Tokens (dark defaults) ─────────────── */
-  --st-status-draft-bg:               rgba(229, 160, 0, 0.12);
-  --st-status-draft-fg:               var(--st-color-warning);
-  --st-status-draft-border:           rgba(229, 160, 0, 0.30);
+  --st-status-draft-bg:               var(--st-color-error-bg);
+  --st-status-draft-fg:               var(--st-color-error);
+  --st-status-draft-border:           var(--st-color-error-border);
 
   --st-status-active-bg:              rgba(43, 212, 170, 0.12);
   --st-status-active-fg:              var(--st-color-seafoam);
@@ -781,9 +781,9 @@
   --st-label-color-badge: var(--st-color-softgrey-500);
 
   /* Status chip — dark restates */
-  --st-status-draft-bg:               rgba(229, 160, 0, 0.12);
-  --st-status-draft-fg:               var(--st-color-warning);
-  --st-status-draft-border:           rgba(229, 160, 0, 0.30);
+  --st-status-draft-bg:               var(--st-color-error-bg);
+  --st-status-draft-fg:               var(--st-color-error);
+  --st-status-draft-border:           var(--st-color-error-border);
   --st-status-active-bg:              rgba(43, 212, 170, 0.12);
   --st-status-active-fg:              var(--st-color-seafoam);
   --st-status-active-border:          rgba(43, 212, 170, 0.30);
@@ -870,9 +870,9 @@
   --st-margin-outline:  var(--st-color-softgrey-500);
 
   /* ── Status chips — light overrides ──────────────────── */
-  --st-status-draft-bg:               rgba(180, 120, 0, 0.08);
-  --st-status-draft-fg:               var(--st-color-amber-800);
-  --st-status-draft-border:           rgba(148, 98, 0, 0.35);
+  --st-status-draft-bg:               var(--st-color-error-bg);
+  --st-status-draft-fg:               var(--st-color-error);
+  --st-status-draft-border:           var(--st-color-error-border);
   --st-status-active-bg:              rgba(29, 150, 121, 0.08);
   --st-status-active-fg:              var(--st-color-seafoam-700);
   --st-status-active-border:          rgba(29, 150, 121, 0.35);

@@ -599,6 +599,9 @@ export default defineType({
           title: 'Category Position',
           type: 'string',
           description: 'Controls whether the category label appears above or below the title on cards.',
+          deprecated: {
+            reason: 'Category always renders before the title. This field has no effect and will be removed in a future release.',
+          },
           options: {
             list: [
               {title: 'Before title (default)', value: 'before'},

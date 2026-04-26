@@ -67,7 +67,8 @@ export default function Card({
   title,
   eyebrow,
   category,
-  categoryPosition = 'before',
+  categoryPosition = 'before', // @deprecated — no effect, always renders before title
+
   status,
   evolution,
   // Body

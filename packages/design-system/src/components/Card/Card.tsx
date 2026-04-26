@@ -45,8 +45,8 @@ export interface CardProps {
    * Category position relative to the title.
    * 'before' (default) — renders between eyebrow and title.
    * 'after' — renders after the title.
-   * Semantic naming enables responsive reflow where spatial direction changes
-   * across viewports (top/bottom vs left/right) but logical order is preserved.
+   * @deprecated Category always renders before the title. Passing this prop has
+   * no effect and it will be removed in a future release.
    */
   categoryPosition?: 'before' | 'after';
   /**
