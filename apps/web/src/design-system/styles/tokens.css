@@ -738,7 +738,9 @@
 
 
 /* ══════════════════════════════════════════════════════
-   [data-theme="dark"] — Sugartown Dark (explicit, same as :root)
+   [data-theme="dark"] — DEPRECATED (SUG-83)
+   Active themes are light-pink-moon and dark-pink-moon.
+   Retained for external consumers; do not use in new code.
    Exists so Storybook story decorators can isolate dark-theme
    rendering without relying on :root inheritance.
    ══════════════════════════════════════════════════════ */

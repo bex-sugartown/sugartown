@@ -12,8 +12,6 @@ import './docs-overrides.css';
 
 /** Canvas background colour for each theme token. */
 const THEME_BG: Record<string, string> = {
-  'dark':            '#0D1226',
-  'light':           '#ffffff',
   'dark-pink-moon':  '#0D1226',
   'light-pink-moon': '#ffffff',
 }

@@ -1,7 +1,9 @@
 /**
- * Sugartown Light Theme — Sugartown Light (Classic Light)
+ * Sugartown Light Theme — Sugartown Light (Classic Light) — DEPRECATED (SUG-83)
  *
  * Activation: Set data-theme="light" on <html>.
+ * DEPRECATED: Use data-theme="light-pink-moon" instead. This file is retained
+ * for external consumers only. Do not add new overrides here.
  *
  * Architecture
  * ─────────────────────────────────────────────────────────
