@@ -84,14 +84,10 @@
 .danger .label { color: var(--st-color-maroon-400); }
 
 /* ── Light theme overrides — darker shades for contrast on white ───────────── */
-[data-theme="light"] .info .label,
 [data-theme="light-pink-moon"] .info .label { color: var(--st-color-lime-800); }
 
-[data-theme="light"] .tip .label,
 [data-theme="light-pink-moon"] .tip .label { color: var(--st-color-seafoam-800); }
 
-[data-theme="light"] .warn .label,
 [data-theme="light-pink-moon"] .warn .label { color: var(--st-color-amber-700); }
 
-[data-theme="light"] .danger .label,
 [data-theme="light-pink-moon"] .danger .label { color: var(--st-color-maroon); }

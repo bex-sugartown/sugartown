@@ -97,28 +97,24 @@
 }
 
 /* ── Light theme overrides — all variants ─────────────────────────────────── */
-[data-theme="light"] .info,
 [data-theme="light-pink-moon"] .info {
   --st-callout-bg: var(--st-callout-info-bg-light);
   --st-callout-border-color: var(--st-callout-info-border-light);
   --st-callout-icon-color: var(--st-callout-info-icon-light);
 }
 
-[data-theme="light"] .tip,
 [data-theme="light-pink-moon"] .tip {
   --st-callout-bg: var(--st-callout-tip-bg-light);
   --st-callout-border-color: var(--st-callout-tip-border-light);
   --st-callout-icon-color: var(--st-callout-tip-icon-light);
 }
 
-[data-theme="light"] .warn,
 [data-theme="light-pink-moon"] .warn {
   --st-callout-bg: var(--st-callout-warn-bg-light);
   --st-callout-border-color: var(--st-callout-warn-border-light);
   --st-callout-icon-color: var(--st-callout-warn-icon-light);
 }
 
-[data-theme="light"] .danger,
 [data-theme="light-pink-moon"] .danger {
   --st-callout-bg: var(--st-callout-danger-bg-light);
   --st-callout-border-color: var(--st-callout-danger-border-light);
