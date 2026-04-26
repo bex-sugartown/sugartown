@@ -131,10 +131,19 @@
 .card:has(.cardFolio) .header {
   border-bottom: 1px solid var(--st-color-rule-accent);
   padding-top: var(--st-space-4);
+  padding-left: var(--st-space-3);
+  padding-right: var(--st-space-3);
 }
 
 .card:has(.cardFolio) .body {
   border-bottom: 1px solid var(--st-color-rule-accent);
+  padding-left: var(--st-space-3);
+  padding-right: var(--st-space-3);
+}
+
+.card:has(.cardFolio) .excerpt {
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  padding-bottom: var(--st-space-3);
 }
 
 .card:has(.cardFolio) .footer {
