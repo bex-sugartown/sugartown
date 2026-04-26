@@ -86,14 +86,12 @@
 }
 
 /* ── Dark-theme block: differentiate from void canvas ─────────────────────── */
-[data-theme="dark"] .block,
 [data-theme="dark-pink-moon"] .block {
   --st-code-bg: var(--st-color-midnight-800);
   --st-code-shadow: var(--st-shadow-code-dark);
 }
 
 /* ── Inline code — dark theme: dark maroon pill ───────────────────────────── */
-[data-theme="dark"] .inline,
 [data-theme="dark-pink-moon"] .inline {
   --st-code-inline-bg: var(--st-code-inline-bg-dark-maroon);
   --st-code-inline-color: var(--st-color-maroon-300);

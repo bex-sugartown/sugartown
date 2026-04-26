@@ -88,14 +88,12 @@
 /* ── Dark-theme block: differentiate from void canvas ─────────────────────── */
 /* In dark theme the canvas bg is midnight-900 (#0D1226); code uses midnight-800
    plus a ring shadow so the block has visible elevation. */
-[data-theme="dark"] .block,
 [data-theme="dark-pink-moon"] .block {
   --st-code-bg: var(--st-color-midnight-800);
   --st-code-shadow: var(--st-shadow-code-dark);
 }
 
 /* ── Inline code — dark theme: dark maroon pill ───────────────────────────── */
-[data-theme="dark"] .inline,
 [data-theme="dark-pink-moon"] .inline {
   --st-code-inline-bg: var(--st-code-inline-bg-dark-maroon);
   --st-code-inline-color: var(--st-color-maroon-300);
