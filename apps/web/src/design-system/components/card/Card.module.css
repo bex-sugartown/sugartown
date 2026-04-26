@@ -141,6 +141,7 @@
 
 .card:has(.cardFolio) .body {
   border-bottom: 1px solid var(--st-color-rule-accent);
+  padding-top: var(--st-space-3);
   padding-left: var(--st-space-3);
   padding-right: var(--st-space-3);
 }
