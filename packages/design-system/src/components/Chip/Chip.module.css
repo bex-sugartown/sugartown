@@ -114,11 +114,6 @@
    shade so the color-mix() formulas produce readable bg/border/text.
    ──────────────────────────────────────────────────────── */
 
-:global([data-theme="light"]) .seafoam { --chip-color: var(--st-color-seafoam-700); }
-:global([data-theme="light"]) .lime    { --chip-color: var(--st-color-lime-700); }
-:global([data-theme="light"]) .amber   { --chip-color: var(--st-color-amber-600); }
-:global([data-theme="light"]) .grey    { --chip-color: var(--st-color-softgrey-700); }
-
 /* ── Light Pink Moon — Ledger Tradition treatment ──────
    Light tint bg + strong border. Pink stays vivid.
    Grey uses neutral-600 (no blue cast, darker contrast).
