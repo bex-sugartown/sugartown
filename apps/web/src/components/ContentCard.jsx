@@ -111,10 +111,12 @@ export default function ContentCard({
     ? `${typeLabel} · ${firstProject.name}`
     : typeLabel
 
-  // ── Category — first category promoted to structured label ──
+  // ── Category — all categories shown in footer, joined with · ──
+  // Only the first category is linked (href); remaining names are appended to label.
   const firstCat = item.categories?.[0]
+  const allCatsLabel = item.categories?.map((c) => c.name).join(' · ')
   const categoryProp = firstCat
-    ? { label: firstCat.name, href: getCanonicalPath({ docType: 'category', slug: firstCat.slug }) }
+    ? { label: allCatsLabel, href: getCanonicalPath({ docType: 'category', slug: firstCat.slug }) }
     : undefined
 
   // ── Tools — reference array → linked chip objects ──
@@ -127,7 +129,8 @@ export default function ContentCard({
         }))
     : undefined
 
-  // ── Tags — actual tags + overflow projects/categories (2nd+) ──
+  // ── Tags — actual tags + overflow projects (2nd+) ──
+  // 2nd+ categories are now shown in the footer label, not chips.
   const tagChips = []
   // Remaining projects (2nd, 3rd, etc.) stay as chips
   if (item.projects?.length > 1) {
@@ -136,16 +139,6 @@ export default function ContentCard({
         label: p.name,
         href: getCanonicalPath({ docType: 'project', slug: p.slug }),
         colorHex: p.colorHex || undefined,
-      })
-    }
-  }
-  // Remaining categories (2nd, 3rd, etc.) stay as chips
-  if (item.categories?.length > 1) {
-    for (const c of item.categories.slice(1)) {
-      tagChips.push({
-        label: c.name,
-        href: getCanonicalPath({ docType: 'category', slug: c.slug }),
-        colorHex: c.colorHex || undefined,
       })
     }
   }

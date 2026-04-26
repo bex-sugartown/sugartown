@@ -550,6 +550,12 @@
   gap: var(--st-space-1);
 }
 
+/* Compact + Ledger folio: folio strip already provides the top visual anchor,
+   so reduce header top padding to match the tighter strip treatment. */
+.compact.card:has(.cardFolio) .header {
+  padding-top: var(--st-space-2);
+}
+
 .compact .body {
   padding: 0 var(--st-space-4) var(--st-space-2);
   gap: var(--st-space-2);

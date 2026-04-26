@@ -477,6 +477,16 @@
   top: var(--st-space-6);
 }
 
+@media (max-width: 768px) {
+  .graphViewLayout {
+    flex-direction: column;
+  }
+  .graphCardRail {
+    width: 100%;
+    position: static;
+  }
+}
+
 .graphCardRailHint {
   display: flex;
   align-items: center;
