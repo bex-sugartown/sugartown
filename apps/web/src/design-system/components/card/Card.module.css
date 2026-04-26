@@ -146,8 +146,12 @@
 }
 
 .card:has(.cardFolio) .excerpt {
-  border-bottom: 1px solid var(--st-color-rule-accent);
+  margin-left: calc(-1 * var(--st-space-3));
+  margin-right: calc(-1 * var(--st-space-3));
+  padding-left: var(--st-space-3);
+  padding-right: var(--st-space-3);
   padding-bottom: var(--st-space-3);
+  border-bottom: 1px solid var(--st-color-rule-accent);
 }
 
 .card:has(.cardFolio) .footer {
