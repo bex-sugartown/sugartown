@@ -79,6 +79,8 @@
   text-transform: uppercase;
   color: var(--st-label-color);
   margin-bottom: var(--st-space-2);
+  border-top: 2px solid var(--st-color-ink);
+  padding-top: var(--st-space-2);
 }
 
 /* ─── Option list ────────────────────────────────────────────────────────────── */
@@ -95,18 +97,48 @@
 .optionItem {
   display: flex;
   align-items: flex-start;
+  padding: 2px var(--st-space-2);
+}
+
+/* Ledger Tradition: alternating canvas bg for visual rhythm */
+.optionItem:nth-child(even) {
+  background: var(--st-color-canvas);
 }
 
 /* ─── Checkbox ───────────────────────────────────────────────────────────────── */
 
 .optionCheckbox {
   flex-shrink: 0;
+  appearance: none;
+  -webkit-appearance: none;
   width: 1rem;
   height: 1rem;
   margin-top: 0.1em;
   margin-right: 0.5rem;
   cursor: pointer;
-  accent-color: var(--st-color-brand-primary);
+  border-radius: 0;
+  border: 1px solid var(--st-color-rule-accent);
+  background: transparent;
+  position: relative;
+}
+
+.optionCheckbox:checked {
+  background: var(--st-color-brand-primary);
+  border-color: var(--st-color-brand-primary);
+}
+
+/* Checkmark via rotated border — no hardcoded colors */
+.optionCheckbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: 2px solid var(--st-color-white);
+  border-left: none;
+  border-top: none;
+  transform: rotate(45deg);
 }
 
 .optionCheckbox:focus-visible {
