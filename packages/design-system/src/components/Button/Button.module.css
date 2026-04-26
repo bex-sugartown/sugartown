@@ -80,8 +80,7 @@
   border-top-color: var(--st-color-softgrey-400);
 }
 
-:global([data-theme="dark-pink-moon"]) .tertiary,
-:global([data-theme="dark"]) .tertiary {
+:global([data-theme="dark-pink-moon"]) .tertiary {
   background-color: var(--st-color-midnight-700);
   color: var(--st-code-color-button-ghost);
   border-top-color: var(--st-code-border-ghost);
@@ -92,7 +91,6 @@
   box-shadow: var(--st-shadow-button-active);
 }
 
-:global([data-theme="dark-pink-moon"]) .tertiary:hover:not(:disabled),
-:global([data-theme="dark"]) .tertiary:hover:not(:disabled) {
+:global([data-theme="dark-pink-moon"]) .tertiary:hover:not(:disabled) {
   box-shadow: var(--st-shadow-button-active-dark);
 }
