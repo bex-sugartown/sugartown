@@ -123,6 +123,46 @@
   line-height: 1.6;
 }
 
+/* ── Ledger Tradition layout overrides (folio slot active) ──────────────────── */
+/* Scoped via :has(.cardFolio) — activates when showFolio=true.
+   Section hairlines replace the dashed footer divider.
+   Footer gains canvas bg and houses category (left) + date (right). */
+
+.card:has(.cardFolio) .header {
+  border-bottom: 1px solid var(--st-color-rule-accent);
+}
+
+.card:has(.cardFolio) .body {
+  border-bottom: 1px solid var(--st-color-rule-accent);
+}
+
+.card:has(.cardFolio) .footer {
+  background: var(--st-color-canvas);
+  padding: var(--st-space-2) var(--st-space-5);
+  align-items: center;
+  margin-top: 0;
+}
+
+.card:has(.cardFolio) .footer::before {
+  display: none;
+}
+
+/* Category in footer — mono, muted, same scale as date */
+.footerCategoryLink {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-color-text-muted);
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+  line-height: 1.4;
+}
+
+.footerCategoryLink:hover {
+  text-decoration: underline;
+}
+
 /* ── Header ────────────────────────────────────────────────────────────────── */
 .header {
   position: relative;   /* for status badge absolute positioning */

@@ -164,7 +164,7 @@ export default function Card({
   const headerEl = (
     <div className={styles.header}>
       {eyebrow && !showFolio && <div className={styles.eyebrow}>{eyebrow}</div>}
-      {categoryPosition === 'before' && categoryEl}
+      {categoryPosition === 'before' && !showFolio && categoryEl}
       {badgeValue && !showFolio && (
         <span
           className={[styles.statusBadge, STATUS_BADGE_CLASS[badgeValue]].filter(Boolean).join(' ')}
@@ -174,7 +174,7 @@ export default function Card({
         </span>
       )}
       <h3 className={styles.title}>{titleNode}</h3>
-      {categoryPosition === 'after' && categoryEl}
+      {categoryPosition === 'after' && !showFolio && categoryEl}
     </div>
   )
 
@@ -269,13 +269,25 @@ export default function Card({
   ) : null
 
   // ── Footer ─────────────────────────────────────────────────────────────
-  const hasFooter = nextStep || aiTool || kpiLink || date || footerChildren
+  const hasFooter = nextStep || aiTool || kpiLink || date || footerChildren || (!!category && showFolio)
 
   const footerEl = hasFooter ? (
     <div className={styles.footer}>
-      {(nextStep || aiTool || kpiLink || date) && (
+      {(nextStep || aiTool || kpiLink || date || (!!category && showFolio)) && (
         <>
           <div className={styles.footerLeft}>
+            {showFolio && category && (
+              category.href ? (
+                <Link
+                  to={category.href}
+                  className={[styles.footerCategoryLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
+                >
+                  {category.label}
+                </Link>
+              ) : (
+                <span className={styles.footerCategoryLink}>{category.label}</span>
+              )
+            )}
             {nextStep && (
               <span className={styles.nextStep}>
                 <span className={styles.nextStepLabel}>Next Step: </span>
