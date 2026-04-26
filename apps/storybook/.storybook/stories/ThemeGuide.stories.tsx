@@ -16,26 +16,26 @@ function ThemeGuidePage() {
   return (
     <div style={s.page}>
       <h1 style={s.h1}>Theme Guide</h1>
-      <p>Sugartown ships four theme variants, each applied via <code style={s.code}>data-theme</code> on the root element.</p>
+      <p>Sugartown has two active themes. Both are Pink Moon variants applied via <code style={s.code}>data-theme</code> on the root element. Legacy <code style={s.code}>light</code> and <code style={s.code}>dark</code> values are deprecated.</p>
 
       <hr style={s.hr} />
-      <h2 style={s.h2}>Available Themes</h2>
+      <h2 style={s.h2}>Active Themes</h2>
       <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2rem' }}>
         <thead>
           <tr>
             <th style={s.th}>Theme</th>
             <th style={s.th}>Attribute</th>
-            <th style={s.th}>Background</th>
+            <th style={s.th}>Canvas</th>
             <th style={s.th}>Accent</th>
+            <th style={s.th}>Notes</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style={s.td}>Dark (default)</td><td style={s.td}><code style={s.code}>dark</code></td><td style={s.td}><span style={s.swatch('#0D1226')} /> Navy</td><td style={s.td}><span style={s.swatch('#FF247D')} /> Pink</td></tr>
-          <tr><td style={s.td}>Light</td><td style={s.td}><code style={s.code}>light</code></td><td style={s.td}><span style={s.swatch('#ffffff')} /> White</td><td style={s.td}><span style={s.swatch('#FF247D')} /> Pink</td></tr>
-          <tr><td style={s.td}>Dark Pink Moon</td><td style={s.td}><code style={s.code}>dark-pink-moon</code></td><td style={s.td}><span style={s.swatch('#0D1226')} /> Navy</td><td style={s.td}><span style={s.swatch('#D1FF1D')} /> Lime</td></tr>
-          <tr><td style={s.td}>Light Pink Moon</td><td style={s.td}><code style={s.code}>light-pink-moon</code></td><td style={s.td}><span style={s.swatch('#ffffff')} /> White</td><td style={s.td}><span style={s.swatch('#D1FF1D')} /> Lime</td></tr>
+          <tr><td style={s.td}><strong>Pink Moon Light</strong></td><td style={s.td}><code style={s.code}>light-pink-moon</code></td><td style={s.td}><span style={s.swatch('#F2F2F3')} /> neutral-100</td><td style={s.td}><span style={s.swatch('#FF247D')} /> Pink</td><td style={s.td}>Default — set on page load</td></tr>
+          <tr><td style={s.td}>Pink Moon Dark</td><td style={s.td}><code style={s.code}>dark-pink-moon</code></td><td style={s.td}><span style={s.swatch('#0D1226')} /> Midnight</td><td style={s.td}><span style={s.swatch('#FF247D')} /> Pink</td><td style={s.td}>Toggle via ThemeToggle</td></tr>
         </tbody>
       </table>
+      <p style={{ fontSize: '0.875rem', opacity: 0.6 }}>Deprecated: <code style={s.code}>light</code> and <code style={s.code}>dark</code> — pre-Pink Moon values, no longer accepted by the theme validator in <code style={s.code}>index.html</code> or exposed in the Storybook toolbar.</p>
 
       <h2 style={s.h2}>How Themes Work</h2>
       <p>Each theme is a CSS file that overrides semantic tokens. Components reference tokens like <code style={s.code}>--st-color-brand-primary</code> which resolve differently per theme. No component ever references a raw colour value.</p>
