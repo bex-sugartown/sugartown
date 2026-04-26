@@ -104,7 +104,11 @@ export interface CardProps {
   date?: string;
   /** "Next Step: [text]" — renders in footer-left. */
   nextStep?: string;
-  /** AI tool attribution — "Claude" | "ChatGPT" | "Gemini" | etc. */
+  /**
+   * AI tool attribution.
+   * @deprecated Use the `tools[]` chip row instead — pass `{ label: 'Claude', href: '/tools/claude' }`.
+   * This prop will be removed in a future release.
+   */
   aiTool?: string;
   /** KPI link — "KPIs: [View →]". No data, no bars. */
   kpiLink?: { label: string; href: string };

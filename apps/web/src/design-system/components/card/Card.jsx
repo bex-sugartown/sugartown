@@ -84,7 +84,7 @@ export default function Card({
   // Footer
   date,
   nextStep,
-  aiTool,
+  aiTool, // @deprecated — use tools[] chip row
   kpiLink,
   // Escape hatch for custom footer content (CardBuilderSection citations/tags)
   footerChildren,

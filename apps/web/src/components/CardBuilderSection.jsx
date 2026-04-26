@@ -230,7 +230,6 @@ function BuilderCard({ card, variant }) {
       variant={variant}
       title={card.title}
       eyebrow={card.eyebrow || undefined}
-      categoryPosition={card.categoryPosition || undefined}
       excerpt={card.subtitle || undefined}
       href={href}
       thumbnailUrl={thumbnailUrl}

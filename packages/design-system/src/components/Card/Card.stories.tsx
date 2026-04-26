@@ -1,13 +1,15 @@
 /**
- * Card stories — SUG-79 · 12 API-demonstration stories
+ * Card stories — SUG-79 / SUG-82
  *
  * Realistic Sugartown content data throughout.
  * No lorem ipsum. No featuredImage references.
  * Thumbnail images use Sanity CDN — never featuredImage (deprecated BL-07).
  *
- * Theme is controlled by the Storybook toolbar global (default: dark).
- * Stories that verify a specific theme use `globals: { theme }` to set it.
- * The `withTheme` decorator in preview.ts stamps data-theme on <html>.
+ * All stories use showFolio=true where an eyebrow is present — this is the
+ * canonical Ledger Tradition card structure (SUG-82).
+ *
+ * Theme globals: 'light-pink-moon' (default) / 'dark-pink-moon'. Legacy
+ * 'light' and 'dark' values are deprecated and must not appear in stories.
  */
 
 import React from 'react';
@@ -19,9 +21,11 @@ const THUMB_16_9  = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b412
 const THUMB_RAIL  = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=96&h=120&fit=crop';
 
 // ─── Realistic fixture data ────────────────────────────────────────────────────
+// aiTool omitted — deprecated. Claude appears in tools[] (the canonical slot).
 
 const NODE_FULL = {
   variant: 'default' as const,
+  showFolio: true,
   eyebrow: 'Node · PROJ-002',
   category: { label: 'AI Methodology', href: '/categories/ai-methodology' },
   title: 'Prompt Architecture for Long-Form Reasoning',
@@ -38,23 +42,23 @@ const NODE_FULL = {
     { label: 'Agentic Caucus' },
   ],
   nextStep: 'Cross-reference with Validation Protocol node',
-  aiTool: 'Claude',
   date: '2025-11-14',
   href: '/nodes/prompt-architecture-long-form',
 };
 
 const ARTICLE_MINIMAL = {
   variant: 'default' as const,
+  showFolio: true,
   eyebrow: 'Article',
   title: 'Typography at Scale: Variable Fonts in Production',
   category: { label: 'Engineering', href: '/categories/engineering' },
   date: '2024-01-08',
-  aiTool: 'Claude',
   href: '/articles/variable-fonts-production',
 };
 
 const CASE_STUDY_FULL = {
   variant: 'default' as const,
+  showFolio: true,
   eyebrow: 'Case Study',
   title: 'Building a Token-Driven Design System for a Live Product',
   category: { label: 'Systems Design', href: '/categories/systems-design' },
@@ -85,15 +89,13 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     variant:          { control: { type: 'select' }, options: ['default', 'listing', 'metadata'] },
     density:          { control: { type: 'select' }, options: ['default', 'compact'] },
-    // Options synced with schemas/documents/project.ts → status field (SUG-47)
     status:           { control: { type: 'select' }, options: [
-      'dreaming', 'designing', 'developing', 'testing', 'deploying', 'iterating',
+      'dreaming', 'designing', 'developing', 'testing', 'deploying', 'iterating', 'draft',
     ]},
-    // Options synced with schemas/documents/node.ts → status field (SUG-47)
     evolution:        { control: { type: 'select' }, options: [
       'exploring', 'validated', 'operationalized', 'deprecated', 'evergreen',
     ]},
-    categoryPosition: { control: { type: 'select' }, options: ['before', 'after'] },
+    showFolio:        { control: 'boolean' },
     title:            { control: 'text' },
     eyebrow:          { control: 'text' },
     excerpt:          { control: 'text' },
@@ -103,7 +105,6 @@ const meta: Meta<typeof Card> = {
     thumbnailAlt:     { control: 'text' },
     date:             { control: 'text' },
     nextStep:         { control: 'text' },
-    aiTool:           { control: 'text' },
     toolsLabel:       { control: 'text' },
     tagsLabel:        { control: 'text' },
     category:         { control: { type: 'object' } },
@@ -112,7 +113,9 @@ const meta: Meta<typeof Card> = {
     tags:             { control: { type: 'object' } },
     tools:            { control: { type: 'object' } },
     kpiLink:          { control: { type: 'object' } },
-    showFolio:        { control: 'boolean' },
+    // Deprecated props — hidden from controls
+    categoryPosition: { table: { disable: true } },
+    aiTool:           { table: { disable: true } },
     children:         { table: { disable: true } },
     footerChildren:   { table: { disable: true } },
     className:        { table: { disable: true } },
@@ -127,12 +130,12 @@ type Story = StoryObj<typeof Card>;
 // ═══════════════════════════════════════════════════════════════════
 
 /**
- * Full default card with all props populated.
- * Light theme. Match legacy screenshot position.
+ * Full node card — light-pink-moon. Folio slot active: eyebrow + evolution
+ * badge in the canvas strip, header shows category + title.
  */
 export const DefaultFull: Story = {
   name: 'DefaultFull',
-  globals: { theme: 'light' },
+  globals: { theme: 'light-pink-moon' },
   decorators: [
     (Story) => (
       <div style={{ maxWidth: '420px' }}>
@@ -144,12 +147,12 @@ export const DefaultFull: Story = {
 };
 
 /**
- * Same data as DefaultFull, dark theme.
- * No prop change — token overrides handle the colour swap.
+ * Same data as DefaultFull, dark-pink-moon theme.
+ * Folio: canvas = midnight-800, rule-accent = rgba(255,255,255,0.15).
  */
 export const DefaultDark: Story = {
   name: 'DefaultDark',
-  globals: { theme: 'dark' },
+  globals: { theme: 'dark-pink-moon' },
   decorators: [
     (Story) => (
       <div style={{ maxWidth: '420px' }}>
@@ -161,7 +164,8 @@ export const DefaultDark: Story = {
 };
 
 /**
- * accentColor="#2BD4AA" — verify left strip, eyebrow tint, header wash.
+ * accentColor="#2BD4AA" — left border strip + header wash.
+ * Folio label and body eyebrow suppressed; folio shows type + badge.
  */
 export const DefaultWithAccent: Story = {
   name: 'DefaultWithAccent',
@@ -179,7 +183,7 @@ export const DefaultWithAccent: Story = {
 };
 
 /**
- * Title only. All optional props omitted.
+ * Title only — all optional props omitted, showFolio off (no eyebrow to show).
  * Card must not collapse or show broken layout.
  */
 export const DefaultTitleOnly: Story = {
@@ -197,8 +201,7 @@ export const DefaultTitleOnly: Story = {
 };
 
 /**
- * thumbnailUrl provided — hero renders above header, full-width.
- * Omit thumbnailUrl = no slot.
+ * thumbnailUrl — hero renders above folio, full-width.
  */
 export const DefaultWithHero: Story = {
   name: 'DefaultWithHero',
@@ -213,13 +216,11 @@ export const DefaultWithHero: Story = {
     ...CASE_STUDY_FULL,
     thumbnailUrl: THUMB_16_9,
     thumbnailAlt: 'Design system token architecture diagram',
-    href: '/case-studies/token-driven-design-system',
   },
 };
 
 /**
- * Compact density — visibly tighter padding AND smaller type scale.
- * Not padding-only.
+ * Compact density — tighter padding and smaller type scale.
  */
 export const DefaultCompact: Story = {
   name: 'DefaultCompact',
@@ -237,9 +238,32 @@ export const DefaultCompact: Story = {
 };
 
 /**
- * Folio slot — grey canvas strip above the card header.
- * Eyebrow label (left) and status badge (right) move out of the header.
- * Verify: folio row visible, eyebrow absent from header, badge in folio only.
+ * Draft badge — status="draft" renders bright red in folio (editorial signal,
+ * preview mode only). Verify red badge in canvas strip.
+ */
+export const DraftBadge: Story = {
+  name: 'DraftBadge',
+  globals: { theme: 'light-pink-moon' },
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: '420px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    showFolio: true,
+    eyebrow: 'Article · Sugartown CMS',
+    title: 'Test Preview Post',
+    status: 'draft',
+    excerpt: 'This card demonstrates the editorial draft badge — bright red, folio slot only.',
+    date: '2026-04-26',
+  },
+};
+
+/**
+ * Folio slot — light-pink-moon. Canonical Ledger Tradition card structure.
+ * Eyebrow left, evolution badge right, both in grey canvas strip.
  */
 export const WithFolioSlot: Story = {
   name: 'WithFolioSlot',
@@ -253,13 +277,11 @@ export const WithFolioSlot: Story = {
   ],
   args: {
     ...NODE_FULL,
-    showFolio: true,
   },
 };
 
 /**
- * Folio slot — dark theme variant.
- * Canvas bg in dark-pink-moon = midnight-800; rule-accent = rgba(255,255,255,0.15).
+ * Folio slot — dark-pink-moon.
  */
 export const WithFolioSlotDark: Story = {
   name: 'WithFolioSlotDark',
@@ -273,45 +295,6 @@ export const WithFolioSlotDark: Story = {
   ],
   args: {
     ...NODE_FULL,
-    showFolio: true,
-  },
-};
-
-/**
- * Category before title (default position).
- * Renders between eyebrow and title.
- */
-export const CategoryBefore: Story = {
-  name: 'CategoryBefore',
-  decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '420px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  args: {
-    ...NODE_FULL,
-    categoryPosition: 'before',
-  },
-};
-
-/**
- * Category after title — alternative position.
- * Side-by-side comparison with CategoryBefore.
- */
-export const CategoryAfter: Story = {
-  name: 'CategoryAfter',
-  decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '420px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  args: {
-    ...NODE_FULL,
-    categoryPosition: 'after',
   },
 };
 
@@ -320,8 +303,8 @@ export const CategoryAfter: Story = {
 // ═══════════════════════════════════════════════════════════════════
 
 /**
- * Listing basic — title, excerpt, date, project, status.
- * Single column, content-width. No thumbnail.
+ * Listing basic — title, excerpt, date, project, evolution badge.
+ * No folio (listing variant typically omits eyebrow strip).
  */
 export const ListingBasic: Story = {
   name: 'ListingBasic',
@@ -344,8 +327,7 @@ export const ListingBasic: Story = {
 };
 
 /**
- * Listing with thumbnail — left-rail fixed-width column.
- * Verify column layout and vertical alignment.
+ * Listing with thumbnail — left-rail column layout.
  */
 export const ListingWithThumb: Story = {
   name: 'ListingWithThumb',
@@ -369,8 +351,7 @@ export const ListingWithThumb: Story = {
 };
 
 /**
- * Full-card listing — href set, no other links.
- * Verify full-card hit target. Keyboard nav. Focus ring via brand token.
+ * Full-card listing — href set, no other links. Verify full-card hit target.
  */
 export const ListingFullCard: Story = {
   name: 'ListingFullCard',
@@ -392,13 +373,12 @@ export const ListingFullCard: Story = {
 };
 
 // ═══════════════════════════════════════════════════════════════════
-// SNAPSHOT — Chromatic composite (all variants in one screenshot)
-// Grid / layout stories moved to CardGrid.stories.tsx (SUG-79).
+// SNAPSHOT — Chromatic composite
 // ═══════════════════════════════════════════════════════════════════
 
 /**
- * Chromatic snapshot — node, article, case study card variants
- * composed into a single screenshot for VRT baseline.
+ * Chromatic snapshot — node, article, case study with folio slots active.
+ * Captures the canonical Ledger Tradition card structure for VRT baseline.
  */
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
