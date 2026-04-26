@@ -100,6 +100,8 @@ export default function Card({
   children,
   // Layout overrides
   className,
+  // Folio row — structural type-label + badge strip above header
+  showFolio = false,
 }) {
   // ── Root class list ─────────────────────────────────────────────────────
   const rootClasses = [
@@ -143,11 +145,26 @@ export default function Card({
   // evolution takes priority; status is the fallback. Never both simultaneously.
   const badgeValue = evolution ?? status
 
+  // When showFolio is true, eyebrow + badge move to the folio row above.
+  const folioEl = showFolio ? (
+    <div className={styles.cardFolio}>
+      {eyebrow && <div className={styles.folioLabel}>{eyebrow}</div>}
+      {badgeValue && (
+        <span
+          className={[styles.folioStatus, STATUS_BADGE_CLASS[badgeValue]].filter(Boolean).join(' ')}
+          aria-label={`Status: ${badgeValue}`}
+        >
+          {badgeValue}
+        </span>
+      )}
+    </div>
+  ) : null
+
   const headerEl = (
     <div className={styles.header}>
-      {eyebrow && <div className={styles.eyebrow}>{eyebrow}</div>}
+      {eyebrow && !showFolio && <div className={styles.eyebrow}>{eyebrow}</div>}
       {categoryPosition === 'before' && categoryEl}
-      {badgeValue && (
+      {badgeValue && !showFolio && (
         <span
           className={[styles.statusBadge, STATUS_BADGE_CLASS[badgeValue]].filter(Boolean).join(' ')}
           aria-label={`Status: ${badgeValue}`}
@@ -312,6 +329,9 @@ export default function Card({
           />
         </div>
       )}
+
+      {/* Folio row — structural label strip, spans full card width */}
+      {folioEl}
 
       {/* Listing variant: row layout when thumbnail present */}
       {isListingWithThumb ? (

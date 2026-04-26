@@ -112,6 +112,7 @@ const meta: Meta<typeof Card> = {
     tags:             { control: { type: 'object' } },
     tools:            { control: { type: 'object' } },
     kpiLink:          { control: { type: 'object' } },
+    showFolio:        { control: 'boolean' },
     children:         { table: { disable: true } },
     footerChildren:   { table: { disable: true } },
     className:        { table: { disable: true } },
@@ -232,6 +233,47 @@ export const DefaultCompact: Story = {
   args: {
     ...NODE_FULL,
     density: 'compact',
+  },
+};
+
+/**
+ * Folio slot — grey canvas strip above the card header.
+ * Eyebrow label (left) and status badge (right) move out of the header.
+ * Verify: folio row visible, eyebrow absent from header, badge in folio only.
+ */
+export const WithFolioSlot: Story = {
+  name: 'WithFolioSlot',
+  globals: { theme: 'light-pink-moon' },
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: '420px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    ...NODE_FULL,
+    showFolio: true,
+  },
+};
+
+/**
+ * Folio slot — dark theme variant.
+ * Canvas bg in dark-pink-moon = midnight-800; rule-accent = rgba(255,255,255,0.15).
+ */
+export const WithFolioSlotDark: Story = {
+  name: 'WithFolioSlotDark',
+  globals: { theme: 'dark-pink-moon' },
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: '420px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    ...NODE_FULL,
+    showFolio: true,
   },
 };
 

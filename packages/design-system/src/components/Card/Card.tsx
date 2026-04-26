@@ -138,6 +138,14 @@ export interface CardProps {
 
   /** Extra class names for layout overrides from parent grid. */
   className?: string;
+
+  /**
+   * Render the folio row above the card header.
+   * When true: eyebrow label appears left and status badge appears right in a
+   * grey canvas strip; both are suppressed from the card header below.
+   * Matches the Ledger Tradition card structure (SUG-82).
+   */
+  showFolio?: boolean;
 }
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -181,6 +189,7 @@ export const Card: React.FC<CardProps> = ({
   accentColor,
   href,
   className,
+  showFolio = false,
 }) => {
   // ── Root class list ───────────────────────────────────────────────────────
   const rootClasses = [
@@ -221,11 +230,26 @@ export const Card: React.FC<CardProps> = ({
   // evolution takes priority; status is the fallback. Never both simultaneously.
   const badgeValue = evolution ?? status;
 
+  // When showFolio is true, eyebrow + badge move to the folio row above.
+  const folioEl = showFolio ? (
+    <div className={styles.cardFolio}>
+      {eyebrow && <div className={styles.folioLabel}>{eyebrow}</div>}
+      {badgeValue && (
+        <span
+          className={[styles.folioStatus, STATUS_BADGE_CLASS[badgeValue]].filter(Boolean).join(' ')}
+          aria-label={`Status: ${badgeValue}`}
+        >
+          {badgeValue}
+        </span>
+      )}
+    </div>
+  ) : null;
+
   const headerEl = (
     <div className={styles.header}>
-      {eyebrow && <div className={styles.eyebrow}>{eyebrow}</div>}
+      {eyebrow && !showFolio && <div className={styles.eyebrow}>{eyebrow}</div>}
       {categoryPosition === 'before' && categoryEl}
-      {badgeValue && (
+      {badgeValue && !showFolio && (
         <span
           className={[styles.statusBadge, STATUS_BADGE_CLASS[badgeValue]].filter(Boolean).join(' ')}
           aria-label={`Status: ${badgeValue}`}
@@ -359,6 +383,9 @@ export const Card: React.FC<CardProps> = ({
           <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" decoding="async" width="1600" height="900" />
         </div>
       )}
+
+      {/* Folio row — structural label strip, spans full card width */}
+      {folioEl}
 
       {/* Listing variant: row layout when thumbnail present */}
       {isListingWithThumb ? (

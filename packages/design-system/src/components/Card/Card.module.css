@@ -86,6 +86,43 @@
   transform: scale(1.05);
 }
 
+/* ── Card folio row ──────────────────────────────────────────────────────── */
+/* Structural label row above header — content-type eyebrow left, badge right.
+   Rendered when showFolio=true. Eyebrow + badge suppressed from header when active. */
+.cardFolio {
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--st-space-3);
+  padding: var(--st-space-2) var(--st-space-5);
+  background: var(--st-color-canvas);
+  border-bottom: 1px solid var(--st-color-rule-accent);
+}
+
+.folioLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  line-height: 1.2;
+}
+
+/* Inline badge — same visual as .statusBadge but not absolutely positioned */
+.folioStatus {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--st-radius-xs);
+  border: 1px solid;
+  line-height: 1.6;
+}
+
 /* ── Header ────────────────────────────────────────────────────────────────── */
 .header {
   position: relative;   /* for status badge absolute positioning */

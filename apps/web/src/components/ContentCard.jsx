@@ -75,6 +75,7 @@ export default function ContentCard({
   imageOverride = null,
   categoryPosition,
   draftIds,
+  showFolio = true,
 }) {
   const docType   = docTypeProp ?? DOC_TYPE_MAP[item._type] ?? item._type
   const path      = getCanonicalPath({ docType, slug: item.slug })
@@ -188,6 +189,7 @@ export default function ContentCard({
       tools={toolsDisplay}
       tags={tagsDisplay}
       date={item.publishedAt}
+      showFolio={showFolio}
       // SUG-48: aiTool removed — deprecated, tools[] taxonomy is canonical
     />
   )
