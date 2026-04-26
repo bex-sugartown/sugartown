@@ -95,8 +95,8 @@
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: var(--st-space-3);
-  padding: var(--st-space-2) var(--st-space-5);
-  background: var(--st-color-canvas);
+  padding: var(--st-space-1) var(--st-space-3);
+  background: var(--st-card-folio-bg);
   border-bottom: 1px solid var(--st-color-rule-accent);
 }
 
@@ -106,7 +106,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--st-label-color);
+  color: var(--st-label-color-badge);
   line-height: 1.2;
 }
 
@@ -118,7 +118,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 2px 8px;
-  border-radius: var(--st-radius-xs);
+  border-radius: 0;
   border: 1px solid;
   line-height: 1.6;
 }
@@ -130,6 +130,7 @@
 
 .card:has(.cardFolio) .header {
   border-bottom: 1px solid var(--st-color-rule-accent);
+  padding-top: var(--st-space-4);
 }
 
 .card:has(.cardFolio) .body {
@@ -137,8 +138,8 @@
 }
 
 .card:has(.cardFolio) .footer {
-  background: var(--st-color-canvas);
-  padding: var(--st-space-2) var(--st-space-5);
+  background: var(--st-card-folio-bg);
+  padding: var(--st-space-1) var(--st-space-3);
   align-items: center;
   margin-top: 0;
 }
@@ -147,11 +148,11 @@
   display: none;
 }
 
-/* Category in footer — mono, muted, same scale as date */
+/* Category in footer — mono, same scale as date, darker in Ledger context */
 .footerCategoryLink {
   font-family: var(--st-font-family-mono);
   font-size: var(--st-font-size-xs);
-  color: var(--st-color-text-muted);
+  color: var(--st-label-color-badge);
   letter-spacing: 0.06em;
   text-decoration: none;
   position: relative;
@@ -161,6 +162,11 @@
 
 .footerCategoryLink:hover {
   text-decoration: underline;
+}
+
+/* Date inside Ledger footer — step up from default muted to badge weight */
+.card:has(.cardFolio) .date {
+  color: var(--st-label-color-badge);
 }
 
 /* ── Header ────────────────────────────────────────────────────────────────── */

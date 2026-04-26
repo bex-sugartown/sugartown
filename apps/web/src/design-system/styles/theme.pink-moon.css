@@ -82,6 +82,7 @@
   --st-card-bg-alt:             var(--st-color-neutral-50);
   --st-card-border:             var(--st-color-rule-accent);       /* neutral-300 — matches MetadataCard */
   --st-card-shadow:             none;
+  --st-card-folio-bg:           var(--st-color-neutral-200);      /* neutral-200 — visible on white card */
   --st-card-hover-shadow:       none;
   --st-card-hover-translate-y:  0px;
   --st-card-hover-border:       var(--st-color-pink);             /* hot pink on hover */
@@ -180,4 +181,5 @@
   /* Label tokens — dark override (charcoal-400 shared with light for consistency) */
   --st-label-color:       var(--st-color-charcoal-400);
   --st-label-color-badge: var(--st-color-softgrey-500);
+  --st-card-folio-bg:     var(--st-color-midnight-800);           /* folio/footer strip on dark canvas */
 }
