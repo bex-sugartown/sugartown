@@ -178,29 +178,6 @@ export const FilterChipRow: Story = {
   parameters: { layout: 'padded' },
 };
 
-// ─── On void background ───────────────────────────────────────────────────────
-
-export const OnVoidBackground: Story = {
-  render: () => (
-    <div
-      style={{
-        background: '#0D1226',
-        padding: '2rem',
-        borderRadius: '12px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '10px',
-      }}
-    >
-      <Chip label="Design Systems" href="#" />
-      <Chip label="Engineering"    href="#" />
-      <Chip label="Active"         onClick={() => {}} isActive />
-      <Chip label="Color Aware"    href="#" colorHex="#7C3AED" />
-    </div>
-  ),
-  parameters: { layout: 'padded' },
-};
-
 // ═══════════════════════════════════════════════════════════════════
 // SNAPSHOT — Chromatic composite (all variants in one screenshot)
 // ═══════════════════════════════════════════════════════════════════

@@ -147,23 +147,6 @@ export const DefaultFull: Story = {
 };
 
 /**
- * Same data as DefaultFull, dark-pink-moon theme.
- * Folio: canvas = midnight-800, rule-accent = rgba(255,255,255,0.15).
- */
-export const DefaultDark: Story = {
-  name: 'DefaultDark',
-  globals: { theme: 'dark-pink-moon' },
-  decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '420px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  args: { ...NODE_FULL },
-};
-
-/**
  * accentColor="#2BD4AA" — left border strip + header wash.
  * Folio label and body eyebrow suppressed; folio shows type + badge.
  */
@@ -238,54 +221,12 @@ export const DefaultCompact: Story = {
 };
 
 /**
- * Draft badge — status="draft" renders bright red in folio (editorial signal,
- * preview mode only). Verify red badge in canvas strip.
- */
-export const DraftBadge: Story = {
-  name: 'DraftBadge',
-  globals: { theme: 'light-pink-moon' },
-  decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '420px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  args: {
-    showFolio: true,
-    eyebrow: 'Article · Sugartown CMS',
-    title: 'Test Preview Post',
-    status: 'draft',
-    excerpt: 'This card demonstrates the editorial draft badge — bright red, folio slot only.',
-    date: '2026-04-26',
-  },
-};
-
-/**
  * Folio slot — light-pink-moon. Canonical Ledger Tradition card structure.
  * Eyebrow left, evolution badge right, both in grey canvas strip.
  */
 export const WithFolioSlot: Story = {
   name: 'WithFolioSlot',
   globals: { theme: 'light-pink-moon' },
-  decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '420px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  args: {
-    ...NODE_FULL,
-  },
-};
-
-/**
- * Folio slot — dark-pink-moon.
- */
-export const WithFolioSlotDark: Story = {
-  name: 'WithFolioSlotDark',
-  globals: { theme: 'dark-pink-moon' },
   decorators: [
     (Story) => (
       <div style={{ maxWidth: '420px' }}>

@@ -24,6 +24,7 @@ type Story = StoryObj<typeof Card>;
 
 const GRID_CARDS = [
   {
+    showFolio: true,
     title: 'Prompt Architecture for Long-Form Reasoning',
     eyebrow: 'Node · PROJ-002',
     category: { label: 'AI Methodology', href: '/categories/ai-methodology' },
@@ -34,6 +35,7 @@ const GRID_CARDS = [
     href: '/nodes/prompt-architecture-long-form',
   },
   {
+    showFolio: true,
     title: 'Building a Token-Driven Design System',
     eyebrow: 'Case Study · PROJ-001',
     category: { label: 'Systems Design', href: '/categories/systems-design' },
@@ -43,6 +45,7 @@ const GRID_CARDS = [
     href: '/case-studies/token-driven-design-system',
   },
   {
+    showFolio: true,
     title: 'Typography at Scale: Variable Fonts in Production',
     eyebrow: 'Article',
     category: { label: 'Engineering', href: '/categories/engineering' },
@@ -52,6 +55,7 @@ const GRID_CARDS = [
     href: '/articles/variable-fonts-production',
   },
   {
+    showFolio: true,
     title: 'Agentic Caucus Protocol v1',
     eyebrow: 'Node · PROJ-002',
     category: { label: 'AI Methodology', href: '/categories/ai-methodology' },
@@ -63,6 +67,7 @@ const GRID_CARDS = [
     href: '/nodes/agentic-caucus-protocol',
   },
   {
+    showFolio: true,
     title: 'Sugartown IA Brief — Phase 1',
     eyebrow: 'Document',
     category: { label: 'Strategy', href: '/categories/strategy' },
@@ -71,6 +76,7 @@ const GRID_CARDS = [
     href: '/nodes/ia-brief-phase-1',
   },
   {
+    showFolio: true,
     title: 'Knowledge Graph Archive Design',
     eyebrow: 'Node · PROJ-002',
     category: { label: 'Product', href: '/categories/product' },
