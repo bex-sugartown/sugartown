@@ -41,6 +41,7 @@ const ROOT = resolve(__dirname, '../../..')
 // ─── CLI flags ────────────────────────────────────────────────────────────────
 
 const STRICT_COLORS = process.argv.includes('--strict-colors')
+const CHECK_SYNC    = process.argv.includes('--check-sync')
 
 // ─── Token source files (define the valid --st-* universe) ───────────────────
 
@@ -173,11 +174,68 @@ function extractReferences(filePath) {
   return refs
 }
 
+// ─── Check-sync helpers ───────────────────────────────────────────────────────
+
+/**
+ * Extract the content of the first :root {} block from a CSS file.
+ * Handles multi-line blocks by brace-balancing from the opening {.
+ */
+function extractRootBlock(content) {
+  const noComments = content.replace(/\/\*[\s\S]*?\*\//g, '')
+  const rootIdx = noComments.search(/:root\s*\{/)
+  if (rootIdx === -1) return ''
+  const braceStart = noComments.indexOf('{', rootIdx)
+  let depth = 1
+  let i = braceStart + 1
+  while (i < noComments.length && depth > 0) {
+    if (noComments[i] === '{') depth++
+    else if (noComments[i] === '}') depth--
+    i++
+  }
+  return noComments.slice(braceStart + 1, i - 1)
+}
+
+/**
+ * Parse --st-name: value; pairs from a CSS block.
+ * Normalises whitespace in values for comparison.
+ */
+function parseTokenBlock(block) {
+  const defs = new Map()
+  for (const m of block.matchAll(/(--st-[\w-]+)\s*:\s*((?:[^;])+?)\s*;/g)) {
+    const name = m[1]
+    const value = m[2].replace(/\s+/g, ' ').trim()
+    defs.set(name, value)
+  }
+  return defs
+}
+
+/**
+ * Compare :root token values between two token source files.
+ * Returns array of { name, webValue, pkgValue } for every mismatch.
+ */
+function diffRootTokens(webPath, pkgPath) {
+  const webContent = readFileSync(webPath, 'utf8')
+  const pkgContent = readFileSync(pkgPath, 'utf8')
+  const webTokens = parseTokenBlock(extractRootBlock(webContent))
+  const pkgTokens = parseTokenBlock(extractRootBlock(pkgContent))
+
+  const conflicts = []
+  for (const [name, webVal] of webTokens) {
+    if (!pkgTokens.has(name)) continue  // web-only — informational, not an error
+    const pkgVal = pkgTokens.get(name)
+    if (webVal !== pkgVal) {
+      conflicts.push({ name, webValue: webVal, pkgValue: pkgVal })
+    }
+  }
+  return conflicts
+}
+
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 function run() {
   console.log('\n🎨  Sugartown CSS Token Reference Validator')
   if (STRICT_COLORS) console.log('   (--strict-colors mode: also checking for hardcoded hex/rgba)')
+  if (CHECK_SYNC)    console.log('   (--check-sync mode: also diffing :root values across both token files)')
   console.log('══════════════════════════════════════════════\n')
 
   // 1. Build the union of all defined --st-* tokens
@@ -283,8 +341,34 @@ function run() {
     }
   }
 
+  // 6. --check-sync: diff :root token values between the two canonical source files
+  let syncErrorCount = 0
+
+  if (CHECK_SYNC) {
+    console.log('\n   🔁  Checking :root token value sync between canonical sources...\n')
+
+    const [webSrc, pkgSrc] = TOKEN_SOURCES.map((p) => resolve(ROOT, p))
+    const conflicts = diffRootTokens(webSrc, pkgSrc)
+    syncErrorCount = conflicts.length
+
+    if (conflicts.length === 0) {
+      console.log('✅  All :root token values are in sync between both token files.\n')
+    } else {
+      console.log(`❌  Found ${conflicts.length} value conflict(s) between token source files:\n`)
+      console.log('──────────────────────────────────────────────')
+      for (const { name, webValue, pkgValue } of conflicts) {
+        console.log(`\n   ${name}`)
+        console.log(`        web: ${webValue}`)
+        console.log(`        pkg: ${pkgValue}`)
+      }
+      console.log('\n──────────────────────────────────────────────')
+      console.log(`\n   Fix: update packages/design-system/src/styles/tokens.css to match the`)
+      console.log(`   canonical web values. The web file is the source of truth.\n`)
+    }
+  }
+
   // Exit with error if any checks failed
-  if (fileErrors.size > 0 || colorErrorCount > 0) {
+  if (fileErrors.size > 0 || colorErrorCount > 0 || syncErrorCount > 0) {
     process.exit(1)
   }
   process.exit(0)

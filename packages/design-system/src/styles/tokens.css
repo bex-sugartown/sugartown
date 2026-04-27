@@ -159,14 +159,14 @@
   --st-color-blue-600: #0052A3;
 
   /* ── Spacing (rem scale, 8-point base) ───────────────── */
-  --st-space-1: 0.25rem;   /* 4px  */
-  --st-space-2: 0.5rem;    /* 8px  */
-  --st-space-3: 0.75rem;   /* 12px */
-  --st-space-4: 1rem;      /* 16px */
-  --st-space-5: 1.5rem;    /* 24px */
-  --st-space-6: 2rem;      /* 32px */
-  --st-space-7: 2.5rem;    /* 40px */
-  --st-space-8: 3.75rem;   /* 60px */
+  --st-space-1: 4px;
+  --st-space-2: 8px;
+  --st-space-3: 12px;
+  --st-space-4: 16px;
+  --st-space-5: 24px;
+  --st-space-6: 32px;
+  --st-space-7: 40px;
+  --st-space-8: 60px;
 
   /* ── Border Radius ───────────────────────────────────── */
   /* Numeric series (low-level, prefer semantic names below) */
@@ -354,13 +354,13 @@
   --st-header-height:     72px;   /* sticky header reservation — used for sticky-top offsets and scroll-margin */
 
   /* ── Semantic Spacing: Purpose-Specific ─────────────────── */
-  --st-space-reading-gap:           1.25rem;  /* paragraph to paragraph in longform     */
-  --st-space-section-break:         5rem;     /* between major page sections             */
-  --st-space-section-break-detail:  2.5rem;   /* between sections inside detail pages    */
-  --st-space-hero-bottom:           3.5rem;   /* breathing room below hero               */
-  --st-space-card-gap:              2rem;     /* archive grid card gap                   */
-  --st-space-meta-top:              2rem;     /* hero to metadata card                   */
-  --st-space-footer-top:            6rem;     /* clear content-to-footer separation      */
+  --st-space-reading-gap:           20px;   /* paragraph to paragraph in longform     */
+  --st-space-section-break:         80px;   /* between major page sections             */
+  --st-space-section-break-detail:  40px;   /* between sections inside detail pages    */
+  --st-space-hero-bottom:           56px;   /* breathing room below hero               */
+  --st-space-card-gap:              32px;   /* archive grid card gap                   */
+  --st-space-meta-top:              32px;   /* hero to metadata card                   */
+  --st-space-footer-top:            96px;   /* clear content-to-footer separation      */
 
   /* ── Transitions ───────────────────────────────────────── */
   --st-transition-fast:   150ms ease;
@@ -554,8 +554,8 @@
   --st-card-text-muted:        var(--st-color-text-muted);
   --st-card-border:            var(--st-color-border-default); /* Pink Moon: grey default, pink on hover */
   --st-card-radius:            var(--st-radius-card);
-  --st-card-shadow:            0 2px 8px rgba(0, 0, 0, 0.06);
-  --st-card-hover-shadow:      0 6px 20px rgba(0, 0, 0, 0.08);
+  --st-card-shadow:            0 2px 8px rgba(0, 0, 0, 0.06);    /* light default — theme overrides */
+  --st-card-hover-shadow:      0 18px 55px rgba(0, 0, 0, 0.22);   /* dark default */
   --st-card-hover-translate-y: -4px;
   --st-card-media-height:      48px;
   --st-card-title-size:        var(--st-font-size-lg);   /* 1.125rem / 18px — Ledger Tradition bump */
@@ -635,10 +635,10 @@
   --st-code-shadow:        0 4px 10px rgba(0, 0, 0, 0.2);
   --st-code-padding:       2rem;
   --st-code-margin-block:  3rem;
-  --st-code-inline-bg:     var(--st-color-softgrey-100);
-  --st-code-inline-color:  var(--st-color-maroon);
-  --st-code-inline-text:   var(--st-color-maroon);        /* legacy alias */
-  --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
+  --st-code-inline-bg:     rgba(209, 255, 29, 0.10);    /* dark default: lime pill */
+  --st-code-inline-color:  var(--st-color-lime);
+  --st-code-inline-text:   var(--st-color-lime);        /* legacy alias */
+  --st-code-inline-border: 1px solid rgba(209, 255, 29, 0.30);
   --st-code-font-size:     0.9rem;
 
   /* ── Citation / Knowledge Notation ───────────────────── */
@@ -774,7 +774,8 @@
   --st-color-category-link:  var(--st-color-softgrey-400);
   --st-color-footer-divider: rgba(255, 111, 184, 0.22);
   --st-color-chip-bg:        rgba(255, 255, 255, 0.06);
-  /* card shadow/hover-shadow: removed — defined in Tier 3 component tokens above */
+  --st-card-shadow:          0 14px 40px rgba(0, 0, 0, 0.18);
+  --st-card-hover-shadow:    0 18px 55px rgba(0, 0, 0, 0.22);
 
   /* Margin column — opaque dark colors (prevent rgba stacking) */
   --st-margin-bg:       #1b2033;

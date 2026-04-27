@@ -17,6 +17,7 @@
     "validate:tokens": "node scripts/validate-tokens.js",
     "validate:tokens:refs": "pnpm --filter web validate:tokens",
     "validate:tokens:strict": "pnpm --filter web validate:tokens:strict",
+    "validate:tokens:sync": "pnpm --filter web validate:tokens:sync",
     "validate:taxonomy": "pnpm --filter web validate:taxonomy",
     "registry:build": "node scripts/registry-build.js",
     "migrate:taxonomy": "node scripts/migrate-taxonomy.js",
