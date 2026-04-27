@@ -20,6 +20,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
+| 2 | **[SUG-85](https://linear.app/sugartown/issue/SUG-85) · Token file sync audit** — Resolve drift between `apps/web` and `packages/design-system` token files. Value conflicts in card shadows, code-inline colorway. Missing color scale steps and light-theme tokens. Extend validator with `--check-sync` flag. Epic: `docs/backlog/SUG-85-token-file-sync-audit.md`. | `Design System` | 🟢 Next |
 
 ---
 
