@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-27 · v0.22.12 · SUG-49 DS contract enforcement
+> Updated 2026-04-27 · v0.22.13 · SUG-85 token file sync audit
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-49 shipped (v0.22.12) — Husky pre-commit gates, component-registry.json (12 primitives), PRD §11–15 restructure, FigJam architecture diagram updated (Chromatic added, Skills fixed, llms.txt de-🔮'd). Next: SUG-85 token file sync audit or SUG-81 Site-wide Knowledge Graph.
+> **⚑ Current focus:** SUG-85 shipped (v0.22.13) — packages token file synced to web canonical (dark-first code-inline, card shadows), spacing tokens unified to px, --check-sync validator added. Next: SUG-81 Site-wide Knowledge Graph.
 
 ---
 
@@ -20,7 +20,6 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
-| 2 | **[SUG-85](https://linear.app/sugartown/issue/SUG-85) · Token file sync audit** — Resolve drift between `apps/web` and `packages/design-system` token files. Value conflicts in card shadows, code-inline colorway. Missing color scale steps and light-theme tokens. Extend validator with `--check-sync` flag. Epic: `docs/backlog/SUG-85-token-file-sync-audit.md`. | `Design System` | 🟢 Next |
 
 ---
 
@@ -59,6 +58,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-85 · Token file sync audit** — packages/design-system tokens.css synced to web canonical: dark-first code-inline (lime pill), card hover shadow, spacing tokens unified to px. `--check-sync` flag added to validate-tokens.js — diffs :root values across both files, exits 1 on conflicts. 0 sync errors.~~ | v0.22.13 | 2026-04-27 |
 | ~~**SUG-49 · DS Contract Enforcement** — Husky v9 pre-commit hook (validate:tokens + validate:tokens:strict on every commit). `component-registry.json` with `pnpm registry:build` script (12 DS primitives, 10 web adapters, 218 unique tokens). PRD §11 architecture diagram updated (Chromatic VRT + Contract layer). §12 Prose as Design SoT expanded to full position paper. §13–15 renumbered (fixed duplicate §12 bug). FigJam diagram updated: Skills fixed, llms.txt de-🔮'd, Chromatic VRT node added.~~ | v0.22.12 | 2026-04-27 |
 | ~~**SUG-84 · Storybook dead story + legacy component purge** — Deleted Legacy/Callout (DS), Legacy/CardGrid + web component pair, Legacy/EditorialCard + web component pair, DraftBadge story + CSS. DraftBadge refactored to `<Chip color="amber" size="sm">`. -21 Chromatic snapshots per build. No Legacy/ group in Storybook sidebar.~~ | v0.22.11 | 2026-04-27 |
 | ~~**SUG-83 · Retire legacy theme selectors** — Removed all `[data-theme="light"]` and `[data-theme="dark"]` dead selectors from 10 component CSS files (Accordion, Button, Chip, CodeBlock, Callout, DraftBadge, ContactForm, PageSections, portableTextComponents, pages). Deprecated token blocks annotated in both `tokens.css` files and both `theme.light.css` files. Storybook `THEME_BG` map trimmed to pink-moon variants only. validate:tokens — 0 errors.~~ | v0.22.10 | 2026-04-26 |
