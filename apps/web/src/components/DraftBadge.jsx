@@ -12,15 +12,11 @@
  * EPIC-preview-ui · Preview UI Chrome
  */
 import { isPreviewMode } from '../lib/contentState'
-import styles from './DraftBadge.module.css'
+import Chip from '../design-system/components/chip/Chip'
 
 export default function DraftBadge({ docId, hasDraft }) {
   if (!isPreviewMode()) return null
   if (!docId?.startsWith('drafts.') && !hasDraft) return null
 
-  return (
-    <span className={styles.badge} aria-label="Draft document">
-      Draft
-    </span>
-  )
+  return <Chip label="Draft" color="amber" size="sm" aria-label="Draft document" />
 }
