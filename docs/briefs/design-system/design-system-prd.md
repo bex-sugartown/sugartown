@@ -396,19 +396,25 @@ The Media component already supports `filter` via CSS — implementation is a CS
 └──────────┬──────────────┬───────────────┘
            │              │
            ▼              ▼
-┌────────────────┐  ┌─────────────────────┐
-│  ③ App Layer   │  │  ④ Storybook        │
-│  ContentCard,  │  │  4 groups:          │
-│  MetadataCard, │  │  Foundations,        │
-│  Hero, Footer, │  │  Primitives,        │
-│  PageSections  │  │  Patterns,          │
-└───────┬────────┘  │  Layout             │
-        │           └─────────────────────┘
+┌────────────────┐  ┌─────────────────────────────────┐
+│  ③ App Layer   │  │  ④ Storybook + Chromatic VRT    │
+│  ContentCard,  │  │  4 groups (Foundations,         │
+│  MetadataCard, │  │  Primitives, Patterns, Layout)  │
+│  Hero, Footer, │  │  Chromatic: baseline approval   │
+│  PageSections  │  │  + visual regression testing    │
+└───────┬────────┘  └─────────────────────────────────┘
         ▼
 ┌─────────────────────────────────────────┐
 │  ⑤ Sanity Studio                        │
 │  Schemas + section builder              │
 │  Content drives component selection     │
+└─────────────────────────────────────────┘
+        ↕ (all layers)
+┌─────────────────────────────────────────┐
+│  ⑥ Contract + Test Layer               │
+│  validate:tokens (refs + --strict-colors│
+│  validate:urls, validate:content        │
+│  Husky pre-commit · component-registry  │
 └─────────────────────────────────────────┘
 ```
 
@@ -454,33 +460,40 @@ Sanity Studio (author) → GROQ queries → App Components → DS Primitives →
 
 Sugartown has no Figma layer. This is a deliberate architectural decision, not an oversight.
 
+### The decision
+
+Design intent is expressed through this PRD, the Pink Moon manifesto, HTML mocks authored in `docs/drafts/`, and CSS token files. There is no Figma spec to hand off. The code IS the spec.
+
+This was chosen because the project is run by a single developer working alongside Claude Code as a design partner. The cost of maintaining a parallel visual source of truth (Figma) — keeping it in sync with token changes, component refactors, and typography decisions — exceeds its value at this scale.
+
 ### Where prose works
 
-- **Token definitions** — CSS files ARE the spec. Figma variables would be a mirror.
-- **Component behaviour** — README + Storybook is testable. Figma component pages are not.
-- **Design philosophy** — no visual tool captures governance rules.
-- **Editorial patterns** — citations, marginalia, colophon are content architecture.
+- **Token definitions** — CSS token files are the spec. Figma variables would be a downstream mirror with no authoritative advantage.
+- **Component behaviour** — README + Storybook is testable. Figma component pages document appearance, not behaviour.
+- **Design philosophy** — governance rules (anti-slop, signal rule, academic aesthetic) live in this PRD and CLAUDE.md. No visual tool captures intent that precisely.
+- **Editorial patterns** — citations, marginalia, colophon, card Ledger Tradition are content architecture that CSS and markup express better than canvas tooling.
 
 ### Where prose breaks down
 
-- **Spatial relationships** — can't feel whitespace in prose. HTML mocks partially solve this.
-- **Responsive behaviour** — need Storybook viewport testing for visual verification.
-- **Full-page composition** — component specs don't show hierarchy conflicts.
-- **Colour in context** — the "thumb test" requires human eyes.
+- **Spatial relationships** — prose cannot convey rhythm and whitespace. Mitigated by HTML mocking in `docs/drafts/` before any implementation begins (Phase 0 gate).
+- **Responsive behaviour** — prose cannot show breakpoint transitions. Mitigated by Storybook viewport controls and Chromatic VRT across viewports.
+- **Full-page composition** — component specs don't reveal hierarchy conflicts at the page level. Mitigated by preview panel checks on real content pages before close-out.
+- **Colour in context** — the thumb test (does the palette feel coherent on screen?) requires human eyes. Not mitigated; accepted as a manual step.
+- **Handoff to other collaborators** — prose scales poorly past 1-2 people. If a visual designer joins, Figma enters the stack and this section is updated.
 
-### The mitigation
+### AI-assisted mitigation
 
-Claude Code as design tool (interactive HTML mocking), Storybook as visual reference (always in sync), preview panel for composition checks, anti-slop governance as quality gate.
+Claude Code functions as an interactive design tool: HTML mocks are generated from prose specs and iterated live in browser. Storybook provides a persistent visual reference that is always synchronised with code. Chromatic holds approved baselines and catches visual regressions before merge. Anti-slop governance catches generic output at the spec authoring stage, before it reaches CSS.
 
 ### Trade-offs accepted
 
-- No pixel-perfect handoff. The spec IS the code.
-- No visual version control. Git history + manifesto "Resolved Questions."
-- Scales to 1-2 people, not a team. If a visual designer joins, Figma enters the stack.
+- No pixel-perfect spec handoff. The spec is the code; the code is the spec.
+- No visual version control. Git history records structural changes; the manifesto section "Resolved Questions" records deliberate direction changes.
+- Scales to 1-2 people. If team size grows beyond 2, this decision is revisited.
 
 ---
 
-## 12. Anti-Slop Governance
+## 13. Anti-Slop Governance
 
 Design quality is enforced through system standards, not visual review.
 
@@ -502,7 +515,7 @@ Callout status colours (generic), table zebra striping (no brand character), acc
 
 ---
 
-## 13. Migration Path
+## 14. Migration Path
 
 ### Phase 1: Documentation Consolidation (Current — SUG-21)
 - PRD v3.0 (this document)
@@ -532,7 +545,7 @@ Callout status colours (generic), table zebra striping (no brand character), acc
 
 ---
 
-## 14. Success Criteria
+## 15. Success Criteria
 
 | Area | Metric |
 |------|--------|

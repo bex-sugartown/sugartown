@@ -1,0 +1,10 @@
+#!/bin/sh
+# Pre-commit hook — fast, local CSS validators only
+# Validators that require Sanity API (validate:urls, validate:content) run manually pre-PR.
+# Token drift check (root validate:tokens) gates on SUG-85 resolution.
+
+# Token reference check — every var(--st-*) must resolve to a defined token
+pnpm --filter web validate:tokens || exit 1
+
+# Raw value lint — no hardcoded hex/rgba in component CSS files
+pnpm --filter web validate:tokens:strict || exit 1

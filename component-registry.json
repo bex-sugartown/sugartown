@@ -1,0 +1,650 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-04-27T13:03:15.509Z",
+  "source": "scripts/registry-build.js",
+  "components": [
+    {
+      "name": "Accordion",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": "packages/design-system/src/components/Accordion/Accordion.tsx",
+        "styles": "packages/design-system/src/components/Accordion/Accordion.module.css",
+        "index": "packages/design-system/src/components/Accordion/index.ts",
+        "stories": [
+          "packages/design-system/src/components/Accordion/Accordion.stories.tsx"
+        ],
+        "spec": null
+      },
+      "webAdapter": {
+        "component": "apps/web/src/design-system/components/accordion/Accordion.jsx",
+        "styles": "apps/web/src/design-system/components/accordion/Accordion.module.css"
+      },
+      "tokensConsumed": [
+        "--st-color-border-default",
+        "--st-color-border-subtle",
+        "--st-color-brand-primary",
+        "--st-color-text-primary",
+        "--st-color-text-secondary",
+        "--st-font-size-lg",
+        "--st-font-weight-semibold",
+        "--st-line-height-tight",
+        "--st-space-4",
+        "--st-space-5"
+      ],
+      "variants": [],
+      "storyExports": [
+        "SingleExpand",
+        "MultiExpand",
+        "WithDefaultOpen",
+        "LongContent",
+        "ManyItems"
+      ]
+    },
+    {
+      "name": "Blockquote",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": "packages/design-system/src/components/Blockquote/Blockquote.tsx",
+        "styles": "packages/design-system/src/components/Blockquote/Blockquote.module.css",
+        "index": "packages/design-system/src/components/Blockquote/index.ts",
+        "stories": [
+          "packages/design-system/src/components/Blockquote/Blockquote.stories.tsx"
+        ],
+        "spec": null
+      },
+      "webAdapter": {
+        "component": "apps/web/src/design-system/components/blockquote/Blockquote.jsx",
+        "styles": "apps/web/src/design-system/components/blockquote/Blockquote.module.css"
+      },
+      "tokensConsumed": [
+        "--st-blockquote-border-color",
+        "--st-blockquote-border-width",
+        "--st-blockquote-color",
+        "--st-blockquote-margin-block",
+        "--st-blockquote-padding-left",
+        "--st-color-brand-primary",
+        "--st-color-text-secondary"
+      ],
+      "variants": [],
+      "storyExports": [
+        "Default",
+        "WithCitation",
+        "Nested",
+        "StressTestLongQuote"
+      ]
+    },
+    {
+      "name": "Button",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": "packages/design-system/src/components/Button/Button.tsx",
+        "styles": "packages/design-system/src/components/Button/Button.module.css",
+        "index": "packages/design-system/src/components/Button/index.ts",
+        "stories": [
+          "packages/design-system/src/components/Button/Button.stories.tsx"
+        ],
+        "spec": "packages/design-system/src/components/Button/BUTTON_SPEC.md"
+      },
+      "webAdapter": {
+        "component": "apps/web/src/design-system/components/button/Button.jsx",
+        "styles": "apps/web/src/design-system/components/button/Button.module.css"
+      },
+      "tokensConsumed": [
+        "--st-code-border-ghost",
+        "--st-code-color-button-ghost",
+        "--st-color-brand-primary",
+        "--st-color-charcoal",
+        "--st-color-lime",
+        "--st-color-midnight-700",
+        "--st-color-softgrey-200",
+        "--st-color-softgrey-400",
+        "--st-color-white",
+        "--st-font-family-mono",
+        "--st-radius-button",
+        "--st-shadow-button-active",
+        "--st-shadow-button-active-dark",
+        "--st-shadow-button-edge-primary",
+        "--st-shadow-button-edge-secondary",
+        "--st-space-2"
+      ],
+      "variants": [
+        "primary",
+        "secondary",
+        "tertiary"
+      ],
+      "storyExports": [
+        "Primary",
+        "Secondary",
+        "Tertiary",
+        "Disabled",
+        "LongLabel",
+        "Loading",
+        "AllVariants",
+        "OnDarkBackground",
+        "PinkMoonPrimary",
+        "PinkMoonSecondary",
+        "PinkMoonTertiary",
+        "PinkMoonAllVariants",
+        "PinkMoonOnVoid",
+        "Snapshot"
+      ]
+    },
+    {
+      "name": "Callout",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": "packages/design-system/src/components/Callout/Callout.tsx",
+        "styles": "packages/design-system/src/components/Callout/Callout.module.css",
+        "index": "packages/design-system/src/components/Callout/index.ts",
+        "stories": [],
+        "spec": null
+      },
+      "webAdapter": {
+        "component": "apps/web/src/design-system/components/callout/Callout.jsx",
+        "styles": "apps/web/src/design-system/components/callout/Callout.module.css"
+      },
+      "tokensConsumed": [
+        "--st-callout-bg",
+        "--st-callout-border-color",
+        "--st-callout-danger-bg",
+        "--st-callout-danger-bg-light",
+        "--st-callout-danger-border",
+        "--st-callout-danger-border-light",
+        "--st-callout-danger-icon",
+        "--st-callout-danger-icon-light",
+        "--st-callout-icon-color",
+        "--st-callout-info-bg",
+        "--st-callout-info-bg-light",
+        "--st-callout-info-border",
+        "--st-callout-info-border-light",
+        "--st-callout-info-icon",
+        "--st-callout-info-icon-light",
+        "--st-callout-label-width",
+        "--st-callout-margin-block",
+        "--st-callout-padding",
+        "--st-callout-radius",
+        "--st-callout-rule-bottom",
+        "--st-callout-rule-top",
+        "--st-callout-tip-bg",
+        "--st-callout-tip-bg-light",
+        "--st-callout-tip-border",
+        "--st-callout-tip-border-light",
+        "--st-callout-tip-icon",
+        "--st-callout-tip-icon-light",
+        "--st-callout-warn-bg",
+        "--st-callout-warn-bg-light",
+        "--st-callout-warn-border",
+        "--st-callout-warn-border-light",
+        "--st-callout-warn-icon",
+        "--st-callout-warn-icon-light",
+        "--st-color-accent",
+        "--st-color-amber",
+        "--st-color-amber-600",
+        "--st-color-amber-700",
+        "--st-color-brand-primary",
+        "--st-color-lime",
+        "--st-color-lime-800",
+        "--st-color-maroon",
+        "--st-color-maroon-400",
+        "--st-color-pink",
+        "--st-color-seafoam",
+        "--st-color-seafoam-800",
+        "--st-color-text-default",
+        "--st-font-family-mono",
+        "--st-radius-callout"
+      ],
+      "variants": [],
+      "storyExports": []
+    },
+    {
+      "name": "Card",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": "packages/design-system/src/components/Card/Card.tsx",
+        "styles": "packages/design-system/src/components/Card/Card.module.css",
+        "index": "packages/design-system/src/components/Card/index.ts",
+        "stories": [
+          "packages/design-system/src/components/Card/Card.stories.tsx",
+          "packages/design-system/src/components/Card/CardGrid.stories.tsx"
+        ],
+        "spec": "packages/design-system/src/components/Card/README.md"
+      },
+      "webAdapter": {
+        "component": "apps/web/src/design-system/components/card/Card.jsx",
+        "styles": "apps/web/src/design-system/components/card/Card.module.css"
+      },
+      "tokensConsumed": [
+        "--st-card-bg",
+        "--st-card-border",
+        "--st-card-folio-bg",
+        "--st-card-hover-border",
+        "--st-card-hover-shadow",
+        "--st-card-hover-translate-y",
+        "--st-card-radius",
+        "--st-card-shadow",
+        "--st-card-thumb-position",
+        "--st-card-title-size",
+        "--st-color-border-default",
+        "--st-color-brand-primary",
+        "--st-color-category-link",
+        "--st-color-footer-divider",
+        "--st-color-rule-accent",
+        "--st-color-text-eyebrow",
+        "--st-color-text-muted",
+        "--st-color-text-primary",
+        "--st-color-text-secondary",
+        "--st-font-family-mono",
+        "--st-font-family-narrative",
+        "--st-font-size-sm",
+        "--st-font-size-xs",
+        "--st-label-color-badge",
+        "--st-line-height-relaxed",
+        "--st-line-height-tight",
+        "--st-radius-xs",
+        "--st-space-1",
+        "--st-space-2",
+        "--st-space-3",
+        "--st-space-4",
+        "--st-space-5",
+        "--st-status-active-bg",
+        "--st-status-active-border",
+        "--st-status-active-fg",
+        "--st-status-archived-bg",
+        "--st-status-archived-border",
+        "--st-status-archived-fg",
+        "--st-status-deploying-bg",
+        "--st-status-deploying-border",
+        "--st-status-deploying-fg",
+        "--st-status-deprecated-bg",
+        "--st-status-deprecated-border",
+        "--st-status-deprecated-fg",
+        "--st-status-designing-bg",
+        "--st-status-designing-border",
+        "--st-status-designing-fg",
+        "--st-status-developing-bg",
+        "--st-status-developing-border",
+        "--st-status-developing-fg",
+        "--st-status-draft-bg",
+        "--st-status-draft-border",
+        "--st-status-draft-fg",
+        "--st-status-dreaming-bg",
+        "--st-status-dreaming-border",
+        "--st-status-dreaming-fg",
+        "--st-status-evergreen-bg",
+        "--st-status-evergreen-border",
+        "--st-status-evergreen-fg",
+        "--st-status-exploring-bg",
+        "--st-status-exploring-border",
+        "--st-status-exploring-fg",
+        "--st-status-implemented-bg",
+        "--st-status-implemented-border",
+        "--st-status-implemented-fg",
+        "--st-status-iterating-bg",
+        "--st-status-iterating-border",
+        "--st-status-iterating-fg",
+        "--st-status-operationalized-bg",
+        "--st-status-operationalized-border",
+        "--st-status-operationalized-fg",
+        "--st-status-testing-bg",
+        "--st-status-testing-border",
+        "--st-status-testing-fg",
+        "--st-status-validated-bg",
+        "--st-status-validated-border",
+        "--st-status-validated-fg"
+      ],
+      "variants": [
+        "default",
+        "listing",
+        "metadata"
+      ],
+      "storyExports": [
+        "DefaultFull",
+        "DefaultWithAccent",
+        "DefaultTitleOnly",
+        "DefaultWithHero",
+        "DefaultCompact",
+        "WithFolioSlot",
+        "ListingBasic",
+        "ListingWithThumb",
+        "ListingFullCard",
+        "Snapshot"
+      ]
+    },
+    {
+      "name": "Chip",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": "packages/design-system/src/components/Chip/Chip.tsx",
+        "styles": "packages/design-system/src/components/Chip/Chip.module.css",
+        "index": "packages/design-system/src/components/Chip/index.ts",
+        "stories": [
+          "packages/design-system/src/components/Chip/Chip.stories.tsx"
+        ],
+        "spec": "packages/design-system/src/components/Chip/README.md"
+      },
+      "webAdapter": {
+        "component": "apps/web/src/design-system/components/chip/Chip.jsx",
+        "styles": "apps/web/src/design-system/components/chip/Chip.module.css"
+      },
+      "tokensConsumed": [
+        "--st-color-accent",
+        "--st-color-amber",
+        "--st-color-amber-600",
+        "--st-color-black",
+        "--st-color-lime",
+        "--st-color-lime-700",
+        "--st-color-neutral-600",
+        "--st-color-pink",
+        "--st-color-seafoam",
+        "--st-color-seafoam-700",
+        "--st-color-softgrey-300",
+        "--st-color-softgrey-500",
+        "--st-color-softgrey-700",
+        "--st-color-violet",
+        "--st-color-white",
+        "--st-font-family-mono",
+        "--st-font-size-xs",
+        "--st-radius-tag"
+      ],
+      "variants": [],
+      "storyExports": [
+        "StaticSpan",
+        "AsLink",
+        "AsButton",
+        "Default",
+        "Active",
+        "Small",
+        "Medium",
+        "PresetPink",
+        "PresetSeafoam",
+        "PresetLime",
+        "PresetViolet",
+        "PresetAmber",
+        "AllPresets",
+        "ColorAwareProject",
+        "ColorAwareCategory",
+        "ColorHexOverridesPreset",
+        "TaxonomyChipRow",
+        "FilterChipRow",
+        "Snapshot"
+      ]
+    },
+    {
+      "name": "Citation",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": "packages/design-system/src/components/Citation/Citation.tsx",
+        "styles": "packages/design-system/src/components/Citation/Citation.module.css",
+        "index": "packages/design-system/src/components/Citation/index.ts",
+        "stories": [
+          "packages/design-system/src/components/Citation/Citation.stories.tsx"
+        ],
+        "spec": null
+      },
+      "webAdapter": {
+        "component": "apps/web/src/design-system/components/citation/Citation.jsx",
+        "styles": "apps/web/src/design-system/components/citation/Citation.module.css"
+      },
+      "tokensConsumed": [
+        "--st-citation-color",
+        "--st-citation-font",
+        "--st-citation-index-color",
+        "--st-citation-marker-bg",
+        "--st-citation-marker-color",
+        "--st-citation-size",
+        "--st-citation-zone-border",
+        "--st-citation-zone-gap",
+        "--st-color-brand-primary",
+        "--st-color-focus",
+        "--st-font-weight-bold",
+        "--st-line-height-normal",
+        "--st-space-1"
+      ],
+      "variants": [],
+      "storyExports": [
+        "Default",
+        "Multiple",
+        "InProse",
+        "Stress",
+        "TokenAudit"
+      ]
+    },
+    {
+      "name": "CodeBlock",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": "packages/design-system/src/components/CodeBlock/CodeBlock.tsx",
+        "styles": "packages/design-system/src/components/CodeBlock/CodeBlock.module.css",
+        "index": "packages/design-system/src/components/CodeBlock/index.ts",
+        "stories": [
+          "packages/design-system/src/components/CodeBlock/CodeBlock.stories.tsx"
+        ],
+        "spec": null
+      },
+      "webAdapter": {
+        "component": "apps/web/src/design-system/components/codeblock/CodeBlock.jsx",
+        "styles": "apps/web/src/design-system/components/codeblock/CodeBlock.module.css"
+      },
+      "tokensConsumed": [
+        "--st-code-bg",
+        "--st-code-border-left",
+        "--st-code-color",
+        "--st-code-color-comment",
+        "--st-code-color-default",
+        "--st-code-color-line-border",
+        "--st-code-color-line-num",
+        "--st-code-color-meta-border",
+        "--st-code-color-meta-dim",
+        "--st-code-color-meta-mid",
+        "--st-code-font-size",
+        "--st-code-inline-bg",
+        "--st-code-inline-bg-dark-maroon",
+        "--st-code-inline-border",
+        "--st-code-inline-border-dark-maroon",
+        "--st-code-inline-color",
+        "--st-code-margin-block",
+        "--st-code-padding",
+        "--st-code-radius",
+        "--st-code-shadow",
+        "--st-color-accent",
+        "--st-color-lime",
+        "--st-color-maroon",
+        "--st-color-maroon-300",
+        "--st-color-midnight",
+        "--st-color-midnight-800",
+        "--st-color-pink",
+        "--st-color-seafoam",
+        "--st-color-softgrey-100",
+        "--st-color-softgrey-200",
+        "--st-font-family-mono",
+        "--st-radius-code",
+        "--st-radius-sm",
+        "--st-shadow-code-base",
+        "--st-shadow-code-dark"
+      ],
+      "variants": [
+        "default",
+        "mermaid"
+      ],
+      "storyExports": [
+        "Default",
+        "JavaScript",
+        "CSS",
+        "JSXTSX",
+        "Bash",
+        "Python",
+        "WithLineNumbers",
+        "WithFilename",
+        "InlineCodeStory",
+        "Mermaid",
+        "StressTestLongLines",
+        "StressTestTallBlock",
+        "UnknownLanguage"
+      ]
+    },
+    {
+      "name": "ContentNav",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": null,
+        "styles": null,
+        "index": null,
+        "stories": [
+          "packages/design-system/src/components/ContentNav/ContentNav.stories.tsx"
+        ],
+        "spec": null
+      },
+      "webAdapter": null,
+      "tokensConsumed": [],
+      "variants": [],
+      "storyExports": [
+        "BothPrevAndNext",
+        "PrevOnly",
+        "NextOnly",
+        "Neither"
+      ]
+    },
+    {
+      "name": "FilterBar",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": "packages/design-system/src/components/FilterBar/FilterBar.tsx",
+        "styles": "packages/design-system/src/components/FilterBar/FilterBar.module.css",
+        "index": "packages/design-system/src/components/FilterBar/index.ts",
+        "stories": [
+          "packages/design-system/src/components/FilterBar/FilterBar.stories.tsx"
+        ],
+        "spec": "packages/design-system/src/components/FilterBar/README.md"
+      },
+      "webAdapter": null,
+      "tokensConsumed": [
+        "--st-card-folio-bg",
+        "--st-color-bg-surface",
+        "--st-color-brand-primary",
+        "--st-color-canvas",
+        "--st-color-rule-accent",
+        "--st-color-text-default",
+        "--st-color-text-muted",
+        "--st-color-text-primary",
+        "--st-color-white",
+        "--st-font-family-mono",
+        "--st-font-size-sm",
+        "--st-font-size-xs",
+        "--st-font-weight-medium",
+        "--st-label-color",
+        "--st-label-font",
+        "--st-label-size",
+        "--st-label-tracking",
+        "--st-label-weight",
+        "--st-radius-xs",
+        "--st-space-1",
+        "--st-space-2",
+        "--st-space-4"
+      ],
+      "variants": [],
+      "storyExports": [
+        "Default",
+        "WithActiveFilters",
+        "EmptyModel",
+        "SingleFacet"
+      ]
+    },
+    {
+      "name": "Media",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": "packages/design-system/src/components/Media/Media.tsx",
+        "styles": "packages/design-system/src/components/Media/Media.module.css",
+        "index": "packages/design-system/src/components/Media/index.ts",
+        "stories": [
+          "packages/design-system/src/components/Media/Media.stories.tsx"
+        ],
+        "spec": null
+      },
+      "webAdapter": {
+        "component": "apps/web/src/design-system/components/media/Media.jsx",
+        "styles": "apps/web/src/design-system/components/media/Media.module.css"
+      },
+      "tokensConsumed": [
+        "--st-color-text-muted",
+        "--st-font-size-sm",
+        "--st-media-duotone-grayscale",
+        "--st-media-duotone-radius",
+        "--st-media-duotone-shadow",
+        "--st-media-overlay-blend",
+        "--st-media-overlay-blend-mode",
+        "--st-media-overlay-color",
+        "--st-media-overlay-gradient",
+        "--st-media-overlay-opacity",
+        "--st-radius-md",
+        "--st-shadow-media-duotone",
+        "--st-space-2",
+        "--st-space-5"
+      ],
+      "variants": [],
+      "storyExports": [
+        "Default",
+        "DuotoneStandard",
+        "DuotoneFeatured",
+        "DuotoneSubtle",
+        "ColorOverlayPink",
+        "ColorOverlayBlack",
+        "WithAspectRatio",
+        "HoverScale",
+        "StressTestTallImage",
+        "StressTestNoImage",
+        "AllPresets"
+      ]
+    },
+    {
+      "name": "Table",
+      "pinkMoonStatus": "active",
+      "dsPackage": {
+        "component": "packages/design-system/src/components/Table/Table.tsx",
+        "styles": "packages/design-system/src/components/Table/Table.module.css",
+        "index": "packages/design-system/src/components/Table/index.ts",
+        "stories": [
+          "packages/design-system/src/components/Table/Table.stories.tsx"
+        ],
+        "spec": null
+      },
+      "webAdapter": {
+        "component": "apps/web/src/design-system/components/table/Table.jsx",
+        "styles": "apps/web/src/design-system/components/table/Table.module.css"
+      },
+      "tokensConsumed": [
+        "--st-color-accent",
+        "--st-color-bg-surface",
+        "--st-color-black",
+        "--st-color-border-default",
+        "--st-color-border-subtle",
+        "--st-color-text-default",
+        "--st-color-white",
+        "--st-radius-md",
+        "--st-shadow-table-inner",
+        "--st-table-border",
+        "--st-table-card-radius",
+        "--st-table-card-shadow",
+        "--st-table-header-bg",
+        "--st-table-max-width",
+        "--st-table-min-width",
+        "--st-table-shadow",
+        "--st-table-zebra-bg"
+      ],
+      "variants": [
+        "default",
+        "responsive",
+        "wide"
+      ],
+      "storyExports": [
+        "Default",
+        "Responsive",
+        "Wide",
+        "WithThumbnails",
+        "StressTestLongContent",
+        "StressTestSingleColumn",
+        "StressTestManyColumns"
+      ]
+    }
+  ]
+}

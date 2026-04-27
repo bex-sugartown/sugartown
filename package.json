@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Sugartown.io mini-monorepo: composable MACH reference architecture",
   "scripts": {
+    "prepare": "husky",
     "dev": "turbo run dev --filter=web --filter=studio",
     "build": "turbo run build",
     "lint": "turbo run lint",
@@ -14,7 +15,10 @@
     "validate:filters": "pnpm --filter web validate:filters",
     "validate:content": "pnpm --filter web validate:content",
     "validate:tokens": "node scripts/validate-tokens.js",
+    "validate:tokens:refs": "pnpm --filter web validate:tokens",
+    "validate:tokens:strict": "pnpm --filter web validate:tokens:strict",
     "validate:taxonomy": "pnpm --filter web validate:taxonomy",
+    "registry:build": "node scripts/registry-build.js",
     "migrate:taxonomy": "node scripts/migrate-taxonomy.js",
     "storybook": "turbo run storybook",
     "storybook:build": "turbo run storybook:build",
@@ -38,6 +42,7 @@
     "bulk:import": "node scripts/bulk/import-csv.js"
   },
   "devDependencies": {
+    "husky": "^9.0.0",
     "linkedom": "^0.18.12",
     "prettier": "^3.1.1",
     "stylelint": "^17.3.0",
