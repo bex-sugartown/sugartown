@@ -16,6 +16,141 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.23.0] — 2026-04-27
+
+Trust data pipeline, Ledger Tradition design system structural pass, dynamic Knowledge Graph,
+legacy theme selector retirement, and DS contract enforcement tooling.
+Aggregates 0.22.1–0.22.13.
+
+### apps/web
+
+#### Added
+- `collect-stats.js` build-time pipeline: aggregates DS token/component/story counts, Sanity
+  content counts, GitHub repo stats, CrUX/Lighthouse performance, security headers, and recent
+  releases into `apps/web/src/generated/stats.json`
+- PortableText `{{stats.*}}` variable interpolation (`portableTextStatsVars.js`) — stat values
+  injectable inline into article/node/page body text at render time
+- `lib/stats.js` utility for consuming `stats.json` in components
+- `TRUST_LINKS` named constants added to `routes.js` for trust-surface canonical links
+- Footer version badge: links to `/platform`, pulls live version and build date from `stats.json`
+- Platform hero stat rail: 5 live trust stats from `stats.json` (DS tokens, components, stories,
+  performance score, epics shipped)
+- `RecentContentSection` ticker component: displays most-recent release version + date from
+  `stats.release.latestN`
+- `KnowledgeGraph` interactive force-graph canvas component (`react-force-graph-2d`)
+- Knowledge Graph archive page: graph/grid toggle; canvas fills viewport, zoom controls,
+  all-node content rail
+- Card folio layout variant: hairline section dividers, canvas footer, category in footer row
+- FilterBar compact density mode for archive pages
+- Responsive stat rail on archive page header
+- `validate-tokens.js --strict-colors` flag: detects hardcoded color values in non-token CSS files
+- `validate-tokens.js --check-sync` flag: diffs `:root` values between both token source files;
+  exits 1 on any mismatch
+- `validate:tokens:sync` script added to root and `apps/web` `package.json`
+- Husky pre-commit hook: blocks commits with token reference errors or hardcoded color violations
+- `--st-color-canvas` token introduced as semantic background token (replaces `--st-color-paper`)
+- `--st-color-bg-surface-alt` added to `theme.light.pink-moon` (was missing, causing silent fallback)
+- Ledger Tradition neutral scale tokens: `--st-color-neutral-*` and `--st-color-ink-*` primitives
+  added to both token files
+- H1 size token bumped for Cormorant Garamond optical weight compensation
+- Inline code white surface treatment for Ledger Tradition light theme
+
+#### Changed
+- All component and page CSS files: hardcoded hex/rgba/hsla values replaced with `--st-*` token
+  references across every CSS file
+- Card title font migrated to Cormorant Garamond (`--st-font-family-narrative`)
+- Card title size token bumped 16px → 18px
+- `--st-card-hover-border` token wired to card `:hover` state (pink border on hover)
+- `MetadataCard` Ledger Tradition treatment: 2px ink column rule, chip container padding, scalar
+  field grid, call-number padding alignment
+- `Chip` Ledger Tradition treatment: opacity/border tuning; active state in light-pink-moon fixed
+  (was invisible)
+- Ticker Ledger Tradition treatment: typography and spacing updated
+- Card body padding standardized; excerpt border bleeds to full card width
+- `DraftBadge` refactored to use `Chip` internally; standalone CSS module and stories deleted
+- Legacy `[data-theme="light"]` / `[data-theme="dark"]` selectors removed from all web app CSS;
+  all consumers now use `[data-theme="light-pink-moon"]`
+- `index.html` legacy theme class removed
+- AI sub-categories collapsed into single top-level "AI" category; content re-tagged
+- Taxonomy CSV export script: `name` field (not `title`), project column on tags, parent/toolType
+  columns corrected
+- Archive page max-width cap removed from archive description
+- WCAG AA contrast fixes across component tokens (token-only pass, no hardcoded values)
+- `Callout` dark mode: `info` variant color changed to lime, font size bumped, dark mode
+  legibility corrected
+- FilterBar dark mode token fix applied
+- `aiTool` Card prop removed
+- `categoryPosition` Card prop removed
+- Nav dropdown dark mode fixed
+- `validate-content.js` client fixed to use `perspective: 'published'` (was including draft
+  documents in content queries)
+
+#### Removed
+- `EditorialCard` component deleted (dead code post-convergence)
+- `CardGrid` web-adapter component deleted; consolidated into DS-layer `CardGrid`
+
+### apps/studio
+
+#### Added
+- `recentContentSection.ts` schema: section-builder-insertable trust ticker type, registered in
+  `page`, `article`, `caseStudy`, and `node` doc types
+- `validate-schema-parity.js` script: checks object/document schema pairs for value drift
+- Project type added to `tag` schema assigned-content panel (Studio preview view)
+
+#### Removed
+- Parent category relationship removed from `category` schema
+
+### packages/design-system
+
+#### Added
+- Ledger Tradition neutral scale + ink primitive tokens added to `tokens.css` (both files synced)
+- `theme.light.css` and `theme.pink-moon.css` updated with Ledger Tradition token overrides
+  (both files)
+- `CardGrid.stories.tsx` added for Chromatic baseline coverage
+
+#### Changed
+- All DS component CSS files tokenized: hardcoded values replaced with `--st-*` tokens across
+  Accordion, Button, Callout, Card, Chip, CodeBlock, FilterBar, Media, Table, Blockquote,
+  Citation (DS package and web adapter layers)
+- Callout CSS module updated with Ledger Tradition structural treatment
+- Card DS primitive: folio variant CSS and FilterBar density CSS added; `aiTool` and
+  `categoryPosition` props removed from `Card.tsx`
+- Legacy `[data-theme="light"]` / `[data-theme="dark"]` selectors removed from DS component
+  CSS pairs (Accordion, Button, Callout, CodeBlock, Chip)
+- `tokens.css` (DS package) synced to web canonical: spacing values converted rem → px,
+  dark-first `:root` values aligned for card shadows and code-inline tokens
+
+#### Removed
+- `Callout.stories.tsx` deleted from DS package; story moved to web design-system layer to
+  resolve duplicate Storybook story IDs
+
+### apps/storybook
+
+#### Added
+- `RecentContentSection.stories.tsx`
+- `Callout` stories: all variants and Chromatic snapshot
+- Ledger Tradition fonts self-hosted in `public/fonts/` for reliable Chromatic VRT baselines
+- `@storybook/addon-a11y` added for accessibility warnings in Chromatic builds
+
+#### Changed
+- Stories glob updated to include `apps/web/src/design-system`
+- Card DS stories slimmed; `CardGrid` added as separate primitive story
+- Dead/redundant stories retired to `Legacy` group
+
+### Other
+
+#### Added
+- `.github/workflows/stats.yml`: CI workflow running stats pipeline on push and daily schedule
+- `component-registry.json` + `scripts/registry-build.js`: machine-readable DS component registry
+- `lighthouserc.js`: Lighthouse CI configuration
+- `.claude/skills/chromatic` + `docs/chromatic-prompt.md`: `/chromatic` VRT skill
+- `.claude/skills/new-epic` + `docs/new-epic-prompt.md`: `/new-epic` skill
+- `docs/conventions/schema-conventions.md`: taxonomy name field rules, schema pair conventions
+- `docs/conventions/stats-pipeline.md`: stats pipeline architecture reference
+- Husky pre-commit hook (`.husky/pre-commit`)
+
+---
+
 ## [0.22.0] — 2026-04-22
 
 Pink Moon design system implementation, Ledger Tradition font stack, page layout
