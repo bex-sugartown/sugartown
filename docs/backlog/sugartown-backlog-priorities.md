@@ -24,6 +24,14 @@
 
 ---
 
+## 02 · Soon — post-sprint, Design System infrastructure
+
+| # | Item | Tags | Priority |
+|---|------|------|----------|
+| 1 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` files with a build pipeline. Single JSON source generates both files; makes SUG-85 drift structurally impossible. 4 phases: spike → dual output → theme outputs → lock. Execute after SUG-85. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
+
+---
+
 ## 03 · Soon — post-sprint, pre-launch
 
 | # | Item | Tags | Priority |
