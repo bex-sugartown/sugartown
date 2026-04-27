@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-27 · v0.22.13 · SUG-85 token file sync audit
+> Updated 2026-04-27 · v0.22.13 · SUG-87 added
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -19,7 +19,8 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
+| 1 | **[SUG-87](https://linear.app/sugartown/issue/SUG-87) · Dynamic Trust Report section type** — Section-builder-insertable `trustReportSection`. Two variants: `recent-releases` (structured release history) and `design-system-stats` (DS health report). Data from `stats.json` — no editorial fields. Phase 0 mock required. Extends SUG-76. Primary use: `/platform` page. Epic: `docs/backlog/SUG-87-trust-report-section-type.md`. | `Schema` `Design System` `UX` | 🟢 Next |
+| 2 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
 
 ---
 
