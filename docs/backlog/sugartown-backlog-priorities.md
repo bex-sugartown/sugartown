@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-27 · v0.22.13 · SUG-87 added
+> Updated 2026-04-27 · v0.23.0 · SUG-87 in progress
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-85 shipped (v0.22.13) — packages token file synced to web canonical (dark-first code-inline, card shadows), spacing tokens unified to px, --check-sync validator added. Next: SUG-81 Site-wide Knowledge Graph.
+> **⚑ Current focus:** v0.23.0 released — trust pipeline, Ledger Tradition structural pass, dynamic Knowledge Graph, legacy theme retirement, token enforcement. Next: SUG-87 Phase 0 mock gate (trustReportSection, both report variants).
 
 ---
 
@@ -55,7 +55,7 @@
 
 ---
 
-## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.22.x
+## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.23.x
 
 | Item | Version | Date |
 |------|---------|------|
@@ -133,4 +133,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-27 · v0.22.12*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-27 · v0.23.0*
