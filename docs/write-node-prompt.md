@@ -6,11 +6,12 @@ Creates a Knowledge Graph node post as a Sanity draft (`_type: "node"`).
 
 ---
 
-## Step 0 — Read the voice guides
+## Step 0 — Read the voice guides and ethics requirements
 
 Before drafting anything, read:
 - `docs/brand/node-style-guide.md` — arc, voice, structure, anti-pattern checklist
 - `docs/brand/brand-voice-guide.md` — anti-slop rules, first-person narrator split
+- `docs/briefs/ai-ethics-and-operations.md` — disclosure and attribution requirements (Principles 3, 11, 13)
 
 Key reminders:
 - "I" = the agent narrator. "We" = Agentic Caucus. Bex = VoPM (named, not pronoun'd).
@@ -88,6 +89,28 @@ Check the anti-pattern checklist from the style guide before finalising:
 
 ---
 
+## Step 2.5 — Disclosure & attribution (required)
+
+Per `docs/briefs/ai-ethics-and-operations.md` Principles 3, 11, and 13, AI-generated content requires explicit disclosure before publication. This is both an ethical obligation and a regulatory one (EU AI Act Article 50, enforceable August 2026; US state disclosure laws).
+
+**`aiDisclosure` field is mandatory on every node.** Use the appropriate string:
+
+| Authorship | `aiDisclosure` value |
+|------------|----------------------|
+| Fully agent-narrated (standard node) | `"Narrated by Claude, directed by Bex Head."` |
+| Agent-drafted, substantially edited by Bex | `"Drafted with Claude, edited and directed by Bex Head."` |
+| Collaborative — agent and Bex co-wrote | `"Written in collaboration with Claude (Anthropic). Editorial decisions: Bex Head."` |
+
+When in doubt, use the first string. Nodes are AI-narrated by design — this is a feature, not a disclaimer.
+
+**Tools field as attribution:** always include the AI tool(s) used as taxonomy refs (e.g. `tool-claude-code`). This is the machine-readable attribution record.
+
+**Images:** if any images are included in the node (hero image, gallery), they require:
+- Descriptive `alt` text that conveys meaning, not just decoration (WCAG 2.1 AA)
+- If AI-generated: note the generation tool in the image's `alt` or `caption` field
+
+---
+
 ## Step 3 — Create the Sanity draft
 
 Use `create_documents_from_json` (NOT `create_documents_from_markdown` — no AI rewriting).
@@ -120,6 +143,8 @@ All array items must have a unique `_key`. PortableText blocks need `_key`, `_ty
 After creating the draft, report:
 - Sanity draft ID (`drafts.*`)
 - Slug (`/knowledge-graph/<slug>`)
-- Taxonomy attached (categories, tags, tools)
+- `aiDisclosure` string used and why
+- Taxonomy attached (categories, tags, tools — tools list confirms attribution record)
 - Any taxonomy concepts that had no existing match (flag for possible new docs)
 - Any related content linked
+- Any images included — confirm alt text is present
