@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-28 · v0.23.0 · SUG-88 added
+> Updated 2026-04-29 · v0.23.1 · SUG-88 shipped
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.23.0 released — trust pipeline, Ledger Tradition structural pass, dynamic Knowledge Graph, legacy theme retirement, token enforcement. Next: SUG-87 Phase 0 mock gate (trustReportSection, both report variants).
+> **⚑ Current focus:** SUG-88 shipped v0.23.1 — chip canvas-tinted color system, status chip token cleanup, MetadataCard dark Ledger labels, callout Hybrid Option A (violet info + bg tint), footer chip migration. Next: SUG-87 Phase 0 mock gate (trustReportSection, both report variants).
 
 ---
 
@@ -21,7 +21,6 @@
 |---|------|------|----------|
 | 1 | **[SUG-87](https://linear.app/sugartown/issue/SUG-87) · Dynamic Trust Report section type** — Section-builder-insertable `trustReportSection`. Two variants: `recent-releases` (structured release history) and `design-system-stats` (DS health report). Data from `stats.json` — no editorial fields. Phase 0 mock required. Extends SUG-76. Primary use: `/platform` page. Epic: `docs/backlog/SUG-87-trust-report-section-type.md`. | `Schema` `Design System` `UX` | 🟢 Next |
 | 2 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
-| 3 | **[SUG-88](https://linear.app/sugartown/issue/SUG-88) · DS Component Polish** — Chip color system (bright transparent-bg variants break on some surfaces), MetadataCard Ledger treatment in dark mode + Storybook full-width story, callout color schemes (industry-standard approach in both modes). Phase 0 mock required. Epic: `docs/backlog/SUG-88-ds-component-polish.md`. | `Design System` `UX` | 🟢 Next |
 
 ---
 
@@ -60,6 +59,7 @@
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-88 · DS Component Polish** — Chip canvas-tinted color system (`color-mix` with `--st-color-canvas` replacing `transparent`). Status chip tokens: neon lime → lime-500, raw rgba → `color-mix(N%, --st-margin-bg)`. MetadataCard dark mode: `surface-strong` label bg + `softgrey-300` text for both `scalarLabel` and `chipLabel`. Callout Hybrid (Option A): violet info variant, 8% accent bg tint, wider padding. Footer toolchain chips migrated to DS Chip + theme-conditional `--chip-color`. Built-date stabilised via `git log` on `package.json`.~~ | v0.23.1 | 2026-04-29 |
 | ~~**SUG-85 · Token file sync audit** — packages/design-system tokens.css synced to web canonical: dark-first code-inline (lime pill), card hover shadow, spacing tokens unified to px. `--check-sync` flag added to validate-tokens.js — diffs :root values across both files, exits 1 on conflicts. 0 sync errors.~~ | v0.22.13 | 2026-04-27 |
 | ~~**SUG-49 · DS Contract Enforcement** — Husky v9 pre-commit hook (validate:tokens + validate:tokens:strict on every commit). `component-registry.json` with `pnpm registry:build` script (12 DS primitives, 10 web adapters, 218 unique tokens). PRD §11 architecture diagram updated (Chromatic VRT + Contract layer). §12 Prose as Design SoT expanded to full position paper. §13–15 renumbered (fixed duplicate §12 bug). FigJam diagram updated: Skills fixed, llms.txt de-🔮'd, Chromatic VRT node added.~~ | v0.22.12 | 2026-04-27 |
 | ~~**SUG-84 · Storybook dead story + legacy component purge** — Deleted Legacy/Callout (DS), Legacy/CardGrid + web component pair, Legacy/EditorialCard + web component pair, DraftBadge story + CSS. DraftBadge refactored to `<Chip color="amber" size="sm">`. -21 Chromatic snapshots per build. No Legacy/ group in Storybook sidebar.~~ | v0.22.11 | 2026-04-27 |
