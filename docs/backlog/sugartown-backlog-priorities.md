@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-29 · v0.23.2 · SUG-87 shipped
+> Updated 2026-04-29 · v0.23.2 · SUG-90 backlog opened
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-87 shipped v0.23.2 — trustReportSection (recent-releases + design-system-stats), StatTile + DataTable DS primitives, hero stat rail (epics/commits/vulns), 4-tile responsive DS grid. Next: SUG-81 (site-wide Knowledge Graph) or SUG-89 (Chromatic parity stories).
+> **⚑ Current focus:** SUG-87 shipped v0.23.2 — trustReportSection (recent-releases + design-system-stats), StatTile + DataTable DS primitives, hero stat rail (epics/commits/vulns), 4-tile responsive DS grid. Next: SUG-90 (consulting pivot editorial) or SUG-81 (site-wide Knowledge Graph).
 
 ---
 
@@ -19,7 +19,8 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
+| 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** — Reframe sugartown.io to surface consulting/contract availability without closing off FTE: Services page outcome framing, availability signal on hero/About, case study narrative shifted to client outcomes, Contact tone, /platform surfaced from key entry points. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | 🟢 Next |
+| 2 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
 
 ---
 
