@@ -3,8 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DataTable, { KindBadge } from './DataTable';
 
 /**
- * ## DataTable
- *
  * Props-driven wrapper over the DS Table + TableWrap primitives.
  * Adds a column config API and a `trust` variant that overrides header
  * color tokens: subdued surface-strong bg, WCAG AA text (not pink accent).
@@ -13,7 +11,7 @@ import DataTable, { KindBadge } from './DataTable';
  * KindBadge sub-component is exported for use in column `render` functions.
  */
 const meta: Meta<typeof DataTable> = {
-  title: 'Primitives/DataTable',
+  title: 'Primitives/Table/DataTable',
   component: DataTable,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
@@ -27,7 +25,8 @@ type Story = StoryObj<typeof DataTable>;
 
 const releaseColumns = [
   { key: 'version',    label: 'Version',     width: '110px' },
-  { key: 'date',       label: 'Date',         width: '110px' },
+  { key: 'date',       label: 'Date',         width: '110px',
+    render: (val: string) => <span style={{ whiteSpace: 'nowrap' }}>{val}</span> },
   { key: 'kind',       label: 'Kind',         width: '80px',
     render: (val: string) => <KindBadge kind={val?.toLowerCase()} /> },
   { key: 'descriptor', label: 'Description' },

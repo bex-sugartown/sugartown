@@ -63,6 +63,12 @@
   /* Label tokens — light override */
   --st-label-color:       var(--st-color-neutral-500);    /* #7A7A7D — neutral, no blue cast */
   --st-label-color-badge: var(--st-color-neutral-600);    /* #525252 — WCAG AA: neutral-400 (#a3a3a3) failed at 2.53:1 */
+
+  /* Table — light overrides (root defaults are dark; Storybook uses this file) */
+  --st-table-zebra-bg:    var(--st-color-softgrey-50);
+  --st-table-border:      var(--st-color-softgrey-200);
+  --st-table-shadow:      var(--st-shadow-table-light);
+  --st-table-card-shadow: var(--st-shadow-table-card-light);
 }
 
 /* ── Dark Pink Moon ────────────────────────────────────── */

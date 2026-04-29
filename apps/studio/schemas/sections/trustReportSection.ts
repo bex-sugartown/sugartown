@@ -19,6 +19,12 @@ export default defineType({
   icon: BarChartIcon,
   fields: [
     defineField({
+      name: 'title',
+      title: 'Section title',
+      type: 'string',
+      description: 'Optional heading rendered above the report (h2). Leave blank for no heading.',
+    }),
+    defineField({
       name: 'reportType',
       title: 'Report type',
       type: 'string',
@@ -34,14 +40,14 @@ export default defineType({
     }),
   ],
   preview: {
-    select: { reportType: 'reportType' },
-    prepare({ reportType }) {
+    select: { title: 'title', reportType: 'reportType' },
+    prepare({ title, reportType }) {
       const labels: Record<string, string> = {
         'recent-releases':     'Recent releases',
         'design-system-stats': 'Design system stats',
       }
       return {
-        title: labels[reportType] ?? 'Trust Report',
+        title: title || (labels[reportType] ?? 'Trust Report'),
         subtitle: 'Data from stats.json — no authored content',
       }
     },

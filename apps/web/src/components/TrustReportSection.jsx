@@ -22,7 +22,8 @@ const RELEASE_COLUMNS = [
       </a>
     ),
   },
-  { key: 'date',       label: 'Date',        width: '110px' },
+  { key: 'date',       label: 'Date',        width: '110px',
+    render: (val) => <span style={{ whiteSpace: 'nowrap' }}>{val}</span> },
   {
     key:    'kind',
     label:  'Kind',
@@ -108,14 +109,16 @@ function DesignSystemStatsReport() {
 // ── TrustReportSection ──────────────────────────────────────────────────────
 
 export default function TrustReportSection({ section }) {
-  const { reportType } = section ?? {}
+  const { title, reportType } = section ?? {}
+
+  const heading = title ? <h2 className={styles.sectionTitle}>{title}</h2> : null
 
   if (reportType === 'recent-releases') {
-    return <RecentReleasesReport />
+    return <>{heading}<RecentReleasesReport /></>
   }
 
   if (reportType === 'design-system-stats') {
-    return <DesignSystemStatsReport />
+    return <>{heading}<DesignSystemStatsReport /></>
   }
 
   return null
