@@ -22,13 +22,12 @@
 }
 
 /* ── Scalar field row — bg-through-gap dividers ── */
-/* Container bg = rule-accent, each field bg = card-bg → gap exposes hairlines.
+/* Cells inherit --st-card-bg from .card; only label headers set their own bg.
    border-bottom adds the divider between scalars and chip sections. */
 
 .scalarRow {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  background-color: var(--st-card-bg);
   border-bottom: 1px solid var(--st-color-rule-accent);
 }
 
@@ -38,7 +37,6 @@
 }
 
 .scalarField {
-  background: var(--st-card-bg);
   padding: 0;
   border-right: 1px solid var(--st-color-rule-accent);
 }
@@ -121,7 +119,6 @@
 }
 
 .chipRow {
-  background: var(--st-card-bg);
   display: grid;
   grid-template-columns: 88px 1fr;
   align-items: center;
