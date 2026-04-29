@@ -3,6 +3,7 @@ import { urlFor } from '../lib/sanity'
 import { resolveNavLink } from '../lib/resolveNavUrl'
 import { getCanonicalPath, FOOTER_UTILITY_LINKS, TRUST_LINKS } from '../lib/routes'
 import { APP_VERSION, BUILD_DATE } from '../lib/buildInfo'
+import Chip from '../design-system/components/chip/Chip'
 import Link from './atoms/Link'
 import SocialLink from './atoms/SocialLink'
 import styles from './Footer.module.css'
@@ -124,13 +125,12 @@ export default function Footer({ siteSettings }) {
                 <span className={styles.colophonLabel}>Toolchain</span>
                 <div className={styles.chips}>
                   {footerToolchain.map((tool) => (
-                    <RouterLink
+                    <Chip
                       key={tool._id}
-                      to={getCanonicalPath({ docType: 'tool', slug: tool.slug })}
-                      className={styles.chip}
-                    >
-                      {tool.name}
-                    </RouterLink>
+                      label={tool.name}
+                      href={getCanonicalPath({ docType: 'tool', slug: tool.slug })}
+                      className={styles.toolChip}
+                    />
                   ))}
                 </div>
               </>

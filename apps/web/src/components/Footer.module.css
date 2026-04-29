@@ -169,37 +169,20 @@
   color: var(--st-color-brand-primary);
 }
 
-/* Toolchain chips — pink in light mode, lime in dark mode */
+/* Toolchain chips — pink in light mode, lime in dark mode.
+   Uses DS Chip component; --chip-color overrides the accent per theme. */
 .chips {
   display: flex;
   flex-wrap: wrap;
   gap: 0.375rem;
 }
 
-.chip {
-  display: inline-flex;
-  align-items: center;
-  background: var(--st-color-brand-primary);
-  color: var(--st-color-white);
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0; /* zero radius — Pink Moon identity */
-  transition: opacity 0.15s;
-  white-space: nowrap;
+.toolChip {
+  --chip-color: var(--st-color-pink);
 }
 
-.chip:hover {
-  opacity: 0.8;
-}
-
-:global([data-theme*="dark"]) .chip {
-  background: var(--st-color-lime);
-  color: var(--st-color-bg-midnight);
+:global([data-theme*="dark"]) .toolChip {
+  --chip-color: var(--st-color-lime-500);
 }
 
 .copyright {

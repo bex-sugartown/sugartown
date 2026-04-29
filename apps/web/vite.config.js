@@ -8,21 +8,40 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 /**
- * parseAppVersion — reads the latest released version from CHANGELOG.md.
- * Matches the first ## [x.y.z] heading (skips [Unreleased]).
- * Falls back to package.json version if CHANGELOG has no parseable heading.
+ * parseAppVersion — reads the current version from package.json.
+ * Mini-releases bump package.json without touching CHANGELOG, so reading
+ * package.json ensures the footer always shows the actual deployed version.
+ * Falls back to CHANGELOG heading, then '0.0.0'.
  */
 function parseAppVersion() {
+  try {
+    const pkg = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf-8'))
+    if (pkg.version) return pkg.version
+  } catch {}
   try {
     const changelog = readFileSync(resolve(__dirname, '../../CHANGELOG.md'), 'utf-8')
     const match = changelog.match(/^## \[(\d+\.\d+\.\d+)\]/m)
     if (match) return match[1]
   } catch {}
-  try {
-    const pkg = JSON.parse(readFileSync(resolve(__dirname, 'package.json'), 'utf-8'))
-    return pkg.version || '0.0.0'
-  } catch {}
   return '0.0.0'
+}
+
+/**
+ * parseReleaseDate — reads the date of the last commit that touched package.json.
+ * Using git log means this is stable across Netlify rebuilds triggered by content
+ * changes — it only changes when we actually cut a release.
+ * Falls back to today's date if git is unavailable.
+ */
+function parseReleaseDate() {
+  try {
+    const result = spawnSync(
+      'git', ['log', '-1', '--format=%ci', '--', 'package.json'],
+      { cwd: __dirname, encoding: 'utf-8' }
+    )
+    const date = result.stdout?.trim().slice(0, 10)
+    if (date) return date
+  } catch {}
+  return new Date().toISOString().slice(0, 10)
 }
 
 /**
@@ -100,7 +119,7 @@ export default defineConfig({
   plugins: [react(), contentStateSafety(), statsPlugin()],
   define: {
     __APP_VERSION__: JSON.stringify(parseAppVersion()),
-    __BUILD_DATE__: JSON.stringify(new Date().toISOString().slice(0, 10)),
+    __BUILD_DATE__: JSON.stringify(parseReleaseDate()),
   },
   // Required for SPA client-side routing: serve index.html for all 404 paths
   // so React Router can handle the route on the client side.
