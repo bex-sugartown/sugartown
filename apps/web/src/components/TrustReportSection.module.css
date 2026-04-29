@@ -3,7 +3,7 @@
  * Layout: full-width in both detail and full-width section contexts.
  */
 
-.sectionTitle {
+.sectionHeading {
   font: var(--st-font-heading-2);
   color: var(--st-color-brand-primary);
   margin: 0 0 1rem;

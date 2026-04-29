@@ -402,7 +402,7 @@ export const nodeBySlugQuery = `
         }
       },
       _type == "trustReportSection" => {
-        title,
+        heading,
         reportType
       }
     },
@@ -575,7 +575,7 @@ export const articleBySlugQuery = `
         }
       },
       _type == "trustReportSection" => {
-        title,
+        heading,
         reportType
       }
     },
@@ -729,7 +729,7 @@ export const pageBySlugQuery = `
         }
       },
       _type == "trustReportSection" => {
-        title,
+        heading,
         reportType
       }
     },
@@ -879,7 +879,7 @@ export const caseStudyBySlugQuery = `
         }
       },
       _type == "trustReportSection" => {
-        title,
+        heading,
         reportType
       }
     },

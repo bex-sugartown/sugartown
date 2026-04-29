@@ -119,16 +119,16 @@ function DesignSystemStatsReport() {
 // ── TrustReportSection ──────────────────────────────────────────────────────
 
 export default function TrustReportSection({ section }) {
-  const { title, reportType } = section ?? {}
+  const { heading, reportType } = section ?? {}
 
-  const heading = title ? <h2 className={styles.sectionTitle}>{title}</h2> : null
+  const sectionHeading = heading ? <h2 className={styles.sectionHeading}>{heading}</h2> : null
 
   if (reportType === 'recent-releases') {
-    return <>{heading}<RecentReleasesReport /></>
+    return <>{sectionHeading}<RecentReleasesReport /></>
   }
 
   if (reportType === 'design-system-stats') {
-    return <>{heading}<DesignSystemStatsReport /></>
+    return <>{sectionHeading}<DesignSystemStatsReport /></>
   }
 
   return null

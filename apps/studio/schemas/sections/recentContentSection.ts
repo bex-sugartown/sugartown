@@ -18,7 +18,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'heading',
-      title: 'Section heading',
+      title: 'Section Heading',
       type: 'string',
       description: 'Displayed above the ticker. Leave blank to hide the heading.',
       placeholder: 'Recently shipped',

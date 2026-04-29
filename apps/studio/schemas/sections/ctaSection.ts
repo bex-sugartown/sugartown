@@ -15,7 +15,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'heading',
-      title: 'Heading',
+      title: 'Section Heading',
       type: 'string',
       description: 'Main CTA heading. Optional — leave blank for a buttons-only section.',
       validation: (Rule) =>
