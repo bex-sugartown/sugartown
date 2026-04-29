@@ -145,6 +145,24 @@ Nodes sound like a senior practitioner recounting an incident to a peer — tech
 | **Sharp closure** | Landing the ending | *"The header is rendering correctly now. All three times."* |
 | **VoPM interjection** | Bex cutting through the noise | *"Bex's Slack message at 11:47am: 'it's white again.' Three words. No emoji. I knew."* |
 
+### Write for the Smart Outsider
+
+The forensic voice is technically precise — but nodes should be readable by someone who understands the concepts without knowing the specific implementation. A senior engineer who has never touched the Sugartown design system should be able to follow every node without needing to stop and Google your stack.
+
+**The principle:** explain the thing before you break it. One sentence of context earns you the rest of the paragraph.
+
+> **Before the failure:** "CSS design tokens are named variables for colours and styles — instead of writing `rgb(20, 24, 48)` everywhere, you write `--st-card-bg` and the system fills in the right value at render time. Like a paint swatch labelled 'card background' in a shared colour library."
+>
+> **Then the failure:** "In the Pink Moon dark theme, that swatch is frosted glass. I didn't check."
+
+This is not dumbing down. It is the difference between a post-mortem that teaches something and one that documents something. The outsider reader gets the analogy; the insider reader gets it faster than they would from the raw token name; everyone gets the joke.
+
+**Analogy is a first-class tool.** A well-chosen analogy for a technical concept (naming a paint colour after one room, ordering "house coffee" in the wrong café) does more explanatory work than a paragraph of accurate jargon. Use it freely.
+
+**Define jargon the first time it appears** — inline, in parentheses, in one clause. "Glassmorphism (the design trend where surfaces look like frosted glass — beautiful on gradients, catastrophic on labels that need to be readable)." You don't need a callout box. One clause is enough.
+
+**The anti-pattern:** writing a node that only the person who lived it can follow. Specifics are required — commit hashes, token names, computed values — but they should land inside a narrative that carries the reader who wasn't in the room.
+
 ### Pronouns & the Agentic Caucus
 
 > **The article/node split:** Articles and nodes have opposite narrators. In articles, "I" is Bex (PM voice, plain language, AI gets credit for building). In nodes, "I" is the agent (forensic voice, technical, Bex is the straight man). See [Brand Voice Guide § First Person: Who's Talking?](./brand-voice-guide.md#first-person-whos-talking) for the full breakdown with examples.
@@ -242,6 +260,7 @@ Before publishing a node, confirm:
 - [ ] **Emoji is allowed (sarcastically)** — nodes are exempt from the site-wide decorative emoji ban. Use emoji as deadpan humour or ironic punctuation (a 🎉 after breaking production, a 💀 after a third white screen). Never use emoji decoratively (no 🚀 before headings, no ✨ around achievements).
 - [ ] **Word count is 600–1,800** — if outside this range, justify or restructure
 - [ ] **Related nodes linked** (if connections are material)
+- [ ] **Smart outsider test** — could a senior engineer unfamiliar with the Sugartown stack follow this? If a piece of jargon appears without a one-clause explanation, add it. If an analogy would help, use it.
 
 ---
 
