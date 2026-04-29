@@ -162,15 +162,19 @@
   padding: 0.375rem 0.75rem;
 }
 
-/* ── Dark Pink Moon — label headers need surface-strong bg to read against card bg ── */
+/* ── Dark Pink Moon — label headers: solid margin-divider bg, recessive grey top border ── */
+:global([data-theme="dark-pink-moon"]) .card {
+  border-top-color: var(--st-margin-outline);
+}
+
 :global([data-theme="dark-pink-moon"]) .scalarLabel {
-  background: var(--st-color-bg-surface-strong);
+  background: var(--st-margin-divider);
   color: var(--st-color-softgrey-300);
   border-bottom-color: var(--st-color-softgrey-500);
 }
 
 :global([data-theme="dark-pink-moon"]) .chipLabel {
-  background: var(--st-color-bg-surface-strong);
+  background: var(--st-margin-divider);
   color: var(--st-color-softgrey-300);
 }
 
