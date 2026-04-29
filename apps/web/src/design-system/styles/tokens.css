@@ -574,7 +574,7 @@
   --st-card-thumb-rail-width:  96px;                         /* listing variant left col */
   --st-card-thumb-position:    center;                       /* per-card object-position override */
   --st-card-hover-border:      var(--st-color-border-default); /* border color on card hover */
-  --st-card-folio-bg:          var(--st-color-neutral-200);   /* Ledger folio + footer strip bg */
+  --st-card-label-bg:          var(--st-color-neutral-200);   /* label cell bg — folio strip, footer strip, MetadataCard headers */
 
   /* ── Pill / Tag ──────────────────────────────────────── */
   --st-pill-bg:     var(--st-color-bg-subtle);

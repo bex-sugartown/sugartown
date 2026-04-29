@@ -85,7 +85,7 @@
   color: var(--st-color-text-primary);
   margin: 0;
   padding: var(--st-space-2) var(--st-space-4);
-  background: var(--st-card-folio-bg);
+  background: var(--st-card-label-bg);
   border-top: 1px solid var(--st-color-rule-accent);
   border-bottom: 2px solid var(--st-color-text-primary);
 }
