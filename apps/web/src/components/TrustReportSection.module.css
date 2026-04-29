@@ -20,10 +20,16 @@
 
 .tileGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 1px;
   background: var(--st-color-rule-accent);
   border: 1px solid var(--st-color-border-subtle);
+}
+
+@media (min-width: 1024px) {
+  .tileGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 /* ── Footer links row ────────────────────────────────── */
