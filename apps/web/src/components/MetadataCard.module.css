@@ -168,13 +168,13 @@
 }
 
 :global([data-theme="dark-pink-moon"]) .scalarLabel {
-  background: var(--st-margin-divider);
+  background: var(--st-color-midnight-700);
   color: var(--st-color-softgrey-300);
   border-bottom-color: var(--st-color-softgrey-500);
 }
 
 :global([data-theme="dark-pink-moon"]) .chipLabel {
-  background: var(--st-margin-divider);
+  background: var(--st-color-midnight-700);
   color: var(--st-color-softgrey-300);
 }
 
