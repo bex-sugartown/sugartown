@@ -56,7 +56,7 @@ function RecentReleasesReport() {
 // ── Design System Stats Report ──────────────────────────────────────────────
 
 function DesignSystemStatsReport() {
-  const { ds, storybook, repo } = stats
+  const { ds, storybook } = stats
 
   const tokenSegments = ds?.tokens?.byCategory
     ? [
@@ -68,30 +68,40 @@ function DesignSystemStatsReport() {
       ]
     : []
 
+  const componentFiles  = ds?.componentFiles ?? 0
+  const storybookComps  = storybook?.components ?? 0
+  const coveragePct     = componentFiles > 0 ? Math.round((storybookComps / componentFiles) * 100) : 0
+
   return (
     <div className={styles.reportWrap}>
       <div className={styles.tileGrid}>
         <StatTile
           label="Design tokens"
           value={ds?.tokens?.total ?? '—'}
+          sub={ds?.tokens?.primitives != null ? `${ds.tokens.primitives} primitive · ${ds.tokens.component} component` : undefined}
           bar={tokenSegments.length ? { segments: tokenSegments, total: ds.tokens.total } : undefined}
           legend
         />
         <StatTile
+          label="Component tokens"
+          value={ds?.tokens?.component ?? '—'}
+          sub={ds?.tokens?.primitives != null ? `${ds.tokens.primitives} primitive tokens` : undefined}
+        />
+        <StatTile
           label="Components"
-          value={ds?.componentFiles ?? '—'}
+          value={componentFiles || '—'}
+          sub={storybookComps > 0 ? `${storybookComps} with story coverage` : undefined}
         />
         <StatTile
           label="Stories"
           value={storybook?.stories ?? '—'}
+          sub={storybookComps > 0 ? `${storybookComps} components covered` : undefined}
         />
         <StatTile
-          label="Commits"
-          value={repo?.commits ?? '—'}
-        />
-        <StatTile
-          label="Epics shipped"
-          value={repo?.epicsShipped ?? '—'}
+          label="Story coverage"
+          value={coveragePct || '—'}
+          unit="%"
+          sub={`${storybookComps} of ${componentFiles} components`}
         />
       </div>
       <div className={styles.reportFooter}>

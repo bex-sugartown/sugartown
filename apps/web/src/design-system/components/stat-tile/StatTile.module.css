@@ -47,6 +47,13 @@
   vertical-align: baseline;
 }
 
+.sub {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-stat-tile-sub-color);
+  line-height: 1.4;
+}
+
 /* ── Breakdown bar ─────────────────────────────────────── */
 
 .barWrap {

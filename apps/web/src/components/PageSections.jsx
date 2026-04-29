@@ -159,7 +159,7 @@ const mapCtaStyle = (style, fallback = 'primary') =>
 function StatRail() {
   const items = [
     { value: `v${stats.release?.current?.version ?? '—'}`, label: 'Current release', href: TRUST_LINKS.changelog },
-    { value: stats.ds?.tokens?.total ?? '—',               label: 'Design tokens',   href: TRUST_LINKS.storybook },
+    { value: stats.repo?.epicsShipped ?? '—',              label: 'Epics shipped',   href: TRUST_LINKS.changelog },
     { value: stats.repo?.commits ?? '—',                   label: 'Commits',          href: TRUST_LINKS.commits },
     { value: stats.security?.vulnerabilities?.total ?? 0,  label: 'Vulnerabilities',  href: TRUST_LINKS.security },
   ]

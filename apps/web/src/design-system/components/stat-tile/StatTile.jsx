@@ -10,6 +10,7 @@ export default function StatTile({
   label,
   value,
   unit,
+  sub,
   bar,
   legend = false,
   size = 'md',
@@ -32,6 +33,8 @@ export default function StatTile({
         {value}
         {unit && <span className={styles.unit}>{unit}</span>}
       </span>
+
+      {sub && <span className={styles.sub}>{sub}</span>}
 
       {bar?.segments?.length > 0 && (
         <div className={styles.barWrap}>
