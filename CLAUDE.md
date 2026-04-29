@@ -130,6 +130,14 @@ Before writing a CSS fix for overflow, scrollbar, or layout collapse: **identify
 
 Do not write CSS until this is documented. Guessing which container has the overflow leads to multi-round blind patching.
 
+**bg-through-gap pattern documentation rule:** When a container uses `background-color: var(--st-color-rule-accent)` with `gap: 1px` to produce hairline dividers, every child element that covers the gap background must carry an explicit `background` declaration — even if it looks redundant. Annotate it:
+
+```css
+background: var(--st-card-bg); /* covers parent --st-color-rule-accent gap bg */
+```
+
+Removing this annotation-less `background` declaration is a recurring mistake: the repair looks like dead code but is load-bearing. If a bg-through-gap pattern is not serving the layout (because all dividers can be expressed as `border` rules on adjacent siblings), replace the pattern entirely with `> * + *` adjacent-sibling border rules — and document the replacement in the commit message — so it cannot be misread as dead code in future.
+
 ### CSS layout fix escalation rule
 
 When a CSS layout fix fails and requires a follow-up commit, **stop and diagnose before patching**. Write a 1-paragraph root-cause analysis covering the full cascade (containment → flex/grid → margin → max-width → child sizing) before writing the next fix.
@@ -348,11 +356,23 @@ When writing or modifying any component CSS file (in `apps/web/src/design-system
 
 **Fallback syntax rule:** `var(--st-token, #hex)` is banned. The only permitted fallback form is `var(--st-token, var(--st-primitive))`. If a matching primitive doesn't exist, add it to `tokens.css` first. If no fallback is needed, omit it entirely.
 
+**Token naming — concept not placement:** Token names are contracts, not descriptions. A token used in 2+ distinct surfaces must have a name that works for all of them, not just the first. If a name is placement-specific (e.g. `--st-card-folio-bg`) but the token is also used in FilterBar headers and MetadataCard label cells, rename it to reflect the shared concept (`--st-card-label-bg`). Full naming rules: `docs/conventions/token-naming.md`.
+
 **Theme files are override-only:** `theme.light.css`, `theme.pink-moon.css`, and any future theme files may only *override* existing `--st-*` token names with other token references. They may not introduce a color value (hex, rgba, hsla) that has no primitive anchor in `tokens.css`. If a theme-specific color value (e.g. a shadow, a glow, a callout wash) doesn't exist as a named primitive, add the primitive first.
 
 These rules exist because a hardcoded value in a component bypasses the token graph entirely — the theme system cannot override it, the validator cannot audit it, and every DS mirror compounds the violation. One inline rgba in a first-pass component becomes four violations by the time both mirrors and both theme overrides are written. 386 of them became an epic. See: node *"The Validator Said Zero Errors. It Was Watching the Wrong Door."*
 
 **When creating a component with chip/badge/status color states** (any enumerated set of visual states with distinct colors): define all `--st-status-<state>-{bg,fg,border}` tokens for every state in `tokens.css` before writing the component CSS. Add light-theme overrides in the same commit. This is not deferrable — the status chip system in Card accumulated 90 hardcoded values by skipping this step.
+
+**Theme cascade audit before using any background token:** The Pink Moon theme has a glassmorphism layer in its dark block that overrides semantic `--st-color-bg-surface*` tokens to semi-transparent `rgba()` values, not the solid dark primitives from `tokens.css`. Before using any `--st-*` token for a `background` or `background-color` declaration in a component, trace the full override chain:
+
+1. `tokens.css` — default value
+2. `theme.pink-moon.css` light block — light-theme override
+3. `theme.pink-moon.css` dark block — dark-theme override (most likely to surprise)
+
+If the dark-block value is `rgba(...)`, using that token for a label cell or header bg will produce a glassmorphism wash, not a solid surface. Switch to a raw primitive token (e.g. `--st-color-midnight-800`) or a semantic alias that points directly to a primitive with no glassmorphism override.
+
+Tokens with glassmorphism overrides in dark-pink-moon: `--st-color-bg-surface`, `--st-color-bg-surface-strong`, `--st-card-bg`.
 
 ---
 
@@ -395,6 +415,16 @@ Confirm:
 1. The value is a token reference (`var(--st-*)`) not a hardcoded value. If hardcoded, state why.
 2. The computed layout matches the dimensional contract. Show the arithmetic (e.g. "Mock: 3-col grid at 1200px. Card 340px, gap 24px. 340x3 + 24x2 = 1068px + padding = 1200px").
 3. Spacing and gap values match the mock or spec. Numbers, not vibes.
+
+### Dark mode surface work — pre-flight
+
+Before any structured-surface dark mode CSS pass (MetadataCard, Card, FilterBar, any component with label or folio strips), **inspect the reference component's computed values in the browser first**:
+
+1. Open the reference component (e.g. standard `Card`) in Storybook on `dark-pink-moon` theme
+2. Use DevTools to inspect computed `background-color`, `border-color`, and `color` on each visual zone (card bg, folio/label strip, body, dividers)
+3. Record the exact computed values and trace them back to their tokens via `tokens.css` and `theme.pink-moon.css`
+
+Only then write the target component's CSS to match. Working forward from token names ("I'll use `--st-card-bg`") without verifying what those tokens resolve to in dark theme leads to glassmorphism surprises. The MetadataCard dark mode repair cycle (3+ correction rounds) was caused by this exact failure.
 
 ### Storybook coverage requirement
 
