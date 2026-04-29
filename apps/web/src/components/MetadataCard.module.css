@@ -162,9 +162,16 @@
   padding: 0.375rem 0.75rem;
 }
 
-/* ── Dark Pink Moon — ink rule unreadable on dark bg, shift to neutral ── */
+/* ── Dark Pink Moon — label headers need surface-strong bg to read against card bg ── */
 :global([data-theme="dark-pink-moon"]) .scalarLabel {
+  background: var(--st-color-bg-surface-strong);
+  color: var(--st-color-softgrey-300);
   border-bottom-color: var(--st-color-softgrey-500);
+}
+
+:global([data-theme="dark-pink-moon"]) .chipLabel {
+  background: var(--st-color-bg-surface-strong);
+  color: var(--st-color-softgrey-300);
 }
 
 /* ── Draft badge — floated into upper-right area ── */

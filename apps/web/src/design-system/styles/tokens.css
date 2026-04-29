@@ -383,61 +383,61 @@
   --st-status-draft-fg:               var(--st-color-error);
   --st-status-draft-border:           var(--st-color-error-border);
 
-  --st-status-active-bg:              rgba(43, 212, 170, 0.12);
+  --st-status-active-bg:              color-mix(in srgb, var(--st-color-seafoam) 12%, var(--st-margin-bg));
   --st-status-active-fg:              var(--st-color-seafoam);
-  --st-status-active-border:          rgba(43, 212, 170, 0.30);
+  --st-status-active-border:          color-mix(in srgb, var(--st-color-seafoam) 30%, var(--st-margin-bg));
 
-  --st-status-archived-bg:            rgba(255, 255, 255, 0.04);
+  --st-status-archived-bg:            color-mix(in srgb, white 4%, var(--st-margin-bg));
   --st-status-archived-fg:            var(--st-color-text-muted);
-  --st-status-archived-border:        rgba(255, 255, 255, 0.08);
+  --st-status-archived-border:        color-mix(in srgb, white 8%, var(--st-margin-bg));
 
-  --st-status-implemented-bg:         rgba(43, 212, 170, 0.10);
+  --st-status-implemented-bg:         color-mix(in srgb, var(--st-color-seafoam) 10%, var(--st-margin-bg));
   --st-status-implemented-fg:         var(--st-color-seafoam);
-  --st-status-implemented-border:     rgba(43, 212, 170, 0.25);
+  --st-status-implemented-border:     color-mix(in srgb, var(--st-color-seafoam) 25%, var(--st-margin-bg));
 
-  --st-status-evergreen-bg:           rgba(209, 255, 29, 0.10);
-  --st-status-evergreen-fg:           var(--st-color-lime);
-  --st-status-evergreen-border:       rgba(209, 255, 29, 0.25);
+  --st-status-evergreen-bg:           color-mix(in srgb, var(--st-color-lime) 10%, var(--st-margin-bg));
+  --st-status-evergreen-fg:           var(--st-color-lime-500);
+  --st-status-evergreen-border:       color-mix(in srgb, var(--st-color-lime) 25%, var(--st-margin-bg));
 
-  --st-status-validated-bg:           rgba(255, 36, 125, 0.10);
+  --st-status-validated-bg:           color-mix(in srgb, var(--st-color-pink) 10%, var(--st-margin-bg));
   --st-status-validated-fg:           var(--st-color-pink);
-  --st-status-validated-border:       rgba(255, 36, 125, 0.25);
+  --st-status-validated-border:       color-mix(in srgb, var(--st-color-pink) 25%, var(--st-margin-bg));
 
-  --st-status-deprecated-bg:          rgba(255, 36, 125, 0.08);
+  --st-status-deprecated-bg:          color-mix(in srgb, var(--st-color-pink) 8%, var(--st-margin-bg));
   --st-status-deprecated-fg:          var(--st-color-text-muted);
-  --st-status-deprecated-border:      rgba(255, 36, 125, 0.20);
+  --st-status-deprecated-border:      color-mix(in srgb, var(--st-color-pink) 20%, var(--st-margin-bg));
 
-  --st-status-exploring-bg:           rgba(43, 212, 170, 0.07);
-  --st-status-exploring-fg:           rgba(43, 212, 170, 0.65);
-  --st-status-exploring-border:       rgba(43, 212, 170, 0.18);
+  --st-status-exploring-bg:           color-mix(in srgb, var(--st-color-seafoam) 7%, var(--st-margin-bg));
+  --st-status-exploring-fg:           var(--st-color-seafoam-700);
+  --st-status-exploring-border:       color-mix(in srgb, var(--st-color-seafoam) 18%, var(--st-margin-bg));
 
-  --st-status-operationalized-bg:     rgba(43, 212, 170, 0.14);
+  --st-status-operationalized-bg:     color-mix(in srgb, var(--st-color-seafoam) 14%, var(--st-margin-bg));
   --st-status-operationalized-fg:     var(--st-color-seafoam);
-  --st-status-operationalized-border: rgba(43, 212, 170, 0.32);
+  --st-status-operationalized-border: color-mix(in srgb, var(--st-color-seafoam) 32%, var(--st-margin-bg));
 
-  --st-status-dreaming-bg:            rgba(167, 139, 250, 0.10);
+  --st-status-dreaming-bg:            color-mix(in srgb, var(--st-color-violet) 10%, var(--st-margin-bg));
   --st-status-dreaming-fg:            var(--st-color-violet);
-  --st-status-dreaming-border:        rgba(167, 139, 250, 0.25);
+  --st-status-dreaming-border:        color-mix(in srgb, var(--st-color-violet) 25%, var(--st-margin-bg));
 
-  --st-status-designing-bg:           rgba(251, 191, 36, 0.10);
+  --st-status-designing-bg:           color-mix(in srgb, var(--st-color-amber) 10%, var(--st-margin-bg));
   --st-status-designing-fg:           var(--st-color-amber);
-  --st-status-designing-border:       rgba(251, 191, 36, 0.25);
+  --st-status-designing-border:       color-mix(in srgb, var(--st-color-amber) 25%, var(--st-margin-bg));
 
-  --st-status-developing-bg:          rgba(43, 212, 170, 0.12);
+  --st-status-developing-bg:          color-mix(in srgb, var(--st-color-seafoam) 12%, var(--st-margin-bg));
   --st-status-developing-fg:          var(--st-color-seafoam);
-  --st-status-developing-border:      rgba(43, 212, 170, 0.30);
+  --st-status-developing-border:      color-mix(in srgb, var(--st-color-seafoam) 30%, var(--st-margin-bg));
 
-  --st-status-testing-bg:             rgba(251, 146, 60, 0.10);
+  --st-status-testing-bg:             color-mix(in srgb, var(--st-color-orange) 10%, var(--st-margin-bg));
   --st-status-testing-fg:             var(--st-color-orange);
-  --st-status-testing-border:         rgba(251, 146, 60, 0.25);
+  --st-status-testing-border:         color-mix(in srgb, var(--st-color-orange) 25%, var(--st-margin-bg));
 
-  --st-status-deploying-bg:           rgba(209, 255, 29, 0.10);
-  --st-status-deploying-fg:           var(--st-color-lime);
-  --st-status-deploying-border:       rgba(209, 255, 29, 0.25);
+  --st-status-deploying-bg:           color-mix(in srgb, var(--st-color-lime) 10%, var(--st-margin-bg));
+  --st-status-deploying-fg:           var(--st-color-lime-500);
+  --st-status-deploying-border:       color-mix(in srgb, var(--st-color-lime) 25%, var(--st-margin-bg));
 
-  --st-status-iterating-bg:           rgba(99, 179, 237, 0.10);
+  --st-status-iterating-bg:           color-mix(in srgb, var(--st-color-sky) 10%, var(--st-margin-bg));
   --st-status-iterating-fg:           var(--st-color-sky);
-  --st-status-iterating-border:       rgba(99, 179, 237, 0.25);
+  --st-status-iterating-border:       color-mix(in srgb, var(--st-color-sky) 25%, var(--st-margin-bg));
 
   /* ── Callout variant tokens (dark defaults) ──────────── */
   --st-callout-info-bg:               rgba(255, 255, 255, 0.05);
@@ -799,46 +799,46 @@
   --st-status-draft-bg:               var(--st-color-error-bg);
   --st-status-draft-fg:               var(--st-color-error);
   --st-status-draft-border:           var(--st-color-error-border);
-  --st-status-active-bg:              rgba(43, 212, 170, 0.12);
+  --st-status-active-bg:              color-mix(in srgb, var(--st-color-seafoam) 12%, var(--st-margin-bg));
   --st-status-active-fg:              var(--st-color-seafoam);
-  --st-status-active-border:          rgba(43, 212, 170, 0.30);
-  --st-status-archived-bg:            rgba(255, 255, 255, 0.04);
+  --st-status-active-border:          color-mix(in srgb, var(--st-color-seafoam) 30%, var(--st-margin-bg));
+  --st-status-archived-bg:            color-mix(in srgb, white 4%, var(--st-margin-bg));
   --st-status-archived-fg:            var(--st-color-text-muted);
-  --st-status-archived-border:        rgba(255, 255, 255, 0.08);
-  --st-status-implemented-bg:         rgba(43, 212, 170, 0.10);
+  --st-status-archived-border:        color-mix(in srgb, white 8%, var(--st-margin-bg));
+  --st-status-implemented-bg:         color-mix(in srgb, var(--st-color-seafoam) 10%, var(--st-margin-bg));
   --st-status-implemented-fg:         var(--st-color-seafoam);
-  --st-status-implemented-border:     rgba(43, 212, 170, 0.25);
-  --st-status-evergreen-bg:           rgba(209, 255, 29, 0.10);
-  --st-status-evergreen-fg:           var(--st-color-lime);
-  --st-status-evergreen-border:       rgba(209, 255, 29, 0.25);
-  --st-status-validated-bg:           rgba(255, 36, 125, 0.10);
+  --st-status-implemented-border:     color-mix(in srgb, var(--st-color-seafoam) 25%, var(--st-margin-bg));
+  --st-status-evergreen-bg:           color-mix(in srgb, var(--st-color-lime) 10%, var(--st-margin-bg));
+  --st-status-evergreen-fg:           var(--st-color-lime-500);
+  --st-status-evergreen-border:       color-mix(in srgb, var(--st-color-lime) 25%, var(--st-margin-bg));
+  --st-status-validated-bg:           color-mix(in srgb, var(--st-color-pink) 10%, var(--st-margin-bg));
   --st-status-validated-fg:           var(--st-color-pink);
-  --st-status-validated-border:       rgba(255, 36, 125, 0.25);
-  --st-status-deprecated-bg:          rgba(255, 36, 125, 0.08);
+  --st-status-validated-border:       color-mix(in srgb, var(--st-color-pink) 25%, var(--st-margin-bg));
+  --st-status-deprecated-bg:          color-mix(in srgb, var(--st-color-pink) 8%, var(--st-margin-bg));
   --st-status-deprecated-fg:          var(--st-color-text-muted);
-  --st-status-deprecated-border:      rgba(255, 36, 125, 0.20);
-  --st-status-exploring-bg:           rgba(43, 212, 170, 0.07);
-  --st-status-exploring-fg:           rgba(43, 212, 170, 0.65);
-  --st-status-exploring-border:       rgba(43, 212, 170, 0.18);
-  --st-status-operationalized-bg:     rgba(43, 212, 170, 0.14);
+  --st-status-deprecated-border:      color-mix(in srgb, var(--st-color-pink) 20%, var(--st-margin-bg));
+  --st-status-exploring-bg:           color-mix(in srgb, var(--st-color-seafoam) 7%, var(--st-margin-bg));
+  --st-status-exploring-fg:           var(--st-color-seafoam-700);
+  --st-status-exploring-border:       color-mix(in srgb, var(--st-color-seafoam) 18%, var(--st-margin-bg));
+  --st-status-operationalized-bg:     color-mix(in srgb, var(--st-color-seafoam) 14%, var(--st-margin-bg));
   --st-status-operationalized-fg:     var(--st-color-seafoam);
-  --st-status-operationalized-border: rgba(43, 212, 170, 0.32);
-  --st-status-dreaming-bg:            rgba(167, 139, 250, 0.10);
+  --st-status-operationalized-border: color-mix(in srgb, var(--st-color-seafoam) 32%, var(--st-margin-bg));
+  --st-status-dreaming-bg:            color-mix(in srgb, var(--st-color-violet) 10%, var(--st-margin-bg));
   --st-status-dreaming-fg:            var(--st-color-violet);
-  --st-status-dreaming-border:        rgba(167, 139, 250, 0.25);
-  --st-status-designing-bg:           rgba(251, 191, 36, 0.10);
+  --st-status-dreaming-border:        color-mix(in srgb, var(--st-color-violet) 25%, var(--st-margin-bg));
+  --st-status-designing-bg:           color-mix(in srgb, var(--st-color-amber) 10%, var(--st-margin-bg));
   --st-status-designing-fg:           var(--st-color-amber);
-  --st-status-designing-border:       rgba(251, 191, 36, 0.25);
-  --st-status-developing-bg:          rgba(43, 212, 170, 0.12);
+  --st-status-designing-border:       color-mix(in srgb, var(--st-color-amber) 25%, var(--st-margin-bg));
+  --st-status-developing-bg:          color-mix(in srgb, var(--st-color-seafoam) 12%, var(--st-margin-bg));
   --st-status-developing-fg:          var(--st-color-seafoam);
-  --st-status-developing-border:      rgba(43, 212, 170, 0.30);
-  --st-status-testing-bg:             rgba(251, 146, 60, 0.10);
+  --st-status-developing-border:      color-mix(in srgb, var(--st-color-seafoam) 30%, var(--st-margin-bg));
+  --st-status-testing-bg:             color-mix(in srgb, var(--st-color-orange) 10%, var(--st-margin-bg));
   --st-status-testing-fg:             var(--st-color-orange);
-  --st-status-testing-border:         rgba(251, 146, 60, 0.25);
-  --st-status-deploying-bg:           rgba(209, 255, 29, 0.10);
-  --st-status-deploying-fg:           var(--st-color-lime);
-  --st-status-deploying-border:       rgba(209, 255, 29, 0.25);
-  --st-status-iterating-bg:           rgba(99, 179, 237, 0.10);
+  --st-status-testing-border:         color-mix(in srgb, var(--st-color-orange) 25%, var(--st-margin-bg));
+  --st-status-deploying-bg:           color-mix(in srgb, var(--st-color-lime) 10%, var(--st-margin-bg));
+  --st-status-deploying-fg:           var(--st-color-lime-500);
+  --st-status-deploying-border:       color-mix(in srgb, var(--st-color-lime) 25%, var(--st-margin-bg));
+  --st-status-iterating-bg:           color-mix(in srgb, var(--st-color-sky) 10%, var(--st-margin-bg));
   --st-status-iterating-fg:           var(--st-color-sky);
-  --st-status-iterating-border:       rgba(99, 179, 237, 0.25);
+  --st-status-iterating-border:       color-mix(in srgb, var(--st-color-sky) 25%, var(--st-margin-bg));
 }
