@@ -300,6 +300,25 @@ export const ProjectDetail: Story = {
 };
 
 // ═══════════════════════════════════════════════════════════════════
+// FULL WIDTH — matches local web rendering (no maxWidth constraint)
+// ═══════════════════════════════════════════════════════════════════
+
+/**
+ * Full-width — no maxWidth wrapper. Matches how MetadataCard renders inside
+ * the detail page layout (760px container → card stretches to fill it).
+ * Use this story to verify label column, chip row, and scalar grid at full width.
+ */
+export const FullWidth: Story = {
+  name: 'Node · Full Width',
+  parameters: {
+    layout: 'padded',
+  },
+  args: {
+    ...NodeFull.args,
+  },
+};
+
+// ═══════════════════════════════════════════════════════════════════
 // SNAPSHOT — Chromatic composite (all variants in one screenshot)
 // ═══════════════════════════════════════════════════════════════════
 
