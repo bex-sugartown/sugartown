@@ -4,7 +4,10 @@
  */
 
 .sectionHeading {
-  font: var(--st-font-heading-2);
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-2);
+  font-weight: var(--st-font-weight-bold);
+  line-height: var(--st-line-height-tight);
   color: var(--st-color-brand-primary);
   margin: 0 0 1rem;
 }

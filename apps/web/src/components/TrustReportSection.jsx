@@ -42,7 +42,6 @@ function RecentReleasesReport() {
         columns={RELEASE_COLUMNS}
         rows={releases}
         variant="trust"
-        caption="Recent releases"
       />
       <div className={styles.reportFooter}>
         <a href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer" className={styles.footerLink}>
