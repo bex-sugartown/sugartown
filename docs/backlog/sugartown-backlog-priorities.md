@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-29 · v0.23.1 · SUG-88 shipped
+> Updated 2026-04-29 · v0.23.1 · SUG-89 added to backlog
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -29,6 +29,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` files with a build pipeline. Single JSON source generates both files; makes SUG-85 drift structurally impossible. 4 phases: spike → dual output → theme outputs → lock. Execute after SUG-85. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
+| 2 | **[SUG-89](https://linear.app/sugartown/issue/SUG-89) · Chromatic parity stories — Card, ContentCard & MetadataCard** — Add Chromatic-visible Storybook parity stories for the Card primitive and its related patterns (ContentCard, MetadataCard) to surface cross-component visual drift automatically. Epic: `docs/backlog/SUG-89-chromatic-parity-stories-card-contentcard-metadatacard.md`. | `Design System` `Tooling` | 🟣 Soon |
 
 ---
 
