@@ -108,6 +108,7 @@ export default defineType({
         defineArrayMember({type: 'mermaidSection'}),
         defineArrayMember({type: 'accordionSection'}),
         defineArrayMember({type: 'recentContentSection'}),
+        defineArrayMember({type: 'trustReportSection'}),
       ]
     }),
     // SUG-48: citations added to page (was missing — present on node, article, caseStudy)

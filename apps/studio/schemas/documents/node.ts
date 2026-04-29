@@ -97,6 +97,7 @@ export default defineType({
         defineArrayMember({type: 'calloutSection'}),
         defineArrayMember({type: 'mermaidSection'}),
         defineArrayMember({type: 'accordionSection'}),
+        defineArrayMember({type: 'trustReportSection'}),
       ]
     }),
     defineField({

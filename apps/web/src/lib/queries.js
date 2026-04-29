@@ -400,6 +400,9 @@ export const nodeBySlugQuery = `
           title,
           "content": content${PT_CONTENT_PROJECTION}
         }
+      },
+      _type == "trustReportSection" => {
+        reportType
       }
     },
     aiTool,
@@ -569,6 +572,9 @@ export const articleBySlugQuery = `
           title,
           "content": content${PT_CONTENT_PROJECTION}
         }
+      },
+      _type == "trustReportSection" => {
+        reportType
       }
     },
     author,
@@ -719,6 +725,9 @@ export const pageBySlugQuery = `
           title,
           "content": content${PT_CONTENT_PROJECTION}
         }
+      },
+      _type == "trustReportSection" => {
+        reportType
       }
     },
     publishedAt,
@@ -865,6 +874,9 @@ export const caseStudyBySlugQuery = `
           title,
           "content": content${PT_CONTENT_PROJECTION}
         }
+      },
+      _type == "trustReportSection" => {
+        reportType
       }
     },
     aiDisclosure,
