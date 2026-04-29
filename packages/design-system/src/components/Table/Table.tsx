@@ -43,9 +43,10 @@ export interface TableProps {
   variant?: 'default' | 'responsive' | 'wide';
   children: React.ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-export function Table({ variant = 'default', children, className }: TableProps) {
+export function Table({ variant = 'default', children, className, style }: TableProps) {
   const classNames = [
     styles.table,
     variant === 'responsive' ? styles.responsive : '',
@@ -55,5 +56,5 @@ export function Table({ variant = 'default', children, className }: TableProps) 
     .filter(Boolean)
     .join(' ');
 
-  return <table className={classNames}>{children}</table>;
+  return <table className={classNames} style={style}>{children}</table>;
 }

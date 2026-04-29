@@ -1,0 +1,106 @@
+/* StatTile — labeled metric tile (SUG-87)
+ * Token-first: all colors via --st-stat-tile-* or --st-* semantic tokens.
+ */
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: var(--st-stat-tile-padding);
+  background: var(--st-stat-tile-bg);
+  border: 1px solid var(--st-stat-tile-border);
+}
+
+/* sm: compact for tight grid contexts */
+.sm {
+  --st-stat-tile-padding: 0.75rem 0.875rem;
+}
+
+.label {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-stat-tile-label-color);
+  line-height: 1.2;
+}
+
+.value {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-size-2xl);
+  font-weight: 600;
+  color: var(--st-stat-tile-value-color);
+  line-height: 1.1;
+}
+
+.sm .value {
+  font-size: var(--st-font-size-xl);
+}
+
+.unit {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: var(--st-font-weight-normal);
+  color: var(--st-stat-tile-sub-color);
+  margin-left: 0.25em;
+  vertical-align: baseline;
+}
+
+/* ── Breakdown bar ─────────────────────────────────────── */
+
+.barWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.barTrack {
+  display: flex;
+  width: 100%;
+  height: var(--st-stat-tile-bar-height);
+  background: var(--st-stat-tile-bar-track);
+  overflow: hidden;
+}
+
+.barSegment {
+  height: 100%;
+  flex-shrink: 0;
+}
+
+/* ── Legend ────────────────────────────────────────────── */
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legendSwatch {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.legendLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-stat-tile-label-color);
+  flex: 1;
+}
+
+.legendValue {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-stat-tile-sub-color);
+}

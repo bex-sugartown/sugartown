@@ -599,14 +599,25 @@
   --st-button-tertiary-hover-bg:      rgba(209, 255, 29, 0.10);
 
   /* ── Table ───────────────────────────────────────────── */
-  --st-table-header-bg:   var(--st-color-accent);
-  --st-table-zebra-bg:    var(--st-color-midnight-700); /* dark default: slightly raised */
-  --st-table-border:      rgba(255, 255, 255, 0.08);
-  --st-table-shadow:      0 4px 24px rgba(0, 0, 0, 0.40);
-  --st-table-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.50);
-  --st-table-card-radius: var(--st-radius-md);
-  --st-table-max-width:   100%;
-  --st-table-min-width:   600px;
+  --st-table-header-bg:    var(--st-color-accent);
+  --st-table-header-color: var(--st-color-white);       /* overridable: DataTable trust variant uses --st-color-text-default */
+  --st-table-zebra-bg:     var(--st-color-midnight-700); /* dark default: slightly raised */
+  --st-table-border:       rgba(255, 255, 255, 0.08);
+  --st-table-shadow:       0 4px 24px rgba(0, 0, 0, 0.40);
+  --st-table-card-shadow:  0 8px 24px rgba(0, 0, 0, 0.50);
+  --st-table-card-radius:  var(--st-radius-md);
+  --st-table-max-width:    100%;
+  --st-table-min-width:    600px;
+
+  /* ── StatTile ────────────────────────────────────────── */
+  --st-stat-tile-bg:           var(--st-color-bg-surface);
+  --st-stat-tile-border:       var(--st-color-border-subtle);
+  --st-stat-tile-value-color:  var(--st-color-text-default);
+  --st-stat-tile-label-color:  var(--st-color-text-muted);
+  --st-stat-tile-sub-color:    var(--st-color-text-muted);
+  --st-stat-tile-bar-height:   4px;
+  --st-stat-tile-bar-track:    var(--st-color-border-subtle);
+  --st-stat-tile-padding:      1.25rem 1rem;
 
   /* ── Blockquote ──────────────────────────────────────── */
   --st-blockquote-border-width: 3px;

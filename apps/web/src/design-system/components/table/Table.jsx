@@ -25,7 +25,7 @@ export function TableWrap({ variant, children, className }) {
   )
 }
 
-export default function Table({ variant = 'default', children, className }) {
+export default function Table({ variant = 'default', children, className, style }) {
   const classNames = [
     styles.table,
     variant === 'responsive' ? styles.responsive : '',
@@ -35,5 +35,5 @@ export default function Table({ variant = 'default', children, className }) {
     .filter(Boolean)
     .join(' ')
 
-  return <table className={classNames}>{children}</table>
+  return <table className={classNames} style={style}>{children}</table>
 }

@@ -14,8 +14,9 @@
 .table {
   /* Structural tokens only — visual tokens (zebra-bg, border, shadow) come
      from tokens.css [data-theme] blocks so theme switching works correctly. */
-  --st-table-header-bg: var(--st-color-accent);
-  --st-table-card-radius: var(--st-radius-md, 12px);
+  --st-table-header-bg:    var(--st-color-accent);
+  --st-table-header-color: var(--st-color-white);  /* overridden by DataTable trust variant via inline style */
+  --st-table-card-radius:  var(--st-radius-md, 12px);
 
   /* styles */
   border-collapse: collapse;
@@ -39,7 +40,7 @@
 
 .table thead th {
   background-color: var(--st-table-header-bg);
-  color: var(--st-color-white);
+  color: var(--st-table-header-color);
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.8em;
@@ -49,12 +50,12 @@
 }
 
 .table thead th a {
-  color: var(--st-color-white);
+  color: var(--st-table-header-color);
   text-decoration: underline;
 }
 
 .table thead th a:hover {
-  color: var(--st-color-white);
+  color: var(--st-table-header-color);
   text-decoration: none;
 }
 

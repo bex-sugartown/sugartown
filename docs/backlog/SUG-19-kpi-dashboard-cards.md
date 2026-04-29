@@ -5,6 +5,18 @@
 **Priority:** Low (high design ambition, post-launch)
 **Date logged:** 2026-03-17 (originally BL-03)
 **Epic doc created:** 2026-03-26
+**Depends on:** SUG-87 (ships `StatTile` and `DataTable` primitives — use these, do not fork)
+
+---
+
+## Primitive Foundation (from SUG-87)
+
+SUG-87 (Dynamic Trust Report) ships two DS primitives before this epic activates:
+
+- **`StatTile`** (`apps/web/src/design-system/components/StatTile/`) — labeled metric tile with optional breakdown bar and legend. This is the interior content of the `stat` and `bar` KPI card variants. Do not re-implement — consume `StatTile` inside the new Card variants.
+- **`DataTable`** (`apps/web/src/design-system/components/DataTable/`) — configurable table with typed columns and `KindBadge`. Reuse for content health breakdown tables on the metrics page.
+
+Before starting Phase 1 of this epic, verify both primitives are in the web design system layer and have Storybook coverage. If they need API extensions to serve SUG-19's use cases (e.g. sortable columns on `DataTable`, `trend` prop on `StatTile`), extend them in the same commit — do not fork.
 
 ---
 
@@ -275,7 +287,8 @@ MetricsPage (new)                                   ← NEW — dashboard grid
 ## Phased Delivery
 
 ### Phase 1 — DS Card Variants (design system only)
-- Add `stat`, `bar`, `insight` variants to `Card.tsx`
+- Verify `StatTile` and `DataTable` are present from SUG-87 and extend their APIs if needed (sort, trend prop, etc.)
+- Add `stat`, `bar`, `insight` variants to `Card.tsx` — use `StatTile` as the body of `stat` and `bar` variants
 - CSS module additions in `Card.module.css` (both DS and web — keep in sync)
 - Storybook stories for all three variants (default + compact density, with/without accent color)
 - No data integration — hardcoded story props only
@@ -305,10 +318,11 @@ MetricsPage (new)                                   ← NEW — dashboard grid
 
 ## Dependencies
 
+- **SUG-87 (blocking):** `StatTile` and `DataTable` primitives must exist before Phase 1 begins
 - **Card architecture (EPIC-0180):** Converged — variant system is stable
 - **Accent color system:** Already works — `accentColor` prop drives `--accent` custom property
 - **Build-time pattern:** `build-sitemap.js` as reference
-- **Token system:** May need 5-6 new `--st-kpi-*` tokens (both token files, same commit)
+- **Token system:** May need 5-6 new `--st-kpi-*` tokens (both token files, same commit); check `--st-stat-tile-*` tokens from SUG-87 for reuse before adding new ones
 - **Sparkline rendering:** Pure CSS (gradient hack) or inline SVG — no charting library. If SVG, keep under 2KB per sparkline.
 
 ---
