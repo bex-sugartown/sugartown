@@ -9,6 +9,7 @@ import stats from '../generated/stats.json'
 import { TRUST_LINKS } from '../lib/routes'
 import CardBuilderSection from './CardBuilderSection'
 import RecentContentSection from './RecentContentSection'
+import TrustReportSection from './TrustReportSection'
 import ImageLightbox from './ImageLightbox'
 import { LinkAnnotation, DividerBlock } from './portableTextComponents'
 import { preprocessPortableText } from '../lib/portableTextStatsVars'
@@ -820,6 +821,8 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
         return <AccordionSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'recentContentSection':
         return <RecentContentSection key={key} section={section} />
+      case 'trustReportSection':
+        return <TrustReportSection key={key} section={section} />
       default:
         console.warn(`Unknown section type: ${section._type}`)
         return null

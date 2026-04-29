@@ -1,0 +1,62 @@
+/* TrustReportSection — renders trust data report variants (SUG-87)
+ * Token-first: all colors via --st-* tokens.
+ * Layout: full-width in both detail and full-width section contexts.
+ */
+
+.reportWrap {
+  width: 100%;
+}
+
+/* ── StatTile grid (design-system-stats variant) ────── */
+
+.tileGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--st-color-rule-accent);
+  border: 1px solid var(--st-color-border-subtle);
+}
+
+/* ── Footer links row ────────────────────────────────── */
+
+.reportFooter {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid var(--st-color-border-subtle);
+  margin-top: 1rem;
+}
+
+.footerLink {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: var(--st-font-weight-semibold);
+  color: var(--st-color-accent);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Version link (recent-releases variant) ─────────── */
+
+.versionLink {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-color-accent);
+  text-decoration: none;
+  font-weight: var(--st-font-weight-semibold);
+}
+
+.versionLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Detail context layout reset ────────────────────── */
+/* The .detailContext parent uses gap for spacing — zero
+   external margin on this component's root. */
+:global(.detailContext) .reportWrap {
+  margin-block: 0;
+}
