@@ -97,25 +97,26 @@
   color: var(--st-color-brand-primary);
 }
 
-/* ── Chip sections — bg-through-gap between chip sections ── */
-/* Single divider layer: chipColumns owns all horizontal lines via gap + rule-accent bg.
-   chipRowPair adds the vertical gap between Tools and Categories. */
+/* ── Chip sections — border-based dividers (no bg-through-gap) ── */
 
 .chipColumns {
   display: flex;
   flex-direction: column;
-  gap: 1px;
-  background-color: var(--st-color-rule-accent);
+}
+
+.chipColumns > * + * {
+  border-top: 1px solid var(--st-color-rule-accent);
 }
 
 /* Tools + Categories side-by-side (per SUG-52 mock).
-   auto-fit collapses to 1 column when only one child exists.
-   bg is rule-accent — 1px gaps expose the divider color. */
+   auto-fit collapses to 1 column when only one child exists. */
 .chipRowPair {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1px;
-  background-color: var(--st-color-rule-accent);
+}
+
+.chipRowPair > * + * {
+  border-left: 1px solid var(--st-color-rule-accent);
 }
 
 .chipRow {
