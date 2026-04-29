@@ -82,11 +82,6 @@ function DesignSystemStatsReport() {
           legend
         />
         <StatTile
-          label="Component tokens"
-          value={ds?.tokens?.component ?? '—'}
-          sub={ds?.tokens?.primitives != null ? `${ds.tokens.primitives} primitive tokens` : undefined}
-        />
-        <StatTile
           label="Components"
           value={componentFiles || '—'}
           sub={storybookComps > 0 ? `${storybookComps} with story coverage` : undefined}
