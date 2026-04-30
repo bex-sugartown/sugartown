@@ -183,6 +183,20 @@
   flex-shrink: 0;
 }
 
+/* Rule-dot hover: lift only — preserve neutral border/bg, no color-mix tint */
+.ruleDot.interactive:hover {
+  background: var(--st-chip-bg);
+  border-color: var(--st-chip-border);
+  box-shadow: none;
+}
+
+/* Featured hover: lift only — preserve rubric border/bg */
+.featured.interactive:hover {
+  background: var(--st-chip-rubric-bg);
+  border-color: var(--st-chip-rubric-border);
+  box-shadow: none;
+}
+
 .dot-evergreen  { background: var(--st-chip-dot-evergreen); }
 .dot-validated  { background: var(--st-chip-dot-validated); }
 .dot-exploring  { background: var(--st-chip-dot-exploring); }

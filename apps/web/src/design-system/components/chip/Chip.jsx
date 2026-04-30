@@ -40,8 +40,8 @@ export default function Chip({
     variant === 'status' && styles.variantStatus,
     variant === 'tag' && styles.variantTag,
     featured && variant === 'tag' && styles.featured,
-    // Legacy modifiers — active only when not using rule-dot variant
-    !isRuleDot && isInteractive && styles.interactive,
+    // Interactive applies to all chip variants — rule-dot hover overrides color changes in CSS
+    isInteractive && styles.interactive,
     !isRuleDot && isActive && styles.active,
     !isRuleDot && size === 'sm' && styles.sm,
     !isRuleDot && color && styles[color],
