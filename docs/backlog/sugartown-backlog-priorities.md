@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-29 · v0.23.2 · SUG-90 backlog opened
+> Updated 2026-04-30 · v0.23.3 · SUG-88 Ledger Tradition chip system shipped
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-87 shipped v0.23.2 — trustReportSection (recent-releases + design-system-stats), StatTile + DataTable DS primitives, hero stat rail (epics/commits/vulns), 4-tile responsive DS grid. Next: SUG-90 (consulting pivot editorial) or SUG-81 (site-wide Knowledge Graph).
+> **⚑ Current focus:** SUG-88 shipped v0.23.3 — rule-dot chip system (Direction B), pink rubric on tags[0], MetadataCard tight density + V2 Inverted Well dark mode, tools chips migrated to rule-dot on archive/content cards. Next: SUG-90 (consulting pivot editorial) or SUG-81 (site-wide Knowledge Graph).
 
 ---
 
@@ -61,7 +61,7 @@
 | Item | Version | Date |
 |------|---------|------|
 | ~~**SUG-87 · Dynamic Trust Report section type + DS primitives** — Section-builder-insertable `trustReportSection` (recent-releases + design-system-stats variants). StatTile + DataTable + KindBadge DS primitives. Hero stat rail updated (epics/commits/vulns). 4-tile responsive DS stats grid. Section heading standardised across all section schemas.~~ | v0.23.2 | 2026-04-29 |
-| ~~**SUG-88 · DS Component Polish** — Chip canvas-tinted color system (`color-mix` with `--st-color-canvas` replacing `transparent`). Status chip tokens: neon lime → lime-500, raw rgba → `color-mix(N%, --st-margin-bg)`. MetadataCard dark mode: `surface-strong` label bg + `softgrey-300` text for both `scalarLabel` and `chipLabel`. Callout Hybrid (Option A): violet info variant, 8% accent bg tint, wider padding. Footer toolchain chips migrated to DS Chip + theme-conditional `--chip-color`. Built-date stabilised via `git log` on `package.json`.~~ | v0.23.1 | 2026-04-29 |
+| ~~**SUG-88 · Ledger Tradition chip system — rule-dot Direction B** — Every chip is a neutral mono box with 1px border; semantic color via 6px round dot on status chips only. Pink rubric on first taxonomy chip (`tags[0]`) in any tag list. MetadataCard: tight density (0.55rem labels, 5px row pad), V2 Inverted Well dark mode (label col midnight-900, body midnight-700). Tools chips on archive/content cards migrated to rule-dot. 34 new `--st-chip-*` and `--st-metadata-*` tokens in both token files. Light-theme specificity fix: `:not(.ruleDot)` exclusion preserves neutral border on rule-dot chips.~~ | v0.23.3 | 2026-04-30 |
 | ~~**SUG-85 · Token file sync audit** — packages/design-system tokens.css synced to web canonical: dark-first code-inline (lime pill), card hover shadow, spacing tokens unified to px. `--check-sync` flag added to validate-tokens.js — diffs :root values across both files, exits 1 on conflicts. 0 sync errors.~~ | v0.22.13 | 2026-04-27 |
 | ~~**SUG-49 · DS Contract Enforcement** — Husky v9 pre-commit hook (validate:tokens + validate:tokens:strict on every commit). `component-registry.json` with `pnpm registry:build` script (12 DS primitives, 10 web adapters, 218 unique tokens). PRD §11 architecture diagram updated (Chromatic VRT + Contract layer). §12 Prose as Design SoT expanded to full position paper. §13–15 renumbered (fixed duplicate §12 bug). FigJam diagram updated: Skills fixed, llms.txt de-🔮'd, Chromatic VRT node added.~~ | v0.22.12 | 2026-04-27 |
 | ~~**SUG-84 · Storybook dead story + legacy component purge** — Deleted Legacy/Callout (DS), Legacy/CardGrid + web component pair, Legacy/EditorialCard + web component pair, DraftBadge story + CSS. DraftBadge refactored to `<Chip color="amber" size="sm">`. -21 Chromatic snapshots per build. No Legacy/ group in Storybook sidebar.~~ | v0.22.11 | 2026-04-27 |
@@ -136,4 +136,4 @@
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-29 · v0.23.2*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-04-30 · v0.23.3*
