@@ -118,7 +118,7 @@
    Light tint bg + strong border. Pink stays vivid.
    Grey uses neutral-600 (no blue cast, darker contrast).
    ──────────────────────────────────────────────────────── */
-:global([data-theme="light-pink-moon"]) .chip:not(.active) {
+:global([data-theme="light-pink-moon"]) .chip:not(.active):not(.ruleDot) {
   border-color: color-mix(in srgb, var(--_chip-color) 60%, var(--st-color-canvas));
 }
 

@@ -222,9 +222,9 @@ export default function Card({
             {tools.map(({ label, href: chipHref }) => (
               <li key={label}>
                 <Chip
+                  variant="tag"
                   label={label}
                   href={chipHref}
-                  color="grey"
                   size="sm"
                   className={chipHref && href ? styles.hasCardLink : undefined}
                 />

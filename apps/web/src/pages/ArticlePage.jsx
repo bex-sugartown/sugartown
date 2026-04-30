@@ -21,7 +21,6 @@ import ImageLightbox from '../components/ImageLightbox'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
-import ArticleColophon from '../components/ArticleColophon'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
 import PageSidebar, { hasSidebarContent } from '../components/PageSidebar'
@@ -148,15 +147,6 @@ export default function ArticlePage() {
           authors={post.authors}
           aiDisclosure={post.aiDisclosure}
         />
-
-        <div className={styles.detailPageFullSpan}>
-          <ArticleColophon
-            tags={post.tags}
-            categories={post.categories}
-            status={post.status}
-            publishedAt={post.publishedAt}
-          />
-        </div>
 
         <div className={styles.detailPageFullSpan}>
           <ContentNav prev={post.prev} next={post.next} docType="article" />
