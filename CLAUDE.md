@@ -113,6 +113,23 @@ Updating the backlog spec (e.g. in response to user feedback) triggers a corresp
 
 A Phase 0 violation (FE code committed before mock approval) is a process failure, not a shortcut.
 
+### Incomplete epic doc hard stop
+
+Before executing any epic from `docs/backlog/SUG-{N}-*.md`, check the file for completeness. If any of the following are unresolved, **stop and surface the gap before touching any file, Sanity document, or schema:**
+
+1. **Background is `TODO`** — the motivation is unclear; execution without it is guesswork
+2. **Scope items are incomplete or contain `TODO`** — no defined acceptance surface means no defined stopping point
+3. **Phases are undefined** — multi-phase work cannot be sequenced
+
+**Correct response to an incomplete epic:**
+- Name the specific sections that are stubs: "Background is TODO, Phases are undefined"
+- Offer one of two paths: (a) fill the epic doc collaboratively before proceeding, or (b) run an audit pass — read the affected surfaces, produce a specific before/after proposal — and wait for approval before any implementation
+- Do NOT fill in the blanks on your own and proceed
+
+A sparse epic doc is a signal that the planning phase was not completed. It is not a prompt to use editorial judgment and execute. Proceeding without a defined scope is a process failure, not a shortcut.
+
+**This rule applies to all epic types, including pure content/editorial epics.** The Phase 0 mockup gate covers visual design review; this rule covers scope completeness for all epics regardless of type.
+
 ### No speculative fixes
 
 When the user reports a bug (white screen, crash, visual regression):
@@ -260,7 +277,33 @@ Then:
 
 Shape content to the schema, not the schema to the content. If a requested label has no good match, note what doesn't exist and create only those — not everything on the list.
 
+### Content Write Gate (hard stop — all Sanity MCP writes)
+
+Before writing any content to Sanity via `patch_document_from_json`, `create_documents_from_json`, or any equivalent MCP tool — when the content was not explicitly pre-specified by the user — produce a proposal and wait for explicit approval.
+
+**Proposal format:** For each document being changed, show a before/after table:
+
+| Document | Field path | Current value | Proposed value |
+|----------|-----------|---------------|----------------|
+
+**The gate fires when:**
+- Copy, headings, body text, or CTAs are derived from the AI's interpretation of a brief rather than literal user instruction
+- Content is being removed (unset operations on Sanity arrays — bullets, items, sections, cards)
+- The epic doc that scoped the work had `TODO` placeholders in Background or Scope
+- The user's instruction was directional ("reframe the About page") rather than explicit ("set the hero heading to X")
+
+**The gate does NOT fire for:**
+- Field values explicitly dictated word-for-word by the user in their message
+- Pure structural/technical patches: taxonomy backfill, slug fixes, schema migration, field reordering — no human-readable copy touched
+- Publish/unpublish operations (governed separately by the human-publishes rule)
+
+**Wait for** explicit approval — "yes", "confirmed", "looks good", or equivalent — before executing any patch. A follow-up question from the user is not approval.
+
+This rule operationalizes `ai-ethics-and-operations.md` Principle 6 ("AI can suggest copy; humans verify it isn't confidently wrong") and Principle 7 ("every AI-generated output has a human checkpoint") as a structural enforcement gate rather than aspiration. The fail-softly layer (drafts require human publish) is the last line; this gate is the first.
+
 ### Sanity MCP content writes — no AI rewriting
+
+> **Note:** This rule governs the *tool* used to write content (no AI rewriting pipeline). The Content Write Gate above governs *whether* to write at all without prior human approval. Both apply independently.
 
 When writing content to Sanity via MCP tools, **assume all content is final, proofed copy**. Do not use tools that pass content through Sanity's AI pipeline unless the user explicitly requests AI-assisted drafting.
 

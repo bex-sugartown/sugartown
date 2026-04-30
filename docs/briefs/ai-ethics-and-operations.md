@@ -84,12 +84,16 @@ AI is great at pattern detection, drafting, summarizing, and exploring possibili
 
 **In practice:** AI can draft the spec. Humans decide if it ships. AI can suggest copy. Humans verify it's not confidently wrong.
 
+**Structural enforcement:** `CLAUDE.md` contains a **Content Write Gate** that fires before any Sanity MCP content write where the content was not explicitly pre-specified by the user. The AI must produce a before/after proposal table and wait for explicit approval before patching any document. This converts "humans verify" from an aspiration into a hard stop.
+
 ### 7. Fail Softly
 *No silent automation cliffs. No "oops, the model decided" moments.*
 
 Design systems so AI mistakes are reversible, inspectable, and non-catastrophic.
 
 **In practice:** Sanity content is created as drafts; a human publishes. Migration scripts run in dry-run mode first (always). Validators (`validate:tokens`, `validate:urls`, `validate:content`) catch drift before it ships. Schema changes require explicit deployment. The epic close-out sequence enforces commit, deploy, ship, verify as a mandatory sequence.
+
+**Layered enforcement (authoring → publish):** Two structural gates now exist at different points in the content pipeline. The **Content Write Gate** (in `CLAUDE.md`) fires *before* any Sanity patch — the AI must show what it intends to write and get explicit approval. The **publish gate** (Sanity draft posture + `perspective: 'published'` on the web client) fires *after* — no AI-authored content reaches the live site without a human publishing in Studio. Removing either gate creates a gap. The 2026-04-30 SUG-90 post-mortem documented the failure mode when the authoring gate was absent: the AI made editorial judgment calls, wrote directly to Sanity drafts, and the human reviewed the result instead of the proposal.
 
 ### 8. Governance Is a Feature
 *If you can't explain why the AI did something, you don't understand your own system.*
@@ -233,13 +237,18 @@ And if something breaks? A human apologizes. Not a model.
 
 ---
 
-**Last updated:** April 11, 2026
+**Last updated:** April 30, 2026
 **Next review:** October 2026
 **Questions?** [contact bex](https://sugartown.io/contact/) (Human. Probably.)
 
 ---
 
 ## Changelog
+
+### v2026.04.30
+
+- **Principle 6 (Augment, Don't Replace Judgment) — structural enforcement note added.** Documents the `CLAUDE.md` Content Write Gate as the operational mechanism enforcing "AI suggests, human approves" for Sanity content writes.
+- **Principle 7 (Fail Softly) — layered enforcement model documented.** Explains the two-gate pipeline: Content Write Gate (authoring stage, propose-before-write) + Sanity draft posture (publish stage, human-publishes). Includes post-mortem reference: SUG-90 failure mode when the authoring gate was absent.
 
 ### v2026.04.11
 
