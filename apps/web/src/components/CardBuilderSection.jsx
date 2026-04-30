@@ -199,10 +199,10 @@ function BuilderCard({ card, variant }) {
           {tools.map((tool) => (
             <Chip
               key={tool.label}
+              variant="tag"
               label={tool.label}
               href={tool.href}
               size="sm"
-              color="grey"
               className={styles.footerChip}
             />
           ))}
@@ -211,9 +211,11 @@ function BuilderCard({ card, variant }) {
 
       {tags?.length > 0 && (
         <div className={styles.tagRow}>
-          {tags.map((tag) => (
+          {tags.map((tag, i) => (
             <Chip
               key={tag.label}
+              variant="tag"
+              featured={i === 0}
               label={tag.label}
               href={tag.href}
               size="sm"
