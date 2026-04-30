@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-30 · v0.23.3 · SUG-88 Ledger Tradition chip system shipped
+> Updated 2026-04-30 · v0.23.3 · SUG-90 consulting pivot executing — backlog annotated with pivot impact
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-88 shipped v0.23.3 — rule-dot chip system (Direction B), pink rubric on tags[0], MetadataCard tight density + V2 Inverted Well dark mode, tools chips migrated to rule-dot on archive/content cards. Next: SUG-90 (consulting pivot editorial) or SUG-81 (site-wide Knowledge Graph).
+> **⚑ Current focus:** SUG-90 executing — Contact, Services, and About page Sanity drafts patched and pending Studio publish. Consulting/contract availability now surfaces from all three pages. Next: close out SUG-90, then evaluate SUG-81 vs. a case study narrative epic (see §Consulting pivot notes below).
 
 ---
 
@@ -19,8 +19,9 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** — Reframe sugartown.io to surface consulting/contract availability without closing off FTE: Services page outcome framing, availability signal on hero/About, case study narrative shifted to client outcomes, Contact tone, /platform surfaced from key entry points. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | 🟢 Next |
-| 2 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. | `UX` `Infrastructure` | 🟢 Next |
+| 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** — Reframe sugartown.io to surface consulting/contract availability without closing off FTE: Services page outcome framing, availability signal on hero/About, case study narrative shifted to client outcomes, Contact tone, /platform surfaced from key entry points. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. <br>_⚡ Executing — Sanity drafts pending publish: Contact (Work with me. hero + mailto CTA), Services (secondary button fixed), About (hero subheading + §7 reframed as "Currently")._ | `Editorial` `UX` | 🟢 Next |
+| 2 | **Case study outcomes narrative** — No Linear issue yet. Shift existing case study body copy from process narrative to client outcomes framing: what changed, what was delivered, measurable impact. High consulting conversion value — the case studies are the primary proof of work for prospective clients. Needs a dedicated editorial pass and possibly a new outcome summary field in schema. _⬆ Elevated by consulting pivot — create Linear issue before next sprint._ | `Editorial` `Content` | 🟢 Next |
+| 3 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. <br>_⬇ Deprioritized by consulting pivot — KG visualization serves content-curious returning visitors; consulting prospects need Services/Contact/case studies first. Valuable long-term but not a conversion lever. Push below case study outcomes work._ | `UX` `Infrastructure` | 🟣 Soon |
 
 ---
 
@@ -47,12 +48,31 @@
 |------|------|
 | ~~**SUG-15 · XML Sitemap + Visual HTML Sitemap** — ✅ Shipped v0.19.6. Build-time sitemap.xml + robots.txt. Visual /sitemap page with governance stats.~~ | `SEO` | ✅ Shipped |
 | **Image redirect epic: `/wp-content/uploads/…` → Sanity CDN** — WP media URLs embedded in content need redirecting to Sanity CDN or static asset paths. Low urgency unless referenced in inbound links with SEO value. | `Deferred` `Infrastructure` |
-| **Future layout components: 2-col, 3-col banner, carousel** — Enhanced section builder layout options for editorial page building. Carousel needs accessibility and mobile performance consideration. Phase 2 scope. | `Deferred` `Component` |
+| **Future layout components: 2-col, 3-col banner, carousel** — Enhanced section builder layout options for editorial page building. Carousel needs accessibility and mobile performance consideration. Phase 2 scope. <br>_↑ 2-col has consulting value — Services page would benefit from side-by-side offering+evidence panels. Elevate 2-col specifically if Services copy is expanded beyond current single-column text sections._ | `Deferred` `Component` |
 | **Archive page deferred fields — wire Display + Advanced tab configs** — 8 `archivePage` fields moved to "Advanced (coming soon)" tab in Studio: hero section, custom description, featured items, display density, card variant, sort options, pagination, empty state. None are currently wired in the web app. Wire them when archive page UX is revisited post-launch. | `Deferred` `Schema` `Editor UX` |
-| **[SUG-19](https://linear.app/sugartown/issue/SUG-19) · KPI dashboard card family (BL-03)** — stat-card, bar-card, insight-card variants on DS Card. Build-time content metrics at `/platform/metrics`. Phase 1: DS variants + Storybook. Phase 2: metrics page. Epic: `docs/backlog/SUG-19-kpi-dashboard-cards.md`. | `Deferred` `Design System` `BL-03` |
+| **[SUG-19](https://linear.app/sugartown/issue/SUG-19) · KPI dashboard card family (BL-03)** — stat-card, bar-card, insight-card variants on DS Card. Build-time content metrics at `/platform/metrics`. Phase 1: DS variants + Storybook. Phase 2: metrics page. Epic: `docs/backlog/SUG-19-kpi-dashboard-cards.md`. <br>_↑ Consult-relevant — delivery/quality metrics are trust signals for prospective clients. Elevate if Services or a /work-with-me landing page is built. Surface from Services entry point, not buried at /platform/metrics._ | `Deferred` `Design System` `BL-03` |
 | **Schema ERD Sanity Hybrid (Option C)** — Upgrade ERD from code-driven page (EPIC-0172) to a `schemaErdSection` type embeddable via section builder. Component unchanged — adds schema, GROQ projection, and PageSections case. Depends on EPIC-0172. | `Deferred` `Schema` `Content` |
 | ~~**SUG-21 · Pink Moon** — Elevated to 🟢 Next. See §01.~~ | `Design System` `UX` |
-| **[SUG-36](https://linear.app/sugartown/issue/SUG-36) · Site-wide content search** — No search exists today. Recommended: Fuse.js client-side index (build-time JSON manifest, same pattern as sitemap). Nav search icon + `/search` page. Phase 1: articles + nodes + case studies. Design spike needed first. Epic: `docs/backlog/SUG-36-site-search.md`. | `Deferred` `UX` `GROQ` `Infrastructure` |
+| **[SUG-36](https://linear.app/sugartown/issue/SUG-36) · Site-wide content search** — No search exists today. Recommended: Fuse.js client-side index (build-time JSON manifest, same pattern as sitemap). Nav search icon + `/search` page. Phase 1: articles + nodes + case studies. Design spike needed first. Epic: `docs/backlog/SUG-36-site-search.md`. <br>_⬇ Low consulting value — consulting prospects do not browse by keyword; they arrive from a referral or LinkedIn and need a clear conversion path, not a search box. Keep deferred._ | `Deferred` `UX` `GROQ` `Infrastructure` |
+
+---
+
+## Consulting pivot impact notes — SUG-90 reprioritization (2026-04-30)
+
+The site is repositioning from personal experiment/build log to consulting/contract availability signal while remaining open to senior embedded PM roles. This changes what backlog items are high-leverage.
+
+**Elevated by consulting pivot:**
+- Case study outcomes narrative (new epic needed) — proof of work is the primary trust signal for prospective clients
+- SUG-19 (KPI dashboard) — delivery metrics are a credibility surface if surfaced from Services, not buried at /platform
+- 2-col layout component — Services page needs side-by-side offering+evidence panels
+
+**Deprioritized by consulting pivot:**
+- SUG-81 (site-wide KG) — content graph is for returning readers, not first-touch consulting prospects; push behind case study work
+- SUG-36 (site search) — consulting prospects use referral/direct, not keyword search; indefinitely deferred
+
+**Gap identified — not yet in backlog:**
+- Contact form upgrade — current implementation is a basic mailto button; for consulting, a structured intake form (project type, timeline, budget signal) would qualify leads before the first call. Could be a fast follow to SUG-90.
+- Services page outcome framing — current Services copy is service-category-forward; needs a client-results framing layer (what clients got, not just what Sugartown offers). Closely related to case study narrative work.
 
 ---
 
