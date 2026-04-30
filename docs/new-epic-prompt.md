@@ -193,3 +193,20 @@ Use docs/epic-template.md as a guide for the full spec.
 - Never write to disk before Step 1 completes (no ID, no file).
 - Never pre-fill spec sections with invented content — stubs only.
 - Never create a duplicate: before Step 1, grep `docs/backlog/` for an existing file with a similar name. If one exists, tell the human and ask for confirmation before proceeding.
+
+---
+
+## Stub activation gate (CRITICAL)
+
+When a human invokes "execute", "run", "implement", or "start" on an epic whose backlog file still contains TODO stubs in Background, Scope, or Phases — **Phase 0 is automatically triggered.**
+
+Phase 0 means: complete the spec collaboratively using `docs/epic-template.md` as the guide. Implementation does not begin until every TODO stub is replaced with real content and the human has explicitly approved the spec.
+
+**Detection rule:** Before proceeding with any implementation work on an existing epic, read the backlog file and check for the literal string `TODO` in Background, Scope, or Phases sections. If found:
+
+1. Stop. Do not write any code, schema, CSS, or content.
+2. Tell the human: "This epic is still a stub. Background/Scope/Phases have TODO placeholders. Phase 0 is required before implementation — let's complete the spec first."
+3. Open `docs/epic-template.md` and walk through each section collaboratively with the human.
+4. Only proceed with implementation after the human says the spec is complete.
+
+**Why this rule exists:** SUG-90 was executed from a stub. The TODO placeholders were never filled in. The AI interpreted "execute this epic" as permission to invent the scope and write content directly to Sanity — without a proposal, without approval, without the human seeing what was being written before it happened. The CLAUDE.md Content Write Gate and this gate together close the gap. The stub says "fill me in before activating." Now the system enforces it.
