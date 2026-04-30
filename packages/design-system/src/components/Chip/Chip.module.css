@@ -142,3 +142,50 @@
 :global([data-theme="dark-pink-moon"]) .grey {
   --chip-color: var(--st-color-softgrey-300);
 }
+
+/* ══════════════════════════════════════════════════════
+   RULE-DOT CHIP SYSTEM (SUG-88 Direction B)
+   Activated by variant="status" or variant="tag" props.
+   Legacy color-mix chips (no variant) are unaffected.
+   ══════════════════════════════════════════════════════ */
+
+.ruleDot {
+  background: var(--st-chip-bg);
+  border: 1px solid var(--st-chip-border);
+  color: var(--st-chip-fg);
+  gap: 5px;
+}
+
+.variantStatus {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.variantTag {
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.featured {
+  background: var(--st-chip-rubric-bg);
+  border-color: var(--st-chip-rubric-border);
+  color: var(--st-chip-rubric-fg);
+  font-weight: 600;
+}
+
+.dot {
+  display: inline-block;
+  width: var(--st-chip-dot-size);
+  height: var(--st-chip-dot-size);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-evergreen  { background: var(--st-chip-dot-evergreen); }
+.dot-validated  { background: var(--st-chip-dot-validated); }
+.dot-exploring  { background: var(--st-chip-dot-exploring); }
+.dot-active     { background: var(--st-chip-dot-active); }
+.dot-draft      { background: var(--st-chip-dot-draft); }
+.dot-deprecated { background: var(--st-chip-dot-deprecated); }

@@ -182,4 +182,17 @@
   --st-label-color:       var(--st-color-charcoal-400);
   --st-label-color-badge: var(--st-color-softgrey-500);
   --st-card-label-bg:     var(--st-color-midnight-800);           /* label cell bg on dark canvas */
+
+  /* Chip rule-dot — dark overrides (SUG-88) */
+  --st-chip-fg:             var(--st-color-softgrey-200);
+  --st-chip-rubric-bg:      color-mix(in srgb, var(--st-color-pink) 18%, var(--st-color-midnight-800));
+  --st-chip-rubric-fg:      var(--st-color-pink);
+  --st-chip-dot-evergreen:  var(--st-color-lime);
+  --st-chip-dot-validated:  var(--st-color-seafoam);
+  --st-chip-dot-exploring:  var(--st-color-amber);
+  --st-chip-dot-deprecated: var(--st-color-softgrey-500);
+
+  /* MetadataCard V2 Inverted Well — dark overrides (SUG-88) */
+  --st-metadata-label-bg:  var(--st-color-midnight-900);
+  --st-metadata-body-bg:   var(--st-color-midnight-700);
 }

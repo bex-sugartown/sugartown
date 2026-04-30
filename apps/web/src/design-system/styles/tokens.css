@@ -473,6 +473,41 @@
   --st-callout-danger-border-light:   rgba(220, 38, 38, 0.35);
   --st-callout-danger-icon-light:     #dc2626;   /* red-600 — no exact primitive match */
 
+  /* ── Chip rule-dot system (SUG-88) ──────────────────── */
+  --st-chip-bg:             transparent;
+  --st-chip-border:         var(--st-color-rule-accent);
+  --st-chip-fg:             var(--st-color-text-default);
+  --st-chip-dot-size:       6px;
+
+  /* Pink rubric — taxonomy first-child (light defaults) */
+  --st-chip-rubric-bg:      color-mix(in srgb, var(--st-color-pink) 10%, white);
+  --st-chip-rubric-border:  var(--st-color-pink);
+  --st-chip-rubric-fg:      var(--st-color-maroon);
+
+  /* Status dot colors — semantic (light defaults) */
+  --st-chip-dot-evergreen:  var(--st-color-lime-700);
+  --st-chip-dot-validated:  var(--st-color-seafoam-700);
+  --st-chip-dot-exploring:  #92700c;
+  --st-chip-dot-active:     var(--st-color-pink);
+  --st-chip-dot-draft:      var(--st-color-violet);
+  --st-chip-dot-deprecated: var(--st-color-neutral-500);
+
+  /* ── MetadataCard density + V2 Inverted Well (SUG-88) ── */
+  --st-metadata-density-label-size: 0.55rem;
+  --st-metadata-density-row-pad:    5px;
+  --st-metadata-density-chip-gap:   4px;
+  --st-metadata-density-chip-size:  0.6rem;
+
+  /* Semantic bg tokens — overridden per theme */
+  --st-metadata-label-bg:  var(--st-color-neutral-200);
+  --st-metadata-body-bg:   var(--st-color-white);
+
+  /* Named light/dark variants (spec reference, §4.3) */
+  --st-metadata-label-bg-light: var(--st-color-neutral-200);
+  --st-metadata-body-bg-light:  var(--st-color-white);
+  --st-metadata-label-bg-dark:  var(--st-color-midnight-900);
+  --st-metadata-body-bg-dark:   var(--st-color-midnight-700);
+
   /* ── Shadow tokens for theme files ───────────────────── */
   --st-shadow-card-light:             0 4px 20px rgba(0, 0, 0, 0.06);
   --st-shadow-card-hover-light:       0 8px 32px rgba(255, 36, 125, 0.12);

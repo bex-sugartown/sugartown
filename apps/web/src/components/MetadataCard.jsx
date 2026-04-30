@@ -24,7 +24,6 @@ import { Link } from 'react-router-dom'
 import { Chip } from '../design-system'
 import { getAuthorByline, getPrimaryAuthor } from '../lib/person'
 import { getCanonicalPath } from '../lib/routes'
-import TaxonomyChips from './TaxonomyChips'
 import styles from './MetadataCard.module.css'
 
 // ─── Display label maps (mirror Sanity schema option lists) ───────────────────
@@ -228,9 +227,9 @@ export default function MetadataCard({
                       {validTools.map((tool) => (
                         <li key={tool._id}>
                           <Chip
+                            variant="tag"
                             label={tool.name}
                             href={tool.slug ? getCanonicalPath({ docType: 'tool', slug: tool.slug }) : undefined}
-                            color="grey"
                             size="sm"
                           />
                         </li>
@@ -241,7 +240,18 @@ export default function MetadataCard({
                 {hasCategories && (
                   <div className={styles.chipRow}>
                     <p className={styles.chipLabel}>Category</p>
-                    <TaxonomyChips categories={categories} size="sm" className={styles.chipList} />
+                    <ul className={styles.chipList}>
+                      {categories.map((cat) => (
+                        <li key={cat._id}>
+                          <Chip
+                            variant="tag"
+                            label={cat.name}
+                            href={cat.slug ? getCanonicalPath({ docType: 'category', slug: cat.slug }) : undefined}
+                            size="sm"
+                          />
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 )}
               </div>
@@ -257,7 +267,19 @@ export default function MetadataCard({
             {hasTags && (
               <div className={styles.chipRow}>
                 <p className={styles.chipLabel}>Tags</p>
-                <TaxonomyChips tags={tags} size="sm" className={styles.chipList} />
+                <ul className={styles.chipList}>
+                  {tags.map((tag, i) => (
+                    <li key={tag._id}>
+                      <Chip
+                        variant="tag"
+                        featured={i === 0}
+                        label={tag.name}
+                        href={tag.slug ? getCanonicalPath({ docType: 'tag', slug: tag.slug }) : undefined}
+                        size="sm"
+                      />
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>

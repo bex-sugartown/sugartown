@@ -4,9 +4,23 @@ import styles from './Chip.module.css';
 /** Named color presets for the Chip component. */
 export type ChipColor = 'pink' | 'seafoam' | 'lime' | 'violet' | 'amber' | 'grey';
 
+/** Status values for rule-dot chips */
+export type ChipStatus = 'evergreen' | 'validated' | 'exploring' | 'active' | 'draft' | 'deprecated';
+
 export interface ChipProps {
   /** Text label displayed inside the chip */
-  label: string;
+  label?: string;
+  /** Child content — used by rule-dot chips (variant="status"|"tag") */
+  children?: React.ReactNode;
+  /**
+   * Rule-dot variant (SUG-88). When set, activates the neutral mono box system.
+   * Omit for legacy color-mix chips (backward-compatible).
+   */
+  variant?: 'status' | 'tag';
+  /** Status key for the semantic dot color. Only meaningful when variant="status". */
+  status?: ChipStatus;
+  /** Pink rubric — first-child taxonomy highlight. Only applied when variant="tag". */
+  featured?: boolean;
   /**
    * When provided, the chip renders as an <a> tag.
    * Pass a full URL; routing is the caller's responsibility.
@@ -23,16 +37,10 @@ export interface ChipProps {
    * Named color preset from the Sugartown palette.
    * Sets the chip's accent via a CSS class (--chip-color token).
    * Overridden by `colorHex` if both are provided.
-   *
-   * Presets: pink (brand), seafoam (tools), lime (evergreen),
-   *          violet (project), amber (status/warning).
-   * Default (no color, no colorHex) = brand pink.
    */
   color?: ChipColor;
   /**
    * Optional hex colour to override the default pink accent.
-   * Injects `--chip-color` as an inline style; the CSS resolves
-   * background, border, and text from this single value.
    * Takes precedence over the `color` preset prop.
    */
   colorHex?: string;
@@ -45,7 +53,11 @@ export interface ChipProps {
 }
 
 export const Chip: React.FC<ChipProps> = ({
+  variant,
+  status,
+  featured,
   label,
+  children,
   href,
   onClick,
   isActive = false,
@@ -56,34 +68,39 @@ export const Chip: React.FC<ChipProps> = ({
   'aria-label': ariaLabel,
 }) => {
   const isInteractive = Boolean(href || onClick);
+  const isRuleDot = variant === 'status' || variant === 'tag';
 
   const classNames = [
     styles.chip,
-    isInteractive && styles.interactive,
-    isActive && styles.active,
+    isRuleDot && styles.ruleDot,
+    variant === 'status' && styles.variantStatus,
+    variant === 'tag' && styles.variantTag,
+    featured && variant === 'tag' && styles.featured,
+    !isRuleDot && isInteractive && styles.interactive,
+    !isRuleDot && isActive && styles.active,
     size === 'sm' && styles.sm,
-    // Named color preset class — sets --chip-color via CSS token.
-    // colorHex inline style takes precedence when both are present.
-    color && styles[color],
+    !isRuleDot && color && styles[color as string],
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  // Inject --chip-color so the CSS color-mix() expressions can resolve it
-  const chipStyle = colorHex
+  const chipStyle = !isRuleDot && colorHex
     ? ({ '--chip-color': colorHex } as React.CSSProperties)
     : undefined;
 
+  const dotEl = variant === 'status' && status
+    ? <span className={`${styles.dot} ${(styles as Record<string, string>)[`dot-${status}`] ?? ''}`} aria-hidden="true" />
+    : null;
+
+  const content = isRuleDot
+    ? <>{dotEl}{children ?? label}</>
+    : label;
+
   if (href) {
     return (
-      <a
-        href={href}
-        className={classNames}
-        style={chipStyle}
-        aria-label={ariaLabel}
-      >
-        {label}
+      <a href={href} className={classNames} style={chipStyle} aria-label={ariaLabel}>
+        {content}
       </a>
     );
   }
@@ -98,15 +115,14 @@ export const Chip: React.FC<ChipProps> = ({
         aria-label={ariaLabel}
         aria-pressed={isActive}
       >
-        {label}
+        {content}
       </button>
     );
   }
 
-  // Static span — no interaction, used for display-only taxonomy labels
   return (
     <span className={classNames} style={chipStyle} aria-label={ariaLabel}>
-      {label}
+      {content}
     </span>
   );
 };

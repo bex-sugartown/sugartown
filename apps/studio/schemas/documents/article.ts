@@ -254,7 +254,7 @@ export default defineType({
       // Tags must be references to published tag documents — no freeform strings.
       // The controlled vocabulary lives in the tag document collection.
       // See docs/taxonomy/controlled-vocabulary.md for the canonical list.
-      description: 'Conceptual and thematic tags from the controlled vocabulary. Do not create new tags without editorial review.',
+      description: 'Conceptual and thematic tags from the controlled vocabulary. The first tag in this list is rendered as the featured tag (pink rubric) on article detail, archive cards, and the article colophon — reorder to change which tag is featured. Do not create new tags without editorial review.',
       group: 'metadata',
       of: [
         defineArrayMember({

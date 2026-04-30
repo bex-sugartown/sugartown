@@ -239,12 +239,9 @@ export const Card: React.FC<CardProps> = ({
     <div className={styles.cardFolio}>
       {eyebrow && <div className={styles.folioLabel}>{eyebrow}</div>}
       {badgeValue && (
-        <span
-          className={[styles.folioStatus, STATUS_BADGE_CLASS[badgeValue]].filter(Boolean).join(' ')}
-          aria-label={`Status: ${badgeValue}`}
-        >
+        <Chip variant="status" status={badgeValue as any} size="sm" aria-label={`Status: ${badgeValue}`}>
           {badgeValue}
-        </span>
+        </Chip>
       )}
     </div>
   ) : null;
@@ -325,16 +322,15 @@ export const Card: React.FC<CardProps> = ({
         <div className={styles.chipGroup}>
           <span className={styles.chipGroupLabel}>{tagsLabel}</span>
           <ul className={styles.tagsRow} aria-label={tagsLabel}>
-            {tags.map(({ label, href: chipHref }) => (
+            {tags.map(({ label, href: chipHref }, i) => (
               <li key={label}>
                 <Chip
+                  variant="tag"
+                  featured={i === 0}
                   label={label}
                   href={chipHref}
                   size="sm"
-                  className={[
-                    styles.chipTag,
-                    chipHref && href ? styles.hasCardLink : '',
-                  ].filter(Boolean).join(' ') || undefined}
+                  className={chipHref && href ? styles.hasCardLink : undefined}
                 />
               </li>
             ))}
