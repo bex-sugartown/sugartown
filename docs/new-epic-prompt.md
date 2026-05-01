@@ -82,7 +82,11 @@ Full filename: `docs/backlog/SUG-{N}-{kebab-name}.md`
 
 ## STEP 3 — CREATE BACKLOG STUB
 
-Create the file at `docs/backlog/SUG-{N}-{kebab-name}.md`:
+Create the file at `docs/backlog/SUG-{N}-{kebab-name}.md`. This is not a parking stub — it is the execution brief. Fill every section from the invocation context. Do not write `TODO` anywhere. If a section requires a codebase read that cannot happen now (e.g. auditing GROQ projections), write a **specific activation audit instruction** instead: "Activation audit: read `queries.js` `caseStudyBySlugQuery` before adding projection."
+
+The merge strategy label convention (from CLAUDE.md):
+- `(a)` → `(a) Merge-as-you-go — one commit per phase, one mini-release at end`
+- `(b)` → `(b) Single close-out — one long-lived branch, one mini-release at the end`
 
 ```markdown
 ---
@@ -99,35 +103,58 @@ Create the file at `docs/backlog/SUG-{N}-{kebab-name}.md`:
 
 ## Background
 
-TODO — why this exists, what problem it solves, what the current state is.
+{2–3 sentences derived from the invocation args, covering:}
+{- Current state: what gap or problem exists on the live site today}
+{- Why now: the trigger (business shift, technical debt, upstream epic, user need)}
+{- Reference surfaces: which pages, doc types, or schemas are affected}
+
+## Objective
+
+{One paragraph: what exists after this epic that didn't before. Name every layer this epic touches: Sanity schema / GROQ query / React render / content (Studio copy edit). Explicitly exclude layers not in scope.}
 
 ## Scope
 
-TODO — bullet list of what's in scope. Each item should map to an acceptance criterion.
+{Specific, layer-named deliverable bullets derived from the description and tags. Each bullet must:}
+{- Be independently completable}
+{- Name the layer it touches: schema / query / frontend / content / tooling / Storybook}
+{- Be specific enough to write an AC for it}
 
-- [ ] ...
+- [ ] {specific deliverable — layer: X}
+- [ ] {specific deliverable — layer: Y}
 
 ## Phases
 
-TODO — if this epic has phases, outline them here. If it's a single-phase epic, remove this section.
+{Single-phase: remove this section entirely.}
+{Multi-phase: outline here. Derive from scope — if all bullets touch the same layer, it's single-phase. Name what ships at the end of each phase.}
 
 ## Acceptance criteria
 
-- [ ] ...
+{Falsifiable, testable ACs derived from scope bullets. "It works" is not valid.}
+{If this epic touches Sanity content: reference the Content Write Gate — "proposal approved before patch".}
+{If this epic touches schema: "schema deployed and MCP writes succeed".}
+
+- [ ] {specific, testable outcome}
+- [ ] {specific, testable outcome}
 
 ## Technical notes
 
-TODO — constraints, dependencies, known gotchas.
+{Cover every applicable item:}
+{- **Content Write Gate**: if this is an editorial/content epic, state it fires and name the affected surfaces}
+{- **Schema changes**: if schema tag or description mentions new fields, name the fields and whether a deploy is required}
+{- **Upstream dependencies**: any epics this depends on (e.g. schema change must land before content edit)}
+{- **Activation audits**: specific GROQ queries or file reads needed before execution begins — write them out, not "check the schema"}
+{- **Model recommendation**: pure content epics → /model sonnet; schema + render epics → /model opusplan}
+
+## Non-Goals
+
+{Explicit exclusions, each deliberately chosen. If excluding a doc type or layer, state why.}
+{Do not leave this section blank — "none" is a valid answer but must be written explicitly.}
 
 ## Related
 
 - **Linear:** [SUG-{N}](https://linear.app/sugartown/issue/SUG-{N})
+- **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
 ```
-
-Fill in the header block from Step 0 data. Leave all TODO sections as-is — the human fills the spec when activating the epic. The merge strategy label follows the convention from CLAUDE.md:
-
-- `(a)` → `(a) Merge-as-you-go — one commit per phase, one mini-release at end`
-- `(b)` → `(b) Single close-out — one long-lived branch, one mini-release at the end`
 
 ---
 
@@ -180,8 +207,9 @@ Print:
   ✅  Priority stack: added to {section name}
   ✅  Committed: docs(sug-{N}): add {epic name} backlog epic
 
-Next: fill in the spec when ready to activate this epic.
-Use docs/epic-template.md as a guide for the full spec.
+Epic doc is a filled execution brief — Background, Objective, Scope, AC, and Technical Notes are populated.
+At activation: complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify
+using docs/epic-template.md as the reference.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -191,7 +219,8 @@ Use docs/epic-template.md as a guide for the full spec.
 
 - Never guess the SUG-{N} number — always use the one returned by Linear after issue creation.
 - Never write to disk before Step 1 completes (no ID, no file).
-- Never pre-fill spec sections with invented content — stubs only.
+- Never leave Background, Objective, Scope, or Acceptance Criteria as `TODO` — fill from invocation context.
+- For sections requiring a codebase audit (Doc Type Coverage, Query Layer, Files to Modify), write a specific activation audit instruction, not `TODO`.
 - Never create a duplicate: before Step 1, grep `docs/backlog/` for an existing file with a similar name. If one exists, tell the human and ask for confirmation before proceeding.
 
 ---
