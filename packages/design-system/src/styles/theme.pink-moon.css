@@ -92,6 +92,8 @@
   --st-margin-bg:       #1b2033;
   --st-margin-divider:  #2d3148;
   --st-margin-outline:  #4a5068;
+  --st-metadata-label-bg: var(--st-color-midnight-900);
+  --st-metadata-body-bg:  var(--st-color-midnight-700);
 
   /* Label tokens — dark override (charcoal-400 shared with light for consistency) */
   --st-label-color:       var(--st-color-charcoal-400);
