@@ -186,6 +186,7 @@
   /* Chip rule-dot — dark overrides (SUG-88) */
   --st-chip-fg:             var(--st-color-softgrey-200);
   --st-chip-rubric-bg:      color-mix(in srgb, var(--st-color-pink) 18%, var(--st-color-midnight-800));
+  --st-chip-rubric-border:  var(--st-color-pink);
   --st-chip-rubric-fg:      var(--st-color-pink);
   --st-chip-dot-evergreen:  var(--st-color-lime);
   --st-chip-dot-validated:  var(--st-color-seafoam);

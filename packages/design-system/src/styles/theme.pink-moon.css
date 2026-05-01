@@ -95,6 +95,11 @@
   --st-metadata-label-bg: var(--st-color-midnight-900);
   --st-metadata-body-bg:  var(--st-color-midnight-700);
 
+  /* Featured/rubric chip — first taxonomy tag in Card (dark: transparent pink, not white-mix) */
+  --st-chip-rubric-bg:     color-mix(in srgb, var(--st-color-pink) 18%, var(--st-color-midnight-800));
+  --st-chip-rubric-border: var(--st-color-pink);
+  --st-chip-rubric-fg:     var(--st-color-pink);
+
   /* Label tokens — dark override (charcoal-400 shared with light for consistency) */
   --st-label-color:       var(--st-color-charcoal-400);
   --st-label-color-badge: var(--st-color-softgrey-500);
