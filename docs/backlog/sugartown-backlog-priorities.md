@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-04-30 · v0.23.3 · SUG-90 consulting pivot executing — backlog annotated with pivot impact
+> Updated 2026-05-01 · v0.23.3 · SUG-91 added — case study outcomes narrative (consulting pivot follow-through)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-90 executing — Contact, Services, and About page Sanity drafts patched and pending Studio publish. Consulting/contract availability now surfaces from all three pages. Next: close out SUG-90, then evaluate SUG-81 vs. a case study narrative epic (see §Consulting pivot notes below).
+> **⚑ Current focus:** SUG-90 shipped ✅ — Contact, Services, About published. SUG-91 (case study outcomes narrative) is the consulting pivot follow-through and the next pick-up.
 
 ---
 
@@ -20,7 +20,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** — Reframe sugartown.io to surface consulting/contract availability without closing off FTE: Services page outcome framing, availability signal on hero/About, case study narrative shifted to client outcomes, Contact tone, /platform surfaced from key entry points. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. <br>_⚡ Executing — Sanity drafts pending publish: Contact (Work with me. hero + mailto CTA), Services (secondary button fixed), About (hero subheading + §7 reframed as "Currently")._ | `Editorial` `UX` | 🟢 Next |
-| 2 | **Case study outcomes narrative** — No Linear issue yet. Shift existing case study body copy from process narrative to client outcomes framing: what changed, what was delivered, measurable impact. High consulting conversion value — the case studies are the primary proof of work for prospective clients. Needs a dedicated editorial pass and possibly a new outcome summary field in schema. _⬆ Elevated by consulting pivot — create Linear issue before next sprint._ | `Editorial` `Content` | 🟢 Next |
+| 2 | **[SUG-91](https://linear.app/sugartown/issue/SUG-91) · Case study outcomes narrative** — Shift existing case study body copy from process narrative to client outcomes framing: what changed, what was delivered, measurable impact. High consulting conversion value — the case studies are the primary proof of work for prospective clients. Needs a dedicated editorial pass and possibly a new outcome summary field in schema. Epic: `docs/backlog/SUG-91-case-study-outcomes-narrative.md`. <br>_⬆ Elevated by consulting pivot._ | `Content` `Schema` | 🟢 Next |
 | 3 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. <br>_⬇ Deprioritized by consulting pivot — KG visualization serves content-curious returning visitors; consulting prospects need Services/Contact/case studies first. Valuable long-term but not a conversion lever. Push below case study outcomes work._ | `UX` `Infrastructure` | 🟣 Soon |
 
 ---
