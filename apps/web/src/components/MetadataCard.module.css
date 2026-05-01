@@ -41,6 +41,10 @@
   border-right: 1px solid var(--st-color-rule-accent);
 }
 
+.scalarField:last-child {
+  border-right: none;
+}
+
 .scalarLabel {
   font-family: var(--st-label-font);
   font-size: var(--st-metadata-density-label-size);
