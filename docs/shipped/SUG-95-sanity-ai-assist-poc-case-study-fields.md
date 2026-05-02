@@ -1,0 +1,173 @@
+---
+**Epic:** SUG-95 — Sanity AI Assist POC — case study field generation
+**Linear Issue:** [SUG-95](https://linear.app/sugartown/issue/SUG-95)
+**Status:** Backlog
+**Priority:** 🟢 Next
+**Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
+---
+
+# SUG-95 — Sanity AI Assist POC — case study field generation
+
+Install and configure the `@sanity/assist` plugin. Define `exclude` rules for fields that must never be AI-generated. Author field instructions for the case study AEO/GEO fields. Test the Content Agent bulk-pass on a single case study. This epic establishes the pattern all subsequent content epics (SUG-91, 92, 93) inherit — it ships before SUG-91 activates.
+
+## Background
+
+Sanity has three distinct AI tools: AI Assist (Studio inline, `@sanity/assist` plugin), Content Agent (Dashboard conversational agent), and Agent Actions (programmatic API). All three are confirmed available on the Growth plan. None are currently installed or configured on this project.
+
+The fields being added in SUG-91–93 — `challengeSummary`, `geoSummary`, `aeoSummary`, `keyQuestions[]`, `outcomes[].impactStatement` — are precisely the kind of AI-generatable synthesis fields these tools are designed for. Without this POC first, each content epic would independently decide how AI Assist interacts with its fields, creating inconsistent behaviour across the schema.
+
+This epic settles three questions once: which fields get AI assist, which are explicitly excluded, and what the human review checkpoints look like in practice. The answers become schema conventions inherited by SUG-91+.
+
+## Objective
+
+After this epic: `@sanity/assist` is installed and active in `apps/studio`. All sensitive/factual fields carry `options.aiAssist: { exclude: true }`. The five target case study fields have authored field instructions accessible via the ✨ menu in Studio. The Content Agent workflow for a bulk case study pass has been tested on one document. A conventions doc captures the exclude pattern and instruction authoring guidelines for future schema epics. Layers touched: schema (options config), Studio plugin config, documentation.
+
+## Schema field proposal
+
+No new fields. This epic adds `options.aiAssist` configuration to existing and forthcoming fields — it does not create them.
+
+| Field | AI Assist config | Rationale |
+|-------|-----------------|-----------|
+| `slug`, `publishedAt`, `updatedAt`, `legacySource` | `exclude: true` | Structural/factual — AI must never touch |
+| `title` | `exclude: true` | Internal reference title — set by human, used for slugs |
+| `client`, `employer`, `contractType`, `role`, `dateRange` | `exclude: true` | Factual CV data — AI cannot know these |
+| `outcomes[].metric`, `valueBefore`, `valueAfter`, `evidenceType` | `exclude: true` | Factual measurements — AI cannot invent |
+| `challengeSummary` | AI Assist enabled, field instruction authored | Synthesis from body copy — AI drafts, human refines |
+| `outcomes[].impactStatement` | AI Assist enabled, field instruction authored | Narration of metric + value — AI drafts, human refines |
+| `geoSummary` | AI Assist enabled, field instruction authored | Structured fact synthesis from schema fields |
+| `aeoSummary` | AI Assist enabled, field instruction authored | Direct-answer draft — human must rewrite before publish |
+| `keyQuestions[]` | AI Assist enabled, field instruction authored | Extraction from body + outcomes — human trims to 2–4 |
+
+## Scope
+
+- [ ] Install `@sanity/assist` plugin: `pnpm add @sanity/assist` from `apps/studio/` — layer: tooling
+- [ ] Register `assist()` in `apps/studio/sanity.config.ts` with `temperature: 0.3` — layer: schema
+- [ ] Add `options.aiAssist: { exclude: true }` to all factual/structural fields across `caseStudy.ts` (see table above) — layer: schema
+- [ ] Author field instructions for `challengeSummary`, `impactStatement`, `geoSummary`, `aeoSummary`, `keyQuestions[]` in Studio UI (stored as `AI Context` documents, not in schema code) — layer: content configuration
+- [ ] Test AI Assist generation for each of the five fields on one case study document — layer: QA
+- [ ] Test Content Agent bulk-pass: use Dashboard agent to draft `geoSummary` for all case studies in one conversational pass, review proposed changes before confirming — layer: QA
+- [ ] Write `docs/conventions/ai-assist-conventions.md` — exclude pattern rules, instruction authoring guidelines, field tier classification (factual/synthesis/brand-voice) — layer: documentation
+- [ ] Update `sugartown-backlog-priorities.md` to mark SUG-95 as prerequisite for SUG-91
+
+## Phases
+
+Single phase — plugin install, configuration, instruction authoring, and POC test are all low-risk and ship together.
+
+## Acceptance criteria
+
+- [ ] `@sanity/assist` installed; ✨ icon appears on target fields in Studio for a `caseStudy` document
+- [ ] ✨ icon does NOT appear on excluded fields (slug, title, client, role, dateRange, outcomes metrics)
+- [ ] Clicking ✨ on `challengeSummary` shows an authored instruction, not a blank prompt
+- [ ] Running the `challengeSummary` instruction on a published case study produces a coherent draft in the field — editor reviews before saving
+- [ ] Content Agent: sending "Draft geoSummary for all case studies based on client, role, tools, and outcomes fields" produces a Changes tab with reviewable proposals — nothing written to dataset until Confirm clicked
+- [ ] `docs/conventions/ai-assist-conventions.md` exists and documents: the three field tiers, the exclude pattern, the instruction authoring format, and the Content Agent bulk-pass workflow
+- [ ] All existing `validate:tokens` checks pass (no schema token changes in this epic)
+
+## Technical notes
+
+- **Growth plan required**: AI Assist and Content Agent are paid features. Confirm project plan before activating. Token is created via Studio UI (✨ → Enable) — not via config file or environment variable.
+- **`AI Context` document type**: the `@sanity/assist` plugin registers a new document type. If `apps/studio` uses Structure Builder, add `S.documentTypeListItem(contextDocumentTypeName)` to the structure config. Import `contextDocumentTypeName` from `@sanity/assist`.
+- **Field instructions live in Sanity, not schema**: the authored instructions (the text you type in the ✨ panel) are stored as `AI Context` documents in the dataset, not in schema code. They are content, not config. This means they don't ship with a schema deploy — they must be re-authored per dataset if a new dataset is created.
+- **Agent Actions (programmatic)**: not in scope for this POC. `client.agent.action.generate()` requires `apiVersion: 'vX'` (experimental) and a deployed schema ID. Defer to SUG-93 if a scripted bulk-generation pass proves useful. For now, Content Agent (Dashboard UI) covers the bulk use case with a built-in human gate.
+- **Human-in-the-loop summary** (document for conventions doc):
+  - AI Assist: editor clicks Generate → reviews output in field → saves draft → publishes. Two human checkpoints.
+  - Content Agent: agent proposes Changes → editor Confirms → drafts created → editor publishes. Two human checkpoints.
+  - Agent Actions (programmatic): writes directly to drafts. Content Write Gate in CLAUDE.md is the only gate. Treat as MCP-equivalent — proposal table required before use.
+- **Temperature**: `0.3` default (repeatable, not creative). Raise to `0.5` for `keyQuestions[]` if the output is too formulaic — `aeoSummary` and `geoSummary` should stay at `0.3`.
+- **Schema deploy not required**: this epic adds `options.aiAssist` to existing fields — no new fields, no type changes, no migration. However, a schema deploy after the options are added ensures MCP tools see the updated configuration.
+- **Doc Type Coverage**: `caseStudy` only for the POC. Conventions established here apply to `article` and `node` in future passes.
+- **Model recommendation**: `/model sonnet` — no architectural decisions, configuration and documentation work only.
+
+## Non-Goals
+
+- AI-assisted image generation (requires `options.aiAssist.imageInstructionField` config — separate concern)
+- Embeddings index for reference field AI assist (Embeddings Index API deprecated; replacement not yet available per Sanity docs)
+- Agent Actions scripted pipeline (programmatic bulk generation) — defer to SUG-93 if needed
+- `article` or `node` AI Assist configuration — conventions established here apply, but configuration is out of scope
+- Full content pass on case studies — that is SUG-91, 92, 93
+
+## Related
+
+- **Linear:** [SUG-95](https://linear.app/sugartown/issue/SUG-95)
+- **SUG-91:** [Case study outcomes narrative](https://linear.app/sugartown/issue/SUG-91) — upstream dependency on this epic; SUG-95 ships first
+- **SUG-93:** [Case study AEO/GEO content layer](https://linear.app/sugartown/issue/SUG-93) — aeoSummary/geoSummary/keyQuestions[] field instructions authored here are the generation substrate for SUG-93's editorial pass
+- **Sanity AI Assist docs:** `https://www.sanity.io/docs/studio/install-and-configure-sanity-ai-assist`
+- **Sanity Content Agent docs:** `https://www.sanity.io/docs/content-agent/introduction`
+- **Epic template:** `docs/epic-template.md`
+
+---
+
+## Addendum — Free plan backup + 4-day trial strategy
+
+*Added 2026-05-02. Trial expires in 4 days.*
+
+### What the trial includes (and what disappears after)
+
+Every new Sanity project gets a Growth plan trial automatically. The trial unlocks AI Assist, Content Agent, private datasets, Comments, and Scheduled Drafts — but with Free plan resource limits (10k documents, 2 datasets, 2k unique attributes).
+
+When the trial ends, the project auto-downgrades to Free unless upgraded to Growth. **All Sanity-native AI features disappear on the free tier:**
+
+| Feature | Trial | Free plan | Growth plan |
+|---------|-------|-----------|-------------|
+| AI Assist (`@sanity/assist`) | Available | Not available | Available |
+| Content Agent (Dashboard) | Available | Not available | Available |
+| Agent Actions (API) | Available (metered) | Not available | Available (metered) |
+| GROQ queries | Available | Available | Available |
+| `patch_document_from_json` (MCP) | Available | Available | Available |
+| Studio CRUD | Available | Available | Available |
+
+### Free plan backup: Claude Code + MCP
+
+Everything Sanity AI does, the existing Claude Code + MCP stack can replicate — at a different interface, with the same human-review checkpoints. The MCP tools (`query_documents`, `patch_document_from_json`) work on the free plan. They are just HTTP API calls with no AI layer.
+
+The AI layer moves from Sanity's servers to this conversation:
+
+| Sanity AI tool | Free plan equivalent | Human gate |
+|---------------|---------------------|------------|
+| AI Assist (field ✨) | Claude Code reads the document via GROQ, drafts the field value, presents before/after table for approval, patches via `patch_document_from_json` | Content Write Gate (before/after table) |
+| Content Agent (bulk pass) | Claude Code runs GROQ to find all case studies missing a field, drafts all values in one session, presents a consolidated proposal table, patches on approval | Content Write Gate — same gate, different surface |
+| Agent Actions (scripted) | Claude Code script using `@sanity/client` directly | Content Write Gate — no change |
+
+The practical difference between Sanity AI Assist and the Claude Code backup:
+- **Sanity AI Assist**: editor works in Studio, field by field, clicks ✨ per field, no terminal involvement
+- **Claude Code backup**: content session in Claude Code, field values drafted in conversation, one approval covers a document or a batch, patches run from the MCP layer
+
+Both produce drafts. Both require human publish. The human-in-the-loop story is structurally identical. The UX surface is different.
+
+**The exclude configuration still matters on the free plan.** Even without the ✨ plugin active, documenting which fields are factual-only (slug, dates, CV fields, outcome metrics) establishes a convention that governs Claude Code's Content Write Gate behaviour too. The conventions doc produced in this epic applies equally to both tiers.
+
+### 4-day trial: what to test and in what order
+
+The trial window is the only chance to validate the Sanity-native AI experience against the Claude Code backup before the upgrade decision. Prioritise in this order:
+
+**Day 1 — Install and configure (blocking)**
+- Install `@sanity/assist`, enable the token via Studio UI, confirm ✨ appears
+- Add `exclude: true` to all factual fields in `caseStudy.ts`, deploy schema, confirm ✨ is absent from excluded fields
+- This is the gate: if configuration doesn't work, the rest of the trial has no value
+
+**Day 2 — Field instruction authoring and single-document test**
+- Author field instructions for `challengeSummary`, `geoSummary`, `outcomes[].impactStatement` in Studio
+- Run each instruction on one real case study document
+- Record: output quality, number of edits needed before saving, time per field vs. Claude Code equivalent
+- This is the quality gate: is the Sanity AI output good enough to be a useful starting point?
+
+**Day 3 — Content Agent bulk-pass test**
+- Use Content Agent Dashboard: "Draft geoSummary for all case studies based on client, role, tools, and outcomes fields"
+- Review the Changes tab — check all proposals before confirming anything
+- Confirm to drafts on 2–3 documents, review the drafts in Studio
+- Record: proposal accuracy, time to review 5 documents vs. doing the same via Claude Code
+
+**Day 4 — Decision day**
+- Compare: Sanity AI output quality vs. Claude Code output quality for the same fields
+- Compare: Studio UX (✨ inline, no terminal) vs. Claude Code UX (conversation, MCP patch)
+- Assess: is the Growth plan upgrade worth it for the editorial workflow improvement?
+- If yes: upgrade before trial expires. If no: document the Claude Code backup as the canonical workflow and close this epic without the plugin.
+
+### Upgrade decision criteria
+
+Upgrade to Growth if all three are true:
+1. AI Assist field output quality is comparable to Claude Code output — fewer than 3 significant edits needed per field on average
+2. The Studio-native UX meaningfully reduces friction for the `aeoSummary` / `geoSummary` editorial pass (the high-frequency content work in SUG-93)
+3. The Content Agent bulk-pass on Day 3 produced accurate, reviewable proposals — the Changes tab was useful, not a liability
+
+Stay on free plan + Claude Code backup if any of the above fail. The backup is fully functional — it just requires a terminal session rather than a Studio click.

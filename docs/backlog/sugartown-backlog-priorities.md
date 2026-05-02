@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-90 shipped ✅ — Contact, Services, About published. SUG-91 (case study outcomes narrative) is the consulting pivot follow-through and the next pick-up.
+> **⚑ Current focus:** SUG-90 shipped ✅ — Contact, Services, About published. SUG-95 shipped ✅ — @sanity/assist installed, caseStudy exclude config in place, conventions doc written. SUG-91 (case study outcomes narrative) is the next pick-up.
 
 ---
 
@@ -20,7 +20,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** — Reframe sugartown.io to surface consulting/contract availability without closing off FTE: Services page outcome framing, availability signal on hero/About, case study narrative shifted to client outcomes, Contact tone, /platform surfaced from key entry points. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. <br>_⚡ Executing — Sanity drafts pending publish: Contact (Work with me. hero + mailto CTA), Services (secondary button fixed), About (hero subheading + §7 reframed as "Currently")._ | `Editorial` `UX` | 🟢 Next |
-| 2 | **[SUG-95](https://linear.app/sugartown/issue/SUG-95) · Sanity AI Assist POC — case study field generation** — Install `@sanity/assist`, configure exclude rules for factual fields, author field instructions for AEO/GEO fields, test Content Agent bulk-pass. Prerequisite for SUG-91. Epic: `docs/backlog/SUG-95-sanity-ai-assist-poc-case-study-fields.md`. | `Schema` `Tooling` `AI` | 🟢 Next |
+| 2 | **[SUG-95](https://linear.app/sugartown/issue/SUG-95) · Sanity AI Assist POC — case study field generation** ✅ Shipped v0.23.3. `@sanity/assist` installed, caseStudy exclude config deployed, `docs/conventions/ai-assist-conventions.md` written. Epic: `docs/shipped/SUG-95-sanity-ai-assist-poc-case-study-fields.md`. | `Schema` `Tooling` `AI` | ✅ Shipped |
 | 3 | **[SUG-91](https://linear.app/sugartown/issue/SUG-91) · Case study outcomes narrative** — Enhance existing `outcomes[]` field (unhide + add before/after evidence structure), add `challengeSummary` field, editorial pass on all case study body copy to lead with client outcomes. Schema + GROQ + render + content. Epic: `docs/backlog/SUG-91-case-study-outcomes-narrative.md`. <br>_⬆ Elevated by consulting pivot. Rescoped 2026-05-02: outcomes[] enhancement replaces the originally proposed flat outcomesSummary field._ | `Content` `Schema` | 🟢 Next |
 | 3 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. <br>_⬇ Deprioritized by consulting pivot — KG visualization serves content-curious returning visitors; consulting prospects need Services/Contact/case studies first. Valuable long-term but not a conversion lever. Push below case study outcomes work._ | `UX` `Infrastructure` | 🟣 Soon |
 
