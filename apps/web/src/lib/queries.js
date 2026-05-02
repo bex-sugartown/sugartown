@@ -883,6 +883,15 @@ export const caseStudyBySlugQuery = `
         reportType
       }
     },
+    challengeSummary,
+    outcomes[]{
+      _key,
+      metric,
+      valueBefore,
+      valueAfter,
+      impactStatement,
+      evidenceType
+    },
     aiDisclosure,
     authors[]->{${PERSON_FRAGMENT}},
     status,
