@@ -1,3 +1,4 @@
+import Chip from '../chip/Chip'
 import styles from './StatTile.module.css'
 
 /**
@@ -11,6 +12,7 @@ export default function StatTile({
   value,
   unit,
   sub,
+  chip,
   bar,
   legend = false,
   size = 'md',
@@ -35,6 +37,8 @@ export default function StatTile({
       </span>
 
       {sub && <span className={styles.sub}>{sub}</span>}
+
+      {chip && <Chip variant="tag" label={chip} className={styles.chip} />}
 
       {bar?.segments?.length > 0 && (
         <div className={styles.barWrap}>

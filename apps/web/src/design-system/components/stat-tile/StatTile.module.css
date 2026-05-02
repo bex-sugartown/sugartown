@@ -54,6 +54,12 @@
   line-height: 1.4;
 }
 
+/* Positioning only — Chip component handles visual styling */
+.chip {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
 /* ── Breakdown bar ─────────────────────────────────────── */
 
 .barWrap {

@@ -116,6 +116,7 @@
 
 /* ── Challenge Summary ────────────────────────────────────────────────────── */
 .challengeSummary {
+  align-self: start;
   margin-bottom: var(--st-space-section-break-detail);
   padding: var(--st-space-5) var(--st-space-6);
   border-left: 3px solid var(--st-color-brand-primary);
@@ -124,108 +125,63 @@
 
 .challengeSummaryLabel {
   font-family: var(--st-label-font);
-  font-size: var(--st-font-caption);
-  color: var(--st-color-text-muted);
-  margin: 0 0 var(--st-space-2);
-  letter-spacing: 0.08em;
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
   text-transform: uppercase;
+  color: var(--st-label-color);
+  margin: 0 0 var(--st-space-2);
 }
 
 .challengeSummaryText {
-  font: var(--st-font-body);
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-md);
+  line-height: var(--st-line-height-relaxed);
   color: var(--st-color-text-default);
   margin: 0;
-  line-height: 1.65;
 }
 
 /* ── Outcome Strip ────────────────────────────────────────────────────────── */
 .outcomeStrip {
+  align-self: start;
   margin-bottom: var(--st-space-section-break-detail);
 }
 
+/* Label + extending rule — mirrors RecentContentSection .heading pattern */
 .outcomeStripLabel {
   font-family: var(--st-label-font);
-  font-size: var(--st-font-caption);
-  color: var(--st-color-text-muted);
-  margin: 0 0 var(--st-space-3);
-  letter-spacing: 0.08em;
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
   text-transform: uppercase;
-  padding-bottom: var(--st-space-2);
-  border-bottom: 1px solid var(--st-color-border-subtle);
-}
-
-.outcomeGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  color: var(--st-label-color);
+  margin: 0 0 var(--st-space-4);
+  display: flex;
+  align-items: center;
   gap: var(--st-space-4);
 }
 
-.outcomeCard {
-  padding: var(--st-space-4) var(--st-space-5);
-  border: 1px solid var(--st-color-border-default);
-  background: var(--st-color-bg-surface);
-  display: flex;
-  flex-direction: column;
-  gap: var(--st-space-2);
-}
-
-.outcomeMetric {
-  font-family: var(--st-label-font);
-  font-size: var(--st-font-caption);
-  color: var(--st-color-text-muted);
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.outcomeValues {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--st-space-2);
-  margin: 0;
-}
-
-.outcomeValueBefore {
-  font: var(--st-font-body);
-  color: var(--st-color-text-muted);
-  font-size: 0.85rem;
-  text-decoration: line-through;
-}
-
-.outcomeArrow {
-  color: var(--st-color-text-muted);
-  font-size: 0.85rem;
-}
-
-.outcomeValueAfter {
-  font: var(--st-font-heading-4);
-  color: var(--st-color-brand-primary);
-  font-size: 1.05rem;
-  line-height: 1.2;
-}
-
-.outcomeImpact {
-  font: var(--st-font-body);
-  color: var(--st-color-text-default);
-  margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.5;
+.outcomeStripLabel::after {
+  content: '';
   flex: 1;
+  height: 2px;
+  background: var(--st-color-ink);
 }
 
-.outcomeEvidence {
-  font-family: var(--st-label-font);
-  font-size: var(--st-font-caption);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 2px var(--st-space-2);
-  border-radius: 2px;
-  align-self: flex-start;
-  margin-top: auto;
-  background: var(--st-color-bg-subtle);
-  color: var(--st-color-text-muted);
+/* 1px-gap tileGrid pattern — mirrors TrustReportSection.module.css.
+   Parent bg shows through gap as hairline rules; StatTile covers it with its own bg. */
+.outcomeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--st-color-rule-accent);
   border: 1px solid var(--st-color-border-subtle);
+}
+
+@media (min-width: 640px) {
+  .outcomeGrid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
 }
 
 /* Page-type eyebrow strip — replaces MetadataCard on /:slug root pages.
