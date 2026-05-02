@@ -3,7 +3,6 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {colorInput} from '@sanity/color-input'
 import {codeInput} from '@sanity/code-input'
-import {assist, contextDocumentTypeName} from '@sanity/assist'
 import {schemaTypes} from './schemas'
 import {autoTimestampsPlugin} from './plugins/autoTimestamps'
 
@@ -74,7 +73,6 @@ export default defineConfig({
                           .documentId('siteSettings')
                       ),
                     S.documentTypeListItem('navigation').title('Navigation Menus'),
-                    S.documentTypeListItem(contextDocumentTypeName).title('AI Context'),
                   ])
               ),
 
@@ -112,11 +110,6 @@ export default defineConfig({
     colorInput(),
     codeInput(),
     autoTimestampsPlugin(),
-    assist({
-      assist: {
-        temperature: 0.3,
-      },
-    }),
   ],
 
   document: {

@@ -17,7 +17,6 @@
     "sanity"
   ],
   "dependencies": {
-    "@sanity/assist": "^6.0.5",
     "@sanity/code-input": "^7.0.8",
     "@sanity/color-input": "^6.0.3",
     "@sanity/icons": "^3.7.4",
