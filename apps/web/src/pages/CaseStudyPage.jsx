@@ -60,6 +60,47 @@ export default function CaseStudyPage() {
           draftBadge={<DraftBadge docId={caseStudy._id} hasDraft={hasDraft} />}
         />
 
+        {caseStudy.challengeSummary && (
+          <div className={`${styles.detailPageFullSpan} ${styles.challengeSummary}`}>
+            <p className={styles.challengeSummaryLabel}>Challenge</p>
+            <p className={styles.challengeSummaryText}>{caseStudy.challengeSummary}</p>
+          </div>
+        )}
+
+        {caseStudy.outcomes?.length > 0 && (
+          <div className={`${styles.detailPageFullSpan} ${styles.outcomeStrip}`}>
+            <p className={styles.outcomeStripLabel}>Outcomes</p>
+            <div className={styles.outcomeGrid}>
+              {caseStudy.outcomes.map((outcome, i) => (
+                <div key={outcome._key ?? i} className={styles.outcomeCard}>
+                  <p className={styles.outcomeMetric}>{outcome.metric}</p>
+                  {(outcome.valueBefore || outcome.valueAfter) && (
+                    <p className={styles.outcomeValues}>
+                      {outcome.valueBefore && (
+                        <span className={styles.outcomeValueBefore}>{outcome.valueBefore}</span>
+                      )}
+                      {outcome.valueBefore && outcome.valueAfter && (
+                        <span className={styles.outcomeArrow} aria-hidden="true">→</span>
+                      )}
+                      {outcome.valueAfter && (
+                        <span className={styles.outcomeValueAfter}>{outcome.valueAfter}</span>
+                      )}
+                    </p>
+                  )}
+                  {outcome.impactStatement && (
+                    <p className={styles.outcomeImpact}>{outcome.impactStatement}</p>
+                  )}
+                  {outcome.evidenceType && (
+                    <span className={styles.outcomeEvidence} data-evidence={outcome.evidenceType}>
+                      {outcome.evidenceType}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {restSections.length > 0 && (
           <PageSections sections={restSections} context="detail" />
         )}

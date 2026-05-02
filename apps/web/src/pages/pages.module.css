@@ -114,6 +114,120 @@
   margin-bottom: var(--st-space-section-break-detail);
 }
 
+/* ── Challenge Summary ────────────────────────────────────────────────────── */
+.challengeSummary {
+  margin-bottom: var(--st-space-section-break-detail);
+  padding: var(--st-space-5) var(--st-space-6);
+  border-left: 3px solid var(--st-color-brand-primary);
+  background: var(--st-color-bg-subtle);
+}
+
+.challengeSummaryLabel {
+  font-family: var(--st-label-font);
+  font-size: var(--st-font-caption);
+  color: var(--st-color-text-muted);
+  margin: 0 0 var(--st-space-2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.challengeSummaryText {
+  font: var(--st-font-body);
+  color: var(--st-color-text-default);
+  margin: 0;
+  line-height: 1.65;
+}
+
+/* ── Outcome Strip ────────────────────────────────────────────────────────── */
+.outcomeStrip {
+  margin-bottom: var(--st-space-section-break-detail);
+}
+
+.outcomeStripLabel {
+  font-family: var(--st-label-font);
+  font-size: var(--st-font-caption);
+  color: var(--st-color-text-muted);
+  margin: 0 0 var(--st-space-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding-bottom: var(--st-space-2);
+  border-bottom: 1px solid var(--st-color-border-subtle);
+}
+
+.outcomeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--st-space-4);
+}
+
+.outcomeCard {
+  padding: var(--st-space-4) var(--st-space-5);
+  border: 1px solid var(--st-color-border-default);
+  background: var(--st-color-bg-surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-2);
+}
+
+.outcomeMetric {
+  font-family: var(--st-label-font);
+  font-size: var(--st-font-caption);
+  color: var(--st-color-text-muted);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.outcomeValues {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--st-space-2);
+  margin: 0;
+}
+
+.outcomeValueBefore {
+  font: var(--st-font-body);
+  color: var(--st-color-text-muted);
+  font-size: 0.85rem;
+  text-decoration: line-through;
+}
+
+.outcomeArrow {
+  color: var(--st-color-text-muted);
+  font-size: 0.85rem;
+}
+
+.outcomeValueAfter {
+  font: var(--st-font-heading-4);
+  color: var(--st-color-brand-primary);
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.outcomeImpact {
+  font: var(--st-font-body);
+  color: var(--st-color-text-default);
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.outcomeEvidence {
+  font-family: var(--st-label-font);
+  font-size: var(--st-font-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px var(--st-space-2);
+  border-radius: 2px;
+  align-self: flex-start;
+  margin-top: auto;
+  background: var(--st-color-bg-subtle);
+  color: var(--st-color-text-muted);
+  border: 1px solid var(--st-color-border-subtle);
+}
+
 /* Page-type eyebrow strip — replaces MetadataCard on /:slug root pages.
    Mono caps, muted, thin rule above the first section. */
 .pageEyebrow {
