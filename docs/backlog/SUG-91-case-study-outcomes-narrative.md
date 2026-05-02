@@ -8,74 +8,103 @@
 
 # SUG-91 — Case study outcomes narrative
 
-Shift existing case study body copy from process narrative to client outcomes framing: what changed, what was delivered, measurable impact. High consulting conversion value — the case studies are the primary proof of work for prospective clients.
+Shift existing case study body copy from process narrative to client outcomes framing, and activate the existing `outcomes[]` schema field with an enhanced structure that captures before/after evidence.
 
 ## Background
 
-Case studies currently read as process narratives: "I built X using Y." This positions Bex as an implementer rather than a value-deliverer. For consulting conversion, prospective clients need to see outcomes — what changed for the client, what was delivered, and measurable impact where possible. The consulting pivot (SUG-90) elevates case studies as the primary proof-of-work surface. The current caseStudy schema does not have a dedicated outcome summary field; outcome language is buried in body copy if present at all. This epic may require a new schema field or may be a copy-only pass — the schema decision is the first gate at activation.
+Case studies currently read as process narratives: "I built X using Y." This positions Bex as an implementer rather than a value-deliverer. The consulting pivot (SUG-90) elevates case studies as the primary proof-of-work surface — prospective clients need to see outcomes, not process.
+
+A schema analysis (2026-05-02) confirmed that `outcomes[]` already exists on the `caseStudy` document but is `hidden: true` with a shallow structure (metric, value, description). The correct path is to enhance and unhide this existing field — not to add a new `outcomesSummary` text field, which would create a Single Field Authority conflict. A `challengeSummary` text field is also warranted to frame the problem before body copy, giving prospects the "why we were hired" context in one paragraph.
+
+The formerly proposed `outcomesSummary` flat text field is not proceeding — it is inferior to an activated `outcomes[]` array and would duplicate it.
 
 ## Objective
 
-After this epic, all case study body copy leads with client outcomes rather than process narrative. Optionally, a new `outcomesSummary` text field on the `caseStudy` schema surfaces a structured outcome statement above the body — the schema decision at activation determines whether this is a one-layer epic (content only) or a three-layer epic (schema + GROQ + render + content). Both paths require the Content Write Gate for all Sanity patches.
+After this epic: the `outcomes[]` field is unhidden and enhanced with before/after evidence structure; a `challengeSummary` field captures the problem framing; both render on the case study detail page above the body; and all case study body copy leads with client outcomes rather than process narrative. Layers touched: schema, GROQ, frontend render, content (all via Content Write Gate). `article`, `node`, `page`, and `archivePage` are not in scope.
+
+## Schema field proposal
+
+| Field | What it is | Example value | Why it matters |
+|-------|-----------|---------------|----------------|
+| `challengeSummary` (text) | One paragraph describing what the client needed to solve — the "why we were hired" statement | `"Vanguard's intake team was spending 60% of sprint capacity on data prep rather than analysis. The manual process had accumulated 14 steps across three systems with no single owner."` | Sets problem context before body copy; gives prospects the brief they need to self-qualify |
+| `outcomes[].metric` (string, existing) | What was measured — unchanged from current schema | `"Analyst prep time"` | Scannable label |
+| `outcomes[].valueBefore` (string, new) | State before the engagement | `"14 manual steps, ~3 hours per intake"` | Shows the gap; without this, outcomes read as absolute claims with no baseline |
+| `outcomes[].valueAfter` (string, rename from `value`) | State after — the result | `"Automated pipeline, ~18 minutes per intake"` | The proof point |
+| `outcomes[].impactStatement` (text, new) | Plain-language sentence explaining what changed for the client | `"Teams could onboard a new data source in under 20 minutes — previously a half-day task requiring a data engineer."` | The narrative hook; bridges the metric to business meaning |
+| `outcomes[].evidenceType` (string enum, new) | How solid the number is | `measured` / `estimated` / `qualitative` | Honesty signal; builds trust with technically literate prospects |
 
 ## Scope
 
-The scope has two paths — the schema gate at activation resolves which applies:
-
-**Path A — Schema field approach (if `outcomesSummary` field is warranted):**
-- [ ] Add `outcomesSummary` (`text`, required) to `apps/studio/schemas/documents/caseStudy.ts` — layer: schema
+**Phase 1 — Schema + GROQ + render:**
+- [ ] Enhance `outcomes[]` inline object: rename `value` → `valueAfter`, add `valueBefore` (string, optional), add `impactStatement` (text, optional, 2 rows), add `evidenceType` (radio: `measured` / `estimated` / `qualitative`) — layer: schema
+- [ ] Remove `hidden: true` from `outcomes[]` field — layer: schema
+- [ ] Add `challengeSummary` (`text`, optional) to `caseStudy` schema, group: `metadata` — layer: schema
 - [ ] Deploy schema: `npx sanity schema deploy` from `apps/studio/` — layer: schema
-- [ ] Update `caseStudyBySlugQuery` projection to include `outcomesSummary` — layer: GROQ
-- [ ] Add outcome callout renderer to `CaseStudyPage.jsx` (above body, below MetadataCard) — layer: frontend render
-- [ ] Editorial pass on all case study body copy to lead with outcomes — layer: content (Content Write Gate applies)
+- [ ] Update `caseStudyBySlugQuery` projection to include `challengeSummary` and enhanced `outcomes[]` fields — layer: GROQ
+- [ ] Render `challengeSummary` in `CaseStudyPage.jsx` above body / below MetadataCard — layer: frontend render
+- [ ] Render `outcomes[]` as a structured table or card strip on the case study detail page — layer: frontend render
 
-**Path B — Copy-only approach (if body copy edits alone suffice):**
-- [ ] Editorial pass on all case study body copy to shift from process to outcome framing — layer: content (Content Write Gate applies)
-
-Both paths share:
-- [ ] **Schema decision documented** at activation: field approach or copy-only, with rationale
-- [ ] **All case study body copy** reviewed and reframed where needed
+**Phase 2 — Content editorial pass:**
+- [ ] Run activation audit query (see Technical notes) to read current body copy across all case studies — layer: content
+- [ ] Editorial pass on all case study body copy to lead with outcome language — layer: content (Content Write Gate fires for every patch)
+- [ ] Populate `outcomes[]` and `challengeSummary` fields for all case studies where evidence exists — layer: content (Content Write Gate fires for every patch)
 
 ## Phases
 
-If schema field approach (Path A) is chosen, this is a two-phase epic:
-- **Phase 1:** Schema + GROQ + render (schema deploy required before content phase)
-- **Phase 2:** Content editorial pass on all case studies
+Two phases — schema deploy must complete before content phase:
 
-If copy-only approach (Path B) is chosen, this is single-phase.
+- **Phase 1:** Schema enhancement + GROQ update + frontend render (no Sanity content touched)
+- **Phase 2:** Content editorial pass — all body copy + field population (Content Write Gate for every document)
 
-Declare the path at activation and update this section before execution begins.
+Do not begin Phase 2 until Phase 1 is committed and schema is deployed.
 
 ## Acceptance criteria
 
-- [ ] Schema decision documented at activation: field approach or copy-only, with rationale
-- [ ] If schema field added: `npx sanity schema deploy` runs without errors; `*[_type == "caseStudy"]{ outcomesSummary }` returns expected fields via GROQ
-- [ ] If schema field added: `caseStudyBySlugQuery` projection includes `outcomesSummary` and the field renders in the browser on a live case study page
+- [ ] `outcomes[]` is no longer `hidden: true`; it appears in Studio under the Metadata group with enhanced fields
+- [ ] `challengeSummary` field appears in Studio under the Metadata group
+- [ ] `npx sanity schema deploy` runs without errors after schema changes
+- [ ] GROQ probe: `*[_type == "caseStudy"][0]{ challengeSummary, outcomes }` returns expected shape via MCP
+- [ ] `caseStudyBySlugQuery` projection includes `challengeSummary` and all `outcomes[]` subfields
+- [ ] Both fields render on a live case study detail page without runtime errors
 - [ ] All case study body copy leads with client outcome language — verified by reading published docs via GROQ
+- [ ] All `outcomes[]` arrays populated where measurable evidence exists
 - [ ] Content Write Gate satisfied for every patch: before/after proposal table produced and approved before each patch executes
 - [ ] Anti-slop compliance: no em dashes, no AI vocabulary, no hedge stacking in any rewritten copy
 
 ## Technical notes
 
-- **Schema decision gate** — run this query at activation before writing any code: `*[_type == "caseStudy"]{ _id, title, "slug": slug.current, "bodyStart": pt::text(body)[0..200] }` — read current body copy shape across all case studies to determine if an `outcomesSummary` field adds value or if body copy edits alone are sufficient
-- **Content Write Gate** fires for all Sanity copy patches — before/after proposal table required before any patch. Non-negotiable.
-- **Tool rule**: if schema field approach is chosen, `patch_document_from_json` for all content writes — no AI rewriting layer
-- **Schema deploy required** (Path A only): MCP writes fail against undeployed schema. Always deploy before writing content.
-- **Upstream dependency**: SUG-90 (consulting pivot) should be co-shipped or complete — the outcome framing language in SUG-90 Services and About pages informs the vocabulary for case study outcomes
+- **Activation audit** — run before writing any code:
+  ```groq
+  *[_type == "caseStudy"]{ _id, title, "slug": slug.current, outcomes, challengeSummary, "bodyStart": pt::text(body)[0..300] }
+  ```
+  Read current `outcomes[]` values and body copy shape across all case studies to scope the content pass and confirm field population gaps.
+- **`value` → `valueAfter` rename** — existing `outcomes[]` items in Sanity have a `value` field. The schema rename to `valueAfter` is a new field declaration; existing stored data uses the old key. A migration script is needed to copy `value` → `valueAfter` on all existing outcome items before Phase 2. Dry-run first; count must match `count(*[_type == "caseStudy" && defined(outcomes)])`.
+- **Content Write Gate** fires for all Sanity copy patches in Phase 2 — before/after proposal table required before any patch. Non-negotiable.
+- **Tool rule**: `patch_document_from_json` for all content writes — no AI rewriting layer.
+- **Schema deploy required before Phase 2**: MCP writes fail against undeployed schema.
+- **Upstream dependency**: SUG-90 (consulting pivot) should be complete — outcome framing vocabulary in SUG-90 Services and About pages informs the register for case study outcomes copy.
 - **Doc Type Coverage**: `caseStudy` only. `article`, `node`, `page`, `archivePage` are not in scope.
-- **Activation audit** (Path A): read `apps/studio/schemas/documents/caseStudy.ts` and `apps/web/src/lib/queries.js` (`caseStudyBySlugQuery`) before writing any schema or query changes
-- **Model recommendation**: `/model opusplan` if Path A (schema + render decisions needed); `/model sonnet` if Path B (copy only)
+- **Model recommendation**: `/model opusplan` for Phase 1 (schema + render decisions); `/model sonnet` for Phase 2 (content only).
+- **`outcomesSummary` is not being added**: it was considered and rejected — it would duplicate `outcomes[]` and violate Single Field Authority. Do not create it.
 
 ## Non-Goals
 
+- `outcomesSummary` flat text field — rejected; duplicates `outcomes[]` (Single Field Authority violation)
+- AEO/GEO retrieval fields (`aeoSummary`, `geoSummary`, `keyQuestions[]`, `faq[]`) — deferred to [SUG-93](https://linear.app/sugartown/issue/SUG-93)
+- `answerBlock` / `proofPoint` reusable schema objects — deferred to [SUG-94](https://linear.app/sugartown/issue/SUG-94)
+- `platforms[]` split from `tools[]` — deferred to [SUG-94](https://linear.app/sugartown/issue/SUG-94)
+- Discovery metadata fields (`industry[]`, `companySize`, `region`) — deferred to [SUG-92](https://linear.app/sugartown/issue/SUG-92)
+- `engagementModel` field — rejected; duplicates existing `contractType` (Single Field Authority violation)
 - New case study pages or archive redesign
-- Case study card metadata changes (MetadataCard territory — see SUG-89)
+- Case study card or MetadataCard structural changes (see SUG-89)
 - Photography or media updates
-- Changes to the `caseStudy` schema beyond the `outcomesSummary` field (if added)
 - `article` or `node` schema changes
 
 ## Related
 
 - **Linear:** [SUG-91](https://linear.app/sugartown/issue/SUG-91)
 - **SUG-90:** Consulting pivot — the strategic driver that elevates this epic
-- **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage Audit, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation once the path (A or B) is decided
+- **SUG-92:** [Case study discovery metadata](https://linear.app/sugartown/issue/SUG-92) — additive metadata fields (industry, companySize, region), no content rewrites
+- **SUG-93:** [Case study AEO/GEO content layer](https://linear.app/sugartown/issue/SUG-93) — structured retrieval fields (aeoSummary, geoSummary, keyQuestions[])
+- **SUG-94:** [Structured retrieval objects + JSON-LD](https://linear.app/sugartown/issue/SUG-94) — answerBlock, proofPoint, platforms[] split, JSON-LD renderer
+- **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage Audit, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation

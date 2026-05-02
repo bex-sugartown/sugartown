@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-01 · v0.23.3 · SUG-91 added — case study outcomes narrative (consulting pivot follow-through)
+> Updated 2026-05-02 · v0.23.3 · SUG-91 rescoped (outcomes[] enhancement + challengeSummary); SUG-92/93/94 added — case study structured content arc
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -20,7 +20,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** — Reframe sugartown.io to surface consulting/contract availability without closing off FTE: Services page outcome framing, availability signal on hero/About, case study narrative shifted to client outcomes, Contact tone, /platform surfaced from key entry points. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. <br>_⚡ Executing — Sanity drafts pending publish: Contact (Work with me. hero + mailto CTA), Services (secondary button fixed), About (hero subheading + §7 reframed as "Currently")._ | `Editorial` `UX` | 🟢 Next |
-| 2 | **[SUG-91](https://linear.app/sugartown/issue/SUG-91) · Case study outcomes narrative** — Shift existing case study body copy from process narrative to client outcomes framing: what changed, what was delivered, measurable impact. High consulting conversion value — the case studies are the primary proof of work for prospective clients. Needs a dedicated editorial pass and possibly a new outcome summary field in schema. Epic: `docs/backlog/SUG-91-case-study-outcomes-narrative.md`. <br>_⬆ Elevated by consulting pivot._ | `Content` `Schema` | 🟢 Next |
+| 2 | **[SUG-91](https://linear.app/sugartown/issue/SUG-91) · Case study outcomes narrative** — Enhance existing `outcomes[]` field (unhide + add before/after evidence structure), add `challengeSummary` field, editorial pass on all case study body copy to lead with client outcomes. Schema + GROQ + render + content. Epic: `docs/backlog/SUG-91-case-study-outcomes-narrative.md`. <br>_⬆ Elevated by consulting pivot. Rescoped 2026-05-02: outcomes[] enhancement replaces the originally proposed flat outcomesSummary field._ | `Content` `Schema` | 🟢 Next |
 | 3 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. <br>_⬇ Deprioritized by consulting pivot — KG visualization serves content-curious returning visitors; consulting prospects need Services/Contact/case studies first. Valuable long-term but not a conversion lever. Push below case study outcomes work._ | `UX` `Infrastructure` | 🟣 Soon |
 
 ---
@@ -31,6 +31,7 @@
 |---|------|------|----------|
 | 1 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` files with a build pipeline. Single JSON source generates both files; makes SUG-85 drift structurally impossible. 4 phases: spike → dual output → theme outputs → lock. Execute after SUG-85. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
 | 2 | **[SUG-89](https://linear.app/sugartown/issue/SUG-89) · Chromatic parity stories — Card, ContentCard & MetadataCard** — Add Chromatic-visible Storybook parity stories for the Card primitive and its related patterns (ContentCard, MetadataCard) to surface cross-component visual drift automatically. Epic: `docs/backlog/SUG-89-chromatic-parity-stories-card-contentcard-metadatacard.md`. | `Design System` `Tooling` | 🟣 Soon |
+| 3 | **[SUG-92](https://linear.app/sugartown/issue/SUG-92) · Case study discovery metadata** — Add `industry[]`, `companySize`, `region` to caseStudy schema. Additive only — no content rewrites. Enables sector filtering and consulting-context signals. Upstream of SUG-93. Epic: `docs/backlog/SUG-92-case-study-discovery-metadata.md`. | `Schema` `Content` | 🟣 Soon |
 
 ---
 
@@ -53,6 +54,8 @@
 | **[SUG-19](https://linear.app/sugartown/issue/SUG-19) · KPI dashboard card family (BL-03)** — stat-card, bar-card, insight-card variants on DS Card. Build-time content metrics at `/platform/metrics`. Phase 1: DS variants + Storybook. Phase 2: metrics page. Epic: `docs/backlog/SUG-19-kpi-dashboard-cards.md`. <br>_↑ Consult-relevant — delivery/quality metrics are trust signals for prospective clients. Elevate if Services or a /work-with-me landing page is built. Surface from Services entry point, not buried at /platform/metrics._ | `Deferred` `Design System` `BL-03` |
 | **Schema ERD Sanity Hybrid (Option C)** — Upgrade ERD from code-driven page (EPIC-0172) to a `schemaErdSection` type embeddable via section builder. Component unchanged — adds schema, GROQ projection, and PageSections case. Depends on EPIC-0172. | `Deferred` `Schema` `Content` |
 | ~~**SUG-21 · Pink Moon** — Elevated to 🟢 Next. See §01.~~ | `Design System` `UX` |
+| **[SUG-93](https://linear.app/sugartown/issue/SUG-93) · Case study AEO/GEO content layer** — Add `aeoSummary`, `geoSummary`, `keyQuestions[]` to caseStudy. Full editorial pass required. Makes case studies retrievable by AI answer engines. Upstream dependencies: SUG-91 + SUG-92 complete. Epic: `docs/backlog/SUG-93-case-study-aeo-geo-content-layer.md`. | `Content` `Schema` `SEO` |
+| **[SUG-94](https://linear.app/sugartown/issue/SUG-94) · Structured retrieval objects + JSON-LD renderer** — Create reusable `answerBlock` and `proofPoint` schema objects (cross-cut caseStudy, article, node). Split `tools[]` → `tools[]` + `platforms[]`. JSON-LD FAQPage + CreativeWork output on CaseStudyPage. Phase 0 mockup gate required. Epic: `docs/backlog/SUG-94-structured-retrieval-objects-json-ld.md`. | `Schema` `Infrastructure` `SEO` |
 | **[SUG-36](https://linear.app/sugartown/issue/SUG-36) · Site-wide content search** — No search exists today. Recommended: Fuse.js client-side index (build-time JSON manifest, same pattern as sitemap). Nav search icon + `/search` page. Phase 1: articles + nodes + case studies. Design spike needed first. Epic: `docs/backlog/SUG-36-site-search.md`. <br>_⬇ Low consulting value — consulting prospects do not browse by keyword; they arrive from a referral or LinkedIn and need a clear conversion path, not a search box. Keep deferred._ | `Deferred` `UX` `GROQ` `Infrastructure` |
 
 ---
