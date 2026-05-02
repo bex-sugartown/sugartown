@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-02 · v0.23.3 · SUG-91 rescoped; SUG-92/93/94 added (case study structured content arc); SUG-95 added — Sanity AI Assist POC, prerequisite for SUG-91
+> Updated 2026-05-02 · v0.23.4 · SUG-95 shipped — @sanity/assist installed, caseStudy exclude config, conventions doc; SUG-91 is next
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
