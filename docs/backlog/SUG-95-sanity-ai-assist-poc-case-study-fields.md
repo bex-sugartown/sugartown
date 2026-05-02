@@ -94,3 +94,80 @@ Single phase — plugin install, configuration, instruction authoring, and POC t
 - **Sanity AI Assist docs:** `https://www.sanity.io/docs/studio/install-and-configure-sanity-ai-assist`
 - **Sanity Content Agent docs:** `https://www.sanity.io/docs/content-agent/introduction`
 - **Epic template:** `docs/epic-template.md`
+
+---
+
+## Addendum — Free plan backup + 4-day trial strategy
+
+*Added 2026-05-02. Trial expires in 4 days.*
+
+### What the trial includes (and what disappears after)
+
+Every new Sanity project gets a Growth plan trial automatically. The trial unlocks AI Assist, Content Agent, private datasets, Comments, and Scheduled Drafts — but with Free plan resource limits (10k documents, 2 datasets, 2k unique attributes).
+
+When the trial ends, the project auto-downgrades to Free unless upgraded to Growth. **All Sanity-native AI features disappear on the free tier:**
+
+| Feature | Trial | Free plan | Growth plan |
+|---------|-------|-----------|-------------|
+| AI Assist (`@sanity/assist`) | Available | Not available | Available |
+| Content Agent (Dashboard) | Available | Not available | Available |
+| Agent Actions (API) | Available (metered) | Not available | Available (metered) |
+| GROQ queries | Available | Available | Available |
+| `patch_document_from_json` (MCP) | Available | Available | Available |
+| Studio CRUD | Available | Available | Available |
+
+### Free plan backup: Claude Code + MCP
+
+Everything Sanity AI does, the existing Claude Code + MCP stack can replicate — at a different interface, with the same human-review checkpoints. The MCP tools (`query_documents`, `patch_document_from_json`) work on the free plan. They are just HTTP API calls with no AI layer.
+
+The AI layer moves from Sanity's servers to this conversation:
+
+| Sanity AI tool | Free plan equivalent | Human gate |
+|---------------|---------------------|------------|
+| AI Assist (field ✨) | Claude Code reads the document via GROQ, drafts the field value, presents before/after table for approval, patches via `patch_document_from_json` | Content Write Gate (before/after table) |
+| Content Agent (bulk pass) | Claude Code runs GROQ to find all case studies missing a field, drafts all values in one session, presents a consolidated proposal table, patches on approval | Content Write Gate — same gate, different surface |
+| Agent Actions (scripted) | Claude Code script using `@sanity/client` directly | Content Write Gate — no change |
+
+The practical difference between Sanity AI Assist and the Claude Code backup:
+- **Sanity AI Assist**: editor works in Studio, field by field, clicks ✨ per field, no terminal involvement
+- **Claude Code backup**: content session in Claude Code, field values drafted in conversation, one approval covers a document or a batch, patches run from the MCP layer
+
+Both produce drafts. Both require human publish. The human-in-the-loop story is structurally identical. The UX surface is different.
+
+**The exclude configuration still matters on the free plan.** Even without the ✨ plugin active, documenting which fields are factual-only (slug, dates, CV fields, outcome metrics) establishes a convention that governs Claude Code's Content Write Gate behaviour too. The conventions doc produced in this epic applies equally to both tiers.
+
+### 4-day trial: what to test and in what order
+
+The trial window is the only chance to validate the Sanity-native AI experience against the Claude Code backup before the upgrade decision. Prioritise in this order:
+
+**Day 1 — Install and configure (blocking)**
+- Install `@sanity/assist`, enable the token via Studio UI, confirm ✨ appears
+- Add `exclude: true` to all factual fields in `caseStudy.ts`, deploy schema, confirm ✨ is absent from excluded fields
+- This is the gate: if configuration doesn't work, the rest of the trial has no value
+
+**Day 2 — Field instruction authoring and single-document test**
+- Author field instructions for `challengeSummary`, `geoSummary`, `outcomes[].impactStatement` in Studio
+- Run each instruction on one real case study document
+- Record: output quality, number of edits needed before saving, time per field vs. Claude Code equivalent
+- This is the quality gate: is the Sanity AI output good enough to be a useful starting point?
+
+**Day 3 — Content Agent bulk-pass test**
+- Use Content Agent Dashboard: "Draft geoSummary for all case studies based on client, role, tools, and outcomes fields"
+- Review the Changes tab — check all proposals before confirming anything
+- Confirm to drafts on 2–3 documents, review the drafts in Studio
+- Record: proposal accuracy, time to review 5 documents vs. doing the same via Claude Code
+
+**Day 4 — Decision day**
+- Compare: Sanity AI output quality vs. Claude Code output quality for the same fields
+- Compare: Studio UX (✨ inline, no terminal) vs. Claude Code UX (conversation, MCP patch)
+- Assess: is the Growth plan upgrade worth it for the editorial workflow improvement?
+- If yes: upgrade before trial expires. If no: document the Claude Code backup as the canonical workflow and close this epic without the plugin.
+
+### Upgrade decision criteria
+
+Upgrade to Growth if all three are true:
+1. AI Assist field output quality is comparable to Claude Code output — fewer than 3 significant edits needed per field on average
+2. The Studio-native UX meaningfully reduces friction for the `aeoSummary` / `geoSummary` editorial pass (the high-frequency content work in SUG-93)
+3. The Content Agent bulk-pass on Day 3 produced accurate, reviewable proposals — the Changes tab was useful, not a liability
+
+Stay on free plan + Claude Code backup if any of the above fail. The backup is fully functional — it just requires a terminal session rather than a Studio click.
