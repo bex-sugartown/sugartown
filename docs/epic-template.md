@@ -118,6 +118,32 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 
 ---
 
+## Schema Field Proposal [REQUIRED if any new field is added to any schema]
+
+> Complete this table before writing any schema code or Scope bullets. It is the
+> primary planning artefact for non-engineer review — fill it from the invocation
+> brief, not from schema code. If a field is proposed but rejected during planning,
+> leave it in the table with a "Not proceeding — reason" note in Why it matters.
+>
+> **One row per proposed field.** Include fields being added, enhanced (structure change),
+> or unhidden. Do not include existing fields that are unchanged.
+>
+> **Duplication check (blocking):** before adding any field, confirm no existing field on
+> the same document serves the same purpose. If overlap exists, name it and state which
+> field is canonical (see CLAUDE.md §Single Field Authority).
+
+| Field | What it is | Example value | Why it matters |
+|-------|-----------|---------------|----------------|
+| `fieldName` | One sentence — the concept this field captures, not its Sanity type | `"Analyst prep time"` or `consulting / embedded / delivery` | Why a prospective client, editor, or AI retrieval system benefits from this being structured |
+
+> **Columns:**
+> - **Field** — exact Sanity field name (`camelCase`), plus the schema type in parens: `(string)`, `(text)`, `(array of object)`, `(reference)`, `(boolean)`, `(date)`, etc.
+> - **What it is** — plain English description for a non-engineer. Not the Sanity type — the concept.
+> - **Example value** — a realistic value, not a placeholder. Enum fields: list all options. Array fields: show one item.
+> - **Why it matters** — the business, editorial, or retrieval reason this field earns its place.
+
+---
+
 ## Scope [REQUIRED]
 
 > Bullet list of included tasks. Every task must map to at least one

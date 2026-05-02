@@ -145,6 +145,14 @@ The merge strategy label convention (from CLAUDE.md):
 {- **Activation audits**: specific GROQ queries or file reads needed before execution begins — write them out, not "check the schema"}
 {- **Model recommendation**: pure content epics → /model sonnet; schema + render epics → /model opusplan}
 
+{If this epic adds or changes schema fields, include the following table. One row per proposed field. Skip if no schema changes.}
+
+### Schema field proposal
+
+| Field | What it is | Example value | Why it matters |
+|-------|-----------|---------------|----------------|
+| {`fieldName` (type)} | {plain-English concept description} | {realistic example value or enum list} | {business / editorial / retrieval reason} |
+
 ## Non-Goals
 
 {Explicit exclusions, each deliberately chosen. If excluding a doc type or layer, state why.}
