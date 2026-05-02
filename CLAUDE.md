@@ -113,6 +113,8 @@ Updating the backlog spec (e.g. in response to user feedback) triggers a corresp
 
 A Phase 0 violation (FE code committed before mock approval) is a process failure, not a shortcut.
 
+**Phase 0 applies to new blocks on existing pages, not just new page types.** Adding a new data-backed block (e.g. a challenge summary, an outcomes strip, a sidebar widget) to an existing page template requires a mock and review before any JSX is written — even if the page template itself already exists. The test is: "does this block have a visual format that hasn't been reviewed?" If yes, it's a Phase 0 item regardless of scope.
+
 ### Incomplete epic doc hard stop
 
 Before executing any epic from `docs/backlog/SUG-{N}-*.md`, check the file for completeness. If any of the following are unresolved, **stop and surface the gap before touching any file, Sanity document, or schema:**
@@ -388,6 +390,26 @@ Before creating ANY new component, schema object, CSS surface, utility, **or tax
 3. **Is the API composable?** — Props/fields should be named so the component can be extended without forking. Prefer `children` over fixed slots. Prefer token-driven styling over hardcoded values.
 
 This is the "Before You Build" reuse audit formalized as a **blocking checklist**, not a suggestion. A new component or taxonomy item that fails any of these three checks is a process failure.
+
+### Component choice gate (blocking — fires before any new JSX surface)
+
+When a new block, container, or layout surface is needed, run this audit **before writing any JSX or CSS**:
+
+1. **Name the candidate existing components.** List every DS or app-level component that could plausibly render this content — Card, Callout, StatTile, MetadataCard, blockquote, etc. If the content is prose/text, explicitly check Callout and blockquote before inventing a new container.
+2. **State why each candidate doesn't fit** (or why it does). One sentence per candidate. If a candidate covers 80%+ of the use case, extend it via props — do not fork.
+3. **If no existing component fits**, stop. Produce an HTML mock at `docs/drafts/SUG-{N}-*.html` showing the visual form with references to the closest existing component. Wait for human review before writing code.
+
+**This gate is not optional for "small" blocks.** A coloured callout container, a stat grid wrapper, a challenge summary card — all are new visual surfaces that require this audit. The size of the block does not determine whether the gate fires; the novelty of the visual format does.
+
+Example audit (correct):
+```
+New block: challenge summary
+Candidates checked:
+- Callout (aside): covers prose + left accent. Missing: label + coloured bg. → 80% fit — extend via prop.
+- Card: covers bg + border. Missing: left accent, no title slot. → 60% fit.
+Decision: Extend Callout with a label prop, or use it as-is and add label via SectionLabel above.
+Mock: not required — extending existing component.
+```
 
 ---
 

@@ -8,7 +8,7 @@
 
 # SUG-96 — DS component polish: SectionLabel + Chip Storybook colorways
 
-Three DS cleanup items surfaced during SUG-91 close-out. No schema or Sanity content changes.
+Four DS cleanup items surfaced during SUG-91 close-out. No schema or Sanity content changes.
 
 ## Background
 
@@ -17,6 +17,8 @@ Three DS cleanup items surfaced during SUG-91 close-out. No schema or Sanity con
 **Chip colorways**: Storybook Chip stories (`/primitives/chip`) were authored before the Ledger Tradition font and palette switch (SUG-63). The stories render correctly in production but the story fixtures may reference stale color names or show mismatched palette comparisons. The `variant="tag"` neutral chip (the canonical evidence chip used in StatTile) is the reference the stories should anchor to.
 
 **StatTile chip prop**: SUG-91 added a `chip` prop to StatTile that renders a neutral `<Chip variant="tag">` for evidenceType labels. No Storybook story covers it.
+
+**tileGrid pattern**: The 1px-gap grid (background: `--st-color-rule-accent`, tiles covering gap with `--st-stat-tile-bg`) is implemented inline in both `TrustReportSection` and `CaseStudyPage`. A third call site will appear. Needs a shared CSS utility class or a wrapper component before that happens.
 
 ## Scope
 
@@ -41,6 +43,12 @@ Three DS cleanup items surfaced during SUG-91 close-out. No schema or Sanity con
 - [ ] Find or create `StatTile.stories.jsx` in Storybook
 - [ ] Add story: `WithChip` — shows `chip="measured"` alongside standard metric tile
 - [ ] Add story: `WithBeforeAfter` — shows `sub` (valueBefore) + `value` (valueAfter) pattern
+
+**Item 4 — tileGrid shared pattern:**
+- [ ] Audit call sites: `TrustReportSection` (TickerCard), `CaseStudyPage` (outcomeGrid), check for any others
+- [ ] Decide: CSS utility class (`.tileGrid` in `design-system/styles/`) vs wrapper component (`TileGrid.jsx`)
+- [ ] Extract to shared location, update both existing call sites to reference it
+- [ ] Document the bg-through-gap pattern per CLAUDE.md convention (annotation on each child's `background` declaration)
 
 ## Use case definitions (SectionLabel)
 

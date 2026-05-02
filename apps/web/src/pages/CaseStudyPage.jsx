@@ -36,11 +36,16 @@ export default function CaseStudyPage() {
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(caseStudy.sections)
   const showMargin = hasSidebarContent({ ...caseStudy, sections: restSections })
 
+  // Row 1 = MetadataCard (full-span). Each full-span block before PageSections adds a row.
+  const sidebarRow = 2
+    + (caseStudy.challengeSummary ? 1 : 0)
+    + (caseStudy.outcomes?.length > 0 ? 1 : 0)
+
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(caseStudy, siteSettings)} />
       {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: caseStudy.publishedAt, status: caseStudy.status }} />}
-      <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
+      <div className={styles.detailPage} data-has-margin={showMargin || undefined} style={{ '--sidebar-row': sidebarRow }}>
 
         <MetadataCard
           authors={caseStudy.authors}

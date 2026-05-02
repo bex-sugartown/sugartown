@@ -99,19 +99,18 @@
     grid-column: 1;
   }
 
-  /* Challenge + outcomes: explicit col 1 so the auto-placement cursor
-     doesn't advance to col 2 and push PageSections (.detailContext) there. */
+  /* Challenge + outcomes: full-span so each occupies its own row.
+     Sidebar row is computed dynamically via --sidebar-row (set by CaseStudyPage). */
   .detailPage[data-has-margin] > .challengeSummary,
   .detailPage[data-has-margin] > .outcomeStrip {
-    grid-column: 1;
+    grid-column: 1 / -1;
   }
 
-  /* Pin PageSidebar to col 2, row 2 (next to the first content row).
-     Without this, moving full-span elements (citations, ContentNav) before
-     the sidebar in source order pushes the sidebar into a later grid row. */
+  /* Pin PageSidebar to col 2. Row is injected as --sidebar-row so the sidebar
+     aligns with PageSections regardless of how many full-span blocks precede it. */
   .detailPage[data-has-margin] > aside[aria-label="Page details"] {
     grid-column: 2;
-    grid-row: 2;
+    grid-row: var(--sidebar-row, 2);
   }
 }
 
