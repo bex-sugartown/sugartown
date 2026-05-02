@@ -1118,6 +1118,14 @@
   min-width: 0;
 }
 
+/* Pin detailContext to col 1 in the sidebar grid so challenge + outcomes
+   blocks above it don't push it into col 2 via cursor auto-placement. */
+@media (min-width: 1024px) {
+  :global([data-has-margin]) > .detailContext {
+    grid-column: 1;
+  }
+}
+
 /* Neutralise the TableWrap "wide" breakout pattern inside detail pages.
    The breakout (width:100vw + negative margin) is designed for standalone
    single-column pages where tables can span the full viewport. Inside the

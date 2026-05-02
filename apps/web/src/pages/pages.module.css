@@ -99,6 +99,13 @@
     grid-column: 1;
   }
 
+  /* Challenge + outcomes: explicit col 1 so the auto-placement cursor
+     doesn't advance to col 2 and push PageSections (.detailContext) there. */
+  .detailPage[data-has-margin] > .challengeSummary,
+  .detailPage[data-has-margin] > .outcomeStrip {
+    grid-column: 1;
+  }
+
   /* Pin PageSidebar to col 2, row 2 (next to the first content row).
      Without this, moving full-span elements (citations, ContentNav) before
      the sidebar in source order pushes the sidebar into a later grid row. */
