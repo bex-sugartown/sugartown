@@ -29,6 +29,9 @@ export default defineType({
       type: 'string',
       description: 'Internal reference title — used for SEO <title>, Studio previews, and slugs. The visible page title is the Hero Section heading.',
       group: 'content',
+      options: {
+        aiAssist: {exclude: true},
+      },
       validation: (Rule) =>
         Rule.required()
           .max(100)
@@ -42,7 +45,8 @@ export default defineType({
       group: 'content',
       options: {
         source: 'title',
-        maxLength: 96
+        maxLength: 96,
+        aiAssist: {exclude: true},
       },
       validation: (Rule) =>
         Rule.required()
@@ -114,6 +118,9 @@ export default defineType({
       type: 'datetime',
       description: 'When was this case study published?',
       group: 'metadata',
+      options: {
+        aiAssist: {exclude: true},
+      },
       validation: (Rule) => Rule.required().error('Published date is required'),
       initialValue: () => new Date().toISOString()
     }),
@@ -123,6 +130,9 @@ export default defineType({
       type: 'datetime',
       description: 'Last significant update to this case study',
       group: 'metadata',
+      options: {
+        aiAssist: {exclude: true},
+      },
       initialValue: () => new Date().toISOString()
     }),
     defineField({
@@ -131,6 +141,9 @@ export default defineType({
       type: 'string',
       description: 'Client or company name',
       group: 'metadata',
+      options: {
+        aiAssist: {exclude: true},
+      },
       validation: (Rule) => Rule.max(100)
     }),
     defineField({
@@ -139,6 +152,9 @@ export default defineType({
       type: 'string',
       description: 'Employer or agency you worked through (for CV/resume context — e.g. "Freelance", "AKQA", "Accenture Song")',
       group: 'metadata',
+      options: {
+        aiAssist: {exclude: true},
+      },
       validation: (Rule) => Rule.max(100)
     }),
     defineField({
@@ -154,7 +170,8 @@ export default defineType({
           {title: 'Freelance / Self-employed', value: 'freelance'},
           {title: 'Advisory / Consulting', value: 'advisory'},
         ],
-        layout: 'radio'
+        layout: 'radio',
+        aiAssist: {exclude: true},
       }
     }),
     defineField({
@@ -163,6 +180,9 @@ export default defineType({
       type: 'string',
       description: 'What was your role on this project? (e.g., "Lead Designer", "Full Stack Developer")',
       group: 'metadata',
+      options: {
+        aiAssist: {exclude: true},
+      },
       validation: (Rule) => Rule.max(100)
     }),
     defineField({
@@ -171,13 +191,17 @@ export default defineType({
       type: 'object',
       description: 'When did this project take place?',
       group: 'metadata',
+      options: {
+        aiAssist: {exclude: true},
+      },
       fields: [
         defineField({
           name: 'startDate',
           title: 'Start Date',
           type: 'date',
           options: {
-            dateFormat: 'YYYY-MM-DD'
+            dateFormat: 'YYYY-MM-DD',
+            aiAssist: {exclude: true},
           }
         }),
         defineField({
@@ -186,7 +210,8 @@ export default defineType({
           type: 'date',
           description: 'Leave blank if ongoing',
           options: {
-            dateFormat: 'YYYY-MM-DD'
+            dateFormat: 'YYYY-MM-DD',
+            aiAssist: {exclude: true},
           }
         })
       ],
@@ -231,6 +256,9 @@ export default defineType({
               title: 'Metric',
               type: 'string',
               description: 'What was measured (e.g. "Page load time", "Conversion rate")',
+              options: {
+                aiAssist: {exclude: true},
+              },
               validation: (Rule) => Rule.required().max(100),
             }),
             defineField({
@@ -238,6 +266,9 @@ export default defineType({
               title: 'Value',
               type: 'string',
               description: 'The result (e.g. "4.2s → 1.8s", "+40%", "$2.4M revenue")',
+              options: {
+                aiAssist: {exclude: true},
+              },
               validation: (Rule) => Rule.required().max(100),
             }),
             defineField({
@@ -390,6 +421,9 @@ export default defineType({
       type: 'legacySource',
       group: 'migration',
       description: 'Migration metadata from WordPress. Read-only — set by import script.',
+      options: {
+        aiAssist: {exclude: true},
+      },
     }),
   ],
   preview: {
