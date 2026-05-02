@@ -1,14 +1,14 @@
 ---
-**Epic:** SUG-96 — DS component polish — SectionLabel, Grid primitive, ContentPreviewCard rename + Chip Storybook colorways
+**Epic:** SUG-96 — DS component polish — SectionLabel, Tile primitive, Grid primitive + Chip Storybook colorways
 **Linear Issue:** [SUG-96](https://linear.app/sugartown/issue/SUG-96)
 **Status:** Backlog
 **Priority:** 🔵 Low
 **Merge strategy:** (a) Merge-as-you-go — each item ships independently
 ---
 
-# SUG-96 — DS component polish: SectionLabel, Grid primitive, ContentPreviewCard rename + Chip Storybook colorways
+# SUG-96 — DS component polish: SectionLabel, Tile primitive, Grid primitive + Chip Storybook colorways
 
-Six DS cleanup items surfaced during SUG-91 and post-mortem review. No schema or Sanity content changes.
+Five DS items surfaced during SUG-91 and post-mortem review. No schema or Sanity content changes.
 
 ## Background
 
@@ -16,11 +16,9 @@ Six DS cleanup items surfaced during SUG-91 and post-mortem review. No schema or
 
 **Chip colorways**: Storybook Chip stories (`/primitives/chip`) were authored before the Ledger Tradition font and palette switch (SUG-63). The stories render correctly in production but the story fixtures may reference stale color names or show mismatched palette comparisons. The `variant="tag"` neutral chip (the canonical evidence chip used in StatTile) is the reference the stories should anchor to.
 
-**StatTile chip prop**: SUG-91 added a `chip` prop to StatTile that renders a neutral `<Chip variant="tag">` for evidenceType labels. No Storybook story covers it.
+**Tile primitive**: `StatTile` (metric display) and `TickerCard` inside `RecentContentSection` (content preview) share the same four-zone skeleton — label → primary content → secondary content → footer zone — with different styling on each zone. They are isomorphic and should be unified into a single `Tile` DS primitive. Styling differences are resolved via props (`labelColor`, `titleSize`, `meta`, `chip`, `href`, `loading`). The current `StatTile` and `RecentContentSection/TickerCard` implementations are both retired in favour of `Tile`. `RecentContentSection` keeps its name as the page-section wrapper (it owns the grid, heading, and data-fetching) — only the inner card is extracted.
 
-**Grid primitive**: Two grid patterns exist inline in multiple places — the 24px card grid (`.st-layout-grid` in globals.css, used by archive pages) and the 1px-gap hairline tile grid (inlined in `TrustReportSection` and `CaseStudyPage`). These should be unified into a single generic `Grid` primitive with a `spacing` prop (`"card"` = 24px open gap, `"tile"` = 1px bg-through-gap hairline). The tile spacing variant also requires `background: var(--st-color-rule-accent)` on the parent — so it's not just a gap value, but a visual technique. A mock is required before implementing.
-
-**RecentContentSection rename**: `RecentContentSection` names both content type ("recent") and page placement ("section") — neither belongs in a component name. The inner `TickerCard` is a lightweight content preview pattern: type label (brand-primary) + title + optional descriptor + meta footer with separator. It is not a Card variant — it has no chips, no badge system, no structured category link, and is designed borderless inside a hairline grid. Needs a semantic name (`ContentPreviewCard`? `FeatureCard`?), extraction into the design system, and Storybook coverage. Audit whether `TickerCard` and `Card (showFolio=false)` share enough structure to warrant a shared abstraction, or whether they remain parallel primitives serving different densities.
+**Grid primitive**: Two grid patterns exist inline in multiple places — the 24px card grid (`.st-layout-grid` in globals.css) and the 1px-gap hairline tile grid (inlined in `TrustReportSection` and `CaseStudyPage`). These should be unified into a single generic `Grid` primitive with a `spacing` prop (`"card"` = 24px open gap, `"tile"` = 1px bg-through-gap hairline). The tile variant also requires `background: var(--st-color-rule-accent)` on the parent — this is a visual technique, not just a gap value. A mock is required before implementing.
 
 ## Scope
 
@@ -41,10 +39,23 @@ Six DS cleanup items surfaced during SUG-91 and post-mortem review. No schema or
 - [ ] Add `featured` state story for `variant="tag"`
 - [ ] Update any story fixtures using stale Pink Moon palette references
 
-**Item 3 — StatTile chip prop story:**
-- [ ] Find or create `StatTile.stories.jsx` in Storybook
-- [ ] Add story: `WithChip` — shows `chip="measured"` alongside standard metric tile
-- [ ] Add story: `WithBeforeAfter` — shows `sub` (valueBefore) + `value` (valueAfter) pattern
+**Item 3 — Tile primitive (replaces StatTile + TickerCard):**
+- [ ] Phase 0 required: produce `docs/drafts/SUG-96-tile-primitive.html` mock showing both use cases (metric + content preview) side by side, and resolving the open decisions below
+- [ ] Open decisions to resolve in mock (do not implement until these are signed off):
+  - **Name**: `Tile` — confirm or amend
+  - **Primary content prop**: single `title` prop (or `value` alias) — one slot serves both metric values and content titles
+  - **Label colour**: `labelColor="ink"` (neutral, default — metric tiles) vs `labelColor="brand"` (brand-primary — content type labels); or derive from `variant`
+  - **Title/value size**: `titleSize="display"` (2xl — metrics) vs `titleSize="heading"` (narrative heading scale — content previews)
+  - **Top accent border**: currently on the *grid container* in RecentContentSection, not on Tile — confirm it stays on the Grid and is not a Tile concern
+  - **Neutral vs themed labels**: decide whether label colour should be token-driven per use case or controlled by a single prop
+- [ ] Once mock is signed off:
+  - [ ] Create `apps/web/src/design-system/components/tile/Tile.jsx` + `Tile.module.css`
+  - [ ] Props: `label`, `labelColor`, `title` (+ `value` alias), `titleSize`, `unit`, `sub`, `chip`, `meta`, `href`, `bar`, `legend`, `loading`, `size`, `className`
+  - [ ] Migrate `TrustReportSection` from `StatTile` to `Tile` with `titleSize="display"`
+  - [ ] Migrate `CaseStudyPage` outcomes from `StatTile` to `Tile` with `titleSize="display"`
+  - [ ] Migrate `RecentContentSection` inner `TickerCard` to `Tile` with `titleSize="heading"` + `labelColor="brand"`
+  - [ ] Delete `StatTile.jsx`, `StatTile.module.css` (and `stat-tile/` directory)
+  - [ ] Add Storybook stories: `MetricTile`, `ContentPreviewTile`, `WithChip`, `WithBeforeAfter`, `WithBar`, `Loading`, `SizeCompact`
 
 **Item 4 — Grid primitive:**
 - [ ] Phase 0 required: produce `docs/drafts/SUG-96-grid-primitive.html` mock showing both spacing variants (`"card"` and `"tile"`) with sample content before any JSX is written
@@ -52,17 +63,31 @@ Six DS cleanup items surfaced during SUG-91 and post-mortem review. No schema or
 - [ ] `spacing="tile"` must apply `background: var(--st-color-rule-accent)` + `gap: 1px` + outer border on the container (the bg-through-gap technique)
 - [ ] Audit call sites: `TrustReportSection.module.css` (`.tileGrid`), `pages.module.css` (`.outcomeGrid`), `globals.css` (`.st-layout-grid`)
 - [ ] Migrate all three call sites to the shared primitive
-- [ ] Add Storybook stories: `CardSpacing` (24px gap, Card children), `TileSpacing` (1px hairline, StatTile children)
+- [ ] Add Storybook stories: `CardSpacing` (24px gap, Card children), `TileSpacing` (1px hairline, Tile children)
 - [ ] Document the bg-through-gap pattern per CLAUDE.md convention (annotation on each child's `background` declaration)
 
-**Item 5 — ContentPreviewCard rename + DS extraction:**
-- [ ] Phase 0 required: produce `docs/drafts/SUG-96-content-preview-card.html` mock — show the card standalone (not embedded in a grid) to confirm the borderless assumption is still correct without grid context
-- [ ] Agree on semantic name (candidates: `ContentPreviewCard`, `FeatureCard`, `PreviewCard`) — not placement-specific
-- [ ] Audit: can `TickerCard` and `Card (showFolio=false)` share a base? Document the structural delta before deciding (different: type label colour, no chips, no badge, single meta string vs structured footer)
-- [ ] Extract from `RecentContentSection.jsx` into `apps/web/src/design-system/components/<name>/`
-- [ ] Update `RecentContentSection.jsx` to import from the new location
-- [ ] Add Storybook story: default, loading skeleton, without descriptor, long title
-- [ ] Rename `RecentContentSection` in Storybook from `patterns/recentcontentsection` to `patterns/<semantic-name>`
+**Item 5 — Chip Storybook + Tile integration:**
+- [ ] After Tile (Item 3) ships: confirm Storybook Chip stories reference `Tile`'s `WithChip` story as the canonical evidence chip context (not standalone)
+
+## Tile — proposed prop API (draft, subject to Phase 0 sign-off)
+
+| Prop | Type | Default | Notes |
+|---|---|---|---|
+| `label` | string | — | Top eyebrow label (metric name or content type) |
+| `labelColor` | `"ink" \| "brand"` | `"ink"` | `"ink"` = neutral mono; `"brand"` = brand-primary |
+| `title` | string | — | Primary display content (metric value or content title) |
+| `value` | string | — | Alias for `title`; whichever is provided wins |
+| `titleSize` | `"display" \| "heading"` | `"display"` | `"display"` = 2xl (metrics); `"heading"` = narrative heading scale (content) |
+| `unit` | string | — | Inline unit suffix after title (metric only) |
+| `sub` | string | — | Secondary content below title (before-value or descriptor) |
+| `chip` | string | — | Renders `<Chip variant="tag" label={chip}>` in footer zone |
+| `meta` | string | — | Footer string with border-top rule (content preview only) |
+| `href` | string | — | Makes the tile a linked surface |
+| `bar` | object | — | Breakdown bar config (metric only) |
+| `legend` | boolean | `false` | Renders bar legend (requires `bar`) |
+| `loading` | boolean | `false` | Renders skeleton placeholders |
+| `size` | `"md" \| "sm"` | `"md"` | Compact size reduces title font and padding |
+| `className` | string | — | Escape hatch for grid positioning |
 
 ## Use case definitions (SectionLabel)
 
@@ -75,21 +100,22 @@ Rule of thumb: if the heading introduces a data grid, stat strip, or card collec
 
 ## Phase 0 gate
 
-Items 4 and 5 require HTML mocks before any JSX is written (per CLAUDE.md §Phase 0 — new visual surfaces on existing pages). Mock files:
-- `docs/drafts/SUG-96-grid-primitive.html` — both Grid spacing variants
-- `docs/drafts/SUG-96-content-preview-card.html` — ContentPreviewCard standalone + in hairline grid
+Items 3 and 4 require HTML mocks before any JSX is written (per CLAUDE.md §Phase 0):
+- `docs/drafts/SUG-96-tile-primitive.html` — Tile in both use cases, resolving open design decisions
+- `docs/drafts/SUG-96-grid-primitive.html` — Grid in both spacing variants
 
-Items 1–3 (SectionLabel, Chip stories, StatTile story) are CSS/Storybook-only — no Phase 0 gate required.
+Items 1–2 (SectionLabel, Chip stories) are CSS/Storybook-only — no Phase 0 gate required.
+Item 5 (Chip integration) depends on Item 3 shipping first.
 
 ## Non-Goals
 
 - Status chip color tokens per-state (`--st-status-success-*` etc.) — deferred; these tokens don't exist and adding them is a separate pass
 - Evidence chip per-state coloring (measured=green, estimated=amber, qualitative=grey) — deferred to same token pass
 - Chip component migration from web adapter to `packages/design-system` — deferred to a platform epic
+- Renaming `RecentContentSection` as the page-section wrapper — the component name is fine; only the inner `TickerCard` is being replaced
 
 ## Related
 
 - **SUG-88:** Ledger Tradition chip system — established the rule-dot system this epic builds on
-- **SUG-91:** Case study outcomes narrative — surfaced the SectionLabel and StatTile chip gaps
+- **SUG-91:** Case study outcomes — surfaced SectionLabel, StatTile chip gaps, tileGrid duplication; triggered post-mortem that added Items 3–4
 - **SUG-87:** Dynamic Trust Report — original StatTile and tileGrid pattern
-- **SUG-91:** Case study outcomes — surfaced tileGrid duplication, triggered post-mortem that added items 4–5
