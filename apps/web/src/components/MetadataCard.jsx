@@ -53,6 +53,14 @@ const CONTRACT_TYPE_LABELS = {
   'advisory':   'Advisory',
 }
 
+const COMPANY_SIZE_LABELS = {
+  startup:    'Startup',
+  smb:        'SMB',
+  enterprise: 'Enterprise',
+  agency:     'Agency',
+  internal:   'Internal',
+}
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /** Short mono-friendly date: "Feb 28 2026" */
@@ -89,6 +97,9 @@ export default function MetadataCard({
   client,
   employer,
   contractType,
+  industry,
+  companySize,
+  region,
   role,
   dateRange,
   tools,
@@ -105,7 +116,9 @@ export default function MetadataCard({
   const statusKey       = status?.toLowerCase().replace(/[\s_]+/g, '-')
   const authorByline    = getAuthorByline(authors)
   const primaryAuthor   = getPrimaryAuthor(authors)
-  const contractDisplay = contractType ? (CONTRACT_TYPE_LABELS[contractType] ?? contractType) : null
+  const contractDisplay     = contractType ? (CONTRACT_TYPE_LABELS[contractType] ?? contractType) : null
+  const companySizeDisplay  = companySize  ? (COMPANY_SIZE_LABELS[companySize]  ?? companySize)  : null
+  const industryDisplay     = industry?.length > 0 ? industry.join(', ') : null
   const dateRangeDisplay = formatDateRange(dateRange)
   const publishedDisplay = formatDateShort(publishedAt)
 
@@ -147,6 +160,9 @@ export default function MetadataCard({
     client           && { label: 'Client',         value: client },
     employer         && { label: 'Employer',       value: employer },
     contractDisplay  && { label: 'Contract',       value: contractDisplay },
+    companySizeDisplay && { label: 'Company Size', value: companySizeDisplay },
+    industryDisplay  && { label: 'Industry',       value: industryDisplay },
+    region           && { label: 'Region',         value: region },
     role             && { label: 'Role',           value: role },
     dateRangeDisplay && { label: 'Date Range',     value: dateRangeDisplay },
     readingTime      && { label: 'Reading Time',   value: `${readingTime} min` },
