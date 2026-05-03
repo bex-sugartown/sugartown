@@ -28,6 +28,8 @@ import legacySource from './objects/legacySource'
 import mediaOverlay from './objects/mediaOverlay'
 import tableBlock from './objects/tableBlock'
 import citationItem from './objects/citationItem'
+import outcomeItem from './objects/outcomeItem'
+import answerBlock from './objects/answerBlock'
 import navItem from './objects/navItem'
 import childNavItem from './objects/childNavItem'
 
@@ -54,6 +56,7 @@ import mermaidSection from './sections/mermaidSection'
 import accordionSection from './sections/accordionSection'
 import recentContentSection from './sections/recentContentSection'
 import trustReportSection from './sections/trustReportSection'
+import proofPointSection from './sections/proofPointSection'
 
 // ============================================================================
 // DOCUMENTS - Top-level content types
@@ -113,6 +116,8 @@ export const schemaTypes = [
   mediaOverlay,
   tableBlock,
   citationItem,
+  outcomeItem,
+  answerBlock,
   navItem,
   childNavItem,
 
@@ -134,6 +139,7 @@ export const schemaTypes = [
   accordionSection,
   recentContentSection,
   trustReportSection,
+  proofPointSection,
 
   // Documents - Taxonomy (New)
   category,

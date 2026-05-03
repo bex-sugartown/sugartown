@@ -27,6 +27,16 @@ export default defineType({
       validation: (Rule) => Rule.max(120),
     }),
     defineField({
+      name: 'semantic',
+      title: 'Semantic Role',
+      type: 'string',
+      description: 'Optional. Set to "FAQ" to emit FAQPage structured data (JSON-LD) from this accordion\'s items. Use when the accordion\'s questions and answers represent the canonical FAQ for this page.',
+      options: {
+        list: [{title: 'FAQ (drives FAQPage JSON-LD)', value: 'faq'}],
+        layout: 'radio',
+      },
+    }),
+    defineField({
       name: 'multi',
       title: 'Allow Multiple Open',
       type: 'boolean',

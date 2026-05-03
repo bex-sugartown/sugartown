@@ -98,6 +98,8 @@ export default defineType({
         defineArrayMember({type: 'mermaidSection'}),
         defineArrayMember({type: 'accordionSection'}),
         defineArrayMember({type: 'trustReportSection'}),
+        defineArrayMember({type: 'answerBlock'}),
+        defineArrayMember({type: 'proofPointSection'}),
       ]
     }),
     defineField({

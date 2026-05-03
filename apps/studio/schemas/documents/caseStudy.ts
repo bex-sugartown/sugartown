@@ -76,6 +76,8 @@ export default defineType({
         defineArrayMember({type: 'mermaidSection'}),
         defineArrayMember({type: 'accordionSection'}),
         defineArrayMember({type: 'trustReportSection'}),
+        defineArrayMember({type: 'answerBlock'}),
+        defineArrayMember({type: 'proofPointSection'}),
       ]
     }),
     defineField({
@@ -375,9 +377,23 @@ export default defineType({
 
     defineField({
       name: 'tools',
-      title: 'Tools & Platforms',
+      title: "Bex's Tools",
       type: 'array',
-      description: 'Tools, platforms, or technologies used in this project. Select from published tool documents. Use tags for conceptual themes.',
+      description: "Tools and technologies Bex used in this engagement (e.g. Storybook, Claude, dbt). For client infrastructure and platforms, use Platforms.",
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'tool'}]
+        })
+      ],
+      validation: (Rule) => Rule.unique()
+    }),
+    defineField({
+      name: 'platforms',
+      title: 'Client Platforms',
+      type: 'array',
+      description: "Platforms and infrastructure the client operated (e.g. Salesforce, Shopify, AEM). Distinct from Bex's own tools.",
       group: 'metadata',
       of: [
         defineArrayMember({
@@ -487,10 +503,12 @@ export default defineType({
     }),
     defineField({
       name: 'keyQuestions',
-      title: 'Key Questions',
+      title: 'Key Questions (Deprecated)',
       type: 'array',
-      description: '2–4 questions this case study directly answers. Drives FAQ accordion on the detail page and JSON-LD FAQPage markup (SUG-94).',
+      description: '⚠️ Deprecated — use an Accordion Section with semantic role "FAQ" in the Content sections instead. Existing data still displays but new content should use the section builder.',
       group: 'seo',
+      hidden: true,
+      deprecated: {reason: 'Replaced by accordionSection with semantic: "faq". Add a new Accordion Section in Content and set its Semantic Role to FAQ. Migration: SUG-94.'},
       of: [
         defineArrayMember({
           type: 'object',
@@ -501,14 +519,12 @@ export default defineType({
               name: 'question',
               title: 'Question',
               type: 'string',
-              description: 'Phrased as a real prospect search query — e.g. "How did you cut analyst onboarding time?"',
               validation: (Rule) => Rule.required().max(200),
             }),
             defineField({
               name: 'answer',
               title: 'Answer',
               type: 'text',
-              description: '1–3 sentences. Must stand alone with no prior context required.',
               rows: 3,
               validation: (Rule) => Rule.required().max(400),
             }),
