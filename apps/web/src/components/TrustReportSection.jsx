@@ -1,6 +1,6 @@
 import stats from '../generated/stats.json'
 import { TRUST_LINKS } from '../lib/routes'
-import StatTile from '../design-system/components/stat-tile/StatTile'
+import Tile from '../design-system/components/tile/Tile'
 import DataTable, { KindBadge } from '../design-system/components/data-table/DataTable'
 import styles from './TrustReportSection.module.css'
 
@@ -74,24 +74,24 @@ function DesignSystemStatsReport() {
   return (
     <div className={styles.reportWrap}>
       <div className={styles.tileGrid}>
-        <StatTile
+        <Tile
           label="Design tokens"
           value={ds?.tokens?.total ?? '—'}
           sub={ds?.tokens?.primitives != null ? `${ds.tokens.primitives} primitive · ${ds.tokens.component} component` : undefined}
           bar={tokenSegments.length ? { segments: tokenSegments, total: ds.tokens.total } : undefined}
           legend
         />
-        <StatTile
+        <Tile
           label="Components"
           value={componentFiles || '—'}
           sub={storybookComps > 0 ? `${storybookComps} with story coverage` : undefined}
         />
-        <StatTile
+        <Tile
           label="Stories"
           value={storybook?.stories ?? '—'}
           sub={storybookComps > 0 ? `${storybookComps} components covered` : undefined}
         />
-        <StatTile
+        <Tile
           label="Story coverage"
           value={coveragePct || '—'}
           unit="%"

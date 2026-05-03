@@ -10,14 +10,14 @@ import { resolveSeo } from '../lib/seo'
 import { getArchivePath } from '../lib/routes'
 import { generateJsonLd } from '../lib/jsonLd'
 import { extractLeadHero } from '../lib/heroUtils'
-import { CitationNote, CitationZone, SectionLabel } from '../design-system'
+import { CitationNote, CitationZone, SectionLabel, Callout } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
 import PageSidebar, { hasSidebarContent } from '../components/PageSidebar'
-import StatTile from '../design-system/components/stat-tile/StatTile'
+import Tile from '../design-system/components/tile/Tile'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -70,10 +70,9 @@ export default function CaseStudyPage() {
         />
 
         {caseStudy.challengeSummary && (
-          <div className={styles.challengeSummary}>
-            <p className={styles.challengeSummaryLabel}>Challenge</p>
-            <p className={styles.challengeSummaryText}>{caseStudy.challengeSummary}</p>
-          </div>
+          <Callout title="Challenge">
+            <p>{caseStudy.challengeSummary}</p>
+          </Callout>
         )}
 
         {caseStudy.outcomes?.length > 0 && (
@@ -81,12 +80,14 @@ export default function CaseStudyPage() {
             <SectionLabel>Outcomes</SectionLabel>
             <div className={styles.outcomeGrid}>
               {caseStudy.outcomes.map((outcome, i) => (
-                <StatTile
+                <Tile
                   key={outcome._key ?? i}
                   label={outcome.metric}
                   value={outcome.valueAfter}
                   sub={outcome.valueBefore || undefined}
                   chip={outcome.evidenceType || undefined}
+                  labelColor="ink"
+                  titleSize="display"
                 />
               ))}
             </div>

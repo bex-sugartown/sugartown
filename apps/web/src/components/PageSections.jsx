@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { PortableText } from '@portabletext/react'
-import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion } from '../design-system'
+import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, SectionLabel, Tile, Grid } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
 import stats from '../generated/stats.json'
-import { TRUST_LINKS } from '../lib/routes'
+import { TRUST_LINKS, getCanonicalPath } from '../lib/routes'
 import CardBuilderSection from './CardBuilderSection'
 import RecentContentSection from './RecentContentSection'
 import TrustReportSection from './TrustReportSection'
@@ -787,6 +787,60 @@ function AccordionSection({ section }) {
   )
 }
 
+// Cited Block Section Component (SUG-96)
+// citedBlock — headed section with body prose and optional "Further reading" references.
+function CitedBlockSection({ section }) {
+  if (!section.heading && !section.body) return null
+  return (
+    <section className={styles.citedBlockSection} id={section._sectionId}>
+      {section.heading && <h3 className={styles.h3}>{section.heading}</h3>}
+      {section.body && (
+        <div className={styles.textContent}>
+          <PortableText value={preprocessPortableText(section.body)} components={portableTextComponents} />
+        </div>
+      )}
+      {section.references?.length > 0 && (
+        <div className={styles.citedBlockRefs}>
+          <p className={styles.citedBlockRefsLabel}>Further reading</p>
+          <ul className={styles.citedBlockRefsList}>
+            {section.references.map((ref, i) => (
+              <li key={ref._id ?? i}>
+                <Link to={getCanonicalPath({ docType: ref._type, slug: ref.slug })}>
+                  {ref.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  )
+}
+
+// Stat Tile Section Component (SUG-96)
+// statTileSection — optional label + grid of metric Tile primitives.
+function StatTileSectionRenderer({ section }) {
+  if (!section.items?.length) return null
+  return (
+    <div className={styles.statTileSection} id={section._sectionId}>
+      {section.label && <SectionLabel>{section.label}</SectionLabel>}
+      <Grid spacing="0">
+        {section.items.map((item, i) => (
+          <Tile
+            key={item._key ?? i}
+            label={item.metric}
+            value={item.valueAfter}
+            sub={item.valueBefore || undefined}
+            chip={item.evidenceType || undefined}
+            labelColor="ink"
+            titleSize="display"
+          />
+        ))}
+      </Grid>
+    </div>
+  )
+}
+
 // Main Section Renderer
 // context="detail" — sections inherit containment from parent .detailPage (no own max-width / padding-inline)
 // context="full"   — sections self-contain (default, used on standalone pages)
@@ -823,6 +877,10 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
         return <RecentContentSection key={key} section={section} />
       case 'trustReportSection':
         return <TrustReportSection key={key} section={section} />
+      case 'citedBlock':
+        return <CitedBlockSection key={key} section={{ ...section, _sectionId: sectionId }} />
+      case 'statTileSection':
+        return <StatTileSectionRenderer key={key} section={{ ...section, _sectionId: sectionId }} />
       default:
         console.warn(`Unknown section type: ${section._type}`)
         return null

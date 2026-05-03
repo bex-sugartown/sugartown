@@ -162,6 +162,7 @@
   --st-color-blue-600: #0052A3;
 
   /* ── Spacing (rem scale, 8-point base) ───────────────── */
+  --st-space-0: 1px;   /* hairline — bg-through-gap dividers */
   --st-space-1: 4px;
   --st-space-2: 8px;
   --st-space-3: 12px;
@@ -650,7 +651,7 @@
   --st-table-max-width:    100%;
   --st-table-min-width:    600px;
 
-  /* ── StatTile ────────────────────────────────────────── */
+  /* ── StatTile (legacy — superseded by Tile) ─────────── */
   --st-stat-tile-bg:           var(--st-color-bg-surface);
   --st-stat-tile-border:       var(--st-color-border-subtle);
   --st-stat-tile-value-color:  var(--st-color-text-default);
@@ -659,6 +660,14 @@
   --st-stat-tile-bar-height:   4px;
   --st-stat-tile-bar-track:    var(--st-color-border-subtle);
   --st-stat-tile-padding:      1.25rem 1rem;
+
+  /* ── Tile ────────────────────────────────────────────── */
+  --st-tile-bg:                var(--st-stat-tile-bg);
+  --st-tile-bg-hover:          var(--st-color-bg-subtle);
+  --st-tile-label-color:       var(--st-stat-tile-label-color);
+  --st-tile-value-color:       var(--st-stat-tile-value-color);
+  --st-tile-sub-color:         var(--st-stat-tile-sub-color);
+  --st-tile-padding:           var(--st-stat-tile-padding);
 
   /* ── Blockquote ──────────────────────────────────────── */
   --st-blockquote-border-width: 3px;

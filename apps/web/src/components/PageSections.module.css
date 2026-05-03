@@ -765,6 +765,54 @@
   padding: var(--st-space-section-break) var(--st-page-gutter);
 }
 
+/* Cited Block Section (SUG-96) */
+.citedBlockSection {
+  max-width: var(--st-width-detail);
+  margin: 0 auto;
+  padding: 0 var(--st-page-gutter);
+}
+
+.citedBlockRefs {
+  margin-top: var(--st-spacing-stack-md);
+  padding-top: var(--st-spacing-stack-sm);
+  border-top: 1px solid var(--st-color-border-default);
+}
+
+.citedBlockRefsLabel {
+  font-size: var(--st-font-size-sm, 0.875rem);
+  font-weight: var(--st-font-weight-semibold);
+  color: var(--st-color-text-secondary);
+  margin: 0 0 var(--st-space-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.citedBlockRefsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-1);
+}
+
+.citedBlockRefsList a {
+  color: var(--st-color-brand-primary);
+  text-decoration: none;
+  font-size: var(--st-font-size-sm, 0.875rem);
+}
+
+.citedBlockRefsList a:hover {
+  text-decoration: underline;
+}
+
+/* Stat Tile Section (SUG-96) */
+.statTileSection {
+  max-width: var(--st-width-detail);
+  margin: 0 auto;
+  padding: 0 var(--st-page-gutter);
+}
+
 /* CTA Section */
 .ctaSection {
   max-width: var(--st-width-detail);
@@ -1169,6 +1217,13 @@
    Zero it out — the parent gap handles section spacing. */
 .detailContext .calloutSection :global(aside) {
   margin-block: 0;
+}
+
+/* citedBlock and statTileSection — section-specific gutters not needed in
+   detail context; parent gap handles all inter-section spacing. */
+.detailContext .citedBlockSection,
+.detailContext .statTileSection {
+  padding-inline: 0;
 }
 
 /* SUG-70 — wide/full breakout inside .detailContext.

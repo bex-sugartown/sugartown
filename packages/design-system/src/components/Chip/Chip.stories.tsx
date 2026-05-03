@@ -13,12 +13,6 @@ const meta: Meta<typeof Chip> = {
     label: { control: 'text' },
     href: { control: 'text' },
     isActive: { control: 'boolean' },
-    color: {
-      control: { type: 'select' },
-      options: ['pink', 'seafoam', 'lime', 'violet', 'amber', 'grey'],
-      description: 'Named colour preset. Overridden by colorHex if both set.',
-    },
-    colorHex: { control: 'color', description: 'Custom hex colour — overrides named preset' },
     size: { control: { type: 'select' }, options: ['sm', 'md'] },
     onClick: { table: { disable: true } },
     className: { table: { disable: true } },
@@ -29,158 +23,14 @@ const meta: Meta<typeof Chip> = {
 export default meta;
 type Story = StoryObj<typeof Chip>;
 
-// ─── Render modes ─────────────────────────────────────────────────────────────
-
-/** Default pink chip — static span (no href, no onClick) */
-export const StaticSpan: Story = {
-  args: { label: 'Design Systems' },
-};
-
-/** Link chip — renders as <a> */
-export const AsLink: Story = {
-  args: { label: 'Knowledge Graph', href: '/knowledge-graph' },
-};
-
-/** Button chip — renders as <button>, toggleable */
-export const AsButton: Story = {
-  args: { label: 'Toggle me', onClick: () => {} },
-};
-
-// ─── States ───────────────────────────────────────────────────────────────────
-
-export const Default: Story = {
-  args: { label: 'Category', href: '#' },
-};
-
-export const Active: Story = {
-  args: { label: 'Active Filter', onClick: () => {}, isActive: true },
-};
-
 // ─── Sizes ────────────────────────────────────────────────────────────────────
 
 export const Small: Story = {
-  args: { label: 'sm chip', href: '#', size: 'sm' },
+  args: { label: 'sm chip', href: '#', size: 'sm', color: 'grey' },
 };
 
 export const Medium: Story = {
-  args: { label: 'md chip', href: '#', size: 'md' },
-};
-
-// ─── Named color presets ──────────────────────────────────────────────────────
-
-/** Pink — Sugartown brand pink (default when no color prop set) */
-export const PresetPink: Story = {
-  args: { label: 'Design Systems', href: '#', color: 'pink' },
-};
-
-/** Seafoam — tools & platforms accent */
-export const PresetSeafoam: Story = {
-  args: { label: 'TypeScript', href: '#', color: 'seafoam' },
-};
-
-/** Lime — evergreen / validated content */
-export const PresetLime: Story = {
-  args: { label: 'Evergreen', color: 'lime' },
-};
-
-/** Violet — project / strategic accent */
-export const PresetViolet: Story = {
-  args: { label: 'Brand Strategy', href: '#', color: 'violet' },
-};
-
-/** Amber — status / warning accent */
-export const PresetAmber: Story = {
-  args: { label: 'In Progress', color: 'amber' },
-};
-
-/** Grey — neutral fallback (no taxonomy color assigned) */
-export const PresetGrey: Story = {
-  args: { label: 'Uncategorised', href: '#', color: 'grey' },
-};
-
-/** All six named presets in a row */
-export const AllPresets: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-      <Chip label="Pink (default)" color="pink" href="#" />
-      <Chip label="Seafoam"        color="seafoam" href="#" />
-      <Chip label="Lime"           color="lime" href="#" />
-      <Chip label="Violet"         color="violet" href="#" />
-      <Chip label="Amber"          color="amber" href="#" />
-    </div>
-  ),
-  parameters: { layout: 'padded' },
-};
-
-// ─── Color-aware (custom hex override) ────────────────────────────────────────
-
-/** Colour-aware chip using a project/category color via colorHex prop */
-export const ColorAwareProject: Story = {
-  args: { label: 'Brand Strategy', href: '#', colorHex: '#7C3AED' },
-};
-
-export const ColorAwareCategory: Story = {
-  args: { label: 'Design Systems', href: '#', colorHex: '#0891B2' },
-};
-
-/** colorHex overrides named preset — inline style wins over class */
-export const ColorHexOverridesPreset: Story = {
-  args: { label: 'Custom Override', href: '#', color: 'pink', colorHex: '#059669' },
-};
-
-// ─── All variants — taxonomy chip row ─────────────────────────────────────────
-
-export const TaxonomyChipRow: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', maxWidth: '600px' }}>
-      {/* Projects — violet preset or custom colorHex from project.colorHex */}
-      <Chip label="Brand Strategy"    href="#" color="violet" />
-      <Chip label="Web Platform"      href="#" colorHex="#0891B2" />
-      {/* Categories — custom colorHex from category.colorHex */}
-      <Chip label="Design Systems"    href="#" colorHex="#D97706" />
-      <Chip label="Engineering"       href="#" colorHex="#059669" />
-      {/* Tags — default pink (brand accent) */}
-      <Chip label="accessibility"     href="#" />
-      <Chip label="performance"       href="#" />
-      <Chip label="typography"        href="#" />
-      {/* Tools — seafoam preset */}
-      <Chip label="TypeScript"        href="#" color="seafoam" />
-      <Chip label="React"             href="#" color="seafoam" />
-    </div>
-  ),
-  parameters: { layout: 'padded' },
-};
-
-// ─── Filter chips (button mode) ───────────────────────────────────────────────
-
-/** A row of filter chips demonstrating button mode with active state */
-export const FilterChipRow: Story = {
-  render: () => {
-    const [active, setActive] = React.useState<string[]>(['design-systems']);
-    const options = [
-      { id: 'design-systems', label: 'Design Systems' },
-      { id: 'engineering',    label: 'Engineering' },
-      { id: 'strategy',       label: 'Strategy' },
-      { id: 'accessibility',  label: 'Accessibility' },
-    ];
-    const toggle = (id: string) =>
-      setActive((prev) =>
-        prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-      );
-    return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-        {options.map((opt) => (
-          <Chip
-            key={opt.id}
-            label={opt.label}
-            onClick={() => toggle(opt.id)}
-            isActive={active.includes(opt.id)}
-          />
-        ))}
-      </div>
-    );
-  },
-  parameters: { layout: 'padded' },
+  args: { label: 'md chip (default)', href: '#', size: 'md', color: 'grey' },
 };
 
 // ─── Rule-dot system (SUG-88) ─────────────────────────────────────────────────
@@ -244,10 +94,6 @@ export const AllStatusStates: Story = {
 // SNAPSHOT — Chromatic composite (all variants in one screenshot)
 // ═══════════════════════════════════════════════════════════════════
 
-/**
- * Chromatic snapshot — all sizes, presets, and modes composed into a
- * single screenshot for VRT baseline.
- */
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
   parameters: {
@@ -256,43 +102,12 @@ export const Snapshot: Story = {
   },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '720px' }}>
-      {/* Sizes */}
+      {/* Sizes — neutral grey colorway */}
       <div>
         <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Sizes</h4>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-          <Chip label="Small" href="#" size="sm" />
-          <Chip label="Medium (default)" href="#" size="md" />
-        </div>
-      </div>
-      {/* Named presets */}
-      <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Named Presets</h4>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-          <Chip label="Pink" color="pink" href="#" />
-          <Chip label="Seafoam" color="seafoam" href="#" />
-          <Chip label="Lime" color="lime" href="#" />
-          <Chip label="Violet" color="violet" href="#" />
-          <Chip label="Amber" color="amber" href="#" />
-          <Chip label="Grey" color="grey" href="#" />
-        </div>
-      </div>
-      {/* Render modes */}
-      <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Render Modes</h4>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-          <Chip label="Static span" />
-          <Chip label="Link" href="#" />
-          <Chip label="Button" onClick={() => {}} />
-          <Chip label="Active button" onClick={() => {}} isActive />
-        </div>
-      </div>
-      {/* Color-aware */}
-      <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Color-aware (custom hex)</h4>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-          <Chip label="Brand Strategy" href="#" colorHex="#7C3AED" />
-          <Chip label="Engineering" href="#" colorHex="#059669" />
-          <Chip label="Design Systems" href="#" colorHex="#D97706" />
+          <Chip label="Small" href="#" size="sm" color="grey" />
+          <Chip label="Medium (default)" href="#" size="md" color="grey" />
         </div>
       </div>
       {/* Rule-dot system */}

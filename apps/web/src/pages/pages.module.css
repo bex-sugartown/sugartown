@@ -120,32 +120,6 @@
   margin-bottom: var(--st-space-section-break-detail);
 }
 
-/* ── Challenge Summary ────────────────────────────────────────────────────── */
-.challengeSummary {
-  align-self: start;
-  margin-bottom: var(--st-space-section-break-detail);
-  padding: var(--st-space-5) var(--st-space-6);
-  border-left: 3px solid var(--st-color-brand-primary);
-  background: var(--st-color-bg-subtle);
-}
-
-.challengeSummaryLabel {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
-  color: var(--st-label-color);
-  margin: 0 0 var(--st-space-2);
-}
-
-.challengeSummaryText {
-  font-family: var(--st-font-family-ui);
-  font-size: var(--st-font-size-md);
-  line-height: var(--st-line-height-relaxed);
-  color: var(--st-color-text-default);
-  margin: 0;
-}
 
 /* ── Outcome Strip ────────────────────────────────────────────────────────── */
 .outcomeStrip {

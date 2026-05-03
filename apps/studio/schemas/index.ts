@@ -29,7 +29,7 @@ import mediaOverlay from './objects/mediaOverlay'
 import tableBlock from './objects/tableBlock'
 import citationItem from './objects/citationItem'
 import outcomeItem from './objects/outcomeItem'
-import answerBlock from './objects/answerBlock'
+import citedBlock from './objects/answerBlock'
 import navItem from './objects/navItem'
 import childNavItem from './objects/childNavItem'
 
@@ -117,7 +117,7 @@ export const schemaTypes = [
   tableBlock,
   citationItem,
   outcomeItem,
-  answerBlock,
+  citedBlock,
   navItem,
   childNavItem,
 

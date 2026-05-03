@@ -1,0 +1,190 @@
+/* Tile — metric display + content preview surface (SUG-96)
+ * Token-first: all colors via --st-tile-* or --st-* semantic tokens.
+ */
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: var(--st-tile-padding, var(--st-stat-tile-padding));
+  background: var(--st-tile-bg, var(--st-stat-tile-bg));
+}
+
+/* sm: compact for tight grid contexts */
+.sm {
+  --st-tile-padding: 0.75rem 0.875rem;
+}
+
+/* linked surface */
+.linked {
+  text-decoration: none;
+  color: inherit;
+  transition: background 120ms;
+}
+.linked:hover {
+  background: var(--st-tile-bg-hover, var(--st-color-bg-subtle));
+  box-shadow: inset 0 2px 0 var(--st-color-brand-primary);
+}
+
+/* ── Label ────────────────────────────────────────────────────────── */
+
+.label {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+/* labelColor="ink" — neutral muted (metric field name) */
+.labelInk  { color: var(--st-tile-label-color, var(--st-stat-tile-label-color)); }
+/* labelColor="brand" — brand pink (content type badge) */
+.labelBrand { color: var(--st-color-brand-primary); }
+
+/* ── Primary value / title ────────────────────────────────────────── */
+
+.value {
+  font-family: var(--st-font-family-narrative);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--st-tile-value-color, var(--st-stat-tile-value-color));
+}
+
+/* titleSize scale — maps to font.size.* tokens */
+.titleSize-display { font-size: var(--st-font-size-display, 3rem); }
+.titleSize-2xl     { font-size: var(--st-font-size-2xl); }
+.titleSize-xl      { font-size: var(--st-font-size-xl); }
+.titleSize-lg      { font-size: var(--st-font-size-lg); line-height: 1.35; }
+.titleSize-md      { font-size: var(--st-font-size-md); line-height: 1.4; }
+.titleSize-sm      { font-size: var(--st-font-size-sm); line-height: 1.4; }
+.titleSize-xs      { font-size: var(--st-font-size-xs); line-height: 1.4; }
+
+.sm .titleSize-display { font-size: var(--st-font-size-2xl); }
+
+/* ── Unit (inline metric suffix) ──────────────────────────────────── */
+
+.unit {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: var(--st-font-weight-normal);
+  color: var(--st-tile-sub-color, var(--st-stat-tile-sub-color));
+  margin-left: 0.25em;
+  vertical-align: baseline;
+}
+
+/* ── Sub (secondary descriptor below value) ───────────────────────── */
+
+.sub {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-tile-sub-color, var(--st-stat-tile-sub-color));
+  line-height: 1.4;
+}
+
+/* ── Body (prose — content preview only) ─────────────────────────── */
+
+.body {
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-secondary);
+  line-height: 1.5;
+  margin: 0.25rem 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Chip (tag evidence — metric only) ────────────────────────────── */
+
+/* Positioning only — Chip component handles visual styling */
+.chip {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+/* ── Meta (footer string — content preview) ───────────────────────── */
+
+.meta {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-label-size);
+  color: var(--st-color-text-muted);
+  letter-spacing: var(--st-label-tracking);
+  margin-top: auto;
+  padding-top: var(--st-space-2);
+  border-top: 1px solid var(--st-color-border-subtle);
+}
+
+/* ── Skeleton loading ─────────────────────────────────────────────── */
+
+.skeleton {
+  display: block;
+  height: 1em;
+  background: var(--st-color-bg-subtle);
+  border-radius: 2px;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ── Breakdown bar ────────────────────────────────────────────────── */
+
+.barWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.barTrack {
+  display: flex;
+  width: 100%;
+  height: var(--st-stat-tile-bar-height);
+  background: var(--st-stat-tile-bar-track);
+  overflow: hidden;
+}
+
+.barSegment {
+  height: 100%;
+  flex-shrink: 0;
+}
+
+/* ── Legend ───────────────────────────────────────────────────────── */
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legendSwatch {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.legendLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-tile-label-color, var(--st-stat-tile-label-color));
+  flex: 1;
+}
+
+.legendValue {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-tile-sub-color, var(--st-stat-tile-sub-color));
+}

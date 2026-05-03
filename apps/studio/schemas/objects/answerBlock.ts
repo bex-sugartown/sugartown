@@ -1,47 +1,44 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
-import {HelpCircleIcon} from '@sanity/icons'
+import {DocumentTextIcon} from '@sanity/icons'
 import {summaryPortableText} from './portableTextConfig'
 
 /**
- * answerBlock — inline Q&A section type.
+ * citedBlock — inline headed section with body text and optional reference links.
  *
- * A single question + answer unit in sections[]. Editors add one block
- * per Q&A pair; multiple consecutive blocks form a Q&A series.
- *
- * Distinct from keyQuestions[] (deprecated) and accordionSection with
- * semantic: 'faq'. answerBlock is for editorial Q&As embedded in the
- * narrative content flow. No JSON-LD output.
+ * General-purpose narrative block: a heading, body prose, and optional
+ * "Further reading" references. Replaces the Q&A-specific answerBlock (SUG-96).
+ * Previous fields: question → heading, answer → body, evidence → references.
  *
  * Available in: caseStudy, article, node sections[]
  *
- * SUG-94
+ * SUG-94 / SUG-96
  */
 export default defineType({
-  name: 'answerBlock',
-  title: 'Answer Block',
+  name: 'citedBlock',
+  title: 'Cited Block',
   type: 'object',
-  icon: HelpCircleIcon,
+  icon: DocumentTextIcon,
   fields: [
     defineField({
-      name: 'question',
-      title: 'Question',
+      name: 'heading',
+      title: 'Heading',
       type: 'string',
-      description: 'The question being answered',
+      description: 'Section heading for this block',
       validation: (Rule) => Rule.required().max(200),
     }),
     defineField({
-      name: 'answer',
-      title: 'Answer',
+      name: 'body',
+      title: 'Body',
       type: 'array',
       of: summaryPortableText,
-      description: 'Direct answer — supports bold, italic, and inline links',
+      description: 'Body content — supports bold, italic, and inline links',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'evidence',
-      title: 'Evidence',
+      name: 'references',
+      title: 'References',
       type: 'array',
-      description: 'Optional related content links shown as "Further reading" below the answer',
+      description: 'Optional related content links shown as "Further reading" below the body',
       of: [
         defineArrayMember({
           type: 'reference',
@@ -56,12 +53,12 @@ export default defineType({
   ],
   preview: {
     select: {
-      question: 'question',
+      heading: 'heading',
     },
-    prepare({question}) {
+    prepare({heading}) {
       return {
-        title: question || 'Untitled question',
-        subtitle: 'Answer Block',
+        title: heading || 'Untitled block',
+        subtitle: 'Cited Block',
       }
     },
   },

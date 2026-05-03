@@ -8,101 +8,24 @@
   padding-inline: var(--st-page-gutter);
 }
 
-
 /* ── Ticker grid ────────────────────────────────────────────────────────────
-   gap: 1px with a border-coloured background = hairline dividers, zero space.
-   Cards have no border — the container provides the outer frame.
+   spacing="0" bg-through-gap: parent bg shows through 1px gap as hairline.
+   Tile covers parent bg with its own background. Top accent = 2px pink rule.
 ───────────────────────────────────────────────────────────────────────────── */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--st-color-rule-accent);
-  border: 1px solid var(--st-color-rule-accent);
+  gap: var(--st-space-0);
+  background: var(--st-color-border-default);
+  border: 1px solid var(--st-color-border-default);
   border-top: 2px solid var(--st-color-pink);
   overflow: hidden;
+
+  /* Override tile padding to match section spacing */
+  --st-tile-padding: var(--st-space-6);
 }
 
-/* ── TickerCard ─────────────────────────────────────────────────────────────
-   No border — grid provides all edges.
-   Uses card tokens so colours + typography stay in sync with Card component.
-───────────────────────────────────────────────────────────────────────────── */
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--st-space-3);
-  padding: var(--st-space-6);
-  background: var(--st-card-bg);
-  text-decoration: none;
-  color: inherit;
-  transition: background 120ms ease;
-  min-height: 140px;
-}
-
-a.card:hover {
-  background: var(--st-card-bg-alt);
-  box-shadow: inset 0 2px 0 var(--st-color-brand-primary);
-}
-
-.cardType {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
-  color: var(--st-color-brand-primary);
-}
-
-.cardTitle {
-  font-family: var(--st-font-family-narrative);
-  font-size: var(--st-font-heading-4);
-  font-weight: 600;
-  line-height: var(--st-line-height-tight);
-  color: var(--st-color-text-primary);
-  flex: 1;
-}
-
-.cardDescriptor {
-  font-family: var(--st-font-family-ui);
-  font-size: var(--st-font-size-sm);
-  color: var(--st-color-text-secondary);
-  line-height: var(--st-line-height-relaxed);
-  margin: 0;
-
-  /* Clamp to 2 lines so columns stay equal height */
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.cardMeta {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  color: var(--st-label-color);
-  letter-spacing: var(--st-label-tracking);
-  margin-top: auto;
-  padding-top: var(--st-space-3);
-  border-top: 1px solid var(--st-color-rule-accent);
-}
-
-/* ── Skeleton loading state ─────────────────────────────────────────────── */
-.skeleton {
-  display: block;
-  height: 1em;
-  background: var(--st-color-bg-subtle);
-  border-radius: 2px;
-  animation: shimmer 1.4s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
-}
-
-/* ── Responsive ────────────────────────────────────────────────────────────
-   Below md: stack vertically — ticker becomes a column.
-───────────────────────────────────────────────────────────────────────────── */
+/* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .grid {
     grid-template-columns: 1fr;

@@ -406,10 +406,10 @@ export const nodeBySlugQuery = `
         heading,
         reportType
       },
-      _type == "answerBlock" => {
-        question,
-        "answer": answer${PT_CONTENT_PROJECTION},
-        evidence[]->{_id, _type, title, "slug": slug.current}
+      _type == "citedBlock" => {
+        heading,
+        "body": body${PT_CONTENT_PROJECTION},
+        references[]->{_id, _type, title, "slug": slug.current}
       },
       _type == "statTileSection" => {
         label,
@@ -596,10 +596,10 @@ export const articleBySlugQuery = `
         heading,
         reportType
       },
-      _type == "answerBlock" => {
-        question,
-        "answer": answer${PT_CONTENT_PROJECTION},
-        evidence[]->{_id, _type, title, "slug": slug.current}
+      _type == "citedBlock" => {
+        heading,
+        "body": body${PT_CONTENT_PROJECTION},
+        references[]->{_id, _type, title, "slug": slug.current}
       },
       _type == "statTileSection" => {
         label,
@@ -767,10 +767,10 @@ export const pageBySlugQuery = `
         heading,
         reportType
       },
-      _type == "answerBlock" => {
-        question,
-        "answer": answer${PT_CONTENT_PROJECTION},
-        evidence[]->{_id, _type, title, "slug": slug.current}
+      _type == "citedBlock" => {
+        heading,
+        "body": body${PT_CONTENT_PROJECTION},
+        references[]->{_id, _type, title, "slug": slug.current}
       },
       _type == "statTileSection" => {
         label,
@@ -937,10 +937,10 @@ export const caseStudyBySlugQuery = `
         heading,
         reportType
       },
-      _type == "answerBlock" => {
-        question,
-        "answer": answer${PT_CONTENT_PROJECTION},
-        evidence[]->{_id, _type, title, "slug": slug.current}
+      _type == "citedBlock" => {
+        heading,
+        "body": body${PT_CONTENT_PROJECTION},
+        references[]->{_id, _type, title, "slug": slug.current}
       },
       _type == "statTileSection" => {
         label,

@@ -9,3 +9,5 @@ export { default as CodeBlock, InlineCode } from './components/codeblock/CodeBlo
 export { CitationMarker, CitationNote, CitationZone } from './components/citation/Citation'
 export { default as Accordion } from './components/accordion/Accordion'
 export { default as SectionLabel } from './components/section-label/SectionLabel'
+export { default as Tile } from './components/tile/Tile'
+export { default as Grid } from './components/grid/Grid'

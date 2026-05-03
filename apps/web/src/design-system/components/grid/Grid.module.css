@@ -1,0 +1,30 @@
+/* Grid — responsive tile/card grid (SUG-96)
+ *
+ * spacing="lg"  → open gap (--st-space-card-gap, space.6 = 32px)
+ * spacing="0"   → bg-through-gap hairline (--st-space-0 = 1px)
+ *                 bg on parent = hairline color; children cover it with own bg.
+ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns, auto-fit), minmax(200px, 1fr));
+  overflow: hidden;
+}
+
+/* ── spacing="lg" — open card gap ────────────────────────────────── */
+.spacing-lg {
+  gap: var(--st-space-card-gap);
+}
+
+/* ── spacing="0" — hairline bg-through-gap ───────────────────────── */
+/* bg color = border color → parent bg shows through gap as dividers */
+.spacing-0 {
+  gap: var(--st-space-0);
+  background: var(--st-color-border-default);
+  border: 1px solid var(--st-color-border-default);
+}
+
+/* ── accentTop — 2px brand rule on top edge ──────────────────────── */
+.accentTop {
+  border-top: 2px solid var(--st-color-brand-primary);
+}
