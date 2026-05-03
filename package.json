@@ -1,6 +1,6 @@
 {
   "name": "sugartown-monorepo",
-  "version": "0.23.4",
+  "version": "0.23.5",
   "private": true,
   "type": "module",
   "description": "Sugartown.io mini-monorepo: composable MACH reference architecture",
