@@ -462,6 +462,64 @@ export default defineType({
       group: 'seo',
     }),
 
+    // AEO/GEO retrieval fields — SUG-93
+    // Machine-readable summaries for AI answer engines and LLMs.
+    // aeoSummary: direct-answer paragraph for featured snippets + AI citation.
+    // geoSummary: fact-dense third-person inventory for LLM extraction.
+    // keyQuestions[]: FAQ pairs driving visible accordion + SUG-94 JSON-LD output.
+    defineField({
+      name: 'aeoSummary',
+      title: 'AEO Summary',
+      type: 'text',
+      description: 'One paragraph answering "What did Bex do for [client]?" — written for AI citation and featured snippets. No em dashes, no jargon, no hedge stacking.',
+      group: 'seo',
+      rows: 5,
+      validation: (Rule) => Rule.max(600),
+    }),
+    defineField({
+      name: 'geoSummary',
+      title: 'GEO Summary',
+      type: 'text',
+      description: 'LLM-optimised fact inventory. Third-person, fact-dense, no narrative. Format: "Client: X. Engagement: Y. Outcome: Z. Stack: A, B. Role: D (contract type)."',
+      group: 'seo',
+      rows: 4,
+      validation: (Rule) => Rule.max(600),
+    }),
+    defineField({
+      name: 'keyQuestions',
+      title: 'Key Questions',
+      type: 'array',
+      description: '2–4 questions this case study directly answers. Drives FAQ accordion on the detail page and JSON-LD FAQPage markup (SUG-94).',
+      group: 'seo',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'keyQuestion',
+          title: 'Key Question',
+          fields: [
+            defineField({
+              name: 'question',
+              title: 'Question',
+              type: 'string',
+              description: 'Phrased as a real prospect search query — e.g. "How did you cut analyst onboarding time?"',
+              validation: (Rule) => Rule.required().max(200),
+            }),
+            defineField({
+              name: 'answer',
+              title: 'Answer',
+              type: 'text',
+              description: '1–3 sentences. Must stand alone with no prior context required.',
+              rows: 3,
+              validation: (Rule) => Rule.required().max(400),
+            }),
+          ],
+          preview: {
+            select: {title: 'question', subtitle: 'answer'},
+          },
+        }),
+      ],
+    }),
+
     // MIGRATION GROUP — populated by migrate:import, read-only in Studio
     defineField({
       name: 'legacySource',

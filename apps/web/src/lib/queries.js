@@ -887,6 +887,9 @@ export const caseStudyBySlugQuery = `
       }
     },
     challengeSummary,
+    aeoSummary,
+    geoSummary,
+    keyQuestions[]{ _key, question, answer },
     outcomes[]{
       _key,
       metric,
