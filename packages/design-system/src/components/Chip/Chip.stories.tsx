@@ -26,11 +26,11 @@ type Story = StoryObj<typeof Chip>;
 // ─── Sizes ────────────────────────────────────────────────────────────────────
 
 export const Small: Story = {
-  args: { label: 'sm chip', href: '#', size: 'sm', color: 'grey' },
+  args: { label: 'sm chip', href: '#', size: 'sm', variant: 'tag' },
 };
 
 export const Medium: Story = {
-  args: { label: 'md chip (default)', href: '#', size: 'md', color: 'grey' },
+  args: { label: 'md chip (default)', href: '#', size: 'md', variant: 'tag' },
 };
 
 // ─── Rule-dot system (SUG-88) ─────────────────────────────────────────────────
@@ -102,12 +102,12 @@ export const Snapshot: Story = {
   },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '720px' }}>
-      {/* Sizes — neutral grey colorway */}
+      {/* Sizes */}
       <div>
         <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Sizes</h4>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
-          <Chip label="Small" href="#" size="sm" color="grey" />
-          <Chip label="Medium (default)" href="#" size="md" color="grey" />
+          <Chip label="Small" href="#" size="sm" variant="tag" />
+          <Chip label="Medium (default)" href="#" size="md" variant="tag" />
         </div>
       </div>
       {/* Rule-dot system */}
