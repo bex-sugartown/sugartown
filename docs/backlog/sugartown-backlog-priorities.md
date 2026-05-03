@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-03 · v0.23.8 · SUG-94 shipped — answerBlock + statTileSection schema objects, tool.kind classification, JSON-LD CreativeWork + FAQPage, SUG-96 case study mock scoped
+> Updated 2026-05-03 · v0.23.9 · SUG-96 shipped — SectionLabel + Tile + Grid DS primitives, citedBlock + statTileSection renderers, outcomes migrated to sections[], challenge callout full-width
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-94 shipped ✅ — answerBlock + statTileSection schema objects, tool.kind classification, JSON-LD CreativeWork + FAQPage on CaseStudyPage. SUG-96 (DS polish: SectionLabel, Tile, Grid primitives + case study page comprehensive redesign) is next — Phase 0 HTML mocks required before any JSX.
+> **⚑ Current focus:** SUG-96 shipped ✅ — SectionLabel + Tile + Grid DS primitives, citedBlock + statTileSection renderers, outcomes migrated to sections[], challenge callout full-span. SUG-90 (consulting pivot — Services/Contact/About editorial) is next.
 
 ---
 
@@ -80,6 +80,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-96 · DS section label, Tile primitive, citedBlock renderer** — SectionLabel primitive, Chip story cleanup (rule-dot only), Tile + Grid DS primitives, citedBlock section renderer (card treatment, bracket ref-strip), statTileSection renderer, inline code hot-pink/lime. Outcomes migrated from outcomes[] to statTileSection in sections[] across all 8 case studies. Challenge callout full-span above sidebar. Tile heading 2xl (28px).~~ | v0.23.9 | 2026-05-03 |
 | ~~**SUG-94 · Structured retrieval objects + JSON-LD renderer** — answerBlock + statTileSection schema objects (cross-cut caseStudy, article, node). tool.kind classification (practitioner/platform). JSON-LD CreativeWork + FAQPage on CaseStudyPage. keyQuestions[] renderer removed; SUG-96 comprehensive case study page mock scoped.~~ | v0.23.8 | 2026-05-03 |
 | ~~**SUG-93 · Case study AEO/GEO content layer** — aeoSummary, geoSummary, keyQuestions[] on caseStudy schema. FAQ accordion on CaseStudyPage. Editorial pass: 7 documents patched as drafts.~~ | v0.23.7 | 2026-05-03 |
 | ~~**SUG-92 · Case study discovery metadata** — industry[], companySize, region fields on caseStudy schema. GROQ projection + MetadataCard render. Population pass: 7 documents patched as drafts.~~ | v0.23.6 | 2026-05-03 |
