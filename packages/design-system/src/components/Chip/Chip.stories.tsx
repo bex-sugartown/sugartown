@@ -93,7 +93,12 @@ export const PresetAmber: Story = {
   args: { label: 'In Progress', color: 'amber' },
 };
 
-/** All five named presets in a row */
+/** Grey — neutral fallback (no taxonomy color assigned) */
+export const PresetGrey: Story = {
+  args: { label: 'Uncategorised', href: '#', color: 'grey' },
+};
+
+/** All six named presets in a row */
 export const AllPresets: Story = {
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
@@ -178,6 +183,63 @@ export const FilterChipRow: Story = {
   parameters: { layout: 'padded' },
 };
 
+// ─── Rule-dot system (SUG-88) ─────────────────────────────────────────────────
+
+/** Tag chip — neutral mono box, canonical evidence/taxonomy chip */
+export const TagNeutral: Story = {
+  args: { label: 'performance', variant: 'tag' },
+};
+
+/** Tag chip featured — pink rubric on the first taxonomy chip in a set */
+export const TagFeatured: Story = {
+  args: { label: 'Design Systems', variant: 'tag', featured: true },
+};
+
+/** Status chip — evergreen (solid/stable content, no planned revision) */
+export const StatusEvergreen: Story = {
+  args: { label: 'Evergreen', variant: 'status', status: 'evergreen' },
+};
+
+/** Status chip — validated (evidence-backed, peer reviewed) */
+export const StatusValidated: Story = {
+  args: { label: 'Validated', variant: 'status', status: 'validated' },
+};
+
+/** Status chip — exploring (hypothesis, early signal) */
+export const StatusExploring: Story = {
+  args: { label: 'Exploring', variant: 'status', status: 'exploring' },
+};
+
+/** Status chip — active (in use / in-progress work) */
+export const StatusActive: Story = {
+  args: { label: 'Active', variant: 'status', status: 'active' },
+};
+
+/** Status chip — draft (not yet published or in review) */
+export const StatusDraft: Story = {
+  args: { label: 'Draft', variant: 'status', status: 'draft' },
+};
+
+/** Status chip — deprecated (superseded or retired) */
+export const StatusDeprecated: Story = {
+  args: { label: 'Deprecated', variant: 'status', status: 'deprecated' },
+};
+
+/** All six status dot states in a row */
+export const AllStatusStates: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+      <Chip label="Evergreen"   variant="status" status="evergreen" />
+      <Chip label="Validated"   variant="status" status="validated" />
+      <Chip label="Exploring"   variant="status" status="exploring" />
+      <Chip label="Active"      variant="status" status="active" />
+      <Chip label="Draft"       variant="status" status="draft" />
+      <Chip label="Deprecated"  variant="status" status="deprecated" />
+    </div>
+  ),
+  parameters: { layout: 'padded' },
+};
+
 // ═══════════════════════════════════════════════════════════════════
 // SNAPSHOT — Chromatic composite (all variants in one screenshot)
 // ═══════════════════════════════════════════════════════════════════
@@ -231,6 +293,26 @@ export const Snapshot: Story = {
           <Chip label="Brand Strategy" href="#" colorHex="#7C3AED" />
           <Chip label="Engineering" href="#" colorHex="#059669" />
           <Chip label="Design Systems" href="#" colorHex="#D97706" />
+        </div>
+      </div>
+      {/* Rule-dot system */}
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Rule-dot — tag</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          <Chip label="Design Systems" variant="tag" featured />
+          <Chip label="performance" variant="tag" />
+          <Chip label="accessibility" variant="tag" />
+        </div>
+      </div>
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Rule-dot — status</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          <Chip label="Evergreen"   variant="status" status="evergreen" />
+          <Chip label="Validated"   variant="status" status="validated" />
+          <Chip label="Exploring"   variant="status" status="exploring" />
+          <Chip label="Active"      variant="status" status="active" />
+          <Chip label="Draft"       variant="status" status="draft" />
+          <Chip label="Deprecated"  variant="status" status="deprecated" />
         </div>
       </div>
     </div>
