@@ -10,14 +10,13 @@ import { resolveSeo } from '../lib/seo'
 import { getArchivePath } from '../lib/routes'
 import { generateJsonLd } from '../lib/jsonLd'
 import { extractLeadHero } from '../lib/heroUtils'
-import { CitationNote, CitationZone, SectionLabel, Callout } from '../design-system'
+import { CitationNote, CitationZone, Callout } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
 import PageSidebar, { hasSidebarContent } from '../components/PageSidebar'
-import Tile from '../design-system/components/tile/Tile'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -39,7 +38,6 @@ export default function CaseStudyPage() {
   // Row 1 = MetadataCard (full-span). Each full-span block before PageSections adds a row.
   const sidebarRow = 2
     + (caseStudy.challengeSummary ? 1 : 0)
-    + (caseStudy.outcomes?.length > 0 ? 1 : 0)
 
   return (
     <main>
@@ -70,27 +68,10 @@ export default function CaseStudyPage() {
         />
 
         {caseStudy.challengeSummary && (
-          <Callout title="Challenge">
-            <p>{caseStudy.challengeSummary}</p>
-          </Callout>
-        )}
-
-        {caseStudy.outcomes?.length > 0 && (
-          <div className={styles.outcomeStrip}>
-            <SectionLabel>Outcomes</SectionLabel>
-            <div className={styles.outcomeGrid}>
-              {caseStudy.outcomes.map((outcome, i) => (
-                <Tile
-                  key={outcome._key ?? i}
-                  label={outcome.metric}
-                  value={outcome.valueAfter}
-                  sub={outcome.valueBefore || undefined}
-                  chip={outcome.evidenceType || undefined}
-                  labelColor="ink"
-                  titleSize="display"
-                />
-              ))}
-            </div>
+          <div className={styles.challengeSummary}>
+            <Callout title="Challenge">
+              <p>{caseStudy.challengeSummary}</p>
+            </Callout>
           </div>
         )}
 

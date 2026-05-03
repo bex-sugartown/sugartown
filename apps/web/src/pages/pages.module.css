@@ -99,10 +99,8 @@
     grid-column: 1;
   }
 
-  /* Challenge + outcomes: full-span so each occupies its own row.
-     Sidebar row is computed dynamically via --sidebar-row (set by CaseStudyPage). */
-  .detailPage[data-has-margin] > .challengeSummary,
-  .detailPage[data-has-margin] > .outcomeStrip {
+  /* Challenge: full-span so it occupies its own row above sections. */
+  .detailPage[data-has-margin] > .challengeSummary {
     grid-column: 1 / -1;
   }
 
@@ -121,28 +119,8 @@
 }
 
 
-/* ── Outcome Strip ────────────────────────────────────────────────────────── */
-.outcomeStrip {
-  align-self: start;
-  margin-bottom: var(--st-space-section-break-detail);
-}
 
 
-/* 1px-gap tileGrid pattern — mirrors TrustReportSection.module.css.
-   Parent bg shows through gap as hairline rules; StatTile covers it with its own bg. */
-.outcomeGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--st-color-rule-accent);
-  border: 1px solid var(--st-color-border-subtle);
-}
-
-@media (min-width: 640px) {
-  .outcomeGrid {
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  }
-}
 
 /* ── Key Questions FAQ ────────────────────────────────────────────────────── */
 .keyQuestionsZone {

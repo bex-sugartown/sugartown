@@ -8,7 +8,7 @@
 
 # SUG-96 — DS component polish: SectionLabel, Tile primitive, Grid primitive + Chip Storybook colorways + Case Study page
 
-Eight items: the original five DS polish items surfaced during SUG-91, plus a comprehensive case study detail page redesign (Item 6), a rename + visual redesign of `answerBlock` as a generic referenced-content primitive (Item 7), and Storybook housekeeping (Item 8). Items 3, 4, 6, and 7 require Phase 0 mocks before any JSX is written. Item 6 gates on Items 1–4. Item 7's renderer gates on its Phase 0 sign-off and the case study page mock.
+Nine items: the original five DS polish items surfaced during SUG-91, plus a comprehensive case study detail page redesign (Item 6), a rename + visual redesign of `answerBlock` as a generic referenced-content primitive (Item 7), Storybook housekeeping (Item 8), and Card story split (Item 9). Items 3, 4, 6, and 7 require Phase 0 mocks before any JSX is written. Item 6 gates on Items 1–4. Item 7's renderer gates on its Phase 0 sign-off and the case study page mock.
 
 ## Background
 
@@ -62,8 +62,9 @@ Eight items: the original five DS polish items surfaced during SUG-91, plus a co
   - [ ] Add Storybook stories: `MetricTile`, `ContentPreviewTile`, `WithChip`, `WithBeforeAfter`, `WithBar`, `Loading`, `SizeCompact`
 
 **Item 4 — Grid primitive:**
-- [ ] Phase 0 required: produce `docs/drafts/SUG-96-grid-primitive.html` mock showing both spacing variants (`"card"` and `"tile"`) with sample content before any JSX is written
-- [ ] Decide API: `<Grid spacing="card" columns={3}>` / `<Grid spacing="tile" columns={4}>` — or CSS utility classes with custom properties
+- [ ] Phase 0 mock: `docs/drafts/SUG-96-grid-primitive.html` ✅ (rev 2 — spacing token naming, hairline=border color, call site audit)
+- [ ] Add Grid spacing tokens to foundations before implementing: `--st-grid-gap-hairline: 1px` and `--st-grid-gap-md: var(--st-space-5)` — add to both `tokens.css` files
+- [ ] API: `<Grid spacing="md" columns={3}>` / `<Grid spacing="hairline" columns={4} accent>` — spacing values are scale token names, not child component names
 - [ ] `spacing="tile"` must apply `background: var(--st-color-rule-accent)` + `gap: 1px` + outer border on the container (the bg-through-gap technique)
 - [ ] Audit call sites: `TrustReportSection.module.css` (`.tileGrid`), `pages.module.css` (`.outcomeGrid`), `globals.css` (`.st-layout-grid`)
 - [ ] Migrate all three call sites to the shared primitive
@@ -90,6 +91,13 @@ Context: `answerBlock` (SUG-94) has schema + GROQ projection but no renderer. Be
   - [ ] Deploy schema
   - [ ] Add `{chosenName}` renderer to `PageSections.jsx` + CSS (no renderer exists yet — deferred from SUG-94)
   - [ ] Add Storybook story: default, with multiple references, without references
+
+**Item 9 — Card story split:**
+- [ ] Split `Primitives/Card` stories into two groups: folio/Ledger stories stay under `Primitives/Card`; listing variant stories move to `Primitives/Card/Listing`
+- [ ] Rename listing stories to make the variant's context explicit: `ListingBasic` → `ListingRow`, `ListingWithThumb` → `ListingRowWithThumb`, `ListingFullCard` → `ListingRowFullCard`
+- [ ] Update Snapshot story to include both groups
+- No component API change needed — `variant="listing"` is unchanged, only the Storybook title changes
+- Motivation: the folio card and listing card are visually different primitives; mixing them under one story title obscures both
 
 **Item 8 — Storybook housekeeping:** ✅ Done
 - [x] Delete `TaxonomyChips.stories.tsx` — orchestrates Chip with no pattern beyond the primitive

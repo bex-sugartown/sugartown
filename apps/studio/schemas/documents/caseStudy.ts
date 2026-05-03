@@ -276,12 +276,10 @@ export default defineType({
     }),
     defineField({
       name: 'outcomes',
-      title: 'Outcomes (Deprecated)',
+      title: 'Outcomes (migrate to sections)',
       type: 'array',
-      description: '⚠️ Deprecated — migrate to a Stat Tiles section in sections[]. Existing data still renders on the detail page until SUG-96 ships the Tile primitive.',
-      group: 'legacy',
-      hidden: true,
-      deprecated: {reason: 'Use a Stat Tiles section (statTileSection) in sections[] instead. The StatTile component is being unified into the Tile DS primitive in SUG-96. Outcomes[] data preserved for migration.'},
+      description: 'Migrate this data: add a "Stat Tiles" block to the sections array above, then clear these items.',
+      group: 'migration',
       of: [
         defineArrayMember({
           type: 'object',
