@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-03 · v0.23.5 · SUG-91 shipped — case study outcomes schema, challengeSummary field, StatTile render strip on CaseStudyPage
+> Updated 2026-05-03 · v0.23.6 · SUG-92 shipped — industry[], companySize, region metadata fields on caseStudy schema, GROQ, MetadataCard
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-91 shipped ✅ — outcomes[] schema, challengeSummary field, StatTile render strip on CaseStudyPage. SUG-94 (structured retrieval objects + JSON-LD, High) or SUG-89 (Chromatic parity stories, Medium) are the next picks.
+> **⚑ Current focus:** SUG-92 shipped ✅ — industry[], companySize, region on caseStudy; 7 documents populated as drafts (pending publish). SUG-94 (structured retrieval objects + JSON-LD, High) or SUG-89 (Chromatic parity stories, Medium) are the next picks.
 
 ---
 
@@ -31,7 +31,6 @@
 |---|------|------|----------|
 | 1 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` files with a build pipeline. Single JSON source generates both files; makes SUG-85 drift structurally impossible. 4 phases: spike → dual output → theme outputs → lock. Execute after SUG-85. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
 | 2 | **[SUG-89](https://linear.app/sugartown/issue/SUG-89) · Chromatic parity stories — Card, ContentCard & MetadataCard** — Add Chromatic-visible Storybook parity stories for the Card primitive and its related patterns (ContentCard, MetadataCard) to surface cross-component visual drift automatically. Epic: `docs/backlog/SUG-89-chromatic-parity-stories-card-contentcard-metadatacard.md`. | `Design System` `Tooling` | 🟣 Soon |
-| 3 | **[SUG-92](https://linear.app/sugartown/issue/SUG-92) · Case study discovery metadata** — Add `industry[]`, `companySize`, `region` to caseStudy schema. Additive only — no content rewrites. Enables sector filtering and consulting-context signals. Upstream of SUG-93. Epic: `docs/backlog/SUG-92-case-study-discovery-metadata.md`. | `Schema` `Content` | 🟣 Soon |
 
 ---
 
@@ -83,6 +82,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-92 · Case study discovery metadata** — industry[], companySize, region fields on caseStudy schema. GROQ projection + MetadataCard render. Population pass: 7 documents patched as drafts.~~ | v0.23.6 | 2026-05-03 |
 | ~~**SUG-91 · Case study outcomes narrative** — outcomes[] schema (metric/before/after/impactStatement/evidenceType), challengeSummary field, GROQ projection, StatTile render strip on CaseStudyPage. Schema deployed.~~ | v0.23.5 | 2026-05-03 |
 | ~~**SUG-87 · Dynamic Trust Report section type + DS primitives** — Section-builder-insertable `trustReportSection` (recent-releases + design-system-stats variants). StatTile + DataTable + KindBadge DS primitives. Hero stat rail updated (epics/commits/vulns). 4-tile responsive DS stats grid. Section heading standardised across all section schemas.~~ | v0.23.2 | 2026-04-29 |
 | ~~**SUG-88 · Ledger Tradition chip system — rule-dot Direction B** — Every chip is a neutral mono box with 1px border; semantic color via 6px round dot on status chips only. Pink rubric on first taxonomy chip (`tags[0]`) in any tag list. MetadataCard: tight density (0.55rem labels, 5px row pad), V2 Inverted Well dark mode (label col midnight-900, body midnight-700). Tools chips on archive/content cards migrated to rule-dot. 34 new `--st-chip-*` and `--st-metadata-*` tokens in both token files. Light-theme specificity fix: `:not(.ruleDot)` exclusion preserves neutral border on rule-dot chips.~~ | v0.23.3 | 2026-04-30 |
@@ -160,4 +160,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-03 · v0.23.5*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-03 · v0.23.6*
