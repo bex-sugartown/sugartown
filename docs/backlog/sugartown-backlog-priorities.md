@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-02 · v0.23.4 · SUG-95 shipped — @sanity/assist installed, caseStudy exclude config, conventions doc; SUG-91 is next
+> Updated 2026-05-03 · v0.23.5 · SUG-91 shipped — case study outcomes schema, challengeSummary field, StatTile render strip on CaseStudyPage
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-90 shipped ✅ — Contact, Services, About published. SUG-95 shipped ✅ — @sanity/assist installed, caseStudy exclude config in place, conventions doc written. SUG-91 (case study outcomes narrative) is the next pick-up.
+> **⚑ Current focus:** SUG-91 shipped ✅ — outcomes[] schema, challengeSummary field, StatTile render strip on CaseStudyPage. SUG-94 (structured retrieval objects + JSON-LD, High) or SUG-89 (Chromatic parity stories, Medium) are the next picks.
 
 ---
 
@@ -21,7 +21,6 @@
 |---|------|------|----------|
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** — Reframe sugartown.io to surface consulting/contract availability without closing off FTE: Services page outcome framing, availability signal on hero/About, case study narrative shifted to client outcomes, Contact tone, /platform surfaced from key entry points. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. <br>_⚡ Executing — Sanity drafts pending publish: Contact (Work with me. hero + mailto CTA), Services (secondary button fixed), About (hero subheading + §7 reframed as "Currently")._ | `Editorial` `UX` | 🟢 Next |
 | 2 | **[SUG-95](https://linear.app/sugartown/issue/SUG-95) · Sanity AI Assist POC — case study field generation** ✅ Shipped v0.23.3. `@sanity/assist` installed, caseStudy exclude config deployed, `docs/conventions/ai-assist-conventions.md` written. Epic: `docs/shipped/SUG-95-sanity-ai-assist-poc-case-study-fields.md`. | `Schema` `Tooling` `AI` | ✅ Shipped |
-| 3 | **[SUG-91](https://linear.app/sugartown/issue/SUG-91) · Case study outcomes narrative** — Enhance existing `outcomes[]` field (unhide + add before/after evidence structure), add `challengeSummary` field, editorial pass on all case study body copy to lead with client outcomes. Schema + GROQ + render + content. Epic: `docs/backlog/SUG-91-case-study-outcomes-narrative.md`. <br>_⬆ Elevated by consulting pivot. Rescoped 2026-05-02: outcomes[] enhancement replaces the originally proposed flat outcomesSummary field._ | `Content` `Schema` | 🟢 Next |
 | 3 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. <br>_⬇ Deprioritized by consulting pivot — KG visualization serves content-curious returning visitors; consulting prospects need Services/Contact/case studies first. Valuable long-term but not a conversion lever. Push below case study outcomes work._ | `UX` `Infrastructure` | 🟣 Soon |
 
 ---
@@ -84,6 +83,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-91 · Case study outcomes narrative** — outcomes[] schema (metric/before/after/impactStatement/evidenceType), challengeSummary field, GROQ projection, StatTile render strip on CaseStudyPage. Schema deployed.~~ | v0.23.5 | 2026-05-03 |
 | ~~**SUG-87 · Dynamic Trust Report section type + DS primitives** — Section-builder-insertable `trustReportSection` (recent-releases + design-system-stats variants). StatTile + DataTable + KindBadge DS primitives. Hero stat rail updated (epics/commits/vulns). 4-tile responsive DS stats grid. Section heading standardised across all section schemas.~~ | v0.23.2 | 2026-04-29 |
 | ~~**SUG-88 · Ledger Tradition chip system — rule-dot Direction B** — Every chip is a neutral mono box with 1px border; semantic color via 6px round dot on status chips only. Pink rubric on first taxonomy chip (`tags[0]`) in any tag list. MetadataCard: tight density (0.55rem labels, 5px row pad), V2 Inverted Well dark mode (label col midnight-900, body midnight-700). Tools chips on archive/content cards migrated to rule-dot. 34 new `--st-chip-*` and `--st-metadata-*` tokens in both token files. Light-theme specificity fix: `:not(.ruleDot)` exclusion preserves neutral border on rule-dot chips.~~ | v0.23.3 | 2026-04-30 |
 | ~~**SUG-85 · Token file sync audit** — packages/design-system tokens.css synced to web canonical: dark-first code-inline (lime pill), card hover shadow, spacing tokens unified to px. `--check-sync` flag added to validate-tokens.js — diffs :root values across both files, exits 1 on conflicts. 0 sync errors.~~ | v0.22.13 | 2026-04-27 |
@@ -160,4 +160,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-04-30 · v0.23.3*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-03 · v0.23.5*
