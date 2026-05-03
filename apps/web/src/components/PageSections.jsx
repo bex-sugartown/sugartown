@@ -835,7 +835,7 @@ function StatTileSectionRenderer({ section }) {
             sub={item.valueBefore || undefined}
             chip={item.evidenceType || undefined}
             labelColor="ink"
-            titleSize="display"
+            titleSize="2xl"
           />
         ))}
       </Grid>

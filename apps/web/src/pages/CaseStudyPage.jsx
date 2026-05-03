@@ -35,9 +35,19 @@ export default function CaseStudyPage() {
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(caseStudy.sections)
   const showMargin = hasSidebarContent({ ...caseStudy, sections: restSections })
 
+  // Pull any statTileSections that open the body (after hero) — render full-span above sidebar
+  let leadStatCount = 0
+  for (const s of restSections) {
+    if (s._type === 'statTileSection') leadStatCount++
+    else break
+  }
+  const leadStatTiles = restSections.slice(0, leadStatCount)
+  const bodySections  = restSections.slice(leadStatCount)
+
   // Row 1 = MetadataCard (full-span). Each full-span block before PageSections adds a row.
   const sidebarRow = 2
     + (caseStudy.challengeSummary ? 1 : 0)
+    + leadStatCount
 
   return (
     <main>
@@ -75,8 +85,14 @@ export default function CaseStudyPage() {
           </div>
         )}
 
-        {restSections.length > 0 && (
-          <PageSections sections={restSections} context="detail" />
+        {leadStatTiles.length > 0 && (
+          <div className={styles.outcomesFullSpan}>
+            <PageSections sections={leadStatTiles} context="detail" />
+          </div>
+        )}
+
+        {bodySections.length > 0 && (
+          <PageSections sections={bodySections} context="detail" />
         )}
 
         {caseStudy.citations?.length > 0 && (

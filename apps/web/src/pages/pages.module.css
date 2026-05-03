@@ -99,8 +99,9 @@
     grid-column: 1;
   }
 
-  /* Challenge: full-span so it occupies its own row above sections. */
-  .detailPage[data-has-margin] > .challengeSummary {
+  /* Challenge + leading stat tiles: full-span, each occupies its own row. */
+  .detailPage[data-has-margin] > .challengeSummary,
+  .detailPage[data-has-margin] > .outcomesFullSpan {
     grid-column: 1 / -1;
   }
 
@@ -115,6 +116,11 @@
 /* MetadataCard sits outside .detailContext (not covered by flex gap).
    Needs its own bottom margin to separate from the first section. */
 .detailPage > aside:first-child {
+  margin-bottom: var(--st-space-section-break-detail);
+}
+
+/* Full-span outcomes wrapper — sits outside detailContext flex gap, needs own spacing. */
+.outcomesFullSpan {
   margin-bottom: var(--st-space-section-break-detail);
 }
 
