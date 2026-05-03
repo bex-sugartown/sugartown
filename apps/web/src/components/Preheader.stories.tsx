@@ -9,6 +9,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import Preheader from './Preheader';
+import PreviewBanner from './PreviewBanner';
 
 const withRouter = (Story: React.ComponentType) => (
   <MemoryRouter>
@@ -83,4 +84,10 @@ export const Expired: Story = {
       unpublishAt: '2020-01-01T00:00:00Z',
     },
   },
+};
+
+/** PreviewBanner — sticky bar shown when VITE_SANITY_PREVIEW=true. Dev-only; tree-shaken in production. */
+export const PreviewMode: Story = {
+  name: 'Preview Mode Banner',
+  render: () => <PreviewBanner />,
 };

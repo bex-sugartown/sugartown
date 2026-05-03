@@ -8,9 +8,13 @@
 
 # SUG-96 — DS component polish: SectionLabel, Tile primitive, Grid primitive + Chip Storybook colorways + Case Study page
 
-Six items: the original five DS polish items surfaced during SUG-91, plus a comprehensive case study detail page redesign that wires the new SUG-94 section types (statTileSection, answerBlock) and migrates outcomes[] to sections[]. Item 6 gates on Items 1–4 (SectionLabel, Tile, Grid must exist before the page layout is wired).
+Eight items: the original five DS polish items surfaced during SUG-91, plus a comprehensive case study detail page redesign (Item 6), a rename + visual redesign of `answerBlock` as a generic referenced-content primitive (Item 7), and Storybook housekeeping (Item 8). Items 3, 4, 6, and 7 require Phase 0 mocks before any JSX is written. Item 6 gates on Items 1–4. Item 7's renderer gates on its Phase 0 sign-off and the case study page mock.
 
 ## Background
+
+**answerBlock rename**: `answerBlock` (SUG-94) was named after its initial FAQ/Q&A use case, but the schema is generic — a content block (`question` → heading, `answer` → body PortableText) backed by reference links (`evidence[]`). This is a pattern that appears across caseStudy, article, and node sections: a card or tile that makes a claim or poses a question, then backs it with linked evidence. The name `answerBlock` is too narrow; the pattern should be renamed to something that works across all three uses. Field names (`question`, `answer`) will also be generalised as part of this rename. The visual treatment (card? callout variant? tile with reference footer?) and the final name are open decisions to be resolved in the Phase 0 mock for Item 6 (the case study page).
+
+**Storybook housekeeping**: Two story files are redundant. `TaxonomyChips` (`Patterns/TaxonomyChips`) documents a component that orchestrates Chip — it adds no pattern over and above the Chip primitive stories. `PreviewBanner` (`Patterns/PreviewBanner`) is a single no-args story for a dev-only banner that is structurally identical to Preheader. Both have been cleaned up: `TaxonomyChips.stories.tsx` deleted; `PreviewBanner.stories.tsx` deleted and a `PreviewMode` story added to `Preheader.stories.tsx`.
 
 **SectionLabel**: The mono-caps heading with extending horizontal rule is implemented twice — in `RecentContentSection.module.css` (`.heading`) and `pages.module.css` (`.outcomeStripLabel`). Both sets of CSS are identical. The pattern needs a shared component before a third call site appears.
 
@@ -69,6 +73,28 @@ Six items: the original five DS polish items surfaced during SUG-91, plus a comp
 **Item 5 — Chip Storybook + Tile integration:**
 - [ ] After Tile (Item 3) ships: confirm Storybook Chip stories reference `Tile`'s `WithChip` story as the canonical evidence chip context (not standalone)
 
+**Item 7 — answerBlock rename + visual redesign:**
+
+Context: `answerBlock` (SUG-94) has schema + GROQ projection but no renderer. Before the renderer is written, the name and field API must be resolved. The current fields (`question`, `answer`, `evidence[]`) are specific to FAQ use; the component's actual shape is a generic card/tile with body content and reference links.
+
+- [ ] **Phase 0 required** — resolve in `docs/drafts/SUG-96-case-study-page.html` (Item 6 mock). The mock must show at least two name/visual options side by side:
+  - **Option A — `citedBlock`**: prose block (heading + body) with a linked reference footer, styled as a callout variant with a reference strip below. Field names: `heading`, `body`, `references[]`.
+  - **Option B — `referenceCard`**: card surface (title + excerpt) with inline reference chips in the footer, analogous to a Tile with `evidence` chips instead of a metric. Field names: `title`, `content`, `references[]`.
+  - **Option C — `keyPoint`**: a flagged insight or claim (no heading, short statement + body) with evidence links. Field names: `statement`, `detail`, `references[]`.
+  - Flag which option best generalises across caseStudy, article, and node contexts without implying Q&A structure.
+- [ ] Once Phase 0 sign-off:
+  - [ ] Rename schema: `answerBlock` → `{chosenName}` in `apps/studio/schemas/objects/answerBlock.ts` (new file) + `schemas/index.ts`
+  - [ ] Update field names (`question` → `heading`/`statement`/`title`, `answer` → `body`/`content`/`detail`) per chosen option
+  - [ ] Update `sections[]` in `caseStudy.ts`, `article.ts`, `node.ts` schema files — swap old type ref for new
+  - [ ] Update GROQ projections in `queries.js` — rename fields to match new schema
+  - [ ] Deploy schema
+  - [ ] Add `{chosenName}` renderer to `PageSections.jsx` + CSS (no renderer exists yet — deferred from SUG-94)
+  - [ ] Add Storybook story: default, with multiple references, without references
+
+**Item 8 — Storybook housekeeping:** ✅ Done
+- [x] Delete `TaxonomyChips.stories.tsx` — orchestrates Chip with no pattern beyond the primitive
+- [x] Delete `PreviewBanner.stories.tsx` — consolidate as `PreviewMode` story in `Preheader.stories.tsx`
+
 ## Tile — proposed prop API (draft, subject to Phase 0 sign-off)
 
 | Prop | Type | Default | Notes |
@@ -100,16 +126,19 @@ Rule of thumb: if the heading introduces a data grid, stat strip, or card collec
 
 ## Phase 0 gate
 
-Items 3 and 4 require HTML mocks before any JSX is written (per CLAUDE.md §Phase 0):
+Items 3, 4, 6, and 7 require HTML mocks before any JSX is written (per CLAUDE.md §Phase 0):
 - `docs/drafts/SUG-96-tile-primitive.html` — Tile in both use cases, resolving open design decisions
 - `docs/drafts/SUG-96-grid-primitive.html` — Grid in both spacing variants
+- `docs/drafts/SUG-96-case-study-page.html` — comprehensive case study page mock (also resolves Item 7 `answerBlock` rename options and Item 3 Tile decisions in context)
 
 Items 1–2 (SectionLabel, Chip stories) are CSS/Storybook-only — no Phase 0 gate required.
 Item 5 (Chip integration) depends on Item 3 shipping first.
+Item 7 (answerBlock rename) Phase 0 is bundled into the Item 6 case study mock — both resolved in the same HTML file. The renderer (Item 7 JSX) gates on Item 6 Phase 0 sign-off.
+Item 8 (Storybook housekeeping) — complete, no gate.
 
 **Item 6 — Case Study detail page: comprehensive mock + layout wiring:**
 
-Context: SUG-94 added `statTileSection`, `answerBlock`, and `accordionSection` (semantic FAQ) as section builder blocks. `outcomes[]` on caseStudy was deprecated. The Tile and Grid primitives from Items 3–4 are the canonical renderers for these new blocks. Item 6 wires everything together — but only after Items 1–4 ship.
+Context: SUG-94 added `statTileSection`, `answerBlock` (to be renamed — see Item 7), and `accordionSection` (semantic FAQ) as section builder blocks. `outcomes[]` on caseStudy was deprecated. The Tile and Grid primitives from Items 3–4 are the canonical renderers for these new blocks. Item 6 wires everything together — but only after Items 1–4 ship. The `answerBlock` rename decision (Item 7) must be resolved in this mock before its renderer is written.
 
 - [ ] **Phase 0 required**: produce `docs/drafts/SUG-96-case-study-page.html` — a comprehensive HTML mock of the full case study detail page. The mock must:
   - Reference Ledger Tradition tokens (Cormorant Garamond headings, DM Sans UI, IBM Plex Mono labels, Ledger palette)
@@ -118,7 +147,7 @@ Context: SUG-94 added `statTileSection`, `answerBlock`, and `accordionSection` (
   - Show two breakpoints: single-column (mobile) and detail layout with sidebar (≥1024px)
   - Include the Ledger-appropriate treatment for `challengeSummary`: currently inline prose in a left-accent callout — should this become a `Callout` variant? Resolve in mock
 - [ ] Once Phase 0 is signed off:
-  - [ ] Add `AnswerBlock` renderer to `PageSections.jsx` + CSS (the schema + GROQ projection already exist from SUG-94 — only the JSX renderer was deferred)
+  - [ ] Add `{answerBlock rename}` renderer to `PageSections.jsx` + CSS — schema rename and visual design resolved in Item 7 first; the schema type name and field names used here come from Item 7's Phase 0 sign-off
   - [ ] Add `StatTileSection` renderer to `PageSections.jsx` — use new `Tile` + `Grid` primitives (not deprecated `StatTile`)
   - [ ] Write `migrate-outcomes.mjs` script: copies `caseStudy.outcomes[]` items to a `statTileSection` prepended to `sections[]` on each case study document (7 drafts to patch); removes from the hardcoded `outcomeStrip` zone in `CaseStudyPage.jsx` after migration
   - [ ] Remove `outcomeStrip` + `keyQuestionsZone` hardcoded zones from `CaseStudyPage.jsx` (replaced by section renderer)
