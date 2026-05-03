@@ -77,7 +77,7 @@ export default defineType({
         defineArrayMember({type: 'accordionSection'}),
         defineArrayMember({type: 'trustReportSection'}),
         defineArrayMember({type: 'answerBlock'}),
-        defineArrayMember({type: 'proofPointSection'}),
+        defineArrayMember({type: 'statTileSection'}),
       ]
     }),
     defineField({
@@ -276,10 +276,12 @@ export default defineType({
     }),
     defineField({
       name: 'outcomes',
-      title: 'Outcomes',
+      title: 'Outcomes (Deprecated)',
       type: 'array',
-      description: 'Measurable results from this project. Each outcome has a metric name, before/after values, impact statement, and evidence type.',
-      group: 'metadata',
+      description: '⚠️ Deprecated — migrate to a Stat Tiles section in sections[]. Existing data still renders on the detail page until SUG-96 ships the Tile primitive.',
+      group: 'legacy',
+      hidden: true,
+      deprecated: {reason: 'Use a Stat Tiles section (statTileSection) in sections[] instead. The StatTile component is being unified into the Tile DS primitive in SUG-96. Outcomes[] data preserved for migration.'},
       of: [
         defineArrayMember({
           type: 'object',
@@ -379,21 +381,7 @@ export default defineType({
       name: 'tools',
       title: "Bex's Tools",
       type: 'array',
-      description: "Tools and technologies Bex used in this engagement (e.g. Storybook, Claude, dbt). For client infrastructure and platforms, use Platforms.",
-      group: 'metadata',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'tool'}]
-        })
-      ],
-      validation: (Rule) => Rule.unique()
-    }),
-    defineField({
-      name: 'platforms',
-      title: 'Client Platforms',
-      type: 'array',
-      description: "Platforms and infrastructure the client operated (e.g. Salesforce, Shopify, AEM). Distinct from Bex's own tools.",
+      description: "Tools and technologies Bex used in this engagement (e.g. Storybook, Claude, dbt). Tag with kind=practitioner on the tool doc. Client-operated systems are tagged kind=platform on the tool doc.",
       group: 'metadata',
       of: [
         defineArrayMember({

@@ -14,7 +14,7 @@ import { BarChartIcon } from '@sanity/icons'
  */
 export default defineType({
   name: 'trustReportSection',
-  title: 'Trust Report',
+  title: 'Trust Reports',
   type: 'object',
   icon: BarChartIcon,
   fields: [

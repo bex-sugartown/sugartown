@@ -1,14 +1,14 @@
 ---
-**Epic:** SUG-96 — DS component polish — SectionLabel, Tile primitive, Grid primitive + Chip Storybook colorways
+**Epic:** SUG-96 — DS component polish — SectionLabel, Tile primitive, Grid primitive + Chip Storybook colorways + Case Study page comprehensive redesign
 **Linear Issue:** [SUG-96](https://linear.app/sugartown/issue/SUG-96)
 **Status:** Backlog
 **Priority:** 🔵 Low
 **Merge strategy:** (a) Merge-as-you-go — each item ships independently
 ---
 
-# SUG-96 — DS component polish: SectionLabel, Tile primitive, Grid primitive + Chip Storybook colorways
+# SUG-96 — DS component polish: SectionLabel, Tile primitive, Grid primitive + Chip Storybook colorways + Case Study page
 
-Five DS items surfaced during SUG-91 and post-mortem review. No schema or Sanity content changes.
+Six items: the original five DS polish items surfaced during SUG-91, plus a comprehensive case study detail page redesign that wires the new SUG-94 section types (statTileSection, answerBlock) and migrates outcomes[] to sections[]. Item 6 gates on Items 1–4 (SectionLabel, Tile, Grid must exist before the page layout is wired).
 
 ## Background
 
@@ -107,6 +107,26 @@ Items 3 and 4 require HTML mocks before any JSX is written (per CLAUDE.md §Phas
 Items 1–2 (SectionLabel, Chip stories) are CSS/Storybook-only — no Phase 0 gate required.
 Item 5 (Chip integration) depends on Item 3 shipping first.
 
+**Item 6 — Case Study detail page: comprehensive mock + layout wiring:**
+
+Context: SUG-94 added `statTileSection`, `answerBlock`, and `accordionSection` (semantic FAQ) as section builder blocks. `outcomes[]` on caseStudy was deprecated. The Tile and Grid primitives from Items 3–4 are the canonical renderers for these new blocks. Item 6 wires everything together — but only after Items 1–4 ship.
+
+- [ ] **Phase 0 required**: produce `docs/drafts/SUG-96-case-study-page.html` — a comprehensive HTML mock of the full case study detail page. The mock must:
+  - Reference Ledger Tradition tokens (Cormorant Garamond headings, DM Sans UI, IBM Plex Mono labels, Ledger palette)
+  - Show every zone in the page: Hero, MetadataCard, challengeSummary block, Outcomes/statTileSection (Tile + Grid), body sections (text, callout, accordionSection FAQ, answerBlock, statTileSection mid-content), PageSidebar (related, series, tools)
+  - Use existing DS components wherever possible — explicitly name the component (SectionLabel, Tile, Grid, Callout, Accordion, Button, Chip) for each zone. Invent new layouts only where no existing component fits — flag those with a note
+  - Show two breakpoints: single-column (mobile) and detail layout with sidebar (≥1024px)
+  - Include the Ledger-appropriate treatment for `challengeSummary`: currently inline prose in a left-accent callout — should this become a `Callout` variant? Resolve in mock
+- [ ] Once Phase 0 is signed off:
+  - [ ] Add `AnswerBlock` renderer to `PageSections.jsx` + CSS (the schema + GROQ projection already exist from SUG-94 — only the JSX renderer was deferred)
+  - [ ] Add `StatTileSection` renderer to `PageSections.jsx` — use new `Tile` + `Grid` primitives (not deprecated `StatTile`)
+  - [ ] Write `migrate-outcomes.mjs` script: copies `caseStudy.outcomes[]` items to a `statTileSection` prepended to `sections[]` on each case study document (7 drafts to patch); removes from the hardcoded `outcomeStrip` zone in `CaseStudyPage.jsx` after migration
+  - [ ] Remove `outcomeStrip` + `keyQuestionsZone` hardcoded zones from `CaseStudyPage.jsx` (replaced by section renderer)
+  - [ ] Remove `StatTile` import from `CaseStudyPage.jsx` (replaced by `Tile` via sections)
+  - [ ] Remove `.outcomeStrip`, `.outcomeGrid`, `.keyQuestionsZone` CSS from `pages.module.css`
+  - [ ] Verify: existing accordionSection FAQ renders correctly (renderer already live); GROQ `semantic` field already projected
+  - [ ] Publish migrated case study drafts after visual QA
+
 ## Non-Goals
 
 - Status chip color tokens per-state (`--st-status-success-*` etc.) — deferred; these tokens don't exist and adding them is a separate pass
@@ -119,3 +139,4 @@ Item 5 (Chip integration) depends on Item 3 shipping first.
 - **SUG-88:** Ledger Tradition chip system — established the rule-dot system this epic builds on
 - **SUG-91:** Case study outcomes — surfaced SectionLabel, StatTile chip gaps, tileGrid duplication; triggered post-mortem that added Items 3–4
 - **SUG-87:** Dynamic Trust Report — original StatTile and tileGrid pattern
+- **SUG-94:** Structured retrieval + JSON-LD — added statTileSection, answerBlock, accordionSection FAQ flag, outcomeItem schema; deprecated outcomes[] and keyQuestions[] on caseStudy; GROQ projections complete; rendering deferred to this epic

@@ -18,7 +18,6 @@ import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
 import PageSidebar, { hasSidebarContent } from '../components/PageSidebar'
 import StatTile from '../design-system/components/stat-tile/StatTile'
-import Accordion from '../design-system/components/accordion/Accordion'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
@@ -96,20 +95,6 @@ export default function CaseStudyPage() {
 
         {restSections.length > 0 && (
           <PageSections sections={restSections} context="detail" />
-        )}
-
-        {caseStudy.keyQuestions?.length > 0 && (
-          <div className={styles.keyQuestionsZone}>
-            <p className={styles.keyQuestionsLabel}>Key Questions</p>
-            <Accordion
-              multi
-              items={caseStudy.keyQuestions.map((q, i) => ({
-                id: q._key ?? String(i),
-                trigger: q.question,
-                content: q.answer,
-              }))}
-            />
-          </div>
         )}
 
         {caseStudy.citations?.length > 0 && (

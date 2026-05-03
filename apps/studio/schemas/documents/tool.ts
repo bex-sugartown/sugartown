@@ -54,6 +54,19 @@ export default defineType({
           .error('Slug is required. Click "Generate" to create from name.')
     }),
     defineField({
+      name: 'kind',
+      title: 'Kind',
+      type: 'string',
+      description: 'Relationship context: "platform" = client-operated infrastructure Bex worked on (Drupal, Salesforce, Oracle ATG). "practitioner" = tools Bex uses directly in her practice (Figma, Sanity, Storybook).',
+      options: {
+        list: [
+          {title: 'Practitioner — Bex\'s own tool', value: 'practitioner'},
+          {title: 'Platform — client-operated system', value: 'platform'},
+        ],
+        layout: 'radio',
+      },
+    }),
+    defineField({
       name: 'toolType',
       title: 'Tool Type',
       type: 'string',

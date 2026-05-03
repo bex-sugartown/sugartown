@@ -394,6 +394,7 @@ export const nodeBySlugQuery = `
       },
       _type == "accordionSection" => {
         heading,
+        semantic,
         multi,
         items[] {
           _key,
@@ -404,6 +405,22 @@ export const nodeBySlugQuery = `
       _type == "trustReportSection" => {
         heading,
         reportType
+      },
+      _type == "answerBlock" => {
+        question,
+        "answer": answer${PT_CONTENT_PROJECTION},
+        evidence[]->{_id, _type, title, "slug": slug.current}
+      },
+      _type == "statTileSection" => {
+        label,
+        items[] {
+          _key,
+          metric,
+          valueAfter,
+          valueBefore,
+          impactStatement,
+          evidenceType
+        }
       }
     },
     aiTool,
@@ -567,6 +584,7 @@ export const articleBySlugQuery = `
       },
       _type == "accordionSection" => {
         heading,
+        semantic,
         multi,
         items[] {
           _key,
@@ -577,6 +595,22 @@ export const articleBySlugQuery = `
       _type == "trustReportSection" => {
         heading,
         reportType
+      },
+      _type == "answerBlock" => {
+        question,
+        "answer": answer${PT_CONTENT_PROJECTION},
+        evidence[]->{_id, _type, title, "slug": slug.current}
+      },
+      _type == "statTileSection" => {
+        label,
+        items[] {
+          _key,
+          metric,
+          valueAfter,
+          valueBefore,
+          impactStatement,
+          evidenceType
+        }
       }
     },
     author,
@@ -721,6 +755,7 @@ export const pageBySlugQuery = `
       },
       _type == "accordionSection" => {
         heading,
+        semantic,
         multi,
         items[] {
           _key,
@@ -731,6 +766,22 @@ export const pageBySlugQuery = `
       _type == "trustReportSection" => {
         heading,
         reportType
+      },
+      _type == "answerBlock" => {
+        question,
+        "answer": answer${PT_CONTENT_PROJECTION},
+        evidence[]->{_id, _type, title, "slug": slug.current}
+      },
+      _type == "statTileSection" => {
+        label,
+        items[] {
+          _key,
+          metric,
+          valueAfter,
+          valueBefore,
+          impactStatement,
+          evidenceType
+        }
       }
     },
     publishedAt,
@@ -874,6 +925,7 @@ export const caseStudyBySlugQuery = `
       },
       _type == "accordionSection" => {
         heading,
+        semantic,
         multi,
         items[] {
           _key,
@@ -884,6 +936,22 @@ export const caseStudyBySlugQuery = `
       _type == "trustReportSection" => {
         heading,
         reportType
+      },
+      _type == "answerBlock" => {
+        question,
+        "answer": answer${PT_CONTENT_PROJECTION},
+        evidence[]->{_id, _type, title, "slug": slug.current}
+      },
+      _type == "statTileSection" => {
+        label,
+        items[] {
+          _key,
+          metric,
+          valueAfter,
+          valueBefore,
+          impactStatement,
+          evidenceType
+        }
       }
     },
     challengeSummary,

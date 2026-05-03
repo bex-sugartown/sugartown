@@ -2,23 +2,21 @@ import {defineType, defineField, defineArrayMember} from 'sanity'
 import {BarChartIcon} from '@sanity/icons'
 
 /**
- * proofPointSection — stat/evidence cluster section type.
+ * statTileSection — mid-content stat/evidence cluster.
  *
- * Section builder block for showing 1–4 evidence stats in a grid mid-content.
- * Uses outcomeItem as the item type — the same object used in caseStudy outcomes[].
- * Both surfaces render via the same StatTile + StatGrid primitives in the DS.
+ * Section builder block for 1–4 outcome/metric tiles (outcomeItem) in a grid.
+ * Renders via the Tile + Grid primitives in the DS (see SUG-96 for implementation).
  *
- * Contrast with outcomes[] on caseStudy:
- *   outcomes[]         = document-level, fixed position, the canonical project result record
- *   proofPointSection  = section builder block, editorial placement, any doc type
+ * Uses outcomeItem as the item type — the same object used by caseStudy outcomes[].
+ * Both surfaces share the same DS primitive; this is the editorial placement version.
  *
  * Available in: caseStudy, article, node sections[]
  *
  * SUG-94
  */
 export default defineType({
-  name: 'proofPointSection',
-  title: 'Proof Points',
+  name: 'statTileSection',
+  title: 'Stat Tiles',
   type: 'object',
   icon: BarChartIcon,
   fields: [
@@ -46,7 +44,7 @@ export default defineType({
     prepare({label, items}) {
       const count = Array.isArray(items) ? items.length : 0
       return {
-        title: label || 'Proof Points',
+        title: label || 'Stat Tiles',
         subtitle: `${count} stat${count !== 1 ? 's' : ''}`,
       }
     },

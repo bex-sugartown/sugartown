@@ -100,6 +100,50 @@ function buildPerson(doc, base) {
 
 const PROFILE_PAGE_SLUGS = new Set(['about', 'services'])
 
+function buildCreativeWork(doc, base) {
+  const slug = resolveSlug(doc.slug)
+  const path = slug ? getCanonicalPath({ docType: doc._type, slug }) : null
+  const authors = (doc.authors || []).map(a => buildAuthorRef(a, base))
+  return {
+    '@type': 'CreativeWork',
+    name: doc.title,
+    ...(doc.excerpt ? { description: doc.excerpt } : {}),
+    ...(path ? { url: `${base}${path}` } : {}),
+    ...(doc.publishedAt ? { datePublished: doc.publishedAt } : {}),
+    ...(doc.updatedAt ? { dateModified: doc.updatedAt } : {}),
+    ...(authors.length === 1 ? { author: authors[0] } : {}),
+    ...(authors.length > 1 ? { author: authors } : {}),
+    publisher: { '@id': `${base}/#organization` },
+    isPartOf: { '@id': `${base}/#website` },
+  }
+}
+
+function extractPlainText(blocks) {
+  if (!Array.isArray(blocks)) return ''
+  return blocks
+    .filter(b => b._type === 'block')
+    .map(b => (b.children || []).map(c => c.text || '').join(''))
+    .join(' ')
+    .trim()
+}
+
+function buildFaqPage(faqItems, doc, base) {
+  const slug = resolveSlug(doc.slug)
+  const path = slug ? getCanonicalPath({ docType: doc._type, slug }) : null
+  return {
+    '@type': 'FAQPage',
+    ...(path ? { url: `${base}${path}` } : {}),
+    mainEntity: faqItems.map(item => ({
+      '@type': 'Question',
+      name: item.title,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: extractPlainText(item.content),
+      },
+    })),
+  }
+}
+
 function buildPage(doc, base) {
   const slug = resolveSlug(doc.slug)
   const path = slug ? getCanonicalPath({ docType: 'page', slug }) : null
@@ -134,8 +178,10 @@ export function generateJsonLd(doc, siteSettings) {
     switch (doc._type) {
       case 'article':
       case 'node':
-      case 'caseStudy':
         pageSchema = buildArticle(doc, base)
+        break
+      case 'caseStudy':
+        pageSchema = buildCreativeWork(doc, base)
         break
       case 'person':
         pageSchema = buildPerson(doc, base)
@@ -145,6 +191,14 @@ export function generateJsonLd(doc, siteSettings) {
         break
     }
     if (pageSchema) graph.push(pageSchema)
+
+    // FAQPage — emitted when any section is an accordionSection with semantic: 'faq'
+    const faqSection = (doc.sections || []).find(
+      s => s._type === 'accordionSection' && s.semantic === 'faq' && s.items?.length
+    )
+    if (faqSection) {
+      graph.push(buildFaqPage(faqSection.items, doc, base))
+    }
   }
 
   return { '@context': 'https://schema.org', '@graph': graph }
