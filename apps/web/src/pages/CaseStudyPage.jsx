@@ -10,7 +10,7 @@ import { resolveSeo } from '../lib/seo'
 import { getArchivePath } from '../lib/routes'
 import { generateJsonLd } from '../lib/jsonLd'
 import { extractLeadHero } from '../lib/heroUtils'
-import { CitationNote, CitationZone } from '../design-system'
+import { CitationNote, CitationZone, SectionLabel } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
@@ -78,7 +78,7 @@ export default function CaseStudyPage() {
 
         {caseStudy.outcomes?.length > 0 && (
           <div className={styles.outcomeStrip}>
-            <p className={styles.outcomeStripLabel}>Outcomes</p>
+            <SectionLabel>Outcomes</SectionLabel>
             <div className={styles.outcomeGrid}>
               {caseStudy.outcomes.map((outcome, i) => (
                 <StatTile

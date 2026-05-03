@@ -8,27 +8,6 @@
   padding-inline: var(--st-page-gutter);
 }
 
-.heading {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
-  color: var(--st-label-color);
-  margin: 0 0 var(--st-space-4);
-
-  /* Rule extends to the right of the heading */
-  display: flex;
-  align-items: center;
-  gap: var(--st-space-4);
-}
-
-.heading::after {
-  content: '';
-  flex: 1;
-  height: 2px;
-  background: var(--st-color-ink);
-}
 
 /* ── Ticker grid ────────────────────────────────────────────────────────────
    gap: 1px with a border-coloured background = hairline dividers, zero space.

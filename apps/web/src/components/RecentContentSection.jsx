@@ -4,6 +4,7 @@ import { latestArticleQuery, latestNodeQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
 import { getLinkProps } from '../lib/linkUtils'
 import stats from '../generated/stats.json'
+import SectionLabel from '../design-system/components/section-label/SectionLabel'
 import styles from './RecentContentSection.module.css'
 
 // ── TickerCard ──────────────────────────────────────────────────────────────
@@ -65,7 +66,7 @@ export default function RecentContentSection({ section }) {
 
   return (
     <section className={styles.section}>
-      {heading && <h2 className={styles.heading}>{heading}</h2>}
+      {heading && <SectionLabel as="h2">{heading}</SectionLabel>}
 
       <div className={styles.grid}>
 
