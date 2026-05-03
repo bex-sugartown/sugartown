@@ -801,21 +801,20 @@ function CitedBlockSection({ section }) {
             <PortableText value={preprocessPortableText(section.body)} components={portableTextComponents} />
           </div>
         )}
+        {section.references?.length > 0 && (
+          <div className={styles.citedBlockRefs}>
+            <ul className={styles.citedBlockRefsList}>
+              {section.references.map((ref, i) => (
+                <li key={ref._id ?? i}>
+                  <Link to={getCanonicalPath({ docType: ref._type, slug: ref.slug })}>
+                    {ref.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
-      {section.references?.length > 0 && (
-        <div className={styles.citedBlockRefs}>
-          <p className={styles.citedBlockRefsLabel}>Further reading</p>
-          <ul className={styles.citedBlockRefsList}>
-            {section.references.map((ref, i) => (
-              <li key={ref._id ?? i}>
-                <Link to={getCanonicalPath({ docType: ref._type, slug: ref.slug })}>
-                  {ref.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   )
 }

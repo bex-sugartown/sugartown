@@ -70,8 +70,8 @@
   --st-table-shadow:            var(--st-shadow-table-light);
   --st-table-card-shadow:       var(--st-shadow-table-card-light);
 
-  --st-code-inline-bg:          var(--st-color-white);
-  --st-code-inline-color:       var(--st-color-maroon);
+  --st-code-inline-bg:          var(--st-color-softgrey-100);
+  --st-code-inline-color:       var(--st-color-brand-primary);
   --st-code-inline-border:      1px solid var(--st-color-softgrey-200);
 
   --st-color-text-eyebrow:      var(--st-color-pink);
