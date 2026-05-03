@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-03 · v0.23.7 · SUG-93 shipped — aeoSummary, geoSummary, keyQuestions[] on caseStudy schema + FAQ accordion render + editorial pass (7 documents)
+> Updated 2026-05-03 · v0.23.8 · SUG-94 shipped — answerBlock + statTileSection schema objects, tool.kind classification, JSON-LD CreativeWork + FAQPage, SUG-96 case study mock scoped
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-93 shipped ✅ — aeoSummary, geoSummary, keyQuestions[] on caseStudy; FAQ accordion on detail page; editorial pass complete (7 documents saved as drafts, pending publish). SUG-94 (structured retrieval objects + JSON-LD) is the natural next pick as it builds directly on SUG-93 fields.
+> **⚑ Current focus:** SUG-94 shipped ✅ — answerBlock + statTileSection schema objects, tool.kind classification, JSON-LD CreativeWork + FAQPage on CaseStudyPage. SUG-96 (DS polish: SectionLabel, Tile, Grid primitives + case study page comprehensive redesign) is next — Phase 0 HTML mocks required before any JSX.
 
 ---
 
@@ -53,7 +53,6 @@
 | **[SUG-19](https://linear.app/sugartown/issue/SUG-19) · KPI dashboard card family (BL-03)** — stat-card, bar-card, insight-card variants on DS Card. Build-time content metrics at `/platform/metrics`. Phase 1: DS variants + Storybook. Phase 2: metrics page. Epic: `docs/backlog/SUG-19-kpi-dashboard-cards.md`. <br>_↑ Consult-relevant — delivery/quality metrics are trust signals for prospective clients. Elevate if Services or a /work-with-me landing page is built. Surface from Services entry point, not buried at /platform/metrics._ | `Deferred` `Design System` `BL-03` |
 | **Schema ERD Sanity Hybrid (Option C)** — Upgrade ERD from code-driven page (EPIC-0172) to a `schemaErdSection` type embeddable via section builder. Component unchanged — adds schema, GROQ projection, and PageSections case. Depends on EPIC-0172. | `Deferred` `Schema` `Content` |
 | ~~**SUG-21 · Pink Moon** — Elevated to 🟢 Next. See §01.~~ | `Design System` `UX` |
-| **[SUG-94](https://linear.app/sugartown/issue/SUG-94) · Structured retrieval objects + JSON-LD renderer** — Create reusable `answerBlock` and `proofPoint` schema objects (cross-cut caseStudy, article, node). Split `tools[]` → `tools[]` + `platforms[]`. JSON-LD FAQPage + CreativeWork output on CaseStudyPage. Phase 0 mockup gate required. Epic: `docs/backlog/SUG-94-structured-retrieval-objects-json-ld.md`. | `Schema` `Infrastructure` `SEO` |
 | **[SUG-36](https://linear.app/sugartown/issue/SUG-36) · Site-wide content search** — No search exists today. Recommended: Fuse.js client-side index (build-time JSON manifest, same pattern as sitemap). Nav search icon + `/search` page. Phase 1: articles + nodes + case studies. Design spike needed first. Epic: `docs/backlog/SUG-36-site-search.md`. <br>_⬇ Low consulting value — consulting prospects do not browse by keyword; they arrive from a referral or LinkedIn and need a clear conversion path, not a search box. Keep deferred._ | `Deferred` `UX` `GROQ` `Infrastructure` |
 
 ---
@@ -81,6 +80,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-94 · Structured retrieval objects + JSON-LD renderer** — answerBlock + statTileSection schema objects (cross-cut caseStudy, article, node). tool.kind classification (practitioner/platform). JSON-LD CreativeWork + FAQPage on CaseStudyPage. keyQuestions[] renderer removed; SUG-96 comprehensive case study page mock scoped.~~ | v0.23.8 | 2026-05-03 |
 | ~~**SUG-93 · Case study AEO/GEO content layer** — aeoSummary, geoSummary, keyQuestions[] on caseStudy schema. FAQ accordion on CaseStudyPage. Editorial pass: 7 documents patched as drafts.~~ | v0.23.7 | 2026-05-03 |
 | ~~**SUG-92 · Case study discovery metadata** — industry[], companySize, region fields on caseStudy schema. GROQ projection + MetadataCard render. Population pass: 7 documents patched as drafts.~~ | v0.23.6 | 2026-05-03 |
 | ~~**SUG-91 · Case study outcomes narrative** — outcomes[] schema (metric/before/after/impactStatement/evidenceType), challengeSummary field, GROQ projection, StatTile render strip on CaseStudyPage. Schema deployed.~~ | v0.23.5 | 2026-05-03 |
@@ -160,4 +160,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-03 · v0.23.7*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-03 · v0.23.8*
