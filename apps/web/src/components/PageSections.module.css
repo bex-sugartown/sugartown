@@ -765,26 +765,62 @@
   padding: var(--st-space-section-break) var(--st-page-gutter);
 }
 
-/* Cited Block Section (SUG-96) */
+/* Cited Block Section (SUG-96)
+   Callout-style box: top 2px ink rule + bottom hairline + subtle bg tint.
+   References strip below the box, visually separated by padding only. */
 .citedBlockSection {
   max-width: var(--st-width-detail);
   margin: 0 auto;
   padding: 0 var(--st-page-gutter);
 }
 
+.citedBlockBox {
+  border-top: 2px solid var(--st-color-ink);
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  padding: var(--st-space-5) var(--st-space-6);
+  background: color-mix(in srgb, var(--st-color-ink) 4%, var(--st-color-canvas));
+}
+
+.citedBlockHeading {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-3);
+  font-weight: var(--st-font-weight-semibold);
+  color: var(--st-color-text-default);
+  line-height: 1.3;
+  margin: 0 0 var(--st-space-3);
+}
+
+.citedBlockBody {
+  font-size: var(--st-font-heading-4);
+  color: var(--st-color-text-default);
+  line-height: 1.6;
+}
+
+.citedBlockBody p {
+  margin: 0;
+}
+
+.citedBlockBody p + p {
+  margin-top: var(--st-space-3);
+}
+
 .citedBlockRefs {
-  margin-top: var(--st-spacing-stack-md);
-  padding-top: var(--st-spacing-stack-sm);
-  border-top: 1px solid var(--st-color-border-default);
+  padding-top: var(--st-space-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--st-space-2) var(--st-space-4);
 }
 
 .citedBlockRefsLabel {
-  font-size: var(--st-font-size-sm, 0.875rem);
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-sm);
   font-weight: var(--st-font-weight-semibold);
-  color: var(--st-color-text-secondary);
-  margin: 0 0 var(--st-space-2);
+  color: var(--st-color-text-muted);
+  margin: 0;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
 }
 
 .citedBlockRefsList {
@@ -792,14 +828,14 @@
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: column;
-  gap: var(--st-space-1);
+  flex-wrap: wrap;
+  gap: var(--st-space-1) var(--st-space-4);
 }
 
 .citedBlockRefsList a {
   color: var(--st-color-brand-primary);
   text-decoration: none;
-  font-size: var(--st-font-size-sm, 0.875rem);
+  font-size: var(--st-font-size-sm);
 }
 
 .citedBlockRefsList a:hover {

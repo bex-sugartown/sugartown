@@ -98,7 +98,7 @@ export const CitedBlock: Story = {
         _type: 'citedBlock',
         _key: 'cb-1',
         heading: 'Why Token-Driven Systems Scale',
-        body: richContent,
+        body: simpleParagraph,
         references: [
           { _id: 'ref-1', _type: 'article', title: 'Design Token Architecture', slug: 'design-token-architecture' },
           { _id: 'ref-2', _type: 'node', title: 'The Validator Said Zero Errors', slug: 'validator-zero-errors' },

@@ -788,17 +788,20 @@ function AccordionSection({ section }) {
 }
 
 // Cited Block Section Component (SUG-96)
-// citedBlock — headed section with body prose and optional "Further reading" references.
+// citedBlock — callout-style box (top/bottom rules + bg tint) with heading + body prose,
+// and an optional "Further reading" reference strip below the box.
 function CitedBlockSection({ section }) {
   if (!section.heading && !section.body) return null
   return (
-    <section className={styles.citedBlockSection} id={section._sectionId}>
-      {section.heading && <h3 className={styles.h3}>{section.heading}</h3>}
-      {section.body && (
-        <div className={styles.textContent}>
-          <PortableText value={preprocessPortableText(section.body)} components={portableTextComponents} />
-        </div>
-      )}
+    <div className={styles.citedBlockSection} id={section._sectionId}>
+      <div className={styles.citedBlockBox}>
+        {section.heading && <h3 className={styles.citedBlockHeading}>{section.heading}</h3>}
+        {section.body && (
+          <div className={styles.citedBlockBody}>
+            <PortableText value={preprocessPortableText(section.body)} components={portableTextComponents} />
+          </div>
+        )}
+      </div>
       {section.references?.length > 0 && (
         <div className={styles.citedBlockRefs}>
           <p className={styles.citedBlockRefsLabel}>Further reading</p>
@@ -813,7 +816,7 @@ function CitedBlockSection({ section }) {
           </ul>
         </div>
       )}
-    </section>
+    </div>
   )
 }
 
