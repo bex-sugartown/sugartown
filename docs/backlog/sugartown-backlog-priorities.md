@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-04 · v0.23.9 · SUG-90 shipped — consulting pivot editorial (Services/Contact/About), all drafts published
+> Updated 2026-05-04 · v0.23.10 · SUG-89 shipped — Chromatic parity stories, React 19 Storybook fix, component registry
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-90 shipped ✅ — consulting pivot editorial, Services/Contact/About published. SUG-81 (site-wide Knowledge Graph) or SUG-97 (Studio schema field group audit) is next.
+> **⚑ Current focus:** SUG-89 shipped ✅ — Chromatic parity stories, React 19 Storybook dual-instance fix, component registry + SUG-98 scoped. SUG-81 (site-wide Knowledge Graph) or SUG-98 (component gap analysis) is next.
 
 ---
 
@@ -30,7 +30,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` files with a build pipeline. Single JSON source generates both files; makes SUG-85 drift structurally impossible. 4 phases: spike → dual output → theme outputs → lock. Execute after SUG-85. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
-| 2 | **[SUG-89](https://linear.app/sugartown/issue/SUG-89) · Chromatic parity stories — Card, ContentCard & MetadataCard** — Add Chromatic-visible Storybook parity stories for the Card primitive and its related patterns (ContentCard, MetadataCard) to surface cross-component visual drift automatically. Epic: `docs/backlog/SUG-89-chromatic-parity-stories-card-contentcard-metadatacard.md`. | `Design System` `Tooling` | 🟣 Soon |
+| 2 | **[SUG-98](https://linear.app/sugartown/issue/SUG-98) · Component gap analysis — renderer stories + thruline audit** — 5 inline PageSections renderer stories (textSection, mermaidSection, imageGallery, citedBlock, statTileSection) + 16-adapter thruline verification. Registry at `docs/conventions/component-registry.md`. Epic: `docs/backlog/SUG-98-component-gap-analysis.md`. | `Design System` `Tooling` | 🟣 Soon |
 
 ---
 
@@ -80,6 +80,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-89 · Chromatic parity stories + Storybook React 19 fix** — chromatic: { disableSnapshot: false } on 19 existing stories, new Patterns/Card story (later refined to DS-primitive-only coverage rule), React 19 dual-instance fix via resolve.alias in viteFinal, component registry at docs/conventions/component-registry.md, SUG-98 scoped.~~ | v0.23.10 | 2026-05-04 |
 | ~~**SUG-96 · DS section label, Tile primitive, citedBlock renderer** — SectionLabel primitive, Chip story cleanup (rule-dot only), Tile + Grid DS primitives, citedBlock section renderer (card treatment, bracket ref-strip), statTileSection renderer, inline code hot-pink/lime. Outcomes migrated from outcomes[] to statTileSection in sections[] across all 8 case studies. Challenge callout full-span above sidebar. Tile heading 2xl (28px).~~ | v0.23.9 | 2026-05-03 |
 | ~~**SUG-94 · Structured retrieval objects + JSON-LD renderer** — answerBlock + statTileSection schema objects (cross-cut caseStudy, article, node). tool.kind classification (practitioner/platform). JSON-LD CreativeWork + FAQPage on CaseStudyPage. keyQuestions[] renderer removed; SUG-96 comprehensive case study page mock scoped.~~ | v0.23.8 | 2026-05-03 |
 | ~~**SUG-93 · Case study AEO/GEO content layer** — aeoSummary, geoSummary, keyQuestions[] on caseStudy schema. FAQ accordion on CaseStudyPage. Editorial pass: 7 documents patched as drafts.~~ | v0.23.7 | 2026-05-03 |
@@ -161,4 +162,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-03 · v0.23.8*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-04 · v0.23.10*
