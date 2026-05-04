@@ -258,9 +258,10 @@
   width: 100%;
 }
 
-/* Panel mode: widen container so the frosted panel reads wider than a detail column */
+/* Panel mode: widen container and inset panel to match detail page gutter */
 .heroContainer.heroPanelLayout {
   max-width: var(--st-width-detail-wide);
+  padding-inline: var(--st-page-gutter);
 }
 
 .heroContent {
