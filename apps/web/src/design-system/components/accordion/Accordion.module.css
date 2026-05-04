@@ -98,3 +98,48 @@
 [data-theme="light-pink-moon"] .chevron {
   color: var(--st-color-text-secondary);
 }
+
+/* ── Numbered variant ────────────────────────────────────────────────────── */
+.accordionNumbered {
+  border-top: 2px solid var(--st-color-ink);
+}
+
+.accordionNumbered .item {
+  border-bottom: 1px solid var(--st-color-rule-accent);
+}
+
+.accordionNumbered .item:first-child {
+  border-top: none;
+}
+
+.triggerNumbered {
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  align-items: start;
+  gap: var(--st-space-4, 1rem);
+}
+
+.qNumber {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-pink);
+  padding-top: 0.25rem;
+  line-height: 1;
+}
+
+.accordionNumbered .triggerLabel {
+  font-family: var(--st-font-family-narrative);
+  font-size: 1.125rem;
+  font-weight: 400;
+}
+
+.accordionNumbered .chevronOpen {
+  color: var(--st-color-pink);
+}
+
+[data-theme="light-pink-moon"] .accordionNumbered .item {
+  border-color: var(--st-color-rule-accent);
+}

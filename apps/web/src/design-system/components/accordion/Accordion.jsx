@@ -15,6 +15,8 @@ export default function Accordion({
   items,
   multi = false,
   defaultOpen = [],
+  numbered = false,
+  numberPrefix = 'Q',
   className,
 }) {
   const [openIds, setOpenIds] = useState(new Set(defaultOpen))
@@ -32,13 +34,13 @@ export default function Accordion({
     })
   }
 
-  const classNames = [styles.accordion, className].filter(Boolean).join(' ')
+  const classNames = [styles.accordion, numbered ? styles.accordionNumbered : '', className].filter(Boolean).join(' ')
 
   if (!items || items.length === 0) return null
 
   return (
     <div className={classNames}>
-      {items.map((item) => {
+      {items.map((item, index) => {
         const isOpen = openIds.has(item.id)
         const triggerId = `${baseId}-trigger-${item.id}`
         const panelId = `${baseId}-panel-${item.id}`
@@ -51,11 +53,16 @@ export default function Accordion({
             <button
               id={triggerId}
               type="button"
-              className={styles.trigger}
+              className={`${styles.trigger} ${numbered ? styles.triggerNumbered : ''}`}
               aria-expanded={isOpen}
               aria-controls={panelId}
               onClick={() => toggle(item.id)}
             >
+              {numbered && (
+                <span className={styles.qNumber}>
+                  {numberPrefix}.{String(index + 1).padStart(2, '0')}
+                </span>
+              )}
               <span className={styles.triggerLabel}>{item.trigger}</span>
               <ChevronDown
                 size={20}
