@@ -1,10 +1,18 @@
 import type { StorybookConfig } from '@storybook/react-vite';
+import { createRequire } from 'module';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const mocks = resolve(__dirname, './mocks');
+
+// Resolve React 19 package roots from apps/web so Storybook uses the same
+// React instance as the web components, not its own React 18 copy.
+const webRequire = createRequire(resolve(__dirname, '../../../apps/web/package.json'));
+const reactRoot      = dirname(webRequire.resolve('react/package.json'));
+const reactDomRoot   = dirname(webRequire.resolve('react-dom/package.json'));
+const reactRouterRoot = dirname(webRequire.resolve('react-router-dom/package.json'));
 
 const config: StorybookConfig = {
   stories: [
@@ -27,7 +35,10 @@ const config: StorybookConfig = {
     };
 
     // Force single React copy — prevents context mismatch between
-    // @portabletext/react and Storybook's own React instance
+    // @portabletext/react and Storybook's own React instance.
+    // Both dedupe (hints) and alias (hard pins) are needed: dedupe alone
+    // fails on cold builds because Vite may still resolve multiple copies
+    // from different workspace packages before deduplication kicks in.
     viteConfig.resolve = viteConfig.resolve || {};
     viteConfig.resolve.dedupe = [
       ...(viteConfig.resolve.dedupe || []),
@@ -37,6 +48,12 @@ const config: StorybookConfig = {
       'react/jsx-dev-runtime',
       'react-router-dom',
     ];
+    viteConfig.resolve.alias = {
+      ...((viteConfig.resolve.alias as Record<string, string>) || {}),
+      'react': reactRoot,
+      'react-dom': reactDomRoot,
+      'react-router-dom': reactRouterRoot,
+    };
 
     // Mock sanity.js and contentState.js for web component stories.
     // Checks both the bare import string (e.g. '../lib/sanity') AND the resolved

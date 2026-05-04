@@ -27,6 +27,7 @@ const meta: Meta<typeof RecentContentSection> = {
     (Story) => React.createElement(MemoryRouter, null, React.createElement(Story)),
   ],
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'fullscreen',
   },
 };
