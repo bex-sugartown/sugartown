@@ -1,6 +1,7 @@
 /**
  * Accordion — Sugartown Design System
  * CSS grid-row animation pattern (proven in MobileNav).
+ * SUG-99: ink top rule + hairline dividers + pink open chevron as base design.
  */
 
 /* ── Container ───────────────────────────────────────────────────────────── */
@@ -8,15 +9,12 @@
   display: flex;
   flex-direction: column;
   gap: 0;
+  border-top: 2px solid var(--st-color-ink);
 }
 
 /* ── Item ─────────────────────────────────────────────────────────────────── */
 .item {
-  border-bottom: 1px solid var(--st-color-border-subtle);
-}
-
-.item:first-child {
-  border-top: 1px solid var(--st-color-border-subtle);
+  border-bottom: 1px solid var(--st-color-rule-accent);
 }
 
 /* ── Trigger button ──────────────────────────────────────────────────────── */
@@ -63,6 +61,7 @@
 
 .chevronOpen {
   transform: rotate(180deg);
+  color: var(--st-color-pink);
 }
 
 /* ── Panel — CSS grid-row animation ──────────────────────────────────────── */
@@ -80,14 +79,15 @@
   overflow: hidden;
 }
 
-/* ── Panel content spacing ───────────────────────────────────────────────── */
-.panelInner > * {
+/* Bottom padding only when panel is open — prevents phantom height when
+   grid-template-rows collapses to 0fr. */
+.panelOpen .panelInner {
   padding-bottom: var(--st-space-5, 1.5rem);
 }
 
-/* ── Light theme overrides ───────────────────────────────────────────────── */
+/* ── Light theme ─────────────────────────────────────────────────────────── */
 [data-theme="light-pink-moon"] .item {
-  border-color: var(--st-color-border-subtle);
+  border-color: var(--st-color-rule-accent);
 }
 
 [data-theme="light-pink-moon"] .trigger {
@@ -96,4 +96,30 @@
 
 [data-theme="light-pink-moon"] .chevron {
   color: var(--st-color-text-secondary);
+}
+
+/* ── Numbered variant — Q.NN column + Cormorant text ─────────────────────── */
+
+.triggerNumbered {
+  display: grid;
+  grid-template-columns: 3rem 1fr auto;
+  align-items: start;
+  gap: var(--st-space-4, 1rem);
+}
+
+.qNumber {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-pink);
+  padding-top: 0.25rem;
+  line-height: 1;
+}
+
+.accordionNumbered .triggerLabel {
+  font-family: var(--st-font-family-narrative);
+  font-size: 1.125rem;
+  font-weight: 400;
 }

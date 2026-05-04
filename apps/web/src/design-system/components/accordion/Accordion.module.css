@@ -1,6 +1,7 @@
 /**
  * Accordion — Sugartown Design System
  * CSS grid-row animation pattern (proven in MobileNav).
+ * SUG-99: ink top rule + hairline dividers + pink open chevron as base design.
  */
 
 /* ── Container ───────────────────────────────────────────────────────────── */
@@ -8,15 +9,12 @@
   display: flex;
   flex-direction: column;
   gap: 0;
+  border-top: 2px solid var(--st-color-ink);
 }
 
 /* ── Item ─────────────────────────────────────────────────────────────────── */
 .item {
-  border-bottom: 1px solid var(--st-color-border-default);
-}
-
-.item:first-child {
-  border-top: 1px solid var(--st-color-border-default);
+  border-bottom: 1px solid var(--st-color-rule-accent);
 }
 
 /* ── Trigger button ──────────────────────────────────────────────────────── */
@@ -63,6 +61,7 @@
 
 .chevronOpen {
   transform: rotate(180deg);
+  color: var(--st-color-pink);
 }
 
 /* ── Panel — CSS grid-row animation ──────────────────────────────────────── */
@@ -80,15 +79,15 @@
   overflow: hidden;
 }
 
-/* Bottom padding only when panel is open — prevents the padding from
-   creating height when the CSS grid row collapses to 0fr. */
+/* Bottom padding only when panel is open — prevents phantom height when
+   grid-template-rows collapses to 0fr. */
 .panelOpen .panelInner {
   padding-bottom: var(--st-space-5, 1.5rem);
 }
 
-/* ── Light theme overrides ───────────────────────────────────────────────── */
+/* ── Light theme ─────────────────────────────────────────────────────────── */
 [data-theme="light-pink-moon"] .item {
-  border-color: var(--st-color-border-default);
+  border-color: var(--st-color-rule-accent);
 }
 
 [data-theme="light-pink-moon"] .trigger {
@@ -99,18 +98,7 @@
   color: var(--st-color-text-secondary);
 }
 
-/* ── Numbered variant ────────────────────────────────────────────────────── */
-.accordionNumbered {
-  border-top: 2px solid var(--st-color-ink);
-}
-
-.accordionNumbered .item {
-  border-bottom: 1px solid var(--st-color-rule-accent);
-}
-
-.accordionNumbered .item:first-child {
-  border-top: none;
-}
+/* ── Numbered variant — Q.NN column + Cormorant text ─────────────────────── */
 
 .triggerNumbered {
   display: grid;
@@ -134,12 +122,4 @@
   font-family: var(--st-font-family-narrative);
   font-size: 1.125rem;
   font-weight: 400;
-}
-
-.accordionNumbered .chevronOpen {
-  color: var(--st-color-pink);
-}
-
-[data-theme="light-pink-moon"] .accordionNumbered .item {
-  border-color: var(--st-color-rule-accent);
 }

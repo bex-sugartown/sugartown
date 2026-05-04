@@ -1,14 +1,10 @@
 /**
  * ## Accordion
  *
- * Expand/collapse component using CSS grid-row animation.
+ * Expand/collapse component with ink top rule, hairline dividers, and pink
+ * open chevron. `numbered` adds a Q.NN prefix column and Cormorant question text.
  *
- * - **Single-expand** (default) — only one panel open at a time
- * - **Multi-expand** — `multi` prop allows multiple panels open simultaneously
- * - **Numbered** — `numbered` prop renders Q.NN prefix in pink mono, Cormorant
- *   question text, 2px ink top rule, and hairline dividers. Pink chevron when open.
- *
- * SUG-99 (numbered variant)
+ * SUG-99
  */
 
 import React from 'react';
@@ -21,9 +17,9 @@ const meta: Meta<typeof Accordion> = {
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
   argTypes: {
-    multi:         { control: 'boolean' },
-    numbered:      { control: 'boolean' },
-    numberPrefix:  { control: 'text' },
+    multi:         { control: 'boolean', description: 'Allow multiple panels open simultaneously' },
+    numbered:      { control: 'boolean', description: 'Q.NN prefix column + Cormorant text' },
+    numberPrefix:  { control: 'text',    description: 'Prefix character, e.g. Q → Q.01' },
     defaultOpen:   { table: { disable: true } },
     items:         { table: { disable: true } },
     className:     { table: { disable: true } },
@@ -72,34 +68,38 @@ const CS_QUESTIONS = [
   },
 ];
 
-// ── Numbered variant ─────────────────────────────────────────────────────────
+/** Default — ink top rule, hairline dividers, left-aligned labels. */
+export const Default: Story = {
+  name: 'Default',
+  args: { items: CS_QUESTIONS },
+};
 
-/** Numbered — 2px ink top rule, Q.NN pink mono prefix, Cormorant questions. */
+/** Default with first item open — pink chevron visible. */
+export const DefaultOpen: Story = {
+  name: 'Default / First Open',
+  args: { items: CS_QUESTIONS, defaultOpen: ['q1'] },
+};
+
+/** Numbered — Q.NN pink mono prefix, Cormorant question text. */
 export const Numbered: Story = {
   name: 'Numbered',
-  args: {
-    items: CS_QUESTIONS,
-    numbered: true,
-  },
+  args: { items: CS_QUESTIONS, numbered: true },
 };
 
 /** Numbered with first item open — pink chevron visible. */
 export const NumberedOpen: Story = {
   name: 'Numbered / First Open',
-  args: {
-    items: CS_QUESTIONS,
-    numbered: true,
-    defaultOpen: ['q1'],
-  },
+  args: { items: CS_QUESTIONS, numbered: true, defaultOpen: ['q1'] },
 };
 
-// ── Snapshot ─────────────────────────────────────────────────────────────────
-
+/** Snapshot for Chromatic VRT — all four states. */
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
   parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem', maxWidth: '640px' }}>
+      <Accordion items={CS_QUESTIONS} />
+      <Accordion items={CS_QUESTIONS} defaultOpen={['q1']} />
       <Accordion items={CS_QUESTIONS} numbered />
       <Accordion items={CS_QUESTIONS} numbered defaultOpen={['q1']} />
     </div>
