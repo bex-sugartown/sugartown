@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { PortableText } from '@portabletext/react'
-import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Tile, Grid } from '../design-system'
+import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Tile, Grid, SectionLabel, SectionContainer } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
 import stats from '../generated/stats.json'
 import { TRUST_LINKS, getCanonicalPath } from '../lib/routes'
+import { useSanityDoc } from '../lib/useSanityDoc'
+import { latestArticleQuery, latestNodeQuery } from '../lib/queries'
 import CardBuilderSection from './CardBuilderSection'
-import RecentContentSection from './RecentContentSection'
 import TrustReportSection from './TrustReportSection'
 import ImageLightbox from './ImageLightbox'
 import { LinkAnnotation, DividerBlock } from './portableTextComponents'
@@ -819,14 +820,61 @@ function CitedBlockSection({ section }) {
   )
 }
 
-// Stat Tile Section Component (SUG-96)
+// recentContentSection — three fixed columns: release (build-time), article, node.
+function RecentContentSectionRenderer({ section }) {
+  const heading = section?.heading || 'Recently shipped'
+  const { data: latestArticle, loading: articleLoading } = useSanityDoc(latestArticleQuery)
+  const { data: latestNode, loading: nodeLoading } = useSanityDoc(latestNodeQuery)
+  const release = stats.release?.current
+
+  function formatDate(iso) {
+    if (!iso) return null
+    return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+  }
+
+  return (
+    <section id={section._sectionId}>
+      {heading && <SectionLabel name={heading} />}
+      <SectionContainer columns={3}>
+        <Tile
+          label="Release"
+          title={release ? `v${release.version}` : '—'}
+          body={release?.descriptor}
+          meta={release ? `${release.date} · ${release.linearIssue ?? 'changelog'}` : null}
+          href="https://github.com/bex-sugartown/sugartown/blob/main/CHANGELOG.md"
+          labelColor="brand"
+          titleSize="lg"
+        />
+        <Tile
+          label="Article"
+          title={latestArticle?.title}
+          meta={[latestArticle?.category?.title, formatDate(latestArticle?.publishedAt)].filter(Boolean).join(' · ')}
+          href={latestArticle ? getCanonicalPath({ docType: 'article', slug: latestArticle.slug }) : null}
+          loading={articleLoading}
+          labelColor="brand"
+          titleSize="lg"
+        />
+        <Tile
+          label="Node"
+          title={latestNode?.title}
+          meta={[latestNode?.category?.title, formatDate(latestNode?.publishedAt)].filter(Boolean).join(' · ')}
+          href={latestNode ? getCanonicalPath({ docType: 'node', slug: latestNode.slug }) : null}
+          loading={nodeLoading}
+          labelColor="brand"
+          titleSize="lg"
+        />
+      </SectionContainer>
+    </section>
+  )
+}
+
 // statTileSection — optional label + grid of metric Tile primitives.
 function StatTileSectionRenderer({ section }) {
   if (!section.items?.length) return null
   return (
     <div className={styles.statTileSection} id={section._sectionId}>
-      {section.label && <p className={styles.tileLabel}>{section.label}</p>}
-      <Grid spacing="0">
+      {section.label && <SectionLabel name={section.label} />}
+      <SectionContainer>
         {section.items.map((item, i) => (
           <Tile
             key={item._key ?? i}
@@ -838,7 +886,7 @@ function StatTileSectionRenderer({ section }) {
             titleSize="2xl"
           />
         ))}
-      </Grid>
+      </SectionContainer>
     </div>
   )
 }
@@ -876,7 +924,7 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
       case 'accordionSection':
         return <AccordionSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'recentContentSection':
-        return <RecentContentSection key={key} section={section} />
+        return <RecentContentSectionRenderer key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'trustReportSection':
         return <TrustReportSection key={key} section={section} />
       case 'citedBlock':
