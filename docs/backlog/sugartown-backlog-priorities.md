@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-03 · v0.23.9 · SUG-96 shipped — SectionLabel + Tile + Grid DS primitives, citedBlock + statTileSection renderers, outcomes migrated to sections[], challenge callout full-width
+> Updated 2026-05-04 · v0.23.9 · SUG-90 shipped — consulting pivot editorial (Services/Contact/About), all drafts published
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-96 shipped ✅ — SectionLabel + Tile + Grid DS primitives, citedBlock + statTileSection renderers, outcomes migrated to sections[], challenge callout full-span. SUG-90 (consulting pivot — Services/Contact/About editorial) is next.
+> **⚑ Current focus:** SUG-90 shipped ✅ — consulting pivot editorial, Services/Contact/About published. SUG-81 (site-wide Knowledge Graph) or SUG-97 (Studio schema field group audit) is next.
 
 ---
 
@@ -19,7 +19,7 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** — Reframe sugartown.io to surface consulting/contract availability without closing off FTE: Services page outcome framing, availability signal on hero/About, case study narrative shifted to client outcomes, Contact tone, /platform surfaced from key entry points. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. <br>_⚡ Executing — Sanity drafts pending publish: Contact (Work with me. hero + mailto CTA), Services (secondary button fixed), About (hero subheading + §7 reframed as "Currently")._ | `Editorial` `UX` | 🟢 Next |
+| 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** ✅ Shipped. Services page outcome framing, availability signal on hero/About, case study narrative, Contact tone update. All Sanity drafts published 2026-05-01. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | ✅ Shipped |
 | 2 | **[SUG-95](https://linear.app/sugartown/issue/SUG-95) · Sanity AI Assist POC — case study field generation** ✅ Shipped v0.23.3. `@sanity/assist` installed, caseStudy exclude config deployed, `docs/conventions/ai-assist-conventions.md` written. Epic: `docs/shipped/SUG-95-sanity-ai-assist-poc-case-study-fields.md`. | `Schema` `Tooling` `AI` | ✅ Shipped |
 | 3 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. <br>_⬇ Deprioritized by consulting pivot — KG visualization serves content-curious returning visitors; consulting prospects need Services/Contact/case studies first. Valuable long-term but not a conversion lever. Push below case study outcomes work._ | `UX` `Infrastructure` | 🟣 Soon |
 
