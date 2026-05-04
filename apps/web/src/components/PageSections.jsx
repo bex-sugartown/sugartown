@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { PortableText } from '@portabletext/react'
-import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, SectionLabel, Tile, Grid } from '../design-system'
+import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Tile, Grid } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
 import stats from '../generated/stats.json'
 import { TRUST_LINKS, getCanonicalPath } from '../lib/routes'
@@ -825,7 +825,7 @@ function StatTileSectionRenderer({ section }) {
   if (!section.items?.length) return null
   return (
     <div className={styles.statTileSection} id={section._sectionId}>
-      {section.label && <SectionLabel>{section.label}</SectionLabel>}
+      {section.label && <p className={styles.tileLabel}>{section.label}</p>}
       <Grid spacing="0">
         {section.items.map((item, i) => (
           <Tile

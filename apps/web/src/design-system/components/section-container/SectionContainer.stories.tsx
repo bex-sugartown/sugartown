@@ -5,7 +5,7 @@
  * and 1px box border. Children share 1px hairline dividers via bg-through-gap
  * (no visual gaps between tiles).
  *
- * Pair with SectionLabel variant="folio" as a section header.
+ * Pair with SectionLabel as a section header.
  *
  * SUG-99
  */
@@ -50,7 +50,7 @@ export const WithFolioHeader: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
       <SectionLabel
-        variant="folio"
+        
         number="§ 03"
         name="Outcomes"
         title="What changed for the client"

@@ -1,3 +1,23 @@
+.heading {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  margin: 0 0 var(--st-space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--st-space-4);
+}
+
+.heading::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: var(--st-color-ink);
+}
+
 .section {
   width: 100%;
   max-width: 1164px;

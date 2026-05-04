@@ -2,7 +2,6 @@ import { useSanityDoc } from '../lib/useSanityDoc'
 import { latestArticleQuery, latestNodeQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
 import stats from '../generated/stats.json'
-import SectionLabel from '../design-system/components/section-label/SectionLabel'
 import Tile from '../design-system/components/tile/Tile'
 import styles from './RecentContentSection.module.css'
 
@@ -28,7 +27,7 @@ export default function RecentContentSection({ section }) {
 
   return (
     <section className={styles.section}>
-      {heading && <SectionLabel as="h2">{heading}</SectionLabel>}
+      {heading && <h2 className={styles.heading}>{heading}</h2>}
 
       <div className={styles.grid}>
 

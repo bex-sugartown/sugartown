@@ -1,41 +1,20 @@
 import styles from './SectionLabel.module.css'
 
 /**
- * SectionLabel — mono-caps heading with optional rule, plus folio variant.
+ * SectionLabel — three-zone folio row over a 1px ink baseline.
  *
- * variant="default" (rule=true)  → flex row + ::after pseudo fills remaining width with a 2px ink rule.
- *                                  Use before data grids, stat strips, and card collections.
- * variant="default" (rule=false) → plain block-level label typography only.
- * variant="folio"                → three-zone row over a 1px ink baseline:
- *                                  §NN + name (left) | Cormorant title (centre) | mono kicker (right)
- *                                  Props: number, name, title, kicker
+ * Layout: §NN · name (mono left) | Cormorant title (centre) | mono kicker (right)
+ * Props: number, name, title, kicker (all optional — render only if provided)
  */
-export default function SectionLabel({
-  variant = 'default',
-  // default variant props
-  as: Tag = 'p',
-  rule = true,
-  children,
-  // folio variant props
-  number,
-  name,
-  title,
-  kicker,
-  className,
-}) {
-  if (variant === 'folio') {
-    return (
-      <div className={[styles.folio, className].filter(Boolean).join(' ')}>
-        <div className={styles.folioLeft}>
-          {number && <span className={styles.folioNumber}>{number}</span>}
-          {name   && <span className={styles.folioName}>{name}</span>}
-        </div>
-        {title  && <span className={styles.folioTitle}>{title}</span>}
-        {kicker && <span className={styles.folioKicker}>{kicker}</span>}
+export default function SectionLabel({ number, name, title, kicker, className }) {
+  return (
+    <div className={[styles.root, className].filter(Boolean).join(' ')}>
+      <div className={styles.left}>
+        {number && <span className={styles.number}>{number}</span>}
+        {name   && <span className={styles.name}>{name}</span>}
       </div>
-    )
-  }
-
-  const classes = [styles.label, rule && styles.rule, className].filter(Boolean).join(' ')
-  return <Tag className={classes}>{children}</Tag>
+      {title  && <span className={styles.title}>{title}</span>}
+      {kicker && <span className={styles.kicker}>{kicker}</span>}
+    </div>
+  )
 }
