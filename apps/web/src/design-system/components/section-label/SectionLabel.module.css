@@ -1,3 +1,5 @@
+/* ── Default variant ──────────────────────────────────────────────────────── */
+
 .label {
   font-family: var(--st-label-font);
   font-size: var(--st-label-size);
@@ -19,4 +21,63 @@
   flex: 1;
   height: 2px;
   background: var(--st-color-ink);
+}
+
+/* ── Folio variant ────────────────────────────────────────────────────────── */
+/* Three-zone row: §NN + name left | Cormorant title centre | mono kicker right */
+
+.folio {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 0 1.5rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--st-color-ink);
+  margin: 0 0 var(--st-space-4);
+}
+
+.folioLeft {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.folioNumber {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: 0.06em;
+  color: var(--st-color-pink);
+  line-height: 1;
+}
+
+.folioName {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-color-text-default);
+  line-height: 1;
+}
+
+.folioTitle {
+  font-family: var(--st-font-family-narrative);
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--st-color-text-default);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.folioKicker {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--st-label-color);
+  text-align: right;
+  flex-shrink: 0;
+  line-height: 1;
 }
