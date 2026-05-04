@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-04 · v0.23.10 · SUG-89 shipped — Chromatic parity stories, React 19 Storybook fix, component registry
+> Updated 2026-05-04 · v0.23.11 · SUG-99 shipped — Backroads component harmony (Callout, Accordion, SectionContainer, SectionLabel, challenge callout migration)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-89 shipped ✅ — Chromatic parity stories, React 19 Storybook dual-instance fix, component registry + SUG-98 scoped. SUG-81 (site-wide Knowledge Graph) or SUG-98 (component gap analysis) is next.
+> **⚑ Current focus:** SUG-99 shipped ✅ — Callout row format, Accordion numbered variant + base redesign, SectionContainer/SectionLabel primitives, section schema SectionLabel field alignment, challenge callout migration on all 7 case studies. SUG-98 (component gap analysis) or SUG-81 (site-wide KG) is next.
 
 ---
 
@@ -80,6 +80,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-99 · Backroads component harmony** — Callout row format (number prop, colorways, token cleanup), Accordion numbered variant + ink/hairline/pink-chevron base design, SectionContainer shared-border Tile wrapper, SectionLabel folio-only simplification, section schema alignment (number/name/title/kicker on all section types), challenge callout migrated from plain text to calloutSection on all 7 case studies. challengeSummary field deprecated.~~ | v0.23.11 | 2026-05-04 |
 | ~~**SUG-89 · Chromatic parity stories + Storybook React 19 fix** — chromatic: { disableSnapshot: false } on 19 existing stories, new Patterns/Card story (later refined to DS-primitive-only coverage rule), React 19 dual-instance fix via resolve.alias in viteFinal, component registry at docs/conventions/component-registry.md, SUG-98 scoped.~~ | v0.23.10 | 2026-05-04 |
 | ~~**SUG-96 · DS section label, Tile primitive, citedBlock renderer** — SectionLabel primitive, Chip story cleanup (rule-dot only), Tile + Grid DS primitives, citedBlock section renderer (card treatment, bracket ref-strip), statTileSection renderer, inline code hot-pink/lime. Outcomes migrated from outcomes[] to statTileSection in sections[] across all 8 case studies. Challenge callout full-span above sidebar. Tile heading 2xl (28px).~~ | v0.23.9 | 2026-05-03 |
 | ~~**SUG-94 · Structured retrieval objects + JSON-LD renderer** — answerBlock + statTileSection schema objects (cross-cut caseStudy, article, node). tool.kind classification (practitioner/platform). JSON-LD CreativeWork + FAQPage on CaseStudyPage. keyQuestions[] renderer removed; SUG-96 comprehensive case study page mock scoped.~~ | v0.23.8 | 2026-05-03 |
@@ -162,4 +163,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-04 · v0.23.10*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-04 · v0.23.11*
