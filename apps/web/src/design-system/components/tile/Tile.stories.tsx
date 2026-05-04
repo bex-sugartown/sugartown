@@ -13,6 +13,7 @@
 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { MemoryRouter } from 'react-router-dom';
 import Tile from './Tile';
 
 const meta: Meta<typeof Tile> = {
@@ -20,6 +21,15 @@ const meta: Meta<typeof Tile> = {
   component: Tile,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <div style={{ maxWidth: '280px' }}>
+          <Story />
+        </div>
+      </MemoryRouter>
+    ),
+  ],
   argTypes: {
     labelColor: { control: { type: 'radio' }, options: ['ink', 'brand'] },
     titleSize:  { control: { type: 'select' }, options: ['display', '2xl', 'xl', 'lg', 'md', 'sm', 'xs'] },
@@ -27,13 +37,6 @@ const meta: Meta<typeof Tile> = {
     loading:    { control: 'boolean' },
     legend:     { control: 'boolean' },
   },
-  decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '280px' }}>
-        <Story />
-      </div>
-    ),
-  ],
 };
 
 export default meta;
@@ -133,7 +136,6 @@ export const ContentPreviewLoading: Story = {
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
   parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
-  decorators: [],
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '720px' }}>
       <div>
