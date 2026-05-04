@@ -38,6 +38,13 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'number',
+      title: 'Folio Number',
+      type: 'string',
+      description: 'Optional section number displayed in the label column, e.g. § 01',
+      validation: (Rule) => Rule.max(20),
+    }),
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
