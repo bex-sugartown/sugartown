@@ -16,6 +16,19 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.23.11] — 2026-05-04
+
+### SUG-99 · Backroads component harmony
+
+- Callout: wired into CaseStudy template; `calloutSection` in `sections[]` replaces legacy `challengeSummary` text field
+- Callout: folio number now inherits `--_callout-accent` per variant (was `--st-color-ink` in light theme default)
+- Accordion: Cormorant Garamond applied to all trigger labels, not just numbered variant
+- PageSections: `context="full"` now wraps in `.fullContext` (flex column, `gap: --st-space-section-break`) — inter-section spacing owned by container, mirrors `detailContext` pattern
+- `recentContentSection`: constrained to 1080px max-width with page-gutter padding (was blowing out to full viewport width)
+- Studio: `challengeSummary` field deprecated with migration warning; hidden when empty
+
+---
+
 ## [0.23.0] — 2026-04-27
 
 Trust data pipeline, Ledger Tradition design system structural pass, dynamic Knowledge Graph,
