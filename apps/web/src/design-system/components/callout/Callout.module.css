@@ -73,12 +73,7 @@
   text-underline-offset: 0.15em;
 }
 
-/* ── Light theme — default uses ink rule (not pink) ──────────────────────── */
-[data-theme="light-pink-moon"] .callout {
-  --_callout-accent: var(--st-color-ink);
-}
-
-/* Named variants restore their own accent in light theme */
+/* ── Light theme — accent matches variant; default is pink ───────────────── */
 [data-theme="light-pink-moon"] .info    { --_callout-accent: var(--st-color-pink);       }
 [data-theme="light-pink-moon"] .tip     { --_callout-accent: var(--st-color-violet);     }
 [data-theme="light-pink-moon"] .warn    { --_callout-accent: var(--st-color-orange-400); }
