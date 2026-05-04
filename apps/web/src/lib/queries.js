@@ -384,6 +384,7 @@ export const nodeBySlugQuery = `
       },
       _type == "calloutSection" => {
         variant,
+        number,
         title,
         body
       },
@@ -396,6 +397,8 @@ export const nodeBySlugQuery = `
         heading,
         semantic,
         multi,
+        numbered,
+        numberPrefix,
         items[] {
           _key,
           title,
@@ -574,6 +577,7 @@ export const articleBySlugQuery = `
       },
       _type == "calloutSection" => {
         variant,
+        number,
         title,
         body
       },
@@ -586,6 +590,8 @@ export const articleBySlugQuery = `
         heading,
         semantic,
         multi,
+        numbered,
+        numberPrefix,
         items[] {
           _key,
           title,
@@ -745,6 +751,7 @@ export const pageBySlugQuery = `
       },
       _type == "calloutSection" => {
         variant,
+        number,
         title,
         body
       },
@@ -757,6 +764,8 @@ export const pageBySlugQuery = `
         heading,
         semantic,
         multi,
+        numbered,
+        numberPrefix,
         items[] {
           _key,
           title,
@@ -915,6 +924,7 @@ export const caseStudyBySlugQuery = `
       },
       _type == "calloutSection" => {
         variant,
+        number,
         title,
         body
       },
@@ -927,6 +937,8 @@ export const caseStudyBySlugQuery = `
         heading,
         semantic,
         multi,
+        numbered,
+        numberPrefix,
         items[] {
           _key,
           title,

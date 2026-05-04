@@ -731,7 +731,7 @@ function CalloutSection({ section }) {
   const isPortableText = Array.isArray(section.body)
   return (
     <div className={styles.calloutSection} id={section._sectionId}>
-      <Callout variant={section.variant} title={section.title}>
+      <Callout variant={section.variant} number={section.number} title={section.title}>
         {isPortableText ? (
           <PortableText value={preprocessPortableText(section.body)} components={portableTextComponents} />
         ) : (
@@ -783,7 +783,12 @@ function AccordionSection({ section }) {
       {section.heading && (
         <h2 className={styles.sectionHeading}>{section.heading}</h2>
       )}
-      <Accordion items={accordionItems} multi={section.multi ?? false} />
+      <Accordion
+        items={accordionItems}
+        multi={section.multi ?? false}
+        numbered={section.numbered ?? false}
+        numberPrefix={section.numberPrefix ?? 'Q'}
+      />
     </div>
   )
 }
