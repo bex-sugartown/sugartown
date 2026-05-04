@@ -837,7 +837,7 @@ function RecentContentSectionRenderer({ section }) {
   }
 
   return (
-    <section id={section._sectionId}>
+    <section className={styles.recentContentSection} id={section._sectionId}>
       <SectionLabel
         number={section.number}
         name={section.name || 'Recently shipped'}
@@ -957,5 +957,5 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
     return <div className={styles.detailContext}>{content}</div>
   }
 
-  return <>{content}</>
+  return <div className={styles.fullContext}>{content}</div>
 }

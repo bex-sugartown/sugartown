@@ -839,6 +839,13 @@
   border-bottom-style: solid;
 }
 
+/* Recent Content Ticker — wide max-width, needs own gutter (not inside detailContext) */
+.recentContentSection {
+  max-width: var(--st-width-detail-wide, 1080px);
+  margin: 0 auto;
+  padding: 0 var(--st-page-gutter);
+}
+
 /* Stat Tile Section (SUG-96) */
 .statTileSection {
   max-width: var(--st-width-detail);
@@ -1188,6 +1195,15 @@
    - Zero-gap when a section type isn't in the selector list
    - Inconsistent gaps between different section type pairings
 */
+
+/* Full-page context (homepage, standalone pages) — same gap strategy as detailContext.
+   Wrapper owns inter-section spacing; individual sections must not add vertical margin. */
+.fullContext {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-section-break);
+}
+
 .detailContext {
   display: flex;
   flex-direction: column;
