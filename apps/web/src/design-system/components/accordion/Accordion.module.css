@@ -50,6 +50,9 @@
 .triggerLabel {
   flex: 1;
   min-width: 0;
+  font-family: var(--st-font-family-narrative);
+  font-size: 1.125rem;
+  font-weight: 400;
 }
 
 /* ── Chevron ─────────────────────────────────────────────────────────────── */
@@ -118,8 +121,3 @@
   line-height: 1;
 }
 
-.accordionNumbered .triggerLabel {
-  font-family: var(--st-font-family-narrative);
-  font-size: 1.125rem;
-  font-weight: 400;
-}
