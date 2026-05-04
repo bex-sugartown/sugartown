@@ -313,7 +313,7 @@ function HeroSection({ section }) {
 
   return (
     <section className={sectionClasses} style={backgroundStyles} id={section._sectionId}>
-      <div className={styles.heroContainer}>
+      <div className={[styles.heroContainer, showPanel && hasImage ? styles.heroPanelLayout : ''].filter(Boolean).join(' ')}>
         {showPanel && hasImage ? (
           <div className={styles.heroPanel}>
             {heroElements}

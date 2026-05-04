@@ -120,7 +120,7 @@
 .heroPanel {
   position: relative;
   z-index: 2;
-  max-width: 640px;
+  max-width: none;   /* container controls width; panel fills it */
   margin: 0 auto;
   padding: var(--st-space-7, 2.5rem) var(--st-space-6, 2rem);
   background: var(--st-color-white-18);
@@ -256,6 +256,11 @@
   max-width: var(--st-width-detail);
   margin: 0 auto;
   width: 100%;
+}
+
+/* Panel mode: widen container so the frosted panel reads wider than a detail column */
+.heroContainer.heroPanelLayout {
+  max-width: var(--st-width-detail-wide);
 }
 
 .heroContent {
