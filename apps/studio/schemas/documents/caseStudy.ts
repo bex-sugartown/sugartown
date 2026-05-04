@@ -267,11 +267,12 @@ export default defineType({
     }),
     defineField({
       name: 'challengeSummary',
-      title: 'Challenge Summary',
+      title: 'Challenge Summary (deprecated)',
       type: 'text',
-      description: 'One paragraph describing what the client needed to solve — the "why we were hired" context. Renders above body sections on the detail page.',
+      description: '⚠️ Deprecated — use a calloutSection in sections[] instead. Kept as fallback only; will be removed once all case studies are migrated.',
       group: 'metadata',
       rows: 4,
+      hidden: ({ document }) => !document?.challengeSummary,
       validation: (Rule) => Rule.max(600),
     }),
     defineField({
