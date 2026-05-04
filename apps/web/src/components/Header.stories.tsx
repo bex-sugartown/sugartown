@@ -27,6 +27,7 @@ const meta: Meta<typeof Header> = {
     siteSettings: { control: { type: 'object' }, description: 'Site config: siteLogo, siteTitle, primaryNav, headerCta, preheader, footerColumns, socialLinks, copyrightText' },
   },
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'fullscreen',
   },
 };

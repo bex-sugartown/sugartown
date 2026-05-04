@@ -29,6 +29,7 @@ const meta: Meta<typeof Footer> = {
   tags: ['autodocs'],
   decorators: [withRouter],
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'fullscreen',
   },
 };

@@ -48,6 +48,7 @@ const meta: Meta<typeof MobileNav> = {
     themeToggle: { table: { disable: true } },
   },
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'fullscreen',
   },
 };

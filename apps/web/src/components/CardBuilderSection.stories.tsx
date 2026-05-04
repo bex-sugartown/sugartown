@@ -19,6 +19,7 @@ const meta: Meta<typeof CardBuilderSection> = {
     section: { control: { type: 'object' }, description: 'CardBuilderSection data: cards[], each with title, body, tags, citations, image, overlay' },
   },
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'padded',
   },
 };

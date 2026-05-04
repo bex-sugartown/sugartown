@@ -20,6 +20,7 @@ const meta: Meta<typeof Media> = {
   component: Media,
   tags: ['autodocs'],
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'padded',
   },
   argTypes: {

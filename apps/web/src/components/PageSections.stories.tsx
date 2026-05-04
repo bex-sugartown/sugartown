@@ -14,6 +14,7 @@ const meta: Meta<typeof PageSections> = {
     ),
   ],
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'fullscreen',
   },
 };

@@ -115,6 +115,7 @@ const meta: Meta = {
   title: 'Primitives/ContentNav',
   tags: ['autodocs'],
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'padded',
   },
 };

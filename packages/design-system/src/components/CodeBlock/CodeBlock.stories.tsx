@@ -17,6 +17,7 @@ const meta: Meta<typeof CodeBlock> = {
   component: CodeBlock,
   tags: ['autodocs'],
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'padded',
   },
   argTypes: {

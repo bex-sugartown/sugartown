@@ -17,6 +17,7 @@ const meta: Meta<typeof Blockquote> = {
   component: Blockquote,
   tags: ['autodocs'],
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'padded',
   },
   argTypes: {

@@ -5,6 +5,7 @@ import { simpleParagraph, richContent, contentWithLink } from './__fixtures__/po
 const meta: Meta<typeof ContentBlock> = {
   title: 'Patterns/ContentBlock',
   component: ContentBlock,
+  parameters: { chromatic: { disableSnapshot: false } },
 };
 
 export default meta;

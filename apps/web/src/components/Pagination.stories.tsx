@@ -18,6 +18,7 @@ const meta: Meta<typeof Pagination> = {
     onPageChange: { action: 'pageChanged', description: 'Callback with page number' },
   },
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'centered',
   },
 };

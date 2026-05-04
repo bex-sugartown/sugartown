@@ -26,6 +26,7 @@ const meta: Meta<typeof Accordion> = {
     className: { table: { disable: true } },
   },
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'padded',
   },
   decorators: [

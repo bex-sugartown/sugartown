@@ -19,6 +19,7 @@ const meta: Meta<typeof Table> = {
   component: Table,
   tags: ['autodocs'],
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'padded',
   },
   argTypes: {

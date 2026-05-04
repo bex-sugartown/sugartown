@@ -14,6 +14,7 @@ const meta: Meta<typeof ThemeToggle> = {
   component: ThemeToggle,
   tags: ['autodocs'],
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'centered',
   },
 };

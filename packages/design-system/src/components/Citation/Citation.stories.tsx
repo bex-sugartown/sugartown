@@ -5,6 +5,7 @@ import { CitationMarker, CitationNote, CitationZone } from './Citation';
 const meta: Meta = {
   title: 'Primitives/Citation',
   parameters: {
+    chromatic: { disableSnapshot: false },
     docs: {
       description: {
         component:

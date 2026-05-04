@@ -51,6 +51,7 @@ const meta: Meta<typeof FilterBar> = {
     onClearAll: { table: { disable: true } },
   },
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'padded',
   },
   decorators: [

@@ -6,6 +6,7 @@ const meta: Meta<typeof ImageLightbox> = {
   title: 'Patterns/ImageLightbox',
   component: ImageLightbox,
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'fullscreen',
   },
 };

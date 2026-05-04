@@ -26,6 +26,7 @@ const meta: Meta<typeof Preheader> = {
     preheader: { control: { type: 'object' }, description: 'Banner config: message, url, label, backgroundColor (pink|green), publishAt, unpublishAt, openInNewTab' },
   },
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'fullscreen',
   },
 };

@@ -5,6 +5,7 @@ const meta: Meta<typeof ContactForm> = {
   title: 'Patterns/ContactForm',
   component: ContactForm,
   parameters: {
+    chromatic: { disableSnapshot: false },
     layout: 'centered',
   },
 };
