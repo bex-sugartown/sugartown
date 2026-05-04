@@ -415,7 +415,10 @@ export const nodeBySlugQuery = `
         references[]->{_id, _type, title, "slug": slug.current}
       },
       _type == "statTileSection" => {
-        label,
+        number,
+        name,
+        title,
+        kicker,
         items[] {
           _key,
           metric,
@@ -424,6 +427,12 @@ export const nodeBySlugQuery = `
           impactStatement,
           evidenceType
         }
+      },
+      _type == "recentContentSection" => {
+        number,
+        name,
+        title,
+        kicker
       }
     },
     aiTool,
@@ -608,7 +617,10 @@ export const articleBySlugQuery = `
         references[]->{_id, _type, title, "slug": slug.current}
       },
       _type == "statTileSection" => {
-        label,
+        number,
+        name,
+        title,
+        kicker,
         items[] {
           _key,
           metric,
@@ -617,6 +629,12 @@ export const articleBySlugQuery = `
           impactStatement,
           evidenceType
         }
+      },
+      _type == "recentContentSection" => {
+        number,
+        name,
+        title,
+        kicker
       }
     },
     author,
@@ -782,7 +800,10 @@ export const pageBySlugQuery = `
         references[]->{_id, _type, title, "slug": slug.current}
       },
       _type == "statTileSection" => {
-        label,
+        number,
+        name,
+        title,
+        kicker,
         items[] {
           _key,
           metric,
@@ -791,6 +812,12 @@ export const pageBySlugQuery = `
           impactStatement,
           evidenceType
         }
+      },
+      _type == "recentContentSection" => {
+        number,
+        name,
+        title,
+        kicker
       }
     },
     publishedAt,
@@ -955,7 +982,10 @@ export const caseStudyBySlugQuery = `
         references[]->{_id, _type, title, "slug": slug.current}
       },
       _type == "statTileSection" => {
-        label,
+        number,
+        name,
+        title,
+        kicker,
         items[] {
           _key,
           metric,
@@ -964,6 +994,12 @@ export const caseStudyBySlugQuery = `
           impactStatement,
           evidenceType
         }
+      },
+      _type == "recentContentSection" => {
+        number,
+        name,
+        title,
+        kicker
       }
     },
     challengeSummary,

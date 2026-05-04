@@ -827,7 +827,6 @@ function CitedBlockSection({ section }) {
 
 // recentContentSection — three fixed columns: release (build-time), article, node.
 function RecentContentSectionRenderer({ section }) {
-  const heading = section?.heading || 'Recently shipped'
   const { data: latestArticle, loading: articleLoading } = useSanityDoc(latestArticleQuery)
   const { data: latestNode, loading: nodeLoading } = useSanityDoc(latestNodeQuery)
   const release = stats.release?.current
@@ -839,7 +838,12 @@ function RecentContentSectionRenderer({ section }) {
 
   return (
     <section id={section._sectionId}>
-      {heading && <SectionLabel name={heading} />}
+      <SectionLabel
+        number={section.number}
+        name={section.name || 'Recently shipped'}
+        title={section.title}
+        kicker={section.kicker}
+      />
       <SectionContainer columns={3}>
         <Tile
           label="Release"
@@ -878,7 +882,14 @@ function StatTileSectionRenderer({ section }) {
   if (!section.items?.length) return null
   return (
     <div className={styles.statTileSection} id={section._sectionId}>
-      {section.label && <SectionLabel name={section.label} />}
+      {(section.number || section.name || section.title || section.kicker) && (
+        <SectionLabel
+          number={section.number}
+          name={section.name}
+          title={section.title}
+          kicker={section.kicker}
+        />
+      )}
       <SectionContainer>
         {section.items.map((item, i) => (
           <Tile

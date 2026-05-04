@@ -2,13 +2,11 @@ import { defineType, defineField } from 'sanity'
 import { InlineElementIcon } from '@sanity/icons'
 
 /**
- * Recent Content Section — SUG-76
+ * Recent Content Section — SUG-76 / SUG-99
  *
- * Renders a flush 3-column ticker showing the latest release, article, and node.
+ * Renders a 3-column SectionContainer showing the latest release, article, and node.
  * Data is sourced at runtime (article, node) and build time (release from stats.json).
- * No content authoring needed — data is always auto-derived from latest published docs.
- *
- * Phase 2: `contentTypes` field will allow editors to select which content types appear.
+ * SectionLabel above the container takes: number, name, title, kicker.
  */
 export default defineType({
   name: 'recentContentSection',
@@ -17,27 +15,41 @@ export default defineType({
   icon: InlineElementIcon,
   fields: [
     defineField({
-      name: 'heading',
-      title: 'Section Heading',
+      name: 'number',
+      title: 'Section Number',
       type: 'string',
-      description: 'Displayed above the ticker. Leave blank to hide the heading.',
-      placeholder: 'Recently shipped',
+      description: 'Optional folio number shown on the left, e.g. § 04',
+      validation: (Rule) => Rule.max(20),
     }),
-    // Phase 2: content type selector
-    // defineField({
-    //   name: 'contentTypes',
-    //   title: 'Content types to show',
-    //   type: 'array',
-    //   of: [{ type: 'string', options: { list: ['release', 'article', 'node', 'caseStudy'] } }],
-    //   description: 'Which content types appear as columns. Defaults to release + article + node.',
-    //   initialValue: ['release', 'article', 'node'],
-    // }),
+    defineField({
+      name: 'name',
+      title: 'Section Name',
+      type: 'string',
+      description: 'Short mono-caps label shown in the section header. Leave blank to use "Recently shipped".',
+      placeholder: 'Recently shipped',
+      validation: (Rule) => Rule.max(60),
+    }),
+    defineField({
+      name: 'title',
+      title: 'Section Title',
+      type: 'string',
+      description: 'Optional Cormorant centre title',
+      validation: (Rule) => Rule.max(120),
+    }),
+    defineField({
+      name: 'kicker',
+      title: 'Kicker',
+      type: 'string',
+      description: 'Optional right-aligned note',
+      validation: (Rule) => Rule.max(80),
+    }),
   ],
   preview: {
-    select: { heading: 'heading' },
-    prepare({ heading }) {
+    select: { name: 'name', number: 'number' },
+    prepare({ name, number }) {
+      const label = [number, name].filter(Boolean).join(' · ')
       return {
-        title: heading || 'Recent Content Ticker',
+        title: label || 'Recent Content Ticker',
         subtitle: 'Latest release · article · node',
       }
     },

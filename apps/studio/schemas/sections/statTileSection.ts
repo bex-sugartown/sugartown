@@ -5,14 +5,12 @@ import {BarChartIcon} from '@sanity/icons'
  * statTileSection — mid-content stat/evidence cluster.
  *
  * Section builder block for 1–4 outcome/metric tiles (outcomeItem) in a grid.
- * Renders via the Tile + Grid primitives in the DS (see SUG-96 for implementation).
- *
- * Uses outcomeItem as the item type — the same object used by caseStudy outcomes[].
- * Both surfaces share the same DS primitive; this is the editorial placement version.
+ * Renders via Tile + SectionContainer primitives (SUG-96 / SUG-99).
+ * SectionLabel above the container takes: number, name, title, kicker.
  *
  * Available in: caseStudy, article, node sections[]
  *
- * SUG-94
+ * SUG-94 / SUG-99
  */
 export default defineType({
   name: 'statTileSection',
@@ -21,11 +19,32 @@ export default defineType({
   icon: BarChartIcon,
   fields: [
     defineField({
-      name: 'label',
-      title: 'Section Label',
+      name: 'number',
+      title: 'Section Number',
       type: 'string',
-      description: 'Optional label above the stat grid (e.g. "By the numbers", "Results at a glance")',
+      description: 'Optional folio number shown on the left, e.g. § 03',
+      validation: (Rule) => Rule.max(20),
+    }),
+    defineField({
+      name: 'name',
+      title: 'Section Name',
+      type: 'string',
+      description: 'Short mono-caps label, e.g. "Outcomes" or "By the numbers"',
       validation: (Rule) => Rule.max(60),
+    }),
+    defineField({
+      name: 'title',
+      title: 'Section Title',
+      type: 'string',
+      description: 'Optional Cormorant centre title, e.g. "What changed for the client"',
+      validation: (Rule) => Rule.max(120),
+    }),
+    defineField({
+      name: 'kicker',
+      title: 'Kicker',
+      type: 'string',
+      description: 'Optional right-aligned note, e.g. "Measured 90 days post-launch"',
+      validation: (Rule) => Rule.max(80),
     }),
     defineField({
       name: 'items',
@@ -38,13 +57,15 @@ export default defineType({
   ],
   preview: {
     select: {
-      label: 'label',
+      name: 'name',
+      number: 'number',
       items: 'items',
     },
-    prepare({label, items}) {
+    prepare({name, number, items}) {
       const count = Array.isArray(items) ? items.length : 0
+      const label = [number, name].filter(Boolean).join(' · ') || 'Stat Tiles'
       return {
-        title: label || 'Stat Tiles',
+        title: label,
         subtitle: `${count} stat${count !== 1 ? 's' : ''}`,
       }
     },
