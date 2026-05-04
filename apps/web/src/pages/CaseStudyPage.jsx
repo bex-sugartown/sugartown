@@ -35,18 +35,22 @@ export default function CaseStudyPage() {
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(caseStudy.sections)
   const showMargin = hasSidebarContent({ ...caseStudy, sections: restSections })
 
+  // Extract calloutSection (challenge block) — appended at end of sections[] via CMS
+  const challengeSection = restSections.find(s => s._type === 'calloutSection') ?? null
+  const nonCalloutSections = restSections.filter(s => s._type !== 'calloutSection')
+
   // Pull any statTileSections that open the body (after hero) — render full-span above sidebar
   let leadStatCount = 0
-  for (const s of restSections) {
+  for (const s of nonCalloutSections) {
     if (s._type === 'statTileSection') leadStatCount++
     else break
   }
-  const leadStatTiles = restSections.slice(0, leadStatCount)
-  const bodySections  = restSections.slice(leadStatCount)
+  const leadStatTiles = nonCalloutSections.slice(0, leadStatCount)
+  const bodySections  = nonCalloutSections.slice(leadStatCount)
 
   // Row 1 = MetadataCard (full-span). Each full-span block before PageSections adds a row.
   const sidebarRow = 2
-    + (caseStudy.challengeSummary ? 1 : 0)
+    + (challengeSection || caseStudy.challengeSummary ? 1 : 0)
     + leadStatCount
 
   return (
@@ -77,13 +81,17 @@ export default function CaseStudyPage() {
           draftBadge={<DraftBadge docId={caseStudy._id} hasDraft={hasDraft} />}
         />
 
-        {caseStudy.challengeSummary && (
+        {challengeSection ? (
+          <div className={styles.challengeSummary}>
+            <PageSections sections={[challengeSection]} context="detail" />
+          </div>
+        ) : caseStudy.challengeSummary ? (
           <div className={styles.challengeSummary}>
             <Callout title="Challenge">
               <p>{caseStudy.challengeSummary}</p>
             </Callout>
           </div>
-        )}
+        ) : null}
 
         {leadStatTiles.length > 0 && (
           <div className={styles.outcomesFullSpan}>
