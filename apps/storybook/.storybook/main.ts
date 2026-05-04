@@ -69,15 +69,19 @@ const config: StorybookConfig = {
           s.endsWith('/lib/sanity') || s.endsWith('/lib/sanity.js');
         const isContentState = (s: string) =>
           s.endsWith('/lib/contentState') || s.endsWith('/lib/contentState.js');
+        const isStats = (s: string) =>
+          s.endsWith('/generated/stats.json');
 
         if (isSanity(source)) return resolve(mocks, 'sanity.js');
         if (isContentState(source)) return resolve(mocks, 'contentState.js');
+        if (isStats(source)) return resolve(mocks, 'stats.json');
 
         // Catch relative imports (e.g. './sanity' from lib/useSanityDoc.js)
         if (importer) {
           const abs = resolve(dirname(importer), source);
           if (isSanity(abs)) return resolve(mocks, 'sanity.js');
           if (isContentState(abs)) return resolve(mocks, 'contentState.js');
+          if (isStats(abs)) return resolve(mocks, 'stats.json');
         }
         return null;
       },
