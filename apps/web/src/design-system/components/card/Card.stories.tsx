@@ -179,13 +179,11 @@ export const MinimalFields: Story = {
 export const WithChildren: Story = {
   name: 'Children escape hatch',
   render: () => (
-    <MemoryRouter>
-      <Card title="Custom body content" eyebrow="Pattern">
-        <div style={{ padding: '8px 0', fontSize: '0.875rem', color: 'var(--st-color-text-secondary)' }}>
-          This body was injected via the <code>children</code> prop — used by MetadataCard for field grids.
-        </div>
-      </Card>
-    </MemoryRouter>
+    <Card title="Custom body content" eyebrow="Pattern">
+      <div style={{ padding: '8px 0', fontSize: '0.875rem', color: 'var(--st-color-text-secondary)' }}>
+        This body was injected via the <code>children</code> prop — used by MetadataCard for field grids.
+      </div>
+    </Card>
   ),
 };
 
@@ -195,41 +193,39 @@ export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
   parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
   render: () => (
-    <MemoryRouter>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', maxWidth: '900px' }}>
-        <Card
-          title="Default card"
-          eyebrow="Article"
-          excerpt="Body text for a default card with excerpt and date."
-          date="2026-04-15"
-          href="/articles/example"
-        />
-        <Card
-          variant="listing"
-          title="Listing card with thumbnail"
-          eyebrow="Case Study"
-          thumbnailUrl={THUMB}
-          thumbnailAlt="Code"
-          date="2026-03-10"
-          href="/case-studies/example"
-        />
-        <Card
-          title="With status chip"
-          eyebrow="Node"
-          status="evergreen"
-          showFolio
-          excerpt="Status chip in folio strip above the header."
-          href="/nodes/example"
-        />
-        <Card
-          density="compact"
-          title="Compact density"
-          eyebrow="Note"
-          excerpt="Same data, tighter spacing."
-          date="2026-05-01"
-          href="/articles/compact"
-        />
-      </div>
-    </MemoryRouter>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', maxWidth: '900px' }}>
+      <Card
+        title="Default card"
+        eyebrow="Article"
+        excerpt="Body text for a default card with excerpt and date."
+        date="2026-04-15"
+        href="/articles/example"
+      />
+      <Card
+        variant="listing"
+        title="Listing card with thumbnail"
+        eyebrow="Case Study"
+        thumbnailUrl={THUMB}
+        thumbnailAlt="Code"
+        date="2026-03-10"
+        href="/case-studies/example"
+      />
+      <Card
+        title="With status chip"
+        eyebrow="Node"
+        status="evergreen"
+        showFolio
+        excerpt="Status chip in folio strip above the header."
+        href="/nodes/example"
+      />
+      <Card
+        density="compact"
+        title="Compact density"
+        eyebrow="Note"
+        excerpt="Same data, tighter spacing."
+        date="2026-05-01"
+        href="/articles/compact"
+      />
+    </div>
   ),
 };
