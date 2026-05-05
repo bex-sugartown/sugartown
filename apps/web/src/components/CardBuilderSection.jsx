@@ -15,7 +15,7 @@
 import { PortableText } from '@portabletext/react'
 import { urlFor } from '../lib/sanity'
 import { getCanonicalPath } from '../lib/routes'
-import { Card, Chip, CitationMarker, CitationNote, CitationZone } from '../design-system'
+import { Card, Chip, CitationMarker, CitationNote, CitationZone, SectionLabel, SectionContainer, Tile } from '../design-system'
 import { LinkAnnotation } from './portableTextComponents'
 import { getOverlayStyles, parseOverlay, ensureSvgFilter } from '../design-system/components/media/Media'
 import styles from './CardBuilderSection.module.css'
@@ -104,6 +104,20 @@ function mapTaxonomyRefs(refs, docType) {
       label: r.title,
       href: getCanonicalPath({ docType, slug: r.slug.current }),
     }))
+}
+
+/**
+ * Extract plain text from a PortableText block array (first paragraph only).
+ * Used to populate the Tile body prop in tile layout.
+ */
+function ptToText(blocks) {
+  if (!blocks) return undefined
+  const text = blocks
+    .filter((b) => b._type === 'block')
+    .map((b) => b.children?.map((c) => c.text ?? '').join('') ?? '')
+    .join(' ')
+    .trim()
+  return text || undefined
 }
 
 /**
@@ -258,6 +272,26 @@ export default function CardBuilderSection({ section }) {
   const { heading, layout = 'grid', cards } = section
 
   if (!cards?.length) return null
+
+  if (layout === 'tile') {
+    return (
+      <section className={styles.section} id={section._sectionId}>
+        {heading && <SectionLabel name={heading} />}
+        <SectionContainer>
+          {cards.map((card, index) => (
+            <Tile
+              key={card._key || index}
+              label={card.eyebrow || undefined}
+              value={card.title}
+              body={ptToText(card.body)}
+              titleSize="2xl"
+              labelColor="ink"
+            />
+          ))}
+        </SectionContainer>
+      </section>
+    )
+  }
 
   const isGrid = layout !== 'list'
   const layoutClass = isGrid ? styles.grid : styles.list

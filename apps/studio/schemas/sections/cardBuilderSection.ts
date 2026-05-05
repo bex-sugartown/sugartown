@@ -32,7 +32,8 @@ export default defineType({
       options: {
         list: [
           {title: 'Grid', value: 'grid'},
-          {title: 'List', value: 'list'}
+          {title: 'List', value: 'list'},
+          {title: 'Tile', value: 'tile'}
         ],
         layout: 'radio'
       },

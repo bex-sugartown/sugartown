@@ -11,14 +11,14 @@
    Each Tile child must carry an explicit background to cover this.        */
 .inner {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 0 1px;
   background: var(--st-color-rule-accent);  /* divider color — covered by Tile bg */
 }
 
-/* ≤768px: force 2-col so 4-tile grids wrap 2×2 (not 3+1).
+/* ≤1080px (--st-width-detail-wide): force 2-col so 4-tile grids wrap 2×2.
    gap: 1px all sides enables the row divider via bg-through-gap. */
-@media (max-width: 768px) /* --st-breakpoint-md */ {
+@media (max-width: 1080px) /* --st-width-detail-wide */ {
   .inner {
     grid-template-columns: repeat(2, 1fr);
     gap: 1px;
