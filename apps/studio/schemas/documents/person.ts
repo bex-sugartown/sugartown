@@ -193,9 +193,15 @@ export default defineType({
             defineField({
               name: 'url',
               title: 'URL',
-              type: 'url',
+              type: 'string',
+              description: 'e.g. https://… or mailto:you@example.com or tel:+1…',
               validation: (Rule) =>
-                Rule.required().uri({allowRelative: false, scheme: ['http', 'https']}),
+                Rule.required().custom((value: string | undefined) => {
+                  if (!value) return true
+                  return /^(https?:\/\/|mailto:|tel:)/i.test(value)
+                    ? true
+                    : 'Must start with https://, http://, mailto:, or tel:'
+                }),
             }),
             defineField({
               name: 'label',
