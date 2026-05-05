@@ -19,8 +19,8 @@ export default defineType({
     {
       name: 'url',
       title: 'Profile URL',
-      type: 'url',
-      description: 'Full URL to your profile',
+      type: 'string',
+      description: 'Full URL to your profile (e.g. https://… or mailto:… or tel:…)',
       validation: (Rule) =>
         Rule.required()
           .uri({allowRelative: false, scheme: ['http', 'https', 'mailto', 'tel']}),
