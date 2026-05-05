@@ -897,6 +897,7 @@ function StatTileSectionRenderer({ section }) {
             label={item.metric}
             value={item.valueAfter}
             sub={item.valueBefore || undefined}
+            body={item.impactStatement || undefined}
             chip={item.evidenceType || undefined}
             labelColor="ink"
             titleSize="2xl"

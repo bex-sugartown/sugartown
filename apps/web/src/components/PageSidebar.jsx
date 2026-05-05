@@ -39,8 +39,9 @@ function extractToc(sections, content) {
 
   if (sections?.length) {
     for (const s of sections) {
-      if (s.heading && s._key) {
-        entries.push({ key: s._key, text: s.heading, level: 2, anchor: `section-${s._key}` })
+      const sectionText = s.heading || s.title || s.name
+      if (sectionText && s._key) {
+        entries.push({ key: s._key, text: sectionText, level: 2, anchor: `section-${s._key}` })
       }
       if (Array.isArray(s.content)) {
         for (const block of s.content) {
