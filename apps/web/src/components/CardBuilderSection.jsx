@@ -285,7 +285,7 @@ export default function CardBuilderSection({ section }) {
               value={card.title}
               body={ptToText(card.body)}
               titleSize="2xl"
-              labelColor="ink"
+              labelColor="brand"
             />
           ))}
         </SectionContainer>
