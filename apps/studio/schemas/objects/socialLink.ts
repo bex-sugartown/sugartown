@@ -22,8 +22,17 @@ export default defineType({
       type: 'string',
       description: 'Full URL to your profile (e.g. https://… or mailto:… or tel:…)',
       validation: (Rule) =>
-        Rule.required()
-          .uri({allowRelative: false, scheme: ['http', 'https', 'mailto', 'tel']}),
+        Rule.required().custom((value) => {
+          if (!value) return true
+          try {
+            const url = new URL(value)
+            return ['http:', 'https:', 'mailto:', 'tel:'].includes(url.protocol)
+              ? true
+              : 'Must start with https://, http://, mailto:, or tel:'
+          } catch {
+            return 'Must be a valid URL (e.g. https://… or mailto:you@example.com)'
+          }
+        }),
     },
     {
       name: 'label',
