@@ -30,6 +30,11 @@ export default defineType({
       title: 'Assigned content',
       types: [{type: 'article'}, {type: 'node'}, {type: 'caseStudy'}, {type: 'project'}],
       actions: [createRemoveReferenceAction('tags')],
+      onLinkDocument: (doc, reference) => {
+        const existing = ((doc as any).tags ?? []) as Array<{_ref: string}>
+        if (existing.some((r) => r._ref === reference._ref)) return false
+        return {...doc, tags: [...existing, {...reference, _key: reference._ref}]}
+      },
     }),
   ],
   fields: [

@@ -27,6 +27,11 @@ export default defineType({
       title: 'Assigned content',
       types: [{type: 'article'}, {type: 'node'}, {type: 'caseStudy'}],
       actions: [createRemoveReferenceAction('tools')],
+      onLinkDocument: (doc, reference) => {
+        const existing = ((doc as any).tools ?? []) as Array<{_ref: string}>
+        if (existing.some((r) => r._ref === reference._ref)) return false
+        return {...doc, tools: [...existing, {...reference, _key: reference._ref}]}
+      },
     }),
   ],
   fields: [
