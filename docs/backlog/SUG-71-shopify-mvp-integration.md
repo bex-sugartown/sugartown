@@ -206,7 +206,7 @@ Step-by-step. Run these in order. Capture output for the epic close-out record.
 **1. Create Shopify account**
 - Go to https://www.shopify.com/
 - Click "Start free trial" (Shopify always offers a 3-day trial + $1/month for the first 3 months on paid plans; Starter plan eligible)
-- Use `bex@sugartown.io` as the admin email
+- Use `sugar_and_atoms@icloud.com` as the admin email
 - Store name: `Sugartown` (this becomes the `{shop}.myshopify.com` prefix — treat it as permanent; renaming costs re-setup)
 - Industry: "Art & crafts" or "Design" — neutral, doesn't affect anything downstream
 - Country: United States (or whatever matches your tax residence)

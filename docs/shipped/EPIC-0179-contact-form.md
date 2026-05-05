@@ -11,9 +11,9 @@
 
 ## Objective
 
-Add a working contact form to the `/contact` page so visitors can send a message to `bex@sugartown.io` directly from the site. The form collects name, email, and message body. On submit, the visitor receives an inline success or error message — no page navigation, no redirect to a third-party "thank you" URL.
+Add a working contact form to the `/contact` page so visitors can send a message to `sugar_and_atoms@icloud.com` directly from the site. The form collects name, email, and message body. On submit, the visitor receives an inline success or error message — no page navigation, no redirect to a third-party "thank you" URL.
 
-After this epic: (1) a contact form renders on the `/contact` page with three fields (name, email, message) and a send button; (2) submissions are delivered to `bex@sugartown.io`; (3) the form shows inline success/error feedback without a page reload; (4) basic client-side validation prevents empty or malformed submissions.
+After this epic: (1) a contact form renders on the `/contact` page with three fields (name, email, message) and a send button; (2) submissions are delivered to `sugar_and_atoms@icloud.com`; (3) the form shows inline success/error feedback without a page reload; (4) basic client-side validation prevents empty or malformed submissions.
 
 **Data layer:** No schema changes required for the MVP. Optional: a `contactFormSection` schema type for the section builder (allows editors to place the form on any page, not just `/contact`).
 **Query layer:** No changes for MVP. Optional: GROQ projection for `contactFormSection` if schema route is chosen.
@@ -34,7 +34,7 @@ After this epic: (1) a contact form renders on the `/contact` page with three fi
 
 The site is deploying to Netlify (hosting decision made 2026-03-15). Netlify Forms is the simplest submission backend:
 - Zero server-side code — forms are detected at deploy time via `data-netlify="true"` attribute
-- Submissions stored in Netlify dashboard + email notifications configurable to `bex@sugartown.io`
+- Submissions stored in Netlify dashboard + email notifications configurable to `sugar_and_atoms@icloud.com`
 - Free tier: 100 submissions/month (sufficient for a portfolio site)
 - Spam protection: built-in honeypot field + optional reCAPTCHA
 - Works with SPA/React via the `fetch()` POST pattern (not native HTML form submit)
@@ -101,7 +101,7 @@ The site is deploying to Netlify (hosting decision made 2026-03-15). Netlify For
 - [ ] Decide at activation. Option A is recommended for MVP; Option B can follow.
 
 ### Netlify configuration
-- [ ] Configure email notification in Netlify dashboard: new submission → email to `bex@sugartown.io`
+- [ ] Configure email notification in Netlify dashboard: new submission → email to `sugar_and_atoms@icloud.com`
 - [ ] This is a manual dashboard step, not code — document in the epic's delivery notes
 
 ---
@@ -113,7 +113,7 @@ The site is deploying to Netlify (hosting decision made 2026-03-15). Netlify For
 - Does **not** add reCAPTCHA — honeypot spam protection is sufficient for a portfolio site's volume
 - Does **not** send email directly from the browser (no EmailJS, no exposed credentials)
 - Does **not** add a serverless function — Netlify Forms handles submission without custom backend code
-- Does **not** implement auto-reply to the sender — only notification to `bex@sugartown.io`
+- Does **not** implement auto-reply to the sender — only notification to `sugar_and_atoms@icloud.com`
 
 ---
 
@@ -172,7 +172,7 @@ The site is deploying to Netlify (hosting decision made 2026-03-15). Netlify For
 
 - **Netlify Forms not active until deploy:** Forms only work after the site is deployed to Netlify with the static HTML form detected. Local development cannot test actual submissions. Consider a development-mode mock that logs to console instead of submitting.
 - **Spam volume:** Honeypot fields catch most bots, but a popular page could still receive spam. Monitor after launch; add reCAPTCHA if needed.
-- **Email delivery:** Netlify sends notification emails via their own mail infrastructure. Verify `bex@sugartown.io` receives test submissions after deployment. Check spam filters.
+- **Email delivery:** Netlify sends notification emails via their own mail infrastructure. Verify `sugar_and_atoms@icloud.com` receives test submissions after deployment. Check spam filters.
 - **100 submission/month limit:** Netlify's free tier caps at 100 form submissions/month. For a portfolio site this is likely sufficient. If exceeded, upgrade to Pro ($19/month) or switch to Formspree/Resend.
 - **SPA routing after submission:** Ensure the form doesn't navigate away from `/contact` on submit. The `fetch()` pattern prevents this, but verify no Netlify redirect interferes (the SPA fallback `/* /index.html 200` should be fine).
 
@@ -189,7 +189,7 @@ The site is deploying to Netlify (hosting decision made 2026-03-15). Netlify For
 - [ ] Form works in both dark and light themes — inputs are legible and styled consistently
 - [ ] Form is accessible: labels associated with inputs, error messages announced to screen readers
 - [ ] Honeypot field is hidden from visual users but present in the form for spam protection
-- [ ] After deployment to Netlify: submitting the form delivers an email notification to `bex@sugartown.io`
+- [ ] After deployment to Netlify: submitting the form delivers an email notification to `sugar_and_atoms@icloud.com`
 - [ ] Mobile: form renders single-column, full-width inputs, touch-friendly hit targets
 
 ---
