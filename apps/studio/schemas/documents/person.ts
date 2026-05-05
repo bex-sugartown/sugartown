@@ -1,7 +1,7 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {UserIcon} from '@sanity/icons'
 import {standardPortableText} from '../objects/portableTextConfig'
-import {SOCIAL_PLATFORM_OPTIONS, LINK_KIND_OPTIONS} from '../lib/iconOptions'
+import {LINK_KIND_OPTIONS} from '../lib/iconOptions'
 
 /**
  * Person Document - Author / Contributor / Profile
@@ -175,52 +175,7 @@ export default defineType({
       type: 'array',
       description: 'Structured social profile links with platform icons.',
       group: 'links',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          title: 'Social Link',
-          fields: [
-            defineField({
-              name: 'platform',
-              title: 'Platform',
-              type: 'string',
-              options: {
-                list: [...SOCIAL_PLATFORM_OPTIONS],
-                layout: 'dropdown',
-              },
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: 'url',
-              title: 'URL',
-              type: 'string',
-              description: 'e.g. https://… or mailto:you@example.com or tel:+1…',
-              validation: (Rule) =>
-                Rule.required().custom((value: string | undefined) => {
-                  if (!value) return true
-                  return /^(https?:\/\/|mailto:|tel:)/i.test(value)
-                    ? true
-                    : 'Must start with https://, http://, mailto:, or tel:'
-                }),
-            }),
-            defineField({
-              name: 'label',
-              title: 'Label (optional override)',
-              type: 'string',
-              description: 'Override the default platform label for display',
-            }),
-          ],
-          preview: {
-            select: {platform: 'platform', url: 'url', label: 'label'},
-            prepare({platform, url, label}) {
-              return {
-                title: label || platform || 'Link',
-                subtitle: url || '',
-              }
-            },
-          },
-        }),
-      ],
+      of: [defineArrayMember({type: 'socialLink'})],
     }),
     defineField({
       name: 'links',

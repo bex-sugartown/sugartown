@@ -36,10 +36,9 @@ export default defineType({
     },
     {
       name: 'label',
-      title: 'Accessible Label',
+      title: 'Label',
       type: 'string',
-      description: 'Screen reader text (e.g., "Visit my LinkedIn profile")',
-      validation: (Rule) => Rule.required(),
+      description: 'Optional display label or accessibility override (e.g., "Visit my LinkedIn profile")',
     },
   ],
   preview: {
