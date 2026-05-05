@@ -96,6 +96,14 @@
   overflow: hidden;
 }
 
+.bodyFull {
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-secondary);
+  line-height: 1.5;
+  margin: 0.25rem 0 0;
+}
+
 /* ── Chip (tag evidence — metric only) ────────────────────────────── */
 
 /* Positioning only — Chip component handles visual styling */

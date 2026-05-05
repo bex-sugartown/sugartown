@@ -19,6 +19,7 @@ export default function Tile({
   unit,
   sub,
   body,
+  bodyClamp = true,
   chip,
   meta,
   bar,
@@ -64,7 +65,7 @@ export default function Tile({
       )}
 
       {sub && !loading && <span className={styles.sub}>{sub}</span>}
-      {body && !loading && <p className={styles.body}>{body}</p>}
+      {body && !loading && <p className={bodyClamp ? styles.body : styles.bodyFull}>{body}</p>}
 
       {chip && !loading && (
         <Chip variant="tag" label={chip} className={styles.chip} />

@@ -286,6 +286,7 @@ export default function CardBuilderSection({ section }) {
               body={ptToText(card.body)}
               titleSize="2xl"
               labelColor="brand"
+              bodyClamp={false}
             />
           ))}
         </SectionContainer>
