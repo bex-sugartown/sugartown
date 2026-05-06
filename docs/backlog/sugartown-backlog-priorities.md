@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-04 · v0.23.11 · SUG-99 shipped — Backroads component harmony (Callout, Accordion, SectionContainer, SectionLabel, challenge callout migration)
+> Updated 2026-05-05 · v0.23.11 · SUG-101 added (DS mirror sync, Phase A) — Backroads component harmony (Callout, Accordion, SectionContainer, SectionLabel, challenge callout migration)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -29,8 +29,9 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` files with a build pipeline. Single JSON source generates both files; makes SUG-85 drift structurally impossible. 4 phases: spike → dual output → theme outputs → lock. Execute after SUG-85. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
-| 2 | **[SUG-98](https://linear.app/sugartown/issue/SUG-98) · Component gap analysis — renderer stories + thruline audit** — 5 inline PageSections renderer stories (textSection, mermaidSection, imageGallery, citedBlock, statTileSection) + 16-adapter thruline verification. Registry at `docs/conventions/component-registry.md`. Epic: `docs/backlog/SUG-98-component-gap-analysis.md`. | `Design System` `Tooling` | 🟣 Soon |
+| 1 | **[SUG-101](https://linear.app/sugartown/issue/SUG-101) · DS package mirror sync — Phase A style reconciliation** — Apply Claude Design's Phase A sync output to `packages/design-system/src/styles/`: remove embedded `[data-theme="light"]` block from mirror `tokens.css`, correct `--st-status-draft-fg` red→amber, add missing `utilities.css`, align 4 theme files with canonical. `pnpm validate:tokens --check-sync` gate. _Must land before SUG-86_ — dirty mirror produces noisy Style Dictionary first-run diff. Epic: `docs/backlog/SUG-101-ds-package-mirror-sync-phase-a-style-reconciliation.md`. | `Design System` `Infrastructure` | 🟢 Next |
+| 3 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` files with a build pipeline. Single JSON source generates both files; makes SUG-85 drift structurally impossible. 4 phases: spike → dual output → theme outputs → lock. Execute after SUG-85. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
+| 4 | **[SUG-98](https://linear.app/sugartown/issue/SUG-98) · Component gap analysis — renderer stories + thruline audit** — 5 inline PageSections renderer stories (textSection, mermaidSection, imageGallery, citedBlock, statTileSection) + 16-adapter thruline verification. Registry at `docs/conventions/component-registry.md`. Epic: `docs/backlog/SUG-98-component-gap-analysis.md`. | `Design System` `Tooling` | 🟣 Soon |
 
 ---
 
