@@ -313,6 +313,101 @@ Human approves with "Visual QA approved" before close-out.
 
 ---
 
+## Real CWV Data Pipeline [CURRENT STATE: MOCK DATA]
+
+`apps/web/src/generated/stats.json` is gitignored locally and seeded with mock data. The widget renders correctly against this mock; no real field data flows until the CI pipeline is wired.
+
+### What's needed
+
+**1. CrUX API key**
+- Secret name: `CRUX_API_KEY`
+- Add to GitHub repo secrets (Settings → Secrets → Actions)
+- The key is a Google Cloud API key with Chrome UX Report API enabled
+- `apps/web/scripts/crux.js` reads `process.env.CRUX_API_KEY`; without it, all CrUX fetches return null and the CWV tiles show no field data
+
+**2. LHCI token**
+- Secret name: `LHCI_GITHUB_APP_TOKEN` (or `LHCI_TOKEN`)
+- Lighthouse CI server token if using an LHCI server; not required for `--upload.target=filesystem` (which is the current config)
+- `apps/web/lighthouserc.js` runs two presets: `mobile` (default emulation) and `desktop` (`--preset=desktop`)
+
+**3. GitHub Actions workflow: `.github/workflows/stats.yml`** (to be created)
+
+```yaml
+name: CWV Stats
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 06:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v3
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: pnpm install --frozen-lockfile
+      - name: Run CrUX collector
+        env:
+          CRUX_API_KEY: ${{ secrets.CRUX_API_KEY }}
+        run: node apps/web/scripts/crux.js
+      - name: Run LHCI (mobile + desktop)
+        run: |
+          npx lhci autorun --config=apps/web/lighthouserc.js
+      - name: Merge and write stats.json
+        run: node apps/web/scripts/perf.js
+      - name: Commit stats.json if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f apps/web/src/generated/stats.json
+          git diff --cached --quiet || git commit -m "chore(stats): daily CWV snapshot [skip ci]"
+          git push
+```
+
+**4. Site reachable at production URL**
+- LHCI audits `https://sugartown.io` (or the Netlify preview URL)
+- CrUX fetches origin-level data for `https://sugartown.io` — requires real traffic (CrUX data lags ~28 days)
+- Until sufficient traffic exists, CrUX tiles will render the "field data unavailable" state
+
+### Expected `stats.json` shape after pipeline runs
+
+```json
+{
+  "perf": {
+    "generatedAt": "2026-05-07T06:12:00.000Z",
+    "runs": {
+      "https://sugartown.io/": {
+        "mobile": { "performance": 91, "accessibility": 97, "bestPractices": 95, "seo": 100, "lcp": 1900, "cls": 0.02, "inp": 120 },
+        "desktop": { "performance": 97, "accessibility": 97, "bestPractices": 95, "seo": 100, "lcp": 900, "cls": 0.01, "inp": 60 }
+      }
+    }
+  },
+  "crux": {
+    "fetchedAt": "2026-05-07T06:08:00.000Z",
+    "origin": "https://sugartown.io",
+    "mobile": { "lcp": { "p75": 2100, "rating": "good" }, "cls": { "p75": 0.05, "rating": "good" }, "inp": { "p75": 180, "rating": "good" } },
+    "desktop": { "lcp": { "p75": 1100, "rating": "good" }, "cls": { "p75": 0.02, "rating": "good" }, "inp": { "p75": 80, "rating": "good" } }
+  }
+}
+```
+
+### Current state summary
+
+| Item | Status |
+|------|--------|
+| `stats.json` | Mock data (Variant C — mixed ratings) |
+| CrUX API key | Not configured |
+| GitHub Actions workflow | Not created |
+| LHCI mobile preset | Configured in `lighthouserc.js` |
+| LHCI desktop preset | Configured in `lighthouserc.js` |
+| CwvSnapshot component | Reads from `stats.json` correctly; form-factor toggle works |
+
+<!-- Chromatic: pending -->
+
+---
+
 ## Post-Epic Close-Out [REQUIRED]
 
 1. Move `docs/backlog/SUG-100-cwv-snapshot-product-widget.md` → `docs/shipped/SUG-100-cwv-snapshot-product-widget.md`
