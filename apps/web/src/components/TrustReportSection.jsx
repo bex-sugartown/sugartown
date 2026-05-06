@@ -128,7 +128,7 @@ function ReportBlock({ reportKey, section }) {
 // ── TrustReportSection ──────────────────────────────────────────────────────
 
 export default function TrustReportSection({ section }) {
-  const { heading, reports, reportType } = section ?? {}
+  const { heading, reports, reportType, _sectionId } = section ?? {}
 
   // Support legacy single-value reportType alongside new reports[] array
   const reportList = reports?.length ? reports : (reportType ? [reportType] : [])
@@ -140,16 +140,16 @@ export default function TrustReportSection({ section }) {
   // Single report — original layout (no SectionLabel above)
   if (reportList.length === 1) {
     return (
-      <>
+      <div id={_sectionId}>
         {sectionHeading}
         <ReportBlock reportKey={reportList[0]} section={section} />
-      </>
+      </div>
     )
   }
 
   // Multiple reports — render each with a SectionLabel above
   return (
-    <>
+    <div id={_sectionId}>
       {sectionHeading}
       {reportList.map((key, idx) => (
         <div key={key} className={styles.multiReportBlock}>
@@ -162,6 +162,6 @@ export default function TrustReportSection({ section }) {
           </div>
         </div>
       ))}
-    </>
+    </div>
   )
 }

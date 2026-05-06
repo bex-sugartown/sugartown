@@ -943,7 +943,7 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
       case 'recentContentSection':
         return <RecentContentSectionRenderer key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'trustReportSection':
-        return <TrustReportSection key={key} section={section} />
+        return <TrustReportSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'citedBlock':
         return <CitedBlockSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'statTileSection':
