@@ -15,9 +15,9 @@ export interface ScoreRingProps {
   score: number;
   /** Metric label rendered below the score (e.g. "Performance") */
   label?: string;
-  /** Visual size in px. Controls SVG viewport and font sizes. Default: 80 */
+  /** Visual size in px. Controls SVG viewport and font sizes. Default: 96 */
   size?: number;
-  /** Stroke width of the arc. Default: 6 */
+  /** Stroke width of the arc. Default: 8 */
   strokeWidth?: number;
   /** Override the derived color category */
   category?: ScoreCategory;
@@ -30,8 +30,8 @@ const GAP_DEGREES = 60;     // bottom gap in degrees (ring is not a full circle)
 export const ScoreRing: React.FC<ScoreRingProps> = ({
   score,
   label,
-  size = 80,
-  strokeWidth = 6,
+  size = 96,
+  strokeWidth = 8,
   category: categoryProp,
   className,
 }) => {
@@ -111,46 +111,48 @@ export const ScoreRing: React.FC<ScoreRingProps> = ({
 
   return (
     <div className={[styles.wrapper, className].filter(Boolean).join(' ')}>
-      <svg
-        ref={ringRef}
-        width={size}
-        height={size}
-        viewBox={`0 0 ${size} ${size}`}
-        aria-hidden="true"
-        className={animated ? styles.svgReady : styles.svgIdle}
-      >
-        {/* Track */}
-        <circle
-          cx={cx}
-          cy={cy}
-          r={radius}
-          fill="none"
-          strokeWidth={strokeWidth}
-          strokeDasharray={trackDashArray}
-          strokeDashoffset={0}
-          strokeLinecap="round"
-          transform={transform}
-          className={trackClass}
-        />
-        {/* Fill arc */}
-        <circle
-          cx={cx}
-          cy={cy}
-          r={radius}
-          fill="none"
-          strokeWidth={strokeWidth}
-          strokeDasharray={dashArray}
-          strokeDashoffset={0}
-          strokeLinecap="round"
-          transform={transform}
-          className={arcClass}
-          style={{ transition: animated ? 'stroke-dasharray 0.6s ease-out' : 'none' }}
-        />
-      </svg>
-      <div className={styles.inner} style={{ width: size, marginTop: -size }}>
-        <span className={scoreClass}>{displayScore}</span>
-        {label && <span className={styles.label}>{label}</span>}
+      <div className={styles.ringWrap} style={{ width: size, height: size }}>
+        <svg
+          ref={ringRef}
+          width={size}
+          height={size}
+          viewBox={`0 0 ${size} ${size}`}
+          aria-hidden="true"
+          className={animated ? styles.svgReady : styles.svgIdle}
+        >
+          {/* Track */}
+          <circle
+            cx={cx}
+            cy={cy}
+            r={radius}
+            fill="none"
+            strokeWidth={strokeWidth}
+            strokeDasharray={trackDashArray}
+            strokeDashoffset={0}
+            strokeLinecap="round"
+            transform={transform}
+            className={trackClass}
+          />
+          {/* Fill arc */}
+          <circle
+            cx={cx}
+            cy={cy}
+            r={radius}
+            fill="none"
+            strokeWidth={strokeWidth}
+            strokeDasharray={dashArray}
+            strokeDashoffset={0}
+            strokeLinecap="round"
+            transform={transform}
+            className={arcClass}
+            style={{ transition: animated ? 'stroke-dasharray 0.6s ease-out' : 'none' }}
+          />
+        </svg>
+        <div className={styles.inner}>
+          <span className={scoreClass}>{displayScore}</span>
+        </div>
       </div>
+      {label && <span className={styles.label}>{label}</span>}
     </div>
   );
 };

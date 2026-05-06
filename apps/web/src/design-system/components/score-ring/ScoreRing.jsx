@@ -22,8 +22,8 @@ export function scoreCategory(score) {
 export default function ScoreRing({
   score,
   label,
-  size = 80,
-  strokeWidth = 6,
+  size = 96,
+  strokeWidth = 8,
   category: categoryProp,
   className,
 }) {
@@ -95,38 +95,43 @@ export default function ScoreRing({
 
   return (
     <div className={[styles.wrapper, className].filter(Boolean).join(' ')}>
-      <svg
-        ref={ringRef}
-        width={size}
-        height={size}
-        viewBox={`0 0 ${size} ${size}`}
-        aria-hidden="true"
-        className={animated ? styles.svgReady : styles.svgIdle}
-      >
-        <circle
-          cx={cx} cy={cy} r={radius}
-          fill="none" strokeWidth={strokeWidth}
-          strokeDasharray={trackDashArray}
-          strokeDashoffset={0}
-          strokeLinecap="round"
-          transform={transform}
-          className={trackClass}
-        />
-        <circle
-          cx={cx} cy={cy} r={radius}
-          fill="none" strokeWidth={strokeWidth}
-          strokeDasharray={dashArray}
-          strokeDashoffset={0}
-          strokeLinecap="round"
-          transform={transform}
-          className={arcClass}
-          style={{ transition: animated ? 'stroke-dasharray 0.6s ease-out' : 'none' }}
-        />
-      </svg>
-      <div className={styles.inner} style={{ width: size, marginTop: -size }}>
-        <span className={scoreClass}>{displayScore}</span>
-        {label && <span className={styles.label}>{label}</span>}
+      {/* Ring wrap — relative container so score overlay can be absolute */}
+      <div className={styles.ringWrap} style={{ width: size, height: size }}>
+        <svg
+          ref={ringRef}
+          width={size}
+          height={size}
+          viewBox={`0 0 ${size} ${size}`}
+          aria-hidden="true"
+          className={animated ? styles.svgReady : styles.svgIdle}
+        >
+          <circle
+            cx={cx} cy={cy} r={radius}
+            fill="none" strokeWidth={strokeWidth}
+            strokeDasharray={trackDashArray}
+            strokeDashoffset={0}
+            strokeLinecap="round"
+            transform={transform}
+            className={trackClass}
+          />
+          <circle
+            cx={cx} cy={cy} r={radius}
+            fill="none" strokeWidth={strokeWidth}
+            strokeDasharray={dashArray}
+            strokeDashoffset={0}
+            strokeLinecap="round"
+            transform={transform}
+            className={arcClass}
+            style={{ transition: animated ? 'stroke-dasharray 0.6s ease-out' : 'none' }}
+          />
+        </svg>
+        {/* Score centered inside ring — absolute so it doesn't affect wrapper height */}
+        <div className={styles.inner}>
+          <span className={scoreClass}>{displayScore}</span>
+        </div>
       </div>
+      {/* Label sits below the ring as a flex sibling */}
+      {label && <span className={styles.label}>{label}</span>}
     </div>
   )
 }

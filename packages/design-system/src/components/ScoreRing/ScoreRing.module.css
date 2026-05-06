@@ -10,6 +10,11 @@
   gap: var(--st-space-2, 8px);
 }
 
+.ringWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
 /* SVG idle vs ready — transition added after IntersectionObserver fires */
 .svgIdle { display: block; }
 .svgReady { display: block; }
@@ -33,35 +38,35 @@
 .warnTrack { stroke: var(--st-cwv-warn-track); }
 .poorTrack { stroke: var(--st-cwv-poor-track); }
 
-/* Score overlay — positioned via inline margin-top: -size trick */
+/* Score overlay — absolutely centered inside ringWrap */
 .inner {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 0; /* collapses — real height comes from wrapper flex */
-  padding-bottom: 12px; /* nudge score up from the gap */
   pointer-events: none;
 }
 
 .scoreValue {
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-font-size-lg);
-  font-weight: 600;
+  font-family: var(--st-font-family-narrative, serif);
+  font-size: var(--st-font-size-xl, 1.5rem);
+  font-weight: 700;
   line-height: 1;
-  color: var(--st-cwv-good-fg); /* fallback */
+  color: var(--st-cwv-good-fg); /* fallback — overridden by category class */
 }
 
 .goodFg  { color: var(--st-cwv-good-fg); }
 .warnFg  { color: var(--st-cwv-warn-fg); }
 .poorFg  { color: var(--st-cwv-poor-fg); }
 
+/* Label — sits below ringWrap as a flex sibling in .wrapper */
 .label {
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-font-size-2xs, 0.625rem);
-  font-weight: 500;
+  font-family: var(--st-font-family-mono, monospace);
+  font-size: var(--st-font-size-xs, 0.6875rem);
+  font-weight: 600;
   color: var(--st-color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  margin-top: var(--st-space-half, 2px);
+  text-align: center;
 }
