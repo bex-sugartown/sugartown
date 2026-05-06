@@ -325,10 +325,9 @@ Human approves with "Visual QA approved" before close-out.
 - The key is a Google Cloud API key with Chrome UX Report API enabled
 - `apps/web/scripts/crux.js` reads `process.env.CRUX_API_KEY`; without it, all CrUX fetches return null and the CWV tiles show no field data
 
-**2. LHCI token**
-- Secret name: `LHCI_GITHUB_APP_TOKEN` (or `LHCI_TOKEN`)
-- Lighthouse CI server token if using an LHCI server; not required for `--upload.target=filesystem` (which is the current config)
-- `apps/web/lighthouserc.js` runs two presets: `mobile` (default emulation) and `desktop` (`--preset=desktop`)
+**2. LHCI token — not required**
+- `lighthouserc.js` uses `upload.target: 'filesystem'` — results write to `.lighthouseci/` and `perf.js` reads them directly. No LHCI server, no token.
+- `lighthouserc.js` runs two collect presets: `emulatedFormFactor: 'mobile'` and `emulatedFormFactor: 'desktop'`, 3 runs each.
 
 **3. GitHub Actions workflow: `.github/workflows/stats.yml`** (to be created)
 
