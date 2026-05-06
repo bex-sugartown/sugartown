@@ -1,4 +1,13 @@
 import stats from '../generated/stats.json'
+
+function buildKicker() {
+  const iso = stats.perf?.generatedAt ?? stats.crux?.fetchedAt
+  if (!iso) return null
+  const d = new Date(iso)
+  const date = d.toISOString().slice(0, 10)
+  const time = d.toISOString().slice(11, 16)
+  return `Built ${date} · ${time} UTC`
+}
 import { TRUST_LINKS } from '../lib/routes'
 import Tile from '../design-system/components/tile/Tile'
 import DataTable, { KindBadge } from '../design-system/components/data-table/DataTable'
@@ -137,12 +146,18 @@ export default function TrustReportSection({ section }) {
 
   if (reportList.length === 0) return null
 
+  const cwvKicker = buildKicker()
+
   // Single report — original layout (no SectionLabel above)
   if (reportList.length === 1) {
+    const key = reportList[0]
     return (
       <div id={_sectionId}>
         {sectionHeading}
-        <ReportBlock reportKey={reportList[0]} section={section} />
+        {key === 'cwv-snapshot' && (
+          <SectionLabel name={REPORT_LABELS[key]} kicker={cwvKicker} />
+        )}
+        <ReportBlock reportKey={key} section={section} />
       </div>
     )
   }
@@ -156,6 +171,7 @@ export default function TrustReportSection({ section }) {
           <SectionLabel
             number={`0${idx + 1}`}
             name={REPORT_LABELS[key] ?? key}
+            kicker={key === 'cwv-snapshot' ? cwvKicker : undefined}
           />
           <div className={styles.reportWrap}>
             <ReportBlock reportKey={key} section={section} />

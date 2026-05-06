@@ -42,22 +42,34 @@ function cwvRating(key, value) {
 }
 
 function formatCwvValue(key, value) {
-  if (value == null) return '—'
-  const t = CWV_THRESHOLDS[key]
-  if (key === 'cls') return value.toFixed(3)
-  return `${Math.round(value)}${t.unit}`
+  if (value == null) return { num: '—', unit: '' }
+  if (key === 'cls') return { num: value.toFixed(3), unit: '' }
+  if (key === 'lcp') return { num: (value / 1000).toFixed(1), unit: 's' }
+  return { num: String(Math.round(value)), unit: 'ms' }
+}
+
+function ratingClass(rating) {
+  if (!rating) return ''
+  return styles[`tile${rating.charAt(0).toUpperCase() + rating.slice(1)}`] ?? ''
+}
+
+function badgeClass(rating) {
+  return `${styles.cwvTileBadge} ${styles[`badge${rating.charAt(0).toUpperCase() + rating.slice(1)}`] ?? ''}`
 }
 
 function CwvTile({ metricKey, p75, rating: ratingOverride }) {
   const t = CWV_THRESHOLDS[metricKey]
   const rating = ratingOverride ?? cwvRating(metricKey, p75)
-  const displayValue = formatCwvValue(metricKey, p75)
+  const { num, unit } = formatCwvValue(metricKey, p75)
   return (
-    <div className={[styles.cwvTile, rating && styles[`tile${rating.charAt(0).toUpperCase() + rating.slice(1)}`]].filter(Boolean).join(' ')}>
+    <div className={[styles.cwvTile, ratingClass(rating)].filter(Boolean).join(' ')}>
       <span className={styles.cwvTileLabel}>{t.label}</span>
-      <span className={styles.cwvTileValue}>{displayValue}</span>
-      <span className={styles.cwvTileDesc}>{t.desc}</span>
-      {rating && <span className={`${styles.cwvTileBadge} ${styles[`badge${rating.charAt(0).toUpperCase() + rating.slice(1)}`]}`}>{rating === 'warn' ? 'needs work' : rating}</span>}
+      <div className={styles.cwvTileValue}>
+        {num}
+        {unit && <span className={styles.cwvTileUnit}>{unit}</span>}
+      </div>
+      <span className={styles.cwvTileSub}>p75 · field data</span>
+      {rating && <span className={badgeClass(rating)}>{rating === 'warn' ? 'needs improvement' : rating}</span>}
     </div>
   )
 }
@@ -88,10 +100,13 @@ export default function CwvSnapshot({ section }) {
   // Resolve URL key: prefer section.cwvUrl, fall back to the first available run
   const origin = 'https://sugartown.io'
   const runKey = cwvUrl ?? origin
-  // Per-form-factor runs will be at runs[key].mobile / runs[key].desktop once
-  // perf.js is extended. For now fall through to flat run.
-  const runFlat = perfRuns[runKey] ?? perfRuns[origin] ?? null
-  const runForFormFactor = runFlat?.mobile ?? runFlat?.desktop ?? runFlat
+  // Try exact key, then with/without trailing slash, then first available run
+  const runFlat = perfRuns[runKey]
+    ?? perfRuns[runKey + '/']
+    ?? perfRuns[runKey.replace(/\/$/, '')]
+    ?? Object.values(perfRuns)[0]
+    ?? null
+  const runForFormFactor = runFlat?.[formFactor] ?? runFlat
   const perfAvailable = !perfData?.stale && runForFormFactor != null
 
   // ── CrUX (field data) ──────────────────────────────────────────────────────
@@ -115,12 +130,11 @@ export default function CwvSnapshot({ section }) {
 
       {/* Score rings — Lighthouse lab scores */}
       <div className={styles.ringsSection}>
-        <span className={styles.sourceLabel}>Lighthouse lab scores</span>
         {perfAvailable ? (
           <div className={styles.ringGrid}>
             <ScoreRing score={runForFormFactor.performance ?? 0}   label="Performance" />
             <ScoreRing score={runForFormFactor.accessibility ?? 0} label="Accessibility" />
-            <ScoreRing score={runForFormFactor.bestPractices ?? runForFormFactor.seo ?? 0} label="Best Practices" />
+            <ScoreRing score={runForFormFactor.bestPractices ?? 0} label="Best Practices" />
             <ScoreRing score={runForFormFactor.seo ?? 0}           label="SEO" />
           </div>
         ) : (
@@ -130,7 +144,6 @@ export default function CwvSnapshot({ section }) {
 
       {/* CWV tiles — Chrome UX Report field data */}
       <div className={styles.cwvSection}>
-        <span className={styles.sourceLabel}>Chrome UX Report — p75 field data</span>
         {cruxAvailable ? (
           <div className={styles.cwvGrid}>
             {['lcp', 'cls', 'inp'].map((key) => (
@@ -147,12 +160,6 @@ export default function CwvSnapshot({ section }) {
         )}
       </div>
 
-      {/* Timestamp */}
-      {(perfData?.generatedAt || cruxData?.fetchedAt) && (
-        <p className={styles.timestamp}>
-          Data collected {new Date(perfData?.generatedAt ?? cruxData?.fetchedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
-        </p>
-      )}
     </div>
   )
 }
