@@ -784,6 +784,25 @@
   --st-gray:           #6B7280;
   --st-focus:          var(--st-color-focus);
 
+  /* ── CWV Score Ring Tokens (SUG-100) ───────────────────────── */
+  /* Arc + track + foreground for each CWV rating state           */
+  --st-cwv-good-arc:           var(--st-color-seafoam-500);
+  --st-cwv-good-track:         rgba(43, 212, 170, 0.18);
+  --st-cwv-good-fg:            var(--st-color-seafoam-400);
+  --st-cwv-warn-arc:           var(--st-color-amber-500);
+  --st-cwv-warn-track:         rgba(251, 186, 36, 0.18);
+  --st-cwv-warn-fg:            var(--st-color-amber-400);
+  --st-cwv-poor-arc:           var(--st-color-maroon-400);
+  --st-cwv-poor-track:         rgba(231, 85, 150, 0.18);
+  --st-cwv-poor-fg:            var(--st-color-maroon-300);
+
+  /* ── Segmented Control Tokens (SUG-100) ────────────────────── */
+  --st-segmented-bg:           var(--st-color-midnight-700);
+  --st-segmented-active-bg:    var(--st-color-midnight-800);
+  --st-segmented-fg:           var(--st-color-text-muted);
+  --st-segmented-active-fg:    var(--st-color-text-default);
+  --st-segmented-border:       var(--st-color-border-subtle);
+
   /* Legacy font aliases */
   --st-font-sans: var(--st-font-family-ui);
   --st-font-mono: var(--st-font-family-mono);

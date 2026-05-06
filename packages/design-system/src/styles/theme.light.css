@@ -120,6 +120,23 @@
   --st-status-iterating-bg:           rgba(3, 105, 161, 0.08);
   --st-status-iterating-fg:           var(--st-color-sky-700);
   --st-status-iterating-border:       rgba(3, 105, 161, 0.30);
+
+  /* ── CWV Score Ring — light overrides (SUG-100) ──── */
+  --st-cwv-good-track:  rgba(43, 212, 170, 0.15);
+  --st-cwv-good-fg:     var(--st-color-seafoam-700);
+  --st-cwv-warn-arc:    var(--st-color-amber-600);
+  --st-cwv-warn-track:  rgba(251, 186, 36, 0.15);
+  --st-cwv-warn-fg:     var(--st-color-amber-700);
+  --st-cwv-poor-arc:    var(--st-color-maroon-600);
+  --st-cwv-poor-track:  rgba(185, 28, 104, 0.15);
+  --st-cwv-poor-fg:     var(--st-color-maroon-700);
+
+  /* ── Segmented Control — light overrides (SUG-100) ─ */
+  --st-segmented-bg:        var(--st-color-softgrey-100);
+  --st-segmented-active-bg: var(--st-color-white);
+  --st-segmented-fg:        var(--st-color-text-secondary);
+  --st-segmented-active-fg: var(--st-color-text-primary);
+  --st-segmented-border:    var(--st-color-border-default);
 }
 
 /* ── Light-theme background image ────────────────────── */
