@@ -12,6 +12,9 @@ on:
     - cron: '0 6 * * *'  # 06:00 UTC daily
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   collect:
     name: Collect trust signals
@@ -41,7 +44,7 @@ jobs:
         run: pnpm add -g @lhci/cli
 
       - name: Run Lighthouse CI
-        run: lhci autorun
+        run: lhci autorun --config=lighthouserc.cjs
         env:
           LHCI_ORIGIN: https://sugartown.io
         continue-on-error: true  # Lighthouse flakiness should not block stats commit
