@@ -2,6 +2,8 @@ import stats from '../generated/stats.json'
 import { TRUST_LINKS } from '../lib/routes'
 import Tile from '../design-system/components/tile/Tile'
 import DataTable, { KindBadge } from '../design-system/components/data-table/DataTable'
+import SectionLabel from '../design-system/components/section-label/SectionLabel'
+import CwvSnapshot from './CwvSnapshot'
 import styles from './TrustReportSection.module.css'
 
 // ── Recent Releases Report ──────────────────────────────────────────────────
@@ -110,20 +112,56 @@ function DesignSystemStatsReport() {
   )
 }
 
+const REPORT_LABELS = {
+  'recent-releases':    'Recent releases',
+  'design-system-stats': 'Design system',
+  'cwv-snapshot':       'Performance',
+}
+
+function ReportBlock({ reportKey, section }) {
+  if (reportKey === 'recent-releases')    return <RecentReleasesReport />
+  if (reportKey === 'design-system-stats') return <DesignSystemStatsReport />
+  if (reportKey === 'cwv-snapshot')       return <CwvSnapshot section={section} />
+  return null
+}
+
 // ── TrustReportSection ──────────────────────────────────────────────────────
 
 export default function TrustReportSection({ section }) {
-  const { heading, reportType } = section ?? {}
+  const { heading, reports, reportType } = section ?? {}
+
+  // Support legacy single-value reportType alongside new reports[] array
+  const reportList = reports?.length ? reports : (reportType ? [reportType] : [])
 
   const sectionHeading = heading ? <h2 className={styles.sectionHeading}>{heading}</h2> : null
 
-  if (reportType === 'recent-releases') {
-    return <>{sectionHeading}<RecentReleasesReport /></>
+  if (reportList.length === 0) return null
+
+  // Single report — original layout (no SectionLabel above)
+  if (reportList.length === 1) {
+    return (
+      <>
+        {sectionHeading}
+        <ReportBlock reportKey={reportList[0]} section={section} />
+      </>
+    )
   }
 
-  if (reportType === 'design-system-stats') {
-    return <>{sectionHeading}<DesignSystemStatsReport /></>
-  }
-
-  return null
+  // Multiple reports — render each with a SectionLabel above
+  return (
+    <>
+      {sectionHeading}
+      {reportList.map((key, idx) => (
+        <div key={key} className={styles.multiReportBlock}>
+          <SectionLabel
+            number={`0${idx + 1}`}
+            name={REPORT_LABELS[key] ?? key}
+          />
+          <div className={styles.reportWrap}>
+            <ReportBlock reportKey={key} section={section} />
+          </div>
+        </div>
+      ))}
+    </>
+  )
 }

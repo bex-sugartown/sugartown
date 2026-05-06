@@ -407,7 +407,10 @@ export const nodeBySlugQuery = `
       },
       _type == "trustReportSection" => {
         heading,
-        reportType
+        reports,
+        defaultFormFactor,
+        cwvUrl,
+        "reportType": reportType
       },
       _type == "citedBlock" => {
         heading,
@@ -609,7 +612,10 @@ export const articleBySlugQuery = `
       },
       _type == "trustReportSection" => {
         heading,
-        reportType
+        reports,
+        defaultFormFactor,
+        cwvUrl,
+        "reportType": reportType
       },
       _type == "citedBlock" => {
         heading,
@@ -792,7 +798,10 @@ export const pageBySlugQuery = `
       },
       _type == "trustReportSection" => {
         heading,
-        reportType
+        reports,
+        defaultFormFactor,
+        cwvUrl,
+        "reportType": reportType
       },
       _type == "citedBlock" => {
         heading,
@@ -974,7 +983,10 @@ export const caseStudyBySlugQuery = `
       },
       _type == "trustReportSection" => {
         heading,
-        reportType
+        reports,
+        defaultFormFactor,
+        cwvUrl,
+        "reportType": reportType
       },
       _type == "citedBlock" => {
         heading,

@@ -69,9 +69,20 @@
   text-decoration: underline;
 }
 
+/* ── Multi-report layout (reports[] array, SUG-100) ──── */
+
+.multiReportBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-4);
+}
+
 /* ── Detail context layout reset ────────────────────── */
 /* The .detailContext parent uses gap for spacing — zero
    external margin on this component's root. */
 :global(.detailContext) .reportWrap {
+  margin-block: 0;
+}
+:global(.detailContext) .multiReportBlock {
   margin-block: 0;
 }

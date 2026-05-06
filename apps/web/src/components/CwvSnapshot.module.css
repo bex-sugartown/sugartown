@@ -1,0 +1,156 @@
+/*
+ * CwvSnapshot — CWV Snapshot report block (SUG-100).
+ * Layout: toggle → ring grid → CWV tiles → timestamp.
+ * Dimensional contract: ring 96px, gap 24px, tile min-width 200px.
+ */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-5);
+}
+
+/* ── Toggle row ──────────────────────────────────────── */
+
+.toggleRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ── Rings section ───────────────────────────────────── */
+
+.ringsSection,
+.cwvSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-3);
+}
+
+.sourceLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-2xs);
+  font-weight: 500;
+  color: var(--st-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ringGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--st-space-5);
+  justify-items: center;
+}
+
+@media (max-width: 600px) {
+  .ringGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── CWV tiles ───────────────────────────────────────── */
+
+.cwvGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--st-space-3);
+}
+
+@media (max-width: 600px) {
+  .cwvGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cwvTile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-1);
+  padding: var(--st-space-4);
+  border: 1px solid var(--st-color-border-subtle);
+  border-radius: var(--st-radius-sm);
+  background: var(--st-color-bg-surface);
+  min-width: 0;
+}
+
+.cwvTileLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: 600;
+  color: var(--st-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.cwvTileValue {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xl);
+  font-weight: 600;
+  color: var(--st-color-text-primary);
+  line-height: 1;
+}
+
+.cwvTileDesc {
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-color-text-muted);
+}
+
+.cwvTileBadge {
+  display: inline-block;
+  margin-top: var(--st-space-1);
+  padding: 2px var(--st-space-2);
+  border-radius: var(--st-radius-tag);
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-2xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  width: fit-content;
+}
+
+.badgeGood {
+  background: var(--st-cwv-good-track);
+  color: var(--st-cwv-good-fg);
+}
+.badgeWarn {
+  background: var(--st-cwv-warn-track);
+  color: var(--st-cwv-warn-fg);
+}
+.badgePoor {
+  background: var(--st-cwv-poor-track);
+  color: var(--st-cwv-poor-fg);
+}
+
+/* ── Data unavailable placeholder ────────────────────── */
+
+.unavailable {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--st-space-2);
+  padding: var(--st-space-4);
+  border: 1px dashed var(--st-color-border-subtle);
+  border-radius: var(--st-radius-sm);
+  color: var(--st-color-text-muted);
+}
+
+.unavailableIcon {
+  font-size: var(--st-font-size-md);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.unavailableText {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  line-height: 1.5;
+}
+
+/* ── Timestamp ───────────────────────────────────────── */
+
+.timestamp {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-2xs);
+  color: var(--st-color-text-muted);
+  margin: 0;
+}
