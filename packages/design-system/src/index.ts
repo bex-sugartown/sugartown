@@ -46,3 +46,11 @@ export type { AccordionProps, AccordionItem } from './components/Accordion';
 // ── Media ────────────────────────────────────────────────────────────────────
 export { Media } from './components/Media';
 export type { MediaProps, OverlayConfig, DuotonePreset } from './components/Media';
+
+// ── SegmentedControl ─────────────────────────────────────────────────────────
+export { SegmentedControl } from './components/SegmentedControl';
+export type { SegmentedControlProps, SegmentOption } from './components/SegmentedControl';
+
+// ── ScoreRing ────────────────────────────────────────────────────────────────
+export { ScoreRing, scoreCategory } from './components/ScoreRing';
+export type { ScoreRingProps, ScoreCategory } from './components/ScoreRing';

@@ -159,8 +159,9 @@
   --st-color-blue-600: #0052A3;
 
   /* ── Spacing (rem scale, 8-point base) ───────────────── */
-  --st-space-0: 1px;   /* hairline — bg-through-gap dividers */
-  --st-space-1: 4px;
+  --st-space-0:    1px;  /* hairline — bg-through-gap dividers */
+  --st-space-half: 2px;
+  --st-space-1:    4px;
   --st-space-2: 8px;
   --st-space-3: 12px;
   --st-space-4: 16px;
@@ -202,6 +203,7 @@
   --st-font-family-mono:      "IBM Plex Mono", "Courier New", Courier, monospace;
 
   /* ── Typography: Sizes ───────────────────────────────── */
+  --st-font-size-2xs:     0.625rem;  /* 10px */
   --st-font-size-xs:      0.75rem;   /* 12px */
   --st-font-size-sm:      0.875rem;  /* 14px */
   --st-font-size-md:      1rem;      /* 16px */

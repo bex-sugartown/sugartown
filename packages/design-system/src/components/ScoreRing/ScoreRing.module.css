@@ -1,0 +1,60 @@
+/*
+ * ScoreRing — animated SVG arc circular progress for Lighthouse scores.
+ * Tokens: --st-cwv-{good,warn,poor}-{arc,track,fg}
+ */
+
+.wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--st-space-2, 8px);
+}
+
+/* SVG idle vs ready — transition added after IntersectionObserver fires */
+.svgIdle { display: block; }
+.svgReady { display: block; }
+
+/* Arc fill strokes */
+.arc { stroke: var(--st-cwv-good-arc); }
+.good { stroke: var(--st-cwv-good-arc); }
+.warn { stroke: var(--st-cwv-warn-arc); }
+.poor { stroke: var(--st-cwv-poor-arc); }
+
+/* Track strokes */
+.track { }
+.goodTrack { stroke: var(--st-cwv-good-track); }
+.warnTrack { stroke: var(--st-cwv-warn-track); }
+.poorTrack { stroke: var(--st-cwv-poor-track); }
+
+/* Score overlay — positioned via inline margin-top: -size trick */
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 0; /* collapses — real height comes from wrapper flex */
+  padding-bottom: 12px; /* nudge score up from the gap */
+  pointer-events: none;
+}
+
+.scoreValue {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-lg);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--st-cwv-good-fg); /* fallback */
+}
+
+.goodFg  { color: var(--st-cwv-good-fg); }
+.warnFg  { color: var(--st-cwv-warn-fg); }
+.poorFg  { color: var(--st-cwv-poor-fg); }
+
+.label {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-2xs, 0.625rem);
+  font-weight: 500;
+  color: var(--st-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: var(--st-space-half, 2px);
+}
