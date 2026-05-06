@@ -397,7 +397,7 @@ jobs:
 | Item | Status |
 |------|--------|
 | `stats.json` | Mock data (Variant C — mixed ratings) |
-| CrUX API key | Not configured |
+| CrUX API key | Configured (`CRUX_API_KEY` in GitHub secrets) |
 | GitHub Actions workflow | Not created |
 | LHCI mobile preset | Configured in `lighthouserc.js` |
 | LHCI desktop preset | Configured in `lighthouserc.js` |
