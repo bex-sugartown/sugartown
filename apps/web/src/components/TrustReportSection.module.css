@@ -37,9 +37,9 @@
 .reportFooter {
   display: flex;
   gap: 1.5rem;
-  padding: 0.75rem 0 0;
+  padding: var(--st-space-2) 0 0;
   border-top: 1px solid var(--st-color-border-subtle);
-  margin-top: 1rem;
+  margin-top: var(--st-space-3);
 }
 
 .footerLink {
@@ -70,6 +70,12 @@
 }
 
 /* ── Multi-report layout (reports[] array, SUG-100) ──── */
+
+.multiReportRoot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-7);  /* 40px between report blocks */
+}
 
 .multiReportBlock {
   display: flex;

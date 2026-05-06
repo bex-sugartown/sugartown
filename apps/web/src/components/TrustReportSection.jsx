@@ -36,7 +36,7 @@ const RELEASE_COLUMNS = [
 ]
 
 function RecentReleasesReport() {
-  const releases = stats.release?.latestN ?? []
+  const releases = (stats.release?.latestN ?? []).filter(r => r.kind !== 'PATCH')
 
   return (
     <div className={styles.reportWrap}>
@@ -149,7 +149,7 @@ export default function TrustReportSection({ section }) {
 
   // Multiple reports — render each with a SectionLabel above
   return (
-    <div id={_sectionId}>
+    <div id={_sectionId} className={styles.multiReportRoot}>
       {sectionHeading}
       {reportList.map((key, idx) => (
         <div key={key} className={styles.multiReportBlock}>
