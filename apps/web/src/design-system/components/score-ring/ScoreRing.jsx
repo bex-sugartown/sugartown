@@ -41,11 +41,16 @@ export default function ScoreRing({
 
   const startAngle = 90 + GAP_DEGREES / 2
 
-  const [displayScore, setDisplayScore] = useState(0)
-  const [animated, setAnimated] = useState(false)
+  const reducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+  const [displayScore, setDisplayScore] = useState(reducedMotion ? clampedScore : 0)
+  const [animated, setAnimated] = useState(reducedMotion)
   const ringRef = useRef(null)
 
   useEffect(() => {
+    if (reducedMotion) return
     if (!('IntersectionObserver' in window)) {
       setDisplayScore(clampedScore)
       setAnimated(true)

@@ -14,6 +14,13 @@
 .svgIdle { display: block; }
 .svgReady { display: block; }
 
+/* Respect prefers-reduced-motion — skip count-up and arc-fill animation */
+@media (prefers-reduced-motion: reduce) {
+  .svgReady circle {
+    transition: none !important;
+  }
+}
+
 /* Arc fill strokes */
 .arc { stroke: var(--st-cwv-good-arc); }
 .good { stroke: var(--st-cwv-good-arc); }

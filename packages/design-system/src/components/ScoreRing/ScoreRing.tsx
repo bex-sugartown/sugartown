@@ -51,12 +51,17 @@ export const ScoreRing: React.FC<ScoreRingProps> = ({
   // Rotation: start arc at bottom-left of the gap
   const startAngle = 90 + GAP_DEGREES / 2; // degrees; 0° = 3 o'clock in SVG
 
+  const reducedMotion =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   // Animated score
-  const [displayScore, setDisplayScore] = useState(0);
-  const [animated, setAnimated] = useState(false);
+  const [displayScore, setDisplayScore] = useState(reducedMotion ? clampedScore : 0);
+  const [animated, setAnimated] = useState(reducedMotion);
   const ringRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
+    if (reducedMotion) return;
     if (!('IntersectionObserver' in window)) {
       setDisplayScore(clampedScore);
       setAnimated(true);
