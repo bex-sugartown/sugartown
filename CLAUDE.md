@@ -18,10 +18,13 @@ When an epic is complete, run these steps in order before starting the next epic
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
 2. **Deploy schema** (if epic touched `apps/studio/schemas/`) — run `npx sanity schema deploy` from `apps/studio/`. Schema changes are not live until deployed. MCP tools, the Content Lake API, and embedded Studios all validate against the deployed schema, not local code. Skipping this step causes silent write failures.
-3. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`
-4. **Mini-release** — run `/mini-release` to produce a patch version bump and CHANGELOG stub
-5. **Update Linear** — transition the SUG-{N} issue to **Done**
-6. **Clean tree** — confirm `git status` is clean before starting the next epic
+3. **Visual QA gate (hard stop)** — if the epic has a Phase 0 mock or any visual output, produce the mock-to-implementation comparison table (every visual element: typography, spacing, colours, layout — flagged as Match / Drift / Missing). Present the table and wait for the explicit text **"Visual QA approved"** before proceeding. The `docs/shipped/` move and mini-release are structurally blocked until this approval is received. A component that builds without errors is not the same as a component that matches the spec.
+4. **Chromatic** — run Chromatic VRT. If deferred, annotate the shipped doc with `<!-- Chromatic: pending -->` and a note. Deferral is a checklist deferral only — it does not unblock the shipped/ move. **"Defer Chromatic" is not the same as "epic is closed."**
+5. **Data pipeline gap check** — if the epic extended a build-time data pipeline (stats, CrUX, LHCI, etc.) and real data has not yet flowed through CI, document the gap in the shipped doc: what env var or cron is needed, what the expected data shape looks like, and what the current `stats.json` state represents (real vs seeded). Close-out is permitted but the gap must be explicit and visible.
+6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`
+7. **Mini-release** — run `/mini-release` to produce a patch version bump and CHANGELOG stub
+8. **Update Linear** — transition the SUG-{N} issue to **Done**
+9. **Clean tree** — confirm `git status` is clean before starting the next epic
 
 Do not carry uncommitted changes across epic boundaries. If the working tree is dirty when a new epic begins, stop and commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) before proceeding.
 

@@ -516,16 +516,22 @@ State how re-running the script produces no change:
 
 > Run these steps in order after all Acceptance Criteria are met and the working tree is committed.
 
-1. **Move the epic doc to production**:
+1. **Visual QA gate (hard stop)** — if this epic has a Phase 0 mock or any visual output, produce the mock-to-implementation comparison table before proceeding. Every visual element (typography, spacing, colours, layout states) must be flagged as Match / Drift / Missing. Present the table and wait for **"Visual QA approved"** in the chat. The shipped/ move and mini-release are blocked until this text is received.
+2. **Chromatic** — run Chromatic VRT. If deferred, annotate the shipped doc: `<!-- Chromatic: pending — deferred YYYY-MM-DD -->`. Deferral does not unblock close-out, but "Defer Chromatic" is not equivalent to "no Chromatic needed".
+3. **Data pipeline gap check** — if this epic extended a build-time pipeline (stats, CrUX, LHCI, imports, etc.) and real data has not yet flowed through CI, document in the shipped doc:
+   - What env var or scheduled cron produces real data
+   - What the current `stats.json` (or equivalent) contains: real data or seeded scaffold
+   - Expected shape once the pipeline runs
+4. **Move the epic doc to production**:
    - Move: `docs/backlog/SUG-{N}-{name}.md` → `docs/shipped/SUG-{N}-{name}.md`
    - Remove from `docs/backlog/`
    - Commit: `docs: ship SUG-{N} {Epic name}`
-2. **Confirm clean tree** — `git status` must show nothing staged or unstaged
-3. **Run mini-release** — `/mini-release SUG-{N} [Epic name]`
+5. **Confirm clean tree** — `git status` must show nothing staged or unstaged
+6. **Run mini-release** — `/mini-release SUG-{N} [Epic name]`
    - Produces a patch version bump and lightweight CHANGELOG stub
    - Two gates: review stub → "Write it", then commit plan → "Commit it"
-4. **Update Linear** — transition SUG-{N} to **Done**. If the epic has sub-issues, close those first.
-5. **Start next epic** — only after mini-release commit is confirmed
+7. **Update Linear** — transition SUG-{N} to **Done**. If the epic has sub-issues, close those first.
+8. **Start next epic** — only after mini-release commit is confirmed
 
 > If this epic warrants a MINOR version bump (new feature surface, new schema fields,
 > new page component) rather than a patch, run `/release` instead of `/mini-release`.
