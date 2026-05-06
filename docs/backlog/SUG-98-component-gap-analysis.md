@@ -1,4 +1,4 @@
-# SUG-98 — Component Gap Analysis: Renderer Stories + Thruline Audit
+# SUG-98 — Component Gap Analysis: Renderer Stories, Thruline Audit + Phase B Component Parity
 
 **Linear Issue:** [SUG-98](https://linear.app/sugartown/issue/SUG-98/component-gap-analysis-renderer-stories-thruline-audit)
 **Status:** Backlog
@@ -14,6 +14,8 @@ During SUG-89 (Chromatic parity stories), a component governance audit produced 
 The audit surfaced a repeating gap: inline renderers inside `PageSections.jsx` have no standalone Storybook stories. These are content section types that are rendered via a `switch (_type)` block rather than extracted into named components. VRT coverage for them comes only from the `Layout/PageSections` composite story, which exercises a fixed slice of content and will not catch a renderer-specific regression.
 
 The registry also established the rule that web adapter stories are only justified when the adapter adds **visually distinct behaviour** vs the DS primitive. This rule needs a one-time verification pass across the 10+ adapters to confirm they are all thin shims, and to document any that aren't.
+
+**Phase B addition (scoped 2026-05-06, following SUG-101):** The DS package mirror sync surfaced three unresolved component parity decisions. These are architectural decisions, not style decisions, which is why they belong in a Claude Code audit rather than a Claude Design sync. They are included here because the thruline audit (Phase 2) naturally surfaces the same component boundaries — resolving them together avoids a second pass over the same ground.
 
 ---
 
@@ -54,6 +56,31 @@ Update `docs/conventions/component-registry.md`:
 - Replace all `❌` entries with ✅ (story added) or a documented rationale
 - Update the "Last updated" line with current version
 
+### Phase 4 — Component parity decisions (Phase B)
+
+Three unresolved architectural questions from the DS package mirror sync. For each, the deliverable is a **decision + execution**, not just a recommendation.
+
+**Decision 6 — DS-only components: port or remove?**
+
+Four components exist in `packages/design-system/src/components/` but have no web adapter in `apps/web/src/design-system/components/`:
+
+| Component | DS location | Web adapter? | Question |
+|-----------|------------|--------------|---------|
+| `Grid` | `packages/design-system/src/components/Grid/` | No | Port to web adapter, or remove from DS? |
+| `SectionContainer` | `packages/design-system/src/components/SectionContainer/` | No | Port, or remove? |
+| `SectionLabel` | `packages/design-system/src/components/SectionLabel/` | No | Port (web has its own `apps/web/src/design-system/components/section-label/`), or consolidate? |
+| `Tile` | `packages/design-system/src/components/Tile/` | No | Port, or remove? |
+
+Audit approach: read the DS component, check if the web app already has an equivalent (web has `SectionLabel` and `Tile` adapters from prior epics — verify), then decide: (a) port + create web adapter, (b) remove from DS package if the web version is canonical, or (c) document as DS-only with rationale.
+
+**Decision 7 — ContentNav: implement or delete stories?**
+
+Storybook has stories for `ContentNav` but the component may not exist as a standalone in either the DS package or the web adapter layer. Audit: does the component exist? If yes, confirm its location and ensure the story imports from the right place. If no, delete the orphaned stories.
+
+**Decision 8 — FilterBar: promote to DS or accept web-only?**
+
+`FilterBar` exists in `apps/web/src/design-system/components/` (web adapter layer) but has no DS primitive in `packages/design-system/src/components/`. It has Storybook stories. Decision: (a) port a DS primitive version to `packages/design-system/src/components/FilterBar/` so it follows the standard two-layer architecture, or (b) formally document it as a web-only component in the registry with a rationale (e.g. "tightly coupled to React Router and Sanity query patterns — not portable to DS package").
+
 ---
 
 ## Out of scope
@@ -61,6 +88,7 @@ Update `docs/conventions/component-registry.md`:
 - New components or visual redesigns
 - Studio schema changes
 - Extracting inline renderers from `PageSections.jsx` into named files (a separate refactor concern)
+- Token hygiene (off-scale colors, legacy alias removal) — that is SUG-102, gated on SUG-86
 
 ---
 
@@ -73,6 +101,9 @@ Update `docs/conventions/component-registry.md`:
 - [ ] Registry updated: zero `❌` entries
 - [ ] `pnpm validate:tokens` passes
 - [ ] Chromatic VRT run, baselines approved
+- [ ] **Phase B decisions documented and executed:** each of Grid, SectionContainer, SectionLabel, Tile has a clear outcome (web adapter created, or removed from DS, or documented as intentional divergence)
+- [ ] **ContentNav** stories either point to a real component or are deleted
+- [ ] **FilterBar** has a registry entry with explicit architecture decision (DS primitive or web-only with rationale)
 
 ---
 
@@ -82,3 +113,4 @@ Update `docs/conventions/component-registry.md`:
 - [ ] **Phase 1** — Renderer stories (5 files)
 - [ ] **Phase 2** — Thruline verification (16 adapter pairs)
 - [ ] **Phase 3** — Registry close-out
+- [ ] **Phase 4** — Component parity decisions (Phase B: items 6, 7, 8)

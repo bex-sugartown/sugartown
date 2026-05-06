@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-06 · v0.23.12 · SUG-101 shipped — DS package mirror sync Phase A
+> Updated 2026-05-06 · v0.23.12 · SUG-101 shipped · SUG-98 expanded (Phase B) · SUG-102 added (Phase C, gated on SUG-86)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-101 shipped ✅ v0.23.12. Next: SUG-100 (CWV Snapshot widget, Phase 0 approved) → SUG-98 (component gap) → SUG-86 (Style Dictionary).
+> **⚑ Current focus:** SUG-101 shipped ✅ v0.23.12. Full DS queue: SUG-100 (CWV, in progress) → SUG-98 (gap analysis + Phase B component parity) → SUG-86 (Style Dictionary) → SUG-102 (Phase C token hygiene, gated on SUG-86).
 
 ---
 
@@ -27,13 +27,14 @@
 
 ## 02 · Soon — post-sprint, Design System infrastructure
 
-> **Execution order:** SUG-100 → SUG-98 → SUG-86. SUG-101 shipped ✅ — mirror is clean. SUG-100 adds `--st-cwv-*`/`--st-segmented-*` tokens next. SUG-98 is token-independent. SUG-86 automates the dual-file process last.
+> **Execution order:** SUG-100 → SUG-98 → SUG-86 → SUG-102. SUG-101 ✅ mirror is clean. SUG-102 gated on SUG-86 — token removals must go through the Style Dictionary pipeline.
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-100](https://linear.app/sugartown/issue/SUG-100) · CWV Snapshot product widget** — `trustReportSection` refactor: `reportType` radio → `reports[]` multi-select dashboard. New `ScoreRing` SVG arc component + `SegmentedControl`. Seafoam/amber/maroon CWV arc tokens. Phase 0 approved 2026-05-05. _Execute after SUG-101_ — adds new `--st-cwv-*` / `--st-segmented-*` tokens to the freshly synced mirror. Epic: `docs/backlog/SUG-100-cwv-snapshot-product-widget.md`. | `Design System` `Schema` `Frontend` | 🟢 Next |
-| 2 | **[SUG-98](https://linear.app/sugartown/issue/SUG-98) · Component gap analysis — renderer stories + thruline audit** — 5 inline PageSections renderer stories (textSection, mermaidSection, imageGallery, citedBlock, statTileSection) + 16-adapter thruline verification. Registry at `docs/conventions/component-registry.md`. Epic: `docs/backlog/SUG-98-component-gap-analysis.md`. | `Design System` `Tooling` | 🟣 Soon |
-| 3 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` files with a build pipeline. Single JSON source generates both files; makes SUG-85 drift structurally impossible. 4 phases: spike → dual output → theme outputs → lock. _Execute after SUG-100_ — absorbs CWV tokens as clean Style Dictionary baseline. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
+| 1 | **[SUG-100](https://linear.app/sugartown/issue/SUG-100) · CWV Snapshot product widget** — `trustReportSection` refactor: `reportType` radio → `reports[]` multi-select dashboard. New `ScoreRing` SVG arc component + `SegmentedControl`. Seafoam/amber/maroon CWV arc tokens. Phase 0 approved 2026-05-05. Epic: `docs/backlog/SUG-100-cwv-snapshot-product-widget.md`. | `Design System` `Schema` `Frontend` | 🟢 Next |
+| 2 | **[SUG-98](https://linear.app/sugartown/issue/SUG-98) · Component gap analysis — renderer stories + thruline audit + Phase B component parity** — 5 renderer stories, 16-adapter thruline, registry close-out. **Phase B added:** decisions on Grid/SectionContainer/SectionLabel/Tile (port or remove), ContentNav (implement or delete stories), FilterBar (promote to DS or document as web-only). Epic: `docs/backlog/SUG-98-component-gap-analysis.md`. | `Design System` `Tooling` | 🟣 Soon |
+| 3 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` with a build pipeline. Single JSON source generates both files. _Execute after SUG-100_ — absorbs CWV tokens as clean baseline. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
+| 4 | **[SUG-102](https://linear.app/sugartown/issue/SUG-102) · DS token hygiene — Phase C: off-scale color promotion + legacy alias audit** — Promote anonymous hex values to named Tier-1 primitives or document as locked Tier-3 leaves. Audit legacy aliases for removal eligibility. Human-gated proposal before any change. _Gated on SUG-86_ — removals execute via Style Dictionary pipeline, not manual dual-file edit. Epic: `docs/backlog/SUG-102-ds-token-hygiene-phase-c.md`. | `Design System` `Infrastructure` | ⚪ Later |
 
 ---
 
@@ -167,4 +168,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-06 · v0.23.12*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-06 · v0.23.12 · queue: SUG-100 → SUG-98 → SUG-86 → SUG-102*
