@@ -21,8 +21,9 @@ Claude Design performed an independent audit of the DS package (`packages/design
 Phase A scope is **structural reconciliation only** — no canonical token values changed, no new components added, no deprecated token removal. This is mirror cleanup: removing legacy selectors, correcting one known wrong value, and adding a missing `utilities.css` file.
 
 **Dependency chain:**
-- SUG-101 (this epic) must land **before** SUG-86 (Style Dictionary). SUG-86 generates both files from a JSON source; if the mirror is dirty when SUG-86 runs, the first-run diff will be noisy and hard to validate. A clean mirror is a prerequisite for a clean Style Dictionary baseline.
-- SUG-100 (CWV Snapshot Widget) will add `--st-cwv-*` and `--st-segmented-*` tokens to both files. That epic should follow SUG-101 to avoid re-dirtying the mirror.
+- SUG-101 (this epic) must land **before SUG-100** (CWV Snapshot Widget). SUG-100 adds new `--st-cwv-*` and `--st-segmented-*` tokens to both files — those additions should land on a clean mirror, not the current dirty one.
+- SUG-101 must also land **before SUG-86** (Style Dictionary). SUG-86 generates both files from a JSON source; if the mirror is dirty when SUG-86 runs, the first-run diff will be noisy and hard to validate.
+- Execution order: **SUG-101 → SUG-100 → SUG-98 → SUG-86**.
 
 **Prior related epics:** SUG-85 (token file sync audit), SUG-83 (retire legacy theme selectors).
 

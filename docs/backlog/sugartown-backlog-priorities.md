@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-05 · v0.23.11 · SUG-101 added (DS mirror sync, Phase A) — Backroads component harmony (Callout, Accordion, SectionContainer, SectionLabel, challenge callout migration)
+> Updated 2026-05-06 · v0.23.11 · DS/CWV execution order locked: 101 → 100 → 98 → 86
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-99 shipped ✅ — Callout row format, Accordion numbered variant + base redesign, SectionContainer/SectionLabel primitives, section schema SectionLabel field alignment, challenge callout migration on all 7 case studies. SUG-98 (component gap analysis) or SUG-81 (site-wide KG) is next.
+> **⚑ Current focus:** SUG-99 shipped ✅. DS/CWV queue: SUG-101 (mirror sync) → SUG-100 (CWV widget, Phase 0 approved) → SUG-98 (component gap) → SUG-86 (Style Dictionary).
 
 ---
 
@@ -27,11 +27,14 @@
 
 ## 02 · Soon — post-sprint, Design System infrastructure
 
+> **Execution order locked:** 101 → 100 → 98 → 86. SUG-101 cleans the mirror before new tokens land. SUG-100 adds `--st-cwv-*`/`--st-segmented-*` tokens via normal dual-file process. SUG-98 is token-independent. SUG-86 (Style Dictionary) automates the dual-file process going forward, absorbing SUG-100's tokens as its clean starting point.
+
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-101](https://linear.app/sugartown/issue/SUG-101) · DS package mirror sync — Phase A style reconciliation** — Apply Claude Design's Phase A sync output to `packages/design-system/src/styles/`: remove embedded `[data-theme="light"]` block from mirror `tokens.css`, correct `--st-status-draft-fg` red→amber, add missing `utilities.css`, align 4 theme files with canonical. `pnpm validate:tokens --check-sync` gate. _Must land before SUG-86_ — dirty mirror produces noisy Style Dictionary first-run diff. Epic: `docs/backlog/SUG-101-ds-package-mirror-sync-phase-a-style-reconciliation.md`. | `Design System` `Infrastructure` | 🟢 Next |
-| 3 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` files with a build pipeline. Single JSON source generates both files; makes SUG-85 drift structurally impossible. 4 phases: spike → dual output → theme outputs → lock. Execute after SUG-85. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
-| 4 | **[SUG-98](https://linear.app/sugartown/issue/SUG-98) · Component gap analysis — renderer stories + thruline audit** — 5 inline PageSections renderer stories (textSection, mermaidSection, imageGallery, citedBlock, statTileSection) + 16-adapter thruline verification. Registry at `docs/conventions/component-registry.md`. Epic: `docs/backlog/SUG-98-component-gap-analysis.md`. | `Design System` `Tooling` | 🟣 Soon |
+| 1 | **[SUG-101](https://linear.app/sugartown/issue/SUG-101) · DS package mirror sync — Phase A style reconciliation** — Apply Claude Design's Phase A sync output to `packages/design-system/src/styles/`: remove embedded `[data-theme="light"]` block from mirror `tokens.css`, correct `--st-status-draft-fg` red→amber, add missing `utilities.css`, align 4 theme files with canonical. `pnpm validate:tokens --check-sync` gate. _Must land before SUG-100_ — clean mirror before new tokens are added. Epic: `docs/backlog/SUG-101-ds-package-mirror-sync-phase-a-style-reconciliation.md`. | `Design System` `Infrastructure` | 🟢 Next |
+| 2 | **[SUG-100](https://linear.app/sugartown/issue/SUG-100) · CWV Snapshot product widget** — `trustReportSection` refactor: `reportType` radio → `reports[]` multi-select dashboard. New `ScoreRing` SVG arc component + `SegmentedControl`. Seafoam/amber/maroon CWV arc tokens. Phase 0 approved 2026-05-05. _Execute after SUG-101_ — adds new `--st-cwv-*` / `--st-segmented-*` tokens to the freshly synced mirror. Epic: `docs/backlog/SUG-100-cwv-snapshot-product-widget.md`. | `Design System` `Schema` `Frontend` | 🟢 Next |
+| 3 | **[SUG-98](https://linear.app/sugartown/issue/SUG-98) · Component gap analysis — renderer stories + thruline audit** — 5 inline PageSections renderer stories (textSection, mermaidSection, imageGallery, citedBlock, statTileSection) + 16-adapter thruline verification. Registry at `docs/conventions/component-registry.md`. Epic: `docs/backlog/SUG-98-component-gap-analysis.md`. | `Design System` `Tooling` | 🟣 Soon |
+| 4 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` files with a build pipeline. Single JSON source generates both files; makes SUG-85 drift structurally impossible. 4 phases: spike → dual output → theme outputs → lock. _Execute after SUG-100_ — absorbs CWV tokens as clean Style Dictionary baseline. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
 
 ---
 
