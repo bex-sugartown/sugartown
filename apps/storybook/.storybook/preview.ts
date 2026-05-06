@@ -4,6 +4,7 @@ import { createElement } from 'react';
 // Import design system styles
 import '../../../packages/design-system/src/styles/tokens.css';
 import '../../../packages/design-system/src/styles/globals.css';
+import '../../../packages/design-system/src/styles/utilities.css';
 import '../../../packages/design-system/src/styles/theme.light.css';
 import '../../../packages/design-system/src/styles/theme.pink-moon.css';
 

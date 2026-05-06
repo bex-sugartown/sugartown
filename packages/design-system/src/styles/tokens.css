@@ -174,14 +174,14 @@
   --st-radius-1:    0.25rem;  /* 4px  */
   --st-radius-2:    0.5rem;   /* 8px  */
   --st-radius-3:    0.75rem;  /* 12px */
-  --st-radius-full: 9999px;
 
   /* Semantic radius names (match apps/web token names exactly) */
-  --st-radius-xs: 4px;    /* chip, tag */
-  --st-radius-sm: 8px;    /* standard component radius */
-  --st-radius-md: 12px;   /* card, modal */
-  --st-radius-lg: 16px;   /* large containers */
-  --st-radius-xl: 35px;   /* hero, media */
+  --st-radius-xs:   4px;    /* chip, tag */
+  --st-radius-sm:   8px;    /* standard component radius */
+  --st-radius-md:   12px;   /* card, modal */
+  --st-radius-lg:   16px;   /* large containers */
+  --st-radius-xl:   35px;   /* hero, media */
+  --st-radius-full: 9999px;
 
   /* Semantic radius names (component aliases)
      Pink Moon: zero on most components for sharp catalogue edges.
@@ -767,16 +767,14 @@
 
   /* Misc legacy */
   --st-color-brand:    var(--st-color-brand-primary);
-  --st-color-red-500:  var(--st-color-maroon);
+  --st-color-red-500:  var(--st-color-maroon);  /* was incorrectly set to maroon hex */
+  --st-pink:           var(--st-color-pink);
+  --st-black:          var(--st-color-black);   /* fixed: was var(--st-color-void-900) */
+  --st-white:          var(--st-color-white);
+  --st-green:          var(--st-color-seafoam);
+  --st-gray-light:     var(--st-color-neutral-100);
+  --st-gray:           #6B7280;
   --st-focus:          var(--st-color-focus);
-
-  /* Legacy back-compat shorthands */
-  --st-pink:       var(--st-color-pink);
-  --st-black:      var(--st-color-black);
-  --st-white:      var(--st-color-white);
-  --st-gray-light: var(--st-color-neutral-100);
-  --st-gray:       #6B7280;
-  --st-green:      var(--st-color-seafoam);
 
   /* Legacy font aliases */
   --st-font-sans: var(--st-font-family-ui);
@@ -797,11 +795,14 @@
   --st-color-bg-surface-strong: var(--st-color-midnight-700);
   --st-color-bg-surface-alt:    var(--st-color-midnight-800);
   --st-color-bg-subtle:         var(--st-color-midnight-700);
+  --st-color-bg-secondary:      var(--st-color-midnight-800);
+  --st-color-bg-tertiary:       var(--st-color-midnight-700);
 
   --st-color-text-default:      var(--st-color-softgrey-50);
   --st-color-text-primary:      var(--st-color-softgrey-50);
   --st-color-text-secondary:    var(--st-color-softgrey-400);
   --st-color-text-muted:        var(--st-color-softgrey-400);
+  --st-color-text-brand:        var(--st-color-pink);
 
   --st-color-border-default:    rgba(255, 36, 125, 0.30);
   --st-color-border-subtle:     rgba(255, 255, 255, 0.12);
@@ -885,95 +886,4 @@
   --st-status-iterating-bg:           color-mix(in srgb, var(--st-color-sky) 10%, var(--st-margin-bg));
   --st-status-iterating-fg:           var(--st-color-sky);
   --st-status-iterating-border:       color-mix(in srgb, var(--st-color-sky) 25%, var(--st-margin-bg));
-}
-
-
-/* ══════════════════════════════════════════════════════
-   [data-theme="light"] — DEPRECATED (SUG-83)
-   Active themes are light-pink-moon and dark-pink-moon.
-   Retained for external consumers; do not use in new code.
-   ══════════════════════════════════════════════════════ */
-[data-theme="light"] {
-  --st-color-bg-canvas:         var(--st-color-white);
-  --st-color-bg-surface:        var(--st-color-softgrey-50);
-  --st-color-bg-surface-strong: var(--st-color-softgrey-100);
-  --st-color-bg-surface-alt:    var(--st-color-softgrey-50);
-  --st-color-bg-subtle:         var(--st-color-softgrey-100);
-
-  --st-color-text-default:      var(--st-color-charcoal);
-  --st-color-text-primary:      var(--st-color-charcoal);
-  --st-color-text-secondary:    var(--st-color-neutral-600);
-  --st-color-text-muted:        var(--st-color-softgrey-500);
-  --st-color-text-brand:        var(--st-color-maroon);           /* Deep Pink Rule */
-
-  --st-color-border-default:    var(--st-color-softgrey-200);
-  --st-color-border-subtle:     var(--st-color-softgrey-100);
-  --st-color-border-medium:     var(--st-color-neutral-200);
-  --st-color-border-strong:     var(--st-color-neutral-600);
-
-  --st-callout-bg:              var(--st-callout-bg-light);
-  --st-callout-border-color:    rgba(214, 51, 132, 0.35);
-
-  /* Table — light complementary colorway (Sugartown blue-cast softgrey zebra) */
-  --st-table-zebra-bg:    var(--st-color-softgrey-50);  /* #f8f8fa — blue-cast light grey */
-  --st-table-border:      var(--st-color-softgrey-200); /* #e1e3e6 */
-  --st-table-shadow:      var(--st-shadow-table-light);
-  --st-table-card-shadow: var(--st-shadow-table-card-light);
-
-  /* Inline code — light: keep classic maroon-on-grey */
-  --st-code-inline-bg:     var(--st-color-softgrey-100);
-  --st-code-inline-color:  var(--st-color-maroon);
-  --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
-
-  /* Margin column — light mode */
-  --st-margin-bg:       var(--st-color-bg-surface);
-  --st-margin-divider:  var(--st-color-softgrey-300);
-  --st-margin-outline:  var(--st-color-softgrey-500);
-
-  /* ── Status chips — light overrides ──────────────────── */
-  --st-status-draft-bg:               var(--st-color-error-bg);
-  --st-status-draft-fg:               var(--st-color-error);
-  --st-status-draft-border:           var(--st-color-error-border);
-  --st-status-active-bg:              rgba(29, 150, 121, 0.08);
-  --st-status-active-fg:              var(--st-color-seafoam-700);
-  --st-status-active-border:          rgba(29, 150, 121, 0.35);
-  --st-status-archived-bg:            rgba(148, 163, 184, 0.06);
-  --st-status-archived-fg:            var(--st-color-softgrey-400);
-  --st-status-archived-border:        rgba(148, 163, 184, 0.20);
-  --st-status-implemented-bg:         rgba(29, 150, 121, 0.08);
-  --st-status-implemented-fg:         var(--st-color-seafoam-700);
-  --st-status-implemented-border:     rgba(29, 150, 121, 0.35);
-  --st-status-evergreen-bg:           rgba(116, 143, 0, 0.08);
-  --st-status-evergreen-fg:           var(--st-color-lime-800);
-  --st-status-evergreen-border:       rgba(116, 143, 0, 0.30);
-  --st-status-validated-bg:           rgba(185, 28, 104, 0.08);
-  --st-status-validated-fg:           var(--st-color-maroon);
-  --st-status-validated-border:       rgba(185, 28, 104, 0.30);
-  --st-status-deprecated-bg:          rgba(148, 163, 184, 0.08);
-  --st-status-deprecated-fg:          var(--st-color-softgrey-500);
-  --st-status-deprecated-border:      rgba(110, 127, 150, 0.25);
-  --st-status-exploring-bg:           rgba(29, 150, 121, 0.07);
-  --st-status-exploring-fg:           var(--st-color-seafoam-700);
-  --st-status-exploring-border:       rgba(29, 150, 121, 0.30);
-  --st-status-operationalized-bg:     rgba(21, 115, 92, 0.08);
-  --st-status-operationalized-fg:     var(--st-color-seafoam-800);
-  --st-status-operationalized-border: rgba(21, 115, 92, 0.30);
-  --st-status-dreaming-bg:            rgba(124, 58, 237, 0.08);
-  --st-status-dreaming-fg:            var(--st-color-violet-600);
-  --st-status-dreaming-border:        rgba(124, 58, 237, 0.30);
-  --st-status-designing-bg:           rgba(146, 112, 12, 0.08);
-  --st-status-designing-fg:           var(--st-color-amber-700);
-  --st-status-designing-border:       rgba(146, 112, 12, 0.30);
-  --st-status-developing-bg:          rgba(21, 115, 92, 0.08);
-  --st-status-developing-fg:          var(--st-color-seafoam-800);
-  --st-status-developing-border:      rgba(21, 115, 92, 0.30);
-  --st-status-testing-bg:             rgba(194, 65, 12, 0.08);
-  --st-status-testing-fg:             var(--st-color-orange-700);
-  --st-status-testing-border:         rgba(194, 65, 12, 0.30);
-  --st-status-deploying-bg:           rgba(116, 143, 0, 0.08);
-  --st-status-deploying-fg:           var(--st-color-lime-800);
-  --st-status-deploying-border:       rgba(116, 143, 0, 0.30);
-  --st-status-iterating-bg:           rgba(3, 105, 161, 0.08);
-  --st-status-iterating-fg:           var(--st-color-sky-700);
-  --st-status-iterating-border:       rgba(3, 105, 161, 0.30);
 }

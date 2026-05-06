@@ -31,6 +31,9 @@
   --st-color-bg-surface-strong: var(--st-color-neutral-100);      /* #F2F2F3 */
   --st-color-bg-surface-alt:    var(--st-color-neutral-50);
   --st-color-bg-subtle:         var(--st-color-neutral-100);
+  --st-color-surface-subtle:    var(--st-color-neutral-100);
+  --st-color-bg-secondary:      var(--st-color-neutral-100);
+  --st-color-bg-tertiary:       var(--st-color-neutral-200);
 
   /* Ledger Tradition: semantic canvas + structural divider */
   --st-color-canvas:            var(--st-color-neutral-100);      /* #F2F2F3 — page field */
@@ -45,6 +48,7 @@
   --st-color-border-default:    var(--st-color-neutral-200);      /* #E4E4E5 — no blue cast */
   --st-color-border-subtle:     var(--st-color-neutral-100);
   --st-card-bg:                 var(--st-color-white);
+  --st-card-bg-alt:             var(--st-color-neutral-50);
   --st-card-border:             var(--st-color-rule-accent);       /* neutral-300 — matches MetadataCard */
   --st-card-shadow:             none;
   --st-card-label-bg:           var(--st-color-neutral-200);      /* neutral-200 — visible on white card */
