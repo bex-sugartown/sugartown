@@ -144,6 +144,27 @@ export const StatTileSection: Story = {
   },
 };
 
+/** CWV field metrics — p75 values as a stat tile section inside PageSections. */
+export const CwvFieldMetrics: Story = {
+  name: 'CWV field metrics (via StatTileSection)',
+  args: {
+    sections: [
+      {
+        _type: 'statTileSection',
+        _key: 'sts-cwv',
+        name: 'Core Web Vitals',
+        kicker: 'p75 · field data · desktop',
+        items: [
+          { _key: 'lcp', metric: 'LCP',  valueAfter: '1.9s',  valueBefore: 'Good threshold: < 2.5s',  evidenceType: 'measurement' },
+          { _key: 'cls', metric: 'CLS',  valueAfter: '0.040', valueBefore: 'Good threshold: < 0.1',   evidenceType: 'measurement' },
+          { _key: 'inp', metric: 'INP',  valueAfter: '160ms', valueBefore: 'Good threshold: < 200ms', evidenceType: 'measurement' },
+        ],
+      },
+    ],
+    context: 'detail',
+  },
+};
+
 /** Multiple sections — demonstrates vertical rhythm across all section types. */
 export const MultipleSections: Story = {
   args: {

@@ -72,6 +72,7 @@
 
   --st-code-inline-bg:          var(--st-color-softgrey-100);
   --st-code-inline-color:       var(--st-color-brand-primary);
+  --st-code-inline-text:        var(--st-color-brand-primary);
   --st-code-inline-border:      1px solid var(--st-color-softgrey-200);
 
   --st-color-text-eyebrow:      var(--st-color-pink);

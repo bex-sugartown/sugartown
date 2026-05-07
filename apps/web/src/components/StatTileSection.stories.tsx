@@ -51,3 +51,22 @@ export const SingleTile: Story = {
     context: 'detail',
   },
 };
+
+/** CWV field metrics — p75 values as stat tiles (LCP / CLS / INP). */
+export const CwvFieldMetrics: Story = {
+  name: 'CWV field metrics (LCP / CLS / INP)',
+  args: {
+    sections: [{
+      _type: 'statTileSection',
+      _key: 'sts-cwv',
+      name: 'Core Web Vitals',
+      kicker: 'p75 · field data · desktop',
+      items: [
+        { _key: 'lcp', metric: 'LCP',  valueAfter: '1.9s',  valueBefore: 'Good threshold: < 2.5s',  evidenceType: 'measurement' },
+        { _key: 'cls', metric: 'CLS',  valueAfter: '0.040', valueBefore: 'Good threshold: < 0.1',   evidenceType: 'measurement' },
+        { _key: 'inp', metric: 'INP',  valueAfter: '160ms', valueBefore: 'Good threshold: < 200ms', evidenceType: 'measurement' },
+      ],
+    }],
+    context: 'detail',
+  },
+};

@@ -73,6 +73,12 @@
   --st-table-border:      var(--st-color-softgrey-200);
   --st-table-shadow:      var(--st-shadow-table-light);
   --st-table-card-shadow: var(--st-shadow-table-card-light);
+
+  /* Inline code — light: pink on soft grey (root defaults are dark lime) */
+  --st-code-inline-bg:     var(--st-color-softgrey-100);
+  --st-code-inline-color:  var(--st-color-brand-primary);
+  --st-code-inline-text:   var(--st-color-brand-primary);
+  --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
 }
 
 /* ── Dark Pink Moon ────────────────────────────────────── */
