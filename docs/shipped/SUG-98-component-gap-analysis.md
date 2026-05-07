@@ -1,9 +1,11 @@
 # SUG-98 — Component Gap Analysis: Renderer Stories, Thruline Audit + Phase B Component Parity
 
 **Linear Issue:** [SUG-98](https://linear.app/sugartown/issue/SUG-98/component-gap-analysis-renderer-stories-thruline-audit)
-**Status:** Backlog
+**Status:** Done — shipped 2026-05-07
 **Priority:** Normal
 **Tags:** Design System · Tooling
+
+**Chromatic:** Build 29 passed — 242 stories / 47 components / 169 visual changes accepted
 
 ---
 
@@ -94,23 +96,23 @@ Storybook has stories for `ContentNav` but the component may not exist as a stan
 
 ## Acceptance criteria
 
-- [ ] All 5 renderer story gaps have standalone Storybook stories
-- [ ] All stories render in Storybook without errors
-- [ ] `Layout/PageSections` snapshot story still passes (no regressions)
-- [ ] Thruline audit complete — all 16 adapters reviewed, findings in registry notes
-- [ ] Registry updated: zero `❌` entries
-- [ ] `pnpm validate:tokens` passes
-- [ ] Chromatic VRT run, baselines approved
-- [ ] **Phase B decisions documented and executed:** each of Grid, SectionContainer, SectionLabel, Tile has a clear outcome (web adapter created, or removed from DS, or documented as intentional divergence)
-- [ ] **ContentNav** stories either point to a real component or are deleted
-- [ ] **FilterBar** has a registry entry with explicit architecture decision (DS primitive or web-only with rationale)
+- [x] All 5 renderer story gaps have standalone Storybook stories
+- [x] All stories render in Storybook without errors
+- [x] `Layout/PageSections` snapshot story still passes (no regressions)
+- [x] Thruline audit complete — all 13 adapters reviewed, findings in registry notes
+- [x] Registry updated: zero `❌` entries
+- [x] `pnpm validate:tokens` passes
+- [x] Chromatic VRT run, baselines approved (Build 29)
+- [x] **Phase B decisions documented and executed:** Grid/SectionContainer/SectionLabel/Tile confirmed web-adapter-only (no DS primitive needed); registry updated with rationale
+- [x] **ContentNav** orphaned DS stories deleted; story moved to `Patterns/ContentNav` (plain-`<a>` demo, no router dependency)
+- [x] **FilterBar** documented as web-only with rationale (React Router + Sanity query coupling)
 
 ---
 
 ## Phases
 
-- [ ] **Phase 0** — No mockup required (stories follow existing patterns; no new visual format)
-- [ ] **Phase 1** — Renderer stories (5 files)
-- [ ] **Phase 2** — Thruline verification (16 adapter pairs)
-- [ ] **Phase 3** — Registry close-out
-- [ ] **Phase 4** — Component parity decisions (Phase B: items 6, 7, 8)
+- [x] **Phase 0** — No mockup required (stories follow existing patterns; no new visual format)
+- [x] **Phase 1** — Renderer stories (5 files)
+- [x] **Phase 2** — Thruline verification (13 adapter pairs)
+- [x] **Phase 3** — Registry close-out
+- [x] **Phase 4** — Component parity decisions (Phase B: items 6, 7, 8)
