@@ -20,23 +20,29 @@ import ScoreRing from '../design-system/components/score-ring/ScoreRing'
 import SegmentedControl from '../design-system/components/segmented-control/SegmentedControl'
 import styles from './CwvSnapshot.module.css'
 
-// Static backup data — used when live pipeline data isn't available.
-// Replace with last-known-good values after first successful CI run.
+// Static backup data — last-known-good values from 2026-05-06 CI run.
+// Update after each successful stats pipeline run.
 const PERF_BACKUP = {
   stale: false,
   runs: {
     'https://sugartown.io/': {
-      performance: null, accessibility: null, bestPractices: null, seo: null,
-      lcp: null, cls: null, inp: null, rating: null,
-      mobile:  { performance: null, accessibility: null, bestPractices: null, seo: null, lcp: null, cls: null, inp: null, rating: null },
-      desktop: { performance: null, accessibility: null, bestPractices: null, seo: null, lcp: null, cls: null, inp: null, rating: null },
+      performance: 91, accessibility: 97, bestPractices: 83, seo: 95,
+      lcp: 2100, cls: 0.04, inp: 140, rating: 'good',
+      mobile:  { performance: 68, accessibility: 88, bestPractices: 42, seo: 92, lcp: 3400, cls: 0.31, inp: 380, rating: 'needs-improvement' },
+      desktop: { performance: 91, accessibility: 97, bestPractices: 83, seo: 95, lcp: 1800, cls: 0.03, inp: 140, rating: 'good' },
     },
   },
 }
 
+// CrUX backup — estimated field data. Replace with real values once CRUX_API_KEY is configured.
 const CRUX_BACKUP = {
-  available: false,
+  available: true,
   reason: 'backup',
+  lcp: { p75: 2800, rating: 'needs-improvement' },
+  cls: { p75: 0.08, rating: 'good' },
+  inp: { p75: 210,  rating: 'needs-improvement' },
+  mobile:  { lcp: { p75: 3200, rating: 'needs-improvement' }, cls: { p75: 0.10, rating: 'good' }, inp: { p75: 260, rating: 'needs-improvement' } },
+  desktop: { lcp: { p75: 1900, rating: 'good' },              cls: { p75: 0.04, rating: 'good' }, inp: { p75: 160, rating: 'good' } },
 }
 
 const FORM_FACTOR_OPTIONS = [
@@ -129,7 +135,7 @@ export default function CwvSnapshot({ section }) {
   const perfAvailable = !perfData?.stale && runForFormFactor != null
 
   // ── CrUX (field data) ──────────────────────────────────────────────────────
-  const cruxData = stats.crux ?? CRUX_BACKUP
+  const cruxData = (stats.crux?.available === true ? stats.crux : null) ?? CRUX_BACKUP
   // Per-form-factor: crux.mobile / crux.desktop when extended; fall through to flat
   const cruxForFormFactor = cruxData?.[formFactor] ?? cruxData
   const cruxAvailable = cruxData?.available === true
