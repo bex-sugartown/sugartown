@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-07 · v0.23.15 · SUG-102 shipped (DS token hygiene Phase C) · SUG-100 next
+> Updated 2026-05-07 · v0.23.15 · SUG-104 added (Listview updates — archives and taxonomies)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -42,7 +42,8 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
+| 1 | **[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Net-new layout patterns for archive and taxonomy pages: person split-column, brand-dot bullet list, brand-soft chip, letter-bucket grid, A–Z jump bar, view toggle, filter bar stripe, content row hover. DS primitives `.st-list--marked` + `.st-chip--brand-soft` promoted. No schema changes. Epic: `docs/backlog/SUG-104-listview-updates-archives-taxonomies.md`. | `UX` `Design System` `Frontend` | 🟣 Soon |
+| 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 
 ---
 
