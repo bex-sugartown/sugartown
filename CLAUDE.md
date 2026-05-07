@@ -446,14 +446,23 @@ Tokens with glassmorphism overrides in dark-pink-moon: `--st-color-bg-surface`, 
 
 ## Pre-Commit Checklist for CSS Token Changes
 
-Whenever `apps/web/src/design-system/styles/tokens.css` **or** `packages/design-system/src/styles/tokens.css` is edited, or whenever any component CSS file is created or modified:
+Both `tokens.css` files are **generated** — do not edit them directly. Edit `tokens/source/tokens.json` and run `pnpm tokens:build` to regenerate both files. The pre-commit hook blocks staged changes to these files if they already carry the "Do not edit directly" header.
 
-1. Run `pnpm validate:tokens` from `apps/web/` and confirm **zero errors** before committing.
-2. Run `pnpm validate:tokens --strict-colors` from `apps/web/` and confirm **zero hardcoded color violations** before committing.
-3. Update **both** token files in the same commit — they must stay in sync at all times.
+Whenever `tokens/source/tokens.json` is edited, or whenever any component CSS file is created or modified:
+
+1. Run `pnpm tokens:build` to regenerate both `tokens.css` files.
+2. Run `pnpm validate:tokens` from `apps/web/` and confirm **zero errors** before committing.
+3. Run `pnpm validate:tokens --strict-colors` from `apps/web/` and confirm **zero hardcoded color violations** before committing.
+4. Commit `tokens/source/tokens.json` + both generated `tokens.css` files together.
+
+**Token pipeline (SUG-86):**
+- Source of truth: `tokens/source/tokens.json`
+- Build command: `pnpm tokens:build` (runs `sd.config.mjs` via Style Dictionary v5)
+- Outputs: `apps/web/src/design-system/styles/tokens.css` + `packages/design-system/src/styles/tokens.css`
+- Theme overrides (`theme.pink-moon.css`) remain hand-authored — they are NOT generated files
 
 `validate:tokens` catches: undefined `var(--st-*)` references, renamed tokens with lingering references, cross-file drift.
-`validate:tokens --strict-colors` catches: raw hex, rgba, or hsla values in any component or theme CSS file outside `tokens.css`. This is the rule that SUG-68 enforced retroactively — run it proactively so the audit never needs to happen again.
+`validate:tokens --strict-colors` catches: raw hex, rgba, or hsla values in any component or theme CSS file outside `tokens.css`.
 
 ---
 
