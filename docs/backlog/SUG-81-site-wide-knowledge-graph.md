@@ -7,57 +7,91 @@
 
 ---
 
-## Goal
+## IA Decisions (locked in planning — 2026-05-07)
 
-Extend the Knowledge Graph from nodes-only to a full site-wide graph
-spanning all content types: `article`, `caseStudy`, `node`. Taxonomy hubs
-(projects, categories, tags) remain as hub nodes. Clicking any item node
-populates the 230px card rail with the correct compact ContentCard for that
-content type. Excerpt is suppressed in graph view.
+These decisions supersede earlier open questions in this doc.
 
-The site-wide graph lives at a new route (TBD — `/graph` or a dedicated
-archivePage doc) so the nodes-only `/knowledge-graph` archive is unaffected.
+### URL ownership
+
+| Route | Was | Now |
+|-------|-----|-----|
+| `/knowledge-graph` | Nodes-only archive | **Site-wide cross-type graph** (all content types, filterable) |
+| `/nodes/` | Did not exist (was `/knowledge-graph`) | **Agentic Caucus Nodes archive** |
+| `/nodes/:slug` | Already canonical | Unchanged |
+
+The `/knowledge-graph` redirect chain: the current nodes-only page must redirect to `/nodes/` before or at launch of the site-wide graph. One 301 in App.jsx.
+
+### Navigation structure (approved)
+
+```
+Work
+  Services          /services/
+  Case Studies      /case-studies/
+  Platform          /platform/
+
+Library
+  Knowledge Graph   /knowledge-graph/        ← site-wide graph, all types
+  Articles          /articles/
+  Agentic Caucus Nodes  /nodes/              ← renamed from "Knowledge Graph"
+  Case Studies      (cross-link from Work/)  ← cross-link only, no new route
+
+About
+  Overview          /about/
+  CV / Resume       /cv-resume/
+
+Utilities (footer only)
+  AI Ethics         /ai-ethics/
+  Privacy & Terms   /privacy-terms/
+  Sitemap           /sitemap/
+  Contact           /contact/
+```
+
+Nav display name for the node archive: **"Agentic Caucus Nodes"**. URL: `/nodes/`. The name signals the epistemological + curatorial character of the collection without being generic.
+
+### Filter capabilities on `/knowledge-graph`
+
+The site-wide graph has a type filter panel (or toggle strip) allowing the visitor to show/hide content types: All · Articles · Case Studies · Nodes. Default: All. Filter state is client-side only (no URL param required for v1, but nice-to-have for sharing).
+
+Each archive page (articles, case-studies, nodes) links to the knowledge graph pre-filtered to its type — "View in graph →" CTA. This gives every archive type its own graph view without creating separate routes.
 
 ---
 
-## Architecture decisions required at epic start
+## Goal
+
+Replace the nodes-only `/knowledge-graph` page with a true site-wide relationship graph spanning all content types (`article`, `caseStudy`, `node`). Taxonomy hubs (projects, categories, tags) remain as hub nodes. The graph is the primary navigation surface; a 230px card rail shows the selected item's ContentCard on node click. Excerpt suppressed in graph view.
+
+Simultaneously: rename the nodes archive to `/nodes/` with nav label "Agentic Caucus Nodes", preserving the existing KG canvas experience for nodes-only viewing via the type filter.
+
+---
+
+## Architecture decisions
 
 ### 1. Node ID scheme (breaking change to graph.js format)
 
-Currently item nodes use `id: "item:${slug}"`. Slugs can collide across
-content types (an article and a node could both have slug `ethics-review`).
+Currently item nodes use `id: "item:${slug}"`. Slugs can collide across types (an article and a node could both have slug `ethics-review`).
 
 Required change: `id: "item:${docType}:${slug}"` — e.g. `item:article:ethics-review`.
 
-Card rail lookup must also change: `slug` alone is not a unique key across
-types. Either:
-- Add `_id` (Sanity document ID) to item nodes and look up by `_id` against
-  a combined `allItems` list, OR
-- Keep docType+slug as the composite key and build a lookup map at render time.
+Card rail lookup must also change. Use `_id` (Sanity document ID) on item nodes for lookup — more robust than docType+slug composite key, no normalisation edge cases.
 
-Recommendation: add `_id` to item nodes in `graph.js` and look up by `_id`.
-More robust — no collision risk, no slug normalisation edge cases.
+### 2. Route
 
-### 2. Route / page
+`/knowledge-graph` becomes the site-wide graph page. No separate `/graph` route needed. The existing `KnowledgeGraphArchivePage.jsx` is either:
+- Repurposed in-place (extended to multi-type), or
+- Replaced by a new `SiteGraphPage.jsx` and the old component deleted
 
-Option A — New archivePage Sanity doc with `contentTypes: ["article", "caseStudy", "node"]`:
-  - Requires `ArchiveListing` to handle multi-type `allItems` (currently one
-    type per listing). Non-trivial change to the fetch layer.
-
-Option B — Dedicated static route (`/graph`) backed by a new page component:
-  - Simpler: the graph page fetches its own combined item list (no FilterBar,
-    no pagination — graph IS the navigation). Cleaner separation.
-
-Recommendation: Option B. A dedicated `/graph` page component that:
-  - Fetches all published articles, case studies, and nodes in one combined query
-  - Runs `collectGraph()` with the extended collector
-  - Renders `KnowledgeGraph` (full width) + card rail (230px)
-  - No FilterBar, no pagination
+Recommendation: new `SiteGraphPage.jsx` — cleaner separation, no risk of regressions on the current nodes-only component during the transition.
 
 ### 3. graph.js — multi-type collector
 
-Current collector queries only `*[_type == "node"]`. Extended version needs:
+Current `stats.graph` key is nodes-only. Two keys going forward:
 
+| Key | Content | Used by |
+|-----|---------|---------|
+| `stats.graph` | Nodes only (keep for transition safety) | `/nodes/` if it needs a graph view |
+| `stats.siteGraph` | article + caseStudy + node | `/knowledge-graph` (new SiteGraphPage) |
+
+Extended GROQ:
 ```groq
 *[_type in ["article", "caseStudy", "node"] && defined(slug.current)] {
   _id,
@@ -70,29 +104,23 @@ Current collector queries only `*[_type == "node"]`. Extended version needs:
 }
 ```
 
-Item node shape gains:
-- `_id` — for card lookup
-- `docType` — `_type` value (`article` | `caseStudy` | `node`)
+Item node shape gains `_id` (for card lookup) and `docType` (`_type` value).
 
-Hub nodes stay the same (project, category — tags become hubs only if they
-have 2+ shared-tag lateral connections, same as current).
+### 4. Filter state
 
-### 4. Card rail — multi-type ContentCard
+Client-side type filter. Options: All · Articles · Case Studies · Nodes. Implemented as a SegmentedControl or chip strip above the graph canvas. Filters which item nodes render (hub nodes always visible). Cross-type lateral edges (shared tags across types) shown only when both connected types are active.
 
-`ContentCard` already handles all three docTypes. The card rail just needs
-`docType` from the clicked node (now stored on the item node object).
+### 5. Archive → graph deep links
 
-`showExcerpt={false}` on the card rail in this view (per spec).
+Each archive page gets a "View in graph →" link that routes to `/knowledge-graph?type=article` (or caseStudy, node). The graph page reads the `type` query param on mount and initialises the filter accordingly. This is the mechanism for "each archive type has its own graph view" without separate routes.
 
-### 5. Hub node click behaviour
+### 6. Card rail — multi-type ContentCard
 
-Current: clicking a hub node clears the card rail (no ContentCard for hubs).
+`ContentCard` already handles all three docTypes. The card rail passes `docType` from the clicked item node (now stored on the node object). `showExcerpt={false}` in this view.
 
-Site-wide graph: same behaviour — hub nodes show only the type label and a
-"View [project/category] →" CTA link. No card in the rail.
+### 7. Hub node click behaviour
 
-Consider: clicking a project hub could filter the card grid (if grid view
-is also present on this page). Defer to SUG-80 or a follow-up.
+Hub nodes (project, category hubs) show a "View [project] →" CTA link to the taxonomy detail page. No ContentCard. Unchanged from current behaviour.
 
 ---
 
@@ -100,49 +128,47 @@ is also present on this page). Defer to SUG-80 or a follow-up.
 
 ### Phase 0 — Design review (required before code)
 
-- [ ] Decide route: `/graph` vs archivePage multi-type
-- [ ] Confirm node ID scheme (`_id`-based lookup)
-- [ ] Confirm whether a FilterBar or any text listing accompanies the graph
-      on this page, or if graph + card rail is the entire UI
-- [ ] Confirm whether lateral edges (shared-tag connections) span across
-      content types or remain within-type only
+- [ ] Mock: type filter strip placement and visual treatment (SegmentedControl vs chip row)
+- [ ] Mock: "View in graph →" CTA on archive pages (position, label)
+- [ ] Confirm lateral edge behaviour: do shared-tag connections cross content types, or within-type only?
+- [ ] Confirm `/nodes/` archive page design — same as current KG page (graph toggle + list), or list-only?
+- [ ] Decision: does `/nodes/` get its own graph (stats.graph nodes-only) or is it always list view?
 
-### Phase 1 — Extended graph collector
+### Phase 1 — URL migration
+
+- [ ] Add `/nodes/` to `routes.js` as the new node archive route
+- [ ] Rename `KnowledgeGraphArchivePage.jsx` → archive renders at `/nodes/`
+- [ ] Add redirect in App.jsx: `/knowledge-graph` → `/nodes/` (temporary, until Phase 2 is live)
+- [ ] Update `TYPE_NAMESPACES` in `routes.js`: `node: 'nodes'`
+- [ ] Update Sanity `archivePage` doc: change slug from `knowledge-graph` to `nodes`, update nav label to "Agentic Caucus Nodes"
+- [ ] Update nav in Sanity `siteSettings` to reflect new label + URL
+- [ ] `pnpm validate:urls` passes, `pnpm validate:tokens` passes
+
+### Phase 2 — Extended graph collector
 
 - [ ] Update `apps/web/scripts/stats/graph.js`:
-  - Multi-type GROQ query (article + caseStudy + node)
+  - Add `stats.siteGraph` key with multi-type GROQ query
   - Add `_id` and `docType` to item node objects
   - Update node ID format to `item:${docType}:${slug}`
-  - Lateral edge logic: shared-tag pairs across types (or within-type only — decide in Phase 0)
-- [ ] Regenerate `stats.json` and verify node/edge counts
-- [ ] No breaking change to `/knowledge-graph` — that page uses the same
-  `stats.graph` key. Verify it still renders correctly after collector update.
+  - Lateral edge logic: confirm cross-type behaviour from Phase 0
+- [ ] Regenerate `stats.json`, verify node/edge counts
+- [ ] `stats.graph` (nodes-only) still present and unchanged
 
-Wait — the nodes-only KG page (`/knowledge-graph`) currently reads from
-`stats.graph`. If we extend the collector to all types, the nodes-only page
-will show articles and case studies too. Two options:
-  - Keep separate collector keys: `stats.graph` (nodes-only) + `stats.siteGraph` (all types)
-  - Or replace nodes-only graph with the site-wide graph everywhere
+### Phase 3 — SiteGraphPage + filter
 
-Recommend: separate keys. `/knowledge-graph` keeps `stats.graph` (nodes-only).
-New `/graph` page uses `stats.siteGraph` (all types). Collector runs both.
-
-### Phase 2 — New route + page component
-
-- [ ] Add `/graph` to `routes.js` and `App.jsx`
 - [ ] Create `apps/web/src/pages/SiteGraphPage.jsx`:
   - Full-width two-column layout: graph pane + 230px card rail
-  - No FilterBar, no toggle (graph-only view, no grid fallback needed)
+  - Type filter: SegmentedControl (All · Articles · Case Studies · Nodes)
+  - Reads `?type=` query param on mount for archive deep-link support
   - Combined `allItems` fetch (article + caseStudy + node) for card lookup
   - `showExcerpt={false}` on card rail
   - Node click → look up by `_id` → render ContentCard with correct docType
-- [ ] Add page to nav (Library dropdown? or standalone?)
-- [ ] Register in `archivePage` Sanity doc if nav-driven, or hardcode route
+- [ ] Register route `/knowledge-graph` → `SiteGraphPage` in App.jsx (replacing the redirect from Phase 1)
+- [ ] Archive deep-link CTAs: "View in graph →" on ArticlesArchivePage, CaseStudiesArchivePage, KnowledgeGraphArchivePage (now at /nodes/)
 
-### Phase 3 — Hub node CTA + a11y
+### Phase 4 — Hub node CTA + a11y
 
-- [ ] Hub nodes in the site-wide graph link to their taxonomy detail page
-  (`/projects/:slug`, `/categories/:slug`)
+- [ ] Hub nodes link to taxonomy detail pages (`/projects/:slug`, `/categories/:slug`)
 - [ ] Keyboard navigation: focus management for card rail population
 - [ ] `aria-live` region on card rail for screen reader announcements
 
@@ -150,17 +176,23 @@ New `/graph` page uses `stats.siteGraph` (all types). Collector runs both.
 
 ## Definition of Done
 
-- [ ] `stats.siteGraph` collector runs cleanly alongside `stats.graph`
-- [ ] `/graph` route renders all three content types as item nodes
-- [ ] Clicking an article node populates an Article ContentCard in the rail
-- [ ] Clicking a caseStudy node populates a Case Study ContentCard in the rail
-- [ ] Clicking a node (knowledge node) populates a Node ContentCard in the rail
-- [ ] Clicking a hub node clears the card rail (or shows hub CTA — decide Phase 0)
-- [ ] Excerpt suppressed in card rail (`showExcerpt={false}`)
-- [ ] `/knowledge-graph` nodes-only graph unaffected
-- [ ] Token validator passes (no new hardcoded values)
-- [ ] Storybook story for SiteGraphPage (or updated KnowledgeGraph story)
-- [ ] Nav link added
+- [ ] `/nodes/` renders the Agentic Caucus Nodes archive (existing KG page, rebased)
+- [ ] `/knowledge-graph` renders the site-wide graph with type filter
+- [ ] Old `/knowledge-graph` route (nodes-only) redirects correctly — no broken links
+- [ ] `stats.siteGraph` collector includes article, caseStudy, node item nodes
+- [ ] Type filter (All · Articles · Case Studies · Nodes) works client-side
+- [ ] `?type=` query param initialises filter on load
+- [ ] "View in graph →" deep-link CTA on all three archive pages
+- [ ] Clicking an article node shows Article ContentCard in rail
+- [ ] Clicking a caseStudy node shows Case Study ContentCard in rail
+- [ ] Clicking a node (knowledge node) shows Node ContentCard in rail
+- [ ] Clicking a hub node shows CTA link, not a ContentCard
+- [ ] Excerpt suppressed in card rail
+- [ ] Nav label "Agentic Caucus Nodes" at `/nodes/`
+- [ ] Nav label "Knowledge Graph" at `/knowledge-graph/`
+- [ ] `pnpm validate:urls` passes
+- [ ] `pnpm validate:tokens` passes
+- [ ] Storybook story for SiteGraphPage
 - [ ] Linear SUG-81 → Done
 - [ ] Epic doc moved to `docs/shipped/`
 
@@ -168,11 +200,6 @@ New `/graph` page uses `stats.siteGraph` (all types). Collector runs both.
 
 ## Open questions
 
-1. Does the site-wide graph need a FilterBar / text listing fallback, or is
-   graph + card rail the complete UI?
-2. Do lateral edges (shared-tag connections) cross content types?
-   (An article and a node sharing the tag `ethics` would be connected.)
-3. Should `/knowledge-graph` be replaced by the site-wide graph, or stay
-   nodes-only permanently?
-4. Nav placement: Library dropdown alongside Articles + Knowledge Graph, or
-   a top-level "Map" link?
+1. Does `/nodes/` keep a graph toggle (nodes-only graph from `stats.graph`), or is it list-only after the migration?
+2. Do lateral edges (shared tags) cross content types? (An article and a node sharing `ethics` tag would be connected.) Visually useful but adds complexity.
+3. IA brief needs updating to reflect new URL structure — do in same commit as Phase 1 route changes.
