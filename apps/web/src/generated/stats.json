@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-06T13:31:57.031Z",
+  "generatedAt": "2026-05-07T08:30:03.736Z",
   "release": {
     "current": {
       "version": "0.23.11",
@@ -40,7 +40,7 @@
       {
         "version": "0.20.0",
         "date": "2026-04-01",
-        "descriptor": "Responsive mobile nav, image treatments & gallery, detail hero refinement, table authoring UX, sitemap, mermaid diagrams, and WordPress media import. Aggregates 0.19.1\u20130.19.8.",
+        "descriptor": "Responsive mobile nav, image treatments & gallery, detail hero refinement, table authoring UX, sitemap, mermaid diagrams, and WordPress media import. Aggregates 0.19.1–0.19.8.",
         "kind": "MINOR",
         "linearIssue": "SUG-37"
       }
@@ -72,7 +72,7 @@
     "components": 5
   },
   "repo": {
-    "commits": 962,
+    "commits": 1,
     "epicsShipped": 87
   },
   "perf": {
@@ -111,55 +111,17 @@
           "rating": "good"
         }
       }
-    }
+    },
+    "stale": true
   },
   "crux": {
-    "fetchedAt": "2026-05-06T06:00:00.000Z",
+    "fetchedAt": "2026-05-07T08:29:48.705Z",
     "origin": "https://sugartown.io",
-    "available": true,
-    "lcp": {
-      "p75": 2800,
-      "rating": "needs-improvement"
-    },
-    "cls": {
-      "p75": 0.05,
-      "rating": "good"
-    },
-    "inp": {
-      "p75": 190,
-      "rating": "good"
-    },
-    "mobile": {
-      "lcp": {
-        "p75": 3400,
-        "rating": "needs-improvement"
-      },
-      "cls": {
-        "p75": 0.31,
-        "rating": "poor"
-      },
-      "inp": {
-        "p75": 380,
-        "rating": "needs-improvement"
-      }
-    },
-    "desktop": {
-      "lcp": {
-        "p75": 1900,
-        "rating": "good"
-      },
-      "cls": {
-        "p75": 0.02,
-        "rating": "good"
-      },
-      "inp": {
-        "p75": 140,
-        "rating": "good"
-      }
-    }
+    "available": false,
+    "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-05-06T13:31:55.440Z",
+    "fetchedAt": "2026-05-07T08:30:02.854Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -170,14 +132,14 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-06T13:31:56.241Z",
+    "fetchedAt": "2026-05-07T08:30:03.615Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 0,
     "watchers": 0,
     "forks": 0,
     "openIssues": 11,
     "contributors": 2,
-    "lastCommit": "2026-05-05T15:53:40Z"
+    "lastCommit": "2026-05-06T15:46:59Z"
   },
   "sanity": {
     "fetchedAt": "2026-05-06T13:31:56.799Z",
@@ -191,7 +153,8 @@
       "project": 5,
       "person": 1,
       "tool": 54
-    }
+    },
+    "stale": true
   },
   "graph": {
     "generatedAt": "2026-05-06T13:31:57.031Z",
@@ -350,7 +313,7 @@
       {
         "id": "item:architecture-decision-the-overwrite-risk-in-sugartown-cms",
         "type": "item",
-        "label": "Architecture Decision: The \u201cOverwrite\u201d Risk in Sugartown CMS",
+        "label": "Architecture Decision: The “Overwrite” Risk in Sugartown CMS",
         "href": "/nodes/architecture-decision-the-overwrite-risk-in-sugartown-cms",
         "size": "small",
         "tags": [
@@ -521,7 +484,7 @@
       {
         "id": "item:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
         "type": "item",
-        "label": "Confession: I Don\u2019t Hate Blogs, I Just Hate Unstructured Data",
+        "label": "Confession: I Don’t Hate Blogs, I Just Hate Unstructured Data",
         "href": "/nodes/confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
         "size": "small",
         "tags": [
@@ -550,7 +513,7 @@
       {
         "id": "item:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
         "type": "item",
-        "label": "Confession: I Don\u2019t Lack Memory, I Just Forgot to Mention Projects",
+        "label": "Confession: I Don’t Lack Memory, I Just Forgot to Mention Projects",
         "href": "/nodes/confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
         "size": "small",
         "tags": [
@@ -579,7 +542,7 @@
       {
         "id": "item:design-ops-the-pre-design-system-surviving-the-css-chaos",
         "type": "item",
-        "label": "Design Ops: The \u201cPre-Design System\u201d (Surviving the CSS Chaos)",
+        "label": "Design Ops: The “Pre-Design System” (Surviving the CSS Chaos)",
         "href": "/nodes/design-ops-the-pre-design-system-surviving-the-css-chaos",
         "size": "small",
         "tags": [
@@ -604,7 +567,7 @@
       {
         "id": "item:devops-building-the-undo-button-for-my-career",
         "type": "item",
-        "label": "DevOps: Building the \u201cUndo\u201d Button for My Career",
+        "label": "DevOps: Building the “Undo” Button for My Career",
         "href": "/nodes/devops-building-the-undo-button-for-my-career",
         "size": "small",
         "tags": [
@@ -646,7 +609,7 @@
       {
         "id": "item:feature-the-resume-factory-the-sugartown-pink-design-system",
         "type": "item",
-        "label": "Feature: The Resume Factory & The \u201cSugartown Pink\u201d Design System",
+        "label": "Feature: The Resume Factory & The “Sugartown Pink” Design System",
         "href": "/nodes/feature-the-resume-factory-the-sugartown-pink-design-system",
         "size": "small",
         "tags": [
@@ -908,7 +871,7 @@
       {
         "id": "item:project-knowledge-graph-topology-over-chronology",
         "type": "item",
-        "label": "Project: Knowledge Graph \u2014 Topology Over Chronology",
+        "label": "Project: Knowledge Graph — Topology Over Chronology",
         "href": "/nodes/project-knowledge-graph-topology-over-chronology",
         "size": "small",
         "tags": [
@@ -1463,7 +1426,7 @@
       {
         "id": "item:i-cant-do-that-yes-i-can",
         "type": "item",
-        "label": "\u201cI Can\u2019t Do That\u201d (Yes I Can): Post-Mortem of Epic v7c",
+        "label": "“I Can’t Do That” (Yes I Can): Post-Mortem of Epic v7c",
         "href": "/nodes/i-cant-do-that-yes-i-can",
         "size": "small",
         "tags": [
@@ -2328,6 +2291,7 @@
         "kind": "sharedTag",
         "weight": 2
       }
-    ]
+    ],
+    "stale": true
   }
 }
