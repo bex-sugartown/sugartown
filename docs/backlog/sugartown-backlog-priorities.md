@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-07 · v0.23.13 · SUG-98 shipped · SUG-103 opened (component registry → platform docs)
+> Updated 2026-05-07 · v0.23.14 · SUG-86 shipped (Style Dictionary pipeline) · SUG-102 now unblocked
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-98 shipped ✅ v0.23.13. Full DS queue: SUG-100 (CWV, In Review — awaiting CI perf data) → SUG-86 (Style Dictionary) → SUG-102 (Phase C token hygiene, gated on SUG-86).
+> **⚑ Current focus:** SUG-86 shipped ✅ v0.23.14. Token pipeline in place. Full DS queue: SUG-100 (CWV, In Review — awaiting CI perf data) → SUG-102 (Phase C token hygiene, now unblocked).
 
 ---
 
@@ -27,13 +27,13 @@
 
 ## 02 · Soon — post-sprint, Design System infrastructure
 
-> **Execution order:** SUG-100 (In Review) → SUG-86 → SUG-102. SUG-98 ✅ shipped v0.23.13. SUG-102 gated on SUG-86 — token removals must go through the Style Dictionary pipeline.
+> **Execution order:** SUG-100 (In Review) → SUG-102. SUG-86 ✅ shipped v0.23.14. SUG-102 now unblocked — token removals execute via Style Dictionary pipeline.
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-100](https://linear.app/sugartown/issue/SUG-100) · CWV Snapshot product widget** — `trustReportSection` refactor: `reportType` radio → `reports[]` multi-select dashboard. New `ScoreRing` SVG arc component + `SegmentedControl`. Seafoam/amber/maroon CWV arc tokens. Phase 0 approved 2026-05-05. Epic: `docs/backlog/SUG-100-cwv-snapshot-product-widget.md`. | `Design System` `Schema` `Frontend` | 🟢 Next |
 | 2 | **[SUG-98](https://linear.app/sugartown/issue/SUG-98) · Component gap analysis — renderer stories + thruline audit + Phase B component parity** ✅ Shipped v0.23.13. 5 renderer stories, 13-adapter thruline, registry close-out, ContentNav relocated, FilterBar documented as web-only, inline code light-mode fixed, Storybook nav renamed Foundations/Components/Patterns/Layout. Chromatic Build 29 passed. Epic: `docs/shipped/SUG-98-component-gap-analysis.md`. | `Design System` `Tooling` | ✅ Shipped |
-| 3 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** — Replace hand-authored dual `tokens.css` with a build pipeline. Single JSON source generates both files. _Execute after SUG-100_ — absorbs CWV tokens as clean baseline. Epic: `docs/backlog/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ⚪ Later |
+| 3 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** ✅ Shipped v0.23.14. 578 tokens migrated to `tokens/source/tokens.json`. `pnpm tokens:build` generates both `tokens.css` files via Style Dictionary v5. Pre-commit guard blocks direct edits. Chromatic Build 30 passed (zero visual changes). Epic: `docs/shipped/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ✅ Shipped |
 | 4 | **[SUG-102](https://linear.app/sugartown/issue/SUG-102) · DS token hygiene — Phase C: off-scale color promotion + legacy alias audit** — Promote anonymous hex values to named Tier-1 primitives or document as locked Tier-3 leaves. Audit legacy aliases for removal eligibility. Human-gated proposal before any change. _Gated on SUG-86_ — removals execute via Style Dictionary pipeline, not manual dual-file edit. Epic: `docs/backlog/SUG-102-ds-token-hygiene-phase-c.md`. | `Design System` `Infrastructure` | ⚪ Later |
 
 ---
@@ -84,6 +84,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-86 · Style Dictionary token pipeline** — 578 tokens migrated from hand-authored dual `tokens.css` to `tokens/source/tokens.json`. Style Dictionary v5 generates both `packages/design-system/src/styles/tokens.css` and `apps/web/src/design-system/styles/tokens.css` via `pnpm tokens:build`. Flat JSON structure, `outputReferences: true`, pre-commit guard. Deprecated `[data-theme="dark"]` block removed. Semantic diff: 0 missing, 0 extra, 0 value differences. Chromatic Build 30: zero visual changes.~~ | v0.23.14 | 2026-05-07 |
 | ~~**SUG-98 · Component gap analysis — renderer stories + thruline audit + Phase B component parity** — 5 renderer stories (TextSection, MermaidSection, ImageGallery, CitedBlock, StatTileSection), 13-adapter thruline verified, ContentNav relocated to Patterns, FilterBar documented web-only, CardGrid deleted, CwvSnapshot decomposed, inline code light-mode fix, Storybook nav Foundations/Components/Patterns/Layout. Chromatic Build 29 passed (242 stories).~~ | v0.23.13 | 2026-05-07 |
 | ~~**SUG-101 · DS package mirror sync — Phase A style reconciliation** — 5 files synced in `packages/design-system/src/styles/`: tokens.css (radius reorder, 3 missing dark tokens, legacy alias reorder, embedded light block removed), theme.light.css (full replace, +status chips, +inline-code, +margin-column overrides), theme.pink-moon.css (Tier 2 additive), globals.css (full replace, html/main/code rules), utilities.css (new). `--st-status-draft-fg` red→amber approved. `preview.ts` imports utilities.css. pnpm validate:tokens ✅~~ | v0.23.12 | 2026-05-06 |
 | ~~**SUG-99 · Backroads component harmony** — Callout row format (number prop, colorways, token cleanup), Accordion numbered variant + ink/hairline/pink-chevron base design, SectionContainer shared-border Tile wrapper, SectionLabel folio-only simplification, section schema alignment (number/name/title/kicker on all section types), challenge callout migrated from plain text to calloutSection on all 7 case studies. challengeSummary field deprecated.~~ | v0.23.11 | 2026-05-04 |
@@ -169,4 +170,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-07 · v0.23.13 · queue: SUG-100 (In Review) → SUG-86 → SUG-102*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-07 · v0.23.14 · queue: SUG-100 (In Review) → SUG-102*
