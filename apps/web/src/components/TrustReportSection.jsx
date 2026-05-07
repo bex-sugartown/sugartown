@@ -76,9 +76,11 @@ function DesignSystemStatsReport() {
       ]
     : []
 
-  const componentFiles  = ds?.componentFiles ?? 0
-  const storybookComps  = storybook?.components ?? 0
-  const coveragePct     = componentFiles > 0 ? Math.round((storybookComps / componentFiles) * 100) : 0
+  const dsComponents          = ds?.dsComponents ?? 0
+  const webAdapters           = ds?.webAdapters ?? 0
+  const dsWithStories         = ds?.dsComponentsWithStories ?? 0
+  const coveragePct           = dsComponents > 0 ? Math.round((dsWithStories / dsComponents) * 100) : 0
+  const tokenCompliance = ds?.tokenCompliance ?? null
 
   return (
     <div className={styles.reportWrap}>
@@ -91,19 +93,20 @@ function DesignSystemStatsReport() {
         />
         <Tile
           label="Components"
-          value={componentFiles || '—'}
-          sub={storybookComps > 0 ? `${storybookComps} with story coverage` : undefined}
-        />
-        <Tile
-          label="Stories"
-          value={storybook?.stories ?? '—'}
-          sub={storybookComps > 0 ? `${storybookComps} components covered` : undefined}
+          value={dsComponents || '—'}
+          sub={webAdapters > 0 ? `+ ${webAdapters} web adapters` : undefined}
         />
         <Tile
           label="Story coverage"
           value={coveragePct || '—'}
           unit="%"
-          sub={`${storybookComps} of ${componentFiles} components`}
+          sub={dsComponents > 0 ? `${dsWithStories} of ${dsComponents} DS components` : undefined}
+        />
+        <Tile
+          label="Token compliance"
+          value={tokenCompliance != null ? tokenCompliance : '—'}
+          unit="%"
+          sub="CSS var refs using --st-* tokens"
         />
       </div>
       <div className={styles.reportFooter}>
