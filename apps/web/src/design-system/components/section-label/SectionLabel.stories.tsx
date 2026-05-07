@@ -12,7 +12,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import SectionLabel from './SectionLabel';
 
 const meta: Meta<typeof SectionLabel> = {
-  title: 'Primitives/SectionLabel',
+  title: 'Components/SectionLabel',
   component: SectionLabel,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },

@@ -22,7 +22,7 @@ function ContributingPage() {
       <h2 style={s.h2}>Adding a New Story</h2>
       <p>Create the story file alongside the component. Use the appropriate title prefix:</p>
       <pre style={s.pre}>{`// DS primitive
-title: 'Primitives/MyComponent'
+title: 'Components/MyComponent'
 
 // Web pattern component
 title: 'Patterns/MyComponent'

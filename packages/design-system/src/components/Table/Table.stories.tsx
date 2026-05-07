@@ -15,7 +15,7 @@ import { Table, TableWrap } from './Table';
  * @see {@link https://sugartown.dev/design-system | Sugartown Design System}
  */
 const meta: Meta<typeof Table> = {
-  title: 'Primitives/Table',
+  title: 'Components/Table',
   component: Table,
   tags: ['autodocs'],
   parameters: {

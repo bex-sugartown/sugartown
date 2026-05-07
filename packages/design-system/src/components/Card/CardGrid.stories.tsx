@@ -10,7 +10,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Card } from './Card';
 
 const meta: Meta<typeof Card> = {
-  title: 'Primitives/CardGrid',
+  title: 'Components/CardGrid',
   component: Card,
   parameters: {
     layout: 'padded',

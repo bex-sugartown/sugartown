@@ -16,7 +16,7 @@ import { Media } from './Media';
  * Canonical CSS: `artifacts/style 260118.css` §st-media--duotone
  */
 const meta: Meta<typeof Media> = {
-  title: 'Primitives/Media',
+  title: 'Components/Media',
   component: Media,
   tags: ['autodocs'],
   parameters: {

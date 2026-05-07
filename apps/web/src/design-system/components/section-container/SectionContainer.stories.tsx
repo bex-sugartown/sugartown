@@ -17,7 +17,7 @@ import Tile from '../tile/Tile';
 import SectionLabel from '../section-label/SectionLabel';
 
 const meta: Meta<typeof SectionContainer> = {
-  title: 'Primitives/SectionContainer',
+  title: 'Components/SectionContainer',
   component: SectionContainer,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },

@@ -11,7 +11,7 @@ import DataTable, { KindBadge } from './DataTable';
  * KindBadge sub-component is exported for use in column `render` functions.
  */
 const meta: Meta<typeof DataTable> = {
-  title: 'Primitives/Table/DataTable',
+  title: 'Components/Table/DataTable',
   component: DataTable,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },

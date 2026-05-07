@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { CitationMarker, CitationNote, CitationZone } from './Citation';
 
 const meta: Meta = {
-  title: 'Primitives/Citation',
+  title: 'Components/Citation',
   parameters: {
     chromatic: { disableSnapshot: false },
     docs: {

@@ -13,7 +13,7 @@ import { CodeBlock, InlineCode } from './CodeBlock';
  * Canonical CSS: `artifacts/style 260118.css` §02
  */
 const meta: Meta<typeof CodeBlock> = {
-  title: 'Primitives/CodeBlock',
+  title: 'Components/CodeBlock',
   component: CodeBlock,
   tags: ['autodocs'],
   parameters: {

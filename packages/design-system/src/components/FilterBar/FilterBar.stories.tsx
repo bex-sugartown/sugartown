@@ -41,7 +41,7 @@ const MOCK_FILTER_MODEL: FilterModel = {
 // ─── Meta ─────────────────────────────────────────────────────────────────────
 
 const meta: Meta<typeof FilterBar> = {
-  title: 'Primitives/FilterBar',
+  title: 'Components/FilterBar',
   component: FilterBar,
   tags: ['autodocs'],
   argTypes: {

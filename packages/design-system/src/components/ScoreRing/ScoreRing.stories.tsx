@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { ScoreRing } from './ScoreRing';
 
 const meta: Meta<typeof ScoreRing> = {
-  title: 'Primitives/ScoreRing',
+  title: 'Components/ScoreRing',
   component: ScoreRing,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },

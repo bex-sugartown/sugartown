@@ -18,7 +18,7 @@ import Tile from './Tile';
 import SectionContainer from '../section-container/SectionContainer';
 
 const meta: Meta<typeof Tile> = {
-  title: 'Primitives/Tile',
+  title: 'Components/Tile',
   component: Tile,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },

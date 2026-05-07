@@ -17,7 +17,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Grid from './Grid';
 
 const meta: Meta<typeof Grid> = {
-  title: 'Primitives/Grid',
+  title: 'Components/Grid',
   component: Grid,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
