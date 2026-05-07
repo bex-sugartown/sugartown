@@ -20,6 +20,25 @@ import ScoreRing from '../design-system/components/score-ring/ScoreRing'
 import SegmentedControl from '../design-system/components/segmented-control/SegmentedControl'
 import styles from './CwvSnapshot.module.css'
 
+// Static backup data — used when live pipeline data isn't available.
+// Replace with last-known-good values after first successful CI run.
+const PERF_BACKUP = {
+  stale: false,
+  runs: {
+    'https://sugartown.io/': {
+      performance: null, accessibility: null, bestPractices: null, seo: null,
+      lcp: null, cls: null, inp: null, rating: null,
+      mobile:  { performance: null, accessibility: null, bestPractices: null, seo: null, lcp: null, cls: null, inp: null, rating: null },
+      desktop: { performance: null, accessibility: null, bestPractices: null, seo: null, lcp: null, cls: null, inp: null, rating: null },
+    },
+  },
+}
+
+const CRUX_BACKUP = {
+  available: false,
+  reason: 'backup',
+}
+
 const FORM_FACTOR_OPTIONS = [
   { label: 'Mobile', value: 'mobile' },
   { label: 'Desktop', value: 'desktop' },
@@ -95,7 +114,7 @@ export default function CwvSnapshot({ section }) {
   const [formFactor, setFormFactor] = useState(defaultFormFactor)
 
   // ── Perf (lab data) ────────────────────────────────────────────────────────
-  const perfData = stats.perf
+  const perfData = (stats.perf?.stale === false ? stats.perf : null) ?? PERF_BACKUP
   const perfRuns = perfData?.runs ?? {}
   // Resolve URL key: prefer section.cwvUrl, fall back to the first available run
   const origin = 'https://sugartown.io'
@@ -110,7 +129,7 @@ export default function CwvSnapshot({ section }) {
   const perfAvailable = !perfData?.stale && runForFormFactor != null
 
   // ── CrUX (field data) ──────────────────────────────────────────────────────
-  const cruxData = stats.crux
+  const cruxData = stats.crux ?? CRUX_BACKUP
   // Per-form-factor: crux.mobile / crux.desktop when extended; fall through to flat
   const cruxForFormFactor = cruxData?.[formFactor] ?? cruxData
   const cruxAvailable = cruxData?.available === true

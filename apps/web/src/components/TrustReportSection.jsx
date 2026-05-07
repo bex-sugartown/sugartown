@@ -68,23 +68,13 @@ function RecentReleasesReport() {
 function DesignSystemStatsReport() {
   const { ds, storybook } = stats
 
-  const tokenSegments = ds?.tokens?.byCategory
+  const tokenSegments = ds?.tokens?.primitives != null
     ? [
-        { label: 'Color',  value: ds.tokens.byCategory.color,  color: 'var(--st-color-accent)' },
-        { label: 'Font',   value: ds.tokens.byCategory.font,   color: 'var(--st-color-seafoam)' },
-        { label: 'Space',  value: ds.tokens.byCategory.space,  color: 'var(--st-color-lime)' },
-        { label: 'Shadow', value: ds.tokens.byCategory.shadow, color: 'var(--st-color-violet)' },
-        { label: 'Other',  value: ds.tokens.byCategory.other,  color: 'var(--st-color-border-medium)' },
+        { label: 'Primitive', value: ds.tokens.primitives, color: 'var(--st-color-accent)' },
+        { label: 'Semantic',  value: ds.tokens.semantic ?? 0, color: 'var(--st-color-seafoam)' },
+        { label: 'Component', value: ds.tokens.component,  color: 'var(--st-color-violet)' },
       ]
     : []
-
-  const tierRows = ds?.tokens?.primitives != null
-    ? [
-        { label: 'Primitive', value: ds.tokens.primitives },
-        { label: 'Semantic',  value: ds.tokens.semantic  ?? 0 },
-        { label: 'Component', value: ds.tokens.component },
-      ]
-    : undefined
 
   const componentFiles  = ds?.componentFiles ?? 0
   const storybookComps  = storybook?.components ?? 0
@@ -98,7 +88,6 @@ function DesignSystemStatsReport() {
           value={ds?.tokens?.total ?? '—'}
           bar={tokenSegments.length ? { segments: tokenSegments, total: ds.tokens.total } : undefined}
           legend
-          extraLegend={tierRows}
         />
         <Tile
           label="Components"
@@ -132,7 +121,7 @@ function DesignSystemStatsReport() {
 const REPORT_LABELS = {
   'recent-releases':    'Recent releases',
   'design-system-stats': 'Design system',
-  'cwv-snapshot':       'Performance',
+  'cwv-snapshot':       'CWV Performance',
 }
 
 function ReportBlock({ reportKey, section }) {
