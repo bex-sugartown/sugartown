@@ -70,6 +70,7 @@ export async function run(outputPath = OUTPUT_PATH) {
     github:   () => tryNetworkCollector('github',   () => import('./stats/github.js').then(m => m.collectGithub)),
     sanity:   () => tryNetworkCollector('sanity',   () => import('./stats/sanity.js').then(m => m.collectSanity)),
     graph:    () => tryNetworkCollector('graph',    () => import('./stats/graph.js').then(m => m.collectGraph)),
+    siteGraph: () => tryNetworkCollector('siteGraph', () => import('./stats/graph.js').then(m => m.collectSiteGraph)),
   }
 
   const networkResults = {}

@@ -1,24 +1,24 @@
 /**
- * graph.js — graph namespace collector (SUG-73)
+ * graph.js — graph namespace collectors (SUG-73 + SUG-81)
  *
- * Builds the force-graph data artifact from Sanity at build time.
- * Rides the SUG-67 stats pipeline; registered as a network collector in collect-stats.js.
+ * collectGraph()     — nodes-only (DEPRECATED, kept for transition safety)
+ * collectSiteGraph() — site-wide: article + caseStudy + node (SUG-81 Phase 2)
  *
- * Output shape (stats.graph):
+ * Output shape (stats.siteGraph):
  * {
  *   generatedAt: "ISO string",
  *   nodes: [
- *     { id, type: "project"|"category"|"item", label, href, size: "large"|"medium"|"small" },
- *     { id, type: "item", label, href, size: "small", tags: ["slug", ...] }
+ *     { id, type: "project"|"category"|"item", docType, label, href, size }
+ *     // docType set on item nodes: "article" | "caseStudy" | "node"
  *   ],
  *   edges: [
  *     { source, target, kind: "membership" },
- *     { source, target, kind: "sharedTag", weight: N }  // Option B lateral edges
+ *     { source, target, kind: "sharedTag", weight: N }
  *   ]
  * }
  *
- * Edge semantics: Option B — membership edges + dashed lateral edges between
- * knowledge nodes that share 2+ tags (threshold: LATERAL_THRESHOLD).
+ * Node ID scheme: "item:${docType}:${slug}" — unique across types.
+ * Lateral edges: cross-type confirmed — items sharing 2+ tags are connected.
  */
 
 import { createClient } from '@sanity/client'
@@ -46,66 +46,132 @@ function loadEnv() {
   } catch {}
 }
 
-export async function collectGraph() {
+function makeClient() {
   loadEnv()
-
   const projectId  = process.env.VITE_SANITY_PROJECT_ID
   const dataset    = process.env.VITE_SANITY_DATASET ?? 'production'
   const apiVersion = process.env.VITE_SANITY_API_VERSION ?? '2025-02-02'
   const token      = process.env.VITE_SANITY_TOKEN
-
   if (!projectId) throw new Error('VITE_SANITY_PROJECT_ID not set')
+  return createClient({ projectId, dataset, apiVersion, useCdn: false, token, perspective: 'published' })
+}
 
-  const client = createClient({ projectId, dataset, apiVersion, useCdn: false, token, perspective: 'published' })
+// ── Shared edge builder ────────────────────────────────────────────────────────
 
-  // Fetch all published nodes with their taxonomy refs
+function buildEdges(rawItems, getItemId) {
+  const edges = []
+
+  for (const item of rawItems) {
+    const itemId = getItemId(item)
+    for (const p of (item.projects ?? [])) {
+      if (p?.slug) edges.push({ source: itemId, target: `project:${p.slug}`, kind: 'membership' })
+    }
+    for (const c of (item.categories ?? [])) {
+      if (c?.slug) edges.push({ source: itemId, target: `category:${c.slug}`, kind: 'membership' })
+    }
+  }
+
+  // Lateral edges: pairs sharing LATERAL_THRESHOLD+ tags (cross-type allowed)
+  const withTags = rawItems.filter(n => (n.tags ?? []).length > 0)
+  for (let i = 0; i < withTags.length; i++) {
+    const slugsA = new Set((withTags[i].tags ?? []).map(t => t.slug).filter(Boolean))
+    for (let j = i + 1; j < withTags.length; j++) {
+      const slugsB = (withTags[j].tags ?? []).map(t => t.slug).filter(Boolean)
+      const shared = slugsB.filter(s => slugsA.has(s))
+      if (shared.length >= LATERAL_THRESHOLD) {
+        edges.push({
+          source: getItemId(withTags[i]),
+          target: getItemId(withTags[j]),
+          kind:   'sharedTag',
+          weight: shared.length,
+        })
+      }
+    }
+  }
+
+  return edges
+}
+
+// ── collectSiteGraph — site-wide, all content types (SUG-81) ─────────────────
+
+export async function collectSiteGraph() {
+  const client = makeClient()
+
+  const rawItems = await client.fetch(`
+    *[_type in ["article", "caseStudy", "node"] && defined(slug.current)] | order(title asc) {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      "projects":   projects[]->{_id, name, "slug": slug.current},
+      "categories": categories[]->{_id, name, "slug": slug.current},
+      "tags":       tags[]->{_id, "slug": slug.current, name}
+    }
+  `)
+
+  const hrefPrefix = { article: '/articles', caseStudy: '/case-studies', node: '/nodes' }
+
+  const projectMap  = new Map()
+  const categoryMap = new Map()
+  for (const item of rawItems) {
+    for (const p of (item.projects ?? [])) { if (p?.slug) projectMap.set(p.slug, p) }
+    for (const c of (item.categories ?? [])) { if (c?.slug) categoryMap.set(c.slug, c) }
+  }
+
+  const nodes = []
+  for (const p of projectMap.values()) {
+    nodes.push({ id: `project:${p.slug}`, type: 'project', label: p.name, href: `/projects/${p.slug}`, size: 'large' })
+  }
+  for (const c of categoryMap.values()) {
+    nodes.push({ id: `category:${c.slug}`, type: 'category', label: c.name, href: `/categories/${c.slug}`, size: 'medium' })
+  }
+  for (const item of rawItems) {
+    nodes.push({
+      id:      `item:${item._type}:${item.slug}`,
+      type:    'item',
+      docType: item._type,
+      label:   item.title,
+      href:    `${hrefPrefix[item._type]}/${item.slug}`,
+      size:    'small',
+      tags:    (item.tags ?? []).map(t => ({ slug: t.slug, label: t.name })).filter(t => t.slug),
+    })
+  }
+
+  const edges = buildEdges(rawItems, item => `item:${item._type}:${item.slug}`)
+
+  return { generatedAt: new Date().toISOString(), nodes, edges }
+}
+
+// ── collectGraph — nodes-only (DEPRECATED — kept for transition) ──────────────
+
+export async function collectGraph() {
+  const client = makeClient()
+
   const rawNodes = await client.fetch(`
     *[_type == "node" && defined(slug.current)] | order(title asc) {
       _id,
       title,
       "slug": slug.current,
-      "projects": projects[]->{_id, name, "slug": slug.current},
+      "projects":   projects[]->{_id, name, "slug": slug.current},
       "categories": categories[]->{_id, name, "slug": slug.current},
-      "tags": tags[]->{_id, "slug": slug.current, name}
+      "tags":       tags[]->{_id, "slug": slug.current, name}
     }
   `)
 
-  // Collect unique hub nodes (projects + categories) from node refs
   const projectMap  = new Map()
   const categoryMap = new Map()
-
   for (const n of rawNodes) {
-    for (const p of (n.projects ?? [])) {
-      if (p?.slug) projectMap.set(p.slug, p)
-    }
-    for (const c of (n.categories ?? [])) {
-      if (c?.slug) categoryMap.set(c.slug, c)
-    }
+    for (const p of (n.projects ?? [])) { if (p?.slug) projectMap.set(p.slug, p) }
+    for (const c of (n.categories ?? [])) { if (c?.slug) categoryMap.set(c.slug, c) }
   }
 
-  // Build nodes array: projects (large) → categories (medium) → items (small)
   const nodes = []
-
   for (const p of projectMap.values()) {
-    nodes.push({
-      id:    `project:${p.slug}`,
-      type:  'project',
-      label: p.name,
-      href:  `/projects/${p.slug}`,
-      size:  'large',
-    })
+    nodes.push({ id: `project:${p.slug}`, type: 'project', label: p.name, href: `/projects/${p.slug}`, size: 'large' })
   }
-
   for (const c of categoryMap.values()) {
-    nodes.push({
-      id:    `category:${c.slug}`,
-      type:  'category',
-      label: c.name,
-      href:  `/categories/${c.slug}`,
-      size:  'medium',
-    })
+    nodes.push({ id: `category:${c.slug}`, type: 'category', label: c.name, href: `/categories/${c.slug}`, size: 'medium' })
   }
-
   for (const n of rawNodes) {
     nodes.push({
       id:    `item:${n.slug}`,
@@ -117,40 +183,7 @@ export async function collectGraph() {
     })
   }
 
-  // Build edges: membership (item → project, item → category)
-  const edges = []
+  const edges = buildEdges(rawNodes, n => `item:${n.slug}`)
 
-  for (const n of rawNodes) {
-    const itemId = `item:${n.slug}`
-    for (const p of (n.projects ?? [])) {
-      if (p?.slug) edges.push({ source: itemId, target: `project:${p.slug}`, kind: 'membership' })
-    }
-    for (const c of (n.categories ?? [])) {
-      if (c?.slug) edges.push({ source: itemId, target: `category:${c.slug}`, kind: 'membership' })
-    }
-  }
-
-  // Option B lateral edges: pairs of items sharing LATERAL_THRESHOLD+ tags
-  const items = rawNodes.filter(n => (n.tags ?? []).length > 0)
-  for (let i = 0; i < items.length; i++) {
-    const slugsA = new Set((items[i].tags ?? []).map(t => t.slug).filter(Boolean))
-    for (let j = i + 1; j < items.length; j++) {
-      const slugsB = (items[j].tags ?? []).map(t => t.slug).filter(Boolean)
-      const shared = slugsB.filter(s => slugsA.has(s))
-      if (shared.length >= LATERAL_THRESHOLD) {
-        edges.push({
-          source: `item:${items[i].slug}`,
-          target: `item:${items[j].slug}`,
-          kind:   'sharedTag',
-          weight: shared.length,
-        })
-      }
-    }
-  }
-
-  return {
-    generatedAt: new Date().toISOString(),
-    nodes,
-    edges,
-  }
+  return { generatedAt: new Date().toISOString(), nodes, edges }
 }
