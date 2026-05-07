@@ -28,9 +28,14 @@ Web adapter stories are only created when the adapter adds **visually distinct b
 
 ## DS Primitives → Web Adapters
 
-All 13 DS primitive components have a corresponding web adapter. Three components
+All 13 DS primitive components have a corresponding web adapter. Five components
 (Grid, SectionContainer, SectionLabel, Tile, DataTable) exist only in the web
 adapter layer and are documented in the section below.
+
+**Thruline audit (SUG-98, 2026-05-07):** All adapter pairs verified. No adapter
+contains undocumented visual behaviour. Documented deltas: Card adds `<Link to>`,
+`children` escape hatch, and `colorHex` chip override; Media mirrors DS primitive
+exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 
 | Component | DS Primitive | Web Adapter | Storybook | Studio schema object | Notes |
 |-----------|-------------|-------------|-----------|----------------------|-------|
@@ -38,7 +43,7 @@ adapter layer and are documented in the section below.
 | Blockquote | ✅ `packages/ds/Blockquote/` | ✅ `web/design-system/blockquote/` | ✅ Components/Blockquote | — | |
 | Button | ✅ `packages/ds/Button/` | ✅ `web/design-system/button/` | ✅ Components/Button | `ctaButton` (object) + `ctaButtonDoc` (document) | Paired schema — changes to one must mirror the other |
 | Callout | ✅ `packages/ds/Callout/` | ✅ `web/design-system/callout/` | ✅ Components/Callout | `calloutSection` | |
-| Card | ✅ `packages/ds/Card/` | ✅ `web/design-system/card/` | ✅ Components/Card | — | Web adapter adds `<Link to>` only — no separate story needed |
+| Card | ✅ `packages/ds/Card/` | ✅ `web/design-system/card/` | ✅ Components/Card | — | Adapter adds `<Link to>`, `children` escape hatch, `colorHex` chip override — documented in Card.jsx header. No separate story needed (ContentCard/MetadataCard cover the visual deltas). |
 | Chip | ✅ `packages/ds/Chip/` | ✅ `web/design-system/chip/` | ✅ Components/Chip | — | Web adapter adds `<Link to>` only — no separate story needed |
 | Citation | ✅ `packages/ds/Citation/` | ✅ `web/design-system/citation/` | ✅ Components/Citation | `citationRef` PT mark | |
 | CodeBlock | ✅ `packages/ds/CodeBlock/` | ✅ `web/design-system/codeblock/` | ✅ Components/CodeBlock | `code` inline PT decorator | |
