@@ -13,7 +13,8 @@
  *   /nodes/:slug              → node type (knowledge graph)
  *   /articles                 → article archive landing
  *   /case-studies             → caseStudy archive landing
- *   /knowledge-graph          → node archive landing
+ *   /nodes                    → Agentic Caucus Nodes archive landing
+ *   /knowledge-graph          → site-wide cross-type graph (SiteGraphPage — Phase 3)
  *   /tags/:slug               → tag taxonomy detail
  *   /categories/:slug         → category taxonomy detail
  *   /projects/:slug           → project taxonomy detail
@@ -99,8 +100,8 @@ export const FOOTER_UTILITY_LINKS = [
 export const ARCHIVE_PATHS = [
   '/articles',
   '/case-studies',
-  '/knowledge-graph',
-  '/nodes', // alternate — may redirect to /knowledge-graph in a later phase
+  '/nodes',
+  '/knowledge-graph', // site-wide graph (SiteGraphPage — Phase 3; redirect to /nodes until live)
 ]
 
 // ─── Taxonomy base paths ─────────────────────────────────────────────────────
@@ -183,14 +184,12 @@ export function getCanonicalPath({ docType, slug }) {
  * getArchivePath(docType) → string | null
  *
  * Returns the canonical archive path for a content type.
- * "node" maps to /knowledge-graph (the featured archive name), with /nodes
- * as an alternate that the router also handles.
  */
 export function getArchivePath(docType) {
   const map = {
     article: '/articles',
     caseStudy: '/case-studies',
-    node: '/knowledge-graph',
+    node: '/nodes',
   }
   return map[docType] ?? null
 }

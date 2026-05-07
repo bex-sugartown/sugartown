@@ -33,11 +33,10 @@ function ScrollToTop() {
   return null
 }
 
-// Redirect /nodes/:slug → /knowledge-graph/:slug, preserving the slug param.
-// <Navigate> alone cannot interpolate params, so we use a thin wrapper component.
-function NodeSlugRedirect() {
+// Redirect /knowledge-graph/:slug → /nodes/:slug (SUG-81 Phase 1 URL migration).
+function KnowledgeGraphSlugRedirect() {
   const { slug } = useParams()
-  return <Navigate to={`/knowledge-graph/${slug}`} replace />
+  return <Navigate to={`/nodes/${slug}`} replace />
 }
 
 function App() {
@@ -104,13 +103,13 @@ function App() {
         <Route path="/case-studies" element={<ArchivePage archiveSlug="case-studies" />} />
         <Route path="/case-studies/:slug" element={<CaseStudyPage />} />
 
-        {/* /knowledge-graph is the canonical archive for nodes */}
-        <Route path="/knowledge-graph" element={<ArchivePage archiveSlug="knowledge-graph" />} />
-        <Route path="/knowledge-graph/:slug" element={<NodePage />} />
+        {/* /nodes is the canonical archive for Agentic Caucus Nodes (SUG-81) */}
+        <Route path="/nodes" element={<ArchivePage archiveSlug="nodes" />} />
+        <Route path="/nodes/:slug" element={<NodePage />} />
 
-        {/* /nodes and /nodes/:slug redirect to canonical /knowledge-graph equivalents */}
-        <Route path="/nodes" element={<Navigate to="/knowledge-graph" replace />} />
-        <Route path="/nodes/:slug" element={<NodeSlugRedirect />} />
+        {/* /knowledge-graph → /nodes (Phase 1 redirect; replaced by SiteGraphPage in Phase 3) */}
+        <Route path="/knowledge-graph" element={<Navigate to="/nodes" replace />} />
+        <Route path="/knowledge-graph/:slug" element={<KnowledgeGraphSlugRedirect />} />
 
         {/* ── Taxonomy archive routes ─────────────────────────────────── */}
         <Route path="/tags" element={<TaxonomyArchivePage />} />
