@@ -52,7 +52,7 @@ Nav display name for the node archive: **"Agentic Caucus Nodes"**. URL: `/nodes/
 
 The site-wide graph has a type filter panel (or toggle strip) allowing the visitor to show/hide content types: All · Articles · Case Studies · Nodes. Default: All. Filter state is client-side only (no URL param required for v1, but nice-to-have for sharing).
 
-Each archive page (articles, case-studies, nodes) links to the knowledge graph pre-filtered to its type — "View in graph →" CTA. This gives every archive type its own graph view without creating separate routes.
+Each archive page (articles, case-studies, nodes) links to the knowledge graph pre-filtered to its type — "View in graph →" CTA that routes to `/knowledge-graph?type=article` (or caseStudy, node). The `/nodes/` graph toggle uses this same pattern (`/knowledge-graph?type=node`). No separate per-archive graph routes needed; `stats.siteGraph` filtered by type is the graph view for every archive.
 
 ---
 
@@ -88,8 +88,8 @@ Current `stats.graph` key is nodes-only. Two keys going forward:
 
 | Key | Content | Used by |
 |-----|---------|---------|
-| `stats.graph` | Nodes only (keep for transition safety) | `/nodes/` if it needs a graph view |
-| `stats.siteGraph` | article + caseStudy + node | `/knowledge-graph` (new SiteGraphPage) |
+| `stats.graph` | Nodes only — **deprecated in Phase 2**, remove collector in same PR | Nothing after Phase 2 |
+| `stats.siteGraph` | article + caseStudy + node | `/knowledge-graph` (SiteGraphPage) + `/nodes/` graph toggle (`?type=node`) |
 
 Extended GROQ:
 ```groq
@@ -108,7 +108,7 @@ Item node shape gains `_id` (for card lookup) and `docType` (`_type` value).
 
 ### 4. Filter state
 
-Client-side type filter. Options: All · Articles · Case Studies · Nodes. Implemented as a SegmentedControl or chip strip above the graph canvas. Filters which item nodes render (hub nodes always visible). Cross-type lateral edges (shared tags across types) shown only when both connected types are active.
+Client-side type filter. Options: All · Articles · Case Studies · Nodes. Implemented as a SegmentedControl or chip strip above the graph canvas. Filters which item nodes render (hub nodes always visible). Cross-type lateral edges visible only when both connected types are active in the filter — toggling a type off hides its nodes and any edges that touch them.
 
 ### 5. Archive → graph deep links
 
@@ -150,7 +150,7 @@ Hub nodes (project, category hubs) show a "View [project] →" CTA link to the t
   - Add `stats.siteGraph` key with multi-type GROQ query
   - Add `_id` and `docType` to item node objects
   - Update node ID format to `item:${docType}:${slug}`
-  - Lateral edge logic: confirm cross-type behaviour from Phase 0
+  - Lateral edge logic: cross-type confirmed — shared tags connect nodes across article/caseStudy/node. Edges hidden when either connected type is filtered out.
 - [ ] Regenerate `stats.json`, verify node/edge counts
 - [ ] `stats.graph` (nodes-only) still present and unchanged
 
@@ -198,8 +198,10 @@ Hub nodes (project, category hubs) show a "View [project] →" CTA link to the t
 
 ---
 
-## Open questions
+## Resolved decisions
 
-1. Does `/nodes/` keep a graph toggle (nodes-only graph from `stats.graph`), or is it list-only after the migration?
-2. Do lateral edges (shared tags) cross content types? (An article and a node sharing `ethics` tag would be connected.) Visually useful but adds complexity.
+1. **`/nodes/` graph toggle** — the toggle links to `/knowledge-graph?type=node` rather than rendering a separate graph. No `stats.graph` (nodes-only) collector key needed; `stats.siteGraph` filtered to `node` type is the graph view for the nodes archive. `stats.graph` can be deprecated and removed in Phase 2.
+
+2. **Lateral edges cross content types** — confirmed. An article and a node sharing a tag are connected by a lateral edge. Both nodes must be active in the type filter for the edge to render (if one type is hidden, its edges are hidden too).
+
 3. IA brief needs updating to reflect new URL structure — do in same commit as Phase 1 route changes.
