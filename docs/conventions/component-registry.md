@@ -1,12 +1,12 @@
 # Sugartown Component Registry
 
-> Last updated: 2026-05-04 · v0.23.10
+> Last updated: 2026-05-07 · v0.23.12
 >
 > Single source of truth for component coverage across the three app surfaces:
 > DS package primitives, web adapter layer, and app-level composites.
 > Studio schema objects are mapped to their rendering components.
 >
-> Gap analysis tracked in SUG-98. See `docs/backlog/SUG-98-component-gap-analysis.md`.
+> Gap analysis completed in SUG-98. See `docs/shipped/` for the closed epic.
 
 ---
 
@@ -17,7 +17,6 @@
 | ✅ | Exists and covered |
 | ⚠️ | Exists but gap identified (see Notes) |
 | — | Not applicable at this layer |
-| ❌ | Missing — tracked in SUG-97 |
 
 ---
 
@@ -29,24 +28,41 @@ Web adapter stories are only created when the adapter adds **visually distinct b
 
 ## DS Primitives → Web Adapters
 
+All 13 DS primitive components have a corresponding web adapter. Three components
+(Grid, SectionContainer, SectionLabel, Tile, DataTable) exist only in the web
+adapter layer and are documented in the section below.
+
 | Component | DS Primitive | Web Adapter | Storybook | Studio schema object | Notes |
 |-----------|-------------|-------------|-----------|----------------------|-------|
-| Accordion | ✅ `packages/ds/Accordion/` | ✅ `web/design-system/accordion/` | ✅ Primitives/Accordion | `accordionSection` | |
-| Blockquote | ✅ `packages/ds/Blockquote/` | ✅ `web/design-system/blockquote/` | ✅ Primitives/Blockquote | — | |
-| Button | ✅ `packages/ds/Button/` | ✅ `web/design-system/button/` | ✅ Primitives/Button | `ctaButton` (object) + `ctaButtonDoc` (document) | Paired schema — changes to one must mirror the other |
-| Callout | ✅ `packages/ds/Callout/` | ✅ `web/design-system/callout/` | ✅ Primitives/Callout | `calloutSection` | |
-| Card | ✅ `packages/ds/Card/` | ✅ `web/design-system/card/` | ✅ Primitives/Card | — | Web adapter adds `<Link to>` only — no separate story needed |
-| CardGrid | ✅ `packages/ds/CardGrid/` | ✅ `web/design-system/card-grid/` | ✅ Primitives/CardGrid | `cardBuilderSection` | |
-| Chip | ✅ `packages/ds/Chip/` | ✅ `web/design-system/chip/` | ✅ Primitives/Chip | — | Web adapter adds `<Link to>` only — no separate story needed |
-| Citation | ✅ `packages/ds/Citation/` | ✅ `web/design-system/citation/` | ✅ Primitives/Citation | `citationRef` PT mark | |
-| CodeBlock | ✅ `packages/ds/CodeBlock/` | ✅ `web/design-system/codeblock/` | ✅ Primitives/CodeBlock | `code` inline PT decorator | |
-| ContentNav | ✅ `packages/ds/ContentNav/` | ✅ `web/design-system/content-nav/` | ✅ Primitives/ContentNav | — | |
-| FilterBar | ✅ `packages/ds/FilterBar/` | ✅ `web/design-system/filter-bar/` | ✅ Primitives/FilterBar | — | |
-| Grid | ✅ `packages/ds/Grid/` | — | ✅ Primitives/Grid | — | No web-specific adapter needed |
-| Media | ✅ `packages/ds/Media/` | ✅ `web/design-system/media/` | ✅ Primitives/Media | `heroSection.media[]` | |
-| SectionLabel | ✅ `packages/ds/SectionLabel/` | ✅ `web/design-system/section-label/` | ✅ Primitives/SectionLabel | — | |
-| Table | ✅ `packages/ds/Table/` | ✅ `web/design-system/table/` | ✅ Primitives/Table | `tableBlock` | |
-| Tile | ✅ `packages/ds/Tile/` | — | ✅ Primitives/Tile | `statTileSection` | No web adapter yet — PageSections consumes DS Tile directly |
+| Accordion | ✅ `packages/ds/Accordion/` | ✅ `web/design-system/accordion/` | ✅ Components/Accordion | `accordionSection` | |
+| Blockquote | ✅ `packages/ds/Blockquote/` | ✅ `web/design-system/blockquote/` | ✅ Components/Blockquote | — | |
+| Button | ✅ `packages/ds/Button/` | ✅ `web/design-system/button/` | ✅ Components/Button | `ctaButton` (object) + `ctaButtonDoc` (document) | Paired schema — changes to one must mirror the other |
+| Callout | ✅ `packages/ds/Callout/` | ✅ `web/design-system/callout/` | ✅ Components/Callout | `calloutSection` | |
+| Card | ✅ `packages/ds/Card/` | ✅ `web/design-system/card/` | ✅ Components/Card | — | Web adapter adds `<Link to>` only — no separate story needed |
+| Chip | ✅ `packages/ds/Chip/` | ✅ `web/design-system/chip/` | ✅ Components/Chip | — | Web adapter adds `<Link to>` only — no separate story needed |
+| Citation | ✅ `packages/ds/Citation/` | ✅ `web/design-system/citation/` | ✅ Components/Citation | `citationRef` PT mark | |
+| CodeBlock | ✅ `packages/ds/CodeBlock/` | ✅ `web/design-system/codeblock/` | ✅ Components/CodeBlock | `code` inline PT decorator | |
+| FilterBar | ✅ `packages/ds/FilterBar/` | — | ✅ Components/FilterBar | — | Web-only FilterBar.jsx is a pending-migration copy; DS version is canonical. No web adapter layer needed — app composite imports DS package directly once migrated. |
+| Media | ✅ `packages/ds/Media/` | ✅ `web/design-system/media/` | ✅ Components/Media | `heroSection.media[]` | |
+| ScoreRing | ✅ `packages/ds/ScoreRing/` | ✅ `web/design-system/score-ring/` | ✅ Components/ScoreRing | — | SUG-100 |
+| SegmentedControl | ✅ `packages/ds/SegmentedControl/` | ✅ `web/design-system/segmented-control/` | ✅ Components/SegmentedControl | — | SUG-100 |
+| Table | ✅ `packages/ds/Table/` | ✅ `web/design-system/table/` | ✅ Components/Table | `tableBlock` | |
+
+---
+
+## Web-adapter-only components
+
+These components exist only in `apps/web/src/design-system/components/`. No DS package
+primitive exists or is planned — each is either a layout utility or a component tightly
+coupled to React Router / web data patterns that has no portable use case outside the web app.
+
+| Component | Web Adapter | Storybook | Notes |
+|-----------|-------------|-----------|-------|
+| DataTable | ✅ `web/design-system/data-table/` | ✅ Components/DataTable | Extends Table; adds pagination + sort. Web-only data patterns. |
+| Grid | ✅ `web/design-system/grid/` | ✅ Components/Grid | CSS grid layout utility. Layout concern, not a DS primitive. |
+| SectionContainer | ✅ `web/design-system/section-container/` | ✅ Components/SectionContainer | Column-width layout wrapper. Layout concern. |
+| SectionLabel | ✅ `web/design-system/section-label/` | ✅ Components/SectionLabel | Typography-only label row. Minimal; no value in porting. |
+| Tile | ✅ `web/design-system/tile/` | ✅ Components/Tile | Metric/content surface. Complex data props tied to web patterns. |
 
 ---
 
@@ -57,6 +73,7 @@ These components own layout and data-binding logic. They consume DS primitives a
 | Component | File | Storybook | Sanity data source | Notes |
 |-----------|------|-----------|-------------------|-------|
 | ContentCard | `web/components/ContentCard.jsx` | ✅ Patterns/ContentCard | article, caseStudy, node archive queries | Thin data adapter over web Card |
+| ContentNav | `web/components/ContentNav.jsx` | ✅ Patterns/ContentNav | Adjacent-item Sanity query | App composite — fetches prev/next items. Story uses plain-`<a>` inline demo. |
 | MetadataCard | `web/components/MetadataCard.jsx` | ✅ Patterns/MetadataCard | All detail page queries | Canonical metadata surface — never re-implement inline |
 | CardBuilderSection | `web/components/CardBuilderSection.jsx` | ✅ Patterns/CardBuilderSection | `cardBuilderSection` in `sections[]` | |
 | RecentContentSection | `web/components/RecentContentSection.jsx` | ✅ Patterns/RecentContentSection | Sanity fetch via `useSanityDoc` | Mock infrastructure in `.storybook/stories/` |
@@ -66,6 +83,26 @@ These components own layout and data-binding logic. They consume DS primitives a
 | PageSidebar | `web/components/PageSidebar.jsx` | ✅ Patterns/PageSidebar | TOC / related / series / AI disclosure | |
 | Pagination | `web/components/Pagination.jsx` | ✅ Patterns/Pagination | archive page query results | |
 | ThemeToggle | `web/components/ThemeToggle.jsx` | ✅ Patterns/ThemeToggle | — | |
+
+---
+
+## Inline renderers (PageSections.jsx)
+
+These section types are rendered inside `PageSections.jsx` via a `switch (_type)` block.
+Each now has a standalone Storybook story added in SUG-98.
+
+| Schema type | Renderer location | Standalone story |
+|-------------|------------------|------------------|
+| `heroSection` | `Hero.jsx` | ✅ Layout/Hero |
+| `textSection` | `PageSections.jsx` inline | ✅ Patterns/TextSection |
+| `mermaidSection` | `PageSections.jsx` inline | ✅ Patterns/MermaidSection |
+| `imageGallery` | `PageSections.jsx` inline | ✅ Patterns/ImageGallery |
+| `citedBlock` | `PageSections.jsx` inline | ✅ Patterns/CitedBlock |
+| `statTileSection` | `PageSections.jsx` inline | ✅ Patterns/StatTileSection |
+| `accordionSection` | `PageSections.jsx` → `Accordion` | ✅ via Components/Accordion |
+| `calloutSection` | `PageSections.jsx` → `Callout` | ✅ via Components/Callout |
+| `cardBuilderSection` | `CardBuilderSection.jsx` | ✅ Patterns/CardBuilderSection |
+| `tableBlock` | `PageSections.jsx` → `Table` | ✅ via Components/Table |
 
 ---
 
@@ -82,25 +119,6 @@ These components own layout and data-binding logic. They consume DS primitives a
 
 ---
 
-## Studio schema objects without a dedicated renderer story
-
-These schema types are rendered by `PageSections.jsx` (via a `switch` on `_type`) but have no standalone Storybook story. VRT coverage comes only from `Layout/PageSections` composite stories.
-
-| Schema type | Renderer location | Standalone story | Tracked in SUG-98 |
-|-------------|------------------|------------------|-------------------|
-| `heroSection` | `Hero.jsx` | ✅ Layout/Hero | — |
-| `textSection` | `PageSections.jsx` inline | ❌ | ✅ |
-| `mermaidSection` | `PageSections.jsx` inline | ❌ | ✅ |
-| `imageGallery` | `PageSections.jsx` inline | ❌ | ✅ |
-| `citedBlock` | `PageSections.jsx` inline | ❌ | ✅ |
-| `statTileSection` | `PageSections.jsx` inline | ❌ | ✅ |
-| `accordionSection` | `PageSections.jsx` → `Accordion` | ✅ via Primitives/Accordion | — |
-| `calloutSection` | `PageSections.jsx` → `Callout` | ✅ via Primitives/Callout | — |
-| `cardBuilderSection` | `CardBuilderSection.jsx` | ✅ Patterns/CardBuilderSection | — |
-| `tableBlock` | `PageSections.jsx` → `Table` | ✅ via Primitives/Table | — |
-
----
-
 ## Token files
 
 Both token files must stay in sync. Changes to one require the same change to the other in the same commit.
@@ -110,4 +128,4 @@ Both token files must stay in sync. Changes to one require the same change to th
 | `apps/web/src/design-system/styles/tokens.css` | Canonical — web runtime |
 | `packages/design-system/src/styles/tokens.css` | Mirror — DS package |
 
-Validate with: `pnpm validate:tokens` and `pnpm validate:tokens --strict-colors` from `apps/web/`.
+Validate with: `pnpm validate:tokens` and `pnpm validate:tokens --strict-colors` from `apps/web/`
