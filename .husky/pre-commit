@@ -3,16 +3,19 @@
 # Validators that require Sanity API (validate:urls, validate:content) run manually pre-PR.
 
 # Block direct edits to generated tokens.css files — edit tokens/source/tokens.json and run pnpm tokens:build
+# Exception: allow when the JSON source is also staged (legitimate regeneration)
 STAGED=$(git diff --cached --name-only)
-for f in "apps/web/src/design-system/styles/tokens.css" "packages/design-system/src/styles/tokens.css"; do
-  if echo "$STAGED" | grep -qF "$f"; then
-    HEAD_HEADER=$(git show HEAD:"$f" 2>/dev/null | head -3 || true)
-    if echo "$HEAD_HEADER" | grep -q "Do not edit directly"; then
-      echo "❌  $f is generated — edit tokens/source/tokens.json and run pnpm tokens:build instead"
-      exit 1
+if ! echo "$STAGED" | grep -qF "tokens/source/tokens.json"; then
+  for f in "apps/web/src/design-system/styles/tokens.css" "packages/design-system/src/styles/tokens.css"; do
+    if echo "$STAGED" | grep -qF "$f"; then
+      HEAD_HEADER=$(git show HEAD:"$f" 2>/dev/null | head -3 || true)
+      if echo "$HEAD_HEADER" | grep -q "Do not edit directly"; then
+        echo "❌  $f is generated — edit tokens/source/tokens.json and run pnpm tokens:build instead"
+        exit 1
+      fi
     fi
-  fi
-done
+  done
+fi
 
 # Token reference check — every var(--st-*) must resolve to a defined token
 pnpm --filter web validate:tokens || exit 1
