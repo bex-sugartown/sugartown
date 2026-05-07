@@ -24,6 +24,7 @@ export default function Tile({
   meta,
   bar,
   legend = false,
+  extraLegend,
   href,
   loading = false,
   size = 'md',
@@ -93,6 +94,13 @@ export default function Tile({
                   <span className={styles.legendSwatch} style={{ background: seg.color ?? 'var(--st-color-accent)' }} />
                   <span className={styles.legendLabel}>{seg.label}</span>
                   <span className={styles.legendValue}>{seg.value}</span>
+                </li>
+              ))}
+              {extraLegend?.length > 0 && extraLegend.map((row, i) => (
+                <li key={`extra-${i}`} className={`${styles.legendItem} ${styles.legendItemExtra}`}>
+                  <span className={styles.legendSwatchEmpty} />
+                  <span className={styles.legendLabel}>{row.label}</span>
+                  <span className={styles.legendValue}>{row.value}</span>
                 </li>
               ))}
             </ul>

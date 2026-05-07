@@ -78,6 +78,14 @@ function DesignSystemStatsReport() {
       ]
     : []
 
+  const tierRows = ds?.tokens?.primitives != null
+    ? [
+        { label: 'Primitive', value: ds.tokens.primitives },
+        { label: 'Semantic',  value: ds.tokens.semantic  ?? 0 },
+        { label: 'Component', value: ds.tokens.component },
+      ]
+    : undefined
+
   const componentFiles  = ds?.componentFiles ?? 0
   const storybookComps  = storybook?.components ?? 0
   const coveragePct     = componentFiles > 0 ? Math.round((storybookComps / componentFiles) * 100) : 0
@@ -88,9 +96,9 @@ function DesignSystemStatsReport() {
         <Tile
           label="Design tokens"
           value={ds?.tokens?.total ?? '—'}
-          sub={ds?.tokens?.primitives != null ? `${ds.tokens.primitives} primitive · ${ds.tokens.component} component` : undefined}
           bar={tokenSegments.length ? { segments: tokenSegments, total: ds.tokens.total } : undefined}
           legend
+          extraLegend={tierRows}
         />
         <Tile
           label="Components"

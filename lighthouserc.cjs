@@ -38,8 +38,10 @@ module.exports = {
   ci: {
     collect: [
       // Mobile preset (Moto G4 emulation — Lighthouse default)
+      // startServerCommand: '' tells LHCI the server is external (live prod URL)
       {
         url: URLS,
+        startServerCommand: '',
         numberOfRuns: 3,
         settings: {
           emulatedFormFactor: 'mobile',
@@ -49,6 +51,7 @@ module.exports = {
       // Desktop preset
       {
         url: URLS,
+        startServerCommand: '',
         numberOfRuns: 3,
         settings: {
           emulatedFormFactor: 'desktop',

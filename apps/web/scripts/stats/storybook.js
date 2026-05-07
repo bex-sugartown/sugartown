@@ -8,7 +8,14 @@
 import { readFileSync, readdirSync, statSync } from 'fs'
 import { resolve, join } from 'path'
 
-const STORYBOOK_DIR = resolve(process.cwd(), '../../apps/storybook')
+// Mirror the story roots from apps/storybook/.storybook/main.ts
+const REPO_ROOT = resolve(process.cwd(), '../..')
+const STORY_ROOTS = [
+  resolve(REPO_ROOT, 'packages/design-system/src'),
+  resolve(REPO_ROOT, 'apps/web/src/design-system'),
+  resolve(REPO_ROOT, 'apps/web/src/components'),
+  resolve(REPO_ROOT, 'apps/storybook/.storybook/stories'),
+]
 
 const SKIP_DIRS = new Set(['node_modules', 'dist', '.turbo', 'storybook-static'])
 
@@ -26,7 +33,7 @@ function walkStories(dir) {
 }
 
 export function collectStorybook() {
-  const files = walkStories(STORYBOOK_DIR)
+  const files = STORY_ROOTS.flatMap(walkStories)
   const components = files.length
 
   let stories = 0

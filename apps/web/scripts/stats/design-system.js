@@ -34,8 +34,16 @@ export function collectDesignSystem() {
   const allTokenLines = css.match(/^\s*--st-[\w-]+\s*:/gm) || []
   const total = allTokenLines.length
 
-  // Primitives: scale tokens like --st-color-pink-500, --st-color-softgrey-100
-  const primitives = allTokenLines.filter(l => /--st-(?:color|shadow)-[\w]+-\d{2,3}:/.test(l)).length
+  // Primitives: scale tokens (--st-color-pink-500) + bare palette names (--st-color-pink)
+  const primitives = allTokenLines.filter(l =>
+    /--st-(?:color|shadow)-[\w]+-\d{2,3}:/.test(l) ||
+    /--st-color-(?:pink|maroon|lime|seafoam|midnight|charcoal|softgrey|ink|black|white|violet|amber|orange|sky):/.test(l)
+  ).length
+
+  // Semantic: intent/role tokens — brand, bg, text, border, accent, focus
+  const semantic = allTokenLines.filter(l =>
+    /--st-color-(?:brand|bg|text|border|accent|focus|canvas|rule|overlay|interactive|status|signal)-/.test(l)
+  ).length
 
   const color  = allTokenLines.filter(l => /--st-color/.test(l)).length
   const space  = allTokenLines.filter(l => /--st-space|--st-size/.test(l)).length
@@ -49,7 +57,8 @@ export function collectDesignSystem() {
     tokens: {
       total,
       primitives,
-      component: total - primitives,
+      semantic,
+      component: total - primitives - semantic,
       byCategory: { color, space, font, shadow, other },
     },
     componentFiles,

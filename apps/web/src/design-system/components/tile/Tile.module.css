@@ -196,3 +196,14 @@
   font-size: var(--st-font-size-xs);
   color: var(--st-tile-sub-color, var(--st-stat-tile-sub-color));
 }
+
+.legendSwatchEmpty {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+}
+
+.legendItemExtra {
+  margin-top: 0.1rem;
+  opacity: 0.7;
+}

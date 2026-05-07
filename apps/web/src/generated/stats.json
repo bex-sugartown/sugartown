@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-07T08:30:03.736Z",
+  "generatedAt": "2026-05-07T10:06:57.318Z",
   "release": {
     "current": {
       "version": "0.23.11",
@@ -55,8 +55,9 @@
   "ds": {
     "tokens": {
       "total": 659,
-      "primitives": 118,
-      "component": 541,
+      "primitives": 132,
+      "semantic": 44,
+      "component": 483,
       "byCategory": {
         "color": 208,
         "space": 19,
@@ -68,60 +69,25 @@
     "componentFiles": 30
   },
   "storybook": {
-    "stories": 5,
-    "components": 5
+    "stories": 233,
+    "components": 44
   },
   "repo": {
-    "commits": 1,
+    "commits": 972,
     "epicsShipped": 87
   },
   "perf": {
-    "generatedAt": "2026-05-06T06:00:00.000Z",
-    "runs": {
-      "https://sugartown.io/": {
-        "url": "https://sugartown.io/",
-        "performance": 91,
-        "accessibility": 97,
-        "bestPractices": 83,
-        "seo": 95,
-        "lcp": 2100,
-        "cls": 0.04,
-        "inp": 140,
-        "rating": "good",
-        "mobile": {
-          "url": "https://sugartown.io/",
-          "performance": 68,
-          "accessibility": 88,
-          "bestPractices": 42,
-          "seo": 92,
-          "lcp": 3400,
-          "cls": 0.31,
-          "inp": 380,
-          "rating": "needs-improvement"
-        },
-        "desktop": {
-          "url": "https://sugartown.io/",
-          "performance": 91,
-          "accessibility": 97,
-          "bestPractices": 83,
-          "seo": 95,
-          "lcp": 1800,
-          "cls": 0.03,
-          "inp": 140,
-          "rating": "good"
-        }
-      }
-    },
-    "stale": true
+    "stale": true,
+    "error": "No Lighthouse CI output found at /Users/beckyalice/SUGARTOWN_DEV/sugartown/.lighthouseci — run lhci autorun first"
   },
   "crux": {
-    "fetchedAt": "2026-05-07T08:29:48.705Z",
+    "fetchedAt": "2026-05-07T10:06:42.282Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-05-07T08:30:02.854Z",
+    "fetchedAt": "2026-05-07T10:06:56.405Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -132,17 +98,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-07T08:30:03.615Z",
+    "fetchedAt": "2026-05-07T10:06:56.627Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 0,
     "watchers": 0,
     "forks": 0,
     "openIssues": 11,
-    "contributors": 2,
-    "lastCommit": "2026-05-06T15:46:59Z"
+    "contributors": 3,
+    "lastCommit": "2026-05-07T08:30:03Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-06T13:31:56.799Z",
+    "fetchedAt": "2026-05-07T10:06:57.048Z",
     "counts": {
       "article": 9,
       "node": 48,
@@ -153,11 +119,10 @@
       "project": 5,
       "person": 1,
       "tool": 54
-    },
-    "stale": true
+    }
   },
   "graph": {
-    "generatedAt": "2026-05-06T13:31:57.031Z",
+    "generatedAt": "2026-05-07T10:06:57.318Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -2291,7 +2256,6 @@
         "kind": "sharedTag",
         "weight": 2
       }
-    ],
-    "stale": true
+    ]
   }
 }
