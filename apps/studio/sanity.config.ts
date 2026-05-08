@@ -29,7 +29,7 @@ export default defineConfig({
                   .items([
                     S.documentTypeListItem('article').title('Articles'),
                     S.documentTypeListItem('caseStudy').title('Case Studies'),
-                    S.documentTypeListItem('node').title('Knowledge Graph'),
+                    S.documentTypeListItem('node').title('Nodes'),
                     S.documentTypeListItem('page').title('Pages'),
                     S.documentTypeListItem('archivePage').title('Archive Pages'),
                   ])
