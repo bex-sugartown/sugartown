@@ -63,7 +63,9 @@ export default function KnowledgeGraph({
 
   // SSR-safe dynamic import — react-force-graph-2d accesses window at module level
   useEffect(() => {
-    import('react-force-graph-2d').then(m => setFG(() => m.default))
+    import('react-force-graph-2d')
+      .then(m => setFG(() => m.default))
+      .catch(err => console.error('[KnowledgeGraph] react-force-graph-2d import failed:', err))
   }, [])
 
   // Resolve --st-graph-* tokens + optional per-docType colorTokens to computed rgb() strings
