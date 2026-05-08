@@ -128,8 +128,10 @@ export async function collectSiteGraph() {
   for (const item of rawItems) {
     nodes.push({
       id:      `item:${item._type}:${item.slug}`,
+      _id:     item._id,
       type:    'item',
       docType: item._type,
+      slug:    item.slug,
       label:   item.title,
       href:    `${hrefPrefix[item._type]}/${item.slug}`,
       size:    'small',

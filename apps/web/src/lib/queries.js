@@ -1529,6 +1529,24 @@ export const latestArticleQuery = `
   }
 `
 
+// Combined query for SiteGraphPage card rail — all three content types indexed by _id
+export const allSiteItemsQuery = `
+  *[_type in ["article", "caseStudy", "node"] && defined(slug.current)] | order(publishedAt desc) {
+    _id,
+    _type,
+    title,
+    "slug": slug.current,
+    excerpt,
+    "cardImageUrl": cardImage.asset->url,
+    "cardImageAlt": cardImage.alt,
+    status,
+    publishedAt,
+    categories[]->{${CATEGORY_FRAGMENT}},
+    tags[]->{${TAG_FRAGMENT}},
+    projects[]->{${PROJECT_FRAGMENT}}
+  }
+`
+
 export const latestNodeQuery = `
   *[_type == "node" && defined(slug.current)] | order(publishedAt desc) [0] {
     _type,

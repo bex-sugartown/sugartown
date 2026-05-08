@@ -484,6 +484,10 @@
   --st-hero-text-color: var(--st-color-white);
   --st-graph-edge-membership: var(--st-color-border-medium);
   --st-graph-edge-lateral: var(--st-color-border-subtle);
+  --st-kg-node-article: var(--st-color-seafoam-500);
+  --st-kg-node-node: var(--st-color-lime-400);
+  --st-kg-edge-member: var(--st-color-border-medium);
+  --st-kg-edge-lateral: var(--st-color-border-subtle);
   --st-black: var(--st-color-black);
   --st-white: var(--st-color-white);
   --st-gray-light: var(--st-color-neutral-100);
@@ -556,6 +560,9 @@
   --st-header-bg: var(--st-color-bg-surface);
   --st-graph-node-project: var(--st-color-seafoam);
   --st-graph-node-category: var(--st-color-lime);
+  --st-kg-node-case: var(--st-color-pink);
+  --st-kg-node-project: var(--st-color-seafoam);
+  --st-kg-node-category: var(--st-color-lime);
   --st-pink: var(--st-color-pink);
   --st-green: var(--st-color-seafoam);
   --st-segmented-fg: var(--st-color-text-muted);

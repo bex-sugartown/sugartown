@@ -45,7 +45,13 @@ function rRect(ctx, x, y, w, h, r) {
   ctx.closePath()
 }
 
-export default function KnowledgeGraph({ graphData, onNodeClick }) {
+export default function KnowledgeGraph({
+  graphData,
+  onNodeClick,
+  colorTokens,  // { docType: '--st-kg-token-name' } — per-docType overrides for item nodes
+  showLegend = true,
+  selectedId,   // external selection control; if provided, drives ring instead of internal state
+}) {
   const [FG, setFG]             = useState(null)
   const [colors, setColors]     = useState(null)
   const [selected, setSelected] = useState(null)
@@ -60,17 +66,23 @@ export default function KnowledgeGraph({ graphData, onNodeClick }) {
     import('react-force-graph-2d').then(m => setFG(() => m.default))
   }, [])
 
-  // Resolve --st-graph-* tokens to computed rgb() strings
+  // Resolve --st-graph-* tokens + optional per-docType colorTokens to computed rgb() strings
   const readColors = useCallback(() => {
-    setColors({
+    const base = {
       project:    resolveToken('--st-graph-node-project'),
       category:   resolveToken('--st-graph-node-category'),
       item:       resolveToken('--st-graph-node-item'),
       membership: resolveToken('--st-graph-edge-membership'),
       lateral:    resolveToken('--st-graph-edge-lateral'),
       bg:         resolveToken('--st-graph-bg'),
-    })
-  }, [])
+    }
+    if (colorTokens) {
+      for (const [docType, token] of Object.entries(colorTokens)) {
+        base[docType] = resolveToken(token)
+      }
+    }
+    setColors(base)
+  }, [colorTokens])
 
   useEffect(() => {
     readColors()
@@ -120,9 +132,10 @@ export default function KnowledgeGraph({ graphData, onNodeClick }) {
   const nodeCanvasObject = useCallback((node, ctx) => {
     if (!colors) return
     const r       = RADIUS[node.type] ?? RADIUS.item
-    const nodeC   = colors[node.type] ?? colors.item
+    // Per-docType color for item nodes (site graph); fall back to type-level then item default
+    const nodeC   = colors[node.docType] ?? colors[node.type] ?? colors.item
     const isHov   = hoveredRef.current === node
-    const isSel   = selected?.id === node.id
+    const isSel   = selectedId != null ? node.id === selectedId : selected?.id === node.id
     const isLight = luminance(colors.bg) > 0.5
 
     // Selection / hover rings
@@ -275,17 +288,25 @@ export default function KnowledgeGraph({ graphData, onNodeClick }) {
           <button type="button" className={styles.zoomBtn} onClick={handleZoomIn} aria-label="Zoom in">+</button>
           <button type="button" className={styles.zoomBtn} onClick={handleZoomOut} aria-label="Zoom out">−</button>
         </div>
-        <div className={styles.legend}>
-          <span className={styles.legendItem}>
-            <span className={styles.dotProject} />Project hub
-          </span>
-          <span className={styles.legendItem}>
-            <span className={styles.dotCategory} />Category hub
-          </span>
-          <span className={styles.legendItem}>
-            <span className={styles.dotItem} />Node
-          </span>
-        </div>
+        {showLegend && (
+          <div className={styles.legend}>
+            {colorTokens ? (
+              <>
+                <span className={styles.legendItem}><span className={styles.dotProject} />Project</span>
+                <span className={styles.legendItem}><span className={styles.dotCategory} />Category</span>
+                <span className={styles.legendItem} style={{ '--dot-color': colors?.article }}><span className={styles.dotTyped} />Article</span>
+                <span className={styles.legendItem} style={{ '--dot-color': colors?.caseStudy }}><span className={styles.dotTyped} />Case Study</span>
+                <span className={styles.legendItem} style={{ '--dot-color': colors?.node }}><span className={styles.dotTyped} />Node</span>
+              </>
+            ) : (
+              <>
+                <span className={styles.legendItem}><span className={styles.dotProject} />Project hub</span>
+                <span className={styles.legendItem}><span className={styles.dotCategory} />Category hub</span>
+                <span className={styles.legendItem}><span className={styles.dotItem} />Node</span>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )

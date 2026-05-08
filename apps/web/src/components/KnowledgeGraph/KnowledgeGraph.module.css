@@ -60,6 +60,7 @@
 .dotProject  { background: var(--st-graph-node-project); }
 .dotCategory { background: var(--st-graph-node-category); }
 .dotItem     { background: var(--st-graph-node-item); }
+.dotTyped    { background: var(--dot-color, var(--st-graph-node-item)); }
 
 /* ── Zoom controls ───────────────────────────────────────────── */
 

@@ -1,0 +1,159 @@
+/* SiteGraphPage — SUG-81 Phase 3 */
+
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.heading {
+  font-family: var(--st-font-narrative);
+  font-size: var(--st-font-heading-2);
+  color: var(--st-color-text-primary);
+  margin: 0 0 8px;
+}
+
+.kicker {
+  font-family: var(--st-font-ui);
+  font-size: 15px;
+  color: var(--st-color-text-muted);
+  margin: 0;
+}
+
+/* ── Filter strip ────────────────────────────────────────────── */
+
+.filterStrip {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.filterChip {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid var(--st-color-border-default);
+  background: var(--st-color-bg-surface);
+  color: var(--st-color-text-muted);
+  cursor: pointer;
+  border-radius: 0;
+  transition: color 80ms, background 80ms, border-color 80ms;
+}
+
+.filterChip:hover {
+  color: var(--st-color-text-primary);
+  border-color: var(--st-color-border-medium);
+}
+
+/* Active: type-specific tint */
+.chip_all.chipActive {
+  background: var(--st-color-text-primary);
+  color: var(--st-color-bg-canvas);
+  border-color: var(--st-color-text-primary);
+}
+
+.chip_article.chipActive {
+  background: var(--st-kg-node-article);
+  color: var(--st-color-bg-canvas);
+  border-color: var(--st-kg-node-article);
+}
+
+.chip_caseStudy.chipActive {
+  background: var(--st-kg-node-case);
+  color: var(--st-color-bg-canvas);
+  border-color: var(--st-kg-node-case);
+}
+
+.chip_node.chipActive {
+  background: var(--st-kg-node-node);
+  color: var(--st-color-text-primary);
+  border-color: var(--st-kg-node-node);
+}
+
+/* ── Body: graph + rail ──────────────────────────────────────── */
+
+.body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (min-width: 768px) {
+  .body {
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: start;
+  }
+}
+
+.graphPane {
+  min-width: 0;
+}
+
+/* ── Rail ────────────────────────────────────────────────────── */
+
+.rail {
+  min-height: 200px;
+  border: 1px solid var(--st-color-border-subtle);
+  padding: 16px;
+}
+
+.railEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.railHint {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  color: var(--st-color-text-muted);
+  text-align: center;
+  margin: 0;
+}
+
+.railCard {
+  /* ContentCard fills naturally */
+}
+
+.railHub {
+  padding: 8px 0;
+}
+
+.railHubType {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  margin: 0 0 6px;
+}
+
+.railHubLabel {
+  font-family: var(--st-font-narrative);
+  font-size: var(--st-font-heading-4);
+  color: var(--st-color-text-primary);
+  margin: 0 0 12px;
+}
+
+.railHubLink {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--st-color-pink);
+  text-decoration: none;
+}
+
+.railHubLink:hover {
+  text-decoration: underline;
+}

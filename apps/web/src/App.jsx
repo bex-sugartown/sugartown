@@ -19,6 +19,7 @@ import TaxonomyPlaceholderPage from './pages/TaxonomyPlaceholderPage'
 import TaxonomyArchivePage from './pages/TaxonomyArchivePage'
 import PersonProfilePage from './pages/PersonProfilePage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
+import SiteGraphPage from './pages/SiteGraphPage'
 import SchemaErdPage from './pages/SchemaErdPage'
 import SitemapPage from './pages/SitemapPage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -107,8 +108,8 @@ function App() {
         <Route path="/nodes" element={<ArchivePage archiveSlug="nodes" />} />
         <Route path="/nodes/:slug" element={<NodePage />} />
 
-        {/* /knowledge-graph → /nodes (Phase 1 redirect; replaced by SiteGraphPage in Phase 3) */}
-        <Route path="/knowledge-graph" element={<Navigate to="/nodes" replace />} />
+        {/* /knowledge-graph — site-wide cross-type graph (SUG-81 Phase 3) */}
+        <Route path="/knowledge-graph" element={<SiteGraphPage />} />
         <Route path="/knowledge-graph/:slug" element={<KnowledgeGraphSlugRedirect />} />
 
         {/* ── Taxonomy archive routes ─────────────────────────────────── */}

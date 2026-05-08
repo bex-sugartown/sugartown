@@ -38,7 +38,7 @@
  *   - GROQ slice cap removed — all published items fetched for filtering accuracy
  */
 import { useState, useCallback } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { useSanityDoc, useSanityList, useDraftIds } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
@@ -434,6 +434,19 @@ export default function ArchivePage({ archiveSlug }) {
         <p className={styles.archiveEmpty}>
           No content type configured for this archive.
         </p>
+      )}
+
+      {/* View in graph CTA — links to SiteGraphPage pre-filtered by this content type */}
+      {primaryType && (primaryType === 'article' || primaryType === 'caseStudy' || primaryType === 'node') && (
+        <div className={styles.graphCtaBar}>
+          <span className={styles.graphCtaText}>See how this content connects across the site</span>
+          <Link
+            to={`/knowledge-graph?type=${primaryType}`}
+            className={styles.graphCtaLink}
+          >
+            View in graph →
+          </Link>
+        </div>
       )}
     </main>
   )

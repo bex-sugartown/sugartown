@@ -163,6 +163,15 @@
   --st-segmented-fg:        var(--st-color-text-secondary);
   --st-segmented-active-fg: var(--st-color-text-primary);
   --st-segmented-border:    var(--st-color-border-default);
+
+  /* ── Site graph node/edge colors — light overrides (SUG-81) ─ */
+  --st-kg-node-article:  var(--st-color-seafoam-700);
+  --st-kg-node-case:     var(--st-color-maroon);
+  --st-kg-node-node:     var(--st-color-lime-700);
+  --st-kg-node-project:  var(--st-color-seafoam-700);
+  --st-kg-node-category: var(--st-color-lime-700);
+  --st-kg-edge-member:   color-mix(in srgb, var(--st-color-ink) 14%, transparent);
+  --st-kg-edge-lateral:  color-mix(in srgb, var(--st-color-pink) 35%, transparent);
 }
 
 /* ══════════════════════════════════════════════════════════

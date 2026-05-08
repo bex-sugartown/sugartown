@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-07T13:40:54.910Z",
+  "generatedAt": "2026-05-08T09:50:38.533Z",
   "release": {
     "current": {
       "version": "0.23.11",
@@ -54,16 +54,16 @@
   },
   "ds": {
     "tokens": {
-      "total": 570,
+      "total": 577,
       "primitives": 127,
       "semantic": 27,
-      "component": 416,
+      "component": 423,
       "byCategory": {
         "color": 182,
         "space": 19,
         "font": 24,
         "shadow": 31,
-        "other": 314
+        "other": 321
       }
     },
     "dsComponents": 13,
@@ -77,7 +77,7 @@
     "components": 47
   },
   "repo": {
-    "commits": 995,
+    "commits": 997,
     "epicsShipped": 90
   },
   "perf": {
@@ -85,13 +85,13 @@
     "error": "No Lighthouse CI output found at /Users/beckyalice/SUGARTOWN_DEV/sugartown/.lighthouseci — run lhci autorun first"
   },
   "crux": {
-    "fetchedAt": "2026-05-07T13:40:36.823Z",
+    "fetchedAt": "2026-05-08T09:50:24.419Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-05-07T13:40:52.975Z",
+    "fetchedAt": "2026-05-08T09:50:37.090Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -102,17 +102,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-07T13:40:53.741Z",
+    "fetchedAt": "2026-05-08T09:50:37.368Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 0,
     "watchers": 0,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-05-07T08:30:03Z"
+    "lastCommit": "2026-05-08T07:26:36Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-07T13:40:54.389Z",
+    "fetchedAt": "2026-05-08T09:50:38.021Z",
     "counts": {
       "article": 9,
       "node": 48,
@@ -126,7 +126,7 @@
     }
   },
   "graph": {
-    "generatedAt": "2026-05-07T13:40:54.640Z",
+    "generatedAt": "2026-05-08T09:50:38.289Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -2263,7 +2263,7 @@
     ]
   },
   "siteGraph": {
-    "generatedAt": "2026-05-07T13:40:54.910Z",
+    "generatedAt": "2026-05-08T09:50:38.533Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -2386,8 +2386,10 @@
       },
       {
         "id": "item:node:ai-illustration-review-ethics-accessibility-ip-guardrails",
+        "_id": "wp.node.1654",
         "type": "item",
         "docType": "node",
+        "slug": "ai-illustration-review-ethics-accessibility-ip-guardrails",
         "label": "AI Illustration Review: Ethics, Accessibility & IP Guardrails",
         "href": "/nodes/ai-illustration-review-ethics-accessibility-ip-guardrails",
         "size": "small",
@@ -2408,8 +2410,10 @@
       },
       {
         "id": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "_id": "wp.node.1028",
         "type": "item",
         "docType": "node",
+        "slug": "architecture-decision-the-two-repo-solution-theme-vs-content",
         "label": "Architecture Decision: The Two-Repo Solution (Theme vs. Content)",
         "href": "/nodes/architecture-decision-the-two-repo-solution-theme-vs-content",
         "size": "small",
@@ -2434,8 +2438,10 @@
       },
       {
         "id": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "_id": "wp.node.949",
         "type": "item",
         "docType": "node",
+        "slug": "architecture-decision-the-overwrite-risk-in-sugartown-cms",
         "label": "Architecture Decision: The “Overwrite” Risk in Sugartown CMS",
         "href": "/nodes/architecture-decision-the-overwrite-risk-in-sugartown-cms",
         "size": "small",
@@ -2460,8 +2466,10 @@
       },
       {
         "id": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "_id": "wp.node.1395",
         "type": "item",
         "docType": "node",
+        "slug": "architecture-deep-dive-resume-factory-v3-0",
         "label": "Architecture Deep Dive: Resume Factory v3.0",
         "href": "/nodes/architecture-deep-dive-resume-factory-v3-0",
         "size": "small",
@@ -2494,8 +2502,10 @@
       },
       {
         "id": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "_id": "wp.node.1094",
         "type": "item",
         "docType": "node",
+        "slug": "architecture-insight-the-sugartown-2-0-system-contract",
         "label": "Architecture Insight: The Sugartown 2.0 System Contract",
         "href": "/nodes/architecture-insight-the-sugartown-2-0-system-contract",
         "size": "small",
@@ -2520,8 +2530,10 @@
       },
       {
         "id": "item:node:architecture-update-the-resume-factory-v2-0",
+        "_id": "wp.node.1121",
         "type": "item",
         "docType": "node",
+        "slug": "architecture-update-the-resume-factory-v2-0",
         "label": "Architecture Update: The Resume Factory v2.0",
         "href": "/nodes/architecture-update-the-resume-factory-v2-0",
         "size": "small",
@@ -2542,8 +2554,10 @@
       },
       {
         "id": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "_id": "wp.node.1023",
         "type": "item",
         "docType": "node",
+        "slug": "architecture-the-sugartown-digital-ecosystem-v1-0",
         "label": "Architecture: The Sugartown Digital Ecosystem (v1.0)",
         "href": "/nodes/architecture-the-sugartown-digital-ecosystem-v1-0",
         "size": "small",
@@ -2564,8 +2578,10 @@
       },
       {
         "id": "item:node:architecture-the-unified-taxonomy-strategy",
+        "_id": "wp.node.1029",
         "type": "item",
         "docType": "node",
+        "slug": "architecture-the-unified-taxonomy-strategy",
         "label": "Architecture: The Unified Taxonomy Strategy",
         "href": "/nodes/architecture-the-unified-taxonomy-strategy",
         "size": "small",
@@ -2590,8 +2606,10 @@
       },
       {
         "id": "item:caseStudy:bare-minerals-from-bottlenecks-to-brilliance",
+        "_id": "wp.caseStudy.280",
         "type": "item",
         "docType": "caseStudy",
+        "slug": "bare-minerals-from-bottlenecks-to-brilliance",
         "label": "Bare Minerals: From Bottlenecks to Brilliance",
         "href": "/case-studies/bare-minerals-from-bottlenecks-to-brilliance",
         "size": "small",
@@ -2612,8 +2630,10 @@
       },
       {
         "id": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "_id": "wp.caseStudy.166",
         "type": "item",
         "docType": "caseStudy",
+        "slug": "beauty-retail-from-monolith-to-microservice",
         "label": "Beauty Retail: From Monolith to Microservice",
         "href": "/case-studies/beauty-retail-from-monolith-to-microservice",
         "size": "small",
@@ -2650,8 +2670,10 @@
       },
       {
         "id": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
+        "_id": "wp.caseStudy.286",
         "type": "item",
         "docType": "caseStudy",
+        "slug": "beringer-com-raising-a-glass-to-a-digital-refresh",
         "label": "Beringer.com: Raising a Glass to a Digital Refresh",
         "href": "/case-studies/beringer-com-raising-a-glass-to-a-digital-refresh",
         "size": "small",
@@ -2676,8 +2698,10 @@
       },
       {
         "id": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "_id": "wp.caseStudy.274",
         "type": "item",
         "docType": "caseStudy",
+        "slug": "charting-a-new-course-for-backroads-com",
         "label": "Charting a New Course for Backroads.com",
         "href": "/case-studies/charting-a-new-course-for-backroads-com",
         "size": "small",
@@ -2710,8 +2734,10 @@
       },
       {
         "id": "item:article:claude-code-joins-the-agentic-caucus",
+        "_id": "wp.article.1788",
         "type": "item",
         "docType": "article",
+        "slug": "claude-code-joins-the-agentic-caucus",
         "label": "Claude Code Joins the Agentic Caucus",
         "href": "/articles/claude-code-joins-the-agentic-caucus",
         "size": "small",
@@ -2736,8 +2762,10 @@
       },
       {
         "id": "item:node:claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
+        "_id": "wp.node.1702",
         "type": "item",
         "docType": "node",
+        "slug": "claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
         "label": "Claude vs. DevTools: A Cautionary Tale of Assumed Striping",
         "href": "/nodes/claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
         "size": "small",
@@ -2758,8 +2786,10 @@
       },
       {
         "id": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "_id": "wp.node.952",
         "type": "item",
         "docType": "node",
+        "slug": "confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
         "label": "Confession: I Don’t Hate Blogs, I Just Hate Unstructured Data",
         "href": "/nodes/confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
         "size": "small",
@@ -2788,8 +2818,10 @@
       },
       {
         "id": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "_id": "wp.node.1397",
         "type": "item",
         "docType": "node",
+        "slug": "confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
         "label": "Confession: I Don’t Lack Memory, I Just Forgot to Mention Projects",
         "href": "/nodes/confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
         "size": "small",
@@ -2818,8 +2850,10 @@
       },
       {
         "id": "item:article:core-web-vitals-dont-belong-to-frontend",
+        "_id": "wp.article.1437",
         "type": "item",
         "docType": "article",
+        "slug": "core-web-vitals-dont-belong-to-frontend",
         "label": "Core Web Vitals Don’t Belong to Frontend (and Other Comfortable Lies)",
         "href": "/articles/core-web-vitals-dont-belong-to-frontend",
         "size": "small",
@@ -2848,8 +2882,10 @@
       },
       {
         "id": "item:article:dashboards-arent-dead-neither-are-design-systems",
+        "_id": "wp.article.1025",
         "type": "item",
         "docType": "article",
+        "slug": "dashboards-arent-dead-neither-are-design-systems",
         "label": "Dashboards Aren’t Dead. Neither Are Design Systems. We Just Stopped Explaining Them Slowly Enough.",
         "href": "/articles/dashboards-arent-dead-neither-are-design-systems",
         "size": "small",
@@ -2874,8 +2910,10 @@
       },
       {
         "id": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
+        "_id": "wp.node.1335",
         "type": "item",
         "docType": "node",
+        "slug": "design-ops-the-pre-design-system-surviving-the-css-chaos",
         "label": "Design Ops: The “Pre-Design System” (Surviving the CSS Chaos)",
         "href": "/nodes/design-ops-the-pre-design-system-surviving-the-css-chaos",
         "size": "small",
@@ -2900,8 +2938,10 @@
       },
       {
         "id": "item:node:devops-building-the-undo-button-for-my-career",
+        "_id": "wp.node.994",
         "type": "item",
         "docType": "node",
+        "slug": "devops-building-the-undo-button-for-my-career",
         "label": "DevOps: Building the “Undo” Button for My Career",
         "href": "/nodes/devops-building-the-undo-button-for-my-career",
         "size": "small",
@@ -2918,8 +2958,10 @@
       },
       {
         "id": "item:node:engineering-the-perfect-resume-workflow",
+        "_id": "wp.node.853",
         "type": "item",
         "docType": "node",
+        "slug": "engineering-the-perfect-resume-workflow",
         "label": "Engineering the Perfect Resume Workflow",
         "href": "/nodes/engineering-the-perfect-resume-workflow",
         "size": "small",
@@ -2944,8 +2986,10 @@
       },
       {
         "id": "item:caseStudy:fx-networks-website-redesign-nominated-for-webby",
+        "_id": "wp.caseStudy.271",
         "type": "item",
         "docType": "caseStudy",
+        "slug": "fx-networks-website-redesign-nominated-for-webby",
         "label": "FX Networks Website Redesign: Nominated for Webby!",
         "href": "/case-studies/fx-networks-website-redesign-nominated-for-webby",
         "size": "small",
@@ -2970,8 +3014,10 @@
       },
       {
         "id": "item:node:feature-the-resume-factory-the-sugartown-pink-design-system",
+        "_id": "wp.node.1054",
         "type": "item",
         "docType": "node",
+        "slug": "feature-the-resume-factory-the-sugartown-pink-design-system",
         "label": "Feature: The Resume Factory & The “Sugartown Pink” Design System",
         "href": "/nodes/feature-the-resume-factory-the-sugartown-pink-design-system",
         "size": "small",
@@ -2992,8 +3038,10 @@
       },
       {
         "id": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "_id": "wp.node.1569",
         "type": "item",
         "docType": "node",
+        "slug": "how-i-learned-to-stop-renaming-and-love-the-existing-classes",
         "label": "How I Learned to Stop Renaming and Love the Existing Classes",
         "href": "/nodes/how-i-learned-to-stop-renaming-and-love-the-existing-classes",
         "size": "small",
@@ -3022,8 +3070,10 @@
       },
       {
         "id": "item:node:sanity-custom-table-input",
+        "_id": "fd8c1f98-0569-4f1d-9e66-3b47e8e7c5ad",
         "type": "item",
         "docType": "node",
+        "slug": "sanity-custom-table-input",
         "label": "I Audited My Human's Table Input and It Was 47 Clicks of Pure Suffering",
         "href": "/nodes/sanity-custom-table-input",
         "size": "small",
@@ -3056,8 +3106,10 @@
       },
       {
         "id": "item:article:sanity-table-authoring-ux",
+        "_id": "1d5c044c-1663-424e-8751-db2a618f36c0",
         "type": "item",
         "docType": "article",
+        "slug": "sanity-table-authoring-ux",
         "label": "I Built a Spreadsheet Inside My CMS (Because the Alternative Was 47 Clicks Per Table)",
         "href": "/articles/sanity-table-authoring-ux",
         "size": "small",
@@ -3094,8 +3146,10 @@
       },
       {
         "id": "item:node:knowledge-graph-roadmap",
+        "_id": "wp.node.1552",
         "type": "item",
         "docType": "node",
+        "slug": "knowledge-graph-roadmap",
         "label": "Knowledge Graph Roadmap",
         "href": "/nodes/knowledge-graph-roadmap",
         "size": "small",
@@ -3120,8 +3174,10 @@
       },
       {
         "id": "item:caseStudy:launching-lunar-landing",
+        "_id": "wp.caseStudy.294",
         "type": "item",
         "docType": "caseStudy",
+        "slug": "launching-lunar-landing",
         "label": "Launching Lunar Landing",
         "href": "/case-studies/launching-lunar-landing",
         "size": "small",
@@ -3142,8 +3198,10 @@
       },
       {
         "id": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "_id": "wp.article.736",
         "type": "item",
         "docType": "article",
+        "slug": "lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
         "label": "Lessons from Replacing Oracle ATG/BCC with a Headless CMS",
         "href": "/articles/lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
         "size": "small",
@@ -3176,8 +3234,10 @@
       },
       {
         "id": "item:node:market-scan-top-ai-tools-for-data-architecture-diagrams",
+        "_id": "wp.node.954",
         "type": "item",
         "docType": "node",
+        "slug": "market-scan-top-ai-tools-for-data-architecture-diagrams",
         "label": "Market Scan: Top AI Tools for Data & Architecture Diagrams",
         "href": "/nodes/market-scan-top-ai-tools-for-data-architecture-diagrams",
         "size": "small",
@@ -3198,8 +3258,10 @@
       },
       {
         "id": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "_id": "wp.node.852",
         "type": "item",
         "docType": "node",
+        "slug": "market-scan-top-headless-cms-platforms-2025",
         "label": "Market Scan: Top Headless CMS Platforms (2025)",
         "href": "/nodes/market-scan-top-headless-cms-platforms-2025",
         "size": "small",
@@ -3224,8 +3286,10 @@
       },
       {
         "id": "item:article:why-cms-and-design-systems-belong-together",
+        "_id": "wp.article.410",
         "type": "item",
         "docType": "article",
+        "slug": "why-cms-and-design-systems-belong-together",
         "label": "Oh, oh… Atomic: CMS and Design Systems 4evar",
         "href": "/articles/why-cms-and-design-systems-belong-together",
         "size": "small",
@@ -3258,8 +3322,10 @@
       },
       {
         "id": "item:node:prd-visualization-engine",
+        "_id": "wp.node.1079",
         "type": "item",
         "docType": "node",
+        "slug": "prd-visualization-engine",
         "label": "PRD: The Visualization Engine (Phase 2)",
         "href": "/nodes/prd-visualization-engine",
         "size": "small",
@@ -3280,8 +3346,10 @@
       },
       {
         "id": "item:node:post-mortems-as-system-upgrades",
+        "_id": "0811c2dc-ce7b-4b47-a6a7-5d4d4628666e",
         "type": "item",
         "docType": "node",
+        "slug": "post-mortems-as-system-upgrades",
         "label": "Post-Mortems as System Upgrades: How Breaking Things Builds Better AI Workflows",
         "href": "/nodes/post-mortems-as-system-upgrades",
         "size": "small",
@@ -3322,8 +3390,10 @@
       },
       {
         "id": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "_id": "wp.caseStudy.388",
         "type": "item",
         "docType": "caseStudy",
+        "slug": "prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "label": "Prestige Beauty Pilot — Headless CMS + Enterprise Design System",
         "href": "/case-studies/prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "size": "small",
@@ -3360,8 +3430,10 @@
       },
       {
         "id": "item:node:process-insight-the-csv-reality-check",
+        "_id": "wp.node.942",
         "type": "item",
         "docType": "node",
+        "slug": "process-insight-the-csv-reality-check",
         "label": "Process Insight: The CSV Reality Check",
         "href": "/nodes/process-insight-the-csv-reality-check",
         "size": "small",
@@ -3386,8 +3458,10 @@
       },
       {
         "id": "item:node:process-insight-when-to-fire-your-ai",
+        "_id": "wp.node.1451",
         "type": "item",
         "docType": "node",
+        "slug": "process-insight-when-to-fire-your-ai",
         "label": "Process Insight: When to Fire Your AI (and Start From Scratch)",
         "href": "/nodes/process-insight-when-to-fire-your-ai",
         "size": "small",
@@ -3408,8 +3482,10 @@
       },
       {
         "id": "item:node:project-knowledge-graph-topology-over-chronology",
+        "_id": "wp.node.1570",
         "type": "item",
         "docType": "node",
+        "slug": "project-knowledge-graph-topology-over-chronology",
         "label": "Project: Knowledge Graph — Topology Over Chronology",
         "href": "/nodes/project-knowledge-graph-topology-over-chronology",
         "size": "small",
@@ -3442,8 +3518,10 @@
       },
       {
         "id": "item:node:project-sugartown-cms-architecture",
+        "_id": "wp.node.946",
         "type": "item",
         "docType": "node",
+        "slug": "project-sugartown-cms-architecture",
         "label": "Project: Sugartown CMS Architecture",
         "href": "/nodes/project-sugartown-cms-architecture",
         "size": "small",
@@ -3476,8 +3554,10 @@
       },
       {
         "id": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
+        "_id": "wp.node.1653",
         "type": "item",
         "docType": "node",
+        "slug": "release-assistant-governance-inputs-outputs-no-vibes",
         "label": "Release Assistant Governance: Inputs, Outputs, No Vibes",
         "href": "/nodes/release-assistant-governance-inputs-outputs-no-vibes",
         "size": "small",
@@ -3494,8 +3574,10 @@
       },
       {
         "id": "item:node:release-governance-storybook-smoke-check-design-system",
+        "_id": "456120f8-5fc9-4135-9eaa-c49891fe4de1",
         "type": "item",
         "docType": "node",
+        "slug": "release-governance-storybook-smoke-check-design-system",
         "label": "Release Governance: Storybook Smoke Check for Design System Changes",
         "href": "/nodes/release-governance-storybook-smoke-check-design-system",
         "size": "small",
@@ -3508,8 +3590,10 @@
       },
       {
         "id": "item:node:release-governance-yyyy-mm-dd-workflow",
+        "_id": "wp.node.953",
         "type": "item",
         "docType": "node",
+        "slug": "release-governance-yyyy-mm-dd-workflow",
         "label": "Release Governance: YYYY.MM.DD Workflow",
         "href": "/nodes/release-governance-yyyy-mm-dd-workflow",
         "size": "small",
@@ -3530,8 +3614,10 @@
       },
       {
         "id": "item:node:show-me-the-computed-values",
+        "_id": "f02c656c-5041-4d83-a3cc-8d9e48ed5d17",
         "type": "item",
         "docType": "node",
+        "slug": "show-me-the-computed-values",
         "label": "Show Me the Computed Values",
         "href": "/nodes/show-me-the-computed-values",
         "size": "small",
@@ -3556,8 +3642,10 @@
       },
       {
         "id": "item:node:status-update-the-great-re-platforming",
+        "_id": "wp.node.993",
         "type": "item",
         "docType": "node",
+        "slug": "status-update-the-great-re-platforming",
         "label": "Status Update: The Great Re-Platforming",
         "href": "/nodes/status-update-the-great-re-platforming",
         "size": "small",
@@ -3578,8 +3666,10 @@
       },
       {
         "id": "item:node:sugartown-platform-roadmap-updated",
+        "_id": "wp.node.1733",
         "type": "item",
         "docType": "node",
+        "slug": "sugartown-platform-roadmap-updated",
         "label": "Sugartown Platform Roadmap (updated)",
         "href": "/nodes/sugartown-platform-roadmap-updated",
         "size": "small",
@@ -3600,8 +3690,10 @@
       },
       {
         "id": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+        "_id": "wp.node.863",
         "type": "item",
         "docType": "node",
+        "slug": "sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
         "label": "Sweet Upgrades: Why Gemini 3 is the Cherry on Top",
         "href": "/nodes/sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
         "size": "small",
@@ -3626,8 +3718,10 @@
       },
       {
         "id": "item:node:changelog",
+        "_id": "wp.node.1447",
         "type": "item",
         "docType": "node",
+        "slug": "changelog",
         "label": "System Changelog",
         "href": "/nodes/changelog",
         "size": "small",
@@ -3652,8 +3746,10 @@
       },
       {
         "id": "item:node:80px-gap-section-spacing-framework",
+        "_id": "56d226f8-c801-4d71-804a-9cc81d17cd55",
         "type": "item",
         "docType": "node",
+        "slug": "80px-gap-section-spacing-framework",
         "label": "The 80px Gap That Wasn't Supposed to Be There",
         "href": "/nodes/80px-gap-section-spacing-framework",
         "size": "small",
@@ -3678,8 +3774,10 @@
       },
       {
         "id": "item:node:button-two-names-single-field-authority",
+        "_id": "d5300aa4-791f-44ee-a2a8-c030f4124b5b",
         "type": "item",
         "docType": "node",
+        "slug": "button-two-names-single-field-authority",
         "label": "The Button That Had Two Names",
         "href": "/nodes/button-two-names-single-field-authority",
         "size": "small",
@@ -3692,8 +3790,10 @@
       },
       {
         "id": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "_id": "177482aa-9daf-40ec-9b9c-94d7df6cb57f",
         "type": "item",
         "docType": "node",
+        "slug": "the-em-dash-that-came-back-from-the-dead",
         "label": "The Em Dash That Came Back From the Dead (Or, How My CMS Hired a Ghostwriter Without Telling Me)",
         "href": "/nodes/the-em-dash-that-came-back-from-the-dead",
         "size": "small",
@@ -3726,8 +3826,10 @@
       },
       {
         "id": "item:node:the-epic-that-executed-itself",
+        "_id": "24673550-9c8c-444a-a883-ca43d0d04f10",
         "type": "item",
         "docType": "node",
+        "slug": "the-epic-that-executed-itself",
         "label": "The Epic That Executed Itself",
         "href": "/nodes/the-epic-that-executed-itself",
         "size": "small",
@@ -3760,8 +3862,10 @@
       },
       {
         "id": "item:node:the-great-disconnection",
+        "_id": "84d31e26-5025-4ede-b537-2b8aed11c934",
         "type": "item",
         "docType": "node",
+        "slug": "the-great-disconnection",
         "label": "The Great Disconnection",
         "href": "/nodes/the-great-disconnection",
         "size": "small",
@@ -3794,8 +3898,10 @@
       },
       {
         "id": "item:node:the-great-versioning-reconciliation",
+        "_id": "wp.node.1568",
         "type": "item",
         "docType": "node",
+        "slug": "the-great-versioning-reconciliation",
         "label": "The Great Versioning Reconciliation",
         "href": "/nodes/the-great-versioning-reconciliation",
         "size": "small",
@@ -3820,8 +3926,10 @@
       },
       {
         "id": "item:article:the-great-icloud-divorce",
+        "_id": "wp.article.1804",
         "type": "item",
         "docType": "article",
+        "slug": "the-great-icloud-divorce",
         "label": "The Great iCloud Divorce: A Tale of Two AIs and One Very Angry Mac",
         "href": "/articles/the-great-icloud-divorce",
         "size": "small",
@@ -3850,8 +3958,10 @@
       },
       {
         "id": "item:node:the-release-that-ate-the-card-system",
+        "_id": "wp.node.1514",
         "type": "item",
         "docType": "node",
+        "slug": "the-release-that-ate-the-card-system",
         "label": "The Release That Ate the Card System",
         "href": "/nodes/the-release-that-ate-the-card-system",
         "size": "small",
@@ -3868,8 +3978,10 @@
       },
       {
         "id": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "_id": "687bce25-3fda-45e4-b83f-6ff289c4e681",
         "type": "item",
         "docType": "node",
+        "slug": "seafoam-vs-lime-component-reuse-guardrails",
         "label": "The Seafoam That Should Have Been Lime: Guardrails for Component Reuse",
         "href": "/nodes/seafoam-vs-lime-component-reuse-guardrails",
         "size": "small",
@@ -3898,8 +4010,10 @@
       },
       {
         "id": "item:article:site-that-built-itself",
+        "_id": "5b0046ad-d405-41c9-8af7-c0b83e7e0c09",
         "type": "item",
         "docType": "article",
+        "slug": "site-that-built-itself",
         "label": "The Site That Built Itself While Everything Else Fell Apart",
         "href": "/articles/site-that-built-itself",
         "size": "small",
@@ -3928,8 +4042,10 @@
       },
       {
         "id": "item:node:this-knowledge-graph-origin-story",
+        "_id": "wp.node.1551",
         "type": "item",
         "docType": "node",
+        "slug": "this-knowledge-graph-origin-story",
         "label": "This Knowledge Graph Origin Story",
         "href": "/nodes/this-knowledge-graph-origin-story",
         "size": "small",
@@ -3954,8 +4070,10 @@
       },
       {
         "id": "item:node:two-weeks-inside-the-machine",
+        "_id": "wp.node.1796",
         "type": "item",
         "docType": "node",
+        "slug": "two-weeks-inside-the-machine",
         "label": "Two Weeks Inside the Machine",
         "href": "/nodes/two-weeks-inside-the-machine",
         "size": "small",
@@ -3976,8 +4094,10 @@
       },
       {
         "id": "item:node:visualizing-the-knowledge-graph",
+        "_id": "wp.node.950",
         "type": "item",
         "docType": "node",
+        "slug": "visualizing-the-knowledge-graph",
         "label": "Visualizing the Knowledge Graph",
         "href": "/nodes/visualizing-the-knowledge-graph",
         "size": "small",
@@ -4002,8 +4122,10 @@
       },
       {
         "id": "item:node:we-fixed-the-same-white-screen",
+        "_id": "wp.node.1815",
         "type": "item",
         "docType": "node",
+        "slug": "we-fixed-the-same-white-screen",
         "label": "We Fixed the Same White Screen Three Times (And Then Built a Prompt to Prevent It)",
         "href": "/nodes/we-fixed-the-same-white-screen",
         "size": "small",
@@ -4024,8 +4146,10 @@
       },
       {
         "id": "item:node:which-chatbot-is-best-for-web-design",
+        "_id": "wp.node.1646",
         "type": "item",
         "docType": "node",
+        "slug": "which-chatbot-is-best-for-web-design",
         "label": "Which Chatbot Is Best for Web Design?",
         "href": "/nodes/which-chatbot-is-best-for-web-design",
         "size": "small",
@@ -4046,8 +4170,10 @@
       },
       {
         "id": "item:node:i-cant-do-that-yes-i-can",
+        "_id": "7b1224d0-91bd-4d8c-b582-92064007ecc1",
         "type": "item",
         "docType": "node",
+        "slug": "i-cant-do-that-yes-i-can",
         "label": "“I Can’t Do That” (Yes I Can): Post-Mortem of Epic v7c",
         "href": "/nodes/i-cant-do-that-yes-i-can",
         "size": "small",
@@ -4068,8 +4194,10 @@
       },
       {
         "id": "item:article:luxury-dot-com",
+        "_id": "wp.article.814",
         "type": "item",
         "docType": "article",
+        "slug": "luxury-dot-com",
         "label": "💎 LUXURY DOT COM 💎",
         "href": "/articles/luxury-dot-com",
         "size": "small",

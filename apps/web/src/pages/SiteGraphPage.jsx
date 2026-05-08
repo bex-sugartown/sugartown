@@ -1,0 +1,157 @@
+/**
+ * SiteGraphPage — SUG-81 Phase 3
+ *
+ * Site-wide cross-type knowledge graph at /knowledge-graph.
+ * Shows articles + case studies + nodes as coloured item nodes, with project/
+ * category hub nodes. Type filter strip narrows the graph; clicking a node
+ * shows a ContentCard in the rail. ?type= param pre-activates a filter on load.
+ */
+import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useSearchParams, Link } from 'react-router-dom'
+import { client } from '../lib/sanity'
+import { allSiteItemsQuery } from '../lib/queries'
+import KnowledgeGraph from '../components/KnowledgeGraph/KnowledgeGraph'
+import ContentCard from '../components/ContentCard'
+import statsJson from '../generated/stats.json'
+import styles from './SiteGraphPage.module.css'
+
+const FILTER_TYPES = [
+  { key: 'all',       label: 'All' },
+  { key: 'article',   label: 'Articles' },
+  { key: 'caseStudy', label: 'Case Studies' },
+  { key: 'node',      label: 'Nodes' },
+]
+
+const COLOR_TOKENS = {
+  article:   '--st-kg-node-article',
+  caseStudy: '--st-kg-node-case',
+  node:      '--st-kg-node-node',
+}
+
+function filterGraph(siteGraph, typeFilter) {
+  if (!siteGraph || typeFilter === 'all') return siteGraph
+
+  const keepIds = new Set(
+    siteGraph.nodes
+      .filter(n => n.type !== 'item' || n.docType === typeFilter)
+      .map(n => n.id)
+  )
+
+  const nodes = siteGraph.nodes.filter(n => keepIds.has(n.id))
+  const edges = (siteGraph.edges ?? []).filter(
+    e => keepIds.has(e.source) && keepIds.has(e.target)
+  )
+  return { ...siteGraph, nodes, edges }
+}
+
+export default function SiteGraphPage() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [typeFilter, setTypeFilter]     = useState(() => {
+    const p = searchParams.get('type')
+    return FILTER_TYPES.some(f => f.key === p) ? p : 'all'
+  })
+  const [selectedNode, setSelectedNode] = useState(null)
+  const [allItems, setAllItems]         = useState(null)
+  const [loading, setLoading]           = useState(true)
+
+  useEffect(() => {
+    client.fetch(allSiteItemsQuery).then(items => {
+      setAllItems(items)
+      setLoading(false)
+    })
+  }, [])
+
+  const allItemsById = useMemo(() => {
+    if (!allItems) return new Map()
+    return new Map(allItems.map(item => [item._id, item]))
+  }, [allItems])
+
+  const graphData = useMemo(
+    () => filterGraph(statsJson.siteGraph, typeFilter),
+    [typeFilter]
+  )
+
+  const handleFilterChange = useCallback(key => {
+    setTypeFilter(key)
+    setSelectedNode(null)
+    const params = key === 'all' ? {} : { type: key }
+    setSearchParams(params, { replace: true })
+  }, [setSearchParams])
+
+  const handleNodeClick = useCallback(node => {
+    setSelectedNode(node)
+  }, [])
+
+  const selectedItem = useMemo(() => {
+    if (!selectedNode || selectedNode.type !== 'item') return null
+    return allItemsById.get(selectedNode._id) ?? null
+  }, [selectedNode, allItemsById])
+
+  return (
+    <main className={styles.page}>
+      <header className={styles.header}>
+        <h1 className={styles.heading}>Knowledge Graph</h1>
+        <p className={styles.kicker}>
+          A site-wide map of articles, case studies, and nodes — connected by project and category.
+        </p>
+      </header>
+
+      <div className={styles.filterStrip}>
+        {FILTER_TYPES.map(f => (
+          <button
+            key={f.key}
+            type="button"
+            className={`${styles.filterChip} ${styles[`chip_${f.key}`]} ${typeFilter === f.key ? styles.chipActive : ''}`}
+            onClick={() => handleFilterChange(f.key)}
+          >
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      <div className={styles.body}>
+        <div className={styles.graphPane}>
+          <KnowledgeGraph
+            graphData={graphData}
+            colorTokens={COLOR_TOKENS}
+            showLegend
+            selectedId={selectedNode?.id ?? null}
+            onNodeClick={handleNodeClick}
+          />
+        </div>
+
+        <div className={styles.rail}>
+          {!selectedNode && (
+            <div className={styles.railEmpty}>
+              <p className={styles.railHint}>Click any node to explore it</p>
+            </div>
+          )}
+
+          {selectedNode && selectedNode.type === 'item' && (
+            <div className={styles.railCard}>
+              {loading && <p className={styles.railHint}>Loading…</p>}
+              {!loading && !selectedItem && (
+                <p className={styles.railHint}>Item not found in content.</p>
+              )}
+              {!loading && selectedItem && (
+                <ContentCard item={selectedItem} showExcerpt showHeroImage={false} />
+              )}
+            </div>
+          )}
+
+          {selectedNode && selectedNode.type !== 'item' && (
+            <div className={styles.railHub}>
+              <p className={styles.railHubType}>
+                {selectedNode.type === 'project' ? 'Project' : 'Category'}
+              </p>
+              <p className={styles.railHubLabel}>{selectedNode.label}</p>
+              <Link to={selectedNode.href} className={styles.railHubLink}>
+                View {selectedNode.type === 'project' ? 'project' : 'category'} →
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+    </main>
+  )
+}
