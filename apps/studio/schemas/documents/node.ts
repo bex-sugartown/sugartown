@@ -13,7 +13,7 @@ import {standardPortableText, metadataPortableText} from '../objects/portableTex
  */
 export default defineType({
   name: 'node',
-  title: 'Knowledge Graph Node',
+  title: 'Node',
   type: 'document',
   icon: DiamondIcon,
   groups: [
