@@ -414,3 +414,36 @@ jobs:
 3. `/mini-release SUG-100 CWV Snapshot Widget` — patch bump unless ScoreRing + SegmentedControl warrant a MINOR (likely MINOR — new public DS surface). Use `/release` if so.
 4. Transition Linear SUG-100 to **Done** after merge to `origin/main`
 5. Start next epic
+
+---
+
+## Close-Out Record
+
+**Closed:** 2026-05-08  
+**Version:** v0.23.17
+
+### What shipped
+
+- `CwvSnapshot.jsx` + `CwvSnapshot.module.css` — CWV tile widget with mobile/desktop `SegmentedControl` toggle, `ScoreRing` SVG arcs, LCP/CLS/INP tiles, status-token color system
+- `ScoreRing` DS primitive (`packages/design-system` + `apps/web` adapter)
+- `SegmentedControl` DS primitive (same)
+- `trustReportSection` schema extended with `cwv-snapshot` report type
+- `stats.json` pipeline extended: `crux.js` per-form-factor split, `perf.js` mobile+desktop preset support, `lighthouserc.cjs` dual-preset config
+- `PERF_BACKUP` + `CRUX_BACKUP` static fallback constants in `CwvSnapshot.jsx`
+- `apps/web/scripts/update-perf-backup.js` + `pnpm update:backup` script — patches backup constants from local LHCI run
+- `/update-cwv` Claude Code skill — runs LHCI, updates backup, shows diff, offers commit
+
+### Pipeline gap at close-out
+
+- **CrUX:** `available: false, reason: 'no-data'` — API key restriction fixed (removed "Websites" application restriction 2026-05-08). Returns `no-data` until `sugartown.io` reaches ~1,000 Chrome user visits over 28 days. No action needed — collector is working.
+- **LHCI in CI:** `perf.stale: true` — GitHub Actions LHCI run produces no JSON output. Root cause not yet diagnosed. Tracked in SUG-106.
+- **Sanity secrets in CI:** `VITE_SANITY_*` not set in GitHub Actions environment — sanity collector returns `stale: true`. Tracked in SUG-106.
+- **Mobile scores (backup data):** performance 68, best practices 42. Root cause investigation deferred to SUG-106.
+
+### Chromatic
+
+<!-- Chromatic: pending — SUG-106 -->
+
+### Follow-on
+
+SUG-106 covers: LHCI CI fix, Sanity secrets, mobile score investigation, manual backup workflow documentation, and formal SUG-106 close-out.
