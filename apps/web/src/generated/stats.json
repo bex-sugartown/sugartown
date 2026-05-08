@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-08T09:50:38.533Z",
+  "generatedAt": "2026-05-08T10:42:00.760Z",
   "release": {
     "current": {
       "version": "0.23.11",
@@ -77,7 +77,7 @@
     "components": 47
   },
   "repo": {
-    "commits": 997,
+    "commits": 999,
     "epicsShipped": 90
   },
   "perf": {
@@ -85,13 +85,13 @@
     "error": "No Lighthouse CI output found at /Users/beckyalice/SUGARTOWN_DEV/sugartown/.lighthouseci — run lhci autorun first"
   },
   "crux": {
-    "fetchedAt": "2026-05-08T09:50:24.419Z",
+    "fetchedAt": "2026-05-08T10:41:43.253Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-05-08T09:50:37.090Z",
+    "fetchedAt": "2026-05-08T10:41:58.766Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -102,7 +102,7 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-08T09:50:37.368Z",
+    "fetchedAt": "2026-05-08T10:41:59.393Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 0,
     "watchers": 0,
@@ -112,7 +112,7 @@
     "lastCommit": "2026-05-08T07:26:36Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-08T09:50:38.021Z",
+    "fetchedAt": "2026-05-08T10:41:59.975Z",
     "counts": {
       "article": 9,
       "node": 48,
@@ -126,7 +126,7 @@
     }
   },
   "graph": {
-    "generatedAt": "2026-05-08T09:50:38.289Z",
+    "generatedAt": "2026-05-08T10:42:00.249Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -2263,7 +2263,7 @@
     ]
   },
   "siteGraph": {
-    "generatedAt": "2026-05-08T09:50:38.533Z",
+    "generatedAt": "2026-05-08T10:42:00.760Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
