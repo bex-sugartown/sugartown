@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-08T07:26:36.744Z",
+  "generatedAt": "2026-05-08T15:41:05.095Z",
   "release": {
     "current": {
       "version": "0.23.11",
@@ -80,13 +80,13 @@
     "error": "No JSON files in /home/runner/work/sugartown/sugartown/.lighthouseci"
   },
   "crux": {
-    "fetchedAt": "2026-05-08T07:26:20.944Z",
+    "fetchedAt": "2026-05-08T15:40:48.953Z",
     "origin": "https://sugartown.io",
     "available": false,
-    "reason": "no-api-key"
+    "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-05-08T07:26:35.724Z",
+    "fetchedAt": "2026-05-08T15:41:03.966Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -97,14 +97,14 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-08T07:26:36.616Z",
+    "fetchedAt": "2026-05-08T15:41:04.959Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 0,
     "watchers": 0,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-05-07T08:30:03Z"
+    "lastCommit": "2026-05-08T07:26:36Z"
   },
   "sanity": {
     "stale": true,
