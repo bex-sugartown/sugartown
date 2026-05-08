@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-07 · v0.23.15 · SUG-104 added (Listview updates — archives and taxonomies)
+> Updated 2026-05-08 · v0.23.16 · SUG-81 shipped (MVP)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-102 shipped ✅ v0.23.15. Token graph clean — 6 new primitives, 14 legacy aliases removed. DS queue: SUG-100 (CWV, In Review — awaiting CI perf data).
+> **⚑ Current focus:** SUG-81 shipped ✅ v0.23.16. Site-wide knowledge graph MVP — all content types, FilterStrip component, per-type colors, Sanity archivePage wired. SUG-105 (KG Phase 2) in backlog — Phase 0 mocks pending. SUG-100 (CWV) In Review — awaiting CI perf data.
 
 ---
 
@@ -21,7 +21,6 @@
 |---|------|------|----------|
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** ✅ Shipped. Services page outcome framing, availability signal on hero/About, case study narrative, Contact tone update. All Sanity drafts published 2026-05-01. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | ✅ Shipped |
 | 2 | **[SUG-95](https://linear.app/sugartown/issue/SUG-95) · Sanity AI Assist POC — case study field generation** ✅ Shipped v0.23.3. `@sanity/assist` installed, caseStudy exclude config deployed, `docs/conventions/ai-assist-conventions.md` written. Epic: `docs/shipped/SUG-95-sanity-ai-assist-poc-case-study-fields.md`. | `Schema` `Tooling` `AI` | ✅ Shipped |
-| 3 | **[SUG-81](https://linear.app/sugartown/issue/SUG-81) · Site-wide Knowledge Graph** — Extend KG to all content types (article, caseStudy, node). New `/graph` route. Separate `stats.siteGraph` collector key. Phase 0 architecture decisions required. Epic: `docs/backlog/SUG-81-site-wide-knowledge-graph.md`. <br>_⬇ Deprioritized by consulting pivot — KG visualization serves content-curious returning visitors; consulting prospects need Services/Contact/case studies first. Valuable long-term but not a conversion lever. Push below case study outcomes work._ | `UX` `Infrastructure` | 🟣 Soon |
 
 ---
 
@@ -42,7 +41,8 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Net-new layout patterns for archive and taxonomy pages: person split-column, brand-dot bullet list, brand-soft chip, letter-bucket grid, A–Z jump bar, view toggle, filter bar stripe, content row hover. DS primitives `.st-list--marked` + `.st-chip--brand-soft` promoted. No schema changes. Epic: `docs/backlog/SUG-104-listview-updates-archives-taxonomies.md`. | `UX` `Design System` `Frontend` | 🟣 Soon |
+| 1 | **[SUG-105](https://linear.app/sugartown/issue/SUG-105) · Knowledge Graph Phase 2** — Masthead kicker (live node/edge counts), FilterStrip 3-value chip color system (light/dark, lime contrast solution), archive icon treatment, fullscreen overlay, tag nodes on filtered graphs, rail SELECTED header, stats cleanup, a11y, Chromatic VRT. Phase 0 mocks required before implementation. Epic: `docs/backlog/SUG-105-knowledge-graph-phase-2.md`. | `UX` `Design System` `Frontend` | 🟣 Soon |
+| 2 | **[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Net-new layout patterns for archive and taxonomy pages: person split-column, brand-dot bullet list, brand-soft chip, letter-bucket grid, A–Z jump bar, view toggle, filter bar stripe, content row hover. DS primitives `.st-list--marked` + `.st-chip--brand-soft` promoted. No schema changes. Epic: `docs/backlog/SUG-104-listview-updates-archives-taxonomies.md`. | `UX` `Design System` `Frontend` | 🟣 Soon |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 
 ---
@@ -85,6 +85,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-81 · Site-wide Knowledge Graph (MVP)** — `/knowledge-graph` with force-directed canvas (article, caseStudy, node). FilterStrip component with per-type color tokens. Hub/item node rail with ContentCard compact + hub card surface. Legend with bg+border. Sanity archivePage wired for heading/SEO. `--st-kg-*` 7-token layer. `stats.siteGraph` build-time collector. Stats pipeline live. Chromatic pending (SUG-105).~~ | v0.23.16 | 2026-05-08 |
 | ~~**SUG-102 · DS token hygiene Phase C** — 6 new Tier-1 primitives (amber-450 #f0b429, amber-650 #d4a017, red-400 #f87171, red-600 #dc2626, crimson-500 #ff4757, midnight-950 #0a0f1a). 8 token references promoted. 14 legacy aliases removed (st-color-grey-*, st-color-void-900, st-color-red-500, st-font-sans, st-font-mono, st-color-brand). Pre-commit hook fixed for legitimate regeneration commits. Chromatic Build 31: zero visual changes. Token count 578 → 570.~~ | v0.23.15 | 2026-05-07 |
 | ~~**SUG-86 · Style Dictionary token pipeline** — 578 tokens migrated from hand-authored dual `tokens.css` to `tokens/source/tokens.json`. Style Dictionary v5 generates both `packages/design-system/src/styles/tokens.css` and `apps/web/src/design-system/styles/tokens.css` via `pnpm tokens:build`. Flat JSON structure, `outputReferences: true`, pre-commit guard. Deprecated `[data-theme="dark"]` block removed. Semantic diff: 0 missing, 0 extra, 0 value differences. Chromatic Build 30: zero visual changes.~~ | v0.23.14 | 2026-05-07 |
 | ~~**SUG-98 · Component gap analysis — renderer stories + thruline audit + Phase B component parity** — 5 renderer stories (TextSection, MermaidSection, ImageGallery, CitedBlock, StatTileSection), 13-adapter thruline verified, ContentNav relocated to Patterns, FilterBar documented web-only, CardGrid deleted, CwvSnapshot decomposed, inline code light-mode fix, Storybook nav Foundations/Components/Patterns/Layout. Chromatic Build 29 passed (242 stories).~~ | v0.23.13 | 2026-05-07 |
@@ -172,4 +173,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-07 · v0.23.15 · queue: SUG-100 (In Review)*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-08 · v0.23.16 · SUG-81 shipped · queue: SUG-105 (Phase 0), SUG-100 (In Review)*
