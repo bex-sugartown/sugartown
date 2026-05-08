@@ -82,7 +82,9 @@
 /* Hub card — project/category selected state */
 
 .railHub {
-  padding: 0;
+  border: 1px solid var(--st-color-border-default);
+  background: var(--st-color-bg-surface);
+  padding: 12px;
 }
 
 .railHubType {

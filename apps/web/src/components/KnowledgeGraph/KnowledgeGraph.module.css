@@ -34,6 +34,9 @@
   flex-direction: column;
   gap: var(--st-space-1);
   pointer-events: none;
+  background: var(--st-color-bg-surface);
+  border: 1px solid var(--st-color-border-medium);
+  padding: var(--st-space-3) var(--st-space-4);
 }
 
 .legendItem {

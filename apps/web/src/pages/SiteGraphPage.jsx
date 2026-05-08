@@ -167,7 +167,12 @@ export default function SiteGraphPage() {
                 <p className={styles.railHint}>Item not found in content.</p>
               )}
               {!loading && selectedItem && (
-                <ContentCard item={selectedItem} showExcerpt showHeroImage={false} />
+                <ContentCard
+                  item={{ ...selectedItem, excerpt: selectedItem.excerpt?.slice(0, 120) ?? null }}
+                  density="compact"
+                  showExcerpt
+                  showHeroImage={false}
+                />
               )}
             </div>
           )}
