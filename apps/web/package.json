@@ -19,7 +19,8 @@
     "validate:taxonomy": "node scripts/validate-taxonomy.js",
     "migrate:seo-fields": "node scripts/migrate-seo-fields.js",
     "migrate:array-keys": "node scripts/migrate-add-array-keys.js",
-    "collect:stats": "node scripts/collect-stats.js"
+    "collect:stats": "node scripts/collect-stats.js",
+    "update:backup": "node scripts/update-perf-backup.js"
   },
   "dependencies": {
     "@icons-pack/react-simple-icons": "^13.12.0",
