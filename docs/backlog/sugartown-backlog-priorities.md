@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-08 · v0.23.16 · SUG-81 shipped (MVP)
+> Updated 2026-05-08 · v0.23.16 · SUG-81 shipped (MVP) · SUG-106 added (stats pipeline fix + SUG-100 close-out)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -41,7 +41,8 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
-| 1 | **[SUG-105](https://linear.app/sugartown/issue/SUG-105) · Knowledge Graph Phase 2** — Masthead kicker (live node/edge counts), FilterStrip 3-value chip color system (light/dark, lime contrast solution), archive icon treatment, fullscreen overlay, tag nodes on filtered graphs, rail SELECTED header, stats cleanup, a11y, Chromatic VRT. Phase 0 mocks required before implementation. Epic: `docs/backlog/SUG-105-knowledge-graph-phase-2.md`. | `UX` `Design System` `Frontend` | 🟣 Soon |
+| 1 | **[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Fix LHCI not writing JSON in CI, add missing Sanity secrets, diagnose low mobile Lighthouse scores (perf 68, best-practices 42), document manual backup update workflow, close SUG-100. Epic: `docs/backlog/SUG-106-stats-pipeline-fix-sug-100-close-out.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
+| 2 | **[SUG-105](https://linear.app/sugartown/issue/SUG-105) · Knowledge Graph Phase 2** — Masthead kicker (live node/edge counts), FilterStrip 3-value chip color system (light/dark, lime contrast solution), archive icon treatment, fullscreen overlay, tag nodes on filtered graphs, rail SELECTED header, stats cleanup, a11y, Chromatic VRT. Phase 0 mocks required before implementation. Epic: `docs/backlog/SUG-105-knowledge-graph-phase-2.md`. | `UX` `Design System` `Frontend` | 🟣 Soon |
 | 2 | **[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Net-new layout patterns for archive and taxonomy pages: person split-column, brand-dot bullet list, brand-soft chip, letter-bucket grid, A–Z jump bar, view toggle, filter bar stripe, content row hover. DS primitives `.st-list--marked` + `.st-chip--brand-soft` promoted. No schema changes. Epic: `docs/backlog/SUG-104-listview-updates-archives-taxonomies.md`. | `UX` `Design System` `Frontend` | 🟣 Soon |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 
