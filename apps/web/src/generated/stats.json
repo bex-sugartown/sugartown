@@ -88,7 +88,7 @@
     "fetchedAt": "2026-05-08T10:41:43.253Z",
     "origin": "https://sugartown.io",
     "available": false,
-    "reason": "no-api-key"
+    "reason": "no-data"
   },
   "security": {
     "fetchedAt": "2026-05-08T10:41:58.766Z",
