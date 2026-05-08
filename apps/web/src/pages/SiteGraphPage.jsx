@@ -17,15 +17,16 @@ import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import KnowledgeGraph from '../components/KnowledgeGraph/KnowledgeGraph'
 import ContentCard from '../components/ContentCard'
+import FilterStrip from '../components/FilterStrip'
 import portableTextComponents from '../lib/portableTextComponents'
 import statsJson from '../generated/stats.json'
 import styles from './SiteGraphPage.module.css'
 
 const FILTER_TYPES = [
   { key: 'all',       label: 'All' },
-  { key: 'article',   label: 'Articles' },
-  { key: 'caseStudy', label: 'Case Studies' },
-  { key: 'node',      label: 'Nodes' },
+  { key: 'article',   label: 'Articles',     colorToken: '--st-kg-node-article' },
+  { key: 'caseStudy', label: 'Case Studies', colorToken: '--st-kg-node-case' },
+  { key: 'node',      label: 'Nodes',        colorToken: '--st-kg-node-node' },
 ]
 
 const COLOR_TOKENS = {
@@ -33,6 +34,8 @@ const COLOR_TOKENS = {
   caseStudy: '--st-kg-node-case',
   node:      '--st-kg-node-node',
 }
+
+const HUB_TYPE_LABELS = { project: 'Project', category: 'Category' }
 
 function filterGraph(siteGraph, typeFilter) {
   if (!siteGraph || typeFilter === 'all') return siteGraph
@@ -85,6 +88,15 @@ export default function SiteGraphPage() {
     [typeFilter]
   )
 
+  // Count item nodes connected to the selected hub via membership edges
+  const hubConnectedCount = useMemo(() => {
+    if (!selectedNode || selectedNode.type === 'item') return 0
+    return (statsJson.siteGraph.edges ?? []).filter(
+      e => e.kind === 'membership' &&
+           (e.source === selectedNode.id || e.target === selectedNode.id)
+    ).length
+  }, [selectedNode])
+
   const handleFilterChange = useCallback(key => {
     setTypeFilter(key)
     setSelectedNode(null)
@@ -123,18 +135,12 @@ export default function SiteGraphPage() {
         )}
       </header>
 
-      <div className={styles.filterStrip}>
-        {FILTER_TYPES.map(f => (
-          <button
-            key={f.key}
-            type="button"
-            className={`${styles.filterChip} ${styles[`chip_${f.key}`]} ${typeFilter === f.key ? styles.chipActive : ''}`}
-            onClick={() => handleFilterChange(f.key)}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
+      <FilterStrip
+        filters={FILTER_TYPES}
+        activeKey={typeFilter}
+        onChange={handleFilterChange}
+        className={styles.filterStrip}
+      />
 
       <div className={styles.body}>
         <div className={styles.graphPane}>
@@ -169,11 +175,16 @@ export default function SiteGraphPage() {
           {selectedNode && selectedNode.type !== 'item' && (
             <div className={styles.railHub}>
               <p className={styles.railHubType}>
-                {selectedNode.type === 'project' ? 'Project' : 'Category'}
+                {HUB_TYPE_LABELS[selectedNode.type] ?? selectedNode.type}
               </p>
               <p className={styles.railHubLabel}>{selectedNode.label}</p>
+              {hubConnectedCount > 0 && (
+                <p className={styles.railHubCount}>
+                  {hubConnectedCount} connected {hubConnectedCount === 1 ? 'item' : 'items'}
+                </p>
+              )}
               <Link to={selectedNode.href} className={styles.railHubLink}>
-                View {selectedNode.type === 'project' ? 'project' : 'category'} →
+                View {HUB_TYPE_LABELS[selectedNode.type]?.toLowerCase() ?? selectedNode.type} →
               </Link>
             </div>
           )}

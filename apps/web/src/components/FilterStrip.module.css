@@ -1,0 +1,55 @@
+/* FilterStrip — bordered filter bar with SHOW label + type chips */
+
+.strip {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--st-color-border-default);
+  background: var(--st-color-bg-surface);
+  padding: 6px 12px;
+  gap: 0;
+}
+
+.label {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  white-space: nowrap;
+  padding-right: 12px;
+  margin-right: 8px;
+  border-right: 1px solid var(--st-color-border-subtle);
+}
+
+.chips {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--st-color-text-muted);
+  cursor: pointer;
+  border-radius: 0;
+  transition: color 80ms, background 80ms, border-color 80ms;
+}
+
+.chip:hover {
+  color: var(--st-color-text-primary);
+}
+
+/* Active: use --chip-color if provided, else text-primary (dark fill) */
+.chipActive {
+  background: var(--chip-color, var(--st-color-text-primary));
+  color: var(--st-color-bg-canvas);
+  border-color: var(--chip-color, var(--st-color-text-primary));
+}
