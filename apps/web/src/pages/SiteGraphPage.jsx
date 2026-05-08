@@ -21,6 +21,7 @@ import FilterStrip from '../components/FilterStrip'
 import portableTextComponents from '../lib/portableTextComponents'
 import statsJson from '../generated/stats.json'
 import styles from './SiteGraphPage.module.css'
+import pageStyles from './pages.module.css'
 
 const FILTER_TYPES = [
   { key: 'all',       label: 'All' },
@@ -118,18 +119,18 @@ export default function SiteGraphPage() {
   const subheading = archiveDoc?.hero?.subheading || archiveDoc?.description
 
   return (
-    <main className={styles.page}>
+    <main className={pageStyles.archivePage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <header className={styles.header}>
-        <h1 className={styles.heading}>{heading}</h1>
+      <header>
+        <h1 className={pageStyles.archiveHeading}>{heading}</h1>
         {subheading && (
           Array.isArray(subheading)
-            ? <div className={styles.kicker}><PortableText value={subheading} components={portableTextComponents} /></div>
-            : <p className={styles.kicker}>{subheading}</p>
+            ? <div className={pageStyles.archiveDescription}><PortableText value={subheading} components={portableTextComponents} /></div>
+            : <p className={pageStyles.archiveDescription}>{subheading}</p>
         )}
         {!subheading && (
-          <p className={styles.kicker}>
+          <p className={pageStyles.archiveDescription}>
             A site-wide map of articles, case studies, and nodes — connected by project and category.
           </p>
         )}
