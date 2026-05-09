@@ -138,11 +138,26 @@ export default function SiteGraphPage() {
   const heading    = archiveDoc?.hero?.heading || archiveDoc?.title || 'Knowledge Graph'
   const subheading = archiveDoc?.hero?.subheading || archiveDoc?.description
 
+  const mastheadKicker = useMemo(() => {
+    if (!graphData) return null
+    const nodeCount = graphData.nodes.length
+    const edgeCount = (graphData.edges ?? []).length
+    const base = `${nodeCount} nodes visible · ${edgeCount} edges`
+    if (typeFilter === 'all') return base
+    const label = FILTER_TYPES.find(f => f.key === typeFilter)?.label?.toLowerCase() ?? typeFilter
+    return `${base} · filtered: ${label}`
+  }, [graphData, typeFilter])
+
   return (
     <main className={pageStyles.archivePage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <header>
+      <header className={styles.masthead}>
+        <p className={styles.eyebrow}>
+          <Link to="/" className={styles.eyebrowLink}>Library</Link>
+          <span className={styles.eyebrowSep}>/</span>
+          Knowledge Graph
+        </p>
         <h1 className={pageStyles.archiveHeading}>{heading}</h1>
         {subheading && (
           Array.isArray(subheading)
@@ -151,7 +166,12 @@ export default function SiteGraphPage() {
         )}
         {!subheading && (
           <p className={pageStyles.archiveDescription}>
-            A site-wide map of articles, case studies, and nodes — connected by project and category.
+            A site-wide map of articles, case studies, and nodes, connected by project and category.
+          </p>
+        )}
+        {mastheadKicker && (
+          <p className={`${styles.kicker} ${typeFilter !== 'all' ? styles.kickerFiltered : ''}`}>
+            {mastheadKicker}
           </p>
         )}
       </header>

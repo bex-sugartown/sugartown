@@ -1,6 +1,49 @@
-/* SiteGraphPage — SUG-81 Phase 3
+/* SiteGraphPage — SUG-81 Phase 3 / SUG-105 Phase 2
  * Page wrapper + heading use archivePage/archiveHeading/archiveDescription
  * from pages.module.css for consistency with other archive pages. */
+
+/* ── Masthead — eyebrow + heading + kicker ───────────────────── */
+
+.masthead {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.eyebrowLink {
+  color: var(--st-color-text-muted);
+  text-decoration: none;
+}
+
+.eyebrowLink:hover {
+  color: var(--st-color-text-primary);
+}
+
+.eyebrowSep {
+  opacity: 0.4;
+}
+
+.kicker {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  color: var(--st-color-text-muted);
+  margin: 8px 0 0;
+}
+
+.kickerFiltered {
+  color: var(--st-color-text-secondary);
+}
 
 /* ── Filter strip ────────────────────────────────────────────── */
 
