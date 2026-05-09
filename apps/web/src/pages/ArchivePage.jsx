@@ -37,7 +37,7 @@
  *   - Pagination renders page navigation
  *   - GROQ slice cap removed — all published items fetched for filtering accuracy
  */
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { useSanityDoc, useSanityList, useDraftIds } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -199,6 +199,19 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     }, { replace: true })
   }, [setSearchParams])
 
+  // Derive node-only graph from siteGraph (replaces deprecated statsJson.graph)
+  const nodeGraph = useMemo(() => {
+    if (!statsJson?.siteGraph) return null
+    const nodes = statsJson.siteGraph.nodes.filter(
+      n => n.type !== 'item' || n.docType === 'node'
+    )
+    const nodeIds = new Set(nodes.map(n => n.id))
+    const edges = (statsJson.siteGraph.edges ?? []).filter(
+      e => nodeIds.has(e.source) && nodeIds.has(e.target)
+    )
+    return { ...statsJson.siteGraph, nodes, edges }
+  }, [])
+
   // Selected graph node (full node object) for card rail
   const [selectedGraphNode, setSelectedGraphNode] = useState(null)
   const handleNodeClick = useCallback((node) => {
@@ -299,9 +312,9 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
       {isGraphView ? (
         <div className={styles.graphViewLayout}>
           <div className={styles.graphPane}>
-            {statsJson?.graph && (
+            {nodeGraph && (
               <KnowledgeGraph
-                graphData={statsJson.graph}
+                graphData={nodeGraph}
                 onNodeClick={handleNodeClick}
               />
             )}
