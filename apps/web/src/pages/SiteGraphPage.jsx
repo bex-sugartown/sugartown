@@ -201,9 +201,9 @@ export default function SiteGraphPage() {
         <p className={styles.eyebrow}>
           <Link to="/" className={styles.eyebrowLink}>Library</Link>
           <span className={styles.eyebrowSep}>/</span>
-          Knowledge Graph
+          <span className={styles.eyebrowCurrent}>{archiveDoc?.eyebrow ?? heading}</span>
         </p>
-        <h1 className={pageStyles.archiveHeading}>{heading}</h1>
+        <h1 className={`${pageStyles.archiveHeading} ${pageStyles.archiveHeadingItalic}`}>{heading}</h1>
         {subheading && (
           Array.isArray(subheading)
             ? <div className={pageStyles.archiveDescription}><PortableText value={subheading} components={portableTextComponents} /></div>
@@ -242,49 +242,51 @@ export default function SiteGraphPage() {
         </div>
 
         <div className={styles.rail} ref={railRef} aria-live="polite" aria-atomic="false" tabIndex={-1}>
-          {!selectedNode && (
-            <div className={styles.railEmpty}>
-              <p className={styles.railHint}>Click any node to explore it</p>
-            </div>
-          )}
+          <div className={styles.railHeader}>
+            <span className={styles.railHeaderLabel}>Selected</span>
+          </div>
 
-          {selectedNode && (
-            <p className={styles.railSelectedHeader} aria-live="polite">Selected</p>
-          )}
+          <div className={styles.railBody}>
+            {!selectedNode && (
+              <div className={styles.railEmpty}>
+                <p className={styles.railHint}>Click any node to explore it</p>
+              </div>
+            )}
 
-          {selectedNode && selectedNode.type === 'item' && (
-            <div className={styles.railCard}>
-              {loading && <p className={styles.railHint}>Loading…</p>}
-              {!loading && !selectedItem && (
-                <p className={styles.railHint}>Item not found in content.</p>
-              )}
-              {!loading && selectedItem && (
-                <ContentCard
-                  item={{ ...selectedItem, excerpt: selectedItem.excerpt?.slice(0, 120) ?? null }}
-                  density="compact"
-                  showExcerpt
-                  showHeroImage={false}
-                />
-              )}
-            </div>
-          )}
+            {selectedNode && selectedNode.type === 'item' && (
+              <div className={styles.railCard}>
+                {loading && <p className={styles.railHint}>Loading…</p>}
+                {!loading && !selectedItem && (
+                  <p className={styles.railHint}>Item not found in content.</p>
+                )}
+                {!loading && selectedItem && (
+                  <ContentCard
+                    item={{ ...selectedItem, excerpt: selectedItem.excerpt?.slice(0, 120) ?? null }}
+                    density="compact"
+                    showExcerpt
+                    showHeroImage={false}
+                  />
+                )}
+              </div>
+            )}
 
-          {selectedNode && selectedNode.type !== 'item' && (
-            <div className={styles.railHub}>
-              <p className={styles.railHubType}>
-                {HUB_TYPE_LABELS[selectedNode.type] ?? selectedNode.type}
-              </p>
-              <p className={styles.railHubLabel}>{selectedNode.label}</p>
-              {hubConnectedCount > 0 && (
-                <p className={styles.railHubCount}>
-                  {hubConnectedCount} connected {hubConnectedCount === 1 ? 'item' : 'items'}
+            {selectedNode && selectedNode.type !== 'item' && (
+              <div className={styles.railHub}>
+                <p className={styles.railHubType}>
+                  {HUB_TYPE_LABELS[selectedNode.type] ?? selectedNode.type}
                 </p>
-              )}
-              <Link to={selectedNode.href} className={styles.railHubLink}>
-                View {HUB_TYPE_LABELS[selectedNode.type]?.toLowerCase() ?? selectedNode.type} →
-              </Link>
-            </div>
-          )}
+                <p className={styles.railHubLabel}>{selectedNode.label}</p>
+                {hubConnectedCount > 0 && (
+                  <p className={styles.railHubCount}>
+                    {hubConnectedCount} connected {hubConnectedCount === 1 ? 'item' : 'items'}
+                  </p>
+                )}
+                <Link to={selectedNode.href} className={styles.railHubLink}>
+                  View {HUB_TYPE_LABELS[selectedNode.type]?.toLowerCase() ?? selectedNode.type} →
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

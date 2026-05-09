@@ -34,6 +34,10 @@
   opacity: 0.4;
 }
 
+.eyebrowCurrent {
+  color: var(--st-color-brand-primary);
+}
+
 .kicker {
   font-family: var(--st-font-family-mono);
   font-size: 11px;
@@ -42,13 +46,13 @@
 }
 
 .kickerFiltered {
-  color: var(--st-color-text-secondary);
+  color: var(--st-color-brand-primary);
 }
 
 /* ── Filter strip ────────────────────────────────────────────── */
 
 .filterStrip {
-  margin-bottom: 24px;
+  margin-bottom: 0;
 }
 
 /* ── Body: graph + rail ──────────────────────────────────────── */
@@ -71,19 +75,42 @@
   min-width: 0;
 }
 
-/* ── Rail — matches PageSidebar width + top-border treatment ─── */
+/* ── Rail — ledger outline box ─────────────────────────────── */
 
 .rail {
-  border-top: 1px solid var(--st-color-border-subtle);
-  padding-top: 1.25rem;
-  min-height: 120px;
+  border: 1px solid var(--st-color-rule-accent);
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+/* Persistent label strip at top — always visible */
+.railHeader {
+  background: var(--st-card-label-bg);
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  padding: 6px 12px;
+  flex-shrink: 0;
+}
+
+.railHeaderLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+}
+
+.railBody {
+  flex: 1;
+  padding: 12px;
 }
 
 .railEmpty {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
+  min-height: 140px;
 }
 
 .railHint {
@@ -92,16 +119,6 @@
   color: var(--st-color-text-muted);
   text-align: center;
   margin: 0;
-}
-
-.railSelectedHeader {
-  font-family: var(--st-font-family-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--st-color-text-muted);
-  margin: 0 0 10px;
 }
 
 .railCard {
