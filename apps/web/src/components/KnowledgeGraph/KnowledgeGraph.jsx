@@ -53,6 +53,8 @@ export default function KnowledgeGraph({
   selectedId,   // external selection control; if provided, drives ring instead of internal state
   onEmbiggen,  // callback to trigger fullscreen mode from parent
   className = '',
+  fillHeight = false,  // when true, canvas height tracks container instead of fixed 520
+  legendTop = false,   // when true, legend anchors to top-left instead of bottom-left
 }) {
   const [FG, setFG]             = useState(null)
   const [colors, setColors]     = useState(null)
@@ -100,12 +102,12 @@ export default function KnowledgeGraph({
   useEffect(() => {
     if (!containerRef.current) return
     const obs = new ResizeObserver(entries => {
-      const { width } = entries[0].contentRect
-      setDims({ width: Math.floor(width), height: 520 })
+      const { width, height } = entries[0].contentRect
+      setDims({ width: Math.floor(width), height: fillHeight ? Math.floor(height) : 520 })
     })
     obs.observe(containerRef.current)
     return () => obs.disconnect()
-  }, [])
+  }, [fillHeight])
 
   // Transform stats.graph → react-force-graph-2d format.
   // Clones nodes (force sim mutates them) and enriches item nodes with
@@ -281,8 +283,8 @@ export default function KnowledgeGraph({
   }, [])
 
   return (
-    <div className={`${styles.wrap} ${className}`}>
-      <div className={styles.canvasWrap} ref={containerRef}>
+    <div className={`${styles.wrap} ${fillHeight ? styles.wrapFill : ''} ${className}`}>
+      <div className={`${styles.canvasWrap} ${fillHeight ? styles.canvasWrapFill : ''}`} ref={containerRef}>
         {(!FG || !colors) && (
           <div className={styles.loading}>Initialising graph…</div>
         )}
@@ -323,7 +325,7 @@ export default function KnowledgeGraph({
           )}
         </div>
         {showLegend && (
-          <div className={styles.legend}>
+          <div className={`${styles.legend} ${legendTop ? styles.legendTopLeft : ''}`}>
             <span className={styles.legendItem}><span className={styles.dotProject} />Project hub</span>
             <span className={styles.legendItem}><span className={styles.dotCategory} />Category hub</span>
             <span className={styles.legendItem}><span className={styles.dotArticle} />Article</span>

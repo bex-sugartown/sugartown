@@ -236,7 +236,8 @@
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  border-bottom: 1px solid var(--st-color-border-medium);
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
   flex-shrink: 0;
 }
 
@@ -245,32 +246,34 @@
   border: none;
   padding: 0;
   background: transparent;
+  margin-bottom: 0;
 }
 
 .fsClose {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   padding: 0;
-  border: 1px solid var(--st-color-border-medium);
+  border: 1px solid var(--st-color-rule-accent);
   background: transparent;
   color: var(--st-color-text-muted);
   cursor: pointer;
-  font-size: 14px;
+  font-family: var(--st-font-family-mono);
+  font-size: 13px;
   flex-shrink: 0;
   transition: color 80ms, border-color 80ms;
 }
 
 .fsClose:hover {
   color: var(--st-color-text-primary);
-  border-color: var(--st-color-border-strong);
+  border-color: var(--st-color-border-medium);
 }
 
 .fsBody {
   display: grid;
-  grid-template-columns: 1fr 220px;
+  grid-template-columns: 1fr var(--st-space-sidebar, 220px);
   flex: 1;
   min-height: 0;
   overflow: hidden;
@@ -279,10 +282,15 @@
 .fsGraph {
   min-width: 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .fsRail {
-  border-left: 1px solid var(--st-color-border-subtle);
-  padding: 16px 12px;
+  border-left: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
 }
