@@ -172,6 +172,20 @@
   --st-kg-node-category: var(--st-color-lime-700);
   --st-kg-edge-member:   color-mix(in srgb, var(--st-color-ink) 14%, transparent);
   --st-kg-edge-lateral:  color-mix(in srgb, var(--st-color-pink) 35%, transparent);
+
+  /* ── FilterStrip chip color system — light overrides (SUG-105) ─ */
+  --st-kg-chip-all-bg:          var(--st-color-ink);
+  --st-kg-chip-all-fg:          var(--st-color-neutral-100);
+  --st-kg-chip-all-border:      transparent;
+  --st-kg-chip-article-bg:      var(--st-color-seafoam-50);
+  --st-kg-chip-article-fg:      var(--st-color-seafoam-800);
+  --st-kg-chip-article-border:  color-mix(in srgb, var(--st-color-seafoam-500) 35%, transparent);
+  --st-kg-chip-case-bg:         color-mix(in srgb, var(--st-color-pink) 8%, transparent);
+  --st-kg-chip-case-fg:         var(--st-color-pink);
+  --st-kg-chip-case-border:     color-mix(in srgb, var(--st-color-pink) 35%, transparent);
+  --st-kg-chip-node-bg:         var(--st-color-charcoal-50);
+  --st-kg-chip-node-fg:         var(--st-color-charcoal-900);
+  --st-kg-chip-node-border:     color-mix(in srgb, var(--st-color-charcoal-900) 25%, transparent);
 }
 
 /* ══════════════════════════════════════════════════════════
