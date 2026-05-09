@@ -125,6 +125,42 @@
   /* ContentCard fills naturally */
 }
 
+/* Linked type · project kicker above ContentCard in rail */
+.railKicker {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.railKickerType {
+  color: var(--st-color-text-muted);
+  text-decoration: none;
+}
+
+.railKickerType:hover {
+  color: var(--st-color-text-primary);
+}
+
+.railKickerSep {
+  color: var(--st-color-text-muted);
+  opacity: 0.5;
+}
+
+.railKickerProject {
+  color: var(--st-color-brand-primary);
+  text-decoration: none;
+}
+
+.railKickerProject:hover {
+  text-decoration: underline;
+}
+
 /* Hub card — project/category selected state */
 
 .railHub {

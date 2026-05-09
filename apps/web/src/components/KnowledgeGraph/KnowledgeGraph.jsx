@@ -217,10 +217,11 @@ export default function KnowledgeGraph({
       rRect(ctx, bx, by, tw + px * 2, fs + py * 2, 3)
       ctx.fillStyle = isLight ? 'rgba(255,255,255,0.92)' : 'rgba(10,15,26,0.9)'
       ctx.fill()
-      ctx.strokeStyle = nodeC
+      // Neutral border + text — nodeC may be lime/bright, unreadable on white
+      ctx.strokeStyle = isLight ? 'rgba(0,0,0,0.18)' : 'rgba(255,255,255,0.25)'
       ctx.lineWidth = 0.5
       ctx.stroke()
-      ctx.fillStyle = nodeC
+      ctx.fillStyle = isLight ? 'rgba(10,15,26,0.85)' : 'rgba(242,242,243,0.9)'
       ctx.textAlign = 'center'
       ctx.textBaseline = 'top'
       ctx.fillText(label, node.x, by + py)

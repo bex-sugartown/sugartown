@@ -76,6 +76,8 @@ export default function ContentCard({
   categoryPosition,
   draftIds,
   showFolio = true,
+  suppressEyebrow = false,
+  suppressStatus = false,
 }) {
   const docType   = docTypeProp ?? DOC_TYPE_MAP[item._type] ?? item._type
   const path      = getCanonicalPath({ docType, slug: item.slug })
@@ -170,12 +172,12 @@ export default function ContentCard({
       variant={variant}
       density={density}
       href={path}
-      eyebrow={eyebrow}
+      eyebrow={suppressEyebrow ? undefined : eyebrow}
       category={categoryProp}
       categoryPosition={categoryPosition || undefined}
       title={item.title}
-      status={statusProp}
-      evolution={evolutionProp}
+      status={suppressStatus ? undefined : statusProp}
+      evolution={suppressStatus ? undefined : evolutionProp}
       excerpt={excerptText}
       thumbnailUrl={thumbnailUrl}
       thumbnailAlt={item.cardImageAlt ?? item.heroImageAlt ?? ''}

@@ -10,6 +10,7 @@ import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import { client } from '../lib/sanity'
+import { getCanonicalPath, TYPE_NAMESPACES } from '../lib/routes'
 import { allSiteItemsQuery, archivePageBySlugQuery } from '../lib/queries'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
@@ -49,6 +50,7 @@ const COLOR_TOKENS = {
 }
 
 const HUB_TYPE_LABELS = { project: 'Project', category: 'Category' }
+const ITEM_TYPE_LABELS = { article: 'Article', caseStudy: 'Case Study', node: 'Node' }
 
 function filterGraph(siteGraph, typeFilter) {
   if (!siteGraph) return siteGraph
@@ -199,9 +201,7 @@ export default function SiteGraphPage() {
 
       <header className={styles.masthead}>
         <p className={styles.eyebrow}>
-          <Link to="/" className={styles.eyebrowLink}>Library</Link>
-          <span className={styles.eyebrowSep}>/</span>
-          <span className={styles.eyebrowCurrent}>{archiveDoc?.eyebrow ?? heading}</span>
+          <span className={styles.eyebrowCurrent}>Library</span>
         </p>
         <h1 className={`${pageStyles.archiveHeading} ${pageStyles.archiveHeadingItalic}`}>{heading}</h1>
         {subheading && (
@@ -260,12 +260,46 @@ export default function SiteGraphPage() {
                   <p className={styles.railHint}>Item not found in content.</p>
                 )}
                 {!loading && selectedItem && (
-                  <ContentCard
-                    item={{ ...selectedItem, excerpt: selectedItem.excerpt?.slice(0, 120) ?? null }}
-                    density="compact"
-                    showExcerpt
-                    showHeroImage={false}
-                  />
+                  <>
+                    <p className={styles.railKicker}>
+                      <Link
+                        to={`/${TYPE_NAMESPACES[selectedNode.docType] ?? selectedNode.docType}`}
+                        className={styles.railKickerType}
+                      >
+                        {ITEM_TYPE_LABELS[selectedNode.docType] ?? selectedNode.docType}
+                      </Link>
+                      {selectedItem.projects?.[0] && (
+                        <>
+                          <span className={styles.railKickerSep}> · </span>
+                          <Link
+                            to={getCanonicalPath({ docType: 'project', slug: selectedItem.projects[0].slug })}
+                            className={styles.railKickerProject}
+                          >
+                            {selectedItem.projects[0].name}
+                          </Link>
+                        </>
+                      )}
+                      {!selectedItem.projects?.[0] && selectedItem.categories?.[0] && (
+                        <>
+                          <span className={styles.railKickerSep}> · </span>
+                          <Link
+                            to={getCanonicalPath({ docType: 'category', slug: selectedItem.categories[0].slug })}
+                            className={styles.railKickerProject}
+                          >
+                            {selectedItem.categories[0].name}
+                          </Link>
+                        </>
+                      )}
+                    </p>
+                    <ContentCard
+                      item={{ ...selectedItem, excerpt: selectedItem.excerpt?.slice(0, 120) ?? null }}
+                      density="compact"
+                      showExcerpt
+                      showHeroImage={false}
+                      suppressEyebrow
+                      suppressStatus
+                    />
+                  </>
                 )}
               </div>
             )}
