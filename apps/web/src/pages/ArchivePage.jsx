@@ -247,7 +247,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
 
   return (
     <>
-      {/* Unified icon toolbar: grid / list / knowledge-graph toggle + result count */}
+      {/* Unified icon toolbar: grid / list / knowledge-graph toggle + result count + graph CTA */}
       <div className={styles.archiveToolbar}>
         <div className={styles.layoutToggleGroup}>
           <button
@@ -306,6 +306,25 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
               ? 'No results'
               : `${totalItems} result${totalItems === 1 ? '' : 's'}`}
           </p>
+        )}
+        {!isGraphView && primaryType && (primaryType === 'article' || primaryType === 'caseStudy' || primaryType === 'node') && (
+          <Link
+            to={`/knowledge-graph?type=${primaryType}`}
+            className={styles.graphCtaChip}
+          >
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1.2"/>
+              <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1.2"/>
+              <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1.2"/>
+              <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1.2"/>
+              <circle cx="8" cy="8" r="2" fill="currentColor"/>
+              <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
+              <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
+              <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
+              <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
+            </svg>
+            In graph
+          </Link>
         )}
       </div>
 
@@ -449,18 +468,6 @@ export default function ArchivePage({ archiveSlug }) {
         </p>
       )}
 
-      {/* View in graph CTA — links to SiteGraphPage pre-filtered by this content type */}
-      {primaryType && (primaryType === 'article' || primaryType === 'caseStudy' || primaryType === 'node') && (
-        <div className={styles.graphCtaBar}>
-          <span className={styles.graphCtaText}>See how this content connects across the site</span>
-          <Link
-            to={`/knowledge-graph?type=${primaryType}`}
-            className={styles.graphCtaLink}
-          >
-            View in graph →
-          </Link>
-        </div>
-      )}
     </main>
   )
 }
