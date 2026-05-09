@@ -26,9 +26,13 @@
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
+  flex: 1;
 }
 
 .chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   font-family: var(--st-font-family-mono);
   font-size: 11px;
   font-weight: 600;
@@ -48,9 +52,38 @@
   border-color: var(--st-color-border-medium);
 }
 
-/* Active: use --chip-color if provided, else text-primary (dark fill) */
+/* Colored dot prefix */
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--chip-dot, var(--st-color-text-muted));
+  flex-shrink: 0;
+}
+
+/* Active: use 3-value chip token set when provided, else ink fill */
 .chipActive {
-  background: var(--chip-color, var(--st-color-text-primary));
-  color: var(--st-color-bg-canvas);
-  border-color: var(--chip-color, var(--st-color-text-primary));
+  background: var(--chip-bg, var(--st-color-ink));
+  color: var(--chip-fg, var(--st-color-neutral-100));
+  border-color: var(--chip-border, transparent);
+}
+
+.chipActive:hover {
+  color: var(--chip-fg, var(--st-color-neutral-100));
+}
+
+/* Dot on active chip uses the dot token (already set via --chip-dot) */
+.chipActive .dot {
+  background: var(--chip-dot, var(--chip-fg, var(--st-color-neutral-100)));
+}
+
+/* Count kicker — right-aligned, muted mono */
+.count {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  color: var(--st-color-text-muted);
+  white-space: nowrap;
+  margin-left: auto;
+  padding-left: 12px;
 }

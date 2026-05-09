@@ -1060,6 +1060,7 @@ export const archivePageBySlugQuery = `
     _id,
     _type,
     title,
+    eyebrow,
     "slug": slug.current,
     description,
     contentTypes,

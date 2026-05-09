@@ -37,7 +37,7 @@
  *   - Pagination renders page navigation
  *   - GROQ slice cap removed — all published items fetched for filtering accuracy
  */
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { useSanityDoc, useSanityList, useDraftIds } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -199,6 +199,19 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     }, { replace: true })
   }, [setSearchParams])
 
+  // Derive node-only graph from siteGraph (replaces deprecated statsJson.graph)
+  const nodeGraph = useMemo(() => {
+    if (!statsJson?.siteGraph) return null
+    const nodes = statsJson.siteGraph.nodes.filter(
+      n => n.type !== 'item' || n.docType === 'node'
+    )
+    const nodeIds = new Set(nodes.map(n => n.id))
+    const edges = (statsJson.siteGraph.edges ?? []).filter(
+      e => nodeIds.has(e.source) && nodeIds.has(e.target)
+    )
+    return { ...statsJson.siteGraph, nodes, edges }
+  }, [])
+
   // Selected graph node (full node object) for card rail
   const [selectedGraphNode, setSelectedGraphNode] = useState(null)
   const handleNodeClick = useCallback((node) => {
@@ -234,7 +247,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
 
   return (
     <>
-      {/* Unified icon toolbar: grid / list / knowledge-graph toggle + result count */}
+      {/* Unified icon toolbar: grid / list / knowledge-graph toggle + result count + graph CTA */}
       <div className={styles.archiveToolbar}>
         <div className={styles.layoutToggleGroup}>
           <button
@@ -294,14 +307,33 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
               : `${totalItems} result${totalItems === 1 ? '' : 's'}`}
           </p>
         )}
+        {!isGraphView && contentType && (contentType === 'article' || contentType === 'caseStudy' || contentType === 'node') && (
+          <Link
+            to={`/knowledge-graph?type=${contentType}`}
+            className={styles.graphCtaChip}
+          >
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1.2"/>
+              <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1.2"/>
+              <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1.2"/>
+              <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1.2"/>
+              <circle cx="8" cy="8" r="2" fill="currentColor"/>
+              <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
+              <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
+              <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
+              <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
+            </svg>
+            In graph
+          </Link>
+        )}
       </div>
 
       {isGraphView ? (
         <div className={styles.graphViewLayout}>
           <div className={styles.graphPane}>
-            {statsJson?.graph && (
+            {nodeGraph && (
               <KnowledgeGraph
-                graphData={statsJson.graph}
+                graphData={nodeGraph}
                 onNodeClick={handleNodeClick}
               />
             )}
@@ -436,18 +468,6 @@ export default function ArchivePage({ archiveSlug }) {
         </p>
       )}
 
-      {/* View in graph CTA — links to SiteGraphPage pre-filtered by this content type */}
-      {primaryType && (primaryType === 'article' || primaryType === 'caseStudy' || primaryType === 'node') && (
-        <div className={styles.graphCtaBar}>
-          <span className={styles.graphCtaText}>See how this content connects across the site</span>
-          <Link
-            to={`/knowledge-graph?type=${primaryType}`}
-            className={styles.graphCtaLink}
-          >
-            View in graph →
-          </Link>
-        </div>
-      )}
     </main>
   )
 }

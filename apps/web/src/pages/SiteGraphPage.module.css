@@ -1,14 +1,70 @@
-/* SiteGraphPage — SUG-81 Phase 3
+/* SiteGraphPage — SUG-81 Phase 3 / SUG-105 Phase 2
  * Page wrapper + heading use archivePage/archiveHeading/archiveDescription
  * from pages.module.css for consistency with other archive pages. */
 
-/* ── Filter strip ────────────────────────────────────────────── */
+/* ── Masthead — eyebrow + heading + kicker ───────────────────── */
 
-.filterStrip {
+.masthead {
   margin-bottom: 24px;
 }
 
-/* ── Body: graph + rail ──────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.eyebrowLink {
+  color: var(--st-color-text-muted);
+  text-decoration: none;
+}
+
+.eyebrowLink:hover {
+  color: var(--st-color-text-primary);
+}
+
+.eyebrowSep {
+  opacity: 0.4;
+}
+
+.eyebrowCurrent {
+  color: var(--st-color-brand-primary);
+}
+
+.kicker {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  color: var(--st-color-text-muted);
+  margin: 8px 0 0;
+}
+
+.kickerFiltered {
+  color: var(--st-color-brand-primary);
+}
+
+/* ── Graph section: single outer border containing filter + graph + rail ── */
+
+.graphSection {
+  border: 1px solid var(--st-color-rule-accent);
+}
+
+/* ── Filter strip — bottom divider only; outer border from graphSection ── */
+
+.filterStrip {
+  margin-bottom: 0;
+  border: none;
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
+}
+
+/* ── Body: graph + rail flush, gap 0 ─────────────────────────── */
 
 .body {
   display: grid;
@@ -19,8 +75,7 @@
 @media (min-width: 768px) {
   .body {
     grid-template-columns: 1fr var(--st-space-sidebar, 220px);
-    gap: 24px;
-    align-items: start;
+    align-items: stretch;
   }
 }
 
@@ -28,19 +83,48 @@
   min-width: 0;
 }
 
-/* ── Rail — matches PageSidebar width + top-border treatment ─── */
+/* Suppress KnowledgeGraph's own border — graphSection handles it */
+.kgNoBorder {
+  border: none;
+}
+
+/* ── Rail — flush right panel, left divider, light bg ────────── */
 
 .rail {
-  border-top: 1px solid var(--st-color-border-subtle);
-  padding-top: 1.25rem;
-  min-height: 120px;
+  border-left: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+
+/* Persistent label strip at top — always visible */
+.railHeader {
+  background: var(--st-card-label-bg);
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  padding: 6px 12px;
+  flex-shrink: 0;
+}
+
+.railHeaderLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+}
+
+.railBody {
+  flex: 1;
+  padding: 12px;
 }
 
 .railEmpty {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
+  min-height: 140px;
 }
 
 .railHint {
@@ -53,6 +137,42 @@
 
 .railCard {
   /* ContentCard fills naturally */
+}
+
+/* Linked type · project kicker above ContentCard in rail */
+.railKicker {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.railKickerType {
+  color: var(--st-color-text-muted);
+  text-decoration: none;
+}
+
+.railKickerType:hover {
+  color: var(--st-color-text-primary);
+}
+
+.railKickerSep {
+  color: var(--st-color-text-muted);
+  opacity: 0.5;
+}
+
+.railKickerProject {
+  color: var(--st-color-brand-primary);
+  text-decoration: none;
+}
+
+.railKickerProject:hover {
+  text-decoration: underline;
 }
 
 /* Hub card — project/category selected state */
@@ -98,4 +218,79 @@
 
 .railHubLink:hover {
   text-decoration: underline;
+}
+
+/* ── Fullscreen overlay ──────────────────────────────────── */
+
+.fullscreenOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: var(--st-color-bg-canvas);
+  display: flex;
+  flex-direction: column;
+}
+
+.fsHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
+  flex-shrink: 0;
+}
+
+.fsFilterStrip {
+  flex: 1;
+  border: none;
+  padding: 0;
+  background: transparent;
+  margin-bottom: 0;
+}
+
+.fsClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--st-color-rule-accent);
+  background: transparent;
+  color: var(--st-color-text-muted);
+  cursor: pointer;
+  font-family: var(--st-font-family-mono);
+  font-size: 13px;
+  flex-shrink: 0;
+  transition: color 80ms, border-color 80ms;
+}
+
+.fsClose:hover {
+  color: var(--st-color-text-primary);
+  border-color: var(--st-color-border-medium);
+}
+
+.fsBody {
+  display: grid;
+  grid-template-columns: 1fr var(--st-space-sidebar, 220px);
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.fsGraph {
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.fsRail {
+  border-left: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }

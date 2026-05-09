@@ -164,6 +164,14 @@ export default defineType({
         })
     }),
     defineField({
+      name: 'eyebrow',
+      title: 'Eyebrow Label',
+      type: 'string',
+      description: 'Short label shown in brand pink above the title (e.g., "Knowledge Graph"). Falls back to title if blank.',
+      group: 'content',
+      validation: (Rule) => Rule.max(60),
+    }),
+    defineField({
       name: 'description',
       title: 'Archive Description',
       type: 'array',

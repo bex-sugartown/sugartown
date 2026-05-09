@@ -113,9 +113,11 @@ export async function collectSiteGraph() {
 
   const projectMap  = new Map()
   const categoryMap = new Map()
+  const tagMap      = new Map()
   for (const item of rawItems) {
     for (const p of (item.projects ?? [])) { if (p?.slug) projectMap.set(p.slug, p) }
     for (const c of (item.categories ?? [])) { if (c?.slug) categoryMap.set(c.slug, c) }
+    for (const t of (item.tags ?? [])) { if (t?.slug) tagMap.set(t.slug, t) }
   }
 
   const nodes = []
@@ -124,6 +126,9 @@ export async function collectSiteGraph() {
   }
   for (const c of categoryMap.values()) {
     nodes.push({ id: `category:${c.slug}`, type: 'category', label: c.name, href: `/categories/${c.slug}`, size: 'medium' })
+  }
+  for (const t of tagMap.values()) {
+    nodes.push({ id: `tag:${t.slug}`, type: 'tag', label: t.name, href: `/tags/${t.slug}`, size: 'small' })
   }
   for (const item of rawItems) {
     nodes.push({
@@ -140,52 +145,14 @@ export async function collectSiteGraph() {
   }
 
   const edges = buildEdges(rawItems, item => `item:${item._type}:${item.slug}`)
-
-  return { generatedAt: new Date().toISOString(), nodes, edges }
-}
-
-// ── collectGraph — nodes-only (DEPRECATED — kept for transition) ──────────────
-
-export async function collectGraph() {
-  const client = makeClient()
-
-  const rawNodes = await client.fetch(`
-    *[_type == "node" && defined(slug.current)] | order(title asc) {
-      _id,
-      title,
-      "slug": slug.current,
-      "projects":   projects[]->{_id, name, "slug": slug.current},
-      "categories": categories[]->{_id, name, "slug": slug.current},
-      "tags":       tags[]->{_id, "slug": slug.current, name}
+  // Tag-membership edges: item → tag hub
+  for (const item of rawItems) {
+    const itemId = `item:${item._type}:${item.slug}`
+    for (const t of (item.tags ?? [])) {
+      if (t?.slug) edges.push({ source: itemId, target: `tag:${t.slug}`, kind: 'tag-membership' })
     }
-  `)
-
-  const projectMap  = new Map()
-  const categoryMap = new Map()
-  for (const n of rawNodes) {
-    for (const p of (n.projects ?? [])) { if (p?.slug) projectMap.set(p.slug, p) }
-    for (const c of (n.categories ?? [])) { if (c?.slug) categoryMap.set(c.slug, c) }
   }
-
-  const nodes = []
-  for (const p of projectMap.values()) {
-    nodes.push({ id: `project:${p.slug}`, type: 'project', label: p.name, href: `/projects/${p.slug}`, size: 'large' })
-  }
-  for (const c of categoryMap.values()) {
-    nodes.push({ id: `category:${c.slug}`, type: 'category', label: c.name, href: `/categories/${c.slug}`, size: 'medium' })
-  }
-  for (const n of rawNodes) {
-    nodes.push({
-      id:    `item:${n.slug}`,
-      type:  'item',
-      label: n.title,
-      href:  `/nodes/${n.slug}`,
-      size:  'small',
-      tags:  (n.tags ?? []).map(t => ({ slug: t.slug, label: t.name })).filter(t => t.slug),
-    })
-  }
-
-  const edges = buildEdges(rawNodes, n => `item:${n.slug}`)
 
   return { generatedAt: new Date().toISOString(), nodes, edges }
 }
+

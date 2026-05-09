@@ -415,6 +415,10 @@
   color: var(--st-color-text-default);
 }
 
+.archiveHeadingItalic {
+  font-style: italic;
+}
+
 .archiveDescription {
   font-size: 1.0625rem;
   color: var(--st-color-text-default);  /* charcoal — was text-muted (#94A3B8) */
@@ -596,35 +600,26 @@
 
 /* ── Graph CTA bar (SUG-81 Phase 3) ───────────────────────────── */
 
-.graphCtaBar {
-  display: flex;
+/* "In graph" icon chip — toolbar CTA linking to /knowledge-graph pre-filtered */
+.graphCtaChip {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: 48px;
-  padding: 16px 20px;
-  border: 1px solid var(--st-color-border-subtle);
-  border-left: 3px solid var(--st-color-pink);
-  background: var(--st-color-bg-surface);
-}
-
-.graphCtaText {
-  font-family: var(--st-font-ui);
-  font-size: 14px;
-  color: var(--st-color-text-muted);
-}
-
-.graphCtaLink {
+  gap: 5px;
   font-family: var(--st-font-family-mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.05em;
-  color: var(--st-color-pink);
+  text-transform: uppercase;
+  color: var(--st-color-neutral-100);
+  background: var(--st-color-pink);
+  border: 1px solid var(--st-color-pink);
+  padding: 4px 10px;
   text-decoration: none;
   white-space: nowrap;
+  margin-left: auto;
+  transition: opacity 80ms;
 }
 
-.graphCtaLink:hover {
-  text-decoration: underline;
+.graphCtaChip:hover {
+  opacity: 0.85;
 }

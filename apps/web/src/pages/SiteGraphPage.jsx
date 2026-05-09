@@ -6,7 +6,7 @@
  * with slug "knowledge-graph". Graph, type filter, and card rail are appended
  * below the page header content.
  */
-import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import { client } from '../lib/sanity'
@@ -25,9 +25,21 @@ import pageStyles from './pages.module.css'
 
 const FILTER_TYPES = [
   { key: 'all',       label: 'All' },
-  { key: 'article',   label: 'Articles',     colorToken: '--st-kg-node-article' },
-  { key: 'caseStudy', label: 'Case Studies', colorToken: '--st-kg-node-case' },
-  { key: 'node',      label: 'Nodes',        colorToken: '--st-kg-node-node' },
+  {
+    key: 'article',   label: 'Articles',
+    chipTokens: { bg: '--st-kg-chip-article-bg', fg: '--st-kg-chip-article-fg', border: '--st-kg-chip-article-border' },
+    dotToken: '--st-kg-node-article',
+  },
+  {
+    key: 'caseStudy', label: 'Case Studies',
+    chipTokens: { bg: '--st-kg-chip-case-bg', fg: '--st-kg-chip-case-fg', border: '--st-kg-chip-case-border' },
+    dotToken: '--st-kg-node-case',
+  },
+  {
+    key: 'node',      label: 'Nodes',
+    chipTokens: { bg: '--st-kg-chip-node-bg', fg: '--st-kg-chip-node-fg', border: '--st-kg-chip-node-border' },
+    dotToken: '--st-kg-node-node',
+  },
 ]
 
 const COLOR_TOKENS = {
@@ -39,13 +51,38 @@ const COLOR_TOKENS = {
 const HUB_TYPE_LABELS = { project: 'Project', category: 'Category' }
 
 function filterGraph(siteGraph, typeFilter) {
-  if (!siteGraph || typeFilter === 'all') return siteGraph
+  if (!siteGraph) return siteGraph
 
-  const keepIds = new Set(
+  if (typeFilter === 'all') {
+    // Exclude tag nodes in "all" view — too many to be useful
+    const nodes = siteGraph.nodes.filter(n => n.type !== 'tag')
+    const nodeIds = new Set(nodes.map(n => n.id))
+    const edges = (siteGraph.edges ?? []).filter(
+      e => nodeIds.has(e.source) && nodeIds.has(e.target)
+    )
+    return { ...siteGraph, nodes, edges }
+  }
+
+  // Filtered view: keep matching items + hubs (project, category) connected to them
+  // Tag nodes included only if connected to at least one visible item via tag-membership
+  const visibleItemIds = new Set(
     siteGraph.nodes
-      .filter(n => n.type !== 'item' || n.docType === typeFilter)
+      .filter(n => n.type === 'item' && n.docType === typeFilter)
       .map(n => n.id)
   )
+
+  const tagEdges = (siteGraph.edges ?? []).filter(
+    e => e.kind === 'tag-membership' && visibleItemIds.has(e.source)
+  )
+  const connectedTagIds = new Set(tagEdges.map(e => e.target))
+
+  const keepIds = new Set([
+    ...siteGraph.nodes
+      .filter(n => n.type !== 'item' && n.type !== 'tag')
+      .map(n => n.id),
+    ...visibleItemIds,
+    ...connectedTagIds,
+  ])
 
   const nodes = siteGraph.nodes.filter(n => keepIds.has(n.id))
   const edges = (siteGraph.edges ?? []).filter(
@@ -61,6 +98,7 @@ export default function SiteGraphPage() {
     return FILTER_TYPES.some(f => f.key === p) ? p : 'all'
   })
   const [selectedNode, setSelectedNode] = useState(null)
+  const railRef                         = useRef(null)
   const [allItems, setAllItems]         = useState(null)
   const [archiveDoc, setArchiveDoc]     = useState(null)
   const [loading, setLoading]           = useState(true)
@@ -98,6 +136,27 @@ export default function SiteGraphPage() {
     ).length
   }, [selectedNode])
 
+  const filterCount = useMemo(() => {
+    if (!graphData) return null
+    const itemCount = graphData.nodes.filter(n => n.type === 'item').length
+    if (typeFilter === 'all') return `${itemCount} items visible`
+    const label = FILTER_TYPES.find(f => f.key === typeFilter)?.label?.toLowerCase() ?? typeFilter
+    return `${itemCount} ${label} visible`
+  }, [graphData, typeFilter])
+
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
+  const handleEmbiggen = useCallback(() => setIsFullscreen(true), [])
+  const handleClose    = useCallback(() => setIsFullscreen(false), [])
+
+  // Close on Escape key
+  useEffect(() => {
+    if (!isFullscreen) return
+    const handler = e => { if (e.key === 'Escape') setIsFullscreen(false) }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [isFullscreen])
+
   const handleFilterChange = useCallback(key => {
     setTypeFilter(key)
     setSelectedNode(null)
@@ -107,6 +166,12 @@ export default function SiteGraphPage() {
 
   const handleNodeClick = useCallback(node => {
     setSelectedNode(node)
+    if (node) {
+      // Move focus to rail so keyboard users can read the selection
+      requestAnimationFrame(() => {
+        railRef.current?.focus()
+      })
+    }
   }, [])
 
   const selectedItem = useMemo(() => {
@@ -118,12 +183,25 @@ export default function SiteGraphPage() {
   const heading    = archiveDoc?.hero?.heading || archiveDoc?.title || 'Knowledge Graph'
   const subheading = archiveDoc?.hero?.subheading || archiveDoc?.description
 
+  const mastheadKicker = useMemo(() => {
+    if (!graphData) return null
+    const nodeCount = graphData.nodes.length
+    const edgeCount = (graphData.edges ?? []).length
+    const base = `${nodeCount} nodes visible · ${edgeCount} edges`
+    if (typeFilter === 'all') return base
+    const label = FILTER_TYPES.find(f => f.key === typeFilter)?.label?.toLowerCase() ?? typeFilter
+    return `${base} · filtered: ${label}`
+  }, [graphData, typeFilter])
+
   return (
     <main className={pageStyles.archivePage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <header>
-        <h1 className={pageStyles.archiveHeading}>{heading}</h1>
+      <header className={styles.masthead}>
+        <p className={styles.eyebrow}>
+          <span className={styles.eyebrowCurrent}>Library</span>
+        </p>
+        <h1 className={`${pageStyles.archiveHeading} ${pageStyles.archiveHeadingItalic}`}>{heading}</h1>
         {subheading && (
           Array.isArray(subheading)
             ? <div className={pageStyles.archiveDescription}><PortableText value={subheading} components={portableTextComponents} /></div>
@@ -131,15 +209,22 @@ export default function SiteGraphPage() {
         )}
         {!subheading && (
           <p className={pageStyles.archiveDescription}>
-            A site-wide map of articles, case studies, and nodes — connected by project and category.
+            A site-wide map of articles, case studies, and nodes, connected by project and category.
+          </p>
+        )}
+        {mastheadKicker && (
+          <p className={`${styles.kicker} ${typeFilter !== 'all' ? styles.kickerFiltered : ''}`}>
+            {mastheadKicker}
           </p>
         )}
       </header>
 
+      <div className={styles.graphSection}>
       <FilterStrip
         filters={FILTER_TYPES}
         activeKey={typeFilter}
         onChange={handleFilterChange}
+        count={filterCount}
         className={styles.filterStrip}
       />
 
@@ -151,51 +236,129 @@ export default function SiteGraphPage() {
             showLegend
             selectedId={selectedNode?.id ?? null}
             onNodeClick={handleNodeClick}
+            onEmbiggen={handleEmbiggen}
+            className={styles.kgNoBorder}
           />
         </div>
 
-        <div className={styles.rail}>
-          {!selectedNode && (
-            <div className={styles.railEmpty}>
-              <p className={styles.railHint}>Click any node to explore it</p>
-            </div>
-          )}
+        <div className={styles.rail} ref={railRef} aria-live="polite" aria-atomic="false" tabIndex={-1}>
+          <div className={styles.railHeader}>
+            <span className={styles.railHeaderLabel}>Selected</span>
+          </div>
 
-          {selectedNode && selectedNode.type === 'item' && (
-            <div className={styles.railCard}>
-              {loading && <p className={styles.railHint}>Loading…</p>}
-              {!loading && !selectedItem && (
-                <p className={styles.railHint}>Item not found in content.</p>
-              )}
-              {!loading && selectedItem && (
-                <ContentCard
-                  item={{ ...selectedItem, excerpt: selectedItem.excerpt?.slice(0, 120) ?? null }}
-                  density="compact"
-                  showExcerpt
-                  showHeroImage={false}
-                />
-              )}
-            </div>
-          )}
+          <div className={styles.railBody}>
+            {!selectedNode && (
+              <div className={styles.railEmpty}>
+                <p className={styles.railHint}>Click any node to explore it</p>
+              </div>
+            )}
 
-          {selectedNode && selectedNode.type !== 'item' && (
-            <div className={styles.railHub}>
-              <p className={styles.railHubType}>
-                {HUB_TYPE_LABELS[selectedNode.type] ?? selectedNode.type}
-              </p>
-              <p className={styles.railHubLabel}>{selectedNode.label}</p>
-              {hubConnectedCount > 0 && (
-                <p className={styles.railHubCount}>
-                  {hubConnectedCount} connected {hubConnectedCount === 1 ? 'item' : 'items'}
+            {selectedNode && selectedNode.type === 'item' && (
+              <div className={styles.railCard}>
+                {loading && <p className={styles.railHint}>Loading…</p>}
+                {!loading && !selectedItem && (
+                  <p className={styles.railHint}>Item not found in content.</p>
+                )}
+                {!loading && selectedItem && (
+                  <ContentCard
+                    item={{ ...selectedItem, excerpt: selectedItem.excerpt?.slice(0, 120) ?? null }}
+                    density="compact"
+                    showExcerpt
+                    showHeroImage={false}
+                    suppressStatus
+                  />
+                )}
+              </div>
+            )}
+
+            {selectedNode && selectedNode.type !== 'item' && (
+              <div className={styles.railHub}>
+                <p className={styles.railHubType}>
+                  {HUB_TYPE_LABELS[selectedNode.type] ?? selectedNode.type}
                 </p>
-              )}
-              <Link to={selectedNode.href} className={styles.railHubLink}>
-                View {HUB_TYPE_LABELS[selectedNode.type]?.toLowerCase() ?? selectedNode.type} →
-              </Link>
-            </div>
-          )}
+                <p className={styles.railHubLabel}>{selectedNode.label}</p>
+                {hubConnectedCount > 0 && (
+                  <p className={styles.railHubCount}>
+                    {hubConnectedCount} connected {hubConnectedCount === 1 ? 'item' : 'items'}
+                  </p>
+                )}
+                <Link to={selectedNode.href} className={styles.railHubLink}>
+                  View {HUB_TYPE_LABELS[selectedNode.type]?.toLowerCase() ?? selectedNode.type} →
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
+      </div>{/* /graphSection */}
+
+      {isFullscreen && (
+        <div className={styles.fullscreenOverlay} role="dialog" aria-label="Knowledge graph fullscreen" aria-modal="true">
+          <div className={styles.fsHeader}>
+            <FilterStrip
+              filters={FILTER_TYPES}
+              activeKey={typeFilter}
+              onChange={handleFilterChange}
+              count={filterCount}
+              className={styles.fsFilterStrip}
+            />
+            <button type="button" className={styles.fsClose} onClick={handleClose} aria-label="Exit fullscreen">✕</button>
+          </div>
+          <div className={styles.fsBody}>
+            <div className={styles.fsGraph}>
+              <KnowledgeGraph
+                graphData={graphData}
+                colorTokens={COLOR_TOKENS}
+                showLegend
+                legendTop
+                fillHeight
+                selectedId={selectedNode?.id ?? null}
+                onNodeClick={handleNodeClick}
+              />
+            </div>
+            <div className={styles.fsRail}>
+              <div className={styles.railHeader}>
+                <span className={styles.railHeaderLabel}>Selected</span>
+              </div>
+              <div className={styles.railBody}>
+                {!selectedNode && (
+                  <div className={styles.railEmpty}>
+                    <p className={styles.railHint}>Click any node to explore it</p>
+                  </div>
+                )}
+                {selectedNode && selectedNode.type === 'item' && (
+                  <div className={styles.railCard}>
+                    {loading && <p className={styles.railHint}>Loading…</p>}
+                    {!loading && selectedItem && (
+                      <ContentCard
+                        item={{ ...selectedItem, excerpt: selectedItem.excerpt?.slice(0, 120) ?? null }}
+                        density="compact"
+                        showExcerpt
+                        showHeroImage={false}
+                        suppressStatus
+                      />
+                    )}
+                  </div>
+                )}
+                {selectedNode && selectedNode.type !== 'item' && (
+                  <div className={styles.railHub}>
+                    <p className={styles.railHubType}>{HUB_TYPE_LABELS[selectedNode.type] ?? selectedNode.type}</p>
+                    <p className={styles.railHubLabel}>{selectedNode.label}</p>
+                    {hubConnectedCount > 0 && (
+                      <p className={styles.railHubCount}>
+                        {hubConnectedCount} connected {hubConnectedCount === 1 ? 'item' : 'items'}
+                      </p>
+                    )}
+                    <Link to={selectedNode.href} className={styles.railHubLink}>
+                      View {HUB_TYPE_LABELS[selectedNode.type]?.toLowerCase() ?? selectedNode.type} →
+                    </Link>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   )
 }

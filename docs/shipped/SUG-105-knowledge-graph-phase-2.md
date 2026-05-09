@@ -1,7 +1,7 @@
 # SUG-105 — Knowledge Graph Phase 2 (graph/archive enhancements)
 
 **Linear Issue:** [SUG-105](https://linear.app/sugartown/issue/SUG-105/knowledge-graph-phase-2-grapharchive-enhancements)
-**Status:** Backlog
+**Status:** Shipped
 **Priority:** Medium
 **Depends on:** SUG-81 (MVP shipped)
 **Design reference:** `docs/drafts/design_handoff_site_graph/SUG-105-phase-2-handoff-notes.md`
@@ -68,7 +68,7 @@ When a type filter is active, optionally surface tag hub nodes connected to visi
 - New node type `"tag"` in `siteGraph` — requires `graph.js` update + `stats.json` regen
 - Phase 0 required: how do tag hubs look vs category/project hubs? Are they a third hub tier?
 
-### 5. Fullscreen / "enbiggen" mode
+### 5. Fullscreen / "embiggen" mode
 
 Icon button near the zoom +/- controls. Triggers fullscreen takeover or modal containing:
 - Full graph canvas (maximised)
@@ -112,25 +112,28 @@ Add a "SELECTED" label at the top of the rail panel (mono eyebrow, always visibl
 
 Before any implementation work on items 1, 3, 4, or 5 — mock required in `docs/drafts/design_handoff_site_graph/`:
 
-- [ ] Masthead kicker strip (node/edge count + filter state label)
-- [ ] FilterStrip chip color sets — light + dark, all 4 types including lime solution
-- [ ] Archive toolbar icon treatment for "View in graph"
-- [ ] Tag nodes on filtered graph (visual tier)
-- [ ] Fullscreen mode layout
+- [x] Masthead kicker strip (node/edge count + filter state label)
+- [x] FilterStrip chip color sets — light + dark, all 4 types including lime solution
+- [x] Archive toolbar icon treatment for "View in graph"
+- [x] Tag nodes on filtered graph (visual tier)
+- [x] Fullscreen mode layout
 
 ---
 
 ## Definition of Done
 
-- [ ] Masthead kicker shows live node/edge/filter counts
-- [ ] FilterStrip chip 3-value color sets in tokens for all types; lime contrast resolved
-- [ ] Archive icon treatment for "View in graph" on all three archive pages
-- [ ] Tag nodes visible on filtered graphs (opt-in, filtered view only)
-- [ ] Fullscreen mode implemented
-- [ ] "SELECTED" rail header
-- [ ] `stats.graph` deprecated collector removed
-- [ ] `aria-live` on card rail + keyboard focus management
-- [ ] Chromatic VRT baseline
-- [ ] `pnpm validate:tokens` passes
-- [ ] Linear SUG-105 → Done
-- [ ] Epic doc moved to `docs/shipped/`
+- [x] Masthead kicker shows live node/edge/filter counts
+- [x] FilterStrip chip 3-value color sets in tokens for all types; lime contrast resolved
+- [x] Tag nodes visible on filtered graphs (opt-in, filtered view only)
+- [x] Fullscreen mode implemented — fill height, legend top-left, ledger style
+- [x] "SELECTED" rail header
+- [x] `aria-live` on card rail + keyboard focus management
+- [x] Chromatic VRT — Build 33, 15 changes accepted
+- [x] `pnpm validate:tokens` passes
+- [ ] Archive icon treatment for "View in graph" on all three archive pages — deferred to SUG-104
+- [ ] `stats.graph` deprecated collector removed — deferred (low priority, no live references)
+
+**Data pipeline gap:** Tag nodes were added to `graph.js` but `stats.json` won't reflect them until CI reruns on main. Current `stats.json` in repo is CI-managed; the next scheduled run after merge will regenerate with tag nodes included.
+
+- [x] Linear SUG-105 → Done
+- [x] Epic doc moved to `docs/shipped/`

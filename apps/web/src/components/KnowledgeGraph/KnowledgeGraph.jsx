@@ -10,7 +10,7 @@ import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import styles from './KnowledgeGraph.module.css'
 
 // Node visual radii by type
-const RADIUS = { project: 18, category: 12, item: 6 }
+const RADIUS = { project: 18, category: 12, tag: 8, item: 6 }
 
 // Resolve a CSS custom property chain to a computed rgb() colour.
 // Uses a probe element so the browser resolves all var() references.
@@ -51,6 +51,10 @@ export default function KnowledgeGraph({
   colorTokens,  // { docType: '--st-kg-token-name' } — per-docType overrides for item nodes
   showLegend = true,
   selectedId,   // external selection control; if provided, drives ring instead of internal state
+  onEmbiggen,  // callback to trigger fullscreen mode from parent
+  className = '',
+  fillHeight = false,  // when true, canvas height tracks container instead of fixed 520
+  legendTop = false,   // when true, legend anchors to top-left instead of bottom-left
 }) {
   const [FG, setFG]             = useState(null)
   const [colors, setColors]     = useState(null)
@@ -73,6 +77,7 @@ export default function KnowledgeGraph({
     const base = {
       project:    resolveToken('--st-graph-node-project'),
       category:   resolveToken('--st-graph-node-category'),
+      tag:        resolveToken('--st-graph-node-tag'),
       item:       resolveToken('--st-graph-node-item'),
       membership: resolveToken('--st-graph-edge-membership'),
       lateral:    resolveToken('--st-graph-edge-lateral'),
@@ -97,12 +102,12 @@ export default function KnowledgeGraph({
   useEffect(() => {
     if (!containerRef.current) return
     const obs = new ResizeObserver(entries => {
-      const { width } = entries[0].contentRect
-      setDims({ width: Math.floor(width), height: 520 })
+      const { width, height } = entries[0].contentRect
+      setDims({ width: Math.floor(width), height: fillHeight ? Math.floor(height) : 520 })
     })
     obs.observe(containerRef.current)
     return () => obs.disconnect()
-  }, [])
+  }, [fillHeight])
 
   // Transform stats.graph → react-force-graph-2d format.
   // Clones nodes (force sim mutates them) and enriches item nodes with
@@ -169,16 +174,36 @@ export default function KnowledgeGraph({
       ctx.fill()
     }
 
+    // Tag nodes: outline circle + italic #label below
+    if (node.type === 'tag') {
+      ctx.beginPath()
+      ctx.arc(node.x, node.y, r, 0, Math.PI * 2)
+      ctx.fillStyle = colors.bg
+      ctx.fill()
+      ctx.strokeStyle = nodeC
+      ctx.lineWidth = 1
+      ctx.stroke()
+      if (isHov || isSel) {
+        ctx.beginPath()
+        ctx.arc(node.x, node.y, r, 0, Math.PI * 2)
+        ctx.fillStyle = 'rgba(255,255,255,0.12)'
+        ctx.fill()
+      }
+      ctx.font = `italic 9px "IBM Plex Mono", monospace`
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'top'
+      ctx.fillStyle = nodeC
+      ctx.fillText(`#${node.label}`, node.x, node.y + r + 3)
+      return
+    }
+
     // Hub labels — always visible below node
     if (node.type === 'project' || node.type === 'category') {
       const fs = node.type === 'project' ? 11 : 10
       ctx.font = `600 ${fs}px "IBM Plex Mono", monospace`
       ctx.textAlign = 'center'
       ctx.textBaseline = 'top'
-      // Lime label contrast fix: use muted ink on light canvas
-      ctx.fillStyle = (node.type === 'category' && isLight)
-        ? 'rgba(13,18,38,0.65)'
-        : nodeC
+      ctx.fillStyle = nodeC
       ctx.fillText(node.label, node.x, node.y + r + 4)
     }
 
@@ -195,10 +220,11 @@ export default function KnowledgeGraph({
       rRect(ctx, bx, by, tw + px * 2, fs + py * 2, 3)
       ctx.fillStyle = isLight ? 'rgba(255,255,255,0.92)' : 'rgba(10,15,26,0.9)'
       ctx.fill()
-      ctx.strokeStyle = nodeC
+      // Neutral border + text — nodeC may be lime/bright, unreadable on white
+      ctx.strokeStyle = isLight ? 'rgba(0,0,0,0.18)' : 'rgba(255,255,255,0.25)'
       ctx.lineWidth = 0.5
       ctx.stroke()
-      ctx.fillStyle = nodeC
+      ctx.fillStyle = isLight ? 'rgba(10,15,26,0.85)' : 'rgba(242,242,243,0.9)'
       ctx.textAlign = 'center'
       ctx.textBaseline = 'top'
       ctx.fillText(label, node.x, by + py)
@@ -257,8 +283,8 @@ export default function KnowledgeGraph({
   }, [])
 
   return (
-    <div className={styles.wrap}>
-      <div className={styles.canvasWrap} ref={containerRef}>
+    <div className={`${styles.wrap} ${fillHeight ? styles.wrapFill : ''} ${className}`}>
+      <div className={`${styles.canvasWrap} ${fillHeight ? styles.canvasWrapFill : ''}`} ref={containerRef}>
         {(!FG || !colors) && (
           <div className={styles.loading}>Initialising graph…</div>
         )}
@@ -289,24 +315,23 @@ export default function KnowledgeGraph({
         <div className={styles.zoomControls}>
           <button type="button" className={styles.zoomBtn} onClick={handleZoomIn} aria-label="Zoom in">+</button>
           <button type="button" className={styles.zoomBtn} onClick={handleZoomOut} aria-label="Zoom out">−</button>
+          {onEmbiggen && (
+            <button type="button" className={styles.zoomBtn} onClick={onEmbiggen} aria-label="Fullscreen">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
+                <polyline points="9,1 13,1 13,5" /><line x1="13" y1="1" x2="8" y2="6" />
+                <polyline points="5,13 1,13 1,9" /><line x1="1" y1="13" x2="6" y2="8" />
+              </svg>
+            </button>
+          )}
         </div>
         {showLegend && (
-          <div className={styles.legend}>
-            {colorTokens ? (
-              <>
-                <span className={styles.legendItem}><span className={styles.dotProject} />Project</span>
-                <span className={styles.legendItem}><span className={styles.dotCategory} />Category</span>
-                <span className={styles.legendItem} style={{ '--dot-color': colors?.article }}><span className={styles.dotTyped} />Article</span>
-                <span className={styles.legendItem} style={{ '--dot-color': colors?.caseStudy }}><span className={styles.dotTyped} />Case Study</span>
-                <span className={styles.legendItem} style={{ '--dot-color': colors?.node }}><span className={styles.dotTyped} />Node</span>
-              </>
-            ) : (
-              <>
-                <span className={styles.legendItem}><span className={styles.dotProject} />Project hub</span>
-                <span className={styles.legendItem}><span className={styles.dotCategory} />Category hub</span>
-                <span className={styles.legendItem}><span className={styles.dotItem} />Node</span>
-              </>
-            )}
+          <div className={`${styles.legend} ${legendTop ? styles.legendTopLeft : ''}`}>
+            <span className={styles.legendItem}><span className={styles.dotProject} />Project hub</span>
+            <span className={styles.legendItem}><span className={styles.dotCategory} />Category hub</span>
+            <span className={styles.legendItem}><span className={styles.dotArticle} />Article</span>
+            <span className={styles.legendItem}><span className={styles.dotCase} />Case Study</span>
+            <span className={styles.legendItem}><span className={styles.dotNode} />Node</span>
+            <span className={styles.legendItem}><span className={styles.dotTag} />Shared tags</span>
           </div>
         )}
       </div>

@@ -18,8 +18,9 @@
  *   <ContentCard item={item} />                          // derives from item._type
  *   <ContentCard item={item} variant="listing" />        // list display style
  */
+import { Link } from 'react-router-dom'
 import { Card } from '../design-system'
-import { getCanonicalPath } from '../lib/routes'
+import { getCanonicalPath, TYPE_NAMESPACES } from '../lib/routes'
 import { decodeHtml } from '../lib/htmlUtils'
 import { isPreviewMode } from '../lib/contentState'
 
@@ -76,6 +77,8 @@ export default function ContentCard({
   categoryPosition,
   draftIds,
   showFolio = true,
+  suppressEyebrow = false,
+  suppressStatus = false,
 }) {
   const docType   = docTypeProp ?? DOC_TYPE_MAP[item._type] ?? item._type
   const path      = getCanonicalPath({ docType, slug: item.slug })
@@ -105,18 +108,45 @@ export default function ContentCard({
     ? (item.cardImageUrl ?? imageOverride?.asset?.url ?? item.heroImageUrl ?? item.heroImage?.asset?.url ?? null)
     : null
 
-  // ── Eyebrow — content type label + first project name ──
+  // ── Eyebrow — linked type label + first project/category ──
   const firstProject = item.projects?.[0]
-  const eyebrow = firstProject
-    ? `${typeLabel} · ${firstProject.name}`
-    : typeLabel
+  const typeArchivePath = `/${TYPE_NAMESPACES[docType] ?? docType}`
+  const eyebrow = (
+    <>
+      <Link to={typeArchivePath} onClick={e => e.stopPropagation()}>{typeLabel}</Link>
+      {firstProject && (
+        <>
+          {' · '}
+          <Link
+            to={getCanonicalPath({ docType: 'project', slug: firstProject.slug })}
+            onClick={e => e.stopPropagation()}
+          >
+            {firstProject.name}
+          </Link>
+        </>
+      )}
+    </>
+  )
 
-  // ── Category — all categories shown in footer, joined with · ──
-  // Only the first category is linked (href); remaining names are appended to label.
-  const firstCat = item.categories?.[0]
-  const allCatsLabel = item.categories?.map((c) => c.name).join(' · ')
-  const categoryProp = firstCat
-    ? { label: allCatsLabel, href: getCanonicalPath({ docType: 'category', slug: firstCat.slug }) }
+  // ── Category — each category individually linked in footer ──
+  const categoryProp = item.categories?.length
+    ? {
+        label: (
+          <>
+            {item.categories.map((c, i) => (
+              <span key={c.slug ?? i}>
+                {i > 0 && ' · '}
+                <Link
+                  to={getCanonicalPath({ docType: 'category', slug: c.slug })}
+                  onClick={e => e.stopPropagation()}
+                >
+                  {c.name}
+                </Link>
+              </span>
+            ))}
+          </>
+        ),
+      }
     : undefined
 
   // ── Tools — reference array → linked chip objects ──
@@ -170,12 +200,12 @@ export default function ContentCard({
       variant={variant}
       density={density}
       href={path}
-      eyebrow={eyebrow}
+      eyebrow={suppressEyebrow ? undefined : eyebrow}
       category={categoryProp}
       categoryPosition={categoryPosition || undefined}
       title={item.title}
-      status={statusProp}
-      evolution={evolutionProp}
+      status={suppressStatus ? undefined : statusProp}
+      evolution={suppressStatus ? undefined : evolutionProp}
       excerpt={excerptText}
       thumbnailUrl={thumbnailUrl}
       thumbnailAlt={item.cardImageAlt ?? item.heroImageAlt ?? ''}
