@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-08 · v0.23.16 · SUG-81 shipped (MVP) · SUG-106 added (stats pipeline fix + SUG-100 close-out)
+> Updated 2026-05-09 · v0.23.18 · SUG-105 shipped (Knowledge Graph Phase 2) · SUG-107 added (client taxonomy)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-81 shipped ✅ v0.23.16. Site-wide knowledge graph MVP — all content types, FilterStrip component, per-type colors, Sanity archivePage wired. SUG-105 (KG Phase 2) in backlog — Phase 0 mocks pending. SUG-100 (CWV) In Review — awaiting CI perf data.
+> **⚑ Current focus:** SUG-105 shipped ✅ v0.23.18. Knowledge Graph Phase 2 — masthead kicker, chip color system, fullscreen, tag nodes, ledger rail, Chromatic Build 33 accepted. SUG-106 (stats pipeline fix) and SUG-104 (listview updates) are next.
 
 ---
 
@@ -42,7 +42,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Fix LHCI not writing JSON in CI, add missing Sanity secrets, diagnose low mobile Lighthouse scores (perf 68, best-practices 42), document manual backup update workflow, close SUG-100. Epic: `docs/backlog/SUG-106-stats-pipeline-fix-sug-100-close-out.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
-| 2 | **[SUG-105](https://linear.app/sugartown/issue/SUG-105) · Knowledge Graph Phase 2** — Masthead kicker (live node/edge counts), FilterStrip 3-value chip color system (light/dark, lime contrast solution), archive icon treatment, fullscreen overlay, tag nodes on filtered graphs, rail SELECTED header, stats cleanup, a11y, Chromatic VRT. Phase 0 mocks required before implementation. Epic: `docs/backlog/SUG-105-knowledge-graph-phase-2.md`. | `UX` `Design System` `Frontend` | 🟣 Soon |
+| 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
 | 2 | **[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Net-new layout patterns for archive and taxonomy pages: person split-column, brand-dot bullet list, brand-soft chip, letter-bucket grid, A–Z jump bar, view toggle, filter bar stripe, content row hover. DS primitives `.st-list--marked` + `.st-chip--brand-soft` promoted. No schema changes. Epic: `docs/backlog/SUG-104-listview-updates-archives-taxonomies.md`. | `UX` `Design System` `Frontend` | 🟣 Soon |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 
@@ -86,6 +86,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-105 · Knowledge Graph Phase 2** — Masthead kicker, FilterStrip 3-value chip color system (lime contrast solved), fullscreen overlay with fill height + legend top-left, tag nodes on filtered graphs, ledger rail with SELECTED header, ContentCard folio links, compact density font sizes. Chromatic Build 33: 15 changes accepted. eyebrow field on archivePage schema. Data pipeline gap: tag nodes in graph.js; stats.json regenerates on next CI run.~~ | v0.23.18 | 2026-05-09 |
 | ~~**SUG-81 · Site-wide Knowledge Graph (MVP)** — `/knowledge-graph` with force-directed canvas (article, caseStudy, node). FilterStrip component with per-type color tokens. Hub/item node rail with ContentCard compact + hub card surface. Legend with bg+border. Sanity archivePage wired for heading/SEO. `--st-kg-*` 7-token layer. `stats.siteGraph` build-time collector. Stats pipeline live. Chromatic pending (SUG-105).~~ | v0.23.16 | 2026-05-08 |
 | ~~**SUG-102 · DS token hygiene Phase C** — 6 new Tier-1 primitives (amber-450 #f0b429, amber-650 #d4a017, red-400 #f87171, red-600 #dc2626, crimson-500 #ff4757, midnight-950 #0a0f1a). 8 token references promoted. 14 legacy aliases removed (st-color-grey-*, st-color-void-900, st-color-red-500, st-font-sans, st-font-mono, st-color-brand). Pre-commit hook fixed for legitimate regeneration commits. Chromatic Build 31: zero visual changes. Token count 578 → 570.~~ | v0.23.15 | 2026-05-07 |
 | ~~**SUG-86 · Style Dictionary token pipeline** — 578 tokens migrated from hand-authored dual `tokens.css` to `tokens/source/tokens.json`. Style Dictionary v5 generates both `packages/design-system/src/styles/tokens.css` and `apps/web/src/design-system/styles/tokens.css` via `pnpm tokens:build`. Flat JSON structure, `outputReferences: true`, pre-commit guard. Deprecated `[data-theme="dark"]` block removed. Semantic diff: 0 missing, 0 extra, 0 value differences. Chromatic Build 30: zero visual changes.~~ | v0.23.14 | 2026-05-07 |
@@ -174,4 +175,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-08 · v0.23.16 · SUG-81 shipped · queue: SUG-105 (Phase 0), SUG-100 (In Review)*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-09 · v0.23.18 · SUG-105 shipped · queue: SUG-106, SUG-104*
