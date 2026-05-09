@@ -128,12 +128,25 @@ export default function ContentCard({
     </>
   )
 
-  // ── Category — all categories shown in footer, joined with · ──
-  // Only the first category is linked (href); remaining names are appended to label.
-  const firstCat = item.categories?.[0]
-  const allCatsLabel = item.categories?.map((c) => c.name).join(' · ')
-  const categoryProp = firstCat
-    ? { label: allCatsLabel, href: getCanonicalPath({ docType: 'category', slug: firstCat.slug }) }
+  // ── Category — each category individually linked in footer ──
+  const categoryProp = item.categories?.length
+    ? {
+        label: (
+          <>
+            {item.categories.map((c, i) => (
+              <span key={c.slug ?? i}>
+                {i > 0 && ' · '}
+                <Link
+                  to={getCanonicalPath({ docType: 'category', slug: c.slug })}
+                  onClick={e => e.stopPropagation()}
+                >
+                  {c.name}
+                </Link>
+              </span>
+            ))}
+          </>
+        ),
+      }
     : undefined
 
   // ── Tools — reference array → linked chip objects ──
