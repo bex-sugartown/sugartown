@@ -307,9 +307,9 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
               : `${totalItems} result${totalItems === 1 ? '' : 's'}`}
           </p>
         )}
-        {!isGraphView && primaryType && (primaryType === 'article' || primaryType === 'caseStudy' || primaryType === 'node') && (
+        {!isGraphView && contentType && (contentType === 'article' || contentType === 'caseStudy' || contentType === 'node') && (
           <Link
-            to={`/knowledge-graph?type=${primaryType}`}
+            to={`/knowledge-graph?type=${contentType}`}
             className={styles.graphCtaChip}
           >
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
