@@ -48,7 +48,7 @@ export default function FilterStrip({
             <button
               key={f.key}
               type="button"
-              className={`${styles.chip} ${isActive ? styles.chipActive : ''} ${dotToken ? styles.chipHasDot : ''}`}
+              className={`${styles.chip} ${isActive ? styles.chipActive : ''}`}
               style={chipStyle ? { ...chipStyle, ...dotStyle } : dotStyle}
               onClick={() => onChange(f.key)}
               aria-pressed={isActive}

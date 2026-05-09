@@ -167,7 +167,6 @@
   /* ── Site graph node/edge colors — light overrides (SUG-81 + SUG-105) ─ */
   --st-kg-node-article:  var(--st-color-seafoam-700);
   --st-kg-node-case:     var(--st-color-maroon);
-  --st-kg-node-node:     var(--st-color-lime-700);
   --st-kg-node-category: var(--st-color-neutral-500);
   --st-kg-edge-member:   color-mix(in srgb, var(--st-color-ink) 14%, transparent);
   --st-kg-edge-lateral:  color-mix(in srgb, var(--st-color-pink) 35%, transparent);
@@ -183,9 +182,9 @@
   --st-kg-chip-case-bg:         color-mix(in srgb, var(--st-color-pink) 8%, transparent);
   --st-kg-chip-case-fg:         var(--st-color-pink);
   --st-kg-chip-case-border:     color-mix(in srgb, var(--st-color-pink) 35%, transparent);
-  --st-kg-chip-node-bg:         var(--st-color-lime-50);
-  --st-kg-chip-node-fg:         var(--st-color-lime-800);
-  --st-kg-chip-node-border:     color-mix(in srgb, var(--st-color-lime) 35%, transparent);
+  --st-kg-chip-node-bg:         var(--st-color-ink);
+  --st-kg-chip-node-fg:         var(--st-color-neutral-100);
+  --st-kg-chip-node-border:     transparent;
 }
 
 /* ══════════════════════════════════════════════════════════
