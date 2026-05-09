@@ -6,7 +6,7 @@
  * with slug "knowledge-graph". Graph, type filter, and card rail are appended
  * below the page header content.
  */
-import { useEffect, useState, useMemo, useCallback } from 'react'
+import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import { client } from '../lib/sanity'
@@ -98,6 +98,7 @@ export default function SiteGraphPage() {
     return FILTER_TYPES.some(f => f.key === p) ? p : 'all'
   })
   const [selectedNode, setSelectedNode] = useState(null)
+  const railRef                         = useRef(null)
   const [allItems, setAllItems]         = useState(null)
   const [archiveDoc, setArchiveDoc]     = useState(null)
   const [loading, setLoading]           = useState(true)
@@ -165,6 +166,12 @@ export default function SiteGraphPage() {
 
   const handleNodeClick = useCallback(node => {
     setSelectedNode(node)
+    if (node) {
+      // Move focus to rail so keyboard users can read the selection
+      requestAnimationFrame(() => {
+        railRef.current?.focus()
+      })
+    }
   }, [])
 
   const selectedItem = useMemo(() => {
@@ -234,7 +241,7 @@ export default function SiteGraphPage() {
           />
         </div>
 
-        <div className={styles.rail}>
+        <div className={styles.rail} ref={railRef} aria-live="polite" aria-atomic="false" tabIndex={-1}>
           {!selectedNode && (
             <div className={styles.railEmpty}>
               <p className={styles.railHint}>Click any node to explore it</p>
