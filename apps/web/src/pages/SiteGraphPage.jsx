@@ -202,6 +202,10 @@ export default function SiteGraphPage() {
             </div>
           )}
 
+          {selectedNode && (
+            <p className={styles.railSelectedHeader} aria-live="polite">Selected</p>
+          )}
+
           {selectedNode && selectedNode.type === 'item' && (
             <div className={styles.railCard}>
               {loading && <p className={styles.railHint}>Loading…</p>}

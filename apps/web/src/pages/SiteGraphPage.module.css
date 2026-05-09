@@ -94,6 +94,16 @@
   margin: 0;
 }
 
+.railSelectedHeader {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  margin: 0 0 10px;
+}
+
 .railCard {
   /* ContentCard fills naturally */
 }
