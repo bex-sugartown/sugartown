@@ -18,8 +18,9 @@
  *   <ContentCard item={item} />                          // derives from item._type
  *   <ContentCard item={item} variant="listing" />        // list display style
  */
+import { Link } from 'react-router-dom'
 import { Card } from '../design-system'
-import { getCanonicalPath } from '../lib/routes'
+import { getCanonicalPath, TYPE_NAMESPACES } from '../lib/routes'
 import { decodeHtml } from '../lib/htmlUtils'
 import { isPreviewMode } from '../lib/contentState'
 
@@ -107,11 +108,25 @@ export default function ContentCard({
     ? (item.cardImageUrl ?? imageOverride?.asset?.url ?? item.heroImageUrl ?? item.heroImage?.asset?.url ?? null)
     : null
 
-  // ── Eyebrow — content type label + first project name ──
+  // ── Eyebrow — linked type label + first project/category ──
   const firstProject = item.projects?.[0]
-  const eyebrow = firstProject
-    ? `${typeLabel} · ${firstProject.name}`
-    : typeLabel
+  const typeArchivePath = `/${TYPE_NAMESPACES[docType] ?? docType}`
+  const eyebrow = (
+    <>
+      <Link to={typeArchivePath} onClick={e => e.stopPropagation()}>{typeLabel}</Link>
+      {firstProject && (
+        <>
+          {' · '}
+          <Link
+            to={getCanonicalPath({ docType: 'project', slug: firstProject.slug })}
+            onClick={e => e.stopPropagation()}
+          >
+            {firstProject.name}
+          </Link>
+        </>
+      )}
+    </>
+  )
 
   // ── Category — all categories shown in footer, joined with · ──
   // Only the first category is linked (href); remaining names are appended to label.

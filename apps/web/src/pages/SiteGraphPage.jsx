@@ -10,7 +10,6 @@ import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import { client } from '../lib/sanity'
-import { getCanonicalPath, TYPE_NAMESPACES } from '../lib/routes'
 import { allSiteItemsQuery, archivePageBySlugQuery } from '../lib/queries'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
@@ -50,7 +49,6 @@ const COLOR_TOKENS = {
 }
 
 const HUB_TYPE_LABELS = { project: 'Project', category: 'Category' }
-const ITEM_TYPE_LABELS = { article: 'Article', caseStudy: 'Case Study', node: 'Node' }
 
 function filterGraph(siteGraph, typeFilter) {
   if (!siteGraph) return siteGraph

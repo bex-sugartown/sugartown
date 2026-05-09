@@ -114,6 +114,15 @@
   line-height: 1.2;
 }
 
+.folioLabel a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.folioLabel a:hover {
+  text-decoration: underline;
+}
+
 /* Inline badge — same visual as .statusBadge but not absolutely positioned */
 .folioStatus {
   font-family: var(--st-font-family-mono);
