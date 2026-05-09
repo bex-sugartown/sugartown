@@ -262,46 +262,13 @@ export default function SiteGraphPage() {
                   <p className={styles.railHint}>Item not found in content.</p>
                 )}
                 {!loading && selectedItem && (
-                  <>
-                    <p className={styles.railKicker}>
-                      <Link
-                        to={`/${TYPE_NAMESPACES[selectedNode.docType] ?? selectedNode.docType}`}
-                        className={styles.railKickerType}
-                      >
-                        {ITEM_TYPE_LABELS[selectedNode.docType] ?? selectedNode.docType}
-                      </Link>
-                      {selectedItem.projects?.[0] && (
-                        <>
-                          <span className={styles.railKickerSep}> · </span>
-                          <Link
-                            to={getCanonicalPath({ docType: 'project', slug: selectedItem.projects[0].slug })}
-                            className={styles.railKickerProject}
-                          >
-                            {selectedItem.projects[0].name}
-                          </Link>
-                        </>
-                      )}
-                      {!selectedItem.projects?.[0] && selectedItem.categories?.[0] && (
-                        <>
-                          <span className={styles.railKickerSep}> · </span>
-                          <Link
-                            to={getCanonicalPath({ docType: 'category', slug: selectedItem.categories[0].slug })}
-                            className={styles.railKickerProject}
-                          >
-                            {selectedItem.categories[0].name}
-                          </Link>
-                        </>
-                      )}
-                    </p>
-                    <ContentCard
-                      item={{ ...selectedItem, excerpt: selectedItem.excerpt?.slice(0, 120) ?? null }}
-                      density="compact"
-                      showExcerpt
-                      showHeroImage={false}
-                      suppressEyebrow
-                      suppressStatus
-                    />
-                  </>
+                  <ContentCard
+                    item={{ ...selectedItem, excerpt: selectedItem.excerpt?.slice(0, 120) ?? null }}
+                    density="compact"
+                    showExcerpt
+                    showHeroImage={false}
+                    suppressStatus
+                  />
                 )}
               </div>
             )}

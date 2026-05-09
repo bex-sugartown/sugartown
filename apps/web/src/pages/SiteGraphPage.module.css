@@ -75,7 +75,7 @@
 @media (min-width: 768px) {
   .body {
     grid-template-columns: 1fr var(--st-space-sidebar, 220px);
-    align-items: start;
+    align-items: stretch;
   }
 }
 
