@@ -51,6 +51,7 @@ export default function KnowledgeGraph({
   colorTokens,  // { docType: '--st-kg-token-name' } — per-docType overrides for item nodes
   showLegend = true,
   selectedId,   // external selection control; if provided, drives ring instead of internal state
+  onEmbiggen,  // callback to trigger fullscreen mode from parent
 }) {
   const [FG, setFG]             = useState(null)
   const [colors, setColors]     = useState(null)
@@ -313,6 +314,14 @@ export default function KnowledgeGraph({
         <div className={styles.zoomControls}>
           <button type="button" className={styles.zoomBtn} onClick={handleZoomIn} aria-label="Zoom in">+</button>
           <button type="button" className={styles.zoomBtn} onClick={handleZoomOut} aria-label="Zoom out">−</button>
+          {onEmbiggen && (
+            <button type="button" className={styles.zoomBtn} onClick={onEmbiggen} aria-label="Fullscreen">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
+                <polyline points="9,1 13,1 13,5" /><line x1="13" y1="1" x2="8" y2="6" />
+                <polyline points="5,13 1,13 1,9" /><line x1="1" y1="13" x2="6" y2="8" />
+              </svg>
+            </button>
+          )}
         </div>
         {showLegend && (
           <div className={styles.legend}>

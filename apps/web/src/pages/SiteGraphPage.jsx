@@ -143,6 +143,19 @@ export default function SiteGraphPage() {
     return `${itemCount} ${label} visible`
   }, [graphData, typeFilter])
 
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
+  const handleEmbiggen = useCallback(() => setIsFullscreen(true), [])
+  const handleClose    = useCallback(() => setIsFullscreen(false), [])
+
+  // Close on Escape key
+  useEffect(() => {
+    if (!isFullscreen) return
+    const handler = e => { if (e.key === 'Escape') setIsFullscreen(false) }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [isFullscreen])
+
   const handleFilterChange = useCallback(key => {
     setTypeFilter(key)
     setSelectedNode(null)
@@ -217,6 +230,7 @@ export default function SiteGraphPage() {
             showLegend
             selectedId={selectedNode?.id ?? null}
             onNodeClick={handleNodeClick}
+            onEmbiggen={handleEmbiggen}
           />
         </div>
 
@@ -266,6 +280,64 @@ export default function SiteGraphPage() {
           )}
         </div>
       </div>
+
+      {isFullscreen && (
+        <div className={styles.fullscreenOverlay} role="dialog" aria-label="Knowledge graph fullscreen" aria-modal="true">
+          <div className={styles.fsHeader}>
+            <FilterStrip
+              filters={FILTER_TYPES}
+              activeKey={typeFilter}
+              onChange={handleFilterChange}
+              count={filterCount}
+              className={styles.fsFilterStrip}
+            />
+            <button type="button" className={styles.fsClose} onClick={handleClose} aria-label="Exit fullscreen">✕</button>
+          </div>
+          <div className={styles.fsBody}>
+            <div className={styles.fsGraph}>
+              <KnowledgeGraph
+                graphData={graphData}
+                colorTokens={COLOR_TOKENS}
+                showLegend
+                selectedId={selectedNode?.id ?? null}
+                onNodeClick={handleNodeClick}
+              />
+            </div>
+            <div className={styles.fsRail}>
+              {!selectedNode && (
+                <div className={styles.railEmpty}>
+                  <p className={styles.railHint}>Click any node to explore it</p>
+                </div>
+              )}
+              {selectedNode && (
+                <p className={styles.railSelectedHeader} aria-live="polite">Selected</p>
+              )}
+              {selectedNode && selectedNode.type === 'item' && (
+                <div className={styles.railCard}>
+                  {loading && <p className={styles.railHint}>Loading…</p>}
+                  {!loading && selectedItem && (
+                    <ContentCard
+                      item={{ ...selectedItem, excerpt: selectedItem.excerpt?.slice(0, 120) ?? null }}
+                      density="compact"
+                      showExcerpt
+                      showHeroImage={false}
+                    />
+                  )}
+                </div>
+              )}
+              {selectedNode && selectedNode.type !== 'item' && (
+                <div className={styles.railHub}>
+                  <p className={styles.railHubType}>{HUB_TYPE_LABELS[selectedNode.type] ?? selectedNode.type}</p>
+                  <p className={styles.railHubLabel}>{selectedNode.label}</p>
+                  <Link to={selectedNode.href} className={styles.railHubLink}>
+                    View {HUB_TYPE_LABELS[selectedNode.type]?.toLowerCase() ?? selectedNode.type} →
+                  </Link>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   )
 }

@@ -152,3 +152,70 @@
 .railHubLink:hover {
   text-decoration: underline;
 }
+
+/* ── Fullscreen overlay ──────────────────────────────────── */
+
+.fullscreenOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: var(--st-color-bg-canvas);
+  display: flex;
+  flex-direction: column;
+}
+
+.fsHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--st-color-border-medium);
+  flex-shrink: 0;
+}
+
+.fsFilterStrip {
+  flex: 1;
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+.fsClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--st-color-border-medium);
+  background: transparent;
+  color: var(--st-color-text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: color 80ms, border-color 80ms;
+}
+
+.fsClose:hover {
+  color: var(--st-color-text-primary);
+  border-color: var(--st-color-border-strong);
+}
+
+.fsBody {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.fsGraph {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.fsRail {
+  border-left: 1px solid var(--st-color-border-subtle);
+  padding: 16px 12px;
+  overflow-y: auto;
+}
