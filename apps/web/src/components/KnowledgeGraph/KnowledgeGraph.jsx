@@ -52,6 +52,7 @@ export default function KnowledgeGraph({
   showLegend = true,
   selectedId,   // external selection control; if provided, drives ring instead of internal state
   onEmbiggen,  // callback to trigger fullscreen mode from parent
+  className = '',
 }) {
   const [FG, setFG]             = useState(null)
   const [colors, setColors]     = useState(null)
@@ -280,7 +281,7 @@ export default function KnowledgeGraph({
   }, [])
 
   return (
-    <div className={styles.wrap}>
+    <div className={`${styles.wrap} ${className}`}>
       <div className={styles.canvasWrap} ref={containerRef}>
         {(!FG || !colors) && (
           <div className={styles.loading}>Initialising graph…</div>

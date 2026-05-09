@@ -49,13 +49,22 @@
   color: var(--st-color-brand-primary);
 }
 
-/* ── Filter strip ────────────────────────────────────────────── */
+/* ── Graph section: single outer border containing filter + graph + rail ── */
+
+.graphSection {
+  border: 1px solid var(--st-color-rule-accent);
+}
+
+/* ── Filter strip — bottom divider only; outer border from graphSection ── */
 
 .filterStrip {
   margin-bottom: 0;
+  border: none;
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
 }
 
-/* ── Body: graph + rail ──────────────────────────────────────── */
+/* ── Body: graph + rail flush, gap 0 ─────────────────────────── */
 
 .body {
   display: grid;
@@ -66,7 +75,6 @@
 @media (min-width: 768px) {
   .body {
     grid-template-columns: 1fr var(--st-space-sidebar, 220px);
-    gap: 24px;
     align-items: start;
   }
 }
@@ -75,10 +83,16 @@
   min-width: 0;
 }
 
-/* ── Rail — ledger outline box ─────────────────────────────── */
+/* Suppress KnowledgeGraph's own border — graphSection handles it */
+.kgNoBorder {
+  border: none;
+}
+
+/* ── Rail — flush right panel, left divider, light bg ────────── */
 
 .rail {
-  border: 1px solid var(--st-color-rule-accent);
+  border-left: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
   display: flex;
   flex-direction: column;
   min-height: 200px;

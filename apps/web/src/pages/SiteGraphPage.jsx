@@ -221,6 +221,7 @@ export default function SiteGraphPage() {
         )}
       </header>
 
+      <div className={styles.graphSection}>
       <FilterStrip
         filters={FILTER_TYPES}
         activeKey={typeFilter}
@@ -238,6 +239,7 @@ export default function SiteGraphPage() {
             selectedId={selectedNode?.id ?? null}
             onNodeClick={handleNodeClick}
             onEmbiggen={handleEmbiggen}
+            className={styles.kgNoBorder}
           />
         </div>
 
@@ -323,6 +325,7 @@ export default function SiteGraphPage() {
           </div>
         </div>
       </div>
+      </div>{/* /graphSection */}
 
       {isFullscreen && (
         <div className={styles.fullscreenOverlay} role="dialog" aria-label="Knowledge graph fullscreen" aria-modal="true">
