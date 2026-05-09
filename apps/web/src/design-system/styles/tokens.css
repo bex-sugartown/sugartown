@@ -486,10 +486,12 @@
   --st-citation-font: var(--st-font-family-mono);
   --st-citation-zone-gap: var(--st-space-3);
   --st-hero-text-color: var(--st-color-white);
+  --st-graph-node-category: var(--st-color-neutral-400);
   --st-graph-edge-membership: var(--st-color-border-medium);
   --st-graph-edge-lateral: var(--st-color-border-subtle);
   --st-kg-node-article: var(--st-color-seafoam-500);
   --st-kg-node-node: var(--st-color-lime-400);
+  --st-kg-node-category: var(--st-color-neutral-400);
   --st-kg-edge-member: var(--st-color-border-medium);
   --st-kg-edge-lateral: var(--st-color-border-subtle);
   --st-kg-chip-all-fg: var(--st-color-neutral-100);
@@ -567,12 +569,10 @@
   --st-media-duotone-pink: var(--st-color-pink);
   --st-media-duotone-seafoam: var(--st-color-seafoam);
   --st-header-bg: var(--st-color-bg-surface);
-  --st-graph-node-project: var(--st-color-seafoam);
-  --st-graph-node-category: var(--st-color-lime);
+  --st-graph-node-project: var(--st-color-pink);
   --st-graph-node-tag: var(--st-color-text-muted);
   --st-kg-node-case: var(--st-color-pink);
-  --st-kg-node-project: var(--st-color-seafoam);
-  --st-kg-node-category: var(--st-color-lime);
+  --st-kg-node-project: var(--st-color-pink);
   --st-kg-chip-all-bg: var(--st-color-ink);
   --st-kg-chip-article-fg: var(--st-color-ink);
   --st-kg-chip-case-bg: var(--st-color-pink);

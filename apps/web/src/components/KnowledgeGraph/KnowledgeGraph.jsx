@@ -200,10 +200,7 @@ export default function KnowledgeGraph({
       ctx.font = `600 ${fs}px "IBM Plex Mono", monospace`
       ctx.textAlign = 'center'
       ctx.textBaseline = 'top'
-      // Lime label contrast fix: use muted ink on light canvas
-      ctx.fillStyle = (node.type === 'category' && isLight)
-        ? 'rgba(13,18,38,0.65)'
-        : nodeC
+      ctx.fillStyle = nodeC
       ctx.fillText(node.label, node.x, node.y + r + 4)
     }
 
@@ -325,21 +322,12 @@ export default function KnowledgeGraph({
         </div>
         {showLegend && (
           <div className={styles.legend}>
-            {colorTokens ? (
-              <>
-                <span className={styles.legendItem}><span className={styles.dotProject} />Project</span>
-                <span className={styles.legendItem}><span className={styles.dotCategory} />Category</span>
-                <span className={styles.legendItem} style={{ '--dot-color': colors?.article }}><span className={styles.dotTyped} />Article</span>
-                <span className={styles.legendItem} style={{ '--dot-color': colors?.caseStudy }}><span className={styles.dotTyped} />Case Study</span>
-                <span className={styles.legendItem} style={{ '--dot-color': colors?.node }}><span className={styles.dotTyped} />Node</span>
-              </>
-            ) : (
-              <>
-                <span className={styles.legendItem}><span className={styles.dotProject} />Project hub</span>
-                <span className={styles.legendItem}><span className={styles.dotCategory} />Category hub</span>
-                <span className={styles.legendItem}><span className={styles.dotItem} />Node</span>
-              </>
-            )}
+            <span className={styles.legendItem}><span className={styles.dotProject} />Project hub</span>
+            <span className={styles.legendItem}><span className={styles.dotCategory} />Category hub</span>
+            <span className={styles.legendItem}><span className={styles.dotArticle} />Article</span>
+            <span className={styles.legendItem}><span className={styles.dotCase} />Case Study</span>
+            <span className={styles.legendItem}><span className={styles.dotNode} />Node</span>
+            <span className={styles.legendItem}><span className={styles.dotTag} />Shared tags</span>
           </div>
         )}
       </div>
