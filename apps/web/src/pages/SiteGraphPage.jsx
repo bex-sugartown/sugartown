@@ -25,9 +25,21 @@ import pageStyles from './pages.module.css'
 
 const FILTER_TYPES = [
   { key: 'all',       label: 'All' },
-  { key: 'article',   label: 'Articles',     colorToken: '--st-kg-node-article' },
-  { key: 'caseStudy', label: 'Case Studies', colorToken: '--st-kg-node-case' },
-  { key: 'node',      label: 'Nodes',        colorToken: '--st-kg-node-node' },
+  {
+    key: 'article',   label: 'Articles',
+    chipTokens: { bg: '--st-kg-chip-article-bg', fg: '--st-kg-chip-article-fg', border: '--st-kg-chip-article-border' },
+    dotToken: '--st-kg-node-article',
+  },
+  {
+    key: 'caseStudy', label: 'Case Studies',
+    chipTokens: { bg: '--st-kg-chip-case-bg', fg: '--st-kg-chip-case-fg', border: '--st-kg-chip-case-border' },
+    dotToken: '--st-kg-node-case',
+  },
+  {
+    key: 'node',      label: 'Nodes',
+    chipTokens: { bg: '--st-kg-chip-node-bg', fg: '--st-kg-chip-node-fg', border: '--st-kg-chip-node-border' },
+    dotToken: '--st-kg-node-node',
+  },
 ]
 
 const COLOR_TOKENS = {
@@ -98,6 +110,14 @@ export default function SiteGraphPage() {
     ).length
   }, [selectedNode])
 
+  const filterCount = useMemo(() => {
+    if (!graphData) return null
+    const itemCount = graphData.nodes.filter(n => n.type === 'item').length
+    if (typeFilter === 'all') return `${itemCount} items visible`
+    const label = FILTER_TYPES.find(f => f.key === typeFilter)?.label?.toLowerCase() ?? typeFilter
+    return `${itemCount} ${label} visible`
+  }, [graphData, typeFilter])
+
   const handleFilterChange = useCallback(key => {
     setTypeFilter(key)
     setSelectedNode(null)
@@ -140,6 +160,7 @@ export default function SiteGraphPage() {
         filters={FILTER_TYPES}
         activeKey={typeFilter}
         onChange={handleFilterChange}
+        count={filterCount}
         className={styles.filterStrip}
       />
 
