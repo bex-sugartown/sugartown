@@ -51,13 +51,38 @@ const COLOR_TOKENS = {
 const HUB_TYPE_LABELS = { project: 'Project', category: 'Category' }
 
 function filterGraph(siteGraph, typeFilter) {
-  if (!siteGraph || typeFilter === 'all') return siteGraph
+  if (!siteGraph) return siteGraph
 
-  const keepIds = new Set(
+  if (typeFilter === 'all') {
+    // Exclude tag nodes in "all" view — too many to be useful
+    const nodes = siteGraph.nodes.filter(n => n.type !== 'tag')
+    const nodeIds = new Set(nodes.map(n => n.id))
+    const edges = (siteGraph.edges ?? []).filter(
+      e => nodeIds.has(e.source) && nodeIds.has(e.target)
+    )
+    return { ...siteGraph, nodes, edges }
+  }
+
+  // Filtered view: keep matching items + hubs (project, category) connected to them
+  // Tag nodes included only if connected to at least one visible item via tag-membership
+  const visibleItemIds = new Set(
     siteGraph.nodes
-      .filter(n => n.type !== 'item' || n.docType === typeFilter)
+      .filter(n => n.type === 'item' && n.docType === typeFilter)
       .map(n => n.id)
   )
+
+  const tagEdges = (siteGraph.edges ?? []).filter(
+    e => e.kind === 'tag-membership' && visibleItemIds.has(e.source)
+  )
+  const connectedTagIds = new Set(tagEdges.map(e => e.target))
+
+  const keepIds = new Set([
+    ...siteGraph.nodes
+      .filter(n => n.type !== 'item' && n.type !== 'tag')
+      .map(n => n.id),
+    ...visibleItemIds,
+    ...connectedTagIds,
+  ])
 
   const nodes = siteGraph.nodes.filter(n => keepIds.has(n.id))
   const edges = (siteGraph.edges ?? []).filter(

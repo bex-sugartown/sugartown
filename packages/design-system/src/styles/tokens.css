@@ -569,6 +569,7 @@
   --st-header-bg: var(--st-color-bg-surface);
   --st-graph-node-project: var(--st-color-seafoam);
   --st-graph-node-category: var(--st-color-lime);
+  --st-graph-node-tag: var(--st-color-text-muted);
   --st-kg-node-case: var(--st-color-pink);
   --st-kg-node-project: var(--st-color-seafoam);
   --st-kg-node-category: var(--st-color-lime);

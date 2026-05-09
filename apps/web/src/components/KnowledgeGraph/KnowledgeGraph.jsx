@@ -10,7 +10,7 @@ import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import styles from './KnowledgeGraph.module.css'
 
 // Node visual radii by type
-const RADIUS = { project: 18, category: 12, item: 6 }
+const RADIUS = { project: 18, category: 12, tag: 8, item: 6 }
 
 // Resolve a CSS custom property chain to a computed rgb() colour.
 // Uses a probe element so the browser resolves all var() references.
@@ -73,6 +73,7 @@ export default function KnowledgeGraph({
     const base = {
       project:    resolveToken('--st-graph-node-project'),
       category:   resolveToken('--st-graph-node-category'),
+      tag:        resolveToken('--st-graph-node-tag'),
       item:       resolveToken('--st-graph-node-item'),
       membership: resolveToken('--st-graph-edge-membership'),
       lateral:    resolveToken('--st-graph-edge-lateral'),
@@ -167,6 +168,29 @@ export default function KnowledgeGraph({
       ctx.arc(node.x, node.y, r, 0, Math.PI * 2)
       ctx.fillStyle = 'rgba(255,255,255,0.18)'
       ctx.fill()
+    }
+
+    // Tag nodes: outline circle + italic #label below
+    if (node.type === 'tag') {
+      ctx.beginPath()
+      ctx.arc(node.x, node.y, r, 0, Math.PI * 2)
+      ctx.fillStyle = colors.bg
+      ctx.fill()
+      ctx.strokeStyle = nodeC
+      ctx.lineWidth = 1
+      ctx.stroke()
+      if (isHov || isSel) {
+        ctx.beginPath()
+        ctx.arc(node.x, node.y, r, 0, Math.PI * 2)
+        ctx.fillStyle = 'rgba(255,255,255,0.12)'
+        ctx.fill()
+      }
+      ctx.font = `italic 9px "IBM Plex Mono", monospace`
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'top'
+      ctx.fillStyle = nodeC
+      ctx.fillText(`#${node.label}`, node.x, node.y + r + 3)
+      return
     }
 
     // Hub labels — always visible below node

@@ -113,9 +113,11 @@ export async function collectSiteGraph() {
 
   const projectMap  = new Map()
   const categoryMap = new Map()
+  const tagMap      = new Map()
   for (const item of rawItems) {
     for (const p of (item.projects ?? [])) { if (p?.slug) projectMap.set(p.slug, p) }
     for (const c of (item.categories ?? [])) { if (c?.slug) categoryMap.set(c.slug, c) }
+    for (const t of (item.tags ?? [])) { if (t?.slug) tagMap.set(t.slug, t) }
   }
 
   const nodes = []
@@ -124,6 +126,9 @@ export async function collectSiteGraph() {
   }
   for (const c of categoryMap.values()) {
     nodes.push({ id: `category:${c.slug}`, type: 'category', label: c.name, href: `/categories/${c.slug}`, size: 'medium' })
+  }
+  for (const t of tagMap.values()) {
+    nodes.push({ id: `tag:${t.slug}`, type: 'tag', label: t.name, href: `/tags/${t.slug}`, size: 'small' })
   }
   for (const item of rawItems) {
     nodes.push({
@@ -140,6 +145,13 @@ export async function collectSiteGraph() {
   }
 
   const edges = buildEdges(rawItems, item => `item:${item._type}:${item.slug}`)
+  // Tag-membership edges: item → tag hub
+  for (const item of rawItems) {
+    const itemId = `item:${item._type}:${item.slug}`
+    for (const t of (item.tags ?? [])) {
+      if (t?.slug) edges.push({ source: itemId, target: `tag:${t.slug}`, kind: 'tag-membership' })
+    }
+  }
 
   return { generatedAt: new Date().toISOString(), nodes, edges }
 }
