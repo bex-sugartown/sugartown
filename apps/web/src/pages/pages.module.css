@@ -364,12 +364,57 @@
   box-sizing: border-box;
 }
 
-/* ── Unified archive toolbar — view toggle icons + result count ───── */
+/* ── Shared masthead — eyebrow + h1 italic + description ──────────── */
+/* Shared by ArchivePage and SiteGraphPage */
+
+.masthead {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.eyebrowLink {
+  color: var(--st-color-text-muted);
+  text-decoration: none;
+}
+
+.eyebrowLink:hover {
+  color: var(--st-color-text-primary);
+}
+
+.eyebrowSep {
+  opacity: 0.4;
+}
+
+.eyebrowCurrent {
+  color: var(--st-color-brand-primary);
+}
+
+/* ── Archive section — bordered container wrapping toolbar + content ─ */
+
+.archiveSection {
+  border: 1px solid var(--st-color-rule-accent);
+}
+
+/* ── Unified archive toolbar ─────────────────────────────────────── */
 .archiveToolbar {
   display: flex;
   align-items: center;
-  gap: var(--st-space-4);
-  margin-bottom: var(--st-space-5);
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
 }
 
 .layoutToggleGroup {
@@ -422,7 +467,7 @@
 .archiveDescription {
   font-size: 1.0625rem;
   color: var(--st-color-text-default);  /* charcoal — was text-muted (#94A3B8) */
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   line-height: 1.6;
 }
 
@@ -598,28 +643,50 @@
   text-decoration: underline;
 }
 
-/* ── Graph CTA bar (SUG-81 Phase 3) ───────────────────────────── */
+/* ── Archive toolbar controls ─────────────────────────────────── */
 
-/* "In graph" icon chip — toolbar CTA linking to /knowledge-graph pre-filtered */
-.graphCtaChip {
+.archiveToolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--st-space-3);
+}
+
+/* "VIEW IN FULL GRAPH →" pink fill button */
+.graphCtaBtn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  padding: 5px 10px;
   font-family: var(--st-font-family-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--st-color-neutral-100);
-  background: var(--st-color-pink);
-  border: 1px solid var(--st-color-pink);
-  padding: 4px 10px;
+  background: var(--st-color-brand-primary);
+  border: none;
   text-decoration: none;
   white-space: nowrap;
-  margin-left: auto;
+  line-height: 1;
   transition: opacity 80ms;
 }
 
-.graphCtaChip:hover {
+.graphCtaBtn:hover {
   opacity: 0.85;
+}
+
+/* Right-side kicker stat */
+.archiveToolbarKicker {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  white-space: nowrap;
+}
+
+/* Content area padding inside the bordered section */
+.archiveSectionContent {
+  padding: 24px;
 }

@@ -245,89 +245,85 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     ? (allItems ?? []).find(i => i.slug === selectedGraphNode.id.replace(/^item:/, '')) ?? null
     : null
 
+  const contentTypeLabel = contentType === 'article' ? 'ARTICLES' : contentType === 'caseStudy' ? 'CASE STUDIES' : 'NODES'
+  const graphCtaHref = contentType === 'node' ? '/knowledge-graph' : `/knowledge-graph?type=${contentType}`
+
   return (
-    <>
-      {/* Unified icon toolbar: grid / list / knowledge-graph toggle + result count + graph CTA */}
+    <div className={styles.archiveSection}>
       <div className={styles.archiveToolbar}>
-        <div className={styles.layoutToggleGroup}>
-          <button
-            type="button"
-            className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'grid' ? styles.layoutToggleBtnActive : ''}`}
-            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('grid') }}
-            aria-label="Grid view"
-            aria-pressed={!isGraphView && layout === 'grid'}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'list' ? styles.layoutToggleBtnActive : ''}`}
-            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('list') }}
-            aria-label="List view"
-            aria-pressed={!isGraphView && layout === 'list'}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
-              <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
-              <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
-            </svg>
-          </button>
-          {contentType === 'node' && (
+        <div className={styles.archiveToolbarLeft}>
+          <div className={styles.layoutToggleGroup}>
             <button
               type="button"
-              className={`${styles.layoutToggleBtn} ${isGraphView ? styles.layoutToggleBtnActive : ''}`}
-              onClick={() => setView('graph')}
-              aria-label="Knowledge graph view"
-              aria-pressed={isGraphView}
+              className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'grid' ? styles.layoutToggleBtnActive : ''}`}
+              onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('grid') }}
+              aria-label="Grid view"
+              aria-pressed={!isGraphView && layout === 'grid'}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
-                <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
+                <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
+                <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
+                <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
+                <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'list' ? styles.layoutToggleBtnActive : ''}`}
+              onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('list') }}
+              aria-label="List view"
+              aria-pressed={!isGraphView && layout === 'list'}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
+                <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
+                <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
+              </svg>
+            </button>
+            {contentType === 'node' && (
+              <button
+                type="button"
+                className={`${styles.layoutToggleBtn} ${isGraphView ? styles.layoutToggleBtnActive : ''}`}
+                onClick={() => setView('graph')}
+                aria-label="Knowledge graph view"
+                aria-pressed={isGraphView}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                  <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                  <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                  <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                  <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
+                  <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
+                  <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
+                  <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
+                  <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
+                  <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
+                </svg>
+              </button>
+            )}
+          </div>
+          {!isGraphView && (
+            <Link to={graphCtaHref} className={styles.graphCtaBtn}>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1.2"/>
+                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1.2"/>
+                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1.2"/>
+                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1.2"/>
+                <circle cx="8" cy="8" r="2" fill="currentColor"/>
                 <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
                 <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
                 <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
                 <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
               </svg>
-            </button>
+              VIEW IN FULL GRAPH →
+            </Link>
           )}
         </div>
-        {!isGraphView && hasActiveFilters && (
-          <p className={styles.archiveResultCount} style={{ marginBottom: 0 }}>
-            {totalItems === 0
-              ? 'No results'
-              : `${totalItems} result${totalItems === 1 ? '' : 's'}`}
-          </p>
-        )}
-        {!isGraphView && contentType && (contentType === 'article' || contentType === 'caseStudy' || contentType === 'node') && (
-          <Link
-            to={`/knowledge-graph?type=${contentType}`}
-            className={styles.graphCtaChip}
-          >
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1.2"/>
-              <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1.2"/>
-              <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1.2"/>
-              <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1.2"/>
-              <circle cx="8" cy="8" r="2" fill="currentColor"/>
-              <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
-              <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
-              <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
-              <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
-            </svg>
-            In graph
-          </Link>
-        )}
+        <span className={styles.archiveToolbarKicker}>{totalItems} {contentTypeLabel}</span>
       </div>
 
+      <div className={styles.archiveSectionContent}>
       {isGraphView ? (
         <div className={styles.graphViewLayout}>
           <div className={styles.graphPane}>
@@ -424,7 +420,8 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
           </div>
         </div>
       )}
-    </>
+      </div>{/* /archiveSectionContent */}
+    </div>
   )
 }
 
@@ -453,12 +450,19 @@ export default function ArchivePage({ archiveSlug }) {
     <main className={styles.archivePage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <h1 className={styles.archiveHeading}>{heading}<DraftBadge docId={archiveDoc._id} /></h1>
-      {subheading && (
-        Array.isArray(subheading)
-          ? <div className={styles.archiveDescription}><PortableText value={subheading} components={portableTextComponents} /></div>
-          : <p className={styles.archiveDescription}>{subheading}</p>
-      )}
+      <header className={styles.masthead}>
+        {archiveDoc.eyebrow && (
+          <p className={styles.eyebrow}>
+            <span className={styles.eyebrowCurrent}>{archiveDoc.eyebrow}</span>
+          </p>
+        )}
+        <h1 className={`${styles.archiveHeading} ${styles.archiveHeadingItalic}`}>{heading}<DraftBadge docId={archiveDoc._id} /></h1>
+        {subheading && (
+          Array.isArray(subheading)
+            ? <div className={styles.archiveDescription}><PortableText value={subheading} components={portableTextComponents} /></div>
+            : <p className={styles.archiveDescription}>{subheading}</p>
+        )}
+      </header>
 
       {primaryType ? (
         <ArchiveListing contentType={primaryType} archiveDoc={archiveDoc} archiveSlug={archiveSlug} />
