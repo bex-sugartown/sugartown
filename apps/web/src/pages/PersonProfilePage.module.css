@@ -22,73 +22,18 @@
   margin-bottom: 0;
 }
 
-/* ── Folio head: avatar + identity side by side ──────────────────── */
-.folioHead {
-  display: flex;
-  gap: 1.5rem;
-  align-items: flex-start;
-  margin-bottom: 1.25rem;
-}
-
-/* ── Avatar ──────────────────────────────────────────────────────── */
-.avatarImg {
-  width: 88px;
-  height: 88px;
-  border-radius: 0;
-  object-fit: cover;
-  display: block;
-  flex-shrink: 0;
-  border: 1px solid var(--st-color-border-default);
-}
-
-.avatarFallback {
-  width: 88px;
-  height: 88px;
-  border-radius: 0;
-  background: var(--st-color-bg-subtle);
-  border: 1px solid var(--st-color-border-default);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  font-weight: 600;
-  font-family: var(--st-font-family-narrative);
-  font-style: italic;
-  color: var(--st-color-text-muted);
-  user-select: none;
-  flex-shrink: 0;
-}
 
 /* ── Identity block ──────────────────────────────────────────────── */
 .folioIdentity {
   min-width: 0;
 }
 
-.profileName {
-  font-family: var(--st-font-family-narrative);
-  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-  font-weight: 600;
-  font-style: italic;
-  line-height: 1.1;
-  margin: 0 0 0.3rem;
-  color: var(--st-color-text-primary);
-}
 
 .profileShortName {
   color: var(--st-color-brand-primary);
   font-style: normal;
 }
 
-.profileHeadline {
-  font-family: var(--st-font-family-mono);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--st-color-pink);
-  margin: 0 0 0.4rem;
-  line-height: 1.4;
-}
 
 .profileMeta {
   font-size: 0.8125rem;
@@ -232,50 +177,6 @@
 /* ── Content sections ────────────────────────────────────────────── */
 .contentSection {
   margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
 }
 
-.sectionHead {
-  display: flex;
-  align-items: baseline;
-  gap: 0.625rem;
-  padding-bottom: 0.625rem;
-  border-bottom: 1px solid var(--st-color-border-subtle);
-  margin-bottom: 0;
-}
 
-.sectionTitle {
-  font-family: var(--st-font-family-narrative);
-  font-size: 1.375rem;
-  font-weight: 600;
-  font-style: italic;
-  color: var(--st-color-text-primary);
-  margin: 0;
-  line-height: 1.2;
-}
-
-.sectionCount {
-  font-family: var(--st-font-family-mono);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  color: var(--st-color-text-muted);
-}
-
-/* ── Content list — 2-col grid ───────────────────────────────────── */
-.contentList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0 24px;
-  --st-card-hover-translate-y: -1px;
-  --st-card-hover-border: var(--st-color-pink);
-}
-
-@media (max-width: 640px) {
-  .contentList {
-    grid-template-columns: 1fr;
-  }
-}

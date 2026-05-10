@@ -1340,7 +1340,23 @@ export const toolBySlugQuery = `
     _id,
     name,
     "slug": slug.current,
-    description
+    kind,
+    toolType,
+    description,
+    url,
+    "logo": logo { asset->{ _id, url }, alt },
+    "articles":   *[_type == "article"   && references(^._id)] | order(publishedAt desc) {
+      _id, _type, title, "slug": slug.current, publishedAt,
+      "categories": categories[]->{_id, "title": name, "slug": slug.current}
+    },
+    "nodes":       *[_type == "node"      && references(^._id)] | order(publishedAt desc) {
+      _id, _type, title, "slug": slug.current, publishedAt,
+      "categories": categories[]->{_id, "title": name, "slug": slug.current}
+    },
+    "caseStudies": *[_type == "caseStudy" && references(^._id)] | order(publishedAt desc) {
+      _id, _type, title, "slug": slug.current, publishedAt,
+      "categories": categories[]->{_id, "title": name, "slug": slug.current}
+    }
   }
 `
 

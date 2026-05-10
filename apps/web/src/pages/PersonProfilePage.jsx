@@ -31,6 +31,7 @@ function LinkedInIcon({ size = 24, color = 'currentColor', className, ...props }
     </svg>
   )
 }
+import { Grid, SectionLabel } from '../design-system'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
@@ -114,27 +115,27 @@ export default function PersonProfilePage() {
 
       {/* ── Folio ─────────────────────────────────────────────────── */}
       <section className={styles.profileFolio}>
-        <div className={styles.folioHead}>
+        <div className={pageStyles.entityFolio}>
           {/* Avatar */}
           {avatarUrl ? (
             <img
               src={avatarUrl}
               alt={person.image?.alt ?? `${displayName} profile photo`}
-              className={styles.avatarImg}
+              className={pageStyles.entityThumbnail}
               width={88}
               height={88}
               loading="lazy"
               decoding="async"
             />
           ) : (
-            <div className={styles.avatarFallback} aria-hidden="true">
+            <div className={pageStyles.entityThumbnailFallback} aria-hidden="true">
               {displayName?.charAt(0)?.toUpperCase() ?? '?'}
             </div>
           )}
 
           {/* Identity */}
           <div className={styles.folioIdentity}>
-            <h1 className={styles.profileName}>
+            <h1 className={pageStyles.narrativeHeading}>
               {person.name}
               {person.shortName && (
                 <span className={styles.profileShortName}> ({person.shortName})</span>
@@ -143,7 +144,7 @@ export default function PersonProfilePage() {
             </h1>
 
             {person.headline && (
-              <p className={styles.profileHeadline}>{person.headline}</p>
+              <p className={pageStyles.detailEyebrow}>{person.headline}</p>
             )}
 
             {(person.location || person.pronouns) && (
@@ -223,49 +224,34 @@ export default function PersonProfilePage() {
       {/* ── Content sections ─────────────────────────────────────── */}
       {hasArticles && (
         <section className={styles.contentSection}>
-          <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>Articles</h2>
-            <span className={styles.sectionCount}>{person.articles.length}</span>
-          </div>
-          <ul className={styles.contentList}>
+          <SectionLabel title="Articles" kicker={String(person.articles.length)} />
+          <Grid columns={2} spacing="lg">
             {person.articles.map((item) => (
-              <li key={item._id}>
-                <ContentCard item={item} docType="article" showExcerpt={false} showHeroImage={false} />
-              </li>
+              <ContentCard key={item._id} item={item} docType="article" showExcerpt={false} showHeroImage={false} />
             ))}
-          </ul>
+          </Grid>
         </section>
       )}
 
       {hasNodes && (
         <section className={styles.contentSection}>
-          <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>Knowledge Nodes</h2>
-            <span className={styles.sectionCount}>{person.nodes.length}</span>
-          </div>
-          <ul className={styles.contentList}>
+          <SectionLabel title="Knowledge Nodes" kicker={String(person.nodes.length)} />
+          <Grid columns={2} spacing="lg">
             {person.nodes.map((item) => (
-              <li key={item._id}>
-                <ContentCard item={item} docType="node" showExcerpt={false} showHeroImage={false} />
-              </li>
+              <ContentCard key={item._id} item={item} docType="node" showExcerpt={false} showHeroImage={false} />
             ))}
-          </ul>
+          </Grid>
         </section>
       )}
 
       {hasCaseStudies && (
         <section className={styles.contentSection}>
-          <div className={styles.sectionHead}>
-            <h2 className={styles.sectionTitle}>Case Studies</h2>
-            <span className={styles.sectionCount}>{person.caseStudies.length}</span>
-          </div>
-          <ul className={styles.contentList}>
+          <SectionLabel title="Case Studies" kicker={String(person.caseStudies.length)} />
+          <Grid columns={2} spacing="lg">
             {person.caseStudies.map((item) => (
-              <li key={item._id}>
-                <ContentCard item={item} docType="caseStudy" showExcerpt={false} showHeroImage={false} />
-              </li>
+              <ContentCard key={item._id} item={item} docType="caseStudy" showExcerpt={false} showHeroImage={false} />
             ))}
-          </ul>
+          </Grid>
         </section>
       )}
 

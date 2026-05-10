@@ -16,6 +16,7 @@ import ArticlePage from './pages/ArticlePage'
 import CaseStudyPage from './pages/CaseStudyPage'
 import NodePage from './pages/NodePage'
 import TaxonomyPlaceholderPage from './pages/TaxonomyPlaceholderPage'
+import ToolDetailPage from './pages/ToolDetailPage'
 import TaxonomyArchivePage from './pages/TaxonomyArchivePage'
 import PersonProfilePage from './pages/PersonProfilePage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
@@ -122,7 +123,7 @@ function App() {
         <Route path="/people" element={<TaxonomyArchivePage />} />
         <Route path="/people/:slug" element={<PersonProfilePage />} />
         <Route path="/tools" element={<TaxonomyArchivePage />} />
-        <Route path="/tools/:slug" element={<TaxonomyPlaceholderPage />} />
+        <Route path="/tools/:slug" element={<ToolDetailPage />} />
 
         {/* ── Code-driven pages ────────────────────────────────────── */}
         <Route path="/platform/schema" element={<SchemaErdPage />} />
