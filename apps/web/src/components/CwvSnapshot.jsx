@@ -20,16 +20,20 @@ import ScoreRing from '../design-system/components/score-ring/ScoreRing'
 import SegmentedControl from '../design-system/components/segmented-control/SegmentedControl'
 import styles from './CwvSnapshot.module.css'
 
-// Static backup data — last-known-good values from 2026-05-06 CI run.
-// Update after each successful stats pipeline run.
+// Static backup data — last-known-good values from 2026-05-10 CI run (SUG-106).
+// LCP 6.5s mobile is real: SPA render is gated behind JS bundle + Sanity API call.
+// CLS 0.001 in CI vs ~0.24 in real browser: headless Lighthouse doesn't load Google Fonts.
+// INP null: headless Lighthouse cannot measure interaction latency.
+// Desktop: CLI emulatedFormFactor override not propagating to LHCI result files —
+//   desktop scores mirror mobile until resolved.
 const PERF_BACKUP = {
   stale: false,
   runs: {
     'https://sugartown.io/': {
-      performance: 91, accessibility: 97, bestPractices: 83, seo: 95,
-      lcp: 2100, cls: 0.04, inp: 140, rating: 'good',
-      mobile:  { performance: 68, accessibility: 88, bestPractices: 42, seo: 92, lcp: 3400, cls: 0.31, inp: 380, rating: 'needs-improvement' },
-      desktop: { performance: 91, accessibility: 97, bestPractices: 83, seo: 95, lcp: 1800, cls: 0.03, inp: 140, rating: 'good' },
+      performance: 70, accessibility: 96, bestPractices: 96, seo: 100,
+      lcp: 6548, cls: 0.001, inp: null, rating: 'poor',
+      mobile:  { performance: 70, accessibility: 96, bestPractices: 96, seo: 100, lcp: 6548, cls: 0.001, inp: null, rating: 'poor' },
+      desktop: { performance: 70, accessibility: 96, bestPractices: 96, seo: 100, lcp: 6548, cls: 0.001, inp: null, rating: 'poor' },
     },
   },
 }
