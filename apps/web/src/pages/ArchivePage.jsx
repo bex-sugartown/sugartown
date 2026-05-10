@@ -251,72 +251,69 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
   return (
     <div className={styles.archiveSection}>
       <div className={styles.archiveToolbar}>
-        <div className={styles.archiveToolbarLeft}>
-          <div className={styles.layoutToggleGroup}>
+        <div className={styles.layoutToggleGroup}>
+          <button
+            type="button"
+            className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'grid' ? styles.layoutToggleBtnActive : ''}`}
+            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('grid') }}
+            aria-label="Grid view"
+            aria-pressed={!isGraphView && layout === 'grid'}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
+              <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'list' ? styles.layoutToggleBtnActive : ''}`}
+            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('list') }}
+            aria-label="List view"
+            aria-pressed={!isGraphView && layout === 'list'}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
+              <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
+              <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
+            </svg>
+          </button>
+          {contentType === 'node' ? (
             <button
               type="button"
-              className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'grid' ? styles.layoutToggleBtnActive : ''}`}
-              onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('grid') }}
-              aria-label="Grid view"
-              aria-pressed={!isGraphView && layout === 'grid'}
+              className={`${styles.layoutToggleBtn} ${isGraphView ? styles.layoutToggleBtnActive : ''}`}
+              onClick={() => setView('graph')}
+              aria-label="Knowledge graph view"
+              aria-pressed={isGraphView}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
-                <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
-                <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
-                <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
-              </svg>
-            </button>
-            <button
-              type="button"
-              className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'list' ? styles.layoutToggleBtnActive : ''}`}
-              onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('list') }}
-              aria-label="List view"
-              aria-pressed={!isGraphView && layout === 'list'}
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
-                <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
-                <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
-              </svg>
-            </button>
-            {contentType === 'node' && (
-              <button
-                type="button"
-                className={`${styles.layoutToggleBtn} ${isGraphView ? styles.layoutToggleBtnActive : ''}`}
-                onClick={() => setView('graph')}
-                aria-label="Knowledge graph view"
-                aria-pressed={isGraphView}
-              >
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                  <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                  <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                  <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                  <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
-                  <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
-                  <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
-                  <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
-                  <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
-                  <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
-                </svg>
-              </button>
-            )}
-          </div>
-          {!isGraphView && (
-            <Link to={graphCtaHref} className={styles.graphCtaBtn}>
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1.2"/>
-                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1.2"/>
-                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1.2"/>
-                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1.2"/>
-                <circle cx="8" cy="8" r="2" fill="currentColor"/>
+                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
+                <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
                 <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
                 <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
                 <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
                 <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
               </svg>
-              VIEW IN FULL GRAPH →
+            </button>
+          ) : (
+            <Link to={graphCtaHref} className={styles.layoutToggleBtn} aria-label="View in knowledge graph">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
+                <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
+                <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
+                <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
+                <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
+                <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
+              </svg>
             </Link>
           )}
         </div>

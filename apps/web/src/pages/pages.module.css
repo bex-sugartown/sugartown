@@ -643,37 +643,6 @@
   text-decoration: underline;
 }
 
-/* ── Archive toolbar controls ─────────────────────────────────── */
-
-.archiveToolbarLeft {
-  display: flex;
-  align-items: center;
-  gap: var(--st-space-3);
-}
-
-/* "VIEW IN FULL GRAPH →" pink fill button */
-.graphCtaBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 10px;
-  font-family: var(--st-font-family-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--st-color-neutral-100);
-  background: var(--st-color-brand-primary);
-  border: none;
-  text-decoration: none;
-  white-space: nowrap;
-  line-height: 1;
-  transition: opacity 80ms;
-}
-
-.graphCtaBtn:hover {
-  opacity: 0.85;
-}
 
 /* Right-side kicker stat */
 .archiveToolbarKicker {

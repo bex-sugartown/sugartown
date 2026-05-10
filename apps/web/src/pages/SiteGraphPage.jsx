@@ -208,7 +208,23 @@ export default function SiteGraphPage() {
       <div className={pageStyles.archiveToolbar}>
         <div className={pageStyles.archiveToolbarLeft}>
           <div className={pageStyles.layoutToggleGroup}>
-            <Link to="/articles" className={pageStyles.layoutToggleBtn} aria-label="Articles list view">
+            <Link
+              to={typeFilter === 'caseStudy' ? '/case-studies' : typeFilter === 'node' ? '/nodes' : '/articles'}
+              className={pageStyles.layoutToggleBtn}
+              aria-label="Grid view"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
+                <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
+                <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
+                <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
+              </svg>
+            </Link>
+            <Link
+              to={typeFilter === 'caseStudy' ? '/case-studies' : typeFilter === 'node' ? '/nodes' : '/articles'}
+              className={pageStyles.layoutToggleBtn}
+              aria-label="List view"
+            >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
                 <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
