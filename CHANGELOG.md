@@ -16,6 +16,19 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.23.19] — 2026-05-10
+
+### SUG-106 · Stats pipeline fix + SUG-100 close-out
+
+- CI: fixed LHCI `autorun` failure — removed `startServerCommand: ''` which triggered staticDistDir auto-detection for external URLs in lhci v0.15.1
+- CI: flattened `lighthouserc.cjs` `collect` config from array to object — `lhci collect` requires flat object, not array
+- CI: switched `--settings.emulatedFormFactor` to `--settings.preset` — emulatedFormFactor CLI flag does not propagate to result `configSettings` in lhci v0.15.1, preventing form factor split in perf.js
+- Web: guarded `siteGraph.nodes` against stale/error stats.json shape — `{ stale: true, error: "..." }` object caused white screen on `/articles` and `/knowledge-graph`
+- Web: updated `PERF_BACKUP` in `CwvSnapshot.jsx` — corrected Best Practices to 96 (was 42 from a run with Sanity preview token console warnings); added `mobile`/`desktop` sub-keys for form factor split
+- Docs: added Sanity secrets setup to SUG-106 shipped doc; documented desktop LHCI detection gap and SPA LCP penalty as known limits
+
+---
+
 ## [0.23.11] — 2026-05-04
 
 ### SUG-99 · Backroads component harmony
