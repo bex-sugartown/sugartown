@@ -410,6 +410,15 @@
 }
 
 /* ── Archive listing pages ───────────────────────────────────────── */
+/* ── Entity detail page wrapper (Person, Project, Tool) ──────────── */
+/* Full entity-detail width — wide enough for 2-col ContentCard grid. */
+.entityDetailPage {
+  max-width: var(--st-width-detail-wide);
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+  box-sizing: border-box;
+}
+
 /* Archive pages need more width than detail pages to accommodate the
    220px filter sidebar + multi-column card grid side-by-side.
    1164px → ~864px content area → 2-up at ~420px cards (+ 24px gap).

@@ -10,9 +10,10 @@
 
 /* ── Page wrapper ────────────────────────────────────────────────── */
 .profilePage {
-  max-width: 1080px;
+  max-width: var(--st-width-detail-wide);
   margin: 0 auto;
   padding: 3rem 1.5rem 5rem;
+  box-sizing: border-box;
 }
 
 /* ── Folio section ───────────────────────────────────────────────── */

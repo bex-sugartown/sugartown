@@ -28,3 +28,10 @@
 .accentTop {
   border-top: 2px solid var(--st-color-brand-primary);
 }
+
+/* ── Mobile: collapse all fixed-column grids to single column ─────── */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

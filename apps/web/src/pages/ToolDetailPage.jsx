@@ -82,7 +82,7 @@ export default function ToolDetailPage() {
   const abbrev  = tool.name?.split(/\s+/).map(w => w[0]).join('').slice(0, 4).toUpperCase()
 
   return (
-    <main style={{ maxWidth: '1080px', margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
+    <main className={pageStyles.entityDetailPage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
       <Link to="/tools" className={pageStyles.backLink}>
