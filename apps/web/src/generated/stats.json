@@ -1,14 +1,21 @@
 {
-  "generatedAt": "2026-05-10T09:53:40.928Z",
+  "generatedAt": "2026-05-10T10:11:32.931Z",
   "release": {
     "current": {
-      "version": "0.23.11",
-      "date": "2026-05-04",
-      "descriptor": "- Callout: wired into CaseStudy template; `calloutSection` in `sections[]` replaces legacy `challengeSummary` text field",
+      "version": "0.23.19",
+      "date": "2026-05-10",
+      "descriptor": "- CI: fixed LHCI `autorun` failure — removed `startServerCommand: ''` which triggered staticDistDir auto-detection for external URLs in lhci v0.15.1",
       "kind": "PATCH",
-      "linearIssue": "SUG-99"
+      "linearIssue": "SUG-106"
     },
     "latestN": [
+      {
+        "version": "0.23.19",
+        "date": "2026-05-10",
+        "descriptor": "- CI: fixed LHCI `autorun` failure — removed `startServerCommand: ''` which triggered staticDistDir auto-detection for external URLs in lhci v0.15.1",
+        "kind": "PATCH",
+        "linearIssue": "SUG-106"
+      },
       {
         "version": "0.23.11",
         "date": "2026-05-04",
@@ -36,20 +43,13 @@
         "descriptor": "Storybook v10 upgrade, Accordion component, full story coverage, argTypes audit. Aggregates 0.20.1.",
         "kind": "MINOR",
         "linearIssue": "SUG-38"
-      },
-      {
-        "version": "0.20.0",
-        "date": "2026-04-01",
-        "descriptor": "Responsive mobile nav, image treatments & gallery, detail hero refinement, table authoring UX, sitemap, mermaid diagrams, and WordPress media import. Aggregates 0.19.1–0.19.8.",
-        "kind": "MINOR",
-        "linearIssue": "SUG-37"
       }
     ],
     "count": {
-      "total": 18,
+      "total": 19,
       "major": 0,
       "minor": 16,
-      "patch": 2
+      "patch": 3
     }
   },
   "ds": {
@@ -78,7 +78,7 @@
   },
   "repo": {
     "commits": 1,
-    "epicsShipped": 92
+    "epicsShipped": 93
   },
   "perf": {
     "generatedAt": "2026-05-10T09:53:24.025Z",
@@ -259,16 +259,17 @@
         "seo": 100,
         "rating": "poor"
       }
-    }
+    },
+    "stale": true
   },
   "crux": {
-    "fetchedAt": "2026-05-10T09:53:24.258Z",
+    "fetchedAt": "2026-05-10T10:11:19.639Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-05-10T09:53:39.719Z",
+    "fetchedAt": "2026-05-10T10:11:31.315Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -279,17 +280,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-10T09:53:40.241Z",
+    "fetchedAt": "2026-05-10T10:11:32.047Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 0,
     "watchers": 0,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-05-10T09:45:54Z"
+    "lastCommit": "2026-05-10T10:10:31Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-10T09:53:40.755Z",
+    "fetchedAt": "2026-05-10T10:11:32.683Z",
     "counts": {
       "article": 10,
       "node": 48,
@@ -303,7 +304,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-05-10T09:53:40.928Z",
+    "generatedAt": "2026-05-10T10:11:32.931Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
