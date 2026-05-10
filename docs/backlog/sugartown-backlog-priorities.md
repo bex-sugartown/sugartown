@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-09 · v0.23.18 · SUG-105 shipped (Knowledge Graph Phase 2) · SUG-107 added (client taxonomy)
+> Updated 2026-05-10 · v0.23.20 · SUG-108 shipped (archive header + toolbar consistency)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-105 shipped ✅ v0.23.18. Knowledge Graph Phase 2 — masthead kicker, chip color system, fullscreen, tag nodes, ledger rail, Chromatic Build 33 accepted. SUG-106 (stats pipeline fix) and SUG-104 (listview updates) are next.
+> **⚑ Current focus:** SUG-108 shipped ✅ v0.23.20. Archive header + toolbar consistency — eyebrow/h1/masthead, icon view toggles, graph link, kicker stat across articles/case-studies/nodes/KG. SUG-107 (client taxonomy) and SUG-104 (listview updates) are next.
 
 ---
 
