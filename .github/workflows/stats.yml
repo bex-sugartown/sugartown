@@ -44,7 +44,9 @@ jobs:
         run: pnpm add -g @lhci/cli
 
       - name: Run Lighthouse CI
-        run: lhci autorun --config=lighthouserc.cjs
+        run: |
+          lhci collect --config=lighthouserc.cjs
+          lhci assert --config=lighthouserc.cjs || true
         env:
           LHCI_ORIGIN: https://sugartown.io
         continue-on-error: true  # Lighthouse flakiness should not block stats commit

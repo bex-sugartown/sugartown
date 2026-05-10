@@ -1,14 +1,16 @@
 /**
- * lighthouserc.js — Lighthouse CI configuration (SUG-67, extended SUG-100)
+ * lighthouserc.cjs — Lighthouse CI configuration (SUG-67, extended SUG-100, fixed SUG-106)
  *
  * Audits key pages for CWV and quality scores — both mobile and desktop presets.
- * Run: pnpm exec lhci autorun
  *
  * Results land in .lighthouseci/ and are read by scripts/stats/perf.js.
  * The scheduled CI workflow (/.github/workflows/stats.yml) runs this daily.
  *
  * perf.js detects form factor from configSettings.emulatedFormFactor in each
  * result file, so both presets can write to the same .lighthouseci/ directory.
+ *
+ * LHCI v0.15 note: omit startServerCommand entirely for external URLs.
+ * An empty string triggers staticDistDir auto-detection and fails in CI.
  */
 
 const ORIGIN = process.env.LHCI_ORIGIN || 'https://sugartown.io'
@@ -38,10 +40,8 @@ module.exports = {
   ci: {
     collect: [
       // Mobile preset (Moto G4 emulation — Lighthouse default)
-      // startServerCommand: '' tells LHCI the server is external (live prod URL)
       {
         url: URLS,
-        startServerCommand: '',
         numberOfRuns: 3,
         settings: {
           emulatedFormFactor: 'mobile',
@@ -51,7 +51,6 @@ module.exports = {
       // Desktop preset
       {
         url: URLS,
-        startServerCommand: '',
         numberOfRuns: 3,
         settings: {
           emulatedFormFactor: 'desktop',
