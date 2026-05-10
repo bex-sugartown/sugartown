@@ -246,6 +246,7 @@ export default function SiteGraphPage() {
               </svg>
             </button>
           </div>
+          <span className={pageStyles.archiveToolbarDivider} aria-hidden="true" />
           <FilterStrip
             filters={FILTER_TYPES}
             activeKey={typeFilter}

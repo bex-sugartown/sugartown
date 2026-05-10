@@ -246,7 +246,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     : null
 
   const contentTypeLabel = contentType === 'article' ? 'ARTICLES' : contentType === 'caseStudy' ? 'CASE STUDIES' : 'NODES'
-  const graphCtaHref = contentType === 'node' ? '/knowledge-graph' : `/knowledge-graph?type=${contentType}`
+  const graphCtaHref = `/knowledge-graph?type=${contentType}`
 
   return (
     <div className={styles.archiveSection}>
@@ -279,43 +279,20 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
               <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
             </svg>
           </button>
-          {contentType === 'node' ? (
-            <button
-              type="button"
-              className={`${styles.layoutToggleBtn} ${isGraphView ? styles.layoutToggleBtnActive : ''}`}
-              onClick={() => setView('graph')}
-              aria-label="Knowledge graph view"
-              aria-pressed={isGraphView}
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
-                <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
-                <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
-                <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
-                <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
-                <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
-              </svg>
-            </button>
-          ) : (
-            <Link to={graphCtaHref} className={styles.layoutToggleBtn} aria-label="View in knowledge graph">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
-                <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
-                <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
-                <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
-                <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
-                <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
-              </svg>
-            </Link>
-          )}
+          <Link to={graphCtaHref} className={styles.layoutToggleBtn} aria-label="View in knowledge graph">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+              <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+              <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+              <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+              <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
+              <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
+              <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
+              <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
+              <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
+              <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
+            </svg>
+          </Link>
         </div>
         <span className={styles.archiveToolbarKicker}>{totalItems} {contentTypeLabel}</span>
       </div>

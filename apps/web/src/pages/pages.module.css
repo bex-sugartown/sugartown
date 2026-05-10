@@ -644,6 +644,21 @@
 }
 
 
+/* Left group: toggle buttons + divider + FilterStrip — all on one line */
+.archiveToolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.archiveToolbarDivider {
+  width: 1px;
+  height: 18px;
+  background: var(--st-color-rule-accent);
+  margin: 0 10px;
+  flex-shrink: 0;
+}
+
 /* Right-side kicker stat */
 .archiveToolbarKicker {
   font-family: var(--st-font-family-mono);
