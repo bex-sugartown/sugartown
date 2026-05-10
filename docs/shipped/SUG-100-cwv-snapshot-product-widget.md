@@ -435,15 +435,24 @@ jobs:
 
 ### Pipeline gap at close-out
 
-- **CrUX:** `available: false, reason: 'no-data'` — API key restriction fixed (removed "Websites" application restriction 2026-05-08). Returns `no-data` until `sugartown.io` reaches ~1,000 Chrome user visits over 28 days. No action needed — collector is working.
-- **LHCI in CI:** `perf.stale: true` — GitHub Actions LHCI run produces no JSON output. Root cause not yet diagnosed. Tracked in SUG-106.
-- **Sanity secrets in CI:** `VITE_SANITY_*` not set in GitHub Actions environment — sanity collector returns `stale: true`. Tracked in SUG-106.
-- **Mobile scores (backup data):** performance 68, best practices 42. Root cause investigation deferred to SUG-106.
+All gaps resolved by SUG-106 (2026-05-10):
+
+- **CrUX:** Waiting on ~1,000 Chrome user visits over 28 days. Collector is working. No action needed.
+- **LHCI in CI:** Fixed. Root cause: `lhci autorun` with array `collect` config triggered `staticDistDir` auto-detection in @lhci/cli v0.15.1. Fix: flat `collect` object + explicit `lhci collect` calls per form factor.
+- **Sanity secrets in CI:** Fixed. `VITE_SANITY_PROJECT_ID`, `VITE_SANITY_DATASET`, `VITE_SANITY_API_VERSION`, `VITE_SANITY_TOKEN` added to GitHub Actions repo secrets (2026-05-10).
+- **Mobile scores:** bestPractices 42 in backup was from a run with Sanity preview console warnings. Live CI (2026-05-10) shows bestPractices 96. LCP 6548ms is real and structural: SPA render is gated behind JS bundle parse + Sanity API call. Requires SSR/SSG to fix (separate epic).
+
+### Known remaining limitations
+
+- **Desktop LHCI:** `--settings.emulatedFormFactor=desktop` CLI override does not propagate to LHCI result `configSettings`. Desktop results mirror mobile in the widget until fixed.
+- **INP in CI:** headless Lighthouse cannot measure INP — `inp: null` in CI results.
+- **CLS in CI:** headless Chrome skips Google Fonts, so CI CLS (0.001) understates real-browser CLS (~0.24 from font swap). CrUX field data will be authoritative once traffic threshold is met.
 
 ### Chromatic
 
-<!-- Chromatic: pending — SUG-106 -->
+<!-- Chromatic: pending — no visual changes in SUG-106 -->
 
 ### Follow-on
 
-SUG-106 covers: LHCI CI fix, Sanity secrets, mobile score investigation, manual backup workflow documentation, and formal SUG-106 close-out.
+- **LCP improvement:** SPA-gated ~6.5s mobile LCP requires SSR or build-time data prefetch. Separate epic.
+- **Desktop LHCI:** per-form-factor CI results need direct Lighthouse CLI replacing LHCI collect. Separate backlog item.
