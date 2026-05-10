@@ -45,7 +45,8 @@ jobs:
 
       - name: Run Lighthouse CI
         run: |
-          lhci collect --config=lighthouserc.cjs
+          lhci collect --config=lighthouserc.cjs --settings.emulatedFormFactor=mobile
+          lhci collect --config=lighthouserc.cjs --settings.emulatedFormFactor=desktop
           lhci assert --config=lighthouserc.cjs || true
         env:
           LHCI_ORIGIN: https://sugartown.io

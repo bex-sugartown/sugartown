@@ -36,28 +36,18 @@ const ASSERT = {
   },
 }
 
+// collect is a flat object (not array) — lhci collect reads ci.collect.url directly.
+// Form factor is passed as a CLI override (--settings.emulatedFormFactor=mobile|desktop)
+// so the workflow runs lhci collect twice: once per preset.
 module.exports = {
   ci: {
-    collect: [
-      // Mobile preset (Moto G4 emulation — Lighthouse default)
-      {
-        url: URLS,
-        numberOfRuns: 3,
-        settings: {
-          emulatedFormFactor: 'mobile',
-          chromeFlags: '--no-sandbox --disable-dev-shm-usage',
-        },
+    collect: {
+      url: URLS,
+      numberOfRuns: 2,
+      settings: {
+        chromeFlags: '--no-sandbox --disable-dev-shm-usage',
       },
-      // Desktop preset
-      {
-        url: URLS,
-        numberOfRuns: 3,
-        settings: {
-          emulatedFormFactor: 'desktop',
-          chromeFlags: '--no-sandbox --disable-dev-shm-usage',
-        },
-      },
-    ],
+    },
     assert: ASSERT,
     upload: {
       target: 'filesystem',
