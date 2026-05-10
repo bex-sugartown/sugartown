@@ -206,9 +206,15 @@ export default function PersonProfilePage() {
           <div className={styles.expertiseHead}>Expertise</div>
           <div className={styles.expertiseChips}>
             {person.expertise.map((item, i) => (
-              <span key={i} className={styles.expertiseChip}>
-                {item.name ?? item}
-              </span>
+              item.slug ? (
+                <Link key={i} to={`/categories/${item.slug}`} className={styles.expertiseChip}>
+                  {item.name ?? item}
+                </Link>
+              ) : (
+                <span key={i} className={styles.expertiseChip}>
+                  {item.name ?? item}
+                </span>
+              )
             ))}
           </div>
         </section>

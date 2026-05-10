@@ -121,7 +121,7 @@
   color: var(--st-color-text-muted);
   text-decoration: none;
   padding: 0.25em 0.6em;
-  border: 1px solid var(--st-color-border-subtle);
+  border: 1px solid var(--st-color-border-default);
   background: transparent;
   transition: border-color 0.15s, color 0.15s;
 }
@@ -219,6 +219,14 @@
   color: var(--st-color-maroon);
   border: 1px solid color-mix(in srgb, var(--st-color-pink) 25%, transparent);
   line-height: 1;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.expertiseChip:hover {
+  background: var(--st-color-pink);
+  color: var(--st-color-bg-surface);
+  border-color: var(--st-color-pink);
 }
 
 /* ── Content sections ────────────────────────────────────────────── */
