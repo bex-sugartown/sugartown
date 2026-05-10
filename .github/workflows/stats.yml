@@ -45,7 +45,7 @@ jobs:
 
       - name: Run Lighthouse CI
         run: |
-          lhci collect --config=lighthouserc.cjs --settings.preset=mobile
+          lhci collect --config=lighthouserc.cjs
           lhci collect --config=lighthouserc.cjs --settings.preset=desktop
           lhci assert --config=lighthouserc.cjs || true
         env:
