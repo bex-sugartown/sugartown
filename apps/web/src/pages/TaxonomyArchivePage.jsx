@@ -8,8 +8,9 @@
  *   /projects    → list all project docs
  *   /tools       → list all tool docs
  *
- * SUG-104: Tags uses a letter-bucket grid; Categories uses a single flat list;
- * all others use the default row list. Alpha strip added for Tags.
+ * SUG-104: Tags uses a letter-bucket grid; all others use a flat row list.
+ * Row pattern: color dot (if present) + name + count (right-aligned).
+ * Tag rows: dot + mono name + description sublabel + count.
  */
 import { useMemo } from 'react'
 import { useLocation, Link } from 'react-router-dom'
@@ -36,6 +37,7 @@ const ARCHIVE_CONFIG = {
     getLabel: (doc) => doc.name,
     getSublabel: (doc) => doc.primaryTitle ?? null,
     getColor: () => null,
+    getCount: () => null,
     hasImage: true,
     layout: 'rows',
   },
@@ -45,8 +47,9 @@ const ARCHIVE_CONFIG = {
     query: allCategoriesQuery,
     getPath: (doc) => `/categories/${doc.slug}`,
     getLabel: (doc) => doc.name,
-    getSublabel: (doc) => doc.description ?? null,
+    getSublabel: () => null,
     getColor: (doc) => doc.colorHex ?? null,
+    getCount: (doc) => doc.count ?? null,
     hasImage: false,
     layout: 'rows',
   },
@@ -58,6 +61,7 @@ const ARCHIVE_CONFIG = {
     getLabel: (doc) => doc.name,
     getSublabel: (doc) => doc.description ?? null,
     getColor: () => null,
+    getCount: (doc) => doc.count ?? null,
     hasImage: false,
     layout: 'buckets',
   },
@@ -66,8 +70,9 @@ const ARCHIVE_CONFIG = {
     query: allProjectsQuery,
     getPath: (doc) => `/projects/${doc.slug}`,
     getLabel: (doc) => doc.name,
-    getSublabel: (doc) => doc.description ?? null,
+    getSublabel: () => null,
     getColor: (doc) => doc.colorHex ?? null,
+    getCount: (doc) => doc.count ?? null,
     hasImage: false,
     layout: 'rows',
   },
@@ -76,8 +81,9 @@ const ARCHIVE_CONFIG = {
     query: allToolsQuery,
     getPath: (doc) => `/tools/${doc.slug}`,
     getLabel: (doc) => doc.name,
-    getSublabel: (doc) => doc.description ?? null,
+    getSublabel: () => null,
     getColor: () => null,
+    getCount: (doc) => doc.count ?? null,
     hasImage: false,
     layout: 'rows',
   },
@@ -117,6 +123,7 @@ function TaxonomyItem({ doc, config }) {
   const label = config.getLabel(doc)
   const sublabel = config.getSublabel(doc)
   const colorHex = config.getColor(doc)
+  const count = config.getCount(doc)
   const path = config.getPath(doc)
 
   return (
@@ -136,6 +143,9 @@ function TaxonomyItem({ doc, config }) {
             <span className={styles.itemSublabel}>{sublabel}</span>
           )}
         </span>
+        {count != null && count > 0 && (
+          <span className={styles.itemCount}>{count}</span>
+        )}
       </Link>
     </li>
   )
@@ -207,12 +217,18 @@ function BucketGrid({ list, config }) {
               {groups[L].map((doc) => {
                 const label = config.getLabel(doc)
                 const sublabel = config.getSublabel(doc)
+                const count = config.getCount(doc)
                 return (
                   <li key={doc._id}>
                     <Link to={config.getPath(doc)} className={styles.taxRow}>
-                      <span className={styles.taxRowName}>{label}</span>
-                      {sublabel && (
-                        <span className={styles.taxRowSub}>{sublabel}</span>
+                      <span className={styles.taxRowInner}>
+                        <span className={styles.taxRowName}>{label}</span>
+                        {sublabel && (
+                          <span className={styles.taxRowSub}>{sublabel}</span>
+                        )}
+                      </span>
+                      {count != null && count > 0 && (
+                        <span className={styles.taxRowCount}>{count}</span>
                       )}
                     </Link>
                   </li>

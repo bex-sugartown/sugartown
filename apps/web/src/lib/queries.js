@@ -1289,7 +1289,8 @@ export const allCategoriesQuery = `
     name,
     "slug": slug.current,
     "colorHex": colorHex.hex,
-    description
+    description,
+    "count": count(*[_type in ["article","node","caseStudy"] && references(^._id)])
   }
 `
 
@@ -1298,7 +1299,8 @@ export const allTagsQuery = `
     _id,
     name,
     "slug": slug.current,
-    description
+    description,
+    "count": count(*[_type in ["article","node","caseStudy"] && references(^._id)])
   }
 `
 
@@ -1328,7 +1330,8 @@ export const allToolsQuery = `
     _id,
     name,
     "slug": slug.current,
-    description
+    description,
+    "count": count(*[_type in ["article","node","caseStudy"] && references(^._id)])
   }
 `
 
@@ -1352,7 +1355,8 @@ export const allProjectsQuery = `
     priority,
     "colorHex": colorHex.hex,
     kpis,
-    "tools": tools[]->{${TOOL_FRAGMENT}}
+    "tools": tools[]->{${TOOL_FRAGMENT}},
+    "count": count(*[_type in ["article","node","caseStudy"] && references(^._id)])
   }
 `
 

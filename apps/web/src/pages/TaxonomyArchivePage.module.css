@@ -2,6 +2,8 @@
  *
  * Styles for /people, /categories, /tags, /projects, /tools archive listings.
  * Tags uses letter-bucket grid; others use row list.
+ * Row pattern: dot (if present) + name + count (right-aligned).
+ * Tag rows: mono name + description sublabel + count.
  * Uses --st-* tokens throughout.
  */
 
@@ -83,8 +85,8 @@
 /* ── Color dot (categories, projects) ────────────────────────────── */
 .itemColorDot {
   flex-shrink: 0;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   display: inline-block;
 }
@@ -121,12 +123,13 @@
   flex-direction: column;
   gap: 0.2rem;
   min-width: 0;
+  flex: 1;
 }
 
 .itemLabel {
   font-family: var(--st-font-family-ui);
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--st-color-text-primary);
   transition: color 0.1s;
   white-space: nowrap;
@@ -143,6 +146,17 @@
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
+}
+
+/* ── Item count (right-aligned) ──────────────────────────────────── */
+.itemCount {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--st-color-text-muted);
+  flex-shrink: 0;
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── Alpha strip (Tags) ──────────────────────────────────────────── */
@@ -236,16 +250,21 @@
   margin: 0;
 }
 
-/* ── Tax row (individual tag link) ───────────────────────────────── */
+/* ── Tag row: mono name + sublabel + count ───────────────────────── */
 .taxRow {
-  display: block;
-  padding: 6px 0 6px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 0 5px 8px;
   text-decoration: none;
   color: var(--st-color-text-primary);
-  font-family: var(--st-font-family-ui);
-  font-size: 0.875rem;
   border-bottom: 1px solid var(--st-color-border-subtle);
   transition: padding-left 0.12s, color 0.12s;
+  min-width: 0;
+}
+
+.taxRow:last-child {
+  border-bottom: none;
 }
 
 .taxRow:hover {
@@ -253,17 +272,40 @@
   color: var(--st-color-maroon);
 }
 
+/* Name + sublabel stacked */
+.taxRowInner {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
 .taxRowName {
   display: block;
+  font-family: var(--st-font-family-mono);
+  font-size: 0.8125rem;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .taxRowSub {
   display: block;
+  font-family: var(--st-font-family-ui);
   font-size: 0.75rem;
   color: var(--st-color-text-muted);
   margin-top: 1px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.taxRowCount {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--st-color-text-muted);
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
 }

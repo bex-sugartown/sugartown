@@ -2,7 +2,8 @@
  * PersonProfilePage — renders a dedicated profile page for a Sanity `person` document.
  * Route: /people/:slug
  *
- * SUG-104: split-column layout — folio col (320px) | content stream (1fr) at ≥1024px.
+ * SUG-104: linear stack — folio head (flex row: avatar + identity) → bio → roles → expertise
+ * → content sections (2-col grid).
  */
 import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
@@ -111,165 +112,160 @@ export default function PersonProfilePage() {
         ← All People
       </Link>
 
-      <div className={styles.profileLayout}>
-        {/* ── Folio column ─────────────────────────────────────────── */}
-        <div className={styles.profileFolio}>
-
+      {/* ── Folio ─────────────────────────────────────────────────── */}
+      <section className={styles.profileFolio}>
+        <div className={styles.folioHead}>
           {/* Avatar */}
-          <div className={styles.profileAvatar}>
-            {avatarUrl ? (
-              <img
-                src={avatarUrl}
-                alt={person.image?.alt ?? `${displayName} profile photo`}
-                className={styles.avatarImg}
-                width={88}
-                height={88}
-                loading="lazy"
-                decoding="async"
-              />
-            ) : (
-              <div className={styles.avatarFallback} aria-hidden="true">
-                {displayName?.charAt(0)?.toUpperCase() ?? '?'}
-              </div>
-            )}
-          </div>
-
-          {/* Name + tagline + meta */}
-          <h1 className={styles.profileName}>
-            {person.name}
-            {person.shortName && (
-              <span className={styles.profileShortName}> ({person.shortName})</span>
-            )}
-            <DraftBadge docId={person._id} />
-          </h1>
-
-          {person.headline && (
-            <p className={styles.profileHeadline}>{person.headline}</p>
-          )}
-
-          {(person.location || person.pronouns) && (
-            <p className={styles.profileMeta}>
-              {[person.location, person.pronouns].filter(Boolean).join(' · ')}
-            </p>
-          )}
-
-          {/* Social links */}
-          {person.socialLinks?.length > 0 && (
-            <ul className={styles.socialLinks} aria-label="Social profiles">
-              {person.socialLinks.map((link, i) => {
-                const config = PLATFORM_CONFIG[link.platform] || PLATFORM_CONFIG.other
-                const label = link.label || config.label || link.platform
-                const IconComponent = config.icon
-                return (
-                  <li key={i} className={styles.socialLinkItem}>
-                    <a
-                      href={link.url}
-                      className={styles.socialLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={label}
-                      title={label}
-                    >
-                      <IconComponent size={14} color="currentColor" aria-hidden="true" />
-                      <span>{label}</span>
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
-          )}
-
-          {/* Bio summary */}
-          {hasBio && (
-            <div className={styles.profileBio}>
-              <div className={pageStyles.detailContent}>
-                <PortableText value={person.bio} components={sharedPTComponents} />
-              </div>
+          {avatarUrl ? (
+            <img
+              src={avatarUrl}
+              alt={person.image?.alt ?? `${displayName} profile photo`}
+              className={styles.avatarImg}
+              width={88}
+              height={88}
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <div className={styles.avatarFallback} aria-hidden="true">
+              {displayName?.charAt(0)?.toUpperCase() ?? '?'}
             </div>
           )}
 
-          {/* Roles & Titles */}
-          {hasTitles && (
-            <section className={styles.rolesSection}>
-              <div className={styles.rolesHead}>Roles &amp; Titles</div>
-              <ul className={styles.rolesList}>
-                {person.titles.map((title, i) => (
-                  <li key={i}>{title}</li>
-                ))}
-              </ul>
-            </section>
-          )}
+          {/* Identity */}
+          <div className={styles.folioIdentity}>
+            <h1 className={styles.profileName}>
+              {person.name}
+              {person.shortName && (
+                <span className={styles.profileShortName}> ({person.shortName})</span>
+              )}
+              <DraftBadge docId={person._id} />
+            </h1>
 
-          {/* Expertise chips */}
-          {hasExpertise && (
-            <section className={styles.expertiseSection}>
-              <div className={styles.expertiseHead}>Expertise</div>
-              <div className={styles.expertiseChips}>
-                {person.expertise.map((item, i) => (
-                  <span key={i} className={styles.expertiseChip}>
-                    {item.name ?? item}
-                  </span>
-                ))}
-              </div>
-            </section>
-          )}
+            {person.headline && (
+              <p className={styles.profileHeadline}>{person.headline}</p>
+            )}
+
+            {(person.location || person.pronouns) && (
+              <p className={styles.profileMeta}>
+                {[person.location, person.pronouns].filter(Boolean).join(' · ')}
+              </p>
+            )}
+
+            {person.socialLinks?.length > 0 && (
+              <ul className={styles.socialLinks} aria-label="Social profiles">
+                {person.socialLinks.map((link, i) => {
+                  const config = PLATFORM_CONFIG[link.platform] || PLATFORM_CONFIG.other
+                  const label = link.label || config.label || link.platform
+                  const IconComponent = config.icon
+                  return (
+                    <li key={i} className={styles.socialLinkItem}>
+                      <a
+                        href={link.url}
+                        className={styles.socialLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={label}
+                        title={label}
+                      >
+                        <IconComponent size={14} color="currentColor" aria-hidden="true" />
+                        <span>{label}</span>
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </div>
         </div>
 
-        {/* ── Content stream column ─────────────────────────────────── */}
-        <div className={styles.contentStream}>
-          {hasArticles && (
-            <section className={styles.contentSection}>
-              <div className={styles.sectionHead}>
-                <h2 className={styles.sectionTitle}>Articles</h2>
-                <span className={styles.sectionCount}>{person.articles.length}</span>
-              </div>
-              <ul className={styles.contentList}>
-                {person.articles.map((item) => (
-                  <li key={item._id}>
-                    <ContentCard item={item} docType="article" showExcerpt={false} showHeroImage={false} />
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+        {hasBio && (
+          <div className={styles.profileBio}>
+            <div className={pageStyles.detailContent}>
+              <PortableText value={person.bio} components={sharedPTComponents} />
+            </div>
+          </div>
+        )}
+      </section>
 
-          {hasNodes && (
-            <section className={styles.contentSection}>
-              <div className={styles.sectionHead}>
-                <h2 className={styles.sectionTitle}>Knowledge Nodes</h2>
-                <span className={styles.sectionCount}>{person.nodes.length}</span>
-              </div>
-              <ul className={styles.contentList}>
-                {person.nodes.map((item) => (
-                  <li key={item._id}>
-                    <ContentCard item={item} docType="node" showExcerpt={false} showHeroImage={false} />
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+      {/* ── Roles & Titles ────────────────────────────────────────── */}
+      {hasTitles && (
+        <section className={styles.rolesSection}>
+          <div className={styles.rolesHead}>Roles &amp; Titles</div>
+          <ul className={styles.rolesList}>
+            {person.titles.map((title, i) => (
+              <li key={i}>{title}</li>
+            ))}
+          </ul>
+        </section>
+      )}
 
-          {hasCaseStudies && (
-            <section className={styles.contentSection}>
-              <div className={styles.sectionHead}>
-                <h2 className={styles.sectionTitle}>Case Studies</h2>
-                <span className={styles.sectionCount}>{person.caseStudies.length}</span>
-              </div>
-              <ul className={styles.contentList}>
-                {person.caseStudies.map((item) => (
-                  <li key={item._id}>
-                    <ContentCard item={item} docType="caseStudy" showExcerpt={false} showHeroImage={false} />
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+      {/* ── Expertise chips ───────────────────────────────────────── */}
+      {hasExpertise && (
+        <section className={styles.expertiseSection}>
+          <div className={styles.expertiseHead}>Expertise</div>
+          <div className={styles.expertiseChips}>
+            {person.expertise.map((item, i) => (
+              <span key={i} className={styles.expertiseChip}>
+                {item.name ?? item}
+              </span>
+            ))}
+          </div>
+        </section>
+      )}
 
-          {!hasArticles && !hasNodes && !hasCaseStudies && (
-            <p className={pageStyles.archiveEmpty}>No content attributed yet.</p>
-          )}
-        </div>
-      </div>
+      {/* ── Content sections ─────────────────────────────────────── */}
+      {hasArticles && (
+        <section className={styles.contentSection}>
+          <div className={styles.sectionHead}>
+            <h2 className={styles.sectionTitle}>Articles</h2>
+            <span className={styles.sectionCount}>{person.articles.length}</span>
+          </div>
+          <ul className={styles.contentList}>
+            {person.articles.map((item) => (
+              <li key={item._id}>
+                <ContentCard item={item} docType="article" showExcerpt={false} showHeroImage={false} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {hasNodes && (
+        <section className={styles.contentSection}>
+          <div className={styles.sectionHead}>
+            <h2 className={styles.sectionTitle}>Knowledge Nodes</h2>
+            <span className={styles.sectionCount}>{person.nodes.length}</span>
+          </div>
+          <ul className={styles.contentList}>
+            {person.nodes.map((item) => (
+              <li key={item._id}>
+                <ContentCard item={item} docType="node" showExcerpt={false} showHeroImage={false} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {hasCaseStudies && (
+        <section className={styles.contentSection}>
+          <div className={styles.sectionHead}>
+            <h2 className={styles.sectionTitle}>Case Studies</h2>
+            <span className={styles.sectionCount}>{person.caseStudies.length}</span>
+          </div>
+          <ul className={styles.contentList}>
+            {person.caseStudies.map((item) => (
+              <li key={item._id}>
+                <ContentCard item={item} docType="caseStudy" showExcerpt={false} showHeroImage={false} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {!hasArticles && !hasNodes && !hasCaseStudies && (
+        <p className={pageStyles.archiveEmpty}>No content attributed yet.</p>
+      )}
     </main>
   )
 }
