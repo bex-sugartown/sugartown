@@ -51,7 +51,7 @@ const COLOR_TOKENS = {
 const HUB_TYPE_LABELS = { project: 'Project', category: 'Category' }
 
 function filterGraph(siteGraph, typeFilter) {
-  if (!siteGraph) return siteGraph
+  if (!siteGraph?.nodes) return null
 
   if (typeFilter === 'all') {
     // Exclude tag nodes in "all" view — too many to be useful
@@ -123,14 +123,14 @@ export default function SiteGraphPage() {
   }, [allItems])
 
   const graphData = useMemo(
-    () => filterGraph(statsJson.siteGraph, typeFilter),
+    () => filterGraph(statsJson?.siteGraph, typeFilter),
     [typeFilter]
   )
 
   // Count item nodes connected to the selected hub via membership edges
   const hubConnectedCount = useMemo(() => {
     if (!selectedNode || selectedNode.type === 'item') return 0
-    return (statsJson.siteGraph.edges ?? []).filter(
+    return (statsJson?.siteGraph?.edges ?? []).filter(
       e => e.kind === 'membership' &&
            (e.source === selectedNode.id || e.target === selectedNode.id)
     ).length

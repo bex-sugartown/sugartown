@@ -201,7 +201,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
 
   // Derive node-only graph from siteGraph (replaces deprecated statsJson.graph)
   const nodeGraph = useMemo(() => {
-    if (!statsJson?.siteGraph) return null
+    if (!statsJson?.siteGraph?.nodes) return null
     const nodes = statsJson.siteGraph.nodes.filter(
       n => n.type !== 'item' || n.docType === 'node'
     )
