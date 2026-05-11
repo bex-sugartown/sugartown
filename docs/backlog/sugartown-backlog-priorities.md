@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-11 · v0.23.21 · SUG-110 added (Dynamically generated roadmap from Linear)
+> Updated 2026-05-11 · v0.23.21 · SUG-111 added (Platform IA Phase II — nested multi-section architecture)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -19,6 +19,7 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
+| 3 | **[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs (Governance, Monorepo, CMS, Design System) at `/platform/{section}`, leaf page route slots for SUG-103 + SUG-110. Static React hubs; Sanity-backed leaf pages. 3 phases, merge-as-you-go. Epic: `docs/backlog/SUG-111-platform-ia-phase-ii-nested-architecture.md`. | `Frontend` `UX` `Infrastructure` | 🟢 Next |
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** ✅ Shipped. Services page outcome framing, availability signal on hero/About, case study narrative, Contact tone update. All Sanity drafts published 2026-05-01. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | ✅ Shipped |
 | 2 | **[SUG-95](https://linear.app/sugartown/issue/SUG-95) · Sanity AI Assist POC — case study field generation** ✅ Shipped v0.23.3. `@sanity/assist` installed, caseStudy exclude config deployed, `docs/conventions/ai-assist-conventions.md` written. Epic: `docs/shipped/SUG-95-sanity-ai-assist-poc-case-study-fields.md`. | `Schema` `Tooling` `AI` | ✅ Shipped |
 
