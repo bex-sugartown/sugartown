@@ -9,23 +9,15 @@
 
 ---
 
-## Note on Origin
+## Note on Scope
 
-This PRD is backwards-engineered from the shipped implementation. It reflects what exists in `apps/studio/schemas/` and the deployed Content Lake (`poalmzla / production`). It is not aspirational. Where the implementation deviates from earlier planning documents, this PRD is authoritative.
-
-**v1.0 (2026-05-09):** Initial schema audit.
-**v1.1 (2026-05-09):** Full field-level audit pass against every schema file. Corrections across all document, object, and section types. Added §6.0 Composable Object Registry. Added `↗` cross-reference notation for shared objects. Deprecated fields now explicitly marked in tables.
-**v1.2 (2026-05-09):** Added §6.6 Rendering Rules and Conditional Behaviour (frontend conditional logic per section type). Added §6.7 Sections Not Fully Wired. Added Appendix C: Deprecated, Legacy, and Unwired Inventory.
-**v1.3 (2026-05-09):** Corrected `seoMetadata.autoGenerate` — derives from document's own `title`/`excerpt`/`body`, not siteSettings. Added resolution order table. siteSettings defaults are last-resort fallback only. Fixed US-011 AC to match.
-**v1.4 (2026-05-09):** Added §5.5 Content Modeling Strategy — CMS-agnostic design, atomic content modelling with layer hierarchy table, schema-mirrors-component-contract mapping, references-over-copies decision rule, flexibility-vs-governance principle, validation-first patterns, migration compatibility. Sourced from and supersedes `content-model-strategy.md` §4–§5.
-**v1.5 (2026-05-09):** Annotated §5.5 with omnichannel implications at CMS-agnostic design, references-over-copies, and flexibility-vs-governance principles. Added Multi-Surface Extension Pattern sub-section — architecture diagram, email extension group field table, GROQ projection examples by surface, shared-vs-surface-specific decision table, and extension group vs new document type decision rule.
-**v1.6 (2026-05-09):** Added §5.5 "Structured content as AI infrastructure (AEO/GEO)" — the blob test, machine-readable signal table, `node` type as proof of concept, and the structural debt argument. References the unpublished article "We Never Actually Adopted Structured Content" as the extended treatment.
+This document specifies the Sugartown CMS as designed and built. It covers `apps/studio/schemas/` and the deployed Content Lake (`poalmzla / production`). Where earlier planning documents conflict with the current implementation, this PRD is authoritative.
 
 ---
 
 ## 2. Problem Statement
 
-Sugartown.io began as a WordPress site and migrated to a headless Sanity + React stack. The content model had to support three simultaneous constraints: backwards compatibility with 80+ migrated posts, a forward-looking knowledge-graph content strategy, and a portfolio context where the CMS itself is a client-facing demonstration of composable architecture. No single prior document described the full content model, its taxonomy contracts, its section builder system, or its site configuration layer. This PRD is that document.
+Sugartown.io migrated from WordPress to a headless Sanity + React stack. The content model was designed to satisfy three constraints simultaneously: migration compatibility with 80+ existing posts, a forward-looking knowledge-graph content strategy, and a portfolio context where the CMS itself demonstrates composable architecture to clients. This PRD is the consolidated reference for the full content model, its taxonomy contracts, its section builder system, and its site configuration layer.
 
 ---
 
@@ -1297,7 +1289,7 @@ These section types exist in the schema but have known gaps in their rendering p
 
 ## 12. Authoring Checklist
 
-- [x] Every claim references a real system (backwards-engineered from `apps/studio/schemas/`)
+- [x] Every claim references a real system — verified against `apps/studio/schemas/` and the deployed Content Lake
 - [x] Field types are explicit — no TBD in the content model table
 - [x] Enum values are exhaustive for all enumerated fields
 - [x] Non-goals name the reason for exclusion
@@ -1494,3 +1486,21 @@ Issues observed in the current implementation that are not bugs but represent au
 | Schema deploy command | `npx sanity schema deploy` (run from `apps/studio/`) |
 | Web client config | `apps/web/src/lib/sanity.js` |
 | Perspective | `published` (drafts never served to web layer) |
+
+---
+
+## Changelog
+
+- **v1.0 (2026-05-09):** Initial schema specification.
+
+- **v1.1 (2026-05-09):** Full field-level audit pass against every schema file. Corrections across all document, object, and section types. Added §6.0 Composable Object Registry. Added `↗` cross-reference notation for shared objects. Deprecated fields now explicitly marked in tables.
+
+- **v1.2 (2026-05-09):** Added §6.6 Rendering Rules and Conditional Behaviour (frontend conditional logic per section type). Added §6.7 Sections Not Fully Wired. Added Appendix C: Deprecated, Legacy, and Unwired Inventory.
+
+- **v1.3 (2026-05-09):** Corrected `seoMetadata.autoGenerate` — derives from document's own `title`/`excerpt`/`body`, not siteSettings. Added resolution order table. siteSettings defaults are last-resort fallback only. Fixed US-011 AC to match.
+
+- **v1.4 (2026-05-09):** Added §5.5 Content Modeling Strategy — CMS-agnostic design, atomic content modelling with layer hierarchy table, schema-mirrors-component-contract mapping, references-over-copies decision rule, flexibility-vs-governance principle, validation-first patterns, migration compatibility. Sourced from and supersedes `content-model-strategy.md` §4–§5.
+
+- **v1.5 (2026-05-09):** Annotated §5.5 with omnichannel implications at CMS-agnostic design, references-over-copies, and flexibility-vs-governance principles. Added Multi-Surface Extension Pattern sub-section — architecture diagram, email extension group field table, GROQ projection examples by surface, shared-vs-surface-specific decision table, and extension group vs new document type decision rule.
+
+- **v1.6 (2026-05-09):** Added §5.5 "Structured content as AI infrastructure (AEO/GEO)" — the blob test, machine-readable signal table, `node` type as proof of concept, and the structural debt argument. References the unpublished article "We Never Actually Adopted Structured Content" as the extended treatment.
