@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-09 · v0.23.18 · SUG-105 shipped (Knowledge Graph Phase 2) · SUG-107 added (client taxonomy)
+> Updated 2026-05-10 · v0.23.21 · SUG-104 shipped (listview entity detail pages)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-105 shipped ✅ v0.23.18. Knowledge Graph Phase 2 — masthead kicker, chip color system, fullscreen, tag nodes, ledger rail, Chromatic Build 33 accepted. SUG-106 (stats pipeline fix) and SUG-104 (listview updates) are next.
+> **⚑ Current focus:** SUG-104 shipped ✅ v0.23.21. Entity detail pages (Person, Project, Tool) — shared folio pattern, SectionLabel + 2-col Grid content sections, full-width layout, responsive mobile collapse. SUG-107 (client taxonomy) is next.
 
 ---
 
@@ -43,7 +43,7 @@
 |---|------|------|----------|
 | 1 | **[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Fix LHCI not writing JSON in CI, add missing Sanity secrets, diagnose low mobile Lighthouse scores (perf 68, best-practices 42), document manual backup update workflow, close SUG-100. Epic: `docs/backlog/SUG-106-stats-pipeline-fix-sug-100-close-out.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
-| 2 | **[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Net-new layout patterns for archive and taxonomy pages: person split-column, brand-dot bullet list, brand-soft chip, letter-bucket grid, A–Z jump bar, view toggle, filter bar stripe, content row hover. DS primitives `.st-list--marked` + `.st-chip--brand-soft` promoted. No schema changes. Epic: `docs/backlog/SUG-104-listview-updates-archives-taxonomies.md`. | `UX` `Design System` `Frontend` | 🟣 Soon |
+| 2 | ~~**[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Shared entity folio pattern (Person, Project, Tool detail pages), SectionLabel + 2-col Grid content sections, full-width layout at --st-width-detail-wide, responsive mobile collapse in Grid. Shipped v0.23.21.~~ | `UX` `Design System` `Frontend` | ✅ Shipped |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 
 ---
@@ -86,6 +86,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-104 · Listview updates — archives and taxonomies** — Shared entity folio pattern extracted to `pages.module.css` (entityFolio, entityThumbnail, narrativeHeading, entityDescription). PersonProfilePage + ProjectDetailPage refactored to shared classes + DS SectionLabel + Grid. ToolDetailPage built from scratch at /tools/:slug. Grid responsive collapse at 600px. All entity detail pages at --st-width-detail-wide (1080px). Chromatic: deferred to /eod.~~ | v0.23.21 | 2026-05-10 |
 | ~~**SUG-105 · Knowledge Graph Phase 2** — Masthead kicker, FilterStrip 3-value chip color system (lime contrast solved), fullscreen overlay with fill height + legend top-left, tag nodes on filtered graphs, ledger rail with SELECTED header, ContentCard folio links, compact density font sizes. Chromatic Build 33: 15 changes accepted. eyebrow field on archivePage schema. Data pipeline gap: tag nodes in graph.js; stats.json regenerates on next CI run.~~ | v0.23.18 | 2026-05-09 |
 | ~~**SUG-81 · Site-wide Knowledge Graph (MVP)** — `/knowledge-graph` with force-directed canvas (article, caseStudy, node). FilterStrip component with per-type color tokens. Hub/item node rail with ContentCard compact + hub card surface. Legend with bg+border. Sanity archivePage wired for heading/SEO. `--st-kg-*` 7-token layer. `stats.siteGraph` build-time collector. Stats pipeline live. Chromatic pending (SUG-105).~~ | v0.23.16 | 2026-05-08 |
 | ~~**SUG-102 · DS token hygiene Phase C** — 6 new Tier-1 primitives (amber-450 #f0b429, amber-650 #d4a017, red-400 #f87171, red-600 #dc2626, crimson-500 #ff4757, midnight-950 #0a0f1a). 8 token references promoted. 14 legacy aliases removed (st-color-grey-*, st-color-void-900, st-color-red-500, st-font-sans, st-font-mono, st-color-brand). Pre-commit hook fixed for legitimate regeneration commits. Chromatic Build 31: zero visual changes. Token count 578 → 570.~~ | v0.23.15 | 2026-05-07 |
@@ -175,4 +176,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-09 · v0.23.18 · SUG-105 shipped · queue: SUG-106, SUG-104*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-10 · v0.23.21 · SUG-104 shipped · queue: SUG-107*

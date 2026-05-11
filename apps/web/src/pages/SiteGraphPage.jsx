@@ -183,23 +183,13 @@ export default function SiteGraphPage() {
   const heading    = archiveDoc?.hero?.heading || archiveDoc?.title || 'Knowledge Graph'
   const subheading = archiveDoc?.hero?.subheading || archiveDoc?.description
 
-  const mastheadKicker = useMemo(() => {
-    if (!graphData) return null
-    const nodeCount = graphData.nodes.length
-    const edgeCount = (graphData.edges ?? []).length
-    const base = `${nodeCount} nodes visible · ${edgeCount} edges`
-    if (typeFilter === 'all') return base
-    const label = FILTER_TYPES.find(f => f.key === typeFilter)?.label?.toLowerCase() ?? typeFilter
-    return `${base} · filtered: ${label}`
-  }, [graphData, typeFilter])
-
   return (
     <main className={pageStyles.archivePage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <header className={styles.masthead}>
-        <p className={styles.eyebrow}>
-          <span className={styles.eyebrowCurrent}>Library</span>
+      <header className={pageStyles.masthead}>
+        <p className={pageStyles.eyebrow}>
+          <span className={pageStyles.eyebrowCurrent}>Library</span>
         </p>
         <h1 className={`${pageStyles.archiveHeading} ${pageStyles.archiveHeadingItalic}`}>{heading}</h1>
         {subheading && (
@@ -212,21 +202,60 @@ export default function SiteGraphPage() {
             A site-wide map of articles, case studies, and nodes, connected by project and category.
           </p>
         )}
-        {mastheadKicker && (
-          <p className={`${styles.kicker} ${typeFilter !== 'all' ? styles.kickerFiltered : ''}`}>
-            {mastheadKicker}
-          </p>
-        )}
       </header>
 
       <div className={styles.graphSection}>
-      <FilterStrip
-        filters={FILTER_TYPES}
-        activeKey={typeFilter}
-        onChange={handleFilterChange}
-        count={filterCount}
-        className={styles.filterStrip}
-      />
+      <div className={pageStyles.archiveToolbar}>
+        <div className={pageStyles.archiveToolbarLeft}>
+          <div className={pageStyles.layoutToggleGroup}>
+            <Link
+              to={typeFilter === 'caseStudy' ? '/case-studies' : typeFilter === 'node' ? '/nodes' : '/articles'}
+              className={pageStyles.layoutToggleBtn}
+              aria-label="Grid view"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
+                <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
+                <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
+                <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
+              </svg>
+            </Link>
+            <Link
+              to={typeFilter === 'caseStudy' ? '/case-studies' : typeFilter === 'node' ? '/nodes' : '/articles'}
+              className={pageStyles.layoutToggleBtn}
+              aria-label="List view"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
+                <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
+                <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
+              </svg>
+            </Link>
+            <button type="button" className={`${pageStyles.layoutToggleBtn} ${pageStyles.layoutToggleBtnActive}`} aria-label="Graph view" aria-pressed={true} disabled>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
+                <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
+                <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
+                <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
+                <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
+                <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
+              </svg>
+            </button>
+          </div>
+          <span className={pageStyles.archiveToolbarDivider} aria-hidden="true" />
+          <FilterStrip
+            filters={FILTER_TYPES}
+            activeKey={typeFilter}
+            onChange={handleFilterChange}
+            className={styles.filterStripInline}
+          />
+        </div>
+        <span className={pageStyles.archiveToolbarKicker}>{filterCount}</span>
+      </div>
 
       <div className={styles.body}>
         <div className={styles.graphPane}>

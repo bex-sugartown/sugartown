@@ -327,6 +327,65 @@
   color: var(--st-color-text-default);
 }
 
+/* ── Entity detail — shared folio pattern ────────────────────────
+   Used by PersonProfilePage, ToolDetailPage, and any future entity
+   detail page that shows a thumbnail + identity block side by side.
+   Set --entity-thumb-size on the folio element to override the
+   default 88px (e.g. 72px for tool logos).
+─────────────────────────────────────────────────────────────────── */
+.entityFolio {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+}
+
+.entityThumbnail {
+  width: var(--entity-thumb-size, 88px);
+  height: var(--entity-thumb-size, 88px);
+  border-radius: 0;
+  object-fit: cover;
+  display: block;
+  flex-shrink: 0;
+  border: 1px solid var(--st-color-border-default);
+}
+
+.entityThumbnailFallback {
+  width: var(--entity-thumb-size, 88px);
+  height: var(--entity-thumb-size, 88px);
+  border-radius: 0;
+  background: var(--st-color-bg-subtle);
+  border: 1px solid var(--st-color-border-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 600;
+  font-family: var(--st-font-family-narrative);
+  font-style: italic;
+  color: var(--st-color-text-muted);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.narrativeHeading {
+  font-family: var(--st-font-family-narrative);
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.1;
+  margin: 0 0 0.3rem;
+  color: var(--st-color-text-primary);
+}
+
+.entityDescription {
+  font-family: var(--st-font-family-ui);
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--st-color-text-secondary);
+  margin: 0 0 0.5rem;
+}
+
 /* ── Tag chips ───────────────────────────────────────────────────── */
 .tagList {
   display: flex;
@@ -351,6 +410,15 @@
 }
 
 /* ── Archive listing pages ───────────────────────────────────────── */
+/* ── Entity detail page wrapper (Person, Project, Tool) ──────────── */
+/* Full entity-detail width — wide enough for 2-col ContentCard grid. */
+.entityDetailPage {
+  max-width: var(--st-width-detail-wide);
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+  box-sizing: border-box;
+}
+
 /* Archive pages need more width than detail pages to accommodate the
    220px filter sidebar + multi-column card grid side-by-side.
    1164px → ~864px content area → 2-up at ~420px cards (+ 24px gap).
@@ -364,12 +432,57 @@
   box-sizing: border-box;
 }
 
-/* ── Unified archive toolbar — view toggle icons + result count ───── */
+/* ── Shared masthead — eyebrow + h1 italic + description ──────────── */
+/* Shared by ArchivePage and SiteGraphPage */
+
+.masthead {
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.eyebrowLink {
+  color: var(--st-color-text-muted);
+  text-decoration: none;
+}
+
+.eyebrowLink:hover {
+  color: var(--st-color-text-primary);
+}
+
+.eyebrowSep {
+  opacity: 0.4;
+}
+
+.eyebrowCurrent {
+  color: var(--st-color-brand-primary);
+}
+
+/* ── Archive section — bordered container wrapping toolbar + content ─ */
+
+.archiveSection {
+  border: 1px solid var(--st-color-rule-accent);
+}
+
+/* ── Unified archive toolbar ─────────────────────────────────────── */
 .archiveToolbar {
   display: flex;
   align-items: center;
-  gap: var(--st-space-4);
-  margin-bottom: var(--st-space-5);
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
 }
 
 .layoutToggleGroup {
@@ -422,7 +535,7 @@
 .archiveDescription {
   font-size: 1.0625rem;
   color: var(--st-color-text-default);  /* charcoal — was text-muted (#94A3B8) */
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   line-height: 1.6;
 }
 
@@ -598,28 +711,34 @@
   text-decoration: underline;
 }
 
-/* ── Graph CTA bar (SUG-81 Phase 3) ───────────────────────────── */
 
-/* "In graph" icon chip — toolbar CTA linking to /knowledge-graph pre-filtered */
-.graphCtaChip {
-  display: inline-flex;
+/* Left group: toggle buttons + divider + FilterStrip — all on one line */
+.archiveToolbarLeft {
+  display: flex;
   align-items: center;
-  gap: 5px;
-  font-family: var(--st-font-family-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--st-color-neutral-100);
-  background: var(--st-color-pink);
-  border: 1px solid var(--st-color-pink);
-  padding: 4px 10px;
-  text-decoration: none;
-  white-space: nowrap;
-  margin-left: auto;
-  transition: opacity 80ms;
+  gap: 0;
 }
 
-.graphCtaChip:hover {
-  opacity: 0.85;
+.archiveToolbarDivider {
+  width: 1px;
+  height: 18px;
+  background: var(--st-color-rule-accent);
+  margin: 0 10px;
+  flex-shrink: 0;
+}
+
+/* Right-side kicker stat */
+.archiveToolbarKicker {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  white-space: nowrap;
+}
+
+/* Content area padding inside the bordered section */
+.archiveSectionContent {
+  padding: 24px;
 }

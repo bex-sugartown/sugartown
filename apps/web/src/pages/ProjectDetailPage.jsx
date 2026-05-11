@@ -8,6 +8,7 @@
  * content timeline (articles + nodes + caseStudies) using ContentCard.
  */
 import { useParams, Link } from 'react-router-dom'
+import { Grid, SectionLabel } from '../design-system'
 import { projectDetailQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -20,24 +21,7 @@ import NotFoundPage from './NotFoundPage'
 import styles from './ProjectDetailPage.module.css'
 import pageStyles from './pages.module.css'
 
-// ─── Merge and sort content timeline ─────────────────────────────────────────
-
-function buildTimeline(articles, nodes, caseStudies) {
-  const items = [
-    ...(articles    ?? []),
-    ...(nodes       ?? []),
-    ...(caseStudies ?? []),
-  ]
-  items.sort((a, b) => {
-    if (!a.publishedAt && !b.publishedAt) return 0
-    if (!a.publishedAt) return 1
-    if (!b.publishedAt) return -1
-    return new Date(b.publishedAt) - new Date(a.publishedAt)
-  })
-  return items
-}
-
-// ─── SEO builder ─────────────────────────────────────────────────────────────
+// ─── SEO ─────────────────────────────────────────────────────────────────────
 
 function buildProjectSeo(project, siteSettings) {
   if (!project) return null
@@ -64,8 +48,6 @@ export default function ProjectDetailPage() {
 
   if (loading) return <div className={pageStyles.loadingPage}>Loading…</div>
   if (notFound || !project) return <NotFoundPage />
-
-  const timeline = buildTimeline(project.articles, project.nodes, project.caseStudies)
 
   // --project-accent drives the accentBar colour from colorHex when set.
   const accentStyle = {
@@ -100,29 +82,42 @@ export default function ProjectDetailPage() {
         tools={project.tools}
       />
 
-      {/* ── Content timeline ─────────────────────────────────────────── */}
-      {timeline.length > 0 && (
-        <section className={styles.timelineSection}>
-          <h2 className={styles.timelineHeading}>
-            Content ({timeline.length})
-          </h2>
-          <ul className={styles.timelineList}>
-            {timeline.map((item) => (
-              <li key={item._id}>
-                <ContentCard
-                  item={item}
-                  docType={item._type}
-                  showExcerpt={false}
-                  showHeroImage={false}
-                />
-              </li>
+      {/* ── Content sections by type ──────────────────────────────── */}
+      {project.articles?.length > 0 && (
+        <section className={styles.contentSection}>
+          <SectionLabel title="Articles" kicker={String(project.articles.length)} />
+          <Grid columns={2} spacing="lg">
+            {project.articles.map((item) => (
+              <ContentCard key={item._id} item={item} docType="article" showExcerpt={false} showHeroImage={false} />
             ))}
-          </ul>
+          </Grid>
         </section>
       )}
 
-      {timeline.length === 0 && (
-        <p className={styles.timelineEmpty}>No content linked to this project yet.</p>
+      {project.nodes?.length > 0 && (
+        <section className={styles.contentSection}>
+          <SectionLabel title="Knowledge Nodes" kicker={String(project.nodes.length)} />
+          <Grid columns={2} spacing="lg">
+            {project.nodes.map((item) => (
+              <ContentCard key={item._id} item={item} docType="node" showExcerpt={false} showHeroImage={false} />
+            ))}
+          </Grid>
+        </section>
+      )}
+
+      {project.caseStudies?.length > 0 && (
+        <section className={styles.contentSection}>
+          <SectionLabel title="Case Studies" kicker={String(project.caseStudies.length)} />
+          <Grid columns={2} spacing="lg">
+            {project.caseStudies.map((item) => (
+              <ContentCard key={item._id} item={item} docType="caseStudy" showExcerpt={false} showHeroImage={false} />
+            ))}
+          </Grid>
+        </section>
+      )}
+
+      {!project.articles?.length && !project.nodes?.length && !project.caseStudies?.length && (
+        <p className={pageStyles.archiveEmpty}>No content linked to this project yet.</p>
       )}
     </main>
   )

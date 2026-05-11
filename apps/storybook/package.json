@@ -5,7 +5,7 @@
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
-    "chromatic": "chromatic --build-script-name=storybook:build --exit-zero-on-changes",
+    "chromatic": "sh -c 'set -a; . ./.env; set +a; chromatic --build-script-name=storybook:build --exit-zero-on-changes'",
     "lint": "eslint .storybook --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf storybook-static .turbo"

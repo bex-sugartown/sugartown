@@ -1289,7 +1289,8 @@ export const allCategoriesQuery = `
     name,
     "slug": slug.current,
     "colorHex": colorHex.hex,
-    description
+    description,
+    "count": count(*[_type in ["article","node","caseStudy"] && references(^._id)])
   }
 `
 
@@ -1298,7 +1299,8 @@ export const allTagsQuery = `
     _id,
     name,
     "slug": slug.current,
-    description
+    description,
+    "count": count(*[_type in ["article","node","caseStudy"] && references(^._id)])
   }
 `
 
@@ -1328,7 +1330,8 @@ export const allToolsQuery = `
     _id,
     name,
     "slug": slug.current,
-    description
+    description,
+    "count": count(*[_type in ["article","node","caseStudy"] && references(^._id)])
   }
 `
 
@@ -1337,7 +1340,23 @@ export const toolBySlugQuery = `
     _id,
     name,
     "slug": slug.current,
-    description
+    kind,
+    toolType,
+    description,
+    url,
+    "logo": logo { asset->{ _id, url }, alt },
+    "articles":   *[_type == "article"   && references(^._id)] | order(publishedAt desc) {
+      _id, _type, title, "slug": slug.current, publishedAt,
+      "categories": categories[]->{_id, "title": name, "slug": slug.current}
+    },
+    "nodes":       *[_type == "node"      && references(^._id)] | order(publishedAt desc) {
+      _id, _type, title, "slug": slug.current, publishedAt,
+      "categories": categories[]->{_id, "title": name, "slug": slug.current}
+    },
+    "caseStudies": *[_type == "caseStudy" && references(^._id)] | order(publishedAt desc) {
+      _id, _type, title, "slug": slug.current, publishedAt,
+      "categories": categories[]->{_id, "title": name, "slug": slug.current}
+    }
   }
 `
 
@@ -1352,7 +1371,8 @@ export const allProjectsQuery = `
     priority,
     "colorHex": colorHex.hex,
     kpis,
-    "tools": tools[]->{${TOOL_FRAGMENT}}
+    "tools": tools[]->{${TOOL_FRAGMENT}},
+    "count": count(*[_type in ["article","node","caseStudy"] && references(^._id)])
   }
 `
 

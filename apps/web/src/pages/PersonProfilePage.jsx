@@ -2,10 +2,8 @@
  * PersonProfilePage — renders a dedicated profile page for a Sanity `person` document.
  * Route: /people/:slug
  *
- * EPIC-0145: replaces TaxonomyPlaceholderPage for /people/:slug.
- * Shows profile header (image, name, headline, location, pronouns, social links),
- * bio as PortableText, expertise chips, and content grouped by type (articles,
- * nodes, case studies) using ContentCard.
+ * SUG-104: linear stack — folio head (flex row: avatar + identity) → bio → roles → expertise
+ * → content sections (2-col grid).
  */
 import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
@@ -33,6 +31,7 @@ function LinkedInIcon({ size = 24, color = 'currentColor', className, ...props }
     </svg>
   )
 }
+import { Grid, SectionLabel } from '../design-system'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
@@ -41,15 +40,12 @@ import { urlFor } from '../lib/sanity'
 import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
-import TaxonomyChips from '../components/TaxonomyChips'
 import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import styles from './PersonProfilePage.module.css'
 import pageStyles from './pages.module.css'
 
 // ─── Social link platform config ─────────────────────────────────────────────
-// Maps socialLinks[].platform values (from person.ts schema) to display labels
-// and SVG icon components. Brand icons → Simple Icons, UI icons → Lucide.
 const PLATFORM_CONFIG = {
   linkedin:  { label: 'LinkedIn',   icon: LinkedInIcon },
   github:    { label: 'GitHub',     icon: SiGithub },
@@ -69,11 +65,6 @@ const PLATFORM_CONFIG = {
   external:  { label: 'Link',       icon: ExternalLink },
 }
 
-// ─── Helper: minimal SEO object for person pages ─────────────────────────────
-// Person docs may have an seo field but we don't call resolveSeo() here because
-// person.ts has no SEO_FRAGMENT in its query structure. We build a simple seo
-// object directly from available fields so SeoHead still receives a valid shape.
-
 function buildPersonSeo(person, siteSettings) {
   if (!person) return null
   const title = `${person.shortName || person.name}${siteSettings?.siteTitle ? ` — ${siteSettings.siteTitle}` : ''}`
@@ -83,12 +74,7 @@ function buildPersonSeo(person, siteSettings) {
     description,
     canonicalUrl: null,
     robots: { index: true, follow: true },
-    openGraph: {
-      title,
-      description,
-      type: 'profile',
-      image: null,
-    },
+    openGraph: { title, description, type: 'profile', image: null },
   }
 }
 
@@ -108,20 +94,16 @@ export default function PersonProfilePage() {
   const hasArticles    = person.articles?.length > 0
   const hasNodes       = person.nodes?.length > 0
   const hasCaseStudies = person.caseStudies?.length > 0
+  const hasBio         = person.bio?.length > 0
+  const hasTitles      = person.titles?.length > 0
+  const hasExpertise   = person.expertise?.length > 0
 
-  // Build image URL if present
   let avatarUrl = null
   if (person.image?.asset) {
     try {
-      avatarUrl = urlFor(person.image).width(240).height(240).fit('crop').url()
-    } catch {
-      // malformed asset ref — render without image
-    }
+      avatarUrl = urlFor(person.image).width(176).height(176).fit('crop').url()
+    } catch { /* malformed asset ref */ }
   }
-
-  // Expertise is now an array of expanded category references: { _id, name, slug, colorHex }
-  // Pass directly as `categories` to TaxonomyChips so they render as linked, coloured chips.
-  const expertiseCategories = person.expertise ?? []
 
   return (
     <main className={styles.profilePage}>
@@ -131,142 +113,150 @@ export default function PersonProfilePage() {
         ← All People
       </Link>
 
-      {/* ── Profile Header ───────────────────────────────────────────── */}
-      <header className={styles.profileHeader}>
-        <div className={styles.profileAvatar}>
+      {/* ── Folio ─────────────────────────────────────────────────── */}
+      <section className={styles.profileFolio}>
+        <div className={pageStyles.entityFolio}>
+          {/* Avatar */}
           {avatarUrl ? (
             <img
               src={avatarUrl}
               alt={person.image?.alt ?? `${displayName} profile photo`}
-              className={styles.avatarImg}
-              width={120}
-              height={120}
+              className={pageStyles.entityThumbnail}
+              width={88}
+              height={88}
               loading="lazy"
               decoding="async"
             />
           ) : (
-            <div className={styles.avatarFallback} aria-hidden="true">
+            <div className={pageStyles.entityThumbnailFallback} aria-hidden="true">
               {displayName?.charAt(0)?.toUpperCase() ?? '?'}
             </div>
           )}
-        </div>
 
-        <div className={styles.profileIdentity}>
-          <h1 className={styles.profileName}>
-            {person.name}
-            {person.shortName && (
-              <span className={styles.profileShortName}> ({person.shortName})</span>
+          {/* Identity */}
+          <div className={styles.folioIdentity}>
+            <h1 className={pageStyles.narrativeHeading}>
+              {person.name}
+              {person.shortName && (
+                <span className={styles.profileShortName}> ({person.shortName})</span>
+              )}
+              <DraftBadge docId={person._id} />
+            </h1>
+
+            {person.headline && (
+              <p className={pageStyles.detailEyebrow}>{person.headline}</p>
             )}
-            <DraftBadge docId={person._id} />
-          </h1>
 
-          {person.headline && (
-            <p className={styles.profileHeadline}>{person.headline}</p>
-          )}
+            {(person.location || person.pronouns) && (
+              <p className={styles.profileMeta}>
+                {[person.location, person.pronouns].filter(Boolean).join(' · ')}
+              </p>
+            )}
 
-          {(person.location || person.pronouns) && (
-            <p className={styles.profileMeta}>
-              {[person.location, person.pronouns].filter(Boolean).join(' · ')}
-            </p>
-          )}
-
-          {person.socialLinks?.length > 0 && (
-            <ul className={styles.socialLinks} aria-label="Social profiles">
-              {person.socialLinks.map((link, i) => {
-                const config = PLATFORM_CONFIG[link.platform] || PLATFORM_CONFIG.other
-                const label = link.label || config.label || link.platform
-                const IconComponent = config.icon
-                return (
-                  <li key={i} className={styles.socialLinkItem}>
-                    <a
-                      href={link.url}
-                      className={styles.socialLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={label}
-                      title={label}
-                    >
-                      <IconComponent size={18} color="currentColor" aria-hidden="true" />
-                      <span className={styles.socialPlatform}>
-                        {label}
-                      </span>
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
-          )}
+            {person.socialLinks?.length > 0 && (
+              <ul className={styles.socialLinks} aria-label="Social profiles">
+                {person.socialLinks.map((link, i) => {
+                  const config = PLATFORM_CONFIG[link.platform] || PLATFORM_CONFIG.other
+                  const label = link.label || config.label || link.platform
+                  const IconComponent = config.icon
+                  return (
+                    <li key={i} className={styles.socialLinkItem}>
+                      <a
+                        href={link.url}
+                        className={styles.socialLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={label}
+                        title={label}
+                      >
+                        <IconComponent size={14} color="currentColor" aria-hidden="true" />
+                        <span>{label}</span>
+                      </a>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </div>
         </div>
-      </header>
 
-      {/* ── Bio ──────────────────────────────────────────────────────── */}
-      {person.bio?.length > 0 && (
-        <section className={styles.profileBio}>
-          <div className={pageStyles.detailContent}>
-            <PortableText value={person.bio} components={sharedPTComponents} />
+        {hasBio && (
+          <div className={styles.profileBio}>
+            <div className={pageStyles.detailContent}>
+              <PortableText value={person.bio} components={sharedPTComponents} />
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* ── Roles & Titles ────────────────────────────────────────── */}
+      {hasTitles && (
+        <section className={styles.rolesSection}>
+          <div className={styles.rolesHead}>Roles &amp; Titles</div>
+          <ul className={styles.rolesList}>
+            {person.titles.map((title, i) => (
+              <li key={i}>{title}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* ── Expertise chips ───────────────────────────────────────── */}
+      {hasExpertise && (
+        <section className={styles.expertiseSection}>
+          <div className={styles.expertiseHead}>Expertise</div>
+          <div className={styles.expertiseChips}>
+            {person.expertise.map((item, i) => (
+              item.slug ? (
+                <Link key={i} to={`/categories/${item.slug}`} className={styles.expertiseChip}>
+                  {item.name ?? item}
+                </Link>
+              ) : (
+                <span key={i} className={styles.expertiseChip}>
+                  {item.name ?? item}
+                </span>
+              )
+            ))}
           </div>
         </section>
       )}
 
-      {/* ── Roles / Titles ───────────────────────────────────────────── */}
-      {person.titles?.length > 0 && (
-        <section className={styles.profileSection}>
-          <h2 className={styles.sectionHeading}>Roles &amp; Titles</h2>
-          <ul className={styles.titlesList}>
-            {person.titles.map((title, i) => (
-              <li key={i} className={styles.titlesItem}>{title}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {/* ── Expertise ────────────────────────────────────────────────── */}
-      {expertiseCategories.length > 0 && (
-        <section className={styles.profileSection}>
-          <h2 className={styles.sectionHeading}>Expertise</h2>
-          <TaxonomyChips categories={expertiseCategories} />
-        </section>
-      )}
-
-      {/* ── Content sections ─────────────────────────────────────────── */}
-
+      {/* ── Content sections ─────────────────────────────────────── */}
       {hasArticles && (
-        <section className={styles.profileSection}>
-          <h2 className={styles.sectionHeading}>Articles</h2>
-          <ul className={styles.contentList}>
+        <section className={styles.contentSection}>
+          <SectionLabel title="Articles" kicker={String(person.articles.length)} />
+          <Grid columns={2} spacing="lg">
             {person.articles.map((item) => (
-              <li key={item._id}>
-                <ContentCard item={item} docType="article" showExcerpt={false} showHeroImage={false} />
-              </li>
+              <ContentCard key={item._id} item={item} docType="article" showExcerpt={false} showHeroImage={false} />
             ))}
-          </ul>
+          </Grid>
         </section>
       )}
 
       {hasNodes && (
-        <section className={styles.profileSection}>
-          <h2 className={styles.sectionHeading}>Knowledge Nodes</h2>
-          <ul className={styles.contentList}>
+        <section className={styles.contentSection}>
+          <SectionLabel title="Knowledge Nodes" kicker={String(person.nodes.length)} />
+          <Grid columns={2} spacing="lg">
             {person.nodes.map((item) => (
-              <li key={item._id}>
-                <ContentCard item={item} docType="node" showExcerpt={false} showHeroImage={false} />
-              </li>
+              <ContentCard key={item._id} item={item} docType="node" showExcerpt={false} showHeroImage={false} />
             ))}
-          </ul>
+          </Grid>
         </section>
       )}
 
       {hasCaseStudies && (
-        <section className={styles.profileSection}>
-          <h2 className={styles.sectionHeading}>Case Studies</h2>
-          <ul className={styles.contentList}>
+        <section className={styles.contentSection}>
+          <SectionLabel title="Case Studies" kicker={String(person.caseStudies.length)} />
+          <Grid columns={2} spacing="lg">
             {person.caseStudies.map((item) => (
-              <li key={item._id}>
-                <ContentCard item={item} docType="caseStudy" showExcerpt={false} showHeroImage={false} />
-              </li>
+              <ContentCard key={item._id} item={item} docType="caseStudy" showExcerpt={false} showHeroImage={false} />
             ))}
-          </ul>
+          </Grid>
         </section>
+      )}
+
+      {!hasArticles && !hasNodes && !hasCaseStudies && (
+        <p className={pageStyles.archiveEmpty}>No content attributed yet.</p>
       )}
     </main>
   )

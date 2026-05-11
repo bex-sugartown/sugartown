@@ -118,6 +118,8 @@ A Phase 0 violation (FE code committed before mock approval) is a process failur
 
 **Phase 0 applies to new blocks on existing pages, not just new page types.** Adding a new data-backed block (e.g. a challenge summary, an outcomes strip, a sidebar widget) to an existing page template requires a mock and review before any JSX is written — even if the page template itself already exists. The test is: "does this block have a visual format that hasn't been reviewed?" If yes, it's a Phase 0 item regardless of scope.
 
+**Phase 0 applies to new entity detail pages (Person, Project, Tool, Client, etc.) even when a general page shell already exists.** Each entity detail page has a folio — the logo/avatar + identity block with eyebrow, name, description, and metadata. The folio layout, thumbnail size, eyebrow content, and any interactive links (URL, social) must be locked in the mock before any JSX is written. "The shell exists, I'll figure out the folio interactively" is a Phase 0 violation. The mock tab for a new entity type must be added to the epic's HTML mock file and approved before implementation begins for that entity type.
+
 ### Incomplete epic doc hard stop
 
 Before executing any epic from `docs/backlog/SUG-{N}-*.md`, check the file for completeness. If any of the following are unresolved, **stop and surface the gap before touching any file, Sanity document, or schema:**
@@ -142,6 +144,19 @@ When the user reports a bug (white screen, crash, visual regression):
 1. **Request the error first** — ask for the browser console output or a screenshot before writing code.
 2. **Do not commit a fix based on a guess.** Speculative patches add noise commits and can mask the real issue.
 3. If a fix commit turns out to be wrong, squash it into the original commit before merging.
+
+### Worktree path discipline
+
+When a session is running inside a git worktree (`.claude/worktrees/<name>/`), **all `Edit` and `Write` tool calls must target the worktree path**, not the main app tree.
+
+Before the first file write in any worktree session:
+
+1. Confirm the target path starts with the worktree root: `.claude/worktrees/<worktree-name>/`
+2. If the environment block shows `Primary working directory: /Users/.../sugartown/.claude/worktrees/<name>`, every file path in `Edit`/`Write` calls must use that prefix — not `/Users/.../sugartown/apps/web/...`
+
+**The failure mode:** writing shared CSS (e.g. `pages.module.css`) to the main app's copy instead of the worktree's copy produces a silent visual regression — the main tree's dev server shows the change, but the worktree branch does not. The build succeeds; the layout breaks.
+
+**Recovery:** if a wrong-path write has occurred, read the worktree file to confirm it's missing the change, then re-apply the edit to the correct path. Do not assume the file state is correct without verifying the path.
 
 ### CSS Triage Protocol
 
@@ -240,6 +255,16 @@ Elements that sit between two spacing contexts (e.g. MetadataCard between the he
 **6. Typography** (unchanged)
 
 Body text uses `var(--st-font-heading-4)`, headings use `var(--st-font-heading-*)` scale, h2 colour is `var(--st-color-brand-primary)`.
+
+**7. Container width pre-flight when adding grids**
+
+Before adding a multi-column `<Grid>` (or any fixed-column layout) to an existing page, verify the page container width accommodates it. For a 2-col grid with `spacing="lg"` (32px gap), the minimum content width is:
+
+```
+minContentWidth = 2 × minCardWidth + gap = 2 × 200px + 32px = 432px
+```
+
+If the page container's `max-width` is set to `--st-width-detail` (760px) or narrower, check whether that width was chosen for prose density (single-column text) rather than grid layout. Prose containers are typically `--st-width-detail` (760px); entity detail pages with content grids need `--st-width-detail-wide` (1080px). Audit the container and update it in the same commit as the grid addition.
 
 **When adding a new section type:**
 - Verify it renders correctly adjacent to existing section types on a real page (not just in isolation)
@@ -393,6 +418,17 @@ Before creating ANY new component, schema object, CSS surface, utility, **or tax
 3. **Is the API composable?** — Props/fields should be named so the component can be extended without forking. Prefer `children` over fixed slots. Prefer token-driven styling over hardcoded values.
 
 This is the "Before You Build" reuse audit formalized as a **blocking checklist**, not a suggestion. A new component or taxonomy item that fails any of these three checks is a process failure.
+
+### CSS class pre-implementation reuse audit (blocking — fires before any new CSS class)
+
+Before writing any new CSS class for a detail page, taxonomy page, or shared layout surface, enumerate candidates explicitly:
+
+1. **Check `pages.module.css`** — shared entity page classes (`entityFolio`, `entityThumbnail`, `narrativeHeading`, `entityDescription`, `entityDetailPage`, `backLink`, `archiveEmpty`, `detailEyebrow`). If any covers the need at 80%+, use it — do not add a new class.
+2. **Check DS tokens** — spacing, color, and type decisions must reference `--st-*` tokens, not new local values. If a token doesn't exist, add it via `tokens/source/tokens.json` first.
+3. **Check DS components** — `Grid`, `SectionLabel`, `Card`, `Chip`, `ContentCard` before writing any layout CSS. State why each doesn't fit if you decide to skip them.
+4. **Output the audit in writing** — in the commit message or epic doc before any `Edit`/`Write` call to a CSS file. One sentence per candidate checked. "I checked X and it covers Y" is sufficient. Silence is a process failure.
+
+Location-named or page-scoped class names (e.g. `toolUrl`, `lv-*`, `folioHead`, `.profileHeadline`) are a signal the audit was skipped. Semantic, reusable names only.
 
 ### Component choice gate (blocking — fires before any new JSX surface)
 
