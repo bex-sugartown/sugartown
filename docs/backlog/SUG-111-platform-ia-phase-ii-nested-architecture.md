@@ -92,10 +92,41 @@ Static pages — no Sanity doc required. Each hub renders: section heading, one-
 - No Storybook embed or iframe — `TRUST_LINKS.storybook` links to `pinkmoon.sugartown.io`. A proxy page is overhead.
 - No content authoring for leaf page prose in this epic — section hubs ship with placeholder/minimal copy. Full editorial pass is a content epic.
 
+## Execution order
+
+The full platform build has 7 epics with ordering constraints. Sequence:
+
+```
+SUG-111 Phase 1 — PlatformLayout + routing shell
+  ↓ (unblocks all sub-routes)
+SUG-111 Phase 2 — Section hubs (Governance, Monorepo, CMS, DS)
+  ↓
+SUG-20 Phase 1 — Schema ERD DS alignment
+  (must ship before diagrams leaf page — cleans the component before migration)
+  ↓
+SUG-111 Phase 3 — Leaf pages:
+  /platform/roadmap         → unblocks SUG-110 Phase 2 (Linear roadmap UI)
+  /platform/diagrams        → migrates SUG-20 SchemaERD (post-alignment)
+  /platform/design-system/registry → unblocks SUG-103 Phase 1 (component registry)
+  /platform/cms/content-model    → placeholder stub; full dynamic version is a follow-on epic
+  ↓
+SUG-110 Phase 2 — Roadmap page component (wire linearRoadmap data)
+SUG-103 Phase 1 — Component registry page
+SUG-20 Phase 2 (optional) — schemaErdSection Sanity Hybrid (retire hardcoded route)
+```
+
+**Hard dependencies:**
+- SUG-111 Phase 1 must merge before any Phase 2 or Phase 3 work starts — it creates the layout shell all sub-routes render inside
+- SUG-20 Phase 1 must merge before SUG-111 Phase 3 ships the `/platform/diagrams` route — migrating a component with DS violations is a known-bad pattern
+- SUG-110 Phase 1 (data collector) is independent and can ship any time — no routing dependency
+
+**SUG-20 note:** Phase 0 mock completed 2026-05-11 at `docs/drafts/SUG-20-schema-erd-ds-mock.html`. Gaps are documented. Phase 1 is unblocked.
+
 ## Related
 
 - **Linear:** [SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform)
 - **IA brief:** `docs/briefs/ia-brief.md` — locked 2026-02-26; anticipated `/platform/*` sub-pages
+- **SUG-20:** `docs/backlog/SUG-20-schema-erd-sanity-hybrid.md` — DS alignment + section builder; Phase 0 mock complete
 - **SUG-103:** `docs/backlog/SUG-103-component-registry-platform-docs.md` — unblocked by Phase 3 route
 - **SUG-110:** `docs/backlog/SUG-110-dynamically-generated-roadmap-from-linear.md` — unblocked by Phase 3 route
 - **Route registry:** `apps/web/src/lib/routes.js`
