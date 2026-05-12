@@ -3,7 +3,9 @@ import SeoHead from '../../components/SeoHead'
 import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
+import Grid from '../../design-system/components/grid/Grid'
 import Card from '../../design-system/components/card/Card'
+import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
@@ -35,6 +37,22 @@ const ARTIFACTS = [
     href: PLATFORM_ROUTES.roadmap,
   },
 ]
+
+const RELEASE_DIAGRAM = {
+  _key: 'gov-release-process',
+  code: `flowchart LR
+    A["Git Log\\n+ Diff"] -->|"Collect"| B["Normalize\\nChanges"]
+    B -->|"Gate 1"| C["CHANGELOG\\nEntry"]
+    C -->|"Gate 2"| D["Release\\nNotes"]
+    D -->|"Gate 3"| E["Version\\nBump"]
+    E -->|"Gate 4"| F["Backlog\\nReconcile"]
+    F -->|"Gate 5"| G["Ship"]
+
+    style A fill:#1a2436,stroke:#ff247d,color:#f5f7fa
+    style G fill:#1a2436,stroke:#2bd4aa,color:#f5f7fa`,
+  width: 'wide',
+  caption: 'Release process',
+}
 
 export default function GovernancePage() {
   return (
@@ -72,6 +90,11 @@ export default function GovernancePage() {
           </p>
         </section>
 
+        <section id="release-process" className={styles.section}>
+          <SectionLabel name="Release process" kicker="Gate model" />
+          <MermaidDiagram section={RELEASE_DIAGRAM} />
+        </section>
+
         <section id="recent-releases" className={styles.section}>
           <SectionLabel name="Recent releases" kicker="Last 5" />
           <div className={styles.releaseStrip}>
@@ -95,7 +118,7 @@ export default function GovernancePage() {
 
         <section id="artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" />
-          <div className={styles.artifactGrid}>
+          <Grid spacing="0" accentTop>
             {ARTIFACTS.map((a) => (
               <Card
                 key={a.title}
@@ -105,7 +128,7 @@ export default function GovernancePage() {
                 titleLink={a.href}
               />
             ))}
-          </div>
+          </Grid>
         </section>
       </div>
     </>

@@ -3,7 +3,9 @@ import SeoHead from '../../components/SeoHead'
 import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
+import Grid from '../../design-system/components/grid/Grid'
 import Card from '../../design-system/components/card/Card'
+import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
@@ -27,6 +29,37 @@ const ARTIFACTS = [
     href: 'https://github.com/bex-sugartown/sugartown/blob/main/turbo.json',
   },
 ]
+
+const ARCHITECTURE_DIAGRAM = {
+  _key: 'mono-architecture-flow',
+  code: `flowchart TB
+    subgraph tooling["Tooling"]
+        direction LR
+        TURBO["Turborepo\\nBuild Orchestration"]
+        PNPM["pnpm Workspaces\\nDependency Management"]
+        VALIDATORS["Validators\\nURL · Filters · Content · Tokens"]
+    end
+
+    subgraph apps["Apps"]
+        direction LR
+        WEB["apps/web\\nReact + Vite"]
+        STUDIO["apps/studio\\nSanity Studio"]
+        STORYBOOK["apps/storybook\\nComponent Docs"]
+    end
+
+    subgraph packages["Packages"]
+        direction LR
+        DS["packages/design-system\\nTokens + Components"]
+        ESLINT["packages/eslint-config\\nBoundary Enforcement"]
+        TS["packages/tsconfig\\nShared Types"]
+    end
+
+    tooling ==> apps
+    apps ==> packages
+    WEB -.->|queries| STUDIO`,
+  width: 'wide',
+  caption: 'Architecture flow',
+}
 
 export default function MonorepoPage() {
   return (
@@ -55,18 +88,8 @@ export default function MonorepoPage() {
         </SectionContainer>
 
         <section id="workspace-topology" className={styles.section}>
-          <SectionLabel name="Workspace topology" />
-          <div className={styles.diagramBlock}>
-            {`sugartown/ (monorepo root)
-├── apps/
-│   ├── web/          React 19 + Vite 7 (SPA)
-│   └── studio/       Sanity Studio v5
-├── packages/
-│   ├── design-system/  DS primitives (shared)
-│   └── storybook/      Component catalogue
-└── tokens/
-    └── source/       Style Dictionary v5 source`}
-          </div>
+          <SectionLabel name="Architecture" kicker="Workspace topology" />
+          <MermaidDiagram section={ARCHITECTURE_DIAGRAM} />
         </section>
 
         <section id="build-pipeline" className={styles.section}>
@@ -84,7 +107,7 @@ export default function MonorepoPage() {
 
         <section id="artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" />
-          <div className={styles.artifactGrid}>
+          <Grid spacing="0" accentTop>
             {ARTIFACTS.map((a) => (
               <Card
                 key={a.title}
@@ -94,7 +117,7 @@ export default function MonorepoPage() {
                 titleLink={a.href}
               />
             ))}
-          </div>
+          </Grid>
         </section>
       </div>
     </>

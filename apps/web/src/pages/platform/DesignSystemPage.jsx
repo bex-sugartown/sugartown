@@ -3,7 +3,9 @@ import SeoHead from '../../components/SeoHead'
 import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
+import Grid from '../../design-system/components/grid/Grid'
 import Card from '../../design-system/components/card/Card'
+import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS, FIGJAM_URLS } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
@@ -40,6 +42,21 @@ const ARTIFACTS = [
   },
 ]
 
+const TOKEN_DIAGRAM = {
+  _key: 'ds-token-architecture',
+  code: `flowchart TB
+    BASE["Base Tokens\\ncolor.pink.500\\nradius.sm\\nspace.4"] -->|"map to intent"| SEMANTIC["Semantic Tokens\\ncolor.brand.primary\\ncolor.bg.canvas\\nradius.button"]
+    SEMANTIC -->|"scope to surface"| COMPONENT["Component Tokens\\ncard.bg\\ncard.radius\\npill.text"]
+    COMPONENT -->|"consumed by"| RENDER["React Components\\nCard · Button · Pill\\nCallout · Citation"]
+
+    style BASE fill:#1a2436,stroke:#7b82a8,color:#f5f7fa
+    style SEMANTIC fill:#1a2436,stroke:#ff247d,color:#f5f7fa
+    style COMPONENT fill:#1a2436,stroke:#2bd4aa,color:#f5f7fa
+    style RENDER fill:#1a2436,stroke:#D1FF1D,color:#f5f7fa`,
+  width: null,
+  caption: 'Token architecture',
+}
+
 export default function DesignSystemPage() {
   return (
     <>
@@ -66,6 +83,11 @@ export default function DesignSystemPage() {
           <Tile label="Themes" value="2" />
           <Tile label="Packages" value="3" />
         </SectionContainer>
+
+        <section id="token-architecture" className={styles.section}>
+          <SectionLabel name="Token architecture" kicker="Base → semantic → component" />
+          <MermaidDiagram section={TOKEN_DIAGRAM} />
+        </section>
 
         <section id="component-registry" className={styles.section}>
           <SectionLabel name="Component registry" kicker="Preview — 3 of 42" />
@@ -105,7 +127,7 @@ export default function DesignSystemPage() {
 
         <section id="artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" />
-          <div className={styles.artifactGrid}>
+          <Grid spacing="0" accentTop>
             {ARTIFACTS.map((a) => (
               <Card
                 key={a.title}
@@ -115,7 +137,7 @@ export default function DesignSystemPage() {
                 titleLink={a.href}
               />
             ))}
-          </div>
+          </Grid>
         </section>
       </div>
     </>

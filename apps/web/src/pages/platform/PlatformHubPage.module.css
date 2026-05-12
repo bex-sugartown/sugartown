@@ -132,20 +132,6 @@
   font-size: 0.75rem;
 }
 
-/* ── Artifact cards grid ──────────────────────────────────── */
-
-.artifactGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1px;
-  background: var(--st-color-rule-accent);
-  border: 1px solid var(--st-color-border-subtle);
-}
-
-.artifactGrid > * {
-  background: var(--st-card-bg); /* covers parent --st-color-rule-accent gap bg */
-}
-
 /* ── Trust / external links ───────────────────────────────── */
 
 .trustLinks {

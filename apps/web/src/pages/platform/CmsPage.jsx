@@ -3,6 +3,7 @@ import SeoHead from '../../components/SeoHead'
 import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
+import Grid from '../../design-system/components/grid/Grid'
 import Card from '../../design-system/components/card/Card'
 import SchemaERD from '../../components/SchemaERD/SchemaERD'
 import { entities, relationships } from '../../data/schemaManifest'
@@ -98,7 +99,7 @@ page      ──── sections[] ──► section builder objects`}
 
         <section id="artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" />
-          <div className={styles.artifactGrid}>
+          <Grid spacing="0" accentTop>
             {ARTIFACTS.map((a) => (
               <Card
                 key={a.title}
@@ -108,7 +109,7 @@ page      ──── sections[] ──► section builder objects`}
                 titleLink={a.href}
               />
             ))}
-          </div>
+          </Grid>
         </section>
       </div>
     </>
