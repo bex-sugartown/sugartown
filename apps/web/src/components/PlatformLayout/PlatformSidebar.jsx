@@ -62,8 +62,14 @@ const ALL_HASH_IDS = NAV_SECTIONS
 // Watches all section IDs via IntersectionObserver; returns the topmost
 // visible section ID so the sidebar can highlight the correct anchor.
 function useActiveSection() {
-  const [activeId, setActiveId] = useState(null)
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
+  // Seed from URL hash so the correct item is active immediately on load/navigation
+  const [activeId, setActiveId] = useState(() => hash ? hash.slice(1) : null)
+
+  // Keep hash-seeded state in sync when hash changes (e.g. sidebar link clicks)
+  useEffect(() => {
+    if (hash) setActiveId(hash.slice(1))
+  }, [hash])
 
   useEffect(() => {
     setActiveId(null)
