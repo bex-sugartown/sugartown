@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import PlatformSidebar from './PlatformSidebar'
 import styles from './PlatformLayout.module.css'
@@ -8,7 +8,6 @@ function useHashScroll() {
   useEffect(() => {
     if (!hash) return
     const id = hash.slice(1)
-    // Small delay lets the page paint before scrolling
     const t = setTimeout(() => {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 50)
@@ -16,14 +15,21 @@ function useHashScroll() {
   }, [hash, pathname])
 }
 
+// Child routes can hoist full-bleed content (e.g. a hero) above the two-column
+// layout by calling setHeroSlot via useOutletContext().
 export default function PlatformLayout() {
   useHashScroll()
+  const [heroSlot, setHeroSlot] = useState(null)
+
   return (
-    <div className={styles.platformLayout}>
-      <PlatformSidebar />
-      <main className={styles.platformMain}>
-        <Outlet />
-      </main>
-    </div>
+    <>
+      {heroSlot}
+      <div className={styles.platformLayout}>
+        <PlatformSidebar />
+        <main className={styles.platformMain}>
+          <Outlet context={setHeroSlot} />
+        </main>
+      </div>
+    </>
   )
 }
