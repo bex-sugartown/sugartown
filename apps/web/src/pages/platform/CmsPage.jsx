@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
+import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import Card from '../../design-system/components/card/Card'
@@ -36,6 +36,10 @@ const ARTIFACTS = [
 ]
 
 export default function CmsPage() {
+  usePlatformHero({
+    title: 'CMS',
+    subtitle: 'Content architecture and schema design for the Sanity layer. The Schema ERD is the canonical content model document.',
+  })
   return (
     <>
       <SeoHead
@@ -43,17 +47,6 @@ export default function CmsPage() {
         description="Content architecture and schema design for the Sanity CMS layer powering sugartown.io."
       />
       <div className={styles.hub}>
-        <header className={styles.header}>
-          <p className={styles.eyebrow}>
-            <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
-          </p>
-          <h1 className={styles.heading}>CMS</h1>
-          <p className={styles.intro}>
-            Content architecture and schema design for the Sanity layer.
-            The Schema ERD is the canonical content model document — interactive explorer,
-            FigJam visual, and relationship diagram all below.
-          </p>
-        </header>
 
         <section id="schema-erd" className={styles.section}>
           <SectionLabel name="Schema ERD" kicker="Interactive explorer" />

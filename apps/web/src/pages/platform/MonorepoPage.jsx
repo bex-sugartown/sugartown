@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
+import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
@@ -61,6 +61,10 @@ const ARCHITECTURE_DIAGRAM = {
 }
 
 export default function MonorepoPage() {
+  usePlatformHero({
+    title: 'Monorepo',
+    subtitle: 'pnpm workspaces + Turborepo. Four packages share a single dependency graph with cached builds, enforced boundaries, and a gated release process.',
+  })
   return (
     <>
       <SeoHead
@@ -68,16 +72,6 @@ export default function MonorepoPage() {
         description="Workspace topology, build pipeline, and dependency structure for sugartown.io."
       />
       <div className={styles.hub}>
-        <header className={styles.header}>
-          <p className={styles.eyebrow}>
-            <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
-          </p>
-          <h1 className={styles.heading}>Monorepo</h1>
-          <p className={styles.intro}>
-            pnpm workspaces + Turborepo. Four packages share a single dependency graph
-            with cached builds, enforced boundaries, and a gated release process.
-          </p>
-        </header>
 
         <SectionContainer className={styles.statsSection}>
           <Tile label="Packages" value="4" />

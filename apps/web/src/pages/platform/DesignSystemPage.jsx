@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
+import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
@@ -57,6 +57,10 @@ const TOKEN_DIAGRAM = {
 }
 
 export default function DesignSystemPage() {
+  usePlatformHero({
+    title: 'Design System',
+    subtitle: 'Pink Moon — sharp neutral surfaces, hot colour signal, and a Ledger Tradition typographic identity. Three packages, two themes, one token pipeline.',
+  })
   return (
     <>
       <SeoHead
@@ -64,17 +68,6 @@ export default function DesignSystemPage() {
         description="Pink Moon design system — components, tokens, themes, and architecture for sugartown.io."
       />
       <div className={styles.hub}>
-        <header className={styles.header}>
-          <p className={styles.eyebrow}>
-            <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
-          </p>
-          <h1 className={styles.heading}>Design System</h1>
-          <p className={styles.intro}>
-            Pink Moon — a portable design system built around sharp neutral surfaces,
-            hot colour signal, and a Ledger Tradition typographic identity.
-            Three packages, two themes, one token pipeline.
-          </p>
-        </header>
 
         <SectionContainer className={styles.statsSection}>
           <Tile label="Components" value="42" href={PLATFORM_ROUTES.dsRegistry} />

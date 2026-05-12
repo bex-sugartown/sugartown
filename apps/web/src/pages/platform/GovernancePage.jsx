@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
+import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
@@ -77,6 +78,10 @@ const RELEASE_DIAGRAM = {
 }
 
 export default function GovernancePage() {
+  usePlatformHero({
+    title: 'Governance',
+    subtitle: 'Release cadence, roadmap, and process conventions. Every epic is tracked in Linear, every release is versioned, every process decision is documented.',
+  })
   return (
     <>
       <SeoHead
@@ -84,16 +89,6 @@ export default function GovernancePage() {
         description="Release cadence, roadmap, and process conventions for sugartown.io."
       />
       <div className={styles.hub}>
-        <header className={styles.header}>
-          <p className={styles.eyebrow}>
-            <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
-          </p>
-          <h1 className={styles.heading}>Governance</h1>
-          <p className={styles.intro}>
-            Release cadence, roadmap, and process conventions. Every epic is tracked in Linear,
-            every release is versioned, every process decision is documented.
-          </p>
-        </header>
 
         <SectionContainer className={styles.statsSection}>
           <Tile label="In flight" value="3" href="https://linear.app/sugartown" />
