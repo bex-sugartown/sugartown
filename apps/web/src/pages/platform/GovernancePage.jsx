@@ -5,17 +5,40 @@ import SectionContainer from '../../design-system/components/section-container/S
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Grid from '../../design-system/components/grid/Grid'
 import Card from '../../design-system/components/card/Card'
+import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
+import stats from '../../generated/stats.json'
 import styles from './PlatformHubPage.module.css'
 
-const RECENT_RELEASES = [
-  { version: 'v0.23.19', date: '2026-05-10', summary: 'CI: fixed LHCI autorun failure', epic: 'SUG-106' },
-  { version: 'v0.23.18', date: '2026-05-09', summary: 'DS alignment — SchemaERD mock complete', epic: 'SUG-20' },
-  { version: 'v0.23.17', date: '2026-05-02', summary: 'Person profile page + folio component', epic: 'SUG-98' },
-  { version: 'v0.23.16', date: '2026-04-28', summary: 'CWV snapshot block + Lighthouse CI', epic: 'SUG-100' },
-  { version: 'v0.23.15', date: '2026-04-20', summary: 'Ledger Tradition font stack (Cormorant + DM Sans)', epic: 'SUG-63' },
+const RELEASE_COLUMNS = [
+  {
+    key:   'version',
+    label: 'Version',
+    width: '110px',
+    render: (val) => (
+      <a
+        href={TRUST_LINKS.changelog}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: 'var(--st-color-brand-primary)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.875rem' }}
+      >
+        {val}
+      </a>
+    ),
+  },
+  { key: 'date',       label: 'Date',        width: '110px',
+    render: (val) => <span style={{ whiteSpace: 'nowrap' }}>{val}</span> },
+  {
+    key:    'kind',
+    label:  'Kind',
+    width:  '80px',
+    render: (val) => <KindBadge kind={val?.toLowerCase()} />,
+  },
+  { key: 'descriptor', label: 'Description' },
 ]
+
+const RECENT_RELEASES = (stats.release?.latestN ?? []).slice(0, 5)
 
 const ARTIFACTS = [
   {
@@ -97,21 +120,13 @@ export default function GovernancePage() {
 
         <section id="recent-releases" className={styles.section}>
           <SectionLabel name="Recent releases" kicker="Last 5" />
-          <div className={styles.releaseStrip}>
-            {RECENT_RELEASES.map((r) => (
-              <div key={r.version} className={styles.releaseRow}>
-                <span className={styles.releaseVersion}>{r.version}</span>
-                <span className={styles.releaseSummary}>{r.summary} · {r.epic}</span>
-                <span className={styles.releaseDate}>{r.date}</span>
-              </div>
-            ))}
-          </div>
+          <DataTable columns={RELEASE_COLUMNS} rows={RECENT_RELEASES} variant="trust" />
           <div className={styles.trustLinks}>
             <a href={TRUST_LINKS.changelog} className={styles.trustLink} target="_blank" rel="noreferrer">
-              Full changelog ↗
+              Full changelog
             </a>
             <a href={TRUST_LINKS.commits} className={styles.trustLink} target="_blank" rel="noreferrer">
-              Commit log ↗
+              Commit log
             </a>
           </div>
         </section>
