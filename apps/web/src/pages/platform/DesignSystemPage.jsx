@@ -133,8 +133,8 @@ export default function DesignSystemPage() {
                 key={a.title}
                 eyebrow={a.eyebrow}
                 title={a.title}
-                body={a.body}
-                titleLink={a.href}
+                excerpt={a.body}
+                href={a.href}
               />
             ))}
           </Grid>

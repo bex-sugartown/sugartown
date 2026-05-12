@@ -113,8 +113,8 @@ export default function MonorepoPage() {
                 key={a.title}
                 eyebrow={a.eyebrow}
                 title={a.title}
-                body={a.body}
-                titleLink={a.href}
+                excerpt={a.body}
+                href={a.href}
               />
             ))}
           </Grid>
