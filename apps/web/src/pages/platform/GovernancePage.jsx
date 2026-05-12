@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import Tile from '../../design-system/components/tile/Tile'
@@ -6,40 +5,61 @@ import SectionContainer from '../../design-system/components/section-container/S
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Card from '../../design-system/components/card/Card'
 import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
+import Chip from '../../design-system/components/chip/Chip'
+import Callout from '../../design-system/components/callout/Callout'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import stats from '../../generated/stats.json'
 import styles from './PlatformHubPage.module.css'
 
+// ── Release table ─────────────────────────────────────────
 const RELEASE_COLUMNS = [
   {
-    key:   'version',
-    label: 'Version',
-    width: '110px',
+    key: 'version', label: 'Version', width: '110px',
     render: (val) => (
-      <a
-        href={TRUST_LINKS.changelog}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ color: 'var(--st-color-brand-primary)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.875rem' }}
-      >
+      <a href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer"
+        style={{ color: 'var(--st-color-brand-primary)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.875rem' }}>
         {val}
       </a>
     ),
   },
-  { key: 'date',       label: 'Date',        width: '110px',
-    render: (val) => <span style={{ whiteSpace: 'nowrap' }}>{val}</span> },
-  {
-    key:    'kind',
-    label:  'Kind',
-    width:  '80px',
-    render: (val) => <KindBadge kind={val?.toLowerCase()} />,
-  },
+  { key: 'date',       label: 'Date',        width: '110px', render: (val) => <span style={{ whiteSpace: 'nowrap' }}>{val}</span> },
+  { key: 'kind',       label: 'Kind',        width: '80px',  render: (val) => <KindBadge kind={val?.toLowerCase()} /> },
   { key: 'descriptor', label: 'Description' },
 ]
 
 const RECENT_RELEASES = (stats.release?.latestN ?? []).slice(0, 5)
 
+// ── Roadmap tables ────────────────────────────────────────
+const roadmap    = stats.linearRoadmap ?? {}
+const inProgress = roadmap.inProgress ?? []
+const backlog    = roadmap.backlog    ?? []
+const isStale    = roadmap.stale === true || (!roadmap.fetchedAt && !inProgress.length && !backlog.length)
+
+function PriorityBadge({ priority }) {
+  const classMap = { Urgent: styles.priorityUrgent, High: styles.priorityHigh, Medium: styles.priorityMedium, Low: styles.priorityLow }
+  return <span className={`${styles.priorityBadge} ${classMap[priority] ?? ''}`}>{priority ?? '—'}</span>
+}
+
+function LabelChips({ labels }) {
+  if (!labels?.length) return null
+  return <span className={styles.labelChips}>{labels.map(l => <Chip key={l} label={l} size="sm" />)}</span>
+}
+
+const ROADMAP_COLUMNS = [
+  {
+    key: 'identifier', label: 'ID', width: '80px',
+    render: (val, row) => (
+      <a href={row.url} target="_blank" rel="noopener noreferrer" className={styles.issueId}>{val}</a>
+    ),
+  },
+  { key: 'title',    label: 'Title' },
+  { key: 'status',   label: 'Status',   width: '120px' },
+  { key: 'priority', label: 'Priority', width: '100px', render: (val) => <PriorityBadge priority={val} /> },
+  { key: 'labels',   label: 'Labels',   width: '200px', render: (val) => <LabelChips labels={val} /> },
+]
+
+// ── Artifacts ─────────────────────────────────────────────
 const ARTIFACTS = [
   {
     eyebrow: 'Brief',
@@ -52,12 +72,6 @@ const ARTIFACTS = [
     title: 'Backlog Priorities',
     body: 'Linear backlog — sequenced epic queue with dependency ordering.',
     href: 'https://linear.app/sugartown',
-  },
-  {
-    eyebrow: 'Roadmap',
-    title: 'Roadmap',
-    body: 'Dynamically generated from Linear backlog. In-flight and upcoming epics.',
-    href: PLATFORM_ROUTES.roadmap,
   },
 ]
 
@@ -91,20 +105,38 @@ export default function GovernancePage() {
       <div className={styles.hub}>
 
         <SectionContainer className={styles.statsSection}>
-          <Tile label="In flight" value="3" href="https://linear.app/sugartown" />
-          <Tile label="Current release" value="v0.23.19" href={TRUST_LINKS.changelog} />
-          <Tile label="Epics shipped" value="95" href={TRUST_LINKS.commits} />
+          <Tile label="In flight"       value={inProgress.length || '—'} href="https://linear.app/sugartown" />
+          <Tile label="Current release" value={stats.release?.current?.version ?? '—'} href={TRUST_LINKS.changelog} />
+          <Tile label="Epics shipped"   value={stats.repo?.epicsShipped ?? '—'} href={TRUST_LINKS.commits} />
           <Tile label="Vulnerabilities" value="0" labelColor="brand" href={TRUST_LINKS.security} />
         </SectionContainer>
 
         <section id="roadmap" className={styles.section}>
           <SectionLabel name="Roadmap" kicker="In progress + upcoming" />
-          <p style={{ fontSize: '0.875rem', color: 'var(--st-color-text-muted)', margin: '0.75rem 0 0.5rem' }}>
-            Roadmap is generated from the Linear backlog.{' '}
-            <Link to={PLATFORM_ROUTES.roadmap} style={{ color: 'var(--st-color-text-default)' }}>
-              Full roadmap →
-            </Link>
-          </p>
+
+          {isStale && (
+            <Callout>
+              Live roadmap data unavailable — <code>LINEAR_API_KEY</code> not configured in CI.
+              Full backlog on{' '}
+              <a href="https://linear.app/sugartown" target="_blank" rel="noreferrer">Linear ↗</a>.
+            </Callout>
+          )}
+
+          {!isStale && (
+            <>
+              <SectionLabel name="In progress" kicker={`${inProgress.length} epic${inProgress.length !== 1 ? 's' : ''}`} />
+              {inProgress.length > 0
+                ? <DataTable columns={ROADMAP_COLUMNS} rows={inProgress} variant="trust" />
+                : <p className={styles.empty}>No epics currently in progress.</p>
+              }
+
+              <SectionLabel name="Backlog" kicker={`${backlog.length} epic${backlog.length !== 1 ? 's' : ''}`} />
+              {backlog.length > 0
+                ? <DataTable columns={ROADMAP_COLUMNS} rows={backlog} variant="trust" />
+                : <p className={styles.empty}>Backlog is empty.</p>
+              }
+            </>
+          )}
         </section>
 
         <section id="release-process" className={styles.section}>
@@ -116,12 +148,8 @@ export default function GovernancePage() {
           <SectionLabel name="Recent releases" kicker="Last 5" />
           <DataTable columns={RELEASE_COLUMNS} rows={RECENT_RELEASES} variant="trust" />
           <div className={styles.trustLinks}>
-            <a href={TRUST_LINKS.changelog} className={styles.trustLink} target="_blank" rel="noreferrer">
-              Full changelog
-            </a>
-            <a href={TRUST_LINKS.commits} className={styles.trustLink} target="_blank" rel="noreferrer">
-              Commit log
-            </a>
+            <a href={TRUST_LINKS.changelog} className={styles.trustLink} target="_blank" rel="noreferrer">Full changelog</a>
+            <a href={TRUST_LINKS.commits}   className={styles.trustLink} target="_blank" rel="noreferrer">Commit log</a>
           </div>
         </section>
 
@@ -129,16 +157,11 @@ export default function GovernancePage() {
           <SectionLabel name="Artifacts" className={styles.labelFlush} />
           <SectionContainer columns={3}>
             {ARTIFACTS.map((a) => (
-              <Card
-                key={a.title}
-                eyebrow={a.eyebrow}
-                title={a.title}
-                excerpt={a.body}
-                href={a.href}
-              />
+              <Card key={a.title} eyebrow={a.eyebrow} title={a.title} excerpt={a.body} href={a.href} />
             ))}
           </SectionContainer>
         </section>
+
       </div>
     </>
   )

@@ -13,7 +13,7 @@ const NAV_SECTIONS = [
     label: 'Governance',
     to: PLATFORM_ROUTES.governance,
     items: [
-      { label: 'Roadmap', to: PLATFORM_ROUTES.roadmap },
+      { label: 'Roadmap', to: `${PLATFORM_ROUTES.governance}#roadmap` },
       { label: 'Release process', to: `${PLATFORM_ROUTES.governance}#release-process` },
       { label: 'Recent releases', to: `${PLATFORM_ROUTES.governance}#recent-releases` },
       { label: 'Artifacts', to: `${PLATFORM_ROUTES.governance}#governance-artifacts` },

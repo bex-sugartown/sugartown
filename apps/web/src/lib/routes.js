@@ -73,7 +73,7 @@ export const PLATFORM_ROUTES = {
   monorepo:       '/platform/monorepo',
   cms:            '/platform/cms',
   designSystem:   '/platform/design-system',
-  roadmap:        '/platform/roadmap',
+
   dsRegistry:     '/platform/design-system/registry',
 }
 
