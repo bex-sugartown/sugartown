@@ -133,10 +133,12 @@ function App() {
         <Route path="/tools/:slug" element={<ToolDetailPage />} />
 
         {/* ── Platform section ────────────────────────────────────── */}
-        {/* Index renders full-bleed (no sidebar); sub-pages use PlatformLayout */}
+        {/* All /platform/* routes share PlatformLayout (left rail nav).
+            Right rail (PageSidebar) is suppressed via hideSidebar — left rail
+            owns in-page navigation for this section. */}
         <Route path="/platform">
-          <Route index element={<RootPage slugOverride="platform" />} />
           <Route element={<PlatformLayout />}>
+            <Route index element={<RootPage slugOverride="platform" hideSidebar />} />
             {/* /platform/schema → /platform/cms redirect (SUG-111) */}
             <Route path="schema" element={<Navigate to="/platform/cms" replace />} />
             <Route path="governance" element={<GovernancePage />} />

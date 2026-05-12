@@ -17,7 +17,7 @@ import ContactForm from '../components/ContactForm'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
-export default function RootPage({ slugOverride } = {}) {
+export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
   const { slug: slugParam } = useParams()
   const slug = slugOverride ?? slugParam
   const { data: page, loading, notFound } = useSanityDoc(pageBySlugQuery, { slug })
@@ -42,7 +42,7 @@ export default function RootPage({ slugOverride } = {}) {
 
   // Detail layout — with optional page sidebar
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(page.sections)
-  const showMargin = hasSidebarContent({ ...page, sections: restSections })
+  const showMargin = !hideSidebar && hasSidebarContent({ ...page, sections: restSections })
 
   // Thin mono-caps eyebrow strip replaces MetadataCard on page-type docs.
   // Format: "PLATFORM · UPDATED APR 2026" (page-type slug · month year).
@@ -73,13 +73,15 @@ export default function RootPage({ slugOverride } = {}) {
           <PageSections sections={restSections} context="detail" />
         )}
 
-        <PageSidebar
-          sections={restSections}
-          content={page.content}
-          tools={page.tools}
-          authors={page.authors}
-          aiDisclosure={page.aiDisclosure}
-        />
+        {!hideSidebar && (
+          <PageSidebar
+            sections={restSections}
+            content={page.content}
+            tools={page.tools}
+            authors={page.authors}
+            aiDisclosure={page.aiDisclosure}
+          />
+        )}
 
       </div>
       {slug === 'contact' && <ContactForm />}
