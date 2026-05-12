@@ -3,6 +3,7 @@ import SectionLabel from '../../design-system/components/section-label/SectionLa
 import Chip from '../../design-system/components/chip/Chip'
 import Button from '../../design-system/components/button/Button'
 import Tile from '../../design-system/components/tile/Tile'
+import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import styles from './SchemaERD.module.css'
 
 /**
@@ -85,13 +86,12 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
   // ── Render ────────────────────────────────────────────────
   return (
     <div className={styles.erdWrapper}>
-      {/* Stats strip — bg-through-gap hairline dividers */}
-      <div className={styles.statsStrip}>
+      <SectionContainer className={styles.statsSection}>
         <Tile label="Types" value={entities.length} />
         <Tile label="Documents" value={docCount} />
         <Tile label="Objects" value={objCount} />
         <Tile label="Relationships" value={relationships.length} />
-      </div>
+      </SectionContainer>
 
       {/* Filter chips */}
       <div className={styles.filters}>

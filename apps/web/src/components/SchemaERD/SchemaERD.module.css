@@ -1,9 +1,5 @@
 /* SchemaERD.module.css — DS-aligned (SUG-20 Phase 1).
  *
- * Stats strip uses bg-through-gap pattern:
- *   .statsStrip — background: var(--st-color-rule-accent), gap: 1px
- *   .statsStrip > Tile — background must be explicit (covers parent gap bg)
- *
  * No hardcoded border-radius — all radius values use --st-radius-* tokens
  * (--st-radius-card: 0, --st-radius-button: 0, --st-radius-tag: 0 in Pink Moon).
  */
@@ -12,25 +8,10 @@
   width: 100%;
 }
 
-/* ── Stats strip — bg-through-gap hairline dividers ──────── */
+/* ── Stats SectionContainer spacing ─────────────────────── */
 
-.statsStrip {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--st-color-rule-accent);
-  border: 1px solid var(--st-color-border-subtle);
+.statsSection {
   margin-bottom: var(--st-spacing-stack-lg);
-}
-
-.statsStrip > * {
-  background: var(--st-card-bg); /* covers parent --st-color-rule-accent gap bg */
-}
-
-@media (max-width: 480px) {
-  .statsStrip {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 /* ── Filter — Chip strip ─────────────────────────────────── */
