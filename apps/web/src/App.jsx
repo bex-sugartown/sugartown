@@ -23,6 +23,10 @@ import ProjectDetailPage from './pages/ProjectDetailPage'
 import SiteGraphPage from './pages/SiteGraphPage'
 import SchemaErdPage from './pages/SchemaErdPage'
 import PlatformLayout from './components/PlatformLayout/PlatformLayout'
+import GovernancePage from './pages/platform/GovernancePage'
+import MonorepoPage from './pages/platform/MonorepoPage'
+import CmsPage from './pages/platform/CmsPage'
+import DesignSystemPage from './pages/platform/DesignSystemPage'
 import SitemapPage from './pages/SitemapPage'
 import NotFoundPage from './pages/NotFoundPage'
 
@@ -131,7 +135,11 @@ function App() {
           <Route index element={<RootPage slugOverride="platform" />} />
           {/* /platform/schema → /platform/cms redirect (SUG-111) */}
           <Route path="schema" element={<Navigate to="/platform/cms" replace />} />
-          {/* Hub pages — added in Phase 2 */}
+          {/* Phase 2 — Section hub pages */}
+          <Route path="governance" element={<GovernancePage />} />
+          <Route path="monorepo" element={<MonorepoPage />} />
+          <Route path="cms" element={<CmsPage />} />
+          <Route path="design-system" element={<DesignSystemPage />} />
           {/* Leaf pages — added in Phase 3 */}
         </Route>
 
