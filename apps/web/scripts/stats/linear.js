@@ -24,7 +24,7 @@ const PRIORITY_LABEL = { 0: 'No priority', 1: 'Urgent', 2: 'High', 3: 'Medium', 
 
 const QUERY = `
   query SugIssues {
-    team(id: "SUG") {
+    team(key: "SUG") {
       issues(
         filter: { state: { type: { in: [started, backlog, unstarted, completed] } } }
         first: 250
