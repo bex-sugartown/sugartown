@@ -1,4 +1,9 @@
 import { useState, useMemo } from 'react'
+import SegmentedControl from '../../design-system/components/segmented-control/SegmentedControl'
+import SectionLabel from '../../design-system/components/section-label/SectionLabel'
+import Chip from '../../design-system/components/chip/Chip'
+import Button from '../../design-system/components/button/Button'
+import Tile from '../../design-system/components/tile/Tile'
 import styles from './SchemaERD.module.css'
 
 /**
@@ -7,6 +12,10 @@ import styles from './SchemaERD.module.css'
  * Props-driven (no direct manifest import) so the data source can swap from
  * a static JS manifest to a GROQ query or build-time codegen without touching
  * this component.
+ *
+ * SUG-20 Phase 1: DS alignment — Tile stats, SegmentedControl filter,
+ * SectionLabel group headers, Chip kind badges, Button clear action.
+ * Header removed — host page (CmsPage) provides heading context.
  *
  * @param {{ entities: Array, relationships: Array }} props
  */
@@ -32,7 +41,6 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
     [activeGroup, entities, groups],
   )
 
-  // Relationships touching the selected entity (inbound + outbound)
   const selectedRels = useMemo(() => {
     if (!selectedId) return { outbound: [], inbound: [] }
     return {
@@ -41,7 +49,6 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
     }
   }, [selectedId, relationships])
 
-  // IDs of entities connected to the selected entity
   const connectedIds = useMemo(() => {
     if (!selectedId) return new Set()
     const ids = new Set()
@@ -56,6 +63,12 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
   // ── Stats ─────────────────────────────────────────────────
   const docCount = entities.filter((e) => e.kind === 'document').length
   const objCount = entities.filter((e) => e.kind === 'object').length
+
+  // ── Filter options for SegmentedControl ───────────────────
+  const filterOptions = useMemo(() => [
+    { value: 'all', label: `All (${entities.length})` },
+    ...groupNames.map((g) => ({ value: g, label: `${g.charAt(0).toUpperCase() + g.slice(1)} (${groups[g].length})` })),
+  ], [entities.length, groupNames, groups])
 
   // ── Handlers ──────────────────────────────────────────────
   function handleCardClick(id) {
@@ -72,52 +85,23 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
 
   // ── Render ────────────────────────────────────────────────
   return (
-    <main className={styles.erdPage}>
-      {/* Header */}
-      <header className={styles.header}>
-        <p className={styles.eyebrow}>Platform</p>
-        <h1 className={styles.title}>Schema Entity-Relationship Diagram</h1>
-        <p className={styles.subtitle}>
-          Interactive map of {entities.length} Sanity schema types and{' '}
-          {relationships.length} relationships powering sugartown.io.
-        </p>
-      </header>
-
-      {/* Stats bar */}
-      <div className={styles.stats}>
-        <span className={styles.stat}>
-          <span className={styles.statValue}>{entities.length}</span> types
-        </span>
-        <span className={styles.stat}>
-          <span className={styles.statValue}>{docCount}</span> documents
-        </span>
-        <span className={styles.stat}>
-          <span className={styles.statValue}>{objCount}</span> objects
-        </span>
-        <span className={styles.stat}>
-          <span className={styles.statValue}>{relationships.length}</span>{' '}
-          relationships
-        </span>
+    <div className={styles.erdWrapper}>
+      {/* Stats strip — bg-through-gap hairline dividers */}
+      <div className={styles.statsStrip}>
+        <Tile label="Types" value={entities.length} />
+        <Tile label="Documents" value={docCount} />
+        <Tile label="Objects" value={objCount} />
+        <Tile label="Relationships" value={relationships.length} />
       </div>
 
       {/* Filter tabs */}
       <div className={styles.filters}>
-        <button
-          className={`${styles.filterTab} ${activeGroup === 'all' ? styles.filterTabActive : ''}`}
-          onClick={() => setActiveGroup('all')}
-        >
-          All<span className={styles.filterCount}>({entities.length})</span>
-        </button>
-        {groupNames.map((g) => (
-          <button
-            key={g}
-            className={`${styles.filterTab} ${activeGroup === g ? styles.filterTabActive : ''}`}
-            onClick={() => setActiveGroup(g)}
-          >
-            {g}
-            <span className={styles.filterCount}>({groups[g].length})</span>
-          </button>
-        ))}
+        <SegmentedControl
+          options={filterOptions}
+          value={activeGroup}
+          onChange={setActiveGroup}
+          aria-label="Filter schema entities by group"
+        />
       </div>
 
       {/* Main layout: grid + sidebar */}
@@ -125,10 +109,9 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
         {/* Entity grid */}
         <div>
           {activeGroup === 'all' ? (
-            // Grouped view
             groupNames.map((g) => (
               <section key={g} className={styles.groupSection}>
-                <h2 className={styles.groupLabel}>{g}</h2>
+                <SectionLabel name={g.charAt(0).toUpperCase() + g.slice(1)} className={styles.groupLabel} />
                 <div className={styles.entityGrid}>
                   {groups[g].map((entity) => (
                     <EntityCard
@@ -143,7 +126,6 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
               </section>
             ))
           ) : (
-            // Flat filtered view
             <div className={styles.entityGrid}>
               {filtered.map((entity) => (
                 <EntityCard
@@ -177,7 +159,7 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
           )}
         </aside>
       </div>
-    </main>
+    </div>
   )
 }
 
@@ -205,11 +187,13 @@ function EntityCard({ entity, selected, dimmed, onClick }) {
         }
       }}
     >
-      <div className={styles.entityName}>{entity.label}</div>
-      <div
-        className={`${styles.entityKind} ${entity.kind === 'document' ? styles.entityKindDoc : ''}`}
-      >
-        {entity.kind}
+      <div className={styles.entityHeader}>
+        <div className={styles.entityName}>{entity.label}</div>
+        <Chip
+          label={entity.kind}
+          size="sm"
+          className={entity.kind === 'document' ? styles.chipDoc : styles.chipObj}
+        />
       </div>
       {entity.fields && entity.fields.length > 0 && (
         <ul className={styles.fieldList}>
@@ -246,7 +230,11 @@ function DetailPanel({ entity, rels, entities, onRelClick, onClear }) {
     <div className={styles.sidebarPanel}>
       <div className={styles.sidebarHeader}>
         <span className={styles.sidebarTitle}>{entity.label}</span>
-        <span className={styles.sidebarKind}>{entity.kind}</span>
+        <Chip
+          label={entity.kind}
+          size="sm"
+          className={entity.kind === 'document' ? styles.chipDoc : styles.chipObj}
+        />
       </div>
       <div className={styles.sidebarBody}>
         {/* Fields */}
@@ -265,7 +253,6 @@ function DetailPanel({ entity, rels, entities, onRelClick, onClear }) {
           })}
         </ul>
 
-        {/* Outbound relationships */}
         {rels.outbound.length > 0 && (
           <>
             <p className={styles.sidebarSectionLabel}>References</p>
@@ -286,7 +273,6 @@ function DetailPanel({ entity, rels, entities, onRelClick, onClear }) {
           </>
         )}
 
-        {/* Inbound relationships */}
         {rels.inbound.length > 0 && (
           <>
             <p className={styles.sidebarSectionLabel}>Referenced By</p>
@@ -308,10 +294,8 @@ function DetailPanel({ entity, rels, entities, onRelClick, onClear }) {
         )}
       </div>
 
-      <div style={{ padding: '0 1.25rem 1rem' }}>
-        <button className={styles.clearButton} onClick={onClear}>
-          Clear Selection
-        </button>
+      <div className={styles.sidebarFooter}>
+        <Button variant="tertiary" onClick={onClear}>Clear Selection</Button>
       </div>
     </div>
   )
