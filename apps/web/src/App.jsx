@@ -27,6 +27,8 @@ import GovernancePage from './pages/platform/GovernancePage'
 import MonorepoPage from './pages/platform/MonorepoPage'
 import CmsPage from './pages/platform/CmsPage'
 import DesignSystemPage from './pages/platform/DesignSystemPage'
+import RoadmapPage from './pages/platform/RoadmapPage'
+import DesignSystemRegistryPage from './pages/platform/DesignSystemRegistryPage'
 import SitemapPage from './pages/SitemapPage'
 import NotFoundPage from './pages/NotFoundPage'
 
@@ -140,7 +142,9 @@ function App() {
           <Route path="monorepo" element={<MonorepoPage />} />
           <Route path="cms" element={<CmsPage />} />
           <Route path="design-system" element={<DesignSystemPage />} />
-          {/* Leaf pages — added in Phase 3 */}
+          {/* Phase 3 leaf pages */}
+          <Route path="roadmap" element={<RoadmapPage />} />
+          <Route path="design-system/registry" element={<DesignSystemRegistryPage />} />
         </Route>
 
         {/* ── Code-driven pages ────────────────────────────────────── */}
