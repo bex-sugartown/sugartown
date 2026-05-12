@@ -3,7 +3,6 @@ import SeoHead from '../../components/SeoHead'
 import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import Grid from '../../design-system/components/grid/Grid'
 import Card from '../../design-system/components/card/Card'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS, FIGJAM_URLS } from '../../lib/routes'
@@ -77,7 +76,7 @@ export default function DesignSystemPage() {
           </p>
         </header>
 
-        <SectionContainer>
+        <SectionContainer className={styles.statsSection}>
           <Tile label="Components" value="42" href={PLATFORM_ROUTES.dsRegistry} />
           <Tile label="Tokens" value="590" />
           <Tile label="Themes" value="2" />
@@ -127,7 +126,7 @@ export default function DesignSystemPage() {
 
         <section id="ds-artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" className={styles.labelFlush} />
-          <Grid spacing="0" accentTop>
+          <SectionContainer columns={2}>
             {ARTIFACTS.map((a) => (
               <Card
                 key={a.title}
@@ -137,7 +136,7 @@ export default function DesignSystemPage() {
                 href={a.href}
               />
             ))}
-          </Grid>
+          </SectionContainer>
         </section>
       </div>
     </>

@@ -3,7 +3,6 @@ import SeoHead from '../../components/SeoHead'
 import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import Grid from '../../design-system/components/grid/Grid'
 import Card from '../../design-system/components/card/Card'
 import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
 import { MermaidDiagram } from '../../components/PageSections'
@@ -96,7 +95,7 @@ export default function GovernancePage() {
           </p>
         </header>
 
-        <SectionContainer>
+        <SectionContainer className={styles.statsSection}>
           <Tile label="In flight" value="3" href="https://linear.app/sugartown" />
           <Tile label="Current release" value="v0.23.19" href={TRUST_LINKS.changelog} />
           <Tile label="Epics shipped" value="95" href={TRUST_LINKS.commits} />
@@ -133,7 +132,7 @@ export default function GovernancePage() {
 
         <section id="governance-artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" className={styles.labelFlush} />
-          <Grid spacing="0" accentTop>
+          <SectionContainer columns={3}>
             {ARTIFACTS.map((a) => (
               <Card
                 key={a.title}
@@ -143,7 +142,7 @@ export default function GovernancePage() {
                 href={a.href}
               />
             ))}
-          </Grid>
+          </SectionContainer>
         </section>
       </div>
     </>

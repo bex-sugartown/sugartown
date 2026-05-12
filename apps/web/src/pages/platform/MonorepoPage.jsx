@@ -3,7 +3,6 @@ import SeoHead from '../../components/SeoHead'
 import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import Grid from '../../design-system/components/grid/Grid'
 import Card from '../../design-system/components/card/Card'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
@@ -80,7 +79,7 @@ export default function MonorepoPage() {
           </p>
         </header>
 
-        <SectionContainer>
+        <SectionContainer className={styles.statsSection}>
           <Tile label="Packages" value="4" />
           <Tile label="Apps" value="2" />
           <Tile label="Shared libs" value="2" />
@@ -107,7 +106,7 @@ export default function MonorepoPage() {
 
         <section id="monorepo-artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" className={styles.labelFlush} />
-          <Grid spacing="0" accentTop>
+          <SectionContainer columns={3}>
             {ARTIFACTS.map((a) => (
               <Card
                 key={a.title}
@@ -117,7 +116,7 @@ export default function MonorepoPage() {
                 href={a.href}
               />
             ))}
-          </Grid>
+          </SectionContainer>
         </section>
       </div>
     </>

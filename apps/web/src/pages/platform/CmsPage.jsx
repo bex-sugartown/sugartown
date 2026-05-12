@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import Grid from '../../design-system/components/grid/Grid'
+import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import Card from '../../design-system/components/card/Card'
 import SchemaERD from '../../components/SchemaERD/SchemaERD'
 import { entities, relationships } from '../../data/schemaManifest'
@@ -90,7 +90,7 @@ page      ──── sections[] ──► section builder objects`}
 
         <section id="cms-artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" className={styles.labelFlush} />
-          <Grid spacing="0" accentTop>
+          <SectionContainer columns={2}>
             {ARTIFACTS.map((a) => (
               <Card
                 key={a.title}
@@ -100,7 +100,7 @@ page      ──── sections[] ──► section builder objects`}
                 href={a.href}
               />
             ))}
-          </Grid>
+          </SectionContainer>
         </section>
       </div>
     </>
