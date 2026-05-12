@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { NavLink, useMatch, useLocation } from 'react-router-dom'
-import { PLATFORM_ROUTES } from '../../lib/routes'
+import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import styles from './PlatformSidebar.module.css'
 
 const NAV_SECTIONS = [
@@ -45,15 +45,16 @@ const NAV_SECTIONS = [
       { label: 'Token architecture', to: `${PLATFORM_ROUTES.designSystem}#token-architecture` },
       { label: 'Component registry', to: PLATFORM_ROUTES.dsRegistry },
       { label: 'Architecture', to: `${PLATFORM_ROUTES.designSystem}#architecture-figjam` },
-      { label: 'Storybook', to: `${PLATFORM_ROUTES.designSystem}#storybook` },
+      { label: 'Storybook', href: TRUST_LINKS.storybook },
       { label: 'Artifacts', to: `${PLATFORM_ROUTES.designSystem}#ds-artifacts` },
     ],
   },
 ]
 
-// All hash segment IDs across all sections — observed by IntersectionObserver
+// All hash segment IDs across all sections — watched by scroll observer
 const ALL_HASH_IDS = NAV_SECTIONS
   .flatMap((s) => s.items ?? [])
+  .filter((item) => item.to)
   .map((item) => item.to.split('#')[1])
   .filter(Boolean)
 
@@ -139,6 +140,21 @@ function SidebarSection({ section, activeId }) {
       </NavLink>
       <ul className={styles.navList}>
         {section.items.map((item) => {
+          // External link — render plain <a>, no active state
+          if (item.href) {
+            return (
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.navLink}
+                >
+                  {item.label} ↗
+                </a>
+              </li>
+            )
+          }
           const hash = item.to.split('#')[1]
           const isScrollActive = hash ? activeId === hash : false
           return (
@@ -147,7 +163,7 @@ function SidebarSection({ section, activeId }) {
                 to={item.to}
                 className={hash
                   // Hash links: NavLink.isActive fires on pathname alone — ignore it,
-                  // use IntersectionObserver state only.
+                  // use scroll-observer state only.
                   ? () => `${styles.navLink} ${isScrollActive ? styles.navLinkActive : ''}`
                   : ({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
                 }
