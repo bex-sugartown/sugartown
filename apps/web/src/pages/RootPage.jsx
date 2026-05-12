@@ -17,8 +17,9 @@ import ContactForm from '../components/ContactForm'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
-export default function RootPage() {
-  const { slug } = useParams()
+export default function RootPage({ slugOverride } = {}) {
+  const { slug: slugParam } = useParams()
+  const slug = slugOverride ?? slugParam
   const { data: page, loading, notFound } = useSanityDoc(pageBySlugQuery, { slug })
   const siteSettings = useSiteSettings()
   const hasDraft = useDocHasDraft(page?._id)

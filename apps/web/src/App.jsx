@@ -22,6 +22,7 @@ import PersonProfilePage from './pages/PersonProfilePage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import SiteGraphPage from './pages/SiteGraphPage'
 import SchemaErdPage from './pages/SchemaErdPage'
+import PlatformLayout from './components/PlatformLayout/PlatformLayout'
 import SitemapPage from './pages/SitemapPage'
 import NotFoundPage from './pages/NotFoundPage'
 
@@ -125,8 +126,16 @@ function App() {
         <Route path="/tools" element={<TaxonomyArchivePage />} />
         <Route path="/tools/:slug" element={<ToolDetailPage />} />
 
+        {/* ── Platform section — nested routes under PlatformLayout ── */}
+        <Route path="/platform" element={<PlatformLayout />}>
+          <Route index element={<RootPage slugOverride="platform" />} />
+          {/* /platform/schema → /platform/cms redirect (SUG-111) */}
+          <Route path="schema" element={<Navigate to="/platform/cms" replace />} />
+          {/* Hub pages — added in Phase 2 */}
+          {/* Leaf pages — added in Phase 3 */}
+        </Route>
+
         {/* ── Code-driven pages ────────────────────────────────────── */}
-        <Route path="/platform/schema" element={<SchemaErdPage />} />
         <Route path="/sitemap" element={<SitemapPage />} />
 
         {/* ── Root pages (page type) — must come last among /:slug ─── */}
