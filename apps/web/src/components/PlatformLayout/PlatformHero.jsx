@@ -1,16 +1,14 @@
 import { useLayoutEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useOutletContext } from 'react-router-dom'
-import { PLATFORM_ROUTES } from '../../lib/routes'
+import PageSections from '../PageSections'
 import styles from './PlatformHero.module.css'
 
-function HeroBand({ title, subtitle }) {
+// Fallback band shown while the platform page hero loads from Sanity
+function FallbackHero({ title, subtitle }) {
   return (
-    <div className={styles.hero}>
-      <div className={styles.inner}>
-        <p className={styles.eyebrow}>
-          <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
-        </p>
+    <div className={styles.fallback}>
+      <div className={styles.fallbackInner}>
+        <p className={styles.eyebrow}>Platform</p>
         <h1 className={styles.heading}>{title}</h1>
         {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
       </div>
@@ -18,11 +16,27 @@ function HeroBand({ title, subtitle }) {
   )
 }
 
+// Inherits bg image, overlay, and panel settings from the /platform page hero.
+// Substitutes the subpage's own title/subtitle so each section has its identity
+// while sharing the platform's visual treatment.
 export default function usePlatformHero({ title, subtitle }) {
-  const setHeroSlot = useOutletContext()
+  const { setHeroSlot, platformHeroSection } = useOutletContext() ?? {}
+
   useLayoutEffect(() => {
     if (!setHeroSlot) return
-    setHeroSlot(<HeroBand title={title} subtitle={subtitle} />)
+
+    const node = platformHeroSection
+      ? <PageSections sections={[{
+          ...platformHeroSection,
+          heading: title,
+          subheading: subtitle ?? null,
+          eyebrow: 'Platform',
+          showStatRail: false,
+          ctas: [],
+        }]} />
+      : <FallbackHero title={title} subtitle={subtitle} />
+
+    setHeroSlot(node)
     return () => setHeroSlot(null)
-  }, [setHeroSlot, title, subtitle])
+  }, [setHeroSlot, platformHeroSection, title, subtitle])
 }

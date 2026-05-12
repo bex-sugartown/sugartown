@@ -27,7 +27,7 @@ export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
 
   // When inside PlatformLayout (hideSidebar=true), hoist the hero above the
   // two-column shell via the setHeroSlot context passed through <Outlet>.
-  const setHeroSlot = useOutletContext()
+  const { setHeroSlot } = useOutletContext() ?? {}
 
   // Detail layout — with optional page sidebar
   const { leadHero, restSections, heroImageUrl } = extractLeadHero(page?.sections)
