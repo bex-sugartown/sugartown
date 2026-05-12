@@ -1,8 +1,8 @@
 ---
 **Epic:** SUG-111 — Platform IA Phase II — nested multi-section architecture for /platform/
 **Linear Issue:** [SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform)
-**Status:** Backlog
-**Priority:** 🟢 Next
+**Status:** Shipped
+**Shipped:** 2026-05-12
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 
