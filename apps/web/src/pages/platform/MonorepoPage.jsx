@@ -6,7 +6,7 @@ import SectionLabel from '../../design-system/components/section-label/SectionLa
 import Grid from '../../design-system/components/grid/Grid'
 import Card from '../../design-system/components/card/Card'
 import { MermaidDiagram } from '../../components/PageSections'
-import { PLATFORM_ROUTES } from '../../lib/routes'
+import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
 const ARTIFACTS = [
@@ -84,7 +84,7 @@ export default function MonorepoPage() {
           <Tile label="Packages" value="4" />
           <Tile label="Apps" value="2" />
           <Tile label="Shared libs" value="2" />
-          <Tile label="Build cache hits" value="~80%" />
+          <Tile label="Build cache hits" value="~80%" href={TRUST_LINKS.commits} />
         </SectionContainer>
 
         <section id="workspace-topology" className={styles.section}>

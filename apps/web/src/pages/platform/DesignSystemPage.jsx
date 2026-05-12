@@ -78,10 +78,10 @@ export default function DesignSystemPage() {
         </header>
 
         <SectionContainer>
-          <Tile label="Components" value="42" />
+          <Tile label="Components" value="42" href={PLATFORM_ROUTES.dsRegistry} />
           <Tile label="Tokens" value="590" />
           <Tile label="Themes" value="2" />
-          <Tile label="Packages" value="3" />
+          <Tile label="Storybook" value="pinkmoon ↗" href={TRUST_LINKS.storybook} />
         </SectionContainer>
 
         <section id="token-architecture" className={styles.section}>

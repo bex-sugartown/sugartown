@@ -74,10 +74,10 @@ export default function GovernancePage() {
         </header>
 
         <SectionContainer>
-          <Tile label="In flight" value="3" />
-          <Tile label="Current release" value="v0.23.19" />
-          <Tile label="Epics shipped" value="95" />
-          <Tile label="Vulnerabilities" value="0" labelColor="brand" />
+          <Tile label="In flight" value="3" href="https://linear.app/sugartown" />
+          <Tile label="Current release" value="v0.23.19" href={TRUST_LINKS.changelog} />
+          <Tile label="Epics shipped" value="95" href={TRUST_LINKS.commits} />
+          <Tile label="Vulnerabilities" value="0" labelColor="brand" href={TRUST_LINKS.security} />
         </SectionContainer>
 
         <section id="roadmap" className={styles.section}>
