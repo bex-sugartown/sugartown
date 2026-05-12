@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-111 shipped ✅ v0.23.22. Platform IA Phase II — PlatformLayout sidebar rail, 4 section hubs (Governance, Monorepo, CMS, Design System), hero inheritance from Sanity /platform doc, scrollspy active links. SUG-107 (client taxonomy) or SUG-106 (stats pipeline) is next.
+> **⚑ Current focus:** SUG-111 shipped ✅ v0.23.22. SUG-112 (sidebar nav primitives) is logged and ready. SUG-107 (client taxonomy) or SUG-106 (stats pipeline) is next candidate.
 
 ---
 
@@ -43,6 +43,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Fix LHCI not writing JSON in CI, add missing Sanity secrets, diagnose low mobile Lighthouse scores (perf 68, best-practices 42), document manual backup update workflow, close SUG-100. Epic: `docs/backlog/SUG-106-stats-pipeline-fix-sug-100-close-out.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
+| 3 | **[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — Extract `useScrollspy` hook to `lib/`, create `SidebarNav` web adapter, fix 43 ESLint baseline errors + activate pre-commit lint gate. PlatformSidebar + PageSidebar both consuming shared primitives. Epic: `docs/backlog/SUG-112-sidebar-nav-primitives.md`. | `Design System` `Frontend` `Tooling` | 🟣 Soon |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
 | 2 | ~~**[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Shared entity folio pattern (Person, Project, Tool detail pages), SectionLabel + 2-col Grid content sections, full-width layout at --st-width-detail-wide, responsive mobile collapse in Grid. Shipped v0.23.21.~~ | `UX` `Design System` `Frontend` | ✅ Shipped |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
