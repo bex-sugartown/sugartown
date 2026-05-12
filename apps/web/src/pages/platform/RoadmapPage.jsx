@@ -1,7 +1,8 @@
+import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Callout from '../../design-system/components/callout/Callout'
-import { TRUST_LINKS } from '../../lib/routes'
+import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
 /**
@@ -19,7 +20,9 @@ export default function RoadmapPage() {
       />
       <div className={styles.hub}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Platform · Governance · Roadmap</p>
+          <p className={styles.eyebrow}>
+            <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
+          </p>
           <h1 className={styles.heading}>Roadmap</h1>
           <p className={styles.intro}>
             Epics in flight and upcoming, generated from the Linear backlog.

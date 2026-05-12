@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Callout from '../../design-system/components/callout/Callout'
@@ -19,7 +20,9 @@ export default function DesignSystemRegistryPage() {
       />
       <div className={styles.hub}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Platform · Design System · Registry</p>
+          <p className={styles.eyebrow}>
+            <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
+          </p>
           <h1 className={styles.heading}>Component Registry</h1>
           <p className={styles.intro}>
             Live inventory of all DS primitives and web adapters.

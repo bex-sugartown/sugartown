@@ -4,55 +4,78 @@ import styles from './PlatformSidebar.module.css'
 
 const NAV_SECTIONS = [
   {
-    label: 'Platform',
-    items: [{ label: 'Overview', to: PLATFORM_ROUTES.root, end: true }],
+    label: 'Overview',
+    to: PLATFORM_ROUTES.root,
+    end: true,
   },
   {
     label: 'Governance',
-    root: PLATFORM_ROUTES.governance,
+    to: PLATFORM_ROUTES.governance,
     items: [
-      { label: 'Governance', to: PLATFORM_ROUTES.governance },
       { label: 'Roadmap', to: PLATFORM_ROUTES.roadmap },
     ],
   },
   {
     label: 'Monorepo',
-    root: PLATFORM_ROUTES.monorepo,
+    to: PLATFORM_ROUTES.monorepo,
     items: [
-      { label: 'Monorepo', to: PLATFORM_ROUTES.monorepo },
+      { label: 'Architecture', to: `${PLATFORM_ROUTES.monorepo}#workspace-topology` },
+      { label: 'Build pipeline', to: `${PLATFORM_ROUTES.monorepo}#build-pipeline` },
     ],
   },
   {
     label: 'CMS',
-    root: PLATFORM_ROUTES.cms,
+    to: PLATFORM_ROUTES.cms,
     items: [
-      { label: 'CMS', to: PLATFORM_ROUTES.cms },
+      { label: 'Schema ERD', to: `${PLATFORM_ROUTES.cms}#schema-erd` },
+      { label: 'Content model', to: `${PLATFORM_ROUTES.cms}#content-model` },
     ],
   },
   {
     label: 'Design System',
-    root: PLATFORM_ROUTES.designSystem,
+    to: PLATFORM_ROUTES.designSystem,
     items: [
-      { label: 'Design System', to: PLATFORM_ROUTES.designSystem },
-      { label: 'Component Registry', to: PLATFORM_ROUTES.dsRegistry },
+      { label: 'Component registry', to: PLATFORM_ROUTES.dsRegistry },
     ],
   },
 ]
 
 function SidebarSection({ section }) {
-  const sectionActive = useMatch({ path: section.root ?? '', end: false })
+  const sectionMatch = useMatch({ path: section.to ?? '', end: false })
+  const sectionActive = section.items?.length && !!sectionMatch
+
+  if (!section.items?.length) {
+    return (
+      <div className={styles.section}>
+        <NavLink
+          to={section.to}
+          end={section.end ?? false}
+          className={({ isActive }) =>
+            `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
+          }
+        >
+          {section.label}
+        </NavLink>
+      </div>
+    )
+  }
 
   return (
     <div className={`${styles.section} ${sectionActive ? styles.sectionActive : ''}`}>
-      {section.root && (
-        <span className={styles.sectionLabel}>{section.label}</span>
-      )}
+      <NavLink
+        to={section.to}
+        end
+        className={({ isActive }) =>
+          `${styles.sectionLabel} ${isActive ? styles.sectionLabelActive : ''}`
+        }
+      >
+        {section.label}
+      </NavLink>
       <ul className={styles.navList}>
         {section.items.map((item) => (
           <li key={item.to}>
             <NavLink
               to={item.to}
-              end={item.end ?? false}
               className={({ isActive }) =>
                 `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
               }

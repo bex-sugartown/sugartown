@@ -31,8 +31,17 @@
   margin: 0 0 0.5rem;
 }
 
+.eyebrowLink {
+  color: inherit;
+  text-decoration: none;
+}
+.eyebrowLink:hover {
+  text-decoration: underline;
+}
+
 .heading {
   font-family: var(--st-font-family-narrative);
+  font-style: italic;
   font-size: var(--st-font-heading-2);
   line-height: 1.1;
   color: var(--st-color-text-default);
@@ -45,27 +54,6 @@
   color: var(--st-color-text-muted);
   max-width: 60ch;
   margin: 0;
-}
-
-/* ── Stats strip — bg-through-gap hairline dividers ──────── */
-
-.statsStrip {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--st-color-rule-accent);
-  border: 1px solid var(--st-color-border-subtle);
-  margin-bottom: 2.5rem;
-}
-
-.statsStrip > * {
-  background: var(--st-card-bg); /* covers parent --st-color-rule-accent gap bg */
-}
-
-@media (max-width: 599px) {
-  .statsStrip {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 /* ── Content sections ─────────────────────────────────────── */

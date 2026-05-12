@@ -38,18 +38,16 @@ Layers touched: `apps/web/src/App.jsx` (route restructure), `apps/web/src/pages/
 
 Static pages — no Sanity doc required. Each hub renders: section heading, one-paragraph description, and a card grid linking to leaf pages.
 
-- [ ] `/platform/governance` — Governance hub: links to Roadmap (`/platform/roadmap`), CHANGELOG (external `TRUST_LINKS.changelog`) — layer: frontend
-- [ ] `/platform/monorepo` — Monorepo hub: links to Architecture docs, Diagrams (migrated from `/platform/schema`) — layer: frontend
-- [ ] `/platform/cms` — CMS hub: links to Content Model doc (phase-gated, see Phase 3), Diagrams — layer: frontend
-- [ ] `/platform/design-system` — DS hub: links to Component Registry (SUG-103), Storybook (external `TRUST_LINKS.storybook`), Diagrams — layer: frontend
-- [ ] Update `/platform` top-level page to serve as the master hub with links to all four sections — layer: content (Sanity patch)
+- [ ] `/platform/governance` — stats strip (epics in-flight, current version, shipped count) + roadmap teaser (top in-flight + next items, CTA to `/platform/roadmap`) + release strip (last 5 releases from CHANGELOG.md: version/date/summary/epic ID) + GitHub links (`TRUST_LINKS.changelog`, `TRUST_LINKS.commits`) + artifact cards (IA Brief, Backlog Priorities, Linear ↗) — layer: frontend
+- [ ] `/platform/monorepo` — stats strip (packages, apps, shared libs) + workspace topology diagram (Mermaid) + build pipeline diagram (Mermaid) + artifact cards (Monorepo PRD, CLAUDE.md, AI Assist Conventions) — layer: frontend
+- [ ] `/platform/cms` — stats strip (29 types / 16 docs / 13 objects / 49 relationships from `schemaManifest.js`) + `<SchemaERD />` inline (requires SUG-20 Phase 1 clean before this ships) + FigJam embed (`FIGJAM_URLS.cmsContentModel`) + Mermaid relationship diagram + artifact cards (CMS PRD, Content Model Strategy, Schema Conventions, Structured Content Audit) — layer: frontend
+- [ ] `/platform/design-system` — stats strip (42 components, 186 tokens, 2 themes, 3 packages) + component registry teaser (3 rows, CTA to `/platform/design-system/registry`) + FigJam embed (`FIGJAM_URLS.dsArchitecture`) + Storybook CTA (`TRUST_LINKS.storybook`) + artifact cards (DS PRD, Pink Moon Manifesto, Token Naming, DS Ruleset) — layer: frontend
+- [ ] Update `/platform` top-level page to serve as the master hub with links to all four section hubs — layer: content (Sanity patch)
 
-**Phase 3 — Leaf pages (Sanity-backed where variable)**
+**Phase 3 — Sub-pages only**
 
-- [ ] `/platform/roadmap` — wire SUG-110 `linearRoadmap` data (unblocked once SUG-110 Phase 2 ships) — layer: frontend
-- [ ] `/platform/diagrams` — shared diagrams hub; migrate `SchemaErdPage` content here; route `/platform/schema` redirects to new path — layer: frontend
-- [ ] `/platform/design-system/registry` — component registry page (SUG-103 Phase 1 implementation) — layer: frontend
-- [ ] `/platform/cms/content-model` — dynamic content model doc; **Phase 0 gate applies** (needs design alignment before any JSX); placeholder stub page acceptable at this phase — layer: frontend/schema (TBD at Phase 0)
+- [ ] `/platform/roadmap` — wire SUG-110 `linearRoadmap` data (sub-page because list is unbounded; unblocked once SUG-110 Phase 2 ships) — layer: frontend
+- [ ] `/platform/design-system/registry` — component registry page (sub-page because table is unbounded; SUG-103 Phase 1 implementation) — layer: frontend
 
 ## Phases
 
@@ -57,7 +55,7 @@ Static pages — no Sanity doc required. Each hub renders: section heading, one-
 
 **Phase 2 — Section hubs:** Four static hub pages + `/platform` top-level update. Merge independently.
 
-**Phase 3 — Leaf pages:** Roadmap, diagrams migration, component registry, content model stub. Each leaf page can merge independently within this phase.
+**Phase 3 — Sub-pages only:** Roadmap (`/platform/roadmap`) and component registry (`/platform/design-system/registry`) — both unbounded lists. Everything else (diagrams, ERD, FigJam, release strip) is inline on hub pages and ships in Phase 2.
 
 ## Acceptance criteria
 
@@ -75,7 +73,11 @@ Static pages — no Sanity doc required. Each hub renders: section heading, one-
 - **Activation audit:** Read `apps/web/src/App.jsx` lines around the existing `/platform/schema` route before touching routing — confirm no other `/platform/*` routes exist that would conflict.
 - **Nested routes in react-router-dom v7:** Section hubs use `<Route path="/platform" element={<PlatformLayout />}>` with `<Route index element={<PlatformPage />} />` for the root and child `<Route path="governance" ...>` etc. `PlatformLayout` must render `<Outlet />` for the child to mount.
 - **Static vs Sanity-backed hubs:** Section hubs (Governance, Monorepo, CMS, DS) are static React pages — no Sanity `page` doc required. They are not section-builder pages. Leaf pages with variable content (content model docs, architecture prose) may be Sanity-backed if editorial flexibility is needed — decide at Phase 3 activation.
-- **`/platform/schema` migration:** `SchemaErdPage` currently registered at `/platform/schema`. New path: `/platform/diagrams` (or `/platform/monorepo/diagrams` — decide at Phase 0). Add a `<Route path="schema" element={<Navigate to="/platform/diagrams" replace />} />` to preserve existing links.
+- **`/platform/schema` migration:** `SchemaErdPage` currently registered at `/platform/schema`. The ERD now renders inline on `/platform/cms` — add a `<Route path="schema" element={<Navigate to="/platform/cms" replace />} />` redirect. No dedicated `/platform/cms/diagrams` route exists.
+- **FigJam embeds:** Two FigJam boards are embedded as `<iframe>` tags (standard `embed.figma.com` — no better option for interactive board viewing). Register both URLs in `routes.js` as `FIGJAM_URLS`:
+  - `FIGJAM_URLS.cmsContentModel` → `https://embed.figma.com/board/7nrFmcTSfHpETfnHQUnz0R/Sugartown-Sanity.io-Content-Model?node-id=0-1&embed-host=share` (used on `/platform/cms`)
+  - `FIGJAM_URLS.dsArchitecture` → `https://embed.figma.com/board/W8TpyE6jZbDgLW8B3jDPBA/Sugartown-Design-System-Architecture--Vertical-?node-id=0-1&embed-host=share` (used on `/platform/design-system`)
+  - Dimensions: `width="100%"` (fluid), `height="450"` — match the inline mock; use `loading="lazy"` on both.
 - **Sidebar nav active state:** Use `useMatch` or `NavLink`'s built-in `isActive` from react-router-dom. Sidebar sections should be open/highlighted when any child route is active, not just the exact section path.
 - **PlatformSidebar mobile:** At `< 768px`, the sidebar should convert to a compact nav — either a horizontal scroll strip or a `<details>`-based collapsed section. The Pattern to follow is the existing `PageSidebar` component (sticky rail on desktop, inline below content on mobile).
 - **SUG-103 dependency:** Phase 3 `/platform/design-system/registry` unblocks SUG-103 Phase 1 implementation. SUG-103 can stay in backlog until Phase 3 routes exist.

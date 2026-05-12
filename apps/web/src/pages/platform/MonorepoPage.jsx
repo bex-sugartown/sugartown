@@ -1,7 +1,10 @@
+import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
 import Tile from '../../design-system/components/tile/Tile'
+import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Card from '../../design-system/components/card/Card'
+import { PLATFORM_ROUTES } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
 const ARTIFACTS = [
@@ -34,7 +37,9 @@ export default function MonorepoPage() {
       />
       <div className={styles.hub}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Platform · Monorepo</p>
+          <p className={styles.eyebrow}>
+            <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
+          </p>
           <h1 className={styles.heading}>Monorepo</h1>
           <p className={styles.intro}>
             pnpm workspaces + Turborepo. Four packages share a single dependency graph
@@ -42,14 +47,14 @@ export default function MonorepoPage() {
           </p>
         </header>
 
-        <div className={styles.statsStrip}>
+        <SectionContainer>
           <Tile label="Packages" value="4" />
           <Tile label="Apps" value="2" />
           <Tile label="Shared libs" value="2" />
           <Tile label="Build cache hits" value="~80%" />
-        </div>
+        </SectionContainer>
 
-        <section className={styles.section}>
+        <section id="workspace-topology" className={styles.section}>
           <SectionLabel name="Workspace topology" />
           <div className={styles.diagramBlock}>
             {`sugartown/ (monorepo root)
@@ -64,7 +69,7 @@ export default function MonorepoPage() {
           </div>
         </section>
 
-        <section className={styles.section}>
+        <section id="build-pipeline" className={styles.section}>
           <SectionLabel name="Build pipeline" />
           <div className={styles.diagramBlock}>
             {`tokens:build  →  validate:tokens  →  type-check
@@ -77,7 +82,7 @@ export default function MonorepoPage() {
           </div>
         </section>
 
-        <section className={styles.section}>
+        <section id="artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" />
           <div className={styles.artifactGrid}>
             {ARTIFACTS.map((a) => (

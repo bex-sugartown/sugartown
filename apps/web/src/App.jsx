@@ -132,19 +132,20 @@ function App() {
         <Route path="/tools" element={<TaxonomyArchivePage />} />
         <Route path="/tools/:slug" element={<ToolDetailPage />} />
 
-        {/* ── Platform section — nested routes under PlatformLayout ── */}
-        <Route path="/platform" element={<PlatformLayout />}>
+        {/* ── Platform section ────────────────────────────────────── */}
+        {/* Index renders full-bleed (no sidebar); sub-pages use PlatformLayout */}
+        <Route path="/platform">
           <Route index element={<RootPage slugOverride="platform" />} />
-          {/* /platform/schema → /platform/cms redirect (SUG-111) */}
-          <Route path="schema" element={<Navigate to="/platform/cms" replace />} />
-          {/* Phase 2 — Section hub pages */}
-          <Route path="governance" element={<GovernancePage />} />
-          <Route path="monorepo" element={<MonorepoPage />} />
-          <Route path="cms" element={<CmsPage />} />
-          <Route path="design-system" element={<DesignSystemPage />} />
-          {/* Phase 3 leaf pages */}
-          <Route path="roadmap" element={<RoadmapPage />} />
-          <Route path="design-system/registry" element={<DesignSystemRegistryPage />} />
+          <Route element={<PlatformLayout />}>
+            {/* /platform/schema → /platform/cms redirect (SUG-111) */}
+            <Route path="schema" element={<Navigate to="/platform/cms" replace />} />
+            <Route path="governance" element={<GovernancePage />} />
+            <Route path="monorepo" element={<MonorepoPage />} />
+            <Route path="cms" element={<CmsPage />} />
+            <Route path="design-system" element={<DesignSystemPage />} />
+            <Route path="roadmap" element={<RoadmapPage />} />
+            <Route path="design-system/registry" element={<DesignSystemRegistryPage />} />
+          </Route>
         </Route>
 
         {/* ── Code-driven pages ────────────────────────────────────── */}

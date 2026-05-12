@@ -1,10 +1,12 @@
+import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
 import Tile from '../../design-system/components/tile/Tile'
+import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Card from '../../design-system/components/card/Card'
 import SchemaERD from '../../components/SchemaERD/SchemaERD'
 import { entities, relationships } from '../../data/schemaManifest'
-import { FIGJAM_URLS } from '../../lib/routes'
+import { PLATFORM_ROUTES, FIGJAM_URLS } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
 const ARTIFACTS = [
@@ -43,7 +45,9 @@ export default function CmsPage() {
       />
       <div className={styles.hub}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Platform · CMS</p>
+          <p className={styles.eyebrow}>
+            <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
+          </p>
           <h1 className={styles.heading}>CMS</h1>
           <p className={styles.intro}>
             Content architecture and schema design for the Sanity layer.
@@ -52,19 +56,19 @@ export default function CmsPage() {
           </p>
         </header>
 
-        <div className={styles.statsStrip}>
+        <SectionContainer>
           <Tile label="Types" value={entities.length} />
           <Tile label="Documents" value={entities.filter(e => e.kind === 'document').length} />
           <Tile label="Objects" value={entities.filter(e => e.kind === 'object').length} />
           <Tile label="Relationships" value={relationships.length} />
-        </div>
+        </SectionContainer>
 
-        <section className={styles.section}>
+        <section id="schema-erd" className={styles.section}>
           <SectionLabel name="Schema ERD" kicker="Interactive explorer" />
           <SchemaERD entities={entities} relationships={relationships} />
         </section>
 
-        <section className={styles.section}>
+        <section id="content-model" className={styles.section}>
           <SectionLabel name="Content model — FigJam" kicker="Visual overview" />
           <iframe
             className={styles.figJam}
@@ -76,7 +80,7 @@ export default function CmsPage() {
           />
         </section>
 
-        <section className={styles.section}>
+        <section id="relationships" className={styles.section}>
           <SectionLabel name="Relationships" kicker="Document → taxonomy" />
           <div className={styles.diagramBlock}>
             {`article   ──── tags[]     ──► tag
@@ -92,7 +96,7 @@ page      ──── sections[] ──► section builder objects`}
           </div>
         </section>
 
-        <section className={styles.section}>
+        <section id="artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" />
           <div className={styles.artifactGrid}>
             {ARTIFACTS.map((a) => (

@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
 import Tile from '../../design-system/components/tile/Tile'
+import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Card from '../../design-system/components/card/Card'
 import { PLATFORM_ROUTES, TRUST_LINKS, FIGJAM_URLS } from '../../lib/routes'
@@ -47,7 +49,9 @@ export default function DesignSystemPage() {
       />
       <div className={styles.hub}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Platform · Design System</p>
+          <p className={styles.eyebrow}>
+            <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
+          </p>
           <h1 className={styles.heading}>Design System</h1>
           <p className={styles.intro}>
             Pink Moon — a portable design system built around sharp neutral surfaces,
@@ -56,14 +60,14 @@ export default function DesignSystemPage() {
           </p>
         </header>
 
-        <div className={styles.statsStrip}>
+        <SectionContainer>
           <Tile label="Components" value="42" />
           <Tile label="Tokens" value="590" />
           <Tile label="Themes" value="2" />
           <Tile label="Packages" value="3" />
-        </div>
+        </SectionContainer>
 
-        <section className={styles.section}>
+        <section id="component-registry" className={styles.section}>
           <SectionLabel name="Component registry" kicker="Preview — 3 of 42" />
           <div className={styles.registryTeaser}>
             {REGISTRY_PREVIEW.map((c) => (
@@ -78,7 +82,7 @@ export default function DesignSystemPage() {
           </div>
         </section>
 
-        <section className={styles.section}>
+        <section id="architecture-figjam" className={styles.section}>
           <SectionLabel name="Architecture — FigJam" kicker="Component layer diagram" />
           <iframe
             className={styles.figJam}
@@ -90,7 +94,7 @@ export default function DesignSystemPage() {
           />
         </section>
 
-        <section className={styles.section}>
+        <section id="storybook" className={styles.section}>
           <SectionLabel name="Storybook" kicker="Live component catalogue" />
           <div className={styles.trustLinks}>
             <a href={TRUST_LINKS.storybook} className={styles.trustLink} target="_blank" rel="noreferrer">
@@ -99,7 +103,7 @@ export default function DesignSystemPage() {
           </div>
         </section>
 
-        <section className={styles.section}>
+        <section id="artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" />
           <div className={styles.artifactGrid}>
             {ARTIFACTS.map((a) => (

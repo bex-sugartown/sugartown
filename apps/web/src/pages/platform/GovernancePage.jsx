@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
 import Tile from '../../design-system/components/tile/Tile'
+import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Card from '../../design-system/components/card/Card'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
@@ -44,7 +45,9 @@ export default function GovernancePage() {
       />
       <div className={styles.hub}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Platform · Governance</p>
+          <p className={styles.eyebrow}>
+            <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
+          </p>
           <h1 className={styles.heading}>Governance</h1>
           <p className={styles.intro}>
             Release cadence, roadmap, and process conventions. Every epic is tracked in Linear,
@@ -52,14 +55,14 @@ export default function GovernancePage() {
           </p>
         </header>
 
-        <div className={styles.statsStrip}>
+        <SectionContainer>
           <Tile label="In flight" value="3" />
           <Tile label="Current release" value="v0.23.19" />
           <Tile label="Epics shipped" value="95" />
           <Tile label="Vulnerabilities" value="0" labelColor="brand" />
-        </div>
+        </SectionContainer>
 
-        <section className={styles.section}>
+        <section id="roadmap" className={styles.section}>
           <SectionLabel name="Roadmap" kicker="In progress + upcoming" />
           <p style={{ fontSize: '0.875rem', color: 'var(--st-color-text-muted)', margin: '0.75rem 0 0.5rem' }}>
             Roadmap is generated from the Linear backlog.{' '}
@@ -69,7 +72,7 @@ export default function GovernancePage() {
           </p>
         </section>
 
-        <section className={styles.section}>
+        <section id="recent-releases" className={styles.section}>
           <SectionLabel name="Recent releases" kicker="Last 5" />
           <div className={styles.releaseStrip}>
             {RECENT_RELEASES.map((r) => (
@@ -90,7 +93,7 @@ export default function GovernancePage() {
           </div>
         </section>
 
-        <section className={styles.section}>
+        <section id="artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" />
           <div className={styles.artifactGrid}>
             {ARTIFACTS.map((a) => (
