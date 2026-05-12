@@ -90,7 +90,7 @@ Before asking the user to test anything in their browser:
    ```bash
    lsof -ti:5173 | xargs -I{} lsof -p {} 2>/dev/null | grep cwd
    ```
-   If the `cwd` path does not contain the current worktree name, the server is from a different tree. Use the worktree's own port (typically `5174` — see `.claude/launch.json` `web-worktree` config) instead.
+   If the `cwd` path does not contain the current worktree name, the server is from a different tree. Start the dev server from within the worktree directory — it will bind to `5173` locally (or the next free port if 5173 is taken).
 
 A white-screen debug cycle caused by local ↔ remote divergence is a process failure. A routing-failure debug cycle caused by verifying against the wrong tree's server is the same failure in a worktree context.
 
