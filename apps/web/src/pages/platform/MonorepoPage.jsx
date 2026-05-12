@@ -106,7 +106,7 @@ export default function MonorepoPage() {
         </section>
 
         <section id="artifacts" className={styles.section}>
-          <SectionLabel name="Artifacts" />
+          <SectionLabel name="Artifacts" className={styles.labelFlush} />
           <Grid spacing="0" accentTop>
             {ARTIFACTS.map((a) => (
               <Card

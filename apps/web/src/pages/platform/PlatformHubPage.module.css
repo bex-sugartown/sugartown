@@ -132,6 +132,12 @@
   font-size: 0.75rem;
 }
 
+/* ── SectionLabel flush — removes bottom margin so Grid accent rule sits
+   immediately adjacent (StatTileSection pattern: no gap between label + grid) */
+.labelFlush {
+  margin-bottom: 0 !important;
+}
+
 /* ── Trust / external links ───────────────────────────────── */
 
 .trustLinks {

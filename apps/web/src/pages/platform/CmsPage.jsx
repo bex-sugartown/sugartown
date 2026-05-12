@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
-import Tile from '../../design-system/components/tile/Tile'
-import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Grid from '../../design-system/components/grid/Grid'
 import Card from '../../design-system/components/card/Card'
@@ -57,13 +55,6 @@ export default function CmsPage() {
           </p>
         </header>
 
-        <SectionContainer>
-          <Tile label="Types" value={entities.length} />
-          <Tile label="Documents" value={entities.filter(e => e.kind === 'document').length} />
-          <Tile label="Objects" value={entities.filter(e => e.kind === 'object').length} />
-          <Tile label="Relationships" value={relationships.length} />
-        </SectionContainer>
-
         <section id="schema-erd" className={styles.section}>
           <SectionLabel name="Schema ERD" kicker="Interactive explorer" />
           <SchemaERD entities={entities} relationships={relationships} />
@@ -98,7 +89,7 @@ page      ──── sections[] ──► section builder objects`}
         </section>
 
         <section id="artifacts" className={styles.section}>
-          <SectionLabel name="Artifacts" />
+          <SectionLabel name="Artifacts" className={styles.labelFlush} />
           <Grid spacing="0" accentTop>
             {ARTIFACTS.map((a) => (
               <Card

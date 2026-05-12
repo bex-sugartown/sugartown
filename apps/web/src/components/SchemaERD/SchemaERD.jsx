@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react'
-import SegmentedControl from '../../design-system/components/segmented-control/SegmentedControl'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Chip from '../../design-system/components/chip/Chip'
 import Button from '../../design-system/components/button/Button'
@@ -64,7 +63,7 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
   const docCount = entities.filter((e) => e.kind === 'document').length
   const objCount = entities.filter((e) => e.kind === 'object').length
 
-  // ── Filter options for SegmentedControl ───────────────────
+  // ── Filter options for Chip strip ─────────────────────────
   const filterOptions = useMemo(() => [
     { value: 'all', label: `All (${entities.length})` },
     ...groupNames.map((g) => ({ value: g, label: `${g.charAt(0).toUpperCase() + g.slice(1)} (${groups[g].length})` })),
@@ -94,14 +93,16 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
         <Tile label="Relationships" value={relationships.length} />
       </div>
 
-      {/* Filter tabs */}
+      {/* Filter chips */}
       <div className={styles.filters}>
-        <SegmentedControl
-          options={filterOptions}
-          value={activeGroup}
-          onChange={setActiveGroup}
-          aria-label="Filter schema entities by group"
-        />
+        {filterOptions.map((opt) => (
+          <Chip
+            key={opt.value}
+            label={opt.label}
+            onClick={() => setActiveGroup(opt.value)}
+            isActive={activeGroup === opt.value}
+          />
+        ))}
       </div>
 
       {/* Main layout: grid + sidebar */}

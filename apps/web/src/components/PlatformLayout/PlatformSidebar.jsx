@@ -13,6 +13,9 @@ const NAV_SECTIONS = [
     to: PLATFORM_ROUTES.governance,
     items: [
       { label: 'Roadmap', to: PLATFORM_ROUTES.roadmap },
+      { label: 'Release process', to: `${PLATFORM_ROUTES.governance}#release-process` },
+      { label: 'Recent releases', to: `${PLATFORM_ROUTES.governance}#recent-releases` },
+      { label: 'Artifacts', to: `${PLATFORM_ROUTES.governance}#artifacts` },
     ],
   },
   {
@@ -21,6 +24,7 @@ const NAV_SECTIONS = [
     items: [
       { label: 'Architecture', to: `${PLATFORM_ROUTES.monorepo}#workspace-topology` },
       { label: 'Build pipeline', to: `${PLATFORM_ROUTES.monorepo}#build-pipeline` },
+      { label: 'Artifacts', to: `${PLATFORM_ROUTES.monorepo}#artifacts` },
     ],
   },
   {
@@ -29,13 +33,19 @@ const NAV_SECTIONS = [
     items: [
       { label: 'Schema ERD', to: `${PLATFORM_ROUTES.cms}#schema-erd` },
       { label: 'Content model', to: `${PLATFORM_ROUTES.cms}#content-model` },
+      { label: 'Relationships', to: `${PLATFORM_ROUTES.cms}#relationships` },
+      { label: 'Artifacts', to: `${PLATFORM_ROUTES.cms}#artifacts` },
     ],
   },
   {
     label: 'Design System',
     to: PLATFORM_ROUTES.designSystem,
     items: [
+      { label: 'Token architecture', to: `${PLATFORM_ROUTES.designSystem}#token-architecture` },
       { label: 'Component registry', to: PLATFORM_ROUTES.dsRegistry },
+      { label: 'Architecture', to: `${PLATFORM_ROUTES.designSystem}#architecture-figjam` },
+      { label: 'Storybook', to: `${PLATFORM_ROUTES.designSystem}#storybook` },
+      { label: 'Artifacts', to: `${PLATFORM_ROUTES.designSystem}#artifacts` },
     ],
   },
 ]

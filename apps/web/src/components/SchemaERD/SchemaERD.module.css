@@ -33,11 +33,13 @@
   }
 }
 
-/* ── Filter — SegmentedControl wrapper ───────────────────── */
+/* ── Filter — Chip strip ─────────────────────────────────── */
 
 .filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
   margin-bottom: var(--st-spacing-stack-lg);
-  overflow-x: auto;
 }
 
 /* ── Layout ──────────────────────────────────────────────── */
