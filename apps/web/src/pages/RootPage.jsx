@@ -67,7 +67,7 @@ export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(page, siteSettings)} />
       {leadHero && !hideSidebar && <PageSections sections={[leadHero]} />}
-      <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
+      <div className={styles.detailPage} data-has-margin={showMargin || undefined} data-no-sidebar={hideSidebar || undefined}>
 
         {hasEyebrow && (
           <div className={styles.pageEyebrow}>
