@@ -116,7 +116,7 @@ export default function GovernancePage() {
           </div>
         </section>
 
-        <section id="artifacts" className={styles.section}>
+        <section id="governance-artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" className={styles.labelFlush} />
           <Grid spacing="0" accentTop>
             {ARTIFACTS.map((a) => (

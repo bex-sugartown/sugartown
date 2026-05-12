@@ -56,7 +56,7 @@
   color: var(--st-color-text-default);
 }
 .navLinkActive {
-  color: var(--st-color-text-default);
+  color: var(--st-color-brand-primary);
   border-left-color: var(--st-color-brand-primary);
   font-weight: 500;
 }

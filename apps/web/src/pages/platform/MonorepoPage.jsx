@@ -105,7 +105,7 @@ export default function MonorepoPage() {
           </div>
         </section>
 
-        <section id="artifacts" className={styles.section}>
+        <section id="monorepo-artifacts" className={styles.section}>
           <SectionLabel name="Artifacts" className={styles.labelFlush} />
           <Grid spacing="0" accentTop>
             {ARTIFACTS.map((a) => (
