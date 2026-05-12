@@ -138,6 +138,7 @@ function SidebarSection({ section, activeId }) {
       <NavLink
         to={section.to}
         end
+        onClick={() => window.scrollTo(0, 0)}
         className={({ isActive }) =>
           `${styles.sectionLabel} ${isActive ? styles.sectionLabelActive : ''}`
         }
