@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-13 · v0.23.23 · SUG-110 shipped (Dynamically generated roadmap from Linear)
+> Updated 2026-05-13 · v0.23.24 · SUG-112 shipped (Sidebar nav primitives — useScrollspy + SidebarNav + ESLint cleanup)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-110 shipped ✅ v0.23.23. SUG-113 (dynamic reporting pipeline — Linear roadmap + CWV) is the high-priority next item. SUG-112 (sidebar nav primitives) and SUG-107 (client taxonomy) follow.
+> **⚑ Current focus:** SUG-112 shipped ✅ v0.23.24. SUG-100 (CWV snapshot product widget) is In Review. SUG-113 (dynamic reporting pipeline) and SUG-107 (client taxonomy) are next.
 
 ---
 
@@ -43,7 +43,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Fix LHCI not writing JSON in CI, add missing Sanity secrets, diagnose low mobile Lighthouse scores (perf 68, best-practices 42), document manual backup update workflow, close SUG-100. Epic: `docs/backlog/SUG-106-stats-pipeline-fix-sug-100-close-out.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
-| 3 | **[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — Extract `useScrollspy` hook to `lib/`, create `SidebarNav` web adapter, fix 43 ESLint baseline errors + activate pre-commit lint gate. PlatformSidebar + PageSidebar both consuming shared primitives. Epic: `docs/backlog/SUG-112-sidebar-nav-primitives.md`. | `Design System` `Frontend` `Tooling` | 🟣 Soon |
+| 3 | ~~**[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — `useScrollspy` hook extracted, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors fixed + pre-commit gate activated. Shipped v0.23.24.~~ | `Design System` `Frontend` `Tooling` | ✅ Shipped |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
 | 2 | ~~**[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Shared entity folio pattern (Person, Project, Tool detail pages), SectionLabel + 2-col Grid content sections, full-width layout at --st-width-detail-wide, responsive mobile collapse in Grid. Shipped v0.23.21.~~ | `UX` `Design System` `Frontend` | ✅ Shipped |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
@@ -90,6 +90,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-112 · Sidebar nav primitives** — `useScrollspy` hook, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors resolved + pre-commit lint gate activated. Epic: `docs/shipped/SUG-112-sidebar-nav-primitives.md`.~~ | v0.23.24 | 2026-05-13 |
 | ~~**SUG-110 · Dynamically generated roadmap from Linear** — `linearRoadmap` collector in `scripts/collect-stats.js`. GovernancePage inline roadmap tables. Live DS tiles + governance stale message fix (SUG-110/111). Epic: `docs/shipped/SUG-110-dynamically-generated-roadmap-from-linear.md`.~~ | v0.23.23 | 2026-05-13 |
 | ~~**SUG-104 · Listview updates — archives and taxonomies** — Shared entity folio pattern extracted to `pages.module.css` (entityFolio, entityThumbnail, narrativeHeading, entityDescription). PersonProfilePage + ProjectDetailPage refactored to shared classes + DS SectionLabel + Grid. ToolDetailPage built from scratch at /tools/:slug. Grid responsive collapse at 600px. All entity detail pages at --st-width-detail-wide (1080px). Chromatic: deferred to /eod.~~ | v0.23.21 | 2026-05-10 |
 | ~~**SUG-105 · Knowledge Graph Phase 2** — Masthead kicker, FilterStrip 3-value chip color system (lime contrast solved), fullscreen overlay with fill height + legend top-left, tag nodes on filtered graphs, ledger rail with SELECTED header, ContentCard folio links, compact density font sizes. Chromatic Build 33: 15 changes accepted. eyebrow field on archivePage schema. Data pipeline gap: tag nodes in graph.js; stats.json regenerates on next CI run.~~ | v0.23.18 | 2026-05-09 |
@@ -181,4 +182,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-13 · v0.23.23 · SUG-110 shipped · queue: SUG-113*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-13 · v0.23.24 · SUG-112 shipped · queue: SUG-113*
