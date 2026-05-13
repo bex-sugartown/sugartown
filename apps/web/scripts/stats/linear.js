@@ -22,21 +22,26 @@ const LINEAR_API = 'https://api.linear.app/graphql'
 
 const PRIORITY_LABEL = { 0: 'No priority', 1: 'Urgent', 2: 'High', 3: 'Medium', 4: 'Low' }
 
+// Linear's `team()` query only accepts a UUID id, not a key string.
+// Use `teams` and match by key in JS instead.
 const QUERY = `
   query SugIssues {
-    team(key: "SUG") {
-      issues(
-        filter: { state: { type: { in: [started, backlog, unstarted, completed] } } }
-        first: 250
-      ) {
-        nodes {
-          identifier
-          title
-          url
-          priority
-          completedAt
-          state { name type }
-          labels { nodes { name } }
+    teams {
+      nodes {
+        key
+        issues(
+          filter: { state: { type: { in: [started, backlog, unstarted, completed] } } }
+          first: 250
+        ) {
+          nodes {
+            identifier
+            title
+            url
+            priority
+            completedAt
+            state { name type }
+            labels { nodes { name } }
+          }
         }
       }
     }
@@ -76,7 +81,9 @@ export async function collectLinear() {
   const json = await res.json()
   if (json.errors?.length) throw new Error(`Linear API errors: ${JSON.stringify(json.errors)}`)
 
-  const nodes = json.data?.team?.issues?.nodes ?? []
+  const team = (json.data?.teams?.nodes ?? []).find(t => t.key === 'SUG')
+  if (!team) throw new Error('Linear API: team with key "SUG" not found')
+  const nodes = team.issues?.nodes ?? []
 
   const inProgress = []
   const backlog    = []

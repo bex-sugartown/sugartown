@@ -6,7 +6,10 @@ import SectionLabel from '../../design-system/components/section-label/SectionLa
 import Card from '../../design-system/components/card/Card'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS, FIGJAM_URLS } from '../../lib/routes'
+import stats from '../../generated/stats.json'
 import styles from './PlatformHubPage.module.css'
+
+const ds = stats.ds ?? {}
 
 const REGISTRY_PREVIEW = [
   { name: 'Card', desc: 'Content surface — folio, metadata, listing, and KPI variants.' },
@@ -70,10 +73,36 @@ export default function DesignSystemPage() {
       <div className={styles.hub}>
 
         <SectionContainer className={styles.statsSection}>
-          <Tile label="Components" value="42" href={PLATFORM_ROUTES.dsRegistry} />
-          <Tile label="Tokens" value="590" />
-          <Tile label="Themes" value="2" />
-          <Tile label="Storybook" value="pinkmoon ↗" href={TRUST_LINKS.storybook} />
+          <Tile
+            label="Design tokens"
+            value={ds.tokens?.total ?? '—'}
+            legend
+            bar={ds.tokens?.primitives != null ? {
+              segments: [
+                { label: 'Primitive',  value: ds.tokens.primitives, color: 'var(--st-color-accent)' },
+                { label: 'Semantic',   value: ds.tokens.semantic,   color: 'var(--st-color-seafoam)' },
+                { label: 'Component',  value: ds.tokens.component,  color: 'var(--st-color-violet)' },
+              ],
+            } : undefined}
+            href={TRUST_LINKS.storybook}
+          />
+          <Tile
+            label="DS components"
+            value={ds.dsComponents ?? '—'}
+            sub={ds.webAdapters != null ? `+ ${ds.webAdapters} web adapters` : undefined}
+            href={PLATFORM_ROUTES.dsRegistry}
+          />
+          <Tile
+            label="Story coverage"
+            value={ds.dsComponents ? `${Math.round((ds.dsComponentsWithStories / ds.dsComponents) * 100)}%` : '—'}
+            sub={ds.dsComponentsWithStories != null && ds.dsComponents != null ? `${ds.dsComponentsWithStories} of ${ds.dsComponents} DS components` : undefined}
+            href={TRUST_LINKS.storybook}
+          />
+          <Tile
+            label="Token compliance"
+            value={ds.tokenCompliance != null ? `${ds.tokenCompliance}%` : '—'}
+            sub="CSS var refs using --st-* tokens"
+          />
         </SectionContainer>
 
         <section id="token-architecture" className={styles.section}>
