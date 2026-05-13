@@ -18,6 +18,7 @@
  */
 import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
+import Sidebar from '../design-system/components/sidebar/Sidebar'
 import SidebarNav from '../design-system/components/sidebar-nav/SidebarNav'
 import styles from './PageSidebar.module.css'
 
@@ -138,10 +139,14 @@ export default function PageSidebar({
   }
 
   return (
-    <aside className={styles.pageSidebar} aria-label="Page details">
-      <details className={styles.disclosure} open>
-        <summary className={styles.summary}>More from this page</summary>
-        <div className={styles.blocks}>
+    <Sidebar
+      label="More from this page"
+      side="right"
+      breakpoint="lg"
+      mobileStyle="appendix"
+      aria-label="Page details"
+    >
+      <div className={styles.blocks}>
 
           {hasToc && (
             <div className={`${styles.block} ${styles.tocOnly}`}>
@@ -199,8 +204,7 @@ export default function PageSidebar({
             </div>
           )}
 
-        </div>
-      </details>
-    </aside>
+      </div>
+    </Sidebar>
   )
 }

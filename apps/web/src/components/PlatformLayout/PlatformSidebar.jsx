@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { NavLink, useMatch, useLocation } from 'react-router-dom'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import useScrollspy from '../../lib/useScrollspy'
+import Sidebar from '../../design-system/components/sidebar/Sidebar'
 import SidebarNav from '../../design-system/components/sidebar-nav/SidebarNav'
 import styles from './PlatformSidebar.module.css'
 
@@ -132,23 +133,18 @@ export default function PlatformSidebar() {
   const activeId = useActiveSection()
 
   return (
-    <nav className={styles.platformSidebar} aria-label="Platform navigation">
-      {/* Mobile: collapsible disclosure */}
-      <details className={styles.disclosure}>
-        <summary className={styles.summary}>Platform</summary>
-        <div className={styles.inner}>
-          {NAV_SECTIONS.map((s) => (
-            <SidebarSection key={s.label} section={s} activeId={activeId} />
-          ))}
-        </div>
-      </details>
-
-      {/* Desktop: always-visible rail */}
-      <div className={styles.rail}>
+    <Sidebar
+      label="Platform"
+      side="left"
+      breakpoint="md"
+      mobileStyle="strip"
+      aria-label="Platform navigation"
+    >
+      <nav>
         {NAV_SECTIONS.map((s) => (
           <SidebarSection key={s.label} section={s} activeId={activeId} />
         ))}
-      </div>
-    </nav>
+      </nav>
+    </Sidebar>
   )
 }

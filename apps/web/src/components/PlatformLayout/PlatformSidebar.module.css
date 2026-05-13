@@ -1,12 +1,6 @@
-/* PlatformSidebar — left-rail nav on /platform/* routes.
- *
- * Mobile (<768px):  <details> disclosure strip above main content.
- * Desktop (≥768px): sticky left rail; disclosure hidden.
- *
- * Follows the PageSidebar mobile-collapse pattern (SUG-69).
+/* PlatformSidebar — nav section styles only.
+ * Container (sticky shell, mobile disclosure, border) is owned by Sidebar primitive.
  */
-
-/* ── Shared nav primitives ────────────────────────────────── */
 
 .section {
   margin-bottom: 1.5rem;
@@ -35,12 +29,6 @@
   color: var(--st-color-brand-primary);
 }
 
-.navList {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
 .navLink {
   display: block;
   padding: 0.3125rem 0 0.3125rem 0.75rem;
@@ -63,73 +51,4 @@
 .navLink:focus-visible {
   outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
-}
-
-/* ── Mobile: disclosure strip ─────────────────────────────── */
-
-.platformSidebar {
-  width: 100%;
-}
-
-.rail {
-  display: none;
-}
-
-.disclosure {
-  border-bottom: 1px solid var(--st-color-border-subtle);
-  margin-bottom: 1.5rem;
-}
-
-.summary {
-  list-style: none;
-  cursor: pointer;
-  padding: 0.75rem var(--st-page-gutter);
-  font-family: var(--st-label-font);
-  font-size: 0.7rem;
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
-  color: var(--st-color-text-default);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-.summary::-webkit-details-marker { display: none; }
-.summary::before {
-  content: '▸';
-  transition: transform 0.15s ease;
-  color: var(--st-color-text-muted);
-}
-.disclosure[open] > .summary::before { transform: rotate(90deg); }
-.summary:focus-visible {
-  outline: 2px solid var(--st-color-brand-primary);
-  outline-offset: 2px;
-}
-
-.inner {
-  padding: 0.75rem var(--st-page-gutter) 1rem;
-  border-top: 1px solid var(--st-color-border-subtle);
-}
-
-/* ── Desktop: sticky rail ─────────────────────────────────── */
-
-@media (min-width: 768px) {
-  .platformSidebar {
-    width: 220px;
-    flex-shrink: 0;
-  }
-
-  .disclosure {
-    display: none;
-  }
-
-  .rail {
-    display: block;
-    position: sticky;
-    top: calc(var(--st-header-height) + 1.5rem);
-    max-height: calc(100vh - var(--st-header-height) - 3rem);
-    overflow-y: auto;
-    padding-right: 1rem;
-    border-right: 1px solid var(--st-color-border-subtle);
-  }
 }

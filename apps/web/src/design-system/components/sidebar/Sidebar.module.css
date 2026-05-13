@@ -1,0 +1,164 @@
+/*
+ * Sidebar — layout primitive.
+ *
+ * Two mobile styles × two sides × two breakpoints.
+ * Container dimensions (width, grid column) are owned by the parent layout.
+ */
+
+/* ── Base ────────────────────────────────────────────────── */
+
+.panel {
+  margin: 0;
+}
+
+.toggle {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0;
+  font-family: var(--st-label-font);
+  font-size: 0.7rem;
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-color-text-default);
+}
+.toggle::-webkit-details-marker { display: none; }
+.toggle::before {
+  content: '▸';
+  transition: transform 0.15s ease;
+  color: var(--st-color-text-muted);
+}
+.panel[open] > .toggle::before { transform: rotate(90deg); }
+.toggle:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* ── Mobile: appendix style (default) ───────────────────────
+ * Flows below main content with a top border and spacing.
+ * Used by content right-rail sidebars (article, node, case study).
+ */
+.mobileAppendix {
+  margin-top: var(--st-space-section-break-detail);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--st-color-border-subtle);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--st-color-text-default);
+}
+
+.mobileAppendix .content {
+  padding-top: 1rem;
+}
+
+/* ── Mobile: strip style ─────────────────────────────────────
+ * Full-width disclosure strip, typically above main content.
+ * Used by nav rail sidebars (PlatformSidebar).
+ */
+.mobileStrip {
+  width: 100%;
+}
+
+.mobileStrip .panel {
+  border-bottom: 1px solid var(--st-color-border-subtle);
+  margin-bottom: 1.5rem;
+}
+
+.mobileStrip .toggle {
+  padding: 0.75rem var(--st-page-gutter);
+}
+
+.mobileStrip .content {
+  padding: 0.75rem var(--st-page-gutter) 1rem;
+  border-top: 1px solid var(--st-color-border-subtle);
+}
+
+/* ── Desktop: bpLg (1024px) ──────────────────────────────── */
+
+@media (min-width: 1024px) {
+  /* Reset mobile-appendix chrome */
+  .bpLg.mobileAppendix {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+    font-size: inherit;
+  }
+  .bpLg.mobileAppendix .content {
+    padding-top: 0;
+  }
+
+  /* Border placement */
+  .bpLg.sideRight {
+    padding-left: 1rem;
+    border-left: 1px solid var(--st-color-border-subtle);
+  }
+  .bpLg.sideLeft {
+    padding-right: 1rem;
+    border-right: 1px solid var(--st-color-border-subtle);
+  }
+
+  /* Sticky inner panel */
+  .bpLg .panel {
+    position: sticky;
+    top: calc(var(--st-header-height) + 1.5rem);
+    max-height: calc(100vh - var(--st-header-height) - 3rem);
+    overflow-y: auto;
+    /* Reset strip mobile chrome */
+    border-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .bpLg .toggle { display: none; }
+
+  .bpLg .content {
+    /* Reset strip mobile chrome */
+    padding: 0;
+    border-top: 0;
+  }
+}
+
+/* ── Desktop: bpMd (768px) ───────────────────────────────── */
+
+@media (min-width: 768px) {
+  /* Width for flex-layout contexts (TwoColumnLayout) */
+  .bpMd {
+    width: 220px;
+    flex-shrink: 0;
+  }
+
+  /* Reset mobile-strip chrome */
+  .bpMd.mobileStrip {
+    width: 220px;
+  }
+  .bpMd.mobileStrip .panel {
+    border-bottom: 0;
+    margin-bottom: 0;
+  }
+  .bpMd.mobileStrip .content {
+    padding: 0;
+    border-top: 0;
+  }
+
+  /* Border placement */
+  .bpMd.sideRight {
+    padding-left: 1rem;
+    border-left: 1px solid var(--st-color-border-subtle);
+  }
+  .bpMd.sideLeft {
+    padding-right: 1rem;
+    border-right: 1px solid var(--st-color-border-subtle);
+  }
+
+  /* Sticky inner panel */
+  .bpMd .panel {
+    position: sticky;
+    top: calc(var(--st-header-height) + 1.5rem);
+    max-height: calc(100vh - var(--st-header-height) - 3rem);
+    overflow-y: auto;
+  }
+
+  .bpMd .toggle { display: none; }
+}

@@ -11,7 +11,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import SidebarNav from './SidebarNav';
 
 const meta: Meta<typeof SidebarNav> = {
-  title: 'Design System/SidebarNav',
+  title: 'Patterns/SidebarNav',
   component: SidebarNav,
   parameters: { layout: 'padded' },
 };
