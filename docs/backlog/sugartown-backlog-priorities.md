@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-12 · v0.23.22 · SUG-111 shipped (Platform IA Phase II — PlatformLayout + 4 hub pages + hero inheritance)
+> Updated 2026-05-13 · v0.23.23 · SUG-110 shipped (Dynamically generated roadmap from Linear)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-111 shipped ✅ v0.23.22. SUG-112 (sidebar nav primitives) is logged and ready. SUG-107 (client taxonomy) or SUG-106 (stats pipeline) is next candidate.
+> **⚑ Current focus:** SUG-110 shipped ✅ v0.23.23. SUG-113 (dynamic reporting pipeline — Linear roadmap + CWV) is the high-priority next item. SUG-112 (sidebar nav primitives) and SUG-107 (client taxonomy) follow.
 
 ---
 
@@ -60,7 +60,7 @@
 | **Archive page deferred fields — wire Display + Advanced tab configs** — 8 `archivePage` fields moved to "Advanced (coming soon)" tab in Studio: hero section, custom description, featured items, display density, card variant, sort options, pagination, empty state. None are currently wired in the web app. Wire them when archive page UX is revisited post-launch. | `Deferred` `Schema` `Editor UX` |
 | **[SUG-19](https://linear.app/sugartown/issue/SUG-19) · KPI dashboard card family (BL-03)** — stat-card, bar-card, insight-card variants on DS Card. Build-time content metrics at `/platform/metrics`. Phase 1: DS variants + Storybook. Phase 2: metrics page. Epic: `docs/backlog/SUG-19-kpi-dashboard-cards.md`. <br>_↑ Consult-relevant — delivery/quality metrics are trust signals for prospective clients. Elevate if Services or a /work-with-me landing page is built. Surface from Services entry point, not buried at /platform/metrics._ | `Deferred` `Design System` `BL-03` |
 | **Schema ERD Sanity Hybrid (Option C)** — Upgrade ERD from code-driven page (EPIC-0172) to a `schemaErdSection` type embeddable via section builder. Component unchanged — adds schema, GROQ projection, and PageSections case. Depends on EPIC-0172. | `Deferred` `Schema` `Content` |
-| **[SUG-110](https://linear.app/sugartown/issue/SUG-110/dynamically-generated-roadmap-from-linear) · Dynamically generated roadmap from Linear** — `linearRoadmap` collector in `scripts/collect-stats.js`, `/platform/roadmap` page consuming the data. Closes manual drift between `sugartown-backlog-priorities.md` and Linear. 3 phases: data collector, page component, optional Sanity editorial layer. Epic: `docs/backlog/SUG-110-dynamically-generated-roadmap-from-linear.md`. | `Tooling` `Infrastructure` `Frontend` | ⚪ Later |
+| ~~**[SUG-110](https://linear.app/sugartown/issue/SUG-110/dynamically-generated-roadmap-from-linear) · Dynamically generated roadmap from Linear** — `linearRoadmap` collector in `scripts/collect-stats.js`, `/platform/roadmap` inline on GovernancePage. Live DS tiles + governance stale message fix. Shipped v0.23.23.~~ | `Tooling` `Infrastructure` `Frontend` | ✅ Shipped |
 | **[SUG-109](https://linear.app/sugartown/issue/SUG-109/figma-ds-backwards-engineer-code-connect-variables-pipeline) · Figma DS backwards-engineer — Code Connect + variables pipeline** — Populate the Sugartown Figma file with Figma variables (mapped to `--st-*` tokens), component frames for all 30+ DS components, and Code Connect mappings linking Figma to React imports. Closes the design-to-code pipeline in both directions. Epic: `docs/backlog/SUG-109-figma-ds-backwards-engineer-code-connect-variables-pipeline.md`. | `Design System` `Tooling` | ⚪ Later |
 | ~~**SUG-21 · Pink Moon** — Elevated to 🟢 Next. See §01.~~ | `Design System` `UX` |
 | **[SUG-36](https://linear.app/sugartown/issue/SUG-36) · Site-wide content search** — No search exists today. Recommended: Fuse.js client-side index (build-time JSON manifest, same pattern as sitemap). Nav search icon + `/search` page. Phase 1: articles + nodes + case studies. Design spike needed first. Epic: `docs/backlog/SUG-36-site-search.md`. <br>_⬇ Low consulting value — consulting prospects do not browse by keyword; they arrive from a referral or LinkedIn and need a clear conversion path, not a search box. Keep deferred._ | `Deferred` `UX` `GROQ` `Infrastructure` |
@@ -90,6 +90,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-110 · Dynamically generated roadmap from Linear** — `linearRoadmap` collector in `scripts/collect-stats.js`. GovernancePage inline roadmap tables. Live DS tiles + governance stale message fix (SUG-110/111). Epic: `docs/shipped/SUG-110-dynamically-generated-roadmap-from-linear.md`.~~ | v0.23.23 | 2026-05-13 |
 | ~~**SUG-104 · Listview updates — archives and taxonomies** — Shared entity folio pattern extracted to `pages.module.css` (entityFolio, entityThumbnail, narrativeHeading, entityDescription). PersonProfilePage + ProjectDetailPage refactored to shared classes + DS SectionLabel + Grid. ToolDetailPage built from scratch at /tools/:slug. Grid responsive collapse at 600px. All entity detail pages at --st-width-detail-wide (1080px). Chromatic: deferred to /eod.~~ | v0.23.21 | 2026-05-10 |
 | ~~**SUG-105 · Knowledge Graph Phase 2** — Masthead kicker, FilterStrip 3-value chip color system (lime contrast solved), fullscreen overlay with fill height + legend top-left, tag nodes on filtered graphs, ledger rail with SELECTED header, ContentCard folio links, compact density font sizes. Chromatic Build 33: 15 changes accepted. eyebrow field on archivePage schema. Data pipeline gap: tag nodes in graph.js; stats.json regenerates on next CI run.~~ | v0.23.18 | 2026-05-09 |
 | ~~**SUG-81 · Site-wide Knowledge Graph (MVP)** — `/knowledge-graph` with force-directed canvas (article, caseStudy, node). FilterStrip component with per-type color tokens. Hub/item node rail with ContentCard compact + hub card surface. Legend with bg+border. Sanity archivePage wired for heading/SEO. `--st-kg-*` 7-token layer. `stats.siteGraph` build-time collector. Stats pipeline live. Chromatic pending (SUG-105).~~ | v0.23.16 | 2026-05-08 |
@@ -180,4 +181,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-10 · v0.23.21 · SUG-104 shipped · queue: SUG-107*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-13 · v0.23.23 · SUG-110 shipped · queue: SUG-113*
