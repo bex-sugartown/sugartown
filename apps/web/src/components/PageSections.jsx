@@ -908,6 +908,10 @@ function StatTileSectionRenderer({ section }) {
   )
 }
 
+// Named export — allows hub pages to render a single Mermaid diagram without
+// the full PageSections section-builder machinery.
+export { MermaidDiagram }
+
 // Main Section Renderer
 // context="detail" — sections inherit containment from parent .detailPage (no own max-width / padding-inline)
 // context="full"   — sections self-contain (default, used on standalone pages)

@@ -61,6 +61,7 @@ jobs:
           VITE_SANITY_TOKEN:        ${{ secrets.VITE_SANITY_TOKEN }}
           GITHUB_TOKEN:             ${{ secrets.GITHUB_TOKEN }}
           CRUX_API_KEY:             ${{ secrets.CRUX_API_KEY }}
+          LINEAR_API_KEY:           ${{ secrets.LINEAR_SUGARTOWN_STATS }}
 
       - name: Commit updated stats.json
         run: |

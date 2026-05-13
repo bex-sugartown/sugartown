@@ -72,6 +72,11 @@
   padding: var(--st-space-meta-top) var(--st-page-gutter) var(--st-space-section-break);
 }
 
+/* Platform pages suppress the right sidebar — match hub page width */
+.detailPage[data-no-sidebar] {
+  max-width: var(--st-width-detail-wide, 1080px);
+}
+
 /* Wide viewport: CSS grid with main + page sidebar.
    Breakpoint: 1024px (--st-breakpoint-lg). SUG-69 dropped this from 1200px to
    activate the rail on a common laptop class (MacBook 13"/14").

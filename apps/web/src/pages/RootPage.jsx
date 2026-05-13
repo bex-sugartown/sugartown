@@ -2,7 +2,8 @@
  * RootPage — renders a Sanity `page` document fetched by slug.
  * Route: /:slug  (root pages like /about, /contact, etc.)
  */
-import { useParams } from 'react-router-dom'
+import { useLayoutEffect } from 'react'
+import { useParams, useOutletContext } from 'react-router-dom'
 import { pageBySlugQuery } from '../lib/queries'
 import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -17,11 +18,26 @@ import ContactForm from '../components/ContactForm'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
 
-export default function RootPage() {
-  const { slug } = useParams()
+export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
+  const { slug: slugParam } = useParams()
+  const slug = slugOverride ?? slugParam
   const { data: page, loading, notFound } = useSanityDoc(pageBySlugQuery, { slug })
   const siteSettings = useSiteSettings()
   const hasDraft = useDocHasDraft(page?._id)
+
+  // When inside PlatformLayout (hideSidebar=true), hoist the hero above the
+  // two-column shell via the setHeroSlot context passed through <Outlet>.
+  const { setHeroSlot } = useOutletContext() ?? {}
+
+  // Detail layout — with optional page sidebar
+  const { leadHero, restSections, heroImageUrl } = extractLeadHero(page?.sections)
+  const showMargin = !hideSidebar && hasSidebarContent({ ...page, sections: restSections })
+
+  useLayoutEffect(() => {
+    if (!hideSidebar || !setHeroSlot) return
+    setHeroSlot(leadHero ? <PageSections sections={[leadHero]} /> : null)
+    return () => setHeroSlot(null)
+  }, [hideSidebar, leadHero, setHeroSlot])
 
   const seo = resolveSeo(page ?? null, siteSettings)
 
@@ -39,10 +55,6 @@ export default function RootPage() {
     )
   }
 
-  // Detail layout — with optional page sidebar
-  const { leadHero, restSections, heroImageUrl } = extractLeadHero(page.sections)
-  const showMargin = hasSidebarContent({ ...page, sections: restSections })
-
   // Thin mono-caps eyebrow strip replaces MetadataCard on page-type docs.
   // Format: "PLATFORM · UPDATED APR 2026" (page-type slug · month year).
   const pageTypeLabel = slug ? slug.replace(/-/g, ' ').toUpperCase() : null
@@ -54,8 +66,8 @@ export default function RootPage() {
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(page, siteSettings)} />
-      {leadHero && <PageSections sections={[leadHero]} />}
-      <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
+      {leadHero && !hideSidebar && <PageSections sections={[leadHero]} />}
+      <div className={styles.detailPage} data-has-margin={showMargin || undefined} data-no-sidebar={hideSidebar || undefined}>
 
         {hasEyebrow && (
           <div className={styles.pageEyebrow}>
@@ -72,13 +84,15 @@ export default function RootPage() {
           <PageSections sections={restSections} context="detail" />
         )}
 
-        <PageSidebar
-          sections={restSections}
-          content={page.content}
-          tools={page.tools}
-          authors={page.authors}
-          aiDisclosure={page.aiDisclosure}
-        />
+        {!hideSidebar && (
+          <PageSidebar
+            sections={restSections}
+            content={page.content}
+            tools={page.tools}
+            authors={page.authors}
+            aiDisclosure={page.aiDisclosure}
+          />
+        )}
 
       </div>
       {slug === 'contact' && <ContactForm />}

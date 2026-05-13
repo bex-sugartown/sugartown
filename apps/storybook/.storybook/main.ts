@@ -87,6 +87,13 @@ const config: StorybookConfig = {
       },
     });
 
+    // Fix BUILD_DATE to a stable value in Storybook so Footer stories don't
+    // produce a Chromatic diff on every build (the real value changes daily).
+    viteConfig.define = {
+      ...viteConfig.define,
+      __BUILD_DATE__: JSON.stringify('2026-01-01'),
+    };
+
     return viteConfig;
   },
 };

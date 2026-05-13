@@ -22,6 +22,13 @@ import PersonProfilePage from './pages/PersonProfilePage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
 import SiteGraphPage from './pages/SiteGraphPage'
 import SchemaErdPage from './pages/SchemaErdPage'
+import PlatformLayout from './components/PlatformLayout/PlatformLayout'
+import GovernancePage from './pages/platform/GovernancePage'
+import MonorepoPage from './pages/platform/MonorepoPage'
+import CmsPage from './pages/platform/CmsPage'
+import DesignSystemPage from './pages/platform/DesignSystemPage'
+
+import DesignSystemRegistryPage from './pages/platform/DesignSystemRegistryPage'
 import SitemapPage from './pages/SitemapPage'
 import NotFoundPage from './pages/NotFoundPage'
 
@@ -125,8 +132,25 @@ function App() {
         <Route path="/tools" element={<TaxonomyArchivePage />} />
         <Route path="/tools/:slug" element={<ToolDetailPage />} />
 
+        {/* ── Platform section ────────────────────────────────────── */}
+        {/* All /platform/* routes share PlatformLayout (left rail nav).
+            Right rail (PageSidebar) is suppressed via hideSidebar — left rail
+            owns in-page navigation for this section. */}
+        <Route path="/platform">
+          <Route element={<PlatformLayout />}>
+            <Route index element={<RootPage slugOverride="platform" hideSidebar />} />
+            {/* /platform/schema → /platform/cms redirect (SUG-111) */}
+            <Route path="schema" element={<Navigate to="/platform/cms" replace />} />
+            <Route path="governance" element={<GovernancePage />} />
+            <Route path="monorepo" element={<MonorepoPage />} />
+            <Route path="cms" element={<CmsPage />} />
+            <Route path="design-system" element={<DesignSystemPage />} />
+
+            <Route path="design-system/registry" element={<DesignSystemRegistryPage />} />
+          </Route>
+        </Route>
+
         {/* ── Code-driven pages ────────────────────────────────────── */}
-        <Route path="/platform/schema" element={<SchemaErdPage />} />
         <Route path="/sitemap" element={<SitemapPage />} />
 
         {/* ── Root pages (page type) — must come last among /:slug ─── */}
