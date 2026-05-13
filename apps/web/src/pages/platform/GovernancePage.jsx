@@ -138,11 +138,6 @@ export default function GovernancePage() {
           )}
         </section>
 
-        <section id="release-process" className={styles.section}>
-          <SectionLabel name="Release process" kicker="Gate model" />
-          <MermaidDiagram section={RELEASE_DIAGRAM} />
-        </section>
-
         <section id="recent-releases" className={styles.section}>
           <SectionLabel name="Recent releases" kicker="Last 5" />
           <DataTable columns={RELEASE_COLUMNS} rows={RECENT_RELEASES} variant="trust" />
@@ -150,6 +145,11 @@ export default function GovernancePage() {
             <a href={TRUST_LINKS.changelog} className={styles.trustLink} target="_blank" rel="noreferrer">Full changelog</a>
             <a href={TRUST_LINKS.commits}   className={styles.trustLink} target="_blank" rel="noreferrer">Commit log</a>
           </div>
+        </section>
+
+        <section id="release-process" className={styles.section}>
+          <SectionLabel name="Release process" kicker="Gate model" />
+          <MermaidDiagram section={RELEASE_DIAGRAM} />
         </section>
 
         <section id="governance-artifacts" className={styles.section}>
