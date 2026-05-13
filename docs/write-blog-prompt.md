@@ -141,6 +141,23 @@ Per `docs/briefs/ai-ethics-and-operations.md` Principles 3, 11, and 13, AI-gener
 
 ---
 
+## Step 2.75 — Brand voice compliance pass (hard stop before any Sanity write)
+
+Scan all drafted text before calling `create_documents_from_json`. Fix every violation in the draft first.
+
+**Em dashes (—):** replace every instance. Use a colon, comma, parentheses, or restructure the sentence into two. Zero em dashes permitted.
+
+**Banned terms — find and replace:**
+- AI vocabulary: "leverage", "utilize", "facilitate", "delve into", "synergize", "ideate", "learnings", "passionate about", "excited to announce", "in today's landscape"
+- Filler transitions: "That said,", "With that in mind,", "That being said,", "It's worth noting that", "At the end of the day"
+- Hedge stacks: "I think maybe this could possibly" — pick a position
+- Empty adjective triads: "robust, scalable, and maintainable" — one specific adjective or a number
+- Sentence-opening repetition: three consecutive sentences starting with the same word — rewrite one
+
+Do not proceed to Step 3 until all of the above are resolved. Confirming compliance is part of the pre-write report.
+
+---
+
 ## Step 3 — Create the Sanity draft
 
 Use `create_documents_from_json` (NOT `create_documents_from_markdown` — no AI rewriting).
