@@ -16,9 +16,9 @@
  *
  * If all slots are empty, returns null.
  */
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
+import useScrollspy from '../lib/useScrollspy'
 import styles from './PageSidebar.module.css'
 
 /** Plain text from a PortableText block. */
@@ -119,39 +119,7 @@ export default function PageSidebar({
   const hasSeries = !!series?.title
   const hasAi = !!aiDisclosure || (tools?.some(isAiTool) ?? false)
 
-  const [activeAnchor, setActiveAnchor] = useState(null)
-
-  useEffect(() => {
-    if (!hasToc) return
-    if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined') return
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
-
-    const targets = toc
-      .map((entry) => document.getElementById(entry.anchor))
-      .filter(Boolean)
-    if (!targets.length) return
-
-    // Rescan all targets on every IO event, pick the last one whose top has
-    // crossed the trigger line. Stays correct regardless of section size; a
-    // simple isIntersecting->setActive pattern misses tall sections that span
-    // the entire intersection band without a clean enter/leave edge.
-    const update = () => {
-      const triggerLine = window.innerHeight * 0.25
-      let active = null
-      for (const t of targets) {
-        if (t.getBoundingClientRect().top <= triggerLine) active = t.id
-        else break
-      }
-      setActiveAnchor(active)
-    }
-    const observer = new IntersectionObserver(update, {
-      rootMargin: '0px 0px -75% 0px',
-      threshold: 0,
-    })
-    targets.forEach((t) => observer.observe(t))
-    update()
-    return () => observer.disconnect()
-  }, [hasToc, toc])
+  const activeAnchor = useScrollspy(hasToc ? toc.map((e) => e.anchor) : [])
 
   if (!hasToc && !hasRelated && !hasSeries && !hasAi) return null
 

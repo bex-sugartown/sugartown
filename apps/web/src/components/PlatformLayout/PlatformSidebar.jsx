@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { NavLink, useMatch, useLocation } from 'react-router-dom'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
+import useScrollspy from '../../lib/useScrollspy'
 import styles from './PlatformSidebar.module.css'
 
 const NAV_SECTIONS = [
@@ -59,58 +60,26 @@ const ALL_HASH_IDS = NAV_SECTIONS
   .filter(Boolean)
 
 // ── Scroll-aware active section hook ────────────────────────────────────────
-// Watches all section IDs via IntersectionObserver; returns the topmost
-// visible section ID so the sidebar can highlight the correct anchor.
+// Delegates IO-based scrollspy to useScrollspy; handles hash-seeded initial
+// state so the correct link is highlighted immediately on load/navigation.
 function useActiveSection() {
   const { pathname, hash } = useLocation()
   // Seed from URL hash so the correct item is active immediately on load/navigation
-  const [activeId, setActiveId] = useState(() => hash ? hash.slice(1) : null)
+  const [hashId, setHashId] = useState(() => (hash ? hash.slice(1) : null))
 
-  // Keep hash-seeded state in sync when hash changes (e.g. sidebar link clicks)
   useEffect(() => {
-    if (hash) setActiveId(hash.slice(1))
+    setHashId(hash ? hash.slice(1) : null)
   }, [hash])
 
-  useEffect(() => {
-    setActiveId(null)
+  // resetKey=pathname so the observer re-attaches when navigating between
+  // platform pages (same IDs, different DOM elements after route change).
+  const scrollActiveId = useScrollspy(ALL_HASH_IDS, {
+    rootMargin: '0px 0px -85% 0px',
+    resetKey: pathname,
+  })
 
-    function update() {
-      // Use a tight 15% threshold so only sections that have nearly reached
-      // the top of the viewport are considered. "Max top that's still ≤ threshold"
-      // picks the section most recently crossed — not just the last in DOM order.
-      const threshold = window.innerHeight * 0.15
-      let active = null
-      let maxTop = -Infinity
-      for (const id of ALL_HASH_IDS) {
-        const el = document.getElementById(id)
-        if (!el) continue
-        const top = el.getBoundingClientRect().top
-        if (top <= threshold && top > maxTop) {
-          maxTop = top
-          active = id
-        }
-      }
-      // Fallback: if no section has crossed the threshold (user is at the very
-      // top of the page), highlight the section whose heading is closest to the
-      // viewport top from below (smallest positive top).
-      if (!active) {
-        let minTop = Infinity
-        for (const id of ALL_HASH_IDS) {
-          const el = document.getElementById(id)
-          if (!el) continue
-          const top = el.getBoundingClientRect().top
-          if (top >= 0 && top < minTop) { minTop = top; active = id }
-        }
-      }
-      setActiveId(active)
-    }
-
-    update()
-    window.addEventListener('scroll', update, { passive: true })
-    return () => window.removeEventListener('scroll', update)
-  }, [pathname])
-
-  return activeId
+  // scrollActiveId wins once the observer fires; fall back to hash seed until then
+  return scrollActiveId ?? hashId
 }
 
 function SidebarSection({ section, activeId }) {
