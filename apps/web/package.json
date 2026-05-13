@@ -7,7 +7,7 @@
     "dev": "vite",
     "build:redirects": "node scripts/build-redirects.js",
     "build:sitemap": "node scripts/build-sitemap.js",
-    "build": "node scripts/build-redirects.js && vite build && node scripts/build-sitemap.js",
+    "build": "node ../../scripts/generate-schema-manifest.mjs && node scripts/build-redirects.js && vite build && node scripts/build-sitemap.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "validate:urls": "node scripts/validate-urls.js",

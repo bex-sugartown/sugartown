@@ -42,7 +42,8 @@
     "migrate:html-tables": "node scripts/migrate/html-tables-to-tableblock.js",
     "audit:urls": "node scripts/audit/wp-url-spider.js",
     "bulk:export": "node scripts/bulk/export-csv.js",
-    "bulk:import": "node scripts/bulk/import-csv.js"
+    "bulk:import": "node scripts/bulk/import-csv.js",
+    "generate:schema-manifest": "node scripts/generate-schema-manifest.mjs"
   },
   "devDependencies": {
     "husky": "^9.0.0",
