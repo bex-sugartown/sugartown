@@ -20,10 +20,10 @@
     "@sanity/code-input": "^7.0.8",
     "@sanity/color-input": "^6.0.3",
     "@sanity/icons": "^3.7.4",
-    "@sanity/vision": "^5.17.1",
+    "@sanity/vision": "^5.25.0",
     "react": "^19.1",
     "react-dom": "^19.1",
-    "sanity": "^5.17.1",
+    "sanity": "^5.25.0",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {

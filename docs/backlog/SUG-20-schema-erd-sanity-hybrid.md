@@ -1,28 +1,28 @@
 ---
-**Epic:** SUG-20 — Schema ERD DS alignment + Sanity Hybrid (Option C)
+**Epic:** SUG-20 — Schema ERD DS alignment
 **Linear Issue:** [SUG-20](https://linear.app/sugartown/issue/SUG-20/schema-erd-sanity-hybrid-option-c)
 **Status:** Backlog
 **Priority:** 🟣 Soon (activate between SUG-111 Phase 2 and Phase 3)
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 
-# SUG-20 — Schema ERD DS alignment + Sanity Hybrid (Option C)
+# SUG-20 — Schema ERD DS alignment
 
-Align the Schema ERD page to use existing DS components and tokens, then make it embeddable via the Sanity section builder — so it can live at `/platform/diagrams` (SUG-111 Phase 3) without a hardcoded route.
+Align the Schema ERD page to use existing DS components and tokens so it is visually clean when it migrates to `/platform/cms/diagrams` (SUG-111 Phase 3).
 
 ## Background
 
 The Schema ERD (`/platform/schema`) is a fully functional interactive page but was built before the DS component system matured. It uses a bespoke CSS module (`SchemaERD.module.css`) that bypasses `Card`, `Chip`, `SectionLabel`, `StatTile`, `Button`, and `SegmentedControl` — and hardcodes `border-radius: 6px / 4px / 3px` throughout, which contradicts the Pink Moon zero-radius aesthetic (`--st-radius-card: 0`, `--st-radius-button: 0`).
 
-The page is currently a hardcoded route (`/platform/schema`). When SUG-111 Phase 3 ships, it moves to `/platform/diagrams`. At that point it should use DS components so it aligns visually with the rest of the platform section and picks up dark mode, token overrides, and future theme changes automatically.
+The page is currently a hardcoded route (`/platform/schema`). When SUG-111 Phase 3 ships, it moves to `/platform/cms/diagrams` — the Schema ERD is a CMS artifact (it visualizes the Sanity content schema) and belongs in the CMS section, not a shared diagrams hub. At that point it should use DS components so it aligns visually with the rest of the platform section and picks up dark mode, token overrides, and future theme changes automatically.
 
 **Phase 0 mock completed 2026-05-11:** `docs/drafts/SUG-20-schema-erd-ds-mock.html`
 
 ## Objective
 
-After this epic, `SchemaERD.jsx` renders using DS primitives (`Card`, `Chip`, `SectionLabel`, `StatTile`, `Button`, `SegmentedControl`) with no hardcoded `border-radius`, `color`, or `background` values. Optionally, a `schemaErdSection` Sanity schema type allows the ERD to be placed on any page via the section builder — so the hardcoded `/platform/schema` route can be retired in favour of the platform page embedding it directly.
+After this epic, `SchemaERD.jsx` renders using DS primitives (`Card`, `Chip`, `SectionLabel`, `StatTile`, `Button`, `SegmentedControl`) with no hardcoded `border-radius`, `color`, or `background` values. The component is a clean drop-in for the `/platform/cms/diagrams` leaf page — no section builder integration needed (the ERD has one home; a Sanity section type would add schema overhead for zero editorial benefit).
 
-Layers touched: `apps/web/src/components/SchemaERD/SchemaERD.jsx`, `SchemaERD.module.css`. Optional: `apps/studio/schemas/sections/schemaErdSection.ts`, `PageSections.jsx`.
+Layers touched: `apps/web/src/components/SchemaERD/SchemaERD.jsx`, `SchemaERD.module.css`.
 
 ## Scope
 
@@ -39,20 +39,13 @@ Layers touched: `apps/web/src/components/SchemaERD/SchemaERD.jsx`, `SchemaERD.mo
 - [ ] Eliminate all hardcoded `border-radius` values in `SchemaERD.module.css`; replace with `var(--st-radius-card)`, `var(--st-radius-button)`, `var(--st-radius-tag)` as appropriate — layer: frontend
 - [ ] Run `pnpm validate:tokens --strict-colors` and confirm zero violations — layer: tooling
 
-**Phase 2 — Sanity Hybrid / section builder (optional, activate with SUG-111 Phase 3)**
+**Phase 2 — dropped**
 
-- [ ] `schemaErdSection` schema type: fields `title (string)`, `description (text)`, `dataSource (enum: static)` — layer: schema
-- [ ] Register in `schemas/index.ts` and add to `sections[]` on `page` doc type — layer: schema
-- [ ] GROQ projection in `pageBySlugQuery` for the new section type — layer: query
-- [ ] `PageSections.jsx` case: renders `<SchemaERD>` with static manifest data — layer: frontend
-- [ ] Schema deploy — layer: infrastructure
-- [ ] Add `schemaErdSection` to the Platform page in Sanity Studio; retire the hardcoded `/platform/schema` route in `App.jsx` once migration confirmed — layer: content
+A `schemaErdSection` Sanity section type was originally scoped here to allow the ERD to be embedded via the section builder. Dropped: the Schema ERD has exactly one home (`/platform/cms/diagrams`) and is not authored content. A section type would add schema, deploy, GROQ, and `PageSections.jsx` overhead for zero editorial benefit. The leaf page at `/platform/cms/diagrams` renders `<SchemaERD />` directly as a hardcoded page component.
 
 ## Phases
 
-**Phase 1 — DS alignment:** Pure component/CSS refactor. `SchemaERD.jsx` and `.module.css` only. No schema changes. Should ship before SUG-111 Phase 3 so the component is clean when it moves to `/platform/diagrams`.
-
-**Phase 2 — Sanity Hybrid:** Schema type + section builder integration. Activate alongside or just before SUG-111 Phase 3. Enables the hardcoded route to be retired.
+**Phase 1 — DS alignment (only phase):** Pure component/CSS refactor. `SchemaERD.jsx` and `.module.css` only. No schema changes. Must ship before SUG-111 Phase 3 so the component is clean when it moves to `/platform/cms/diagrams`.
 
 ## Acceptance criteria
 
@@ -60,7 +53,7 @@ Layers touched: `apps/web/src/components/SchemaERD/SchemaERD.jsx`, `SchemaERD.mo
 - [ ] `pnpm validate:tokens --strict-colors` passes with zero violations after Phase 1
 - [ ] No hardcoded `border-radius`, `color`, or `background` hex/rgba values remain in `SchemaERD.module.css`
 - [ ] Entity cards, sidebar, filter tabs, and stats bar are visually consistent with the rest of the site (zero-radius, token-driven)
-- [ ] Phase 2 (if activated): `schemaErdSection` renders on the Platform page; `/platform/schema` redirects to the new location
+- [ ] `/platform/schema` redirects to `/platform/cms/diagrams` with no 404 (implemented in SUG-111 Phase 3)
 - [ ] Chromatic VRT for the updated component
 
 ## Technical notes
@@ -70,8 +63,7 @@ Layers touched: `apps/web/src/components/SchemaERD/SchemaERD.jsx`, `SchemaERD.mo
 - **Card shell for entity cards:** the entity card has a selected state (`box-shadow: 0 0 0 1px brand-primary`) and a dimmed state (`opacity: 0.3`). Check whether DS `Card` supports these — if not, extend via `className` prop override or a thin wrapper.
 - **StatTile grid:** use the bg-through-gap pattern (`background: var(--st-color-rule-accent)` parent + `background: var(--st-card-bg)` on each tile child) to produce hairline dividers between stat tiles. Document the pattern with the `/* covers parent gap bg */` annotation per CLAUDE.md.
 - **Sticky sidebar offset:** `top: 7.5rem` is hardcoded. Once SUG-111 PlatformLayout ships, verify this value accounts for the combined site header + platform sidebar nav height — it may need to change to `top: var(--st-space-platform-nav-offset)` or similar.
-- **Phase 2 schema:** `schemaErdSection` is a simple wrapper — it has no content fields beyond title/description. The ERD data comes from `schemaManifest.js` (static). `dataSource: static` is the only supported value at this phase; `groq` is reserved for future dynamic codegen.
-- **Model recommendation:** Phase 1 (component refactor) → `sonnet`. Phase 2 (schema + section builder) → `sonnet`.
+- **Model recommendation:** `sonnet`.
 
 ## Non-Goals
 
@@ -84,7 +76,7 @@ Layers touched: `apps/web/src/components/SchemaERD/SchemaERD.jsx`, `SchemaERD.mo
 
 - **Linear:** [SUG-20](https://linear.app/sugartown/issue/SUG-20/schema-erd-sanity-hybrid-option-c)
 - **Phase 0 mock:** `docs/drafts/SUG-20-schema-erd-ds-mock.html` — annotated DS substitution points + gap panel
-- **SUG-111 Phase 3:** `/platform/diagrams` route — this epic must ship Phase 1 before that route goes live
+- **SUG-111 Phase 3:** `/platform/cms/diagrams` route — this epic must ship Phase 1 before that route goes live
 - **SchemaERD source:** `apps/web/src/components/SchemaERD/SchemaERD.jsx` + `SchemaERD.module.css`
 - **SchemaErdPage:** `apps/web/src/pages/SchemaErdPage.jsx`
 - **Schema manifest:** `apps/web/src/data/schemaManifest.js`
