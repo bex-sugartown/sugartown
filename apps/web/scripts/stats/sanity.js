@@ -31,7 +31,7 @@ function loadEnv() {
       const v = t.slice(i + 1).trim().replace(/^["']|["']$/g, '')
       if (!process.env[k]) process.env[k] = v
     }
-  } catch {}
+  } catch { /* empty */ }
 }
 
 const DOC_TYPES = ['article', 'node', 'caseStudy', 'page', 'tag', 'category', 'project', 'person', 'tool']

@@ -18,12 +18,12 @@ export function collectRepo() {
       execSync('git rev-list --count HEAD', { cwd: GIT_ROOT }).toString().trim(),
       10
     )
-  } catch {}
+  } catch { /* empty */ }
 
   let epicsShipped = 0
   try {
     epicsShipped = readdirSync(SHIPPED_DIR).filter(f => /\.md$/.test(f)).length
-  } catch {}
+  } catch { /* empty */ }
 
   return { commits, epicsShipped }
 }

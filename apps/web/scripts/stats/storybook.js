@@ -28,7 +28,7 @@ function walkStories(dir) {
       if (statSync(full).isDirectory()) results.push(...walkStories(full))
       else if (/\.stories\.[jt]sx?$/.test(entry)) results.push(full)
     }
-  } catch {}
+  } catch { /* empty */ }
   return results
 }
 
@@ -43,7 +43,7 @@ export function collectStorybook() {
       // Count named exports (each is a story variant); exclude `export default`
       const named = (src.match(/^export const \w+/gm) || []).length
       stories += named
-    } catch {}
+    } catch { /* empty */ }
   }
 
   return { stories, components }

@@ -103,7 +103,7 @@ export function collectPerf() {
       if (!existing || file > existing.file) {
         byUrlFormFactor.set(mapKey, { file, result })
       }
-    } catch {}
+    } catch { /* empty */ }
   }
 
   const runs = {}

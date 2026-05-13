@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- file exports a hook, not a component */
 import { useLayoutEffect } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import PageSections from '../PageSections'

@@ -92,7 +92,7 @@ for (const file of files) {
     const key = `${url}::${ff}`
     const existing = byKey.get(key)
     if (!existing || file > existing.file) byKey.set(key, { file, result, url, ff })
-  } catch {}
+  } catch { /* empty */ }
 }
 
 // Build runs object
@@ -123,7 +123,7 @@ if (Object.keys(runs).length === 0) {
 const date = new Date().toISOString().slice(0, 10)
 
 function fmtRunData(d, indent) {
-  const pad = ' '.repeat(indent)
+  const _pad = ' '.repeat(indent)
   return `{ performance: ${d.performance}, accessibility: ${d.accessibility}, bestPractices: ${d.bestPractices}, seo: ${d.seo}, lcp: ${d.lcp}, cls: ${d.cls}, inp: ${d.inp}, rating: '${d.rating}' }`
 }
 

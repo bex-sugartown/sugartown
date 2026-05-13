@@ -141,7 +141,7 @@ async function run() {
   }
 
   const allTagIds = new Set(tagDocs.map((t) => t._id))
-  const tagById = Object.fromEntries(tagDocs.map((t) => [t._id, t]))
+  const _tagById = Object.fromEntries(tagDocs.map((t) => [t._id, t]))
 
   // ── Check A: category count > 2 ───────────────────────────────────────────
 

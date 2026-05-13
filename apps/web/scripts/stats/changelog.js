@@ -42,7 +42,7 @@ export function collectChangelog() {
   }
 
   const entries = positions.map((pos, i) => {
-    const sectionEnd = i + 1 < positions.length ? positions[i + 1].contentStart - positions[i + 1].contentStart : text.length
+    const _sectionEnd = i + 1 < positions.length ? positions[i + 1].contentStart - positions[i + 1].contentStart : text.length
     const nextPos = i + 1 < positions.length ? positions[i + 1].contentStart : text.length
     const section = text.slice(pos.contentStart, nextPos)
 

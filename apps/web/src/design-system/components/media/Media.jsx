@@ -111,6 +111,7 @@ function getOverlayStyles(overlay) {
 /**
  * Exported for reuse in HeroSection overlay rendering.
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export { getOverlayStyles, parseOverlay, ensureSvgFilter }
 
 /**

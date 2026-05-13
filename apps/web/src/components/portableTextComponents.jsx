@@ -9,7 +9,7 @@
  */
 import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
-import { getLinkProps, isExternalUrl } from '../lib/linkUtils'
+import { getLinkProps } from '../lib/linkUtils'
 import styles from './portableTextComponents.module.css'
 
 /**

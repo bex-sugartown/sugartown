@@ -66,7 +66,7 @@ function RecentReleasesReport() {
 // ── Design System Stats Report ──────────────────────────────────────────────
 
 function DesignSystemStatsReport() {
-  const { ds, storybook } = stats
+  const { ds } = stats
 
   const tokenSegments = ds?.tokens?.primitives != null
     ? [

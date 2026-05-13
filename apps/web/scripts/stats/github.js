@@ -38,13 +38,13 @@ export async function collectGithub() {
 
   let contributors = null
   try {
-    const contribs = await ghFetch(`/repos/${REPO}/contributors?per_page=1&anon=false`)
+    const _contribs = await ghFetch(`/repos/${REPO}/contributors?per_page=1&anon=false`)
     // contributors endpoint returns array; page 1 with 1 per page gives us
     // the Link header for total count — parse it for accuracy if available.
     // Fall back to length of full list if repo is small.
     const full = await ghFetch(`/repos/${REPO}/contributors?per_page=100&anon=false`)
     contributors = Array.isArray(full) ? full.length : null
-  } catch {}
+  } catch { /* empty */ }
 
   return {
     fetchedAt: new Date().toISOString(),

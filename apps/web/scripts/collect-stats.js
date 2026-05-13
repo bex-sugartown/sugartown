@@ -48,7 +48,7 @@ export async function run(outputPath = OUTPUT_PATH) {
   let existing = {}
   try {
     existing = JSON.parse(readFileSync(outputPath, 'utf-8'))
-  } catch {}
+  } catch { /* empty */ }
 
   // Local collectors — failure is fatal
   const release = collectChangelog()

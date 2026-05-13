@@ -31,7 +31,7 @@ function walkCss(dir, all = false) {
       if (statSync(full).isDirectory()) results.push(...walkCss(full, all))
       else if (all ? entry.endsWith('.css') : entry.endsWith('.module.css')) results.push(full)
     }
-  } catch {}
+  } catch { /* empty */ }
   return results
 }
 
@@ -69,7 +69,7 @@ function computeTokenCompliance() {
       const refs = [...src.matchAll(/var\((--[\w-]+)/g)].map(m => m[1])
       totalRefs += refs.length
       stRefs    += refs.filter(r => r.startsWith('--st-')).length
-    } catch {}
+    } catch { /* empty */ }
   }
   return totalRefs > 0 ? Math.round((stRefs / totalRefs) * 100) : 100
 }

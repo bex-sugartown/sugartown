@@ -248,7 +248,7 @@ export default function Card({
         <div className={styles.chipGroup}>
           <span className={styles.chipGroupLabel}>{tagsLabel}</span>
           <ul className={styles.tagsRow} aria-label={tagsLabel}>
-            {tags.map(({ label, href: chipHref, colorHex }, i) => (
+            {tags.map(({ label, href: chipHref }, i) => (
               <li key={label}>
                 <Chip
                   variant="tag"

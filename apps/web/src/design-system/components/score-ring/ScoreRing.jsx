@@ -7,12 +7,13 @@
  * Animates on IntersectionObserver entry (count-up + arc fill).
  * Color category derived from score: ≥90 good, ≥50 warn, <50 poor.
  */
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './ScoreRing.module.css'
 
 const RADIUS_RATIO = 0.38
 const GAP_DEGREES = 60
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function scoreCategory(score) {
   if (score >= 90) return 'good'
   if (score >= 50) return 'warn'

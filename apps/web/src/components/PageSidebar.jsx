@@ -92,6 +92,7 @@ function isAiTool(tool) {
  * Tells pages whether the sidebar would render anything — used to gate the
  * `data-has-margin` flag that activates the two-column grid.
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export function hasSidebarContent({ sections, content, related, series, tools, aiDisclosure }) {
   const toc = extractToc(sections, content)
   return (

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components -- lib file exports a config object, not a component */
 /**
  * portableTextComponents — shared PortableText serializer config.
  *

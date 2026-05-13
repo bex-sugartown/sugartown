@@ -187,7 +187,7 @@ async function main() {
   }
 
   // Log what will change
-  for (const {doc, newExcerpt, newTitle, newContent, excerptHasEntities, titleHasEntities, contentHasEntities, spanCount} of toMigrate) {
+  for (const {doc, newExcerpt, newTitle, excerptHasEntities, titleHasEntities, contentHasEntities, spanCount} of toMigrate) {
     console.log(`  [${doc._type}] ${doc._id}`)
     if (titleHasEntities) {
       console.log(`    title (before): ${doc.title}`)

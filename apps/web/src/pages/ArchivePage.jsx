@@ -38,7 +38,7 @@
  *   - GROQ slice cap removed — all published items fetched for filtering accuracy
  */
 import { useState, useCallback, useMemo } from 'react'
-import { Link, useSearchParams, useNavigate } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useSanityDoc, useSanityList, useDraftIds } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'

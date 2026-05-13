@@ -95,8 +95,9 @@ const ALL_LETTERS = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
 function PersonAvatar({ doc }) {
   if (doc.image?.asset) {
-    try {
-      const url = urlFor(doc.image).width(80).height(80).fit('crop').url()
+    let url = null
+    try { url = urlFor(doc.image).width(80).height(80).fit('crop').url() } catch { /* fall through */ }
+    if (url) {
       return (
         <img
           src={url}
@@ -106,8 +107,6 @@ function PersonAvatar({ doc }) {
           height={40}
         />
       )
-    } catch {
-      // fall through to initial
     }
   }
   return (

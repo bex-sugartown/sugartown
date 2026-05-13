@@ -59,7 +59,7 @@ export async function collectSecurity() {
         break
       }
     }
-  } catch {}
+  } catch { /* empty */ }
 
   return {
     fetchedAt: new Date().toISOString(),

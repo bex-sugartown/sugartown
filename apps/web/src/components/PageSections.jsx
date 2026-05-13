@@ -454,13 +454,12 @@ function ImageGallerySection({ section }) {
   const scrollRef = useRef(null)
   const slideRefs = useRef([])
 
-  if (!images || images.length === 0) return null
-
   const isCarousel = layout === 'carousel'
 
   // IntersectionObserver for carousel dot tracking
+  // Hook must be declared before early returns (rules of hooks)
   useEffect(() => {
-    if (!isCarousel || !scrollRef.current) return
+    if (!images?.length || !isCarousel || !scrollRef.current) return
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -476,7 +475,9 @@ function ImageGallerySection({ section }) {
 
     slideRefs.current.forEach((el) => { if (el) observer.observe(el) })
     return () => observer.disconnect()
-  }, [isCarousel, images.length])
+  }, [isCarousel, images?.length])
+
+  if (!images || images.length === 0) return null
 
   function scrollToSlide(index) {
     const target = slideRefs.current[index]
@@ -573,12 +574,10 @@ function ImageGallerySection({ section }) {
 function MermaidDiagram({ section }) {
   const containerRef = useRef(null)
   const [error, setError] = useState(null)
-  const [rendering, setRendering] = useState(false)
   const renderIdRef = useRef(`mermaid-${section._key || Math.random().toString(36).slice(2)}`)
 
   const renderDiagram = useCallback(async () => {
     if (!section.code || !containerRef.current) return
-    setRendering(true)
     setError(null)
     try {
       const mermaid = (await import('mermaid')).default
@@ -660,8 +659,6 @@ function MermaidDiagram({ section }) {
       }
     } catch (err) {
       setError(err.message || 'Failed to render diagram')
-    } finally {
-      setRendering(false)
     }
   }, [section.code])
 
