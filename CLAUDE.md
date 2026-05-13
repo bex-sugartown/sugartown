@@ -86,8 +86,13 @@ Before asking the user to test anything in their browser:
 
 1. **Confirm they have pulled the latest code** — "Have you pulled the branch? `git pull origin <branch>`"
 2. **Never claim a dev server is reachable at `localhost`** unless the session is running on the user's local machine. If the environment is remote/cloud, tell the user to start the server from their local terminal.
+3. **Worktree sessions: verify which server is serving which tree.** The main app and each worktree can have independent dev servers on different ports. Before running any preview verification, confirm the server port matches the worktree:
+   ```bash
+   lsof -ti:5173 | xargs -I{} lsof -p {} 2>/dev/null | grep cwd
+   ```
+   If the `cwd` path does not contain the current worktree name, the server is from a different tree. Start the dev server from within the worktree directory — it will bind to `5173` locally (or the next free port if 5173 is taken).
 
-A white-screen debug cycle caused by local ↔ remote divergence is a process failure.
+A white-screen debug cycle caused by local ↔ remote divergence is a process failure. A routing-failure debug cycle caused by verifying against the wrong tree's server is the same failure in a worktree context.
 
 ### Local-only directories (gitignored)
 
@@ -118,6 +123,16 @@ A Phase 0 violation (FE code committed before mock approval) is a process failur
 
 **Phase 0 applies to new blocks on existing pages, not just new page types.** Adding a new data-backed block (e.g. a challenge summary, an outcomes strip, a sidebar widget) to an existing page template requires a mock and review before any JSX is written — even if the page template itself already exists. The test is: "does this block have a visual format that hasn't been reviewed?" If yes, it's a Phase 0 item regardless of scope.
 
+**Phase 0 for navigation surfaces requires an interaction annotation layer.** If the mock includes any sidebar, nav rail, tab bar, or anchor-bearing surface, the mock must annotate — not just show visually — the following before sign-off:
+- Active state (which item is highlighted, and how — border, colour, weight)
+- Hash/anchor behaviour (does clicking scroll? does the URL update?)
+- Scroll-spy behaviour (does the active item update on scroll?)
+- Sticky/fixed behaviour (does the nav stay in view while content scrolls?)
+- Mobile collapse (how does it behave below the breakpoint?)
+- Any click side-effects (scroll-to-top, panel open/close, etc.)
+
+A mock that shows nav items but does not annotate these behaviours is incomplete for Phase 0 sign-off. **Existing patterns (e.g. right-rail PageSidebar) count as the spec** — if the new nav reuses an existing behaviour, annotate "same as PageSidebar scrollspy" rather than leaving it blank. The failure mode is re-discovering and re-implementing behaviour that was already codified elsewhere.
+
 **Phase 0 applies to new entity detail pages (Person, Project, Tool, Client, etc.) even when a general page shell already exists.** Each entity detail page has a folio — the logo/avatar + identity block with eyebrow, name, description, and metadata. The folio layout, thumbnail size, eyebrow content, and any interactive links (URL, social) must be locked in the mock before any JSX is written. "The shell exists, I'll figure out the folio interactively" is a Phase 0 violation. The mock tab for a new entity type must be added to the epic's HTML mock file and approved before implementation begins for that entity type.
 
 ### Incomplete epic doc hard stop
@@ -136,6 +151,16 @@ Before executing any epic from `docs/backlog/SUG-{N}-*.md`, check the file for c
 A sparse epic doc is a signal that the planning phase was not completed. It is not a prompt to use editorial judgment and execute. Proceeding without a defined scope is a process failure, not a shortcut.
 
 **This rule applies to all epic types, including pure content/editorial epics.** The Phase 0 mockup gate covers visual design review; this rule covers scope completeness for all epics regardless of type.
+
+### React hooks — Outlet context pre-flight
+
+Before adding `useOutletContext()`, `useContext()`, or any new hook to a component that already has conditional early returns (`if (loading) return`, `if (notFound) return`, template guards, etc.):
+
+1. **Scan the component for all early returns** — list them.
+2. **Confirm all hook calls appear before the first early return** — hooks must be called unconditionally on every render.
+3. If the hook's _logic_ depends on data that isn't available yet (e.g. `leadHero` before the page loads), put the guard inside the hook's callback or effect — not around the hook call itself.
+
+This is a React Rules of Hooks enforcement step. A hooks-order violation crashes silently in dev (React error boundary) and produces a blank page with a cryptic "change in order of Hooks" warning. The fix is always the same — move the hook up — but it costs a correction commit. The pre-flight costs 30 seconds.
 
 ### No speculative fixes
 
@@ -456,6 +481,12 @@ Mock: not required — extending existing component.
 
 When writing or modifying any component CSS file (in `apps/web/src/design-system/` or `packages/design-system/src/`):
 
+**Verify every token name exists before writing it.** Before using any `--st-*` token in a new CSS file, grep for the exact name:
+```bash
+grep "token-name" apps/web/src/design-system/styles/tokens.css
+```
+Do not use plausible-sounding names without confirming they exist. Tokens are named by concept (`--st-font-family-narrative`), not by analogy (`--st-font-family-heading`). The pre-commit validator will catch it, but catching it there costs a correction commit — catching it before writing costs nothing.
+
 **No raw color value may appear in a component CSS file.** Every color must resolve through a `--st-*` token reference. If the token doesn't exist yet, add it to `tokens.css` first — in a separate commit — before writing the component CSS.
 
 **Fallback syntax rule:** `var(--st-token, #hex)` is banned. The only permitted fallback form is `var(--st-token, var(--st-primitive))`. If a matching primitive doesn't exist, add it to `tokens.css` first. If no fallback is needed, omit it entirely.
@@ -538,6 +569,21 @@ Before any structured-surface dark mode CSS pass (MetadataCard, Card, FilterBar,
 3. Record the exact computed values and trace them back to their tokens via `tokens.css` and `theme.pink-moon.css`
 
 Only then write the target component's CSS to match. Working forward from token names ("I'll use `--st-card-bg`") without verifying what those tokens resolve to in dark theme leads to glassmorphism surprises. The MetadataCard dark mode repair cycle (3+ correction rounds) was caused by this exact failure.
+
+### Storybook — build-time globals must be frozen
+
+Any `__VARIABLE__` injected by `vite.config.js` `define:` that changes at build time (dates, commit SHAs, env-specific values) **must be overridden to a fixed sentinel in Storybook's `viteFinal` define block**. Otherwise Chromatic will diff the story on every build even when nothing visual changed.
+
+Convention: freeze to a semantically neutral but obviously-fake value:
+```ts
+// apps/storybook/.storybook/main.ts — viteFinal
+viteConfig.define = {
+  ...viteConfig.define,
+  __BUILD_DATE__: JSON.stringify('2026-01-01'),
+}
+```
+
+When a new `define:` entry is added to `apps/web/vite.config.js`, check whether it produces visible output in any story. If yes, add the freeze to Storybook's `viteFinal` in the same commit.
 
 ### Storybook coverage requirement
 

@@ -89,7 +89,39 @@ Check the anti-pattern checklist from the style guide before finalising:
 
 ---
 
-## Step 2.5 — Disclosure & attribution (required)
+## Step 2.5 — Brand voice compliance gate (blocking — runs before any Sanity write)
+
+Do not call `create_documents_from_json` until every item below is resolved.
+
+**Node exemptions (do not apply the article rules blindly):**
+- Em dashes (`—`) are **permitted** in nodes — they are part of the forensic narrator register.
+- Sarcastic or deadpan emoji is **permitted** — use sparingly and only when the joke earns it.
+- The `aiDisclosure` field handles attribution; a separate callout section is not required.
+
+**Banned vocabulary — applies to nodes too, no exemption:**
+`leverage`, `utilize`, `delve into`, `facilitate`, `synergize`, `ideate`, `learnings`,
+`passionate about`, `excited to announce`, `in today's landscape`, `robust`, `scalable`,
+`seamless`, `cutting-edge`, `game-changing`, `innovative`, `unlock`
+
+**Filler transitions — delete:**
+`That said,` / `With that in mind,` / `That being said,` / `It's worth noting that` /
+`At the end of the day` / `It goes without saying` / `Needless to say`
+
+**Structural tells:**
+- Three consecutive sentences starting with the same word → rewrite at least one.
+- Any adjective triad → delete two or replace with a specific number or example.
+- Hedge stacks → the narrator has a point of view; state it.
+
+**Narrator voice check:**
+- "I" = agent narrator throughout the arc sections. "We" = Agentic Caucus.
+- Bex is "Bex" or "the VoPM" — never "I" and never "she" unless contextually clear.
+- TL;DR must be third-person, wry, and written as if by someone who found the whole thing faintly amusing.
+
+After completing this scan, state explicitly: **"Compliance gate passed — node exemptions noted."** Then proceed to Step 2.6.
+
+---
+
+## Step 2.6 — Disclosure & attribution (required)
 
 Per `docs/briefs/ai-ethics-and-operations.md` Principles 3, 11, and 13, AI-generated content requires explicit disclosure before publication. This is both an ethical obligation and a regulatory one (EU AI Act Article 50, enforceable August 2026; US state disclosure laws).
 

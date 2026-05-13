@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-11 · v0.23.21 · SUG-109 added (Figma DS backwards-engineer — Code Connect + variables pipeline)
+> Updated 2026-05-12 · v0.23.22 · SUG-111 shipped (Platform IA Phase II — PlatformLayout + 4 hub pages + hero inheritance)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-104 shipped ✅ v0.23.21. Entity detail pages (Person, Project, Tool) — shared folio pattern, SectionLabel + 2-col Grid content sections, full-width layout, responsive mobile collapse. SUG-107 (client taxonomy) is next.
+> **⚑ Current focus:** SUG-111 shipped ✅ v0.23.22. SUG-112 (sidebar nav primitives) is logged and ready. SUG-107 (client taxonomy) or SUG-106 (stats pipeline) is next candidate.
 
 ---
 
@@ -19,6 +19,7 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
+| 3 | ~~**[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs, hero inheritance, scrollspy, DataTable releases, Storybook BUILD_DATE freeze. Shipped v0.23.22.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** ✅ Shipped. Services page outcome framing, availability signal on hero/About, case study narrative, Contact tone update. All Sanity drafts published 2026-05-01. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | ✅ Shipped |
 | 2 | **[SUG-95](https://linear.app/sugartown/issue/SUG-95) · Sanity AI Assist POC — case study field generation** ✅ Shipped v0.23.3. `@sanity/assist` installed, caseStudy exclude config deployed, `docs/conventions/ai-assist-conventions.md` written. Epic: `docs/shipped/SUG-95-sanity-ai-assist-poc-case-study-fields.md`. | `Schema` `Tooling` `AI` | ✅ Shipped |
 
@@ -42,6 +43,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 1 | **[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Fix LHCI not writing JSON in CI, add missing Sanity secrets, diagnose low mobile Lighthouse scores (perf 68, best-practices 42), document manual backup update workflow, close SUG-100. Epic: `docs/backlog/SUG-106-stats-pipeline-fix-sug-100-close-out.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
+| 3 | **[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — Extract `useScrollspy` hook to `lib/`, create `SidebarNav` web adapter, fix 43 ESLint baseline errors + activate pre-commit lint gate. PlatformSidebar + PageSidebar both consuming shared primitives. Epic: `docs/backlog/SUG-112-sidebar-nav-primitives.md`. | `Design System` `Frontend` `Tooling` | 🟣 Soon |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
 | 2 | ~~**[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Shared entity folio pattern (Person, Project, Tool detail pages), SectionLabel + 2-col Grid content sections, full-width layout at --st-width-detail-wide, responsive mobile collapse in Grid. Shipped v0.23.21.~~ | `UX` `Design System` `Frontend` | ✅ Shipped |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
@@ -58,6 +60,7 @@
 | **Archive page deferred fields — wire Display + Advanced tab configs** — 8 `archivePage` fields moved to "Advanced (coming soon)" tab in Studio: hero section, custom description, featured items, display density, card variant, sort options, pagination, empty state. None are currently wired in the web app. Wire them when archive page UX is revisited post-launch. | `Deferred` `Schema` `Editor UX` |
 | **[SUG-19](https://linear.app/sugartown/issue/SUG-19) · KPI dashboard card family (BL-03)** — stat-card, bar-card, insight-card variants on DS Card. Build-time content metrics at `/platform/metrics`. Phase 1: DS variants + Storybook. Phase 2: metrics page. Epic: `docs/backlog/SUG-19-kpi-dashboard-cards.md`. <br>_↑ Consult-relevant — delivery/quality metrics are trust signals for prospective clients. Elevate if Services or a /work-with-me landing page is built. Surface from Services entry point, not buried at /platform/metrics._ | `Deferred` `Design System` `BL-03` |
 | **Schema ERD Sanity Hybrid (Option C)** — Upgrade ERD from code-driven page (EPIC-0172) to a `schemaErdSection` type embeddable via section builder. Component unchanged — adds schema, GROQ projection, and PageSections case. Depends on EPIC-0172. | `Deferred` `Schema` `Content` |
+| **[SUG-110](https://linear.app/sugartown/issue/SUG-110/dynamically-generated-roadmap-from-linear) · Dynamically generated roadmap from Linear** — `linearRoadmap` collector in `scripts/collect-stats.js`, `/platform/roadmap` page consuming the data. Closes manual drift between `sugartown-backlog-priorities.md` and Linear. 3 phases: data collector, page component, optional Sanity editorial layer. Epic: `docs/backlog/SUG-110-dynamically-generated-roadmap-from-linear.md`. | `Tooling` `Infrastructure` `Frontend` | ⚪ Later |
 | **[SUG-109](https://linear.app/sugartown/issue/SUG-109/figma-ds-backwards-engineer-code-connect-variables-pipeline) · Figma DS backwards-engineer — Code Connect + variables pipeline** — Populate the Sugartown Figma file with Figma variables (mapped to `--st-*` tokens), component frames for all 30+ DS components, and Code Connect mappings linking Figma to React imports. Closes the design-to-code pipeline in both directions. Epic: `docs/backlog/SUG-109-figma-ds-backwards-engineer-code-connect-variables-pipeline.md`. | `Design System` `Tooling` | ⚪ Later |
 | ~~**SUG-21 · Pink Moon** — Elevated to 🟢 Next. See §01.~~ | `Design System` `UX` |
 | **[SUG-36](https://linear.app/sugartown/issue/SUG-36) · Site-wide content search** — No search exists today. Recommended: Fuse.js client-side index (build-time JSON manifest, same pattern as sitemap). Nav search icon + `/search` page. Phase 1: articles + nodes + case studies. Design spike needed first. Epic: `docs/backlog/SUG-36-site-search.md`. <br>_⬇ Low consulting value — consulting prospects do not browse by keyword; they arrive from a referral or LinkedIn and need a clear conversion path, not a search box. Keep deferred._ | `Deferred` `UX` `GROQ` `Infrastructure` |

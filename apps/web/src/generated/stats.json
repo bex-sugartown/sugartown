@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-10T11:36:35.901Z",
+  "generatedAt": "2026-05-13T08:47:34.135Z",
   "release": {
     "current": {
       "version": "0.23.19",
@@ -73,25 +73,202 @@
     "tokenCompliance": 98
   },
   "storybook": {
-    "stories": 250,
+    "stories": 251,
     "components": 49
   },
   "repo": {
-    "commits": 1060,
-    "epicsShipped": 93
+    "commits": 1,
+    "epicsShipped": 95
   },
   "perf": {
-    "stale": true,
-    "error": "No Lighthouse CI output found at /Users/beckyalice/SUGARTOWN_DEV/sugartown/.claude/worktrees/confident-murdock-24fce4/.lighthouseci — run lhci autorun first"
+    "generatedAt": "2026-05-13T08:47:19.535Z",
+    "runs": {
+      "https://sugartown.io/": {
+        "url": "https://sugartown.io/",
+        "desktop": {
+          "url": "https://sugartown.io/",
+          "lcp": 1400,
+          "cls": 0.228,
+          "inp": null,
+          "performance": 84,
+          "accessibility": 96,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1400,
+        "cls": 0.228,
+        "inp": null,
+        "performance": 84,
+        "accessibility": 96,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good"
+      },
+      "https://sugartown.io/articles": {
+        "url": "https://sugartown.io/articles",
+        "desktop": {
+          "url": "https://sugartown.io/articles",
+          "lcp": 966,
+          "cls": 0.394,
+          "inp": null,
+          "performance": 80,
+          "accessibility": 95,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 966,
+        "cls": 0.394,
+        "inp": null,
+        "performance": 80,
+        "accessibility": 95,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good"
+      },
+      "https://sugartown.io/case-studies": {
+        "url": "https://sugartown.io/case-studies",
+        "desktop": {
+          "url": "https://sugartown.io/case-studies",
+          "lcp": 1205,
+          "cls": 0.301,
+          "inp": null,
+          "performance": 82,
+          "accessibility": 95,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1205,
+        "cls": 0.301,
+        "inp": null,
+        "performance": 82,
+        "accessibility": 95,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good"
+      },
+      "https://sugartown.io/knowledge-graph": {
+        "url": "https://sugartown.io/knowledge-graph",
+        "desktop": {
+          "url": "https://sugartown.io/knowledge-graph",
+          "lcp": 899,
+          "cls": 0.093,
+          "inp": null,
+          "performance": 96,
+          "accessibility": 95,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 899,
+        "cls": 0.093,
+        "inp": null,
+        "performance": 96,
+        "accessibility": 95,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good"
+      },
+      "https://sugartown.io/platform": {
+        "url": "https://sugartown.io/platform",
+        "desktop": {
+          "url": "https://sugartown.io/platform",
+          "lcp": 1491,
+          "cls": 0.106,
+          "inp": null,
+          "performance": 92,
+          "accessibility": 96,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1491,
+        "cls": 0.106,
+        "inp": null,
+        "performance": 92,
+        "accessibility": 96,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good"
+      },
+      "https://sugartown.io/about": {
+        "url": "https://sugartown.io/about",
+        "desktop": {
+          "url": "https://sugartown.io/about",
+          "lcp": 1383,
+          "cls": 0.227,
+          "inp": null,
+          "performance": 85,
+          "accessibility": 94,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1383,
+        "cls": 0.227,
+        "inp": null,
+        "performance": 85,
+        "accessibility": 94,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good"
+      },
+      "https://sugartown.io/articles/test-preview-post": {
+        "url": "https://sugartown.io/articles/test-preview-post",
+        "desktop": {
+          "url": "https://sugartown.io/articles/test-preview-post",
+          "lcp": 1267,
+          "cls": 0.08,
+          "inp": null,
+          "performance": 95,
+          "accessibility": 94,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1267,
+        "cls": 0.08,
+        "inp": null,
+        "performance": 95,
+        "accessibility": 94,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good"
+      },
+      "https://sugartown.io/nodes/test-node": {
+        "url": "https://sugartown.io/nodes/test-node",
+        "desktop": {
+          "url": "https://sugartown.io/nodes/test-node",
+          "lcp": 1300,
+          "cls": 0.08,
+          "inp": null,
+          "performance": 95,
+          "accessibility": 94,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1300,
+        "cls": 0.08,
+        "inp": null,
+        "performance": 95,
+        "accessibility": 94,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good"
+      }
+    }
   },
   "crux": {
-    "fetchedAt": "2026-05-10T11:36:26.592Z",
+    "fetchedAt": "2026-05-13T08:47:19.693Z",
     "origin": "https://sugartown.io",
     "available": false,
-    "reason": "no-api-key"
+    "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-05-10T11:36:34.546Z",
+    "fetchedAt": "2026-05-13T08:47:32.343Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -102,19 +279,19 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-10T11:36:35.247Z",
+    "fetchedAt": "2026-05-13T08:47:33.175Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 0,
     "watchers": 0,
     "forks": 0,
-    "openIssues": 11,
+    "openIssues": 12,
     "contributors": 3,
-    "lastCommit": "2026-05-10T10:26:10Z"
+    "lastCommit": "2026-05-12T15:47:18Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-10T11:36:35.637Z",
+    "fetchedAt": "2026-05-13T08:47:33.892Z",
     "counts": {
-      "article": 10,
+      "article": 11,
       "node": 48,
       "caseStudy": 7,
       "page": 8,
@@ -126,7 +303,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-05-10T11:36:35.901Z",
+    "generatedAt": "2026-05-13T08:47:34.135Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -2650,6 +2827,30 @@
         ]
       },
       {
+        "id": "item:article:headless-cms-schema-where-it-lives",
+        "_id": "c1b2fe49-6e47-4444-bdf5-6c08b1ae28c8",
+        "type": "item",
+        "docType": "article",
+        "slug": "headless-cms-schema-where-it-lives",
+        "label": "Where Your Schema Lives Is the Decision That Matters Most",
+        "href": "/articles/headless-cms-schema-where-it-lives",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "content-modeling",
+            "label": "Content Modeling"
+          },
+          {
+            "slug": "vendor-evaluation",
+            "label": "Vendor Evaluation"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          }
+        ]
+      },
+      {
         "id": "item:node:which-chatbot-is-best-for-web-design",
         "_id": "wp.node.1646",
         "type": "item",
@@ -3394,6 +3595,21 @@
         "kind": "membership"
       },
       {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
         "source": "item:node:which-chatbot-is-best-for-web-design",
         "target": "project:sugartown-cms",
         "kind": "membership"
@@ -3635,6 +3851,12 @@
         "weight": 2
       },
       {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
         "source": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
         "target": "item:caseStudy:charting-a-new-course-for-backroads-com",
         "kind": "sharedTag",
@@ -3803,6 +4025,12 @@
         "weight": 2
       },
       {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
         "source": "item:node:market-scan-top-ai-tools-for-data-architecture-diagrams",
         "target": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
         "kind": "sharedTag",
@@ -3827,6 +4055,12 @@
         "weight": 2
       },
       {
+        "source": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
         "source": "item:article:why-cms-and-design-systems-belong-together",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
@@ -3847,6 +4081,12 @@
       {
         "source": "item:article:why-cms-and-design-systems-belong-together",
         "target": "item:article:we-never-adopted-structured-content",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "item:article:headless-cms-schema-where-it-lives",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -3905,6 +4145,12 @@
         "weight": 2
       },
       {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
         "source": "item:node:project-knowledge-graph-topology-over-chronology",
         "target": "item:node:project-sugartown-cms-architecture",
         "kind": "sharedTag",
@@ -3933,6 +4179,12 @@
         "target": "item:article:we-never-adopted-structured-content",
         "kind": "sharedTag",
         "weight": 3
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
       },
       {
         "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
@@ -4027,6 +4279,12 @@
       {
         "source": "item:node:two-weeks-inside-the-machine",
         "target": "item:node:we-fixed-the-same-white-screen",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:we-never-adopted-structured-content",
+        "target": "item:article:headless-cms-schema-where-it-lives",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -5348,6 +5606,21 @@
       {
         "source": "item:article:we-never-adopted-structured-content",
         "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "tag:content-modeling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "tag:vendor-evaluation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "tag:headless",
         "kind": "tag-membership"
       },
       {

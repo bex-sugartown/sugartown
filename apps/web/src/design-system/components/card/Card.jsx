@@ -18,6 +18,7 @@
 import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import Chip from '../chip/Chip'
+import { getLinkProps } from '../../../lib/linkUtils'
 import styles from './Card.module.css'
 
 // ── Status badge colours (synced with DS Card.tsx) ──────────────────────────
@@ -123,11 +124,20 @@ export default function Card({
   const isListingWithThumb = variant === 'listing' && !!thumbnailUrl
 
   // ── Title node: full-card link via ::after, or plain text ──────────────
-  // Uses <Link to> for SPA navigation instead of <a href>
+  // External URLs open in new tab via <a>; internal routes use <Link>
+  const { isExternal, linkProps: externalLinkProps } = href
+    ? getLinkProps(href)
+    : { isExternal: false, linkProps: {} }
   const titleNode = href ? (
-    <Link to={href} className={styles.titleLink} aria-label={title}>
-      {title}
-    </Link>
+    isExternal ? (
+      <a {...externalLinkProps} className={styles.titleLink} aria-label={title}>
+        {title}
+      </a>
+    ) : (
+      <Link to={href} className={styles.titleLink} aria-label={title}>
+        {title}
+      </Link>
+    )
   ) : (
     title
   )

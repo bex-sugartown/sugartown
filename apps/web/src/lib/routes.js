@@ -59,6 +59,35 @@ export const TAXONOMY_NAMESPACES = {
   tool: 'tools',
 }
 
+// ─── Platform routes ─────────────────────────────────────────────────────────
+
+/**
+ * PLATFORM_ROUTES — canonical paths for the /platform/ section.
+ *
+ * All /platform/* links must be built from these constants.
+ * Never hard-code /platform path strings in components.
+ */
+export const PLATFORM_ROUTES = {
+  root:           '/platform',
+  governance:     '/platform/governance',
+  monorepo:       '/platform/monorepo',
+  cms:            '/platform/cms',
+  designSystem:   '/platform/design-system',
+
+  dsRegistry:     '/platform/design-system/registry',
+}
+
+/**
+ * FIGJAM_URLS — canonical embed URLs for FigJam boards used in the platform section.
+ *
+ * Render as <iframe src={FIGJAM_URLS.x} width="100%" height="450" loading="lazy" allowFullScreen />.
+ * Never hard-code these URLs in page components.
+ */
+export const FIGJAM_URLS = {
+  cmsContentModel: 'https://embed.figma.com/board/7nrFmcTSfHpETfnHQUnz0R/Sugartown-Sanity.io-Content-Model?node-id=0-1&embed-host=share',
+  dsArchitecture:  'https://embed.figma.com/board/W8TpyE6jZbDgLW8B3jDPBA/Sugartown-Design-System-Architecture--Vertical-?node-id=0-1&embed-host=share',
+}
+
 // ─── External trust links ────────────────────────────────────────────────────
 
 /**
@@ -247,6 +276,9 @@ export function validateNavItem(rawUrl) {
 
   // Known archive paths
   if (isArchivePath(url)) return { valid: true }
+
+  // Platform section paths
+  if (url === '/platform' || url.startsWith('/platform/')) return { valid: true }
 
   // Reserved taxonomy paths
   if (isTaxonomyPath(url)) return { valid: true }

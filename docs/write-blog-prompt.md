@@ -85,7 +85,39 @@ Structure the sections to serve the argument, not a template. Use `heroSection` 
 
 ---
 
-## Step 2.5 — Disclosure & attribution (required)
+## Step 2.5 — Brand voice compliance gate (blocking — runs before any Sanity write)
+
+Do not call `create_documents_from_json` until every item below is resolved. This is not a suggestion pass — it is a blocking checklist. Fix violations in the draft before proceeding.
+
+**Em dashes (zero tolerance in articles):**
+Scan all drafted text for `—`. Replace every instance:
+- Before a clause: use a colon or restructure into two sentences.
+- Around a parenthetical: use parentheses or commas.
+- No exceptions. The em dash is the single most reliable AI-output tell.
+
+**Banned vocabulary — replace if found:**
+`leverage`, `utilize`, `delve into`, `facilitate`, `synergize`, `ideate`, `learnings`,
+`passionate about`, `excited to announce`, `in today's landscape`, `robust`, `scalable`,
+`seamless`, `cutting-edge`, `game-changing`, `innovative`, `unlock`
+
+**Filler transitions — delete, don't replace:**
+`That said,` / `With that in mind,` / `That being said,` / `It's worth noting that` /
+`At the end of the day` / `It goes without saying` / `Needless to say`
+
+**Structural tells:**
+- Three consecutive sentences starting with the same word → rewrite at least one.
+- More than two bullet lists in the full article → convert at least one to prose.
+- Any adjective triad ("robust, scalable, and maintainable") → delete two adjectives or replace with a specific number or example.
+- Hedge stacks ("I think maybe this could possibly") → pick a position.
+
+**"I" check:**
+Verify every first-person sentence is attributable to Bex. If a sentence reads as AI narrating its own process ("I generated", "I produced", "I drafted"), rewrite: "Claude drafted X. I reviewed it."
+
+After completing this scan, state explicitly: **"Compliance gate passed — no violations found."** Then proceed to Step 2.6.
+
+---
+
+## Step 2.6 — Disclosure & attribution (required)
 
 Per `docs/briefs/ai-ethics-and-operations.md` Principles 3, 11, and 13, AI-generated or AI-assisted content requires explicit disclosure before publication (EU AI Act Article 50, enforceable August 2026; US state disclosure laws).
 

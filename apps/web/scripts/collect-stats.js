@@ -69,7 +69,8 @@ export async function run(outputPath = OUTPUT_PATH) {
     security: () => tryNetworkCollector('security', () => import('./stats/security.js').then(m => m.collectSecurity)),
     github:   () => tryNetworkCollector('github',   () => import('./stats/github.js').then(m => m.collectGithub)),
     sanity:   () => tryNetworkCollector('sanity',   () => import('./stats/sanity.js').then(m => m.collectSanity)),
-    siteGraph: () => tryNetworkCollector('siteGraph', () => import('./stats/graph.js').then(m => m.collectSiteGraph)),
+    siteGraph:     () => tryNetworkCollector('siteGraph',     () => import('./stats/graph.js').then(m => m.collectSiteGraph)),
+    linearRoadmap: () => tryNetworkCollector('linearRoadmap', () => import('./stats/linear.js').then(m => m.collectLinear)),
   }
 
   const networkResults = {}

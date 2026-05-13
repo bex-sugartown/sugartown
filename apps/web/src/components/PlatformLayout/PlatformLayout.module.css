@@ -1,0 +1,36 @@
+/* PlatformLayout — two-column shell for all /platform/* routes.
+ *
+ * Desktop (≥768px): sidebar rail left, main content right.
+ * Mobile (<768px): sidebar collapses to a <details> disclosure above content.
+ *
+ * Max-width mirrors --st-width-detail-wide (1080px) + sidebar (220px) + gap (2rem).
+ */
+
+.platformLayout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: calc(100vh - var(--st-header-height));
+}
+
+.platformMain {
+  flex: 1;
+  min-width: 0;
+}
+
+@media (min-width: 768px) {
+  .platformLayout {
+    flex-direction: row;
+    /* default align-items: stretch so sidebar matches platformMain height —
+       required for position: sticky on .rail to work past the sidebar's own content */
+    max-width: calc(220px + 2rem + var(--st-width-detail-wide, 1080px));
+    margin-inline: auto;
+    padding-inline: var(--st-page-gutter);
+    padding-block: 2.5rem;
+    gap: 2rem;
+  }
+
+  .platformMain {
+    padding: 0;
+  }
+}
