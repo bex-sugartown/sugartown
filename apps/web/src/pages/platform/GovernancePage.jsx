@@ -116,8 +116,7 @@ export default function GovernancePage() {
 
           {isStale && (
             <Callout>
-              Live roadmap data unavailable — <code>LINEAR_API_KEY</code> not configured in CI.
-              Full backlog on{' '}
+              Roadmap data pending next CI run. Full backlog on{' '}
               <a href="https://linear.app/sugartown" target="_blank" rel="noreferrer">Linear ↗</a>.
             </Callout>
           )}
