@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { NavLink, useMatch, useLocation } from 'react-router-dom'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import useScrollspy from '../../lib/useScrollspy'
+import SidebarNav from '../../design-system/components/sidebar-nav/SidebarNav'
 import styles from './PlatformSidebar.module.css'
 
 const NAV_SECTIONS = [
@@ -114,42 +115,15 @@ function SidebarSection({ section, activeId }) {
       >
         {section.label}
       </NavLink>
-      <ul className={styles.navList}>
-        {section.items.map((item) => {
-          // External link — render plain <a>, no active state
-          if (item.href) {
-            return (
-              <li key={item.href}>
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.navLink}
-                >
-                  {item.label} ↗
-                </a>
-              </li>
-            )
-          }
-          const hash = item.to.split('#')[1]
-          const isScrollActive = hash ? activeId === hash : false
-          return (
-            <li key={item.to}>
-              <NavLink
-                to={item.to}
-                className={hash
-                  // Hash links: NavLink.isActive fires on pathname alone — ignore it,
-                  // use scroll-observer state only.
-                  ? () => `${styles.navLink} ${isScrollActive ? styles.navLinkActive : ''}`
-                  : ({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`
-                }
-              >
-                {item.label}
-              </NavLink>
-            </li>
-          )
-        })}
-      </ul>
+      <SidebarNav
+        items={section.items.map((item) => ({
+          id: item.to ? item.to.split('#')[1] ?? item.to : item.href,
+          label: item.label,
+          href: item.href ?? item.to,
+          external: !!item.href,
+        }))}
+        activeId={activeId}
+      />
     </div>
   )
 }

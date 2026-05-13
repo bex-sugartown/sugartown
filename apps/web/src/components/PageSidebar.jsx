@@ -18,7 +18,7 @@
  */
 import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
-import useScrollspy from '../lib/useScrollspy'
+import SidebarNav from '../design-system/components/sidebar-nav/SidebarNav'
 import styles from './PageSidebar.module.css'
 
 /** Plain text from a PortableText block. */
@@ -119,7 +119,6 @@ export default function PageSidebar({
   const hasSeries = !!series?.title
   const hasAi = !!aiDisclosure || (tools?.some(isAiTool) ?? false)
 
-  const activeAnchor = useScrollspy(hasToc ? toc.map((e) => e.anchor) : [])
 
   if (!hasToc && !hasRelated && !hasSeries && !hasAi) return null
 
@@ -145,25 +144,16 @@ export default function PageSidebar({
 
           {hasToc && (
             <div className={`${styles.block} ${styles.tocOnly}`}>
-              <p className={styles.label}>On this page</p>
-              <nav className={styles.toc} aria-label="Page contents">
-                <ol className={styles.tocList}>
-                  {toc.map((entry) => {
-                    const isActive = activeAnchor === entry.anchor
-                    return (
-                      <li key={entry.key} className={styles.tocItem}>
-                        <a
-                          href={`#${entry.anchor}`}
-                          className={`${styles.tocLink} ${entry.level > 2 ? styles.tocLinkH3 : ''}`}
-                          aria-current={isActive ? 'location' : undefined}
-                        >
-                          {entry.text}
-                        </a>
-                      </li>
-                    )
-                  })}
-                </ol>
-              </nav>
+              <SidebarNav
+                label="On this page"
+                items={toc.map((e) => ({
+                  id: e.anchor,
+                  label: e.text,
+                  href: `#${e.anchor}`,
+                  level: e.level,
+                }))}
+                ariaLabel="Page contents"
+              />
             </div>
           )}
 

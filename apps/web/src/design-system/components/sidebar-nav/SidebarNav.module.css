@@ -1,0 +1,91 @@
+/* SidebarNav — shared anchor-link list for sidebar surfaces.
+ *
+ * Extracted from PageSidebar (TOC block) and PlatformSidebar (navList).
+ * Both surfaces had identical link styling with minor variations.
+ */
+
+.sidebarNav {
+  /* No margin/padding — owning sidebar provides spacing */
+}
+
+.label {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  margin: 0 0 0.75rem;
+  padding: 0;
+}
+
+.navList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  display: block;
+  padding: 0.3125rem 0 0.3125rem 0.75rem;
+  margin-left: -1px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--st-color-text-muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: color var(--st-transition-fast), border-color var(--st-transition-fast);
+}
+.navLink:hover {
+  color: var(--st-color-text-default);
+}
+.navLinkActive {
+  color: var(--st-color-text-default);
+  border-left-color: var(--st-color-brand-primary);
+  font-weight: 500;
+}
+.navLink:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* Sub-item (h3-level TOC entries, nested nav) */
+.navLinkSub {
+  padding-left: 1.5rem;
+  font-size: 0.8125rem;
+}
+
+/* ── Collapsible variant ────────────────────────────── */
+.collapsible {
+  /* No extra margin — caller provides block spacing */
+}
+
+.summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+}
+.summary::-webkit-details-marker { display: none; }
+.summary::before {
+  content: '▸';
+  transition: transform 0.15s ease;
+  color: var(--st-color-text-muted);
+}
+.collapsible[open] > .summary::before { transform: rotate(90deg); }
+.summary:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+.collapsibleInner {
+  padding-top: 0.5rem;
+}
