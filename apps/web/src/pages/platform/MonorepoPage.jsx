@@ -87,15 +87,13 @@ export default function MonorepoPage() {
 
         <section id="build-pipeline" className={styles.section}>
           <SectionLabel name="Build pipeline" />
-          <div className={styles.diagramBlock}>
-            {`tokens:build  →  validate:tokens  →  type-check
+          <pre className={styles.diagramBlock}>{`tokens:build  →  validate:tokens  →  type-check
       ↓
   storybook (chromatic VRT)
       ↓
   web build  →  validate:urls  →  validate:content
       ↓
-  Netlify deploy  →  LHCI audit  →  CWV snapshot`}
-          </div>
+  Netlify deploy  →  LHCI audit  →  CWV snapshot`}</pre>
         </section>
 
         <section id="monorepo-artifacts" className={styles.section}>

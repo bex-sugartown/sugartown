@@ -67,8 +67,7 @@ export default function CmsPage() {
 
         <section id="relationships" className={styles.section}>
           <SectionLabel name="Relationships" kicker="Document → taxonomy" />
-          <div className={styles.diagramBlock}>
-            {`article   ──── tags[]     ──► tag
+          <pre className={styles.diagramBlock}>{`article   ──── tags[]     ──► tag
 article   ──── tools[]    ──► tool
 article   ──── authors[]  ──► person
 article   ──── projects[] ──► project
@@ -77,8 +76,7 @@ caseStudy ──── tools[]    ──► tool
 caseStudy ──── client     ──► person
 node      ──── tags[]     ──► tag
 node      ──── tools[]    ──► tool
-page      ──── sections[] ──► section builder objects`}
-          </div>
+page      ──── sections[] ──► section builder objects`}</pre>
         </section>
 
         <section id="cms-artifacts" className={styles.section}>
