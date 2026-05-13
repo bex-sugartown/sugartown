@@ -68,10 +68,22 @@ const ARTIFACTS = [
     href: PLATFORM_ROUTES.root,
   },
   {
-    eyebrow: 'Backlog',
-    title: 'Backlog Priorities',
-    body: 'Linear backlog — sequenced epic queue with dependency ordering.',
-    href: 'https://linear.app/sugartown',
+    eyebrow: 'PRD',
+    title: 'Monorepo PRD',
+    body: 'Monorepo architecture — pnpm workspaces, Turbo pipeline, package boundaries, and build conventions.',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/briefs/monorepo-prd.md',
+  },
+  {
+    eyebrow: 'Brief',
+    title: 'AI Ethics & Operations',
+    body: 'Principles and operating constraints for AI-assisted content, code, and decision-making on this platform.',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/briefs/ai-ethics-and-operations.md',
+  },
+  {
+    eyebrow: 'Prompt',
+    title: 'Release Assistant',
+    body: 'Structured prompt for running the mini-release sequence — CHANGELOG stub, version bump, and ship doc.',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/release-assistant-prompt.md',
   },
 ]
 
