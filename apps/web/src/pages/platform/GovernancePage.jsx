@@ -68,10 +68,10 @@ const ARTIFACTS = [
     href: PLATFORM_ROUTES.root,
   },
   {
-    eyebrow: 'PRD',
-    title: 'Monorepo PRD',
-    body: 'Monorepo architecture — pnpm workspaces, Turbo pipeline, package boundaries, and build conventions.',
-    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/briefs/monorepo-prd.md',
+    eyebrow: 'Conventions',
+    title: 'CLAUDE.md',
+    body: 'Session discipline, CSS protocol, schema conventions, and commit rules enforced by Claude Code.',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/CLAUDE.md',
   },
   {
     eyebrow: 'Brief',

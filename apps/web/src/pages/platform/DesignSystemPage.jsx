@@ -36,12 +36,6 @@ const ARTIFACTS = [
     body: 'Concept-not-placement naming rules for --st-* tokens. Covers semantic, primitive, and theme layers.',
     href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/conventions/token-naming.md',
   },
-  {
-    eyebrow: 'Ruleset',
-    title: 'DS Ruleset (CLAUDE.md)',
-    body: 'Token-first rule, fallback syntax rule, theme cascade audit, and status chip convention.',
-    href: 'https://github.com/bex-sugartown/sugartown/blob/main/CLAUDE.md',
-  },
 ]
 
 const TOKEN_DIAGRAM = {

@@ -10,22 +10,22 @@ import styles from './PlatformHubPage.module.css'
 
 const ARTIFACTS = [
   {
-    eyebrow: 'Conventions',
-    title: 'CLAUDE.md',
-    body: 'Session discipline, CSS protocol, schema conventions, and commit rules enforced by Claude Code.',
-    href: 'https://github.com/bex-sugartown/sugartown/blob/main/CLAUDE.md',
+    eyebrow: 'PRD',
+    title: 'Monorepo PRD',
+    body: 'Monorepo architecture — pnpm workspaces, Turbo pipeline, package boundaries, and build conventions.',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/briefs/monorepo-prd.md',
   },
   {
-    eyebrow: 'Conventions',
-    title: 'AI Assist Conventions',
-    body: 'How AI tooling is used in this repo — prompting, review gates, and anti-slop rules.',
-    href: 'https://github.com/bex-sugartown/sugartown/blob/main/CLAUDE.md',
+    eyebrow: 'Architecture',
+    title: 'Monorepo Overview',
+    body: 'Package topology, workspace structure, and dependency graph for the sugartown monorepo.',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/architecture/monorepo-overview.md',
   },
   {
-    eyebrow: 'Toolchain',
-    title: 'pnpm + Turbo',
-    body: 'pnpm workspaces with Turborepo for task orchestration, caching, and build ordering.',
-    href: 'https://github.com/bex-sugartown/sugartown/blob/main/turbo.json',
+    eyebrow: 'Architecture',
+    title: 'Architecture Diagram',
+    body: 'System-level diagram of app, studio, design system, and tooling layers.',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/architecture/architecture-diagram.md',
   },
 ]
 
