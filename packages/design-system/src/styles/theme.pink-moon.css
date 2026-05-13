@@ -79,6 +79,13 @@
   --st-code-inline-color:  var(--st-color-brand-primary);
   --st-code-inline-text:   var(--st-color-brand-primary);
   --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
+
+  /* SegmentedControl — light overrides (root defaults are dark midnight) */
+  --st-segmented-bg:        var(--st-color-softgrey-100);
+  --st-segmented-active-bg: var(--st-color-white);
+  --st-segmented-fg:        var(--st-color-text-secondary);
+  --st-segmented-active-fg: var(--st-color-text-primary);
+  --st-segmented-border:    var(--st-color-border-default);
 }
 
 /* ── Dark Pink Moon ────────────────────────────────────── */
