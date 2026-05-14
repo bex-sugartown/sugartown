@@ -395,6 +395,21 @@ Correct shape:
 
 Omitting either field produces content that saves and renders correctly on the web but cannot be edited in Studio. This is not a schema issue — refreshing Studio or deploying the schema will not fix it. The blocks must be re-patched with the fields present.
 
+**`citationRef` markDefs in nested PT fields lock the entire section.** If a block inside a `textSection.content` field carries a `markDefs` entry of type `citationRef`, the entire PT field becomes uneditable in Studio — toolbar grayed out, style dropdown locked — even if no span actually references the mark. This is because the `citationRef` annotation type is only resolvable at the document level (`citations[]`), not inside a nested array field like `sections[].content`. The fix is to `unset` the `markDefs` field on each affected block individually:
+
+```
+// One unset call per block — Sanity rejects batched unsets targeting the same parent array
+unset: ["sections[_key==\"<sectionKey>\"].content[_key==\"<blockKey>\"].markDefs"]
+```
+
+Do not use `set: { markDefs: [] }` — Sanity's `set` merges rather than replaces the `markDefs` array on existing blocks, leaving the annotation in place. `unset` on the field path is the only reliable removal method.
+
+**Recovery sequence when a textSection is entirely uneditable:**
+1. Fetch the document and find the section key (Sanity reassigns `_key` values — never assume the original key survives a patch)
+2. Identify which blocks carry `markDefs` with unresolvable types (e.g. `citationRef` in a nested field)
+3. `unset` the `markDefs` field on each affected block, one call per block
+4. Verify by re-fetching — the field should be absent, not an empty array
+
 ### Anti-Slop Content Rules
 
 All AI-drafted content (copy, descriptions, alt text, commit messages, doc prose) must pass the anti-slop checks documented in `docs/brand/brand-voice-guide.md`. The key enforcement rules:
