@@ -1,16 +1,13 @@
 # PROMPT — Sugartown Release Assistant
-**Version:** v3 (2026-02-22)
-**Supersedes:** v2 (2026-02-20)
+**Version:** v4 (2026-05-14)
+**Supersedes:** v3 (2026-02-22)
 
-> **v2 → v3 changes:**
-> - Human checkpoint gates are now explicit STOP blocks — AI must pause and wait for approval before proceeding to the next step. "Human verifies and edits" was insufficient; AI was skipping gates.
-> - Step 1 output format tightened: Source of Truth bullets must be grouped by surface with explicit ✅ STOP after output.
-> - Step 2 now requires human to reply "Approved" (or edits) before AI touches any file.
-> - Step 3A (CHANGELOG) now outputs proposed entry to chat only — AI must not write to CHANGELOG.md until human replies "Write it".
-> - Step 3B (Release Notes) now outputs proposed content to chat only — AI must not write files until human replies "Write it".
-> - Step 3C (file writes + commit) now requires explicit "Commit it" from human.
-> - Steps are numbered sequentially; AI must announce which step it is on.
-> - Missing artifacts checklist added at end of each release so the human can track what is still outstanding.
+> **v3 → v4 changes:**
+> - Clarified two-tier release model: `/release` always produces a MINOR bump (X.(Y+1).0). Patch numbers are owned by mini-releases only. Full releases never target a patch version.
+> - Step 0: [Unreleased] section of CHANGELOG.md is now the primary signal source — it accumulates changes from mini-releases. Git log is the verification layer.
+> - Step 3A: Removed the obsolete "aggregates" patch-stub note. Patch stubs are not written. [Unreleased] is the accumulation; the MINOR entry replaces it.
+> - Step 3C: Clarified that the version bump in a full release is always to `X.(Y+1).0`, never to an arbitrary patch.
+> - Backlog file references updated: `.html` → `.md` throughout.
 
 ---
 
@@ -52,14 +49,16 @@ Expected human responses at each gate:
 
 ## STEP 0 — COLLECT SIGNALS
 
-AI runs:
+**Primary source:** Read the `[Unreleased]` section of `CHANGELOG.md`. This section accumulates all changes from mini-releases since the last MINOR release. It is the AI-curated input for the next full release.
+
+**Verification source:** Run git log and diff to confirm the [Unreleased] entries are complete and nothing was missed:
 
 ```bash
-git diff --name-status <lastReleaseRef>..HEAD
-git log --oneline <lastReleaseRef>..HEAD
+git log --oneline <lastMinorReleaseCommit>..HEAD
+git diff --name-status <lastMinorReleaseCommit>..HEAD
 ```
 
-If no git tag exists for the last release, use the last release commit hash from the CHANGELOG or git log.
+To find the last MINOR release commit, look for the most recent `chore(release): mini-release` commit following the last `docs: release vX.Y.0` commit in `git log --oneline`.
 
 AI groups changed files by surface:
 - `apps/web`
@@ -69,7 +68,8 @@ AI groups changed files by surface:
 - other packages / root
 
 Output:
-- Raw factual file list per surface, with one-line description of what changed (from diff, not inference)
+- The [Unreleased] section content as the primary signal
+- Any changes found in git log that are missing from [Unreleased] (gaps to flag)
 - No interpretation
 - No marketing language
 - No inferred intent
@@ -80,7 +80,7 @@ Step 0 has no gate — it is purely mechanical signal collection. AI proceeds di
 
 ## STEP 1 — SOURCE OF TRUTH (Messy Reality)
 
-AI generates one outcome-focused bullet per real change, grouped by surface.
+AI generates one outcome-focused bullet per real change, grouped by surface. Source is the [Unreleased] section, verified against git log.
 
 ```
 apps/web:
@@ -98,7 +98,7 @@ apps/storybook:
 
 Rules:
 - Outcome-only bullets. Not file-level diffs — actual behavioural outcomes.
-- If a change cannot be supported by file diff or explicit human confirmation, exclude it.
+- If a change cannot be supported by [Unreleased] content or git diff, exclude it.
 - Refactors are included.
 - Internal migrations are included.
 - Non-goals excluded.
@@ -163,17 +163,20 @@ If violated → FAIL and output a rule violation report.
 
 ### STEP 3A — Generate CHANGELOG.md Entry (Canonical Ledger)
 
-**Version format:** `[MAJOR.MINOR.PATCH]` using SemVer with date annotation.
-Do not use date-only versions (`vYYYY.MM.DD`).
+**Version format:** Full releases are always MINOR bumps: `[X.(Y+1).0]` with date annotation.
 
-**If mini-release patches exist since the last MINOR:** The new MINOR entry must include an `aggregates` line in its descriptor (e.g. `aggregates 0.14.1–0.14.4`) so the CHANGELOG stays navigable. The MINOR entry's bullet lists summarize across patches — they do not duplicate every bullet already recorded in the patch stubs.
+- Current version: read from `package.json`. It will be at some patch level (e.g. `0.23.27`).
+- Next full release version: increment MINOR, reset PATCH to 0 (e.g. `0.24.0`).
+- Do NOT use the current patch version for the full release entry. Do NOT use date-only versions.
+
+The new MINOR entry replaces the `[Unreleased]` section — it is the same content, now versioned and dated.
 
 **Format:**
 
 ```markdown
-## [X.Y.Z] — YYYY-MM-DD
+## [X.(Y+1).0] — YYYY-MM-DD
 
-Brief descriptor. Branch: `feature-branch` → `main` (if a merge release).
+Brief descriptor. Aggregates vX.Y.1–vX.Y.Z (the patch mini-releases since the last MINOR).
 
 ### apps/web
 
@@ -237,7 +240,9 @@ AI outputs the proposed CHANGELOG entry to chat only. **AI must not write to CHA
 ```
 ━━━ GATE 3 — CHANGELOG ENTRY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Review the proposed CHANGELOG entry above.
-Edit if needed, or reply "Write it" to prepend it to CHANGELOG.md.
+Edit if needed, or reply "Write it" to:
+  - Replace [Unreleased] with the new [X.(Y+1).0] entry in CHANGELOG.md
+  - Reset [Unreleased] to an empty accumulation block
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -252,10 +257,9 @@ Edit if needed, or reply "Write it" to prepend it to CHANGELOG.md.
 **Format:**
 
 ```markdown
-# Release Notes — vX.Y.Z
+# Release Notes — vX.(Y+1).0
 
 **Date:** YYYY-MM-DD
-**Branch:** `feature-branch` → `main`
 **Scope:** Sugartown monorepo (surfaces touched)
 
 ---
@@ -284,7 +288,7 @@ Edit if needed, or reply "Write it" to prepend it to CHANGELOG.md.
 
 ## Validator state at release
 
-[Output of any relevant validation scripts, e.g. `pnpm validate:urls`, `pnpm validate:filters`.]
+[Output of any relevant validation scripts, e.g. `pnpm validate:tokens`, `pnpm lint`.]
 ```
 
 **Content rules:**
@@ -327,8 +331,8 @@ AI outputs the proposed Release Notes to chat only. **AI must not write any file
 ━━━ GATE 4 — RELEASE NOTES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Review the proposed Release Notes above.
 Edit if needed, or reply "Write it" to write the files.
-AI will: archive existing RELEASE_NOTES.md → docs/release-notes/,
-         then write new RELEASE_NOTES.md and docs/release-notes/RELEASE_NOTES_vX.Y.Z.md.
+AI will: archive existing RELEASE_NOTES.md → docs/release-notes/RELEASE_NOTES_vX.Y.Z.md,
+         then write new RELEASE_NOTES.md (vX.(Y+1).0) and docs/release-notes/RELEASE_NOTES_vX.(Y+1).0.md.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -336,19 +340,20 @@ AI will: archive existing RELEASE_NOTES.md → docs/release-notes/,
 
 ---
 
-### STEP 3C — Output Artifacts
+### STEP 3C — Output Artifacts and Version Bump
 
 On "Write it" for Gate 4, AI writes to disk in this order:
 
-1. Archive existing `RELEASE_NOTES.md` → `docs/release-notes/RELEASE_NOTES_vPREV.md` (if it exists and hasn't been archived yet)
+1. Archive existing `RELEASE_NOTES.md` → `docs/release-notes/RELEASE_NOTES_vPREV.md` (if not already archived)
 2. Write `RELEASE_NOTES.md` (repo root) — current release only
-3. Write `docs/release-notes/RELEASE_NOTES_vX.Y.Z.md` — permanent archive copy
+3. Write `docs/release-notes/RELEASE_NOTES_vX.(Y+1).0.md` — permanent archive copy
+4. Bump version in `package.json` (root) from `X.Y.Z` → `X.(Y+1).0`
+5. Bump version in `apps/web/package.json` to `X.(Y+1).0`
 
 **Release notes file convention:**
-- `RELEASE_NOTES.md` (repo root) — always reflects the current/latest release. Replaced on each release.
-- `docs/release-notes/RELEASE_NOTES_vX.Y.Z.md` — permanent per-version archive. Never modified after creation.
-- Before writing a new `RELEASE_NOTES.md`, save the existing one to `docs/release-notes/` first.
-- Filename format: `RELEASE_NOTES_vMAJOR.MINOR.PATCH.md` (e.g. `RELEASE_NOTES_v0.9.0.md`).
+- `RELEASE_NOTES.md` (repo root) — always reflects the current MINOR release. Replaced on each full release.
+- `docs/release-notes/RELEASE_NOTES_vX.Y.0.md` — permanent per-MINOR-version archive. Never modified after creation.
+- Filename format: `RELEASE_NOTES_vMAJOR.MINOR.0.md` (e.g. `RELEASE_NOTES_v0.24.0.md`).
 
 ### ✅ GATE 5 — STOP
 
@@ -357,14 +362,14 @@ AI prints the proposed commit plan:
 ```
 ━━━ GATE 5 — COMMIT PLAN ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Files to commit:
-  CHANGELOG.md
-  RELEASE_NOTES.md
-  docs/release-notes/RELEASE_NOTES_vX.Y.Z.md
-  package.json (version bump if not already committed)
-  apps/web/package.json (version bump if not already committed)
+  CHANGELOG.md          ([Unreleased] → [X.(Y+1).0], empty [Unreleased] restored)
+  RELEASE_NOTES.md      (updated to vX.(Y+1).0)
+  docs/release-notes/RELEASE_NOTES_vX.(Y+1).0.md
+  package.json          (X.Y.Z → X.(Y+1).0)
+  apps/web/package.json (X.Y.Z → X.(Y+1).0)
 
 Proposed commit message:
-  docs: release vX.Y.Z — [brief descriptor]
+  docs: release vX.(Y+1).0 — [brief descriptor]
 
 Reply "Commit it" to create the commit.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -373,22 +378,21 @@ Reply "Commit it" to create the commit.
 **AI must not commit until the human replies "Commit it".**
 
 > **Note — RELEASE_STATE.json (retired):**
-> This artifact was carried over from the WP/Python pipeline era. Its role has no direct equivalent in the monorepo. The monorepo's accountability artifacts are `pnpm validate:urls`, `pnpm validate:filters`, and `pnpm validate:taxonomy` output, captured in the Release Notes "Validator state" section. Do not generate `RELEASE_STATE.json`.
+> This artifact was carried over from the WP/Python pipeline era. Its role has no direct equivalent in the monorepo. The monorepo's accountability artifacts are `pnpm validate:tokens`, `pnpm lint`, and validator output, captured in the Release Notes "Validator state" section. Do not generate `RELEASE_STATE.json`.
 
 ---
 
 ## STEP 4 — BACKLOG RECONCILIATION
 
-After the release commit lands, reconcile the backlog priority stack (`docs/backlog/sugartown-backlog-priorities.html`) against reality.
+After the release commit lands, reconcile the backlog priority stack (`docs/backlog/sugartown-backlog-priorities.md`) against reality.
 
 ### 4A — Ship completed items
 
 Cross-reference the CHANGELOG entry against the backlog. For every backlog item that was delivered in this release:
 
 1. Move it to the **Shipped** section at the bottom of the file.
-2. Change its CSS class to `item--shipped`, rank to `✓` (`item__rank--check`), and priority badge to `priority--shipped`.
-3. Update its summary with the release version and date (e.g. "Shipped v0.17.0, 2026-03-12").
-4. Update the shipped tag: `<span class="tag tag--shipped">Shipped vX.Y.Z</span>`.
+2. Update its entry with the release version and date (e.g. "Shipped v0.24.0, 2026-05-14").
+3. Mark with `✅ Shipped` tag.
 
 ### 4B — Log new scope items
 
@@ -403,13 +407,12 @@ For each new item, draft a backlog entry with: title, summary, tags, and a sugge
 
 ### 4C — Re-prioritize the queue
 
-With shipped items removed and new items added, re-sequence the remaining backlog:
+With shipped items moved and new items added, re-sequence the remaining backlog:
 
-1. Renumber active items (ranks 1, 2, 3…) — shipped items have no rank.
-2. Update the **header meta** line (`page-header__meta`) with the current date, shipped epic range, and current focus.
-3. Update the **blocker** block to reflect the new current focus and next priorities.
-4. Update the **Shipped section heading** label to include the new version range (e.g. `v0.14.x–0.17.x`).
-5. Update the **footer** date.
+1. Renumber active items sequentially — shipped items have no rank.
+2. Update the `> Updated` header line with current date, version, and shipped epic range.
+3. Update the `⚑ Current focus` block to reflect what shipped and what's next.
+4. Update footer date.
 
 ### ✅ GATE 6 — STOP
 
@@ -418,7 +421,7 @@ AI outputs the proposed backlog changes to chat as a summary:
 ```
 ━━━ GATE 6 — BACKLOG RECONCILIATION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Shipped (moved to bottom):
-  - [item title] — was rank N, now shipped
+  - [item title] — was rank N, now shipped vX.(Y+1).0
   - ...
 
 New items added:
@@ -436,7 +439,7 @@ Review above. Edit if needed, or reply "Write it" to update the backlog file.
 
 **AI must not write to the backlog file until the human replies "Write it".**
 
-On "Write it", AI updates `docs/backlog/sugartown-backlog-priorities.html` in place.
+On "Write it", AI updates `docs/backlog/sugartown-backlog-priorities.md` in place.
 
 ### ✅ GATE 7 — STOP
 
@@ -445,10 +448,10 @@ AI prints the proposed commit plan for the backlog update:
 ```
 ━━━ GATE 7 — BACKLOG COMMIT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Files to commit:
-  docs/backlog/sugartown-backlog-priorities.html
+  docs/backlog/sugartown-backlog-priorities.md
 
 Proposed commit message:
-  docs(backlog): reconcile priority stack after vX.Y.Z release
+  docs(backlog): reconcile priority stack after vX.(Y+1).0 release
 
 Reply "Commit it" to create the commit.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -463,23 +466,22 @@ Reply "Commit it" to create the commit.
 After all gates are confirmed, AI prints this checklist so the human can track what was produced:
 
 ```
-━━━ RELEASE vX.Y.Z COMPLETE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
+━━━ RELEASE vX.(Y+1).0 COMPLETE ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Artifacts:
-  ✅  CHANGELOG.md — [X.Y.Z] entry prepended
-  ✅  RELEASE_NOTES.md — updated to vX.Y.Z
-  ✅  docs/release-notes/RELEASE_NOTES_vX.Y.Z.md — archived
+  ✅  CHANGELOG.md — [X.(Y+1).0] entry written, [Unreleased] reset
+  ✅  RELEASE_NOTES.md — updated to vX.(Y+1).0
+  ✅  docs/release-notes/RELEASE_NOTES_vX.(Y+1).0.md — archived
   ✅  Committed: [commit hash]
 
 Version bumps confirmed:
-  ✅  package.json → X.Y.Z
-  ✅  apps/web/package.json → X.Y.Z
+  ✅  package.json → X.(Y+1).0
+  ✅  apps/web/package.json → X.(Y+1).0
 
 Validators run:
   [paste final validator output here or note "not run"]
 
 Backlog reconciled:
-  ✅  docs/backlog/sugartown-backlog-priorities.html — shipped items moved, new items added, priorities restacked
+  ✅  docs/backlog/sugartown-backlog-priorities.md — shipped items moved, new items added, priorities restacked
   ✅  Committed: [commit hash]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
@@ -496,7 +498,7 @@ Fail if:
 - Roadmap/future language appears anywhere (except "Not in this release" — which describes deferrals, not promises).
 - Breaking changes exist but are not explicitly labeled.
 - Empty surfaces are included in CHANGELOG (e.g. `### apps/storybook` with no bullets).
-- Version format in CHANGELOG does not match the project's established versioning convention.
+- The full release version is a patch number (e.g. `[0.23.27]`) — full releases must always be MINOR (`[0.24.0]`).
 - AI writes to disk before human approval at the relevant gate.
 
 If failure, output:
@@ -529,22 +531,18 @@ Ledger always precedes narrative.
 
 - Format: SemVer `MAJOR.MINOR.PATCH` in Keep a Changelog brackets: `## [X.Y.Z] — YYYY-MM-DD`
 - Do NOT use date-only versions in the CHANGELOG header.
-- The Release Notes file header and branch metadata use `vX.Y.Z` (with `v` prefix).
+- The Release Notes file header uses `vX.Y.Z` (with `v` prefix).
 - Increment guidance:
-  - `PATCH`: per-epic mini-releases (see below) — one epic, version bump only, no CHANGELOG entry
-  - `MINOR`: full releases — aggregates one or more patch mini-releases into a single CHANGELOG entry with release notes
+  - `PATCH`: per-epic mini-releases only — one epic, version bump + backlog cleanup, no CHANGELOG entry, no release notes
+  - `MINOR`: full releases — always `X.(Y+1).0`, aggregates all [Unreleased] changes into a single CHANGELOG entry with release notes
   - `MAJOR`: breaking schema changes, URL namespace changes, removed public APIs
 - When uncertain, ask the human before generating.
 
-### Mini-release cadence
-
-Sugartown uses a two-tier release model:
+### Two-tier release model
 
 | Tier | Command | Version bump | CHANGELOG | Release notes |
 |------|---------|-------------|-----------|---------------|
-| **Mini-release** | `/mini-release` | PATCH | None | None |
-| **Full release** | `/release` | MINOR (or MAJOR) | Aggregated narrative entry | Yes |
+| **Mini-release** | `/mini-release` | PATCH (X.Y.Z+1) | None — changes accumulate in `[Unreleased]` | None |
+| **Full release** | `/release` | MINOR (X.(Y+1).0) | Promotes `[Unreleased]` → `[X.(Y+1).0]`, resets `[Unreleased]` | Yes — derived from CHANGELOG |
 
-Mini-releases only bump the version and clean up the backlog. The CHANGELOG is **only written during full releases**, which pull data from `git log` and `git diff` to construct the aggregated entry. This avoids redundant patch stubs that duplicate the MINOR entry.
-
-**Full release Step 0 adjustment:** Use `git log` and `git diff` since the last MINOR release tag to collect all changes across patch mini-releases. Group by epic ID from commit messages.
+**[Unreleased] is the accumulation buffer.** Mini-releases do not touch CHANGELOG.md. The `[Unreleased]` section is maintained by the AI as changes ship (via epic close-out and backlog cleanup steps). When `/release` runs, it reads [Unreleased] as its primary signal, promotes the content to a MINOR entry, and resets [Unreleased] to an empty block.

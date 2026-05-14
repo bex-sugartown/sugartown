@@ -1,5 +1,5 @@
 # PROMPT — Sugartown Mini-Release Assistant
-**Version:** v3 (2026-03-15)
+**Version:** v4 (2026-05-14)
 
 Run this after every epic is fully committed and the working tree is clean.
 
@@ -7,14 +7,29 @@ Run this after every epic is fully committed and the working tree is clean.
 
 ## What a mini-release is
 
-A mini-release is a **patch version bump** scoped to a single epic. It is not a full release. It produces:
+A mini-release is a **PATCH version bump** scoped to a single epic. It is not a full release.
 
-- One commit: version bump only
-- No CHANGELOG stub (full releases pull data from git log)
-- No release notes
-- No release notes archive
+### Two-tier release model
 
-Mini-releases accumulate as tagged patch versions. A **full release** (run separately via `/release`) aggregates them into a MINOR or MAJOR CHANGELOG entry with narrative, release notes, and the full 5-gate ceremony.
+| Tier | Command | Version bump | CHANGELOG | Release notes |
+|------|---------|-------------|-----------|---------------|
+| **Mini-release** | `/mini-release` | PATCH only (`X.Y.Z+1`) | None | None |
+| **Full release** | `/release` | MINOR only (`X.(Y+1).0`) | Promotes `[Unreleased]` → `[X.(Y+1).0]` | New `RELEASE_NOTES.md` |
+
+### The [Unreleased] accumulation buffer
+
+After each epic ships, a one-line summary of what changed belongs in `CHANGELOG.md` under `[Unreleased]`. This is the accumulation buffer. It does NOT get a version number or date — it is a staging area for the next full release.
+
+- **Mini-release writes:** version bump commit only. It does not touch CHANGELOG.
+- **Full release writes:** promotes `[Unreleased]` → `[X.(Y+1).0]` with today's date, resets `[Unreleased]` to empty, bumps MINOR version.
+
+**After each mini-release commit, manually add a one-line entry to `[Unreleased]` in CHANGELOG.md** (or prompt AI to do it) so the buffer stays current. Format:
+
+```
+- SUG-XX: Short description of what shipped
+```
+
+Mini-releases accumulate as PATCH versions. A **full release** (run separately via `/release`) promotes the [Unreleased] buffer into a MINOR CHANGELOG entry with narrative, full release notes, and the 5-gate ceremony.
 
 ---
 
@@ -181,7 +196,8 @@ Fail if:
 - Working tree is dirty when mini-release starts.
 - Multiple epics bundled into one patch.
 - AI writes to disk before "Write it".
-- Version is bumped by MINOR or MAJOR (patches only — if the epic warrants a MINOR bump, run the full `/release` instead).
-- Shipped epic's backlog file is left in `docs/backlog/` when a matching `docs/shipped/EPIC-NNNN-*` exists.
+- Version is bumped by MINOR or MAJOR (PATCH only — if the epic warrants a MINOR bump, run the full `/release` instead).
+- Shipped epic's backlog file is left in `docs/backlog/` when a matching `docs/shipped/` file exists.
 - Backlog priority stack is not updated after shipping an epic that appears as an active item.
-- AI writes a CHANGELOG stub (CHANGELOG is only updated during full releases).
+- AI writes a versioned CHANGELOG entry. The only permitted CHANGELOG write is a one-line addition to the `[Unreleased]` buffer.
+- RELEASE_NOTES.md is modified. Release notes are only produced by `/release`.
