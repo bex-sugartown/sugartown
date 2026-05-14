@@ -3,9 +3,10 @@ import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import Card from '../../design-system/components/card/Card'
+import CodeBlock from '../../design-system/components/codeblock/CodeBlock'
 import SchemaERD from '../../components/SchemaERD/SchemaERD'
 import { entities, relationships } from '../../data/schemaManifest'
-import { PLATFORM_ROUTES, FIGJAM_URLS } from '../../lib/routes'
+import { FIGJAM_URLS } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
 const ARTIFACTS = [
@@ -67,16 +68,11 @@ export default function CmsPage() {
 
         <section id="relationships" className={styles.section}>
           <SectionLabel number="§03" name="Relationships" kicker="Document → taxonomy" />
-          <pre className={styles.diagramBlock}>{`article   ──── tags[]     ──► tag
-article   ──── tools[]    ──► tool
-article   ──── authors[]  ──► person
-article   ──── projects[] ──► project
-caseStudy ──── tags[]     ──► tag
-caseStudy ──── tools[]    ──► tool
-caseStudy ──── client     ──► person
-node      ──── tags[]     ──► tag
-node      ──── tools[]    ──► tool
-page      ──── sections[] ──► section builder objects`}</pre>
+          <CodeBlock
+            code={`article   ──── tags[]     ──► tag\narticle   ──── tools[]    ──► tool\narticle   ──── authors[]  ──► person\narticle   ──── projects[] ──► project\ncaseStudy ──── tags[]     ──► tag\ncaseStudy ──── tools[]    ──► tool\ncaseStudy ──── client     ──► person\nnode      ──── tags[]     ──► tag\nnode      ──── tools[]    ──► tool\npage      ──── sections[] ──► section builder objects`}
+            language="text"
+            filename="relationships.txt"
+          />
         </section>
 
         <section id="cms-artifacts" className={styles.section}>

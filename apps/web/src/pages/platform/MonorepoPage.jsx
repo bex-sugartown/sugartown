@@ -4,8 +4,9 @@ import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Card from '../../design-system/components/card/Card'
+import CodeBlock from '../../design-system/components/codeblock/CodeBlock'
 import { MermaidDiagram } from '../../components/PageSections'
-import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
+import { TRUST_LINKS } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
 const ARTIFACTS = [
@@ -87,13 +88,11 @@ export default function MonorepoPage() {
 
         <section id="build-pipeline" className={styles.section}>
           <SectionLabel number="§02" name="Build pipeline" />
-          <pre className={styles.diagramBlock}>{`tokens:build  →  validate:tokens  →  type-check
-      ↓
-  storybook (chromatic VRT)
-      ↓
-  web build  →  validate:urls  →  validate:content
-      ↓
-  Netlify deploy  →  LHCI audit  →  CWV snapshot`}</pre>
+          <CodeBlock
+            code={`tokens:build  →  validate:tokens  →  type-check\n      ↓\n  storybook (chromatic VRT)\n      ↓\n  web build  →  validate:urls  →  validate:content\n      ↓\n  Netlify deploy  →  LHCI audit  →  CWV snapshot`}
+            language="text"
+            filename="build-pipeline.txt"
+          />
         </section>
 
         <section id="monorepo-artifacts" className={styles.section}>

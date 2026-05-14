@@ -4,6 +4,7 @@ import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Card from '../../design-system/components/card/Card'
+import DataTable from '../../design-system/components/data-table/DataTable'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS, FIGJAM_URLS } from '../../lib/routes'
 import stats from '../../generated/stats.json'
@@ -15,6 +16,11 @@ const REGISTRY_PREVIEW = [
   { name: 'Card', desc: 'Content surface — folio, metadata, listing, and KPI variants.' },
   { name: 'Tile', desc: 'Labeled metric display. Replaces StatTile + TickerCard.' },
   { name: 'SectionLabel', desc: '3-zone folio row: number · name (mono) | Cormorant title | kicker.' },
+]
+const REGISTRY_TOTAL = 42
+const REGISTRY_COLUMNS = [
+  { key: 'name', label: 'Component', width: '140px' },
+  { key: 'desc', label: 'Description' },
 ]
 
 const ARTIFACTS = [
@@ -105,17 +111,12 @@ export default function DesignSystemPage() {
         </section>
 
         <section id="component-registry" className={styles.section}>
-          <SectionLabel number="§02" name="Component registry" kicker="Preview — 3 of 42" />
-          <div className={styles.registryTeaser}>
-            {REGISTRY_PREVIEW.map((c) => (
-              <div key={c.name} className={styles.registryRow}>
-                <span className={styles.registryName}>{c.name}</span>
-                <span className={styles.registryDesc}>{c.desc}</span>
-              </div>
-            ))}
-            <div className={styles.registryFooter}>
-              <a href={PLATFORM_ROUTES.dsRegistry}>Full registry → /platform/design-system/registry (SUG-103)</a>
-            </div>
+          <SectionLabel number="§02" name="Component registry" kicker={`Preview — ${REGISTRY_PREVIEW.length} of ${REGISTRY_TOTAL}`} />
+          <DataTable columns={REGISTRY_COLUMNS} rows={REGISTRY_PREVIEW} variant="trust" />
+          <div className={styles.trustLinks}>
+            <a href={PLATFORM_ROUTES.dsRegistry} className={styles.trustLink}>
+              Full registry ↗
+            </a>
           </div>
         </section>
 

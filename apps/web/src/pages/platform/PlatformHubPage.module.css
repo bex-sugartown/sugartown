@@ -80,64 +80,6 @@
   border: 1px solid var(--st-color-border-subtle);
 }
 
-/* ── Mermaid / code diagram block ────────────────────────── */
-
-.diagramBlock {
-  background: var(--st-color-bg-subtle);
-  border: 1px solid var(--st-color-border-subtle);
-  padding: 1.25rem;
-  font-family: var(--st-font-family-mono);
-  font-size: 0.8rem;
-  line-height: 1.7;
-  color: var(--st-color-text-muted);
-  overflow-x: auto;
-}
-
-/* ── Release strip ────────────────────────────────────────── */
-
-.releaseStrip {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--st-color-border-subtle);
-}
-
-.releaseRow {
-  display: grid;
-  grid-template-columns: 6rem 1fr auto;
-  gap: 1rem;
-  align-items: baseline;
-  padding: 0.625rem 1rem;
-  border-bottom: 1px solid var(--st-color-border-subtle);
-  font-size: 0.8125rem;
-}
-
-.releaseRow:last-child {
-  border-bottom: 0;
-}
-
-.releaseVersion {
-  font-family: var(--st-font-family-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--st-color-text-default);
-}
-
-.releaseDate {
-  font-family: var(--st-label-font);
-  font-size: 0.65rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--st-color-text-muted);
-  white-space: nowrap;
-}
-
-.releaseSummary {
-  color: var(--st-color-text-muted);
-  grid-column: 1 / -1;
-  padding-top: 0.125rem;
-  font-size: 0.75rem;
-}
-
 /* ── SectionLabel flush — removes bottom margin so Grid accent rule sits
    immediately adjacent (StatTileSection pattern: no gap between label + grid) */
 .labelFlush {
@@ -193,59 +135,6 @@
 }
 .inlineLink:hover {
   color: var(--st-color-link-hover);
-}
-
-/* ── Registry teaser ──────────────────────────────────────── */
-
-.registryTeaser {
-  border: 1px solid var(--st-color-border-subtle);
-  overflow: hidden;
-}
-
-.registryRow {
-  display: grid;
-  grid-template-columns: 1fr 2fr auto;
-  gap: 1rem;
-  align-items: center;
-  padding: 0.625rem 1rem;
-  border-bottom: 1px solid var(--st-color-border-subtle);
-  font-size: 0.8125rem;
-}
-
-.registryRow:last-child {
-  border-bottom: 0;
-}
-
-.registryName {
-  font-family: var(--st-font-family-mono);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--st-color-text-default);
-}
-
-.registryDesc {
-  color: var(--st-color-text-muted);
-  font-size: 0.8rem;
-}
-
-.registryFooter {
-  padding: 0.625rem 1rem;
-  border-top: 1px solid var(--st-color-border-subtle);
-  background: var(--st-color-bg-subtle);
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
-}
-
-.registryFooter a {
-  color: var(--st-color-text-muted);
-  text-decoration: none;
-  transition: color var(--st-transition-fast);
-}
-
-.registryFooter a:hover {
-  color: var(--st-color-brand-primary);
 }
 
 /* ── Roadmap table helpers ──────────────────────────────── */
