@@ -81,12 +81,12 @@ export default function MonorepoPage() {
         </SectionContainer>
 
         <section id="workspace-topology" className={styles.section}>
-          <SectionLabel name="Architecture" kicker="Workspace topology" />
+          <SectionLabel number="§01" name="Architecture" kicker="Workspace topology" />
           <MermaidDiagram section={ARCHITECTURE_DIAGRAM} />
         </section>
 
         <section id="build-pipeline" className={styles.section}>
-          <SectionLabel name="Build pipeline" />
+          <SectionLabel number="§02" name="Build pipeline" />
           <pre className={styles.diagramBlock}>{`tokens:build  →  validate:tokens  →  type-check
       ↓
   storybook (chromatic VRT)
@@ -97,7 +97,7 @@ export default function MonorepoPage() {
         </section>
 
         <section id="monorepo-artifacts" className={styles.section}>
-          <SectionLabel name="Artifacts" className={styles.labelFlush} />
+          <SectionLabel number="§03" name="Artifacts" className={styles.labelFlush} />
           <SectionContainer columns={3}>
             {ARTIFACTS.map((a) => (
               <Card

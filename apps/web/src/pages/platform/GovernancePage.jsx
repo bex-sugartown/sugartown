@@ -123,7 +123,7 @@ export default function GovernancePage() {
         </SectionContainer>
 
         <section id="roadmap" className={styles.section}>
-          <SectionLabel name="Roadmap" kicker="In progress + upcoming" />
+          <SectionLabel number="§01" name="Roadmap" kicker="In progress + upcoming" />
 
           {isStale && (
             <Callout>
@@ -150,7 +150,7 @@ export default function GovernancePage() {
         </section>
 
         <section id="recent-releases" className={styles.section}>
-          <SectionLabel name="Recent releases" kicker="Last 5" />
+          <SectionLabel number="§02" name="Recent releases" kicker="Last 5" />
           <DataTable columns={RELEASE_COLUMNS} rows={RECENT_RELEASES} variant="trust" />
           <div className={styles.trustLinks}>
             <a href={TRUST_LINKS.changelog} className={styles.trustLink} target="_blank" rel="noreferrer">Full changelog</a>
@@ -159,12 +159,12 @@ export default function GovernancePage() {
         </section>
 
         <section id="release-process" className={styles.section}>
-          <SectionLabel name="Release process" kicker="Gate model" />
+          <SectionLabel number="§03" name="Release process" kicker="Gate model" />
           <MermaidDiagram section={RELEASE_DIAGRAM} />
         </section>
 
         <section id="governance-artifacts" className={styles.section}>
-          <SectionLabel name="Artifacts" className={styles.labelFlush} />
+          <SectionLabel number="§04" name="Artifacts" className={styles.labelFlush} />
           <SectionContainer columns={3}>
             {ARTIFACTS.map((a) => (
               <Card key={a.title} eyebrow={a.eyebrow} title={a.title} excerpt={a.body} href={a.href} />

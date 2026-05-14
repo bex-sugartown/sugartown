@@ -100,12 +100,12 @@ export default function DesignSystemPage() {
         </SectionContainer>
 
         <section id="token-architecture" className={styles.section}>
-          <SectionLabel name="Token architecture" kicker="Base → semantic → component" />
+          <SectionLabel number="§01" name="Token architecture" kicker="Base → semantic → component" />
           <MermaidDiagram section={TOKEN_DIAGRAM} />
         </section>
 
         <section id="component-registry" className={styles.section}>
-          <SectionLabel name="Component registry" kicker="Preview — 3 of 42" />
+          <SectionLabel number="§02" name="Component registry" kicker="Preview — 3 of 42" />
           <div className={styles.registryTeaser}>
             {REGISTRY_PREVIEW.map((c) => (
               <div key={c.name} className={styles.registryRow}>
@@ -120,7 +120,7 @@ export default function DesignSystemPage() {
         </section>
 
         <section id="architecture-figjam" className={styles.section}>
-          <SectionLabel name="Architecture — FigJam" kicker="Component layer diagram" />
+          <SectionLabel number="§03" name="Architecture — FigJam" kicker="Component layer diagram" />
           <iframe
             className={styles.figJam}
             height="450"
@@ -132,7 +132,7 @@ export default function DesignSystemPage() {
         </section>
 
         <section id="storybook" className={styles.section}>
-          <SectionLabel name="Storybook" kicker="Live component catalogue" />
+          <SectionLabel number="§04" name="Storybook" kicker="Live component catalogue" />
           <div className={styles.trustLinks}>
             <a href={TRUST_LINKS.storybook} className={styles.trustLink} target="_blank" rel="noreferrer">
               pinkmoon.sugartown.io ↗
@@ -141,7 +141,7 @@ export default function DesignSystemPage() {
         </section>
 
         <section id="ds-artifacts" className={styles.section}>
-          <SectionLabel name="Artifacts" className={styles.labelFlush} />
+          <SectionLabel number="§05" name="Artifacts" className={styles.labelFlush} />
           <SectionContainer columns={2}>
             {ARTIFACTS.map((a) => (
               <Card

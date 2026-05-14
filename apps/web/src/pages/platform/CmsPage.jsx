@@ -49,12 +49,12 @@ export default function CmsPage() {
       <div className={styles.hub}>
 
         <section id="schema-erd" className={styles.section}>
-          <SectionLabel name="Schema ERD" kicker="Interactive explorer" />
+          <SectionLabel number="§01" name="Schema ERD" kicker="Interactive explorer" />
           <SchemaERD entities={entities} relationships={relationships} />
         </section>
 
         <section id="content-model" className={styles.section}>
-          <SectionLabel name="Content model — FigJam" kicker="Visual overview" />
+          <SectionLabel number="§02" name="Content model — FigJam" kicker="Visual overview" />
           <iframe
             className={styles.figJam}
             height="450"
@@ -66,7 +66,7 @@ export default function CmsPage() {
         </section>
 
         <section id="relationships" className={styles.section}>
-          <SectionLabel name="Relationships" kicker="Document → taxonomy" />
+          <SectionLabel number="§03" name="Relationships" kicker="Document → taxonomy" />
           <pre className={styles.diagramBlock}>{`article   ──── tags[]     ──► tag
 article   ──── tools[]    ──► tool
 article   ──── authors[]  ──► person
@@ -80,7 +80,7 @@ page      ──── sections[] ──► section builder objects`}</pre>
         </section>
 
         <section id="cms-artifacts" className={styles.section}>
-          <SectionLabel name="Artifacts" className={styles.labelFlush} />
+          <SectionLabel number="§04" name="Artifacts" className={styles.labelFlush} />
           <SectionContainer columns={2}>
             {ARTIFACTS.map((a) => (
               <Card
