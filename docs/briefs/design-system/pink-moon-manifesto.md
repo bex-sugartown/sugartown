@@ -2,314 +2,291 @@
 
 ### *A Working Philosophy for Sugartown's Visual Identity*
 
-**Status:** Working draft — backend thinking for PRD and systems
-**Date:** 2026-04-07 (revised from 2026-04-05)
-**Companion:** [Anti-Slop Manifesto](./ai-slop-manifesto.md)
-**Mock:** `pink-moon-mock-B-sharp-paper.html` (current direction)
+**Status:** Active — revised 2026-05-14 (v2)
+**Companion:** [Anti-Slop Manifesto](./ai-slop-manifesto.md) · [PRD v3.0](./design-system-prd.md)
+**Reference:** `AB-001_ledger_tradition_v2.html` · `SUG-78-ledger-tradition-mock.html`
 
 ---
 
-## The Premise
+## Part I: The Premise
 
 Pink Moon is not a theme. It is the design system.
 
-What currently exists as four mode variants (dark, light, dark-pink-moon, light-pink-moon) will converge into two: **Pink Moon Light** (default) and **Pink Moon Dark**. The "classic" dark and light modes served as scaffolding — the system needed a stable baseline before it could develop a voice. It has one now.
+There were four mode variants. Now there are two: **Pink Moon Light** (default) and **Pink Moon Dark**. The classic light and dark modes served as scaffolding while the system found its voice. The scaffolding came down in v0.23.0 (SUG-83). Every selector, every token override, every CSS pair that referenced `[data-theme="light"]` or `[data-theme="dark"]` is gone. The system runs on `[data-theme="light-pink-moon"]` exclusively.
 
-The convergence is iterative. The token architecture, component contracts, typography pairing, and interaction signatures stay. The *mood* sharpens. The default flips to light.
+This is not a simplification. It is a commitment.
 
 ---
 
-## The Reference: What Is Pink Moon?
+## Part II: The Ledger Tradition
+
+Pink Moon has a historical argument behind it. The visual language is not borrowed from general "academic aesthetics" or a vague sense of seriousness. It comes from a specific genealogy: eight hundred years of humans solving the problem of **rendering structured content legibly at scale, across many hands, with the metadata intact.**
+
+Scribes, accountants, cataloguers, and statisticians all arrived at the same answers independently:
+
+- **Ruled columns** make structure visible without annotation
+- **Marginal numbering** makes navigation possible without a separate index
+- **Fixed card dimensions** make comparison possible across different hands and libraries
+- **Monospaced labels** signal that this is data, not prose
+- **Governed abbreviation** sacrifices elegance for consistency
+
+These were not aesthetic choices. They were governance. Rules enforce correctness; when the visible structure of a page makes a missing field obvious, the system polices itself.
+
+The Ledger Tradition (AB-001) names this genealogy explicitly:
+
+| Reference | Period | What It Established |
+|-----------|--------|---------------------|
+| *The Domesday Book* | 1086 | A content model is older than software. Enforce templates; vary content within them |
+| Pacioli's Double-Entry | 1494 | Layout enforces correctness. A gap in the structure is visible at a glance |
+| The Library Card Catalog | 1841–1980s | Fixed dimensions, predictable metadata slots, cross-references as first-class citizens |
+| The Mundaneum | 1910 | A knowledge graph is 115 years old. Lean into the lineage |
+| Neurath's Isotype | 1925 | A design system is a visual language. Tokens are vocabulary; components are grammar |
+| *Old Bailey* Proceedings | 1674–1913 | Searchable today because the original editors enforced the schema |
+
+The North Star is design for the reader who is *looking something up*, not the viewer who is *being sold to*. Every Sugartown surface should feel closer to a well-ruled accounts book than to a marketing site. Density is a feature. Rules are a feature. Labels that look like labels are a feature.
+
+### Why this matters for Sugartown specifically
+
+Sugartown is not a portfolio site that happens to have taxonomy. It is a knowledge platform whose visual identity is built to expose its own ontology. The structured content is the point. The card is the direct descendant of the library card. The Knowledge Graph is the direct descendant of the Mundaneum. The MetadataCard is the direct descendant of Pacioli's ledger: every field has a place, and a missing field leaves a visible gap.
+
+The Ledger Tradition layer makes this lineage legible inside the design system itself. It is not atmosphere. It is provenance.
+
+---
+
+## Part III: What Pink Moon Is
 
 Pink Moon is the visual language of a working library.
 
-Not a tech dashboard. Not a SaaS app. Not a portfolio that looks like every other portfolio. A **library** — the kind with card catalogues and foxed spines and a reading room where the light falls in a particular way and someone has opinions about the typeface on the call numbers.
+Not a tech dashboard. Not a SaaS app. Not a portfolio that looks like every other portfolio. A **library**: the kind with card catalogues and foxed spines and a reading room where the light falls in a particular way and someone has opinions about the typeface on the call numbers.
 
-The aesthetic borrows from:
-- **Academic publishing** — running headers, endnote marks, structured citation systems, the quiet authority of well-set marginalia
-- **Museum exhibition design** — generous white space, deliberate object placement, labels that explain without crowding, surfaces that recede so the work can breathe
-- **Letterpress printing** — the crispness of debossed type against soft paper, the discipline of a limited ink palette used with maximum intent
-- **Card catalogues** — Courier Prime on index cards. Structured metadata in label/value grids. Call numbers in the corner. Information has a place and it stays in its place.
-
----
-
-## The Visual Direction: Sharp Neutral, Hot Signal
-
-### The Principle
+### Sharp Neutral, Hot Signal
 
 Surfaces are **neutral and opaque**. Colour appears **only where it earns its place** — at CTAs, links, chips, and taxonomy markers. The interface is a white page (or a dark page) with neon ink. Not frosted, not glowing, not ambient. Printed.
 
-The two exceptions where translucency is used:
-1. **The hero panel** — a bounded, blurred, semi-opaque container over the hero image. Text sits inside the panel. The image is visible around it, not behind the text. Contrast is guaranteed by the panel, not the image.
-2. **The sticky header** — becomes translucent on scroll so page content is visible through it. This is functional (spatial awareness while reading), not decorative.
+Two exceptions where translucency is used:
+
+1. **The hero panel** — a bounded, blurred, semi-opaque container over the hero image. Text sits inside the panel. The image is visible around it, not behind the text. Contrast guaranteed by the panel, not the image.
+2. **The sticky header** — becomes translucent on scroll for spatial awareness while reading. Functional, not decorative.
 
 Everything else is solid.
 
 ### Radius: Downplayed
 
-Radii are reduced throughout. The system leans toward **sharp edges** — zero radius on chips, cards, blockquotes, code blocks, metadata cards, buttons. Rounded corners are reserved for the hero panel (slight) and the theme toggle (pill shape for affordance). The sharpness is deliberate: it reads as precision, formality, catalogue rigour. Not brutalist — just crisp.
+Zero radius on chips, cards, blockquotes, code blocks, metadata cards, buttons. Sharp edges read as precision and catalogue rigour. The two exceptions are the hero panel (slight) and the theme toggle (pill for affordance). Rounded corners are reserved; sharpness is the default.
 
 ### Borders: Visible, Not Heavy
 
-Borders use `softgrey-400` in light mode — visible enough to define structure, not heavy enough to dominate. This is a step up from the previous `softgrey-200` hairlines, which disappeared on screen. The darker outlines make the zero-radius edges read as intentional. In dark mode, borders are `rgba(255,255,255,0.12)` — present but recessive.
+`softgrey-400` in light mode. Visible enough to define structure, not heavy enough to dominate. In dark mode, `rgba(255,255,255,0.12)`. The darker light-mode outlines make the zero-radius edges read as intentional rather than unfinished.
 
-### Typography: Catalogue Monospace
-
-The monospace font shifts from **Fira Code** (terminal, developer) to **Courier Prime** (typewriter, catalogue). This appears on: chips, eyebrows, metadata labels, section headers, call numbers, hero meta, the colophon. The effect is library index card, not IDE. Fira Code remains available for actual code blocks where programming ligatures matter.
-
-The narrative serif shifts from **Playfair Display** to **EB Garamond** — a 1960s American Caslon revival with hand-lettered character. Heavier than Playfair at display sizes, doesn't thin out on light backgrounds. Used for h1/h2, hero titles, card titles. UI sans (**Fira Sans**) is unchanged.
-
-### Colour Discipline: Where Colour Lives
-
-Colour is reserved for elements that communicate **category, action, or state**:
-
-| Element | Colour Treatment |
-|---------|-----------------|
-| **Buttons** | "Due Date Slip" style — hot solid fill (pink primary, lime secondary), neutral fill tertiary. Dark top-edge stripe on primary/secondary (shadow edge, like a stamped card). Courier Prime uppercase. Hover: lift + subtle shadow. |
-| **Chips** | Production Sugartown styles — `color-mix()` from `--_chip-color`, 8% bg, 35% border. Active: solid fill + white text |
-| **Links** | Maroon (light mode), pink (dark mode) |
-| **Headings (h2)** | `--text-primary` (charcoal/white), not brand colour — the heading is structure, not signal |
-| **Hero eyebrow** | Lime accent — the one colour pop in the hero panel |
-| **Blockquote left border** | Pink — the structural edge that marks the quotation |
-| **Citation markers** | Pink superscript numerals |
-| **Card hover border** | Pink — appears on hover only, the invitation |
-
-Everything else — canvas, surfaces, cards, panels, metadata grids, body text — is neutral. White, soft grey, charcoal, void. The colour earns its brightness by being surrounded by calm.
-
-This discipline feeds directly into the **knowledge graph** colour system: when taxonomy chips carry project/category/tag colours, those colours need neutral ground to be readable. If the surfaces are already tinted, the chip colours compete. On white paper, they sing.
-
----
-
-## The Palette Thesis
-
-### Neon Over Neutral
-
-In light mode (the default), the canvas is warm white. Surfaces are paper. Text is charcoal. The ground is quiet.
-
-Into this quietness: pink (`#FF247D`), seafoam (`#2BD4AA`), lime (`#D1FF1D`), maroon (`#B91C68`). These are not background colours. They are *signal* colours — the neon underlining on an otherwise sober page.
-
-In dark mode, the canvas inverts to midnight (`--st-color-void-900`) and the accent colours keep their intensity against the dark ground.
+The Ledger Tradition introduced hairline section dividers inside cards (the folio variant). The 2px ink column rule on MetadataCard. The `--st-color-rule-accent` neutral scale that sits between surfaces without competing with signal colours.
 
 ### The Signal Rule
 
-A colour must *do something*. If it's not communicating hierarchy, state, category, or navigation, it doesn't belong. Decorative colour is noise. Functional colour is signal. The test: cover the colour with your thumb. Did you lose information? If yes, the colour is structural. If no, it's ornament — remove it.
-
-### WCAG AA: Non-Negotiable, Built-In
-
-| Surface | Contrast Requirement | Approach |
-|---------|---------------------|----------|
-| Body text on canvas | 4.5:1 minimum | Charcoal on white (light), white on void (dark). No negotiation. |
-| Heading text | 4.5:1 minimum | `--text-primary` (charcoal/white) for h2. Subheadings in `--text-secondary`. |
-| Chip/tag text | 4.5:1 minimum | `color-mix()` resolves chip text against chip background. Light mode chips shift to darker variants (`--seafoam-700`, `--lime-700`). |
-| Button text | 4.5:1 minimum | Primary (white on pink): passes. Secondary (charcoal on lime): passes. Tertiary (midnight on transparent): passes. |
-| Hero image overlays | 4.5:1 for text | **Frosted panel** — `backdrop-filter: blur(32px)` + semi-opaque background. Text in bounded container. Contrast guaranteed by panel, not image. Hero images desaturated to greyscale (`filter: grayscale(100%)`) to prevent colour clash with panel text. |
-| Focus rings | 3:1 against adjacent | 2px solid `#FF247D`, 2px offset. Passes on both white and void backgrounds. |
-| Status badges | 4.5:1 | Light mode uses hue-shifted variants: dark goldenrod for amber, dark crimson for danger. |
-
-### The Hero Panel
-
-Hero images are desaturated to greyscale and overlaid with a subtle gradient scrim. The text panel is a bounded, blurred container — semi-opaque white (light) or midnight (dark) — positioned over the image. The image provides atmosphere. The panel provides contrast.
-
-Key properties:
-- **Background:** `rgba(255,255,255,0.18)` (light) / `rgba(13,18,38,0.45)` (dark)
-- **Blur:** `backdrop-filter: blur(32px) saturate(1.4)`
-- **Border:** subtle white hairline (`rgba(255,255,255,0.15)`)
-- **Radius:** zero (sharp edges, matching the rest of the system)
-- **Image filter:** `grayscale(100%) contrast(0.9)` (light) / `grayscale(100%) contrast(0.8) brightness(0.7)` (dark)
+A colour must *do something*. If it is not communicating hierarchy, state, category, or navigation, it does not belong. Cover the colour with your thumb. Did you lose information? If yes, it is structural. If no, it is ornament. Remove it.
 
 ---
 
-## Layout Additions
+## Part IV: Typography
 
-### Metadata Card (New)
+The font stack changed in the Ledger Tradition update. The full Ledger stack:
 
-A **catalogue card** component positioned immediately below the hero on detail pages. Structured label/value grid with:
-- Type + call number header (e.g. "Node" / "PROJ-001")
-- Author, status, conversation type, AI tool as text values
-- Tools, categories, tags as chip rows (small variant)
-- Published date right-aligned
+| Role | Font | Use |
+|------|------|-----|
+| **Narrative / Display** | Cormorant Garamond | h1, h2, hero titles, card titles. Replaces EB Garamond. More editorial weight, stronger italic register. |
+| **UI / Body** | DM Sans | Body text, subtitles, UI prose, labels. Replaces Fira Sans. Cleaner optical spacing at body sizes. |
+| **Catalogue / Metadata / Code** | IBM Plex Mono | Chips, eyebrows, metadata labels, call numbers, hero meta, colophon, code blocks. Replaces Courier Prime. Ships 400/500/600/700 natively — `--st-label-weight: 600` is now a real weight, not synthesized. |
 
-This replaces the scattered metadata that currently lives inside the body content. One card, above the fold, with everything a reader needs to assess the piece before committing to reading it. The library metaphor: the card in front of the book.
+Cormorant Garamond runs at 18px on card titles (up from 16px). The italic variants are loaded and used intentionally for editorial lede text and section headings in the Ledger Tradition layer.
 
-> **Note:** MetadataCard field structure will be adjusted following SUG-47 (Storybook/Studio props alignment audit), which cross-checks component prop enums against the current Sanity schema. The fields shown in the mock (status, conversationType, etc.) are illustrative — final field set TBD after the audit confirms which values are active in Studio.
+IBM Plex Mono is narrower than Courier Prime and handles dense chip rows without layout strain. The monospace voice is unified across all labelling surfaces: one font, one register, one association with structured data.
 
-### Colophon Footer (New)
-
-A **publication footer** that merges the current site footer contents with a colophon-style presentation. Dark (midnight-900) background. Incorporates all existing footer elements plus edition metadata:
-
-- **Brand zone** — site title + tagline (Sugartown Digital / Content-driven digital experiences)
-- **Navigation columns** — existing footer nav columns (Navigate, Legal) with link items
-- **Social links** — GitHub, LinkedIn, Bluesky icons
-- **Copyright** — existing copyright text
-- **Edition metadata** (new) — version number, toolchain credits, license link
-
-The colophon row (edition/toolchain/license) sits below the existing footer content as a subtle, monospace-styled "about this edition" strip. This treats the site as a published edition without losing any of the functional footer navigation users expect.
-
-### Sticky Header with Scroll Transparency
-
-The header uses a translucent background with blur — the only non-hero surface that uses `backdrop-filter`. This is functional: when scrolling longform content, the page content is visible through the header, maintaining spatial awareness. The logo and nav links remain crisp against the blur.
-
-Light: `rgba(255,255,255,0.60)` with `blur(20px)`. Dark: `rgba(13,18,38,0.65)` with `blur(20px)`.
+The token namespace is `--st-font-family-narrative`, `--st-font-family-ui`, `--st-font-family-mono`. Legacy `--st-font-sans` aliases exist for backward compat only.
 
 ---
 
-## The Academic Interface
+## Part V: The Palette
 
-### Current Academic Patterns (Keep and Amplify)
+### Neon Over Neutral
 
-| Pattern | Where It Exists | Pink Moon Direction |
-|---------|-----------------|---------------------|
-| **Citation marks** | Superscript references in node body text, endnote list at bottom | Amplify. Pink superscript numerals in Courier Prime. |
-| **Metadata grids** | Card metadata field (label/value pairs in CSS grid) | Elevated to its own component: MetadataCard. Catalogue card above the fold. |
-| **Status evolution** | Exploring → Validated → Operationalized → Deprecated | Visualise as a progress track or timeline marker, not just a label. |
-| **Taxonomy chips** | Project/category/tag chips on cards and detail pages | Courier Prime monospace. Production colour system. Knowledge graph colours as signal. |
-| **Code blocks with syntax** | Custom Prism theme in brand colours | Keep. Fira Code stays for actual code. Pink keywords, seafoam strings, lime comments. |
+In light mode, the canvas is warm white. Surfaces are paper. Text is charcoal. The ground is quiet.
 
-### New Academic Patterns (Introduce)
+Into this quietness: pink (`#FF247D`), seafoam (`#2BD4AA`), lime (`#D1FF1D`), maroon (`#B91C68`). These are not background colours. They are *signal* colours, the neon underlining on an otherwise sober page.
 
-| Pattern | Purpose | Implementation Direction |
-|---------|---------|-------------------------|
-| **Running headers** | Persistent section context on detail pages | Sticky header with translucent blur on scroll. Logo + nav. |
-| **Sidenotes / marginalia** | Secondary commentary without disrupting flow | At wider breakpoints, pull citations into a margin column. Ref: [Tufte CSS](https://edwardtufte.github.io/tufte-css/). |
-| **Colophon footer** | Site-as-publication identity | Three-column: edition, toolchain, license. Dark ground. |
-| **Metadata card** | Structured document summary | Catalogue card between hero and body. Label/value grid + chip rows. |
-| **Index page** | Master alphabetical index of all content | Back-of-book index: alphabetically sectioned, type indicators. Dense, scannable. |
-| **Glossary** | Term definitions with inline annotation | SUG-35. Dotted-underline annotations, hover definition cards, `/glossary` archive. |
-| **Bibliography** | Structured reference list per node/article | Formal bibliography block at foot. Courier Prime, structured. |
-| **Figure captions** | Structured image annotations | Figure number, title, source attribution below images. Smaller type treatment. |
+In dark mode, the canvas inverts to midnight (`--st-color-void-900`) and the accent colours keep their intensity against the dark ground.
 
----
+The Ledger Tradition neutral scale (no blue cast) now underpins the component layer:
 
-## Density and White Space
+| Token | Value | Purpose |
+|-------|-------|---------|
+| `--lt-neutral-100` | `#F2F2F3` | Page canvas (Ledger surfaces) |
+| `--lt-neutral-200` | `#E4E4E5` | Table headers, secondary surfaces |
+| `--lt-neutral-300` | `#C6C6C8` | Structural hairlines, card borders |
+| `--lt-neutral-500` | `#7A7A7D` | Muted text, metadata labels |
+| `--lt-color-rule-accent` | `→ neutral-300` | Hairline dividers in folio cards |
 
-### The Problem
+### Colour and Taxonomy
 
-The site is currently dense. Archive pages present grids of cards with 10+ metadata fields each. Detail pages stack metadata, body content, and related items vertically.
+The signal colour discipline feeds directly into the Knowledge Graph colour system. When taxonomy chips carry project / category / tag colours, those colours need neutral ground to be readable. If the surfaces are already tinted, the chip colours compete. On white paper, they sing.
 
-### The Approach: Structured Breathing Room
+This is not an accidental relationship. The Ledger Tradition establishes neutral ground precisely so the taxonomy layer can carry meaning through colour without assistance from the surface it sits on.
 
-The answer is not "remove information." It's *layer it*. Academic interfaces handle density through progressive disclosure.
+### WCAG AA: Non-Negotiable
 
-**Strategies:**
-
-1. **Card density modes** — Add a `summary` density: title + category + status only. Full metadata on detail page. Archives default to `summary` for large collections.
-
-2. **Accordion for metadata sections** — On detail pages, group metadata into collapsible sections. Default: collapsed with one-line summary visible.
-
-3. **Margin utilisation at wide viewports** — At 1200px+, pull metadata into a sticky sidebar. Main column is body text. Margin is structured metadata.
-
-4. **Section dividers with purpose** — Styled section breaks that carry information: section number, word count, reading time.
-
-5. **Archive page view toggle** — Card grid (current) vs. table/index view (new). The index view is a dense, scannable list with sortable columns.
-
-6. **Whitespace tokens** — Semantic spacing for *breathing room*:
-   - `--st-space-reading-gap`: gap between body paragraphs in longform
-   - `--st-space-section-break`: gap between major sections
-   - `--st-space-margin-column`: width of marginalia column at wide viewports
+| Surface | Approach |
+|---------|----------|
+| Body text on canvas | Charcoal on white / white on void. No negotiation. |
+| Headings | `--text-primary`. Not brand colour. Structure, not signal. |
+| Chip/tag text | `color-mix()` resolves chip text against chip background. Light mode: darker variants (seafoam-700, lime-700). |
+| Buttons | White on pink (primary). Charcoal on lime (secondary). Midnight outline (tertiary). |
+| Hero overlays | Frosted panel. Contrast guaranteed by panel, not image. |
+| Focus rings | 2px solid `#FF247D`, 2px offset. |
 
 ---
 
-## Component Evolution: Current → Pink Moon
+## Part VI: The Ledger Layer in the DS
 
-### Universal Pink Moon Traits
+The Ledger Tradition is not a separate theme. It is a structural layer applied inside Pink Moon Light. The components it touches are the content-rendering surfaces: cards, metadata, chips, section labels.
 
-| Property | Light | Dark |
-|----------|-------|------|
-| Canvas | White (solid) | Void-900 (solid) |
-| Surfaces | White (solid) | Void-800 (solid) |
-| Borders | `softgrey-400` (visible, crisp) | `rgba(255,255,255,0.12)` |
-| Radius | Zero or minimal throughout | Same |
-| Colour | CTAs, chips, links, accents only | Same, with pink intensified |
-| Hero panel | Translucent + blur (bounded) | Same, darker |
-| Header | Translucent + blur on scroll | Same |
+### What shipped in SUG-78 / SUG-82 / SUG-80
 
-### Per-Component Direction
+**Card titles:** Cormorant Garamond at 18px. The card title is the one place where the narrative serif appears in the content grid, marking content items as entries in a catalogue rather than product tiles.
 
-| Component | Current State | Pink Moon Direction | Priority |
-|-----------|---------------|-------------------|----------|
-| **Button** | ✅ Solid fill variants | **"Due Date Slip" redesign.** Courier Prime uppercase. Hot solid fill (pink primary, lime secondary), neutral grey tertiary. Dark top-edge stripe (3px, `rgba(0,0,0,0.15)`) on primary/secondary — evokes a stamped checkout card. Tertiary gets neutral top-stripe (`softgrey-400`). Zero radius. Hover: `translateY(-1px)` + subtle shadow. Dark mode: tertiary uses `void-700` fill. | **High** |
-| **Card** | Token overrides only | Solid white/void surface. Visible border (`softgrey-400`). Zero radius. Hover: lift + pink border. No shadow glow. | **High** |
-| **Chip** | Production styles | Keep as-is. `color-mix()` system works. Courier Prime monospace. Active: solid fill. | **High** |
-| **MetadataCard** | New component | Catalogue card. Label/value grid. Chip rows for tools/categories/tags. Call number header. Zero radius. | **High** |
-| **Accordion** | No Pink Moon | Visible border on trigger. Pink accent on caret. Zero radius. Content slides, not snaps. | **Medium** |
-| **Callout** | Token overrides only | Solid background (canvas-subtle). Variant-coloured left border. Zero radius. | **Medium** |
-| **CodeBlock** | Token overrides only | Solid dark surface. Fira Code (not Courier Prime). Visible border. Zero radius. | **Medium** |
-| **FilterBar** | Token overrides only | Solid surface. Active filter: solid chip. Inactive: outlined. | **Medium** |
-| **Table** | Token overrides only | Visible header border. Zebra striping with subtle tint. Zero radius. | **Low** |
-| **Media** | Token overrides only | Caption below (not overlay). Zero radius on image container. | **Low** |
-| **ContentNav** | Token overrides only | Solid sidebar at wide viewports. Active link: pink left-border. | **Low** |
-| **Citation** | No Pink Moon | Courier Prime superscript numerals. Endnote list: structured, monospace. | **Low** |
-| **Blockquote** | No Pink Moon | Solid `canvas-subtle` background. Pink left-border. Zero radius. | **Low** |
-| **Colophon** | New component | Dark footer. Three-column grid. Courier Prime labels. Edition/toolchain/license. | **High** |
+**Card folio variant:** hairline section dividers using the `background-color + gap: 1px` technique so the parent's `--st-color-rule-accent` shows through as a hairline between regions. Canvas footer row with category in the footer zone. Pink border on hover via `--st-card-hover-border`.
+
+**MetadataCard:** the fully realized ledger entry. 2px ink column rule on the left. Scalar field grid for label/value pairs. Chip container with correct padding. Call-number alignment. The MetadataCard is the Ledger Tradition's clearest expression in the DS: it is what Pacioli's double-entry looks like when rendered as a React component with structured Sanity data behind it.
+
+**Chip and release ticker:** Cormorant Garamond in specific slots. IBM Plex Mono for labels. The typographic register of "structured data surface" is consistent.
+
+**FilterBar compact density mode:** for archive pages where the filter bar shares space with content.
+
+**WCAG AA correction pass:** token-only, corrected across component tokens. The design system's contrast governance runs through the token validator, not human review. `pnpm validate:tokens --strict-colors` is the enforcement layer.
+
+**Callout `info` variant:** lime in dark mode. Font size bumped for legibility.
+
+### The folio number pattern
+
+Folio numbers (call numbers in the margin) appear in IBM Plex Mono at 10px, `--lt-color-ink` or `--st-color-maroon`, uppercase, rotated 90 degrees or positioned in the left margin depending on context. This is the clearest direct reference to the card catalogue and the account ledger: the item has a position in the collection, and that position is visible on the item itself.
 
 ---
 
-## The Default: Light
+## Part VII: Layout and Academic Patterns
 
-Pink Moon Light is the default mode. The reasons are practical and philosophical:
+### The Section Spacing Framework
 
-**Practical:**
-- WCAG contrast is simpler to guarantee on light backgrounds
-- Photography reads better on light (hero images are greyscale regardless)
-- Most users browse in well-lit environments
-- Print stylesheets inherit naturally from light
+Detail pages (articles, nodes, case studies) follow five rules enforced at the system level:
 
-**Philosophical:**
-- The library metaphor is a *lit room*. Warm light on paper. The reading lamp is on.
-- Dark mode is the *after-hours* library. The stacks at midnight. Still functional, but a different mood.
-- Defaulting to light says: this is a place of work, not a tech demo. The content is the point.
+1. **Parent owns gap.** `.detailContext` owns inter-section spacing. Individual sections have zero vertical margin and zero vertical padding.
+2. **Flex child width contract.** All `.detailContext` children have `width: 100%`.
+3. **Catch-all over whitelist.** `> *` not a named selector list.
+4. **Component margin zero.** Components with their own `margin-block` need it zeroed in detail context.
+5. **Boundary elements.** Elements sitting between two spacing contexts get explicit margin.
 
-**Implementation:** `prefers-color-scheme: light` loads Pink Moon Light by default. Users can toggle to Pink Moon Dark. The toggle persists in `localStorage`. Classic dark/light modes deprecated behind a setting during transition.
+These rules exist because the Ledger Tradition is about structured density, not about adding whitespace. The wrong answer to "this is too dense" is "remove spacing rules." The right answer is to layer information correctly so each region earns its space.
 
----
+### Academic Patterns (current and planned)
 
-## Migration Path: Classic → Pink Moon
+| Pattern | Status | Description |
+|---------|--------|-------------|
+| **MetadataCard** | Shipped | Catalogue card between hero and body. Label/value grid + chip rows. Zero radius. |
+| **Citation marks** | Shipped | IBM Plex Mono superscript numerals in pink. Endnote list at bottom. |
+| **Taxonomy chips** | Shipped | IBM Plex Mono. `color-mix()` colour system. Knowledge graph signal colours. |
+| **Colophon footer** | Planned | Publication footer. Dark ground. Edition metadata strip. |
+| **Sidenotes / marginalia** | Deferred | At 1200px+, pull citations into margin column. |
+| **Archive index view** | Deferred | Dense, scannable list with sortable columns alongside card grid. |
+| **Glossary** | Deferred (SUG-35) | Dotted-underline annotations, hover definition cards. |
+| **Figure captions** | Planned | Figure number, title, source attribution below images. |
 
-### Phase 1: Token Convergence (Current)
-- Reconcile Pink Moon Light and Light Classic token differences
-- Default mode flips to Pink Moon Light
-- Classic modes available via settings toggle
+### The Knowledge Graph
 
-### Phase 2: Component Adaptation (Next)
-- Card, Chip, MetadataCard, Colophon (High priority)
-- Accordion, Callout, CodeBlock, FilterBar (Medium priority)
-- All components tested in both Pink Moon Light and Dark
-- Storybook stories for every component × every mode
+The Knowledge Graph is not a feature added to a portfolio. It is the reason the portfolio has the architecture it does. Every taxonomy document, every reference, every cross-content link is a node or edge in a graph that Paul Otlet was building with index cards in Brussels in 1910.
 
-### Phase 3: Classic Deprecation
-- Classic dark/light modes removed from toggle
-- Pink Moon Light and Dark are the only modes
-- Token files simplified
-
-### Phase 4: Academic Layer
-- Sidenotes / marginalia at wide viewports
-- Archive index view
-- Glossary integration (SUG-35)
-- Running headers on detail pages
-- Bibliography blocks on nodes/articles
+The force-graph canvas, the filter bar, the chip colour system, the cross-reference relationship types in the schema: these are implementations of a 115-year-old idea. The visual language should feel like it knows that.
 
 ---
 
-## Resolved Questions (from Mock B exploration)
+## Part VIII: The Token Architecture
 
-1. ~~**Monospace for metadata**~~ → **Courier Prime.** Reads as "catalogue" not "terminal." Tested in mock, works well at small sizes on chips, labels, meta.
+Three-tier CSS custom property system. All tokens under `--st-`.
 
-2. ~~**Hero image treatment**~~ → **Frosted panel over greyscale image.** Bounded, blurred, sharp-edged. Contrast guaranteed by panel. Image provides atmosphere only.
+- **Tier 1 — Primitives:** Raw values. `--st-color-pink-500`, `--st-space-4`, `--st-radius-xs`. No semantic meaning.
+- **Tier 2 — Semantic:** Intent-mapped aliases. `--st-color-brand-primary`, `--st-color-text-secondary`. Theme overrides operate here.
+- **Tier 3 — Component:** Scoped tokens. `--st-card-border`, `--st-chip-bg`. Consumed by component CSS only.
 
-3. ~~**Heading colour**~~ → **`--text-primary`** for h2 (charcoal/white). Not brand colour. Headings are structure, not signal.
+**Source of truth:** `tokens/source/tokens.json`. Both `tokens.css` files are generated via Style Dictionary v5 (`pnpm tokens:build`). Do not edit generated files. The pre-commit hook blocks it.
+
+**Theme files** (`theme.pink-moon.css`) are hand-authored and override-only. No hex values that have no primitive anchor in `tokens.css`.
+
+**Glassmorphism audit note:** `--st-color-bg-surface`, `--st-color-bg-surface-strong`, and `--st-card-bg` resolve to `rgba()` semi-transparent values in the dark-pink-moon block. Using these tokens for a label cell or header background produces a glassmorphism wash. Use a raw primitive (`--st-color-midnight-800`) or a semantic alias with no glassmorphism override for any surface that must be solid.
+
+---
+
+## Part IX: What Is Finished, What Is Not
+
+### Converged
+
+- Classic dark/light modes retired. Pink Moon Light + Dark are the only modes (SUG-83).
+- Token coverage complete: 0 hardcoded hex/rgba values in component CSS. `validate:tokens --strict-colors` passes (SUG-68, SUG-85).
+- Style Dictionary pipeline (SUG-86): both token files generated from `tokens/source/tokens.json`. Pre-commit gate active.
+- Ledger Tradition structural pass (SUG-78, SUG-82, SUG-80): card titles, folio variant, MetadataCard, chip/ticker, FilterBar compact density, WCAG correction.
+- Component cleanup: `EditorialCard` deleted. `CardGrid` web-adapter deleted. `DraftBadge` uses `Chip` internally. Legacy `aiTool` and `categoryPosition` Card props removed.
+- SchemaERD refactored to DS primitives (SUG-20): no hardcoded radius, color, or background values.
+- Storybook: Cormorant Garamond self-hosted in `apps/storybook/public/fonts/`. `@storybook/addon-a11y` active. Machine-readable component registry.
+
+### In Progress
+
+- Button "Due Date Slip" redesign (specified in PRD §9, not yet implemented).
+- Colophon footer (planned, not built).
+
+### Deferred
+
+- Sidenotes / marginalia at wide viewports (academic layer Phase 4).
+- Archive index view (card grid toggle).
+- Glossary integration (SUG-35).
+- Running headers on detail pages.
+- Print stylesheet.
+
+---
+
+## Part X: The Default
+
+Pink Moon Light is the default mode. The reasons:
+
+**Practical:** WCAG contrast is simpler to guarantee on light backgrounds. Photography reads better on light (hero images are greyscale). Most users browse in well-lit environments. Print stylesheets inherit naturally.
+
+**Philosophical:** The library metaphor is a *lit room*. Warm light on paper. The reading lamp is on. Dark mode is the after-hours library: same structure, different mood. Defaulting to light says this is a place of work, not a tech demo.
+
+**Implementation:** `prefers-color-scheme: light` loads Pink Moon Light. Users toggle to Dark. Toggle persists in `localStorage`.
+
+---
 
 ## Open Questions
 
-1. ~~**Heading serif font**~~ → **Resolved: EB Garamond.** Evaluated 7 options in interactive mock (Playfair Display, Libre Baskerville, Crimson Pro, EB Garamond, Old Standard TT, Young Serif, EB Garamond). EB Garamond wins: 1960s American Caslon revival with hand-lettered character, distinctly vintage-modern without being sterile. Heavier than Playfair at display sizes, doesn't thin out on light backgrounds. Display-only weight — used for h1/h2 hero and card titles. Fira Sans remains the UI sans, Courier Prime remains the catalogue mono.
+1. **Archive density threshold** — at what item count does the card grid become overwhelming? Should the view toggle be user-controlled or content-driven?
 
-2. **Archive density threshold** — at what item count does the card grid become overwhelming? Should the view toggle be user-controlled or content-driven?
+2. **Margin column breakpoint** — sidenotes need ~250px margin + ~700px main column. 1200px or 1400px?
 
-3. **Margin column breakpoint** — Tufte-style sidenotes need ~250px margin + ~700px main column. Breakpoint at 1200px? 1400px?
+3. **Print stylesheet** — the Ledger Tradition invites printing. Should Pink Moon Light have a dedicated print stylesheet that reproduces the ruled-page aesthetic in ink?
 
-4. **Print stylesheet** — the academic metaphor invites printing. Should Pink Moon Light have a dedicated print stylesheet?
-
-5. **Courier Prime for chips** — does the wider character width cause layout issues on dense chip rows? Need to test with real taxonomy data at volume.
+4. **Folio numbers in component library** — should the folio / call-number pattern be formalized as a DS primitive (e.g. a `Folio` or `CallNumber` component), or remain a CSS class applied in context?
 
 ---
 
-*This document is the philosophy. What survives into the PRD should be the decisions. The philosophy stays here to justify them.*
+## Resolved
+
+1. **Monospace font** — IBM Plex Mono. Narrower than Courier Prime, ships real weights, handles dense chip rows without layout strain. *Resolved: Ledger Tradition update (2026-04-24).*
+
+2. **Narrative serif** — Cormorant Garamond. Stronger editorial weight and italic register than EB Garamond. Used at 18px on card titles. *Resolved: AB-001 v2.*
+
+3. **UI sans** — DM Sans. Cleaner optical spacing at body sizes than Fira Sans. *Resolved: AB-001 v2.*
+
+4. **Hero image treatment** — Frosted panel over greyscale image. Bounded, blurred, sharp-edged. Contrast guaranteed by panel. Image provides atmosphere only. *Resolved: Pink Moon mock B.*
+
+5. **Classic mode retirement** — Complete. No `[data-theme="light"]` or `[data-theme="dark"]` selectors anywhere in the codebase. *Shipped: SUG-83, v0.23.0.*
+
+6. **Token pipeline** — Style Dictionary v5. `tokens/source/tokens.json` is the single source of truth. Both generated files kept in sync via `pnpm tokens:build` and the pre-commit hook. *Shipped: SUG-86, v0.23.14.*
+
+7. **Heading colour** — `--text-primary` (charcoal / white). Not brand colour. Headings are structure, not signal. *Resolved: Pink Moon mock B.*
+
+---
+
+*This document is the philosophy. What survives into the PRD are the decisions. The philosophy stays here to justify them.*
