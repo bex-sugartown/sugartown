@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-14 · v0.23.27 · SUG-20 SchemaERD DS primitives refactor shipped
+> Updated 2026-05-14 · v0.23.28 · SUG-115 platform DS remediation shipped
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-20 SchemaERD DS refactor shipped ✅ v0.23.27. SUG-100 (CWV snapshot product widget) is In Review. SUG-113 (dynamic reporting pipeline) and SUG-107 (client taxonomy) are next.
+> **⚑ Current focus:** SUG-115 platform DS remediation shipped ✅ v0.23.28. SUG-100 (CWV snapshot product widget) is In Review. SUG-113 (dynamic reporting pipeline) and SUG-107 (client taxonomy) are next.
 
 ---
 
@@ -90,6 +90,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-115 · Platform DS remediation** — 16-finding audit close-out: hero theme-awareness (`--st-color-bg-canvas`), folio numbers on all SectionLabels, CodeBlock for pre-blocks, DataTable for registry teaser, Mermaid hex overrides stripped, sidebar font tokens, ~80 lines dead CSS removed. Epic: `docs/shipped/SUG-115-platform-ds-remediation.md`. Chromatic: deferred to /eod.~~ | v0.23.28 | 2026-05-14 |
 | ~~**SUG-112 · Sidebar nav primitives** — `useScrollspy` hook, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors resolved + pre-commit lint gate activated. Epic: `docs/shipped/SUG-112-sidebar-nav-primitives.md`.~~ | v0.23.24 | 2026-05-13 |
 | ~~**SUG-110 · Dynamically generated roadmap from Linear** — `linearRoadmap` collector in `scripts/collect-stats.js`. GovernancePage inline roadmap tables. Live DS tiles + governance stale message fix (SUG-110/111). Epic: `docs/shipped/SUG-110-dynamically-generated-roadmap-from-linear.md`.~~ | v0.23.23 | 2026-05-13 |
 | ~~**SUG-104 · Listview updates — archives and taxonomies** — Shared entity folio pattern extracted to `pages.module.css` (entityFolio, entityThumbnail, narrativeHeading, entityDescription). PersonProfilePage + ProjectDetailPage refactored to shared classes + DS SectionLabel + Grid. ToolDetailPage built from scratch at /tools/:slug. Grid responsive collapse at 600px. All entity detail pages at --st-width-detail-wide (1080px). Chromatic: deferred to /eod.~~ | v0.23.21 | 2026-05-10 |

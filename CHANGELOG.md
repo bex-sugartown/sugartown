@@ -19,6 +19,8 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### apps/web
 
 #### Added
+- SUG-115: Platform DS remediation — hero theme-awareness, folio numbers on all SectionLabels, CodeBlock for pre-blocks, DataTable for registry teaser, Mermaid hex overrides stripped, sidebar font tokens, ~80 lines dead CSS removed
+
 - `ToolDetailPage` at `/tools/:slug` — dedicated entity detail page for tool taxonomy
 - `useScrollspy` hook (`lib/useScrollspy.js`) — IntersectionObserver-based active-section tracking
 - `SidebarNav` web adapter (`design-system/components/sidebar-nav/`) — anchor-link list with scrollspy, collapsible, and sub-item (level 3) support
