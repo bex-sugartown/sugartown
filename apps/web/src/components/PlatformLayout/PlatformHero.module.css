@@ -1,7 +1,8 @@
 .hero {
   width: 100%;
-  background: var(--st-color-ink);
-  padding-block: 3.5rem 3rem;
+  background: var(--st-color-bg-canvas); /* light: #F2F2F3, dark: midnight — not glassmorphism */
+  border-bottom: 1px solid var(--st-color-border-subtle);
+  padding-block: 3.5rem var(--st-space-hero-bottom);
 }
 
 .inner {
@@ -14,14 +15,15 @@
 
 .eyebrow {
   margin: 0 0 0.5rem;
-  font-family: var(--st-font-family-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
   text-transform: uppercase;
 }
 
 .eyebrowLink {
-  color: var(--st-color-text-eyebrow);
+  color: var(--st-color-brand-primary);
   text-decoration: none;
 }
 
@@ -34,15 +36,14 @@
   font-family: var(--st-font-family-narrative);
   font-size: var(--st-font-heading-1);
   font-weight: 400;
-  /* always-dark band — use fixed light primitives regardless of page theme */
-  color: var(--st-color-softgrey-50);
+  color: var(--st-color-text-default);
   line-height: 1.1;
 }
 
 .subtitle {
   margin: 0;
-  font-size: 1.125rem;
-  color: var(--st-color-softgrey-400);
+  font-size: var(--st-font-size-lg);
+  color: var(--st-color-text-muted);
   max-width: 52ch;
   line-height: 1.5;
 }

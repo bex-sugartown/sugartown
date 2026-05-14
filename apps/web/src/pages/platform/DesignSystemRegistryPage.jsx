@@ -1,17 +1,15 @@
-import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
+import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Callout from '../../design-system/components/callout/Callout'
 import { PLATFORM_ROUTES } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
-/**
- * DesignSystemRegistryPage — /platform/design-system/registry
- *
- * Stub page. Will be wired to a live component registry once Storybook
- * integration and component metadata pipeline are in place.
- */
 export default function DesignSystemRegistryPage() {
+  usePlatformHero({
+    title: 'Component Registry',
+    subtitle: 'Live inventory of all DS primitives and web adapters. Stories, props, and usage examples for every component in the system.',
+  })
   return (
     <>
       <SeoHead
@@ -19,16 +17,6 @@ export default function DesignSystemRegistryPage() {
         description="Sugartown design system component registry — live inventory of all DS primitives and web adapters."
       />
       <div className={styles.hub}>
-        <header className={styles.header}>
-          <p className={styles.eyebrow}>
-            <Link to={PLATFORM_ROUTES.root} className={styles.eyebrowLink}>Platform</Link>
-          </p>
-          <h1 className={styles.heading}>Component Registry</h1>
-          <p className={styles.intro}>
-            Live inventory of all DS primitives and web adapters.
-            Stories, props, and usage examples for every component in the system.
-          </p>
-        </header>
 
         <section className={styles.section}>
           <SectionLabel name="Registry" kicker="Coming soon" />
