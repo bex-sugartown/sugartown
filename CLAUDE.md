@@ -375,6 +375,26 @@ When writing content to Sanity via MCP tools, **assume all content is final, pro
 
 **Rule:** If a user provides copy to write to Sanity, use `_from_json` tools or the Sanity client directly. Never route authored content through an AI rewriting layer without saying so. If AI-assisted drafting would be helpful, ask first: "Want me to use Sanity AI to help draft this, or should I save it exactly as written?"
 
+### Portable Text blocks written via MCP — required fields
+
+`patch_document_from_json` omits empty arrays during serialisation. Sanity's PT editor in Studio requires explicit empty arrays to enable the toolbar — blocks with missing `marks` or `markDefs` render as read-only (toolbar grayed out, style dropdown shows "No style").
+
+**Every block must include `markDefs: []`** even if no annotations are used.
+**Every span must include `marks: []`** even if no marks are applied.
+
+Correct shape:
+```json
+{
+  "_key": "b01", "_type": "block", "style": "normal",
+  "markDefs": [],
+  "children": [
+    { "_key": "s01", "_type": "span", "marks": [], "text": "Plain text." }
+  ]
+}
+```
+
+Omitting either field produces content that saves and renders correctly on the web but cannot be edited in Studio. This is not a schema issue — refreshing Studio or deploying the schema will not fix it. The blocks must be re-patched with the fields present.
+
 ### Anti-Slop Content Rules
 
 All AI-drafted content (copy, descriptions, alt text, commit messages, doc prose) must pass the anti-slop checks documented in `docs/brand/brand-voice-guide.md`. The key enforcement rules:
