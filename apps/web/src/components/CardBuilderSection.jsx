@@ -175,69 +175,36 @@ function BuilderCard({ card, variant }) {
 
   if (isExtreme) ensureSvgFilter()
 
-  // Build footer content: citations + tools + tags rendered beneath the dashed line
-  const hasFooterContent = card.citations?.length > 0 || tools?.length > 0 || tags?.length > 0
-  const footerContent = hasFooterContent ? (
+  // Citations stay in footerChildren; tools + tags pass through Card's labelled chip groups
+  const hasCitations = card.citations?.length > 0
+  const footerContent = hasCitations ? (
     <div className={styles.cardFooterContent}>
-      {card.citations?.length > 0 && (
-        <div className={styles.citationFooter}>
-          <CitationZone>
-            {card.citations.map((cite, i) => {
-              const citeHref = resolveLinkHref(cite.link)
-              const displayLabel = cite.linkLabel || cite.link?.internalTitle || cite.text
-              return (
-                <CitationNote key={i} index={i + 1}>
-                  {cite.text && <span className={styles.citationPrefix}>{cite.text} </span>}
-                  {citeHref ? (
-                    <a
-                      href={citeHref}
-                      target={cite.link?.type === 'external' ? '_blank' : undefined}
-                      rel={cite.link?.type === 'external' ? 'noopener noreferrer' : undefined}
-                      className={styles.citationLink}
-                      aria-label={displayLabel}
-                    >
-                      {displayLabel}
-                    </a>
-                  ) : (
-                    displayLabel !== cite.text && displayLabel
-                  )}
-                </CitationNote>
-              )
-            })}
-          </CitationZone>
-        </div>
-      )}
-
-      {tools?.length > 0 && (
-        <div className={styles.tagRow}>
-          {tools.map((tool) => (
-            <Chip
-              key={tool.label}
-              variant="tag"
-              label={tool.label}
-              href={tool.href}
-              size="sm"
-              className={styles.footerChip}
-            />
-          ))}
-        </div>
-      )}
-
-      {tags?.length > 0 && (
-        <div className={styles.tagRow}>
-          {tags.map((tag, i) => (
-            <Chip
-              key={tag.label}
-              variant="tag"
-              featured={i === 0}
-              label={tag.label}
-              href={tag.href}
-              size="sm"
-              className={styles.footerChip}
-            />
-          ))}
-        </div>
-      )}
+      <div className={styles.citationFooter}>
+        <CitationZone>
+          {card.citations.map((cite, i) => {
+            const citeHref = resolveLinkHref(cite.link)
+            const displayLabel = cite.linkLabel || cite.link?.internalTitle || cite.text
+            return (
+              <CitationNote key={i} index={i + 1}>
+                {cite.text && <span className={styles.citationPrefix}>{cite.text} </span>}
+                {citeHref ? (
+                  <a
+                    href={citeHref}
+                    target={cite.link?.type === 'external' ? '_blank' : undefined}
+                    rel={cite.link?.type === 'external' ? 'noopener noreferrer' : undefined}
+                    className={styles.citationLink}
+                    aria-label={displayLabel}
+                  >
+                    {displayLabel}
+                  </a>
+                ) : (
+                  displayLabel !== cite.text && displayLabel
+                )}
+              </CitationNote>
+            )
+          })}
+        </CitationZone>
+      </div>
     </div>
   ) : undefined
 
@@ -252,6 +219,8 @@ function BuilderCard({ card, variant }) {
       thumbnailAlt={card.image?.alt || ''}
       thumbnailClassName={thumbOverlayClass}
       thumbnailStyle={Object.keys(thumbStyle).length ? thumbStyle : undefined}
+      tools={tools?.length ? tools : undefined}
+      tags={tags?.length ? tags : undefined}
       footerChildren={footerContent}
     >
       {/* Body portable text */}
