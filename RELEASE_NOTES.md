@@ -1,68 +1,106 @@
-# Release Notes — v0.23.25
+# Release Notes — v0.23.0
 
-**Date:** 2026-05-14
-**Scope:** `apps/web`, `packages/design-system`, `apps/storybook`
+**Date:** 2026-04-27
+**Scope:** apps/web, apps/studio, packages/design-system, apps/storybook
 
 ---
 
 ## What this release is
 
-Six mini-releases aggregated into a platform and design system structural pass. The main threads: a new nested platform architecture with five section hubs, a new sidebar layout system (two new DS primitives), a Linear-backed roadmap pipeline, and enforcement of the pre-commit ESLint gate that had been wired but inactive.
+v0.23.0 aggregates 13 patch mini-releases (v0.22.1–v0.22.13) spanning the trust data pipeline,
+a structural Ledger Tradition DS pass, the dynamic Knowledge Graph, full legacy theme selector
+retirement, and tooling to enforce DS token contracts at commit time.
 
 ---
 
 ## What changed
 
-### Platform IA Phase II — nested section architecture
+### Trust data pipeline (SUG-67, SUG-76)
 
-The platform section now has five dedicated hub pages (`/platform/cms`, `/platform/design-system`, `/platform/design-system-registry`, `/platform/governance`, `/platform/monorepo`), each with its own content and a shared `PlatformHero` component that accepts a hero slot. `App.jsx` gained the nested sub-routes, and `GovernancePage` now renders the Linear roadmap inline rather than via a separate `/platform/roadmap` page.
+A build-time `collect-stats.js` pipeline now generates `stats.json` on every build, aggregating
+DS health metrics (token count, component count, story count), Sanity content counts, GitHub repo
+stats, CrUX/Lighthouse performance scores, security header grades, and recent release history. A
+GitHub Actions workflow keeps it current on push and daily.
 
-### Sidebar layout system — two new DS primitives
+Three trust render surfaces consume this data live. The footer version badge links to `/platform`
+with the current build version. The platform hero mounts a 5-stat trust rail (tokens, components,
+stories, performance score, epics shipped). The `RecentContentSection` ticker displays the most
+recent release entry. PortableText body content can now reference any stat value inline via
+`{{stats.*}}` interpolation.
 
-`Sidebar` (`design-system/components/sidebar/`) is a new layout primitive that owns the sticky shell and mobile disclosure. It accepts `side` (left|right), `breakpoint` (md|lg), and `mobileStyle` (appendix|strip) props, and replaces the bespoke container markup that was duplicated inside `PlatformSidebar` and `PageSidebar`. Both components now render their content inside `<Sidebar>` and keep only their slot-assembly logic.
+### Ledger Tradition structural pass (SUG-78, SUG-82, SUG-80)
 
-`TwoColumnLayout` (`design-system/components/two-column-layout/`) is a flex shell for two-column pages. It accepts `placement` (left|right) and `breakpoint` props and handles column ordering. `PlatformLayout` now uses it; `PlatformLayout.module.css` has been deleted.
+The Ledger Tradition aesthetic was applied structurally across the DS. Card titles now render in
+Cormorant Garamond at 18px (bumped from 16px). Cards gain a folio layout variant with hairline
+section dividers, a canvas footer row, and category in the footer. Pink border appears on hover
+via the `--st-card-hover-border` token, now wired to the card hover rule.
 
-### SidebarNav and useScrollspy
+`MetadataCard` received the full Ledger Tradition treatment: 2px ink column rule, scalar field
+grid, chip container padding, and call-number alignment. Chips and the release ticker were
+updated to match. FilterBar gains a compact density mode for archive pages. WCAG AA contrast
+was corrected across component tokens in a token-only pass. The `Callout` `info` variant was
+changed to lime in dark mode with a font size bump for legibility.
 
-`SidebarNav` is a new web adapter component — an anchor-link list with scrollspy integration (using the extracted `useScrollspy` hook), collapsible support, and level-3 sub-items. `PageSidebar` uses it for the table-of-contents block.
+### Token coverage and enforcement (SUG-68, SUG-49, SUG-85)
 
-### Linear roadmap pipeline
+Every hardcoded hex/rgba/hsla value across all component and page CSS files was replaced with
+`--st-*` token references. A `--strict-colors` flag was added to `validate-tokens.js` to catch
+regressions. A `--check-sync` flag was added to diff `:root` values between both token source
+files. The DS package `tokens.css` was synced to the web canonical — spacing converted from rem
+to px, dark-first `:root` values aligned for card shadows and code-inline tokens. A Husky
+pre-commit hook now blocks commits that fail either validator.
 
-A new `scripts/stats/linear.js` collector queries the Linear API for SUG-team issues and feeds roadmap data into the build-time stats pipeline. The GitHub Actions `stats.yml` workflow now has the `LINEAR_SUGARTOWN_STATS` secret wired. A bug where the collector used the invalid `team(key:)` form (returning null) was fixed to use the `teams` query.
+### Dynamic Knowledge Graph (SUG-73)
 
-### ToolDetailPage
+The Knowledge Graph archive page now includes an interactive force-graph canvas using
+`react-force-graph-2d`. Users can toggle between the card/table grid view and the graph canvas.
+The graph fills available viewport height, includes zoom controls, and shows an all-node content
+rail alongside the canvas.
 
-`/tools/:slug` now has a dedicated `ToolDetailPage` rather than falling through to the generic taxonomy detail template.
+### Legacy theme selector retirement (SUG-83)
 
-### ESLint pre-commit gate
+All `[data-theme="light"]` and `[data-theme="dark"]` selectors have been removed from web app
+CSS, DS component CSS pairs, and `index.html`. Every consumer now uses
+`[data-theme="light-pink-moon"]` exclusively. The DS package CSS pairs (Accordion, Button,
+Callout, CodeBlock, Chip) were updated in the same pass.
 
-The Husky pre-commit hook was wired in a prior release but not enforcing. 43 existing ESLint errors across `apps/web` were resolved, and the gate is now active. All commits must pass lint before they land.
+### Component cleanup (SUG-84, SUG-82)
 
-### SegmentedControl light-mode fix
+`EditorialCard` was deleted (dead post-convergence). The `CardGrid` web-adapter was deleted;
+its role is now covered by the DS-layer `CardGrid`. `DraftBadge` was refactored to use `Chip`
+internally — the standalone CSS module and stories were removed. The `aiTool` and
+`categoryPosition` Card props were removed from the API.
 
-`SegmentedControl` was rendering with a dark appearance in light mode in Storybook. The root cause: `--st-segmented-*` light-theme token overrides existed in the web app's `theme.pink-moon.css` but not in the DS package copy, which is what Storybook uses. The overrides are now in both files.
+### Studio and taxonomy (SUG-76, SUG-74, SUG-49)
 
-### Storybook story organization
+A `recentContentSection` schema type was added — section-builder-insertable trust ticker,
+registered across page, article, caseStudy, and node doc types. The parent category relationship
+was removed from the category schema. AI sub-categories were collapsed into a single top-level
+AI category via migration. A schema parity validator script was added to check object/document
+schema pairs for drift.
 
-`SegmentedControl` moved from `Components/` to `Patterns/`. `SidebarNav` moved to `Patterns/SidebarNav`. New stories added: `Components/Pill`, `Components/IconButton`, `Components/Sidebar`, `Layout/TwoColumnLayout`. `BUILD_DATE` is now frozen to a stable sentinel value in Storybook's `viteFinal` config to prevent Chromatic snapshot churn on every build.
+### Storybook and tooling
+
+Ledger Tradition fonts are now self-hosted in `apps/storybook/public/fonts/` for reliable
+Chromatic VRT baselines (removes the Google Fonts CDN dependency). Stories for
+`RecentContentSection`, `Callout` (all variants), and `CardGrid` were added. The
+`@storybook/addon-a11y` accessibility addon was added. A machine-readable DS component registry
+(`component-registry.json`) was introduced alongside a `registry-build.js` generator and a
+`/new-epic` and `/chromatic` Claude Code skill pair.
 
 ---
 
 ## Not in this release
 
-- SUG-100 (CWV snapshot product widget) — In Review, not part of this cycle
-- SUG-107 (client taxonomy) — not started
-- SUG-113 (dynamic reporting pipeline) — not started
-- Real Linear data in stats.json requires `LINEAR_SUGARTOWN_STATS` secret to be set in CI; local builds without the secret produce an empty/stale roadmap block
+- `trustReportSection` section-builder type (longer-form report variants) — backlog SUG-87
+- Style Dictionary token build pipeline — backlog SUG-86
+- Site-wide Knowledge Graph (cross-content-type) — backlog SUG-81
+- Sanity data writes via MCP for trust ticker content
 
 ---
 
 ## Validator state at release
 
-```
-pnpm validate:tokens     → ✅ All var(--st-*) references resolve to defined tokens (590 tokens)
-pnpm validate:tokens --strict-colors → ✅ No hardcoded color values found
-pnpm lint                → ✅ 0 errors, 6 pre-existing warnings (react-hooks/exhaustive-deps in KnowledgeGraph, ScoreRing, useSanityDoc — not introduced in this cycle)
-Chromatic Build #40      → ✅ Passed
-```
+`pnpm validate:tokens` — 0 errors
+`pnpm validate:tokens --strict-colors` — 0 errors
+`pnpm validate:tokens --check-sync` — 0 errors

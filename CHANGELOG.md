@@ -14,12 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
----
-
-## [0.23.25] — 2026-05-14
-
-Platform IA Phase II, sidebar layout system, DS primitives, Linear roadmap pipeline,
-and ESLint enforcement. Aggregates 0.23.20–0.23.25.
+> Accumulates since v0.23.0. Ships as v0.24.0.
 
 ### apps/web
 
@@ -46,10 +41,21 @@ and ESLint enforcement. Aggregates 0.23.20–0.23.25.
 - Linear roadmap rendered inline on `GovernancePage`; standalone `RoadmapPage` removed
 - `diagramBlock` uses `<pre>` to preserve whitespace in relationships and build-pipeline sections
 - 43 ESLint errors resolved across `apps/web`
+- `SchemaERD` component refactored to use DS primitives (`Card`, `Chip`, `SectionLabel`, `StatTile`, `Button`, `SegmentedControl`) — no hardcoded radius, color, or background values (SUG-20)
+- `CardBuilderSection` — tools/tags chip groups moved to card footer beneath dashed divider (EPIC-0160)
+- Callout: wired into CaseStudy template; `calloutSection` in `sections[]` replaces legacy `challengeSummary` text field (SUG-99)
+- Callout: folio number now inherits `--_callout-accent` per variant (SUG-99)
+- Accordion: Cormorant Garamond applied to all trigger labels (SUG-99)
+- PageSections: `context="full"` wraps in `.fullContext` flex container for gap-based section spacing (SUG-99)
+- `recentContentSection`: constrained to 1080px max-width with page-gutter padding (SUG-99)
+- Studio: `challengeSummary` field deprecated with migration warning (SUG-99)
 
 #### Fixed
 - Linear stats collector: used `teams` query to locate SUG team (was using invalid `team(key:)` form, returning null)
 - GitHub Actions `stats.yml`: wired `LINEAR_SUGARTOWN_STATS` secret to Linear collector
+- CI: LHCI config fixes — `autorun` failure, flattened `collect` config, switched to `--settings.preset` (SUG-106)
+- `CwvSnapshot.jsx`: corrected `PERF_BACKUP` Best Practices value; added `mobile`/`desktop` sub-keys (SUG-106)
+- `siteGraph.nodes` guarded against stale/error `stats.json` shape (SUG-106)
 
 ### packages/design-system
 
@@ -58,10 +64,11 @@ and ESLint enforcement. Aggregates 0.23.20–0.23.25.
 - `IconButton.stories.tsx` (`Components/IconButton`) — isolated primitive stories for icon variant
 
 #### Changed
-- `SegmentedControl.stories.tsx` moved from `Components/SegmentedControl` to `Patterns/SegmentedControl`
+- `SegmentedControl.stories.tsx` moved from `Components/` to `Patterns/`
+- `SidebarNav.stories.tsx` moved to `Patterns/SidebarNav`
 
 #### Fixed
-- `theme.pink-moon.css`: added missing `--st-segmented-*` light-theme token overrides — `SegmentedControl` appeared dark in light mode because the DS package theme file was missing the overrides present only in the web app theme copy
+- `theme.pink-moon.css`: added missing `--st-segmented-*` light-theme token overrides — `SegmentedControl` appeared dark in light mode
 
 ### apps/storybook
 
@@ -70,34 +77,7 @@ and ESLint enforcement. Aggregates 0.23.20–0.23.25.
 - `TwoColumnLayout.stories.tsx` (`Layout/TwoColumnLayout`): SidebarLeft, SidebarRight, MobileLeftSidebar stories
 
 #### Changed
-- `SidebarNav.stories.tsx` moved to `Patterns/SidebarNav`
-- `BUILD_DATE` frozen to stable sentinel in Storybook `viteFinal` — prevents Chromatic snapshot churn on every build from a changing date value
-
----
-
-## [0.23.19] — 2026-05-10
-
-### SUG-106 · Stats pipeline fix + SUG-100 close-out
-
-- CI: fixed LHCI `autorun` failure — removed `startServerCommand: ''` which triggered staticDistDir auto-detection for external URLs in lhci v0.15.1
-- CI: flattened `lighthouserc.cjs` `collect` config from array to object — `lhci collect` requires flat object, not array
-- CI: switched `--settings.emulatedFormFactor` to `--settings.preset` — emulatedFormFactor CLI flag does not propagate to result `configSettings` in lhci v0.15.1, preventing form factor split in perf.js
-- Web: guarded `siteGraph.nodes` against stale/error stats.json shape — `{ stale: true, error: "..." }` object caused white screen on `/articles` and `/knowledge-graph`
-- Web: updated `PERF_BACKUP` in `CwvSnapshot.jsx` — corrected Best Practices to 96 (was 42 from a run with Sanity preview token console warnings); added `mobile`/`desktop` sub-keys for form factor split
-- Docs: added Sanity secrets setup to SUG-106 shipped doc; documented desktop LHCI detection gap and SPA LCP penalty as known limits
-
----
-
-## [0.23.11] — 2026-05-04
-
-### SUG-99 · Backroads component harmony
-
-- Callout: wired into CaseStudy template; `calloutSection` in `sections[]` replaces legacy `challengeSummary` text field
-- Callout: folio number now inherits `--_callout-accent` per variant (was `--st-color-ink` in light theme default)
-- Accordion: Cormorant Garamond applied to all trigger labels, not just numbered variant
-- PageSections: `context="full"` now wraps in `.fullContext` (flex column, `gap: --st-space-section-break`) — inter-section spacing owned by container, mirrors `detailContext` pattern
-- `recentContentSection`: constrained to 1080px max-width with page-gutter padding (was blowing out to full viewport width)
-- Studio: `challengeSummary` field deprecated with migration warning; hidden when empty
+- `BUILD_DATE` frozen to stable sentinel in Storybook `viteFinal` — prevents Chromatic snapshot churn on every build
 
 ---
 
