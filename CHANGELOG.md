@@ -16,6 +16,65 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.23.25] — 2026-05-14
+
+Platform IA Phase II, sidebar layout system, DS primitives, Linear roadmap pipeline,
+and ESLint enforcement. Aggregates 0.23.20–0.23.25.
+
+### apps/web
+
+#### Added
+- `ToolDetailPage` at `/tools/:slug` — dedicated entity detail page for tool taxonomy
+- `useScrollspy` hook (`lib/useScrollspy.js`) — IntersectionObserver-based active-section tracking
+- `SidebarNav` web adapter (`design-system/components/sidebar-nav/`) — anchor-link list with scrollspy, collapsible, and sub-item (level 3) support
+- `Sidebar` primitive (`design-system/components/sidebar/`) — sticky shell and mobile disclosure; props: `side`, `breakpoint` (md|lg), `mobileStyle` (appendix|strip)
+- `TwoColumnLayout` (`design-system/components/two-column-layout/`) — flex shell for two-column pages; props: `placement` (left|right), `breakpoint`
+- Platform section hub pages: `CmsPage`, `DesignSystemPage`, `DesignSystemRegistryPage`, `GovernancePage`, `MonorepoPage`
+- `PlatformHero` component with hero slot wired into platform layout
+- `scripts/generate-schema-manifest.mjs` — generates `src/data/schemaManifest.js` from Studio schema types at build time
+- `scripts/stats/linear.js` — Linear API collector for SUG-team issue/roadmap data
+- `.husky/pre-commit` ESLint gate activated (was present but not enforcing)
+
+#### Changed
+- `PlatformLayout` refactored to use `TwoColumnLayout` + `Sidebar`; `PlatformLayout.module.css` deleted
+- `PlatformSidebar` refactored to render inside `Sidebar` primitive; container styles removed from module CSS
+- `PageSidebar` refactored to use `Sidebar` primitive; module CSS stripped to slot-only styles
+- `App.jsx` updated with nested platform sub-routes
+- `collect-stats.js` extended with Linear roadmap collector
+- `PersonProfilePage` and `ProjectDetailPage` refactored to shared entity folio classes from `pages.module.css`
+- Archive pages (`ArchivePage`, `TaxonomyArchivePage`) — header and toolbar consistency pass
+- Linear roadmap rendered inline on `GovernancePage`; standalone `RoadmapPage` removed
+- `diagramBlock` uses `<pre>` to preserve whitespace in relationships and build-pipeline sections
+- 43 ESLint errors resolved across `apps/web`
+
+#### Fixed
+- Linear stats collector: used `teams` query to locate SUG team (was using invalid `team(key:)` form, returning null)
+- GitHub Actions `stats.yml`: wired `LINEAR_SUGARTOWN_STATS` secret to Linear collector
+
+### packages/design-system
+
+#### Added
+- `Pill.stories.tsx` (`Components/Pill`) — isolated primitive stories for pill variant
+- `IconButton.stories.tsx` (`Components/IconButton`) — isolated primitive stories for icon variant
+
+#### Changed
+- `SegmentedControl.stories.tsx` moved from `Components/SegmentedControl` to `Patterns/SegmentedControl`
+
+#### Fixed
+- `theme.pink-moon.css`: added missing `--st-segmented-*` light-theme token overrides — `SegmentedControl` appeared dark in light mode because the DS package theme file was missing the overrides present only in the web app theme copy
+
+### apps/storybook
+
+#### Added
+- `Sidebar.stories.tsx` (`Components/Sidebar`): RightRail, LeftRail, MobileAppendix, MobileStrip stories
+- `TwoColumnLayout.stories.tsx` (`Layout/TwoColumnLayout`): SidebarLeft, SidebarRight, MobileLeftSidebar stories
+
+#### Changed
+- `SidebarNav.stories.tsx` moved to `Patterns/SidebarNav`
+- `BUILD_DATE` frozen to stable sentinel in Storybook `viteFinal` — prevents Chromatic snapshot churn on every build from a changing date value
+
+---
+
 ## [0.23.19] — 2026-05-10
 
 ### SUG-106 · Stats pipeline fix + SUG-100 close-out
