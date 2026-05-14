@@ -17,8 +17,7 @@ const RELEASE_COLUMNS = [
   {
     key: 'version', label: 'Version', width: '110px',
     render: (val) => (
-      <a href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer"
-        style={{ color: 'var(--st-color-brand-primary)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.875rem' }}>
+      <a href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer" className={styles.releaseVersionLink}>
         {val}
       </a>
     ),

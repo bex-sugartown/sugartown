@@ -168,6 +168,33 @@
   color: var(--st-color-brand-primary);
 }
 
+/* ── Governance inline styles → CSS classes (§06, §13) ───── */
+
+.releaseVersionLink {
+  color: var(--st-color-brand-primary);
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-sm);
+  text-decoration: none;
+}
+.releaseVersionLink:hover {
+  text-decoration: underline;
+}
+
+.sectionLede {
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-muted);
+  margin: var(--st-space-3) 0 var(--st-space-2);
+}
+
+.inlineLink {
+  color: var(--st-color-link-default);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+.inlineLink:hover {
+  color: var(--st-color-link-hover);
+}
+
 /* ── Registry teaser ──────────────────────────────────────── */
 
 .registryTeaser {
