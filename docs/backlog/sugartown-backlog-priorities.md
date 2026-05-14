@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-13 · v0.23.24 · SUG-112 shipped (Sidebar nav primitives — useScrollspy + SidebarNav + ESLint cleanup)
+> Updated 2026-05-14 · v0.23.25 · Sidebar primitive + TwoColumnLayout shell shipped
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-112 shipped ✅ v0.23.24. SUG-100 (CWV snapshot product widget) is In Review. SUG-113 (dynamic reporting pipeline) and SUG-107 (client taxonomy) are next.
+> **⚑ Current focus:** Sidebar primitive + TwoColumnLayout shipped ✅ v0.23.25. SUG-100 (CWV snapshot product widget) is In Review. SUG-113 (dynamic reporting pipeline) and SUG-107 (client taxonomy) are next.
 
 ---
 
@@ -182,4 +182,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-13 · v0.23.24 · SUG-112 shipped · queue: SUG-113*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-14 · v0.23.25 · Sidebar primitive + TwoColumnLayout shipped · queue: SUG-113*
