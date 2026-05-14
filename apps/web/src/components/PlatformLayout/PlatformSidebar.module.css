@@ -12,7 +12,7 @@
 .sectionLabel {
   display: block;
   font-family: var(--st-label-font);
-  font-size: 0.6rem;
+  font-size: var(--st-label-size);
   font-weight: var(--st-label-weight);
   letter-spacing: var(--st-label-tracking);
   text-transform: uppercase;
@@ -33,7 +33,7 @@
   display: block;
   padding: 0.3125rem 0 0.3125rem 0.75rem;
   margin-left: -1px;
-  font-size: 0.875rem;
+  font-size: var(--st-font-size-sm);
   line-height: 1.4;
   color: var(--st-color-text-muted);
   text-decoration: none;

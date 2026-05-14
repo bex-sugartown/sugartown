@@ -59,13 +59,13 @@
 /* ── Stats / artifact SectionContainer spacing ───────────────── */
 
 .statsSection {
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--st-space-section-break-detail);
 }
 
 /* ── Content sections ─────────────────────────────────────── */
 
 .section {
-  margin-bottom: 2.5rem;
+  margin-bottom: var(--st-space-section-break-detail);
 }
 
 .section:last-child {
