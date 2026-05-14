@@ -94,10 +94,7 @@ const RELEASE_DIAGRAM = {
     C -->|"Gate 2"| D["Release\\nNotes"]
     D -->|"Gate 3"| E["Version\\nBump"]
     E -->|"Gate 4"| F["Backlog\\nReconcile"]
-    F -->|"Gate 5"| G["Ship"]
-
-    style A fill:#1a2436,stroke:#ff247d,color:#f5f7fa
-    style G fill:#1a2436,stroke:#2bd4aa,color:#f5f7fa`,
+    F -->|"Gate 5"| G["Ship"]`,
   width: 'wide',
   caption: 'Release process',
 }

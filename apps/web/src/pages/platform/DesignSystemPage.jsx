@@ -49,12 +49,7 @@ const TOKEN_DIAGRAM = {
   code: `flowchart TB
     BASE["Base Tokens\\ncolor.pink.500\\nradius.sm\\nspace.4"] -->|"map to intent"| SEMANTIC["Semantic Tokens\\ncolor.brand.primary\\ncolor.bg.canvas\\nradius.button"]
     SEMANTIC -->|"scope to surface"| COMPONENT["Component Tokens\\ncard.bg\\ncard.radius\\npill.text"]
-    COMPONENT -->|"consumed by"| RENDER["React Components\\nCard · Button · Pill\\nCallout · Citation"]
-
-    style BASE fill:#1a2436,stroke:#7b82a8,color:#f5f7fa
-    style SEMANTIC fill:#1a2436,stroke:#ff247d,color:#f5f7fa
-    style COMPONENT fill:#1a2436,stroke:#2bd4aa,color:#f5f7fa
-    style RENDER fill:#1a2436,stroke:#D1FF1D,color:#f5f7fa`,
+    COMPONENT -->|"consumed by"| RENDER["React Components\\nCard · Button · Pill\\nCallout · Citation"]`,
   width: null,
   caption: 'Token architecture',
 }
