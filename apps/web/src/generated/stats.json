@@ -1,28 +1,14 @@
 {
-  "generatedAt": "2026-05-13T12:25:54.605Z",
+  "generatedAt": "2026-05-14T11:39:50.730Z",
   "release": {
     "current": {
-      "version": "0.23.19",
-      "date": "2026-05-10",
-      "descriptor": "- CI: fixed LHCI `autorun` failure — removed `startServerCommand: ''` which triggered staticDistDir auto-detection for external URLs in lhci v0.15.1",
-      "kind": "PATCH",
-      "linearIssue": "SUG-106"
+      "version": "0.23.0",
+      "date": "2026-04-27",
+      "descriptor": "Trust data pipeline, Ledger Tradition design system structural pass, dynamic Knowledge Graph,",
+      "kind": "MINOR",
+      "linearIssue": null
     },
     "latestN": [
-      {
-        "version": "0.23.19",
-        "date": "2026-05-10",
-        "descriptor": "- CI: fixed LHCI `autorun` failure — removed `startServerCommand: ''` which triggered staticDistDir auto-detection for external URLs in lhci v0.15.1",
-        "kind": "PATCH",
-        "linearIssue": "SUG-106"
-      },
-      {
-        "version": "0.23.11",
-        "date": "2026-05-04",
-        "descriptor": "- Callout: wired into CaseStudy template; `calloutSection` in `sections[]` replaces legacy `challengeSummary` text field",
-        "kind": "PATCH",
-        "linearIssue": "SUG-99"
-      },
       {
         "version": "0.23.0",
         "date": "2026-04-27",
@@ -43,13 +29,27 @@
         "descriptor": "Storybook v10 upgrade, Accordion component, full story coverage, argTypes audit. Aggregates 0.20.1.",
         "kind": "MINOR",
         "linearIssue": "SUG-38"
+      },
+      {
+        "version": "0.20.0",
+        "date": "2026-04-01",
+        "descriptor": "Responsive mobile nav, image treatments & gallery, detail hero refinement, table authoring UX, sitemap, mermaid diagrams, and WordPress media import. Aggregates 0.19.1–0.19.8.",
+        "kind": "MINOR",
+        "linearIssue": "SUG-37"
+      },
+      {
+        "version": "0.19.0",
+        "date": "2026-03-19",
+        "descriptor": "Preview UI, PortableText polish, contact form, card convergence, image optimization, content metadata governance, and taxonomy refinement. Aggregates 0.18.1–0.18.7.",
+        "kind": "MINOR",
+        "linearIssue": null
       }
     ],
     "count": {
-      "total": 19,
+      "total": 17,
       "major": 0,
       "minor": 16,
-      "patch": 3
+      "patch": 1
     }
   },
   "ds": {
@@ -68,30 +68,30 @@
     },
     "dsComponents": 13,
     "dsComponentsWithStories": 11,
-    "webAdapters": 17,
-    "componentFiles": 30,
+    "webAdapters": 20,
+    "componentFiles": 33,
     "tokenCompliance": 98
   },
   "storybook": {
-    "stories": 251,
-    "components": 49
+    "stories": 270,
+    "components": 54
   },
   "repo": {
-    "commits": 1138,
-    "epicsShipped": 96
+    "commits": 1173,
+    "epicsShipped": 100
   },
   "perf": {
     "stale": true,
     "error": "No Lighthouse CI output found at /Users/beckyalice/SUGARTOWN_DEV/sugartown/.lighthouseci — run lhci autorun first"
   },
   "crux": {
-    "fetchedAt": "2026-05-13T12:25:37.119Z",
+    "fetchedAt": "2026-05-14T11:39:32.870Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-05-13T12:25:53.809Z",
+    "fetchedAt": "2026-05-14T11:39:49.916Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -102,17 +102,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-13T12:25:54.005Z",
+    "fetchedAt": "2026-05-14T11:39:50.104Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 0,
     "watchers": 0,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-05-13T10:51:39Z"
+    "lastCommit": "2026-05-13T12:33:44Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-13T12:25:54.353Z",
+    "fetchedAt": "2026-05-14T11:39:50.466Z",
     "counts": {
       "article": 11,
       "node": 48,
@@ -122,11 +122,11 @@
       "category": 13,
       "project": 5,
       "person": 1,
-      "tool": 54
+      "tool": 55
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-05-13T12:25:54.604Z",
+    "generatedAt": "2026-05-14T11:39:50.729Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
