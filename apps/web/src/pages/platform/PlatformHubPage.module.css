@@ -181,3 +181,9 @@
   color: var(--st-color-text-muted);
   margin: 0;
 }
+
+/* Roadmap scroll container — needed for position: sticky on LaneHeader */
+.roadmapScroll {
+  overflow-y: auto;
+  max-height: 70vh;
+}

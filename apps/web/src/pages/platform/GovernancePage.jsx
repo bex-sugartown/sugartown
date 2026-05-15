@@ -1,11 +1,13 @@
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
-import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Card from '../../design-system/components/card/Card'
 import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
 import Chip from '../../design-system/components/chip/Chip'
+import PriorityChip from '../../design-system/components/priority-chip/PriorityChip'
+import LaneHeader from '../../design-system/components/lane-header/LaneHeader'
+import { StatGrid, StatGridCell } from '../../design-system/components/stat-grid/StatGrid'
 import Callout from '../../design-system/components/callout/Callout'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
@@ -29,20 +31,29 @@ const RELEASE_COLUMNS = [
 
 const RECENT_RELEASES = (stats.release?.latestN ?? []).slice(0, 5)
 
-// ── Roadmap tables ────────────────────────────────────────
+// ── Roadmap data ──────────────────────────────────────────
 const roadmap    = stats.linearRoadmap ?? {}
 const inProgress = roadmap.inProgress ?? []
 const backlog    = roadmap.backlog    ?? []
 const isStale    = roadmap.stale === true || (!roadmap.fetchedAt && !inProgress.length && !backlog.length)
 
-function PriorityBadge({ priority }) {
-  const classMap = { Urgent: styles.priorityUrgent, High: styles.priorityHigh, Medium: styles.priorityMedium, Low: styles.priorityLow }
-  return <span className={`${styles.priorityBadge} ${classMap[priority] ?? ''}`}>{priority ?? '—'}</span>
+const PRIORITY_MAP = {
+  High:        'high',
+  Medium:      'medium',
+  Low:         'low',
+  Urgent:      'high',
+  'No priority': 'none',
 }
 
-function LabelChips({ labels }) {
-  if (!labels?.length) return null
-  return <span className={styles.labelChips}>{labels.map(l => <Chip key={l} label={l} size="sm" />)}</span>
+function ProjectChips({ projects }) {
+  if (!projects?.length) return null
+  return (
+    <span className={styles.labelChips}>
+      {projects.map(p => (
+        <Chip key={p.name} label={p.name} dotColor={p.colorHex} size="sm" />
+      ))}
+    </span>
+  )
 }
 
 const ROADMAP_COLUMNS = [
@@ -54,8 +65,14 @@ const ROADMAP_COLUMNS = [
   },
   { key: 'title',    label: 'Title' },
   { key: 'status',   label: 'Status',   width: '120px' },
-  { key: 'priority', label: 'Priority', width: '100px', render: (val) => <PriorityBadge priority={val} /> },
-  { key: 'labels',   label: 'Labels',   width: '200px', render: (val) => <LabelChips labels={val} /> },
+  {
+    key: 'priority', label: 'Priority', width: '110px',
+    render: (val) => <PriorityChip level={PRIORITY_MAP[val] ?? 'none'} />,
+  },
+  {
+    key: 'projects', label: 'Projects', width: '200px',
+    render: (val) => <ProjectChips projects={val} />,
+  },
 ]
 
 // ── Artifacts ─────────────────────────────────────────────
@@ -112,15 +129,52 @@ export default function GovernancePage() {
       />
       <div className={styles.hub}>
 
-        <SectionContainer className={styles.statsSection}>
-          <Tile label="In flight"       value={inProgress.length || '—'} href="https://linear.app/sugartown" />
-          <Tile label="Current release" value={stats.release?.current?.version ?? '—'} href={TRUST_LINKS.changelog} />
-          <Tile label="Epics shipped"   value={stats.repo?.epicsShipped ?? '—'} href={TRUST_LINKS.commits} />
-          <Tile label="Vulnerabilities" value="0" labelColor="brand" href={TRUST_LINKS.security} />
-        </SectionContainer>
+        <StatGrid columns={4}>
+          <StatGridCell
+            label="In flight"
+            value={inProgress.length || '—'}
+            href="https://linear.app/sugartown"
+          />
+          <StatGridCell
+            label="Current release"
+            value={stats.release?.current?.version ?? '—'}
+            href={TRUST_LINKS.changelog}
+          />
+          <StatGridCell
+            label="Epics shipped"
+            value={stats.repo?.epicsShipped ?? '—'}
+            href={TRUST_LINKS.commits}
+          />
+          <StatGridCell
+            label="Vulnerabilities"
+            value="0"
+            href={TRUST_LINKS.security}
+          />
+        </StatGrid>
+
+        <section id="recent-releases" className={styles.section}>
+          <SectionLabel
+            level="h3"
+            number="§01"
+            name="RECENT RELEASES"
+            title="Latest shipped versions"
+            kicker="Last 5"
+          />
+          <DataTable columns={RELEASE_COLUMNS} rows={RECENT_RELEASES} variant="trust" />
+          <div className={styles.trustLinks}>
+            <a href={TRUST_LINKS.changelog} className={styles.trustLink} target="_blank" rel="noreferrer">Full changelog</a>
+            <a href={TRUST_LINKS.commits}   className={styles.trustLink} target="_blank" rel="noreferrer">Commit log</a>
+          </div>
+        </section>
 
         <section id="roadmap" className={styles.section}>
-          <SectionLabel number="§01" name="Roadmap" kicker="In progress + upcoming" />
+          <SectionLabel
+            level="h3"
+            number="§02"
+            name="ROADMAP"
+            title="Linear epics, in flight and on deck"
+            kicker={isStale ? '—' : `${inProgress.length + backlog.length} epics`}
+          />
 
           {isStale && (
             <Callout>
@@ -130,38 +184,41 @@ export default function GovernancePage() {
           )}
 
           {!isStale && (
-            <>
-              <SectionLabel name="In progress" kicker={`${inProgress.length} epic${inProgress.length !== 1 ? 's' : ''}`} />
+            <div className={styles.roadmapScroll}>
+              <LaneHeader label="In progress" count={inProgress.length} />
               {inProgress.length > 0
                 ? <DataTable columns={ROADMAP_COLUMNS} rows={inProgress} variant="trust" />
                 : <p className={styles.empty}>No epics currently in progress.</p>
               }
 
-              <SectionLabel name="Backlog" kicker={`${backlog.length} epic${backlog.length !== 1 ? 's' : ''}`} />
+              <LaneHeader label="Backlog" count={backlog.length} />
               {backlog.length > 0
                 ? <DataTable columns={ROADMAP_COLUMNS} rows={backlog} variant="trust" />
                 : <p className={styles.empty}>Backlog is empty.</p>
               }
-            </>
+            </div>
           )}
         </section>
 
-        <section id="recent-releases" className={styles.section}>
-          <SectionLabel number="§02" name="Recent releases" kicker="Last 5" />
-          <DataTable columns={RELEASE_COLUMNS} rows={RECENT_RELEASES} variant="trust" />
-          <div className={styles.trustLinks}>
-            <a href={TRUST_LINKS.changelog} className={styles.trustLink} target="_blank" rel="noreferrer">Full changelog</a>
-            <a href={TRUST_LINKS.commits}   className={styles.trustLink} target="_blank" rel="noreferrer">Commit log</a>
-          </div>
-        </section>
-
         <section id="release-process" className={styles.section}>
-          <SectionLabel number="§03" name="Release process" kicker="Gate model" />
+          <SectionLabel
+            level="h3"
+            number="§03"
+            name="RELEASE PROCESS"
+            title="How a change reaches production"
+            kicker="Gate model"
+          />
           <MermaidDiagram section={RELEASE_DIAGRAM} />
         </section>
 
         <section id="governance-artifacts" className={styles.section}>
-          <SectionLabel number="§04" name="Artifacts" className={styles.labelFlush} />
+          <SectionLabel
+            level="h3"
+            number="§04"
+            name="ARTIFACTS"
+            title="Briefs, prompts, conventions"
+            kicker={`${ARTIFACTS.length} documents`}
+          />
           <SectionContainer columns={3}>
             {ARTIFACTS.map((a) => (
               <Card key={a.title} eyebrow={a.eyebrow} title={a.title} excerpt={a.body} href={a.href} />

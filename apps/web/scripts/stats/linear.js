@@ -45,7 +45,7 @@ const ISSUES_QUERY = `
           priority
           completedAt
           state { name type }
-          labels { nodes { name } }
+          project { name color }
         }
       }
     }
@@ -59,7 +59,7 @@ function normalise(node) {
     url:        node.url,
     priority:   PRIORITY_LABEL[node.priority] ?? 'No priority',
     status:     node.state?.name ?? '',
-    labels:     (node.labels?.nodes ?? []).map(l => l.name),
+    projects:   node.project ? [{ name: node.project.name, colorHex: node.project.color }] : [],
     completedAt: node.completedAt ?? null,
   }
 }
