@@ -66,68 +66,85 @@ const meta: Meta<typeof FilterBar> = {
 export default meta;
 type Story = StoryObj<typeof FilterBar>;
 
+// ─── Story wrapper components (hooks require named components) ────────────────
+
+function DefaultStory() {
+  const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
+  const handleChange = (facetId: string, value: string, checked: boolean) => {
+    setActiveFilters((prev) => {
+      const current = prev[facetId] ?? [];
+      return { ...prev, [facetId]: checked ? [...current, value] : current.filter((v) => v !== value) };
+    });
+  };
+  return (
+    <FilterBar
+      filterModel={MOCK_FILTER_MODEL}
+      activeFilters={activeFilters}
+      onFilterChange={handleChange}
+      onClearAll={() => setActiveFilters({})}
+    />
+  );
+}
+
+function WithActiveFiltersStory() {
+  const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({
+    projects: ['brand-strategy', 'web-platform'],
+    tags: ['accessibility'],
+  });
+  const handleChange = (facetId: string, value: string, checked: boolean) => {
+    setActiveFilters((prev) => {
+      const current = prev[facetId] ?? [];
+      return { ...prev, [facetId]: checked ? [...current, value] : current.filter((v) => v !== value) };
+    });
+  };
+  return (
+    <FilterBar
+      filterModel={MOCK_FILTER_MODEL}
+      activeFilters={activeFilters}
+      onFilterChange={handleChange}
+      onClearAll={() => setActiveFilters({})}
+    />
+  );
+}
+
+function SingleFacetStory() {
+  const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
+  const model: FilterModel = {
+    facets: [
+      {
+        id: 'categories',
+        label: 'Category',
+        options: [
+          { id: 'cat-1', label: 'Engineering', slug: 'engineering', count: 15 },
+          { id: 'cat-2', label: 'Strategy',    slug: 'strategy',    count: 7  },
+        ],
+      },
+    ],
+  };
+  return (
+    <FilterBar
+      filterModel={model}
+      activeFilters={activeFilters}
+      onFilterChange={(facetId, value, checked) =>
+        setActiveFilters((prev) => ({
+          ...prev,
+          [facetId]: checked
+            ? [...(prev[facetId] ?? []), value]
+            : (prev[facetId] ?? []).filter((v) => v !== value),
+        }))
+      }
+      onClearAll={() => setActiveFilters({})}
+    />
+  );
+}
+
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
 /** Fully populated filter model, no active filters */
-export const Default: Story = {
-  render: () => {
-    const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
-
-    const handleChange = (facetId: string, value: string, checked: boolean) => {
-      setActiveFilters((prev) => {
-        const current = prev[facetId] ?? [];
-        return {
-          ...prev,
-          [facetId]: checked
-            ? [...current, value]
-            : current.filter((v) => v !== value),
-        };
-      });
-    };
-
-    const handleClear = () => setActiveFilters({});
-
-    return (
-      <FilterBar
-        filterModel={MOCK_FILTER_MODEL}
-        activeFilters={activeFilters}
-        onFilterChange={handleChange}
-        onClearAll={handleClear}
-      />
-    );
-  },
-};
+export const Default: Story = { render: () => <DefaultStory /> };
 
 /** Filter model with some pre-selected active filters */
-export const WithActiveFilters: Story = {
-  render: () => {
-    const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({
-      projects: ['brand-strategy', 'web-platform'],
-      tags: ['accessibility'],
-    });
-
-    const handleChange = (facetId: string, value: string, checked: boolean) => {
-      setActiveFilters((prev) => {
-        const current = prev[facetId] ?? [];
-        return {
-          ...prev,
-          [facetId]: checked
-            ? [...current, value]
-            : current.filter((v) => v !== value),
-        };
-      });
-    };
-
-    return (
-      <FilterBar
-        filterModel={MOCK_FILTER_MODEL}
-        activeFilters={activeFilters}
-        onFilterChange={handleChange}
-        onClearAll={() => setActiveFilters({})}
-      />
-    );
-  },
-};
+export const WithActiveFilters: Story = { render: () => <WithActiveFiltersStory /> };
 
 /** Null filter model — renders nothing (null guard) */
 export const EmptyModel: Story = {
@@ -136,47 +153,11 @@ export const EmptyModel: Story = {
       <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '1rem' }}>
         FilterBar renders nothing when filterModel is null or has no facets.
       </p>
-      <FilterBar
-        filterModel={null}
-        activeFilters={{}}
-        onFilterChange={() => {}}
-        onClearAll={() => {}}
-      />
+      <FilterBar filterModel={null} activeFilters={{}} onFilterChange={() => {}} onClearAll={() => {}} />
       <p style={{ fontSize: '0.875rem', color: '#999' }}>(Nothing rendered above)</p>
     </div>
   ),
 };
 
 /** Single facet — minimal model */
-export const SingleFacet: Story = {
-  render: () => {
-    const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
-    const model: FilterModel = {
-      facets: [
-        {
-          id: 'categories',
-          label: 'Category',
-          options: [
-            { id: 'cat-1', label: 'Engineering', slug: 'engineering', count: 15 },
-            { id: 'cat-2', label: 'Strategy',    slug: 'strategy',    count: 7  },
-          ],
-        },
-      ],
-    };
-    return (
-      <FilterBar
-        filterModel={model}
-        activeFilters={activeFilters}
-        onFilterChange={(facetId, value, checked) =>
-          setActiveFilters((prev) => ({
-            ...prev,
-            [facetId]: checked
-              ? [...(prev[facetId] ?? []), value]
-              : (prev[facetId] ?? []).filter((v) => v !== value),
-          }))
-        }
-        onClearAll={() => setActiveFilters({})}
-      />
-    );
-  },
-};
+export const SingleFacet: Story = { render: () => <SingleFacetStory /> };

@@ -18,7 +18,6 @@ import { Card } from './Card';
 
 // ─── Placeholder image URLs (never featuredImage) ─────────────────────────────
 const THUMB_16_9  = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=480&h=270&fit=crop';
-const THUMB_RAIL  = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=96&h=120&fit=crop';
 
 // ─── Realistic fixture data ────────────────────────────────────────────────────
 // aiTool omitted — deprecated. Claude appears in tools[] (the canonical slot).
