@@ -63,6 +63,13 @@ export async function run(outputPath = OUTPUT_PATH) {
 
   // Network collectors (Phase 1b) — graceful degradation
   // Each is a dynamic import so missing modules don't fail Phase 1a builds
+  // Env-var guards: if the required key is absent AND usable existing data is on
+  // disk, skip the collector entirely — no failed network call, no stale write.
+  const envGuards = {
+    linearRoadmap: 'LINEAR_API_KEY',
+    github:        'GITHUB_TOKEN',
+  }
+
   const networkCollectors = {
     perf:     () => tryNetworkCollector('perf',     () => import('./stats/perf.js').then(m => m.collectPerf)),
     crux:     () => tryNetworkCollector('crux',     () => import('./stats/crux.js').then(m => m.collectCrux)),
@@ -75,11 +82,24 @@ export async function run(outputPath = OUTPUT_PATH) {
 
   const networkResults = {}
   for (const [name, collect] of Object.entries(networkCollectors)) {
+    // Skip entirely if required env var is absent and existing data is present
+    const requiredKey = envGuards[name]
+    if (requiredKey && !process.env[requiredKey] && existing[name]) {
+      console.log(`  [stats] ${name}: ${requiredKey} not set — reusing cached data`)
+      networkResults[name] = existing[name]
+      continue
+    }
+
     const fresh = await collect()
-    // If fresh result is stale (module missing or network failed), use existing
-    networkResults[name] = (fresh?.stale && existing[name] && !existing[name].stale)
-      ? { ...existing[name], stale: true }
-      : fresh
+    if (fresh?.stale && existing[name]) {
+      // Preserve existing data as-is (without writing stale:true back to disk).
+      // Stale is a runtime signal for the page, not a persisted field — writing
+      // it back poisons the fallback on the next restart (the guard checks
+      // !existing[name].stale, which then fails, losing all data).
+      networkResults[name] = existing[name]
+    } else {
+      networkResults[name] = fresh
+    }
   }
 
   const stats = {

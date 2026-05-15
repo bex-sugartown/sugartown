@@ -77,7 +77,9 @@ function statsPlugin() {
   const watchTargets = [
     resolve(__dirname, '../../CHANGELOG.md'),
     resolve(__dirname, 'src/design-system/styles/tokens.css'),
-    resolve(__dirname, '../../docs/shipped'),
+    // docs/shipped removed — committed docs trigger commits, not stat changes,
+    // and re-running stats mid-commit-sequence was causing stale cascade on
+    // linearRoadmap (each re-run without LINEAR_API_KEY degraded the data).
   ]
 
   function generate() {
