@@ -90,6 +90,31 @@ export const AllStatusStates: Story = {
   parameters: { layout: 'padded' },
 };
 
+// ─── dotColor mode — project chips (SUG-118) ─────────────────────────────────
+
+/** Project chip with inline hex dot — Pink Moon project */
+export const ProjectPinkMoon: Story = {
+  args: { label: 'Pink Moon', dotColor: '#ff247d' },
+};
+
+/** Project chip — Mini-repo */
+export const ProjectMiniRepo: Story = {
+  args: { label: 'Mini-repo', dotColor: '#2bd4aa' },
+};
+
+/** All project dotColor variants */
+export const AllProjectColors: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+      <Chip label="Pink Moon"     dotColor="#ff247d" />
+      <Chip label="Mini-repo"     dotColor="#2bd4aa" />
+      <Chip label="Sugartown CMS" dotColor="#b8e000" />
+      <Chip label="Design System" dotColor="#7C3AED" />
+    </div>
+  ),
+  parameters: { layout: 'padded' },
+};
+
 // ═══════════════════════════════════════════════════════════════════
 // SNAPSHOT — Chromatic composite (all variants in one screenshot)
 // ═══════════════════════════════════════════════════════════════════
@@ -102,7 +127,6 @@ export const Snapshot: Story = {
   },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '720px' }}>
-      {/* Sizes */}
       <div>
         <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Sizes</h4>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
@@ -110,7 +134,6 @@ export const Snapshot: Story = {
           <Chip label="Medium (default)" href="#" size="md" variant="tag" />
         </div>
       </div>
-      {/* Rule-dot system */}
       <div>
         <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Rule-dot — tag</h4>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -128,6 +151,15 @@ export const Snapshot: Story = {
           <Chip label="Active"      variant="status" status="active" />
           <Chip label="Draft"       variant="status" status="draft" />
           <Chip label="Deprecated"  variant="status" status="deprecated" />
+        </div>
+      </div>
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>dotColor — project chips</h4>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+          <Chip label="Pink Moon"     dotColor="#ff247d" />
+          <Chip label="Mini-repo"     dotColor="#2bd4aa" />
+          <Chip label="Sugartown CMS" dotColor="#b8e000" />
+          <Chip label="Design System" dotColor="#7C3AED" />
         </div>
       </div>
     </div>

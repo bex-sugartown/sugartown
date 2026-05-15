@@ -54,3 +54,19 @@ export type { SegmentedControlProps, SegmentOption } from './components/Segmente
 // ── ScoreRing ────────────────────────────────────────────────────────────────
 export { ScoreRing, scoreCategory } from './components/ScoreRing';
 export type { ScoreRingProps, ScoreCategory } from './components/ScoreRing';
+
+// ── PriorityChip (SUG-118) ───────────────────────────────────────────────────
+export { PriorityChip } from './components/PriorityChip';
+export type { PriorityChipProps, PriorityLevel } from './components/PriorityChip';
+
+// ── LaneHeader (SUG-118) ─────────────────────────────────────────────────────
+export { LaneHeader } from './components/LaneHeader';
+export type { LaneHeaderProps } from './components/LaneHeader';
+
+// ── StatGrid (SUG-118) ───────────────────────────────────────────────────────
+export { StatGrid, StatGridCell } from './components/StatGrid';
+export type { StatGridProps, StatGridCellProps } from './components/StatGrid';
+
+// ── useStickyState (SUG-118) ─────────────────────────────────────────────────
+export { useStickyState } from './hooks/useStickyState';
+export type { StickyState } from './hooks/useStickyState';
