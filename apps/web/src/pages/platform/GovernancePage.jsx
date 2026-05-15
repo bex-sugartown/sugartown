@@ -2,12 +2,11 @@ import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import Card from '../../design-system/components/card/Card'
+import Tile from '../../design-system/components/tile/Tile'
 import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
 import Chip from '../../design-system/components/chip/Chip'
 import PriorityChip from '../../design-system/components/priority-chip/PriorityChip'
 import LaneHeader from '../../design-system/components/lane-header/LaneHeader'
-import { StatGrid, StatGridCell } from '../../design-system/components/stat-grid/StatGrid'
 import Callout from '../../design-system/components/callout/Callout'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
@@ -129,28 +128,12 @@ export default function GovernancePage() {
       />
       <div className={styles.hub}>
 
-        <StatGrid columns={4}>
-          <StatGridCell
-            label="In flight"
-            value={inProgress.length || '—'}
-            href="https://linear.app/sugartown"
-          />
-          <StatGridCell
-            label="Current release"
-            value={stats.release?.current?.version ?? '—'}
-            href={TRUST_LINKS.changelog}
-          />
-          <StatGridCell
-            label="Epics shipped"
-            value={stats.repo?.epicsShipped ?? '—'}
-            href={TRUST_LINKS.commits}
-          />
-          <StatGridCell
-            label="Vulnerabilities"
-            value="0"
-            href={TRUST_LINKS.security}
-          />
-        </StatGrid>
+        <SectionContainer columns={4} className={styles.statsSection}>
+          <Tile label="In flight"       value={inProgress.length || '—'} href="https://linear.app/sugartown" />
+          <Tile label="Current release" value={stats.release?.current?.version ?? '—'} href={TRUST_LINKS.changelog} />
+          <Tile label="Epics shipped"   value={stats.repo?.epicsShipped ?? '—'} href={TRUST_LINKS.commits} />
+          <Tile label="Vulnerabilities" value="0" href={TRUST_LINKS.security} />
+        </SectionContainer>
 
         <section id="recent-releases" className={styles.section}>
           <SectionLabel
@@ -219,9 +202,9 @@ export default function GovernancePage() {
             title="Briefs, prompts, conventions"
             kicker={`${ARTIFACTS.length} documents`}
           />
-          <SectionContainer columns={3}>
+          <SectionContainer columns={4}>
             {ARTIFACTS.map((a) => (
-              <Card key={a.title} eyebrow={a.eyebrow} title={a.title} excerpt={a.body} href={a.href} />
+              <Tile key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} />
             ))}
           </SectionContainer>
         </section>
