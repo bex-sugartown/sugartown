@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-15 · v0.23.30 · SUG-118 Platform Stats Page II shipped
+> Updated 2026-05-15 · v0.23.30 · SUG-119 Table Audit added
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -33,6 +33,7 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
+| 5 | **[SUG-119](https://linear.app/sugartown/issue/SUG-119) · Table Audit — converge to a single st-table component** — Audit Table/DataTable/RoadmapTable divergence, add `headerColorway` prop (`neutral` \| `pink`), define dark-mode zone tokens, refactor RoadmapTable to use DS Table primitive. Epic: `docs/backlog/SUG-119-table-audit-converge-st-table.md`. | `Design System` `Infrastructure` | 🟣 Soon |
 | 1 | **[SUG-100](https://linear.app/sugartown/issue/SUG-100) · CWV Snapshot product widget** — `trustReportSection` refactor: `reportType` radio → `reports[]` multi-select dashboard. New `ScoreRing` SVG arc component + `SegmentedControl`. Seafoam/amber/maroon CWV arc tokens. Phase 0 approved 2026-05-05. Epic: `docs/backlog/SUG-100-cwv-snapshot-product-widget.md`. | `Design System` `Schema` `Frontend` | 🟢 Next |
 | 2 | **[SUG-98](https://linear.app/sugartown/issue/SUG-98) · Component gap analysis — renderer stories + thruline audit + Phase B component parity** ✅ Shipped v0.23.13. 5 renderer stories, 13-adapter thruline, registry close-out, ContentNav relocated, FilterBar documented as web-only, inline code light-mode fixed, Storybook nav renamed Foundations/Components/Patterns/Layout. Chromatic Build 29 passed. Epic: `docs/shipped/SUG-98-component-gap-analysis.md`. | `Design System` `Tooling` | ✅ Shipped |
 | 3 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** ✅ Shipped v0.23.14. 578 tokens migrated to `tokens/source/tokens.json`. `pnpm tokens:build` generates both `tokens.css` files via Style Dictionary v5. Pre-commit guard blocks direct edits. Chromatic Build 30 passed (zero visual changes). Epic: `docs/shipped/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ✅ Shipped |
