@@ -36,8 +36,8 @@ Layers touched: DS components, DS tokens (additive: priority tokens only), web p
 
 | Page | §No | `name` | `title` | `kicker` |
 |------|-----|--------|---------|----------|
-| Governance | §01 | ROADMAP | Linear epics, in flight and on deck | `{inProgress + backlog} epics` (live) |
-| Governance | §02 | RECENT RELEASES | Latest shipped versions | Last 5 |
+| Governance | §01 | RECENT RELEASES | Latest shipped versions | Last 5 |
+| Governance | §02 | ROADMAP | Linear epics, in flight and on deck | `{inProgress + backlog} epics` (live) |
 | Governance | §03 | RELEASE PROCESS | How a change reaches production | Gate model |
 | Governance | §04 | ARTIFACTS | Briefs, prompts, conventions | `{N} documents` (count artifact cards) |
 | Monorepo | §01 | ARCHITECTURE | Workspace topology | 4 packages |
