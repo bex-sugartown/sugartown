@@ -95,7 +95,7 @@ function CwvTile({ metricKey, p75, rating: ratingOverride, isEstimated }) {
         {num}
         {unit && <span className={styles.cwvTileUnit}>{unit}</span>}
       </div>
-      <span className={styles.cwvTileSub}>{isEstimated ? 'estimated · pre-launch' : 'p75 · field data'}</span>
+      <span className={styles.cwvTileSub}>{isEstimated ? 'static · no field data' : 'p75 · field data'}</span>
       {rating && <span className={badgeClass(rating)}>{rating === 'warn' ? 'needs improvement' : rating}</span>}
     </div>
   )
