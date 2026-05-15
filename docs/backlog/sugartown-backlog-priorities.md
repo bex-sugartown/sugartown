@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-15 · v0.23.28 · SUG-117 CWV mobile form-factor reporting added
+> Updated 2026-05-15 · v0.23.29 · SUG-113 dynamic reporting pipeline shipped
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-115 platform DS remediation shipped ✅ v0.23.28. SUG-100 (CWV snapshot product widget) is In Review. SUG-113 (dynamic reporting pipeline) and SUG-107 (client taxonomy) are next.
+> **⚑ Current focus:** SUG-113 dynamic reporting pipeline shipped ✅ v0.23.29. SUG-116 (Ledger Button Update) is next. SUG-100 (CWV snapshot) In Review. SUG-117 (CWV mobile form-factor) and SUG-107 (client taxonomy) in backlog.
 
 ---
 

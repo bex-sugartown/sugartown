@@ -19,6 +19,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### apps/web
 
 #### Added
+- SUG-113: Dynamic reporting pipeline — linearRoadmap two-step query fix (complexity limit), CWV `stale:false` + mobile inference, CrUX `static · no field data` label, form-factor toggle hidden pending SUG-117 LHCI mobile throttling fix
 - SUG-115: Platform DS remediation — hero theme-awareness, folio numbers on all SectionLabels, CodeBlock for pre-blocks, DataTable for registry teaser, Mermaid hex overrides stripped, sidebar font tokens, ~80 lines dead CSS removed
 
 - `ToolDetailPage` at `/tools/:slug` — dedicated entity detail page for tool taxonomy
