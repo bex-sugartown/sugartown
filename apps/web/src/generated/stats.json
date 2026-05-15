@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-15T08:22:57.724Z",
+  "generatedAt": "2026-05-15T08:37:14.220Z",
   "release": {
     "current": {
       "version": "0.23.0",
@@ -81,25 +81,25 @@
     "epicsShipped": 100
   },
   "perf": {
-    "generatedAt": "2026-05-15T08:22:41.806Z",
+    "generatedAt": "2026-05-15T08:36:53.494Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "desktop": {
           "url": "https://sugartown.io/",
-          "lcp": 1486,
-          "cls": 0.001,
+          "lcp": 1379,
+          "cls": 0.228,
           "inp": null,
-          "performance": 95,
+          "performance": 85,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1486,
-        "cls": 0.001,
+        "lcp": 1379,
+        "cls": 0.228,
         "inp": null,
-        "performance": 95,
+        "performance": 85,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
@@ -109,19 +109,19 @@
         "url": "https://sugartown.io/articles",
         "desktop": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1307,
+          "lcp": 1253,
           "cls": 0.301,
           "inp": null,
-          "performance": 81,
+          "performance": 82,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1307,
+        "lcp": 1253,
         "cls": 0.301,
         "inp": null,
-        "performance": 81,
+        "performance": 82,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
@@ -131,19 +131,19 @@
         "url": "https://sugartown.io/case-studies",
         "desktop": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1308,
-          "cls": 0.301,
+          "lcp": 1180,
+          "cls": 0.394,
           "inp": null,
-          "performance": 81,
+          "performance": 79,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1308,
-        "cls": 0.301,
+        "lcp": 1180,
+        "cls": 0.394,
         "inp": null,
-        "performance": 81,
+        "performance": 79,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
@@ -153,19 +153,19 @@
         "url": "https://sugartown.io/knowledge-graph",
         "desktop": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 928,
+          "lcp": 1221,
           "cls": 0.093,
           "inp": null,
-          "performance": 96,
+          "performance": 94,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 928,
+        "lcp": 1221,
         "cls": 0.093,
         "inp": null,
-        "performance": 96,
+        "performance": 94,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
@@ -175,19 +175,19 @@
         "url": "https://sugartown.io/platform",
         "desktop": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1380,
-          "cls": 0.452,
+          "lcp": 1308,
+          "cls": 0.516,
           "inp": null,
-          "performance": 76,
+          "performance": 75,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1380,
-        "cls": 0.452,
+        "lcp": 1308,
+        "cls": 0.516,
         "inp": null,
-        "performance": 76,
+        "performance": 75,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
@@ -197,19 +197,19 @@
         "url": "https://sugartown.io/about",
         "desktop": {
           "url": "https://sugartown.io/about",
-          "lcp": 1472,
-          "cls": 0.227,
+          "lcp": 1393,
+          "cls": 0.106,
           "inp": null,
-          "performance": 84,
+          "performance": 93,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1472,
-        "cls": 0.227,
+        "lcp": 1393,
+        "cls": 0.106,
         "inp": null,
-        "performance": 84,
+        "performance": 93,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
@@ -219,19 +219,19 @@
         "url": "https://sugartown.io/articles/test-preview-post",
         "desktop": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1182,
-          "cls": 0,
+          "lcp": 1174,
+          "cls": 0.141,
           "inp": null,
-          "performance": 97,
+          "performance": 92,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1182,
-        "cls": 0,
+        "lcp": 1174,
+        "cls": 0.141,
         "inp": null,
-        "performance": 97,
+        "performance": 92,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
@@ -241,19 +241,19 @@
         "url": "https://sugartown.io/nodes/test-node",
         "desktop": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1236,
+          "lcp": 1356,
           "cls": 0,
           "inp": null,
-          "performance": 97,
+          "performance": 96,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1236,
+        "lcp": 1356,
         "cls": 0,
         "inp": null,
-        "performance": 97,
+        "performance": 96,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
@@ -262,13 +262,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-05-15T08:22:41.988Z",
+    "fetchedAt": "2026-05-15T08:36:53.681Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-05-15T08:22:55.849Z",
+    "fetchedAt": "2026-05-15T08:37:12.428Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -279,17 +279,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-15T08:22:56.762Z",
+    "fetchedAt": "2026-05-15T08:37:13.158Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 0,
     "watchers": 0,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-05-15T08:14:58Z"
+    "lastCommit": "2026-05-15T08:29:03Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-15T08:22:57.213Z",
+    "fetchedAt": "2026-05-15T08:37:13.561Z",
     "counts": {
       "article": 11,
       "node": 48,
@@ -303,7 +303,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-05-15T08:22:57.469Z",
+    "generatedAt": "2026-05-15T08:37:13.778Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -5671,7 +5671,401 @@
     ]
   },
   "linearRoadmap": {
-    "stale": true,
-    "error": "Linear API → 400 Bad Request: {\"errors\":[{\"message\":\"Query too complex\",\"extensions\":{\"type\":\"invalid input\",\"code\":\"INPUT_ERROR\",\"statusCode\":400,\"userError\":true,\"userPresentableMessage\":\"The query is too complex. Complexity: 60054.99999999999. Maximum allowed complexity: 10000.\",\"http\":{\"status\":400}}}]}\n"
+    "fetchedAt": "2026-05-15T08:37:14.220Z",
+    "inProgress": [
+      {
+        "identifier": "SUG-113",
+        "title": "Dynamic reporting pipeline — Linear roadmap + CWV desktop/mobile with fallback",
+        "url": "https://linear.app/sugartown/issue/SUG-113/dynamic-reporting-pipeline-linear-roadmap-cwv-desktopmobile-with",
+        "priority": "High",
+        "status": "In Progress",
+        "labels": [
+          "Bug"
+        ],
+        "completedAt": null
+      }
+    ],
+    "backlog": [
+      {
+        "identifier": "SUG-116",
+        "title": "Ledger Button Update — baseline rule, sm/md/lg sizes, Storybook snapshot",
+        "url": "https://linear.app/sugartown/issue/SUG-116/ledger-button-update-baseline-rule-smmdlg-sizes-storybook-snapshot",
+        "priority": "High",
+        "status": "Backlog",
+        "labels": [
+          "Design System"
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-114",
+        "title": "Dynamic schema ERD — generate content model from deployed Sanity schema",
+        "url": "https://linear.app/sugartown/issue/SUG-114/dynamic-schema-erd-generate-content-model-from-deployed-sanity-schema",
+        "priority": "Medium",
+        "status": "Backlog",
+        "labels": [
+          "Schema",
+          "Infrastructure"
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-107",
+        "title": "Client taxonomy — audit & promote string field to reference doc",
+        "url": "https://linear.app/sugartown/issue/SUG-107/client-taxonomy-audit-and-promote-string-field-to-reference-doc",
+        "priority": "Medium",
+        "status": "Backlog",
+        "labels": [],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-103",
+        "title": "Publish component registry to platform/DS documentation",
+        "url": "https://linear.app/sugartown/issue/SUG-103/publish-component-registry-to-platformds-documentation",
+        "priority": "Medium",
+        "status": "Todo",
+        "labels": [],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-97",
+        "title": "Studio schema field group audit + reorganisation",
+        "url": "https://linear.app/sugartown/issue/SUG-97/studio-schema-field-group-audit-reorganisation",
+        "priority": "Medium",
+        "status": "Backlog",
+        "labels": [],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-72",
+        "title": "Shopify MVP — /platform + /services content sections (follow-on)",
+        "url": "https://linear.app/sugartown/issue/SUG-72/shopify-mvp-platform-services-content-sections-follow-on",
+        "priority": "Low",
+        "status": "Backlog",
+        "labels": [],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-71",
+        "title": "Shopify MVP integration — /shop + commerce adapter seam (Pattern A)",
+        "url": "https://linear.app/sugartown/issue/SUG-71/shopify-mvp-integration-shop-commerce-adapter-seam-pattern-a",
+        "priority": "Medium",
+        "status": "Backlog",
+        "labels": [],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-60",
+        "title": "Video Section — embedded video support (Vimeo, YouTube, uploaded)",
+        "url": "https://linear.app/sugartown/issue/SUG-60/video-section-embedded-video-support-vimeo-youtube-uploaded",
+        "priority": "No priority",
+        "status": "Backlog",
+        "labels": [
+          "Content",
+          "Schema",
+          "UX"
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-57",
+        "title": "Pink Moon Phase 5 — Academic layer (marginalia, index, glossary, running headers)",
+        "url": "https://linear.app/sugartown/issue/SUG-57/pink-moon-phase-5-academic-layer-marginalia-index-glossary-running",
+        "priority": "No priority",
+        "status": "Backlog",
+        "labels": [
+          "Design System",
+          "Content",
+          "Design"
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-56",
+        "title": "Structured content: computed enrichments, industry taxonomy, audience enum",
+        "url": "https://linear.app/sugartown/issue/SUG-56/structured-content-computed-enrichments-industry-taxonomy-audience",
+        "priority": "Low",
+        "status": "Backlog",
+        "labels": [
+          "Content",
+          "Schema",
+          "Infrastructure"
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-51",
+        "title": "Page URL nesting — parent field enables /page/subpage/ routing",
+        "url": "https://linear.app/sugartown/issue/SUG-51/page-url-nesting-parent-field-enables-pagesubpage-routing",
+        "priority": "Low",
+        "status": "Backlog",
+        "labels": [
+          "Infrastructure"
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-50",
+        "title": "Card image from hero section — auto-derive card thumbnail",
+        "url": "https://linear.app/sugartown/issue/SUG-50/card-image-from-hero-section-auto-derive-card-thumbnail",
+        "priority": "Low",
+        "status": "Backlog",
+        "labels": [
+          "Schema",
+          "Infrastructure"
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-36",
+        "title": "Site-wide content search",
+        "url": "https://linear.app/sugartown/issue/SUG-36/site-wide-content-search",
+        "priority": "Low",
+        "status": "Backlog",
+        "labels": [
+          "Infrastructure"
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-35",
+        "title": "Glossary: Term Definitions, Inline Annotations & Glossary Page",
+        "url": "https://linear.app/sugartown/issue/SUG-35/glossary-term-definitions-inline-annotations-and-glossary-page",
+        "priority": "Medium",
+        "status": "Backlog",
+        "labels": [
+          "Epic",
+          "SEO",
+          "Content",
+          "Schema",
+          "UX"
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-19",
+        "title": "KPI dashboard card family: stat-card, bar-card, insight-card (BL-03)",
+        "url": "https://linear.app/sugartown/issue/SUG-19/kpi-dashboard-card-family-stat-card-bar-card-insight-card-bl-03",
+        "priority": "Medium",
+        "status": "Backlog",
+        "labels": [
+          "Design System"
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-18",
+        "title": "Archive page deferred fields — wire Display + Advanced tab configs",
+        "url": "https://linear.app/sugartown/issue/SUG-18/archive-page-deferred-fields-wire-display-advanced-tab-configs",
+        "priority": "No priority",
+        "status": "Backlog",
+        "labels": [
+          "Studio UX",
+          "Schema"
+        ],
+        "completedAt": null
+      }
+    ],
+    "shipped": [
+      {
+        "identifier": "SUG-115",
+        "title": "Platform section DS remediation — 16-finding audit close-out",
+        "url": "https://linear.app/sugartown/issue/SUG-115/platform-section-ds-remediation-16-finding-audit-close-out",
+        "priority": "High",
+        "status": "Done",
+        "labels": [
+          "Design System",
+          "Infrastructure"
+        ],
+        "completedAt": "2026-05-14T11:40:06.630Z"
+      },
+      {
+        "identifier": "SUG-112",
+        "title": "Sidebar nav primitives — shared useScrollspy hook + SidebarNav component",
+        "url": "https://linear.app/sugartown/issue/SUG-112/sidebar-nav-primitives-shared-usescrollspy-hook-sidebarnav-component",
+        "priority": "Medium",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-13T16:07:06.815Z"
+      },
+      {
+        "identifier": "SUG-20",
+        "title": "Schema ERD Sanity Hybrid (Option C)",
+        "url": "https://linear.app/sugartown/issue/SUG-20/schema-erd-sanity-hybrid-option-c",
+        "priority": "High",
+        "status": "Done",
+        "labels": [
+          "Content",
+          "Schema"
+        ],
+        "completedAt": "2026-05-13T10:45:38.823Z"
+      },
+      {
+        "identifier": "SUG-110",
+        "title": "Dynamically generated roadmap from Linear",
+        "url": "https://linear.app/sugartown/issue/SUG-110/dynamically-generated-roadmap-from-linear",
+        "priority": "Low",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-13T10:08:23.692Z"
+      },
+      {
+        "identifier": "SUG-109",
+        "title": "Figma DS backwards-engineer — Code Connect + variables pipeline",
+        "url": "https://linear.app/sugartown/issue/SUG-109/figma-ds-backwards-engineer-code-connect-variables-pipeline",
+        "priority": "Low",
+        "status": "Done",
+        "labels": [
+          "Design System"
+        ],
+        "completedAt": "2026-05-13T09:31:35.778Z"
+      },
+      {
+        "identifier": "SUG-111",
+        "title": "Platform IA Phase II — nested multi-section architecture for /platform/",
+        "url": "https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform",
+        "priority": "High",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-13T09:28:43.640Z"
+      },
+      {
+        "identifier": "SUG-104",
+        "title": "Listview updates — archives and taxonomies",
+        "url": "https://linear.app/sugartown/issue/SUG-104/listview-updates-archives-and-taxonomies",
+        "priority": "Medium",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-10T15:24:43.930Z"
+      },
+      {
+        "identifier": "SUG-108",
+        "title": "Archive page header + toolbar consistency pass",
+        "url": "https://linear.app/sugartown/issue/SUG-108/archive-page-header-toolbar-consistency-pass",
+        "priority": "High",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-10T12:11:38.048Z"
+      },
+      {
+        "identifier": "SUG-106",
+        "title": "Stats pipeline fix + SUG-100 close-out",
+        "url": "https://linear.app/sugartown/issue/SUG-106/stats-pipeline-fix-sug-100-close-out",
+        "priority": "Urgent",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-10T10:31:33.994Z"
+      },
+      {
+        "identifier": "SUG-105",
+        "title": "Knowledge Graph — Phase 2 (masthead, chip colors, fullscreen, tag nodes)",
+        "url": "https://linear.app/sugartown/issue/SUG-105/knowledge-graph-phase-2-masthead-chip-colors-fullscreen-tag-nodes",
+        "priority": "Medium",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-09T15:01:54.384Z"
+      },
+      {
+        "identifier": "SUG-100",
+        "title": "CWV Snapshot Product Widget",
+        "url": "https://linear.app/sugartown/issue/SUG-100/cwv-snapshot-product-widget",
+        "priority": "Medium",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-08T16:15:24.429Z"
+      },
+      {
+        "identifier": "SUG-81",
+        "title": "Site-wide Knowledge Graph (MVP)",
+        "url": "https://linear.app/sugartown/issue/SUG-81/site-wide-knowledge-graph-mvp",
+        "priority": "High",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-08T13:36:52.639Z"
+      },
+      {
+        "identifier": "SUG-102",
+        "title": "DS token hygiene — Phase C: off-scale color promotion + legacy alias audit",
+        "url": "https://linear.app/sugartown/issue/SUG-102/ds-token-hygiene-phase-c-off-scale-color-promotion-legacy-alias-audit",
+        "priority": "Low",
+        "status": "Done",
+        "labels": [
+          "Design System",
+          "Infrastructure"
+        ],
+        "completedAt": "2026-05-07T13:02:11.666Z"
+      },
+      {
+        "identifier": "SUG-86",
+        "title": "Style Dictionary — token pipeline build tool",
+        "url": "https://linear.app/sugartown/issue/SUG-86/style-dictionary-token-pipeline-build-tool",
+        "priority": "Medium",
+        "status": "Done",
+        "labels": [
+          "Design System",
+          "Infrastructure"
+        ],
+        "completedAt": "2026-05-07T12:32:45.549Z"
+      },
+      {
+        "identifier": "SUG-98",
+        "title": "Component gap analysis — renderer stories + thruline audit",
+        "url": "https://linear.app/sugartown/issue/SUG-98/component-gap-analysis-renderer-stories-thruline-audit",
+        "priority": "High",
+        "status": "Done",
+        "labels": [
+          "Design System"
+        ],
+        "completedAt": "2026-05-07T12:03:32.629Z"
+      },
+      {
+        "identifier": "SUG-101",
+        "title": "DS package mirror sync — Phase A style reconciliation",
+        "url": "https://linear.app/sugartown/issue/SUG-101/ds-package-mirror-sync-phase-a-style-reconciliation",
+        "priority": "High",
+        "status": "Done",
+        "labels": [
+          "Design System",
+          "Infrastructure"
+        ],
+        "completedAt": "2026-05-06T12:20:57.038Z"
+      },
+      {
+        "identifier": "SUG-99",
+        "title": "case-study template: component harmony rework",
+        "url": "https://linear.app/sugartown/issue/SUG-99/case-study-template-component-harmony-rework",
+        "priority": "High",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-04T15:48:16.569Z"
+      },
+      {
+        "identifier": "SUG-89",
+        "title": "Storybook & Chromatic coverage audit",
+        "url": "https://linear.app/sugartown/issue/SUG-89/storybook-and-chromatic-coverage-audit",
+        "priority": "Medium",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-04T11:12:26.296Z"
+      },
+      {
+        "identifier": "SUG-96",
+        "title": "DS component polish — SectionLabel + Chip Storybook colorways",
+        "url": "https://linear.app/sugartown/issue/SUG-96/ds-component-polish-sectionlabel-chip-storybook-colorways",
+        "priority": "Medium",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-03T19:04:46.509Z"
+      },
+      {
+        "identifier": "SUG-94",
+        "title": "Structured retrieval objects + JSON-LD renderer",
+        "url": "https://linear.app/sugartown/issue/SUG-94/structured-retrieval-objects-json-ld-renderer",
+        "priority": "High",
+        "status": "Done",
+        "labels": [],
+        "completedAt": "2026-05-03T14:38:20.874Z"
+      }
+    ]
   }
 }
