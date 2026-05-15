@@ -32,12 +32,14 @@
 }
 
 /* ── tbody ──────────────────────────────────────── */
-.table tbody tr {
-  background: var(--st-color-bg-canvas);
+.table tbody tr,
+.table tbody tr:nth-child(2n+1) {
+  background: var(--st-color-white);
   transition: background 150ms ease;
 }
 
-.table tbody tr:hover {
+.table tbody tr:hover,
+.table tbody tr:nth-child(2n+1):hover {
   background: color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
 }
 

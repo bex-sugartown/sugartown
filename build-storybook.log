@@ -1,0 +1,5 @@
+
+> sugartown-monorepo@0.23.24 storybook:build /Users/beckyalice/SUGARTOWN_DEV/sugartown
+> turbo run storybook:build "--output-dir=/private/var/folders/hj/xrp77mx92qd_wdzc75y_nfg00000gp/T/chromatic--29832-HAJesh9KIwR1"
+
+ ELIFECYCLE  Command failed with exit code 1.
