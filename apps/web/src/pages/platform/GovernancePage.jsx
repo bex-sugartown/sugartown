@@ -204,7 +204,7 @@ export default function GovernancePage() {
           />
           <SectionContainer columns={4}>
             {ARTIFACTS.map((a) => (
-              <Tile key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} />
+              <Tile key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}
           </SectionContainer>
         </section>
