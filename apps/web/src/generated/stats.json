@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-15T09:15:18.778Z",
+  "generatedAt": "2026-05-15T13:44:33.765Z",
   "release": {
     "current": {
       "version": "0.23.0",
@@ -54,30 +54,30 @@
   },
   "ds": {
     "tokens": {
-      "total": 590,
+      "total": 595,
       "primitives": 127,
       "semantic": 27,
-      "component": 436,
+      "component": 441,
       "byCategory": {
         "color": 182,
         "space": 19,
         "font": 24,
-        "shadow": 31,
-        "other": 334
+        "shadow": 33,
+        "other": 337
       }
     },
-    "dsComponents": 13,
-    "dsComponentsWithStories": 11,
-    "webAdapters": 20,
-    "componentFiles": 33,
+    "dsComponents": 16,
+    "dsComponentsWithStories": 14,
+    "webAdapters": 23,
+    "componentFiles": 39,
     "tokenCompliance": 98
   },
   "storybook": {
-    "stories": 270,
-    "components": 54
+    "stories": 286,
+    "components": 57
   },
   "repo": {
-    "commits": 1,
+    "commits": 1207,
     "epicsShipped": 101
   },
   "perf": {
@@ -351,13 +351,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-05-15T09:14:55.753Z",
+    "fetchedAt": "2026-05-15T13:44:13.814Z",
     "origin": "https://sugartown.io",
     "available": false,
-    "reason": "no-data"
+    "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-05-15T09:15:16.063Z",
+    "fetchedAt": "2026-05-15T13:44:32.873Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -378,7 +378,7 @@
     "lastCommit": "2026-05-15T09:07:29Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-15T09:15:17.720Z",
+    "fetchedAt": "2026-05-15T13:44:33.506Z",
     "counts": {
       "article": 11,
       "node": 48,
@@ -386,13 +386,13 @@
       "page": 8,
       "tag": 93,
       "category": 13,
-      "project": 5,
+      "project": 6,
       "person": 1,
       "tool": 55
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-05-15T09:15:18.244Z",
+    "generatedAt": "2026-05-15T13:44:33.765Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",

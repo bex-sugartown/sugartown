@@ -4,45 +4,96 @@
   z-index: 4;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 0;
+  justify-content: space-between;
+  padding: 14px 20px 10px;
+  margin: 0;
   background: var(--st-color-bg-canvas);
-  border-top: 1px solid var(--st-color-rule-accent);
   border-bottom: 1px solid var(--st-color-rule-accent);
-  transition: box-shadow 0.15s ease, background 0.15s ease;
+  transition:
+    padding 150ms ease,
+    box-shadow 200ms ease,
+    background 200ms ease;
 }
 
-.laneHeader[data-pinned] {
-  border-left: 2px solid var(--st-color-accent);
-  padding-left: 10px;
-  background: color-mix(in srgb, var(--st-color-bg-canvas) 85%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: var(--st-shadow-subhead-pinned);
-}
-
-.label {
+/* ── Left: hairline + label ────────────────────── */
+.lhs {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--st-font-family-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--st-color-text-default);
+  color: var(--st-color-text-muted);
+  transition: color 200ms ease;
+}
+
+.lhs::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 1px;
+  background: var(--st-color-text-muted);
+  flex-shrink: 0;
+  transition: width 200ms ease, height 200ms ease, background 200ms ease;
+}
+
+/* ── Right: count + pinned badge ───────────────── */
+.rhs {
+  display: inline-flex;
+  align-items: center;
 }
 
 .count {
   font-family: var(--st-font-family-mono);
   font-size: 10px;
-  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--st-color-text-muted);
-  margin-left: auto;
 }
 
 .pinnedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 14px;
+  padding-left: 14px;
+  border-left: 1px solid color-mix(in srgb, var(--st-color-pink) 30%, transparent);
   font-family: var(--st-font-family-mono);
   font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--st-color-accent);
+  color: var(--st-color-pink);
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+/* ── Pinned state ──────────────────────────────── */
+.laneHeader[data-state='pinned'] {
+  padding: 12px 20px;
+  background: color-mix(in srgb, var(--st-color-bg-canvas) 92%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: var(--st-shadow-subhead-pinned);
+}
+
+.laneHeader[data-state='pinned'] .lhs {
+  color: var(--st-color-pink);
+}
+
+.laneHeader[data-state='pinned'] .lhs::before {
+  width: 22px;
+  height: 2px;
+  background: var(--st-color-pink);
+}
+
+.laneHeader[data-state='pinned'] .count {
+  color: var(--st-color-text-default);
+}
+
+.laneHeader[data-state='pinned'] .pinnedBadge {
+  opacity: 1;
+  transform: translateY(0);
 }

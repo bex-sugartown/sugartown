@@ -1,13 +1,13 @@
+import { useRef } from 'react'
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Tile from '../../design-system/components/tile/Tile'
 import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
-import Chip from '../../design-system/components/chip/Chip'
-import PriorityChip from '../../design-system/components/priority-chip/PriorityChip'
 import LaneHeader from '../../design-system/components/lane-header/LaneHeader'
 import Callout from '../../design-system/components/callout/Callout'
+import RoadmapTable from './RoadmapTable'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import stats from '../../generated/stats.json'
@@ -35,44 +35,6 @@ const roadmap    = stats.linearRoadmap ?? {}
 const inProgress = roadmap.inProgress ?? []
 const backlog    = roadmap.backlog    ?? []
 const isStale    = roadmap.stale === true || (!roadmap.fetchedAt && !inProgress.length && !backlog.length)
-
-const PRIORITY_MAP = {
-  High:        'high',
-  Medium:      'medium',
-  Low:         'low',
-  Urgent:      'high',
-  'No priority': 'none',
-}
-
-function ProjectChips({ projects }) {
-  if (!projects?.length) return null
-  return (
-    <span className={styles.labelChips}>
-      {projects.map(p => (
-        <Chip key={p.name} label={p.name} dotColor={p.colorHex} size="sm" />
-      ))}
-    </span>
-  )
-}
-
-const ROADMAP_COLUMNS = [
-  {
-    key: 'identifier', label: 'ID', width: '80px',
-    render: (val, row) => (
-      <a href={row.url} target="_blank" rel="noopener noreferrer" className={styles.issueId}>{val}</a>
-    ),
-  },
-  { key: 'title',    label: 'Title' },
-  { key: 'status',   label: 'Status',   width: '120px' },
-  {
-    key: 'priority', label: 'Priority', width: '110px',
-    render: (val) => <PriorityChip level={PRIORITY_MAP[val] ?? 'none'} />,
-  },
-  {
-    key: 'projects', label: 'Projects', width: '200px',
-    render: (val) => <ProjectChips projects={val} />,
-  },
-]
 
 // ── Artifacts ─────────────────────────────────────────────
 const ARTIFACTS = [
@@ -116,6 +78,7 @@ const RELEASE_DIAGRAM = {
 }
 
 export default function GovernancePage() {
+  const roadmapRef = useRef(null)
   usePlatformHero({
     title: 'Governance',
     subtitle: 'Release cadence, roadmap, and process conventions. Every epic is tracked in Linear, every release is versioned, every process decision is documented.',
@@ -167,16 +130,16 @@ export default function GovernancePage() {
           )}
 
           {!isStale && (
-            <div className={styles.roadmapScroll}>
-              <LaneHeader label="In progress" count={inProgress.length} />
+            <div ref={roadmapRef} className={styles.roadmapScroll}>
+              <LaneHeader label="In progress" count={inProgress.length} scrollRoot={roadmapRef} />
               {inProgress.length > 0
-                ? <DataTable columns={ROADMAP_COLUMNS} rows={inProgress} variant="trust" />
+                ? <RoadmapTable rows={inProgress} scrollRoot={roadmapRef} />
                 : <p className={styles.empty}>No epics currently in progress.</p>
               }
 
-              <LaneHeader label="Backlog" count={backlog.length} />
+              <LaneHeader label="Backlog" count={backlog.length} scrollRoot={roadmapRef} />
               {backlog.length > 0
-                ? <DataTable columns={ROADMAP_COLUMNS} rows={backlog} variant="trust" />
+                ? <RoadmapTable rows={backlog} scrollRoot={roadmapRef} />
                 : <p className={styles.empty}>Backlog is empty.</p>
               }
             </div>

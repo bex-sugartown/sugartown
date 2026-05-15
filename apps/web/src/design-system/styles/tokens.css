@@ -382,8 +382,8 @@
   --st-color-red-600: #dc2626;
   --st-color-crimson-500: #ff4757;
   --st-color-midnight-950: #0a0f1a;
-  --st-shadow-thead-stuck: none;
-  --st-shadow-subhead-pinned: none;
+  --st-shadow-thead-stuck: inset 0 -1px 0 var(--st-color-ink), 0 8px 12px -8px rgba(13, 18, 38, 0.30);
+  --st-shadow-subhead-pinned: 0 1px 0 var(--st-color-rule-accent), 0 8px 16px -10px rgba(13, 18, 38, 0.10);
   --st-color-pink: var(--st-color-pink-500);
   --st-color-maroon: var(--st-color-maroon-600);
   --st-color-lime: var(--st-color-lime-400);

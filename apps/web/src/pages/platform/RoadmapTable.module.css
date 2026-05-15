@@ -1,0 +1,89 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: fixed;
+}
+
+/* ── thead — sticky beneath LaneHeader (38px) ──── */
+.table thead th {
+  position: sticky;
+  top: 38px;
+  z-index: 3;
+  padding: 9px 16px 8px;
+  text-align: left;
+  font-family: var(--st-font-family-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  background: var(--st-color-neutral-100);
+  border-top: none;
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  box-shadow: none;
+  transition: box-shadow 220ms ease, color 220ms ease;
+}
+
+/* Stuck: rows sliding beneath thead */
+.table[data-thead-stuck='true'] thead th {
+  color: var(--st-color-text-default);
+  box-shadow: var(--st-shadow-thead-stuck);
+}
+
+/* ── tbody ──────────────────────────────────────── */
+.table tbody tr {
+  transition: background 150ms ease;
+}
+
+.table tbody tr:hover {
+  background: color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
+}
+
+.table tbody td {
+  padding: 14px 16px;
+  vertical-align: top;
+  color: var(--st-color-text-default);
+  border-bottom: 1px solid var(--st-color-border-default);
+}
+
+/* Last row closes the lane visually */
+.table tbody tr:last-child td {
+  border-bottom: 1px solid var(--st-color-rule-accent);
+}
+
+/* ── Column widths ──────────────────────────────── */
+.colId       { width: 80px; }
+.colStatus   { width: 100px; }
+.colPriority { width: 110px; }
+.colProjects { width: 220px; }
+
+/* ── Cell styles ────────────────────────────────── */
+.idCell {
+  font-family: var(--st-font-family-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.idCell a {
+  color: var(--st-color-pink);
+  text-decoration: none;
+}
+
+.idCell a:hover {
+  text-decoration: underline;
+}
+
+.statusCell {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--st-color-text-muted);
+}
+
+.chipsCell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
