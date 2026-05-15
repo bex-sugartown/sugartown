@@ -18,6 +18,8 @@ export default function Chip({
   variant,       // 'status' | 'tag' — activates rule-dot system; omit for legacy color-mix chips
   status,        // status key for dot color: 'evergreen' | 'validated' | 'exploring' | 'active' | 'draft' | 'deprecated'
   featured,      // boolean — pink rubric on variant="tag" chips only
+  // Project dot-color mode (SUG-118): hex from Sanity project.colorHex
+  dotColor,      // hex string — activates dotColor mode; renders 6px dot at this color
   // Legacy props (unchanged — existing call sites continue working)
   label,
   href,
@@ -32,6 +34,7 @@ export default function Chip({
 }) {
   const isInteractive = Boolean(href || onClick)
   const isRuleDot = variant === 'status' || variant === 'tag'
+  const isDotColor = Boolean(dotColor)
 
   const classNames = [
     styles.chip,
@@ -40,27 +43,34 @@ export default function Chip({
     variant === 'status' && styles.variantStatus,
     variant === 'tag' && styles.variantTag,
     featured && variant === 'tag' && styles.featured,
+    // dotColor mode — project chip with inline hex dot
+    isDotColor && styles.ruleDot,
+    isDotColor && styles.dotColor,
     // Interactive applies to all chip variants — rule-dot hover overrides color changes in CSS
     isInteractive && styles.interactive,
-    !isRuleDot && isActive && styles.active,
-    !isRuleDot && size === 'sm' && styles.sm,
-    !isRuleDot && color && styles[color],
-    // Size applies to rule-dot chips too (density control)
-    isRuleDot && size === 'sm' && styles.sm,
+    !isRuleDot && !isDotColor && isActive && styles.active,
+    !isRuleDot && !isDotColor && size === 'sm' && styles.sm,
+    !isRuleDot && !isDotColor && color && styles[color],
+    // Size applies to rule-dot + dotColor chips too (density control)
+    (isRuleDot || isDotColor) && size === 'sm' && styles.sm,
     className,
   ]
     .filter(Boolean)
     .join(' ')
 
-  // Legacy color injection (only for non-rule-dot chips)
-  const chipStyle = !isRuleDot && colorHex ? { '--chip-color': colorHex } : undefined
+  // dotColor mode injects --chip-dot; legacy mode injects --chip-color
+  const chipStyle = isDotColor
+    ? { '--chip-dot': dotColor }
+    : (!isRuleDot && colorHex ? { '--chip-color': colorHex } : undefined)
 
-  // Content: rule-dot status chips prepend a semantic dot span
-  const dotEl = variant === 'status' && status
+  // Content: rule-dot status chips prepend a semantic dot span; dotColor mode too
+  const dotEl = (variant === 'status' && status)
     ? <span className={`${styles.dot} ${styles[`dot-${status}`] ?? ''}`} aria-hidden="true" />
-    : null
+    : isDotColor
+      ? <span className={styles.dot} aria-hidden="true" />
+      : null
 
-  const content = isRuleDot
+  const content = (isRuleDot || isDotColor)
     ? <>{dotEl}{children ?? label}</>
     : label
 

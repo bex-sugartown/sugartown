@@ -1,0 +1,70 @@
+.grid {
+  display: grid;
+  gap: 0;
+  border: 1px solid var(--st-color-rule-accent);
+}
+
+.cols3 { grid-template-columns: repeat(3, 1fr); }
+.cols4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Cells share a ruling background; cell bg covers the gap */
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 20px;
+  background: var(--st-color-bg-surface);
+  border-right: 1px solid var(--st-color-rule-accent);
+  min-width: 0;
+}
+
+.cell:last-child {
+  border-right: none;
+}
+
+.cellLink {
+  text-decoration: none;
+}
+.cellLink:hover .cell {
+  background: var(--st-color-bg-surface-strong);
+}
+
+.cellLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+}
+
+.cellValue {
+  font-family: var(--st-font-family-mono);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--st-color-text-default);
+  line-height: 1.1;
+}
+
+.cellSignal {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  color: var(--st-color-text-muted);
+}
+
+/* Artifact mode — dashed top border on foot slot */
+.artifact {
+  cursor: default;
+}
+
+.cellFoot {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px dashed var(--st-color-rule-accent);
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--st-color-accent);
+}

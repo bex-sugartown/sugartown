@@ -203,3 +203,18 @@
 .dot-active     { background: var(--st-chip-dot-active); }
 .dot-draft      { background: var(--st-chip-dot-draft); }
 .dot-deprecated { background: var(--st-chip-dot-deprecated); }
+
+/* ── dotColor mode — project chip (inline hex via --chip-dot) ─
+   Activates when dotColor prop is passed. Same neutral chassis as
+   ruleDot but dot color comes from Sanity project.colorHex inline.
+   ──────────────────────────────────────────────────────────── */
+.dotColor {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dotColor .dot {
+  background: var(--chip-dot, var(--st-color-accent));
+}

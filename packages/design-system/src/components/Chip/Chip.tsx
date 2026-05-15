@@ -44,6 +44,12 @@ export interface ChipProps {
    * Takes precedence over the `color` preset prop.
    */
   colorHex?: string;
+  /**
+   * Project dot-color mode (SUG-118). When provided, renders the rule-dot
+   * chassis with a 6px circular dot at this hex color (from Sanity project.colorHex).
+   * No token needed — color is injected inline via --chip-dot CSS custom property.
+   */
+  dotColor?: string;
   /** Size variant. Defaults to 'md'. */
   size?: 'sm' | 'md';
   /** Extra class names (for external layout overrides) */
@@ -56,6 +62,7 @@ export const Chip: React.FC<ChipProps> = ({
   variant,
   status,
   featured,
+  dotColor,
   label,
   children,
   href,
@@ -69,6 +76,7 @@ export const Chip: React.FC<ChipProps> = ({
 }) => {
   const isInteractive = Boolean(href || onClick);
   const isRuleDot = variant === 'status' || variant === 'tag';
+  const isDotColor = Boolean(dotColor);
 
   const classNames = [
     styles.chip,
@@ -76,25 +84,28 @@ export const Chip: React.FC<ChipProps> = ({
     variant === 'status' && styles.variantStatus,
     variant === 'tag' && styles.variantTag,
     featured && variant === 'tag' && styles.featured,
-    // Interactive applies to all chip variants — rule-dot hover overrides color changes in CSS
+    isDotColor && styles.ruleDot,
+    isDotColor && styles.dotColor,
     isInteractive && styles.interactive,
-    !isRuleDot && isActive && styles.active,
-    size === 'sm' && styles.sm,
-    !isRuleDot && color && styles[color as string],
+    !isRuleDot && !isDotColor && isActive && styles.active,
+    (isRuleDot || isDotColor) ? size === 'sm' && styles.sm : size === 'sm' && styles.sm,
+    !isRuleDot && !isDotColor && color && styles[color as string],
     className,
   ]
     .filter(Boolean)
     .join(' ');
 
-  const chipStyle = !isRuleDot && colorHex
-    ? ({ '--chip-color': colorHex } as React.CSSProperties)
-    : undefined;
+  const chipStyle = isDotColor
+    ? ({ '--chip-dot': dotColor } as React.CSSProperties)
+    : (!isRuleDot && colorHex ? ({ '--chip-color': colorHex } as React.CSSProperties) : undefined);
 
-  const dotEl = variant === 'status' && status
+  const dotEl = (variant === 'status' && status)
     ? <span className={`${styles.dot} ${(styles as Record<string, string>)[`dot-${status}`] ?? ''}`} aria-hidden="true" />
-    : null;
+    : isDotColor
+      ? <span className={styles.dot} aria-hidden="true" />
+      : null;
 
-  const content = isRuleDot
+  const content = (isRuleDot || isDotColor)
     ? <>{dotEl}{children ?? label}</>
     : label;
 

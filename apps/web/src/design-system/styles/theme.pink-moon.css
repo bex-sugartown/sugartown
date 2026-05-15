@@ -60,6 +60,12 @@
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
   --st-shadow-elevation-float:  var(--st-shadow-elevation-float-light);
+  --st-shadow-thead-stuck:
+    inset 0 -1px 0 var(--st-color-ink),
+    0 8px 12px -8px rgba(13, 18, 38, 0.30);
+  --st-shadow-subhead-pinned:
+    0 1px 0 var(--st-color-rule-accent),
+    0 8px 16px -10px rgba(13, 18, 38, 0.10);
 
   /* ── Tier 3: Component overrides ─────────────────────── */
   --st-callout-bg:              var(--st-callout-bg-light);

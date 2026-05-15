@@ -382,6 +382,8 @@
   --st-color-red-600: #dc2626;
   --st-color-crimson-500: #ff4757;
   --st-color-midnight-950: #0a0f1a;
+  --st-shadow-thead-stuck: none;
+  --st-shadow-subhead-pinned: none;
   --st-color-pink: var(--st-color-pink-500);
   --st-color-maroon: var(--st-color-maroon-600);
   --st-color-lime: var(--st-color-lime-400);
@@ -511,6 +513,8 @@
   --st-segmented-bg: var(--st-color-midnight-700);
   --st-segmented-active-bg: var(--st-color-midnight-800);
   --st-segmented-border: var(--st-color-border-subtle);
+  --st-pri-med: var(--st-color-amber-450);
+  --st-pri-low: var(--st-color-softgrey-400);
   --st-color-brand-primary: var(--st-color-pink);
   --st-color-brand-secondary: var(--st-color-maroon);
   --st-color-accent: var(--st-color-pink);
@@ -580,6 +584,7 @@
   --st-green: var(--st-color-seafoam);
   --st-segmented-fg: var(--st-color-text-muted);
   --st-segmented-active-fg: var(--st-color-text-default);
+  --st-pri-high: var(--st-color-pink);
   --st-color-link-default: var(--st-color-brand-primary);
   --st-color-link-hover: var(--st-color-brand-secondary);
   --st-pill-text: var(--st-color-text-brand);

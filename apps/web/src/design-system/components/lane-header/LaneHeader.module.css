@@ -1,0 +1,47 @@
+.laneHeader {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  background: var(--st-color-bg-canvas);
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  transition: box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.laneHeader[data-pinned] {
+  border-left: 2px solid var(--st-color-accent);
+  padding-left: 10px;
+  background: color-mix(in srgb, var(--st-color-bg-canvas) 85%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--st-shadow-subhead-pinned);
+}
+
+.label {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-color-text-default);
+}
+
+.count {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--st-color-text-muted);
+}
+
+.pinnedBadge {
+  margin-left: auto;
+  font-family: var(--st-font-family-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--st-color-accent);
+}
