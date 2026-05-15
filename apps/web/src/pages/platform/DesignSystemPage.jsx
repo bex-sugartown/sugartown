@@ -101,12 +101,12 @@ export default function DesignSystemPage() {
         </SectionContainer>
 
         <section id="token-architecture" className={styles.section}>
-          <SectionLabel number="§01" name="Token architecture" kicker="Base → semantic → component" />
+          <SectionLabel level="h3" number="§01" name="TOKEN ARCHITECTURE" title="Base → semantic → component" kicker={ds.tokens?.total ? `${ds.tokens.total} tokens` : 'Base → semantic → component'} />
           <MermaidDiagram section={TOKEN_DIAGRAM} />
         </section>
 
         <section id="component-registry" className={styles.section}>
-          <SectionLabel number="§02" name="Component registry" kicker={`Preview — ${REGISTRY_PREVIEW.length} of ${REGISTRY_TOTAL}`} />
+          <SectionLabel level="h3" number="§02" name="COMPONENT REGISTRY" title="Primitives and adapters" kicker={ds.dsComponents ? `${REGISTRY_PREVIEW.length} of ${REGISTRY_TOTAL} shown` : 'Primitives and adapters'} />
           <DataTable columns={REGISTRY_COLUMNS} rows={REGISTRY_PREVIEW} variant="trust" />
           <div className={styles.trustLinks}>
             <a href={PLATFORM_ROUTES.dsRegistry} className={styles.trustLink}>
@@ -116,7 +116,7 @@ export default function DesignSystemPage() {
         </section>
 
         <section id="architecture-figjam" className={styles.section}>
-          <SectionLabel number="§03" name="Architecture — FigJam" kicker="Component layer diagram" />
+          <SectionLabel level="h3" number="§03" name="ARCHITECTURE" title="Component layer diagram" kicker="FigJam" />
           <iframe
             className={styles.figJam}
             height="450"
@@ -128,7 +128,7 @@ export default function DesignSystemPage() {
         </section>
 
         <section id="storybook" className={styles.section}>
-          <SectionLabel number="§04" name="Storybook" kicker="Live component catalogue" />
+          <SectionLabel level="h3" number="§04" name="STORYBOOK" title="Live component catalogue" kicker={ds.stories ? `${ds.stories} stories` : 'Live component catalogue'} />
           <div className={styles.trustLinks}>
             <a href={TRUST_LINKS.storybook} className={styles.trustLink} target="_blank" rel="noreferrer">
               pinkmoon.sugartown.io ↗
@@ -137,7 +137,7 @@ export default function DesignSystemPage() {
         </section>
 
         <section id="ds-artifacts" className={styles.section}>
-          <SectionLabel number="§05" name="Artifacts" className={styles.labelFlush} />
+          <SectionLabel level="h3" number="§05" name="ARTIFACTS" title="Token pipeline, conventions" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
           <SectionContainer columns={2}>
             {ARTIFACTS.map((a) => (
               <Card

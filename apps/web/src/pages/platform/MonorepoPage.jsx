@@ -82,12 +82,12 @@ export default function MonorepoPage() {
         </SectionContainer>
 
         <section id="workspace-topology" className={styles.section}>
-          <SectionLabel number="§01" name="Architecture" kicker="Workspace topology" />
+          <SectionLabel level="h3" number="§01" name="ARCHITECTURE" title="Workspace topology" kicker="4 packages" />
           <MermaidDiagram section={ARCHITECTURE_DIAGRAM} />
         </section>
 
         <section id="build-pipeline" className={styles.section}>
-          <SectionLabel number="§02" name="Build pipeline" />
+          <SectionLabel level="h3" number="§02" name="BUILD PIPELINE" title="How turbo moves work" />
           <CodeBlock
             code={`tokens:build  →  validate:tokens  →  type-check\n      ↓\n  storybook (chromatic VRT)\n      ↓\n  web build  →  validate:urls  →  validate:content\n      ↓\n  Netlify deploy  →  LHCI audit  →  CWV snapshot`}
             language="text"
@@ -96,7 +96,7 @@ export default function MonorepoPage() {
         </section>
 
         <section id="monorepo-artifacts" className={styles.section}>
-          <SectionLabel number="§03" name="Artifacts" className={styles.labelFlush} />
+          <SectionLabel level="h3" number="§03" name="ARTIFACTS" title="Docs and configs" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
           <SectionContainer columns={3}>
             {ARTIFACTS.map((a) => (
               <Card

@@ -50,12 +50,12 @@ export default function CmsPage() {
       <div className={styles.hub}>
 
         <section id="schema-erd" className={styles.section}>
-          <SectionLabel number="§01" name="Schema ERD" kicker="Interactive explorer" />
+          <SectionLabel level="h3" number="§01" name="SCHEMA ERD" title="Document types and their relations" kicker="Interactive explorer" />
           <SchemaERD entities={entities} relationships={relationships} />
         </section>
 
         <section id="content-model" className={styles.section}>
-          <SectionLabel number="§02" name="Content model — FigJam" kicker="Visual overview" />
+          <SectionLabel level="h3" number="§02" name="CONTENT MODEL" title="Visual architecture overview" kicker="FigJam" />
           <iframe
             className={styles.figJam}
             height="450"
@@ -67,7 +67,7 @@ export default function CmsPage() {
         </section>
 
         <section id="relationships" className={styles.section}>
-          <SectionLabel number="§03" name="Relationships" kicker="Document → taxonomy" />
+          <SectionLabel level="h3" number="§03" name="RELATIONSHIPS" title="How documents link to taxonomy" kicker="Document → taxonomy" />
           <CodeBlock
             code={`article   ──── tags[]     ──► tag\narticle   ──── tools[]    ──► tool\narticle   ──── authors[]  ──► person\narticle   ──── projects[] ──► project\ncaseStudy ──── tags[]     ──► tag\ncaseStudy ──── tools[]    ──► tool\ncaseStudy ──── client     ──► person\nnode      ──── tags[]     ──► tag\nnode      ──── tools[]    ──► tool\npage      ──── sections[] ──► section builder objects`}
             language="text"
@@ -76,7 +76,7 @@ export default function CmsPage() {
         </section>
 
         <section id="cms-artifacts" className={styles.section}>
-          <SectionLabel number="§04" name="Artifacts" className={styles.labelFlush} />
+          <SectionLabel level="h3" number="§04" name="ARTIFACTS" title="PRDs, conventions, decisions" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
           <SectionContainer columns={2}>
             {ARTIFACTS.map((a) => (
               <Card
