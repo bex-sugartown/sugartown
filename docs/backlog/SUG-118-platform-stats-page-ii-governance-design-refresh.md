@@ -53,21 +53,33 @@ Layers touched: DS components, DS tokens (additive: taxonomy chip-dot + priority
 
 Activation audit: read each page file before editing to confirm current section structure and available live data.
 
-- [ ] **GovernancePage** — 3 sections:
-  - `§01 · ROADMAP` / "Linear epics, in flight and on deck" / meta: `{inProgress + backlog} epics`
-  - `§02 · ARTIFACTS` / "Briefs, prompts, conventions" / meta: document count or last-updated date
-  - `§03 · STATS` / "Build velocity at a glance" / meta: `"live"`
-  - Also: replace stats strip → `<StatGrid>`, artifacts → `<StatGrid foot>`, lane divs → `<LaneHeader>`, pills → `<Chip dotColor>` / `<PriorityChip>`, wrap tables in scroll container
+Approved `SectionLabel` content per section (locked — do not derive at activation):
 
-- [ ] **MonorepoPage** — audit sections at activation; apply `<SectionLabel level="h3">` to each with relevant meta (e.g. `"pnpm workspaces"`, `"{N} packages"`, last build date from stats)
+| Page | §No | `name` | `title` | `kicker` |
+|------|-----|--------|---------|----------|
+| Governance | §01 | ROADMAP | Linear epics, in flight and on deck | `{inProgress + backlog} epics` (live) |
+| Governance | §02 | RECENT RELEASES | Latest shipped versions | Last 5 |
+| Governance | §03 | RELEASE PROCESS | How a change reaches production | Gate model |
+| Governance | §04 | ARTIFACTS | Briefs, prompts, conventions | `{N} documents` (count artifact cards) |
+| Monorepo | §01 | ARCHITECTURE | Workspace topology | 4 packages |
+| Monorepo | §02 | BUILD PIPELINE | How turbo moves work | *(kicker omitted — no live stat)* |
+| Monorepo | §03 | ARTIFACTS | Docs and configs | `{N} documents` (count artifact cards) |
+| CMS | §01 | SCHEMA ERD | Document types and their relations | Interactive explorer |
+| CMS | §02 | CONTENT MODEL | Visual architecture overview | FigJam |
+| CMS | §03 | RELATIONSHIPS | How documents link to taxonomy | Document → taxonomy |
+| CMS | §04 | ARTIFACTS | PRDs, conventions, decisions | `{N} documents` (count artifact cards) |
+| Design System | §01 | TOKEN ARCHITECTURE | Base → semantic → component | `{stats.ds.tokens.total} tokens` (live) |
+| Design System | §02 | COMPONENT REGISTRY | Primitives and adapters | `{N} of {total} shown` (live) |
+| Design System | §03 | ARCHITECTURE | Component layer diagram | FigJam |
+| Design System | §04 | STORYBOOK | Live component catalogue | `{stats.ds.stories} stories` (live) |
+| Design System | §05 | ARTIFACTS | Token pipeline, conventions | `{N} documents` (count artifact cards) |
+| DS Registry | — | hold | hold | hold — page is a stub, no changes |
 
-- [ ] **CmsPage** — audit sections; apply `<SectionLabel level="h3">` with Sanity-relevant meta (e.g. `"{N} doc types"`, `"Sanity v5"`, dataset name)
-
-- [ ] **DesignSystemPage** — audit sections; apply `<SectionLabel level="h3">` with DS meta (e.g. `"{N} tokens"`, `"{N} components"`, Chromatic build number or last Storybook deploy date)
-
-- [ ] **DesignSystemRegistryPage** — audit sections; apply `<SectionLabel level="h3">` with registry meta (e.g. `"{N} entries"`, last-updated)
-
-**Meta kicker rule:** prefer a live count or meaningful stat over a date. Date (`updated {date}`) is the fallback when nothing more meaningful is available from `stats.json` or the data already on the page. Never leave meta blank.
+- [ ] **GovernancePage** — apply table above; also replace stats strip → `<StatGrid>`, artifacts → `<StatGrid foot>`, lane divs → `<LaneHeader>`, pills → `<Chip dotColor>` / `<PriorityChip>`, wrap tables in scroll container — frontend layer
+- [ ] **MonorepoPage** — apply table above (`<SectionLabel level="h3">`, kicker omitted on §02) — frontend layer
+- [ ] **CmsPage** — apply table above (all kickers static) — frontend layer
+- [ ] **DesignSystemPage** — apply table above (live stats from `stats.ds`) — frontend layer
+- [ ] **DesignSystemRegistryPage** — no changes this epic — frontend layer
 
 ### Phase 4 — Storybook + visual QA
 
@@ -110,15 +122,7 @@ Activation audit: read each page file before editing to confirm current section 
 - **Sticky scroll container:** `position: sticky` requires nearest scrollable ancestor to be `overflow: auto/scroll`. GovernancePage currently has no explicit scroll container — add one wrapping each lane's table. Other platform pages: verify at activation whether sticky is needed (probably not — `<SectionLabel>` is not sticky).
 - **`useStickyState` cleanup:** hook inserts a 0-height sentinel `<div>` before the sticky element; remove on unmount. Reference: `/tmp/platform-stats-ii/design_handoff_governance_tweaks/components/useStickyState.example.ts`.
 - **Linear `projectName`/`projectColor` field:** the Linear GraphQL issues query needs a `project { name color }` sub-selection. Confirm the field name at activation: `grep -r 'nodes {' apps/web/scripts/stats/linear.js`.
-- **SectionLabel meta kicker data sources** (in priority order per page):
-  - GovernancePage §01: `stats.linearRoadmap.inProgress.length + backlog.length`
-  - GovernancePage §02: document count from `docs/` glob or hardcoded artifact count
-  - GovernancePage §03: `"live"` (stats are always live from CI)
-  - MonorepoPage: package count from `pnpm-workspace.yaml` or `stats.ds.components`
-  - CmsPage: doc type count from `stats.sanity` or schema manifest
-  - DesignSystemPage: `stats.ds.tokens` + `stats.ds.components`
-  - DesignSystemRegistryPage: registry entry count
-  - Fallback for any section without a live stat: `"updated {stats.generatedAt date}"`
+- **SectionLabel content is locked** — see the approved table in Phase 3 scope. Do not derive or invent kicker text at activation. Live values (marked "live" in the table) read from `stats.linearRoadmap`, `stats.ds.tokens.total`, `stats.ds.stories`. Static values are hardcoded strings exactly as written in the table.
 - **Activation audits (run before touching any file):**
   - `grep -r '<Chip' apps/web/src packages/design-system/src` — Chip call sites
   - Read each platform page file: `GovernancePage`, `MonorepoPage`, `CmsPage`, `DesignSystemPage`, `DesignSystemRegistryPage`
