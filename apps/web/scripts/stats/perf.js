@@ -131,9 +131,25 @@ export function collectPerf() {
       const source = run.mobile ?? run.desktop
       if (source) Object.assign(runs[url], source)
     }
+
+    // If mobile is missing but flat + desktop both exist, the flat entry is the
+    // unlabeled mobile default run (LHCI didn't emit emulatedFormFactor for it).
+    // Promote flat data to mobile so the form-factor toggle shows distinct values.
+    if (!run.mobile && run.desktop && run.performance != null) {
+      runs[url].mobile = {
+        url: run.url,
+        lcp: run.lcp, cls: run.cls, inp: run.inp,
+        performance:   run.performance,
+        accessibility: run.accessibility,
+        bestPractices: run.bestPractices,
+        seo:           run.seo,
+        rating:        run.rating,
+      }
+    }
   }
 
   return {
+    stale: false,
     generatedAt: new Date().toISOString(),
     runs,
   }

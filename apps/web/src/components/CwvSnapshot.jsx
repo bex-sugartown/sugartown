@@ -20,20 +20,17 @@ import ScoreRing from '../design-system/components/score-ring/ScoreRing'
 import SegmentedControl from '../design-system/components/segmented-control/SegmentedControl'
 import styles from './CwvSnapshot.module.css'
 
-// Static backup data — last-known-good values from 2026-05-10 CI run (SUG-106).
-// LCP 6.5s mobile is real: SPA render is gated behind JS bundle + Sanity API call.
-// CLS 0.001 in CI vs ~0.24 in real browser: headless Lighthouse doesn't load Google Fonts.
-// INP null: headless Lighthouse cannot measure interaction latency.
-// Desktop: CLI emulatedFormFactor override not propagating to LHCI result files —
-//   desktop scores mirror mobile until resolved.
+// Static backup data — manual Lighthouse run 2026-05-15 (sugartown.io homepage).
+// CLS is higher in real browser due to Google Fonts layout shift (headless omits fonts).
+// INP null: cannot be measured in lab Lighthouse (interaction metric requires real user).
 const PERF_BACKUP = {
   stale: false,
   runs: {
     'https://sugartown.io/': {
-      performance: 70, accessibility: 96, bestPractices: 96, seo: 100,
-      lcp: 6548, cls: 0.001, inp: null, rating: 'poor',
-      mobile:  { performance: 70, accessibility: 96, bestPractices: 96, seo: 100, lcp: 6548, cls: 0.001, inp: null, rating: 'poor' },
-      desktop: { performance: 70, accessibility: 96, bestPractices: 96, seo: 100, lcp: 6548, cls: 0.001, inp: null, rating: 'poor' },
+      performance: 61, accessibility: 93, bestPractices: 96, seo: 100,
+      lcp: 6500, cls: 0.244, inp: null, rating: 'poor',
+      mobile:  { performance: 61, accessibility: 93, bestPractices: 96, seo: 100, lcp: 6500, cls: 0.244, inp: null, rating: 'poor' },
+      desktop: { performance: 81, accessibility: 96, bestPractices: 100, seo: 100, lcp: 1400, cls: 0.282, inp: null, rating: 'good' },
     },
   },
 }
@@ -125,7 +122,10 @@ export default function CwvSnapshot({ section }) {
   const [formFactor, setFormFactor] = useState(defaultFormFactor)
 
   // ── Perf (lab data) ────────────────────────────────────────────────────────
-  const perfData = (stats.perf?.stale === false ? stats.perf : null) ?? PERF_BACKUP
+  // Use real CI data when present: check stale===false OR presence of runs (older
+  // collector versions didn't emit stale:false explicitly).
+  const hasCiPerf = stats.perf?.stale === false || (stats.perf?.runs && Object.keys(stats.perf.runs).length > 0)
+  const perfData = hasCiPerf ? stats.perf : PERF_BACKUP
   const perfRuns = perfData?.runs ?? {}
   // Resolve URL key: prefer section.cwvUrl, fall back to the first available run
   const origin = 'https://sugartown.io'
