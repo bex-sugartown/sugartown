@@ -34,17 +34,9 @@ Layers touched: DS components, DS tokens (additive: taxonomy chip-dot + priority
 
 ### Phase 1 — Tokens + DS primitives
 
-- [ ] Add **taxonomy** chip-dot tokens only (no proj-* tokens — project colors come from Sanity inline) to `tokens/source/tokens.json`, run `pnpm tokens:build` — tokens layer:
-  ```
-  chip-dot-ds, chip-dot-design, chip-dot-schema, chip-dot-infra,
-  chip-dot-content, chip-dot-ux, chip-dot-bug, chip-dot-epic, chip-dot-seo
-  ```
 - [ ] Add priority swatch tokens: `pri-high → {color.pink}`, `pri-med → {color.amber-450}`, `pri-low → {color.softgrey-400}` — tokens layer
 - [ ] Add sticky-shadow composites to `theme.pink-moon.css` (hand-authored, not generated): `--st-shadow-thead-stuck`, `--st-shadow-subhead-pinned` — tokens layer
-- [ ] Refactor `<Chip>`: transparent fill, `1px solid var(--st-color-rule-accent)` border, 6 px circular dot, IBM Plex Mono 10.5px/600/0.08em/uppercase. Two dot-color modes:
-  - **taxonomy kind** (`kind="ds"|"bug"|…`) → `var(--st-chip-dot-{kind})`
-  - **project color** (`dotColor="#ff247d"`) → `style={{ '--chip-dot': dotColor }}`, CSS uses `var(--chip-dot)`
-  - Old `status`/`variant` props replaced — find-replace all call sites at activation — DS layer
+- [ ] Refactor `<Chip>`: transparent fill, `1px solid var(--st-color-rule-accent)` border, 6 px circular dot, IBM Plex Mono 10.5px/600/0.08em/uppercase. Single dot-color mode: `dotColor` prop (hex string from Sanity `project.colorHex`) → `style={{ '--chip-dot': dotColor }}`, CSS uses `var(--chip-dot)`. Old `status`/`variant`/`kind` props replaced — find-replace all call sites at activation — DS layer
 - [ ] Add `<PriorityChip level="high|medium|low|none">` — same chassis, no border, 8 px square swatch — DS layer
 - [ ] Add `<LaneHeader label count>` — sticky `top: 0; z-index: 4`; pinned state: 2 px pink lead bar, frosted backdrop, `PINNED` badge; `useStickyState` wired internally — DS layer
 - [ ] Add `useStickyState(ref, options?)` hook — 0-height sentinel + IntersectionObserver, returns `'default' | 'pinned'` — DS layer
@@ -79,7 +71,7 @@ Activation audit: read each page file before editing to confirm current section 
 
 ### Phase 4 — Storybook + visual QA
 
-- [ ] Update `Chip.stories.tsx`: taxonomy kind palette + project `dotColor` variant (using `colorHex` values from the screenshot) + chips-in-table story — Storybook layer
+- [ ] Update `Chip.stories.tsx`: project `dotColor` variants using real `colorHex` values from Sanity projects (#ff247d Pink Moon, #2bd4aa Mini-repo, #b8e000 Sugartown CMS, etc.) + chips-in-table story — Storybook layer
 - [ ] Add `PriorityChip.stories.tsx`: 4-level grid + in-table example — Storybook layer
 - [ ] Add `LaneHeader.stories.tsx`: default + pinned states, `min-height: 200vh` scroll story — Storybook layer
 - [ ] Add `StatGrid.stories.tsx`: 4-col stats variant + 4-col artifacts variant with `foot` — Storybook layer
@@ -99,8 +91,7 @@ Activation audit: read each page file before editing to confirm current section 
 
 ## Acceptance criteria
 
-- [ ] `<Chip kind="ds">` renders transparent fill, rule-accent border, 6 px pink dot
-- [ ] `<Chip dotColor="#ff247d">` renders the same chassis with the injected hex as dot color — no token for this
+- [ ] `<Chip dotColor="#ff247d">` renders transparent fill, rule-accent border, 6 px dot in the passed hex — no token involved
 - [ ] `<PriorityChip level="high">` renders HIGH + pink swatch, no border; `level="none"` renders dashed outline
 - [ ] `<LaneHeader>` pins on scroll: 2 px pink lead bar + `PINNED` badge within 200 ms; only one pinned at a time
 - [ ] Roadmap `<thead>` sticky at `top: 38px`; stuck shadow appears when rows scroll beneath
@@ -135,22 +126,15 @@ Activation audit: read each page file before editing to confirm current section 
   - Read `apps/web/src/components/RoadmapTable.jsx` — current data contract
 - **Model recommendation:** `/model sonnet` — component + page work, no schema changes.
 
-### New token block (taxonomy + priority only — no `proj-*`)
+### New token block (priority only — no chip-dot tokens)
+
+Chip dot color comes from Sanity `project.colorHex` inline — no tokens needed.
 
 Add to `tokens/source/tokens.json`:
 ```json
-"chip-dot-ds":      "{color.pink}",
-"chip-dot-design":  "{color.maroon}",
-"chip-dot-schema":  "{color.sky-700}",
-"chip-dot-infra":   "{color.midnight-500}",
-"chip-dot-content": "{color.seafoam-700}",
-"chip-dot-ux":      "{color.lime-700}",
-"chip-dot-bug":     "{color.crimson-500}",
-"chip-dot-epic":    "{color.violet-600}",
-"chip-dot-seo":     "{color.amber-700}",
-"pri-high":         "{color.pink}",
-"pri-med":          "{color.amber-450}",
-"pri-low":          "{color.softgrey-400}"
+"pri-high": "{color.pink}",
+"pri-med":  "{color.amber-450}",
+"pri-low":  "{color.softgrey-400}"
 ```
 
 Add to `theme.pink-moon.css` (hand-authored):
@@ -166,7 +150,7 @@ Add to `theme.pink-moon.css` (hand-authored):
 
 ## Non-Goals
 
-- Per-project chip tokens (`proj-*`) — project dot color comes from Sanity `colorHex` inline, not tokens.
+- Chip-dot tokens of any kind (`proj-*`, taxonomy `chip-dot-*`) — all chip dot colors come from Sanity `project.colorHex` inline via `--chip-dot` CSS var.
 - `defineProjectChip()` builder — deferred post-launch.
 - Linear deep-links from SUG-IDs in the roadmap table — next iteration.
 - Empty-state for the In Progress lane — deferred.
