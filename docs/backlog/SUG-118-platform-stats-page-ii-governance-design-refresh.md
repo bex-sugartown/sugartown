@@ -8,7 +8,7 @@
 
 # SUG-118 — Platform Stats Page II — platform-wide section heading + chip refresh
 
-Implement Claude design-handoff tweaks across all hardcoded platform pages: rule-dot Chip (project dot color from Sanity `colorHex`, not tokens), sticky LaneHeader, StatGrid shared chassis, RoadmapTable thead, `useStickyState` hook, and `<SectionLabel>` adoption with label + centered h3 title + live metadata kicker on every section of every platform sub-page.
+Implement Claude design-handoff tweaks across all hardcoded platform pages: rule-dot Chip (project dot color from Sanity `colorHex`, not tokens), sticky LaneHeader, StatGrid shared chassis, RoadmapTable thead, `useStickyState` hook, and `<SectionLabel>` adoption on every section of every platform sub-page.
 
 ## Background
 
@@ -16,7 +16,7 @@ The `/platform/*` pages shipped in SUG-111/SUG-112 with functional but rough DS 
 
 The four core tweaks:
 1. **Chip system** — replace pink-filled pills with a rule-dot chassis; project dot color comes from Sanity `project.colorHex` as an inline CSS custom property (no per-project tokens).
-2. **Section heading hierarchy** — adopt `<SectionLabel>` at every section of every platform page; each instance gets `number`, `label`, centered short `title` (h3), and a `meta` kicker showing something live (count, updated date, or meaningful stat).
+2. **Section heading hierarchy** — adopt `<SectionLabel level="h3">` at every section of every platform page, per the approved content table below.
 3. **Artifacts + stats grid** — `<StatGrid>` shared chassis replaces inline stats markup and artifact card grids.
 4. **Sticky lane header + sticky column header** — `useStickyState` (IntersectionObserver) for GovernancePage roadmap only; other pages inherit `<SectionLabel>` and `<StatGrid>` but not the sticky lane pattern.
 
@@ -26,9 +26,33 @@ Additionally, the roadmap table `Labels` column is renamed `Projects` and popula
 
 ## Objective
 
-After this epic, every hardcoded platform sub-page uses `<SectionLabel level="h3">` for all sections (consistent numbered hierarchy, live metadata kickers), `<Chip>` renders the rule-dot chassis with project color pulled directly from Sanity `colorHex`, and GovernancePage additionally gets `<LaneHeader>`, `<StatGrid>`, and sticky thead on `<RoadmapTable>`. New DS components are added to `packages/design-system` with Storybook stories.
+After this epic, every hardcoded platform sub-page uses `<SectionLabel level="h3">` for all sections per the approved content table, `<Chip>` renders the rule-dot chassis with project color pulled directly from Sanity `colorHex`, and GovernancePage additionally gets `<LaneHeader>`, `<StatGrid>`, and sticky thead on `<RoadmapTable>`. New DS components are added to `packages/design-system` with Storybook stories.
 
-Layers touched: DS components, DS tokens (additive: taxonomy chip-dot + priority tokens only), web pages (all platform sub-pages), Linear stats collector, Storybook stories.
+Layers touched: DS components, DS tokens (additive: priority tokens only), web pages (all platform sub-pages), Linear stats collector, Storybook stories.
+
+## Approved SectionLabel Content
+
+**Locked — do not derive or invent at activation.** Live values read from `stats.linearRoadmap`, `stats.ds.tokens.total`, `stats.ds.stories`. Static values are hardcoded strings exactly as written.
+
+| Page | §No | `name` | `title` | `kicker` |
+|------|-----|--------|---------|----------|
+| Governance | §01 | ROADMAP | Linear epics, in flight and on deck | `{inProgress + backlog} epics` (live) |
+| Governance | §02 | RECENT RELEASES | Latest shipped versions | Last 5 |
+| Governance | §03 | RELEASE PROCESS | How a change reaches production | Gate model |
+| Governance | §04 | ARTIFACTS | Briefs, prompts, conventions | `{N} documents` (count artifact cards) |
+| Monorepo | §01 | ARCHITECTURE | Workspace topology | 4 packages |
+| Monorepo | §02 | BUILD PIPELINE | How turbo moves work | *(kicker omitted)* |
+| Monorepo | §03 | ARTIFACTS | Docs and configs | `{N} documents` (count artifact cards) |
+| CMS | §01 | SCHEMA ERD | Document types and their relations | Interactive explorer |
+| CMS | §02 | CONTENT MODEL | Visual architecture overview | FigJam |
+| CMS | §03 | RELATIONSHIPS | How documents link to taxonomy | Document → taxonomy |
+| CMS | §04 | ARTIFACTS | PRDs, conventions, decisions | `{N} documents` (count artifact cards) |
+| Design System | §01 | TOKEN ARCHITECTURE | Base → semantic → component | `{stats.ds.tokens.total} tokens` (live) |
+| Design System | §02 | COMPONENT REGISTRY | Primitives and adapters | `{N} of {total} shown` (live) |
+| Design System | §03 | ARCHITECTURE | Component layer diagram | FigJam |
+| Design System | §04 | STORYBOOK | Live component catalogue | `{stats.ds.stories} stories` (live) |
+| Design System | §05 | ARTIFACTS | Token pipeline, conventions | `{N} documents` (count artifact cards) |
+| DS Registry | — | hold | hold | hold — page is a stub, no changes |
 
 ## Scope
 
@@ -53,32 +77,10 @@ Layers touched: DS components, DS tokens (additive: taxonomy chip-dot + priority
 
 Activation audit: read each page file before editing to confirm current section structure and available live data.
 
-Approved `SectionLabel` content per section (locked — do not derive at activation):
-
-| Page | §No | `name` | `title` | `kicker` |
-|------|-----|--------|---------|----------|
-| Governance | §01 | ROADMAP | Linear epics, in flight and on deck | `{inProgress + backlog} epics` (live) |
-| Governance | §02 | RECENT RELEASES | Latest shipped versions | Last 5 |
-| Governance | §03 | RELEASE PROCESS | How a change reaches production | Gate model |
-| Governance | §04 | ARTIFACTS | Briefs, prompts, conventions | `{N} documents` (count artifact cards) |
-| Monorepo | §01 | ARCHITECTURE | Workspace topology | 4 packages |
-| Monorepo | §02 | BUILD PIPELINE | How turbo moves work | *(kicker omitted — no live stat)* |
-| Monorepo | §03 | ARTIFACTS | Docs and configs | `{N} documents` (count artifact cards) |
-| CMS | §01 | SCHEMA ERD | Document types and their relations | Interactive explorer |
-| CMS | §02 | CONTENT MODEL | Visual architecture overview | FigJam |
-| CMS | §03 | RELATIONSHIPS | How documents link to taxonomy | Document → taxonomy |
-| CMS | §04 | ARTIFACTS | PRDs, conventions, decisions | `{N} documents` (count artifact cards) |
-| Design System | §01 | TOKEN ARCHITECTURE | Base → semantic → component | `{stats.ds.tokens.total} tokens` (live) |
-| Design System | §02 | COMPONENT REGISTRY | Primitives and adapters | `{N} of {total} shown` (live) |
-| Design System | §03 | ARCHITECTURE | Component layer diagram | FigJam |
-| Design System | §04 | STORYBOOK | Live component catalogue | `{stats.ds.stories} stories` (live) |
-| Design System | §05 | ARTIFACTS | Token pipeline, conventions | `{N} documents` (count artifact cards) |
-| DS Registry | — | hold | hold | hold — page is a stub, no changes |
-
-- [ ] **GovernancePage** — apply table above; also replace stats strip → `<StatGrid>`, artifacts → `<StatGrid foot>`, lane divs → `<LaneHeader>`, pills → `<Chip dotColor>` / `<PriorityChip>`, wrap tables in scroll container — frontend layer
-- [ ] **MonorepoPage** — apply table above (`<SectionLabel level="h3">`, kicker omitted on §02) — frontend layer
-- [ ] **CmsPage** — apply table above (all kickers static) — frontend layer
-- [ ] **DesignSystemPage** — apply table above (live stats from `stats.ds`) — frontend layer
+- [ ] **GovernancePage** — apply approved table; also replace stats strip → `<StatGrid>`, artifacts → `<StatGrid foot>`, lane divs → `<LaneHeader>`, pills → `<Chip dotColor>` / `<PriorityChip>`, wrap tables in scroll container — frontend layer
+- [ ] **MonorepoPage** — apply approved table (`<SectionLabel level="h3">`, §02 kicker omitted) — frontend layer
+- [ ] **CmsPage** — apply approved table (all kickers static) — frontend layer
+- [ ] **DesignSystemPage** — apply approved table (live stats from `stats.ds`) — frontend layer
 - [ ] **DesignSystemRegistryPage** — no changes this epic — frontend layer
 
 ### Phase 4 — Storybook + visual QA
@@ -108,7 +110,7 @@ Approved `SectionLabel` content per section (locked — do not derive at activat
 - [ ] `<LaneHeader>` pins on scroll: 2 px pink lead bar + `PINNED` badge within 200 ms; only one pinned at a time
 - [ ] Roadmap `<thead>` sticky at `top: 38px`; stuck shadow appears when rows scroll beneath
 - [ ] Roadmap `Projects` column renders `<Chip dotColor>` from Linear project color (not labels, not `proj-*` tokens)
-- [ ] Every section on every platform sub-page has a `<SectionLabel level="h3">` with a non-blank `meta` kicker
+- [ ] Every section on every platform sub-page has a `<SectionLabel level="h3">` per the approved content table (DS Registry and Monorepo §02 are explicit exceptions)
 - [ ] `pnpm validate:tokens` — zero errors
 - [ ] `pnpm validate:tokens --strict-colors` — zero hardcoded colors
 - [ ] Chromatic: no unintended regressions in light or dark Pink Moon
@@ -122,7 +124,6 @@ Approved `SectionLabel` content per section (locked — do not derive at activat
 - **Sticky scroll container:** `position: sticky` requires nearest scrollable ancestor to be `overflow: auto/scroll`. GovernancePage currently has no explicit scroll container — add one wrapping each lane's table. Other platform pages: verify at activation whether sticky is needed (probably not — `<SectionLabel>` is not sticky).
 - **`useStickyState` cleanup:** hook inserts a 0-height sentinel `<div>` before the sticky element; remove on unmount. Reference: `/tmp/platform-stats-ii/design_handoff_governance_tweaks/components/useStickyState.example.ts`.
 - **Linear `projectName`/`projectColor` field:** the Linear GraphQL issues query needs a `project { name color }` sub-selection. Confirm the field name at activation: `grep -r 'nodes {' apps/web/scripts/stats/linear.js`.
-- **SectionLabel content is locked** — see the approved table in Phase 3 scope. Do not derive or invent kicker text at activation. Live values (marked "live" in the table) read from `stats.linearRoadmap`, `stats.ds.tokens.total`, `stats.ds.stories`. Static values are hardcoded strings exactly as written in the table.
 - **Activation audits (run before touching any file):**
   - `grep -r '<Chip' apps/web/src packages/design-system/src` — Chip call sites
   - Read each platform page file: `GovernancePage`, `MonorepoPage`, `CmsPage`, `DesignSystemPage`, `DesignSystemRegistryPage`
