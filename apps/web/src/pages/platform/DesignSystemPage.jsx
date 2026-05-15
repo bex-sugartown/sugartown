@@ -3,7 +3,6 @@ import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import Tile from '../../design-system/components/tile/Tile'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import Card from '../../design-system/components/card/Card'
 import DataTable from '../../design-system/components/data-table/DataTable'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS, FIGJAM_URLS } from '../../lib/routes'
@@ -138,15 +137,9 @@ export default function DesignSystemPage() {
 
         <section id="ds-artifacts" className={styles.section}>
           <SectionLabel level="h3" number="§05" name="ARTIFACTS" title="Token pipeline, conventions" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
-          <SectionContainer columns={2}>
+          <SectionContainer columns={3}>
             {ARTIFACTS.map((a) => (
-              <Card
-                key={a.title}
-                eyebrow={a.eyebrow}
-                title={a.title}
-                excerpt={a.body}
-                href={a.href}
-              />
+              <Tile key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}
           </SectionContainer>
         </section>
