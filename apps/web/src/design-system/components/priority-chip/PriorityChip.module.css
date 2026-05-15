@@ -1,5 +1,4 @@
-/* PriorityChip — square swatch + mono label, no border
-   Same chassis as Chip ruleDot but borderless and with 8px square swatch.
+/* PriorityChip — square swatch + mono label, no outer border.
    Colors resolve through priority tokens (st-pri-*). */
 
 .chip {
@@ -11,7 +10,6 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--st-color-text-default);
   user-select: none;
 }
 
@@ -22,14 +20,20 @@
   flex-shrink: 0;
 }
 
-/* Level colors */
+/* ── Level swatch colors ────────────────────────── */
 .high   .swatch { background: var(--st-pri-high); }
 .medium .swatch { background: var(--st-pri-med); }
 .low    .swatch { background: var(--st-pri-low); }
 
-.none {
-  outline: 1px dashed var(--st-color-rule-accent);
-  outline-offset: 2px;
-  padding: 0.15em 0.4em;
+/* none: white square with solid gray outline — no dashed border on chip */
+.none .swatch {
+  background: var(--st-color-bg-canvas);
+  outline: 1px solid var(--st-color-text-muted);
+  outline-offset: 0;
 }
-.none .swatch { display: none; }
+
+/* ── Per-level label text colors ────────────────── */
+.high   { color: var(--st-color-pink); }
+.medium { color: var(--st-color-amber-800); }
+.low    { color: var(--st-color-text-muted); }
+.none   { color: var(--st-color-text-muted); }

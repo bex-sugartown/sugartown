@@ -33,6 +33,7 @@
 
 /* ── tbody ──────────────────────────────────────── */
 .table tbody tr {
+  background: var(--st-color-bg-canvas);
   transition: background 150ms ease;
 }
 

@@ -1,7 +1,7 @@
 import { useRef } from 'react'
-import { useStickyState } from '../../design-system/hooks/useStickyState'
-import PriorityChip from '../../design-system/components/priority-chip/PriorityChip'
-import Chip from '../../design-system/components/chip/Chip'
+import { useStickyState } from '../../hooks/useStickyState'
+import PriorityChip from '../priority-chip/PriorityChip'
+import Chip from '../chip/Chip'
 import styles from './RoadmapTable.module.css'
 
 const PRIORITY_MAP = {
