@@ -22,25 +22,30 @@ const LINEAR_API = 'https://api.linear.app/graphql'
 
 const PRIORITY_LABEL = { 0: 'No priority', 1: 'Urgent', 2: 'High', 3: 'Medium', 4: 'Low' }
 
-// Linear's `team()` query only accepts a UUID id, not a key string.
-// Use `teams` and match by key in JS instead.
-// Filter by state type in JS rather than GraphQL to avoid schema-dependent
-// inline enum syntax that triggers 400 on some token scopes.
-const QUERY = `
-  query SugIssues {
+// Linear's `team(key:)` is not valid — team() only accepts a UUID id.
+// Use a two-step approach: first get the SUG team UUID via `teams`, then
+// query only that team's issues. Fetching issues nested under all teams
+// at once exceeds Linear's complexity limit (~60k vs max 10k).
+const TEAMS_QUERY = `
+  query SugTeams {
     teams {
-      nodes {
-        key
-        issues(first: 250) {
-          nodes {
-            identifier
-            title
-            url
-            priority
-            completedAt
-            state { name type }
-            labels { nodes { name } }
-          }
+      nodes { id key }
+    }
+  }
+`
+
+const ISSUES_QUERY = `
+  query SugIssues($teamId: String!) {
+    team(id: $teamId) {
+      issues(first: 250) {
+        nodes {
+          identifier
+          title
+          url
+          priority
+          completedAt
+          state { name type }
+          labels { nodes { name } }
         }
       }
     }
@@ -59,6 +64,21 @@ function normalise(node) {
   }
 }
 
+async function linearPost(key, query, variables) {
+  const res = await fetch(LINEAR_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': key },
+    body: JSON.stringify({ query, variables }),
+  })
+  if (!res.ok) {
+    const body = await res.text().catch(() => '(unreadable)')
+    throw new Error(`Linear API → ${res.status} ${res.statusText}: ${body.slice(0, 500)}`)
+  }
+  const json = await res.json()
+  if (json.errors?.length) throw new Error(`Linear API errors: ${JSON.stringify(json.errors)}`)
+  return json.data
+}
+
 export async function collectLinear() {
   const key = process.env.LINEAR_API_KEY
   if (!key) {
@@ -66,26 +86,15 @@ export async function collectLinear() {
     return { stale: true, inProgress: [], backlog: [], shipped: [] }
   }
 
-  const res = await fetch(LINEAR_API, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': key,
-    },
-    body: JSON.stringify({ query: QUERY }),
-  })
-
-  if (!res.ok) {
-    const body = await res.text().catch(() => '(unreadable)')
-    throw new Error(`Linear API → ${res.status} ${res.statusText}: ${body.slice(0, 500)}`)
-  }
-
-  const json = await res.json()
-  if (json.errors?.length) throw new Error(`Linear API errors: ${JSON.stringify(json.errors)}`)
-
-  const team = (json.data?.teams?.nodes ?? []).find(t => t.key === 'SUG')
+  // Step 1: find the SUG team UUID (low complexity query)
+  const teamsData = await linearPost(key, TEAMS_QUERY)
+  const team = (teamsData?.teams?.nodes ?? []).find(t => t.key === 'SUG')
   if (!team) throw new Error('Linear API: team with key "SUG" not found')
-  const nodes = team.issues?.nodes ?? []
+
+  // Step 2: fetch issues for that team by UUID (avoids complexity explosion
+  // that occurs when fetching issues nested under all teams at once)
+  const issuesData = await linearPost(key, ISSUES_QUERY, { teamId: team.id })
+  const nodes = issuesData?.team?.issues?.nodes ?? []
 
   const inProgress = []
   const backlog    = []
