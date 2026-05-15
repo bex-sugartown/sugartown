@@ -119,7 +119,7 @@ function DataUnavailable({ reason }) {
 export default function CwvSnapshot({ section }) {
   const { defaultFormFactor = 'mobile', cwvUrl } = section ?? {}
 
-  const [formFactor, setFormFactor] = useState(defaultFormFactor)
+  const [formFactor, _setFormFactor] = useState(defaultFormFactor)
 
   // ── Perf (lab data) ────────────────────────────────────────────────────────
   // Use real CI data when present: check stale===false OR presence of runs (older
@@ -148,16 +148,8 @@ export default function CwvSnapshot({ section }) {
 
   return (
     <div className={styles.root}>
-      {/* Form-factor toggle */}
-      <div className={styles.toggleRow}>
-        <SegmentedControl
-          options={FORM_FACTOR_OPTIONS}
-          value={formFactor}
-          onChange={setFormFactor}
-          aria-label="Form factor"
-          variant="pill"
-        />
-      </div>
+      {/* Form-factor toggle — hidden until LHCI mobile throttling is fixed (SUG-117) */}
+      {null}
 
       {/* Score rings — Lighthouse lab scores */}
       <div className={styles.ringsSection}>

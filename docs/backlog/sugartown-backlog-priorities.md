@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-15 · v0.23.28 · SUG-116 Ledger Button Update added
+> Updated 2026-05-15 · v0.23.28 · SUG-117 CWV mobile form-factor reporting added
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -43,6 +43,7 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
+| 4 | **[SUG-117](https://linear.app/sugartown/issue/SUG-117) · CWV mobile form-factor reporting** — Fix deprecated LHCI `emulatedFormFactor` flag (Lighthouse 10+) so mobile/desktop scores diverge; re-enable the form-factor toggle in CwvSnapshot (hidden at SUG-113 close-out). Epic: `docs/backlog/SUG-117-cwv-mobile-form-factor-reporting.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
 | 1 | **[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Fix LHCI not writing JSON in CI, add missing Sanity secrets, diagnose low mobile Lighthouse scores (perf 68, best-practices 42), document manual backup update workflow, close SUG-100. Epic: `docs/backlog/SUG-106-stats-pipeline-fix-sug-100-close-out.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
 | 3 | ~~**[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — `useScrollspy` hook extracted, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors fixed + pre-commit gate activated. Shipped v0.23.24.~~ | `Design System` `Frontend` `Tooling` | ✅ Shipped |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
