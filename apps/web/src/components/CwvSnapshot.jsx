@@ -38,7 +38,8 @@ const PERF_BACKUP = {
   },
 }
 
-// CrUX backup — estimated field data. Replace with real values once CRUX_API_KEY is configured.
+// CrUX backup — estimated pre-launch baseline. Used when CrUX has no-data (insufficient
+// real-user traffic for origin). Marked with reason:'backup' so UI can label it as estimated.
 const CRUX_BACKUP = {
   available: true,
   reason: 'backup',
@@ -86,7 +87,7 @@ function badgeClass(rating) {
   return `${styles.cwvTileBadge} ${styles[`badge${rating.charAt(0).toUpperCase() + rating.slice(1)}`] ?? ''}`
 }
 
-function CwvTile({ metricKey, p75, rating: ratingOverride }) {
+function CwvTile({ metricKey, p75, rating: ratingOverride, isEstimated }) {
   const t = CWV_THRESHOLDS[metricKey]
   const rating = ratingOverride ?? cwvRating(metricKey, p75)
   const { num, unit } = formatCwvValue(metricKey, p75)
@@ -97,7 +98,7 @@ function CwvTile({ metricKey, p75, rating: ratingOverride }) {
         {num}
         {unit && <span className={styles.cwvTileUnit}>{unit}</span>}
       </div>
-      <span className={styles.cwvTileSub}>p75 · field data</span>
+      <span className={styles.cwvTileSub}>{isEstimated ? 'estimated · pre-launch' : 'p75 · field data'}</span>
       {rating && <span className={badgeClass(rating)}>{rating === 'warn' ? 'needs improvement' : rating}</span>}
     </div>
   )
@@ -143,6 +144,7 @@ export default function CwvSnapshot({ section }) {
   // Per-form-factor: crux.mobile / crux.desktop when extended; fall through to flat
   const cruxForFormFactor = cruxData?.[formFactor] ?? cruxData
   const cruxAvailable = cruxData?.available === true
+  const cruxIsEstimated = cruxData?.reason === 'backup'
 
   return (
     <div className={styles.root}>
@@ -181,6 +183,7 @@ export default function CwvSnapshot({ section }) {
                 metricKey={key}
                 p75={cruxForFormFactor?.[key]?.p75}
                 rating={cruxForFormFactor?.[key]?.rating}
+                isEstimated={cruxIsEstimated}
               />
             ))}
           </div>

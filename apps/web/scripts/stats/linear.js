@@ -24,15 +24,14 @@ const PRIORITY_LABEL = { 0: 'No priority', 1: 'Urgent', 2: 'High', 3: 'Medium', 
 
 // Linear's `team()` query only accepts a UUID id, not a key string.
 // Use `teams` and match by key in JS instead.
+// Filter by state type in JS rather than GraphQL to avoid schema-dependent
+// inline enum syntax that triggers 400 on some token scopes.
 const QUERY = `
   query SugIssues {
     teams {
       nodes {
         key
-        issues(
-          filter: { state: { type: { in: [started, backlog, unstarted, completed] } } }
-          first: 250
-        ) {
+        issues(first: 250) {
           nodes {
             identifier
             title
@@ -76,7 +75,10 @@ export async function collectLinear() {
     body: JSON.stringify({ query: QUERY }),
   })
 
-  if (!res.ok) throw new Error(`Linear API → ${res.status} ${res.statusText}`)
+  if (!res.ok) {
+    const body = await res.text().catch(() => '(unreadable)')
+    throw new Error(`Linear API → ${res.status} ${res.statusText}: ${body.slice(0, 500)}`)
+  }
 
   const json = await res.json()
   if (json.errors?.length) throw new Error(`Linear API errors: ${JSON.stringify(json.errors)}`)

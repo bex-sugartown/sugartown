@@ -130,3 +130,24 @@ marks itself stale.
 | `VITE_SANITY_TOKEN` | `sanity` collector |
 | `GITHUB_TOKEN` | `github` collector (auto-provided by Actions) |
 | `CRUX_API_KEY` | `crux` collector (free-tier Google API key) |
+| `LINEAR_SUGARTOWN_STATS` | `linearRoadmap` collector — passed as `LINEAR_API_KEY` env var. Personal access token with read scope from linear.app/settings/api. |
+
+---
+
+## Collector-specific notes
+
+### `linearRoadmap`
+
+- Env var name in collector: `LINEAR_API_KEY`
+- GitHub secret name: `LINEAR_SUGARTOWN_STATS` (mapped in `stats.yml`)
+- Auth: pass the personal token value directly as the `Authorization` header (no `Bearer` prefix)
+- Query: fetches all issues via `teams` query, filters in JavaScript by `state.type` (`started`, `backlog`, `unstarted`, `completed`). Inline GraphQL enum filters caused 400 errors in CI — keep filtering in JS.
+- Diagnosis: if `linearRoadmap.stale === true` in stats.json after a CI run, check the `Collect all stats` step log for `[stats] linearRoadmap collector failed`. The error message now includes the response body.
+
+### `crux`
+
+- Env var: `CRUX_API_KEY`
+- GitHub secret name: `CRUX_API_KEY`
+- When the origin has insufficient real-user traffic, the API returns 404 → collector sets `available: false, reason: "no-data"`. This is expected for new sites. The UI falls back to `CRUX_BACKUP` (pre-launch estimated values) and labels them "estimated · pre-launch".
+- When the API key is missing entirely, the API returns 403 → collector sets `available: false, reason: "no-api-key"`.
+- Real CrUX data will appear automatically once sugartown.io has sufficient Chrome user traffic.
