@@ -24,11 +24,11 @@ function Section({ id, label, children }) {
   )
 }
 
-function Sub({ label, children }) {
+function Sub({ label, children, debug = false }) {
   return (
     <div className={pageStyles.sub}>
       <p className={pageStyles.subLabel}>{label}</p>
-      {children}
+      {debug ? <div className={pageStyles.gridDebug}>{children}</div> : children}
     </div>
   )
 }
@@ -61,7 +61,7 @@ export default function GridDevPage() {
         {/* ── Section 1: Structural ─────────────────────────────────── */}
 
         <Section id="spacing-lg" label="Grid — spacing=lg (open gap, auto-fit columns)">
-          <Sub label='spacing="lg" — 32px open gap, auto-fit minmax(200px, 1fr)'>
+          <Sub label='spacing="lg" — 32px open gap, auto-fit minmax(200px, 1fr)' debug>
             <Grid spacing="lg">
               <Tile label="A" value="1" titleSize="2xl" labelColor="ink" />
               <Tile label="B" value="2" titleSize="2xl" labelColor="ink" />
@@ -71,7 +71,7 @@ export default function GridDevPage() {
         </Section>
 
         <Section id="spacing-zero" label="Grid — spacing=0 (hairline, bg-through-gap)">
-          <Sub label='spacing="0" — 1px hairline dividers via bg-through-gap, no accentTop'>
+          <Sub label='spacing="0" — 1px hairline dividers via bg-through-gap, no accentTop' debug>
             <Grid spacing="0">
               <Tile label="A" value="1" titleSize="2xl" labelColor="ink" />
               <Tile label="B" value="2" titleSize="2xl" labelColor="ink" />
@@ -81,7 +81,7 @@ export default function GridDevPage() {
         </Section>
 
         <Section id="spacing-accent" label="Grid — spacing=0 + accentTop (ruled section header)">
-          <Sub label='spacing="0" accentTop — 2px brand rule top, 1px box border, hairline dividers'>
+          <Sub label='spacing="0" accentTop — 2px brand rule top, 1px box border, hairline dividers' debug>
             <Grid spacing="0" accentTop>
               <Tile label="A" value="1" titleSize="2xl" labelColor="ink" />
               <Tile label="B" value="2" titleSize="2xl" labelColor="ink" />
@@ -91,20 +91,20 @@ export default function GridDevPage() {
         </Section>
 
         <Section id="columns" label="Grid — fixed column counts">
-          <Sub label="columns={2}">
+          <Sub label="columns={2}" debug>
             <Grid spacing="0" accentTop columns={2}>
               <Tile label="A" value="1" titleSize="2xl" labelColor="ink" />
               <Tile label="B" value="2" titleSize="2xl" labelColor="ink" />
             </Grid>
           </Sub>
-          <Sub label="columns={3}">
+          <Sub label="columns={3}" debug>
             <Grid spacing="0" accentTop columns={3}>
               <Tile label="A" value="1" titleSize="2xl" labelColor="ink" />
               <Tile label="B" value="2" titleSize="2xl" labelColor="ink" />
               <Tile label="C" value="3" titleSize="2xl" labelColor="ink" />
             </Grid>
           </Sub>
-          <Sub label="columns={4}">
+          <Sub label="columns={4}" debug>
             <Grid spacing="0" accentTop columns={4}>
               <Tile label="A" value="1" titleSize="2xl" labelColor="ink" />
               <Tile label="B" value="2" titleSize="2xl" labelColor="ink" />

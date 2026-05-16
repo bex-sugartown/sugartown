@@ -12,6 +12,12 @@
   margin-bottom: var(--st-space-3);
 }
 
+.gridDebug {
+  background: var(--st-color-neutral-100);
+  outline: 1px dashed var(--st-color-neutral-200);
+  padding: var(--st-space-4);
+}
+
 .navGroup {
   font-family: var(--st-font-family-mono);
   font-size: var(--st-font-size-xs);
