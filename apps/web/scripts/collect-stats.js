@@ -12,6 +12,13 @@
  *   - Local collector failure → throws (fails the build)
  *   - Network collector failure → degrades to stale data with { stale: true }
  *
+ * Last-good cache (stats.last-good.json):
+ *   Each network collector that returns fresh data writes its output to
+ *   stats.last-good.json independently. A failed or skipped collector reads
+ *   from last-good rather than stats.json, so a CI run with missing env vars
+ *   cannot overwrite good data with empty results. last-good is only ever
+ *   written on success — it cannot be poisoned by a failed run.
+ *
  * Usage:
  *   node apps/web/scripts/collect-stats.js
  *   (also called by the sugartown:stats Vite plugin on buildStart)
@@ -22,7 +29,8 @@ import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const OUTPUT_PATH = resolve(__dirname, '../src/generated/stats.json')
+const OUTPUT_PATH    = resolve(__dirname, '../src/generated/stats.json')
+const LAST_GOOD_PATH = resolve(__dirname, '../src/generated/stats.last-good.json')
 
 import { collectChangelog }    from './stats/changelog.js'
 import { collectDesignSystem } from './stats/design-system.js'
@@ -40,21 +48,23 @@ async function tryNetworkCollector(name, importFn) {
   }
 }
 
-export async function run(outputPath = OUTPUT_PATH) {
+export async function run(outputPath = OUTPUT_PATH, lastGoodPath = LAST_GOOD_PATH) {
   console.log('[stats] Collecting build stats…')
   mkdirSync(dirname(outputPath), { recursive: true })
 
-  // Read existing stats for stale-data fallback on network collectors
+  // Read existing stats and last-good cache for network collector fallbacks.
+  // Priority: last-good > existing stats.json. last-good is only ever written
+  // on success so it cannot be poisoned by a failed or env-var-missing run.
   let existing = {}
-  try {
-    existing = JSON.parse(readFileSync(outputPath, 'utf-8'))
-  } catch { /* empty */ }
+  let lastGood = {}
+  try { existing = JSON.parse(readFileSync(outputPath, 'utf-8')) } catch { /* empty */ }
+  try { lastGood = JSON.parse(readFileSync(lastGoodPath, 'utf-8')) } catch { /* empty */ }
 
   // Local collectors — failure is fatal
-  const release = collectChangelog()
-  const ds      = collectDesignSystem()
+  const release  = collectChangelog()
+  const ds       = collectDesignSystem()
   const storybook = collectStorybook()
-  const repo    = collectRepo()
+  const repo     = collectRepo()
 
   console.log(`  release   v${release.current?.version} (${release.count.total} releases)`)
   console.log(`  ds        ${ds.tokens.total} tokens, ${ds.componentFiles} component CSS files`)
@@ -63,43 +73,58 @@ export async function run(outputPath = OUTPUT_PATH) {
 
   // Network collectors (Phase 1b) — graceful degradation
   // Each is a dynamic import so missing modules don't fail Phase 1a builds
-  // Env-var guards: if the required key is absent AND usable existing data is on
-  // disk, skip the collector entirely — no failed network call, no stale write.
+  // Env-var guards: if the required key is absent AND last-good data exists,
+  // skip the collector entirely — no failed network call, no stale write.
   const envGuards = {
     linearRoadmap: 'LINEAR_API_KEY',
     github:        'GITHUB_TOKEN',
   }
 
   const networkCollectors = {
-    perf:     () => tryNetworkCollector('perf',     () => import('./stats/perf.js').then(m => m.collectPerf)),
-    crux:     () => tryNetworkCollector('crux',     () => import('./stats/crux.js').then(m => m.collectCrux)),
-    security: () => tryNetworkCollector('security', () => import('./stats/security.js').then(m => m.collectSecurity)),
-    github:   () => tryNetworkCollector('github',   () => import('./stats/github.js').then(m => m.collectGithub)),
-    sanity:   () => tryNetworkCollector('sanity',   () => import('./stats/sanity.js').then(m => m.collectSanity)),
+    perf:          () => tryNetworkCollector('perf',          () => import('./stats/perf.js').then(m => m.collectPerf)),
+    crux:          () => tryNetworkCollector('crux',          () => import('./stats/crux.js').then(m => m.collectCrux)),
+    security:      () => tryNetworkCollector('security',      () => import('./stats/security.js').then(m => m.collectSecurity)),
+    github:        () => tryNetworkCollector('github',        () => import('./stats/github.js').then(m => m.collectGithub)),
+    sanity:        () => tryNetworkCollector('sanity',        () => import('./stats/sanity.js').then(m => m.collectSanity)),
     siteGraph:     () => tryNetworkCollector('siteGraph',     () => import('./stats/graph.js').then(m => m.collectSiteGraph)),
     linearRoadmap: () => tryNetworkCollector('linearRoadmap', () => import('./stats/linear.js').then(m => m.collectLinear)),
   }
 
   const networkResults = {}
+  const lastGoodUpdates = {}
+
   for (const [name, collect] of Object.entries(networkCollectors)) {
-    // Skip entirely if required env var is absent and existing data is present
     const requiredKey = envGuards[name]
-    if (requiredKey && !process.env[requiredKey] && existing[name]) {
-      console.log(`  [stats] ${name}: ${requiredKey} not set — reusing cached data`)
-      networkResults[name] = existing[name]
+    const fallback = lastGood[name] ?? existing[name]
+
+    // Skip entirely if required env var is absent and we have last-good data
+    if (requiredKey && !process.env[requiredKey] && fallback) {
+      console.log(`  [stats] ${name}: ${requiredKey} not set — using last-good data`)
+      networkResults[name] = fallback
       continue
     }
 
     const fresh = await collect()
-    if (fresh?.stale && existing[name]) {
-      // Preserve existing data as-is (without writing stale:true back to disk).
-      // Stale is a runtime signal for the page, not a persisted field — writing
-      // it back poisons the fallback on the next restart (the guard checks
-      // !existing[name].stale, which then fails, losing all data).
-      networkResults[name] = existing[name]
+    if (fresh?.stale) {
+      // Collector failed — use last-good if available, otherwise existing stats
+      if (fallback) {
+        console.log(`  [stats] ${name}: stale — falling back to last-good`)
+        networkResults[name] = fallback
+      } else {
+        networkResults[name] = fresh
+      }
     } else {
+      // Fresh success — use it and record it for last-good update
       networkResults[name] = fresh
+      lastGoodUpdates[name] = fresh
     }
+  }
+
+  // Write last-good updates — only successful collectors, never overwrite with stale
+  if (Object.keys(lastGoodUpdates).length > 0) {
+    const nextLastGood = { ...lastGood, ...lastGoodUpdates, updatedAt: new Date().toISOString() }
+    writeFileSync(lastGoodPath, JSON.stringify(nextLastGood, null, 2))
+    console.log(`[stats] last-good updated: ${Object.keys(lastGoodUpdates).join(', ')}`)
   }
 
   const stats = {
