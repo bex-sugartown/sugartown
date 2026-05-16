@@ -29,46 +29,68 @@ literal `{{token}}` form in dev (fail-visible), and are stripped in production.
 
 ## Namespaces
 
-| Namespace   | Source                                | Freshness      | Phase |
-|-------------|---------------------------------------|----------------|-------|
-| `release`   | `CHANGELOG.md`                        | Every build    | 1a    |
-| `ds`        | `tokens.css` + component CSS dirs     | Every build    | 1a    |
-| `storybook` | `*.stories.*` file walk               | Every build    | 1a    |
-| `repo`      | `git rev-list` + `docs/shipped/`      | Every build    | 1a    |
-| `security`  | `pnpm audit --json`                   | Daily CI       | 1b    |
-| `sanity`    | Sanity GROQ count queries             | Daily CI       | 1b    |
-| `github`    | GitHub REST API (public)              | Daily CI       | 1b    |
-| `crux`      | Chrome UX Report API (origin)         | Daily CI       | 1b    |
-| `perf`      | Lighthouse CI JSON (`.lighthouseci/`) | Daily CI       | 1b    |
-| `ga4`       | Google Analytics Data API             | Phase 2        | 2     |
-| `gsc`       | Google Search Console API             | Phase 2        | 2     |
+| Namespace       | Source                                | Freshness      | Phase | Env guard           |
+|-----------------|---------------------------------------|----------------|-------|---------------------|
+| `release`       | `CHANGELOG.md`                        | Every build    | 1a    | —                   |
+| `ds`            | `tokens.css` + component CSS dirs     | Every build    | 1a    | —                   |
+| `storybook`     | `*.stories.*` file walk               | Every build    | 1a    | —                   |
+| `repo`          | `git rev-list` + `docs/shipped/`      | Every build    | 1a    | —                   |
+| `security`      | `pnpm audit --json`                   | Daily CI       | 1b    | —                   |
+| `sanity`        | Sanity GROQ count queries             | Daily CI       | 1b    | `VITE_SANITY_TOKEN` |
+| `github`        | GitHub REST API (public)              | Daily CI       | 1b    | `GITHUB_TOKEN`      |
+| `crux`          | Chrome UX Report API (origin)         | Daily CI       | 1b    | `CRUX_API_KEY`      |
+| `perf`          | Lighthouse CI JSON (`.lighthouseci/`) | Daily CI       | 1b    | —                   |
+| `siteGraph`     | Sanity GROQ relationship queries      | Daily CI       | 1b    | `VITE_SANITY_TOKEN` |
+| `linearRoadmap` | Linear GraphQL API                    | Daily CI       | 1b    | `LINEAR_API_KEY`    |
+| `ga4`           | Google Analytics Data API             | Phase 2        | 2     | —                   |
+| `gsc`           | Google Search Console API             | Phase 2        | 2     | —                   |
 
 ---
 
 ## How it works
 
 ```
-CHANGELOG.md         ──┐
-tokens.css           ──┤
-*.stories.*          ──┤   scripts/collect-stats.js
-docs/shipped/        ──┤   (orchestrator)
-git rev-list         ──┘         │
-                                 │
-pnpm audit           ──┐         │  writes
-Sanity GROQ          ──┤   (CI)  │
-GitHub REST API      ──┤  stats  │
-CrUX API             ──┤  workflow
-.lighthouseci/       ──┘         │
-                                 ▼
-                     apps/web/src/generated/stats.json
-                                 │
-                          stats.js (lib)
-                                 │
-                     interpolateStatsVars(text, data)
-                                 │
-                     preprocessPortableText(blocks)
-                                 │
-                         <PortableText value={...} />
+ LOCAL (every build)          NETWORK (daily CI)
+ ───────────────────          ──────────────────
+ CHANGELOG.md         ──┐    pnpm audit          ──┐
+ tokens.css           ──┤    Sanity GROQ          ──┤
+ *.stories.*          ──┤    GitHub REST API      ──┤
+ docs/shipped/        ──┤    CrUX API             ──┤
+ git rev-list         ──┘    .lighthouseci/       ──┤
+                             Linear GraphQL API   ──┘
+          │                          │
+          └──────────┬───────────────┘
+                     ▼
+          scripts/collect-stats.js
+          (orchestrator)
+                     │
+          ┌──────────┴──────────┐
+          │  for each network   │
+          │  collector:         │
+          │                     │
+          │  success? ──────────┼──► write key to last-good.json
+          │                     │    (never overwritten on failure)
+          │  stale/skip? ───────┼──► read from last-good.json
+          │                     │    └─► fallback: existing stats.json
+          └──────────┬──────────┘
+                     │
+          ┌──────────┴─────────────────────────────┐
+          │                                        │
+          ▼                                        ▼
+  src/generated/stats.json            src/generated/stats.last-good.json
+  (full merged output,                (per-collector success cache —
+   read by all pages)                  write-once-on-success only,
+                                       survives keyless CI runs)
+          │
+   ┌──────┴──────┐
+   │  static     │  stats.js (lib)
+   │  import     │
+   └──────┬──────┘
+          │  interpolateStatsVars(text, data)
+          │  preprocessPortableText(blocks)
+          ▼
+  <PortableText value={...} />
+  GovernancePage, PlatformHubPage, etc.
 ```
 
 ---
@@ -77,7 +99,7 @@ CrUX API             ──┤  workflow
 
 | File | Purpose |
 |------|---------|
-| `apps/web/scripts/collect-stats.js` | Orchestrator — runs all collectors, merges output |
+| `apps/web/scripts/collect-stats.js` | Orchestrator — runs all collectors, merges output, manages last-good cache |
 | `apps/web/scripts/stats/changelog.js` | `release` namespace |
 | `apps/web/scripts/stats/design-system.js` | `ds` namespace |
 | `apps/web/scripts/stats/storybook.js` | `storybook` namespace |
@@ -87,11 +109,15 @@ CrUX API             ──┤  workflow
 | `apps/web/scripts/stats/github.js` | `github` namespace |
 | `apps/web/scripts/stats/crux.js` | `crux` namespace |
 | `apps/web/scripts/stats/perf.js` | `perf` namespace (reads `.lighthouseci/`) |
+| `apps/web/scripts/stats/linear.js` | `linearRoadmap` namespace |
+| `apps/web/scripts/stats/graph.js` | `siteGraph` namespace |
 | `apps/web/src/lib/stats.js` | Exports `stats`, helpers, `interpolateStatsVars`, `useStats` |
 | `apps/web/src/lib/portableTextStatsVars.js` | `preprocessPortableText(blocks)` |
 | `apps/web/vite.config.js` | `sugartown:stats` plugin — runs collector on `buildStart` |
 | `lighthouserc.js` | Lighthouse CI config (pages to audit, thresholds) |
 | `.github/workflows/stats.yml` | Daily CI workflow — network collectors + commit |
+| `apps/web/src/generated/stats.json` | Full merged output (gitignored — regenerated every build) |
+| `apps/web/src/generated/stats.last-good.json` | Per-collector success cache (gitignored — write-once-on-success) |
 
 ---
 
@@ -112,11 +138,22 @@ CrUX API             ──┤  workflow
 | Collector type | On failure | Effect |
 |----------------|-----------|--------|
 | Local (`release`, `ds`, `storybook`, `repo`) | Throws | Build fails |
-| Network (`perf`, `crux`, `security`, `github`, `sanity`) | `stale: true` | Build continues with stale or missing data |
+| Network — fresh success | Writes to `stats.json` + `stats.last-good.json` | Full data |
+| Network — stale/failed | Reads from `stats.last-good.json`, then `stats.json` | Previous good data |
+| Network — env var missing, last-good exists | Skips collector entirely | Previous good data, no API call |
+| Network — env var missing, no last-good | Writes empty/stale to `stats.json` | Page shows "pending" |
 
-Stale data from a previous CI run is preserved when the current run fails — the
-orchestrator falls back to the existing `stats.json` value if the fresh result
-marks itself stale.
+**The last-good cache** (`stats.last-good.json`) is the key defence against data loss.
+It is written only when a collector returns fresh data — a failed or keyless CI run
+never touches it. This means a CI run with a missing `LINEAR_API_KEY` cannot overwrite
+a previously successful roadmap fetch. The fallback chain is:
+
+```
+fresh collector result
+    → last-good (most recent successful fetch, per collector)
+        → existing stats.json (full previous run)
+            → stale marker (page renders "pending" state)
+```
 
 ---
 
