@@ -477,6 +477,8 @@
   --st-button-hover-shadow: var(--st-shadow-pink-glow);
   --st-button-secondary-hover-shadow: var(--st-shadow-lime-glow);
   --st-table-header-color: var(--st-color-white);
+  --st-table-header-color-accent: var(--st-color-white);
+  --st-table-header-bg-subdued: var(--st-color-neutral-100);
   --st-table-zebra-bg: var(--st-color-midnight-700);
   --st-table-card-radius: var(--st-radius-md);
   --st-stat-tile-border: var(--st-color-border-subtle);
@@ -557,6 +559,8 @@
   --st-button-secondary-text: var(--st-color-midnight);
   --st-button-tertiary-border: var(--st-color-lime);
   --st-button-tertiary-text: var(--st-color-lime);
+  --st-table-header-color-subdued: var(--st-color-text-muted);
+  --st-table-row-hover-bg: color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
   --st-stat-tile-bg: var(--st-color-bg-surface);
   --st-stat-tile-value-color: var(--st-color-text-default);
   --st-stat-tile-label-color: var(--st-color-text-muted);
@@ -591,6 +595,7 @@
   --st-tag-text: var(--st-color-text-brand);
   --st-button-bg: var(--st-color-accent-primary);
   --st-table-header-bg: var(--st-color-accent);
+  --st-table-header-bg-accent: var(--st-color-accent);
   --st-tile-bg: var(--st-stat-tile-bg);
   --st-tile-label-color: var(--st-stat-tile-label-color);
   --st-tile-value-color: var(--st-stat-tile-value-color);
