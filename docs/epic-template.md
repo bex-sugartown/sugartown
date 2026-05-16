@@ -80,6 +80,7 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 - [ ] **Web adapter sync scoped** — if a DS component is created or modified, the web adapter update is either (a) in scope (listed in Files to Modify), or (b) explicitly deferred to a named follow-on epic
 - [ ] **Composition overlap audit** — if this epic adds a sub-object (e.g. `linkItem`, `richImage`) to an existing schema, list all fields on the parent schema that serve the same purpose as any field on the sub-object. If overlap exists, state which field is canonical and hide/deprecate the other. Two fields that could plausibly hold the same value is a bug (see CLAUDE.md §Single Field Authority).
 - [ ] **Atomic Reuse Gate** — for every new component, schema object, CSS surface, or utility in this epic: (1) confirm no existing equivalent across all 5 layers, (2) confirm it will be consumed by >1 caller or justify single-use, (3) confirm the API is composable (children over fixed slots, tokens over hardcoded values). See CLAUDE.md §Atomic Reuse Gate.
+- [ ] **Component registry update** — if this epic creates, retires, or structurally changes a component: `docs/conventions/component-registry.md` is updated in the same commit. New component = new row with all health columns filled (Storybook, dark mode, DS primitive or web-only, ⚠️ gaps). Retired component = row removed or marked deprecated. This is not a post-epic cleanup step — the registry is updated at creation time, before the component ships.
 
 ---
 
@@ -456,6 +457,9 @@ State how re-running the script produces no change:
 1. **Storybook story exists** for every new or modified component
    - Story covers: default state, all variants, edge cases (long text, missing fields, empty arrays)
    - Story renders without console errors
+   - **Dark mode verified**: component renders correctly on `dark-pink-moon` theme in Storybook. If not verified, a Linear gap issue must be open before this epic closes. "Untested" is not a valid close-out state.
+
+2. **Component registry updated** (if applicable): `docs/conventions/component-registry.md` reflects the final state — new rows added, gaps flagged, retired rows removed.
 
 2. **Mock-to-implementation comparison table** (required if Phase 0 produced an HTML mock)
    - List every visual element in the mock and confirm or flag each one:

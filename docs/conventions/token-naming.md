@@ -59,6 +59,22 @@ Note: `--st-card-bg` resolves to a semi-transparent glassmorphism value in dark-
 
 ---
 
+## `--st-table-*` token register
+
+Table zone tokens. Defined in SUG-119. All zone values must have light + dark overrides in `theme.pink-moon.css` — verify the dark block does not resolve to a glassmorphism wash before shipping.
+
+| Token | Concept | Scope |
+|-------|---------|-------|
+| `--st-table-header-bg-accent` | Header background for `tone="accent"` | Table primitive |
+| `--st-table-header-bg-subdued` | Header background for `tone="subdued"` | Table primitive |
+| `--st-table-header-color-subdued` | Header text color for `tone="subdued"` | Table primitive |
+| `--st-table-zebra-bg` | Alternating row background | Table primitive |
+| `--st-table-sticky-offset` | Top offset for sticky caption + thead (set on wrapper, not on Table itself) | Layout concern — caller owned |
+
+**Inline injection ban:** Never set `--st-table-header-bg` or any `--st-table-*` token via `style={}` on a component. These are component-internal tokens owned by `Table.module.css`. Callers configure visual zones via the `tone` prop.
+
+---
+
 ## Renaming a token
 
 1. Add the new name to `apps/web/src/design-system/styles/tokens.css`

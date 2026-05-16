@@ -500,6 +500,8 @@ When a new block, container, or layout surface is needed, run this audit **befor
 
 **This gate is not optional for "small" blocks.** A coloured callout container, a stat grid wrapper, a challenge summary card — all are new visual surfaces that require this audit. The size of the block does not determine whether the gate fires; the novelty of the visual format does.
 
+**Variant-first rule (hard stop):** A visual variation of an existing DS primitive is ALWAYS a prop on that primitive — never a new component. "Same component, different header color" is `tone="subdued"`, not `<RoadmapTable>`. "Same component, different label position" is `captionSide="bottom"`, not `<LabeledTable>`. If you find yourself writing a new component that renders an `<table>` (or any other primitive's root element), stop. The correct path is: define the prop on the DS primitive, then compose from it. A new component that wraps or reimplements a primitive without extending it is a fork — and forks diverge.
+
 Example audit (correct):
 ```
 New block: challenge summary
@@ -521,6 +523,8 @@ When writing or modifying any component CSS file (in `apps/web/src/design-system
 grep "token-name" apps/web/src/design-system/styles/tokens.css
 ```
 Do not use plausible-sounding names without confirming they exist. Tokens are named by concept (`--st-font-family-narrative`), not by analogy (`--st-font-family-heading`). The pre-commit validator will catch it, but catching it there costs a correction commit — catching it before writing costs nothing.
+
+**Inline CSS custom property injection on DS components is banned.** Writing `style={{ '--st-table-header-bg': '#fff' }}` or `style={{ '--st-table-header-bg': someVar }}` on a DS component bypasses the token graph entirely — the theme system cannot override it, the validator cannot audit it, and the injection must be removed every time the token is renamed. The correct path: define a `tone` prop (or equivalent), add the corresponding token to `tokens.json`, and apply the token in the component CSS. If you need to vary a visual zone from the call site, the answer is a new `tone` value — not an inline style.
 
 **No raw color value may appear in a component CSS file.** Every color must resolve through a `--st-*` token reference. If the token doesn't exist yet, add it to `tokens.css` first — in a separate commit — before writing the component CSS.
 
@@ -623,6 +627,8 @@ When a new `define:` entry is added to `apps/web/vite.config.js`, check whether 
 ### Storybook coverage requirement
 
 Every new or modified component that has visual output must have a Storybook story before close-out. The story must cover: default state, all meaningful variants, and at least one edge case (long text, missing fields, empty arrays). Components without stories are invisible to Chromatic VRT.
+
+**Dark mode is a shipping AC, not a follow-up task.** A DS component that ships without a `dark-pink-moon` story has an open gap — it is not done. "Untested" in the dark mode column of the component registry is a blocking state. Before close-out, every story must render correctly on both `default` and `dark-pink-moon` themes and that must be confirmed via Storybook (not assumed). A component added to the registry with dark mode marked "Untested" must have a Linear issue open for the gap before the epic closes.
 
 ### Honesty over confidence
 
