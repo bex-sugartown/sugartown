@@ -12,13 +12,8 @@
 
 /* ── Base table + component tokens ────────────────────────────────────────── */
 .table {
-  /* Structural tokens only — visual tokens (zebra-bg, border, shadow) come
-     from tokens.css [data-theme] blocks so theme switching works correctly. */
-  --st-table-header-bg:    var(--st-color-accent);
-  --st-table-header-color: var(--st-color-white);  /* overridden by DataTable trust variant via inline style */
-  --st-table-card-radius:  var(--st-radius-md, 12px);
+  --st-table-card-radius: var(--st-radius-md, 12px);
 
-  /* styles */
   border-collapse: collapse;
   width: 100%;
   margin: 2rem 0;
@@ -26,6 +21,70 @@
   box-shadow: var(--st-table-shadow);
   background: var(--st-color-bg-surface);
   color: var(--st-color-text-default);
+}
+
+/* ── Tone variants ─────────────────────────────────────────────────────────── */
+.toneAccent thead th {
+  background-color: var(--st-table-header-bg-accent);
+  color: var(--st-table-header-color-accent);
+}
+
+.toneSubdued thead th {
+  background-color: var(--st-table-header-bg-subdued);
+  color: var(--st-table-header-color-subdued);
+  font-weight: 600;
+  border-bottom-color: var(--st-table-border);
+}
+
+/* ── No-zebra modifier ────────────────────────────────────────────────────── */
+.noZebra tbody tr:nth-child(odd) {
+  background-color: transparent;
+}
+
+/* ── Layout fixed ─────────────────────────────────────────────────────────── */
+.layoutFixed {
+  table-layout: fixed;
+}
+
+/* ── Compact density ──────────────────────────────────────────────────────── */
+.compact th,
+.compact td {
+  padding: 8px 12px;
+}
+
+/* ── Caption surface ──────────────────────────────────────────────────────── */
+/* Renders above thead; pins together with thead when --st-table-sticky-offset
+   is set on the wrapper. caption-side: top is a11y-positive — screen readers
+   announce it as the table label. */
+.caption {
+  caption-side: top;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  background: var(--st-color-bg-surface);
+  position: sticky;
+  top: var(--st-table-sticky-offset, 0px);
+  z-index: 4;
+}
+
+.captionLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--st-color-text-default);
+}
+
+.captionMeta {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
 }
 
 .table th,
@@ -39,29 +98,33 @@
 }
 
 .table thead th {
-  background-color: var(--st-table-header-bg);
-  color: var(--st-table-header-color);
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.8em;
   border-bottom: 2px solid var(--st-color-black);
   letter-spacing: 0.06em;
   line-height: 1.2;
+  position: sticky;
+  top: var(--st-table-sticky-offset, 0px);
+  z-index: 3;
 }
 
 .table thead th a {
-  color: var(--st-table-header-color);
   text-decoration: underline;
 }
 
 .table thead th a:hover {
-  color: var(--st-table-header-color);
   text-decoration: none;
 }
 
-/* Automatic zebra striping — ALL tables */
+/* Automatic zebra striping — accent tone (suppressed by .noZebra on subdued) */
 .table tbody tr:nth-child(odd) {
   background-color: var(--st-table-zebra-bg);
+}
+
+/* Row hover */
+.table tbody tr:hover {
+  background-color: var(--st-table-row-hover-bg);
 }
 
 /* ── Thumb cell ───────────────────────────────────────────────────────────── */

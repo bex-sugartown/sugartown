@@ -319,6 +319,7 @@
   --st-card-thumb-position: center;
   --st-button-hover-translate-y: -2px;
   --st-button-tertiary-hover-bg: rgba(209, 255, 29, 0.10);
+  --st-table-sticky-offset: 0px;
   --st-table-border: rgba(255, 255, 255, 0.08);
   --st-table-shadow: 0 4px 24px rgba(0, 0, 0, 0.40);
   --st-table-card-shadow: 0 8px 24px rgba(0, 0, 0, 0.50);

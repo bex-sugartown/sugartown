@@ -1,3 +1,8 @@
+/**
+ * @deprecated Use <Table tone="subdued" columns={...} rows={...} /> directly.
+ * DataTable is a deprecated re-export shim over Table. Inline CSS variable injection
+ * removed. Will be deleted in the next minor after SUG-119 ships.
+ */
 import Table, { TableWrap } from '../table/Table'
 import styles from './DataTable.module.css'
 
@@ -18,57 +23,20 @@ export function KindBadge({ kind }) {
   return <span className={classNames}>{kind}</span>
 }
 
-/**
- * DataTable — props-driven wrapper over the DS Table + TableWrap primitives.
- *
- * Adds a column config API and a `trust` variant that overrides the header
- * color tokens via inline style, keeping an identical spacing/layout/zebra
- * skeleton to the base Table.
- *
- * The `trust` variant uses --st-color-bg-surface-strong for the header bg
- * (subdued, not pink accent) and --st-color-text-default for header text
- * (WCAG AA on both light and dark).
- */
 export default function DataTable({
   columns,
   rows,
   caption,
   variant = 'default',
+  tone,
   className,
 }) {
-  const trustStyle =
-    variant === 'trust'
-      ? {
-          '--st-table-header-bg':    'var(--st-color-bg-surface-strong)',
-          '--st-table-header-color': 'var(--st-color-text-default)',
-        }
-      : undefined
+  // Map legacy `variant="trust"` to `tone="subdued"` for the new Table API
+  const resolvedTone = tone ?? (variant === 'trust' ? 'subdued' : 'accent')
 
   return (
     <TableWrap className={className}>
-      <Table style={trustStyle}>
-        {caption && <caption className={styles.caption}>{caption}</caption>}
-        <thead>
-          <tr>
-            {columns.map((col) => (
-              <th key={col.key} style={col.width ? { width: col.width } : undefined}>
-                {col.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, rowIdx) => (
-            <tr key={rowIdx}>
-              {columns.map((col) => (
-                <td key={col.key}>
-                  {col.render ? col.render(row[col.key], row) : row[col.key]}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <Table tone={resolvedTone} caption={caption} columns={columns} rows={rows} />
     </TableWrap>
   )
 }
