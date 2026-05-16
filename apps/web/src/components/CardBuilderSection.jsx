@@ -15,7 +15,7 @@
 import { PortableText } from '@portabletext/react'
 import { urlFor } from '../lib/sanity'
 import { getCanonicalPath } from '../lib/routes'
-import { Card, Chip, CitationMarker, CitationNote, CitationZone, SectionLabel, SectionContainer, Tile } from '../design-system'
+import { Card, Chip, CitationMarker, CitationNote, CitationZone, SectionLabel, Grid, Tile } from '../design-system'
 import { LinkAnnotation } from './portableTextComponents'
 import { getOverlayStyles, parseOverlay, ensureSvgFilter } from '../design-system/components/media/Media'
 import styles from './CardBuilderSection.module.css'
@@ -277,7 +277,7 @@ export default function CardBuilderSection({ section }) {
     return (
       <section className={styles.section} id={section._sectionId}>
         {heading && <SectionLabel name={heading} />}
-        <SectionContainer>
+        <Grid spacing="0" accentTop accentColor="ink">
           {cards.map((card, index) => (
             <Tile
               key={card._key || index}
@@ -289,7 +289,7 @@ export default function CardBuilderSection({ section }) {
               bodyClamp={false}
             />
           ))}
-        </SectionContainer>
+        </Grid>
       </section>
     )
   }

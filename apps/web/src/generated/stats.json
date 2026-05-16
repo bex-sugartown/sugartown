@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-16T13:40:30.551Z",
+  "generatedAt": "2026-05-16T14:53:14.676Z",
   "release": {
     "current": {
       "version": "0.23.0",
@@ -73,11 +73,11 @@
     "tokenCompliance": 98
   },
   "storybook": {
-    "stories": 288,
+    "stories": 282,
     "components": 57
   },
   "repo": {
-    "commits": 1230,
+    "commits": 1233,
     "epicsShipped": 103
   },
   "perf": {
@@ -351,13 +351,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-05-16T13:40:14.182Z",
+    "fetchedAt": "2026-05-16T14:53:07.437Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-05-16T13:40:29.296Z",
+    "fetchedAt": "2026-05-16T14:53:14.572Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,

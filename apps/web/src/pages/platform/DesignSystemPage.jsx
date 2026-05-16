@@ -1,7 +1,7 @@
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import Tile from '../../design-system/components/tile/Tile'
-import SectionContainer from '../../design-system/components/section-container/SectionContainer'
+import Grid from '../../design-system/components/grid/Grid'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import DataTable from '../../design-system/components/data-table/DataTable'
 import { MermaidDiagram } from '../../components/PageSections'
@@ -66,7 +66,7 @@ export default function DesignSystemPage() {
       />
       <div className={styles.hub}>
 
-        <SectionContainer className={styles.statsSection}>
+        <Grid spacing="0" accentTop accentColor="ink" tabletColumns={2} className={styles.statsSection}>
           <Tile
             label="Design tokens"
             value={ds.tokens?.total ?? '—'}
@@ -97,7 +97,7 @@ export default function DesignSystemPage() {
             value={ds.tokenCompliance != null ? `${ds.tokenCompliance}%` : '—'}
             sub="CSS var refs using --st-* tokens"
           />
-        </SectionContainer>
+        </Grid>
 
         <section id="token-architecture" className={styles.section}>
           <SectionLabel level="h3" number="§01" name="TOKEN ARCHITECTURE" title="Base → semantic → component" kicker={ds.tokens?.total ? `${ds.tokens.total} tokens` : 'Base → semantic → component'} />
@@ -137,11 +137,11 @@ export default function DesignSystemPage() {
 
         <section id="ds-artifacts" className={styles.section}>
           <SectionLabel level="h3" number="§05" name="ARTIFACTS" title="Token pipeline, conventions" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
-          <SectionContainer columns={3}>
+          <Grid spacing="0" accentTop accentColor="ink" columns={3}>
             {ARTIFACTS.map((a) => (
               <Tile key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}
-          </SectionContainer>
+          </Grid>
         </section>
       </div>
     </>
