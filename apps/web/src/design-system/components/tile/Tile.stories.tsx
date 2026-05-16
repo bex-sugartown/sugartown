@@ -15,7 +15,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import Tile from './Tile';
-import SectionContainer from '../section-container/SectionContainer';
+import Grid from '../grid/Grid';
 
 const meta: Meta<typeof Tile> = {
   title: 'Components/Tile',
@@ -133,17 +133,17 @@ export const Snapshot: Story = {
   parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '800px' }}>
-      <SectionContainer columns={4}>
+      <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
         <Tile label="Retention"       value="94"  unit="%" sub="up from 71%"     chip="Measured" titleSize="display" labelColor="ink" />
         <Tile label="Time to insight" value="3"   unit="d" sub="down from 3wk"                   titleSize="display" labelColor="ink" />
         <Tile label="Taxonomy docs"   value="2.4" unit="k"                       chip="Measured" titleSize="display" labelColor="ink" />
         <Tile label="Team adoption"   value="6"   unit="/8" sub="teams onboarded"                titleSize="display" labelColor="ink" />
-      </SectionContainer>
-      <SectionContainer columns={3}>
+      </Grid>
+      <Grid spacing="0" accentTop accentColor="ink" columns={3}>
         <Tile label="Release" title="v0.23.8"                                          meta="2026-04-29 · SUG-94"           titleSize="lg" labelColor="brand" href="#" />
         <Tile label="Article" title="The token graph holds what the component cannot"  meta="Design Systems · 12 Apr 2026"  titleSize="lg" labelColor="brand" href="#" />
         <Tile label="Node"    titleSize="lg" labelColor="brand" loading />
-      </SectionContainer>
+      </Grid>
     </div>
   ),
 };

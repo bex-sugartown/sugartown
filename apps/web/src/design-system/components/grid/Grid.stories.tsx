@@ -24,7 +24,11 @@
 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { MemoryRouter } from 'react-router-dom';
 import Grid from './Grid';
+import Tile from '../tile/Tile';
+import Card from '../card/Card';
+import Callout from '../callout/Callout';
 
 const meta: Meta<typeof Grid> = {
   title: 'Components/Grid',
@@ -32,10 +36,12 @@ const meta: Meta<typeof Grid> = {
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
   argTypes: {
-    spacing:   { control: { type: 'radio' }, options: ['lg', '0'] },
-    columns:   { control: 'number' },
-    accentTop: { control: 'boolean' },
+    spacing:     { control: { type: 'radio' }, options: ['lg', '0'] },
+    columns:     { control: 'number' },
+    accentTop:   { control: 'boolean' },
+    accentColor: { control: { type: 'radio' }, options: ['brand', 'ink'] },
   },
+  decorators: [(Story) => <MemoryRouter><Story /></MemoryRouter>],
 };
 
 export default meta;
@@ -125,7 +131,7 @@ export const Responsive: Story = {
   ),
 };
 
-/** Snapshot — both spacing modes. */
+/** Snapshot — both spacing modes, both accent colours. */
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
   parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
@@ -138,11 +144,97 @@ export const Snapshot: Story = {
         </Grid>
       </div>
       <div>
-        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>spacing="0" + accentTop</p>
-        <Grid spacing="0" columns={4} accentTop>
+        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>spacing="0" + accentTop accentColor="brand"</p>
+        <Grid spacing="0" columns={4} accentTop accentColor="brand">
           <PlaceholderTile label="Tile A" /><PlaceholderTile label="Tile B" /><PlaceholderTile label="Tile C" /><PlaceholderTile label="Tile D" />
         </Grid>
       </div>
+      <div>
+        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>spacing="0" + accentTop accentColor="ink"</p>
+        <Grid spacing="0" columns={3} accentTop accentColor="ink">
+          <PlaceholderTile label="Tile A" /><PlaceholderTile label="Tile B" /><PlaceholderTile label="Tile C" />
+        </Grid>
+      </div>
+    </div>
+  ),
+};
+
+// ── Composition stories ───────────────────────────────────────────────────────
+// Real DS components as children. Minimal content — the point is the
+// composition pattern (what goes inside Grid and in what configuration).
+// Rich data fixtures live in /dev/grid and PageSections.stories.tsx.
+
+/** 3-col hairline + Tile — the canonical stat strip pattern. */
+export const ThreeColTile: Story = {
+  name: '3-col Grid + Tile',
+  render: () => (
+    <Grid spacing="0" accentTop accentColor="ink" columns={3}>
+      <Tile label="Time on site"     value="38"  unit="%" sub="up from baseline"  titleSize="display" labelColor="ink" />
+      <Tile label="Editorial uplift" value="2.4" unit="×"                         titleSize="display" labelColor="ink" />
+      <Tile label="Filter match"     value="91"  unit="%" sub="within 2 filters"  titleSize="display" labelColor="ink" />
+    </Grid>
+  ),
+};
+
+/** 4-col hairline + Tile artifact mode — foot slot + href link. */
+export const FourColTile: Story = {
+  name: '4-col Grid + Tile',
+  render: () => (
+    <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
+      <Tile label="Brief"       value="IA Brief"          foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+      <Tile label="Conventions" value="CLAUDE.md"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+      <Tile label="Ethics"      value="AI Ethics"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+      <Tile label="Prompt"      value="Release Assistant" foot="Prompt →"   href="#" titleSize="2xl" labelColor="ink" />
+    </Grid>
+  ),
+};
+
+/** 3-col open gap + Card — content grid pattern. */
+export const ThreeColCard: Story = {
+  name: '3-col Grid + Card',
+  render: () => (
+    <Grid spacing="lg" columns={3}>
+      <Card title="Design System" eyebrow="Platform" excerpt="Token pipeline, component registry, and Storybook coverage." />
+      <Card title="Content Lake"  eyebrow="CMS"      excerpt="Sanity v5 schema, GROQ projections, and live preview." />
+      <Card title="Monorepo"      eyebrow="Tooling"  excerpt="pnpm workspaces, Turbo, and shared packages." />
+    </Grid>
+  ),
+};
+
+/** 1-col open gap + Callout — stacked content block pattern. */
+export const OneColCallout: Story = {
+  name: '1-col Grid + Callout',
+  render: () => (
+    <Grid spacing="lg" columns={1}>
+      <Callout title="Default" variant="default">Use Grid as the outer container when callouts stack with other section types.</Callout>
+      <Callout title="Info"    variant="info">Info variant — pink accent.</Callout>
+      <Callout title="Tip"     variant="tip">Tip variant — violet accent.</Callout>
+    </Grid>
+  ),
+};
+
+/** Snapshot — composition patterns for Chromatic VRT. */
+export const SnapshotComposition: Story = {
+  name: 'Snapshot — Composition (Chromatic)',
+  parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', maxWidth: '900px' }}>
+      <Grid spacing="0" accentTop accentColor="ink" columns={3}>
+        <Tile label="Time on site"     value="38"  unit="%" titleSize="display" labelColor="ink" />
+        <Tile label="Editorial uplift" value="2.4" unit="×" titleSize="display" labelColor="ink" />
+        <Tile label="Filter match"     value="91"  unit="%" titleSize="display" labelColor="ink" />
+      </Grid>
+      <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
+        <Tile label="Brief"       value="IA Brief"          foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+        <Tile label="Conventions" value="CLAUDE.md"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+        <Tile label="Ethics"      value="AI Ethics"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+        <Tile label="Prompt"      value="Release Assistant" foot="Prompt →"   href="#" titleSize="2xl" labelColor="ink" />
+      </Grid>
+      <Grid spacing="lg" columns={3}>
+        <Card title="Design System" eyebrow="Platform" excerpt="Token pipeline, component registry, and Storybook coverage." />
+        <Card title="Content Lake"  eyebrow="CMS"      excerpt="Sanity v5 schema, GROQ projections, and live preview." />
+        <Card title="Monorepo"      eyebrow="Tooling"  excerpt="pnpm workspaces, Turbo, and shared packages." />
+      </Grid>
     </div>
   ),
 };

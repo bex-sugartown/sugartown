@@ -1,7 +1,7 @@
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import SectionContainer from '../../design-system/components/section-container/SectionContainer'
+import Grid from '../../design-system/components/grid/Grid'
 import Card from '../../design-system/components/card/Card'
 import CodeBlock from '../../design-system/components/codeblock/CodeBlock'
 import SchemaERD from '../../components/SchemaERD/SchemaERD'
@@ -77,7 +77,7 @@ export default function CmsPage() {
 
         <section id="cms-artifacts" className={styles.section}>
           <SectionLabel level="h3" number="§04" name="ARTIFACTS" title="PRDs, conventions, decisions" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
-          <SectionContainer columns={2}>
+          <Grid spacing="0" accentTop accentColor="ink" columns={2}>
             {ARTIFACTS.map((a) => (
               <Card
                 key={a.title}
@@ -87,7 +87,7 @@ export default function CmsPage() {
                 href={a.href}
               />
             ))}
-          </SectionContainer>
+          </Grid>
         </section>
       </div>
     </>

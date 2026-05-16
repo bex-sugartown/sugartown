@@ -1,7 +1,7 @@
 import { useRef } from 'react' // roadmapRef kept for future scroll-spy use
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
-import SectionContainer from '../../design-system/components/section-container/SectionContainer'
+import Grid from '../../design-system/components/grid/Grid'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Tile from '../../design-system/components/tile/Tile'
 import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
@@ -90,12 +90,12 @@ export default function GovernancePage() {
       />
       <div className={styles.hub}>
 
-        <SectionContainer columns={4} className={styles.statsSection}>
+        <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2} className={styles.statsSection}>
           <Tile label="In flight"       value={inProgress.length || '—'} href="https://linear.app/sugartown" />
           <Tile label="Current release" value={stats.release?.current?.version ?? '—'} href={TRUST_LINKS.changelog} />
           <Tile label="Epics shipped"   value={stats.repo?.epicsShipped ?? '—'} href={TRUST_LINKS.commits} />
           <Tile label="Vulnerabilities" value="0" href={TRUST_LINKS.security} />
-        </SectionContainer>
+        </Grid>
 
         <section id="recent-releases" className={styles.section}>
           <SectionLabel
@@ -162,11 +162,11 @@ export default function GovernancePage() {
             title="Briefs, prompts, conventions"
             kicker={`${ARTIFACTS.length} documents`}
           />
-          <SectionContainer columns={4}>
+          <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
             {ARTIFACTS.map((a) => (
               <Tile key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}
-          </SectionContainer>
+          </Grid>
         </section>
 
       </div>

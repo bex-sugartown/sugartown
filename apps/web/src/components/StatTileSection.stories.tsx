@@ -18,29 +18,6 @@ const SAMPLE_ITEMS = [
   { _key: 'i3', metric: 'Story coverage', valueAfter: '86%', impactStatement: '12 of 14 DS components with Chromatic VRT', evidenceType: 'measurement' },
 ];
 
-export const Default: Story = {
-  args: {
-    sections: [{
-      _type: 'statTileSection',
-      _key: 'sts-1',
-      name: 'Design System',
-      items: SAMPLE_ITEMS,
-    }],
-    context: 'detail',
-  },
-};
-
-export const WithoutLabel: Story = {
-  args: {
-    sections: [{
-      _type: 'statTileSection',
-      _key: 'sts-2',
-      items: SAMPLE_ITEMS,
-    }],
-    context: 'detail',
-  },
-};
-
 export const SingleTile: Story = {
   args: {
     sections: [{

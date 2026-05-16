@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { PortableText } from '@portabletext/react'
-import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Tile, Grid, SectionLabel, SectionContainer } from '../design-system'
+import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Tile, Grid, SectionLabel } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
 import stats from '../generated/stats.json'
 import { TRUST_LINKS, getCanonicalPath } from '../lib/routes'
@@ -841,7 +841,7 @@ function RecentContentSectionRenderer({ section }) {
         title={section.title}
         kicker={section.kicker}
       />
-      <SectionContainer columns={3}>
+      <Grid spacing="0" accentTop accentColor="ink" columns={3}>
         <Tile
           label="Release"
           title={release ? `v${release.version}` : '—'}
@@ -869,7 +869,7 @@ function RecentContentSectionRenderer({ section }) {
           labelColor="brand"
           titleSize="lg"
         />
-      </SectionContainer>
+      </Grid>
     </section>
   )
 }
@@ -887,7 +887,7 @@ function StatTileSectionRenderer({ section }) {
           kicker={section.kicker}
         />
       )}
-      <SectionContainer>
+      <Grid spacing="0" accentTop accentColor="ink">
         {section.items.map((item, i) => (
           <Tile
             key={item._key ?? i}
@@ -900,7 +900,7 @@ function StatTileSectionRenderer({ section }) {
             titleSize="2xl"
           />
         ))}
-      </SectionContainer>
+      </Grid>
     </div>
   )
 }

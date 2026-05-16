@@ -3,40 +3,45 @@ import styles from './Grid.module.css'
 /**
  * Grid — responsive tile/card grid with two spacing modes.
  *
- * spacing="lg"  → 32px open gap (--st-space-card-gap / space.6)
- * spacing="0"   → 1px bg-through-gap hairline (--st-space-0 / space.0)
- *                 Parent background shows through gap as hairline dividers.
- *                 Children must have an explicit background to cover it.
+ * spacing="lg"        → 32px open gap (--st-space-card-gap / space.6)
+ * spacing="0"         → 1px bg-through-gap hairline (--st-space-0 / space.0)
+ *                       Parent background shows through gap as hairline dividers.
+ *                       Children must have an explicit background to cover it.
  *
- * columns       → integer (e.g. 2). Sets a fixed column count via CSS custom
- *                 property --grid-columns. Without this prop, grid uses
- *                 auto-fit which naturally collapses based on minmax(200px,1fr).
- *                 With a fixed count, auto-fit is bypassed — columns do not
- *                 collapse intrinsically. The @media (max-width: 600px) rule in
- *                 Grid.module.css forces grid-template-columns: 1fr at mobile,
- *                 collapsing all fixed-column grids to single column. This is
- *                 the canonical responsive behaviour — do not add per-consumer
- *                 breakpoints to work around it.
+ * columns             → integer (e.g. 2). Fixed column count via --grid-columns.
+ *                       Without this prop, auto-fit collapses intrinsically.
  *
- * accentTop     → adds a 2px brand-color rule on the grid's top edge.
+ * tabletColumns       → integer. Overrides column count at tablet width (≤900px)
+ *                       before mobile (≤600px) collapse to 1 col.
+ *                       Use tabletColumns={2} to get a 2×2 layout from columns={4}.
  *
- * SUG-96 | responsive collapse: SUG-104
+ * accentTop           → adds a 2px rule on the grid's top edge.
+ * accentColor         → "brand" (default, pink) | "ink" (dark neutral).
+ *                       Only applies when accentTop is true.
+ *
+ * SUG-96 | responsive collapse: SUG-104 | accentColor + tabletColumns: SUG-120
  */
 export default function Grid({
   spacing = 'lg',
   columns,
+  tabletColumns,
   accentTop = false,
+  accentColor = 'brand',
   className,
   children,
 }) {
   const classNames = [
     styles.grid,
     styles[`spacing-${spacing}`],
-    accentTop ? styles.accentTop : '',
+    accentTop ? styles[`accentTop-${accentColor}`] : '',
     className ?? '',
   ].filter(Boolean).join(' ')
 
-  const style = columns ? { '--grid-columns': columns } : undefined
+  const style = Object.assign(
+    {},
+    columns ? { '--grid-columns': columns } : {},
+    tabletColumns ? { '--grid-columns-tablet': tabletColumns } : {},
+  )
 
   return (
     <div className={classNames} style={style}>

@@ -1,7 +1,7 @@
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import Tile from '../../design-system/components/tile/Tile'
-import SectionContainer from '../../design-system/components/section-container/SectionContainer'
+import Grid from '../../design-system/components/grid/Grid'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Card from '../../design-system/components/card/Card'
 import CodeBlock from '../../design-system/components/codeblock/CodeBlock'
@@ -74,12 +74,12 @@ export default function MonorepoPage() {
       />
       <div className={styles.hub}>
 
-        <SectionContainer className={styles.statsSection}>
+        <Grid spacing="0" accentTop accentColor="ink" tabletColumns={2} className={styles.statsSection}>
           <Tile label="Packages" value="4" />
           <Tile label="Apps" value="2" />
           <Tile label="Shared libs" value="2" />
           <Tile label="Build cache hits" value="~80%" href={TRUST_LINKS.commits} />
-        </SectionContainer>
+        </Grid>
 
         <section id="workspace-topology" className={styles.section}>
           <SectionLabel level="h3" number="§01" name="ARCHITECTURE" title="Workspace topology" kicker="4 packages" />
@@ -97,7 +97,7 @@ export default function MonorepoPage() {
 
         <section id="monorepo-artifacts" className={styles.section}>
           <SectionLabel level="h3" number="§03" name="ARTIFACTS" title="Docs and configs" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
-          <SectionContainer columns={3}>
+          <Grid spacing="0" accentTop accentColor="ink" columns={3}>
             {ARTIFACTS.map((a) => (
               <Card
                 key={a.title}
@@ -107,7 +107,7 @@ export default function MonorepoPage() {
                 href={a.href}
               />
             ))}
-          </SectionContainer>
+          </Grid>
         </section>
       </div>
     </>

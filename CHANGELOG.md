@@ -12,6 +12,15 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ---
 
+## [0.23.31] — 2026-05-16
+
+### apps/web
+
+#### Added
+- SUG-120: Grid primitive gains `accentColor` prop (`"brand"` | `"ink"`) and `tabletColumns` prop for intermediate 2-col breakpoint at 900px; SectionContainer deleted and all callsites migrated
+
+---
+
 ## [Unreleased]
 
 > Accumulates since v0.23.0. Ships as v0.24.0.
