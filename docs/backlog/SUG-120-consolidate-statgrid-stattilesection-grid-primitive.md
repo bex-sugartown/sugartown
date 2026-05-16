@@ -30,6 +30,8 @@ After this epic, `SectionContainer` is the only DS grid primitive for ruled stat
 - [ ] Remove `StatGrid`/`StatGridCell` exports from `packages/design-system/src/index.ts` — layer: DS package
 - [ ] Update `SectionContainer.stories.tsx` to add stories covering: stat strip with `signal` prop, artifact/linked cell strip, single-tile edge case — layer: Storybook
 - [ ] Delete `apps/web/src/components/StatTileSection.stories.tsx` entirely (the two remaining stories — `SingleTile` and `CwvFieldMetrics` — move into `SectionContainer.stories.tsx` or `PageSections.stories.tsx`) — layer: Storybook
+- [ ] Create `/dev/grid` test bench page at `apps/web/src/pages/dev/DevGridPage.jsx` — all `SectionContainer` variants rendered with real tokens and components (same pattern as `/dev/tables`): bare 3-tile, bare 4-tile, with `SectionLabel` folio header, stat strip with `signal` sub-label, artifact/linked cell strip, single-tile edge case, CWV field metrics strip — layer: frontend / dev tooling
+- [ ] Register `/dev/grid` route in `App.jsx` (dev-only, same guard pattern as `/dev/tables`) — layer: frontend
 - [ ] Run `pnpm validate:tokens` — confirm zero errors — layer: tooling
 - [ ] Chromatic VRT — confirm zero visual diffs — layer: Storybook / QA
 
@@ -40,6 +42,7 @@ After this epic, `SectionContainer` is the only DS grid primitive for ruled stat
 - [ ] `StatTileSection.stories.tsx` file does not exist
 - [ ] All existing `statTileSection` sections render correctly on a real page (e.g. `/platform` or any page with a `statTileSection` block) — visual parity with pre-epic output
 - [ ] `SectionContainer.stories.tsx` includes stories covering: 3-tile strip, 4-tile strip, with folio header, with `signal` sub-label, artifact/foot cell, single-tile edge case, CWV field metrics
+- [ ] `/dev/grid` is reachable in dev and renders all variants without console errors
 - [ ] Chromatic Build passes with zero new visual diffs
 
 ## Technical notes
@@ -47,6 +50,7 @@ After this epic, `SectionContainer` is the only DS grid primitive for ruled stat
 - **Activation audit:** Read `packages/design-system/src/components/Tile/Tile.tsx` (or `.jsx`) to confirm whether a `signal` prop already exists before adding it. Also read `SectionContainer.module.css` to confirm the `columns` override mechanism covers all current `StatGrid` column counts (3 and 4).
 - **Artifact mode:** `StatGridCell` renders in "artifact mode" when `foot != null` — a dashed-top-rule slot below the value. Decide before implementation: extend `Tile` with `foot` + `href` props (simplest), or create a dedicated `ArtifactCell` component. The latter is justified only if artifact cells need meaningfully different layout from metric tiles. If both modes share 80%+ of their CSS, a single `Tile` with a `variant="artifact"` prop is the right path.
 - **`statTileSection` Sanity section type is out of scope** — the schema, GROQ projection in `queries.js`, and Studio document structure are unchanged. Only the React render layer changes.
+- **`/dev/grid` test bench:** Activation audit — read `apps/web/src/pages/dev/DevTablesPage.jsx` and the `/dev/tables` route registration in `App.jsx` to confirm the exact dev-guard pattern before writing `DevGridPage.jsx`. Mirror that pattern exactly: same import guard, same route condition, same page structure. The test bench must use real `SectionContainer` + `Tile` imports (not StatGrid), so it also serves as a live proof that the migration worked.
 - **No schema deploy required** — this epic touches only frontend and DS package code.
 - **Model recommendation:** `/model sonnet` — pure frontend/DS refactor, no schema or complex reasoning required.
 
