@@ -1,14 +1,21 @@
 {
-  "generatedAt": "2026-05-16T14:53:14.676Z",
+  "generatedAt": "2026-05-16T16:26:14.952Z",
   "release": {
     "current": {
-      "version": "0.23.0",
-      "date": "2026-04-27",
-      "descriptor": "Trust data pipeline, Ledger Tradition design system structural pass, dynamic Knowledge Graph,",
-      "kind": "MINOR",
-      "linearIssue": null
+      "version": "0.23.31",
+      "date": "2026-05-16",
+      "descriptor": "- SUG-120: Grid primitive gains `accentColor` prop (`\"brand\"` | `\"ink\"`) and `tabletColumns` prop for intermediate 2-col breakpoint at 900px; SectionContainer deleted and all callsites migrated",
+      "kind": "PATCH",
+      "linearIssue": "SUG-120"
     },
     "latestN": [
+      {
+        "version": "0.23.31",
+        "date": "2026-05-16",
+        "descriptor": "- SUG-120: Grid primitive gains `accentColor` prop (`\"brand\"` | `\"ink\"`) and `tabletColumns` prop for intermediate 2-col breakpoint at 900px; SectionContainer deleted and all callsites migrated",
+        "kind": "PATCH",
+        "linearIssue": "SUG-120"
+      },
       {
         "version": "0.23.0",
         "date": "2026-04-27",
@@ -36,20 +43,13 @@
         "descriptor": "Responsive mobile nav, image treatments & gallery, detail hero refinement, table authoring UX, sitemap, mermaid diagrams, and WordPress media import. Aggregates 0.19.1–0.19.8.",
         "kind": "MINOR",
         "linearIssue": "SUG-37"
-      },
-      {
-        "version": "0.19.0",
-        "date": "2026-03-19",
-        "descriptor": "Preview UI, PortableText polish, contact form, card convergence, image optimization, content metadata governance, and taxonomy refinement. Aggregates 0.18.1–0.18.7.",
-        "kind": "MINOR",
-        "linearIssue": null
       }
     ],
     "count": {
-      "total": 17,
+      "total": 18,
       "major": 0,
       "minor": 16,
-      "patch": 1
+      "patch": 2
     }
   },
   "ds": {
@@ -66,22 +66,22 @@
         "other": 349
       }
     },
-    "dsComponents": 15,
-    "dsComponentsWithStories": 13,
-    "webAdapters": 23,
-    "componentFiles": 38,
+    "dsComponents": 14,
+    "dsComponentsWithStories": 12,
+    "webAdapters": 21,
+    "componentFiles": 35,
     "tokenCompliance": 98
   },
   "storybook": {
-    "stories": 282,
-    "components": 57
+    "stories": 279,
+    "components": 54
   },
   "repo": {
-    "commits": 1233,
-    "epicsShipped": 103
+    "commits": 1246,
+    "epicsShipped": 104
   },
   "perf": {
-    "stale": true,
+    "stale": false,
     "generatedAt": "2026-05-16T08:07:13.110Z",
     "runs": {
       "https://sugartown.io/": {
@@ -351,13 +351,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-05-16T14:53:07.437Z",
+    "fetchedAt": "2026-05-16T16:26:01.688Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-05-16T14:53:14.572Z",
+    "fetchedAt": "2026-05-16T16:26:14.052Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -368,17 +368,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-16T11:38:58.082Z",
+    "fetchedAt": "2026-05-16T08:07:28.833Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 0,
     "watchers": 0,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-05-16T08:07:29Z"
+    "lastCommit": "2026-05-15T09:15:18Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-16T13:40:30.012Z",
+    "fetchedAt": "2026-05-16T16:26:14.695Z",
     "counts": {
       "article": 11,
       "node": 48,
@@ -392,7 +392,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-05-16T13:40:30.549Z",
+    "generatedAt": "2026-05-16T16:26:14.951Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -6168,7 +6168,6 @@
         "labels": [],
         "completedAt": "2026-05-03T19:04:46.509Z"
       }
-    ],
-    "stale": true
+    ]
   }
 }

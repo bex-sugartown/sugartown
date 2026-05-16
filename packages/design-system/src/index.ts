@@ -59,10 +59,6 @@ export type { ScoreRingProps, ScoreCategory } from './components/ScoreRing';
 export { PriorityChip } from './components/PriorityChip';
 export type { PriorityChipProps, PriorityLevel } from './components/PriorityChip';
 
-// ── StatGrid (SUG-118) ───────────────────────────────────────────────────────
-export { StatGrid, StatGridCell } from './components/StatGrid';
-export type { StatGridProps, StatGridCellProps } from './components/StatGrid';
-
 // ── useStickyState (SUG-118) ─────────────────────────────────────────────────
 export { useStickyState } from './hooks/useStickyState';
 export type { StickyState } from './hooks/useStickyState';
