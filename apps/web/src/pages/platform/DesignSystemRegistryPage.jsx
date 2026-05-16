@@ -1,40 +1,115 @@
+import registryMd from '../../../../../docs/conventions/component-registry.md?raw'
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Callout from '../../design-system/components/callout/Callout'
+import Chip from '../../design-system/components/chip/Chip'
+import Table, { TableWrap } from '../../design-system/components/table/Table'
+import { parseRegistryMd, classifyCell } from '../../lib/registryParser'
 import { PLATFORM_ROUTES } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
+
+const SECTIONS = parseRegistryMd(registryMd)
+
+// Headings to skip — preamble sections that have no table or are not registry tables
+const SKIP_HEADINGS = new Set(['Coverage key', 'Storybook story rule', 'Token files'])
+
+// Section number labels — assigned in render order to match §NN pattern
+const SECTION_NUMBERS = [
+  '§01', '§02', '§03', '§04', '§05', '§06',
+]
+
+function CoverageCell({ value }) {
+  const { kind, text } = classifyCell(value)
+  if (kind === 'ok')   return <Chip color="seafoam" size="sm" label={text || '✅'} />
+  if (kind === 'warn') return <Chip color="amber"   size="sm" label={text ? `⚠️ ${text}` : '⚠️'} />
+  if (kind === 'na')   return <span>—</span>
+  return <span>{text}</span>
+}
+
+// Columns that contain coverage symbols rather than free text
+const COVERAGE_COLS = new Set([
+  'DS Primitive', 'Web Adapter', 'Dark mode',
+])
+
+function RegistryTable({ columns, rows }) {
+  return (
+    <TableWrap>
+      <Table tone="subdued" density="compact">
+        <thead>
+          <tr>
+            {columns.map((col) => <th key={col}>{col}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, ri) => (
+            <tr key={ri}>
+              {row.map((cell, ci) => {
+                const col = columns[ci]
+                const isCoverage = COVERAGE_COLS.has(col)
+                return (
+                  <td key={ci}>
+                    {isCoverage
+                      ? <CoverageCell value={cell} />
+                      : cell
+                    }
+                  </td>
+                )
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </TableWrap>
+  )
+}
 
 export default function DesignSystemRegistryPage() {
   usePlatformHero({
     title: 'Component Registry',
-    subtitle: 'Live inventory of all DS primitives and web adapters. Stories, props, and usage examples for every component in the system.',
+    subtitle: 'Inventory of all DS primitives, web adapters, and app composites. Coverage, dark mode health, and architectural notes for every component in the system.',
   })
+
+  const renderableSections = SECTIONS.filter(
+    (s) => s.table && !SKIP_HEADINGS.has(s.heading)
+  )
+
   return (
     <>
       <SeoHead
         title="Component Registry — Design System"
-        description="Sugartown design system component registry — live inventory of all DS primitives and web adapters."
+        description="Sugartown design system component registry — live inventory of DS primitives, web adapters, and app composites."
       />
       <div className={styles.hub}>
 
         <section className={styles.section}>
-          <SectionLabel name="Registry" kicker="Coming soon" />
           <Callout>
-            The component registry will surface live Storybook stories, prop tables,
-            and token usage for every DS component. Pending Storybook integration
-            pipeline work.
+            Source of truth: <code>docs/conventions/component-registry.md</code> — generated from that file at build time. Registry updates in any epic are immediately reflected here.
           </Callout>
         </section>
 
+        {renderableSections.map((section, i) => (
+          <section key={section.heading} className={styles.section}>
+            <SectionLabel
+              number={SECTION_NUMBERS[i]}
+              name={section.heading.toUpperCase()}
+              kicker={`${section.table.rows.length} components`}
+            />
+            <RegistryTable
+              columns={section.table.columns}
+              rows={section.table.rows}
+            />
+          </section>
+        ))}
+
         <section className={styles.section}>
-          <SectionLabel name="Design System Hub" kicker="Navigation" />
           <div className={styles.trustLinks}>
             <a href={PLATFORM_ROUTES.designSystem} className={styles.trustLink}>
-              ← Back to Design System
+              ← Design System
             </a>
           </div>
         </section>
+
       </div>
     </>
   )

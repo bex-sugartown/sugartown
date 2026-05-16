@@ -28,9 +28,9 @@ Web adapter stories are only created when the adapter adds **visually distinct b
 
 ## DS Primitives → Web Adapters
 
-All 13 DS primitive components have a corresponding web adapter. Five components
-(Grid, SectionContainer, SectionLabel, Tile, DataTable) exist only in the web
-adapter layer and are documented in the section below.
+All 13 DS primitive components have a corresponding web adapter. Four components
+(Grid, SectionLabel, Tile, DataTable) exist only in the web adapter layer and are
+documented in the section below.
 
 **Thruline audit (SUG-98, 2026-05-07):** All adapter pairs verified. No adapter
 contains undocumented visual behaviour. Documented deltas: Card adds `<Link to>`,
@@ -67,7 +67,6 @@ coupled to React Router / web data patterns that has no portable use case outsid
 | LaneHeader | ✅ **Retired** (SUG-119) | — | — | Deleted from both mirrors. Lane label and epic count now live in `<Table caption captionMeta>`. |
 | RoadmapTable | ✅ `web/design-system/roadmap-table/` | ✅ Components/Table/RoadmapTable | ✅ dark mode story added | Composes `<Table tone="subdued" layout="fixed">` — no raw `<table>` markup. Caption surface shows lane label + epic count. |
 | Grid | ✅ `web/design-system/grid/` | ✅ Components/Grid | ✅ | CSS grid layout utility. Layout concern, not a DS primitive. |
-| SectionContainer | ✅ `web/design-system/section-container/` | ✅ Components/SectionContainer | ✅ | Column-width layout wrapper. Layout concern. |
 | SectionLabel | ✅ `web/design-system/section-label/` | ✅ Components/SectionLabel | ✅ | Typography-only label row. Minimal; no value in porting. |
 | Tile | ✅ `web/design-system/tile/` | ✅ Components/Tile | ✅ | Metric/content surface. Complex data props tied to web patterns. |
 
@@ -105,7 +104,7 @@ Each now has a standalone Storybook story added in SUG-98.
 | `mermaidSection` | `PageSections.jsx` inline | ✅ Patterns/MermaidSection |
 | `imageGallery` | `PageSections.jsx` inline | ✅ Patterns/ImageGallery |
 | `citedBlock` | `PageSections.jsx` inline | ✅ Patterns/CitedBlock |
-| `statTileSection` | `PageSections.jsx` inline | ✅ Patterns/StatTileSection |
+| `statTileSection` | `PageSections.jsx` inline | — story deleted (SUG-120) |
 | `accordionSection` | `PageSections.jsx` → `Accordion` | ✅ via Components/Accordion |
 | `calloutSection` | `PageSections.jsx` → `Callout` | ✅ via Components/Callout |
 | `cardBuilderSection` | `CardBuilderSection.jsx` | ✅ Patterns/CardBuilderSection |
