@@ -17,6 +17,14 @@
       "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
     },
     {
+      "name": "web-sug120",
+      "runtimeExecutable": "/opt/homebrew/bin/pnpm",
+      "runtimeArgs": ["--filter", "web", "dev", "--port", "5175"],
+      "port": 5175,
+      "cwd": "/Users/beckyalice/SUGARTOWN_DEV/sugartown/.claude/worktrees/eager-hamilton-e26e32",
+      "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
+    },
+    {
       "name": "studio",
       "runtimeExecutable": "/opt/homebrew/bin/pnpm",
       "runtimeArgs": ["--filter", "studio", "dev"],

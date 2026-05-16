@@ -1,0 +1,23 @@
+.sub {
+  margin-bottom: var(--st-space-6);
+}
+
+.subLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: var(--st-font-weight-semibold);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-label-color);
+  margin-bottom: var(--st-space-3);
+}
+
+.navGroup {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: var(--st-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--st-label-tracking);
+  color: var(--st-label-color);
+  padding-inline: var(--st-space-2);
+}
