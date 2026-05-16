@@ -72,42 +72,6 @@ export const Subdued: Story = {
   ),
 };
 
-// ── Subdued — dark mode ───────────────────────────────────────────────────────
-// Verify: no glassmorphism on header; --st-color-midnight-700 opaque bg.
-
-export const SubduedDark: Story = {
-  name: 'Subdued / Dark mode',
-  render: () => (
-    <TableWrap caption="Dark mode check" captionMeta="5 components">
-      <Table
-        tone="subdued"
-        zebra={false}
-        columns={COLUMNS}
-        rows={ROWS}
-      />
-    </TableWrap>
-  ),
-  parameters: {
-    backgrounds: { default: 'dark' },
-    theme: 'dark-pink-moon',
-  },
-};
-
-// ── Accent — dark mode ────────────────────────────────────────────────────────
-
-export const AccentDark: Story = {
-  name: 'Accent / Dark mode',
-  render: () => (
-    <TableWrap>
-      <Table tone="accent" columns={COLUMNS} rows={ROWS} />
-    </TableWrap>
-  ),
-  parameters: {
-    backgrounds: { default: 'dark' },
-    theme: 'dark-pink-moon',
-  },
-};
-
 // ── Children fallback (raw thead/tbody) ───────────────────────────────────────
 // For callers that need fine-grained cell control.
 

@@ -119,18 +119,3 @@ export const SingleEpic: Story = {
   ),
 };
 
-// ── Dark mode ─────────────────────────────────────────────────────────────────
-
-export const DarkMode: Story = {
-  name: 'Dark mode (subdued tone)',
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      <RoadmapTable lane={{ label: 'In progress' }} rows={IN_PROGRESS} />
-      <RoadmapTable lane={{ label: 'Backlog' }} rows={BACKLOG} />
-    </div>
-  ),
-  parameters: {
-    backgrounds: { default: 'dark' },
-    theme: 'dark-pink-moon',
-  },
-};
