@@ -71,10 +71,18 @@
   --st-callout-bg:              var(--st-callout-bg-light);
   --st-callout-border-color:    rgba(214, 51, 132, 0.35);
 
-  --st-table-zebra-bg:          var(--st-color-softgrey-50);
-  --st-table-border:            var(--st-color-softgrey-200);
-  --st-table-shadow:            var(--st-shadow-table-light);
-  --st-table-card-shadow:       var(--st-shadow-table-card-light);
+  --st-table-zebra-bg:                var(--st-color-softgrey-50);
+  --st-table-border:                  var(--st-color-softgrey-200);
+  --st-table-shadow:                  var(--st-shadow-table-light);
+  --st-table-card-shadow:             var(--st-shadow-table-card-light);
+  /* tone="accent" — pink header */
+  --st-table-header-bg-accent:        var(--st-color-pink);
+  --st-table-header-color-accent:     var(--st-color-white);
+  /* tone="subdued" — neutral header (light: neutral-100 solid) */
+  --st-table-header-bg-subdued:       var(--st-color-neutral-100);
+  --st-table-header-color-subdued:    var(--st-color-text-muted);
+  /* row hover */
+  --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
 
   --st-code-inline-bg:          var(--st-color-softgrey-100);
   --st-code-inline-color:       var(--st-color-brand-primary);
@@ -242,4 +250,15 @@
   /* MetadataCard V2 Inverted Well — dark overrides (SUG-88) */
   --st-metadata-label-bg:  var(--st-color-midnight-900);
   --st-metadata-body-bg:   var(--st-color-midnight-700);
+
+  /* Table zone tokens — dark overrides (SUG-119)
+   * IMPORTANT: subdued header uses midnight-700 (opaque), NOT --st-color-bg-surface-strong
+   * which resolves to rgba(255,255,255,0.10) — a glassmorphism wash — in this dark block.
+   * Cascade audit: accent header stays pink (unchanged), subdued header = solid dark surface.
+   */
+  --st-table-header-bg-accent:        var(--st-color-pink);           /* unchanged — pink is correct in dark */
+  --st-table-header-color-accent:     var(--st-color-white);
+  --st-table-header-bg-subdued:       var(--st-color-midnight-700);   /* #1c2240 — opaque, no glassmorphism */
+  --st-table-header-color-subdued:    var(--st-color-text-muted);
+  --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 4%, transparent);
 }

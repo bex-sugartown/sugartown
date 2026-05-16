@@ -69,10 +69,15 @@
   --st-label-color-badge: var(--st-color-neutral-600);    /* #525252 — WCAG AA: neutral-400 (#a3a3a3) failed at 2.53:1 */
 
   /* Table — light overrides (root defaults are dark; Storybook uses this file) */
-  --st-table-zebra-bg:    var(--st-color-softgrey-50);
-  --st-table-border:      var(--st-color-softgrey-200);
-  --st-table-shadow:      var(--st-shadow-table-light);
-  --st-table-card-shadow: var(--st-shadow-table-card-light);
+  --st-table-zebra-bg:             var(--st-color-softgrey-50);
+  --st-table-border:               var(--st-color-softgrey-200);
+  --st-table-shadow:               var(--st-shadow-table-light);
+  --st-table-card-shadow:          var(--st-shadow-table-card-light);
+  --st-table-header-bg-accent:     var(--st-color-pink);
+  --st-table-header-color-accent:  var(--st-color-white);
+  --st-table-header-bg-subdued:    var(--st-color-neutral-100);
+  --st-table-header-color-subdued: var(--st-color-text-muted);
+  --st-table-row-hover-bg:         color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
 
   /* Inline code — light: pink on soft grey (root defaults are dark lime) */
   --st-code-inline-bg:     var(--st-color-softgrey-100);
@@ -121,4 +126,13 @@
   --st-label-color:       var(--st-color-charcoal-400);
   --st-label-color-badge: var(--st-color-softgrey-500);
   --st-card-label-bg:     var(--st-color-midnight-800);           /* label cell bg on dark canvas */
+
+  /* Table zone tokens — dark overrides (SUG-119)
+   * subdued header: midnight-700 (opaque) — NOT bg-surface-strong (glassmorphism wash in dark)
+   */
+  --st-table-header-bg-accent:        var(--st-color-pink);
+  --st-table-header-color-accent:     var(--st-color-white);
+  --st-table-header-bg-subdued:       var(--st-color-midnight-700);
+  --st-table-header-color-subdued:    var(--st-color-text-muted);
+  --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 4%, transparent);
 }

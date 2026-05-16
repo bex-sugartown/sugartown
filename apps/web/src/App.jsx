@@ -30,6 +30,7 @@ import DesignSystemPage from './pages/platform/DesignSystemPage'
 
 import DesignSystemRegistryPage from './pages/platform/DesignSystemRegistryPage'
 import SitemapPage from './pages/SitemapPage'
+import TablesDevPage from './pages/dev/TablesDevPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 import './App.css'
@@ -152,6 +153,7 @@ function App() {
 
         {/* ── Code-driven pages ────────────────────────────────────── */}
         <Route path="/sitemap" element={<SitemapPage />} />
+        <Route path="/dev/tables" element={<TablesDevPage />} />
 
         {/* ── Root pages (page type) — must come last among /:slug ─── */}
         {/* NOTE: This catches any single-segment path not matched above.         */}

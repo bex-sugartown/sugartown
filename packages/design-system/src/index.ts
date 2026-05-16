@@ -59,10 +59,6 @@ export type { ScoreRingProps, ScoreCategory } from './components/ScoreRing';
 export { PriorityChip } from './components/PriorityChip';
 export type { PriorityChipProps, PriorityLevel } from './components/PriorityChip';
 
-// ── LaneHeader (SUG-118) ─────────────────────────────────────────────────────
-export { LaneHeader } from './components/LaneHeader';
-export type { LaneHeaderProps } from './components/LaneHeader';
-
 // ── StatGrid (SUG-118) ───────────────────────────────────────────────────────
 export { StatGrid, StatGridCell } from './components/StatGrid';
 export type { StatGridProps, StatGridCellProps } from './components/StatGrid';

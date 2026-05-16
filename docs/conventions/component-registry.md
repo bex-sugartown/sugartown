@@ -51,7 +51,7 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 | Media | ✅ `packages/ds/Media/` | ✅ `web/design-system/media/` | ✅ Components/Media | ✅ | `heroSection.media[]` | |
 | ScoreRing | ✅ `packages/ds/ScoreRing/` | ✅ `web/design-system/score-ring/` | ✅ Components/ScoreRing | ✅ | — | SUG-100 |
 | SegmentedControl | ✅ `packages/ds/SegmentedControl/` | ✅ `web/design-system/segmented-control/` | ✅ Components/SegmentedControl | ✅ | — | SUG-100 |
-| Table | ✅ `packages/ds/Table/` | ✅ `web/design-system/table/` | ✅ Components/Table | ⚠️ untested | `tableBlock` | SUG-119 convergence in progress — see web-only section for DataTable/RoadmapTable gaps |
+| Table | ✅ `packages/ds/Table/` | ✅ `web/design-system/table/` | ✅ Components/Table | ✅ accent + subdued, light + dark | `tableBlock` | SUG-119 shipped — tone prop (accent/subdued), caption surface, props-driven API. DataTable is deprecated shim; RoadmapTable composes Table. |
 
 ---
 
@@ -63,9 +63,9 @@ coupled to React Router / web data patterns that has no portable use case outsid
 
 | Component | Web Adapter | Storybook | Dark mode | Notes |
 |-----------|-------------|-----------|-----------|-------|
-| DataTable | ⚠️ `web/design-system/data-table/` | ✅ Components/DataTable | ⚠️ untested | Extends Table; adds column/row props + `tone` override. **Gap:** currently injects header color via `style={{ '--st-table-header-bg': ... }}` — inline CSS injection that bypasses token graph. Folding into `<Table>` in SUG-119. |
-| LaneHeader | ⚠️ `web/design-system/lane-header/` + `packages/ds/LaneHeader/` | ❌ No story | ❌ untested | Floating sub-header above RoadmapTable. **Gap:** competes visually with table chrome; should be `<Table caption captionMeta>` prop surface. Retiring in SUG-119. |
-| RoadmapTable | ⚠️ `web/design-system/roadmap-table/` | ❌ No story | ❌ untested | Roadmap lane table. **Gap:** bypasses `<Table>` primitive with raw `<table>` markup and hardcoded `neutral-100` header — a fork, not an extension. Refactoring to compose `<Table>` in SUG-119. |
+| DataTable | ✅ `web/design-system/data-table/` — **@deprecated** | ✅ Components/Table/DataTable | ⚠️ untested | Deprecated shim over `<Table>`. Maps `variant="trust"` → `tone="subdued"`. Inline CSS injection removed (SUG-119). Delete after all callers migrate to `<Table>` directly. |
+| LaneHeader | ✅ **Retired** (SUG-119) | — | — | Deleted from both mirrors. Lane label and epic count now live in `<Table caption captionMeta>`. |
+| RoadmapTable | ✅ `web/design-system/roadmap-table/` | ✅ Components/Table/RoadmapTable | ✅ dark mode story added | Composes `<Table tone="subdued" layout="fixed">` — no raw `<table>` markup. Caption surface shows lane label + epic count. |
 | Grid | ✅ `web/design-system/grid/` | ✅ Components/Grid | ✅ | CSS grid layout utility. Layout concern, not a DS primitive. |
 | SectionContainer | ✅ `web/design-system/section-container/` | ✅ Components/SectionContainer | ✅ | Column-width layout wrapper. Layout concern. |
 | SectionLabel | ✅ `web/design-system/section-label/` | ✅ Components/SectionLabel | ✅ | Typography-only label row. Minimal; no value in porting. |

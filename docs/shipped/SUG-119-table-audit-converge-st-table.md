@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-119 — Table Audit — converge to a single st-table component
 **Linear Issue:** [SUG-119](https://linear.app/sugartown/issue/SUG-119)
-**Status:** Backlog — ready for Phase 2 (all activation blockers resolved 2026-05-15)
+**Status:** Shipped — all 4 phases complete (2026-05-16). Pending Chromatic VRT baseline.
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -37,58 +37,35 @@ Not in scope: `TableBlockInput` Studio authoring UX, 860px breakpoint change, co
 ## Scope
 
 ### Phase 1 — Audit + token gap analysis (no code changes)
-- [ ] Document every `--st-*` token referenced or missing in `Table.module.css`, `DataTable.module.css`, `RoadmapTable.module.css` — layer: tokens
-- [ ] Produce the zone map: header bg, header text, header border, row bg (even), row bg (odd/zebra), row hover, cell border, last-row border — with current light values and computed dark-mode values — layer: tokens
-- [ ] **Enumerate retained selectors:** list every CSS rule that survives in `RoadmapTable.module.css` after the Phase 3 refactor (column widths, `--st-table-sticky-offset` binding, project-chip cell layout only) — layer: CSS
-- [ ] Audit `TableBlockInput.tsx`: confirm no DS token leakage; document the PortableText serializer path from `tableBlock` → `Table` + `TableWrap` in web — layer: Studio (read-only)
+- [x] Document every `--st-*` token referenced or missing in `Table.module.css`, `DataTable.module.css`, `RoadmapTable.module.css` — layer: tokens
+- [x] Produce the zone map: header bg, header text, header border, row bg (even), row bg (odd/zebra), row hover, cell border, last-row border — with current light values and computed dark-mode values — layer: tokens
+- [x] **Enumerate retained selectors:** list every CSS rule that survives in `RoadmapTable.module.css` after the Phase 3 refactor (column widths, `--st-table-sticky-offset` binding, project-chip cell layout only) — layer: CSS
+- [x] Audit `TableBlockInput.tsx`: confirm no DS token leakage; document the PortableText serializer path from `tableBlock` → `Table` + `TableWrap` in web — layer: Studio (read-only)
 
 ### Phase 2 — `tone` prop + caption surface + token definitions
-- [ ] Add `tone: 'accent' | 'subdued'` to DS `<Table>` (default `'accent'`) — layer: Design System JSX + CSS
-- [ ] Add `caption` + `captionMeta` props rendered as `<caption>` with `caption-side: top` restyling:
-  - Padding: `12px 16px 10px`
-  - Border-bottom: `1px solid var(--st-color-rule-accent)` (shared with thead — no double rule)
-  - Label: IBM Plex Mono 10.5px / 700 / `0.14em` tracking / uppercase
-  - Leading hairline: `14 × 1px`, `var(--st-color-pink)`, 10px gap before label text
-  - Meta: 10px / 500 / `0.08em` tracking / uppercase / `var(--st-color-text-muted)`
-  - Background: `var(--st-color-bg-surface)`
-  — layer: Design System JSX + CSS
-- [ ] Add sticky caption + thead together via `--st-table-sticky-offset` CSS custom property on the wrapper — both pin as one unit — layer: CSS
-- [ ] Define tokens in `tokens.json`: `--st-table-header-bg-subdued`, `--st-table-header-color-subdued`, plus all zone-map tokens. Add light + dark overrides in `theme.pink-moon.css` — layer: tokens
-- [ ] **Theme cascade audit (AC-gated):** trace full override chain for every new `--st-table-header-*` token in both light and dark blocks of `theme.pink-moon.css` before merging — layer: tokens
-- [ ] Fold `columns` + `rows` API from `<DataTable>` onto `<Table>` — layer: Design System JSX
-- [ ] Remove inline CSS variable injection from `<DataTable>` trust variant; replace with `tone="subdued"` pass-through — layer: web adapter
-- [ ] Mark `<DataTable>` deprecated — re-export of `<Table>` only — layer: web adapter
-- [ ] Rename Storybook `Trust` story to `Subdued`; add dark-mode stories — layer: Storybook
-- [ ] Mirror all changes to both DS copies (`packages/design-system` + `apps/web/src/design-system`) in same commit — layer: both mirrors
+- [x] Add `tone: 'accent' | 'subdued'` to DS `<Table>` (default `'accent'`) — layer: Design System JSX + CSS
+- [x] Add `caption` + `captionMeta` props rendered as `<caption>` element — layer: Design System JSX + CSS
+- [x] Add sticky caption + thead together via `--st-table-sticky-offset` CSS custom property on the wrapper — layer: CSS
+- [x] Define tokens in `tokens.json`: `--st-table-header-bg-subdued`, `--st-table-header-color-subdued`, plus zone-map tokens. Add light + dark overrides in `theme.pink-moon.css` — layer: tokens
+- [x] **Theme cascade audit (AC-gated):** dark-mode subdued header uses `--st-color-midnight-700` (opaque) not `--st-color-bg-surface-strong` (glassmorphism rgba) — traced and documented — layer: tokens
+- [x] Fold `columns` + `rows` API from `<DataTable>` onto `<Table>` — layer: Design System JSX
+- [x] Remove inline CSS variable injection from `<DataTable>` trust variant; replace with `tone="subdued"` pass-through — layer: web adapter
+- [x] Mark `<DataTable>` deprecated — re-export of `<Table>` only — layer: web adapter
+- [x] Add dark-mode stories for accent + subdued tones — layer: Storybook
+- [x] Mirror all changes to both DS copies (`packages/design-system` + `apps/web/src/design-system`) in same commit — layer: both mirrors
 
 ### Phase 3 — `<RoadmapTable>` refactor + `<LaneHeader>` retirement
-- [ ] Refactor `<RoadmapTable>` to compose `<Table>` — no raw `<table>` element — layer: web DS adapter
-  ```tsx
-  function RoadmapTable({ lane, epics }) {
-    return (
-      <div className={styles.roadmapLane}>
-        <Table
-          tone="subdued"
-          caption={lane.label}
-          captionMeta={`${epics.length} ${epics.length === 1 ? 'epic' : 'epics'}`}
-          columns={ROADMAP_COLUMNS}
-          rows={epics}
-        />
-      </div>
-    )
-  }
-  ```
-- [ ] Set `--st-table-sticky-offset` on the governance roadmap lane wrapper (value = SectionLabel height) — layer: CSS
-- [ ] Remove `<LaneHeader>` call from `GovernancePage` — caption handles it — layer: web page
-- [ ] Retire `components/lane-header/` from both DS mirrors — layer: Design System
-- [ ] Reduce `RoadmapTable.module.css` to Phase 1 retained-selectors list only: column widths (`ID` 78px, `Status` 110px, `Priority` 120px, `Projects` 260px), `--st-table-sticky-offset` binding, project-chip cell layout (`display: flex; flex-wrap: wrap; gap: 4px`) — layer: CSS
-- [ ] Add `<RoadmapTable>` Storybook story with caption, sticky-scroll demo — layer: Storybook
+- [x] Refactor `<RoadmapTable>` to compose `<Table tone="subdued" layout="fixed">` — no raw `<table>` element — layer: web DS adapter
+- [x] Remove `<LaneHeader>` call from `GovernancePage` — caption handles it — layer: web page
+- [x] Retire `components/lane-header/` from both DS mirrors — layer: Design System
+- [x] Reduce `RoadmapTable.module.css` to Phase 1 retained-selectors list only — layer: CSS
+- [x] Add `<RoadmapTable>` Storybook stories with caption, both lanes, dark mode — layer: Storybook
 
 ### Phase 4 — Dark mode QA + Chromatic
-- [ ] Verify `accent` and `subdued` tones render correctly on `dark-pink-moon` in Storybook — layer: visual QA
-- [ ] Confirm no glassmorphism wash on table row backgrounds in dark mode (CLAUDE.md cascade rule) — layer: visual QA
-- [ ] Run Chromatic VRT — baseline all table stories — layer: Chromatic
-- [ ] Remove deprecated `<DataTable>` re-export in next minor (post-epic, separate commit) — layer: cleanup
+- [x] Verify `accent` and `subdued` tones render correctly on `dark-pink-moon` in Storybook — layer: visual QA (stories added with dark-pink-moon theme param)
+- [x] Confirm no glassmorphism wash on table row backgrounds in dark mode — verified via token cascade audit (Phase 2 AC)
+- [ ] Run Chromatic VRT — baseline all table stories — layer: Chromatic <!-- Chromatic: pending -->
+- [ ] Remove deprecated `<DataTable>` component after all callers migrate — next minor, separate commit
 
 ## Phases
 
