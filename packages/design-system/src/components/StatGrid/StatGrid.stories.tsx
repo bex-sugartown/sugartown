@@ -12,17 +12,6 @@ const meta: Meta<typeof StatGrid> = {
 export default meta;
 type Story = StoryObj<typeof StatGrid>;
 
-export const Stats4Col: Story = {
-  render: () => (
-    <StatGrid columns={4}>
-      <StatGridCell label="In flight"       value="3"        href="#" />
-      <StatGridCell label="Current release" value="v0.0.0"   href="#" />
-      <StatGridCell label="Epics shipped"   value="42"       href="#" />
-      <StatGridCell label="Vulnerabilities" value="0"        href="#" />
-    </StatGrid>
-  ),
-};
-
 export const Stats3Col: Story = {
   render: () => (
     <StatGrid columns={3}>
