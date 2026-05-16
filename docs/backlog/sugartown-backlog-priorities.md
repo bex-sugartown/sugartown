@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-16 · v0.23.31 · SUG-119 Table Audit shipped
+> Updated 2026-05-16 · v0.23.31 · SUG-119 Table Audit shipped · SUG-TBD StatGrid/StatTileSection consolidation added
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -20,6 +20,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 5 | ~~**[SUG-118](https://linear.app/sugartown/issue/SUG-118) · Platform Stats Page II — governance design refresh** — RoadmapTable DS component (sticky thead, white/gray bg, priority chips), LaneHeader pinned-state rewrite, SectionLabel geometric centering, shadow tokens. Shipped v0.23.30.~~ | `Design System` `Frontend` `UX` | ✅ Shipped |
+| 6 | **[SUG-TBD](https://linear.app/sugartown/issue/SUG-TBD) · Consolidate StatGrid + StatTileSection into Grid primitive** — Deprecate `StatGrid` (DS package + web adapter) and inline `StatTileSectionRenderer` in favour of `SectionContainer` + `Tile`. Single ruled-grid primitive, no parallel implementations. Epic: `docs/backlog/SUG-TBD-consolidate-statgrid-stattilesection-grid-primitive.md`. | `Design System` `Infrastructure` | 🟢 Next |
 | 4 | **[SUG-116](https://linear.app/sugartown/issue/SUG-116) · Ledger Button Update — Baseline Rule, sm/md/lg sizes, Storybook snapshot** — Move 3px stripe from `border-top` to `border-bottom` across all variants; introduce `--st-color-button-rule-{primary,secondary,tertiary}` tokens (Option B rename); add `sm`/`lg` size prop to DS + web adapter; update Storybook snapshot story. Epic: `docs/backlog/SUG-116-ledger-button-update.md`. | `Design System` | 🟢 Next |
 | 3 | ~~**[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs, hero inheritance, scrollspy, DataTable releases, Storybook BUILD_DATE freeze. Shipped v0.23.22.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** ✅ Shipped. Services page outcome framing, availability signal on hero/About, case study narrative, Contact tone update. All Sanity drafts published 2026-05-01. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | ✅ Shipped |
