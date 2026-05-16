@@ -80,9 +80,16 @@ export default function GridDevPage() {
           </Sub>
         </Section>
 
-        <Section id="spacing-accent" label="Grid — spacing=0 + accentTop (ruled section header)">
-          <Sub label='spacing="0" accentTop — 2px brand rule top, 1px box border, hairline dividers' debug>
-            <Grid spacing="0" accentTop>
+        <Section id="spacing-accent" label="Grid — spacing=0 + accentTop (accent colour variants)">
+          <Sub label='accentColor="brand" (default) — 2px pink rule' debug>
+            <Grid spacing="0" accentTop accentColor="brand">
+              <Tile label="A" value="1" titleSize="2xl" labelColor="ink" />
+              <Tile label="B" value="2" titleSize="2xl" labelColor="ink" />
+              <Tile label="C" value="3" titleSize="2xl" labelColor="ink" />
+            </Grid>
+          </Sub>
+          <Sub label='accentColor="ink" — 2px dark neutral rule' debug>
+            <Grid spacing="0" accentTop accentColor="ink">
               <Tile label="A" value="1" titleSize="2xl" labelColor="ink" />
               <Tile label="B" value="2" titleSize="2xl" labelColor="ink" />
               <Tile label="C" value="3" titleSize="2xl" labelColor="ink" />
@@ -90,7 +97,7 @@ export default function GridDevPage() {
           </Sub>
         </Section>
 
-        <Section id="columns" label="Grid — fixed column counts">
+        <Section id="columns" label="Grid — fixed column counts + tablet collapse">
           <Sub label="columns={2}" debug>
             <Grid spacing="0" accentTop columns={2}>
               <Tile label="A" value="1" titleSize="2xl" labelColor="ink" />
@@ -104,8 +111,8 @@ export default function GridDevPage() {
               <Tile label="C" value="3" titleSize="2xl" labelColor="ink" />
             </Grid>
           </Sub>
-          <Sub label="columns={4}" debug>
-            <Grid spacing="0" accentTop columns={4}>
+          <Sub label="columns={4} tabletColumns={2} — 2×2 at ≤900px" debug>
+            <Grid spacing="0" accentTop columns={4} tabletColumns={2}>
               <Tile label="A" value="1" titleSize="2xl" labelColor="ink" />
               <Tile label="B" value="2" titleSize="2xl" labelColor="ink" />
               <Tile label="C" value="3" titleSize="2xl" labelColor="ink" />
@@ -125,7 +132,7 @@ export default function GridDevPage() {
         </Section>
 
         <Section id="four-col-tile" label="4-col Grid + Tile — artifact mode (hairline, accentTop, foot)">
-          <Grid spacing="0" accentTop columns={4}>
+          <Grid spacing="0" accentTop columns={4} tabletColumns={2}>
             <Tile label="Brief"       value="IA Brief"          foot="Markdown →" href="https://example.com" titleSize="2xl" labelColor="ink" />
             <Tile label="Conventions" value="CLAUDE.md"         foot="Markdown →" href="https://example.com" titleSize="2xl" labelColor="ink" />
             <Tile label="Ethics"      value="AI Ethics"         foot="Markdown →" href="https://example.com" titleSize="2xl" labelColor="ink" />

@@ -24,12 +24,23 @@
   border: 1px solid var(--st-color-border-default);
 }
 
-/* ── accentTop — 2px brand rule on top edge ──────────────────────── */
-.accentTop {
+/* ── accentTop — 2px rule on top edge, two colour options ───────────── */
+.accentTop-brand {
   border-top: 2px solid var(--st-color-brand-primary);
 }
 
-/* ── Mobile: collapse all fixed-column grids to single column ─────── */
+.accentTop-ink {
+  border-top: 2px solid var(--st-color-ink);
+}
+
+/* ── Tablet: honour --grid-columns-tablet if set (e.g. 4→2 stacked) ── */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(var(--grid-columns-tablet, var(--grid-columns, auto-fit)), minmax(200px, 1fr));
+  }
+}
+
+/* ── Mobile: collapse all grids to single column ─────────────────── */
 @media (max-width: 600px) {
   .grid {
     grid-template-columns: 1fr;
