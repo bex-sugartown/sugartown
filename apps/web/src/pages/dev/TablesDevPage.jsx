@@ -110,11 +110,9 @@ export default function TablesDevPage() {
       <main className={styles.main}>
 
         <Section id="accent" label="Table — tone=accent (default, zebra on)">
-          <TableWrap>
+          <TableWrap caption="Component registry" captionMeta={`${REGISTRY_ROWS.length} components`}>
             <Table
               tone="accent"
-              caption="Component registry"
-              captionMeta={`${REGISTRY_ROWS.length} components`}
               columns={REGISTRY_COLUMNS}
               rows={REGISTRY_ROWS}
             />
@@ -122,12 +120,10 @@ export default function TablesDevPage() {
         </Section>
 
         <Section id="subdued" label="Table — tone=subdued (zebra off)">
-          <TableWrap>
+          <TableWrap caption="Component registry" captionMeta={`${REGISTRY_ROWS.length} components`}>
             <Table
               tone="subdued"
               zebra={false}
-              caption="Component registry"
-              captionMeta={`${REGISTRY_ROWS.length} components`}
               columns={REGISTRY_COLUMNS}
               rows={REGISTRY_ROWS}
             />
@@ -156,12 +152,10 @@ export default function TablesDevPage() {
         </Section>
 
         <Section id="registry" label="Table — accent, many columns, layout=fixed">
-          <TableWrap>
+          <TableWrap caption="Full DS registry" captionMeta={`${REGISTRY_ROWS.length} components`}>
             <Table
               tone="accent"
               layout="fixed"
-              caption="Full DS registry"
-              captionMeta={`${REGISTRY_ROWS.length} components`}
               columns={REGISTRY_COLUMNS}
               rows={REGISTRY_ROWS}
             />

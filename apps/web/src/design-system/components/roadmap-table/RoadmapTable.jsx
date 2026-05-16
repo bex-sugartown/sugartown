@@ -45,16 +45,15 @@ function renderRow(row) {
  */
 export default function RoadmapTable({ lane, rows: epics = [] }) {
   const rows = epics.map(renderRow)
+  const captionMeta = epics.length ? `${epics.length} ${epics.length === 1 ? 'epic' : 'epics'}` : undefined
 
   return (
-    <TableWrap>
+    <TableWrap caption={lane?.label} captionMeta={captionMeta}>
       <div className={styles.roadmapLane}>
         <Table
           tone="subdued"
           layout="fixed"
           zebra={false}
-          caption={lane?.label}
-          captionMeta={epics.length ? `${epics.length} ${epics.length === 1 ? 'epic' : 'epics'}` : undefined}
           columns={COLUMNS}
           rows={rows}
         />

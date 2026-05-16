@@ -1,19 +1,26 @@
 import React from 'react';
 import styles from './Table.module.css';
 
-/* ── Table Wrap ──────────────────────────────────────────────────────────────
- * Scroll container with max-width + centering.
- * Wraps <Table> for horizontal scroll on wide tables.
+/* ── TableWrap ───────────────────────────────────────────────────────────────
+ * Scroll container + caption surface.
+ * Caption renders as a <div> ABOVE <table> — position:sticky on <caption>
+ * element is broken cross-browser (Chrome renders it below thead stacking
+ * context). The div approach is reliable and keeps sticky offset correct.
  */
 export interface TableWrapProps {
-  variant?: 'default' | 'responsive' | 'wide';
+  caption?: React.ReactNode;
+  captionMeta?: React.ReactNode;
+  variant?: 'default' | 'wide';
   children: React.ReactNode;
   className?: string;
 }
 
-export function TableWrap({ variant, children, className }: TableWrapProps) {
-  const classNames = [
-    styles.wrap,
+export function TableWrap({ caption, captionMeta, variant, children, className }: TableWrapProps) {
+  const hasCaption = !!(caption || captionMeta);
+
+  const wrapClass = [
+    styles.tableWrap,
+    hasCaption ? styles.hasCaption : '',
     variant === 'wide' ? styles.wrapWide : '',
     className ?? '',
   ]
@@ -21,13 +28,19 @@ export function TableWrap({ variant, children, className }: TableWrapProps) {
     .join(' ');
 
   return (
-    <div className={classNames}>
+    <div className={wrapClass}>
+      {hasCaption && (
+        <div className={styles.caption}>
+          <span className={styles.captionLabel}>{caption}</span>
+          {captionMeta && <span className={styles.captionMeta}>{captionMeta}</span>}
+        </div>
+      )}
       {children}
     </div>
   );
 }
 
-/* ── Column / Row types (folded from DataTable) ──────────────────────────── */
+/* ── Column / Row types ──────────────────────────────────────────────────── */
 export interface Column {
   key: string;
   label: React.ReactNode;
@@ -38,28 +51,21 @@ export interface Column {
 export type Row = Record<string, unknown>;
 
 /* ── Table ────────────────────────────────────────────────────────────────────
- * Semantic <table> with tone, caption surface, and optional props-driven API.
+ * Semantic <table> primitive with tone, zebra, layout, and density props.
  *
  * tone:
- *   accent  — pink accent header (default)
- *   subdued — neutral header; zebra off by default
+ *   accent  — pink accent header, zebra on by default
+ *   subdued — neutral header, zebra off by default
  *
- * caption / captionMeta:
- *   Renders a styled <caption> element (a11y-positive: announced by screen readers).
- *   Pins together with thead when --st-table-sticky-offset is set on the wrapper.
+ * Caption / captionMeta live on <TableWrap>, not here.
  *
  * columns / rows:
- *   Props-driven API (folded from DataTable). When omitted, render children
- *   directly as <thead>/<tbody> markup.
- *
- * Canonical CSS: artifacts/style 260118.css §ST TABLE
+ *   Props-driven API. When omitted, render children as <thead>/<tbody>.
  */
 export interface TableProps {
   tone?: 'accent' | 'subdued';
   variant?: 'default' | 'responsive' | 'wide';
   zebra?: boolean;
-  caption?: React.ReactNode;
-  captionMeta?: React.ReactNode;
   columns?: Column[];
   rows?: Row[];
   layout?: 'auto' | 'fixed';
@@ -73,8 +79,6 @@ export function Table({
   tone = 'accent',
   variant = 'default',
   zebra,
-  caption,
-  captionMeta,
   columns,
   rows,
   layout = 'auto',
@@ -83,17 +87,17 @@ export function Table({
   className,
   style,
 }: TableProps) {
-  // zebra defaults: on for accent, off for subdued
   const zebraOn = zebra ?? (tone === 'accent');
 
   const classNames = [
     styles.table,
-    tone === 'subdued'    ? styles.toneSubdued  : styles.toneAccent,
-    variant === 'responsive' ? styles.responsive : '',
-    variant === 'wide'       ? styles.wide       : '',
-    layout === 'fixed'       ? styles.layoutFixed : '',
-    density === 'compact'    ? styles.compact     : '',
-    !zebraOn                 ? styles.noZebra     : '',
+    tone === 'subdued'        ? styles.toneSubdued  : styles.toneAccent,
+    zebraOn && tone === 'subdued' ? styles.zebra    : '',
+    variant === 'responsive'  ? styles.responsive   : '',
+    variant === 'wide'        ? styles.wide         : '',
+    layout === 'fixed'        ? styles.layoutFixed  : '',
+    density === 'compact'     ? styles.compact      : '',
+    !zebraOn                  ? styles.noZebra      : '',
     className ?? '',
   ]
     .filter(Boolean)
@@ -101,12 +105,6 @@ export function Table({
 
   return (
     <table className={classNames} style={style}>
-      {(caption || captionMeta) && (
-        <caption className={styles.caption}>
-          <span className={styles.captionLabel}>{caption}</span>
-          {captionMeta && <span className={styles.captionMeta}>{captionMeta}</span>}
-        </caption>
-      )}
       {columns && rows ? (
         <>
           <thead>
@@ -136,3 +134,5 @@ export function Table({
     </table>
   );
 }
+
+export default Table;

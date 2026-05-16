@@ -2,16 +2,25 @@
  * Table — web app adapter of the DS Table visual primitive.
  *
  * Mirrors: packages/design-system/src/components/Table/Table.tsx
- * CSS sync: Table.module.css must match DS Table.module.css (see MEMORY.md token drift rules).
  *
- * TODO: When @sugartown/design-system becomes a build-time dependency of apps/web,
- * replace this with a direct re-export from the package.
+ * Caption surface lives in TableWrap (as a div ABOVE the table), not inside
+ * <table> as a <caption> element. position:sticky on <caption> is broken
+ * cross-browser — the div approach is reliable and keeps sticky behaviour correct.
  */
 import styles from './Table.module.css'
 
-export function TableWrap({ variant, children, className }) {
-  const classNames = [
-    styles.wrap,
+export function TableWrap({
+  caption,
+  captionMeta,
+  variant,
+  children,
+  className,
+}) {
+  const hasCaption = !!(caption || captionMeta)
+
+  const wrapClass = [
+    styles.tableWrap,
+    hasCaption ? styles.hasCaption : '',
     variant === 'wide' ? styles.wrapWide : '',
     className ?? '',
   ]
@@ -19,7 +28,13 @@ export function TableWrap({ variant, children, className }) {
     .join(' ')
 
   return (
-    <div className={classNames}>
+    <div className={wrapClass}>
+      {hasCaption && (
+        <div className={styles.caption}>
+          <span className={styles.captionLabel}>{caption}</span>
+          {captionMeta && <span className={styles.captionMeta}>{captionMeta}</span>}
+        </div>
+      )}
       {children}
     </div>
   )
@@ -29,12 +44,10 @@ export default function Table({
   tone = 'accent',
   variant = 'default',
   zebra,
-  caption,
-  captionMeta,
-  columns,
-  rows,
   layout = 'auto',
   density = 'comfortable',
+  columns,
+  rows,
   children,
   className,
   style,
@@ -43,12 +56,13 @@ export default function Table({
 
   const classNames = [
     styles.table,
-    tone === 'subdued'       ? styles.toneSubdued   : styles.toneAccent,
-    variant === 'responsive' ? styles.responsive    : '',
-    variant === 'wide'       ? styles.wide          : '',
-    layout === 'fixed'       ? styles.layoutFixed   : '',
-    density === 'compact'    ? styles.compact       : '',
-    !zebraOn                 ? styles.noZebra       : '',
+    tone === 'subdued'       ? styles.toneSubdued : styles.toneAccent,
+    zebraOn && tone === 'subdued' ? styles.zebra : '',
+    variant === 'responsive' ? styles.responsive  : '',
+    variant === 'wide'       ? styles.wide        : '',
+    layout === 'fixed'       ? styles.layoutFixed : '',
+    density === 'compact'    ? styles.compact     : '',
+    !zebraOn                 ? styles.noZebra     : '',
     className ?? '',
   ]
     .filter(Boolean)
@@ -56,12 +70,6 @@ export default function Table({
 
   return (
     <table className={classNames} style={style}>
-      {(caption || captionMeta) && (
-        <caption className={styles.caption}>
-          <span className={styles.captionLabel}>{caption}</span>
-          {captionMeta && <span className={styles.captionMeta}>{captionMeta}</span>}
-        </caption>
-      )}
       {columns && rows ? (
         <>
           <thead>

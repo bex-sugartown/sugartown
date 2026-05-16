@@ -61,12 +61,10 @@ export const Accent: Story = {
 
 export const Subdued: Story = {
   render: () => (
-    <TableWrap>
+    <TableWrap caption="Component registry" captionMeta="5 components">
       <Table
         tone="subdued"
         zebra={false}
-        caption="Component registry"
-        captionMeta="5 components"
         columns={COLUMNS}
         rows={ROWS}
       />
@@ -80,12 +78,10 @@ export const Subdued: Story = {
 export const SubduedDark: Story = {
   name: 'Subdued / Dark mode',
   render: () => (
-    <TableWrap>
+    <TableWrap caption="Dark mode check" captionMeta="5 components">
       <Table
         tone="subdued"
         zebra={false}
-        caption="Dark mode check"
-        captionMeta="5 components"
         columns={COLUMNS}
         rows={ROWS}
       />

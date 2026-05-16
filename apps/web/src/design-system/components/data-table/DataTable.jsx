@@ -35,8 +35,8 @@ export default function DataTable({
   const resolvedTone = tone ?? (variant === 'trust' ? 'subdued' : 'accent')
 
   return (
-    <TableWrap className={className}>
-      <Table tone={resolvedTone} caption={caption} columns={columns} rows={rows} />
+    <TableWrap caption={caption} className={className}>
+      <Table tone={resolvedTone} columns={columns} rows={rows} />
     </TableWrap>
   )
 }
