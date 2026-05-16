@@ -1,11 +1,10 @@
-import { useRef } from 'react'
+import { useRef } from 'react' // roadmapRef kept for future scroll-spy use
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionContainer from '../../design-system/components/section-container/SectionContainer'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Tile from '../../design-system/components/tile/Tile'
 import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
-import LaneHeader from '../../design-system/components/lane-header/LaneHeader'
 import Callout from '../../design-system/components/callout/Callout'
 import RoadmapTable from '../../design-system/components/roadmap-table/RoadmapTable'
 import { MermaidDiagram } from '../../components/PageSections'
@@ -131,15 +130,13 @@ export default function GovernancePage() {
 
           {!isStale && (
             <div ref={roadmapRef} className={styles.roadmapScroll}>
-              <LaneHeader label="In progress" count={inProgress.length} scrollRoot={roadmapRef} />
               {inProgress.length > 0
-                ? <RoadmapTable rows={inProgress} scrollRoot={roadmapRef} />
+                ? <RoadmapTable lane={{ label: 'In progress' }} rows={inProgress} />
                 : <p className={styles.empty}>No epics currently in progress.</p>
               }
 
-              <LaneHeader label="Backlog" count={backlog.length} scrollRoot={roadmapRef} />
               {backlog.length > 0
-                ? <RoadmapTable rows={backlog} scrollRoot={roadmapRef} />
+                ? <RoadmapTable lane={{ label: 'Backlog' }} rows={backlog} />
                 : <p className={styles.empty}>Backlog is empty.</p>
               }
             </div>

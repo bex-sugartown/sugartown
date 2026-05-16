@@ -1,7 +1,6 @@
-import { useRef } from 'react'
-import { useStickyState } from '../../hooks/useStickyState'
 import PriorityChip from '../priority-chip/PriorityChip'
 import Chip from '../chip/Chip'
+import Table, { TableWrap } from '../table/Table'
 import styles from './RoadmapTable.module.css'
 
 const PRIORITY_MAP = {
@@ -11,56 +10,55 @@ const PRIORITY_MAP = {
   'No priority': 'none',
 }
 
+const COLUMNS = [
+  { key: 'id',       label: 'ID',       width: 78  },
+  { key: 'title',    label: 'Title'                 },
+  { key: 'status',   label: 'Status',   width: 110 },
+  { key: 'priority', label: 'Priority', width: 120 },
+  { key: 'projects', label: 'Projects', width: 260 },
+]
+
+function renderRow(row) {
+  return {
+    id: row.url
+      ? <a className={styles.idCell} href={row.url} target="_blank" rel="noopener noreferrer">{row.identifier}</a>
+      : <span className={styles.idCell}>{row.identifier}</span>,
+    title:    row.title,
+    status:   <span className={styles.statusCell}>{row.status}</span>,
+    priority: <PriorityChip level={PRIORITY_MAP[row.priority] ?? 'none'} />,
+    projects: (
+      <div className={styles.chipsCell}>
+        {(row.projects ?? []).map((p) => (
+          <Chip key={p.name} dotColor={p.colorHex} label={p.name} size="sm" />
+        ))}
+      </div>
+    ),
+  }
+}
+
 /**
  * RoadmapTable — sticky-thead epics table for a single roadmap lane.
- * thead sticks at top: 38px (beneath the LaneHeader).
+ *
+ * Composes <Table tone="subdued"> — no raw <table> element.
+ * Caption + thead pin together via --st-table-sticky-offset on the wrapper.
+ * LaneHeader is retired; lane label and epic count live in caption/captionMeta.
  */
-export default function RoadmapTable({ rows, scrollRoot }) {
-  const tableRef = useRef(null)
-  const stuckState = useStickyState(tableRef, {
-    root: scrollRoot?.current ?? null,
-    rootMargin: '-38px 0px 0px 0px',
-  })
+export default function RoadmapTable({ lane, rows: epics = [] }) {
+  const rows = epics.map(renderRow)
 
   return (
-    <table
-      ref={tableRef}
-      className={styles.table}
-      data-thead-stuck={stuckState === 'pinned' ? 'true' : undefined}
-    >
-      <thead>
-        <tr>
-          <th className={styles.colId}>ID</th>
-          <th>Title</th>
-          <th className={styles.colStatus}>Status</th>
-          <th className={styles.colPriority}>Priority</th>
-          <th className={styles.colProjects}>Projects</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row) => (
-          <tr key={row.identifier ?? row.id ?? row.title}>
-            <td className={`${styles.idCell} ${styles.colId}`}>
-              {row.url
-                ? <a href={row.url} target="_blank" rel="noopener noreferrer">{row.identifier}</a>
-                : row.identifier
-              }
-            </td>
-            <td>{row.title}</td>
-            <td className={`${styles.statusCell} ${styles.colStatus}`}>{row.status}</td>
-            <td className={styles.colPriority}>
-              <PriorityChip level={PRIORITY_MAP[row.priority] ?? 'none'} />
-            </td>
-            <td className={styles.colProjects}>
-              <div className={styles.chipsCell}>
-                {(row.projects ?? []).map((p) => (
-                  <Chip key={p.name} dotColor={p.colorHex} label={p.name} size="sm" />
-                ))}
-              </div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <TableWrap>
+      <div className={styles.roadmapLane}>
+        <Table
+          tone="subdued"
+          layout="fixed"
+          zebra={false}
+          caption={lane?.label}
+          captionMeta={epics.length ? `${epics.length} ${epics.length === 1 ? 'epic' : 'epics'}` : undefined}
+          columns={COLUMNS}
+          rows={rows}
+        />
+      </div>
+    </TableWrap>
   )
 }
