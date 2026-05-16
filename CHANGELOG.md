@@ -19,6 +19,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### apps/web
 
 #### Added
+- SUG-119: Table audit — single `st-table` primitive with `tone` prop (`accent`/`subdued`), caption-above-thead cross-browser fix (div not `<caption>`), 6 new `--st-table-*` zone tokens, pink hairline leader, outer border, differentiated cell/last-row borders. RoadmapTable and DataTable compose Table; LaneHeader retired. DS package mirror and Storybook updated. `/dev/tables` test bench added.
 - SUG-118: Platform Stats Page II — RoadmapTable DS component (sticky thead, white/gray bg, priority chips), LaneHeader pinned-state rewrite (hairline accent, backdrop blur), SectionLabel geometric centering, shadow tokens `--st-shadow-thead-stuck` and `--st-shadow-subhead-pinned`, Governance and DesignSystem page layout fixes
 - SUG-113: Dynamic reporting pipeline — linearRoadmap two-step query fix (complexity limit), CWV `stale:false` + mobile inference, CrUX `static · no field data` label, form-factor toggle hidden pending SUG-117 LHCI mobile throttling fix
 - SUG-115: Platform DS remediation — hero theme-awareness, folio numbers on all SectionLabels, CodeBlock for pre-blocks, DataTable for registry teaser, Mermaid hex overrides stripped, sidebar font tokens, ~80 lines dead CSS removed
