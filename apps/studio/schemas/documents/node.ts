@@ -19,6 +19,7 @@ export default defineType({
   groups: [
     {name: 'content', title: 'Content', default: true},
     {name: 'metadata', title: 'Metadata'},
+    {name: 'retrieval', title: 'Retrieval'},
     {name: 'seo', title: 'SEO'},
     {name: 'migration', title: 'Migration'},
     {name: 'legacy', title: 'Legacy'},

@@ -20,6 +20,10 @@ export default defineType({
   title: 'Tool',
   type: 'document',
   icon: WrenchIcon,
+  groups: [
+    {name: 'basics', title: 'Basics', default: true},
+    {name: 'media', title: 'Media'},
+  ],
   renderMembers: (members) => [
     ...members,
     defineIncomingReferenceDecoration({
@@ -39,6 +43,7 @@ export default defineType({
       name: 'name',
       title: 'Tool Name',
       type: 'string',
+      group: 'basics',
       description: 'The tool, platform, or technology name (e.g., "Claude Code", "React", "Figma")',
       validation: (Rule) =>
         Rule.required()
@@ -49,6 +54,7 @@ export default defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
+      group: 'basics',
       description: 'URL-friendly identifier (auto-generated from name)',
       options: {
         source: 'name',
@@ -62,6 +68,7 @@ export default defineType({
       name: 'kind',
       title: 'Kind',
       type: 'string',
+      group: 'basics',
       description: 'Relationship context: "platform" = client-operated infrastructure Bex worked on (Drupal, Salesforce, Oracle ATG). "practitioner" = tools Bex uses directly in her practice (Figma, Sanity, Storybook).',
       options: {
         list: [
@@ -75,6 +82,7 @@ export default defineType({
       name: 'toolType',
       title: 'Tool Type',
       type: 'string',
+      group: 'basics',
       description: 'Categorises tools by function — used for filtering and grouping on archive pages.',
       options: {
         list: [
@@ -102,6 +110,7 @@ export default defineType({
       name: 'description',
       title: 'Description',
       type: 'text',
+      group: 'basics',
       description: 'What is this tool and when should it be tagged? Helps editors maintain consistent vocabulary.',
       rows: 2,
       validation: (Rule) => Rule.max(300)
@@ -110,12 +119,14 @@ export default defineType({
       name: 'url',
       title: 'Website URL',
       type: 'url',
+      group: 'basics',
       description: 'Official website or documentation link for this tool.',
     }),
     defineField({
       name: 'logo',
       title: 'Logo',
       type: 'image',
+      group: 'media',
       description: 'Tool logo or icon. Square aspect ratio recommended.',
       options: {
         hotspot: true,
