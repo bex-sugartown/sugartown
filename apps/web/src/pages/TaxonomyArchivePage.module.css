@@ -183,15 +183,32 @@
 
 .alphaBtnActive {
   color: var(--st-color-text-muted);
+  border: 1px solid var(--st-color-border-default);
+  background: none;
+  cursor: pointer;
+  transition: border-color 0.1s, color 0.1s, background 0.1s;
 }
 
 .alphaBtnActive:hover {
-  color: var(--st-color-maroon);
-  background: var(--st-color-bg-subtle);
+  color: var(--st-color-pink);
+  border-color: var(--st-color-pink);
+}
+
+.alphaBtnSelected {
+  background: var(--st-color-pink);
+  border-color: var(--st-color-pink);
+  color: var(--st-color-white);
+}
+
+.alphaBtnSelected:hover {
+  background: var(--st-color-maroon);
+  border-color: var(--st-color-maroon);
+  color: var(--st-color-white);
 }
 
 .alphaBtnDisabled {
   color: var(--st-color-border-medium);
+  border: 1px solid transparent;
   cursor: default;
   pointer-events: none;
 }
@@ -216,7 +233,13 @@
   }
 }
 
-/* ── Letter bucket ───────────────────────────────────────────────── */
+/* Single-column variant — used when a letter filter is active */
+.taxGridSingle {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+/* ── Letter bucket (unused — retained for reference) ─────────────── */
 .taxBucket {
   min-width: 0;
 }
@@ -248,6 +271,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  min-width: 0; /* grid item: allow shrink below content size so 1fr columns stay equal */
 }
 
 /* ── Tag row: mono name + sublabel + count ───────────────────────── */
