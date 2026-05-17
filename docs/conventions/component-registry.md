@@ -52,7 +52,7 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 | ScoreRing | ✅ `packages/ds/ScoreRing/` | ✅ `web/design-system/score-ring/` | ✅ Components/ScoreRing | ✅ | — | SUG-100 |
 | SegmentedControl | ✅ `packages/ds/SegmentedControl/` | ✅ `web/design-system/segmented-control/` | ✅ Components/SegmentedControl | ✅ | — | SUG-100 |
 | Table | ✅ `packages/ds/Table/` | ✅ `web/design-system/table/` | ✅ Components/Table | ✅ accent + subdued, light + dark | `tableBlock` | SUG-119 shipped — tone prop (accent/subdued), caption surface, props-driven API. DataTable is deprecated shim; RoadmapTable composes Table. |
-| PriorityChip | ✅ `packages/ds/PriorityChip/` | ✅ `web/design-system/priority-chip/` | ✅ Components/PriorityChip | ⚠️ untested | — | Priority badge for Urgent/High/Medium/Low/None levels. Added SUG-120. Dark mode story pending. |
+| Swatch | ✅ `packages/ds/Swatch/` | ✅ `web/design-system/swatch/` | ✅ Components/Swatch | ⚠️ untested | — | Square color dot + mono label. Generic `color`/`label`/`size` API. `null` color = outlined square. Callers own priority→color mapping. Renamed from PriorityChip (SUG-119). Dark mode story pending. |
 | ~~StatGrid~~ | Deleted (SUG-120) | Deleted (SUG-120) | — | — | `statTileSection` | DS primitive + web adapter both deleted. Superseded by Grid. `statTileSection` schema and PageSections renderer remain; renderer now uses Grid directly. |
 
 ---

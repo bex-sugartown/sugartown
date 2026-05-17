@@ -124,7 +124,7 @@ const REGISTRY_ROWS = [
   { component: 'FilterBar',       ds: '✅', web: '—',  story: '✅', dark: '✅' },
   { component: 'ScoreRing',       ds: '✅', web: '✅', story: '✅', dark: '✅' },
   { component: 'SegmentedControl',ds: '✅', web: '✅', story: '✅', dark: '✅' },
-  { component: 'PriorityChip',    ds: '✅', web: '✅', story: '✅', dark: '⚠️' },
+  { component: 'Swatch',          ds: '✅', web: '✅', story: '✅', dark: '⚠️' },
   { component: 'DataTable',       ds: '—',  web: '⚠️', story: '✅', dark: '⚠️' },
   { component: 'RoadmapTable @deprecated', ds: '—', web: '⚠️', story: '✅', dark: '✅' },
 ]
