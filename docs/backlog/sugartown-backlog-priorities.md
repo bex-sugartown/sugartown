@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-17 · v0.23.33 · SUG-103/119/120 shipped — registry page, Swatch rename, Grid consolidation
+> Updated 2026-05-17 · v0.23.33 · SUG-121 added — Design System Section Module Showcase
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -46,6 +46,7 @@
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
+| 5 | **[SUG-121](https://linear.app/sugartown/issue/SUG-121) · Design System — Section Module Showcase** — Public-facing Sanity `page` at `/platform/design-system/sections` showing every available section type and variant with intentional placeholder copy. Linked from Design System sidebar nav. No new schema or renderers. Epic: `docs/backlog/SUG-121-design-system-section-module-showcase.md`. | `Design System` `Content` `Frontend` | 🟣 Soon |
 | 4 | **[SUG-117](https://linear.app/sugartown/issue/SUG-117) · CWV mobile form-factor reporting** — Fix deprecated LHCI `emulatedFormFactor` flag (Lighthouse 10+) so mobile/desktop scores diverge; re-enable the form-factor toggle in CwvSnapshot (hidden at SUG-113 close-out). Epic: `docs/backlog/SUG-117-cwv-mobile-form-factor-reporting.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
 | 1 | **[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Fix LHCI not writing JSON in CI, add missing Sanity secrets, diagnose low mobile Lighthouse scores (perf 68, best-practices 42), document manual backup update workflow, close SUG-100. Epic: `docs/backlog/SUG-106-stats-pipeline-fix-sug-100-close-out.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
 | 3 | ~~**[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — `useScrollspy` hook extracted, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors fixed + pre-commit gate activated. Shipped v0.23.24.~~ | `Design System` `Frontend` `Tooling` | ✅ Shipped |
