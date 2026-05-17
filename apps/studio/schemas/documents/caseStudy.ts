@@ -19,7 +19,6 @@ export default defineType({
     {name: 'metadata', title: 'Metadata'},
     {name: 'retrieval', title: 'Retrieval'},
     {name: 'seo', title: 'SEO'},
-    {name: 'migration', title: 'Migration'},
     {name: 'legacy', title: 'Legacy'},
   ],
   fields: [
@@ -271,7 +270,7 @@ export default defineType({
       title: 'Challenge Summary (deprecated)',
       type: 'text',
       description: '⚠️ Deprecated — use a calloutSection in sections[] instead. Kept as fallback only; will be removed once all case studies are migrated.',
-      group: 'migration',
+      group: 'legacy',
       rows: 4,
       hidden: ({ document }) => !document?.challengeSummary,
       validation: (Rule) => Rule.max(600),
@@ -281,7 +280,7 @@ export default defineType({
       title: 'Outcomes (migrate to sections)',
       type: 'array',
       description: 'Migrate this data: add a "Stat Tiles" block to the sections array above, then clear these items.',
-      group: 'migration',
+      group: 'legacy',
       of: [
         defineArrayMember({
           type: 'object',
@@ -524,13 +523,14 @@ export default defineType({
       ],
     }),
 
-    // MIGRATION GROUP — populated by migrate:import, read-only in Studio
+    // LEGACY GROUP — deprecated fields + migration data from WordPress import
     defineField({
       name: 'legacySource',
       title: 'Legacy Source',
       type: 'legacySource',
-      group: 'migration',
+      group: 'legacy',
       description: 'Migration metadata from WordPress. Read-only — set by import script.',
+      deprecated: {reason: 'WordPress migration data. Read-only — set by import script, not for editorial use.'},
     }),
   ],
   preview: {

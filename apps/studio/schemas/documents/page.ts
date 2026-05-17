@@ -28,7 +28,7 @@ export default defineType({
     {name: 'content', title: 'Content', default: true},
     {name: 'metadata', title: 'Metadata'},
     {name: 'seo', title: 'SEO'},
-    {name: 'migration', title: 'Migration'},
+    {name: 'legacy', title: 'Legacy'},
   ],
   fields: [
     // CONTENT GROUP
@@ -229,13 +229,14 @@ export default defineType({
       group: 'seo',
     }),
 
-    // MIGRATION GROUP — populated by migrate:import, read-only in Studio
+    // LEGACY GROUP — migration data from WordPress import
     defineField({
       name: 'legacySource',
       title: 'Legacy Source',
       type: 'legacySource',
-      group: 'migration',
+      group: 'legacy',
       description: 'Migration metadata from WordPress. Read-only — set by import script.',
+      deprecated: {reason: 'WordPress migration data. Read-only — set by import script, not for editorial use.'},
     }),
   ],
   preview: {
