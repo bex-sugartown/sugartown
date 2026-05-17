@@ -6,8 +6,11 @@
  * parses field names and types from the TypeScript source via regex, and
  * emits apps/web/src/data/schemaManifest.js.
  *
- * Run: node scripts/generate-schema-manifest.mjs
- * Or:  pnpm generate:schema-manifest
+ * Runs automatically at build time (wired into apps/web/package.json build script).
+ * Also available manually: node scripts/generate-schema-manifest.mjs
+ * Or: pnpm generate:schema-manifest
+ *
+ * Output is gitignored — do not commit schemaManifest.js directly.
  *
  * Relationship inference: any defineField with type: 'reference' and a
  * to: [{type: 'X'}] block emits a relationships[] entry.
@@ -246,4 +249,16 @@ writeFileSync(OUTPUT, output, 'utf8')
 
 const entityCount = sorted.length
 const relCount = relationships.length
+
+// Count assertion — fail the build if the manifest regresses below the known baseline.
+// Update this floor when types are intentionally removed.
+// portableTextConfig is excluded by design (config, not a schema type).
+// answerBlock.ts filename is stale — the file defines citedBlock, which IS counted.
+const ENTITY_FLOOR = 42
+if (entityCount < ENTITY_FLOOR) {
+  console.error(`❌  schema manifest entity count regressed: expected ≥${ENTITY_FLOOR}, got ${entityCount}`)
+  console.error('    If types were intentionally removed, update ENTITY_FLOOR in generate-schema-manifest.mjs.')
+  process.exit(1)
+}
+
 console.log(`✅  schema manifest generated — ${entityCount} types, ${relCount} relationships → ${OUTPUT.replace(ROOT + '/', '')}`)

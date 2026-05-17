@@ -94,3 +94,24 @@ When an **object schema** and a **document schema** represent the same logical c
 ## Field authority — one field per concept
 
 Each user-facing concept must resolve from exactly one field. If a sub-object brings a field that overlaps with a parent schema field, one must be canonical and the other hidden or removed. See CLAUDE.md §Single Field Authority.
+
+
+---
+
+## Schema manifest — auto-generated ERD data (SUG-114)
+
+`apps/web/src/data/schemaManifest.js` is generated automatically at build time. Do not edit it directly or commit it to git (it is gitignored).
+
+**Generator:** `scripts/generate-schema-manifest.mjs`
+**Build trigger:** wired into `apps/web/package.json` build script — runs before every `vite build`
+**Manual run:** `pnpm generate:schema-manifest` from the repo root
+
+The generator walks `apps/studio/schemas/documents/` and `apps/studio/schemas/objects/`, parses field names and reference targets via regex, and emits `entities[]` and `relationships[]`.
+
+**Known exclusions:**
+- `portableTextConfig` — configuration object, not a schema type; excluded by design
+- `answerBlock.ts` — filename is stale; the file defines `citedBlock`, which IS included in the manifest
+
+**Count assertion:** The generator exits non-zero if `entities.length < 42` (the known baseline at SUG-114 ship). If a type is intentionally removed, update `ENTITY_FLOOR` in the generator.
+
+**When you add a new schema type:** No action needed — the generator picks it up automatically on next build. If the new type is a reference target for existing types, the new relationship edges will also appear automatically.
