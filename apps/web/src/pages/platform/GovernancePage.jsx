@@ -7,7 +7,7 @@ import Tile from '../../design-system/components/tile/Tile'
 import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
 import Callout from '../../design-system/components/callout/Callout'
 import Table, { TableWrap } from '../../design-system/components/table/Table'
-import PriorityChip from '../../design-system/components/priority-chip/PriorityChip'
+import Swatch from '../../design-system/components/swatch/Swatch'
 import Chip from '../../design-system/components/chip/Chip'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
@@ -37,7 +37,14 @@ const inProgress = roadmap.inProgress ?? []
 const backlog    = roadmap.backlog    ?? []
 const isStale    = roadmap.stale === true || (!roadmap.fetchedAt && !inProgress.length && !backlog.length)
 
-const PRIORITY_MAP = {
+const PRIORITY_SWATCH = {
+  high:   { color: 'var(--st-pri-high)', label: 'High' },
+  medium: { color: 'var(--st-pri-med)',  label: 'Medium' },
+  low:    { color: 'var(--st-pri-low)',  label: 'Low' },
+  none:   { color: null,                 label: 'No priority' },
+}
+
+const PRIORITY_LEVEL = {
   High: 'high', Urgent: 'high',
   Medium: 'medium',
   Low: 'low',
@@ -53,13 +60,14 @@ const ROADMAP_COLUMNS = [
 ]
 
 function toRoadmapRow(row, issueIdClass, statusCellClass, labelChipsClass) {
+  const sw = PRIORITY_SWATCH[PRIORITY_LEVEL[row.priority] ?? 'none']
   return {
     id: row.url
       ? <a className={issueIdClass} href={row.url} target="_blank" rel="noopener noreferrer">{row.identifier}</a>
       : <span className={issueIdClass}>{row.identifier}</span>,
     title:    row.title,
     status:   <span className={statusCellClass}>{row.status}</span>,
-    priority: <PriorityChip level={PRIORITY_MAP[row.priority] ?? 'none'} />,
+    priority: <Swatch color={sw.color} label={sw.label} />,
     projects: (
       <div className={labelChipsClass}>
         {(row.projects ?? []).map((p) => (

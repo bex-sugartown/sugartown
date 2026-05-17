@@ -55,9 +55,9 @@ export type { SegmentedControlProps, SegmentOption } from './components/Segmente
 export { ScoreRing, scoreCategory } from './components/ScoreRing';
 export type { ScoreRingProps, ScoreCategory } from './components/ScoreRing';
 
-// ── PriorityChip (SUG-118) ───────────────────────────────────────────────────
-export { PriorityChip } from './components/PriorityChip';
-export type { PriorityChipProps, PriorityLevel } from './components/PriorityChip';
+// ── Swatch ───────────────────────────────────────────────────────────────────
+export { Swatch } from './components/Swatch';
+export type { SwatchProps } from './components/Swatch';
 
 // ── useStickyState (SUG-118) ─────────────────────────────────────────────────
 export { useStickyState } from './hooks/useStickyState';

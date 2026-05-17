@@ -8,11 +8,18 @@
  */
 import Table, { TableWrap } from '../../design-system/components/table/Table'
 import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
-import PriorityChip from '../../design-system/components/priority-chip/PriorityChip'
+import Swatch from '../../design-system/components/swatch/Swatch'
 import Chip from '../../design-system/components/chip/Chip'
 import styles from './TablesDevPage.module.css'
 
-const PRIORITY_MAP = {
+const PRIORITY_SWATCH = {
+  high:   { color: 'var(--st-pri-high)', label: 'High' },
+  medium: { color: 'var(--st-pri-med)',  label: 'Medium' },
+  low:    { color: 'var(--st-pri-low)',  label: 'Low' },
+  none:   { color: null,                 label: 'No priority' },
+}
+
+const PRIORITY_LEVEL = {
   High: 'high', Urgent: 'high',
   Medium: 'medium',
   Low: 'low',
@@ -28,13 +35,14 @@ const ROADMAP_COLUMNS = [
 ]
 
 function toRoadmapRow(row) {
+  const sw = PRIORITY_SWATCH[PRIORITY_LEVEL[row.priority] ?? 'none']
   return {
     id: row.url
       ? <a className={styles.idCell} href={row.url} target="_blank" rel="noopener noreferrer">{row.identifier}</a>
       : <span className={styles.idCell}>{row.identifier}</span>,
     title:    row.title,
     status:   <span className={styles.statusCell}>{row.status}</span>,
-    priority: <PriorityChip level={PRIORITY_MAP[row.priority] ?? 'none'} />,
+    priority: <Swatch color={sw.color} label={sw.label} />,
     projects: (
       <div className={styles.chipsCell}>
         {(row.projects ?? []).map((p) => (
