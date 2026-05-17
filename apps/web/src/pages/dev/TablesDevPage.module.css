@@ -96,3 +96,26 @@
   font-family: var(--st-font-family-mono);
   color: var(--st-color-pink);
 }
+
+.idCell {
+  font-family: var(--st-font-family-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--st-color-pink);
+  text-decoration: none;
+}
+.idCell:hover { text-decoration: underline; }
+
+.statusCell {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--st-color-text-muted);
+}
+
+.chipsCell {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}

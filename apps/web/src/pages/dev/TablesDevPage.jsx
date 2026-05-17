@@ -7,9 +7,52 @@
  * Projects field omitted in stats pipeline — rendered as empty chip list.
  */
 import Table, { TableWrap } from '../../design-system/components/table/Table'
-import RoadmapTable from '../../design-system/components/roadmap-table/RoadmapTable'
 import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
+import PriorityChip from '../../design-system/components/priority-chip/PriorityChip'
+import Chip from '../../design-system/components/chip/Chip'
 import styles from './TablesDevPage.module.css'
+
+const PRIORITY_MAP = {
+  High: 'high', Urgent: 'high',
+  Medium: 'medium',
+  Low: 'low',
+  'No priority': 'none',
+}
+
+const ROADMAP_COLUMNS = [
+  { key: 'id',       label: 'ID',       width: 78  },
+  { key: 'title',    label: 'Title'                 },
+  { key: 'status',   label: 'Status',   width: 110 },
+  { key: 'priority', label: 'Priority', width: 120 },
+  { key: 'projects', label: 'Projects', width: 260 },
+]
+
+function toRoadmapRow(row) {
+  return {
+    id: row.url
+      ? <a className={styles.idCell} href={row.url} target="_blank" rel="noopener noreferrer">{row.identifier}</a>
+      : <span className={styles.idCell}>{row.identifier}</span>,
+    title:    row.title,
+    status:   <span className={styles.statusCell}>{row.status}</span>,
+    priority: <PriorityChip level={PRIORITY_MAP[row.priority] ?? 'none'} />,
+    projects: (
+      <div className={styles.chipsCell}>
+        {(row.projects ?? []).map((p) => (
+          <Chip key={p.name} dotColor={p.colorHex} label={p.name} size="sm" />
+        ))}
+      </div>
+    ),
+  }
+}
+
+function RoadmapLane({ label, epics = [] }) {
+  const captionMeta = epics.length ? `${epics.length} ${epics.length === 1 ? 'epic' : 'epics'}` : undefined
+  return (
+    <TableWrap caption={label} captionMeta={captionMeta}>
+      <Table tone="subdued" zebra={false} columns={ROADMAP_COLUMNS} rows={epics.map(toRoadmapRow)} />
+    </TableWrap>
+  )
+}
 
 // ── Real prod roadmap data (from stats.json as of 2026-05-16) ─────────────────
 const IN_PROGRESS = [
@@ -75,7 +118,7 @@ const REGISTRY_ROWS = [
   { component: 'SegmentedControl',ds: '✅', web: '✅', story: '✅', dark: '✅' },
   { component: 'PriorityChip',    ds: '✅', web: '✅', story: '✅', dark: '⚠️' },
   { component: 'DataTable',       ds: '—',  web: '⚠️', story: '✅', dark: '⚠️' },
-  { component: 'RoadmapTable',    ds: '—',  web: '✅', story: '✅', dark: '✅' },
+  { component: 'RoadmapTable @deprecated', ds: '—', web: '⚠️', story: '✅', dark: '✅' },
 ]
 
 // ── Section wrapper ───────────────────────────────────────────────────────────
@@ -101,8 +144,8 @@ export default function TablesDevPage() {
       <nav className={styles.nav}>
         <a href="#accent">Accent (default)</a>
         <a href="#subdued">Subdued</a>
-        <a href="#roadmap-in-progress">RoadmapTable — In progress</a>
-        <a href="#roadmap-backlog">RoadmapTable — Backlog</a>
+        <a href="#roadmap-in-progress">Roadmap — In progress</a>
+        <a href="#roadmap-backlog">Roadmap — Backlog</a>
         <a href="#releases">DataTable (deprecated)</a>
         <a href="#registry">DS registry (accent, many cols)</a>
       </nav>
@@ -130,16 +173,16 @@ export default function TablesDevPage() {
           </TableWrap>
         </Section>
 
-        <Section id="roadmap-in-progress" label="RoadmapTable — In progress (prod data, no projects)">
+        <Section id="roadmap-in-progress" label="Table — tone=subdued, roadmap shape, In progress">
           <p className={styles.note}>
             Projects column is empty — <code>projects</code> field not returned by the stats pipeline.
             This is the real prod data shape from <code>stats.json</code>.
           </p>
-          <RoadmapTable lane={{ label: 'In progress' }} rows={IN_PROGRESS} />
+          <RoadmapLane label="In progress" epics={IN_PROGRESS} />
         </Section>
 
-        <Section id="roadmap-backlog" label="RoadmapTable — Backlog (prod data, 14 epics)">
-          <RoadmapTable lane={{ label: 'Backlog' }} rows={BACKLOG} />
+        <Section id="roadmap-backlog" label="Table — tone=subdued, roadmap shape, Backlog (14 epics)">
+          <RoadmapLane label="Backlog" epics={BACKLOG} />
         </Section>
 
         <Section id="releases" label="DataTable (deprecated shim) — trust/subdued variant">
