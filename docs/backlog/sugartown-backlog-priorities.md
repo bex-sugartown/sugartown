@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-17 · v0.23.35 · SUG-117 shipped — CWV mobile form-factor reporting
+> Updated 2026-05-17 · v0.23.36 · SUG-114 shipped — Dynamic schema ERD
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-117 shipped ✅ v0.23.35 — CWV mobile form-factor fixed, CwvSnapshot on /platform/governance. SUG-116 (Ledger Button Update) is next. SUG-100 (CWV snapshot) In Review. SUG-121 (Section Module Showcase) queued Soon.
+> **⚑ Current focus:** SUG-114 shipped ✅ v0.23.36 — schema manifest auto-generated at build, gitignored, count assertion added. SUG-116 (Ledger Button Update) is next. SUG-100 (CWV snapshot) In Review. SUG-122 (Registry↔ERD bridge) added to backlog. SUG-121 (Section Module Showcase) queued Soon.
 
 ---
 
@@ -96,6 +96,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-114 · Dynamic schema ERD** — schemaManifest.js auto-generated at build time; gitignored; count assertion (floor 42); CMS ERD section label copy updated; clear-selection button full-width; SUG-122 (registry↔ERD bridge) scoped. Epic: `docs/shipped/SUG-114-dynamic-schema-erd.md`.~~ | v0.23.36 | 2026-05-17 |
 | ~~**SUG-117 · CWV mobile form-factor reporting** — LHCI mobile throttling fixed (Lighthouse 10+ flags); uncalibrated CI data detection in CwvSnapshot falls back to PERF_BACKUP; toggle re-enabled; CwvSnapshot added to /platform/governance §04. Epic: `docs/shipped/SUG-117-cwv-mobile-form-factor-reporting.md`.~~ | v0.23.35 | 2026-05-17 |
 | ~~**SUG-97 · Studio schema field group audit + reorg** — migration tab removed; all fields consolidated into legacy tab across article, node, page, caseStudy; legacySource deprecated; retrieval group stubs added to article/node for SUG-94. Epic: `docs/shipped/SUG-97-studio-schema-field-group-audit-reorg.md`.~~ | v0.23.34 | 2026-05-17 |
 | ~~**SUG-120 · Consolidate StatGrid + StatTileSection into Grid primitive** — StatGrid + SectionContainer deleted; all callsites migrated to `Grid spacing="0" accentTop`; accentColor + tabletColumns added to Grid. Epic: `docs/shipped/SUG-120-consolidate-statgrid-stattilesection-grid-primitive.md`.~~ | v0.23.33 | 2026-05-17 |
