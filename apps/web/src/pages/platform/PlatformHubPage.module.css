@@ -176,6 +176,13 @@
   gap: 0.25rem;
 }
 
+.statusCell {
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--st-color-text-muted);
+}
+
 .empty {
   font-size: 0.875rem;
   color: var(--st-color-text-muted);

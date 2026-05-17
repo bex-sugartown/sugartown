@@ -6,7 +6,9 @@ import SectionLabel from '../../design-system/components/section-label/SectionLa
 import Tile from '../../design-system/components/tile/Tile'
 import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
 import Callout from '../../design-system/components/callout/Callout'
-import RoadmapTable from '../../design-system/components/roadmap-table/RoadmapTable'
+import Table, { TableWrap } from '../../design-system/components/table/Table'
+import PriorityChip from '../../design-system/components/priority-chip/PriorityChip'
+import Chip from '../../design-system/components/chip/Chip'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import stats from '../../generated/stats.json'
@@ -34,6 +36,39 @@ const roadmap    = stats.linearRoadmap ?? {}
 const inProgress = roadmap.inProgress ?? []
 const backlog    = roadmap.backlog    ?? []
 const isStale    = roadmap.stale === true || (!roadmap.fetchedAt && !inProgress.length && !backlog.length)
+
+const PRIORITY_MAP = {
+  High: 'high', Urgent: 'high',
+  Medium: 'medium',
+  Low: 'low',
+  'No priority': 'none',
+}
+
+const ROADMAP_COLUMNS = [
+  { key: 'id',       label: 'ID',       width: 78  },
+  { key: 'title',    label: 'Title'                 },
+  { key: 'status',   label: 'Status',   width: 110 },
+  { key: 'priority', label: 'Priority', width: 120 },
+  { key: 'projects', label: 'Projects', width: 260 },
+]
+
+function toRoadmapRow(row, issueIdClass, statusCellClass, labelChipsClass) {
+  return {
+    id: row.url
+      ? <a className={issueIdClass} href={row.url} target="_blank" rel="noopener noreferrer">{row.identifier}</a>
+      : <span className={issueIdClass}>{row.identifier}</span>,
+    title:    row.title,
+    status:   <span className={statusCellClass}>{row.status}</span>,
+    priority: <PriorityChip level={PRIORITY_MAP[row.priority] ?? 'none'} />,
+    projects: (
+      <div className={labelChipsClass}>
+        {(row.projects ?? []).map((p) => (
+          <Chip key={p.name} dotColor={p.colorHex} label={p.name} size="sm" />
+        ))}
+      </div>
+    ),
+  }
+}
 
 // ── Artifacts ─────────────────────────────────────────────
 const ARTIFACTS = [
@@ -74,6 +109,16 @@ const RELEASE_DIAGRAM = {
     F -->|"Gate 5"| G["Ship"]`,
   width: 'wide',
   caption: 'Release process',
+}
+
+function RoadmapLane({ label, epics }) {
+  const rows = epics.map((r) => toRoadmapRow(r, styles.issueId, styles.statusCell, styles.labelChips))
+  const captionMeta = epics.length ? `${epics.length} ${epics.length === 1 ? 'epic' : 'epics'}` : undefined
+  return (
+    <TableWrap caption={label} captionMeta={captionMeta}>
+      <Table tone="subdued" zebra={false} columns={ROADMAP_COLUMNS} rows={rows} />
+    </TableWrap>
+  )
 }
 
 export default function GovernancePage() {
@@ -131,12 +176,12 @@ export default function GovernancePage() {
           {!isStale && (
             <div ref={roadmapRef} className={styles.roadmapScroll}>
               {inProgress.length > 0
-                ? <RoadmapTable lane={{ label: 'In progress' }} rows={inProgress} />
+                ? <RoadmapLane label="In progress" epics={inProgress} />
                 : <p className={styles.empty}>No epics currently in progress.</p>
               }
 
               {backlog.length > 0
-                ? <RoadmapTable lane={{ label: 'Backlog' }} rows={backlog} />
+                ? <RoadmapLane label="Backlog" epics={backlog} />
                 : <p className={styles.empty}>Backlog is empty.</p>
               }
             </div>
