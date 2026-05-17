@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-16T16:26:14.952Z",
+  "generatedAt": "2026-05-17T08:44:31.833Z",
   "release": {
     "current": {
       "version": "0.23.31",
@@ -77,8 +77,8 @@
     "components": 54
   },
   "repo": {
-    "commits": 1246,
-    "epicsShipped": 104
+    "commits": 1251,
+    "epicsShipped": 105
   },
   "perf": {
     "stale": false,
@@ -351,13 +351,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-05-16T16:26:01.688Z",
+    "fetchedAt": "2026-05-17T08:44:15.945Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-05-16T16:26:14.052Z",
+    "fetchedAt": "2026-05-17T08:44:31.085Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -378,7 +378,7 @@
     "lastCommit": "2026-05-15T09:15:18Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-16T16:26:14.695Z",
+    "fetchedAt": "2026-05-17T08:44:31.552Z",
     "counts": {
       "article": 11,
       "node": 48,
@@ -392,7 +392,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-05-16T16:26:14.951Z",
+    "generatedAt": "2026-05-17T08:44:31.832Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
