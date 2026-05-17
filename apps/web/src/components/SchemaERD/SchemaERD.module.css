@@ -255,3 +255,7 @@
 .sidebarFooter {
   padding: 0 1.25rem 1rem;
 }
+
+.sidebarFooter :global(button) {
+  width: 100%;
+}
