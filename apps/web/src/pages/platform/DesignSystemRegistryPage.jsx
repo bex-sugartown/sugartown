@@ -3,9 +3,8 @@ import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Callout from '../../design-system/components/callout/Callout'
-import Chip from '../../design-system/components/chip/Chip'
 import Table, { TableWrap } from '../../design-system/components/table/Table'
-import { parseRegistryMd, classifyCell } from '../../lib/registryParser'
+import { parseRegistryMd } from '../../lib/registryParser'
 import { PLATFORM_ROUTES } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
@@ -21,19 +20,6 @@ const SECTION_NUMBERS = [
   '§01', '§02', '§03', '§04', '§05', '§06',
 ]
 
-function CoverageCell({ value }) {
-  const { kind, text } = classifyCell(value)
-  if (kind === 'ok')   return <Chip color="seafoam" size="sm" label={text || '✅'} />
-  if (kind === 'warn') return <Chip color="amber"   size="sm" label={text ? `⚠️ ${text}` : '⚠️'} />
-  if (kind === 'na')   return <span>—</span>
-  return <span>{text}</span>
-}
-
-// Columns that contain coverage symbols rather than free text
-const COVERAGE_COLS = new Set([
-  'DS Primitive', 'Web Adapter', 'Dark mode',
-])
-
 function RegistryTable({ columns, rows }) {
   return (
     <TableWrap>
@@ -46,18 +32,9 @@ function RegistryTable({ columns, rows }) {
         <tbody>
           {rows.map(({ cells, isRetired }, ri) => (
             <tr key={ri} className={isRetired ? styles.retiredRow : undefined}>
-              {cells.map((cell, ci) => {
-                const col = columns[ci]
-                const isCoverage = COVERAGE_COLS.has(col)
-                return (
-                  <td key={ci}>
-                    {isCoverage
-                      ? <CoverageCell value={cell} />
-                      : cell
-                    }
-                  </td>
-                )
-              })}
+              {cells.map((cell, ci) => (
+                <td key={ci}>{cell}</td>
+              ))}
             </tr>
           ))}
         </tbody>
