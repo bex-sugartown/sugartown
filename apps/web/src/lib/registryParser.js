@@ -9,9 +9,10 @@
 /** Strip markdown formatting from a cell value. */
 function stripMarkdown(text) {
   return text
-    .replace(/`([^`]+)`/g, '$1')   // inline code
+    .replace(/`([^`]+)`/g, '$1')        // inline code
     .replace(/\*\*([^*]+)\*\*/g, '$1') // bold
-    .replace(/\*([^*]+)\*/g, '$1')     // italic
+    .replace(/\*([^*]+)\*/g, '$1')      // italic
+    .replace(/~~([^~]+)~~/g, '$1')      // strikethrough
     .trim()
 }
 
@@ -31,12 +32,11 @@ function parseTable(tableLines) {
 
   const rows = dataLines
     .filter((l) => /\|/.test(l))
-    .map((l) =>
-      l
-        .split('|')
-        .slice(1, -1)
-        .map((c) => stripMarkdown(c))
-    )
+    .map((l) => {
+      const isRetired = /^\|\s*~~/.test(l)
+      const cells = l.split('|').slice(1, -1).map((c) => stripMarkdown(c))
+      return { cells, isRetired }
+    })
 
   return { columns, rows }
 }

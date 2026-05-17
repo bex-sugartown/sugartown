@@ -176,6 +176,11 @@
   gap: 0.25rem;
 }
 
+/* Deprecated / retired / deleted registry rows */
+.retiredRow {
+  opacity: 0.45;
+}
+
 .statusCell {
   font-family: var(--st-font-family-mono);
   font-size: 11px;

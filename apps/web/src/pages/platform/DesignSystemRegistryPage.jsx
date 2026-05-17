@@ -42,9 +42,9 @@ function RegistryTable({ columns, rows }) {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, ri) => (
-            <tr key={ri}>
-              {row.map((cell, ci) => {
+          {rows.map(({ cells, isRetired }, ri) => (
+            <tr key={ri} className={isRetired ? styles.retiredRow : undefined}>
+              {cells.map((cell, ci) => {
                 const col = columns[ci]
                 const isCoverage = COVERAGE_COLS.has(col)
                 return (
