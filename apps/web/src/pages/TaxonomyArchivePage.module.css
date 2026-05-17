@@ -9,9 +9,15 @@
 
 /* ── Page wrapper ────────────────────────────────────────────────── */
 .archivePage {
-  max-width: 1080px;
+  width: 100%;
+  max-width: var(--st-width-detail);
   margin: 0 auto;
   padding: 3rem 1.5rem 5rem;
+}
+
+/* Wide variant for multi-col layouts (tags, future glossary) */
+.archivePageWide {
+  max-width: var(--st-width-detail-wide);
 }
 
 /* ── Header row ──────────────────────────────────────────────────── */
@@ -57,6 +63,7 @@
   display: flex;
   flex-direction: column;
   gap: 0;
+  border-top: 1px solid var(--st-color-border-subtle);
 }
 
 /* ── Item row ────────────────────────────────────────────────────── */
@@ -93,8 +100,8 @@
 
 /* ── Person avatar ───────────────────────────────────────────────── */
 .itemAvatar {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--st-radius-full);
   object-fit: cover;
   flex-shrink: 0;
@@ -102,8 +109,8 @@
 }
 
 .itemAvatarFallback {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--st-radius-full);
   background: var(--st-color-bg-subtle);
   border: 1px solid var(--st-color-border-default);
@@ -128,7 +135,7 @@
 
 .itemLabel {
   font-family: var(--st-font-family-ui);
-  font-size: 1rem;
+  font-size: var(--st-font-size-md);
   font-weight: 500;
   color: var(--st-color-text-primary);
   transition: color 0.1s;

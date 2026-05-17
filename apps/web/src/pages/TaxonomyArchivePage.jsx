@@ -63,7 +63,7 @@ const ARCHIVE_CONFIG = {
     getColor: () => null,
     getCount: (doc) => doc.count ?? null,
     hasImage: false,
-    layout: 'buckets',
+    layout: 'flat-grid',
   },
   projects: {
     title: 'Projects',
@@ -278,7 +278,7 @@ export default function TaxonomyArchivePage() {
   const list = items ?? []
 
   return (
-    <main className={styles.archivePage}>
+    <main className={`${styles.archivePage}${config.layout === 'flat-grid' ? ` ${styles.archivePageWide}` : ''}`}>
       <div className={styles.archiveHeader}>
         <h1 className={styles.archiveTitle}>{config.title}</h1>
         {list.length > 0 && (
@@ -294,7 +294,7 @@ export default function TaxonomyArchivePage() {
         <p className={pageStyles.archiveEmpty}>
           No {config.title.toLowerCase()} found.
         </p>
-      ) : config.layout === 'buckets' ? (
+      ) : config.layout === 'flat-grid' ? (
         <FlatGrid list={list} config={config} />
       ) : (
         <ul className={styles.itemList}>

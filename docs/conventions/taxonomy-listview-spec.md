@@ -10,7 +10,7 @@ This document is the registry-format spec for taxonomy page-level layout pattern
 
 ## Archive layer
 
-Single component (`TaxonomyArchivePage.jsx`) serves all five archive URLs via `ARCHIVE_CONFIG`. Two layout patterns: `rows` (single-column, four types) and `buckets` (multi-column letter-grid, tags only).
+Single component (`TaxonomyArchivePage.jsx`) serves all five archive URLs via `ARCHIVE_CONFIG`. Two layout patterns: `rows` (single-column, four types) and `flat-grid` (3-col alphabetical list with letter filter, tags only).
 
 **Agreed layout spec (Phase 0 approved):**
 - Container: `--st-width-detail` (760px) for single-col; `--st-width-detail-wide` (1080px) for multi-col
@@ -27,13 +27,13 @@ Single component (`TaxonomyArchivePage.jsx`) serves all five archive URLs via `A
 | Projects | `/projects` | `TaxonomyArchivePage` | `rows` — dot + name + count | `TaxonomyArchivePage.module.css` | Same as categories | None | `Chip` (count) | None | Same row pattern as categories; no lede |
 | Tools | `/tools` | `TaxonomyArchivePage` | `rows` — name + count (no lead element) | `TaxonomyArchivePage.module.css` | `itemList`, `item`, `itemLink`, `itemText`, `itemLabel`, `itemCount` | None | `Chip` (count) | None | Simplest row variant |
 | People | `/people` | `TaxonomyArchivePage` | `rows` — avatar + name + sublabel (no count) | `TaxonomyArchivePage.module.css` | `itemList`, `item`, `itemLink`, `itemAvatar`, `itemAvatarFallback`, `itemText`, `itemLabel`, `itemSublabel` | None | None | `border-radius: 50%` ×2 (avatar img + fallback div) → **converged: `--st-radius-full`** | `urlFor()` at 40×40; fallback shows initial |
-| Tags | `/tags` | `TaxonomyArchivePage` | `buckets` — 3-col letter grid + alpha strip | `TaxonomyArchivePage.module.css` | `alphaStrip`, `alphaBtn`, `alphaBtnActive`, `alphaBtnDisabled`, `taxGrid`, `taxBucket`, `taxLetter`, `taxLetterGlyph`, `taxLetterRule`, `taxBucketList`, `taxRow`, `taxRowInner`, `taxRowName`, `taxRowSub`, `taxRowCount` | None | `Grid` (evaluated — does not fit; see notes), `SectionLabel` (evaluated — does not fit; see notes), `Chip` (count) | None | `taxLetterRule` is `flex: 1` hairline divider; hover shifts `padding-left` |
+| Tags | `/tags` | `TaxonomyArchivePage` | `flat-grid` — 3-col alphabetical flat list split by count, alpha letter-filter strip (no bucket headers) | `TaxonomyArchivePage.module.css` | `alphaStrip`, `alphaBtn`, `alphaBtnActive`, `alphaBtnSelected`, `alphaBtnDisabled`, `taxGrid`, `taxGridSingle`, `taxBucketList`, `taxRow`, `taxRowInner`, `taxRowName`, `taxRowSub`, `taxRowCount` | None | `Grid` (evaluated — does not fit; see notes), `Chip` (count) | None | Alpha strip is React state filter (not anchor nav). Filtered state collapses to `taxGridSingle` (1-col). `min-width: 0` on `taxBucketList` is load-bearing for equal 1fr columns. Dead CSS: `taxBucket`, `taxLetter`, `taxLetterGlyph`, `taxLetterRule` (retained for reference) |
 
 ### Phase 2 DS component evaluation — archive
 
-**`Grid` for `taxGrid` bucket layout:** The current `taxGrid` uses `display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))` — a responsive intrinsic grid. The DS `Grid` component accepts a fixed `columns` prop (e.g. `columns={3}`). These are different contracts. Using DS `Grid` here would lose the responsive auto-fill behaviour. Decision: leave `taxGrid` as CSS; document this as intentional.
+**`Grid` for `taxGrid` flat-column layout:** The current `taxGrid` uses `display: grid; grid-template-columns: repeat(3, 1fr)` — a fixed 3-column grid. The DS `Grid` component accepts a `columns` prop. These are mechanically compatible, but the flat grid needs `min-width: 0` on list children to avoid `nowrap` blowout, which DS `Grid` doesn't set on slot children. Decision: leave `taxGrid` as hand-authored CSS; document this as intentional.
 
-**`SectionLabel` for letter-bucket headers:** The `taxLetter` pattern renders a letter glyph + a `flex: 1` hairline rule (`taxLetterRule`) — a custom compound element. `SectionLabel` renders a title + optional kicker with no hairline. These do not share anatomy. Decision: leave `taxLetter` pattern as-is; document this as intentional.
+**Letter-bucket headers removed:** The `taxLetter` + `taxLetterRule` pattern (letter glyph + hairline) was present in the prior bucket layout. Tags now uses a flat alphabetical list with alpha letter-filter strip instead. Dead CSS classes (`taxBucket`, `taxLetter`, `taxLetterGlyph`, `taxLetterRule`) are retained for reference but are no longer rendered.
 
 **`Chip` for count badges:** Deferred to Phase 2 implementation decision. The DS `Chip` has visual weight suitable for tag chips but may be too heavy for inline list counts. Evaluate in context before replacing.
 
