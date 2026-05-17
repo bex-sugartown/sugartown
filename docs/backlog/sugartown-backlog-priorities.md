@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-16 · v0.23.31 · SUG-119 Table Audit shipped · SUG-120 StatGrid/StatTileSection consolidation added
+> Updated 2026-05-17 · v0.23.33 · SUG-103/119/120 shipped — registry page, Swatch rename, Grid consolidation
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-119 Table Audit shipped ✅ v0.23.31. SUG-116 (Ledger Button Update) is next. SUG-100 (CWV snapshot) In Review. SUG-117 (CWV mobile form-factor) and SUG-107 (client taxonomy) in backlog.
+> **⚑ Current focus:** SUG-103/119/120 shipped ✅ v0.23.33 — registry page, Swatch, Grid consolidation. SUG-116 (Ledger Button Update) is next. SUG-100 (CWV snapshot) In Review. SUG-117 (CWV mobile form-factor) and SUG-107 (client taxonomy) in backlog.
 
 ---
 
@@ -20,7 +20,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 5 | ~~**[SUG-118](https://linear.app/sugartown/issue/SUG-118) · Platform Stats Page II — governance design refresh** — RoadmapTable DS component (sticky thead, white/gray bg, priority chips), LaneHeader pinned-state rewrite, SectionLabel geometric centering, shadow tokens. Shipped v0.23.30.~~ | `Design System` `Frontend` `UX` | ✅ Shipped |
-| 6 | **[SUG-120](https://linear.app/sugartown/issue/SUG-120/grid-audit-converge-to-a-single-grid-andor-container-component) · Consolidate StatGrid + StatTileSection into Grid primitive** — Deprecate `StatGrid` (DS package + web adapter) and inline `StatTileSectionRenderer` in favour of `SectionContainer` + `Tile`. Single ruled-grid primitive, no parallel implementations. Epic: `docs/backlog/SUG-120-consolidate-statgrid-stattilesection-grid-primitive.md`. | `Design System` `Infrastructure` | 🟢 Next |
+| 6 | ~~**[SUG-120](https://linear.app/sugartown/issue/SUG-120/grid-audit-converge-to-a-single-grid-andor-container-component) · Consolidate StatGrid + StatTileSection into Grid primitive** — StatGrid + SectionContainer deleted; all callsites migrated to `Grid spacing="0" accentTop`. Shipped v0.23.33.~~ | `Design System` `Infrastructure` | ✅ Shipped |
 | 4 | **[SUG-116](https://linear.app/sugartown/issue/SUG-116) · Ledger Button Update — Baseline Rule, sm/md/lg sizes, Storybook snapshot** — Move 3px stripe from `border-top` to `border-bottom` across all variants; introduce `--st-color-button-rule-{primary,secondary,tertiary}` tokens (Option B rename); add `sm`/`lg` size prop to DS + web adapter; update Storybook snapshot story. Epic: `docs/backlog/SUG-116-ledger-button-update.md`. | `Design System` | 🟢 Next |
 | 3 | ~~**[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs, hero inheritance, scrollspy, DataTable releases, Storybook BUILD_DATE freeze. Shipped v0.23.22.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** ✅ Shipped. Services page outcome framing, availability signal on hero/About, case study narrative, Contact tone update. All Sanity drafts published 2026-05-01. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | ✅ Shipped |
@@ -95,6 +95,9 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-120 · Consolidate StatGrid + StatTileSection into Grid primitive** — StatGrid + SectionContainer deleted; all callsites migrated to `Grid spacing="0" accentTop`; accentColor + tabletColumns added to Grid. Epic: `docs/shipped/SUG-120-consolidate-statgrid-stattilesection-grid-primitive.md`.~~ | v0.23.33 | 2026-05-17 |
+| ~~**SUG-119 · Table Audit — PriorityChip → Swatch + RoadmapTable deletion** — Swatch DS primitive (generic color/label/size API); RoadmapTable deleted; GovernancePage + TablesDevPage migrated to `<Table tone="subdued">` directly. Epic: `docs/shipped/SUG-119-table-audit-converge-to-st-table.md`.~~ | v0.23.33 | 2026-05-17 |
+| ~~**SUG-103 · Publish component registry to platform/DS documentation** — Auto-generated registry page at `/platform/design-system/registry`; `registryParser.js`; coverage key legend; retired row muting. Epic: `docs/shipped/SUG-103-component-registry-platform-docs.md`.~~ | v0.23.33 | 2026-05-17 |
 | ~~**SUG-115 · Platform DS remediation** — 16-finding audit close-out: hero theme-awareness (`--st-color-bg-canvas`), folio numbers on all SectionLabels, CodeBlock for pre-blocks, DataTable for registry teaser, Mermaid hex overrides stripped, sidebar font tokens, ~80 lines dead CSS removed. Epic: `docs/shipped/SUG-115-platform-ds-remediation.md`. Chromatic: deferred to /eod.~~ | v0.23.28 | 2026-05-14 |
 | ~~**SUG-112 · Sidebar nav primitives** — `useScrollspy` hook, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors resolved + pre-commit lint gate activated. Epic: `docs/shipped/SUG-112-sidebar-nav-primitives.md`.~~ | v0.23.24 | 2026-05-13 |
 | ~~**SUG-110 · Dynamically generated roadmap from Linear** — `linearRoadmap` collector in `scripts/collect-stats.js`. GovernancePage inline roadmap tables. Live DS tiles + governance stale message fix (SUG-110/111). Epic: `docs/shipped/SUG-110-dynamically-generated-roadmap-from-linear.md`.~~ | v0.23.23 | 2026-05-13 |

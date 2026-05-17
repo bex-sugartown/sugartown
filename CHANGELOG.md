@@ -10,6 +10,12 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > git history in `sugartown-frontend`, `sugartown-sanity`, `repos/sugartown-pink`, and
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
+## [Unreleased]
+
+- SUG-103: component registry page at `/platform/design-system/registry` — auto-generated from `component-registry.md` via `?raw` import; coverage key legend; source-of-truth callout
+- SUG-119: PriorityChip renamed to Swatch — generic `color`/`label`/`size` API; label color inherits swatch color; RoadmapTable deleted, callers migrated to `<Table tone="subdued">`
+- SUG-120: StatGrid + SectionContainer deleted; all callsites migrated to `Grid spacing="0" accentTop`; epic close-out
+
 ---
 
 ## [0.23.31] — 2026-05-16
