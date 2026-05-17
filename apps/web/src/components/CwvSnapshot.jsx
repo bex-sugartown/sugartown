@@ -8,9 +8,8 @@
  *   stats.perf.runs[cwvUrl]          — Lighthouse lab data (per URL)
  *   stats.crux                       — Chrome UX Report field data (origin-level)
  *
- * Both sources currently lack form-factor split (single run). The toggle is rendered
- * but shows the same data for both until crux.js + perf.js are extended with
- * per-form-factor runs (SUG-100 Phase B pipeline work).
+ * LHCI runs two passes (mobile + desktop) — perf.js slots them by configSettings.formFactor.
+ * CrUX data remains origin-level (no per-form-factor split) — future extension noted.
  *
  * Handles gracefully: stale perf data, unavailable CrUX, missing cwvUrl fallback.
  */
@@ -119,7 +118,7 @@ function DataUnavailable({ reason }) {
 export default function CwvSnapshot({ section }) {
   const { defaultFormFactor = 'mobile', cwvUrl } = section ?? {}
 
-  const [formFactor, _setFormFactor] = useState(defaultFormFactor)
+  const [formFactor, setFormFactor] = useState(defaultFormFactor)
 
   // ── Perf (lab data) ────────────────────────────────────────────────────────
   // Use real CI data when present: check stale===false OR presence of runs (older
@@ -148,8 +147,14 @@ export default function CwvSnapshot({ section }) {
 
   return (
     <div className={styles.root}>
-      {/* Form-factor toggle — hidden until LHCI mobile throttling is fixed (SUG-117) */}
-      {null}
+      {/* Form-factor toggle — re-enabled SUG-117 (LHCI mobile throttling fixed) */}
+      <div className={styles.toggleRow}>
+        <SegmentedControl
+          options={FORM_FACTOR_OPTIONS}
+          value={formFactor}
+          onChange={setFormFactor}
+        />
+      </div>
 
       {/* Score rings — Lighthouse lab scores */}
       <div className={styles.ringsSection}>

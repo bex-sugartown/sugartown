@@ -45,7 +45,7 @@ jobs:
 
       - name: Run Lighthouse CI
         run: |
-          lhci collect --config=lighthouserc.cjs --settings.emulatedFormFactor=mobile
+          lhci collect --config=lighthouserc.cjs --settings.formFactor=mobile --settings.screenEmulation.mobile=true --settings.throttlingMethod=simulate --settings.throttling.rttMs=150 --settings.throttling.throughputKbps=1638.4
           lhci collect --config=lighthouserc.cjs --settings.preset=desktop
           lhci assert --config=lighthouserc.cjs || true
         env:
