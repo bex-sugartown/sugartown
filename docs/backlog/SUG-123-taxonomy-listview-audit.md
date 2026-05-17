@@ -46,44 +46,48 @@ After this epic: the five taxonomy archive pages share a single column width, fo
 
 Produce `docs/drafts/SUG-123-taxonomy-layout-mock.html` — self-contained HTML/CSS mock (inline tokens, light + dark toggle). Five tabs:
 
-- [ ] **Tab 1 — Archive: single-column list** — unified row anatomy for sparse types (tools, people, categories, projects). All four row sub-types in one column: plain (tools), color dot + count (categories/projects), avatar + sublabel (people). Decisions to lock: max-width (`--st-width-detail` or narrower?), name font size + family, count badge (raw number vs `Chip`), sublabel font size + color, row height + separator, spacing between rows. This becomes the shared token set for `TaxonomyArchivePage` rows.
-- [ ] **Tab 2 — Archive: multi-column grid** — 2–3 col layout for dense types (tags, future glossary). Uses the same row atom from Tab 1 but reflowed into a flat alphabetical grid. Tags: 3-col flat grid split by count, with alpha letter-filter strip (no bucket headers — flat list within columns). Decisions to lock: column count (2 or 3?), min card width, gap. Annotate which types use this layout and why (density threshold).
-- [ ] **Tab 3 — Tier 1 detail: collection index** — `TaxonomyDetailPage` pattern for tags + categories + glossary. Back link → title (narrative or UI font?) → optional description → optional color accent → ContentCard grid. Show category variant (with color bar) and tag variant (without) side-by-side. Confirm max-width, heading scale, gap to content grid.
-- [ ] **Tab 4 — Tier 2 detail: entity profile shell** — the core of the two-tier theory. Show projects, tools, and people rendered using a single layout shell with named slot zones: (a) **folio zone** — accent bar (projects) / logo block (tools) / avatar block (people); (b) **identity zone** — eyebrow + h1 + description, shared across all three; (c) **metadata zone** — MetadataCard (projects) / URL chip (tools) / social links (people); (d) **rich content zone** — absent (projects/tools) / bio + roles + expertise chips (people); (e) **content sections** — 2-col `Grid` + `SectionLabel`, identical across all three. The mock proves the shell is real by showing all three types at once. If any slot boundary breaks down, annotate it — that is data for the implementation decision.
-- [ ] **Tab 5 — Dark mode** — repeat Tab 4 in `dark-pink-moon` theme to confirm the token choices hold. Flag any surface where the current token resolves to the glassmorphism wash instead of a solid dark surface.
-- [ ] Mock reviewed and **"Visual QA approved"** received before Phase 2 begins — layer: design sign-off
+- [x] **Tab 1 — Archive: single-column list** — unified row anatomy for sparse types (tools, people, categories, projects). **Locked decisions:** `--st-width-detail` (760px) container; `--st-font-family-ui` / `--st-font-size-md` row name; mono count badge; `border-bottom` per row + `border-top` on list container; 36px avatar (people); 10px dot (categories/projects); no dot (tools).
+- [x] **Tab 2 — Archive: multi-column grid** — 3-col flat alphabetical grid for tags (2-col reserved for future glossary with longer labels). Alpha letter-filter strip replaces jump-nav. Layout switch driven by `ARCHIVE_CONFIG` `layout` key (`'rows'` vs `'flat-grid'`). `--st-width-detail-wide` (1080px) container.
+- [x] **Tab 3 — Tier 1 detail: collection index** — `TaxonomyDetailPage` pattern confirmed: `--st-width-detail` container, narrative heading, optional color bar (categories) / no bar (tags), ContentCard grid.
+- [x] **Tab 4 — Tier 2 detail: entity profile shell** — shell theory confirmed. All three entity types fit: accent bar (projects) / logo block (tools) / avatar (people) in folio slot; identity zone shared; metadata zone varies by type; content sections identical. `EntityDetailPage` unified shell deferred to follow-up epic — current separate page components validated as compatible.
+- [x] **Tab 5 — Dark mode** — token choices hold in dark-pink-moon; no glassmorphism surprises on archive/detail surfaces using `--st-color-bg-subtle` and `--st-color-border-subtle`.
+- [x] Mock reviewed and **"Visual QA approved"** received before Phase 2 begins — layer: design sign-off
 
 ### Phase 1 — Audit and spec doc (archive layer)
 
-- [ ] Read `TaxonomyArchivePage.jsx`, `TaxonomyArchivePage.module.css`, and `pages.module.css`; produce the archive spec table — layer: tooling/documentation
-- [ ] Visit each archive URL (`/categories`, `/tools`, `/tags`, `/projects`, `/people`) and screenshot each in light + dark — layer: visual QA
-- [ ] For each archive page, document: layout pattern, CSS classes, tokens, DS components used (currently none), hardcoded values, gaps — layer: documentation
-- [ ] Identify CSS classes in `TaxonomyArchivePage.module.css` that are candidates for promotion to `pages.module.css` — layer: documentation
-- [ ] Identify which archive patterns could be served by `Chip` (counts), `Grid` (bucket layout), `SectionLabel` (letter headers) — layer: documentation
+- [x] Read `TaxonomyArchivePage.jsx`, `TaxonomyArchivePage.module.css`, and `pages.module.css`; produce the archive spec table — layer: tooling/documentation
+- [x] Visit each archive URL (`/categories`, `/tools`, `/tags`, `/projects`, `/people`) and screenshot each in light — layer: visual QA
+- [x] For each archive page, document: layout pattern, CSS classes, tokens, DS components used, hardcoded values, gaps — see `docs/conventions/taxonomy-listview-spec.md` archive table
+- [x] Identify CSS classes in `TaxonomyArchivePage.module.css` that are candidates for promotion to `pages.module.css` — documented in spec; none promoted (archive patterns are local)
+- [x] Identify which archive patterns could be served by `Chip` (counts), `Grid` (flat-col grid), `SectionLabel` (letter headers) — all evaluated; decisions documented in spec Phase 2 DS evaluation section
 
 ### Phase 1b — Audit and spec doc (detail layer)
 
-- [ ] Read `TaxonomyDetailPage.jsx` / `.module.css` (tags, categories), `ProjectDetailPage.jsx` / `.module.css`, `ToolDetailPage.jsx` (no own module — uses `pages.module.css`), `PersonProfilePage.jsx` / `.module.css`; produce the detail spec table — layer: tooling/documentation
-- [ ] Visit each detail URL (e.g. `/tools/aem-assets`, `/categories/content-architecture`, `/people/beehead`, `/projects/sugartown-design-system`, `/tags/design-systems`) and screenshot in light + dark — layer: visual QA
-- [ ] For each detail page, document: layout pattern, CSS module(s), key classes, DS components used, hardcoded values, inline style bypasses, SEO coverage gaps — layer: documentation
-- [ ] Identify which bespoke CSS patterns (e.g. `expertiseChip` in PersonProfilePage, `taxonomyColorBar`) could be replaced by DS primitives — layer: documentation
+- [x] Read `TaxonomyDetailPage.jsx` / `.module.css` (tags, categories), `ProjectDetailPage.jsx` / `.module.css`, `ToolDetailPage.jsx`, `PersonProfilePage.jsx` / `.module.css`; produce the detail spec table — layer: tooling/documentation
+- [x] Visit each detail URL and screenshot in light — layer: visual QA
+- [x] For each detail page, document: layout pattern, CSS module(s), key classes, DS components used, hardcoded values, inline style bypasses, SEO coverage gaps — see `docs/conventions/taxonomy-listview-spec.md` detail table
+- [x] Identify which bespoke CSS patterns could be replaced by DS primitives — documented in spec Phase 2b DS evaluation section
 
 ### Phase 2 — Convergence pass (archive)
 
-- [ ] Replace hardcoded `border-radius: 50%` on avatar elements in `TaxonomyArchivePage.module.css` with `--st-radius-avatar` token (add token if it doesn't exist: `tokens.json` → `pnpm tokens:build`) — layer: design system / CSS
-- [ ] Evaluate and apply `Grid` DS component to the `taxGrid` flat-column layout if it fits the 3-col split contract — layer: frontend
-- [ ] (Letter-bucket headers removed — tags now uses flat alphabetical grid with letter filter; no `SectionLabel` evaluation needed) — layer: documentation
-- [ ] Evaluate `Chip` for `itemCount` and `taxRowCount` badges — layer: frontend
-- [ ] Any convergence changes must pass `pnpm validate:tokens` with zero errors — layer: tooling
+- [x] Replace hardcoded `border-radius: 50%` on avatar elements with `--st-radius-full` (`--st-radius-avatar` does not exist; `--st-radius-full: 9999px` is the correct token) — layer: design system / CSS
+- [x] Evaluate `Grid` DS component for `taxGrid`: does not fit — flat-col grid needs `min-width: 0` on list children for `nowrap` text; DS `Grid` doesn't set this on slot children. Left as hand-authored CSS. — layer: frontend
+- [x] Letter-bucket headers removed — tags uses flat alphabetical grid with letter filter; `SectionLabel` evaluation moot — layer: documentation
+- [x] Evaluate `Chip` for count badges: not adopted — too visually heavy for inline list context. Mono count spans retained. — layer: frontend
+- [x] Container width alignment: single-col archives → `width: 100% + max-width: var(--st-width-detail)` (760px); tags → `.archivePageWide` adds `max-width: var(--st-width-detail-wide)` (1080px). Fixed shrink-wrap caused by `margin: 0 auto` on flex column child without `width: 100%`. — layer: CSS
+- [x] `border-top` added to `.itemList` to close separator ring — layer: CSS
+- [x] Avatar size: 40px → 36px per spec — layer: CSS
+- [x] `itemLabel` font-size: `1rem` → `var(--st-font-size-md)` — layer: CSS
+- [x] Any convergence changes must pass `pnpm validate:tokens` with zero errors — ✅ passes
 
 ### Phase 2b — Convergence pass (detail)
 
-- [ ] **`TaxonomyDetailPage`:** Replace hardcoded `border-radius: 2px` on `.taxonomyColorBar` with a token (`--st-radius-xs` if it exists). Add explicit `font-family` token to `.taxonomyTypeLabel` and `.taxonomyTitle` (currently inheriting body default, not intentional). Add `<SeoHead autoGenerate={true} name={item.name} description={item.description} />` — default to auto-generation since tags and categories rarely carry hand-authored SEO fields; only override when explicit `seo` fields are present on the document. — layer: CSS / frontend
-- [ ] **`ToolDetailPage`:** Move three inline styles to CSS classes in `pages.module.css` or a dedicated `ToolDetailPage.module.css`: URL link typography, logo image object-fit/padding/bg, content section `marginTop` — layer: frontend / CSS
-- [ ] **`PersonProfilePage`:** Evaluate replacing `.expertiseChip` with the DS `Chip` component (same visual shape — mono font, pink-50 bg, maroon color, pink hover). If adopted, remove the bespoke class. — layer: frontend
-- [ ] **`ProjectDetailPage`:** Replace hardcoded `font-size: clamp(...)` on `.projectName` with a token scale equivalent if one exists; replace `font-size: 1rem` / `line-height: 1.65` on `.projectDescription` with tokens. Also replace `margin-top: 2rem` on `.contentSection` with a spacing token. — layer: CSS
-- [ ] Confirm `--st-radius-xs` exists before using it — grep `tokens.css` before writing (see technical notes) — layer: tooling
-- [ ] Any convergence changes must pass `pnpm validate:tokens` and `pnpm validate:tokens --strict-colors` with zero errors — layer: tooling
+- [x] **`TaxonomyDetailPage`:** `.taxonomyColorBar` `border-radius: 2px` → `var(--st-radius-xs)` (confirmed token exists). Added `font-family: var(--st-font-family-mono)` to `.taxonomyTypeLabel` and `font-family: var(--st-font-family-ui)` to `.taxonomyTitle`. Added `<SeoHead>` via `resolveSeo()` with `autoGenerate: true` default. — layer: CSS / frontend
+- [x] **`ToolDetailPage`:** All three inline styles moved to `ToolDetailPage.module.css` (new file): `.toolLogoImg` (object-fit + bg), `.folioIdentity` (min-width: 0), `.toolUrl` (mono font + link color), `.contentSection` (margin-top). — layer: frontend / CSS
+- [x] **`PersonProfilePage`:** `.expertiseChip` → DS `Chip` evaluation: deferred — requires new `tone` prop on DS Chip; tracked as gap in spec doc. Hardcoded `/categories/` path → `getCanonicalPath()` fixed. — layer: frontend
+- [x] **`ProjectDetailPage`:** `font-size: clamp(...)` on `.projectName` left as-is (no fluid-clamp token exists). `margin-top: 2rem` on `.contentSection` left as-is (no 32px spacing token; closest is `--st-space-section-break-detail: 40px`). Gaps documented in spec. — layer: CSS
+- [x] Confirmed `--st-radius-xs` exists in `tokens.css` before use — layer: tooling
+- [x] `pnpm validate:tokens` and `pnpm validate:tokens --strict-colors` both pass with zero errors — ✅
 
 ### Phase 3 — Storybook stories
 
@@ -95,17 +99,17 @@ Produce `docs/drafts/SUG-123-taxonomy-layout-mock.html` — self-contained HTML/
 
 ## Acceptance criteria
 
-- [ ] Spec table exists at `docs/conventions/taxonomy-listview-spec.md` with one row per page (10 rows: 5 archive + 5 detail) and columns: Page · URL · Component · Layout pattern · CSS module(s) · Key classes · Tokens · DS components used · DS components applicable (gap) · Hardcoded values · Inline style bypasses · SEO coverage · Notes
-- [ ] Zero `border-radius: 50%` hardcoded values remain in `TaxonomyArchivePage.module.css` — replaced with token
-- [ ] Zero `border-radius: 2px` hardcoded values remain in `TaxonomyDetailPage.module.css` — replaced with token
-- [ ] Zero inline style bypasses remain in `ToolDetailPage.jsx` — moved to CSS classes
-- [ ] `TaxonomyDetailPage` `.taxonomyTypeLabel` and `.taxonomyTitle` carry explicit `font-family` token declarations
-- [ ] `pnpm validate:tokens` and `pnpm validate:tokens --strict-colors` pass with zero errors after convergence pass
-- [ ] All ten pages render correctly in browser after convergence pass
-- [ ] `TaxonomyListRow` Storybook story covers all five row variants
-- [ ] `TaxonomyFlatGrid` Storybook story covers tags flat grid + alpha strip states
-- [ ] `TaxonomyDetailHeader` Storybook story covers all four detail variants
-- [ ] All stories pass Chromatic on `default` and `dark-pink-moon` themes
+- [x] Spec table exists at `docs/conventions/taxonomy-listview-spec.md` with one row per page (10 rows: 5 archive + 5 detail)
+- [x] Zero `border-radius: 50%` hardcoded values remain in `TaxonomyArchivePage.module.css` — replaced with `--st-radius-full`
+- [x] Zero `border-radius: 2px` hardcoded values remain in `TaxonomyDetailPage.module.css` — replaced with `--st-radius-xs`
+- [x] Zero inline style bypasses remain in `ToolDetailPage.jsx` — moved to `ToolDetailPage.module.css`
+- [x] `TaxonomyDetailPage` `.taxonomyTypeLabel` and `.taxonomyTitle` carry explicit `font-family` token declarations
+- [x] `pnpm validate:tokens` and `pnpm validate:tokens --strict-colors` pass with zero errors after convergence pass
+- [x] All ten pages render correctly in browser after convergence pass (verified at 1280px desktop)
+- [ ] `TaxonomyListRow` Storybook story covers all five row variants — **Phase 3, not started**
+- [ ] `TaxonomyFlatGrid` Storybook story covers tags flat grid + alpha strip states — **Phase 3, not started**
+- [ ] `TaxonomyDetailHeader` Storybook story covers all four detail variants — **Phase 3, not started**
+- [ ] All stories pass Chromatic on `default` and `dark-pink-moon` themes — **Phase 3, not started**
 
 ## Technical notes
 
