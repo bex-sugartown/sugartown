@@ -62,8 +62,8 @@ export default function DesignSystemRegistryPage() {
       <div className={styles.hub}>
 
         <section className={styles.section}>
-          <Callout>
-            Source of truth: <code>docs/conventions/component-registry.md</code> — generated from that file at build time. Registry updates in any epic are immediately reflected here.
+          <Callout title="Source of truth">
+            <code>docs/conventions/component-registry.md</code> — generated from that file at build time. Registry updates in any epic are immediately reflected here.
           </Callout>
           {COVERAGE_KEY_SECTION?.table && (
             <div className={styles.coverageKey}>
