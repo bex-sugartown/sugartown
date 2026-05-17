@@ -30,7 +30,11 @@ The desktop pass (`--settings.preset=desktop`) was already correct — unchanged
 
 `extractFormFactor()` already handles `configSettings.formFactor` (line 54) and `configSettings.screenEmulation.disabled` (line 55). The deprecated `emulatedFormFactor` path remains as a fallback for older cached runs. No code changes required.
 
-### 3. Form-factor toggle re-enabled (`CwvSnapshot.jsx`)
+### 3. Uncalibrated data detection (`CwvSnapshot.jsx`)
+
+Added `isUncalibrated` check: if `mobile.performance === desktop.performance && mobile.lcp === desktop.lcp` for the resolved CI run, the mobile pass was desktop-throttled. Falls back to `PERF_BACKUP` (manual run 2026-05-15, perf mobile:61 / desktop:81) automatically. Self-corrects once CI produces diverging data after the `stats.yml` fix.
+
+### 4. Form-factor toggle re-enabled (`CwvSnapshot.jsx`)
 
 Replaced `{null}` placeholder with the `SegmentedControl` toggle (Mobile / Desktop). Updated stale file comment. Renamed `_setFormFactor` → `setFormFactor` (was prefixed to suppress unused-var lint warning while hidden).
 
@@ -40,6 +44,8 @@ Replaced `{null}` placeholder with the `SegmentedControl` toggle (Mobile / Deskt
 
 - [x] `stats.yml` uses Lighthouse 10+ mobile flags
 - [x] `CwvSnapshot` form-factor toggle is visible — Mobile/Desktop buttons confirmed in DOM
+- [x] CwvSnapshot added to `/platform/governance` as §04 Site Performance; sidebar nav updated
+- [x] Uncalibrated CI data detected — PERF_BACKUP (mobile:61 / desktop:81) used until next CI run
 - [x] `perf.js` `extractFormFactor()` correctly tags both runs — existing `formFactor` branch handles it
 - [ ] `stats.json` after a CI run contains diverging `mobile.performance` vs `desktop.performance` — **pending next daily CI run** (06:00 UTC). Cannot verify locally without running LHCI against the live URL.
 
