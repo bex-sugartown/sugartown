@@ -39,21 +39,21 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 
 | Component | DS Primitive | Web Adapter | Storybook | Dark mode | Studio schema object | Notes |
 |-----------|-------------|-------------|-----------|-----------|----------------------|-------|
-| Accordion | ✅ `packages/ds/Accordion/` | ✅ `web/design-system/accordion/` | ✅ Components/Accordion | ✅ | `accordionSection` | |
+| Accordion | ✅ `packages/ds/Accordion/` | ✅ `web/design-system/accordion/` | ✅ Components/Accordion | ✅ | ✅ `accordionSection` | |
 | Blockquote | ✅ `packages/ds/Blockquote/` | ✅ `web/design-system/blockquote/` | ✅ Components/Blockquote | ✅ | — | |
-| Button | ✅ `packages/ds/Button/` | ✅ `web/design-system/button/` | ✅ Components/Button | ✅ | `ctaButton` (object) + `ctaButtonDoc` (document) | Paired schema — changes to one must mirror the other |
-| Callout | ✅ `packages/ds/Callout/` | ✅ `web/design-system/callout/` | ✅ Components/Callout | ✅ | `calloutSection` | |
+| Button | ✅ `packages/ds/Button/` | ✅ `web/design-system/button/` | ✅ Components/Button | ✅ | ✅ `ctaButton` (object) + `ctaButtonDoc` (document) | Paired schema — changes to one must mirror the other |
+| Callout | ✅ `packages/ds/Callout/` | ✅ `web/design-system/callout/` | ✅ Components/Callout | ✅ | ✅ `calloutSection` | |
 | Card | ✅ `packages/ds/Card/` | ✅ `web/design-system/card/` | ✅ Components/Card | ✅ | — | Adapter adds `<Link to>`, `children` escape hatch, `colorHex` chip override — documented in Card.jsx header. No separate story needed (ContentCard/MetadataCard cover the visual deltas). |
 | Chip | ✅ `packages/ds/Chip/` | ✅ `web/design-system/chip/` | ✅ Components/Chip | ✅ | — | Web adapter adds `<Link to>` only — no separate story needed |
-| Citation | ✅ `packages/ds/Citation/` | ✅ `web/design-system/citation/` | ✅ Components/Citation | ✅ | `citationRef` PT mark | |
-| CodeBlock | ✅ `packages/ds/CodeBlock/` | ✅ `web/design-system/codeblock/` | ✅ Components/CodeBlock | ✅ | `code` inline PT decorator | |
+| Citation | ✅ `packages/ds/Citation/` | ✅ `web/design-system/citation/` | ✅ Components/Citation | ✅ | ✅ `citationRef` PT mark | |
+| CodeBlock | ✅ `packages/ds/CodeBlock/` | ✅ `web/design-system/codeblock/` | ✅ Components/CodeBlock | ✅ | ✅ `code` inline PT decorator | |
 | FilterBar | ✅ `packages/ds/FilterBar/` | — | ✅ Components/FilterBar | ✅ | — | Web-only FilterBar.jsx is a pending-migration copy; DS version is canonical. No web adapter layer needed — app composite imports DS package directly once migrated. |
-| Media | ✅ `packages/ds/Media/` | ✅ `web/design-system/media/` | ✅ Components/Media | ✅ | `heroSection.media[]` | |
+| Media | ✅ `packages/ds/Media/` | ✅ `web/design-system/media/` | ✅ Components/Media | ✅ | ✅ `heroSection.media[]` | |
 | ScoreRing | ✅ `packages/ds/ScoreRing/` | ✅ `web/design-system/score-ring/` | ✅ Components/ScoreRing | ✅ | — | SUG-100 |
 | SegmentedControl | ✅ `packages/ds/SegmentedControl/` | ✅ `web/design-system/segmented-control/` | ✅ Components/SegmentedControl | ✅ | — | SUG-100 |
-| Table | ✅ `packages/ds/Table/` | ✅ `web/design-system/table/` | ✅ Components/Table | ✅ accent + subdued, light + dark | `tableBlock` | SUG-119 shipped — tone prop (accent/subdued), caption surface, props-driven API. DataTable is deprecated shim; RoadmapTable composes Table. |
+| Table | ✅ `packages/ds/Table/` | ✅ `web/design-system/table/` | ✅ Components/Table | ✅ accent + subdued, light + dark | ✅ `tableBlock` | SUG-119 shipped — tone prop (accent/subdued), caption surface, props-driven API. DataTable is deprecated shim; RoadmapTable composes Table. |
 | Swatch | ✅ `packages/ds/Swatch/` | ✅ `web/design-system/swatch/` | ✅ Components/Swatch | ⚠️ untested | — | Square color dot + mono label. Generic `color`/`label`/`size` API. `null` color = outlined square. Callers own priority→color mapping. Renamed from PriorityChip (SUG-119). Dark mode story pending. |
-| ~~StatGrid~~ | Deleted (SUG-120) | Deleted (SUG-120) | — | — | `statTileSection` | DS primitive + web adapter both deleted. Superseded by Grid. `statTileSection` schema and PageSections renderer remain; renderer now uses Grid directly. |
+| ~~StatGrid~~ | Deleted (SUG-120) | Deleted (SUG-120) | — | — | ✅ `statTileSection` | DS primitive + web adapter both deleted. Superseded by Grid. `statTileSection` schema and PageSections renderer remain; renderer now uses Grid directly. |
 
 ---
 
