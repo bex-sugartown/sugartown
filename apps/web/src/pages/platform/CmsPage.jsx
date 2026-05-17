@@ -50,7 +50,7 @@ export default function CmsPage() {
       <div className={styles.hub}>
 
         <section id="schema-erd" className={styles.section}>
-          <SectionLabel level="h3" number="§01" name="SCHEMA ERD" title="Document types and their relations" kicker="Interactive explorer" />
+          <SectionLabel level="h3" number="§01" name="SCHEMA ERD" title="Content types and their relations" kicker="Built from Sanity schemas" />
           <SchemaERD entities={entities} relationships={relationships} />
         </section>
 
