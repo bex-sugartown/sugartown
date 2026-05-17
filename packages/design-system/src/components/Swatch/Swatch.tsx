@@ -19,7 +19,7 @@ export const Swatch: React.FC<SwatchProps> = ({ color, label, size = 8, classNam
   }
 
   return (
-    <span className={[styles.swatch, className].filter(Boolean).join(' ')}>
+    <span className={[styles.swatch, className].filter(Boolean).join(' ')} style={color ? { color } : undefined}>
       <span
         className={color ? styles.dot : `${styles.dot} ${styles.dotOutlined}`}
         style={dotStyle}
