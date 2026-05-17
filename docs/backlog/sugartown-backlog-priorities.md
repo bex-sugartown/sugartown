@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-17 · v0.23.36 · SUG-114 shipped — Dynamic schema ERD
+> Updated 2026-05-17 · v0.23.36 · SUG-114 shipped — Dynamic schema ERD · SUG-123 added (taxonomy listview audit)
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -52,6 +52,7 @@
 | 3 | ~~**[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — `useScrollspy` hook extracted, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors fixed + pre-commit gate activated. Shipped v0.23.24.~~ | `Design System` `Frontend` `Tooling` | ✅ Shipped |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
 | 2 | ~~**[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Shared entity folio pattern (Person, Project, Tool detail pages), SectionLabel + 2-col Grid content sections, full-width layout at --st-width-detail-wide, responsive mobile collapse in Grid. Shipped v0.23.21.~~ | `UX` `Design System` `Frontend` | ✅ Shipped |
+| 6 | **[SUG-123](https://linear.app/sugartown/issue/SUG-123/taxonomy-listview-audit-shared-layout-language-tokens-and-storybook) · Taxonomy listview audit — shared layout language, tokens, and Storybook coverage** — Audit /categories, /tools, /tags, /projects, /people; produce registry-format spec table; convergence pass (avatar radius token, DS component evaluation); Storybook stories for row + bucket patterns. Epic: `docs/backlog/SUG-123-taxonomy-listview-audit.md`. | `Design System` `Frontend` `Tooling` | 🟣 Soon |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 
 ---
