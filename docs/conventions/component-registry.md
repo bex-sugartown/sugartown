@@ -1,6 +1,6 @@
 # Sugartown Component Registry
 
-> Last updated: 2026-05-16 · v0.23.30
+> Last updated: 2026-05-17 · v0.23.32
 >
 > Single source of truth for component coverage across the three app surfaces:
 > DS package primitives, web adapter layer, and app-level composites.
@@ -28,7 +28,7 @@ Web adapter stories are only created when the adapter adds **visually distinct b
 
 ## DS Primitives → Web Adapters
 
-All 13 DS primitive components have a corresponding web adapter. Four components
+All 14 DS primitive components have a corresponding web adapter. Four components
 (Grid, SectionLabel, Tile, DataTable) exist only in the web adapter layer and are
 documented in the section below.
 
@@ -52,6 +52,8 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 | ScoreRing | ✅ `packages/ds/ScoreRing/` | ✅ `web/design-system/score-ring/` | ✅ Components/ScoreRing | ✅ | — | SUG-100 |
 | SegmentedControl | ✅ `packages/ds/SegmentedControl/` | ✅ `web/design-system/segmented-control/` | ✅ Components/SegmentedControl | ✅ | — | SUG-100 |
 | Table | ✅ `packages/ds/Table/` | ✅ `web/design-system/table/` | ✅ Components/Table | ✅ accent + subdued, light + dark | `tableBlock` | SUG-119 shipped — tone prop (accent/subdued), caption surface, props-driven API. DataTable is deprecated shim; RoadmapTable composes Table. |
+| PriorityChip | ✅ `packages/ds/PriorityChip/` | ✅ `web/design-system/priority-chip/` | ✅ Components/PriorityChip | ⚠️ untested | — | Priority badge for Urgent/High/Medium/Low/None levels. Added SUG-120. Dark mode story pending. |
+| ~~StatGrid~~ | **Deleted (SUG-120)** | **Deleted (SUG-120)** | — | — | `statTileSection` | DS primitive + web adapter both deleted. Superseded by Grid. `statTileSection` schema and PageSections renderer remain; renderer now uses Grid directly. |
 
 ---
 
@@ -66,7 +68,8 @@ coupled to React Router / web data patterns that has no portable use case outsid
 | DataTable | ✅ `web/design-system/data-table/` — **@deprecated** | ✅ Components/Table/DataTable | ⚠️ untested | Deprecated shim over `<Table>`. Maps `variant="trust"` → `tone="subdued"`. Inline CSS injection removed (SUG-119). Delete after all callers migrate to `<Table>` directly. |
 | LaneHeader | ✅ **Retired** (SUG-119) | — | — | Deleted from both mirrors. Lane label and epic count now live in `<Table caption captionMeta>`. |
 | RoadmapTable | ✅ `web/design-system/roadmap-table/` | ✅ Components/Table/RoadmapTable | ✅ dark mode story added | Composes `<Table tone="subdued" layout="fixed">` — no raw `<table>` markup. Caption surface shows lane label + epic count. |
-| Grid | ✅ `web/design-system/grid/` | ✅ Components/Grid | ✅ | CSS grid layout utility. Layout concern, not a DS primitive. |
+| Grid | ✅ `web/design-system/grid/` | ✅ Components/Grid | ✅ | CSS grid layout utility. Layout concern, not a DS primitive. SUG-120: `accentColor` (brand/ink) + `tabletColumns` responsive breakpoint added; composition stories added. |
+| ~~SectionContainer~~ | **Deleted (SUG-120)** | — | — | Deleted in SUG-120. All callers migrated to Grid. |
 | SectionLabel | ✅ `web/design-system/section-label/` | ✅ Components/SectionLabel | ✅ | Typography-only label row. Minimal; no value in porting. |
 | Tile | ✅ `web/design-system/tile/` | ✅ Components/Tile | ✅ | Metric/content surface. Complex data props tied to web patterns. |
 
