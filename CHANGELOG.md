@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- SUG-97: Studio schema field group audit — migration tab removed, contents consolidated into legacy tab across article, node, page, caseStudy; legacySource marked deprecated; retrieval group added to caseStudy/article/node for SUG-94 prep
 - SUG-103: component registry page at `/platform/design-system/registry` — auto-generated from `component-registry.md` via `?raw` import; coverage key legend; source-of-truth callout
 - SUG-119: PriorityChip renamed to Swatch — generic `color`/`label`/`size` API; label color inherits swatch color; RoadmapTable deleted, callers migrated to `<Table tone="subdued">`
 - SUG-120: StatGrid + SectionContainer deleted; all callsites migrated to `Grid spacing="0" accentTop`; epic close-out
