@@ -16,9 +16,9 @@ const NAV_SECTIONS = [
     label: 'Governance',
     to: PLATFORM_ROUTES.governance,
     items: [
+      { label: 'Recent releases', to: `${PLATFORM_ROUTES.governance}#recent-releases` },
       { label: 'Roadmap', to: `${PLATFORM_ROUTES.governance}#roadmap` },
       { label: 'Release process', to: `${PLATFORM_ROUTES.governance}#release-process` },
-      { label: 'Recent releases', to: `${PLATFORM_ROUTES.governance}#recent-releases` },
       { label: 'Site performance', to: `${PLATFORM_ROUTES.governance}#site-performance` },
       { label: 'Artifacts', to: `${PLATFORM_ROUTES.governance}#governance-artifacts` },
     ],
