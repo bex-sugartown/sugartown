@@ -29,6 +29,9 @@ import {
   toolBySlugQuery,
   contentByTaxonomyQuery,
 } from '../lib/queries'
+import { resolveSeo } from '../lib/seo'
+import { useSiteSettings } from '../lib/SiteSettingsContext'
+import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import Pagination from '../components/Pagination'
 import NotFoundPage from './NotFoundPage'
@@ -117,6 +120,7 @@ function TaxonomyHeader({ taxDoc, config }) {
 export default function TaxonomyDetailPage() {
   const { slug } = useParams()
   const location = useLocation()
+  const siteSettings = useSiteSettings()
 
   // Derive taxonomy type from first path segment (e.g. "tags", "categories")
   const pathSegment = location.pathname.split('/')[1] ?? ''
@@ -152,8 +156,16 @@ export default function TaxonomyDetailPage() {
   const items = allItems ?? []
   const { pageItems, totalPages } = paginateItems(items, currentPage, PAGE_SIZE)
 
+  // autoGenerate defaults to true — taxonomy docs rarely carry hand-authored seo fields.
+  // Map name → title so resolveSeo can derive the meta title and canonical URL.
+  const seo = resolveSeo(
+    { ...taxDoc, title: taxDoc.name, _type: config.type },
+    siteSettings
+  )
+
   return (
     <main className={styles.taxonomyPage}>
+      <SeoHead seo={seo} />
       <TaxonomyHeader taxDoc={taxDoc} config={config} />
 
       <section className={styles.taxonomyContent}>

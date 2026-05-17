@@ -34,6 +34,7 @@ function LinkedInIcon({ size = 24, color = 'currentColor', className, ...props }
 import { Grid, SectionLabel } from '../design-system'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
+import { getCanonicalPath } from '../lib/routes'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { urlFor } from '../lib/sanity'
@@ -208,7 +209,7 @@ export default function PersonProfilePage() {
           <div className={styles.expertiseChips}>
             {person.expertise.map((item, i) => (
               item.slug ? (
-                <Link key={i} to={`/categories/${item.slug}`} className={styles.expertiseChip}>
+                <Link key={i} to={getCanonicalPath({ docType: 'category', slug: item.slug })} className={styles.expertiseChip}>
                   {item.name ?? item}
                 </Link>
               ) : (

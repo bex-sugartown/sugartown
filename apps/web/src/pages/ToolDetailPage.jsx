@@ -17,6 +17,7 @@ import ContentCard from '../components/ContentCard'
 import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import pageStyles from './pages.module.css'
+import styles from './ToolDetailPage.module.css'
 
 // ─── Display label maps ───────────────────────────────────────────────────────
 
@@ -97,7 +98,7 @@ export default function ToolDetailPage() {
             src={logoUrl}
             alt={tool.logo?.alt ?? `${tool.name} logo`}
             className={pageStyles.entityThumbnail}
-            style={{ objectFit: 'contain', padding: '6px', background: 'var(--st-color-bg-surface)' }}
+            className={styles.toolLogoImg}
             width={72}
             height={72}
             loading="lazy"
@@ -110,7 +111,7 @@ export default function ToolDetailPage() {
         )}
 
         {/* Identity */}
-        <div style={{ minWidth: 0 }}>
+        <div className={styles.folioIdentity}>
           {eyebrow && (
             <p className={pageStyles.detailEyebrow}>{eyebrow}</p>
           )}
@@ -126,7 +127,7 @@ export default function ToolDetailPage() {
               href={tool.url}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.75rem', color: 'var(--st-color-link-default)' }}
+              className={styles.toolUrl}
             >
               {tool.url.replace(/^https?:\/\//, '')}
             </a>
@@ -136,7 +137,7 @@ export default function ToolDetailPage() {
 
       {/* ── Content sections ──────────────────────────────────────── */}
       {hasArticles && (
-        <section style={{ marginTop: '2rem' }}>
+        <section className={styles.contentSection}>
           <SectionLabel title="Articles" kicker={String(tool.articles.length)} />
           <Grid columns={2} spacing="lg">
             {tool.articles.map((item) => (
@@ -147,7 +148,7 @@ export default function ToolDetailPage() {
       )}
 
       {hasNodes && (
-        <section style={{ marginTop: '2rem' }}>
+        <section className={styles.contentSection}>
           <SectionLabel title="Knowledge Nodes" kicker={String(tool.nodes.length)} />
           <Grid columns={2} spacing="lg">
             {tool.nodes.map((item) => (
@@ -158,7 +159,7 @@ export default function ToolDetailPage() {
       )}
 
       {hasCaseStudies && (
-        <section style={{ marginTop: '2rem' }}>
+        <section className={styles.contentSection}>
           <SectionLabel title="Case Studies" kicker={String(tool.caseStudies.length)} />
           <Grid columns={2} spacing="lg">
             {tool.caseStudies.map((item) => (

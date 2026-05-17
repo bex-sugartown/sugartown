@@ -16,7 +16,7 @@
 .taxonomyColorBar {
   width: 3rem;
   height: 4px;
-  border-radius: 2px;
+  border-radius: var(--st-radius-xs);
   margin-bottom: 1.25rem;
 }
 
@@ -34,6 +34,7 @@
 }
 
 .taxonomyTypeLabel {
+  font-family: var(--st-font-family-mono);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -43,6 +44,7 @@
 }
 
 .taxonomyTitle {
+  font-family: var(--st-font-family-ui);
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   line-height: 1.15;
