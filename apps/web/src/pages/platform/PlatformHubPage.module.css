@@ -176,6 +176,43 @@
   gap: 0.25rem;
 }
 
+/* Coverage key legend */
+.coverageKey {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 20px;
+  margin-top: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--st-color-border-default);
+  font-family: var(--st-font-family-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.coverageKeyLabel {
+  color: var(--st-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-right: 4px;
+}
+
+.coverageKeyItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--st-color-text-secondary);
+}
+
+.coverageKeySymbol {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.coverageKeyMeaning {
+  color: var(--st-color-text-muted);
+}
+
 /* Deprecated / retired / deleted registry rows */
 .retiredRow {
   opacity: 0.45;

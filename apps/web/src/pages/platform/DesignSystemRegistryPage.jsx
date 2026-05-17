@@ -11,6 +11,8 @@ import styles from './PlatformHubPage.module.css'
 
 const SECTIONS = parseRegistryMd(registryMd)
 
+const COVERAGE_KEY_SECTION = SECTIONS.find((s) => s.heading === 'Coverage key')
+
 // Headings to skip — preamble sections that have no table or are not registry tables
 const SKIP_HEADINGS = new Set(['Coverage key', 'Storybook story rule', 'Token files'])
 
@@ -86,6 +88,17 @@ export default function DesignSystemRegistryPage() {
           <Callout>
             Source of truth: <code>docs/conventions/component-registry.md</code> — generated from that file at build time. Registry updates in any epic are immediately reflected here.
           </Callout>
+          {COVERAGE_KEY_SECTION?.table && (
+            <div className={styles.coverageKey}>
+              <span className={styles.coverageKeyLabel}>Coverage key</span>
+              {COVERAGE_KEY_SECTION.table.rows.map(({ cells }) => (
+                <span key={cells[0]} className={styles.coverageKeyItem}>
+                  <span className={styles.coverageKeySymbol}>{cells[0]}</span>
+                  <span className={styles.coverageKeyMeaning}>{cells[1]}</span>
+                </span>
+              ))}
+            </div>
+          )}
         </section>
 
         {renderableSections.map((section, i) => (
