@@ -83,13 +83,3 @@ export function parseRegistryMd(raw) {
   })
 }
 
-/**
- * Classify a cell value by its leading coverage symbol.
- * Returns { kind: 'ok' | 'warn' | 'na' | 'text', text: string }
- */
-export function classifyCell(value) {
-  if (!value || value === '—' || value === '-') return { kind: 'na', text: '—' }
-  if (value.startsWith('✅')) return { kind: 'ok', text: value.replace(/^✅\s*/, '').trim() }
-  if (value.startsWith('⚠️')) return { kind: 'warn', text: value.replace(/^⚠️\s*/, '').trim() }
-  return { kind: 'text', text: value }
-}
