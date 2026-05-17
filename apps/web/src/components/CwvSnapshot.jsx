@@ -124,7 +124,14 @@ export default function CwvSnapshot({ section }) {
   // Use real CI data when present: check stale===false OR presence of runs (older
   // collector versions didn't emit stale:false explicitly).
   const hasCiPerf = stats.perf?.stale === false || (stats.perf?.runs && Object.keys(stats.perf.runs).length > 0)
-  const perfData = hasCiPerf ? stats.perf : PERF_BACKUP
+  // Detect uncalibrated CI data: if mobile and desktop scores are identical, the mobile
+  // LHCI pass wasn't properly throttled (old emulatedFormFactor flag — fixed in SUG-117).
+  // Fall back to PERF_BACKUP (real manual run with distinct m/d scores) until CI recollects.
+  const ciRun = stats.perf?.runs?.[cwvUrl ?? 'https://sugartown.io/']
+  const isUncalibrated = hasCiPerf && ciRun?.mobile && ciRun?.desktop &&
+    ciRun.mobile.performance === ciRun.desktop.performance &&
+    ciRun.mobile.lcp === ciRun.desktop.lcp
+  const perfData = (hasCiPerf && !isUncalibrated) ? stats.perf : PERF_BACKUP
   const perfRuns = perfData?.runs ?? {}
   // Resolve URL key: prefer section.cwvUrl, fall back to the first available run
   const origin = 'https://sugartown.io'

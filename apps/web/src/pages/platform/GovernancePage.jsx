@@ -10,6 +10,7 @@ import Table, { TableWrap } from '../../design-system/components/table/Table'
 import Swatch from '../../design-system/components/swatch/Swatch'
 import Chip from '../../design-system/components/chip/Chip'
 import { MermaidDiagram } from '../../components/PageSections'
+import CwvSnapshot from '../../components/CwvSnapshot'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import stats from '../../generated/stats.json'
 import styles from './PlatformHubPage.module.css'
@@ -207,10 +208,21 @@ export default function GovernancePage() {
           <MermaidDiagram section={RELEASE_DIAGRAM} />
         </section>
 
-        <section id="governance-artifacts" className={styles.section}>
+        <section id="site-performance" className={styles.section}>
           <SectionLabel
             level="h3"
             number="§04"
+            name="SITE PERFORMANCE"
+            title="Lighthouse + Core Web Vitals"
+            kicker="Live data"
+          />
+          <CwvSnapshot section={{ cwvUrl: 'https://sugartown.io/' }} />
+        </section>
+
+        <section id="governance-artifacts" className={styles.section}>
+          <SectionLabel
+            level="h3"
+            number="§05"
             name="ARTIFACTS"
             title="Briefs, prompts, conventions"
             kicker={`${ARTIFACTS.length} documents`}
