@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-18 · SUG-124 Phase 1 executed (semantic naming rename + conventions doc). SUG-125 added (IndexGroup/IndexCell DS primitives).
+> Updated 2026-05-18 · SUG-124 shipped ✅ v0.23.37. SUG-125 (IndexGroup/IndexCell DS primitives) in backlog.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-114 shipped ✅ v0.23.36 — schema manifest auto-generated at build, gitignored, count assertion added. SUG-116 (Ledger Button Update) is next. SUG-100 (CWV snapshot) In Review. SUG-122 (Registry↔ERD bridge) added to backlog. SUG-121 (Section Module Showcase) queued Soon.
+> **⚑ Current focus:** SUG-124 shipped ✅ v0.23.37 — semantic CSS naming audit complete; 25 violations → 0; IndexGroup/IndexCell vocabulary established. SUG-116 (Ledger Button Update) is next. SUG-125 (IndexGroup/IndexCell DS primitives) queued Soon. SUG-100 (CWV snapshot) In Review.
 
 ---
 
@@ -21,7 +21,7 @@
 |---|------|------|----------|
 | 5 | ~~**[SUG-118](https://linear.app/sugartown/issue/SUG-118) · Platform Stats Page II — governance design refresh** — RoadmapTable DS component (sticky thead, white/gray bg, priority chips), LaneHeader pinned-state rewrite, SectionLabel geometric centering, shadow tokens. Shipped v0.23.30.~~ | `Design System` `Frontend` `UX` | ✅ Shipped |
 | 6 | ~~**[SUG-120](https://linear.app/sugartown/issue/SUG-120/grid-audit-converge-to-a-single-grid-andor-container-component) · Consolidate StatGrid + StatTileSection into Grid primitive** — StatGrid + SectionContainer deleted; all callsites migrated to `Grid spacing="0" accentTop`. Shipped v0.23.33.~~ | `Design System` `Infrastructure` | ✅ Shipped |
-| 7 | **[SUG-124](https://linear.app/sugartown/issue/SUG-124/semantic-naming-audit-css-classes-alpha-row-list-pattern-reuse) · Semantic naming audit — CSS classes, alpha row, list pattern reuse guardrails** — Phase 1 complete: all tax*/alpha* classes renamed; conventions doc + validator written. Phase 2 (conventions doc) and Phase 3 (conventions enforcement) complete. Epic: `docs/backlog/SUG-124-semantic-naming-audit-alpha-row-list-pattern-reuse.md`. | `Design System` `Tooling` | 🟢 Next |
+| 7 | ~~**[SUG-124](https://linear.app/sugartown/issue/SUG-124/semantic-naming-audit-css-classes-alpha-row-list-pattern-reuse) · Semantic naming audit — CSS classes, alpha row, list pattern reuse guardrails** — All tax*/alpha* classes renamed; validate:css-names 0 violations; css-class-naming.md written; SUG-125 scoped. Shipped v0.23.37.~~ | `Design System` `Tooling` | ✅ Shipped |
 | 8 | **[SUG-125](https://linear.app/sugartown/issue/SUG-125/indexgroup-indexcell-ds-primitives-pagination-and-letterfilterstrip) · IndexGroup + IndexCell DS primitives** — Create DS primitives for direct-access control strips; refactor AlphaFilter + Pagination to consume them; add tokens. Scoped from SUG-124. Epic: `docs/backlog/SUG-125-index-group-cell-ds-primitive.md`. | `Design System` | 🟣 Soon |
 | 4 | **[SUG-116](https://linear.app/sugartown/issue/SUG-116) · Ledger Button Update — Baseline Rule, sm/md/lg sizes, Storybook snapshot** — Move 3px stripe from `border-top` to `border-bottom` across all variants; introduce `--st-color-button-rule-{primary,secondary,tertiary}` tokens (Option B rename); add `sm`/`lg` size prop to DS + web adapter; update Storybook snapshot story. Epic: `docs/backlog/SUG-116-ledger-button-update.md`. | `Design System` | 🟢 Next |
 | 3 | ~~**[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs, hero inheritance, scrollspy, DataTable releases, Storybook BUILD_DATE freeze. Shipped v0.23.22.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
