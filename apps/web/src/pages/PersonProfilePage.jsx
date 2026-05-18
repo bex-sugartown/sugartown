@@ -135,7 +135,7 @@ export default function PersonProfilePage() {
           )}
 
           {/* Identity */}
-          <div className={styles.folioIdentity}>
+          <div className={pageStyles.folioIdentity}>
             <h1 className={pageStyles.narrativeHeading}>
               {person.name}
               {person.shortName && (

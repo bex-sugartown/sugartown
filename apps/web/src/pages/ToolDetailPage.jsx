@@ -111,7 +111,7 @@ export default function ToolDetailPage() {
         )}
 
         {/* Identity */}
-        <div className={styles.folioIdentity}>
+        <div className={pageStyles.folioIdentity}>
           {eyebrow && (
             <p className={pageStyles.detailEyebrow}>{eyebrow}</p>
           )}

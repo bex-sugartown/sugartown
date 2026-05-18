@@ -133,6 +133,8 @@ A Phase 0 violation (FE code committed before mock approval) is a process failur
 
 A mock that shows nav items but does not annotate these behaviours is incomplete for Phase 0 sign-off. **Existing patterns (e.g. right-rail PageSidebar) count as the spec** — if the new nav reuses an existing behaviour, annotate "same as PageSidebar scrollspy" rather than leaving it blank. The failure mode is re-discovering and re-implementing behaviour that was already codified elsewhere.
 
+**Mock proxy class names must use the intended production semantic name.** HTML mock classes are the first expression of a CSS class's name — if the mock uses `.tag-row`, that name will drift into implementation. Rules: (a) use the production semantic name you intend to ship (e.g. `.listRow`, `.flatGridRow`); (b) if the production name is not yet settled, use a clearly generic placeholder (`.list-row`, `.btn-strip`) and mark it `/* TBD */`; (c) never name a mock class after its content type (`.tag-row`, `.tool-folio`, `.tax-item`) — that name will survive into production unchanged. A mock class name that would fail the CSS pre-implementation reuse audit is a Phase 0 violation.
+
 **Phase 0 applies to new entity detail pages (Person, Project, Tool, Client, etc.) even when a general page shell already exists.** Each entity detail page has a folio — the logo/avatar + identity block with eyebrow, name, description, and metadata. The folio layout, thumbnail size, eyebrow content, and any interactive links (URL, social) must be locked in the mock before any JSX is written. "The shell exists, I'll figure out the folio interactively" is a Phase 0 violation. The mock tab for a new entity type must be added to the epic's HTML mock file and approved before implementation begins for that entity type.
 
 ### Incomplete epic doc hard stop
@@ -489,6 +491,15 @@ Before writing any new CSS class for a detail page, taxonomy page, or shared lay
 4. **Output the audit in writing** — in the commit message or epic doc before any `Edit`/`Write` call to a CSS file. One sentence per candidate checked. "I checked X and it covers Y" is sufficient. Silence is a process failure.
 
 Location-named or page-scoped class names (e.g. `toolUrl`, `lv-*`, `folioHead`, `.profileHeadline`) are a signal the audit was skipped. Semantic, reusable names only.
+
+**Proposal table gate (hard stop — fires before first Edit to a CSS module file):** Before writing the first new CSS class name, produce a naming proposal table and wait for explicit approval:
+
+| Proposed class name | Closest existing pattern | Reuse decision |
+|---------------------|--------------------------|----------------|
+| `.myNewClass` | `pages.module.css .entityFolio` (80% match) | Extend existing |
+| `.listRow` | None found — new semantic pattern | New class approved |
+
+Do not make any `Edit` or `Write` call to a CSS module file until this table has been shown and the user has confirmed the names. "Looks good", "yes", or equivalent is sufficient approval. A new CSS class written without a prior proposal table is a process failure.
 
 ### Component choice gate (blocking — fires before any new JSX surface)
 

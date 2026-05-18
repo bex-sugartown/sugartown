@@ -17,6 +17,7 @@
     "validate:tokens:strict": "node scripts/validate-tokens.js --strict-colors",
     "validate:tokens:sync": "node scripts/validate-tokens.js --check-sync",
     "validate:taxonomy": "node scripts/validate-taxonomy.js",
+    "validate:css-names": "node scripts/validate-css-names.js",
     "migrate:seo-fields": "node scripts/migrate-seo-fields.js",
     "migrate:array-keys": "node scripts/migrate-add-array-keys.js",
     "collect:stats": "node scripts/collect-stats.js",

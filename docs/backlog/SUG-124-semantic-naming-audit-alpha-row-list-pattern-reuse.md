@@ -33,6 +33,11 @@ After this epic: every CSS class and component that implements a reusable struct
 **Phase 1 — Audit and naming decision**
 Read all affected files; produce the semantic rename map; produce the AlphaStrip vs Pagination diff. No code written until the rename map and component decision are reviewed and approved.
 
+Phase 1 acceptance criteria (blocking — must be approved before any Phase 2 code):
+- Written rename map table: old class name → proposed semantic name → rationale (one row per class)
+- Written diff of AlphaStrip vs Pagination covering: button anatomy (HTML element, variant prop), state model (disabled / selected / active), aria semantics (`aria-current`, `aria-label`, `aria-disabled`), and keyboard interaction. Include a recommendation: (a) extend Pagination via props, (b) extract shared `ButtonStrip` primitive, or (c) remain bespoke with documented rationale for why the patterns cannot share a base
+- Both the rename map and the component diff presented to human and explicitly approved before any `Edit` call
+
 **Phase 2 — Implementation**
 Apply renames in module CSS and JSX. Implement AlphaStrip/Pagination decision. Update mock HTML.
 

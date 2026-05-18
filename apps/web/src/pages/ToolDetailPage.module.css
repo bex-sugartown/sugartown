@@ -12,10 +12,6 @@
   background: var(--st-color-bg-surface);
 }
 
-/* ── Identity column — flex child min-width fix ──────────────────── */
-.folioIdentity {
-  min-width: 0;
-}
 
 /* ── External URL link ───────────────────────────────────────────── */
 .toolUrl {

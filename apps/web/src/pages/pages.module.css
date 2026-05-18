@@ -747,3 +747,9 @@
 .archiveSectionContent {
   padding: 24px;
 }
+
+/* ── Shared folio layout ──────────────────────────────────────────── */
+/* Flex child min-width fix — prevents identity text overflowing the folio row */
+.folioIdentity {
+  min-width: 0;
+}
