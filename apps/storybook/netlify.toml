@@ -16,6 +16,9 @@
   base = "apps/storybook"
   command = "cd ../.. && pnpm install --frozen-lockfile && cd apps/storybook && pnpm storybook:build"
   publish = "storybook-static"
+  # Rebuild when Storybook config, DS package, or web DS adapter changes —
+  # not just when apps/storybook/ itself changes.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- apps/storybook/ packages/design-system/ apps/web/src/design-system/"
 
 [build.environment]
   NODE_VERSION = "22"
