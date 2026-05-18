@@ -59,8 +59,9 @@ Single-phase: schema audit → route wiring → nav → content creation → QA.
 - **Content Write Gate:** fires for all Sanity content creation — show a before/after proposal for every section before any MCP write call.
 - **Activation audit (blocking):** read `apps/studio/schemas/documents/page.ts` and confirm which `_type` values are allowed in `sections[]` before creating any content. Some types (`recentContentSection`, `trustReportSection`) may only be on `node`/`article` docs.
 - **No schema deploy required** — no schema changes in this epic.
-- **Model recommendation:** `/model sonnet` — content creation + minimal route wiring.
-- **Existing test-preview-post:** leave in place — it covers article-specific combinations and draft/preview testing.
+## Model & Mode [REQUIRED]
+
+`/model sonnet` — content creation and minimal route wiring. No new components or schema changes; planning depth of Opus is not needed.
 
 ## Non-Goals
 

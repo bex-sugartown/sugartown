@@ -77,7 +77,9 @@ Activation audit: run `pnpm storybook` and enumerate all stories in Groups: Foun
 - **Code Connect file location**: `packages/design-system/src/components/<ComponentName>/<ComponentName>.figma.tsx` — co-located with the component source.
 - **Component API reference**: Storybook `argTypes` in each `*.stories.tsx` file is the canonical prop list. Use it to define Figma variant props. Do not invent props not in Storybook.
 - **Activation audit for Phase 2**: before creating component frames, run `get_code_connect_suggestions` on the Figma file to see if any auto-suggestions already exist from the existing swatches.
-- **Model recommendation**: Phase 1 (variables) and Phase 2 (component frames) → `opus` (high visual precision needed). Phase 3 (Code Connect config) → `sonnet`.
+## Model & Mode [REQUIRED]
+
+`/model opus` — pure architecture epic mapping 30+ DS components to Figma with sustained visual precision required throughout all phases. No plan-mode handoff — Opus for the full session.
 
 ## Non-Goals
 

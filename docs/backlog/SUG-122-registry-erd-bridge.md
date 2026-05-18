@@ -60,6 +60,10 @@ Also in scope: four ERD cards (`logo`, `media`, `navigationItem`, `socialLink`) 
 | `citationRef` | Citation | PT mark |
 | `richImage` | Media | |
 
+## Model & Mode [REQUIRED]
+
+`/model opusplan` — build pipeline extension + new UI surface on the registry page. Opus plans the data flow between `registryParser.js`, the ERD manifest, and the page component; Sonnet executes the implementation.
+
 ## Acceptance criteria
 
 - [ ] `logo`, `media`, `navigationItem`, `socialLink` cards in the ERD show their fields

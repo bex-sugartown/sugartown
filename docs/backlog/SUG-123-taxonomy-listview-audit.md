@@ -161,6 +161,10 @@ Issues found during the audit pass that are not blocking the convergence pass bu
 5. **Detail page `contentSection { margin-top: 2rem }` is duplicated** — identical rule appears in both `ProjectDetailPage.module.css` and `PersonProfilePage.module.css`. Candidate for promotion to a shared token or `pages.module.css` class if convergence pass confirms the pattern is universal.
 6. **Dark mode untested on all ten surfaces** — neither archive nor detail pages have Storybook stories, so dark mode has never been formally verified. Phase 3 Chromatic capture is the first structured dark mode check.
 
+## Model & Mode [REQUIRED]
+
+`/model opusplan` — multi-surface CSS audit + DS component evaluation + Storybook coverage. Opus audits existing patterns and produces the convergence plan; Sonnet executes token fixes and story authoring.
+
 ## Non-Goals
 
 - No changes to `component-registry.md` — registry covers DS primitives, not page-level patterns

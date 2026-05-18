@@ -104,6 +104,10 @@ Update `packages/design-system/src/components/Button/Button.stories.tsx`:
 
 ---
 
+## Model & Mode [REQUIRED]
+
+`/model opusplan` — DS token changes + CSS refactor across component + web adapter + Storybook. Opus plans the token rename sequence and variant matrix; Sonnet executes the CSS edits and story updates.
+
 ## Acceptance Criteria
 
 - [ ] Stripe is on the bottom edge in all three variants (no `border-top` references remain in Button CSS)
