@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-18 · SUG-124 shipped ✅ v0.23.37. SUG-125 (IndexGroup/IndexCell DS primitives) in backlog.
+> Updated 2026-05-18 · SUG-125 shipped ✅ v0.23.38. IndexGroup + IndexCell DS primitives, AlphaFilter "All" cell, inactive token.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-124 shipped ✅ v0.23.37 — semantic CSS naming audit complete; 25 violations → 0; IndexGroup/IndexCell vocabulary established. SUG-116 (Ledger Button Update) is next. SUG-125 (IndexGroup/IndexCell DS primitives) queued Soon. SUG-100 (CWV snapshot) In Review.
+> **⚑ Current focus:** SUG-125 shipped ✅ v0.23.38 — IndexGroup + IndexCell DS primitives; AlphaFilter "All" cell; inactive token; TaxonomyDetailPage empty-state full-width. SUG-116 (Ledger Button Update) is next.
 
 ---
 
@@ -22,7 +22,7 @@
 | 5 | ~~**[SUG-118](https://linear.app/sugartown/issue/SUG-118) · Platform Stats Page II — governance design refresh** — RoadmapTable DS component (sticky thead, white/gray bg, priority chips), LaneHeader pinned-state rewrite, SectionLabel geometric centering, shadow tokens. Shipped v0.23.30.~~ | `Design System` `Frontend` `UX` | ✅ Shipped |
 | 6 | ~~**[SUG-120](https://linear.app/sugartown/issue/SUG-120/grid-audit-converge-to-a-single-grid-andor-container-component) · Consolidate StatGrid + StatTileSection into Grid primitive** — StatGrid + SectionContainer deleted; all callsites migrated to `Grid spacing="0" accentTop`. Shipped v0.23.33.~~ | `Design System` `Infrastructure` | ✅ Shipped |
 | 7 | ~~**[SUG-124](https://linear.app/sugartown/issue/SUG-124/semantic-naming-audit-css-classes-alpha-row-list-pattern-reuse) · Semantic naming audit — CSS classes, alpha row, list pattern reuse guardrails** — All tax*/alpha* classes renamed; validate:css-names 0 violations; css-class-naming.md written; SUG-125 scoped. Shipped v0.23.37.~~ | `Design System` `Tooling` | ✅ Shipped |
-| 8 | **[SUG-125](https://linear.app/sugartown/issue/SUG-125/indexgroup-indexcell-ds-primitives-pagination-and-letterfilterstrip) · IndexGroup + IndexCell DS primitives** — Create DS primitives for direct-access control strips; refactor AlphaFilter + Pagination to consume them; add tokens. Scoped from SUG-124. Epic: `docs/backlog/SUG-125-index-group-cell-ds-primitive.md`. | `Design System` | 🟣 Soon |
+| 8 | ~~**[SUG-125](https://linear.app/sugartown/issue/SUG-125/indexgroup-indexcell-ds-primitives-pagination-and-letterfilterstrip) · IndexGroup + IndexCell DS primitives** — IndexGroup + IndexCell DS primitives; AlphaFilter "All" clear cell; `--st-index-cell-inactive-color` token; TaxonomyDetailPage empty-state full-width. Shipped v0.23.38.~~ | `Design System` | ✅ Shipped |
 | 4 | **[SUG-116](https://linear.app/sugartown/issue/SUG-116) · Ledger Button Update — Baseline Rule, sm/md/lg sizes, Storybook snapshot** — Move 3px stripe from `border-top` to `border-bottom` across all variants; introduce `--st-color-button-rule-{primary,secondary,tertiary}` tokens (Option B rename); add `sm`/`lg` size prop to DS + web adapter; update Storybook snapshot story. Epic: `docs/backlog/SUG-116-ledger-button-update.md`. | `Design System` | 🟢 Next |
 | 3 | ~~**[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs, hero inheritance, scrollspy, DataTable releases, Storybook BUILD_DATE freeze. Shipped v0.23.22.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** ✅ Shipped. Services page outcome framing, availability signal on hero/About, case study narrative, Contact tone update. All Sanity drafts published 2026-05-01. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | ✅ Shipped |
