@@ -3,17 +3,17 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DataTable, { KindBadge } from './DataTable';
 
 /**
+ * @deprecated DataTable is a shim over `<Table>`. Migrate callers to `<Table>` directly.
+ * Active callers: TrustReportSection, DesignSystemPage, GovernancePage.
+ *
  * Props-driven wrapper over the DS Table + TableWrap primitives.
  * Adds a column config API and a `trust` variant that overrides header
  * color tokens: subdued surface-strong bg, WCAG AA text (not pink accent).
- *
- * Used by TrustReportSection recent-releases variant (SUG-87).
- * KindBadge sub-component is exported for use in column `render` functions.
  */
 const meta: Meta<typeof DataTable> = {
   title: 'Components/Table/DataTable',
   component: DataTable,
-  tags: ['autodocs'],
+  tags: ['autodocs', 'deprecated'],
   parameters: { layout: 'padded' },
   argTypes: {
     variant: { control: { type: 'radio' }, options: ['default', 'trust'] },
