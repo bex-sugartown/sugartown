@@ -23,6 +23,7 @@ import {
   allProjectsQuery,
   allToolsQuery,
 } from '../lib/queries'
+import AlphaFilter from '../components/AlphaFilter'
 import NotFoundPage from './NotFoundPage'
 import styles from './TaxonomyArchivePage.module.css'
 import pageStyles from './pages.module.css'
@@ -89,8 +90,6 @@ const ARCHIVE_CONFIG = {
   },
 }
 
-const ALL_LETTERS = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
-
 // ─── Person avatar helper ─────────────────────────────────────────────────────
 
 function PersonAvatar({ doc }) {
@@ -147,40 +146,6 @@ function TaxonomyItem({ doc, config }) {
         )}
       </Link>
     </li>
-  )
-}
-
-// ─── Alpha strip (filter mode) ────────────────────────────────────────────────
-
-function AlphaFilter({ activeLetters, filterLetter, onSelect }) {
-  return (
-    <div className={styles.indexGroup} aria-label="Filter by letter">
-      {ALL_LETTERS.map((letter) => {
-        const isActive = activeLetters.has(letter)
-        const isSelected = letter === filterLetter
-        if (!isActive) {
-          return (
-            <span
-              key={letter}
-              className={`${styles.indexCell} ${styles.indexCellInactive}`}
-              aria-hidden="true"
-            >
-              {letter}
-            </span>
-          )
-        }
-        return (
-          <button
-            key={letter}
-            className={`${styles.indexCell} ${styles.indexCellActive}${isSelected ? ` ${styles.indexCellSelected}` : ''}`}
-            onClick={() => onSelect(letter)}
-            aria-pressed={isSelected}
-          >
-            {letter}
-          </button>
-        )
-      })}
-    </div>
   )
 }
 

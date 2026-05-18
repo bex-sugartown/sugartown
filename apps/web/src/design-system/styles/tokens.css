@@ -386,6 +386,10 @@
   --st-color-midnight-950: #0a0f1a;
   --st-shadow-thead-stuck: inset 0 -1px 0 var(--st-color-ink), 0 8px 12px -8px rgba(13, 18, 38, 0.30);
   --st-shadow-subhead-pinned: 0 1px 0 var(--st-color-rule-accent), 0 8px 16px -10px rgba(13, 18, 38, 0.10);
+  --st-index-cell-size: 28px;
+  --st-index-cell-gap: 2px;
+  --st-index-cell-font-size: 0.6875rem;
+  --st-index-cell-weight: 600;
   --st-color-pink: var(--st-color-pink-500);
   --st-color-maroon: var(--st-color-maroon-600);
   --st-color-lime: var(--st-color-lime-400);

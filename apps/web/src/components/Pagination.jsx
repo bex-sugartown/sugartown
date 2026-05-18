@@ -15,6 +15,7 @@
  *   - Prev/Next disabled (not just styled) when at edges
  *   - All interactive elements are semantic <button> elements
  */
+import IndexCell from '../design-system/components/index-cell/IndexCell'
 import styles from './Pagination.module.css'
 
 // ─── Page number list builder ─────────────────────────────────────────────────
@@ -62,20 +63,18 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
 
   return (
     <nav className={styles.pagination} aria-label="Pagination">
-      <button
-        type="button"
-        className={[styles.pageButton, styles.navButton].join(' ')}
+      <IndexCell
+        state={hasPrev ? 'active' : 'inactive'}
         onClick={() => onPageChange(currentPage - 1)}
-        disabled={!hasPrev}
         aria-label="Previous page"
+        className={styles.navCell}
       >
         ← Prev
-      </button>
+      </IndexCell>
 
       <ol className={styles.pageList} role="list">
         {pages.map((page) => {
           if (typeof page === 'string') {
-            // Ellipsis placeholder
             return (
               <li key={page} className={styles.ellipsis} aria-hidden="true">
                 …
@@ -87,36 +86,27 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
 
           return (
             <li key={page}>
-              <button
-                type="button"
-                className={[
-                  styles.pageButton,
-                  styles.pageNumberButton,
-                  isCurrent ? styles.currentPage : null,
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
+              <IndexCell
+                state={isCurrent ? 'selected' : 'active'}
                 onClick={() => !isCurrent && onPageChange(page)}
                 aria-label={`Page ${page}`}
-                aria-current={isCurrent ? 'page' : undefined}
-                disabled={isCurrent}
+                aria-pressed={isCurrent}
               >
                 {page}
-              </button>
+              </IndexCell>
             </li>
           )
         })}
       </ol>
 
-      <button
-        type="button"
-        className={[styles.pageButton, styles.navButton].join(' ')}
+      <IndexCell
+        state={hasNext ? 'active' : 'inactive'}
         onClick={() => onPageChange(currentPage + 1)}
-        disabled={!hasNext}
         aria-label="Next page"
+        className={styles.navCell}
       >
         Next →
-      </button>
+      </IndexCell>
     </nav>
   )
 }

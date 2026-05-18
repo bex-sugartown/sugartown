@@ -59,6 +59,14 @@ export type { ScoreRingProps, ScoreCategory } from './components/ScoreRing';
 export { Swatch } from './components/Swatch';
 export type { SwatchProps } from './components/Swatch';
 
+// ── IndexCell ────────────────────────────────────────────────────────────────
+export { IndexCell } from './components/IndexCell';
+export type { IndexCellProps, IndexCellState } from './components/IndexCell';
+
+// ── IndexGroup ───────────────────────────────────────────────────────────────
+export { IndexGroup } from './components/IndexGroup';
+export type { IndexGroupProps } from './components/IndexGroup';
+
 // ── useStickyState (SUG-118) ─────────────────────────────────────────────────
 export { useStickyState } from './hooks/useStickyState';
 export type { StickyState } from './hooks/useStickyState';

@@ -1,4 +1,6 @@
-/* Pagination — archive page navigation */
+/* Pagination — archive page navigation.
+ * Page number cells and Prev/Next use IndexCell DS primitive.
+ * Only layout and ellipsis styles live here. */
 
 .pagination {
   display: flex;
@@ -20,60 +22,14 @@
   padding: 0;
 }
 
-/* ─── Base button ───────────────────────────────────────────────────────────── */
+/* ─── Prev / Next width override — wider than square page number cells ─────── */
 
-.pageButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2rem;
-  height: 2rem;
-  padding: 0 0.5rem;
-  border: 1px solid var(--st-color-border-default);
-  border-radius: 0.375rem;
-  background: transparent;
-  color: var(--st-color-text-default);
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-  line-height: 1;
-}
-
-.pageButton:hover:not(:disabled) {
-  background: var(--st-color-bg-surface);
-  border-color: var(--st-color-border-medium);
-}
-
-.pageButton:focus-visible {
-  outline: 2px solid var(--st-color-brand-primary);
-  outline-offset: 2px;
-}
-
-.pageButton:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-/* ─── Current page ──────────────────────────────────────────────────────────── */
-
-.currentPage {
-  background: var(--st-color-brand-primary);
-  border-color: var(--st-color-brand-primary);
-  color: var(--st-color-white);
-  cursor: default;
-}
-
-.currentPage:hover:not(:disabled) {
-  background: var(--st-color-brand-primary);
-  border-color: var(--st-color-brand-primary);
-}
-
-/* ─── Prev / Next ───────────────────────────────────────────────────────────── */
-
-.navButton {
+.navCell {
+  width: auto;
   padding: 0 0.75rem;
   font-size: 0.8125rem;
+  font-family: var(--st-font-family-ui);
+  text-transform: none;
 }
 
 /* ─── Ellipsis ──────────────────────────────────────────────────────────────── */
