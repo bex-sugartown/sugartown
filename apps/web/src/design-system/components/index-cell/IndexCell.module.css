@@ -49,9 +49,9 @@
 }
 
 .inactive {
-  border: 1px solid transparent;
+  border: 1px solid var(--st-color-border-subtle);
   background: transparent;
-  color: var(--st-color-border-medium);
+  color: var(--st-color-text-muted);
   cursor: default;
   pointer-events: none;
 }
