@@ -261,4 +261,7 @@
   --st-table-header-bg-subdued:       var(--st-color-midnight-700);   /* #1c2240 — opaque, no glassmorphism */
   --st-table-header-color-subdued:    var(--st-color-text-muted);
   --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 4%, transparent);
+
+  /* IndexCell — inactive state on dark canvas */
+  --st-index-cell-inactive-color: rgba(255, 255, 255, 0.18);
 }

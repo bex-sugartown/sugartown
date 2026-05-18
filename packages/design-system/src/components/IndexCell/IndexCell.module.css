@@ -49,9 +49,9 @@
 }
 
 .inactive {
-  border: 1px solid var(--st-color-neutral-300);
+  border: 1px solid var(--st-index-cell-inactive-color);
   background: transparent;
-  color: var(--st-color-neutral-300);
+  color: var(--st-index-cell-inactive-color);
   cursor: default;
   pointer-events: none;
 }
