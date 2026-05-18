@@ -42,9 +42,13 @@ function parseTable(tableLines) {
 }
 
 /**
- * Parse a "Studio schema object" cell value into an array of valid Sanity type names.
- * Handles: "—" (none), "✅ ctaButton (object) + ctaButtonDoc (document)", "calloutSection"
- * Returns only entries that are valid camelCase type names (no spaces, dots, brackets).
+ * Parse a schema column cell into an array of valid Sanity type names.
+ * Handles multiple formats:
+ *   "Studio schema object": "✅ ctaButton (object) + ctaButtonDoc (document)"
+ *   "Schema type":          "`accordionSection`" (after stripMarkdown: "accordionSection")
+ *   "Sanity data source":   "navigation document", "heroSection in sections[]",
+ *                           "All sections[] types" → []
+ * Returns only entries matching a valid Sanity type name pattern (camelCase, no spaces/dots/brackets).
  */
 export function parseSchemaRefs(cellText) {
   if (!cellText || cellText === '—' || cellText === '-') return []
@@ -53,7 +57,8 @@ export function parseSchemaRefs(cellText) {
     .split('+')
     .map((part) =>
       part
-        .replace(/\s*\([^)]*\)\s*/g, '')  // strip (object), (document) etc.
+        .replace(/\s*\([^)]*\)\s*/g, '')  // strip (object), (document) qualifiers
+        .replace(/\s+(document|in\s+\S+).*$/i, '')  // strip " document", " in sections[]" suffixes
         .replace(/^[^a-zA-Z]+/, '')        // strip leading non-alpha (✅, spaces, dashes)
         .trim()
     )

@@ -24,6 +24,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(__dirname, '..')
 const DOCUMENTS_DIR = join(ROOT, 'apps/studio/schemas/documents')
 const OBJECTS_DIR = join(ROOT, 'apps/studio/schemas/objects')
+const SECTIONS_DIR = join(ROOT, 'apps/studio/schemas/sections')
 const OUTPUT = join(ROOT, 'apps/web/src/data/schemaManifest.js')
 
 // ── Group assignment ───────────────────────────────────────────────────────
@@ -39,11 +40,13 @@ const GROUP_OVERRIDES = {
   siteSettings: 'infra',
   navigation: 'infra',
   redirect: 'infra',
-  footer: 'infra',
-  header: 'infra',
-  hero: 'infra',
   preheader: 'infra',
   homepage: 'infra',
+  // deprecated documents — kept for backward compat, not used in new content
+  footer: 'deprecated',
+  header: 'deprecated',
+  hero: 'deprecated',
+  contentBlock: 'deprecated',
 }
 
 // ── Parsing helpers ────────────────────────────────────────────────────────
@@ -212,10 +215,12 @@ ${fieldsJs}
 //     { from, to, label, type ('one'|'many'|'self') }
 //
 // Groups:
-//   atoms     — reusable building-block objects (link, ctaButton, richImage, etc.)
-//   taxonomy  — controlled vocabulary documents (category, tag, project, person, tool)
-//   content   — primary editorial document types (article, caseStudy, node, page, archivePage)
-//   infra     — site configuration and infrastructure (siteSettings, navigation, redirect, etc.)
+//   atoms      — reusable building-block objects (link, ctaButton, richImage, etc.)
+//   sections   — page section builder types (heroSection, accordionSection, etc.)
+//   taxonomy   — controlled vocabulary documents (category, tag, project, person, tool)
+//   content    — primary editorial document types (article, caseStudy, node, page, archivePage)
+//   infra      — site configuration and infrastructure (siteSettings, navigation, redirect, etc.)
+//   deprecated — legacy types kept for backward compat; not used in new content
 
 export const entities = [
 ${entitiesJs}
@@ -231,12 +236,13 @@ ${relsJs}
 
 const documents = processDir(DOCUMENTS_DIR, 'document', 'content')
 const objects = processDir(OBJECTS_DIR, 'object', 'atoms')
+const sections = processDir(SECTIONS_DIR, 'object', 'sections')
 
-const allTypes = [...objects, ...documents]
+const allTypes = [...objects, ...sections, ...documents]
 const relationships = deriveRelationships(allTypes)
 
-// Sort for stable output: objects first (atoms), then documents by group
-const ORDER = ['atoms', 'taxonomy', 'content', 'infra']
+// Sort for stable output: objects first (atoms/sections), then documents by group
+const ORDER = ['atoms', 'sections', 'taxonomy', 'content', 'infra', 'deprecated']
 const sorted = allTypes.sort((a, b) => {
   const ai = ORDER.indexOf(a.group)
   const bi = ORDER.indexOf(b.group)
@@ -254,7 +260,7 @@ const relCount = relationships.length
 // Update this floor when types are intentionally removed.
 // portableTextConfig is excluded by design (config, not a schema type).
 // answerBlock.ts filename is stale — the file defines citedBlock, which IS counted.
-const ENTITY_FLOOR = 42
+const ENTITY_FLOOR = 54
 if (entityCount < ENTITY_FLOOR) {
   console.error(`❌  schema manifest entity count regressed: expected ≥${ENTITY_FLOOR}, got ${entityCount}`)
   console.error('    If types were intentionally removed, update ENTITY_FLOOR in generate-schema-manifest.mjs.')

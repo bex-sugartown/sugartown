@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { Link } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Chip from '../../design-system/components/chip/Chip'
 import Button from '../../design-system/components/button/Button'
 import Tile from '../../design-system/components/tile/Tile'
 import Grid from '../../design-system/components/grid/Grid'
+import IndexGroup from '../../design-system/components/index-group/IndexGroup'
+import IndexCell from '../../design-system/components/index-cell/IndexCell'
 import { PLATFORM_ROUTES } from '../../lib/routes'
 import styles from './SchemaERD.module.css'
 
@@ -43,22 +44,26 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
     return param && entities.some((e) => e.id === param) ? param : null
   })
 
+  // Deprecated types are hidden from the main ERD; shown only as a dim count
+  const visibleEntities = useMemo(() => entities.filter((e) => e.group !== 'deprecated'), [entities])
+  const deprecatedCount = entities.length - visibleEntities.length
+
   // ── Derived data ──────────────────────────────────────────
   const groups = useMemo(() => {
     const map = {}
-    for (const e of entities) {
+    for (const e of visibleEntities) {
       const g = e.group || 'other'
       if (!map[g]) map[g] = []
       map[g].push(e)
     }
     return map
-  }, [entities])
+  }, [visibleEntities])
 
   const groupNames = useMemo(() => Object.keys(groups), [groups])
 
   const filtered = useMemo(
-    () => (activeGroup === 'all' ? entities : groups[activeGroup] || []),
-    [activeGroup, entities, groups],
+    () => (activeGroup === 'all' ? visibleEntities : groups[activeGroup] || []),
+    [activeGroup, visibleEntities, groups],
   )
 
   const selectedRels = useMemo(() => {
@@ -81,14 +86,18 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
   const selectedEntity = entities.find((e) => e.id === selectedId)
 
   // ── Stats ─────────────────────────────────────────────────
-  const docCount = entities.filter((e) => e.kind === 'document').length
-  const objCount = entities.filter((e) => e.kind === 'object').length
+  const docCount = visibleEntities.filter((e) => e.kind === 'document').length
+  const objCount = visibleEntities.filter((e) => e.kind === 'object').length
 
-  // ── Filter options for Chip strip ─────────────────────────
+  // ── Filter options ─────────────────────────────────────────
   const filterOptions = useMemo(() => [
-    { value: 'all', label: `All (${entities.length})` },
-    ...groupNames.map((g) => ({ value: g, label: `${g.charAt(0).toUpperCase() + g.slice(1)} (${groups[g].length})` })),
-  ], [entities.length, groupNames, groups])
+    { value: 'all', label: 'All', count: visibleEntities.length },
+    ...groupNames.map((g) => ({
+      value: g,
+      label: g.charAt(0).toUpperCase() + g.slice(1),
+      count: groups[g].length,
+    })),
+  ], [visibleEntities.length, groupNames, groups])
 
   // ── Handlers ──────────────────────────────────────────────
   function selectId(id) {
@@ -117,22 +126,32 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
   return (
     <div className={styles.erdWrapper}>
       <Grid spacing="0" accentTop accentColor="ink" tabletColumns={2} columns={4} className={styles.statsSection}>
-        <Tile label="Types" value={entities.length} />
+        <Tile label="Types" value={visibleEntities.length} />
         <Tile label="Documents" value={docCount} />
         <Tile label="Objects" value={objCount} />
         <Tile label="Relationships" value={relationships.length} />
       </Grid>
 
-      {/* Filter chips */}
+      {/* Filter strip — IndexGroup/IndexCell */}
       <div className={styles.filters}>
-        {filterOptions.map((opt) => (
-          <Chip
-            key={opt.value}
-            label={opt.label}
-            onClick={() => setActiveGroup(opt.value)}
-            isActive={activeGroup === opt.value}
-          />
-        ))}
+        <IndexGroup label="Filter by group">
+          {filterOptions.map((opt) => (
+            <IndexCell
+              key={opt.value}
+              state={activeGroup === opt.value ? 'selected' : 'active'}
+              onClick={() => setActiveGroup(opt.value)}
+              aria-pressed={activeGroup === opt.value}
+              className={styles.filterCell}
+            >
+              {opt.label}
+            </IndexCell>
+          ))}
+        </IndexGroup>
+        {deprecatedCount > 0 && (
+          <span className={styles.deprecatedBadge}>
+            {deprecatedCount} deprecated hidden
+          </span>
+        )}
       </div>
 
       {/* Main layout: grid + sidebar */}

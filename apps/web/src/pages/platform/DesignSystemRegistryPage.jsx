@@ -9,7 +9,8 @@ import { parseRegistryMd, parseSchemaRefs } from '../../lib/registryParser'
 import { PLATFORM_ROUTES } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
-const SCHEMA_OBJ_COL = 'Studio schema object'
+// Column names whose cells should render as ERD links
+const ERD_LINK_COLS = new Set(['Studio schema object', 'Schema type', 'Sanity data source'])
 
 const SECTIONS = parseRegistryMd(registryMd)
 
@@ -44,7 +45,7 @@ function SchemaObjCell({ value }) {
 }
 
 function RegistryTable({ columns, rows }) {
-  const schemaColIdx = columns.indexOf(SCHEMA_OBJ_COL)
+  const schemaColIdx = columns.findIndex((c) => ERD_LINK_COLS.has(c))
   return (
     <TableWrap>
       <Table tone="subdued" density="compact">
