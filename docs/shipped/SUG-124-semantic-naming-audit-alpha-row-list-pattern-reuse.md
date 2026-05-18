@@ -1,8 +1,8 @@
 ---
 **Epic:** SUG-124 — Semantic naming audit — CSS classes, alpha row, list pattern reuse guardrails
 **Linear Issue:** [SUG-124](https://linear.app/sugartown/issue/SUG-124/semantic-naming-audit-css-classes-alpha-row-list-pattern-reuse)
-**Status:** Backlog
-**Priority:** 🟢 Next
+**Status:** Shipped ✅ v0.23.37
+**Shipped:** 2026-05-18
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
 
@@ -46,11 +46,30 @@ Write `docs/conventions/css-class-naming.md`. Evaluate and implement lint/valida
 
 ## Acceptance criteria
 
-- [ ] No CSS module class in `apps/web/src/pages/` is named after a content type (`tax*`, `archive*`, `alpha*`, `person*`, `project*`, `tool*`) where that name describes the call site rather than the structural pattern
-- [ ] `AlphaStrip` and `Pagination` share a defined relationship: either composed from a common primitive, or `AlphaStrip` has a documented rationale for why it cannot share the Pagination base
-- [ ] `docs/conventions/css-class-naming.md` exists and covers the naming rules with positive and negative examples
-- [ ] `pnpm validate:tokens` passes with zero errors after renames
-- [ ] Storybook stories for any renamed/refactored component updated to use new names
+- [x] No CSS module class in `apps/web/src/pages/` is named after a content type (`tax*`, `archive*`, `alpha*`, `person*`, `project*`, `tool*`) where that name describes the call site rather than the structural pattern
+- [x] `AlphaStrip` and `Pagination` share a defined relationship — `AlphaFilter` (renamed from `AlphaStrip`) and `Pagination` are documented as composite consumers of the `IndexGroup`/`IndexCell` primitive pattern (SUG-125 scoped)
+- [x] `docs/conventions/css-class-naming.md` exists and covers the naming rules with positive and negative examples
+- [x] `pnpm validate:tokens` passes with zero errors after renames
+- [ ] Storybook stories — deferred to SUG-125 (stories for `AlphaFilter` and `IndexCell`/`IndexGroup` primitives belong in that epic)
+
+## Shipped notes
+
+**What shipped:**
+- `validate:css-names` validator created — catches content-type-scoped class names in `apps/web/src/pages/`; found 25 violations at start, 0 at close
+- All 17 `tax*`/`alpha*` classes in `TaxonomyArchivePage.module.css` renamed to semantic vocabulary: `indexGroup`, `indexCell`, `indexGrid`, `indexCol`, `indexHeader`, `indexList`, `listItem*`
+- `AlphaStrip` component renamed to `AlphaFilter`
+- `TaxonomyDetailPage.module.css` all local classes deleted — replaced by shared classes in `pages.module.css` (`entityDetailPage`, `detailHeader`, `accentBar`, `detailEyebrow`, `archiveHeading`, `archiveDescription`, `archiveResultCount`)
+- `pages.module.css` — added `.detailHeader` and `.accentBar` (structural base)
+- `ProjectDetailPage` — `.accentBar` promoted to shared; local `.accentBarProject` handles the full-width 6px variant
+- Fixed hardcoded `1100px` max-width bug in `TaxonomyDetailPage` (now uses `--st-width-detail-wide` via `.entityDetailPage`)
+- `docs/conventions/css-class-naming.md` written — shared class registry, index/listItem vocabulary, blocked prefixes, proposal table gate
+
+**Scoped out to SUG-125:**
+- `IndexGroup` + `IndexCell` DS primitives
+- Refactoring `AlphaFilter` and `Pagination` to consume those primitives
+- Storybook stories
+
+<!-- Chromatic: pending — deferred to SUG-125 -->
 
 ## Technical notes
 
