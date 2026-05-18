@@ -166,15 +166,16 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Alpha strip (Tags) ──────────────────────────────────────────── */
-.alphaStrip {
+/* ── Letter filter strip (Tags — future: Glossary) ───────────────── */
+/* IndexGroup + IndexCell pending DS primitive (see SUG-125) — visual spec locked here */
+.letterFilterStrip {
   display: flex;
   flex-wrap: wrap;
   gap: 2px;
   margin-bottom: 1.75rem;
 }
 
-.alphaBtn {
+.letterFilterBtn {
   font-family: var(--st-font-family-mono);
   font-size: 0.6875rem;
   font-weight: 600;
@@ -188,7 +189,7 @@
   transition: background 0.1s, color 0.1s;
 }
 
-.alphaBtnActive {
+.letterFilterBtnActive {
   color: var(--st-color-text-muted);
   border: 1px solid var(--st-color-border-default);
   background: none;
@@ -196,32 +197,32 @@
   transition: border-color 0.1s, color 0.1s, background 0.1s;
 }
 
-.alphaBtnActive:hover {
+.letterFilterBtnActive:hover {
   color: var(--st-color-pink);
   border-color: var(--st-color-pink);
 }
 
-.alphaBtnSelected {
+.letterFilterBtnSelected {
   background: var(--st-color-pink);
   border-color: var(--st-color-pink);
   color: var(--st-color-white);
 }
 
-.alphaBtnSelected:hover {
+.letterFilterBtnSelected:hover {
   background: var(--st-color-maroon);
   border-color: var(--st-color-maroon);
   color: var(--st-color-white);
 }
 
-.alphaBtnDisabled {
+.letterFilterBtnInactive {
   color: var(--st-color-border-medium);
   border: 1px solid transparent;
   cursor: default;
   pointer-events: none;
 }
 
-/* ── Bucket grid (Tags) ──────────────────────────────────────────── */
-.taxGrid {
+/* ── Flat column grid (Tags — future: Glossary) ──────────────────── */
+.flatColGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 40px;
@@ -229,37 +230,37 @@
 }
 
 @media (max-width: 720px) {
-  .taxGrid {
+  .flatColGrid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (min-width: 721px) and (max-width: 900px) {
-  .taxGrid {
+  .flatColGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 /* Single-column variant — used when a letter filter is active */
-.taxGridSingle {
+.flatColGridSingle {
   display: grid;
   grid-template-columns: 1fr;
 }
 
-/* ── Letter bucket (unused — retained for reference) ─────────────── */
-.taxBucket {
+/* ── Column bucket (unused — retained for future letter-header variant) */
+.flatColBucket {
   min-width: 0;
 }
 
-/* ── Letter header: glyph + horizontal rule ──────────────────────── */
-.taxLetter {
+/* ── Column header: glyph + horizontal rule ──────────────────────── */
+.flatColHeader {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 4px;
 }
 
-.taxLetterGlyph {
+.flatColHeaderGlyph {
   font-family: var(--st-font-family-narrative);
   font-size: 1.75rem;
   font-weight: 600;
@@ -268,21 +269,21 @@
   flex-shrink: 0;
 }
 
-.taxLetterRule {
+.flatColHeaderRule {
   flex: 1;
   height: 1px;
   background: var(--st-color-border-subtle);
 }
 
-.taxBucketList {
+.flatColList {
   list-style: none;
   padding: 0;
   margin: 0;
   min-width: 0; /* grid item: allow shrink below content size so 1fr columns stay equal */
 }
 
-/* ── Tag row: mono name + sublabel + count ───────────────────────── */
-.taxRow {
+/* ── Flat list row: mono label + sublabel + count ────────────────── */
+.flatListRow {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -294,24 +295,24 @@
   min-width: 0;
 }
 
-.taxRow:last-child {
+.flatListRow:last-child {
   border-bottom: none;
 }
 
-.taxRow:hover {
+.flatListRow:hover {
   padding-left: 12px;
   color: var(--st-color-maroon);
 }
 
-/* Name + sublabel stacked */
-.taxRowInner {
+/* Label + sublabel stacked */
+.flatListRowInner {
   display: flex;
   flex-direction: column;
   min-width: 0;
   flex: 1;
 }
 
-.taxRowName {
+.flatListRowLabel {
   display: block;
   font-family: var(--st-font-family-mono);
   font-size: 0.8125rem;
@@ -321,7 +322,7 @@
   text-overflow: ellipsis;
 }
 
-.taxRowSub {
+.flatListRowSub {
   display: block;
   font-family: var(--st-font-family-ui);
   font-size: 0.75rem;
@@ -332,7 +333,7 @@
   text-overflow: ellipsis;
 }
 
-.taxRowCount {
+.flatListRowCount {
   font-family: var(--st-font-family-mono);
   font-size: 0.6875rem;
   font-weight: 600;
