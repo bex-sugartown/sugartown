@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-125 shipped ✅ v0.23.38 — IndexGroup + IndexCell DS primitives; AlphaFilter "All" cell; inactive token; TaxonomyDetailPage empty-state full-width. SUG-116 (Ledger Button Update) is next.
+> **⚑ Current focus:** v0.24.0 shipped ✅ 2026-05-18 — DS infrastructure, platform hub pages, editorial depth, Registry↔ERD bridge. Next: SUG-116 (Ledger Button Update) or SUG-100 (CWV Snapshot).
 
 ---
 
@@ -49,7 +49,6 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 5 | **[SUG-121](https://linear.app/sugartown/issue/SUG-121) · Design System — Section Module Showcase** — Public-facing Sanity `page` at `/platform/design-system/sections` showing every available section type and variant with intentional placeholder copy. Linked from Design System sidebar nav. No new schema or renderers. Epic: `docs/backlog/SUG-121-design-system-section-module-showcase.md`. | `Design System` `Content` `Frontend` | 🟣 Soon |
-| 4 | **[SUG-117](https://linear.app/sugartown/issue/SUG-117) · CWV mobile form-factor reporting** — Fix deprecated LHCI `emulatedFormFactor` flag (Lighthouse 10+) so mobile/desktop scores diverge; re-enable the form-factor toggle in CwvSnapshot (hidden at SUG-113 close-out). Epic: `docs/backlog/SUG-117-cwv-mobile-form-factor-reporting.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
 | 1 | **[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Fix LHCI not writing JSON in CI, add missing Sanity secrets, diagnose low mobile Lighthouse scores (perf 68, best-practices 42), document manual backup update workflow, close SUG-100. Epic: `docs/backlog/SUG-106-stats-pipeline-fix-sug-100-close-out.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
 | 3 | ~~**[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — `useScrollspy` hook extracted, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors fixed + pre-commit gate activated. Shipped v0.23.24.~~ | `Design System` `Frontend` `Tooling` | ✅ Shipped |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
@@ -199,4 +198,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-16 · v0.23.31 · SUG-119 Table Audit shipped · queue: SUG-116*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-18 · v0.24.0 shipped · queue: SUG-116*
