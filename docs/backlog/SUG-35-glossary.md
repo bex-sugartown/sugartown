@@ -42,7 +42,7 @@ Some nodes ARE terms. "Headless CMS" might be both a glossary entry and a knowle
 - The **glossary entry** defines the term concisely (300 words max, reference-style)
 - The **node** captures Sugartown's evolving thinking about the concept (conversation, decisions, status)
 
-**Recommendation:** Cross-reference via explicit `relatedNode` reference field on glossary term, and `relatedGlossaryTerms[]` on node. Don't merge. A reader who wants "what is this?" goes to the glossary. A reader who wants "what does Sugartown think about this?" goes to the node.
+**Recommendation:** Cross-reference via `relatedContent[]` on glossary term (which accepts `node` among all other detail page types). The reverse direction — a node showing which glossary terms cite it — is a GROQ reverse lookup, not a separate field on `node`. Don't merge the types. A reader who wants "what is this?" goes to the glossary. A reader who wants "what does Sugartown think about this?" goes to the node.
 
 ### Q3. Inline visual treatment — what pattern?
 
@@ -104,13 +104,19 @@ glossaryTerm
 ├── extendedDefinition (standardPortableText) — optional deep-dive explanation
 ├── pronunciation (string, optional) — IPA or phonetic
 ├── abbreviation (string, optional) — if the term is an abbreviation (e.g. "CMS")
-├── relatedTerms[] (references to glossaryTerm) — "see also" cross-references
-├── relatedNode (reference to node, optional) — link to knowledge graph entry
-├── relatedTag (reference to tag, optional) — link to classification tag
+├── relatedTerms[] (references to glossaryTerm | tool | tag | category) — "see also" cross-references; includes taxonomy types so e.g. "design-tokens" term links directly to its tag and tool equivalents
+├── relatedContent[] (references to article | caseStudy | node | page | person | project | tool) — manually curated content using or exemplifying this term; all detail page types, no archive pages
 ├── sources[] (array of objects: text + url) — attribution for definition
 ├── seo (seoMetadata object) — standard SEO fields
 └── categories[] (references to category) — topical grouping
 ```
+
+**Bidirectionality:** Relations are written on `glossaryTerm` and surfaced in both directions via GROQ reverse lookups at read time — no duplicate fields on the target type. `relatedTerms` and `relatedContent` are the single source of truth; the reverse direction is a computed query.
+
+- On a `tag`, `tool`, or `category` detail page: `*[_type == "glossaryTerm" && references(^._id)]` surfaces any glossary terms that link to this taxonomy item.
+- On an `article`, `caseStudy`, `node`, `page`, `person`, `project`, or `tool` detail page: the same reverse query surfaces glossary terms that cite this content as an example — distinct from `glossaryTermRef` PT annotations which are inline usage.
+
+This means no schema changes are needed on existing doc types to enable the reverse direction.
 
 **New PT annotation: `glossaryTermRef`**
 
@@ -168,17 +174,42 @@ GLOSSARY_TERM_FRAGMENT = `
   extendedDefinition,
   pronunciation,
   abbreviation,
-  "relatedTerms": relatedTerms[]->{_id, term, "slug": slug.current},
-  "relatedNode": relatedNode->{_id, title, "slug": slug.current},
-  "relatedTag": relatedTag->{_id, name, "slug": slug.current},
+  // relatedTerms: glossaryTerm | tool | tag | category — coerce name/term to "label"
+  "relatedTerms": relatedTerms[]-> {
+    _id, _type,
+    "label": select(_type == "glossaryTerm" => term, name),
+    "slug": slug.current
+  },
+  // relatedContent: all detail page types — coerce title/name/term to "title"
+  "relatedContent": relatedContent[]-> {
+    _id, _type,
+    "title": select(
+      _type == "glossaryTerm" => term,
+      _type in ["tag","category","tool","person","project"] => name,
+      title
+    ),
+    "slug": slug.current
+  },
   sources,
   "categories": categories[]->{_id, name, "slug": slug.current},
+  // usedIn: content that has a glossaryTermRef PT annotation referencing this term
   "usedIn": *[
-    _type in ["article", "caseStudy", "node"]
+    _type in ["article", "caseStudy", "node", "page"]
     && references(^._id)
-  ] | order(title asc) [0..20] {
-    _id, _type, title, "slug": slug.current
+  ] | order(coalesce(title, term, name) asc) [0..20] {
+    _id, _type,
+    "title": coalesce(title, term, name),
+    "slug": slug.current
   }
+}
+```
+
+**Reverse lookup fragment** (add to article, node, caseStudy, person, project, tool, tag, category detail queries):
+```groq
+// On any detail page — surfaces glossary terms that link to this doc
+"glossaryTerms": *[_type == "glossaryTerm" && references(^._id)] | order(term asc) {
+  _id, term, "slug": slug.current,
+  "definition": definition[0..0]
 }
 ```
 
@@ -204,9 +235,9 @@ GLOSSARY_TERM_FRAGMENT = `
    - Term as `<h1>`, pronunciation, abbreviation
    - Definition rendered as PortableText
    - Extended definition (collapsible or below fold)
-   - Related terms as linked chips
-   - "Used in" back-references (articles, case studies, nodes that reference this term)
-   - Related node link (if exists)
+   - Related terms as linked chips — glossaryTerm, tool, tag, and category refs all render as chips; use existing `Chip` DS primitive, link to appropriate detail page via `getCanonicalPath()`
+   - Related content as linked list — all relatedContent[] entries, typed badge per `_type` (same `doc-type-badge` pattern as "used in")
+   - "Used in" back-references (content with inline `glossaryTermRef` PT annotation — articles, case studies, nodes, pages)
    - Sources list (MLA-style attribution)
    - JSON-LD: `DefinedTerm` with `inDefinedTermSet`
 
@@ -269,14 +300,7 @@ Glossary term:    dotted underline, muted color, popover on hover
 
 This creates a visual hierarchy of reference types within body content — exactly the kind of typographic precision an MLA/academic site should have. A reader learns: solid underline = navigation, superscript = citation, dotted underline = definition.
 
-**CSS tokens to add:**
-```css
---st-glossary-link-color: var(--st-color-text-default);
---st-glossary-link-underline: 1px dotted var(--st-color-text-muted);
---st-glossary-link-hover-color: var(--st-color-brand-primary);
---st-glossary-popover-bg: var(--st-color-surface-raised);
---st-glossary-popover-border: var(--st-color-border);
-```
+**CSS token audit required at implementation:** Before adding any `--st-glossary-*` tokens, verify that `--st-card-bg`, `--st-color-border-default`, `--st-color-text-muted`, and `--st-color-brand-primary` don't already cover all needs. New tokens are only justified if the glossary treatment requires a value that differs from existing tokens in both light and dark mode. The mock uses no new tokens — the implementation should match that constraint.
 
 ---
 
@@ -310,9 +334,9 @@ This creates a visual hierarchy of reference types within body content — exact
 ### Phase 3 — Content Authoring + Cross-References
 - Author definitions for 30+ terms from existing tag/tool descriptions
 - Add `glossaryTermRef` annotations to 5-10 key articles
-- Wire "used in" back-references on term pages
-- Wire `relatedNode` and `relatedTag` cross-references
-- Add glossary link to footer and/or nav
+- Wire `relatedTerms[]` and `relatedContent[]` on seed terms
+- Add reverse lookup fragment to article, node, caseStudy, person, project, tool, tag, and category detail queries — each page can then surface "Defined in glossary: [term]" when a glossaryTerm references it
+- Add glossary link to Library nav dropdown (confirmed placement)
 
 ---
 
