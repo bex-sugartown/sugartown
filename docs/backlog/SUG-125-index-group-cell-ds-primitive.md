@@ -32,9 +32,9 @@ Props:
 
 Visual spec:
 - 28×28px, 0px radius
-- `default`: transparent bg, no border
+- `default`: border `1px solid --st-color-border-default`, transparent bg, text `--st-color-text-muted` — same neutral border as Chip default state
 - `active`: border `1px solid --st-color-border-default`, text `--st-color-text-muted`; hover: pink border + pink text
-- `selected`: pink bg, white text; hover: maroon bg
+- `selected`: pink bg, pink border, white text; hover: maroon bg + maroon border
 - `inactive`: transparent border, muted text, `pointer-events: none`
 - Font: mono 0.6875rem 600, uppercase
 
