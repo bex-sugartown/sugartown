@@ -35,7 +35,6 @@ import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import Pagination from '../components/Pagination'
 import NotFoundPage from './NotFoundPage'
-import styles from './TaxonomyDetailPage.module.css'
 import pageStyles from './pages.module.css'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -95,21 +94,21 @@ function TaxonomyHeader({ taxDoc, config }) {
   const backPath = config.archivePath
 
   return (
-    <div className={styles.taxonomyHeader}>
+    <div className={pageStyles.detailHeader}>
       {colorHex && (
         <div
-          className={styles.taxonomyColorBar}
-          style={{ backgroundColor: colorHex }}
+          className={pageStyles.accentBar}
+          style={{ backgroundColor: colorHex, width: '3rem' }}
           aria-hidden="true"
         />
       )}
-      <Link to={backPath} className={styles.backLink}>
+      <Link to={backPath} className={pageStyles.backLink}>
         ← All {config.pluralLabel}
       </Link>
-      <p className={styles.taxonomyTypeLabel}>{config.label}</p>
-      <h1 className={styles.taxonomyTitle}>{name}</h1>
+      <p className={pageStyles.detailEyebrow}>{config.label}</p>
+      <h1 className={pageStyles.archiveHeading}>{name}</h1>
       {description && (
-        <p className={styles.taxonomyDescription}>{description}</p>
+        <p className={pageStyles.archiveDescription}>{description}</p>
       )}
     </div>
   )
@@ -164,18 +163,18 @@ export default function TaxonomyDetailPage() {
   )
 
   return (
-    <main className={styles.taxonomyPage}>
+    <main className={pageStyles.entityDetailPage}>
       <SeoHead seo={seo} />
       <TaxonomyHeader taxDoc={taxDoc} config={config} />
 
-      <section className={styles.taxonomyContent}>
+      <section>
         {items.length === 0 ? (
           <p className={pageStyles.archiveEmpty}>
             No content associated with this {config.label.toLowerCase()} yet.
           </p>
         ) : (
           <>
-            <p className={styles.taxonomyResultCount}>
+            <p className={pageStyles.archiveResultCount}>
               {items.length} item{items.length === 1 ? '' : 's'}
             </p>
             <div className={pageStyles.archiveGrid}>

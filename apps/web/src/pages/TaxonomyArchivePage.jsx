@@ -152,9 +152,9 @@ function TaxonomyItem({ doc, config }) {
 
 // ─── Alpha strip (filter mode) ────────────────────────────────────────────────
 
-function AlphaStrip({ activeLetters, filterLetter, onSelect }) {
+function AlphaFilter({ activeLetters, filterLetter, onSelect }) {
   return (
-    <div className={styles.alphaStrip} aria-label="Filter by letter">
+    <div className={styles.indexGroup} aria-label="Filter by letter">
       {ALL_LETTERS.map((letter) => {
         const isActive = activeLetters.has(letter)
         const isSelected = letter === filterLetter
@@ -162,7 +162,7 @@ function AlphaStrip({ activeLetters, filterLetter, onSelect }) {
           return (
             <span
               key={letter}
-              className={`${styles.alphaBtn} ${styles.alphaBtnDisabled}`}
+              className={`${styles.indexCell} ${styles.indexCellInactive}`}
               aria-hidden="true"
             >
               {letter}
@@ -172,7 +172,7 @@ function AlphaStrip({ activeLetters, filterLetter, onSelect }) {
         return (
           <button
             key={letter}
-            className={`${styles.alphaBtn} ${styles.alphaBtnActive}${isSelected ? ` ${styles.alphaBtnSelected}` : ''}`}
+            className={`${styles.indexCell} ${styles.indexCellActive}${isSelected ? ` ${styles.indexCellSelected}` : ''}`}
             onClick={() => onSelect(letter)}
             aria-pressed={isSelected}
           >
@@ -225,29 +225,29 @@ function FlatGrid({ list, config }) {
 
   return (
     <>
-      <AlphaStrip
+      <AlphaFilter
         activeLetters={activeLetters}
         filterLetter={filterLetter}
         onSelect={(l) => setFilterLetter(l === filterLetter ? null : l)}
       />
-      <div className={filterLetter ? styles.taxGridSingle : styles.taxGrid}>
+      <div className={filterLetter ? styles.indexGridSingle : styles.indexGrid}>
         {columns.map((col, i) => (
-          <ul key={i} className={styles.taxBucketList}>
+          <ul key={i} className={styles.indexList}>
             {col.map((doc) => {
               const label = config.getLabel(doc)
               const sublabel = config.getSublabel(doc)
               const count = config.getCount(doc)
               return (
                 <li key={doc._id}>
-                  <Link to={config.getPath(doc)} className={styles.taxRow}>
-                    <span className={styles.taxRowInner}>
-                      <span className={styles.taxRowName}>{label}</span>
+                  <Link to={config.getPath(doc)} className={styles.listItem}>
+                    <span className={styles.listItemInner}>
+                      <span className={styles.listItemLabel}>{label}</span>
                       {sublabel && (
-                        <span className={styles.taxRowSub}>{sublabel}</span>
+                        <span className={styles.listItemSub}>{sublabel}</span>
                       )}
                     </span>
                     {count != null && count > 0 && (
-                      <span className={styles.taxRowCount}>{count}</span>
+                      <span className={styles.listItemCount}>{count}</span>
                     )}
                   </Link>
                 </li>

@@ -1,73 +1,13 @@
 /* ─── TaxonomyDetailPage ─────────────────────────────────────────────────── */
-
-.taxonomyPage {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
-}
-
-/* ─── Header ─────────────────────────────────────────────────────────────── */
-
-.taxonomyHeader {
-  margin-bottom: 2.5rem;
-}
-
-/* Color accent bar — rendered only when colorHex is present */
-.taxonomyColorBar {
-  width: 3rem;
-  height: 4px;
-  border-radius: var(--st-radius-xs);
-  margin-bottom: 1.25rem;
-}
-
-.backLink {
-  display: inline-block;
-  font-size: 0.875rem;
-  color: var(--st-color-text-muted);
-  text-decoration: none;
-  margin-bottom: 0.75rem;
-  transition: color 0.15s ease;
-}
-
-.backLink:hover {
-  color: var(--st-color-brand-primary);
-}
-
-.taxonomyTypeLabel {
-  font-family: var(--st-font-family-mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--st-color-text-muted);
-  margin: 0 0 0.375rem;
-}
-
-.taxonomyTitle {
-  font-family: var(--st-font-family-ui);
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  line-height: 1.15;
-  margin: 0 0 0.75rem;
-  color: var(--st-color-text-default);
-}
-
-.taxonomyDescription {
-  font-size: 1.0625rem;
-  color: var(--st-color-text-secondary);
-  max-width: 620px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* ─── Content section ────────────────────────────────────────────────────── */
-
-.taxonomyContent {
-  /* Intentionally unstyled wrapper — grid and cards use shared pageStyles */
-}
-
-.taxonomyResultCount {
-  font-size: 0.875rem;
-  color: var(--st-color-text-muted);
-  margin-bottom: 1rem;
-}
+/* All layout classes are shared via pages.module.css:
+ *   .entityDetailPage  — page wrapper (--st-width-detail-wide)
+ *   .detailHeader      — header container
+ *   .accentBar         — coloured accent bar (width: 3rem set inline below)
+ *   .backLink          — ← back navigation
+ *   .detailEyebrow     — taxonomy type label
+ *   .archiveHeading    — h1 title
+ *   .archiveDescription — description paragraph
+ *   .archiveResultCount — result count line
+ *   .archiveEmpty      — empty state message
+ * No local classes needed.
+ */

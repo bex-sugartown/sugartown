@@ -18,12 +18,12 @@
   box-sizing: border-box;
 }
 
-/* ── Colour accent bar ───────────────────────────────────────────── */
-.accentBar {
+/* ── Colour accent bar — width + height override for project full-width bar ── */
+/* Structural base is in pages.module.css .accentBar */
+.accentBarProject {
   height: 6px;
-  border-radius: var(--st-radius-xs, 3px);
+  width: 100%;
   background: var(--project-accent, var(--st-color-brand-primary));
-  margin-bottom: 1.25rem;
 }
 
 /* ── Project name (h1) ───────────────────────────────────────────── */

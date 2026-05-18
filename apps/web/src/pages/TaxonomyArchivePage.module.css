@@ -166,15 +166,15 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Alpha strip (Tags) ──────────────────────────────────────────── */
-.alphaStrip {
+/* ── IndexGroup: letter filter strip ────────────────────────────── */
+.indexGroup {
   display: flex;
   flex-wrap: wrap;
   gap: 2px;
   margin-bottom: 1.75rem;
 }
 
-.alphaBtn {
+.indexCell {
   font-family: var(--st-font-family-mono);
   font-size: 0.6875rem;
   font-weight: 600;
@@ -188,7 +188,7 @@
   transition: background 0.1s, color 0.1s;
 }
 
-.alphaBtnActive {
+.indexCellActive {
   color: var(--st-color-text-muted);
   border: 1px solid var(--st-color-border-default);
   background: none;
@@ -196,32 +196,32 @@
   transition: border-color 0.1s, color 0.1s, background 0.1s;
 }
 
-.alphaBtnActive:hover {
+.indexCellActive:hover {
   color: var(--st-color-pink);
   border-color: var(--st-color-pink);
 }
 
-.alphaBtnSelected {
+.indexCellSelected {
   background: var(--st-color-pink);
   border-color: var(--st-color-pink);
   color: var(--st-color-white);
 }
 
-.alphaBtnSelected:hover {
+.indexCellSelected:hover {
   background: var(--st-color-maroon);
   border-color: var(--st-color-maroon);
   color: var(--st-color-white);
 }
 
-.alphaBtnDisabled {
+.indexCellInactive {
   color: var(--st-color-border-medium);
   border: 1px solid transparent;
   cursor: default;
   pointer-events: none;
 }
 
-/* ── Bucket grid (Tags) ──────────────────────────────────────────── */
-.taxGrid {
+/* ── IndexGrid: multi-column index layout ────────────────────────── */
+.indexGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 40px;
@@ -229,37 +229,37 @@
 }
 
 @media (max-width: 720px) {
-  .taxGrid {
+  .indexGrid {
     grid-template-columns: 1fr;
   }
 }
 
 @media (min-width: 721px) and (max-width: 900px) {
-  .taxGrid {
+  .indexGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 /* Single-column variant — used when a letter filter is active */
-.taxGridSingle {
+.indexGridSingle {
   display: grid;
   grid-template-columns: 1fr;
 }
 
-/* ── Letter bucket (unused — retained for reference) ─────────────── */
-.taxBucket {
+/* ── IndexCol: single column within the grid ─────────────────────── */
+.indexCol {
   min-width: 0;
 }
 
-/* ── Letter header: glyph + horizontal rule ──────────────────────── */
-.taxLetter {
+/* ── IndexHeader: glyph + horizontal rule ────────────────────────── */
+.indexHeader {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 4px;
 }
 
-.taxLetterGlyph {
+.indexHeaderGlyph {
   font-family: var(--st-font-family-narrative);
   font-size: 1.75rem;
   font-weight: 600;
@@ -268,21 +268,21 @@
   flex-shrink: 0;
 }
 
-.taxLetterRule {
+.indexHeaderRule {
   flex: 1;
   height: 1px;
   background: var(--st-color-border-subtle);
 }
 
-.taxBucketList {
+.indexList {
   list-style: none;
   padding: 0;
   margin: 0;
   min-width: 0; /* grid item: allow shrink below content size so 1fr columns stay equal */
 }
 
-/* ── Tag row: mono name + sublabel + count ───────────────────────── */
-.taxRow {
+/* ── ListItem: row within an index list ──────────────────────────── */
+.listItem {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -294,24 +294,24 @@
   min-width: 0;
 }
 
-.taxRow:last-child {
+.listItem:last-child {
   border-bottom: none;
 }
 
-.taxRow:hover {
+.listItem:hover {
   padding-left: 12px;
   color: var(--st-color-maroon);
 }
 
-/* Name + sublabel stacked */
-.taxRowInner {
+/* Label + sublabel stacked */
+.listItemInner {
   display: flex;
   flex-direction: column;
   min-width: 0;
   flex: 1;
 }
 
-.taxRowName {
+.listItemLabel {
   display: block;
   font-family: var(--st-font-family-mono);
   font-size: 0.8125rem;
@@ -321,7 +321,7 @@
   text-overflow: ellipsis;
 }
 
-.taxRowSub {
+.listItemSub {
   display: block;
   font-family: var(--st-font-family-ui);
   font-size: 0.75rem;
@@ -332,7 +332,7 @@
   text-overflow: ellipsis;
 }
 
-.taxRowCount {
+.listItemCount {
   font-family: var(--st-font-family-mono);
   font-size: 0.6875rem;
   font-weight: 600;

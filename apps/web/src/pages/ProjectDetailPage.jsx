@@ -63,7 +63,7 @@ export default function ProjectDetailPage() {
       </Link>
 
       {/* ── Colour accent bar ─────────────────────────────────────────── */}
-      <div className={styles.accentBar} style={accentStyle} aria-hidden="true" />
+      <div className={`${pageStyles.accentBar} ${styles.accentBarProject}`} style={accentStyle} aria-hidden="true" />
 
       {/* ── Project name ──────────────────────────────────────────────── */}
       <h1 className={styles.projectName}>{project.name}<DraftBadge docId={project._id} /></h1>

@@ -753,3 +753,15 @@
 .folioIdentity {
   min-width: 0;
 }
+
+/* ── Detail page shared header ────────────────────────────────────── */
+.detailHeader {
+  margin-bottom: 2.5rem;
+}
+
+/* Coloured accent bar — width and background set by the caller (inline style or local override) */
+.accentBar {
+  height: 4px;
+  border-radius: var(--st-radius-xs);
+  margin-bottom: 1.25rem;
+}
