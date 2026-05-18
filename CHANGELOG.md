@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- SUG-125: IndexGroup + IndexCell DS primitives — alpha filter strip, pagination cells; inactive token `--st-index-cell-inactive-color`; AlphaFilter "All" clear cell; TaxonomyDetailPage empty-state full-width fix
 - SUG-114: schemaManifest.js auto-generated at build time; gitignored; count assertion added; four empty ERD card fix scoped to SUG-122; CMS ERD section label copy updated; clear-selection button full-width
 - SUG-117: LHCI mobile throttling fixed (Lighthouse 10+ flags); form-factor toggle re-enabled in CwvSnapshot; uncalibrated data detection falls back to PERF_BACKUP; CwvSnapshot added to /platform/governance §04
 - SUG-97: Studio schema field group audit — migration tab removed, contents consolidated into legacy tab across article, node, page, caseStudy; legacySource marked deprecated; retrieval group added to caseStudy/article/node for SUG-94 prep
