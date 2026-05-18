@@ -1,0 +1,7 @@
+/* AlphaFilter — local overrides for the composite filter strip */
+
+/* "All" clear cell — wider than square letter cells */
+.allCell {
+  width: auto;
+  padding: 0 0.5rem;
+}

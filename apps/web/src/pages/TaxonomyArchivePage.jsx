@@ -190,11 +190,13 @@ function FlatGrid({ list, config }) {
 
   return (
     <>
-      <AlphaFilter
-        activeLetters={activeLetters}
-        filterLetter={filterLetter}
-        onSelect={(l) => setFilterLetter(l === filterLetter ? null : l)}
-      />
+      <div className={styles.indexGroup}>
+        <AlphaFilter
+          activeLetters={activeLetters}
+          filterLetter={filterLetter}
+          onSelect={(l) => setFilterLetter(l === null ? null : l === filterLetter ? null : l)}
+        />
+      </div>
       <div className={filterLetter ? styles.indexGridSingle : styles.indexGrid}>
         {columns.map((col, i) => (
           <ul key={i} className={styles.indexList}>
