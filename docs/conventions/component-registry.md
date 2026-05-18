@@ -107,7 +107,7 @@ Each now has a standalone Storybook story added in SUG-98.
 | `mermaidSection` | `PageSections.jsx` inline | ✅ Patterns/MermaidSection |
 | `imageGallery` | `PageSections.jsx` inline | ✅ Patterns/ImageGallery |
 | `citedBlock` | `PageSections.jsx` inline | ✅ Patterns/CitedBlock |
-| `statTileSection` | `PageSections.jsx` inline | — story deleted (SUG-120) |
+| `statTileSection` | `PageSections.jsx` inline | ✅ via Patterns/PageSections |
 | `accordionSection` | `PageSections.jsx` → `Accordion` | ✅ via Components/Accordion |
 | `calloutSection` | `PageSections.jsx` → `Callout` | ✅ via Components/Callout |
 | `cardBuilderSection` | `CardBuilderSection.jsx` | ✅ Patterns/CardBuilderSection |
