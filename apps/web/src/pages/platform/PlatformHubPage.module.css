@@ -236,3 +236,15 @@
   overflow-y: auto;
   max-height: 70vh;
 }
+
+/* Registry — schema object cell links */
+.schemaObjLink {
+  font-family: var(--st-font-family-mono);
+  font-size: inherit;
+  color: var(--st-color-brand-primary);
+  text-decoration: none;
+}
+
+.schemaObjLink:hover {
+  text-decoration: underline;
+}

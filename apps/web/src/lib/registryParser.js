@@ -42,6 +42,25 @@ function parseTable(tableLines) {
 }
 
 /**
+ * Parse a "Studio schema object" cell value into an array of valid Sanity type names.
+ * Handles: "—" (none), "✅ ctaButton (object) + ctaButtonDoc (document)", "calloutSection"
+ * Returns only entries that are valid camelCase type names (no spaces, dots, brackets).
+ */
+export function parseSchemaRefs(cellText) {
+  if (!cellText || cellText === '—' || cellText === '-') return []
+  const VALID_TYPE = /^[a-zA-Z][a-zA-Z0-9_]*$/
+  return cellText
+    .split('+')
+    .map((part) =>
+      part
+        .replace(/\s*\([^)]*\)\s*/g, '')  // strip (object), (document) etc.
+        .replace(/^[^a-zA-Z]+/, '')        // strip leading non-alpha (✅, spaces, dashes)
+        .trim()
+    )
+    .filter((name) => VALID_TYPE.test(name))
+}
+
+/**
  * Parse the full component-registry.md raw string.
  * Returns an array of sections:
  *   { heading: string, intro: string, table: { columns, rows } | null }

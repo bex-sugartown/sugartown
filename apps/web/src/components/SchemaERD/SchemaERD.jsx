@@ -1,10 +1,26 @@
 import { useState, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Chip from '../../design-system/components/chip/Chip'
 import Button from '../../design-system/components/button/Button'
 import Tile from '../../design-system/components/tile/Tile'
 import Grid from '../../design-system/components/grid/Grid'
+import { PLATFORM_ROUTES } from '../../lib/routes'
 import styles from './SchemaERD.module.css'
+
+// Static mapping: schema type name → DS component name (sparse by design)
+const ERD_COMPONENT_MAP = {
+  ctaButton:          'Button',
+  ctaButtonDoc:       'Button',
+  linkItem:           'Button (via ctaButton)',
+  tableBlock:         'Table',
+  accordionSection:   'Accordion',
+  calloutSection:     'Callout',
+  cardBuilderSection: 'CardBuilderSection',
+  citationRef:        'Citation',
+  richImage:          'Media',
+}
 
 /**
  * SchemaERD — interactive entity-relationship diagram for the Sanity schema.
@@ -20,8 +36,12 @@ import styles from './SchemaERD.module.css'
  * @param {{ entities: Array, relationships: Array }} props
  */
 export default function SchemaERD({ entities = [], relationships = [] }) {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [activeGroup, setActiveGroup] = useState('all')
-  const [selectedId, setSelectedId] = useState(null)
+  const [selectedId, setSelectedId] = useState(() => {
+    const param = searchParams.get('type')
+    return param && entities.some((e) => e.id === param) ? param : null
+  })
 
   // ── Derived data ──────────────────────────────────────────
   const groups = useMemo(() => {
@@ -71,16 +91,26 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
   ], [entities.length, groupNames, groups])
 
   // ── Handlers ──────────────────────────────────────────────
+  function selectId(id) {
+    setSelectedId(id)
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev)
+      if (id) next.set('type', id)
+      else next.delete('type')
+      return next
+    }, { replace: true })
+  }
+
   function handleCardClick(id) {
-    setSelectedId((prev) => (prev === id ? null : id))
+    selectId(selectedId === id ? null : id)
   }
 
   function handleRelClick(id) {
-    setSelectedId(id)
+    selectId(id)
   }
 
   function clearSelection() {
-    setSelectedId(null)
+    selectId(null)
   }
 
   // ── Render ────────────────────────────────────────────────
@@ -227,6 +257,8 @@ function DetailPanel({ entity, rels, entities, onRelClick, onClear }) {
     return map
   }, [entities])
 
+  const renderedBy = ERD_COMPONENT_MAP[entity.id] ?? null
+
   return (
     <div className={styles.sidebarPanel}>
       <div className={styles.sidebarHeader}>
@@ -237,6 +269,17 @@ function DetailPanel({ entity, rels, entities, onRelClick, onClear }) {
           className={entity.kind === 'document' ? styles.chipDoc : styles.chipObj}
         />
       </div>
+      {renderedBy && (
+        <div className={styles.sidebarRenderedBy}>
+          <span className={styles.sidebarSectionLabel}>Rendered by</span>
+          <Link
+            to={`${PLATFORM_ROUTES.dsRegistry}#${renderedBy}`}
+            className={styles.sidebarRenderedByLink}
+          >
+            {renderedBy}
+          </Link>
+        </div>
+      )}
       <div className={styles.sidebarBody}>
         {/* Fields */}
         <p className={styles.sidebarSectionLabel}>Fields</p>

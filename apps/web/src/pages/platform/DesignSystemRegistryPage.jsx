@@ -1,12 +1,15 @@
+import { Link } from 'react-router-dom'
 import registryMd from '../../../../../docs/conventions/component-registry.md?raw'
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Callout from '../../design-system/components/callout/Callout'
 import Table, { TableWrap } from '../../design-system/components/table/Table'
-import { parseRegistryMd } from '../../lib/registryParser'
+import { parseRegistryMd, parseSchemaRefs } from '../../lib/registryParser'
 import { PLATFORM_ROUTES } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
+
+const SCHEMA_OBJ_COL = 'Studio schema object'
 
 const SECTIONS = parseRegistryMd(registryMd)
 
@@ -20,7 +23,28 @@ const SECTION_NUMBERS = [
   '§01', '§02', '§03', '§04', '§05', '§06',
 ]
 
+function SchemaObjCell({ value }) {
+  const refs = parseSchemaRefs(value)
+  if (!refs.length) return <>{value}</>
+  return (
+    <>
+      {refs.map((typeName, i) => (
+        <span key={typeName}>
+          {i > 0 && ' + '}
+          <Link
+            to={`${PLATFORM_ROUTES.cms}?type=${typeName}#schema-erd`}
+            className={styles.schemaObjLink}
+          >
+            {typeName}
+          </Link>
+        </span>
+      ))}
+    </>
+  )
+}
+
 function RegistryTable({ columns, rows }) {
+  const schemaColIdx = columns.indexOf(SCHEMA_OBJ_COL)
   return (
     <TableWrap>
       <Table tone="subdued" density="compact">
@@ -33,7 +57,9 @@ function RegistryTable({ columns, rows }) {
           {rows.map(({ cells, isRetired }, ri) => (
             <tr key={ri} className={isRetired ? styles.retiredRow : undefined}>
               {cells.map((cell, ci) => (
-                <td key={ci}>{cell}</td>
+                <td key={ci}>
+                  {ci === schemaColIdx ? <SchemaObjCell value={cell} /> : cell}
+                </td>
               ))}
             </tr>
           ))}

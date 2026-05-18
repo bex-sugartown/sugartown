@@ -178,6 +178,26 @@
   color: var(--st-color-text-default);
 }
 
+.sidebarRenderedBy {
+  padding: 0.5rem 1.25rem;
+  border-bottom: 1px solid var(--st-color-border-subtle);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebarRenderedByLink {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--st-color-brand-primary);
+  text-decoration: none;
+}
+
+.sidebarRenderedByLink:hover {
+  text-decoration: underline;
+}
+
 .sidebarBody {
   padding: 1rem 1.25rem;
 }
