@@ -12,88 +12,103 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-- SUG-125: IndexGroup + IndexCell DS primitives — alpha filter strip, pagination cells; inactive token `--st-index-cell-inactive-color`; AlphaFilter "All" clear cell; TaxonomyDetailPage empty-state full-width fix
-- SUG-114: schemaManifest.js auto-generated at build time; gitignored; count assertion added; four empty ERD card fix scoped to SUG-122; CMS ERD section label copy updated; clear-selection button full-width
-- SUG-117: LHCI mobile throttling fixed (Lighthouse 10+ flags); form-factor toggle re-enabled in CwvSnapshot; uncalibrated data detection falls back to PERF_BACKUP; CwvSnapshot added to /platform/governance §04
-- SUG-97: Studio schema field group audit — migration tab removed, contents consolidated into legacy tab across article, node, page, caseStudy; legacySource marked deprecated; retrieval group added to caseStudy/article/node for SUG-94 prep
-- SUG-103: component registry page at `/platform/design-system/registry` — auto-generated from `component-registry.md` via `?raw` import; coverage key legend; source-of-truth callout
-- SUG-119: PriorityChip renamed to Swatch — generic `color`/`label`/`size` API; label color inherits swatch color; RoadmapTable deleted, callers migrated to `<Table tone="subdued">`
-- SUG-120: StatGrid + SectionContainer deleted; all callsites migrated to `Grid spacing="0" accentTop`; epic close-out
-- SUG-124: Semantic CSS naming audit — tax*/alpha* classes renamed to indexGroup/indexCell/listItem vocabulary; TaxonomyDetailPage migrated to shared classes; accentBar + detailHeader promoted to pages.module.css; validate:css-names guardrail (0 violations); css-class-naming.md conventions doc; SUG-125 (IndexGroup/IndexCell DS primitives) scoped
+> Accumulates since v0.24.0.
 
 ---
 
-## [0.23.31] — 2026-05-16
+## [0.24.0] — 2026-05-18
+
+Design system infrastructure pass, platform hub build-out, and editorial surface depth.
+Aggregates v0.23.1–v0.23.39.
 
 ### apps/web
 
 #### Added
-- SUG-120: Grid primitive gains `accentColor` prop (`"brand"` | `"ink"`) and `tabletColumns` prop for intermediate 2-col breakpoint at 900px; SectionContainer deleted and all callsites migrated
-
----
-
-## [Unreleased]
-
-> Accumulates since v0.23.0. Ships as v0.24.0.
-
-### apps/web
-
-#### Added
-- SUG-119: Table audit — single `st-table` primitive with `tone` prop (`accent`/`subdued`), caption-above-thead cross-browser fix (div not `<caption>`), 6 new `--st-table-*` zone tokens, pink hairline leader, outer border, differentiated cell/last-row borders. RoadmapTable and DataTable compose Table; LaneHeader retired. DS package mirror and Storybook updated. `/dev/tables` test bench added.
-- SUG-118: Platform Stats Page II — RoadmapTable DS component (sticky thead, white/gray bg, priority chips), LaneHeader pinned-state rewrite (hairline accent, backdrop blur), SectionLabel geometric centering, shadow tokens `--st-shadow-thead-stuck` and `--st-shadow-subhead-pinned`, Governance and DesignSystem page layout fixes
-- SUG-113: Dynamic reporting pipeline — linearRoadmap two-step query fix (complexity limit), CWV `stale:false` + mobile inference, CrUX `static · no field data` label, form-factor toggle hidden pending SUG-117 LHCI mobile throttling fix
-- SUG-115: Platform DS remediation — hero theme-awareness, folio numbers on all SectionLabels, CodeBlock for pre-blocks, DataTable for registry teaser, Mermaid hex overrides stripped, sidebar font tokens, ~80 lines dead CSS removed
-
+- Table primitive: `tone` prop (`accent`/`subdued`), caption-above-thead cross-browser fix, 6 `--st-table-*` zone tokens, pink hairline leader, outer border, differentiated cell/last-row borders
+- Platform Stats Page II: RoadmapTable (sticky thead, bg tokens, priority chips), LaneHeader pinned-state rewrite (hairline accent, backdrop blur), SectionLabel geometric centering, `--st-shadow-thead-stuck` and `--st-shadow-subhead-pinned` shadow tokens
+- Case study outcomes narrative: outcomes schema + GROQ projection + StatTile layout render
+- `calloutSection` in `sections[]`: replaces legacy `challengeSummary` field; folio number inherits `--_callout-accent` per variant; Accordion trigger labels use Cormorant Garamond; `PageSections` `context="full"` wraps in `.fullContext` for gap-based spacing; `recentContentSection` constrained to 1080px
+- `TrustReportSection` renderer + `StatTile` + `DataTable` DS primitives; hero rail epics swap; DS stats grid
+- Tags archive: flat 3-col grid + letter filter (`AlphaFilter`); taxonomy audit convergence pass; archive layout aligned with Phase 0 mock
+- Semantic CSS naming audit: `tax*`/`alpha*` classes renamed to `indexGroup`/`indexCell`/`listItem` vocabulary; `TaxonomyDetailPage` migrated to shared classes; `accentBar` + `detailHeader` promoted to `pages.module.css`; `validate:css-names` guardrail added
+- `IndexGroup` + `IndexCell` DS primitives; `AlphaFilter` extracted as `Patterns/AlphaFilter`; `Pagination` refactored to use `IndexCell`; `--st-index-cell-inactive-color` token; `AlphaFilter` "All" clear cell; `TaxonomyDetailPage` empty-state full-width
+- Registry ↔ ERD bridge: `?type=` URL param for deep-linking; schema column cells link to ERD with auto-select; ERD detail panel "Rendered by" DS component link; `IndexGroup`/`IndexCell` filter strip in ERD; `sections` group in manifest (12 new types); `deprecated` group hides `footer`/`header`/`hero`/`contentBlock` with badge count
+- Component registry page at `/platform/design-system/registry`: auto-generated from `component-registry.md` at build time; coverage key legend; source-of-truth callout
+- `schemaManifest.js` auto-generated from Studio schema at build time; gitignored; entity count assertion
+- LHCI mobile throttling fixed (Lighthouse 10+ flags); form-factor toggle re-enabled in `CwvSnapshot`; uncalibrated data detection with `PERF_BACKUP` fallback; `CwvSnapshot` added to GovernancePage §04
+- `StatGrid` + `SectionContainer` deleted; all callsites migrated to `Grid spacing="0" accentTop`; `Grid` gains `accentColor` and `tabletColumns` props
 - `ToolDetailPage` at `/tools/:slug` — dedicated entity detail page for tool taxonomy
-- `useScrollspy` hook (`lib/useScrollspy.js`) — IntersectionObserver-based active-section tracking
-- `SidebarNav` web adapter (`design-system/components/sidebar-nav/`) — anchor-link list with scrollspy, collapsible, and sub-item (level 3) support
-- `Sidebar` primitive (`design-system/components/sidebar/`) — sticky shell and mobile disclosure; props: `side`, `breakpoint` (md|lg), `mobileStyle` (appendix|strip)
-- `TwoColumnLayout` (`design-system/components/two-column-layout/`) — flex shell for two-column pages; props: `placement` (left|right), `breakpoint`
+- `useScrollspy` hook (`lib/useScrollspy.js`): IntersectionObserver-based active-section tracking
+- `SidebarNav` web adapter: anchor-link list with scrollspy, collapsible, sub-item support
+- `Sidebar` primitive: sticky shell and mobile disclosure (`side`, `breakpoint`, `mobileStyle` props)
+- `TwoColumnLayout`: flex shell for two-column pages (`placement`, `breakpoint` props)
 - Platform section hub pages: `CmsPage`, `DesignSystemPage`, `DesignSystemRegistryPage`, `GovernancePage`, `MonorepoPage`
-- `PlatformHero` component with hero slot wired into platform layout
-- `scripts/generate-schema-manifest.mjs` — generates `src/data/schemaManifest.js` from Studio schema types at build time
-- `scripts/stats/linear.js` — Linear API collector for SUG-team issue/roadmap data
-- `.husky/pre-commit` ESLint gate activated (was present but not enforcing)
+- `PlatformHero` component with hero slot
+- `scripts/linear.js`: Linear API collector for roadmap data
+- `stats.json` pipeline: PortableText `{{stats.*}}` variable interpolation; Footer version badge; Platform hero stat rail; `RecentContentSection` ticker
+- `KnowledgeGraph` interactive force-graph canvas (`react-force-graph-2d`); archive page graph/grid toggle
+- `FilterBar` compact density mode for archive pages
+- `validate-tokens.js --strict-colors` flag; `--check-sync` flag; Husky pre-commit hook blocks token violations
+- `--st-color-canvas` token; `--st-color-bg-surface-alt` added; Ledger Tradition neutral + ink primitive scale; H1 size token bumped; inline code white surface treatment
+- Dynamic reporting pipeline: `linearRoadmap` query fix, CWV `stale:false` + mobile inference, CrUX static-label
+- Platform DS remediation: hero theme-awareness, folio numbers on all `SectionLabel`s, `CodeBlock` for pre-blocks, Mermaid hex overrides stripped, sidebar font tokens, ~80 lines dead CSS removed
 
 #### Changed
-- `PlatformLayout` refactored to use `TwoColumnLayout` + `Sidebar`; `PlatformLayout.module.css` deleted
-- `PlatformSidebar` refactored to render inside `Sidebar` primitive; container styles removed from module CSS
-- `PageSidebar` refactored to use `Sidebar` primitive; module CSS stripped to slot-only styles
-- `App.jsx` updated with nested platform sub-routes
-- `collect-stats.js` extended with Linear roadmap collector
-- `PersonProfilePage` and `ProjectDetailPage` refactored to shared entity folio classes from `pages.module.css`
-- Archive pages (`ArchivePage`, `TaxonomyArchivePage`) — header and toolbar consistency pass
+- `PlatformLayout` refactored to `TwoColumnLayout` + `Sidebar`; `PlatformSidebar` + `PageSidebar` refactored to use `Sidebar` primitive
 - Linear roadmap rendered inline on `GovernancePage`; standalone `RoadmapPage` removed
-- `diagramBlock` uses `<pre>` to preserve whitespace in relationships and build-pipeline sections
-- 43 ESLint errors resolved across `apps/web`
-- `SchemaERD` component refactored to use DS primitives (`Card`, `Chip`, `SectionLabel`, `StatTile`, `Button`, `SegmentedControl`) — no hardcoded radius, color, or background values (SUG-20)
-- `CardBuilderSection` — tools/tags chip groups moved to card footer beneath dashed divider (EPIC-0160)
-- Callout: wired into CaseStudy template; `calloutSection` in `sections[]` replaces legacy `challengeSummary` text field (SUG-99)
-- Callout: folio number now inherits `--_callout-accent` per variant (SUG-99)
-- Accordion: Cormorant Garamond applied to all trigger labels (SUG-99)
-- PageSections: `context="full"` wraps in `.fullContext` flex container for gap-based section spacing (SUG-99)
-- `recentContentSection`: constrained to 1080px max-width with page-gutter padding (SUG-99)
-- Studio: `challengeSummary` field deprecated with migration warning (SUG-99)
+- Archive pages: header and toolbar consistency pass; max-width cap removed from archive description
+- `diagramBlock` uses `<pre>` for whitespace preservation
+- `SchemaERD` refactored to DS primitives — no hardcoded radius, color, or background values
+- All component and page CSS: hardcoded hex/rgba/hsla replaced with `--st-*` token references
+- `Card`: title font → Cormorant Garamond, title size 16px → 18px, `--st-card-hover-border` wired
+- Legacy `[data-theme="light"]` / `[data-theme="dark"]` selectors removed; all consumers use `[data-theme="light-pink-moon"]`
+- `DraftBadge` refactored to use `Chip` internally; standalone CSS module and stories deleted
+- Studio schema field group audit: migration tab consolidated into legacy tab across `article`, `node`, `page`, `caseStudy`; `legacySource` marked deprecated; retrieval group added
+- 43 ESLint errors resolved; `.husky/pre-commit` ESLint gate activated
 
 #### Fixed
-- Linear stats collector: used `teams` query to locate SUG team (was using invalid `team(key:)` form, returning null)
-- GitHub Actions `stats.yml`: wired `LINEAR_SUGARTOWN_STATS` secret to Linear collector
-- CI: LHCI config fixes — `autorun` failure, flattened `collect` config, switched to `--settings.preset` (SUG-106)
-- `CwvSnapshot.jsx`: corrected `PERF_BACKUP` Best Practices value; added `mobile`/`desktop` sub-keys (SUG-106)
-- `siteGraph.nodes` guarded against stale/error `stats.json` shape (SUG-106)
+- Four empty ERD entity cards (`logo`, `media`, `navigationItem`, `socialLink`): fields wrapped with `defineField()`
+- `generate-schema-manifest.mjs`: `mkdirSync` added before `writeFileSync` — Netlify build failing ENOENT on first-run when `data/` directory absent
+- Linear stats collector: switched to `teams` query to locate SUG team (was using invalid `team(key:)` form, returning null)
+- GitHub Actions `stats.yml`: `LINEAR_SUGARTOWN_STATS` secret wired to Linear collector
+- CI: LHCI config fixes — `autorun` failure, flattened `collect` config, switched to `--settings.preset`
+- `CwvSnapshot`: corrected `PERF_BACKUP` Best Practices value; added `mobile`/`desktop` sub-keys
+- `siteGraph.nodes` guarded against stale/error `stats.json` shape
+
+#### Removed
+- `EditorialCard` component deleted
+- `CardGrid` web-adapter component deleted; consolidated into DS-layer `CardGrid`
+- AI sub-categories collapsed into single top-level "AI" category
+
+### apps/studio
+
+#### Added
+- `recentContentSection.ts` schema: section-builder-insertable trust ticker type
+- `validate-schema-parity.js`: checks object/document schema pairs for value drift
+
+#### Changed
+- Studio schema field group audit: migration tab removed, contents consolidated into legacy tab across `article`, `node`, `page`, `caseStudy`; `legacySource` marked deprecated; retrieval group added
+- `challengeSummary` field deprecated with migration warning
+- Project type added to `tag` schema assigned-content panel
+
+#### Removed
+- Parent category relationship removed from `category` schema
 
 ### packages/design-system
 
 #### Added
-- `Pill.stories.tsx` (`Components/Pill`) — isolated primitive stories for pill variant
-- `IconButton.stories.tsx` (`Components/IconButton`) — isolated primitive stories for icon variant
+- Ledger Tradition neutral scale + ink primitive tokens added to both `tokens.css` files
+- Token pipeline: `tokens/source/tokens.json` as source of truth; Style Dictionary v5; `pnpm tokens:build` regenerates both `tokens.css` files
+- `IndexGroup` + `IndexCell` primitives: CSS + stories
+- `StatTile` and `DataTable` primitives
+- `CardGrid.stories.tsx`, `Pill.stories.tsx`, `IconButton.stories.tsx` added
 
 #### Changed
-- `SegmentedControl.stories.tsx` moved from `Components/` to `Patterns/`
-- `SidebarNav.stories.tsx` moved to `Patterns/SidebarNav`
+- `theme.light.css` and `theme.pink-moon.css` updated with Ledger Tradition token overrides
+- `SegmentedControl.stories.tsx` moved to `Patterns/`; `SidebarNav.stories.tsx` moved to `Patterns/SidebarNav`
 
 #### Fixed
-- `theme.pink-moon.css`: added missing `--st-segmented-*` light-theme token overrides — `SegmentedControl` appeared dark in light mode
+- `theme.pink-moon.css`: `--st-segmented-*` light-theme token overrides added — `SegmentedControl` appeared dark in light mode
 
 ### apps/storybook
 
@@ -102,7 +117,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - `TwoColumnLayout.stories.tsx` (`Layout/TwoColumnLayout`): SidebarLeft, SidebarRight, MobileLeftSidebar stories
 
 #### Changed
-- `BUILD_DATE` frozen to stable sentinel in Storybook `viteFinal` — prevents Chromatic snapshot churn on every build
+- `BUILD_DATE` frozen to stable sentinel in `viteFinal` — eliminates Chromatic snapshot churn on every build
+- Netlify ignore command widened to include `packages/design-system/` and `apps/web/src/design-system/` — was skipping Storybook builds on every non-Storybook push
+- `DataTable` story marked deprecated (3 active callers remain before delete)
 
 ---
 
