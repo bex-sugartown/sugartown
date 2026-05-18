@@ -78,8 +78,8 @@ Color states use existing primitives (`--st-color-pink`, `--st-color-maroon`, `-
 
 ### Storybook stories
 
-- `IndexCell.stories.jsx` — all 4 states, as button + as anchor — category: `Composite`
-- `IndexGroup.stories.jsx` — full 27-letter strip, partial strip, single-column variant — category: `Composite`
+- `IndexCell.stories.jsx` — all 4 states, as button + as anchor — category: `Components`
+- `IndexGroup.stories.jsx` — full 27-letter strip, partial strip, single-column variant — category: `Components`
 - `AlphaFilter.stories.jsx` — full strip, filtered state, no-results state — category: `Patterns`
 - `Pagination.stories.jsx` — single page, multi-page, edge pages — category: `Patterns`
 - Dark mode coverage required on all four
