@@ -1,8 +1,9 @@
 ---
 **Epic:** SUG-122 — Registry ↔ ERD bridge
 **Linear Issue:** [SUG-122](https://linear.app/sugartown/issue/SUG-122/registry-erd-bridge-link-component-registry-rows-to-schema-erd-cards)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟡 Medium
+**Shipped:** 2026-05-18 · v0.23.39
 **Merge strategy:** (a) Merge-as-you-go
 **Depends on:** SUG-114 (dynamic ERD pipeline — shipped v0.23.36)
 ---
