@@ -143,7 +143,11 @@ The merge strategy label convention (from CLAUDE.md):
 {- **Schema changes**: if schema tag or description mentions new fields, name the fields and whether a deploy is required}
 {- **Upstream dependencies**: any epics this depends on (e.g. schema change must land before content edit)}
 {- **Activation audits**: specific GROQ queries or file reads needed before execution begins — write them out, not "check the schema"}
-{- **Model recommendation**: pure content epics → /model sonnet; schema + render epics → /model opusplan}
+{- **Model & Mode [REQUIRED]:** state which model and mode to use at session start. Options:}
+{  - `/model sonnet` — pure content/copy epics, no code changes}
+{  - `/model opusplan` — default for most epics: Opus plans (Pre-Execution Gate → Files to Modify), Sonnet executes after plan-mode exit}
+{  - `/model opus` — pure architecture epics (SSR strategy, monorepo boundary, schema ERD design)}
+{  Do not leave this as a guess — pick one based on the scope bullets above.}
 
 {If this epic adds or changes schema fields, include the following table. One row per proposed field. Skip if no schema changes.}
 
@@ -152,6 +156,13 @@ The merge strategy label convention (from CLAUDE.md):
 | Field | What it is | Example value | Why it matters |
 |-------|-----------|---------------|----------------|
 | {`fieldName` (type)} | {plain-English concept description} | {realistic example value or enum list} | {business / editorial / retrieval reason} |
+
+## Model & Mode [REQUIRED]
+
+{Pick exactly one and state why:}
+{- `/model sonnet` — pure content/copy epics, no code changes}
+{- `/model opusplan` — default: Opus plans (Pre-Execution Gate → Files to Modify), Sonnet executes after plan-mode exit}
+{- `/model opus` — pure architecture epics (SSR strategy, monorepo boundary, schema ERD design)}
 
 ## Non-Goals
 

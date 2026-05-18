@@ -55,6 +55,10 @@ Write `docs/conventions/css-class-naming.md`. Evaluate and implement lint/valida
 - **No upstream DS changes without a separate DS epic:** If the AlphaStrip/Pagination unification requires a new DS primitive, that primitive is a separate epic. This epic's scope is the app-layer alignment and naming pass only.
 - **Model recommendation:** `/model sonnet` — this is a read-heavy audit + rename pass, no complex architectural decisions.
 
+## Model & Mode [REQUIRED]
+
+`/model opusplan` — Phase 1 is an audit that requires Opus to read multiple files and produce a rename map and component diff before any decision is locked. Sonnet executes the renames and convention doc after plan-mode exit.
+
 ## Non-Goals
 
 - New visual design for the alpha strip or pagination controls — naming and structure only
