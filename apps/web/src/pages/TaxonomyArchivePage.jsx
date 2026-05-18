@@ -152,9 +152,9 @@ function TaxonomyItem({ doc, config }) {
 
 // ─── Alpha strip (filter mode) ────────────────────────────────────────────────
 
-function LetterFilterStrip({ activeLetters, filterLetter, onSelect }) {
+function AlphaStrip({ activeLetters, filterLetter, onSelect }) {
   return (
-    <div className={styles.letterFilterStrip} aria-label="Filter by letter">
+    <div className={styles.alphaStrip} aria-label="Filter by letter">
       {ALL_LETTERS.map((letter) => {
         const isActive = activeLetters.has(letter)
         const isSelected = letter === filterLetter
@@ -162,7 +162,7 @@ function LetterFilterStrip({ activeLetters, filterLetter, onSelect }) {
           return (
             <span
               key={letter}
-              className={`${styles.letterFilterBtn} ${styles.letterFilterBtnInactive}`}
+              className={`${styles.alphaBtn} ${styles.alphaBtnDisabled}`}
               aria-hidden="true"
             >
               {letter}
@@ -172,7 +172,7 @@ function LetterFilterStrip({ activeLetters, filterLetter, onSelect }) {
         return (
           <button
             key={letter}
-            className={`${styles.letterFilterBtn} ${styles.letterFilterBtnActive}${isSelected ? ` ${styles.letterFilterBtnSelected}` : ''}`}
+            className={`${styles.alphaBtn} ${styles.alphaBtnActive}${isSelected ? ` ${styles.alphaBtnSelected}` : ''}`}
             onClick={() => onSelect(letter)}
             aria-pressed={isSelected}
           >
@@ -225,29 +225,29 @@ function FlatGrid({ list, config }) {
 
   return (
     <>
-      <LetterFilterStrip
+      <AlphaStrip
         activeLetters={activeLetters}
         filterLetter={filterLetter}
         onSelect={(l) => setFilterLetter(l === filterLetter ? null : l)}
       />
-      <div className={filterLetter ? styles.flatColGridSingle : styles.flatColGrid}>
+      <div className={filterLetter ? styles.taxGridSingle : styles.taxGrid}>
         {columns.map((col, i) => (
-          <ul key={i} className={styles.flatColList}>
+          <ul key={i} className={styles.taxBucketList}>
             {col.map((doc) => {
               const label = config.getLabel(doc)
               const sublabel = config.getSublabel(doc)
               const count = config.getCount(doc)
               return (
                 <li key={doc._id}>
-                  <Link to={config.getPath(doc)} className={styles.flatListRow}>
-                    <span className={styles.flatListRowInner}>
-                      <span className={styles.flatListRowLabel}>{label}</span>
+                  <Link to={config.getPath(doc)} className={styles.taxRow}>
+                    <span className={styles.taxRowInner}>
+                      <span className={styles.taxRowName}>{label}</span>
                       {sublabel && (
-                        <span className={styles.flatListRowSub}>{sublabel}</span>
+                        <span className={styles.taxRowSub}>{sublabel}</span>
                       )}
                     </span>
                     {count != null && count > 0 && (
-                      <span className={styles.flatListRowCount}>{count}</span>
+                      <span className={styles.taxRowCount}>{count}</span>
                     )}
                   </Link>
                 </li>

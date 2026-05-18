@@ -95,10 +95,10 @@ function TaxonomyHeader({ taxDoc, config }) {
   const backPath = config.archivePath
 
   return (
-    <div className={styles.collectionDetailHeader}>
+    <div className={styles.taxonomyHeader}>
       {colorHex && (
         <div
-          className={styles.collectionAccentBar}
+          className={styles.taxonomyColorBar}
           style={{ backgroundColor: colorHex }}
           aria-hidden="true"
         />
@@ -106,10 +106,10 @@ function TaxonomyHeader({ taxDoc, config }) {
       <Link to={backPath} className={styles.backLink}>
         ← All {config.pluralLabel}
       </Link>
-      <p className={styles.collectionTypeLabel}>{config.label}</p>
-      <h1 className={styles.collectionTitle}>{name}</h1>
+      <p className={styles.taxonomyTypeLabel}>{config.label}</p>
+      <h1 className={styles.taxonomyTitle}>{name}</h1>
       {description && (
-        <p className={styles.collectionDescription}>{description}</p>
+        <p className={styles.taxonomyDescription}>{description}</p>
       )}
     </div>
   )
@@ -164,18 +164,18 @@ export default function TaxonomyDetailPage() {
   )
 
   return (
-    <main className={styles.collectionDetailPage}>
+    <main className={styles.taxonomyPage}>
       <SeoHead seo={seo} />
       <TaxonomyHeader taxDoc={taxDoc} config={config} />
 
-      <section className={styles.collectionContent}>
+      <section className={styles.taxonomyContent}>
         {items.length === 0 ? (
           <p className={pageStyles.archiveEmpty}>
             No content associated with this {config.label.toLowerCase()} yet.
           </p>
         ) : (
           <>
-            <p className={styles.collectionResultCount}>
+            <p className={styles.taxonomyResultCount}>
               {items.length} item{items.length === 1 ? '' : 's'}
             </p>
             <div className={pageStyles.archiveGrid}>
