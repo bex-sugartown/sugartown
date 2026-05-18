@@ -51,7 +51,7 @@
 .inactive {
   border: 1px solid var(--st-color-border-subtle);
   background: transparent;
-  color: var(--st-color-text-muted);
+  color: var(--st-color-border-subtle);
   cursor: default;
   pointer-events: none;
 }
