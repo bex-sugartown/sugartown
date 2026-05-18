@@ -1,16 +1,16 @@
-import {defineType} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'logo',
   title: 'Logo',
   type: 'object',
   fields: [
-    {
+    defineField({
       name: 'image',
       title: 'Logo Image',
       type: 'image',
       options: {
-        hotspot: true, // Enable focal point selection
+        hotspot: true,
       },
       fields: [
         {
@@ -21,8 +21,8 @@ export default defineType({
           validation: (Rule) => Rule.required(),
         },
       ],
-    },
-    {
+    }),
+    defineField({
       name: 'linkUrl',
       title: 'Logo Link',
       type: 'url',
@@ -33,15 +33,15 @@ export default defineType({
           scheme: ['http', 'https'],
           allowRelative: true,
         }),
-    },
-    {
+    }),
+    defineField({
       name: 'width',
       title: 'Display Width (px)',
       type: 'number',
       description: 'Logo width in pixels (height auto-scales)',
       initialValue: 120,
       validation: (Rule) => Rule.min(40).max(400),
-    },
+    }),
   ],
   preview: {
     select: {

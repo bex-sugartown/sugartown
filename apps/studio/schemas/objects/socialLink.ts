@@ -1,4 +1,4 @@
-import {defineType} from 'sanity'
+import {defineField, defineType} from 'sanity'
 import {SOCIAL_PLATFORM_OPTIONS, PLATFORM_LABELS} from '../lib/iconOptions'
 
 export default defineType({
@@ -6,7 +6,7 @@ export default defineType({
   title: 'Social Link',
   type: 'object',
   fields: [
-    {
+    defineField({
       name: 'platform',
       title: 'Platform',
       type: 'string',
@@ -15,8 +15,8 @@ export default defineType({
         list: [...SOCIAL_PLATFORM_OPTIONS],
       },
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'url',
       title: 'Profile URL',
       type: 'string',
@@ -33,13 +33,13 @@ export default defineType({
             return 'Must be a valid URL (e.g. https://… or mailto:you@example.com)'
           }
         }),
-    },
-    {
+    }),
+    defineField({
       name: 'label',
       title: 'Label',
       type: 'string',
       description: 'Optional display label or accessibility override (e.g., "Visit my LinkedIn profile")',
-    },
+    }),
   ],
   preview: {
     select: {

@@ -1,11 +1,11 @@
-import {defineType} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'media',
   title: 'Media',
   type: 'object',
   fields: [
-    {
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image',
@@ -22,13 +22,13 @@ export default defineType({
         },
       ],
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'caption',
       title: 'Caption',
       type: 'string',
       description: 'Optional image caption (shown below image)',
-    },
+    }),
   ],
   preview: {
     select: {
