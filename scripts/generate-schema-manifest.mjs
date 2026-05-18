@@ -16,7 +16,7 @@
  * to: [{type: 'X'}] block emits a relationships[] entry.
  */
 
-import { readFileSync, writeFileSync, readdirSync } from 'fs'
+import { readFileSync, writeFileSync, readdirSync, mkdirSync } from 'fs'
 import { join, basename, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -251,6 +251,7 @@ const sorted = allTypes.sort((a, b) => {
 })
 
 const output = emit(sorted, relationships)
+mkdirSync(dirname(OUTPUT), { recursive: true })
 writeFileSync(OUTPUT, output, 'utf8')
 
 const entityCount = sorted.length
