@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-18T12:54:03.638Z",
+  "generatedAt": "2026-05-19T09:44:44.366Z",
   "release": {
     "current": {
       "version": "0.23.31",
@@ -77,40 +77,40 @@
     "components": 56
   },
   "repo": {
-    "commits": 1317,
-    "epicsShipped": 110
+    "commits": 1,
+    "epicsShipped": 111
   },
   "perf": {
     "stale": false,
-    "generatedAt": "2026-05-16T08:07:13.110Z",
+    "generatedAt": "2026-05-19T09:44:25.317Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "desktop": {
           "url": "https://sugartown.io/",
-          "lcp": 1383,
-          "cls": 0.106,
+          "lcp": 1404,
+          "cls": 0.001,
           "inp": null,
-          "performance": 93,
+          "performance": 96,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1383,
-        "cls": 0.106,
+        "lcp": 1404,
+        "cls": 0.001,
         "inp": null,
-        "performance": 93,
+        "performance": 96,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/",
-          "lcp": 1383,
-          "cls": 0.106,
+          "lcp": 1404,
+          "cls": 0.001,
           "inp": null,
-          "performance": 93,
+          "performance": 96,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
@@ -121,29 +121,29 @@
         "url": "https://sugartown.io/articles",
         "desktop": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1182,
-          "cls": 0.394,
+          "lcp": 1223,
+          "cls": 0.301,
           "inp": null,
-          "performance": 79,
+          "performance": 82,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1182,
-        "cls": 0.394,
+        "lcp": 1223,
+        "cls": 0.301,
         "inp": null,
-        "performance": 79,
+        "performance": 82,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1182,
-          "cls": 0.394,
+          "lcp": 1223,
+          "cls": 0.301,
           "inp": null,
-          "performance": 79,
+          "performance": 82,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -154,29 +154,29 @@
         "url": "https://sugartown.io/case-studies",
         "desktop": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1303,
+          "lcp": 1221,
           "cls": 0.301,
           "inp": null,
-          "performance": 81,
+          "performance": 82,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1303,
+        "lcp": 1221,
         "cls": 0.301,
         "inp": null,
-        "performance": 81,
+        "performance": 82,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1303,
+          "lcp": 1221,
           "cls": 0.301,
           "inp": null,
-          "performance": 81,
+          "performance": 82,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -187,29 +187,29 @@
         "url": "https://sugartown.io/knowledge-graph",
         "desktop": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1222,
+          "lcp": 937,
           "cls": 0.093,
           "inp": null,
-          "performance": 94,
+          "performance": 96,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1222,
+        "lcp": 937,
         "cls": 0.093,
         "inp": null,
-        "performance": 94,
+        "performance": 96,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1222,
+          "lcp": 937,
           "cls": 0.093,
           "inp": null,
-          "performance": 94,
+          "performance": 96,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -220,7 +220,7 @@
         "url": "https://sugartown.io/platform",
         "desktop": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1301,
+          "lcp": 1276,
           "cls": 0.516,
           "inp": null,
           "performance": 75,
@@ -229,7 +229,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1301,
+        "lcp": 1276,
         "cls": 0.516,
         "inp": null,
         "performance": 75,
@@ -239,7 +239,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1301,
+          "lcp": 1276,
           "cls": 0.516,
           "inp": null,
           "performance": 75,
@@ -253,7 +253,7 @@
         "url": "https://sugartown.io/about",
         "desktop": {
           "url": "https://sugartown.io/about",
-          "lcp": 1388,
+          "lcp": 1398,
           "cls": 0.227,
           "inp": null,
           "performance": 85,
@@ -262,7 +262,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1388,
+        "lcp": 1398,
         "cls": 0.227,
         "inp": null,
         "performance": 85,
@@ -272,7 +272,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/about",
-          "lcp": 1388,
+          "lcp": 1398,
           "cls": 0.227,
           "inp": null,
           "performance": 85,
@@ -286,29 +286,29 @@
         "url": "https://sugartown.io/articles/test-preview-post",
         "desktop": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1185,
-          "cls": 0.142,
+          "lcp": 1272,
+          "cls": 0.08,
           "inp": null,
-          "performance": 92,
+          "performance": 95,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1185,
-        "cls": 0.142,
+        "lcp": 1272,
+        "cls": 0.08,
         "inp": null,
-        "performance": 92,
+        "performance": 95,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1185,
-          "cls": 0.142,
+          "lcp": 1272,
+          "cls": 0.08,
           "inp": null,
-          "performance": 92,
+          "performance": 95,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
@@ -319,29 +319,29 @@
         "url": "https://sugartown.io/nodes/test-node",
         "desktop": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1273,
-          "cls": 0,
+          "lcp": 1279,
+          "cls": 0.08,
           "inp": null,
-          "performance": 97,
+          "performance": 95,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1273,
-        "cls": 0,
+        "lcp": 1279,
+        "cls": 0.08,
         "inp": null,
-        "performance": 97,
+        "performance": 95,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1273,
-          "cls": 0,
+          "lcp": 1279,
+          "cls": 0.08,
           "inp": null,
-          "performance": 97,
+          "performance": 95,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
@@ -351,13 +351,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-05-18T12:53:44.747Z",
+    "fetchedAt": "2026-05-19T09:44:25.643Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-05-18T12:54:02.980Z",
+    "fetchedAt": "2026-05-19T09:44:40.855Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -368,17 +368,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-16T08:07:28.833Z",
+    "fetchedAt": "2026-05-19T09:44:41.694Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 0,
     "watchers": 0,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-05-15T09:15:18Z"
+    "lastCommit": "2026-05-18T14:41:27Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-18T12:54:03.362Z",
+    "fetchedAt": "2026-05-19T09:44:42.123Z",
     "counts": {
       "article": 11,
       "node": 48,
@@ -392,7 +392,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-05-18T12:54:03.637Z",
+    "generatedAt": "2026-05-19T09:44:42.308Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -5760,42 +5760,19 @@
     ]
   },
   "linearRoadmap": {
-    "fetchedAt": "2026-05-18T10:03:48.361Z",
+    "fetchedAt": "2026-05-19T09:44:44.365Z",
     "inProgress": [],
     "backlog": [
       {
-        "identifier": "SUG-124",
-        "title": "Semantic naming audit — CSS classes, alpha row, list pattern reuse guardrails",
-        "url": "https://linear.app/sugartown/issue/SUG-124/semantic-naming-audit-css-classes-alpha-row-list-pattern-reuse",
-        "priority": "High",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-123",
-        "title": "Taxonomy listview audit — shared layout language, tokens, and Storybook coverage",
-        "url": "https://linear.app/sugartown/issue/SUG-123/taxonomy-listview-audit-shared-layout-language-tokens-and-storybook",
-        "priority": "Urgent",
-        "status": "Todo",
-        "projects": [
-          {
-            "name": "Pink Moon Design System",
-            "colorHex": "#F472B6"
-          }
-        ],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-122",
-        "title": "Registry ↔ ERD bridge — link component registry rows to schema ERD cards",
-        "url": "https://linear.app/sugartown/issue/SUG-122/registry-erd-bridge-link-component-registry-rows-to-schema-erd-cards",
+        "identifier": "SUG-126",
+        "title": "Migrate DataTable to Table + ButtonGroup primitive",
+        "url": "https://linear.app/sugartown/issue/SUG-126/migrate-datatable-to-table-buttongroup-primitive",
         "priority": "Medium",
         "status": "Backlog",
         "projects": [
           {
-            "name": "Mini Repo",
-            "colorHex": "#0099FF"
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
           }
         ],
         "completedAt": null
@@ -5998,6 +5975,57 @@
       }
     ],
     "shipped": [
+      {
+        "identifier": "SUG-122",
+        "title": "Registry ↔ ERD bridge — link component registry rows to schema ERD cards",
+        "url": "https://linear.app/sugartown/issue/SUG-122/registry-erd-bridge-link-component-registry-rows-to-schema-erd-cards",
+        "priority": "Medium",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Mini Repo",
+            "colorHex": "#0099FF"
+          }
+        ],
+        "completedAt": "2026-05-18T14:23:29.018Z"
+      },
+      {
+        "identifier": "SUG-123",
+        "title": "Taxonomy listview audit — shared layout language, tokens, and Storybook coverage",
+        "url": "https://linear.app/sugartown/issue/SUG-123/taxonomy-listview-audit-shared-layout-language-tokens-and-storybook",
+        "priority": "Urgent",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-05-18T13:16:34.575Z"
+      },
+      {
+        "identifier": "SUG-125",
+        "title": "IndexGroup + IndexCell DS primitives — Pagination and LetterFilterStrip refactor",
+        "url": "https://linear.app/sugartown/issue/SUG-125/indexgroup-indexcell-ds-primitives-pagination-and-letterfilterstrip",
+        "priority": "High",
+        "status": "Done",
+        "projects": [],
+        "completedAt": "2026-05-18T13:11:39.978Z"
+      },
+      {
+        "identifier": "SUG-124",
+        "title": "Semantic naming audit — CSS classes, alpha row, list pattern reuse guardrails",
+        "url": "https://linear.app/sugartown/issue/SUG-124/semantic-naming-audit-css-classes-alpha-row-list-pattern-reuse",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-05-18T12:02:13.330Z"
+      },
       {
         "identifier": "SUG-114",
         "title": "Dynamic schema ERD — generate content model from deployed Sanity schema",
@@ -6216,62 +6244,6 @@
           }
         ],
         "completedAt": "2026-05-10T12:11:38.048Z"
-      },
-      {
-        "identifier": "SUG-106",
-        "title": "Stats pipeline fix + SUG-100 close-out",
-        "url": "https://linear.app/sugartown/issue/SUG-106/stats-pipeline-fix-sug-100-close-out",
-        "priority": "Urgent",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Mini Repo",
-            "colorHex": "#0099FF"
-          }
-        ],
-        "completedAt": "2026-05-10T10:31:33.994Z"
-      },
-      {
-        "identifier": "SUG-105",
-        "title": "Knowledge Graph — Phase 2 (masthead, chip colors, fullscreen, tag nodes)",
-        "url": "https://linear.app/sugartown/issue/SUG-105/knowledge-graph-phase-2-masthead-chip-colors-fullscreen-tag-nodes",
-        "priority": "Medium",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Pink Moon Design System",
-            "colorHex": "#F472B6"
-          }
-        ],
-        "completedAt": "2026-05-09T15:01:54.384Z"
-      },
-      {
-        "identifier": "SUG-100",
-        "title": "CWV Snapshot Product Widget",
-        "url": "https://linear.app/sugartown/issue/SUG-100/cwv-snapshot-product-widget",
-        "priority": "Medium",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Mini Repo",
-            "colorHex": "#0099FF"
-          }
-        ],
-        "completedAt": "2026-05-08T16:15:24.429Z"
-      },
-      {
-        "identifier": "SUG-81",
-        "title": "Site-wide Knowledge Graph (MVP)",
-        "url": "https://linear.app/sugartown/issue/SUG-81/site-wide-knowledge-graph-mvp",
-        "priority": "High",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Knowledge Graph Viz",
-            "colorHex": "#8B5CF6"
-          }
-        ],
-        "completedAt": "2026-05-08T13:36:52.639Z"
       }
     ]
   }
