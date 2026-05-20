@@ -10,7 +10,7 @@
 
 ## Voice in One Breath
 
-Sugartown sounds like a senior practitioner talking to peers — technically precise, personally honest, dry-humoured, never performative. I explain complex things without condescension and admit failure without melodrama. The site speaks first; you speak second.
+Sugartown sounds like a senior practitioner talking to peers: technically precise, personally honest, dry-humoured, never performative. I explain complex things without condescension and admit failure without melodrama. The site speaks first; you speak second.
 
 > *"AI is a tool, not a teammate. Humans stay accountable. Transparency beats magic."*
 > — AI Ethics & Operations (the register in six words)

@@ -123,17 +123,17 @@ Portfolio sites fall into two failure modes: mealy-mouthed ("I'm passionate abou
 
 Before publishing any piece of copy, confirm it passes these checks:
 
-- [ ] **No "delve into"** — the single most reliable AI-generated tell
-- [ ] **No "it's important to note"** — if it were important, you'd just say it
-- [ ] **No "in today's rapidly evolving landscape"** — temporal filler
-- [ ] **No "leverage", "utilize", "facilitate"** — use "use", "use", "help"
-- [ ] **No "synergize", "ideate", "learnings"** — corporate cosplay
-- [ ] **No "passionate about"** — show, don't declare
-- [ ] **No "excited to announce"** — just announce it
-- [ ] **No unearned "we"** — are there actually two of you?
-- [ ] **No hedge stacking** — "I think maybe this could possibly" → pick a position
-- [ ] **No filler transitions** — "Moving on to the next topic" → just move on
-- [ ] **Read it aloud** — if it sounds like a chatbot, rewrite it
+- [ ] **No "delve into":** the single most reliable AI-generated tell
+- [ ] **No "it's important to note":** if it were important, you'd just say it
+- [ ] **No "in today's rapidly evolving landscape":** temporal filler
+- [ ] **No "leverage", "utilize", "facilitate":** use "use", "use", "help"
+- [ ] **No "synergize", "ideate", "learnings":** corporate cosplay
+- [ ] **No "passionate about":** show, don't declare
+- [ ] **No "excited to announce":** just announce it
+- [ ] **No unearned "we":** are there actually two of you?
+- [ ] **No hedge stacking:** "I think maybe this could possibly" → pick a position
+- [ ] **No filler transitions:** "Moving on to the next topic" → just move on
+- [ ] **Read it aloud:** if it sounds like a chatbot, rewrite it
 
 If Claude drafted it, a human sharpened it. That's the deal.
 
@@ -141,12 +141,12 @@ If Claude drafted it, a human sharpened it. That's the deal.
 
 The checklist above catches word-level tells. These catch structural habits that betray AI drafting even when the vocabulary is clean:
 
-- [ ] **No em dashes** — the single most reliable structural AI tell. Use commas, parentheses, colons, or full stops instead. **Exception:** nodes, where em dashes are part of the forensic storyteller register and read as intentional voice.
-- [ ] **No decorative emoji or icons** — no "🚀 Let's dive in!" energy. Emoji on Sugartown earns its place or doesn't appear. **Exception:** nodes, where emoji is used sarcastically or as deadpan humour (a 🎉 after breaking production is comedy; a 🌟 before a heading is slop).
-- [ ] **Vary sentence openings** — three consecutive sentences starting with the same word ("This… This… This…" or "The… The… The…") is a rewrite signal. AI defaults to repetitive openers when it runs out of narrative steam.
-- [ ] **No filler transitions (expanded)** — beyond "Moving on," the worst offenders are: "That said," / "With that in mind," / "That being said," / "It's worth noting that" / "At the end of the day." If the next paragraph follows logically, it doesn't need a bridge.
-- [ ] **No list-itis** — bullets are for parallel items, not for avoiding prose. If the items aren't genuinely parallel (same grammatical structure, same level of abstraction), write sentences. A bulleted list of non-parallel fragments is AI confessing it can't write a paragraph.
-- [ ] **No empty adjective triads** — "robust, scalable, and maintainable" / "clean, modern, and intuitive." Test: can you swap your three adjectives for any other three and the sentence still reads the same? Then they're decoration, not description. Use one specific adjective or, better, a number.
+- [ ] **No em dashes:** the single most reliable structural AI tell. Use commas, parentheses, colons, or full stops instead. **Exception:** nodes, where em dashes are part of the forensic storyteller register and read as intentional voice.
+- [ ] **No decorative emoji or icons:** no "🚀 Let's dive in!" energy. Emoji on Sugartown earns its place or doesn't appear. **Exception:** nodes, where emoji is used sarcastically or as deadpan humour (a 🎉 after breaking production is comedy; a 🌟 before a heading is slop).
+- [ ] **Vary sentence openings:** three consecutive sentences starting with the same word ("This… This… This…" or "The… The… The…") is a rewrite signal. AI defaults to repetitive openers when it runs out of narrative steam.
+- [ ] **No filler transitions (expanded):** beyond "Moving on," the worst offenders are: "That said," / "With that in mind," / "That being said," / "It's worth noting that" / "At the end of the day." If the next paragraph follows logically, it doesn't need a bridge.
+- [ ] **No list-itis:** bullets are for parallel items, not for avoiding prose. If the items aren't genuinely parallel (same grammatical structure, same level of abstraction), write sentences. A bulleted list of non-parallel fragments is AI confessing it can't write a paragraph.
+- [ ] **No empty adjective triads:** "robust, scalable, and maintainable" / "clean, modern, and intuitive." Test: can you swap your three adjectives for any other three and the sentence still reads the same? Then they're decoration, not description. Use one specific adjective or, better, a number.
 
 ---
 
@@ -194,7 +194,7 @@ Every piece of Sugartown content should be intelligible at skim depth: headline 
 - TL;DR blocks are encouraged for anything over 800 words.
 
 > **Example from the codebase:**
-> *"AI is a tool, not a teammate. Humans stay accountable. Transparency beats magic. Data requires consent. Bias exists—plan for it. Document everything."*
+> *"AI is a tool, not a teammate. Humans stay accountable. Transparency beats magic. Data requires consent. Bias exists. Plan for it. Document everything."*
 > — TL;DR from AI Ethics & Operations. Six sentences. The whole document in 30 seconds.
 
 ---
