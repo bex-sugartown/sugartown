@@ -14,7 +14,7 @@ export function useSanityDoc(query, params) {
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 
-  const paramsKey = JSON.stringify(params)
+  const paramsKey = JSON.stringify(params ?? {})
 
   useEffect(() => {
     let cancelled = false
@@ -58,7 +58,7 @@ export function useSanityList(query, params) {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const paramsKey = JSON.stringify(params)
+  const paramsKey = JSON.stringify(params ?? {})
 
   useEffect(() => {
     let cancelled = false
