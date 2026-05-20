@@ -68,7 +68,7 @@ export default function ScoreRing({
     )
     if (ringRef.current) observer.observe(ringRef.current)
     return () => observer.disconnect()
-  }, [animated, clampedScore])
+  }, [animated, clampedScore, reducedMotion])
 
   useEffect(() => {
     if (!animated) return

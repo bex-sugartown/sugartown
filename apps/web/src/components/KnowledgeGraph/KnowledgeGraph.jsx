@@ -229,7 +229,7 @@ export default function KnowledgeGraph({
       ctx.textBaseline = 'top'
       ctx.fillText(label, node.x, by + py)
     }
-  }, [colors, selected])
+  }, [colors, selected, selectedId])
 
   // Larger pointer area for small item nodes
   const nodePointerAreaPaint = useCallback((node, color, ctx) => {

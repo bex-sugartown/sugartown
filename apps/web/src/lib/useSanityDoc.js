@@ -14,6 +14,8 @@ export function useSanityDoc(query, params) {
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 
+  const paramsKey = JSON.stringify(params)
+
   useEffect(() => {
     let cancelled = false
     setLoading(true)
@@ -21,7 +23,7 @@ export function useSanityDoc(query, params) {
     setData(undefined)
 
     client
-      .fetch(query, params)
+      .fetch(query, JSON.parse(paramsKey))
       .then((result) => {
         if (cancelled) return
         if (result === null || result === undefined) {
@@ -41,7 +43,7 @@ export function useSanityDoc(query, params) {
     return () => {
       cancelled = true
     }
-  }, [query, JSON.stringify(params)])
+  }, [query, paramsKey])
 
   return { data, loading, notFound }
 }
@@ -56,12 +58,14 @@ export function useSanityList(query, params) {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
 
+  const paramsKey = JSON.stringify(params)
+
   useEffect(() => {
     let cancelled = false
     setLoading(true)
 
     client
-      .fetch(query, params)
+      .fetch(query, JSON.parse(paramsKey))
       .then((result) => {
         if (cancelled) return
         setData(result ?? [])
@@ -76,7 +80,7 @@ export function useSanityList(query, params) {
     return () => {
       cancelled = true
     }
-  }, [query, JSON.stringify(params)])
+  }, [query, paramsKey])
 
   return { data, loading }
 }
