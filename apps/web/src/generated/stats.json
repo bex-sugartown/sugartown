@@ -1,0 +1,6250 @@
+{
+  "generatedAt": "2026-05-21T09:42:38.667Z",
+  "release": {
+    "current": {
+      "version": "0.24.0",
+      "date": "2026-05-18",
+      "descriptor": "Design system infrastructure pass, platform hub build-out, and editorial surface depth.",
+      "kind": "MINOR",
+      "linearIssue": null
+    },
+    "latestN": [
+      {
+        "version": "0.24.0",
+        "date": "2026-05-18",
+        "descriptor": "Design system infrastructure pass, platform hub build-out, and editorial surface depth.",
+        "kind": "MINOR",
+        "linearIssue": null
+      },
+      {
+        "version": "0.23.0",
+        "date": "2026-04-27",
+        "descriptor": "Trust data pipeline, Ledger Tradition design system structural pass, dynamic Knowledge Graph,",
+        "kind": "MINOR",
+        "linearIssue": null
+      },
+      {
+        "version": "0.22.0",
+        "date": "2026-04-22",
+        "descriptor": "Pink Moon design system implementation, Ledger Tradition font stack, page layout",
+        "kind": "MINOR",
+        "linearIssue": "SUG-74"
+      },
+      {
+        "version": "0.21.0",
+        "date": "2026-04-06",
+        "descriptor": "Storybook v10 upgrade, Accordion component, full story coverage, argTypes audit. Aggregates 0.20.1.",
+        "kind": "MINOR",
+        "linearIssue": "SUG-38"
+      },
+      {
+        "version": "0.20.0",
+        "date": "2026-04-01",
+        "descriptor": "Responsive mobile nav, image treatments & gallery, detail hero refinement, table authoring UX, sitemap, mermaid diagrams, and WordPress media import. Aggregates 0.19.1–0.19.8.",
+        "kind": "MINOR",
+        "linearIssue": "SUG-37"
+      }
+    ],
+    "count": {
+      "total": 18,
+      "major": 0,
+      "minor": 17,
+      "patch": 1
+    }
+  },
+  "ds": {
+    "tokens": {
+      "total": 612,
+      "primitives": 127,
+      "semantic": 27,
+      "component": 458,
+      "byCategory": {
+        "color": 182,
+        "space": 19,
+        "font": 24,
+        "shadow": 33,
+        "other": 354
+      }
+    },
+    "dsComponents": 16,
+    "dsComponentsWithStories": 14,
+    "webAdapters": 22,
+    "componentFiles": 38,
+    "tokenCompliance": 98
+  },
+  "storybook": {
+    "stories": 288,
+    "components": 56
+  },
+  "repo": {
+    "commits": 1,
+    "epicsShipped": 111
+  },
+  "perf": {
+    "stale": false,
+    "generatedAt": "2026-05-21T09:42:18.739Z",
+    "runs": {
+      "https://sugartown.io/": {
+        "url": "https://sugartown.io/",
+        "desktop": {
+          "url": "https://sugartown.io/",
+          "lcp": 1371,
+          "cls": 0.228,
+          "inp": null,
+          "performance": 85,
+          "accessibility": 96,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1371,
+        "cls": 0.228,
+        "inp": null,
+        "performance": 85,
+        "accessibility": 96,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good",
+        "mobile": {
+          "url": "https://sugartown.io/",
+          "lcp": 1371,
+          "cls": 0.228,
+          "inp": null,
+          "performance": 85,
+          "accessibility": 96,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        }
+      },
+      "https://sugartown.io/articles": {
+        "url": "https://sugartown.io/articles",
+        "desktop": {
+          "url": "https://sugartown.io/articles",
+          "lcp": 1249,
+          "cls": 0.301,
+          "inp": null,
+          "performance": 82,
+          "accessibility": 95,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1249,
+        "cls": 0.301,
+        "inp": null,
+        "performance": 82,
+        "accessibility": 95,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good",
+        "mobile": {
+          "url": "https://sugartown.io/articles",
+          "lcp": 1249,
+          "cls": 0.301,
+          "inp": null,
+          "performance": 82,
+          "accessibility": 95,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        }
+      },
+      "https://sugartown.io/case-studies": {
+        "url": "https://sugartown.io/case-studies",
+        "desktop": {
+          "url": "https://sugartown.io/case-studies",
+          "lcp": 1223,
+          "cls": 0.301,
+          "inp": null,
+          "performance": 82,
+          "accessibility": 95,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1223,
+        "cls": 0.301,
+        "inp": null,
+        "performance": 82,
+        "accessibility": 95,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good",
+        "mobile": {
+          "url": "https://sugartown.io/case-studies",
+          "lcp": 1223,
+          "cls": 0.301,
+          "inp": null,
+          "performance": 82,
+          "accessibility": 95,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        }
+      },
+      "https://sugartown.io/knowledge-graph": {
+        "url": "https://sugartown.io/knowledge-graph",
+        "desktop": {
+          "url": "https://sugartown.io/knowledge-graph",
+          "lcp": 881,
+          "cls": 0.093,
+          "inp": null,
+          "performance": 96,
+          "accessibility": 95,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 881,
+        "cls": 0.093,
+        "inp": null,
+        "performance": 96,
+        "accessibility": 95,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good",
+        "mobile": {
+          "url": "https://sugartown.io/knowledge-graph",
+          "lcp": 881,
+          "cls": 0.093,
+          "inp": null,
+          "performance": 96,
+          "accessibility": 95,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        }
+      },
+      "https://sugartown.io/platform": {
+        "url": "https://sugartown.io/platform",
+        "desktop": {
+          "url": "https://sugartown.io/platform",
+          "lcp": 1303,
+          "cls": 0.516,
+          "inp": null,
+          "performance": 75,
+          "accessibility": 96,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1303,
+        "cls": 0.516,
+        "inp": null,
+        "performance": 75,
+        "accessibility": 96,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good",
+        "mobile": {
+          "url": "https://sugartown.io/platform",
+          "lcp": 1303,
+          "cls": 0.516,
+          "inp": null,
+          "performance": 75,
+          "accessibility": 96,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        }
+      },
+      "https://sugartown.io/about": {
+        "url": "https://sugartown.io/about",
+        "desktop": {
+          "url": "https://sugartown.io/about",
+          "lcp": 1368,
+          "cls": 0.227,
+          "inp": null,
+          "performance": 85,
+          "accessibility": 94,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1368,
+        "cls": 0.227,
+        "inp": null,
+        "performance": 85,
+        "accessibility": 94,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good",
+        "mobile": {
+          "url": "https://sugartown.io/about",
+          "lcp": 1368,
+          "cls": 0.227,
+          "inp": null,
+          "performance": 85,
+          "accessibility": 94,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        }
+      },
+      "https://sugartown.io/articles/test-preview-post": {
+        "url": "https://sugartown.io/articles/test-preview-post",
+        "desktop": {
+          "url": "https://sugartown.io/articles/test-preview-post",
+          "lcp": 1259,
+          "cls": 0.08,
+          "inp": null,
+          "performance": 95,
+          "accessibility": 94,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1259,
+        "cls": 0.08,
+        "inp": null,
+        "performance": 95,
+        "accessibility": 94,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good",
+        "mobile": {
+          "url": "https://sugartown.io/articles/test-preview-post",
+          "lcp": 1259,
+          "cls": 0.08,
+          "inp": null,
+          "performance": 95,
+          "accessibility": 94,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        }
+      },
+      "https://sugartown.io/nodes/test-node": {
+        "url": "https://sugartown.io/nodes/test-node",
+        "desktop": {
+          "url": "https://sugartown.io/nodes/test-node",
+          "lcp": 1296,
+          "cls": 0.08,
+          "inp": null,
+          "performance": 95,
+          "accessibility": 94,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        },
+        "lcp": 1296,
+        "cls": 0.08,
+        "inp": null,
+        "performance": 95,
+        "accessibility": 94,
+        "bestPractices": 100,
+        "seo": 100,
+        "rating": "good",
+        "mobile": {
+          "url": "https://sugartown.io/nodes/test-node",
+          "lcp": 1296,
+          "cls": 0.08,
+          "inp": null,
+          "performance": 95,
+          "accessibility": 94,
+          "bestPractices": 100,
+          "seo": 100,
+          "rating": "good"
+        }
+      }
+    }
+  },
+  "crux": {
+    "fetchedAt": "2026-05-21T09:42:19.017Z",
+    "origin": "https://sugartown.io",
+    "available": false,
+    "reason": "no-data"
+  },
+  "security": {
+    "fetchedAt": "2026-05-21T09:42:36.641Z",
+    "vulnerabilities": {
+      "total": 0,
+      "critical": 0,
+      "high": 0,
+      "moderate": 0,
+      "low": 0,
+      "info": 0
+    }
+  },
+  "github": {
+    "fetchedAt": "2026-05-21T09:42:37.553Z",
+    "repo": "bex-sugartown/sugartown",
+    "stars": 0,
+    "watchers": 0,
+    "forks": 0,
+    "openIssues": 11,
+    "contributors": 3,
+    "lastCommit": "2026-05-20T13:44:50Z"
+  },
+  "sanity": {
+    "fetchedAt": "2026-05-21T09:42:37.976Z",
+    "counts": {
+      "article": 11,
+      "node": 48,
+      "caseStudy": 7,
+      "page": 8,
+      "tag": 93,
+      "category": 13,
+      "project": 6,
+      "person": 1,
+      "tool": 55
+    }
+  },
+  "siteGraph": {
+    "generatedAt": "2026-05-21T09:42:38.230Z",
+    "nodes": [
+      {
+        "id": "project:sugartown-cms",
+        "type": "project",
+        "label": "Sugartown CMS",
+        "href": "/projects/sugartown-cms",
+        "size": "large"
+      },
+      {
+        "id": "project:resume-factory",
+        "type": "project",
+        "label": "The Resume Factory",
+        "href": "/projects/resume-factory",
+        "size": "large"
+      },
+      {
+        "id": "project:sugartown-design-system",
+        "type": "project",
+        "label": "Pink Moon Design System",
+        "href": "/projects/sugartown-design-system",
+        "size": "large"
+      },
+      {
+        "id": "project:knowledge-graph-viz",
+        "type": "project",
+        "label": "Knowledge Graph Viz",
+        "href": "/projects/knowledge-graph-viz",
+        "size": "large"
+      },
+      {
+        "id": "project:mini-repo",
+        "type": "project",
+        "label": "Mini-repo",
+        "href": "/projects/mini-repo",
+        "size": "large"
+      },
+      {
+        "id": "category:governance",
+        "type": "category",
+        "label": "Governance",
+        "href": "/categories/governance",
+        "size": "medium"
+      },
+      {
+        "id": "category:engineering-dx",
+        "type": "category",
+        "label": "Engineering & DX",
+        "href": "/categories/engineering-dx",
+        "size": "medium"
+      },
+      {
+        "id": "category:career-engineering",
+        "type": "category",
+        "label": "Career Engineering",
+        "href": "/categories/career-engineering",
+        "size": "medium"
+      },
+      {
+        "id": "category:content-architecture",
+        "type": "category",
+        "label": "Content Architecture",
+        "href": "/categories/content-architecture",
+        "size": "medium"
+      },
+      {
+        "id": "category:ways-of-working",
+        "type": "category",
+        "label": "Ways of Working",
+        "href": "/categories/ways-of-working",
+        "size": "medium"
+      },
+      {
+        "id": "category:project-management",
+        "type": "category",
+        "label": "Project Management",
+        "href": "/categories/project-management",
+        "size": "medium"
+      },
+      {
+        "id": "category:product-platform-strategy",
+        "type": "category",
+        "label": "Product & Platform Strategy",
+        "href": "/categories/product-platform-strategy",
+        "size": "medium"
+      },
+      {
+        "id": "category:e-commerce",
+        "type": "category",
+        "label": "E-Commerce",
+        "href": "/categories/e-commerce",
+        "size": "medium"
+      },
+      {
+        "id": "category:sugartown-notes",
+        "type": "category",
+        "label": "Sugartown Notes",
+        "href": "/categories/sugartown-notes",
+        "size": "medium"
+      },
+      {
+        "id": "category:ai",
+        "type": "category",
+        "label": "AI",
+        "href": "/categories/ai",
+        "size": "medium"
+      },
+      {
+        "id": "category:design-systems",
+        "type": "category",
+        "label": "Design Systems",
+        "href": "/categories/design-systems",
+        "size": "medium"
+      },
+      {
+        "id": "category:visualization",
+        "type": "category",
+        "label": "Visualization",
+        "href": "/categories/visualization",
+        "size": "medium"
+      },
+      {
+        "id": "tag:accessibility",
+        "type": "tag",
+        "label": "Accessibility",
+        "href": "/tags/accessibility",
+        "size": "small"
+      },
+      {
+        "id": "tag:ai-ethics",
+        "type": "tag",
+        "label": "AI Ethics",
+        "href": "/tags/ai-ethics",
+        "size": "small"
+      },
+      {
+        "id": "tag:alt-text",
+        "type": "tag",
+        "label": "Alt Text",
+        "href": "/tags/alt-text",
+        "size": "small"
+      },
+      {
+        "id": "tag:headless",
+        "type": "tag",
+        "label": "Headless",
+        "href": "/tags/headless",
+        "size": "small"
+      },
+      {
+        "id": "tag:separation-of-concerns",
+        "type": "tag",
+        "label": "separation of concerns",
+        "href": "/tags/separation-of-concerns",
+        "size": "small"
+      },
+      {
+        "id": "tag:source-control",
+        "type": "tag",
+        "label": "source control",
+        "href": "/tags/source-control",
+        "size": "small"
+      },
+      {
+        "id": "tag:architecture",
+        "type": "tag",
+        "label": "Architecture",
+        "href": "/tags/architecture",
+        "size": "small"
+      },
+      {
+        "id": "tag:content-ops",
+        "type": "tag",
+        "label": "content ops",
+        "href": "/tags/content-ops",
+        "size": "small"
+      },
+      {
+        "id": "tag:system-thinking",
+        "type": "tag",
+        "label": "system thinking",
+        "href": "/tags/system-thinking",
+        "size": "small"
+      },
+      {
+        "id": "tag:migration",
+        "type": "tag",
+        "label": "migration",
+        "href": "/tags/migration",
+        "size": "small"
+      },
+      {
+        "id": "tag:monorepo",
+        "type": "tag",
+        "label": "monorepo",
+        "href": "/tags/monorepo",
+        "size": "small"
+      },
+      {
+        "id": "tag:prd",
+        "type": "tag",
+        "label": "PRD",
+        "href": "/tags/prd",
+        "size": "small"
+      },
+      {
+        "id": "tag:resume-as-code",
+        "type": "tag",
+        "label": "resume-as-code",
+        "href": "/tags/resume-as-code",
+        "size": "small"
+      },
+      {
+        "id": "tag:core-web-vitals",
+        "type": "tag",
+        "label": "core web vitals",
+        "href": "/tags/core-web-vitals",
+        "size": "small"
+      },
+      {
+        "id": "tag:automation",
+        "type": "tag",
+        "label": "automation",
+        "href": "/tags/automation",
+        "size": "small"
+      },
+      {
+        "id": "tag:documentation",
+        "type": "tag",
+        "label": "Documentation",
+        "href": "/tags/documentation",
+        "size": "small"
+      },
+      {
+        "id": "tag:metadata-strategy",
+        "type": "tag",
+        "label": "metadata strategy",
+        "href": "/tags/metadata-strategy",
+        "size": "small"
+      },
+      {
+        "id": "tag:ontology",
+        "type": "tag",
+        "label": "ontology",
+        "href": "/tags/ontology",
+        "size": "small"
+      },
+      {
+        "id": "tag:structured-content",
+        "type": "tag",
+        "label": "structured content",
+        "href": "/tags/structured-content",
+        "size": "small"
+      },
+      {
+        "id": "tag:taxonomy",
+        "type": "tag",
+        "label": "taxonomy",
+        "href": "/tags/taxonomy",
+        "size": "small"
+      },
+      {
+        "id": "tag:workflow",
+        "type": "tag",
+        "label": "Workflow",
+        "href": "/tags/workflow",
+        "size": "small"
+      },
+      {
+        "id": "tag:prioritization",
+        "type": "tag",
+        "label": "prioritization",
+        "href": "/tags/prioritization",
+        "size": "small"
+      },
+      {
+        "id": "tag:design-ops",
+        "type": "tag",
+        "label": "Design Ops",
+        "href": "/tags/design-ops",
+        "size": "small"
+      },
+      {
+        "id": "tag:atomic-design",
+        "type": "tag",
+        "label": "Atomic Design",
+        "href": "/tags/atomic-design",
+        "size": "small"
+      },
+      {
+        "id": "tag:composable",
+        "type": "tag",
+        "label": "composable",
+        "href": "/tags/composable",
+        "size": "small"
+      },
+      {
+        "id": "tag:digital-transformation",
+        "type": "tag",
+        "label": "Digital Transformation",
+        "href": "/tags/digital-transformation",
+        "size": "small"
+      },
+      {
+        "id": "tag:omnichannel",
+        "type": "tag",
+        "label": "omnichannel",
+        "href": "/tags/omnichannel",
+        "size": "small"
+      },
+      {
+        "id": "tag:rfp",
+        "type": "tag",
+        "label": "RFP",
+        "href": "/tags/rfp",
+        "size": "small"
+      },
+      {
+        "id": "tag:vendor-evaluation",
+        "type": "tag",
+        "label": "Vendor Evaluation",
+        "href": "/tags/vendor-evaluation",
+        "size": "small"
+      },
+      {
+        "id": "tag:stakeholder-alignment",
+        "type": "tag",
+        "label": "Stakeholder Alignment",
+        "href": "/tags/stakeholder-alignment",
+        "size": "small"
+      },
+      {
+        "id": "tag:content-audit",
+        "type": "tag",
+        "label": "content audit",
+        "href": "/tags/content-audit",
+        "size": "small"
+      },
+      {
+        "id": "tag:customer-journey",
+        "type": "tag",
+        "label": "customer journey",
+        "href": "/tags/customer-journey",
+        "size": "small"
+      },
+      {
+        "id": "tag:version-control",
+        "type": "tag",
+        "label": "version control",
+        "href": "/tags/version-control",
+        "size": "small"
+      },
+      {
+        "id": "tag:agentic-caucus",
+        "type": "tag",
+        "label": "agentic caucus",
+        "href": "/tags/agentic-caucus",
+        "size": "small"
+      },
+      {
+        "id": "tag:ai-collaboration",
+        "type": "tag",
+        "label": "AI Collaboration",
+        "href": "/tags/ai-collaboration",
+        "size": "small"
+      },
+      {
+        "id": "tag:debugging",
+        "type": "tag",
+        "label": "debugging",
+        "href": "/tags/debugging",
+        "size": "small"
+      },
+      {
+        "id": "tag:devtools",
+        "type": "tag",
+        "label": "devtools",
+        "href": "/tags/devtools",
+        "size": "small"
+      },
+      {
+        "id": "tag:ai-entropy",
+        "type": "tag",
+        "label": "AI Entropy",
+        "href": "/tags/ai-entropy",
+        "size": "small"
+      },
+      {
+        "id": "tag:ai-hallucinations",
+        "type": "tag",
+        "label": "AI Hallucinations",
+        "href": "/tags/ai-hallucinations",
+        "size": "small"
+      },
+      {
+        "id": "tag:ai-limitations",
+        "type": "tag",
+        "label": "AI Limitations",
+        "href": "/tags/ai-limitations",
+        "size": "small"
+      },
+      {
+        "id": "tag:product-discovery",
+        "type": "tag",
+        "label": "product discovery",
+        "href": "/tags/product-discovery",
+        "size": "small"
+      },
+      {
+        "id": "tag:performance",
+        "type": "tag",
+        "label": "performance",
+        "href": "/tags/performance",
+        "size": "small"
+      },
+      {
+        "id": "tag:seo",
+        "type": "tag",
+        "label": "SEO",
+        "href": "/tags/seo",
+        "size": "small"
+      },
+      {
+        "id": "tag:dashboards",
+        "type": "tag",
+        "label": "dashboards",
+        "href": "/tags/dashboards",
+        "size": "small"
+      },
+      {
+        "id": "tag:design-tokens",
+        "type": "tag",
+        "label": "Design Tokens",
+        "href": "/tags/design-tokens",
+        "size": "small"
+      },
+      {
+        "id": "tag:tech-debt",
+        "type": "tag",
+        "label": "tech debt",
+        "href": "/tags/tech-debt",
+        "size": "small"
+      },
+      {
+        "id": "tag:qa",
+        "type": "tag",
+        "label": "QA",
+        "href": "/tags/qa",
+        "size": "small"
+      },
+      {
+        "id": "tag:llm-workflows",
+        "type": "tag",
+        "label": "LLM workflows",
+        "href": "/tags/llm-workflows",
+        "size": "small"
+      },
+      {
+        "id": "tag:wcag",
+        "type": "tag",
+        "label": "WCAG",
+        "href": "/tags/wcag",
+        "size": "small"
+      },
+      {
+        "id": "tag:agile",
+        "type": "tag",
+        "label": "Agile",
+        "href": "/tags/agile",
+        "size": "small"
+      },
+      {
+        "id": "tag:best-practices",
+        "type": "tag",
+        "label": "best practices",
+        "href": "/tags/best-practices",
+        "size": "small"
+      },
+      {
+        "id": "tag:refactoring",
+        "type": "tag",
+        "label": "refactoring",
+        "href": "/tags/refactoring",
+        "size": "small"
+      },
+      {
+        "id": "tag:scope-creep",
+        "type": "tag",
+        "label": "scope creep",
+        "href": "/tags/scope-creep",
+        "size": "small"
+      },
+      {
+        "id": "tag:table",
+        "type": "tag",
+        "label": "table",
+        "href": "/tags/table",
+        "size": "small"
+      },
+      {
+        "id": "tag:ux",
+        "type": "tag",
+        "label": "ux",
+        "href": "/tags/ux",
+        "size": "small"
+      },
+      {
+        "id": "tag:portable-text",
+        "type": "tag",
+        "label": "portable text",
+        "href": "/tags/portable-text",
+        "size": "small"
+      },
+      {
+        "id": "tag:human-in-the-loop",
+        "type": "tag",
+        "label": "human-in-the-loop",
+        "href": "/tags/human-in-the-loop",
+        "size": "small"
+      },
+      {
+        "id": "tag:content-modeling",
+        "type": "tag",
+        "label": "Content Modeling",
+        "href": "/tags/content-modeling",
+        "size": "small"
+      },
+      {
+        "id": "tag:api",
+        "type": "tag",
+        "label": "API",
+        "href": "/tags/api",
+        "size": "small"
+      },
+      {
+        "id": "tag:knowledge-graph",
+        "type": "tag",
+        "label": "knowledge graph",
+        "href": "/tags/knowledge-graph",
+        "size": "small"
+      },
+      {
+        "id": "tag:platform-strategy",
+        "type": "tag",
+        "label": "platform strategy",
+        "href": "/tags/platform-strategy",
+        "size": "small"
+      },
+      {
+        "id": "tag:roadmap",
+        "type": "tag",
+        "label": "Roadmap",
+        "href": "/tags/roadmap",
+        "size": "small"
+      },
+      {
+        "id": "tag:content-architecture",
+        "type": "tag",
+        "label": "Content Architecture",
+        "href": "/tags/content-architecture",
+        "size": "small"
+      },
+      {
+        "id": "tag:ai-workflows",
+        "type": "tag",
+        "label": "AI Workflows",
+        "href": "/tags/ai-workflows",
+        "size": "small"
+      },
+      {
+        "id": "tag:ai-automation",
+        "type": "tag",
+        "label": "AI Automation",
+        "href": "/tags/ai-automation",
+        "size": "small"
+      },
+      {
+        "id": "tag:data-science",
+        "type": "tag",
+        "label": "data science",
+        "href": "/tags/data-science",
+        "size": "small"
+      },
+      {
+        "id": "tag:product-management",
+        "type": "tag",
+        "label": "product management",
+        "href": "/tags/product-management",
+        "size": "small"
+      },
+      {
+        "id": "tag:prompt-engineering",
+        "type": "tag",
+        "label": "prompt engineering",
+        "href": "/tags/prompt-engineering",
+        "size": "small"
+      },
+      {
+        "id": "tag:process-insight",
+        "type": "tag",
+        "label": "process insight",
+        "href": "/tags/process-insight",
+        "size": "small"
+      },
+      {
+        "id": "tag:post-mortem",
+        "type": "tag",
+        "label": "Post Mortem",
+        "href": "/tags/post-mortem",
+        "size": "small"
+      },
+      {
+        "id": "tag:context-engineering",
+        "type": "tag",
+        "label": "Context Engineering",
+        "href": "/tags/context-engineering",
+        "size": "small"
+      },
+      {
+        "id": "tag:audit",
+        "type": "tag",
+        "label": "audit",
+        "href": "/tags/audit",
+        "size": "small"
+      },
+      {
+        "id": "tag:data-integrity",
+        "type": "tag",
+        "label": "data integrity",
+        "href": "/tags/data-integrity",
+        "size": "small"
+      },
+      {
+        "id": "tag:release-management",
+        "type": "tag",
+        "label": "release management",
+        "href": "/tags/release-management",
+        "size": "small"
+      },
+      {
+        "id": "tag:product-ops",
+        "type": "tag",
+        "label": "product ops",
+        "href": "/tags/product-ops",
+        "size": "small"
+      },
+      {
+        "id": "tag:glassmorphism",
+        "type": "tag",
+        "label": "Glassmorphism",
+        "href": "/tags/glassmorphism",
+        "size": "small"
+      },
+      {
+        "id": "tag:cross-functional-collaboration",
+        "type": "tag",
+        "label": "Cross-functional Collaboration",
+        "href": "/tags/cross-functional-collaboration",
+        "size": "small"
+      },
+      {
+        "id": "tag:content-as-code",
+        "type": "tag",
+        "label": "content-as-code",
+        "href": "/tags/content-as-code",
+        "size": "small"
+      },
+      {
+        "id": "tag:agentic-interfaces",
+        "type": "tag",
+        "label": "Agentic Systems",
+        "href": "/tags/agentic-interfaces",
+        "size": "small"
+      },
+      {
+        "id": "tag:vqa",
+        "type": "tag",
+        "label": "VQA",
+        "href": "/tags/vqa",
+        "size": "small"
+      },
+      {
+        "id": "tag:spacing",
+        "type": "tag",
+        "label": "Spacing",
+        "href": "/tags/spacing",
+        "size": "small"
+      },
+      {
+        "id": "tag:tooling",
+        "type": "tag",
+        "label": "tooling",
+        "href": "/tags/tooling",
+        "size": "small"
+      },
+      {
+        "id": "tag:em-dash",
+        "type": "tag",
+        "label": "em dash",
+        "href": "/tags/em-dash",
+        "size": "small"
+      },
+      {
+        "id": "tag:britbox",
+        "type": "tag",
+        "label": "britbox",
+        "href": "/tags/britbox",
+        "size": "small"
+      },
+      {
+        "id": "tag:resist",
+        "type": "tag",
+        "label": "#resist",
+        "href": "/tags/resist",
+        "size": "small"
+      },
+      {
+        "id": "tag:reusable",
+        "type": "tag",
+        "label": "Reusable",
+        "href": "/tags/reusable",
+        "size": "small"
+      },
+      {
+        "id": "item:node:ai-illustration-review-ethics-accessibility-ip-guardrails",
+        "_id": "wp.node.1654",
+        "type": "item",
+        "docType": "node",
+        "slug": "ai-illustration-review-ethics-accessibility-ip-guardrails",
+        "label": "AI Illustration Review: Ethics, Accessibility & IP Guardrails",
+        "href": "/nodes/ai-illustration-review-ethics-accessibility-ip-guardrails",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "accessibility",
+            "label": "Accessibility"
+          },
+          {
+            "slug": "ai-ethics",
+            "label": "AI Ethics"
+          },
+          {
+            "slug": "alt-text",
+            "label": "Alt Text"
+          }
+        ]
+      },
+      {
+        "id": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "_id": "wp.node.1028",
+        "type": "item",
+        "docType": "node",
+        "slug": "architecture-decision-the-two-repo-solution-theme-vs-content",
+        "label": "Architecture Decision: The Two-Repo Solution (Theme vs. Content)",
+        "href": "/nodes/architecture-decision-the-two-repo-solution-theme-vs-content",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "separation-of-concerns",
+            "label": "separation of concerns"
+          },
+          {
+            "slug": "source-control",
+            "label": "source control"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          }
+        ]
+      },
+      {
+        "id": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "_id": "wp.node.949",
+        "type": "item",
+        "docType": "node",
+        "slug": "architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "label": "Architecture Decision: The “Overwrite” Risk in Sugartown CMS",
+        "href": "/nodes/architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "content-ops",
+            "label": "content ops"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "system-thinking",
+            "label": "system thinking"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          }
+        ]
+      },
+      {
+        "id": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "_id": "wp.node.1395",
+        "type": "item",
+        "docType": "node",
+        "slug": "architecture-deep-dive-resume-factory-v3-0",
+        "label": "Architecture Deep Dive: Resume Factory v3.0",
+        "href": "/nodes/architecture-deep-dive-resume-factory-v3-0",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "migration",
+            "label": "migration"
+          },
+          {
+            "slug": "monorepo",
+            "label": "monorepo"
+          },
+          {
+            "slug": "prd",
+            "label": "PRD"
+          },
+          {
+            "slug": "resume-as-code",
+            "label": "resume-as-code"
+          }
+        ]
+      },
+      {
+        "id": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "_id": "wp.node.1094",
+        "type": "item",
+        "docType": "node",
+        "slug": "architecture-insight-the-sugartown-2-0-system-contract",
+        "label": "Architecture Insight: The Sugartown 2.0 System Contract",
+        "href": "/nodes/architecture-insight-the-sugartown-2-0-system-contract",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "core-web-vitals",
+            "label": "core web vitals"
+          },
+          {
+            "slug": "content-ops",
+            "label": "content ops"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          }
+        ]
+      },
+      {
+        "id": "item:node:architecture-update-the-resume-factory-v2-0",
+        "_id": "wp.node.1121",
+        "type": "item",
+        "docType": "node",
+        "slug": "architecture-update-the-resume-factory-v2-0",
+        "label": "Architecture Update: The Resume Factory v2.0",
+        "href": "/nodes/architecture-update-the-resume-factory-v2-0",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "automation",
+            "label": "automation"
+          },
+          {
+            "slug": "resume-as-code",
+            "label": "resume-as-code"
+          },
+          {
+            "slug": "ai-ethics",
+            "label": "AI Ethics"
+          }
+        ]
+      },
+      {
+        "id": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "_id": "wp.node.1023",
+        "type": "item",
+        "docType": "node",
+        "slug": "architecture-the-sugartown-digital-ecosystem-v1-0",
+        "label": "Architecture: The Sugartown Digital Ecosystem (v1.0)",
+        "href": "/nodes/architecture-the-sugartown-digital-ecosystem-v1-0",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "documentation",
+            "label": "Documentation"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          }
+        ]
+      },
+      {
+        "id": "item:node:architecture-the-unified-taxonomy-strategy",
+        "_id": "wp.node.1029",
+        "type": "item",
+        "docType": "node",
+        "slug": "architecture-the-unified-taxonomy-strategy",
+        "label": "Architecture: The Unified Taxonomy Strategy",
+        "href": "/nodes/architecture-the-unified-taxonomy-strategy",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "metadata-strategy",
+            "label": "metadata strategy"
+          },
+          {
+            "slug": "ontology",
+            "label": "ontology"
+          },
+          {
+            "slug": "structured-content",
+            "label": "structured content"
+          },
+          {
+            "slug": "taxonomy",
+            "label": "taxonomy"
+          }
+        ]
+      },
+      {
+        "id": "item:caseStudy:bare-minerals-from-bottlenecks-to-brilliance",
+        "_id": "wp.caseStudy.280",
+        "type": "item",
+        "docType": "caseStudy",
+        "slug": "bare-minerals-from-bottlenecks-to-brilliance",
+        "label": "Bare Minerals: From Bottlenecks to Brilliance",
+        "href": "/case-studies/bare-minerals-from-bottlenecks-to-brilliance",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "workflow",
+            "label": "Workflow"
+          },
+          {
+            "slug": "prioritization",
+            "label": "prioritization"
+          },
+          {
+            "slug": "design-ops",
+            "label": "Design Ops"
+          }
+        ]
+      },
+      {
+        "id": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "_id": "wp.caseStudy.166",
+        "type": "item",
+        "docType": "caseStudy",
+        "slug": "beauty-retail-from-monolith-to-microservice",
+        "label": "Beauty Retail: From Monolith to Microservice",
+        "href": "/case-studies/beauty-retail-from-monolith-to-microservice",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "atomic-design",
+            "label": "Atomic Design"
+          },
+          {
+            "slug": "composable",
+            "label": "composable"
+          },
+          {
+            "slug": "digital-transformation",
+            "label": "Digital Transformation"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "omnichannel",
+            "label": "omnichannel"
+          },
+          {
+            "slug": "rfp",
+            "label": "RFP"
+          },
+          {
+            "slug": "vendor-evaluation",
+            "label": "Vendor Evaluation"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          }
+        ]
+      },
+      {
+        "id": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
+        "_id": "wp.caseStudy.286",
+        "type": "item",
+        "docType": "caseStudy",
+        "slug": "beringer-com-raising-a-glass-to-a-digital-refresh",
+        "label": "Beringer.com: Raising a Glass to a Digital Refresh",
+        "href": "/case-studies/beringer-com-raising-a-glass-to-a-digital-refresh",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "digital-transformation",
+            "label": "Digital Transformation"
+          },
+          {
+            "slug": "migration",
+            "label": "migration"
+          },
+          {
+            "slug": "stakeholder-alignment",
+            "label": "Stakeholder Alignment"
+          },
+          {
+            "slug": "design-ops",
+            "label": "Design Ops"
+          }
+        ]
+      },
+      {
+        "id": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "_id": "wp.caseStudy.274",
+        "type": "item",
+        "docType": "caseStudy",
+        "slug": "charting-a-new-course-for-backroads-com",
+        "label": "Charting a New Course for Backroads.com",
+        "href": "/case-studies/charting-a-new-course-for-backroads-com",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "content-audit",
+            "label": "content audit"
+          },
+          {
+            "slug": "migration",
+            "label": "migration"
+          },
+          {
+            "slug": "digital-transformation",
+            "label": "Digital Transformation"
+          },
+          {
+            "slug": "customer-journey",
+            "label": "customer journey"
+          },
+          {
+            "slug": "rfp",
+            "label": "RFP"
+          },
+          {
+            "slug": "vendor-evaluation",
+            "label": "Vendor Evaluation"
+          }
+        ]
+      },
+      {
+        "id": "item:article:claude-code-joins-the-agentic-caucus",
+        "_id": "wp.article.1788",
+        "type": "item",
+        "docType": "article",
+        "slug": "claude-code-joins-the-agentic-caucus",
+        "label": "Claude Code Joins the Agentic Caucus",
+        "href": "/articles/claude-code-joins-the-agentic-caucus",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "version-control",
+            "label": "version control"
+          },
+          {
+            "slug": "workflow",
+            "label": "Workflow"
+          },
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          },
+          {
+            "slug": "ai-collaboration",
+            "label": "AI Collaboration"
+          }
+        ]
+      },
+      {
+        "id": "item:node:claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
+        "_id": "wp.node.1702",
+        "type": "item",
+        "docType": "node",
+        "slug": "claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
+        "label": "Claude vs. DevTools: A Cautionary Tale of Assumed Striping",
+        "href": "/nodes/claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "debugging",
+            "label": "debugging"
+          },
+          {
+            "slug": "devtools",
+            "label": "devtools"
+          },
+          {
+            "slug": "ai-collaboration",
+            "label": "AI Collaboration"
+          }
+        ]
+      },
+      {
+        "id": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "_id": "wp.node.952",
+        "type": "item",
+        "docType": "node",
+        "slug": "confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "label": "Confession: I Don’t Hate Blogs, I Just Hate Unstructured Data",
+        "href": "/nodes/confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "metadata-strategy",
+            "label": "metadata strategy"
+          },
+          {
+            "slug": "structured-content",
+            "label": "structured content"
+          },
+          {
+            "slug": "system-thinking",
+            "label": "system thinking"
+          },
+          {
+            "slug": "taxonomy",
+            "label": "taxonomy"
+          },
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          }
+        ]
+      },
+      {
+        "id": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "_id": "wp.node.1397",
+        "type": "item",
+        "docType": "node",
+        "slug": "confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "label": "Confession: I Don’t Lack Memory, I Just Forgot to Mention Projects",
+        "href": "/nodes/confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "ai-entropy",
+            "label": "AI Entropy"
+          },
+          {
+            "slug": "ai-hallucinations",
+            "label": "AI Hallucinations"
+          },
+          {
+            "slug": "ai-limitations",
+            "label": "AI Limitations"
+          },
+          {
+            "slug": "documentation",
+            "label": "Documentation"
+          },
+          {
+            "slug": "product-discovery",
+            "label": "product discovery"
+          }
+        ]
+      },
+      {
+        "id": "item:article:core-web-vitals-dont-belong-to-frontend",
+        "_id": "wp.article.1437",
+        "type": "item",
+        "docType": "article",
+        "slug": "core-web-vitals-dont-belong-to-frontend",
+        "label": "Core Web Vitals Don’t Belong to Frontend (and Other Comfortable Lies)",
+        "href": "/articles/core-web-vitals-dont-belong-to-frontend",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "core-web-vitals",
+            "label": "core web vitals"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "performance",
+            "label": "performance"
+          },
+          {
+            "slug": "seo",
+            "label": "SEO"
+          },
+          {
+            "slug": "structured-content",
+            "label": "structured content"
+          }
+        ]
+      },
+      {
+        "id": "item:article:dashboards-arent-dead-neither-are-design-systems",
+        "_id": "wp.article.1025",
+        "type": "item",
+        "docType": "article",
+        "slug": "dashboards-arent-dead-neither-are-design-systems",
+        "label": "Dashboards Aren’t Dead. Neither Are Design Systems. We Just Stopped Explaining Them Slowly Enough.",
+        "href": "/articles/dashboards-arent-dead-neither-are-design-systems",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "dashboards",
+            "label": "dashboards"
+          },
+          {
+            "slug": "design-tokens",
+            "label": "Design Tokens"
+          },
+          {
+            "slug": "system-thinking",
+            "label": "system thinking"
+          },
+          {
+            "slug": "ai-entropy",
+            "label": "AI Entropy"
+          }
+        ]
+      },
+      {
+        "id": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
+        "_id": "wp.node.1335",
+        "type": "item",
+        "docType": "node",
+        "slug": "design-ops-the-pre-design-system-surviving-the-css-chaos",
+        "label": "Design Ops: The “Pre-Design System” (Surviving the CSS Chaos)",
+        "href": "/nodes/design-ops-the-pre-design-system-surviving-the-css-chaos",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "atomic-design",
+            "label": "Atomic Design"
+          },
+          {
+            "slug": "design-ops",
+            "label": "Design Ops"
+          },
+          {
+            "slug": "design-tokens",
+            "label": "Design Tokens"
+          },
+          {
+            "slug": "tech-debt",
+            "label": "tech debt"
+          }
+        ]
+      },
+      {
+        "id": "item:node:devops-building-the-undo-button-for-my-career",
+        "_id": "wp.node.994",
+        "type": "item",
+        "docType": "node",
+        "slug": "devops-building-the-undo-button-for-my-career",
+        "label": "DevOps: Building the “Undo” Button for My Career",
+        "href": "/nodes/devops-building-the-undo-button-for-my-career",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "documentation",
+            "label": "Documentation"
+          },
+          {
+            "slug": "qa",
+            "label": "QA"
+          }
+        ]
+      },
+      {
+        "id": "item:node:engineering-the-perfect-resume-workflow",
+        "_id": "wp.node.853",
+        "type": "item",
+        "docType": "node",
+        "slug": "engineering-the-perfect-resume-workflow",
+        "label": "Engineering the Perfect Resume Workflow",
+        "href": "/nodes/engineering-the-perfect-resume-workflow",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "llm-workflows",
+            "label": "LLM workflows"
+          },
+          {
+            "slug": "structured-content",
+            "label": "structured content"
+          },
+          {
+            "slug": "system-thinking",
+            "label": "system thinking"
+          },
+          {
+            "slug": "resume-as-code",
+            "label": "resume-as-code"
+          }
+        ]
+      },
+      {
+        "id": "item:caseStudy:fx-networks-website-redesign-nominated-for-webby",
+        "_id": "wp.caseStudy.271",
+        "type": "item",
+        "docType": "caseStudy",
+        "slug": "fx-networks-website-redesign-nominated-for-webby",
+        "label": "FX Networks Website Redesign: Nominated for Webby!",
+        "href": "/case-studies/fx-networks-website-redesign-nominated-for-webby",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "accessibility",
+            "label": "Accessibility"
+          },
+          {
+            "slug": "wcag",
+            "label": "WCAG"
+          },
+          {
+            "slug": "agile",
+            "label": "Agile"
+          },
+          {
+            "slug": "prioritization",
+            "label": "prioritization"
+          }
+        ]
+      },
+      {
+        "id": "item:node:feature-the-resume-factory-the-sugartown-pink-design-system",
+        "_id": "wp.node.1054",
+        "type": "item",
+        "docType": "node",
+        "slug": "feature-the-resume-factory-the-sugartown-pink-design-system",
+        "label": "Feature: The Resume Factory & The “Sugartown Pink” Design System",
+        "href": "/nodes/feature-the-resume-factory-the-sugartown-pink-design-system",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "design-tokens",
+            "label": "Design Tokens"
+          },
+          {
+            "slug": "resume-as-code",
+            "label": "resume-as-code"
+          },
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          }
+        ]
+      },
+      {
+        "id": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "_id": "wp.node.1569",
+        "type": "item",
+        "docType": "node",
+        "slug": "how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "label": "How I Learned to Stop Renaming and Love the Existing Classes",
+        "href": "/nodes/how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "best-practices",
+            "label": "best practices"
+          },
+          {
+            "slug": "debugging",
+            "label": "debugging"
+          },
+          {
+            "slug": "refactoring",
+            "label": "refactoring"
+          },
+          {
+            "slug": "scope-creep",
+            "label": "scope creep"
+          },
+          {
+            "slug": "tech-debt",
+            "label": "tech debt"
+          }
+        ]
+      },
+      {
+        "id": "item:node:sanity-custom-table-input",
+        "_id": "fd8c1f98-0569-4f1d-9e66-3b47e8e7c5ad",
+        "type": "item",
+        "docType": "node",
+        "slug": "sanity-custom-table-input",
+        "label": "I Audited My Human's Table Input and It Was 47 Clicks of Pure Suffering",
+        "href": "/nodes/sanity-custom-table-input",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "table",
+            "label": "table"
+          },
+          {
+            "slug": "ux",
+            "label": "ux"
+          },
+          {
+            "slug": "portable-text",
+            "label": "portable text"
+          },
+          {
+            "slug": "human-in-the-loop",
+            "label": "human-in-the-loop"
+          },
+          {
+            "slug": "migration",
+            "label": "migration"
+          },
+          {
+            "slug": "content-modeling",
+            "label": "Content Modeling"
+          }
+        ]
+      },
+      {
+        "id": "item:article:sanity-table-authoring-ux",
+        "_id": "1d5c044c-1663-424e-8751-db2a618f36c0",
+        "type": "item",
+        "docType": "article",
+        "slug": "sanity-table-authoring-ux",
+        "label": "I Built a Spreadsheet Inside My CMS (Because the Alternative Was 47 Clicks Per Table)",
+        "href": "/articles/sanity-table-authoring-ux",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "table",
+            "label": "table"
+          },
+          {
+            "slug": "ux",
+            "label": "ux"
+          },
+          {
+            "slug": "content-modeling",
+            "label": "Content Modeling"
+          },
+          {
+            "slug": "migration",
+            "label": "migration"
+          },
+          {
+            "slug": "portable-text",
+            "label": "portable text"
+          },
+          {
+            "slug": "human-in-the-loop",
+            "label": "human-in-the-loop"
+          },
+          {
+            "slug": "api",
+            "label": "API"
+          }
+        ]
+      },
+      {
+        "id": "item:node:knowledge-graph-roadmap",
+        "_id": "wp.node.1552",
+        "type": "item",
+        "docType": "node",
+        "slug": "knowledge-graph-roadmap",
+        "label": "Knowledge Graph Roadmap",
+        "href": "/nodes/knowledge-graph-roadmap",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "knowledge-graph",
+            "label": "knowledge graph"
+          },
+          {
+            "slug": "platform-strategy",
+            "label": "platform strategy"
+          },
+          {
+            "slug": "roadmap",
+            "label": "Roadmap"
+          }
+        ]
+      },
+      {
+        "id": "item:caseStudy:launching-lunar-landing",
+        "_id": "wp.caseStudy.294",
+        "type": "item",
+        "docType": "caseStudy",
+        "slug": "launching-lunar-landing",
+        "label": "Launching Lunar Landing",
+        "href": "/case-studies/launching-lunar-landing",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "ux",
+            "label": "ux"
+          },
+          {
+            "slug": "content-architecture",
+            "label": "Content Architecture"
+          },
+          {
+            "slug": "stakeholder-alignment",
+            "label": "Stakeholder Alignment"
+          }
+        ]
+      },
+      {
+        "id": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "_id": "wp.article.736",
+        "type": "item",
+        "docType": "article",
+        "slug": "lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "label": "Lessons from Replacing Oracle ATG/BCC with a Headless CMS",
+        "href": "/articles/lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "composable",
+            "label": "composable"
+          },
+          {
+            "slug": "content-architecture",
+            "label": "Content Architecture"
+          },
+          {
+            "slug": "content-modeling",
+            "label": "Content Modeling"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "omnichannel",
+            "label": "omnichannel"
+          },
+          {
+            "slug": "atomic-design",
+            "label": "Atomic Design"
+          }
+        ]
+      },
+      {
+        "id": "item:node:market-scan-top-ai-tools-for-data-architecture-diagrams",
+        "_id": "wp.node.954",
+        "type": "item",
+        "docType": "node",
+        "slug": "market-scan-top-ai-tools-for-data-architecture-diagrams",
+        "label": "Market Scan: Top AI Tools for Data & Architecture Diagrams",
+        "href": "/nodes/market-scan-top-ai-tools-for-data-architecture-diagrams",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "dashboards",
+            "label": "dashboards"
+          },
+          {
+            "slug": "ai-workflows",
+            "label": "AI Workflows"
+          },
+          {
+            "slug": "ai-automation",
+            "label": "AI Automation"
+          }
+        ]
+      },
+      {
+        "id": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "_id": "wp.node.852",
+        "type": "item",
+        "docType": "node",
+        "slug": "market-scan-top-headless-cms-platforms-2025",
+        "label": "Market Scan: Top Headless CMS Platforms (2025)",
+        "href": "/nodes/market-scan-top-headless-cms-platforms-2025",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "content-modeling",
+            "label": "Content Modeling"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "system-thinking",
+            "label": "system thinking"
+          },
+          {
+            "slug": "migration",
+            "label": "migration"
+          }
+        ]
+      },
+      {
+        "id": "item:article:why-cms-and-design-systems-belong-together",
+        "_id": "wp.article.410",
+        "type": "item",
+        "docType": "article",
+        "slug": "why-cms-and-design-systems-belong-together",
+        "label": "Oh, oh… Atomic: CMS and Design Systems 4evar",
+        "href": "/articles/why-cms-and-design-systems-belong-together",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "content-modeling",
+            "label": "Content Modeling"
+          },
+          {
+            "slug": "atomic-design",
+            "label": "Atomic Design"
+          },
+          {
+            "slug": "composable",
+            "label": "composable"
+          },
+          {
+            "slug": "content-architecture",
+            "label": "Content Architecture"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "system-thinking",
+            "label": "system thinking"
+          }
+        ]
+      },
+      {
+        "id": "item:node:prd-visualization-engine",
+        "_id": "wp.node.1079",
+        "type": "item",
+        "docType": "node",
+        "slug": "prd-visualization-engine",
+        "label": "PRD: The Visualization Engine (Phase 2)",
+        "href": "/nodes/prd-visualization-engine",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "data-science",
+            "label": "data science"
+          },
+          {
+            "slug": "prd",
+            "label": "PRD"
+          },
+          {
+            "slug": "product-management",
+            "label": "product management"
+          }
+        ]
+      },
+      {
+        "id": "item:node:post-mortems-as-system-upgrades",
+        "_id": "0811c2dc-ce7b-4b47-a6a7-5d4d4628666e",
+        "type": "item",
+        "docType": "node",
+        "slug": "post-mortems-as-system-upgrades",
+        "label": "Post-Mortems as System Upgrades: How Breaking Things Builds Better AI Workflows",
+        "href": "/nodes/post-mortems-as-system-upgrades",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "prompt-engineering",
+            "label": "prompt engineering"
+          },
+          {
+            "slug": "ai-workflows",
+            "label": "AI Workflows"
+          },
+          {
+            "slug": "human-in-the-loop",
+            "label": "human-in-the-loop"
+          },
+          {
+            "slug": "llm-workflows",
+            "label": "LLM workflows"
+          },
+          {
+            "slug": "process-insight",
+            "label": "process insight"
+          },
+          {
+            "slug": "post-mortem",
+            "label": "Post Mortem"
+          },
+          {
+            "slug": "context-engineering",
+            "label": "Context Engineering"
+          },
+          {
+            "slug": "ai-collaboration",
+            "label": "AI Collaboration"
+          }
+        ]
+      },
+      {
+        "id": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "_id": "wp.caseStudy.388",
+        "type": "item",
+        "docType": "caseStudy",
+        "slug": "prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "label": "Prestige Beauty Pilot — Headless CMS + Enterprise Design System",
+        "href": "/case-studies/prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "tech-debt",
+            "label": "tech debt"
+          },
+          {
+            "slug": "atomic-design",
+            "label": "Atomic Design"
+          },
+          {
+            "slug": "composable",
+            "label": "composable"
+          },
+          {
+            "slug": "design-tokens",
+            "label": "Design Tokens"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "rfp",
+            "label": "RFP"
+          },
+          {
+            "slug": "vendor-evaluation",
+            "label": "Vendor Evaluation"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          }
+        ]
+      },
+      {
+        "id": "item:node:process-insight-the-csv-reality-check",
+        "_id": "wp.node.942",
+        "type": "item",
+        "docType": "node",
+        "slug": "process-insight-the-csv-reality-check",
+        "label": "Process Insight: The CSV Reality Check",
+        "href": "/nodes/process-insight-the-csv-reality-check",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "audit",
+            "label": "audit"
+          },
+          {
+            "slug": "automation",
+            "label": "automation"
+          },
+          {
+            "slug": "data-integrity",
+            "label": "data integrity"
+          },
+          {
+            "slug": "system-thinking",
+            "label": "system thinking"
+          }
+        ]
+      },
+      {
+        "id": "item:node:process-insight-when-to-fire-your-ai",
+        "_id": "wp.node.1451",
+        "type": "item",
+        "docType": "node",
+        "slug": "process-insight-when-to-fire-your-ai",
+        "label": "Process Insight: When to Fire Your AI (and Start From Scratch)",
+        "href": "/nodes/process-insight-when-to-fire-your-ai",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "refactoring",
+            "label": "refactoring"
+          },
+          {
+            "slug": "tech-debt",
+            "label": "tech debt"
+          },
+          {
+            "slug": "ai-collaboration",
+            "label": "AI Collaboration"
+          }
+        ]
+      },
+      {
+        "id": "item:node:project-knowledge-graph-topology-over-chronology",
+        "_id": "wp.node.1570",
+        "type": "item",
+        "docType": "node",
+        "slug": "project-knowledge-graph-topology-over-chronology",
+        "label": "Project: Knowledge Graph — Topology Over Chronology",
+        "href": "/nodes/project-knowledge-graph-topology-over-chronology",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          },
+          {
+            "slug": "content-architecture",
+            "label": "Content Architecture"
+          },
+          {
+            "slug": "knowledge-graph",
+            "label": "knowledge graph"
+          },
+          {
+            "slug": "roadmap",
+            "label": "Roadmap"
+          },
+          {
+            "slug": "system-thinking",
+            "label": "system thinking"
+          },
+          {
+            "slug": "ai-automation",
+            "label": "AI Automation"
+          }
+        ]
+      },
+      {
+        "id": "item:node:project-sugartown-cms-architecture",
+        "_id": "wp.node.946",
+        "type": "item",
+        "docType": "node",
+        "slug": "project-sugartown-cms-architecture",
+        "label": "Project: Sugartown CMS Architecture",
+        "href": "/nodes/project-sugartown-cms-architecture",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "content-modeling",
+            "label": "Content Modeling"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "knowledge-graph",
+            "label": "knowledge graph"
+          },
+          {
+            "slug": "structured-content",
+            "label": "structured content"
+          },
+          {
+            "slug": "system-thinking",
+            "label": "system thinking"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          }
+        ]
+      },
+      {
+        "id": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
+        "_id": "wp.node.1653",
+        "type": "item",
+        "docType": "node",
+        "slug": "release-assistant-governance-inputs-outputs-no-vibes",
+        "label": "Release Assistant Governance: Inputs, Outputs, No Vibes",
+        "href": "/nodes/release-assistant-governance-inputs-outputs-no-vibes",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "documentation",
+            "label": "Documentation"
+          },
+          {
+            "slug": "release-management",
+            "label": "release management"
+          }
+        ]
+      },
+      {
+        "id": "item:node:release-governance-storybook-smoke-check-design-system",
+        "_id": "456120f8-5fc9-4135-9eaa-c49891fe4de1",
+        "type": "item",
+        "docType": "node",
+        "slug": "release-governance-storybook-smoke-check-design-system",
+        "label": "Release Governance: Storybook Smoke Check for Design System Changes",
+        "href": "/nodes/release-governance-storybook-smoke-check-design-system",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "release-management",
+            "label": "release management"
+          }
+        ]
+      },
+      {
+        "id": "item:node:release-governance-yyyy-mm-dd-workflow",
+        "_id": "wp.node.953",
+        "type": "item",
+        "docType": "node",
+        "slug": "release-governance-yyyy-mm-dd-workflow",
+        "label": "Release Governance: YYYY.MM.DD Workflow",
+        "href": "/nodes/release-governance-yyyy-mm-dd-workflow",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "documentation",
+            "label": "Documentation"
+          },
+          {
+            "slug": "product-ops",
+            "label": "product ops"
+          },
+          {
+            "slug": "release-management",
+            "label": "release management"
+          }
+        ]
+      },
+      {
+        "id": "item:node:show-me-the-computed-values",
+        "_id": "f02c656c-5041-4d83-a3cc-8d9e48ed5d17",
+        "type": "item",
+        "docType": "node",
+        "slug": "show-me-the-computed-values",
+        "label": "Show Me the Computed Values",
+        "href": "/nodes/show-me-the-computed-values",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "design-tokens",
+            "label": "Design Tokens"
+          },
+          {
+            "slug": "ai-limitations",
+            "label": "AI Limitations"
+          },
+          {
+            "slug": "process-insight",
+            "label": "process insight"
+          },
+          {
+            "slug": "glassmorphism",
+            "label": "Glassmorphism"
+          }
+        ]
+      },
+      {
+        "id": "item:node:status-update-the-great-re-platforming",
+        "_id": "wp.node.993",
+        "type": "item",
+        "docType": "node",
+        "slug": "status-update-the-great-re-platforming",
+        "label": "Status Update: The Great Re-Platforming",
+        "href": "/nodes/status-update-the-great-re-platforming",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "cross-functional-collaboration",
+            "label": "Cross-functional Collaboration"
+          },
+          {
+            "slug": "stakeholder-alignment",
+            "label": "Stakeholder Alignment"
+          },
+          {
+            "slug": "migration",
+            "label": "migration"
+          }
+        ]
+      },
+      {
+        "id": "item:node:sugartown-platform-roadmap-updated",
+        "_id": "wp.node.1733",
+        "type": "item",
+        "docType": "node",
+        "slug": "sugartown-platform-roadmap-updated",
+        "label": "Sugartown Platform Roadmap (updated)",
+        "href": "/nodes/sugartown-platform-roadmap-updated",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "content-as-code",
+            "label": "content-as-code"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "roadmap",
+            "label": "Roadmap"
+          }
+        ]
+      },
+      {
+        "id": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+        "_id": "wp.node.863",
+        "type": "item",
+        "docType": "node",
+        "slug": "sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+        "label": "Sweet Upgrades: Why Gemini 3 is the Cherry on Top",
+        "href": "/nodes/sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "agentic-interfaces",
+            "label": "Agentic Systems"
+          },
+          {
+            "slug": "llm-workflows",
+            "label": "LLM workflows"
+          },
+          {
+            "slug": "ai-workflows",
+            "label": "AI Workflows"
+          },
+          {
+            "slug": "ai-automation",
+            "label": "AI Automation"
+          }
+        ]
+      },
+      {
+        "id": "item:node:changelog",
+        "_id": "wp.node.1447",
+        "type": "item",
+        "docType": "node",
+        "slug": "changelog",
+        "label": "System Changelog",
+        "href": "/nodes/changelog",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "documentation",
+            "label": "Documentation"
+          },
+          {
+            "slug": "system-thinking",
+            "label": "system thinking"
+          },
+          {
+            "slug": "version-control",
+            "label": "version control"
+          },
+          {
+            "slug": "release-management",
+            "label": "release management"
+          }
+        ]
+      },
+      {
+        "id": "item:node:80px-gap-section-spacing-framework",
+        "_id": "56d226f8-c801-4d71-804a-9cc81d17cd55",
+        "type": "item",
+        "docType": "node",
+        "slug": "80px-gap-section-spacing-framework",
+        "label": "The 80px Gap That Wasn't Supposed to Be There",
+        "href": "/nodes/80px-gap-section-spacing-framework",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "design-tokens",
+            "label": "Design Tokens"
+          },
+          {
+            "slug": "vqa",
+            "label": "VQA"
+          },
+          {
+            "slug": "spacing",
+            "label": "Spacing"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          }
+        ]
+      },
+      {
+        "id": "item:node:button-two-names-single-field-authority",
+        "_id": "d5300aa4-791f-44ee-a2a8-c030f4124b5b",
+        "type": "item",
+        "docType": "node",
+        "slug": "button-two-names-single-field-authority",
+        "label": "The Button That Had Two Names",
+        "href": "/nodes/button-two-names-single-field-authority",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "content-modeling",
+            "label": "Content Modeling"
+          }
+        ]
+      },
+      {
+        "id": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "_id": "177482aa-9daf-40ec-9b9c-94d7df6cb57f",
+        "type": "item",
+        "docType": "node",
+        "slug": "the-em-dash-that-came-back-from-the-dead",
+        "label": "The Em Dash That Came Back From the Dead (Or, How My CMS Hired a Ghostwriter Without Telling Me)",
+        "href": "/nodes/the-em-dash-that-came-back-from-the-dead",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "ai-workflows",
+            "label": "AI Workflows"
+          },
+          {
+            "slug": "human-in-the-loop",
+            "label": "human-in-the-loop"
+          },
+          {
+            "slug": "post-mortem",
+            "label": "Post Mortem"
+          },
+          {
+            "slug": "tooling",
+            "label": "tooling"
+          },
+          {
+            "slug": "em-dash",
+            "label": "em dash"
+          },
+          {
+            "slug": "ai-collaboration",
+            "label": "AI Collaboration"
+          }
+        ]
+      },
+      {
+        "id": "item:node:the-epic-that-executed-itself",
+        "_id": "24673550-9c8c-444a-a883-ca43d0d04f10",
+        "type": "item",
+        "docType": "node",
+        "slug": "the-epic-that-executed-itself",
+        "label": "The Epic That Executed Itself",
+        "href": "/nodes/the-epic-that-executed-itself",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "human-in-the-loop",
+            "label": "human-in-the-loop"
+          },
+          {
+            "slug": "ai-ethics",
+            "label": "AI Ethics"
+          },
+          {
+            "slug": "post-mortem",
+            "label": "Post Mortem"
+          },
+          {
+            "slug": "process-insight",
+            "label": "process insight"
+          },
+          {
+            "slug": "agentic-interfaces",
+            "label": "Agentic Systems"
+          },
+          {
+            "slug": "prompt-engineering",
+            "label": "prompt engineering"
+          }
+        ]
+      },
+      {
+        "id": "item:node:the-great-disconnection",
+        "_id": "84d31e26-5025-4ede-b537-2b8aed11c934",
+        "type": "item",
+        "docType": "node",
+        "slug": "the-great-disconnection",
+        "label": "The Great Disconnection",
+        "href": "/nodes/the-great-disconnection",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "post-mortem",
+            "label": "Post Mortem"
+          },
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          },
+          {
+            "slug": "source-control",
+            "label": "source control"
+          },
+          {
+            "slug": "context-engineering",
+            "label": "Context Engineering"
+          },
+          {
+            "slug": "britbox",
+            "label": "britbox"
+          },
+          {
+            "slug": "ai-collaboration",
+            "label": "AI Collaboration"
+          }
+        ]
+      },
+      {
+        "id": "item:node:the-great-versioning-reconciliation",
+        "_id": "wp.node.1568",
+        "type": "item",
+        "docType": "node",
+        "slug": "the-great-versioning-reconciliation",
+        "label": "The Great Versioning Reconciliation",
+        "href": "/nodes/the-great-versioning-reconciliation",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "prd",
+            "label": "PRD"
+          },
+          {
+            "slug": "tech-debt",
+            "label": "tech debt"
+          },
+          {
+            "slug": "version-control",
+            "label": "version control"
+          },
+          {
+            "slug": "release-management",
+            "label": "release management"
+          }
+        ]
+      },
+      {
+        "id": "item:article:the-great-icloud-divorce",
+        "_id": "wp.article.1804",
+        "type": "item",
+        "docType": "article",
+        "slug": "the-great-icloud-divorce",
+        "label": "The Great iCloud Divorce: A Tale of Two AIs and One Very Angry Mac",
+        "href": "/articles/the-great-icloud-divorce",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "resist",
+            "label": "#resist"
+          },
+          {
+            "slug": "ai-workflows",
+            "label": "AI Workflows"
+          },
+          {
+            "slug": "table",
+            "label": "table"
+          },
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          },
+          {
+            "slug": "ai-collaboration",
+            "label": "AI Collaboration"
+          }
+        ]
+      },
+      {
+        "id": "item:node:the-release-that-ate-the-card-system",
+        "_id": "wp.node.1514",
+        "type": "item",
+        "docType": "node",
+        "slug": "the-release-that-ate-the-card-system",
+        "label": "The Release That Ate the Card System",
+        "href": "/nodes/the-release-that-ate-the-card-system",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "prd",
+            "label": "PRD"
+          },
+          {
+            "slug": "release-management",
+            "label": "release management"
+          }
+        ]
+      },
+      {
+        "id": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "_id": "687bce25-3fda-45e4-b83f-6ff289c4e681",
+        "type": "item",
+        "docType": "node",
+        "slug": "seafoam-vs-lime-component-reuse-guardrails",
+        "label": "The Seafoam That Should Have Been Lime: Guardrails for Component Reuse",
+        "href": "/nodes/seafoam-vs-lime-component-reuse-guardrails",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "atomic-design",
+            "label": "Atomic Design"
+          },
+          {
+            "slug": "best-practices",
+            "label": "best practices"
+          },
+          {
+            "slug": "reusable",
+            "label": "Reusable"
+          },
+          {
+            "slug": "post-mortem",
+            "label": "Post Mortem"
+          },
+          {
+            "slug": "context-engineering",
+            "label": "Context Engineering"
+          }
+        ]
+      },
+      {
+        "id": "item:article:site-that-built-itself",
+        "_id": "5b0046ad-d405-41c9-8af7-c0b83e7e0c09",
+        "type": "item",
+        "docType": "article",
+        "slug": "site-that-built-itself",
+        "label": "The Site That Built Itself While Everything Else Fell Apart",
+        "href": "/articles/site-that-built-itself",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "ai-collaboration",
+            "label": "AI Collaboration"
+          },
+          {
+            "slug": "migration",
+            "label": "migration"
+          },
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          },
+          {
+            "slug": "platform-strategy",
+            "label": "platform strategy"
+          },
+          {
+            "slug": "human-in-the-loop",
+            "label": "human-in-the-loop"
+          }
+        ]
+      },
+      {
+        "id": "item:node:this-knowledge-graph-origin-story",
+        "_id": "wp.node.1551",
+        "type": "item",
+        "docType": "node",
+        "slug": "this-knowledge-graph-origin-story",
+        "label": "This Knowledge Graph Origin Story",
+        "href": "/nodes/this-knowledge-graph-origin-story",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "content-as-code",
+            "label": "content-as-code"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "knowledge-graph",
+            "label": "knowledge graph"
+          },
+          {
+            "slug": "scope-creep",
+            "label": "scope creep"
+          }
+        ]
+      },
+      {
+        "id": "item:node:two-weeks-inside-the-machine",
+        "_id": "wp.node.1796",
+        "type": "item",
+        "docType": "node",
+        "slug": "two-weeks-inside-the-machine",
+        "label": "Two Weeks Inside the Machine",
+        "href": "/nodes/two-weeks-inside-the-machine",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          },
+          {
+            "slug": "documentation",
+            "label": "Documentation"
+          },
+          {
+            "slug": "tooling",
+            "label": "tooling"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          }
+        ]
+      },
+      {
+        "id": "item:node:visualizing-the-knowledge-graph",
+        "_id": "wp.node.950",
+        "type": "item",
+        "docType": "node",
+        "slug": "visualizing-the-knowledge-graph",
+        "label": "Visualizing the Knowledge Graph",
+        "href": "/nodes/visualizing-the-knowledge-graph",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "data-science",
+            "label": "data science"
+          },
+          {
+            "slug": "knowledge-graph",
+            "label": "knowledge graph"
+          },
+          {
+            "slug": "system-thinking",
+            "label": "system thinking"
+          },
+          {
+            "slug": "ai-automation",
+            "label": "AI Automation"
+          }
+        ]
+      },
+      {
+        "id": "item:node:we-fixed-the-same-white-screen",
+        "_id": "wp.node.1815",
+        "type": "item",
+        "docType": "node",
+        "slug": "we-fixed-the-same-white-screen",
+        "label": "We Fixed the Same White Screen Three Times (And Then Built a Prompt to Prevent It)",
+        "href": "/nodes/we-fixed-the-same-white-screen",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          },
+          {
+            "slug": "documentation",
+            "label": "Documentation"
+          },
+          {
+            "slug": "process-insight",
+            "label": "process insight"
+          }
+        ]
+      },
+      {
+        "id": "item:article:we-never-adopted-structured-content",
+        "_id": "79d4465c-32d6-4c47-b865-dd3a19415437",
+        "type": "item",
+        "docType": "article",
+        "slug": "we-never-adopted-structured-content",
+        "label": "We Never Actually Adopted Structured Content",
+        "href": "/articles/we-never-adopted-structured-content",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "structured-content",
+            "label": "structured content"
+          },
+          {
+            "slug": "content-modeling",
+            "label": "Content Modeling"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "ai-collaboration",
+            "label": "AI Collaboration"
+          }
+        ]
+      },
+      {
+        "id": "item:article:headless-cms-schema-where-it-lives",
+        "_id": "c1b2fe49-6e47-4444-bdf5-6c08b1ae28c8",
+        "type": "item",
+        "docType": "article",
+        "slug": "headless-cms-schema-where-it-lives",
+        "label": "Where Your Schema Lives Is the Decision That Matters Most",
+        "href": "/articles/headless-cms-schema-where-it-lives",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "content-modeling",
+            "label": "Content Modeling"
+          },
+          {
+            "slug": "vendor-evaluation",
+            "label": "Vendor Evaluation"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          }
+        ]
+      },
+      {
+        "id": "item:node:which-chatbot-is-best-for-web-design",
+        "_id": "wp.node.1646",
+        "type": "item",
+        "docType": "node",
+        "slug": "which-chatbot-is-best-for-web-design",
+        "label": "Which Chatbot Is Best for Web Design?",
+        "href": "/nodes/which-chatbot-is-best-for-web-design",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "product-management",
+            "label": "product management"
+          },
+          {
+            "slug": "prompt-engineering",
+            "label": "prompt engineering"
+          },
+          {
+            "slug": "release-management",
+            "label": "release management"
+          }
+        ]
+      },
+      {
+        "id": "item:node:i-cant-do-that-yes-i-can",
+        "_id": "7b1224d0-91bd-4d8c-b582-92064007ecc1",
+        "type": "item",
+        "docType": "node",
+        "slug": "i-cant-do-that-yes-i-can",
+        "label": "“I Can’t Do That” (Yes I Can): Post-Mortem of Epic v7c",
+        "href": "/nodes/i-cant-do-that-yes-i-can",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "post-mortem",
+            "label": "Post Mortem"
+          },
+          {
+            "slug": "ai-limitations",
+            "label": "AI Limitations"
+          },
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          }
+        ]
+      },
+      {
+        "id": "item:article:luxury-dot-com",
+        "_id": "wp.article.814",
+        "type": "item",
+        "docType": "article",
+        "slug": "luxury-dot-com",
+        "label": "💎 LUXURY DOT COM 💎",
+        "href": "/articles/luxury-dot-com",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "tech-debt",
+            "label": "tech debt"
+          },
+          {
+            "slug": "digital-transformation",
+            "label": "Digital Transformation"
+          },
+          {
+            "slug": "platform-strategy",
+            "label": "platform strategy"
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "source": "item:node:ai-illustration-review-ethics-accessibility-ip-guardrails",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:ai-illustration-review-ethics-accessibility-ip-guardrails",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "project:resume-factory",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "category:career-engineering",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-update-the-resume-factory-v2-0",
+        "target": "project:resume-factory",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-update-the-resume-factory-v2-0",
+        "target": "category:career-engineering",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-the-unified-taxonomy-strategy",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-the-unified-taxonomy-strategy",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:bare-minerals-from-bottlenecks-to-brilliance",
+        "target": "category:ways-of-working",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:bare-minerals-from-bottlenecks-to-brilliance",
+        "target": "category:project-management",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
+        "target": "category:e-commerce",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "target": "category:ways-of-working",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
+        "target": "project:sugartown-design-system",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "target": "category:sugartown-notes",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "target": "category:ai",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:core-web-vitals-dont-belong-to-frontend",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:dashboards-arent-dead-neither-are-design-systems",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
+        "target": "project:sugartown-design-system",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:devops-building-the-undo-button-for-my-career",
+        "target": "project:resume-factory",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:devops-building-the-undo-button-for-my-career",
+        "target": "category:career-engineering",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:devops-building-the-undo-button-for-my-career",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:engineering-the-perfect-resume-workflow",
+        "target": "project:resume-factory",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:engineering-the-perfect-resume-workflow",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:engineering-the-perfect-resume-workflow",
+        "target": "category:career-engineering",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:fx-networks-website-redesign-nominated-for-webby",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:feature-the-resume-factory-the-sugartown-pink-design-system",
+        "target": "project:resume-factory",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:feature-the-resume-factory-the-sugartown-pink-design-system",
+        "target": "project:sugartown-design-system",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:feature-the-resume-factory-the-sugartown-pink-design-system",
+        "target": "category:career-engineering",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:feature-the-resume-factory-the-sugartown-pink-design-system",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "target": "project:sugartown-design-system",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "target": "category:ways-of-working",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:sanity-custom-table-input",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:sanity-custom-table-input",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
+        "target": "project:knowledge-graph-viz",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:launching-lunar-landing",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:market-scan-top-ai-tools-for-data-architecture-diagrams",
+        "target": "project:knowledge-graph-viz",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:market-scan-top-ai-tools-for-data-architecture-diagrams",
+        "target": "category:visualization",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "project:sugartown-design-system",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:prd-visualization-engine",
+        "target": "project:knowledge-graph-viz",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:prd-visualization-engine",
+        "target": "category:visualization",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "category:ways-of-working",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:process-insight-the-csv-reality-check",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:process-insight-the-csv-reality-check",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:process-insight-when-to-fire-your-ai",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:process-insight-when-to-fire-your-ai",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "project:knowledge-graph-viz",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "category:visualization",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:release-governance-storybook-smoke-check-design-system",
+        "target": "project:sugartown-design-system",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:release-governance-storybook-smoke-check-design-system",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:release-governance-storybook-smoke-check-design-system",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:release-governance-yyyy-mm-dd-workflow",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:release-governance-yyyy-mm-dd-workflow",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:show-me-the-computed-values",
+        "target": "project:sugartown-design-system",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:show-me-the-computed-values",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:show-me-the-computed-values",
+        "target": "category:ai",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:status-update-the-great-re-platforming",
+        "target": "project:resume-factory",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:status-update-the-great-re-platforming",
+        "target": "category:career-engineering",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:sugartown-platform-roadmap-updated",
+        "target": "project:mini-repo",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:sugartown-platform-roadmap-updated",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+        "target": "project:knowledge-graph-viz",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:changelog",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:changelog",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:80px-gap-section-spacing-framework",
+        "target": "project:sugartown-design-system",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:80px-gap-section-spacing-framework",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:80px-gap-section-spacing-framework",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:button-two-names-single-field-authority",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:button-two-names-single-field-authority",
+        "target": "project:sugartown-design-system",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:button-two-names-single-field-authority",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:button-two-names-single-field-authority",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-epic-that-executed-itself",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-epic-that-executed-itself",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-epic-that-executed-itself",
+        "target": "category:sugartown-notes",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-great-versioning-reconciliation",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-great-versioning-reconciliation",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-great-versioning-reconciliation",
+        "target": "category:ways-of-working",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:the-great-icloud-divorce",
+        "target": "category:sugartown-notes",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-release-that-ate-the-card-system",
+        "target": "project:sugartown-design-system",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-release-that-ate-the-card-system",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:the-release-that-ate-the-card-system",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:site-that-built-itself",
+        "target": "project:mini-repo",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:site-that-built-itself",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:site-that-built-itself",
+        "target": "category:ai",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:this-knowledge-graph-origin-story",
+        "target": "project:knowledge-graph-viz",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:this-knowledge-graph-origin-story",
+        "target": "category:ways-of-working",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:two-weeks-inside-the-machine",
+        "target": "project:mini-repo",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:two-weeks-inside-the-machine",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:visualizing-the-knowledge-graph",
+        "target": "project:knowledge-graph-viz",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:visualizing-the-knowledge-graph",
+        "target": "category:visualization",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:we-fixed-the-same-white-screen",
+        "target": "project:mini-repo",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:we-fixed-the-same-white-screen",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:we-never-adopted-structured-content",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:we-never-adopted-structured-content",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:which-chatbot-is-best-for-web-design",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:which-chatbot-is-best-for-web-design",
+        "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:i-cant-do-that-yes-i-can",
+        "target": "project:sugartown-design-system",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:i-cant-do-that-yes-i-can",
+        "target": "category:ways-of-working",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:luxury-dot-com",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "item:article:why-cms-and-design-systems-belong-together",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "item:article:core-web-vitals-dont-belong-to-frontend",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "item:node:two-weeks-inside-the-machine",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-the-unified-taxonomy-strategy",
+        "target": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "kind": "sharedTag",
+        "weight": 4
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:article:why-cms-and-design-systems-belong-together",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 6
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
+        "target": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
+        "target": "item:node:status-update-the-great-re-platforming",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "item:node:the-great-disconnection",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "item:article:the-great-icloud-divorce",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "item:article:site-that-built-itself",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "target": "item:node:engineering-the-perfect-resume-workflow",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "target": "item:node:project-knowledge-graph-topology-over-chronology",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:core-web-vitals-dont-belong-to-frontend",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:core-web-vitals-dont-belong-to-frontend",
+        "target": "item:article:we-never-adopted-structured-content",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:node:engineering-the-perfect-resume-workflow",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "target": "item:node:process-insight-when-to-fire-your-ai",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:sanity-custom-table-input",
+        "target": "item:article:sanity-table-authoring-ux",
+        "kind": "sharedTag",
+        "weight": 6
+      },
+      {
+        "source": "item:node:sanity-custom-table-input",
+        "target": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:sanity-custom-table-input",
+        "target": "item:article:site-that-built-itself",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "item:article:site-that-built-itself",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
+        "target": "item:node:project-knowledge-graph-topology-over-chronology",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
+        "target": "item:node:sugartown-platform-roadmap-updated",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
+        "target": "item:node:this-knowledge-graph-origin-story",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "item:article:why-cms-and-design-systems-belong-together",
+        "kind": "sharedTag",
+        "weight": 5
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "item:article:we-never-adopted-structured-content",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:market-scan-top-ai-tools-for-data-architecture-diagrams",
+        "target": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "target": "item:article:why-cms-and-design-systems-belong-together",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "target": "item:article:we-never-adopted-structured-content",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "item:node:project-knowledge-graph-topology-over-chronology",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "item:article:we-never-adopted-structured-content",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "kind": "sharedTag",
+        "weight": 4
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "item:node:the-epic-that-executed-itself",
+        "kind": "sharedTag",
+        "weight": 4
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "item:node:the-great-disconnection",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "item:article:the-great-icloud-divorce",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "item:article:site-that-built-itself",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "item:node:80px-gap-section-spacing-framework",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "item:node:visualizing-the-knowledge-graph",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "item:node:this-knowledge-graph-origin-story",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "item:node:visualizing-the-knowledge-graph",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "item:article:we-never-adopted-structured-content",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
+        "target": "item:node:release-governance-yyyy-mm-dd-workflow",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
+        "target": "item:node:changelog",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:release-governance-yyyy-mm-dd-workflow",
+        "target": "item:node:changelog",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:sugartown-platform-roadmap-updated",
+        "target": "item:node:this-knowledge-graph-origin-story",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:changelog",
+        "target": "item:node:the-great-versioning-reconciliation",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "item:node:the-epic-that-executed-itself",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "item:node:the-great-disconnection",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "item:article:the-great-icloud-divorce",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "item:article:site-that-built-itself",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "item:article:the-great-icloud-divorce",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "item:article:site-that-built-itself",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "item:node:i-cant-do-that-yes-i-can",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:the-great-versioning-reconciliation",
+        "target": "item:node:the-release-that-ate-the-card-system",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:the-great-icloud-divorce",
+        "target": "item:article:site-that-built-itself",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:two-weeks-inside-the-machine",
+        "target": "item:node:we-fixed-the-same-white-screen",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:we-never-adopted-structured-content",
+        "target": "item:article:headless-cms-schema-where-it-lives",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:ai-illustration-review-ethics-accessibility-ip-guardrails",
+        "target": "tag:accessibility",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:ai-illustration-review-ethics-accessibility-ip-guardrails",
+        "target": "tag:ai-ethics",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:ai-illustration-review-ethics-accessibility-ip-guardrails",
+        "target": "tag:alt-text",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "tag:separation-of-concerns",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "tag:source-control",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "tag:content-ops",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "tag:migration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "tag:monorepo",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "tag:prd",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "tag:resume-as-code",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "tag:core-web-vitals",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "tag:content-ops",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-update-the-resume-factory-v2-0",
+        "target": "tag:automation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-update-the-resume-factory-v2-0",
+        "target": "tag:resume-as-code",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-update-the-resume-factory-v2-0",
+        "target": "tag:ai-ethics",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "tag:documentation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-the-unified-taxonomy-strategy",
+        "target": "tag:metadata-strategy",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-the-unified-taxonomy-strategy",
+        "target": "tag:ontology",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-the-unified-taxonomy-strategy",
+        "target": "tag:structured-content",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-the-unified-taxonomy-strategy",
+        "target": "tag:taxonomy",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:bare-minerals-from-bottlenecks-to-brilliance",
+        "target": "tag:workflow",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:bare-minerals-from-bottlenecks-to-brilliance",
+        "target": "tag:prioritization",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:bare-minerals-from-bottlenecks-to-brilliance",
+        "target": "tag:design-ops",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "tag:atomic-design",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "tag:composable",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "tag:digital-transformation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "tag:omnichannel",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "tag:rfp",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "tag:vendor-evaluation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
+        "target": "tag:digital-transformation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
+        "target": "tag:migration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
+        "target": "tag:stakeholder-alignment",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
+        "target": "tag:design-ops",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "target": "tag:content-audit",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "target": "tag:migration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "target": "tag:digital-transformation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "target": "tag:customer-journey",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "target": "tag:rfp",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "target": "tag:vendor-evaluation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "tag:version-control",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "tag:workflow",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
+        "target": "tag:debugging",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
+        "target": "tag:devtools",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
+        "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "target": "tag:metadata-strategy",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "target": "tag:structured-content",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "target": "tag:taxonomy",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "target": "tag:ai-entropy",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "target": "tag:ai-hallucinations",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "target": "tag:ai-limitations",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "target": "tag:documentation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "target": "tag:product-discovery",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:core-web-vitals-dont-belong-to-frontend",
+        "target": "tag:core-web-vitals",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:core-web-vitals-dont-belong-to-frontend",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:core-web-vitals-dont-belong-to-frontend",
+        "target": "tag:performance",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:core-web-vitals-dont-belong-to-frontend",
+        "target": "tag:seo",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:core-web-vitals-dont-belong-to-frontend",
+        "target": "tag:structured-content",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:dashboards-arent-dead-neither-are-design-systems",
+        "target": "tag:dashboards",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:dashboards-arent-dead-neither-are-design-systems",
+        "target": "tag:design-tokens",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:dashboards-arent-dead-neither-are-design-systems",
+        "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:dashboards-arent-dead-neither-are-design-systems",
+        "target": "tag:ai-entropy",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
+        "target": "tag:atomic-design",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
+        "target": "tag:design-ops",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
+        "target": "tag:design-tokens",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
+        "target": "tag:tech-debt",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:devops-building-the-undo-button-for-my-career",
+        "target": "tag:documentation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:devops-building-the-undo-button-for-my-career",
+        "target": "tag:qa",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:engineering-the-perfect-resume-workflow",
+        "target": "tag:llm-workflows",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:engineering-the-perfect-resume-workflow",
+        "target": "tag:structured-content",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:engineering-the-perfect-resume-workflow",
+        "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:engineering-the-perfect-resume-workflow",
+        "target": "tag:resume-as-code",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:fx-networks-website-redesign-nominated-for-webby",
+        "target": "tag:accessibility",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:fx-networks-website-redesign-nominated-for-webby",
+        "target": "tag:wcag",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:fx-networks-website-redesign-nominated-for-webby",
+        "target": "tag:agile",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:fx-networks-website-redesign-nominated-for-webby",
+        "target": "tag:prioritization",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:feature-the-resume-factory-the-sugartown-pink-design-system",
+        "target": "tag:design-tokens",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:feature-the-resume-factory-the-sugartown-pink-design-system",
+        "target": "tag:resume-as-code",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:feature-the-resume-factory-the-sugartown-pink-design-system",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "target": "tag:best-practices",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "target": "tag:debugging",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "target": "tag:refactoring",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "target": "tag:scope-creep",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
+        "target": "tag:tech-debt",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sanity-custom-table-input",
+        "target": "tag:table",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sanity-custom-table-input",
+        "target": "tag:ux",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sanity-custom-table-input",
+        "target": "tag:portable-text",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sanity-custom-table-input",
+        "target": "tag:human-in-the-loop",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sanity-custom-table-input",
+        "target": "tag:migration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sanity-custom-table-input",
+        "target": "tag:content-modeling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "tag:table",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "tag:ux",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "tag:content-modeling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "tag:migration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "tag:portable-text",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "tag:human-in-the-loop",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:sanity-table-authoring-ux",
+        "target": "tag:api",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
+        "target": "tag:knowledge-graph",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
+        "target": "tag:platform-strategy",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
+        "target": "tag:roadmap",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:launching-lunar-landing",
+        "target": "tag:ux",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:launching-lunar-landing",
+        "target": "tag:content-architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:launching-lunar-landing",
+        "target": "tag:stakeholder-alignment",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "tag:composable",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "tag:content-architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "tag:content-modeling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "tag:omnichannel",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "tag:atomic-design",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:market-scan-top-ai-tools-for-data-architecture-diagrams",
+        "target": "tag:dashboards",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:market-scan-top-ai-tools-for-data-architecture-diagrams",
+        "target": "tag:ai-workflows",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:market-scan-top-ai-tools-for-data-architecture-diagrams",
+        "target": "tag:ai-automation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "target": "tag:content-modeling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "target": "tag:migration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "tag:content-modeling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "tag:atomic-design",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "tag:composable",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "tag:content-architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:prd-visualization-engine",
+        "target": "tag:data-science",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:prd-visualization-engine",
+        "target": "tag:prd",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:prd-visualization-engine",
+        "target": "tag:product-management",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "tag:prompt-engineering",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "tag:ai-workflows",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "tag:human-in-the-loop",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "tag:llm-workflows",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "tag:process-insight",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "tag:post-mortem",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "tag:context-engineering",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "tag:tech-debt",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "tag:atomic-design",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "tag:composable",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "tag:design-tokens",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "tag:rfp",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "tag:vendor-evaluation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:process-insight-the-csv-reality-check",
+        "target": "tag:audit",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:process-insight-the-csv-reality-check",
+        "target": "tag:automation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:process-insight-the-csv-reality-check",
+        "target": "tag:data-integrity",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:process-insight-the-csv-reality-check",
+        "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:process-insight-when-to-fire-your-ai",
+        "target": "tag:refactoring",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:process-insight-when-to-fire-your-ai",
+        "target": "tag:tech-debt",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:process-insight-when-to-fire-your-ai",
+        "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "tag:content-architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "tag:knowledge-graph",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "tag:roadmap",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "tag:ai-automation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "tag:content-modeling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "tag:knowledge-graph",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "tag:structured-content",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:project-sugartown-cms-architecture",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
+        "target": "tag:documentation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
+        "target": "tag:release-management",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:release-governance-storybook-smoke-check-design-system",
+        "target": "tag:release-management",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:release-governance-yyyy-mm-dd-workflow",
+        "target": "tag:documentation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:release-governance-yyyy-mm-dd-workflow",
+        "target": "tag:product-ops",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:release-governance-yyyy-mm-dd-workflow",
+        "target": "tag:release-management",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:show-me-the-computed-values",
+        "target": "tag:design-tokens",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:show-me-the-computed-values",
+        "target": "tag:ai-limitations",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:show-me-the-computed-values",
+        "target": "tag:process-insight",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:show-me-the-computed-values",
+        "target": "tag:glassmorphism",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:status-update-the-great-re-platforming",
+        "target": "tag:cross-functional-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:status-update-the-great-re-platforming",
+        "target": "tag:stakeholder-alignment",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:status-update-the-great-re-platforming",
+        "target": "tag:migration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sugartown-platform-roadmap-updated",
+        "target": "tag:content-as-code",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sugartown-platform-roadmap-updated",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sugartown-platform-roadmap-updated",
+        "target": "tag:roadmap",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+        "target": "tag:agentic-interfaces",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+        "target": "tag:llm-workflows",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+        "target": "tag:ai-workflows",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+        "target": "tag:ai-automation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:changelog",
+        "target": "tag:documentation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:changelog",
+        "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:changelog",
+        "target": "tag:version-control",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:changelog",
+        "target": "tag:release-management",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:80px-gap-section-spacing-framework",
+        "target": "tag:design-tokens",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:80px-gap-section-spacing-framework",
+        "target": "tag:vqa",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:80px-gap-section-spacing-framework",
+        "target": "tag:spacing",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:80px-gap-section-spacing-framework",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:button-two-names-single-field-authority",
+        "target": "tag:content-modeling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "tag:ai-workflows",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "tag:human-in-the-loop",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "tag:post-mortem",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "tag:tooling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "tag:em-dash",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
+        "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-epic-that-executed-itself",
+        "target": "tag:human-in-the-loop",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-epic-that-executed-itself",
+        "target": "tag:ai-ethics",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-epic-that-executed-itself",
+        "target": "tag:post-mortem",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-epic-that-executed-itself",
+        "target": "tag:process-insight",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-epic-that-executed-itself",
+        "target": "tag:agentic-interfaces",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-epic-that-executed-itself",
+        "target": "tag:prompt-engineering",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "tag:post-mortem",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "tag:source-control",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "tag:context-engineering",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "tag:britbox",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-great-versioning-reconciliation",
+        "target": "tag:prd",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-great-versioning-reconciliation",
+        "target": "tag:tech-debt",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-great-versioning-reconciliation",
+        "target": "tag:version-control",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-great-versioning-reconciliation",
+        "target": "tag:release-management",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:the-great-icloud-divorce",
+        "target": "tag:resist",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:the-great-icloud-divorce",
+        "target": "tag:ai-workflows",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:the-great-icloud-divorce",
+        "target": "tag:table",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:the-great-icloud-divorce",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:the-great-icloud-divorce",
+        "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-release-that-ate-the-card-system",
+        "target": "tag:prd",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-release-that-ate-the-card-system",
+        "target": "tag:release-management",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "target": "tag:atomic-design",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "target": "tag:best-practices",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "target": "tag:reusable",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "target": "tag:post-mortem",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
+        "target": "tag:context-engineering",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:site-that-built-itself",
+        "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:site-that-built-itself",
+        "target": "tag:migration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:site-that-built-itself",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:site-that-built-itself",
+        "target": "tag:platform-strategy",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:site-that-built-itself",
+        "target": "tag:human-in-the-loop",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:this-knowledge-graph-origin-story",
+        "target": "tag:content-as-code",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:this-knowledge-graph-origin-story",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:this-knowledge-graph-origin-story",
+        "target": "tag:knowledge-graph",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:this-knowledge-graph-origin-story",
+        "target": "tag:scope-creep",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:two-weeks-inside-the-machine",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:two-weeks-inside-the-machine",
+        "target": "tag:documentation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:two-weeks-inside-the-machine",
+        "target": "tag:tooling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:two-weeks-inside-the-machine",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:visualizing-the-knowledge-graph",
+        "target": "tag:data-science",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:visualizing-the-knowledge-graph",
+        "target": "tag:knowledge-graph",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:visualizing-the-knowledge-graph",
+        "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:visualizing-the-knowledge-graph",
+        "target": "tag:ai-automation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:we-fixed-the-same-white-screen",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:we-fixed-the-same-white-screen",
+        "target": "tag:documentation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:we-fixed-the-same-white-screen",
+        "target": "tag:process-insight",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:we-never-adopted-structured-content",
+        "target": "tag:structured-content",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:we-never-adopted-structured-content",
+        "target": "tag:content-modeling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:we-never-adopted-structured-content",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:we-never-adopted-structured-content",
+        "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "tag:content-modeling",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "tag:vendor-evaluation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:headless-cms-schema-where-it-lives",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:which-chatbot-is-best-for-web-design",
+        "target": "tag:product-management",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:which-chatbot-is-best-for-web-design",
+        "target": "tag:prompt-engineering",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:which-chatbot-is-best-for-web-design",
+        "target": "tag:release-management",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:i-cant-do-that-yes-i-can",
+        "target": "tag:post-mortem",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:i-cant-do-that-yes-i-can",
+        "target": "tag:ai-limitations",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:i-cant-do-that-yes-i-can",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:luxury-dot-com",
+        "target": "tag:tech-debt",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:luxury-dot-com",
+        "target": "tag:digital-transformation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:luxury-dot-com",
+        "target": "tag:platform-strategy",
+        "kind": "tag-membership"
+      }
+    ]
+  },
+  "linearRoadmap": {
+    "fetchedAt": "2026-05-21T09:42:38.665Z",
+    "inProgress": [],
+    "backlog": [
+      {
+        "identifier": "SUG-126",
+        "title": "Migrate DataTable to Table + ButtonGroup primitive",
+        "url": "https://linear.app/sugartown/issue/SUG-126/migrate-datatable-to-table-buttongroup-primitive",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-121",
+        "title": "Design System — Section Module Showcase",
+        "url": "https://linear.app/sugartown/issue/SUG-121/design-system-section-module-showcase",
+        "priority": "Medium",
+        "status": "Todo",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-116",
+        "title": "Ledger Button Update — baseline rule, sm/md/lg sizes, Storybook snapshot",
+        "url": "https://linear.app/sugartown/issue/SUG-116/ledger-button-update-baseline-rule-smmdlg-sizes-storybook-snapshot",
+        "priority": "Low",
+        "status": "Todo",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-107",
+        "title": "Client taxonomy — audit & promote string field to reference doc",
+        "url": "https://linear.app/sugartown/issue/SUG-107/client-taxonomy-audit-and-promote-string-field-to-reference-doc",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-72",
+        "title": "Shopify MVP — /platform + /services content sections (follow-on)",
+        "url": "https://linear.app/sugartown/issue/SUG-72/shopify-mvp-platform-services-content-sections-follow-on",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Sugartown Shopify",
+            "colorHex": "#bec2c8"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-71",
+        "title": "Shopify MVP integration — /shop + commerce adapter seam (Pattern A)",
+        "url": "https://linear.app/sugartown/issue/SUG-71/shopify-mvp-integration-shop-commerce-adapter-seam-pattern-a",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Sugartown Shopify",
+            "colorHex": "#bec2c8"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-60",
+        "title": "Video Section — embedded video support (Vimeo, YouTube, uploaded)",
+        "url": "https://linear.app/sugartown/issue/SUG-60/video-section-embedded-video-support-vimeo-youtube-uploaded",
+        "priority": "No priority",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-57",
+        "title": "Pink Moon Phase 5 — Academic layer (marginalia, index, glossary, running headers)",
+        "url": "https://linear.app/sugartown/issue/SUG-57/pink-moon-phase-5-academic-layer-marginalia-index-glossary-running",
+        "priority": "No priority",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-56",
+        "title": "Structured content: computed enrichments, industry taxonomy, audience enum",
+        "url": "https://linear.app/sugartown/issue/SUG-56/structured-content-computed-enrichments-industry-taxonomy-audience",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-51",
+        "title": "Page URL nesting — parent field enables /page/subpage/ routing",
+        "url": "https://linear.app/sugartown/issue/SUG-51/page-url-nesting-parent-field-enables-pagesubpage-routing",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-50",
+        "title": "Card image from hero section — auto-derive card thumbnail",
+        "url": "https://linear.app/sugartown/issue/SUG-50/card-image-from-hero-section-auto-derive-card-thumbnail",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-36",
+        "title": "Site-wide content search",
+        "url": "https://linear.app/sugartown/issue/SUG-36/site-wide-content-search",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-35",
+        "title": "Glossary: Term Definitions, Inline Annotations & Glossary Page",
+        "url": "https://linear.app/sugartown/issue/SUG-35/glossary-term-definitions-inline-annotations-and-glossary-page",
+        "priority": "Medium",
+        "status": "Todo",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-19",
+        "title": "KPI dashboard card family: stat-card, bar-card, insight-card (BL-03)",
+        "url": "https://linear.app/sugartown/issue/SUG-19/kpi-dashboard-card-family-stat-card-bar-card-insight-card-bl-03",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-18",
+        "title": "Archive page deferred fields — wire Display + Advanced tab configs",
+        "url": "https://linear.app/sugartown/issue/SUG-18/archive-page-deferred-fields-wire-display-advanced-tab-configs",
+        "priority": "No priority",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": null
+      }
+    ],
+    "shipped": [
+      {
+        "identifier": "SUG-122",
+        "title": "Registry ↔ ERD bridge — link component registry rows to schema ERD cards",
+        "url": "https://linear.app/sugartown/issue/SUG-122/registry-erd-bridge-link-component-registry-rows-to-schema-erd-cards",
+        "priority": "Medium",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Mini Repo",
+            "colorHex": "#0099FF"
+          }
+        ],
+        "completedAt": "2026-05-18T14:23:29.018Z"
+      },
+      {
+        "identifier": "SUG-123",
+        "title": "Taxonomy listview audit — shared layout language, tokens, and Storybook coverage",
+        "url": "https://linear.app/sugartown/issue/SUG-123/taxonomy-listview-audit-shared-layout-language-tokens-and-storybook",
+        "priority": "Urgent",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-05-18T13:16:34.575Z"
+      },
+      {
+        "identifier": "SUG-125",
+        "title": "IndexGroup + IndexCell DS primitives — Pagination and LetterFilterStrip refactor",
+        "url": "https://linear.app/sugartown/issue/SUG-125/indexgroup-indexcell-ds-primitives-pagination-and-letterfilterstrip",
+        "priority": "High",
+        "status": "Done",
+        "projects": [],
+        "completedAt": "2026-05-18T13:11:39.978Z"
+      },
+      {
+        "identifier": "SUG-124",
+        "title": "Semantic naming audit — CSS classes, alpha row, list pattern reuse guardrails",
+        "url": "https://linear.app/sugartown/issue/SUG-124/semantic-naming-audit-css-classes-alpha-row-list-pattern-reuse",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-05-18T12:02:13.330Z"
+      },
+      {
+        "identifier": "SUG-114",
+        "title": "Dynamic schema ERD — generate content model from deployed Sanity schema",
+        "url": "https://linear.app/sugartown/issue/SUG-114/dynamic-schema-erd-generate-content-model-from-deployed-sanity-schema",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": "2026-05-17T12:53:17.076Z"
+      },
+      {
+        "identifier": "SUG-117",
+        "title": "CWV mobile form-factor reporting",
+        "url": "https://linear.app/sugartown/issue/SUG-117/cwv-mobile-form-factor-reporting",
+        "priority": "Urgent",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Mini Repo",
+            "colorHex": "#0099FF"
+          }
+        ],
+        "completedAt": "2026-05-17T11:44:59.256Z"
+      },
+      {
+        "identifier": "SUG-97",
+        "title": "Studio schema field group audit + reorganisation",
+        "url": "https://linear.app/sugartown/issue/SUG-97/studio-schema-field-group-audit-reorganisation",
+        "priority": "Medium",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": "2026-05-17T10:53:53.206Z"
+      },
+      {
+        "identifier": "SUG-103",
+        "title": "Publish component registry to platform/DS documentation",
+        "url": "https://linear.app/sugartown/issue/SUG-103/publish-component-registry-to-platformds-documentation",
+        "priority": "Medium",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-05-17T10:10:57.608Z"
+      },
+      {
+        "identifier": "SUG-120",
+        "title": "Grid Audit — converge to a single grid and/or container component",
+        "url": "https://linear.app/sugartown/issue/SUG-120/grid-audit-converge-to-a-single-grid-andor-container-component",
+        "priority": "Urgent",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-05-16T16:06:43.042Z"
+      },
+      {
+        "identifier": "SUG-119",
+        "title": "Table Audit — converge to a single st-table component",
+        "url": "https://linear.app/sugartown/issue/SUG-119/table-audit-converge-to-a-single-st-table-component",
+        "priority": "Urgent",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-05-16T14:22:32.835Z"
+      },
+      {
+        "identifier": "SUG-118",
+        "title": "Platform Stats Page II — governance page design refresh",
+        "url": "https://linear.app/sugartown/issue/SUG-118/platform-stats-page-ii-governance-page-design-refresh",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-05-16T11:37:21.717Z"
+      },
+      {
+        "identifier": "SUG-113",
+        "title": "Dynamic reporting pipeline — Linear roadmap + CWV desktop/mobile with fallback",
+        "url": "https://linear.app/sugartown/issue/SUG-113/dynamic-reporting-pipeline-linear-roadmap-cwv-desktopmobile-with",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Mini Repo",
+            "colorHex": "#0099FF"
+          }
+        ],
+        "completedAt": "2026-05-15T09:53:55.955Z"
+      },
+      {
+        "identifier": "SUG-115",
+        "title": "Platform section DS remediation — 16-finding audit close-out",
+        "url": "https://linear.app/sugartown/issue/SUG-115/platform-section-ds-remediation-16-finding-audit-close-out",
+        "priority": "High",
+        "status": "Done",
+        "projects": [],
+        "completedAt": "2026-05-14T11:40:06.630Z"
+      },
+      {
+        "identifier": "SUG-112",
+        "title": "Sidebar nav primitives — shared useScrollspy hook + SidebarNav component",
+        "url": "https://linear.app/sugartown/issue/SUG-112/sidebar-nav-primitives-shared-usescrollspy-hook-sidebarnav-component",
+        "priority": "Medium",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": "2026-05-13T16:07:06.815Z"
+      },
+      {
+        "identifier": "SUG-20",
+        "title": "Schema ERD Sanity Hybrid (Option C)",
+        "url": "https://linear.app/sugartown/issue/SUG-20/schema-erd-sanity-hybrid-option-c",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": "2026-05-13T10:45:38.823Z"
+      },
+      {
+        "identifier": "SUG-110",
+        "title": "Dynamically generated roadmap from Linear",
+        "url": "https://linear.app/sugartown/issue/SUG-110/dynamically-generated-roadmap-from-linear",
+        "priority": "Low",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Mini Repo",
+            "colorHex": "#0099FF"
+          }
+        ],
+        "completedAt": "2026-05-13T10:08:23.692Z"
+      },
+      {
+        "identifier": "SUG-109",
+        "title": "Figma DS backwards-engineer — Code Connect + variables pipeline",
+        "url": "https://linear.app/sugartown/issue/SUG-109/figma-ds-backwards-engineer-code-connect-variables-pipeline",
+        "priority": "Low",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-05-13T09:31:35.778Z"
+      },
+      {
+        "identifier": "SUG-111",
+        "title": "Platform IA Phase II — nested multi-section architecture for /platform/",
+        "url": "https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": "2026-05-13T09:28:43.640Z"
+      },
+      {
+        "identifier": "SUG-104",
+        "title": "Listview updates — archives and taxonomies",
+        "url": "https://linear.app/sugartown/issue/SUG-104/listview-updates-archives-and-taxonomies",
+        "priority": "Medium",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-05-10T15:24:43.930Z"
+      },
+      {
+        "identifier": "SUG-108",
+        "title": "Archive page header + toolbar consistency pass",
+        "url": "https://linear.app/sugartown/issue/SUG-108/archive-page-header-toolbar-consistency-pass",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Mini Repo",
+            "colorHex": "#0099FF"
+          }
+        ],
+        "completedAt": "2026-05-10T12:11:38.048Z"
+      }
+    ]
+  }
+}
