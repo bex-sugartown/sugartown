@@ -33,7 +33,7 @@ const ARTIFACTS = [
     eyebrow: 'Brand',
     title: 'Pink Moon Manifesto',
     body: 'Visual direction, typographic voice, and colour philosophy for the Ledger Tradition aesthetic.',
-    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/brand/brand-voice-guide.md',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/briefs/design-system/pink-moon-manifesto.md',
   },
   {
     eyebrow: 'Conventions',

@@ -710,10 +710,31 @@ function MermaidDiagram({ section }) {
 
 // HTML Section Component
 // htmlSection — renders raw HTML as-is; no sanitization applied
+// dangerouslySetInnerHTML does not execute <script> tags, so we re-append them
+// as real DOM script elements after mount so embedded charts/widgets initialise.
 function HtmlSection({ section }) {
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+    const scripts = Array.from(container.querySelectorAll('script'))
+    scripts.forEach((oldScript) => {
+      const newScript = document.createElement('script')
+      if (oldScript.src) {
+        newScript.src = oldScript.src
+        newScript.async = true
+      } else {
+        newScript.textContent = oldScript.textContent
+      }
+      oldScript.replaceWith(newScript)
+    })
+  }, [section.html])
+
   if (!section.html) return null
   return (
     <div
+      ref={containerRef}
       className="st-html-section"
       id={section._sectionId}
       dangerouslySetInnerHTML={{ __html: section.html }}
