@@ -59,6 +59,9 @@ scripts/wp_urls.csv
 # Draft documents — local scratchwork, not published to repo
 docs/drafts/
 
+# Character study reference images — local only, not committed (binary assets)
+docs/brand/character-studies/
+
 # Local Netlify folder
 .netlify
 apps/storybook/debug-storybook.log
