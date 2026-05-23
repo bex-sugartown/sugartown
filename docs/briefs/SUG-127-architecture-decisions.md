@@ -172,6 +172,28 @@ This is a living document. Decisions made during execution (not just planning) s
 
 ---
 
+## Decision 9 — Single content type first vs full atomic model from the start
+
+**Chose:** Phase 1 uses a single content type (`article` only). The full four-bucket atomic model (singleton / document / taxonomy / sections) is Phase 2.
+
+**Why:** Classic POC scope creep. Planning went from "a simple article list" to six content types — `siteSettings`, `article`, `tag`, `page`, `heroSection`, `richTextSection` — before a single line of code was written. The atomic model is the right *eventual* shape for the agnosticism proof, but building all six types before the pipeline is even standing means any problem during setup is entangled with content model complexity. Isolate variables: get one content type rendering through the DS and deployed to Vercel first. Then atomize.
+
+**Benefit now:**
+- Phase 1 is completable in one focused session. The Vercel deploy, DS wiring, Next.js App Router fetch pattern, and rich text adapter are all validated against a single simple type before adding relational complexity.
+- Debugging is cleaner. If something breaks in Phase 1, it's a pipeline problem (monorepo config, CSS import, env vars) — not a content model problem.
+- The scope creep is named and contained rather than silently absorbed. Naming it means it can be referenced in the vendor eval as a finding about how easy it is to over-engineer a CMS content model during planning.
+
+**Cost/complexity later:**
+- Phase 2 requires returning to Contentful and adding five more content types, plus updating the Next.js app with new queries, routes, and renders. This is incremental rework, not throw-away work — but it's a second pass.
+- The Phase 1 `article` fetch query will need extending or replacing once `tag` references are added in Phase 2. Expect a query revision commit.
+- If Phase 2 is never started (time pressure, interview done, job offer accepted), the POC only proves the article bucket — not the full atomic model. Document this gap explicitly if Phase 2 is deferred.
+
+**When you'd choose the full model from the start:** If the goal were a production content migration with a deadline, building the complete model upfront avoids the second pass. For a learning POC where the process is the point, single-type-first is correct.
+
+**The meta-finding:** The fact that planning naturally drifted toward a full production content model before any code existed is itself a finding worth noting in the vendor eval intro. It speaks to how compelling the "right way to model this" question is — and how POC discipline requires actively resisting it.
+
+---
+
 ## Decisions still open
 
 These will be made during Phase 1 execution. Record the decision and its rationale here when it's made.

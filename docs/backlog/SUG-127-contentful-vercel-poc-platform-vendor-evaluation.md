@@ -124,43 +124,52 @@ The sections bucket is where the model philosophies diverge most visibly. Sanity
 
 ## Scope
 
-- [ ] **Phase 1 — Monorepo setup:** Add `apps/contentful-poc` to this monorepo. Configure pnpm workspace and Turbo to include the new app. Scaffold Next.js App Router (TypeScript). Wire `@sugartown/design-system` and `@sugartown/design-system/styles/*` as workspace dependencies. Layer: tooling/infrastructure.
-- [ ] **Phase 1 — Contentful space + atomic model:** Create Contentful space. Define all six content types per the atomic architecture map above (`siteSettings`, `article`, `tag`, `page`, `heroSection`, `richTextSection`). Populate seed content: 1 site settings, 3 articles with tag references, 1 page with hero + RTE section chain. Layer: Contentful CMS.
-- [ ] **Phase 1 — Basic render:** Article list (`/`), article detail (`/articles/[slug]`), and one page with sections (`/pages/[slug]`) — rendering Contentful data through DS Card, layout, and section components. No styling polish required — proof of data flow across all four buckets is the goal. Layer: frontend.
-- [ ] **Phase 2 — Vercel deploy:** Connect `apps/contentful-poc` to Vercel via the Vercel dashboard (monorepo subdirectory config). Set Contentful env vars. Confirm production URL and preview deploy URL both work. Layer: deployment.
-- [ ] **Phase 2 — Rich text adapter:** Write `contentfulRichText.jsx` — maps Contentful Rich Text nodes to the same DS-backed components that `portableTextComponents.jsx` uses for Sanity. Document which renderers matched cleanly and which required compromise. Layer: frontend/adapter.
-- [ ] **Phase 3 — Coupling point audit:** Fill in the Agnostic? column in the coupling point map above based on actual experience. Write findings prose (worked, needed adapter, compromised, blocked). Layer: documentation.
-- [ ] **Phase 3 — Vendor evaluation doc:** Write `docs/briefs/vendor-eval-vercel-vs-netlify.md`. Layer: documentation.
+> **Scope discipline note:** Planning naturally drifted toward a full six-type atomic model before any code existed. That model is documented in the content model map above and is the right *eventual* shape — but it is Phase 2, not Phase 1. Phase 1 proves the pipeline with a single content type. See ADR Decision 9 in `docs/briefs/SUG-127-architecture-decisions.md`.
+
+- [ ] **Phase 1 — Monorepo setup:** Add `apps/contentful-poc` to this monorepo. Configure pnpm workspace and Turbo. Scaffold Next.js App Router (TypeScript). Wire `@sugartown/design-system` as a workspace dependency. Layer: tooling/infrastructure.
+- [ ] **Phase 1 — Contentful space (single type):** Create Contentful space. Define one content type: `article` (`title`, `slug`, `body` Rich Text, `publishDate`, `summary`). Populate 3 seed articles. Layer: Contentful CMS.
+- [ ] **Phase 1 — Render + deploy:** Article list (`/`) and article detail (`/articles/[slug]`) rendering through DS components. Connect to Vercel (monorepo subdirectory config). Confirm live URL and preview deploy. Write `contentfulRichText.jsx` rich text adapter. Layer: frontend + deployment.
+- [ ] **Phase 2 — Atomize:** Extend the Contentful space with the remaining five content types per the atomic architecture map (`tag`, `siteSettings`, `page`, `heroSection`, `richTextSection`). Add routes and renders for taxonomy (`/tags/[slug]`), page-with-sections (`/pages/[slug]`), site settings wired into layout. Update queries. Layer: Contentful CMS + frontend.
+- [ ] **Phase 3 — Coupling point audit + vendor evaluation:** Fill in the coupling point map. Write findings prose. Write `docs/briefs/vendor-eval-vercel-vs-netlify.md`. Layer: documentation.
 
 ## Phases
 
-**Phase 1 — Monorepo scaffold + Contentful space**
-`apps/contentful-poc` added to monorepo. pnpm + Turbo configured. Next.js App Router scaffolded. DS package wired. Contentful space created with `article` content type and seed data. Article list and detail pages render Contentful data through DS components. Ships as a local dev server (no Vercel deploy yet). Bex runs every command; Claude explains each step.
+**Phase 1 — Pipeline proof (single content type)**
+Monorepo configured, Next.js scaffolded, DS wired, Contentful space with `article` type only, article list + detail rendering through DS, Vercel deploy live, rich text adapter written. One content type, full pipeline end to end. Bex runs every command; Claude explains each step.
 
-Merge checkpoint: commit `feat(contentful-poc): scaffold Next.js app + Contentful article renderer`. Mini-release.
+Merge checkpoint: `feat(contentful-poc): scaffold + article pipeline + Vercel deploy`. Mini-release.
 
-**Phase 2 — Vercel deploy + rich text adapter**
-`apps/contentful-poc` connected to Vercel with monorepo subdirectory config. Contentful env vars set in Vercel dashboard. Live production URL + preview deploy URL confirmed. `contentfulRichText.jsx` written and tested against seed article bodies. Ships as a live Vercel URL.
+**Phase 2 — Atomic model (remaining buckets)**
+Extend Contentful space to full four-bucket model: `tag` (taxonomy), `siteSettings` (singleton), `page` + `heroSection` + `richTextSection` (sections). Add routes and renders. Update queries to handle references and `include` depth. Singleton, taxonomy, and section patterns all exercised.
 
-Merge checkpoint: commit `feat(contentful-poc): Vercel deploy + Contentful rich text adapter`. Mini-release.
+Merge checkpoint: `feat(contentful-poc): atomic model — singleton, taxonomy, section builder`. Mini-release.
 
 **Phase 3 — Agnosticism audit + vendor evaluation**
-Coupling point map filled with real findings. Vendor eval doc written. Both documents committed to `docs/briefs/`. This is the deliverable for the interview homework and the Sugartown architectural record.
+Coupling point map fully populated with real findings. Vendor eval written. Both committed to `docs/briefs/`. Deliverable for interview homework and Sugartown architectural record.
 
-Merge checkpoint: commit `docs(sug-127): agnosticism audit + Vercel vs Netlify vendor eval`. Mini-release.
+Merge checkpoint: `docs(sug-127): agnosticism audit + Vercel vs Netlify vendor eval`. Mini-release.
 
 ## Acceptance criteria
 
 - [ ] `apps/contentful-poc` exists in the monorepo and builds cleanly via `pnpm --filter contentful-poc build`
 - [ ] The app imports from `@sugartown/design-system` without modification to that package
 - [ ] The token pipeline (`pnpm tokens:build`) generates CSS consumed by the app without changes
-- [ ] All four content model buckets are populated in Contentful: `siteSettings` (singleton), `article` (document), `tag` (taxonomy), `page` with `heroSection` + `richTextSection` (sections)
-- [ ] All four buckets render in the Next.js app — articles, tags, page with sections, site title from settings
-- [ ] A live Vercel URL exists with at least one published article and one page-with-sections rendered through DS components
-- [ ] Vercel preview deploys work (branch push produces a unique preview URL)
-- [ ] `contentfulRichText.jsx` maps at least: paragraphs, headings (h2/h3), bold/italic marks, hyperlinks, and unordered lists
-- [ ] The section renderer handles `sys.contentType.sys.id` as the discriminator (mirrors Sanity's `_type` switch) — documented with the diff between the two approaches
-- [ ] The coupling point map is fully populated — every row has a finding, not a hypothesis
+**Phase 1 done when:**
+- [ ] `apps/contentful-poc` builds cleanly via `pnpm --filter contentful-poc build`
+- [ ] DS package imports and token CSS work without modifying `packages/design-system`
+- [ ] Live Vercel URL exists with articles rendered through DS components
+- [ ] Vercel preview deploy URL confirmed working on a branch push
+- [ ] `contentfulRichText.jsx` maps: paragraphs, headings (h2/h3), bold/italic, hyperlinks, unordered lists
+
+**Phase 2 done when:**
+- [ ] All four buckets live in Contentful: `siteSettings`, `article`, `tag`, `page` + section types
+- [ ] All four buckets render in the app — article, tag page, page-with-sections, site title from settings
+- [ ] Section renderer uses `sys.contentType.sys.id` as discriminator — diff from Sanity's `_type` documented
+
+**Phase 3 done when:**
+- [ ] Coupling point map fully populated — every row has a finding, not a hypothesis
+- [ ] `docs/briefs/vendor-eval-vercel-vs-netlify.md` exists with all sections populated
+- [ ] Vendor eval includes concrete cost comparison and an explicit Netlify / Vercel / hybrid recommendation
 - [ ] `docs/briefs/vendor-eval-vercel-vs-netlify.md` exists with all evaluation sections populated
 - [ ] Vendor eval includes concrete cost comparison (free tier limits, Sugartown's actual build volume)
 - [ ] Vendor eval ends with an explicit recommendation and rationale
