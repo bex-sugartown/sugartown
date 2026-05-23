@@ -116,7 +116,7 @@ function DataUnavailable({ reason }) {
 }
 
 export default function CwvSnapshot({ section }) {
-  const { defaultFormFactor = 'mobile', cwvUrl } = section ?? {}
+  const { defaultFormFactor = 'desktop', cwvUrl } = section ?? {}
 
   const [formFactor, setFormFactor] = useState(defaultFormFactor)
 

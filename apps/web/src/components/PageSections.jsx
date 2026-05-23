@@ -908,7 +908,7 @@ function StatTileSectionRenderer({ section }) {
           kicker={section.kicker}
         />
       )}
-      <Grid spacing="0" accentTop accentColor="ink">
+      <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
         {section.items.map((item, i) => (
           <Tile
             key={item._key ?? i}
