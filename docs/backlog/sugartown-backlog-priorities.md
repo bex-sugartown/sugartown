@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-18 · SUG-126 added (DataTable → Table migration + ButtonGroup primitive).
+> Updated 2026-05-23 · SUG-127 added (Contentful + Vercel POC — Platform Vendor Evaluation). 🔴 Now.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.24.0 shipped ✅ 2026-05-18 — DS infrastructure, platform hub pages, editorial depth, Registry↔ERD bridge. Next: SUG-116 (Ledger Button Update) or SUG-100 (CWV Snapshot).
+> **⚑ Current focus:** SUG-127 (Contentful + Vercel POC — job interview homework + vendor evaluation). v0.24.0 shipped ✅ 2026-05-18.
 
 ---
 
@@ -23,6 +23,7 @@
 | 6 | ~~**[SUG-120](https://linear.app/sugartown/issue/SUG-120/grid-audit-converge-to-a-single-grid-andor-container-component) · Consolidate StatGrid + StatTileSection into Grid primitive** — StatGrid + SectionContainer deleted; all callsites migrated to `Grid spacing="0" accentTop`. Shipped v0.23.33.~~ | `Design System` `Infrastructure` | ✅ Shipped |
 | 7 | ~~**[SUG-124](https://linear.app/sugartown/issue/SUG-124/semantic-naming-audit-css-classes-alpha-row-list-pattern-reuse) · Semantic naming audit — CSS classes, alpha row, list pattern reuse guardrails** — All tax*/alpha* classes renamed; validate:css-names 0 violations; css-class-naming.md written; SUG-125 scoped. Shipped v0.23.37.~~ | `Design System` `Tooling` | ✅ Shipped |
 | 8 | ~~**[SUG-125](https://linear.app/sugartown/issue/SUG-125/indexgroup-indexcell-ds-primitives-pagination-and-letterfilterstrip) · IndexGroup + IndexCell DS primitives** — IndexGroup + IndexCell DS primitives; AlphaFilter "All" clear cell; `--st-index-cell-inactive-color` token; TaxonomyDetailPage empty-state full-width. Shipped v0.23.38.~~ | `Design System` | ✅ Shipped |
+| 9 | **[SUG-127](https://linear.app/sugartown/issue/SUG-127/contentful-vercel-poc-platform-vendor-evaluation) · Contentful + Vercel POC — Platform Vendor Evaluation** — Hands-on POC: Contentful content model + Next.js + Vercel deploy, Bex-led with Claude as guide. Phase 2: formal Vercel vs Netlify vendor eval doc. Job interview homework. Epic: `docs/backlog/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`. | `Infrastructure` `Tooling` `Platform` | 🔴 Now |
 | 4 | **[SUG-116](https://linear.app/sugartown/issue/SUG-116) · Ledger Button Update — Baseline Rule, sm/md/lg sizes, Storybook snapshot** — Move 3px stripe from `border-top` to `border-bottom` across all variants; introduce `--st-color-button-rule-{primary,secondary,tertiary}` tokens (Option B rename); add `sm`/`lg` size prop to DS + web adapter; update Storybook snapshot story. Epic: `docs/backlog/SUG-116-ledger-button-update.md`. | `Design System` | 🟢 Next |
 | 3 | ~~**[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs, hero inheritance, scrollspy, DataTable releases, Storybook BUILD_DATE freeze. Shipped v0.23.22.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** ✅ Shipped. Services page outcome framing, availability signal on hero/About, case study narrative, Contact tone update. All Sanity drafts published 2026-05-01. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | ✅ Shipped |
