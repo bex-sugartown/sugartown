@@ -138,6 +138,8 @@ Merge checkpoint: commit `docs(sug-127): agnosticism audit + Vercel vs Netlify v
 - CMS integration: Contentful webhook → Vercel deploy hook vs Sanity webhook → Netlify build hook
 - Fit for Sugartown: pnpm workspaces + Turborepo support, current build volume, cost at scale
 
+**ADR update rule (hard stop):** Every time an architectural decision is made during execution — including decisions currently listed as "open" in the table at the bottom of `docs/briefs/SUG-127-architecture-decisions.md` — that document must be updated before the session ends. Move the decision from the open table into a numbered Decision section (following the existing format: Chose / Why / Benefit now / Cost later / When you'd choose differently). Do not carry open decisions across session boundaries. A decision made but not documented is equivalent to undocumented code: it will be relitigated next time.
+
 **Activation audit:** Read `pnpm-workspace.yaml` and `turbo.json` at session start to confirm the current monorepo structure before adding the new app.
 
 ## Model & Mode [REQUIRED]
