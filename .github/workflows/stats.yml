@@ -63,6 +63,22 @@ jobs:
           CRUX_API_KEY:             ${{ secrets.CRUX_API_KEY }}
           LINEAR_API_KEY:           ${{ secrets.LINEAR_SUGARTOWN_STATS }}
 
+      - name: Validate stats — fail if critical collectors are stale
+        run: |
+          node -e "
+            const fs = require('fs');
+            const stats = JSON.parse(fs.readFileSync('apps/web/src/generated/stats.json', 'utf-8'));
+            const stale = [];
+            if (stats.linearRoadmap?.stale === true) stale.push('linearRoadmap');
+            if (stats.github?.stale === true)        stale.push('github');
+            if (stale.length > 0) {
+              console.error('FAIL: critical collectors returned stale data: ' + stale.join(', '));
+              console.error('Check that LINEAR_SUGARTOWN_STATS and GITHUB_TOKEN secrets are valid.');
+              process.exit(1);
+            }
+            console.log('OK: all critical collectors have fresh data.');
+          "
+
       - name: Commit updated stats.json
         run: |
           git config user.name  "github-actions[bot]"
