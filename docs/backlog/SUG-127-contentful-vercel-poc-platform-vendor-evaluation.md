@@ -65,15 +65,68 @@ This table is the primary output of Phase 2. Pre-populated with hypotheses; find
 | Slug routing | `slug.current` (nested object) | `fields.slug` (flat string) | ⚡ Minor shape diff |
 | Draft/preview | `perspective: 'previewDrafts'` | Preview API + separate access token | ⚡ Similar pattern, different config |
 | Content webhooks | Sanity webhook → Netlify build hook | Contentful webhook → Vercel deploy hook | ⚡ Similar pattern |
+| Singleton enforcement | `__experimental_actions: ['update']` — platform prevents new docs | Convention only — create one entry, never create another | ⚡ Sanity stronger here |
+| Section array model | Inline typed objects (`_type` discriminator, live inside the document) | References array (linked entries, `sys.contentType.sys.id` discriminator, resolved via `include` depth) | ⚡ Different model — inline vs linked |
+| Section fetch cost | One GROQ query, sections inline | `getEntries({ include: 2 })` — one request but blunt depth; over-fetches linked data | ⚡ Sanity more precise |
 | Studio / editing UI | Sanity Studio (custom, in this repo) | Contentful web UI (hosted, external) | ❌ Not portable by design |
 
 **The rich text question** is the most important test. Sanity's PortableText is a block-array format (`_type: "block"`, `marks`, `markDefs`). Contentful's Rich Text is a tree format (`nodeType: "document"`, nodes, inlines). The rendering library APIs differ. But the DS components that consume the *output* of rendering (e.g. a `<p>` in a Card body) are agnostic — the question is whether the adapter that maps CMS format → rendered HTML can be written consistently for both. The `portableTextComponents.jsx` and `contentfulRichText.jsx` files are the comparison surface.
 
+## Content model — atomic architecture map
+
+The Contentful space must implement the same four-bucket atomic model that governs the Sugartown content architecture — one real example of each bucket. This is the philosophical proof: if the same model can be expressed in Contentful as in Sanity, the CMS is genuinely interchangeable at the schema layer (even if the tooling to build it differs). The mapping is documented in the Platform section of the live site; the POC must be consistent with it.
+
+| Bucket | Sugartown / Sanity | Contentful POC | Key difference |
+|--------|-------------------|----------------|----------------|
+| **Singleton** | `siteSettings` — `__experimental_actions: ['update']` prevents new docs; one entry, always | `siteSettings` content type — singleton enforced by convention (create once, don't repeat); no platform-level lock | Sanity has first-class singleton enforcement; Contentful relies on discipline |
+| **Document** | `article` — `title`, `slug.current`, `body` (PortableText), `publishDate`, `tags[]->`, `summary` | `article` content type — `title` (Short text), `slug` (Short text, unique), `body` (Rich Text), `publishDate` (Date), `tags` (References, many), `summary` (Short text) | Slug shape: Sanity nests in `{ slug: { current: '...' } }`; Contentful is flat `fields.slug` |
+| **Taxonomy** | `tag` — `name`, `slug`, referenced by `article.tags[]->` | `tag` content type — `name` (Short text), `slug` (Short text); referenced from `article.tags` as a References array | Near-identical model; reference resolution syntax differs (Sanity: `->`, Contentful: linked entry in `include` depth) |
+| **Sections** | `page.sections[]` — inline array of typed objects (`heroSection`, `textSection`, etc.) with `_type` as discriminator; objects live inside the document | `page.sections` — References array linking to separate `heroSection` and `richTextSection` entries; content type of the linked entry is the discriminator | **Most significant structural difference** — Sanity sections are inline (embedded, non-reusable); Contentful sections are linked entries (reusable across pages, independently versioned, but N+1 fetch without `include` depth) |
+
+### Contentful content types to create
+
+**`siteSettings`** (singleton)
+- `siteTitle` Short text
+- `metaDescription` Short text
+- `navItems` References, many → `navItem` content type (or inline JSON — decide at activation)
+
+**`article`** (document)
+- `title` Short text, required
+- `slug` Short text, unique, required
+- `body` Rich Text
+- `publishDate` Date
+- `summary` Short text
+- `tags` References, many → `tag`
+
+**`tag`** (taxonomy)
+- `name` Short text, required
+- `slug` Short text, unique, required
+
+**`page`** (document with section builder)
+- `title` Short text, required
+- `slug` Short text, unique, required
+- `sections` References, many → `heroSection` | `richTextSection`
+
+**`heroSection`** (section)
+- `headline` Short text
+- `subheadline` Short text
+- `ctaLabel` Short text
+- `ctaUrl` Short text
+
+**`richTextSection`** (section)
+- `body` Rich Text
+
+Seed content: 1 `siteSettings` entry, 3 `article` entries with 2 `tag` references each, 1 `page` with a `heroSection` + `richTextSection` chain. This is the minimum to exercise all four buckets and generate real findings across the full coupling point map.
+
+### Why this matters for the agnosticism proof
+
+The sections bucket is where the model philosophies diverge most visibly. Sanity's inline array of typed objects means sections are owned by the document — fast to fetch (one query), but sections can't be shared across pages. Contentful's linked entries mean sections live in the content graph — flexible and reusable, but the CDA fetch requires `include: 2` (depth) to resolve linked entries, and the renderer must handle the `sys.contentType.sys.id` discriminator instead of `_type`. Both approaches are valid; neither is wrong. Documenting what changes in the adapter when you switch from one to the other is the finding.
+
 ## Scope
 
 - [ ] **Phase 1 — Monorepo setup:** Add `apps/contentful-poc` to this monorepo. Configure pnpm workspace and Turbo to include the new app. Scaffold Next.js App Router (TypeScript). Wire `@sugartown/design-system` and `@sugartown/design-system/styles/*` as workspace dependencies. Layer: tooling/infrastructure.
-- [ ] **Phase 1 — Contentful space:** Create Contentful space. Define `article` content type: `title` (short text), `slug` (short text, unique), `body` (Rich Text), `publishDate` (date), `summary` (short text). Populate 3–5 seed articles. Layer: Contentful CMS.
-- [ ] **Phase 1 — Basic render:** Article list (`/`) and article detail (`/articles/[slug]`) pages rendering Contentful data through DS Card and layout components. No styling polish required — proof of data flow is the goal. Layer: frontend.
+- [ ] **Phase 1 — Contentful space + atomic model:** Create Contentful space. Define all six content types per the atomic architecture map above (`siteSettings`, `article`, `tag`, `page`, `heroSection`, `richTextSection`). Populate seed content: 1 site settings, 3 articles with tag references, 1 page with hero + RTE section chain. Layer: Contentful CMS.
+- [ ] **Phase 1 — Basic render:** Article list (`/`), article detail (`/articles/[slug]`), and one page with sections (`/pages/[slug]`) — rendering Contentful data through DS Card, layout, and section components. No styling polish required — proof of data flow across all four buckets is the goal. Layer: frontend.
 - [ ] **Phase 2 — Vercel deploy:** Connect `apps/contentful-poc` to Vercel via the Vercel dashboard (monorepo subdirectory config). Set Contentful env vars. Confirm production URL and preview deploy URL both work. Layer: deployment.
 - [ ] **Phase 2 — Rich text adapter:** Write `contentfulRichText.jsx` — maps Contentful Rich Text nodes to the same DS-backed components that `portableTextComponents.jsx` uses for Sanity. Document which renderers matched cleanly and which required compromise. Layer: frontend/adapter.
 - [ ] **Phase 3 — Coupling point audit:** Fill in the Agnostic? column in the coupling point map above based on actual experience. Write findings prose (worked, needed adapter, compromised, blocked). Layer: documentation.
@@ -101,9 +154,12 @@ Merge checkpoint: commit `docs(sug-127): agnosticism audit + Vercel vs Netlify v
 - [ ] `apps/contentful-poc` exists in the monorepo and builds cleanly via `pnpm --filter contentful-poc build`
 - [ ] The app imports from `@sugartown/design-system` without modification to that package
 - [ ] The token pipeline (`pnpm tokens:build`) generates CSS consumed by the app without changes
-- [ ] A live Vercel URL exists with at least one published Contentful article rendered through DS components
+- [ ] All four content model buckets are populated in Contentful: `siteSettings` (singleton), `article` (document), `tag` (taxonomy), `page` with `heroSection` + `richTextSection` (sections)
+- [ ] All four buckets render in the Next.js app — articles, tags, page with sections, site title from settings
+- [ ] A live Vercel URL exists with at least one published article and one page-with-sections rendered through DS components
 - [ ] Vercel preview deploys work (branch push produces a unique preview URL)
 - [ ] `contentfulRichText.jsx` maps at least: paragraphs, headings (h2/h3), bold/italic marks, hyperlinks, and unordered lists
+- [ ] The section renderer handles `sys.contentType.sys.id` as the discriminator (mirrors Sanity's `_type` switch) — documented with the diff between the two approaches
 - [ ] The coupling point map is fully populated — every row has a finding, not a hypothesis
 - [ ] `docs/briefs/vendor-eval-vercel-vs-netlify.md` exists with all evaluation sections populated
 - [ ] Vendor eval includes concrete cost comparison (free tier limits, Sugartown's actual build volume)
@@ -125,6 +181,12 @@ Merge checkpoint: commit `docs(sug-127): agnosticism audit + Vercel vs Netlify v
 **Contentful API keys are secrets.** Never commit `.env.local`. Vercel env vars are set in the dashboard — Claude will explain the UI steps. The `.gitignore` in `apps/contentful-poc` must include `.env.local` explicitly.
 
 **Vercel monorepo subdirectory deploy:** Vercel detects monorepos automatically via `turbo.json` presence. In the Vercel dashboard: Root Directory = `apps/contentful-poc`, Framework Preset = Next.js. This is a key DX point to evaluate — Netlify requires `netlify.toml` with explicit `base` config for the same behaviour.
+
+**Contentful modular content — `include` depth and the N+1 problem.** When fetching a `page` entry that has a `sections` references array, the CDA by default returns only the reference IDs — not the linked entries themselves. To resolve linked entries in one request, pass `include: 2` to `getEntries()`. Depth 1 resolves first-level links (sections); depth 2 resolves links within those links (e.g. a section referencing a tag). The equivalent in Sanity is GROQ's `->` dereference — which is explicit per-field, not a blanket depth param. Document this difference in the vendor eval: GROQ's explicit dereference is more precise (you fetch exactly what you project); Contentful's `include` depth is coarser (you get all linked entries up to N levels, whether you use them or not).
+
+**Section type discriminator difference.** Sanity's section renderer switches on `section._type`. Contentful's equivalent is `entry.sys.contentType.sys.id`. The switch logic is structurally identical; the path to the discriminator differs. The `contentfulRichText.jsx` equivalent for sections will be a `renderSection(entry)` function that reads `entry.sys.contentType.sys.id` and dispatches to the correct DS component. Write this function alongside `contentfulRichText.jsx` in Phase 2 and note the path difference explicitly in the coupling point map.
+
+**Reference the Platform content model documentation.** The live site's Platform section (`/platform`) documents the Sugartown atomic model (singleton / document / taxonomy / section). The Contentful content types defined in Phase 1 must be consistent with that documentation — same bucket names, same conceptual grouping. If the Platform doc uses different terminology, note the discrepancy as a finding.
 
 **Existing Storybook is the agnosticism baseline.** The DS component stories in `apps/storybook` already show components rendering with plain prop data — no Sanity types. Those stories are the proof that the DS primitives accept any data source. No new Storybook work is needed for this epic; the existing stories can be referenced in the agnosticism audit doc.
 
