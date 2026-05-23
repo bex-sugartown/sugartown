@@ -36,7 +36,10 @@ const RECENT_RELEASES = (stats.release?.latestN ?? []).slice(0, 5)
 const roadmap    = stats.linearRoadmap ?? {}
 const inProgress = roadmap.inProgress ?? []
 const backlog    = roadmap.backlog    ?? []
-const isStale    = roadmap.stale === true || (!roadmap.fetchedAt && !inProgress.length && !backlog.length)
+// noData: genuinely nothing to show — hide the table entirely
+// isStale: data exists but came from last-good fallback — show with notice
+const noData  = !roadmap.fetchedAt && !inProgress.length && !backlog.length
+const isStale = roadmap.stale === true && !noData
 
 const PRIORITY_SWATCH = {
   high:   { color: 'var(--st-pri-high)', label: 'High' },
@@ -172,28 +175,36 @@ export default function GovernancePage() {
             number="§02"
             name="ROADMAP"
             title="Linear epics, in flight and on deck"
-            kicker={isStale ? '—' : `${inProgress.length + backlog.length} epics`}
+            kicker={noData ? '—' : `${inProgress.length + backlog.length} epics`}
           />
 
-          {isStale && (
+          {noData && (
             <Callout>
               Roadmap data pending next CI run. Full backlog on{' '}
               <a href="https://linear.app/sugartown" target="_blank" rel="noreferrer">Linear ↗</a>.
             </Callout>
           )}
 
-          {!isStale && (
-            <div ref={roadmapRef} className={styles.roadmapScroll}>
-              {inProgress.length > 0
-                ? <RoadmapLane label="In progress" epics={inProgress} />
-                : <p className={styles.empty}>No epics currently in progress.</p>
-              }
+          {!noData && (
+            <>
+              {isStale && (
+                <Callout variant="info">
+                  Showing last available data. Full backlog on{' '}
+                  <a href="https://linear.app/sugartown" target="_blank" rel="noreferrer">Linear ↗</a>.
+                </Callout>
+              )}
+              <div ref={roadmapRef} className={styles.roadmapScroll}>
+                {inProgress.length > 0
+                  ? <RoadmapLane label="In progress" epics={inProgress} />
+                  : <p className={styles.empty}>No epics currently in progress.</p>
+                }
 
-              {backlog.length > 0
-                ? <RoadmapLane label="Backlog" epics={backlog} />
-                : <p className={styles.empty}>Backlog is empty.</p>
-              }
-            </div>
+                {backlog.length > 0
+                  ? <RoadmapLane label="Backlog" epics={backlog} />
+                  : <p className={styles.empty}>Backlog is empty.</p>
+                }
+              </div>
+            </>
           )}
         </section>
 
