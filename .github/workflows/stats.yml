@@ -70,6 +70,7 @@ jobs:
           # stats.json is in .gitignore for local dev, but CI needs to commit it.
           # Force-add to bypass the ignore rule.
           git add -f apps/web/src/generated/stats.json
+          git add -f apps/web/src/generated/stats.last-good.json
           if git diff --cached --quiet; then
             echo "No stats changes — nothing to commit."
           else
