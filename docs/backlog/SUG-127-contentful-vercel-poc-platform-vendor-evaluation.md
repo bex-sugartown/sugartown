@@ -156,6 +156,7 @@ Merge checkpoint: commit `docs(sug-127): agnosticism audit + Vercel vs Netlify v
 ## Related
 
 - **Linear:** [SUG-127](https://linear.app/sugartown/issue/SUG-127/contentful-vercel-poc-platform-vendor-evaluation)
+- **Architecture decisions:** `docs/briefs/SUG-127-architecture-decisions.md` — tradeoffs for every planning decision (benefit now vs complexity later)
 - **Epic template:** `docs/epic-template.md`
 - **DS package:** `packages/design-system/` — the agnosticism proof surface
 - **Comparison baseline:** `apps/web/src/lib/portableTextComponents.jsx` — PT renderer to mirror in Contentful adapter

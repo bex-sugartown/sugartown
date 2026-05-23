@@ -1,0 +1,185 @@
+# SUG-127 — Architecture Decision Record
+
+**Epic:** Contentful + Vercel POC — CMS Agnosticism Proof + Platform Vendor Evaluation
+**Last updated:** 2026-05-23
+**Purpose:** Document each architectural decision made during planning, with honest tradeoffs — what it buys now, what it costs later, and when you'd flip the decision.
+
+This is a living document. Decisions made during execution (not just planning) should be added here as they happen.
+
+---
+
+## Decision 1 — Monorepo-internal app vs standalone repo
+
+**Chose:** Add `apps/contentful-poc` inside this monorepo, deployed from a subdirectory.
+
+**Why:** The agnosticism proof is strongest when both apps share the same `packages/design-system` and token pipeline with zero ceremony. A standalone repo would require publishing the DS package to npm (or a local tarball install) before the real question — does the DS work without Sanity? — could even be tested. The workspace link gets to the question immediately.
+
+**Benefit now:**
+- No publish ceremony. DS changes are immediately available.
+- Token pipeline (`pnpm tokens:build`) covers both apps in one command.
+- Storybook baseline remains intact as the reference for agnosticism claims.
+- Vercel's monorepo subdirectory deploy is itself a feature under evaluation — testing it this way is more honest than a synthetic setup.
+
+**Cost/complexity later:**
+- The POC never proves the DS works as a real external package. Workspace resolution masks potential issues: incorrect `exports` field paths, missing peer deps declared but not installed, CSS `@import` paths that assume monorepo structure.
+- If the goal shifts to "publish this DS for a client to install", the monorepo approach won't have caught the gaps. A `npm pack` + install-from-tarball validation step would.
+- The POC is permanently coupled to this repo's lifecycle. Archiving or deleting it requires cleanup of workspace and Turbo config.
+
+**When you'd choose differently:** If the goal were "prove this DS is consumable by a team with no access to this repo", you'd publish to npm (or GitHub Packages) and install externally. The workspace approach is right for learning; wrong for distribution validation.
+
+**Partial mitigation:** Run `npm pack` on `packages/design-system` during Phase 3 and install the tarball into a throwaway local directory. Five minutes of work that answers the external-install question without changing the architecture.
+
+---
+
+## Decision 2 — Next.js (App Router) vs staying with Vite/React
+
+**Chose:** Next.js App Router for `apps/contentful-poc`.
+
+**Why:** Vercel's platform features — ISR, `next/image`, edge middleware, server components, automatic code splitting — are built around Next.js. Evaluating Vercel without Next.js is like evaluating Sanity without Studio: you'd be missing the thing that makes the platform interesting. The vendor eval needs to be honest about what Vercel is actually for.
+
+**Benefit now:**
+- Access to the full Vercel feature set: ISR revalidation on Contentful publish, `next/image` CDN optimisation, edge middleware for redirects.
+- Community examples, Contentful's own Next.js starter, and Vercel templates all target this combo — plenty of reference material.
+- Server components mean Contentful API calls happen at build/request time, not in the browser. No CORS concerns, no exposed API keys in client bundle.
+
+**Cost/complexity later:**
+- Two frontend frameworks now live in this monorepo (Vite/React and Next.js/React). Turbo handles this cleanly, but the mental context-switch is real: different HMR behaviour, different build outputs, different error boundaries.
+- The DS package's React components have no `"use client"` directive. In Next.js App Router, all components are server components by default. Any DS component that uses hooks, event handlers, or browser APIs will break silently until you add `"use client"` at the import boundary. This is a real finding for the agnosticism audit.
+- If `apps/web` ever migrates to Next.js (unlikely, but possible), the POC's patterns become precedent. Good patterns in the POC become easy to reuse; bad ones become easy to copy.
+
+**When you'd choose differently:** If the evaluation goal were "can Vercel deploy our existing Vite app", you'd keep Vite. That's a valid question but a different one — and the answer is yes, Vercel supports Vite natively. The more interesting question is whether Vercel's Next.js-native features justify the framework switch, which requires Next.js to test honestly.
+
+**The apples-to-oranges risk:** Documenting this explicitly in the vendor eval matters. Netlify + Vite is the current stack. The POC compares Vercel + Next.js. Some DX wins in the eval will be Next.js wins, not Vercel wins. The eval needs to distinguish them.
+
+---
+
+## Decision 3 — `workspace:*` dependency vs npm publish for DS consumption
+
+**Chose:** `"@sugartown/design-system": "workspace:*"` in `apps/contentful-poc/package.json`.
+
+**Why:** Fastest path to testing the real question. Avoids version management, registry setup, and publish ceremony during a POC.
+
+**Benefit now:**
+- DS component changes (bug fixes, new props) are immediately available in the POC without a publish step.
+- No version pinning means no "why is the POC on 1.0.0 but web is using 1.1.2" drift during active development.
+- No registry account, no publish token, no CI publishing step to configure.
+
+**Cost/complexity later:**
+- Workspace resolution is pnpm's job, not Node's. Outside this monorepo, `@sugartown/design-system` doesn't exist unless published. The package exports (`dist/index.mjs`, `src/styles/*`) have never been tested via a real install path.
+- The `exports` field in `package.json` maps `./styles/*` to `./src/styles/*`. This works via workspace because pnpm resolves to the source directory directly. Via npm install, it resolves to `dist/` — but styles aren't built into `dist/`. This is a likely breakage point that workspace masking hides.
+- If a client ever asks "can we use your DS in our project", the honest answer requires having done a real external install to know.
+
+**Mitigation (Phase 3 task):** Run `cd packages/design-system && npm pack`, then `cd /tmp && mkdir ds-test && cd ds-test && npm install /path/to/sugartown-design-system-1.0.0.tgz && node -e "require('@sugartown/design-system')"`. Surface any install-path failures as findings in the agnosticism audit.
+
+---
+
+## Decision 4 — Contentful CDA REST vs GraphQL
+
+**Chose:** Contentful CDA REST API via the official `contentful` npm client for Phase 1.
+
+**Why:** Lower setup cost, official SDK handles auth and error responses, extensive community examples, TypeScript types available via `contentful-typescript-codegen`. The `contentful` client mirrors the `@sanity/client` pattern (createClient → getEntries) closely enough for a fair comparison.
+
+**Benefit now:**
+- One dependency, official SDK, 10-minute time-to-first-response.
+- REST responses are predictable and debuggable (just JSON in a browser or curl).
+- No Apollo or fetch boilerplate required.
+
+**Cost/complexity later:**
+- CDA REST returns all fields for every entry — no field-level projection. Sanity + GROQ gives precise field selection at query time, which matters for performance and payload size. The vendor eval must document this difference explicitly: GROQ is a query language; CDA REST is a filtered collection endpoint.
+- Over-fetching is real. An `article` entry with a large Rich Text body field will return all of it even if you only need `title` and `slug` for a list page. Contentful's GraphQL endpoint solves this (field-level selection), but adds complexity.
+- The REST SDK is synchronous-ish in its API design. If the POC later needs streaming or React Suspense integration, the SDK isn't built for it.
+
+**When you'd choose GraphQL:** If the POC's goal were a production-representative fetch pattern. GraphQL = more GROQ-like = more honest Sanity comparison. For a learning-first POC, REST is the right call. Note this tradeoff in the eval.
+
+---
+
+## Decision 5 — Mirror pattern for rich text adapters
+
+**Chose:** Write `contentfulRichText.jsx` as an explicit mirror of `apps/web/src/lib/portableTextComponents.jsx` — same visual output, different input format, no shared abstraction between them.
+
+**Why:** The point of this POC is to expose the difference, not abstract it away. A unified "render any rich text from any CMS" function would hide exactly the finding we're trying to surface: how different PortableText and Contentful Rich Text are at the format level, and how similar the rendering output can be made to look.
+
+**Benefit now:**
+- The two files can be diffed directly. Line-by-line, the diff shows: this is where the formats agree (both have headings, paragraphs, lists), this is where they diverge (PortableText marks as arrays on spans; Contentful marks as inline nodes in a tree).
+- No abstraction to design, no shared type to define. Each adapter is self-contained.
+- The agnosticism audit gets a concrete, reviewable artefact.
+
+**Cost/complexity later:**
+- Two files to maintain for the same visual output. If `CodeBlock` from the DS changes its API (e.g. a new required prop), both adapters need updating independently. This is the adapter tax: it's real, it's ongoing, and it's worth naming explicitly in the eval as a reason to prefer a single CMS if you can.
+- If Sugartown ever adds a new custom mark type to Sanity (e.g. `citationRef`), the Contentful adapter won't have it. The adapters will diverge over time unless actively maintained.
+- No type safety bridging the two. `portableTextComponents.jsx` handles `PortableTextComponents` types; `contentfulRichText.jsx` handles `@contentful/rich-text-react-renderer` types. A shared interface would require a custom abstraction layer.
+
+**When you'd choose a unified abstraction:** In a production multi-CMS setup where both adapters need long-term maintenance. A `RichTextRenderer` component that accepts `{ format: 'portable-text' | 'contentful', content: any }` would centralize the maintenance cost. Not worth building for a POC.
+
+---
+
+## Decision 6 — Bex-led execution with Claude as guide
+
+**Chose:** Bex runs every command. Claude explains each step before it's taken — what the command does, why this option over alternatives, what to watch for.
+
+**Why:** The deliverable isn't just a live URL — it's genuine platform intuition. A job interview asks about your experience with Vercel, not Claude's. Being able to speak to the CLI flow, dashboard navigation, deploy hook setup, and env var management from first-hand memory is the point. Claude scaffolding it autonomously would produce a working URL and a gap in understanding.
+
+**Benefit now:**
+- Every decision made during setup is a conscious choice, not a default accepted blindly.
+- Friction at setup surfaces assumptions worth examining. When a config step doesn't work as expected, that's a finding.
+- The vendor eval will be grounded in specific, remembered experience — not reconstructed from logs.
+
+**Cost/complexity later:**
+- Slower. Some phases (Turbo config, Contentful type generation, Vercel CLI init) would be 5 minutes with autonomous scaffolding; they'll take 20–30 minutes with the explain-then-execute model.
+- Risk of getting stuck. If a step genuinely doesn't work, the debugging loop involves Bex reading error messages and Claude interpreting them — which is the right process but slower than Claude just trying things.
+
+**When you'd choose differently:** Any production epic where speed-to-working is the primary goal. This is a learning epic with a secondary deliverable (the eval). The tradeoff is explicit and worth writing in the vendor eval intro: "this evaluation was produced from direct experience, not from reading documentation."
+
+---
+
+## Decision 7 — Shared token pipeline
+
+**Chose:** `apps/contentful-poc` consumes the same `tokens/source/tokens.json` and runs `pnpm tokens:build` from the monorepo root, getting the same `tokens.css` and `theme.pink-moon.css` as `apps/web`.
+
+**Why:** Token sharing is the cheapest possible proof of visual consistency across data sources. If the POC looks like Sugartown without any extra CSS work, the token pipeline's portability case is made.
+
+**Benefit now:**
+- Pink Moon theme works in the Contentful app immediately — same colours, same type scale, same spacing.
+- No token decisions to make during Phase 1. Full attention on data fetching and component wiring.
+- Any token change in `tokens/source/tokens.json` is automatically reflected in both apps on next build.
+
+**Cost/complexity later:**
+- The POC inherits all 612 tokens, the vast majority of which it will never use. For a real client DS distribution, shipping 612 tokens when the client needs 40 is friction. The POC doesn't surface this problem — it masks it.
+- Token naming is Sugartown-specific (`--st-*`). A client adopting this DS would need to either accept the `--st-` prefix or run a find-and-replace on the generated CSS. The POC doesn't test this path.
+- If Sugartown adds a breaking token rename (e.g. a deprecated alias is removed), both apps break on the next `pnpm tokens:build`. The POC has no isolation from `apps/web` token churn.
+
+**The finding this surfaces:** Token portability within a monorepo is nearly free. Token portability to an external consumer is a different (harder) problem. The vendor eval should distinguish these.
+
+---
+
+## Decision 8 — No Chromatic for the POC app
+
+**Chose:** Skip Chromatic VRT for `apps/contentful-poc`. No Storybook stories added for the POC.
+
+**Why:** The POC is a Next.js app, not a Storybook app. The existing DS stories in `apps/storybook` cover the DS primitives — the agnosticism baseline is already there. Adding Storybook to the Next.js app would be a distraction from the primary learning goal.
+
+**Benefit now:**
+- No story maintenance overhead during a time-boxed POC.
+- Less config: no `apps/contentful-poc/.storybook/`, no Chromatic project ID to register.
+- Faster Phase 1 iteration — visual issues are caught by looking at the live URL, not waiting for a Storybook build.
+
+**Cost/complexity later:**
+- No visual regression baseline for the POC. If a DS change breaks the Contentful app's rendering, there's no automated catch — only a manual URL check.
+- If the POC ever graduates to a real project, the missing story coverage becomes a gap that needs backfilling.
+- The vendor eval can't speak to Chromatic + Vercel vs Chromatic + Netlify integration differences, because Chromatic wasn't run.
+
+**Acceptable because:** The POC is explicitly research, not production. The learning goal is met by the live URL and the agnosticism audit. If the eval recommends Vercel for a future project, that future project would set up Chromatic then.
+
+---
+
+## Decisions still open
+
+These will be made during Phase 1 execution. Record the decision and its rationale here when it's made.
+
+| Decision point | Options | Status |
+|----------------|---------|--------|
+| Next.js `app/` fetch strategy — static (`generateStaticParams` + `fetch`) vs dynamic server component vs ISR revalidate | Static for list; ISR for detail (revalidate on Contentful publish webhook) | Open |
+| Contentful REST vs GraphQL — confirm REST for Phase 1 | REST | Tentative |
+| `"use client"` boundary placement for DS components | Mark at import boundary in page files (not inside DS package) | Tentative |
+| Turbo `pipeline` tasks for `contentful-poc` | Add `dev` and `build` to existing pipeline | Open |
+| Vercel deploy: import from GitHub vs CLI (`vercel --cwd apps/contentful-poc`) | Dashboard import (evaluating the UI experience) | Open |
