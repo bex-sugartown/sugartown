@@ -7,19 +7,20 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     },
-    "./styles/*": "./src/styles/*"
+    "./styles/*": "./src/styles/*",
+    "./styles.css": "./dist/index.css"
   },
   "files": [
     "dist",
     "src/styles"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist .turbo"
@@ -33,6 +34,8 @@
     "@sugartown/tsconfig": "workspace:*",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "esbuild": "^0.28.0",
+    "esbuild-css-modules-plugin": "^3.1.5",
     "eslint": "^8.56.0",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"

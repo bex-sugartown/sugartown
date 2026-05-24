@@ -1,7 +1,7 @@
 # SUG-127 — Architecture Decision Record
 
 **Epic:** Contentful + Vercel POC — CMS Agnosticism Proof + Platform Vendor Evaluation
-**Last updated:** 2026-05-23
+**Last updated:** 2026-05-24
 **Purpose:** Document each architectural decision made during planning, with honest tradeoffs — what it buys now, what it costs later, and when you'd flip the decision.
 
 This is a living document. Decisions made during execution (not just planning) should be added here as they happen.
@@ -194,6 +194,69 @@ This is a living document. Decisions made during execution (not just planning) s
 
 ---
 
+## Decision 10 — `"use client"` boundary at the page level, not in the DS package
+
+**Chose:** Mark `"use client"` in the POC's own page and wrapper files. `packages/design-system` stays untouched. (Confirmed 2026-05-24 via Phase 1 smoke test; promoted from the tentative row in the open table.)
+
+**Why:** The DS barrel (`dist/index.mjs`) bundles every component into one module with no `"use client"` directive. Interactive components (`Accordion`, `ScoreRing`) import `useState`/`useEffect`, so Next.js App Router refuses to import *anything* from the barrel into a Server Component, even a pure presentational component like `Button`. There are two ways to resolve it: add directives inside the DS package, or mark the consumer boundary. The epic non-goals forbid DS component changes ("use the existing ones as-is"), so the boundary lives in the POC.
+
+**Benefit now:**
+- DS package stays untouched, honouring the "no DS modification" acceptance criterion for the component layer.
+- Confirmed working by the smoke test: a `"use client"` page importing `Button`, `Card`, `Chip` builds and prerenders cleanly.
+- Keeps the agnosticism question clean: the DS components themselves are agnostic; only the *server/client boundary* is a Next.js-specific concern owned by the consuming app.
+
+**Cost/complexity later:**
+- Every POC route that touches DS components becomes a client component, forfeiting React Server Component benefits (zero-JS render, server-only data access in the same file) for that subtree. For a content site this is a real performance cost, not a formality.
+- The boundary discipline is manual: nothing stops a future page from importing a DS component into a server file and hitting the same opaque error again.
+- The finding points at a latent DS-package gap: a published component library aimed at App Router consumers *should* ship `"use client"` directives (or a split client entry). The POC documents the gap rather than fixing it.
+
+**When you'd choose differently:** If the DS package were genuinely intended for external App Router consumers, fixing it at source (directives on interactive components, or a `./client` subpath export) is correct. See Decision 11's "first consumer" finding: this is the same root cause (the built artifact has never been consumed by a real app).
+
+---
+
+## Decision 11 — DS built artifact was not consumable out of the box (exports map gap + first real consumer)
+
+**Chose:** Add a `"./styles.css": "./dist/index.css"` entry to the DS package `exports` map so the POC can import the bundled component CSS. Record it as a coupling-point finding, not a silent fix.
+
+**Why:** `apps/web` does not consume the built DS package; it keeps its own `src/design-system` copy (the source carries TODOs reading "When @sugartown/design-system becomes a build-time dependency of apps/web…"). That makes `apps/contentful-poc` the **first app ever to consume the DS's built `dist` artifact**. The published `exports` map exposed only `.` (JS) and `./styles/*` (source tokens/theme), not the bundled component CSS at `./dist/index.css`. Importing it failed with `ERR_PACKAGE_PATH_NOT_EXPORTED`, so DS components rendered structurally correct but unstyled. This is the precise risk Decision 1 flagged under "Cost/complexity later" ("incorrect `exports` field paths… CSS paths that assume monorepo structure"). The agnosticism proof held at the component API layer but not at the package packaging layer until this one-line change.
+
+**Benefit now:**
+- Components render with their real styles in the POC; the styling pipeline is exercised end to end.
+- The finding is concrete and quotable for the agnosticism audit: "the DS package as published was not consumable by a non-Sanity app without a packaging change."
+- Establishes the built-artifact consumption path that `apps/web` will eventually need (per its own TODOs).
+
+**Cost/complexity later:**
+- `dist/index.css` ships **plain, unscoped** class names (`.button`, `.card`), not hashed CSS-module names. Global class collision with a consuming app's own CSS is a live risk; the POC must watch for it and the audit should flag it as a packaging weakness.
+- The `exports` addition is a real edit to `packages/design-system`, in tension with the "no DS modification" AC. It is justified as a packaging fix (not a component change), but it means the strict reading of that AC did not survive contact with a real consumer.
+- A fuller fix (CSS-module scoping in the tsup build, or a per-component CSS export) is deferred. The POC documents the gap rather than re-architecting DS packaging.
+
+**When you'd choose differently:** If the DS were being prepared for external distribution, you would scope the component classes, ship a documented CSS entry point, and validate via `npm pack` (the mitigation named in Decision 1) before any consumer relied on it.
+
+---
+
+## Decision 12 — DS build migrated from tsup to a direct esbuild script to fix CSS Modules
+
+**Chose:** Replace tsup with a small `build.mjs` esbuild script using `esbuild-css-modules-plugin` (Lightning CSS) as the sole CSS handler. (Confirmed working 2026-05-24: the POC renders styled DS components.)
+
+**Why:** The published `dist` build never wired CSS Modules to the JS. Every `*.module.css` import compiled to an empty `{}`, so `styles.button` was `undefined` and components rendered with `className="undefined undefined"` (unstyled). `apps/web` and Storybook consume DS *source* through Vite (native CSS Modules), so the defect stayed invisible until `apps/contentful-poc` became the first app to consume the built `dist`. tsup's built-in CSS handling intercepts `*.module.css` before any esbuild loader override or plugin `onLoad` can run, and its plugin order is not reorderable, so the fix required dropping tsup's CSS pipeline entirely. Driving esbuild directly makes the CSS-Modules plugin the only CSS handler: scoped class names in `dist/index.css` plus a matching name map as the module default export. Verified by exact-match: `dist/index.mjs` and `dist/index.css` share the same scoped selector (`Button-module__button_-_VRTG__100`).
+
+**Benefit now:**
+- The DS `dist` is genuinely consumable by an external (non-Vite) app for the first time.
+- Scoped class names replace the previous plain global names (`.button`), which also resolves the global-collision risk flagged in Decision 11.
+- The esbuild build is fast and self-contained; `packages: 'external'` replicates tsup's dependency externalisation.
+
+**Cost/complexity later:**
+- The DS build is now a hand-rolled script rather than a standard tool. Maintainers must understand the esbuild API and the CSS-Modules plugin instead of tsup conventions.
+- Type declarations (`dist/index.d.ts`) are no longer regenerated by the build (esbuild does not emit `.d.ts`), and DTS is separately blocked by the lucide-react / React 19 `@types` skew. The last-good `d.ts` is retained. A `tsc`-based dts step (or resolving the skew) is owed.
+- New dependency surface added to the DS package (`esbuild`, `esbuild-css-modules-plugin`). `tsup` is now unused and removable.
+- This modifies `packages/design-system` beyond the epic's "no DS modification" acceptance criterion. Justified: it is a build/packaging fix, not a component change, and it is the precondition for the agnosticism proof being demonstrable at all.
+
+**When you'd choose differently:** If preserving a standard bundler were required, Vite library mode (native CSS Modules, already used by `apps/web`) is the alternative: heavier config, standard tool. For a time-boxed POC the minimal esbuild script is the lowest-risk unblock.
+
+**The headline finding for the agnosticism audit:** The DS components are agnostic; the *packaging* was broken. The published build artifact silently dropped CSS Modules and had never been exercised by a real consumer. Document this in the Phase 3 coupling-point map as the primary structural result, distinct from any Sanity-coupling finding.
+
+---
+
 ## Decisions still open
 
 These will be made during Phase 1 execution. Record the decision and its rationale here when it's made.
@@ -202,6 +265,5 @@ These will be made during Phase 1 execution. Record the decision and its rationa
 |----------------|---------|--------|
 | Next.js `app/` fetch strategy — static (`generateStaticParams` + `fetch`) vs dynamic server component vs ISR revalidate | Static for list; ISR for detail (revalidate on Contentful publish webhook) | Open |
 | Contentful REST vs GraphQL — confirm REST for Phase 1 | REST | Tentative |
-| `"use client"` boundary placement for DS components | Mark at import boundary in page files (not inside DS package) | Tentative |
 | Turbo `pipeline` tasks for `contentful-poc` | Add `dev` and `build` to existing pipeline | Open |
 | Vercel deploy: import from GitHub vs CLI (`vercel --cwd apps/contentful-poc`) | Dashboard import (evaluating the UI experience) | Open |
