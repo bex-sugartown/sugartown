@@ -1,0 +1,96 @@
+.prose {
+  font-family: var(--st-font-family-ui);
+  color: var(--st-color-text-default);
+  line-height: 1.6;
+}
+
+.title {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-1);
+  color: var(--st-color-text-primary);
+  line-height: 1.1;
+  margin: 0 0 var(--st-space-2);
+}
+
+.eyebrow {
+  font-family: var(--st-font-family-mono);
+  color: var(--st-color-text-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  margin: 0 0 var(--st-space-3);
+}
+
+.summary {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-4);
+  color: var(--st-color-text-muted);
+  font-style: italic;
+  margin: 0 0 var(--st-space-5);
+}
+
+.prose h2 {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-2);
+  color: var(--st-color-brand-primary);
+  line-height: 1.2;
+  margin: var(--st-space-6) 0 var(--st-space-3);
+}
+
+.prose h3 {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-3);
+  color: var(--st-color-text-primary);
+  margin: var(--st-space-5) 0 var(--st-space-2);
+}
+
+.prose p { margin: 0 0 var(--st-space-4); }
+
+.prose ul,
+.prose ol {
+  margin: 0 0 var(--st-space-4);
+  padding-left: var(--st-space-5);
+}
+
+.prose li { margin-bottom: var(--st-space-2); }
+
+.prose a {
+  color: var(--st-color-link-default);
+  text-underline-offset: 2px;
+}
+.prose a:hover { color: var(--st-color-link-hover); }
+
+.prose code {
+  font-family: var(--st-font-family-mono);
+  background: var(--st-code-bg);
+  color: var(--st-code-color);
+  border: 1px solid var(--st-code-border-ghost);
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+  font-size: 0.9em;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--st-color-rule-accent);
+  margin: var(--st-space-5) 0;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 var(--st-space-4);
+}
+.prose th,
+.prose td {
+  border: 1px solid var(--st-color-rule-accent);
+  padding: var(--st-space-2) var(--st-space-3);
+  text-align: left;
+  vertical-align: top;
+}
+.prose th {
+  font-family: var(--st-font-family-mono);
+  color: var(--st-color-text-eyebrow);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
