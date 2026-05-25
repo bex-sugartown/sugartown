@@ -12,9 +12,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.24.1.
+> Accumulates since v0.24.2.
 
-- SUG-127 Phase 2: Contentful POC atomic model — tag taxonomy, siteSettings singleton, page + section builder, DS theme toggle, RTE table/code DS tokens, ADRs 13–15
+- SUG-127 Phase 3: coupling point map with real findings, DS packaging gap documented, vendor eval (Netlify stays for Vite; Vercel for Next.js; hybrid model confirmed)
 
 ---
 

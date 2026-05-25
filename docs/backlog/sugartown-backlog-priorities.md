@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-25 · SUG-128 added (Contentful POC — custom domain on Vercel). 🟢 Next.
+> Updated 2026-05-25 · SUG-127 shipped v0.24.2 (Contentful + Vercel POC — full three-phase). SUG-128 next (custom domain).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-127 (Contentful + Vercel POC — job interview homework + vendor evaluation). v0.24.0 shipped ✅ 2026-05-18.
+> **⚑ Current focus:** SUG-127 fully shipped v0.24.2 ✅ 2026-05-25. Next: SUG-128 (poc.sugartown.io custom domain — Bex executes DNS + Vercel dashboard) or SUG-116 (Ledger Button Update).
 
 ---
 
@@ -23,7 +23,7 @@
 | 6 | ~~**[SUG-120](https://linear.app/sugartown/issue/SUG-120/grid-audit-converge-to-a-single-grid-andor-container-component) · Consolidate StatGrid + StatTileSection into Grid primitive** — StatGrid + SectionContainer deleted; all callsites migrated to `Grid spacing="0" accentTop`. Shipped v0.23.33.~~ | `Design System` `Infrastructure` | ✅ Shipped |
 | 7 | ~~**[SUG-124](https://linear.app/sugartown/issue/SUG-124/semantic-naming-audit-css-classes-alpha-row-list-pattern-reuse) · Semantic naming audit — CSS classes, alpha row, list pattern reuse guardrails** — All tax*/alpha* classes renamed; validate:css-names 0 violations; css-class-naming.md written; SUG-125 scoped. Shipped v0.23.37.~~ | `Design System` `Tooling` | ✅ Shipped |
 | 8 | ~~**[SUG-125](https://linear.app/sugartown/issue/SUG-125/indexgroup-indexcell-ds-primitives-pagination-and-letterfilterstrip) · IndexGroup + IndexCell DS primitives** — IndexGroup + IndexCell DS primitives; AlphaFilter "All" clear cell; `--st-index-cell-inactive-color` token; TaxonomyDetailPage empty-state full-width. Shipped v0.23.38.~~ | `Design System` | ✅ Shipped |
-| 9 | **[SUG-127](https://linear.app/sugartown/issue/SUG-127/contentful-vercel-poc-platform-vendor-evaluation) · Contentful + Vercel POC — Platform Vendor Evaluation** — Hands-on POC: Contentful content model + Next.js + Vercel deploy, Bex-led with Claude as guide. Phase 2: formal Vercel vs Netlify vendor eval doc. Job interview homework. Epic: `docs/backlog/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`. | `Infrastructure` `Tooling` `Platform` | 🔴 Now |
+| 9 | ~~**[SUG-127](https://linear.app/sugartown/issue/SUG-127/contentful-vercel-poc-platform-vendor-evaluation) · Contentful + Vercel POC — Platform Vendor Evaluation** — Three-phase POC: Next.js + Contentful + Vercel deploy, atomic content model, DS agnosticism proven, vendor eval written. Shipped v0.24.2.~~ | `Infrastructure` `Tooling` `Platform` | ✅ Shipped |
 | 10 | **[SUG-128](https://linear.app/sugartown/issue/SUG-128/contentful-poc-custom-domain-on-vercel-pocsugartownio) · Contentful POC — custom domain on Vercel (poc.sugartown.io)** — Add a custom subdomain to the contentful-poc Vercel deployment for a stable, shareable URL. DNS CNAME + Vercel dashboard only, no code changes. Epic: `docs/backlog/SUG-128-contentful-poc-custom-domain-vercel.md`. | `Infrastructure` | 🟢 Next |
 | 4 | **[SUG-116](https://linear.app/sugartown/issue/SUG-116) · Ledger Button Update — Baseline Rule, sm/md/lg sizes, Storybook snapshot** — Move 3px stripe from `border-top` to `border-bottom` across all variants; introduce `--st-color-button-rule-{primary,secondary,tertiary}` tokens (Option B rename); add `sm`/`lg` size prop to DS + web adapter; update Storybook snapshot story. Epic: `docs/backlog/SUG-116-ledger-button-update.md`. | `Design System` | 🟢 Next |
 | 3 | ~~**[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs, hero inheritance, scrollspy, DataTable releases, Storybook BUILD_DATE freeze. Shipped v0.23.22.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
@@ -101,6 +101,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-127 · Contentful + Vercel POC** — Three-phase POC: Next.js App Router + Contentful CDA + Vercel monorepo deploy. DS agnosticism proven (packaging gap found + fixed). Atomic content model (singleton, document, taxonomy, sections). Rich text adapter with DS tokens. Vendor eval: Netlify stays for Vite app, Vercel for Next.js. Epic: `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`.~~ | v0.24.2 | 2026-05-25 |
 | ~~**SUG-114 · Dynamic schema ERD** — schemaManifest.js auto-generated at build time; gitignored; count assertion (floor 42); CMS ERD section label copy updated; clear-selection button full-width; SUG-122 (registry↔ERD bridge) scoped. Epic: `docs/shipped/SUG-114-dynamic-schema-erd.md`.~~ | v0.23.36 | 2026-05-17 |
 | ~~**SUG-117 · CWV mobile form-factor reporting** — LHCI mobile throttling fixed (Lighthouse 10+ flags); uncalibrated CI data detection in CwvSnapshot falls back to PERF_BACKUP; toggle re-enabled; CwvSnapshot added to /platform/governance §04. Epic: `docs/shipped/SUG-117-cwv-mobile-form-factor-reporting.md`.~~ | v0.23.35 | 2026-05-17 |
 | ~~**SUG-97 · Studio schema field group audit + reorg** — migration tab removed; all fields consolidated into legacy tab across article, node, page, caseStudy; legacySource deprecated; retrieval group stubs added to article/node for SUG-94. Epic: `docs/shipped/SUG-97-studio-schema-field-group-audit-reorg.md`.~~ | v0.23.34 | 2026-05-17 |
@@ -200,4 +201,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-18 · v0.24.0 shipped · queue: SUG-116*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-25 · v0.24.2 shipped · queue: SUG-128 / SUG-116*
