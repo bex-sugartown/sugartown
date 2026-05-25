@@ -8,6 +8,22 @@ This is a living document. Decisions made during execution (not just planning) s
 
 ---
 
+## Decision summary
+
+| # | Decision | Chose | Key tradeoff |
+|---|----------|-------|--------------|
+| 1 | Monorepo vs standalone repo | Monorepo-internal (`apps/contentful-poc`) | Strongest agnosticism proof; masks real npm install path issues |
+| 2 | Next.js App Router vs Vite/React | Next.js App Router | Access to Vercel platform features; some eval wins are Next.js wins, not Vercel wins |
+| 3 | DS dependency — `workspace:*` vs npm publish | `workspace:*` | Zero ceremony; hides whether the published package actually works |
+| 4 | Contentful CDA REST vs GraphQL | REST via official SDK | Fast to start; no field-level projection (over-fetches vs GROQ) |
+| 5 | Rich text adapters — unified vs mirror pattern | Explicit mirror (no shared abstraction) | Diff-able artefact; two files to maintain long-term |
+| 6 | Execution model — autonomous vs Bex-led | Bex runs every command | Real platform intuition; slower than autonomous scaffolding |
+| 7 | Token pipeline — shared vs duplicated | Shared (`pnpm tokens:build` from root) | Visual consistency for free; all 612 tokens ship, masking distribution cost |
+| 8 | Chromatic VRT for POC | Skip | Less overhead; no visual regression baseline |
+| 9 | Content model — full atomic vs single type first | Single type first (`article` only in Phase 1) | Faster Phase 1; Phase 2 requires a second pass |
+
+---
+
 ## Decision 1 — Monorepo-internal app vs standalone repo
 
 **Chose:** Add `apps/contentful-poc` inside this monorepo, deployed from a subdirectory.
