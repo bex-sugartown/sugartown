@@ -22,6 +22,7 @@ This is a living document. Decisions made during execution (not just planning) s
 | 8 | Chromatic VRT for POC | Skip | Less overhead; no visual regression baseline |
 | 9 | Content model — full atomic vs single type first | Single type first (`article` only in Phase 1) | Faster Phase 1; Phase 2 requires a second pass |
 | 13 | Tag taxonomy: custom content type vs native Contentful Tags | Custom `tag` content type | Detail pages + typed refs + Sanity parity; native Tags better for filter-only taxonomy with no detail page |
+| 14 | Open: evaluate native Contentful Taxonomy (SKOS hierarchy) for tag/category | Not decided — flagged for Phase 3 / future SUG | `descendants` query is a genuine capability gap vs Sanity; blocked by plan availability uncertainty |
 
 ---
 
@@ -331,6 +332,127 @@ For a real Contentful production project: **evaluate upfront.** The deciding que
 **The finding for the agnosticism audit:**
 
 This is a model philosophy difference, not a capability gap. Sanity treats all taxonomy as first-class documents. Contentful distinguishes between "content you publish" (entries) and "metadata labels you apply" (native tags). The custom content type approach makes Contentful behave like Sanity; the native Tags approach embraces Contentful's own model. Neither is wrong. Choosing between them is a product decision, not a technical one.
+
+---
+
+## Decision 14 — Open question: should Sugartown's Sanity taxonomy be re-evaluated against Contentful's native Taxonomy feature?
+
+**Status: open — not a Phase 2 execution decision, flagged for Phase 3 evaluation or a future SUG epic.**
+
+This is not a decision that was made during Phase 2. It is a question surfaced by Phase 2 — one that deserves an honest answer before any future Contentful-native project (or a Sugartown migration) commits to a taxonomy model.
+
+---
+
+### What Contentful's native Taxonomy feature actually is
+
+Contentful's Taxonomy (distinct from Tags, distinct from custom content types) is a W3C SKOS-aligned hierarchical concept system. It was significantly enhanced in 2024–2025 and is now CDA-deliverable. It is a first-class platform feature, not a workaround.
+
+**Core components:**
+
+- **Concept Schemes** — Named groupings of related terms, created at the organisation level. Equivalent to "a taxonomy" as a whole (e.g. "Content Topics", "Industries", "Personas").
+- **Concepts** — Individual terms within a scheme, arranged in parent-child hierarchies. Equivalent to a single tag or category entry.
+- **Hierarchy** — Up to 5 levels deep. Concepts can have parent concepts, child concepts, and sibling concepts. This is structurally richer than Sanity's flat tag/category types.
+- **Content type validations** — You assign concept schemes (or specific concept subtrees) to content types. This controls which taxonomy concepts editors can attach to a given content type.
+- **Entry-level assignment** — Up to 50 concepts per entry, via a dedicated Taxonomy tab in the entry editor. Taxonomy data lives in `entry.metadata.concepts`, not in `entry.fields`.
+
+**CDA response shape:**
+
+Taxonomy appears on entries under `metadata`, not `fields`:
+
+```json
+{
+  "sys": { "id": "article-xyz", ... },
+  "fields": { "title": "...", "slug": "..." },
+  "metadata": {
+    "tags": [],
+    "concepts": [
+      { "sys": { "type": "Link", "linkType": "TaxonomyConcept", "id": "concept-design-systems" } }
+    ]
+  }
+}
+```
+
+**CDA query syntax:**
+
+```
+// Entries tagged with ALL of these concepts (AND):
+metadata.concepts.sys.id[all]=conceptId1,conceptId2
+
+// Entries tagged with ANY of these concepts (OR):
+metadata.concepts.sys.id[in]=conceptId1,conceptId2
+
+// Entries tagged with a concept OR any of its descendants (hierarchy-aware query):
+metadata.concepts.descendants[in]=conceptId1
+```
+
+The `descendants` query is the standout feature — you can filter by a parent concept and automatically include all child concepts. No Sanity/GROQ equivalent without explicit reference chaining.
+
+**Limits (2025):** 6,000 concepts total, 2,000 per scheme, 20 schemes, 5-level depth, 50 concepts per entry, 10 validations per content type.
+
+**Plan availability:** Not definitively documented in public help pages. Taxonomy is positioned as an enterprise/scale feature — worth confirming against the Contentful pricing page before committing to it in a project.
+
+---
+
+### How this maps to Sugartown's current Sanity taxonomy model
+
+Sugartown has five taxonomy types in Sanity: `tag`, `category`, `person`, `project`, `tool`. Each is a document with `name`, `slug`, and (for some) additional fields. Content documents reference them as `tags[]->`, `categories[]->`, etc.
+
+| Sugartown taxonomy type | Fields beyond name/slug | Frontend detail page? | Contentful Taxonomy fit? |
+|-------------------------|------------------------|-----------------------|--------------------------|
+| `tag` | None | Yes — `/tags/[slug]` | Possible — but no slug field, no detail page |
+| `category` | None | Yes — `/categories/[slug]` | Possible — but same limitations |
+| `person` | bio, avatar, role, social links | Yes — `/people/[slug]` | No — needs custom fields |
+| `project` | description, URL, client, dates | Yes — `/projects/[slug]` | No — needs custom fields |
+| `tool` | description, URL, logo | Yes — `/tools/[slug]` | No — needs custom fields |
+
+**Immediate answer for `person`, `project`, `tool`:** Native Taxonomy cannot replace these. They have custom fields and rich detail pages. They are content entries, not classification labels. Custom content types are the only viable model.
+
+**The real question is `tag` and `category`:**
+
+These have no custom fields beyond `name` and `slug`. The only argument for keeping them as custom content types is the detail page (`/tags/[slug]`, `/categories/[slug]`). If those pages are valuable, custom content types stay. If they're navigation convenience rather than genuine content destinations, native Taxonomy covers the filtering use case more elegantly.
+
+---
+
+### Honest tradeoffs
+
+**Using native Contentful Taxonomy for `tag` and `category`:**
+
+| Pro | Con |
+|-----|-----|
+| Hierarchy is first-class — `descendants` query works automatically | No slug field — `/tags/[slug]` pages require treating concept ID as slug, which is fragile |
+| AI-powered auto-tagging suggestions | No detail pages with editorial content |
+| Import/export via CLI — can sync with external taxonomy systems | Plan availability uncertain — may require Enterprise |
+| Up to 5-level hierarchies — enables topics → subtopics nesting | `metadata.concepts` path, not `fields` — different query shape, different SDK handling |
+| Standards-aligned (W3C SKOS) | 50 concepts per entry limit |
+| Cross-content-type by default — same concept on articles and nodes | Validations required before editors can assign — more setup overhead |
+| Hierarchy-aware queries: filter a parent, get all children automatically | |
+
+**Keeping custom content types for `tag` and `category`:**
+
+| Pro | Con |
+|-----|-----|
+| Slug field — clean `/tags/[slug]` URLs | No hierarchy — flat list only |
+| Detail pages with future editorial flexibility | No AI auto-tagging |
+| Consistent model with `person`, `project`, `tool` — all taxonomy is entries | No `descendants` query |
+| CDA response in `fields` — same query pattern as everything else | |
+| No plan restrictions | |
+
+---
+
+### Recommendation
+
+**For the POC (SUG-127):** Custom content types. The proof requires Sanity parity; switching now would change the comparison surface mid-evaluation.
+
+**For a future Contentful-native project at Sugartown Digital:** Consider a hybrid model:
+
+- `tag` and `category` → native Taxonomy **if** detail pages are dropped or if concept IDs can be used as URL slugs
+- `person`, `project`, `tool` → custom content types always
+
+The `descendants` query is the most compelling reason to consider native Taxonomy for tags. Being able to filter `/articles?topic=design` and automatically include articles tagged with `design-systems`, `design-tokens`, `design-ops` (children of `design`) without maintaining that relationship in code is a real capability gap versus Sanity.
+
+**The evaluation that needs to happen before committing:** Check the Contentful pricing tier that unlocks Taxonomy. If it requires Enterprise, the decision is made by budget, not by architecture.
+
+**For Sanity specifically:** This finding is relevant in the other direction too. Sanity has no native hierarchy for tags. If Sugartown ever wants hierarchical topic navigation (articles about "Design" broken into "Design Systems", "Design Tokens", "Design Ops"), the current flat `tag` model in Sanity would need extending — either via a `parentTag` reference field or a separate `topicTree` document. Contentful's Taxonomy handles this natively. Worth noting in the vendor eval.
 
 ---
 
