@@ -1,11 +1,10 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import type { Document } from "@contentful/rich-text-types";
 import type { Entry } from "contentful";
 import { getArticleBySlug } from "@/lib/queries";
-import type { TagSkeleton } from "@/lib/queries";
-import { renderRichText } from "@/lib/contentfulRichText";
+import type { TagSkeleton, HeroSectionSkeleton, RichTextSectionSkeleton } from "@/lib/queries";
 import { ArticleTags } from "@/components/ArticleTags";
+import { SectionList } from "@/components/SectionList";
 import styles from "./article.module.css";
 
 export default async function ArticlePage({
@@ -17,7 +16,7 @@ export default async function ArticlePage({
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
-  const { title, summary, publishDate, body, tags } = article.fields;
+  const { title, summary, publishDate, tags, sections } = article.fields;
 
   const resolvedTags = (tags ?? [])
     .filter(
@@ -25,6 +24,11 @@ export default async function ArticlePage({
         !!(t as Entry<TagSkeleton, "WITHOUT_UNRESOLVABLE_LINKS", string>).fields
     )
     .map((t) => ({ id: t.sys.id, name: t.fields.name, slug: t.fields.slug }));
+
+  type SectionEntry = Entry<HeroSectionSkeleton | RichTextSectionSkeleton, "WITHOUT_UNRESOLVABLE_LINKS", string>;
+  const resolvedSections = ((sections ?? []) as SectionEntry[])
+    .filter((s) => !!s.sys?.contentType)
+    .map((s) => ({ id: s.sys.id, contentTypeId: s.sys.contentType.sys.id, fields: s.fields }));
 
   return (
     <main style={{ padding: "2rem", maxWidth: "760px", margin: "0 auto" }}>
@@ -45,7 +49,7 @@ export default async function ArticlePage({
         ) : null}
         {summary ? <p className={styles.summary}>{summary}</p> : null}
         <ArticleTags tags={resolvedTags} />
-        {body ? renderRichText(body as Document) : null}
+        {resolvedSections.length > 0 ? <SectionList sections={resolvedSections} /> : null}
       </article>
     </main>
   );

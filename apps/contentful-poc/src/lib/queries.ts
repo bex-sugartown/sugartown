@@ -17,8 +17,10 @@ export type ArticleSkeleton = EntrySkeletonType<
     slug: EntryFieldTypes.Symbol;
     summary: EntryFieldTypes.Symbol;
     publishDate: EntryFieldTypes.Date;
-    body: EntryFieldTypes.RichText;
     tags: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<TagSkeleton>>;
+    sections: EntryFieldTypes.Array<
+      EntryFieldTypes.EntryLink<HeroSectionSkeleton | RichTextSectionSkeleton>
+    >;
   },
   "article"
 >;
@@ -40,7 +42,7 @@ export async function getArticleBySlug(slug: string): Promise<ArticleEntry | nul
     content_type: "article",
     "fields.slug": slug,
     limit: 1,
-    include: 1,
+    include: 2,
   } as Parameters<typeof contentfulClient.getEntries>[0]);
   return (res.items[0] as ArticleEntry) ?? null;
 }
