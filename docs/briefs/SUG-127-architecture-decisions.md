@@ -23,6 +23,7 @@ This is a living document. Decisions made during execution (not just planning) s
 | 9 | Content model — full atomic vs single type first | Single type first (`article` only in Phase 1) | Faster Phase 1; Phase 2 requires a second pass |
 | 13 | Tag taxonomy: custom content type vs native Contentful Tags | Custom `tag` content type | Detail pages + typed refs + Sanity parity; native Tags better for filter-only taxonomy with no detail page |
 | 14 | Open: evaluate native Contentful Taxonomy (SKOS hierarchy) for tag/category | Not decided — flagged for Phase 3 / future SUG | `descendants` query is a genuine capability gap vs Sanity; blocked by plan availability uncertainty |
+| 15 | Rich text table support: first-class nodes vs custom type | Contentful: first-class (`BLOCKS.TABLE*`); Sanity: no native table | Contentful requires 4 explicit node handlers; Sanity requires a custom portable text type — different adapter surface |
 
 ---
 
@@ -453,6 +454,43 @@ The `descendants` query is the most compelling reason to consider native Taxonom
 **The evaluation that needs to happen before committing:** Check the Contentful pricing tier that unlocks Taxonomy. If it requires Enterprise, the decision is made by budget, not by architecture.
 
 **For Sanity specifically:** This finding is relevant in the other direction too. Sanity has no native hierarchy for tags. If Sugartown ever wants hierarchical topic navigation (articles about "Design" broken into "Design Systems", "Design Tokens", "Design Ops"), the current flat `tag` model in Sanity would need extending — either via a `parentTag` reference field or a separate `topicTree` document. Contentful's Taxonomy handles this natively. Worth noting in the vendor eval.
+
+---
+
+## Decision 15 — Rich text table support: Contentful first-class nodes vs Sanity custom type
+
+**Finding surfaced during Phase 2 rich text adapter work. Documented as a coupling-point finding for the Phase 3 agnosticism audit.**
+
+**The difference:**
+
+Contentful's Rich Text format has first-class table nodes built into the spec:
+- `BLOCKS.TABLE` — the table container
+- `BLOCKS.TABLE_ROW` — a row
+- `BLOCKS.TABLE_CELL` — a body cell (`<td>`)
+- `BLOCKS.TABLE_HEADER_CELL` — a header cell (`<th>`)
+
+These are part of `@contentful/rich-text-types` and handled natively by `documentToReactComponents`. All four required explicit `renderNode` entries in `contentfulRichText.tsx` to override the default (unstyled) output with DS token styles.
+
+Sanity's PortableText has **no native table block**. Tables in Sanity must be implemented as a custom type — either:
+- An inline object type added to the `block` array's `of` list (e.g. `{ type: 'table', rows: [...] }`)
+- A third-party plugin (e.g. `@sanity/table`)
+- Excluded entirely — the `portableTextComponents.jsx` in `apps/web` has no table handler because the Sugartown Sanity schema does not define a table block type
+
+**What this means for the adapter comparison:**
+
+| Concern | Contentful Rich Text | Sanity PortableText |
+|---------|---------------------|---------------------|
+| Tables in spec | Yes — 4 node types | No — custom type required |
+| Default rendering | `<table>` / `<tr>` / `<td>` / `<th>` (unstyled) | N/A — not a standard block |
+| Adapter surface | 4 `renderNode` entries | Custom block component if schema has table type |
+| Schema authoring | No schema change needed — editor always has tables | Must explicitly add table type to `block.of` array |
+| Structural richness | Header cells distinguished from body cells at the format level | Depends on custom type implementation |
+
+**The finding:**
+
+Contentful surfaces this capability from the editor without schema configuration — any rich text field supports tables by default. Sanity requires a schema decision upfront (do we support tables in this field?) and a plugin or custom block implementation before the editor can use them. Neither approach is wrong. Contentful's tables-by-default is convenient; Sanity's explicit schema approach means tables only appear in fields that have been consciously designed to support them.
+
+**Implication for `portableTextComponents.jsx`:** If a Sanity schema field ever adds a table block type, `portableTextComponents.jsx` will need an equivalent set of custom component renderers. The `contentfulRichText.tsx` table handlers written in Phase 2 are the template for what that implementation would look like.
 
 ---
 
