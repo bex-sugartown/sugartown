@@ -1,7 +1,8 @@
 # SUG-127 — Architecture Decision Record
 
 **Epic:** Contentful + Vercel POC — CMS Agnosticism Proof + Platform Vendor Evaluation
-**Last updated:** 2026-05-24
+**Last updated:** 2026-05-25
+**Live URLs:** https://poc.sugartown.io (production) · https://poc-preview.sugartown.io (preview/main branch)
 **Purpose:** Document each architectural decision made during planning, with honest tradeoffs — what it buys now, what it costs later, and when you'd flip the decision.
 
 This is a living document. Decisions made during execution (not just planning) should be added here as they happen.

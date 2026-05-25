@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-128 — Contentful POC — custom domain on Vercel (poc.sugartown.io)
 **Linear Issue:** [SUG-128](https://linear.app/sugartown/issue/SUG-128/contentful-poc-custom-domain-on-vercel-pocsugartownio)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -23,16 +23,16 @@ After this epic, `poc.sugartown.io` (or an agreed alternative) resolves to the c
 ## Scope
 
 - [x] Subdomain confirmed: `poc.sugartown.io` — layer: DNS / infra decision
-- [ ] Add custom domain in Vercel dashboard for the contentful-poc project — layer: Vercel infra
-- [ ] Add DNS CNAME record in your DNS provider — layer: DNS
-- [ ] Verify SSL certificate auto-provisioned and domain resolves correctly — layer: infra validation
-- [ ] Update `docs/briefs/SUG-127-architecture-decisions.md` to record the live URL — layer: docs
+- [x] Add custom domain in Vercel dashboard for the contentful-poc project — layer: Vercel infra
+- [x] Add DNS CNAME record in your DNS provider (Pair) — layer: DNS
+- [x] Verify SSL certificate auto-provisioned and domain resolves correctly — layer: infra validation
+- [x] Update `docs/briefs/SUG-127-architecture-decisions.md` to record the live URL — layer: docs
 
 ## Acceptance criteria
 
-- [ ] `https://poc.sugartown.io` loads the contentful-poc app with valid SSL
-- [ ] URL is stable — a fresh Vercel deployment does not break it
-- [ ] ADR doc updated with the live URL
+- [x] `https://poc.sugartown.io` loads the contentful-poc app with valid SSL
+- [x] URL is stable — a fresh Vercel deployment does not break it
+- [x] ADR doc updated with the live URL
 
 ## Step-by-step: Bex executes
 
