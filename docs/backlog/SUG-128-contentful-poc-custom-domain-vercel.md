@@ -22,26 +22,56 @@ After this epic, `poc.sugartown.io` (or an agreed alternative) resolves to the c
 
 ## Scope
 
-- [ ] Agree on subdomain name — `poc.sugartown.io` is the proposal; confirm with Bex — layer: DNS / infra decision
+- [x] Subdomain confirmed: `poc.sugartown.io` — layer: DNS / infra decision
 - [ ] Add custom domain in Vercel dashboard for the contentful-poc project — layer: Vercel infra
-- [ ] Add DNS CNAME record: `poc` → `cname.vercel-dns.com` — layer: DNS
+- [ ] Add DNS CNAME record in your DNS provider — layer: DNS
 - [ ] Verify SSL certificate auto-provisioned and domain resolves correctly — layer: infra validation
 - [ ] Update `docs/briefs/SUG-127-architecture-decisions.md` to record the live URL — layer: docs
 
 ## Acceptance criteria
 
-- [ ] `https://poc.sugartown.io` (or confirmed subdomain) loads the contentful-poc app with valid SSL
+- [ ] `https://poc.sugartown.io` loads the contentful-poc app with valid SSL
 - [ ] URL is stable — a fresh Vercel deployment does not break it
 - [ ] ADR doc updated with the live URL
 
-## Technical notes
+## Step-by-step: Bex executes
 
-**Steps (Bex executes in Vercel dashboard + DNS provider):**
-1. In Vercel: open the `contentful-poc` project → Settings → Domains → Add `poc.sugartown.io`
-2. Vercel will show the required CNAME: `poc` → `cname.vercel-dns.com`
-3. In DNS provider (Cloudflare or equivalent): add CNAME record for `poc` pointing to `cname.vercel-dns.com`
-4. Wait for propagation (usually < 5 min on Cloudflare); Vercel auto-provisions SSL
-5. Verify in browser
+### Step 1 — Vercel dashboard (2 min)
+
+1. Go to [vercel.com/dashboard](https://vercel.com/dashboard) and open the **contentful-poc** project
+2. Click **Settings** (top nav) → **Domains** (left sidebar)
+3. In the "Add Domain" field, type `poc.sugartown.io` and click **Add**
+4. Vercel will show a verification panel — note the CNAME values it gives you (needed in Step 2)
+
+### Step 2 — DNS provider (2 min)
+
+Vercel will show one of two options. Use **Option A (CNAME)** for a subdomain:
+
+| Type | Name | Value |
+|------|------|-------|
+| CNAME | `poc` | `cname.vercel-dns.com` |
+
+In your DNS provider (Cloudflare, etc.):
+1. Go to the DNS records for `sugartown.io`
+2. Add a new **CNAME** record:
+   - Name/Host: `poc`
+   - Target/Value: `cname.vercel-dns.com`
+   - TTL: Auto (or 1 min on Cloudflare for fast propagation)
+3. Save
+
+**Cloudflare users:** set the proxy status to **DNS only** (grey cloud, not orange) — Vercel manages SSL itself and the orange cloud proxy interferes with certificate provisioning.
+
+### Step 3 — Wait and verify (2–5 min)
+
+1. Back in the Vercel Domains panel, the status will show "Pending" then flip to a green checkmark once DNS propagates
+2. Vercel auto-provisions an SSL certificate via Let's Encrypt — no action needed
+3. Open `https://poc.sugartown.io` in a browser — you should see the contentful-poc app
+
+### Step 4 — Tell Claude
+
+Once it's live, tell Claude and the ADR doc (`docs/briefs/SUG-127-architecture-decisions.md`) will be updated with the live URL, and this epic can be closed out.
+
+## Technical notes
 
 **No code changes required** — this is a pure infra/DNS task. The Next.js app does not need a `NEXT_PUBLIC_BASE_URL` update for the POC (no internal absolute URL references). If absolute URLs are needed in future (e.g. OG meta tags), add `NEXT_PUBLIC_BASE_URL=https://poc.sugartown.io` to the Vercel environment variables at that point.
 
