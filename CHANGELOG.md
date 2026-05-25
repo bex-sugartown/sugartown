@@ -12,9 +12,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.24.2.
+> Accumulates since v0.24.3.
 
-- SUG-127 Phase 3: coupling point map with real findings, DS packaging gap documented, vendor eval (Netlify stays for Vite; Vercel for Next.js; hybrid model confirmed)
+- SUG-128: Contentful PoC custom domains — `poc.sugartown.io` (production) + `poc-preview.sugartown.io` (preview/main) live on Vercel; DNS CNAME records set via Pair
 
 ---
 

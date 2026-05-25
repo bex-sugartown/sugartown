@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** SUG-127 fully shipped v0.24.2 ✅ 2026-05-25. Next: SUG-128 (poc.sugartown.io custom domain — Bex executes DNS + Vercel dashboard) or SUG-116 (Ledger Button Update).
+> **⚑ Current focus:** SUG-128 fully shipped v0.24.3 ✅ 2026-05-25. Next: SUG-116 (Ledger Button Update) or SUG-100 (CWV Snapshot).
 
 ---
 
@@ -24,7 +24,7 @@
 | 7 | ~~**[SUG-124](https://linear.app/sugartown/issue/SUG-124/semantic-naming-audit-css-classes-alpha-row-list-pattern-reuse) · Semantic naming audit — CSS classes, alpha row, list pattern reuse guardrails** — All tax*/alpha* classes renamed; validate:css-names 0 violations; css-class-naming.md written; SUG-125 scoped. Shipped v0.23.37.~~ | `Design System` `Tooling` | ✅ Shipped |
 | 8 | ~~**[SUG-125](https://linear.app/sugartown/issue/SUG-125/indexgroup-indexcell-ds-primitives-pagination-and-letterfilterstrip) · IndexGroup + IndexCell DS primitives** — IndexGroup + IndexCell DS primitives; AlphaFilter "All" clear cell; `--st-index-cell-inactive-color` token; TaxonomyDetailPage empty-state full-width. Shipped v0.23.38.~~ | `Design System` | ✅ Shipped |
 | 9 | ~~**[SUG-127](https://linear.app/sugartown/issue/SUG-127/contentful-vercel-poc-platform-vendor-evaluation) · Contentful + Vercel POC — Platform Vendor Evaluation** — Three-phase POC: Next.js + Contentful + Vercel deploy, atomic content model, DS agnosticism proven, vendor eval written. Shipped v0.24.2.~~ | `Infrastructure` `Tooling` `Platform` | ✅ Shipped |
-| 10 | **[SUG-128](https://linear.app/sugartown/issue/SUG-128/contentful-poc-custom-domain-on-vercel-pocsugartownio) · Contentful POC — custom domain on Vercel (poc.sugartown.io)** — Add a custom subdomain to the contentful-poc Vercel deployment for a stable, shareable URL. DNS CNAME + Vercel dashboard only, no code changes. Epic: `docs/backlog/SUG-128-contentful-poc-custom-domain-vercel.md`. | `Infrastructure` | 🟢 Next |
+| 10 | ~~**[SUG-128](https://linear.app/sugartown/issue/SUG-128/contentful-poc-custom-domain-on-vercel-pocsugartownio) · Contentful POC — custom domain on Vercel (poc.sugartown.io)** — `poc.sugartown.io` + `poc-preview.sugartown.io` live; DNS CNAME via Pair; Vercel validated. Shipped v0.24.3.~~ | `Infrastructure` | ✅ Shipped |
 | 4 | **[SUG-116](https://linear.app/sugartown/issue/SUG-116) · Ledger Button Update — Baseline Rule, sm/md/lg sizes, Storybook snapshot** — Move 3px stripe from `border-top` to `border-bottom` across all variants; introduce `--st-color-button-rule-{primary,secondary,tertiary}` tokens (Option B rename); add `sm`/`lg` size prop to DS + web adapter; update Storybook snapshot story. Epic: `docs/backlog/SUG-116-ledger-button-update.md`. | `Design System` | 🟢 Next |
 | 3 | ~~**[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs, hero inheritance, scrollspy, DataTable releases, Storybook BUILD_DATE freeze. Shipped v0.23.22.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** ✅ Shipped. Services page outcome framing, availability signal on hero/About, case study narrative, Contact tone update. All Sanity drafts published 2026-05-01. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | ✅ Shipped |
