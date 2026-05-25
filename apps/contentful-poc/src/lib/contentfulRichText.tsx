@@ -10,6 +10,9 @@ const TOKEN = {
   ruleAccent: "var(--st-color-rule-accent)",
   bgSurface: "var(--st-color-bg-surface)",
   bgSubtle: "var(--st-color-bg-subtle)",
+  bgElevated: "var(--st-color-bg-elevated)",
+  codeInlineBg: "var(--st-code-inline-bg-dark-maroon)",
+  codeBorder: "var(--st-color-rule-accent)",
   textDefault: "var(--st-color-text-default)",
   textEyebrow: "var(--st-color-text-eyebrow)",
   fontMono: "var(--st-font-family-mono)",
@@ -26,9 +29,9 @@ const options: Options = {
     [MARKS.CODE]: (text) => (
       <code style={{
         fontFamily: TOKEN.fontMono,
-        background: TOKEN.bgSubtle,
+        background: TOKEN.codeInlineBg,
         color: TOKEN.textDefault,
-        border: `1px solid ${TOKEN.ruleAccent}`,
+        border: `1px solid ${TOKEN.codeBorder}`,
         borderRadius: "3px",
         padding: "0.1em 0.35em",
         fontSize: "0.9em",
@@ -53,9 +56,9 @@ const options: Options = {
     [BLOCKS.CODE]: (_node, children) => (
       <pre style={{
         fontFamily: TOKEN.fontMono,
-        background: TOKEN.bgSubtle,
+        background: TOKEN.codeInlineBg,
         color: TOKEN.textDefault,
-        border: `1px solid ${TOKEN.ruleAccent}`,
+        border: `1px solid ${TOKEN.codeBorder}`,
         borderRadius: "3px",
         padding: TOKEN.space3,
         overflowX: "auto",
@@ -76,7 +79,7 @@ const options: Options = {
           fontFamily: TOKEN.fontUi,
           fontSize: "0.95em",
         }}>
-          {children}
+          <tbody>{children}</tbody>
         </table>
       </div>
     ),
@@ -95,7 +98,7 @@ const options: Options = {
       <th style={{
         border: `1px solid ${TOKEN.ruleAccent}`,
         padding: `${TOKEN.space2} ${TOKEN.space3}`,
-        background: TOKEN.bgSurface,
+        background: TOKEN.bgElevated,
         fontFamily: TOKEN.fontMono,
         color: TOKEN.textEyebrow,
         textTransform: "uppercase",
