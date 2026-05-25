@@ -12,9 +12,38 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.24.3.
+> Accumulates since v0.25.0.
 
-- SUG-128: Contentful PoC custom domains — `poc.sugartown.io` (production) + `poc-preview.sugartown.io` (preview/main) live on Vercel; DNS CNAME records set via Pair
+---
+
+## [0.25.0] — 2026-05-25
+
+Contentful + Vercel PoC: full three-phase build proving DS agnosticism and hybrid vendor model.
+Aggregates v0.24.1–v0.24.3.
+
+### apps/contentful-poc
+
+#### Added
+- Next.js app bootstrapped on Vercel; Contentful rich text pipeline rendering through DS tokens (Table, Code, blockquote)
+- Atomic content model: Contentful singleton page type, section builder pattern (hero, RTE, callout sections), tag taxonomy as content type, atomic migration script
+- DS agnosticism audit: 15 ADRs, coupling point map with real findings; hybrid vendor model confirmed (Netlify for Vite/web, Vercel for Next.js/Contentful)
+- Theme toggle: DS-controlled light/dark mode, no system preference override
+- Rich text renderer: table and code nodes wired to DS accent tokens
+- Tag seed content and tag-articles migration script
+- `/articles` archive route: CMS-controlled ordering via `articleListSection` content type, fallback to `getAllArticles()` sorted by date
+- Custom domains `poc.sugartown.io` (production) and `poc-preview.sugartown.io` (preview/main) on Vercel; DNS CNAME records set via Pair
+
+#### Changed
+- Article sections rewired from `body` RTE field to `sections` linked entries; `body` field retired in Contentful content model
+- Homepage wired to Contentful `home` page entry sections (hero + RTE)
+
+#### Fixed
+- Table hydration error in rich text renderer resolved
+
+### packages/design-system
+
+#### Fixed
+- Emit type declarations on build; align `@types/react` peer dependency to v19
 
 ---
 
