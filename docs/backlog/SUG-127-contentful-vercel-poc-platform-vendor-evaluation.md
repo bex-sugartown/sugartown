@@ -178,7 +178,19 @@ Merge checkpoint: `docs(sug-127): agnosticism audit + Vercel vs Netlify vendor e
 
 **Model & Mode:** `/model opusplan` — Phase 1 architecture (monorepo config, Next.js App Router, Contentful CDA fetch pattern) benefits from Opus planning. Phases 2–3 are execution + documentation; Sonnet handles those.
 
-**Bex-led execution model.** Claude's role is to explain each step before Bex runs it — what the command does, why this choice over alternatives, what to watch for. Claude does not run terminal commands, scaffold files autonomously, or make API calls to Contentful or Vercel. Every action is Bex's to take.
+**Execution model — Phase 2 onwards: Claude-led.** Phase 1 was Bex-led (explain then execute). From Phase 2, Claude executes directly: writes migration scripts, runs them via Bash, writes all app code. Bex handles Vercel dashboard steps (env vars, deploy hooks) and any Contentful UI decisions that can't be scripted. Claude takes over everything that can be automated.
+
+**Content model setup — CMA migration scripts.** Claude creates Contentful content types and seed entries via the Content Management API using `contentful-management` (installed as a devDep in `apps/contentful-poc`). Scripts live in `apps/contentful-poc/scripts/`. Environment variables required in `.claude/settings.local.json` (gitignored):
+```json
+{
+  "env": {
+    "CONTENTFUL_SPACE_ID": "...",
+    "CONTENTFUL_MANAGEMENT_TOKEN": "...",
+    "CONTENTFUL_ENVIRONMENT": "master"
+  }
+}
+```
+Get the Management token from: Contentful → Settings → API keys → Content management tokens → Generate personal token. This is separate from the CDA access token in `.env.local`.
 
 **Monorepo config changes required:**
 - `pnpm-workspace.yaml` — add `apps/contentful-poc`

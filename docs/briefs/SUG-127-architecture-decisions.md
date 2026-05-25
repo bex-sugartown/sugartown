@@ -131,7 +131,8 @@ This is a living document. Decisions made during execution (not just planning) s
 
 ## Decision 6 — Bex-led execution with Claude as guide
 
-**Chose:** Bex runs every command. Claude explains each step before it's taken — what the command does, why this option over alternatives, what to watch for.
+**Chose (Phase 1):** Bex runs every command. Claude explains each step before it's taken.
+**Revised (Phase 2+):** Claude executes directly — writes and runs migration scripts, writes all app code. Bex handles Vercel dashboard steps and any Contentful UI decisions that can't be automated.
 
 **Why:** The deliverable isn't just a live URL — it's genuine platform intuition. A job interview asks about your experience with Vercel, not Claude's. Being able to speak to the CLI flow, dashboard navigation, deploy hook setup, and env var management from first-hand memory is the point. Claude scaffolding it autonomously would produce a working URL and a gap in understanding.
 
@@ -141,10 +142,12 @@ This is a living document. Decisions made during execution (not just planning) s
 - The vendor eval will be grounded in specific, remembered experience — not reconstructed from logs.
 
 **Cost/complexity later:**
-- Slower. Some phases (Turbo config, Contentful type generation, Vercel CLI init) would be 5 minutes with autonomous scaffolding; they'll take 20–30 minutes with the explain-then-execute model.
-- Risk of getting stuck. If a step genuinely doesn't work, the debugging loop involves Bex reading error messages and Claude interpreting them — which is the right process but slower than Claude just trying things.
+- Phase 1 (Bex-led): slower, but Bex gets genuine platform intuition for Vercel and Contentful DX that's interview-relevant.
+- Phase 2+ (Claude-led): faster execution, but the vendor eval's "direct experience" claim now applies only to the Phase 1 surfaces Bex touched.
 
-**When you'd choose differently:** Any production epic where speed-to-working is the primary goal. This is a learning epic with a secondary deliverable (the eval). The tradeoff is explicit and worth writing in the vendor eval intro: "this evaluation was produced from direct experience, not from reading documentation."
+**When you'd choose differently:** Full Bex-led execution for any epic where first-hand platform knowledge is the primary deliverable. Claude-led for execution-heavy phases where the output (working code, content model) matters more than the learning process.
+
+**The Phase 2 revision rationale:** Contentful content model setup is mechanical enough (known schema, scripted via CMA) that Claude-led execution is clearly faster without losing anything material. Bex retains decision authority on Vercel dashboard steps (env vars, deploy hook wiring) where first-hand DX is the point.
 
 ---
 
