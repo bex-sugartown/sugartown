@@ -21,6 +21,7 @@ This is a living document. Decisions made during execution (not just planning) s
 | 7 | Token pipeline — shared vs duplicated | Shared (`pnpm tokens:build` from root) | Visual consistency for free; all 612 tokens ship, masking distribution cost |
 | 8 | Chromatic VRT for POC | Skip | Less overhead; no visual regression baseline |
 | 9 | Content model — full atomic vs single type first | Single type first (`article` only in Phase 1) | Faster Phase 1; Phase 2 requires a second pass |
+| 13 | Tag taxonomy: custom content type vs native Contentful Tags | Custom `tag` content type | Detail pages + typed refs + Sanity parity; native Tags better for filter-only taxonomy with no detail page |
 
 ---
 
@@ -273,6 +274,63 @@ This is a living document. Decisions made during execution (not just planning) s
 **When you'd choose differently:** If preserving a standard bundler were required, Vite library mode (native CSS Modules, already used by `apps/web`) is the alternative: heavier config, standard tool. For a time-boxed POC the minimal esbuild script is the lowest-risk unblock.
 
 **The headline finding for the agnosticism audit:** The DS components are agnostic; the *packaging* was broken. The published build artifact silently dropped CSS Modules and had never been exercised by a real consumer. Document this in the Phase 3 coupling-point map as the primary structural result, distinct from any Sanity-coupling finding.
+
+---
+
+## Decision 13 — Custom `tag` content type vs Contentful's native Tags feature
+
+**Chose:** A custom `tag` content type with `name` and `slug` fields, referenced from `article.tags[]`.
+
+**Why it happened this way:** The Sugartown content model uses a `tag` taxonomy type in Sanity with `name`, `slug`, and reference-based linking. Phase 2 mirrored that model directly — creating a `tag` content type was the obvious like-for-like. Contentful's native Tags feature was not evaluated at the time.
+
+**What Contentful's native Tags feature actually is:**
+
+Contentful has a built-in tagging system (`metadata.tags`) that is distinct from content types. Native tags are space-level entities — they exist in Settings → Tags in the web app and are attached to entries (and assets) as metadata, not as field references. They appear in CDA responses under `entry.metadata.tags`, not `entry.fields`.
+
+Key characteristics:
+- **No custom fields.** A native tag is only an `id` and a `name`. You cannot add a `slug`, a `description`, an image, or any other field.
+- **No detail pages.** There is no concept of a "tag entry" with its own URL. You can filter the CDA by tag (`metadata.tags.sys.id[in]=...`) but there is no canonical entry to build a `/tags/[slug]` page against.
+- **Flat string IDs, not slugs.** Native tag IDs are human-readable (`design-systems`) but are set at creation time and not a field you query. Building a URL from them requires treating the ID as the slug, which works but isn't a documented pattern.
+- **Primarily a content management tool.** Native tags are designed for editorial workflow, content organisation in the UI, and access control (Contentful Teams uses tags to scope content access to editors). They are not designed as public-facing taxonomy.
+- **Cross-content-type by default.** A native tag can be attached to any entry of any content type, which is a feature for content management but a problem for typed taxonomy (you can't validate that only `article` entries carry a given tag).
+
+**Comparison table:**
+
+| Concern | Custom `tag` content type | Native Contentful Tags |
+|---------|--------------------------|------------------------|
+| Custom fields (slug, description, image) | Yes | No — id + name only |
+| Frontend detail page (`/tags/[slug]`) | Yes — it's just an entry | Awkward — must treat tag ID as slug |
+| CDA query by tag | `fields.tags.sys.id[in]=...` (reference link) | `metadata.tags.sys.id[in]=...` (metadata filter) |
+| Tag archive page (all tags) | `getEntries({ content_type: 'tag' })` | `getSpaceTags()` via CMA — not available on CDA |
+| Typed validation (only articles can have this tag) | Yes — `linkContentType: ['tag']` | No — any entry type can carry any native tag |
+| Sanity equivalent | `tag` document type with `->` reference | Closest: Sanity's label system — not a first-class document |
+| Editorial UX | Entry editor, same as any other content type | Dedicated Tags UI in Settings; faster to apply in bulk |
+| Contentful AI features (AI content actions, auto-tagging) | Not applicable | Yes — Contentful's AI can auto-suggest native tags |
+| Access control scoping (Contentful Teams) | No | Yes — Teams can scope editor access by native tag |
+
+**When native Tags would be the right choice:**
+
+1. **Pure taxonomy with no frontend detail page.** If tags are filters only (filter the article list, never navigated to) and require no custom fields, native Tags is simpler — no content type to manage, built-in UI, faster editorial workflow.
+2. **Cross-content-type tagging at scale.** If you need the same tag on articles, case studies, nodes, and tools without managing N reference fields, native tags handle this natively.
+3. **Editorial workflow and access control.** If you're using Contentful Teams and need to scope content access by topic, native tags integrate directly.
+4. **Contentful AI features.** If you want Contentful's AI to auto-suggest tags, it works with native Tags, not custom content types.
+
+**When custom content type is the right choice (our case):**
+
+1. **Detail pages are required.** `/tags/[slug]` requires a canonical entry with a slug field. Native tags don't have slugs — only IDs.
+2. **The taxonomy mirrors an existing CMS model.** We're proving CMS agnosticism against Sanity's `tag` document type, which has `name` and `slug`. The custom content type is the honest comparison surface.
+3. **You need custom fields.** If tags ever need descriptions, images, or category groupings, native Tags can't hold them.
+4. **Typed references matter.** `linkContentType: ['tag']` validation on `article.tags[]` ensures only `tag` entries can be linked — native tags have no equivalent constraint.
+
+**Recommendation for Sugartown use cases:**
+
+For the POC (which requires `/tags/[slug]` detail pages to mirror the Sanity site's taxonomy architecture): **custom content type is correct.**
+
+For a real Contentful production project: **evaluate upfront.** The deciding question is "do tags need detail pages?" If yes, custom content type. If no, native Tags — and reconsider whether the Sanity model's taxonomy depth is actually needed at all, or whether it was architectural overengineering that a simpler CMS model surfaces.
+
+**The finding for the agnosticism audit:**
+
+This is a model philosophy difference, not a capability gap. Sanity treats all taxonomy as first-class documents. Contentful distinguishes between "content you publish" (entries) and "metadata labels you apply" (native tags). The custom content type approach makes Contentful behave like Sanity; the native Tags approach embraces Contentful's own model. Neither is wrong. Choosing between them is a product decision, not a technical one.
 
 ---
 
