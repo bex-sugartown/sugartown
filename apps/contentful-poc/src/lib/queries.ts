@@ -119,12 +119,21 @@ export type RichTextSectionSkeleton = EntrySkeletonType<
   "richTextSection"
 >;
 
+export type ArticleListSectionSkeleton = EntrySkeletonType<
+  {
+    internalName: EntryFieldTypes.Symbol;
+    heading: EntryFieldTypes.Symbol;
+    featuredArticles: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<ArticleSkeleton>>;
+  },
+  "articleListSection"
+>;
+
 export type PageSkeleton = EntrySkeletonType<
   {
     title: EntryFieldTypes.Symbol;
     slug: EntryFieldTypes.Symbol;
     sections: EntryFieldTypes.Array<
-      EntryFieldTypes.EntryLink<HeroSectionSkeleton | RichTextSectionSkeleton>
+      EntryFieldTypes.EntryLink<HeroSectionSkeleton | RichTextSectionSkeleton | ArticleListSectionSkeleton>
     >;
   },
   "page"
@@ -140,4 +149,53 @@ export async function getPageBySlug(slug: string): Promise<PageEntry | null> {
     include: 2,
   } as Parameters<typeof contentfulClient.getEntries>[0]);
   return (res.items[0] as PageEntry) ?? null;
+}
+
+// ── section serialization ──────────────────────────────────────────────────
+// Normalises raw Contentful linked entries into a plain shape safe to pass
+// across the server/client boundary. articleListSection requires special
+// handling to flatten its nested featuredArticles references.
+
+export type SerializedArticle = {
+  id: string;
+  title: string;
+  slug: string;
+  summary?: string;
+  publishDate?: string;
+};
+
+export type SerializedSection = {
+  id: string;
+  contentTypeId: string;
+  fields: Record<string, unknown>;
+};
+
+type AnySectionEntry = Entry<
+  HeroSectionSkeleton | RichTextSectionSkeleton | ArticleListSectionSkeleton,
+  "WITHOUT_UNRESOLVABLE_LINKS",
+  string
+>;
+
+export function serializeSections(rawSections: unknown[]): SerializedSection[] {
+  return (rawSections as AnySectionEntry[])
+    .filter((s) => !!s.sys?.contentType)
+    .map((s) => {
+      const contentTypeId = s.sys.contentType.sys.id;
+      if (contentTypeId === "articleListSection") {
+        const f = s.fields as Record<string, unknown>;
+        const featuredArticles: SerializedArticle[] = (
+          (f.featuredArticles as ArticleEntry[] | undefined) ?? []
+        )
+          .filter((a) => !!a?.fields)
+          .map((a) => ({
+            id: a.sys.id,
+            title: a.fields.title ?? "",
+            slug: a.fields.slug ?? "",
+            summary: a.fields.summary,
+            publishDate: a.fields.publishDate,
+          }));
+        return { id: s.sys.id, contentTypeId, fields: { ...f, featuredArticles } };
+      }
+      return { id: s.sys.id, contentTypeId, fields: s.fields as Record<string, unknown> };
+    });
 }
