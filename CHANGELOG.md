@@ -12,7 +12,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.24.0.
+> Accumulates since v0.24.1.
+
+- SUG-127 Phase 2: Contentful POC atomic model — tag taxonomy, siteSettings singleton, page + section builder, DS theme toggle, RTE table/code DS tokens, ADRs 13–15
 
 ---
 
