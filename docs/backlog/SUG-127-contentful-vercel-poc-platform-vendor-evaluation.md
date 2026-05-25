@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-127 — Contentful + Vercel POC — CMS Agnosticism Proof + Platform Vendor Evaluation
 **Linear Issue:** [SUG-127](https://linear.app/sugartown/issue/SUG-127/contentful-vercel-poc-platform-vendor-evaluation)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🔴 Now
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end of each
 ---
@@ -56,19 +56,21 @@ This table is the primary output of Phase 2. Pre-populated with hypotheses; find
 
 | Layer | Sanity (`apps/web`) | Contentful (`apps/contentful-poc`) | Agnostic? |
 |-------|--------------------|------------------------------------|-----------|
-| DS primitives | `@sugartown/design-system` | same | Hypothesis: ✅ Fully |
-| Token system (`--st-*`) | shared via workspace | same | Hypothesis: ✅ Fully |
-| Client setup | `createClient()` from `@sanity/client` | `createClient()` from `contentful` | ⚡ Adapter needed |
-| Query language | GROQ (`*[_type == "article"]`) | CDA REST / GraphQL (`getEntries({content_type})`) | ⚡ Adapter needed |
-| Rich text renderer | `@portabletext/react` + custom components | `@contentful/rich-text-react-renderer` + custom components | ⚡ Adapter needed — most interesting test |
-| Image URLs | `urlFor()` from `@sanity/image-url` | Plain HTTPS CDN URL (simpler) | ⚡ Minor — Contentful is easier |
-| Slug routing | `slug.current` (nested object) | `fields.slug` (flat string) | ⚡ Minor shape diff |
-| Draft/preview | `perspective: 'previewDrafts'` | Preview API + separate access token | ⚡ Similar pattern, different config |
-| Content webhooks | Sanity webhook → Netlify build hook | Contentful webhook → Vercel deploy hook | ⚡ Similar pattern |
-| Singleton enforcement | `__experimental_actions: ['update']` — platform prevents new docs | Convention only — create one entry, never create another | ⚡ Sanity stronger here |
-| Section array model | Inline typed objects (`_type` discriminator, live inside the document) | References array (linked entries, `sys.contentType.sys.id` discriminator, resolved via `include` depth) | ⚡ Different model — inline vs linked |
-| Section fetch cost | One GROQ query, sections inline | `getEntries({ include: 2 })` — one request but blunt depth; over-fetches linked data | ⚡ Sanity more precise |
-| Studio / editing UI | Sanity Studio (custom, in this repo) | Contentful web UI (hosted, external) | ❌ Not portable by design |
+| DS primitives | `@sugartown/design-system` | same | ✅ Confirmed — zero Sanity imports in DS primitives; same components render unchanged |
+| Token system (`--st-*`) | shared via workspace | same | ✅ Confirmed — `tokens.css` + `theme.pink-moon.css` imported identically in Next.js layout; no changes to token files |
+| DS packaging (exports map) | resolved at `apps/web` build time | required `"exports"` map fix in `packages/design-system/package.json` | ⚡ **Gap found** — DS package was missing `"exports"` map; `main` field alone doesn't satisfy Next.js ESM resolution. Fixed in this epic. |
+| Client setup | `createClient()` from `@sanity/client` | `createClient()` from `contentful` | ⚡ Confirmed — adapter layer only; DS untouched |
+| Query language | GROQ (`*[_type == "article"]`) | CDA REST `getEntries({content_type})` | ⚡ Confirmed — GROQ is more precise (field-level projection); CDA `include` depth over-fetches |
+| Rich text renderer | `@portabletext/react` + custom components | `@contentful/rich-text-react-renderer` + custom components | ⚡ Confirmed — most interesting test. PT is flat block array; CT RT is a tree. Both adapters converge on same DS component output. Adapter surface: ~100 LOC each. |
+| `"use client"` boundary | Not applicable (CSR-only Vite app) | Required for DS components used in Next.js RSC pages — wrapping pattern needed | ⚡ **React Server Component gap** — DS components use hooks/context; must be wrapped in a client component or rendered in a `"use client"` boundary. No DS changes needed; wrapper pattern is ~5 LOC. |
+| Image URLs | `urlFor()` from `@sanity/image-url` | Plain HTTPS CDN URL (simpler) | ⚡ Confirmed — Contentful is simpler; no transform lib needed |
+| Slug routing | `slug.current` (nested object) | `fields.slug` (flat string) | ⚡ Confirmed — minor shape diff, fixed in adapter |
+| Draft/preview | `perspective: 'previewDrafts'` | Preview API + separate access token | ⚡ Similar pattern, not exercised in POC scope |
+| Content webhooks | Sanity webhook → Netlify build hook | Contentful webhook → Vercel deploy hook | ⚡ Similar pattern — not configured in POC (ISR / on-demand revalidation is the Next.js-native path) |
+| Singleton enforcement | `__experimental_actions: ['update']` — platform prevents new docs | Convention only — create one entry, never create another | ⚡ Confirmed — Sanity stronger here |
+| Section array model | Inline typed objects (`_type` discriminator, live inside the document) | References array (linked entries, `sys.contentType.sys.id` discriminator, resolved via `include` depth) | ⚡ Confirmed — biggest structural diff. Sanity: one GROQ query, sections embedded. Contentful: `include: 2` fetches all linked entries; discriminator path is `entry.sys.contentType.sys.id` vs `_type`. Adapter surface cleanly encapsulates the difference. |
+| Section fetch cost | One GROQ query, sections inline | `getEntries({ include: 2 })` — one request but blunt depth; over-fetches linked data | ⚡ Confirmed — Sanity is more precise. Contentful GraphQL closes the gap (field-level selection) but adds complexity. |
+| Studio / editing UI | Sanity Studio (custom, in this repo) | Contentful web UI (hosted, external) | ❌ Confirmed — not portable by design. Not a DS concern. |
 
 **The rich text question** is the most important test. Sanity's PortableText is a block-array format (`_type: "block"`, `marks`, `markDefs`). Contentful's Rich Text is a tree format (`nodeType: "document"`, nodes, inlines). The rendering library APIs differ. But the DS components that consume the *output* of rendering (e.g. a `<p>` in a Card body) are agnostic — the question is whether the adapter that maps CMS format → rendered HTML can be written consistently for both. The `portableTextComponents.jsx` and `contentfulRichText.jsx` files are the comparison surface.
 
@@ -130,7 +132,7 @@ The sections bucket is where the model philosophies diverge most visibly. Sanity
 - [ ] **Phase 1 — Contentful space (single type):** Create Contentful space. Define one content type: `article` (`title`, `slug`, `body` Rich Text, `publishDate`, `summary`). Populate 3 seed articles. Layer: Contentful CMS.
 - [ ] **Phase 1 — Render + deploy:** Article list (`/`) and article detail (`/articles/[slug]`) rendering through DS components. Connect to Vercel (monorepo subdirectory config). Confirm live URL and preview deploy. Write `contentfulRichText.jsx` rich text adapter. Layer: frontend + deployment.
 - [ ] **Phase 2 — Atomize:** Extend the Contentful space with the remaining five content types per the atomic architecture map (`tag`, `siteSettings`, `page`, `heroSection`, `richTextSection`). Add routes and renders for taxonomy (`/tags/[slug]`), page-with-sections (`/pages/[slug]`), site settings wired into layout. Update queries. Layer: Contentful CMS + frontend.
-- [ ] **Phase 3 — Coupling point audit + vendor evaluation:** Fill in the coupling point map. Write findings prose. Write `docs/briefs/vendor-eval-vercel-vs-netlify.md`. Layer: documentation.
+- [x] **Phase 3 — Coupling point audit + vendor evaluation:** Fill in the coupling point map. Write findings prose. Write `docs/briefs/vendor-eval-vercel-vs-netlify.md`. Layer: documentation.
 
 ## Phases
 
