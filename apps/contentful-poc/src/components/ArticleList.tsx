@@ -12,13 +12,27 @@ type ArticleSummary = {
 };
 
 export function ArticleList({ articles }: { articles: ArticleSummary[] }) {
+  const sorted = [...articles].sort((a, b) =>
+    new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime()
+  );
+
   return (
-    <main style={{ padding: "2rem", maxWidth: "1080px", margin: "0 auto" }}>
-      <h1 style={{ fontFamily: "var(--st-font-family-narrative)", marginBottom: "1.5rem" }}>
+    <section style={{
+      maxWidth: "var(--st-width-detail)",
+      margin: "0 auto",
+      padding: "var(--st-space-section-break) var(--st-page-gutter)",
+    }}>
+      <h2 style={{
+        font: "var(--st-font-heading-2)",
+        fontWeight: "var(--st-font-weight-bold)",
+        color: "var(--st-color-brand-primary)",
+        lineHeight: "var(--st-line-height-tight)",
+        margin: "0 0 var(--st-spacing-stack-lg)",
+      }}>
         Articles
-      </h1>
-      <div style={{ display: "grid", gap: "1.5rem" }}>
-        {articles.map((a) => (
+      </h2>
+      <div style={{ display: "grid", gap: "var(--st-space-card-gap)" }}>
+        {sorted.map((a) => (
           <Link key={a.id} href={`/articles/${a.slug}`} style={{ textDecoration: "none" }}>
             <Card
               title={a.title}
@@ -28,6 +42,6 @@ export function ArticleList({ articles }: { articles: ArticleSummary[] }) {
           </Link>
         ))}
       </div>
-    </main>
+    </section>
   );
 }
