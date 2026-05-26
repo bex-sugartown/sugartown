@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-25 · v0.25.0 released 2026-05-25 (SUG-127 Contentful + Vercel POC + SUG-128 custom domains). Next: SUG-116 or SUG-100.
+> Updated 2026-05-26 · v0.25.1 released 2026-05-26 (SUG-127 Contentful POC DS token parity patch). Next: SUG-116 or SUG-100.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.25.0 released ✅ 2026-05-25 — SUG-127 (Contentful + Vercel PoC) + SUG-128 (custom domains). Next: SUG-116 (Ledger Button Update) or SUG-100 (CWV Snapshot).
+> **⚑ Current focus:** v0.25.1 released ✅ 2026-05-26 — SUG-127 DS token parity patch (contentful-poc fully tokenised, 15 new DS tokens). Next: SUG-116 (Ledger Button Update) or SUG-100 (CWV Snapshot).
 
 ---
 
@@ -201,4 +201,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-25 · v0.25.0 released · queue: SUG-116 / SUG-100*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-26 · v0.25.1 released · queue: SUG-116 / SUG-100*

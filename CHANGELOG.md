@@ -14,6 +14,8 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.25.0.
 
+- SUG-127: Contentful POC DS token parity — hero, RTE, article list sections fully tokenised; 15 new DS tokens (line-height-snug, font-size-meta, letter-spacing-*, border-width, code-inline-*, cta-padding-*, table-*); global typography baseline; DS Card component for article list hover behaviour
+
 ---
 
 ## [0.25.0] — 2026-05-25
