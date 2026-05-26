@@ -10,6 +10,7 @@
  */
 
 import Link from "next/link";
+import { Card } from "@sugartown/design-system";
 import { renderRichText } from "@/lib/contentfulRichText";
 import type { Document } from "@contentful/rich-text-types";
 import type { SerializedSection, SerializedArticle } from "@/lib/queries";
@@ -145,45 +146,12 @@ function ArticleListSection({ fields }: { fields: ArticleListFields }) {
       }}>
         {articles.map((article) => (
           <li key={article.id}>
-            <Link href={`/articles/${article.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
-              <article style={{
-                padding: "var(--st-space-4) var(--st-space-4)",
-                border: "var(--st-border-width) solid var(--st-color-rule-default)",
-                background: "var(--st-color-bg-surface)",
-              }}>
-                {article.publishDate && (
-                  <p style={{
-                    fontFamily: "var(--st-font-family-mono)",
-                    fontSize: "var(--st-font-size-meta)",
-                    letterSpacing: "var(--st-letter-spacing-meta)",
-                    textTransform: "uppercase",
-                    color: "var(--st-color-brand-primary)",
-                    margin: `0 0 var(--st-spacing-stack-sm)`,
-                  }}>
-                    {new Date(article.publishDate).toLocaleDateString()}
-                  </p>
-                )}
-                <h3 style={{
-                  fontFamily: "var(--st-font-family-narrative)",
-                  fontSize: "var(--st-font-heading-4)",
-                  fontWeight: "var(--st-font-weight-semibold)",
-                  color: "var(--st-color-text-default)",
-                  margin: `0 0 var(--st-spacing-stack-sm)`,
-                }}>
-                  {article.title}
-                </h3>
-                {article.summary && (
-                  <p style={{
-                    fontFamily: "var(--st-font-family-ui)",
-                    fontSize: "var(--st-font-size-body)",
-                    lineHeight: "var(--st-line-height-relaxed)",
-                    color: "var(--st-color-text-secondary)",
-                    margin: 0,
-                  }}>
-                    {article.summary}
-                  </p>
-                )}
-              </article>
+            <Link href={`/articles/${article.slug}`} style={{ textDecoration: "none" }}>
+              <Card
+                title={article.title}
+                eyebrow={article.publishDate ? new Date(article.publishDate).toLocaleDateString() : undefined}
+                excerpt={article.summary}
+              />
             </Link>
           </li>
         ))}
