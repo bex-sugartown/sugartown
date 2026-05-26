@@ -87,6 +87,7 @@ const options: Options = {
     ),
     [BLOCKS.HEADING_2]: (_node, children) => (
       <h2 style={{
+        fontFamily: TOKEN.fontNarrative,
         fontSize: TOKEN.fontHeading2,
         fontWeight: TOKEN.weightBold,
         color: TOKEN.brandPrimary,
@@ -98,6 +99,7 @@ const options: Options = {
     ),
     [BLOCKS.HEADING_3]: (_node, children) => (
       <h3 style={{
+        fontFamily: TOKEN.fontNarrative,
         fontSize: TOKEN.fontHeading3,
         fontWeight: TOKEN.weightSemibold,
         color: TOKEN.textDefault,
@@ -109,6 +111,7 @@ const options: Options = {
     ),
     [BLOCKS.HEADING_4]: (_node, children) => (
       <h4 style={{
+        fontFamily: TOKEN.fontNarrative,
         fontSize: TOKEN.fontHeading4,
         fontWeight: TOKEN.weightSemibold,
         color: TOKEN.textDefault,

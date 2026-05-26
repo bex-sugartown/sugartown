@@ -23,6 +23,7 @@ export function ArticleList({ articles }: { articles: ArticleSummary[] }) {
       padding: "var(--st-space-section-break) var(--st-page-gutter)",
     }}>
       <h2 style={{
+        fontFamily: "var(--st-font-family-narrative)",
         fontSize: "var(--st-font-heading-2)",
         fontWeight: "var(--st-font-weight-bold)",
         color: "var(--st-color-brand-primary)",
