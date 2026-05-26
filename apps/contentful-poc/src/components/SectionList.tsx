@@ -104,7 +104,7 @@ function RichTextSection({ fields }: { fields: RichTextFields }) {
       padding: "var(--st-space-section-break) var(--st-page-gutter)",
     }}>
       <div style={{
-        font: "var(--st-font-heading-4)",
+        fontSize: "var(--st-font-heading-4)",
         lineHeight: "var(--st-line-height-relaxed)",
         color: "var(--st-color-text-default)",
       }}>
@@ -124,7 +124,7 @@ function ArticleListSection({ fields }: { fields: ArticleListFields }) {
     }}>
       {fields.heading && (
         <h2 style={{
-          font: "var(--st-font-heading-2)",
+          fontSize: "var(--st-font-heading-2)",
           fontWeight: "var(--st-font-weight-bold)",
           color: "var(--st-color-brand-primary)",
           lineHeight: "var(--st-line-height-tight)",
@@ -162,7 +162,7 @@ function ArticleListSection({ fields }: { fields: ArticleListFields }) {
                   </p>
                 )}
                 <h3 style={{
-                  font: "var(--st-font-heading-4)",
+                  fontSize: "var(--st-font-heading-4)",
                   fontWeight: "var(--st-font-weight-semibold)",
                   color: "var(--st-color-text-default)",
                   margin: `0 0 var(--st-spacing-stack-sm)`,

@@ -77,7 +77,7 @@ const options: Options = {
     [BLOCKS.PARAGRAPH]: (_node, children) => (
       <p style={{
         fontFamily: TOKEN.fontUi,
-        font: TOKEN.fontBody,
+        fontSize: TOKEN.fontBody,
         lineHeight: TOKEN.lineHeightRelaxed,
         color: TOKEN.textDefault,
         margin: `${TOKEN.readingGap} 0`,
@@ -87,7 +87,7 @@ const options: Options = {
     ),
     [BLOCKS.HEADING_2]: (_node, children) => (
       <h2 style={{
-        font: TOKEN.fontHeading2,
+        fontSize: TOKEN.fontHeading2,
         fontWeight: TOKEN.weightBold,
         color: TOKEN.brandPrimary,
         lineHeight: TOKEN.lineHeightTight,
@@ -98,7 +98,7 @@ const options: Options = {
     ),
     [BLOCKS.HEADING_3]: (_node, children) => (
       <h3 style={{
-        font: TOKEN.fontHeading3,
+        fontSize: TOKEN.fontHeading3,
         fontWeight: TOKEN.weightSemibold,
         color: TOKEN.textDefault,
         lineHeight: TOKEN.lineHeightSnug,
@@ -109,7 +109,7 @@ const options: Options = {
     ),
     [BLOCKS.HEADING_4]: (_node, children) => (
       <h4 style={{
-        font: TOKEN.fontHeading4,
+        fontSize: TOKEN.fontHeading4,
         fontWeight: TOKEN.weightSemibold,
         color: TOKEN.textDefault,
         lineHeight: TOKEN.lineHeightSnug,
