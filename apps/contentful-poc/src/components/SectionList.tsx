@@ -37,47 +37,60 @@ type ArticleListFields = {
 function HeroSection({ fields }: { fields: HeroFields }) {
   return (
     <section style={{
-      padding: "5rem 2rem",
-      background: "var(--st-color-bg-surface)",
+      position: "relative",
+      padding: "var(--st-space-section-break) var(--st-page-gutter) var(--st-space-hero-bottom)",
+      minHeight: "180px",
+      background: "transparent",
+      color: "var(--st-color-text-default)",
       borderBottom: "1px solid var(--st-color-rule-accent)",
     }}>
-      <div style={{ maxWidth: "760px" }}>
-        <h1 style={{
-          fontFamily: "var(--st-font-family-narrative)",
-          fontSize: "var(--st-font-size-display)",
-          fontWeight: 600,
-          lineHeight: 1.1,
-          letterSpacing: "-0.02em",
-          color: "var(--st-color-text-default)",
-          marginBottom: "var(--st-space-4)",
-        }}>
-          {fields.headline}
-        </h1>
-        {fields.subheadline && (
-          <p style={{
-            fontFamily: "var(--st-font-family-ui)",
-            fontSize: "var(--st-font-size-body-lg)",
-            lineHeight: 1.6,
-            marginBottom: "var(--st-space-6)",
-            color: "var(--st-color-text-secondary)",
+      {/* heroContainer */}
+      <div style={{
+        position: "relative",
+        zIndex: 2,
+        maxWidth: "var(--st-width-detail)",
+        margin: "0 auto",
+        width: "100%",
+      }}>
+        {/* heroContent */}
+        <div style={{ maxWidth: "700px" }}>
+          <h1 style={{
+            fontSize: "var(--st-font-heading-1)",
+            fontWeight: "var(--st-font-weight-bold)",
+            lineHeight: "var(--st-line-height-tight)",
+            color: "var(--st-color-text-default)",
+            margin: 0,
           }}>
-            {fields.subheadline}
-          </p>
-        )}
-        {fields.ctaLabel && fields.ctaUrl && (
-          <Link href={fields.ctaUrl} style={{
-            display: "inline-block",
-            padding: "0.65rem 1.5rem",
-            background: "var(--st-color-brand-primary)",
-            color: "#fff",
-            textDecoration: "none",
-            fontFamily: "var(--st-font-family-ui)",
-            fontSize: "var(--st-font-size-label)",
-            letterSpacing: "0.01em",
-          }}>
-            {fields.ctaLabel}
-          </Link>
-        )}
+            {fields.headline}
+          </h1>
+          {fields.subheadline && (
+            <p style={{
+              fontSize: "var(--st-font-heading-3)",
+              lineHeight: "var(--st-line-height-relaxed)",
+              color: "var(--st-color-text-secondary)",
+              margin: `var(--st-spacing-stack-md) 0 0`,
+            }}>
+              {fields.subheadline}
+            </p>
+          )}
+          {fields.ctaLabel && fields.ctaUrl && (
+            <div style={{ marginTop: "var(--st-spacing-stack-lg)" }}>
+              <Link href={fields.ctaUrl} style={{
+                display: "inline-block",
+                padding: "0.65rem 1.5rem",
+                background: "var(--st-color-brand-primary)",
+                color: "var(--st-color-white)",
+                textDecoration: "none",
+                fontFamily: "var(--st-font-family-ui)",
+                fontSize: "var(--st-font-size-label)",
+                fontWeight: "var(--st-font-weight-semibold)",
+                letterSpacing: "0.01em",
+              }}>
+                {fields.ctaLabel}
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
