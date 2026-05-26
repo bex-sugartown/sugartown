@@ -52,24 +52,6 @@ const options: Options = {
       <hr style={{ border: 0, borderTop: `1px solid ${TOKEN.ruleAccent}`, margin: `${TOKEN.space4} 0` }} />
     ),
 
-    // Code blocks — BLOCKS.CODE is a fenced code block, MARKS.CODE is inline
-    [BLOCKS.CODE]: (_node, children) => (
-      <pre style={{
-        fontFamily: TOKEN.fontMono,
-        background: TOKEN.codeInlineBg,
-        color: TOKEN.textDefault,
-        border: `1px solid ${TOKEN.codeBorder}`,
-        borderRadius: "3px",
-        padding: TOKEN.space3,
-        overflowX: "auto",
-        fontSize: "0.9em",
-        lineHeight: 1.5,
-        margin: `0 0 ${TOKEN.space4}`,
-      }}>
-        <code style={{ fontFamily: "inherit" }}>{children}</code>
-      </pre>
-    ),
-
     // Tables — Contentful rich text outputs TABLE > TABLE_ROW > TABLE_CELL/TABLE_HEADER_CELL
     [BLOCKS.TABLE]: (_node, children) => (
       <div style={{ overflowX: "auto", margin: `0 0 ${TOKEN.space4}` }}>

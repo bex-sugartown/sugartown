@@ -33,7 +33,8 @@ export async function getAllArticles(): Promise<ArticleEntry[]> {
     content_type: "article",
     order: ["-fields.publishDate"],
     include: 1,
-  } as Parameters<typeof contentfulClient.getEntries>[0]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any);
   return res.items as ArticleEntry[];
 }
 
@@ -43,7 +44,8 @@ export async function getArticleBySlug(slug: string): Promise<ArticleEntry | nul
     "fields.slug": slug,
     limit: 1,
     include: 2,
-  } as Parameters<typeof contentfulClient.getEntries>[0]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any);
   return (res.items[0] as ArticleEntry) ?? null;
 }
 
@@ -72,7 +74,8 @@ export async function getArticlesByTag(tagId: string): Promise<ArticleEntry[]> {
     "fields.tags.sys.id": tagId,
     order: ["-fields.publishDate"],
     include: 1,
-  } as Parameters<typeof contentfulClient.getEntries>[0]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any);
   return res.items as ArticleEntry[];
 }
 
@@ -147,7 +150,8 @@ export async function getPageBySlug(slug: string): Promise<PageEntry | null> {
     "fields.slug": slug,
     limit: 1,
     include: 2,
-  } as Parameters<typeof contentfulClient.getEntries>[0]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any);
   return (res.items[0] as PageEntry) ?? null;
 }
 
