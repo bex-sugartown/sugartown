@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { notFound } from "next/navigation";
 import { getTagBySlug, getArticlesByTag } from "@/lib/queries";
 import { ArticleList } from "@/components/ArticleList";

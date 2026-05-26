@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getAllTags } from "@/lib/queries";
 import { TagList } from "@/components/TagList";
 

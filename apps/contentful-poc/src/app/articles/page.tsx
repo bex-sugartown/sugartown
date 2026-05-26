@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getPageBySlug, getAllArticles, serializeSections } from "@/lib/queries";
 import { SectionList } from "@/components/SectionList";
 import { ArticleList } from "@/components/ArticleList";
