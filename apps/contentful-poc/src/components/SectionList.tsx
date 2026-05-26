@@ -86,11 +86,17 @@ function HeroSection({ fields }: { fields: HeroFields }) {
 function RichTextSection({ fields }: { fields: RichTextFields }) {
   return (
     <section style={{
-      padding: "var(--st-space-8) 2rem",
-      maxWidth: "760px",
-      color: "var(--st-color-text-default)",
+      maxWidth: "var(--st-width-detail)",
+      margin: "0 auto",
+      padding: "var(--st-space-section-break) var(--st-page-gutter)",
     }}>
-      {fields.body && renderRichText(fields.body)}
+      <div style={{
+        font: "var(--st-font-heading-4)",
+        lineHeight: "var(--st-line-height-relaxed)",
+        color: "var(--st-color-text-default)",
+      }}>
+        {fields.body && renderRichText(fields.body)}
+      </div>
     </section>
   );
 }

@@ -5,29 +5,44 @@ import {
   type Options,
 } from "@contentful/rich-text-react-renderer";
 
-// Shared DS token references used across multiple nodes
+// Shared DS token references — mirroring PageSections.module.css token usage
 const TOKEN = {
-  ruleAccent: "var(--st-color-rule-accent)",
-  bgSurface: "var(--st-color-bg-surface)",
-  bgSubtle: "var(--st-color-bg-subtle)",
-  tableHeaderBg: "var(--st-table-header-bg-accent)",
-  tableHeaderColor: "var(--st-table-header-color-accent)",
-  codeInlineBg: "var(--st-code-inline-bg-dark-maroon)",
-  codeBorder: "var(--st-color-rule-accent)",
-  textDefault: "var(--st-color-text-default)",
-  textSecondary: "var(--st-color-text-secondary)",
-  brandPrimary: "var(--st-color-brand-primary)",
-  fontNarrative: "var(--st-font-family-narrative)",
-  fontMono: "var(--st-font-family-mono)",
-  fontUi: "var(--st-font-family-ui)",
-  sizeHeading2: "var(--st-font-size-heading-2)",
-  sizeHeading3: "var(--st-font-size-heading-3)",
-  sizeHeading4: "var(--st-font-size-heading-4)",
-  sizeBody: "var(--st-font-size-body)",
-  space2: "var(--st-space-2)",
-  space3: "var(--st-space-3)",
-  space4: "var(--st-space-4)",
-  space6: "var(--st-space-6)",
+  // colours
+  ruleAccent:        "var(--st-color-rule-accent)",
+  bgSurface:         "var(--st-color-bg-surface)",
+  bgSubtle:          "var(--st-color-bg-subtle)",
+  tableHeaderBg:     "var(--st-table-header-bg-accent)",
+  tableHeaderColor:  "var(--st-table-header-color-accent)",
+  codeInlineBg:      "var(--st-code-inline-bg-dark-maroon)",
+  codeBorder:        "var(--st-color-rule-accent)",
+  textDefault:       "var(--st-color-text-default)",
+  textSecondary:     "var(--st-color-text-secondary)",
+  brandPrimary:      "var(--st-color-brand-primary)",
+  // font shorthands (family + size + weight in one token — same as Sanity app)
+  fontHeading2:      "var(--st-font-heading-2)",
+  fontHeading3:      "var(--st-font-heading-3)",
+  fontHeading4:      "var(--st-font-heading-4)",
+  fontBody:          "var(--st-font-body)",
+  // font families (for elements that need family only)
+  fontNarrative:     "var(--st-font-family-narrative)",
+  fontMono:          "var(--st-font-family-mono)",
+  fontUi:            "var(--st-font-family-ui)",
+  // weights
+  weightBold:        "var(--st-font-weight-bold)",
+  weightSemibold:    "var(--st-font-weight-semibold)",
+  // line heights
+  lineHeightTight:   "var(--st-line-height-tight)",
+  lineHeightRelaxed: "var(--st-line-height-relaxed)",
+  // spacing — stack rhythm
+  stackXl:           "var(--st-spacing-stack-xl)",
+  stackLg:           "var(--st-spacing-stack-lg)",
+  stackMd:           "var(--st-spacing-stack-md)",
+  stackSm:           "var(--st-spacing-stack-sm)",
+  readingGap:        "var(--st-space-reading-gap)",
+  // legacy space refs (tables, code)
+  space2:            "var(--st-space-2)",
+  space3:            "var(--st-space-3)",
+  space4:            "var(--st-space-4)",
 } as const;
 
 const options: Options = {
@@ -52,46 +67,43 @@ const options: Options = {
     [BLOCKS.PARAGRAPH]: (_node, children) => (
       <p style={{
         fontFamily: TOKEN.fontUi,
-        fontSize: TOKEN.sizeBody,
+        font: TOKEN.fontBody,
+        lineHeight: TOKEN.lineHeightRelaxed,
         color: TOKEN.textDefault,
-        lineHeight: 1.65,
-        margin: `0 0 ${TOKEN.space3}`,
+        margin: `${TOKEN.readingGap} 0`,
       }}>
         {children}
       </p>
     ),
     [BLOCKS.HEADING_2]: (_node, children) => (
       <h2 style={{
-        fontFamily: TOKEN.fontNarrative,
-        fontSize: TOKEN.sizeHeading2,
+        font: TOKEN.fontHeading2,
+        fontWeight: TOKEN.weightBold,
         color: TOKEN.brandPrimary,
-        lineHeight: 1.2,
-        margin: `${TOKEN.space6} 0 ${TOKEN.space3}`,
-        fontWeight: 600,
+        lineHeight: TOKEN.lineHeightTight,
+        margin: `${TOKEN.stackXl} 0 ${TOKEN.stackMd}`,
       }}>
         {children}
       </h2>
     ),
     [BLOCKS.HEADING_3]: (_node, children) => (
       <h3 style={{
-        fontFamily: TOKEN.fontNarrative,
-        fontSize: TOKEN.sizeHeading3,
+        font: TOKEN.fontHeading3,
+        fontWeight: TOKEN.weightSemibold,
         color: TOKEN.textDefault,
-        lineHeight: 1.25,
-        margin: `${TOKEN.space4} 0 ${TOKEN.space2}`,
-        fontWeight: 600,
+        lineHeight: "1.3",
+        margin: `${TOKEN.stackLg} 0 ${TOKEN.stackSm}`,
       }}>
         {children}
       </h3>
     ),
     [BLOCKS.HEADING_4]: (_node, children) => (
       <h4 style={{
-        fontFamily: TOKEN.fontNarrative,
-        fontSize: TOKEN.sizeHeading4,
+        font: TOKEN.fontHeading4,
+        fontWeight: TOKEN.weightSemibold,
         color: TOKEN.textDefault,
-        lineHeight: 1.3,
-        margin: `${TOKEN.space3} 0 ${TOKEN.space2}`,
-        fontWeight: 600,
+        lineHeight: "1.3",
+        margin: `${TOKEN.stackMd} 0 ${TOKEN.stackSm}`,
       }}>
         {children}
       </h4>
