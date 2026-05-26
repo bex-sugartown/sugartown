@@ -25,9 +25,37 @@ body {
   flex-direction: column;
   background: var(--st-color-bg-canvas);
   color: var(--st-color-text-default);
-  font-family: var(--st-font-family-ui);
+  font-family: var(--st-font-ui);
+  font-size: var(--st-font-body);
+  line-height: var(--st-line-height-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  margin: 0 0 var(--st-spacing-stack-md) 0;
+}
+
+/* Headings → Cormorant Garamond (narrative) */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 var(--st-spacing-stack-md) 0;
+  font-family: var(--st-font-narrative);
+  font-weight: 600;
+}
+
+/* Code → Mono */
+code, kbd, samp, pre {
+  font-family: var(--st-font-family-mono);
+}
+
+/* Inline code pill style */
+:not(pre) > code {
+  font-size: 0.85em;
+  background-color: var(--st-code-inline-bg);
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  border: var(--st-code-inline-border);
+  color: var(--st-code-inline-color);
 }
 
 a {
