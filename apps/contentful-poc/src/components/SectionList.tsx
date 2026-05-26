@@ -117,45 +117,66 @@ function RichTextSection({ fields }: { fields: RichTextFields }) {
 function ArticleListSection({ fields }: { fields: ArticleListFields }) {
   const articles = fields.featuredArticles ?? [];
   return (
-    <section style={{ padding: "2rem" }}>
+    <section style={{
+      maxWidth: "var(--st-width-detail)",
+      margin: "0 auto",
+      padding: "var(--st-space-section-break) var(--st-page-gutter)",
+    }}>
       {fields.heading && (
         <h2 style={{
-          fontFamily: "var(--st-font-family-narrative)",
-          fontSize: "var(--st-font-size-heading-2)",
-          marginBottom: "2rem",
-          color: "var(--st-color-text-default)",
+          font: "var(--st-font-heading-2)",
+          fontWeight: "var(--st-font-weight-bold)",
+          color: "var(--st-color-brand-primary)",
+          lineHeight: "var(--st-line-height-tight)",
+          margin: `0 0 var(--st-spacing-stack-lg)`,
         }}>
           {fields.heading}
         </h2>
       )}
-      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
+      <ul style={{
+        listStyle: "none",
+        padding: 0,
+        margin: 0,
+        display: "flex",
+        flexDirection: "column",
+        gap: "var(--st-space-card-gap)",
+      }}>
         {articles.map((article) => (
           <li key={article.id}>
             <Link href={`/articles/${article.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
               <article style={{
-                padding: "1.25rem 1.5rem",
+                padding: "var(--st-space-4) var(--st-space-4)",
                 border: "1px solid var(--st-color-rule-default)",
                 background: "var(--st-color-bg-surface)",
               }}>
                 {article.publishDate && (
                   <p style={{
                     fontFamily: "var(--st-font-family-mono)",
-                    fontSize: "var(--st-font-size-label)",
+                    fontSize: "0.72rem",
+                    letterSpacing: "0.04em",
+                    textTransform: "uppercase",
                     color: "var(--st-color-brand-primary)",
-                    marginBottom: "0.4rem",
+                    margin: `0 0 var(--st-spacing-stack-sm)`,
                   }}>
                     {new Date(article.publishDate).toLocaleDateString()}
                   </p>
                 )}
                 <h3 style={{
-                  fontFamily: "var(--st-font-family-narrative)",
-                  fontSize: "var(--st-font-size-heading-4)",
-                  marginBottom: "0.5rem",
+                  font: "var(--st-font-heading-4)",
+                  fontWeight: "var(--st-font-weight-semibold)",
+                  color: "var(--st-color-text-default)",
+                  margin: `0 0 var(--st-spacing-stack-sm)`,
                 }}>
                   {article.title}
                 </h3>
                 {article.summary && (
-                  <p style={{ color: "var(--st-color-text-secondary)", fontSize: "var(--st-font-size-body)" }}>
+                  <p style={{
+                    fontFamily: "var(--st-font-family-ui)",
+                    fontSize: "var(--st-font-size-body)",
+                    lineHeight: "var(--st-line-height-relaxed)",
+                    color: "var(--st-color-text-secondary)",
+                    margin: 0,
+                  }}>
                     {article.summary}
                   </p>
                 )}
