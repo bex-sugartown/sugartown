@@ -15,11 +15,19 @@ const TOKEN = {
   codeInlineBg: "var(--st-code-inline-bg-dark-maroon)",
   codeBorder: "var(--st-color-rule-accent)",
   textDefault: "var(--st-color-text-default)",
+  textSecondary: "var(--st-color-text-secondary)",
+  brandPrimary: "var(--st-color-brand-primary)",
+  fontNarrative: "var(--st-font-family-narrative)",
   fontMono: "var(--st-font-family-mono)",
   fontUi: "var(--st-font-family-ui)",
+  sizeHeading2: "var(--st-font-size-heading-2)",
+  sizeHeading3: "var(--st-font-size-heading-3)",
+  sizeHeading4: "var(--st-font-size-heading-4)",
+  sizeBody: "var(--st-font-size-body)",
   space2: "var(--st-space-2)",
   space3: "var(--st-space-3)",
   space4: "var(--st-space-4)",
+  space6: "var(--st-space-6)",
 } as const;
 
 const options: Options = {
@@ -41,10 +49,53 @@ const options: Options = {
     ),
   },
   renderNode: {
-    [BLOCKS.PARAGRAPH]: (_node, children) => <p>{children}</p>,
-    [BLOCKS.HEADING_2]: (_node, children) => <h2>{children}</h2>,
-    [BLOCKS.HEADING_3]: (_node, children) => <h3>{children}</h3>,
-    [BLOCKS.HEADING_4]: (_node, children) => <h4>{children}</h4>,
+    [BLOCKS.PARAGRAPH]: (_node, children) => (
+      <p style={{
+        fontFamily: TOKEN.fontUi,
+        fontSize: TOKEN.sizeBody,
+        color: TOKEN.textDefault,
+        lineHeight: 1.65,
+        margin: `0 0 ${TOKEN.space3}`,
+      }}>
+        {children}
+      </p>
+    ),
+    [BLOCKS.HEADING_2]: (_node, children) => (
+      <h2 style={{
+        fontFamily: TOKEN.fontNarrative,
+        fontSize: TOKEN.sizeHeading2,
+        color: TOKEN.brandPrimary,
+        lineHeight: 1.2,
+        margin: `${TOKEN.space6} 0 ${TOKEN.space3}`,
+        fontWeight: 600,
+      }}>
+        {children}
+      </h2>
+    ),
+    [BLOCKS.HEADING_3]: (_node, children) => (
+      <h3 style={{
+        fontFamily: TOKEN.fontNarrative,
+        fontSize: TOKEN.sizeHeading3,
+        color: TOKEN.textDefault,
+        lineHeight: 1.25,
+        margin: `${TOKEN.space4} 0 ${TOKEN.space2}`,
+        fontWeight: 600,
+      }}>
+        {children}
+      </h3>
+    ),
+    [BLOCKS.HEADING_4]: (_node, children) => (
+      <h4 style={{
+        fontFamily: TOKEN.fontNarrative,
+        fontSize: TOKEN.sizeHeading4,
+        color: TOKEN.textDefault,
+        lineHeight: 1.3,
+        margin: `${TOKEN.space3} 0 ${TOKEN.space2}`,
+        fontWeight: 600,
+      }}>
+        {children}
+      </h4>
+    ),
     [BLOCKS.UL_LIST]: (_node, children) => <ul>{children}</ul>,
     [BLOCKS.OL_LIST]: (_node, children) => <ol>{children}</ol>,
     [BLOCKS.LIST_ITEM]: (_node, children) => <li>{children}</li>,

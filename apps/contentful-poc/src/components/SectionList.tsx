@@ -37,37 +37,59 @@ type ArticleListFields = {
 function HeroSection({ fields }: { fields: HeroFields }) {
   return (
     <section style={{
-      padding: "4rem 2rem",
+      padding: "5rem 2rem",
       background: "var(--st-color-bg-surface)",
       borderBottom: "1px solid var(--st-color-rule-accent)",
     }}>
-      <h1 style={{ fontFamily: "var(--st-font-family-narrative)", fontSize: "var(--st-font-size-heading-1)", marginBottom: "1rem" }}>
-        {fields.headline}
-      </h1>
-      {fields.subheadline && (
-        <p style={{ fontSize: "var(--st-font-size-body-lg)", marginBottom: "1.5rem", color: "var(--st-color-text-secondary)" }}>
-          {fields.subheadline}
-        </p>
-      )}
-      {fields.ctaLabel && fields.ctaUrl && (
-        <Link href={fields.ctaUrl} style={{
-          display: "inline-block",
-          padding: "0.6rem 1.25rem",
-          background: "var(--st-color-brand-primary)",
-          color: "#fff",
-          textDecoration: "none",
-          fontFamily: "var(--st-font-family-ui)",
+      <div style={{ maxWidth: "760px" }}>
+        <h1 style={{
+          fontFamily: "var(--st-font-family-narrative)",
+          fontSize: "var(--st-font-size-display)",
+          fontWeight: 600,
+          lineHeight: 1.1,
+          letterSpacing: "-0.02em",
+          color: "var(--st-color-text-default)",
+          marginBottom: "var(--st-space-4)",
         }}>
-          {fields.ctaLabel}
-        </Link>
-      )}
+          {fields.headline}
+        </h1>
+        {fields.subheadline && (
+          <p style={{
+            fontFamily: "var(--st-font-family-ui)",
+            fontSize: "var(--st-font-size-body-lg)",
+            lineHeight: 1.6,
+            marginBottom: "var(--st-space-6)",
+            color: "var(--st-color-text-secondary)",
+          }}>
+            {fields.subheadline}
+          </p>
+        )}
+        {fields.ctaLabel && fields.ctaUrl && (
+          <Link href={fields.ctaUrl} style={{
+            display: "inline-block",
+            padding: "0.65rem 1.5rem",
+            background: "var(--st-color-brand-primary)",
+            color: "#fff",
+            textDecoration: "none",
+            fontFamily: "var(--st-font-family-ui)",
+            fontSize: "var(--st-font-size-label)",
+            letterSpacing: "0.01em",
+          }}>
+            {fields.ctaLabel}
+          </Link>
+        )}
+      </div>
     </section>
   );
 }
 
 function RichTextSection({ fields }: { fields: RichTextFields }) {
   return (
-    <section style={{ padding: "2rem", maxWidth: "760px" }}>
+    <section style={{
+      padding: "var(--st-space-8) 2rem",
+      maxWidth: "760px",
+      color: "var(--st-color-text-default)",
+    }}>
       {fields.body && renderRichText(fields.body)}
     </section>
   );
