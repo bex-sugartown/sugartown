@@ -40,7 +40,7 @@ p {
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 var(--st-spacing-stack-md) 0;
   font-family: var(--st-font-narrative);
-  font-weight: 600;
+  font-weight: var(--st-font-weight-semibold);
 }
 
 /* Code → Mono */
@@ -50,10 +50,10 @@ code, kbd, samp, pre {
 
 /* Inline code pill style */
 :not(pre) > code {
-  font-size: 0.85em;
+  font-size: var(--st-code-inline-font-size);
   background-color: var(--st-code-inline-bg);
-  padding: 0.2em 0.5em;
-  border-radius: 4px;
+  padding: var(--st-code-inline-padding);
+  border-radius: var(--st-radius-code);
   border: var(--st-code-inline-border);
   color: var(--st-code-inline-color);
 }

@@ -39,10 +39,10 @@ function HeroSection({ fields }: { fields: HeroFields }) {
     <section style={{
       position: "relative",
       padding: "var(--st-space-section-break) var(--st-page-gutter) var(--st-space-hero-bottom)",
-      minHeight: "180px",
+      minHeight: "var(--st-hero-imageless-min-height)",
       background: "transparent",
       color: "var(--st-color-text-default)",
-      borderBottom: "1px solid var(--st-color-rule-accent)",
+      borderBottom: "var(--st-border-width) solid var(--st-color-rule-accent)",
     }}>
       {/* heroContainer */}
       <div style={{
@@ -53,7 +53,7 @@ function HeroSection({ fields }: { fields: HeroFields }) {
         width: "100%",
       }}>
         {/* heroContent */}
-        <div style={{ maxWidth: "700px" }}>
+        <div style={{ maxWidth: "var(--st-hero-content-max-width)" }}>
           <h1 style={{
             fontSize: "var(--st-font-heading-1)",
             fontWeight: "var(--st-font-weight-bold)",
@@ -77,14 +77,14 @@ function HeroSection({ fields }: { fields: HeroFields }) {
             <div style={{ marginTop: "var(--st-spacing-stack-lg)" }}>
               <Link href={fields.ctaUrl} style={{
                 display: "inline-block",
-                padding: "0.65rem 1.5rem",
+                padding: "var(--st-cta-padding-y) var(--st-cta-padding-x)",
                 background: "var(--st-color-brand-primary)",
                 color: "var(--st-color-white)",
                 textDecoration: "none",
                 fontFamily: "var(--st-font-family-ui)",
                 fontSize: "var(--st-font-size-label)",
                 fontWeight: "var(--st-font-weight-semibold)",
-                letterSpacing: "0.01em",
+                letterSpacing: "var(--st-letter-spacing-cta)",
               }}>
                 {fields.ctaLabel}
               </Link>
@@ -146,14 +146,14 @@ function ArticleListSection({ fields }: { fields: ArticleListFields }) {
             <Link href={`/articles/${article.slug}`} style={{ textDecoration: "none", color: "inherit" }}>
               <article style={{
                 padding: "var(--st-space-4) var(--st-space-4)",
-                border: "1px solid var(--st-color-rule-default)",
+                border: "var(--st-border-width) solid var(--st-color-rule-default)",
                 background: "var(--st-color-bg-surface)",
               }}>
                 {article.publishDate && (
                   <p style={{
                     fontFamily: "var(--st-font-family-mono)",
-                    fontSize: "0.72rem",
-                    letterSpacing: "0.04em",
+                    fontSize: "var(--st-font-size-meta)",
+                    letterSpacing: "var(--st-letter-spacing-meta)",
                     textTransform: "uppercase",
                     color: "var(--st-color-brand-primary)",
                     margin: `0 0 var(--st-spacing-stack-sm)`,

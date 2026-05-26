@@ -39,10 +39,20 @@ const TOKEN = {
   stackMd:           "var(--st-spacing-stack-md)",
   stackSm:           "var(--st-spacing-stack-sm)",
   readingGap:        "var(--st-space-reading-gap)",
-  // legacy space refs (tables, code)
+  // line height
+  lineHeightSnug:    "var(--st-line-height-snug)",
+  // spacing — legacy space refs (tables)
   space2:            "var(--st-space-2)",
   space3:            "var(--st-space-3)",
   space4:            "var(--st-space-4)",
+  // borders, code, table
+  borderWidth:       "var(--st-border-width)",
+  radiusCode:        "var(--st-radius-code)",
+  codeInlinePad:     "var(--st-code-inline-padding)",
+  codeInlineSize:    "var(--st-code-inline-font-size)",
+  tableHeaderSize:   "var(--st-table-header-font-size)",
+  tableFontSize:     "var(--st-table-font-size)",
+  letterSpacingWide: "var(--st-letter-spacing-wide)",
 } as const;
 
 const options: Options = {
@@ -54,10 +64,10 @@ const options: Options = {
         fontFamily: TOKEN.fontMono,
         background: TOKEN.codeInlineBg,
         color: TOKEN.textDefault,
-        border: `1px solid ${TOKEN.codeBorder}`,
-        borderRadius: "3px",
-        padding: "0.1em 0.35em",
-        fontSize: "0.9em",
+        border: `${TOKEN.borderWidth} solid ${TOKEN.codeBorder}`,
+        borderRadius: TOKEN.radiusCode,
+        padding: TOKEN.codeInlinePad,
+        fontSize: TOKEN.codeInlineSize,
       }}>
         {text}
       </code>
@@ -91,7 +101,7 @@ const options: Options = {
         font: TOKEN.fontHeading3,
         fontWeight: TOKEN.weightSemibold,
         color: TOKEN.textDefault,
-        lineHeight: "1.3",
+        lineHeight: TOKEN.lineHeightSnug,
         margin: `${TOKEN.stackLg} 0 ${TOKEN.stackSm}`,
       }}>
         {children}
@@ -102,7 +112,7 @@ const options: Options = {
         font: TOKEN.fontHeading4,
         fontWeight: TOKEN.weightSemibold,
         color: TOKEN.textDefault,
-        lineHeight: "1.3",
+        lineHeight: TOKEN.lineHeightSnug,
         margin: `${TOKEN.stackMd} 0 ${TOKEN.stackSm}`,
       }}>
         {children}
@@ -112,7 +122,7 @@ const options: Options = {
     [BLOCKS.OL_LIST]: (_node, children) => <ol>{children}</ol>,
     [BLOCKS.LIST_ITEM]: (_node, children) => <li>{children}</li>,
     [BLOCKS.HR]: () => (
-      <hr style={{ border: 0, borderTop: `1px solid ${TOKEN.ruleAccent}`, margin: `${TOKEN.space4} 0` }} />
+      <hr style={{ border: 0, borderTop: `${TOKEN.borderWidth} solid ${TOKEN.ruleAccent}`, margin: `${TOKEN.space4} 0` }} />
     ),
 
     // Tables — Contentful rich text outputs TABLE > TABLE_ROW > TABLE_CELL/TABLE_HEADER_CELL
@@ -122,7 +132,7 @@ const options: Options = {
           width: "100%",
           borderCollapse: "collapse",
           fontFamily: TOKEN.fontUi,
-          fontSize: "0.95em",
+          fontSize: TOKEN.tableFontSize,
         }}>
           <tbody>{children}</tbody>
         </table>
@@ -131,7 +141,7 @@ const options: Options = {
     [BLOCKS.TABLE_ROW]: (_node, children) => <tr>{children}</tr>,
     [BLOCKS.TABLE_CELL]: (_node, children) => (
       <td style={{
-        border: `1px solid ${TOKEN.ruleAccent}`,
+        border: `${TOKEN.borderWidth} solid ${TOKEN.ruleAccent}`,
         padding: `${TOKEN.space2} ${TOKEN.space3}`,
         verticalAlign: "top",
         color: TOKEN.textDefault,
@@ -141,14 +151,14 @@ const options: Options = {
     ),
     [BLOCKS.TABLE_HEADER_CELL]: (_node, children) => (
       <th style={{
-        border: `1px solid ${TOKEN.ruleAccent}`,
+        border: `${TOKEN.borderWidth} solid ${TOKEN.ruleAccent}`,
         padding: `${TOKEN.space2} ${TOKEN.space3}`,
         background: TOKEN.tableHeaderBg,
         color: TOKEN.tableHeaderColor,
         fontFamily: TOKEN.fontMono,
         textTransform: "uppercase",
-        fontSize: "0.8em",
-        letterSpacing: "0.05em",
+        fontSize: TOKEN.tableHeaderSize,
+        letterSpacing: TOKEN.letterSpacingWide,
         textAlign: "left",
         verticalAlign: "top",
       }}>

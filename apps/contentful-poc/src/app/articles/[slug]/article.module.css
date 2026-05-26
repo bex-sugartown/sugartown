@@ -16,8 +16,8 @@
 
 .eyebrow {
   font-family: var(--st-font-family-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
+  font-size: var(--st-font-size-meta);
+  letter-spacing: var(--st-letter-spacing-meta);
   text-transform: uppercase;
   color: var(--st-color-brand-primary);
   margin: 0 0 var(--st-spacing-stack-sm);
@@ -44,7 +44,7 @@
   font-size: var(--st-font-heading-3);
   font-weight: var(--st-font-weight-semibold);
   color: var(--st-color-text-default);
-  line-height: 1.3;
+  line-height: var(--st-line-height-snug);
   margin: var(--st-spacing-stack-lg) 0 var(--st-spacing-stack-sm);
 }
 
@@ -52,7 +52,7 @@
   font-size: var(--st-font-heading-4);
   font-weight: var(--st-font-weight-semibold);
   color: var(--st-color-text-default);
-  line-height: 1.3;
+  line-height: var(--st-line-height-snug);
   margin: var(--st-spacing-stack-md) 0 var(--st-spacing-stack-sm);
 }
 
@@ -72,7 +72,7 @@
 
 .prose a {
   color: var(--st-color-brand-primary);
-  text-underline-offset: 2px;
+  text-underline-offset: var(--st-link-underline-offset);
 }
 
 .prose a:hover {
@@ -81,29 +81,30 @@
 
 .prose code {
   font-family: var(--st-font-family-mono);
+  font-size: var(--st-code-inline-font-size);
   background: var(--st-code-inline-bg);
   color: var(--st-code-inline-color);
   border: var(--st-code-inline-border);
-  border-radius: 3px;
-  padding: 0.1em 0.35em;
-  font-size: 0.9em;
+  border-radius: var(--st-radius-code);
+  padding: var(--st-code-inline-padding);
 }
 
 .prose hr {
   border: 0;
-  border-top: 1px solid var(--st-color-rule-accent);
+  border-top: var(--st-border-width) solid var(--st-color-rule-accent);
   margin: var(--st-spacing-stack-lg) 0;
 }
 
 .prose table {
   width: 100%;
   border-collapse: collapse;
+  font-size: var(--st-table-font-size);
   margin: 0 0 var(--st-spacing-stack-md);
 }
 
 .prose th,
 .prose td {
-  border: 1px solid var(--st-color-rule-accent);
+  border: var(--st-border-width) solid var(--st-color-rule-accent);
   padding: var(--st-space-2) var(--st-space-3);
   text-align: left;
   vertical-align: top;
@@ -111,9 +112,9 @@
 
 .prose th {
   font-family: var(--st-font-family-mono);
-  font-size: 0.8rem;
+  font-size: var(--st-table-header-font-size);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--st-letter-spacing-wide);
   background: var(--st-table-header-bg-accent);
   color: var(--st-table-header-color-accent);
 }

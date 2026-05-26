@@ -136,6 +136,7 @@
   --st-line-height-tight: 1.25;
   --st-line-height-normal: 1.5;
   --st-line-height-relaxed: 1.75;
+  --st-line-height-snug: 1.3;
   --st-font-weight-normal: 400;
   --st-font-weight-medium: 500;
   --st-font-weight-semibold: 600;
@@ -179,6 +180,10 @@
   --st-margin-outline: #4a5068; /** Locked Tier-3 leaf — margin column palette, used in color-mix expressions */
   --st-label-size: 0.65rem;
   --st-label-weight: 600;
+  --st-letter-spacing-meta: 0.04em;
+  --st-letter-spacing-wide: 0.05em;
+  --st-letter-spacing-cta: 0.01em;
+  --st-font-size-meta: 0.72rem;
   --st-label-tracking: 0.1em;
   --st-font-heading-1: 3.25rem;
   --st-font-heading-2: 2.25rem;
@@ -328,6 +333,16 @@
   --st-table-min-width: 600px;
   --st-stat-tile-bar-height: 4px;
   --st-stat-tile-padding: 1.25rem 1rem;
+  --st-border-width: 1px;
+  --st-link-underline-offset: 2px;
+  --st-code-inline-font-size: 0.9em;
+  --st-code-inline-padding: 0.1em 0.35em;
+  --st-hero-imageless-min-height: 180px;
+  --st-hero-content-max-width: 700px;
+  --st-cta-padding-y: 0.65rem;
+  --st-cta-padding-x: 1.5rem;
+  --st-table-font-size: 0.95em;
+  --st-table-header-font-size: 0.8rem;
   --st-blockquote-border-width: 3px;
   --st-blockquote-padding-left: 1rem;
   --st-blockquote-margin-block: 1.5rem;
