@@ -189,7 +189,7 @@ function ArticleListSection({ fields }: { fields: ArticleListFields }) {
   );
 }
 
-export function SectionList({ sections }: { sections: SerializedSection[] }) {
+export function SectionList({ sections, allArticles = [] }: { sections: SerializedSection[]; allArticles?: SerializedArticle[] }) {
   return (
     <>
       {sections.map((section) => {
@@ -198,8 +198,13 @@ export function SectionList({ sections }: { sections: SerializedSection[] }) {
             return <HeroSection key={section.id} fields={section.fields as HeroFields} />;
           case "richTextSection":
             return <RichTextSection key={section.id} fields={section.fields as RichTextFields} />;
-          case "articleListSection":
-            return <ArticleListSection key={section.id} fields={section.fields as ArticleListFields} />;
+          case "articleListSection": {
+            const fields = section.fields as ArticleListFields;
+            const articlesToShow = (fields.featuredArticles && fields.featuredArticles.length > 0)
+              ? fields
+              : { ...fields, featuredArticles: allArticles };
+            return <ArticleListSection key={section.id} fields={articlesToShow} />;
+          }
           default:
             return (
               <section key={section.id} style={{ padding: "1rem", color: "var(--st-color-text-secondary)" }}>

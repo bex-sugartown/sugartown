@@ -30,7 +30,7 @@ export default async function ArticlesPage() {
 
   return (
     <main>
-      {sections.length > 0 && <SectionList sections={sections} />}
+      {sections.length > 0 && <SectionList sections={sections} allArticles={articles} />}
       {!hasArticleListSection && <ArticleList articles={articles} />}
     </main>
   );
