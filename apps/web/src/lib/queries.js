@@ -833,7 +833,20 @@ export const pageBySlugQuery = `
     authors[]->{${PERSON_FRAGMENT}},
     aiDisclosure,
     "tools": tools[]->{${TOOL_FRAGMENT}},
-    ${SEO_FRAGMENT}
+    ${SEO_FRAGMENT},
+    "primaryPerson": select(
+      slug.current == "about" => *[_type == "person"][0] {
+        _id,
+        name,
+        "slug": slug.current,
+        titles,
+        headline,
+        location,
+        socialLinks[]{ platform, url, label },
+        image{ asset->{ _id, url }, alt },
+        "expertise": expertise[]->{ name }
+      }
+    )
   }
 `
 

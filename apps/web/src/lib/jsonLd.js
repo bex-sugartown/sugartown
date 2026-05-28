@@ -188,6 +188,9 @@ export function generateJsonLd(doc, siteSettings) {
         break
       case 'page':
         pageSchema = buildPage(doc, base)
+        if (doc.primaryPerson) {
+          graph.push(buildPerson(doc.primaryPerson, base))
+        }
         break
     }
     if (pageSchema) graph.push(pageSchema)
