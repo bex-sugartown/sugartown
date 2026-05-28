@@ -140,6 +140,16 @@ Hobby restrictions: no password protection on previews, no team members, no spen
 | Free | Free | 100GB/month | 300 min/month | 125K/month |
 | Pro | $19/seat/month | 400GB/month | 25,000 min/month | 125K/month |
 
+**Credit model (confirmed from live usage, May 2026):** Netlify's billing runs on a credit system. Production deploys, bandwidth, web requests, functions compute, and database compute all draw from a credit pool. The **Personal plan is $9/month and includes 1,000 credits**. Additional credits can be purchased as a **$5 add-on block** when the monthly allocation runs out. This is meaningful for the POC: the contentful-poc consumed approximately 63 credits in the current billing period (May 21 to Jun 20), with the largest single-day spike at 120 credits on a heavy deploy day. At this rate, the $9/month personal plan covers all POC activity comfortably without needing the add-on.
+
+Observed credit consumption breakdown on the POC (current period):
+- Production deploys: 120 credits (8 deploys at roughly 15 credits each)
+- Web requests: 1.6 credits (7,999 requests)
+- Bandwidth: 2.2 credits
+- Compute, AI inference, functions: 0 credits
+
+**Why this matters for the eval:** The credit model makes Netlify's pricing more legible at small scale than Vercel's usage-based model, and the $9 add-on tier makes it genuinely affordable to run a hobby/POC project with active deploy cadence without hitting the free-tier build minute ceiling. The 300 build minutes/month hard limit on the free tier remains the more binding constraint for CI-heavy workflows.
+
 **Key difference:** Netlify's free tier gives 300 build minutes/month. Vercel's gives 6,000. For a small project with frequent deploys, Vercel's free tier is significantly more headroom.
 
 **At Sugartown's current scale:** Both free tiers are sufficient. Sugartown.io's Netlify build (Vite + Sanity) takes roughly 60–90 seconds. At 300 minutes, that's ~200 deploys per month — well above actual usage.
