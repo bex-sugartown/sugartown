@@ -66,9 +66,7 @@ const ROADMAP_COLUMNS = [
 function toRoadmapRow(row, issueIdClass, statusCellClass, labelChipsClass) {
   const sw = PRIORITY_SWATCH[PRIORITY_LEVEL[row.priority] ?? 'none']
   return {
-    id: row.url
-      ? <a className={issueIdClass} href={row.url} target="_blank" rel="noopener noreferrer">{row.identifier}</a>
-      : <span className={issueIdClass}>{row.identifier}</span>,
+    id: <span className={issueIdClass}>{row.identifier}</span>,
     title:    row.title,
     status:   <span className={statusCellClass}>{row.status}</span>,
     priority: <Swatch color={sw.color} label={sw.label} />,

@@ -143,13 +143,8 @@
   font-family: var(--st-font-family-mono);
   font-size: 0.8rem;
   font-weight: 600;
-  color: var(--st-color-brand-primary);
-  text-decoration: none;
+  color: var(--st-color-text-primary);
   white-space: nowrap;
-}
-
-.issueId:hover {
-  text-decoration: underline;
 }
 
 .priorityBadge {
