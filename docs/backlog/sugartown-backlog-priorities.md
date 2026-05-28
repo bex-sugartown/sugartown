@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-28 · Added SUG-131, SUG-132, SUG-133 (AEO/GEO audit initiative — technical fundamentals, content pass, authority building). v0.25.1 released 2026-05-26 (SUG-127 Contentful POC DS token parity patch). Next: SUG-116 or SUG-100.
+> Updated 2026-05-28 · v0.25.2 + v0.25.3 released — SUG-131 (Person JSON-LD, AEO technical fundamentals) and SUG-132 (Agentic Caucus article, page answer leads, case study rewrites, KG preamble). Next: SUG-116 or SUG-100.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.25.1 released ✅ 2026-05-26 — SUG-127 DS token parity patch (contentful-poc fully tokenised, 15 new DS tokens). Next: SUG-116 (Ledger Button Update) or SUG-100 (CWV Snapshot).
+> **⚑ Current focus:** v0.25.3 released ✅ 2026-05-28 — SUG-131 AEO technical fundamentals (Person JSON-LD on /about) + SUG-132 AEO content pass (Agentic Caucus article, page answer leads, case study rewrites). Next: SUG-116 (Ledger Button Update) or SUG-100 (CWV Snapshot).
 
 ---
 
@@ -56,8 +56,8 @@
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
 | 2 | ~~**[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Shared entity folio pattern (Person, Project, Tool detail pages), SectionLabel + 2-col Grid content sections, full-width layout at --st-width-detail-wide, responsive mobile collapse in Grid. Shipped v0.23.21.~~ | `UX` `Design System` `Frontend` | ✅ Shipped |
 | 6 | **[SUG-123](https://linear.app/sugartown/issue/SUG-123/taxonomy-listview-audit-shared-layout-language-tokens-and-storybook) · Taxonomy listview audit — shared layout language, tokens, and Storybook coverage** — Audit /categories, /tools, /tags, /projects, /people; produce registry-format spec table; convergence pass (avatar radius token, DS component evaluation); Storybook stories for row + bucket patterns. Epic: `docs/backlog/SUG-123-taxonomy-listview-audit.md`. | `Design System` `Frontend` `Tooling` | 🟣 Soon |
-| 7 | **[SUG-131](https://linear.app/sugartown/issue/SUG-131/aeo-technical-fundamentals-person-json-ld-metaog-audit-sitemap) · AEO Technical Fundamentals** — Person JSON-LD on /about, title/meta/OG audit on key pages, sitemap GSC confirmation, robots.txt AEO crawler check. Epic: `docs/backlog/SUG-131-aeo-technical-fundamentals.md`. | `SEO` `AEO` `Frontend` | 🟣 Soon |
-| 8 | **[SUG-132](https://linear.app/sugartown/issue/SUG-132/aeo-content-pass-page-answer-leads-agentic-caucus-article-webby) · AEO Content Pass** — Direct-answer page leads on /about + homepage + /services, Agentic Caucus article (600–900 words, plain English), outcome-first case study rewrites, Webby citation, KG archive preamble. Epic: `docs/backlog/SUG-132-aeo-content-pass.md`. | `SEO` `AEO` `Content` `Editorial` | 🟣 Soon |
+| 7 | ~~**[SUG-131](https://linear.app/sugartown/issue/SUG-131/aeo-technical-fundamentals-person-json-ld-metaog-audit-sitemap) · AEO Technical Fundamentals** — Person JSON-LD on /about, title/meta/OG audit on key pages, sitemap GSC confirmation, robots.txt AEO crawler check. Shipped v0.25.2.~~ | `SEO` `AEO` `Frontend` | ✅ Shipped |
+| 8 | ~~**[SUG-132](https://linear.app/sugartown/issue/SUG-132/aeo-content-pass-page-answer-leads-agentic-caucus-article-webby) · AEO Content Pass** — Direct-answer page leads on /about + homepage + /services, Agentic Caucus article, outcome-first case study rewrites, Webby citation, KG archive preamble. Shipped v0.25.3.~~ | `SEO` `AEO` `Content` `Editorial` | ✅ Shipped |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 
 ---
