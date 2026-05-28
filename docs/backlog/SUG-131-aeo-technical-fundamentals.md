@@ -22,11 +22,11 @@ This epic addresses the technical layer only. Content edits (page answer leads, 
 
 After this epic: /about emits a valid Person JSON-LD block that AI crawlers can use to establish Becky Head's entity profile. Homepage, /about, and /services each have a title tag containing her name and one domain term. OG tags output fully qualified image URLs. Sitemap.xml is confirmed submitted and indexed in Google Search Console.
 
-Layers touched: React (SeoHead.jsx), Sanity (siteSettings if OG image URL fix requires it), tooling (GSC submission). No schema changes needed. No content changes — copy edits belong in SUG-132.
+Layers touched: Sanity schema (`person` doc — add `linkedIn`, `github`, `jobTitle` fields if missing; requires deploy), React (new `JsonLd` component, wired into AboutPage and PersonDetailPage), Sanity content (populate the new fields in Becky's person doc), SeoHead.jsx (OG URL fix if needed), tooling (GSC submission). No copy edits — those belong in SUG-132.
 
 ## Scope
 
-- [ ] Add Person JSON-LD structured data to /about — `name`, `jobTitle`, `url`, `sameAs` (LinkedIn + GitHub). Layer: frontend (AboutPage.jsx or SeoHead.jsx)
+- [ ] Add Person JSON-LD structured data to `/about` and `/people/[slug]` (Becky's profile page) — sourced from the Sanity `person` document, not hardcoded. Fields: `name`, `jobTitle`, `url`, `sameAs` (LinkedIn + GitHub). Both pages emit the same JSON-LD block from the same data source. Layer: Sanity schema (add `linkedIn`, `github`, `jobTitle` fields to `person` doc if missing) + frontend (PersonDetailPage.jsx, AboutPage.jsx or SeoHead.jsx)
 - [ ] Audit `<title>` tags on homepage, /about, /services — each must contain "Becky Head" and at least one domain term (e.g. "headless CMS", "product manager", "fractional PM"). Layer: frontend (SeoHead.jsx + Sanity page content)
 - [ ] Audit `<meta name="description">` on same pages — must be 120–160 chars, contain name + role + one differentiator. Layer: frontend (SeoHead.jsx + Sanity page content)
 - [ ] Audit OG `og:image` tags — confirm URLs are fully qualified (`https://sugartown.io/...`), not relative paths. Fix if broken. Layer: frontend (SeoHead.jsx)
@@ -39,7 +39,7 @@ Single-phase. All items are in the same technical layer (SeoHead.jsx + ops verif
 
 ## Acceptance criteria
 
-- [ ] `/about` page source includes `<script type="application/ld+json">` with a valid Person schema containing at minimum: `@type: Person`, `name: "Becky Head"`, `jobTitle`, `url: "https://sugartown.io"`, `sameAs: [LinkedIn URL, GitHub URL]`
+- [ ] `/about` and `/people/[becky-slug]` both emit `<script type="application/ld+json">` with a valid Person schema: `@type: Person`, `name: "Becky Head"`, `jobTitle`, `url: "https://sugartown.io"`, `sameAs: [LinkedIn URL, GitHub URL]` — data sourced from the Sanity `person` document, not hardcoded in JSX
 - [ ] `<title>` on `/` contains "Becky Head" and a role/domain term
 - [ ] `<title>` on `/about` contains "Becky Head" and a role/domain term
 - [ ] `<title>` on `/services` contains "Becky Head" and a role/domain term
@@ -51,7 +51,7 @@ Single-phase. All items are in the same technical layer (SeoHead.jsx + ops verif
 
 **Activation audit:** Read `apps/web/src/components/SeoHead.jsx` to understand current title/OG construction before writing any changes. The OG image issue is a known partial implementation — check whether `siteSettings.defaultOgImage` resolves to a relative or absolute URL.
 
-**Person JSON-LD placement:** Options are (a) injected via SeoHead.jsx with a conditional when `docType === 'about'`, or (b) a standalone `JsonLd` component imported by AboutPage.jsx. Audit the existing SeoHead pattern first.
+**Person JSON-LD — Sanity-first approach:** The `person` document is the canonical data source. Activation audit: check which fields the `person` schema currently has (`name`, `role`/`jobTitle`, `bio`, URLs). Add `linkedIn`, `github`, and `jobTitle` fields to the schema if missing — schema change requires a deploy. The JSON-LD block renders on both `/about` (which is Becky's identity page) and `/people/[slug]` (her taxonomy profile). A `JsonLd` component (or equivalent) should accept a `person` object and emit the structured data — not a conditional inside SeoHead. Since only one person exists now, there is no multi-person complexity to handle; write for the single-person case.
 
 **robots.txt:** Check `apps/web/public/robots.txt`. Common AEO crawlers to allow: `GPTBot` (OpenAI), `PerplexityBot`, `ClaudeBot` (Anthropic), `Google-Extended` (Gemini). Do not block any of these. If the file uses `Disallow: /` for any bot, that is a bug.
 
