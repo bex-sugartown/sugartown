@@ -33,14 +33,6 @@ const RELEASE_COLUMNS = [
 const RECENT_RELEASES = (stats.release?.latestN ?? []).slice(0, 5)
 
 // ── Roadmap data ──────────────────────────────────────────
-const roadmap    = stats.linearRoadmap ?? {}
-const inProgress = roadmap.inProgress ?? []
-const backlog    = roadmap.backlog    ?? []
-// noData: genuinely nothing to show — hide the table entirely
-// isStale: data exists but came from last-good fallback — show with notice
-const noData  = !roadmap.fetchedAt && !inProgress.length && !backlog.length
-const isStale = roadmap.stale === true && !noData
-
 const PRIORITY_SWATCH = {
   high:   { color: 'var(--st-pri-high)', label: 'High' },
   medium: { color: 'var(--st-pri-med)',  label: 'Medium' },
@@ -54,6 +46,23 @@ const PRIORITY_LEVEL = {
   Low: 'low',
   'No priority': 'none',
 }
+
+const PRIORITY_ORDER = ['high', 'medium', 'low', 'none']
+const byPriority = (a, b) =>
+  PRIORITY_ORDER.indexOf(PRIORITY_LEVEL[a.priority] ?? 'none') -
+  PRIORITY_ORDER.indexOf(PRIORITY_LEVEL[b.priority] ?? 'none')
+
+const roadmap    = stats.linearRoadmap ?? {}
+const inProgress = roadmap.inProgress ?? []
+
+const allBacklog = roadmap.backlog ?? []
+const todo    = allBacklog.filter(e => e.status === 'Todo').sort(byPriority)
+const backlog = allBacklog.filter(e => e.status !== 'Todo').sort(byPriority)
+
+// noData: genuinely nothing to show — hide the table entirely
+// isStale: data exists but came from last-good fallback — show with notice
+const noData  = !roadmap.fetchedAt && !inProgress.length && !allBacklog.length
+const isStale = roadmap.stale === true && !noData
 
 const ROADMAP_COLUMNS = [
   { key: 'id',       label: 'ID',       width: 78  },
@@ -173,7 +182,7 @@ export default function GovernancePage() {
             number="§02"
             name="ROADMAP"
             title="Linear epics, in flight and on deck"
-            kicker={noData ? '—' : `${inProgress.length + backlog.length} epics`}
+            kicker={noData ? '—' : `${inProgress.length + todo.length + backlog.length} epics`}
           />
 
           {noData && (
@@ -196,6 +205,8 @@ export default function GovernancePage() {
                   ? <RoadmapLane label="In progress" epics={inProgress} />
                   : <p className={styles.empty}>No epics currently in progress.</p>
                 }
+
+                {todo.length > 0 && <RoadmapLane label="To do" epics={todo} />}
 
                 {backlog.length > 0
                   ? <RoadmapLane label="Backlog" epics={backlog} />
