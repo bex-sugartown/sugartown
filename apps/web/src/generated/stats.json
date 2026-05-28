@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-28T10:04:27.719Z",
+  "generatedAt": "2026-05-29T09:12:38.175Z",
   "release": {
     "current": {
       "version": "0.25.0",
@@ -77,7 +77,7 @@
     "components": 56
   },
   "repo": {
-    "commits": 1,
+    "commits": 1422,
     "epicsShipped": 113
   },
   "perf": {
@@ -351,13 +351,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-05-28T10:04:06.588Z",
+    "fetchedAt": "2026-05-29T09:12:17.058Z",
     "origin": "https://sugartown.io",
     "available": false,
-    "reason": "no-data"
+    "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-05-28T10:04:25.055Z",
+    "fetchedAt": "2026-05-29T09:12:37.194Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -378,13 +378,13 @@
     "lastCommit": "2026-05-27T09:47:48Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-28T10:04:27.016Z",
+    "fetchedAt": "2026-05-29T09:12:37.872Z",
     "counts": {
-      "article": 13,
+      "article": 14,
       "node": 48,
       "caseStudy": 7,
       "page": 8,
-      "tag": 94,
+      "tag": 95,
       "category": 13,
       "project": 6,
       "person": 1,
@@ -392,7 +392,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-05-28T10:04:27.263Z",
+    "generatedAt": "2026-05-29T09:12:38.167Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -1085,6 +1085,13 @@
         "type": "tag",
         "label": "Spacing",
         "href": "/tags/spacing",
+        "size": "small"
+      },
+      {
+        "id": "tag:vopm",
+        "type": "tag",
+        "label": "VoPM",
+        "href": "/tags/vopm",
         "size": "small"
       },
       {
@@ -2587,6 +2594,30 @@
         ]
       },
       {
+        "id": "item:article:the-agentic-caucus",
+        "_id": "0f8eab6b-0d10-4ce6-8037-ce3fa99413c6",
+        "type": "item",
+        "docType": "article",
+        "slug": "the-agentic-caucus",
+        "label": "The Agentic Caucus",
+        "href": "/articles/the-agentic-caucus",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          },
+          {
+            "slug": "ai-collaboration",
+            "label": "AI Collaboration"
+          },
+          {
+            "slug": "vopm",
+            "label": "VoPM"
+          }
+        ]
+      },
+      {
         "id": "item:node:button-two-names-single-field-authority",
         "_id": "d5300aa4-791f-44ee-a2a8-c030f4124b5b",
         "type": "item",
@@ -2865,16 +2896,20 @@
         "size": "small",
         "tags": [
           {
+            "slug": "knowledge-graph",
+            "label": "knowledge graph"
+          },
+          {
+            "slug": "agentic-caucus",
+            "label": "agentic caucus"
+          },
+          {
             "slug": "content-as-code",
             "label": "content-as-code"
           },
           {
             "slug": "headless",
             "label": "Headless"
-          },
-          {
-            "slug": "knowledge-graph",
-            "label": "knowledge graph"
           },
           {
             "slug": "scope-creep",
@@ -3619,6 +3654,21 @@
         "kind": "membership"
       },
       {
+        "source": "item:article:the-agentic-caucus",
+        "target": "project:knowledge-graph-viz",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:the-agentic-caucus",
+        "target": "category:ai",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:the-agentic-caucus",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
         "source": "item:node:button-two-names-single-field-authority",
         "target": "project:sugartown-cms",
         "kind": "membership"
@@ -3745,7 +3795,7 @@
       },
       {
         "source": "item:node:this-knowledge-graph-origin-story",
-        "target": "category:ways-of-working",
+        "target": "category:ai",
         "kind": "membership"
       },
       {
@@ -4076,6 +4126,12 @@
       },
       {
         "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "item:article:the-agentic-caucus",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
         "target": "item:node:the-great-disconnection",
         "kind": "sharedTag",
         "weight": 2
@@ -4322,6 +4378,12 @@
       },
       {
         "source": "item:article:pink-moon-and-ledger",
+        "target": "item:article:the-agentic-caucus",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:pink-moon-and-ledger",
         "target": "item:node:the-great-disconnection",
         "kind": "sharedTag",
         "weight": 2
@@ -4418,6 +4480,12 @@
       },
       {
         "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "item:node:this-knowledge-graph-origin-story",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
         "target": "item:node:visualizing-the-knowledge-graph",
         "kind": "sharedTag",
         "weight": 3
@@ -4473,6 +4541,24 @@
       {
         "source": "item:node:changelog",
         "target": "item:node:the-great-versioning-reconciliation",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:the-agentic-caucus",
+        "target": "item:node:the-great-disconnection",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:the-agentic-caucus",
+        "target": "item:article:the-great-icloud-divorce",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:the-agentic-caucus",
+        "target": "item:article:site-that-built-itself",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -5629,6 +5715,21 @@
         "kind": "tag-membership"
       },
       {
+        "source": "item:article:the-agentic-caucus",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:the-agentic-caucus",
+        "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:the-agentic-caucus",
+        "target": "tag:vopm",
+        "kind": "tag-membership"
+      },
+      {
         "source": "item:node:button-two-names-single-field-authority",
         "target": "tag:content-modeling",
         "kind": "tag-membership"
@@ -5830,17 +5931,22 @@
       },
       {
         "source": "item:node:this-knowledge-graph-origin-story",
+        "target": "tag:knowledge-graph",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:this-knowledge-graph-origin-story",
+        "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:this-knowledge-graph-origin-story",
         "target": "tag:content-as-code",
         "kind": "tag-membership"
       },
       {
         "source": "item:node:this-knowledge-graph-origin-story",
         "target": "tag:headless",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:this-knowledge-graph-origin-story",
-        "target": "tag:knowledge-graph",
         "kind": "tag-membership"
       },
       {
