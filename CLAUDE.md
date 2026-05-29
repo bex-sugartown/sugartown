@@ -106,6 +106,14 @@ One `docs/` subdirectory is **local-only** — gitignored and never committed:
 - If a draft graduates to a brief or a Sanity document, copy it to the destination and leave the draft in place as a local archive.
 - If git shows these files as "deleted" in `git status`, it means they were previously tracked and need to be untracked with `git rm --cached`.
 
+### Generated stats files — dirty tree behaviour
+
+`apps/web/src/generated/stats.json` and `apps/web/src/generated/stats.last-good.json` are **tracked files** updated by the CI stats pipeline on every build. They are committed by CI via `chore(stats): update trust signals [skip ci]` — not by local sessions.
+
+**If these files appear as modified in `git status`:** this is normal and expected. The local copy reflects the last CI run; the tracked copy reflects whatever was last committed by CI. **Do not commit them manually and do not treat them as a dirty tree blocker.** When checking tree cleanliness before a mini-release or `/eod`, ignore modifications to these two files. They cannot be staged via `git add` (gitignore blocks it) but will appear in `git diff --cached` if `git add -u` was run — in that case they have been staged and can be committed normally.
+
+The `.gitignore` entry prevents `git add <path>` from staging them directly, but `git add -u` (update tracked files) will still stage them. This inconsistency is expected — CI is the authoritative committer for these files.
+
 ### Phase 0 hard-stop (mockup gate)
 
 For any epic that includes a mockup/design phase (Phase 0 or equivalent):
