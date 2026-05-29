@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-29 · added SUG-134 (Knowledge Graph UX Cleanup — empty hub filter rules + taxonomy enrichment). v0.25.2 + v0.25.3 released — SUG-131 (Person JSON-LD, AEO technical fundamentals) and SUG-132 (Agentic Caucus article, page answer leads, case study rewrites, KG preamble). Next: SUG-116 or SUG-100.
+> Updated 2026-05-29 · SUG-100 + SUG-106 marked shipped; SUG-TBD stub deleted. Added SUG-134. Next: SUG-133 → SUG-130 → SUG-116.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.25.3 released ✅ 2026-05-28 — SUG-131 AEO technical fundamentals (Person JSON-LD on /about) + SUG-132 AEO content pass (Agentic Caucus article, page answer leads, case study rewrites). Next: SUG-116 (Ledger Button Update) or SUG-100 (CWV Snapshot).
+> **⚑ Current focus:** v0.25.3 released ✅ 2026-05-28. Queue: SUG-133 (AEO Authority Building) → SUG-130 (Platform article) → SUG-116 (Ledger Button Update).
 
 ---
 
@@ -34,12 +34,12 @@
 
 ## 02 · Soon — post-sprint, Design System infrastructure
 
-> **Execution order:** SUG-100 (In Review). SUG-86 ✅ shipped v0.23.14. SUG-102 ✅ shipped v0.23.15.
+> **Execution order:** ~~SUG-100 ✅ shipped~~. ~~SUG-106 ✅ shipped~~. SUG-86 ✅ shipped v0.23.14. SUG-102 ✅ shipped v0.23.15.
 
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 5 | ~~**[SUG-119](https://linear.app/sugartown/issue/SUG-119) · Table Audit — converge to st-table** — Single `st-table` primitive with tone prop, caption-above-thead fix, 6 new zone tokens, hairline/border design tweaks, RoadmapTable/DataTable composing Table, LaneHeader retired. DS mirror + Storybook updated. Shipped v0.23.31.~~ | `Design System` `Infrastructure` | ✅ Shipped |
-| 1 | **[SUG-100](https://linear.app/sugartown/issue/SUG-100) · CWV Snapshot product widget** — `trustReportSection` refactor: `reportType` radio → `reports[]` multi-select dashboard. New `ScoreRing` SVG arc component + `SegmentedControl`. Seafoam/amber/maroon CWV arc tokens. Phase 0 approved 2026-05-05. Epic: `docs/backlog/SUG-100-cwv-snapshot-product-widget.md`. | `Design System` `Schema` `Frontend` | 🟢 Next |
+| 1 | ~~**[SUG-100](https://linear.app/sugartown/issue/SUG-100) · CWV Snapshot product widget** — Shipped.~~ | `Design System` `Schema` `Frontend` | ✅ Shipped |
 | 2 | **[SUG-98](https://linear.app/sugartown/issue/SUG-98) · Component gap analysis — renderer stories + thruline audit + Phase B component parity** ✅ Shipped v0.23.13. 5 renderer stories, 13-adapter thruline, registry close-out, ContentNav relocated, FilterBar documented as web-only, inline code light-mode fixed, Storybook nav renamed Foundations/Components/Patterns/Layout. Chromatic Build 29 passed. Epic: `docs/shipped/SUG-98-component-gap-analysis.md`. | `Design System` `Tooling` | ✅ Shipped |
 | 3 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** ✅ Shipped v0.23.14. 578 tokens migrated to `tokens/source/tokens.json`. `pnpm tokens:build` generates both `tokens.css` files via Style Dictionary v5. Pre-commit guard blocks direct edits. Chromatic Build 30 passed (zero visual changes). Epic: `docs/shipped/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ✅ Shipped |
 | 4 | **[SUG-102](https://linear.app/sugartown/issue/SUG-102) · DS token hygiene — Phase C: off-scale color promotion + legacy alias audit** ✅ Shipped v0.23.15. 6 new Tier-1 primitives (amber-450/650, red-400/600, crimson-500, midnight-950). 8 token references updated. 14 zero-ref legacy aliases removed. Chromatic Build 31: zero visual changes. Epic: `docs/shipped/SUG-102-ds-token-hygiene-phase-c.md`. | `Design System` `Infrastructure` | ✅ Shipped |
@@ -52,7 +52,7 @@
 |---|------|------|----------|
 | 9 | **[SUG-134](https://linear.app/sugartown/issue/SUG-134) · Knowledge Graph UX Cleanup** — Filter empty hub nodes from diagram when a page-type filter is active; experience review; Phase 2 taxonomy enrichment suggestions with human approval gate. Epic: `docs/backlog/SUG-134-knowledge-graph-ux-cleanup.md`. | `UX` `Infrastructure` | 🟣 Soon |
 | 5 | **[SUG-121](https://linear.app/sugartown/issue/SUG-121) · Design System — Section Module Showcase** — Public-facing Sanity `page` at `/platform/design-system/sections` showing every available section type and variant with intentional placeholder copy. Linked from Design System sidebar nav. No new schema or renderers. Epic: `docs/backlog/SUG-121-design-system-section-module-showcase.md`. | `Design System` `Content` `Frontend` | 🟣 Soon |
-| 1 | **[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Fix LHCI not writing JSON in CI, add missing Sanity secrets, diagnose low mobile Lighthouse scores (perf 68, best-practices 42), document manual backup update workflow, close SUG-100. Epic: `docs/backlog/SUG-106-stats-pipeline-fix-sug-100-close-out.md`. | `Performance` `Tooling` `Infrastructure` | 🟣 Soon |
+| 1 | ~~**[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Shipped.~~ | `Performance` `Tooling` `Infrastructure` | ✅ Shipped |
 | 3 | ~~**[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — `useScrollspy` hook extracted, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors fixed + pre-commit gate activated. Shipped v0.23.24.~~ | `Design System` `Frontend` `Tooling` | ✅ Shipped |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
 | 2 | ~~**[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Shared entity folio pattern (Person, Project, Tool detail pages), SectionLabel + 2-col Grid content sections, full-width layout at --st-width-detail-wide, responsive mobile collapse in Grid. Shipped v0.23.21.~~ | `UX` `Design System` `Frontend` | ✅ Shipped |
@@ -205,4 +205,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-26 · v0.25.1 released · queue: SUG-116 / SUG-100*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-29 · v0.25.3 released · queue: SUG-133 → SUG-130 → SUG-116*
