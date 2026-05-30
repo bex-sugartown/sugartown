@@ -44,6 +44,25 @@ The blockquote style renders with a left accent bar — this visually anchors th
 
 ---
 
+## AI Disclosure — canonical strings
+
+The `aiDisclosure` field renders below the byline on article and node detail pages. Use the string that matches the actual collaboration model. Do not leave it blank on AI-assisted content.
+
+| Collaboration model | `aiDisclosure` string |
+|---|---|
+| Bex provided outline/strategy; Claude drafted; Bex edited and published | `Concept and strategy by Bex Head. Drafted with Claude (Anthropic). Edited and published by Bex Head.` |
+| Claude drafted and narrated (node voice); Bex directed | `Narrated by Claude, directed by Bex Head.` |
+| Claude assisted with research/structure only; Bex wrote | `Research and structural assistance by Claude (Anthropic). Written and edited by Bex Head.` |
+| Bex wrote entirely; no AI involvement | *(leave blank)* |
+
+**Rules:**
+- The "outline-led, AI-drafted, human-edited" string (row 1) is the canonical form for articles where Bex provided the intellectual content and Claude produced the first draft. This is the most common article collaboration pattern.
+- Never write "I" in the disclosure — it renders in third person on the page.
+- No em dashes in disclosure strings.
+- Match the model honestly. If Claude only checked grammar, that is not "drafted with Claude."
+
+---
+
 ## General heading discipline
 
 - Use the **Section Heading** field on `textSection` for top-level section labels.
