@@ -10,6 +10,7 @@
 
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
+import { execSync } from 'child_process'
 
 const CHANGELOG_PATH = resolve(process.cwd(), '../../CHANGELOG.md')
 
@@ -70,9 +71,40 @@ export function collectChangelog() {
     { total: 0, major: 0, minor: 0, patch: 0 }
   )
 
+  // Mini-release PATCH commits — sourced from git log because PATCH releases
+  // don't get versioned CHANGELOG headings (only MINOR releases do).
+  // Format: "chore(release): mini-release vX.Y.Z — description"
+  let latestPatches = []
+  try {
+    const gitLog = execSync(
+      'git log --format="%ad|||%s" --date=short --grep="chore(release): mini-release" -20',
+      { cwd: resolve(process.cwd(), '../..'), encoding: 'utf-8' }
+    )
+    latestPatches = gitLog
+      .split('\n')
+      .filter(Boolean)
+      .map(line => {
+        const [date, subject] = line.split('|||')
+        const m = subject?.match(/chore\(release\): mini-release v(\S+) — (.+)/)
+        if (!m) return null
+        const linearMatch = subject.match(/\bSUG-(\d+)\b/)
+        return {
+          version: m[1],
+          descriptor: m[2].trim(),
+          kind: 'PATCH',
+          date: date?.trim() ?? null,
+          linearIssue: linearMatch ? `SUG-${linearMatch[1]}` : null,
+        }
+      })
+      .filter(Boolean)
+  } catch {
+    // git unavailable in some CI environments — leave empty
+  }
+
   return {
     current: entries[0] || null,
     latestN: entries.slice(0, 5),
+    latestPatches,
     count,
   }
 }

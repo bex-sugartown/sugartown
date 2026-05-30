@@ -8,7 +8,9 @@ import { BarChartIcon } from '@sanity/icons'
  * each renders with its own SectionLabel header in array order.
  *
  * Reports:
- *   recent-releases     — release history table via DataTable + KindBadge
+ *   recent-releases     — MINOR/MAJOR release history table via DataTable + KindBadge
+ *   mini-releases       — PATCH release history table (SUG-136)
+ *   recently-shipped    — 3-col Tile grid: release / article / node (SUG-136)
  *   design-system-stats — DS health tiles via StatTile grid
  *   cwv-snapshot        — Lighthouse score rings + CrUX CWV tiles (SUG-100)
  */
@@ -32,13 +34,15 @@ export default defineType({
       options: {
         list: [
           { title: 'Recent releases — release history table',       value: 'recent-releases' },
+          { title: 'Mini-releases — PATCH release history',         value: 'mini-releases' },
+          { title: 'Recently shipped — release / article / node tiles', value: 'recently-shipped' },
           { title: 'Design system stats — token + component health', value: 'design-system-stats' },
           { title: 'CWV snapshot — Lighthouse + Chrome UX Report',  value: 'cwv-snapshot' },
         ],
         layout: 'grid',
       },
-      description: 'Select 1–3 reports. Each renders with its own label header, in display order.',
-      validation: (Rule) => Rule.required().min(1).max(3).error('Select 1–3 reports'),
+      description: 'Select 1–5 reports. Each renders with its own label header, in display order.',
+      validation: (Rule) => Rule.required().min(1).max(5).error('Select 1–5 reports'),
     }),
     defineField({
       name: 'defaultFormFactor',
@@ -80,6 +84,8 @@ export default defineType({
     prepare({ heading, reports, reportType }: { heading?: string; reports?: string[]; reportType?: string }) {
       const labels: Record<string, string> = {
         'recent-releases':     'Recent releases',
+        'mini-releases':       'Mini-releases',
+        'recently-shipped':    'Recently shipped',
         'design-system-stats': 'Design system stats',
         'cwv-snapshot':        'CWV snapshot',
       }
