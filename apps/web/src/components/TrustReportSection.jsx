@@ -224,15 +224,19 @@ export default function TrustReportSection({ section }) {
 
   const cwvKicker = buildKicker()
 
-  // Single report — original layout (no SectionLabel above)
+  // Single report — original layout
   if (reportList.length === 1) {
     const key = reportList[0]
+    // recently-shipped and mini-releases use SectionLabel (ledger style, no number)
+    // cwv-snapshot always uses SectionLabel with a kicker
+    // other variants use the plain h2 sectionHeading
+    const useSectionLabel = key === 'recently-shipped' || key === 'mini-releases' || key === 'cwv-snapshot'
     return (
       <div id={_sectionId}>
-        {sectionHeading}
-        {key === 'cwv-snapshot' && (
-          <SectionLabel name={REPORT_LABELS[key]} kicker={cwvKicker} />
-        )}
+        {useSectionLabel
+          ? <SectionLabel name={heading || REPORT_LABELS[key]} kicker={key === 'cwv-snapshot' ? cwvKicker : undefined} />
+          : sectionHeading
+        }
         <ReportBlock reportKey={key} section={section} />
       </div>
     )

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-29T09:18:19.190Z",
+  "generatedAt": "2026-05-30T13:55:42.610Z",
   "release": {
     "current": {
       "version": "0.25.0",
@@ -45,6 +45,148 @@
         "linearIssue": "SUG-38"
       }
     ],
+    "latestPatches": [
+      {
+        "version": "0.25.7",
+        "descriptor": "SUG-137 Series landing page + sidebar",
+        "kind": "PATCH",
+        "date": "2026-05-30",
+        "linearIssue": "SUG-137"
+      },
+      {
+        "version": "0.25.6",
+        "descriptor": "SUG-130 Platform selection risk article",
+        "kind": "PATCH",
+        "date": "2026-05-30",
+        "linearIssue": "SUG-130"
+      },
+      {
+        "version": "0.25.5",
+        "descriptor": "SUG-133 AEO Authority Building",
+        "kind": "PATCH",
+        "date": "2026-05-30",
+        "linearIssue": "SUG-133"
+      },
+      {
+        "version": "0.25.4",
+        "descriptor": "SUG-135 TL;DR Layout Standardisation",
+        "kind": "PATCH",
+        "date": "2026-05-29",
+        "linearIssue": "SUG-135"
+      },
+      {
+        "version": "0.25.3",
+        "descriptor": "SUG-132 AEO content pass",
+        "kind": "PATCH",
+        "date": "2026-05-28",
+        "linearIssue": "SUG-132"
+      },
+      {
+        "version": "0.25.2",
+        "descriptor": "SUG-131 AEO technical fundamentals",
+        "kind": "PATCH",
+        "date": "2026-05-28",
+        "linearIssue": "SUG-131"
+      },
+      {
+        "version": "0.25.1",
+        "descriptor": "SUG-127 contentful-poc DS token parity",
+        "kind": "PATCH",
+        "date": "2026-05-26",
+        "linearIssue": "SUG-127"
+      },
+      {
+        "version": "0.24.3",
+        "descriptor": "SUG-128 poc.sugartown.io custom domain",
+        "kind": "PATCH",
+        "date": "2026-05-25",
+        "linearIssue": "SUG-128"
+      },
+      {
+        "version": "0.24.2",
+        "descriptor": "SUG-127 Phase 3 agnosticism audit + vendor eval",
+        "kind": "PATCH",
+        "date": "2026-05-25",
+        "linearIssue": "SUG-127"
+      },
+      {
+        "version": "0.24.1",
+        "descriptor": "SUG-127 Phase 2 atomic model",
+        "kind": "PATCH",
+        "date": "2026-05-25",
+        "linearIssue": "SUG-127"
+      },
+      {
+        "version": "0.23.39",
+        "descriptor": "SUG-122 Registry ↔ ERD bridge",
+        "kind": "PATCH",
+        "date": "2026-05-18",
+        "linearIssue": "SUG-122"
+      },
+      {
+        "version": "0.23.38",
+        "descriptor": "SUG-125 IndexGroup + IndexCell DS primitives",
+        "kind": "PATCH",
+        "date": "2026-05-18",
+        "linearIssue": "SUG-125"
+      },
+      {
+        "version": "0.23.37",
+        "descriptor": "SUG-124 Semantic naming audit",
+        "kind": "PATCH",
+        "date": "2026-05-18",
+        "linearIssue": "SUG-124"
+      },
+      {
+        "version": "0.23.36",
+        "descriptor": "SUG-114 Dynamic schema ERD",
+        "kind": "PATCH",
+        "date": "2026-05-17",
+        "linearIssue": "SUG-114"
+      },
+      {
+        "version": "0.23.35",
+        "descriptor": "SUG-117 CWV mobile form-factor reporting",
+        "kind": "PATCH",
+        "date": "2026-05-17",
+        "linearIssue": "SUG-117"
+      },
+      {
+        "version": "0.23.34",
+        "descriptor": "SUG-97 schema field group audit + reorg",
+        "kind": "PATCH",
+        "date": "2026-05-17",
+        "linearIssue": "SUG-97"
+      },
+      {
+        "version": "0.23.33",
+        "descriptor": "SUG-103/119/120 registry, swatch, grid close-out",
+        "kind": "PATCH",
+        "date": "2026-05-17",
+        "linearIssue": "SUG-103"
+      },
+      {
+        "version": "0.23.32",
+        "descriptor": "SUG-103 Component registry page",
+        "kind": "PATCH",
+        "date": "2026-05-16",
+        "linearIssue": "SUG-103"
+      },
+      {
+        "version": "0.23.31",
+        "descriptor": "SUG-119 Table audit converge st-table",
+        "kind": "PATCH",
+        "date": "2026-05-16",
+        "linearIssue": "SUG-119"
+      },
+      {
+        "version": "0.23.30",
+        "descriptor": "SUG-118 Platform Stats Page II",
+        "kind": "PATCH",
+        "date": "2026-05-15",
+        "linearIssue": "SUG-118"
+      }
+    ],
     "count": {
       "total": 19,
       "major": 0,
@@ -77,8 +219,8 @@
     "components": 56
   },
   "repo": {
-    "commits": 1431,
-    "epicsShipped": 116
+    "commits": 1465,
+    "epicsShipped": 120
   },
   "perf": {
     "stale": false,
@@ -351,13 +493,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-05-29T09:17:58.862Z",
+    "fetchedAt": "2026-05-30T13:55:21.542Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-05-29T09:18:18.232Z",
+    "fetchedAt": "2026-05-30T13:55:41.904Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -378,12 +520,12 @@
     "lastCommit": "2026-05-27T09:47:48Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-29T09:18:18.906Z",
+    "fetchedAt": "2026-05-30T13:55:42.344Z",
     "counts": {
-      "article": 14,
-      "node": 48,
+      "article": 15,
+      "node": 49,
       "caseStudy": 7,
-      "page": 8,
+      "page": 9,
       "tag": 95,
       "category": 13,
       "project": 6,
@@ -392,7 +534,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-05-29T09:18:19.186Z",
+    "generatedAt": "2026-05-30T13:55:42.608Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -1001,6 +1143,13 @@
         "type": "tag",
         "label": "AI Automation",
         "href": "/tags/ai-automation",
+        "size": "small"
+      },
+      {
+        "id": "tag:poc",
+        "type": "tag",
+        "label": "POC",
+        "href": "/tags/poc",
         "size": "small"
       },
       {
@@ -2106,6 +2255,30 @@
         ]
       },
       {
+        "id": "item:node:poc-platform-agnostic-by-design",
+        "_id": "2246d8e1-9d1a-469e-b0d5-f0d19e3f3f07",
+        "type": "item",
+        "docType": "node",
+        "slug": "poc-platform-agnostic-by-design",
+        "label": "POC: Platform-agnostic by design. But was it really? Reader, yes it was.",
+        "href": "/nodes/poc-platform-agnostic-by-design",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "poc",
+            "label": "POC"
+          },
+          {
+            "slug": "vendor-evaluation",
+            "label": "Vendor Evaluation"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          }
+        ]
+      },
+      {
         "id": "item:node:prd-visualization-engine",
         "_id": "wp.node.1079",
         "type": "item",
@@ -2158,6 +2331,42 @@
           {
             "slug": "agentic-caucus",
             "label": "agentic caucus"
+          }
+        ]
+      },
+      {
+        "id": "item:article:platform-selection-risk-composable-architecture",
+        "_id": "b764ea17-4014-4721-aa28-94255b499395",
+        "type": "item",
+        "docType": "article",
+        "slug": "platform-selection-risk-composable-architecture",
+        "label": "Platform selection risk is real. Here’s what reduces it.",
+        "href": "/articles/platform-selection-risk-composable-architecture",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "vendor-evaluation",
+            "label": "Vendor Evaluation"
+          },
+          {
+            "slug": "platform-strategy",
+            "label": "platform strategy"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "composable",
+            "label": "composable"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          },
+          {
+            "slug": "stakeholder-alignment",
+            "label": "Stakeholder Alignment"
           }
         ]
       },
@@ -3469,6 +3678,21 @@
         "kind": "membership"
       },
       {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "project:mini-repo",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
         "source": "item:node:prd-visualization-engine",
         "target": "project:knowledge-graph-viz",
         "kind": "membership"
@@ -3491,6 +3715,21 @@
       {
         "source": "item:article:pink-moon-and-ledger",
         "target": "category:sugartown-notes",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "category:content-architecture",
         "kind": "membership"
       },
       {
@@ -3910,6 +4149,12 @@
       },
       {
         "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 2
@@ -3958,6 +4203,12 @@
       },
       {
         "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 2
@@ -3994,6 +4245,12 @@
       },
       {
         "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 2
@@ -4024,6 +4281,12 @@
       },
       {
         "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 2
@@ -4037,6 +4300,12 @@
       {
         "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
         "target": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "item:article:platform-selection-risk-composable-architecture",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4081,6 +4350,18 @@
         "target": "item:article:why-cms-and-design-systems-belong-together",
         "kind": "sharedTag",
         "weight": 3
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:node:poc-platform-agnostic-by-design",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 4
       },
       {
         "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
@@ -4258,6 +4539,12 @@
       },
       {
         "source": "item:node:knowledge-graph-roadmap",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
         "target": "item:node:project-knowledge-graph-topology-over-chronology",
         "kind": "sharedTag",
         "weight": 2
@@ -4291,6 +4578,12 @@
         "target": "item:article:why-cms-and-design-systems-belong-together",
         "kind": "sharedTag",
         "weight": 5
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
       },
       {
         "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
@@ -4348,6 +4641,12 @@
       },
       {
         "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 3
@@ -4373,6 +4672,18 @@
       {
         "source": "item:article:why-cms-and-design-systems-belong-together",
         "target": "item:article:we-never-adopted-structured-content",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4409,6 +4720,24 @@
       {
         "source": "item:article:pink-moon-and-ledger",
         "target": "item:node:we-fixed-the-same-white-screen",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 4
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "item:article:three-headless-cmses-walk-into-a-bar",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -5360,6 +5689,21 @@
         "kind": "tag-membership"
       },
       {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "tag:poc",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "tag:vendor-evaluation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
         "source": "item:node:prd-visualization-engine",
         "target": "tag:data-science",
         "kind": "tag-membership"
@@ -5397,6 +5741,36 @@
       {
         "source": "item:article:pink-moon-and-ledger",
         "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:vendor-evaluation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:platform-strategy",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:composable",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:stakeholder-alignment",
         "kind": "tag-membership"
       },
       {

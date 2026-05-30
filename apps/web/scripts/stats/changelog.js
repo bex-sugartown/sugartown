@@ -77,7 +77,7 @@ export function collectChangelog() {
   let latestPatches = []
   try {
     const gitLog = execSync(
-      'git log --format="%ad|||%s" --date=short --grep="chore(release): mini-release" -20',
+      'git log --format="%ad|||%s" --date=short --grep="chore(release): mini-release" -10',
       { cwd: resolve(process.cwd(), '../..'), encoding: 'utf-8' }
     )
     latestPatches = gitLog
