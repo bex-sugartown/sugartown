@@ -40,6 +40,19 @@ The current content IA is fragmented: `/articles`, `/nodes`, and `/case-studies`
 
 The KG is a visualisation tool, not a browsable archive. Library is the archive. They are different enough to warrant separate routes — but the Library page should include the graph view toggle (as `/articles` already does) so both modes are accessible from one place. The KG page at `/knowledge-graph` can be retained as a standalone deep-link for graph exploration.
 
+**Known KG disconnect (observed 2026-05-30):**
+
+The KG toolbar has type filter buttons: ALL | ARTICLES | CASE STUDIES | NODES. The grid/list view link in the toolbar changes based on the active filter — but the mapping is currently wrong:
+
+| KG filter active | Grid/list view links to | Should link to |
+|-----------------|------------------------|----------------|
+| ALL | `/articles` | `/library` (not yet built) |
+| ARTICLES | `/articles` | `/articles` ✓ |
+| CASE STUDIES | `/case-studies` | `/case-studies` ✓ |
+| NODES | `/nodes` | `/nodes` ✓ |
+
+The ALL → `/articles` link is the concrete bug. Once `/library` exists, the KG toolbar "ALL" state must update its archive link from `/articles` to `/library`. This is a Phase 2 scope item in `SiteGraphPage.jsx` — find where the archive link is built from the active type filter and update the `ALL` case.
+
 ## Objective
 
 After this epic:
@@ -72,10 +85,11 @@ Wait for explicit **"Phase 0 approved"** before writing any JSX, CSS, or routes.
 - Update `routes.js` if needed (check `ARCHIVE_PATHS`, `validateRoutes` for `/library`)
 - Update Library nav item in Sanity `navigation` doc to link to `/library`
 
-### Phase 2 — KG scope clarification + series back-link
+### Phase 2 — KG fixes + series back-link
 
-- Add a scope note or callout to `/library` linking to `/knowledge-graph` with a one-line explanation of the difference ("Graph view of connections across all content — explore by relationship, not by date")
-- Update `SeriesPage.jsx` back-link from "← All Articles" to "← Library" linking to `/library`
+- Fix KG toolbar "ALL" archive link: in `SiteGraphPage.jsx`, find the grid/list view link that currently points to `/articles` when the ALL filter is active — update to `/library` — layer: frontend
+- Add a scope note or callout to `/library` linking to `/knowledge-graph` with a one-line explanation of the difference ("Graph view of connections across all content — explore by relationship, not by date") — layer: frontend / Sanity content
+- Update `SeriesPage.jsx` back-link from "← All Articles" to "← Library" linking to `/library` — layer: frontend
 
 ## Acceptance criteria
 
@@ -84,6 +98,7 @@ Wait for explicit **"Phase 0 approved"** before writing any JSX, CSS, or routes.
 - [ ] Library nav item links to `/library`, not `/knowledge-graph`
 - [ ] Series pages show "← Library" back-link pointing to `/library`
 - [ ] KG scope divergence is explicitly represented on the page (callout, badge, or note)
+- [ ] KG toolbar "ALL" filter grid/list link points to `/library`, not `/articles`
 - [ ] `pnpm validate:urls` passes
 - [ ] Phase 0 HTML mock approved before Phase 1 code is written
 
@@ -103,6 +118,7 @@ Wait for explicit **"Phase 0 approved"** before writing any JSX, CSS, or routes.
 2. Read `apps/web/src/lib/queries.js` `archivePageWithFilterConfigQuery` — confirm multi-type query projection
 3. Run `*[_type == "archivePage"]{ _id, slug, contentTypes }` in Sanity Vision — see existing docs for format reference
 4. Check `apps/web/src/lib/routes.js` for `ARCHIVE_PATHS` constant — add `/library` if present
+5. Read `apps/web/src/pages/SiteGraphPage.jsx` — find where the grid/list archive link is built from the active type filter, confirm the `ALL` case currently hard-codes `/articles`
 
 ## Non-Goals
 
