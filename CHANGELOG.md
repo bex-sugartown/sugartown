@@ -19,6 +19,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - SUG-131: AEO technical fundamentals — Person JSON-LD on /about via primaryPerson GROQ sub-query; robots.txt and OG image confirmed; title/meta content gaps addressed via SUG-132
 - SUG-132: AEO content pass — Agentic Caucus article published; page answer leads on /about + homepage + /services; outcome-first case study rewrites (FX Networks, Backroads); Webby nomination cited; Knowledge Graph archive preamble added
 - SUG-135: TL;DR Layout Standardisation — global content audit; 14 documents patched and published; canonical pattern: `TL;DR` heading (section heading field or h2), body as blockquote; content authoring guide added; generated stats dirty-tree behaviour documented in CLAUDE.md
+- SUG-133: AEO Authority Building — LinkedIn + GitHub profiles cite sugartown.io; /now page created and published; The Agentic Caucus mirrored to Medium with rel=canonical; Three Agents section added to AG article; quarterly /now cadence documented; GitHub contribution graph fixed (dev@sugartown.io verified)
 
 ---
 

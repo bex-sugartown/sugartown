@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-29 · v0.25.4 released — SUG-135 TL;DR Layout Standardisation (14 docs patched + published). Queue: SUG-133 → SUG-130 → SUG-116.
+> Updated 2026-05-30 · v0.25.5 released — SUG-133 AEO Authority Building (LinkedIn + GitHub profiles, /now page, Medium mirror, GitHub graph fix). Queue: SUG-130 → SUG-116.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -51,6 +51,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 10 | ~~**[SUG-135](https://linear.app/sugartown/issue/SUG-135) · TL;DR Layout Standardisation** — 14 docs patched + published. Shipped v0.25.4.~~ | `Content` | ✅ Shipped |
+| 11 | ~~**[SUG-133](https://linear.app/sugartown/issue/SUG-133) · AEO Authority Building** — LinkedIn + GitHub citing sugartown.io; /now page live; Medium mirror with rel=canonical; Three Agents section in AG article; GitHub graph fixed. Shipped v0.25.5.~~ | `Content` `UX` | ✅ Shipped |
 | 9 | **[SUG-134](https://linear.app/sugartown/issue/SUG-134) · Knowledge Graph UX Cleanup** — Filter empty hub nodes from diagram when a page-type filter is active; experience review; Phase 2 taxonomy enrichment suggestions with human approval gate. Epic: `docs/backlog/SUG-134-knowledge-graph-ux-cleanup.md`. | `UX` `Infrastructure` | 🟣 Soon |
 | 5 | **[SUG-121](https://linear.app/sugartown/issue/SUG-121) · Design System — Section Module Showcase** — Public-facing Sanity `page` at `/platform/design-system/sections` showing every available section type and variant with intentional placeholder copy. Linked from Design System sidebar nav. No new schema or renderers. Epic: `docs/backlog/SUG-121-design-system-section-module-showcase.md`. | `Design System` `Content` `Frontend` | 🟣 Soon |
 | 1 | ~~**[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Shipped.~~ | `Performance` `Tooling` `Infrastructure` | ✅ Shipped |
@@ -206,4 +207,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-05-29 · v0.25.4 released · queue: SUG-133 → SUG-130 → SUG-116*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-05-30 · v0.25.5 released · queue: SUG-130 → SUG-116*
