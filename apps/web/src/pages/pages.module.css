@@ -590,7 +590,7 @@
   font-weight: var(--st-label-weight);
   letter-spacing: var(--st-label-tracking);
   text-transform: uppercase;
-  color: var(--st-color-text-muted);
+  color: var(--st-color-brand-primary);
   min-width: 3.5rem;
 }
 .seriesPartContent {
