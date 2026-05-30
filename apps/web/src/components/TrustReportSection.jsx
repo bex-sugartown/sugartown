@@ -1,3 +1,7 @@
+import { useSanityDoc } from '../lib/useSanityDoc'
+import { latestArticleQuery, latestNodeQuery } from '../lib/queries'
+import { getCanonicalPath } from '../lib/routes'
+import { Grid } from '../design-system'
 import stats from '../generated/stats.json'
 
 function buildKicker() {
@@ -63,6 +67,74 @@ function RecentReleasesReport() {
   )
 }
 
+// ── Mini-releases Report ────────────────────────────────────────────────────
+
+function MiniReleasesReport() {
+  const patches = stats.release?.latestPatches ?? []
+
+  return (
+    <div className={styles.reportWrap}>
+      <DataTable
+        columns={RELEASE_COLUMNS}
+        rows={patches}
+        variant="trust"
+      />
+      <div className={styles.reportFooter}>
+        <a href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer" className={styles.footerLink}>
+          Full changelog
+        </a>
+      </div>
+    </div>
+  )
+}
+
+// ── Recently Shipped Report ─────────────────────────────────────────────────
+
+function formatTileDate(iso) {
+  if (!iso) return null
+  return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+}
+
+function RecentlyShippedReport() {
+  const { data: latestArticle, loading: articleLoading } = useSanityDoc(latestArticleQuery)
+  const { data: latestNode, loading: nodeLoading } = useSanityDoc(latestNodeQuery)
+  const release = stats.release?.current
+
+  return (
+    <div className={styles.reportWrap}>
+      <Grid spacing="0" accentTop accentColor="ink" columns={3}>
+        <Tile
+          label="Release"
+          title={release ? `v${release.version}` : '—'}
+          body={release?.descriptor}
+          meta={release ? `${release.date} · ${release.linearIssue ?? 'changelog'}` : null}
+          href={TRUST_LINKS.changelog}
+          labelColor="brand"
+          titleSize="lg"
+        />
+        <Tile
+          label="Article"
+          title={latestArticle?.title}
+          meta={[latestArticle?.category?.title, formatTileDate(latestArticle?.publishedAt)].filter(Boolean).join(' · ')}
+          href={latestArticle ? getCanonicalPath({ docType: 'article', slug: latestArticle.slug }) : null}
+          loading={articleLoading}
+          labelColor="brand"
+          titleSize="lg"
+        />
+        <Tile
+          label="Node"
+          title={latestNode?.title}
+          meta={[latestNode?.category?.title, formatTileDate(latestNode?.publishedAt)].filter(Boolean).join(' · ')}
+          href={latestNode ? getCanonicalPath({ docType: 'node', slug: latestNode.slug }) : null}
+          loading={nodeLoading}
+          labelColor="brand"
+          titleSize="lg"
+        />
+      </Grid>
+    </div>
+  )
+}
+
 // ── Design System Stats Report ──────────────────────────────────────────────
 
 function DesignSystemStatsReport() {
@@ -122,15 +194,19 @@ function DesignSystemStatsReport() {
 }
 
 const REPORT_LABELS = {
-  'recent-releases':    'Recent releases',
+  'recent-releases':     'Recent releases',
+  'mini-releases':       'Mini-releases',
+  'recently-shipped':    'Recently shipped',
   'design-system-stats': 'Design system',
-  'cwv-snapshot':       'CWV Performance',
+  'cwv-snapshot':        'CWV Performance',
 }
 
 function ReportBlock({ reportKey, section }) {
-  if (reportKey === 'recent-releases')    return <RecentReleasesReport />
+  if (reportKey === 'recent-releases')     return <RecentReleasesReport />
+  if (reportKey === 'mini-releases')       return <MiniReleasesReport />
+  if (reportKey === 'recently-shipped')    return <RecentlyShippedReport />
   if (reportKey === 'design-system-stats') return <DesignSystemStatsReport />
-  if (reportKey === 'cwv-snapshot')       return <CwvSnapshot section={section} />
+  if (reportKey === 'cwv-snapshot')        return <CwvSnapshot section={section} />
   return null
 }
 
