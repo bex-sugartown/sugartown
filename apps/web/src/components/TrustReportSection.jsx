@@ -215,8 +215,13 @@ function ReportBlock({ reportKey, section }) {
 export default function TrustReportSection({ section }) {
   const { heading, reports, reportType, _sectionId } = section ?? {}
 
-  // Support legacy single-value reportType alongside new reports[] array
-  const reportList = reports?.length ? reports : (reportType ? [reportType] : [])
+  // Support legacy single-value reportType alongside new reports[] array.
+  // recently-shipped is always rendered first regardless of Studio order.
+  const rawList = reports?.length ? reports : (reportType ? [reportType] : [])
+  const reportList = [
+    ...rawList.filter(r => r === 'recently-shipped'),
+    ...rawList.filter(r => r !== 'recently-shipped'),
+  ]
 
   const sectionHeading = heading ? <h2 className={styles.sectionHeading}>{heading}</h2> : null
 
