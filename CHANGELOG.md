@@ -21,6 +21,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - SUG-135: TL;DR Layout Standardisation — global content audit; 14 documents patched and published; canonical pattern: `TL;DR` heading (section heading field or h2), body as blockquote; content authoring guide added; generated stats dirty-tree behaviour documented in CLAUDE.md
 - SUG-133: AEO Authority Building — LinkedIn + GitHub profiles cite sugartown.io; /now page created and published; The Agentic Caucus mirrored to Medium with rel=canonical; Three Agents section added to AG article; quarterly /now cadence documented; GitHub contribution graph fixed (dev@sugartown.io verified)
 - SUG-130: Platform selection risk article — 4 citations (AEM, Contentful, AEO, LLMs), series addendum callout to companion POC node; AI disclosure canonical string added to content authoring guide
+- SUG-137: Series landing page + sidebar — /series/:slug route, SeriesPage with type badges + pink part numbers, series block moved above TOC with gray bounding box, parts[] array on series doc for Studio add/remove/reorder, series field on all content types, Series added to Taxonomy index
 
 ---
 
