@@ -6,7 +6,7 @@
 .root {
   max-width: var(--st-width-detail-wide);
   margin: 0 auto;
-  padding: var(--st-space-section-break) var(--st-page-gutter);
+  padding: 0 var(--st-page-gutter);
 }
 
 .sectionHeading {
