@@ -237,7 +237,7 @@ export default function TrustReportSection({ section }) {
     // other variants use the plain h2 sectionHeading
     const useSectionLabel = key === 'recently-shipped' || key === 'mini-releases' || key === 'cwv-snapshot'
     return (
-      <div id={_sectionId}>
+      <div id={_sectionId} className={styles.root}>
         {useSectionLabel
           ? <SectionLabel name={heading || REPORT_LABELS[key]} kicker={key === 'cwv-snapshot' ? cwvKicker : undefined} />
           : sectionHeading
@@ -249,7 +249,7 @@ export default function TrustReportSection({ section }) {
 
   // Multiple reports — render each with a SectionLabel above
   return (
-    <div id={_sectionId} className={styles.multiReportRoot}>
+    <div id={_sectionId} className={`${styles.root} ${styles.multiReportRoot}`}>
       {sectionHeading}
       {reportList.map((key, idx) => (
         <div key={key} className={styles.multiReportBlock}>

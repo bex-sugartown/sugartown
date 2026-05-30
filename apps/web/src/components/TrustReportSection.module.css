@@ -1,7 +1,13 @@
 /* TrustReportSection — renders trust data report variants (SUG-87)
  * Token-first: all colors via --st-* tokens.
- * Layout: full-width in both detail and full-width section contexts.
+ * Layout: constrained to detail-wide max-width, centered with page gutter.
  */
+
+.root {
+  max-width: var(--st-width-detail-wide);
+  margin: 0 auto;
+  padding: 0 var(--st-page-gutter);
+}
 
 .sectionHeading {
   font-family: var(--st-font-family-narrative);
