@@ -13,6 +13,7 @@ import HomePage from './pages/HomePage'
 import RootPage from './pages/RootPage'
 import ArchivePage from './pages/ArchivePage'
 import ArticlePage from './pages/ArticlePage'
+import SeriesPage from './pages/SeriesPage'
 import CaseStudyPage from './pages/CaseStudyPage'
 import NodePage from './pages/NodePage'
 import TaxonomyPlaceholderPage from './pages/TaxonomyPlaceholderPage'
@@ -109,6 +110,7 @@ function App() {
         {/* Each archive slug is passed explicitly; 404 if doc unpublished */}
         <Route path="/articles" element={<ArchivePage archiveSlug="articles" />} />
         <Route path="/articles/:slug" element={<ArticlePage />} />
+        <Route path="/series/:slug" element={<SeriesPage />} />
 
         <Route path="/case-studies" element={<ArchivePage archiveSlug="case-studies" />} />
         <Route path="/case-studies/:slug" element={<CaseStudyPage />} />

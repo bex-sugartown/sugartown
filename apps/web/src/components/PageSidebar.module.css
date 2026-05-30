@@ -69,12 +69,19 @@
   font-size: 0.8125rem;
   color: var(--st-color-text-muted);
 }
-.seriesTitle {
+.seriesLink {
+  color: var(--st-color-text-default);
+  text-decoration: none;
+  transition: color var(--st-transition-fast);
+}
+.seriesLink strong {
   display: block;
   color: var(--st-color-text-default);
   margin-bottom: 0.125rem;
   font-weight: 500;
 }
+.seriesLink:hover,
+.seriesLink:hover strong { color: var(--st-color-brand-primary); }
 .seriesPart {
   display: block;
   font-family: var(--st-label-font);

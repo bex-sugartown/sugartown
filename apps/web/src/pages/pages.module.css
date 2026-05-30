@@ -567,6 +567,41 @@
   text-align: center;
 }
 
+/* ── Series part list ────────────────────────────────────────────── */
+.seriesPartList {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+}
+.seriesPartItem {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--st-color-border-subtle);
+}
+.seriesPartItem:last-child {
+  border-bottom: 1px solid var(--st-color-border-subtle);
+}
+.seriesPartNumber {
+  flex-shrink: 0;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  min-width: 3.5rem;
+}
+.seriesPartLink {
+  color: var(--st-color-text-default);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  transition: color var(--st-transition-fast);
+}
+.seriesPartLink:hover { color: var(--st-color-brand-primary); }
+
 /* ── Archive filter + content layout ─────────────────────────────── */
 
 /* Flex-wrap layout: sidebar + content sit side-by-side when there's room,

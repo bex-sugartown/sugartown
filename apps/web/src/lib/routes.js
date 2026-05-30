@@ -29,6 +29,7 @@ export const TYPE_NAMESPACES = {
   article: 'articles',
   caseStudy: 'case-studies',
   node: 'nodes',
+  series: 'series',
   // "page" has no prefix — it resolves at root: /:slug
 }
 

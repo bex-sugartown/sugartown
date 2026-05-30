@@ -850,6 +850,25 @@ export const pageBySlugQuery = `
   }
 `
 
+// ---- SERIES ----
+
+export const seriesBySlugQuery = `
+  *[_type == "series" && slug.current == $slug][0] {
+    _id,
+    title,
+    "slug": slug.current,
+    description,
+    "articles": *[_type == "article" && series._ref == ^._id && defined(slug.current)] | order(partNumber asc) {
+      _id,
+      title,
+      "slug": slug.current,
+      partNumber,
+      publishedAt,
+      excerpt
+    }
+  }
+`
+
 // ---- CASE STUDIES ----
 
 export const allCaseStudiesQuery = `

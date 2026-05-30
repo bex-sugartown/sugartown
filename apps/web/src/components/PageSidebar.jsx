@@ -152,7 +152,12 @@ export default function PageSidebar({
             <div className={`${styles.block} ${styles.seriesBlock}`}>
               <p className={styles.label}>Series</p>
               <div className={styles.series}>
-                <strong className={styles.seriesTitle}>{series.title}</strong>
+                <Link
+                  to={getCanonicalPath({ docType: 'series', slug: series.slug })}
+                  className={styles.seriesLink}
+                >
+                  <strong>{series.title}</strong>
+                </Link>
                 {partNumber && <span className={styles.seriesPart}>Part {partNumber}</span>}
               </div>
             </div>

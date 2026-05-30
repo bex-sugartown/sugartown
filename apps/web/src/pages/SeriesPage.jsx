@@ -1,0 +1,79 @@
+/**
+ * SeriesPage — landing page for a Sanity `series` document.
+ * Route: /series/:slug
+ *
+ * Lists all articles in the series in part order.
+ */
+import { Link, useParams } from 'react-router-dom'
+import { seriesBySlugQuery } from '../lib/queries'
+import { useSanityDoc } from '../lib/useSanityDoc'
+import { useSiteSettings } from '../lib/SiteSettingsContext'
+import { getCanonicalPath } from '../lib/routes'
+import SeoHead from '../components/SeoHead'
+import NotFoundPage from './NotFoundPage'
+import pageStyles from './pages.module.css'
+
+function buildSeriesSeo(series, siteSettings) {
+  if (!series) return null
+  const siteSuffix = siteSettings?.siteTitle ? ` — ${siteSettings.siteTitle}` : ''
+  const title = `${series.title}${siteSuffix}`
+  const description = series.description ?? null
+  return {
+    title,
+    description,
+    canonicalUrl: null,
+    robots: { index: true, follow: true },
+    openGraph: { title, description, type: 'website', image: null },
+  }
+}
+
+export default function SeriesPage() {
+  const { slug } = useParams()
+  const { data: series, loading, notFound } = useSanityDoc(seriesBySlugQuery, { slug })
+  const siteSettings = useSiteSettings()
+
+  const seo = buildSeriesSeo(series ?? null, siteSettings)
+
+  if (loading) return <div className={pageStyles.loadingPage}>Loading…</div>
+  if (notFound || !series) return <NotFoundPage />
+
+  const articles = series.articles ?? []
+
+  return (
+    <main className={pageStyles.entityDetailPage}>
+      <SeoHead seo={seo} />
+
+      <Link to="/articles" className={pageStyles.backLink}>
+        ← All Articles
+      </Link>
+
+      <div className={pageStyles.folioIdentity}>
+        <p className={pageStyles.detailEyebrow}>Series</p>
+        <h1 className={pageStyles.narrativeHeading}>{series.title}</h1>
+        {series.description && (
+          <p className={pageStyles.entityDescription}>{series.description}</p>
+        )}
+      </div>
+
+      {articles.length > 0 ? (
+        <ol className={pageStyles.seriesPartList}>
+          {articles.map((article) => (
+            <li key={article._id} className={pageStyles.seriesPartItem}>
+              <span className={pageStyles.seriesPartNumber}>
+                Part {article.partNumber ?? '?'}
+              </span>
+              <Link
+                to={getCanonicalPath({ docType: 'article', slug: article.slug })}
+                className={pageStyles.seriesPartLink}
+              >
+                {article.title}
+              </Link>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p className={pageStyles.archiveEmpty}>No articles in this series yet.</p>
+      )}
+    </main>
+  )
+}
