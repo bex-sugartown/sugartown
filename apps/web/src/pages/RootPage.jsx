@@ -88,6 +88,8 @@ export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
           <PageSidebar
             sections={restSections}
             content={page.content}
+            series={page.series}
+            partNumber={page.partNumber}
             tools={page.tools}
             authors={page.authors}
             aiDisclosure={page.aiDisclosure}

@@ -59,10 +59,10 @@ export default function SeriesPage() {
 
       {parts.length > 0 ? (
         <ol className={pageStyles.seriesPartList}>
-          {parts.map((part) => (
+          {parts.map((part, i) => (
             <li key={part._id} className={pageStyles.seriesPartItem}>
               <span className={pageStyles.seriesPartNumber}>
-                Part {part.partNumber ?? '?'}
+                Part {part.partNumber ?? i + 1}
               </span>
               <div className={pageStyles.seriesPartContent}>
                 <span className={pageStyles.seriesPartType}>

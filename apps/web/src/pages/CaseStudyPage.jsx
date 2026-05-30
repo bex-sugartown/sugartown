@@ -127,6 +127,8 @@ export default function CaseStudyPage() {
           sections={restSections}
           content={caseStudy.content}
           related={caseStudy.related}
+          series={caseStudy.series}
+          partNumber={caseStudy.partNumber}
           tools={caseStudy.tools}
           authors={caseStudy.authors}
           aiDisclosure={caseStudy.aiDisclosure}
