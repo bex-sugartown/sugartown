@@ -338,6 +338,23 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'series',
+      title: 'Series',
+      type: 'reference',
+      description: 'If this case study is part of a multi-part series, select the series.',
+      group: 'metadata',
+      to: [{type: 'series'}],
+    }),
+    defineField({
+      name: 'partNumber',
+      title: 'Part Number',
+      type: 'number',
+      description: 'Position in the series (e.g. 1, 2, 3).',
+      group: 'metadata',
+      hidden: ({document}) => !document?.series,
+      validation: (Rule) => Rule.min(1).integer(),
+    }),
+    defineField({
       name: 'aiDisclosure',
       title: 'AI Collaboration Disclosure',
       type: 'string',

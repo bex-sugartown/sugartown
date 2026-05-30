@@ -833,6 +833,8 @@ export const pageBySlugQuery = `
     authors[]->{${PERSON_FRAGMENT}},
     aiDisclosure,
     "tools": tools[]->{${TOOL_FRAGMENT}},
+    series->{_id, title, "slug": slug.current},
+    partNumber,
     ${SEO_FRAGMENT},
     "primaryPerson": select(
       slug.current == "about" => *[_type == "person"][0] {
@@ -858,7 +860,7 @@ export const seriesBySlugQuery = `
     title,
     "slug": slug.current,
     description,
-    "parts": *[_type in ["article", "node"] && series._ref == ^._id && defined(slug.current)] | order(partNumber asc) {
+    "parts": *[_type in ["article", "node", "caseStudy", "page"] && series._ref == ^._id && defined(slug.current)] | order(partNumber asc) {
       _id,
       _type,
       title,
@@ -891,7 +893,9 @@ export const allCaseStudiesQuery = `
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
     projects[]->{${PROJECT_FRAGMENT}},
-    relatedProjects[]->{${PROJECT_FRAGMENT}}
+    relatedProjects[]->{${PROJECT_FRAGMENT}},
+    series->{_id, title, "slug": slug.current},
+    partNumber
   }
 `
 

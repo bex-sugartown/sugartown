@@ -220,6 +220,24 @@ export default defineType({
 
     // parent and template moved to content group (SUG-48)
 
+    defineField({
+      name: 'series',
+      title: 'Series',
+      type: 'reference',
+      description: 'If this page is part of a multi-part series, select the series.',
+      group: 'metadata',
+      to: [{type: 'series'}],
+    }),
+    defineField({
+      name: 'partNumber',
+      title: 'Part Number',
+      type: 'number',
+      description: 'Position in the series (e.g. 1, 2, 3).',
+      group: 'metadata',
+      hidden: ({document}) => !document?.series,
+      validation: (Rule) => Rule.min(1).integer(),
+    }),
+
     // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)
     // Identical across page / post / caseStudy / node for Studio UI consistency.
     defineField({
