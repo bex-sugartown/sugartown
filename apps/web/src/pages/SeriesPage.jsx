@@ -13,6 +13,8 @@ import SeoHead from '../components/SeoHead'
 import NotFoundPage from './NotFoundPage'
 import pageStyles from './pages.module.css'
 
+const TYPE_LABELS = { article: 'Article', node: 'Node', caseStudy: 'Case Study', page: 'Page' }
+
 function buildSeriesSeo(series, siteSettings) {
   if (!series) return null
   const siteSuffix = siteSettings?.siteTitle ? ` — ${siteSettings.siteTitle}` : ''
@@ -62,12 +64,17 @@ export default function SeriesPage() {
               <span className={pageStyles.seriesPartNumber}>
                 Part {part.partNumber ?? '?'}
               </span>
-              <Link
-                to={getCanonicalPath({ docType: part._type, slug: part.slug })}
-                className={pageStyles.seriesPartLink}
-              >
-                {part.title}
-              </Link>
+              <div className={pageStyles.seriesPartContent}>
+                <span className={pageStyles.seriesPartType}>
+                  {TYPE_LABELS[part._type] ?? part._type}
+                </span>
+                <Link
+                  to={getCanonicalPath({ docType: part._type, slug: part.slug })}
+                  className={pageStyles.seriesPartLink}
+                >
+                  {part.title}
+                </Link>
+              </div>
             </li>
           ))}
         </ol>

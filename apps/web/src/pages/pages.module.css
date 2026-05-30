@@ -593,6 +593,18 @@
   color: var(--st-color-text-muted);
   min-width: 3.5rem;
 }
+.seriesPartContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+.seriesPartType {
+  font-family: var(--st-label-font);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+}
 .seriesPartLink {
   color: var(--st-color-text-default);
   text-decoration: none;
