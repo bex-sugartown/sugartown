@@ -148,6 +148,16 @@ export default function PageSidebar({
     >
       <div className={styles.blocks}>
 
+          {hasSeries && (
+            <div className={`${styles.block} ${styles.seriesBlock}`}>
+              <p className={styles.label}>Series</p>
+              <div className={styles.series}>
+                <strong className={styles.seriesTitle}>{series.title}</strong>
+                {partNumber && <span className={styles.seriesPart}>Part {partNumber}</span>}
+              </div>
+            </div>
+          )}
+
           {hasToc && (
             <div className={`${styles.block} ${styles.tocOnly}`}>
               <SidebarNav
@@ -181,20 +191,6 @@ export default function PageSidebar({
             </div>
           )}
 
-          {hasSeries && (
-            <div className={styles.block}>
-              <p className={styles.label}>Series</p>
-              <div className={styles.series}>
-                <Link
-                  to={getCanonicalPath({ docType: 'series', slug: series.slug })}
-                  className={styles.seriesLink}
-                >
-                  <strong>{series.title}</strong>
-                </Link>
-                {partNumber && <span className={styles.seriesPart}>Part {partNumber}</span>}
-              </div>
-            </div>
-          )}
 
           {aiText && (
             <div className={styles.block}>
