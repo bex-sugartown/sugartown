@@ -50,6 +50,7 @@ export default defineConfig({
                     S.documentTypeListItem('tag').title('Tags'),
                     S.documentTypeListItem('tool').title('Tools'),
                     S.documentTypeListItem('project').title('Projects'),
+                    S.documentTypeListItem('series').title('Series'),
                   ])
               ),
 
