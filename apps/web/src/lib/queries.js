@@ -858,8 +858,9 @@ export const seriesBySlugQuery = `
     title,
     "slug": slug.current,
     description,
-    "articles": *[_type == "article" && series._ref == ^._id && defined(slug.current)] | order(partNumber asc) {
+    "parts": *[_type in ["article", "node"] && series._ref == ^._id && defined(slug.current)] | order(partNumber asc) {
       _id,
+      _type,
       title,
       "slug": slug.current,
       partNumber,

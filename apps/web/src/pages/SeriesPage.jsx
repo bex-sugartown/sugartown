@@ -37,7 +37,7 @@ export default function SeriesPage() {
   if (loading) return <div className={pageStyles.loadingPage}>Loading…</div>
   if (notFound || !series) return <NotFoundPage />
 
-  const articles = series.articles ?? []
+  const parts = series.parts ?? []
 
   return (
     <main className={pageStyles.entityDetailPage}>
@@ -55,24 +55,24 @@ export default function SeriesPage() {
         )}
       </div>
 
-      {articles.length > 0 ? (
+      {parts.length > 0 ? (
         <ol className={pageStyles.seriesPartList}>
-          {articles.map((article) => (
-            <li key={article._id} className={pageStyles.seriesPartItem}>
+          {parts.map((part) => (
+            <li key={part._id} className={pageStyles.seriesPartItem}>
               <span className={pageStyles.seriesPartNumber}>
-                Part {article.partNumber ?? '?'}
+                Part {part.partNumber ?? '?'}
               </span>
               <Link
-                to={getCanonicalPath({ docType: 'article', slug: article.slug })}
+                to={getCanonicalPath({ docType: part._type, slug: part.slug })}
                 className={pageStyles.seriesPartLink}
               >
-                {article.title}
+                {part.title}
               </Link>
             </li>
           ))}
         </ol>
       ) : (
-        <p className={pageStyles.archiveEmpty}>No articles in this series yet.</p>
+        <p className={pageStyles.archiveEmpty}>No parts in this series yet.</p>
       )}
     </main>
   )
