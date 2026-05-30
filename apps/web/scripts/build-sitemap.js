@@ -87,7 +87,7 @@ const TAXONOMY_NAMESPACES = {
 
 function getCanonicalPath(docType, slug) {
   if (!slug) return null
-  if (docType === 'page' || docType === 'archivePage') return `/${slug}`
+  if (docType === 'page' || docType === 'archivePage') return slug === 'home' ? '/' : `/${slug}`
   const contentPrefix = TYPE_NAMESPACES[docType]
   if (contentPrefix) return `/${contentPrefix}/${slug}`
   const taxonomyPrefix = TAXONOMY_NAMESPACES[docType]

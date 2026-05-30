@@ -20,7 +20,10 @@ export default function HomePage() {
   const { data: page, loading } = useSanityDoc(pageBySlugQuery, { slug: 'home' })
   const siteSettings = useSiteSettings()
 
-  const seo = resolveSeo(page ?? null, siteSettings)
+  const resolvedSeo = resolveSeo(page ?? null, siteSettings)
+  // Homepage is served at / but the Sanity doc slug is "home" — override canonical
+  const siteUrl = siteSettings?.siteUrl?.replace(/\/$/, '') ?? ''
+  const seo = { ...resolvedSeo, canonicalUrl: siteUrl ? `${siteUrl}/` : '/' }
 
   if (loading) return <div className={styles.loadingPage}>Loading…</div>
 
