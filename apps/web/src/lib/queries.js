@@ -860,15 +860,26 @@ export const seriesBySlugQuery = `
     title,
     "slug": slug.current,
     description,
-    "parts": *[_type in ["article", "node", "caseStudy", "page"] && series._ref == ^._id && defined(slug.current)] | order(partNumber asc) {
-      _id,
-      _type,
-      title,
-      "slug": slug.current,
-      partNumber,
-      publishedAt,
-      excerpt
-    }
+    "parts": coalesce(
+      parts[defined(@->slug.current)]->{
+        _id,
+        _type,
+        title,
+        "slug": slug.current,
+        partNumber,
+        publishedAt,
+        excerpt
+      },
+      *[_type in ["article", "node", "caseStudy", "page"] && series._ref == ^._id && defined(slug.current)] | order(partNumber asc) {
+        _id,
+        _type,
+        title,
+        "slug": slug.current,
+        partNumber,
+        publishedAt,
+        excerpt
+      }
+    )
   }
 `
 

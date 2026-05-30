@@ -1,4 +1,4 @@
-import {defineType, defineField} from 'sanity'
+import {defineType, defineField, defineArrayMember} from 'sanity'
 import {DocumentsIcon} from '@sanity/icons'
 
 /**
@@ -39,6 +39,24 @@ export default defineType({
       description: 'Brief description of what this series covers.',
       rows: 3,
       validation: (Rule) => Rule.max(300),
+    }),
+    defineField({
+      name: 'parts',
+      title: 'Parts',
+      type: 'array',
+      description: 'Add content to this series in part order. Drag to reorder. Part numbers are set on each individual document.',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [
+            {type: 'article'},
+            {type: 'node'},
+            {type: 'caseStudy'},
+            {type: 'page'},
+          ],
+        }),
+      ],
+      validation: (Rule) => Rule.unique(),
     }),
   ],
   preview: {
