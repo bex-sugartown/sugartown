@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-30T08:32:14.573Z",
+  "generatedAt": "2026-05-31T08:49:07.292Z",
   "release": {
     "current": {
       "version": "0.25.0",
@@ -45,6 +45,7 @@
         "linearIssue": "SUG-38"
       }
     ],
+    "latestPatches": [],
     "count": {
       "total": 19,
       "major": 0,
@@ -78,39 +79,39 @@
   },
   "repo": {
     "commits": 1,
-    "epicsShipped": 113
+    "epicsShipped": 121
   },
   "perf": {
     "stale": false,
-    "generatedAt": "2026-05-30T08:31:56.092Z",
+    "generatedAt": "2026-05-31T08:48:38.763Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "desktop": {
           "url": "https://sugartown.io/",
-          "lcp": 1391,
-          "cls": 0.107,
+          "lcp": 1395,
+          "cls": 0.228,
           "inp": null,
-          "performance": 93,
+          "performance": 85,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1391,
-        "cls": 0.107,
+        "lcp": 1395,
+        "cls": 0.228,
         "inp": null,
-        "performance": 93,
+        "performance": 85,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/",
-          "lcp": 1391,
-          "cls": 0.107,
+          "lcp": 1395,
+          "cls": 0.228,
           "inp": null,
-          "performance": 93,
+          "performance": 85,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
@@ -121,7 +122,7 @@
         "url": "https://sugartown.io/articles",
         "desktop": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1219,
+          "lcp": 1230,
           "cls": 0.301,
           "inp": null,
           "performance": 82,
@@ -130,7 +131,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1219,
+        "lcp": 1230,
         "cls": 0.301,
         "inp": null,
         "performance": 82,
@@ -140,7 +141,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1219,
+          "lcp": 1230,
           "cls": 0.301,
           "inp": null,
           "performance": 82,
@@ -154,8 +155,8 @@
         "url": "https://sugartown.io/case-studies",
         "desktop": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1218,
-          "cls": 0.394,
+          "lcp": 1215,
+          "cls": 0.414,
           "inp": null,
           "performance": 78,
           "accessibility": 95,
@@ -163,8 +164,8 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1218,
-        "cls": 0.394,
+        "lcp": 1215,
+        "cls": 0.414,
         "inp": null,
         "performance": 78,
         "accessibility": 95,
@@ -173,8 +174,8 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1218,
-          "cls": 0.394,
+          "lcp": 1215,
+          "cls": 0.414,
           "inp": null,
           "performance": 78,
           "accessibility": 95,
@@ -187,29 +188,29 @@
         "url": "https://sugartown.io/knowledge-graph",
         "desktop": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1280,
-          "cls": 0.104,
+          "lcp": 1271,
+          "cls": 0.093,
           "inp": null,
-          "performance": 93,
+          "performance": 94,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1280,
-        "cls": 0.104,
+        "lcp": 1271,
+        "cls": 0.093,
         "inp": null,
-        "performance": 93,
+        "performance": 94,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1280,
-          "cls": 0.104,
+          "lcp": 1271,
+          "cls": 0.093,
           "inp": null,
-          "performance": 93,
+          "performance": 94,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -220,7 +221,7 @@
         "url": "https://sugartown.io/platform",
         "desktop": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1277,
+          "lcp": 1286,
           "cls": 0.516,
           "inp": null,
           "performance": 75,
@@ -229,7 +230,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1277,
+        "lcp": 1286,
         "cls": 0.516,
         "inp": null,
         "performance": 75,
@@ -239,7 +240,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1277,
+          "lcp": 1286,
           "cls": 0.516,
           "inp": null,
           "performance": 75,
@@ -253,7 +254,7 @@
         "url": "https://sugartown.io/about",
         "desktop": {
           "url": "https://sugartown.io/about",
-          "lcp": 1359,
+          "lcp": 1371,
           "cls": 0.227,
           "inp": null,
           "performance": 85,
@@ -262,7 +263,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1359,
+        "lcp": 1371,
         "cls": 0.227,
         "inp": null,
         "performance": 85,
@@ -272,7 +273,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/about",
-          "lcp": 1359,
+          "lcp": 1371,
           "cls": 0.227,
           "inp": null,
           "performance": 85,
@@ -286,29 +287,29 @@
         "url": "https://sugartown.io/articles/test-preview-post",
         "desktop": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1100,
-          "cls": 0,
+          "lcp": 1284,
+          "cls": 0.08,
           "inp": null,
-          "performance": 98,
+          "performance": 95,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1100,
-        "cls": 0,
+        "lcp": 1284,
+        "cls": 0.08,
         "inp": null,
-        "performance": 98,
+        "performance": 95,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1100,
-          "cls": 0,
+          "lcp": 1284,
+          "cls": 0.08,
           "inp": null,
-          "performance": 98,
+          "performance": 95,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
@@ -319,7 +320,7 @@
         "url": "https://sugartown.io/nodes/test-node",
         "desktop": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1263,
+          "lcp": 1292,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -328,7 +329,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1263,
+        "lcp": 1292,
         "cls": 0.08,
         "inp": null,
         "performance": 95,
@@ -338,7 +339,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1263,
+          "lcp": 1292,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -351,13 +352,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-05-30T08:31:56.308Z",
+    "fetchedAt": "2026-05-31T08:48:39.065Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-05-30T08:32:12.737Z",
+    "fetchedAt": "2026-05-31T08:49:04.984Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -368,22 +369,22 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-05-30T08:32:13.531Z",
+    "fetchedAt": "2026-05-31T08:49:06.055Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 1,
     "watchers": 1,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-05-29T09:56:01Z"
+    "lastCommit": "2026-05-30T14:24:08Z"
   },
   "sanity": {
-    "fetchedAt": "2026-05-30T08:32:14.024Z",
+    "fetchedAt": "2026-05-31T08:49:06.495Z",
     "counts": {
-      "article": 14,
-      "node": 48,
+      "article": 15,
+      "node": 49,
       "caseStudy": 7,
-      "page": 8,
+      "page": 9,
       "tag": 95,
       "category": 13,
       "project": 6,
@@ -392,7 +393,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-05-30T08:32:14.191Z",
+    "generatedAt": "2026-05-31T08:49:06.751Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -1001,6 +1002,13 @@
         "type": "tag",
         "label": "AI Automation",
         "href": "/tags/ai-automation",
+        "size": "small"
+      },
+      {
+        "id": "tag:poc",
+        "type": "tag",
+        "label": "POC",
+        "href": "/tags/poc",
         "size": "small"
       },
       {
@@ -2106,6 +2114,30 @@
         ]
       },
       {
+        "id": "item:node:poc-platform-agnostic-by-design",
+        "_id": "2246d8e1-9d1a-469e-b0d5-f0d19e3f3f07",
+        "type": "item",
+        "docType": "node",
+        "slug": "poc-platform-agnostic-by-design",
+        "label": "POC: Platform-agnostic by design. But was it really? Reader, yes it was.",
+        "href": "/nodes/poc-platform-agnostic-by-design",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "poc",
+            "label": "POC"
+          },
+          {
+            "slug": "vendor-evaluation",
+            "label": "Vendor Evaluation"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          }
+        ]
+      },
+      {
         "id": "item:node:prd-visualization-engine",
         "_id": "wp.node.1079",
         "type": "item",
@@ -2158,6 +2190,42 @@
           {
             "slug": "agentic-caucus",
             "label": "agentic caucus"
+          }
+        ]
+      },
+      {
+        "id": "item:article:platform-selection-risk-composable-architecture",
+        "_id": "b764ea17-4014-4721-aa28-94255b499395",
+        "type": "item",
+        "docType": "article",
+        "slug": "platform-selection-risk-composable-architecture",
+        "label": "Platform selection risk is real. Here’s what reduces it.",
+        "href": "/articles/platform-selection-risk-composable-architecture",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "vendor-evaluation",
+            "label": "Vendor Evaluation"
+          },
+          {
+            "slug": "platform-strategy",
+            "label": "platform strategy"
+          },
+          {
+            "slug": "headless",
+            "label": "Headless"
+          },
+          {
+            "slug": "composable",
+            "label": "composable"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
+          },
+          {
+            "slug": "stakeholder-alignment",
+            "label": "Stakeholder Alignment"
           }
         ]
       },
@@ -3469,6 +3537,21 @@
         "kind": "membership"
       },
       {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "project:mini-repo",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "category:engineering-dx",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
         "source": "item:node:prd-visualization-engine",
         "target": "project:knowledge-graph-viz",
         "kind": "membership"
@@ -3491,6 +3574,21 @@
       {
         "source": "item:article:pink-moon-and-ledger",
         "target": "category:sugartown-notes",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "category:product-platform-strategy",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "category:content-architecture",
         "kind": "membership"
       },
       {
@@ -3910,6 +4008,12 @@
       },
       {
         "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 2
@@ -3958,6 +4062,12 @@
       },
       {
         "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 2
@@ -3994,6 +4104,12 @@
       },
       {
         "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 2
@@ -4024,6 +4140,12 @@
       },
       {
         "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 2
@@ -4037,6 +4159,12 @@
       {
         "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
         "target": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "item:article:platform-selection-risk-composable-architecture",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4081,6 +4209,18 @@
         "target": "item:article:why-cms-and-design-systems-belong-together",
         "kind": "sharedTag",
         "weight": 3
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:node:poc-platform-agnostic-by-design",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 4
       },
       {
         "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
@@ -4258,6 +4398,12 @@
       },
       {
         "source": "item:node:knowledge-graph-roadmap",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:knowledge-graph-roadmap",
         "target": "item:node:project-knowledge-graph-topology-over-chronology",
         "kind": "sharedTag",
         "weight": 2
@@ -4291,6 +4437,12 @@
         "target": "item:article:why-cms-and-design-systems-belong-together",
         "kind": "sharedTag",
         "weight": 5
+      },
+      {
+        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
       },
       {
         "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
@@ -4348,6 +4500,12 @@
       },
       {
         "source": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:why-cms-and-design-systems-belong-together",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 3
@@ -4373,6 +4531,18 @@
       {
         "source": "item:article:why-cms-and-design-systems-belong-together",
         "target": "item:article:we-never-adopted-structured-content",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "item:article:platform-selection-risk-composable-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4409,6 +4579,24 @@
       {
         "source": "item:article:pink-moon-and-ledger",
         "target": "item:node:we-fixed-the-same-white-screen",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 4
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "item:article:three-headless-cmses-walk-into-a-bar",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -5360,6 +5548,21 @@
         "kind": "tag-membership"
       },
       {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "tag:poc",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "tag:vendor-evaluation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
         "source": "item:node:prd-visualization-engine",
         "target": "tag:data-science",
         "kind": "tag-membership"
@@ -5397,6 +5600,36 @@
       {
         "source": "item:article:pink-moon-and-ledger",
         "target": "tag:agentic-caucus",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:vendor-evaluation",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:platform-strategy",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:headless",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:composable",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:stakeholder-alignment",
         "kind": "tag-membership"
       },
       {
@@ -6092,9 +6325,23 @@
     ]
   },
   "linearRoadmap": {
-    "fetchedAt": "2026-05-30T08:32:14.571Z",
+    "fetchedAt": "2026-05-31T08:49:07.290Z",
     "inProgress": [],
     "backlog": [
+      {
+        "identifier": "SUG-138",
+        "title": "Library — unified all-content archive at /library",
+        "url": "https://linear.app/sugartown/issue/SUG-138/library-unified-all-content-archive-at-library",
+        "priority": "High",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": null
+      },
       {
         "identifier": "SUG-134",
         "title": "Knowledge Graph UX Cleanup",
@@ -6105,34 +6352,6 @@
           {
             "name": "Knowledge Graph Viz",
             "colorHex": "#8B5CF6"
-          }
-        ],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-133",
-        "title": "AEO Authority Building — LinkedIn, GitHub, external publishing, /now cadence",
-        "url": "https://linear.app/sugartown/issue/SUG-133/aeo-authority-building-linkedin-github-external-publishing-now-cadence",
-        "priority": "High",
-        "status": "Todo",
-        "projects": [
-          {
-            "name": "Sugartown CMS",
-            "colorHex": "#FF69B4"
-          }
-        ],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-130",
-        "title": "Article: Platform selection risk and why composable architecture changes the calculus",
-        "url": "https://linear.app/sugartown/issue/SUG-130/article-platform-selection-risk-and-why-composable-architecture",
-        "priority": "Medium",
-        "status": "Todo",
-        "projects": [
-          {
-            "name": "Sugartown CMS",
-            "colorHex": "#FF69B4"
           }
         ],
         "completedAt": null
@@ -6349,6 +6568,57 @@
       }
     ],
     "shipped": [
+      {
+        "identifier": "SUG-136",
+        "title": "Trust Report — Recently Shipped + Mini-releases",
+        "url": "https://linear.app/sugartown/issue/SUG-136/trust-report-recently-shipped-mini-releases",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": "2026-05-30T14:15:07.884Z"
+      },
+      {
+        "identifier": "SUG-137",
+        "title": "Article sidebar: series block position + series link 404 fix",
+        "url": "https://linear.app/sugartown/issue/SUG-137/article-sidebar-series-block-position-series-link-404-fix",
+        "priority": "High",
+        "status": "Done",
+        "projects": [],
+        "completedAt": "2026-05-30T13:18:22.491Z"
+      },
+      {
+        "identifier": "SUG-130",
+        "title": "Article: Platform selection risk and why composable architecture changes the calculus",
+        "url": "https://linear.app/sugartown/issue/SUG-130/article-platform-selection-risk-and-why-composable-architecture",
+        "priority": "Medium",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": "2026-05-30T11:59:56.256Z"
+      },
+      {
+        "identifier": "SUG-133",
+        "title": "AEO Authority Building — LinkedIn, GitHub, external publishing, /now cadence",
+        "url": "https://linear.app/sugartown/issue/SUG-133/aeo-authority-building-linkedin-github-external-publishing-now-cadence",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": "2026-05-30T10:19:48.690Z"
+      },
       {
         "identifier": "SUG-135",
         "title": "TL;DR Layout Standardisation",
@@ -6567,57 +6837,6 @@
           }
         ],
         "completedAt": "2026-05-16T11:37:21.717Z"
-      },
-      {
-        "identifier": "SUG-113",
-        "title": "Dynamic reporting pipeline — Linear roadmap + CWV desktop/mobile with fallback",
-        "url": "https://linear.app/sugartown/issue/SUG-113/dynamic-reporting-pipeline-linear-roadmap-cwv-desktopmobile-with",
-        "priority": "High",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Mini Repo",
-            "colorHex": "#0099FF"
-          }
-        ],
-        "completedAt": "2026-05-15T09:53:55.955Z"
-      },
-      {
-        "identifier": "SUG-115",
-        "title": "Platform section DS remediation — 16-finding audit close-out",
-        "url": "https://linear.app/sugartown/issue/SUG-115/platform-section-ds-remediation-16-finding-audit-close-out",
-        "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-05-14T11:40:06.630Z"
-      },
-      {
-        "identifier": "SUG-112",
-        "title": "Sidebar nav primitives — shared useScrollspy hook + SidebarNav component",
-        "url": "https://linear.app/sugartown/issue/SUG-112/sidebar-nav-primitives-shared-usescrollspy-hook-sidebarnav-component",
-        "priority": "Medium",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Sugartown CMS",
-            "colorHex": "#FF69B4"
-          }
-        ],
-        "completedAt": "2026-05-13T16:07:06.815Z"
-      },
-      {
-        "identifier": "SUG-20",
-        "title": "Schema ERD Sanity Hybrid (Option C)",
-        "url": "https://linear.app/sugartown/issue/SUG-20/schema-erd-sanity-hybrid-option-c",
-        "priority": "High",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Sugartown CMS",
-            "colorHex": "#FF69B4"
-          }
-        ],
-        "completedAt": "2026-05-13T10:45:38.823Z"
       }
     ]
   }
