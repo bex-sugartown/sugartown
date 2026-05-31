@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-05-30 · v0.25.8 released — SUG-136 Trust Report recently-shipped + mini-releases. Queue: SUG-138 → SUG-116.
+> Updated 2026-05-31 · v0.25.9 released — SUG-138 Library unified archive. Queue: SUG-134 → SUG-116.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.25.3 released ✅ 2026-05-28. Queue: SUG-133 (AEO Authority Building) → SUG-130 (Platform article) → SUG-116 (Ledger Button Update).
+> **⚑ Current focus:** v0.25.9 released ✅ 2026-05-31. SUG-138 Library unified archive shipped. Queue: SUG-134 (Knowledge Graph UX Cleanup) → SUG-116 (Ledger Button Update).
 
 ---
 
@@ -26,7 +26,7 @@
 | 9 | ~~**[SUG-127](https://linear.app/sugartown/issue/SUG-127/contentful-vercel-poc-platform-vendor-evaluation) · Contentful + Vercel POC — Platform Vendor Evaluation** — Three-phase POC: Next.js + Contentful + Vercel deploy, atomic content model, DS agnosticism proven, vendor eval written. Shipped v0.25.0.~~ | `Infrastructure` `Tooling` `Platform` | ✅ Shipped |
 | 10 | ~~**[SUG-128](https://linear.app/sugartown/issue/SUG-128/contentful-poc-custom-domain-on-vercel-pocsugartownio) · Contentful POC — custom domain on Vercel (poc.sugartown.io)** — `poc.sugartown.io` + `poc-preview.sugartown.io` live; DNS CNAME via Pair; Vercel validated. Shipped v0.24.3.~~ | `Infrastructure` | ✅ Shipped |
 | 6 | ~~**[SUG-137](https://linear.app/sugartown/issue/SUG-137) · Article sidebar: series block position + series landing page** — /series/:slug route, SeriesPage, parts[] on series doc, series field on all content types, Series in Taxonomy index. Shipped v0.25.7.~~ | `Frontend` `UX` | ✅ Shipped |
-| 7 | **[SUG-138](https://linear.app/sugartown/issue/SUG-138) · Library — unified all-content archive at /library** — `/library` route (article + node + caseStudy), filter sidebar, graph toggle, KG scope callout, series back-link fix, nav update. Phase 0 HTML mockup required. Epic: `docs/backlog/SUG-138-library-unified-all-content-archive.md`. | `Frontend` `UX` `Infrastructure` | 🟢 Next |
+| 7 | ~~**[SUG-138](https://linear.app/sugartown/issue/SUG-138) · Library — unified all-content archive at /library** — `/library` route (article + node + caseStudy), Type filter, graph toggle, breadcrumb nav, series back-link fix, nav update. Shipped v0.25.9.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
 | 5 | ~~**[SUG-136](https://linear.app/sugartown/issue/SUG-136) · Trust Report — Recently Shipped + Mini-releases** — latestPatches from git log, recently-shipped + mini-releases renderers, SectionLabel heading, homepage migration. Shipped v0.25.8.~~ | `Design System` `Frontend` `Schema` | ✅ Shipped |
 | 4 | **[SUG-116](https://linear.app/sugartown/issue/SUG-116) · Ledger Button Update — Baseline Rule, sm/md/lg sizes, Storybook snapshot** — Move 3px stripe from `border-top` to `border-bottom` across all variants; introduce `--st-color-button-rule-{primary,secondary,tertiary}` tokens (Option B rename); add `sm`/`lg` size prop to DS + web adapter; update Storybook snapshot story. Epic: `docs/backlog/SUG-116-ledger-button-update.md`. | `Design System` | 🟢 Next |
 | 3 | ~~**[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs, hero inheritance, scrollspy, DataTable releases, Storybook BUILD_DATE freeze. Shipped v0.23.22.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
