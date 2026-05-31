@@ -460,9 +460,7 @@ export default function ArchivePage({ archiveSlug }) {
 
       <header className={styles.masthead}>
         {archiveSlug !== 'library' && (
-          <p className={styles.eyebrow}>
-            <Link to="/library" className={styles.eyebrowCurrent}>← Library</Link>
-          </p>
+          <Link to="/library" className={`${styles.backLink} ${styles.eyebrowCurrent}`}>← Library</Link>
         )}
         <h1 className={`${styles.archiveHeading} ${styles.archiveHeadingItalic}`}>{heading}<DraftBadge docId={archiveDoc._id} /></h1>
         {subheading && (
