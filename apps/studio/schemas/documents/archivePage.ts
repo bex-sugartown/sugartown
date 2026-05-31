@@ -165,9 +165,9 @@ export default defineType({
     }),
     defineField({
       name: 'eyebrow',
-      title: 'Eyebrow Label',
+      title: 'Eyebrow Label [DEPRECATED]',
       type: 'string',
-      description: 'Short label shown in brand pink above the title (e.g., "Knowledge Graph"). Falls back to title if blank.',
+      description: '⚠️ Deprecated (SUG-138). Archive pages now show a ← Library breadcrumb instead of a static eyebrow label. This field is no longer rendered on the web. Safe to leave blank.',
       group: 'content',
       validation: (Rule) => Rule.max(60),
     }),
