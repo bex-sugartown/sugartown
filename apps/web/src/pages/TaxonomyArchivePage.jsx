@@ -246,6 +246,9 @@ export default function TaxonomyArchivePage() {
 
   return (
     <main className={`${styles.archivePage}${config.layout === 'flat-grid' ? ` ${styles.archivePageWide}` : ''}`}>
+      {pathSegment !== 'people' && (
+        <Link to="/library" className={pageStyles.backLink}>← Library</Link>
+      )}
       <div className={styles.archiveHeader}>
         <h1 className={styles.archiveTitle}>{config.title}</h1>
         {list.length > 0 && (

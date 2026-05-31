@@ -86,9 +86,9 @@ export default function ToolDetailPage() {
     <main className={pageStyles.entityDetailPage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <Link to="/tools" className={pageStyles.backLink}>
-        ← All Tools
-      </Link>
+      <Link to="/library" className={pageStyles.backLink}>← Library</Link>
+      {' / '}
+      <Link to="/tools" className={pageStyles.backLink}>Tools & Platforms</Link>
 
       {/* ── Folio ─────────────────────────────────────────────────── */}
       <div className={pageStyles.entityFolio} style={{ '--entity-thumb-size': '72px' }}>

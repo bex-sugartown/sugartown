@@ -58,9 +58,9 @@ export default function ProjectDetailPage() {
     <main className={styles.projectPage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <Link to="/projects" className={pageStyles.backLink}>
-        ← All Projects
-      </Link>
+      <Link to="/library" className={pageStyles.backLink}>← Library</Link>
+      {' / '}
+      <Link to="/projects" className={pageStyles.backLink}>Projects</Link>
 
       {/* ── Colour accent bar ─────────────────────────────────────────── */}
       <div className={`${pageStyles.accentBar} ${styles.accentBarProject}`} style={accentStyle} aria-hidden="true" />
