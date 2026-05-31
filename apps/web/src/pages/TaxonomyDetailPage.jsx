@@ -111,7 +111,6 @@ function TaxonomyHeader({ taxDoc, config }) {
           <Link to={backPath} className={`${pageStyles.backLink} ${pageStyles.eyebrowCurrent}`}>{config.pluralLabel}</Link>
         </>
       )}
-      <p className={pageStyles.detailEyebrow}>{config.label}</p>
       <h1 className={pageStyles.archiveHeading}>{name}</h1>
       {description && (
         <p className={pageStyles.archiveDescription}>{description}</p>
