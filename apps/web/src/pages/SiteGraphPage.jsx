@@ -209,7 +209,7 @@ export default function SiteGraphPage() {
         <div className={pageStyles.archiveToolbarLeft}>
           <div className={pageStyles.layoutToggleGroup}>
             <Link
-              to={typeFilter === 'caseStudy' ? '/case-studies' : typeFilter === 'node' ? '/nodes' : '/articles'}
+              to={typeFilter === 'caseStudy' ? '/case-studies' : typeFilter === 'node' ? '/nodes' : typeFilter === 'article' ? '/articles' : '/library'}
               className={pageStyles.layoutToggleBtn}
               aria-label="Grid view"
             >
@@ -221,7 +221,7 @@ export default function SiteGraphPage() {
               </svg>
             </Link>
             <Link
-              to={typeFilter === 'caseStudy' ? '/case-studies' : typeFilter === 'node' ? '/nodes' : '/articles'}
+              to={typeFilter === 'caseStudy' ? '/case-studies' : typeFilter === 'node' ? '/nodes' : typeFilter === 'article' ? '/articles' : '/library'}
               className={pageStyles.layoutToggleBtn}
               aria-label="List view"
             >

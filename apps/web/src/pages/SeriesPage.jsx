@@ -45,8 +45,8 @@ export default function SeriesPage() {
     <main className={pageStyles.entityDetailPage}>
       <SeoHead seo={seo} />
 
-      <Link to="/articles" className={pageStyles.backLink}>
-        ← All Articles
+      <Link to="/library" className={pageStyles.backLink}>
+        ← Library
       </Link>
 
       <div className={pageStyles.folioIdentity}>
