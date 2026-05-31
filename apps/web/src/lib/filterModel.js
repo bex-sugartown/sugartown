@@ -149,9 +149,9 @@ function extractFacetItems(item, facetId) {
     }
 
     case 'contentType': {
-      // _type field — emit as enum so the Type facet can filter by content type
-      if (!item._type) return []
-      return [{ _id: item._type, name: CONTENT_TYPE_DISPLAY_NAMES[item._type] ?? item._type }]
+      // _type field — only emit for known content types; unknown types are silently ignored
+      if (!item._type || !CONTENT_TYPE_DISPLAY_NAMES[item._type]) return []
+      return [{ _id: item._type, name: CONTENT_TYPE_DISPLAY_NAMES[item._type] }]
     }
 
     default:

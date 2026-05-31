@@ -459,9 +459,9 @@ export default function ArchivePage({ archiveSlug }) {
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
       <header className={styles.masthead}>
-        {archiveDoc.eyebrow && (
+        {archiveSlug !== 'library' && (
           <p className={styles.eyebrow}>
-            <span className={styles.eyebrowCurrent}>{archiveDoc.eyebrow}</span>
+            <Link to="/library" className={styles.eyebrowCurrent}>← Library</Link>
           </p>
         )}
         <h1 className={`${styles.archiveHeading} ${styles.archiveHeadingItalic}`}>{heading}<DraftBadge docId={archiveDoc._id} /></h1>
