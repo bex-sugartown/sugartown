@@ -95,6 +95,7 @@ const ARCHIVE_QUERIES = {
   article: `
     *[_type == "article" && defined(slug.current)] | order(publishedAt desc) {
       _id,
+      _type,
       title,
       "slug": slug.current,
       excerpt,
@@ -106,6 +107,7 @@ const ARCHIVE_QUERIES = {
   node: `
     *[_type == "node" && defined(slug.current)] | order(publishedAt desc) {
       _id,
+      _type,
       title,
       "slug": slug.current,
       excerpt,
@@ -119,6 +121,7 @@ const ARCHIVE_QUERIES = {
   caseStudy: `
     *[_type == "caseStudy" && defined(slug.current)] | order(publishedAt desc) {
       _id,
+      _type,
       title,
       "slug": slug.current,
       excerpt,
@@ -139,18 +142,45 @@ const CONTENT_TYPE_TO_DOC_TYPE = {
 // ─── ArchiveListing — fetches, filters, paginates, and renders items ──────────
 
 function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
+  const contentTypes = archiveDoc?.contentTypes ?? []
+  const isMultiType = contentTypes.length > 1
+
   const query = ARCHIVE_QUERIES[contentType]
   const docType = CONTENT_TYPE_TO_DOC_TYPE[contentType]
 
-  // Fetch all items for this content type (no slice — client-side filtering needs full set)
-  const { data: allItems, loading: itemsLoading } = useSanityList(query || null)
+  // Single-type fetch (existing archives — articles, nodes, case-studies)
+  const { data: singleItems, loading: singleLoading } = useSanityList(!isMultiType ? (query || null) : null)
 
-  // Draft detection — preview mode only. Queries raw perspective to find
-  // documents with "drafts." prefix, which previewDrafts strips from _id.
+  // Multi-type fetches (Library) — always called; null when not applicable.
+  // Three unconditional hooks so React's hook call order never changes.
+  const { data: articleItems, loading: articleLoading } = useSanityList(
+    isMultiType && contentTypes.includes('article') ? ARCHIVE_QUERIES.article : null
+  )
+  const { data: nodeItems, loading: nodeLoading } = useSanityList(
+    isMultiType && contentTypes.includes('node') ? ARCHIVE_QUERIES.node : null
+  )
+  const { data: caseStudyItems, loading: caseStudyLoading } = useSanityList(
+    isMultiType && contentTypes.includes('caseStudy') ? ARCHIVE_QUERIES.caseStudy : null
+  )
+
+  // Merged + sorted items for multi-type; passthrough for single-type
+  const allItems = useMemo(() => {
+    if (!isMultiType) return singleItems ?? []
+    return [
+      ...(articleItems ?? []),
+      ...(nodeItems ?? []),
+      ...(caseStudyItems ?? []),
+    ].sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''))
+  }, [isMultiType, singleItems, articleItems, nodeItems, caseStudyItems])
+
+  const itemsLoading = isMultiType
+    ? (articleLoading || nodeLoading || caseStudyLoading)
+    : singleLoading
+
+  // Draft detection — uses primary contentType (contentTypes[0]) for single; article for multi
   const draftIds = useDraftIds(contentType)
 
   // Fetch raw items for FilterModel (includes authors + relatedProjects for legacy merge)
-  const contentTypes = archiveDoc?.contentTypes ?? []
   const { data: rawItems, loading: rawLoading } = useSanityList(
     contentTypes.length > 0 ? facetsRawQuery : null,
     contentTypes.length > 0 ? { contentTypes } : {}
@@ -189,7 +219,8 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
   // Graph ↔ grid view toggle — persisted in ?view=graph URL param
   const [searchParams, setSearchParams] = useSearchParams()
   const view = searchParams.get('view') === 'graph' ? 'graph' : 'grid'
-  const isGraphView = view === 'graph' && contentType === 'node'
+  // Multi-type archives allow graph view regardless of type; single-type only for nodes
+  const isGraphView = view === 'graph' && (isMultiType || contentType === 'node')
   const setView = useCallback((v) => {
     setSearchParams(prev => {
       const next = new URLSearchParams(prev)
@@ -199,7 +230,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     }, { replace: true })
   }, [setSearchParams])
 
-  // Derive node-only graph from siteGraph (replaces deprecated statsJson.graph)
+  // Node-only graph for single-type /nodes archive
   const nodeGraph = useMemo(() => {
     if (!statsJson?.siteGraph?.nodes) return null
     const nodes = statsJson.siteGraph.nodes.filter(
@@ -212,13 +243,16 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     return { ...statsJson.siteGraph, nodes, edges }
   }, [])
 
+  // Full siteGraph for multi-type archives (Library)
+  const fullGraph = useMemo(() => statsJson?.siteGraph ?? null, [])
+
   // Selected graph node (full node object) for card rail
   const [selectedGraphNode, setSelectedGraphNode] = useState(null)
   const handleNodeClick = useCallback((node) => {
     setSelectedGraphNode(node ?? null)
   }, [])
 
-  if (!query || !docType) {
+  if (!isMultiType && (!query || !docType)) {
     if (import.meta.env.DEV) {
       console.warn(`[ArchivePage] Unknown contentType: "${contentType}" — no listing query defined`)
     }
@@ -245,8 +279,8 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     ? (allItems ?? []).find(i => i.slug === selectedGraphNode.id.replace(/^item:/, '')) ?? null
     : null
 
-  const contentTypeLabel = contentType === 'article' ? 'ARTICLES' : contentType === 'caseStudy' ? 'CASE STUDIES' : 'NODES'
-  const graphCtaHref = `/knowledge-graph?type=${contentType}`
+  const contentTypeLabel = isMultiType ? 'ITEMS' : contentType === 'article' ? 'ARTICLES' : contentType === 'caseStudy' ? 'CASE STUDIES' : 'NODES'
+  const graphCtaHref = isMultiType ? '/knowledge-graph' : `/knowledge-graph?type=${contentType}`
 
   return (
     <div className={styles.archiveSection}>
@@ -301,9 +335,9 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
       {isGraphView ? (
         <div className={styles.graphViewLayout}>
           <div className={styles.graphPane}>
-            {nodeGraph && (
+            {(isMultiType ? fullGraph : nodeGraph) && (
               <KnowledgeGraph
-                graphData={nodeGraph}
+                graphData={isMultiType ? fullGraph : nodeGraph}
                 onNodeClick={handleNodeClick}
               />
             )}
@@ -371,7 +405,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
                   <ContentCard
                     key={item._id}
                     item={item}
-                    docType={docType}
+                    docType={isMultiType ? CONTENT_TYPE_TO_DOC_TYPE[item._type] : docType}
                     variant={layout === 'list' ? 'listing' : 'default'}
                     showExcerpt={archiveDoc?.cardOptions?.showExcerpt ?? true}
                     showHeroImage={archiveDoc?.cardOptions?.showHeroImage ?? true}

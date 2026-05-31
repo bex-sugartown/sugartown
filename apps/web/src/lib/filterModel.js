@@ -57,25 +57,33 @@
 // (string arrays directly on content documents).
 
 const FACET_TYPE = {
-  author:   'reference',
-  project:  'reference',
-  category: 'reference',
-  tag:      'reference',
-  tools:    'reference',
-  status:   'enum',
-  client:   'enum',
+  author:      'reference',
+  project:     'reference',
+  category:    'reference',
+  tag:         'reference',
+  tools:       'reference',
+  status:      'enum',
+  client:      'enum',
+  contentType: 'enum',
 }
 
 // ─── Default facet labels ─────────────────────────────────────────────────────
 
 const DEFAULT_FACET_LABELS = {
-  author:   'Author',
-  project:  'Project',
-  category: 'Category',
-  tag:      'Tag',
-  tools:    'Tool / Platform',
-  status:   'Status',
-  client:   'Client',
+  author:      'Author',
+  contentType: 'Type',
+  project:     'Project',
+  category:    'Category',
+  tag:         'Tag',
+  tools:       'Tool / Platform',
+  status:      'Status',
+  client:      'Client',
+}
+
+const CONTENT_TYPE_DISPLAY_NAMES = {
+  article:   'Article',
+  node:      'Node',
+  caseStudy: 'Case Study',
 }
 
 // ─── Facet extractors ─────────────────────────────────────────────────────────
@@ -138,6 +146,12 @@ function extractFacetItems(item, facetId) {
       // client is a single string field — emit as single-item array if set
       if (!item.client) return []
       return [{ _id: item.client, name: item.client }]
+    }
+
+    case 'contentType': {
+      // _type field — emit as enum so the Type facet can filter by content type
+      if (!item._type) return []
+      return [{ _id: item._type, name: CONTENT_TYPE_DISPLAY_NAMES[item._type] ?? item._type }]
     }
 
     default:
@@ -233,13 +247,14 @@ export function buildFilterModel(archivePage, contentItems, options = {}) {
   const configs = facetConfigs.length > 0
     ? facetConfigs
     : [
-        { facet: 'author',   label: null, enabled: true, order: 1, selection: 'multi', defaultSelectedSlugs: [] },
-        { facet: 'project',  label: null, enabled: true, order: 2, selection: 'multi', defaultSelectedSlugs: [] },
-        { facet: 'status',   label: null, enabled: true, order: 3, selection: 'multi', defaultSelectedSlugs: [] },
-        { facet: 'tools',    label: null, enabled: true, order: 4, selection: 'multi', defaultSelectedSlugs: [] },
-        { facet: 'category', label: null, enabled: true, order: 5, selection: 'multi', defaultSelectedSlugs: [] },
-        { facet: 'tag',      label: null, enabled: true, order: 6, selection: 'multi', defaultSelectedSlugs: [] },
-        { facet: 'client',   label: null, enabled: true, order: 7, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'author',      label: null, enabled: true, order: 1, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'contentType', label: null, enabled: true, order: 2, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'project',     label: null, enabled: true, order: 3, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'status',      label: null, enabled: true, order: 4, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'tools',       label: null, enabled: true, order: 5, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'category',    label: null, enabled: true, order: 6, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'tag',         label: null, enabled: true, order: 7, selection: 'multi', defaultSelectedSlugs: [] },
+        { facet: 'client',      label: null, enabled: true, order: 8, selection: 'multi', defaultSelectedSlugs: [] },
       ]
 
   // Sort by configured order

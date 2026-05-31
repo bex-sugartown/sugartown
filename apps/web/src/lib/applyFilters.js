@@ -45,8 +45,9 @@ const REFERENCE_FIELD_MAP = {
 // - isArray: true  → item[field] is a string[]; match if any element is in active set
 // - isArray: false → item[field] is a string;   match if value is in active set
 const ENUM_FIELD_MAP = {
-  status: { field: 'status', isArray: false },
-  client: { field: 'client', isArray: false },
+  status:      { field: 'status', isArray: false },
+  client:      { field: 'client', isArray: false },
+  contentType: { field: '_type',  isArray: false },
 }
 
 /**

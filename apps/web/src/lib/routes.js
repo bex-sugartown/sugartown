@@ -131,6 +131,7 @@ export const ARCHIVE_PATHS = [
   '/articles',
   '/case-studies',
   '/nodes',
+  '/library',
   '/knowledge-graph', // site-wide graph (SiteGraphPage — Phase 3; redirect to /nodes until live)
 ]
 

@@ -119,6 +119,9 @@ function App() {
         <Route path="/nodes" element={<ArchivePage archiveSlug="nodes" />} />
         <Route path="/nodes/:slug" element={<NodePage />} />
 
+        {/* /library — unified archive of articles, nodes, and case studies (SUG-138) */}
+        <Route path="/library" element={<ArchivePage archiveSlug="library" />} />
+
         {/* /knowledge-graph — site-wide cross-type graph (SUG-81 Phase 3) */}
         <Route path="/knowledge-graph" element={<SiteGraphPage />} />
         <Route path="/knowledge-graph/:slug" element={<KnowledgeGraphSlugRedirect />} />
