@@ -60,7 +60,7 @@ export default function ProjectDetailPage() {
 
       <Link to="/library" className={pageStyles.backLink}>← Library</Link>
       {' / '}
-      <Link to="/projects" className={pageStyles.backLink}>Projects</Link>
+      <Link to="/projects" className={`${pageStyles.backLink} ${pageStyles.eyebrowCurrent}`}>Projects</Link>
 
       {/* ── Colour accent bar ─────────────────────────────────────────── */}
       <div className={`${pageStyles.accentBar} ${styles.accentBarProject}`} style={accentStyle} aria-hidden="true" />

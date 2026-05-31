@@ -102,9 +102,15 @@ function TaxonomyHeader({ taxDoc, config }) {
           aria-hidden="true"
         />
       )}
-      <Link to={backPath} className={pageStyles.backLink}>
-        ← All {config.pluralLabel}
-      </Link>
+      {config.type === 'person' ? (
+        <Link to={backPath} className={`${pageStyles.backLink} ${pageStyles.eyebrowCurrent}`}>← All {config.pluralLabel}</Link>
+      ) : (
+        <>
+          <Link to="/library" className={pageStyles.backLink}>← Library</Link>
+          {' / '}
+          <Link to={backPath} className={`${pageStyles.backLink} ${pageStyles.eyebrowCurrent}`}>{config.pluralLabel}</Link>
+        </>
+      )}
       <p className={pageStyles.detailEyebrow}>{config.label}</p>
       <h1 className={pageStyles.archiveHeading}>{name}</h1>
       {description && (

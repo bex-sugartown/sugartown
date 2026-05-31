@@ -88,7 +88,7 @@ export default function ToolDetailPage() {
 
       <Link to="/library" className={pageStyles.backLink}>← Library</Link>
       {' / '}
-      <Link to="/tools" className={pageStyles.backLink}>Tools & Platforms</Link>
+      <Link to="/tools" className={`${pageStyles.backLink} ${pageStyles.eyebrowCurrent}`}>Tools & Platforms</Link>
 
       {/* ── Folio ─────────────────────────────────────────────────── */}
       <div className={pageStyles.entityFolio} style={{ '--entity-thumb-size': '72px' }}>
