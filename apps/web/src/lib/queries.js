@@ -817,6 +817,7 @@ export const pageBySlugQuery = `
     "tools": tools[]->{${TOOL_FRAGMENT}},
     series->{_id, title, "slug": slug.current},
     partNumber,
+    citations[]{ _key, text, url, label },
     ${SEO_FRAGMENT},
     "primaryPerson": select(
       slug.current == "about" => *[_type == "person"][0] {

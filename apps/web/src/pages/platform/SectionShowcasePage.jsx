@@ -13,6 +13,7 @@ import { resolveSeo } from '../../lib/seo'
 import SeoHead from '../../components/SeoHead'
 import PageSections from '../../components/PageSections'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
+import { CitationNote, CitationZone } from '../../design-system'
 import NotFoundPage from '../NotFoundPage'
 import pageStyles from '../pages.module.css'
 
@@ -42,6 +43,18 @@ export default function SectionShowcasePage() {
       <SeoHead seo={seo} />
       {contentSections.length > 0 && (
         <PageSections sections={contentSections} context="detail" />
+      )}
+      {doc.citations?.length > 0 && (
+        <CitationZone>
+          {doc.citations.map((cite, i) => (
+            <CitationNote key={cite._key ?? i} index={i + 1}>
+              {cite.text}
+              {cite.url && (
+                <> <a href={cite.url} target="_blank" rel="noopener noreferrer">{cite.label || cite.url}</a></>
+              )}
+            </CitationNote>
+          ))}
+        </CitationZone>
       )}
     </>
   )
