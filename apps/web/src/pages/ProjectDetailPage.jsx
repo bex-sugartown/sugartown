@@ -8,7 +8,7 @@
  * content timeline (articles + nodes + caseStudies) using ContentCard.
  */
 import { useParams, Link } from 'react-router-dom'
-import { Grid, SectionLabel } from '../design-system'
+import { Grid, SectionLabel, Breadcrumb } from '../design-system'
 import { projectDetailQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -58,9 +58,7 @@ export default function ProjectDetailPage() {
     <main className={styles.projectPage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <Link to="/library" className={pageStyles.backLink}>← Library</Link>
-      {' / '}
-      <Link to="/projects" className={`${pageStyles.backLink} ${pageStyles.eyebrowCurrent}`}>Projects</Link>
+      <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Projects', href: '/projects' }, { label: project.name }]} />
 
       {/* ── Colour accent bar ─────────────────────────────────────────── */}
       <div className={`${pageStyles.accentBar} ${styles.accentBarProject}`} style={accentStyle} aria-hidden="true" />

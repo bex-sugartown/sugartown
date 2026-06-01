@@ -7,7 +7,7 @@
  * All layout via shared pageStyles — no page-specific CSS module needed.
  */
 import { useParams, Link } from 'react-router-dom'
-import { Grid, SectionLabel } from '../design-system'
+import { Grid, SectionLabel, Breadcrumb } from '../design-system'
 import { toolBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -86,9 +86,7 @@ export default function ToolDetailPage() {
     <main className={pageStyles.entityDetailPage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <Link to="/library" className={pageStyles.backLink}>← Library</Link>
-      {' / '}
-      <Link to="/tools" className={`${pageStyles.backLink} ${pageStyles.eyebrowCurrent}`}>Tools & Platforms</Link>
+      <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Tools & Platforms', href: '/tools' }, { label: tool.name }]} />
 
       {/* ── Folio ─────────────────────────────────────────────────── */}
       <div className={pageStyles.entityFolio} style={{ '--entity-thumb-size': '72px' }}>

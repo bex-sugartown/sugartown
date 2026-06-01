@@ -57,6 +57,7 @@ import portableTextComponents from '../lib/portableTextComponents'
 import NotFoundPage from './NotFoundPage'
 import KnowledgeGraph from '../components/KnowledgeGraph/KnowledgeGraph'
 import statsJson from '../generated/stats.json'
+import { Breadcrumb } from '../design-system'
 import styles from './pages.module.css'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -460,7 +461,7 @@ export default function ArchivePage({ archiveSlug }) {
 
       <header className={styles.masthead}>
         {archiveSlug !== 'library' && (
-          <Link to="/library" className={`${styles.backLink} ${styles.eyebrowCurrent}`}>← Library</Link>
+          <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: heading }]} />
         )}
         <h1 className={`${styles.archiveHeading} ${styles.archiveHeadingItalic}`}>{heading}<DraftBadge docId={archiveDoc._id} /></h1>
         {subheading && (

@@ -20,6 +20,7 @@ import ContentCard from '../components/ContentCard'
 import FilterStrip from '../components/FilterStrip'
 import portableTextComponents from '../lib/portableTextComponents'
 import statsJson from '../generated/stats.json'
+import { Breadcrumb } from '../design-system'
 import styles from './SiteGraphPage.module.css'
 import pageStyles from './pages.module.css'
 
@@ -194,11 +195,7 @@ export default function SiteGraphPage() {
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
       <header className={pageStyles.masthead}>
-        <p className={pageStyles.eyebrow}>
-          <Link to="/library" className={pageStyles.backLink}>← Library</Link>
-          {' / '}
-          <span className={pageStyles.eyebrowCurrent}>Knowledge Graph</span>
-        </p>
+        <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Knowledge Graph' }]} />
         <h1 className={`${pageStyles.archiveHeading} ${pageStyles.archiveHeadingItalic}`}>{heading}</h1>
         {subheading && (
           Array.isArray(subheading)

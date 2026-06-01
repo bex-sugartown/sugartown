@@ -35,6 +35,7 @@ import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import Pagination from '../components/Pagination'
 import NotFoundPage from './NotFoundPage'
+import { Breadcrumb } from '../design-system'
 import pageStyles from './pages.module.css'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -103,13 +104,9 @@ function TaxonomyHeader({ taxDoc, config }) {
         />
       )}
       {config.type === 'person' ? (
-        <Link to={backPath} className={`${pageStyles.backLink} ${pageStyles.eyebrowCurrent}`}>← All {config.pluralLabel}</Link>
+        <Breadcrumb items={[{ label: config.pluralLabel, href: backPath }, { label: name }]} />
       ) : (
-        <>
-          <Link to="/library" className={pageStyles.backLink}>← Library</Link>
-          {' / '}
-          <Link to={backPath} className={`${pageStyles.backLink} ${pageStyles.eyebrowCurrent}`}>{config.pluralLabel}</Link>
-        </>
+        <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: config.pluralLabel, href: backPath }, { label: name }]} />
       )}
       <h1 className={pageStyles.archiveHeading}>{name}</h1>
       {description && (

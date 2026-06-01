@@ -406,6 +406,10 @@
   --st-index-cell-font-size: 0.6875rem;
   --st-index-cell-weight: 600;
   --st-index-cell-inactive-color: #c6c6c8;
+  --st-breadcrumb-gap: 6px;
+  --st-breadcrumb-font-size: 0.6875rem;
+  --st-breadcrumb-font-weight: 700;
+  --st-breadcrumb-letter-spacing: 0.08em;
   --st-color-pink: var(--st-color-pink-500);
   --st-color-maroon: var(--st-color-maroon-600);
   --st-color-lime: var(--st-color-lime-400);
@@ -616,6 +620,8 @@
   --st-segmented-fg: var(--st-color-text-muted);
   --st-segmented-active-fg: var(--st-color-text-default);
   --st-pri-high: var(--st-color-pink);
+  --st-breadcrumb-link-color: var(--st-color-text-muted);
+  --st-breadcrumb-sep-color: var(--st-color-text-muted);
   --st-color-link-default: var(--st-color-brand-primary);
   --st-color-link-hover: var(--st-color-brand-secondary);
   --st-pill-text: var(--st-color-text-brand);
@@ -632,4 +638,5 @@
   --st-graph-bg: var(--st-color-bg-canvas);
   --st-color-bg-void: var(--st-color-bg-midnight);
   --st-focus: var(--st-color-focus);
+  --st-breadcrumb-current-color: var(--st-color-brand-primary);
 }

@@ -11,6 +11,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { getCanonicalPath } from '../lib/routes'
 import SeoHead from '../components/SeoHead'
 import NotFoundPage from './NotFoundPage'
+import { Breadcrumb } from '../design-system'
 import pageStyles from './pages.module.css'
 
 const TYPE_LABELS = { article: 'Article', node: 'Node', caseStudy: 'Case Study', page: 'Page' }
@@ -45,9 +46,7 @@ export default function SeriesPage() {
     <main className={pageStyles.entityDetailPage}>
       <SeoHead seo={seo} />
 
-      <Link to="/library" className={pageStyles.backLink}>
-        ← Library
-      </Link>
+      <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Series' }]} />
 
       <div className={pageStyles.folioIdentity}>
         <p className={pageStyles.detailEyebrow}>Series</p>

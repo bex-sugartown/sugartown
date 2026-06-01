@@ -31,7 +31,7 @@ function LinkedInIcon({ size = 24, color = 'currentColor', className, ...props }
     </svg>
   )
 }
-import { Grid, SectionLabel } from '../design-system'
+import { Grid, SectionLabel, Breadcrumb } from '../design-system'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
@@ -110,9 +110,7 @@ export default function PersonProfilePage() {
     <main className={styles.profilePage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(person, siteSettings)} />
 
-      <Link to="/people" className={pageStyles.backLink}>
-        ← All People
-      </Link>
+      <Breadcrumb items={[{ label: 'People', href: '/people' }, { label: person.name }]} />
 
       {/* ── Folio ─────────────────────────────────────────────────── */}
       <section className={styles.profileFolio}>
