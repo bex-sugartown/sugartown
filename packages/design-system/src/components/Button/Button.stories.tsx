@@ -103,39 +103,6 @@ export const AllVariants: Story = {
   ),
 };
 
-const Row = ({ label, children }: { label: string; children: React.ReactNode }) => (
-  <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
-    <span style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: '#888', width: '5rem', flexShrink: 0 }}>{label}</span>
-    {children}
-  </div>
-);
-
-export const Snapshot: Story = {
-  name: 'Snapshot — SUG-116 Baseline Rule',
-  parameters: { chromatic: { disableSnapshot: false } },
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', padding: '1rem' }}>
-      <Row label="variants">
-        <Button variant="primary">Primary</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="tertiary">Tertiary</Button>
-      </Row>
-      <Row label="states">
-        <Button variant="primary">Default</Button>
-        <Button variant="primary" disabled>Disabled</Button>
-      </Row>
-      <Row label="sizes">
-        <Button variant="secondary" size="sm">Small</Button>
-        <Button variant="secondary" size="md">Medium</Button>
-        <Button variant="secondary" size="lg">Large</Button>
-      </Row>
-      <Row label="long label">
-        <Button variant="primary">Platform selection risk is real — here is what reduces it</Button>
-      </Row>
-    </div>
-  ),
-};
-
 export const OnDarkBackground: Story = {
   render: () => (
     <div
@@ -257,8 +224,8 @@ export const PinkMoonOnVoid: Story = {
 // ═══════════════════════════════════════════════════════════════════
 
 /**
- * Chromatic snapshot — all variants and states composed into a single
- * screenshot for VRT baseline.
+ * Chromatic snapshot — variants, states, sizes, and long label.
+ * Updated for SUG-116 Baseline Rule to include sm/md/lg size row.
  */
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
@@ -276,16 +243,23 @@ export const Snapshot: Story = {
         </div>
       </div>
       <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Disabled</h4>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>States</h4>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          <Button variant="primary" disabled>Primary</Button>
-          <Button variant="secondary" disabled>Secondary</Button>
-          <Button variant="tertiary" disabled>Tertiary</Button>
+          <Button variant="primary">Default</Button>
+          <Button variant="primary" disabled>Disabled</Button>
+        </div>
+      </div>
+      <div>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Sizes</h4>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <Button variant="secondary" size="sm">Small</Button>
+          <Button variant="secondary" size="md">Medium</Button>
+          <Button variant="secondary" size="lg">Large</Button>
         </div>
       </div>
       <div>
         <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Long label</h4>
-        <Button variant="primary">This is a very long button label that tests wrapping</Button>
+        <Button variant="primary">Platform selection risk is real — here is what reduces it</Button>
       </div>
     </div>
   ),
