@@ -7,10 +7,19 @@
  * Projects field omitted in stats pipeline — rendered as empty chip list.
  */
 import Table, { TableWrap } from '../../design-system/components/table/Table'
-import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
 import Swatch from '../../design-system/components/swatch/Swatch'
 import Chip from '../../design-system/components/chip/Chip'
 import styles from './TablesDevPage.module.css'
+
+// KindBadge — inline after DataTable shim deletion (SUG-126)
+function KindBadge({ kind }) {
+  const colors = { minor: '#2BD4AA', major: '#FF247D', patch: '#888' }
+  return (
+    <span style={{ fontFamily: 'monospace', fontSize: '11px', fontWeight: 700, padding: '2px 6px', background: colors[kind] ?? '#888', color: '#fff', borderRadius: 2 }}>
+      {kind}
+    </span>
+  )
+}
 
 const PRIORITY_SWATCH = {
   high:   { color: 'var(--st-pri-high)', label: 'High' },
@@ -193,13 +202,10 @@ export default function TablesDevPage() {
           <RoadmapLane label="Backlog" epics={BACKLOG} />
         </Section>
 
-        <Section id="releases" label="DataTable (deprecated shim) — trust/subdued variant">
-          <DataTable
-            variant="trust"
-            caption="Recent releases"
-            columns={RELEASE_COLUMNS}
-            rows={RELEASE_ROWS}
-          />
+        <Section id="releases" label="Table tone=subdued — release history">
+          <TableWrap caption="Recent releases">
+            <Table tone="subdued" columns={RELEASE_COLUMNS} rows={RELEASE_ROWS} />
+          </TableWrap>
         </Section>
 
         <Section id="registry" label="Table — accent, many columns, layout=fixed">

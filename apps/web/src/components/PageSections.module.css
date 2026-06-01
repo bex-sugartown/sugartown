@@ -288,10 +288,6 @@
 }
 
 .heroActions {
-  display: flex;
-  gap: var(--st-spacing-inline-lg);
-  justify-content: center;
-  flex-wrap: wrap;
   margin-top: var(--st-spacing-stack-lg);
 }
 
@@ -880,13 +876,6 @@
   margin: 0 0 var(--st-spacing-stack-lg);
 }
 
-.ctaButtons {
-  display: flex;
-  gap: var(--st-spacing-inline-lg);
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
 /* ============================================
    HTML Section — raw HTML containment wrapper
    ============================================ */
@@ -1167,9 +1156,6 @@
   .carouselPrev { left: 0; }
   .carouselNext { right: 0; }
 
-  .ctaButtons {
-    flex-direction: column;
-  }
 }
 
 @media (max-width: 480px) {

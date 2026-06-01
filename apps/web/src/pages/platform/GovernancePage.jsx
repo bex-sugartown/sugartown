@@ -4,7 +4,6 @@ import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import Grid from '../../design-system/components/grid/Grid'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Tile from '../../design-system/components/tile/Tile'
-import DataTable, { KindBadge } from '../../design-system/components/data-table/DataTable'
 import Callout from '../../design-system/components/callout/Callout'
 import Table, { TableWrap } from '../../design-system/components/table/Table'
 import Swatch from '../../design-system/components/swatch/Swatch'
@@ -14,6 +13,12 @@ import CwvSnapshot from '../../components/CwvSnapshot'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import stats from '../../generated/stats.json'
 import styles from './PlatformHubPage.module.css'
+
+// ── KindBadge — inline after DataTable shim deletion ──────
+function KindBadge({ kind }) {
+  const cls = { minor: styles.badgeMinor, major: styles.badgeMajor, patch: styles.badgePatch }
+  return <span className={[styles.badge, cls[kind] ?? ''].filter(Boolean).join(' ')}>{kind}</span>
+}
 
 // ── Release table ─────────────────────────────────────────
 const RELEASE_COLUMNS = [
@@ -169,7 +174,7 @@ export default function GovernancePage() {
             title="Latest shipped versions"
             kicker="Last 5"
           />
-          <DataTable columns={RELEASE_COLUMNS} rows={RECENT_RELEASES} variant="trust" />
+          <TableWrap><Table tone="subdued" columns={RELEASE_COLUMNS} rows={RECENT_RELEASES} /></TableWrap>
           <div className={styles.trustLinks}>
             <a href={TRUST_LINKS.changelog} className={styles.trustLink} target="_blank" rel="noreferrer">Full changelog</a>
             <a href={TRUST_LINKS.commits}   className={styles.trustLink} target="_blank" rel="noreferrer">Commit log</a>

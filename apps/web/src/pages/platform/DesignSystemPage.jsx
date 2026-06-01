@@ -3,7 +3,7 @@ import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import Tile from '../../design-system/components/tile/Tile'
 import Grid from '../../design-system/components/grid/Grid'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import DataTable from '../../design-system/components/data-table/DataTable'
+import Table, { TableWrap } from '../../design-system/components/table/Table'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS, FIGJAM_URLS } from '../../lib/routes'
 import stats from '../../generated/stats.json'
@@ -106,7 +106,7 @@ export default function DesignSystemPage() {
 
         <section id="component-registry" className={styles.section}>
           <SectionLabel level="h3" number="§02" name="COMPONENT REGISTRY" title="Primitives and adapters" kicker={ds.dsComponents ? `${REGISTRY_PREVIEW.length} of ${REGISTRY_TOTAL} shown` : 'Primitives and adapters'} />
-          <DataTable columns={REGISTRY_COLUMNS} rows={REGISTRY_PREVIEW} variant="trust" />
+          <TableWrap><Table tone="subdued" columns={REGISTRY_COLUMNS} rows={REGISTRY_PREVIEW} /></TableWrap>
           <div className={styles.trustLinks}>
             <a href={PLATFORM_ROUTES.dsRegistry} className={styles.trustLink}>
               Full registry ↗

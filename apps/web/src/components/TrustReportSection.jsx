@@ -14,10 +14,21 @@ function buildKicker() {
 }
 import { TRUST_LINKS } from '../lib/routes'
 import Tile from '../design-system/components/tile/Tile'
-import DataTable, { KindBadge } from '../design-system/components/data-table/DataTable'
+import Table, { TableWrap } from '../design-system/components/table/Table'
 import SectionLabel from '../design-system/components/section-label/SectionLabel'
 import CwvSnapshot from './CwvSnapshot'
 import styles from './TrustReportSection.module.css'
+
+// ── KindBadge — moved here from deleted DataTable shim ─────────────────────
+
+function KindBadge({ kind }) {
+  const cls = {
+    minor: styles.badgeMinor,
+    major: styles.badgeMajor,
+    patch: styles.badgePatch,
+  }
+  return <span className={[styles.badge, cls[kind] ?? ''].filter(Boolean).join(' ')}>{kind}</span>
+}
 
 // ── Recent Releases Report ──────────────────────────────────────────────────
 
@@ -53,11 +64,9 @@ function RecentReleasesReport() {
 
   return (
     <div className={styles.reportWrap}>
-      <DataTable
-        columns={RELEASE_COLUMNS}
-        rows={releases}
-        variant="trust"
-      />
+      <TableWrap>
+        <Table tone="subdued" columns={RELEASE_COLUMNS} rows={releases} />
+      </TableWrap>
       <div className={styles.reportFooter}>
         <a href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer" className={styles.footerLink}>
           Full changelog
@@ -74,11 +83,9 @@ function MiniReleasesReport() {
 
   return (
     <div className={styles.reportWrap}>
-      <DataTable
-        columns={RELEASE_COLUMNS}
-        rows={patches}
-        variant="trust"
-      />
+      <TableWrap>
+        <Table tone="subdued" columns={RELEASE_COLUMNS} rows={patches} />
+      </TableWrap>
       <div className={styles.reportFooter}>
         <a href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer" className={styles.footerLink}>
           Full changelog

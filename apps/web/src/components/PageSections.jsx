@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { PortableText } from '@portabletext/react'
-import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Tile, Grid, SectionLabel } from '../design-system'
+import { Button, ButtonGroup, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Tile, Grid, SectionLabel } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
 import stats from '../generated/stats.json'
 import { TRUST_LINKS, getCanonicalPath } from '../lib/routes'
@@ -275,7 +275,7 @@ function HeroSection({ section }) {
         </p>
       )}
       {(primary || secondary || tertiary) && (
-        <div className={styles.heroActions}>
+        <ButtonGroup align="center" className={styles.heroActions}>
           {primary && (
             <Button
               variant={mapCtaStyle(primary.style, 'primary')}
@@ -303,7 +303,7 @@ function HeroSection({ section }) {
               {tertiary.label}
             </Button>
           )}
-        </div>
+        </ButtonGroup>
       )}
       {showStatRail && <StatRail />}
     </>
@@ -767,7 +767,7 @@ function CTASection({ section }) {
       {heading && <h2 className={styles.ctaHeading}>{heading}</h2>}
       {description && <p className={styles.ctaDescription}>{description}</p>}
       {buttons && buttons.length > 0 && (
-        <div className={styles.ctaButtons}>
+        <ButtonGroup align="center">
           {buttons.map((button, index) => (
             <Button
               key={index}
@@ -778,7 +778,7 @@ function CTASection({ section }) {
               {button.text}
             </Button>
           ))}
-        </div>
+        </ButtonGroup>
       )}
     </section>
   )

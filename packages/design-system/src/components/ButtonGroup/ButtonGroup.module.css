@@ -1,0 +1,11 @@
+.group {
+  display: flex;
+  flex-direction: row;
+  gap: var(--st-spacing-inline-lg);
+}
+
+.wrap { flex-wrap: wrap; }
+
+.start  { justify-content: flex-start; }
+.center { justify-content: center; }
+.end    { justify-content: flex-end; }
