@@ -58,7 +58,7 @@ export default function ProjectDetailPage() {
     <main className={styles.projectPage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Projects', href: '/projects' }, { label: project.name }]} />
+      <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Projects', href: '/projects' }]} />
 
       {/* ── Colour accent bar ─────────────────────────────────────────── */}
       <div className={`${pageStyles.accentBar} ${styles.accentBarProject}`} style={accentStyle} aria-hidden="true" />

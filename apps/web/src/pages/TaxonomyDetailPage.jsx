@@ -104,9 +104,9 @@ function TaxonomyHeader({ taxDoc, config }) {
         />
       )}
       {config.type === 'person' ? (
-        <Breadcrumb items={[{ label: config.pluralLabel, href: backPath }, { label: name }]} />
+        <Breadcrumb items={[{ label: config.pluralLabel, href: backPath }]} />
       ) : (
-        <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: config.pluralLabel, href: backPath }, { label: name }]} />
+        <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: config.pluralLabel, href: backPath }]} />
       )}
       <h1 className={pageStyles.archiveHeading}>{name}</h1>
       {description && (

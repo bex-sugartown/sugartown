@@ -110,7 +110,7 @@ export default function PersonProfilePage() {
     <main className={styles.profilePage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(person, siteSettings)} />
 
-      <Breadcrumb items={[{ label: 'People', href: '/people' }, { label: person.name }]} />
+      <Breadcrumb items={[{ label: 'People', href: '/people' }]} />
 
       {/* ── Folio ─────────────────────────────────────────────────── */}
       <section className={styles.profileFolio}>

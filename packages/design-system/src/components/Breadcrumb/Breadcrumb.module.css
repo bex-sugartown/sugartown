@@ -8,7 +8,7 @@
   font-weight: var(--st-breadcrumb-font-weight);
   letter-spacing: var(--st-breadcrumb-letter-spacing);
   text-transform: uppercase;
-  margin: 0 0 8px;
+  margin: 0 0 16px;
 }
 
 .link {

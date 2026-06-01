@@ -80,43 +80,37 @@ export default function ToolDetailPage() {
   const eyebrow   = [typeLabel, kindLabel].filter(Boolean).join(' · ')
 
   const logoUrl = tool.logo?.asset?.url ?? null
-  const abbrev  = tool.name?.split(/\s+/).map(w => w[0]).join('').slice(0, 4).toUpperCase()
 
   return (
     <main className={pageStyles.entityDetailPage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Tools & Platforms', href: '/tools' }, { label: tool.name }]} />
+      <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Tools & Platforms', href: '/tools' }]} />
 
       {/* ── Folio ─────────────────────────────────────────────────── */}
       <div className={pageStyles.entityFolio} style={{ '--entity-thumb-size': '72px' }}>
-        {/* Logo */}
-        {logoUrl ? (
+        {/* Logo — only when an actual image is available; no initial-letter fallback */}
+        {logoUrl && (
           <img
             src={logoUrl}
             alt={tool.logo?.alt ?? `${tool.name} logo`}
-            className={pageStyles.entityThumbnail}
             className={styles.toolLogoImg}
             width={72}
             height={72}
             loading="lazy"
             decoding="async"
           />
-        ) : (
-          <div className={pageStyles.entityThumbnailFallback} aria-hidden="true">
-            {abbrev}
-          </div>
         )}
 
-        {/* Identity */}
+        {/* Identity — H1 first, metadata second */}
         <div className={pageStyles.folioIdentity}>
-          {eyebrow && (
-            <p className={pageStyles.detailEyebrow}>{eyebrow}</p>
-          )}
           <h1 className={pageStyles.narrativeHeading}>
             {tool.name}
             <DraftBadge docId={tool._id} />
           </h1>
+          {eyebrow && (
+            <p className={pageStyles.detailEyebrow}>{eyebrow}</p>
+          )}
           {tool.description && (
             <p className={pageStyles.entityDescription}>{tool.description}</p>
           )}
