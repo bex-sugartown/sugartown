@@ -195,7 +195,9 @@ export default function SiteGraphPage() {
 
       <header className={pageStyles.masthead}>
         <p className={pageStyles.eyebrow}>
-          <span className={pageStyles.eyebrowCurrent}>Library</span>
+          <Link to="/library" className={pageStyles.backLink}>← Library</Link>
+          {' / '}
+          <span className={pageStyles.eyebrowCurrent}>Knowledge Graph</span>
         </p>
         <h1 className={`${pageStyles.archiveHeading} ${pageStyles.archiveHeadingItalic}`}>{heading}</h1>
         {subheading && (
