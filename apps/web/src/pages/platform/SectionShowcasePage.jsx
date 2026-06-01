@@ -41,7 +41,7 @@ export default function SectionShowcasePage() {
     <>
       <SeoHead seo={seo} />
       {contentSections.length > 0 && (
-        <PageSections sections={contentSections} />
+        <PageSections sections={contentSections} context="detail" />
       )}
     </>
   )
