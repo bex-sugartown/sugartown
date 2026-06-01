@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-01 · v0.25.10 released — SUG-134 Phase 1 KG empty-hub filter. Queue: SUG-134 Phase 2 → SUG-116.
+> Updated 2026-06-01 · v0.25.11 released — SUG-134 fully shipped. Queue: SUG-116 (Ledger Button Update).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.25.10 released ✅ 2026-06-01. SUG-134 Phase 1 shipped (KG empty-hub filter). Phase 2 (taxonomy enrichment) in queue → SUG-116 (Ledger Button Update).
+> **⚑ Current focus:** v0.25.11 released ✅ 2026-06-01. SUG-134 fully shipped (KG filter + taxonomy enrichment). Next: SUG-116 (Ledger Button Update).
 
 ---
 
@@ -56,7 +56,7 @@
 | 10 | ~~**[SUG-135](https://linear.app/sugartown/issue/SUG-135) · TL;DR Layout Standardisation** — 14 docs patched + published. Shipped v0.25.4.~~ | `Content` | ✅ Shipped |
 | 12 | ~~**[SUG-130](https://linear.app/sugartown/issue/SUG-130) · Platform selection risk article** — VoPM practitioner essay; 4 citations (AEM, Contentful, AEO, LLMs); series addendum to POC node. Shipped v0.25.6.~~ | `Content` | ✅ Shipped |
 | 11 | ~~**[SUG-133](https://linear.app/sugartown/issue/SUG-133) · AEO Authority Building** — LinkedIn + GitHub citing sugartown.io; /now page live; Medium mirror with rel=canonical; Three Agents section in AG article; GitHub graph fixed. Shipped v0.25.5.~~ | `Content` `UX` | ✅ Shipped |
-| 9 | **[SUG-134](https://linear.app/sugartown/issue/SUG-134) · Knowledge Graph UX Cleanup** — Phase 1 ✅ shipped v0.25.10: empty-hub filter active. Phase 2 pending: taxonomy enrichment suggestions with human approval gate. Epic: `docs/backlog/SUG-134-knowledge-graph-ux-cleanup.md`. | `UX` `Infrastructure` | 🟣 Soon |
+| 9 | ~~**[SUG-134](https://linear.app/sugartown/issue/SUG-134) · Knowledge Graph UX Cleanup** — Phase 1: empty-hub filter (v0.25.10). Phase 2: taxonomy enrichment — AI category on 3 docs (v0.25.11). Shipped.~~ | `UX` `Infrastructure` | ✅ Shipped |
 | 5 | **[SUG-121](https://linear.app/sugartown/issue/SUG-121) · Design System — Section Module Showcase** — Public-facing Sanity `page` at `/platform/design-system/sections` showing every available section type and variant with intentional placeholder copy. Linked from Design System sidebar nav. No new schema or renderers. Epic: `docs/backlog/SUG-121-design-system-section-module-showcase.md`. | `Design System` `Content` `Frontend` | 🟣 Soon |
 | 1 | ~~**[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Shipped.~~ | `Performance` `Tooling` `Infrastructure` | ✅ Shipped |
 | 3 | ~~**[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — `useScrollspy` hook extracted, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors fixed + pre-commit gate activated. Shipped v0.23.24.~~ | `Design System` `Frontend` `Tooling` | ✅ Shipped |
@@ -211,4 +211,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-01 · v0.25.10 released · queue: SUG-134 Phase 2 → SUG-116*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-01 · v0.25.11 released · queue: SUG-116*
