@@ -37,10 +37,10 @@ Not touched: the FilterStrip component API, the force-graph canvas renderer, Sto
 
 ### Phase 2 — Taxonomy enrichment suggestions (human-review gate)
 
-- [ ] **Analyse content taxonomy coverage** — for each enabled content type (article, caseStudy, node), query all published documents and identify: missing `tags[]`, missing `tools[]`, missing `categories[]`, missing `project[]` assignments. Layer: Sanity GROQ query (read-only).
-- [ ] **Generate enrichment proposal** — for each document with gaps, suggest 2–3 candidate tags, tools, or taxonomy assignments based on document title, body content, and existing taxonomy vocabulary. Present as a before/after proposal table per the Content Write Gate format. Layer: content (proposal only — no writes).
-- [ ] **Human approval** — wait for explicit per-document approval before any patch. The Content Write Gate fires for every document. Layer: process gate.
-- [ ] **Apply approved patches** — write approved taxonomy assignments to Sanity via `patch_document_from_json` (verbatim, no AI rewriting). Layer: content / Sanity MCP.
+- [x] **Analyse content taxonomy coverage** — 71 documents queried. 5 primary gaps found (missing categories or tools). 1 flagged for manual review (wp.article.814 — no clear tool match without reading full content).
+- [x] **Generate enrichment proposal** — before/after proposal table produced for all 5 gap documents. Content Write Gate fired.
+- [x] **Human approval** — approved 3 of 4 proposed patches (2026-06-01). wp.article.410 tools patch declined. wp.article.814 flagged for manual review (no action).
+- [x] **Apply approved patches** — AI category applied to wp.article.1788, wp.node.1702, wp.node.863 via `patch_document_from_json`. All 3 published.
 
 ## Phases
 
