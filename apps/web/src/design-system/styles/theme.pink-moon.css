@@ -264,4 +264,9 @@
 
   /* IndexCell — inactive state on dark canvas */
   --st-index-cell-inactive-color: rgba(255, 255, 255, 0.18);
+
+  /* Card hover — match light-pink-moon: pink border, no lift, no shadow */
+  --st-card-hover-border:       var(--st-color-pink);
+  --st-card-hover-translate-y:  0px;
+  --st-card-hover-shadow:       none;
 }
