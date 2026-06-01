@@ -192,32 +192,3 @@ export const Snapshot: Story = {
   ),
 };
 
-/**
- * Dark mode — pink border on hover, no lift, no shadow.
- * Fixed in SUG-139 (card hover tokens added to dark-pink-moon theme block).
- * Use the theme toolbar to confirm hover state — use this story to verify
- * the dark canvas renders correctly without HMR.
- */
-export const DarkMode: Story = {
-  name: 'Dark Mode',
-  parameters: {
-    backgrounds: { disable: true },
-    chromatic: { disableSnapshot: false },
-    layout: 'padded',
-  },
-  decorators: [
-    (Story) => (
-      <div data-theme="dark-pink-moon" style={{ background: '#0D1226', padding: '2rem', borderRadius: '8px' }}>
-        <Story />
-      </div>
-    ),
-    withRouter,
-  ],
-  render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 380px)', gap: '1.5rem' }}>
-      <ContentCard item={NODE_ITEM} docType="node" />
-      <ContentCard item={ARTICLE_ITEM} />
-      <ContentCard item={CASE_STUDY_ITEM} />
-    </div>
-  ),
-};
