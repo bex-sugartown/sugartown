@@ -18,6 +18,7 @@ import styles from './Button.module.css'
  */
 export default function Button({
   variant = 'primary',
+  size = 'md',
   href,
   openInNewTab,
   onClick,
@@ -32,7 +33,9 @@ export default function Button({
         ? styles.tertiary
         : styles.primary
 
-  const classes = `${styles.button} ${variantClass} ${className}`.trim()
+  const sizeClass = size !== 'md' ? styles[size] : ''
+
+  const classes = [styles.button, variantClass, sizeClass, className].filter(Boolean).join(' ')
 
   if (href) {
     const external = isExternalUrl(href) || openInNewTab

@@ -254,10 +254,8 @@
   --st-shadow-table-card-light: 0 6px 16px rgba(0, 0, 0, 0.08);
   --st-shadow-elevation-float-light: 0 12px 30px rgba(13, 18, 38, 0.10);
   --st-shadow-elevation-float-dark: 0 12px 30px rgba(13, 18, 38, 0.30);
-  --st-shadow-button-active: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --st-shadow-button-active: 0 10px 22px rgba(0,0,0,0.10);
   --st-shadow-button-active-dark: 0 2px 6px rgba(0, 0, 0, 0.30);
-  --st-shadow-button-edge-primary: rgba(0, 0, 0, 0.15);
-  --st-shadow-button-edge-secondary: rgba(0, 0, 0, 0.08);
   --st-shadow-table-inner: 0 4px 10px rgba(0, 0, 0, 0.10);
   --st-shadow-code-dark: 0 4px 24px rgba(0, 0, 0, 0.40), 0 0 0 1px rgba(255, 255, 255, 0.07);
   --st-shadow-code-base: 0 4px 10px rgba(0, 0, 0, 0.20);
@@ -547,6 +545,9 @@
   --st-segmented-border: var(--st-color-border-subtle);
   --st-pri-med: var(--st-color-amber-450);
   --st-pri-low: var(--st-color-softgrey-400);
+  --st-color-button-rule-primary: var(--st-color-pink-700);
+  --st-color-button-rule-secondary: var(--st-color-lime-500);
+  --st-color-button-rule-tertiary: var(--st-color-neutral-300);
   --st-color-brand-primary: var(--st-color-pink);
   --st-color-brand-secondary: var(--st-color-maroon);
   --st-color-accent: var(--st-color-pink);
