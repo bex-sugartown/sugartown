@@ -9,3 +9,15 @@
 .start  { justify-content: flex-start; }
 .center { justify-content: center; }
 .end    { justify-content: flex-end; }
+
+@media (max-width: 520px) {
+  .group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .group > * {
+    width: 100%;
+    text-align: center;
+  }
+}
