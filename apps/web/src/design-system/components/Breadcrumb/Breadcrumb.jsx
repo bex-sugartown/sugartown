@@ -20,21 +20,26 @@ export default function Breadcrumb({ items, className }) {
       {items.map((item, i) => {
         const isFirst = i === 0
         const isLast = i === items.length - 1
-        const isCurrent = isLast && !item.href
+        // Pink on the last item only when it has siblings — sole back-links stay muted
+        const isHighlighted = isLast && items.length > 1
 
         return (
           <span key={i} className={styles.crumb}>
             {i > 0 && <span className={styles.sep} aria-hidden="true">/</span>}
-            {isCurrent ? (
+            {item.href ? (
+              <Link
+                to={item.href}
+                className={[styles.link, isHighlighted && styles.current].filter(Boolean).join(' ')}
+                aria-current={isLast ? 'page' : undefined}
+              >
+                {isFirst && <span className={styles.arrow} aria-hidden="true">← </span>}
+                {item.label}
+              </Link>
+            ) : (
               <span className={styles.current} aria-current="page">
                 {isFirst && <span className={styles.arrow} aria-hidden="true">← </span>}
                 {item.label}
               </span>
-            ) : (
-              <Link to={item.href} className={styles.link}>
-                {isFirst && <span className={styles.arrow} aria-hidden="true">← </span>}
-                {item.label}
-              </Link>
             )}
           </span>
         )

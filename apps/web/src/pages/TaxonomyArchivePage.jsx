@@ -248,7 +248,7 @@ export default function TaxonomyArchivePage() {
   return (
     <main className={`${styles.archivePage}${config.layout === 'flat-grid' ? ` ${styles.archivePageWide}` : ''}`}>
       {pathSegment !== 'people' && (
-        <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: config.title }]} />
+        <Breadcrumb items={[{ label: 'Library', href: '/library' }]} />
       )}
       <div className={styles.archiveHeader}>
         <h1 className={styles.archiveTitle}>{config.title}</h1>

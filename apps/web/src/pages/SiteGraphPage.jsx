@@ -195,7 +195,7 @@ export default function SiteGraphPage() {
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
       <header className={pageStyles.masthead}>
-        <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Knowledge Graph' }]} />
+        <Breadcrumb items={[{ label: 'Library', href: '/library' }]} />
         <h1 className={`${pageStyles.archiveHeading} ${pageStyles.archiveHeadingItalic}`}>{heading}</h1>
         {subheading && (
           Array.isArray(subheading)

@@ -461,7 +461,7 @@ export default function ArchivePage({ archiveSlug }) {
 
       <header className={styles.masthead}>
         {archiveSlug !== 'library' && (
-          <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: heading }]} />
+          <Breadcrumb items={[{ label: 'Library', href: '/library' }]} />
         )}
         <h1 className={`${styles.archiveHeading} ${styles.archiveHeadingItalic}`}>{heading}<DraftBadge docId={archiveDoc._id} /></h1>
         {subheading && (
