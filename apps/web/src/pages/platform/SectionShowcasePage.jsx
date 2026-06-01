@@ -22,9 +22,14 @@ export default function SectionShowcasePage() {
   const { data: doc, loading, notFound } = useSanityDoc(pageBySlugQuery, { slug: SHOWCASE_SLUG })
   const siteSettings = useSiteSettings()
 
+  // Extract heroSection settings to drive the platform hero slot.
+  // heroSection is filtered out of rendered content to avoid a duplicate header.
+  const heroSection = doc?.sections?.find(s => s._type === 'heroSection' || s._type === 'hero')
+  const contentSections = doc?.sections?.filter(s => s._type !== 'heroSection' && s._type !== 'hero') ?? []
+
   usePlatformHero({
-    title: doc?.title ?? 'Section Module Showcase',
-    subtitle: doc?.description ?? null,
+    title: heroSection?.heading ?? doc?.title ?? 'Section Module Showcase',
+    subtitle: heroSection?.subheading ?? doc?.description ?? null,
   })
 
   if (loading) return <div className={pageStyles.loadingPage}>Loading…</div>
@@ -35,8 +40,8 @@ export default function SectionShowcasePage() {
   return (
     <>
       <SeoHead seo={seo} />
-      {doc.sections?.length > 0 && (
-        <PageSections sections={doc.sections} />
+      {contentSections.length > 0 && (
+        <PageSections sections={contentSections} />
       )}
     </>
   )
