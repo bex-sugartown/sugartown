@@ -135,4 +135,9 @@
   --st-table-header-bg-subdued:       var(--st-color-midnight-700);
   --st-table-header-color-subdued:    var(--st-color-text-muted);
   --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 4%, transparent);
+
+  /* Card hover — match light-pink-moon: pink border, no lift, no shadow */
+  --st-card-hover-border:       var(--st-color-pink);
+  --st-card-hover-translate-y:  0px;
+  --st-card-hover-shadow:       none;
 }
