@@ -508,6 +508,7 @@
   --st-table-last-row-border: var(--st-color-rule-accent);
   --st-table-row-bg-zebra-subdued: var(--st-color-neutral-50);
   --st-table-zebra-bg: var(--st-color-midnight-700);
+  --st-table-wrap-border: var(--st-color-border-default);
   --st-table-card-radius: var(--st-radius-md);
   --st-stat-tile-border: var(--st-color-border-subtle);
   --st-stat-tile-bar-track: var(--st-color-border-subtle);

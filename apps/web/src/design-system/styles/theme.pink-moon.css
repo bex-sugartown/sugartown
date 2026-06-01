@@ -71,6 +71,7 @@
   --st-callout-bg:              var(--st-callout-bg-light);
   --st-callout-border-color:    rgba(214, 51, 132, 0.35);
 
+  --st-table-wrap-border:             var(--st-color-neutral-400);  /* 2 shades darker than default border */
   --st-table-zebra-bg:                var(--st-color-softgrey-50);
   --st-table-border:                  var(--st-color-softgrey-200);
   --st-table-shadow:                  var(--st-shadow-table-light);

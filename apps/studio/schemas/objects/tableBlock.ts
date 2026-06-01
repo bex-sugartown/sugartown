@@ -44,6 +44,19 @@ export default defineType({
       initialValue: 'default',
     }),
     defineField({
+      name: 'tone',
+      title: 'Tone',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Default (accent header)', value: 'accent'},
+          {title: 'Subdued (neutral header)', value: 'subdued'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'accent',
+    }),
+    defineField({
       name: 'hasHeaderRow',
       title: 'First row is header',
       type: 'boolean',

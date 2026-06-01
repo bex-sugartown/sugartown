@@ -117,12 +117,12 @@ const portableTextComponents = {
     // Table blocks (EPIC-0163) — DS Table component with semantic HTML
     tableBlock: ({ value }) => {
       if (!value?.rows?.length) return null
-      const { variant = 'default', hasHeaderRow = true, rows } = value
+      const { variant = 'default', tone = 'accent', hasHeaderRow = true, rows } = value
       const headerRow = hasHeaderRow ? rows[0] : null
       const bodyRows = hasHeaderRow ? rows.slice(1) : rows
       return (
         <TableWrap variant={variant}>
-          <Table variant={variant}>
+          <Table variant={variant} tone={tone}>
             {headerRow && (
               <thead>
                 <tr>

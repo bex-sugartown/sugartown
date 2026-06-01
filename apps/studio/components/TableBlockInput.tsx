@@ -42,6 +42,7 @@ interface TableRow {
 interface TableBlockValue {
   _type: 'tableBlock'
   variant?: 'default' | 'responsive' | 'wide'
+  tone?: 'accent' | 'subdued'
   hasHeaderRow?: boolean
   rows?: TableRow[]
 }
@@ -213,6 +214,7 @@ export default function TableBlockInput(props: ObjectInputProps) {
   const rows: TableRow[] = value?.rows ?? []
   const hasHeaderRow = value?.hasHeaderRow ?? true
   const variant = value?.variant ?? 'default'
+  const tone = value?.tone ?? 'accent'
   const colCount = rows.length > 0 ? Math.max(...rows.map((r) => r.cells?.length ?? 0), 1) : 3
 
   // ── Patch helpers ────────────────────────────────────────────────────────
@@ -392,19 +394,35 @@ export default function TableBlockInput(props: ObjectInputProps) {
     [onChange],
   )
 
+  const handleToneChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      onChange(set(e.currentTarget.value, ['tone']))
+    },
+    [onChange],
+  )
+
   // ── Render: empty state ──────────────────────────────────────────────────
 
   if (rows.length === 0) {
     return (
       <Stack space={3} padding={3}>
-        <Flex gap={3} align="center">
-          <Box flex={1}>
+        <Flex gap={3} align="center" wrap="wrap">
+          <Box flex={1} style={{minWidth: 160}}>
             <Label size={1} muted>Table Variant</Label>
             <Box marginTop={2}>
               <Select fontSize={1} value={variant} onChange={handleVariantChange}>
                 <option value="default">Default</option>
                 <option value="responsive">Responsive (card layout on mobile)</option>
                 <option value="wide">Wide (fixed columns)</option>
+              </Select>
+            </Box>
+          </Box>
+          <Box style={{minWidth: 160}}>
+            <Label size={1} muted>Tone</Label>
+            <Box marginTop={2}>
+              <Select fontSize={1} value={tone} onChange={handleToneChange}>
+                <option value="accent">Default (accent header)</option>
+                <option value="subdued">Subdued (neutral header)</option>
               </Select>
             </Box>
           </Box>
@@ -447,6 +465,15 @@ export default function TableBlockInput(props: ObjectInputProps) {
               <option value="default">Default</option>
               <option value="responsive">Responsive</option>
               <option value="wide">Wide</option>
+            </Select>
+          </Box>
+        </Box>
+        <Box style={{minWidth: 140}}>
+          <Label size={0} muted>Tone</Label>
+          <Box marginTop={1}>
+            <Select fontSize={1} value={tone} onChange={handleToneChange}>
+              <option value="accent">Accent header</option>
+              <option value="subdued">Subdued header</option>
             </Select>
           </Box>
         </Box>
