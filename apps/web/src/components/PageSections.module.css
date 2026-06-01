@@ -880,8 +880,7 @@
    HTML Section — raw HTML containment wrapper
    ============================================ */
 :global(.st-html-section) {
-  max-width: var(--st-width-detail);
-  margin-inline: auto;
+  max-width: 100%;
   padding-block: var(--st-spacing-inset-md, 1.5rem);
 }
 
@@ -889,6 +888,12 @@
 :global(.st-html-section) img {
   max-width: 100%;
   height: auto;
+}
+
+:global(.st-html-section) iframe {
+  display: block;
+  width: 100%;
+  border: none;
 }
 
 /* ── Typography — raw WP paragraphs, headings, lists ─────────────────────── */
