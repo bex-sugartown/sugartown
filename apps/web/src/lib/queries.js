@@ -431,12 +431,6 @@ export const nodeBySlugQuery = `
           evidenceType
         }
       },
-      _type == "recentContentSection" => {
-        number,
-        name,
-        title,
-        kicker
-      }
     },
     aiTool,
     conversationType,
@@ -636,12 +630,6 @@ export const articleBySlugQuery = `
           evidenceType
         }
       },
-      _type == "recentContentSection" => {
-        number,
-        name,
-        title,
-        kicker
-      }
     },
     author,
     aiDisclosure,
@@ -822,12 +810,6 @@ export const pageBySlugQuery = `
           evidenceType
         }
       },
-      _type == "recentContentSection" => {
-        number,
-        name,
-        title,
-        kicker
-      }
     },
     publishedAt,
     authors[]->{${PERSON_FRAGMENT}},
@@ -1055,12 +1037,6 @@ export const caseStudyBySlugQuery = `
           evidenceType
         }
       },
-      _type == "recentContentSection" => {
-        number,
-        name,
-        title,
-        kicker
-      }
     },
     challengeSummary,
     aeoSummary,

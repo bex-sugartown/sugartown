@@ -107,7 +107,6 @@ export default defineType({
         defineArrayMember({type: 'calloutSection'}),
         defineArrayMember({type: 'mermaidSection'}),
         defineArrayMember({type: 'accordionSection'}),
-        defineArrayMember({type: 'recentContentSection'}),
         defineArrayMember({type: 'trustReportSection'}),
         defineArrayMember({type: 'statTileSection'}),
       ]

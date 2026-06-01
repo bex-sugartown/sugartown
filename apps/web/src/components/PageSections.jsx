@@ -7,8 +7,6 @@ import { Button, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, Citati
 import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
 import stats from '../generated/stats.json'
 import { TRUST_LINKS, getCanonicalPath } from '../lib/routes'
-import { useSanityDoc } from '../lib/useSanityDoc'
-import { latestArticleQuery, latestNodeQuery } from '../lib/queries'
 import CardBuilderSection from './CardBuilderSection'
 import TrustReportSection from './TrustReportSection'
 import ImageLightbox from './ImageLightbox'
@@ -843,58 +841,6 @@ function CitedBlockSection({ section }) {
   )
 }
 
-// recentContentSection — three fixed columns: release (build-time), article, node.
-function RecentContentSectionRenderer({ section }) {
-  const { data: latestArticle, loading: articleLoading } = useSanityDoc(latestArticleQuery)
-  const { data: latestNode, loading: nodeLoading } = useSanityDoc(latestNodeQuery)
-  const release = stats.release?.current
-
-  function formatDate(iso) {
-    if (!iso) return null
-    return new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-  }
-
-  return (
-    <section className={styles.recentContentSection} id={section._sectionId}>
-      <SectionLabel
-        number={section.number}
-        name={section.name || 'Recently shipped'}
-        title={section.title}
-        kicker={section.kicker}
-      />
-      <Grid spacing="0" accentTop accentColor="ink" columns={3}>
-        <Tile
-          label="Release"
-          title={release ? `v${release.version}` : '—'}
-          body={release?.descriptor}
-          meta={release ? `${release.date} · ${release.linearIssue ?? 'changelog'}` : null}
-          href="https://github.com/bex-sugartown/sugartown/blob/main/CHANGELOG.md"
-          labelColor="brand"
-          titleSize="lg"
-        />
-        <Tile
-          label="Article"
-          title={latestArticle?.title}
-          meta={[latestArticle?.category?.title, formatDate(latestArticle?.publishedAt)].filter(Boolean).join(' · ')}
-          href={latestArticle ? getCanonicalPath({ docType: 'article', slug: latestArticle.slug }) : null}
-          loading={articleLoading}
-          labelColor="brand"
-          titleSize="lg"
-        />
-        <Tile
-          label="Node"
-          title={latestNode?.title}
-          meta={[latestNode?.category?.title, formatDate(latestNode?.publishedAt)].filter(Boolean).join(' · ')}
-          href={latestNode ? getCanonicalPath({ docType: 'node', slug: latestNode.slug }) : null}
-          loading={nodeLoading}
-          labelColor="brand"
-          titleSize="lg"
-        />
-      </Grid>
-    </section>
-  )
-}
-
 // statTileSection — optional label + grid of metric Tile primitives.
 function StatTileSectionRenderer({ section }) {
   if (!section.items?.length) return null
@@ -962,8 +908,6 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
         return <MermaidDiagram key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'accordionSection':
         return <AccordionSection key={key} section={{ ...section, _sectionId: sectionId }} />
-      case 'recentContentSection':
-        return <RecentContentSectionRenderer key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'trustReportSection':
         return <TrustReportSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'citedBlock':

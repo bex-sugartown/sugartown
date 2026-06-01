@@ -54,7 +54,6 @@ import cardBuilderSection from './sections/cardBuilderSection'
 import calloutSection from './sections/calloutSection'
 import mermaidSection from './sections/mermaidSection'
 import accordionSection from './sections/accordionSection'
-import recentContentSection from './sections/recentContentSection'
 import trustReportSection from './sections/trustReportSection'
 import statTileSection from './sections/statTileSection'
 
@@ -137,7 +136,6 @@ export const schemaTypes = [
   calloutSection,
   mermaidSection,
   accordionSection,
-  recentContentSection,
   trustReportSection,
   statTileSection,
 
