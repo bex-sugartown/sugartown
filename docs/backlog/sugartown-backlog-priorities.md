@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-01 · v0.25.13 released — SUG-116 Ledger Button Update. Queue: SUG-35 (Glossary) or SUG-121 (Section Showcase).
+> Updated 2026-06-01 · v0.25.14 released — SUG-126 DataTable + ButtonGroup. Queue: SUG-35 (Glossary) or SUG-121 (Section Showcase).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.25.13 released ✅ 2026-06-01. SUG-116 Ledger Button Update shipped. Next: SUG-35 (Glossary) or SUG-121 (Section Showcase).
+> **⚑ Current focus:** v0.25.14 released ✅ 2026-06-01. SUG-126 DataTable + ButtonGroup shipped. Next: SUG-35 (Glossary) or SUG-121 (Section Showcase).
 
 ---
 
@@ -82,7 +82,7 @@
 | **Schema ERD Sanity Hybrid (Option C)** — Upgrade ERD from code-driven page (EPIC-0172) to a `schemaErdSection` type embeddable via section builder. Component unchanged — adds schema, GROQ projection, and PageSections case. Depends on EPIC-0172. | `Deferred` `Schema` `Content` |
 | ~~**[SUG-110](https://linear.app/sugartown/issue/SUG-110/dynamically-generated-roadmap-from-linear) · Dynamically generated roadmap from Linear** — `linearRoadmap` collector in `scripts/collect-stats.js`, `/platform/roadmap` inline on GovernancePage. Live DS tiles + governance stale message fix. Shipped v0.23.23.~~ | `Tooling` `Infrastructure` `Frontend` | ✅ Shipped |
 | **[SUG-133](https://linear.app/sugartown/issue/SUG-133/aeo-authority-building-linkedin-github-external-publishing-now-cadence) · AEO Authority Building** — LinkedIn + GitHub cite sugartown.io, first external mirror post with rel=canonical (Agentic Caucus article), /now page refresh, quarterly /now cadence. Depends on SUG-132. Epic: `docs/backlog/SUG-133-aeo-authority-building.md`. | `SEO` `AEO` `Content` | ⚪ Later |
-| **[SUG-126](https://linear.app/sugartown/issue/SUG-126/migrate-off-of-datatable-to-table) · Migrate DataTable to Table + ButtonGroup primitive** — Remove DataTable shim (3 callers: TrustReportSection, DesignSystemPage, GovernancePage); create ButtonGroup DS primitive + web adapter + story; migrate all multi-button CTAs. Epic: `docs/backlog/SUG-126-migrate-datatable-to-table-buttongroup.md`. | `Design System` `Infrastructure` | ⚪ Later |
+| ~~**[SUG-126](https://linear.app/sugartown/issue/SUG-126/migrate-datatable-to-table-buttongroup-primitive) · Migrate DataTable to Table + ButtonGroup primitive** — DataTable deleted, 3 callers migrated, ButtonGroup primitive + mobile full-width. Shipped v0.25.14.~~ | `Design System` `Infrastructure` | ✅ Shipped |
 | **[SUG-109](https://linear.app/sugartown/issue/SUG-109/figma-ds-backwards-engineer-code-connect-variables-pipeline) · Figma DS backwards-engineer — Code Connect + variables pipeline** — Populate the Sugartown Figma file with Figma variables (mapped to `--st-*` tokens), component frames for all 30+ DS components, and Code Connect mappings linking Figma to React imports. Closes the design-to-code pipeline in both directions. Epic: `docs/backlog/SUG-109-figma-ds-backwards-engineer-code-connect-variables-pipeline.md`. | `Design System` `Tooling` | ⚪ Later |
 | ~~**SUG-21 · Pink Moon** — Elevated to 🟢 Next. See §01.~~ | `Design System` `UX` |
 | **[SUG-36](https://linear.app/sugartown/issue/SUG-36) · Site-wide content search** — No search exists today. Recommended: Fuse.js client-side index (build-time JSON manifest, same pattern as sitemap). Nav search icon + `/search` page. Phase 1: articles + nodes + case studies. Design spike needed first. Epic: `docs/backlog/SUG-36-site-search.md`. <br>_⬇ Low consulting value — consulting prospects do not browse by keyword; they arrive from a referral or LinkedIn and need a clear conversion path, not a search box. Keep deferred._ | `Deferred` `UX` `GROQ` `Infrastructure` |
@@ -212,4 +212,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-01 · v0.25.13 released · queue: SUG-35 / SUG-121*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-01 · v0.25.14 released · queue: SUG-35 / SUG-121*
