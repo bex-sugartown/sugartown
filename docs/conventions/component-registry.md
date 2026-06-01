@@ -40,6 +40,7 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 | Component | DS Primitive | Web Adapter | Storybook | Dark mode | Studio schema object | Notes |
 |-----------|-------------|-------------|-----------|-----------|----------------------|-------|
 | Accordion | ✅ `packages/ds/Accordion/` | ✅ `web/design-system/accordion/` | ✅ Components/Accordion | ✅ | ✅ `accordionSection` | |
+| Breadcrumb | ✅ `packages/ds/Breadcrumb/` | ✅ `web/design-system/Breadcrumb/` | ✅ Components/Breadcrumb | ✅ (token-inherited) | — | Web adapter uses `<Link to>`. 1–3 level `items[]` API. Replaces ad-hoc backLink/eyebrowCurrent pattern across 8 Library pages (SUG-139). |
 | Blockquote | ✅ `packages/ds/Blockquote/` | ✅ `web/design-system/blockquote/` | ✅ Components/Blockquote | ✅ | — | |
 | Button | ✅ `packages/ds/Button/` | ✅ `web/design-system/button/` | ✅ Components/Button | ✅ | ✅ `ctaButton` (object) + `ctaButtonDoc` (document) | Paired schema — changes to one must mirror the other |
 | Callout | ✅ `packages/ds/Callout/` | ✅ `web/design-system/callout/` | ✅ Components/Callout | ✅ | ✅ `calloutSection` | |
