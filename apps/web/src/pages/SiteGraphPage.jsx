@@ -63,23 +63,29 @@ function filterGraph(siteGraph, typeFilter) {
     return { ...siteGraph, nodes, edges }
   }
 
-  // Filtered view: keep matching items + hubs (project, category) connected to them
-  // Tag nodes included only if connected to at least one visible item via tag-membership
+  // Filtered view: keep matching items + hubs/tags reachable from them only
   const visibleItemIds = new Set(
     siteGraph.nodes
       .filter(n => n.type === 'item' && n.docType === typeFilter)
       .map(n => n.id)
   )
 
-  const tagEdges = (siteGraph.edges ?? []).filter(
-    e => e.kind === 'tag-membership' && visibleItemIds.has(e.source)
+  // Hub nodes (project, category) only if they have at least one membership edge to a visible item
+  const connectedHubIds = new Set(
+    (siteGraph.edges ?? [])
+      .filter(e => e.kind === 'membership' && visibleItemIds.has(e.source))
+      .map(e => e.target)
   )
-  const connectedTagIds = new Set(tagEdges.map(e => e.target))
+
+  // Tag nodes only if connected to at least one visible item via tag-membership
+  const connectedTagIds = new Set(
+    (siteGraph.edges ?? [])
+      .filter(e => e.kind === 'tag-membership' && visibleItemIds.has(e.source))
+      .map(e => e.target)
+  )
 
   const keepIds = new Set([
-    ...siteGraph.nodes
-      .filter(n => n.type !== 'item' && n.type !== 'tag')
-      .map(n => n.id),
+    ...connectedHubIds,
     ...visibleItemIds,
     ...connectedTagIds,
   ])
