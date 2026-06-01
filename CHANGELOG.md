@@ -14,6 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.25.0.
 
+- SUG-134 Phase 1: Knowledge Graph empty-hub filter — project/category hub nodes excluded from filtered views when they have no connected items for the active type; "All" view unaffected
 - SUG-138: /library unified archive — article + node + caseStudy combined, Type facet in FilterBar, graph view toggle, breadcrumb nav across all taxonomy surfaces, KG toolbar ALL-filter fix, series back-link updated
 - SUG-123: Taxonomy listview audit — archive + detail convergence pass, flat 3-col tags grid, letter filter, SEO (retroactively documented; shipped v0.23.37)
 - SUG-127: Contentful POC DS token parity — hero, RTE, article list sections fully tokenised; 15 new DS tokens (line-height-snug, font-size-meta, letter-spacing-*, border-width, code-inline-*, cta-padding-*, table-*); global typography baseline; DS Card component for article list hover behaviour
