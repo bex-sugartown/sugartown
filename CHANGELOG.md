@@ -14,6 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.25.0.
 
+- SUG-116: Ledger Button Update — border-top → border-bottom (Baseline Rule), sm/lg size prop, hover lift -3px, disabled aria-disabled support, Storybook Snapshot story updated; DS package dark-pink-moon card hover tokens synced
 - SUG-139: Breadcrumb DS primitive — shared component replaces ad-hoc backLink/eyebrowCurrent pattern across 8 Library pages; fixes KG wrap bug; last item always pink as return-path cue
 - SUG-134 Phase 2: taxonomy enrichment — AI category patched to 3 content docs (article + 2 nodes) via Content Write Gate; 1 doc flagged for manual review
 - SUG-134 Phase 1: Knowledge Graph empty-hub filter — project/category hub nodes excluded from filtered views when they have no connected items for the active type; "All" view unaffected
