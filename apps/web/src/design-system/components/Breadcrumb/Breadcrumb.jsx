@@ -20,8 +20,7 @@ export default function Breadcrumb({ items, className }) {
       {items.map((item, i) => {
         const isFirst = i === 0
         const isLast = i === items.length - 1
-        // Pink on the last item only when it has siblings — sole back-links stay muted
-        const isHighlighted = isLast && items.length > 1
+        const isHighlighted = isLast
 
         return (
           <span key={i} className={styles.crumb}>
