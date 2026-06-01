@@ -30,6 +30,7 @@ import CmsPage from './pages/platform/CmsPage'
 import DesignSystemPage from './pages/platform/DesignSystemPage'
 
 import DesignSystemRegistryPage from './pages/platform/DesignSystemRegistryPage'
+import SectionShowcasePage from './pages/platform/SectionShowcasePage'
 import SitemapPage from './pages/SitemapPage'
 import TablesDevPage from './pages/dev/TablesDevPage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -153,6 +154,7 @@ function App() {
             <Route path="design-system" element={<DesignSystemPage />} />
 
             <Route path="design-system/registry" element={<DesignSystemRegistryPage />} />
+            <Route path="design-system/sections" element={<SectionShowcasePage />} />
           </Route>
         </Route>
 

@@ -48,6 +48,7 @@ const NAV_SECTIONS = [
     items: [
       { label: 'Token architecture', to: `${PLATFORM_ROUTES.designSystem}#token-architecture` },
       { label: 'Component registry', to: PLATFORM_ROUTES.dsRegistry },
+      { label: 'Section modules', to: PLATFORM_ROUTES.dsSections },
       { label: 'Architecture', to: `${PLATFORM_ROUTES.designSystem}#architecture-figjam` },
       { label: 'Storybook', href: TRUST_LINKS.storybook },
       { label: 'Artifacts', to: `${PLATFORM_ROUTES.designSystem}#ds-artifacts` },

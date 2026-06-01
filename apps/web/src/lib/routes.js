@@ -76,6 +76,7 @@ export const PLATFORM_ROUTES = {
   designSystem:   '/platform/design-system',
 
   dsRegistry:     '/platform/design-system/registry',
+  dsSections:     '/platform/design-system/sections',
 }
 
 /**
