@@ -1561,8 +1561,8 @@ export const sitemapQuery = `
   }
 `
 
-// ── Recent Content Ticker (SUG-76) ─────────────────────────────────────────
-// Minimal projections — one latest doc per type, used by recentContentSection.
+// ── Recent Content Ticker ───────────────────────────────────────────────────
+// Minimal projections — one latest doc per type, used by TrustReportSection.
 
 export const latestArticleQuery = `
   *[_type == "article" && defined(slug.current)] | order(publishedAt desc) [0] {
