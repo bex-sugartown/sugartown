@@ -30,10 +30,10 @@ Not touched: the FilterStrip component API, the force-graph canvas renderer, Sto
 
 ### Phase 1 — Filter rules + experience review
 
-- [ ] **Audit graph collector** — read `scripts/collect-stats.js` graph section and `apps/web/src/pages/KnowledgeGraphPage.jsx` (or equivalent). Map exactly where hub-node inclusion is decided: build time (collector) vs. render time (page component). Layer: build pipeline / frontend.
-- [ ] **Implement empty-hub filter rule** — if a hub node (category, project) has zero edges to the selected content type under the active filter, exclude it from the filtered graph data. Rule: `if hubNode.connectedItemsForType(activeFilter).length === 0 → exclude`. Layer: build pipeline (preferred) or page-level filter logic.
-- [ ] **Human experience review** — present the updated diagram alongside the full KG experience for review. Capture any additional pain points (e.g. tag node behaviour under filters, rail content when a hub is selected but has no items for the active type, zoom/pan friction). Gate: wait for explicit sign-off before Phase 1 close-out commit.
-- [ ] **Apply any additional fixes identified in the review** — scope and implement only what is confirmed in the review. Layer: frontend / build pipeline.
+- [x] **Audit graph collector** — filtering is runtime in `SiteGraphPage.jsx` `filterGraph()`, not build-time. No build pipeline changes needed.
+- [x] **Implement empty-hub filter rule** — `connectedHubIds` derived from membership edges to visible items only. Commit: `d0d22d3`.
+- [x] **Human experience review** — sign-off received 2026-06-01. No additional friction points identified.
+- [x] **Apply any additional fixes identified in the review** — none required.
 
 ### Phase 2 — Taxonomy enrichment suggestions (human-review gate)
 
