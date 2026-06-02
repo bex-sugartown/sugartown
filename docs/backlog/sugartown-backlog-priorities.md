@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-02 · v0.25.16 released — SUG-140 Knowledge Graph Dark Field. Queue: SUG-35 (Glossary) or SUG-107 (Client taxonomy).
+> Updated 2026-06-02 · v0.26.0 released — 17 epics shipped since v0.25.0. Queue: SUG-107 (Client taxonomy) or SUG-35 (Glossary).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.25.15 released ✅ 2026-06-01. SUG-121 Section Module Showcase shipped. Next: SUG-35 (Glossary) or SUG-107 (Client taxonomy).
+> **⚑ Current focus:** v0.26.0 released ✅ 2026-06-02. 17 epics shipped. Next: SUG-107 (Client taxonomy) or SUG-35 (Glossary).
 
 ---
 
@@ -213,4 +213,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-01 · v0.25.15 released · queue: SUG-35 / SUG-107*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-02 · v0.26.0 released · queue: SUG-107 / SUG-35*
