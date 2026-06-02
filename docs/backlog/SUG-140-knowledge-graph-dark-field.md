@@ -16,11 +16,11 @@ The KG graph canvas currently uses `--st-graph-bg: var(--st-color-bg-canvas)` �
 
 ## Objective
 
-After this epic the KG graph canvas background is `--st-color-midnight-950` (`#0a0f1a`), all five node types are clearly distinguishable on the dark field, edge lines and hub labels are visible but quiet, and the two overlay elements (zoom controls, legend card) use dark surfaces and light text so they feel native to the field. No other page, component, or theme file is affected. Changes are token-only — no raw hex in component CSS.
+After this epic the KG graph canvas background is `--st-color-midnight-800` (`#141830`), all five node types are clearly distinguishable on the dark field, edge lines and hub labels are visible but quiet, and the two overlay elements (zoom controls, legend card) use dark surfaces and light text so they feel native to the field. No other page, component, or theme file is affected. Changes are token-only — no raw hex in component CSS.
 
 ## Scope
 
-- [ ] Add `--st-kg-stage-bg` token pointing to `--st-color-midnight-950` — layer: tokens
+- [ ] Add `--st-kg-stage-bg` token pointing to `--st-color-midnight-800` — layer: tokens
 - [ ] Add `--st-kg-edge-member-dark`, `--st-kg-edge-lateral-dark`, `--st-kg-label-color`, `--st-kg-label-project-color` tokens for legibility on dark — layer: tokens
 - [ ] Add `--st-kg-zoom-bg`, `--st-kg-zoom-color`, `--st-kg-zoom-border`, `--st-kg-zoom-hover-color`, `--st-kg-zoom-hover-border` tokens for zoom control overlay — layer: tokens
 - [ ] Add `--st-kg-legend-bg`, `--st-kg-legend-border`, `--st-kg-legend-color`, `--st-kg-legend-dot-outline-border` tokens for legend overlay — layer: tokens
@@ -39,7 +39,7 @@ Single-phase — all changes are pure token and CSS, no schema or content.
 
 ## Acceptance criteria
 
-- [ ] Graph canvas background is `--st-color-midnight-950`; panel border, toolbar, and sidebar keep `--st-color-bg-surface`
+- [ ] Graph canvas background is `--st-color-midnight-800`; panel border, toolbar, and sidebar keep `--st-color-bg-surface`
 - [ ] All five node types (project pink, category softgrey-300, article seafoam, node lime, case maroon-400) are clearly distinguishable on the dark field
 - [ ] Edge lines and hub labels are visible but quiet; project hub labels remain pink
 - [ ] Zoom controls show dark surface (`--st-color-midnight-700`), light text (`--st-color-softgrey-300`), and pink hover — no bright cut-out appearance
@@ -51,7 +51,8 @@ Single-phase — all changes are pure token and CSS, no schema or content.
 ## Technical notes
 
 - **No raw hex**: all colour values must resolve through `--st-*` tokens. The mock HTML uses raw hex (`#141830`, `rgba(255,255,255,0.24)`) — these must be mapped to existing primitives before use in CSS.
-- **Existing primitives confirmed present**: `--st-color-midnight-950` (#0a0f1a), `--st-color-white-20`, `--st-color-white-15`, `--st-color-white-60`, `--st-color-softgrey-300`, `--st-color-softgrey-400`, `--st-color-maroon-400`, `--st-color-midnight-700` — all exist in `tokens.css`. No new primitives needed.
+- **Note**: `--st-color-midnight-800` (#141830) is the correct field shade. `-950` is "ink" (near-black body text) and should not be used for the canvas bg.
+- **Existing primitives confirmed present**: `--st-color-midnight-800` (#141830), `--st-color-white-20`, `--st-color-white-15`, `--st-color-white-60`, `--st-color-softgrey-300`, `--st-color-softgrey-400`, `--st-color-maroon-400`, `--st-color-midnight-700` — all exist in `tokens.css`. No new primitives needed.
 - **Tokens to add to `tokens/source/tokens.json`**: `st-kg-stage-bg`, `st-kg-edge-member-dark`, `st-kg-edge-lateral-dark`, `st-kg-label-color`, `st-kg-label-project-color`, `st-kg-zoom-bg`, `st-kg-zoom-color`, `st-kg-zoom-border`, `st-kg-zoom-hover-color`, `st-kg-zoom-hover-border`, `st-kg-legend-bg`, `st-kg-legend-border`, `st-kg-legend-color`, `st-kg-legend-dot-outline-border`.
 - **Node colour overrides in light theme**: `--st-kg-node-category` and `--st-kg-node-case` already have light-theme overrides in `theme.pink-moon.css` (lines 183–188). Update those values — do not add new overrides.
 - **Key files**: `apps/web/src/components/KnowledgeGraph/KnowledgeGraph.module.css`, `apps/web/src/design-system/styles/theme.pink-moon.css`, `tokens/source/tokens.json`.

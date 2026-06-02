@@ -186,7 +186,7 @@
   --st-kg-edge-member:   var(--st-color-white-20);     /* SUG-140: legible on midnight canvas */
   --st-kg-edge-lateral:  var(--st-color-white-15);     /* SUG-140: quiet dashed on midnight canvas */
   --st-graph-node-category: var(--st-color-softgrey-300); /* SUG-140: matches kg-node-category */
-  --st-graph-bg:         var(--st-color-midnight-950); /* SUG-140: permanently dark graph field */
+  --st-graph-bg:         var(--st-color-midnight-800); /* SUG-140: permanently dark graph field (#141830) */
   --st-graph-edge-membership: var(--st-color-white-20); /* SUG-140: edge legibility on dark */
   --st-graph-edge-lateral:    var(--st-color-white-15); /* SUG-140: quiet lateral edge on dark */
 
