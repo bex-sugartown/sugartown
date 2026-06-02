@@ -109,7 +109,8 @@ export const summaryPortableText = [
  * - Bold, Italic, Underline, inline Code marks
  * - Links (external + internal) + Citation references
  * - Bullet and numbered lists
- * - NO images, NO code blocks, NO tables, NO blockquote, NO dividers
+ * - NO images, NO code blocks, NO tables, NO dividers
+ * - Blockquote supported for pull quotes and citations
  *
  * Use for: accordion panels, callout bodies, card descriptions,
  * glossary definitions, taxonomy descriptions — anywhere you want
@@ -119,7 +120,8 @@ export const compactPortableText = [
   defineArrayMember({
     type: 'block',
     styles: [
-      {title: 'Normal', value: 'normal'}
+      {title: 'Normal', value: 'normal'},
+      {title: 'Blockquote', value: 'blockquote'}
     ],
     lists: [
       {title: 'Bullet', value: 'bullet'},
