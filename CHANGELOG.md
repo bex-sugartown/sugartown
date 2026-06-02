@@ -14,6 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.25.0.
 
+- SUG-140: Knowledge Graph Dark Field — midnight-800 canvas, lifted category/case node colours, dark overlay chrome (zoom + legend); 13 new --st-kg-* tokens
 - SUG-121: Section Module Showcase — /platform/design-system/sections page; tableBlock subdued tone toggle; responsive card layout fixes; darker wrap border token
 - SUG-126: DataTable shim deleted — 3 callers migrated to Table tone="subdued"; KindBadge inlined; ButtonGroup DS primitive + web adapter + Storybook; CTASection + Hero migrated; full-width mobile stack
 - SUG-116: Ledger Button Update — border-top → border-bottom (Baseline Rule), sm/lg size prop, hover lift -3px, disabled aria-disabled support, Storybook Snapshot story updated; DS package dark-pink-moon card hover tokens synced
