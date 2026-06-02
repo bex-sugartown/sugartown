@@ -38,14 +38,30 @@ The Sanity page structure uses accordion items for principles (summary titles + 
 
 ## Technical notes
 
-- **Content Write Gate**: fires — all body content is AI-drafted from the approved brief. Show before/after proposal before patching.
-- **Sanity doc ID**: `wp.page.1644`
+- **Content Write Gate**: fired and approved 2026-06-02. Proposal presented and confirmed before any patch executed. See gate record below.
+- **Sanity doc ID**: `wp.page.1644` (published); `drafts.wp.page.1644` (draft — all patches target the draft)
+- **Accordion content field**: `content` (not `body`) — confirmed from schema. `body` is null on all items; `content` holds the PT.
 - **Accordion keys (principles)**: `d7356bd2aee8` (section), items `409e169b9b7f` through `2d00c3c747b8` (#1-12) + `f82abf9419d5` (#13)
 - **Accordion keys (references)**: `6c54ff987af2` (section), items `c55f985a6158` through `56f961af28cb`
 - **Portable Text rules**: every block needs `markDefs: []`, every span needs `marks: []` — omitting these makes Studio blocks read-only
-- **citationRef in nested fields**: do NOT use `citationRef` mark type in accordion item body content — it locks the entire PT field in Studio. Use plain spans with superscript text for footnote markers instead.
-- **Patch strategy**: one `patch_document_from_json` call per accordion item body to avoid rate limits and allow per-item review
+- **citationRef in accordion items**: `compactPortableText` (accordion) uses a standalone `citationRef` with `index` field — safe to use. The CLAUDE.md warning about `citationRef` locking PT applies to `textSection.content` (full PT), not `compactPortableText`. In this update, plain `[1]` text was used in the blockquote to be conservative; the citation is in the document-level `citations[]` array.
+- **Patch strategy**: one `patch_document_from_json` call per modified item; references accordion items array set as a whole to preserve insertion order
 - **Model & Mode**: `/model sonnet` — pure content authoring
+
+### Content Write Gate record — 2026-06-02
+
+Approved changes (proposal presented, "yes" received before execution):
+
+| Item | Change |
+|------|--------|
+| #2 Purpose Before Power (`17b48ec68e45`) | Added 4 blocks: test paragraph ("The useful test…"), Tolkien blockquote with `[1]` marker, gloss paragraph, italic personal aside — before existing "In practice: `grep`" block |
+| #4 Data Is Not a Free Buffet (`b97e6eeeaa3e`) | Inserted 1 italic block (Pope Magnifica Humanitas data ownership quote) after "Consent matters" block |
+| #8 Governance Is a Feature (`c5ea93bd7b2f`) | Inserted 1 block (external accountability paragraph, **On external accountability:** bold lead) after intro block |
+| References accordion (`6c54ff987af2`) — new item `ref_humanitarian` | Added "Humanitarian & Institutional Ethics (Magnifica Humanitas, Rome Call)" between Regulatory and Model Providers items; 2 PT blocks with bold lead + URL for each reference |
+| References item `c4d746772e3d` title | Updated from "Regulatory & Policy (EU AI Act, US Executive Order, state laws)" to "Regulatory & Policy (EU AI Act, US & state regulation)" |
+| Document-level `citations` | Set citations array with one `citationItem`: key `cite_1`, Tolkien/Magnifica Humanitas footnote text, URL to encyclical, label "Magnifica Humanitas, §213" |
+
+Items #1, 3, 5–7, 9–13 — not touched. Existing content richer than brief; preserved verbatim.
 
 ## Model & Mode [REQUIRED]
 
