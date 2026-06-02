@@ -14,6 +14,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.26.0.
 
+- SUG-142: AI Ethics doc v2026.06.01 — Magnifica Humanitas update; Principle 2 Tolkien quote + citation [1]; Principle 4 Pope data ownership quote; Principle 8 external accountability; Humanitarian & Institutional Ethics reference section added; blockquote style added to compactPortableText; DM Sans italic font loaded
+- SUG-141: DS Usage Docs — typography conventions backlog epic created (Phase 1: H1 italic/roman rule)
+
 ---
 
 ## [0.26.0] — 2026-06-02
