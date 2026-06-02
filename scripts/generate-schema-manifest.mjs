@@ -261,7 +261,7 @@ const relCount = relationships.length
 // Update this floor when types are intentionally removed.
 // portableTextConfig is excluded by design (config, not a schema type).
 // answerBlock.ts filename is stale — the file defines citedBlock, which IS counted.
-const ENTITY_FLOOR = 54
+const ENTITY_FLOOR = 53 // SUG-126: DataTable shim removed, floor lowered from 54
 if (entityCount < ENTITY_FLOOR) {
   console.error(`❌  schema manifest entity count regressed: expected ≥${ENTITY_FLOOR}, got ${entityCount}`)
   console.error('    If types were intentionally removed, update ENTITY_FLOOR in generate-schema-manifest.mjs.')
