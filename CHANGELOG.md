@@ -12,25 +12,61 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.25.0.
+> Accumulates since v0.26.0.
 
-- SUG-140: Knowledge Graph Dark Field — midnight-800 canvas, lifted category/case node colours, dark overlay chrome (zoom + legend); 13 new --st-kg-* tokens
-- SUG-121: Section Module Showcase — /platform/design-system/sections page; tableBlock subdued tone toggle; responsive card layout fixes; darker wrap border token
-- SUG-126: DataTable shim deleted — 3 callers migrated to Table tone="subdued"; KindBadge inlined; ButtonGroup DS primitive + web adapter + Storybook; CTASection + Hero migrated; full-width mobile stack
-- SUG-116: Ledger Button Update — border-top → border-bottom (Baseline Rule), sm/lg size prop, hover lift -3px, disabled aria-disabled support, Storybook Snapshot story updated; DS package dark-pink-moon card hover tokens synced
-- SUG-139: Breadcrumb DS primitive — shared component replaces ad-hoc backLink/eyebrowCurrent pattern across 8 Library pages; fixes KG wrap bug; last item always pink as return-path cue
-- SUG-134 Phase 2: taxonomy enrichment — AI category patched to 3 content docs (article + 2 nodes) via Content Write Gate; 1 doc flagged for manual review
-- SUG-134 Phase 1: Knowledge Graph empty-hub filter — project/category hub nodes excluded from filtered views when they have no connected items for the active type; "All" view unaffected
-- SUG-138: /library unified archive — article + node + caseStudy combined, Type facet in FilterBar, graph view toggle, breadcrumb nav across all taxonomy surfaces, KG toolbar ALL-filter fix, series back-link updated
-- SUG-123: Taxonomy listview audit — archive + detail convergence pass, flat 3-col tags grid, letter filter, SEO (retroactively documented; shipped v0.23.37)
-- SUG-127: Contentful POC DS token parity — hero, RTE, article list sections fully tokenised; 15 new DS tokens (line-height-snug, font-size-meta, letter-spacing-*, border-width, code-inline-*, cta-padding-*, table-*); global typography baseline; DS Card component for article list hover behaviour
-- SUG-131: AEO technical fundamentals — Person JSON-LD on /about via primaryPerson GROQ sub-query; robots.txt and OG image confirmed; title/meta content gaps addressed via SUG-132
-- SUG-132: AEO content pass — Agentic Caucus article published; page answer leads on /about + homepage + /services; outcome-first case study rewrites (FX Networks, Backroads); Webby nomination cited; Knowledge Graph archive preamble added
-- SUG-135: TL;DR Layout Standardisation — global content audit; 14 documents patched and published; canonical pattern: `TL;DR` heading (section heading field or h2), body as blockquote; content authoring guide added; generated stats dirty-tree behaviour documented in CLAUDE.md
-- SUG-133: AEO Authority Building — LinkedIn + GitHub profiles cite sugartown.io; /now page created and published; The Agentic Caucus mirrored to Medium with rel=canonical; Three Agents section added to AG article; quarterly /now cadence documented; GitHub contribution graph fixed (dev@sugartown.io verified)
-- SUG-130: Platform selection risk article — 4 citations (AEM, Contentful, AEO, LLMs), series addendum callout to companion POC node; AI disclosure canonical string added to content authoring guide
-- SUG-137: Series landing page + sidebar — /series/:slug route, SeriesPage with type badges + pink part numbers, series block moved above TOC with gray bounding box, parts[] array on series doc for Studio add/remove/reorder, series field on all content types, Series added to Taxonomy index
-- SUG-136: Trust Report recently-shipped + mini-releases — latestPatches from git log (10 entries), RecentlyShippedReport + MiniReleasesReport renderers, SectionLabel heading style, recently-shipped pinned first, content-width constraint, homepage recentContentSection migrated to trustReportSection
+---
+
+## [0.26.0] — 2026-06-02
+
+Design system expansion, Library unification, AEO content pass, and Trust Report pipeline. Aggregates v0.25.1–v0.25.16.
+
+### apps/web
+
+#### Added
+- KG graph canvas set to `midnight-800` (#141830); category node colour lifted to `softgrey-300`, case node to `maroon-400`; 13 new `--st-kg-*` tokens for zoom controls and legend overlay chrome
+- Section Module Showcase page at `/platform/design-system/sections` — public Sanity `page` doc showing all section types and variants
+- `ButtonGroup` DS primitive and web adapter; `CTASection` and `Hero` migrated to use it; full-width stacked layout on mobile (≤520px)
+- `Breadcrumb` DS primitive replacing ad-hoc `backLink`/`eyebrowCurrent` pattern across 8 Library pages
+- `/library` unified archive — article, node, and caseStudy combined; Type facet in FilterBar; graph view toggle; breadcrumb nav across all taxonomy surfaces
+- `/series/:slug` landing page (`SeriesPage`) with type badges and pink part numbers; series block above TOC with gray bounding box; `parts[]` array on series doc; series field on article/node/caseStudy; Series added to Taxonomy index
+- Trust Report `recentlyShipped` and `miniReleases` renderers; `latestPatches` sourced from git log (10 entries); `trustReportSection` replaces `recentContentSection` on homepage
+- Person JSON-LD on `/about` via `primaryPerson` GROQ sub-query
+- KG empty-hub filter — project/category hub nodes excluded from filtered views when no connected items exist for the active type
+- `tableBlock` subdued/accent tone toggle — `tone` prop wired through `PageSections.jsx`; `--st-table-wrap-border` token; light-theme override to `neutral-400`; responsive card layout fixes (padding-inline on wrap)
+- `htmlSection` full-width iframe support
+
+#### Changed
+- Ledger Button: `border-bottom` replaces `border-top` (Baseline Rule); `sm`/`lg` size prop added; hover lift `-3px`; `aria-disabled` support added
+- Taxonomy listview audit — archive and detail convergence, flat 3-col tags grid, letter filter, SEO pass
+
+#### Fixed
+- `DataTable` shim deleted; 3 callsites migrated to `Table tone="subdued"`; `KindBadge` inlined
+- KG wrap bug fixed (Breadcrumb migration)
+- KG toolbar ALL-filter fix; series back-link updated
+- Dark-pink-moon card hover tokens synced to DS package
+
+### apps/studio
+
+#### Added
+- `tableBlock` schema: `tone` field (accent/subdued radio); `TableBlockInput` updated with Tone select in both empty-state and grid controls
+- Series `parts[]` array field; series field added to article/node/caseStudy schemas
+
+### packages/design-system
+
+#### Added
+- 13 `--st-kg-*` tokens: `st-kg-legend-bg`, `st-kg-legend-border`, `st-kg-legend-color`, `st-kg-legend-shadow`, `st-kg-legend-dot-outline-border`, `st-kg-zoom-bg`, `st-kg-zoom-border`, `st-kg-zoom-color`, `st-kg-zoom-shadow`, `st-kg-zoom-hover-color`, `st-kg-zoom-hover-border`
+- `--st-table-wrap-border` token
+- `ButtonGroup` primitive
+- `Breadcrumb` primitive
+
+### Sanity production data
+
+- AI category patched to 3 content docs (article + 2 nodes) via Content Write Gate
+- AEO content pass: Agentic Caucus article published; direct-answer leads added to `/about`, homepage, and `/services`; FX Networks and Backroads case studies rewritten outcome-first; Webby nomination cited; KG archive preamble added
+- TL;DR standardisation — 14 documents patched to canonical heading + blockquote pattern
+- Authority building: `/now` page published; Medium mirror with rel=canonical; Three Agents section added to AG article
+- Platform selection risk article published with 4 citations and series addendum
+- Contentful POC DS token parity: hero, RTE, and article list sections fully tokenised
 
 ---
 
