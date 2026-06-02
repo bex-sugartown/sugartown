@@ -183,7 +183,7 @@ export default function ContentCard({
   }
 
   // ── Excerpt — decoded HTML entities ──
-  const excerptText = showExcerpt && item.excerpt
+  const excerptText = showExcerpt && item.excerpt?.trim()
     ? decodeHtml(item.excerpt)
     : undefined
 
