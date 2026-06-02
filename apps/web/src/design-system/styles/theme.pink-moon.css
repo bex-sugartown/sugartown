@@ -179,13 +179,16 @@
   --st-segmented-active-fg: var(--st-color-text-primary);
   --st-segmented-border:    var(--st-color-border-default);
 
-  /* ── Site graph node/edge colors — light overrides (SUG-81 + SUG-105) ─ */
+  /* ── Site graph node/edge colors — light overrides (SUG-81 + SUG-105 + SUG-140) ─ */
   --st-kg-node-article:  var(--st-color-seafoam-700);
-  --st-kg-node-case:     var(--st-color-maroon);
-  --st-kg-node-category: var(--st-color-neutral-500);
-  --st-kg-edge-member:   color-mix(in srgb, var(--st-color-ink) 14%, transparent);
-  --st-kg-edge-lateral:  color-mix(in srgb, var(--st-color-pink) 35%, transparent);
-  --st-graph-node-category: var(--st-color-neutral-500);
+  --st-kg-node-case:     var(--st-color-maroon-400);   /* SUG-140: lifted for dark field legibility */
+  --st-kg-node-category: var(--st-color-softgrey-300); /* SUG-140: lifted for dark field legibility */
+  --st-kg-edge-member:   var(--st-color-white-20);     /* SUG-140: legible on midnight canvas */
+  --st-kg-edge-lateral:  var(--st-color-white-15);     /* SUG-140: quiet dashed on midnight canvas */
+  --st-graph-node-category: var(--st-color-softgrey-300); /* SUG-140: matches kg-node-category */
+  --st-graph-bg:         var(--st-color-midnight-950); /* SUG-140: permanently dark graph field */
+  --st-graph-edge-membership: var(--st-color-white-20); /* SUG-140: edge legibility on dark */
+  --st-graph-edge-lateral:    var(--st-color-white-15); /* SUG-140: quiet lateral edge on dark */
 
   /* ── FilterStrip chip color system — light overrides (SUG-105) ─ */
   --st-kg-chip-all-bg:          var(--st-color-ink);

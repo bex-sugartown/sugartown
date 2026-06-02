@@ -48,9 +48,10 @@
   flex-direction: column;
   gap: var(--st-space-1);
   pointer-events: none;
-  background: var(--st-color-bg-surface);
-  border: 1px solid var(--st-color-border-medium);
+  background: var(--st-kg-legend-bg);
+  border: 1px solid var(--st-kg-legend-border);
   padding: var(--st-space-3) var(--st-space-4);
+  box-shadow: var(--st-kg-legend-shadow);
 }
 
 .legendItem {
@@ -62,7 +63,7 @@
   font-weight: var(--st-label-weight);
   letter-spacing: var(--st-label-tracking);
   text-transform: uppercase;
-  color: var(--st-label-color);
+  color: var(--st-kg-legend-color);
 }
 
 .dotProject,
@@ -82,7 +83,7 @@
 .dotArticle  { background: var(--st-kg-node-article); }
 .dotCase     { background: var(--st-kg-node-case); }
 .dotNode     { background: var(--st-kg-node-node); }
-.dotTag      { background: transparent; border: 1px solid var(--st-kg-node-category); }
+.dotTag      { background: transparent; border: 1px solid var(--st-kg-legend-dot-outline-border); }
 
 .legendTopLeft {
   bottom: auto;
@@ -106,20 +107,21 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  border: 1px solid var(--st-color-border-subtle);
+  border: 1px solid var(--st-kg-zoom-border);
   border-radius: var(--st-radius-xs, 4px);
-  background: var(--st-color-bg-surface);
-  color: var(--st-color-text-muted);
+  background: var(--st-kg-zoom-bg);
+  color: var(--st-kg-zoom-color);
   font-size: 1rem;
   font-weight: 400;
   line-height: 1;
   cursor: pointer;
   transition: color 0.15s, border-color 0.15s;
+  box-shadow: var(--st-kg-zoom-shadow);
 }
 
 .zoomBtn:hover {
-  color: var(--st-color-text-default);
-  border-color: var(--st-color-border-medium);
+  color: var(--st-kg-zoom-hover-color);
+  border-color: var(--st-kg-zoom-hover-border);
 }
 
 .zoomBtn:focus-visible {
