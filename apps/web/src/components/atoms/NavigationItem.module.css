@@ -126,6 +126,13 @@
   background-color: var(--st-color-bg-elevated);
 }
 
+/* Dark theme: glassmorphism on --st-color-bg-surface-strong kills legibility — use solid surface */
+:global([data-theme="dark-pink-moon"]) .dropdownMenu {
+  background-color: var(--st-color-midnight-800);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 @media (max-width: 768px) /* --st-breakpoint-md */ {
   .dropdownMenu {
     position: static;
