@@ -6,6 +6,19 @@
 
 **Dependency:** SUG-144 (Card/Tile) has no hard dependency on this epic. SUG-145 can proceed in parallel, but Phase 1 field primitives must land before Phase 2 Form pattern.
 
+**DECISION RECORD — Input codification status & canonical name (resolved 2026-06-03):**
+
+**Codification status:** The audit marks `Text input` as `diverges`, not `present`. The registry does not list an Input/TextField primitive — a `comp-inputs` preview/token surface exists, but no confirmed Storybook story. The loose inference that a preview card equals "In system" is the exact failure mode that mis-filed Slider. Phase 0 action is: `grep packages/design-system/src/components/ -r "Input\|TextField"` + check for a `*.stories.*` file. If a story exists → flip to In system. If only tokens/preview exist → `To codify`, and Input becomes the first dependency of the whole epic.
+
+**Canonical name: `Input`**
+- The primitive hosts email, password, search, url, tel, number — naming it `TextField` bakes in a content assumption that is false for half its uses (a password field is not "text").
+- `Input` names the role without that constraint and matches the platform vocabulary (`<input>`); `type` is configuration.
+- This closes the same trap as `ContactForm` one level down: naming by content type (`TextField`, `PasswordField`, `SearchField`) spawns a family of use-case clones. `Input type="password"` is the composable model.
+- Cross-system note: the audit logs `Text field` (Material, Apple, Polaris) and `Textfield` (Atlassian) as synonyms. Charter law 01 resolves the tie: name by what it is.
+
+**Input vs Textarea split (hard constraint):**
+`Input` is the single-line control primitive. `Textarea` is a separate sibling primitive (multi-line). Do NOT fold `textarea` into `Input` as a `multiline` prop (Material/Polaris pattern) — `Field` composes them differently, and the audit already lists `Textarea` as its own `To codify` primitive. The boundary is enforced by HTML semantics: `<input>` and `<textarea>` are distinct elements.
+
 ---
 
 ## Model & Mode
@@ -16,8 +29,8 @@ Use `opusplan` for planning phases. Sonnet executes from Files to Modify onward.
 
 ## Pre-Execution Completeness Gate
 
-- [ ] DECISION-NEEDED resolved: Is `Input` already codified in the registry? Run `grep -r "Input" docs/conventions/component-registry.md apps/storybook/src/stories/` to confirm. If a story exists, it's codified. If only tokens or a preview card exist, it's not.
-- [ ] DECISION-NEEDED resolved: Canonical name for the text control — `Input` (recommended) vs `TextField`. Record in audit before Phase 0.
+- [ ] **Phase 0 verification (not assumed):** run `find packages/design-system/src/components -iname "*input*" -o -iname "*textfield*"` and `find apps/storybook/src/stories -iname "*input*"`. If a `*.stories.*` file exists → Input is In system, skip Phase 0 codification. If only tokens/preview → Input is To codify and is the first dependency. Record the result here before proceeding.
+- [x] DECISION resolved: canonical name is `Input`. `TextField` rejected (names content, not role). `type` is config. `Textarea` stays a separate primitive — do not fold via `multiline` prop. See Decision Record above.
 - [ ] `ContactForm` current call-sites catalogued: `grep -r "ContactForm" apps/web/src/`
 - [ ] Interaction surface audit: search all 4 layers for existing Field, Label, Textarea, HelperText, ErrorMessage implementations
 - [ ] Token audit: all new component CSS uses `--st-*` tokens only
@@ -35,7 +48,7 @@ Audit rows in play:
 | Component | Audit status | Action |
 |-----------|-------------|--------|
 | Form (ContactForm) | Diverges | Rename → Form pattern; "contact" is config |
-| Input / Text input | Diverges (not in registry — confirm) | Verify/codify as `Input` primitive |
+| Input / Text input | Diverges — registry has preview/tokens only, no confirmed Storybook story | Verify in Phase 0: story exists → In system; no story → codify as `Input` (canonical name resolved; `Textarea` is a separate sibling) |
 | Textarea | To codify | Codify as DS primitive |
 | Field | To codify | Wrapper: label + control + helper + error |
 | Label (form) | To codify | `<label htmlFor>` — distinct from `SectionLabel` |
@@ -74,11 +87,14 @@ N/A — no Sanity schema changes in this epic.
 
 ## Scope
 
-### Phase 0 — Confirm Input
+### Phase 0 — Verify Input codification status
 
-- [ ] Verify `Input`/`TextField` codification status: check registry + Storybook stories
-- [ ] If not codified: `packages/design-system/src/components/Input/` + story + registry row
-- [ ] Settle canonical name: `Input` (recommended). Record in audit.
+Canonical name is settled: **`Input`**. The only open question is whether it already exists.
+
+- [ ] Run: `find packages/design-system/src/components -iname "*input*" -o -iname "*textfield*"` and `find apps/storybook/src/stories -iname "*input*"`
+- [ ] **If a `*.stories.*` file exists** → Input is In system. Skip to Phase 1. Update audit row: `Text input` → `present` (`Input`).
+- [ ] **If only tokens/preview exist** → Input is `To codify`. Create `packages/design-system/src/components/Input/Input.tsx` + CSS module + web adapter + story (`Primitives/Input`) + registry row. This is the first dependency of every subsequent phase.
+- [ ] Verify the Input/Textarea split is clean: `Input` handles single-line only; `type` is config (`text`, `email`, `password`, `search`, `url`, `tel`, `number`). No `multiline` prop on Input.
 
 ### Phase 1 — Codify field primitives
 
