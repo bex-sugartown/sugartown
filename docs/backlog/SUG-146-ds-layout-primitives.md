@@ -8,6 +8,18 @@
 
 **Note:** `Box` is the critical-path unlocker — codify it first. Everything else composes it.
 
+**DECISION RECORD — Flex vs Stack (resolved 2026-06-03):**
+`Flex` is folded into `Stack` as a `direction` prop. No standalone `Flex` primitive will be shipped.
+
+Rationale (charter lens): a generic `Flex` that re-exposes the full flex API re-legitimises the drift Phase 0 is meant to eliminate — every call-site would set its own gap again. Polaris (Shopify) is the closest precedent: it folds everything into `BlockStack`/`InlineStack` with no generic Flex; true flex control drops to `Box` + explicit style. The decisive consumer in our own codebase is the responsive `ButtonGroup` that reflows horizontal → vertical at a breakpoint — that use-case needs `direction` to be a responsive value, which is an argument for a `direction` prop, not for a separate `Flex` component you'd have to swap at a breakpoint.
+
+Concrete shape:
+- `Stack` accepts `direction` prop (responsive-capable, e.g. `direction={{ base: 'vertical', md: 'horizontal' }}`)
+- `gap` is a spacing-token key only — no arbitrary numbers
+- Exotic flex needs (grow/shrink ratios) route to `Box` + explicit style (rare, self-documenting escape hatch)
+- Naming: `Stack` names what it is (one-axis spacing); `Flex` names the implementation. Charter law 01.
+- The audit's `Flex` row becomes a synonym pointer to `Stack`, not its own component.
+
 ---
 
 ## Model & Mode
@@ -19,7 +31,7 @@ Use `opusplan` for planning phases. Sonnet executes from Files to Modify onward.
 ## Pre-Execution Completeness Gate
 
 - [ ] Phase 0 drift audit completed before any primitive is codified (grep for hand-rolled flex/grid/max-width/elevation across content layouts; catalogue variants)
-- [ ] DECISION-NEEDED resolved: `Flex` — codify as a standalone primitive, or fold into `Stack` (which handles both axes)? Check audit note + Radix/Atlassian precedent.
+- [x] DECISION resolved: `Flex` folds into `Stack` as a `direction` prop (responsive-capable). No standalone `Flex`. See Decision Record above.
 - [ ] DECISION-NEEDED resolved: `Container` — standalone primitive or a prop/variant of `Page`? Confirm before Phase 1.
 - [ ] Current `TwoColumnLayout` call-sites catalogued: `grep -r "TwoColumnLayout" apps/web/src/`
 - [ ] Current `Layout/*` Storybook entries listed before Phase 2 re-bucketing
@@ -56,7 +68,7 @@ Audit rows in play:
 | AppShell | To codify | UI shell / Frame |
 | Surface | To codify | Elevation container |
 | Stack | To codify | 1-axis spacing |
-| Flex | To codify | Flex wrapper (or fold into Stack) |
+| Flex | To codify | **Resolved: synonym pointer to Stack** — not a separate primitive; `direction` prop on Stack |
 | Columns | To codify | N-column split; replaces TwoColumnLayout |
 | TwoColumnLayout | Diverges | Retire → `Columns count={2}` |
 | Grid | In system | Existing; keep |
@@ -109,7 +121,7 @@ N/A — no Sanity schema changes.
 - [ ] `packages/design-system/src/components/Columns/` — N-column split (`count`, `gap` props). `TwoColumnLayout` becomes `Columns count={2}`. Story + registry.
 - [ ] `packages/design-system/src/components/Surface/` — elevation container (`elevation` prop mapping to shadow tokens). Story + registry.
 - [ ] `packages/design-system/src/components/AppShell/` — UI shell / frame; header + sidebar + main + footer regions. Story + registry.
-- [ ] `Flex` — if standalone: `packages/design-system/src/components/Flex/`. If folded into Stack: add `direction` prop to Stack. Decision from DECISION-NEEDED.
+- [ ] `Stack` — add `direction` prop (responsive-capable; accepts `'vertical' | 'horizontal'` or responsive object). `Flex` is not a separate primitive. Gap remains spacing-token key only.
 - [ ] Web adapter for each new primitive
 - [ ] `pnpm validate:tokens --strict-colors` green for each
 
@@ -161,7 +173,7 @@ Not applicable — no GROQ changes.
 - `TwoColumnLayout` deprecation: one minor with console.warn, then delete. Codemod all usages in the same PR.
 
 **DECISION-NEEDED items:**
-1. `Flex` standalone vs folded into `Stack` as `direction` prop — resolve at Phase 0 output
+1. ~~`Flex` standalone vs folded into `Stack`~~ — **resolved**: fold into `Stack` with `direction` prop (see Decision Record)
 2. `Container` standalone vs `Page` prop — resolve before Phase 1
 
 ---
@@ -188,7 +200,7 @@ Not applicable — no GROQ changes.
 - `packages/design-system/src/components/AppShell/AppShell.tsx` — CREATE
 - `packages/design-system/src/components/AppShell/AppShell.module.css` — CREATE
 - `packages/design-system/src/components/AppShell/index.ts` — CREATE
-- `packages/design-system/src/components/Flex/` — CREATE (if standalone decision)
+- `packages/design-system/src/components/Stack/Stack.tsx` — UPDATE (add `direction` responsive prop; `gap` remains token key only)
 - `packages/design-system/src/index.ts` — add new exports
 - `packages/design-system/src/components/TwoColumnLayout/index.ts` — MODIFY (deprecation warning)
 
@@ -200,6 +212,7 @@ Not applicable — no GROQ changes.
 - `apps/web/src/design-system/components/Surface/` — CREATE
 - `apps/web/src/design-system/components/AppShell/` — CREATE
 - `apps/web/src/design-system/index.js` — add exports
+- No `Flex` adapter — folded into Stack
 
 **Web patterns**
 - `apps/web/src/components/TwoColumnLayout.jsx` — MODIFY (deprecation) then DELETE
