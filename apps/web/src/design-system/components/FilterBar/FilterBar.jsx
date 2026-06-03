@@ -1,34 +1,16 @@
 /**
- * TODO Epic 7 — This component has been extracted to @sugartown/design-system:
- *   packages/design-system/src/components/FilterBar/
- * The design system version is a drop-in replacement (identical props).
- * Migration blocker: FilterBar.module.css uses --color-* tokens (not --st-*);
- * migrating requires updating FilterBar.module.css to use --st- namespace,
- * which is already done in the design system version.
- * To migrate: replace this import with:
- *   import { FilterBar } from '@sugartown/design-system'
- */
-
-/**
- * FilterBar — dumb, fully controlled filter UI component.
+ * FilterBar — web adapter.
  *
- * Renders facet groups from a FilterModel. No data fetching inside.
- * All state lives in the parent (via useFilterState → URL).
+ * Mirrors: packages/design-system/src/components/FilterBar/FilterBar.tsx
  *
- * Props:
- *   filterModel    {object}   — from buildFilterModel(): { facets: [...] }
- *   activeFilters  {object}   — { [facetId]: string[] } from useFilterState
- *   onFilterChange {function} — (facetId, slug, checked) → void
- *   onClearAll     {function} — () → void
+ * No web-specific differences from the DS primitive (no router links, no
+ * browser APIs). This adapter exists to place FilterBar in the web DS barrel
+ * alongside other adapters and to own the CSS at the web layer.
  *
- * Accessibility:
- *   - Each facet group is a <fieldset> with a <legend>
- *   - Each option is a native <input type="checkbox"> + <label>
- *   - "Clear all" is a semantic <button>
- *   - Visible focus states via CSS :focus-visible
- *
- * Chip color accents for project/category facets reuse the --chip-color
- * CSS custom property pattern from TaxonomyChips.
+ * CSS: ./FilterBar.module.css — kept in sync with the DS package version.
+ * If a CSS fix is needed, apply it to BOTH files:
+ *   packages/design-system/src/components/FilterBar/FilterBar.module.css
+ *   apps/web/src/design-system/components/FilterBar/FilterBar.module.css
  */
 import styles from './FilterBar.module.css'
 
@@ -111,7 +93,6 @@ export default function FilterBar({
   )
 
   if (visibleFacets.length === 0) return null
-
 
   return (
     <aside className={styles.filterBar} aria-label="Filter content">

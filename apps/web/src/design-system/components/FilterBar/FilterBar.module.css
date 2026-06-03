@@ -41,7 +41,7 @@
   background: transparent;
   color: var(--st-color-text-muted);
   font-size: var(--st-font-size-xs);
-  font-weight: 500;
+  font-weight: var(--st-font-weight-medium);
   cursor: pointer;
   transition: color 0.15s ease, border-color 0.15s ease;
   line-height: 1.4;

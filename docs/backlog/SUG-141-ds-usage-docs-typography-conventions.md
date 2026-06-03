@@ -20,17 +20,20 @@ The `/platform/design-system` section already has a registry and a section showc
 
 ## Objective
 
-After Phase 1: one published DS usage doc covering the H1 italic/roman convention — what the rule is, which surfaces it applies to, which classes implement it, and the reasoning behind it. Accessible at `/platform/design-system` or as a linked doc from the DS overview. After Phase N: a growing library of similar usage docs covering other implicit DS conventions.
+After Phase 1: one published DS usage doc covering the H1 italic/roman convention — what the rule is, which surfaces it applies to, which classes implement it, and the reasoning behind it. After Phase N: a growing library of similar usage docs. After Phase N: a growing library of similar usage docs covering other implicit DS conventions.
 
-This epic does NOT change any code — it is a documentation and content authoring epic only. No CSS, JSX, or schema changes.
+**Delivery surface: Storybook MDX (not a Sanity site page).** Usage docs live in Storybook alongside the components they document — co-located, version-controlled, dev-facing. A `TypographyConventions.mdx` doc page in the `Foundations` Storybook category can embed live story canvases inline alongside prose. This is preferable to a Sanity `/platform/design-system` page for developer-facing convention docs (those are for external/stakeholder showcasing). Third-party tools (Zeroheight, Supernova) are out of scope — overkill for a solo-maintained codebase.
+
+This epic does NOT change any CSS, JSX, or schema — documentation and MDX authoring only.
 
 ## Scope
 
 ### Phase 1 — H1 italic rule (first usage doc)
 
-- [ ] Write the usage doc content (Bex-voice, factual, concise) — layer: content
-- [ ] Create the Sanity document (page or article) at an appropriate route — layer: schema/content
-- [ ] Link from DS overview page or section in Platform nav if appropriate — layer: content/Studio
+- [ ] Write the usage doc as a Storybook MDX page (`apps/storybook/.storybook/stories/TypographyConventions.mdx`) — layer: Storybook/documentation
+- [ ] File under `Foundations` Storybook sidebar category, consistent with `ThemeGuide`, `TokenReference` etc. — layer: Storybook
+- [ ] Embed relevant live story canvases (e.g. editorial vs catalogue heading) inline using `<Canvas>` — layer: Storybook
+- [ ] No Sanity page, no site route — Storybook is the delivery surface
 
 **The rule to document:**
 
@@ -63,18 +66,18 @@ Candidates (not scoped here — prioritise at Phase 1 close):
 
 ## Acceptance criteria
 
-- [ ] One published usage doc covering the H1 italic/roman rule, accessible from the live site
-- [ ] Doc covers: the rule, the two surface types, the CSS classes that implement it, and the rationale
-- [ ] Content is Bex-voice, not generic docs prose — same register as other Platform content
+- [ ] Storybook MDX page at `apps/storybook/.storybook/stories/TypographyConventions.mdx` exists and renders in Storybook under `Foundations`
+- [ ] Doc covers: the H1 italic/roman rule, the two surface types (editorial vs catalogue), the CSS classes that implement it, and the rationale
+- [ ] Content is Bex-voice, factual, concise — not generic API docs prose
 - [ ] No code changes in `apps/web/src/` — documentation only
 - [ ] Phase 2 scope list exists (in this doc or a follow-on stub) to continue the pattern
 
 ## Technical notes
 
-- **Content Write Gate**: fires — content is AI-drafted from the brief above. Proposal required before patch.
-- **No schema changes**: existing page/article schema is sufficient. The doc can be a `page` at a sub-route of `/platform/design-system/` or a standalone article with a `platform` category.
-- **Activation audit**: query Sanity for existing DS docs at `/platform/design-system/*` to understand what route pattern to use: `*[_type == "page" && slug.current match "platform/design-system*"]{ slug, title }`.
-- **Model & Mode**: `/model sonnet` — pure content authoring, no code changes.
+- **No Content Write Gate**: Storybook MDX is code, not Sanity content — no patch gate fires.
+- **No schema changes, no Sanity documents**: delivery is entirely in Storybook.
+- **Activation audit**: check existing Storybook `Foundations` stories for naming/format conventions: `apps/storybook/.storybook/stories/ThemeGuide.stories.tsx`, `TokenReference.stories.tsx`. Match their MDX structure.
+- **Model & Mode**: `/model sonnet` — prose authoring and MDX, no architecture decisions needed.
 
 ## Model & Mode [REQUIRED]
 
@@ -82,10 +85,11 @@ Candidates (not scoped here — prioritise at Phase 1 close):
 
 ## Non-Goals
 
-- No new page templates or routes
+- No new page templates, routes, or Sanity documents
 - No changes to CSS, tokens, or component code
-- No Storybook story changes
+- No third-party DS doc tools (Zeroheight, Supernova) — Storybook is sufficient for dev-facing docs
 - Does not replace inline code comments (those are separate)
+- External/stakeholder-facing DS showcasing remains in `/platform/design-system` on the site — this epic is developer-facing only
 
 ## Related
 
