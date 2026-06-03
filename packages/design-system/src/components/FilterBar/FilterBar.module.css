@@ -140,18 +140,19 @@
   border-color: var(--st-color-brand-primary);
 }
 
-/* Checkmark via rotated border — no hardcoded colors */
+/* Checkmark via rotated border — anchored at box center, translated back by half
+   its own size. top: 47% (not 50%) compensates for optical low-sitting after rotation. */
 .optionCheckbox:checked::after {
   content: '';
   position: absolute;
-  left: 3px;
-  top: 1px;
+  left: 50%;
+  top: 47%;
   width: 4px;
   height: 8px;
   border: 2px solid var(--st-color-white);
   border-left: none;
   border-top: none;
-  transform: rotate(45deg);
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .optionCheckbox:focus-visible {
