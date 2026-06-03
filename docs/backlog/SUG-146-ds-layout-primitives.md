@@ -8,6 +8,17 @@
 
 **Note:** `Box` is the critical-path unlocker — codify it first. Everything else composes it.
 
+**DECISION RECORD — Container standalone vs Page prop (resolved 2026-06-03):**
+`Container` is its own primitive, not a prop on `Page`. Dependency chain: `Box → Container → Page composes Container`. `Page` must not carry a `maxWidth` prop — two places to constrain width is the drift this epic is fixing.
+
+Why standalone: width-constraint recurs at multiple nesting levels, not just the page root. Page-builder sections each decide their own width (a full-bleed hero vs a constrained text block within the same page). A prop on `Page` can only constrain once at the top; `Container` is composable so any region or section can wrap with it. Page composes Container for its main content region — it does not re-implement max-width logic (charter law 02: Box → Container → Page).
+
+The `size` prop is the drift-killer. Width tokens are already named (`--st-width-detail` at 760/1080px, archive at 960px). `Container`'s `size` prop encodes them as config: `<Container size="reading">` / `"detail"` / `"archive"`. One place defines the widths; every consumer picks a named token instead of hardcoding `max-width: 760px` for the Nth time.
+
+Full-bleed falls out for free: not wrapping in a `Container` (or `size="bleed"`) is a per-section decision, which is where it belongs.
+
+**Phase 0 confirm added:** drift audit must grep for hardcoded `760`, `960`, `1080` and stray `max-width` + `margin-inline: auto` across content layouts. Each cluster becomes a `Container size` token; the count sizes the de-drift work.
+
 **DECISION RECORD — Flex vs Stack (resolved 2026-06-03):**
 `Flex` is folded into `Stack` as a `direction` prop. No standalone `Flex` primitive will be shipped.
 
@@ -32,7 +43,7 @@ Use `opusplan` for planning phases. Sonnet executes from Files to Modify onward.
 
 - [ ] Phase 0 drift audit completed before any primitive is codified (grep for hand-rolled flex/grid/max-width/elevation across content layouts; catalogue variants)
 - [x] DECISION resolved: `Flex` folds into `Stack` as a `direction` prop (responsive-capable). No standalone `Flex`. See Decision Record above.
-- [ ] DECISION-NEEDED resolved: `Container` — standalone primitive or a prop/variant of `Page`? Confirm before Phase 1.
+- [x] DECISION resolved: `Container` is a standalone primitive. `Page` composes it; `Page` carries no `maxWidth` prop. `size` prop encodes named width tokens. See Decision Record above.
 - [ ] Current `TwoColumnLayout` call-sites catalogued: `grep -r "TwoColumnLayout" apps/web/src/`
 - [ ] Current `Layout/*` Storybook entries listed before Phase 2 re-bucketing
 - [ ] Token audit: all new component CSS uses `--st-*` tokens only; `pnpm validate:tokens --strict-colors` green
@@ -64,7 +75,7 @@ Audit rows in play:
 |-----------|-------------|--------|
 | Box | To codify | Token-aware style base; unblocks others |
 | Page | To codify | Width / gutters / regions wrapper |
-| Container | To codify | Max-width centering (or fold into Page) |
+| Container | To codify | **Resolved: standalone primitive** — `size` prop encodes named `--st-width-*` tokens; Page composes it, carries no `maxWidth` prop |
 | AppShell | To codify | UI shell / Frame |
 | Surface | To codify | Elevation container |
 | Stack | To codify | 1-axis spacing |
@@ -107,7 +118,8 @@ N/A — no Sanity schema changes.
 
 ### Phase 0 — Drift audit (MUST complete before codifying)
 
-- [ ] `grep -rn "display: flex\|display: grid\|max-width:\|box-shadow:" apps/web/src/ packages/design-system/src/` — catalogue variants
+- [ ] `grep -rn "display: flex\|display: grid\|max-width:\|box-shadow:" apps/web/src/ packages/design-system/src/` — catalogue flex/grid/elevation variants
+- [ ] `grep -rn "760\|960\|1080\|margin-inline: auto" apps/web/src/ packages/design-system/src/` — catalogue hardcoded width values; each distinct cluster becomes a `Container size` token
 - [ ] Record findings: how many distinct flex patterns? How many column-gap values? How many elevation shadows?
 - [ ] Output a drift catalogue: "5 distinct flex contexts → candidate for Stack/Flex primitive"; "3 shadow variants → candidate for Surface tokens"
 - [ ] Present catalogue before Phase 1 begins — this sizes the real work and prevents codifying a primitive that just re-bakes drift
@@ -116,7 +128,7 @@ N/A — no Sanity schema changes.
 
 - [ ] `packages/design-system/src/components/Box/` — token-aware style base; all spacing/color/radius props map to `--st-*` tokens. Story: `Primitives/Layout/Box`. Registry row.
 - [ ] `packages/design-system/src/components/Page/` — width + gutters + region container (wraps content at `--st-width-*`). Story + registry.
-- [ ] `packages/design-system/src/components/Container/` — max-width centering; or: verify it folds into Page as a prop. Decision must be made before Phase 1.
+- [ ] `packages/design-system/src/components/Container/` — max-width centring; `size` prop maps to named `--st-width-*` tokens (`reading` = 760px, `detail` = 1080px, `archive` = 960px, `bleed` = none). Built on Box. Page composes this — no competing `maxWidth` prop on Page.
 - [ ] `packages/design-system/src/components/Stack/` — 1-axis spacing (`direction`, `gap` props mapping to `--st-space-*`). Story + registry.
 - [ ] `packages/design-system/src/components/Columns/` — N-column split (`count`, `gap` props). `TwoColumnLayout` becomes `Columns count={2}`. Story + registry.
 - [ ] `packages/design-system/src/components/Surface/` — elevation container (`elevation` prop mapping to shadow tokens). Story + registry.
@@ -174,7 +186,7 @@ Not applicable — no GROQ changes.
 
 **DECISION-NEEDED items:**
 1. ~~`Flex` standalone vs folded into `Stack`~~ — **resolved**: fold into `Stack` with `direction` prop (see Decision Record)
-2. `Container` standalone vs `Page` prop — resolve before Phase 1
+2. ~~`Container` standalone vs `Page` prop~~ — **resolved**: Container is its own primitive (see Decision Record)
 
 ---
 
@@ -187,7 +199,7 @@ Not applicable — no GROQ changes.
 - `packages/design-system/src/components/Page/Page.tsx` — CREATE
 - `packages/design-system/src/components/Page/Page.module.css` — CREATE
 - `packages/design-system/src/components/Page/index.ts` — CREATE
-- `packages/design-system/src/components/Container/` — CREATE (or add prop to Page)
+- `packages/design-system/src/components/Container/Container.tsx` — CREATE (standalone; `size` prop = `--st-width-*` tokens; no competing `maxWidth` on Page)
 - `packages/design-system/src/components/Stack/Stack.tsx` — CREATE
 - `packages/design-system/src/components/Stack/Stack.module.css` — CREATE
 - `packages/design-system/src/components/Stack/index.ts` — CREATE
