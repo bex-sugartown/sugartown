@@ -1,0 +1,2709 @@
+{
+  "meta": {
+    "title": "Sugartown Component Naming Audit",
+    "generated": "2026-06-03",
+    "total": 103,
+    "statusCounts": {
+      "In system": 13,
+      "Diverges": 7,
+      "Not yet": 59,
+      "To codify": 24
+    },
+    "statusKeys": {
+      "present": "In system (codified, has a Storybook story)",
+      "diverges": "In DS under a wrong/improper name",
+      "codify": "Shipped in product but no DS/Storybook story — owed work",
+      "missing": "No codified component (tokens/previews may exist)"
+    },
+    "benchmarkSystems": [
+      "Material",
+      "Apple HIG",
+      "Carbon",
+      "Polaris",
+      "Bootstrap",
+      "Atlassian",
+      "Ant Design"
+    ],
+    "referenceOfRecord": "This audit + uploads/component-registry.md. An 'In system' claim requires a registry entry / Storybook story — not tokens, previews, or site usage."
+  },
+  "components": [
+    {
+      "group": "Actions & Buttons",
+      "groupKey": "actions",
+      "component": "Button",
+      "description": "Tappable command, label + optional icon",
+      "canonical": {
+        "industryCommon": "Button",
+        "aria": "Button",
+        "pinkMoonHouse": "Button"
+      },
+      "systems": {
+        "Material": "Button",
+        "Apple HIG": "Button",
+        "Carbon": "Button",
+        "Polaris": "Button",
+        "Bootstrap": "Button",
+        "Atlassian": "Button",
+        "Ant Design": "Button"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Button",
+      "note": "Total consensus. The one everyone agrees on."
+    },
+    {
+      "group": "Actions & Buttons",
+      "groupKey": "actions",
+      "component": "Icon button",
+      "description": "Icon-only action, no text label",
+      "canonical": {
+        "industryCommon": "Icon button",
+        "aria": "Button",
+        "pinkMoonHouse": "Icon button"
+      },
+      "systems": {
+        "Material": "Icon button",
+        "Apple HIG": "Button (image)",
+        "Carbon": "Icon button",
+        "Polaris": "Button (icon)",
+        "Bootstrap": "Button",
+        "Atlassian": "IconButton",
+        "Ant Design": "Button (icon)"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Diverges",
+      "pinkMoonStatusKey": "diverges",
+      "pinkMoonName": "Button (icon)",
+      "note": "Most name it; Bootstrap treats it as a plain Button variant."
+    },
+    {
+      "group": "Actions & Buttons",
+      "groupKey": "actions",
+      "component": "FAB",
+      "description": "Persistent primary action floating over content",
+      "canonical": {
+        "industryCommon": "FAB",
+        "aria": "—",
+        "pinkMoonHouse": "—"
+      },
+      "systems": {
+        "Material": "FAB",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "FloatButton"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Material-only coinage. Apple uses a toolbar action instead."
+    },
+    {
+      "group": "Actions & Buttons",
+      "groupKey": "actions",
+      "component": "Segmented control",
+      "description": "Mutually-exclusive choice rendered as joined buttons",
+      "canonical": {
+        "industryCommon": "Segmented control",
+        "aria": "—",
+        "pinkMoonHouse": "Segmented"
+      },
+      "systems": {
+        "Material": "Segmented button",
+        "Apple HIG": "Segmented control",
+        "Carbon": "Content switcher",
+        "Polaris": "Button group",
+        "Bootstrap": "Button group",
+        "Atlassian": "Button group (segmented)",
+        "Ant Design": "Segmented"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Five words, one pattern (Carbon's 'Content switcher' is the outlier). Polaris/Bootstrap reuse 'Button group' here — colliding with the real Button group. We have --st-segmented-* tokens + a preview card, but no codified Segmented primitive — confirm/codify."
+    },
+    {
+      "group": "Actions & Buttons",
+      "groupKey": "actions",
+      "component": "Menu button",
+      "description": "Button that opens a menu of actions",
+      "canonical": {
+        "industryCommon": "Menu button",
+        "aria": "Menu Button",
+        "pinkMoonHouse": "Menu button"
+      },
+      "systems": {
+        "Material": "Menu",
+        "Apple HIG": "Pull-down button",
+        "Carbon": "Menu button",
+        "Polaris": "Popover + Action list",
+        "Bootstrap": "Dropdown",
+        "Atlassian": "Dropdown menu",
+        "Ant Design": "Dropdown"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Many words for one control; ARIA's formal 'Menu Button' is the term almost nobody adopts."
+    },
+    {
+      "group": "Actions & Buttons",
+      "groupKey": "actions",
+      "component": "Split button",
+      "description": "Primary action + attached dropdown of related actions",
+      "canonical": {
+        "industryCommon": "Split button",
+        "aria": "—",
+        "pinkMoonHouse": "—"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "Split button",
+        "Atlassian": "—",
+        "Ant Design": "Dropdown.Button"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Effectively Bootstrap-only as a named component."
+    },
+    {
+      "group": "Actions & Buttons",
+      "groupKey": "actions",
+      "component": "Link",
+      "description": "Text-only navigational action",
+      "canonical": {
+        "industryCommon": "Link",
+        "aria": "Link",
+        "pinkMoonHouse": "Link"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Link",
+        "Carbon": "Link",
+        "Polaris": "Link",
+        "Bootstrap": "Link",
+        "Atlassian": "Link",
+        "Ant Design": "Typography.Link"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Aligned industry-wide. Not a standalone primitive for us — it's adapter behaviour (<Link to>), so the registry deliberately gives it no story."
+    },
+    {
+      "group": "Actions & Buttons",
+      "groupKey": "actions",
+      "component": "Button group",
+      "description": "Group of related buttons sharing one container",
+      "canonical": {
+        "industryCommon": "Button group",
+        "aria": "Toolbar",
+        "pinkMoonHouse": "ButtonGroup"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "Button set",
+        "Polaris": "Button group",
+        "Bootstrap": "Button group",
+        "Atlassian": "Button group",
+        "Ant Design": "Space.Compact"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "ButtonGroup",
+      "note": "Carbon says 'Button set'; ARIA calls the interactive version a Toolbar. Pink Moon ships it one-word as 'ButtonGroup'."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Text field",
+      "description": "Single-line free-text entry",
+      "canonical": {
+        "industryCommon": "Text field",
+        "aria": "—",
+        "pinkMoonHouse": "Input"
+      },
+      "systems": {
+        "Material": "Text field",
+        "Apple HIG": "Text field",
+        "Carbon": "Text input",
+        "Polaris": "Text field",
+        "Bootstrap": "Input",
+        "Atlassian": "Textfield",
+        "Ant Design": "Input"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Diverges",
+      "pinkMoonStatusKey": "diverges",
+      "pinkMoonName": "Input — confirm story",
+      "note": "'Text field' (Material/Apple/Polaris) vs 'Input' (Bootstrap) vs 'Textfield' (Atlassian) — the classic three-way split. CONFIRM (SUG-145): the registry shows a 'comp-inputs' preview/token surface but NO confirmed Storybook story — grep packages/ds/ for an Input component + *.stories.*. If a story exists → In system; if only preview/tokens → To codify, and it's the FIRST dependency of the Form epic. DECISION (SUG-145): canonical name is 'Input', not 'TextField' — the control also hosts email/password/search/number, so 'text' is a false constraint (a password field isn't text); 'type' stays config (<Input type='password'>), never PasswordField/SearchField clones. Keep Textarea a SEPARATE sibling primitive — do not fold multiline into Input as a prop (Material/Polaris do; we don't). The boundary is enforced by HTML semantics (<input> vs <textarea>), so it's non-negotiable, not a style preference; Field composes the two distinctly."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Textarea",
+      "description": "Multi-line free-text entry",
+      "canonical": {
+        "industryCommon": "Textarea",
+        "aria": "—",
+        "pinkMoonHouse": "Textarea"
+      },
+      "systems": {
+        "Material": "Text field (multiline)",
+        "Apple HIG": "Text editor",
+        "Carbon": "Text area",
+        "Polaris": "Text field (multiline)",
+        "Bootstrap": "Textarea",
+        "Atlassian": "TextArea",
+        "Ant Design": "Input.TextArea"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "in ContactForm",
+      "note": "Material & Polaris treat it as a multiline prop, not its own component. POSITION: used inside ContactForm but not codified as a standalone Textarea. Needed to build a generic Form (law 02)."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Password input",
+      "description": "Obscured credential entry",
+      "canonical": {
+        "industryCommon": "Password input",
+        "aria": "—",
+        "pinkMoonHouse": "Password input"
+      },
+      "systems": {
+        "Material": "Text field (password)",
+        "Apple HIG": "Secure field",
+        "Carbon": "Password input",
+        "Polaris": "Text field (type=password)",
+        "Bootstrap": "Input (password)",
+        "Atlassian": "Textfield (password)",
+        "Ant Design": "Input.Password"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Apple's 'Secure field' is the lone first-class name."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Search field",
+      "description": "Query entry with search affordance",
+      "canonical": {
+        "industryCommon": "Search field",
+        "aria": "—",
+        "pinkMoonHouse": "Search input"
+      },
+      "systems": {
+        "Material": "Search",
+        "Apple HIG": "Search field",
+        "Carbon": "Search",
+        "Polaris": "Search field",
+        "Bootstrap": "—",
+        "Atlassian": "Search (Textfield)",
+        "Ant Design": "Input.Search"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Carbon & Material drop 'field'; Bootstrap has no dedicated search component."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Select",
+      "description": "Pick one option from a collapsed list",
+      "canonical": {
+        "industryCommon": "Select",
+        "aria": "Listbox",
+        "pinkMoonHouse": "Select"
+      },
+      "systems": {
+        "Material": "Select",
+        "Apple HIG": "Pop-up button",
+        "Carbon": "Select",
+        "Polaris": "Select",
+        "Bootstrap": "Select",
+        "Atlassian": "Select",
+        "Ant Design": "Select"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Six of seven agree on 'Select'; only Apple diverges, calling it a 'Pop-up button' / 'Picker' — a synonym, not a conflict."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Combobox",
+      "description": "Text entry that filters a list of options",
+      "canonical": {
+        "industryCommon": "Combobox",
+        "aria": "Combobox",
+        "pinkMoonHouse": "Combobox"
+      },
+      "systems": {
+        "Material": "Autocomplete",
+        "Apple HIG": "—",
+        "Carbon": "Combo box",
+        "Polaris": "Combobox",
+        "Bootstrap": "Datalist",
+        "Atlassian": "Select (async)",
+        "Ant Design": "AutoComplete"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "'Autocomplete' (Material) and 'Combobox' (ARIA/Carbon) name the same control."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Autocomplete",
+      "description": "Suggests completions as the user types",
+      "canonical": {
+        "industryCommon": "Autocomplete",
+        "aria": "Combobox",
+        "pinkMoonHouse": "Autocomplete"
+      },
+      "systems": {
+        "Material": "Autocomplete",
+        "Apple HIG": "—",
+        "Carbon": "Combo box",
+        "Polaris": "Autocomplete",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "AutoComplete"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Often the same widget as Combobox; the two terms are used interchangeably."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Number input",
+      "description": "Increment/decrement a number via steppers",
+      "canonical": {
+        "industryCommon": "Number input",
+        "aria": "Spinbutton",
+        "pinkMoonHouse": "Number input"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Stepper",
+        "Carbon": "Number input",
+        "Polaris": "—",
+        "Bootstrap": "Input (number)",
+        "Atlassian": "—",
+        "Ant Design": "InputNumber"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Apple's 'Stepper' collides with Material's progress 'Stepper' — true false friend."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "File upload",
+      "description": "Drag-and-drop or browse to attach a file",
+      "canonical": {
+        "industryCommon": "File upload",
+        "aria": "—",
+        "pinkMoonHouse": "File upload"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "File uploader",
+        "Polaris": "Drop zone",
+        "Bootstrap": "Form control (file)",
+        "Atlassian": "—",
+        "Ant Design": "Upload"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "One job, different words: Polaris's 'Drop zone' names the interaction, Carbon's 'File uploader' names the task."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Date picker",
+      "description": "Pick a calendar date",
+      "canonical": {
+        "industryCommon": "Date picker",
+        "aria": "—",
+        "pinkMoonHouse": "Date picker"
+      },
+      "systems": {
+        "Material": "Date picker",
+        "Apple HIG": "Date picker",
+        "Carbon": "Date picker",
+        "Polaris": "Date picker",
+        "Bootstrap": "—",
+        "Atlassian": "Date picker",
+        "Ant Design": "DatePicker"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Rare full alignment. Bootstrap leaves it to native input[type=date]."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Time picker",
+      "description": "Pick a time of day",
+      "canonical": {
+        "industryCommon": "Time picker",
+        "aria": "—",
+        "pinkMoonHouse": "Time picker"
+      },
+      "systems": {
+        "Material": "Time picker",
+        "Apple HIG": "Date picker (time)",
+        "Carbon": "Time picker",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "TimePicker"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Apple folds time into its Date picker."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Color picker",
+      "description": "Pick a colour value",
+      "canonical": {
+        "industryCommon": "Color picker",
+        "aria": "—",
+        "pinkMoonHouse": "Color picker"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Color picker",
+        "Carbon": "—",
+        "Polaris": "Color picker",
+        "Bootstrap": "Form control (color)",
+        "Atlassian": "—",
+        "Ant Design": "ColorPicker"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Named consistently where it exists, but unevenly supported."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Tag input",
+      "description": "Enter discrete tokens/keywords inline",
+      "canonical": {
+        "industryCommon": "Tag input",
+        "aria": "—",
+        "pinkMoonHouse": "Tag input"
+      },
+      "systems": {
+        "Material": "Chip (input)",
+        "Apple HIG": "Token field",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "Tag group (editable)",
+        "Ant Design": "Select (tags)"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Same widget, no shared name: Apple 'Token field', Material 'Input chip', Ant 'Select (tags)'."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Rating",
+      "description": "Star/score rating control",
+      "canonical": {
+        "industryCommon": "Rating",
+        "aria": "Slider",
+        "pinkMoonHouse": "Rating"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "Rate"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Common in MUI/Ant but absent from most formal systems here."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Form",
+      "description": "Container grouping fields + submit",
+      "canonical": {
+        "industryCommon": "Form",
+        "aria": "Form",
+        "pinkMoonHouse": "Form"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Form",
+        "Carbon": "Form",
+        "Polaris": "Form",
+        "Bootstrap": "Form",
+        "Atlassian": "Form",
+        "Ant Design": "Form"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Diverges",
+      "pinkMoonStatusKey": "diverges",
+      "pinkMoonName": "ContactForm — rename",
+      "note": "ANNOTATION: the industry is unanimous on 'Form', but we ship ours as 'ContactForm' (patterns/ContactForm) — a use-case baked into the component name. Rename to a generic 'Form' primitive, or a pattern named by structure, not purpose. The exact error this audit exists to catch. BUILD ORDER (law 02): Form composes Field + Label + Textarea + Helper text + Error message (all now 'To codify') over the existing Input + Button; codify those first, then 'contact' becomes config. ARIA exposes Form as a landmark role."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Form layout",
+      "description": "Layout wrapper arranging form fields",
+      "canonical": {
+        "industryCommon": "Form layout",
+        "aria": "—",
+        "pinkMoonHouse": "Form layout"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "Form group",
+        "Polaris": "Form layout",
+        "Bootstrap": "Row / Col",
+        "Atlassian": "Form (Field rows)",
+        "Ant Design": "Form (layout)"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "'Form group' vs 'Form layout' — and Bootstrap just uses its grid."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Form field",
+      "description": "Label + control + validation wrapper",
+      "canonical": {
+        "industryCommon": "Form field",
+        "aria": "—",
+        "pinkMoonHouse": "Field"
+      },
+      "systems": {
+        "Material": "Form field",
+        "Apple HIG": "—",
+        "Carbon": "Form group",
+        "Polaris": "—",
+        "Bootstrap": "Form group",
+        "Atlassian": "Field",
+        "Ant Design": "Form.Item"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "in ContactForm",
+      "note": "'Form field' / 'Form group' / 'Field' all wrap one input + its label & error. POSITION: ContactForm wraps each input ad hoc; no codified Field primitive. Needed to build a generic Form (law 02)."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Helper text",
+      "description": "Caption guiding input below a field",
+      "canonical": {
+        "industryCommon": "Helper text",
+        "aria": "—",
+        "pinkMoonHouse": "Helper text"
+      },
+      "systems": {
+        "Material": "Supporting text",
+        "Apple HIG": "—",
+        "Carbon": "Helper text",
+        "Polaris": "Help text",
+        "Bootstrap": "Form text",
+        "Atlassian": "Helper message",
+        "Ant Design": "Form.Item (extra)"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "in ContactForm",
+      "note": "Five spellings of the same caption: supporting / helper / help / form / helper message. POSITION: used inside ContactForm; not codified. Needed for the Form field anatomy (law 02)."
+    },
+    {
+      "group": "Inputs & Forms",
+      "groupKey": "inputs",
+      "component": "Error message",
+      "description": "Inline validation error on a field",
+      "canonical": {
+        "industryCommon": "Error message",
+        "aria": "—",
+        "pinkMoonHouse": "Error message"
+      },
+      "systems": {
+        "Material": "Error text",
+        "Apple HIG": "—",
+        "Carbon": "Form requirement",
+        "Polaris": "Error",
+        "Bootstrap": "Invalid feedback",
+        "Atlassian": "Error message",
+        "Ant Design": "Form.Item (help)"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "in ContactForm",
+      "note": "Carbon's 'Form requirement' and Bootstrap's 'Invalid feedback' are the outliers. POSITION: ContactForm validates inline ad hoc; no codified Error message. Needed for the Form field anatomy (law 02)."
+    },
+    {
+      "group": "Selection Controls",
+      "groupKey": "selection",
+      "component": "Checkbox",
+      "description": "Binary on/off box, supports indeterminate",
+      "canonical": {
+        "industryCommon": "Checkbox",
+        "aria": "Checkbox",
+        "pinkMoonHouse": "Checkbox"
+      },
+      "systems": {
+        "Material": "Checkbox",
+        "Apple HIG": "Toggle (checkbox)",
+        "Carbon": "Checkbox",
+        "Polaris": "Checkbox",
+        "Bootstrap": "Checkbox",
+        "Atlassian": "Checkbox",
+        "Ant Design": "Checkbox"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Aligned. SwiftUI renders a Toggle as a checkbox on macOS."
+    },
+    {
+      "group": "Selection Controls",
+      "groupKey": "selection",
+      "component": "Radio button",
+      "description": "Pick one from a set of mutually-exclusive options",
+      "canonical": {
+        "industryCommon": "Radio button",
+        "aria": "Radio Group",
+        "pinkMoonHouse": "Radio"
+      },
+      "systems": {
+        "Material": "Radio button",
+        "Apple HIG": "Radio button",
+        "Carbon": "Radio button",
+        "Polaris": "Radio button",
+        "Bootstrap": "Radio",
+        "Atlassian": "Radio",
+        "Ant Design": "Radio"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Aligned on 'Radio'; ARIA names the wrapping 'Radio Group'."
+    },
+    {
+      "group": "Selection Controls",
+      "groupKey": "selection",
+      "component": "Switch",
+      "description": "Instant binary state, often a setting",
+      "canonical": {
+        "industryCommon": "Switch",
+        "aria": "Switch",
+        "pinkMoonHouse": "Switch"
+      },
+      "systems": {
+        "Material": "Switch",
+        "Apple HIG": "Toggle",
+        "Carbon": "Toggle",
+        "Polaris": "—",
+        "Bootstrap": "Switch",
+        "Atlassian": "Toggle",
+        "Ant Design": "Switch"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "Diverges",
+      "pinkMoonStatusKey": "diverges",
+      "pinkMoonName": "only as ThemeToggle",
+      "note": "'Toggle' is overloaded: Apple/Carbon/Atlassian use it for this on/off switch, but a 'toggle button' elsewhere is a press-and-stay button — two different controls, one word. ANNOTATION: we have no generic Switch/Toggle primitive — only 'ThemeToggle', a use-case-named instance (same anti-pattern as ContactForm). Factor out a primitive."
+    },
+    {
+      "group": "Selection Controls",
+      "groupKey": "selection",
+      "component": "Slider",
+      "description": "Pick a value along a continuous track",
+      "canonical": {
+        "industryCommon": "Slider",
+        "aria": "Slider",
+        "pinkMoonHouse": "Slider"
+      },
+      "systems": {
+        "Material": "Slider",
+        "Apple HIG": "Slider",
+        "Carbon": "Slider",
+        "Polaris": "—",
+        "Bootstrap": "Range",
+        "Atlassian": "Range",
+        "Ant Design": "Slider"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Two words, one control: Bootstrap & Atlassian say 'Range', everyone else 'Slider'. Not in our DS — earlier 'present' was a mis-file (it confused this audit's own Tweaks slider for a Pink Moon component)."
+    },
+    {
+      "group": "Selection Controls",
+      "groupKey": "selection",
+      "component": "Range slider",
+      "description": "Two-thumb slider selecting a span",
+      "canonical": {
+        "industryCommon": "Range slider",
+        "aria": "Slider (Multi-Thumb)",
+        "pinkMoonHouse": "Range slider"
+      },
+      "systems": {
+        "Material": "Range slider",
+        "Apple HIG": "—",
+        "Carbon": "Slider (two-handle)",
+        "Polaris": "Range slider",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "Slider (range)"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Note the reversal: here 'Range' modifies 'Slider' rather than replacing it."
+    },
+    {
+      "group": "Selection Controls",
+      "groupKey": "selection",
+      "component": "Chip",
+      "description": "Discrete selectable token in a set",
+      "canonical": {
+        "industryCommon": "Chip",
+        "aria": "—",
+        "pinkMoonHouse": "Chip"
+      },
+      "systems": {
+        "Material": "Chip",
+        "Apple HIG": "—",
+        "Carbon": "Tag",
+        "Polaris": "Tag",
+        "Bootstrap": "—",
+        "Atlassian": "Tag",
+        "Ant Design": "Tag.CheckableTag"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Chip",
+      "note": "Two words, one token: 'Chip' (Material) vs 'Tag' (everyone else). The real trap is 'Tag' itself — see the Tag row."
+    },
+    {
+      "group": "Selection Controls",
+      "groupKey": "selection",
+      "component": "Tag",
+      "description": "Compact removable metadata label",
+      "canonical": {
+        "industryCommon": "Tag",
+        "aria": "—",
+        "pinkMoonHouse": "Tag"
+      },
+      "systems": {
+        "Material": "Chip (input)",
+        "Apple HIG": "Token",
+        "Carbon": "Tag",
+        "Polaris": "Tag",
+        "Bootstrap": "—",
+        "Atlassian": "Tag",
+        "Ant Design": "Tag"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "Diverges",
+      "pinkMoonStatusKey": "diverges",
+      "pinkMoonName": "Chip / Tag",
+      "note": "True false friend: 'Tag' is a removable input token in Polaris but a read-only status label in Carbon — two different components, one word."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "App bar",
+      "description": "Top-of-screen bar with title + actions",
+      "canonical": {
+        "industryCommon": "App bar",
+        "aria": "—",
+        "pinkMoonHouse": "Header"
+      },
+      "systems": {
+        "Material": "Top app bar",
+        "Apple HIG": "Navigation bar",
+        "Carbon": "UI shell header",
+        "Polaris": "Top bar",
+        "Bootstrap": "Navbar",
+        "Atlassian": "Page header",
+        "Ant Design": "Layout.Header"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Header",
+      "note": "Six different names — and Apple's 'Navigation bar' means something else to Material (see below). ANNOTATION: 'App bar' is a use-case/positional label — the role name is 'Header' (a banner landmark), which we ship. It is NOT a Toolbar: a Header is a layout region that COMPOSES brand + nav + (optionally) a Toolbar of actions."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "Bottom navigation",
+      "description": "Bottom bar of top-level destinations (mobile)",
+      "canonical": {
+        "industryCommon": "Bottom navigation",
+        "aria": "—",
+        "pinkMoonHouse": "—"
+      },
+      "systems": {
+        "Material": "Navigation bar",
+        "Apple HIG": "Tab bar",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "—"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Material renamed 'Bottom navigation' → 'Navigation bar', directly clashing with Apple's TOP bar."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "Tabs",
+      "description": "Horizontal in-page section switcher",
+      "canonical": {
+        "industryCommon": "Tabs",
+        "aria": "Tabs",
+        "pinkMoonHouse": "Tabs"
+      },
+      "systems": {
+        "Material": "Tabs",
+        "Apple HIG": "—",
+        "Carbon": "Tabs",
+        "Polaris": "Tabs",
+        "Bootstrap": "Nav tabs",
+        "Atlassian": "Tabs",
+        "Ant Design": "Tabs"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Aligned; Apple steers you to a Segmented control instead."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "Navigation drawer",
+      "description": "Side panel of primary destinations",
+      "canonical": {
+        "industryCommon": "Navigation drawer",
+        "aria": "—",
+        "pinkMoonHouse": "Sidebar"
+      },
+      "systems": {
+        "Material": "Navigation drawer",
+        "Apple HIG": "Sidebar",
+        "Carbon": "Side nav",
+        "Polaris": "Navigation",
+        "Bootstrap": "Offcanvas / Sidebar",
+        "Atlassian": "Side navigation",
+        "Ant Design": "Layout.Sider"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "'Drawer' vs 'Sidebar' vs 'Side nav' — and 'Drawer' is itself overloaded (see Side sheet). We ship 'PageSidebar' (content TOC) and 'MobileNav', but no generic primary-nav drawer primitive — confirm."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "Navigation rail",
+      "description": "Slim vertical strip of icon destinations",
+      "canonical": {
+        "industryCommon": "Navigation rail",
+        "aria": "—",
+        "pinkMoonHouse": "—"
+      },
+      "systems": {
+        "Material": "Navigation rail",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "—"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "A Material-3 coinage; no equivalent named elsewhere."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "Breadcrumbs",
+      "description": "Trail showing location in a hierarchy",
+      "canonical": {
+        "industryCommon": "Breadcrumbs",
+        "aria": "Breadcrumb",
+        "pinkMoonHouse": "Breadcrumbs"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "Breadcrumb",
+        "Polaris": "Breadcrumbs",
+        "Bootstrap": "Breadcrumb",
+        "Atlassian": "Breadcrumbs",
+        "Ant Design": "Breadcrumb"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Breadcrumb",
+      "note": "Aligned (singular/plural aside). Now codified — DS primitive 'Breadcrumb' (components/Breadcrumb)."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "Pagination",
+      "description": "Controls for moving between pages of results",
+      "canonical": {
+        "industryCommon": "Pagination",
+        "aria": "—",
+        "pinkMoonHouse": "Pagination"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Page control",
+        "Carbon": "Pagination",
+        "Polaris": "Pagination",
+        "Bootstrap": "Pagination",
+        "Atlassian": "Pagination",
+        "Ant Design": "Pagination"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Pagination",
+      "note": "Apple's dot-style 'Page control' is the visual & naming outlier. Ours: 'Pagination' (Patterns/Pagination)."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "Menu",
+      "description": "Floating list of actions/commands",
+      "canonical": {
+        "industryCommon": "Menu",
+        "aria": "Menu",
+        "pinkMoonHouse": "Menu"
+      },
+      "systems": {
+        "Material": "Menu",
+        "Apple HIG": "Menu",
+        "Carbon": "Menu",
+        "Polaris": "Action list",
+        "Bootstrap": "Dropdown",
+        "Atlassian": "Dropdown menu",
+        "Ant Design": "Menu"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Polaris's 'Action list' and Bootstrap's 'Dropdown' describe the same overlay."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "Stepper",
+      "description": "Linear multi-step progress through a flow",
+      "canonical": {
+        "industryCommon": "Stepper",
+        "aria": "—",
+        "pinkMoonHouse": "Stepper"
+      },
+      "systems": {
+        "Material": "Stepper",
+        "Apple HIG": "—",
+        "Carbon": "Progress indicator",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "Progress tracker",
+        "Ant Design": "Steps"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "'Stepper' here means progress steps — colliding with Apple's increment Stepper."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "Anchor nav",
+      "description": "Jump-links to sections within a long page",
+      "canonical": {
+        "industryCommon": "Anchor nav",
+        "aria": "—",
+        "pinkMoonHouse": "On-page nav"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "Scrollspy",
+        "Atlassian": "—",
+        "Ant Design": "Anchor"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "On-page nav — sidebar TOC",
+      "note": "ANNOTATION: used all over (PageSidebar TOC, in-page section jump-links) but not codified as its own component — owed a DS/Storybook story. Bootstrap's 'Scrollspy' names the behaviour; Ant calls the component 'Anchor'."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "Command palette",
+      "description": "Keyboard-driven action/search launcher",
+      "canonical": {
+        "industryCommon": "Command palette",
+        "aria": "—",
+        "pinkMoonHouse": "Command palette"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "—"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Ubiquitous in tools (⌘K) yet unnamed by every formal system audited."
+    },
+    {
+      "group": "Navigation",
+      "groupKey": "nav",
+      "component": "Toolbar",
+      "description": "Container of grouped action controls",
+      "canonical": {
+        "industryCommon": "Toolbar",
+        "aria": "Toolbar",
+        "pinkMoonHouse": "Toolbar"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Toolbar",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "Button toolbar",
+        "Atlassian": "—",
+        "Ant Design": "—"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Toolbar (extract)",
+      "note": "ARIA & Apple name it cleanly; most web systems compose it ad hoc. ANNOTATION: the reusable control-group primitive (role=toolbar), distinct from the App bar/Header layout region that COMPOSES it. POSITION: our FilterBar instantiates a toolbar ad hoc — no generic Toolbar primitive exists. FUTURE STATE: extract a 'Toolbar' primitive, then re-express FilterBar as a composition of it (law 02)."
+    },
+    {
+      "group": "Overlays & Surfaces",
+      "groupKey": "overlays",
+      "component": "Modal",
+      "description": "Focused window over a scrim, blocks page",
+      "canonical": {
+        "industryCommon": "Modal",
+        "aria": "Dialog (Modal)",
+        "pinkMoonHouse": "Dialog"
+      },
+      "systems": {
+        "Material": "Dialog",
+        "Apple HIG": "Sheet / Alert",
+        "Carbon": "Modal",
+        "Polaris": "Modal",
+        "Bootstrap": "Modal",
+        "Atlassian": "Modal dialog",
+        "Ant Design": "Modal"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "'Sheet' is the trap: Apple's 'Sheet' is this modal, but Material's 'Sheet' is a slide-in panel. (Dialog vs Modal alone is just two words for one thing.)"
+    },
+    {
+      "group": "Overlays & Surfaces",
+      "groupKey": "overlays",
+      "component": "Alert dialog",
+      "description": "Modal demanding a yes/no decision",
+      "canonical": {
+        "industryCommon": "Alert dialog",
+        "aria": "Alert Dialog",
+        "pinkMoonHouse": "Confirm dialog"
+      },
+      "systems": {
+        "Material": "Dialog (basic)",
+        "Apple HIG": "Alert",
+        "Carbon": "Modal (danger)",
+        "Polaris": "Modal",
+        "Bootstrap": "Modal",
+        "Atlassian": "Modal (warning)",
+        "Ant Design": "Modal.confirm"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "True false friend: Apple's 'Alert' is THIS confirm dialog, but everyone else's 'Alert' is an inline page message — same word, two different components."
+    },
+    {
+      "group": "Overlays & Surfaces",
+      "groupKey": "overlays",
+      "component": "Bottom sheet",
+      "description": "Panel sliding up from the bottom edge",
+      "canonical": {
+        "industryCommon": "Bottom sheet",
+        "aria": "—",
+        "pinkMoonHouse": "—"
+      },
+      "systems": {
+        "Material": "Bottom sheet",
+        "Apple HIG": "Sheet",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "Offcanvas (bottom)",
+        "Atlassian": "—",
+        "Ant Design": "Drawer (bottom)"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Apple's 'Sheet' covers any edge; Material reserves 'Bottom sheet' for the bottom."
+    },
+    {
+      "group": "Overlays & Surfaces",
+      "groupKey": "overlays",
+      "component": "Drawer",
+      "description": "Panel sliding in from a side edge",
+      "canonical": {
+        "industryCommon": "Drawer",
+        "aria": "—",
+        "pinkMoonHouse": "Side panel"
+      },
+      "systems": {
+        "Material": "Side sheet",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "Offcanvas",
+        "Atlassian": "Drawer",
+        "Ant Design": "Drawer"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "'Drawer' = nav menu to some, slide-in panel to others. Material splits it as 'Side sheet'."
+    },
+    {
+      "group": "Overlays & Surfaces",
+      "groupKey": "overlays",
+      "component": "Popover",
+      "description": "Small overlay anchored to a trigger",
+      "canonical": {
+        "industryCommon": "Popover",
+        "aria": "—",
+        "pinkMoonHouse": "Popover"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Popover",
+        "Carbon": "Popover",
+        "Polaris": "Popover",
+        "Bootstrap": "Popover",
+        "Atlassian": "Popup",
+        "Ant Design": "Popover"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Near-aligned; Atlassian's 'Popup' is the only spelling that drifts."
+    },
+    {
+      "group": "Overlays & Surfaces",
+      "groupKey": "overlays",
+      "component": "Tooltip",
+      "description": "Tiny text label on hover/focus",
+      "canonical": {
+        "industryCommon": "Tooltip",
+        "aria": "Tooltip",
+        "pinkMoonHouse": "Tooltip"
+      },
+      "systems": {
+        "Material": "Tooltip",
+        "Apple HIG": "Help tag / Tooltip",
+        "Carbon": "Tooltip",
+        "Polaris": "Tooltip",
+        "Bootstrap": "Tooltip",
+        "Atlassian": "Tooltip",
+        "Ant Design": "Tooltip"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Aligned across the board."
+    },
+    {
+      "group": "Overlays & Surfaces",
+      "groupKey": "overlays",
+      "component": "Toast",
+      "description": "Transient, auto-dismissing message",
+      "canonical": {
+        "industryCommon": "Toast",
+        "aria": "—",
+        "pinkMoonHouse": "Toast"
+      },
+      "systems": {
+        "Material": "Snackbar",
+        "Apple HIG": "—",
+        "Carbon": "Toast notification",
+        "Polaris": "Toast",
+        "Bootstrap": "Toast",
+        "Atlassian": "Flag",
+        "Ant Design": "message"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Snackbar / Toast / Flag / Notification — four words, one transient message."
+    },
+    {
+      "group": "Overlays & Surfaces",
+      "groupKey": "overlays",
+      "component": "Scrim",
+      "description": "Dimmed layer behind an overlay",
+      "canonical": {
+        "industryCommon": "Scrim",
+        "aria": "—",
+        "pinkMoonHouse": "Scrim"
+      },
+      "systems": {
+        "Material": "Scrim",
+        "Apple HIG": "Dimming view",
+        "Carbon": "—",
+        "Polaris": "Backdrop",
+        "Bootstrap": "Backdrop",
+        "Atlassian": "Blanket",
+        "Ant Design": "—"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Scrim / Backdrop / Blanket / Dimming view — same dark veil, four labels. Ours is a token/utility (used by ImageLightbox & modals), not a standalone component."
+    },
+    {
+      "group": "Overlays & Surfaces",
+      "groupKey": "overlays",
+      "component": "Popper",
+      "description": "Generic anchored floating layer primitive",
+      "canonical": {
+        "industryCommon": "Popper",
+        "aria": "—",
+        "pinkMoonHouse": "—"
+      },
+      "systems": {
+        "Material": "Popper (MUI)",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "Popup (Popper)",
+        "Ant Design": "—"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "A positioning primitive (Popper.js) surfacing as a named component in MUI/Atlassian."
+    },
+    {
+      "group": "Feedback & Status",
+      "groupKey": "feedback",
+      "component": "Alert",
+      "description": "Inline contextual message in the page flow",
+      "canonical": {
+        "industryCommon": "Alert",
+        "aria": "Alert",
+        "pinkMoonHouse": "Callout"
+      },
+      "systems": {
+        "Material": "Banner",
+        "Apple HIG": "—",
+        "Carbon": "Inline notification",
+        "Polaris": "Banner",
+        "Bootstrap": "Alert",
+        "Atlassian": "Section message",
+        "Ant Design": "Alert"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Callout",
+      "note": "Alert / Banner / Inline notification / Section message — five words for the in-page message. ('Alert' is overloaded — see Confirm dialog.)"
+    },
+    {
+      "group": "Feedback & Status",
+      "groupKey": "feedback",
+      "component": "Badge",
+      "description": "Small count or dot on an element",
+      "canonical": {
+        "industryCommon": "Badge",
+        "aria": "—",
+        "pinkMoonHouse": "Badge"
+      },
+      "systems": {
+        "Material": "Badge",
+        "Apple HIG": "Badge",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "Badge",
+        "Atlassian": "Badge",
+        "Ant Design": "Badge"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "'Badge' names two different things: a numeric count (Material/Apple/Bootstrap) vs a status label (Polaris). Atlassian keeps them apart — count = 'Badge', status = 'Lozenge'."
+    },
+    {
+      "group": "Feedback & Status",
+      "groupKey": "feedback",
+      "component": "Status badge",
+      "description": "Colour-coded status label",
+      "canonical": {
+        "industryCommon": "Status badge",
+        "aria": "—",
+        "pinkMoonHouse": "Status chip"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "Tag",
+        "Polaris": "Badge",
+        "Bootstrap": "Badge",
+        "Atlassian": "Lozenge",
+        "Ant Design": "Badge (status)"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Status chip",
+      "note": "Polaris/Bootstrap 'Badge', Carbon 'Tag', Atlassian 'Lozenge' — one status pill, and 'Badge' collides with the numeric-count Badge (see above)."
+    },
+    {
+      "group": "Feedback & Status",
+      "groupKey": "feedback",
+      "component": "Progress bar",
+      "description": "Determinate linear completion track",
+      "canonical": {
+        "industryCommon": "Progress bar",
+        "aria": "—",
+        "pinkMoonHouse": "Progress bar"
+      },
+      "systems": {
+        "Material": "Progress indicator",
+        "Apple HIG": "Progress view",
+        "Carbon": "Progress bar",
+        "Polaris": "Progress bar",
+        "Bootstrap": "Progress",
+        "Atlassian": "Progress bar",
+        "Ant Design": "Progress"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Material 'indicator' & Apple 'view' wrap both linear and circular under one name."
+    },
+    {
+      "group": "Feedback & Status",
+      "groupKey": "feedback",
+      "component": "Spinner",
+      "description": "Indeterminate loading indicator",
+      "canonical": {
+        "industryCommon": "Spinner",
+        "aria": "—",
+        "pinkMoonHouse": "Spinner"
+      },
+      "systems": {
+        "Material": "Progress indicator (circular)",
+        "Apple HIG": "Activity indicator",
+        "Carbon": "Loading",
+        "Polaris": "Spinner",
+        "Bootstrap": "Spinner",
+        "Atlassian": "Spinner",
+        "Ant Design": "Spin"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Spinner / Activity indicator / Loading / Circular progress — many words, one busy indicator."
+    },
+    {
+      "group": "Feedback & Status",
+      "groupKey": "feedback",
+      "component": "Skeleton",
+      "description": "Greyed placeholder shape during load",
+      "canonical": {
+        "industryCommon": "Skeleton",
+        "aria": "—",
+        "pinkMoonHouse": "Skeleton"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Redacted (Skeleton)",
+        "Carbon": "Skeleton",
+        "Polaris": "Skeleton (Body text/Page)",
+        "Bootstrap": "Placeholder",
+        "Atlassian": "—",
+        "Ant Design": "Skeleton"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Skeleton — in Tile loading",
+      "note": "Everyone says 'Skeleton'; only Bootstrap says 'Placeholder' (which also risks colliding with input placeholder text). POSITION: a skeleton ships inside Tile's 'content preview loading' story but isn't factored out. FUTURE STATE: extract a 'Skeleton' primitive, then have Tile (and other loading states) compose it (law 02)."
+    },
+    {
+      "group": "Feedback & Status",
+      "groupKey": "feedback",
+      "component": "Empty state",
+      "description": "Zero-data illustration + guidance",
+      "canonical": {
+        "industryCommon": "Empty state",
+        "aria": "—",
+        "pinkMoonHouse": "Empty state"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "Empty state",
+        "Bootstrap": "—",
+        "Atlassian": "Empty state",
+        "Ant Design": "Empty"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Only Polaris & Atlassian name it as a component; others treat it as a layout."
+    },
+    {
+      "group": "Feedback & Status",
+      "groupKey": "feedback",
+      "component": "Meter",
+      "description": "Gauge of a value within a known range",
+      "canonical": {
+        "industryCommon": "Meter",
+        "aria": "Meter",
+        "pinkMoonHouse": "Meter"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Gauge",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "—"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Meter — inside Tile",
+      "note": "ARIA 'Meter' vs Apple 'Gauge'; largely absent elsewhere. POSITION: a meter bar ships inside Tile's 'Metric with bar' story, but isn't factored out as its own component. FUTURE STATE: extract a 'Meter' primitive (role=meter, value-in-range), then have Tile compose it (law 02). Confirm it's a true meter, not a progress bar."
+    },
+    {
+      "group": "Feedback & Status",
+      "groupKey": "feedback",
+      "component": "Banner",
+      "description": "Persistent page-level system message",
+      "canonical": {
+        "industryCommon": "Banner",
+        "aria": "—",
+        "pinkMoonHouse": "Banner"
+      },
+      "systems": {
+        "Material": "Banner",
+        "Apple HIG": "—",
+        "Carbon": "Notification (inline)",
+        "Polaris": "Banner",
+        "Bootstrap": "Alert",
+        "Atlassian": "Banner",
+        "Ant Design": "Alert (banner)"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Diverges",
+      "pinkMoonStatusKey": "diverges",
+      "pinkMoonName": "Callout (banner)",
+      "note": "'Banner' is near-consistent for the page-level message; only Bootstrap still says 'Alert'."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Data table",
+      "description": "Rows × columns of structured data",
+      "canonical": {
+        "industryCommon": "Data table",
+        "aria": "Table",
+        "pinkMoonHouse": "Table"
+      },
+      "systems": {
+        "Material": "Data table",
+        "Apple HIG": "Table",
+        "Carbon": "Data table",
+        "Polaris": "Index table",
+        "Bootstrap": "Table",
+        "Atlassian": "Dynamic table",
+        "Ant Design": "Table"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Table",
+      "note": "'Table' vs 'Data table' vs 'Index table' vs 'Dynamic table' — four framings of rows & columns. Ours: DS primitive 'Table' (registry · Primitives/Table)."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "List",
+      "description": "Vertical stack of homogeneous rows",
+      "canonical": {
+        "industryCommon": "List",
+        "aria": "Listbox",
+        "pinkMoonHouse": "List"
+      },
+      "systems": {
+        "Material": "List",
+        "Apple HIG": "List",
+        "Carbon": "Structured list",
+        "Polaris": "Resource list",
+        "Bootstrap": "List group",
+        "Atlassian": "—",
+        "Ant Design": "List"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "List / List group / Resource list / Structured list — same rows, four names. No List primitive in our registry (CardGrid / Table cover list-like layouts)."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "List item",
+      "description": "Single row within a list",
+      "canonical": {
+        "industryCommon": "List item",
+        "aria": "Option",
+        "pinkMoonHouse": "List item"
+      },
+      "systems": {
+        "Material": "List item",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "Resource item",
+        "Bootstrap": "List group item",
+        "Atlassian": "—",
+        "Ant Design": "List.Item"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Naming tracks whatever the parent list is called."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Card",
+      "description": "Self-contained content container",
+      "canonical": {
+        "industryCommon": "Card",
+        "aria": "—",
+        "pinkMoonHouse": "Card"
+      },
+      "systems": {
+        "Material": "Card",
+        "Apple HIG": "—",
+        "Carbon": "Tile",
+        "Polaris": "Card",
+        "Bootstrap": "Card",
+        "Atlassian": "Card",
+        "Ant Design": "Card"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Card",
+      "note": "Two words, one container: Carbon's 'Tile' is the lone dissenter from the universal 'Card'. ('Tile' is the actual false friend — see the Tile row.)"
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Tile",
+      "description": "Square content/metric block, often a grid",
+      "canonical": {
+        "industryCommon": "Tile",
+        "aria": "—",
+        "pinkMoonHouse": "Card (variant at most)"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "Tile",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "—"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "Diverges",
+      "pinkMoonStatusKey": "diverges",
+      "pinkMoonName": "Tile → fold into Card",
+      "note": "Carbon 'Tile' is its Card; Fluent 'Tile' is a launcher square — same word, two meanings. DECISION: strip out Metric/Meter/Skeleton and what's left is a container — i.e. a Card (Carbon proves it: their 'Tile' IS their Card). Fold Tile into Card (a Card variant at most); a 'stat tile' = a Card composing a Metric; the stat/trust section = a CardGrid of those Cards (composite pattern). statTileSection → CardGrid/cardBuilderSection."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Accordion",
+      "description": "Expandable header revealing content",
+      "canonical": {
+        "industryCommon": "Accordion",
+        "aria": "Accordion",
+        "pinkMoonHouse": "Accordion"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Disclosure group",
+        "Carbon": "Accordion",
+        "Polaris": "Collapsible",
+        "Bootstrap": "Accordion",
+        "Atlassian": "—",
+        "Ant Design": "Collapse"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Accordion",
+      "note": "Accordion / Expansion panel / Disclosure group / Collapsible all expand-collapse content. Ours: DS primitive 'Accordion' (accordionSection)."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Disclosure",
+      "description": "Single show/hide toggle of content",
+      "canonical": {
+        "industryCommon": "Disclosure",
+        "aria": "Disclosure",
+        "pinkMoonHouse": "Disclosure"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Disclosure",
+        "Carbon": "—",
+        "Polaris": "Collapsible",
+        "Bootstrap": "Collapse",
+        "Atlassian": "Expand",
+        "Ant Design": "Collapse"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Disclosure / Collapse / Collapsible / Expand — the single-panel cousin of Accordion."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Tree view",
+      "description": "Hierarchical expandable node list",
+      "canonical": {
+        "industryCommon": "Tree view",
+        "aria": "Tree View",
+        "pinkMoonHouse": "Tree"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Outline group",
+        "Carbon": "Tree view",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "Tree"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Apple's 'Outline' vs everyone's 'Tree'; sparse support overall."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Avatar",
+      "description": "Circular user/entity image or initials",
+      "canonical": {
+        "industryCommon": "Avatar",
+        "aria": "—",
+        "pinkMoonHouse": "Avatar"
+      },
+      "systems": {
+        "Material": "Avatar (MUI)",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "Avatar",
+        "Bootstrap": "—",
+        "Atlassian": "Avatar",
+        "Ant Design": "Avatar"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Avatar — person pages",
+      "note": "Named consistently where present; absent in core Bootstrap/Carbon. POSITION: in use on person detail pages (e.g. /people/beehead) but no codified Avatar primitive in the DS/Storybook. FUTURE STATE: codify an 'Avatar' primitive, then have the person/metadata surfaces compose it."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Avatar group",
+      "description": "Overlapping cluster of avatars",
+      "canonical": {
+        "industryCommon": "Avatar group",
+        "aria": "—",
+        "pinkMoonHouse": "Avatar group"
+      },
+      "systems": {
+        "Material": "AvatarGroup (MUI)",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "AvatarGroup",
+        "Ant Design": "Avatar.Group"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "'Avatar group' is consistent — but only two systems formalise it."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Timeline",
+      "description": "Vertical sequence of dated events",
+      "canonical": {
+        "industryCommon": "Timeline",
+        "aria": "—",
+        "pinkMoonHouse": "Timeline"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "Timeline"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Ant names it 'Timeline'; still absent from the other six systems."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Carousel",
+      "description": "Rotating set of slides/items",
+      "canonical": {
+        "industryCommon": "Carousel",
+        "aria": "Carousel",
+        "pinkMoonHouse": "Carousel"
+      },
+      "systems": {
+        "Material": "Carousel",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "Carousel",
+        "Atlassian": "—",
+        "Ant Design": "Carousel"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Carousel — page builder",
+      "note": "ANNOTATION: already shipped in Studio/Web as a page-builder section, but not codified in the DS or Storybook. Names are aligned industry-wide ('Carousel'); Apple uses paged scroll + Page control."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Gallery",
+      "description": "Grid of images / media tiles",
+      "canonical": {
+        "industryCommon": "Gallery",
+        "aria": "—",
+        "pinkMoonHouse": "Gallery"
+      },
+      "systems": {
+        "Material": "Image list",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "Image.PreviewGroup"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Gallery — page builder",
+      "note": "ANNOTATION: lives in Studio/Web page-builder sections, not yet codified in the DS or Storybook. Barely named elsewhere — Material's is 'Image list', Ant groups previews under 'Image'."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Thumbnail",
+      "description": "Small fixed-size preview image",
+      "canonical": {
+        "industryCommon": "Thumbnail",
+        "aria": "—",
+        "pinkMoonHouse": "Thumbnail"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "Thumbnail",
+        "Bootstrap": "—",
+        "Atlassian": "Image",
+        "Ant Design": "Image"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Mostly just an 'Image'; Polaris formalises the small variant as 'Thumbnail'."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Code block",
+      "description": "Formatted block of source code",
+      "canonical": {
+        "industryCommon": "Code block",
+        "aria": "—",
+        "pinkMoonHouse": "Code block"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "Code snippet",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "Code block",
+        "Ant Design": "—"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Code block",
+      "note": "Carbon's 'Code snippet' vs the more common 'Code block'."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Description list",
+      "description": "Key/value paired descriptions",
+      "canonical": {
+        "industryCommon": "Description list",
+        "aria": "—",
+        "pinkMoonHouse": "Description list"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "Description list",
+        "Bootstrap": "Description list",
+        "Atlassian": "—",
+        "Ant Design": "Descriptions"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Tracks the HTML <dl> element; sometimes 'Definition list'."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Data grid",
+      "description": "Editable spreadsheet-grade data grid",
+      "canonical": {
+        "industryCommon": "Data grid",
+        "aria": "Grid",
+        "pinkMoonHouse": "Table (editable mode)"
+      },
+      "systems": {
+        "Material": "Data grid (MUI)",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "Table"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "DECISION: collapses into Table — a capability tier (display → sortable → editable/virtualized), not a separate component. Industry only splits it out for heavy engines (MUI DataGrid, AG Grid). Avoid the name 'Data grid': 'Grid' is a false friend with the CSS layout Grid and the ARIA grid role. The Table primitive is in system; an editable mode isn't built — add it as a Table variant (role=table read-only → role=grid editable), never a 'DataGrid'."
+    },
+    {
+      "group": "Data Display",
+      "groupKey": "data",
+      "component": "Statistic",
+      "description": "Large single figure with label/trend",
+      "canonical": {
+        "industryCommon": "Statistic",
+        "aria": "—",
+        "pinkMoonHouse": "Metric"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "Statistic"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Metric — in Tile",
+      "note": "Ant 'Statistic', others 'Metric'/'KPI'; no formal consensus. POSITION: the metric figure (value + label + trend) lives inside Tile's stories, not factored out. FUTURE STATE: extract a 'Metric' primitive, then have Tile compose it (law 02)."
+    },
+    {
+      "group": "Layout & Containers",
+      "groupKey": "layout",
+      "component": "Grid",
+      "description": "Two-dimensional layout system",
+      "canonical": {
+        "industryCommon": "Grid",
+        "aria": "Grid",
+        "pinkMoonHouse": "Grid"
+      },
+      "systems": {
+        "Material": "Grid",
+        "Apple HIG": "Grid / LazyVGrid",
+        "Carbon": "Grid",
+        "Polaris": "Grid",
+        "Bootstrap": "Grid",
+        "Atlassian": "Grid",
+        "Ant Design": "Grid (Row/Col)"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Grid",
+      "note": "Everyone agrees on 'Grid' for layout — but ARIA 'Grid' is an interactive widget, not layout. Ours: DS primitive 'Grid'."
+    },
+    {
+      "group": "Layout & Containers",
+      "groupKey": "layout",
+      "component": "Stack",
+      "description": "One-axis spacing container",
+      "canonical": {
+        "industryCommon": "Stack",
+        "aria": "—",
+        "pinkMoonHouse": "Stack"
+      },
+      "systems": {
+        "Material": "Stack (MUI)",
+        "Apple HIG": "VStack / HStack",
+        "Carbon": "Stack",
+        "Polaris": "Stack / BlockStack / InlineStack",
+        "Bootstrap": "Stack",
+        "Atlassian": "Stack",
+        "Ant Design": "Space"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Stack — absorbs Flex",
+      "note": "Rare modern alignment — 'Stack' won, though Apple/Polaris split it by axis. POSITION: the new responsive ButtonGroup view reflows its buttons via Stack — a concrete consumer. DECISION (SUG-Flex): codify ONE 'Stack' primitive and fold Flex into it — do NOT ship a standalone Flex. Stack owns one-axis layout with TOKEN GAP ONLY, plus optional align/justify/wrap and a RESPONSIVE 'direction' prop (e.g. {base:'vertical', md:'horizontal'}) — which is exactly what the responsive ButtonGroup needs. Name it 'Stack' (what it is), not 'Flex' (the implementation). True full-flex needs (grow/shrink ratios) drop to Box + explicit style — a rare, explicit escape hatch, not a generic primitive. ButtonGroup's responsive mode then composes Stack (law 02)."
+    },
+    {
+      "group": "Layout & Containers",
+      "groupKey": "layout",
+      "component": "Container",
+      "description": "Width-constraining centred wrapper",
+      "canonical": {
+        "industryCommon": "Container",
+        "aria": "—",
+        "pinkMoonHouse": "Container"
+      },
+      "systems": {
+        "Material": "Container (MUI)",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "Container",
+        "Atlassian": "—",
+        "Ant Design": "Layout.Content"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Container — standalone",
+      "note": "Bootstrap/MUI name it; others bake max-width into page/grid. DECISION (SUG-146): codify 'Container' as its OWN primitive, NOT a prop on Page. Width-constraint recurs at multiple nesting levels (page main region AND individual sections — full-bleed hero vs constrained text in the same page), so it can't live only at the page root. Built on Box; Page COMPOSES Container for its content region (law 02). A 'size' prop encodes the named width tokens (reading 760 / detail 1080 / archive 960) as config; full-bleed = no Container (or size='bleed'). HARD CONSTRAINT: max-width centring lives in Container ONLY — Page must NOT also carry a maxWidth prop (two places to constrain = the drift). Phase 0: grep hardcoded 760/960/1080 + stray max-width+margin-inline:auto; each cluster becomes a Container size token."
+    },
+    {
+      "group": "Layout & Containers",
+      "groupKey": "layout",
+      "component": "Box",
+      "description": "Unstyled layout/style primitive",
+      "canonical": {
+        "industryCommon": "Box",
+        "aria": "—",
+        "pinkMoonHouse": "Box"
+      },
+      "systems": {
+        "Material": "Box (MUI)",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "Box",
+        "Bootstrap": "—",
+        "Atlassian": "Box",
+        "Ant Design": "—"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Box — in content layouts",
+      "note": "A primitives-era component (MUI/Chakra/Polaris); not in classic systems. POSITION: the unstyled style/layout primitive is hand-rolled across content layouts. FUTURE STATE: codify a 'Box' primitive (the token-aware style base the others build on) and audit for drift."
+    },
+    {
+      "group": "Layout & Containers",
+      "groupKey": "layout",
+      "component": "Spacer",
+      "description": "Fixed-gap inserter between elements",
+      "canonical": {
+        "industryCommon": "Spacer",
+        "aria": "—",
+        "pinkMoonHouse": "Spacer"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Spacer",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "—"
+      },
+      "divergence": "Contested",
+      "divergenceKey": "contested",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "DECISION: not a component for us. SwiftUI/Chakra ship a 'Spacer' component, but we handle spacing as a FOUNDATION — the --st-space-* token scale (foundations/token-reference), consumed via gap/margin. Intentionally absent: spacing tokens ≠ a Spacer component (same don't-conflate-tokens-with-components rule that caught Slider)."
+    },
+    {
+      "group": "Layout & Containers",
+      "groupKey": "layout",
+      "component": "Divider",
+      "description": "Horizontal/vertical rule between content",
+      "canonical": {
+        "industryCommon": "Divider",
+        "aria": "Separator",
+        "pinkMoonHouse": "Divider"
+      },
+      "systems": {
+        "Material": "Divider",
+        "Apple HIG": "Divider",
+        "Carbon": "—",
+        "Polaris": "Divider",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "Divider"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Divider — in PT modules",
+      "note": "'Divider' (UI) vs 'Separator' (ARIA role); Bootstrap just uses <hr>. POSITION: rendered inside PortableText modules & PT-containing sections, but not factored out — today it's the --st-margin-divider rule. FUTURE STATE: codify a 'Divider' primitive (role=separator) that the PT renderer composes (law 02)."
+    },
+    {
+      "group": "Layout & Containers",
+      "groupKey": "layout",
+      "component": "Page",
+      "description": "Top-level routed screen wrapper",
+      "canonical": {
+        "industryCommon": "Page",
+        "aria": "—",
+        "pinkMoonHouse": "Page"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "Page",
+        "Bootstrap": "—",
+        "Atlassian": "Page",
+        "Ant Design": "—"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Page — composes Container",
+      "note": "Polaris/Atlassian formalise 'Page'; most leave it to the app. POSITION: page scaffolding (gutters, region slots) is repeated across content layouts, not codified. FUTURE STATE: codify a 'Page' primitive — the top-level scaffold (header/main/footer region slots + page gutters). DECISION (SUG-146): Page does NOT own max-width — it COMPOSES Container for its content region (law 02) and carries NO maxWidth prop of its own. Audit existing layouts for drift."
+    },
+    {
+      "group": "Layout & Containers",
+      "groupKey": "layout",
+      "component": "App shell",
+      "description": "App frame: header + nav + content regions",
+      "canonical": {
+        "industryCommon": "App shell",
+        "aria": "—",
+        "pinkMoonHouse": "App shell"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "UI shell",
+        "Polaris": "Frame",
+        "Bootstrap": "—",
+        "Atlassian": "Page layout",
+        "Ant Design": "Layout"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Shell — in content layouts",
+      "note": "UI shell / Frame / Page layout / App shell — the same scaffolding, four names. POSITION: header+nav+content scaffolding repeated across content layouts. FUTURE STATE: codify ONE shell primitive (pick the canonical name) and audit for drift."
+    },
+    {
+      "group": "Layout & Containers",
+      "groupKey": "layout",
+      "component": "Panel",
+      "description": "Generic bordered content region",
+      "canonical": {
+        "industryCommon": "Panel",
+        "aria": "—",
+        "pinkMoonHouse": "Panel"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "Panel",
+        "Ant Design": "—"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Panel — disambiguate",
+      "note": "'Panel' is wildly overloaded (side panel, tab panel, expansion panel, surface). POSITION: generic bordered regions repeated across content layouts. FUTURE STATE: codify — but name by role (Surface / Card / labelled Region), not the vague 'Panel'; audit usages for drift."
+    },
+    {
+      "group": "Layout & Containers",
+      "groupKey": "layout",
+      "component": "Surface",
+      "description": "Elevated background surface token",
+      "canonical": {
+        "industryCommon": "Surface",
+        "aria": "—",
+        "pinkMoonHouse": "Surface"
+      },
+      "systems": {
+        "Material": "Surface",
+        "Apple HIG": "—",
+        "Carbon": "Layer",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "Surface",
+        "Ant Design": "—"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Surface — in content layouts",
+      "note": "Material/Atlassian 'Surface' vs Carbon 'Layer' for elevation backgrounds. POSITION: today an elevation token applied ad hoc across layouts. FUTURE STATE: codify a 'Surface' primitive (elevation container — Material/Atlassian precedent) and audit token usage for drift."
+    },
+    {
+      "group": "Layout & Containers",
+      "groupKey": "layout",
+      "component": "Flex",
+      "description": "Flexbox layout wrapper",
+      "canonical": {
+        "industryCommon": "Flex",
+        "aria": "—",
+        "pinkMoonHouse": "Stack (folded in)"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "FlexGrid",
+        "Polaris": "InlineStack",
+        "Bootstrap": "Flex (utilities)",
+        "Atlassian": "Flex",
+        "Ant Design": "Flex"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Chakra/Atlassian 'Flex'; Polaris folds it into Stack; Bootstrap as utilities. DECISION (SUG-Flex, resolved): NOT a standalone primitive for us — folds into Stack. 'Flex' names the implementation (flexbox); 'Stack' names what it is (one-axis spacing). A generic Flex re-exposes the full flex API and re-legitimizes the per-call-site gap drift this audit exists to kill; Polaris's no-Flex model is the precedent. The hand-rolled flex wrappers across content layouts migrate to Stack; genuine full-flex control drops to Box + explicit style."
+    },
+    {
+      "group": "Primitives & Utilities",
+      "groupKey": "primitives",
+      "component": "Icon",
+      "description": "Vector glyph, inherits colour & size",
+      "canonical": {
+        "industryCommon": "Icon",
+        "aria": "—",
+        "pinkMoonHouse": "Icon"
+      },
+      "systems": {
+        "Material": "Icon",
+        "Apple HIG": "Image (SF Symbol)",
+        "Carbon": "Icon",
+        "Polaris": "Icon",
+        "Bootstrap": "Icon (Bootstrap Icons)",
+        "Atlassian": "Icon",
+        "Ant Design": "Icon"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Aligned on 'Icon'; Apple routes glyphs through SF Symbols + Image. We consume lucide-react directly — no Icon wrapper primitive."
+    },
+    {
+      "group": "Primitives & Utilities",
+      "groupKey": "primitives",
+      "component": "Portal",
+      "description": "Renders children into a different DOM node",
+      "canonical": {
+        "industryCommon": "Portal",
+        "aria": "—",
+        "pinkMoonHouse": "Portal"
+      },
+      "systems": {
+        "Material": "Portal (MUI)",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "Portal",
+        "Bootstrap": "—",
+        "Atlassian": "Portal",
+        "Ant Design": "—"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "A React-era primitive; consistently 'Portal' where exposed."
+    },
+    {
+      "group": "Primitives & Utilities",
+      "groupKey": "primitives",
+      "component": "Visually hidden",
+      "description": "Content visible only to screen readers",
+      "canonical": {
+        "industryCommon": "Visually hidden",
+        "aria": "—",
+        "pinkMoonHouse": "Visually hidden"
+      },
+      "systems": {
+        "Material": "Visually hidden",
+        "Apple HIG": "Accessibility hidden",
+        "Carbon": "—",
+        "Polaris": "Visually hidden",
+        "Bootstrap": "Visually hidden",
+        "Atlassian": "Visually hidden",
+        "Ant Design": "—"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Near-aligned; older code still says 'sr-only'."
+    },
+    {
+      "group": "Primitives & Utilities",
+      "groupKey": "primitives",
+      "component": "Aspect ratio",
+      "description": "Maintains a fixed width:height ratio",
+      "canonical": {
+        "industryCommon": "Aspect ratio",
+        "aria": "—",
+        "pinkMoonHouse": "Aspect ratio"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "Aspect ratio",
+        "Polaris": "—",
+        "Bootstrap": "Ratio",
+        "Atlassian": "—",
+        "Ant Design": "—"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Bootstrap's 'Ratio' vs the longer 'Aspect ratio' elsewhere."
+    },
+    {
+      "group": "Primitives & Utilities",
+      "groupKey": "primitives",
+      "component": "Scroll area",
+      "description": "Custom-styled scrollable region",
+      "canonical": {
+        "industryCommon": "Scroll area",
+        "aria": "—",
+        "pinkMoonHouse": "Scroll area"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Scroll view",
+        "Carbon": "—",
+        "Polaris": "Scrollable",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "—"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Scroll area (Radix) / Scroll view (Apple) / Scrollable (Polaris)."
+    },
+    {
+      "group": "Primitives & Utilities",
+      "groupKey": "primitives",
+      "component": "Label",
+      "description": "Text caption labelling a control",
+      "canonical": {
+        "industryCommon": "Label",
+        "aria": "—",
+        "pinkMoonHouse": "Label"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Label",
+        "Carbon": "—",
+        "Polaris": "Label",
+        "Bootstrap": "Form label",
+        "Atlassian": "Label",
+        "Ant Design": "Form label"
+      },
+      "divergence": "False friend",
+      "divergenceKey": "false",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Form label — in ContactForm",
+      "note": "'Label' as a form caption vs Apple's 'Label' (icon+text row) — same word, different jobs. We ship 'SectionLabel' (the mono eyebrow) — a third meaning. POSITION: a form-field label lives inside ContactForm but isn't codified (and isn't SectionLabel). Needed to build a generic Form (law 02)."
+    },
+    {
+      "group": "Primitives & Utilities",
+      "groupKey": "primitives",
+      "component": "Keyboard key",
+      "description": "Keyboard key visual",
+      "canonical": {
+        "industryCommon": "Keyboard key",
+        "aria": "—",
+        "pinkMoonHouse": "Kbd"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "Keyboard key",
+        "Bootstrap": "Kbd",
+        "Atlassian": "—",
+        "Ant Design": "—"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "Not yet",
+      "pinkMoonStatusKey": "missing",
+      "pinkMoonName": null,
+      "note": "Tracks the <kbd> element; 'Kbd' vs 'Keyboard key'."
+    },
+    {
+      "group": "Primitives & Utilities",
+      "groupKey": "primitives",
+      "component": "Truncate",
+      "description": "Truncates overflow text with ellipsis",
+      "canonical": {
+        "industryCommon": "Truncate",
+        "aria": "—",
+        "pinkMoonHouse": "Truncate"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "Truncate",
+        "Bootstrap": "Text truncation",
+        "Atlassian": "—",
+        "Ant Design": "Typography (ellipsis)"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Truncate — card excerpts",
+      "note": "A utility more than a component; named inconsistently. POSITION: card excerpts truncate with ellipsis/line-clamp, ad hoc. FUTURE STATE: codify a 'Truncate' utility/primitive (line-clamp + ellipsis) that Card and PT compose."
+    },
+    {
+      "group": "Primitives & Utilities",
+      "groupKey": "primitives",
+      "component": "Overflow menu",
+      "description": "Reveals overflowing actions in a menu",
+      "canonical": {
+        "industryCommon": "Overflow menu",
+        "aria": "Menu",
+        "pinkMoonHouse": "Overflow menu"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "Overflow menu",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "Dropdown"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Overflow — card tag chips",
+      "note": "The '⋯' menu; Carbon names it, most fold it into Menu/Dropdown. POSITION: cards overflow their tag chips to a '+N more' indicator, ad hoc. NOTE: that chip-overflow ('+N') is distinct from this action-overflow ('⋯') menu — likely two primitives (an overflow indicator vs a Menu). FUTURE STATE: codify both; have Card compose the chip-overflow one."
+    },
+    {
+      "group": "Primitives & Utilities",
+      "groupKey": "primitives",
+      "component": "Page control",
+      "description": "Numbered/dotted index of carousel position",
+      "canonical": {
+        "industryCommon": "Page control",
+        "aria": "—",
+        "pinkMoonHouse": "—"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "Page control",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "Carousel indicators",
+        "Atlassian": "—",
+        "Ant Design": "Carousel dots"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Page control — with Carousel",
+      "note": "Apple 'Page control' vs Bootstrap 'Carousel indicators' for the same dots. POSITION: ships inside the Carousel page-builder section but isn't factored out. FUTURE STATE: codify a 'Page control' primitive (role-appropriate dots/index) that the Carousel composes (law 02)."
+    }
+  ]
+}

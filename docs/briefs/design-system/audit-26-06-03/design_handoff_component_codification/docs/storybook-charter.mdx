@@ -1,0 +1,81 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Start here/Naming & Composition Charter" />
+
+{/*
+  Storybook intro / Docs page for the Sugartown design system.
+  Target path in repo: a Docs-only story, e.g.
+    apps/web/.storybook/stories/Charter.mdx   (title: "Start here/Naming & Composition Charter")
+  Keep this as the FIRST entry in the sidebar so it's the first thing anyone sees.
+
+  Source of truth: the Component Naming Audit + uploads/component-registry.md.
+*/}
+
+# Naming & Composition Charter
+
+This Storybook, the **[Component Naming Audit]**, and the **component registry** are the reference of
+record for what components exist and what they are called. Before any new component is added — by a
+person or an AI — it is checked against them. **Nothing is invented from scratch.**
+
+This page is the short version. Open the audit for the full cross-system breakdown and the live status
+of every component.
+
+---
+
+## The three laws
+
+**01 · Name by what it _is_, not what it's _for_.**
+A form is a `Form`. A contact form is that `Form` configured with content — never a `ContactForm`.
+Use-case names (`ContactForm`, `ThemeToggle`, `NewsletterSignup`, `HeroBanner`) are rejected on sight.
+The domain noun belongs in data/config, not the component name.
+
+**02 · Primitives-first; compose patterns from them.**
+A pattern is _only_ a composition of codified primitives. If a needed primitive isn't in the registry,
+it is built and given a story **first**, then composed. No pattern ships with un-codified parts.
+
+**03 · Reuse before you name.**
+Search the audit first. If the concept already exists under another name — a false friend or a synonym —
+use the agreed canonical name. A new name requires evidence the concept is genuinely new.
+
+---
+
+## The three tiers
+
+| Tier | What it is | Named by | Lives in | Examples |
+|------|-----------|----------|----------|----------|
+| **Primitive** | Atomic, reusable, owns no use-case | its role | `packages/ds/` | Button, Input, Chip, Card, Table, Tile |
+| **Pattern** | A composition of primitives | its structure | `web/components/` | Form, CardGrid, MetadataCard, DataTable |
+| **Instance** | A configuration of a pattern | _(not a component)_ | Studio / content | "contact form", "newsletter signup", "stat tiles" |
+
+If the thing you're about to name is an **Instance**, it is content — do not create a component for it.
+
+---
+
+## Before you add a component
+
+1. Is it named for a use-case (a domain noun)? → it's an **Instance**, not a component. Stop.
+2. Does it already exist in the registry or audit under another name? → use that name.
+3. Is it a primitive, or a composition of primitives?
+4. If a composition — are all child primitives codified (registry ✓)? If not, codify them first.
+5. Pick the canonical, role-based name; confirm it isn't a false friend.
+6. Add the Storybook story + registry row **before** it ships.
+
+Use the **component PR template** — it turns this list into review gates.
+
+---
+
+## Watch for false friends
+
+Same word, different component across systems — the dangerous case. Confirm you mean the same thing
+the rest of the field does before you adopt a name:
+
+`Stepper` (increment vs progress) · `Drawer` (nav menu vs slide-in panel) · `Tag` (input token vs status label) ·
+`Badge` (count vs status pill) · `Tile` (card vs launcher) · `Dialog`/`Modal` · `Label` (form caption vs row) ·
+`Grid` (CSS layout vs interactive widget).
+
+## Known offenders (being retired)
+
+- **`ContactForm`** → should be a generic `Form`; "contact" is configuration.
+- **`ThemeToggle`** → no generic `Switch`/`Toggle` primitive exists yet; factor one out, then bind "theme".
+
+[Component Naming Audit]: ../Component%20Naming%20Audit.html
