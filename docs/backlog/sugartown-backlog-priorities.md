@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-03 · v0.26.1 released — SUG-143 added (Archive Layout Documentation — Storybook LAYOUTS stories & glossary scoping).
+> Updated 2026-06-04 · v0.26.2 released — SUG-141 shipped (DS Usage Docs — Typography conventions: H1 italic/roman rule, usage doc template + style guide).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.0 released ✅ 2026-06-02. 17 epics shipped. Next: SUG-107 (Client taxonomy) or SUG-35 (Glossary).
+> **⚑ Current focus:** v0.26.2 released ✅ 2026-06-04. SUG-141 Typography conventions shipped. Next: SUG-147 (DS Phase 1 — layout drift audit + Input codification verify).
 
 ---
 
@@ -63,7 +63,7 @@
 | 1 | ~~**[SUG-106](https://linear.app/sugartown/issue/SUG-106) · Stats pipeline fix + SUG-100 close-out** — Shipped.~~ | `Performance` `Tooling` `Infrastructure` | ✅ Shipped |
 | 3 | ~~**[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — `useScrollspy` hook extracted, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors fixed + pre-commit gate activated. Shipped v0.23.24.~~ | `Design System` `Frontend` `Tooling` | ✅ Shipped |
 | 3 | ~~**[SUG-142](https://linear.app/sugartown/issue/SUG-142/ai-ethics-doc-v20260601-magnifica-humanitas-update-principle-13) · AI Ethics doc v2026.06.01** — Magnifica Humanitas update; Principle 13 restore; blockquote in compactPortableText; DM Sans italic. Shipped v0.26.1.~~ | `Content` `Editorial` | ✅ Shipped |
-| 2 | **[SUG-141](https://linear.app/sugartown/issue/SUG-141/ds-usage-docs-typography-conventions-h1-italic-rule-phase-n-inventory) · DS Usage Docs — Typography conventions** — H1 italic/roman rule documented as first DS usage doc; Phase N inventory of other undocumented DS conventions. Epic: `docs/backlog/SUG-141-ds-usage-docs-typography-conventions.md`. | `Design System` `Content` `Documentation` | 🟣 Soon |
+| 2 | ~~**[SUG-141](https://linear.app/sugartown/issue/SUG-141/ds-usage-docs-typography-conventions-h1-italic-rule-phase-n-inventory) · DS Usage Docs — Typography conventions** — H1 italic/roman rule; usage doc template + style guide; tool folio roman fix. Shipped v0.26.2.~~ | `Design System` `Content` `Documentation` | ✅ Shipped |
 | 3 | **[SUG-143](https://linear.app/sugartown/issue/SUG-143/archive-layout-documentation-storybook-layouts-stories-and-glossary) · Archive Layout Documentation — Storybook LAYOUTS stories & glossary scoping** — Audit all archive layout variants, produce HTML mock inventory for design review, create one Storybook LAYOUTS story per approved variant; Phase 2 scopes glossary/terms layout. Epic: `docs/backlog/SUG-143-archive-layout-storybook-stories.md`. | `Design System` `Storybook` `UX` | 🟣 Soon |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
 | 2 | ~~**[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Shared entity folio pattern (Person, Project, Tool detail pages), SectionLabel + 2-col Grid content sections, full-width layout at --st-width-detail-wide, responsive mobile collapse in Grid. Shipped v0.23.21.~~ | `UX` `Design System` `Frontend` | ✅ Shipped |
