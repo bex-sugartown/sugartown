@@ -29,8 +29,14 @@ const STATUS_BADGE_CLASS: Record<string, string> = {
 
 export interface CardProps {
   // Layout
-  /** Visual variant — default | listing | metadata. Default: 'default'. */
-  variant?: 'default' | 'listing' | 'metadata';
+  /**
+   * Visual variant. Default: 'default'.
+   * - elevated / default — card with shadow (elevated is the canonical name)
+   * - listing — compact row layout
+   * - metadata — structured field grid layout
+   * - accent — 3px brand-primary left rule + tinted header bg
+   */
+  variant?: 'default' | 'elevated' | 'listing' | 'metadata' | 'accent';
   /** Density modifier — 'compact' reduces padding + type scale. Default: 'default'. */
   density?: 'default' | 'compact';
 

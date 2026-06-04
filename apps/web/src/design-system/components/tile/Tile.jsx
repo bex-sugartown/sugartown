@@ -11,6 +11,11 @@ import styles from './Tile.module.css'
  *
  * SUG-96
  */
+/* @deprecated Tile is deprecated — use Card + Metric/Meter. See SUG-149. */
+if (typeof console !== 'undefined') {
+  console.warn('[DS] Tile is deprecated — use Card + Metric/Meter instead. See SUG-149.')
+}
+
 export default function Tile({
   label,
   labelColor = 'ink',

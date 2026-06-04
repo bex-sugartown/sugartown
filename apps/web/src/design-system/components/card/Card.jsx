@@ -61,7 +61,7 @@ function formatDate(iso) {
 // ── Component ────────────────────────────────────────────────────────────────
 
 export default function Card({
-  // Layout
+  // Layout — variant: default | elevated | listing | metadata | accent
   variant = 'default',
   density = 'default',
   // Header

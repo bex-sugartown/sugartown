@@ -617,6 +617,18 @@
   font-size: var(--st-font-size-xs);
 }
 
+/* ── variant-elevated ── alias for default; explicit for API clarity ──────── */
+/* .card defaults to elevated appearance; no additional rules needed */
+
+/* ── variant-accent ── 3px left rule + tinted header bg ──────────────────── */
+.variant-accent {
+  border-left: 3px solid var(--st-color-brand-primary);
+}
+
+.variant-accent .header {
+  background: color-mix(in srgb, var(--st-color-brand-primary) 6%, transparent);
+}
+
 /* ── hasCardLink: interactive child inside a full-card-link card ────────── */
 .hasCardLink {
   position: relative;
