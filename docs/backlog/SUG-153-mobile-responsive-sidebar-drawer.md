@@ -19,8 +19,8 @@
 - [ ] **Dark / theme modifier treatment** — Drawer overlay and panel must use `--st-*` tokens for background and border. Verify drawer bg in dark-pink-moon theme before implementation (glassmorphism risk on `--st-color-bg-surface`).
 - [x] **Studio schema changes scoped** — None. Frontend/DS only.
 - [x] **Web adapter sync scoped** — If Sidebar DS primitive gains a new `mobileStyle` value, web adapter CSS module must be updated in the same commit.
-- [x] **Composition overlap audit** — MobileNav already implements a slide-out drawer (drawerRef, focus trap, aria-modal). Any new sidebar drawer must either reuse MobileNav's drawer pattern or extract a shared `Drawer` primitive. Two independent drawer implementations is a fork.
-- [x] **Atomic Reuse Gate** — Before writing a drawer: check MobileNav's existing implementation. If a `Drawer` primitive would be consumed by both MobileNav and sidebar, it belongs in DS. If sidebar-only, it can live in Sidebar. Decision must be in Phase 0 doc.
+- [x] **Composition overlap audit** — MobileNav already implements a slide-out drawer (drawerRef, focus trap, aria-modal). **Decision recorded (2026-06-04):** extract a shared `Drawer` DS primitive consumed by both MobileNav and the sidebar. Two independent implementations is a fork.
+- [x] **Atomic Reuse Gate** — **Decision recorded (2026-06-04):** `Drawer` is a DS primitive (`packages/design-system/src/components/Drawer/`). MobileNav and sidebar both compose from it. Phase 0 mock will show both surfaces using the same drawer shell.
 - [ ] **Component registry update** — If a new `Drawer` primitive is created, add it to `docs/conventions/component-registry.md`. If Sidebar gains a new mobile mode, update its registry row.
 
 ---
@@ -50,10 +50,10 @@ Multi-column layouts (`TwoColumnLayout`) stack to a single column below their br
 
 After this epic: sidebar content on multi-column pages is accessible on mobile via a drawer, not stacked below the fold. The drawer integrates with the existing hamburger/MobileNav system — either as a second panel within MobileNav or as a separate "Contents" trigger that reuses the same drawer primitive.
 
-Scope decisions (resolved in Phase 0):
-1. One drawer primitive shared by MobileNav and sidebar, or sidebar-specific implementation?
-2. Trigger: extend hamburger menu to include "Contents" entry, or separate floating/sticky button?
-3. Which surfaces are in scope for this epic: all three, or Platform-only for Phase 1?
+Scope decisions:
+1. ~~One drawer primitive shared by MobileNav and sidebar, or sidebar-specific?~~ **Resolved: shared `Drawer` DS primitive used by both MobileNav and sidebar.**
+2. Trigger: extend hamburger menu to include "Contents" entry, or separate floating/sticky button? — resolve in Phase 0 mock.
+3. Which surfaces are in scope: all three, or Platform-only for Phase 1? — resolve in Phase 0 mock.
 
 Schema layer: not touched. Query layer: not touched. Render layer: DS Sidebar, TwoColumnLayout, PageSidebar, possibly MobileNav/Header.
 
