@@ -1,4 +1,4 @@
-**Linear Issue:** SUG-154 _(create the Linear issue first, then link it here)_
+**Linear Issue:** [SUG-154](https://linear.app/sugartown/issue/SUG-154/platform-kpi-benchmark-report-solo-pm-vs-team-velocity)
 
 ## EPIC SUG-154: Platform KPI Benchmark Report — Solo PM vs Team Velocity
 
