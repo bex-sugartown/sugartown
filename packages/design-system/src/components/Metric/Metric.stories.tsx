@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Metric } from './Metric';
 
 const meta: Meta<typeof Metric> = {
-  title: 'Primitives/Metric',
+  title: 'Components/Metric',
   component: Metric,
   tags: ['autodocs'],
   parameters: {

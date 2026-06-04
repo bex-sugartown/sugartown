@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Box } from './Box';
 
 const meta: Meta<typeof Box> = {
-  title: 'Primitives/Layout/Box',
+  title: 'Components/Layout/Box',
   component: Box,
   tags: ['autodocs'],
   parameters: {

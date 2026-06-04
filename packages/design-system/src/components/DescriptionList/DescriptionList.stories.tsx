@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { DescriptionList } from './DescriptionList';
 
 const meta: Meta<typeof DescriptionList> = {
-  title: 'Primitives/DescriptionList',
+  title: 'Components/DescriptionList',
   component: DescriptionList,
   tags: ['autodocs'],
   parameters: {

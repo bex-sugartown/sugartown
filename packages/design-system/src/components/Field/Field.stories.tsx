@@ -5,7 +5,7 @@ import { Input } from '../Input/Input';
 import { Textarea } from '../Textarea/Textarea';
 
 const meta: Meta<typeof Field> = {
-  title: 'Primitives/Form/Field',
+  title: 'Components/Form/Field',
   component: Field,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },

@@ -31,7 +31,7 @@ import Card from '../card/Card';
 import Callout from '../callout/Callout';
 
 const meta: Meta<typeof Grid> = {
-  title: 'Components/Grid',
+  title: 'Components/Layout/Grid',
   component: Grid,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
