@@ -295,7 +295,7 @@
 .heroStatRail {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
+  gap: var(--st-space-0);
   background: var(--st-color-white-20);
   border-top: 1px solid var(--st-color-white-20);
   margin-top: var(--st-spacing-stack-xl);
