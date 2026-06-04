@@ -1,90 +1,27 @@
-/* ContactForm — EPIC-0179
- * Token-driven, dark/light theme aware.
- * Follows Section Layout Contract for detail pages. */
+/* ContactForm — field styling via DS Field/Input/Textarea primitives (SUG-148) */
 
 .contactForm {
   max-width: var(--st-width-detail, 760px);
   margin: 0 auto;
   padding: var(--st-spacing-stack-lg) var(--st-page-gutter);
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-spacing-stack-md);
 }
 
-/* ── Fields ───────────────────────────────────────────────────── */
-
-.field {
-  margin-bottom: var(--st-spacing-stack-md);
-}
-
-.label {
-  display: block;
-  font-family: var(--st-font-family-ui);
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--st-color-text-default);
-  margin-bottom: var(--st-spacing-stack-xs);
-}
-
-.input,
-.textarea {
-  display: block;
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-family: var(--st-font-family-ui);
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--st-color-text-default);
-  background: var(--st-color-bg-surface);
-  border: 1px solid var(--st-color-border-medium);
-  border-radius: var(--st-radius-sm);
-  box-sizing: border-box;
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-
-.input:focus,
-.textarea:focus {
-  outline: none;
-  border-color: var(--st-color-focus);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--st-color-focus) 25%, transparent);
-}
-
-.input:disabled,
-.textarea:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-/* ── Error states ─────────────────────────────────────────────── */
-
-.inputError {
-  border-color: var(--st-color-danger);
-}
-
-.inputError:focus {
-  border-color: var(--st-color-danger);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--st-color-danger) 25%, transparent);
-}
-
-.errorText {
-  font-size: 0.8125rem;
-  color: var(--st-color-danger);
-  margin: var(--st-spacing-stack-xs) 0 0;
-}
+/* ── Form-level error (not field-level — those are handled by Field/ErrorMessage) ── */
 
 .formError {
-  font-size: 0.875rem;
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-sm);
   color: var(--st-color-danger);
-  margin-bottom: var(--st-spacing-stack-md);
-  padding: 0.75rem 1rem;
-  background: color-mix(in srgb, var(--st-color-danger) 8%, transparent);
-  border: 1px solid color-mix(in srgb, var(--st-color-danger) 30%, transparent);
-  border-radius: var(--st-radius-sm);
+  margin: 0;
+  padding: var(--st-space-3) var(--st-space-4);
+  background: var(--st-color-brand-primary-tint-10);
+  border: 1px solid var(--st-color-border-default);
 }
 
-/* ── Success state ────────────────────────────────────────────── */
+/* ── Success state ─────────────────────────────────────────────── */
 
 .successMessage {
   text-align: center;
@@ -99,18 +36,12 @@
 }
 
 .successBody {
-  font-size: 1.0625rem;
+  font-size: var(--st-font-size-lg);
   color: var(--st-color-text-default);
   line-height: 1.6;
 }
 
-/* ── reCAPTCHA ───────────────────────────────────────────────── */
-
-.recaptcha {
-  margin-bottom: var(--st-spacing-stack-md);
-}
-
-/* ── Honeypot (hidden from users) ─────────────────────────────── */
+/* ── Honeypot (visually hidden, accessible to bots) ─────────────── */
 
 .honeypot {
   position: absolute;
@@ -122,4 +53,3 @@
   padding: 0;
   border: 0;
 }
-

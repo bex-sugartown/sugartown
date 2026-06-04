@@ -13,6 +13,7 @@ export interface InputProps {
   disabled?: boolean;
   /** Error state — applies error border colour */
   hasError?: boolean;
+  autoComplete?: string;
   'aria-describedby'?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
@@ -28,6 +29,7 @@ export function Input({
   placeholder,
   disabled = false,
   hasError = false,
+  autoComplete,
   'aria-describedby': ariaDescribedby,
   onChange,
   onBlur,
@@ -42,6 +44,7 @@ export function Input({
       defaultValue={defaultValue}
       placeholder={placeholder}
       disabled={disabled}
+      autoComplete={autoComplete}
       aria-describedby={ariaDescribedby}
       aria-invalid={hasError || undefined}
       onChange={onChange}
