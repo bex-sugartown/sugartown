@@ -42,28 +42,30 @@ Before writing usage docs, a shared template and written style guide must exist 
 ### Phase 1 — H1 italic rule (first usage doc)
 
 - [x] Initial story created at `apps/storybook/.storybook/stories/TypographyConventions.stories.tsx`
-- [ ] **Rewrite to match usage doc template** — current version does not follow Phase 0 template format; contains internal history, phase candidates list, and factual errors (see below)
-- [ ] **Verify H1 italic rule for detail pages** — Hero component `.heading` class has no `font-style: italic`; global h1 rule has no italic either. Unclear whether article/node/case study H1s are actually italic or roman. Bex to confirm before doc is rewritten.
-- [ ] No Sanity page, no site route — Storybook is the delivery surface
+- [x] **Design critique and rule verification** — full visual audit of all page types confirmed the actual rule (see below). Initial doc was wrong on multiple surfaces.
+- [x] **Fix tool folio italic** — `ToolDetailPage` was using italic via `.narrativeHeading`; changed to roman per Option B decision. `.narrativeHeadingItalic` modifier added; `PersonProfilePage` applies both classes.
+- [x] **Rewrite to match usage doc template** — doc rewritten using Phase 0 template format: rule → when to use → examples → do/don't → implementation.
+- [x] No Sanity page, no site route — Storybook is the delivery surface
 
-**The rule to document:**
+**Verified rule (confirmed by visual audit 2026-06-04):**
 
-| Surface | H1 style | Class / mechanism | Reasoning |
-|---------|----------|-------------------|-----------|
-| Article detail | Italic | `.masthead h1` → inherits from global h1 narrative rule | Cormorant Garamond editorial register |
-| Node detail | Italic | Same | Same |
-| Case study detail | Italic | Same | Same |
-| Archive mastheads (articles, nodes, KG, library) | Italic | `.archiveHeadingItalic` modifier on `.archiveHeading` | Narrative index surfaces |
-| Homepage hero | Italic | Hero section heading CSS | Editorial register |
-| Project detail | Roman (no italic) | `.projectName` — no `font-style` | Catalogue/reference surface |
-| Person detail | Roman | `.entityFolio` pattern | Same |
-| Tool detail | Roman | Same | Same |
-| Category / tag detail | Roman | Same | Same |
+| Surface | H1 style | CSS mechanism |
+|---------|----------|---------------|
+| Archive mastheads (Library, Agentic Caucus Nodes, etc.) | **Italic** | `.archiveHeading.archiveHeadingItalic` |
+| Person folio | **Italic** | `.narrativeHeading.narrativeHeadingItalic` |
+| Hero (article, node, editorial, homepage, about, platform, services) | **Roman** | `Hero .heading` — global h1 rule, no italic |
+| Project folio | **Roman** | `.narrativeHeading` (roman default) |
+| Tool folio | **Roman** | `.narrativeHeading` (roman default) — was italic, fixed |
+| Tag / category folio | **Roman** | `.archiveHeading` — no italic modifier |
+| Series page | **Roman** | `.narrativeHeading` (roman default) |
+
+**Option B decision:** Only persons use italic. All other entity folios (tool, project, tag, category, series) are roman. Rationale: italic = entity has a voice/point of view; roman = catalogue entry. Confirmed by Bex 2026-06-04.
 
 **Key files:**
-- `apps/web/src/pages/pages.module.css` — `.archiveHeadingItalic`, `.archiveHeading`, `.masthead`
-- `apps/web/src/pages/ProjectDetailPage.module.css` — `.projectName` (no italic)
-- Global h1-h4 narrative rule in base CSS (Cormorant Garamond applies to all headings; italic is an additive modifier, not the default)
+- `apps/web/src/pages/pages.module.css` — `.narrativeHeading` (roman default), `.narrativeHeadingItalic` (person modifier), `.archiveHeading`, `.archiveHeadingItalic`
+- `apps/web/src/pages/PersonProfilePage.jsx` — uses both `.narrativeHeading.narrativeHeadingItalic`
+- `apps/web/src/pages/ToolDetailPage.jsx` — uses `.narrativeHeading` only (roman)
+- `apps/web/src/components/Hero.module.css` — `.heading` sets font-size only; roman via global h1 rule
 
 ### Phase 2+ — Inventory and prioritise remaining conventions
 

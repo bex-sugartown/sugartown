@@ -2,164 +2,156 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const s = {
-  page: { fontFamily: 'var(--st-font-family-ui, "DM Sans", sans-serif)', color: 'var(--st-color-text-primary)', lineHeight: 1.6 } as React.CSSProperties,
-  h1: { fontFamily: 'var(--st-font-family-narrative, "Cormorant Garamond", serif)', fontSize: '2.5rem', marginBottom: '0.5rem', fontWeight: 400 } as React.CSSProperties,
-  h2: { fontSize: '1.3rem', marginBottom: '1rem', marginTop: '2.5rem', fontWeight: 600 } as React.CSSProperties,
-  h3: { fontSize: '1rem', marginBottom: '0.5rem', marginTop: '1.5rem', fontWeight: 600 } as React.CSSProperties,
-  hr: { border: 'none', borderTop: '1px solid var(--st-color-border-default, rgba(0,0,0,0.1))', margin: '2rem 0' } as React.CSSProperties,
-  th: { textAlign: 'left' as const, padding: '0.5rem 1rem', borderBottom: '1px solid var(--st-color-border-default, rgba(0,0,0,0.12))', fontWeight: 600, fontSize: '0.875rem' },
-  td: { padding: '0.5rem 1rem', fontSize: '0.875rem', verticalAlign: 'top' as const },
-  code: { background: 'var(--st-color-bg-surface-strong, rgba(0,0,0,0.06))', padding: '0.15rem 0.4rem', borderRadius: '3px', fontSize: '0.85rem', fontFamily: 'var(--st-font-family-mono, "IBM Plex Mono", monospace)' } as React.CSSProperties,
-  note: { background: 'var(--st-color-bg-surface-strong, rgba(0,0,0,0.04))', borderLeft: '3px solid var(--st-color-brand-primary, #FF247D)', padding: '0.75rem 1rem', margin: '1.5rem 0', fontSize: '0.875rem' } as React.CSSProperties,
-  italic: { fontStyle: 'italic' as const },
-  roman: { fontStyle: 'normal' as const },
+  page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px' } as React.CSSProperties,
+  h1:       { fontFamily: 'var(--st-font-family-narrative)', fontSize: '2.25rem', fontWeight: 600, marginBottom: '0.25rem', fontStyle: 'normal' } as React.CSSProperties,
+  oneliner: { color: 'var(--st-color-text-muted)', marginTop: 0, marginBottom: '2rem' } as React.CSSProperties,
+  h2:       { fontSize: '1.2rem', fontWeight: 700, marginTop: '2.5rem', marginBottom: '0.75rem' } as React.CSSProperties,
+  rule:     { fontWeight: 700, fontSize: '1.05rem', borderLeft: '3px solid var(--st-color-brand-primary)', paddingLeft: '1rem', margin: '1rem 0 1.5rem' } as React.CSSProperties,
+  hr:       { border: 'none', borderTop: '1px solid var(--st-color-border-default)', margin: '2rem 0' } as React.CSSProperties,
+  th:       { textAlign: 'left' as const, padding: '0.5rem 1rem', borderBottom: '1px solid var(--st-color-border-default)', fontWeight: 600, fontSize: '0.875rem' },
+  td:       { padding: '0.5rem 1rem', fontSize: '0.875rem', verticalAlign: 'top' as const },
+  code:     { background: 'var(--st-color-bg-surface-strong)', padding: '0.15rem 0.4rem', borderRadius: '3px', fontSize: '0.85em', fontFamily: 'var(--st-font-family-mono)' } as React.CSSProperties,
+  whenCol:  { flex: 1, padding: '1rem', background: 'var(--st-color-bg-surface-strong)', borderRadius: '4px' } as React.CSSProperties,
+  pairRow:  { display: 'flex', gap: '1rem', marginBottom: '1.5rem' } as React.CSSProperties,
+  label:    { fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase' as const, letterSpacing: '0.05em', marginBottom: '0.5rem' } as React.CSSProperties,
+  doBox:    { flex: 1, padding: '1rem', borderTop: '3px solid #16a34a' } as React.CSSProperties,
+  dontBox:  { flex: 1, padding: '1rem', borderTop: '3px solid #dc2626' } as React.CSSProperties,
 };
 
-const italicPreview: React.CSSProperties = {
-  fontFamily: 'var(--st-font-family-narrative, "Cormorant Garamond", serif)',
-  fontSize: '2rem',
-  fontWeight: 400,
+const italic: React.CSSProperties = {
+  fontFamily: 'var(--st-font-family-narrative)',
+  fontSize: '1.75rem',
+  fontWeight: 600,
   fontStyle: 'italic',
   lineHeight: 1.2,
   color: 'var(--st-color-text-primary)',
-  margin: '0.25rem 0 0',
 };
-
-const romanPreview: React.CSSProperties = {
-  ...italicPreview,
-  fontStyle: 'normal',
-};
+const roman: React.CSSProperties = { ...italic, fontStyle: 'normal' };
 
 function TypographyConventionsPage() {
   return (
     <div style={s.page}>
-      <h1 style={s.h1}>Typography Conventions</h1>
-      <p style={{ opacity: 0.7, marginTop: 0 }}>Decision records for typographic rules that live in code but weren't written down anywhere.</p>
+
+      <h1 style={s.h1}>H1 Italic / Roman Rule</h1>
+      <p style={s.oneliner}>Which page surfaces render H1 in italic Cormorant Garamond and which use roman.</p>
 
       <hr style={s.hr} />
 
-      {/* ---- H1 ITALIC RULE ---- */}
-      <h2 style={s.h2}>H1 Italic / Roman Rule</h2>
-
-      <p>
-        Cormorant Garamond is the narrative typeface. Italic is its editorial register — the voice of a writer. Roman is its reference register — the voice of a catalogue.
-        H1s are italic on editorial and narrative surfaces, roman on catalogue and reference surfaces.
-      </p>
-      <p>
-        The rule is not "italic everywhere." It's <em>italic where the page is authored, roman where the page is looked up.</em>
+      <h2 style={s.h2}>The rule</h2>
+      <p style={s.rule}>
+        Archive mastheads and person folios use italic. Hero surfaces and all other entity folios use roman.
       </p>
 
-      <div style={s.note}>
-        <strong>The question that triggered this doc:</strong> Should the H1 on <code style={s.code}>/projects/sugartown-cms</code> be italic? No — project pages are catalogue surfaces. The answer existed in <code style={s.code}>pages.module.css</code> but was never written down.
+      <h2 style={s.h2}>When to use</h2>
+      <div style={s.pairRow}>
+        <div style={s.whenCol}>
+          <p style={s.label}>Italic</p>
+          <ul style={{ paddingLeft: '1.25rem', margin: 0, lineHeight: 2 }}>
+            <li>Archive mastheads — <em>Library</em>, <em>Agentic Caucus Nodes</em>, etc.</li>
+            <li>Person folio — <em>Becky Alice Head</em></li>
+          </ul>
+        </div>
+        <div style={s.whenCol}>
+          <p style={s.label}>Roman</p>
+          <ul style={{ paddingLeft: '1.25rem', margin: 0, lineHeight: 2 }}>
+            <li>Hero component — all editorial and content pages</li>
+            <li>Project, tool, tag, category folios</li>
+            <li>Series page</li>
+          </ul>
+        </div>
       </div>
 
-      <h3 style={s.h3}>Live examples</h3>
+      <h2 style={s.h2}>Examples</h2>
       <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2rem' }}>
         <thead>
           <tr>
             <th style={s.th}>Surface</th>
             <th style={s.th}>Style</th>
             <th style={s.th}>Preview</th>
-            <th style={s.th}>CSS class / mechanism</th>
-            <th style={s.th}>Reasoning</th>
+            <th style={s.th}>CSS mechanism</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style={s.td}>Article detail</td>
-            <td style={s.td}><span style={s.italic}>Italic</span></td>
-            <td style={s.td}><span style={italicPreview}>The title</span></td>
-            <td style={s.td}><code style={s.code}>.masthead h1</code> → global h1 narrative rule</td>
-            <td style={s.td}>Cormorant Garamond editorial register — authored content</td>
-          </tr>
-          <tr>
-            <td style={s.td}>Node detail</td>
-            <td style={s.td}><span style={s.italic}>Italic</span></td>
-            <td style={s.td}><span style={italicPreview}>The title</span></td>
-            <td style={s.td}><code style={s.code}>.masthead h1</code></td>
-            <td style={s.td}>Same — nodes are authored narrative pieces</td>
-          </tr>
-          <tr>
-            <td style={s.td}>Case study detail</td>
-            <td style={s.td}><span style={s.italic}>Italic</span></td>
-            <td style={s.td}><span style={italicPreview}>The title</span></td>
-            <td style={s.td}><code style={s.code}>.masthead h1</code></td>
-            <td style={s.td}>Same — case studies are authored editorial work</td>
-          </tr>
-          <tr>
-            <td style={s.td}>Archive mastheads (articles, nodes, KG, library)</td>
-            <td style={s.td}><span style={s.italic}>Italic</span></td>
-            <td style={s.td}><span style={italicPreview}>The title</span></td>
+            <td style={s.td}>Archive masthead<br /><span style={{ color: 'var(--st-color-text-muted)', fontSize: '0.8em' }}>Library, Agentic Caucus Nodes, etc.</span></td>
+            <td style={s.td}>Italic</td>
+            <td style={s.td}><span style={italic}>Library</span></td>
             <td style={s.td}><code style={s.code}>.archiveHeading.archiveHeadingItalic</code></td>
-            <td style={s.td}>Narrative index surfaces — archive of authored writing</td>
           </tr>
           <tr>
-            <td style={s.td}>Homepage hero</td>
-            <td style={s.td}><span style={s.italic}>Italic</span></td>
-            <td style={s.td}><span style={italicPreview}>The title</span></td>
-            <td style={s.td}>Hero section heading CSS</td>
-            <td style={s.td}>Editorial register — homepage is a manifesto, not a catalogue</td>
+            <td style={s.td}>Person folio</td>
+            <td style={s.td}>Italic</td>
+            <td style={s.td}><span style={italic}>Becky Alice Head</span></td>
+            <td style={s.td}><code style={s.code}>.narrativeHeading.narrativeHeadingItalic</code></td>
           </tr>
           <tr>
-            <td style={s.td}>Project detail</td>
-            <td style={s.td}><span style={s.roman}>Roman</span></td>
-            <td style={s.td}><span style={romanPreview}>The title</span></td>
-            <td style={s.td}><code style={s.code}>.projectName</code> — no <code style={s.code}>font-style</code> set</td>
-            <td style={s.td}>Catalogue surface — projects are things you look up, not read</td>
+            <td style={s.td}>Hero<br /><span style={{ color: 'var(--st-color-text-muted)', fontSize: '0.8em' }}>Article, node, editorial pages, homepage</span></td>
+            <td style={s.td}>Roman</td>
+            <td style={s.td}><span style={roman}>The Epic That Executed Itself</span></td>
+            <td style={s.td}><code style={s.code}>Hero .heading</code> — inherits global h1 rule, no italic</td>
           </tr>
           <tr>
-            <td style={s.td}>Person detail</td>
-            <td style={s.td}><span style={s.roman}>Roman</span></td>
-            <td style={s.td}><span style={romanPreview}>The title</span></td>
-            <td style={s.td}><code style={s.code}>.entityFolio</code> pattern — no italic</td>
-            <td style={s.td}>Reference surface — entity folio pattern</td>
+            <td style={s.td}>Project folio</td>
+            <td style={s.td}>Roman</td>
+            <td style={s.td}><span style={roman}>Sugartown CMS</span></td>
+            <td style={s.td}><code style={s.code}>.narrativeHeading</code> — roman by default</td>
           </tr>
           <tr>
-            <td style={s.td}>Tool detail</td>
-            <td style={s.td}><span style={s.roman}>Roman</span></td>
-            <td style={s.td}><span style={romanPreview}>The title</span></td>
-            <td style={s.td}><code style={s.code}>.entityFolio</code> pattern</td>
-            <td style={s.td}>Same — tools are catalogue entries</td>
+            <td style={s.td}>Tool folio</td>
+            <td style={s.td}>Roman</td>
+            <td style={s.td}><span style={roman}>Vercel</span></td>
+            <td style={s.td}><code style={s.code}>.narrativeHeading</code> — roman by default</td>
           </tr>
           <tr>
-            <td style={s.td}>Category / tag detail</td>
-            <td style={s.td}><span style={s.roman}>Roman</span></td>
-            <td style={s.td}><span style={romanPreview}>The title</span></td>
-            <td style={s.td}><code style={s.code}>.entityFolio</code> pattern</td>
-            <td style={s.td}>Same — taxonomy labels are reference, not prose</td>
+            <td style={s.td}>Tag / category folio</td>
+            <td style={s.td}>Roman</td>
+            <td style={s.td}><span style={roman}>POC</span></td>
+            <td style={s.td}><code style={s.code}>.archiveHeading</code> — no italic modifier applied</td>
           </tr>
         </tbody>
       </table>
 
-      <h3 style={s.h3}>The decision rule</h3>
-      <p>
-        Ask: <em>is this page a piece of writing, or a thing you look up?</em>
-      </p>
-      <ul style={{ paddingLeft: '1.5rem', lineHeight: 2 }}>
-        <li><strong>Authored content</strong> (articles, nodes, case studies, archive indexes, homepage) → italic H1</li>
-        <li><strong>Entity / catalogue surfaces</strong> (projects, people, tools, taxonomy) → roman H1</li>
+      <h2 style={s.h2}>Do / Don't</h2>
+      <div style={s.pairRow}>
+        <div style={s.doBox}>
+          <p style={{ ...s.label, color: '#16a34a' }}>Do</p>
+          <p style={italic}>Agentic Caucus Nodes</p>
+          <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Italic on archive mastheads — they are named, curated spaces.</p>
+        </div>
+        <div style={s.dontBox}>
+          <p style={{ ...s.label, color: '#dc2626' }}>Don't</p>
+          <p style={italic}>Vercel</p>
+          <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Italic on tool folios — tools are catalogue entries, not voices.</p>
+        </div>
+      </div>
+      <div style={s.pairRow}>
+        <div style={s.doBox}>
+          <p style={{ ...s.label, color: '#16a34a' }}>Do</p>
+          <p style={roman}>The Epic That Executed Itself</p>
+          <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Roman in Hero — large roman at weight 600 reads as a proclamation.</p>
+        </div>
+        <div style={s.dontBox}>
+          <p style={{ ...s.label, color: '#dc2626' }}>Don't</p>
+          <p style={italic}>The Epic That Executed Itself</p>
+          <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Italic in Hero — lighter, less commanding at hero scale.</p>
+        </div>
+      </div>
+
+      <h2 style={s.h2}>Implementation</h2>
+      <ul style={{ paddingLeft: '1.25rem', lineHeight: 2 }}>
+        <li><code style={s.code}>apps/web/src/pages/pages.module.css</code> — <code style={s.code}>.narrativeHeading</code> (roman default), <code style={s.code}>.narrativeHeadingItalic</code> (person modifier), <code style={s.code}>.archiveHeading</code>, <code style={s.code}>.archiveHeadingItalic</code></li>
+        <li><code style={s.code}>apps/web/src/pages/PersonProfilePage.jsx</code> — applies both <code style={s.code}>.narrativeHeading .narrativeHeadingItalic</code></li>
+        <li><code style={s.code}>apps/web/src/pages/ToolDetailPage.jsx</code> — applies <code style={s.code}>.narrativeHeading</code> only (roman)</li>
+        <li><code style={s.code}>apps/web/src/components/Hero.module.css</code> — <code style={s.code}>.heading</code> sets font-size only; roman via global h1 rule in <code style={s.code}>globals.css</code></li>
       </ul>
 
-      <h3 style={s.h3}>Key files</h3>
-      <ul style={{ paddingLeft: '1.5rem', lineHeight: 2 }}>
-        <li><code style={s.code}>apps/web/src/pages/pages.module.css</code> — <code style={s.code}>.archiveHeadingItalic</code>, <code style={s.code}>.archiveHeading</code>, <code style={s.code}>.masthead</code></li>
-        <li><code style={s.code}>apps/web/src/pages/ProjectDetailPage.module.css</code> — <code style={s.code}>.projectName</code> (no italic)</li>
-        <li>Global h1–h4 narrative rule in base CSS — Cormorant Garamond applies to all headings; italic is an additive modifier applied per surface, not the default</li>
+      <h2 style={s.h2}>Adding a new entity type</h2>
+      <ul style={{ paddingLeft: '1.25rem', lineHeight: 2 }}>
+        <li>Ask: does this entity have a voice or point of view? If yes (person) → use <code style={s.code}>.narrativeHeading.narrativeHeadingItalic</code>.</li>
+        <li>If it is a platform, project, tool, tag, or any catalogue item → use <code style={s.code}>.narrativeHeading</code> alone.</li>
+        <li>If it is an archive masthead → use <code style={s.code}>.archiveHeading.archiveHeadingItalic</code>.</li>
       </ul>
 
-      <hr style={s.hr} />
-
-      {/* ---- PHASE 2 CANDIDATES ---- */}
-      <h2 style={s.h2}>Further conventions to document (Phase 2+)</h2>
-      <p style={{ opacity: 0.7, fontSize: '0.875rem' }}>These exist in code but have no decision record. Prioritise at Phase 1 close-out.</p>
-      <ul style={{ paddingLeft: '1.5rem', lineHeight: 2, fontSize: '0.875rem' }}>
-        <li><strong>Spacing contract</strong> — section gap vs component padding (the <code style={s.code}>.detailContext</code> gap model; parent owns spacing, children zero their margins)</li>
-        <li><strong>Token naming rationale</strong> — why <code style={s.code}>--st-color-text-primary</code> ≠ <code style={s.code}>--st-color-brand-primary</code></li>
-        <li><strong>Folio layout contract</strong> — eyebrow + thumbnail + name + description pattern; when to use vs masthead</li>
-        <li><strong>Component composition rules</strong> — when Card vs ContentCard vs MetadataCard</li>
-        <li><strong>Responsive breakpoint rationale</strong> — 860px table breakpoint, 768px nav breakpoint</li>
-        <li><strong>Chip taxonomy</strong> — Chip vs Tag vs Pill usage distinctions</li>
-      </ul>
     </div>
   );
 }
