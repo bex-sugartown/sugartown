@@ -12,7 +12,38 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.26.0.
+> Accumulates since v0.26.3.
+
+---
+
+## [0.26.3] — 2026-06-04
+
+SUG-148: DS Phase 2 leaf primitives codified.
+
+### packages/design-system
+
+#### Added
+- 12 new DS primitives: Avatar, Box, DescriptionList, ErrorMessage, Field, HelperText, Input, Label, Meter, Metric, Skeleton, Textarea — each with TypeScript component, CSS module, and Storybook story
+- Avatar: sm/md/lg/xl sizes (16/40/60/88px via `--st-space-4/6/7/9`); image or initials fallback; `role="img"` a11y; circular via `--st-radius-full`
+- Box: token-driven layout base; polymorphic `as` prop; padding/margin/background/radius/border via inline CSS custom properties
+- Field: composes Label + control slot + HelperText + ErrorMessage; owns all a11y wiring via `React.cloneElement` (`htmlFor`, `aria-describedby`, `aria-invalid`)
+- Meter: `role="meter"` value-in-range bar; distinct from Progress (`role="progressbar"`)
+- `--st-space-9: 88px` token added for Avatar xl size
+
+### apps/web
+
+#### Added
+- Web adapters for all 12 new DS primitives (JSX mirrors in `apps/web/src/design-system/components/`)
+- Storybook stories moved from `Primitives/*` to `Components/*`; Grid moved to `Components/Layout/Grid`
+
+#### Changed
+- PersonProfilePage: raw square `<img>` replaced with `<Avatar size="xl">` (round, token-driven)
+- ContactForm: migrated from raw HTML form controls to DS Field/Input/Textarea; CSS reduced from 125 to 52 lines
+- component-registry.md: 12 new primitive rows added; updated to v0.26.3
+
+---
+
+## [0.26.2] — 2026-06-04
 
 - SUG-142: AI Ethics doc v2026.06.01 — Magnifica Humanitas update; Principle 2 Tolkien quote + citation [1]; Principle 4 Pope data ownership quote; Principle 8 external accountability; Humanitarian & Institutional Ethics reference section added; blockquote style added to compactPortableText; DM Sans italic font loaded
 - SUG-141: DS Usage Docs — H1 italic/roman rule shipped as first usage doc; usage doc template + style guide written; tool folio roman fix (.narrativeHeadingItalic modifier pattern); person shortName italic fix
