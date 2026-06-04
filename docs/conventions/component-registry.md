@@ -1,6 +1,6 @@
 # Sugartown Component Registry
 
-> Last updated: 2026-06-04 · v0.26.2
+> Last updated: 2026-06-04 · v0.26.5
 >
 > Single source of truth for component coverage across the three app surfaces:
 > DS package primitives, web adapter layer, and app-level composites.
@@ -41,6 +41,12 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 |-----------|-------------|-------------|-----------|-----------|----------------------|-------|
 | Avatar | ✅ `packages/ds/Avatar/` | ✅ `web/design-system/avatar/` | ✅ Components/Avatar | ✅ (token-inherited) | — | Image or initials fallback. sm/md/lg/xl sizes (16–88px). Circular via `--st-radius-full`. SUG-148. |
 | Box | ✅ `packages/ds/Box/` | ✅ `web/design-system/box/` | ✅ Components/Layout/Box | ✅ (token-inherited) | — | Token-driven layout base. Polymorphic `as` prop. No layout logic — padding/margin/background/radius/border via `--st-*` inline vars. SUG-148. |
+| Container | ✅ `packages/ds/Container/` | ✅ `web/design-system/container/` | ✅ Components/Layout/Container | ✅ (token-inherited) | — | Max-width scaffold. `size` prop: reading (760px) / detail (1080px) / archive (960px) / bleed. Maps to `--st-width-*` tokens only. SUG-149. |
+| Stack | ✅ `packages/ds/Stack/` | ✅ `web/design-system/stack/` | ✅ Components/Layout/Stack | ✅ (token-inherited) | — | One-axis flex spacing. `gap` = space-token key; `direction` accepts responsive object. Absorbs Flex — no standalone Flex primitive. SUG-149. |
+| Columns | ✅ `packages/ds/Columns/` | ✅ `web/design-system/columns/` | ✅ Components/Layout/Columns | ✅ (token-inherited) | — | N-column grid (2/3/4). `collapse` breakpoint (sm/md/lg). Replaces TwoColumnLayout. SUG-149. |
+| Surface | ✅ `packages/ds/Surface/` | ✅ `web/design-system/surface/` | ✅ Components/Layout/Surface | ✅ | — | Elevation container (0–3) mapping to shadow tokens. Composes Box. SUG-149. |
+| Page | ✅ `packages/ds/Page/` | ✅ `web/design-system/page/` | ✅ Components/Layout/Page | ✅ (token-inherited) | — | Top-level scaffold: header/main/footer slots. Composes Container for content region — does NOT carry maxWidth prop. SUG-149. |
+| AppShell | ✅ `packages/ds/AppShell/` | ✅ `web/design-system/app-shell/` | ✅ Components/Layout/AppShell | ✅ (token-inherited) | — | Full UI shell: header/sidebar/main/footer slots. Sidebar collapses to full-width below 768px. SUG-149. |
 | DescriptionList | ✅ `packages/ds/DescriptionList/` | ✅ `web/design-system/description-list/` | ✅ Components/DescriptionList | ✅ (token-inherited) | — | `<dl>` key/value grid. 1-col (stacked, border dividers) and 2-col (CSS grid) layouts. SUG-148. |
 | ErrorMessage | ✅ `packages/ds/ErrorMessage/` | ✅ `web/design-system/error-message/` | ✅ Components/Form/ErrorMessage | ✅ (token-inherited) | — | Inline validation feedback. `role="alert"` + `aria-live="polite"`. Wired via `aria-describedby` in Field. SUG-148. |
 | Field | ✅ `packages/ds/Field/` | ✅ `web/design-system/field/` | ✅ Components/Form/Field | ✅ (token-inherited) | — | Composes Label + control slot + HelperText + ErrorMessage. Owns all a11y wiring: `htmlFor`, `aria-describedby`, `aria-invalid`. SUG-148. |
@@ -57,7 +63,7 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 | Blockquote | ✅ `packages/ds/Blockquote/` | ✅ `web/design-system/blockquote/` | ✅ Components/Blockquote | ✅ | — | |
 | Button | ✅ `packages/ds/Button/` | ✅ `web/design-system/button/` | ✅ Components/Button | ✅ | ✅ `ctaButton` (object) + `ctaButtonDoc` (document) | Paired schema — changes to one must mirror the other |
 | Callout | ✅ `packages/ds/Callout/` | ✅ `web/design-system/callout/` | ✅ Components/Callout | ✅ | ✅ `calloutSection` | |
-| Card | ✅ `packages/ds/Card/` | ✅ `web/design-system/card/` | ✅ Components/Card | ✅ | — | Adapter adds `<Link to>`, `children` escape hatch, `colorHex` chip override — documented in Card.jsx header. No separate story needed (ContentCard/MetadataCard cover the visual deltas). |
+| Card | ✅ `packages/ds/Card/` | ✅ `web/design-system/card/` | ✅ Components/Card | ✅ | — | Adapter adds `<Link to>`, `children` escape hatch, `colorHex` chip override. Variants: default/elevated/listing/metadata/accent. `accent` = 3px brand-primary left rule + tinted header bg. SUG-149. |
 | Chip | ✅ `packages/ds/Chip/` | ✅ `web/design-system/chip/` | ✅ Components/Chip | ✅ | — | Web adapter adds `<Link to>` only — no separate story needed |
 | Citation | ✅ `packages/ds/Citation/` | ✅ `web/design-system/citation/` | ✅ Components/Citation | ✅ | ✅ `citationRef` PT mark | |
 | CodeBlock | ✅ `packages/ds/CodeBlock/` | ✅ `web/design-system/codeblock/` | ✅ Components/CodeBlock | ✅ | ✅ `code` inline PT decorator | |
