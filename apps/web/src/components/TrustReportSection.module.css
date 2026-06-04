@@ -28,8 +28,8 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--st-space-0);
-  background: var(--st-table-wrap-border);
-  border: 1px solid var(--st-table-wrap-border);
+  background: var(--st-color-border-wrap);
+  border: 1px solid var(--st-color-border-wrap);
 }
 
 @media (min-width: 1024px) {

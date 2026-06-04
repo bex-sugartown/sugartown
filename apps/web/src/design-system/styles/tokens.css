@@ -434,6 +434,7 @@
   --st-color-text-primary: var(--st-color-softgrey-50);
   --st-color-text-secondary: var(--st-color-softgrey-400);
   --st-color-text-muted: var(--st-color-softgrey-400);
+  --st-color-border-wrap: var(--st-color-neutral-400);
   --st-color-canvas: var(--st-color-midnight-800);
   --st-color-surface-subtle: var(--st-color-softgrey-900);
   --st-shadow-elevation-float: var(--st-shadow-1);
@@ -512,7 +513,6 @@
   --st-table-last-row-border: var(--st-color-rule-accent);
   --st-table-row-bg-zebra-subdued: var(--st-color-neutral-50);
   --st-table-zebra-bg: var(--st-color-midnight-700);
-  --st-table-wrap-border: var(--st-color-border-default);
   --st-table-card-radius: var(--st-radius-md);
   --st-stat-tile-border: var(--st-color-border-subtle);
   --st-stat-tile-bar-track: var(--st-color-border-subtle);
@@ -606,6 +606,7 @@
   --st-table-header-color-subdued: var(--st-color-text-muted);
   --st-table-row-hover-bg: color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
   --st-table-caption-leader: var(--st-color-pink);
+  --st-table-wrap-border: var(--st-color-border-wrap);
   --st-stat-tile-bg: var(--st-color-bg-surface);
   --st-stat-tile-value-color: var(--st-color-text-default);
   --st-stat-tile-label-color: var(--st-color-text-muted);
