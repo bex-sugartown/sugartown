@@ -16,10 +16,10 @@
   gap: var(--st-space-card-gap);
 }
 
-/* ── spacing="0" — flush tile grid ──────────────────────────────── */
-/* gap: 0 = no hairline between cells; border matches --st-table-wrap-border */
+/* ── spacing="0" — 1px hairline bg-through-gap ───────────────────── */
+/* gap: 1px shows grid bg as hairline dividers; border matches table-wrap */
 .spacing-0 {
-  gap: 0;
+  gap: var(--st-space-0);
   background: var(--st-table-wrap-border);
   border: 1px solid var(--st-table-wrap-border);
 }
