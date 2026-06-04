@@ -685,10 +685,9 @@
   color: var(--st-color-seafoam);
 }
 
-/* Callout Section — uses page-width (1164px), not detail-width (760px) */
+/* Callout Section — fills parent container width */
 .calloutSection {
-  max-width: 1164px;
-  margin: 0 auto;
+  width: 100%;
   padding: var(--st-space-section-break-detail) var(--st-page-gutter);
 }
 
