@@ -12,7 +12,40 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.26.4.
+> Accumulates since v0.26.5.
+
+---
+
+## [0.26.5] — 2026-06-04
+
+SUG-149: DS Phase 3 — core layout primitives, Card re-codification, Storybook re-bucket.
+
+### packages/design-system
+
+#### Added
+- Container: `size` prop (reading/760px, detail/1080px, archive/960px, bleed/unconstrained) maps to `--st-width-*` tokens only; polymorphic `as` prop
+- Stack: one-axis flex spacing; `gap` = spacing-token key; `direction` accepts responsive object `{ base, md, lg }`; absorbs Flex
+- Columns: N-column grid (2/3/4); `collapse` breakpoint (sm/md/lg); replaces TwoColumnLayout
+- Surface: elevation container (0–3) mapping to `--st-shadow-sm/md/lg/elevation-float`
+- Page: header/main/footer slots; composes Container; no `maxWidth` prop
+- AppShell: header/sidebar/main/footer slots; sidebar collapses to full-width below 768px
+- Storybook stories for all six at `Components/Layout/*`
+
+#### Changed
+- Card: `variant` type extended — adds `elevated` (canonical alias for `default`) and `accent` (3px brand-primary left rule + tinted header bg)
+
+### apps/web
+
+#### Added
+- Web adapters for Container, Stack, Columns, Surface, Page, AppShell
+- All exported from `apps/web/src/design-system/index.js`
+
+#### Changed
+- Card web adapter: accepts new `elevated` and `accent` variants; CSS synced
+- Tile: `console.warn` on import — use Card + Metric/Meter
+- Storybook: Header/Footer/Hero/Preheader/MobileNav moved `Layout/*` → `Regions/*`
+- Storybook: PageSections moved `Layout/PageSections` → `Patterns/PageSections`
+- TwoColumnLayout story deleted — superseded by Columns story
 
 ---
 
