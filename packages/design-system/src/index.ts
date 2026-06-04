@@ -19,6 +19,10 @@ export type { MeterProps } from './components/Meter';
 export { Skeleton } from './components/Skeleton';
 export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
 
+// ── DescriptionList ──────────────────────────────────────────────────────────
+export { DescriptionList } from './components/DescriptionList';
+export type { DescriptionListProps, DescriptionItem } from './components/DescriptionList';
+
 // ── Button ───────────────────────────────────────────────────────────────────
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';
