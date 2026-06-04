@@ -1,0 +1,20 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+}
+
+.footer {
+  width: 100%;
+  flex-shrink: 0;
+}

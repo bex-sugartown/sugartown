@@ -1,0 +1,10 @@
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--st-page-gutter);
+}
+
+.reading { max-width: var(--st-width-detail); }
+.detail  { max-width: var(--st-width-detail-wide); }
+.archive { max-width: var(--st-width-archive); }
+/* bleed — no max-width constraint */

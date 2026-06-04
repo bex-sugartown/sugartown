@@ -3,9 +3,21 @@
  * CMS-agnostic component library
  */
 
-// ── Box ──────────────────────────────────────────────────────────────────────
+// ── Layout primitives ────────────────────────────────────────────────────────
 export { Box } from './components/Box';
 export type { BoxProps } from './components/Box';
+export { Container } from './components/Container';
+export type { ContainerProps, ContainerSize } from './components/Container';
+export { Stack } from './components/Stack';
+export type { StackProps, StackGap, StackDirection, StackAlign, StackJustify } from './components/Stack';
+export { Columns } from './components/Columns';
+export type { ColumnsProps, ColumnsGap, ColumnsBreakpoint } from './components/Columns';
+export { Surface } from './components/Surface';
+export type { SurfaceProps, SurfaceElevation } from './components/Surface';
+export { Page } from './components/Page';
+export type { PageProps } from './components/Page';
+export { AppShell } from './components/AppShell';
+export type { AppShellProps, AppShellSidebarWidth } from './components/AppShell';
 
 // ── Metric ───────────────────────────────────────────────────────────────────
 export { Metric } from './components/Metric';
