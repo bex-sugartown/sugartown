@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: var(--st-space-1);
   padding: var(--st-spacing-inset-md);
-  background: var(--st-card-bg); /* covers Grid's border-color gap bg */
+  background: var(--st-tile-bg, var(--st-stat-tile-bg));
   height: 100%;
   box-sizing: border-box;
 }
