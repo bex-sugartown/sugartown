@@ -29,7 +29,7 @@ Web adapter stories are only created when the adapter adds **visually distinct b
 ## DS Primitives → Web Adapters
 
 All 14 DS primitive components have a corresponding web adapter. Four components
-(Grid, SectionLabel, Tile, DataTable) exist only in the web adapter layer and are
+(Grid, SectionLabel, DataTable) exist only in the web adapter layer and are
 documented in the section below.
 
 **Thruline audit (SUG-98, 2026-05-07):** All adapter pairs verified. No adapter
@@ -87,7 +87,7 @@ coupled to React Router / web data patterns that has no portable use case outsid
 |-----------|-------------|-----------|-----------|-------|
 | Grid | ✅ `web/design-system/grid/` | ✅ Components/Layout/Grid | ✅ | CSS grid layout utility. Layout concern, not a DS primitive. SUG-120: `accentColor` (brand/ink) + `tabletColumns` responsive breakpoint added; composition stories added. |
 | SectionLabel | ✅ `web/design-system/section-label/` | ✅ Components/SectionLabel | ✅ | Typography-only label row. Minimal; no value in porting. |
-| Tile | ✅ `web/design-system/tile/` | ✅ Components/Tile | ✅ | Metric/content surface. Complex data props tied to web patterns. |
+| ~~Tile~~ | ~~`web/design-system/tile/`~~ @deprecated | ~~Components/Tile~~ | ⚠️ deprecated | @deprecated — use Card + Metric/Meter. `console.warn` on import. Deletion deferred to SUG-151 after all call sites migrated. SUG-149. |
 | ~~DataTable~~ | ✅ `web/design-system/data-table/` — @deprecated | ✅ Components/Table/DataTable | ⚠️ untested | Deprecated shim over `<Table>`. Maps `variant="trust"` → `tone="subdued"`. Inline CSS injection removed (SUG-119). Delete after all callers migrate to `<Table>` directly. |
 | ~~LaneHeader~~ | Retired (SUG-119) | — | — | Deleted from both mirrors. Lane label and epic count now live in `<Table caption captionMeta>`. |
 | ~~RoadmapTable~~ | Deleted | — | — | Deleted after GovernancePage and TablesDevPage migrated to `<Table tone="subdued">` directly. |
