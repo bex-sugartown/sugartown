@@ -18,7 +18,7 @@ const withRouter = (Story: React.ComponentType) => (
 );
 
 const meta: Meta<typeof Preheader> = {
-  title: 'Layout/Preheader',
+  title: 'Regions/Preheader',
   component: Preheader,
   tags: ['autodocs'],
   decorators: [withRouter],

@@ -4,7 +4,7 @@ import PageSections from './PageSections';
 import { simpleParagraph, richContent } from './__fixtures__/portableText';
 
 const meta: Meta<typeof PageSections> = {
-  title: 'Layout/PageSections',
+  title: 'Patterns/PageSections',
   component: PageSections,
   decorators: [
     (Story) => (
