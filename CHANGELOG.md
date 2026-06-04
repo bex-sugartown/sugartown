@@ -12,7 +12,20 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.26.3.
+> Accumulates since v0.26.4.
+
+---
+
+## [0.26.4] — 2026-06-04
+
+SUG-147: DS Phase 1 foundations — layout drift audit + Input codification verify.
+
+### docs
+
+#### Added
+- `docs/briefs/design-system/audit-26-06-03/drift-catalogue.md` — layout drift catalogue covering flex patterns, grid usages, max-width values (760/960/1080px), margin-inline: auto, and box-shadow; candidate tokens identified for Container and Stack primitives
+- Input codification status confirmed: Input story present at ship time; Input included as SUG-148 deliverable
+- 1164px container decision recorded in drift catalogue
 
 ---
 
