@@ -3,11 +3,7 @@ import Button from '../design-system/components/button/Button'
 import Field from '../design-system/components/field/Field'
 import Input from '../design-system/components/input/Input'
 import Textarea from '../design-system/components/textarea/Textarea'
-import styles from './ContactForm.module.css'
-
-if (typeof console !== 'undefined') {
-  console.warn('[DS] ContactForm is deprecated — use Form + contactFormFields. See SUG-150.')
-}
+import styles from './Form.module.css'
 
 const RECAPTCHA_SITE_KEY = '6Lcf9pMsAAAAAOM7s8cUPaoyhFEnV3WE5cZfXusG'
 
@@ -35,47 +31,64 @@ function loadRecaptchaScript() {
   })
 }
 
-export default function ContactForm() {
-  const [fields, setFields] = useState({ name: '', email: '', message: '' })
+function validateFields(fields, schema) {
+  const errors = {}
+  schema.forEach(({ name, label, required, validate }) => {
+    if (required && !fields[name]?.trim()) {
+      errors[name] = `${label} is required`
+    } else if (validate) {
+      const msg = validate(fields[name])
+      if (msg) errors[name] = msg
+    }
+  })
+  return errors
+}
+
+/**
+ * Form — generic form pattern. Renders Field[] from a field schema.
+ *
+ * Field schema entry: { name, label, type, rows?, required?, validate?, autoComplete? }
+ *
+ * Submission:
+ * - `action` (string): Netlify form name — submits to `/` with `form-name` + reCAPTCHA
+ * - `onSubmit` (function): called with field values; handles submission externally
+ */
+export default function Form({ fields: fieldSchema, action, onSubmit: onSubmitProp, submitLabel = 'Submit' }) {
+  const initialValues = Object.fromEntries(fieldSchema.map(({ name }) => [name, '']))
+  const [values, setValues] = useState(initialValues)
   const [status, setStatus] = useState('idle') // idle | submitting | success | error
   const [errors, setErrors] = useState({})
   const recaptchaReady = useRef(false)
 
   useEffect(() => {
-    loadRecaptchaScript().then(() => { recaptchaReady.current = true })
-  }, [])
-
-  function validate() {
-    const next = {}
-    if (!fields.name.trim()) next.name = 'Name is required'
-    if (!fields.email.trim()) {
-      next.email = 'Email is required'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
-      next.email = 'Please enter a valid email address'
+    if (action) {
+      loadRecaptchaScript().then(() => { recaptchaReady.current = true })
     }
-    if (!fields.message.trim()) next.message = 'Message is required'
-    return next
-  }
+  }, [action])
 
   function handleChange(e) {
     const { name, value } = e.target
-    setFields((prev) => ({ ...prev, [name]: value }))
+    setValues((prev) => ({ ...prev, [name]: value }))
     if (errors[name]) setErrors((prev) => { const n = { ...prev }; delete n[name]; return n })
   }
 
   async function handleSubmit(e) {
     e.preventDefault()
-    const validationErrors = validate()
+    const validationErrors = validateFields(values, fieldSchema)
     if (Object.keys(validationErrors).length > 0) { setErrors(validationErrors); return }
     setStatus('submitting')
     try {
-      const recaptchaToken = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'contact_submit' })
-      const res = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({ 'form-name': 'contact', 'g-recaptcha-response': recaptchaToken, ...fields }),
-      })
-      if (!res.ok) throw new Error(`${res.status}`)
+      if (onSubmitProp) {
+        await onSubmitProp(values)
+      } else if (action) {
+        const recaptchaToken = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'form_submit' })
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: encode({ 'form-name': action, 'g-recaptcha-response': recaptchaToken, ...values }),
+        })
+        if (!res.ok) throw new Error(`${res.status}`)
+      }
       setStatus('success')
     } catch {
       setStatus('error')
@@ -84,7 +97,7 @@ export default function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className={styles.contactForm}>
+      <div className={styles.form}>
         <div className={styles.successMessage} role="status">
           <h3 className={styles.successHeading}>Message sent</h3>
           <p className={styles.successBody}>Thanks for reaching out. I'll get back to you soon.</p>
@@ -94,41 +107,31 @@ export default function ContactForm() {
   }
 
   return (
-    <form className={styles.contactForm} onSubmit={handleSubmit} noValidate>
-      <Field label="Name" htmlFor="contact-name" errorMessage={errors.name}>
-        <Input
-          id="contact-name"
-          name="name"
-          type="text"
-          value={fields.name}
-          onChange={handleChange}
-          autoComplete="name"
-          disabled={status === 'submitting'}
-        />
-      </Field>
-
-      <Field label="Email" htmlFor="contact-email" errorMessage={errors.email}>
-        <Input
-          id="contact-email"
-          name="email"
-          type="email"
-          value={fields.email}
-          onChange={handleChange}
-          autoComplete="email"
-          disabled={status === 'submitting'}
-        />
-      </Field>
-
-      <Field label="Message" htmlFor="contact-message" errorMessage={errors.message}>
-        <Textarea
-          id="contact-message"
-          name="message"
-          rows={6}
-          value={fields.message}
-          onChange={handleChange}
-          disabled={status === 'submitting'}
-        />
-      </Field>
+    <form className={styles.form} onSubmit={handleSubmit} noValidate>
+      {fieldSchema.map(({ name, label, type = 'text', rows, autoComplete }) => (
+        <Field key={name} label={label} htmlFor={`form-${name}`} errorMessage={errors[name]}>
+          {type === 'textarea' ? (
+            <Textarea
+              id={`form-${name}`}
+              name={name}
+              rows={rows ?? 6}
+              value={values[name]}
+              onChange={handleChange}
+              disabled={status === 'submitting'}
+            />
+          ) : (
+            <Input
+              id={`form-${name}`}
+              name={name}
+              type={type}
+              value={values[name]}
+              onChange={handleChange}
+              autoComplete={autoComplete}
+              disabled={status === 'submitting'}
+            />
+          )}
+        </Field>
+      ))}
 
       {/* Honeypot — hidden from users, catches bots */}
       <p className={styles.honeypot}>
@@ -145,7 +148,7 @@ export default function ContactForm() {
       )}
 
       <Button type="submit" variant="primary" disabled={status === 'submitting'}>
-        {status === 'submitting' ? 'Sending…' : 'Send Message'}
+        {status === 'submitting' ? 'Sending…' : submitLabel}
       </Button>
     </form>
   )

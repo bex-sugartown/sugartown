@@ -1,4 +1,5 @@
 import Link from './atoms/Link'
+import Container from '../design-system/components/container/Container'
 import styles from './Preheader.module.css'
 
 /**
@@ -35,7 +36,7 @@ export default function Preheader({ preheader }) {
 
   return (
     <div className={`${styles.preheader} ${bgColorClass}`}>
-      <div className={styles.container}>
+      <Container size="site" className={styles.inner}>
         {preheader.message && (
           <span className={styles.message}>{preheader.message}</span>
         )}
@@ -47,7 +48,7 @@ export default function Preheader({ preheader }) {
             className={styles.link}
           />
         )}
-      </div>
+      </Container>
     </div>
   )
 }

@@ -13,6 +13,10 @@
  *   breakpoint — "md" (default, 768px) | "lg" (1024px)
  *   children   — main content
  */
+if (typeof console !== 'undefined') {
+  console.warn('[DS] TwoColumnLayout is deprecated — use Columns count={2} or Stack. See SUG-150.')
+}
+
 import styles from './TwoColumnLayout.module.css'
 
 export default function TwoColumnLayout({

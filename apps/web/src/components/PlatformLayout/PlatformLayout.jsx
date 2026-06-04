@@ -4,7 +4,7 @@ import { pageBySlugQuery } from '../../lib/queries'
 import { useSanityDoc } from '../../lib/useSanityDoc'
 import { extractLeadHero } from '../../lib/heroUtils'
 import PlatformSidebar from './PlatformSidebar'
-import TwoColumnLayout from '../../design-system/components/two-column-layout/TwoColumnLayout'
+import { Stack } from '../../design-system'
 
 function useHashScroll() {
   const { hash, pathname } = useLocation()
@@ -31,11 +31,12 @@ export default function PlatformLayout() {
   return (
     <>
       {heroSlot}
-      <TwoColumnLayout placement="left" sidebar={<PlatformSidebar />}>
+      <Stack direction={{ base: 'column', md: 'row' }} gap="0" align="start">
+        <PlatformSidebar />
         <main style={{ flex: 1, minWidth: 0 }}>
           <Outlet context={{ setHeroSlot, platformHeroSection }} />
         </main>
-      </TwoColumnLayout>
+      </Stack>
     </>
   )
 }

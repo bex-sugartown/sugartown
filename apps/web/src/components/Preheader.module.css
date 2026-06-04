@@ -4,10 +4,8 @@
   font-size: var(--st-font-size-sm);
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--st-spacing-inset-md);
+/* Container size + gutter handled by DS Container size="site" */
+.inner {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,7 +69,7 @@
     padding: var(--st-spacing-stack-sm) 0;
   }
 
-  .container {
+  .inner {
     flex-direction: column;
     gap: var(--st-spacing-stack-xs);
   }

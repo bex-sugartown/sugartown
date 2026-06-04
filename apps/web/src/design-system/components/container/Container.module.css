@@ -7,3 +7,5 @@
 .reading { max-width: var(--st-width-detail); }
 .detail  { max-width: var(--st-width-detail-wide); }
 .archive { max-width: var(--st-width-archive); }
+.site    { max-width: var(--st-width-site); }
+/* bleed — no max-width constraint */

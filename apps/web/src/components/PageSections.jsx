@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { PortableText } from '@portabletext/react'
-import { Button, ButtonGroup, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Tile, Grid, SectionLabel } from '../design-system'
+import { Button, ButtonGroup, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Grid, SectionLabel } from '../design-system'
+import StatCard from './StatCard'
 import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
 import stats from '../generated/stats.json'
 import { TRUST_LINKS, getCanonicalPath } from '../lib/routes'
@@ -856,15 +857,13 @@ function StatTileSectionRenderer({ section }) {
       )}
       <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
         {section.items.map((item, i) => (
-          <Tile
+          <StatCard
             key={item._key ?? i}
             label={item.metric}
             value={item.valueAfter}
             sub={item.valueBefore || undefined}
             body={item.impactStatement || undefined}
             chip={item.evidenceType || undefined}
-            labelColor="ink"
-            titleSize="2xl"
           />
         ))}
       </Grid>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { resolveNavLink } from '../lib/resolveNavUrl'
 import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
-import { Button } from '../design-system'
+import { Button, Container } from '../design-system'
 import NavigationItem from './atoms/NavigationItem'
 import MobileNav from './MobileNav'
 import Preheader from './Preheader'
@@ -43,7 +43,7 @@ export default function Header({ siteSettings }) {
       {preheader && <Preheader preheader={preheader} />}
 
       <header className={`${styles.header}${scrolled ? ` ${styles.scrolled}` : ''}`}>
-        <div className={styles.container}>
+        <Container size="site" className={styles.inner}>
           {siteLogo?.asset && (
             <RouterLink to="/" className={styles.logoLink}>
               <img
@@ -92,7 +92,7 @@ export default function Header({ siteSettings }) {
               </svg>
             </button>
           </div>
-        </div>
+        </Container>
       </header>
 
       {/* Mobile drawer */}

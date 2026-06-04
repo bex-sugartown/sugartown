@@ -4,6 +4,7 @@ const SIZE_CLASS = {
   reading: styles.reading,
   detail:  styles.detail,
   archive: styles.archive,
+  site:    styles.site,
   bleed:   styles.bleed,
 }
 

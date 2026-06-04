@@ -1,0 +1,55 @@
+/* ContactForm — field styling via DS Field/Input/Textarea primitives (SUG-148) */
+
+.form {
+  max-width: var(--st-width-detail, 760px);
+  margin: 0 auto;
+  padding: var(--st-spacing-stack-lg) var(--st-page-gutter);
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-spacing-stack-md);
+}
+
+/* ── Form-level error (not field-level — those are handled by Field/ErrorMessage) ── */
+
+.formError {
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-danger);
+  margin: 0;
+  padding: var(--st-space-3) var(--st-space-4);
+  background: var(--st-color-brand-primary-tint-10);
+  border: 1px solid var(--st-color-border-default);
+}
+
+/* ── Success state ─────────────────────────────────────────────── */
+
+.successMessage {
+  text-align: center;
+  padding: var(--st-spacing-stack-xl) 0;
+}
+
+.successHeading {
+  font-size: var(--st-font-heading-3);
+  font-weight: var(--st-font-weight-bold);
+  color: var(--st-color-brand-primary);
+  margin-bottom: var(--st-spacing-stack-sm);
+}
+
+.successBody {
+  font-size: var(--st-font-size-lg);
+  color: var(--st-color-text-default);
+  line-height: 1.6;
+}
+
+/* ── Honeypot (visually hidden, accessible to bots) ─────────────── */
+
+.honeypot {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}

@@ -13,7 +13,7 @@
 
 /* ── Card outer frame — V2 Inverted Well (SUG-88) ── */
 
-.card {
+.metadataCard {
   background: var(--st-metadata-body-bg);
   border: 1px solid var(--st-card-border);
   padding: 0;

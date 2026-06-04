@@ -101,13 +101,16 @@ These components own layout and data-binding logic. They consume DS primitives a
 
 | Component | File | Storybook | Sanity data source | Notes |
 |-----------|------|-----------|-------------------|-------|
-| ContentCard | `web/components/ContentCard.jsx` | ✅ Patterns/ContentCard | article, caseStudy, node archive queries | Thin data adapter over web Card |
+| ContentCard | `web/components/ContentCard.jsx` | ✅ Patterns/ContentCard | article, caseStudy, node archive queries | Thin data adapter over web Card. Binding-only — no container CSS. |
 | ContentNav | `web/components/ContentNav.jsx` | ✅ Patterns/ContentNav | Adjacent-item Sanity query | App composite — fetches prev/next items. Story uses plain-`<a>` inline demo. |
-| MetadataCard | `web/components/MetadataCard.jsx` | ✅ Patterns/MetadataCard | All detail page queries | Canonical metadata surface — never re-implement inline |
+| MetadataCard | `web/components/MetadataCard.jsx` | ✅ Patterns/MetadataCard | All detail page queries | Canonical metadata surface — never re-implement inline. Composes Card frame via `<aside className={styles.metadataCard}>`. |
+| StatCard | `web/components/StatCard.jsx` | ✅ Patterns/StatCard | `statTileSection` in `sections[]` | Replaces Tile in stat grids. Card + metric/value/sub/body layout. SUG-150. |
+| Form | `web/components/Form.jsx` | ✅ Patterns/Form | — | Generic form pattern. Renders `Field[]` from schema. Netlify `action` or `onSubmit` callback. SUG-150. |
+| ~~ContactForm~~ | `web/components/ContactForm.jsx` | ~~Patterns/ContactForm~~ | — | **Deprecated** — use `Form + contactFormFields`. Deletion in SUG-151. |
 | CardBuilderSection | `web/components/CardBuilderSection.jsx` | ✅ Patterns/CardBuilderSection | `cardBuilderSection` in `sections[]` | |
 | RecentContentSection | `web/components/RecentContentSection.jsx` | ✅ Patterns/RecentContentSection | Sanity fetch via `useSanityDoc` | Mock infrastructure in `.storybook/stories/` |
 | ContentBlock | `web/components/ContentBlock.jsx` | ✅ Patterns/ContentBlock | PortableText `content` field | |
-| ContactForm | `web/components/ContactForm.jsx` | ✅ Patterns/ContactForm | — | Netlify Forms POST |
+| ArchiveLayout | `web/components/ArchiveLayout.stories.jsx` | ✅ Patterns/ArchiveLayout | — | Spec/documentation stories for all archive layout variants. SUG-150. |
 | ImageLightbox | `web/components/ImageLightbox.jsx` | ✅ Patterns/ImageLightbox | image galleries | |
 | PageSidebar | `web/components/PageSidebar.jsx` | ✅ Patterns/PageSidebar | TOC / related / series / AI disclosure | |
 | Pagination | `web/components/Pagination.jsx` | ✅ Patterns/Pagination | archive page query results | |

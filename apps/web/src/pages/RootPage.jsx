@@ -14,9 +14,16 @@ import SeoHead from '../components/SeoHead'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
 import PageSidebar, { hasSidebarContent } from '../components/PageSidebar'
-import ContactForm from '../components/ContactForm'
+import Form from '../components/Form'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
+
+const contactFormFields = [
+  { name: 'name',    label: 'Name',    type: 'text',     required: true,  autoComplete: 'name' },
+  { name: 'email',   label: 'Email',   type: 'email',    required: true,  autoComplete: 'email',
+    validate: (v) => v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? 'Please enter a valid email address' : undefined },
+  { name: 'message', label: 'Message', type: 'textarea', required: true },
+]
 
 export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
   const { slug: slugParam } = useParams()
@@ -50,7 +57,7 @@ export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
       <main>
         <SeoHead seo={seo} jsonLd={generateJsonLd(page, siteSettings)} />
         {page.sections?.length > 0 && <PageSections sections={page.sections} />}
-        {slug === 'contact' && <ContactForm />}
+        {slug === 'contact' && <Form fields={contactFormFields} action="contact" submitLabel="Send Message" />}
       </main>
     )
   }
@@ -97,7 +104,7 @@ export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
         )}
 
       </div>
-      {slug === 'contact' && <ContactForm />}
+      {slug === 'contact' && <Form fields={contactFormFields} action="contact" submitLabel="Send Message" />}
     </main>
   )
 }

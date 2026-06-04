@@ -4,6 +4,7 @@ import { resolveNavLink } from '../lib/resolveNavUrl'
 import { getCanonicalPath, FOOTER_UTILITY_LINKS, TRUST_LINKS } from '../lib/routes'
 import { APP_VERSION, BUILD_DATE } from '../lib/buildInfo'
 import Chip from '../design-system/components/chip/Chip'
+import Container from '../design-system/components/container/Container'
 import Link from './atoms/Link'
 import SocialLink from './atoms/SocialLink'
 import styles from './Footer.module.css'
@@ -31,7 +32,7 @@ export default function Footer({ siteSettings }) {
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.container}>
+      <Container size="site">
 
         {/* ── Zone 1: brand (left) + nav columns (right) ─────────── */}
         <div className={styles.top}>
@@ -173,7 +174,7 @@ export default function Footer({ siteSettings }) {
           )}
         </div>
 
-      </div>
+      </Container>
     </footer>
   )
 }

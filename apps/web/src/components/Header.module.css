@@ -17,10 +17,8 @@
   box-shadow: var(--st-shadow-header);
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--st-spacing-inset-md);
+/* Container size + gutter handled by DS Container size="site" */
+.inner {
   display: flex;
   align-items: center;
   justify-content: space-between;

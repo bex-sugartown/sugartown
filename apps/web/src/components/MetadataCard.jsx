@@ -190,8 +190,7 @@ export default function MetadataCard({
   const hasChips = hasTools || showProjectChips || hasCategories || hasTags
 
   return (
-    <aside>
-      <div className={styles.card}>
+    <aside className={styles.metadataCard}>
 
         {/* Draft badge — upper-right corner */}
         {draftBadge && (
@@ -301,7 +300,6 @@ export default function MetadataCard({
           </div>
         )}
 
-      </div>
     </aside>
   )
 }
