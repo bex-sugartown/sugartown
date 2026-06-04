@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Avatar.module.css';
 
-export type AvatarSize = 'sm' | 'md' | 'lg';
+export type AvatarSize = 'sm' | 'md' | 'lg' | 'xl';
 
 export interface AvatarProps {
   /** Image URL — if omitted, initials fallback renders */

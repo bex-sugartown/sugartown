@@ -31,7 +31,7 @@ function LinkedInIcon({ size = 24, color = 'currentColor', className, ...props }
     </svg>
   )
 }
-import { Grid, SectionLabel, Breadcrumb } from '../design-system'
+import { Grid, SectionLabel, Breadcrumb, Avatar } from '../design-system'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
@@ -116,21 +116,7 @@ export default function PersonProfilePage() {
       <section className={styles.profileFolio}>
         <div className={pageStyles.entityFolio}>
           {/* Avatar */}
-          {avatarUrl ? (
-            <img
-              src={avatarUrl}
-              alt={person.image?.alt ?? `${displayName} profile photo`}
-              className={pageStyles.entityThumbnail}
-              width={88}
-              height={88}
-              loading="lazy"
-              decoding="async"
-            />
-          ) : (
-            <div className={pageStyles.entityThumbnailFallback} aria-hidden="true">
-              {displayName?.charAt(0)?.toUpperCase() ?? '?'}
-            </div>
-          )}
+          <Avatar src={avatarUrl ?? undefined} name={displayName} size="xl" />
 
           {/* Identity */}
           <div className={pageStyles.folioIdentity}>
