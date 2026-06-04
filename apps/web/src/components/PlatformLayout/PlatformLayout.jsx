@@ -31,7 +31,7 @@ export default function PlatformLayout() {
   return (
     <>
       {heroSlot}
-      <Container size="site">
+      <Container size="site" style={{ paddingBlockStart: 'var(--st-space-section-break)' }}>
         <Stack direction={{ base: 'vertical', md: 'horizontal' }} gap="4" align="start">
           <PlatformSidebar />
           <main style={{ flex: 1, minWidth: 0 }}>
