@@ -1,122 +1,278 @@
----
-**Epic:** SUG-152 — DS Usage Docs — Storybook documentation audit and creation
 **Linear Issue:** [SUG-152](https://linear.app/sugartown/issue/SUG-152/ds-usage-docs-storybook-documentation-audit-and-creation-phase-n)
-**Status:** In Progress
-**Priority:** 🟣 Soon
-**Merge strategy:** (a) Merge-as-you-go — one commit per usage doc, one mini-release at end of full audit cycle
+## EPIC NAME: DS Usage Docs — Storybook documentation audit and creation
+
 ---
 
-# SUG-152 — DS Usage Docs — Storybook documentation audit and creation
+## Model & Mode
 
-The design system has many implicit conventions that live only in CLAUDE.md, code comments, or institutional memory. SUG-141 established the template and style guide and shipped the first usage doc (H1 italic/roman rule). This epic audits the remaining undocumented conventions and produces a usage doc for each — one topic at a time, with explicit review before each doc is written.
+`/model sonnet` — pure content/editorial epic. Prose authoring and Storybook TSX only. No architecture decisions.
 
-## Background
+---
 
-The H1 italic/roman rule was reverse-engineered from scattered CSS files. The same problem exists for spacing contracts, component composition rules, folio layout conventions, chip taxonomy, breakpoint rationale, and more. Every new session or contributor starts from scratch.
+## Pre-Execution Completeness Gate
 
-SUG-141 proved the format: a Storybook `.stories.tsx` page in `Foundations/` with inline styles, the rule stated up front, live visual examples, and do/don't pairs. This epic applies that pattern to the rest of the undocumented surface.
+- [x] **Interaction surface audit** — no new interactive elements. Storybook `.stories.tsx` files only.
+- [x] **Use case coverage** — N/A. No new component or web adapter.
+- [x] **Layout contract** — N/A. Storybook docs use inline styles and existing DS tokens.
+- [x] **All prop value enumerations** — N/A. No enum fields rendered from Sanity.
+- [x] **Correct audit file paths** — Reference files verified: `apps/storybook/.storybook/stories/TypographyConventions.stories.tsx`, `docs/conventions/usage-doc-style-guide.md`, `apps/storybook/.storybook/stories/_UsageDocTemplate.tsx`
+- [x] **Dark / theme modifier treatment** — Story files use `var(--st-*)` tokens throughout. Storybook theme toggle exercises the token cascade. No per-theme CSS overrides needed in story files.
+- [x] **Studio schema changes scoped** — None. This epic does not touch any Sanity schema.
+- [x] **Web adapter sync scoped** — N/A. No DS component created or modified.
+- [x] **Composition overlap audit** — N/A. No schema sub-objects.
+- [x] **Atomic Reuse Gate** — No new components. Each story is a standalone `.stories.tsx` page in `Foundations/`.
+- [x] **Component registry update** — N/A. No components created or retired.
+
+---
+
+## Context
+
+SUG-141 established the Storybook usage doc format and shipped the first doc (`TypographyConventions.stories.tsx` — H1 italic/roman rule). It also produced:
+
+- `docs/conventions/usage-doc-style-guide.md` — section order, voice, format rules
+- `apps/storybook/.storybook/stories/_UsageDocTemplate.tsx` — copy-paste starter
+
+The Storybook `Foundations/` category currently has: Welcome, ThemeGuide, TokenReference, ComponentContracts, Contributing, TypographyConventions.
+
+The design system has many implicit conventions that live only in `CLAUDE.md`, CSS comments, or institutional memory. Each new session or contributor reverse-engineers them. This epic systematically documents them as usage docs.
+
+**Execution model:** Each topic is proposed, reviewed, and approved before the story file is written. Pause after proposing each topic — no story is written without explicit sign-off on angle and scope.
+
+---
 
 ## Objective
 
-A growing library of usage docs in Storybook `Foundations/` — each covering one implicit DS convention. Docs are reviewed and approved before being written. No doc is written speculatively.
+After this epic: a set of Storybook usage docs in `Foundations/` covering the DS conventions most likely to be mis-implemented. Each doc covers one convention — rule first, live visual examples, do/don't pairs, implementation references. The Storybook `Foundations/` category becomes a navigable reference for anyone working on the design system.
 
-**Delivery surface:** `apps/storybook/.storybook/stories/` — `.stories.tsx` format, `Foundations/<Name>` title, inline styles only (no className imports, no new CSS files).
+Schema layer: not touched. Query layer: not touched. Render layer: Storybook story files only.
 
-**Reference:** `TypographyConventions.stories.tsx` (SUG-141) — the canonical example.  
-**Style guide:** `docs/conventions/usage-doc-style-guide.md`
+---
 
-## Execution model
+## Doc Type Coverage Audit
 
-For each phase:
-1. Propose the topic — title, one-liner, what the rule covers, what the live preview would show
-2. **Pause for review** — user confirms angle, flags any pivots, approves before writing
-3. Write the `.stories.tsx` file
-4. Commit: `docs(storybook): SUG-152 — <Topic> usage doc`
+| Doc Type    | In scope? | Reason if excluded |
+|-------------|-----------|-------------------|
+| `page`      | ☐ No | Documentation only — no Sanity doc type touched |
+| `article`   | ☐ No | Documentation only |
+| `caseStudy` | ☐ No | Documentation only |
+| `node`      | ☐ No | Documentation only |
+| `archivePage` | ☐ No | Documentation only |
 
-This is not a batch operation. Topics are sequential, reviewed individually.
+---
 
-## Candidate topics (ordered by value — subject to reorder at review)
+## Schema Field Proposal
 
-### Phase 1 — Section spacing contract
-
-**Proposed title:** Section Spacing Contract  
-**One-liner:** How inter-section gap is owned by the layout container, not by individual components.  
-**Rule:** `.detailContext` owns all vertical gap via `display: flex; gap`. Components must have zero external margin. Internal padding (box inset) is allowed.  
-**Why it matters:** The most common layout bug in this codebase. Every new section type that adds its own `margin-block` produces double-padding. The rule is in CLAUDE.md but invisible to anyone reading component code.  
-**Live preview idea:** Side-by-side — correct (gap only on parent) vs wrong (component adds margin-block, gap doubles).
-
-### Phase 2 — Entity folio layout contract
-
-**Proposed title:** Entity Folio Layout  
-**One-liner:** The flex-row layout that wraps thumbnail, name, eyebrow, and description on all entity detail pages.  
-**Rule:** `entityFolio` is the canonical surface — thumbnail on the left, `folioIdentity` on the right. No folio is implemented by hand.  
-**Why it matters:** Every new entity type (person, tool, project, client) uses this pattern. Without the doc, each implementation drifts.  
-**Live preview idea:** Annotated folio with thumbnail slot, eyebrow, heading, description, and metadata — labelled with class names.
-
-### Phase 3 — Chip taxonomy: Chip vs Tag vs Pill
-
-**Proposed title:** Chip / Tag Taxonomy  
-**One-liner:** Which DS component to use when — Chip, Tag, or inline chip pattern — and when not to create a new one.  
-**Rule:** Chip = interactive (filterable, clickable). Tag = read-only label. Pill = deprecated alias for Chip. Expertise chips on profile pages use the inline `.expertiseChip` pattern because they carry routing links.  
-**Why it matters:** Three names in the codebase that map to overlapping concepts. New surfaces reach for the wrong one.  
-**Live preview idea:** Three-row comparison table: Chip / Tag / expertiseChip — visual state, interactivity, usage context.
-
-### Phase 4 — Component composition: Card vs ContentCard vs MetadataCard
-
-**Proposed title:** Card Composition Rules  
-**One-liner:** When to use the DS Card primitive vs ContentCard adapter vs MetadataCard — and when to compose from scratch.  
-**Rule:** Card = DS primitive, no data binding. ContentCard = bound to Sanity content types (article, node, caseStudy). MetadataCard = canonical metadata surface on entity detail pages. Never re-implement MetadataCard inline.  
-**Why it matters:** Three components with overlapping visual affordance but distinct contracts. The rule is in MEMORY.md but not visible in Storybook.  
-**Live preview idea:** Three columns — one example per component, showing the bounding use case, with "don't use here" cross-examples.
-
-### Phase 5 — Responsive breakpoints
-
-**Proposed title:** Breakpoint Rationale  
-**One-liner:** What the two primary breakpoints are, which surfaces they govern, and why the values were chosen.  
-**Rule:** `860px` — table / grid collapse breakpoint (prose + 2-col grid minimum). `768px` — nav breakpoint (mobile nav toggle threshold).  
-**Why it matters:** Hardcoded in CSS, not in tokens, with no explanation of the derivation. New surfaces pick arbitrary values.  
-**Live preview idea:** Annotated ruler/range diagram showing the two breakpoints and which surfaces collapse at each.
-
-### Phase 6 — Token naming rationale
-
-**Proposed title:** Semantic vs Primitive Tokens  
-**One-liner:** Why `--st-color-text-primary` and `--st-color-brand-primary` are different tokens and when to use each.  
-**Rule:** Semantic tokens (`text-primary`, `bg-surface`) vary by theme. Primitive tokens (`pink`, `midnight-800`) are fixed values. Use semantic tokens in components; use primitives only in token definitions.  
-**Why it matters:** Developers reach for the wrong layer and then wonder why the dark theme breaks. This is the most common token mistake in code review.  
-**Live preview idea:** Two-column table: "Correct" (semantic in component) vs "Wrong" (primitive in component) — with what breaks in each theme.
+N/A — no schema changes.
 
 ---
 
 ## Scope
 
-- Documentation and Storybook authoring only
-- No changes to CSS, JSX, or schema
-- Each doc ships as its own commit
-- One mini-release covers the full audit cycle at close
+Candidate topics — reviewed and approved one at a time before authoring. Order subject to change at review.
 
-## Acceptance criteria
+### Phase 1 — Section Spacing Contract
+- [ ] Propose topic angle and live preview approach
+- [ ] **Pause for review**
+- [ ] Write `SectionSpacing.stories.tsx`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 1 — Section Spacing Contract usage doc`
 
-- [ ] All candidate topics reviewed (accepted, rejected, or deferred) in the order above
-- [ ] Each accepted topic has a `.stories.tsx` file in `apps/storybook/.storybook/stories/`
-- [ ] Each story renders in Storybook under `Foundations/<Name>`
-- [ ] Content follows the style guide: rule first, live preview, do/don't, implementation
-- [ ] No hardcoded hex values in any story file — all colours via `var(--st-*)`
+**Topic brief:**  
+Title: Section Spacing Contract  
+One-liner: How `.detailContext` owns all inter-section gap — components must not add external margin.  
+Rule: Parent container owns gap via `display: flex; gap`. Individual sections have zero `margin-block`. Internal box padding (callout inset, code block padding) is allowed.  
+Live preview: Side-by-side — correct (gap only on parent) vs wrong (component adds margin-block, double-padding results).  
+CSS surface: `apps/web/src/pages/pages.module.css` `.detailContext`, `apps/web/src/components/PageSections.module.css`
 
-## Technical notes
+### Phase 2 — Entity Folio Layout
+- [ ] Propose topic angle and live preview approach
+- [ ] **Pause for review**
+- [ ] Write `EntityFolio.stories.tsx`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 2 — Entity Folio Layout usage doc`
 
-- **No Content Write Gate** — Storybook `.stories.tsx` is code, not Sanity content
-- **No schema changes** — delivery is entirely in Storybook
-- **Reference implementation:** `apps/storybook/.storybook/stories/TypographyConventions.stories.tsx`
-- **Template:** `apps/storybook/.storybook/stories/_UsageDocTemplate.tsx`
-- **Style guide:** `docs/conventions/usage-doc-style-guide.md`
+**Topic brief:**  
+Title: Entity Folio Layout  
+One-liner: The flex-row pattern for all entity detail pages — thumbnail left, identity block right.  
+Rule: Use `entityFolio` + `folioIdentity` from `pages.module.css`. Do not implement folio layout by hand.  
+Live preview: Annotated folio — thumbnail slot, eyebrow, heading (roman/italic per type), description, metadata.  
+CSS surface: `apps/web/src/pages/pages.module.css` `.entityFolio`, `.folioIdentity`, `.entityThumbnail`, `.entityThumbnailFallback`
 
-## Model & Mode
+### Phase 3 — Chip / Tag Taxonomy
+- [ ] Propose topic angle and live preview approach
+- [ ] **Pause for review**
+- [ ] Write `ChipTaxonomy.stories.tsx`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 3 — Chip/Tag Taxonomy usage doc`
 
-`/model sonnet` — prose authoring and Storybook TSX, no architecture decisions needed.
+**Topic brief:**  
+Title: Chip / Tag Taxonomy  
+One-liner: Which component to use — DS Chip, Tag, or inline expertise chip — and when not to create a new one.  
+Rule: Chip = interactive/filterable. Tag = read-only label. `expertiseChip` = routed link chip on profile pages. Pill = deprecated alias for Chip.  
+Live preview: Three-row comparison — visual state, interactivity, use case.
+
+### Phase 4 — Card Composition Rules
+- [ ] Propose topic angle and live preview approach
+- [ ] **Pause for review**
+- [ ] Write `CardComposition.stories.tsx`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 4 — Card Composition Rules usage doc`
+
+**Topic brief:**  
+Title: Card Composition Rules  
+One-liner: When to use DS Card vs ContentCard vs MetadataCard — and what each one owns.  
+Rule: Card = DS primitive, no data binding. ContentCard = bound to Sanity content types. MetadataCard = canonical metadata surface on entity detail pages; never re-implement inline.
+
+### Phase 5 — Responsive Breakpoints
+- [ ] Propose topic angle and live preview approach
+- [ ] **Pause for review**
+- [ ] Write `Breakpoints.stories.tsx`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 5 — Responsive Breakpoints usage doc`
+
+**Topic brief:**  
+Title: Breakpoint Rationale  
+One-liner: The two primary breakpoints, which surfaces they govern, and how to derive new ones.  
+Rule: `860px` = table/grid collapse (minimum for prose + 2-col grid). `768px` = nav toggle threshold. New surfaces derive from content width, not arbitrary values.
+
+### Phase 6 — Semantic vs Primitive Tokens
+- [ ] Propose topic angle and live preview approach
+- [ ] **Pause for review**
+- [ ] Write `TokenLayers.stories.tsx`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 6 — Token Layers usage doc`
+
+**Topic brief:**  
+Title: Token Layers — Semantic vs Primitive  
+One-liner: When to use `--st-color-text-primary` vs `--st-color-pink` — and why the wrong choice breaks in dark mode.  
+Rule: Use semantic tokens in components. Use primitives only in token definition files and theme overrides.  
+Live preview: Two columns — "Semantic in component (correct)" vs "Primitive in component (breaks in dark mode)".
+
+---
+
+## Query Layer Checklist
+
+N/A — no query changes.
+
+---
+
+## Schema Enum Audit
+
+N/A — no enum fields from Sanity rendered.
+
+---
+
+## Metadata Field Inventory
+
+N/A — MetadataCard not in scope.
+
+---
+
+## Themed Colour Variant Audit
+
+All story files use `var(--st-*)` tokens exclusively. No per-theme overrides needed. Token values are exercised by the Storybook theme toggle.
+
+| Surface | Dark | Light | Pink Moon | Token(s) |
+|---------|------|-------|-----------|----------|
+| All story surfaces | inherits from token cascade | inherits | inherits | `var(--st-*)` only — no hardcoded values |
+
+---
 
 ## Non-Goals
 
-- No new page templates, routes, or Sanity documents
-- No changes to CSS, tokens, or component code
+- No CSS, JSX, schema, or token changes
+- No new page templates or routes
+- No Sanity documents
+- No changes to existing stories — this epic adds new story files only
 - Does not replace inline code comments
-- No third-party DS doc tools
+- No third-party DS doc tools (Zeroheight, Supernova)
+- External/stakeholder DS showcasing remains at `/platform/design-system` — these docs are developer-facing
+
+---
+
+## Technical Constraints
+
+**Monorepo / tooling**
+- Stories live in `apps/storybook/.storybook/stories/`
+- File naming: `<ConventionName>.stories.tsx` (PascalCase, no spaces)
+- Storybook title: `'Foundations/<Name>'`
+
+**Story format (non-negotiable)**
+- Inline styles only — no className imports from other modules
+- All colours via `var(--st-*)` tokens. No hex values.
+- Component function named `<ConventionName>Page` returning a `<div>`
+- Meta: `layout: 'padded'`, controls and actions disabled
+- One export: `export const Default: Story = {}`
+- Match the shared `s` object pattern from `TypographyConventions.stories.tsx`
+
+**Schema / Query / Render** — N/A for this epic.
+
+**DS Component Color Authoring** — N/A. No component CSS files touched.
+
+**Web Adapter Sync** — N/A.
+
+---
+
+## Migration Script Constraints
+
+N/A.
+
+---
+
+## Files to Modify
+
+**Storybook — one file per phase:**
+- `apps/storybook/.storybook/stories/SectionSpacing.stories.tsx` — CREATE (Phase 1)
+- `apps/storybook/.storybook/stories/EntityFolio.stories.tsx` — CREATE (Phase 2)
+- `apps/storybook/.storybook/stories/ChipTaxonomy.stories.tsx` — CREATE (Phase 3)
+- `apps/storybook/.storybook/stories/CardComposition.stories.tsx` — CREATE (Phase 4)
+- `apps/storybook/.storybook/stories/Breakpoints.stories.tsx` — CREATE (Phase 5)
+- `apps/storybook/.storybook/stories/TokenLayers.stories.tsx` — CREATE (Phase 6)
+
+No other files touched.
+
+---
+
+## Deliverables
+
+1. Each accepted topic has a `.stories.tsx` file in `apps/storybook/.storybook/stories/`
+2. Each story renders in Storybook under `Foundations/<Name>` without console errors
+3. All candidate topics reviewed (accepted, deferred, or dropped) with rationale
+
+---
+
+## Acceptance Criteria
+
+- [ ] All 6 candidate topics reviewed — accepted, deferred, or dropped with explicit reason
+- [ ] Each accepted story renders in Storybook `Foundations/` without console errors
+- [ ] No hardcoded hex/rgba values in any story file — verified by `pnpm validate:tokens --strict-colors` (zero violations)
+- [ ] Each story follows the style guide: rule first, live preview using real DS tokens, do/don't, implementation references
+- [ ] Content is prescriptive and usage-facing — no origin history, no phase candidates, no uncertainty markers
+
+---
+
+## Visual QA Gate
+
+For each story file: render in Storybook on both `default` and `dark-pink-moon` themes and confirm tokens resolve correctly (no black boxes, no missing colours). This is lightweight — token inheritance handles it if `var(--st-*)` is used consistently.
+
+Human gate: review each story in Storybook at `http://localhost:6006` before the phase commit.
+
+---
+
+## Risks / Edge Cases
+
+**Schema risks** — N/A.
+
+**Query risks** — N/A.
+
+**Migration risks** — N/A.
+
+**Render risks**
+- [ ] A live preview that references a CSS class from `pages.module.css` cannot be imported in a Storybook story (would require a class import). Mitigation: replicate the visual using inline styles that match the token values — do not import page CSS modules.
+- [ ] Stories must not import from `apps/web/src/` — Storybook is a separate app. Any convention that requires rendering a real component must be done by replicating the styles inline, not by importing the component.
+
+---
+
+## Post-Epic Close-Out
+
+1. Visual QA gate — each story reviewed in Storybook (both themes) by Bex
+2. Chromatic — run at close-out across all new stories
+3. Data pipeline gap check — N/A
+4. Move: `docs/backlog/SUG-152-ds-storybook-usage-docs-audit.md` → `docs/shipped/`
+5. Confirm clean tree
+6. Run `/mini-release`
+7. Update Linear SUG-152 → Done
