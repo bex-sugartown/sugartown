@@ -15,6 +15,10 @@ export type { MetricProps, MetricTrend } from './components/Metric';
 export { Meter } from './components/Meter';
 export type { MeterProps } from './components/Meter';
 
+// ── Skeleton ─────────────────────────────────────────────────────────────────
+export { Skeleton } from './components/Skeleton';
+export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
+
 // ── Button ───────────────────────────────────────────────────────────────────
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';

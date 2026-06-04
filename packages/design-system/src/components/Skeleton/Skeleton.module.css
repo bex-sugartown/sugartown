@@ -1,0 +1,34 @@
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--st-color-bg-subtle) 25%,
+    var(--st-color-bg-surface-strong) 50%,
+    var(--st-color-bg-subtle) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--st-radius-xs);
+}
+
+.text {
+  height: 1em;
+  width: 100%;
+  border-radius: var(--st-radius-xs);
+}
+
+.block {
+  height: var(--st-space-8);
+  width: 100%;
+  border-radius: var(--st-radius-xs);
+}
+
+.circle {
+  width: var(--st-space-6);
+  height: var(--st-space-6);
+  border-radius: var(--st-radius-full);
+}
