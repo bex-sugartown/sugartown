@@ -1,6 +1,6 @@
 # Sugartown Component Registry
 
-> Last updated: 2026-05-17 · v0.23.32
+> Last updated: 2026-06-04 · v0.26.2
 >
 > Single source of truth for component coverage across the three app surfaces:
 > DS package primitives, web adapter layer, and app-level composites.
@@ -39,6 +39,18 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 
 | Component | DS Primitive | Web Adapter | Storybook | Dark mode | Studio schema object | Notes |
 |-----------|-------------|-------------|-----------|-----------|----------------------|-------|
+| Avatar | ✅ `packages/ds/Avatar/` | ✅ `web/design-system/avatar/` | ✅ Components/Avatar | ✅ (token-inherited) | — | Image or initials fallback. sm/md/lg/xl sizes (16–88px). Circular via `--st-radius-full`. SUG-148. |
+| Box | ✅ `packages/ds/Box/` | ✅ `web/design-system/box/` | ✅ Components/Layout/Box | ✅ (token-inherited) | — | Token-driven layout base. Polymorphic `as` prop. No layout logic — padding/margin/background/radius/border via `--st-*` inline vars. SUG-148. |
+| DescriptionList | ✅ `packages/ds/DescriptionList/` | ✅ `web/design-system/description-list/` | ✅ Components/DescriptionList | ✅ (token-inherited) | — | `<dl>` key/value grid. 1-col (stacked, border dividers) and 2-col (CSS grid) layouts. SUG-148. |
+| ErrorMessage | ✅ `packages/ds/ErrorMessage/` | ✅ `web/design-system/error-message/` | ✅ Components/Form/ErrorMessage | ✅ (token-inherited) | — | Inline validation feedback. `role="alert"` + `aria-live="polite"`. Wired via `aria-describedby` in Field. SUG-148. |
+| Field | ✅ `packages/ds/Field/` | ✅ `web/design-system/field/` | ✅ Components/Form/Field | ✅ (token-inherited) | — | Composes Label + control slot + HelperText + ErrorMessage. Owns all a11y wiring: `htmlFor`, `aria-describedby`, `aria-invalid`. SUG-148. |
+| HelperText | ✅ `packages/ds/HelperText/` | ✅ `web/design-system/helper-text/` | ✅ Components/Form/HelperText | ✅ (token-inherited) | — | Guidance caption below a form control. Linked via `aria-describedby`. SUG-148. |
+| Input | ✅ `packages/ds/Input/` | ✅ `web/design-system/input/` | ✅ Components/Form/Input | ✅ | — | Single-line text control. 7 types. `hasError` state. No multiline — Textarea is the sibling. SUG-148. |
+| Label | ✅ `packages/ds/Label/` | ✅ `web/design-system/label/` | ✅ Components/Form/Label | ✅ (token-inherited) | — | `<label htmlFor>` form caption. Mono uppercase style. `required` prop adds pink ` *` indicator. NOT SectionLabel. SUG-148. |
+| Meter | ✅ `packages/ds/Meter/` | ✅ `web/design-system/meter/` | ✅ Components/Meter | ✅ | — | `role="meter"` value-in-range bar. Distinct from Progress (`role="progressbar"`). SUG-148. |
+| Metric | ✅ `packages/ds/Metric/` | ✅ `web/design-system/metric/` | ✅ Components/Metric | ✅ | — | Value + label + optional trend indicator (up/down/neutral). SUG-148. |
+| Skeleton | ✅ `packages/ds/Skeleton/` | ✅ `web/design-system/skeleton/` | ✅ Components/Skeleton | ✅ (token-inherited) | — | Shimmer loading placeholder. text/block/circle variants. Width/height accept raw CSS values. SUG-148. |
+| Textarea | ✅ `packages/ds/Textarea/` | ✅ `web/design-system/textarea/` | ✅ Components/Form/Textarea | ✅ | — | Multiline control. Sibling to Input — never folded in. `hasError` state. SUG-148. |
 | Accordion | ✅ `packages/ds/Accordion/` | ✅ `web/design-system/accordion/` | ✅ Components/Accordion | ✅ | ✅ `accordionSection` | |
 | Breadcrumb | ✅ `packages/ds/Breadcrumb/` | ✅ `web/design-system/Breadcrumb/` | ✅ Components/Breadcrumb | ✅ (token-inherited) | — | Web adapter uses `<Link to>`. 1–3 level `items[]` API. Replaces ad-hoc backLink/eyebrowCurrent pattern across 8 Library pages (SUG-139). |
 | ButtonGroup | ✅ `packages/ds/ButtonGroup/` | ✅ `web/design-system/button-group/` | ✅ Components/ButtonGroup | ✅ (token-inherited) | — | Layout-only primitive. `align` + `wrap` props. Replaces ad-hoc `.ctaButtons`/`.heroActions` flex wrappers (SUG-126). |
@@ -67,7 +79,7 @@ coupled to React Router / web data patterns that has no portable use case outsid
 
 | Component | Web Adapter | Storybook | Dark mode | Notes |
 |-----------|-------------|-----------|-----------|-------|
-| Grid | ✅ `web/design-system/grid/` | ✅ Components/Grid | ✅ | CSS grid layout utility. Layout concern, not a DS primitive. SUG-120: `accentColor` (brand/ink) + `tabletColumns` responsive breakpoint added; composition stories added. |
+| Grid | ✅ `web/design-system/grid/` | ✅ Components/Layout/Grid | ✅ | CSS grid layout utility. Layout concern, not a DS primitive. SUG-120: `accentColor` (brand/ink) + `tabletColumns` responsive breakpoint added; composition stories added. |
 | SectionLabel | ✅ `web/design-system/section-label/` | ✅ Components/SectionLabel | ✅ | Typography-only label row. Minimal; no value in porting. |
 | Tile | ✅ `web/design-system/tile/` | ✅ Components/Tile | ✅ | Metric/content surface. Complex data props tied to web patterns. |
 | ~~DataTable~~ | ✅ `web/design-system/data-table/` — @deprecated | ✅ Components/Table/DataTable | ⚠️ untested | Deprecated shim over `<Table>`. Maps `variant="trust"` → `tone="subdued"`. Inline CSS injection removed (SUG-119). Delete after all callers migrate to `<Table>` directly. |
