@@ -1,7 +1,7 @@
 ---
-**Epic:** SUG-141 — DS Usage Docs — Typography conventions
+**Epic:** SUG-141 — DS Usage Docs — Typography conventions + usage doc template
 **Linear Issue:** [SUG-141](https://linear.app/sugartown/issue/SUG-141/ds-usage-docs-typography-conventions-h1-italic-rule-phase-n-inventory)
-**Status:** Backlog
+**Status:** In Progress
 **Priority:** 🟣 Soon
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
@@ -28,11 +28,22 @@ This epic does NOT change any CSS, JSX, or schema — documentation and MDX auth
 
 ## Scope
 
+### Phase 0 — Usage doc template + style guide (prerequisite — complete)
+
+Before writing usage docs, a shared template and written style guide must exist so all docs follow the same format.
+
+- [x] Write `docs/conventions/usage-doc-style-guide.md` — section order, voice rules, what to exclude, format conventions
+- [x] Create `apps/storybook/.storybook/stories/_UsageDocTemplate.tsx` — copy-paste starting point for new docs (not a rendered story — plain `.tsx` alongside stories)
+
+**Derived from:** ELC/EDS reference docs (Button Group doc, Shade Picker doc, Stack examples layout diagram). Key pattern: usage-first, visual-first, no internal history or phase references.
+
+**Template sections (in order):** Title + one-liner → The rule → When to use → Examples table (with live preview) → Do / Don't → Implementation → Accessibility
+
 ### Phase 1 — H1 italic rule (first usage doc)
 
-- [ ] Write the usage doc as a Storybook MDX page (`apps/storybook/.storybook/stories/TypographyConventions.mdx`) — layer: Storybook/documentation
-- [ ] File under `Foundations` Storybook sidebar category, consistent with `ThemeGuide`, `TokenReference` etc. — layer: Storybook
-- [ ] Embed relevant live story canvases (e.g. editorial vs catalogue heading) inline using `<Canvas>` — layer: Storybook
+- [x] Initial story created at `apps/storybook/.storybook/stories/TypographyConventions.stories.tsx`
+- [ ] **Rewrite to match usage doc template** — current version does not follow Phase 0 template format; contains internal history, phase candidates list, and factual errors (see below)
+- [ ] **Verify H1 italic rule for detail pages** — Hero component `.heading` class has no `font-style: italic`; global h1 rule has no italic either. Unclear whether article/node/case study H1s are actually italic or roman. Bex to confirm before doc is rewritten.
 - [ ] No Sanity page, no site route — Storybook is the delivery surface
 
 **The rule to document:**
