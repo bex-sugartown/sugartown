@@ -27,6 +27,20 @@ export type { DescriptionListProps, DescriptionItem } from './components/Descrip
 export { Avatar } from './components/Avatar';
 export type { AvatarProps, AvatarSize } from './components/Avatar';
 
+// ── Form primitives ──────────────────────────────────────────────────────────
+export { Label } from './components/Label';
+export type { LabelProps } from './components/Label';
+export { Input } from './components/Input';
+export type { InputProps, InputType } from './components/Input';
+export { Textarea } from './components/Textarea';
+export type { TextareaProps } from './components/Textarea';
+export { HelperText } from './components/HelperText';
+export type { HelperTextProps } from './components/HelperText';
+export { ErrorMessage } from './components/ErrorMessage';
+export type { ErrorMessageProps } from './components/ErrorMessage';
+export { Field } from './components/Field';
+export type { FieldProps } from './components/Field';
+
 // ── Button ───────────────────────────────────────────────────────────────────
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';

@@ -1,0 +1,36 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-1);
+}
+
+.label {
+  display: block;
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-color-text-default);
+  cursor: pointer;
+}
+
+.required {
+  color: var(--st-color-brand-primary);
+}
+
+.helperText {
+  margin: 0;
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-color-text-muted);
+  line-height: 1.4;
+}
+
+.errorMessage {
+  margin: 0;
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-color-brand-primary);
+  line-height: 1.4;
+}
