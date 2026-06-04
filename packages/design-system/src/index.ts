@@ -23,6 +23,10 @@ export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
 export { DescriptionList } from './components/DescriptionList';
 export type { DescriptionListProps, DescriptionItem } from './components/DescriptionList';
 
+// ── Avatar ───────────────────────────────────────────────────────────────────
+export { Avatar } from './components/Avatar';
+export type { AvatarProps, AvatarSize } from './components/Avatar';
+
 // ── Button ───────────────────────────────────────────────────────────────────
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';
