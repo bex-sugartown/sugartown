@@ -27,9 +27,9 @@
 .tileGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--st-color-rule-accent);
-  border: 1px solid var(--st-color-border-subtle);
+  gap: var(--st-space-0);
+  background: var(--st-table-wrap-border);
+  border: 1px solid var(--st-table-wrap-border);
 }
 
 @media (min-width: 1024px) {
