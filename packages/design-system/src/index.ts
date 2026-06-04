@@ -3,6 +3,10 @@
  * CMS-agnostic component library
  */
 
+// ── Box ──────────────────────────────────────────────────────────────────────
+export { Box } from './components/Box';
+export type { BoxProps } from './components/Box';
+
 // ── Button ───────────────────────────────────────────────────────────────────
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';

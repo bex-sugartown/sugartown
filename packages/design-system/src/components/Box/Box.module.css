@@ -1,0 +1,10 @@
+.box {
+  padding-inline: var(--box-padding-x, var(--box-padding, 0));
+  padding-block: var(--box-padding-y, var(--box-padding, 0));
+  margin: var(--box-margin, 0);
+  background: var(--box-background, transparent);
+  border-radius: var(--box-border-radius, 0);
+  border-width: var(--box-border-width, 0);
+  border-style: solid;
+  border-color: var(--box-border-color, transparent);
+}
