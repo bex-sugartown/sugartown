@@ -11,6 +11,10 @@ export type { BoxProps } from './components/Box';
 export { Metric } from './components/Metric';
 export type { MetricProps, MetricTrend } from './components/Metric';
 
+// ── Meter ────────────────────────────────────────────────────────────────────
+export { Meter } from './components/Meter';
+export type { MeterProps } from './components/Meter';
+
 // ── Button ───────────────────────────────────────────────────────────────────
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';
