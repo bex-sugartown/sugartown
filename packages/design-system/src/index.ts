@@ -7,6 +7,10 @@
 export { Box } from './components/Box';
 export type { BoxProps } from './components/Box';
 
+// ── Metric ───────────────────────────────────────────────────────────────────
+export { Metric } from './components/Metric';
+export type { MetricProps, MetricTrend } from './components/Metric';
+
 // ── Button ───────────────────────────────────────────────────────────────────
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';
