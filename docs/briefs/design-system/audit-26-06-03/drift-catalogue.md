@@ -95,10 +95,10 @@ Most grid usages are in named layout components or DS primitives — not raw dri
 | Token | Value | Rationale |
 |-------|-------|-----------|
 | `--st-width-shell` | 1200px | Chrome constraint (header, footer) |
-| `--st-width-callout` | 1164px | Wide callout / platform archive — or collapse to `--st-width-detail-wide` + side padding |
+| `--st-width-page` | 1164px | Homepage + platform page shell — callout 1164px was drift, now fixed |
 | `--st-hero-content-max-width` | 700px | Already exists — 2 raw usages need updating |
 
-→ **Decision needed:** Is 1164px intentionally different from 1080px, or is it drift from an old layout spec? If intentional, it needs a token. If drift, collapse to `--st-width-detail-wide`.
+→ **Decision recorded (2026-06-04):** `1164px` is legitimate for homepage and platform page shell containers — needs `--st-width-page: 1164px` token. Callout section using `1164px` was drift — fixed to `width: 100%` (fills parent container).
 
 ---
 
