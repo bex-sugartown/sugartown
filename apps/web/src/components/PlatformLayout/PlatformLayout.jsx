@@ -31,7 +31,7 @@ export default function PlatformLayout() {
   return (
     <>
       {heroSlot}
-      <Stack direction={{ base: 'column', md: 'row' }} gap="0" align="start">
+      <Stack direction={{ base: 'vertical', md: 'horizontal' }} gap="4" align="start">
         <PlatformSidebar />
         <main style={{ flex: 1, minWidth: 0 }}>
           <Outlet context={{ setHeroSlot, platformHeroSection }} />

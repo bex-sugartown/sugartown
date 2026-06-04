@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--st-space-1);
-  padding: var(--st-spacing-inset-md);
+  padding: var(--st-spacing-inset-sm);
 }
 
 .label {
@@ -14,7 +14,7 @@
 }
 
 .value {
-  font-size: var(--st-font-heading-2);
+  font-size: var(--st-font-size-2xl);
   font-family: var(--st-font-family-narrative);
   color: var(--st-color-text-primary);
   line-height: 1;
