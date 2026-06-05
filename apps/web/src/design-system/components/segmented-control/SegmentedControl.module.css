@@ -46,12 +46,12 @@
 }
 
 .pillSegment:hover {
-  color: var(--st-segmented-active-fg);
+  color: var(--st-color-brand-primary);
 }
 
-/* Active: pink inset outline + pink text, no fill — matches icon variant signal */
+/* Active: pink inset outline + pink text, no fill — same signal as iconBtnActive */
 .pillActive {
-  color: var(--st-segmented-active-fg);
+  color: var(--st-color-brand-primary);
   box-shadow: inset 0 0 0 1px var(--st-color-brand-primary);
   z-index: 1;
 }
