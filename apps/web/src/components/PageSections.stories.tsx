@@ -22,7 +22,7 @@ const meta: Meta<typeof PageSections> = {
 export default meta;
 type Story = StoryObj<typeof PageSections>;
 
-/** Text section — simple PortableText content block. */
+/** Text section with heading — optional section label above RichText prose. */
 export const TextSection: Story = {
   args: {
     sections: [
@@ -31,6 +31,20 @@ export const TextSection: Story = {
         _key: 'ts-1',
         heading: 'About Our Approach',
         content: richContent,
+      },
+    ],
+    context: 'detail',
+  },
+};
+
+/** Text section without heading — content only, no label. */
+export const TextSectionContentOnly: Story = {
+  args: {
+    sections: [
+      {
+        _type: 'textSection',
+        _key: 'ts-2',
+        content: simpleParagraph,
       },
     ],
     context: 'detail',
