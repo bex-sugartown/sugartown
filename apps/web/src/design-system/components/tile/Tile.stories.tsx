@@ -1,14 +1,10 @@
 /**
- * ## Tile
+ * ## Tile — @deprecated
  *
- * Labeled surface for metric display (replaces StatTile) and content preview
- * (replaces TickerCard). Renders as Link/a when href is provided.
+ * @deprecated Use Card + Metric/Meter instead. See SUG-149.
  *
- * Two primary use cases:
- * - **Metric**: titleSize="display", labelColor="ink", value + unit + chip
- * - **Content preview**: titleSize="lg", labelColor="brand", meta footer
- *
- * SUG-96
+ * Retained because 8 active call-sites use href/bar/loading/titleSize API
+ * not yet covered by Card+Metric. Full migration is a follow-on epic.
  */
 
 import React from 'react';
@@ -18,7 +14,7 @@ import Tile from './Tile';
 import Grid from '../grid/Grid';
 
 const meta: Meta<typeof Tile> = {
-  title: 'Components/Tile',
+  title: 'Legacy/Tile',
   component: Tile,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
