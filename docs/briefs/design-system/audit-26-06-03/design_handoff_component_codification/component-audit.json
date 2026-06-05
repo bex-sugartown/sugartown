@@ -213,10 +213,10 @@
       },
       "divergence": "Aligned",
       "divergenceKey": "aligned",
-      "pinkMoonStatus": "To codify",
-      "pinkMoonStatusKey": "codify",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
       "pinkMoonName": "Link",
-      "note": "atoms/Link.jsx — internal/external dispatch via linkUtils.isExternalUrl(). Studio: linkItem schema object (type radio internal/external, internalRef, externalUrl, label, openInNewTab). Also: LinkAnnotation in portableTextComponents (PT mark renderer). No Storybook story — owed work. Codify as Link; linkItem is the Studio data shape for all link surfaces."
+      "note": "atoms/Link.jsx — internal/external dispatch via linkUtils.isExternalUrl(). Studio: linkItem schema object (type radio internal/external, internalRef, externalUrl, label, openInNewTab). Also: LinkAnnotation in portableTextComponents (PT mark renderer). story: Patterns/Link. SUG-155: codified."
     },
     {
       "group": "Actions & Buttons",
@@ -1253,10 +1253,10 @@
       },
       "divergence": "Contested",
       "divergenceKey": "contested",
-      "pinkMoonStatus": "To codify",
-      "pinkMoonStatusKey": "codify",
+      "pinkMoonStatus": "Synonym",
+      "pinkMoonStatusKey": "synonym",
       "pinkMoonName": "Link",
-      "note": "Anchor links (in-page #hash jumps) are instances of Link, not a separate component. Studio: linkItem with internalRef pointing to an anchor slug. PageSidebar TOC scrollspy is a separate navigation pattern (On-page nav), not a Link codification concern. No Storybook story — owed work."
+      "note": "Anchor links (in-page #hash jumps) are instances of Link, not a separate primitive. Studio: linkItem with internalRef pointing to an anchor slug. PageSidebar scrollspy covers TOC pattern. SUG-155: resolved as synonym of Link — no standalone story needed."
     },
     {
       "group": "Navigation",
@@ -2397,10 +2397,10 @@
       },
       "divergence": "Synonym",
       "divergenceKey": "synonym",
-      "pinkMoonStatus": "To codify",
-      "pinkMoonStatusKey": "codify",
-      "pinkMoonName": "Divider — in PT modules",
-      "note": "'Divider' (UI) vs 'Separator' (ARIA role); Bootstrap just uses <hr>. POSITION: rendered inside PortableText modules & PT-containing sections, but not factored out — today it's the --st-margin-divider rule. FUTURE STATE: codify a 'Divider' primitive (role=separator) that the PT renderer composes (law 02)."
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Divider",
+      "note": "DividerBlock in portableTextComponents.jsx — default + subtle variants. story: Patterns/Divider. SUG-155: codified."
     },
     {
       "group": "Layout & Containers",
@@ -2735,10 +2735,10 @@
       },
       "divergence": "Synonym",
       "divergenceKey": "synonym",
-      "pinkMoonStatus": "To codify",
-      "pinkMoonStatusKey": "codify",
-      "pinkMoonName": "Truncate — card excerpts",
-      "note": "A utility more than a component; named inconsistently. POSITION: card excerpts truncate with ellipsis/line-clamp, ad hoc. FUTURE STATE: codify a 'Truncate' utility/primitive (line-clamp + ellipsis) that Card and PT compose."
+      "pinkMoonStatus": "Will not implement",
+      "pinkMoonStatusKey": "wont",
+      "pinkMoonName": "Truncate — CSS utility",
+      "note": "Pure CSS utility (line-clamp + overflow: hidden). No component wrapper warranted — not a DS primitive. SUG-155: resolved won't-implement."
     },
     {
       "group": "Primitives & Utilities",

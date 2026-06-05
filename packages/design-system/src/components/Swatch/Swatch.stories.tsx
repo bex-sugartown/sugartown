@@ -51,6 +51,18 @@ export const Sizes: Story = {
   parameters: { layout: 'padded' },
 };
 
+export const DarkMode: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
+      {Object.values(PRIORITY).map((p) => (
+        <Swatch key={p.label} color={p.color} label={p.label} />
+      ))}
+    </div>
+  ),
+  parameters: { layout: 'padded' },
+  globals: { theme: 'dark-pink-moon' },
+};
+
 export const InTable: Story = {
   render: () => (
     <table style={{ borderCollapse: 'collapse', fontFamily: 'monospace', fontSize: '12px' }}>
