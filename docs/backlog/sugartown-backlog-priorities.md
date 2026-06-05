@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-05 · v0.26.7 released — SUG-151 shipped (DS Phase 5 — schema migration, registry & audit close-out) + SUG-155 Phase 0 (diverges renames: Toolbar, Drawer).
+> Updated 2026-06-05 · v0.26.8 released — SUG-155 shipped (DS Codification Sprint — Callout banner, StatCard API, Toolbar, Swatch dark mode, platform page primitives).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.7 released ✅ 2026-06-05. SUG-151 DS Phase 5 shipped. SUG-155 Phase 0 in progress (Toolbar + Drawer renames done; Phases 1–6 pending). Next: continue SUG-155 or SUG-154 (Platform KPI benchmark report).
+> **⚑ Current focus:** v0.26.8 released ✅ 2026-06-05. SUG-155 DS Codification Sprint shipped. Next: SUG-152 (DS Storybook usage docs) or SUG-154 (Platform KPI benchmark report).
 
 ---
 
@@ -219,4 +219,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-05 · v0.26.7 released · queue: SUG-155 / SUG-154*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-05 · v0.26.8 released · queue: SUG-152 / SUG-154*
