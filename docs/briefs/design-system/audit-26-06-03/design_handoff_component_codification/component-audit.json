@@ -2085,10 +2085,10 @@
       },
       "divergence": "Aligned",
       "divergenceKey": "aligned",
-      "pinkMoonStatus": "To codify",
-      "pinkMoonStatusKey": "codify",
-      "pinkMoonName": "Carousel — page builder",
-      "note": "ANNOTATION: already shipped in Studio/Web as a page-builder section, but not codified in the DS or Storybook. Names are aligned industry-wide ('Carousel'); Apple uses paged scroll + Page control."
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Carousel",
+      "note": "story: Patterns/ImageGallery (Carousel + CarouselDarkMode stories). SUG-155: codified."
     },
     {
       "group": "Data Display",
@@ -2111,10 +2111,10 @@
       },
       "divergence": "Contested",
       "divergenceKey": "contested",
-      "pinkMoonStatus": "To codify",
-      "pinkMoonStatusKey": "codify",
-      "pinkMoonName": "Gallery — page builder",
-      "note": "ANNOTATION: lives in Studio/Web page-builder sections, not yet codified in the DS or Storybook. Barely named elsewhere — Material's is 'Image list', Ant groups previews under 'Image'."
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Gallery",
+      "note": "story: Patterns/ImageGallery (Grid + SingleImage stories). SUG-155: codified."
     },
     {
       "group": "Data Display",
@@ -2787,10 +2787,10 @@
       },
       "divergence": "Synonym",
       "divergenceKey": "synonym",
-      "pinkMoonStatus": "To codify",
-      "pinkMoonStatusKey": "codify",
-      "pinkMoonName": "Page control — with Carousel",
-      "note": "Apple 'Page control' vs Bootstrap 'Carousel indicators' for the same dots. POSITION: ships inside the Carousel page-builder section but isn't factored out. FUTURE STATE: codify a 'Page control' primitive (role-appropriate dots/index) that the Carousel composes (law 02)."
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Page control",
+      "note": "Dot indicator row rendered inside Carousel (ImageGallery layout=carousel). Covered under Patterns/ImageGallery Carousel story. SUG-155: codified."
     }
   ]
 }

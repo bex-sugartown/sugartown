@@ -69,7 +69,7 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 | Link | — | ✅ `web/components/atoms/Link` | ✅ Patterns/Link | ✅ | ✅ `linkItem` (object) | Internal (RouterLink) / external (a + noopener) / no-url (span). Backed by linkUtils.isExternalUrl(). SUG-155. |
 | Citation | ✅ `packages/ds/Citation/` | ✅ `web/design-system/citation/` | ✅ Components/Citation | ✅ | ✅ `citationRef` PT mark | |
 | CodeBlock | ✅ `packages/ds/CodeBlock/` | ✅ `web/design-system/codeblock/` | ✅ Components/CodeBlock | ✅ | ✅ `code` inline PT decorator | |
-| FilterBar | ✅ `packages/ds/FilterBar/` | — | ✅ Components/FilterBar | ✅ | — | Web-only FilterBar.jsx is a pending-migration copy; DS version is canonical. No web adapter layer needed — app composite imports DS package directly once migrated. |
+| FilterBar | ✅ `packages/ds/FilterBar/` | ✅ `web/design-system/FilterBar/` (pure mirror) | ✅ Components/FilterBar | ✅ | — | Web adapter is a pure API mirror of DS primitive — no web-specific logic. Barrel exports web adapter. SUG-155: pending-migration note resolved. |
 | Media | ✅ `packages/ds/Media/` | ✅ `web/design-system/media/` | ✅ Components/Media | ✅ | ✅ `heroSection.media[]` | |
 | ScoreRing | ✅ `packages/ds/ScoreRing/` | ✅ `web/design-system/score-ring/` | ✅ Components/ScoreRing | ✅ | — | SUG-100 |
 | SegmentedControl | ✅ `packages/ds/SegmentedControl/` | ✅ `web/design-system/segmented-control/` | ✅ Components/SegmentedControl | ✅ | — | SUG-100 |
@@ -92,7 +92,7 @@ coupled to React Router / web data patterns that has no portable use case outsid
 | ~~Tile~~ | ~~`web/design-system/tile/`~~ @deprecated | ~~Components/Tile~~ | ⚠️ deprecated | @deprecated — use Card + Metric/Meter. `console.warn` on import. SUG-151 retained: 8 active call-sites use `href`/`bar`/`loading`/`titleSize` not covered by StatCard. Full migration to Card+Metric is a follow-on epic. |
 | ~~TwoColumnLayout~~ | Deleted (SUG-151) | — | — | Deleted. Zero active call-sites. Superseded by `Columns count={2}`. |
 | ~~Flex~~ | — | — | — | Was synonym for Stack with `direction="horizontal"`. Use Stack `direction` prop directly. |
-| ~~DataTable~~ | ✅ `web/design-system/data-table/` — @deprecated | ✅ Components/Table/DataTable | ⚠️ untested | Deprecated shim over `<Table>`. Maps `variant="trust"` → `tone="subdued"`. Inline CSS injection removed (SUG-119). Delete after all callers migrate to `<Table>` directly. |
+| ~~DataTable~~ | Deleted (SUG-155) | — | — | Was a deprecated shim over `<Table>`. Directory deleted, barrel export removed, zero callers. Use `<Table>` directly. |
 | ~~LaneHeader~~ | Retired (SUG-119) | — | — | Deleted from both mirrors. Lane label and epic count now live in `<Table caption captionMeta>`. |
 | ~~RoadmapTable~~ | Deleted | — | — | Deleted after GovernancePage and TablesDevPage migrated to `<Table tone="subdued">` directly. |
 | ~~SectionContainer~~ | Deleted (SUG-120) | — | — | Deleted in SUG-120. All callers migrated to Grid. |

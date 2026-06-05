@@ -57,3 +57,16 @@ export const SingleImage: Story = {
     context: 'detail',
   },
 };
+
+export const CarouselDarkMode: Story = {
+  args: {
+    sections: [{
+      _type: 'imageGallery',
+      _key: 'ig-4',
+      layout: 'carousel',
+      images: IMAGES,
+    }],
+    context: 'detail',
+  },
+  globals: { theme: 'dark-pink-moon' },
+};
