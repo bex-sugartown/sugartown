@@ -141,17 +141,6 @@ export const BannerNoTitle: Story = {
   },
 };
 
-/** Banner dark mode. */
-export const BannerDark: Story = {
-  name: 'Banner (dark)',
-  globals: { theme: 'dark-pink-moon' },
-  args: {
-    variant: 'banner',
-    title: 'Note',
-    children: <p>This section covers experimental APIs that may change before general availability.</p>,
-  },
-};
-
 /** Snapshot — all colorways for Chromatic VRT. */
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
