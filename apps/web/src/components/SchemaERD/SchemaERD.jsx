@@ -30,7 +30,7 @@ const ERD_COMPONENT_MAP = {
  * a static JS manifest to a GROQ query or build-time codegen without touching
  * this component.
  *
- * SUG-20 Phase 1: DS alignment — Tile stats, SegmentedControl filter,
+ * SUG-20 Phase 1: DS alignment — Tile stats, IndexGroup filter,
  * SectionLabel group headers, Chip kind badges, Button clear action.
  * Header removed — host page (CmsPage) provides heading context.
  *
