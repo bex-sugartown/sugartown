@@ -2,7 +2,7 @@ import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Grid from '../../design-system/components/grid/Grid'
-import Card from '../../design-system/components/card/Card'
+import StatCard from '../../components/StatCard'
 import CodeBlock from '../../design-system/components/codeblock/CodeBlock'
 import SchemaERD from '../../components/SchemaERD/SchemaERD'
 import { entities, relationships } from '../../data/schemaManifest'
@@ -79,13 +79,7 @@ export default function CmsPage() {
           <SectionLabel level="h3" number="§04" name="ARTIFACTS" title="PRDs, conventions, decisions" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
           <Grid spacing="0" columns={2}>
             {ARTIFACTS.map((a) => (
-              <Card
-                key={a.title}
-                eyebrow={a.eyebrow}
-                title={a.title}
-                excerpt={a.body}
-                href={a.href}
-              />
+              <StatCard key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}
           </Grid>
         </section>

@@ -3,7 +3,6 @@ import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import StatCard from '../../components/StatCard'
 import Grid from '../../design-system/components/grid/Grid'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import Card from '../../design-system/components/card/Card'
 import CodeBlock from '../../design-system/components/codeblock/CodeBlock'
 import { MermaidDiagram } from '../../components/PageSections'
 import { TRUST_LINKS } from '../../lib/routes'
@@ -99,13 +98,7 @@ export default function MonorepoPage() {
           <SectionLabel level="h3" number="§03" name="ARTIFACTS" title="Docs and configs" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
           <Grid spacing="0" columns={3}>
             {ARTIFACTS.map((a) => (
-              <Card
-                key={a.title}
-                eyebrow={a.eyebrow}
-                title={a.title}
-                excerpt={a.body}
-                href={a.href}
-              />
+              <StatCard key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}
           </Grid>
         </section>

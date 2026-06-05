@@ -23,10 +23,6 @@
   background: var(--st-color-border-wrap);
   border: 1px solid var(--st-color-border-wrap);
 }
-/* Children must not bring their own borders — bg-through-gap is the divider system */
-.spacing-0 > * {
-  border: none;
-}
 
 /* ── accentTop — rule on top edge, two colour options ───────────────────── */
 .accentTop-brand {
