@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { DividerBlock } from './portableTextComponents'
 
 const meta: Meta<typeof DividerBlock> = {
-  title: 'Patterns/Divider',
+  title: 'Components/Divider',
   component: DividerBlock,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },

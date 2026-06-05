@@ -16,6 +16,7 @@
 - [ ] **Layout contract** — Phase 0 must produce annotated mock covering: drawer trigger placement, drawer width, overlay behaviour, close affordance, scroll behaviour while drawer open. See Phase 0 annotation requirements in CLAUDE.md.
 - [x] **All prop value enumerations** — Sidebar has `mobileStyle` prop: `"appendix"` | `"strip"`. Any new mobile mode must either replace these or be added as a new value.
 - [x] **Correct audit file paths** — Verified: `apps/web/src/design-system/components/two-column-layout/TwoColumnLayout.module.css`, `apps/web/src/design-system/components/sidebar/Sidebar.module.css`, `apps/web/src/components/MobileNav.jsx`, `apps/web/src/components/PageSidebar.jsx`, `apps/web/src/components/PlatformLayout/PlatformLayout.jsx`
+- [ ] **Sidebar column architecture decision** — Phase 0 must resolve whether `Page` DS primitive grows a `sidebar` slot or TwoColumnLayout remains the desktop column mechanism. `PageSidebar` + `SidebarNav` unification is in scope: both components must be represented in the mock as the content of the sidebar slot, not as independent wiring. See Objective §Expanded scope.
 - [ ] **Dark / theme modifier treatment** — Drawer overlay and panel must use `--st-*` tokens for background and border. Verify drawer bg in dark-pink-moon theme before implementation (glassmorphism risk on `--st-color-bg-surface`).
 - [x] **Studio schema changes scoped** — None. Frontend/DS only.
 - [x] **Web adapter sync scoped** — If Sidebar DS primitive gains a new `mobileStyle` value, web adapter CSS module must be updated in the same commit.
@@ -50,10 +51,15 @@ Multi-column layouts (`TwoColumnLayout`) stack to a single column below their br
 
 After this epic: sidebar content on multi-column pages is accessible on mobile via a drawer, not stacked below the fold. The drawer integrates with the existing hamburger/MobileNav system — either as a second panel within MobileNav or as a separate "Contents" trigger that reuses the same drawer primitive.
 
+**Expanded scope (added 2026-06-05):** The sidebar column is also unified at the desktop architecture level. `PageSidebar` and `SidebarNav` are currently two separate components; callers assemble them ad-hoc. The `Page` DS primitive should represent the sidebar column (left or right) as a first-class layout slot — the sidebar becomes a named prop/slot on `Page`, not a separate wiring concern. `PageSidebar` becomes either a thin content-provider composing into that slot, or is absorbed. Phase 0 mock must cover both the desktop column layout and the mobile drawer — they are the same sidebar, two breakpoint expressions.
+
+Reference: `/nodes/poc-platform-agnostic-by-design` shows the target desktop layout (right-rail nav column).
+
 Scope decisions:
 1. ~~One drawer primitive shared by MobileNav and sidebar, or sidebar-specific?~~ **Resolved: shared `Drawer` DS primitive used by both MobileNav and sidebar.**
 2. Trigger: extend hamburger menu to include "Contents" entry, or separate floating/sticky button? — resolve in Phase 0 mock.
 3. Which surfaces are in scope: all three, or Platform-only for Phase 1? — resolve in Phase 0 mock.
+4. **Page column slot architecture** — Phase 0 must decide: does `Page` grow a `sidebar` prop/slot (right | left | none), or does TwoColumnLayout remain the desktop mechanism and Page gains a sidebar-aware variant? The mock must show both the slot API and how PageSidebar/SidebarNav content flows into it.
 
 Schema layer: not touched. Query layer: not touched. Render layer: DS Sidebar, TwoColumnLayout, PageSidebar, possibly MobileNav/Header.
 
@@ -153,6 +159,7 @@ To be completed at Phase 1. Key surfaces to verify:
 - Does not change MobileNav's existing site navigation items — only extends it (if that path is chosen)
 - Does not introduce swipe gestures — trigger + close button only for Phase 1
 - Does not cover archive page filter bar mobile behaviour (separate concern)
+- Does not rename IndexGroup/IndexCell → SegmentedControl — that decision is tracked in SUG-155 Phase 0
 
 ---
 

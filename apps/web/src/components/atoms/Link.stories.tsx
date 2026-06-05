@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom'
 import Link from './Link'
 
 const meta: Meta<typeof Link> = {
-  title: 'Patterns/Link',
+  title: 'Components/Link',
   component: Link,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
