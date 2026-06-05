@@ -102,6 +102,11 @@
 
   --st-color-border-default:    rgba(255, 255, 255, 0.12);
   --st-color-border-subtle:     rgba(255, 255, 255, 0.06);
+  /* Wrap border — dark hairline divider between tiles (was neutral-400 #a3a3a3) */
+  --st-color-border-wrap:       var(--st-color-border-default);
+  /* Tile/stat surfaces — solid dark; glassmorphism is wrong for data grids */
+  --st-stat-tile-bg:            var(--st-color-midnight-700);
+  --st-tile-bg:                 var(--st-color-midnight-700);
 
   --st-color-canvas:            var(--st-color-midnight-800);
   --st-color-rule-accent:       rgba(255, 255, 255, 0.15);
