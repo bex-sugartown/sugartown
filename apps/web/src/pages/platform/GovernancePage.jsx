@@ -3,7 +3,7 @@ import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import Grid from '../../design-system/components/grid/Grid'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import Tile from '../../design-system/components/tile/Tile'
+import StatCard from '../../components/StatCard'
 import Callout from '../../design-system/components/callout/Callout'
 import Table, { TableWrap } from '../../design-system/components/table/Table'
 import Swatch from '../../design-system/components/swatch/Swatch'
@@ -160,10 +160,10 @@ export default function GovernancePage() {
       <div className={styles.hub}>
 
         <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2} className={styles.statsSection}>
-          <Tile label="In flight"       value={inProgress.length || '—'} href="https://linear.app/sugartown" />
-          <Tile label="Current release" value={stats.release?.current?.version ?? '—'} href={TRUST_LINKS.changelog} />
-          <Tile label="Epics shipped"   value={stats.repo?.epicsShipped ?? '—'} href={TRUST_LINKS.commits} />
-          <Tile label="Vulnerabilities" value="0" href={TRUST_LINKS.security} />
+          <StatCard label="In flight"       value={inProgress.length || '—'} href="https://linear.app/sugartown" />
+          <StatCard label="Current release" value={stats.release?.current?.version ?? '—'} href={TRUST_LINKS.changelog} />
+          <StatCard label="Epics shipped"   value={stats.repo?.epicsShipped ?? '—'} href={TRUST_LINKS.commits} />
+          <StatCard label="Vulnerabilities" value="0" href={TRUST_LINKS.security} />
         </Grid>
 
         <section id="recent-releases" className={styles.section}>
@@ -254,7 +254,7 @@ export default function GovernancePage() {
           />
           <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
             {ARTIFACTS.map((a) => (
-              <Tile key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
+              <StatCard key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}
           </Grid>
         </section>

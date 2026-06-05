@@ -1,6 +1,7 @@
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
-import Tile from '../../design-system/components/tile/Tile'
+import Tile from '../../design-system/components/tile/Tile' // bar callers only — pending Meter migration
+import StatCard from '../../components/StatCard'
 import Grid from '../../design-system/components/grid/Grid'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Table, { TableWrap } from '../../design-system/components/table/Table'
@@ -80,19 +81,19 @@ export default function DesignSystemPage() {
             } : undefined}
             href={TRUST_LINKS.storybook}
           />
-          <Tile
+          <StatCard
             label="DS components"
             value={ds.dsComponents ?? '—'}
             sub={ds.webAdapters != null ? `+ ${ds.webAdapters} web adapters` : undefined}
             href={PLATFORM_ROUTES.dsRegistry}
           />
-          <Tile
+          <StatCard
             label="Story coverage"
             value={ds.dsComponents ? `${Math.round((ds.dsComponentsWithStories / ds.dsComponents) * 100)}%` : '—'}
             sub={ds.dsComponentsWithStories != null && ds.dsComponents != null ? `${ds.dsComponentsWithStories} of ${ds.dsComponents} DS components` : undefined}
             href={TRUST_LINKS.storybook}
           />
-          <Tile
+          <StatCard
             label="Token compliance"
             value={ds.tokenCompliance != null ? `${ds.tokenCompliance}%` : '—'}
             sub="CSS var refs using --st-* tokens"
@@ -139,7 +140,7 @@ export default function DesignSystemPage() {
           <SectionLabel level="h3" number="§05" name="ARTIFACTS" title="Token pipeline, conventions" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
           <Grid spacing="0" accentTop accentColor="ink" columns={3}>
             {ARTIFACTS.map((a) => (
-              <Tile key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
+              <StatCard key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}
           </Grid>
         </section>

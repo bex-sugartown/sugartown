@@ -1,6 +1,6 @@
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
-import Tile from '../../design-system/components/tile/Tile'
+import StatCard from '../../components/StatCard'
 import Grid from '../../design-system/components/grid/Grid'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Card from '../../design-system/components/card/Card'
@@ -75,10 +75,10 @@ export default function MonorepoPage() {
       <div className={styles.hub}>
 
         <Grid spacing="0" accentTop accentColor="ink" tabletColumns={2} className={styles.statsSection}>
-          <Tile label="Packages" value="4" />
-          <Tile label="Apps" value="2" />
-          <Tile label="Shared libs" value="2" />
-          <Tile label="Build cache hits" value="~80%" href={TRUST_LINKS.commits} />
+          <StatCard label="Packages" value="4" />
+          <StatCard label="Apps" value="2" />
+          <StatCard label="Shared libs" value="2" />
+          <StatCard label="Build cache hits" value="~80%" href={TRUST_LINKS.commits} />
         </Grid>
 
         <section id="workspace-topology" className={styles.section}>

@@ -8,25 +8,69 @@
   box-sizing: border-box;
 }
 
+/* linked surface */
+.linked {
+  text-decoration: none;
+  color: inherit;
+  transition: background 120ms;
+}
+.linked:hover {
+  background: var(--st-tile-bg-hover, var(--st-color-bg-subtle));
+  box-shadow: inset 0 2px 0 var(--st-color-brand-primary);
+}
+
+/* ── Label ─────────────────────────────────────────────────────────── */
+
 .label {
   font-size: var(--st-font-size-xs);
   font-family: var(--st-font-family-mono);
-  color: var(--st-color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.06em;
+  line-height: 1.2;
 }
 
+.labelInk   { color: var(--st-tile-label-color, var(--st-stat-tile-label-color)); }
+.labelBrand { color: var(--st-color-brand-primary); }
+
+/* ── Value ─────────────────────────────────────────────────────────── */
+
 .value {
-  font-size: var(--st-font-size-2xl);
   font-family: var(--st-font-family-narrative);
-  color: var(--st-color-text-primary);
-  line-height: 1;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--st-tile-value-color, var(--st-stat-tile-value-color));
 }
+
+/* titleSize scale */
+.titleSize-display { font-size: var(--st-font-size-display, 3rem); }
+.titleSize-2xl     { font-size: var(--st-font-size-2xl); }
+.titleSize-xl      { font-size: var(--st-font-size-xl); }
+.titleSize-lg      { font-size: var(--st-font-size-lg); line-height: 1.35; }
+.titleSize-md      { font-size: var(--st-font-size-md); line-height: 1.4; }
+.titleSize-sm      { font-size: var(--st-font-size-sm); line-height: 1.4; }
+.titleSize-xs      { font-size: var(--st-font-size-xs); line-height: 1.4; }
+
+/* ── Unit ──────────────────────────────────────────────────────────── */
+
+.unit {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: var(--st-font-weight-normal);
+  color: var(--st-tile-sub-color, var(--st-stat-tile-sub-color));
+  margin-left: 0.25em;
+  vertical-align: baseline;
+}
+
+/* ── Sub ───────────────────────────────────────────────────────────── */
 
 .sub {
   font-size: var(--st-font-size-sm);
-  color: var(--st-color-text-secondary);
+  font-family: var(--st-font-family-mono);
+  color: var(--st-tile-sub-color, var(--st-stat-tile-sub-color));
+  line-height: 1.4;
 }
+
+/* ── Body ──────────────────────────────────────────────────────────── */
 
 .body {
   font-size: var(--st-font-size-sm);
@@ -34,9 +78,44 @@
   margin-top: var(--st-space-1);
 }
 
+.bodyFull {
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-secondary);
+  margin-top: var(--st-space-1);
+}
+
+/* ── Chip ──────────────────────────────────────────────────────────── */
+
 .chip {
   font-size: var(--st-font-size-xs);
   font-family: var(--st-font-family-mono);
   color: var(--st-color-text-secondary);
   margin-top: var(--st-space-1);
+}
+
+/* ── Foot (footer label, border-separated) ─────────────────────────── */
+
+.foot {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-label-size);
+  color: var(--st-color-text-muted);
+  letter-spacing: var(--st-label-tracking);
+  margin-top: auto;
+  padding-top: var(--st-space-2);
+  border-top: 1px solid var(--st-color-border-subtle);
+}
+
+/* ── Skeleton ──────────────────────────────────────────────────────── */
+
+.skeleton {
+  display: block;
+  height: 1em;
+  background: var(--st-color-bg-subtle);
+  border-radius: 2px;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
 }

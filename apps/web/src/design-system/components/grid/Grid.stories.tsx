@@ -26,7 +26,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import Grid from './Grid';
-import Tile from '../tile/Tile';
+import StatCard from '../../../components/StatCard';
 import Card from '../card/Card';
 import Callout from '../callout/Callout';
 
@@ -169,9 +169,9 @@ export const ThreeColTile: Story = {
   name: '3-col Grid + Tile',
   render: () => (
     <Grid spacing="0" accentTop accentColor="ink" columns={3}>
-      <Tile label="Time on site"     value="38"  unit="%" sub="up from baseline"  titleSize="display" labelColor="ink" />
-      <Tile label="Editorial uplift" value="2.4" unit="×"                         titleSize="display" labelColor="ink" />
-      <Tile label="Filter match"     value="91"  unit="%" sub="within 2 filters"  titleSize="display" labelColor="ink" />
+      <StatCard label="Time on site"     value="38"  unit="%" sub="up from baseline"  titleSize="display" labelColor="ink" />
+      <StatCard label="Editorial uplift" value="2.4" unit="×"                         titleSize="display" labelColor="ink" />
+      <StatCard label="Filter match"     value="91"  unit="%" sub="within 2 filters"  titleSize="display" labelColor="ink" />
     </Grid>
   ),
 };
@@ -181,10 +181,10 @@ export const FourColTile: Story = {
   name: '4-col Grid + Tile',
   render: () => (
     <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
-      <Tile label="Brief"       value="IA Brief"          foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-      <Tile label="Conventions" value="CLAUDE.md"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-      <Tile label="Ethics"      value="AI Ethics"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-      <Tile label="Prompt"      value="Release Assistant" foot="Prompt →"   href="#" titleSize="2xl" labelColor="ink" />
+      <StatCard label="Brief"       value="IA Brief"          foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+      <StatCard label="Conventions" value="CLAUDE.md"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+      <StatCard label="Ethics"      value="AI Ethics"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+      <StatCard label="Prompt"      value="Release Assistant" foot="Prompt →"   href="#" titleSize="2xl" labelColor="ink" />
     </Grid>
   ),
 };
@@ -220,15 +220,15 @@ export const SnapshotComposition: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', maxWidth: '900px' }}>
       <Grid spacing="0" accentTop accentColor="ink" columns={3}>
-        <Tile label="Time on site"     value="38"  unit="%" titleSize="display" labelColor="ink" />
-        <Tile label="Editorial uplift" value="2.4" unit="×" titleSize="display" labelColor="ink" />
-        <Tile label="Filter match"     value="91"  unit="%" titleSize="display" labelColor="ink" />
+        <StatCard label="Time on site"     value="38"  unit="%" titleSize="display" labelColor="ink" />
+        <StatCard label="Editorial uplift" value="2.4" unit="×" titleSize="display" labelColor="ink" />
+        <StatCard label="Filter match"     value="91"  unit="%" titleSize="display" labelColor="ink" />
       </Grid>
       <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
-        <Tile label="Brief"       value="IA Brief"          foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-        <Tile label="Conventions" value="CLAUDE.md"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-        <Tile label="Ethics"      value="AI Ethics"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-        <Tile label="Prompt"      value="Release Assistant" foot="Prompt →"   href="#" titleSize="2xl" labelColor="ink" />
+        <StatCard label="Brief"       value="IA Brief"          foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+        <StatCard label="Conventions" value="CLAUDE.md"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+        <StatCard label="Ethics"      value="AI Ethics"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
+        <StatCard label="Prompt"      value="Release Assistant" foot="Prompt →"   href="#" titleSize="2xl" labelColor="ink" />
       </Grid>
       <Grid spacing="lg" columns={3}>
         <Card title="Design System" eyebrow="Platform" excerpt="Token pipeline, component registry, and Storybook coverage." />

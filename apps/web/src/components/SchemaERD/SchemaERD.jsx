@@ -3,7 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import Chip from '../../design-system/components/chip/Chip'
 import Button from '../../design-system/components/button/Button'
-import Tile from '../../design-system/components/tile/Tile'
+import StatCard from '../StatCard'
 import Grid from '../../design-system/components/grid/Grid'
 import IndexGroup from '../../design-system/components/index-group/IndexGroup'
 import IndexCell from '../../design-system/components/index-cell/IndexCell'
@@ -126,10 +126,10 @@ export default function SchemaERD({ entities = [], relationships = [] }) {
   return (
     <div className={styles.erdWrapper}>
       <Grid spacing="0" accentTop accentColor="ink" tabletColumns={2} columns={4} className={styles.statsSection}>
-        <Tile label="Types" value={visibleEntities.length} />
-        <Tile label="Documents" value={docCount} />
-        <Tile label="Objects" value={objCount} />
-        <Tile label="Relationships" value={relationships.length} />
+        <StatCard label="Types" value={visibleEntities.length} />
+        <StatCard label="Documents" value={docCount} />
+        <StatCard label="Objects" value={objCount} />
+        <StatCard label="Relationships" value={relationships.length} />
       </Grid>
 
       {/* Filter strip — IndexGroup/IndexCell */}
