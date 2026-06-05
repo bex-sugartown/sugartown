@@ -911,7 +911,8 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
         return <TrustReportSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'citedBlock':
         return <CitedBlockSection key={key} section={{ ...section, _sectionId: sectionId }} />
-      case 'statTileSection':
+      case 'cardSection':
+      case 'statTileSection': // legacy — migrated to cardSection (SUG-151)
         return <StatTileSectionRenderer key={key} section={{ ...section, _sectionId: sectionId }} />
       default:
         console.warn(`Unknown section type: ${section._type}`)

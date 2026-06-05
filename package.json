@@ -27,6 +27,7 @@
     "storybook:build": "turbo run storybook:build",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "clean": "turbo run clean && rm -rf node_modules",
+    "migrate:card-section": "node scripts/migrate/statTileSection-to-cardSection.js",
     "migrate:export": "node scripts/migrate/export.js",
     "migrate:images": "node scripts/migrate/images.js",
     "migrate:transform": "node scripts/migrate/transform.js",

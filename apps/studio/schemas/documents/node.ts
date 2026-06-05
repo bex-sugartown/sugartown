@@ -99,7 +99,7 @@ export default defineType({
         defineArrayMember({type: 'accordionSection'}),
         defineArrayMember({type: 'trustReportSection'}),
         defineArrayMember({type: 'citedBlock'}),
-        defineArrayMember({type: 'statTileSection'}),
+        defineArrayMember({type: 'cardSection'}),
       ]
     }),
     defineField({

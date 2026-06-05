@@ -2,19 +2,19 @@ import {defineType, defineField, defineArrayMember} from 'sanity'
 import {BarChartIcon} from '@sanity/icons'
 
 /**
- * statTileSection — mid-content stat/evidence cluster.
+ * cardSection — mid-content stat/evidence cluster.
  *
- * Section builder block for 1–4 outcome/metric tiles (outcomeItem) in a grid.
- * Renders via Tile + SectionContainer primitives (SUG-96 / SUG-99).
+ * Renamed from statTileSection (SUG-151). Section builder block for 1–4
+ * outcome/metric items in a grid. Renders via StatCard primitives.
  * SectionLabel above the container takes: number, name, title, kicker.
  *
- * Available in: caseStudy, article, node sections[]
+ * Available in: caseStudy, article, node, page sections[]
  *
- * SUG-94 / SUG-99
+ * SUG-94 / SUG-99 / SUG-151
  */
 export default defineType({
-  name: 'statTileSection',
-  title: 'Stat Tiles',
+  name: 'cardSection',
+  title: 'Stat Cards',
   type: 'object',
   icon: BarChartIcon,
   fields: [
@@ -50,7 +50,7 @@ export default defineType({
       name: 'items',
       title: 'Stats',
       type: 'array',
-      description: '1–4 stat tiles. Each uses the same fields as Outcomes: metric name, value, optional before/context, evidence type.',
+      description: '1–4 stat cards. Each uses the same fields as Outcomes: metric name, value, optional before/context, evidence type.',
       of: [defineArrayMember({type: 'outcomeItem'})],
       validation: (Rule) => Rule.required().min(1).max(4),
     }),
@@ -63,10 +63,10 @@ export default defineType({
     },
     prepare({name, number, items}) {
       const count = Array.isArray(items) ? items.length : 0
-      const label = [number, name].filter(Boolean).join(' · ') || 'Stat Tiles'
+      const label = [number, name].filter(Boolean).join(' · ') || 'Stat Cards'
       return {
         title: label,
-        subtitle: `${count} stat${count !== 1 ? 's' : ''}`,
+        subtitle: `${count} card${count !== 1 ? 's' : ''}`,
       }
     },
   },
