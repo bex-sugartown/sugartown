@@ -62,7 +62,7 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 | ButtonGroup | ✅ `packages/ds/ButtonGroup/` | ✅ `web/design-system/button-group/` | ✅ Components/ButtonGroup | ✅ (token-inherited) | — | Layout-only primitive. `align` + `wrap` props. Replaces ad-hoc `.ctaButtons`/`.heroActions` flex wrappers (SUG-126). |
 | Blockquote | ✅ `packages/ds/Blockquote/` | ✅ `web/design-system/blockquote/` | ✅ Components/Blockquote | ✅ | — | |
 | Button | ✅ `packages/ds/Button/` | ✅ `web/design-system/button/` | ✅ Components/Button | ✅ | ✅ `ctaButton` (object) + `ctaButtonDoc` (document) | Paired schema — changes to one must mirror the other |
-| Callout | ✅ `packages/ds/Callout/` | ✅ `web/design-system/callout/` | ✅ Components/Callout | ✅ | ✅ `calloutSection` | |
+| Callout | ✅ `packages/ds/Callout/` | ✅ `web/design-system/callout/` | ✅ Components/Callout | ✅ | ✅ `calloutSection` | Web adapter adds `variant="banner"` (single-row strip, `role="status"`, no label column). Banner → synonym for Callout in audit. SUG-155. |
 | Card | ✅ `packages/ds/Card/` | ✅ `web/design-system/card/` | ✅ Components/Card | ✅ | — | Adapter adds `<Link to>`, `children` escape hatch, `colorHex` chip override. Variants: default/elevated/listing/metadata/accent. `accent` = 3px brand-primary left rule + tinted header bg. SUG-149. |
 | Chip | ✅ `packages/ds/Chip/` | ✅ `web/design-system/chip/` | ✅ Components/Chip | ✅ | — | Web adapter adds `<Link to>` only — no separate story needed |
 | Divider | — | ✅ `web/components/portableTextComponents` (DividerBlock) | ✅ Patterns/Divider | ✅ | ✅ `dividerBlock` PT type | default + subtle variants. SUG-155. |

@@ -1773,10 +1773,10 @@
       },
       "divergence": "Synonym",
       "divergenceKey": "synonym",
-      "pinkMoonStatus": "Diverges",
-      "pinkMoonStatusKey": "diverges",
-      "pinkMoonName": "Callout (banner)",
-      "note": "'Banner' is near-consistent for the page-level message; only Bootstrap still says 'Alert'."
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Callout (variant=\"banner\")",
+      "note": "Resolved SUG-155: Banner is variant=\"banner\" on the Callout primitive. Single-row strip layout (flex, no label column), role=\"status\". Story: Components/Callout — Banner story. 'Banner' is near-consistent across design systems; only Bootstrap still says 'Alert'."
     },
     {
       "group": "Data Display",

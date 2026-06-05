@@ -20,7 +20,7 @@ const meta: Meta<typeof Callout> = {
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
   argTypes: {
-    variant: { control: { type: 'select' }, options: ['default', 'info', 'tip', 'warn', 'danger'] },
+    variant: { control: { type: 'select' }, options: ['default', 'info', 'tip', 'warn', 'danger', 'banner'] },
     title:   { control: 'text' },
     number:  { control: 'text' },
   },
@@ -122,6 +122,36 @@ export const MultiParagraph: Story = {
   },
 };
 
+/** Banner — single-row strip, no label column. Page-level status message (role="status"). */
+export const Banner: Story = {
+  name: 'Banner (page strip)',
+  args: {
+    variant: 'banner',
+    title: 'Note',
+    children: <p>This section covers experimental APIs that may change before general availability.</p>,
+  },
+};
+
+/** Banner without title — body-only strip. */
+export const BannerNoTitle: Story = {
+  name: 'Banner (no title)',
+  args: {
+    variant: 'banner',
+    children: <p>Draft content — not published. Visible in preview mode only.</p>,
+  },
+};
+
+/** Banner dark mode. */
+export const BannerDark: Story = {
+  name: 'Banner (dark)',
+  globals: { theme: 'dark-pink-moon' },
+  args: {
+    variant: 'banner',
+    title: 'Note',
+    children: <p>This section covers experimental APIs that may change before general availability.</p>,
+  },
+};
+
 /** Snapshot — all colorways for Chromatic VRT. */
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
@@ -142,6 +172,9 @@ export const Snapshot: Story = {
       </Callout>
       <Callout variant="danger" number="§ 05" title="Danger">
         <p>Danger — maroon top rule and folio number.</p>
+      </Callout>
+      <Callout variant="banner" title="Note">
+        <p>Banner — single-row strip, full-width, no label column.</p>
       </Callout>
     </div>
   ),

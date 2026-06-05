@@ -84,3 +84,31 @@
 .tip     { --_callout-accent: var(--st-color-violet);     }
 .warn    { --_callout-accent: var(--st-color-orange-400); }
 .danger  { --_callout-accent: var(--st-color-maroon);     }
+
+/* ── Banner variant — single-row strip, no label column ──────────────────── */
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  grid-template-columns: unset;
+  padding: 0.75rem 1.25rem;
+  background: var(--st-card-label-bg);  /* covers parent bg — bg-through-gap safe */
+  margin: 0;
+}
+
+.bannerLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--_callout-accent);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.bannerBody {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--st-color-text-default);
+}

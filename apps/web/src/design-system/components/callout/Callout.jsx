@@ -5,7 +5,10 @@
  * 2px accent top border, 1px rule-accent box border. No radius.
  *
  * Variants: default (ink accent light / pink dark), info (pink), tip (violet),
- *           warn (orange), danger (maroon)
+ *           warn (orange), danger (maroon), banner (single-row strip)
+ *
+ * banner: flat flex row — inline label + body, full-width, no label column.
+ * Used for page-level status messages (role="status").
  *
  * Mirrors: packages/design-system/src/components/Callout/Callout.tsx
  */
@@ -18,8 +21,6 @@ export default function Callout({
   children,
   className,
 }) {
-  const label = title || variant
-
   const classNames = [
     styles.callout,
     styles[variant] ?? '',
@@ -27,6 +28,17 @@ export default function Callout({
   ]
     .filter(Boolean)
     .join(' ')
+
+  if (variant === 'banner') {
+    return (
+      <div className={classNames} role="status">
+        {title && <span className={styles.bannerLabel}>{title}</span>}
+        <div className={styles.bannerBody}>{children}</div>
+      </div>
+    )
+  }
+
+  const label = title || variant
 
   return (
     <aside className={classNames} role="note">
