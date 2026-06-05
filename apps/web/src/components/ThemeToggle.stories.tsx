@@ -1,8 +1,5 @@
 /**
- * ThemeToggle stories — dark/light theme switch button.
- *
- * Self-contained component with no external dependencies.
- * Reads and writes data-theme on document.documentElement.
+ * @deprecated — story moved to Patterns/IconButton/ThemeToggle.
  */
 
 import React from 'react';
@@ -10,7 +7,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ThemeToggle from './ThemeToggle';
 
 const meta: Meta<typeof ThemeToggle> = {
-  title: 'Patterns/ThemeToggle',
+  title: 'Legacy/ThemeToggle',
   component: ThemeToggle,
   tags: ['autodocs'],
   parameters: {

@@ -4,13 +4,13 @@
   justify-content: center;
   flex-shrink: 0;
 
-  width: 36px;
-  height: 36px;
-  border-radius: var(--st-radius-full, 9999px);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--st-radius-full);
 
   background-color: transparent;
-  color: var(--st-color-text-secondary);
-  border: 1px solid var(--st-color-border-default);
+  color: var(--st-color-text-muted);
+  border: 1px solid var(--st-color-border-subtle);
 
   cursor: pointer;
   transition:
@@ -20,8 +20,9 @@
 }
 
 .toggle:hover {
+  color: var(--st-color-text-default);
+  border-color: var(--st-color-border-medium);
   background-color: var(--st-color-bg-surface-strong);
-  color: var(--st-color-text-primary);
 }
 
 .toggle:focus-visible {
