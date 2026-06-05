@@ -252,7 +252,7 @@ export default function GovernancePage() {
             title="Briefs, prompts, conventions"
             kicker={`${ARTIFACTS.length} documents`}
           />
-          <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
+          <Grid spacing="0" columns={4} tabletColumns={2}>
             {ARTIFACTS.map((a) => (
               <StatCard key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}

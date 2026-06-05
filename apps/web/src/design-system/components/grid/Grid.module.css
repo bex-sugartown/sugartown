@@ -24,14 +24,14 @@
   border: 1px solid var(--st-color-border-wrap);
 }
 
-/* ── accentTop — hairline rule on top edge, two colour options ───────────── */
+/* ── accentTop — rule on top edge, two colour options ───────────────────── */
 .accentTop-brand {
   border-top: 1px solid var(--st-color-brand-primary);
 }
 
 .accentTop-ink {
   /* --st-color-text-default adapts: ink in light, near-white in dark */
-  border-top: 1px solid var(--st-color-text-default);
+  border-top: 2px solid var(--st-color-text-default);
 }
 
 /* ── Tablet: honour --grid-columns-tablet if set (e.g. 4→2 stacked) ── */
