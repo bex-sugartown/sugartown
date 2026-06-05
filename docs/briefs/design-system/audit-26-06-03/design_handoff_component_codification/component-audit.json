@@ -1409,10 +1409,10 @@
       },
       "divergence": "False friend",
       "divergenceKey": "false",
-      "pinkMoonStatus": "Diverges",
-      "pinkMoonStatusKey": "diverges",
-      "pinkMoonName": "MobileNav",
-      "note": "story: Components/MobileNav. Ships as MobileNav — a slide-in nav drawer triggered from the mobile header burger. Industry calls this 'Drawer' or 'Side sheet'; our component is named for its role, not the pattern."
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "Drawer",
+      "note": "story: Components/Drawer. Slide-out nav panel triggered from the mobile header burger — renamed from MobileNav (SUG-155 Phase 0). Industry name Drawer aligns with Material Side sheet / Atlassian Drawer pattern."
     },
     {
       "group": "Overlays & Surfaces",

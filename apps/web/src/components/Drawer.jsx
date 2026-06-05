@@ -3,17 +3,17 @@ import { NavLink, Link } from 'react-router-dom'
 import { resolveNavLink } from '../lib/resolveNavUrl'
 import { isExternalUrl } from '../lib/linkUtils'
 import SocialLink from './atoms/SocialLink'
-import styles from './MobileNav.module.css'
+import styles from './Drawer.module.css'
 
 /**
- * MobileNav — slide-out drawer with accordion submenus (SUG-37)
+ * Drawer — slide-out nav panel with accordion submenus (SUG-37)
  *
  * Rendered by Header.jsx below the mobile breakpoint.
  * Accepts the same nav items array as the desktop NavigationItem list,
  * plus footer data (columns, social links, copyright) for a self-contained
  * mobile experience.
  */
-export default function MobileNav({
+export default function Drawer({
   items, cta, themeToggle, footerColumns, socialLinks, copyrightText, siteTitle,
   open, onClose,
 }) {

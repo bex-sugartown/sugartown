@@ -1,5 +1,5 @@
 /**
- * MobileNav stories — slide-out mobile navigation drawer.
+ * Drawer stories — slide-out mobile navigation drawer.
  *
  * Uses MemoryRouter (for NavLink/Link).
  * Renders in open state by default for visual testing.
@@ -9,7 +9,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
-import MobileNav from './MobileNav';
+import Drawer from './Drawer';
 import ThemeToggle from './ThemeToggle';
 import { Button } from '../design-system';
 import {
@@ -24,16 +24,15 @@ const withRouter = (Story: React.ComponentType) => (
   </MemoryRouter>
 );
 
-// Constrain to mobile viewport width for realistic rendering
 const withMobileWidth = (Story: React.ComponentType) => (
   <div style={{ maxWidth: '375px', height: '100vh', position: 'relative', overflow: 'hidden' }}>
     <Story />
   </div>
 );
 
-const meta: Meta<typeof MobileNav> = {
-  title: 'Regions/MobileNav',
-  component: MobileNav,
+const meta: Meta<typeof Drawer> = {
+  title: 'Components/Drawer',
+  component: Drawer,
   tags: ['autodocs'],
   decorators: [withRouter, withMobileWidth],
   argTypes: {
@@ -54,7 +53,7 @@ const meta: Meta<typeof MobileNav> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof MobileNav>;
+type Story = StoryObj<typeof Drawer>;
 
 const CTA_ELEMENT = (
   <Button variant="primary" href="/contact">Get in Touch</Button>
@@ -87,7 +86,7 @@ export const Closed: Story = {
 export const Minimal: Story = {
   name: 'Minimal (nav only)',
   args: {
-    items: NAV_ITEMS.filter(item => !item.children),
+    items: NAV_ITEMS.filter((item: { children?: unknown[] }) => !item.children),
     open: true,
     onClose: () => {},
   },

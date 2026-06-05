@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { Button, Container } from '../design-system'
 import NavigationItem from './atoms/NavigationItem'
-import MobileNav from './MobileNav'
+import Drawer from './Drawer'
 import Preheader from './Preheader'
 import ThemeToggle from './ThemeToggle'
 import styles from './Header.module.css'
@@ -96,7 +96,7 @@ export default function Header({ siteSettings }) {
       </header>
 
       {/* Mobile drawer */}
-      <MobileNav
+      <Drawer
         items={primaryNav?.items}
         cta={ctaElement}
         themeToggle={<ThemeToggle />}

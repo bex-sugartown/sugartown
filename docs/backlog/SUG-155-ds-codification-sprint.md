@@ -44,7 +44,7 @@ This epic closes all of the above.
 
 These components ship under a wrong or use-case name. Rename files, update imports, move Storybook story, flip audit entry `diverges` → `present`.
 
-- [ ] **Drawer** (MobileNav → Drawer) — `MobileNav.jsx/.module.css/.stories.tsx` → `Drawer.*`; story `Components/MobileNav` → `Components/Drawer`; update Header import + any other callers; audit: `pinkMoonName` already set to MobileNav — flip to `Drawer`, status `diverges` → `present`
+- [x] **Drawer** (MobileNav → Drawer) — `MobileNav.jsx/.module.css/.stories.tsx` → `Drawer.*`; story `Components/MobileNav` → `Components/Drawer`; update Header import + any other callers; audit: `pinkMoonName` already set to MobileNav — flip to `Drawer`, status `diverges` → `present`
 - [ ] **Switch** ⚠️ DECISION NEEDED — `ThemeToggle` is the only instantiation; no generic `Switch` primitive exists. Decision required: (a) extract a `Switch` primitive from ThemeToggle then make ThemeToggle an instance, or (b) accept ThemeToggle as a one-off and mark the Switch audit entry as won't-implement. Blocked until decision.
 - [ ] **Tag / Chip** ⚠️ DECISION NEEDED — two names in use (`Chip` and `Tag`). Chip = read-only status label; Tag = contested (Polaris uses it for removable input tokens, Carbon for read-only labels). Decision required: confirm Chip is canonical for our read-only status use, then grep and align all call-sites. Blocked until decision.
 - [ ] **Banner / Callout** — `Callout` already ships; the `Banner` audit entry describes a `tone="banner"` variant (page-level message strip). Decision required: add `tone="banner"` to Callout and mark Banner as a variant, or keep as a separate component. Low-risk lean: add the tone prop.
