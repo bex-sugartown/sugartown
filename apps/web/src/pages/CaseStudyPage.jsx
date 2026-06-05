@@ -39,13 +39,13 @@ export default function CaseStudyPage() {
   const challengeSection = restSections.find(s => s._type === 'calloutSection') ?? null
   const nonCalloutSections = restSections.filter(s => s._type !== 'calloutSection')
 
-  // Pull any statTileSections that open the body (after hero) — render full-span above sidebar
+  // Pull any cardSections that open the body (after hero) — render full-span above sidebar
   let leadStatCount = 0
   for (const s of nonCalloutSections) {
-    if (s._type === 'statTileSection') leadStatCount++
+    if (s._type === 'cardSection' || s._type === 'statTileSection') leadStatCount++
     else break
   }
-  const leadStatTiles = nonCalloutSections.slice(0, leadStatCount)
+  const leadStatCards = nonCalloutSections.slice(0, leadStatCount)
   const bodySections  = nonCalloutSections.slice(leadStatCount)
 
   // Row 1 = MetadataCard (full-span). Each full-span block before PageSections adds a row.
@@ -93,9 +93,9 @@ export default function CaseStudyPage() {
           </div>
         ) : null}
 
-        {leadStatTiles.length > 0 && (
+        {leadStatCards.length > 0 && (
           <div className={styles.outcomesFullSpan}>
-            <PageSections sections={leadStatTiles} context="detail" />
+            <PageSections sections={leadStatCards} context="detail" />
           </div>
         )}
 

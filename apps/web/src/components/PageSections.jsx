@@ -843,11 +843,11 @@ function CitedBlockSection({ section }) {
   )
 }
 
-// statTileSection — optional label + grid of metric Tile primitives.
-function StatTileSectionRenderer({ section }) {
+// cardSection — optional label + grid of StatCard primitives.
+function StatCardSectionRenderer({ section }) {
   if (!section.items?.length) return null
   return (
-    <div className={styles.statTileSection} id={section._sectionId}>
+    <div className={styles.statCardSection} id={section._sectionId}>
       {(section.number || section.name || section.title || section.kicker) && (
         <SectionLabel
           number={section.number}
@@ -914,7 +914,7 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
         return <CitedBlockSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'cardSection':
       case 'statTileSection': // legacy — migrated to cardSection (SUG-151)
-        return <StatTileSectionRenderer key={key} section={{ ...section, _sectionId: sectionId }} />
+        return <StatCardSectionRenderer key={key} section={{ ...section, _sectionId: sectionId }} />
       default:
         console.warn(`Unknown section type: ${section._type}`)
         return null

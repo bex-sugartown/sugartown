@@ -7,12 +7,12 @@ import {defineType, defineField} from 'sanity'
  *   - outcomes[] on caseStudy (document-level, fixed render position)
  *   - proofPointSection items[] (section builder block, editorial placement)
  *
- * Both surfaces render via the same StatTile + StatGrid primitives in the DS.
+ * Both surfaces render via the same StatCard + Grid primitives in the DS.
  * Field names are the canonical mapping contract for those components:
- *   metric      → StatTile label
- *   valueAfter  → StatTile value (large display)
- *   valueBefore → StatTile sub ("Was:" label — SUG-96)
- *   evidenceType → StatTile chip
+ *   metric      → StatCard label
+ *   valueAfter  → StatCard value (large display)
+ *   valueBefore → StatCard sub ("Was:" label — SUG-96)
+ *   evidenceType → StatCard chip
  *
  * SUG-94: extracted from inline outcome object on caseStudy
  */

@@ -279,7 +279,7 @@ export default defineType({
       name: 'outcomes',
       title: 'Outcomes (migrate to sections)',
       type: 'array',
-      description: 'Migrate this data: add a "Stat Tiles" block to the sections array above, then clear these items.',
+      description: 'Migrate this data: add a "Stat Cards" block to the sections array above, then clear these items.',
       group: 'legacy',
       of: [
         defineArrayMember({

@@ -139,12 +139,12 @@ export const CitedBlockNoRefs: Story = {
   },
 };
 
-/** Stat tile section — metric grid with bg-through-gap hairline dividers. */
-export const StatTileSection: Story = {
+/** Stat card section — metric grid with bg-through-gap hairline dividers. */
+export const StatCardSection: Story = {
   args: {
     sections: [
       {
-        _type: 'statTileSection',
+        _type: 'cardSection',
         _key: 'sts-1',
         label: 'Outcomes',
         items: [
@@ -160,11 +160,11 @@ export const StatTileSection: Story = {
 
 /** CWV field metrics — p75 values as a stat tile section inside PageSections. */
 export const CwvFieldMetrics: Story = {
-  name: 'CWV field metrics (via StatTileSection)',
+  name: 'CWV field metrics (via StatCardSection)',
   args: {
     sections: [
       {
-        _type: 'statTileSection',
+        _type: 'cardSection',
         _key: 'sts-cwv',
         name: 'Core Web Vitals',
         kicker: 'p75 · field data · desktop',
@@ -206,7 +206,7 @@ export const MultipleSections: Story = {
         ],
       },
       {
-        _type: 'statTileSection',
+        _type: 'cardSection',
         _key: 'sts-1',
         label: 'Key Results',
         items: [

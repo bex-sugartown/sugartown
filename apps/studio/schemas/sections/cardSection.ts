@@ -14,7 +14,7 @@ import {BarChartIcon} from '@sanity/icons'
  */
 export default defineType({
   name: 'cardSection',
-  title: 'Stat Cards',
+  title: 'Stat Card Section',
   type: 'object',
   icon: BarChartIcon,
   fields: [

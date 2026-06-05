@@ -847,8 +847,8 @@
   padding: 0 var(--st-page-gutter);
 }
 
-/* Stat Tile Section (SUG-96) */
-.statTileSection {
+/* Stat Card Section (SUG-96 → cardSection) */
+.statCardSection {
   max-width: var(--st-width-detail);
   margin: 0 auto;
   padding: 0 var(--st-page-gutter);
@@ -1264,10 +1264,10 @@
   margin-block: 0;
 }
 
-/* citedBlock and statTileSection — section-specific gutters not needed in
+/* citedBlock and statCardSection — section-specific gutters not needed in
    detail context; parent gap handles all inter-section spacing. */
 .detailContext .citedBlockSection,
-.detailContext .statTileSection {
+.detailContext .statCardSection {
   padding-inline: 0;
 }
 

@@ -11,7 +11,7 @@ import { BarChartIcon } from '@sanity/icons'
  *   recent-releases     — MINOR/MAJOR release history table via DataTable + KindBadge
  *   mini-releases       — PATCH release history table (SUG-136)
  *   recently-shipped    — 3-col Tile grid: release / article / node (SUG-136)
- *   design-system-stats — DS health tiles via StatTile grid
+ *   design-system-stats — DS health tiles via StatCard grid
  *   cwv-snapshot        — Lighthouse score rings + CrUX CWV tiles (SUG-100)
  */
 export default defineType({

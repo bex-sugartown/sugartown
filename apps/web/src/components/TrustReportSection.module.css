@@ -22,7 +22,7 @@
   width: 100%;
 }
 
-/* ── StatTile grid (design-system-stats variant) ────── */
+/* ── StatCard grid (design-system-stats variant) ────── */
 
 .tileGrid {
   display: grid;

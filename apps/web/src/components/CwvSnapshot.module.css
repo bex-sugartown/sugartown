@@ -40,7 +40,7 @@
 
 /* ── CWV tiles ───────────────────────────────────────── */
 
-/* hairline-divider grid — same pattern as StatTile / tileGrid */
+/* hairline-divider grid — same pattern as StatCard / cardSection grid */
 .cwvGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
