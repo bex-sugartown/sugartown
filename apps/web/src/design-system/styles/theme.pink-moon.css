@@ -175,9 +175,9 @@
 
   /* ── Segmented Control — light overrides (SUG-100) ─ */
   --st-segmented-bg:        var(--st-color-softgrey-100);
-  --st-segmented-active-bg: var(--st-color-white);
+  --st-segmented-active-bg: transparent;
   --st-segmented-fg:        var(--st-color-text-secondary);
-  --st-segmented-active-fg: var(--st-color-text-primary);
+  --st-segmented-active-fg: var(--st-color-brand-primary);
   --st-segmented-border:    var(--st-color-border-default);
 
   /* ── Site graph node/edge colors — light overrides (SUG-81 + SUG-105 + SUG-140) ─ */
