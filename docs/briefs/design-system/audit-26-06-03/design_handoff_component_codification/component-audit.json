@@ -889,10 +889,10 @@
       },
       "divergence": "False friend",
       "divergenceKey": "false",
-      "pinkMoonStatus": "Diverges",
-      "pinkMoonStatusKey": "diverges",
-      "pinkMoonName": "only as ThemeToggle",
-      "note": "'Toggle' is overloaded: Apple/Carbon/Atlassian use it for this on/off switch, but a 'toggle button' elsewhere is a press-and-stay button — two different controls, one word. ANNOTATION: we have no generic Switch/Toggle primitive — only 'ThemeToggle', a use-case-named instance (same anti-pattern as ContactForm). Factor out a primitive."
+      "pinkMoonStatus": "Will not implement",
+      "pinkMoonStatusKey": "wont",
+      "pinkMoonName": "ThemeToggle (IconButton instance)",
+      "note": "ThemeToggle is an IconButton configured for a specific use case — not a standalone Switch primitive. No generic Switch/Toggle warranted in this system at current scope. SUG-155: resolved won't-implement."
     },
     {
       "group": "Selection Controls",
@@ -970,7 +970,7 @@
       "pinkMoonStatus": "In system",
       "pinkMoonStatusKey": "present",
       "pinkMoonName": "Chip",
-      "note": "Two words, one token: 'Chip' (Material) vs 'Tag' (everyone else). The real trap is 'Tag' itself — see the Tag row."
+      "note": "Chip is canonical. Three behavioral modes via variant prop: variant=\"status\" = Badge (non-interactive status indicator, dot system), variant=\"tag\" = Tag (categorisation label, optionally linked), interactive without variant = Chip (selected filter/input token). Resolved SUG-155 against UX Drill 01 taxonomy (Badge/Tag/Chip). See Tag row."
     },
     {
       "group": "Selection Controls",
@@ -993,10 +993,10 @@
       },
       "divergence": "False friend",
       "divergenceKey": "false",
-      "pinkMoonStatus": "Diverges",
-      "pinkMoonStatusKey": "diverges",
-      "pinkMoonName": "Chip / Tag",
-      "note": "True false friend: 'Tag' is a removable input token in Polaris but a read-only status label in Carbon — two different components, one word."
+      "pinkMoonStatus": "Synonym",
+      "pinkMoonStatusKey": "synonym",
+      "pinkMoonName": "Chip (variant=\"tag\")",
+      "note": "Resolved SUG-155: Tag is not a separate component. Three behavioral modes all live on the Chip primitive: variant=\"status\" (Badge — non-interactive status dot), variant=\"tag\" (Tag — categorisation label, can be linked), and interactive mode (Chip — selected filter/input token). Chip is canonical; Tag and Badge are usage modes expressed via the variant prop."
     },
     {
       "group": "Navigation",
