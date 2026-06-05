@@ -2,9 +2,9 @@
   "meta": {
     "title": "Sugartown Component Naming Audit",
     "generated": "2026-06-03",
-    "total": 103,
+    "total": 104,
     "statusCounts": {
-      "In system": 31,
+      "In system": 32,
       "Diverges": 4,
       "Not yet": 57,
       "To codify": 9,
@@ -264,6 +264,32 @@
       "pinkMoonStatusKey": "present",
       "pinkMoonName": "Input — confirm story",
       "note": "Pink Moon name: Input. story: Primitives/Input. Divergence resolved. SUG-148."
+    },
+    {
+      "group": "Content & Display",
+      "groupKey": "content",
+      "component": "Rich text",
+      "description": "Renders structured prose from a portable text / rich text editor: headings, paragraphs, bold, italic, inline code, links, blockquote, lists",
+      "canonical": {
+        "industryCommon": "Rich text",
+        "aria": "—",
+        "pinkMoonHouse": "RichText"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "Text editor",
+        "Polaris": "Rich text editor",
+        "Bootstrap": "—",
+        "Atlassian": "Rich text editor",
+        "Ant Design": "—"
+      },
+      "divergence": "Synonym",
+      "divergenceKey": "synonym",
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "RichText",
+      "note": "story: Patterns/RichText. Text-only defaults (H2–H4, blockquote, bold, italic, inline code, links, lists). No image/table/citation — those are separate section types. Replaces ContentBlock. SUG-151."
     },
     {
       "group": "Inputs & Forms",

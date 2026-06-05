@@ -1,0 +1,73 @@
+/* RichText — prose typography for PortableText content blocks.
+ * Token-first. No layout (max-width, padding) — that belongs to the parent.
+ */
+
+.richText {
+  font-size: var(--st-font-heading-4);
+  line-height: var(--st-line-height-relaxed);
+  color: var(--st-color-text-default);
+}
+
+.richText > :first-child {
+  margin-top: 0;
+}
+
+.richText p {
+  margin: var(--st-space-reading-gap) 0;
+}
+
+/* ── Headings ─────────────────────────────────────────────── */
+
+.h2 {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-2);
+  font-weight: var(--st-font-weight-bold);
+  margin: var(--st-spacing-stack-xl) 0 var(--st-spacing-stack-md);
+  color: var(--st-color-brand-primary);
+  line-height: var(--st-line-height-tight);
+}
+
+.h3 {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-3);
+  font-weight: var(--st-font-weight-semibold);
+  margin: var(--st-spacing-stack-lg) 0 var(--st-spacing-stack-sm);
+  color: var(--st-color-text-default);
+  line-height: 1.3;
+}
+
+.h4 {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-4);
+  font-weight: var(--st-font-weight-semibold);
+  margin: var(--st-spacing-stack-md) 0 var(--st-spacing-stack-xs);
+  color: var(--st-color-text-default);
+  line-height: 1.4;
+}
+
+/* ── Marks ────────────────────────────────────────────────── */
+
+.link {
+  color: var(--st-color-link-default);
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: var(--st-color-link-hover);
+}
+
+.strong {
+  font-weight: var(--st-font-weight-bold);
+}
+
+/* ── Lists ────────────────────────────────────────────────── */
+
+.richText ul,
+.richText ol {
+  margin: var(--st-space-reading-gap) 0;
+  padding-left: var(--st-space-6);
+}
+
+.richText li {
+  margin: var(--st-space-1) 0;
+}

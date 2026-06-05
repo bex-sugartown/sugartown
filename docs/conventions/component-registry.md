@@ -106,12 +106,13 @@ These components own layout and data-binding logic. They consume DS primitives a
 | ContentCard | `web/components/ContentCard.jsx` | ✅ Patterns/ContentCard | article, caseStudy, node archive queries | Thin data adapter over web Card. Binding-only — no container CSS. |
 | ContentNav | `web/components/ContentNav.jsx` | ✅ Patterns/ContentNav | Adjacent-item Sanity query | App composite — fetches prev/next items. Story uses plain-`<a>` inline demo. |
 | MetadataCard | `web/components/MetadataCard.jsx` | ✅ Patterns/MetadataCard | All detail page queries | Canonical metadata surface — never re-implement inline. Composes Card frame via `<aside className={styles.metadataCard}>`. |
-| StatCard | `web/components/StatCard.jsx` | ✅ Patterns/StatCard | `statTileSection` in `sections[]` | Replaces Tile in stat grids. Card + metric/value/sub/body layout. SUG-150. |
+| StatCard | `web/components/StatCard.jsx` | ✅ Patterns/StatCard | `cardSection` in `sections[]` | Replaces Tile in stat grids. Card + metric/value/sub/body layout. SUG-150. |
+| RichText | `web/components/RichText.jsx` | ✅ Patterns/RichText | Any `content` PortableText field | Canonical prose renderer. H2–H4, blockquote, bold, italic, inline code, links, lists. No image/table/citation — those are section-level. Replaces ContentBlock. `defaultRichTextComponents` exported for extension. SUG-151. |
 | Form | `web/components/Form.jsx` | ✅ Patterns/Form | — | Generic form pattern. Renders `Field[]` from schema. Netlify `action` or `onSubmit` callback. SUG-150. |
 | ~~ContactForm~~ | Deleted (SUG-151) | — | — | Deleted. Use `Form` component with `contactFormFields` schema. |
 | CardBuilderSection | `web/components/CardBuilderSection.jsx` | ✅ Patterns/CardBuilderSection | `cardBuilderSection` in `sections[]` | |
 | RecentContentSection | `web/components/RecentContentSection.jsx` | ✅ Patterns/RecentContentSection | Sanity fetch via `useSanityDoc` | Mock infrastructure in `.storybook/stories/` |
-| ContentBlock | `web/components/ContentBlock.jsx` | ✅ Patterns/ContentBlock | PortableText `content` field | |
+| ~~ContentBlock~~ | `web/components/ContentBlock.jsx` — @deprecated | ~~Legacy/ContentBlock~~ | — | Deprecated — use RichText. Was orphaned (zero production callers). |
 | ArchiveLayout | `web/components/ArchiveLayout.stories.jsx` | ✅ Patterns/ArchiveLayout | — | Spec/documentation stories for all archive layout variants. SUG-150. |
 | ImageLightbox | `web/components/ImageLightbox.jsx` | ✅ Patterns/ImageLightbox | image galleries | |
 | PageSidebar | `web/components/PageSidebar.jsx` | ✅ Patterns/PageSidebar | TOC / related / series / AI disclosure | |
@@ -128,7 +129,7 @@ Each now has a standalone Storybook story added in SUG-98.
 | Schema type | Renderer location | Standalone story |
 |-------------|------------------|------------------|
 | `heroSection` | `Hero.jsx` | ✅ Layout/Hero |
-| `textSection` | `PageSections.jsx` inline | ✅ Patterns/TextSection |
+| `textSection` | `PageSections.jsx` → `RichText` | ✅ Patterns/TextSection |
 | `mermaidSection` | `PageSections.jsx` inline | ✅ Patterns/MermaidSection |
 | `imageGallery` | `PageSections.jsx` inline | ✅ Patterns/ImageGallery |
 | `citedBlock` | `PageSections.jsx` inline | ✅ Patterns/CitedBlock |

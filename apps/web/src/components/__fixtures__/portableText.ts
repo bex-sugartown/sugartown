@@ -111,6 +111,75 @@ export const contentWithLink = [
   },
 ]
 
+/** Full text options — all prose block types, no image/table/citation */
+export const allTextOptions = [
+  {
+    _type: 'block', _key: 'h2a', style: 'h2', markDefs: [],
+    children: [{ _type: 'span', _key: 's1', text: 'H2 Section Heading', marks: [] }],
+  },
+  {
+    _type: 'block', _key: 'p1', style: 'normal', markDefs: [],
+    children: [
+      { _type: 'span', _key: 's2', text: 'Normal paragraph. Design systems are ', marks: [] },
+      { _type: 'span', _key: 's3', text: 'opinionated', marks: ['strong'] },
+      { _type: 'span', _key: 's4', text: ' by definition — they encode ', marks: [] },
+      { _type: 'span', _key: 's5', text: 'editorial decisions', marks: ['em'] },
+      { _type: 'span', _key: 's6', text: ' about spacing, colour, and type. The token ', marks: [] },
+      { _type: 'span', _key: 's7', text: '--st-color-brand-primary', marks: ['code'] },
+      { _type: 'span', _key: 's8', text: ' encodes one such decision.', marks: [] },
+    ],
+  },
+  {
+    _type: 'block', _key: 'h3a', style: 'h3', markDefs: [],
+    children: [{ _type: 'span', _key: 's9', text: 'H3 Subsection', marks: [] }],
+  },
+  {
+    _type: 'block', _key: 'p2', style: 'normal',
+    markDefs: [{ _type: 'link', _key: 'lnk1', href: 'https://sugartown.io' }],
+    children: [
+      { _type: 'span', _key: 's10', text: 'A paragraph with an ', marks: [] },
+      { _type: 'span', _key: 's11', text: 'inline link', marks: ['lnk1'] },
+      { _type: 'span', _key: 's12', text: ' and a mix of ', marks: [] },
+      { _type: 'span', _key: 's13', text: 'bold', marks: ['strong'] },
+      { _type: 'span', _key: 's14', text: ' and ', marks: [] },
+      { _type: 'span', _key: 's15', text: 'italic', marks: ['em'] },
+      { _type: 'span', _key: 's16', text: ' text.', marks: [] },
+    ],
+  },
+  {
+    _type: 'block', _key: 'h4a', style: 'h4', markDefs: [],
+    children: [{ _type: 'span', _key: 's17', text: 'H4 Detail Heading', marks: [] }],
+  },
+  {
+    _type: 'block', _key: 'bq1', style: 'blockquote', markDefs: [],
+    children: [{ _type: 'span', _key: 's18', text: 'Blockquote: the best interfaces feel inevitable — as if they could have been no other way.', marks: [] }],
+  },
+  {
+    _type: 'block', _key: 'ul1', style: 'normal', listItem: 'bullet', level: 1, markDefs: [],
+    children: [{ _type: 'span', _key: 's19', text: 'Unordered list item one', marks: [] }],
+  },
+  {
+    _type: 'block', _key: 'ul2', style: 'normal', listItem: 'bullet', level: 1, markDefs: [],
+    children: [{ _type: 'span', _key: 's20', text: 'Unordered list item two', marks: [] }],
+  },
+  {
+    _type: 'block', _key: 'ul3', style: 'normal', listItem: 'bullet', level: 1, markDefs: [],
+    children: [{ _type: 'span', _key: 's21', text: 'Unordered list item three', marks: [] }],
+  },
+  {
+    _type: 'block', _key: 'ol1', style: 'normal', listItem: 'number', level: 1, markDefs: [],
+    children: [{ _type: 'span', _key: 's22', text: 'Ordered list item one', marks: [] }],
+  },
+  {
+    _type: 'block', _key: 'ol2', style: 'normal', listItem: 'number', level: 1, markDefs: [],
+    children: [{ _type: 'span', _key: 's23', text: 'Ordered list item two', marks: [] }],
+  },
+  {
+    _type: 'block', _key: 'ol3', style: 'normal', listItem: 'number', level: 1, markDefs: [],
+    children: [{ _type: 'span', _key: 's24', text: 'Ordered list item three', marks: [] }],
+  },
+]
+
 /** Card body with citation ref */
 export const bodyWithCitation = [
   {

@@ -1,3 +1,7 @@
+/* @deprecated ContentBlock is deprecated — use RichText instead. */
+if (typeof console !== 'undefined') {
+  console.warn('[DS] ContentBlock is deprecated — use RichText instead.')
+}
 import { PortableText } from '@portabletext/react'
 import SanityMedia from './atoms/SanityMedia'
 import { LinkAnnotation, DividerBlock } from './portableTextComponents'

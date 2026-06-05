@@ -2,8 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ContentBlock from './ContentBlock';
 import { simpleParagraph, richContent, contentWithLink } from './__fixtures__/portableText';
 
+// @deprecated — use RichText (Patterns/RichText) instead.
 const meta: Meta<typeof ContentBlock> = {
-  title: 'Patterns/ContentBlock',
+  title: 'Legacy/ContentBlock',
   component: ContentBlock,
   parameters: { chromatic: { disableSnapshot: false } },
 };

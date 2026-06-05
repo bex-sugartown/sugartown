@@ -8,6 +8,7 @@ import StatCard from './StatCard'
 import { getOverlayStyles, parseOverlay } from '../design-system/components/media/Media'
 import stats from '../generated/stats.json'
 import { TRUST_LINKS, getCanonicalPath } from '../lib/routes'
+import RichText from './RichText'
 import CardBuilderSection from './CardBuilderSection'
 import TrustReportSection from './TrustReportSection'
 import ImageLightbox from './ImageLightbox'
@@ -336,7 +337,7 @@ function TextSection({ section }) {
       {heading && <h2 className={styles.sectionHeading}>{heading}</h2>}
       {content && (
         <div className={styles.textContent}>
-          <PortableText value={preprocessPortableText(content)} components={portableTextComponents} />
+          <RichText content={preprocessPortableText(content)} components={portableTextComponents} />
         </div>
       )}
     </section>
