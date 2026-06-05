@@ -1,6 +1,6 @@
 # Sugartown Component Registry
 
-> Last updated: 2026-06-04 · v0.26.5
+> Last updated: 2026-06-05 · v0.26.6
 >
 > Single source of truth for component coverage across the three app surfaces:
 > DS package primitives, web adapter layer, and app-level composites.
@@ -73,7 +73,7 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 | SegmentedControl | ✅ `packages/ds/SegmentedControl/` | ✅ `web/design-system/segmented-control/` | ✅ Components/SegmentedControl | ✅ | — | SUG-100 |
 | Table | ✅ `packages/ds/Table/` | ✅ `web/design-system/table/` | ✅ Components/Table | ✅ accent + subdued, light + dark | ✅ `tableBlock` | SUG-119 shipped — tone prop (accent/subdued), caption surface, props-driven API. DataTable is deprecated shim; RoadmapTable composes Table. |
 | Swatch | ✅ `packages/ds/Swatch/` | ✅ `web/design-system/swatch/` | ✅ Components/Swatch | ⚠️ untested | — | Square color dot + mono label. Generic `color`/`label`/`size` API. `null` color = outlined square. Callers own priority→color mapping. Renamed from PriorityChip (SUG-119). Dark mode story pending. |
-| ~~StatGrid~~ | Deleted (SUG-120) | Deleted (SUG-120) | — | — | ✅ `statTileSection` | DS primitive + web adapter both deleted. Superseded by Grid. `statTileSection` schema and PageSections renderer remain; renderer now uses Grid directly. |
+| ~~StatGrid~~ | Deleted (SUG-120) | Deleted (SUG-120) | — | — | ~~`statTileSection`~~ → `cardSection` | DS primitive + web adapter both deleted. Superseded by Grid. Schema renamed to `cardSection` in SUG-151; PageSections renderer uses Grid directly. |
 
 ---
 
@@ -87,7 +87,9 @@ coupled to React Router / web data patterns that has no portable use case outsid
 |-----------|-------------|-----------|-----------|-------|
 | Grid | ✅ `web/design-system/grid/` | ✅ Components/Layout/Grid | ✅ | CSS grid layout utility. Layout concern, not a DS primitive. SUG-120: `accentColor` (brand/ink) + `tabletColumns` responsive breakpoint added; composition stories added. |
 | SectionLabel | ✅ `web/design-system/section-label/` | ✅ Components/SectionLabel | ✅ | Typography-only label row. Minimal; no value in porting. |
-| ~~Tile~~ | ~~`web/design-system/tile/`~~ @deprecated | ~~Components/Tile~~ | ⚠️ deprecated | @deprecated — use Card + Metric/Meter. `console.warn` on import. Deletion deferred to SUG-151 after all call sites migrated. SUG-149. |
+| ~~Tile~~ | ~~`web/design-system/tile/`~~ @deprecated | ~~Components/Tile~~ | ⚠️ deprecated | @deprecated — use Card + Metric/Meter. `console.warn` on import. SUG-151 retained: 8 active call-sites use `href`/`bar`/`loading`/`titleSize` not covered by StatCard. Full migration to Card+Metric is a follow-on epic. |
+| ~~TwoColumnLayout~~ | Deleted (SUG-151) | — | — | Deleted. Zero active call-sites. Superseded by `Columns count={2}`. |
+| ~~Flex~~ | — | — | — | Was synonym for Stack with `direction="horizontal"`. Use Stack `direction` prop directly. |
 | ~~DataTable~~ | ✅ `web/design-system/data-table/` — @deprecated | ✅ Components/Table/DataTable | ⚠️ untested | Deprecated shim over `<Table>`. Maps `variant="trust"` → `tone="subdued"`. Inline CSS injection removed (SUG-119). Delete after all callers migrate to `<Table>` directly. |
 | ~~LaneHeader~~ | Retired (SUG-119) | — | — | Deleted from both mirrors. Lane label and epic count now live in `<Table caption captionMeta>`. |
 | ~~RoadmapTable~~ | Deleted | — | — | Deleted after GovernancePage and TablesDevPage migrated to `<Table tone="subdued">` directly. |
@@ -106,7 +108,7 @@ These components own layout and data-binding logic. They consume DS primitives a
 | MetadataCard | `web/components/MetadataCard.jsx` | ✅ Patterns/MetadataCard | All detail page queries | Canonical metadata surface — never re-implement inline. Composes Card frame via `<aside className={styles.metadataCard}>`. |
 | StatCard | `web/components/StatCard.jsx` | ✅ Patterns/StatCard | `statTileSection` in `sections[]` | Replaces Tile in stat grids. Card + metric/value/sub/body layout. SUG-150. |
 | Form | `web/components/Form.jsx` | ✅ Patterns/Form | — | Generic form pattern. Renders `Field[]` from schema. Netlify `action` or `onSubmit` callback. SUG-150. |
-| ~~ContactForm~~ | `web/components/ContactForm.jsx` | ~~Patterns/ContactForm~~ | — | **Deprecated** — use `Form + contactFormFields`. Deletion in SUG-151. |
+| ~~ContactForm~~ | Deleted (SUG-151) | — | — | Deleted. Use `Form` component with `contactFormFields` schema. |
 | CardBuilderSection | `web/components/CardBuilderSection.jsx` | ✅ Patterns/CardBuilderSection | `cardBuilderSection` in `sections[]` | |
 | RecentContentSection | `web/components/RecentContentSection.jsx` | ✅ Patterns/RecentContentSection | Sanity fetch via `useSanityDoc` | Mock infrastructure in `.storybook/stories/` |
 | ContentBlock | `web/components/ContentBlock.jsx` | ✅ Patterns/ContentBlock | PortableText `content` field | |
@@ -130,7 +132,7 @@ Each now has a standalone Storybook story added in SUG-98.
 | `mermaidSection` | `PageSections.jsx` inline | ✅ Patterns/MermaidSection |
 | `imageGallery` | `PageSections.jsx` inline | ✅ Patterns/ImageGallery |
 | `citedBlock` | `PageSections.jsx` inline | ✅ Patterns/CitedBlock |
-| `statTileSection` | `PageSections.jsx` inline | ✅ via Patterns/PageSections |
+| `cardSection` (was `statTileSection`) | `PageSections.jsx` inline | ✅ via Patterns/PageSections |
 | `accordionSection` | `PageSections.jsx` → `Accordion` | ✅ via Components/Accordion |
 | `calloutSection` | `PageSections.jsx` → `Callout` | ✅ via Components/Callout |
 | `cardBuilderSection` | `CardBuilderSection.jsx` | ✅ Patterns/CardBuilderSection |
