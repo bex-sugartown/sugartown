@@ -142,6 +142,36 @@ One-liner: When to use `--st-color-text-primary` vs `--st-color-pink` — and wh
 Rule: Use semantic tokens in components. Use primitives only in token definition files and theme overrides.  
 Live preview: Two columns — "Semantic in component (correct)" vs "Primitive in component (breaks in dark mode)".
 
+### Phase 7 — Grid Usage (spacing-0 pattern)
+- [ ] Propose topic angle and live preview approach
+- [ ] **Pause for review**
+- [ ] Write `GridUsage.stories.tsx`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 7 — Grid Usage usage doc`
+
+**Topic brief:**  
+Title: Grid Usage — spacing-0 and tile primitives  
+One-liner: The `spacing-0` bg-through-gap pattern and which primitives belong inside it.  
+Rule: `spacing="0"` Grid uses parent background as hairline divider — children must be borderless tile primitives (StatCard). Never place Card (own border) inside a spacing-0 Grid; it stacks against the outer border producing a double-border. `accentTop accentColor="ink"` adds a 2px ink top border to the entire group and is required on both stats and artifact tile grids.  
+Live preview: Correct (StatCard in spacing-0) vs wrong (Card in spacing-0 — shows double-border). Annotated accentTop colour swatch.  
+CSS surface: `apps/web/src/design-system/components/grid/Grid.module.css`
+
+### Phase 8 — Component Naming Decisions (deferred — after Phase 4 ships)
+- [ ] Propose topic angle and live preview approach
+- [ ] **Pause for review**
+- [ ] Write `ComponentNaming.stories.tsx`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 8 — Component Naming Decisions usage doc`
+
+**Topic brief:**  
+Title: Component Naming Decisions  
+One-liner: Why components are named the way they are — StatCard vs Card, ContentCard vs Card, and the rules that prevent naming drift.  
+Rule: Names encode role, not appearance. StatCard = tile primitive for spacing-0 grids. Card = standalone bordered surface. ContentCard = Sanity-bound data adapter. A name like DataCard or InfoCard is a signal the audit was skipped.  
+Deferred until Phase 4 (CardComposition) ships — assess what naming ground Phase 4 already covers before writing.
+
+### Contributing.stories.tsx — Storybook category taxonomy (sub-task, no new file)
+- [ ] Add a "Storybook organisation" section to the existing `Contributing.stories.tsx`
+- [ ] Section covers: two categories (Components = primitives, Patterns = composites), no other categories, naming convention for story titles
+- [ ] Commit: `docs(storybook): SUG-152 Contributing — add Storybook category taxonomy section`
+
 ---
 
 ## Query Layer Checklist
@@ -222,6 +252,9 @@ N/A.
 - `apps/storybook/.storybook/stories/CardComposition.stories.tsx` — CREATE (Phase 4)
 - `apps/storybook/.storybook/stories/Breakpoints.stories.tsx` — CREATE (Phase 5)
 - `apps/storybook/.storybook/stories/TokenLayers.stories.tsx` — CREATE (Phase 6)
+- `apps/storybook/.storybook/stories/GridUsage.stories.tsx` — CREATE (Phase 7)
+- `apps/storybook/.storybook/stories/ComponentNaming.stories.tsx` — CREATE (Phase 8, deferred)
+- `apps/storybook/.storybook/stories/Contributing.stories.tsx` — MODIFY (add category taxonomy section)
 
 No other files touched.
 

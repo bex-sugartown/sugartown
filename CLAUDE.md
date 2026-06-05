@@ -489,6 +489,8 @@ Before creating ANY new component, schema object, CSS surface, utility, **or tax
 
 This is the "Before You Build" reuse audit formalized as a **blocking checklist**, not a suggestion. A new component or taxonomy item that fails any of these three checks is a process failure.
 
+**`spacing-0` Grid primitive rule:** A `<Grid spacing="0">` uses a bg-through-gap hairline pattern — its children must be borderless tile primitives (`StatCard`, or any component with no own `border` declaration). Never place `<Card>` (which carries `border: 1px solid var(--st-card-border)`) inside a `spacing-0` Grid — the card border stacks against the grid's outer border and produces a visual double-border. Full usage rules: `Foundations/GridUsage` in Storybook (SUG-152 Phase 7).
+
 ### CSS class pre-implementation reuse audit (blocking — fires before any new CSS class)
 
 Before writing any new CSS class for a detail page, taxonomy page, or shared layout surface, enumerate candidates explicitly:
