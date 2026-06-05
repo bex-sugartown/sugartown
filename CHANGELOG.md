@@ -12,7 +12,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.26.5.
+> Accumulates since v0.26.6.
+
+- SUG-150: DS Phase 4 regression fixes — StatCard double-padding/border, PlatformLayout gutter + spacing, hairline grid token alignment; new `--st-color-border-wrap` token replaces `--st-table-wrap-border` on non-table surfaces
 
 ---
 

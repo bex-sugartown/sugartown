@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-04 · v0.26.2 released — SUG-141 shipped (DS Usage Docs — Typography conventions: H1 italic/roman rule, usage doc template + style guide).
+> Updated 2026-06-05 · v0.26.6 released — SUG-150 shipped (DS Phase 4 — patterns, retirements, regression fixes, --st-color-border-wrap token).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.2 released ✅ 2026-06-04. SUG-141 Typography conventions shipped. Next: SUG-147 (DS Phase 1 — layout drift audit + Input codification verify).
+> **⚑ Current focus:** v0.26.6 released ✅ 2026-06-05. SUG-150 DS Phase 4 shipped (StatCard, PlatformLayout fixes, --st-color-border-wrap). Next: SUG-151 (DS Phase 5) or SUG-154 (Platform KPI benchmark report).
 
 ---
 
@@ -218,4 +218,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-02 · v0.26.0 released · queue: SUG-107 / SUG-35*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-05 · v0.26.6 released · queue: SUG-151 / SUG-154*
