@@ -30,7 +30,8 @@
 }
 
 .accentTop-ink {
-  border-top: 2px solid var(--st-color-ink);
+  /* --st-color-text-default adapts: ink in light, near-white in dark */
+  border-top: 2px solid var(--st-color-text-default);
 }
 
 /* ── Tablet: honour --grid-columns-tablet if set (e.g. 4→2 stacked) ── */

@@ -30,6 +30,7 @@
   gap: var(--st-space-0);
   background: var(--st-color-border-wrap);
   border: 1px solid var(--st-color-border-wrap);
+  border-top: 2px solid var(--st-color-brand-primary);
 }
 
 @media (min-width: 1024px) {
