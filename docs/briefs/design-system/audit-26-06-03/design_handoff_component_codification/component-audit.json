@@ -5,10 +5,10 @@
     "total": 106,
     "statusCounts": {
       "In system": 35,
-      "Not yet": 56,
+      "Not yet": 55,
+      "To codify": 10,
       "Deprecated": 2,
       "Diverges": 3,
-      "To codify": 9,
       "Synonym": 1
     },
     "statusKeys": {
@@ -211,10 +211,10 @@
       },
       "divergence": "Aligned",
       "divergenceKey": "aligned",
-      "pinkMoonStatus": "Not yet",
-      "pinkMoonStatusKey": "missing",
-      "pinkMoonName": null,
-      "note": "Aligned industry-wide. Not a standalone primitive for us — it's adapter behaviour (<Link to>), so the registry deliberately gives it no story."
+      "pinkMoonStatus": "To codify",
+      "pinkMoonStatusKey": "codify",
+      "pinkMoonName": "Link",
+      "note": "atoms/Link.jsx — internal/external dispatch via linkUtils.isExternalUrl(). Studio: linkItem schema (type radio internal/external, internalRef, externalUrl, label, openInNewTab). Also: LinkAnnotation in portableTextComponents (PT mark renderer). No Storybook story — owed work."
     },
     {
       "group": "Actions & Buttons",
