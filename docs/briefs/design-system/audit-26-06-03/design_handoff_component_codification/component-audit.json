@@ -2,13 +2,13 @@
   "meta": {
     "title": "Sugartown Component Naming Audit",
     "generated": "2026-06-03",
-    "total": 105,
+    "total": 106,
     "statusCounts": {
-      "In system": 33,
-      "Diverges": 4,
-      "Not yet": 57,
+      "In system": 35,
+      "Not yet": 56,
+      "Deprecated": 2,
+      "Diverges": 3,
       "To codify": 9,
-      "Retired": 1,
       "Synonym": 1
     },
     "statusKeys": {
@@ -17,7 +17,10 @@
       "codify": "Shipped in product but no DS/Storybook story — owed work",
       "missing": "No codified component (tokens/previews may exist)",
       "retired": "Deleted from codebase — no longer available",
-      "synonym": "Not a standalone primitive — use another component prop or DS primitive instead"
+      "synonym": "Not a standalone primitive — use another component prop or DS primitive instead",
+      "deprecated": "In codebase with console.warn on import — will be removed in a follow-on epic. Use the replacement listed in the note.",
+      "moved": "Consolidated — was misplaced or duplicated. Story or component relocated to canonical position. Old location deleted.",
+      "duplicate": "Was a duplicate story or variant of another component — deleted and coverage merged into the canonical entry."
     },
     "benchmarkSystems": [
       "Material",
@@ -78,10 +81,10 @@
       },
       "divergence": "Synonym",
       "divergenceKey": "synonym",
-      "pinkMoonStatus": "Diverges",
-      "pinkMoonStatusKey": "diverges",
-      "pinkMoonName": "Button (icon)",
-      "note": "Most name it; Bootstrap treats it as a plain Button variant."
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "IconButton",
+      "note": "story: Components/IconButton. Standalone icon-only button. ThemeToggle is the canonical live instance (Header). Circular variant uses --st-radius-full; square variant uses --st-radius-xs. Token contract shared with SegmentedControl .iconBtn. SUG-151."
     },
     {
       "group": "Actions & Buttons",
@@ -130,10 +133,10 @@
       },
       "divergence": "Synonym",
       "divergenceKey": "synonym",
-      "pinkMoonStatus": "Not yet",
-      "pinkMoonStatusKey": "missing",
-      "pinkMoonName": null,
-      "note": "Five words, one pattern (Carbon's 'Content switcher' is the outlier). Polaris/Bootstrap reuse 'Button group' here — colliding with the real Button group. We have --st-segmented-* tokens + a preview card, but no codified Segmented primitive — confirm/codify."
+      "pinkMoonStatus": "In system",
+      "pinkMoonStatusKey": "present",
+      "pinkMoonName": "SegmentedControl",
+      "note": "story: Components/SegmentedControl. Two variants: pill (text labels, CWV toggle) and icon (grid/list/graph archive toggle). Was wrongly placed at Patterns/SegmentedControl — moved to Components/. Old Components/IconButton and Components/Pill stories were mislabeled duplicates of this component; deleted and coverage merged. SUG-151."
     },
     {
       "group": "Actions & Buttons",
@@ -290,6 +293,32 @@
       "pinkMoonStatusKey": "present",
       "pinkMoonName": "RichText",
       "note": "story: Patterns/RichText. Text-only defaults (H2–H4, blockquote, bold, italic, inline code, links, lists). No image/table/citation — those are separate section types. Replaces ContentBlock. SUG-151."
+    },
+    {
+      "group": "Content & Display",
+      "groupKey": "content",
+      "component": "Content block",
+      "description": "Standalone PortableText prose renderer with its own layout CSS (max-width, padding)",
+      "canonical": {
+        "industryCommon": "Content block",
+        "aria": "—",
+        "pinkMoonHouse": "ContentBlock → deprecated"
+      },
+      "systems": {
+        "Material": "—",
+        "Apple HIG": "—",
+        "Carbon": "—",
+        "Polaris": "—",
+        "Bootstrap": "—",
+        "Atlassian": "—",
+        "Ant Design": "—"
+      },
+      "divergence": "Aligned",
+      "divergenceKey": "aligned",
+      "pinkMoonStatus": "Deprecated",
+      "pinkMoonStatusKey": "deprecated",
+      "pinkMoonName": "ContentBlock",
+      "note": "Deprecated SUG-151. Replace with RichText — same prose rendering, no inline layout. ContentBlock was orphaned (zero production callers), story moved to Legacy/ContentBlock. Will be deleted in a follow-on epic."
     },
     {
       "group": "Content & Display",
@@ -1872,10 +1901,10 @@
       },
       "divergence": "False friend",
       "divergenceKey": "false",
-      "pinkMoonStatus": "Retired",
-      "pinkMoonStatusKey": "retired",
+      "pinkMoonStatus": "Deprecated",
+      "pinkMoonStatusKey": "deprecated",
       "pinkMoonName": "Tile → fold into Card",
-      "note": "Deprecated SUG-149. 8 active call-sites retained for href/bar/loading API; full Card+Metric migration is a follow-on epic."
+      "note": "Deprecated SUG-149. console.warn on import. Retained: 8 active call-sites use href/bar/loading/titleSize API not covered by StatCard or Card+Metric. Full migration is a follow-on epic. story: Legacy/Tile."
     },
     {
       "group": "Data Display",
