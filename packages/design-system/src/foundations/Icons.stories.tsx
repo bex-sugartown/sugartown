@@ -64,7 +64,8 @@ const cell = (deployed: boolean): React.CSSProperties => ({
   alignItems: 'center',
   gap: '8px',
   padding: '16px 8px 12px',
-  background: 'var(--st-color-bg-surface)',
+  background: 'var(--st-color-bg-canvas)',
+  color: 'var(--st-color-text-secondary)',
   position: 'relative',
 })
 
@@ -110,7 +111,7 @@ function IconCell({ icon: Icon, name, deployed }: { icon: React.ElementType, nam
   return (
     <div style={cell(!!deployed)}>
       {deployed && <span style={badge}>★</span>}
-      <Icon size={20} color="var(--st-color-text-secondary)" aria-hidden="true" />
+      <Icon size={20} aria-hidden="true" />
       <span style={label}>{name}</span>
     </div>
   )

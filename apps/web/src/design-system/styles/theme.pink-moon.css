@@ -215,6 +215,9 @@
   /* Surface — subtle separation on dark canvas */
   --st-color-bg-surface:        rgba(255, 255, 255, 0.06);
   --st-color-bg-surface-strong: rgba(255, 255, 255, 0.10);
+  /* Tile/stat surfaces — solid dark; glassmorphism is wrong for data grids */
+  --st-stat-tile-bg:            var(--st-color-midnight-700);
+  --st-tile-bg:                 var(--st-color-midnight-700);
 
   /* Borders */
   --st-color-border-default:    rgba(255, 255, 255, 0.12);
