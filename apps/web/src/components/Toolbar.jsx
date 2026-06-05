@@ -19,7 +19,7 @@
  *     count="45 items visible"
  *   />
  */
-import styles from './FilterStrip.module.css'
+import styles from './Toolbar.module.css'
 
 export default function FilterStrip({
   filters,
