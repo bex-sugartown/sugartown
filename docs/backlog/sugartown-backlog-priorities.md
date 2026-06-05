@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-05 · v0.26.6 released — SUG-150 shipped (DS Phase 4 — patterns, retirements, regression fixes, --st-color-border-wrap token).
+> Updated 2026-06-05 · v0.26.7 released — SUG-151 shipped (DS Phase 5 — schema migration, registry & audit close-out) + SUG-155 Phase 0 (diverges renames: Toolbar, Drawer).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.6 released ✅ 2026-06-05. SUG-150 DS Phase 4 shipped (StatCard, PlatformLayout fixes, --st-color-border-wrap). Next: SUG-151 (DS Phase 5) or SUG-154 (Platform KPI benchmark report).
+> **⚑ Current focus:** v0.26.7 released ✅ 2026-06-05. SUG-151 DS Phase 5 shipped. SUG-155 Phase 0 in progress (Toolbar + Drawer renames done; Phases 1–6 pending). Next: continue SUG-155 or SUG-154 (Platform KPI benchmark report).
 
 ---
 
@@ -114,10 +114,11 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.23.x
+## 04 · Shipped ✓ — confirmed in CHANGELOG v0.14.x–0.26.x
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-151 · DS Phase 5 — Schema migration, registry & audit close-out** — statTileSection → cardSection migration; IconButton + Pill + SegmentedControl stories; RichText canonical renderer; ContactForm + TwoColumnLayout deleted; registry + audit close-out across SUG-144–150. Epic: `docs/shipped/SUG-151-ds-phase-5-schema-closeout.md`.~~ | v0.26.7 | 2026-06-05 |
 | ~~**SUG-127 · Contentful + Vercel POC** — Three-phase POC: Next.js App Router + Contentful CDA + Vercel monorepo deploy. DS agnosticism proven (packaging gap found + fixed). Atomic content model (singleton, document, taxonomy, sections). Rich text adapter with DS tokens. Vendor eval: Netlify stays for Vite app, Vercel for Next.js. Epic: `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`.~~ | v0.24.2 | 2026-05-25 |
 | ~~**SUG-114 · Dynamic schema ERD** — schemaManifest.js auto-generated at build time; gitignored; count assertion (floor 42); CMS ERD section label copy updated; clear-selection button full-width; SUG-122 (registry↔ERD bridge) scoped. Epic: `docs/shipped/SUG-114-dynamic-schema-erd.md`.~~ | v0.23.36 | 2026-05-17 |
 | ~~**SUG-117 · CWV mobile form-factor reporting** — LHCI mobile throttling fixed (Lighthouse 10+ flags); uncalibrated CI data detection in CwvSnapshot falls back to PERF_BACKUP; toggle re-enabled; CwvSnapshot added to /platform/governance §04. Epic: `docs/shipped/SUG-117-cwv-mobile-form-factor-reporting.md`.~~ | v0.23.35 | 2026-05-17 |
@@ -218,4 +219,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-05 · v0.26.6 released · queue: SUG-151 / SUG-154*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-05 · v0.26.7 released · queue: SUG-155 / SUG-154*

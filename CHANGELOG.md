@@ -12,9 +12,10 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.26.6.
+> Accumulates since v0.26.7.
 
-- SUG-150: DS Phase 4 regression fixes — StatCard double-padding/border, PlatformLayout gutter + spacing, hairline grid token alignment; new `--st-color-border-wrap` token replaces `--st-table-wrap-border` on non-table surfaces
+- SUG-151: DS Phase 5 — statTileSection → cardSection migration; IconButton/Pill/SegmentedControl stories; RichText canonical renderer; ContactForm + TwoColumnLayout deleted; registry + audit close-out
+- SUG-155 Phase 0: diverges renames — FilterStrip → Toolbar (Patterns/Toolbar), MobileNav → Drawer (Components/Drawer); audit statusKeys todo/wont added
 
 ---
 
