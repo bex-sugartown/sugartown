@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import FilterStrip from './FilterStrip'
+import Toolbar from './Toolbar'
 
-const meta: Meta<typeof FilterStrip> = {
-  title: 'Components/FilterStrip',
-  component: FilterStrip,
+const meta: Meta<typeof Toolbar> = {
+  title: 'Patterns/Toolbar',
+  component: Toolbar,
   parameters: { layout: 'padded' },
 }
 export default meta
-type Story = StoryObj<typeof FilterStrip>
+type Story = StoryObj<typeof Toolbar>
 
 const GRAPH_FILTERS = [
   { key: 'all', label: 'All' },
@@ -32,7 +32,7 @@ const GRAPH_FILTERS = [
 function Controlled({ filters = GRAPH_FILTERS, defaultKey = 'all', count }: { filters?: typeof GRAPH_FILTERS, defaultKey?: string, count?: string }) {
   const [active, setActive] = useState(defaultKey)
   const liveCount = count ?? (active === 'all' ? '45 items visible' : `18 ${filters.find(f => f.key === active)?.label?.toLowerCase() ?? active} visible`)
-  return <FilterStrip filters={filters} activeKey={active} onChange={setActive} count={liveCount} />
+  return <Toolbar filters={filters} activeKey={active} onChange={setActive} count={liveCount} />
 }
 
 export const Default: Story = {
