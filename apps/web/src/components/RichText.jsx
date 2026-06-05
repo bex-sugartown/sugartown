@@ -1,5 +1,5 @@
 import { PortableText } from '@portabletext/react'
-import { defaultRichTextComponents } from './richTextComponents'
+import { defaultRichTextComponents } from './richTextComponents.jsx'
 import styles from './RichText.module.css'
 
 /**
