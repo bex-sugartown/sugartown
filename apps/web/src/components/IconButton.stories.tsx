@@ -35,7 +35,7 @@ const iconBtnStyle: React.CSSProperties = {
 // ── Meta ──────────────────────────────────────────────────────────────────────
 
 const meta: Meta = {
-  title: 'Patterns/IconButton',
+  title: 'Components/IconButton',
   parameters: {
     layout: 'padded',
     chromatic: { disableSnapshot: false },

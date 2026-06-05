@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { SegmentedControl } from './SegmentedControl';
 
 const meta: Meta<typeof SegmentedControl> = {
-  title: 'Patterns/SegmentedControl',
+  title: 'Components/SegmentedControl',
   component: SegmentedControl,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
@@ -68,6 +68,20 @@ const ListIcon = () => (
   </svg>
 );
 
+const GraphIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <circle cx="8" cy="8" r="2.5" fill="currentColor" />
+    <circle cx="2.5" cy="4" r="1.5" fill="currentColor" />
+    <circle cx="13.5" cy="4" r="1.5" fill="currentColor" />
+    <circle cx="2.5" cy="12" r="1.5" fill="currentColor" />
+    <circle cx="13.5" cy="12" r="1.5" fill="currentColor" />
+    <line x1="8" y1="5.5" x2="2.5" y2="5.5" stroke="currentColor" strokeWidth="1" />
+    <line x1="8" y1="5.5" x2="13.5" y2="5.5" stroke="currentColor" strokeWidth="1" />
+    <line x1="8" y1="10.5" x2="2.5" y2="10.5" stroke="currentColor" strokeWidth="1" />
+    <line x1="8" y1="10.5" x2="13.5" y2="10.5" stroke="currentColor" strokeWidth="1" />
+  </svg>
+);
+
 export const IconGridList: Story = {
   name: 'Icon — Grid / List',
   render: () => (
@@ -77,6 +91,22 @@ export const IconGridList: Story = {
       options={[
         { icon: <GridIcon />, value: 'grid', ariaLabel: 'Grid view' },
         { icon: <ListIcon />, value: 'list', ariaLabel: 'List view' },
+      ]}
+      defaultValue="grid"
+    />
+  ),
+};
+
+export const IconThreeOptions: Story = {
+  name: 'Icon — Grid / List / Graph',
+  render: () => (
+    <Controlled
+      variant="icon"
+      aria-label="View"
+      options={[
+        { icon: <GridIcon />, value: 'grid', ariaLabel: 'Grid view' },
+        { icon: <ListIcon />, value: 'list', ariaLabel: 'List view' },
+        { icon: <GraphIcon />, value: 'graph', ariaLabel: 'Graph view' },
       ]}
       defaultValue="grid"
     />
