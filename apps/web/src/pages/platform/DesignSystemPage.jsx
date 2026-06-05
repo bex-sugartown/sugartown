@@ -138,7 +138,7 @@ export default function DesignSystemPage() {
 
         <section id="ds-artifacts" className={styles.section}>
           <SectionLabel level="h3" number="§05" name="ARTIFACTS" title="Token pipeline, conventions" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
-          <Grid spacing="0" columns={3}>
+          <Grid spacing="0" accentTop accentColor="ink" columns={3}>
             {ARTIFACTS.map((a) => (
               <StatCard key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}

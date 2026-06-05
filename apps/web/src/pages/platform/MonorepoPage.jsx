@@ -96,7 +96,7 @@ export default function MonorepoPage() {
 
         <section id="monorepo-artifacts" className={styles.section}>
           <SectionLabel level="h3" number="§03" name="ARTIFACTS" title="Docs and configs" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
-          <Grid spacing="0" columns={3}>
+          <Grid spacing="0" accentTop accentColor="ink" columns={3}>
             {ARTIFACTS.map((a) => (
               <StatCard key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}

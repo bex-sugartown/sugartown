@@ -77,7 +77,7 @@ export default function CmsPage() {
 
         <section id="cms-artifacts" className={styles.section}>
           <SectionLabel level="h3" number="§04" name="ARTIFACTS" title="PRDs, conventions, decisions" kicker={`${ARTIFACTS.length} documents`} className={styles.labelFlush} />
-          <Grid spacing="0" columns={2}>
+          <Grid spacing="0" accentTop accentColor="ink" columns={2}>
             {ARTIFACTS.map((a) => (
               <StatCard key={a.title} label={a.eyebrow} value={a.title} body={a.body} href={a.href} titleSize="xl" />
             ))}
