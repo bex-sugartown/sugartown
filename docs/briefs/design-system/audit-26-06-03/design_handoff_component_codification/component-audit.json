@@ -20,7 +20,9 @@
       "synonym": "Not a standalone primitive — use another component prop or DS primitive instead",
       "deprecated": "In codebase with console.warn on import — will be removed in a follow-on epic. Use the replacement listed in the note.",
       "moved": "Consolidated — was misplaced or duplicated. Story or component relocated to canonical position. Old location deleted.",
-      "duplicate": "Was a duplicate story or variant of another component — deleted and coverage merged into the canonical entry."
+      "duplicate": "Was a duplicate story or variant of another component — deleted and coverage merged into the canonical entry.",
+      "todo": "Prioritised for codification — next sprint candidate",
+      "wont": "Will not implement — out of scope for this system"
     },
     "benchmarkSystems": [
       "Material",
@@ -214,7 +216,7 @@
       "pinkMoonStatus": "To codify",
       "pinkMoonStatusKey": "codify",
       "pinkMoonName": "Link",
-      "note": "atoms/Link.jsx — internal/external dispatch via linkUtils.isExternalUrl(). Studio: linkItem schema (type radio internal/external, internalRef, externalUrl, label, openInNewTab). Also: LinkAnnotation in portableTextComponents (PT mark renderer). No Storybook story — owed work."
+      "note": "atoms/Link.jsx — internal/external dispatch via linkUtils.isExternalUrl(). Studio: linkItem schema object (type radio internal/external, internalRef, externalUrl, label, openInNewTab). Also: LinkAnnotation in portableTextComponents (PT mark renderer). No Storybook story — owed work. Codify as Link; linkItem is the Studio data shape for all link surfaces."
     },
     {
       "group": "Actions & Buttons",
@@ -1253,8 +1255,8 @@
       "divergenceKey": "contested",
       "pinkMoonStatus": "To codify",
       "pinkMoonStatusKey": "codify",
-      "pinkMoonName": "On-page nav — sidebar TOC",
-      "note": "ANNOTATION: used all over (PageSidebar TOC, in-page section jump-links) but not codified as its own component — owed a DS/Storybook story. Bootstrap's 'Scrollspy' names the behaviour; Ant calls the component 'Anchor'."
+      "pinkMoonName": "Link",
+      "note": "Anchor links (in-page #hash jumps) are instances of Link, not a separate component. Studio: linkItem with internalRef pointing to an anchor slug. PageSidebar TOC scrollspy is a separate navigation pattern (On-page nav), not a Link codification concern. No Storybook story — owed work."
     },
     {
       "group": "Navigation",
@@ -1407,10 +1409,10 @@
       },
       "divergence": "False friend",
       "divergenceKey": "false",
-      "pinkMoonStatus": "Not yet",
-      "pinkMoonStatusKey": "missing",
-      "pinkMoonName": null,
-      "note": "'Drawer' = nav menu to some, slide-in panel to others. Material splits it as 'Side sheet'."
+      "pinkMoonStatus": "Diverges",
+      "pinkMoonStatusKey": "diverges",
+      "pinkMoonName": "MobileNav",
+      "note": "story: Components/MobileNav. Ships as MobileNav — a slide-in nav drawer triggered from the mobile header burger. Industry calls this 'Drawer' or 'Side sheet'; our component is named for its role, not the pattern."
     },
     {
       "group": "Overlays & Surfaces",
