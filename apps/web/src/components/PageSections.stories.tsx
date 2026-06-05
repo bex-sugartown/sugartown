@@ -151,6 +151,7 @@ export const StatCardSection: Story = {
           { _key: 'i1', metric: 'Accessibility score', valueAfter: '98', valueBefore: '71', evidenceType: 'Measured' },
           { _key: 'i2', metric: 'Page weight', valueAfter: '−42%', evidenceType: 'Measured' },
           { _key: 'i3', metric: 'Deploy time', valueAfter: '4 min', valueBefore: '18 min', evidenceType: 'Observed' },
+          { _key: 'i4', metric: 'Lighthouse score', valueAfter: '100', valueBefore: '84', evidenceType: 'Measured' },
         ],
       },
     ],
