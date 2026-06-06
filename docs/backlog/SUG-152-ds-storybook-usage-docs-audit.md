@@ -63,12 +63,11 @@ Foundations/
     Scale
     Semantic
 
-  Layout/                       ← THIS EPIC (Phases 7, 9)
+  Layout/                       ← THIS EPIC (Phase 7)
     Grid/                       ← Phase 7 (Format B MDX)
       --docs
       Default
     Container/                  ← future (Format B MDX)
-    PageHeader/                 ← Phase 9 (Format B MDX) — title TBD at review
 
   Radius/                       ← future (st-radius-*)
   Shadow/                       ← future (st-shadow-*, st-effect-*)
@@ -79,10 +78,12 @@ Foundations/
   Contributing                  ← existing (stays, sub-task in Scope)
 ```
 
+**PageHeader** — stays at `Patterns/PageHeader`. It is a page-level composition pattern, not a layout primitive. Phase 9 adds the MDX docs page at that location (Format B). It does not move to `Foundations/Layout/`.
+
 **TypographyConventions relocation** — the existing story lives at `Foundations/Typography Conventions`. It moves to `Foundations/Typography/Headings` as a title-string change when the `Typography/` group is opened (future phase, not scheduled here). No file rename required — the story export stays in `TypographyConventions.stories.tsx`.
 
 **Token families in scope for this epic** (all others are future):
-- Layout: `--st-space-card-gap`, `--st-width-*`, `--st-space-section-*`, `--st-space-sidebar*`, `--grid-columns*` — covered by Phases 7, 9
+- Layout: `--st-space-card-gap`, `--st-width-*`, `--st-space-section-*`, `--st-space-sidebar*`, `--grid-columns*` — covered by Phase 7
 - No other token families are documented in this epic's phases
 
 ---
@@ -209,6 +210,25 @@ One-liner: When to use `--st-color-text-primary` vs `--st-color-pink` — and wh
 Rule: Use semantic tokens in components. Use primitives only in token definition files and theme overrides.  
 Live preview: Two columns — "Semantic in component (correct)" vs "Primitive in component (breaks in dark mode)".
 
+### Phase 6b — MDX Infrastructure (prerequisite for all Format B phases)
+- [ ] Add `.mdx` to the `stories` glob in `apps/storybook/.storybook/main.ts` — enables Storybook to discover `.mdx` docs pages
+- [ ] Smoke-test: create a minimal `_MDXTest.mdx` in `apps/storybook/.storybook/stories/`, confirm it renders a `Docs` entry in the sidebar, then delete it
+- [ ] Verify `@storybook/blocks` imports (`Meta`, `Canvas`, `Controls`) resolve without errors — these ship with `@storybook/addon-docs` (already installed)
+- [ ] Commit: `chore(storybook): SUG-152 Phase 6b — enable MDX docs pages in stories glob`
+
+**Note:** `@storybook/addon-docs` v10 supports MDX2 natively. The only config change required is adding `*.mdx` to the stories glob. Format A stories (`.stories.tsx`) are unaffected — this is additive only.
+
+**Format clarification — which phases use which format:**
+| Phase | Format | Reason |
+|-------|--------|--------|
+| 1–6 | A (`.stories.tsx`) | Convention docs — no live component props table |
+| 7 | B (`.mdx` + `.stories.tsx`) | Grid has props + live preview |
+| 8 | A | Naming doc — narrative only |
+| 9 | B (`.mdx` + `.stories.tsx`) | PageHeader has props + live preview |
+| 10 | A | Archive patterns — no props table |
+
+Format A phases do not require Phase 6b — they already work. Phase 6b must ship before any Format B phase begins.
+
 ### Phase 7 — Grid Usage (all spacing modes) — Format B (MDX)
 - [ ] Propose topic angle and live preview approach
 - [ ] **Pause for review**
@@ -249,8 +269,7 @@ Rule: Names encode role, not appearance. StatCard = tile primitive for spacing-0
 Deferred until Phase 4 (CardComposition) ships — assess what naming ground Phase 4 already covers before writing.
 
 ### Phase 9 — PageHeader Pattern (NEW — added from SUG-157; priority: before library pages) — Format B (MDX)
-- [ ] Confirm Storybook title: stays `Patterns/PageHeader` or moves to `Foundations/Layout/PageHeader` — **pause for review**
-- [ ] Write `PageHeaderDocs.mdx` — four-section MDX docs page (Title, Preview, Props, Usage guidelines)
+- [ ] Write `PageHeaderDocs.mdx` at `Patterns/PageHeader` — four-section MDX docs page (Title, Preview, Props, Usage guidelines)
 - [ ] If title changes: update `PageHeader.stories.jsx` title string
 - [ ] Commit: `docs(storybook): SUG-152 Phase 9 — PageHeader MDX docs page`
 
