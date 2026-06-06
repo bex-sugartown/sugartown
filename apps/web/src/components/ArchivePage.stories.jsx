@@ -1,24 +1,25 @@
-import React from 'react'
 /**
  * Pages/ArchivePage — unified archive template (ArchivePage.jsx).
  *
- * Documents the five archive states used by /articles, /case-studies,
- * /knowledge-graph, and the combined Library archive. Each story renders
- * the real component tree against static mock fixtures — no Sanity data,
- * no router context needed for layout.
+ * Documents the archive states used by /articles, /case-studies, /nodes,
+ * and the combined Library archive. Each story renders the real production
+ * class structure — archiveSection bordered container, archiveToolbar with
+ * layout toggles, archiveLayout flex row (FilterBar aside + archiveContent),
+ * archiveGrid (auto-fill CSS grid), and Pagination.
  *
  * Production routes:
  *   /articles          → contentType: article
  *   /case-studies      → contentType: caseStudy
- *   /knowledge-graph   → contentType: node
+ *   /nodes             → contentType: node  (was /knowledge-graph)
  *   /library           → contentType: multi (article + node + caseStudy)
  */
 import { MemoryRouter } from 'react-router-dom'
-import { Container, Grid, FilterBar, Breadcrumb } from '../design-system'
+import { Container, FilterBar, Breadcrumb } from '../design-system'
 import ContentCard from './ContentCard'
 import Pagination from './Pagination'
 import { mockArticles, mockNodes, mockCaseStudies, allMockItems } from './__fixtures__/mockContentCards'
 import { mockFilterModel, mockActiveFilters } from './__fixtures__/mockFilterModel'
+import React from 'react'
 import pageStyles from '../pages/pages.module.css'
 
 function withRouter(StoryFn) { return React.createElement(MemoryRouter, null, React.createElement(StoryFn)) }
@@ -31,70 +32,155 @@ export default {
   decorators: [withRouter],
 }
 
-// ─── Shared archive shell wrapper ─────────────────────────────────────────────
+// ─── SVG icons (inline — no icon library dependency in stories) ───────────────
 
-function ArchiveShell({ title, count, breadcrumbs, children, hasFilterBar = false }) {
+const GridIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
+    <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
+    <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
+    <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
+  </svg>
+)
+
+const ListIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
+    <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
+    <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
+  </svg>
+)
+
+// ─── Shared archive shell — mirrors ArchivePage.jsx render structure ───────────
+//
+// Layout: archiveSection (border) → archiveToolbar → archiveSectionContent
+//   → archiveLayout (flex row) → FilterBar aside + archiveContent (flex-grow)
+//   → archiveGrid (auto-fill CSS grid, data-layout attr) + Pagination
+//
+// This is the production component tree — stories must reflect it, not <Grid>.
+
+function ArchiveShell({
+  kicker,
+  breadcrumbs,
+  items,
+  docType,
+  layout = 'grid',
+  hasFilterBar = false,
+  totalPages = 1,
+  empty = false,
+}) {
   return (
     <main>
       <Container size="archive">
         <Breadcrumb items={breadcrumbs} />
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '1.5rem' }}>
-          <h1 style={{ margin: 0 }}>{title}</h1>
-          <span style={{ fontSize: '0.875rem', color: 'var(--st-color-text-secondary)' }}>{count}</span>
+        <div className={pageStyles.archiveSection}>
+          <div className={pageStyles.archiveToolbar}>
+            <div className={pageStyles.layoutToggleGroup}>
+              <button
+                type="button"
+                className={`${pageStyles.layoutToggleBtn} ${layout === 'grid' ? pageStyles.layoutToggleBtnActive : ''}`}
+                aria-label="Grid view"
+                aria-pressed={layout === 'grid'}
+              >
+                <GridIcon />
+              </button>
+              <button
+                type="button"
+                className={`${pageStyles.layoutToggleBtn} ${layout === 'list' ? pageStyles.layoutToggleBtnActive : ''}`}
+                aria-label="List view"
+                aria-pressed={layout === 'list'}
+              >
+                <ListIcon />
+              </button>
+            </div>
+            <span className={pageStyles.archiveToolbarKicker}>{kicker}</span>
+          </div>
+
+          <div className={pageStyles.archiveSectionContent}>
+            <div className={pageStyles.archiveLayout}>
+              {hasFilterBar && (
+                <FilterBar
+                  filterModel={mockFilterModel}
+                  activeFilters={mockActiveFilters}
+                  onFilterChange={() => {}}
+                  onClearAll={() => {}}
+                />
+              )}
+              <div className={pageStyles.archiveContent}>
+                {empty ? (
+                  <p className={pageStyles.archiveEmpty}>No results found. Try adjusting your filters.</p>
+                ) : (
+                  <div className={pageStyles.archiveGrid} data-layout={layout}>
+                    {items.map((item) => (
+                      <ContentCard
+                        key={item._id}
+                        item={item}
+                        docType={docType ?? item._type}
+                        variant={layout === 'list' ? 'listing' : 'default'}
+                      />
+                    ))}
+                  </div>
+                )}
+                {!empty && totalPages > 1 && (
+                  <Pagination currentPage={1} totalPages={totalPages} onPageChange={() => {}} />
+                )}
+              </div>
+            </div>
+          </div>
         </div>
-        {hasFilterBar && (
-          <FilterBar
-            filterModel={mockFilterModel}
-            activeFilters={mockActiveFilters}
-            onFilterChange={() => {}}
-            onClearAll={() => {}}
-          />
-        )}
-        {children}
       </Container>
     </main>
   )
 }
 
-// ─── Articles Archive ─────────────────────────────────────────────────────────
+// ─── Articles Archive — grid view ─────────────────────────────────────────────
 
 export const ArticlesArchive = {
-  name: 'Articles Archive (/articles)',
+  name: 'Articles Archive (/articles) — grid',
   render: () => (
     <ArchiveShell
-      title="Articles"
-      count={mockArticles.length}
+      kicker={`${mockArticles.length} ARTICLES`}
       breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Articles' }]}
+      items={mockArticles}
+      docType="article"
+      layout="grid"
       hasFilterBar
-    >
-      <Grid columns={3} tabletColumns={2} spacing="lg">
-        {mockArticles.map((item) => (
-          <ContentCard key={item._id} item={item} docType="article" />
-        ))}
-      </Grid>
-      <Pagination currentPage={1} totalPages={3} onPageChange={() => {}} />
-    </ArchiveShell>
+      totalPages={3}
+    />
   ),
 }
 
-// ─── Knowledge Graph Archive ──────────────────────────────────────────────────
+// ─── Articles Archive — list view ─────────────────────────────────────────────
 
-export const KnowledgeGraphArchive = {
-  name: 'Knowledge Graph Archive (/knowledge-graph)',
+export const ArticlesArchiveList = {
+  name: 'Articles Archive (/articles) — list',
   render: () => (
     <ArchiveShell
-      title="Knowledge Graph"
-      count={mockNodes.length}
-      breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Knowledge Graph' }]}
+      kicker={`${mockArticles.length} ARTICLES`}
+      breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Articles' }]}
+      items={mockArticles}
+      docType="article"
+      layout="list"
       hasFilterBar
-    >
-      <Grid columns={3} tabletColumns={2} spacing="lg">
-        {mockNodes.map((item) => (
-          <ContentCard key={item._id} item={item} docType="node" />
-        ))}
-      </Grid>
-      <Pagination currentPage={1} totalPages={1} onPageChange={() => {}} />
-    </ArchiveShell>
+      totalPages={3}
+    />
+  ),
+}
+
+// ─── Nodes Archive (/nodes, was /knowledge-graph) ─────────────────────────────
+
+export const NodesArchive = {
+  name: 'Nodes Archive (/nodes)',
+  render: () => (
+    <ArchiveShell
+      kicker={`${mockNodes.length} NODES`}
+      breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Nodes' }]}
+      items={mockNodes}
+      docType="node"
+      layout="grid"
+      hasFilterBar
+      totalPages={1}
+    />
   ),
 }
 
@@ -104,38 +190,30 @@ export const CaseStudiesArchive = {
   name: 'Case Studies Archive (/case-studies)',
   render: () => (
     <ArchiveShell
-      title="Case Studies"
-      count={mockCaseStudies.length}
+      kicker={`${mockCaseStudies.length} CASE STUDIES`}
       breadcrumbs={[{ label: 'Work', href: '/case-studies' }, { label: 'Case Studies' }]}
-    >
-      <Grid columns={3} tabletColumns={2} spacing="lg">
-        {mockCaseStudies.map((item) => (
-          <ContentCard key={item._id} item={item} docType="caseStudy" />
-        ))}
-      </Grid>
-      <Pagination currentPage={1} totalPages={1} onPageChange={() => {}} />
-    </ArchiveShell>
+      items={mockCaseStudies}
+      docType="caseStudy"
+      layout="grid"
+      hasFilterBar
+      totalPages={1}
+    />
   ),
 }
 
-// ─── Taxonomy Archive (Library combined) ─────────────────────────────────────
+// ─── Library Combined Archive (multi-type) ────────────────────────────────────
 
-export const TaxonomyArchive = {
-  name: 'Library Combined Archive (multi-type)',
+export const LibraryArchive = {
+  name: 'Library Archive (multi-type)',
   render: () => (
     <ArchiveShell
-      title="Library"
-      count={allMockItems.length}
+      kicker={`${allMockItems.length} ITEMS`}
       breadcrumbs={[{ label: 'Library' }]}
+      items={allMockItems}
+      layout="grid"
       hasFilterBar
-    >
-      <Grid columns={3} tabletColumns={2} spacing="lg">
-        {allMockItems.map((item) => (
-          <ContentCard key={item._id} item={item} docType={item._type} />
-        ))}
-      </Grid>
-      <Pagination currentPage={1} totalPages={2} onPageChange={() => {}} />
-    </ArchiveShell>
+      totalPages={2}
+    />
   ),
 }
 
@@ -145,12 +223,12 @@ export const EmptyState = {
   name: 'Empty State (no results)',
   render: () => (
     <ArchiveShell
-      title="Articles"
-      count={0}
+      kicker="0 ARTICLES"
       breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Articles' }]}
+      items={[]}
+      docType="article"
       hasFilterBar
-    >
-      <p className={pageStyles.archiveEmpty}>No results found. Try adjusting your filters.</p>
-    </ArchiveShell>
+      empty
+    />
   ),
 }
