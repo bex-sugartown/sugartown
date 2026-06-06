@@ -1,0 +1,131 @@
+/*
+ * PageHeader
+ *
+ * Tint mechanism: --page-header-tint is set inline when `tint` prop is provided.
+ * color-mix blends it at 10% over the surface background.
+ * Absent prop = .tinted class absent = default surface, no color-mix.
+ */
+
+.root {
+  background: var(--st-color-bg-surface);
+  border-bottom: 1px solid var(--st-color-border-default);
+  width: 100%;
+}
+
+.root.tinted {
+  background: color-mix(
+    in srgb,
+    var(--page-header-tint, var(--st-color-seafoam-300)) 10%,
+    var(--st-color-bg-surface)
+  );
+}
+
+.inner {
+  max-width: var(--st-width-archive);
+  margin: 0 auto;
+  padding: var(--st-space-6) var(--st-page-gutter);
+}
+
+.topRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--st-space-4);
+  margin-bottom: var(--st-space-5);
+}
+
+.breadcrumbSlot {
+  /* Wrapper for the breadcrumb ReactNode slot — Breadcrumb handles its own spacing */
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--st-space-3);
+  flex-shrink: 0;
+}
+
+.body {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--st-space-5);
+}
+
+.media {
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.eyebrow {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  margin: 0 0 var(--st-space-2);
+  line-height: var(--st-line-height-normal);
+}
+
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--st-space-3);
+  flex-wrap: wrap;
+}
+
+.title {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-2);
+  font-weight: var(--st-font-weight-normal);
+  line-height: var(--st-line-height-tight);
+  color: var(--st-color-text-default);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.count {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-sm);
+  font-weight: var(--st-font-weight-normal);
+  color: var(--st-color-text-muted);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.description {
+  font-family: var(--st-font-family-ui);
+  font-size: var(--st-font-size-md);
+  line-height: var(--st-line-height-normal);
+  color: var(--st-color-text-secondary);
+  margin: var(--st-space-3) 0 0;
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+.metadataCard {
+  margin-top: var(--st-space-5);
+}
+
+@media (max-width: 520px) {
+  .inner {
+    padding: var(--st-space-5) var(--st-space-4);
+  }
+
+  .body {
+    flex-direction: column;
+    gap: var(--st-space-4);
+  }
+
+  .title {
+    font-size: var(--st-font-size-2xl);
+  }
+
+  .topRow {
+    margin-bottom: var(--st-space-4);
+  }
+}

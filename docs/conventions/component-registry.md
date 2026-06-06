@@ -107,6 +107,7 @@ These components own layout and data-binding logic. They consume DS primitives a
 |-----------|------|-----------|-------------------|-------|
 | ContentCard | `web/components/ContentCard.jsx` | ✅ Patterns/ContentCard | article, caseStudy, node archive queries | Thin data adapter over web Card. Binding-only — no container CSS. |
 | ContentNav | `web/components/ContentNav.jsx` | ✅ Patterns/ContentNav | Adjacent-item Sanity query | App composite — fetches prev/next items. Story uses plain-`<a>` inline demo. |
+| PageHeader | `web/design-system/components/PageHeader/` | ✅ Patterns/PageHeader | No Sanity data — pure DS pattern | Full-width identity band for archive, entity, taxonomy pages. ReactNode slots: breadcrumb, media, metadataCard, actions. Tint via color-mix at 10%. Web adapter only. SUG-157. |
 | MetadataCard | `web/components/MetadataCard.jsx` | ✅ Patterns/MetadataCard | All detail page queries | Canonical metadata surface — never re-implement inline. Composes Card frame via `<aside className={styles.metadataCard}>`. |
 | StatCard | `web/components/StatCard.jsx` | ✅ Patterns/StatCard | `cardSection` in `sections[]` | Replaces Tile in stat grids. Card + metric/value/sub/body layout. SUG-150. |
 | RichText | `web/components/RichText.jsx` | ✅ Patterns/RichText | Any `content` PortableText field | Canonical prose renderer. H2–H4, blockquote, bold, italic, inline code, links, lists. No image/table/citation — those are section-level. Replaces ContentBlock. `defaultRichTextComponents` exported for extension. SUG-151. |
