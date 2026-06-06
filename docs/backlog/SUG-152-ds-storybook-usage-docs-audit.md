@@ -40,6 +40,53 @@ The design system has many implicit conventions that live only in `CLAUDE.md`, C
 
 ---
 
+## Foundations/ Architecture
+
+Long-term target tree — token-family-based groupings. Only phases already listed in Scope below are scheduled for this epic. Remaining nodes are the build-out roadmap.
+
+```
+Foundations/
+  Colors/                       ← future (st-color-* primitives + semantic + status)
+    Primitives
+    Semantic
+    Status
+
+  Typography/                   ← partial
+    Typefaces                   ← future (st-font-family-*, font loading rules)
+    Scale                       ← future (st-font-*, st-line-height-* scale table)
+    Headings/                   ← TypographyConventions MOVES HERE (title-string change)
+      --docs (Format B MDX)     ← future MDX docs page
+      Default                   ← existing TypographyConventions story, title → Foundations/Typography/Headings
+    Labels                      ← future (st-label-*, st-font-family-mono)
+
+  Spacing/                      ← future (st-space-*, st-spacing-*)
+    Scale
+    Semantic
+
+  Layout/                       ← THIS EPIC (Phases 7, 9)
+    Grid/                       ← Phase 7 (Format B MDX)
+      --docs
+      Default
+    Container/                  ← future (Format B MDX)
+    PageHeader/                 ← Phase 9 (Format B MDX) — title TBD at review
+
+  Radius/                       ← future (st-radius-*)
+  Shadow/                       ← future (st-shadow-*, st-effect-*)
+  Motion/                       ← future (st-transition-*)
+
+  Theme Guide                   ← existing (stays)
+  Token Reference               ← existing (stays)
+  Contributing                  ← existing (stays, sub-task in Scope)
+```
+
+**TypographyConventions relocation** — the existing story lives at `Foundations/Typography Conventions`. It moves to `Foundations/Typography/Headings` as a title-string change when the `Typography/` group is opened (future phase, not scheduled here). No file rename required — the story export stays in `TypographyConventions.stories.tsx`.
+
+**Token families in scope for this epic** (all others are future):
+- Layout: `--st-space-card-gap`, `--st-width-*`, `--st-space-section-*`, `--st-space-sidebar*`, `--grid-columns*` — covered by Phases 7, 9
+- No other token families are documented in this epic's phases
+
+---
+
 ## Objective
 
 After this epic: a set of Storybook usage docs in `Foundations/` covering the DS conventions most likely to be mis-implemented. Each doc covers one convention — rule first, live visual examples, do/don't pairs, implementation references. The Storybook `Foundations/` category becomes a navigable reference for anyone working on the design system.
