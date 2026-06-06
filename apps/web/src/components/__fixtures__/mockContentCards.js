@@ -1,0 +1,102 @@
+/**
+ * Mock content card items for Storybook stories.
+ * Shape mirrors ARCHIVE_QUERIES projections in ArchivePage.jsx —
+ * slug is a plain string (GROQ projects "slug": slug.current).
+ */
+
+export const mockArticles = [
+  {
+    _id: 'article-1',
+    _type: 'article',
+    title: 'What Structured Content Actually Means for Designers',
+    slug: 'what-structured-content-means-for-designers',
+    excerpt: 'Most designers encounter structured content through a CMS. Fewer understand why the structure itself is the design decision.',
+    publishedAt: '2026-05-15T09:00:00Z',
+    categories: [{ _id: 'cat-1', name: 'Content Strategy', slug: 'content-strategy' }],
+    tags: [{ _id: 'tag-1', name: 'CMS', slug: 'cms' }, { _id: 'tag-2', name: 'Design Systems', slug: 'design-systems' }],
+    projects: [],
+    authors: [{ _id: 'person-1', name: 'Bex Walton', slug: 'bex-walton' }],
+  },
+  {
+    _id: 'article-2',
+    _type: 'article',
+    title: 'The Token Pipeline: From Design Decision to CSS Variable',
+    slug: 'token-pipeline-design-decision-to-css-variable',
+    excerpt: 'Design tokens are not a Figma feature. They are a contract between design intent and implementation reality.',
+    publishedAt: '2026-04-22T09:00:00Z',
+    categories: [{ _id: 'cat-2', name: 'Design Engineering', slug: 'design-engineering' }],
+    tags: [{ _id: 'tag-2', name: 'Design Systems', slug: 'design-systems' }, { _id: 'tag-3', name: 'CSS', slug: 'css' }],
+    projects: [],
+    authors: [{ _id: 'person-1', name: 'Bex Walton', slug: 'bex-walton' }],
+  },
+  {
+    _id: 'article-3',
+    _type: 'article',
+    title: 'Against the Infinite Scroll',
+    slug: 'against-the-infinite-scroll',
+    excerpt: 'Pagination is a user experience decision, not a performance optimisation. We keep making the wrong call.',
+    publishedAt: '2026-03-10T09:00:00Z',
+    categories: [{ _id: 'cat-3', name: 'UX', slug: 'ux' }],
+    tags: [{ _id: 'tag-4', name: 'Interaction Design', slug: 'interaction-design' }],
+    projects: [],
+    authors: [{ _id: 'person-1', name: 'Bex Walton', slug: 'bex-walton' }],
+  },
+  {
+    _id: 'article-4',
+    _type: 'article',
+    title: 'Typography as Infrastructure',
+    slug: 'typography-as-infrastructure',
+    excerpt: 'Before any component gets a font-size, someone made a decision about scale. That decision is rarely documented.',
+    publishedAt: '2026-02-01T09:00:00Z',
+    categories: [{ _id: 'cat-2', name: 'Design Engineering', slug: 'design-engineering' }],
+    tags: [{ _id: 'tag-5', name: 'Typography', slug: 'typography' }],
+    projects: [],
+    authors: [{ _id: 'person-1', name: 'Bex Walton', slug: 'bex-walton' }],
+  },
+]
+
+export const mockNodes = [
+  {
+    _id: 'node-1',
+    _type: 'node',
+    title: 'Claude refused to write the commit message',
+    slug: 'claude-refused-to-write-the-commit-message',
+    excerpt: 'It was right. The commit was doing three things. This is the story of a model that enforces process better than the human who wrote the rules.',
+    publishedAt: '2026-05-20T10:00:00Z',
+    categories: [{ _id: 'cat-4', name: 'AI', slug: 'ai' }],
+    tags: [{ _id: 'tag-6', name: 'Workflow', slug: 'workflow' }],
+    projects: [],
+    authors: [],
+  },
+  {
+    _id: 'node-2',
+    _type: 'node',
+    title: 'The Validator Said Zero Errors. It Was Watching the Wrong Door.',
+    slug: 'the-validator-said-zero-errors-wrong-door',
+    excerpt: 'A CSS token validator that only checks one of two mirrors is not a validator. It is a false alibi.',
+    publishedAt: '2026-04-10T10:00:00Z',
+    categories: [{ _id: 'cat-2', name: 'Design Engineering', slug: 'design-engineering' }],
+    tags: [{ _id: 'tag-3', name: 'CSS', slug: 'css' }],
+    projects: [],
+    authors: [],
+  },
+]
+
+export const mockCaseStudies = [
+  {
+    _id: 'cs-1',
+    _type: 'caseStudy',
+    title: 'Rebuilding the Content Model for a Global Media Brand',
+    slug: 'rebuilding-content-model-global-media-brand',
+    excerpt: 'Three years of legacy schema debt, one migration sprint, zero downtime. What the architecture decisions looked like from the inside.',
+    categories: [{ _id: 'cat-1', name: 'Content Strategy', slug: 'content-strategy' }],
+    tags: [{ _id: 'tag-1', name: 'CMS', slug: 'cms' }],
+    projects: [{ _id: 'proj-1', name: 'Media Rebuild', slug: 'media-rebuild', colorHex: '#D4A853' }],
+    authors: [{ _id: 'person-1', name: 'Bex Walton', slug: 'bex-walton' }],
+    role: 'Lead Content Architect',
+    client: 'enterprise',
+    status: 'live',
+  },
+]
+
+export const allMockItems = [...mockArticles, ...mockNodes, ...mockCaseStudies]

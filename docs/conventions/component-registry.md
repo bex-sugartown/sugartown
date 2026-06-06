@@ -1,6 +1,6 @@
 # Sugartown Component Registry
 
-> Last updated: 2026-06-05 · v0.26.6
+> Last updated: 2026-06-06 · v0.26.9
 >
 > Single source of truth for component coverage across the three app surfaces:
 > DS package primitives, web adapter layer, and app-level composites.
@@ -115,7 +115,7 @@ These components own layout and data-binding logic. They consume DS primitives a
 | CardBuilderSection | `web/components/CardBuilderSection.jsx` | ✅ Patterns/CardBuilderSection | `cardBuilderSection` in `sections[]` | |
 | RecentContentSection | `web/components/RecentContentSection.jsx` | ✅ Patterns/RecentContentSection | Sanity fetch via `useSanityDoc` | Mock infrastructure in `.storybook/stories/` |
 | ~~ContentBlock~~ | `web/components/ContentBlock.jsx` — @deprecated | ~~Legacy/ContentBlock~~ | — | Deprecated — use RichText. Was orphaned (zero production callers). |
-| ArchiveLayout | `web/components/ArchiveLayout.stories.jsx` | ✅ Patterns/ArchiveLayout | — | Spec/documentation stories for all archive layout variants. SUG-150. |
+| ~~ArchiveLayout~~ | Deleted (SUG-156) | — | — | Replaced by `Pages/ArchivePage`. Inaccurate stub — used bare Card + inline styles. |
 | ImageLightbox | `web/components/ImageLightbox.jsx` | ✅ Patterns/ImageLightbox | image galleries | |
 | PageSidebar | `web/components/PageSidebar.jsx` | ✅ Patterns/PageSidebar | TOC / related / series / AI disclosure | |
 | Pagination | `web/components/Pagination.jsx` | ✅ Patterns/Pagination | archive page query results | |
@@ -153,6 +153,22 @@ Each now has a standalone Storybook story added in SUG-98.
 | MobileNav | `web/components/MobileNav.jsx` | ✅ Layout/MobileNav | `navigation` document |
 | PageSections | `web/components/PageSections.jsx` | ✅ Layout/PageSections | All `sections[]` types |
 | Preheader | `web/components/Preheader.jsx` | ✅ Layout/Preheader | category / tag / status metadata |
+
+---
+
+## Pages
+
+Full page template documentation stories. Introduced in SUG-156. Category sits above `Patterns/` in the sidebar hierarchy.
+
+Storybook category: `Pages/`. Zero-config — created implicitly by `title: 'Pages/...'` in any story file.
+
+| Page template | Source file | Storybook | Exports | Notes |
+|---------------|-------------|-----------|---------|-------|
+| ArchivePage | `web/pages/ArchivePage.jsx` | ✅ Pages/ArchivePage | ArticlesArchive, KnowledgeGraphArchive, CaseStudiesArchive, TaxonomyArchive, EmptyState | Unified archive template for /articles, /case-studies, /knowledge-graph, /library. Shows FilterBar + ContentCard grid + Pagination. SUG-156. |
+| TaxonomyArchivePage | `web/pages/TaxonomyArchivePage.jsx` | ✅ Pages/TaxonomyArchivePage | RowLayout, AlphaBucketLayout, PeopleLayout, ProjectsLayout | Four layout variants: row list (tags/categories), A–Z alpha-bucket (tools), avatar row (people), colour-dot row (projects). SUG-156. |
+| TaxonomyDetailPage | `web/pages/TaxonomyDetailPage.jsx` | ✅ Pages/TaxonomyDetailPage | TagDetail, CategoryDetail | Detail header with optional accent bar + ContentCard listing. SUG-156. |
+| ContentDetailPage | `web/pages/ArticlePage.jsx` · `NodePage.jsx` · `CaseStudyPage.jsx` | ✅ Pages/ContentDetailPage | ArticleShell, NodeShell, CaseStudyShell | Two-column shell: MetadataCard sidebar + PortableText body. `data-has-margin` triggers grid via `pages.module.css .detailPage`. SUG-156. |
+| EntityDetailPage | `web/pages/PersonProfilePage.jsx` · `ToolDetailPage.jsx` · `ProjectDetailPage.jsx` | ✅ Pages/EntityDetailPage | PersonFolio, ToolFolio, ProjectFolio | Folio anatomy (thumbnail/avatar + identity block) + related-content Grid sections. Shared `.entityFolio` / `.narrativeHeading` / `.entityDescription` classes from `pages.module.css`. SUG-156. |
 
 ---
 
