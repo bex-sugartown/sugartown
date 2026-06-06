@@ -81,7 +81,8 @@ Title: Section Spacing Contract
 One-liner: How `.detailContext` owns all inter-section gap — components must not add external margin.  
 Rule: Parent container owns gap via `display: flex; gap`. Individual sections have zero `margin-block`. Internal box padding (callout inset, code block padding) is allowed.  
 Live preview: Side-by-side — correct (gap only on parent) vs wrong (component adds margin-block, double-padding results).  
-CSS surface: `apps/web/src/pages/pages.module.css` `.detailContext`, `apps/web/src/components/PageSections.module.css`
+CSS surface: `apps/web/src/pages/pages.module.css` `.detailContext`, `apps/web/src/components/PageSections.module.css`  
+**SUG-156 reference:** `Pages/ContentDetailPage` (ArticleShell, NodeShell, CaseStudyShell) shows `.detailPage[data-has-margin]` in production context — use as a live reference for the two-column shell anatomy.
 
 ### Phase 2 — Entity Folio Layout
 - [ ] Propose topic angle and live preview approach
@@ -94,7 +95,8 @@ Title: Entity Folio Layout
 One-liner: The flex-row pattern for all entity detail pages — thumbnail left, identity block right.  
 Rule: Use `entityFolio` + `folioIdentity` from `pages.module.css`. Do not implement folio layout by hand.  
 Live preview: Annotated folio — thumbnail slot, eyebrow, heading (roman/italic per type), description, metadata.  
-CSS surface: `apps/web/src/pages/pages.module.css` `.entityFolio`, `.folioIdentity`, `.entityThumbnail`, `.entityThumbnailFallback`
+CSS surface: `apps/web/src/pages/pages.module.css` `.entityFolio`, `.folioIdentity`, `.entityThumbnail`, `.entityThumbnailFallback`  
+**SUG-156 reference:** `Pages/EntityDetailPage` (PersonFolio, ToolFolio, ProjectFolio) shows all three folio variants in production context — use as a live reference for each entity type's thumbnail size and eyebrow content.
 
 ### Phase 3 — Chip / Tag Taxonomy
 - [ ] Propose topic angle and live preview approach
@@ -117,7 +119,11 @@ Live preview: Three-row comparison — visual state, interactivity, use case.
 **Topic brief:**  
 Title: Card Composition Rules  
 One-liner: When to use DS Card vs ContentCard vs MetadataCard — and what each one owns.  
-Rule: Card = DS primitive, no data binding. ContentCard = bound to Sanity content types. MetadataCard = canonical metadata surface on entity detail pages; never re-implement inline.
+Rule: Card = DS primitive, no data binding. ContentCard = bound to Sanity content types (article/node/caseStudy), renders in archive grids and taxonomy detail listings. MetadataCard = canonical metadata surface on content detail pages; never re-implement inline.  
+**SUG-156 addition — ContentCard usage context:** Phase 4 must cover ContentCard's two primary calling contexts, both introduced in Pages/ stories:  
+  1. **Archive grid context** (`Pages/ArchivePage`) — 3-col Grid with `spacing="md"`, full `item` shape including `slug`, `excerpt`, `publishedAt`, taxonomy arrays. Receives `docType` to determine routing.  
+  2. **Taxonomy detail listing context** (`Pages/TaxonomyDetailPage`) — same ContentCard, `.archiveGrid` wrapper, no FilterBar. Shows that ContentCard is context-agnostic; the surrounding layout changes, not the card.  
+Do/don't: do not render bare DS `Card` in archive grids — ContentCard handles the Sanity data binding, slug routing, and TaxonomyChips. Do not re-implement the listing card layout inline.
 
 ### Phase 5 — Responsive Breakpoints
 - [ ] Propose topic angle and live preview approach
@@ -167,9 +173,29 @@ One-liner: Why components are named the way they are — StatCard vs Card, Conte
 Rule: Names encode role, not appearance. StatCard = tile primitive for spacing-0 grids. Card = standalone bordered surface. ContentCard = Sanity-bound data adapter. A name like DataCard or InfoCard is a signal the audit was skipped.  
 Deferred until Phase 4 (CardComposition) ships — assess what naming ground Phase 4 already covers before writing.
 
+### Phase 9 — Archive Page Patterns (NEW — added from SUG-156 audit)
+- [ ] Propose topic angle and live preview approach
+- [ ] **Pause for review**
+- [ ] Write `ArchivePatterns.stories.tsx`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 9 — Archive Page Patterns usage doc`
+
+**Topic brief:**  
+Title: Archive Page Patterns  
+One-liner: The shared CSS classes and component slots used by all archive and taxonomy listing pages.  
+Motivation: SUG-156 introduced Pages/ stories that document these patterns live, but the rules for *when* and *how* to use them are not written down. A new archive-type page will re-invent `.archiveHeader` or mis-use FilterBar without this doc.  
+Covers four patterns:  
+  1. **Archive header** — `.archiveHeader` + `.archiveTitle` + `.archiveCount` from `TaxonomyArchivePage.module.css`. The three-part title block used on every taxonomy listing page. Rule: always pair title + count in this wrapper; never float the count or append it to the h1 text.  
+  2. **TaxonomyItem row** — `.item` / `.itemList` / `.itemLink` / `.itemLabel` / `.itemSublabel` / `.itemCount` / `.itemColorDot` / `.itemAvatarFallback`. The unified row primitive for tags, categories, tools, people, projects. Rule: all taxonomy listing rows use this class set; do not create a new row pattern.  
+  3. **FilterBar + Pagination pairing** — `FilterBar` (from design-system) receives `filterModel` (from `buildFilterModel()`), `activeFilters` (from `useFilterState()`). Pagination receives `currentPage`/`totalPages`/`onPageChange`. Rule: these always appear together on content archives (ArchivePage); taxonomy archives (TaxonomyArchivePage) do not use FilterBar. `AlphaFilter` is taxonomy-archive-only (tools, people).  
+  4. **Breadcrumb placement** — Breadcrumb always sits immediately inside the page `<main>`, before the archive header, with no extra wrapper. Rule: never nest Breadcrumb inside the archive header div; it must be a direct sibling above it.  
+Live preview: Annotated anatomy of a taxonomy archive page — breadcrumb slot, archive header slot, item list slot, showing the class names and their responsibilities.  
+CSS surface: `apps/web/src/pages/TaxonomyArchivePage.module.css`, `apps/web/src/pages/pages.module.css`  
+**SUG-156 reference:** `Pages/TaxonomyArchivePage` (RowLayout, AlphaBucketLayout, PeopleLayout, ProjectsLayout) and `Pages/ArchivePage` (ArticlesArchive) are the live reference implementations for this doc.
+
 ### Contributing.stories.tsx — Storybook category taxonomy (sub-task, no new file)
 - [ ] Add a "Storybook organisation" section to the existing `Contributing.stories.tsx`
-- [ ] Section covers: two categories (Components = primitives, Patterns = composites), no other categories, naming convention for story titles
+- [ ] Section covers: **three** categories — Components (primitives), Patterns (composites), Pages (full page templates) — plus Foundations (usage docs) and Regions (header/footer/nav). Updated from original "two categories" scope following SUG-156 which introduced the Pages/ category.
+- [ ] Naming convention for story titles, export naming by page (ArticlesArchive not just Archive)
 - [ ] Commit: `docs(storybook): SUG-152 Contributing — add Storybook category taxonomy section`
 
 ---
@@ -254,7 +280,8 @@ N/A.
 - `apps/storybook/.storybook/stories/TokenLayers.stories.tsx` — CREATE (Phase 6)
 - `apps/storybook/.storybook/stories/GridUsage.stories.tsx` — CREATE (Phase 7)
 - `apps/storybook/.storybook/stories/ComponentNaming.stories.tsx` — CREATE (Phase 8, deferred)
-- `apps/storybook/.storybook/stories/Contributing.stories.tsx` — MODIFY (add category taxonomy section)
+- `apps/storybook/.storybook/stories/ArchivePatterns.stories.tsx` — CREATE (Phase 9, from SUG-156 audit)
+- `apps/storybook/.storybook/stories/Contributing.stories.tsx` — MODIFY (add category taxonomy section, update to three categories)
 
 No other files touched.
 
@@ -270,7 +297,7 @@ No other files touched.
 
 ## Acceptance Criteria
 
-- [ ] All 6 candidate topics reviewed — accepted, deferred, or dropped with explicit reason
+- [ ] All candidate topics reviewed — accepted, deferred, or dropped with explicit reason (originally 6; expanded to 9 + Contributing sub-task after SUG-156 audit)
 - [ ] Each accepted story renders in Storybook `Foundations/` without console errors
 - [ ] No hardcoded hex/rgba values in any story file — verified by `pnpm validate:tokens --strict-colors` (zero violations)
 - [ ] Each story follows the style guide: rule first, live preview using real DS tokens, do/don't, implementation references
