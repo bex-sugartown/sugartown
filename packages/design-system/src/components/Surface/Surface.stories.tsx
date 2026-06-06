@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Surface } from './Surface';
 
 const meta: Meta<typeof Surface> = {
-  title: 'Components/Layout/Surface',
+  title: 'Foundations/Layout/Surface',
   component: Surface,
   parameters: { layout: 'padded' },
 };

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Page } from './Page';
 
 const meta: Meta<typeof Page> = {
-  title: 'Components/Layout/Page',
+  title: 'Foundations/Layout/Page',
   component: Page,
   parameters: { layout: 'fullscreen' },
 };

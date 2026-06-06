@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Stack } from './Stack';
 
 const meta: Meta<typeof Stack> = {
-  title: 'Components/Layout/Stack',
+  title: 'Foundations/Layout/Stack',
   component: Stack,
 };
 export default meta;

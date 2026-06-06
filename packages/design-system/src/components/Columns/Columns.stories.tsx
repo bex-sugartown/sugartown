@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Columns } from './Columns';
 
 const meta: Meta<typeof Columns> = {
-  title: 'Components/Layout/Columns',
+  title: 'Foundations/Layout/Columns',
   component: Columns,
   parameters: { layout: 'padded' },
 };

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { AppShell } from './AppShell';
 
 const meta: Meta<typeof AppShell> = {
-  title: 'Components/Layout/AppShell',
+  title: 'Foundations/Layout/AppShell',
   component: AppShell,
   parameters: { layout: 'fullscreen' },
 };
