@@ -26,7 +26,7 @@ import {
 import AlphaFilter from '../components/AlphaFilter'
 import NotFoundPage from './NotFoundPage'
 import styles from './TaxonomyArchivePage.module.css'
-import { Breadcrumb } from '../design-system'
+import { Breadcrumb, PageHeader } from '../design-system'
 import pageStyles from './pages.module.css'
 
 // ─── Archive config keyed by URL path segment ─────────────────────────────────
@@ -247,19 +247,16 @@ export default function TaxonomyArchivePage() {
 
   return (
     <main className={`${styles.archivePage}${config.layout === 'flat-grid' ? ` ${styles.archivePageWide}` : ''}`}>
-      {pathSegment !== 'people' && (
-        <Breadcrumb items={[{ label: 'Library', href: '/library' }]} />
-      )}
-      <div className={styles.archiveHeader}>
-        <h1 className={styles.archiveTitle}>{config.title}</h1>
-        {list.length > 0 && (
-          <span className={styles.archiveCount}>{list.length}</span>
-        )}
-      </div>
-
-      {config.lede && (
-        <p className={styles.archiveLede}>{config.lede}</p>
-      )}
+      <PageHeader
+        breadcrumb={
+          pathSegment !== 'people' ? (
+            <Breadcrumb items={[{ label: 'Library', href: '/library' }]} />
+          ) : undefined
+        }
+        title={config.title}
+        count={list.length > 0 ? list.length : undefined}
+        description={config.lede ?? undefined}
+      />
 
       {list.length === 0 ? (
         <p className={pageStyles.archiveEmpty}>

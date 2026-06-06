@@ -35,7 +35,7 @@ import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import Pagination from '../components/Pagination'
 import NotFoundPage from './NotFoundPage'
-import { Breadcrumb } from '../design-system'
+import { Breadcrumb, PageHeader } from '../design-system'
 import pageStyles from './pages.module.css'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -88,31 +88,25 @@ const TAXONOMY_CONFIG = {
 
 // ─── TaxonomyHeader ───────────────────────────────────────────────────────────
 
-function TaxonomyHeader({ taxDoc, config }) {
+function TaxonomyHeader({ taxDoc, config, itemCount }) {
   const name = taxDoc.name ?? taxDoc.title ?? taxDoc.projectId ?? 'Untitled'
   const description = taxDoc.description ?? null
-  const colorHex = taxDoc.colorHex ?? null
   const backPath = config.archivePath
 
+  const breadcrumb = config.type === 'person' ? (
+    <Breadcrumb items={[{ label: config.pluralLabel, href: backPath }]} />
+  ) : (
+    <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: config.pluralLabel, href: backPath }]} />
+  )
+
   return (
-    <div className={pageStyles.detailHeader}>
-      {colorHex && (
-        <div
-          className={pageStyles.accentBar}
-          style={{ backgroundColor: colorHex, width: '3rem' }}
-          aria-hidden="true"
-        />
-      )}
-      {config.type === 'person' ? (
-        <Breadcrumb items={[{ label: config.pluralLabel, href: backPath }]} />
-      ) : (
-        <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: config.pluralLabel, href: backPath }]} />
-      )}
-      <h1 className={pageStyles.archiveHeading}>{name}</h1>
-      {description && (
-        <p className={pageStyles.archiveDescription}>{description}</p>
-      )}
-    </div>
+    <PageHeader
+      breadcrumb={breadcrumb}
+      eyebrow={config.label}
+      title={name}
+      count={itemCount > 0 ? itemCount : undefined}
+      description={description ?? undefined}
+    />
   )
 }
 
@@ -167,7 +161,7 @@ export default function TaxonomyDetailPage() {
   return (
     <main className={pageStyles.entityDetailPage}>
       <SeoHead seo={seo} />
-      <TaxonomyHeader taxDoc={taxDoc} config={config} />
+      <TaxonomyHeader taxDoc={taxDoc} config={config} itemCount={items.length} />
 
       <section>
         {items.length === 0 ? (

@@ -8,7 +8,7 @@
  * content timeline (articles + nodes + caseStudies) using ContentCard.
  */
 import { useParams, Link } from 'react-router-dom'
-import { Grid, SectionLabel, Breadcrumb } from '../design-system'
+import { Grid, SectionLabel, Breadcrumb, PageHeader } from '../design-system'
 import { projectDetailQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -16,7 +16,6 @@ import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import MetadataCard from '../components/MetadataCard'
-import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import styles from './ProjectDetailPage.module.css'
 import pageStyles from './pages.module.css'
@@ -49,27 +48,16 @@ export default function ProjectDetailPage() {
   if (loading) return <div className={pageStyles.loadingPage}>Loading…</div>
   if (notFound || !project) return <NotFoundPage />
 
-  // --project-accent drives the accentBar colour from colorHex when set.
-  const accentStyle = {
-    '--project-accent': project.colorHex || 'var(--st-color-brand-primary)',
-  }
-
   return (
     <main className={styles.projectPage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Projects', href: '/projects' }]} />
-
-      {/* ── Colour accent bar ─────────────────────────────────────────── */}
-      <div className={`${pageStyles.accentBar} ${styles.accentBarProject}`} style={accentStyle} aria-hidden="true" />
-
-      {/* ── Project name ──────────────────────────────────────────────── */}
-      <h1 className={styles.projectName}>{project.name}<DraftBadge docId={project._id} /></h1>
-
-      {/* ── Description — editorial copy, sits above the MetaCard ────── */}
-      {project.description && (
-        <p className={styles.projectDescription}>{project.description}</p>
-      )}
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Projects', href: '/projects' }]} />}
+        title={project.name}
+        description={project.description ?? undefined}
+        tint={project.colorHex ?? undefined}
+      />
 
       {/* ── MetaCard — structured metadata (status, ID, taxonomy) */}
       <MetadataCard

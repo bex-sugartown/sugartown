@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { allArticlesQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
 import { useSanityList } from '../lib/useSanityDoc'
+import { PageHeader, Breadcrumb } from '../design-system'
 import styles from './pages.module.css'
 
 function formatDate(dateStr) {
@@ -22,10 +23,12 @@ export default function ArticlesArchivePage() {
 
   return (
     <main className={styles.archivePage}>
-      <h1 className={styles.archiveHeading}>Articles</h1>
-      <p className={styles.archiveDescription}>
-        Writing on AI collaboration, design, and building in public.
-      </p>
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Articles' }]} />}
+        title="Articles"
+        count={posts.length}
+        description="Writing on AI collaboration, design, and building in public."
+      />
 
       {loading && <p className={styles.archiveEmpty}>Loading…</p>}
 

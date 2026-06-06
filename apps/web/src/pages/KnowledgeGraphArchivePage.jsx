@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
 import { allNodesQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
 import { useSanityList } from '../lib/useSanityDoc'
+import { PageHeader, Breadcrumb } from '../design-system'
 import styles from './pages.module.css'
 
 function formatDate(dateStr) {
@@ -27,10 +28,12 @@ export default function KnowledgeGraphArchivePage() {
 
   return (
     <main className={styles.archivePage}>
-      <h1 className={styles.archiveHeading}>Knowledge Graph</h1>
-      <p className={styles.archiveDescription}>
-        A living map of AI collaboration experiments, insights, and patterns.
-      </p>
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Knowledge Graph' }]} />}
+        title="Knowledge Graph"
+        count={nodes.length}
+        description="A living map of AI collaboration experiments, insights, and patterns."
+      />
 
       {loading && <p className={styles.archiveEmpty}>Loading…</p>}
 

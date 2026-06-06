@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { allCaseStudiesQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
 import { useSanityList } from '../lib/useSanityDoc'
+import { PageHeader, Breadcrumb } from '../design-system'
 import styles from './pages.module.css'
 
 export default function CaseStudiesArchivePage() {
@@ -13,10 +14,12 @@ export default function CaseStudiesArchivePage() {
 
   return (
     <main className={styles.archivePage}>
-      <h1 className={styles.archiveHeading}>Case Studies</h1>
-      <p className={styles.archiveDescription}>
-        Work, process, and outcomes from client and personal projects.
-      </p>
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Case Studies' }]} />}
+        title="Case Studies"
+        count={caseStudies.length}
+        description="Work, process, and outcomes from client and personal projects."
+      />
 
       {loading && <p className={styles.archiveEmpty}>Loading…</p>}
 
