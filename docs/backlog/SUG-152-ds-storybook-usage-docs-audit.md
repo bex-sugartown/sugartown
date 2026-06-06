@@ -141,6 +141,8 @@ CSS surface: `apps/web/src/pages/pages.module.css` `.detailContext`, `apps/web/s
 Rule: never hard-code these values. Every detail page spacing decision resolves through one of these tokens.  
 **SUG-156 reference:** `Pages/ContentDetailPage` (ArticleShell, NodeShell, CaseStudyShell) shows `.detailPage[data-has-margin]` in production context — use as a live reference for the two-column shell anatomy.
 
+**ContentDetailPage stories correction (known bug):** `ContentDetailPage.stories.jsx` currently imports and uses `PageHeader` — this is WRONG. Production content pages (article, node, case study) open with `Regions/Hero` (rendered via `extractLeadHero` + `PageSections`), not PageHeader. PageHeader is for archive, entity, and taxonomy pages only. The stories must be corrected to use Hero before a Format B docs page is written for ContentDetailPage.
+
 ### Phase 2 — Entity Folio Layout — Format B (MDX) at `Pages/EntityDetailPage`
 
 **IA decision:** Docs live WITH the stories they document, not as a separate Foundations/ entry. Each page-type doc is a Format B MDX page at its Pages/ location. Generic cross-cutting conventions stay in Foundations/.
