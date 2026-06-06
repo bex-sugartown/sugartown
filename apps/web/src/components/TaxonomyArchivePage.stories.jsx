@@ -77,6 +77,7 @@ export const RowLayout = {
         breadcrumb={<Breadcrumb items={[{ label: 'Library', href: '/library' }]} />}
         title="Tags"
         count={mockTags.length}
+        italic
       />
       <Container>
         <ul className={styles.itemList}>
@@ -108,6 +109,7 @@ export const AlphaBucketLayout = {
           breadcrumb={<Breadcrumb items={[{ label: 'Library', href: '/library' }]} />}
           title="Tools & Platforms"
           count={Object.values(mockTools).flat().length}
+          italic
         />
         <Container>
           <AlphaFilter

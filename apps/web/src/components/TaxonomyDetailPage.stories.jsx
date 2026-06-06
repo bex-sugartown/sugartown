@@ -42,7 +42,7 @@ function groupByType(items, defaultDocType) {
   return Object.entries(groups).map(([type, groupItems]) => ({ type, items: groupItems }))
 }
 
-function TaxonomyDetailShell({ name, eyebrow, description, breadcrumbs, items, docType }) {
+function TaxonomyDetailShell({ name, description, breadcrumbs, items, docType }) {
   const groups = groupByType(items, docType)
   const totalItems = items.length
 
@@ -50,7 +50,6 @@ function TaxonomyDetailShell({ name, eyebrow, description, breadcrumbs, items, d
     <main className={pageStyles.entityDetailPage}>
       <PageHeader
         breadcrumb={<Breadcrumb items={breadcrumbs} />}
-        eyebrow={eyebrow}
         title={name}
         count={totalItems}
         description={description}
@@ -77,7 +76,6 @@ export const TagDetail = {
   render: () => (
     <TaxonomyDetailShell
       name="Design Systems"
-      eyebrow="Tag"
       description="Explorations into component libraries, token pipelines, and the organisational challenges of maintaining shared UI at scale."
       breadcrumbs={[{ label: 'Tags', href: '/tags' }, { label: 'Design Systems' }]}
       items={mockArticles}
@@ -91,7 +89,6 @@ export const CategoryDetail = {
   render: () => (
     <TaxonomyDetailShell
       name="Design Engineering"
-      eyebrow="Category"
       description="Where design decisions meet implementation reality — tokens, CSS architecture, component APIs, and the gap between intent and output."
       breadcrumbs={[{ label: 'Categories', href: '/categories' }, { label: 'Design Engineering' }]}
       items={[...mockArticles, ...mockNodes]}

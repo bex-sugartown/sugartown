@@ -60,17 +60,6 @@
   min-width: 0;
 }
 
-.eyebrow {
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
-  color: var(--st-color-text-muted);
-  margin: 0 0 var(--st-space-2);
-  line-height: var(--st-line-height-normal);
-}
-
 .titleRow {
   display: flex;
   align-items: baseline;
@@ -86,6 +75,11 @@
   color: var(--st-color-text-default);
   margin: 0;
   text-wrap: pretty;
+}
+
+/* Archive masteheads and person folios — italic per H1 convention */
+.titleItalic {
+  font-style: italic;
 }
 
 .count {

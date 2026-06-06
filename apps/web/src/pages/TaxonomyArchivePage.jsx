@@ -256,6 +256,7 @@ export default function TaxonomyArchivePage() {
         title={config.title}
         count={list.length > 0 ? list.length : undefined}
         description={config.lede ?? undefined}
+        italic
       />
 
       {list.length === 0 ? (

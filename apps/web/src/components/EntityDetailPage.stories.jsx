@@ -39,14 +39,14 @@ export default {
 
 // ─── Shared shell ─────────────────────────────────────────────────────────────
 
-function EntityShell({ breadcrumbs, colorHex, heading, eyebrow, description, media, metadata, sections }) {
+function EntityShell({ breadcrumbs, colorHex, heading, description, media, metadata, sections, italic }) {
   return (
     <main className={pageStyles.entityDetailPage}>
       <PageHeader
         breadcrumb={<Breadcrumb items={breadcrumbs} />}
         media={media}
-        eyebrow={eyebrow}
         title={heading}
+        italic={italic}
         description={description}
         tint={colorHex ?? undefined}
       />
@@ -77,10 +77,10 @@ export const PersonFolio = {
     <EntityShell
       breadcrumbs={[{ label: 'People', href: '/people' }]}
       media={<Avatar name="Bex Walton" size="xl" />}
-      eyebrow="Design Engineer"
       heading="Bex Walton"
       description="Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller."
       colorHex="var(--st-color-seafoam-300)"
+      italic
       metadata={{
         contentType: 'Person',
         contentTypeHref: '/people',
@@ -103,7 +103,6 @@ export const ToolFolio = {
     <EntityShell
       breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Tools & Platforms', href: '/tools' }]}
       media={<Avatar name="Sanity" size="xl" />}
-      eyebrow="CMS · Platform"
       heading="Sanity"
       description="Headless CMS with a real-time collaborative editing experience and a developer-first content lake architecture."
       colorHex="var(--st-color-midnight-300)"

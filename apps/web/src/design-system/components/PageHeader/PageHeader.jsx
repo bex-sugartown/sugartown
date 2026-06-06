@@ -3,13 +3,13 @@ import styles from './PageHeader.module.css'
 export function PageHeader({
   breadcrumb,
   media,
-  eyebrow,
   title,
   description,
   count,
   metadataCard,
   actions,
   tint,
+  italic = false,
   className,
 }) {
   const tintStyle = tint ? { '--page-header-tint': tint } : undefined
@@ -35,14 +35,8 @@ export function PageHeader({
           {media && <div className={styles.media}>{media}</div>}
 
           <div className={styles.content}>
-            {eyebrow && (
-              <p className={styles.eyebrow} aria-label={eyebrow}>
-                {eyebrow}
-              </p>
-            )}
-
             <div className={styles.titleRow}>
-              <h1 className={styles.title}>{title}</h1>
+              <h1 className={[styles.title, italic ? styles.titleItalic : undefined].filter(Boolean).join(' ')}>{title}</h1>
               {count !== undefined && (
                 <span className={styles.count} aria-label={`${count} items`}>
                   {count}

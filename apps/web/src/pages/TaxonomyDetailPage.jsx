@@ -102,7 +102,6 @@ function TaxonomyHeader({ taxDoc, config, itemCount }) {
   return (
     <PageHeader
       breadcrumb={breadcrumb}
-      eyebrow={config.label}
       title={name}
       count={itemCount > 0 ? itemCount : undefined}
       description={description ?? undefined}

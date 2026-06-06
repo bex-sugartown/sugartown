@@ -28,6 +28,7 @@ export default function ArticlesArchivePage() {
         title="Articles"
         count={posts.length}
         description="Writing on AI collaboration, design, and building in public."
+        italic
       />
 
       {loading && <p className={styles.archiveEmpty}>Loading…</p>}

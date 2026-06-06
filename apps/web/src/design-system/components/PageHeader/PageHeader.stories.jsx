@@ -5,10 +5,15 @@
  * Lives in Page's header slot, above the main content container.
  *
  * Page-type coverage:
- * | Archive            | breadcrumb, title, count, description                    |
- * | Entity / Folio     | breadcrumb, media, eyebrow, title, description, metadataCard, tint |
- * | Taxonomy detail    | breadcrumb, eyebrow, title, count, description           |
+ * | Archive            | breadcrumb, title, count, description, italic            |
+ * | Person folio       | breadcrumb, media, title, description, tint, italic      |
+ * | Entity folio       | breadcrumb, media, title, description, tint              |
+ * | Taxonomy detail    | breadcrumb, title, count, description                    |
  * | Any                | + actions                                                |
+ *
+ * H1 italic rule (Typography Conventions story):
+ *   italic=true  — archive masteheads, person folios
+ *   italic=false — entity folios (project, tool), taxonomy detail pages
  *
  * SUG-157
  */
@@ -54,6 +59,7 @@ export const ArchiveArticles = {
       title="Articles"
       count={24}
       description="Writing on design engineering, content strategy, and the systems that hold them together."
+      italic
     />
   ),
 }
@@ -66,6 +72,7 @@ export const ArchiveLibrary = {
       title="Library"
       count={87}
       description="All content across articles, knowledge nodes, and case studies in one view."
+      italic
     />
   ),
 }
@@ -73,8 +80,8 @@ export const ArchiveLibrary = {
 // ─── Entity / Folio ───────────────────────────────────────────────────────────
 
 /**
- * Person Folio — the most complete variant.
- * breadcrumb + Avatar + eyebrow + title + description + tint + MetadataCard.
+ * Person Folio — italic per H1 rule (person folios = italic).
+ * breadcrumb + Avatar + title + description + tint.
  */
 export const EntityPersonFolio = {
   name: 'Entity — Person Folio',
@@ -82,22 +89,21 @@ export const EntityPersonFolio = {
     <PageHeader
       breadcrumb={<Breadcrumb items={[{ label: 'People', href: '/people' }]} />}
       media={<Avatar name="Bex Walton" size="xl" />}
-      eyebrow="Design Engineer"
       title="Bex Walton"
       description="Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller."
       tint="var(--st-color-seafoam-300)"
+      italic
     />
   ),
 }
 
-/** Tool Folio — eyebrow is the tool category. No Avatar (logo handled by caller). */
+/** Tool Folio — roman per H1 rule (entity folios = roman). */
 export const EntityToolFolio = {
   name: 'Entity — Tool Folio',
   render: () => (
     <PageHeader
       breadcrumb={<Breadcrumb items={[{ label: 'Tools', href: '/tools' }]} />}
       media={<Avatar name="Figma" size="xl" />}
-      eyebrow="Design Tool"
       title="Figma"
       description="Collaborative interface design tool used for component design, prototyping, and design token management."
       tint="var(--st-color-midnight-300)"
@@ -107,13 +113,12 @@ export const EntityToolFolio = {
 
 // ─── Taxonomy ─────────────────────────────────────────────────────────────────
 
-/** Tag detail — breadcrumb + eyebrow + title + count + description. No media, no tint. */
+/** Tag detail — roman per H1 rule (taxonomy detail pages = roman). */
 export const TaxonomyTagDetail = {
   name: 'Taxonomy — Tag Detail',
   render: () => (
     <PageHeader
       breadcrumb={<Breadcrumb items={[{ label: 'Tags', href: '/tags' }]} />}
-      eyebrow="Tag"
       title="Design Systems"
       count={12}
       description="Articles, nodes, and case studies tagged with Design Systems."
@@ -166,18 +171,18 @@ export const Snapshot = {
         title="Articles"
         count={24}
         description="Writing on design engineering, content strategy, and the systems that hold them together."
+        italic
       />
       <PageHeader
         breadcrumb={<Breadcrumb items={[{ label: 'People', href: '/people' }]} />}
         media={<Avatar name="Bex Walton" size="xl" />}
-        eyebrow="Design Engineer"
         title="Bex Walton"
         description="Design engineer and content strategist."
         tint="var(--st-color-seafoam-300)"
+        italic
       />
       <PageHeader
         breadcrumb={<Breadcrumb items={[{ label: 'Tags', href: '/tags' }]} />}
-        eyebrow="Tag"
         title="Design Systems"
         count={12}
         description="Articles, nodes, and case studies tagged with Design Systems."

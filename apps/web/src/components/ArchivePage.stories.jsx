@@ -94,6 +94,7 @@ function ArchiveShell({
         title={title}
         count={items.length}
         description={description}
+        italic
       />
       <Container size="archive">
         <div className={pageStyles.archiveSection}>

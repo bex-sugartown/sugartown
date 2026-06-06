@@ -33,6 +33,7 @@ export default function KnowledgeGraphArchivePage() {
         title="Knowledge Graph"
         count={nodes.length}
         description="A living map of AI collaboration experiments, insights, and patterns."
+        italic
       />
 
       {loading && <p className={styles.archiveEmpty}>Loading…</p>}

@@ -19,6 +19,7 @@ export default function CaseStudiesArchivePage() {
         title="Case Studies"
         count={caseStudies.length}
         description="Work, process, and outcomes from client and personal projects."
+        italic
       />
 
       {loading && <p className={styles.archiveEmpty}>Loading…</p>}
