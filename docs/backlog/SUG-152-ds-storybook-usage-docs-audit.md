@@ -63,7 +63,8 @@ Foundations/
     Scale
     Semantic
 
-  Layout/                       ← THIS EPIC (Phase 7)
+  Layout/                       ← THIS EPIC (Phases 1, 7)
+    Section                     ← Phase 1 ✅ (Format A) — Foundations/Layout/Section
     Grid/                       ← Phase 7 (Format B MDX)
       --docs
       Default
@@ -118,11 +119,11 @@ N/A — no schema changes.
 
 Candidate topics — reviewed and approved one at a time before authoring. Order subject to change at review.
 
-### Phase 1 — Section Spacing Contract
-- [ ] Propose topic angle and live preview approach
-- [ ] **Pause for review**
-- [ ] Write `SectionSpacing.stories.tsx`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 1 — Section Spacing Contract usage doc`
+### Phase 1 — Section Spacing Contract ✅
+- [x] Propose topic angle and live preview approach
+- [x] **Pause for review**
+- [x] Write `SectionSpacing.stories.tsx`
+- [x] Commit: `docs(storybook): SUG-152 Phase 1 — Section Spacing Contract usage doc`
 
 **Topic brief:**  
 Title: Section Spacing Contract  

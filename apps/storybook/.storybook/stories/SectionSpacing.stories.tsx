@@ -214,7 +214,7 @@ function SectionSpacingPage() {
 }
 
 const meta: Meta = {
-  title: 'Foundations/Section Spacing Contract',
+  title: 'Foundations/Layout/Section',
   component: SectionSpacingPage,
   parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true } },
 };
