@@ -7,8 +7,6 @@
  */
 
 .root {
-  background: var(--st-color-bg-surface);
-  border-bottom: 1px solid var(--st-color-border-default);
   width: 100%;
 }
 
