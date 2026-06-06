@@ -1,6 +1,6 @@
 **Linear Issue:** [SUG-156](https://linear.app/sugartown/issue/SUG-156/library-ia-layout-audit-codify-page-templates-reform-archivelayout)
 
-## EPIC NAME: Library IA Layout Audit — Codify Page Templates, Reform ArchiveLayout Story, Fill Storybook Gaps
+## EPIC NAME: Library IA Layout Audit — Introduce Pages/ Storybook Category, Retire ArchiveLayout, Fill Page Template Gaps
 
 ---
 
@@ -30,9 +30,10 @@
 
 The Library section of the Sugartown site comprises six distinct page-template families, each with its own layout contract. These templates are fully implemented in `apps/web/src/pages/` and `apps/web/src/components/` but their Storybook coverage is inconsistent:
 
-- `ArchivePage.jsx` (the unified archive) has only `ArchiveLayout.stories.jsx` — a skeletal mock that uses bare `<Card>` with inline styles instead of the real `ContentCard`, `FilterBar`, `AlphaFilter`, `Pagination`, and `Breadcrumb` component tree. It misrepresents the actual pattern.
+- `ArchivePage.jsx` (the unified archive) has only `ArchiveLayout.stories.jsx` — a skeletal mock that uses bare `<Card>` with inline styles instead of the real `ContentCard`, `FilterBar`, `AlphaFilter`, `Pagination`, and `Breadcrumb` component tree. It misrepresents the actual pattern. It also lives under `Patterns/` which is the wrong category level for a full page template.
 - `TaxonomyArchivePage.jsx`, `TaxonomyDetailPage.jsx`, and the entity detail pages (`ToolDetailPage.jsx`, `PersonProfilePage.jsx`, `ProjectDetailPage.jsx`) have **no Storybook stories at all**.
 - The detail content pages (`ArticlePage`, `NodePage`, `CaseStudyPage`) have no page-level layout story documenting the detail shell structure (hero → sidebar + body → ContentNav → CitationZone pattern).
+- The Storybook sidebar has no `Pages/` top-level category. Page-template stories have no correct home — they are too large for `Patterns/` (which is for composites like ContentCard and MetadataCard) and do not belong in `Regions/` (chrome: Header, Footer) or `Components/` (DS primitives).
 
 Recent epics that touched this surface area:
 - SUG-155 (DS Codification Sprint) — shipped Callout/Divider/Link/FilterBar stories; did not touch page-level templates.
@@ -43,7 +44,24 @@ Recent epics that touched this surface area:
 
 ## Objective
 
-After this epic, every Library-section page template has at least one accurate Storybook story that uses the production component tree (not ad-hoc inline markup). The `ArchiveLayout` story is rebuilt from scratch using `ContentCard`, `FilterBar`, `AlphaFilter`, `Pagination`, and `Breadcrumb` to faithfully represent the real archive pattern. New pattern stories cover: full-filter archive layout, taxonomy archive (row layout + alpha-bucket layout), taxonomy detail shell, and the three content detail page shells. No schema changes, no query changes, no production code changes — this epic is documentation only.
+After this epic, the Storybook sidebar has a new `Pages/` top-level category that holds all full page-template stories. `ArchiveLayout.stories.jsx` is deleted and replaced by `Pages/ArchivePage` with five accurate export variants (using `ContentCard`, `FilterBar`, `AlphaFilter`, `Pagination`, `Breadcrumb`). Four new story files cover all remaining Library template families: taxonomy archives, taxonomy/entity detail pages, content detail shells, and entity folios. The existing Storybook hierarchy (`Foundations/`, `Components/`, `Patterns/`, `Regions/`) is unchanged — `Pages/` sits above `Regions/` as the top tier. No schema changes, no query changes, no production code changes — this epic is documentation only.
+
+**Storybook category hierarchy after this epic:**
+```
+Foundations/     ← tokens, colours, typefaces, typography
+Components/      ← DS primitives + web adapters
+  Components/Layout/  ← structural layout primitives (Box, Stack, Grid, Container)
+Patterns/        ← data-bound app composites (ContentCard, MetadataCard, etc.)
+Regions/         ← chrome wrapping every page (Header, Footer, Hero, Preheader)
+Pages/           ← full page template compositions  ← NEW
+  Pages/ArchivePage
+  Pages/TaxonomyArchivePage
+  Pages/TaxonomyDetailPage
+  Pages/ContentDetailPage
+  Pages/EntityDetailPage
+Legacy/
+Docs/
+```
 
 ---
 
@@ -65,12 +83,12 @@ Every page template that makes up the Library section, its production component 
 
 | Template | Route(s) | Page file | Key component tree | Storybook | Gap |
 |----------|----------|-----------|-------------------|-----------|-----|
-| **Unified archive** | `/articles`, `/case-studies`, `/knowledge-graph` | `ArchivePage.jsx` | `Breadcrumb` → `FilterBar` → `AlphaFilter` (nodes only) → `ContentCard` grid (3-col) → `Pagination` | ⚠️ `Patterns/ArchiveLayout` GridView | Uses bare `<Card>` + inline styles; no FilterBar, no ContentCard, no Pagination |
-| **Knowledge Graph archive** | `/knowledge-graph` | `ArchivePage.jsx` (archivePage doc) | Same as above + `KnowledgeGraph` toggle (graph / list views) | ⚠️ `Patterns/ArchiveLayout` | Graph toggle not shown |
-| **Tag/Category archive** | `/tags`, `/categories` | `TaxonomyArchivePage.jsx` | `Breadcrumb` → row list (color dot + mono name + count) | ❌ | No story |
-| **Tag archive (alpha-bucket)** | `/tags` | `TaxonomyArchivePage.jsx` | `Breadcrumb` → `AlphaFilter` → letter-bucket rows | ❌ | No story |
-| **People archive** | `/people` | `TaxonomyArchivePage.jsx` | `Breadcrumb` → avatar rows (image + name + primaryTitle) | ❌ | No story |
-| **Projects/Tools archive** | `/projects`, `/tools` | `TaxonomyArchivePage.jsx` | `Breadcrumb` → name + count rows | ❌ | No story |
+| **Unified archive** | `/articles`, `/case-studies`, `/knowledge-graph` | `ArchivePage.jsx` | `Breadcrumb` → `FilterBar` → `AlphaFilter` (nodes only) → `ContentCard` grid (3-col) → `Pagination` | ⚠️ `Patterns/ArchiveLayout` — wrong category, inaccurate components | Replaced by `Pages/ArchivePage` |
+| **Knowledge Graph archive** | `/knowledge-graph` | `ArchivePage.jsx` (archivePage doc) | Same as above + `KnowledgeGraph` toggle (graph / list views) | ⚠️ `Patterns/ArchiveLayout` | Graph toggle not shown; covered by `Pages/ArchivePage KnowledgeGraphArchive` |
+| **Tag/Category archive** | `/tags`, `/categories` | `TaxonomyArchivePage.jsx` | `Breadcrumb` → row list (color dot + mono name + count) | ❌ | `Pages/TaxonomyArchivePage` |
+| **Tag archive (alpha-bucket)** | `/tags` | `TaxonomyArchivePage.jsx` | `Breadcrumb` → `AlphaFilter` → letter-bucket rows | ❌ | `Pages/TaxonomyArchivePage` |
+| **People archive** | `/people` | `TaxonomyArchivePage.jsx` | `Breadcrumb` → avatar rows (image + name + primaryTitle) | ❌ | `Pages/TaxonomyArchivePage` |
+| **Projects/Tools archive** | `/projects`, `/tools` | `TaxonomyArchivePage.jsx` | `Breadcrumb` → name + count rows | ❌ | `Pages/TaxonomyArchivePage` |
 
 ---
 
@@ -78,9 +96,9 @@ Every page template that makes up the Library section, its production component 
 
 | Template | Route | Page file | Key component tree | Storybook | Gap |
 |----------|-------|-----------|-------------------|-----------|-----|
-| **Article detail** | `/articles/:slug` | `ArticlePage.jsx` | `Hero` → `.detailPage` (sidebar + body): `MetadataCard` + `PageSidebar` + `PageSections` + `ContentNav` + `CitationZone` | ❌ | No page-shell story |
-| **Node detail** | `/nodes/:slug` | `NodePage.jsx` | Same shell as ArticlePage | ❌ | No page-shell story |
-| **Case study detail** | `/case-studies/:slug` | `CaseStudyPage.jsx` | Hero → full-span lead stat cards → `.detailPage`: `MetadataCard` + challenge `Callout` + `PageSidebar` + sections + `ContentNav` + `CitationZone` | ❌ | No page-shell story |
+| **Article detail** | `/articles/:slug` | `ArticlePage.jsx` | `Hero` → `.detailPage` (sidebar + body): `MetadataCard` + `PageSidebar` + `PageSections` + `ContentNav` + `CitationZone` | ❌ | `Pages/ContentDetailPage` |
+| **Node detail** | `/nodes/:slug` | `NodePage.jsx` | Same shell as ArticlePage | ❌ | `Pages/ContentDetailPage` |
+| **Case study detail** | `/case-studies/:slug` | `CaseStudyPage.jsx` | Hero → full-span lead stat cards → `.detailPage`: `MetadataCard` + challenge `Callout` + `PageSidebar` + sections + `ContentNav` + `CitationZone` | ❌ | `Pages/ContentDetailPage` |
 
 ---
 
@@ -88,10 +106,10 @@ Every page template that makes up the Library section, its production component 
 
 | Template | Route(s) | Page file | Key component tree | Storybook | Gap |
 |----------|----------|-----------|-------------------|-----------|-----|
-| **Taxonomy detail (tag/category)** | `/tags/:slug`, `/categories/:slug` | `TaxonomyDetailPage.jsx` | `Breadcrumb` → taxonomy header (name + description + color chip) → `ContentCard` list → `Pagination` | ❌ | No story |
-| **Person profile** | `/people/:slug` | `PersonProfilePage.jsx` | `Breadcrumb` → folio (Avatar + identity stack) → bio `PortableText` → roles + expertise chips → 2-col content `Grid` | ❌ | No story |
-| **Tool detail** | `/tools/:slug` | `ToolDetailPage.jsx` | `Breadcrumb` → folio (logo + identity + URL) → `SectionLabel` + `Grid` content sections | ❌ | No story |
-| **Project detail** | `/projects/:slug` | `ProjectDetailPage.jsx` | `Breadcrumb` → folio (thumbnail + identity) → `SectionLabel` + `Grid` content sections | ❌ | No story |
+| **Taxonomy detail (tag/category)** | `/tags/:slug`, `/categories/:slug` | `TaxonomyDetailPage.jsx` | `Breadcrumb` → taxonomy header (name + description + color chip) → `ContentCard` list → `Pagination` | ❌ | `Pages/TaxonomyDetailPage` |
+| **Person profile** | `/people/:slug` | `PersonProfilePage.jsx` | `Breadcrumb` → folio (Avatar + identity stack) → bio `PortableText` → roles + expertise chips → 2-col content `Grid` | ❌ | `Pages/EntityDetailPage` |
+| **Tool detail** | `/tools/:slug` | `ToolDetailPage.jsx` | `Breadcrumb` → folio (logo + identity + URL) → `SectionLabel` + `Grid` content sections | ❌ | `Pages/EntityDetailPage` |
+| **Project detail** | `/projects/:slug` | `ProjectDetailPage.jsx` | `Breadcrumb` → folio (thumbnail + identity) → `SectionLabel` + `Grid` content sections | ❌ | `Pages/EntityDetailPage` |
 
 ---
 
@@ -100,43 +118,51 @@ Every page template that makes up the Library section, its production component 
 ```
 Total Library IA templates:      14
 Currently have accurate story:    1  (ContentCard — adjacent, used in archives)
-Have inaccurate/skeletal story:   2  (ArchiveLayout GridView + ListView — reform needed)
+Have inaccurate/skeletal story:   2  (ArchiveLayout — wrong category + inaccurate component tree)
 Have NO story:                   10  (see ❌ rows above)
+Missing Storybook category:       1  (no Pages/ top-level category exists)
 
-Stories to reform:    2 (ArchiveLayout — rebuild GridView + ListView + TwoColTaxonomy + EmptyState)
-Stories to create:    5 new story files covering 10 template gaps (some grouped per file):
-  1. Patterns/ArchiveLayout (reformed)          — covers articles/case-studies/KG archive
-  2. Patterns/TaxonomyArchivePage               — covers tag/cat/people/projects/tools archives (4 variants)
-  3. Patterns/TaxonomyDetailPage                — covers tag + category detail shell
-  4. Patterns/DetailPageShell                   — covers ArticlePage/NodePage/CaseStudyPage shell structure
-  5. Patterns/EntityDetailPage                  — covers Person + Tool + Project detail folio pattern
+Actions:
+  DELETE:  ArchiveLayout.stories.jsx  (Patterns/ArchiveLayout — wrong level, inaccurate)
+  CREATE:  Pages/ top-level category  (introduced by first story file using title: 'Pages/...')
+  CREATE:  5 new story files:
+    1. Pages/ArchivePage              — ArticlesArchive, KnowledgeGraphArchive,
+                                        CaseStudiesArchive, TaxonomyArchive, EmptyState
+    2. Pages/TaxonomyArchivePage      — RowLayout, AlphaBucketLayout, PeopleLayout, ProjectsLayout
+    3. Pages/TaxonomyDetailPage       — TagDetail, CategoryDetail
+    4. Pages/ContentDetailPage        — ArticleShell, NodeShell, CaseStudyShell
+    5. Pages/EntityDetailPage         — PersonFolio, ToolFolio, ProjectFolio
 ```
 
 ---
 
 ## Scope
 
-- [x] **Reform `ArchiveLayout.stories.jsx`** — rebuild all four exports (GridView, ListView, TwoColTaxonomy, EmptyState) using the real production component tree:
-  - GridView: `Container size="archive"` → `Breadcrumb` → `FilterBar` → `Grid` → `ContentCard` × N → `Pagination`
-  - ListView: same with `Card variant="listing"` + `ContentCard` in list mode (knowledge graph pattern)
-  - TwoColTaxonomy: uses actual taxonomy row markup (dot + name + count) not `<Card>`
-  - EmptyState: centered empty state block matching `pages.module.css .archiveEmpty`
-  - Add a new `WithAlphaFilter` export showing the `AlphaFilter` → letter-bucket node listing pattern
-- [x] **Create `TaxonomyArchivePage.stories.jsx`** — four variants:
+- [x] **Introduce `Pages/` Storybook category** — created implicitly by the first story file using `title: 'Pages/...'`. No configuration change needed; Storybook auto-creates category groups from title strings.
+- [x] **Delete `ArchiveLayout.stories.jsx`** — remove the existing file entirely. It will be superseded by `Pages/ArchivePage`.
+- [x] **Create `ArchivePage.stories.jsx`** — `title: 'Pages/ArchivePage'`, five named exports using the real production component tree:
+  - `ArticlesArchive` — `Container size="archive"` → `Breadcrumb` → `FilterBar` → `Grid` 3-col → `ContentCard` × N → `Pagination`
+  - `KnowledgeGraphArchive` — same + `AlphaFilter` letter-bucket variant for node listing
+  - `CaseStudiesArchive` — same as ArticlesArchive (different mock data)
+  - `TaxonomyArchive` — two-column taxonomy row listing (dot + name + count), no FilterBar
+  - `EmptyState` — `archiveEmpty` state matching `pages.module.css` treatment
+- [x] **Create `TaxonomyArchivePage.stories.jsx`** — `title: 'Pages/TaxonomyArchivePage'`, four variants:
   - `RowLayout` — tags/categories with color dot, name, description, count
-  - `AlphaBucketLayout` — tags with letter buckets + AlphaFilter jump nav
+  - `AlphaBucketLayout` — tags with `AlphaFilter` jump nav + letter-bucket rows
   - `PeopleLayout` — avatar + name + primaryTitle rows
   - `ProjectsLayout` — name + description + count rows (no color dot)
-- [x] **Create `TaxonomyDetailPage.stories.jsx`** — taxonomy header + ContentCard listing + Pagination
-- [x] **Create `DetailPageShell.stories.jsx`** — documents the `detailPage` layout contract:
+- [x] **Create `TaxonomyDetailPage.stories.jsx`** — `title: 'Pages/TaxonomyDetailPage'`, two variants:
+  - `TagDetail` — Breadcrumb → tag header (name + color chip + description) → ContentCard list → Pagination
+  - `CategoryDetail` — same with category mock data
+- [x] **Create `ContentDetailPage.stories.jsx`** — `title: 'Pages/ContentDetailPage'`, documents the `detailPage` layout contract:
   - `ArticleShell` — Hero + MetadataCard aside + body sections + ContentNav + CitationZone
-  - `NodeShell` — same (different status badge)
-  - `CaseStudyShell` — Hero + full-span stat cards + detailPage (challenge Callout + body)
-- [x] **Create `EntityDetailPage.stories.jsx`** — folio pattern used by Person, Tool, Project:
-  - `PersonFolio` — Avatar + identity stack + social links + bio + content grid
-  - `ToolFolio` — icon/logo + identity + URL chip + content grid
-  - `ProjectFolio` — thumbnail + identity + description + content grid
-- [x] **Update `docs/conventions/component-registry.md`** — mark ArchiveLayout as reformed; add new story rows for TaxonomyArchivePage, TaxonomyDetailPage, DetailPageShell, EntityDetailPage
+  - `NodeShell` — same with node-specific status badge mock data
+  - `CaseStudyShell` — Hero + full-span stat cards + detailPage (challenge Callout + body sections)
+- [x] **Create `EntityDetailPage.stories.jsx`** — `title: 'Pages/EntityDetailPage'`, folio pattern used by Person, Tool, Project:
+  - `PersonFolio` — Avatar + identity stack + social links + bio + 2-col content Grid
+  - `ToolFolio` — icon/logo + identity + URL chip + SectionLabel + Grid content sections
+  - `ProjectFolio` — thumbnail + identity + description + SectionLabel + Grid content sections
+- [x] **Update `docs/conventions/component-registry.md`** — remove ArchiveLayout row; add `Pages/` section with rows for ArchivePage, TaxonomyArchivePage, TaxonomyDetailPage, ContentDetailPage, EntityDetailPage
 
 ---
 
@@ -205,17 +231,22 @@ No new CSS authored in this epic. All components use existing token-driven style
 - Mock data: use `apps/web/src/components/__fixtures__/` for any reusable fixture objects. Create fixtures there if they don't exist.
 - No Sanity client calls in stories — all data must be static mock props
 
-**Story naming conventions**
-- File: `ComponentName.stories.jsx` alongside the component file, or `PatternName.stories.jsx` in `apps/web/src/components/`
-- `export default { title: 'Patterns/PatternName' }` — must go under `Patterns/` (not `Layout/` or `Pages/`)
-- Named exports = individual story variants (PascalCase)
-- Every story: wrap in a realistic viewport context via `Container` or `div` with `max-width` matching the page's actual container
+**Storybook category hierarchy**
+- `Pages/` is the new top-level category for full page template stories. It sits above `Regions/` in the sidebar.
+- The category is created implicitly — the first story file with `title: 'Pages/...'` creates the group. No Storybook config change needed.
+- Existing categories (`Foundations/`, `Components/`, `Patterns/`, `Regions/`, `Legacy/`, `Docs/`) are unchanged.
 
-**ArchiveLayout reform rules**
-- GridView must use `<ContentCard>` not `<Card>` — `ContentCard` is the production archive card
-- `ContentCard` requires: `_id`, `title`, `excerpt`, `publishedAt`, `slug` (object with `current`), `categories`, `tags`, `_type` props minimum
-- `FilterBar` mock: pass static `filterModel` fixture (see `buildFilterModel()` shape — `{ filters: [], counts: {} }`)
-- `Pagination` mock: pass `currentPage={1}` `totalPages={3}` `onPageChange={() => {}}` props
+**Story naming conventions**
+- File: `TemplateName.stories.jsx` in `apps/web/src/components/` alongside related component files
+- `export default { title: 'Pages/TemplateName' }` — all new page template stories go under `Pages/`
+- Named exports = individual story variants (PascalCase), matching the names in the Gap summary above
+- Every story: wrap in a realistic viewport context via `Container` with the correct `size` prop matching the production page (`"archive"` for archive pages, `"detail"` for content/entity detail pages)
+
+**`Pages/ArchivePage` story rules**
+- All card variants must use `<ContentCard>` not `<Card>` — `ContentCard` is the production archive card
+- `ContentCard` requires at minimum: `_id`, `title`, `excerpt`, `publishedAt`, `slug` (object with `current`), `categories`, `tags`, `_type`
+- `FilterBar` mock: pass a static `filterModel` fixture shaped as `{ filters: [], counts: {} }` (from `mockFilterModel.js`)
+- `Pagination` mock: `currentPage={1}` `totalPages={3}` `onPageChange={() => {}}`
 
 **No inline styles**
 - Stories must not use `style={{ ... }}` except for structural layout overrides not covered by tokens (e.g. story wrapper max-width). Component-level styles must come from CSS modules.
@@ -224,14 +255,15 @@ No new CSS authored in this epic. All components use existing token-driven style
 
 ## Files to Modify
 
-**Reform (existing file)**
-- `apps/web/src/components/ArchiveLayout.stories.jsx` — REFORM (rebuild all exports)
+**Delete (existing file)**
+- `apps/web/src/components/ArchiveLayout.stories.jsx` — DELETE (superseded by Pages/ArchivePage)
 
 **Create (new story files)**
-- `apps/web/src/components/TaxonomyArchivePage.stories.jsx` — CREATE
-- `apps/web/src/components/TaxonomyDetailPage.stories.jsx` — CREATE
-- `apps/web/src/components/DetailPageShell.stories.jsx` — CREATE
-- `apps/web/src/components/EntityDetailPage.stories.jsx` — CREATE
+- `apps/web/src/components/ArchivePage.stories.jsx` — CREATE (`Pages/ArchivePage`)
+- `apps/web/src/components/TaxonomyArchivePage.stories.jsx` — CREATE (`Pages/TaxonomyArchivePage`)
+- `apps/web/src/components/TaxonomyDetailPage.stories.jsx` — CREATE (`Pages/TaxonomyDetailPage`)
+- `apps/web/src/components/ContentDetailPage.stories.jsx` — CREATE (`Pages/ContentDetailPage`)
+- `apps/web/src/components/EntityDetailPage.stories.jsx` — CREATE (`Pages/EntityDetailPage`)
 
 **Fixtures (create if needed)**
 - `apps/web/src/components/__fixtures__/mockContentCards.js` — CREATE (reusable mock ContentCard data)
@@ -244,25 +276,29 @@ No new CSS authored in this epic. All components use existing token-driven style
 
 ## Deliverables
 
-1. **ArchiveLayout reformed** — `ArchiveLayout.stories.jsx` has five accurate exports (GridView, ListView, TwoColTaxonomy, WithAlphaFilter, EmptyState) using production components
-2. **TaxonomyArchivePage stories** — `TaxonomyArchivePage.stories.jsx` has four variants (RowLayout, AlphaBucketLayout, PeopleLayout, ProjectsLayout)
-3. **TaxonomyDetailPage story** — `TaxonomyDetailPage.stories.jsx` shows taxonomy header + ContentCard list + Pagination
-4. **DetailPageShell stories** — `DetailPageShell.stories.jsx` has ArticleShell, NodeShell, CaseStudyShell variants
-5. **EntityDetailPage stories** — `EntityDetailPage.stories.jsx` has PersonFolio, ToolFolio, ProjectFolio variants
-6. **Registry updated** — `component-registry.md` reflects accurate story coverage for all reformed/new entries
+1. **`Pages/` category exists** — visible in the Storybook sidebar above `Regions/`, created by the first `Pages/...` title string
+2. **`ArchiveLayout.stories.jsx` deleted** — file removed; `Patterns/ArchiveLayout` no longer appears in the sidebar
+3. **`Pages/ArchivePage`** — `ArchivePage.stories.jsx` with five exports: `ArticlesArchive`, `KnowledgeGraphArchive`, `CaseStudiesArchive`, `TaxonomyArchive`, `EmptyState` — all using `ContentCard`, `FilterBar`, `Breadcrumb`, `Pagination`
+4. **`Pages/TaxonomyArchivePage`** — four variants: `RowLayout`, `AlphaBucketLayout`, `PeopleLayout`, `ProjectsLayout`
+5. **`Pages/TaxonomyDetailPage`** — two variants: `TagDetail`, `CategoryDetail`
+6. **`Pages/ContentDetailPage`** — three variants: `ArticleShell`, `NodeShell`, `CaseStudyShell`
+7. **`Pages/EntityDetailPage`** — three variants: `PersonFolio`, `ToolFolio`, `ProjectFolio`
+8. **Registry updated** — `component-registry.md` has a new `Pages/` section; `ArchiveLayout` row removed
 
 ---
 
 ## Acceptance Criteria
 
-- [ ] `ArchiveLayout` GridView uses `<ContentCard>` (not `<Card>`) and includes a `<FilterBar>` and `<Pagination>` in the story render
-- [ ] `ArchiveLayout` TwoColTaxonomy uses the actual taxonomy row markup (color dot + name + count), not `<Card>`
-- [ ] All new stories render in Storybook without console errors on both `default` and `dark-pink-moon` themes
-- [ ] No story uses `style={{ ... }}` for component-level styling (structural wrapper max-width is exempt)
-- [ ] Each story file has at least one variant per layout variant documented in the Library IA Template Audit table above
-- [ ] `docs/conventions/component-registry.md` is updated in the same commit as the reformed/new stories
-- [ ] All mock fixtures use the shape that the real component expects (verified by reading the component's prop requirements, not from memory)
-- [ ] `pnpm validate:tokens --strict-colors` passes zero violations (no new CSS authored, but confirm existing story CSS is clean)
+- [ ] `Patterns/ArchiveLayout` no longer appears in the Storybook sidebar — `ArchiveLayout.stories.jsx` is deleted
+- [ ] `Pages/` top-level category is visible in the sidebar above `Regions/`
+- [ ] `Pages/ArchivePage` has exactly five exports: `ArticlesArchive`, `KnowledgeGraphArchive`, `CaseStudiesArchive`, `TaxonomyArchive`, `EmptyState`
+- [ ] `Pages/ArchivePage ArticlesArchive` uses `<ContentCard>` (not `<Card>`) and includes `<FilterBar>` and `<Pagination>`
+- [ ] All five `Pages/` story files render without console errors on both `default` and `dark-pink-moon` themes
+- [ ] No story uses `style={{ ... }}` for component-level styling (structural wrapper `Container size` prop is the correct approach)
+- [ ] Each story file has all variants listed in the Gap summary above
+- [ ] `docs/conventions/component-registry.md` updated in the same commit: `ArchiveLayout` row removed, new `Pages/` section added
+- [ ] All mock fixtures use the shape the real component expects (verified by reading component props, not from memory)
+- [ ] `pnpm validate:tokens --strict-colors` passes zero violations
 
 ---
 
@@ -271,9 +307,10 @@ No new CSS authored in this epic. All components use existing token-driven style
 ### Evidence to prepare:
 
 1. **Screenshot of each story variant** in Storybook on both `default` and `dark-pink-moon` themes — shared in the chat before close-out
-2. **ArchiveLayout accuracy check** — side-by-side: current story (pre-reform) vs reformed story vs `/articles` in the running web app. Three-column layout, FilterBar, ContentCard chips, and Pagination must visually match the real archive
-3. **No inline styles check**: `grep -r 'style={{' apps/web/src/components/ArchiveLayout.stories.jsx apps/web/src/components/TaxonomyArchivePage.stories.jsx apps/web/src/components/TaxonomyDetailPage.stories.jsx apps/web/src/components/DetailPageShell.stories.jsx apps/web/src/components/EntityDetailPage.stories.jsx` — output must be empty or show only structural wrapper overrides
-4. **Component registry diff** — show the before/after diff of `component-registry.md`
+2. **ArchivePage accuracy check** — side-by-side: new `Pages/ArchivePage ArticlesArchive` story vs `/articles` in the running web app. Three-column layout, FilterBar, ContentCard chips, and Pagination must visually match.
+3. **Sidebar structure screenshot** — Storybook sidebar showing `Pages/` category above `Regions/`, confirming `Patterns/ArchiveLayout` is gone
+4. **No inline styles check**: `grep -r 'style={{' apps/web/src/components/ArchivePage.stories.jsx apps/web/src/components/TaxonomyArchivePage.stories.jsx apps/web/src/components/TaxonomyDetailPage.stories.jsx apps/web/src/components/ContentDetailPage.stories.jsx apps/web/src/components/EntityDetailPage.stories.jsx` — output must be empty or show only structural wrapper overrides
+5. **Component registry diff** — show the before/after diff of `component-registry.md`
 
 ### Human gate:
 Agent presents screenshots and diffs. Human approves or returns corrections. Agent does not proceed to close-out until "Visual QA approved."
@@ -289,7 +326,7 @@ Agent presents screenshots and diffs. Human approves or returns corrections. Age
 - `AlphaFilter` expects `letters` array + `onSelect` callback — mock these as static props in the TaxonomyArchivePage AlphaBucketLayout story
 
 **Registry risk**
-- The existing ArchiveLayout registry entry lists `ArchiveLayout | web/components/ArchiveLayout.stories.jsx` — this is non-standard (the File column points to the stories file, not a component file). After reform, update the Notes to clarify: "Reformed in SUG-156 — now uses production components."
+- The existing ArchiveLayout registry entry lists `ArchiveLayout | web/components/ArchiveLayout.stories.jsx` — the File column non-standardly points to the stories file. The whole row is removed in this epic; the new `Pages/` section in the registry documents the replacement stories.
 
 ---
 
