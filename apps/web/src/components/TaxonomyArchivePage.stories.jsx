@@ -11,7 +11,7 @@ import React from 'react'
  * Production routes: /tags, /categories, /tools, /people, /projects
  */
 import { MemoryRouter } from 'react-router-dom'
-import { Container, Breadcrumb } from '../design-system'
+import { Container, Breadcrumb, PageHeader } from '../design-system'
 import AlphaFilter from './AlphaFilter'
 import styles from '../pages/TaxonomyArchivePage.module.css'
 
@@ -73,12 +73,12 @@ export const RowLayout = {
   name: 'Row Layout (/tags, /categories)',
   render: () => (
     <main className={styles.archivePage}>
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Library', href: '/library' }]} />}
+        title="Tags"
+        count={mockTags.length}
+      />
       <Container>
-        <Breadcrumb items={[{ label: 'Tags' }]} />
-        <div className={styles.archiveHeader}>
-          <h1 className={styles.archiveTitle}>Tags</h1>
-          <span className={styles.archiveCount}>{mockTags.length}</span>
-        </div>
         <ul className={styles.itemList}>
           {mockTags.map((tag) => (
             <li key={tag._id} className={styles.item}>
@@ -104,12 +104,12 @@ export const AlphaBucketLayout = {
     const activeLetters = new Set(Object.keys(mockTools))
     return (
       <main className={`${styles.archivePage} ${styles.archivePageWide}`}>
+        <PageHeader
+          breadcrumb={<Breadcrumb items={[{ label: 'Library', href: '/library' }]} />}
+          title="Tools & Platforms"
+          count={Object.values(mockTools).flat().length}
+        />
         <Container>
-          <Breadcrumb items={[{ label: 'Tools' }]} />
-          <div className={styles.archiveHeader}>
-            <h1 className={styles.archiveTitle}>Tools</h1>
-            <span className={styles.archiveCount}>{Object.values(mockTools).flat().length}</span>
-          </div>
           <AlphaFilter
             activeLetters={activeLetters}
             filterLetter={null}
@@ -146,12 +146,11 @@ export const PeopleLayout = {
   name: 'People Layout (/people)',
   render: () => (
     <main className={styles.archivePage}>
+      <PageHeader
+        title="People"
+        count={mockPeople.length}
+      />
       <Container>
-        <Breadcrumb items={[{ label: 'People' }]} />
-        <div className={styles.archiveHeader}>
-          <h1 className={styles.archiveTitle}>People</h1>
-          <span className={styles.archiveCount}>{mockPeople.length}</span>
-        </div>
         <ul className={styles.itemList}>
           {mockPeople.map((person) => (
             <li key={person._id} className={styles.item}>
@@ -179,12 +178,12 @@ export const ProjectsLayout = {
   name: 'Projects Layout (/projects)',
   render: () => (
     <main className={`${styles.archivePage} ${styles.archivePageWide}`}>
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Library', href: '/library' }]} />}
+        title="Projects"
+        count={mockProjects.length}
+      />
       <Container>
-        <Breadcrumb items={[{ label: 'Projects' }]} />
-        <div className={styles.archiveHeader}>
-          <h1 className={styles.archiveTitle}>Projects</h1>
-          <span className={styles.archiveCount}>{mockProjects.length}</span>
-        </div>
         <ul className={styles.itemList}>
           {mockProjects.map((project) => (
             <li key={project._id} className={styles.item}>

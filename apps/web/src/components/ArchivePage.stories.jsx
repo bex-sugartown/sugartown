@@ -14,7 +14,7 @@
  *   /library           → contentType: multi (article + node + caseStudy)
  */
 import { MemoryRouter } from 'react-router-dom'
-import { Container, FilterBar, Breadcrumb } from '../design-system'
+import { Container, FilterBar, Breadcrumb, PageHeader } from '../design-system'
 import ContentCard from './ContentCard'
 import Pagination from './Pagination'
 import { mockArticles, mockNodes, mockCaseStudies, allMockItems } from './__fixtures__/mockContentCards'
@@ -76,6 +76,8 @@ const GraphIcon = () => (
 // This is the production component tree — stories must reflect it, not <Grid>.
 
 function ArchiveShell({
+  title,
+  description,
   kicker,
   breadcrumbs,
   items,
@@ -87,8 +89,13 @@ function ArchiveShell({
 }) {
   return (
     <main>
+      <PageHeader
+        breadcrumb={breadcrumbs?.length ? <Breadcrumb items={breadcrumbs} /> : undefined}
+        title={title}
+        count={items.length}
+        description={description}
+      />
       <Container size="archive">
-        <Breadcrumb items={breadcrumbs} />
         <div className={pageStyles.archiveSection}>
           <div className={pageStyles.archiveToolbar}>
             <div className={pageStyles.layoutToggleGroup}>
@@ -162,6 +169,8 @@ export const ArticlesArchive = {
   name: 'Articles Archive (/articles) — grid',
   render: () => (
     <ArchiveShell
+      title="Articles"
+      description="Writing on AI collaboration, design, and building in public."
       kicker={`${mockArticles.length} ARTICLES`}
       breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Articles' }]}
       items={mockArticles}
@@ -179,6 +188,8 @@ export const ArticlesArchiveList = {
   name: 'Articles Archive (/articles) — list',
   render: () => (
     <ArchiveShell
+      title="Articles"
+      description="Writing on AI collaboration, design, and building in public."
       kicker={`${mockArticles.length} ARTICLES`}
       breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Articles' }]}
       items={mockArticles}
@@ -196,6 +207,8 @@ export const NodesArchive = {
   name: 'Nodes Archive (/nodes)',
   render: () => (
     <ArchiveShell
+      title="Knowledge Graph"
+      description="A living map of AI collaboration experiments, insights, and patterns."
       kicker={`${mockNodes.length} NODES`}
       breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Nodes' }]}
       items={mockNodes}
@@ -213,6 +226,8 @@ export const CaseStudiesArchive = {
   name: 'Case Studies Archive (/case-studies)',
   render: () => (
     <ArchiveShell
+      title="Case Studies"
+      description="Work, process, and outcomes from client and personal projects."
       kicker={`${mockCaseStudies.length} CASE STUDIES`}
       breadcrumbs={[{ label: 'Work', href: '/case-studies' }, { label: 'Case Studies' }]}
       items={mockCaseStudies}
@@ -230,6 +245,8 @@ export const LibraryArchive = {
   name: 'Library Archive (multi-type)',
   render: () => (
     <ArchiveShell
+      title="Library"
+      description="All content across articles, knowledge nodes, and case studies in one view."
       kicker={`${allMockItems.length} ITEMS`}
       breadcrumbs={[{ label: 'Library' }]}
       items={allMockItems}

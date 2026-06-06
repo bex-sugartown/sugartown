@@ -10,7 +10,7 @@ import React from 'react'
  * Production routes: /tags/:slug, /categories/:slug
  */
 import { MemoryRouter } from 'react-router-dom'
-import { Grid, SectionLabel, Breadcrumb } from '../design-system'
+import { Grid, SectionLabel, Breadcrumb, PageHeader } from '../design-system'
 import ContentCard from './ContentCard'
 import Pagination from './Pagination'
 import { mockArticles, mockNodes } from './__fixtures__/mockContentCards'
@@ -42,23 +42,19 @@ function groupByType(items, defaultDocType) {
   return Object.entries(groups).map(([type, groupItems]) => ({ type, items: groupItems }))
 }
 
-function TaxonomyDetailShell({ name, description, colorHex, breadcrumbs, items, docType }) {
+function TaxonomyDetailShell({ name, eyebrow, description, breadcrumbs, items, docType }) {
   const groups = groupByType(items, docType)
+  const totalItems = items.length
 
   return (
     <main className={pageStyles.entityDetailPage}>
-      <div className={pageStyles.detailHeader}>
-        {colorHex && (
-          <span
-            className={pageStyles.accentBar}
-            style={{ backgroundColor: colorHex }}
-            aria-hidden="true"
-          />
-        )}
-        <Breadcrumb items={breadcrumbs} />
-      </div>
-      <h1 className={pageStyles.archiveHeading}>{name}</h1>
-      {description && <p className={pageStyles.archiveDescription}>{description}</p>}
+      <PageHeader
+        breadcrumb={<Breadcrumb items={breadcrumbs} />}
+        eyebrow={eyebrow}
+        title={name}
+        count={totalItems}
+        description={description}
+      />
 
       {groups.map((group) => (
         <section key={group.type} style={{ marginTop: '2rem' }}>
@@ -81,6 +77,7 @@ export const TagDetail = {
   render: () => (
     <TaxonomyDetailShell
       name="Design Systems"
+      eyebrow="Tag"
       description="Explorations into component libraries, token pipelines, and the organisational challenges of maintaining shared UI at scale."
       breadcrumbs={[{ label: 'Tags', href: '/tags' }, { label: 'Design Systems' }]}
       items={mockArticles}
@@ -94,8 +91,8 @@ export const CategoryDetail = {
   render: () => (
     <TaxonomyDetailShell
       name="Design Engineering"
+      eyebrow="Category"
       description="Where design decisions meet implementation reality — tokens, CSS architecture, component APIs, and the gap between intent and output."
-      colorHex="#FF247D"
       breadcrumbs={[{ label: 'Categories', href: '/categories' }, { label: 'Design Engineering' }]}
       items={[...mockArticles, ...mockNodes]}
     />

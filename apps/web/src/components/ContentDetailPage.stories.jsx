@@ -16,6 +16,7 @@ import React from 'react'
  *   /case-studies/:slug  → CaseStudyPage.jsx
  */
 import { MemoryRouter } from 'react-router-dom'
+import { PageHeader, Breadcrumb } from '../design-system'
 import MetadataCard from './MetadataCard'
 import PageSidebar from './PageSidebar'
 import pageStyles from '../pages/pages.module.css'
@@ -86,11 +87,10 @@ export const ArticleShell = {
   name: 'Article Shell (/articles/:slug)',
   render: () => (
     <main>
-      <div style={{ padding: '2rem', background: 'var(--st-color-bg-surface)', borderBottom: '1px solid var(--st-card-border)' }}>
-        <h1 style={{ margin: 0, fontFamily: 'var(--st-font-family-display)', fontSize: 'var(--st-font-size-heading-1)' }}>
-          What Structured Content Actually Means for Designers
-        </h1>
-      </div>
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Articles', href: '/articles' }]} />}
+        title="What Structured Content Actually Means for Designers"
+      />
       <div className={pageStyles.detailPage} data-has-margin>
         <MetadataCard
           authors={mockAuthors}
@@ -115,11 +115,10 @@ export const NodeShell = {
   name: 'Node Shell (/nodes/:slug)',
   render: () => (
     <main>
-      <div style={{ padding: '2rem', background: 'var(--st-color-bg-surface)', borderBottom: '1px solid var(--st-card-border)' }}>
-        <h1 style={{ margin: 0, fontFamily: 'var(--st-font-family-display)', fontSize: 'var(--st-font-size-heading-1)' }}>
-          The Validator Said Zero Errors. It Was Watching the Wrong Door.
-        </h1>
-      </div>
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Knowledge Graph', href: '/knowledge-graph' }]} />}
+        title="The Validator Said Zero Errors. It Was Watching the Wrong Door."
+      />
       <div className={pageStyles.detailPage} data-has-margin>
         <MetadataCard
           contentType="Node"
@@ -143,11 +142,10 @@ export const CaseStudyShell = {
   name: 'Case Study Shell (/case-studies/:slug)',
   render: () => (
     <main>
-      <div style={{ padding: '2rem', background: 'var(--st-color-bg-surface)', borderBottom: '1px solid var(--st-card-border)' }}>
-        <h1 style={{ margin: 0, fontFamily: 'var(--st-font-family-display)', fontSize: 'var(--st-font-size-heading-1)' }}>
-          Rebuilding the Content Model for a Global Media Brand
-        </h1>
-      </div>
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Case Studies', href: '/case-studies' }]} />}
+        title="Rebuilding the Content Model for a Global Media Brand"
+      />
       <div className={pageStyles.detailPage} data-has-margin>
         <MetadataCard
           authors={mockAuthors}

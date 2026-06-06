@@ -21,7 +21,7 @@ import React from 'react'
  *   /projects/:slug  → ProjectDetailPage.jsx
  */
 import { MemoryRouter } from 'react-router-dom'
-import { Grid, SectionLabel, Breadcrumb } from '../design-system'
+import { Grid, SectionLabel, Breadcrumb, PageHeader, Avatar } from '../design-system'
 import MetadataCard from './MetadataCard'
 import ContentCard from './ContentCard'
 import { mockArticles, mockNodes } from './__fixtures__/mockContentCards'
@@ -39,61 +39,17 @@ export default {
 
 // ─── Shared shell ─────────────────────────────────────────────────────────────
 
-function EntityShell({ breadcrumbs, colorHex, heading, eyebrow, description, folio, metadata, sections }) {
-  const accentStyle = colorHex
-    ? { '--project-accent': colorHex }
-    : undefined
-
+function EntityShell({ breadcrumbs, colorHex, heading, eyebrow, description, media, metadata, sections }) {
   return (
     <main className={pageStyles.entityDetailPage}>
-      <Breadcrumb items={breadcrumbs} />
-
-      {colorHex && (
-        <div
-          aria-hidden="true"
-          style={{
-            height: '6px',
-            width: '100%',
-            background: 'var(--project-accent, var(--st-color-brand-primary))',
-            ...accentStyle,
-          }}
-        />
-      )}
-
-      {folio && (
-        <div className={pageStyles.entityFolio} style={folio.thumbSize ? { '--entity-thumb-size': folio.thumbSize } : undefined}>
-          <div
-            className={pageStyles.entityThumbnailFallback}
-            style={folio.thumbColor ? { backgroundColor: folio.thumbColor, color: '#fff' } : undefined}
-            aria-hidden="true"
-          >
-            {folio.initial}
-          </div>
-          <div className={pageStyles.folioIdentity}>
-            <h1 className={pageStyles.narrativeHeading}>{heading}</h1>
-            {eyebrow && <p className={pageStyles.detailEyebrow}>{eyebrow}</p>}
-            {description && <p className={pageStyles.entityDescription}>{description}</p>}
-            {folio.url && (
-              <a
-                href={folio.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontSize: 'var(--st-font-size-label)', color: 'var(--st-color-text-secondary)' }}
-              >
-                {folio.urlLabel || folio.url}
-              </a>
-            )}
-          </div>
-        </div>
-      )}
-
-      {!folio && (
-        <>
-          <h1 className={pageStyles.narrativeHeading}>{heading}</h1>
-          {eyebrow && <p className={pageStyles.detailEyebrow}>{eyebrow}</p>}
-          {description && <p className={pageStyles.entityDescription}>{description}</p>}
-        </>
-      )}
+      <PageHeader
+        breadcrumb={<Breadcrumb items={breadcrumbs} />}
+        media={media}
+        eyebrow={eyebrow}
+        title={heading}
+        description={description}
+        tint={colorHex ?? undefined}
+      />
 
       {metadata && (
         <MetadataCard {...metadata} />
@@ -120,10 +76,11 @@ export const PersonFolio = {
   render: () => (
     <EntityShell
       breadcrumbs={[{ label: 'People', href: '/people' }]}
-      heading="Bex Walton"
+      media={<Avatar name="Bex Walton" size="xl" />}
       eyebrow="Design Engineer"
+      heading="Bex Walton"
       description="Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller."
-      folio={{ initial: 'B', thumbSize: '80px' }}
+      colorHex="var(--st-color-seafoam-300)"
       metadata={{
         contentType: 'Person',
         contentTypeHref: '/people',
@@ -145,10 +102,11 @@ export const ToolFolio = {
   render: () => (
     <EntityShell
       breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Tools & Platforms', href: '/tools' }]}
-      heading="Sanity"
+      media={<Avatar name="Sanity" size="xl" />}
       eyebrow="CMS · Platform"
+      heading="Sanity"
       description="Headless CMS with a real-time collaborative editing experience and a developer-first content lake architecture."
-      folio={{ initial: 'S', thumbSize: '72px', url: 'https://sanity.io', urlLabel: 'sanity.io' }}
+      colorHex="var(--st-color-midnight-300)"
       metadata={{
         contentType: 'Tool',
         contentTypeHref: '/tools',
@@ -169,10 +127,9 @@ export const ProjectDetail = {
   name: 'Project Detail (/projects/:slug)',
   render: () => (
     <EntityShell
-      breadcrumbs={[{ label: 'Projects', href: '/projects' }]}
+      breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Projects', href: '/projects' }]}
       colorHex="#00B4A6"
       heading="Mini Repo"
-      eyebrow="Active project"
       description="A minimal monorepo scaffold with pnpm workspaces, Turbo, and a shared design system. Reference implementation for new Sugartown sub-projects."
       metadata={{
         contentType: 'Project',
