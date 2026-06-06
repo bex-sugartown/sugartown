@@ -244,11 +244,41 @@ const TINT_MAP = {
 
 Commit: `feat(sug-157): wire PageHeader into production archive and entity pages`
 
-### Phase 5 — Visual QA and close-out
+### Phase 5 — Update Pages/ Storybook stories to use PageHeader
+
+Update the Pages/ stories added in SUG-156 to use the real `PageHeader` component and show only the prop set that is correct for each template. The goal: each story's header visually matches what that page type actually renders in production — no stray avatar on an archive page, no color stripe on a taxonomy page.
+
+**File:** `apps/web/src/components/ArchivePage.stories.jsx`, `ContentDetailPage.stories.jsx`, `EntityDetailPage.stories.jsx`, `TaxonomyDetailPage.stories.jsx`, `TaxonomyArchivePage.stories.jsx`
+
+Add `import { PageHeader } from '../design-system'` to each. Replace any inline heading blocks inside the story render with `<PageHeader ... />`.
+
+**Prop set by template:**
+
+| Story file | Story | PageHeader props used |
+|-----------|-------|----------------------|
+| ArchivePage | Articles, Nodes, CaseStudies, Library | `breadcrumb` + `title` + `count` + `description` — no media, no tint, no color stripe |
+| ContentDetailPage | ArticleShell, NodeShell, CaseStudyShell | `breadcrumb` + `title` + `description` — no count, no media, no tint |
+| EntityDetailPage | PersonFolio | `breadcrumb` + `media` (Avatar) + `eyebrow` + `title` + `description` + `tint` + `metadataCard` |
+| EntityDetailPage | ToolFolio | `breadcrumb` + `media` (Avatar/logo) + `eyebrow` + `title` + `description` + `tint` + `metadataCard` |
+| EntityDetailPage | ProjectDetail | `breadcrumb` + `title` + `description` + `tint={colorHex}` + `metadataCard` — no media, no Avatar |
+| TaxonomyDetailPage | TagDetail, CategoryDetail | `breadcrumb` + `eyebrow` (type label) + `title` + `count` + `description` — no media, no tint |
+| TaxonomyArchivePage | TagsArchive, etc. | `breadcrumb` + `title` + `count` + `description` — no media, no tint |
+
+**Key rules:**
+- `media` (Avatar/initials) appears only on Person and Tool folios — not on archive, taxonomy, or project stories
+- `tint` appears only on Person, Tool, and Project stories — not on archive or taxonomy stories
+- The accentBar `<div>` in EntityDetailPage's ProjectDetail story is replaced by `tint={colorHex}` on PageHeader — remove the standalone color stripe div entirely
+- `count` appears on archive and taxonomy detail stories — not on entity/folio or content detail stories
+- `eyebrow` appears on entity (role/type qualifier) and taxonomy detail (type label e.g. "TAG") — not on archive stories
+
+Commit: `feat(sug-157): update Pages/ stories to use PageHeader with correct per-template prop sets`
+
+### Phase 6 — Visual QA and close-out
 
 - Compare each production page heading against the Phase 0 visual QA checklist
 - Confirm tint renders on ProjectDetailPage and TaxonomyDetailPage entity variants
 - Confirm no regression in FilterBar positioning (it sits below PageHeader, not inside)
+- Confirm Pages/ stories show the correct header variant per template — no avatar on archive, no stripe on taxonomy
 - Run `pnpm validate:tokens` — zero errors
 - Storybook: confirm Patterns/PageHeader shows all 7 stories, Snapshot story captures stacked variants
 - Mini-release → v0.26.10
@@ -263,6 +293,7 @@ Commit: `feat(sug-157): wire PageHeader into production archive and entity pages
 - [ ] All 6 production pages use `<PageHeader>` — no inline heading duplication remains
 - [ ] Tint mechanism live: entity/folio pages show color-mix tint at 10%
 - [ ] ProjectDetailPage accentBar replaced by PageHeader tint prop
+- [ ] Pages/ Storybook stories updated — each template shows only the correct prop set (no avatar on archive, no color stripe on taxonomy, count only on archive/taxonomy)
 - [ ] `pnpm validate:tokens` — zero errors
 - [ ] Component registry row added
 
@@ -285,6 +316,11 @@ Commit: `feat(sug-157): wire PageHeader into production archive and entity pages
 - `apps/web/src/pages/TaxonomyDetailPage.jsx` — use PageHeader
 - `apps/web/src/pages/ProjectDetailPage.jsx` — use PageHeader (replace accentBar + inline heading)
 - `docs/conventions/component-registry.md` — new row
+- `apps/web/src/components/ArchivePage.stories.jsx` — use PageHeader (archive prop set)
+- `apps/web/src/components/ContentDetailPage.stories.jsx` — use PageHeader (no count/media/tint)
+- `apps/web/src/components/EntityDetailPage.stories.jsx` — use PageHeader (Person/Tool: media+tint; Project: tint only, no media)
+- `apps/web/src/components/TaxonomyDetailPage.stories.jsx` — use PageHeader (eyebrow+count, no media/tint)
+- `apps/web/src/components/TaxonomyArchivePage.stories.jsx` — use PageHeader (archive prop set)
 
 ### Reference (do not import directly)
 - `/tmp/pageheader-handoff/design_handoff_PageHeader/PageHeader.tsx.reference`
