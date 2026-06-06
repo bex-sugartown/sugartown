@@ -1,4 +1,4 @@
-**Linear Issue:** SUG-157 _(create the Linear issue, then confirm ID here)_
+**Linear Issue:** [SUG-157](https://linear.app/sugartown/issue/SUG-157/pageheader-ds-pattern-component)
 
 ## EPIC NAME: PageHeader DS Pattern Component
 
