@@ -11,7 +11,7 @@
 
 ## Pre-Execution Completeness Gate
 
-- [x] **Interaction surface audit** — no new interactive elements. Storybook `.stories.tsx` files only.
+- [x] **Interaction surface audit** — no new interactive elements. Storybook `.stories.tsx` and `.mdx` docs files only.
 - [x] **Use case coverage** — N/A. No new component or web adapter.
 - [x] **Layout contract** — N/A. Storybook docs use inline styles and existing DS tokens.
 - [x] **All prop value enumerations** — N/A. No enum fields rendered from Sanity.
@@ -162,11 +162,12 @@ One-liner: When to use `--st-color-text-primary` vs `--st-color-pink` — and wh
 Rule: Use semantic tokens in components. Use primitives only in token definition files and theme overrides.  
 Live preview: Two columns — "Semantic in component (correct)" vs "Primitive in component (breaks in dark mode)".
 
-### Phase 7 — Grid Usage (all spacing modes)
+### Phase 7 — Grid Usage (all spacing modes) — Format B (MDX)
 - [ ] Propose topic angle and live preview approach
 - [ ] **Pause for review**
-- [ ] Write `GridUsage.stories.tsx`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 7 — Grid Usage usage doc`
+- [ ] Move Grid story title: `Components/Layout/Grid` → `Foundations/Layout/Grid` in `Grid.stories.tsx`
+- [ ] Write `GridDocs.mdx` — four-section MDX docs page (Title, Preview, Props, Usage guidelines)
+- [ ] Commit: `docs(storybook): SUG-152 Phase 7 — Grid Foundations/Layout/Grid MDX docs page`
 
 **Topic brief:**  
 Title: Grid Usage — spacing modes and responsive collapse  
@@ -200,11 +201,11 @@ One-liner: Why components are named the way they are — StatCard vs Card, Conte
 Rule: Names encode role, not appearance. StatCard = tile primitive for spacing-0 grids. Card = standalone bordered surface. ContentCard = Sanity-bound data adapter. A name like DataCard or InfoCard is a signal the audit was skipped.  
 Deferred until Phase 4 (CardComposition) ships — assess what naming ground Phase 4 already covers before writing.
 
-### Phase 9 — PageHeader Pattern (NEW — added from SUG-157; priority: before library pages)
-- [ ] Propose topic angle and live preview approach
-- [ ] **Pause for review**
-- [ ] Write `PageHeader.stories.tsx`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 9 — PageHeader Pattern usage doc`
+### Phase 9 — PageHeader Pattern (NEW — added from SUG-157; priority: before library pages) — Format B (MDX)
+- [ ] Confirm Storybook title: stays `Patterns/PageHeader` or moves to `Foundations/Layout/PageHeader` — **pause for review**
+- [ ] Write `PageHeaderDocs.mdx` — four-section MDX docs page (Title, Preview, Props, Usage guidelines)
+- [ ] If title changes: update `PageHeader.stories.jsx` title string
+- [ ] Commit: `docs(storybook): SUG-152 Phase 9 — PageHeader MDX docs page`
 
 **Topic brief:**  
 Title: PageHeader Pattern  
@@ -289,10 +290,10 @@ All story files use `var(--st-*)` tokens exclusively. No per-theme overrides nee
 
 ## Non-Goals
 
-- No CSS, JSX, schema, or token changes
+- No CSS, schema, or token changes
 - No new page templates or routes
 - No Sanity documents
-- No changes to existing stories — this epic adds new story files only
+- Existing story source files modified only for title-string changes (Grid, PageHeader) to reflect Foundations/Layout/ reorganisation — no logic or rendering changes
 - Does not replace inline code comments
 - No third-party DS doc tools (Zeroheight, Supernova)
 - External/stakeholder DS showcasing remains at `/platform/design-system` — these docs are developer-facing
@@ -306,13 +307,36 @@ All story files use `var(--st-*)` tokens exclusively. No per-theme overrides nee
 - File naming: `<ConventionName>.stories.tsx` (PascalCase, no spaces)
 - Storybook title: `'Foundations/<Name>'`
 
-**Story format (non-negotiable)**
+**Two doc formats — choose per topic:**
+
+**Format A — Pure narrative usage doc** (existing pattern, `.stories.tsx`)
+Use for: convention docs with no live component to demo (Typography, Section Spacing, Token Layers, etc.)
 - Inline styles only — no className imports from other modules
 - All colours via `var(--st-*)` tokens. No hex values.
 - Component function named `<ConventionName>Page` returning a `<div>`
 - Meta: `layout: 'padded'`, controls and actions disabled
 - One export: `export const Default: Story = {}`
 - Match the shared `s` object pattern from `TypographyConventions.stories.tsx`
+
+**Format B — MDX component docs page** (new pattern, `.mdx` + `.stories.tsx` pair)
+Use for: layout primitives and DS components that have props + live preview + usage guidelines (Grid, Container, PageHeader, etc.)
+- `.stories.tsx` holds story definitions (Default, variants) with `tags: ['autodocs']` omitted — MDX owns the docs page
+- `.mdx` file composes the docs page explicitly with four sections in order:
+  1. **Title** — `# ComponentName` (h1)
+  2. **Preview** — `<Canvas of={Stories.Default} />` (live, interactive)
+  3. **Props** — `## Props` (h2) + `<Controls of={Stories.Default} />`
+  4. **Usage guidelines** — `## Usage guidelines` (h2) + narrative prose + do/don't pairs
+- MDX imports from `@storybook/blocks`: `Meta`, `Canvas`, `Controls`, `Description`
+- The `.mdx` file replaces the auto-generated Docs entry — sidebar shows `Docs` (MDX) + individual story entries
+- No `parameters.docs.page` override needed — presence of `.mdx` with `<Meta of={Stories} />` takes precedence
+
+**Layout primitives — Foundations/Layout/ reorganisation**
+Grid is currently at `Components/Layout/Grid`. As part of this epic, layout primitives move to `Foundations/Layout/`:
+- `Foundations/Layout/Grid` — Grid component (Format B: MDX docs + stories)
+- `Foundations/Layout/Container` — Container component (Format B: MDX docs + stories, if Container has its own story)
+- `Foundations/Spacing` — existing spacing token reference stays as Format A
+
+The move is a title-string change in the `.stories.tsx` file (`'Components/Layout/Grid'` → `'Foundations/Layout/Grid'`) plus creation of the paired `.mdx`. No component code changes.
 
 **Schema / Query / Render** — N/A for this epic.
 
@@ -330,20 +354,24 @@ N/A.
 
 ## Files to Modify
 
-**Storybook — one file per phase:**
+**Storybook — Format A (pure narrative `.stories.tsx`):**
 - `apps/storybook/.storybook/stories/SectionSpacing.stories.tsx` — CREATE (Phase 1)
 - `apps/storybook/.storybook/stories/EntityFolio.stories.tsx` — CREATE (Phase 2)
 - `apps/storybook/.storybook/stories/ChipTaxonomy.stories.tsx` — CREATE (Phase 3)
 - `apps/storybook/.storybook/stories/CardComposition.stories.tsx` — CREATE (Phase 4)
 - `apps/storybook/.storybook/stories/Breakpoints.stories.tsx` — CREATE (Phase 5)
 - `apps/storybook/.storybook/stories/TokenLayers.stories.tsx` — CREATE (Phase 6)
-- `apps/storybook/.storybook/stories/GridUsage.stories.tsx` — CREATE (Phase 7)
 - `apps/storybook/.storybook/stories/ComponentNaming.stories.tsx` — CREATE (Phase 8, deferred)
-- `apps/storybook/.storybook/stories/PageHeader.stories.tsx` — CREATE (Phase 9, from SUG-157)
 - `apps/storybook/.storybook/stories/ArchivePatterns.stories.tsx` — CREATE (Phase 10, from SUG-156 audit)
 - `apps/storybook/.storybook/stories/Contributing.stories.tsx` — MODIFY (add category taxonomy section, update to three categories)
 
-No other files touched.
+**Storybook — Format B (MDX docs page + stories pair):**
+- `apps/storybook/.storybook/stories/GridDocs.mdx` — CREATE (Phase 7, MDX docs page)
+- `apps/web/src/design-system/components/grid/Grid.stories.tsx` — MODIFY (Phase 7, title `Components/Layout/Grid` → `Foundations/Layout/Grid`)
+- `apps/storybook/.storybook/stories/PageHeaderDocs.mdx` — CREATE (Phase 9, MDX docs page)
+- `apps/web/src/design-system/components/PageHeader/PageHeader.stories.jsx` — MODIFY (Phase 9, add `Foundations/Layout/PageHeader` title variant or keep `Patterns/PageHeader` — confirm at Phase 9 review)
+
+No component source files (`.jsx`, `.tsx`, `.css`) touched beyond title-string changes.
 
 ---
 
