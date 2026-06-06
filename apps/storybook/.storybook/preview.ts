@@ -29,15 +29,19 @@ const withTheme: Decorator = (StoryFn, context) => {
   return createElement(StoryFn)
 }
 
-// Global layout wrapper — constrains every story to a readable width
-const withStoryLayout: Decorator = (StoryFn) =>
-  createElement('div', {
+// Global layout wrapper — constrains component stories to a readable width.
+// Skipped for fullscreen stories (Pages/, Regions/, full-width patterns) so
+// they render at true viewport width, matching the site's own containers.
+const withStoryLayout: Decorator = (StoryFn, context) => {
+  if (context.parameters.layout === 'fullscreen') return createElement(StoryFn)
+  return createElement('div', {
     style: {
       maxWidth: '960px',
       margin: '2rem auto',
       padding: '1rem',
     },
-  }, createElement(StoryFn));
+  }, createElement(StoryFn))
+}
 
 const preview: Preview = {
   globalTypes: {

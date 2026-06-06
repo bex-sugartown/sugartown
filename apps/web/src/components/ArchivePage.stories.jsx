@@ -28,7 +28,7 @@ export default {
   title: 'Pages/ArchivePage',
   parameters: {
     layout: 'fullscreen',
-    viewport: { defaultViewport: 'desktop' },
+    viewport: { defaultViewport: 'wide' },
   },
   decorators: [withRouter],
 }
@@ -167,6 +167,7 @@ export const ArticlesArchive = {
       items={mockArticles}
       docType="article"
       layout="grid"
+      hasFilterBar
       totalPages={3}
     />
   ),
@@ -200,6 +201,7 @@ export const NodesArchive = {
       items={mockNodes}
       docType="node"
       layout="grid"
+      hasFilterBar
       totalPages={1}
     />
   ),
@@ -216,6 +218,7 @@ export const CaseStudiesArchive = {
       items={mockCaseStudies}
       docType="caseStudy"
       layout="grid"
+      hasFilterBar
       totalPages={1}
     />
   ),
@@ -231,6 +234,7 @@ export const LibraryArchive = {
       breadcrumbs={[{ label: 'Library' }]}
       items={allMockItems}
       layout="grid"
+      hasFilterBar
       totalPages={2}
     />
   ),

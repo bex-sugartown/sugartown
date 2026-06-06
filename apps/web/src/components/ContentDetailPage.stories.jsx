@@ -4,8 +4,8 @@ import React from 'react'
  *
  * Documents the shared shell layout used by ArticlePage, NodePage, and
  * CaseStudyPage. Each story shows the structural anatomy: MetadataCard
- * in the sidebar position, PortableText body in the main column, and the
- * two-column grid triggered by MetadataCard presence.
+ * in the left sidebar position, PortableText body in the main column,
+ * and PageSidebar (TOC + related) in the right rail.
  *
  * These are layout documentation stories. They use static fixtures to
  * demonstrate the shell — not live Sanity data.
@@ -17,6 +17,7 @@ import React from 'react'
  */
 import { MemoryRouter } from 'react-router-dom'
 import MetadataCard from './MetadataCard'
+import PageSidebar from './PageSidebar'
 import pageStyles from '../pages/pages.module.css'
 
 function withRouter(StoryFn) { return React.createElement(MemoryRouter, null, React.createElement(StoryFn)) }
@@ -35,6 +36,16 @@ const mockAuthors = [{ _id: 'p1', name: 'Bex Walton', slug: 'bex-walton' }]
 const mockCategories = [{ _id: 'c1', name: 'Design Engineering', slug: 'design-engineering', colorHex: '#FF247D' }]
 const mockTags = [{ _id: 't1', name: 'Design Systems', slug: 'design-systems' }, { _id: 't2', name: 'CSS', slug: 'css' }]
 const mockTools = [{ _id: 'tool1', name: 'Sanity', slug: 'sanity' }, { _id: 'tool2', name: 'Storybook', slug: 'storybook' }]
+
+// Static PortableText blocks — gives PageSidebar something to build a TOC from
+const mockContent = [
+  { _type: 'block', _key: 'b1', style: 'normal', markDefs: [], children: [{ _type: 'span', _key: 's1', marks: [], text: 'Most designers encounter structured content through a CMS. Fewer understand why the structure itself is the design decision — the field names, the constraints, the relationships between document types.' }] },
+  { _type: 'block', _key: 'b2', style: 'h2', markDefs: [], children: [{ _type: 'span', _key: 's2', marks: [], text: 'The schema is the design spec' }] },
+  { _type: 'block', _key: 'b3', style: 'normal', markDefs: [], children: [{ _type: 'span', _key: 's3', marks: [], text: 'When you define a field as a reference rather than a string, you are encoding a governance decision. That decision will outlast the UI built on top of it by several years, at minimum.' }] },
+  { _type: 'block', _key: 'b4', style: 'normal', markDefs: [], children: [{ _type: 'span', _key: 's4', marks: [], text: 'Content modelling is not a backend concern. It is an information architecture decision that happens to live in a database.' }] },
+  { _type: 'block', _key: 'b5', style: 'h2', markDefs: [], children: [{ _type: 'span', _key: 's5', marks: [], text: 'What changes when you get the structure right' }] },
+  { _type: 'block', _key: 'b6', style: 'normal', markDefs: [], children: [{ _type: 'span', _key: 's6', marks: [], text: 'Filters work. Relationships are navigable. Taxonomy is consistent. The archive page can sort by anything.' }] },
+]
 
 const ArticleBody = () => (
   <div className={pageStyles.detailContent}>
@@ -92,6 +103,7 @@ export const ArticleShell = {
           tags={mockTags}
         />
         <ArticleBody />
+        <PageSidebar content={mockContent} />
       </div>
     </main>
   ),
@@ -119,6 +131,7 @@ export const NodeShell = {
           tools={mockTools}
         />
         <NodeBody />
+        <PageSidebar content={mockContent} />
       </div>
     </main>
   ),
@@ -146,6 +159,7 @@ export const CaseStudyShell = {
           status="live"
         />
         <CaseStudyBody />
+        <PageSidebar content={mockContent} />
       </div>
     </main>
   ),
