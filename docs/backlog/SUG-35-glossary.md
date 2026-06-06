@@ -393,6 +393,106 @@ Three reference types, three visual treatments, three editorial purposes. The gl
 
 ---
 
+## SUG-156 Audit Findings — Impact on Glossary Design
+
+> Added 2026-06-06 after the Library IA layout audit (SUG-156) codified the page-template and component conventions for all Library-section routes. The following gaps were identified against SUG-35's current design.
+
+### Gap 1 — `AlphaFilter` not specified (GlossaryArchivePage)
+
+SUG-35 describes "A-Z jump navigation (letter links at top)" but does not reference the existing `AlphaFilter` component. `AlphaFilter` already handles letter-bucket navigation in `/knowledge-graph` and `/tags`. Using anything else would be a duplicate implementation — violating the Atomic Reuse Gate.
+
+**Resolution:** `GlossaryArchivePage` must use `AlphaFilter` for the jump nav. The component accepts `letters[]` (array of letters that have content) + `onSelect` callback. The letter-bucket grouping of terms and the jump strip are both handled by this pattern.
+
+### Gap 2 — No `Container` size or `Breadcrumb` specified (GlossaryArchivePage)
+
+The SUG-156 audit established that every Library archive page uses:
+```jsx
+<Container size="archive">   // 960px max-width
+  <Breadcrumb items={[{ label: 'Home', to: '/' }, { label: 'Glossary' }]} />
+  {/* content */}
+</Container>
+```
+SUG-35's `GlossaryArchivePage` layout section does not specify either. Without this, the page will either use the wrong max-width or lack navigation context.
+
+**Resolution:** Explicitly specify `Container size="archive"` + `Breadcrumb` in the render layer spec. Breadcrumb for the archive: `[{ label: 'Home', to: '/' }, { label: 'Glossary' }]` (no link on last item — standard pattern).
+
+### Gap 3 — `GlossaryTermPage` detail shell not specified
+
+The SUG-156 audit documented two distinct detail shells in the Library section:
+
+| Shell | Used by | Pattern |
+|-------|---------|---------|
+| `DetailPageShell` | ArticlePage, NodePage, CaseStudyPage | Hero → `.detailPage` (MetadataCard sidebar + body + ContentNav + CitationZone) |
+| Entity folio | PersonProfilePage, ToolDetailPage, ProjectDetailPage | Breadcrumb → folio (avatar/logo + identity) → SectionLabel + Grid content |
+| Taxonomy detail | TaxonomyDetailPage | Breadcrumb → header (name + description) → ContentCard list + Pagination |
+
+`GlossaryTermPage` has no hero, no MetadataCard sidebar, and no PageSidebar — it is closest to the **taxonomy detail pattern**: a header block (term + pronunciation + abbreviation + definition) followed by a structured content listing (related terms, related content, used-in back-refs).
+
+**Resolution:** `GlossaryTermPage` uses the **taxonomy detail shell**: `Container size="detail"` → `Breadcrumb` → term header block → content sections. It does NOT use `DetailPageShell` (which implies Hero + MetadataCard + PageSidebar). Specify `Container size="detail"` (760px) for the prose-heavy definition, upgrading to `size="detail-wide"` (1080px) only if a two-column layout is adopted for related content.
+
+Breadcrumb for term pages: `[{ label: 'Home', to: '/' }, { label: 'Glossary', to: '/glossary' }, { label: term }]`
+
+### Gap 4 — "Used in" linked list must use `ContentCard`
+
+SUG-35 says the "Used in" back-references render as a "linked list" without specifying the component. The SUG-156 audit confirmed all Library content listings (archive and taxonomy detail) use `ContentCard`. A custom linked list would be a parallel implementation.
+
+**Resolution:** The "Used in" section renders `ContentCard` items in a single-column `Stack`, identical to `TaxonomyDetailPage`'s content listing. Pass `draftIds={new Set()}` (static — no draft detection needed on this secondary surface).
+
+### Gap 5 — No Storybook story plan
+
+The SUG-156 audit establishes that every Library template requires at least one Storybook story before close-out. SUG-35 has no story plan.
+
+**Resolution:** Add Storybook stories to Phase 1 scope:
+
+| Story file | Export variants |
+|------------|----------------|
+| `GlossaryArchivePage.stories.jsx` | `AlphaLayout` (default), `WithCategoryFilter`, `EmptyState` |
+| `GlossaryTermPage.stories.jsx` | `FullTerm` (all fields), `MinimalTerm` (definition only), `WithUsedIn` |
+| `GlossaryTermAnnotation.stories.jsx` | `DefaultLink`, `WithPopover`, `FirstOccurrence` (dfn wrap) |
+
+Stories go in `apps/web/src/components/` alongside the component files. Title prefix: `Patterns/Glossary*`.
+
+These stories should be added to the component registry (`docs/conventions/component-registry.md`) in the same commit they are created.
+
+### Gap 6 — PT serialiser files not named
+
+SUG-35 refers to "three serializer files" without naming them. The CLAUDE.md PortableText Serializer Registry identifies these three files that ALL must be updated when `glossaryTermRef` is added:
+
+| File | Context |
+|------|---------|
+| `apps/web/src/lib/portableTextComponents.jsx` | Shared PT config — `article`/`node`/`caseStudy` `content` fields |
+| `apps/web/src/components/PageSections.jsx` | Section builder `textSection` content |
+| `apps/web/src/components/portableTextComponents.jsx` | Page-level PT (used by some pages) |
+
+A `glossaryTermRef` mark registered in one but missing in another silently renders as `unknown__pt__mark__glossaryTermRef`. All three must be updated in the same commit.
+
+### Gap 7 — Nested PT markDef lock risk
+
+CLAUDE.md §Portable Text blocks documents a known failure mode: if a block inside a `textSection.content` field carries a `markDefs` entry of type `citationRef`, the entire PT field becomes uneditable in Studio — toolbar grayed out, style dropdown locked.
+
+The same risk applies to `glossaryTermRef` annotations. If an editor applies a `glossaryTermRef` mark inside a `textSection.content` nested field on a `page` document, and then removes the term without clearing the markDef, the section locks.
+
+**Resolution:** Document this in the Phase 2 implementation notes:
+- The `glossaryTermRef` annotation must always be removable via the Studio PT toolbar
+- The `glossaryTermRef` schema object must include a validation rule warning if `term` reference is null
+- Recovery procedure is the same as `citationRef`: `unset` the `markDefs` field on the affected block — `set: { markDefs: [] }` will not work (Sanity merges rather than replaces)
+- Consider restricting `glossaryTermRef` to `standardPortableText` (top-level content fields) and explicitly excluding it from `summaryPortableText` (nested section content) to prevent the failure mode entirely
+
+### Gap 8 — `/glossary` nav placement needs IA decision
+
+SUG-35 says "Add glossary link to Library nav dropdown." The IA brief (locked 2026-02-26) defines Library as: Knowledge Graph, Articles — two items. Adding Glossary would make it a three-item dropdown.
+
+**Options:**
+- (a) Three-item Library dropdown: Knowledge Graph / Articles / Glossary
+- (b) Glossary as a standalone nav item (not nested under Library)
+- (c) Glossary linked only from within the Library pages (footer or sidebar), not in primary nav
+
+This is an IA decision that must be made before Phase 1 ships — the Breadcrumb and nav item require a confirmed route. The backlog doc assumes `/glossary` as the route (already specified). The nav placement is the open question.
+
+**Resolution:** Flag as a pre-Phase-1 decision required. Default to option (a) unless explicitly overridden. The IA brief doc (`docs/briefs/ia-brief.md`) should be updated to record the decision before Phase 1 implementation begins.
+
+---
+
 ## Not in Scope
 
 - **Automatic term detection** — no AI scanning content to suggest glossary links. Annotations are manual editorial choices.
