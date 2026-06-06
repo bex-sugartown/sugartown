@@ -81,7 +81,7 @@ If no git tag exists, use the most recent `chore(release):` commit from `git log
 AI determines:
 - **Current version** from `package.json`
 - **Next patch version** (`X.Y.Z` → `X.Y.Z+1`)
-- **Epic ID and name** from the most recent commit message(s) — if the commits don't contain an epic ID, AI asks the human to confirm
+- **Epic ID and name** — derived from the commit scopes (`feat(sug-NNN):`, `fix(sug-NNN):`) since the last `chore(release):` commit. Do NOT use the epic ID stated verbatim in the human's message. If multiple epic IDs appear in commits, list them all. If an epic context argument was passed to `/mini-release`, cross-check it against the derived ID — if they differ, raise a mismatch warning before proceeding (see Step 1).
 - **Changed surfaces** grouped by: `apps/web`, `apps/studio`, `packages/design-system`, `apps/storybook`, other
 
 Step 0 has no gate — purely mechanical.
@@ -90,12 +90,30 @@ Step 0 has no gate — purely mechanical.
 
 ## STEP 1 — PROPOSE VERSION BUMP
 
-AI produces a summary of what will happen:
+AI produces a summary of what will happen.
+
+**Epic ID mismatch check (blocking):** If the epic ID passed as an argument (e.g. from `/mini-release SUG-NNN`) does not match the ID(s) derived from recent commit scopes, output this warning instead of the standard gate and stop:
+
+```
+⚠️  EPIC MISMATCH — action required
+Stated epic:  SUG-NNN
+Commits show: SUG-MMM (e.g. fix(sug-mmm):, feat(sug-mmm):)
+
+These don't match. Confirm which epic this release is for before proceeding.
+Reply with the correct epic ID to continue, or "abort" to cancel.
+```
+
+Do not proceed to the version bump gate until the human confirms the correct epic ID.
+
+If no mismatch (or no epic argument was passed), show the standard gate:
 
 ```
 ━━━ GATE 1 — VERSION BUMP ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Epic: EPIC-XXXX — [Epic name]
+Epic:    EPIC-XXXX — [Epic name]  ← derived from commit scopes
 Version: X.Y.Z → X.Y.Z+1
+
+Recent commits in scope:
+  [list the sug-NNN-scoped commits since last chore(release):]
 
 Files to update:
   package.json → X.Y.Z+1
