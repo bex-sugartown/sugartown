@@ -200,11 +200,31 @@ One-liner: Why components are named the way they are — StatCard vs Card, Conte
 Rule: Names encode role, not appearance. StatCard = tile primitive for spacing-0 grids. Card = standalone bordered surface. ContentCard = Sanity-bound data adapter. A name like DataCard or InfoCard is a signal the audit was skipped.  
 Deferred until Phase 4 (CardComposition) ships — assess what naming ground Phase 4 already covers before writing.
 
-### Phase 9 — Archive Page Patterns (NEW — added from SUG-156 audit)
+### Phase 9 — PageHeader Pattern (NEW — added from SUG-157; priority: before library pages)
+- [ ] Propose topic angle and live preview approach
+- [ ] **Pause for review**
+- [ ] Write `PageHeader.stories.tsx`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 9 — PageHeader Pattern usage doc`
+
+**Topic brief:**  
+Title: PageHeader Pattern  
+One-liner: The full-width identity band that opens every archive, entity, and taxonomy page — and the rules for when to use `italic`, `tint`, and `media`.  
+Motivation: SUG-157 shipped PageHeader as a DS pattern with three distinct calling contexts (archive, person/entity folio, taxonomy detail). Without a usage doc, callers will guess at which props to pass and re-introduce eyebrow or set `italic` wrong.  
+Covers four rules:  
+  1. **italic rule** — archive masteheads and person folios use `italic`. All entity folios (project, tool) and taxonomy detail pages use roman (default). Source: Foundations/Typography Conventions H1 Italic/Roman Rule.  
+  2. **tint rule** — `tint` is entity-folio-only. Pass the entity's `colorHex` (or a CSS custom property for person/tool). Never pass tint on archive or taxonomy pages.  
+  3. **media rule** — `media` is person-folio and tool-folio only (pass `<Avatar>`). Project detail, taxonomy detail, and archive pages have no media slot.  
+  4. **breadcrumb rule** — breadcrumb replaces eyebrow as the taxonomic context signal. `eyebrow` prop is removed. People archive has no breadcrumb (no parent section in the IA). All other pages pass `<Breadcrumb items={[...]} />`.  
+Live preview: Side-by-side of the four calling contexts — archive, person folio, tool folio, taxonomy detail — annotated with which props apply to each.  
+CSS surface: `apps/web/src/design-system/components/PageHeader/PageHeader.module.css`  
+Component: `Patterns/PageHeader` (stories already live in SUG-157)  
+**SUG-157 reference:** `Patterns/PageHeader` — ArchiveArticles, EntityPersonFolio, EntityToolFolio, TaxonomyTagDetail, WithActions, Snapshot are the live reference implementations for this doc.
+
+### Phase 10 — Archive Page Patterns (NEW — added from SUG-156 audit; was Phase 9)
 - [ ] Propose topic angle and live preview approach
 - [ ] **Pause for review**
 - [ ] Write `ArchivePatterns.stories.tsx`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 9 — Archive Page Patterns usage doc`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 10 — Archive Page Patterns usage doc`
 
 **Topic brief:**  
 Title: Archive Page Patterns  
@@ -229,7 +249,7 @@ Rule: never wrap a detail page shell in an explicit `<Container>` — the page C
 Live preview: Annotated anatomy of a taxonomy archive page — breadcrumb slot, archive header slot, item list slot, showing the class names and their responsibilities.  
 CSS surface: `apps/web/src/pages/TaxonomyArchivePage.module.css`, `apps/web/src/pages/pages.module.css`  
 Tokens: `--st-space-card-gap` (card gap in `.archiveGrid`), `--st-width-detail` (760px prose max-width), `--st-width-detail-wide` (1080px wide shell)  
-**SUG-156 reference:** `Pages/TaxonomyArchivePage` (RowLayout, AlphaBucketLayout, PeopleLayout, ProjectsLayout) and `Pages/ArchivePage` (ArticlesArchive) are the live reference implementations for this doc.
+**SUG-156 reference:** `Pages/TaxonomyArchivePage` (RowLayout, AlphaBucketLayout, PeopleLayout, ProjectsLayout) and `Pages/ArchivePage` (ArticlesArchive) are the live reference implementations for this doc. *(was Phase 9 — renumbered to Phase 10 after SUG-157 inserted PageHeader as Phase 9)*
 
 ### Contributing.stories.tsx — Storybook category taxonomy (sub-task, no new file)
 - [ ] Add a "Storybook organisation" section to the existing `Contributing.stories.tsx`
@@ -319,7 +339,8 @@ N/A.
 - `apps/storybook/.storybook/stories/TokenLayers.stories.tsx` — CREATE (Phase 6)
 - `apps/storybook/.storybook/stories/GridUsage.stories.tsx` — CREATE (Phase 7)
 - `apps/storybook/.storybook/stories/ComponentNaming.stories.tsx` — CREATE (Phase 8, deferred)
-- `apps/storybook/.storybook/stories/ArchivePatterns.stories.tsx` — CREATE (Phase 9, from SUG-156 audit)
+- `apps/storybook/.storybook/stories/PageHeader.stories.tsx` — CREATE (Phase 9, from SUG-157)
+- `apps/storybook/.storybook/stories/ArchivePatterns.stories.tsx` — CREATE (Phase 10, from SUG-156 audit)
 - `apps/storybook/.storybook/stories/Contributing.stories.tsx` — MODIFY (add category taxonomy section, update to three categories)
 
 No other files touched.

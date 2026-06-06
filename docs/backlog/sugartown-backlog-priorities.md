@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-06 · v0.26.9 released — SUG-156 shipped (Library IA Layout Audit — Pages/ Storybook category, production-accurate page template stories, fullscreen container fix).
+> Updated 2026-06-06 · v0.26.10 released — SUG-157 shipped (PageHeader DS pattern component — full-width identity band, italic/roman H1 rule, tint via color-mix, eyebrow removed).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.9 released ✅ 2026-06-06. SUG-156 Library IA Layout Audit shipped. Next: SUG-157 (PageHeader DS pattern component) — full design handoff received, epic doc written, ready to execute.
+> **⚑ Current focus:** v0.26.10 released ✅ 2026-06-06. SUG-157 PageHeader DS pattern shipped. Next: SUG-152 (DS Usage Docs) — Phase 9 PageHeader usage doc is first priority, before any library/archive pattern docs.
 
 ---
 
@@ -64,9 +64,9 @@
 | 3 | ~~**[SUG-112](https://linear.app/sugartown/issue/SUG-112) · Sidebar nav primitives** — `useScrollspy` hook extracted, `SidebarNav` web adapter, schema manifest codegen, 43 ESLint errors fixed + pre-commit gate activated. Shipped v0.23.24.~~ | `Design System` `Frontend` `Tooling` | ✅ Shipped |
 | 3 | ~~**[SUG-142](https://linear.app/sugartown/issue/SUG-142/ai-ethics-doc-v20260601-magnifica-humanitas-update-principle-13) · AI Ethics doc v2026.06.01** — Magnifica Humanitas update; Principle 13 restore; blockquote in compactPortableText; DM Sans italic. Shipped v0.26.1.~~ | `Content` `Editorial` | ✅ Shipped |
 | 2 | ~~**[SUG-141](https://linear.app/sugartown/issue/SUG-141/ds-usage-docs-typography-conventions-h1-italic-rule-phase-n-inventory) · DS Usage Docs — Typography conventions** — H1 italic/roman rule; usage doc template + style guide; tool folio roman fix. Shipped v0.26.2.~~ | `Design System` `Content` `Documentation` | ✅ Shipped |
-| 1 | **[SUG-157](https://linear.app/sugartown/issue/SUG-157/pageheader-ds-pattern-component) · PageHeader DS pattern component** — Full-width identity band for archive, entity, and taxonomy pages. ReactNode slots (breadcrumb, media, metadataCard, actions), tint via color-mix, all DS tokens confirmed. Replaces inline heading blocks on 6 production pages. Design handoff complete. Epic: `docs/backlog/SUG-157-pageheader-pattern.md`. | `Design System` `Frontend` | 🟢 Next |
+| ~~1~~ | ~~**[SUG-157](https://linear.app/sugartown/issue/SUG-157/pageheader-ds-pattern-component) · PageHeader DS pattern component**~~ — Full-width identity band; italic/roman H1 rule; tint via color-mix; eyebrow removed; 6 production pages migrated. Shipped v0.26.10. Epic: `docs/shipped/SUG-157-pageheader-pattern.md`. | `Design System` `Frontend` | ✅ Shipped |
+| 1 | **[SUG-152](https://linear.app/sugartown/issue/SUG-152/ds-usage-docs-storybook-documentation-audit-and-creation-phase-n) · DS Usage Docs — Storybook audit and creation** — Phase 9 (PageHeader usage doc) is first priority, before archive/library page patterns (Phase 10). Epic: `docs/backlog/SUG-152-ds-storybook-usage-docs-audit.md`. | `Design System` `Documentation` `Storybook` | 🟢 Next |
 | 2 | **[SUG-153](https://linear.app/sugartown/issue/SUG-153/mobile-responsive-layout-sidebar-drawer-multi-column-collapse) · Mobile responsive layout — sidebar drawer** — Replace stacking appendix with slide-out drawer on multi-column pages; integrate with existing MobileNav. Phase 0 mock required. Epic: `docs/backlog/SUG-153-mobile-responsive-sidebar-drawer.md`. | `Frontend` `UX` `Design System` | 🟣 Soon |
-| 2 | **[SUG-152](https://linear.app/sugartown/issue/SUG-152/ds-usage-docs-storybook-documentation-audit-and-creation-phase-n) · DS Usage Docs — Storybook audit and creation** — Audit all implicit DS conventions; produce a reviewed usage doc for each. 6 candidate topics: section spacing, folio layout, chip taxonomy, card composition, breakpoints, token naming. Epic: `docs/backlog/SUG-152-ds-storybook-usage-docs-audit.md`. | `Design System` `Documentation` `Storybook` | 🟣 Soon |
 | ~~3~~ | ~~**[SUG-156](https://linear.app/sugartown/issue/SUG-156/library-ia-layout-audit-codify-page-templates-reform-archivelayout) · Library IA Layout Audit — reform ArchiveLayout story, fill Storybook gaps**~~ — Pages/ category introduced; ArchivePage, ContentDetailPage, EntityDetailPage, TaxonomyDetailPage, TaxonomyArchivePage stories with production-accurate layouts. Shipped v0.26.9. | `Design System` `Storybook` `Documentation` | ✅ Shipped |
 | ~~3~~ | ~~**[SUG-143](https://linear.app/sugartown/issue/SUG-143/archive-layout-documentation-storybook-layouts-stories-and-glossary) · Archive Layout Documentation — Storybook LAYOUTS stories & glossary scoping**~~ — Superseded by SUG-156 (broader scope; same surface area covered). | `Design System` `Storybook` `UX` | ~~🟣 Soon~~ |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
