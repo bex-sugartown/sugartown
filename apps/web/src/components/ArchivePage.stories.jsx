@@ -28,6 +28,7 @@ export default {
   title: 'Pages/ArchivePage',
   parameters: {
     layout: 'fullscreen',
+    viewport: { defaultViewport: 'desktop' },
   },
   decorators: [withRouter],
 }
@@ -166,13 +167,12 @@ export const ArticlesArchive = {
       items={mockArticles}
       docType="article"
       layout="grid"
-      hasFilterBar
       totalPages={3}
     />
   ),
 }
 
-// ─── Articles Archive — list view ─────────────────────────────────────────────
+// ─── Articles Archive — list view (FilterBar + list layout) ──────────────────
 
 export const ArticlesArchiveList = {
   name: 'Articles Archive (/articles) — list',
@@ -200,7 +200,6 @@ export const NodesArchive = {
       items={mockNodes}
       docType="node"
       layout="grid"
-      hasFilterBar
       totalPages={1}
     />
   ),
@@ -217,7 +216,6 @@ export const CaseStudiesArchive = {
       items={mockCaseStudies}
       docType="caseStudy"
       layout="grid"
-      hasFilterBar
       totalPages={1}
     />
   ),
@@ -233,7 +231,6 @@ export const LibraryArchive = {
       breadcrumbs={[{ label: 'Library' }]}
       items={allMockItems}
       layout="grid"
-      hasFilterBar
       totalPages={2}
     />
   ),
