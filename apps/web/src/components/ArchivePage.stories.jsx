@@ -51,6 +51,21 @@ const ListIcon = () => (
   </svg>
 )
 
+const GraphIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+    <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+    <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+    <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+    <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+    <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
+    <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
+    <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
+    <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
+    <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
+    <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
+  </svg>
+)
+
 // ─── Shared archive shell — mirrors ArchivePage.jsx render structure ───────────
 //
 // Layout: archiveSection (border) → archiveToolbar → archiveSectionContent
@@ -91,6 +106,13 @@ function ArchiveShell({
                 aria-pressed={layout === 'list'}
               >
                 <ListIcon />
+              </button>
+              <button
+                type="button"
+                className={pageStyles.layoutToggleBtn}
+                aria-label="View in knowledge graph"
+              >
+                <GraphIcon />
               </button>
             </div>
             <span className={pageStyles.archiveToolbarKicker}>{kicker}</span>
