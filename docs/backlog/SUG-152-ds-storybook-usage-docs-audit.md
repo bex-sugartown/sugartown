@@ -141,25 +141,35 @@ CSS surface: `apps/web/src/pages/pages.module.css` `.detailContext`, `apps/web/s
 Rule: never hard-code these values. Every detail page spacing decision resolves through one of these tokens.  
 **SUG-156 reference:** `Pages/ContentDetailPage` (ArticleShell, NodeShell, CaseStudyShell) shows `.detailPage[data-has-margin]` in production context — use as a live reference for the two-column shell anatomy.
 
-### Phase 2 — Entity Folio Layout
-- [ ] Propose topic angle and live preview approach
-- [ ] **Pause for review**
-- [ ] Write `EntityFolio.stories.tsx`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 2 — Entity Folio Layout usage doc`
+### Phase 2 — Entity Folio Layout — Format B (MDX) at `Pages/EntityDetailPage`
+
+**IA decision:** Docs live WITH the stories they document, not as a separate Foundations/ entry. Each page-type doc is a Format B MDX page at its Pages/ location. Generic cross-cutting conventions stay in Foundations/.
+
+**Page stories prerequisite (must complete before writing MDX):**
+- [ ] Fix `EntityDetailPage.stories.jsx` section spacing: replace inline `marginTop: '2rem'` on `<section>` with a `.detailContext` wrapper — stories must reflect the production contract before we document it
+- [ ] Verify PageHeader `italic` prop is applied correctly in all three entity shells (Person: italic, Tool/Project: roman)
+- [ ] Confirm thumbnail sizes are injected via `--entity-thumb-size` (not hardcoded on the image element) in each story
+- [ ] Commit: `fix(storybook): SUG-152 Phase 2 — correct EntityDetailPage stories (detailContext spacing, italic, thumb-size)`
+
+**MDX docs steps:**
+- [ ] Write `EntityDetailPageDocs.mdx` — Format B four-section docs page at `Pages/EntityDetailPage`
+- [ ] Commit: `docs(storybook): SUG-152 Phase 2 — EntityDetailPage MDX docs page`
+
+**IA note — all remaining page-specific phases follow this pattern:**
+The usage doc for a page type lives AS the docs tab of that page's `Pages/` story group. Page-specific conventions are not duplicated in Foundations/. Revised locations:
+- Phase 2: `Pages/EntityDetailPage` (this phase)
+- Phase 10: `Pages/ArchivePage` + `Pages/TaxonomyArchivePage` (separate MDX per page type)
 
 **Topic brief:**  
-Title: Entity Folio Layout  
-One-liner: The flex-row pattern for all entity detail pages — thumbnail left, identity block right.  
-Rule: Use `entityFolio` + `folioIdentity` from `pages.module.css`. Do not implement folio layout by hand.  
-Live preview: Annotated folio — thumbnail slot, eyebrow, heading (roman/italic per type), description, metadata.  
-CSS surface: `apps/web/src/pages/pages.module.css` `.entityFolio`, `.folioIdentity`, `.entityThumbnail`, `.entityThumbnailFallback`  
-**Layout spacing primitive — `--entity-thumb-size` (must be documented in this phase):**  
-The folio thumbnail size is controlled by a CSS custom property injected inline: `style={{ '--entity-thumb-size': '72px' }}`. Default fallback is 88px. Approved values by entity type:
-- People: `80px` (PersonProfilePage)
-- Tools: `72px` (ToolDetailPage)
-- Projects: `72px` (ProjectDetailPage)
-Rule: never set thumbnail dimensions directly on `entityThumbnail` or `entityThumbnailFallback` — always set `--entity-thumb-size` on the parent `.entityFolio` element. This ensures the fallback div and the image slot stay in sync.  
-**SUG-156 reference:** `Pages/EntityDetailPage` (PersonFolio, ToolFolio, ProjectFolio) shows all three folio variants in production context — use as a live reference for each entity type's thumbnail size and eyebrow content.
+Title: Entity Detail Page  
+One-liner: The folio + sections layout used by person, tool, and project detail pages.  
+Covers four rules:
+1. **Folio pattern** — `entityFolio` + `folioIdentity` from `pages.module.css`. Never implement flex-row layout by hand. Thumbnail always via `--entity-thumb-size` on the parent `.entityFolio` (not hardcoded on the image).
+2. **Thumbnail sizes** — People: `80px`, Tools/Projects: `72px`. Default fallback: 88px.
+3. **H1 italic rule** — Person folio: italic. Tool/Project folio: roman. Source: `Foundations/Typography Conventions`.
+4. **Section spacing** — sections inside `.detailContext` flex container (gap: `--st-space-section-break-detail`). No `margin-block` on section components. Source: `Foundations/Layout/Section`.
+Live preview: `<Canvas of={Stories.PersonFolio} />` — all three entity variants (PersonFolio, ToolFolio, ProjectFolio) as individual stories in the story list.  
+CSS surface: `apps/web/src/pages/pages.module.css` `.entityFolio`, `.folioIdentity`, `.entityThumbnail`, `.entityThumbnailFallback`, `.detailContext`
 
 ### Phase 3 — Chip / Tag Taxonomy
 - [ ] Propose topic angle and live preview approach
@@ -370,14 +380,18 @@ All story files use `var(--st-*)` tokens exclusively. No per-theme overrides nee
 ## Technical Constraints
 
 **Monorepo / tooling**
-- Stories live in `apps/storybook/.storybook/stories/`
-- File naming: `<ConventionName>.stories.tsx` (PascalCase, no spaces)
-- Storybook title: `'Foundations/<Name>'`
+- Format A stories: `apps/storybook/.storybook/stories/<ConventionName>.stories.tsx` — title: `'Foundations/<Name>'`
+- Format B MDX + stories: co-located with the component/page they document:
+  - Layout primitives: `apps/web/src/design-system/components/<Component>/`
+  - Page templates: `apps/web/src/components/` (stories) + new `<PageType>Docs.mdx` alongside
+  - Patterns: `apps/web/src/design-system/components/<Pattern>/`
+- MDX file naming: `<ComponentName>Docs.mdx` (PascalCase)
 
 **Two doc formats — choose per topic:**
 
 **Format A — Pure narrative usage doc** (existing pattern, `.stories.tsx`)
-Use for: convention docs with no live component to demo (Typography, Section Spacing, Token Layers, etc.)
+Use for: cross-cutting conventions with no live component props table (Section Spacing, Token Layers, Breakpoints, etc.)
+Lives in: `Foundations/<Name>` — generic rules that apply across all page and component types.
 - Inline styles only — no className imports from other modules
 - All colours via `var(--st-*)` tokens. No hex values.
 - Component function named `<ConventionName>Page` returning a `<div>`
@@ -385,8 +399,9 @@ Use for: convention docs with no live component to demo (Typography, Section Spa
 - One export: `export const Default: Story = {}`
 - Match the shared `s` object pattern from `TypographyConventions.stories.tsx`
 
-**Format B — MDX component docs page** (new pattern, `.mdx` + `.stories.tsx` pair)
-Use for: layout primitives and DS components that have props + live preview + usage guidelines (Grid, Container, PageHeader, etc.)
+**Format B — MDX docs page** (new pattern, `.mdx` + `.stories.tsx` pair)
+Use for: DS components with props, layout primitives, AND page templates that need a canonical docs tab.
+Lives in: co-located with the stories it documents — `Foundations/Layout/Grid`, `Patterns/PageHeader`, `Pages/EntityDetailPage`, `Pages/ArchivePage`, etc. NOT in a separate Foundations/ entry.
 - `.stories.tsx` holds story definitions (Default, variants) with `tags: ['autodocs']` omitted — MDX owns the docs page
 - `.mdx` file composes the docs page explicitly with four sections in order:
   1. **Title** — `# ComponentName` (h1)
