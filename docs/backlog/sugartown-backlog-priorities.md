@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-05 · v0.26.8 released — SUG-155 shipped (DS Codification Sprint — Callout banner, StatCard API, Toolbar, Swatch dark mode, platform page primitives).
+> Updated 2026-06-06 · v0.26.9 released — SUG-156 shipped (Library IA Layout Audit — Pages/ Storybook category, production-accurate page template stories, fullscreen container fix).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.8 released ✅ 2026-06-05. SUG-155 DS Codification Sprint shipped. Next: SUG-152 (DS Storybook usage docs) or SUG-154 (Platform KPI benchmark report).
+> **⚑ Current focus:** v0.26.9 released ✅ 2026-06-06. SUG-156 Library IA Layout Audit shipped. Next: SUG-152 (DS Storybook usage docs) or SUG-154 (Platform KPI benchmark report).
 
 ---
 
@@ -66,7 +66,7 @@
 | 2 | ~~**[SUG-141](https://linear.app/sugartown/issue/SUG-141/ds-usage-docs-typography-conventions-h1-italic-rule-phase-n-inventory) · DS Usage Docs — Typography conventions** — H1 italic/roman rule; usage doc template + style guide; tool folio roman fix. Shipped v0.26.2.~~ | `Design System` `Content` `Documentation` | ✅ Shipped |
 | 2 | **[SUG-153](https://linear.app/sugartown/issue/SUG-153/mobile-responsive-layout-sidebar-drawer-multi-column-collapse) · Mobile responsive layout — sidebar drawer** — Replace stacking appendix with slide-out drawer on multi-column pages; integrate with existing MobileNav. Phase 0 mock required. Epic: `docs/backlog/SUG-153-mobile-responsive-sidebar-drawer.md`. | `Frontend` `UX` `Design System` | 🟣 Soon |
 | 2 | **[SUG-152](https://linear.app/sugartown/issue/SUG-152/ds-usage-docs-storybook-documentation-audit-and-creation-phase-n) · DS Usage Docs — Storybook audit and creation** — Audit all implicit DS conventions; produce a reviewed usage doc for each. 6 candidate topics: section spacing, folio layout, chip taxonomy, card composition, breakpoints, token naming. Epic: `docs/backlog/SUG-152-ds-storybook-usage-docs-audit.md`. | `Design System` `Documentation` `Storybook` | 🟣 Soon |
-| 3 | **[SUG-156](https://linear.app/sugartown/issue/SUG-156/library-ia-layout-audit-codify-page-templates-reform-archivelayout) · Library IA Layout Audit — reform ArchiveLayout story, fill Storybook gaps** — Audit all Library-section page templates; reform ArchiveLayout story (ContentCard + FilterBar + Pagination); new stories for TaxonomyArchivePage, TaxonomyDetailPage, DetailPageShell, EntityDetailPage. Supersedes SUG-143. Epic: `docs/backlog/SUG-156-library-ia-layout-audit.md`. | `Design System` `Storybook` `Documentation` | 🟣 Soon |
+| ~~3~~ | ~~**[SUG-156](https://linear.app/sugartown/issue/SUG-156/library-ia-layout-audit-codify-page-templates-reform-archivelayout) · Library IA Layout Audit — reform ArchiveLayout story, fill Storybook gaps**~~ — Pages/ category introduced; ArchivePage, ContentDetailPage, EntityDetailPage, TaxonomyDetailPage, TaxonomyArchivePage stories with production-accurate layouts. Shipped v0.26.9. | `Design System` `Storybook` `Documentation` | ✅ Shipped |
 | ~~3~~ | ~~**[SUG-143](https://linear.app/sugartown/issue/SUG-143/archive-layout-documentation-storybook-layouts-stories-and-glossary) · Archive Layout Documentation — Storybook LAYOUTS stories & glossary scoping**~~ — Superseded by SUG-156 (broader scope; same surface area covered). | `Design System` `Storybook` `UX` | ~~🟣 Soon~~ |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
 | 2 | ~~**[SUG-104](https://linear.app/sugartown/issue/SUG-104) · Listview updates — archives and taxonomies** — Shared entity folio pattern (Person, Project, Tool detail pages), SectionLabel + 2-col Grid content sections, full-width layout at --st-width-detail-wide, responsive mobile collapse in Grid. Shipped v0.23.21.~~ | `UX` `Design System` `Frontend` | ✅ Shipped |
@@ -220,4 +220,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-05 · v0.26.8 released · queue: SUG-152 / SUG-154*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-06 · v0.26.9 released · queue: SUG-152 / SUG-154*
