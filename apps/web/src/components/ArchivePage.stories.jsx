@@ -67,7 +67,7 @@ export const ArticlesArchive = {
       breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Articles' }]}
       hasFilterBar
     >
-      <Grid columns={3} tabletColumns={2} spacing="md">
+      <Grid columns={3} tabletColumns={2} spacing="lg">
         {mockArticles.map((item) => (
           <ContentCard key={item._id} item={item} docType="article" />
         ))}
@@ -88,7 +88,7 @@ export const KnowledgeGraphArchive = {
       breadcrumbs={[{ label: 'Library', href: '/library' }, { label: 'Knowledge Graph' }]}
       hasFilterBar
     >
-      <Grid columns={3} tabletColumns={2} spacing="md">
+      <Grid columns={3} tabletColumns={2} spacing="lg">
         {mockNodes.map((item) => (
           <ContentCard key={item._id} item={item} docType="node" />
         ))}
@@ -108,7 +108,7 @@ export const CaseStudiesArchive = {
       count={mockCaseStudies.length}
       breadcrumbs={[{ label: 'Work', href: '/case-studies' }, { label: 'Case Studies' }]}
     >
-      <Grid columns={3} tabletColumns={2} spacing="md">
+      <Grid columns={3} tabletColumns={2} spacing="lg">
         {mockCaseStudies.map((item) => (
           <ContentCard key={item._id} item={item} docType="caseStudy" />
         ))}
@@ -129,7 +129,7 @@ export const TaxonomyArchive = {
       breadcrumbs={[{ label: 'Library' }]}
       hasFilterBar
     >
-      <Grid columns={3} tabletColumns={2} spacing="md">
+      <Grid columns={3} tabletColumns={2} spacing="lg">
         {allMockItems.map((item) => (
           <ContentCard key={item._id} item={item} docType={item._type} />
         ))}

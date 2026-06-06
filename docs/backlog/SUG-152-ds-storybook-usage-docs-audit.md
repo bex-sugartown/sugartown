@@ -82,6 +82,14 @@ One-liner: How `.detailContext` owns all inter-section gap — components must n
 Rule: Parent container owns gap via `display: flex; gap`. Individual sections have zero `margin-block`. Internal box padding (callout inset, code block padding) is allowed.  
 Live preview: Side-by-side — correct (gap only on parent) vs wrong (component adds margin-block, double-padding results).  
 CSS surface: `apps/web/src/pages/pages.module.css` `.detailContext`, `apps/web/src/components/PageSections.module.css`  
+**Layout spacing primitives used by the detail shell (must be documented in this phase):**
+- `--st-space-section-break-detail` (40px) — the gap value on `.detailContext` and the `margin-bottom` on MetadataCard / boundary elements
+- `--st-width-detail` (760px) — max-width of `.detailPage` in single-column mode (prose-optimised)
+- `--st-width-detail-wide` (1080px) — max-width of `.detailPage[data-has-margin]` in two-column mode
+- `--st-space-sidebar` (220px) — fixed width of the right metadata column in the two-column grid
+- `--st-space-sidebar-gap` (2.5rem) — column gap between prose and sidebar
+- `--st-space-meta-top` (32px) — top padding on `.detailPage`
+Rule: never hard-code these values. Every detail page spacing decision resolves through one of these tokens.  
 **SUG-156 reference:** `Pages/ContentDetailPage` (ArticleShell, NodeShell, CaseStudyShell) shows `.detailPage[data-has-margin]` in production context — use as a live reference for the two-column shell anatomy.
 
 ### Phase 2 — Entity Folio Layout
@@ -96,6 +104,12 @@ One-liner: The flex-row pattern for all entity detail pages — thumbnail left, 
 Rule: Use `entityFolio` + `folioIdentity` from `pages.module.css`. Do not implement folio layout by hand.  
 Live preview: Annotated folio — thumbnail slot, eyebrow, heading (roman/italic per type), description, metadata.  
 CSS surface: `apps/web/src/pages/pages.module.css` `.entityFolio`, `.folioIdentity`, `.entityThumbnail`, `.entityThumbnailFallback`  
+**Layout spacing primitive — `--entity-thumb-size` (must be documented in this phase):**  
+The folio thumbnail size is controlled by a CSS custom property injected inline: `style={{ '--entity-thumb-size': '72px' }}`. Default fallback is 88px. Approved values by entity type:
+- People: `80px` (PersonProfilePage)
+- Tools: `72px` (ToolDetailPage)
+- Projects: `72px` (ProjectDetailPage)
+Rule: never set thumbnail dimensions directly on `entityThumbnail` or `entityThumbnailFallback` — always set `--entity-thumb-size` on the parent `.entityFolio` element. This ensures the fallback div and the image slot stay in sync.  
 **SUG-156 reference:** `Pages/EntityDetailPage` (PersonFolio, ToolFolio, ProjectFolio) shows all three folio variants in production context — use as a live reference for each entity type's thumbnail size and eyebrow content.
 
 ### Phase 3 — Chip / Tag Taxonomy
@@ -148,18 +162,31 @@ One-liner: When to use `--st-color-text-primary` vs `--st-color-pink` — and wh
 Rule: Use semantic tokens in components. Use primitives only in token definition files and theme overrides.  
 Live preview: Two columns — "Semantic in component (correct)" vs "Primitive in component (breaks in dark mode)".
 
-### Phase 7 — Grid Usage (spacing-0 pattern)
+### Phase 7 — Grid Usage (all spacing modes)
 - [ ] Propose topic angle and live preview approach
 - [ ] **Pause for review**
 - [ ] Write `GridUsage.stories.tsx`
 - [ ] Commit: `docs(storybook): SUG-152 Phase 7 — Grid Usage usage doc`
 
 **Topic brief:**  
-Title: Grid Usage — spacing-0 and tile primitives  
-One-liner: The `spacing-0` bg-through-gap pattern and which primitives belong inside it.  
-Rule: `spacing="0"` Grid uses parent background as hairline divider — children must be borderless tile primitives (StatCard). Never place Card (own border) inside a spacing-0 Grid; it stacks against the outer border producing a double-border. `accentTop accentColor="ink"` adds a 2px ink top border to the entire group and is required on both stats and artifact tile grids.  
-Live preview: Correct (StatCard in spacing-0) vs wrong (Card in spacing-0 — shows double-border). Annotated accentTop colour swatch.  
-CSS surface: `apps/web/src/design-system/components/grid/Grid.module.css`
+Title: Grid Usage — spacing modes and responsive collapse  
+One-liner: The two valid Grid spacing values, which contexts use each, and how `tabletColumns` controls responsive collapse.  
+**SUG-156 addition — Grid spacing primitives must be fully documented:**  
+Grid has exactly two implemented spacing values — `spacing="lg"` and `spacing="0"`. There is no `spacing="md"` or `spacing="sm"`. The rule is:
+
+| Value | Gap token | Computed | Use case |
+|-------|-----------|----------|----------|
+| `spacing="lg"` (default) | `--st-space-card-gap` | 32px | All open-gap grids: archive cards, entity sections, ContentCard listings |
+| `spacing="0"` | `--st-space-0` (1px via bg) | hairline | Stat/artifact tile grids — children must be borderless (StatCard only) |
+
+No other spacing values are defined — passing any other string produces no gap class. **Do not use `spacing="md"` — it is undefined and produces a gapless grid.**  
+Responsive collapse: `tabletColumns` overrides `--grid-columns` at ≤900px. The archive pattern uses `columns={3} tabletColumns={2}` (3-col → 2-col at tablet). Entity sections use `columns={2}` (no tabletColumns — collapses to 1-col at mobile via the base mobile rule).  
+Rule: `spacing="0"` Grid uses parent background as hairline divider — children must be borderless tile primitives (StatCard). Never place Card (own border) inside a spacing-0 Grid.  
+`accentTop accentColor="ink"` adds a 2px ink top border to the entire group — required on both stats and artifact tile grids.  
+Live preview: All four combinations — `spacing="lg"` (archive cards), `spacing="lg" columns={2}` (entity sections), `spacing="0"` correct (StatCard), `spacing="0"` wrong (Card — double border). Plus tabletColumns collapse demo.  
+CSS surface: `apps/web/src/design-system/components/Grid/Grid.module.css`  
+Tokens: `--st-space-card-gap` (32px), `--st-space-0` (0px/1px via bg), `--grid-columns`, `--grid-columns-tablet`  
+**SUG-156 reference:** `Pages/ArchivePage` uses `spacing="lg" columns={3} tabletColumns={2}`. `Pages/EntityDetailPage` uses `spacing="lg" columns={2}` (no tabletColumns).
 
 ### Phase 8 — Component Naming Decisions (deferred — after Phase 4 ships)
 - [ ] Propose topic angle and live preview approach
@@ -188,8 +215,20 @@ Covers four patterns:
   2. **TaxonomyItem row** — `.item` / `.itemList` / `.itemLink` / `.itemLabel` / `.itemSublabel` / `.itemCount` / `.itemColorDot` / `.itemAvatarFallback`. The unified row primitive for tags, categories, tools, people, projects. Rule: all taxonomy listing rows use this class set; do not create a new row pattern.  
   3. **FilterBar + Pagination pairing** — `FilterBar` (from design-system) receives `filterModel` (from `buildFilterModel()`), `activeFilters` (from `useFilterState()`). Pagination receives `currentPage`/`totalPages`/`onPageChange`. Rule: these always appear together on content archives (ArchivePage); taxonomy archives (TaxonomyArchivePage) do not use FilterBar. `AlphaFilter` is taxonomy-archive-only (tools, people).  
   4. **Breadcrumb placement** — Breadcrumb always sits immediately inside the page `<main>`, before the archive header, with no extra wrapper. Rule: never nest Breadcrumb inside the archive header div; it must be a direct sibling above it.  
+  5. **Container size selection** — which `size` prop to use on each archive/detail page type:
+
+| Page type | Container size | Max-width token | Reason |
+|-----------|---------------|-----------------|--------|
+| Content archives (articles, nodes, case studies) | `size="archive"` | `--st-width-archive` (960px) | Optimised for 3-col card grid |
+| Taxonomy archives (tags, categories, people, tools, projects) | default (no size) | `--st-width-archive` or container default | Row list doesn't need tight prose width |
+| Taxonomy archive wide (tools/projects flat-grid) | `.archivePageWide` modifier (no Container override) | page CSS handles width | Flat-grid needs more horizontal space |
+| Content detail (articles/nodes/case studies) | no Container — `.detailPage` owns max-width | `--st-width-detail` (760px) or `--st-width-detail-wide` (1080px) | Detail pages use the two-column shell directly, not a Container |
+| Entity detail (people/tools/projects) | no Container — `.entityDetailPage` owns max-width | inherits from page class | Entity pages use the same pattern as content detail |
+
+Rule: never wrap a detail page shell in an explicit `<Container>` — the page CSS class (`.detailPage`, `.entityDetailPage`) owns the max-width. Archive pages use `<Container size="archive">` to frame the listing content.  
 Live preview: Annotated anatomy of a taxonomy archive page — breadcrumb slot, archive header slot, item list slot, showing the class names and their responsibilities.  
 CSS surface: `apps/web/src/pages/TaxonomyArchivePage.module.css`, `apps/web/src/pages/pages.module.css`  
+Tokens: `--st-space-card-gap` (card gap in `.archiveGrid`), `--st-width-detail` (760px prose max-width), `--st-width-detail-wide` (1080px wide shell)  
 **SUG-156 reference:** `Pages/TaxonomyArchivePage` (RowLayout, AlphaBucketLayout, PeopleLayout, ProjectsLayout) and `Pages/ArchivePage` (ArticlesArchive) are the live reference implementations for this doc.
 
 ### Contributing.stories.tsx — Storybook category taxonomy (sub-task, no new file)
