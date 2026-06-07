@@ -24,6 +24,7 @@ import {
   RelatedCard,
   ChangelogEntry,
   ChangelogItem,
+  docStyles as s,
 } from '../helpers/docs';
 
 // ─── Checkbox helper (coverage table) ────────────────────────────────────────
@@ -87,56 +88,61 @@ function StoryTemplatePage() {
           manual writing. Sections 01 and 06–14 are authored in a <code style={s.code}>Guidelines</code> story export.
           Must Have sections gate merge. Should Have sections gate v1 stable.
         </p>
-        <table style={s.table}>
-          <thead>
-            <tr>
-              <th style={s.th}>Section</th>
-              <th style={s.th}>Description</th>
-              <th style={s.th}>Priority</th>
-              <th style={{ ...s.th, textAlign: 'center' as const }}>Pink Moon</th>
-              <th style={{ ...s.th, textAlign: 'center' as const }}>SB Autodoc</th>
-            </tr>
-          </thead>
-          <tbody>
-            {([
-              ['Overview / Purpose',          'What it is, what it does, what it is not',                          'must',   false, false],
-              ['Live Preview',                 'Interactive Controls panel — toggle props, see output in real time', 'must',   true,  true ],
-              ['Code / Usage Examples',        'Working JSX or HTML, Storybook embed',                              'must',   true,  true ],
-              ['Props / API',                  'Autodocs prop table — name, type, default, required, description',  'must',   true,  true ],
-              ['Composition Patterns (Stories)','How it works with other components in context',                    'must',   true,  true ],
-              ['Usage Guidelines (Do / Don\'t)','Annotated correct and incorrect use pairs',                        'must',   false, false],
-              ['Accessibility',                'ARIA, keyboard, touch targets, screen reader behavior',             'must',   false, false],
-              ['Design Tokens',                'Token-to-property mapping per variant and state',                   'must',   false, false],
-              ['Anatomy',                      'Labeled diagram of named parts',                                    'should', false, false],
-              ['Variants',                     'Full taxonomy — style, size, icon combinations',                    'should', false, false],
-              ['States',                       'Every interactive condition with visuals',                          'should', false, false],
-              ['Content Guidelines',           'Label rules, char limits, verb-first phrasing',                     'should', false, false],
-              ['Related Components',           'When to use something else instead',                                'should', false, false],
-              ['Changelog',                    'Version history, deprecations, breaking changes',                   'should', false, false],
-            ] as [string, string, 'must'|'should', boolean, boolean][]).map(([section, desc, priority, pm, sb]) => (
-              <tr key={section}>
-                <td style={s.td}>{section}</td>
-                <td style={{ ...s.td, color: 'var(--st-color-neutral-500)' }}>{desc}</td>
-                <td style={s.td}>
-                  <span style={{
-                    fontFamily: 'var(--st-font-family-mono)',
-                    fontSize: '0.55rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase' as const,
-                    padding: '2px 7px',
-                    border: `1px solid ${priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-400)'}`,
-                    color: priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-500)',
-                  }}>
-                    {priority === 'must' ? 'Must Have' : 'Should Have'}
-                  </span>
-                </td>
-                <td style={{ ...s.td, textAlign: 'center' as const }}><Checkbox checked={pm} /></td>
-                <td style={{ ...s.td, textAlign: 'center' as const }}><Checkbox checked={sb} /></td>
+        <div style={{ border: '1px solid var(--st-table-wrap-border)' }}>
+          <table style={{
+            width: '100%', borderCollapse: 'collapse',
+            background: 'var(--st-color-white)',
+          }}>
+            <thead>
+              <tr>
+                <th style={s.th}>Section</th>
+                <th style={s.th}>Description</th>
+                <th style={s.th}>Priority</th>
+                <th style={{ ...s.th, textAlign: 'center' as const }}>Pink Moon</th>
+                <th style={{ ...s.th, textAlign: 'center' as const }}>SB Autodoc</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {([
+                ['Overview / Purpose',           'What it is, what it does, what it is not',                          'must',   false, false],
+                ['Live Preview',                  'Interactive Controls panel — toggle props, see output in real time', 'must',   true,  true ],
+                ['Code / Usage Examples',         'Working JSX or HTML, Storybook embed',                              'must',   true,  true ],
+                ['Props / API',                   'Autodocs prop table — name, type, default, required, description',  'must',   true,  true ],
+                ['Composition Patterns (Stories)', 'How it works with other components in context',                    'must',   true,  true ],
+                ["Usage Guidelines (Do / Don't)", 'Annotated correct and incorrect use pairs',                         'must',   false, false],
+                ['Accessibility',                 'ARIA, keyboard, touch targets, screen reader behavior',             'must',   false, false],
+                ['Design Tokens',                 'Token-to-property mapping per variant and state',                   'must',   false, false],
+                ['Anatomy',                       'Labeled diagram of named parts',                                    'should', false, false],
+                ['Variants',                      'Full taxonomy — style, size, icon combinations',                    'should', false, false],
+                ['States',                        'Every interactive condition with visuals',                          'should', false, false],
+                ['Content Guidelines',            'Label rules, char limits, verb-first phrasing',                     'should', false, false],
+                ['Related Components',            'When to use something else instead',                                'should', false, false],
+                ['Changelog',                     'Version history, deprecations, breaking changes',                   'should', false, false],
+              ] as [string, string, 'must'|'should', boolean, boolean][]).map(([section, desc, priority, pm, sb]) => (
+                <tr key={section}>
+                  <td style={s.td}>{section}</td>
+                  <td style={{ ...s.td, color: 'var(--st-color-neutral-500)' }}>{desc}</td>
+                  <td style={s.td}>
+                    <span style={{
+                      fontFamily: 'var(--st-font-family-mono)',
+                      fontSize: '0.55rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase' as const,
+                      padding: '2px 7px',
+                      border: `1px solid ${priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-400)'}`,
+                      color: priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-500)',
+                    }}>
+                      {priority === 'must' ? 'Must Have' : 'Should Have'}
+                    </span>
+                  </td>
+                  <td style={{ ...s.td, textAlign: 'center' as const }}><Checkbox checked={pm} /></td>
+                  <td style={{ ...s.td, textAlign: 'center' as const }}><Checkbox checked={sb} /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
 
       {/* ── File structure ────────────────────────────────────────────────── */}
@@ -301,21 +307,6 @@ function StoryTemplatePage() {
   );
 }
 
-// ─── Local styles (Guidelines story layout only) ──────────────────────────────
-
-const s = {
-  h2: { fontFamily: 'var(--st-font-family-narrative)', fontSize: '1.4rem', fontWeight: 600, color: 'var(--st-color-ink)', marginBottom: 16, marginTop: 0 } as React.CSSProperties,
-  h3: { fontFamily: 'var(--st-font-family-narrative)', fontSize: '1.2rem', fontWeight: 600, color: 'var(--st-color-ink)', marginBottom: 10, marginTop: 32 } as React.CSSProperties,
-  prose: { fontSize: '0.9375rem', lineHeight: 1.7, color: 'var(--st-color-neutral-600)', maxWidth: '62ch', marginBottom: 12 } as React.CSSProperties,
-  list: { listStyle: 'none', padding: 0, marginBottom: 20 } as React.CSSProperties,
-  a11yList: { listStyle: 'none', padding: 0 } as React.CSSProperties,
-  code: { fontFamily: 'var(--st-font-family-mono)', fontSize: '0.84em', background: 'var(--st-color-neutral-100)', padding: '1px 5px', color: 'var(--st-color-maroon-600)' } as React.CSSProperties,
-  table: { width: '100%', borderCollapse: 'collapse', border: '1px solid var(--st-color-neutral-200)' } as React.CSSProperties,
-  th: { fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'var(--st-color-neutral-500)', padding: '8px 12px', textAlign: 'left' as const, borderBottom: '1px solid var(--st-color-neutral-200)', background: 'var(--st-color-neutral-100)' } as React.CSSProperties,
-  td: { padding: '8px 12px', borderBottom: '1px solid var(--st-color-neutral-100)', fontSize: '0.8125rem', color: 'var(--st-color-neutral-600)', verticalAlign: 'top' as const } as React.CSSProperties,
-  tdMono: { fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', fontWeight: 600, color: 'var(--st-color-maroon-600)' } as React.CSSProperties,
-  anatomy: { background: 'var(--st-color-midnight-900)', border: '1px solid rgba(255,255,255,0.06)', padding: '24px 28px', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', overflowX: 'auto' as const, margin: '0 0 16px' } as React.CSSProperties,
-};
 
 // ─── Meta & export ────────────────────────────────────────────────────────────
 

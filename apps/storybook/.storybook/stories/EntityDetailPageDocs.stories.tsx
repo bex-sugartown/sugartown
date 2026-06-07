@@ -8,19 +8,15 @@ import { mockArticles } from '../../../../apps/web/src/components/__fixtures__/m
 import pageStyles from '../../../../apps/web/src/pages/pages.module.css';
 import sectionStyles from '../../../../apps/web/src/components/PageSections.module.css';
 import { VariantFrame } from './_PreviewFrame';
-import { DoDontGrid, DoGroup, DontGroup } from '../helpers/docs';
+import { DoDontGrid, DoGroup, DontGroup, docStyles } from '../helpers/docs';
 
 const s = {
+  ...docStyles,
   page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px', background: 'var(--st-color-bg)' } as React.CSSProperties,
   h1:       { fontFamily: 'var(--st-font-family-narrative)', fontSize: '2.25rem', fontWeight: 600, marginBottom: '0.25rem' } as React.CSSProperties,
   oneliner: { color: 'var(--st-color-text-muted)', marginTop: 0, marginBottom: '2rem' } as React.CSSProperties,
-  h2:       { fontSize: '1.2rem', fontWeight: 700, marginTop: '2.5rem', marginBottom: '0.75rem' } as React.CSSProperties,
   rule:     { fontWeight: 700, fontSize: '1.05rem', borderLeft: '3px solid var(--st-color-brand-primary)', paddingLeft: '1rem', margin: '1rem 0 1.5rem' } as React.CSSProperties,
   hr:       { border: 'none', borderTop: '1px solid var(--st-color-border-default)', margin: '2rem 0' } as React.CSSProperties,
-  th:       { textAlign: 'left' as const, padding: '0.5rem 1rem', borderBottom: '1px solid var(--st-color-border-default)', fontWeight: 600, fontSize: '0.875rem' },
-  td:       { padding: '0.5rem 1rem', fontSize: '0.875rem', verticalAlign: 'top' as const },
-  code:     { background: 'var(--st-color-bg-surface-strong)', padding: '0.15rem 0.4rem', borderRadius: '3px', fontSize: '0.85em', fontFamily: 'var(--st-font-family-mono)' } as React.CSSProperties,
-  pre:      { background: 'var(--st-color-bg-surface-strong)', padding: '0.75rem', borderRadius: '3px', fontSize: '0.8rem', fontFamily: 'var(--st-font-family-mono)', whiteSpace: 'pre-wrap' as const, margin: '0.5rem 0 1.5rem', overflowX: 'auto' as const } as React.CSSProperties,
 };
 
 // ─── Live preview shells ──────────────────────────────────────────────────────
@@ -186,7 +182,8 @@ function EntityDetailPageDocsPage() {
         Set <code style={s.code}>--entity-thumb-size</code> on <code style={s.code}>.entityFolio</code> —
         do not hardcode a width on the image element.
       </p>
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '1.5rem' }}>
+      <div style={s.tableWrap}>
+      <table style={s.table}>
         <thead>
           <tr>
             <th style={s.th}>Entity type</th>
@@ -217,6 +214,7 @@ function EntityDetailPageDocsPage() {
           </tr>
         </tbody>
       </table>
+      </div>
 
       <h2 style={s.h2}>Rule 3 — H1 italic rule</h2>
       <p style={{ fontSize: '0.875rem' }}>
@@ -260,7 +258,8 @@ function EntityDetailPageDocsPage() {
 </div>`}</pre>
 
       <h2 style={s.h2}>Implementation</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2rem' }}>
+      <div style={s.tableWrap}>
+      <table style={s.table}>
         <thead>
           <tr>
             <th style={s.th}>File</th>
@@ -282,6 +281,7 @@ function EntityDetailPageDocsPage() {
           ))}
         </tbody>
       </table>
+      </div>
 
     </div>
   );

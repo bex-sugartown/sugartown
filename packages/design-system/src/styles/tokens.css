@@ -507,7 +507,7 @@
   --st-button-secondary-hover-shadow: var(--st-shadow-lime-glow);
   --st-table-header-color: var(--st-color-white);
   --st-table-header-color-accent: var(--st-color-white);
-  --st-table-header-bg-subdued: var(--st-color-neutral-100);
+  --st-table-header-bg-subdued: var(--st-color-neutral-200);
   --st-table-header-border-subdued: var(--st-color-rule-accent);
   --st-table-cell-border: var(--st-color-border-default);
   --st-table-last-row-border: var(--st-color-rule-accent);

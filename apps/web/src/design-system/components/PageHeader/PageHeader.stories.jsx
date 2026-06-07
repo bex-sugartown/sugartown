@@ -38,6 +38,7 @@ import {
   RelatedCard,
   ChangelogEntry,
   ChangelogItem,
+  docStyles,
 } from '../../../../../../apps/storybook/.storybook/helpers/docs'
 
 // ─── Shared decorator ────────────────────────────────────────────────────────
@@ -61,6 +62,93 @@ export default {
           'Full-width identity band at the top of archive, entity, and taxonomy pages. Accepts MetadataCard as a slot — see Patterns/MetadataCard for that pattern.',
       },
     },
+  },
+  argTypes: {
+    italic:       { table: { disable: true } },
+    media:        { table: { disable: true } },
+    breadcrumb:   { table: { disable: true } },
+    title:        { table: { disable: true } },
+    description:  { table: { disable: true } },
+    metadataCard: { table: { disable: true } },
+    actions:      { table: { disable: true } },
+    className:    { table: { disable: true } },
+  },
+}
+
+// ─── Default (Controls) ──────────────────────────────────────────────────────
+
+/** Interactive Controls story — use the panel below to toggle props. */
+export const Default = {
+  name: 'Default',
+  argTypes: {
+    titleStyle: {
+      name: 'Title style',
+      description: 'H1 italic rule — italic for person folios and archive masteheads; roman for all others.',
+      control: { type: 'radio' },
+      options: ['Italic', 'Roman'],
+    },
+    tint: {
+      name: 'Tint (brand token)',
+      description: '10% brand-colour wash applied to the header surface. Pass the token for the 300-level swatch.',
+      control: { type: 'select' },
+      options: ['None', 'Seafoam', 'Midnight', 'Pink', 'Maroon', 'Lime'],
+    },
+    avatarSize: {
+      name: 'Thumbnail size',
+      description: 'Avatar size prop for the media slot. xl = person folio (80px); lg = tool/project (72px).',
+      control: { type: 'select' },
+      options: ['None', 'xl', 'lg', 'md'],
+    },
+    count: {
+      name: 'Count badge',
+      description: 'Number shown next to the title. Leave empty to hide.',
+      control: { type: 'text' },
+    },
+    showMetadataCard: {
+      name: 'Show MetadataCard slot',
+      description: 'Renders a placeholder MetadataCard below the identity block.',
+      control: { type: 'boolean' },
+    },
+  },
+  args: {
+    titleStyle: 'Italic',
+    tint: 'Seafoam',
+    avatarSize: 'xl',
+    count: '',
+    showMetadataCard: false,
+  },
+  render: ({ titleStyle, tint, avatarSize, count, showMetadataCard }) => {
+    const tintMap = {
+      None:     undefined,
+      Seafoam:  'var(--st-color-seafoam-300)',
+      Midnight: 'var(--st-color-midnight-300)',
+      Pink:     'var(--st-color-pink-300)',
+      Maroon:   'var(--st-color-maroon-300)',
+      Lime:     'var(--st-color-lime-300)',
+    }
+    const parsedCount = count ? Number(count) : undefined
+    const media = avatarSize !== 'None'
+      ? <Avatar name="Bex Walton" size={avatarSize} />
+      : undefined
+
+    return (
+      <div>
+        <PageHeader
+          breadcrumb={<Breadcrumb items={[{ label: 'People', href: '/people' }]} />}
+          media={media}
+          title="Bex Walton"
+          description="Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller."
+          tint={tintMap[tint]}
+          italic={titleStyle === 'Italic'}
+          count={parsedCount}
+        />
+        {showMetadataCard && (
+          <div style={{ padding: '16px 32px', background: 'var(--st-color-bg)', borderTop: '1px solid var(--st-color-border-default)', fontSize: '0.8125rem', color: 'var(--st-color-neutral-500)', fontFamily: 'var(--st-font-family-mono)' }}>
+            MetadataCard slot
+          </div>
+        )}
+      </div>
+    )
   },
 }
 
@@ -180,16 +268,9 @@ export const WithActions = {
 // ─── Guidelines (14-section docs story) ──────────────────────────────────────
 
 const s = {
-  page:   { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px', margin: '0 auto', padding: '2rem 2rem 4rem' },
-  h1:     { fontFamily: 'var(--st-font-family-narrative)', fontSize: '2.25rem', fontWeight: 600, marginBottom: '0.25rem' },
-  lead:   { color: 'var(--st-color-text-muted)', marginTop: 0, marginBottom: '2rem' },
-  prose:  { fontSize: '0.9375rem', lineHeight: 1.6, color: 'var(--st-color-neutral-600)', margin: '0 0 1rem' },
-  code:   { background: 'var(--st-color-bg-surface-strong)', padding: '0.15rem 0.4rem', borderRadius: '3px', fontSize: '0.85em', fontFamily: 'var(--st-font-family-mono)' },
-  pre:    { background: 'var(--st-color-neutral-900, #111)', color: '#e8e8e8', padding: '1rem', borderRadius: '4px', fontSize: '0.78rem', fontFamily: 'var(--st-font-family-mono)', whiteSpace: 'pre-wrap', margin: '0 0 1.5rem', overflowX: 'auto', lineHeight: 1.6 },
-  table:  { width: '100%', borderCollapse: 'collapse', marginBottom: '1.5rem', fontSize: '0.875rem' },
-  th:     { textAlign: 'left', padding: '0.5rem 1rem', borderBottom: '1px solid var(--st-color-border-default)', fontWeight: 600, background: 'var(--st-color-bg-surface)' },
-  td:     { padding: '0.5rem 1rem', borderBottom: '1px solid var(--st-color-neutral-100)', verticalAlign: 'top' },
-  tdMono: { padding: '0.5rem 1rem', borderBottom: '1px solid var(--st-color-neutral-100)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.8rem' },
+  ...docStyles,
+  h1:   { fontFamily: 'var(--st-font-family-narrative)', fontSize: '2.25rem', fontWeight: 600, marginBottom: '0.25rem' },
+  lead: { color: 'var(--st-color-text-muted)', marginTop: 0, marginBottom: '2rem' },
 }
 
 function PageHeaderGuidelinesPage() {
@@ -206,7 +287,7 @@ function PageHeaderGuidelinesPage() {
           site that has a dedicated header uses this component — it is the single source of truth for
           page-level identity layout.
         </p>
-        <h3 style={{ fontWeight: 700, fontSize: '0.875rem', marginBottom: 8, marginTop: 20 }}>What it does</h3>
+        <h3 style={s.h3}>What it does</h3>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           <OverviewItem>Renders an H1 with optional italic style, optional count badge, and optional description.</OverviewItem>
           <OverviewItem>Accepts a <code style={s.code}>media</code> slot for Avatar or logo images — used by entity folios, absent on archives and taxonomy pages.</OverviewItem>
@@ -214,7 +295,7 @@ function PageHeaderGuidelinesPage() {
           <OverviewItem>Applies a tint wash via <code style={s.code}>color-mix</code> when a <code style={s.code}>tint</code> prop is provided — used by entity folios to echo the entity's brand colour.</OverviewItem>
           <OverviewItem>Accepts a <code style={s.code}>metadataCard</code> slot rendered below the identity block — used by entity detail pages.</OverviewItem>
         </ul>
-        <h3 style={{ fontWeight: 700, fontSize: '0.875rem', marginBottom: 8, marginTop: 20 }}>What it is not</h3>
+        <h3 style={s.h3}>What it is not</h3>
         <ul style={{ listStyle: 'none', padding: 0 }}>
           <NotItem>A navigation component — it renders no nav links or tabs.</NotItem>
           <NotItem>A hero section — it carries no body content, images, or CTAs beyond the identity block.</NotItem>
@@ -225,39 +306,41 @@ function PageHeaderGuidelinesPage() {
       {/* 06 — Usage Guidelines */}
       <DocSection n="06" title="Usage Guidelines" priority="must">
         <p style={s.prose}>Three surface types share one shell. They differ only in which props are provided.</p>
-        <table style={s.table}>
-          <thead>
-            <tr>
-              <th style={s.th}>Surface type</th>
-              <th style={s.th}>Props to set</th>
-              <th style={s.th}>Props to omit</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={s.td}>Archive masthead</td>
-              <td style={s.td}><code style={s.code}>breadcrumb</code>, <code style={s.code}>title</code>, <code style={s.code}>count</code>, <code style={s.code}>description</code>, <code style={s.code}>italic</code></td>
-              <td style={s.td}><code style={s.code}>media</code>, <code style={s.code}>tint</code>, <code style={s.code}>metadataCard</code></td>
-            </tr>
-            <tr>
-              <td style={s.td}>Person folio</td>
-              <td style={s.td}><code style={s.code}>breadcrumb</code>, <code style={s.code}>media</code> (Avatar), <code style={s.code}>title</code>, <code style={s.code}>description</code>, <code style={s.code}>tint</code>, <code style={s.code}>italic</code></td>
-              <td style={s.td}><code style={s.code}>count</code></td>
-            </tr>
-            <tr>
-              <td style={s.td}>Tool / Project folio</td>
-              <td style={s.td}><code style={s.code}>breadcrumb</code>, <code style={s.code}>media</code> (Avatar / logo), <code style={s.code}>title</code>, <code style={s.code}>description</code>, <code style={s.code}>tint</code></td>
-              <td style={s.td}><code style={s.code}>count</code>, <code style={s.code}>italic</code></td>
-            </tr>
-            <tr>
-              <td style={s.td}>Taxonomy detail</td>
-              <td style={s.td}><code style={s.code}>breadcrumb</code>, <code style={s.code}>title</code>, <code style={s.code}>count</code>, <code style={s.code}>description</code></td>
-              <td style={s.td}><code style={s.code}>media</code>, <code style={s.code}>tint</code>, <code style={s.code}>italic</code>, <code style={s.code}>metadataCard</code></td>
-            </tr>
-          </tbody>
-        </table>
+        <div style={s.tableWrap}>
+          <table style={s.table}>
+            <thead>
+              <tr>
+                <th style={s.th}>Surface type</th>
+                <th style={s.th}>Props to set</th>
+                <th style={s.th}>Props to omit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style={s.td}>Archive masthead</td>
+                <td style={s.td}><code style={s.code}>breadcrumb</code>, <code style={s.code}>title</code>, <code style={s.code}>count</code>, <code style={s.code}>description</code>, <code style={s.code}>italic</code></td>
+                <td style={s.td}><code style={s.code}>media</code>, <code style={s.code}>tint</code>, <code style={s.code}>metadataCard</code></td>
+              </tr>
+              <tr>
+                <td style={s.td}>Person folio</td>
+                <td style={s.td}><code style={s.code}>breadcrumb</code>, <code style={s.code}>media</code> (Avatar), <code style={s.code}>title</code>, <code style={s.code}>description</code>, <code style={s.code}>tint</code>, <code style={s.code}>italic</code></td>
+                <td style={s.td}><code style={s.code}>count</code></td>
+              </tr>
+              <tr>
+                <td style={s.td}>Tool / Project folio</td>
+                <td style={s.td}><code style={s.code}>breadcrumb</code>, <code style={s.code}>media</code> (Avatar / logo), <code style={s.code}>title</code>, <code style={s.code}>description</code>, <code style={s.code}>tint</code></td>
+                <td style={s.td}><code style={s.code}>count</code>, <code style={s.code}>italic</code></td>
+              </tr>
+              <tr>
+                <td style={s.td}>Taxonomy detail</td>
+                <td style={s.td}><code style={s.code}>breadcrumb</code>, <code style={s.code}>title</code>, <code style={s.code}>count</code>, <code style={s.code}>description</code></td>
+                <td style={s.td}><code style={s.code}>media</code>, <code style={s.code}>tint</code>, <code style={s.code}>italic</code>, <code style={s.code}>metadataCard</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-        <h3 style={{ fontWeight: 700, fontSize: '0.875rem', marginBottom: 12, marginTop: 24 }}>H1 italic rule</h3>
+        <h3 style={s.h3}>H1 italic rule</h3>
         <p style={s.prose}>
           Person folios and archive masteheads use italic Cormorant Garamond (<code style={s.code}>italic=true</code>).
           All other surface types (tool folio, project folio, taxonomy detail) use roman. This distinction is
@@ -279,7 +362,7 @@ function PageHeaderGuidelinesPage() {
           </DontGroup>
         </DoDontGrid>
 
-        <h3 style={{ fontWeight: 700, fontSize: '0.875rem', marginBottom: 12, marginTop: 24 }}>Tint prop</h3>
+        <h3 style={s.h3}>Tint prop</h3>
         <p style={s.prose}>
           Pass any CSS color value — token reference (<code style={s.code}>var(--st-color-seafoam-300)</code>) or hex.
           The component mixes it at 10% over the surface background via <code style={s.code}>color-mix()</code>.
@@ -287,7 +370,7 @@ function PageHeaderGuidelinesPage() {
           Never pass a full-saturation or dark color as the tint — the mix will produce an unexpectedly heavy wash.
         </p>
 
-        <h3 style={{ fontWeight: 700, fontSize: '0.875rem', marginBottom: 12, marginTop: 24 }}>metadataCard slot</h3>
+        <h3 style={s.h3}>metadataCard slot</h3>
         <p style={s.prose}>
           Pass a <code style={s.code}>{'<MetadataCard />'}</code> node. The slot renders it below the identity block
           with <code style={s.code}>margin-top: var(--st-space-5)</code>. Do not wrap MetadataCard in any additional
@@ -375,24 +458,26 @@ function PageHeaderGuidelinesPage() {
 
       {/* 10 — Responsive */}
       <DocSection n="10" title="Responsive" priority="should">
-        <table style={s.table}>
-          <thead>
-            <tr>
-              <th style={s.th}>Breakpoint</th>
-              <th style={s.th}>Change</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={s.td}>≤520px (mobile)</td>
-              <td style={s.td}><code style={s.code}>.inner</code> vertical padding reduces to <code style={s.code}>--st-space-5</code>; <code style={s.code}>.body</code> switches to column layout — media stacks above content; <code style={s.code}>.title</code> font size drops to <code style={s.code}>--st-font-size-2xl</code></td>
-            </tr>
-            <tr>
-              <td style={s.td}>{'>'} 520px</td>
-              <td style={s.td}><code style={s.code}>.body</code> is a flex row — media left, content right</td>
-            </tr>
-          </tbody>
-        </table>
+        <div style={s.tableWrap}>
+          <table style={s.table}>
+            <thead>
+              <tr>
+                <th style={s.th}>Breakpoint</th>
+                <th style={s.th}>Change</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style={s.td}>≤520px (mobile)</td>
+                <td style={s.td}><code style={s.code}>.inner</code> vertical padding reduces to <code style={s.code}>--st-space-5</code>; <code style={s.code}>.body</code> switches to column layout — media stacks above content; <code style={s.code}>.title</code> font size drops to <code style={s.code}>--st-font-size-2xl</code></td>
+              </tr>
+              <tr>
+                <td style={s.td}>{'>'} 520px</td>
+                <td style={s.td}><code style={s.code}>.body</code> is a flex row — media left, content right</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <p style={s.prose}>
           The <code style={s.code}>description</code> line is capped at <code style={s.code}>62ch</code> at all widths
           to preserve comfortable reading line length even when the container is at full archive width.

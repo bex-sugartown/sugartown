@@ -285,6 +285,121 @@ export function ChangelogItem({ breaking, children }: { breaking?: boolean; chil
   );
 }
 
+// ── docStyles — shared Guidelines story layout styles ─────────────────────────
+// Import in any Guidelines story:
+//   import { ..., docStyles as s } from '../../.storybook/helpers/docs'
+// (adjust relative path depth to match your component folder)
+
+export const docStyles: Record<string, React.CSSProperties> = {
+  // Page shell
+  page: {
+    fontFamily: 'var(--st-font-family-ui)',
+    color: 'var(--st-color-ink)',
+    lineHeight: 1.6,
+    maxWidth: '860px',
+    margin: '0 auto',
+    padding: '2rem 2rem 4rem',
+  },
+  // Headings
+  h2: {
+    fontFamily: 'var(--st-font-family-narrative)',
+    fontSize: '1.4rem',
+    fontWeight: 600,
+    color: 'var(--st-color-ink)',
+    marginBottom: 16,
+    marginTop: 0,
+  },
+  h3: {
+    fontFamily: 'var(--st-font-family-narrative)',
+    fontSize: '1.2rem',
+    fontWeight: 600,
+    color: 'var(--st-color-ink)',
+    marginBottom: 10,
+    marginTop: 32,
+  },
+  // Prose
+  prose: {
+    fontSize: '0.9375rem',
+    lineHeight: 1.7,
+    color: 'var(--st-color-neutral-600)',
+    maxWidth: '62ch',
+    marginBottom: 12,
+  },
+  // Inline code
+  code: {
+    fontFamily: 'var(--st-font-family-mono)',
+    fontSize: '0.84em',
+    background: 'var(--st-color-neutral-200)',
+    padding: '1px 5px',
+    color: 'var(--st-color-maroon-600)',
+  },
+  // Code block (light)
+  pre: {
+    background: 'var(--st-color-neutral-900)',
+    color: 'rgba(255,255,255,0.75)',
+    padding: '1rem',
+    fontSize: '0.78rem',
+    fontFamily: 'var(--st-font-family-mono)',
+    whiteSpace: 'pre-wrap' as const,
+    margin: '0 0 1.5rem',
+    overflowX: 'auto' as const,
+    lineHeight: 1.6,
+  },
+  // Anatomy diagram block (same as pre but semantically distinct)
+  anatomy: {
+    background: 'var(--st-color-midnight-900)',
+    border: '1px solid rgba(255,255,255,0.06)',
+    padding: '24px 28px',
+    fontFamily: 'var(--st-font-family-mono)',
+    fontSize: '0.72rem',
+    lineHeight: 1.7,
+    color: 'rgba(255,255,255,0.65)',
+    overflowX: 'auto' as const,
+    margin: '0 0 16px',
+  },
+  // Lists
+  list: { listStyle: 'none', padding: 0, marginBottom: 20 },
+  a11yList: { listStyle: 'none', padding: 0 },
+  // Subdued table — wrap div + table + th + td
+  tableWrap: {
+    border: '1px solid var(--st-table-wrap-border)',
+    marginBottom: '1.5rem',
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse' as const,
+    background: 'var(--st-color-white)',
+    fontSize: '0.875rem',
+  },
+  th: {
+    fontFamily: 'var(--st-font-family-mono)',
+    fontSize: '0.58rem',
+    fontWeight: 700,
+    letterSpacing: '0.1em',
+    textTransform: 'uppercase' as const,
+    textAlign: 'left' as const,
+    padding: '8px 12px',
+    borderBottom: '1px solid var(--st-table-header-border-subdued)',
+    color: 'var(--st-table-header-color-subdued)',
+    background: 'var(--st-table-header-bg-subdued)',
+  },
+  td: {
+    padding: '8px 12px',
+    borderBottom: '1px solid var(--st-table-cell-border)',
+    fontSize: '0.8125rem',
+    color: 'var(--st-color-neutral-600)',
+    verticalAlign: 'top' as const,
+  },
+  tdMono: {
+    padding: '8px 12px',
+    borderBottom: '1px solid var(--st-table-cell-border)',
+    fontFamily: 'var(--st-font-family-mono)',
+    fontSize: '0.72rem',
+    fontWeight: 600,
+    color: 'var(--st-color-maroon-600)',
+  },
+};
+
 // ── Internal helpers ──────────────────────────────────────────────────────────
 
 function monoLabel(extra: React.CSSProperties = {}): React.CSSProperties {

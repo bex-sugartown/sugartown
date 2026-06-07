@@ -1,19 +1,15 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { VariantFrame } from './_PreviewFrame';
-import { DoDontGrid, DoGroup, DontGroup } from '../helpers/docs';
+import { DoDontGrid, DoGroup, DontGroup, docStyles } from '../helpers/docs';
 
 const s = {
+  ...docStyles,
   page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px', background: 'var(--st-color-bg)' } as React.CSSProperties,
   h1:       { fontFamily: 'var(--st-font-family-narrative)', fontSize: '2.25rem', fontWeight: 600, marginBottom: '0.25rem' } as React.CSSProperties,
   oneliner: { color: 'var(--st-color-text-muted)', marginTop: 0, marginBottom: '2rem' } as React.CSSProperties,
-  h2:       { fontSize: '1.2rem', fontWeight: 700, marginTop: '2.5rem', marginBottom: '0.75rem' } as React.CSSProperties,
   rule:     { fontWeight: 700, fontSize: '1.05rem', borderLeft: '3px solid var(--st-color-brand-primary)', paddingLeft: '1rem', margin: '1rem 0 1.5rem' } as React.CSSProperties,
   hr:       { border: 'none', borderTop: '1px solid var(--st-color-border-default)', margin: '2rem 0' } as React.CSSProperties,
-  th:       { textAlign: 'left' as const, padding: '0.5rem 1rem', borderBottom: '1px solid var(--st-color-border-default)', fontWeight: 600, fontSize: '0.875rem' },
-  td:       { padding: '0.5rem 1rem', fontSize: '0.875rem', verticalAlign: 'top' as const },
-  code:     { background: 'var(--st-color-bg-surface-strong)', padding: '0.15rem 0.4rem', borderRadius: '3px', fontSize: '0.85em', fontFamily: 'var(--st-font-family-mono)' } as React.CSSProperties,
-  pre:      { background: 'var(--st-color-bg-surface-strong)', padding: '0.75rem', borderRadius: '3px', fontSize: '0.8rem', fontFamily: 'var(--st-font-family-mono)', whiteSpace: 'pre-wrap' as const, margin: '0.5rem 0 1.5rem', overflowX: 'auto' as const } as React.CSSProperties,
 };
 
 // ─── Preview helpers ──────────────────────────────────────────────────────────
@@ -149,47 +145,49 @@ function SectionSpacingPage() {
       </DoDontGrid>
 
       <h2 style={s.h2}>Spacing tokens</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2rem' }}>
-        <thead>
-          <tr>
-            <th style={s.th}>Token</th>
-            <th style={s.th}>Value</th>
-            <th style={s.th}>Used on</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style={s.td}><code style={s.code}>--st-space-section-break-detail</code></td>
-            <td style={s.td}>40px</td>
-            <td style={s.td}><code style={s.code}>.detailContext</code> gap and MetadataCard boundary margin</td>
-          </tr>
-          <tr>
-            <td style={s.td}><code style={s.code}>--st-width-detail</code></td>
-            <td style={s.td}>760px</td>
-            <td style={s.td}><code style={s.code}>.detailPage</code> max-width — single-column prose mode</td>
-          </tr>
-          <tr>
-            <td style={s.td}><code style={s.code}>--st-width-detail-wide</code></td>
-            <td style={s.td}>1080px</td>
-            <td style={s.td}><code style={s.code}>.detailPage[data-has-margin]</code> max-width — two-column mode with sidebar</td>
-          </tr>
-          <tr>
-            <td style={s.td}><code style={s.code}>--st-space-sidebar</code></td>
-            <td style={s.td}>220px</td>
-            <td style={s.td}>Fixed width of the right metadata column in two-column grid</td>
-          </tr>
-          <tr>
-            <td style={s.td}><code style={s.code}>--st-space-sidebar-gap</code></td>
-            <td style={s.td}>2.5rem</td>
-            <td style={s.td}>Column gap between prose and sidebar in two-column shell</td>
-          </tr>
-          <tr>
-            <td style={s.td}><code style={s.code}>--st-space-meta-top</code></td>
-            <td style={s.td}>32px</td>
-            <td style={s.td}>Top padding on <code style={s.code}>.detailPage</code></td>
-          </tr>
-        </tbody>
-      </table>
+      <div style={s.tableWrap}>
+        <table style={s.table}>
+          <thead>
+            <tr>
+              <th style={s.th}>Token</th>
+              <th style={s.th}>Value</th>
+              <th style={s.th}>Used on</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style={s.td}><code style={s.code}>--st-space-section-break-detail</code></td>
+              <td style={s.td}>40px</td>
+              <td style={s.td}><code style={s.code}>.detailContext</code> gap and MetadataCard boundary margin</td>
+            </tr>
+            <tr>
+              <td style={s.td}><code style={s.code}>--st-width-detail</code></td>
+              <td style={s.td}>760px</td>
+              <td style={s.td}><code style={s.code}>.detailPage</code> max-width — single-column prose mode</td>
+            </tr>
+            <tr>
+              <td style={s.td}><code style={s.code}>--st-width-detail-wide</code></td>
+              <td style={s.td}>1080px</td>
+              <td style={s.td}><code style={s.code}>.detailPage[data-has-margin]</code> max-width — two-column mode with sidebar</td>
+            </tr>
+            <tr>
+              <td style={s.td}><code style={s.code}>--st-space-sidebar</code></td>
+              <td style={s.td}>220px</td>
+              <td style={s.td}>Fixed width of the right metadata column in two-column grid</td>
+            </tr>
+            <tr>
+              <td style={s.td}><code style={s.code}>--st-space-sidebar-gap</code></td>
+              <td style={s.td}>2.5rem</td>
+              <td style={s.td}>Column gap between prose and sidebar in two-column shell</td>
+            </tr>
+            <tr>
+              <td style={s.td}><code style={s.code}>--st-space-meta-top</code></td>
+              <td style={s.td}>32px</td>
+              <td style={s.td}>Top padding on <code style={s.code}>.detailPage</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <p style={{ fontSize: '0.875rem', color: 'var(--st-color-text-muted)', marginTop: '-1rem' }}>
         Never hard-code these values. Every detail page spacing decision resolves through one of these tokens.
       </p>
