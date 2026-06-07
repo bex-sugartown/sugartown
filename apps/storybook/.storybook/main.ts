@@ -17,9 +17,13 @@ const reactRouterRoot = dirname(webRequire.resolve('react-router-dom/package.jso
 const config: StorybookConfig = {
   stories: [
     '../../../packages/design-system/src/**/*.stories.@(js|jsx|ts|tsx)',
+    '../../../packages/design-system/src/**/*.mdx',
     '../../../apps/web/src/design-system/**/*.stories.@(js|jsx|ts|tsx)',
+    '../../../apps/web/src/design-system/**/*.mdx',
     '../../../apps/web/src/components/**/*.stories.@(js|jsx|ts|tsx)',
+    '../../../apps/web/src/components/**/*.mdx',
     './stories/**/*.stories.@(js|jsx|ts|tsx)',
+    './stories/**/*.mdx',
   ],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
   framework: {
