@@ -509,7 +509,7 @@
   --st-table-header-color-accent: var(--st-color-white);
   --st-table-header-bg-subdued: var(--st-color-neutral-200);
   --st-table-header-border-subdued: var(--st-color-rule-accent);
-  --st-table-cell-border: var(--st-color-border-default);
+  --st-table-cell-border: var(--st-color-neutral-300);
   --st-table-last-row-border: var(--st-color-rule-accent);
   --st-table-row-bg-zebra-subdued: var(--st-color-neutral-50);
   --st-table-zebra-bg: var(--st-color-midnight-700);
