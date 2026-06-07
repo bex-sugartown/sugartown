@@ -31,11 +31,15 @@ const config: StorybookConfig = {
     options: {},
   },
   viteFinal: async (viteConfig) => {
-    // Web components use automatic JSX runtime (no `import React`)
+    // Web components use automatic JSX runtime (no `import React`).
+    // include scoped to JS/TS only — MDX files are handled by the addon-docs
+    // MDX plugin before esbuild runs; applying the JSX transform to .mdx causes
+    // esbuild to fail on MDX-specific syntax.
     viteConfig.esbuild = {
       ...viteConfig.esbuild,
       jsx: 'automatic',
       jsxImportSource: 'react',
+      include: /\.[jt]sx?$/,
     };
 
     // Force single React copy — prevents context mismatch between
