@@ -17,7 +17,7 @@ import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import KnowledgeGraph from '../components/KnowledgeGraph/KnowledgeGraph'
 import ContentCard from '../components/ContentCard'
-import Toolbar from '../components/Toolbar'
+import FilterStrip from '../components/FilterStrip'
 import portableTextComponents from '../lib/portableTextComponents'
 import statsJson from '../generated/stats.json'
 import { Breadcrumb } from '../design-system'
@@ -252,7 +252,7 @@ export default function SiteGraphPage() {
             </button>
           </div>
           <span className={pageStyles.archiveToolbarDivider} aria-hidden="true" />
-          <Toolbar
+          <FilterStrip
             filters={FILTER_TYPES}
             activeKey={typeFilter}
             onChange={handleFilterChange}
@@ -329,7 +329,7 @@ export default function SiteGraphPage() {
       {isFullscreen && (
         <div className={styles.fullscreenOverlay} role="dialog" aria-label="Knowledge graph fullscreen" aria-modal="true">
           <div className={styles.fsHeader}>
-            <Toolbar
+            <FilterStrip
               filters={FILTER_TYPES}
               activeKey={typeFilter}
               onChange={handleFilterChange}
