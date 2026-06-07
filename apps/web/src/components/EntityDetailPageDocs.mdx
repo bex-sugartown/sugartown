@@ -1,0 +1,114 @@
+import { Meta, Canvas, Controls } from '@storybook/blocks';
+import * as Stories from './EntityDetailPage.stories.jsx';
+
+<Meta of={Stories} />
+
+# Entity Detail Page
+
+The folio + sections layout used by person, tool, and project detail pages.
+Three entity types share one shell pattern — they differ only in thumbnail size,
+H1 style, and which metadata fields the folio exposes.
+
+---
+
+## Preview
+
+<Canvas of={Stories.PersonFolio} />
+
+Use the story switcher (sidebar) to see all three variants:
+**Person Folio**, **Tool Folio**, **Project Detail**.
+
+<Controls of={Stories.PersonFolio} />
+
+---
+
+## Usage guidelines
+
+### 1. Folio pattern
+
+The folio is a flex row (`pageStyles.entityFolio`) containing a thumbnail on the
+left and an identity block (`pageStyles.folioIdentity`) on the right. Never
+implement this flex layout by hand — always use the shared classes from
+`apps/web/src/pages/pages.module.css`.
+
+```jsx
+<div className={pageStyles.entityFolio}>
+  <Avatar name="Bex Walton" size="xl" />
+  <div className={pageStyles.folioIdentity}>
+    <h1 className={`${pageStyles.narrativeHeading} ${pageStyles.narrativeHeadingItalic}`}>
+      Bex Walton
+    </h1>
+    <p className={pageStyles.detailEyebrow}>Design Engineer</p>
+  </div>
+</div>
+```
+
+### 2. Thumbnail sizes
+
+Tool and project pages use a slightly smaller thumbnail than person pages.
+Override the default via `--entity-thumb-size` on the `.entityFolio` element —
+do not hardcode a width on the image element.
+
+| Entity type | `--entity-thumb-size` | Notes |
+|-------------|----------------------|-------|
+| Person      | 80px                 | Avatar component, `size="xl"` |
+| Tool        | 72px                 | Logo image via `.entityThumbnail` |
+| Project     | 72px                 | Logo image via `.entityThumbnail` |
+| Default     | 88px                 | Fallback if prop is not set |
+
+```jsx
+// Tool logo — override thumbnail size via CSS custom property
+<div className={pageStyles.entityFolio} style={{ '--entity-thumb-size': '72px' }}>
+  <img className={pageStyles.entityThumbnail} src={logoUrl} alt={tool.name} />
+  ...
+</div>
+```
+
+### 3. H1 italic rule
+
+Person folios use italic Cormorant Garamond. All other entity types use roman.
+
+| Entity type | Class applied | Style |
+|-------------|--------------|-------|
+| Person      | `.narrativeHeading .narrativeHeadingItalic` | Italic |
+| Tool        | `.narrativeHeading` | Roman |
+| Project     | `.narrativeHeading` | Roman |
+
+The rule: does the entity have a voice or point of view? Person → italic.
+Catalogue entries (tool, project, tag, category) → roman.
+
+Full rationale: **Foundations / Typography Conventions** in Storybook.
+
+### 4. Section spacing
+
+Content sections (article listing, node listing, etc.) sit inside a
+`.detailContext` flex container. The container owns all inter-section gap via
+`display: flex; gap: var(--st-space-section-break-detail)`. Individual
+`<section>` elements must have zero `margin-block`.
+
+```jsx
+<div className={sectionStyles.detailContext}>
+  <section>
+    <SectionLabel title="Articles" kicker="4" />
+    <Grid columns={2} spacing="lg">...</Grid>
+  </section>
+  <section>
+    <SectionLabel title="Knowledge Nodes" kicker="2" />
+    <Grid columns={2} spacing="lg">...</Grid>
+  </section>
+</div>
+```
+
+Full contract: **Foundations / Layout / Section** in Storybook.
+
+---
+
+## Implementation
+
+| File | What it owns |
+|------|-------------|
+| `apps/web/src/pages/pages.module.css` | `.entityFolio`, `.folioIdentity`, `.entityThumbnail`, `.entityThumbnailFallback`, `.narrativeHeading`, `.narrativeHeadingItalic` |
+| `apps/web/src/pages/PersonProfilePage.jsx` | Person entity — applies `.narrativeHeadingItalic` |
+| `apps/web/src/pages/ToolDetailPage.jsx` | Tool entity — `.narrativeHeading` only (roman) |
+| `apps/web/src/pages/ProjectDetailPage.jsx` | Project entity — `.narrativeHeading` only (roman) |
+| `apps/web/src/components/PageSections.module.css` | `.detailContext` — section spacing container |
