@@ -46,11 +46,11 @@ export function DocSection({ n, title, priority, showBadge = false, children }: 
         </div>
         {showBadge && (
           <span style={{
-            ...monoLabel({ color: priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-500)' }),
+            ...monoLabel({ color: priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-600)' }),
             fontSize: '0.55rem',
             letterSpacing: '0.08em',
             padding: '2px 7px',
-            border: `1px solid ${priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-400)'}`,
+            border: `1px solid ${priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-500)'}`,
           }}>
             {priority === 'must' ? 'Must Have' : 'Should Have'}
           </span>
@@ -67,8 +67,8 @@ export function OverviewItem({ children }: { children: React.ReactNode }) {
   return (
     <li style={{
       display: 'flex', gap: 10, padding: '9px 0',
-      borderBottom: '1px solid var(--st-color-neutral-100)',
-      fontSize: '0.9375rem', lineHeight: 1.55, color: 'var(--st-color-neutral-600)',
+      borderBottom: '1px solid var(--st-color-neutral-300)',
+      fontSize: '0.9375rem', lineHeight: 1.55, color: 'var(--st-color-neutral-700)',
     }}>
       <span style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.7rem', color: 'var(--st-color-pink)', marginTop: 2, flexShrink: 0 }}>→</span>
       <span>{children}</span>
@@ -80,10 +80,10 @@ export function NotItem({ children }: { children: React.ReactNode }) {
   return (
     <li style={{
       display: 'flex', gap: 10, padding: '8px 0',
-      borderBottom: '1px solid var(--st-color-neutral-100)',
-      fontSize: '0.875rem', lineHeight: 1.5, color: 'var(--st-color-neutral-600)',
+      borderBottom: '1px solid var(--st-color-neutral-300)',
+      fontSize: '0.875rem', lineHeight: 1.5, color: 'var(--st-color-neutral-700)',
     }}>
-      <span style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.65rem', color: 'var(--st-color-neutral-400)', marginTop: 2, flexShrink: 0 }}>✗</span>
+      <span style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.65rem', color: 'var(--st-color-neutral-500)', marginTop: 2, flexShrink: 0 }}>✗</span>
       <span>{children}</span>
     </li>
   );
@@ -95,8 +95,8 @@ export function DoItem({ children }: { children: React.ReactNode }) {
   return (
     <li style={{
       display: 'flex', gap: 10, padding: '11px 14px',
-      borderBottom: '1px solid var(--st-color-neutral-100)',
-      fontSize: '0.875rem', lineHeight: 1.5, color: 'var(--st-color-neutral-600)',
+      borderBottom: '1px solid var(--st-color-neutral-300)',
+      fontSize: '0.875rem', lineHeight: 1.5, color: 'var(--st-color-neutral-700)',
     }}>
       <span style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.7rem', fontWeight: 700, color: 'var(--st-color-seafoam-600)', marginTop: 1, flexShrink: 0 }}>✓</span>
       <span>{children}</span>
@@ -108,8 +108,8 @@ export function DontItem({ children }: { children: React.ReactNode }) {
   return (
     <li style={{
       display: 'flex', gap: 10, padding: '11px 14px',
-      borderBottom: '1px solid var(--st-color-neutral-100)',
-      fontSize: '0.875rem', lineHeight: 1.5, color: 'var(--st-color-neutral-600)',
+      borderBottom: '1px solid var(--st-color-neutral-300)',
+      fontSize: '0.875rem', lineHeight: 1.5, color: 'var(--st-color-neutral-700)',
     }}>
       <span style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.7rem', fontWeight: 700, color: 'var(--st-color-pink)', marginTop: 1, flexShrink: 0 }}>✗</span>
       <span>{children}</span>
@@ -123,7 +123,7 @@ export function A11yItem({ label, children }: { label: string; children: React.R
   return (
     <li style={{
       display: 'flex', gap: 12, padding: '12px 0',
-      borderBottom: '1px solid var(--st-color-neutral-100)',
+      borderBottom: '1px solid var(--st-color-neutral-300)',
     }}>
       <div style={{
         width: 16, height: 16, border: '1px solid var(--st-color-seafoam-400)',
@@ -135,7 +135,7 @@ export function A11yItem({ label, children }: { label: string; children: React.R
         <strong style={{ display: 'block', fontWeight: 600, fontSize: '0.875rem', color: 'var(--st-color-ink)', marginBottom: 2 }}>
           {label}
         </strong>
-        <span style={{ fontSize: '0.8125rem', color: 'var(--st-color-neutral-500)', lineHeight: 1.5 }}>
+        <span style={{ fontSize: '0.8125rem', color: 'var(--st-color-neutral-600)', lineHeight: 1.5 }}>
           {children}
         </span>
       </div>
@@ -150,13 +150,13 @@ export function TokenGroup({ label, children }: { label: string; children: React
     <div style={{ marginBottom: 32 }}>
       <div style={{
         fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 700,
-        letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--st-color-neutral-400)',
-        padding: '8px 12px', border: '1px solid var(--st-color-neutral-200)',
-        borderBottom: 'none', background: 'var(--st-color-neutral-100)',
+        letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--st-color-neutral-600)',
+        padding: '8px 12px', border: '1px solid var(--st-color-neutral-400)',
+        borderBottom: 'none', background: 'var(--st-color-neutral-200)',
       }}>
         {label}
       </div>
-      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid var(--st-color-neutral-200)' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid var(--st-color-neutral-400)' }}>
         <tbody>{children}</tbody>
       </table>
     </div>
@@ -166,13 +166,13 @@ export function TokenGroup({ label, children }: { label: string; children: React
 export function TokenRow({ token, value, role }: { token: string; value: string; role: string }) {
   return (
     <tr>
-      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-color-neutral-100)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', fontWeight: 600, color: 'var(--st-color-maroon-600)', width: '44%' }}>
+      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-color-neutral-300)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', fontWeight: 600, color: 'var(--st-color-maroon-600)', width: '44%' }}>
         {token}
       </td>
-      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-color-neutral-100)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', color: 'var(--st-color-neutral-400)', width: '22%' }}>
+      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-color-neutral-300)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', color: 'var(--st-color-neutral-500)', width: '22%' }}>
         {value}
       </td>
-      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-color-neutral-100)', fontSize: '0.8125rem', color: 'var(--st-color-neutral-600)' }}>
+      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-color-neutral-300)', fontSize: '0.8125rem', color: 'var(--st-color-neutral-700)' }}>
         {role}
       </td>
     </tr>
@@ -183,14 +183,14 @@ export function TokenRow({ token, value, role }: { token: string; value: string;
 
 export function RelatedCard({ name, why, when }: { name: string; why: string; when: string }) {
   return (
-    <div style={{ border: '1px solid var(--st-color-neutral-200)', padding: '14px 16px' }}>
+    <div style={{ border: '1px solid var(--st-color-neutral-400)', padding: '14px 16px' }}>
       <div style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', fontWeight: 700, color: 'var(--st-color-ink)', marginBottom: 4 }}>
         {name}
       </div>
-      <div style={{ fontSize: '0.8125rem', color: 'var(--st-color-neutral-500)', lineHeight: 1.5 }}>
+      <div style={{ fontSize: '0.8125rem', color: 'var(--st-color-neutral-600)', lineHeight: 1.5 }}>
         {why}
       </div>
-      <div style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--st-color-neutral-400)', marginTop: 8 }}>
+      <div style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--st-color-neutral-500)', marginTop: 8 }}>
         {when}
       </div>
     </div>
@@ -201,10 +201,10 @@ export function RelatedCard({ name, why, when }: { name: string; why: string; wh
 
 export function ChangelogEntry({ version, date, children }: { version: string; date: string; children: React.ReactNode }) {
   return (
-    <div style={{ padding: '16px 0', borderBottom: '1px solid var(--st-color-neutral-200)' }}>
+    <div style={{ padding: '16px 0', borderBottom: '1px solid var(--st-color-neutral-400)' }}>
       <div style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', fontWeight: 700, color: 'var(--st-color-ink)', marginBottom: 6, display: 'flex', gap: 12, alignItems: 'baseline' }}>
         {version}
-        <span style={{ fontWeight: 400, color: 'var(--st-color-neutral-400)', fontSize: '0.65rem' }}>{date}</span>
+        <span style={{ fontWeight: 400, color: 'var(--st-color-neutral-500)', fontSize: '0.65rem' }}>{date}</span>
       </div>
       <ul style={{ listStyle: 'none', padding: 0 }}>{children}</ul>
     </div>
@@ -213,8 +213,8 @@ export function ChangelogEntry({ version, date, children }: { version: string; d
 
 export function ChangelogItem({ breaking, children }: { breaking?: boolean; children: React.ReactNode }) {
   return (
-    <li style={{ display: 'flex', gap: 8, fontSize: '0.875rem', color: 'var(--st-color-neutral-600)', lineHeight: 1.5, padding: '2px 0' }}>
-      <span style={{ color: 'var(--st-color-neutral-400)', flexShrink: 0 }}>·</span>
+    <li style={{ display: 'flex', gap: 8, fontSize: '0.875rem', color: 'var(--st-color-neutral-700)', lineHeight: 1.5, padding: '2px 0' }}>
+      <span style={{ color: 'var(--st-color-neutral-500)', flexShrink: 0 }}>·</span>
       <span>
         {breaking && (
           <span style={{
