@@ -57,6 +57,7 @@ const config: StorybookConfig = {
       'react': reactRoot,
       'react-dom': reactDomRoot,
       'react-router-dom': reactRouterRoot,
+      '@sb-helpers': resolve(__dirname, './helpers'),
     };
 
     // Mock sanity.js and contentState.js for web component stories.
