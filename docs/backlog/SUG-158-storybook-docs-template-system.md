@@ -26,7 +26,7 @@ After this epic, every DS component story can import from a single shared `helpe
 - [ ] Copy `reference/Storybook Docs Template.html` to `docs/briefs/design-system/storybook-docs-template.html` — layer: reference asset
 - [ ] Wire DS token CSS into `preview.tsx` so `--st-*` tokens are available inside all Guidelines stories rendered in the `data-theme="light-pink-moon"` shell — layer: Storybook tooling
 - [ ] Verify `--st-color-pink`, `--st-color-neutral-*`, `--st-color-maroon-600`, `--st-color-seafoam-*`, `--st-color-midnight-900` exist in `tokens.css`; add any missing primitives — layer: DS tokens
-- [ ] Create `Docs/Introduction.stories.tsx` at `apps/storybook/.storybook/stories/` — sidebar section `Docs/` with an intro story explaining the 14-section structure, coverage model (autodocs vs Guidelines), and import conventions — layer: Storybook
+- [ ] Add `Docs/Introduction.stories.tsx` at `apps/storybook/.storybook/stories/` — the `Docs/` sidebar section already exists; this adds an intro story explaining the 14-section structure, coverage model (autodocs vs Guidelines), and import conventions — layer: Storybook
 - [ ] Apply the template to PageHeader: update `PageHeader.stories.tsx` in `apps/web/src/design-system/components/PageHeader/` to use `helpers/docs.tsx` for the Guidelines story, covering all 14 sections — layer: component stories
 - [ ] Reconcile `_PreviewFrame.tsx` with `helpers/docs.tsx`: update `_PreviewFrame.tsx` to remove `DoRow` (superseded by `DoItem`/`DontItem` in helpers/docs.tsx), keep `PreviewFrame` and `VariantFrame` (Show code toggle — not in helpers/docs.tsx); update existing stories that import `DoRow` from `_PreviewFrame.tsx` to import `DoItem`/`DontItem` from `helpers/docs.tsx` instead — layer: Storybook tooling
 
@@ -40,7 +40,7 @@ After this epic, every DS component story can import from a single shared `helpe
 - `preview.tsx` wired so tokens load in Guidelines stories
 - `_PreviewFrame.tsx` reconciled (DoRow removed, callers updated)
 
-**Phase 2 — Docs/ sidebar section** (sections: Introduction story + live reference)
+**Phase 2 — Docs/ Introduction story** (the Docs/ sidebar section already exists)
 - `Docs/Introduction.stories.tsx` — explains 14-section model, coverage map, import pattern
 - Optionally: a live `Docs/Guidelines Reference.stories.tsx` showing every helper component rendered with the correct Pink Moon visual language
 
@@ -51,7 +51,7 @@ After this epic, every DS component story can import from a single shared `helpe
 
 ## Acceptance criteria
 
-- [ ] `pnpm storybook` starts without errors; Storybook sidebar shows `Docs/` section
+- [ ] `pnpm storybook` starts without errors; `Docs/Introduction` story visible in existing `Docs/` sidebar section
 - [ ] `helpers/docs.tsx` importable from any story in `apps/storybook/.storybook/stories/` and from PageHeader stories in `apps/web/src/design-system/`
 - [ ] `pnpm validate:tokens` reports zero errors after any token additions
 - [ ] PageHeader Guidelines story renders in Storybook with all 14 sections visible, all Must Have sections complete, token values match `tokens.css` + `theme.pink-moon.css`
