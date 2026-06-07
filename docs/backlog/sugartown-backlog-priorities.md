@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-07 · SUG-158 added (Storybook Documentation Template System — 14-section canonical docs template, helpers/docs.tsx, PageHeader pilot).
+> Updated 2026-06-07 · v0.26.11 released · SUG-158 Storybook Documentation Template System shipped.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.10 released ✅ 2026-06-06. SUG-157 PageHeader DS pattern shipped. Next: SUG-152 (DS Usage Docs) — Phase 9 PageHeader usage doc is first priority, before any library/archive pattern docs.
+> **⚑ Current focus:** v0.26.11 released ✅ 2026-06-07. SUG-158 Storybook Documentation Template System shipped — helpers/docs.tsx, 14-section model, PageHeader pilot, table token standardisation. Next: SUG-152 (DS Usage Docs) — Phase 9 PageHeader usage doc.
 
 ---
 
@@ -66,7 +66,7 @@
 | 2 | ~~**[SUG-141](https://linear.app/sugartown/issue/SUG-141/ds-usage-docs-typography-conventions-h1-italic-rule-phase-n-inventory) · DS Usage Docs — Typography conventions** — H1 italic/roman rule; usage doc template + style guide; tool folio roman fix. Shipped v0.26.2.~~ | `Design System` `Content` `Documentation` | ✅ Shipped |
 | ~~1~~ | ~~**[SUG-157](https://linear.app/sugartown/issue/SUG-157/pageheader-ds-pattern-component) · PageHeader DS pattern component**~~ — Full-width identity band; italic/roman H1 rule; tint via color-mix; eyebrow removed; 6 production pages migrated. Shipped v0.26.10. Epic: `docs/shipped/SUG-157-pageheader-pattern.md`. | `Design System` `Frontend` | ✅ Shipped |
 | 1 | **[SUG-152](https://linear.app/sugartown/issue/SUG-152/ds-usage-docs-storybook-documentation-audit-and-creation-phase-n) · DS Usage Docs — Storybook audit and creation** — Phase 9 (PageHeader usage doc) is first priority, before archive/library page patterns (Phase 10). Epic: `docs/backlog/SUG-152-ds-storybook-usage-docs-audit.md`. | `Design System` `Documentation` `Storybook` | 🟢 Next |
-| 2 | **[SUG-158](https://linear.app/sugartown/issue/SUG-158) · Storybook Documentation Template System** — Install `helpers/docs.tsx` shared doc components (DocSection, DoItem, TokenRow, etc.), `stories.boilerplate.tsx` canonical template, Docs/ sidebar section, PageHeader pilot (all 14 sections). Epic: `docs/backlog/SUG-158-storybook-docs-template-system.md`. | `Design System` `Tooling` `Storybook` | 🟢 Next |
+| ~~2~~ | ~~**[SUG-158](https://linear.app/sugartown/issue/SUG-158) · Storybook Documentation Template System**~~ — `helpers/docs.tsx` doc components (DocSection, DoDontGrid, TokenGroup, etc.), `stories.boilerplate.tsx`, Docs/Story Template story, PageHeader pilot (14 sections), table border tokens standardised. Shipped v0.26.11. Epic: `docs/shipped/SUG-158-storybook-docs-template-system.md`. | `Design System` `Tooling` `Storybook` | ✅ Shipped |
 | 2 | **[SUG-153](https://linear.app/sugartown/issue/SUG-153/mobile-responsive-layout-sidebar-drawer-multi-column-collapse) · Mobile responsive layout — sidebar drawer** — Replace stacking appendix with slide-out drawer on multi-column pages; integrate with existing MobileNav. Phase 0 mock required. Epic: `docs/backlog/SUG-153-mobile-responsive-sidebar-drawer.md`. | `Frontend` `UX` `Design System` | 🟣 Soon |
 | ~~3~~ | ~~**[SUG-156](https://linear.app/sugartown/issue/SUG-156/library-ia-layout-audit-codify-page-templates-reform-archivelayout) · Library IA Layout Audit — reform ArchiveLayout story, fill Storybook gaps**~~ — Pages/ category introduced; ArchivePage, ContentDetailPage, EntityDetailPage, TaxonomyDetailPage, TaxonomyArchivePage stories with production-accurate layouts. Shipped v0.26.9. | `Design System` `Storybook` `Documentation` | ✅ Shipped |
 | ~~3~~ | ~~**[SUG-143](https://linear.app/sugartown/issue/SUG-143/archive-layout-documentation-storybook-layouts-stories-and-glossary) · Archive Layout Documentation — Storybook LAYOUTS stories & glossary scoping**~~ — Superseded by SUG-156 (broader scope; same surface area covered). | `Design System` `Storybook` `UX` | ~~🟣 Soon~~ |
@@ -121,6 +121,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-158 · Storybook Documentation Template System** — `helpers/docs.tsx` doc components, `stories.boilerplate.tsx`, Docs/Story Template story, PageHeader pilot (14 sections), table border tokens standardised (`--st-table-cell-border` neutral-300, `--st-table-wrap-border` on DS Table). Epic: `docs/shipped/SUG-158-storybook-docs-template-system.md`.~~ | v0.26.11 | 2026-06-07 |
 | ~~**SUG-151 · DS Phase 5 — Schema migration, registry & audit close-out** — statTileSection → cardSection migration; IconButton + Pill + SegmentedControl stories; RichText canonical renderer; ContactForm + TwoColumnLayout deleted; registry + audit close-out across SUG-144–150. Epic: `docs/shipped/SUG-151-ds-phase-5-schema-closeout.md`.~~ | v0.26.7 | 2026-06-05 |
 | ~~**SUG-127 · Contentful + Vercel POC** — Three-phase POC: Next.js App Router + Contentful CDA + Vercel monorepo deploy. DS agnosticism proven (packaging gap found + fixed). Atomic content model (singleton, document, taxonomy, sections). Rich text adapter with DS tokens. Vendor eval: Netlify stays for Vite app, Vercel for Next.js. Epic: `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`.~~ | v0.24.2 | 2026-05-25 |
 | ~~**SUG-114 · Dynamic schema ERD** — schemaManifest.js auto-generated at build time; gitignored; count assertion (floor 42); CMS ERD section label copy updated; clear-selection button full-width; SUG-122 (registry↔ERD bridge) scoped. Epic: `docs/shipped/SUG-114-dynamic-schema-erd.md`.~~ | v0.23.36 | 2026-05-17 |
@@ -222,4 +223,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-06 · v0.26.9 released · queue: SUG-152 / SUG-154*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-07 · v0.26.11 released · queue: SUG-152 / SUG-154*

@@ -18,6 +18,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - SUG-155: DS Codification Sprint — Callout banner variant, StatCard titleSize/body API, Swatch dark mode, Toolbar/Drawer renames, platform page primitives corrected (StatCard in spacing-0 grids); CLAUDE.md spacing-0 rule; SUG-152 Phases 7-8 scoped
 - SUG-156: Library IA Layout Audit — Pages/ Storybook category introduced; ArchiveLayout retired; ArchivePage, ContentDetailPage, EntityDetailPage, TaxonomyDetailPage, TaxonomyArchivePage stories with production-accurate layouts; FilterBar, PageSidebar, MetadataCard, SectionLabel, accentBar fixtures; fullscreen stories bypass global layout wrapper
 - SUG-157: PageHeader DS pattern component — full-width identity band for archive, entity, and taxonomy pages; italic prop per H1 convention (archive masteheads + person folios italic, entity/taxonomy roman); tint via color-mix; eyebrow removed; 6 production pages migrated
+- SUG-158: Storybook Documentation Template System — helpers/docs.tsx (DocSection, DoDontGrid, TokenGroup, docStyles), stories.boilerplate.tsx, Docs/Story Template 14-section reference story, PageHeader Guidelines pilot; table border tokens standardised (--st-table-cell-border neutral-300, DS TableWrap uses --st-table-wrap-border)
 
 ---
 
