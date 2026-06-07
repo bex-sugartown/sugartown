@@ -35,7 +35,7 @@ import {
   RelatedCard,
   ChangelogEntry,
   ChangelogItem,
-} from '@sb-helpers/docs'
+} from '../../../../../../apps/storybook/.storybook/helpers/docs'
 
 // ─── Shared decorator ────────────────────────────────────────────────────────
 
