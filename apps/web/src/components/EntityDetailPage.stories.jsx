@@ -32,6 +32,7 @@ function withRouter(StoryFn) { return React.createElement(MemoryRouter, null, Re
 
 export default {
   title: 'Pages/EntityDetailPage',
+  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
