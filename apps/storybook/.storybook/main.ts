@@ -10,6 +10,12 @@ const mocks = resolve(__dirname, './mocks');
 // Resolve React 19 package roots from apps/web so Storybook uses the same
 // React instance as the web components, not its own React 18 copy.
 const webRequire = createRequire(resolve(__dirname, '../../../apps/web/package.json'));
+
+// addon-docs preset uses import.meta.resolve() which returns a file:// URL in ESM.
+// Vite rejects file:// specifiers as import sources in generated MDX modules.
+// Resolve once here so the viteFinal plugin can redirect without needing file:// URLs.
+const sbRequire = createRequire(import.meta.url);
+const mdxReactShimPath = sbRequire.resolve('@storybook/addon-docs/dist/mdx-react-shim');
 const reactRoot      = dirname(webRequire.resolve('react/package.json'));
 const reactDomRoot   = dirname(webRequire.resolve('react-dom/package.json'));
 const reactRouterRoot = dirname(webRequire.resolve('react-router-dom/package.json'));
@@ -62,6 +68,16 @@ const config: StorybookConfig = {
       'react-dom': reactDomRoot,
       'react-router-dom': reactRouterRoot,
     };
+
+    // Redirect file:// mdx-react-shim imports produced by addon-docs preset.
+    viteConfig.plugins.push({
+      name: 'storybook-fix-mdx-provider',
+      enforce: 'pre' as const,
+      resolveId(id: string) {
+        if (id.includes('mdx-react-shim')) return mdxReactShimPath;
+        return null;
+      },
+    });
 
     // Mock sanity.js and contentState.js for web component stories.
     // Checks both the bare import string (e.g. '../lib/sanity') AND the resolved
