@@ -26,6 +26,7 @@ import MetadataCard from './MetadataCard'
 import ContentCard from './ContentCard'
 import { mockArticles, mockNodes } from './__fixtures__/mockContentCards'
 import pageStyles from '../pages/pages.module.css'
+import sectionStyles from './PageSections.module.css'
 
 function withRouter(StoryFn) { return React.createElement(MemoryRouter, null, React.createElement(StoryFn)) }
 
@@ -55,16 +56,18 @@ function EntityShell({ breadcrumbs, colorHex, heading, description, media, metad
         <MetadataCard {...metadata} />
       )}
 
-      {sections.map((section) => (
-        <section key={section.title} style={{ marginTop: '2rem' }}>
-          <SectionLabel title={section.title} kicker={String(section.items.length)} />
-          <Grid columns={2} spacing="lg">
-            {section.items.map((item) => (
-              <ContentCard key={item._id} item={item} docType={section.docType ?? item._type} showExcerpt={false} showHeroImage={false} />
-            ))}
-          </Grid>
-        </section>
-      ))}
+      <div className={sectionStyles.detailContext}>
+        {sections.map((section) => (
+          <section key={section.title}>
+            <SectionLabel title={section.title} kicker={String(section.items.length)} />
+            <Grid columns={2} spacing="lg">
+              {section.items.map((item) => (
+                <ContentCard key={item._id} item={item} docType={section.docType ?? item._type} showExcerpt={false} showHeroImage={false} />
+              ))}
+            </Grid>
+          </section>
+        ))}
+      </div>
     </main>
   )
 }
