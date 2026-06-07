@@ -29,6 +29,9 @@ import {
   NotItem,
   DoItem,
   DontItem,
+  DoDontGrid,
+  DoGroup,
+  DontGroup,
   A11yItem,
   TokenGroup,
   TokenRow,
@@ -187,11 +190,6 @@ const s = {
   th:     { textAlign: 'left', padding: '0.5rem 1rem', borderBottom: '1px solid var(--st-color-border-default)', fontWeight: 600, background: 'var(--st-color-bg-surface)' },
   td:     { padding: '0.5rem 1rem', borderBottom: '1px solid var(--st-color-neutral-100)', verticalAlign: 'top' },
   tdMono: { padding: '0.5rem 1rem', borderBottom: '1px solid var(--st-color-neutral-100)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.8rem' },
-  ddGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: '1.5rem' },
-  ddCol:  { border: '1px solid var(--st-color-neutral-200)' },
-  ddHd:   { padding: '9px 14px', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', borderBottom: '1px solid var(--st-color-neutral-200)' },
-  ddDoHd: { color: 'var(--st-color-seafoam-700)', background: 'color-mix(in srgb, var(--st-color-seafoam) 5%, white)', borderLeft: '3px solid var(--st-color-seafoam)' },
-  ddDntHd:{ color: 'var(--st-color-pink-700)', background: 'color-mix(in srgb, var(--st-color-pink) 4%, white)', borderLeft: '3px solid var(--st-color-pink)' },
 }
 
 function PageHeaderGuidelinesPage() {
@@ -265,23 +263,21 @@ function PageHeaderGuidelinesPage() {
           All other surface types (tool folio, project folio, taxonomy detail) use roman. This distinction is
           typographic personality — italic signals a living person's name; roman signals a tool, concept, or collection.
         </p>
-        <div style={s.ddGrid}>
-          <div style={s.ddCol}>
-            <div style={{ ...s.ddHd, ...s.ddDoHd }}>Do — pass <code>italic</code></div>
+        <DoDontGrid>
+          <DoGroup label={<>Do — pass <code>italic</code></>}>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               <DoItem>Archive masteheads (Articles, Case Studies, Knowledge Graph, Tags, People…)</DoItem>
               <DoItem>Person folio pages (<code style={s.code}>/people/:slug</code>)</DoItem>
             </ul>
-          </div>
-          <div style={s.ddCol}>
-            <div style={{ ...s.ddHd, ...s.ddDntHd }}>Don't — omit <code>italic</code></div>
+          </DoGroup>
+          <DontGroup label={<>Don't — omit <code>italic</code></>}>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               <DontItem>Tool folio pages — roman only</DontItem>
               <DontItem>Project folio pages — roman only</DontItem>
               <DontItem>Taxonomy tag / category / project detail — roman only</DontItem>
             </ul>
-          </div>
-        </div>
+          </DontGroup>
+        </DoDontGrid>
 
         <h3 style={{ fontWeight: 700, fontSize: '0.875rem', marginBottom: 12, marginTop: 24 }}>Tint prop</h3>
         <p style={s.prose}>

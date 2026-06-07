@@ -8,6 +8,7 @@ import { mockArticles } from '../../../../apps/web/src/components/__fixtures__/m
 import pageStyles from '../../../../apps/web/src/pages/pages.module.css';
 import sectionStyles from '../../../../apps/web/src/components/PageSections.module.css';
 import { VariantFrame } from './_PreviewFrame';
+import { DoDontGrid, DoGroup, DontGroup } from '../helpers/docs';
 
 const s = {
   page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px', background: 'var(--st-color-bg)' } as React.CSSProperties,
@@ -20,11 +21,6 @@ const s = {
   td:       { padding: '0.5rem 1rem', fontSize: '0.875rem', verticalAlign: 'top' as const },
   code:     { background: 'var(--st-color-bg-surface-strong)', padding: '0.15rem 0.4rem', borderRadius: '3px', fontSize: '0.85em', fontFamily: 'var(--st-font-family-mono)' } as React.CSSProperties,
   pre:      { background: 'var(--st-color-bg-surface-strong)', padding: '0.75rem', borderRadius: '3px', fontSize: '0.8rem', fontFamily: 'var(--st-font-family-mono)', whiteSpace: 'pre-wrap' as const, margin: '0.5rem 0 1.5rem', overflowX: 'auto' as const } as React.CSSProperties,
-  ddGrid:   { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: '1.5rem' } as React.CSSProperties,
-  ddCol:    { border: '1px solid var(--st-color-neutral-200)' } as React.CSSProperties,
-  ddHd:     { padding: '9px 14px', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, borderBottom: '1px solid var(--st-color-neutral-200)' } as React.CSSProperties,
-  ddDoHd:   { color: 'var(--st-color-seafoam-700)', background: 'color-mix(in srgb, var(--st-color-seafoam) 5%, white)', borderLeft: '3px solid var(--st-color-seafoam)' } as React.CSSProperties,
-  ddDontHd: { color: 'var(--st-color-pink-700)', background: 'color-mix(in srgb, var(--st-color-pink) 4%, white)', borderLeft: '3px solid var(--st-color-pink)' } as React.CSSProperties,
 };
 
 // ─── Live preview shells ──────────────────────────────────────────────────────
@@ -227,24 +223,22 @@ function EntityDetailPageDocsPage() {
         Person folios use italic Cormorant Garamond. All other entity types use roman.
         Full rationale: <strong>Foundations / Typography Conventions</strong>.
       </p>
-      <div style={s.ddGrid}>
-        <div style={s.ddCol}>
-          <div style={{ ...s.ddHd, ...s.ddDoHd }}>Do</div>
+      <DoDontGrid>
+        <DoGroup>
           <div style={{ padding: '1rem' }}>
             <p style={{ fontFamily: 'var(--st-font-family-narrative)', fontSize: '1.75rem', fontWeight: 600, fontStyle: 'italic', margin: '0 0 0.5rem' }}>Bex Walton</p>
             <code style={s.code}>.narrativeHeading.narrativeHeadingItalic</code>
             <p style={{ fontSize: '0.8rem', color: 'var(--st-color-text-muted)', margin: '0.5rem 0 0' }}>Person — italic prop on PageHeader</p>
           </div>
-        </div>
-        <div style={s.ddCol}>
-          <div style={{ ...s.ddHd, ...s.ddDontHd }}>Don't</div>
+        </DoGroup>
+        <DontGroup>
           <div style={{ padding: '1rem' }}>
             <p style={{ fontFamily: 'var(--st-font-family-narrative)', fontSize: '1.75rem', fontWeight: 600, fontStyle: 'normal', margin: '0 0 0.5rem' }}>Sanity</p>
             <code style={s.code}>.narrativeHeading</code>
             <p style={{ fontSize: '0.8rem', color: 'var(--st-color-text-muted)', margin: '0.5rem 0 0' }}>Tool — omit <code style={s.code}>italic</code>, use roman only</p>
           </div>
-        </div>
-      </div>
+        </DontGroup>
+      </DoDontGrid>
 
       <h2 style={s.h2}>Rule 4 — Section spacing</h2>
       <p style={{ fontSize: '0.875rem' }}>

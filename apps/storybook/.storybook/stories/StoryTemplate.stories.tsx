@@ -15,6 +15,9 @@ import {
   NotItem,
   DoItem,
   DontItem,
+  DoDontGrid,
+  DoGroup,
+  DontGroup,
   A11yItem,
   TokenGroup,
   TokenRow,
@@ -216,22 +219,20 @@ function StoryTemplatePage() {
       </DocSection>
 
       <DocSection n="06" title="Usage Guidelines" priority="must" showBadge>
-        <div style={s.ddGrid}>
-          <div style={s.ddCol}>
-            <div style={{ ...s.ddHd, ...s.ddDoHd }}>Do</div>
+        <DoDontGrid>
+          <DoGroup>
             <ul style={s.list}>
               <DoItem>Use DS colour tokens for the <code style={s.code}>tint</code> prop — never freeform hex.</DoItem>
               <DoItem>Pass only the props relevant to your context — omit slots that don't apply.</DoItem>
             </ul>
-          </div>
-          <div style={s.ddCol}>
-            <div style={{ ...s.ddHd, ...s.ddDontHd }}>Don't</div>
+          </DoGroup>
+          <DontGroup>
             <ul style={s.list}>
               <DontItem>Don't use <code style={s.code}>[prop]</code> for [wrong use case] — it means [correct meaning].</DontItem>
               <DontItem>Don't nest [ComponentName] inside [container] — it must [constraint].</DontItem>
             </ul>
-          </div>
-        </div>
+          </DontGroup>
+        </DoDontGrid>
       </DocSection>
 
       <DocSection n="07" title="Accessibility" priority="must" showBadge>
@@ -314,11 +315,6 @@ const s = {
   td: { padding: '8px 12px', borderBottom: '1px solid var(--st-color-neutral-100)', fontSize: '0.8125rem', color: 'var(--st-color-neutral-600)', verticalAlign: 'top' as const } as React.CSSProperties,
   tdMono: { fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', fontWeight: 600, color: 'var(--st-color-maroon-600)' } as React.CSSProperties,
   anatomy: { background: 'var(--st-color-midnight-900)', border: '1px solid rgba(255,255,255,0.06)', padding: '24px 28px', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', overflowX: 'auto' as const, margin: '0 0 16px' } as React.CSSProperties,
-  ddGrid: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 } as React.CSSProperties,
-  ddCol: { border: '1px solid var(--st-color-neutral-200)' } as React.CSSProperties,
-  ddHd: { padding: '9px 14px', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, borderBottom: '1px solid var(--st-color-neutral-200)' } as React.CSSProperties,
-  ddDoHd: { color: 'var(--st-color-seafoam-700)', background: 'color-mix(in srgb, var(--st-color-seafoam) 5%, white)', borderLeft: '3px solid var(--st-color-seafoam)' } as React.CSSProperties,
-  ddDontHd: { color: 'var(--st-color-pink-700)', background: 'color-mix(in srgb, var(--st-color-pink) 4%, white)', borderLeft: '3px solid var(--st-color-pink)' } as React.CSSProperties,
 };
 
 // ─── Meta & export ────────────────────────────────────────────────────────────

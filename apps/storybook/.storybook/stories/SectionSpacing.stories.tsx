@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { VariantFrame } from './_PreviewFrame';
+import { DoDontGrid, DoGroup, DontGroup } from '../helpers/docs';
 
 const s = {
   page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px', background: 'var(--st-color-bg)' } as React.CSSProperties,
@@ -13,11 +14,6 @@ const s = {
   td:       { padding: '0.5rem 1rem', fontSize: '0.875rem', verticalAlign: 'top' as const },
   code:     { background: 'var(--st-color-bg-surface-strong)', padding: '0.15rem 0.4rem', borderRadius: '3px', fontSize: '0.85em', fontFamily: 'var(--st-font-family-mono)' } as React.CSSProperties,
   pre:      { background: 'var(--st-color-bg-surface-strong)', padding: '0.75rem', borderRadius: '3px', fontSize: '0.8rem', fontFamily: 'var(--st-font-family-mono)', whiteSpace: 'pre-wrap' as const, margin: '0.5rem 0 1.5rem', overflowX: 'auto' as const } as React.CSSProperties,
-  ddGrid:   { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: '1.5rem' } as React.CSSProperties,
-  ddCol:    { border: '1px solid var(--st-color-neutral-200)' } as React.CSSProperties,
-  ddHd:     { padding: '9px 14px', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, borderBottom: '1px solid var(--st-color-neutral-200)' } as React.CSSProperties,
-  ddDoHd:   { color: 'var(--st-color-seafoam-700)', background: 'color-mix(in srgb, var(--st-color-seafoam) 5%, white)', borderLeft: '3px solid var(--st-color-seafoam)' } as React.CSSProperties,
-  ddDontHd: { color: 'var(--st-color-pink-700)', background: 'color-mix(in srgb, var(--st-color-pink) 4%, white)', borderLeft: '3px solid var(--st-color-pink)' } as React.CSSProperties,
 };
 
 // ─── Preview helpers ──────────────────────────────────────────────────────────
@@ -130,10 +126,9 @@ function SectionSpacingPage() {
       ]} />
 
       <h2 style={s.h2}>Do / Don't</h2>
-      <div style={s.ddGrid}>
-        <div style={s.ddCol}>
-          <div style={{ ...s.ddHd, ...s.ddDoHd }}>Do</div>
-          <pre style={{ ...s.pre, margin: 0, borderRadius: 0 }}>{`.detailContext {
+      <DoDontGrid>
+        <DoGroup>
+          <pre style={{ ...s.pre, margin: 0 }}>{`.detailContext {
   display: flex;
   flex-direction: column;
   gap: var(--st-space-section-break-detail);
@@ -143,16 +138,15 @@ function SectionSpacingPage() {
 .mySection {
   padding: 1rem; /* internal only */
 }`}</pre>
-        </div>
-        <div style={s.ddCol}>
-          <div style={{ ...s.ddHd, ...s.ddDontHd }}>Don't</div>
-          <pre style={{ ...s.pre, margin: 0, borderRadius: 0 }}>{`/* Component CSS */
+        </DoGroup>
+        <DontGroup>
+          <pre style={{ ...s.pre, margin: 0 }}>{`/* Component CSS */
 .mySection {
   /* doubles gap at every boundary */
   margin-block: var(--st-space-section-break-detail);
 }`}</pre>
-        </div>
-      </div>
+        </DontGroup>
+      </DoDontGrid>
 
       <h2 style={s.h2}>Spacing tokens</h2>
       <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '2rem' }}>

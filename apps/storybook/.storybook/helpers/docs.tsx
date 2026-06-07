@@ -90,6 +90,51 @@ export function NotItem({ children }: { children: React.ReactNode }) {
 }
 
 // ── Do / Don't helpers ────────────────────────────────────────────────────────
+// DoDontGrid wraps the two-column layout.
+// DoGroup / DontGroup are the white-surface column wrappers with coloured header.
+// DoItem / DontItem are the individual list items inside a group.
+
+export function DoDontGrid({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: '1.5rem' }}>
+      {children}
+    </div>
+  );
+}
+
+export function DoGroup({ label = 'Do', children }: { label?: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <div style={{ border: '1px solid var(--st-table-wrap-border)', background: 'var(--st-color-white)' }}>
+      <div style={{
+        padding: '9px 14px',
+        fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 700,
+        letterSpacing: '0.1em', textTransform: 'uppercase' as const,
+        color: 'var(--st-color-seafoam-700)',
+        background: 'color-mix(in srgb, var(--st-color-seafoam) 5%, var(--st-color-white))',
+        borderLeft: '3px solid var(--st-color-seafoam)',
+        borderBottom: '1px solid var(--st-table-header-border-subdued)',
+      }}>{label}</div>
+      {children}
+    </div>
+  );
+}
+
+export function DontGroup({ label = "Don't", children }: { label?: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <div style={{ border: '1px solid var(--st-table-wrap-border)', background: 'var(--st-color-white)' }}>
+      <div style={{
+        padding: '9px 14px',
+        fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 700,
+        letterSpacing: '0.1em', textTransform: 'uppercase' as const,
+        color: 'var(--st-color-pink-700)',
+        background: 'color-mix(in srgb, var(--st-color-pink) 4%, var(--st-color-white))',
+        borderLeft: '3px solid var(--st-color-pink)',
+        borderBottom: '1px solid var(--st-table-header-border-subdued)',
+      }}>{label}</div>
+      {children}
+    </div>
+  );
+}
 
 export function DoItem({ children }: { children: React.ReactNode }) {
   return (
@@ -144,19 +189,28 @@ export function A11yItem({ label, children }: { label: string; children: React.R
 }
 
 // ── Design Token helpers ──────────────────────────────────────────────────────
+// Uses subdued table tokens so tables pop off the neutral-100 doc canvas.
 
 export function TokenGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 32 }}>
       <div style={{
         fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 700,
-        letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--st-color-neutral-600)',
-        padding: '8px 12px', border: '1px solid var(--st-color-neutral-400)',
-        borderBottom: 'none', background: 'var(--st-color-neutral-200)',
+        letterSpacing: '0.1em', textTransform: 'uppercase',
+        color: 'var(--st-table-header-color-subdued)',
+        padding: '8px 12px',
+        border: '1px solid var(--st-table-wrap-border)',
+        borderBottom: '1px solid var(--st-table-header-border-subdued)',
+        background: 'var(--st-color-neutral-200)',
       }}>
         {label}
       </div>
-      <table style={{ width: '100%', borderCollapse: 'collapse', border: '1px solid var(--st-color-neutral-400)' }}>
+      <table style={{
+        width: '100%', borderCollapse: 'collapse',
+        border: '1px solid var(--st-table-wrap-border)',
+        borderTop: 'none',
+        background: 'var(--st-color-white)',
+      }}>
         <tbody>{children}</tbody>
       </table>
     </div>
@@ -166,13 +220,13 @@ export function TokenGroup({ label, children }: { label: string; children: React
 export function TokenRow({ token, value, role }: { token: string; value: string; role: string }) {
   return (
     <tr>
-      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-color-neutral-300)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', fontWeight: 600, color: 'var(--st-color-maroon-600)', width: '44%' }}>
+      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-table-cell-border)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', fontWeight: 600, color: 'var(--st-color-maroon-600)', width: '44%' }}>
         {token}
       </td>
-      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-color-neutral-300)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', color: 'var(--st-color-neutral-500)', width: '22%' }}>
+      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-table-cell-border)', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', color: 'var(--st-color-neutral-500)', width: '22%' }}>
         {value}
       </td>
-      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-color-neutral-300)', fontSize: '0.8125rem', color: 'var(--st-color-neutral-700)' }}>
+      <td style={{ padding: '8px 12px', borderBottom: '1px solid var(--st-table-cell-border)', fontSize: '0.8125rem', color: 'var(--st-color-neutral-700)' }}>
         {role}
       </td>
     </tr>
@@ -183,7 +237,7 @@ export function TokenRow({ token, value, role }: { token: string; value: string;
 
 export function RelatedCard({ name, why, when }: { name: string; why: string; when: string }) {
   return (
-    <div style={{ border: '1px solid var(--st-color-neutral-400)', padding: '14px 16px' }}>
+    <div style={{ border: '1px solid var(--st-table-wrap-border)', background: 'var(--st-color-white)', padding: '14px 16px' }}>
       <div style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', fontWeight: 700, color: 'var(--st-color-ink)', marginBottom: 4 }}>
         {name}
       </div>
