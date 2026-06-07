@@ -14,7 +14,7 @@
   --st-table-sticky-offset: 0px;
   --st-table-caption-height: 0px;
 
-  border: 1px solid var(--st-color-border-default);
+  border: 1px solid var(--st-table-wrap-border);
   background: var(--st-color-bg-surface);
   width: 100%;
   overflow-x: auto;
