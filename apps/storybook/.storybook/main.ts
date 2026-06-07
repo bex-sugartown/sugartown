@@ -15,7 +15,7 @@ const webRequire = createRequire(resolve(__dirname, '../../../apps/web/package.j
 // Vite rejects file:// specifiers as import sources in generated MDX modules.
 // Resolve once here so the viteFinal plugin can redirect without needing file:// URLs.
 const sbRequire = createRequire(import.meta.url);
-const mdxReactShimPath = sbRequire.resolve('@storybook/addon-docs/dist/mdx-react-shim');
+const mdxReactShimPath = sbRequire.resolve('@storybook/addon-docs/mdx-react-shim');
 const reactRoot      = dirname(webRequire.resolve('react/package.json'));
 const reactDomRoot   = dirname(webRequire.resolve('react-dom/package.json'));
 const reactRouterRoot = dirname(webRequire.resolve('react-router-dom/package.json'));
