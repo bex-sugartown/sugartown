@@ -23,6 +23,19 @@ import { MemoryRouter } from 'react-router-dom'
 import { PageHeader } from './PageHeader'
 import Breadcrumb from '../Breadcrumb/Breadcrumb'
 import Avatar from '../avatar/Avatar'
+import {
+  DocSection,
+  OverviewItem,
+  NotItem,
+  DoItem,
+  DontItem,
+  A11yItem,
+  TokenGroup,
+  TokenRow,
+  RelatedCard,
+  ChangelogEntry,
+  ChangelogItem,
+} from '@sb-helpers/docs'
 
 // ─── Shared decorator ────────────────────────────────────────────────────────
 
@@ -162,20 +175,6 @@ export const WithActions = {
 // ─── Snapshot (Chromatic) ─────────────────────────────────────────────────────
 
 // ─── Guidelines (14-section docs story) ──────────────────────────────────────
-
-import {
-  DocSection,
-  OverviewItem,
-  NotItem,
-  DoItem,
-  DontItem,
-  A11yItem,
-  TokenGroup,
-  TokenRow,
-  RelatedCard,
-  ChangelogEntry,
-  ChangelogItem,
-} from '@sb-helpers/docs'
 
 const s = {
   page:   { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px', margin: '0 auto', padding: '2rem 2rem 4rem' },
