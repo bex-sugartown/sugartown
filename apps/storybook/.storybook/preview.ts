@@ -70,7 +70,7 @@ const preview: Preview = {
     options: {
       storySort: {
         method: 'alphabetical',
-        order: ['Foundations', 'Components', 'Patterns', 'Regions', 'Pages', '*', 'Docs', ['Welcome', 'Component Contracts', 'Contributing'], 'Legacy'],
+        order: ['Foundations', 'Components', 'Patterns', 'Regions', 'Pages', '*', 'Docs', ['Welcome', 'Introduction', 'Story Template', 'Component Contracts', 'Contributing'], 'Legacy'],
       },
     },
     viewport: {

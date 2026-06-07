@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light-pink-moon">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storybook Docs Template — PageHeader</title>
+<link rel="stylesheet" href="_ds/sugartown-design-system-86a5dc12-490a-470e-a13a-f3f86eeaf3ef/colors_and_type.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+
+/* ── SHELL ── */
+.sb{display:grid;grid-template-columns:240px 1fr;grid-template-rows:40px 1fr;height:100vh;overflow:hidden;font-family:var(--st-font-family-ui);background:var(--st-color-neutral-100);color:var(--st-color-ink);}
+.sb-top{grid-column:1/-1;background:var(--st-color-white);border-bottom:1px solid var(--st-color-neutral-200);display:flex;align-items:center;padding:0 14px;gap:12px;}
+.sb-logo{font-family:var(--st-font-family-mono);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--st-color-pink);}
+.sb-path{font-family:var(--st-font-family-mono);font-size:.6rem;letter-spacing:.06em;color:var(--st-color-neutral-500);display:flex;align-items:center;gap:6px;}
+.sb-path strong{color:var(--st-color-ink);font-weight:600;}
+.sb-path-sep{color:var(--st-color-neutral-300);}
+.sb-tools{margin-left:auto;display:flex;gap:6px;}
+.tool-btn{font-family:var(--st-font-family-mono);font-size:.55rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;background:transparent;border:1px solid var(--st-color-neutral-200);color:var(--st-color-neutral-500);cursor:pointer;}
+.tool-btn:hover{border-color:var(--st-color-pink);color:var(--st-color-pink);}
+.tool-btn.on{border-color:var(--st-color-seafoam-400);color:var(--st-color-seafoam-700);background:color-mix(in srgb,var(--st-color-seafoam) 6%,transparent);}
+
+/* ── SIDEBAR ── */
+.sb-side{background:var(--st-color-white);border-right:1px solid var(--st-color-neutral-200);overflow-y:auto;}
+.sb-side::-webkit-scrollbar{width:3px;}.sb-side::-webkit-scrollbar-thumb{background:var(--st-color-neutral-200);}
+.sb-search{padding:10px 12px;border-bottom:1px solid var(--st-color-neutral-200);}
+.sb-search input{width:100%;background:var(--st-color-neutral-100);border:1px solid var(--st-color-neutral-200);padding:5px 10px;font-family:var(--st-font-family-ui);font-size:.75rem;color:var(--st-color-ink);outline:none;}
+.sb-search input::placeholder{color:var(--st-color-neutral-400);}
+.nav-cat{padding:12px 12px 4px;font-family:var(--st-font-family-mono);font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--st-color-neutral-400);}
+.nav-group{padding:4px 12px 4px 20px;font-size:.8rem;font-weight:500;color:var(--st-color-neutral-600);cursor:pointer;display:flex;align-items:center;gap:5px;}
+.nav-group::before{content:"▾";font-size:.5rem;color:var(--st-color-neutral-400);}
+.nav-item{display:block;padding:4px 12px 4px 32px;font-size:.775rem;color:var(--st-color-neutral-500);cursor:pointer;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.nav-item:hover{color:var(--st-color-ink);background:var(--st-color-neutral-100);}
+.nav-item.active{color:var(--st-color-ink);font-weight:600;background:var(--st-color-neutral-100);border-left:2px solid var(--st-color-pink);padding-left:30px;}
+.nav-item.story{font-style:italic;color:var(--st-color-neutral-400);font-size:.72rem;}
+
+/* ── MAIN + TABS ── */
+.sb-main{overflow-y:auto;background:var(--st-color-neutral-100);}
+.sb-main::-webkit-scrollbar{width:5px;}.sb-main::-webkit-scrollbar-thumb{background:var(--st-color-neutral-300);}
+.sb-tabs{background:var(--st-color-white);border-bottom:1px solid var(--st-color-neutral-200);display:flex;padding:0 32px;position:sticky;top:0;z-index:20;}
+.sb-tab{padding:10px 16px;font-family:var(--st-font-family-mono);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--st-color-neutral-500);border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px;}
+.sb-tab.active{color:var(--st-color-pink);border-bottom-color:var(--st-color-pink);}
+
+/* ── DOCS LAYOUT ── */
+.docs{max-width:920px;padding:52px 56px 120px;}
+
+/* ── SECTION STRUCTURE ── */
+.doc-sec{padding-top:60px;border-top:1px solid var(--st-color-neutral-200);margin-top:60px;}
+.doc-sec:first-child{padding-top:0;border-top:none;margin-top:0;}
+
+.sec-hd{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+.sec-n{font-family:var(--st-font-family-mono);font-size:var(--st-label-size);font-weight:var(--st-label-weight);letter-spacing:var(--st-label-tracking);text-transform:uppercase;color:var(--st-color-neutral-400);}
+.sec-title{font-family:var(--st-font-family-mono);font-size:var(--st-label-size);font-weight:var(--st-label-weight);letter-spacing:var(--st-label-tracking);text-transform:uppercase;color:var(--st-color-pink);}
+.sec-rule{flex:1;min-width:20px;height:1px;background:var(--st-color-neutral-200);}
+
+/* priority + coverage badges */
+.p-must{font-family:var(--st-font-family-mono);font-size:.5rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border:1px solid var(--st-color-ink);color:var(--st-color-ink);background:color-mix(in srgb,var(--st-color-ink) 4%,transparent);}
+.p-should{font-family:var(--st-font-family-mono);font-size:.5rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border:1px solid var(--st-color-neutral-400);color:var(--st-color-neutral-500);}
+.cov{font-family:var(--st-font-family-mono);font-size:.5rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;}
+.pm-y{color:var(--st-color-seafoam-700);border:1px solid var(--st-color-seafoam-400);background:color-mix(in srgb,var(--st-color-seafoam) 6%,transparent);}
+.pm-n{color:var(--st-color-pink-700);border:1px dashed var(--st-color-pink-300);background:color-mix(in srgb,var(--st-color-pink) 4%,transparent);}
+.sb-y{color:var(--st-color-midnight-400);border:1px solid var(--st-color-midnight-300);}
+.sb-n{color:var(--st-color-neutral-400);border:1px dashed var(--st-color-neutral-300);}
+
+/* annotation notes — toggle */
+.anote{font-family:var(--st-font-family-mono);font-size:.63rem;line-height:1.6;color:var(--st-color-neutral-500);border-left:2px solid var(--st-color-neutral-300);padding:8px 14px;margin:14px 0;background:var(--st-color-neutral-100);display:none;}
+[data-annot="true"] .anote{display:block;}
+
+/* ── 01 TITLE BLOCK ── */
+.doc-bc{font-family:var(--st-font-family-mono);font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--st-color-neutral-400);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.doc-h1{font-family:var(--st-font-family-narrative);font-size:2.5rem;font-weight:600;line-height:1.15;color:var(--st-color-ink);margin-bottom:16px;display:flex;align-items:baseline;flex-wrap:wrap;gap:14px;}
+.badge{font-family:var(--st-font-family-mono);font-size:.52rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border:1px solid;}
+.b-pat{color:var(--st-color-midnight-400);border-color:var(--st-color-midnight-300);}
+.b-spec{color:var(--st-color-seafoam-700);border-color:var(--st-color-seafoam-500);background:color-mix(in srgb,var(--st-color-seafoam) 6%,transparent);}
+.b-wip{color:var(--st-color-amber-700);border-color:var(--st-color-amber-500);}
+.doc-lead{font-size:1rem;line-height:1.7;color:var(--st-color-neutral-600);max-width:62ch;margin-bottom:24px;}
+.doc-meta{display:flex;flex-wrap:wrap;border-top:1px solid var(--st-color-neutral-200);border-bottom:1px solid var(--st-color-neutral-200);}
+.meta-item{display:flex;gap:8px;padding:10px 20px;border-right:1px solid var(--st-color-neutral-200);font-family:var(--st-font-family-mono);font-size:.6rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+.meta-item:first-child{padding-left:0;}
+.meta-lbl{color:var(--st-color-neutral-400);}
+.meta-val{color:var(--st-color-ink);}
+
+/* overview purpose list */
+.ov-list{list-style:none;margin-bottom:20px;}
+.ov-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--st-color-neutral-100);font-size:.9375rem;line-height:1.55;color:var(--st-color-neutral-600);}
+.ov-item:last-child{border-bottom:none;}
+.ov-item::before{content:"→";font-family:var(--st-font-family-mono);font-size:.7rem;color:var(--st-color-pink);margin-top:2px;flex-shrink:0;}
+.not-list{list-style:none;}
+.not-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--st-color-neutral-100);font-size:.875rem;line-height:1.5;color:var(--st-color-neutral-600);}
+.not-item:last-child{border-bottom:none;}
+.not-item::before{content:"✗";font-family:var(--st-font-family-mono);font-size:.65rem;color:var(--st-color-neutral-400);margin-top:2px;flex-shrink:0;}
+
+/* ── LIVE PREVIEW + CONTROLS ── */
+.preview-wrap{background:var(--st-color-white);border:1px solid var(--st-color-neutral-200);}
+.preview-tbar{display:flex;align-items:center;justify-content:space-between;padding:6px 14px;background:var(--st-color-neutral-100);border-bottom:1px solid var(--st-color-neutral-200);}
+.preview-label{font-family:var(--st-font-family-mono);font-size:.55rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--st-color-neutral-400);}
+.preview-story-name{font-family:var(--st-font-family-mono);font-size:.6rem;font-weight:600;color:var(--st-color-ink);}
+.ctrl-panel{border:1px solid var(--st-color-neutral-200);border-top:none;}
+.ctrl-hd{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;background:var(--st-color-neutral-100);border-bottom:1px solid var(--st-color-neutral-200);}
+.ctrl-title{font-family:var(--st-font-family-mono);font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--st-color-neutral-500);}
+.ctrl-reset{font-family:var(--st-font-family-mono);font-size:.55rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:transparent;border:1px solid var(--st-color-neutral-300);color:var(--st-color-neutral-400);padding:3px 10px;cursor:pointer;}
+.ctrl-reset:hover{border-color:var(--st-color-pink);color:var(--st-color-pink);}
+.ctrl-table{width:100%;border-collapse:collapse;}
+.ctrl-table tr{border-bottom:1px solid var(--st-color-neutral-200);}
+.ctrl-table tr:last-child{border-bottom:none;}
+.ctrl-table td{padding:7px 14px;vertical-align:middle;}
+.ctrl-table td:first-child{font-family:var(--st-font-family-mono);font-size:.65rem;font-weight:600;color:var(--st-color-maroon-600);width:140px;}
+.ctrl-table td:nth-child(2){font-family:var(--st-font-family-mono);font-size:.58rem;color:var(--st-color-neutral-400);width:76px;}
+.ctrl-input{font-family:var(--st-font-family-ui);font-size:.8125rem;background:var(--st-color-white);border:1px solid var(--st-color-neutral-300);color:var(--st-color-ink);padding:4px 8px;width:100%;max-width:320px;outline:none;}
+.ctrl-input:focus{border-color:var(--st-color-pink);}
+.tog{display:flex;}
+.tog-btn{font-family:var(--st-font-family-mono);font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 12px;background:var(--st-color-white);border:1px solid var(--st-color-neutral-300);color:var(--st-color-neutral-500);cursor:pointer;margin-left:-1px;}
+.tog-btn.on{background:var(--st-color-ink);border-color:var(--st-color-ink);color:var(--st-color-white);z-index:1;position:relative;}
+.swatches{display:flex;gap:6px;align-items:center;}
+.swatch{width:20px;height:20px;border:2px solid transparent;cursor:pointer;flex-shrink:0;}
+.swatch:hover{outline:1px solid var(--st-color-neutral-400);outline-offset:1px;}
+.swatch.on{outline:2px solid var(--st-color-ink);outline-offset:1px;}
+.swatch-lbl{font-family:var(--st-font-family-mono);font-size:.58rem;color:var(--st-color-neutral-400);}
+
+/* ── CODE BLOCKS ── */
+.code-hd{display:flex;align-items:center;justify-content:space-between;padding:7px 16px;background:var(--st-color-midnight-800);border:1px solid rgba(255,255,255,.06);border-bottom:none;}
+.code-lang{font-family:var(--st-font-family-mono);font-size:.55rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.copy-btn{font-family:var(--st-font-family-mono);font-size:.55rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:transparent;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.45);padding:3px 10px;cursor:pointer;}
+.copy-btn:hover{border-color:var(--st-color-pink);color:var(--st-color-pink);}
+.copy-btn.ok{border-color:var(--st-color-seafoam-400);color:var(--st-color-seafoam-400);}
+pre.code{margin:0;padding:20px;background:var(--st-color-midnight-900);border:1px solid rgba(255,255,255,.06);overflow-x:auto;font-family:var(--st-font-family-mono);font-size:.775rem;line-height:1.65;color:rgba(255,255,255,.82);}
+.t-kw{color:var(--st-color-pink-300);}
+.t-cp{color:var(--st-color-seafoam-400);}
+.t-pr{color:var(--st-color-midnight-200);}
+.t-st{color:var(--st-color-lime-300);}
+.t-cm{color:rgba(255,255,255,.28);font-style:italic;}
+.t-br{color:rgba(255,255,255,.45);}
+
+/* ── STORY BLOCKS ── */
+.story-block{margin-bottom:44px;}
+.story-block:last-child{margin-bottom:0;}
+.story-hd{display:flex;align-items:center;justify-content:space-between;}
+.story-name{font-family:var(--st-font-family-mono);font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--st-color-ink);}
+.story-btns{display:flex;}
+.s-btn{font-family:var(--st-font-family-mono);font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;background:transparent;border:1px solid var(--st-color-neutral-200);color:var(--st-color-neutral-500);cursor:pointer;margin-left:-1px;}
+.s-btn.on{border-color:var(--st-color-pink);color:var(--st-color-pink);z-index:1;position:relative;}
+.story-canvas{background:var(--st-color-white);border:1px solid var(--st-color-neutral-200);margin-top:-1px;overflow:hidden;}
+.story-code{display:none;}
+.story-code.show{display:block;}
+
+/* ── SHARED DATA TABLE ── */
+.dt{width:100%;border-collapse:collapse;font-size:.8125rem;}
+.dt-wrap{border:1px solid var(--st-color-neutral-200);overflow-x:auto;}
+.dt th{font-family:var(--st-font-family-mono);font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--st-color-neutral-500);padding:9px 14px;text-align:left;border-bottom:1px solid var(--st-color-neutral-200);background:var(--st-color-neutral-100);white-space:nowrap;}
+.dt td{padding:10px 14px;border-bottom:1px solid var(--st-color-neutral-100);vertical-align:top;}
+.dt tbody tr:last-child td{border-bottom:none;}
+.dt tbody tr:hover td{background:color-mix(in srgb,var(--st-color-pink) 2%,transparent);}
+.p-name{font-family:var(--st-font-family-mono);font-size:.75rem;font-weight:600;color:var(--st-color-maroon-600);}
+.p-req{color:var(--st-color-pink);font-size:.7rem;}
+.p-type{font-family:var(--st-font-family-mono);font-size:.7rem;color:var(--st-color-midnight-400);background:var(--st-color-neutral-100);padding:2px 6px;}
+.p-def{font-family:var(--st-font-family-mono);font-size:.7rem;color:var(--st-color-neutral-400);}
+.p-desc{font-size:.8125rem;line-height:1.55;color:var(--st-color-neutral-600);}
+
+/* ── PROSE + CALLOUTS ── */
+.h3{font-family:var(--st-font-family-narrative);font-size:1.2rem;font-weight:600;color:var(--st-color-ink);margin-bottom:10px;margin-top:32px;}
+.h3:first-child{margin-top:0;}
+.prose{font-size:.9375rem;line-height:1.7;color:var(--st-color-neutral-600);max-width:62ch;margin-bottom:12px;}
+code{font-family:var(--st-font-family-mono);font-size:.84em;background:var(--st-color-neutral-100);padding:1px 5px;color:var(--st-color-maroon-600);}
+.callout{border-left:3px solid;padding:12px 16px;margin:16px 0;font-size:.875rem;line-height:1.6;color:var(--st-color-neutral-600);}
+.c-tip{border-color:var(--st-color-seafoam);background:color-mix(in srgb,var(--st-color-seafoam) 5%,var(--st-color-white));}
+.c-warn{border-color:var(--st-color-amber);background:color-mix(in srgb,var(--st-color-amber) 5%,var(--st-color-white));}
+.callout strong{font-family:var(--st-font-family-mono);font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:5px;color:var(--st-color-ink);}
+
+/* ── DOS & DON'TS ── */
+.dd-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.dd-col{border:1px solid var(--st-color-neutral-200);}
+.dd-hd{padding:9px 14px;font-family:var(--st-font-family-mono);font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-bottom:1px solid var(--st-color-neutral-200);}
+.dd-do .dd-hd{color:var(--st-color-seafoam-700);background:color-mix(in srgb,var(--st-color-seafoam) 5%,var(--st-color-white));border-left:3px solid var(--st-color-seafoam);}
+.dd-dont .dd-hd{color:var(--st-color-pink-700);background:color-mix(in srgb,var(--st-color-pink) 4%,var(--st-color-white));border-left:3px solid var(--st-color-pink);}
+.dd-list{list-style:none;}
+.dd-item{display:flex;gap:10px;padding:11px 14px;border-bottom:1px solid var(--st-color-neutral-100);font-size:.875rem;line-height:1.5;color:var(--st-color-neutral-600);}
+.dd-item:last-child{border-bottom:none;}
+.dd-item::before{font-family:var(--st-font-family-mono);font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:1px;}
+.dd-do .dd-item::before{content:"✓";color:var(--st-color-seafoam-600);}
+.dd-dont .dd-item::before{content:"✗";color:var(--st-color-pink);}
+
+/* ── ACCESSIBILITY ── */
+.a11y-list{list-style:none;}
+.a11y-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--st-color-neutral-100);}
+.a11y-item:last-child{border-bottom:none;}
+.a11y-chk{width:16px;height:16px;border:1px solid var(--st-color-seafoam-400);background:color-mix(in srgb,var(--st-color-seafoam) 8%,transparent);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:var(--st-color-seafoam-600);}
+.a11y-txt strong{display:block;font-weight:600;font-size:.875rem;color:var(--st-color-ink);margin-bottom:2px;}
+.a11y-txt span{font-size:.8125rem;color:var(--st-color-neutral-500);line-height:1.5;}
+kbd{font-family:var(--st-font-family-mono);font-size:.7rem;padding:2px 7px;background:var(--st-color-neutral-100);border:1px solid var(--st-color-neutral-300);color:var(--st-color-ink);}
+
+/* ── DESIGN TOKENS ── */
+.tok-group{margin-bottom:32px;}
+.tok-group-hd{font-family:var(--st-font-family-mono);font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--st-color-neutral-400);padding:8px 12px;border:1px solid var(--st-color-neutral-200);border-bottom:none;background:var(--st-color-neutral-100);}
+.tok-table{width:100%;border-collapse:collapse;border:1px solid var(--st-color-neutral-200);}
+.tok-table td{padding:8px 12px;border-bottom:1px solid var(--st-color-neutral-100);vertical-align:top;font-size:.8125rem;}
+.tok-table tbody tr:last-child td{border-bottom:none;}
+.tok-table td:first-child{font-family:var(--st-font-family-mono);font-size:.72rem;font-weight:600;color:var(--st-color-maroon-600);width:44%;}
+.tok-table td:nth-child(2){font-family:var(--st-font-family-mono);font-size:.72rem;color:var(--st-color-neutral-400);width:22%;}
+.tok-table td:last-child{color:var(--st-color-neutral-600);}
+
+/* ── ANATOMY ── */
+.anatomy-box{background:var(--st-color-midnight-900);border:1px solid rgba(255,255,255,.06);padding:24px 28px;font-family:var(--st-font-family-mono);font-size:.72rem;line-height:1.7;color:rgba(255,255,255,.65);overflow-x:auto;white-space:pre;}
+.a-lbl{color:var(--st-color-pink-300);}
+.a-dim{color:rgba(255,255,255,.25);}
+
+/* ── VARIANTS GRID ── */
+.var-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.var-card{border:1px solid var(--st-color-neutral-200);}
+.var-card-hd{padding:8px 12px;background:var(--st-color-neutral-100);border-bottom:1px solid var(--st-color-neutral-200);font-family:var(--st-font-family-mono);font-size:.58rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--st-color-neutral-500);}
+.var-card-body{padding:14px 12px;}
+.var-mini-ph{background:var(--st-color-white);border-bottom:1px solid var(--st-color-neutral-200);}
+.var-mini-ph.sf{background:color-mix(in srgb,var(--st-color-seafoam-300) 10%,var(--st-color-white));}
+.var-mini-inner{padding:12px 14px;}
+.var-bc{font-family:var(--st-font-family-mono);font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--st-color-pink);margin-bottom:8px;}
+.var-body{display:flex;gap:10px;align-items:flex-start;}
+.var-avatar{width:32px;height:32px;border-radius:50%;background:var(--st-color-neutral-200);border:1px solid var(--st-color-neutral-300);display:flex;align-items:center;justify-content:center;font-family:var(--st-font-family-mono);font-size:.65rem;font-weight:700;color:var(--st-color-neutral-500);flex-shrink:0;}
+.var-ey{font-family:var(--st-font-family-mono);font-size:.55rem;text-transform:uppercase;letter-spacing:.08em;color:var(--st-color-neutral-500);margin-bottom:2px;}
+.var-title{font-family:var(--st-font-family-narrative);font-size:1rem;font-weight:600;color:var(--st-color-ink);display:flex;align-items:baseline;gap:6px;}
+.var-count{font-family:var(--st-font-family-mono);font-size:.65rem;color:var(--st-color-neutral-400);}
+.var-desc{font-size:.7rem;color:var(--st-color-neutral-500);margin-top:4px;line-height:1.4;}
+.var-meta{border:1px solid var(--st-color-neutral-200);margin-top:8px;font-family:var(--st-font-family-mono);font-size:.55rem;}
+.var-meta-row{display:grid;grid-template-columns:52px 1fr;border-bottom:1px solid var(--st-color-neutral-100);}
+.var-meta-row:last-child{border-bottom:none;}
+.var-ml{padding:4px 6px;background:var(--st-color-neutral-100);color:var(--st-color-neutral-400);text-transform:uppercase;font-size:.5rem;font-weight:700;}
+.var-mv{padding:4px 6px;color:var(--st-color-ink);}
+
+/* ── RELATED COMPONENTS ── */
+.rel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.rel-card{border:1px solid var(--st-color-neutral-200);padding:14px 16px;cursor:pointer;}
+.rel-card:hover{border-color:var(--st-color-pink);}
+.rel-name{font-family:var(--st-font-family-mono);font-size:.72rem;font-weight:700;color:var(--st-color-ink);margin-bottom:4px;}
+.rel-why{font-size:.8125rem;color:var(--st-color-neutral-500);line-height:1.5;}
+.rel-when{font-family:var(--st-font-family-mono);font-size:.58rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--st-color-neutral-400);margin-top:8px;}
+
+/* ── CHANGELOG ── */
+.cl-entry{padding:16px 0;border-bottom:1px solid var(--st-color-neutral-200);}
+.cl-entry:last-child{border-bottom:none;}
+.cl-ver{font-family:var(--st-font-family-mono);font-size:.72rem;font-weight:700;color:var(--st-color-ink);margin-bottom:6px;display:flex;gap:12px;align-items:baseline;}
+.cl-date{font-weight:400;color:var(--st-color-neutral-400);font-size:.65rem;}
+.cl-items{list-style:none;}
+.cl-item{font-size:.875rem;color:var(--st-color-neutral-600);line-height:1.5;padding:2px 0;display:flex;gap:8px;}
+.cl-item::before{content:"·";color:var(--st-color-neutral-400);flex-shrink:0;}
+.cl-break{font-family:var(--st-font-family-mono);font-size:.5rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;color:var(--st-color-pink-700);border:1px solid var(--st-color-pink-300);background:color-mix(in srgb,var(--st-color-pink) 5%,transparent);vertical-align:middle;}
+
+/* ── STUB ── */
+.stub{border:1px dashed var(--st-color-neutral-300);padding:28px;text-align:center;color:var(--st-color-neutral-400);}
+.stub strong{display:block;font-family:var(--st-font-family-mono);font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--st-color-neutral-500);margin-bottom:8px;}
+.stub p{font-size:.8125rem;line-height:1.6;max-width:48ch;margin:0 auto;}
+
+/* ── MOCK COMPONENT ── */
+.m-ph{background:var(--st-color-white);border-bottom:1px solid var(--st-color-neutral-200);width:100%;}
+.m-ph-inner{max-width:960px;margin:0 auto;padding:20px 32px 28px;}
+.m-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.m-bc{font-family:var(--st-font-family-mono);font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--st-color-pink);}
+.m-body{display:flex;align-items:flex-start;gap:18px;}
+.m-av{width:68px;height:68px;border-radius:50%;background:var(--st-color-neutral-200);border:1px solid var(--st-color-neutral-300);display:flex;align-items:center;justify-content:center;font-family:var(--st-font-family-mono);font-weight:700;font-size:1.4rem;color:var(--st-color-neutral-500);flex-shrink:0;}
+.m-ey{font-family:var(--st-font-family-mono);font-size:var(--st-label-size);font-weight:var(--st-label-weight);letter-spacing:var(--st-label-tracking);text-transform:uppercase;color:var(--st-color-neutral-500);margin-bottom:6px;}
+.m-title{font-family:var(--st-font-family-narrative);font-size:var(--st-font-heading-2);font-weight:600;line-height:1.15;color:var(--st-color-ink);margin-bottom:8px;display:flex;align-items:baseline;gap:12px;}
+.m-count{font-family:var(--st-font-family-mono);font-size:.8rem;font-weight:600;color:var(--st-color-neutral-400);}
+.m-desc{font-size:.9375rem;line-height:1.6;color:var(--st-color-neutral-600);max-width:52ch;}
+.m-act{font-family:var(--st-font-family-mono);font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;background:transparent;border:1px solid var(--st-color-neutral-300);color:var(--st-color-neutral-500);cursor:pointer;}
+.m-meta{border:1px solid var(--st-color-neutral-200);font-family:var(--st-font-family-mono);margin-top:16px;}
+.m-meta-row{display:grid;grid-template-columns:96px 1fr;border-bottom:1px solid var(--st-color-neutral-100);}
+.m-meta-row:last-child{border-bottom:none;}
+.m-ml{padding:6px 10px;background:var(--st-color-neutral-100);color:var(--st-color-neutral-400);letter-spacing:.08em;text-transform:uppercase;font-size:.58rem;font-weight:700;}
+.m-mv{padding:6px 10px;color:var(--st-color-ink);font-size:.65rem;}
+</style>
+</head>
+<body>
+<div class="sb">
+
+<!-- TOPBAR -->
+<header class="sb-top">
+  <span class="sb-logo">Sugartown DS</span>
+  <span class="sb-path-sep">/</span>
+  <nav class="sb-path"><span>Patterns</span><span class="sb-path-sep">›</span><strong>PageHeader</strong><span class="sb-path-sep">›</span><span>Docs</span></nav>
+  <div class="sb-tools">
+    <button class="tool-btn on" id="annot-btn" onclick="toggleAnnot(this)">Annotations On</button>
+    <button class="tool-btn" onclick="toggleTheme(this)">Light</button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="sb-side">
+  <div class="sb-search"><input type="text" placeholder="Search…"></div>
+  <div class="nav-cat">Foundations</div>
+  <div class="nav-group">Layout</div>
+  <div class="nav-group">Typography</div>
+  <div class="nav-cat">Primitives</div>
+  <div class="nav-group">Button</div>
+  <div class="nav-group">Card</div>
+  <div class="nav-group">Chip</div>
+  <div class="nav-cat">Patterns</div>
+  <div class="nav-group">PageHeader</div>
+  <a class="nav-item active">Docs</a>
+  <a class="nav-item story">Archive — Articles</a>
+  <a class="nav-item story">Entity — Person Folio</a>
+  <a class="nav-item story">Entity — Tool Folio</a>
+  <a class="nav-item story">Taxonomy — Tag Detail</a>
+  <a class="nav-item story">With Actions</a>
+  <div class="nav-group">MetadataCard</div>
+  <div class="nav-group">ContentCard</div>
+  <div class="nav-cat">Pages</div>
+  <div class="nav-group">EntityDetailPage</div>
+  <div class="nav-group">ArchivePage</div>
+</nav>
+
+<!-- MAIN -->
+<main class="sb-main" id="sb-main">
+  <div class="sb-tabs">
+    <div class="sb-tab">Canvas</div>
+    <div class="sb-tab active">Docs</div>
+  </div>
+
+  <div class="docs" id="docs" data-annot="true">
+
+    <!-- ══ TITLE BLOCK ══ -->
+    <div class="doc-bc">Patterns <span style="color:var(--st-color-neutral-300)">›</span> PageHeader</div>
+    <h1 class="doc-h1">PageHeader <span class="badge b-pat">Pattern</span><span class="badge b-spec">Spec complete</span></h1>
+    <p class="doc-lead">Full-width identity band at the top of archive, entity, and taxonomy pages. Composes <code>Breadcrumb</code>, <code>Avatar</code>, and <code>MetadataCard</code> as render slots. Lives in <code>Page</code>'s <code>header</code> slot, above the main content container.</p>
+    <div class="doc-meta">
+      <div class="meta-item"><span class="meta-lbl">Package</span><span class="meta-val">@sugartown/ds</span></div>
+      <div class="meta-item"><span class="meta-lbl">Ticket</span><span class="meta-val">SUG-XXX</span></div>
+      <div class="meta-item"><span class="meta-lbl">Since</span><span class="meta-val">v0.23</span></div>
+      <div class="meta-item"><span class="meta-lbl">Category</span><span class="meta-val">Patterns</span></div>
+    </div>
+
+
+    <!-- ══ 01 OVERVIEW / PURPOSE ══ -->
+    <section class="doc-sec" id="s01">
+      <div class="sec-hd">
+        <span class="sec-n">01</span><span class="sec-title">Overview / Purpose</span>
+        <span class="p-must">Must Have</span><span class="cov pm-n">PM: build</span><span class="cov sb-n">SB: manual</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Three required sub-sections: what it is (1 sentence), what it does (3–5 bullet points using → arrows), what it is not (2–3 ✗ bullets preventing misuse). No decorative content. This section replaces scattered purpose descriptions that were previously duplicated across JSDoc and usage notes.</div>
+
+      <h3 class="h3" style="margin-top:0;">What it is</h3>
+      <p class="prose"><code>PageHeader</code> is the identity band component at the top of every content page — the single source of truth for a page's heading, breadcrumb navigation, and contextual metadata.</p>
+
+      <h3 class="h3">What it does</h3>
+      <ul class="ov-list">
+        <li class="ov-item">Renders the page <code>&lt;h1&gt;</code> — owns the heading landmark for the entire page</li>
+        <li class="ov-item">Provides a breadcrumb slot for back-navigation with consistent placement and styling</li>
+        <li class="ov-item">Accepts a <code>media</code> slot (Avatar or Media) for entity and person folio pages</li>
+        <li class="ov-item">Applies a background tint via <code>color-mix</code> at 10% opacity to signal content type</li>
+        <li class="ov-item">Accepts the <code>MetadataCard</code> pattern as a full-width slot below the identity block</li>
+      </ul>
+
+      <h3 class="h3">What it is not</h3>
+      <ul class="not-list">
+        <li class="not-item">Not a page layout component — it does not set page width, gutter, or scroll behaviour</li>
+        <li class="not-item">Not a section heading — use <code>SectionLabel</code> for headings within a page's content</li>
+        <li class="not-item">Not a card header — it spans full viewport width and is not composable inside containers</li>
+      </ul>
+    </section>
+
+
+    <!-- ══ 02 LIVE PREVIEW ══ -->
+    <section class="doc-sec" id="s02">
+      <div class="sec-hd">
+        <span class="sec-n">02</span><span class="sec-title">Live Preview</span>
+        <span class="p-must">Must Have</span><span class="cov pm-y">PM ✓</span><span class="cov sb-y">SB ✓</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Show one primary story (the most complete variant). Controls panel renders all toggleable props below the preview in prop-table order. Text props use text inputs; boolean/slot props use Show/Hide toggles; token props use swatches. Controls are wired — they update the preview in real time. Do not add stories here; those belong in section 05.</div>
+
+      <div class="preview-wrap">
+        <div class="preview-tbar">
+          <span class="preview-label">Preview</span>
+          <span class="preview-story-name">Entity — Person Folio</span>
+        </div>
+        <div id="live-mount"></div>
+      </div>
+
+      <div class="ctrl-panel">
+        <div class="ctrl-hd">
+          <span class="ctrl-title">Controls</span>
+          <button class="ctrl-reset" onclick="resetControls()">Reset ↺</button>
+        </div>
+        <table class="ctrl-table">
+          <tr><td>title</td><td>string</td><td><input id="c-title" class="ctrl-input" value="Bex Walton" oninput="S.title=this.value;render()"></td></tr>
+          <tr><td>eyebrow</td><td>string</td><td><input id="c-eyebrow" class="ctrl-input" value="Design Engineer" oninput="S.eyebrow=this.value;render()"></td></tr>
+          <tr><td>description</td><td>string</td><td><input id="c-desc" class="ctrl-input" value="Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller." oninput="S.description=this.value;render()"></td></tr>
+          <tr><td>breadcrumb</td><td>ReactNode</td><td><div class="tog"><button class="tog-btn on" onclick="tog('breadcrumb',true,this)">Show</button><button class="tog-btn" onclick="tog('breadcrumb',false,this)">Hide</button></div></td></tr>
+          <tr><td>media</td><td>ReactNode</td><td><div class="tog"><button class="tog-btn on" onclick="tog('media',true,this)">Show</button><button class="tog-btn" onclick="tog('media',false,this)">Hide</button></div></td></tr>
+          <tr><td>count</td><td>number</td><td><div class="tog"><button class="tog-btn" onclick="tog('count',true,this)">Show</button><button class="tog-btn on" onclick="tog('count',false,this)">Hide</button></div></td></tr>
+          <tr><td>tint</td><td>string</td><td>
+            <div class="swatches">
+              <div class="swatch" style="background:#fafafa;border:1px solid #d1d1d1;" onclick="setTint('none',this)" title="none"></div>
+              <div class="swatch on" style="background:#72d9c6;" onclick="setTint('seafoam',this)" title="seafoam-300"></div>
+              <div class="swatch" style="background:#808dcc;" onclick="setTint('midnight',this)" title="midnight-300"></div>
+              <div class="swatch" style="background:#ffe1ed;" onclick="setTint('pink',this)" title="pink-100"></div>
+              <div class="swatch" style="background:#dcff52;" onclick="setTint('lime',this)" title="lime-300"></div>
+              <span class="swatch-lbl" id="tint-lbl">var(--st-color-seafoam-300)</span>
+            </div>
+          </td></tr>
+          <tr><td>metadataCard</td><td>ReactNode</td><td><div class="tog"><button class="tog-btn on" onclick="tog('metadata',true,this)">Show</button><button class="tog-btn" onclick="tog('metadata',false,this)">Hide</button></div></td></tr>
+          <tr><td>actions</td><td>ReactNode</td><td><div class="tog"><button class="tog-btn" onclick="tog('actions',true,this)">Show</button><button class="tog-btn on" onclick="tog('actions',false,this)">Hide</button></div></td></tr>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- ══ 03 CODE / USAGE EXAMPLES ══ -->
+    <section class="doc-sec" id="s03">
+      <div class="sec-hd">
+        <span class="sec-n">03</span><span class="sec-title">Code / Usage Examples</span>
+        <span class="p-must">Must Have</span><span class="cov pm-y">PM ✓</span><span class="cov sb-y">SB ✓</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Required: import snippet + one minimal usage example + one complete usage example. Optional: pattern-specific snippets (e.g. archive vs entity). No decorative stories here — those are section 05. All code examples use DS tokens; no hardcoded hex or px values. One copy button per snippet.</div>
+
+      <h3 class="h3" style="margin-top:0;">Import</h3>
+      <div class="code-hd"><span class="code-lang">TSX</span><button class="copy-btn" onclick="cp(this,'c-import')">Copy</button></div>
+<pre class="code" id="c-import"><span class="t-kw">import</span> <span class="t-br">{</span> <span class="t-cp">PageHeader</span> <span class="t-br">}</span> <span class="t-kw">from</span> <span class="t-st">'@sugartown/design-system'</span>;
+<span class="t-cm">// Slot components — import from same package</span>
+<span class="t-kw">import</span> <span class="t-br">{</span> <span class="t-cp">Avatar</span>, <span class="t-cp">Breadcrumb</span>, <span class="t-cp">MetadataCard</span> <span class="t-br">}</span> <span class="t-kw">from</span> <span class="t-st">'@sugartown/design-system'</span>;</pre>
+
+      <h3 class="h3">Minimal (archive page)</h3>
+      <div class="code-hd"><span class="code-lang">TSX</span><button class="copy-btn" onclick="cp(this,'c-min')">Copy</button></div>
+<pre class="code" id="c-min"><span class="t-br">&lt;</span><span class="t-cp">PageHeader</span>
+  <span class="t-pr">breadcrumb</span>=<span class="t-br">{</span>&lt;<span class="t-cp">Breadcrumb</span> <span class="t-pr">items</span>=<span class="t-br">{[{</span> <span class="t-pr">label</span>: <span class="t-st">'Articles'</span> <span class="t-br">}]}</span> /&gt;<span class="t-br">}</span>
+  <span class="t-pr">title</span>=<span class="t-st">"Articles"</span>
+  <span class="t-pr">count</span>=<span class="t-br">{</span>posts.length<span class="t-br">}</span>
+  <span class="t-pr">description</span>=<span class="t-st">"Writing on design engineering and content strategy."</span>
+/&gt;</pre>
+
+      <h3 class="h3">Complete (entity / person folio)</h3>
+      <div class="code-hd"><span class="code-lang">TSX</span><button class="copy-btn" onclick="cp(this,'c-full')">Copy</button></div>
+<pre class="code" id="c-full"><span class="t-br">&lt;</span><span class="t-cp">PageHeader</span>
+  <span class="t-pr">breadcrumb</span>=<span class="t-br">{</span>&lt;<span class="t-cp">Breadcrumb</span> <span class="t-pr">items</span>=<span class="t-br">{[{</span> <span class="t-pr">label</span>: <span class="t-st">'People'</span>, <span class="t-pr">href</span>: <span class="t-st">'/people'</span> <span class="t-br">}]}</span> /&gt;<span class="t-br">}</span>
+  <span class="t-pr">media</span>=<span class="t-br">{</span>&lt;<span class="t-cp">Avatar</span> <span class="t-pr">name</span>=<span class="t-br">{</span>person.name<span class="t-br">}</span> <span class="t-pr">src</span>=<span class="t-br">{</span>person.avatarUrl<span class="t-br">}</span> <span class="t-pr">size</span>=<span class="t-st">"xl"</span> /&gt;<span class="t-br">}</span>
+  <span class="t-pr">eyebrow</span>=<span class="t-br">{</span>person.role<span class="t-br">}</span>
+  <span class="t-pr">title</span>=<span class="t-br">{</span>person.name<span class="t-br">}</span>
+  <span class="t-pr">description</span>=<span class="t-br">{</span>person.bio<span class="t-br">}</span>
+  <span class="t-pr">tint</span>=<span class="t-st">"var(--st-color-seafoam-300)"</span>
+  <span class="t-pr">metadataCard</span>=<span class="t-br">{</span>&lt;<span class="t-cp">PersonMetadataCard</span> <span class="t-pr">person</span>=<span class="t-br">{</span>person<span class="t-br">}</span> /&gt;<span class="t-br">}</span>
+/&gt;</pre>
+
+      <div class="callout c-tip" style="margin-top:20px;">
+        <strong>Slot ownership</strong>
+        <code>PageHeader</code> does not own its slot components' internals. Build <code>MetadataCard</code> in the app layer from CMS data and pass the composed node. See <code>Patterns/MetadataCard</code> for that pattern's docs.
+      </div>
+    </section>
+
+
+    <!-- ══ 04 PROPS / API ══ -->
+    <section class="doc-sec" id="s04">
+      <div class="sec-hd">
+        <span class="sec-n">04</span><span class="sec-title">Props / API</span>
+        <span class="p-must">Must Have</span><span class="cov pm-y">PM ✓</span><span class="cov sb-y">SB ✓</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Auto-generated by Storybook autodocs from JSDoc on the TypeScript interface. Column order is locked: Name · Type · Default · Required · Description. One sentence per description, written on the prop's JSDoc block — not on the component. Do not hand-write or duplicate this table.</div>
+
+      <div class="dt-wrap">
+        <table class="dt" style="min-width:580px;">
+          <thead><tr><th>Name</th><th>Type</th><th>Default</th><th>Req.</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><span class="p-name">title</span><span class="p-req"> *</span></td><td><span class="p-type">string</span></td><td><span class="p-def">—</span></td><td>✓</td><td><span class="p-desc">Primary heading — renders as <code>&lt;h1&gt;</code>.</span></td></tr>
+            <tr><td><span class="p-name">breadcrumb</span></td><td><span class="p-type">ReactNode</span></td><td><span class="p-def">—</span></td><td></td><td><span class="p-desc">Back-navigation render slot. Pass <code>Breadcrumb</code> from the DS.</span></td></tr>
+            <tr><td><span class="p-name">media</span></td><td><span class="p-type">ReactNode</span></td><td><span class="p-def">—</span></td><td></td><td><span class="p-desc">Avatar or Media slot — rendered left of the title stack. Entity pages only.</span></td></tr>
+            <tr><td><span class="p-name">eyebrow</span></td><td><span class="p-type">string</span></td><td><span class="p-def">—</span></td><td></td><td><span class="p-desc">Mono-caps qualifier above the title — role, content type, or taxonomy kind.</span></td></tr>
+            <tr><td><span class="p-name">description</span></td><td><span class="p-type">string</span></td><td><span class="p-def">—</span></td><td></td><td><span class="p-desc">Prose below the title — 1–3 sentences, max 62 characters per line.</span></td></tr>
+            <tr><td><span class="p-name">count</span></td><td><span class="p-type">number</span></td><td><span class="p-def">—</span></td><td></td><td><span class="p-desc">Item count badge beside the title. Archive and taxonomy pages only.</span></td></tr>
+            <tr><td><span class="p-name">metadataCard</span></td><td><span class="p-type">ReactNode</span></td><td><span class="p-def">—</span></td><td></td><td><span class="p-desc">MetadataCard pattern slot — renders below the identity block, full width.</span></td></tr>
+            <tr><td><span class="p-name">actions</span></td><td><span class="p-type">ReactNode</span></td><td><span class="p-def">—</span></td><td></td><td><span class="p-desc">Action slot — edit button or CTA, top-right, aligned with the breadcrumb.</span></td></tr>
+            <tr><td><span class="p-name">tint</span></td><td><span class="p-type">string</span></td><td><span class="p-def">—</span></td><td></td><td><span class="p-desc">CSS color applied via <code>color-mix</code> at 10% over surface. Use DS tokens only.</span></td></tr>
+            <tr><td><span class="p-name">className</span></td><td><span class="p-type">string</span></td><td><span class="p-def">—</span></td><td></td><td><span class="p-desc">Additional class names passed to the root element.</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- ══ 05 COMPOSITION PATTERNS ══ -->
+    <section class="doc-sec" id="s05">
+      <div class="sec-hd">
+        <span class="sec-n">05</span><span class="sec-title">Composition Patterns</span>
+        <span class="p-must">Must Have</span><span class="cov pm-y">PM ✓</span><span class="cov sb-y">SB ✓</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — One block per named story export. Order matches export order in the .stories.tsx file. Story name is verbatim from the display name. Preview tab is default. Code tab shows the render() source. Show all named exports; do not cherry-pick. The Controls panel in section 02 covers individual prop exploration — stories here show usage context.</div>
+
+      <!-- Story: Archive -->
+      <div class="story-block">
+        <div class="story-hd">
+          <span class="story-name">Archive — Articles</span>
+          <div class="story-btns">
+            <button class="s-btn on" onclick="stab(this,'sp1','sc1')">Preview</button>
+            <button class="s-btn" onclick="stab(this,'sc1','sp1')">Code</button>
+          </div>
+        </div>
+        <div class="story-canvas" id="sp1"><div class="m-ph"><div class="m-ph-inner"><div class="m-top"><span class="m-bc">← Articles</span></div><div class="m-body"><div><div class="m-title">Articles <span class="m-count">24</span></div><div class="m-desc">Writing on design engineering, content strategy, and the systems that hold them together.</div></div></div></div></div></div>
+        <div class="story-code" id="sc1">
+          <div class="code-hd"><span class="code-lang">TSX</span><button class="copy-btn" onclick="cp(this,'csc1')">Copy</button></div>
+<pre class="code" id="csc1"><span class="t-kw">export const</span> ArchiveDefault: Story = <span class="t-br">{</span>
+  name: <span class="t-st">'Archive — Articles'</span>,
+  render: () <span class="t-kw">=></span> (
+    <span class="t-br">&lt;</span><span class="t-cp">PageHeader</span>
+      <span class="t-pr">breadcrumb</span>=<span class="t-br">{</span>&lt;<span class="t-cp">Breadcrumb</span> <span class="t-pr">items</span>=<span class="t-br">{[{</span><span class="t-pr">label</span>:<span class="t-st">'Articles'</span><span class="t-br">}]}</span> /&gt;<span class="t-br">}</span>
+      <span class="t-pr">title</span>=<span class="t-st">"Articles"</span>
+      <span class="t-pr">count</span>=<span class="t-br">{</span><span class="t-st">24</span><span class="t-br">}</span>
+      <span class="t-pr">description</span>=<span class="t-st">"Writing on design engineering…"</span>
+    /&gt;
+  ),
+<span class="t-br">}</span>;</pre>
+        </div>
+      </div>
+
+      <!-- Story: Entity -->
+      <div class="story-block">
+        <div class="story-hd">
+          <span class="story-name">Entity — Person Folio</span>
+          <div class="story-btns">
+            <button class="s-btn on" onclick="stab(this,'sp2','sc2')">Preview</button>
+            <button class="s-btn" onclick="stab(this,'sc2','sp2')">Code</button>
+          </div>
+        </div>
+        <div class="story-canvas" id="sp2"><div class="m-ph" style="background:color-mix(in srgb,#72d9c6 10%,#fff)"><div class="m-ph-inner"><div class="m-top"><span class="m-bc">← People</span></div><div class="m-body"><div class="m-av">B</div><div><div class="m-ey">Design Engineer</div><div class="m-title">Bex Walton</div><div class="m-desc">Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller.</div><div class="m-meta"><div class="m-meta-row"><div class="m-ml">Type</div><div class="m-mv">Person</div></div><div class="m-meta-row"><div class="m-ml">Category</div><div class="m-mv">Design Engineering</div></div><div class="m-meta-row"><div class="m-ml">Tags</div><div class="m-mv">Design Systems · CSS</div></div></div></div></div></div></div></div>
+        <div class="story-code" id="sc2">
+          <div class="code-hd"><span class="code-lang">TSX</span><button class="copy-btn" onclick="cp(this,'csc2')">Copy</button></div>
+<pre class="code" id="csc2"><span class="t-kw">export const</span> EntityPersonFolio: Story = <span class="t-br">{</span>
+  name: <span class="t-st">'Entity — Person Folio'</span>,
+  render: () <span class="t-kw">=></span> (
+    <span class="t-br">&lt;</span><span class="t-cp">PageHeader</span>
+      <span class="t-pr">breadcrumb</span>=<span class="t-br">{</span>&lt;<span class="t-cp">Breadcrumb</span> <span class="t-pr">items</span>=<span class="t-br">{[{</span><span class="t-pr">label</span>:<span class="t-st">'People'</span>,<span class="t-pr">href</span>:<span class="t-st">'/people'</span><span class="t-br">}]}</span> /&gt;<span class="t-br">}</span>
+      <span class="t-pr">media</span>=<span class="t-br">{</span>&lt;<span class="t-cp">Avatar</span> <span class="t-pr">name</span>=<span class="t-st">"Bex Walton"</span> <span class="t-pr">size</span>=<span class="t-st">"xl"</span> /&gt;<span class="t-br">}</span>
+      <span class="t-pr">eyebrow</span>=<span class="t-st">"Design Engineer"</span>
+      <span class="t-pr">title</span>=<span class="t-st">"Bex Walton"</span>
+      <span class="t-pr">tint</span>=<span class="t-st">"var(--st-color-seafoam-300)"</span>
+      <span class="t-pr">metadataCard</span>=<span class="t-br">{</span>&lt;<span class="t-cp">PersonMetadataCard</span> <span class="t-pr">person</span>=<span class="t-br">{</span>person<span class="t-br">}</span> /&gt;<span class="t-br">}</span>
+    /&gt;
+  ),
+<span class="t-br">}</span>;</pre>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ 06 USAGE GUIDELINES ══ -->
+    <section class="doc-sec" id="s06">
+      <div class="sec-hd">
+        <span class="sec-n">06</span><span class="sec-title">Usage Guidelines</span>
+        <span class="p-must">Must Have</span><span class="cov pm-n">PM: build</span><span class="cov sb-n">SB: manual</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Do/Don't grid: maximum 5 per column, one sentence each. Do not repeat Props or Composition content. Focus on boundary conditions, common misuse, and composability pitfalls. No code examples here — that belongs in section 03. Below the grid, add one callout for the most critical non-obvious rule.</div>
+
+      <div class="dd-grid">
+        <div class="dd-col dd-do">
+          <div class="dd-hd">Do</div>
+          <ul class="dd-list">
+            <li class="dd-item">Use DS colour tokens for the <code>tint</code> prop — never freeform hex values.</li>
+            <li class="dd-item">Pass only the props relevant to your page type — omit slots that don't apply.</li>
+            <li class="dd-item">Build <code>MetadataCard</code> in the app layer from CMS data, then pass as a slot.</li>
+            <li class="dd-item">Place <code>FilterBar</code> below <code>PageHeader</code> in the page layout, not inside it.</li>
+            <li class="dd-item">Use the <code>actions</code> slot for admin/edit controls — keep them to one element.</li>
+          </ul>
+        </div>
+        <div class="dd-col dd-dont">
+          <div class="dd-hd">Don't</div>
+          <ul class="dd-list">
+            <li class="dd-item">Don't use <code>eyebrow</code> as a subtitle — it's a type qualifier, not a clarifying sentence.</li>
+            <li class="dd-item">Don't pass <code>count</code> on entity pages — an item count is meaningless for a person or tool.</li>
+            <li class="dd-item">Don't add a second <code>&lt;h1&gt;</code> below the header — this component owns the page's heading landmark.</li>
+            <li class="dd-item">Don't add sticky behaviour inside this component — handle it at the page layout level.</li>
+            <li class="dd-item">Don't nest <code>PageHeader</code> inside a container — it must span the full viewport width.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ 07 ACCESSIBILITY ══ -->
+    <section class="doc-sec" id="s07">
+      <div class="sec-hd">
+        <span class="sec-n">07</span><span class="sec-title">Accessibility</span>
+        <span class="p-must">Must Have</span><span class="cov pm-n">PM: build</span><span class="cov sb-n">SB: manual</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Required: semantic structure, landmark roles, ARIA attributes, focus behaviour, and motion. Keyboard interaction table is required only for interactive components — omit if the component has no keyboard interactions. Screen reader notes required when announced output is non-obvious (e.g. count badge, eyebrow casing).</div>
+
+      <ul class="a11y-list">
+        <li class="a11y-item"><div class="a11y-chk">✓</div><div class="a11y-txt"><strong>Heading landmark</strong><span>The <code>title</code> prop renders as <code>&lt;h1&gt;</code>. There must be exactly one <code>&lt;h1&gt;</code> per page — do not add a second heading below the component.</span></div></li>
+        <li class="a11y-item"><div class="a11y-chk">✓</div><div class="a11y-txt"><strong>Eyebrow screen reader label</strong><span>The eyebrow element carries <code>aria-label</code> matching its text content, so screen readers announce the qualifier without CSS <code>text-transform: uppercase</code> affecting pronunciation.</span></div></li>
+        <li class="a11y-item"><div class="a11y-chk">✓</div><div class="a11y-txt"><strong>Count badge</strong><span>The count badge carries <code>aria-label="{count} items"</code> — screen readers read "24 items" rather than the bare number in context.</span></div></li>
+        <li class="a11y-item"><div class="a11y-chk">✓</div><div class="a11y-txt"><strong>Breadcrumb navigation</strong><span>The breadcrumb slot must receive a <code>&lt;nav aria-label="Breadcrumb"&gt;</code>. The DS <code>Breadcrumb</code> component handles this automatically — do not implement a custom breadcrumb.</span></div></li>
+        <li class="a11y-item"><div class="a11y-chk">✓</div><div class="a11y-txt"><strong>Tint contrast</strong><span>Tint is applied at 10% via <code>color-mix</code> and does not affect text contrast. All text tokens independently guarantee WCAG AA (4.5:1) on the surface background in both light and dark modes.</span></div></li>
+        <li class="a11y-item"><div class="a11y-chk">✓</div><div class="a11y-txt"><strong>No keyboard interaction</strong><span>PageHeader has no interactive elements of its own. Keyboard behaviour is delegated to slot components (<code>Breadcrumb</code>, <code>actions</code>) — see those components' own docs for keyboard interaction tables.</span></div></li>
+      </ul>
+    </section>
+
+
+    <!-- ══ 08 DESIGN TOKENS ══ -->
+    <section class="doc-sec" id="s08">
+      <div class="sec-hd">
+        <span class="sec-n">08</span><span class="sec-title">Design Tokens</span>
+        <span class="p-must">Must Have</span><span class="cov pm-n">PM: build</span><span class="cov sb-n">SB: manual</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — List every CSS custom property the component consumes. Group by concern: layout, typography, colour, spacing. Token column = exact CSS variable name. Value column = resolved value in light-pink-moon at rest. Role column = one phrase. Do not document tokens from slot components here — those belong in each slot's own docs.</div>
+
+      <div class="tok-group">
+        <div class="tok-group-hd">Layout</div>
+        <table class="tok-table"><tbody>
+          <tr><td>--st-width-archive</td><td>960px</td><td>Max-width of the inner content container</td></tr>
+          <tr><td>--st-page-gutter</td><td>32px</td><td>Horizontal padding on the inner container</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tok-group">
+        <div class="tok-group-hd">Typography</div>
+        <table class="tok-table"><tbody>
+          <tr><td>--st-font-family-narrative</td><td>Cormorant Garamond</td><td>Title typeface</td></tr>
+          <tr><td>--st-font-heading-2</td><td>2.25rem</td><td>Title font size</td></tr>
+          <tr><td>--st-font-family-mono</td><td>IBM Plex Mono</td><td>Eyebrow + count typeface</td></tr>
+          <tr><td>--st-label-size</td><td>0.65rem</td><td>Eyebrow font size</td></tr>
+          <tr><td>--st-label-tracking</td><td>0.1em</td><td>Eyebrow letter-spacing</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tok-group">
+        <div class="tok-group-hd">Colour &amp; Surface</div>
+        <table class="tok-table"><tbody>
+          <tr><td>--st-color-bg-surface</td><td>#FAFAFA</td><td>Base background (untinted)</td></tr>
+          <tr><td>--st-color-border-default</td><td>#E4E4E5</td><td>Bottom border + MetadataCard border</td></tr>
+          <tr><td>--st-color-text-default</td><td>#0a0f1a</td><td>Title colour</td></tr>
+          <tr><td>--st-color-text-secondary</td><td>#525252</td><td>Description colour</td></tr>
+          <tr><td>--st-color-text-muted</td><td>#6c6c6f</td><td>Eyebrow + count colour</td></tr>
+        </tbody></table>
+      </div>
+      <div class="tok-group" style="margin-bottom:0;">
+        <div class="tok-group-hd">Spacing</div>
+        <table class="tok-table"><tbody>
+          <tr><td>--st-space-5</td><td>24px</td><td>Vertical rhythm inside the inner container</td></tr>
+          <tr><td>--st-space-6</td><td>32px</td><td>Gap between identity block and MetadataCard slot</td></tr>
+        </tbody></table>
+      </div>
+    </section>
+
+
+    <!-- ══ 09 ANATOMY ══ -->
+    <section class="doc-sec" id="s09">
+      <div class="sec-hd">
+        <span class="sec-n">09</span><span class="sec-title">Anatomy</span>
+        <span class="p-should">Should Have</span><span class="cov pm-n">PM: build</span><span class="cov sb-n">SB: manual</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Labeled diagram of every named DOM part. Use the component's CSS module class names as labels. Show the most complete variant (all slots populated). Include a prop-to-part mapping below the diagram. No screenshots — diagram only.</div>
+
+<div class="anatomy-box"><span class="a-dim">┌──────────────────────────────────────────────────────────────────┐
+│ </span><span class="a-lbl">.root</span>  <span class="a-dim">(full viewport width)</span>                                        <span class="a-dim">│
+│  ┌────────────────────────────────────────────────────────────┐  │
+│  │ </span><span class="a-lbl">.inner</span>  <span class="a-dim">(max-width: --st-width-archive)</span>                       <span class="a-dim">│  │
+│  │  ┌─────────────────────────────────────────────────────┐  │  │
+│  │  │ </span><span class="a-lbl">.topRow</span>                                             <span class="a-dim">│  │  │
+│  │  │  </span><span class="a-lbl">.breadcrumbSlot</span> <span class="a-dim">(left)    </span><span class="a-lbl">.actions</span> <span class="a-dim">(right)        </span><span class="a-dim">│  │  │
+│  │  └─────────────────────────────────────────────────────┘  │  │
+│  │  ┌─────────────────────────────────────────────────────┐  │  │
+│  │  │ </span><span class="a-lbl">.body</span>                                                <span class="a-dim">│  │  │
+│  │  │  ┌──────────┐  ┌────────────────────────────────┐  │  │  │
+│  │  │  │ </span><span class="a-lbl">.media</span>   <span class="a-dim">│  │ </span><span class="a-lbl">.content</span>                       <span class="a-dim">│  │  │  │
+│  │  │  │ </span><span class="a-dim">Avatar /  </span><span class="a-dim">│  │  </span><span class="a-lbl">.eyebrow</span>  <span class="a-dim">(string, mono-caps)  </span><span class="a-dim">│  │  │  │
+│  │  │  │ </span><span class="a-dim">Media     </span><span class="a-dim">│  │  </span><span class="a-lbl">.titleRow</span><span class="a-dim">: </span><span class="a-lbl">.title</span> + <span class="a-lbl">.count</span>       <span class="a-dim">│  │  │  │
+│  │  │  │          </span><span class="a-dim">│  │  </span><span class="a-lbl">.description</span>  <span class="a-dim">(prose, max 62ch)  </span><span class="a-dim">│  │  │  │
+│  │  │  └──────────┘  └────────────────────────────────┘  │  │  │
+│  │  └─────────────────────────────────────────────────────┘  │  │
+│  │  ┌─────────────────────────────────────────────────────┐  │  │
+│  │  │ </span><span class="a-lbl">.metadataCard</span>  <span class="a-dim">(slot, full width)                   </span><span class="a-dim">│  │  │
+│  │  └─────────────────────────────────────────────────────┘  │  │
+│  └────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────┘</span></div>
+    </section>
+
+
+    <!-- ══ 10 VARIANTS ══ -->
+    <section class="doc-sec" id="s10">
+      <div class="sec-hd">
+        <span class="sec-n">10</span><span class="sec-title">Variants</span>
+        <span class="p-should">Should Have</span><span class="cov pm-n">PM: build</span><span class="cov sb-n">SB: manual</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Show every distinct configuration as a visual card. Label each with the page-type name. Include prop diff vs. the minimal variant below each card. Do not show duplicate stories — these are conceptual variants, not individual story exports.</div>
+
+      <div class="var-grid">
+        <div class="var-card">
+          <div class="var-card-hd">Archive</div>
+          <div class="var-card-body">
+            <div class="var-mini-ph"><div class="var-mini-inner"><div class="var-bc">← Articles</div><div class="var-body"><div><div class="var-title">Articles <span class="var-count">24</span></div><div class="var-desc">Writing on design engineering and content strategy.</div></div></div></div></div>
+            <p style="font-family:var(--st-font-family-mono);font-size:.6rem;color:var(--st-color-neutral-400);margin-top:10px;line-height:1.5;">breadcrumb · title · count · description</p>
+          </div>
+        </div>
+        <div class="var-card">
+          <div class="var-card-hd">Entity / Folio</div>
+          <div class="var-card-body">
+            <div class="var-mini-ph sf"><div class="var-mini-inner"><div class="var-bc">← People</div><div class="var-body"><div class="var-avatar">B</div><div><div class="var-ey">Design Engineer</div><div class="var-title">Bex Walton</div><div class="var-meta"><div class="var-meta-row"><div class="var-ml">Type</div><div class="var-mv">Person</div></div><div class="var-meta-row"><div class="var-ml">Tags</div><div class="var-mv">Design Systems</div></div></div></div></div></div></div>
+            <p style="font-family:var(--st-font-family-mono);font-size:.6rem;color:var(--st-color-neutral-400);margin-top:10px;line-height:1.5;">+ media · eyebrow · tint · metadataCard</p>
+          </div>
+        </div>
+        <div class="var-card">
+          <div class="var-card-hd">Taxonomy</div>
+          <div class="var-card-body">
+            <div class="var-mini-ph"><div class="var-mini-inner"><div class="var-bc">← Tags</div><div class="var-body"><div><div class="var-ey">Tag</div><div class="var-title">Design Systems <span class="var-count">12</span></div><div class="var-desc">Articles, nodes, and case studies tagged with Design Systems.</div></div></div></div></div>
+            <p style="font-family:var(--st-font-family-mono);font-size:.6rem;color:var(--st-color-neutral-400);margin-top:10px;line-height:1.5;">breadcrumb · eyebrow · title · count · description</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ══ 11 STATES ══ -->
+    <section class="doc-sec" id="s11">
+      <div class="sec-hd">
+        <span class="sec-n">11</span><span class="sec-title">States</span>
+        <span class="p-should">Should Have</span><span class="cov pm-n">PM: build</span><span class="cov sb-n">SB: manual</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Every interactive condition with a visual. For non-interactive components, document conditional rendering states (loading, empty, error). Each state needs a label, a trigger condition, and a visual. States are not variants — they are conditions triggered by data or user interaction.</div>
+      <div class="stub"><strong>Stub — Should Have</strong><p>Document: Default · Tinted (any token) · Loading/skeleton · Empty (title only, no slots) · With actions (edit access). Show visual for each. PageHeader has no hover/focus states of its own — those belong to slot components.</p></div>
+    </section>
+
+
+    <!-- ══ 12 CONTENT GUIDELINES ══ -->
+    <section class="doc-sec" id="s12">
+      <div class="sec-hd">
+        <span class="sec-n">12</span><span class="sec-title">Content Guidelines</span>
+        <span class="p-should">Should Have</span><span class="cov pm-n">PM: build</span><span class="cov sb-n">SB: manual</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Table format: prop · rule · character limit · example. Cover every text-bearing prop. Rules should be actionable ("sentence case, no terminal punctuation") not vague ("keep it short"). Link to Voice &amp; Tone if one exists.</div>
+      <div class="stub"><strong>Stub — Should Have</strong><p>Document: title (sentence case, no punctuation) · eyebrow (uppercase noun phrase, max 3 words, no verbs) · description (1–3 sentences, max 62ch, present tense) · count (integer only, no formatting, omit on entity pages).</p></div>
+    </section>
+
+
+    <!-- ══ 13 RELATED COMPONENTS ══ -->
+    <section class="doc-sec" id="s13">
+      <div class="sec-hd">
+        <span class="sec-n">13</span><span class="sec-title">Related Components</span>
+        <span class="p-should">Should Have</span><span class="cov pm-n">PM: build</span><span class="cov sb-n">SB: manual</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Only include components with a direct relationship: slot dependencies, alternatives, or frequent co-usage. Two fields per card: why it relates + when to use it instead. Do not list every component in the system.</div>
+
+      <div class="rel-grid">
+        <div class="rel-card"><div class="rel-name">MetadataCard</div><div class="rel-why">Consumed as the <code>metadataCard</code> slot — renders the catalogue-card metadata grid below the identity block.</div><div class="rel-when">See Patterns/MetadataCard for slot structure and field mapping.</div></div>
+        <div class="rel-card"><div class="rel-name">Breadcrumb</div><div class="rel-why">Consumed as the <code>breadcrumb</code> slot — provides the back-navigation element with correct ARIA landmark.</div><div class="rel-when">Never implement a custom breadcrumb — always pass the DS component.</div></div>
+        <div class="rel-card"><div class="rel-name">Avatar</div><div class="rel-why">Consumed as the <code>media</code> slot on entity pages — provides the circular identity image with fallback.</div><div class="rel-when">Use <code>size="xl"</code> in PageHeader context.</div></div>
+        <div class="rel-card"><div class="rel-name">SectionLabel</div><div class="rel-why">The within-page heading alternative — use when you need a labelled section heading below the PageHeader, not another page title.</div><div class="rel-when">Use instead of PageHeader for sub-sections and content area headings.</div></div>
+      </div>
+    </section>
+
+
+    <!-- ══ 14 CHANGELOG ══ -->
+    <section class="doc-sec" id="s14">
+      <div class="sec-hd">
+        <span class="sec-n">14</span><span class="sec-title">Changelog</span>
+        <span class="p-should">Should Have</span><span class="cov pm-n">PM: build</span><span class="cov sb-n">SB: manual</span>
+        <span class="sec-rule"></span>
+      </div>
+      <div class="anote">RULES — Version · date · bullet list of changes. Breaking changes get a BREAKING badge. Only document changes to this component's public API and visual contract — not dependency bumps or tooling changes. Most recent version first.</div>
+
+      <div class="cl-entry">
+        <div class="cl-ver">v0.23.0 <span class="cl-date">2026-05-04</span></div>
+        <ul class="cl-items">
+          <li class="cl-item">Initial implementation — archive, entity, and taxonomy variants</li>
+          <li class="cl-item">Added <code>tint</code> prop with <code>color-mix</code> at 10% opacity</li>
+          <li class="cl-item">Added <code>metadataCard</code> render slot below identity block</li>
+        </ul>
+      </div>
+      <div class="cl-entry">
+        <div class="cl-ver">v0.22.x <span class="cl-date">2026-03-12</span></div>
+        <ul class="cl-items">
+          <li class="cl-item"><span class="cl-break">Breaking</span> Renamed <code>subtitle</code> prop to <code>eyebrow</code> — aligns with Card component naming</li>
+          <li class="cl-item">Added <code>actions</code> slot for edit/admin controls</li>
+        </ul>
+      </div>
+    </section>
+
+  </div><!-- /docs -->
+</main>
+</div><!-- /sb -->
+
+<script>
+// ── Live preview state ──
+const S = {
+  title: 'Bex Walton', eyebrow: 'Design Engineer',
+  description: 'Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller.',
+  breadcrumb: true, media: true, count: false,
+  tint: 'seafoam', metadata: true, actions: false
+};
+const TINTS = {
+  none: '',
+  seafoam: 'color-mix(in srgb,#72d9c6 10%,#fff)',
+  midnight: 'color-mix(in srgb,#808dcc 10%,#fff)',
+  pink: 'color-mix(in srgb,#ffe1ed 40%,#fff)',
+  lime: 'color-mix(in srgb,#dcff52 15%,#fff)'
+};
+const TINT_LABELS = { none: '—', seafoam: 'var(--st-color-seafoam-300)', midnight: 'var(--st-color-midnight-300)', pink: 'var(--st-color-pink-100)', lime: 'var(--st-color-lime-300)' };
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function render() {
+  const bg = S.tint !== 'none' ? TINTS[S.tint] : '';
+  document.getElementById('live-mount').innerHTML =
+    `<div class="m-ph" style="background:${bg}">
+      <div class="m-ph-inner">
+        ${(S.breadcrumb||S.actions)?`<div class="m-top">${S.breadcrumb?'<span class="m-bc">← People</span>':'<span></span>'}${S.actions?'<button class="m-act">Edit in Studio</button>':''}</div>`:''}
+        <div class="m-body">
+          ${S.media?'<div class="m-av">B</div>':''}
+          <div>
+            ${S.eyebrow?`<div class="m-ey">${esc(S.eyebrow)}</div>`:''}
+            <div class="m-title">${esc(S.title)||'—'}${S.count?'<span class="m-count">24</span>':''}</div>
+            ${S.description?`<div class="m-desc">${esc(S.description)}</div>`:''}
+            ${S.metadata?`<div class="m-meta">
+              <div class="m-meta-row"><div class="m-ml">Type</div><div class="m-mv">Person</div></div>
+              <div class="m-meta-row"><div class="m-ml">Category</div><div class="m-mv">Design Engineering</div></div>
+              <div class="m-meta-row"><div class="m-ml">Tags</div><div class="m-mv">Design Systems · CSS</div></div>
+            </div>`:''}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function tog(key, val, btn) {
+  S[key] = val;
+  btn.closest('.tog').querySelectorAll('.tog-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+
+function setTint(val, el) {
+  S.tint = val;
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('tint-lbl').textContent = TINT_LABELS[val];
+  render();
+}
+
+function resetControls() {
+  S.title='Bex Walton'; S.eyebrow='Design Engineer'; S.tint='seafoam';
+  S.description='Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller.';
+  S.breadcrumb=true; S.media=true; S.count=false; S.metadata=true; S.actions=false;
+  document.getElementById('c-title').value=S.title;
+  document.getElementById('c-eyebrow').value=S.eyebrow;
+  document.getElementById('c-desc').value=S.description;
+  document.querySelectorAll('.tog').forEach(tog => {
+    const btns = tog.querySelectorAll('.tog-btn');
+    btns.forEach(b=>b.classList.remove('on'));
+    btns[0].classList.add('on');
+  });
+  // fix count + actions toggles
+  const countTog = document.querySelectorAll('.tog')[2];
+  if(countTog){countTog.querySelectorAll('.tog-btn')[0].classList.remove('on');countTog.querySelectorAll('.tog-btn')[1].classList.add('on');}
+  const actTog = document.querySelectorAll('.tog')[4];
+  if(actTog){actTog.querySelectorAll('.tog-btn')[0].classList.remove('on');actTog.querySelectorAll('.tog-btn')[1].classList.add('on');}
+  setTint('seafoam', document.querySelectorAll('.swatch')[1]);
+  render();
+}
+
+// ── Story tab switching ──
+function stab(btn, showId, hideId) {
+  document.getElementById(showId).style.display='';
+  document.getElementById(hideId).style.display='none';
+  btn.closest('.story-btns').querySelectorAll('.s-btn').forEach(b=>b.classList.remove('on'));
+  // need to check which type
+  if(showId.startsWith('sc')) {
+    document.getElementById(hideId).style.display='none';
+    document.getElementById(showId).classList.add('show');
+    btn.classList.add('on');
+    // hide the canvas
+    const canvas = document.getElementById(hideId);
+    if(canvas) canvas.style.display='none';
+  }
+  btn.classList.add('on');
+}
+function stab(btn, showId, hideId) {
+  btn.closest('.story-btns').querySelectorAll('.s-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const showEl = document.getElementById(showId);
+  const hideEl = document.getElementById(hideId);
+  if(showEl) { showEl.style.display=''; showEl.classList.add('show'); }
+  if(hideEl) { hideEl.style.display='none'; hideEl.classList.remove('show'); }
+}
+
+// ── Copy code ──
+function cp(btn, id) {
+  navigator.clipboard.writeText(document.getElementById(id).innerText).catch(()=>{});
+  btn.textContent='Copied'; btn.classList.add('ok');
+  setTimeout(()=>{btn.textContent='Copy';btn.classList.remove('ok');},1800);
+}
+
+// ── Toggle annotations ──
+function toggleAnnot(btn) {
+  const docs = document.getElementById('docs');
+  const on = docs.dataset.annot==='true';
+  docs.dataset.annot = on?'false':'true';
+  btn.textContent = on?'Annotations Off':'Annotations On';
+  btn.classList.toggle('on',!on);
+}
+
+// ── Theme toggle ──
+function toggleTheme(btn) {
+  const dark = document.documentElement.dataset.theme==='dark-pink-moon';
+  document.documentElement.dataset.theme = dark?'light-pink-moon':'dark-pink-moon';
+  btn.textContent = dark?'Light':'Dark';
+}
+
+// ── Init ──
+render();
+</script>
+</body>
+</html>

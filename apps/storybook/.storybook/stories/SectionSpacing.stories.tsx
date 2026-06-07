@@ -1,8 +1,9 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { VariantFrame } from './_PreviewFrame';
 
 const s = {
-  page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px' } as React.CSSProperties,
+  page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px', background: 'var(--st-color-bg)' } as React.CSSProperties,
   h1:       { fontFamily: 'var(--st-font-family-narrative)', fontSize: '2.25rem', fontWeight: 600, marginBottom: '0.25rem' } as React.CSSProperties,
   oneliner: { color: 'var(--st-color-text-muted)', marginTop: 0, marginBottom: '2rem' } as React.CSSProperties,
   h2:       { fontSize: '1.2rem', fontWeight: 700, marginTop: '2.5rem', marginBottom: '0.75rem' } as React.CSSProperties,
@@ -11,15 +12,17 @@ const s = {
   th:       { textAlign: 'left' as const, padding: '0.5rem 1rem', borderBottom: '1px solid var(--st-color-border-default)', fontWeight: 600, fontSize: '0.875rem' },
   td:       { padding: '0.5rem 1rem', fontSize: '0.875rem', verticalAlign: 'top' as const },
   code:     { background: 'var(--st-color-bg-surface-strong)', padding: '0.15rem 0.4rem', borderRadius: '3px', fontSize: '0.85em', fontFamily: 'var(--st-font-family-mono)' } as React.CSSProperties,
-  pairRow:  { display: 'flex', gap: '1.5rem', marginBottom: '1.5rem', alignItems: 'flex-start' } as React.CSSProperties,
-  label:    { fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase' as const, letterSpacing: '0.05em', marginBottom: '0.5rem' } as React.CSSProperties,
-  doBox:    { flex: 1, padding: '1rem', borderTop: '3px solid var(--st-color-status-success-bg, #22c55e)' } as React.CSSProperties,
-  dontBox:  { flex: 1, padding: '1rem', borderTop: '3px solid var(--st-color-status-danger-bg, #ef4444)' } as React.CSSProperties,
+  pre:      { background: 'var(--st-color-bg-surface-strong)', padding: '0.75rem', borderRadius: '3px', fontSize: '0.8rem', fontFamily: 'var(--st-font-family-mono)', whiteSpace: 'pre-wrap' as const, margin: '0.5rem 0 1.5rem', overflowX: 'auto' as const } as React.CSSProperties,
+  ddGrid:   { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: '1.5rem' } as React.CSSProperties,
+  ddCol:    { border: '1px solid var(--st-color-neutral-200)' } as React.CSSProperties,
+  ddHd:     { padding: '9px 14px', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, borderBottom: '1px solid var(--st-color-neutral-200)' } as React.CSSProperties,
+  ddDoHd:   { color: 'var(--st-color-seafoam-700)', background: 'color-mix(in srgb, var(--st-color-seafoam) 5%, white)', borderLeft: '3px solid var(--st-color-seafoam)' } as React.CSSProperties,
+  ddDontHd: { color: 'var(--st-color-pink-700)', background: 'color-mix(in srgb, var(--st-color-pink) 4%, white)', borderLeft: '3px solid var(--st-color-pink)' } as React.CSSProperties,
 };
 
 // ─── Preview helpers ──────────────────────────────────────────────────────────
 
-const sectionBlock = (label: string, height = 64): React.CSSProperties => ({
+const sectionBlock = (_label: string, height = 64): React.CSSProperties => ({
   background: 'var(--st-color-bg-surface-strong)',
   border: '1px solid var(--st-color-border-default)',
   borderRadius: '4px',
@@ -32,7 +35,7 @@ const sectionBlock = (label: string, height = 64): React.CSSProperties => ({
   fontFamily: 'var(--st-font-family-mono)',
 });
 
-const annotation = (text: string, color = 'var(--st-color-text-muted)'): React.CSSProperties => ({
+const annotation = (_text: string, color = 'var(--st-color-text-muted)'): React.CSSProperties => ({
   fontSize: '0.75rem',
   color,
   textAlign: 'center',
@@ -46,8 +49,6 @@ const annotation = (text: string, color = 'var(--st-color-text-muted)'): React.C
 function CorrectShell() {
   return (
     <div>
-      <p style={{ ...s.label, color: 'var(--st-color-status-success-bg, #22c55e)', marginBottom: '0.75rem' }}>Correct — parent owns gap</p>
-      {/* Parent: flex + gap. Children: zero margin. */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', padding: '1rem', border: '2px solid var(--st-color-status-success-bg, #22c55e)', borderRadius: '4px' }}>
         <div style={sectionBlock('TextSection — margin-block: 0')}>TextSection</div>
         <div style={sectionBlock('CalloutSection — margin-block: 0', 48)}>CalloutSection</div>
@@ -65,8 +66,6 @@ function CorrectShell() {
 function WrongShell() {
   return (
     <div>
-      <p style={{ ...s.label, color: 'var(--st-color-status-danger-bg, #ef4444)', marginBottom: '0.75rem' }}>Wrong — components add margin</p>
-      {/* Parent: no gap. Each child has margin-block: 40px — doubles at boundaries. */}
       <div style={{ padding: '1rem', border: '2px solid var(--st-color-status-danger-bg, #ef4444)', borderRadius: '4px' }}>
         <div style={{ ...sectionBlock('TextSection — margin-block: 40px'), marginBottom: '40px' }}>TextSection</div>
         <div style={{ position: 'relative' }}>
@@ -89,7 +88,7 @@ function SectionSpacingPage() {
   return (
     <div style={s.page}>
 
-      <h1 style={s.h1}>Section Spacing Contract</h1>
+      <h1 style={s.h1}>Section Spacing</h1>
       <p style={s.oneliner}>The parent container owns all inter-section gap. Components must not add external margin.</p>
 
       <hr style={s.hr} />
@@ -102,9 +101,57 @@ function SectionSpacingPage() {
       </p>
 
       <h2 style={s.h2}>Live preview</h2>
-      <div style={s.pairRow}>
-        <div style={{ flex: 1 }}><CorrectShell /></div>
-        <div style={{ flex: 1 }}><WrongShell /></div>
+      <VariantFrame variants={[
+        {
+          key: 'correct',
+          label: 'Correct — parent owns gap',
+          content: <CorrectShell />,
+          code: `.detailContext {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-section-break-detail); /* 40px */
+}
+
+/* Component CSS — internal padding only */
+.mySection {
+  padding: 1rem;
+  /* NO margin-block here */
+}`,
+        },
+        {
+          key: 'wrong',
+          label: 'Wrong — component adds margin',
+          content: <WrongShell />,
+          code: `/* Component CSS — this doubles the gap at every boundary */
+.mySection {
+  margin-block: var(--st-space-section-break-detail); /* 40 + 40 = 80px */
+}`,
+        },
+      ]} />
+
+      <h2 style={s.h2}>Do / Don't</h2>
+      <div style={s.ddGrid}>
+        <div style={s.ddCol}>
+          <div style={{ ...s.ddHd, ...s.ddDoHd }}>Do</div>
+          <pre style={{ ...s.pre, margin: 0, borderRadius: 0 }}>{`.detailContext {
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-section-break-detail);
+}
+
+/* Component CSS */
+.mySection {
+  padding: 1rem; /* internal only */
+}`}</pre>
+        </div>
+        <div style={s.ddCol}>
+          <div style={{ ...s.ddHd, ...s.ddDontHd }}>Don't</div>
+          <pre style={{ ...s.pre, margin: 0, borderRadius: 0 }}>{`/* Component CSS */
+.mySection {
+  /* doubles gap at every boundary */
+  margin-block: var(--st-space-section-break-detail);
+}`}</pre>
+        </div>
       </div>
 
       <h2 style={s.h2}>Spacing tokens</h2>
@@ -153,40 +200,12 @@ function SectionSpacingPage() {
         Never hard-code these values. Every detail page spacing decision resolves through one of these tokens.
       </p>
 
-      <h2 style={s.h2}>Do / Don't</h2>
-      <div style={s.pairRow}>
-        <div style={s.doBox}>
-          <p style={{ ...s.label, color: 'var(--st-color-status-success-bg, #22c55e)' }}>Do — zero component margin</p>
-          <pre style={{ ...s.code, display: 'block', padding: '0.75rem', margin: 0, whiteSpace: 'pre-wrap', fontSize: '0.8rem' }}>{`.detailContext {
-  display: flex;
-  flex-direction: column;
-  gap: var(--st-space-section-break-detail);
-}
-
-/* Component CSS */
-.mySection {
-  /* internal padding only */
-  padding: 1rem;
-  /* NO margin-block here */
-}`}</pre>
-        </div>
-        <div style={s.dontBox}>
-          <p style={{ ...s.label, color: 'var(--st-color-status-danger-bg, #ef4444)' }}>Don't — component owns margin</p>
-          <pre style={{ ...s.code, display: 'block', padding: '0.75rem', margin: 0, whiteSpace: 'pre-wrap', fontSize: '0.8rem' }}>{`/* Component CSS */
-.mySection {
-  /* This doubles the gap when
-     adjacent to another section */
-  margin-block: var(--st-space-section-break-detail);
-}`}</pre>
-        </div>
-      </div>
-
       <h2 style={s.h2}>Boundary elements</h2>
       <p style={{ fontSize: '0.875rem' }}>
         Elements that sit <em>between</em> two spacing contexts (e.g. MetadataCard between the hero and{' '}
         <code style={s.code}>.detailContext</code>) belong to neither flex container. They need explicit margin:
       </p>
-      <pre style={{ ...s.code, display: 'block', padding: '0.75rem', margin: '0.5rem 0 1.5rem', whiteSpace: 'pre-wrap', fontSize: '0.8rem' }}>{`.detailPage > aside:first-child {
+      <pre style={s.pre}>{`.detailPage > aside:first-child {
   margin-bottom: var(--st-space-section-break-detail);
 }`}</pre>
       <p style={{ fontSize: '0.875rem' }}>
@@ -221,4 +240,3 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 export const Default: Story = {};
-

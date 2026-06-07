@@ -4,12 +4,13 @@ import { MemoryRouter } from 'react-router-dom';
 import { Grid, SectionLabel, Breadcrumb, PageHeader, Avatar } from '../../../../apps/web/src/design-system';
 import MetadataCard from '../../../../apps/web/src/components/MetadataCard';
 import ContentCard from '../../../../apps/web/src/components/ContentCard';
-import { mockArticles, mockNodes } from '../../../../apps/web/src/components/__fixtures__/mockContentCards';
+import { mockArticles } from '../../../../apps/web/src/components/__fixtures__/mockContentCards';
 import pageStyles from '../../../../apps/web/src/pages/pages.module.css';
 import sectionStyles from '../../../../apps/web/src/components/PageSections.module.css';
+import { VariantFrame } from './_PreviewFrame';
 
 const s = {
-  page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px' } as React.CSSProperties,
+  page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px', background: 'var(--st-color-bg)' } as React.CSSProperties,
   h1:       { fontFamily: 'var(--st-font-family-narrative)', fontSize: '2.25rem', fontWeight: 600, marginBottom: '0.25rem' } as React.CSSProperties,
   oneliner: { color: 'var(--st-color-text-muted)', marginTop: 0, marginBottom: '2rem' } as React.CSSProperties,
   h2:       { fontSize: '1.2rem', fontWeight: 700, marginTop: '2.5rem', marginBottom: '0.75rem' } as React.CSSProperties,
@@ -19,13 +20,14 @@ const s = {
   td:       { padding: '0.5rem 1rem', fontSize: '0.875rem', verticalAlign: 'top' as const },
   code:     { background: 'var(--st-color-bg-surface-strong)', padding: '0.15rem 0.4rem', borderRadius: '3px', fontSize: '0.85em', fontFamily: 'var(--st-font-family-mono)' } as React.CSSProperties,
   pre:      { background: 'var(--st-color-bg-surface-strong)', padding: '0.75rem', borderRadius: '3px', fontSize: '0.8rem', fontFamily: 'var(--st-font-family-mono)', whiteSpace: 'pre-wrap' as const, margin: '0.5rem 0 1.5rem', overflowX: 'auto' as const } as React.CSSProperties,
-  label:    { fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase' as const, letterSpacing: '0.05em', marginBottom: '0.5rem' } as React.CSSProperties,
-  doBox:    { flex: 1, padding: '1rem', borderTop: '3px solid var(--st-color-status-success-bg, #22c55e)' } as React.CSSProperties,
-  dontBox:  { flex: 1, padding: '1rem', borderTop: '3px solid var(--st-color-status-danger-bg, #ef4444)' } as React.CSSProperties,
-  pairRow:  { display: 'flex', gap: '1.5rem', marginBottom: '1.5rem', alignItems: 'flex-start' } as React.CSSProperties,
+  ddGrid:   { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: '1.5rem' } as React.CSSProperties,
+  ddCol:    { border: '1px solid var(--st-color-neutral-200)' } as React.CSSProperties,
+  ddHd:     { padding: '9px 14px', fontFamily: 'var(--st-font-family-mono)', fontSize: '0.58rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase' as const, borderBottom: '1px solid var(--st-color-neutral-200)' } as React.CSSProperties,
+  ddDoHd:   { color: 'var(--st-color-seafoam-700)', background: 'color-mix(in srgb, var(--st-color-seafoam) 5%, white)', borderLeft: '3px solid var(--st-color-seafoam)' } as React.CSSProperties,
+  ddDontHd: { color: 'var(--st-color-pink-700)', background: 'color-mix(in srgb, var(--st-color-pink) 4%, white)', borderLeft: '3px solid var(--st-color-pink)' } as React.CSSProperties,
 };
 
-// ─── Live preview shell ───────────────────────────────────────────────────────
+// ─── Live preview shells ──────────────────────────────────────────────────────
 
 function PreviewShell({ heading, description, media, tint, italic, metadata }: {
   heading: string;
@@ -78,21 +80,90 @@ function EntityDetailPageDocsPage() {
         They differ only in thumbnail size, H1 style, and which metadata fields the folio exposes.
       </p>
 
-      <h2 style={s.h2}>Live preview — Person Folio</h2>
+      <h2 style={s.h2}>Live preview</h2>
       <MemoryRouter>
-        <PreviewShell
-          heading="Bex Walton"
-          description="Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller."
-          media={<Avatar name="Bex Walton" size="xl" />}
-          tint="var(--st-color-seafoam-300)"
-          italic
-          metadata={{
-            contentType: 'Person',
-            contentTypeHref: '/people',
-            categories: [{ _id: 'c1', name: 'Design Engineering', slug: 'design-engineering', colorHex: '#FF247D' }],
-            tags: [{ _id: 't1', name: 'Design Systems', slug: 'design-systems' }],
-          }}
-        />
+        <VariantFrame variants={[
+          {
+            key: 'person',
+            label: 'Person (/people/:slug)',
+            content: (
+              <PreviewShell
+                heading="Bex Walton"
+                description="Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller."
+                media={<Avatar name="Bex Walton" size="xl" />}
+                tint="var(--st-color-seafoam-300)"
+                italic
+                metadata={{
+                  contentType: 'Person',
+                  contentTypeHref: '/people',
+                  categories: [{ _id: 'c1', name: 'Design Engineering', slug: 'design-engineering', colorHex: '#FF247D' }],
+                  tags: [{ _id: 't1', name: 'Design Systems', slug: 'design-systems' }],
+                }}
+              />
+            ),
+            code: `<PageHeader
+  breadcrumb={<Breadcrumb items={[{ label: 'People', href: '/people' }]} />}
+  media={<Avatar name="Bex Walton" size="xl" />}
+  title="Bex Walton"
+  italic   {/* Person folios only */}
+  tint="var(--st-color-seafoam-300)"
+  description="Design engineer and content strategist…"
+/>
+<MetadataCard contentType="Person" contentTypeHref="/people" categories={[…]} tags={[…]} />`,
+          },
+          {
+            key: 'tool',
+            label: 'Tool (/tools/:slug)',
+            content: (
+              <PreviewShell
+                heading="Sanity"
+                description="Headless CMS with a real-time collaborative editing experience and a developer-first content lake architecture."
+                media={<Avatar name="Sanity" size="xl" />}
+                tint="var(--st-color-midnight-300)"
+                metadata={{
+                  contentType: 'Tool',
+                  contentTypeHref: '/tools',
+                  tags: [{ _id: 't2', name: 'CMS', slug: 'cms' }, { _id: 't3', name: 'Headless', slug: 'headless' }],
+                }}
+              />
+            ),
+            code: `<PageHeader
+  breadcrumb={<Breadcrumb items={[{ label: 'Tools', href: '/tools' }]} />}
+  media={<Avatar name="Sanity" size="xl" />}
+  title="Sanity"
+  {/* No italic — tool folios use roman */}
+  tint="var(--st-color-midnight-300)"
+  description="Headless CMS…"
+/>
+<MetadataCard contentType="Tool" contentTypeHref="/tools" tags={[…]} />`,
+          },
+          {
+            key: 'project',
+            label: 'Project (/projects/:slug)',
+            content: (
+              <PreviewShell
+                heading="Mini Repo"
+                description="A minimal monorepo scaffold with pnpm workspaces, Turbo, and a shared design system."
+                tint="#00B4A6"
+                metadata={{
+                  contentType: 'Project',
+                  contentTypeHref: '/projects',
+                  status: 'live',
+                  categories: [{ _id: 'c1', name: 'Design Engineering', slug: 'design-engineering', colorHex: '#FF247D' }],
+                  tags: [{ _id: 't1', name: 'Design Systems', slug: 'design-systems' }],
+                }}
+              />
+            ),
+            code: `<PageHeader
+  breadcrumb={<Breadcrumb items={[{ label: 'Projects', href: '/projects' }]} />}
+  {/* No media prop — projects have no folio thumbnail */}
+  title="Mini Repo"
+  tint="#00B4A6"
+  description="A minimal monorepo scaffold…"
+/>
+<MetadataCard contentType="Project" status="live" categories={[…]} tags={[…]} />`,
+          },
+        ]} />
       </MemoryRouter>
 
       <hr style={s.hr} />
@@ -156,16 +227,22 @@ function EntityDetailPageDocsPage() {
         Person folios use italic Cormorant Garamond. All other entity types use roman.
         Full rationale: <strong>Foundations / Typography Conventions</strong>.
       </p>
-      <div style={s.pairRow}>
-        <div style={s.doBox}>
-          <p style={{ ...s.label, color: 'var(--st-color-status-success-bg, #22c55e)' }}>Person — italic</p>
-          <p style={{ fontFamily: 'var(--st-font-family-narrative)', fontSize: '1.75rem', fontWeight: 600, fontStyle: 'italic', margin: '0.5rem 0' }}>Bex Walton</p>
-          <p style={{ fontSize: '0.8rem', margin: '0.5rem 0 0' }}><code style={s.code}>.narrativeHeading.narrativeHeadingItalic</code></p>
+      <div style={s.ddGrid}>
+        <div style={s.ddCol}>
+          <div style={{ ...s.ddHd, ...s.ddDoHd }}>Do</div>
+          <div style={{ padding: '1rem' }}>
+            <p style={{ fontFamily: 'var(--st-font-family-narrative)', fontSize: '1.75rem', fontWeight: 600, fontStyle: 'italic', margin: '0 0 0.5rem' }}>Bex Walton</p>
+            <code style={s.code}>.narrativeHeading.narrativeHeadingItalic</code>
+            <p style={{ fontSize: '0.8rem', color: 'var(--st-color-text-muted)', margin: '0.5rem 0 0' }}>Person — italic prop on PageHeader</p>
+          </div>
         </div>
-        <div style={s.dontBox}>
-          <p style={{ ...s.label, color: 'var(--st-color-status-danger-bg, #ef4444)' }}>Tool — roman (not italic)</p>
-          <p style={{ fontFamily: 'var(--st-font-family-narrative)', fontSize: '1.75rem', fontWeight: 600, fontStyle: 'normal', margin: '0.5rem 0' }}>Sanity</p>
-          <p style={{ fontSize: '0.8rem', margin: '0.5rem 0 0' }}><code style={s.code}>.narrativeHeading</code> only</p>
+        <div style={s.ddCol}>
+          <div style={{ ...s.ddHd, ...s.ddDontHd }}>Don't</div>
+          <div style={{ padding: '1rem' }}>
+            <p style={{ fontFamily: 'var(--st-font-family-narrative)', fontSize: '1.75rem', fontWeight: 600, fontStyle: 'normal', margin: '0 0 0.5rem' }}>Sanity</p>
+            <code style={s.code}>.narrativeHeading</code>
+            <p style={{ fontSize: '0.8rem', color: 'var(--st-color-text-muted)', margin: '0.5rem 0 0' }}>Tool — omit <code style={s.code}>italic</code>, use roman only</p>
+          </div>
         </div>
       </div>
 
@@ -223,4 +300,4 @@ const meta: Meta = {
 };
 export default meta;
 type Story = StoryObj;
-export const Docs: Story = {};
+export const Guidelines: Story = {};
