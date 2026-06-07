@@ -143,19 +143,19 @@ Rule: never hard-code these values. Every detail page spacing decision resolves 
 
 **ContentDetailPage stories correction (known bug):** `ContentDetailPage.stories.jsx` currently imports and uses `PageHeader` — this is WRONG. Production content pages (article, node, case study) open with `Regions/Hero` (rendered via `extractLeadHero` + `PageSections`), not PageHeader. PageHeader is for archive, entity, and taxonomy pages only. The stories must be corrected to use Hero before a Format B docs page is written for ContentDetailPage.
 
-### Phase 2 — Entity Folio Layout — Format B (MDX) at `Pages/EntityDetailPage`
+### Phase 2 — Entity Folio Layout — Format B (MDX) at `Pages/EntityDetailPage` ✅
 
 **IA decision:** Docs live WITH the stories they document, not as a separate Foundations/ entry. Each page-type doc is a Format B MDX page at its Pages/ location. Generic cross-cutting conventions stay in Foundations/.
 
 **Page stories prerequisite (must complete before writing MDX):**
-- [ ] Fix `EntityDetailPage.stories.jsx` section spacing: replace inline `marginTop: '2rem'` on `<section>` with a `.detailContext` wrapper — stories must reflect the production contract before we document it
-- [ ] Verify PageHeader `italic` prop is applied correctly in all three entity shells (Person: italic, Tool/Project: roman)
-- [ ] Confirm thumbnail sizes are injected via `--entity-thumb-size` (not hardcoded on the image element) in each story
-- [ ] Commit: `fix(storybook): SUG-152 Phase 2 — correct EntityDetailPage stories (detailContext spacing, italic, thumb-size)`
+- [x] Fix `EntityDetailPage.stories.jsx` section spacing: replace inline `marginTop: '2rem'` on `<section>` with a `.detailContext` wrapper — stories must reflect the production contract before we document it
+- [x] Verify PageHeader `italic` prop is applied correctly in all three entity shells (Person: italic, Tool/Project: roman)
+- [x] Confirm thumbnail sizes are injected via `--entity-thumb-size` (not hardcoded on the image element) in each story
+- [x] Commit: `fix(storybook): SUG-152 Phase 2 — correct EntityDetailPage stories (detailContext spacing, italic, thumb-size)`
 
 **MDX docs steps:**
-- [ ] Write `EntityDetailPageDocs.mdx` — Format B four-section docs page at `Pages/EntityDetailPage`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 2 — EntityDetailPage MDX docs page`
+- [x] Write `EntityDetailPageDocs.mdx` — Format B four-section docs page at `Pages/EntityDetailPage`
+- [x] Commit: `docs(storybook): SUG-152 Phase 2 — EntityDetailPage MDX docs page`
 
 **IA note — all remaining page-specific phases follow this pattern:**
 The usage doc for a page type lives AS the docs tab of that page's `Pages/` story group. Page-specific conventions are not duplicated in Foundations/. Revised locations:
