@@ -121,7 +121,7 @@
 /* MetadataCard sits outside .detailContext (not covered by flex gap).
    Needs its own bottom margin to separate from the first section. */
 .detailPage > aside:first-child,
-.entityDetailPage > aside:first-child {
+.entityDetailPage > aside:first-of-type {
   margin-bottom: var(--st-space-section-break-detail);
 }
 
