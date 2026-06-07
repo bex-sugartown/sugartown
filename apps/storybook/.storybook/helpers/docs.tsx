@@ -19,36 +19,42 @@ interface DocSectionProps {
   n: string;
   title: string;
   priority: 'must' | 'should';
+  showBadge?: boolean;
   children: React.ReactNode;
 }
 
-export function DocSection({ n, title, priority, children }: DocSectionProps) {
+export function DocSection({ n, title, priority, showBadge = false, children }: DocSectionProps) {
   return (
-    <section style={{
-      paddingTop: 60,
-      borderTop: '1px solid var(--st-color-neutral-200)',
-      marginTop: 60,
-    }}>
-      {/* Section header */}
+    <section style={{ paddingTop: 60, marginTop: 60 }}>
+      {/* SectionLabel-style header — three-zone row over 1px ink baseline */}
       <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: 8,
+        display: 'grid',
+        gridTemplateColumns: showBadge ? '1fr auto' : '1fr',
+        alignItems: 'baseline',
+        gap: '0 1.5rem',
+        paddingBottom: '0.625rem',
+        borderBottom: '1px solid var(--st-color-ink)',
         marginBottom: 24,
       }}>
-        <span style={monoLabel({ color: 'var(--st-color-neutral-400)' })}>{n.padStart(2,'0')}</span>
-        <span style={monoLabel({ color: 'var(--st-color-pink)' })}>{title}</span>
-        <span style={{
-          ...monoLabel({ color: priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-500)' }),
-          padding: '2px 7px',
-          border: `1px solid ${priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-400)'}`,
-          background: priority === 'must' ? 'color-mix(in srgb, var(--st-color-ink) 4%, transparent)' : 'transparent',
-        }}>
-          {priority === 'must' ? 'Must Have' : 'Should Have'}
-        </span>
-        {/* Rule line */}
-        <div style={{ flex: 1, minWidth: 20, height: 1, background: 'var(--st-color-neutral-200)' }} />
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
+          <span style={monoLabel({ color: 'var(--st-color-pink)', letterSpacing: '0.06em' })}>
+            {n.padStart(2, '0')}
+          </span>
+          <span style={monoLabel({ color: 'var(--st-color-text-default)', letterSpacing: 'var(--st-label-tracking)', textTransform: 'uppercase' })}>
+            {title}
+          </span>
+        </div>
+        {showBadge && (
+          <span style={{
+            ...monoLabel({ color: priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-500)' }),
+            fontSize: '0.55rem',
+            letterSpacing: '0.08em',
+            padding: '2px 7px',
+            border: `1px solid ${priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-400)'}`,
+          }}>
+            {priority === 'must' ? 'Must Have' : 'Should Have'}
+          </span>
+        )}
       </div>
       {children}
     </section>

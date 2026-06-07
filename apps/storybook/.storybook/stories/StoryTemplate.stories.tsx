@@ -23,6 +23,25 @@ import {
   ChangelogItem,
 } from '../helpers/docs';
 
+// ─── Checkbox helper (coverage table) ────────────────────────────────────────
+
+function Checkbox({ checked }: { checked: boolean }) {
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+      width: 16, height: 16,
+      border: `1px solid ${checked ? 'var(--st-color-seafoam-400)' : 'var(--st-color-neutral-300)'}`,
+      background: checked ? 'color-mix(in srgb, var(--st-color-seafoam) 10%, white)' : 'transparent',
+      fontSize: '0.6rem',
+      color: checked ? 'var(--st-color-seafoam-600)' : 'transparent',
+      fontFamily: 'var(--st-font-family-mono)',
+      fontWeight: 700,
+    }}>
+      {checked ? '✓' : ''}
+    </span>
+  );
+}
+
 // ─── Page component ───────────────────────────────────────────────────────────
 
 function StoryTemplatePage() {
@@ -60,56 +79,61 @@ function StoryTemplatePage() {
       {/* ── Coverage model ────────────────────────────────────────────────── */}
       <section style={{ marginBottom: 60 }}>
         <h2 style={s.h2}>Coverage model</h2>
+        <p style={{ ...s.prose, marginBottom: 20 }}>
+          Sections 02–05 are generated automatically by Storybook autodocs — they require no
+          manual writing. Sections 01 and 06–14 are authored in a <code style={s.code}>Guidelines</code> story export.
+          Must Have sections gate merge. Should Have sections gate v1 stable.
+        </p>
         <table style={s.table}>
           <thead>
             <tr>
-              {['#', 'Section', 'Who generates it', 'Priority'].map(h => (
-                <th key={h} style={s.th}>{h}</th>
-              ))}
+              <th style={s.th}>Section</th>
+              <th style={s.th}>Description</th>
+              <th style={s.th}>Priority</th>
+              <th style={{ ...s.th, textAlign: 'center' as const }}>Pink Moon</th>
+              <th style={{ ...s.th, textAlign: 'center' as const }}>SB Autodoc</th>
             </tr>
           </thead>
           <tbody>
-            {[
-              ['01', 'Overview / Purpose',    'Guidelines story',        'Must Have'],
-              ['02', 'Live Preview',           'Storybook autodocs',      'Must Have'],
-              ['03', 'Code / Usage Examples',  'Storybook autodocs',      'Must Have'],
-              ['04', 'Props / API',            'autodocs + JSDoc',        'Must Have'],
-              ['05', 'Composition Patterns',   'Named story exports',     'Must Have'],
-              ['06', 'Usage Guidelines',       'Guidelines story',        'Must Have'],
-              ['07', 'Accessibility',          'Guidelines story',        'Must Have'],
-              ['08', 'Design Tokens',          'Guidelines story',        'Must Have'],
-              ['09', 'Anatomy',                'Guidelines story',        'Should Have'],
-              ['10', 'Variants',               'Guidelines story',        'Should Have'],
-              ['11', 'States',                 'Guidelines story',        'Should Have'],
-              ['12', 'Content Guidelines',     'Guidelines story',        'Should Have'],
-              ['13', 'Related Components',     'Guidelines story',        'Should Have'],
-              ['14', 'Changelog',              'Guidelines story',        'Should Have'],
-            ].map(([n, title, who, priority]) => (
-              <tr key={n}>
-                <td style={{ ...s.td, ...s.tdMono, width: 36 }}>{n}</td>
-                <td style={s.td}>{title}</td>
-                <td style={{ ...s.td, ...s.tdMono }}>{who}</td>
-                <td style={{ ...s.td }}>
+            {([
+              ['Overview / Purpose',          'What it is, what it does, what it is not',                          'must',   false, false],
+              ['Live Preview',                 'Interactive Controls panel — toggle props, see output in real time', 'must',   true,  true ],
+              ['Code / Usage Examples',        'Working JSX or HTML, Storybook embed',                              'must',   true,  true ],
+              ['Props / API',                  'Autodocs prop table — name, type, default, required, description',  'must',   true,  true ],
+              ['Composition Patterns (Stories)','How it works with other components in context',                    'must',   true,  true ],
+              ['Usage Guidelines (Do / Don\'t)','Annotated correct and incorrect use pairs',                        'must',   false, false],
+              ['Accessibility',                'ARIA, keyboard, touch targets, screen reader behavior',             'must',   false, false],
+              ['Design Tokens',                'Token-to-property mapping per variant and state',                   'must',   false, false],
+              ['Anatomy',                      'Labeled diagram of named parts',                                    'should', false, false],
+              ['Variants',                     'Full taxonomy — style, size, icon combinations',                    'should', false, false],
+              ['States',                       'Every interactive condition with visuals',                          'should', false, false],
+              ['Content Guidelines',           'Label rules, char limits, verb-first phrasing',                     'should', false, false],
+              ['Related Components',           'When to use something else instead',                                'should', false, false],
+              ['Changelog',                    'Version history, deprecations, breaking changes',                   'should', false, false],
+            ] as [string, string, 'must'|'should', boolean, boolean][]).map(([section, desc, priority, pm, sb]) => (
+              <tr key={section}>
+                <td style={s.td}>{section}</td>
+                <td style={{ ...s.td, color: 'var(--st-color-neutral-500)' }}>{desc}</td>
+                <td style={s.td}>
                   <span style={{
                     fontFamily: 'var(--st-font-family-mono)',
-                    fontSize: '0.58rem',
+                    fontSize: '0.55rem',
                     fontWeight: 700,
                     letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
+                    textTransform: 'uppercase' as const,
                     padding: '2px 7px',
-                    border: `1px solid ${priority === 'Must Have' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-400)'}`,
-                    color: priority === 'Must Have' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-500)',
+                    border: `1px solid ${priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-400)'}`,
+                    color: priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-500)',
                   }}>
-                    {priority}
+                    {priority === 'must' ? 'Must Have' : 'Should Have'}
                   </span>
                 </td>
+                <td style={{ ...s.td, textAlign: 'center' as const }}><Checkbox checked={pm} /></td>
+                <td style={{ ...s.td, textAlign: 'center' as const }}><Checkbox checked={sb} /></td>
               </tr>
             ))}
           </tbody>
         </table>
-        <p style={{ fontSize: '0.8125rem', color: 'var(--st-color-neutral-500)', marginTop: 12 }}>
-          Must Have sections gate merge. Should Have sections gate v1 stable release.
-        </p>
       </section>
 
       {/* ── File structure ────────────────────────────────────────────────── */}
@@ -173,7 +197,7 @@ function StoryTemplatePage() {
       </section>
 
       {/* ── Live examples of all helpers ──────────────────────────────────── */}
-      <DocSection n="01" title="Overview / Purpose" priority="must">
+      <DocSection n="01" title="Overview / Purpose" priority="must" showBadge>
         <h3 style={s.h3}>What it is</h3>
         <p style={s.prose}>
           One sentence: [ComponentName] is the [noun] that [verb phrase] on [location].
@@ -191,7 +215,7 @@ function StoryTemplatePage() {
         </ul>
       </DocSection>
 
-      <DocSection n="06" title="Usage Guidelines" priority="must">
+      <DocSection n="06" title="Usage Guidelines" priority="must" showBadge>
         <div style={s.ddGrid}>
           <div style={s.ddCol}>
             <div style={{ ...s.ddHd, ...s.ddDoHd }}>Do</div>
@@ -210,7 +234,7 @@ function StoryTemplatePage() {
         </div>
       </DocSection>
 
-      <DocSection n="07" title="Accessibility" priority="must">
+      <DocSection n="07" title="Accessibility" priority="must" showBadge>
         <ul style={s.a11yList}>
           <A11yItem label="Semantic HTML">The root element is a [element]. It carries [role/landmark] for [purpose].</A11yItem>
           <A11yItem label="ARIA attributes">[aria-attribute] is set to [value] when [condition].</A11yItem>
@@ -220,7 +244,7 @@ function StoryTemplatePage() {
         </ul>
       </DocSection>
 
-      <DocSection n="08" title="Design Tokens" priority="must">
+      <DocSection n="08" title="Design Tokens" priority="must" showBadge>
         <TokenGroup label="Colour & Surface">
           <TokenRow token="--st-color-bg-surface" value="#FAFAFA" role="Base background" />
           <TokenRow token="--st-color-border-default" value="#E4E4E5" role="Border" />
@@ -232,7 +256,7 @@ function StoryTemplatePage() {
         </TokenGroup>
       </DocSection>
 
-      <DocSection n="09" title="Anatomy" priority="should">
+      <DocSection n="09" title="Anatomy" priority="should" showBadge>
         <pre style={s.anatomy}>{`
 ┌──────────────────────────────────────────────────┐
 │ .root                                             │
@@ -250,7 +274,7 @@ function StoryTemplatePage() {
         `.trim()}</pre>
       </DocSection>
 
-      <DocSection n="13" title="Related Components" priority="should">
+      <DocSection n="13" title="Related Components" priority="should" showBadge>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
           <RelatedCard
             name="Breadcrumb"
@@ -265,7 +289,7 @@ function StoryTemplatePage() {
         </div>
       </DocSection>
 
-      <DocSection n="14" title="Changelog" priority="should">
+      <DocSection n="14" title="Changelog" priority="should" showBadge>
         <ChangelogEntry version="v0.26.8" date="2026-06-06">
           <ChangelogItem breaking>breadcrumb prop changed from BreadcrumbItem[] to ReactNode — callers must wrap in &lt;Breadcrumb /&gt;</ChangelogItem>
           <ChangelogItem>Initial implementation — archive, entity folio, taxonomy detail patterns</ChangelogItem>
