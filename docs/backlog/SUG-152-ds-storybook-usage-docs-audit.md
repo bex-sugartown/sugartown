@@ -175,52 +175,22 @@ Covers four rules:
 Live preview: `<Canvas of={Stories.PersonFolio} />` — all three entity variants (PersonFolio, ToolFolio, ProjectFolio) as individual stories in the story list.  
 CSS surface: `apps/web/src/pages/pages.module.css` `.entityFolio`, `.folioIdentity`, `.entityThumbnail`, `.entityThumbnailFallback`, `.detailContext`
 
-### Phase 3 — Chip / Tag Taxonomy ✅
-- [x] Propose topic angle and live preview approach
-- [x] **Pause for review**
-- [x] Write `ChipTaxonomy.stories.tsx`
-- [x] Commit: `docs(storybook): SUG-152 Phase 3 — Chip/Tag Taxonomy usage doc`
+### Phase 3 — Chip / Tag Taxonomy ⏸ DEFERRED
+> **Deferred for strategic review.** The Chip component API is in active flux (badge rename, status prop deprecation, colorHex deprecation). A usage doc written now will be inaccurate by the time the API settles. The Overview section exists as a skeleton in `helpers/ChipDocs.tsx` and will be completed once the component API decisions are finalised.
 
-**Topic brief:**  
-Title: Chip / Tag Taxonomy  
-One-liner: Which component to use — DS Chip, Tag, or inline expertise chip — and when not to create a new one.  
-Rule: Chip = interactive/filterable. Tag = read-only label. `expertiseChip` = routed link chip on profile pages. Pill = deprecated alias for Chip.  
-Live preview: Three-row comparison — visual state, interactivity, use case.
+### Phase 4 — Card Composition Rules ⏸ DEFERRED
+> **Deferred for strategic review.** The Card guidelines content was removed — the doc framework approach needs rethinking before rules are written. `helpers/CardComposition.tsx` has been deleted. No Guidelines story exists on Card.stories.tsx.
 
-### Phase 4 — Card Composition Rules ✅
-- [x] Propose topic angle and live preview approach
-- [x] **Pause for review**
-- [x] Add to Components/Card (Guidelines story in Card.stories.tsx via @sb-helpers/CardComposition)
-- [x] Write `helpers/CardComposition.tsx` (shipped as helper + Guidelines export, not a standalone stories file)
-- [x] Commit: `docs(sug-152): Phase 4 — Card Composition Rules usage doc`
-
-**Topic brief:**  
-Title: Card Composition Rules  
-One-liner: When to use DS Card vs ContentCard vs MetadataCard — and what each one owns.  
-Rule: Card = DS primitive, no data binding. ContentCard = bound to Sanity content types (article/node/caseStudy), renders in archive grids and taxonomy detail listings. MetadataCard = canonical metadata surface on content detail pages; never re-implement inline.  
-**SUG-156 addition — ContentCard usage context:** Phase 4 must cover ContentCard's two primary calling contexts, both introduced in Pages/ stories:  
-  1. **Archive grid context** (`Pages/ArchivePage`) — 3-col Grid with `spacing="md"`, full `item` shape including `slug`, `excerpt`, `publishedAt`, taxonomy arrays. Receives `docType` to determine routing.  
-  2. **Taxonomy detail listing context** (`Pages/TaxonomyDetailPage`) — same ContentCard, `.archiveGrid` wrapper, no FilterBar. Shows that ContentCard is context-agnostic; the surrounding layout changes, not the card.  
-Do/don't: do not render bare DS `Card` in archive grids — ContentCard handles the Sanity data binding, slug routing, and TaxonomyChips. Do not re-implement the listing card layout inline.
-
-### Phase 5 — Responsive Breakpoints
-- [ ] Propose topic angle and live preview approach
-- [ ] **Pause for review**
-- [ ] Add to Foundations / Breakpoints or Foundations / Layout / Breakpoints
-- [ ] Write `Breakpoints.stories.tsx`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 5 — Responsive Breakpoints usage doc`
+### Phase 5 — Responsive Breakpoints ⏸ DEFERRED
+> Pending strategic review of doc framework approach.
 
 **Topic brief:**  
 Title: Breakpoint Rationale  
 One-liner: The two primary breakpoints, which surfaces they govern, and how to derive new ones.  
 Rule: `860px` = table/grid collapse (minimum for prose + 2-col grid). `768px` = nav toggle threshold. New surfaces derive from content width, not arbitrary values.
 
-### Phase 6 — Semantic vs Primitive Tokens
-- [ ] Propose topic angle and live preview approach
-- [ ] **Pause for review**
-- [ ] Update Foundations/Token Reference to just "Tokens" and set up subdirs for Semantic & Primitive
-- [ ] Write `TokenLayers.stories.tsx`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 6 — Token Layers usage doc`
+### Phase 6 — Semantic vs Primitive Tokens ⏸ DEFERRED
+> Pending strategic review of doc framework approach.
 
 **Topic brief:**  
 Title: Token Layers — Semantic vs Primitive  
@@ -228,11 +198,8 @@ One-liner: When to use `--st-color-text-primary` vs `--st-color-pink` — and wh
 Rule: Use semantic tokens in components. Use primitives only in token definition files and theme overrides.  
 Live preview: Two columns — "Semantic in component (correct)" vs "Primitive in component (breaks in dark mode)".
 
-### Phase 6b — MDX Infrastructure (prerequisite for all Format B phases)
-- [ ] Add `.mdx` to the `stories` glob in `apps/storybook/.storybook/main.ts` — enables Storybook to discover `.mdx` docs pages
-- [ ] Smoke-test: create a minimal `_MDXTest.mdx` in `apps/storybook/.storybook/stories/`, confirm it renders a `Docs` entry in the sidebar, then delete it
-- [ ] Verify `@storybook/blocks` imports (`Meta`, `Canvas`, `Controls`) resolve without errors — these ship with `@storybook/addon-docs` (already installed)
-- [ ] Commit: `chore(storybook): SUG-152 Phase 6b — enable MDX docs pages in stories glob`
+### Phase 6b — MDX Infrastructure ⏸ DEFERRED
+> Pending strategic review of doc framework approach.
 
 **Note:** `@storybook/addon-docs` v10 supports MDX2 natively. The only config change required is adding `*.mdx` to the stories glob. Format A stories (`.stories.tsx`) are unaffected — this is additive only.
 
@@ -247,12 +214,8 @@ Live preview: Two columns — "Semantic in component (correct)" vs "Primitive in
 
 Format A phases do not require Phase 6b — they already work. Phase 6b must ship before any Format B phase begins.
 
-### Phase 7 — Grid Usage (all spacing modes) — Format B (MDX)
-- [ ] Propose topic angle and live preview approach
-- [ ] **Pause for review**
-- [ ] Move Grid story title: `Components/Layout/Grid` → `Foundations/Layout/Grid` in `Grid.stories.tsx`
-- [ ] Write `GridDocs.mdx` — four-section MDX docs page (Title, Preview, Props, Usage guidelines)
-- [ ] Commit: `docs(storybook): SUG-152 Phase 7 — Grid Foundations/Layout/Grid MDX docs page`
+### Phase 7 — Grid Usage (all spacing modes) ⏸ DEFERRED
+> Pending strategic review of doc framework approach.
 
 **Topic brief:**  
 Title: Grid Usage — spacing modes and responsive collapse  
@@ -274,11 +237,8 @@ CSS surface: `apps/web/src/design-system/components/Grid/Grid.module.css`
 Tokens: `--st-space-card-gap` (32px), `--st-space-0` (0px/1px via bg), `--grid-columns`, `--grid-columns-tablet`  
 **SUG-156 reference:** `Pages/ArchivePage` uses `spacing="lg" columns={3} tabletColumns={2}`. `Pages/EntityDetailPage` uses `spacing="lg" columns={2}` (no tabletColumns).
 
-### Phase 8 — Component Naming Decisions (deferred — after Phase 4 ships)
-- [ ] Propose topic angle and live preview approach
-- [ ] **Pause for review**
-- [ ] Write `ComponentNaming.stories.tsx`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 8 — Component Naming Decisions usage doc`
+### Phase 8 — Component Naming Decisions ⏸ DEFERRED
+> Pending strategic review of doc framework approach.
 
 **Topic brief:**  
 Title: Component Naming Decisions  
@@ -286,10 +246,8 @@ One-liner: Why components are named the way they are — StatCard vs Card, Conte
 Rule: Names encode role, not appearance. StatCard = tile primitive for spacing-0 grids. Card = standalone bordered surface. ContentCard = Sanity-bound data adapter. A name like DataCard or InfoCard is a signal the audit was skipped.  
 Deferred until Phase 4 (CardComposition) ships — assess what naming ground Phase 4 already covers before writing.
 
-### Phase 9 — PageHeader Pattern (NEW — added from SUG-157; priority: before library pages) — Format B (MDX)
-- [ ] Write `PageHeaderDocs.mdx` at `Patterns/PageHeader` — four-section MDX docs page (Title, Preview, Props, Usage guidelines)
-- [ ] If title changes: update `PageHeader.stories.jsx` title string
-- [ ] Commit: `docs(storybook): SUG-152 Phase 9 — PageHeader MDX docs page`
+### Phase 9 — PageHeader Pattern ⏸ DEFERRED
+> Pending strategic review of doc framework approach.
 
 **Topic brief:**  
 Title: PageHeader Pattern  
@@ -305,11 +263,8 @@ CSS surface: `apps/web/src/design-system/components/PageHeader/PageHeader.module
 Component: `Patterns/PageHeader` (stories already live in SUG-157)  
 **SUG-157 reference:** `Patterns/PageHeader` — ArchiveArticles, EntityPersonFolio, EntityToolFolio, TaxonomyTagDetail, WithActions, Snapshot are the live reference implementations for this doc.
 
-### Phase 10 — Archive Page Patterns (NEW — added from SUG-156 audit; was Phase 9)
-- [ ] Propose topic angle and live preview approach
-- [ ] **Pause for review**
-- [ ] Write `ArchivePatterns.stories.tsx`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 10 — Archive Page Patterns usage doc`
+### Phase 10 — Archive Page Patterns ⏸ DEFERRED
+> Pending strategic review of doc framework approach.
 
 **Topic brief:**  
 Title: Archive Page Patterns  
@@ -336,11 +291,8 @@ CSS surface: `apps/web/src/pages/TaxonomyArchivePage.module.css`, `apps/web/src/
 Tokens: `--st-space-card-gap` (card gap in `.archiveGrid`), `--st-width-detail` (760px prose max-width), `--st-width-detail-wide` (1080px wide shell)  
 **SUG-156 reference:** `Pages/TaxonomyArchivePage` (RowLayout, AlphaBucketLayout, PeopleLayout, ProjectsLayout) and `Pages/ArchivePage` (ArticlesArchive) are the live reference implementations for this doc. *(was Phase 9 — renumbered to Phase 10 after SUG-157 inserted PageHeader as Phase 9)*
 
-### Contributing.stories.tsx — Storybook category taxonomy (sub-task, no new file)
-- [ ] Add a "Storybook organisation" section to the existing `Contributing.stories.tsx`
-- [ ] Section covers: **three** categories — Components (primitives), Patterns (composites), Pages (full page templates) — plus Foundations (usage docs) and Regions (header/footer/nav). Updated from original "two categories" scope following SUG-156 which introduced the Pages/ category.
-- [ ] Naming convention for story titles, export naming by page (ArticlesArchive not just Archive)
-- [ ] Commit: `docs(storybook): SUG-152 Contributing — add Storybook category taxonomy section`
+### Contributing.stories.tsx — Storybook category taxonomy ⏸ DEFERRED
+> Pending strategic review of doc framework approach.
 
 ---
 

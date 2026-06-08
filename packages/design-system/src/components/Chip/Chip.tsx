@@ -35,8 +35,8 @@ export interface ChipProps {
   isActive?: boolean;
   /**
    * Named color preset from the Sugartown palette.
-   * Sets the chip's accent via a CSS class (--chip-color token).
-   * Overridden by `colorHex` if both are provided.
+   * On default chips: sets chip surface color via --chip-color.
+   * On variant="status": drives dot color instead of chip surface.
    */
   color?: ChipColor;
   /**

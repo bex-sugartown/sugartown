@@ -15,8 +15,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Card } from './Card';
-// @ts-ignore — @sb-helpers alias is resolved by Storybook's viteFinal; not in tsconfig
-import { CardCompositionPage } from '@sb-helpers/CardComposition';
 
 // ─── Placeholder image URLs (never featuredImage) ─────────────────────────────
 const THUMB_16_9  = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=480&h=270&fit=crop';
@@ -272,10 +270,3 @@ export const Snapshot: Story = {
   ),
 };
 
-// ─── Guidelines ───────────────────────────────────────────────────────────────
-
-export const Guidelines: Story = {
-  name: 'Guidelines',
-  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true } },
-  render: () => <CardCompositionPage />,
-};

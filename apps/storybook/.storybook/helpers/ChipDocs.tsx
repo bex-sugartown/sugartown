@@ -1,221 +1,50 @@
 import React from 'react';
 import {
   DocSection,
-  DoDontGrid, DoGroup, DontGroup, DoItem, DontItem,
   OverviewItem, NotItem,
-  A11yItem,
   docStyles as s,
   AiGeneratedFooter,
 } from './docs';
-
-// ── Inline chip replicas ──────────────────────────────────────────────────────
-// These replicate the Chip CSS visually — no component imports from apps/web/.
-
-const chipBase: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '8px',
-  minHeight: '28px',
-  boxSizing: 'border-box',
-  fontFamily: 'var(--st-font-family-mono)',
-  fontSize: '0.75rem',
-  fontWeight: 400,
-  lineHeight: 1,
-  padding: '0.45em 0.75em',
-  textDecoration: 'none',
-  userSelect: 'none',
-  cursor: 'default',
-};
-
-const chipDefault: React.CSSProperties = {
-  ...chipBase,
-  background: 'color-mix(in srgb, var(--st-color-accent) 18%, var(--st-color-canvas))',
-  border: '1px solid color-mix(in srgb, var(--st-color-accent) 50%, var(--st-color-canvas))',
-  color: 'var(--st-color-accent)',
-};
-
-const chipInteractive: React.CSSProperties = { ...chipDefault, cursor: 'pointer' };
-
-const chipActive: React.CSSProperties = {
-  ...chipBase,
-  cursor: 'pointer',
-  background: 'var(--st-color-accent)',
-  border: '1px solid var(--st-color-accent)',
-  color: 'var(--st-color-white)',
-};
-
-const chipTag: React.CSSProperties = {
-  ...chipBase,
-  background: 'var(--st-chip-bg)',
-  border: '1px solid var(--st-chip-border)',
-  color: 'var(--st-chip-fg)',
-  letterSpacing: 0,
-};
-
-const chipTagInteractive: React.CSSProperties = { ...chipTag, cursor: 'pointer' };
-
-function ChipStrip({ chips }: { chips: Array<{ style: React.CSSProperties; label: string }> }) {
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem', marginBottom: '0.75rem' }}>
-      {chips.map(({ style, label }, i) => (
-        <span key={i} style={style}>{label}</span>
-      ))}
-    </div>
-  );
-}
 
 export function ChipGuidelinesPage() {
   return (
     <div style={s.page}>
 
       <h1 style={{ fontFamily: 'var(--st-font-family-narrative)', fontSize: '2.25rem', fontWeight: 600, marginBottom: '0.25rem' }}>
-        Chip / Tag Taxonomy
+        Chip / Tag
       </h1>
-      <p style={s.prose}>Which Chip variant to use and when — default, tag, status, or dotColor mode.</p>
+      <p style={s.prose}>Which Chip variant to use and when — default, tag, badge status, or dotColor mode.</p>
 
       <DocSection n="01" title="Overview" priority="must">
         <p style={s.prose}>
-          The DS <code style={s.code}>Chip</code> component has four operating modes. The correct choice depends on context and whether color or interactivity is needed.
+          The <code style={s.code}>Chip</code> component has two chassis modes. The correct choice depends on whether the chip communicates a label (neutral) or a status/project signal (badge).
+        </p>
+
+        <h3 style={s.h3}>Tag — neutral gray chassis</h3>
+        <p style={s.prose}><code style={s.code}>variant="tag"</code>, or no variant. No active state.</p>
+        <ul style={s.list}>
+          <OverviewItem><strong>Default (no <code style={s.code}>featured</code>)</strong> — gray neutral, no color. Use for read-only taxonomy labels in MetadataCard and detail page metadata strips.</OverviewItem>
+          <OverviewItem><strong><code style={s.code}>featured</code></strong> — pink rubric tint. Applied to the first taxonomy chip in a set to signal the primary category.</OverviewItem>
+        </ul>
+
+        <h3 style={s.h3}>Badge — uppercase bold chassis</h3>
+        <p style={s.prose}>
+          <code style={s.code}>variant="status"</code> (planned rename: <code style={s.code}>variant="badge"</code>). Uppercase bold text, neutral chassis. Dot is optional — driven by <code style={s.code}>color</code> or <code style={s.code}>dotColor</code>.
         </p>
         <ul style={s.list}>
-          <OverviewItem><strong>Default (no variant)</strong> — pink color-mix surface, supports <code style={s.code}>onClick</code> and active state. Use for FilterBar chips and taxonomy links on content cards. Override accent with <code style={s.code}>color</code> (named preset) or <code style={s.code}>colorHex</code>.</OverviewItem>
-          <OverviewItem>
-            <strong><code style={s.code}>variant="tag"</code></strong> — neutral gray rule-dot chassis, no active state. Two sub-states:
-            <ul style={{ ...s.list, marginTop: '0.375rem' }}>
-              <OverviewItem><strong>Default</strong> — gray neutral, no color. Use for read-only taxonomy labels in MetadataCard and detail page metadata strips.</OverviewItem>
-              <OverviewItem><strong><code style={s.code}>featured</code></strong> — pink rubric tint. Applied to the first taxonomy chip in a set to signal the primary category.</OverviewItem>
-            </ul>
-          </OverviewItem>
-          <OverviewItem><strong><code style={s.code}>variant="status"</code></strong> — lifecycle status chip with a semantic color dot (Evergreen, Draft, Deprecated, etc.). Dot color is driven by the <code style={s.code}>status</code> prop, or overridden by <code style={s.code}>color</code> / <code style={s.code}>colorHex</code>.</OverviewItem>
-          <OverviewItem><strong>dotColor mode</strong> — project color-dot chip. Pass a hex string via <code style={s.code}>dotColor</code> (from Sanity <code style={s.code}>project.colorHex</code>). Uses the same neutral chassis as tag/status; dot color is injected inline.</OverviewItem>
+          <OverviewItem><strong>No dot</strong> — omit <code style={s.code}>color</code> and <code style={s.code}>dotColor</code>. Use for read-only status labels where color is not needed.</OverviewItem>
+          <OverviewItem><strong>Colored dot via <code style={s.code}>color</code></strong> — named preset (seafoam, violet, lime, amber, grey). Use for content status signals.</OverviewItem>
+          <OverviewItem><strong>Colored dot via <code style={s.code}>dotColor</code></strong> — inline hex from Sanity <code style={s.code}>project.colorHex</code>. Use for project chips. Pass <code style={s.code}>onClick</code> to make the chip interactive.</OverviewItem>
         </ul>
-      </DocSection>
 
-      <DocSection n="06" title="Usage Guidelines" priority="must">
-        <h3 style={s.h3}>Default chip — filter and navigation</h3>
-        <p style={s.prose}>
-          Pass <code style={s.code}>onClick</code> for FilterBar filter chips. Pass <code style={s.code}>href</code> for taxonomy links that navigate to a listing page.
-          The active state (solid pink fill) is only meaningful on filter chips — pass <code style={s.code}>isActive</code> to reflect selection.
-        </p>
-        <ChipStrip chips={[
-          { style: chipInteractive, label: 'Design Systems' },
-          { style: chipInteractive, label: 'Case Studies' },
-          { style: chipActive,      label: 'AI Ethics' },
-        ]} />
-        <p style={{ ...s.prose, color: 'var(--st-color-text-muted)', fontSize: '0.8rem' }}>
-          Left: default interactive chips. Right: active state (<code style={s.code}>isActive</code>).
-        </p>
-
-        <h3 style={s.h3}>Tag variant — read-only labels</h3>
-        <p style={s.prose}>
-          Use <code style={s.code}>variant="tag"</code> where the chip communicates a label with no user action — metadata strips, detail page taxonomy rows, profile metadata.
-          Tag chips can still accept <code style={s.code}>href</code> for passive navigation.
-        </p>
-        <ChipStrip chips={[
-          { style: chipTag,            label: 'Design Systems' },
-          { style: chipTag,            label: 'React' },
-          { style: chipTagInteractive, label: 'Case Studies' },
-        ]} />
-        <p style={{ ...s.prose, color: 'var(--st-color-text-muted)', fontSize: '0.8rem' }}>
-          Left: static tag chips (no href). Right: tag chip with href — passive navigation, neutral hover.
-        </p>
-
-        <h3 style={s.h3}>Comparison</h3>
-        <div style={{ ...s.tableWrap }}>
-          <table style={s.table}>
-            <thead>
-              <tr>
-                <th style={s.th}>Variant</th>
-                <th style={s.th}>Surface</th>
-                <th style={s.th}>Active state</th>
-                <th style={s.th}>Typical context</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style={s.tdMono}>default</td>
-                <td style={s.td}>Pink color-mix</td>
-                <td style={s.td}>Yes — solid pink fill via <code style={s.code}>isActive</code></td>
-                <td style={s.td}>FilterBar, taxonomy link chips in ContentCard</td>
-              </tr>
-              <tr>
-                <td style={s.tdMono}>variant="tag"</td>
-                <td style={s.td}>Neutral (<code style={s.code}>--st-chip-bg</code> / <code style={s.code}>--st-chip-border</code>)</td>
-                <td style={s.td}>None</td>
-                <td style={s.td}>MetadataCard taxonomy rows, detail page metadata, PersonProfile expertise chips</td>
-              </tr>
-            </tbody>
-          </table>
+        <div style={{ background: 'color-mix(in srgb, var(--st-color-accent) 8%, var(--st-color-canvas))', border: '1px solid color-mix(in srgb, var(--st-color-accent) 25%, var(--st-color-canvas))', borderRadius: 2, padding: '0.75rem 1rem', marginTop: '1rem' }}>
+          <p style={{ ...s.prose, marginBottom: '0.375rem', fontWeight: 600, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Deprecation notes</p>
+          <ul style={{ ...s.list, marginBottom: 0 }}>
+            <NotItem><strong><code style={s.code}>status</code> prop values</strong> (<code style={s.code}>evergreen</code>, <code style={s.code}>draft</code>, <code style={s.code}>deprecated</code>, etc.) are deprecated. Use <code style={s.code}>color</code> (named preset) instead. Named lifecycle states are being phased out in favour of a consistent color-only API.</NotItem>
+            <NotItem><strong><code style={s.code}>colorHex</code></strong> is deprecated. Use <code style={s.code}>color</code> for all preset needs.</NotItem>
+            <NotItem><strong>Variant rename planned:</strong> <code style={s.code}>variant="status"</code> → <code style={s.code}>variant="badge"</code>. The "status" name is implementation-specific; "badge" describes the uppercase chip used for both status labels and project tags.</NotItem>
+          </ul>
         </div>
-
-        <h3 style={s.h3}>Do / Don't</h3>
-        <DoDontGrid>
-          <DoGroup>
-            <DoItem>Use default chip with <code style={s.code}>onClick</code> or <code style={s.code}>isActive</code> in a FilterBar — the pink surface and active state signal filter interactivity.</DoItem>
-            <DoItem>Use <code style={s.code}>variant="tag"</code> in MetadataCard taxonomy rows — neutral surface signals a label, not a toggle.</DoItem>
-            <DoItem>Pass <code style={s.code}>href</code> on either variant when the chip links to a taxonomy listing page.</DoItem>
-          </DoGroup>
-          <DontGroup>
-            <DontItem>Render a default chip with no <code style={s.code}>onClick</code> or <code style={s.code}>href</code> in a UI where other chips are interactive — the pink surface implies clickability.</DontItem>
-            <DontItem>Implement a new custom chip style inline in a page — <code style={s.code}>Chip</code> and <code style={s.code}>variant="tag"</code> cover all taxonomy display needs.</DontItem>
-            <DontItem>Use <code style={s.code}>isActive</code> on <code style={s.code}>variant="tag"</code> chips — the rule-dot chassis has no active state and the class has no effect.</DontItem>
-          </DontGroup>
-        </DoDontGrid>
-      </DocSection>
-
-      <DocSection n="07" title="Accessibility" priority="must">
-        <ul style={s.a11yList}>
-          <A11yItem label="Button vs link semantics">
-            When <code style={s.code}>onClick</code> is passed, Chip renders a <code style={s.code}>&lt;button&gt;</code>. When <code style={s.code}>href</code> is passed, it renders a react-router-dom <code style={s.code}>&lt;Link&gt;</code>. Never pass both — the semantics would conflict.
-          </A11yItem>
-          <A11yItem label="Static chips have no role">
-            A chip with neither <code style={s.code}>onClick</code> nor <code style={s.code}>href</code> renders a <code style={s.code}>&lt;span&gt;</code>. It is not focusable and carries no interactive ARIA role — correct for a read-only label.
-          </A11yItem>
-          <A11yItem label="Active state must be communicated">
-            <code style={s.code}>isActive</code> sets a visual active style but does not set <code style={s.code}>aria-pressed</code> automatically. If Chip is used as a toggle (FilterBar), wrap it in a context that communicates the selection state to screen readers.
-          </A11yItem>
-          <A11yItem label="Color is not the only signal">
-            The default chip communicates interactivity through cursor, hover animation, and focus ring — not color alone. The tag variant communicates read-only state through cursor and the absence of those cues.
-          </A11yItem>
-        </ul>
-      </DocSection>
-
-      <DocSection n="08" title="Design Tokens" priority="must">
-        <p style={{ ...s.prose, marginBottom: '1.5rem' }}>
-          The default chip derives all color from <code style={s.code}>--st-color-accent</code> via <code style={s.code}>color-mix()</code>.
-          The tag variant uses the rule-dot chassis tokens shared with status chips.
-        </p>
-        <div style={s.tableWrap}>
-          <table style={s.table}>
-            <thead>
-              <tr>
-                <th style={s.th}>Token</th>
-                <th style={s.th}>Variant</th>
-                <th style={s.th}>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                ['--st-color-accent', 'default', 'Chip color source — drives bg (18% mix), border (50% mix), text'],
-                ['--st-chip-bg', 'tag / status', 'Rule-dot chassis background — transparent in light, surface in dark'],
-                ['--st-chip-border', 'tag / status', 'Rule-dot chassis border — maps to --st-color-rule-accent'],
-                ['--st-chip-fg', 'tag / status', 'Rule-dot chassis text color'],
-                ['--st-chip-rubric-bg', 'tag featured', 'Pink rubric tint for first taxonomy chip on a card'],
-                ['--st-chip-rubric-border', 'tag featured', 'Pink border on rubric chip'],
-                ['--st-chip-rubric-fg', 'tag featured', 'Maroon text on rubric chip'],
-              ].map(([token, variant, role]) => (
-                <tr key={token}>
-                  <td style={s.tdMono}>{token}</td>
-                  <td style={{ ...s.td, fontFamily: 'var(--st-font-family-mono)', fontSize: '0.72rem', color: 'var(--st-color-neutral-500)' }}>{variant}</td>
-                  <td style={s.td}>{role}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p style={{ ...s.prose, color: 'var(--st-color-text-muted)' }}>
-          To override chip color, pass <code style={s.code}>color="seafoam"</code> (named preset) or <code style={s.code}>colorHex="#6d28d9"</code> (arbitrary hex). Both inject <code style={s.code}>--chip-color</code> and the <code style={s.code}>color-mix()</code> formulas do the rest.
-        </p>
       </DocSection>
 
       <AiGeneratedFooter />

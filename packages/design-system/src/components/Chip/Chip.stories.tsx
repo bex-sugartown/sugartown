@@ -18,14 +18,14 @@ const meta: Meta<typeof Chip> = {
     variant:   {
       control: { type: 'select' },
       options: ['tag', 'status'],
-      description: 'Rule-dot variant. `tag` = neutral mono box. `status` = semantic dot (dot colour driven by `status` prop; dot hidden when `status` is null).',
+      description: '`tag` = neutral gray chassis, no dot, no active state. `status` = uppercase bold badge chassis (planned rename: `"badge"`). When `variant="status"`: dot shown if `color` has a value; no dot if `color` is null.',
       table: { order: 1 },
     },
-    status:    { control: { type: 'select' }, table: { order: 2 } },
+    status:    { control: { type: 'select' }, description: '**Deprecated.** Named lifecycle dot tokens (evergreen, draft, etc.). Use `color` instead.', table: { order: 2 } },
     featured:  { control: 'boolean' },
     isActive:  {
       control: 'boolean',
-      description: 'Active / selected state — solid accent fill, white label. Has no effect when `color` or `colorHex` is set; the accent fill reflects the `color` value instead.',
+      description: 'Active / selected state — solid accent fill, white label. Only applies to default chips (no `variant`). When `color` is set the fill reflects that color.',
     },
     color:     { control: { type: 'select' } },
     // Hidden — internal / advanced props not needed in the controls panel
@@ -63,38 +63,15 @@ export const TagFeatured: Story = {
   args: { label: 'Design Systems', variant: 'tag', featured: true },
 };
 
-/** Status chip — evergreen (solid/stable content, no planned revision) */
-export const StatusEvergreen: Story = {
-  args: { label: 'Evergreen', variant: 'status', status: 'evergreen' },
+/** Badge (no dot) — variant="status" with no color or status prop */
+export const BadgeNoDot: Story = {
+  name: 'Badge — No Dot',
+  args: { label: 'In Review', variant: 'status' },
 };
 
-/** Status chip — validated (evidence-backed, peer reviewed) */
-export const StatusValidated: Story = {
-  args: { label: 'Validated', variant: 'status', status: 'validated' },
-};
-
-/** Status chip — exploring (hypothesis, early signal) */
-export const StatusExploring: Story = {
-  args: { label: 'Exploring', variant: 'status', status: 'exploring' },
-};
-
-/** Status chip — active (in use / in-progress work) */
-export const StatusActive: Story = {
-  args: { label: 'Active', variant: 'status', status: 'active' },
-};
-
-/** Status chip — draft (not yet published or in review) */
-export const StatusDraft: Story = {
-  args: { label: 'Draft', variant: 'status', status: 'draft' },
-};
-
-/** Status chip — deprecated (superseded or retired) */
-export const StatusDeprecated: Story = {
-  args: { label: 'Deprecated', variant: 'status', status: 'deprecated' },
-};
-
-/** Status chip with color override — color prop drives dot when variant="status" */
+/** Badge with color dot — color prop drives dot color */
 export const StatusColorOverride: Story = {
+  name: 'Badge — Color Dot',
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
       <Chip label="Seafoam"  variant="status" color="seafoam" />
@@ -123,16 +100,6 @@ export const AllStatusStates: Story = {
 };
 
 // ─── dotColor mode — project chips (SUG-118) ─────────────────────────────────
-
-/** Project chip with inline hex dot — Pink Moon project */
-export const ProjectPinkMoon: Story = {
-  args: { label: 'Pink Moon', dotColor: '#ff247d' },
-};
-
-/** Project chip — Mini-repo */
-export const ProjectMiniRepo: Story = {
-  args: { label: 'Mini-repo', dotColor: '#2bd4aa' },
-};
 
 /** All project dotColor variants */
 export const AllProjectColors: Story = {
