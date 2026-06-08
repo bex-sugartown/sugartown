@@ -1,6 +1,8 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Chip } from './Chip';
+// @ts-ignore — @sb-helpers alias is resolved by Storybook's viteFinal; not in tsconfig
+import { ChipGuidelinesPage } from '@sb-helpers/ChipDocs';
 
 const meta: Meta<typeof Chip> = {
   title: 'Components/Chip',
@@ -164,5 +166,13 @@ export const Snapshot: Story = {
       </div>
     </div>
   ),
+};
+
+// ─── Guidelines ───────────────────────────────────────────────────────────────
+
+export const Guidelines: Story = {
+  name: 'Guidelines',
+  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true } },
+  render: () => <ChipGuidelinesPage />,
 };
 

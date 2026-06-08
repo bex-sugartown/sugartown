@@ -15,7 +15,7 @@ const THUMB_RAIL = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126
 const meta: Meta<typeof Card> = {
   title: 'Components/Card/Listing',
   component: Card,
-  tags: ['autodocs'],
+  tags: ['!autodocs'],
   parameters: { layout: 'padded' },
   decorators: [
     (Story) => (

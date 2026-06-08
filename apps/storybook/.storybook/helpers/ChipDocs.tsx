@@ -1,5 +1,4 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
 import {
   DocSection,
   DoDontGrid, DoGroup, DontGroup, DoItem, DontItem,
@@ -7,7 +6,7 @@ import {
   A11yItem,
   docStyles as s,
   AiGeneratedFooter,
-} from '../helpers/docs';
+} from './docs';
 
 // ── Inline chip replicas ──────────────────────────────────────────────────────
 // These replicate the Chip CSS visually — no component imports from apps/web/.
@@ -65,7 +64,7 @@ function ChipStrip({ chips }: { chips: Array<{ style: React.CSSProperties; label
   );
 }
 
-function ChipGuidelinesPage() {
+export function ChipGuidelinesPage() {
   return (
     <div style={s.page}>
 
@@ -222,16 +221,3 @@ function ChipGuidelinesPage() {
     </div>
   );
 }
-
-// ── Storybook meta ────────────────────────────────────────────────────────────
-
-const meta: Meta = {
-  title: 'Components/Chip',
-  component: ChipGuidelinesPage,
-  // !autodocs prevents this file from conflicting with Chip.stories.tsx autodocs page
-  tags: ['!autodocs'],
-  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true } },
-};
-export default meta;
-type Story = StoryObj;
-export const Guidelines: Story = {};
