@@ -440,6 +440,57 @@ All AI-drafted content (copy, descriptions, alt text, commit messages, doc prose
 
 ---
 
+## DS Documentation Authoring — Pre-Authoring Gates (blocking)
+
+Full rules and rationale: `docs/conventions/usage-doc-style-guide.md`.
+
+### Gate 1 — API stability (hard stop)
+
+Before writing any section of a Guidelines helper or usage doc beyond Overview:
+
+- Is the component's prop API frozen for this release cycle? No pending renames, no deprecated props without confirmed replacements, no open decisions about adding or removing props?
+
+If **no**: write the Overview section only. Mark detail sections `<!-- PENDING: API not frozen -->`. Do not write Usage Guidelines, Accessibility, or Token sections until the API is stable.
+
+A doc written during an API redesign will contradict itself within the same session. See SUG-152 Chip docs failure.
+
+### Gate 2 — Template lock (hard stop before any content)
+
+Before writing content for a component doc, present a structure table and wait for explicit sign-off:
+
+| Section | Applicable? | Scope (one sentence) |
+|---------|-------------|----------------------|
+| Overview | Yes | … |
+| Usage Guidelines | Yes/No | … |
+| Accessibility | Yes/No | … |
+| Design Tokens | Yes/No | … |
+
+Wait for "yes", "looks good", or equivalent before writing section content.
+
+### Gate 3 — Framework-agnostic constraint
+
+Component docs describe prop API and visual behaviour only. Do not reference:
+- Sanity field names (`project.colorHex`, `colorHex` as a CMS field)
+- Schema type names or document types
+- CMS lifecycle vocabulary (draft, published, versioned)
+
+Use the **prop name**, not the data source. `dotColor` is a component concern. `project.colorHex` is a data concern — exclude it.
+
+### Section dependency map
+
+When writing a new component helper (`helpers/*Docs.tsx`), add a comment block at the top of the component function declaring cross-section fact dependencies. Update it when any referenced section changes:
+
+```tsx
+// Section dependencies:
+// Overview lists the four modes → Usage Guidelines §Tag and §Badge must match exactly
+// Usage Guidelines §dot rule → Accessibility §color-not-only-signal must reference it
+// Design Tokens table → Overview deprecation callout must reference the same token names
+```
+
+When the Overview is updated, treat this map as a checklist — every downstream section that references the same fact must be reviewed in the same edit.
+
+---
+
 ## Schema Conventions
 
 Full schema authoring rules are in `docs/conventions/schema-conventions.md`. Key rules enforced here:

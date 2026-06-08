@@ -72,6 +72,113 @@ Bullets only. Link to WCAG criterion by number if applicable.
 - **Uncertainty markers** — "TBD", "we might want to", "this could be extended". If it's not decided, don't document it.
 - **Repeated headings from other docs** — if a rule is already in `CLAUDE.md` or another usage doc, link to it, don't restate it.
 - **Internal rationale** — "we chose this because of a session on 2026-06-02". The rule stands on its own.
+- **Data layer references** — field names, schema type names, Sanity document types, CMS lifecycle vocabulary. Docs describe component prop API and visual behaviour only. `project.colorHex` is a data concern; `dotColor` is a component concern. Use the prop name, not the data source.
+
+---
+
+## Pre-authoring gates (hard stops)
+
+Before writing any section of a usage doc, run these checks in order:
+
+### Gate 1 — API stability
+
+Is the component's prop API frozen for this release cycle? Specifically:
+- No pending renames (`variant="status"` → `variant="badge"`)
+- No props marked deprecated without a confirmed replacement
+- No open decisions about adding or removing props
+
+If any answer is **no**: write the Overview section only. Mark detail sections `<!-- PENDING: API not frozen -->`. Do not write Usage Guidelines, Accessibility, or Token sections until the API is stable.
+
+A doc written during an API redesign will contradict itself within the same session.
+
+### Gate 2 — Template lock
+
+Before writing content for a component doc, the structure must be approved:
+- Section titles and order confirmed
+- What each section will cover (one sentence per section)
+- Which sections are applicable vs. omitted
+
+Present this as a brief table and wait for explicit sign-off before writing content. This is the doc equivalent of a Phase 0 mock — structure first, content second.
+
+| Section | Applicable? | Scope (one sentence) |
+|---------|-------------|----------------------|
+| Overview | Yes | Four modes and when to choose each |
+| Usage Guidelines | Yes | Per-mode rules with visual examples |
+| Accessibility | Yes | Button/link/span semantics |
+| Design Tokens | Yes | Token → visual output mapping |
+
+### Gate 3 — Section dependency map
+
+Before writing any section, identify which facts it shares with other sections. Write this at the top of the file as a comment block:
+
+```tsx
+// Section dependencies:
+// Overview lists the four modes → Usage Guidelines §Tag and §Badge must match exactly
+// Usage Guidelines §dot rule → Accessibility §color-not-only-signal must reference it
+// Design Tokens table → Overview deprecation callout must reference the same token names
+```
+
+When the Overview is updated, treat this map as a checklist. Every downstream section that references the same fact must be reviewed in the same edit.
+
+---
+
+## Documentation surface architecture
+
+Storybook stories are good for live examples and interactive controls. They are a poor medium for design rationale and cross-component rules.
+
+**Rule:** separate the surface by content type.
+
+| Content type | Surface | Location |
+|---|---|---|
+| Live component examples | Storybook story | `*.stories.tsx` |
+| Interactive controls / API reference | Storybook autodocs | `*.stories.tsx` argTypes |
+| Component rules + usage guidance | Storybook Guidelines story | `helpers/*Docs.tsx` via `@sb-helpers` |
+| Cross-component / system rules | Markdown convention doc | `docs/conventions/*.md` |
+| Foundational layout/token contracts | Storybook Foundations/ | `apps/storybook/.storybook/stories/*.stories.tsx` |
+
+A Guidelines story in Storybook is a lightweight wrapper around the `helpers/*Docs.tsx` component. The source of truth is the helper file, not the story. This means:
+- The rule can be read without opening Storybook
+- The rule can be version-controlled and diffed in plain text
+- The rule can be linked from CLAUDE.md, commit messages, and epic docs
+
+If a rule is only discoverable in Storybook, it is not discoverable enough.
+
+---
+
+## DS documentation tooling — options evaluated
+
+As of v0.26.12, the monorepo uses Storybook as its only documentation surface for component-level guidance. The following options were evaluated for expanding coverage:
+
+### Option A — Storybook + structured Guidelines stories (current path)
+One `helpers/*Docs.tsx` helper per component. Four fixed sections: Overview, Usage, Accessibility, Tokens. Incomplete sections render a `<!-- PENDING -->` placeholder instead of stale content. The helper file is the source of truth; the Guidelines story wraps it.
+
+**Best for:** component-level API rules, live visual examples.
+**Weak for:** cross-component rules, rationale prose, system-level architecture decisions.
+**Status:** in use. Formalise the section dependency map and API stability gate.
+
+### Option B — docs/conventions/ markdown (already in use for CLAUDE.md + style guides)
+Plain markdown in `docs/conventions/`. Machine-readable, searchable, diffable. No live examples.
+
+**Best for:** system-level rules, cross-component decisions, CLAUDE.md supplements.
+**Weak for:** visual examples, interactive demos.
+**Status:** in use. Extend to cover component rules that span multiple stories (e.g. chip taxonomy, card composition rules).
+
+### Option C — Claude-generated API docs via MCP/scripts
+A build-time script reads component source (`*.tsx`, `*.module.css`, `tokens.json`) and generates a `docs/generated/` markdown file per component: props table, token usage, CSS variable inventory. Human edits the rationale layer; the script keeps the API layer current on each build.
+
+**Best for:** keeping prop tables and token inventories accurate as the component evolves.
+**Weak for:** design rationale, usage examples.
+**Status:** not implemented. Viable with existing Claude/MCP tooling. Add to backlog when component count justifies the maintenance overhead.
+
+### Option D — Zeroheight / Supernova
+Design-system-specific platforms that bridge Figma tokens → code → docs. Require Figma component parity first (SUG-109 is a prerequisite).
+
+**Best for:** stakeholder-facing DS showcasing, design-to-code token sync.
+**Weak for:** developer-facing rules, monorepo-embedded workflow.
+**Status:** deferred until Figma parity exists (SUG-109).
+
+### Recommended path
+**A + B together.** Storybook Guidelines stories for component-level examples. `docs/conventions/` markdown for system-level rules. CLAUDE.md links to both. When component count warrants it, add Option C for automated API doc generation.
 
 ---
 

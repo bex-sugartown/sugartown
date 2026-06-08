@@ -2,6 +2,21 @@
  * Usage doc template — copy this file, rename it, delete this comment block.
  * Style guide: docs/conventions/usage-doc-style-guide.md
  *
+ * PRE-AUTHORING GATES (run in order before writing any section):
+ *   Gate 1 — API stability: prop API must be frozen. If not, write Overview only.
+ *             Mark detail sections <!-- PENDING: API not frozen --> until stable.
+ *   Gate 2 — Template lock: present the section table below, wait for sign-off.
+ *   Gate 3 — Framework-agnostic: no Sanity field names, no CMS lifecycle vocab.
+ *             Use prop names (dotColor), not data-source names (project.colorHex).
+ *
+ * TEMPLATE LOCK TABLE (fill in, present to user before writing content):
+ *   | Section          | Applicable? | Scope (one sentence) |
+ *   |------------------|-------------|----------------------|
+ *   | Overview         | Yes         |                      |
+ *   | Usage Guidelines | Yes/No      |                      |
+ *   | Accessibility    | Yes/No      |                      |
+ *   | Design Tokens    | Yes/No      |                      |
+ *
  * Sections (in order):
  *   1. Title + one-liner      (required)
  *   2. The rule               (required)
@@ -39,6 +54,11 @@ const s = {
 
 // ─── Page component ──────────────────────────────────────────────────────────
 // Replace <ConventionName> with the actual name.
+//
+// Section dependencies (fill in before writing content — update when Overview changes):
+// Overview lists [modes/states/rules] → Usage Guidelines §[section] must match exactly
+// Usage Guidelines §[rule] → Accessibility §[criterion] must reference it
+// Design Tokens table → Overview [callout/list] must reference the same token names
 function ConventionNamePage() {
   return (
     <div style={s.page}>
