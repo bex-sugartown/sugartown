@@ -178,8 +178,8 @@ CSS surface: `apps/web/src/pages/pages.module.css` `.entityFolio`, `.folioIdenti
 ### Phase 3 — Chip / Tag Taxonomy ✅
 - [x] Propose topic angle and live preview approach
 - [x] **Pause for review**
-- [x] Write `ChipTaxonomy.stories.tsx`
-- [x] Commit: `docs(storybook): SUG-152 Phase 3 — Chip/Tag Taxonomy usage doc`
+- [x] Write `ChipDocs.stories.tsx` (shipped as `ChipDocs` not `ChipTaxonomy`; `tags: ['!autodocs']` prevents autodocs conflict with `Chip.stories.tsx`)
+- [x] Commit: `fix(sug-152): resolve Chip autodocs strobing — add !autodocs tag to ChipDocs story`
 
 **Topic brief:**  
 Title: Chip / Tag Taxonomy  
@@ -443,7 +443,7 @@ N/A.
 **Storybook — Format A (pure narrative `.stories.tsx`):**
 - `apps/storybook/.storybook/stories/SectionSpacing.stories.tsx` — CREATE (Phase 1)
 - `apps/storybook/.storybook/stories/EntityFolio.stories.tsx` — CREATE (Phase 2)
-- `apps/storybook/.storybook/stories/ChipTaxonomy.stories.tsx` — CREATE (Phase 3)
+- `apps/storybook/.storybook/stories/ChipDocs.stories.tsx` — CREATE (Phase 3)
 - `apps/storybook/.storybook/stories/CardComposition.stories.tsx` — CREATE (Phase 4)
 - `apps/storybook/.storybook/stories/Breakpoints.stories.tsx` — CREATE (Phase 5)
 - `apps/storybook/.storybook/stories/TokenLayers.stories.tsx` — CREATE (Phase 6)
