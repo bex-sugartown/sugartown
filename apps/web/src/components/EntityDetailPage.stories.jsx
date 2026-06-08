@@ -21,6 +21,7 @@ import React from 'react'
  *   /projects/:slug  → ProjectDetailPage.jsx
  */
 import { MemoryRouter } from 'react-router-dom'
+import { EntityDetailPageDocsPage } from '../../../../apps/storybook/.storybook/stories/EntityDetailPageDocs.stories'
 import { Grid, SectionLabel, Breadcrumb, PageHeader, Avatar } from '../design-system'
 import MetadataCard from './MetadataCard'
 import ContentCard from './ContentCard'
@@ -148,4 +149,16 @@ export const ProjectDetail = {
       ]}
     />
   ),
+}
+
+// ─── Guidelines ───────────────────────────────────────────────────────────────
+
+export const Guidelines = {
+  name: 'Guidelines',
+  parameters: {
+    layout: 'padded',
+    controls: { disable: true },
+    actions: { disable: true },
+  },
+  render: () => <EntityDetailPageDocsPage />,
 }
