@@ -13,7 +13,7 @@ import { Card } from './Card';
 const THUMB_RAIL = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=96&h=120&fit=crop';
 
 const meta: Meta<typeof Card> = {
-  title: 'Components/Card/Listing',
+  title: 'Components/CardListing',
   component: Card,
   tags: ['!autodocs'],
   parameters: { layout: 'padded' },
