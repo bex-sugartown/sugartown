@@ -315,7 +315,8 @@ export const nodeBySlugQuery = `
           style
         },
         "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style },
-        showStatRail
+        showStatRail,
+        showMetaFinePrint
       },
       _type == "textSection" => {
         heading,
@@ -514,7 +515,8 @@ export const articleBySlugQuery = `
           style
         },
         "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style },
-        showStatRail
+        showStatRail,
+        showMetaFinePrint
       },
       _type == "textSection" => {
         heading,
@@ -694,7 +696,8 @@ export const pageBySlugQuery = `
           "openInNewTab": link.openInNewTab,
           style
         },
-        showStatRail
+        showStatRail,
+        showMetaFinePrint
       },
       _type == "textSection" => {
         heading,
@@ -812,6 +815,7 @@ export const pageBySlugQuery = `
       },
     },
     publishedAt,
+    updatedAt,
     authors[]->{${PERSON_FRAGMENT}},
     aiDisclosure,
     "tools": tools[]->{${TOOL_FRAGMENT}},
@@ -946,7 +950,8 @@ export const caseStudyBySlugQuery = `
         imageWidth,
         backgroundImage { asset->, alt, crop, hotspot },
         "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style },
-        showStatRail
+        showStatRail,
+        showMetaFinePrint
       },
       _type == "ctaSection" => {
         heading,

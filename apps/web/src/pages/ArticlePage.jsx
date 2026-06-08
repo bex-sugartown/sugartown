@@ -90,7 +90,7 @@ export default function ArticlePage() {
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(post, siteSettings)} />
-      {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: post.publishedAt, status: post.status, readingTime: post.readingTime }} />}
+      {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: post.publishedAt, updatedAt: post.updatedAt, status: post.status, readingTime: post.readingTime }} />}
       <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
 
         <MetadataCard

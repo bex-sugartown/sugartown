@@ -84,6 +84,13 @@ export default defineType({
       initialValue: false,
     }),
     defineField({
+      name: 'showMetaFinePrint',
+      title: 'Show Publication Date',
+      type: 'boolean',
+      description: 'Display published date (and updated date if different) as fine print below the hero. Pulls from document metadata automatically.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'ctas',
       title: 'Call to Action Buttons',
       type: 'array',

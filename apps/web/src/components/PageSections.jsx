@@ -178,7 +178,7 @@ function StatRail() {
 
 // Hero Section Component
 function HeroSection({ section }) {
-  const { heading, subheading, eyebrow, imageTreatment, backgroundImage, ctas, imageWidth, showStatRail } = section
+  const { heading, subheading, eyebrow, imageTreatment, backgroundImage, ctas, imageWidth, showStatRail, showMetaFinePrint } = section
   const backgroundStyles = {}
   const hasImage = backgroundImage?.asset
 
@@ -268,14 +268,20 @@ function HeroSection({ section }) {
       {eyebrow && <span className={styles.heroEyebrow}>{eyebrow}</span>}
       {heading && <h1 className={styles.heroHeading}>{heading}</h1>}
       {subheading && <p className={styles.heroSubheading}>{subheading}</p>}
-      {showPanel && section._meta && (
-        <p className={styles.heroMeta}>
-          {section._meta.date && new Date(section._meta.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-          {section._meta.date && section._meta.status && ' · '}
-          {section._meta.status}
-          {section._meta.readingTime && ` · ${section._meta.readingTime} min read`}
-        </p>
-      )}
+      {showMetaFinePrint && section._meta && (() => {
+        const meta = section._meta
+        const published = meta.date ? new Date(meta.date) : null
+        const updated = meta.updatedAt ? new Date(meta.updatedAt) : null
+        const showUpdated = updated && published && (updated - published) > 86400000
+        return (
+          <p className={styles.heroMeta}>
+            {published && `Published ${published.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`}
+            {showUpdated && ` · Updated ${updated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}`}
+            {meta.status && ` · ${meta.status}`}
+            {meta.readingTime && ` · ${meta.readingTime} min read`}
+          </p>
+        )
+      })()}
       {(primary || secondary || tertiary) && (
         <ButtonGroup align="center" className={styles.heroActions}>
           {primary && (

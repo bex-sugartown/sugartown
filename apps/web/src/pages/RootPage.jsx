@@ -14,6 +14,7 @@ import SeoHead from '../components/SeoHead'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
 import PageSidebar, { hasSidebarContent } from '../components/PageSidebar'
+import { CitationNote, CitationZone } from '../design-system'
 import Form from '../components/Form'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
@@ -62,25 +63,23 @@ export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
     )
   }
 
-  // Thin mono-caps eyebrow strip replaces MetadataCard on page-type docs.
-  // Format: "PLATFORM · UPDATED APR 2026" (page-type slug · month year).
-  const pageTypeLabel = slug ? slug.replace(/-/g, ' ').toUpperCase() : null
-  const updatedLabel = page.publishedAt
+  // Eyebrow strip: only shows date (when hero doesn't) and draft badge.
+  // Slug-derived label removed — redundant with hero eyebrow field.
+  const heroShowsDate = leadHero?.showMetaFinePrint
+  const updatedLabel = !heroShowsDate && page.publishedAt
     ? new Date(page.publishedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()
     : null
-  const hasEyebrow = pageTypeLabel || updatedLabel || hasDraft
+  const hasEyebrow = updatedLabel || hasDraft
 
   return (
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(page, siteSettings)} />
-      {leadHero && !hideSidebar && <PageSections sections={[leadHero]} />}
-      <div className={styles.detailPage} data-has-margin={showMargin || undefined} data-no-sidebar={hideSidebar || undefined}>
+      {leadHero && !hideSidebar && <PageSections sections={[leadHero]} docMeta={{ date: page.publishedAt, updatedAt: page.updatedAt }} />}
+      <div className={styles.detailPage} data-has-margin={showMargin || undefined} data-no-sidebar={hideSidebar || undefined} style={showMargin ? { '--sidebar-row': hasEyebrow ? 2 : 1 } : undefined}>
 
         {hasEyebrow && (
           <div className={styles.pageEyebrow}>
             <span className={styles.pageEyebrowText}>
-              {pageTypeLabel}
-              {pageTypeLabel && updatedLabel && <span aria-hidden> · </span>}
               {updatedLabel && <>UPDATED {updatedLabel}</>}
             </span>
             <DraftBadge docId={page._id} hasDraft={hasDraft} />
@@ -89,6 +88,21 @@ export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
 
         {restSections.length > 0 && (
           <PageSections sections={restSections} context="detail" />
+        )}
+
+        {page.citations?.length > 0 && (
+          <div className={styles.detailPageFullSpan}>
+            <CitationZone>
+              {page.citations.map((cite, i) => (
+                <CitationNote key={cite._key ?? i} index={i + 1}>
+                  {cite.text}
+                  {cite.url && (
+                    <> <a href={cite.url} target="_blank" rel="noopener noreferrer">{cite.label || cite.url}</a></>
+                  )}
+                </CitationNote>
+              ))}
+            </CitationZone>
+          </div>
         )}
 
         {!hideSidebar && (

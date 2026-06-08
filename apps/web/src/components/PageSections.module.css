@@ -171,6 +171,10 @@
   opacity: 1;
 }
 
+.heroImageless .heroMeta {
+  color: var(--st-color-text-secondary);
+}
+
 /* ── Hero text glow / shadow — readability over images ───────────── */
 /* Base shadow for all image heroes; glow subclasses override below */
 .heroWithImage .heroEyebrow {
