@@ -31,7 +31,7 @@ function LinkedInIcon({ size = 24, color = 'currentColor', className, ...props }
     </svg>
   )
 }
-import { Grid, SectionLabel, Breadcrumb, Avatar } from '../design-system'
+import { Grid, SectionLabel, Breadcrumb, Avatar, Chip } from '../design-system'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
@@ -192,15 +192,11 @@ export default function PersonProfilePage() {
           <div className={styles.expertiseHead}>Expertise</div>
           <div className={styles.expertiseChips}>
             {person.expertise.map((item, i) => (
-              item.slug ? (
-                <Link key={i} to={getCanonicalPath({ docType: 'category', slug: item.slug })} className={styles.expertiseChip}>
-                  {item.name ?? item}
-                </Link>
-              ) : (
-                <span key={i} className={styles.expertiseChip}>
-                  {item.name ?? item}
-                </span>
-              )
+              <Chip
+                key={i}
+                label={item.name ?? item}
+                href={item.slug ? getCanonicalPath({ docType: 'category', slug: item.slug }) : undefined}
+              />
             ))}
           </div>
         </section>
