@@ -24,12 +24,27 @@ This epic creates a living inventory of archive page patterns so that:
 
 For each archive/listing page in `apps/web/src/pages/`:
 
-| Page | Route | File |
-|------|-------|------|
-| Articles archive | `/articles` | `ArticlesArchivePage.jsx` |
-| Case studies archive | `/case-studies` | `CaseStudiesArchivePage.jsx` |
-| Knowledge graph archive | `/knowledge-graph` | `KnowledgeGraphArchivePage.jsx` |
-| Taxonomy archives | `/tags`, `/categories`, `/tools`, `/people`, `/projects` | `TaxonomyArchivePage.jsx` |
+| Page | Route | File | Storybook story |
+|------|-------|------|-----------------|
+| Articles archive | `/articles` | `ArticlesArchivePage.jsx` | `Pages/ArchivePage — Articles Archive` ✓ |
+| Case studies archive | `/case-studies` | `CaseStudiesArchivePage.jsx` | `Pages/ArchivePage — Case Studies Archive` ✓ |
+| Knowledge graph archive | `/knowledge-graph` | `KnowledgeGraphArchivePage.jsx` | `Pages/ArchivePage — Nodes Archive` ✓ |
+| Library (multi-type) | `/library` | `LibraryArchivePage.jsx` | `Pages/ArchivePage — Library Archive` ✓ |
+| Taxonomy archives | `/tags`, `/categories`, `/tools`, `/people`, `/projects` | `TaxonomyArchivePage.jsx` | `Pages/TaxonomyArchivePage` ✓ |
+
+**Shared masthead pattern:** All archive and taxonomy pages use `PageHeader` (`Patterns/PageHeader` ✓) — implemented in `apps/web/src/design-system/components/PageHeader/`. The `Pages/*` stories are the full-page integration view; `Patterns/PageHeader` is the isolated component view with all prop variants.
+
+**H1 italic/roman rule** — `Foundations/Typography Conventions` (`--default`) is the canonical reference. Summary:
+
+| Surface | H1 style | `PageHeader` prop | Old CSS class (pre-PageHeader) |
+|---------|----------|-------------------|-------------------------------|
+| Archive mastheads (Library, Articles, Nodes, etc.) | Italic | `italic={true}` | `.archiveHeading.archiveHeadingItalic` |
+| Person folio | Italic | `italic={true}` | `.narrativeHeading.narrativeHeadingItalic` |
+| Tag / category folio | Roman | `italic={false}` (default) | `.archiveHeading` |
+| Project / tool folio | Roman | `italic={false}` (default) | `.narrativeHeading` |
+| Hero (articles, nodes, editorial, homepage) | Roman | n/a — Hero component, not PageHeader | `Hero .heading` |
+
+Decision rule: italic = the page is a named, curated space with a voice (archives, person). Roman = catalogue entry or editorial proclamation.
 
 For each page, document:
 1. DS components used (Grid, Card, Chip, ContentCard, SectionLabel, etc.) — with props
