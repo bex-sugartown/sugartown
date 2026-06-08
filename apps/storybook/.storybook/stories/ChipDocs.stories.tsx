@@ -246,10 +246,10 @@ function ChipTaxonomyPage() {
 // ── Storybook meta ────────────────────────────────────────────────────────────
 
 const meta: Meta = {
-  title: 'Foundations/Chip Taxonomy',
+  title: 'Components/Chip',
   component: ChipTaxonomyPage,
   parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true } },
 };
 export default meta;
 type Story = StoryObj;
-export const Default: Story = {};
+export const Guidelines: Story = {};
