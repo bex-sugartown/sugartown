@@ -7,6 +7,7 @@ import {
   A11yItem,
   TokenGroup, TokenRow,
   docStyles,
+  AiGeneratedFooter,
 } from '../helpers/docs';
 
 const s: Record<string, React.CSSProperties> = {
@@ -128,6 +129,8 @@ function SectionSpacingPage() {
           Never hard-code these values. Every detail page spacing decision resolves through one of these tokens.
         </p>
       </DocSection>
+
+      <AiGeneratedFooter />
 
     </div>
   );

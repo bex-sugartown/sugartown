@@ -39,6 +39,7 @@ import {
   ChangelogEntry,
   ChangelogItem,
   docStyles,
+  AiGeneratedFooter,
 } from '../../../../../../apps/storybook/.storybook/helpers/docs'
 
 // ─── Shared decorator ────────────────────────────────────────────────────────
@@ -521,6 +522,9 @@ function PageHeaderGuidelinesPage() {
           <ChangelogItem>Tint mechanism uses CSS color-mix at 10% over --st-color-bg-surface.</ChangelogItem>
         </ChangelogEntry>
       </DocSection>
+
+      <AiGeneratedFooter />
+
     </div>
   )
 }

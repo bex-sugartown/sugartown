@@ -16,6 +16,7 @@
  */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { AiGeneratedFooter } from '../helpers/docs';
 
 // ─── Shared style object ─────────────────────────────────────────────────────
 // Extend this as needed. All colours via var(--st-*) tokens — no hex values.
@@ -122,6 +123,8 @@ function ConventionNamePage() {
       <ul style={{ paddingLeft: '1.25rem', lineHeight: 2 }}>
         <li>Bullet-only. Link to WCAG criterion if applicable.</li>
       </ul>
+
+      <AiGeneratedFooter />
 
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { AiGeneratedFooter } from '../helpers/docs';
 
 const s = {
   page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px' } as React.CSSProperties,
@@ -151,6 +152,8 @@ function TypographyConventionsPage() {
         <li>If it is a platform, project, tool, tag, or any catalogue item → use <code style={s.code}>.narrativeHeading</code> alone.</li>
         <li>If it is an archive masthead → use <code style={s.code}>.archiveHeading.archiveHeadingItalic</code>.</li>
       </ul>
+
+      <AiGeneratedFooter />
 
     </div>
   );

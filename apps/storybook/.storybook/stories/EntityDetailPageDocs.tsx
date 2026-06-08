@@ -6,6 +6,7 @@ import {
   A11yItem,
   TokenGroup, TokenRow,
   docStyles,
+  AiGeneratedFooter,
 } from '../helpers/docs';
 
 const s: Record<string, React.CSSProperties> = {
@@ -188,6 +189,8 @@ export function EntityDetailPageDocsPage() {
           <TokenRow token="--st-space-sidebar-gap" value="2.5rem" role="Column gap between prose and sidebar" />
         </TokenGroup>
       </DocSection>
+
+      <AiGeneratedFooter />
 
     </div>
   );
