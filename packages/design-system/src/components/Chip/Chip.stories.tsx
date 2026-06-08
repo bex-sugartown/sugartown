@@ -93,6 +93,20 @@ export const StatusDeprecated: Story = {
   args: { label: 'Deprecated', variant: 'status', status: 'deprecated' },
 };
 
+/** Status chip with color override — color prop drives dot when variant="status" */
+export const StatusColorOverride: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+      <Chip label="Seafoam"  variant="status" color="seafoam" />
+      <Chip label="Violet"   variant="status" color="violet" />
+      <Chip label="Lime"     variant="status" color="lime" />
+      <Chip label="Amber"    variant="status" color="amber" />
+      <Chip label="Overrides Evergreen" variant="status" status="evergreen" color="violet" />
+    </div>
+  ),
+  parameters: { layout: 'padded' },
+};
+
 /** All six status dot states in a row */
 export const AllStatusStates: Story = {
   render: () => (

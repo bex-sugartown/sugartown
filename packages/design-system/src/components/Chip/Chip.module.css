@@ -204,6 +204,11 @@
 .dot-draft      { background: var(--st-chip-dot-draft); }
 .dot-deprecated { background: var(--st-chip-dot-deprecated); }
 
+/* color prop overrides dot color on variant="status" chips */
+.colorDot .dot {
+  background: var(--_chip-color);
+}
+
 /* ── dotColor mode — project chip (inline hex via --chip-dot) ─
    Activates when dotColor prop is passed. Same neutral chassis as
    ruleDot but dot color comes from Sanity project.colorHex inline.
