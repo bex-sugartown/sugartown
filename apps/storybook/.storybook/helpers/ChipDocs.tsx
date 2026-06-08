@@ -71,21 +71,23 @@ export function ChipGuidelinesPage() {
       <h1 style={{ fontFamily: 'var(--st-font-family-narrative)', fontSize: '2.25rem', fontWeight: 600, marginBottom: '0.25rem' }}>
         Chip / Tag Taxonomy
       </h1>
-      <p style={s.prose}>Which Chip variant to use — default or <code style={s.code}>variant="tag"</code> — and the rule that decides.</p>
+      <p style={s.prose}>Which Chip variant to use and when — default, tag, status, or dotColor mode.</p>
 
       <DocSection n="01" title="Overview" priority="must">
         <p style={s.prose}>
-          The DS <code style={s.code}>Chip</code> component has two operating modes governed by the <code style={s.code}>variant</code> prop.
-          The correct choice is determined by one question: <strong>will the user interact with this chip to filter or navigate?</strong>
+          The DS <code style={s.code}>Chip</code> component has four operating modes. The correct choice depends on context and whether color or interactivity is needed.
         </p>
         <ul style={s.list}>
-          <OverviewItem><strong>Default (no variant)</strong> — pink color-mix surface, supports <code style={s.code}>onClick</code> and active state. Use for FilterBar chips and taxonomy links on content cards.</OverviewItem>
-          <OverviewItem><strong><code style={s.code}>variant="tag"</code></strong> — neutral rule-dot chassis, no active state. Use for read-only taxonomy labels in MetadataCard and detail page metadata strips.</OverviewItem>
-        </ul>
-        <p style={{ ...s.prose, marginTop: '0.75rem' }}>Not in scope:</p>
-        <ul style={s.list}>
-          <NotItem><code style={s.code}>variant="status"</code> — lifecycle status chips (Evergreen, Draft, Deprecated). Not a taxonomy chip. See the Component Registry for status usage.</NotItem>
-          <NotItem>dotColor mode — project color-dot chips. Passed via the <code style={s.code}>dotColor</code> prop, not <code style={s.code}>variant</code>.</NotItem>
+          <OverviewItem><strong>Default (no variant)</strong> — pink color-mix surface, supports <code style={s.code}>onClick</code> and active state. Use for FilterBar chips and taxonomy links on content cards. Override accent with <code style={s.code}>color</code> (named preset) or <code style={s.code}>colorHex</code>.</OverviewItem>
+          <OverviewItem>
+            <strong><code style={s.code}>variant="tag"</code></strong> — neutral gray rule-dot chassis, no active state. Two sub-states:
+            <ul style={{ ...s.list, marginTop: '0.375rem' }}>
+              <OverviewItem><strong>Default</strong> — gray neutral, no color. Use for read-only taxonomy labels in MetadataCard and detail page metadata strips.</OverviewItem>
+              <OverviewItem><strong><code style={s.code}>featured</code></strong> — pink rubric tint. Applied to the first taxonomy chip in a set to signal the primary category.</OverviewItem>
+            </ul>
+          </OverviewItem>
+          <OverviewItem><strong><code style={s.code}>variant="status"</code></strong> — lifecycle status chip with a semantic color dot (Evergreen, Draft, Deprecated, etc.). Dot color is driven by the <code style={s.code}>status</code> prop, or overridden by <code style={s.code}>color</code> / <code style={s.code}>colorHex</code>.</OverviewItem>
+          <OverviewItem><strong>dotColor mode</strong> — project color-dot chip. Pass a hex string via <code style={s.code}>dotColor</code> (from Sanity <code style={s.code}>project.colorHex</code>). Uses the same neutral chassis as tag/status; dot color is injected inline.</OverviewItem>
         </ul>
       </DocSection>
 
