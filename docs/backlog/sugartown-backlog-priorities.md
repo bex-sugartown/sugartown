@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-07 · v0.26.11 released · SUG-158 Storybook Documentation Template System shipped.
+> Updated 2026-06-08 · v0.26.12 released · SUG-152 DS Storybook Usage Docs (Phases 1–2) shipped; Phases 3–10 deferred.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.11 released ✅ 2026-06-07. SUG-158 Storybook Documentation Template System shipped — helpers/docs.tsx, 14-section model, PageHeader pilot, table token standardisation. Next: SUG-152 (DS Usage Docs) — Phase 9 PageHeader usage doc.
+> **⚑ Current focus:** v0.26.12 released ✅ 2026-06-08. SUG-152 DS Storybook Usage Docs (Phases 1–2) shipped — Section Spacing, Entity Detail Page; Phases 3–10 deferred pending doc framework strategy review. Chip API updated: badge rename direction, status prop + colorHex deprecated. SUG-152 on hold.
 
 ---
 
@@ -65,7 +65,7 @@
 | 3 | ~~**[SUG-142](https://linear.app/sugartown/issue/SUG-142/ai-ethics-doc-v20260601-magnifica-humanitas-update-principle-13) · AI Ethics doc v2026.06.01** — Magnifica Humanitas update; Principle 13 restore; blockquote in compactPortableText; DM Sans italic. Shipped v0.26.1.~~ | `Content` `Editorial` | ✅ Shipped |
 | 2 | ~~**[SUG-141](https://linear.app/sugartown/issue/SUG-141/ds-usage-docs-typography-conventions-h1-italic-rule-phase-n-inventory) · DS Usage Docs — Typography conventions** — H1 italic/roman rule; usage doc template + style guide; tool folio roman fix. Shipped v0.26.2.~~ | `Design System` `Content` `Documentation` | ✅ Shipped |
 | ~~1~~ | ~~**[SUG-157](https://linear.app/sugartown/issue/SUG-157/pageheader-ds-pattern-component) · PageHeader DS pattern component**~~ — Full-width identity band; italic/roman H1 rule; tint via color-mix; eyebrow removed; 6 production pages migrated. Shipped v0.26.10. Epic: `docs/shipped/SUG-157-pageheader-pattern.md`. | `Design System` `Frontend` | ✅ Shipped |
-| 1 | **[SUG-152](https://linear.app/sugartown/issue/SUG-152/ds-usage-docs-storybook-documentation-audit-and-creation-phase-n) · DS Usage Docs — Storybook audit and creation** — Phase 9 (PageHeader usage doc) is first priority, before archive/library page patterns (Phase 10). Epic: `docs/backlog/SUG-152-ds-storybook-usage-docs-audit.md`. | `Design System` `Documentation` `Storybook` | 🟢 Next |
+| ~~1~~ | ~~**[SUG-152](https://linear.app/sugartown/issue/SUG-152/ds-usage-docs-storybook-documentation-audit-and-creation-phase-n) · DS Usage Docs — Storybook audit and creation**~~ — Phases 1–2 shipped v0.26.12. Phases 3–10 deferred pending doc framework strategy. Chip API updates (badge rename direction, deprecations). Epic: `docs/backlog/SUG-152-ds-storybook-usage-docs-audit.md` (on hold). | `Design System` `Documentation` `Storybook` | ⏸ On Hold |
 | ~~2~~ | ~~**[SUG-158](https://linear.app/sugartown/issue/SUG-158) · Storybook Documentation Template System**~~ — `helpers/docs.tsx` doc components (DocSection, DoDontGrid, TokenGroup, etc.), `stories.boilerplate.tsx`, Docs/Story Template story, PageHeader pilot (14 sections), table border tokens standardised. Shipped v0.26.11. Epic: `docs/shipped/SUG-158-storybook-docs-template-system.md`. | `Design System` `Tooling` `Storybook` | ✅ Shipped |
 | 2 | **[SUG-153](https://linear.app/sugartown/issue/SUG-153/mobile-responsive-layout-sidebar-drawer-multi-column-collapse) · Mobile responsive layout — sidebar drawer** — Replace stacking appendix with slide-out drawer on multi-column pages; integrate with existing MobileNav. Phase 0 mock required. Epic: `docs/backlog/SUG-153-mobile-responsive-sidebar-drawer.md`. | `Frontend` `UX` `Design System` | 🟣 Soon |
 | ~~3~~ | ~~**[SUG-156](https://linear.app/sugartown/issue/SUG-156/library-ia-layout-audit-codify-page-templates-reform-archivelayout) · Library IA Layout Audit — reform ArchiveLayout story, fill Storybook gaps**~~ — Pages/ category introduced; ArchivePage, ContentDetailPage, EntityDetailPage, TaxonomyDetailPage, TaxonomyArchivePage stories with production-accurate layouts. Shipped v0.26.9. | `Design System` `Storybook` `Documentation` | ✅ Shipped |
