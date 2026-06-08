@@ -178,8 +178,8 @@ CSS surface: `apps/web/src/pages/pages.module.css` `.entityFolio`, `.folioIdenti
 ### Phase 3 — Chip / Tag Taxonomy ✅
 - [x] Propose topic angle and live preview approach
 - [x] **Pause for review**
-- [x] Write `ChipDocs.stories.tsx` (shipped as `ChipDocs` not `ChipTaxonomy`; `tags: ['!autodocs']` prevents autodocs conflict with `Chip.stories.tsx`)
-- [x] Commit: `fix(sug-152): resolve Chip autodocs strobing — add !autodocs tag to ChipDocs story`
+- [x] Write `ChipTaxonomy.stories.tsx`
+- [x] Commit: `docs(storybook): SUG-152 Phase 3 — Chip/Tag Taxonomy usage doc`
 
 **Topic brief:**  
 Title: Chip / Tag Taxonomy  
@@ -187,11 +187,12 @@ One-liner: Which component to use — DS Chip, Tag, or inline expertise chip —
 Rule: Chip = interactive/filterable. Tag = read-only label. `expertiseChip` = routed link chip on profile pages. Pill = deprecated alias for Chip.  
 Live preview: Three-row comparison — visual state, interactivity, use case.
 
-### Phase 4 — Card Composition Rules
-- [ ] Propose topic angle and live preview approach
-- [ ] **Pause for review**
-- [ ] Write `CardComposition.stories.tsx`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 4 — Card Composition Rules usage doc`
+### Phase 4 — Card Composition Rules ✅
+- [x] Propose topic angle and live preview approach
+- [x] **Pause for review**
+- [x] Add to Components/Card (Guidelines story in Card.stories.tsx via @sb-helpers/CardComposition)
+- [x] Write `helpers/CardComposition.tsx` (shipped as helper + Guidelines export, not a standalone stories file)
+- [x] Commit: `docs(sug-152): Phase 4 — Card Composition Rules usage doc`
 
 **Topic brief:**  
 Title: Card Composition Rules  
@@ -205,6 +206,7 @@ Do/don't: do not render bare DS `Card` in archive grids — ContentCard handles 
 ### Phase 5 — Responsive Breakpoints
 - [ ] Propose topic angle and live preview approach
 - [ ] **Pause for review**
+- [ ] Add to Foundations / Breakpoints or Foundations / Layout / Breakpoints
 - [ ] Write `Breakpoints.stories.tsx`
 - [ ] Commit: `docs(storybook): SUG-152 Phase 5 — Responsive Breakpoints usage doc`
 
@@ -216,6 +218,7 @@ Rule: `860px` = table/grid collapse (minimum for prose + 2-col grid). `768px` = 
 ### Phase 6 — Semantic vs Primitive Tokens
 - [ ] Propose topic angle and live preview approach
 - [ ] **Pause for review**
+- [ ] Update Foundations/Token Reference to just "Tokens" and set up subdirs for Semantic & Primitive
 - [ ] Write `TokenLayers.stories.tsx`
 - [ ] Commit: `docs(storybook): SUG-152 Phase 6 — Token Layers usage doc`
 
@@ -443,7 +446,7 @@ N/A.
 **Storybook — Format A (pure narrative `.stories.tsx`):**
 - `apps/storybook/.storybook/stories/SectionSpacing.stories.tsx` — CREATE (Phase 1)
 - `apps/storybook/.storybook/stories/EntityFolio.stories.tsx` — CREATE (Phase 2)
-- `apps/storybook/.storybook/stories/ChipDocs.stories.tsx` — CREATE (Phase 3)
+- `apps/storybook/.storybook/stories/ChipTaxonomy.stories.tsx` — CREATE (Phase 3)
 - `apps/storybook/.storybook/stories/CardComposition.stories.tsx` — CREATE (Phase 4)
 - `apps/storybook/.storybook/stories/Breakpoints.stories.tsx` — CREATE (Phase 5)
 - `apps/storybook/.storybook/stories/TokenLayers.stories.tsx` — CREATE (Phase 6)
