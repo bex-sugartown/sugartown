@@ -175,11 +175,11 @@ Covers four rules:
 Live preview: `<Canvas of={Stories.PersonFolio} />` — all three entity variants (PersonFolio, ToolFolio, ProjectFolio) as individual stories in the story list.  
 CSS surface: `apps/web/src/pages/pages.module.css` `.entityFolio`, `.folioIdentity`, `.entityThumbnail`, `.entityThumbnailFallback`, `.detailContext`
 
-### Phase 3 — Chip / Tag Taxonomy
-- [ ] Propose topic angle and live preview approach
-- [ ] **Pause for review**
-- [ ] Write `ChipTaxonomy.stories.tsx`
-- [ ] Commit: `docs(storybook): SUG-152 Phase 3 — Chip/Tag Taxonomy usage doc`
+### Phase 3 — Chip / Tag Taxonomy ✅
+- [x] Propose topic angle and live preview approach
+- [x] **Pause for review**
+- [x] Write `ChipTaxonomy.stories.tsx`
+- [x] Commit: `docs(storybook): SUG-152 Phase 3 — Chip/Tag Taxonomy usage doc`
 
 **Topic brief:**  
 Title: Chip / Tag Taxonomy  
