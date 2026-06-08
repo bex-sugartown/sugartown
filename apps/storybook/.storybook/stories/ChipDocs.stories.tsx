@@ -28,7 +28,6 @@ const chipBase: React.CSSProperties = {
   cursor: 'default',
 };
 
-// Default chip — color-mix against accent (pink)
 const chipDefault: React.CSSProperties = {
   ...chipBase,
   background: 'color-mix(in srgb, var(--st-color-accent) 18%, var(--st-color-canvas))',
@@ -36,13 +35,8 @@ const chipDefault: React.CSSProperties = {
   color: 'var(--st-color-accent)',
 };
 
-// Interactive chip — same as above but pointer cursor
-const chipInteractive: React.CSSProperties = {
-  ...chipDefault,
-  cursor: 'pointer',
-};
+const chipInteractive: React.CSSProperties = { ...chipDefault, cursor: 'pointer' };
 
-// Active state — solid accent fill
 const chipActive: React.CSSProperties = {
   ...chipBase,
   cursor: 'pointer',
@@ -51,7 +45,6 @@ const chipActive: React.CSSProperties = {
   color: 'var(--st-color-white)',
 };
 
-// Tag variant — neutral rule-dot chassis, no accent tint
 const chipTag: React.CSSProperties = {
   ...chipBase,
   background: 'var(--st-chip-bg)',
@@ -60,13 +53,7 @@ const chipTag: React.CSSProperties = {
   letterSpacing: 0,
 };
 
-// Tag + interactive
-const chipTagInteractive: React.CSSProperties = {
-  ...chipTag,
-  cursor: 'pointer',
-};
-
-// ── Demo strip ────────────────────────────────────────────────────────────────
+const chipTagInteractive: React.CSSProperties = { ...chipTag, cursor: 'pointer' };
 
 function ChipStrip({ chips }: { chips: Array<{ style: React.CSSProperties; label: string }> }) {
   return (
@@ -78,9 +65,7 @@ function ChipStrip({ chips }: { chips: Array<{ style: React.CSSProperties; label
   );
 }
 
-// ── Page component ────────────────────────────────────────────────────────────
-
-function ChipTaxonomyPage() {
+function ChipGuidelinesPage() {
   return (
     <div style={s.page}>
 
@@ -89,7 +74,6 @@ function ChipTaxonomyPage() {
       </h1>
       <p style={s.prose}>Which Chip variant to use — default or <code style={s.code}>variant="tag"</code> — and the rule that decides.</p>
 
-      {/* ── 01 Overview ─────────────────────────────────────────────────────── */}
       <DocSection n="01" title="Overview" priority="must">
         <p style={s.prose}>
           The DS <code style={s.code}>Chip</code> component has two operating modes governed by the <code style={s.code}>variant</code> prop.
@@ -106,9 +90,7 @@ function ChipTaxonomyPage() {
         </ul>
       </DocSection>
 
-      {/* ── 06 Usage Guidelines ─────────────────────────────────────────────── */}
       <DocSection n="06" title="Usage Guidelines" priority="must">
-
         <h3 style={s.h3}>Default chip — filter and navigation</h3>
         <p style={s.prose}>
           Pass <code style={s.code}>onClick</code> for FilterBar filter chips. Pass <code style={s.code}>href</code> for taxonomy links that navigate to a listing page.
@@ -126,7 +108,7 @@ function ChipTaxonomyPage() {
         <h3 style={s.h3}>Tag variant — read-only labels</h3>
         <p style={s.prose}>
           Use <code style={s.code}>variant="tag"</code> where the chip communicates a label with no user action — metadata strips, detail page taxonomy rows, profile metadata.
-          Tag chips can still accept <code style={s.code}>href</code> for passive navigation (the user can click to browse, but the chip is not a primary filter control).
+          Tag chips can still accept <code style={s.code}>href</code> for passive navigation.
         </p>
         <ChipStrip chips={[
           { style: chipTag,            label: 'Design Systems' },
@@ -180,7 +162,6 @@ function ChipTaxonomyPage() {
         </DoDontGrid>
       </DocSection>
 
-      {/* ── 07 Accessibility ────────────────────────────────────────────────── */}
       <DocSection n="07" title="Accessibility" priority="must">
         <ul style={s.a11yList}>
           <A11yItem label="Button vs link semantics">
@@ -198,10 +179,9 @@ function ChipTaxonomyPage() {
         </ul>
       </DocSection>
 
-      {/* ── 08 Design Tokens ────────────────────────────────────────────────── */}
       <DocSection n="08" title="Design Tokens" priority="must">
         <p style={{ ...s.prose, marginBottom: '1.5rem' }}>
-          The default chip derives all color from <code style={s.code}>--st-color-accent</code> via <code style={s.code}>color-mix()</code> — one token controls background, border, and text.
+          The default chip derives all color from <code style={s.code}>--st-color-accent</code> via <code style={s.code}>color-mix()</code>.
           The tag variant uses the rule-dot chassis tokens shared with status chips.
         </p>
         <div style={s.tableWrap}>
@@ -247,7 +227,9 @@ function ChipTaxonomyPage() {
 
 const meta: Meta = {
   title: 'Components/Chip',
-  component: ChipTaxonomyPage,
+  component: ChipGuidelinesPage,
+  // !autodocs prevents this file from conflicting with Chip.stories.tsx autodocs page
+  tags: ['!autodocs'],
   parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true } },
 };
 export default meta;
