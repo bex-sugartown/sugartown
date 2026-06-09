@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-09 · v0.26.13 released · SUG-159 archive page inventory + SUG-35 Phase 1 glossary system shipped.
+> Updated 2026-06-09 · v0.26.13 released · SUG-159 archive page inventory + SUG-35 Phase 1 glossary system shipped. SUG-160 added (TechTimeline component + "I Was Online Before It Was a Thing" article).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -31,6 +31,7 @@
 | 5 | ~~**[SUG-136](https://linear.app/sugartown/issue/SUG-136) · Trust Report — Recently Shipped + Mini-releases** — latestPatches from git log, recently-shipped + mini-releases renderers, SectionLabel heading, homepage migration. Shipped v0.25.8.~~ | `Design System` `Frontend` `Schema` | ✅ Shipped |
 | 4 | ~~**[SUG-116](https://linear.app/sugartown/issue/SUG-116) · Ledger Button Update — Baseline Rule, sm/md/lg sizes, Storybook snapshot** — border-top → border-bottom, 3 new rule tokens, sm/lg size prop, hover lift -3px, Snapshot story updated. Shipped v0.25.13.~~ | `Design System` | ✅ Shipped |
 | 3 | ~~**[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs, hero inheritance, scrollspy, DataTable releases, Storybook BUILD_DATE freeze. Shipped v0.23.22.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
+| 3 | **[SUG-160](https://linear.app/sugartown/issue/SUG-160/article-i-was-online-before-it-was-a-thing-techtimeline-component) · Article: I Was Online Before It Was a Thing + TechTimeline component** — TechTimeline DS component (Phase 1) + personal-history article with BBS timeline, doll computer photos, and about page updates (Phase 2). Epic: `docs/backlog/SUG-160-article-i-was-online-techtimeline.md`. | `Article` `Content` `Design System` `Frontend` | 🟢 Next |
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** ✅ Shipped. Services page outcome framing, availability signal on hero/About, case study narrative, Contact tone update. All Sanity drafts published 2026-05-01. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | ✅ Shipped |
 | 2 | **[SUG-95](https://linear.app/sugartown/issue/SUG-95) · Sanity AI Assist POC — case study field generation** ✅ Shipped v0.23.3. `@sanity/assist` installed, caseStudy exclude config deployed, `docs/conventions/ai-assist-conventions.md` written. Epic: `docs/shipped/SUG-95-sanity-ai-assist-poc-case-study-fields.md`. | `Schema` `Tooling` `AI` | ✅ Shipped |
 
