@@ -20,7 +20,7 @@ import ContentCard from '../components/ContentCard'
 import FilterStrip from '../components/FilterStrip'
 import portableTextComponents from '../lib/portableTextComponents'
 import statsJson from '../generated/stats.json'
-import { Breadcrumb } from '../design-system'
+import { Breadcrumb, PageHeader } from '../design-system'
 import styles from './SiteGraphPage.module.css'
 import pageStyles from './pages.module.css'
 
@@ -194,20 +194,19 @@ export default function SiteGraphPage() {
     <main className={pageStyles.archivePage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <header className={pageStyles.masthead}>
-        <Breadcrumb items={[{ label: 'Library', href: '/library' }]} />
-        <h1 className={`${pageStyles.archiveHeading} ${pageStyles.archiveHeadingItalic}`}>{heading}</h1>
-        {subheading && (
-          Array.isArray(subheading)
-            ? <div className={pageStyles.archiveDescription}><PortableText value={subheading} components={portableTextComponents} /></div>
-            : <p className={pageStyles.archiveDescription}>{subheading}</p>
-        )}
-        {!subheading && (
-          <p className={pageStyles.archiveDescription}>
-            A site-wide map of articles, case studies, and nodes, connected by project and category.
-          </p>
-        )}
-      </header>
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Library', href: '/library' }]} />}
+        title={heading}
+        italic
+        description={!Array.isArray(subheading)
+          ? (subheading || 'A site-wide map of articles, case studies, and nodes, connected by project and category.')
+          : undefined}
+      />
+      {subheading && Array.isArray(subheading) && (
+        <div className={pageStyles.archiveDescription}>
+          <PortableText value={subheading} components={portableTextComponents} />
+        </div>
+      )}
 
       <div className={styles.graphSection}>
       <div className={pageStyles.archiveToolbar}>

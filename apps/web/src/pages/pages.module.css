@@ -430,12 +430,7 @@
   box-sizing: border-box;
 }
 
-/* ── Shared masthead — breadcrumb + h1 italic + description ────────── */
-/* Shared by ArchivePage and SiteGraphPage */
-
-.masthead {
-  margin-bottom: 24px;
-}
+/* ── Archive section — bordered container wrapping toolbar + content ─ */
 
 /* ── Archive section — bordered container wrapping toolbar + content ─ */
 
@@ -488,18 +483,8 @@
   outline-offset: 2px;
 }
 
-.archiveHeading {
-  /* font-family inherits from globals h1-h4 narrative rule */
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: var(--st-color-text-default);
-}
-
-.archiveHeadingItalic {
-  font-style: italic;
-}
-
+/* PortableText description fallback — used when archivePage hero.subheading
+   is a PortableText array and cannot be passed to PageHeader's description prop */
 .archiveDescription {
   font-size: 1.0625rem;
   color: var(--st-color-text-default);  /* charcoal — was text-muted (#94A3B8) */

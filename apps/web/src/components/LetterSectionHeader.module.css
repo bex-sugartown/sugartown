@@ -1,0 +1,21 @@
+.root {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.glyph {
+  font-family: var(--st-font-family-narrative);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--st-color-brand-primary);
+  flex-shrink: 0;
+}
+
+.rule {
+  flex: 1;
+  height: 1px;
+  background: var(--st-color-border-subtle);
+}

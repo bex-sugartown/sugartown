@@ -1,7 +1,7 @@
 /**
  * GlossaryArchivePage — /glossary
- * Alphabetical listing of all glossaryTerm documents with A-Z jump nav,
- * category filter chips, and dl/dt/dd semantics.
+ * Alphabetical listing of all glossaryTerm documents with AlphaFilter,
+ * category filter chips (DS Chip), and dl/dt/dd semantics.
  * JSON-LD: DefinedTermSet (schema.org)
  */
 import { useMemo, useState } from 'react'
@@ -11,6 +11,8 @@ import { allGlossaryTermsQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
 import { useSanityList } from '../lib/useSanityDoc'
 import { Breadcrumb, PageHeader, Chip } from '../design-system'
+import AlphaFilter from '../components/AlphaFilter'
+import LetterSectionHeader from '../components/LetterSectionHeader'
 import SeoHead from '../components/SeoHead'
 import styles from './GlossaryPage.module.css'
 
@@ -26,6 +28,7 @@ function plainText(blocks) {
 export default function GlossaryArchivePage() {
   const { data: terms, loading } = useSanityList(allGlossaryTermsQuery)
   const [activeCategory, setActiveCategory] = useState(null)
+  const [filterLetter, setFilterLetter] = useState(null)
 
   const categories = useMemo(() => {
     const seen = new Map()
@@ -54,7 +57,11 @@ export default function GlossaryArchivePage() {
     return map
   }, [filtered])
 
-  const lettersWithTerms = new Set(Object.keys(byLetter))
+  const lettersWithTerms = useMemo(() => new Set(Object.keys(byLetter)), [byLetter])
+
+  const visibleLetters = filterLetter
+    ? ALPHABET.filter((l) => l === filterLetter && byLetter[l])
+    : ALPHABET.filter((l) => byLetter[l])
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -90,50 +97,48 @@ export default function GlossaryArchivePage() {
         {/* Category filter */}
         {categories.length > 0 && (
           <div className={styles.filterRow}>
-            <button
-              className={`${styles.filterChip}${!activeCategory ? ` ${styles.filterChipActive}` : ''}`}
+            <Chip
+              variant="tag"
+              featured={!activeCategory}
               onClick={() => setActiveCategory(null)}
             >
               All
-            </button>
+            </Chip>
             {categories.map((c) => (
-              <button
+              <Chip
                 key={c._id}
-                className={`${styles.filterChip}${activeCategory === c._id ? ` ${styles.filterChipActive}` : ''}`}
+                variant="tag"
+                featured={activeCategory === c._id}
                 onClick={() => setActiveCategory(c._id)}
               >
                 {c.name}
-              </button>
+              </Chip>
             ))}
           </div>
         )}
 
-        {/* A-Z jump nav */}
-        <nav className={styles.azNav} aria-label="Jump to letter">
-          {ALPHABET.map((letter) => (
-            <a
-              key={letter}
-              href={`#letter-${letter.toLowerCase()}`}
-              className={lettersWithTerms.has(letter) ? styles.azNavActive : styles.azNavEmpty}
-              aria-disabled={!lettersWithTerms.has(letter)}
-              onClick={!lettersWithTerms.has(letter) ? (e) => e.preventDefault() : undefined}
-            >
-              {letter}
-            </a>
-          ))}
-        </nav>
+        {/* A-Z filter */}
+        <div className={styles.alphaFilterRow}>
+          <AlphaFilter
+            activeLetters={lettersWithTerms}
+            filterLetter={filterLetter}
+            onSelect={(l) => setFilterLetter(l === filterLetter ? null : l)}
+          />
+        </div>
 
         {loading && <p className={styles.empty}>Loading…</p>}
 
         {!loading && filtered.length === 0 && (
-          <p className={styles.empty}>No terms found.</p>
+          <p className={styles.empty}>
+            {activeCategory ? 'No terms in this category.' : 'No glossary terms published yet.'}
+          </p>
         )}
 
         {/* Term groups by letter */}
         {!loading &&
-          ALPHABET.filter((l) => byLetter[l]).map((letter) => (
-            <div key={letter} className={styles.letterGroup} id={`letter-${letter.toLowerCase()}`}>
-              <div className={styles.letterAnchor}>{letter}</div>
+          visibleLetters.map((letter) => (
+            <div key={letter} className={styles.letterGroup}>
+              <LetterSectionHeader letter={letter} />
               <dl className={styles.termList}>
                 {byLetter[letter].map((term) => (
                   <div key={term._id}>

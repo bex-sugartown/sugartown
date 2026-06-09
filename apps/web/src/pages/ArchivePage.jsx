@@ -57,7 +57,7 @@ import portableTextComponents from '../lib/portableTextComponents'
 import NotFoundPage from './NotFoundPage'
 import KnowledgeGraph from '../components/KnowledgeGraph/KnowledgeGraph'
 import statsJson from '../generated/stats.json'
-import { Breadcrumb } from '../design-system'
+import { Breadcrumb, PageHeader } from '../design-system'
 import styles from './pages.module.css'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -459,17 +459,17 @@ export default function ArchivePage({ archiveSlug }) {
     <main className={styles.archivePage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <header className={styles.masthead}>
-        {archiveSlug !== 'library' && (
-          <Breadcrumb items={[{ label: 'Library', href: '/library' }]} />
-        )}
-        <h1 className={`${styles.archiveHeading} ${styles.archiveHeadingItalic}`}>{heading}<DraftBadge docId={archiveDoc._id} /></h1>
-        {subheading && (
-          Array.isArray(subheading)
-            ? <div className={styles.archiveDescription}><PortableText value={subheading} components={portableTextComponents} /></div>
-            : <p className={styles.archiveDescription}>{subheading}</p>
-        )}
-      </header>
+      <PageHeader
+        breadcrumb={archiveSlug !== 'library' ? <Breadcrumb items={[{ label: 'Library', href: '/library' }]} /> : undefined}
+        title={<>{heading}<DraftBadge docId={archiveDoc._id} /></>}
+        italic
+        description={!Array.isArray(subheading) ? (subheading || undefined) : undefined}
+      />
+      {subheading && Array.isArray(subheading) && (
+        <div className={styles.archiveDescription}>
+          <PortableText value={subheading} components={portableTextComponents} />
+        </div>
+      )}
 
       {primaryType ? (
         <ArchiveListing contentType={primaryType} archiveDoc={archiveDoc} archiveSlug={archiveSlug} />
