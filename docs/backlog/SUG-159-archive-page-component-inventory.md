@@ -1,6 +1,6 @@
 # SUG-159 — Archive Page Component Inventory
 
-**Linear Issue:** SUG-159
+**Linear Issue:** [SUG-159](https://linear.app/sugartown/issue/SUG-159/archive-page-component-inventory)
 **Status:** Backlog
 **Priority:** High
 **Depends on:** SUG-152 (DS Storybook Usage Docs), existing archive page implementations
