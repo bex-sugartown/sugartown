@@ -13,6 +13,7 @@ import CardBuilderSection from './CardBuilderSection'
 import TrustReportSection from './TrustReportSection'
 import ImageLightbox from './ImageLightbox'
 import { LinkAnnotation, DividerBlock } from './portableTextComponents'
+import GlossaryTermAnnotation from './GlossaryTermAnnotation'
 import { preprocessPortableText } from '../lib/portableTextStatsVars'
 import styles from './PageSections.module.css'
 
@@ -98,6 +99,9 @@ const portableTextComponents = {
     code: ({ children }) => <code>{children}</code>,
     citationRef: ({ value, children }) => (
       <>{children}<CitationMarker index={value?.index || 1} /></>
+    ),
+    glossaryTermRef: ({ value, children }) => (
+      <GlossaryTermAnnotation value={value}>{children}</GlossaryTermAnnotation>
     ),
   },
   types: {

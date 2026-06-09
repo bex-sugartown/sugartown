@@ -12,6 +12,7 @@ import { CodeBlock, Table, TableWrap, CitationMarker, Media } from '../design-sy
 import { LinkAnnotation, DividerBlock } from '../components/portableTextComponents'
 import ImageLightbox from '../components/ImageLightbox'
 import { urlFor } from './sanity'
+import GlossaryTermAnnotation from '../components/GlossaryTermAnnotation'
 
 import { useState, Children } from 'react'
 
@@ -104,6 +105,11 @@ const portableTextComponents = {
     // Links to the matching endnote anchor in the CitationZone.
     citationRef: ({ value, children }) => (
       <>{children}<CitationMarker index={value?.index || 1} /></>
+    ),
+    // Inline glossary term annotation — dotted underline with hover popover.
+    // term._ref resolved at GROQ time; slug available from expanded reference.
+    glossaryTermRef: ({ value, children }) => (
+      <GlossaryTermAnnotation value={value}>{children}</GlossaryTermAnnotation>
     ),
   },
   types: {

@@ -171,6 +171,16 @@ const PT_CONTENT_PROJECTION = `[] {
       ...,
       "internalType": internalRef->_type,
       "internalSlug": internalRef->slug.current
+    },
+    _type == "glossaryTermRef" => {
+      ...,
+      "term": term->{
+        _id,
+        term,
+        abbreviation,
+        "slug": slug.current,
+        "definitionPreview": definition[0..0]
+      }
     }
   }
 }`
@@ -1605,5 +1615,77 @@ export const latestNodeQuery = `
     "slug": slug.current,
     publishedAt,
     "category": categories[0]->{ "title": name, "slug": slug.current }
+  }
+`
+
+// ─── GLOSSARY QUERIES (SUG-35) ──────────────────────────────────────────────
+
+/**
+ * GLOSSARY_TERM_FRAGMENT
+ * Compact projection for glossary term references in popovers and chips.
+ */
+export const GLOSSARY_TERM_FRAGMENT = `
+  _id,
+  term,
+  abbreviation,
+  "slug": slug.current,
+  "definitionPreview": definition[0..0]
+`
+
+/**
+ * allGlossaryTermsQuery
+ * Full archive listing — all terms ordered A-Z with short definition and categories.
+ */
+export const allGlossaryTermsQuery = `
+  *[_type == "glossaryTerm"] | order(lower(term) asc) {
+    _id,
+    term,
+    "slug": slug.current,
+    abbreviation,
+    status,
+    definition,
+    "categories": categories[]->{_id, name, "slug": slug.current}
+  }
+`
+
+/**
+ * glossaryTermBySlugQuery
+ * Full term detail — definition, extended definition, related terms/content, back-refs.
+ */
+export const glossaryTermBySlugQuery = `
+  *[_type == "glossaryTerm" && slug.current == $slug][0] {
+    _id,
+    term,
+    "slug": slug.current,
+    abbreviation,
+    pronunciation,
+    status,
+    definition,
+    extendedDefinition,
+    "categories": categories[]->{_id, name, "slug": slug.current},
+    "relatedTerms": relatedTerms[]-> {
+      _id, _type,
+      "label": select(_type == "glossaryTerm" => term, name),
+      "slug": slug.current
+    },
+    "relatedContent": relatedContent[]-> {
+      _id, _type,
+      "title": select(
+        _type == "glossaryTerm" => term,
+        _type in ["tag","category","tool","person","project"] => name,
+        title
+      ),
+      "slug": slug.current
+    },
+    sources,
+    "usedIn": *[
+      _type in ["article", "caseStudy", "node", "page"]
+      && references(^._id)
+    ] | order(coalesce(title, term, name) asc) [0..20] {
+      _id, _type,
+      "title": coalesce(title, term, name),
+      "slug": slug.current
+    },
+    ${SEO_FRAGMENT}
   }
 `

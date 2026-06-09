@@ -55,6 +55,7 @@ const TYPE_NAMESPACES = {
   article: 'articles',
   caseStudy: 'case-studies',
   node: 'nodes',
+  glossaryTerm: 'glossary',
 }
 
 function getCanonicalPath({ docType, slug }) {

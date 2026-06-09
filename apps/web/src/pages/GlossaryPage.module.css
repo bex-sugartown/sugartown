@@ -1,0 +1,461 @@
+/* ── Glossary Archive ─────────────────────────────────────────────────── */
+.archivePage {
+  width: 100%;
+}
+
+.filterRow {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.filterChip {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--st-color-border-default);
+  background: transparent;
+  color: var(--st-color-text-muted);
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.filterChip:hover {
+  color: var(--st-color-text-default);
+  border-color: var(--st-color-text-default);
+}
+
+.filterChipActive {
+  color: var(--st-color-brand-primary);
+  border-color: var(--st-color-brand-primary);
+}
+
+/* A-Z jump nav */
+.azNav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--st-color-border-default);
+  margin-bottom: 2rem;
+}
+
+.azNav a {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid transparent;
+  transition: all 0.15s;
+  line-height: 1.6;
+}
+
+.azNavActive {
+  color: var(--st-color-text-default);
+}
+
+.azNavActive:hover {
+  border-color: var(--st-color-text-default);
+  text-decoration: none;
+}
+
+.azNavEmpty {
+  color: var(--st-color-text-muted);
+  pointer-events: none;
+}
+
+/* Letter groups */
+.letterGroup {
+  margin-bottom: 2.5rem;
+}
+
+.letterAnchor {
+  font-family: var(--st-font-narrative);
+  font-size: 2.25rem;
+  font-weight: 600;
+  color: var(--st-color-brand-primary);
+  border-bottom: 2px solid var(--st-color-brand-primary);
+  display: inline-block;
+  padding-bottom: 0.1rem;
+  margin-bottom: 0.75rem;
+  line-height: 1;
+}
+
+.termList {
+  display: flex;
+  flex-direction: column;
+}
+
+.termDt {
+  padding: 0.9rem 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.termLink {
+  font-family: var(--st-font-narrative);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--st-color-text-default);
+  text-decoration: none;
+}
+
+.termLink:hover {
+  color: var(--st-color-brand-primary);
+}
+
+.termDd {
+  font-size: 0.9rem;
+  color: var(--st-color-text-muted);
+  line-height: 1.65;
+  padding: 0.3rem 0 0.9rem;
+  border-bottom: 1px solid var(--st-color-border-default);
+  margin: 0;
+}
+
+.termDd a {
+  color: var(--st-color-text-muted);
+  text-decoration: underline dotted;
+}
+
+/* Abbreviation badge */
+.termAbbr {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--st-color-text-brand);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid rgba(185, 28, 104, 0.30);
+  padding: 0.1rem 0.4rem;
+  background: var(--st-color-accent-soft);
+  vertical-align: middle;
+}
+
+.empty {
+  color: var(--st-color-text-muted);
+  font-size: 0.9rem;
+}
+
+/* ── Glossary Term Detail ─────────────────────────────────────────────── */
+.termPage {
+  width: 100%;
+}
+
+.termWrap {
+  max-width: 760px;
+}
+
+.termHero {
+  padding: 3rem 0 1.5rem;
+}
+
+.termEyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.termTitle {
+  font-family: var(--st-font-narrative);
+  font-size: 2.75rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--st-color-text-default);
+  margin-bottom: 0.5rem;
+}
+
+.termPronunciation {
+  display: block;
+  font-family: var(--st-font-family-mono);
+  font-size: 0.75rem;
+  color: var(--st-color-text-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 1.25rem;
+}
+
+.termDefinition {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: var(--st-color-text-default);
+  max-width: 640px;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid var(--st-color-brand-primary);
+  padding-left: 1.25rem;
+}
+
+.termExtended {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--st-color-text-secondary);
+  margin-bottom: 2rem;
+  max-width: 640px;
+}
+
+/* Meta grid — Related terms / Used in / Sources */
+.termMetaGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--st-color-border-default);
+  border-bottom: 1px solid var(--st-color-border-default);
+  margin: 2rem 0;
+}
+
+@media (max-width: 600px) {
+  .termMetaGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.termMetaSection {}
+
+.metaHeading {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.relatedChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+/* Related term chips — st-chip--tag style via local class */
+.relatedChip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--st-font-family-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--st-color-border-default);
+  color: var(--st-color-text-muted);
+  text-decoration: none;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.relatedChip:hover {
+  color: var(--st-color-brand-primary);
+  border-color: var(--st-color-brand-primary);
+  text-decoration: none;
+}
+
+.usedInList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.usedInList li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.usedInList a {
+  color: var(--st-color-text-default);
+  text-decoration: none;
+}
+
+.usedInList a:hover {
+  color: var(--st-color-brand-primary);
+}
+
+.docTypeBadge {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--st-color-border-default);
+  color: var(--st-color-text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sourcesList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.sourcesList li {
+  font-size: 0.8rem;
+  color: var(--st-color-text-muted);
+}
+
+.sourcesList a {
+  color: var(--st-color-text-muted);
+  text-decoration: underline;
+}
+
+.sourcesList a:hover {
+  color: var(--st-color-brand-primary);
+}
+
+.termBack {
+  margin-bottom: 3rem;
+}
+
+.backLink {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.backLink:hover {
+  color: var(--st-color-brand-primary);
+}
+
+/* ── Glossary annotation — inline PT mark ─────────────────────────────── */
+.glossaryLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: var(--st-color-text-muted);
+  text-underline-offset: 3px;
+  cursor: help;
+  position: relative;
+}
+
+.glossaryLink:hover {
+  text-decoration-color: var(--st-color-text-default);
+}
+
+dfn.glossaryLink {
+  font-style: normal;
+}
+
+/* Hover popover */
+.glossaryPopover {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--st-color-bg-surface);
+  border: 1px solid var(--st-color-border-default);
+  box-shadow: var(--st-shadow-card-light);
+  padding: 0.875rem 1rem;
+  width: 280px;
+  z-index: 300;
+  display: none;
+  pointer-events: auto;
+}
+
+/* Caret — clip-path avoids Safari sub-pixel artefact (per design recommendation) */
+.glossaryPopover::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 6px;
+  background: var(--st-color-border-default);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.glossaryPopover::before {
+  content: '';
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 5px;
+  background: var(--st-color-bg-surface);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  z-index: 1;
+}
+
+.glossaryLink:hover .glossaryPopover,
+.glossaryLink:focus-within .glossaryPopover {
+  display: block;
+}
+
+@media (pointer: coarse) {
+  .glossaryLink {
+    cursor: pointer;
+  }
+
+  .glossaryLink .glossaryPopover {
+    display: none !important;
+  }
+}
+
+.popoverTerm {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: var(--st-font-narrative);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--st-color-text-default);
+  margin-bottom: 0.375rem;
+}
+
+.popoverAbbr {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.55rem;
+  font-weight: 600;
+  color: var(--st-color-text-brand);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid rgba(185, 28, 104, 0.30);
+  padding: 0.05rem 0.3rem;
+  background: var(--st-color-accent-soft);
+}
+
+.popoverDefinition {
+  display: block;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: var(--st-color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.popoverLink {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--st-color-brand-primary);
+  text-decoration: none;
+}
+
+.popoverLink:hover {
+  text-decoration: underline;
+}

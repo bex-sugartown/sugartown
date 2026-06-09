@@ -34,6 +34,8 @@ import SectionShowcasePage from './pages/platform/SectionShowcasePage'
 import SitemapPage from './pages/SitemapPage'
 import TablesDevPage from './pages/dev/TablesDevPage'
 import NotFoundPage from './pages/NotFoundPage'
+import GlossaryArchivePage from './pages/GlossaryArchivePage'
+import GlossaryTermPage from './pages/GlossaryTermPage'
 
 import './App.css'
 
@@ -122,6 +124,10 @@ function App() {
 
         {/* /library — unified archive of articles, nodes, and case studies (SUG-138) */}
         <Route path="/library" element={<ArchivePage archiveSlug="library" />} />
+
+        {/* /glossary — term definitions, controlled vocabulary (SUG-35) */}
+        <Route path="/glossary" element={<GlossaryArchivePage />} />
+        <Route path="/glossary/:slug" element={<GlossaryTermPage />} />
 
         {/* /knowledge-graph — site-wide cross-type graph (SUG-81 Phase 3) */}
         <Route path="/knowledge-graph" element={<SiteGraphPage />} />

@@ -30,7 +30,16 @@ export const TYPE_NAMESPACES = {
   caseStudy: 'case-studies',
   node: 'nodes',
   series: 'series',
+  glossaryTerm: 'glossary',
   // "page" has no prefix — it resolves at root: /:slug
+}
+
+/**
+ * GLOSSARY_ROUTES — canonical paths for the /glossary section.
+ * All glossary links must be built from these constants or getCanonicalPath().
+ */
+export const GLOSSARY_ROUTES = {
+  root: '/glossary',
 }
 
 /**
