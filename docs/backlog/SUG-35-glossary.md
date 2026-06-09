@@ -1,7 +1,7 @@
 # Glossary: Term Definitions, Inline Annotations & Glossary Page
 
 **Linear Issue:** [SUG-35](https://linear.app/sugartown/issue/SUG-35/glossary-term-definitions-inline-annotations-and-glossary-page)
-**Status:** Backlog
+**Status:** In Progress (Phase 1 shipped v0.26.13 — Phase 2 next)
 **Priority:** Low (post-launch, high editorial value)
 **Date logged:** 2026-03-26
 
@@ -306,22 +306,26 @@ This creates a visual hierarchy of reference types within body content — exact
 
 ## Phased Delivery
 
-### Phase 0 — Taxonomy Definition Upgrade (pre-glossary, independent value)
-- Rename `description` → `definition` on `tag`, `tool`, and `category` schemas
-- Change field type from `text` to `summaryPortableText`
-- Migration script: convert existing plain-text strings → single-block PT
-- Update Studio field labels + help text to "Definition — reader-facing explanation"
-- Render definitions on taxonomy detail pages (`/tags/:slug`, `/tools/:slug`, `/categories/:slug`)
-- _This phase delivers value independently — taxonomy pages get richer even if Phase 1 is deferred_
+### Phase 0 — Taxonomy Definition Upgrade _(deferred — not blocking Phase 1)_
 
-### Phase 1 — Schema + Archive Page (foundation)
-- `glossaryTerm` document type in Studio
-- GROQ queries + fragments
-- `/glossary` archive page with A-Z nav
-- `/glossary/:slug` term detail page
-- Route registration in App.jsx + routes.js
-- DefinedTerm/DefinedTermSet JSON-LD
-- Seed 10-15 foundational terms (bootstrap from upgraded taxonomy definitions)
+> **Decision (2026-06-09):** Phase 0 was scoped as a pre-glossary taxonomy upgrade but was not needed to ship Phase 1. Deferred indefinitely — taxonomy `description` fields remain plain text for now.
+
+### Phase 1 — Schema + Archive Page ✅ Shipped v0.26.13 (2026-06-09)
+
+- [x] `glossaryTerm` document type in Studio
+- [x] GROQ queries + fragments
+- [x] `/glossary` archive page with A-Z filter nav
+- [x] `/glossary/:slug` term detail page
+- [x] Route registration in App.jsx + routes.js
+- [x] DefinedTerm/DefinedTermSet JSON-LD
+- [ ] Seed 10-15 foundational terms — **pending: no `glossaryTerm` docs in Sanity yet**
+
+**Reuse consolidation (added to Phase 1 during SUG-159, 2026-06-09):**
+- [x] `AlphaFilter` replaces custom `.azNav` — **filter mode** (hides other letters), not jump-scroll anchors as originally specced. Decision: consistent with tags page pattern, simpler.
+- [x] DS `Chip` with `featured` prop replaces custom `.filterChip` / `.filterChipActive` for category filter row
+- [x] `LetterSectionHeader` new shared component (`components/LetterSectionHeader.jsx`) replaces `.letterAnchor` inline div
+- [x] `PageHeader` replaces raw `<header>` masthead on `ArchivePage.jsx` and `SiteGraphPage.jsx` — dead `.masthead` / `.archiveHeading` / `.archiveHeadingItalic` CSS removed from `pages.module.css`
+- [x] `archivePageWide` CSS class applied to glossary (full-width layout at `--st-width-detail-wide`)
 
 ### Phase 2 — Inline Annotations (the magic)
 - `glossaryTermRef` PT annotation in Studio
