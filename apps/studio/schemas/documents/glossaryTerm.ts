@@ -19,6 +19,12 @@ export default defineType({
   title: 'Glossary Term',
   type: 'document',
   icon: BookIcon,
+  groups: [
+    {name: 'all', title: 'All', default: true},
+    {name: 'basics', title: 'Basics'},
+    {name: 'profile', title: 'Profile'},
+    {name: 'seo', title: 'SEO'},
+  ],
   fields: [
     defineField({
       name: 'term',
@@ -26,6 +32,7 @@ export default defineType({
       type: 'string',
       description: 'The defined term (max 80 characters)',
       validation: (Rule) => Rule.required().max(80).error('Term is required and must be under 80 characters'),
+      group: ['all', 'basics'],
     }),
     defineField({
       name: 'slug',
@@ -37,6 +44,7 @@ export default defineType({
         maxLength: 96,
       },
       validation: (Rule) => Rule.required().error('Slug is required'),
+      group: ['all', 'basics'],
     }),
     defineField({
       name: 'abbreviation',
@@ -44,12 +52,14 @@ export default defineType({
       type: 'string',
       description: 'If the term is an abbreviation or acronym (e.g. "CMS" for Content Management System)',
       validation: (Rule) => Rule.max(20),
+      group: ['all', 'basics'],
     }),
     defineField({
       name: 'pronunciation',
       title: 'Pronunciation',
       type: 'string',
       description: 'IPA or phonetic pronunciation (optional)',
+      group: ['all', 'basics'],
     }),
     defineField({
       name: 'status',
@@ -65,6 +75,7 @@ export default defineType({
         layout: 'radio',
       },
       initialValue: 'evergreen',
+      group: ['all', 'basics'],
     }),
     defineField({
       name: 'definition',
@@ -73,6 +84,7 @@ export default defineType({
       of: summaryPortableText,
       description: 'Concise definition (1–3 sentences). Reader-facing.',
       validation: (Rule) => Rule.required().error('Definition is required'),
+      group: ['all', 'basics'],
     }),
     defineField({
       name: 'extendedDefinition',
@@ -80,6 +92,7 @@ export default defineType({
       type: 'array',
       of: standardPortableText,
       description: 'Optional deep-dive explanation with examples and context.',
+      group: ['all', 'basics'],
     }),
     defineField({
       name: 'categories',
@@ -87,6 +100,7 @@ export default defineType({
       type: 'array',
       of: [{type: 'reference', to: [{type: 'category'}]}],
       description: 'Topical grouping for glossary archive filtering',
+      group: ['all', 'profile'],
     }),
     defineField({
       name: 'relatedTerms',
@@ -99,6 +113,7 @@ export default defineType({
         {name: 'toolRef', type: 'reference', to: [{type: 'tool'}]},
       ],
       description: '"See also" cross-references. Links to other glossary terms, tags, categories, or tools that share vocabulary with this term.',
+      group: ['all', 'profile'],
     }),
     defineField({
       name: 'relatedContent',
@@ -114,6 +129,7 @@ export default defineType({
         {name: 'toolContentRef', type: 'reference', to: [{type: 'tool'}]},
       ],
       description: 'Manually curated content that uses or exemplifies this term.',
+      group: ['all', 'profile'],
     }),
     defineField({
       name: 'sources',
@@ -133,11 +149,13 @@ export default defineType({
         }),
       ],
       description: 'Attribution for the definition',
+      group: ['all', 'profile'],
     }),
     defineField({
       name: 'seo',
       title: 'SEO',
       type: 'seoMetadata',
+      group: ['all', 'seo'],
     }),
   ],
   preview: {
