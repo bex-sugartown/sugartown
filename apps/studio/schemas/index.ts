@@ -68,6 +68,7 @@ import tool from './documents/tool'
 import project from './documents/project'
 import person from './documents/person'
 import series from './documents/series'
+import glossaryTerm from './documents/glossaryTerm'
 
 // Core Content (New)
 import node from './documents/node'
@@ -146,6 +147,7 @@ export const schemaTypes = [
   project,
   person,
   series,
+  glossaryTerm,
 
   // Documents - Core Content (New)
   node,

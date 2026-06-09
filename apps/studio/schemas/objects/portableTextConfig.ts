@@ -1,5 +1,5 @@
 import {defineArrayMember, defineField} from 'sanity'
-import {ImageIcon, CodeIcon, ThListIcon, RemoveIcon, LinkIcon} from '@sanity/icons'
+import {ImageIcon, CodeIcon, ThListIcon, RemoveIcon, LinkIcon, BookIcon} from '@sanity/icons'
 
 /**
  * Portable Text Configurations
@@ -73,7 +73,24 @@ export const summaryPortableText = [
               hidden: ({parent}) => parent?.type !== 'internal',
             }),
           ]
-        })
+        }),
+        // Inline glossary term reference — renders as dotted underline link in web frontend.
+        // Popover preview on hover (desktop); navigates to /glossary/:slug on mobile.
+        defineArrayMember({
+          name: 'glossaryTermRef',
+          type: 'object',
+          title: 'Glossary Term',
+          icon: BookIcon,
+          fields: [
+            defineField({
+              name: 'term',
+              type: 'reference',
+              to: [{type: 'glossaryTerm'}],
+              title: 'Term',
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+        }),
       ]
     }
   }),
@@ -370,7 +387,23 @@ export const standardPortableText = [
               validation: (Rule) => Rule.required().min(1)
             }
           ]
-        })
+        }),
+        // Inline glossary term reference — renders as dotted underline link with hover popover.
+        defineArrayMember({
+          name: 'glossaryTermRef',
+          type: 'object',
+          title: 'Glossary Term',
+          icon: BookIcon,
+          fields: [
+            defineField({
+              name: 'term',
+              type: 'reference',
+              to: [{type: 'glossaryTerm'}],
+              title: 'Term',
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+        }),
       ]
     }
   }),
