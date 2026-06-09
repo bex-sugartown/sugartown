@@ -51,6 +51,7 @@ export default defineConfig({
                     S.documentTypeListItem('tool').title('Tools'),
                     S.documentTypeListItem('project').title('Projects'),
                     S.documentTypeListItem('series').title('Series'),
+                    S.documentTypeListItem('glossaryTerm').title('Glossary'),
                   ])
               ),
 
