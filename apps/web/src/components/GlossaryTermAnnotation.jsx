@@ -1,39 +1,62 @@
 /**
  * GlossaryTermAnnotation — inline PT mark renderer for glossaryTermRef annotations.
  *
- * Renders as a dotted-underline link to /glossary/:slug with a hover popover
- * showing the term name, abbreviation, first definition block, and a "Read full
- * definition" link.
+ * Uses createPortal + position:fixed so the popover escapes any overflow:hidden ancestor.
+ * Hover is managed by React state (not CSS :hover) so moving the mouse into the popover
+ * keeps it open — the popover itself is fully interactive (WCAG 1.4.13: hoverable).
  *
- * WCAG 1.4.13: popover is hoverable and dismissible via Escape / blur.
- * Mobile (@media pointer: coarse): tap navigates to /glossary/:slug, no popover.
- *
- * The `value.term` reference must be expanded in the GROQ query that fetches this
- * content. The query must project: `term->{ term, abbreviation, "slug": slug.current,
- * "definitionPreview": definition[0..0] }` onto `value.term`.
- *
- * First occurrence in a document should use <dfn> wrapper — the caller wraps
- * children in dfn when `isFirstOccurrence` is tracked at the page level (Phase 2+).
- * For now the component always renders as <span> with glossary-link treatment.
+ * WCAG 1.4.13: dismissible via Escape, persistent while pointer is over term or popover.
+ * Mobile (@media pointer: coarse): popover is suppressed; tap navigates to the term page.
  */
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
 import styles from '../pages/GlossaryPage.module.css'
 
 export default function GlossaryTermAnnotation({ value, children }) {
   const termRef = value?.term
-  // dismissed: Escape key sets true; mouseenter/focus resets to false
-  const [dismissed, setDismissed] = useState(false)
+  const [shown, setShown] = useState(false)
+  const [popoverPos, setPopoverPos] = useState(null)
+  const termElRef = useRef(null)
+  const hideTimer = useRef(null)
 
-  // WCAG 1.4.13 — dismiss on Escape key when popover could be visible
+  // Escape key — WCAG 1.4.13
   useEffect(() => {
-    const onKeyDown = (e) => { if (e.key === 'Escape') setDismissed(true) }
+    if (!shown) return
+    const onKeyDown = (e) => { if (e.key === 'Escape') setShown(false) }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
+  }, [shown])
+
+  // Close on scroll so fixed popover doesn't drift from its term
+  useEffect(() => {
+    if (!shown) return
+    const onScroll = () => setShown(false)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [shown])
+
+  const scheduleHide = useCallback(() => {
+    hideTimer.current = setTimeout(() => setShown(false), 100)
   }, [])
 
-  // Graceful fallback: if term ref wasn't resolved in GROQ, render plain text
+  const cancelHide = useCallback(() => {
+    clearTimeout(hideTimer.current)
+  }, [])
+
+  const handleShow = useCallback(() => {
+    cancelHide()
+    if (termElRef.current) {
+      const rect = termElRef.current.getBoundingClientRect()
+      setPopoverPos({
+        left: rect.left + rect.width / 2,
+        top: rect.top,
+      })
+    }
+    setShown(true)
+  }, [cancelHide])
+
   if (!termRef?.slug) return <>{children}</>
 
   const href = getCanonicalPath({ docType: 'glossaryTerm', slug: termRef.slug })
@@ -41,35 +64,52 @@ export default function GlossaryTermAnnotation({ value, children }) {
   const plainPreview = preview
     ? preview.map((b) => b.children?.map((s) => s.text).join('')).join(' ')
     : null
-
-  // First occurrence in the document uses <dfn> for semantic markup
   const Wrapper = value?._firstOccurrence ? 'dfn' : 'span'
 
   return (
-    <Wrapper
-      className={styles.glossaryLink}
-      tabIndex={0}
-      data-dismissed={dismissed || undefined}
-      onMouseEnter={() => setDismissed(false)}
-      onFocus={() => setDismissed(false)}
-    >
-      <Link to={href} style={{ color: 'inherit', textDecoration: 'none' }}>
-        {children}
-      </Link>
-      <span className={styles.glossaryPopover} role="tooltip">
-        <span className={styles.popoverTerm}>
-          {termRef.term}
-          {termRef.abbreviation && (
-            <span className={styles.popoverAbbr}>{termRef.abbreviation}</span>
-          )}
-        </span>
-        {plainPreview && (
-          <span className={styles.popoverDefinition}>{plainPreview}</span>
-        )}
-        <Link to={href} className={styles.popoverLink}>
-          Read full definition →
+    <>
+      <Wrapper
+        ref={termElRef}
+        className={styles.glossaryLink}
+        tabIndex={0}
+        onMouseEnter={handleShow}
+        onMouseLeave={scheduleHide}
+        onFocus={handleShow}
+        onBlur={scheduleHide}
+      >
+        <Link to={href} style={{ color: 'inherit', textDecoration: 'none' }}>
+          {children}
         </Link>
-      </span>
-    </Wrapper>
+      </Wrapper>
+      {shown && popoverPos && createPortal(
+        <span
+          className={styles.glossaryPopover}
+          style={{
+            position: 'fixed',
+            left: popoverPos.left,
+            top: popoverPos.top,
+            transform: 'translate(-50%, calc(-100% - 8px))',
+            display: 'block',
+          }}
+          role="tooltip"
+          onMouseEnter={cancelHide}
+          onMouseLeave={scheduleHide}
+        >
+          <span className={styles.popoverTerm}>
+            {termRef.term}
+            {termRef.abbreviation && (
+              <span className={styles.popoverAbbr}>{termRef.abbreviation}</span>
+            )}
+          </span>
+          {plainPreview && (
+            <span className={styles.popoverDefinition}>{plainPreview}</span>
+          )}
+          <Link to={href} className={styles.popoverLink}>
+            Read full definition →
+          </Link>
+        </span>,
+        document.body
+      )}
+    </>
   )
 }

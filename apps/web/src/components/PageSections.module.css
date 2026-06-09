@@ -1247,7 +1247,7 @@
   padding-inline: 0;
   padding-block: 0;
   width: 100%;
-  overflow-x: hidden;  /* prevent carousels/wide content from blowing out; y stays visible for popovers */
+  overflow: hidden;  /* prevent carousels/wide content from blowing out */
 }
 
 /* Heroes keep internal vertical padding for background image breathing

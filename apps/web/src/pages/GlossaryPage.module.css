@@ -287,18 +287,6 @@
   text-decoration-color: var(--st-color-text-muted);
   text-underline-offset: 3px;
   cursor: help;
-  position: relative;
-}
-
-/* Transparent bridge — fills the 8px gap between term and popover so hover stays active */
-.glossaryLink::after {
-  content: '';
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  right: 0;
-  height: 8px;
-  pointer-events: auto;
 }
 
 .glossaryLink:hover {
@@ -309,23 +297,20 @@ dfn.glossaryLink {
   font-style: normal;
 }
 
-/* Hover popover */
+/* Popover — rendered via createPortal at document.body with position:fixed
+   so it escapes any overflow:hidden ancestor. display:block/none is controlled
+   by React state (shown prop) not CSS :hover. */
 .glossaryPopover {
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
   background: var(--st-color-bg-surface);
   border: 1px solid var(--st-color-border-default);
   box-shadow: var(--st-shadow-card-light);
   padding: 0.875rem 1rem;
   width: 280px;
-  z-index: 300;
-  display: none;
+  z-index: 9999;
   pointer-events: auto;
 }
 
-/* Caret — clip-path avoids Safari sub-pixel artefact (per design recommendation) */
+/* Caret — clip-path avoids Safari sub-pixel artefact */
 .glossaryPopover::after {
   content: '';
   position: absolute;
@@ -351,23 +336,9 @@ dfn.glossaryLink {
   z-index: 1;
 }
 
-.glossaryLink:hover .glossaryPopover,
-.glossaryLink:focus-within .glossaryPopover {
-  display: block;
-}
-
-/* Escape key sets data-dismissed — overrides CSS hover/focus visibility */
-.glossaryLink[data-dismissed] .glossaryPopover {
-  display: none !important;
-}
-
 @media (pointer: coarse) {
   .glossaryLink {
     cursor: pointer;
-  }
-
-  .glossaryLink .glossaryPopover {
-    display: none !important;
   }
 }
 
