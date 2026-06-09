@@ -70,7 +70,7 @@
   color: var(--st-color-text-brand);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  border: 1px solid rgba(185, 28, 104, 0.30);
+  border: 1px solid color-mix(in srgb, var(--st-color-brand-primary) 30%, transparent);
   padding: 0.1rem 0.4rem;
   background: var(--st-color-accent-soft);
   vertical-align: middle;
@@ -341,6 +341,11 @@ dfn.glossaryLink {
   display: block;
 }
 
+/* Escape key sets data-dismissed — overrides CSS hover/focus visibility */
+.glossaryLink[data-dismissed] .glossaryPopover {
+  display: none !important;
+}
+
 @media (pointer: coarse) {
   .glossaryLink {
     cursor: pointer;
@@ -369,7 +374,7 @@ dfn.glossaryLink {
   color: var(--st-color-text-brand);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: 1px solid rgba(185, 28, 104, 0.30);
+  border: 1px solid color-mix(in srgb, var(--st-color-brand-primary) 30%, transparent);
   padding: 0.05rem 0.3rem;
   background: var(--st-color-accent-soft);
 }

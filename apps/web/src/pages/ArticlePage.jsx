@@ -7,6 +7,7 @@ import { PortableText } from '@portabletext/react'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { preprocessPortableText } from '../lib/portableTextStatsVars'
 import { decodePortableText } from '../lib/htmlUtils'
+import { markGlossaryFirstOccurrences } from '../lib/glossaryFirstOccurrence'
 import { articleBySlugQuery } from '../lib/queries'
 import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -113,7 +114,7 @@ export default function ArticlePage() {
 
         {post.content && (
           <div className={styles.detailContent}>
-            <PortableText value={preprocessPortableText(decodePortableText(post.content))} components={portableTextComponents} />
+            <PortableText value={markGlossaryFirstOccurrences(preprocessPortableText(decodePortableText(post.content)))} components={portableTextComponents} />
           </div>
         )}
 

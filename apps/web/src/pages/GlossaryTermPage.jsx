@@ -31,12 +31,12 @@ function plainText(blocks) {
 
 export default function GlossaryTermPage() {
   const { slug } = useParams()
-  const { siteSettings } = useSiteSettings()
+  const siteSettings = useSiteSettings()
   const { data: term, loading, notFound } = useSanityDoc(glossaryTermBySlugQuery, { slug })
 
   if (!loading && notFound) return <NotFoundPage />
 
-  const seo = term ? resolveSeo({ doc: term, siteSettings }) : null
+  const seo = term ? resolveSeo(term, siteSettings) : null
 
   const jsonLd = term
     ? {

@@ -1,5 +1,6 @@
 import { PortableText } from '@portabletext/react'
 import { defaultRichTextComponents } from './richTextComponents.jsx'
+import { markGlossaryFirstOccurrences } from '../lib/glossaryFirstOccurrence'
 import styles from './RichText.module.css'
 
 /**
@@ -18,7 +19,7 @@ export default function RichText({ content, components }) {
   if (!content?.length) return null
   return (
     <div className={styles.richText}>
-      <PortableText value={content} components={components ?? defaultRichTextComponents} />
+      <PortableText value={markGlossaryFirstOccurrences(content)} components={components ?? defaultRichTextComponents} />
     </div>
   )
 }

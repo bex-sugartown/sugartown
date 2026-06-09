@@ -1,5 +1,6 @@
 import { Blockquote } from '../design-system'
 import { LinkAnnotation } from './portableTextComponents'
+import GlossaryTermAnnotation from './GlossaryTermAnnotation'
 import styles from './RichText.module.css'
 
 /**
@@ -19,6 +20,9 @@ export const defaultRichTextComponents = {
   marks: {
     link: ({ value, children }) => (
       <LinkAnnotation value={value} className={styles.link}>{children}</LinkAnnotation>
+    ),
+    glossaryTermRef: ({ value, children }) => (
+      <GlossaryTermAnnotation value={value}>{children}</GlossaryTermAnnotation>
     ),
     strong: ({ children }) => <strong className={styles.strong}>{children}</strong>,
     em: ({ children }) => <em>{children}</em>,
