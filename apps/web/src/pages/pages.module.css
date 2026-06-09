@@ -259,7 +259,7 @@
   font-size: var(--st-font-heading-4);
   line-height: var(--st-line-height-relaxed);
   color: var(--st-color-text-default);
-  overflow: hidden;
+  /* overflow removed — CodeBlock handles its own overflow-x: auto; this was clipping glossary popovers */
 }
 
 .detailContent h2 {
