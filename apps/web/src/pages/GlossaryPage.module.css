@@ -84,6 +84,10 @@
 /* ── Glossary Term Detail ─────────────────────────────────────────────── */
 .termPage {
   width: 100%;
+  max-width: var(--st-width-detail-wide);
+  margin: 0 auto;
+  padding: 0 var(--st-page-gutter) 5rem;
+  box-sizing: border-box;
 }
 
 .termWrap {
@@ -284,6 +288,17 @@
   text-underline-offset: 3px;
   cursor: help;
   position: relative;
+}
+
+/* Transparent bridge — fills the 8px gap between term and popover so hover stays active */
+.glossaryLink::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  height: 8px;
+  pointer-events: auto;
 }
 
 .glossaryLink:hover {
