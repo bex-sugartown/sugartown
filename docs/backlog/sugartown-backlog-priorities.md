@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-09 · v0.26.13 released · SUG-159 archive page inventory + SUG-35 Phase 1 glossary system shipped. SUG-160 added (TechTimeline component + "I Was Online Before It Was a Thing" article).
+> Updated 2026-06-10 · v0.26.13 released · SUG-159 archive page inventory + SUG-35 Phase 1 glossary system shipped. SUG-160 added (TechTimeline component + "I Was Online Before It Was a Thing" article). SUG-161 added (Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -77,6 +77,7 @@
 | 7 | ~~**[SUG-131](https://linear.app/sugartown/issue/SUG-131/aeo-technical-fundamentals-person-json-ld-metaog-audit-sitemap) · AEO Technical Fundamentals** — Person JSON-LD on /about, title/meta/OG audit on key pages, sitemap GSC confirmation, robots.txt AEO crawler check. Shipped v0.25.2.~~ | `SEO` `AEO` `Frontend` | ✅ Shipped |
 | 8 | ~~**[SUG-132](https://linear.app/sugartown/issue/SUG-132/aeo-content-pass-page-answer-leads-agentic-caucus-article-webby) · AEO Content Pass** — Direct-answer page leads on /about + homepage + /services, Agentic Caucus article, outcome-first case study rewrites, Webby citation, KG archive preamble. Shipped v0.25.3.~~ | `SEO` `AEO` `Content` `Editorial` | ✅ Shipped |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
+| 3 | **[SUG-161](https://linear.app/sugartown/issue/SUG-161/storybook-testing-infrastructure-interaction-tests-a11y-ci-gate-vitest) · Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest** — Add `.play()` interaction tests, automate a11y violation gating in CI, and wire Vitest for coverage. 3 phases, merge-as-you-go. Epic: `docs/backlog/SUG-161-storybook-testing-infrastructure.md`. | `Tooling` `Design System` `Infrastructure` | ⚪ Later |
 
 ---
 
