@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-10 · v0.26.13 released · SUG-159 archive page inventory + SUG-35 Phase 1 glossary system shipped. SUG-160 added (TechTimeline component + "I Was Online Before It Was a Thing" article). SUG-161 added (Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest).
+> Updated 2026-06-10 · v0.26.14 released · SUG-35 Glossary fully shipped (Chip DS updates + GlossaryTermPage component audit). SUG-160 added (TechTimeline component + "I Was Online Before It Was a Thing" article). SUG-161 added (Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.13 released ✅ 2026-06-09. SUG-159 archive page inventory shipped (docs/conventions/archive-page-patterns.md + ArchiveGridDocs/FilterBarDocs Overview stubs). SUG-35 Phase 1 glossary shipped (glossaryTerm schema, /glossary archive + detail pages, AlphaFilter/DS Chip/LetterSectionHeader/PageHeader consolidation). SUG-35 Phase 2 next — pending glossary term seeding in Sanity.
+> **⚑ Current focus:** v0.26.14 released ✅ 2026-06-10. SUG-35 Glossary fully shipped — Chip DS styling (tag+color mode, dark mode contrast, white-50 bg), GlossaryTermPage refactored to shared page components (pageStyles, SectionLabel, Grid, ContentCard). Epic moved to docs/shipped/. Next: SUG-160 TechTimeline or SUG-161 Storybook testing infrastructure.
 
 ---
 
@@ -124,7 +124,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 | Item | Version | Date |
 |------|---------|------|
 | ~~**SUG-159 · Archive page component inventory** — `docs/conventions/archive-page-patterns.md` covering all 5 archive surfaces (ArchivePage, TaxonomyArchivePage, GlossaryArchivePage, SiteGraphPage, stubs). ArchiveGridDocs + FilterBarDocs Overview-only Storybook stubs (Gate 1 pending API freeze). Epic: `docs/backlog/SUG-159-archive-storybook-inventory.md`.~~ | v0.26.13 | 2026-06-09 |
-| ~~**SUG-35 Phase 1 · Glossary system** — `glossaryTerm` schema + `/glossary` archive + `/glossary/:slug` detail pages + `glossaryTermRef` PT annotation with hover popover. Reuse consolidation: AlphaFilter replaces `.azNav`, DS Chip replaces `.filterChip`, `LetterSectionHeader` shared component, PageHeader on ArchivePage + SiteGraphPage (dead masthead CSS removed). Epic: `docs/backlog/SUG-35-glossary.md` (Phase 2 in-progress).~~ | v0.26.13 | 2026-06-09 |
+| ~~**SUG-35 · Glossary system** — `glossaryTerm` schema + `/glossary` archive + `/glossary/:slug` detail pages + `glossaryTermRef` PT annotation with hover popover. Chip DS: tag+color mode, dark mode contrast, white-50 bg. GlossaryTermPage refactored to shared page components. Epic: `docs/shipped/SUG-35-glossary.md`.~~ | v0.26.14 | 2026-06-10 |
 | ~~**SUG-158 · Storybook Documentation Template System** — `helpers/docs.tsx` doc components, `stories.boilerplate.tsx`, Docs/Story Template story, PageHeader pilot (14 sections), table border tokens standardised (`--st-table-cell-border` neutral-300, `--st-table-wrap-border` on DS Table). Epic: `docs/shipped/SUG-158-storybook-docs-template-system.md`.~~ | v0.26.11 | 2026-06-07 |
 | ~~**SUG-151 · DS Phase 5 — Schema migration, registry & audit close-out** — statTileSection → cardSection migration; IconButton + Pill + SegmentedControl stories; RichText canonical renderer; ContactForm + TwoColumnLayout deleted; registry + audit close-out across SUG-144–150. Epic: `docs/shipped/SUG-151-ds-phase-5-schema-closeout.md`.~~ | v0.26.7 | 2026-06-05 |
 | ~~**SUG-127 · Contentful + Vercel POC** — Three-phase POC: Next.js App Router + Contentful CDA + Vercel monorepo deploy. DS agnosticism proven (packaging gap found + fixed). Atomic content model (singleton, document, taxonomy, sections). Rich text adapter with DS tokens. Vendor eval: Netlify stays for Vite app, Vercel for Next.js. Epic: `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`.~~ | v0.24.2 | 2026-05-25 |
@@ -227,4 +227,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-09 · v0.26.13 released · queue: SUG-35 Phase 2 / SUG-153*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-10 · v0.26.14 released · queue: SUG-160 / SUG-161 / SUG-153*

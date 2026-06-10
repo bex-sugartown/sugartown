@@ -1,7 +1,7 @@
 # Glossary: Term Definitions, Inline Annotations & Glossary Page
 
 **Linear Issue:** [SUG-35](https://linear.app/sugartown/issue/SUG-35/glossary-term-definitions-inline-annotations-and-glossary-page)
-**Status:** In Progress (Phase 2 shipped v0.26.14 — Phase 3 next)
+**Status:** Shipped v0.26.14 (Phases 1–2 complete; Phase 3 deferred to separate epic)
 **Priority:** Low (post-launch, high editorial value)
 **Date logged:** 2026-03-26
 
