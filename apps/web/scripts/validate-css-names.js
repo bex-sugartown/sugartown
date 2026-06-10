@@ -46,12 +46,33 @@ const BLOCKED_PREFIXES = [
   { prefix: 'toolUrl', reason: 'tool-page-scoped — use entityUrl or externalLink' },
   { prefix: 'profileHeadline', reason: 'person-page-scoped — use narrativeHeading (already in pages.module.css)' },
   { prefix: 'profileShortName', reason: 'person-page-scoped — if truly bespoke, document why in the commit message' },
+  // SUG-35 post-mortem: GlossaryTermPage shipped ~9 term* classes duplicating
+  // pages.module.css + DS components. Any content-type prefix in a page module
+  // is a signal the component-reuse audit was skipped.
+  { prefix: 'term', reason: 'glossary-term-scoped — use entity*/detail* classes from pages.module.css or a DS component (see docs/conventions/detail-page-recipe.md)' },
+  { prefix: 'glossary', reason: 'glossary-scoped — use semantic pattern names or DS components' },
+  { prefix: 'node', reason: 'node-page-scoped — use entity*/detail* classes from pages.module.css' },
+  { prefix: 'article', reason: 'article-page-scoped — use entity*/detail* classes from pages.module.css' },
+  { prefix: 'caseStudy', reason: 'case-study-scoped — use entity*/detail* classes from pages.module.css' },
+  { prefix: 'series', reason: 'series-page-scoped — use entity*/detail* classes from pages.module.css' },
 ]
 
 // Classes in PAGES_DIR files that are permitted despite matching a blocked prefix.
 // Add entries here with justification when a class is intentionally bespoke.
 const KNOWN_EXCEPTIONS = new Set([
   // Example: 'alphaBtn' — kept bespoke because <reason>
+  // GlossaryPage.module.css — survivors of the SUG-35 reuse refactor. In a glossary,
+  // "term" IS the domain entity (dt/dd definition-list markup), not a call-site prefix.
+  'termList', // archive definition list wrapper
+  'termDt', // <dt> row in archive definition list
+  'termDd', // <dd> definition in archive definition list
+  'termLink', // term name link inside <dt>
+  'termAbbr', // abbreviation badge, used in archive + detail + popover
+  'termPronunciation', // IPA pronunciation line on detail page
+  'termSection', // detail page section spacing wrapper
+  'alphaFilterRow', // AlphaFilter DS component wrapper — spacing only, predates rule
+  'glossaryLink', // inline PT annotation mark — glossary IS the semantic concept
+  'glossaryPopover', // hover popover for glossary annotations
 ])
 
 // pages.module.css is exempt — it is the shared registry

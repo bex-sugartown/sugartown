@@ -80,7 +80,27 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 - [ ] **Web adapter sync scoped** — if a DS component is created or modified, the web adapter update is either (a) in scope (listed in Files to Modify), or (b) explicitly deferred to a named follow-on epic
 - [ ] **Composition overlap audit** — if this epic adds a sub-object (e.g. `linkItem`, `richImage`) to an existing schema, list all fields on the parent schema that serve the same purpose as any field on the sub-object. If overlap exists, state which field is canonical and hide/deprecate the other. Two fields that could plausibly hold the same value is a bug (see CLAUDE.md §Single Field Authority).
 - [ ] **Atomic Reuse Gate** — for every new component, schema object, CSS surface, or utility in this epic: (1) confirm no existing equivalent across all 5 layers, (2) confirm it will be consumed by >1 caller or justify single-use, (3) confirm the API is composable (children over fixed slots, tokens over hardcoded values). See CLAUDE.md §Atomic Reuse Gate.
+- [ ] **Component-Reuse Manifest** — if this epic adds any page, section, or visual surface: the manifest table below is filled in **before any JSX or CSS is written**. An epic doc without the manifest is incomplete (same severity as a missing Phase 0 mock).
 - [ ] **Component registry update** — if this epic creates, retires, or structurally changes a component: `docs/conventions/component-registry.md` is updated in the same commit. New component = new row with all health columns filled (Storybook, dark mode, DS primitive or web-only, ⚠️ gaps). Retired component = row removed or marked deprecated. This is not a post-epic cleanup step — the registry is updated at creation time, before the component ships.
+
+---
+
+## Component-Reuse Manifest [REQUIRED if epic adds any page, section, or visual surface]
+
+> One row per visual element the epic will render. Fill in BEFORE writing any JSX
+> or CSS. Detail/entity pages: start from `docs/conventions/detail-page-recipe.md` —
+> most rows are already answered there.
+>
+> "New" in the Decision column is the exception and must carry a one-sentence
+> justification. A page built without this manifest is the SUG-35 failure mode:
+> ~9 one-off `term*` patterns shipped despite every one having an existing
+> component, caught only by human audit at close-out.
+
+| Visual element | Existing component / shared class | Decision (use / extend via prop / new + why) |
+|---|---|---|
+| _e.g. page shell_ | `pageStyles.entityDetailPage` | use |
+| _e.g. related items grid_ | `Grid` + `ContentCard` | use |
+| _e.g. pronunciation line_ | none — inspected pages.module.css, DS, MetadataCard | new `.termPronunciation` — IPA metadata line, no structural equivalent |
 
 ---
 

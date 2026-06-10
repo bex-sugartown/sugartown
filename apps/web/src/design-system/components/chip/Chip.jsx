@@ -31,7 +31,20 @@ export default function Chip({
   className,
   'aria-label': ariaLabel,
   children,
+  ...rest
 }) {
+  // React silently drops unknown props — a typo like tone="active" renders a
+  // plausible-but-wrong chip with no signal (SUG-35 post-mortem). Warn in dev.
+  if (import.meta.env.DEV) {
+    const unknown = Object.keys(rest)
+    if (unknown.length > 0) {
+      console.warn(
+        `[DS Chip] Unknown prop(s): ${unknown.join(', ')}. ` +
+        `Valid props: variant, status, featured, dotColor, label, href, onClick, ` +
+        `isActive, color, colorHex, size, className, aria-label, children.`
+      )
+    }
+  }
   const isInteractive = Boolean(href || onClick)
   const isRuleDot = variant === 'status' || variant === 'tag'
   const isDotColor = Boolean(dotColor)
