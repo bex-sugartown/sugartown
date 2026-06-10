@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web component styling strategies — Pink Moon / Sugartown Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink:      #ff247d;
+    --pink-dim:  #cc1a61;
+    --seafoam:   #0f9e7b;
+    --lime:      #8aaa00;
+    --midnight:  #ffffff;
+    --void:      #f1f2f4;
+    --surface:   #f8f8fa;
+    --surface2:  #eef0f4;
+    --muted:     #7a8499;
+    --text:      #1e1e1e;
+    --text-dim:  #444a5a;
+    --border:    rgba(255,36,125,0.18);
+    --mono:      'IBM Plex Mono', monospace;
+    --sans:      'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--midnight);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 1rem;
+    line-height: 1.7;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .header-brand {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--pink);
+    text-decoration: none;
+  }
+
+  .header-tag {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 5rem 2rem 4rem;
+    max-width: 860px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--seafoam);
+    margin-bottom: 1.25rem;
+  }
+
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 span { color: var(--pink); }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    max-width: 620px;
+    margin-bottom: 2rem;
+  }
+
+  .spectrum-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .spectrum-bar {
+    height: 3px;
+    background: linear-gradient(90deg, #534AB7 0%, #1D9E75 25%, #BA7517 50%, #D4537E 75%, #64748b 100%);
+    border-radius: 2px;
+    margin-bottom: 2.5rem;
+    opacity: 0.7;
+  }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  /* ── SVG EMBED ── */
+  .diagram-wrap {
+    background: #f8f8fa;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    margin-bottom: 4rem;
+    overflow: hidden;
+  }
+
+  .diagram-wrap svg { display: block; width: 100%; }
+
+  /* SVG theme overrides */
+  .diagram-wrap svg text { font-family: var(--sans) !important; }
+  .diagram-wrap svg text.mono-label { font-family: var(--mono) !important; }
+
+  /* ── STRATEGY SECTIONS ── */
+  .strategy {
+    border-left: 2px solid var(--border);
+    padding-left: 1.75rem;
+    margin-bottom: 3.5rem;
+    position: relative;
+  }
+
+  .strategy::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--pink);
+  }
+
+  .strategy[data-n="01"]::before { background: #534AB7; }
+  .strategy[data-n="02"]::before { background: #1D9E75; }
+  .strategy[data-n="03"]::before { background: #BA7517; }
+  .strategy[data-n="04"]::before { background: #D4537E; }
+  .strategy[data-n="05"]::before { background: #64748b; }
+
+  .strategy-num {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+  }
+
+  .strategy h2 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .mechanism {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--seafoam);
+    margin-bottom: 1rem;
+  }
+
+  .strategy p {
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .pill-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .pill {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(255,36,125,0.06);
+    border: 1px solid rgba(255,36,125,0.2);
+    color: #cc1a61;
+  }
+
+  pre {
+    background: #f1f2f4;
+    border: 1px solid rgba(0,0,0,0.07);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.65;
+    color: #2d3748;
+  }
+
+  .comment { color: #9aacb8; font-style: italic; }
+  .kw  { color: #185FA5; }
+  .val { color: #0f6e56; }
+  .prop{ color: #cc1a61; }
+  .ok  { color: #0f6e56; }
+  .no  { color: #a32d2d; }
+
+  .limit-callout {
+    background: rgba(255,36,125,0.04);
+    border: 1px solid rgba(255,36,125,0.18);
+    border-radius: 8px;
+    padding: 0.9rem 1.1rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-top: 0.5rem;
+  }
+
+  .limit-callout strong {
+    color: var(--pink);
+    font-weight: 500;
+  }
+
+  /* ── DECISION TABLE ── */
+  .decision-section { margin-bottom: 4rem; }
+
+  .decision-section h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 1rem;
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 0.7rem 1rem;
+    color: var(--text-dim);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    vertical-align: top;
+  }
+
+  td:first-child { color: var(--text); }
+
+  td code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: #0f6e56;
+    background: rgba(15,110,86,0.08);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+  }
+
+  tr:hover td { background: rgba(0,0,0,0.02); }
+
+  /* ── RULES ── */
+  .rules-section { margin-bottom: 4rem; }
+
+  .rules-section h2 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 1rem;
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+  }
+
+  .rules-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .rules-list li {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 8px;
+  }
+
+  .rule-icon {
+    color: var(--pink);
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  /* ── GLOSSARY ── */
+  .glossary {
+    border-top: 1px solid var(--border);
+    padding-top: 3rem;
+    margin-bottom: 4rem;
+  }
+
+  .glossary h2 {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .glossary dl {
+    display: grid;
+    grid-template-columns: minmax(160px, 220px) 1fr;
+    gap: 0 2rem;
+  }
+
+  @media (max-width: 600px) {
+    .glossary dl { grid-template-columns: 1fr; }
+    dt { margin-bottom: 0.1rem; }
+  }
+
+  dt {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--seafoam);
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    align-self: start;
+  }
+
+  dd {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    padding: 0.9rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    line-height: 1.6;
+  }
+
+  dd code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: #cc1a61;
+    background: rgba(255,36,125,0.07);
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .footer-credit {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .footer-credit a {
+    color: #0f6e56;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(15,110,86,0.3);
+    transition: border-color 0.2s;
+  }
+
+  .footer-credit a:hover { border-color: #0f6e56; }
+
+  .footer-ds {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-align: right;
+  }
+
+  .footer-ds span { color: var(--pink); }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="header-brand" href="https://sugartown.io">Sugartown Digital</a>
+  <span class="header-tag">Pink Moon / Design System / Reference</span>
+</header>
+
+<div class="hero">
+  <p class="eyebrow">Design System Documentation</p>
+  <h1>Web component<br><span>styling strategies</span></h1>
+  <p class="hero-desc">Every web component draws a line. On one side is structure the author controls; on the other are surfaces the consumer is allowed to touch. These five strategies move that line.</p>
+  <div class="spectrum-label">
+    <span>← strictest · total encapsulation</span>
+    <span>no boundary · loosest →</span>
+  </div>
+  <div class="spectrum-bar"></div>
+</div>
+
+<main>
+
+  <!-- DIAGRAM -->
+  <div class="diagram-wrap">
+    <svg width="100%" viewBox="0 0 680 820" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>CSS Shadow DOM styling strategies spectrum</title>
+      <desc>Five web component styling strategies from strictest encapsulation to no boundary.</desc>
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#adb5c7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+        <style>
+          .st-label { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; fill: #1e1e1e; }
+          .st-sub   { font-family: 'IBM Plex Mono', monospace; font-size: 11px; fill: #444a5a; }
+          .st-mech  { font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
+          .st-code  { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; }
+          .st-dim   { font-family: 'DM Sans', sans-serif; font-size: 12px; fill: #7a8499; }
+        </style>
+      </defs>
+
+      <!-- spectrum labels -->
+      <text class="st-dim" x="40" y="28">← strictest</text>
+      <text class="st-dim" x="640" y="28" text-anchor="end">loosest →</text>
+      <rect x="40" y="36" width="600" height="2" rx="1" fill="#e1e3e6"/>
+      <circle cx="88"  cy="37" r="5" fill="#534AB7"/>
+      <circle cx="208" cy="37" r="5" fill="#1D9E75"/>
+      <circle cx="328" cy="37" r="5" fill="#BA7517"/>
+      <circle cx="448" cy="37" r="5" fill="#D4537E"/>
+      <circle cx="568" cy="37" r="5" fill="#475569"/>
+
+      <!-- 01 Locked -->
+      <rect x="40" y="60" width="600" height="120" rx="10" fill="#eeecfb" stroke="#534AB7" stroke-width="0.75" stroke-opacity="0.6"/>
+      <text class="st-label" x="66" y="88">01  Locked</text>
+      <text class="st-mech" x="66" y="106" fill="#534AB7">--nys-* vars</text>
+      <text class="st-sub" x="66" y="126">CSS custom properties only. Internals are completely sealed.</text>
+      <text class="st-sub" x="66" y="143">Good for: button, badge, checkbox, radio, tag, spinner</text>
+      <rect x="66" y="155" width="298" height="17" rx="3" fill="#ddd9f7"/>
+      <text class="st-code" x="74" y="167" fill="#3C3489">:host { --_nys-bg: var(--nys-bg, token); }</text>
+
+      <!-- arrow -->
+      <line x1="340" y1="180" x2="340" y2="196" stroke="#adb5c7" stroke-width="1" marker-end="url(#arrow)"/>
+
+      <!-- 02 Themeable -->
+      <rect x="40" y="200" width="600" height="120" rx="10" fill="#e1f5ee" stroke="#1D9E75" stroke-width="0.75" stroke-opacity="0.6"/>
+      <text class="st-label" x="66" y="228">02  Themeable</text>
+      <text class="st-mech" x="66" y="246" fill="#0f6e56">::part()</text>
+      <text class="st-sub" x="66" y="266">Author tags internals with part="name". Reaches one boundary deep.</text>
+      <text class="st-sub" x="66" y="283">Good for: tabs, accordion, select, dialog, toast</text>
+      <rect x="66" y="292" width="136" height="17" rx="3" fill="#c5eadd"/>
+      <text class="st-code" x="74" y="304" fill="#085041">✓  host::part(badge)</text>
+      <rect x="218" y="292" width="168" height="17" rx="3" fill="#fde8e8"/>
+      <text class="st-code" x="226" y="304" fill="#a32d2d">✗  host::part(tab) span</text>
+
+      <!-- arrow -->
+      <line x1="340" y1="320" x2="340" y2="336" stroke="#adb5c7" stroke-width="1" marker-end="url(#arrow)"/>
+
+      <!-- 03 Themeable + nested -->
+      <rect x="40" y="340" width="600" height="130" rx="10" fill="#fef3e2" stroke="#BA7517" stroke-width="0.75" stroke-opacity="0.6"/>
+      <text class="st-label" x="66" y="368">03  Themeable + nested</text>
+      <text class="st-mech" x="66" y="386" fill="#854F0B">exportparts</text>
+      <text class="st-sub" x="66" y="406">::part() only crosses one boundary. exportparts re-publishes a child's</text>
+      <text class="st-sub" x="66" y="423">part through the parent — two shadow roots deep.</text>
+      <text class="st-sub" x="66" y="440">Good for: alert-with-action, card-with-button, compound components</text>
+      <rect x="66" y="451" width="510" height="17" rx="3" fill="#fde8c5"/>
+      <text class="st-code" x="74" y="463" fill="#633806">exportparts="label: forwarded-label"  →  host::part(forwarded-label)</text>
+
+      <!-- arrow -->
+      <line x1="340" y1="471" x2="340" y2="487" stroke="#adb5c7" stroke-width="1" marker-end="url(#arrow)"/>
+
+      <!-- 04 Slotted -->
+      <rect x="40" y="491" width="600" height="128" rx="10" fill="#fbeaf0" stroke="#D4537E" stroke-width="0.75" stroke-opacity="0.6"/>
+      <text class="st-label" x="66" y="519">04  Slotted</text>
+      <text class="st-mech" x="66" y="537" fill="#993556">&lt;slot&gt; + light DOM</text>
+      <text class="st-sub" x="66" y="557">Consumer content stays in the light DOM, projected through named slots.</text>
+      <text class="st-sub" x="66" y="574">Normal CSS reaches any depth. ::slotted() sees top-level only.</text>
+      <text class="st-sub" x="66" y="591">Good for: card, panel, modal body, rich content wrappers</text>
+      <rect x="66" y="600" width="302" height="17" rx="3" fill="#f4c0d1"/>
+      <text class="st-code" x="74" y="612" fill="#72243e">✓  .body-content p .pill { … }  (any depth)</text>
+
+      <!-- arrow -->
+      <line x1="340" y1="619" x2="340" y2="635" stroke="#adb5c7" stroke-width="1" marker-end="url(#arrow)"/>
+
+      <!-- 05 Light DOM -->
+      <rect x="40" y="639" width="600" height="120" rx="10" fill="#f1f2f4" stroke="#888780" stroke-width="0.75" stroke-opacity="0.6"/>
+      <text class="st-label" x="66" y="667">05  Light DOM</text>
+      <text class="st-mech" x="66" y="685" fill="#5F5E5A">createRenderRoot</text>
+      <text class="st-sub" x="66" y="705">No shadow root. static styles ignored. Full page reach, zero isolation.</text>
+      <text class="st-sub" x="66" y="722">Good for: data tables, generated lists, unpredictable structures</text>
+      <rect x="66" y="731" width="278" height="17" rx="3" fill="#ddd"/>
+      <text class="st-code" x="74" y="743" fill="#444441">createRenderRoot() { return this; }</text>
+
+      <text class="st-dim" x="340" y="790" text-anchor="middle">Encapsulation decreases as you move down the chain</text>
+    </svg>
+  </div>
+
+  <!-- STRATEGIES -->
+
+  <div class="strategy" data-n="01">
+    <p class="strategy-num">01</p>
+    <h2>Locked</h2>
+    <p class="mechanism">--nys-* vars</p>
+    <p>The component seals its structure and exposes a documented list of CSS custom properties. Internally, private <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">--_nys-*</code> variables fall back through a public <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">--nys-*</code> hook to a design token. Consumers retheme through those names and cannot reach anything else.</p>
+    <div class="pill-row">
+      <span class="pill">button</span>
+      <span class="pill">badge</span>
+      <span class="pill">checkbox</span>
+      <span class="pill">radio</span>
+      <span class="pill">spinner</span>
+    </div>
+<pre><span class="comment">/* Author */</span>
+<span class="kw">:host</span> {
+  <span class="prop">--_nys-btn-bg</span>: <span class="val">var(--nys-btn-bg, var(--nys-color-theme, #1b4965))</span>;
+  <span class="prop">--_nys-btn-radius</span>: <span class="val">var(--nys-btn-radius, 6px)</span>;
+}
+<span class="kw">button</span> { <span class="prop">background</span>: <span class="val">var(--_nys-btn-bg)</span>; }
+
+<span class="comment">/* Consumer — only published hooks reach inside */</span>
+<span class="kw">nys-button.danger</span> {
+  <span class="prop">--nys-btn-bg</span>: <span class="val">#9b2226</span>;
+  <span class="prop">--nys-btn-radius</span>: <span class="val">999px</span>;
+}</pre>
+    <div class="limit-callout"><strong>Limit:</strong> Consumers can change only what you declared. Any internal node without a published variable stays sealed — which is exactly the guarantee you want for atomic controls.</div>
+  </div>
+
+  <div class="strategy" data-n="02">
+    <p class="strategy-num">02</p>
+    <h2>Themeable</h2>
+    <p class="mechanism">::part()</p>
+    <p>The author tags internal elements with a <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">part</code> attribute to publish them by name. Consumers restyle with <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">host::part(name)</code> — no knowledge of the shadow tree required. The selector stops at the parted node and will not descend further.</p>
+    <div class="pill-row">
+      <span class="pill">tabs</span>
+      <span class="pill">accordion</span>
+      <span class="pill">select</span>
+      <span class="pill">dialog</span>
+      <span class="pill">toast</span>
+    </div>
+<pre><span class="comment">/* Consumer */</span>
+<span class="kw">nys-tabs::part(badge)</span> { <span class="prop">background</span>: <span class="val">#9b2226</span>; }
+
+<span class="no">/* ✗ Does nothing — can't descend into a part's shadow children */</span>
+<span class="kw">nys-tabs::part(tab) span</span> { <span class="prop">color</span>: <span class="val">red</span>; }
+
+<span class="ok">/* ✓ Fix: give the descendant its own part attribute */</span>
+<span class="kw">nys-tabs::part(label)</span> { <span class="prop">color</span>: <span class="val">#9b2226</span>; }</pre>
+    <div class="limit-callout"><strong>Limit:</strong> <code style="font-family:var(--mono);font-size:0.78rem;color:var(--pink)">::part()</code> can't select a descendant of a part. The fix is a new <code style="font-family:var(--mono);font-size:0.78rem;color:var(--pink)">part</code> attribute on the descendant, not a fancier selector.</div>
+  </div>
+
+  <div class="strategy" data-n="03">
+    <p class="strategy-num">03</p>
+    <h2>Themeable + nested</h2>
+    <p class="mechanism">exportparts</p>
+    <p><code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">::part()</code> only crosses a single shadow boundary. When a component renders another component inside its own shadow root, the inner part is invisible from the page. <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">exportparts</code> re-publishes the child's part through the parent's boundary — optionally renaming it — so the page can reach two levels deep.</p>
+    <div class="pill-row">
+      <span class="pill">alert-with-action</span>
+      <span class="pill">card-with-button</span>
+      <span class="pill">compound components</span>
+    </div>
+<pre><span class="comment">/* Parent shadow root */</span>
+&lt;<span class="kw">nys-mini-button</span>
+  <span class="prop">exportparts</span>=<span class="val">"label: forwarded-label"</span>&gt;
+&lt;/<span class="kw">nys-mini-button</span>&gt;
+
+<span class="no">/* ✗ Raw child name doesn't cross the parent boundary */</span>
+<span class="kw">nys-alert::part(label)</span> { <span class="prop">color</span>: <span class="val">red</span>; }
+
+<span class="ok">/* ✓ Re-published name — two shadow roots deep */</span>
+<span class="kw">nys-alert::part(forwarded-label)</span> {
+  <span class="prop">color</span>: <span class="val">#9b2226</span>;
+  <span class="prop">text-decoration</span>: <span class="val">underline</span>;
+}</pre>
+    <div class="limit-callout"><strong>Limit:</strong> Forwarding is explicit, one hop at a time. Three-deep nesting means the middle component must forward again.</div>
+  </div>
+
+  <div class="strategy" data-n="04">
+    <p class="strategy-num">04</p>
+    <h2>Slotted</h2>
+    <p class="mechanism">&lt;slot&gt; + light DOM</p>
+    <p>A slotted frame keeps the consumer's content in the light DOM and projects it through named slots. Because that content never crosses the shadow boundary, the consumer styles it with completely normal CSS at any depth. <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">::slotted()</code> can set baseline styles, but only on the top-level projected node — not its children.</p>
+    <div class="pill-row">
+      <span class="pill">card</span>
+      <span class="pill">panel</span>
+      <span class="pill">modal body</span>
+      <span class="pill">rich content wrappers</span>
+    </div>
+<pre><span class="comment">/* Consumer — normal CSS, any depth */</span>
+<span class="kw">.body-content p .pill</span> { <span class="prop">background</span>: <span class="val">#e2f1e8</span>; }
+
+<span class="no">/* ✗ ::slotted() only reaches top-level projected node */</span>
+<span class="kw">::slotted([slot="body"] *)</span> { <span class="prop">color</span>: <span class="val">red</span>; }
+
+<span class="no">/* Never reparent slotted content into the shadow root */</span>
+<span class="comment">/* — you silently demote the consumer to a guest behind your wall */</span></pre>
+    <div class="limit-callout"><strong>Limit:</strong> <code style="font-family:var(--mono);font-size:0.78rem;color:var(--pink)">::slotted()</code> sees top-level projected nodes only. Descendants are out of reach — but normal page CSS isn't, because the content never left the light DOM.</div>
+  </div>
+
+  <div class="strategy" data-n="05">
+    <p class="strategy-num">05</p>
+    <h2>Light DOM</h2>
+    <p class="mechanism">createRenderRoot</p>
+    <p>Overriding <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">createRenderRoot()</code> to return <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">this</code> renders the component directly into the page DOM — no shadow root is created. <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">static styles</code> is ignored; all styling comes from the page. Full reach, zero isolation.</p>
+    <div class="pill-row">
+      <span class="pill">data tables</span>
+      <span class="pill">generated lists</span>
+      <span class="pill">grids</span>
+      <span class="pill">unpredictable structures</span>
+    </div>
+<pre><span class="kw">class</span> NysDataTable <span class="kw">extends</span> LitElement {
+  <span class="prop">createRenderRoot</span>() {
+    <span class="kw">return</span> <span class="val">this</span>; <span class="comment">// No shadow root — page CSS hits everything</span>
+  }
+}
+
+<span class="comment">/* Consumer — plain selectors, no ::part() needed */</span>
+<span class="kw">.nys-dt thead th</span> { <span class="prop">background</span>: <span class="val">#16202e</span>; }
+<span class="kw">.nys-dt tbody tr:nth-child(even)</span> { <span class="prop">background</span>: <span class="val">#faf8f2</span>; }</pre>
+    <div class="limit-callout"><strong>Limit:</strong> Nothing is scoped. Global CSS can hit these elements by accident. Acceptable only when the component emits structure no fixed set of parts could enumerate.</div>
+  </div>
+
+  <!-- DECISION TABLE -->
+  <div class="decision-section">
+    <h2>// decision guide</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>If you need...</th>
+          <th>Use</th>
+          <th>Strategy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Fixed design, no consumer theming</td>
+          <td><code>--nys-* vars</code></td>
+          <td>01 Locked</td>
+        </tr>
+        <tr>
+          <td>Consumer rethemes named pieces</td>
+          <td><code>::part()</code></td>
+          <td>02 Themeable</td>
+        </tr>
+        <tr>
+          <td>Those pieces live inside a child component</td>
+          <td><code>exportparts</code></td>
+          <td>03 Themeable + nested</td>
+        </tr>
+        <tr>
+          <td>Consumer brings their own rich content</td>
+          <td><code>&lt;slot&gt;</code></td>
+          <td>04 Slotted</td>
+        </tr>
+        <tr>
+          <td>Component generates unpredictable structure</td>
+          <td><code>createRenderRoot</code></td>
+          <td>05 Light DOM</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RULES -->
+  <div class="rules-section">
+    <h2>// key rules</h2>
+    <ul class="rules-list">
+      <li><span class="rule-icon">→</span><span>Never reparent slotted content into the shadow root. Doing so silently demotes the consumer from author of their markup to a guest behind your wall.</span></li>
+      <li><span class="rule-icon">→</span><span><code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">::part()</code> stops at the parted node. You can't descend into a part's shadow children. The fix is a new <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">part</code> attribute on the descendant, not a fancier selector.</span></li>
+      <li><span class="rule-icon">→</span><span><code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">exportparts</code> is one hop at a time. Each boundary in the chain must explicitly forward. Raw child part names do not cross the parent boundary automatically.</span></li>
+      <li><span class="rule-icon">→</span><span><code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">::slotted()</code> sees top-level projected nodes only. Descendants are out of reach via <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">::slotted()</code> — but normal page CSS isn't, because slotted content never left the light DOM.</span></li>
+      <li><span class="rule-icon">→</span><span>Light DOM removes all style isolation. Use it only when the component generates structure that no fixed set of <code style="font-family:var(--mono);color:#0f6e56;font-size:0.82rem">part</code> attributes could anticipate.</span></li>
+    </ul>
+  </div>
+
+  <!-- GLOSSARY -->
+  <div class="glossary">
+    <h2>// glossary</h2>
+    <dl>
+      <dt>shadow DOM</dt>
+      <dd>A separate, encapsulated subtree attached to a host element. Internals are hidden from the main document — normal CSS selectors and <code>document.querySelector</code> can't reach inside. Created by a web component via <code>attachShadow()</code>. The boundary it draws is the core subject of this document.</dd>
+
+      <dt>light DOM</dt>
+      <dd>The regular document tree — the HTML you write in your page. The term only means something in contrast to shadow DOM. Slotted consumer content stays here; Light DOM components render here entirely.</dd>
+
+      <dt>shadow boundary</dt>
+      <dd>The line between the host element and the shadow root. Normal CSS cannot cross it. Only <code>--custom-properties</code>, <code>::part()</code>, <code>exportparts</code>, and <code>::slotted()</code> provide controlled crossing points.</dd>
+
+      <dt>custom properties</dt>
+      <dd>CSS variables (e.g. <code>--nys-btn-bg</code>) that cross the shadow boundary by design. They "inherit" through the boundary, making them the lowest-overhead way to expose theming hooks from a sealed component.</dd>
+
+      <dt>::part()</dt>
+      <dd>A CSS pseudo-element that lets a consumer style a specific internal element the author tagged with <code>part="name"</code>. Stops at the parted node — cannot descend further into the shadow tree.</dd>
+
+      <dt>exportparts</dt>
+      <dd>An HTML attribute that re-publishes a child component's <code>part</code> names through the parent's shadow boundary, optionally renaming them. Allows styling two shadow roots deep from the page.</dd>
+
+      <dt>::slotted()</dt>
+      <dd>A pseudo-element authors use to style content projected into a slot. Can only select the top-level slotted node — not its descendants. Consumers can style slotted content's descendants with normal CSS because it never left the light DOM.</dd>
+
+      <dt>&lt;slot&gt;</dt>
+      <dd>A placeholder inside a shadow root that projects the host element's light DOM children into position. The content is displayed inside the component but remains owned by the consumer's document.</dd>
+
+      <dt>createRenderRoot()</dt>
+      <dd>A Lit lifecycle method that controls where a component renders. Overriding it to return <code>this</code> skips shadow root creation, rendering the component directly into the light DOM. <code>static styles</code> stops working; all styles come from the page.</dd>
+
+      <dt>host element</dt>
+      <dd>The custom element in the consumer's markup (e.g. <code>&lt;nys-button&gt;</code>) that owns the shadow root. Styles applied to it from outside can reach the shadow internals only through the strategies documented here.</dd>
+
+      <dt>static styles</dt>
+      <dd>A Lit class property that injects a <code>CSSStyleSheet</code> into the shadow root. Scoped to that component; invisible to the rest of the page. Has no effect when <code>createRenderRoot()</code> removes the shadow root.</dd>
+
+      <dt>web component</dt>
+      <dd>A suite of browser standards (Custom Elements, Shadow DOM, HTML Templates) that let you define reusable, encapsulated HTML elements with their own markup, styles, and behaviour.</dd>
+    </dl>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-credit">
+    Source: <a href="https://its-hcd.github.io/learn-webcomponent-style-flexibility/" target="_blank" rel="noopener">Web Component Style Flexibility</a> by <a href="https://www.linkedin.com/in/plasticmind/" target="_blank" rel="noopener">Jesse Gardner</a>.<br>
+    Built with Lit 3. All code blocks in the original are live, running demos.<br>
+    Adapted for Pink Moon design system documentation by Sugartown Digital.
+  </div>
+  <div class="footer-ds">
+    <span>Pink Moon</span> / Sugartown Digital<br>
+    packages/design-system/docs/
+  </div>
+</footer>
+
+</body>
+</html>
