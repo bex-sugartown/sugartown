@@ -1,7 +1,7 @@
 # Glossary: Term Definitions, Inline Annotations & Glossary Page
 
 **Linear Issue:** [SUG-35](https://linear.app/sugartown/issue/SUG-35/glossary-term-definitions-inline-annotations-and-glossary-page)
-**Status:** In Progress (Phase 1 shipped v0.26.13 — Phase 2 next)
+**Status:** In Progress (Phase 2 shipped v0.26.14 — Phase 3 next)
 **Priority:** Low (post-launch, high editorial value)
 **Date logged:** 2026-03-26
 
@@ -327,13 +327,13 @@ This creates a visual hierarchy of reference types within body content — exact
 - [x] `PageHeader` replaces raw `<header>` masthead on `ArchivePage.jsx` and `SiteGraphPage.jsx` — dead `.masthead` / `.archiveHeading` / `.archiveHeadingItalic` CSS removed from `pages.module.css`
 - [x] `archivePageWide` CSS class applied to glossary (full-width layout at `--st-width-detail-wide`)
 
-### Phase 2 — Inline Annotations (the magic)
-- `glossaryTermRef` PT annotation in Studio
-- PT mark renderer in all three serializer files
-- Dotted underline CSS treatment
-- Hover preview popover (desktop progressive enhancement)
-- `<dfn>` semantic wrapping for first occurrence
-- WCAG 1.4.13 compliance testing
+### Phase 2 — Inline Annotations (the magic) ✓ shipped v0.26.14
+- [x] `glossaryTermRef` PT annotation in Studio (Phase 1 / schema deployed)
+- [x] PT mark renderer in all three serializer files (`portableTextComponents.jsx`, `PageSections.jsx`, `richTextComponents.jsx` — last one was missing, added Phase 2)
+- [x] Dotted underline CSS treatment
+- [x] Hover preview popover (desktop progressive enhancement, CSS-driven)
+- [x] `<dfn>` semantic wrapping for first occurrence (`markGlossaryFirstOccurrences` utility)
+- [x] WCAG 1.4.13 compliance — Escape key dismisses popover, mouse re-entry resets, `data-dismissed` CSS override
 
 ### Phase 3 — Content Authoring + Cross-References
 - Author definitions for 30+ terms from existing tag/tool descriptions
