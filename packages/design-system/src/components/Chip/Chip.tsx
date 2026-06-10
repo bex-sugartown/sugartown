@@ -79,20 +79,22 @@ export const Chip: React.FC<ChipProps> = ({
   const isDotColor = Boolean(dotColor);
   // When variant="status" and color/colorHex is provided, color overrides the status dot token.
   const hasColorDot = variant === 'status' && Boolean(color || colorHex);
+  // tag + color: use the color-mix system instead of neutral ruleDot chassis
+  const tagWithColor = variant === 'tag' && Boolean(color || colorHex);
 
   const classNames = [
     styles.chip,
-    isRuleDot && styles.ruleDot,
+    isRuleDot && !tagWithColor && styles.ruleDot,
     variant === 'status' && styles.variantStatus,
     variant === 'tag' && styles.variantTag,
-    featured && variant === 'tag' && styles.featured,
+    featured && variant === 'tag' && !tagWithColor && styles.featured,
     isDotColor && styles.ruleDot,
     isDotColor && styles.dotColor,
     isInteractive && styles.interactive,
     !isRuleDot && !isDotColor && isActive && styles.active,
     (isRuleDot || isDotColor) ? size === 'sm' && styles.sm : size === 'sm' && styles.sm,
-    // Color class: default chips, OR status chips where color overrides the dot
-    (!isRuleDot && !isDotColor || hasColorDot) && color && styles[color as string],
+    // Color class: default chips, OR status chips where color overrides the dot, OR tag+color
+    (!isRuleDot && !isDotColor || hasColorDot || tagWithColor) && color && styles[color as string],
     hasColorDot && styles.colorDot,
     className,
   ]

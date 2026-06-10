@@ -82,159 +82,24 @@
 }
 
 /* ── Glossary Term Detail ─────────────────────────────────────────────── */
-.termPage {
-  width: 100%;
-  max-width: var(--st-width-detail-wide);
-  margin: 0 auto;
-  padding: 0 var(--st-page-gutter) 5rem;
-  box-sizing: border-box;
-}
-
-.termWrap {
-  max-width: 760px;
-}
-
-.termHero {
-  padding: 3rem 0 1.5rem;
-}
-
-.termEyebrow {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-}
-
-.termTitle {
-  font-family: var(--st-font-narrative);
-  font-size: 2.75rem;
-  font-weight: 600;
-  line-height: 1.1;
-  color: var(--st-color-text-default);
-  margin-bottom: 0.5rem;
-}
 
 .termPronunciation {
-  display: block;
   font-family: var(--st-font-family-mono);
   font-size: 0.75rem;
   color: var(--st-color-text-muted);
   letter-spacing: 0.04em;
-  margin-bottom: 1.25rem;
+  margin: 0 0 1.25rem;
 }
 
-.termDefinition {
-  font-size: 1.1rem;
-  line-height: 1.75;
-  color: var(--st-color-text-default);
-  max-width: 640px;
-  margin-bottom: 1.5rem;
-  border-left: 3px solid var(--st-color-brand-primary);
-  padding-left: 1.25rem;
+.termSection {
+  margin-top: 2rem;
 }
 
-.termExtended {
-  font-size: 0.95rem;
-  line-height: 1.75;
-  color: var(--st-color-text-secondary);
-  margin-bottom: 2rem;
-  max-width: 640px;
-}
-
-/* Meta grid — Related terms / Used in / Sources */
-.termMetaGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  padding: 2rem 0;
-  border-top: 1px solid var(--st-color-border-default);
-  border-bottom: 1px solid var(--st-color-border-default);
-  margin: 2rem 0;
-}
-
-@media (max-width: 600px) {
-  .termMetaGrid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.termMetaSection {}
-
-.metaHeading {
-  font-family: var(--st-font-family-mono);
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--st-color-text-muted);
-  margin-bottom: 0.75rem;
-}
-
-.relatedChips {
+.chipRow {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-}
-
-/* Related term chips — st-chip--tag style via local class */
-.relatedChip {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--st-font-family-mono);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 0.3rem 0.6rem;
-  border: 1px solid var(--st-color-border-default);
-  color: var(--st-color-text-muted);
-  text-decoration: none;
-  transition: color 150ms ease, border-color 150ms ease;
-}
-
-.relatedChip:hover {
-  color: var(--st-color-brand-primary);
-  border-color: var(--st-color-brand-primary);
-  text-decoration: none;
-}
-
-.usedInList {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 0;
-  margin: 0;
-}
-
-.usedInList li {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-}
-
-.usedInList a {
-  color: var(--st-color-text-default);
-  text-decoration: none;
-}
-
-.usedInList a:hover {
-  color: var(--st-color-brand-primary);
-}
-
-.docTypeBadge {
-  font-family: var(--st-font-family-mono);
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.1rem 0.4rem;
-  border: 1px solid var(--st-color-border-default);
-  color: var(--st-color-text-muted);
-  white-space: nowrap;
-  flex-shrink: 0;
+  margin-top: 0.5rem;
 }
 
 .sourcesList {
@@ -243,7 +108,7 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 0;
-  margin: 0;
+  margin: 0.5rem 0 0;
 }
 
 .sourcesList li {
@@ -257,25 +122,6 @@
 }
 
 .sourcesList a:hover {
-  color: var(--st-color-brand-primary);
-}
-
-.termBack {
-  margin-bottom: 3rem;
-}
-
-.backLink {
-  font-family: var(--st-font-family-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--st-color-text-muted);
-  text-decoration: none;
-  transition: color 150ms ease;
-}
-
-.backLink:hover {
   color: var(--st-color-brand-primary);
 }
 

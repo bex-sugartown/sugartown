@@ -33,8 +33,8 @@
   padding: 0.45em 0.75em;
   border-radius: var(--st-radius-tag); /* 0 — Pink Moon sharp edges */
 
-  background: color-mix(in srgb, var(--_chip-color) 18%, var(--st-color-canvas));
-  border: 1px solid color-mix(in srgb, var(--_chip-color) 50%, var(--st-color-canvas));
+  background: var(--st-color-white);
+  border: 1px solid var(--_chip-color);
   color: var(--_chip-color);
 
   user-select: none;
@@ -143,6 +143,12 @@
   --chip-color: var(--st-color-softgrey-300);
 }
 
+:global([data-theme="dark-pink-moon"]) .chip:not(.ruleDot):not(.dotColor) {
+  background: color-mix(in srgb, var(--_chip-color) 5%, color-mix(in srgb, white 5%, var(--st-color-canvas)));
+  border-color: var(--_chip-color);
+  color: var(--_chip-color);
+}
+
 /* ══════════════════════════════════════════════════════
    RULE-DOT CHIP SYSTEM (SUG-88 Direction B)
    Activated by variant="status" or variant="tag" props.
@@ -166,6 +172,7 @@
   font-weight: 400;
   text-transform: none;
   letter-spacing: 0;
+  background: var(--st-color-white-50);
 }
 
 .featured {

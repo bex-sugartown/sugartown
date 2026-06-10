@@ -3,7 +3,7 @@
  * Individual glossary term definition with related terms, used-in back-refs, and sources.
  * JSON-LD: DefinedTerm (schema.org)
  */
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { glossaryTermBySlugQuery } from '../lib/queries'
@@ -11,15 +11,20 @@ import { getCanonicalPath } from '../lib/routes'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
-import { Breadcrumb, Chip } from '../design-system'
+import { Breadcrumb, Chip, Grid, SectionLabel } from '../design-system'
 import SeoHead from '../components/SeoHead'
+import ContentCard from '../components/ContentCard'
 import NotFoundPage from './NotFoundPage'
+import pageStyles from './pages.module.css'
 import styles from './GlossaryPage.module.css'
 
 const STATUS_LABELS = {
   evergreen: 'Evergreen',
   validated: 'Validated',
   exploring: 'Exploring',
+  active:    'Active',
+  draft:     'Draft',
+  deprecated: 'Deprecated',
 }
 
 function plainText(blocks) {
@@ -63,128 +68,124 @@ export default function GlossaryTermPage() {
         />
       )}
 
-      <main className={styles.termPage}>
-        {loading && <p className={styles.empty}>Loading…</p>}
+      <main className={pageStyles.entityDetailPage}>
+        {loading && <div className={pageStyles.loadingPage}>Loading…</div>}
 
         {!loading && term && (
-          <div className={styles.termWrap}>
+          <>
+            <Breadcrumb
+              items={[
+                { label: 'Library', href: '/library' },
+                { label: 'Glossary', href: '/glossary' },
+              ]}
+            />
 
-            <div className={styles.termHero}>
-              <div className={styles.termEyebrow}>
-                <Breadcrumb
-                  items={[
-                    { label: 'Library', href: '/library' },
-                    { label: 'Glossary', href: '/glossary' },
-                  ]}
-                />
-                {term.status && (
-                  <Chip tone={term.status} size="sm">
-                    {STATUS_LABELS[term.status] ?? term.status}
-                  </Chip>
-                )}
-              </div>
-
-              <h1 className={styles.termTitle}>
+            {/* ── Identity ──────────────────────────────────────────── */}
+            <div className={pageStyles.folioIdentity}>
+              {term.status && (
+                <p className={pageStyles.detailEyebrow}>
+                  {STATUS_LABELS[term.status] ?? term.status}
+                </p>
+              )}
+              <h1 className={pageStyles.narrativeHeading}>
                 {term.term}
                 {term.abbreviation && (
-                  <span className={styles.termAbbr} style={{ marginLeft: '0.75rem', fontSize: '0.9rem', verticalAlign: 'middle' }}>
-                    {term.abbreviation}
-                  </span>
+                  <span className={styles.termAbbr}>{term.abbreviation}</span>
                 )}
               </h1>
-
               {term.pronunciation && (
-                <span className={styles.termPronunciation}>{term.pronunciation}</span>
+                <p className={styles.termPronunciation}>{term.pronunciation}</p>
               )}
+            </div>
 
-              {term.definition && (
-                <div className={styles.termDefinition}>
-                  <PortableText value={term.definition} components={{ block: { normal: ({ children }) => <p>{children}</p> } }} />
-                </div>
-              )}
-
-              {term.extendedDefinition && (
-                <div className={styles.termExtended}>
+            {/* ── Definition ────────────────────────────────────────── */}
+            {(term.definition || term.extendedDefinition) && (
+              <div className={pageStyles.detailContent}>
+                {term.definition && (
+                  <PortableText
+                    value={term.definition}
+                    components={{ block: { normal: ({ children }) => <p>{children}</p> } }}
+                  />
+                )}
+                {term.extendedDefinition && (
                   <PortableText value={term.extendedDefinition} components={sharedPTComponents} />
+                )}
+              </div>
+            )}
+
+            {/* ── Related terms ─────────────────────────────────────── */}
+            {term.relatedTerms?.length > 0 && (
+              <section className={styles.termSection}>
+                <SectionLabel title="Related Terms" kicker={String(term.relatedTerms.length)} />
+                <div className={styles.chipRow}>
+                  {term.relatedTerms.map((rel) => (
+                    <Chip
+                      key={rel._id}
+                      label={rel.label}
+                      href={getCanonicalPath({ docType: rel._type, slug: rel.slug })}
+                      variant="tag"
+                    />
+                  ))}
                 </div>
-              )}
-            </div>
+              </section>
+            )}
 
-            <div className={styles.termMetaGrid}>
+            {/* ── Used in ───────────────────────────────────────────── */}
+            {term.usedIn?.length > 0 && (
+              <section className={styles.termSection}>
+                <SectionLabel title="Used In" kicker={String(term.usedIn.length)} />
+                <Grid columns={2} spacing="lg">
+                  {term.usedIn.map((doc) => (
+                    <ContentCard
+                      key={doc._id}
+                      item={doc}
+                      docType={doc._type}
+                      showExcerpt={false}
+                      showHeroImage={false}
+                    />
+                  ))}
+                </Grid>
+              </section>
+            )}
 
-              {term.relatedTerms?.length > 0 && (
-                <div className={styles.termMetaSection}>
-                  <h4 className={styles.metaHeading}>Related terms</h4>
-                  <div className={styles.relatedChips}>
-                    {term.relatedTerms.map((rel) => (
-                      <Link
-                        key={rel._id}
-                        to={getCanonicalPath({ docType: rel._type, slug: rel.slug })}
-                        className={styles.relatedChip}
-                      >
-                        {rel.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
+            {/* ── Related content ───────────────────────────────────── */}
+            {term.relatedContent?.length > 0 && (
+              <section className={styles.termSection}>
+                <SectionLabel title="Related Content" kicker={String(term.relatedContent.length)} />
+                <Grid columns={2} spacing="lg">
+                  {term.relatedContent.map((doc) => (
+                    <ContentCard
+                      key={doc._id}
+                      item={doc}
+                      docType={doc._type}
+                      showExcerpt={false}
+                      showHeroImage={false}
+                    />
+                  ))}
+                </Grid>
+              </section>
+            )}
 
-              {term.usedIn?.length > 0 && (
-                <div className={styles.termMetaSection}>
-                  <h4 className={styles.metaHeading}>Used in</h4>
-                  <ul className={styles.usedInList}>
-                    {term.usedIn.map((doc) => (
-                      <li key={doc._id}>
-                        <span className={styles.docTypeBadge}>{doc._type === 'caseStudy' ? 'case study' : doc._type}</span>
-                        <Link to={getCanonicalPath({ docType: doc._type, slug: doc.slug })}>
-                          {doc.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {term.relatedContent?.length > 0 && (
-                <div className={styles.termMetaSection}>
-                  <h4 className={styles.metaHeading}>Related content</h4>
-                  <ul className={styles.usedInList}>
-                    {term.relatedContent.map((doc) => (
-                      <li key={doc._id}>
-                        <span className={styles.docTypeBadge}>{doc._type === 'caseStudy' ? 'case study' : doc._type}</span>
-                        <Link to={getCanonicalPath({ docType: doc._type, slug: doc.slug })}>
-                          {doc.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {term.sources?.length > 0 && (
-                <div className={styles.termMetaSection}>
-                  <h4 className={styles.metaHeading}>Sources</h4>
-                  <ul className={styles.sourcesList}>
-                    {term.sources.map((src, i) => (
-                      <li key={i}>
-                        {src.url ? (
-                          <a href={src.url} target="_blank" rel="noopener noreferrer">{src.text}</a>
-                        ) : (
-                          src.text
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-            </div>
-
-            <div className={styles.termBack}>
-              <Link to="/glossary" className={styles.backLink}>← Glossary</Link>
-            </div>
-
-          </div>
+            {/* ── Sources ───────────────────────────────────────────── */}
+            {term.sources?.length > 0 && (
+              <section className={styles.termSection}>
+                <SectionLabel title="Sources" />
+                <ul className={styles.sourcesList}>
+                  {term.sources.map((src, i) => (
+                    <li key={i}>
+                      {src.url ? (
+                        <a href={src.url} target="_blank" rel="noopener noreferrer">
+                          {src.text}
+                        </a>
+                      ) : (
+                        src.text
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
+          </>
         )}
       </main>
     </>

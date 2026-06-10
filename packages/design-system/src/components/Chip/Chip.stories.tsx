@@ -21,13 +21,13 @@ const meta: Meta<typeof Chip> = {
       description: '`tag` = neutral gray chassis, no dot, no active state. `status` = uppercase bold badge chassis (planned rename: `"badge"`). When `variant="status"`: dot shown if `color` has a value; no dot if `color` is null.',
       table: { order: 1 },
     },
-    status:    { control: { type: 'select' }, description: '**Deprecated.** Named lifecycle dot tokens (evergreen, draft, etc.). Use `color` instead.', table: { order: 2 } },
+    status:    { table: { disable: true } },
     featured:  { control: 'boolean' },
     isActive:  {
       control: 'boolean',
       description: 'Active / selected state — solid accent fill, white label. Only applies to default chips (no `variant`). When `color` is set the fill reflects that color.',
     },
-    color:     { control: { type: 'select' } },
+    color:     { control: { type: 'select' }, options: [null, 'pink', 'seafoam', 'lime', 'violet', 'amber', 'grey'] },
     // Hidden — internal / advanced props not needed in the controls panel
     children:  { table: { disable: true } },
     colorHex:  { table: { disable: true } },

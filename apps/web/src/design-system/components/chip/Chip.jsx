@@ -35,24 +35,26 @@ export default function Chip({
   const isInteractive = Boolean(href || onClick)
   const isRuleDot = variant === 'status' || variant === 'tag'
   const isDotColor = Boolean(dotColor)
+  // tag + color: use the color-mix system instead of neutral ruleDot chassis
+  const tagWithColor = variant === 'tag' && Boolean(color || colorHex)
 
   const classNames = [
     styles.chip,
-    // Rule-dot system modifiers
-    isRuleDot && styles.ruleDot,
+    // Rule-dot system modifiers (skipped when tag has an explicit color)
+    isRuleDot && !tagWithColor && styles.ruleDot,
     variant === 'status' && styles.variantStatus,
     variant === 'tag' && styles.variantTag,
-    featured && variant === 'tag' && styles.featured,
+    featured && variant === 'tag' && !tagWithColor && styles.featured,
     // dotColor mode — project chip with inline hex dot
     isDotColor && styles.ruleDot,
     isDotColor && styles.dotColor,
-    // Interactive applies to all chip variants — rule-dot hover overrides color changes in CSS
+    // Interactive applies to all chip variants
     isInteractive && styles.interactive,
     !isRuleDot && !isDotColor && isActive && styles.active,
-    !isRuleDot && !isDotColor && size === 'sm' && styles.sm,
-    !isRuleDot && !isDotColor && color && styles[color],
-    // Size applies to rule-dot + dotColor chips too (density control)
-    (isRuleDot || isDotColor) && size === 'sm' && styles.sm,
+    // Color class: default chips, OR tag+color mode
+    (!isRuleDot && !isDotColor || tagWithColor) && color && styles[color],
+    // Size applies to all variants
+    size === 'sm' && styles.sm,
     className,
   ]
     .filter(Boolean)
@@ -61,7 +63,7 @@ export default function Chip({
   // dotColor mode injects --chip-dot; legacy mode injects --chip-color
   const chipStyle = isDotColor
     ? { '--chip-dot': dotColor }
-    : (!isRuleDot && colorHex ? { '--chip-color': colorHex } : undefined)
+    : (colorHex && (!isRuleDot || tagWithColor) ? { '--chip-color': colorHex } : undefined)
 
   // Content: rule-dot status chips prepend a semantic dot span; dotColor mode too
   const dotEl = (variant === 'status' && status)
