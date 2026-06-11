@@ -36,9 +36,10 @@ One row per visual element. "New" requires the written why. This table IS the ep
 | Page shell | `pageStyles.entityDetailPage` | use (already in place) |
 | Breadcrumb | `Breadcrumb` (web adapter) | use (already in place; remove any term crumb) |
 | H1 | `pageStyles.narrativeHeading` | use (already in place) |
-| Abbreviation badge | `Chip variant="status" size="sm"` (no status prop, no dot) | use — replaces bespoke `.termAbbr`; delete `.termAbbr` from page CSS + KNOWN_EXCEPTIONS |
+| Abbreviation badge | `Chip variant="status"` size **md**, neutral default (no status prop, no dot) | use — replaces bespoke `.termAbbr`; delete `.termAbbr` from page CSS + KNOWN_EXCEPTIONS. Explicit gap between H1 text and chip (design annotation 2026-06-11: "md neutral default badge, space padding between title") |
+| Status eyebrow above H1 | ~~`pageStyles.detailEyebrow`~~ | **remove** — status moves exclusively into the DescriptionList Status row (design annotation 2026-06-11). No status indicator above the H1 |
 | Pronunciation | retained `.termPronunciation` → rename `.pronunciation` | extend — template adds `/ … /` wrapper per handoff; rename clears validator exception |
-| Lead definition | DS `Blockquote` (or its visual treatment) | **activation audit:** read `Blockquote.tsx` + module CSS; if it renders `<blockquote>` semantics unsuitable for a definition, extract treatment as `.leadDefinition` with one-sentence justification |
+| Lead definition | DS `Blockquote` | use — confirmed by design annotation 2026-06-11 ("definition should be styled w/ blockquote"). Activation audit narrows to: verify Blockquote's web adapter accepts PT-rendered children; `<blockquote>` semantics accepted for the cited-definition case (definitions here are quoted from sources, e.g. Merriam-Webster) |
 | Extended definition | `pageStyles.detailContent` + shared PT components | use (already in place) |
 | Citation line | `sources[]` rendered inside the DescriptionList Sources row | use existing field — no new `citation` schema field |
 | Metadata ledger | `DescriptionList columns={2}` (DS + web adapter, `.item/.term/.detail` structure) | extend — add ledger borders via DS prop (see Technical notes), not page-CSS overrides |
@@ -52,7 +53,7 @@ One row per visual element. "New" requires the written why. This table IS the ep
 
 - [ ] **DS — DescriptionList ledger variant:** add a `ledger` (or `bordered`) prop to DS `DescriptionList` implementing the 2-col hairline treatment (column divider, first-row bottom border, full-width last row) using `--st-*` border tokens. Token-first: any new token via `tokens/source/tokens.json`. Mirror to web adapter + CSS module. — layer: DS + web adapter
 - [ ] **DS — Storybook:** DescriptionList story covering `columns={2}` + ledger variant, default + `dark-pink-moon`. — layer: Storybook
-- [ ] **Frontend — GlossaryTermPage restructure:** abbreviation Chip in H1, templated pronunciation, lead-definition treatment, metadata zone → single `DescriptionList` (replaces SectionLabel + Grid + ContentCard sections per design). — layer: frontend
+- [ ] **Frontend — GlossaryTermPage restructure:** abbreviation Chip (md, neutral, gapped) in H1, status eyebrow removed (status lives only in DL Status row), templated pronunciation, lead definition in DS `Blockquote`, metadata zone → single `DescriptionList` (replaces SectionLabel + Grid + ContentCard sections per design). — layer: frontend
 - [ ] **Frontend — inline annotation token update:** `.glossaryLink` underline colors → `--st-color-seafoam-700` / hover `--st-color-seafoam-500` (verify both tokens exist; add primitives first if not). — layer: frontend
 - [ ] **Frontend — CSS cleanup:** rename/remove superseded classes (`.termAbbr`, `.termSection`, `.chipRow` as applicable); update `validate:css-names` KNOWN_EXCEPTIONS to match; validator runs clean. — layer: frontend + tooling
 - [ ] **Phase 2 (schema, optional): `linkedNode` reference** on `glossaryTerm` + "→ View node" link render; own `feat(studio):` commit + `npx sanity schema deploy`. — layer: schema + frontend
@@ -73,7 +74,9 @@ Phase 0 (mockup gate) is satisfied by the design handoff itself: `Gap Analysis -
 - [ ] Ledger borders match handoff spec: column hairline, first-row bottom rule, Sources spans full width with top rule
 - [ ] All internal links resolve via `getCanonicalPath()` — no literal path strings in the page diff
 - [ ] Status chip renders dot + label for every `status` value in the schema's `options.list` (read from schema, not memory) and renders nothing gracefully when status is absent
-- [ ] Abbreviation chip: uppercase, no dot, static span, baseline-aligned with H1
+- [ ] Abbreviation chip: size md, neutral (no dot, no status tint), uppercase, static span, visible gap between H1 text and chip
+- [ ] No status indicator renders above the H1 — status appears only in the DescriptionList Status row
+- [ ] Lead definition renders inside DS `Blockquote` (verified in inspector: `<blockquote>` element, not a styled div)
 - [ ] Pronunciation renders `/ nōd /` from stored `nōd` (slashes from template) — existing Sanity values audited for pre-typed slashes before ship
 - [ ] DescriptionList ledger story renders on `default` + `dark-pink-moon`; dark mode confirmed in Storybook, not assumed
 - [ ] Visual QA gate: side-by-side comparison table vs `Gap Analysis - Term Detail.html` Proposed panel; "Visual QA approved" received before close-out
