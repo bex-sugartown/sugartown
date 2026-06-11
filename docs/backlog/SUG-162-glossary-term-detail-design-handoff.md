@@ -49,10 +49,24 @@ One row per visual element. "New" requires the written why. This table IS the ep
 | Sources list | full-width DL row, plain links | use existing `.sourcesList` styles or DL row styles |
 | Inline annotation (`glossary-link`) | existing `GlossaryPage.module.css` `.glossaryLink` / popover | extend — update underline tokens to seafoam pair per handoff; popover behaviour already matches (portal, WCAG 1.4.13, coarse-pointer nav) |
 
+## Storybook Coverage
+
+One row per story touched by this epic. Categories follow the SUG-156 convention (Components / Patterns / Pages). Every row must render on `default` + `dark-pink-moon` before close-out — "Untested" in the dark mode column is a blocking state.
+
+| Story | Category | New / Update | What it must show |
+|---|---|---|---|
+| `Components/DescriptionList` | Components | **Update** | Existing states + new `ledger` variant at `columns={2}`: column hairline, first-row rule, full-width last row; edge cases (odd item count, long values, single column below breakpoint) |
+| `Components/Chip` | Components | **Update** | Neutral status chip as abbreviation badge (md, no dot, no status) added to existing variant matrix — confirm no regression to existing stories |
+| `Pages/GlossaryTermDetailPage` | Pages | **New** | Production-accurate layout per SUG-156 pattern: Breadcrumb, H1 + abbreviation chip, pronunciation, Blockquote lead definition, PT extended definition (incl. nested `ol` MW-style sample), full DescriptionList ledger with realistic fixtures; states: full metadata, minimal (no abbreviation/pronunciation/sources), missing status |
+| `Pages/GlossaryArchivePage` | Pages | **New** | Production-accurate archive layout: PageHeader, AlphaFilter, letter groups, definition list rows, abbreviation badges — fills the Pages/ gap left by SUG-156 (glossary shipped after that audit) |
+| `Components/Blockquote` | Components | **Update (conditional)** | Only if the lead-definition use reveals a needed prop/state (e.g. cite slot); otherwise no change — note the decision either way |
+
+Fixtures follow the SUG-156 approach: realistic content (use the Node/Counterfactual term shapes), not lorem ipsum. Fullscreen Pages/ stories bypass the global layout wrapper per the established pattern.
+
 ## Scope
 
 - [ ] **DS — DescriptionList ledger variant:** add a `ledger` (or `bordered`) prop to DS `DescriptionList` implementing the 2-col hairline treatment (column divider, first-row bottom border, full-width last row) using `--st-*` border tokens. Token-first: any new token via `tokens/source/tokens.json`. Mirror to web adapter + CSS module. — layer: DS + web adapter
-- [ ] **DS — Storybook:** DescriptionList story covering `columns={2}` + ledger variant, default + `dark-pink-moon`. — layer: Storybook
+- [ ] **Storybook — full coverage per the table above:** DescriptionList + Chip updates, new `Pages/GlossaryTermDetailPage` + `Pages/GlossaryArchivePage` stories, conditional Blockquote update. — layer: Storybook
 - [ ] **Frontend — GlossaryTermPage restructure:** abbreviation Chip (md, neutral, gapped) in H1, status eyebrow removed (status lives only in DL Status row), templated pronunciation, lead definition in DS `Blockquote`, metadata zone → single `DescriptionList` (replaces SectionLabel + Grid + ContentCard sections per design). — layer: frontend
 - [ ] **Frontend — inline annotation token update:** `.glossaryLink` underline colors → `--st-color-seafoam-700` / hover `--st-color-seafoam-500` (verify both tokens exist; add primitives first if not). — layer: frontend
 - [ ] **Frontend — CSS cleanup:** rename/remove superseded classes (`.termAbbr`, `.termSection`, `.chipRow` as applicable); update `validate:css-names` KNOWN_EXCEPTIONS to match; validator runs clean. — layer: frontend + tooling
@@ -78,7 +92,8 @@ Phase 0 (mockup gate) is satisfied by the design handoff itself: `Gap Analysis -
 - [ ] No status indicator renders above the H1 — status appears only in the DescriptionList Status row
 - [ ] Lead definition renders inside DS `Blockquote` (verified in inspector: `<blockquote>` element, not a styled div)
 - [ ] Pronunciation renders `/ nōd /` from stored `nōd` (slashes from template) — existing Sanity values audited for pre-typed slashes before ship
-- [ ] DescriptionList ledger story renders on `default` + `dark-pink-moon`; dark mode confirmed in Storybook, not assumed
+- [ ] Every story in the Storybook Coverage table renders on `default` + `dark-pink-moon`; dark mode confirmed in Storybook, not assumed; component registry updated for any new/changed rows
+- [ ] `Pages/GlossaryTermDetailPage` story matches the shipped page structure (same components, same order) — drift between story and production page is a Visual QA finding
 - [ ] Visual QA gate: side-by-side comparison table vs `Gap Analysis - Term Detail.html` Proposed panel; "Visual QA approved" received before close-out
 - [ ] Open Item 1 from handoff (chip border 1.3:1 non-text contrast) logged as its own Linear issue (system token review) — not fixed locally
 
