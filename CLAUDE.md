@@ -162,6 +162,10 @@ A sparse epic doc is a signal that the planning phase was not completed. It is n
 
 **This rule applies to all epic types, including pure content/editorial epics.** The Phase 0 mockup gate covers visual design review; this rule covers scope completeness for all epics regardless of type.
 
+### Design handoff evaluation gate (SUG-163)
+
+Before scoping any epic that originates from a design handoff (mock, gap-analysis doc, Figma export, or equivalent), evaluate the handoff against `docs/conventions/design-handoff-template.md`. Run the anti-checklist and flag every item that would introduce a framework assumption, invented schema field, literal URL path, content-type-prefixed CSS class, or PT-replacement array. Surface corrections in the epic doc's "Handoff corrections" section before Phase 0 sign-off.
+
 ### React hooks — Outlet context pre-flight
 
 Before adding `useOutletContext()`, `useContext()`, or any new hook to a component that already has conditional early returns (`if (loading) return`, `if (notFound) return`, template guards, etc.):
