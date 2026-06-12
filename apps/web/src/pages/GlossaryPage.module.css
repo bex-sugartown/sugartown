@@ -219,6 +219,16 @@ dfn.glossaryLink {
   }
 }
 
+/* Dark mode — --st-color-bg-surface is rgba(255,255,255,0.06) in dark-pink-moon
+   (glassmorphism layer). Popover is a portal overlay and needs a solid surface. */
+[data-theme="dark-pink-moon"] .glossaryPopover {
+  background: var(--st-color-midnight-800);
+}
+
+[data-theme="dark-pink-moon"] .glossaryPopover::before {
+  background: var(--st-color-midnight-800);
+}
+
 .popoverTerm {
   display: flex;
   align-items: baseline;
