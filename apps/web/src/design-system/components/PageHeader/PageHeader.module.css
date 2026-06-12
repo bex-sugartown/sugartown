@@ -19,9 +19,18 @@
 }
 
 .inner {
-  max-width: var(--st-width-archive);
-  margin: 0 auto;
-  padding: var(--st-space-6) var(--st-page-gutter);
+  /* No max-width and no horizontal padding: the band renders inside the page
+     container (.archivePage, .entityDetailPage, etc.), which owns both the
+     column width and the gutter. A second cap/gutter here desynced the header
+     from its page content (960px cap; +32px double gutter). */
+  width: 100%;
+  padding: var(--st-space-6) 0;
+}
+
+/* Tinted band: text inset from the coloured band edge — the inset is a band
+   concern, not a page-gutter concern, so it applies only when a band exists. */
+.root.tinted .inner {
+  padding-inline: var(--st-page-gutter);
 }
 
 .topRow {
@@ -105,7 +114,11 @@
 
 @media (max-width: 520px) {
   .inner {
-    padding: var(--st-space-5) var(--st-space-4);
+    padding: var(--st-space-5) 0;
+  }
+
+  .root.tinted .inner {
+    padding-inline: var(--st-space-4);
   }
 
   .body {
