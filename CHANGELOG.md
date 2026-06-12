@@ -23,6 +23,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - SUG-35 Phase 1: Glossary system — glossaryTerm schema, /glossary archive + /glossary/:slug detail pages, glossaryTermRef PT annotation with hover popover; archive reuse consolidation (AlphaFilter, DS Chip, LetterSectionHeader, PageHeader on ArchivePage + SiteGraphPage)
 - SUG-152: DS Storybook Usage Docs Phases 1–2 shipped (Section Spacing, Entity Detail Page); Chip API updated (badge rename direction, status prop + colorHex deprecated, story cleanup); Phases 3–10 deferred pending doc framework strategy
 - SUG-158: Storybook Documentation Template System — helpers/docs.tsx (DocSection, DoDontGrid, TokenGroup, docStyles), stories.boilerplate.tsx, Docs/Story Template 14-section reference story, PageHeader Guidelines pilot; table border tokens standardised (--st-table-cell-border neutral-300, DS TableWrap uses --st-table-wrap-border)
+- SUG-162: Glossary term detail redesign — DescriptionList ledger variant (DS), Blockquote lead definition, metadata ledger with chips
 
 ---
 
