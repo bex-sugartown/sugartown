@@ -248,6 +248,7 @@
   --st-card-label-bg:     var(--st-color-midnight-800);           /* label cell bg on dark canvas */
 
   /* Chip rule-dot — dark overrides (SUG-88) */
+  --st-chip-tag-bg:         var(--st-color-midnight-700);  /* white-50 is too light on dark canvas */
   --st-chip-fg:             var(--st-color-softgrey-200);
   --st-chip-rubric-bg:      color-mix(in srgb, var(--st-color-pink) 18%, var(--st-color-midnight-800));
   --st-chip-rubric-border:  var(--st-color-pink);

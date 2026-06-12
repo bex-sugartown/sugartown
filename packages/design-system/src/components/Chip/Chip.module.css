@@ -172,7 +172,7 @@
   font-weight: 400;
   text-transform: none;
   letter-spacing: 0;
-  background: var(--st-color-white-50);
+  background: var(--st-chip-tag-bg);
 }
 
 .featured {

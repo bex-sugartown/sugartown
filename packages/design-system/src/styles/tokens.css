@@ -476,6 +476,7 @@
   --st-callout-info-icon-light: var(--st-color-neutral-600);
   --st-callout-warn-icon-light: var(--st-color-amber-650);
   --st-callout-danger-icon-light: var(--st-color-red-600);
+  --st-chip-tag-bg: var(--st-color-white-50);
   --st-chip-border: var(--st-color-rule-accent);
   --st-chip-dot-evergreen: var(--st-color-lime-700);
   --st-chip-dot-validated: var(--st-color-seafoam-700);
