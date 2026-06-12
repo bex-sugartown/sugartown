@@ -69,6 +69,19 @@ export const BadgeNoDot: Story = {
   args: { label: 'In Review', variant: 'status' },
 };
 
+/** Abbreviation badge (SUG-162) — neutral md badge inside a heading,
+ *  uppercase, static span (no href), explicit gap from the heading text */
+export const AbbreviationBadge: Story = {
+  name: 'Badge — Abbreviation (in heading)',
+  render: () => (
+    <h1 style={{ margin: 0 }}>
+      Headless CMS{' '}
+      <Chip label="CMS" variant="status" aria-label="Abbreviation: CMS" />
+    </h1>
+  ),
+  parameters: { layout: 'padded' },
+};
+
 /** Badge with color dot — color prop drives dot color */
 export const StatusColorOverride: Story = {
   name: 'Badge — Color Dot',
