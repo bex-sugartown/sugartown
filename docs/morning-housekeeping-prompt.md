@@ -56,6 +56,14 @@ Then check remote-only branches:
 git fetch --dry-run
 ```
 
+Then check whether this machine is **behind origin** (the cross-machine signal — work pushed from your other machine that you don't have yet):
+```bash
+git fetch origin --prune
+git rev-list --count main..origin/main 2>/dev/null || echo 0   # commits on origin/main not on local main
+git branch -r --list 'origin/handoff/*'                          # mid-day handoff branches waiting to be picked up
+```
+- If the behind-count is greater than 0, or any `origin/handoff/*` branch exists, this machine is almost certainly one you've **switched to** — the other machine pushed work you haven't pulled. Flag it prominently and recommend running `/switch` **before** starting any new work. Do not pull here; `/switch` handles the pull safely (it checks for divergence and uncommitted changes first).
+
 Then check the health of active local services:
 
 **Web app (Vite)** — is the dev server running?
@@ -136,6 +144,14 @@ Write a plain-English morning briefing using exactly this structure. Use plain l
 
 ---
 
+#### 🔀 Machine Switch Check
+
+- Is local `main` **behind** `origin/main`? If yes, say so plainly: "It looks like you switched machines — your other machine pushed [N] commits you don't have yet." Recommend running `/switch` **first**, before any other recommended action, and note that `/switch` will pull safely.
+- Are there any `origin/handoff/*` branches waiting? If yes, name them — these are mid-day handoffs from the other machine; `/switch` will merge them onto `main`.
+- If local `main` is current with origin and there are no handoff branches, say "No switch needed — this machine is current."
+
+---
+
 #### 📍 Where you are right now
 
 - **Active branch:** what branch I'm on
@@ -183,10 +199,11 @@ List the specific actions recommended before starting new work today. Number the
 3. **The exact command or instruction** — ready to copy/paste or confirm
 
 Use this priority order:
-1. Commit or discard any uncommitted changes first
-2. Merge or close any branches that are ready
-3. Get onto the right branch for today's work
-4. Pull any remote updates
+1. If behind origin or a handoff branch is waiting (see Machine Switch Check), run `/switch` first — it pulls the other machine's work safely before anything else
+2. Commit or discard any uncommitted changes
+3. Merge or close any branches that are ready
+4. Get onto the right branch for today's work
+5. Pull any remaining remote updates (only if `/switch` wasn't needed)
 
 If an action requires a judgment call (e.g. "should I delete this branch?"), ask me before acting — don't decide unilaterally.
 
