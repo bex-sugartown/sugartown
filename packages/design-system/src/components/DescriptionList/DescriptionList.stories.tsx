@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { DescriptionList } from './DescriptionList';
+import { Chip } from '../Chip/Chip';
 
 const meta: Meta<typeof DescriptionList> = {
   title: 'Components/DescriptionList',
@@ -69,6 +70,55 @@ export const LedgerOddCount: Story = {
     columns: 2,
     ledger: true,
   },
+};
+
+/** Ledger with chip values — the glossary term detail composition:
+ *  status chip with dot, tag-chip row, and a chip + text reference row.
+ *  Chip rows must sit level with plain-value rows (no own margins). */
+export const LedgerWithChips: Story = {
+  render: () => (
+    <DescriptionList
+      columns={2}
+      ledger
+      items={[
+        {
+          label: 'Status',
+          value: <Chip variant="status" status="evergreen" label="Evergreen" />,
+        },
+        {
+          label: 'Related Terms',
+          value: (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+              <Chip variant="tag" label="knowledge graph" />
+              <Chip variant="tag" label="counterfactual" />
+            </div>
+          ),
+        },
+        {
+          label: 'Used In',
+          value: (
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+              <Chip variant="tag" size="sm" label="Page" />
+              <span>About</span>
+            </div>
+          ),
+        },
+        {
+          label: 'Related Content',
+          value: (
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+              <Chip variant="tag" size="sm" label="Node" />
+              <span>Visualizing the Knowledge Graph</span>
+            </div>
+          ),
+        },
+        {
+          label: 'Sources',
+          value: 'Merriam-Webster, "node"; Oxford English Dictionary, "node, n."',
+        },
+      ]}
+    />
+  ),
 };
 
 /** Even item count — the final pair forms the last row; nothing spans. */
