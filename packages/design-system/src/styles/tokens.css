@@ -435,6 +435,7 @@
   --st-color-text-secondary: var(--st-color-softgrey-400);
   --st-color-text-muted: var(--st-color-softgrey-400);
   --st-color-border-wrap: var(--st-color-neutral-400);
+  --st-dl-ledger-border: var(--st-color-neutral-400);
   --st-color-canvas: var(--st-color-midnight-800);
   --st-color-surface-subtle: var(--st-color-softgrey-900);
   --st-shadow-elevation-float: var(--st-shadow-1);

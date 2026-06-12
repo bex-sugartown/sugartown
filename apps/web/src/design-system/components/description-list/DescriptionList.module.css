@@ -41,7 +41,7 @@
 }
 
 .ledger .item:nth-child(odd):not(:last-child) {
-  border-right: 1px solid var(--st-color-border-default);
+  border-right: 1px solid var(--st-dl-ledger-border);
   padding-right: var(--st-space-5);
 }
 
@@ -50,13 +50,13 @@
 }
 
 .ledger .item:nth-child(-n + 2):not(:last-child) {
-  border-bottom: 1px solid var(--st-color-border-default);
+  border-bottom: 1px solid var(--st-dl-ledger-border);
   padding-bottom: var(--st-space-3);
 }
 
 .ledger .item:last-child {
   grid-column: 1 / -1;
-  border-top: 1px solid var(--st-color-border-default);
+  border-top: 1px solid var(--st-dl-ledger-border);
   padding-top: var(--st-space-3);
 }
 
@@ -75,8 +75,15 @@
   }
 
   .ledger .item:not(:last-child) {
-    border-bottom: 1px solid var(--st-color-border-default);
+    border-bottom: 1px solid var(--st-dl-ledger-border);
     padding-bottom: var(--st-space-3);
+  }
+
+  /* Stacked rows already carry bottom dividers — a top rule on the last
+     item would double up against the previous row's divider */
+  .ledger .item:last-child {
+    border-top: none;
+    padding-top: 0;
   }
 }
 
