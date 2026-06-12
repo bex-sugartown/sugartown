@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-162 — Glossary Term Detail — design handoff implementation (reuse-first)
 **Linear Issue:** [SUG-162](https://linear.app/sugartown/issue/SUG-162/glossary-term-detail-design-handoff-implementation-reuse-first)
-**Status:** Backlog
+**Status:** Shipped (2026-06-12)
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
@@ -65,11 +65,11 @@ Fixtures follow the SUG-156 approach: realistic content (use the Node/Counterfac
 
 ## Scope
 
-- [ ] **DS — DescriptionList ledger variant:** add a `ledger` (or `bordered`) prop to DS `DescriptionList` implementing the 2-col hairline treatment (column divider, first-row bottom border, full-width last row) using `--st-*` border tokens. Token-first: any new token via `tokens/source/tokens.json`. Mirror to web adapter + CSS module. — layer: DS + web adapter
-- [ ] **Storybook — full coverage per the table above:** DescriptionList + Chip updates, new `Pages/GlossaryTermDetailPage` + `Pages/GlossaryArchivePage` stories, conditional Blockquote update. — layer: Storybook
-- [ ] **Frontend — GlossaryTermPage restructure:** abbreviation Chip (md, neutral, gapped) in H1, status eyebrow removed (status lives only in DL Status row), templated pronunciation, lead definition in DS `Blockquote`, metadata zone → single `DescriptionList` (replaces SectionLabel + Grid + ContentCard sections per design). — layer: frontend
-- [ ] **Frontend — inline annotation token update:** `.glossaryLink` underline colors → `--st-color-seafoam-700` / hover `--st-color-seafoam-500` (verify both tokens exist; add primitives first if not). — layer: frontend
-- [ ] **Frontend — CSS cleanup:** rename/remove superseded classes (`.termAbbr`, `.termSection`, `.chipRow` as applicable); update `validate:css-names` KNOWN_EXCEPTIONS to match; validator runs clean. — layer: frontend + tooling
+- [x] **DS — DescriptionList ledger variant:** add a `ledger` (or `bordered`) prop to DS `DescriptionList` implementing the 2-col hairline treatment (column divider, first-row bottom border, full-width last row) using `--st-*` border tokens. Token-first: any new token via `tokens/source/tokens.json`. Mirror to web adapter + CSS module. — layer: DS + web adapter
+- [x] **Storybook — full coverage per the table above:** DescriptionList + Chip updates, new `Pages/GlossaryTermDetailPage` + `Pages/GlossaryArchivePage` stories, conditional Blockquote update. — layer: Storybook
+- [x] **Frontend — GlossaryTermPage restructure:** abbreviation Chip (md, neutral, gapped) in H1, status eyebrow removed (status lives only in DL Status row), templated pronunciation, lead definition in DS `Blockquote`, metadata zone → single `DescriptionList` (replaces SectionLabel + Grid + ContentCard sections per design). — layer: frontend
+- [x] **Frontend — inline annotation token update:** `.glossaryLink` underline colors → `--st-color-seafoam-700` / hover `--st-color-seafoam-500` (verify both tokens exist; add primitives first if not). — layer: frontend
+- [x] **Frontend — CSS cleanup:** rename/remove superseded classes (`.termAbbr`, `.termSection`, `.chipRow` as applicable); update `validate:css-names` KNOWN_EXCEPTIONS to match; validator runs clean. — layer: frontend + tooling
 - [ ] **Phase 2 (schema, optional): `linkedNode` reference** on `glossaryTerm` + "→ View node" link render; own `feat(studio):` commit + `npx sanity schema deploy`. — layer: schema + frontend
 
 ## Phases
@@ -82,20 +82,20 @@ Phase 0 (mockup gate) is satisfied by the design handoff itself: `Gap Analysis -
 
 ## Acceptance criteria
 
-- [ ] `/glossary/:slug` (e.g. `/glossary/node`) renders the Proposed-panel structure with zero new content-type-prefixed CSS classes — `pnpm validate:css-names` exits 0
-- [ ] `pnpm validate:tokens --strict-colors` exits 0 (no raw colors; ledger borders + seafoam underlines resolve through tokens)
-- [ ] Metadata zone is a single `<dl>` (DescriptionList) — verified in inspector; two columns ≥768px, single column below
-- [ ] Ledger borders match handoff spec: column hairline, first-row bottom rule, Sources spans full width with top rule
-- [ ] All internal links resolve via `getCanonicalPath()` — no literal path strings in the page diff
-- [ ] Status chip renders dot + label for every `status` value in the schema's `options.list` (read from schema, not memory) and renders nothing gracefully when status is absent
-- [ ] Abbreviation chip: size md, neutral (no dot, no status tint), uppercase, static span, visible gap between H1 text and chip
-- [ ] No status indicator renders above the H1 — status appears only in the DescriptionList Status row
-- [ ] Lead definition renders inside DS `Blockquote` (verified in inspector: `<blockquote>` element, not a styled div)
-- [ ] Pronunciation renders `/ nōd /` from stored `nōd` (slashes from template) — existing Sanity values audited for pre-typed slashes before ship
-- [ ] Every story in the Storybook Coverage table renders on `default` + `dark-pink-moon`; dark mode confirmed in Storybook, not assumed; component registry updated for any new/changed rows
-- [ ] `Pages/GlossaryTermDetailPage` story matches the shipped page structure (same components, same order) — drift between story and production page is a Visual QA finding
-- [ ] Visual QA gate: side-by-side comparison table vs `Gap Analysis - Term Detail.html` Proposed panel; "Visual QA approved" received before close-out
-- [ ] Open Item 1 from handoff (chip border 1.3:1 non-text contrast) logged as its own Linear issue (system token review) — not fixed locally
+- [x] `/glossary/:slug` (e.g. `/glossary/node`) renders the Proposed-panel structure with zero new content-type-prefixed CSS classes — `pnpm validate:css-names` exits 0
+- [x] `pnpm validate:tokens --strict-colors` exits 0 (no raw colors; ledger borders + seafoam underlines resolve through tokens)
+- [x] Metadata zone is a single `<dl>` (DescriptionList) — verified in inspector; two columns ≥768px, single column below
+- [x] Ledger borders match handoff spec: column hairline, first-row bottom rule, Sources spans full width with top rule
+- [x] All internal links resolve via `getCanonicalPath()` — no literal path strings in the page diff
+- [x] Status chip renders dot + label for every `status` value in the schema's `options.list` (read from schema, not memory) and renders nothing gracefully when status is absent
+- [x] Abbreviation chip: size md, neutral (no dot, no status tint), uppercase, static span, visible gap between H1 text and chip
+- [x] No status indicator renders above the H1 — status appears only in the DescriptionList Status row
+- [x] Lead definition renders inside DS `Blockquote` (verified in inspector: `<blockquote>` element, not a styled div)
+- [x] Pronunciation renders `/ nōd /` from stored `nōd` (slashes from template) — existing Sanity values audited for pre-typed slashes before ship
+- [x] Every story in the Storybook Coverage table renders on `default` + `dark-pink-moon`; dark mode confirmed in Storybook, not assumed; component registry updated for any new/changed rows
+- [x] `Pages/GlossaryTermDetailPage` story matches the shipped page structure (same components, same order) — drift between story and production page is a Visual QA finding
+- [x] Visual QA gate: side-by-side comparison table vs `Gap Analysis - Term Detail.html` Proposed panel; "Visual QA approved" received before close-out
+- [x] Open Item 1 from handoff (chip border 1.3:1 non-text contrast) logged as its own Linear issue (system token review) — not fixed locally
 
 ## Technical notes
 
@@ -136,3 +136,22 @@ Phase 0 (mockup gate) is satisfied by the design handoff itself: `Gap Analysis -
 - **Predecessor:** `docs/shipped/SUG-35-glossary.md` — glossary system + reuse refactor
 - **Recipe:** `docs/conventions/detail-page-recipe.md` — component vocabulary this epic must honour
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+---
+
+## Close-out (2026-06-12)
+
+<!-- Chromatic: pending — VRT deferred at close-out; new/updated stories (DescriptionList ledger family incl. LedgerWithChips, Chip AbbreviationBadge, Pages/GlossaryTermDetailPage, Pages/GlossaryArchivePage) verified manually on light-pink-moon + dark-pink-moon. Run Chromatic on next batch. -->
+
+- **Visual QA approved** 2026-06-12 (Bex) after two design-feedback rounds:
+  ledger border contrast (new `--st-dl-ledger-border` → neutral-400), connected
+  hairlines (gap collapsed into item padding), even-count last-row fix,
+  1-col ledger support, level label→value spacing.
+- **Deviation (approved):** `.termAbbr` retained for archive rows + popover —
+  archive changes are a non-goal; detail page uses the neutral Chip. Validator
+  exception comment updated to scope it.
+- **Phase 3 (`linkedNode` reference) cut at close-out** — re-scope as its own
+  issue if wanted; schema untouched, no deploy needed.
+- **Handoff Open Item 1** logged as SUG-164 (chip neutral border contrast,
+  system token review).
+- Commits: 29320c88, dbd9594e, 11307dfe, 7dcddaeb, bd213d16, 7b3589ce, ad308396.
