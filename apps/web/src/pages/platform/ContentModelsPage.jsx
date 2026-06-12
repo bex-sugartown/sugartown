@@ -99,7 +99,7 @@ function DocTypeSection({ docType, number }) {
 export default function ContentModelsPage() {
   usePlatformHero({
     title: 'Content Models',
-    subtitle: 'Field-level reference for every content-facing Sanity doc type. Generated from schema source at build time — authoritative for handoff authors, epic scoping, and GROQ query design.',
+    subtitle: 'Field-level reference for every content-facing Sanity doc type — names, types, required flags, enum values, and display-field rules. Generated from schema source at build time.',
   })
 
   return (
@@ -144,8 +144,8 @@ export default function ContentModelsPage() {
 
         <section className={styles.section}>
           <div className={styles.trustLinks}>
-            <a href={PLATFORM_ROUTES.designSystem} className={styles.trustLink}>
-              ← Design System
+            <a href={`${PLATFORM_ROUTES.cms}#schema-erd`} className={styles.trustLink}>
+              ← Schema ERD
             </a>
           </div>
         </section>

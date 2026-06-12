@@ -85,8 +85,9 @@ export const PLATFORM_ROUTES = {
   designSystem:   '/platform/design-system',
 
   dsRegistry:     '/platform/design-system/registry',
-  dsContentModels: '/platform/design-system/content-models',
   dsSections:     '/platform/design-system/sections',
+
+  cmsContentModels: '/platform/cms/content-models',
 }
 
 /**

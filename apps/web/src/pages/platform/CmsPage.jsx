@@ -1,12 +1,14 @@
+import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
+import Callout from '../../design-system/components/callout/Callout'
 import Grid from '../../design-system/components/grid/Grid'
 import StatCard from '../../components/StatCard'
 import CodeBlock from '../../design-system/components/codeblock/CodeBlock'
 import SchemaERD from '../../components/SchemaERD/SchemaERD'
 import { entities, relationships } from '../../data/schemaManifest'
-import { FIGJAM_URLS } from '../../lib/routes'
+import { FIGJAM_URLS, PLATFORM_ROUTES } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
 
 const ARTIFACTS = [
@@ -54,15 +56,15 @@ export default function CmsPage() {
           <SchemaERD entities={entities} relationships={relationships} />
         </section>
 
-        <section id="content-model" className={styles.section}>
-          <SectionLabel level="h3" number="§02" name="CONTENT MODEL" title="Visual architecture overview" kicker="FigJam" />
+        <section id="schema-architecture" className={styles.section}>
+          <SectionLabel level="h3" number="§02" name="SCHEMA ARCHITECTURE" title="Visual architecture overview" kicker="FigJam" />
           <iframe
             className={styles.figJam}
             height="450"
             src={FIGJAM_URLS.cmsContentModel}
             allowFullScreen
             loading="lazy"
-            title="Sugartown Sanity.io Content Model — FigJam"
+            title="Sugartown Sanity.io Schema Architecture — FigJam"
           />
         </section>
 
@@ -73,6 +75,13 @@ export default function CmsPage() {
             language="text"
             filename="relationships.txt"
           />
+        </section>
+
+        <section className={styles.section}>
+          <Callout title="Content Models — field-level reference">
+            Field names, types, required flags, enum values, and display-field rules for every doc type.{' '}
+            <Link to={PLATFORM_ROUTES.cmsContentModels}>Open Content Models →</Link>
+          </Callout>
         </section>
 
         <section id="cms-artifacts" className={styles.section}>

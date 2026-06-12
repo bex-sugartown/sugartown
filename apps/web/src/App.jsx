@@ -161,8 +161,8 @@ function App() {
             <Route path="design-system" element={<DesignSystemPage />} />
 
             <Route path="design-system/registry" element={<DesignSystemRegistryPage />} />
-            <Route path="design-system/content-models" element={<ContentModelsPage />} />
             <Route path="design-system/sections" element={<SectionShowcasePage />} />
+            <Route path="cms/content-models" element={<ContentModelsPage />} />
           </Route>
         </Route>
 

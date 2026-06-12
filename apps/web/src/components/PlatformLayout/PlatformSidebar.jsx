@@ -37,8 +37,9 @@ const NAV_SECTIONS = [
     to: PLATFORM_ROUTES.cms,
     items: [
       { label: 'Schema ERD', to: `${PLATFORM_ROUTES.cms}#schema-erd` },
-      { label: 'Content model', to: `${PLATFORM_ROUTES.cms}#content-model` },
+      { label: 'Schema Architecture', to: `${PLATFORM_ROUTES.cms}#schema-architecture` },
       { label: 'Relationships', to: `${PLATFORM_ROUTES.cms}#relationships` },
+      { label: 'Content models', to: PLATFORM_ROUTES.cmsContentModels },
       { label: 'Artifacts', to: `${PLATFORM_ROUTES.cms}#cms-artifacts` },
     ],
   },
@@ -48,7 +49,6 @@ const NAV_SECTIONS = [
     items: [
       { label: 'Token architecture', to: `${PLATFORM_ROUTES.designSystem}#token-architecture` },
       { label: 'Component registry', to: PLATFORM_ROUTES.dsRegistry },
-      { label: 'Content models', to: PLATFORM_ROUTES.dsContentModels },
       { label: 'Section modules', to: PLATFORM_ROUTES.dsSections },
       { label: 'Architecture', to: `${PLATFORM_ROUTES.designSystem}#architecture-figjam` },
       { label: 'Storybook', href: TRUST_LINKS.storybook },
