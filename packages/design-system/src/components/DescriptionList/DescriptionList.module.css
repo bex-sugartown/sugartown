@@ -32,6 +32,54 @@
   gap: var(--st-space-half);
 }
 
+/* ── Ledger variant (two-column only) ─────────────────────────────────────
+   Hairline between columns, rule under the first row, last item spans
+   full width above a top rule. Collapses to stacked dividers below 768px. */
+
+.ledger {
+  row-gap: var(--st-space-3);
+}
+
+.ledger .item:nth-child(odd):not(:last-child) {
+  border-right: 1px solid var(--st-color-border-default);
+  padding-right: var(--st-space-5);
+}
+
+.ledger .item:nth-child(even):not(:last-child) {
+  padding-left: var(--st-space-5);
+}
+
+.ledger .item:nth-child(-n + 2):not(:last-child) {
+  border-bottom: 1px solid var(--st-color-border-default);
+  padding-bottom: var(--st-space-3);
+}
+
+.ledger .item:last-child {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--st-color-border-default);
+  padding-top: var(--st-space-3);
+}
+
+@media (max-width: 767px) {
+  .ledger {
+    grid-template-columns: 1fr;
+  }
+
+  .ledger .item:nth-child(odd):not(:last-child) {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .ledger .item:nth-child(even):not(:last-child) {
+    padding-left: 0;
+  }
+
+  .ledger .item:not(:last-child) {
+    border-bottom: 1px solid var(--st-color-border-default);
+    padding-bottom: var(--st-space-3);
+  }
+}
+
 .term {
   font-family: var(--st-font-family-mono);
   font-size: var(--st-label-size);

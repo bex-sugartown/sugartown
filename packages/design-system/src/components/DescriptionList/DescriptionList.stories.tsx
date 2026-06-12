@@ -35,6 +35,63 @@ export const TwoColumn: Story = {
   },
 };
 
+const LEDGER_ITEMS = [
+  { label: 'Status', value: 'Evergreen' },
+  { label: 'Related Terms', value: 'counterfactual, knowledge graph' },
+  {
+    label: 'Used In',
+    value: 'The Seafoam That Should Have Been Lime; Glossary System Close-Out',
+  },
+  { label: 'Related Content', value: 'Pink Moon Design System PRD' },
+  {
+    label: 'Sources',
+    value: 'Merriam-Webster, "node"; Oxford English Dictionary, "node, n."',
+  },
+];
+
+/**
+ * Ledger variant — two-column with column hairline, first-row rule,
+ * and a full-width last row above a top rule. Resize below 768px to
+ * see the single-column collapse with stacked dividers.
+ */
+export const Ledger: Story = {
+  args: {
+    items: LEDGER_ITEMS,
+    columns: 2,
+    ledger: true,
+  },
+};
+
+/** Odd item count — the full-width last row absorbs the dangling item. */
+export const LedgerOddCount: Story = {
+  args: {
+    items: LEDGER_ITEMS.slice(0, 3),
+    columns: 2,
+    ledger: true,
+  },
+};
+
+/** Long values must wrap inside their column without breaking the hairline. */
+export const LedgerLongValues: Story = {
+  args: {
+    items: [
+      {
+        label: 'Definition source',
+        value:
+          'A very long citation string that wraps across multiple lines to verify the column hairline and padding hold up under wrapping content',
+      },
+      { label: 'Status', value: 'Validated' },
+      {
+        label: 'Sources',
+        value:
+          'Merriam-Webster, "node"; Oxford English Dictionary, "node, n."; Wikipedia, "Node (computer science)"',
+      },
+    ],
+    columns: 2,
+    ledger: true,
+  },
+};
+
 export const LongValues: Story = {
   args: {
     items: [

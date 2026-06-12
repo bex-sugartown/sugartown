@@ -4,12 +4,13 @@
  */
 import styles from './DescriptionList.module.css'
 
-export default function DescriptionList({ items, columns = 1, className }) {
+export default function DescriptionList({ items, columns = 1, ledger = false, className }) {
   return (
     <dl
       className={[
         styles.dl,
         columns === 2 ? styles.twoCol : styles.oneCol,
+        ledger && columns === 2 ? styles.ledger : null,
         className,
       ]
         .filter(Boolean)
