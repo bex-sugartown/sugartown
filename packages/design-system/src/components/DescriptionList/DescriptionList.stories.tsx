@@ -71,6 +71,24 @@ export const LedgerOddCount: Story = {
   },
 };
 
+/** Even item count — the final pair forms the last row; nothing spans. */
+export const LedgerEvenCount: Story = {
+  args: {
+    items: LEDGER_ITEMS.slice(0, 4),
+    columns: 2,
+    ledger: true,
+  },
+};
+
+/** Single column + ledger — stacked dividers pick up the stronger border. */
+export const LedgerSingleColumn: Story = {
+  args: {
+    items: LEDGER_ITEMS.slice(0, 4),
+    columns: 1,
+    ledger: true,
+  },
+};
+
 /** Long values must wrap inside their column without breaking the hairline. */
 export const LedgerLongValues: Story = {
   args: {

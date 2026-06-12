@@ -11,9 +11,10 @@ export interface DescriptionListProps {
   /** Number of columns — 1 for stacked, 2 for side-by-side */
   columns?: 1 | 2;
   /**
-   * Ledger treatment (two-column only): hairline between columns,
-   * rule under the first row, last item spans full width above a top rule.
-   * Collapses to a stacked single column below 768px.
+   * Ledger treatment. Two-column: continuous column divider, rule at every
+   * row boundary, dangling last item (odd count) spans full width; collapses
+   * to a stacked single column below 768px. One-column: stacked dividers
+   * with the stronger ledger border.
    */
   ledger?: boolean;
   className?: string;
@@ -25,7 +26,7 @@ export function DescriptionList({ items, columns = 1, ledger = false, className 
       className={[
         styles.dl,
         columns === 2 ? styles.twoCol : styles.oneCol,
-        ledger && columns === 2 ? styles.ledger : null,
+        ledger ? styles.ledger : null,
         className,
       ]
         .filter(Boolean)

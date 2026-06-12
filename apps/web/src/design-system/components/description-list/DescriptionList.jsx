@@ -10,7 +10,7 @@ export default function DescriptionList({ items, columns = 1, ledger = false, cl
       className={[
         styles.dl,
         columns === 2 ? styles.twoCol : styles.oneCol,
-        ledger && columns === 2 ? styles.ledger : null,
+        ledger ? styles.ledger : null,
         className,
       ]
         .filter(Boolean)

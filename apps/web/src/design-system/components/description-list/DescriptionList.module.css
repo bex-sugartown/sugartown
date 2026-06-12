@@ -32,58 +32,87 @@
   gap: var(--st-space-half);
 }
 
-/* ── Ledger variant (two-column only) ─────────────────────────────────────
-   Hairline between columns, rule under the first row, last item spans
-   full width above a top rule. Collapses to stacked dividers below 768px. */
+/* ── Ledger variant ───────────────────────────────────────────────────────
+   Two-column: continuous column divider + a rule at every row boundary.
+   Grid gap is collapsed to 0 with the spacing moved into item padding so
+   the hairlines connect instead of floating as disconnected segments.
+   The last item spans full width only when it would otherwise dangle
+   (odd item count); the row above's bottom rule doubles as its top rule.
+   Collapses to stacked dividers below 768px.
+   One-column: stacked dividers pick up the darker ledger border. */
 
-.ledger {
-  row-gap: var(--st-space-3);
+.oneCol.ledger .item {
+  border-bottom-color: var(--st-dl-ledger-border);
 }
 
-.ledger .item:nth-child(odd):not(:last-child) {
+.twoCol.ledger {
+  gap: 0;
+}
+
+.twoCol.ledger .item {
+  padding-block: var(--st-space-3);
+  border-bottom: 1px solid var(--st-dl-ledger-border);
+}
+
+/* first row sits flush with the top */
+.twoCol.ledger .item:nth-child(-n + 2) {
+  padding-top: 0;
+}
+
+/* column divider — continuous because the row gap is 0 */
+.twoCol.ledger .item:nth-child(odd):not(:last-child) {
   border-right: 1px solid var(--st-dl-ledger-border);
   padding-right: var(--st-space-5);
 }
 
-.ledger .item:nth-child(even):not(:last-child) {
+.twoCol.ledger .item:nth-child(even) {
   padding-left: var(--st-space-5);
 }
 
-.ledger .item:nth-child(-n + 2):not(:last-child) {
-  border-bottom: 1px solid var(--st-dl-ledger-border);
-  padding-bottom: var(--st-space-3);
+/* last row carries no bottom rule: the lone last item… */
+.twoCol.ledger .item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
-.ledger .item:last-child {
+/* …or both items of the final pair when the count is even */
+.twoCol.ledger .item:nth-child(odd):nth-last-child(2) {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* odd count: the dangling last item spans the full width */
+.twoCol.ledger .item:last-child:nth-child(odd):not(:first-child) {
   grid-column: 1 / -1;
-  border-top: 1px solid var(--st-dl-ledger-border);
-  padding-top: var(--st-space-3);
 }
 
 @media (max-width: 767px) {
-  .ledger {
+  .twoCol.ledger {
     grid-template-columns: 1fr;
   }
 
-  .ledger .item:nth-child(odd):not(:last-child) {
+  .twoCol.ledger .item:nth-child(odd):not(:last-child) {
     border-right: none;
     padding-right: 0;
   }
 
-  .ledger .item:nth-child(even):not(:last-child) {
+  .twoCol.ledger .item:nth-child(even) {
     padding-left: 0;
   }
 
-  .ledger .item:not(:last-child) {
+  /* second item is no longer in the first visual row */
+  .twoCol.ledger .item:nth-child(2) {
+    padding-top: var(--st-space-3);
+  }
+
+  /* stacked: every row except the last keeps its divider */
+  .twoCol.ledger .item:nth-child(odd):nth-last-child(2) {
     border-bottom: 1px solid var(--st-dl-ledger-border);
     padding-bottom: var(--st-space-3);
   }
 
-  /* Stacked rows already carry bottom dividers — a top rule on the last
-     item would double up against the previous row's divider */
-  .ledger .item:last-child {
-    border-top: none;
-    padding-top: 0;
+  .twoCol.ledger .item:last-child {
+    grid-column: auto;
   }
 }
 
