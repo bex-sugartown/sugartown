@@ -1,0 +1,92 @@
+/* ContentModelsPage.module.css
+ * Augments PlatformHubPage.module.css shared layout.
+ * All section/hub/trustLinks classes live in PlatformHubPage.module.css.
+ */
+
+/* ── Doc type meta strip ─────────────────────────────────────── */
+
+.typeMeta {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+}
+
+.badgeContent {
+  display: inline-block;
+  padding: 0.15em 0.5em;
+  background: color-mix(in srgb, var(--st-color-pink) 12%, var(--st-color-canvas));
+  border: 1px solid color-mix(in srgb, var(--st-color-pink) 30%, transparent);
+  color: var(--st-color-pink);
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.badgeTaxonomy {
+  display: inline-block;
+  padding: 0.15em 0.5em;
+  background: color-mix(in srgb, var(--st-color-seafoam) 12%, var(--st-color-canvas));
+  border: 1px solid color-mix(in srgb, var(--st-color-seafoam) 30%, transparent);
+  color: var(--st-color-seafoam-700);
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.displayFieldNote {
+  color: var(--st-color-text-secondary);
+}
+
+.taxonomyNote {
+  color: var(--st-color-text-secondary);
+  font-size: var(--st-font-size-xs);
+}
+
+/* ── Table cell variants ─────────────────────────────────────── */
+
+.typeCell {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  white-space: nowrap;
+  color: var(--st-color-text-secondary);
+}
+
+.reqCell {
+  text-align: center;
+  font-size: var(--st-font-size-xs);
+  color: var(--st-color-text-secondary);
+}
+
+/* ── Enum value list ─────────────────────────────────────────── */
+
+.enumList {
+  margin: 0.25rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.enumList li {
+  font-size: var(--st-font-size-xs);
+  font-family: var(--st-font-family-mono);
+}
+
+.enumTitle {
+  color: var(--st-color-text-secondary);
+  font-family: var(--st-font-family-ui);
+}
+
+.initialValue {
+  font-size: var(--st-font-size-xs);
+  color: var(--st-color-text-secondary);
+}
