@@ -129,7 +129,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-top: 0.5rem;
+  /* no own margin — the DL item's dt/dd gap owns label→value spacing,
+     keeping chip rows level with plain-value rows (e.g. Status) */
 }
 
 .sourcesList {
@@ -138,7 +139,7 @@
   flex-direction: column;
   gap: 0.5rem;
   padding: 0;
-  margin: 0.5rem 0 0;
+  margin: 0; /* DL item gap owns label→value spacing (matches .chipRow) */
 }
 
 .sourcesList li {
