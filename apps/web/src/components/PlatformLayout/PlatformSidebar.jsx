@@ -88,8 +88,15 @@ function useActiveSection() {
 }
 
 function SidebarSection({ section, activeId }) {
+  const { pathname } = useLocation()
   const sectionMatch = useMatch({ path: section.to ?? '', end: false })
   const sectionActive = section.items?.length && !!sectionMatch
+
+  // For sub-items that are full routes (no hash), scrollspy never fires — derive
+  // active state from the current pathname instead.
+  const resolvedActiveId = activeId ?? (
+    section.items?.find((item) => item.to && !item.to.includes('#') && pathname === item.to)?.to ?? null
+  )
 
   if (!section.items?.length) {
     return (
@@ -126,7 +133,7 @@ function SidebarSection({ section, activeId }) {
           href: item.href ?? item.to,
           external: !!item.href,
         }))}
-        activeId={activeId}
+        activeId={resolvedActiveId}
       />
     </div>
   )
