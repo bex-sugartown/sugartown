@@ -67,9 +67,7 @@ const KNOWN_EXCEPTIONS = new Set([
   'termDt', // <dt> row in archive definition list
   'termDd', // <dd> definition in archive definition list
   'termLink', // term name link inside <dt>
-  'termAbbr', // abbreviation badge, used in archive + detail + popover
-  'termPronunciation', // IPA pronunciation line on detail page
-  'termSection', // detail page section spacing wrapper
+  'termAbbr', // abbreviation badge — archive rows + popover only (detail uses Chip, SUG-162)
   'alphaFilterRow', // AlphaFilter DS component wrapper — spacing only, predates rule
   'glossaryLink', // inline PT annotation mark — glossary IS the semantic concept
   'glossaryPopover', // hover popover for glossary annotations

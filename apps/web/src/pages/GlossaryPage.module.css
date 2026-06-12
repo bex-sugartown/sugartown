@@ -62,7 +62,8 @@
   text-decoration: underline dotted;
 }
 
-/* Abbreviation badge */
+/* Abbreviation badge — archive rows + popover only.
+   Detail page uses neutral Chip variant="status" (SUG-162). */
 .termAbbr {
   font-family: var(--st-font-family-mono);
   font-size: 0.6rem;
@@ -83,7 +84,7 @@
 
 /* ── Glossary Term Detail ─────────────────────────────────────────────── */
 
-.termPronunciation {
+.pronunciation {
   font-family: var(--st-font-family-mono);
   font-size: 0.75rem;
   color: var(--st-color-text-muted);
@@ -91,8 +92,37 @@
   margin: 0 0 1.25rem;
 }
 
-.termSection {
-  margin-top: 2rem;
+/* Neutral abbreviation Chip inside the H1 — explicit gap from heading text */
+.headingChip {
+  margin-left: var(--st-space-3);
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+
+/* Used In / Related Content rows inside the metadata ledger:
+   type-label chip + linked title per row */
+.refList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--st-space-2);
+  padding: 0;
+  margin: 0;
+}
+
+.refRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--st-space-2);
+}
+
+.refRow a {
+  color: var(--st-color-text-default);
+  text-decoration: none;
+}
+
+.refRow a:hover {
+  color: var(--st-color-brand-primary);
 }
 
 .chipRow {
@@ -130,13 +160,13 @@
   color: inherit;
   text-decoration: underline;
   text-decoration-style: dotted;
-  text-decoration-color: var(--st-color-text-muted);
+  text-decoration-color: var(--st-color-seafoam-700);
   text-underline-offset: 3px;
   cursor: help;
 }
 
 .glossaryLink:hover {
-  text-decoration-color: var(--st-color-text-default);
+  text-decoration-color: var(--st-color-seafoam-500);
 }
 
 dfn.glossaryLink {
