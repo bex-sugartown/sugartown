@@ -12,74 +12,112 @@ Audit all non-hero archive and detail pages for H1 sizing and weight inconsisten
 
 ## Background
 
-Three separate CSS surfaces currently render the page H1 at three different sizes and weights, with no single canonical pattern:
+`PageHeader` is already the canonical H1 surface for most archive and taxonomy pages, but it uses `--st-font-heading-2` (2.25rem = **36px**, 400 weight) — the scale's second tier, not the page-level H1 spec. The DS typography convention (Storybook `/story/foundations-typography-conventions--default`) specifies the page H1 at 48px. Four detail/entity pages bypass `PageHeader` entirely and use the `pages.module.css` `.narrativeHeading` class instead (`clamp(1.75rem, 3.5vw, 2.5rem)` = **max 40px**, 600 weight). The result: every non-hero page on the site has an undersized H1, and detail pages additionally have a different weight and no consistent holder-header structure.
 
-1. **`PageHeader` component** (`PageHeader.module.css` `.title`) — uses `--st-font-heading-2` (2.25rem = 36px), `font-weight: normal`. Used by `KnowledgeGraphArchivePage` (`/library`) and `ArticlesArchivePage` (`/articles`).
-2. **`TaxonomyArchivePage`** (`.archiveTitle`) — uses `clamp(2rem, 4vw, 3rem)` (max 48px), italic, `font-weight: 600`. Used by `/tools`, `/people`, `/tags`, `/categories`, `/projects`.
-3. **`pages.module.css` `.narrativeHeading`** — uses `clamp(1.75rem, 3.5vw, 2.5rem)` (max 40px), `font-weight: 600`. Used by `ToolDetailPage` and others without a dedicated header component.
+## Full H1 audit — current state
 
-The DS typography convention (Storybook: `/story/foundations-typography-conventions--default`) specifies H1 at 48px. `--st-font-heading-1` is 3.25rem (52px); the practical page H1 target is 3rem (48px), consistent with the TaxonomyArchivePage `.archiveTitle` max. The Storybook observation confirms the mismatch is live and visible.
+### Pages already using `PageHeader` (token fix only — size wrong, structure correct)
+
+| Page file | Route(s) | italic? | Current font-size | Current weight | Target |
+|-----------|----------|---------|-------------------|----------------|--------|
+| `ArticlesArchivePage` | `/articles` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
+| `KnowledgeGraphArchivePage` | `/knowledge-graph` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
+| `CaseStudiesArchivePage` | `/case-studies` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
+| `GlossaryArchivePage` | `/glossary` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
+| `TaxonomyArchivePage` | `/tools`, `/people`, `/tags`, `/categories`, `/projects` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
+| `TaxonomyDetailPage` (via `TaxonomyPlaceholderPage`) | `/tags/:slug`, `/categories/:slug` | roman | `--st-font-heading-2` = 36px | 400 | 48px roman |
+| `ProjectDetailPage` | `/projects/:slug` | roman | `--st-font-heading-2` = 36px | 400 | 48px roman |
+
+### Pages NOT using `PageHeader` — migration required (size and structure both wrong)
+
+| Page file | Route(s) | italic? | CSS class | Current font-size | Current weight | Target |
+|-----------|----------|---------|-----------|-------------------|----------------|--------|
+| `GlossaryTermPage` | `/glossary/:slug` | roman | `.narrativeHeading` | `clamp(1.75–2.5rem)` max 40px | 600 | 48px roman via `PageHeader` |
+| `PersonProfilePage` | `/people/:slug` | italic | `.narrativeHeading .narrativeHeadingItalic` | `clamp(1.75–2.5rem)` max 40px | 600 | 48px italic via `PageHeader` |
+| `SeriesPage` | `/series/:slug` | roman | `.narrativeHeading` | `clamp(1.75–2.5rem)` max 40px | 600 | 48px roman via `PageHeader` |
+| `ToolDetailPage` | `/tools/:slug` | roman | `.narrativeHeading` | `clamp(1.75–2.5rem)` max 40px | 600 | 48px roman via `PageHeader` |
+
+### Intentionally excluded — section-builder / hero replaces PageHeader
+
+| Page file | Route(s) | Why excluded |
+|-----------|----------|--------------|
+| `ArticlePage` | `/articles/:slug` | `PageSections` with extracted `leadHero` — H1 lives inside hero section |
+| `NodePage` | `/nodes/:slug` | Same — `PageSections` with `leadHero` |
+| `CaseStudyPage` | `/case-studies/:slug` | Same — `PageSections` with `leadHero` |
+| `RootPage` | `/:slug` | Same — `PageSections` with `leadHero` |
+| `HomePage` | `/` | Same — `PageSections` with `leadHero` fallback |
+| `GovernancePage`, `CmsPage`, `DesignSystemPage`, `MonorepoPage`, `DesignSystemRegistryPage`, `ContentModelsPage`, `SectionShowcasePage` | `/platform/*` | `PlatformLayout` hero slot — own pattern, own CSS |
+
+### Utility pages — separate decision, not in scope
+
+| Page file | Route | H1 CSS | font-size | weight | Note |
+|-----------|-------|--------|-----------|--------|------|
+| `SitemapPage` | `/sitemap` | `.title` (local) | `clamp(2–2.5rem)` max 40px | 700 | Utility page; not a content archive/detail |
+| `NotFoundPage` | 404 | `.placeholderHeading` | `clamp(2–3rem)` | 700 | Error page; deliberate divergence is fine |
 
 ## Objective
 
-After this epic: every non-hero archive and detail page renders its H1 via the `PageHeader` component at a consistent size (3rem / 48px), with italic treatment for archive mastheads and roman for entity detail pages. `PageHeader.title` is updated from `--st-font-heading-2` to a dedicated `--st-font-page-h1` token (3rem). Pages currently using ad-hoc `.archiveTitle` or `.narrativeHeading` CSS for their H1 are migrated to `PageHeader`. The `PageHeader` Storybook story reflects the corrected spec. This epic does not touch hero-bearing content pages (ArticlePage, NodePage, CaseStudyPage) — their H1 lives inside the hero component.
+After this epic: `PageHeader` uses a new `--st-font-page-h1: 3rem` (48px) token for `.title`. All 7 pages currently on `PageHeader` get the size fix automatically. The 4 pages using `.narrativeHeading` are migrated to `PageHeader` with the correct `italic` prop. `.narrativeHeading` and `.narrativeHeadingItalic` are removed from `pages.module.css` (no remaining callsites). The `PageHeader` Storybook story is updated. Utility and hero-section pages are not touched.
 
 ## Scope
 
-- [ ] **Token:** Add `--st-font-page-h1: 3rem` to `tokens/source/tokens.json`, regenerate both `tokens.css` files — layer: tokens/tooling
-- [ ] **`PageHeader`:** Change `.title` from `--st-font-heading-2` to `--st-font-page-h1`; update Storybook story to show light + dark, roman + italic variants — layer: design system / Storybook
-- [ ] **`TaxonomyArchivePage`:** Migrate `.archiveTitle` inline header to `PageHeader`; remove `.archiveTitle` local class — layer: frontend
-- [ ] **`ToolDetailPage`:** Migrate `.narrativeHeading` H1 to `PageHeader` (roman, no italic) — layer: frontend
-- [ ] **Audit remaining non-hero pages:** Check `PersonProfilePage`, `TaxonomyDetailPage`, `ProjectDetailPage`, `GlossaryArchivePage`, `GlossaryTermPage`, `SeriesPage` — confirm each uses `PageHeader` or migrate it — layer: frontend
-- [ ] **Remove orphaned classes:** After migration, delete `.archiveTitle` from `TaxonomyArchivePage.module.css` and `.narrativeHeading` from `pages.module.css` if no remaining callsites — layer: frontend/CSS
+- [ ] **Token:** Add `--st-font-page-h1: 3rem` to `tokens/source/tokens.json`, regenerate both `tokens.css` files — layer: tokens
+- [ ] **`PageHeader`:** Change `.title` from `--st-font-heading-2` to `--st-font-page-h1`; update mobile breakpoint override accordingly — layer: design system
+- [ ] **PageHeader Storybook story** (`PageHeader.stories.jsx`): update to cover roman + italic + count + description variants; confirm light + dark via topbar — layer: Storybook
+- [ ] **`GlossaryTermPage`:** Replace `.narrativeHeading` H1 with `PageHeader` (roman) — layer: frontend
+- [ ] **`PersonProfilePage`:** Replace `.narrativeHeading .narrativeHeadingItalic` H1 with `PageHeader` (`italic` prop) — layer: frontend
+- [ ] **`SeriesPage`:** Replace `.narrativeHeading` H1 with `PageHeader` (roman) — layer: frontend
+- [ ] **`ToolDetailPage`:** Replace `.narrativeHeading` H1 with `PageHeader` (roman) — layer: frontend
+- [ ] **Remove orphaned classes:** Delete `.narrativeHeading` and `.narrativeHeadingItalic` from `pages.module.css` after confirming zero remaining callsites — layer: CSS
 
 ## Phases
 
 **Phase 1 — Token + PageHeader fix**
-Add `--st-font-page-h1` token. Update `PageHeader.title` to use it. Update PageHeader Storybook story. Validate with `pnpm validate:tokens`. Pages using `PageHeader` (`/library`, `/articles`) get the size fix for free.
+Add `--st-font-page-h1` token. Update `PageHeader.module.css`. Update Storybook story. Run `pnpm validate:tokens`. All 7 pages already on `PageHeader` get 48px automatically.
 
 **Phase 2 — Migration sweep**
-Migrate all remaining non-hero pages from ad-hoc `.archiveTitle` / `.narrativeHeading` to `PageHeader`. Remove orphaned CSS classes. Confirm zero remaining raw font-size declarations for page H1 outside `PageHeader.module.css`.
+Migrate GlossaryTermPage, PersonProfilePage, SeriesPage, ToolDetailPage from `.narrativeHeading` to `PageHeader`. Remove `.narrativeHeading` / `.narrativeHeadingItalic` from `pages.module.css`. Visual QA all 4 migrated pages.
 
 ## Acceptance criteria
 
-- [ ] `--st-font-page-h1: 3rem` token exists in `tokens/source/tokens.json` and both generated `tokens.css` files
-- [ ] `pnpm validate:tokens` reports zero errors after token addition
-- [ ] `PageHeader.title` renders at 48px (3rem) on desktop on every page it is used
-- [ ] `/library` H1 renders italic, 48px (was 36px)
-- [ ] `/articles` H1 renders italic, 48px (was 36px)
-- [ ] `/tools` archive H1 renders italic, 48px (was `clamp` with inconsistent weight) via `PageHeader`
-- [ ] `/tools/:slug` detail H1 renders roman, 48px (was 40px)
-- [ ] `/people`, `/tags`, `/categories`, `/projects` archive pages render H1 via `PageHeader` at 48px
-- [ ] All entity detail pages in scope render H1 via `PageHeader` at 48px
-- [ ] `.archiveTitle` and `.narrativeHeading` removed from CSS if no remaining callsites
-- [ ] PageHeader Storybook story covers: default (roman), italic, with count, with description — light + dark via topbar dropdown
+- [ ] `--st-font-page-h1: 3rem` token in `tokens/source/tokens.json` and both generated `tokens.css` files; `pnpm validate:tokens` clean
+- [ ] `PageHeader.title` renders at 48px (3rem) at desktop widths on every page that uses it
+- [ ] All 5 archive pages (`/articles`, `/knowledge-graph`, `/case-studies`, `/glossary`, taxonomy archives) render H1 italic at 48px
+- [ ] All 4 taxonomy/project detail pages (`/tags/:slug`, `/categories/:slug`, `/projects/:slug`, and equivalents) render H1 roman at 48px
+- [ ] `/glossary/:slug`, `/people/:slug`, `/series/:slug`, `/tools/:slug` render H1 via `PageHeader` at 48px (roman except `/people/:slug` which is italic)
+- [ ] `.narrativeHeading` and `.narrativeHeadingItalic` deleted from `pages.module.css`
+- [ ] `grep -rn "narrativeHeading" apps/web/src/` returns zero results
+- [ ] PageHeader Storybook story passes in both light and dark themes
+- [ ] `pnpm validate:tokens --strict-colors` clean
 
 ## Technical notes
 
-- **Activation audit:** Before Phase 2 migration, grep all page files for `.archiveTitle` and `.narrativeHeading` callsites to get a complete migration list: `grep -rn "archiveTitle\|narrativeHeading" apps/web/src/pages/`
-- **`PageHeader` import path:** `apps/web/src/design-system/components/PageHeader/PageHeader.jsx` — already imported in KnowledgeGraphArchivePage and ArticlesArchivePage; reuse the same import pattern.
-- **Italic convention:** Archive mastheads (listing pages) use `italic` prop on `PageHeader`. Entity detail pages (tool, person, project, glossary term) use roman (no `italic` prop). Series pages: check against convention at activation.
-- **No schema changes.** No Sanity writes. No Content Write Gate.
-- **`--st-font-heading-1` vs `--st-font-page-h1`:** Do not repurpose `--st-font-heading-1` (3.25rem / 52px) — it is the heading scale top, not the page H1. Create a new `--st-font-page-h1: 3rem` at the page-layout semantic layer. This matches the existing TaxonomyArchivePage clamp max and the DS convention the user observed.
-- **`clamp` for responsiveness:** PageHeader's mobile override already sets `.title { font-size: var(--st-font-size-2xl) }` at ≤520px. At activation, confirm `--st-font-size-2xl` is an appropriate mobile floor (should be ~1.75rem / 28px) or adjust the mobile clamp. Do not add a new clamp to the token value itself.
-- **Model & Mode:** `/model opusplan` — Opus plans the token addition + PageHeader change + migration order, Sonnet executes after plan-mode exit.
+- **`--st-font-heading-1` vs `--st-font-page-h1`:** Do not repurpose `--st-font-heading-1` (3.25rem / 52px) — it is the top of the type scale, not the page-layout H1. Add a distinct `--st-font-page-h1: 3rem` semantic token. This aligns with the DS convention observed in Storybook and avoids colliding with the type scale.
+- **Mobile override:** `PageHeader.module.css` already sets `@media (max-width: 520px) .title { font-size: var(--st-font-size-2xl) }`. At activation, confirm `--st-font-size-2xl` value (check tokens.css) is an appropriate mobile floor. Do not embed a clamp in the token itself.
+- **`PersonProfilePage` migration note:** PersonProfilePage renders its H1 inside a `.folioIdentity` block alongside an avatar and metadata. At migration, the `PageHeader` `media` slot can hold the avatar, and the `metadataCard` slot holds the metadata card, preserving the existing layout structure. Confirm this at activation by reading the full `PersonProfilePage.jsx` render tree before writing code.
+- **`SeriesPage` italic decision:** Series archive mastheads could go either way. Current `.narrativeHeading` has no italic. Convention: series is a content-grouping entity, not a pure taxonomy, so roman is likely correct. Confirm at activation.
+- **`PageHeader` import:** already exported from `apps/web/src/design-system/index.js` — import as `import { PageHeader } from '../design-system'` in all migrated pages.
+- **No schema changes. No Sanity writes. No Content Write Gate.**
+- **Activation audit:** run `grep -rn "narrativeHeading" apps/web/src/` at session start to confirm the 4 callsite list hasn't changed.
 
 ## Model & Mode [REQUIRED]
 
-`/model opusplan` — Token change + CSS component edit + multi-page migration sweep. Opus to plan the token addition, PageHeader CSS change, and identify all migration targets in one pre-execution pass. Sonnet executes phase by phase.
+`/model opusplan` — Token addition + PageHeader CSS change + 4-page migration + class deletion. Opus to plan the full change set and identify any structural differences in the 4 migrated pages (especially PersonProfilePage folio layout). Sonnet executes phase by phase after plan approval.
 
 ## Non-Goals
 
-- Hero-bearing content pages (ArticlePage, NodePage, CaseStudyPage) — H1 lives inside hero components, not in scope.
-- Responsive breakpoint redesign — mobile sizes are not being changed, only the desktop max.
-- Font family changes — this audit is size and weight only; typeface choices are locked.
-- Dark mode token additions — the page H1 inherits theme via `--st-color-text-default` already set on `PageHeader`.
+- Hero-bearing content pages (ArticlePage, NodePage, CaseStudyPage, RootPage, HomePage) — H1 in hero section, not in scope
+- Platform pages (`/platform/*`) — PlatformLayout hero slot is a separate pattern
+- Utility pages (SitemapPage, NotFoundPage) — deliberate divergence acceptable
+- Font family changes — size and weight only; typeface locked
+- Weight change on `PageHeader` — `font-weight: normal (400)` is intentional for the narrative font at large size; do not change to 600
+- Responsive redesign beyond fixing the mobile floor token reference
 
 ## Related
 
 - **Linear:** [SUG-165](https://linear.app/sugartown/issue/SUG-165/archive-and-detail-page-h1-audit-holder-header-standardisation)
 - **PageHeader component:** `apps/web/src/design-system/components/PageHeader/PageHeader.jsx`
 - **PageHeader CSS:** `apps/web/src/design-system/components/PageHeader/PageHeader.module.css`
+- **PageHeader Storybook:** `http://localhost:6006/?path=/docs/patterns-pageheader--docs`
 - **DS typography conventions:** `http://localhost:6006/?path=/story/foundations-typography-conventions--default`
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
