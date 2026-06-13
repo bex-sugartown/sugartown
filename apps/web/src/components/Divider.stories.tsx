@@ -6,6 +6,17 @@ const meta: Meta<typeof DividerBlock> = {
   component: DividerBlock,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
+  argTypes: {
+    value: {
+      control: 'select',
+      options: ['default', 'subtle'],
+      mapping: {
+        default: { style: 'default' },
+        subtle:  { style: 'subtle' },
+      },
+      description: "Styles: `'default'` (standard pink-tinted rule) or `'subtle'` (reduced opacity).",
+    },
+  },
 }
 
 export default meta
@@ -19,7 +30,3 @@ export const Subtle: Story = {
   args: { value: { style: 'subtle' } },
 }
 
-export const DarkMode: Story = {
-  args: { value: { style: 'default' } },
-  globals: { theme: 'dark-pink-moon' },
-}

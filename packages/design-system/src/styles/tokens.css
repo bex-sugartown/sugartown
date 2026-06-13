@@ -283,7 +283,9 @@
   --st-color-brand-primary-tint-10: rgba(255, 36, 125, 0.10);
   --st-color-pt-divider-light: rgba(255, 111, 184, 0.25);
   --st-color-pt-divider-light-strong: rgba(255, 111, 184, 0.35);
+  --st-color-pt-divider-light-2x: rgba(255, 111, 184, 0.45);
   --st-color-pt-divider-dark: rgba(255, 36, 125, 0.18);
+  --st-color-pt-divider-dark-2x: rgba(255, 36, 125, 0.32);
   --st-color-pt-divider-dark-mid: rgba(255, 36, 125, 0.25);
   --st-color-pt-divider-dark-subtle: rgba(255, 36, 125, 0.15);
   --st-code-color-default: #f8f8f2;

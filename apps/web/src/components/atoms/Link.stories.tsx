@@ -37,7 +37,3 @@ export const NoUrl: Story = {
   args: { label: 'Plain text — no link', url: undefined },
 }
 
-export const DarkMode: Story = {
-  args: { label: 'Articles', url: '/articles' },
-  globals: { theme: 'dark-pink-moon' },
-}

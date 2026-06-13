@@ -14,13 +14,13 @@
 /* ── Divider — horizontal rule ──────────────────────────────────────────── */
 .divider {
   border: none;
-  border-top: 1px solid var(--st-color-pt-divider-light);
+  border-top: 1px solid var(--st-color-pt-divider-light-2x);
   margin-block: var(--st-space-section-break-detail, 2.5rem);
   width: 100%;
 }
 
 :global([data-theme="light-pink-moon"]) .divider {
-  border-top-color: var(--st-color-pt-divider-dark);
+  border-top-color: var(--st-color-pt-divider-dark-2x);
 }
 
 .dividerSubtle {
