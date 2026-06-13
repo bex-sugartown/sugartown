@@ -469,6 +469,39 @@ State how re-running the script produces no change:
 
 ---
 
+## Human QA Walkthrough — Example Local Pages [REQUIRED if epic touches CSS, layout, or component rendering]
+
+> Origin: SUG-165. Any epic that changes a shared CSS surface, a token used in layout,
+> or a component rendered on more than one page must enumerate **one example local URL
+> per affected page-type** so a human can step through every implementation and confirm
+> the change landed everywhere it should — and nowhere it shouldn't.
+>
+> **Build this table at activation, not at close-out.** It is the route inventory that the
+> App.jsx routing read (Pre-Execution Gate) feeds into. Fill it from the *live* routes in
+> `apps/web/src/App.jsx`, not from memory — the page-type → component mapping is the exact
+> thing that drifts (e.g. `/articles` is served by generic `ArchivePage.jsx`, not a per-type
+> `ArticlesArchivePage`).
+>
+> **Slug rules:** detail-page rows need a real published slug. Capture one per type at
+> activation (archive page → first card href, or a GROQ `*[_type=="X"][0].slug.current`
+> query) and datestamp the capture. Add a fallback note: "if a slug 404s, the doc was
+> unpublished — pick another from the matching archive."
+
+| Page-type (live renderer) | Route pattern | Example local URL | Expected result (size / weight / italic / colour — whatever this epic changes) |
+|---|---|---|---|
+| _e.g. `ArchivePage` (articles)_ | `/articles` | `http://localhost:5173/articles` | _e.g. H1 48px italic_ |
+| _e.g. `ToolDetailPage`_ | `/tools/:slug` | `http://localhost:5173/tools/aem` | _e.g. H1 48px roman_ |
+
+> **Coverage rule:** every page-type the epic's CSS/token change can reach must appear as a
+> row — including pages that should be **unchanged** (regression guard). If a route renders a
+> component this epic touches but is intentionally excluded, add it with "Expected: no change"
+> so the human verifies it didn't regress. Group rows by treatment (changed vs unchanged, or
+> by expected value) so the walkthrough reads top-to-bottom.
+>
+> Verify each row on both `light` and `dark` themes where the page supports theme switching.
+
+---
+
 ## Visual QA Gate [REQUIRED if epic touches CSS, layout, or component rendering]
 
 > This gate runs AFTER all acceptance criteria pass and BEFORE post-epic close-out.

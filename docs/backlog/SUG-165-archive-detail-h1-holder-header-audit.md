@@ -18,15 +18,27 @@ Audit all non-hero archive and detail pages for H1 sizing and weight inconsisten
 
 ### Pages already using `PageHeader` (token fix only — size wrong, structure correct)
 
-| Page file | Route(s) | italic? | Current font-size | Current weight | Target |
+> **Corrected after App.jsx routing read (activation audit).** The live archive
+> renderers are NOT the per-type `*ArchivePage` files originally listed — `/articles`,
+> `/case-studies`, and `/library` are all served by the generic `ArchivePage.jsx`
+> (`archiveSlug` prop), and `/knowledge-graph` is served by `SiteGraphPage.jsx`. All of
+> these use `PageHeader`, so the token fix flows to them automatically. See the dead-code
+> note below the table.
+
+| Page file (live renderer) | Route(s) | italic? | Current font-size | Current weight | Target |
 |-----------|----------|---------|-------------------|----------------|--------|
-| `ArticlesArchivePage` | `/articles` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
-| `KnowledgeGraphArchivePage` | `/knowledge-graph` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
-| `CaseStudiesArchivePage` | `/case-studies` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
+| `ArchivePage` | `/articles`, `/case-studies`, `/library` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
+| `SiteGraphPage` | `/knowledge-graph` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
 | `GlossaryArchivePage` | `/glossary` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
 | `TaxonomyArchivePage` | `/tools`, `/people`, `/tags`, `/categories`, `/projects` | italic | `--st-font-heading-2` = 36px | 400 | 48px italic |
 | `TaxonomyDetailPage` (via `TaxonomyPlaceholderPage`) | `/tags/:slug`, `/categories/:slug` | roman | `--st-font-heading-2` = 36px | 400 | 48px roman |
 | `ProjectDetailPage` | `/projects/:slug` | roman | `--st-font-heading-2` = 36px | 400 | 48px roman |
+
+**Dead-code note (out of scope — flag for separate cleanup):** `ArticlesArchivePage.jsx`,
+`CaseStudiesArchivePage.jsx`, and `KnowledgeGraphArchivePage.jsx` exist on disk and import
+`PageHeader`, but are referenced **0×** in `App.jsx` — they are unrouted. They will inherit
+the token fix if ever re-routed, but they are not part of this epic's QA surface. A cleanup
+task to delete them should be raised separately (do not bundle into SUG-165).
 
 ### Pages NOT using `PageHeader` — migration required (size and structure both wrong)
 
@@ -36,6 +48,12 @@ Audit all non-hero archive and detail pages for H1 sizing and weight inconsisten
 | `PersonProfilePage` | `/people/:slug` | italic | `.narrativeHeading .narrativeHeadingItalic` | `clamp(1.75–2.5rem)` max 40px | 600 | 48px italic via `PageHeader` |
 | `SeriesPage` | `/series/:slug` | roman | `.narrativeHeading` | `clamp(1.75–2.5rem)` max 40px | 600 | 48px roman via `PageHeader` |
 | `ToolDetailPage` | `/tools/:slug` | roman | `.narrativeHeading` | `clamp(1.75–2.5rem)` max 40px | 600 | 48px roman via `PageHeader` |
+
+**5th callsite (Storybook — required for closure grep to reach zero):**
+`apps/web/src/components/GlossaryTermDetailPage.stories.jsx:84` also renders `.narrativeHeading`.
+The closure AC (`grep -rn "narrativeHeading" apps/web/src/` returns zero) **cannot pass** unless
+this story is also migrated to the `PageHeader`-based markup. This was missed in the first draft
+(4 callsites listed); the activation grep found 5. Migrate the story in Phase 2 alongside the pages.
 
 ### Intentionally excluded — section-builder / hero replaces PageHeader
 
@@ -68,7 +86,48 @@ After this epic: `PageHeader` uses a new `--st-font-page-h1: 3rem` (48px) token 
 - [ ] **`PersonProfilePage`:** Replace `.narrativeHeading .narrativeHeadingItalic` H1 with `PageHeader` (`italic` prop) — layer: frontend
 - [ ] **`SeriesPage`:** Replace `.narrativeHeading` H1 with `PageHeader` (roman) — layer: frontend
 - [ ] **`ToolDetailPage`:** Replace `.narrativeHeading` H1 with `PageHeader` (roman) — layer: frontend
+- [ ] **`GlossaryTermDetailPage.stories.jsx`:** Migrate the `.narrativeHeading` usage (line 84) to `PageHeader` so the closure grep reaches zero — layer: Storybook
 - [ ] **Remove orphaned classes:** Delete `.narrativeHeading` and `.narrativeHeadingItalic` from `pages.module.css` after confirming zero remaining callsites — layer: CSS
+
+## QA walkthrough — example local pages (one per updated page-type)
+
+> Human step-through surface. After Phase 2, open each URL on the local dev server
+> (`http://localhost:5173`) and confirm the H1 renders at **48px** with the correct
+> italic/roman treatment. Slugs below are real published documents captured at activation
+> (2026-06-13) — if a slug 404s, the document was unpublished; pick another from the
+> matching archive. Verify on both `light` and `dark` themes where the page supports it.
+
+**Archive pages (token fix only — expect 48px italic H1):**
+
+| Page-type (live renderer) | Example local URL | Expected H1 |
+|---|---|---|
+| `ArchivePage` (articles) | http://localhost:5173/articles | 48px italic |
+| `ArchivePage` (case-studies) | http://localhost:5173/case-studies | 48px italic |
+| `ArchivePage` (library) | http://localhost:5173/library | 48px italic |
+| `SiteGraphPage` | http://localhost:5173/knowledge-graph | 48px italic |
+| `GlossaryArchivePage` | http://localhost:5173/glossary | 48px italic |
+| `TaxonomyArchivePage` (tools) | http://localhost:5173/tools | 48px italic |
+| `TaxonomyArchivePage` (people) | http://localhost:5173/people | 48px italic |
+| `TaxonomyArchivePage` (tags) | http://localhost:5173/tags | 48px italic |
+| `TaxonomyArchivePage` (categories) | http://localhost:5173/categories | 48px italic |
+| `TaxonomyArchivePage` (projects) | http://localhost:5173/projects | 48px italic |
+
+**Detail pages already on `PageHeader` (token fix only — expect 48px roman H1):**
+
+| Page-type | Example local URL | Expected H1 |
+|---|---|---|
+| `TaxonomyPlaceholderPage` (tag) | http://localhost:5173/tags/resist | 48px roman |
+| `TaxonomyPlaceholderPage` (category) | http://localhost:5173/categories/ai | 48px roman |
+| `ProjectDetailPage` | http://localhost:5173/projects/mini-repo | 48px roman |
+
+**Detail pages migrated to `PageHeader` (structure + size change — expect 48px):**
+
+| Page-type | Example local URL | Expected H1 |
+|---|---|---|
+| `GlossaryTermPage` | http://localhost:5173/glossary/atomic-design | 48px roman |
+| `PersonProfilePage` | http://localhost:5173/people/beehead | 48px italic |
+| `SeriesPage` | http://localhost:5173/series/test-series | 48px roman |
+| `ToolDetailPage` | http://localhost:5173/tools/aem | 48px roman |
 
 ## Phases
 
@@ -76,7 +135,7 @@ After this epic: `PageHeader` uses a new `--st-font-page-h1: 3rem` (48px) token 
 Add `--st-font-page-h1` token. Update `PageHeader.module.css`. Update Storybook story. Run `pnpm validate:tokens`. All 7 pages already on `PageHeader` get 48px automatically.
 
 **Phase 2 — Migration sweep**
-Migrate GlossaryTermPage, PersonProfilePage, SeriesPage, ToolDetailPage from `.narrativeHeading` to `PageHeader`. Remove `.narrativeHeading` / `.narrativeHeadingItalic` from `pages.module.css`. Visual QA all 4 migrated pages.
+Migrate GlossaryTermPage, PersonProfilePage, SeriesPage, ToolDetailPage **and `GlossaryTermDetailPage.stories.jsx`** from `.narrativeHeading` to `PageHeader`. Remove `.narrativeHeading` / `.narrativeHeadingItalic` from `pages.module.css` only after `grep -rn "narrativeHeading" apps/web/src/` returns zero. Visual QA all 4 migrated pages plus the story in Storybook.
 
 ## Acceptance criteria
 

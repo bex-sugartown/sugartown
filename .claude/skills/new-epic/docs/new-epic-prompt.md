@@ -136,6 +136,20 @@ The merge strategy label convention (from CLAUDE.md):
 - [ ] {specific, testable outcome}
 - [ ] {specific, testable outcome}
 
+## Human QA Walkthrough — example local pages
+
+{REQUIRED if any Scope bullet touches CSS, a layout token, or a component rendered on
+more than one page. If no Scope bullet touches CSS/layout/shared components, replace this
+section with "Not applicable — no shared CSS, token, or multi-page component changes."}
+
+{Do NOT fill the table now — the live route → component mapping must be read from
+`apps/web/src/App.jsx` at activation. Instead, write the activation instruction verbatim:}
+
+> Activation audit: read `apps/web/src/App.jsx`, list every page-type whose CSS this epic
+> can reach, and build the Human QA Walkthrough table (one example local URL per page-type,
+> incl. unchanged pages as regression guards) per `docs/epic-template.md` §Human QA
+> Walkthrough. Capture one real published slug per detail page-type and datestamp it.
+
 ## Technical notes
 
 {Cover every applicable item:}
@@ -241,6 +255,7 @@ using docs/epic-template.md as the reference.
 - Never leave Background, Objective, Scope, or Acceptance Criteria as `TODO` — fill from invocation context.
 - For sections requiring a codebase audit (Doc Type Coverage, Query Layer, Files to Modify), write a specific activation audit instruction, not `TODO`.
 - Never create a duplicate: before Step 1, grep `docs/backlog/` for an existing file with a similar name. If one exists, tell the human and ask for confirmation before proceeding.
+- If any Scope bullet touches CSS, a layout token, or a multi-page component, the stub MUST include the **Human QA Walkthrough** section (with the App.jsx activation instruction) — not as a `TODO`, but as the written activation audit. A CSS/layout epic stub without this section is incomplete.
 
 ---
 
