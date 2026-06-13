@@ -76,7 +76,7 @@
 
 .title {
   font-family: var(--st-font-family-narrative);
-  font-size: var(--st-font-heading-2);
+  font-size: var(--st-font-page-h1);
   font-weight: var(--st-font-weight-normal);
   line-height: var(--st-line-height-tight);
   color: var(--st-color-text-default);

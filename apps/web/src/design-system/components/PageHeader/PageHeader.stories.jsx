@@ -419,8 +419,8 @@ function PageHeaderGuidelinesPage() {
         </TokenGroup>
         <TokenGroup label="Typography — H1">
           <TokenRow token="--st-font-family-narrative" value="Cormorant Garamond" role=".title font family" />
-          <TokenRow token="--st-font-heading-2" value="2.5rem" role=".title font size (desktop)" />
-          <TokenRow token="--st-font-size-2xl" value="1.875rem" role=".title font size (mobile, ≤520px)" />
+          <TokenRow token="--st-font-page-h1" value="3rem (48px)" role=".title font size (desktop) — page-level H1 per DS typography convention" />
+          <TokenRow token="--st-font-size-2xl" value="1.75rem (28px)" role=".title font size (mobile, ≤520px)" />
           <TokenRow token="--st-font-weight-normal" value="400" role=".title font weight" />
           <TokenRow token="--st-line-height-tight" value="1.2" role=".title line height" />
           <TokenRow token="--st-color-text-default" value="—" role=".title color" />
@@ -513,6 +513,9 @@ function PageHeaderGuidelinesPage() {
 
       {/* 14 — Changelog */}
       <DocSection n="14" title="Changelog" priority="should">
+        <ChangelogEntry version="SUG-165" date="2026-06-13">
+          <ChangelogItem>H1 size corrected to the page-level spec: <code style={s.code}>.title</code> now uses <code style={s.code}>--st-font-page-h1</code> (3rem / 48px), replacing <code style={s.code}>--st-font-heading-2</code> (2.25rem / 36px). All pages using PageHeader render the H1 at 48px.</ChangelogItem>
+        </ChangelogEntry>
         <ChangelogEntry version="v0.26.8" date="2026-06-07">
           <ChangelogItem>SUG-157 DS Codification Sprint — PageHeader formally documented with 14-section Guidelines story.</ChangelogItem>
           <ChangelogItem>No API changes in this release.</ChangelogItem>
