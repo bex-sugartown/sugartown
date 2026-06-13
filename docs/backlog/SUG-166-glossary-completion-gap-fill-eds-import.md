@@ -87,6 +87,7 @@ Full EDS definitions (verbatim, for shaping the Sugartown versions) live in the 
 - [ ] **Phase 2 — Import Tier 1 token/theme terms** (4) — layer: content (taxonomy creation)
 - [ ] **Phase 3 — Import Tier 2 + Tier 3 terms** (~10) — layer: content
 - [ ] **Phase 4 — Import Tier 4 terms** (audit which components/process terms Sugartown ships first) — layer: content
+- [ ] **Phase 5 — The Bextionary** — coined / in-house / amusing Sugartown-native terms, filed under a `Bextionary` category, with a parenthetical nod on the glossary masthead — layer: content
 
 ## Phases (merge-as-you-go)
 
@@ -96,6 +97,7 @@ Each phase is an independent content batch: propose → Content Write Gate appro
 **Phase 2** — Tier 1 token tiers + Theme (the highest-value import; directly closes the SUG-165 gap).
 **Phase 3** — Tier 2 + 3 taxonomy/artifacts/principles.
 **Phase 4** — Tier 4, after a `packages/design-system/src/components/` audit confirms which UI-component terms map to shipped components.
+**Phase 5 — The Bextionary** — origin: a team glossary Bex maintained at a prior job for the obscure and made-up terms her reports found amusing. Sugartown already speaks this dialect; this phase files it. Two registers are kept deliberately separate: the **industry vocabulary** (Phases 1–4) must be *correct* and citable; the **Bextionary** must be *true to Bex* — node-voice definitions, em dashes and deadpan emoji permitted, `status: exploring`. Mechanism: a `Bextionary` `category` (no schema change — `glossaryTerm.categories` already exists), so the `/glossary` archive can filter to just the bextionary while formal terms stay formal. Masthead gets the wink: *"Sugartown Glossary (and the Bextionary)"* on the archive description/eyebrow. Candidate starter set (already living in the nodes): Agentic Caucus · VoPM (Voice of the PM) · Pink Moon · Forensic Storyteller · the Comedic Contract · vibing / vibe-coding · "term term term" · Left to My Own Devices. Each coinage's wording still passes the Content Write Gate.
 
 ## Acceptance criteria
 
@@ -107,6 +109,9 @@ Each phase is an independent content batch: propose → Content Write Gate appro
 - [ ] Tier 4 terms created only for components Sugartown ships (audit recorded)
 - [ ] Every new term passes taxonomy pre-flight (no near-duplicate of an existing `glossaryTerm`)
 - [ ] All copy passed the Content Write Gate (proposal approved) before any Sanity write; all content written via `_from_json` tools (no AI-rewriting pipeline)
+- [ ] **Bextionary facet** exists: a `Bextionary` category created (taxonomy pre-flight first), coined terms tagged with it, and the `/glossary` archive can filter to it
+- [ ] **Masthead parenthetical** added: the glossary archive description/eyebrow nods to the Bextionary (e.g. *"Sugartown Glossary (and the Bextionary)"*)
+- [ ] Bextionary entries use node-voice (em dashes / deadpan emoji permitted), `status: exploring`; formal Phase 1–4 terms remain straight
 - [ ] Bex published all drafts (human-publishes gate) — Linear Done only after content is live
 
 ## Technical notes
@@ -116,7 +121,9 @@ Each phase is an independent content batch: propose → Content Write Gate appro
 - **Content Write Gate (blocking):** all definitions are AI-interpreted copy → produce a before/after proposal table per batch and wait for explicit approval before `patch_document_from_json` / `create_documents_from_json`. Use `_from_json` tools only (no `_from_markdown` AI-rewriting).
 - **PortableText shape:** every block needs `markDefs: []`, every span needs `marks: []` (CLAUDE.md §Portable Text blocks written via MCP).
 - **Sources field shape:** `sources: [{ _key, _type: 'source', text: '...', url: '...' }]`.
-- **Render layer unchanged:** `GlossaryTermPage.jsx` already renders abbreviation (chip), pronunciation, extendedDefinition, and sources. No frontend or CSS changes — this is a pure content epic.
+- **Render layer unchanged:** `GlossaryTermPage.jsx` already renders abbreviation (chip), pronunciation, extendedDefinition, and sources. No frontend or CSS changes for Phases 1–4 — pure content.
+- **Bextionary category + filter:** `glossaryTerm.categories` already exists, and the glossary archive already supports category context. Activation audit: confirm the `/glossary` archive can filter by category (read `GlossaryArchivePage.jsx`) — if it only filters by letter (AlphaFilter), Phase 5 may need a small category-filter addition (the one possible code touch in this epic; if so, it gets a Human QA Walkthrough row).
+- **Masthead parenthetical:** confirm where the glossary archive description/eyebrow copy lives — the `archivePage` Sanity doc (content edit, Content Write Gate) vs. a hardcoded string in `GlossaryArchivePage.jsx` (one-line copy change). Resolve at activation; prefer the content source if one exists.
 - **EDS source is local-only:** the Confluence HTML stays on Bex's Desktop. Reference it in this doc; do not copy it into the repo.
 - **Human QA Walkthrough:** N/A — no CSS, layout, or multi-page component changes (content into existing render).
 
