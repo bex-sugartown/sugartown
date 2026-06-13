@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-165 — Archive and detail page H1 audit — holder header standardisation
 **Linear Issue:** [SUG-165](https://linear.app/sugartown/issue/SUG-165/archive-and-detail-page-h1-audit-holder-header-standardisation)
-**Status:** Backlog
+**Status:** Shipped (2026-06-13)
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -9,6 +9,22 @@
 # SUG-165 — Archive and detail page H1 audit — holder header standardisation
 
 Audit all non-hero archive and detail pages for H1 sizing and weight inconsistencies; standardise on a consistent `PageHeader` holder-header pattern at the DS-specified size.
+
+## Outcome (as shipped)
+
+**Phase 1** — Added `--st-font-page-h1: 3rem` (48px) semantic token; `PageHeader.title` switched from `--st-font-heading-2` (36px) to it. Every page already on `PageHeader` (all archives via `ArchivePage`/`SiteGraphPage`/`GlossaryArchivePage`/`TaxonomyArchivePage`, plus `TaxonomyDetailPage` and `ProjectDetailPage`) now renders the H1 at 48px automatically. Commit `b3437b0a`.
+
+**Phase 2** — Extended `PageHeader` with two composable slots — `eyebrow` (mono uppercase kicker above the title) and `children` (trailing content below the description); `title` already accepted ReactNode. Migrated the four folio pages (`ToolDetailPage`, `PersonProfilePage`, `GlossaryTermPage`, `SeriesPage`) plus `GlossaryTermDetailPage.stories.jsx` off `.narrativeHeading`, which was deleted from `pages.module.css`. Closure grep `grep -rn narrativeHeading apps/web/src/` returns zero. Commit `a0d86a9c`.
+
+**Design decision (Visual QA approved 2026-06-13):** eyebrows standardised **above** the title (kicker convention). `SeriesPage` already did this; Tool ("CMS · Platform") and Person (headline) eyebrows moved up from below the name.
+
+**Spun-off cleanups (separate commits, not bundled):**
+- `ec77bee7` — removed 3 unrouted dead archive components (`ArticlesArchivePage`, `CaseStudiesArchivePage`, `KnowledgeGraphArchivePage`) found during the App.jsx routing audit.
+- `b21bf5c3` — removed the dead entity-folio CSS cluster (`.detailEyebrow`, `.entityFolio`, `.folioIdentity`, `.entityDescription`, `.entityThumbnail`, `.entityThumbnailFallback`) orphaned by the Phase 2 migration.
+
+**Verification:** all page-types confirmed at 48px live (1280px), light + dark, correct italic/roman, folios intact, no console errors. `validate:tokens` + `--strict-colors` clean; web build exits 0.
+
+<!-- Chromatic: pending — deferred 2026-06-13. PageHeader story updated (eyebrow + children, anatomy/token/changelog). Storybook running on :6006; Chromatic VRT not yet run (external publish held). Run before merge to origin/main. -->
 
 ## Background
 
