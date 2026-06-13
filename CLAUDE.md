@@ -152,6 +152,7 @@ Before executing any epic from `docs/backlog/SUG-{N}-*.md`, check the file for c
 1. **Background is `TODO`** — the motivation is unclear; execution without it is guesswork
 2. **Scope items are incomplete or contain `TODO`** — no defined acceptance surface means no defined stopping point
 3. **Phases are undefined** — multi-phase work cannot be sequenced
+4. **"All pages" scope without App.jsx routing read** — any epic that claims to cover "all pages", "all archive pages", "all detail pages", or any broad page category must include a pre-execution audit that reads `apps/web/src/App.jsx` to verify the actual component-to-route mapping. Memory and agent outputs are not authoritative. An epic that lists pages without reading App.jsx is an incomplete epic — the page inventory may be wrong (wrong component per route, missing pages, extra pages). Read App.jsx and diff the listed pages against the actual routes before the Scope section is considered complete.
 
 **Correct response to an incomplete epic:**
 - Name the specific sections that are stubs: "Background is TODO, Phases are undefined"
@@ -601,6 +602,8 @@ When writing or modifying any component CSS file (in `apps/web/src/design-system
 grep "token-name" apps/web/src/design-system/styles/tokens.css
 ```
 Do not use plausible-sounding names without confirming they exist. Tokens are named by concept (`--st-font-family-narrative`), not by analogy (`--st-font-family-heading`). The pre-commit validator will catch it, but catching it there costs a correction commit — catching it before writing costs nothing.
+
+**Verify the computed value, not just the name.** When a token is used for typography or spacing in a DS component epic, grep for the token's resolved value in `tokens.css` and cross-check it against the DS typography/spacing convention story (`/story/foundations-typography-conventions--default` in Storybook). A token name can exist at the wrong tier — `--st-font-heading-2` resolves to 2.25rem (36px), not the 48px page-H1 spec. "Token found in tokens.css" is not sufficient confirmation — record the resolved value and confirm it matches the spec. A mismatch is a scope gap that must be fixed with a new semantic token before implementation begins.
 
 **Inline CSS custom property injection on DS components is banned.** Writing `style={{ '--st-table-header-bg': '#fff' }}` or `style={{ '--st-table-header-bg': someVar }}` on a DS component bypasses the token graph entirely — the theme system cannot override it, the validator cannot audit it, and the injection must be removed every time the token is renamed. The correct path: define a `tone` prop (or equivalent), add the corresponding token to `tokens.json`, and apply the token in the component CSS. If you need to vary a visual zone from the call site, the answer is a new `tone` value — not an inline style.
 

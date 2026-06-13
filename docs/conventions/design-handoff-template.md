@@ -89,11 +89,18 @@ reuse audit). New class names must be semantic and pass `pnpm validate:css-names
 > Hex values are not accepted in this table. Every colour, spacing, or typography
 > decision must resolve to a `--st-*` token name. Verify the token exists:
 > `grep "token-name" apps/web/src/design-system/styles/tokens.css`
+>
+> **For typography tokens: verify the computed value, not just the name.**
+> After confirming the token exists, grep for its resolved value and cross-check
+> against the DS typography convention story (`/story/foundations-typography-conventions--default`).
+> Record both in column 3. A token at the wrong tier (e.g. `--st-font-heading-2` = 36px when
+> the H1 spec is 48px) is a scope gap — fix it with a new semantic token before the handoff is accepted.
 
-| Design decision | Token name | Resolves to (light) |
+| Design decision | Token name | Resolves to (px / rem) — verified against DS convention |
 |---|---|---|
 | `[e.g. left-border accent colour]` | `--st-color-brand-primary` | `var(--st-color-pink)` |
 | `[e.g. body spacing between sections]` | `--st-space-section-break-detail` | `2rem` |
+| `[e.g. page H1 font size]` | `--st-font-page-h1` | `3rem (48px) — matches DS H1 spec` |
 
 ---
 

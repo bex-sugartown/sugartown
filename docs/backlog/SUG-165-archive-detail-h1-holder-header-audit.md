@@ -99,6 +99,8 @@ Migrate GlossaryTermPage, PersonProfilePage, SeriesPage, ToolDetailPage from `.n
 - **`PageHeader` import:** already exported from `apps/web/src/design-system/index.js` — import as `import { PageHeader } from '../design-system'` in all migrated pages.
 - **No schema changes. No Sanity writes. No Content Write Gate.**
 - **Activation audit:** run `grep -rn "narrativeHeading" apps/web/src/` at session start to confirm the 4 callsite list hasn't changed.
+- **Token value cross-check gate (CLAUDE.md §DS Component Authoring Token-First Rule):** before writing any CSS for `PageHeader.module.css`, grep `--st-font-page-h1` in `tokens.css` to confirm it resolves to `3rem`, then verify `3rem = 48px` matches the DS typography convention story at `/story/foundations-typography-conventions--default`. This gate was added because SUG-157 locked `--st-font-heading-2` (36px) from the handoff without verifying its px value against the spec — the root cause of this epic.
+- **App.jsx routing pre-flight (CLAUDE.md §Incomplete epic doc hard stop):** the page inventory in this epic was produced by reading `apps/web/src/App.jsx` directly. At activation, re-read App.jsx to confirm no routing changes have occurred since this doc was written. The confirmed mapping: `/people/:slug` → `PersonProfilePage`, `/tools/:slug` → `ToolDetailPage`, `/tags/:slug` + `/categories/:slug` → `TaxonomyPlaceholderPage`.
 
 ## Model & Mode [REQUIRED]
 
