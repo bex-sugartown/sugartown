@@ -646,10 +646,25 @@ Whenever `tokens/source/tokens.json` is edited, or whenever any component CSS fi
 - Source of truth: `tokens/source/tokens.json`
 - Build command: `pnpm tokens:build` (runs `sd.config.mjs` via Style Dictionary v5)
 - Outputs: `apps/web/src/design-system/styles/tokens.css` + `packages/design-system/src/styles/tokens.css`
-- Theme overrides (`theme.pink-moon.css`) remain hand-authored — they are NOT generated files
+- Theme overrides (`theme.pink-moon.css`, `theme.light.css`) remain hand-authored — they are NOT generated files, but they ARE duplicated to both the web and DS-package style dirs and **must be kept byte-identical by hand** (see Mirrored File Registry below).
 
-`validate:tokens` catches: undefined `var(--st-*)` references, renamed tokens with lingering references, cross-file drift.
+`validate:tokens` catches: undefined `var(--st-*)` references, renamed tokens with lingering references.
 `validate:tokens --strict-colors` catches: raw hex, rgba, or hsla values in any component or theme CSS file outside `tokens.css`.
+`validate:style-mirror` catches: drift between the duplicated DS style files (theme/tokens/globals/utilities) across web ↔ DS package.
+
+**`validate:tokens` does NOT check theme-file parity.** It verifies that every `var(--st-*)` reference *resolves* — not that the two theme files carry the same override *set*. A token missing from one theme file still resolves via the shared `tokens.css`, so theme drift is invisible to it. "Refs resolve" ≠ "themes match". Theme/style-file parity is enforced by `validate:style-mirror`, not `validate:tokens`. (Origin: the `theme.pink-moon.css` drift post-mortem, 2026-06-13 — the DS-package copy had silently decayed to a stale subset of 93 missing tokens, breaking DS components in Storybook while production looked fine.)
+
+### Mirrored File Registry (must-be-identical pairs)
+
+Some files exist in two locations and **must be byte-identical**. Each must have a named enforcement mechanism — never rely on "remember to mirror it":
+
+| File(s) | Locations | Source of truth | Enforced by |
+|---------|-----------|-----------------|-------------|
+| `tokens.css` | `apps/web/src/design-system/styles/` ↔ `packages/design-system/src/styles/` | generated from `tokens/source/tokens.json` | `pnpm tokens:build` + pre-commit "Do not edit directly" block + `validate:style-mirror` |
+| `theme.pink-moon.css`, `theme.light.css`, `globals.css`, `utilities.css` | same two style dirs | **web copy is canonical** (hand-authored) | `validate:style-mirror` (pre-commit) |
+| DS component CSS mirrors (e.g. `IndexCell.module.css`) | `apps/web/src/design-system/components/<name>/` ↔ `packages/design-system/src/components/<Name>/` | web adapter mirrors DS | drift rule (manual) — see §Design System → Web Adapter Sync |
+
+When you edit a hand-authored mirrored file (any theme/style file), update **both** copies in the same commit, or `validate:style-mirror` will block the commit. When adding a new must-be-identical pair, register it here and wire it into `validate-style-mirror.js`.
 
 ---
 

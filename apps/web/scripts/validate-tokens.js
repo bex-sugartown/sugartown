@@ -8,6 +8,15 @@
  * wrong or was renamed — CSS var() silently uses the fallback value with
  * no browser error or warning.
  *
+ * SCOPE — what this validator does NOT check (important):
+ *   This checks that every var(--st-*) reference RESOLVES. It does NOT check
+ *   that the duplicated theme/style files carry the same override SET across
+ *   web and the DS package. "refs resolve" ≠ "themes match": a token missing
+ *   from one theme file still resolves via the shared tokens.css, so theme
+ *   drift is invisible here. Theme-file parity is enforced separately by
+ *   `pnpm validate:style-mirror` (scripts/validate-style-mirror.js). See the
+ *   theme.pink-moon.css drift post-mortem (2026-06-13).
+ *
  * Token source files (ground truth):
  *   apps/web/src/design-system/styles/tokens.css  (canonical)
  *   packages/design-system/src/styles/tokens.css  (must stay in sync)

@@ -20,6 +20,11 @@ fi
 # Token reference check — every var(--st-*) must resolve to a defined token
 pnpm --filter web validate:tokens || exit 1
 
+# Style-mirror parity — the duplicated DS style files (tokens.css, theme.*.css,
+# globals, utilities) must be byte-identical across web ↔ DS package.
+# Catches theme-file drift that validate:tokens cannot (refs resolve ≠ themes match).
+pnpm --filter web validate:style-mirror || exit 1
+
 # Raw value lint — no hardcoded hex/rgba in component CSS files
 pnpm --filter web validate:tokens:strict || exit 1
 

@@ -18,6 +18,7 @@
     "validate:tokens": "node scripts/validate-tokens.js",
     "validate:tokens:strict": "node scripts/validate-tokens.js --strict-colors",
     "validate:tokens:sync": "node scripts/validate-tokens.js --check-sync",
+    "validate:style-mirror": "node scripts/validate-style-mirror.js",
     "validate:taxonomy": "node scripts/validate-taxonomy.js",
     "validate:css-names": "node scripts/validate-css-names.js",
     "migrate:seo-fields": "node scripts/migrate-seo-fields.js",
