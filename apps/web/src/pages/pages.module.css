@@ -189,16 +189,6 @@
   color: var(--st-label-color);
 }
 
-.detailEyebrow {
-  font-family: var(--st-font-family-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--st-color-text-muted);
-  margin-bottom: 0.75rem;
-}
-
 .detailHeading {
   font-size: clamp(1.75rem, 4vw, 2.75rem);
   font-weight: 700;
@@ -318,55 +308,6 @@
 /* Collapse top margin on body content following metadata section */
 .detailContent + .detailContent > :first-child {
   margin-top: 0;
-}
-
-/* ── Entity detail — shared folio pattern ────────────────────────
-   Used by PersonProfilePage, ToolDetailPage, and any future entity
-   detail page that shows a thumbnail + identity block side by side.
-   Set --entity-thumb-size on the folio element to override the
-   default 88px (e.g. 72px for tool logos).
-─────────────────────────────────────────────────────────────────── */
-.entityFolio {
-  display: flex;
-  gap: 1.5rem;
-  align-items: flex-start;
-  margin-bottom: 1.25rem;
-}
-
-.entityThumbnail {
-  width: var(--entity-thumb-size, 88px);
-  height: var(--entity-thumb-size, 88px);
-  border-radius: 0;
-  object-fit: cover;
-  display: block;
-  flex-shrink: 0;
-  border: 1px solid var(--st-color-border-default);
-}
-
-.entityThumbnailFallback {
-  width: var(--entity-thumb-size, 88px);
-  height: var(--entity-thumb-size, 88px);
-  border-radius: 0;
-  background: var(--st-color-bg-subtle);
-  border: 1px solid var(--st-color-border-default);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  font-weight: 600;
-  font-family: var(--st-font-family-narrative);
-  font-style: italic;
-  color: var(--st-color-text-muted);
-  user-select: none;
-  flex-shrink: 0;
-}
-
-.entityDescription {
-  font-family: var(--st-font-family-ui);
-  font-size: 0.9375rem;
-  line-height: 1.65;
-  color: var(--st-color-text-secondary);
-  margin: 0 0 0.5rem;
 }
 
 /* ── Tag chips ───────────────────────────────────────────────────── */
@@ -728,12 +669,6 @@
 /* Content area padding inside the bordered section */
 .archiveSectionContent {
   padding: 24px;
-}
-
-/* ── Shared folio layout ──────────────────────────────────────────── */
-/* Flex child min-width fix — prevents identity text overflowing the folio row */
-.folioIdentity {
-  min-width: 0;
 }
 
 /* ── Detail page shared header ────────────────────────────────────── */
