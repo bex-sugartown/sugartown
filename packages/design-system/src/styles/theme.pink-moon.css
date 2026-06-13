@@ -12,20 +12,24 @@
  *
  * Architecture
  * ─────────────────────────────────────────────────────────
- * Overrides Tier 2 semantic tokens. Storybook + DS package version.
- * The web app version (apps/web/src/design-system/styles/theme.pink-moon.css)
- * has additional Tier 3 component overrides.
+ * Overrides Tier 2 semantic tokens + targeted Tier 3 component tokens.
+ * Pink Moon Light absorbs all of the former theme.light.css overrides
+ * (theme.light.css is deprecated — retained during transition only).
  *
  * Aesthetic intent
  * ─────────────────────────────────────────────────────────
  * Sharp neutral surfaces, hot colour signal. Surfaces are solid and opaque.
  * Colour only at CTAs, links, chips, taxonomy markers.
+ * Frosted blur limited to hero panel + sticky header on scroll.
  */
 
-/* ── Light Pink Moon (default) ─────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   LIGHT PINK MOON (default mode)
+   ══════════════════════════════════════════════════════════ */
 :root[data-theme="light-pink-moon"],
 [data-theme="light-pink-moon"] {
 
+  /* ── Backgrounds — Ledger Tradition surface hierarchy ── */
   --st-color-bg-canvas:         var(--st-color-neutral-100);      /* #F2F2F3 — Ledger Tradition page field */
   --st-color-bg-surface:        var(--st-color-neutral-50);       /* #FAFAFA — card surface */
   --st-color-bg-surface-strong: var(--st-color-neutral-100);      /* #F2F2F3 */
@@ -37,16 +41,60 @@
 
   /* Ledger Tradition: semantic canvas + structural divider */
   --st-color-canvas:            var(--st-color-neutral-100);      /* #F2F2F3 — page field */
-  --st-color-rule-accent:       var(--st-color-neutral-300);      /* #C6C6C8 — hairlines */
+  --st-color-rule-accent:       var(--st-color-neutral-300);      /* #C6C6C8 — hairlines + dividers */
 
+  /* ── Text — ink for body/headings on light canvas ─── */
   --st-color-text-default:      var(--st-color-ink);
   --st-color-text-primary:      var(--st-color-ink);
   --st-color-text-secondary:    var(--st-color-neutral-600);
-  --st-color-text-muted:        var(--st-color-neutral-500);      /* #7A7A7D — no blue cast */
-  --st-color-text-brand:        var(--st-color-maroon);
+  --st-color-text-muted:        var(--st-color-neutral-500);      /* #7A7A7D — muted, no blue cast */
+  --st-color-text-brand:        var(--st-color-maroon);           /* Deep Pink Rule — WCAG AA */
 
-  --st-color-border-default:    var(--st-color-neutral-200);      /* #E4E4E5 — no blue cast */
+  /* ── Borders — neutral, no blue cast ─────────────────── */
+  --st-color-border-default:    var(--st-color-neutral-200);      /* #E4E4E5 — card borders */
   --st-color-border-subtle:     var(--st-color-neutral-100);
+  --st-color-border-medium:     var(--st-color-neutral-300);
+  --st-color-border-strong:     var(--st-color-neutral-600);
+
+  /* ── Effects (limited — hero panel + sticky header only) ── */
+  --st-effect-backdrop-blur-md: 14px;
+  --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
+  --st-shadow-elevation-float:  var(--st-shadow-elevation-float-light);
+  --st-shadow-thead-stuck:
+    inset 0 -1px 0 var(--st-color-ink),
+    0 8px 12px -8px rgba(13, 18, 38, 0.30);
+  --st-shadow-subhead-pinned:
+    0 1px 0 var(--st-color-rule-accent),
+    0 8px 16px -10px rgba(13, 18, 38, 0.10);
+
+  /* ── Tier 3: Component overrides ─────────────────────── */
+  --st-callout-bg:              var(--st-callout-bg-light);
+  --st-callout-border-color:    rgba(214, 51, 132, 0.35);
+
+  --st-color-border-wrap:             var(--st-color-neutral-400);  /* medium gray — wraps grouped card/tile/grid surfaces */
+  --st-table-wrap-border:             var(--st-color-border-wrap);
+  --st-table-zebra-bg:                var(--st-color-softgrey-50);
+  --st-table-border:                  var(--st-color-softgrey-200);
+  --st-table-shadow:                  var(--st-shadow-table-light);
+  --st-table-card-shadow:             var(--st-shadow-table-card-light);
+  /* tone="accent" — pink header */
+  --st-table-header-bg-accent:        var(--st-color-pink);
+  --st-table-header-color-accent:     var(--st-color-white);
+  /* tone="subdued" — neutral header (light: neutral-100 solid) */
+  --st-table-header-bg-subdued:       var(--st-color-neutral-100);
+  --st-table-header-color-subdued:    var(--st-color-text-muted);
+  /* row hover */
+  --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
+
+  --st-code-inline-bg:          var(--st-color-softgrey-100);
+  --st-code-inline-color:       var(--st-color-brand-primary);
+  --st-code-inline-text:        var(--st-color-brand-primary);
+  --st-code-inline-border:      1px solid var(--st-color-softgrey-200);
+
+  --st-color-text-eyebrow:      var(--st-color-pink);
+  --st-color-category-link:     var(--st-color-category-link-light);
+  --st-color-footer-divider:    rgba(255, 36, 125, 0.25);
+  /* Ledger: card — visible border, no shadow, white surface */
   --st-card-bg:                 var(--st-color-white);
   --st-card-bg-alt:             var(--st-color-neutral-50);
   --st-card-border:             var(--st-color-rule-accent);       /* neutral-300 — matches MetadataCard */
@@ -55,12 +103,12 @@
   --st-card-hover-shadow:       none;
   --st-card-hover-translate-y:  0px;
   --st-card-hover-border:       var(--st-color-pink);             /* hot pink on hover */
-  --st-effect-backdrop-blur-md: 14px;
-  --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
-  --st-shadow-elevation-float:  var(--st-shadow-elevation-float-light);
+
+  /* Header — neutral, no blue cast */
+  --st-header-bg: rgba(242, 242, 243, 0.92);             /* neutral-100 at 92% — frosted glass */
 
   /* Margin column + MetadataCard — Ledger Tradition (SUG-78) */
-  --st-margin-bg:       var(--st-color-white);            /* white field, elevated on canvas */
+  --st-margin-bg:       var(--st-color-white);            /* white field, reads elevated on canvas */
   --st-margin-divider:  var(--st-color-rule-accent);      /* #C6C6C8 — neutral hairlines */
   --st-margin-outline:  var(--st-color-ink);              /* #0a0f1a — solid ink border */
 
@@ -68,80 +116,164 @@
   --st-label-color:       var(--st-color-neutral-500);    /* #7A7A7D — neutral, no blue cast */
   --st-label-color-badge: var(--st-color-neutral-600);    /* #525252 — WCAG AA: neutral-400 (#a3a3a3) failed at 2.53:1 */
 
-  /* Table — light overrides (root defaults are dark; Storybook uses this file) */
-  --st-table-zebra-bg:             var(--st-color-softgrey-50);
-  --st-table-border:               var(--st-color-softgrey-200);
-  --st-table-shadow:               var(--st-shadow-table-light);
-  --st-table-card-shadow:          var(--st-shadow-table-card-light);
-  --st-table-header-bg-accent:     var(--st-color-pink);
-  --st-table-header-color-accent:  var(--st-color-white);
-  --st-table-header-bg-subdued:    var(--st-color-neutral-100);
-  --st-table-header-color-subdued: var(--st-color-text-muted);
-  --st-table-row-hover-bg:         color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
+  /* ── Status chips — light overrides ──────────────────── */
+  --st-status-draft-bg:               var(--st-color-error-bg);
+  --st-status-draft-fg:               var(--st-color-error);
+  --st-status-draft-border:           var(--st-color-error-border);
+  --st-status-active-bg:              rgba(29, 150, 121, 0.08);
+  --st-status-active-fg:              var(--st-color-seafoam-800);  /* seafoam-700 (#1d9679) failed at 3.66:1 */
+  --st-status-active-border:          rgba(29, 150, 121, 0.35);
+  --st-status-archived-bg:            rgba(148, 163, 184, 0.06);
+  --st-status-archived-fg:            var(--st-color-softgrey-700);  /* softgrey-400 (#94A3B8) failed at 2.57:1 */
+  --st-status-archived-border:        rgba(148, 163, 184, 0.20);
+  --st-status-implemented-bg:         rgba(29, 150, 121, 0.08);
+  --st-status-implemented-fg:         var(--st-color-seafoam-800);  /* seafoam-700 failed at 3.66:1 */
+  --st-status-implemented-border:     rgba(29, 150, 121, 0.35);
+  --st-status-evergreen-bg:           rgba(116, 143, 0, 0.08);
+  --st-status-evergreen-fg:           var(--st-color-lime-800);
+  --st-status-evergreen-border:       rgba(116, 143, 0, 0.30);
+  --st-status-validated-bg:           rgba(185, 28, 104, 0.08);
+  --st-status-validated-fg:           var(--st-color-maroon);
+  --st-status-validated-border:       rgba(185, 28, 104, 0.30);
+  --st-status-deprecated-bg:          rgba(148, 163, 184, 0.08);
+  --st-status-deprecated-fg:          var(--st-color-softgrey-700);  /* softgrey-500 (#6e7f96) failed at 4.09:1 */
+  --st-status-deprecated-border:      rgba(110, 127, 150, 0.25);
+  --st-status-exploring-bg:           rgba(29, 150, 121, 0.07);
+  --st-status-exploring-fg:           var(--st-color-seafoam-800);  /* seafoam-700 failed at 3.66:1 */
+  --st-status-exploring-border:       rgba(29, 150, 121, 0.30);
+  --st-status-operationalized-bg:     rgba(21, 115, 92, 0.08);
+  --st-status-operationalized-fg:     var(--st-color-seafoam-800);
+  --st-status-operationalized-border: rgba(21, 115, 92, 0.30);
+  --st-status-dreaming-bg:            rgba(124, 58, 237, 0.08);
+  --st-status-dreaming-fg:            var(--st-color-violet-600);
+  --st-status-dreaming-border:        rgba(124, 58, 237, 0.30);
+  --st-status-designing-bg:           rgba(146, 112, 12, 0.08);
+  --st-status-designing-fg:           var(--st-color-amber-700);
+  --st-status-designing-border:       rgba(146, 112, 12, 0.30);
+  --st-status-developing-bg:          rgba(21, 115, 92, 0.08);
+  --st-status-developing-fg:          var(--st-color-seafoam-800);
+  --st-status-developing-border:      rgba(21, 115, 92, 0.30);
+  --st-status-testing-bg:             rgba(194, 65, 12, 0.08);
+  --st-status-testing-fg:             var(--st-color-orange-700);
+  --st-status-testing-border:         rgba(194, 65, 12, 0.30);
+  --st-status-deploying-bg:           rgba(116, 143, 0, 0.08);
+  --st-status-deploying-fg:           var(--st-color-lime-800);
+  --st-status-deploying-border:       rgba(116, 143, 0, 0.30);
+  --st-status-iterating-bg:           rgba(3, 105, 161, 0.08);
+  --st-status-iterating-fg:           var(--st-color-sky-700);
+  --st-status-iterating-border:       rgba(3, 105, 161, 0.30);
 
-  /* Inline code — light: pink on soft grey (root defaults are dark lime) */
-  --st-code-inline-bg:     var(--st-color-softgrey-100);
-  --st-code-inline-color:  var(--st-color-brand-primary);
-  --st-code-inline-text:   var(--st-color-brand-primary);
-  --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
+  /* ── CWV Score Ring — light overrides (SUG-100) ──── */
+  --st-cwv-good-track:  rgba(43, 212, 170, 0.15);
+  --st-cwv-good-fg:     var(--st-color-seafoam-700);
+  --st-cwv-warn-arc:    var(--st-color-amber-600);
+  --st-cwv-warn-track:  rgba(251, 186, 36, 0.15);
+  --st-cwv-warn-fg:     var(--st-color-amber-700);
+  --st-cwv-poor-arc:    var(--st-color-maroon-600);
+  --st-cwv-poor-track:  rgba(185, 28, 104, 0.15);
+  --st-cwv-poor-fg:     var(--st-color-maroon-700);
 
-  /* SegmentedControl — light overrides (root defaults are dark midnight) */
+  /* ── Segmented Control — light overrides (SUG-100) ─ */
   --st-segmented-bg:        var(--st-color-softgrey-100);
-  --st-segmented-active-bg: var(--st-color-white);
+  --st-segmented-active-bg: transparent;
   --st-segmented-fg:        var(--st-color-text-secondary);
-  --st-segmented-active-fg: var(--st-color-text-primary);
+  --st-segmented-active-fg: var(--st-color-brand-primary);
   --st-segmented-border:    var(--st-color-border-default);
+
+  /* ── Site graph node/edge colors — light overrides (SUG-81 + SUG-105 + SUG-140) ─ */
+  --st-kg-node-article:  var(--st-color-seafoam-700);
+  --st-kg-node-case:     var(--st-color-maroon-400);   /* SUG-140: lifted for dark field legibility */
+  --st-kg-node-category: var(--st-color-softgrey-300); /* SUG-140: lifted for dark field legibility */
+  --st-kg-edge-member:   var(--st-color-white-20);     /* SUG-140: legible on midnight canvas */
+  --st-kg-edge-lateral:  var(--st-color-white-15);     /* SUG-140: quiet dashed on midnight canvas */
+  --st-graph-node-category: var(--st-color-softgrey-300); /* SUG-140: matches kg-node-category */
+  --st-graph-bg:         var(--st-color-midnight-800); /* SUG-140: permanently dark graph field (#141830) */
+  --st-graph-edge-membership: var(--st-color-white-20); /* SUG-140: edge legibility on dark */
+  --st-graph-edge-lateral:    var(--st-color-white-15); /* SUG-140: quiet lateral edge on dark */
+
+  /* ── FilterStrip chip color system — light overrides (SUG-105) ─ */
+  --st-kg-chip-all-bg:          var(--st-color-ink);
+  --st-kg-chip-all-fg:          var(--st-color-neutral-100);
+  --st-kg-chip-all-border:      transparent;
+  --st-kg-chip-article-bg:      var(--st-color-seafoam-50);
+  --st-kg-chip-article-fg:      var(--st-color-seafoam-800);
+  --st-kg-chip-article-border:  color-mix(in srgb, var(--st-color-seafoam-500) 35%, transparent);
+  --st-kg-chip-case-bg:         color-mix(in srgb, var(--st-color-pink) 8%, transparent);
+  --st-kg-chip-case-fg:         var(--st-color-pink);
+  --st-kg-chip-case-border:     color-mix(in srgb, var(--st-color-pink) 35%, transparent);
+  --st-kg-chip-node-bg:         var(--st-color-ink);
+  --st-kg-chip-node-fg:         var(--st-color-neutral-100);
+  --st-kg-chip-node-border:     transparent;
 }
 
-/* ── Dark Pink Moon ────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   DARK PINK MOON
+   ══════════════════════════════════════════════════════════ */
 :root[data-theme="dark-pink-moon"],
 [data-theme="dark-pink-moon"] {
 
+  /* Surface — subtle separation on dark canvas */
   --st-color-bg-surface:        rgba(255, 255, 255, 0.06);
   --st-color-bg-surface-strong: rgba(255, 255, 255, 0.10);
-
-  --st-color-border-default:    rgba(255, 255, 255, 0.12);
-  --st-color-border-subtle:     rgba(255, 255, 255, 0.06);
-  /* Wrap border — dark hairline divider between tiles (was neutral-400 #a3a3a3) */
-  --st-color-border-wrap:       var(--st-color-border-default);
   /* Tile/stat surfaces — solid dark; glassmorphism is wrong for data grids */
   --st-stat-tile-bg:            var(--st-color-midnight-700);
   --st-tile-bg:                 var(--st-color-midnight-700);
+  /* Wrap border — dark hairline divider between tiles (was neutral-400 #a3a3a3) */
+  --st-color-border-wrap:       var(--st-color-border-default);
 
-  --st-color-canvas:            var(--st-color-midnight-800);
-  --st-color-rule-accent:       rgba(255, 255, 255, 0.15);
+  /* Borders */
+  --st-color-border-default:    rgba(255, 255, 255, 0.12);
+  --st-color-border-subtle:     rgba(255, 255, 255, 0.06);
 
+  /* Ledger: dark canvas + rule-accent */
+  --st-color-canvas:            var(--st-color-midnight-800);     /* #141830 — elevated dark field */
+  --st-color-rule-accent:       rgba(255, 255, 255, 0.15);        /* soft light divider on dark */
+
+  /* Effects */
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);
   --st-shadow-elevation-float:  var(--st-shadow-elevation-float-dark);
+
+  /* Header — frosted dark (Mock B) */
+  --st-header-bg: rgba(13, 18, 38, 0.80);
 
   /* Margin column + MetadataCard — opaque dark (SUG-52) */
   --st-margin-bg:       #1b2033;
   --st-margin-divider:  #2d3148;
   --st-margin-outline:  #4a5068;
-  --st-metadata-label-bg: var(--st-color-midnight-900);
-  --st-metadata-body-bg:  var(--st-color-midnight-700);
-
-  /* Featured/rubric chip — first taxonomy tag in Card (dark: transparent pink, not white-mix) */
-  --st-chip-rubric-bg:     color-mix(in srgb, var(--st-color-pink) 18%, var(--st-color-midnight-800));
-  --st-chip-rubric-border: var(--st-color-pink);
-  --st-chip-rubric-fg:     var(--st-color-pink);
 
   /* Label tokens — dark override (charcoal-400 shared with light for consistency) */
   --st-label-color:       var(--st-color-charcoal-400);
   --st-label-color-badge: var(--st-color-softgrey-500);
   --st-card-label-bg:     var(--st-color-midnight-800);           /* label cell bg on dark canvas */
 
+  /* Chip rule-dot — dark overrides (SUG-88) */
+  --st-chip-tag-bg:         var(--st-color-midnight-700);  /* white-50 is too light on dark canvas */
+  --st-chip-fg:             var(--st-color-softgrey-200);
+  --st-chip-rubric-bg:      color-mix(in srgb, var(--st-color-pink) 18%, var(--st-color-midnight-800));
+  --st-chip-rubric-border:  var(--st-color-pink);
+  --st-chip-rubric-fg:      var(--st-color-pink);
+  --st-chip-dot-evergreen:  var(--st-color-lime);
+  --st-chip-dot-validated:  var(--st-color-seafoam);
+  --st-chip-dot-exploring:  var(--st-color-amber);
+  --st-chip-dot-deprecated: var(--st-color-softgrey-500);
+
+  /* MetadataCard V2 Inverted Well — dark overrides (SUG-88) */
+  --st-metadata-label-bg:  var(--st-color-midnight-900);
+  --st-metadata-body-bg:   var(--st-color-midnight-700);
+
   /* Table zone tokens — dark overrides (SUG-119)
-   * subdued header: midnight-700 (opaque) — NOT bg-surface-strong (glassmorphism wash in dark)
+   * IMPORTANT: subdued header uses midnight-700 (opaque), NOT --st-color-bg-surface-strong
+   * which resolves to rgba(255,255,255,0.10) — a glassmorphism wash — in this dark block.
+   * Cascade audit: accent header stays pink (unchanged), subdued header = solid dark surface.
    */
-  --st-table-header-bg-accent:        var(--st-color-pink);
+  --st-table-header-bg-accent:        var(--st-color-pink);           /* unchanged — pink is correct in dark */
   --st-table-header-color-accent:     var(--st-color-white);
-  --st-table-header-bg-subdued:       var(--st-color-midnight-700);
+  --st-table-header-bg-subdued:       var(--st-color-midnight-700);   /* #1c2240 — opaque, no glassmorphism */
   --st-table-header-color-subdued:    var(--st-color-text-muted);
   --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 4%, transparent);
 
-  /* IndexCell — inactive state on dark canvas (mirrors web theme.pink-moon.css) */
+  /* IndexCell — inactive state on dark canvas */
   --st-index-cell-inactive-color: rgba(255, 255, 255, 0.18);
 
   /* Card hover — match light-pink-moon: pink border, no lift, no shadow */
