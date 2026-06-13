@@ -67,12 +67,14 @@ export default {
   argTypes: {
     italic:       { table: { disable: true } },
     media:        { table: { disable: true } },
+    eyebrow:      { table: { disable: true } },
     breadcrumb:   { table: { disable: true } },
     title:        { table: { disable: true } },
     description:  { table: { disable: true } },
     metadataCard: { table: { disable: true } },
     actions:      { table: { disable: true } },
     className:    { table: { disable: true } },
+    children:     { table: { disable: true } },
   },
 }
 
@@ -194,25 +196,39 @@ export const EntityPersonFolio = {
     <PageHeader
       breadcrumb={<Breadcrumb items={[{ label: 'People', href: '/people' }]} />}
       media={<Avatar name="Bex Walton" size="xl" />}
+      eyebrow="I am a Maximalist"
       title="Bex Walton"
       description="Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller."
       tint="var(--st-color-seafoam-300)"
       italic
-    />
+    >
+      <p style={{ fontFamily: 'var(--st-font-family-ui)', fontSize: '0.8125rem', color: 'var(--st-color-text-muted)', margin: '0' }}>
+        San Francisco Bay Area · she/her/hers
+      </p>
+    </PageHeader>
   ),
 }
 
-/** Tool Folio — roman per H1 rule (entity folios = roman). */
+/**
+ * Tool Folio — roman per H1 rule (entity folios = roman).
+ * Shows the `eyebrow` kicker (category · tier) above the title and a `children`
+ * slot (external URL) rendered below the description.
+ */
 export const EntityToolFolio = {
   name: 'Entity — Tool Folio',
   render: () => (
     <PageHeader
       breadcrumb={<Breadcrumb items={[{ label: 'Tools', href: '/tools' }]} />}
       media={<Avatar name="Figma" size="xl" />}
+      eyebrow="Design · Platform"
       title="Figma"
       description="Collaborative interface design tool used for component design, prototyping, and design token management."
       tint="var(--st-color-midnight-300)"
-    />
+    >
+      <a href="https://figma.com" target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: 'var(--st-font-size-xs)', color: 'var(--st-color-link-default)', textDecoration: 'none' }}>
+        figma.com
+      </a>
+    </PageHeader>
   ),
 }
 
@@ -425,6 +441,12 @@ function PageHeaderGuidelinesPage() {
           <TokenRow token="--st-line-height-tight" value="1.2" role=".title line height" />
           <TokenRow token="--st-color-text-default" value="—" role=".title color" />
         </TokenGroup>
+        <TokenGroup label="Typography — eyebrow (kicker)">
+          <TokenRow token="--st-font-family-mono" value="IBM Plex Mono" role=".eyebrow font family" />
+          <TokenRow token="--st-font-size-xs" value="0.75rem" role=".eyebrow font size" />
+          <TokenRow token="--st-font-weight-bold" value="700" role=".eyebrow font weight" />
+          <TokenRow token="--st-color-text-muted" value="—" role=".eyebrow color" />
+        </TokenGroup>
         <TokenGroup label="Typography — count / description">
           <TokenRow token="--st-font-family-mono" value="IBM Plex Mono" role=".count font family" />
           <TokenRow token="--st-font-size-sm" value="0.875rem" role=".count font size" />
@@ -450,10 +472,12 @@ function PageHeaderGuidelinesPage() {
     .body                 ← flex row: media + content (stacks on mobile ≤520px)
       .media              ← flex-shrink: 0 wrapper for Avatar / logo
       .content            ← flex: 1 1 auto; min-width: 0
+        .eyebrow          ← mono uppercase kicker above the title (rendered only when eyebrow set)
         .titleRow         ← flex row: h1 + count badge (baseline-aligned, wraps)
           .title          ← H1; .titleItalic modifier when italic prop true
           .count          ← aria-labelled count badge (rendered only when count !== undefined)
         .description      ← p element; max-width: 62ch; only rendered when description present
+        {children}        ← trailing slot below description (tool URL, social links, pronunciation)
     .metadataCard         ← margin-top wrapper for metadataCard slot`}</pre>
       </DocSection>
 
@@ -515,6 +539,7 @@ function PageHeaderGuidelinesPage() {
       <DocSection n="14" title="Changelog" priority="should">
         <ChangelogEntry version="SUG-165" date="2026-06-13">
           <ChangelogItem>H1 size corrected to the page-level spec: <code style={s.code}>.title</code> now uses <code style={s.code}>--st-font-page-h1</code> (3rem / 48px), replacing <code style={s.code}>--st-font-heading-2</code> (2.25rem / 36px). All pages using PageHeader render the H1 at 48px.</ChangelogItem>
+          <ChangelogItem>Added <code style={s.code}>eyebrow</code> prop (mono uppercase kicker above the title) and a <code style={s.code}>children</code> slot (trailing content below the description). Enabled migrating the Tool, Person, Glossary, and Series entity folios off the legacy <code style={s.code}>.narrativeHeading</code> pattern, which is now removed.</ChangelogItem>
         </ChangelogEntry>
         <ChangelogEntry version="v0.26.8" date="2026-06-07">
           <ChangelogItem>SUG-157 DS Codification Sprint — PageHeader formally documented with 14-section Guidelines story.</ChangelogItem>

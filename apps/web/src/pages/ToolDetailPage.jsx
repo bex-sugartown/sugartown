@@ -7,7 +7,7 @@
  * All layout via shared pageStyles — no page-specific CSS module needed.
  */
 import { useParams, Link } from 'react-router-dom'
-import { Grid, SectionLabel, Breadcrumb } from '../design-system'
+import { Grid, SectionLabel, Breadcrumb, PageHeader } from '../design-system'
 import { toolBySlugQuery } from '../lib/queries'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -85,12 +85,10 @@ export default function ToolDetailPage() {
     <main className={pageStyles.entityDetailPage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
 
-      <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Tools & Platforms', href: '/tools' }]} />
-
       {/* ── Folio ─────────────────────────────────────────────────── */}
-      <div className={pageStyles.entityFolio} style={{ '--entity-thumb-size': '72px' }}>
-        {/* Logo — only when an actual image is available; no initial-letter fallback */}
-        {logoUrl && (
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Tools & Platforms', href: '/tools' }]} />}
+        media={logoUrl ? (
           <img
             src={logoUrl}
             alt={tool.logo?.alt ?? `${tool.name} logo`}
@@ -100,32 +98,22 @@ export default function ToolDetailPage() {
             loading="lazy"
             decoding="async"
           />
+        ) : undefined}
+        eyebrow={eyebrow || undefined}
+        title={<>{tool.name}<DraftBadge docId={tool._id} /></>}
+        description={tool.description ?? undefined}
+      >
+        {tool.url && (
+          <a
+            href={tool.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.toolUrl}
+          >
+            {tool.url.replace(/^https?:\/\//, '')}
+          </a>
         )}
-
-        {/* Identity — H1 first, metadata second */}
-        <div className={pageStyles.folioIdentity}>
-          <h1 className={pageStyles.narrativeHeading}>
-            {tool.name}
-            <DraftBadge docId={tool._id} />
-          </h1>
-          {eyebrow && (
-            <p className={pageStyles.detailEyebrow}>{eyebrow}</p>
-          )}
-          {tool.description && (
-            <p className={pageStyles.entityDescription}>{tool.description}</p>
-          )}
-          {tool.url && (
-            <a
-              href={tool.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.toolUrl}
-            >
-              {tool.url.replace(/^https?:\/\//, '')}
-            </a>
-          )}
-        </div>
-      </div>
+      </PageHeader>
 
       {/* ── Content sections ──────────────────────────────────────── */}
       {hasArticles && (

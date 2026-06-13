@@ -13,7 +13,7 @@ import { getCanonicalPath } from '../lib/routes'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
-import { Blockquote, Breadcrumb, Chip, DescriptionList } from '../design-system'
+import { Blockquote, Breadcrumb, Chip, DescriptionList, PageHeader } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import NotFoundPage from './NotFoundPage'
 import pageStyles from './pages.module.css'
@@ -161,30 +161,34 @@ export default function GlossaryTermPage() {
 
         {!loading && term && (
           <>
-            <Breadcrumb
-              items={[
-                { label: 'Library', href: '/library' },
-                { label: 'Glossary', href: '/glossary' },
-              ]}
-            />
-
             {/* ── Identity ──────────────────────────────────────────── */}
-            <div className={pageStyles.folioIdentity}>
-              <h1 className={pageStyles.narrativeHeading}>
-                {term.term}
-                {term.abbreviation && (
-                  <Chip
-                    variant="status"
-                    label={term.abbreviation}
-                    className={styles.headingChip}
-                    aria-label={`Abbreviation: ${term.abbreviation}`}
-                  />
-                )}
-              </h1>
+            <PageHeader
+              breadcrumb={
+                <Breadcrumb
+                  items={[
+                    { label: 'Library', href: '/library' },
+                    { label: 'Glossary', href: '/glossary' },
+                  ]}
+                />
+              }
+              title={
+                <>
+                  {term.term}
+                  {term.abbreviation && (
+                    <Chip
+                      variant="status"
+                      label={term.abbreviation}
+                      className={styles.headingChip}
+                      aria-label={`Abbreviation: ${term.abbreviation}`}
+                    />
+                  )}
+                </>
+              }
+            >
               {pronunciation && (
                 <p className={styles.pronunciation}>{pronunciation}</p>
               )}
-            </div>
+            </PageHeader>
 
             {/* ── Definition ────────────────────────────────────────── */}
             {term.definition && (

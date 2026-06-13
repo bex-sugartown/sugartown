@@ -67,6 +67,18 @@
   min-width: 0;
 }
 
+/* Kicker above the title — category / tier / headline label on entity folios */
+.eyebrow {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: var(--st-font-weight-bold);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  margin: 0 0 var(--st-space-3);
+  line-height: 1.2;
+}
+
 .titleRow {
   display: flex;
   align-items: baseline;

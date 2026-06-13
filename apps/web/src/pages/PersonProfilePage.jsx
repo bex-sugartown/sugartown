@@ -31,7 +31,7 @@ function LinkedInIcon({ size = 24, color = 'currentColor', className, ...props }
     </svg>
   )
 }
-import { Grid, SectionLabel, Breadcrumb, Avatar, Chip } from '../design-system'
+import { Grid, SectionLabel, Breadcrumb, Avatar, Chip, PageHeader } from '../design-system'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
@@ -110,60 +110,54 @@ export default function PersonProfilePage() {
     <main className={styles.profilePage}>
       <SeoHead seo={seo} jsonLd={generateJsonLd(person, siteSettings)} />
 
-      <Breadcrumb items={[{ label: 'People', href: '/people' }]} />
-
       {/* ── Folio ─────────────────────────────────────────────────── */}
       <section className={styles.profileFolio}>
-        <div className={pageStyles.entityFolio}>
-          {/* Avatar */}
-          <Avatar src={avatarUrl ?? undefined} name={displayName} size="xl" />
-
-          {/* Identity */}
-          <div className={pageStyles.folioIdentity}>
-            <h1 className={`${pageStyles.narrativeHeading} ${pageStyles.narrativeHeadingItalic}`}>
+        <PageHeader
+          breadcrumb={<Breadcrumb items={[{ label: 'People', href: '/people' }]} />}
+          media={<Avatar src={avatarUrl ?? undefined} name={displayName} size="xl" />}
+          italic
+          eyebrow={person.headline || undefined}
+          title={
+            <>
               {person.name}
               {person.shortName && (
                 <span className={styles.profileShortName}> ({person.shortName})</span>
               )}
               <DraftBadge docId={person._id} />
-            </h1>
+            </>
+          }
+        >
+          {(person.location || person.pronouns) && (
+            <p className={styles.profileMeta}>
+              {[person.location, person.pronouns].filter(Boolean).join(' · ')}
+            </p>
+          )}
 
-            {person.headline && (
-              <p className={pageStyles.detailEyebrow}>{person.headline}</p>
-            )}
-
-            {(person.location || person.pronouns) && (
-              <p className={styles.profileMeta}>
-                {[person.location, person.pronouns].filter(Boolean).join(' · ')}
-              </p>
-            )}
-
-            {person.socialLinks?.length > 0 && (
-              <ul className={styles.socialLinks} aria-label="Social profiles">
-                {person.socialLinks.map((link, i) => {
-                  const config = PLATFORM_CONFIG[link.platform] || PLATFORM_CONFIG.other
-                  const label = link.label || config.label || link.platform
-                  const IconComponent = config.icon
-                  return (
-                    <li key={i} className={styles.socialLinkItem}>
-                      <a
-                        href={link.url}
-                        className={styles.socialLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={label}
-                        title={label}
-                      >
-                        <IconComponent size={14} color="currentColor" aria-hidden="true" />
-                        <span>{label}</span>
-                      </a>
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
-          </div>
-        </div>
+          {person.socialLinks?.length > 0 && (
+            <ul className={styles.socialLinks} aria-label="Social profiles">
+              {person.socialLinks.map((link, i) => {
+                const config = PLATFORM_CONFIG[link.platform] || PLATFORM_CONFIG.other
+                const label = link.label || config.label || link.platform
+                const IconComponent = config.icon
+                return (
+                  <li key={i} className={styles.socialLinkItem}>
+                    <a
+                      href={link.url}
+                      className={styles.socialLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      title={label}
+                    >
+                      <IconComponent size={14} color="currentColor" aria-hidden="true" />
+                      <span>{label}</span>
+                    </a>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </PageHeader>
 
         {hasBio && (
           <div className={styles.profileBio}>

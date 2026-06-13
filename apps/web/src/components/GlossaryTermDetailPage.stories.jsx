@@ -15,7 +15,7 @@ import React from 'react'
 import { MemoryRouter, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import sharedPTComponents from '../lib/portableTextComponents'
-import { Blockquote, Breadcrumb, Chip, DescriptionList } from '../design-system'
+import { Blockquote, Breadcrumb, Chip, DescriptionList, PageHeader } from '../design-system'
 import pageStyles from '../pages/pages.module.css'
 import styles from '../pages/GlossaryPage.module.css'
 
@@ -74,26 +74,31 @@ function RefRows({ docs }) {
 function TermShell({ term, abbreviation, pronunciation, items }) {
   return (
     <main className={pageStyles.entityDetailPage}>
-      <Breadcrumb
-        items={[
-          { label: 'Library', href: '/library' },
-          { label: 'Glossary', href: '/glossary' },
-        ]}
-      />
-      <div className={pageStyles.folioIdentity}>
-        <h1 className={pageStyles.narrativeHeading}>
-          {term}
-          {abbreviation && (
-            <Chip
-              variant="status"
-              label={abbreviation}
-              className={styles.headingChip}
-              aria-label={`Abbreviation: ${abbreviation}`}
-            />
-          )}
-        </h1>
+      <PageHeader
+        breadcrumb={
+          <Breadcrumb
+            items={[
+              { label: 'Library', href: '/library' },
+              { label: 'Glossary', href: '/glossary' },
+            ]}
+          />
+        }
+        title={
+          <>
+            {term}
+            {abbreviation && (
+              <Chip
+                variant="status"
+                label={abbreviation}
+                className={styles.headingChip}
+                aria-label={`Abbreviation: ${abbreviation}`}
+              />
+            )}
+          </>
+        }
+      >
         {pronunciation && <p className={styles.pronunciation}>{pronunciation}</p>}
-      </div>
+      </PageHeader>
 
       <Blockquote>
         <PortableText

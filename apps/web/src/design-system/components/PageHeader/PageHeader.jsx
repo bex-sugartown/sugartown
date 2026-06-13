@@ -3,6 +3,7 @@ import styles from './PageHeader.module.css'
 export function PageHeader({
   breadcrumb,
   media,
+  eyebrow,
   title,
   description,
   count,
@@ -11,6 +12,7 @@ export function PageHeader({
   tint,
   italic = false,
   className,
+  children,
 }) {
   const tintStyle = tint ? { '--page-header-tint': tint } : undefined
 
@@ -35,6 +37,8 @@ export function PageHeader({
           {media && <div className={styles.media}>{media}</div>}
 
           <div className={styles.content}>
+            {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
+
             <div className={styles.titleRow}>
               <h1 className={[styles.title, italic ? styles.titleItalic : undefined].filter(Boolean).join(' ')}>{title}</h1>
               {count !== undefined && (
@@ -45,6 +49,8 @@ export function PageHeader({
             </div>
 
             {description && <p className={styles.description}>{description}</p>}
+
+            {children}
           </div>
         </div>
 

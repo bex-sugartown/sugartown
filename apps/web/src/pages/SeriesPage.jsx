@@ -11,7 +11,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { getCanonicalPath } from '../lib/routes'
 import SeoHead from '../components/SeoHead'
 import NotFoundPage from './NotFoundPage'
-import { Breadcrumb } from '../design-system'
+import { Breadcrumb, PageHeader } from '../design-system'
 import pageStyles from './pages.module.css'
 
 const TYPE_LABELS = { article: 'Article', node: 'Node', caseStudy: 'Case Study', page: 'Page' }
@@ -46,15 +46,12 @@ export default function SeriesPage() {
     <main className={pageStyles.entityDetailPage}>
       <SeoHead seo={seo} />
 
-      <Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Series' }]} />
-
-      <div className={pageStyles.folioIdentity}>
-        <p className={pageStyles.detailEyebrow}>Series</p>
-        <h1 className={pageStyles.narrativeHeading}>{series.title}</h1>
-        {series.description && (
-          <p className={pageStyles.entityDescription}>{series.description}</p>
-        )}
-      </div>
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Series' }]} />}
+        eyebrow="Series"
+        title={series.title}
+        description={series.description ?? undefined}
+      />
 
       {parts.length > 0 ? (
         <ol className={pageStyles.seriesPartList}>
