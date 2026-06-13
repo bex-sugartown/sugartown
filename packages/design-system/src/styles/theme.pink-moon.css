@@ -141,6 +141,9 @@
   --st-table-header-color-subdued:    var(--st-color-text-muted);
   --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 4%, transparent);
 
+  /* IndexCell — inactive state on dark canvas (mirrors web theme.pink-moon.css) */
+  --st-index-cell-inactive-color: rgba(255, 255, 255, 0.18);
+
   /* Card hover — match light-pink-moon: pink border, no lift, no shadow */
   --st-card-hover-border:       var(--st-color-pink);
   --st-card-hover-translate-y:  0px;

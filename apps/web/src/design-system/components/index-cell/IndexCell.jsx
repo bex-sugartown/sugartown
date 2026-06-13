@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 import styles from './IndexCell.module.css'
 
 export default function IndexCell({
-  state = 'default',
+  state = 'active',
   as: Tag = 'button',
   href,
   onClick,

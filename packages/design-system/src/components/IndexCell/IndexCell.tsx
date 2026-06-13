@@ -1,10 +1,15 @@
 import React from 'react';
 import styles from './IndexCell.module.css';
 
-export type IndexCellState = 'default' | 'active' | 'selected' | 'inactive';
+export type IndexCellState = 'active' | 'selected' | 'inactive';
 
 export interface IndexCellProps {
-  /** Visual + interactive state */
+  /**
+   * Visual + interactive state:
+   * - `active` — letter/page has content; clickable, pink border + text on hover (default)
+   * - `selected` — currently chosen; solid pink fill, maroon on hover
+   * - `inactive` — no content; muted, non-interactive (render `as="span"`)
+   */
   state?: IndexCellState;
   /** Render as button, anchor, or non-interactive span */
   as?: 'button' | 'a' | 'span';
@@ -17,7 +22,7 @@ export interface IndexCellProps {
 }
 
 export const IndexCell: React.FC<IndexCellProps> = ({
-  state = 'default',
+  state = 'active',
   as: Tag = 'button',
   href,
   onClick,

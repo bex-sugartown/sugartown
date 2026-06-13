@@ -20,12 +20,6 @@
 
 /* ── States ──────────────────────────────────────────────────────────────── */
 
-.default {
-  border: 1px solid var(--st-index-cell-inactive-color);
-  background: transparent;
-  color: var(--st-color-text-muted);
-}
-
 .active {
   border: 1px solid var(--st-index-cell-inactive-color);
   background: transparent;

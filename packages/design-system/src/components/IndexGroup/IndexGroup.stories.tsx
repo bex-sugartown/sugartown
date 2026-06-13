@@ -10,6 +10,18 @@ const meta: Meta<typeof IndexGroup> = {
   component: IndexGroup,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
+  argTypes: {
+    label: {
+      description: 'Accessible label for the group (role="group").',
+      control: { type: 'text' },
+      table: { defaultValue: { summary: 'Index navigation' } },
+    },
+    children: {
+      description: 'IndexCell elements.',
+      table: { disable: true },
+    },
+    className: { table: { disable: true } },
+  },
 };
 
 export default meta;
