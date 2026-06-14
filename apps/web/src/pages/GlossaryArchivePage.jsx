@@ -90,7 +90,7 @@ export default function GlossaryArchivePage() {
           breadcrumb={<Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Glossary' }]} />}
           title="Glossary"
           count={terms.length}
-          description="Controlled vocabulary for Sugartown Digital. Definitions for the terms, concepts, and patterns that appear across articles, case studies, and the knowledge graph."
+          description="Controlled vocabulary for Sugartown Digital. Definitions for the terms, concepts, and patterns that appear across articles, case studies, and the knowledge graph. And, filed alongside them, the Bextionary: the coinages and in-jokes Sugartown actually runs on."
           italic
         />
 
