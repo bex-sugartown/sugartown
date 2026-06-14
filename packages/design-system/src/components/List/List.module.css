@@ -149,9 +149,9 @@
   color: var(--st-color-text-muted);
   text-decoration: none;
 }
-/* Dark canvas: solid canonical lime with ink tag/date (title stays brand pink). */
+/* Dark canvas: pale lime wash with ink tag/date (title stays brand pink). */
 [data-theme="dark-pink-moon"] .row:hover {
-  background: var(--st-color-lime-400);
+  background: var(--st-color-lime-100);
 }
 [data-theme="dark-pink-moon"] .row:hover .rowTag,
 [data-theme="dark-pink-moon"] .row:hover .rowDate {
