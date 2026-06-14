@@ -102,6 +102,21 @@ export default function GlossaryTermPage() {
             <Chip variant="status" status={term.status} label={STATUS_LABELS[term.status]} />
           ),
         },
+        term.categories?.length > 0 && {
+          label: 'Category',
+          value: (
+            <div className={styles.chipRow}>
+              {term.categories.map((cat) => (
+                <Chip
+                  key={cat._id}
+                  label={cat.name}
+                  href={getCanonicalPath({ docType: 'category', slug: cat.slug })}
+                  variant="tag"
+                />
+              ))}
+            </div>
+          ),
+        },
         term.relatedTerms?.length > 0 && {
           label: 'Related Terms',
           value: (
