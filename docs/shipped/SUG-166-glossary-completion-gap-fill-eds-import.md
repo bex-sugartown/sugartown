@@ -1,9 +1,14 @@
 ---
 **Epic:** SUG-166 — Glossary completion — gap-fill + EDS vocabulary import
 **Linear Issue:** [SUG-166](https://linear.app/sugartown/issue/SUG-166/glossary-completion-gap-fill-eds-vocabulary-import)
-**Status:** Backlog
+**Status:** ✅ Shipped (2026-06-14)
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — each phase merges to main with its own mini-release
+---
+
+> **Shipped 2026-06-14.** Glossary went 17 → 41 terms. Phases 0/1/2/3/5 complete; Phase 4 (per-component defs) dropped by scope decision (member-example lists in the Tier 2 ladder cover them). Plus three term-detail follow-ups: ContentNav alphabetical prev/next footer, Status row removed (all evergreen), categories excluded from Related Terms. New `Bextionary` category + 8 coined node-voice terms behind the archive filter; masthead parenthetical added. Blog theses spun out: SUG-168, SUG-169.
+> **Chromatic:** N/A — no DS component or Storybook-story changes (ContentNav/Chip/DescriptionList reused as-is; all changes are page-level + content).
+> **Schema deploy:** N/A — no schema changes (all fields pre-existed).
 ---
 
 # SUG-166 — Glossary completion — gap-fill + EDS vocabulary import
