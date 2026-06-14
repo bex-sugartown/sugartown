@@ -32,7 +32,7 @@ import {
 import { resolveSeo } from '../lib/seo'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import SeoHead from '../components/SeoHead'
-import ContentCard from '../components/ContentCard'
+import ContentList from '../components/ContentList'
 import Pagination from '../components/Pagination'
 import NotFoundPage from './NotFoundPage'
 import { Breadcrumb, PageHeader } from '../design-system'
@@ -172,11 +172,7 @@ export default function TaxonomyDetailPage() {
             <p className={pageStyles.archiveResultCount}>
               {items.length} item{items.length === 1 ? '' : 's'}
             </p>
-            <div className={pageStyles.archiveGrid}>
-              {pageItems.map((item) => (
-                <ContentCard key={item._id} item={item} />
-              ))}
-            </div>
+            <ContentList items={pageItems} />
             {totalPages > 1 && (
               <Pagination
                 currentPage={currentPage}
