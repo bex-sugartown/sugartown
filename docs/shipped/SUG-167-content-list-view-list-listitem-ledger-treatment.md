@@ -1,9 +1,15 @@
 ---
 **Epic:** SUG-167 — Content list view — List / ListItem ledger treatment
 **Linear Issue:** [SUG-167](https://linear.app/sugartown/issue/SUG-167/content-list-view-list-listitem-ledger-treatment)
-**Status:** Backlog
+**Status:** ✅ Shipped (2026-06-14)
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
+---
+
+> **Shipped 2026-06-14.** All 4 phases delivered. DS `List`/`ListItem` (register variant, content-agnostic; status dot supplied by the app adapter via `leading`) + web-adapter mirror + Storybook. `ContentList` app adapter (status→dot map, date format, `getCanonicalPath` href). Live everywhere a collection renders as a list: **archives** (list mode), **entity pages** (Person/Project/Tool), **taxonomy detail** (`/tags/:slug`, `/categories/:slug`). Card grid reserved for grid mode + cardbuilder + the KG single-node rail. GROQ projections extended (+categories on person/project, +status on tool) — no schema change.
+> **Deviations from spec:** dark-mode hover bg uses `--st-color-lime-100` (pale wash), not the handoff's solid `lime-400` (design call). Hover row re-paints the two vertical column rules (they live on the container background, behind rows). Taxonomy detail pages added to scope. No new tokens needed (lime-100 reused).
+> **Chromatic:** List has Storybook stories (both themes) but a Chromatic VRT run was not executed this session — `<!-- Chromatic: pending -->`.
+> **Visual QA:** approved by Bex (reviewed light render + hover; requested dark→lime-100 and the hover vertical-rule fix, both applied).
 ---
 
 # SUG-167 — Content list view — List / ListItem ledger treatment
