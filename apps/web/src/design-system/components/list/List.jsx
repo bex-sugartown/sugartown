@@ -33,11 +33,14 @@ export function List({ variant = 'register', items = [], title, count }) {
         </div>
       )}
       <ul className={`${styles.list} ${styles[variant]}`}>
-        {items.map((item, i) => (
-          <li key={item.key ?? i}>
-            <ListItem {...item} />
-          </li>
-        ))}
+        {items.map((item, i) => {
+          const { key, ...row } = item
+          return (
+            <li key={key ?? i}>
+              <ListItem {...row} />
+            </li>
+          )
+        })}
       </ul>
     </div>
   )
