@@ -7,9 +7,13 @@
  *
  * EPIC-preview-ui · Preview UI Chrome
  */
+import { useSyncExternalStore } from 'react'
 import styles from './PreviewBanner.module.css'
+import { subscribePreviewDoc, getPreviewDoc, studioEditUrl } from '../lib/previewDoc'
 
 export default function PreviewBanner() {
+  const doc = useSyncExternalStore(subscribePreviewDoc, getPreviewDoc, () => null)
+
   return (
     <div className={styles.banner} role="status" aria-live="polite">
       <div className={styles.inner}>
@@ -17,11 +21,11 @@ export default function PreviewBanner() {
         <span>Preview Mode — showing draft content</span>
         <a
           className={styles.studioLink}
-          href="http://localhost:3333/"
+          href={studioEditUrl(doc)}
           target="_blank"
           rel="noopener noreferrer"
         >
-          Open Studio
+          {doc ? 'Edit this in Studio' : 'Open Studio'}
         </a>
       </div>
     </div>

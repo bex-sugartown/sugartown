@@ -5,6 +5,7 @@
  * pronunciation, Blockquote lead definition, two-column DescriptionList ledger.
  * JSON-LD: DefinedTerm (schema.org)
  */
+import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import sharedPTComponents from '../lib/portableTextComponents'
@@ -16,6 +17,7 @@ import { resolveSeo } from '../lib/seo'
 import { Blockquote, Breadcrumb, Chip, DescriptionList, PageHeader } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import ContentNav from '../components/ContentNav'
+import { setPreviewDoc } from '../lib/previewDoc'
 import NotFoundPage from './NotFoundPage'
 import pageStyles from './pages.module.css'
 import styles from './GlossaryPage.module.css'
@@ -66,6 +68,12 @@ export default function GlossaryTermPage() {
   const { slug } = useParams()
   const siteSettings = useSiteSettings()
   const { data: term, loading, notFound } = useSanityDoc(glossaryTermBySlugQuery, { slug })
+
+  // Register the current doc so the preview banner can deep-link into Studio (dev-only; no-op in prod).
+  useEffect(() => {
+    if (term?._id) setPreviewDoc({ id: term._id, type: 'glossaryTerm' })
+    return () => setPreviewDoc(null)
+  }, [term?._id])
 
   if (!loading && notFound) return <NotFoundPage />
 
