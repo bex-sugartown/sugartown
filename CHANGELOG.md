@@ -28,6 +28,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - SUG-165: Archive/detail H1 holder-header standardisation — --st-font-page-h1 token (48px); PageHeader extended with eyebrow + children slots; Tool/Person/Glossary/Series folios migrated off .narrativeHeading (deleted); dead archive components + entity-folio CSS removed; CLAUDE.md token-value cross-check + App.jsx routing + closure-grep gates, Human QA Walkthrough epic-template section
 - Storybook: divider tokens (--st-color-pt-divider-{light,dark}-2x, default darkened 2 shades); Divider/Link dark-mode stories removed in favour of topbar theme dropdown
 - SUG-166: Glossary completion — 17 → 41 terms (gap-fill of extended defs/pronunciation/sources/abbreviations/categories; Tier 1 token tiers + Theme; Tier 2 DS ladder + Tier 3 principles with member-example lists and registry/Storybook/ERD cross-refs; Bextionary category + 8 coined node-voice terms). Term detail: Category metadata row, ContentNav alphabetical prev/next footer, Status row removed, categories excluded from Related Terms. Masthead Bextionary parenthetical.
+- SUG-167: Content list view — ledger "register" List/ListItem DS component (content-agnostic primitive + web-adapter mirror + Storybook) and ContentList app adapter (status→dot map, date format, getCanonicalPath href). Replaces card-as-list-row in archive list mode, entity pages (Person/Project/Tool), and taxonomy detail (tags/categories). Dark hover uses lime-100; hover re-paints vertical column rules. +categories/+status GROQ projections (no schema change).
+- Preview banner: dev-only "Edit this in Studio" deep-link (Sanity intent/edit URL) to the on-screen document, wired across all detail/content page types; falls back to Studio home elsewhere.
+- Studio: removed Epistemic Status field from glossaryTerm (all terms evergreen); schema deployed.
 
 ---
 
