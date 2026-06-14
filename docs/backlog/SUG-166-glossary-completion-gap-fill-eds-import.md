@@ -45,7 +45,42 @@ Confident factual fills (low-risk, verify at execution):
 
 Tiers 1–4 approved for import. Dedupe against existing (Atomic Design, Design Tokens already exist — do NOT recreate).
 
-**Tier 1 — token & theme vocabulary (highest value):**
+**Two axes — keep them distinct:**
+- **Tier** = *import priority only* (Tier 1 = highest value, ships first). Not user-facing.
+- **Category** = topical grouping, user-facing. Renders on the term page **before Related Terms** and filters the `/glossary` archive. Uses **existing editorial categories** — no new structural categories created.
+
+### The DS ladder = TERMS, not categories (corrected 2026-06-14)
+
+**Foundations, Components, Composite Components, Patterns, Blocks** are imported as **glossary terms** — they *replace* importing each individual component (Input, Popover, Link, Drawer, Chip, Badge, Tag, Tooltip…) as its own entry. Each ladder term's **`extendedDefinition` enumerates its member components / examples**, pulled from the actual Sugartown DS at execution (`packages/design-system/src/components/`, Storybook Foundations/Patterns, `sections[]` block types). No per-component glossary entries — the examples list inside the long-definition does that work.
+
+Indicative member lists (verify against the live DS at execution):
+- **Foundations** → colour, type, spacing, a11y, layout; the token tiers (Primitive/Semantic/Component) and Theme are *related terms* in Foundations' orbit.
+- **Components** → Button, Input, Chip, Badge, Tag, Link, Tooltip, Popover, Drawer, …
+- **Composite Components** → Card, MetadataCard, FilterBar, ContentCard, …
+- **Patterns** → the Storybook "Patterns" set (composed, in-context).
+- **Blocks** → the `PageSections` section types (textSection, callout, CTA, …).
+
+### Canonical cross-reference surfaces (don't duplicate detail — link to it)
+
+Where component/schema detail already lives on the site, the term **links out** rather than re-describing. These are **code-driven pages** (React routes, not Sanity docs) → they cannot be `relatedContent` references; link them as **inline PT links in `extendedDefinition`** (e.g. a closing "Where this lives in Sugartown:" line). `sources` stays reserved for external canonical authority (W3C, atomicdesign.bradfrost.com, etc.).
+
+| Surface | Path | Cross-ref from |
+|---|---|---|
+| Design System overview | `/platform/design-system` | Foundations, Component, Design System |
+| Component Registry | `/platform/design-system/registry` | Component, Composite Component (the full inventory) |
+| Section Showcase | `/platform/design-system/sections` | Block (live section types) |
+| CMS overview | `/platform/cms` | Content model, Structured content, Headless CMS |
+| Content Models | `/platform/cms/content-models` | Content model, Structured content |
+| Schema ERD | `https://sugartown.io/platform/cms#schema-erd` (anchor on the CMS page) | Content model, Knowledge graph, Node |
+| Storybook (Pink Moon) | `https://pinkmoon.sugartown.io/` | Component, Pattern, Composite Component, Foundations |
+
+So a ladder term like **Component** ends its long-def with: *"See the full component inventory in the [Design System Registry](/platform/design-system/registry)"* rather than listing every prop. The member-example list names the components; the registry link is the authoritative detail.
+
+### Category axis
+
+`glossaryTerm.categories` references the **shared site `category` taxonomy** (13 existing). DS/EDS terms map to the existing **Design Systems** category; architecture/CMS terms (the existing 17 + Headless CMS, Monorepo, GROQ, IA…) map to **Content Architecture** / **Engineering & DX**. **No new categories** are created. The Category row still renders before Related Terms (Phase 0) — useful regardless of which categories are used. `relatedTerms` does the fine-grained "see also" cross-linking between ladder terms and the token/theme terms.
+
+**Tier 1 — token & theme vocabulary (highest value):** → category **Design Systems**; these are the *related terms* in the Foundations *term's* orbit
 | Term | EDS one-line definition | Sugartown anchor |
 |---|---|---|
 | Primitive Tokens | The most basic atomic values — raw colours, sizes, spacing. | base `tokens.css` layer |
@@ -53,16 +88,17 @@ Tiers 1–4 approved for import. Dedupe against existing (Atomic Design, Design 
 | Component Tokens | Tokens scoped to one component (e.g. button radius); the theming layer. | `--st-card-*`, `--st-index-cell-*` |
 | Theme | A collection of design tokens defining a brand's visual style. | Pink Moon light/dark |
 
-**Tier 2 — DS taxonomy:**
-| Term | EDS one-line definition | Sugartown anchor |
+**Tier 2 — DS taxonomy (the ladder terms):** → category **Design Systems**; each term's `extendedDefinition` **lists its member components/examples**
+| Term | EDS one-line definition | Long-def must list |
 |---|---|---|
-| Foundations | Underlying principles/styles — colour, type, spacing, a11y, layout. | Storybook "Foundations" |
-| Component | Reusable, self-contained UI building block. | DS primitives |
-| (Content) Block | Distinct self-contained UI section, combinable into layouts. | `sections[]` / PageSections |
-| Pattern | How components are composed within a UI in a given context. | Storybook "Patterns" |
-| Layout | Visual arrangement/structure of elements on a page. | — |
+| Foundations | Underlying principles/styles — colour, type, spacing, a11y, layout. | colour, type, spacing, a11y, layout (+ token tiers as related) |
+| Component | Reusable, self-contained UI building block. | Button, Input, Chip, Badge, Tag, Link, Tooltip, Popover, Drawer, … |
+| Composite Component | A component assembled from multiple components. | Card, MetadataCard, FilterBar, ContentCard, … |
+| (Content) Block | Distinct self-contained UI section, combinable into layouts. | `PageSections` section types (textSection, callout, CTA, …) |
+| Pattern | How components are composed within a UI in a given context. | the Storybook "Patterns" set |
+| Layout | Visual arrangement/structure of elements on a page. | grid/stack/columns layout primitives |
 
-**Tier 3 — artifacts & principles:**
+**Tier 3 — artifacts & principles:** → category **Design Systems**
 | Term | EDS one-line definition | Sugartown anchor |
 |---|---|---|
 | Component Guidelines | Spec: anatomy, states, behaviours of a component. | Storybook 14-section Guidelines |
@@ -71,32 +107,28 @@ Tiers 1–4 approved for import. Dedupe against existing (Atomic Design, Design 
 | Reusability | Using a component many times without significant modification. | the counterfactual node thesis |
 | Flexibility | Adapting to content/screens/use-cases; framework-agnostic. | platform-agnostic doctrine |
 
-**Tier 4 — components & process (import only what Sugartown ships):**
-| Term | Note |
-|---|---|
-| Chip, Badge, Tag | Already Sugartown DS components; Tag is also an IA concept. Confirm each earns a glossary entry. |
-| Tooltip, Popover, Scrim, Toast, Dialog | Add ONLY the ones Sugartown actually ships — activation audit against `packages/design-system/src/components/` before creating. |
-| Wireframe, Mockup, Prototype | Design-process fidelity stages — relevant to Phase 0 mocks. |
-| ~~Tout~~ | EDS marks "to deprecate" — skip. |
+**Tier 4 — DROPPED (2026-06-14):** individual component definitions (Chip, Badge, Tag, Tooltip, Popover, Scrim, Toast, Dialog, Input, Link, Drawer) are **not** imported as glossary terms — too extensive. They appear instead as the **member-example lists inside the Tier 2 ladder terms** (Components / Composite Components). Wireframe / Mockup / Prototype remain candidates **only if** they earn a clear Sugartown anchor — otherwise skip. `Tout` skipped (EDS deprecated).
 
 Full EDS definitions (verbatim, for shaping the Sugartown versions) live in the source HTML — read it at activation: `~/Desktop/GLOSSARY TO BE/EDS-Glossary_537396784.html`.
 
 ## Scope
 
-- [ ] **Phase 1 — Gap-fill existing 17 terms** (Content Write Gate per term batch) — layer: content
-- [ ] **Phase 2 — Import Tier 1 token/theme terms** (4) — layer: content (taxonomy creation)
-- [ ] **Phase 3 — Import Tier 2 + Tier 3 terms** (~10) — layer: content
-- [ ] **Phase 4 — Import Tier 4 terms** (audit which components/process terms Sugartown ships first) — layer: content
+- [ ] **Phase 0 — Category render** — add the **Category row before Related Terms** in `GlossaryTermPage.jsx` (+ GROQ projection if missing); no new categories created — layer: one frontend touch
+- [ ] **Phase 1 — Gap-fill existing 17 terms** (Content Write Gate per term batch); assign each to an existing editorial category — layer: content
+- [ ] **Phase 2 — Import Tier 1 token/theme terms** (4), category Design Systems — layer: content
+- [ ] **Phase 3 — Import Tier 2 + Tier 3 terms** (~10), category Design Systems; Tier 2 ladder terms list member components in their long-def — layer: content
+- [ ] **Phase 4 — DROPPED** — individual component definitions not imported; member-example lists inside the Tier 2 ladder terms cover them
 - [ ] **Phase 5 — The Bextionary** — coined / in-house / amusing Sugartown-native terms, filed under a `Bextionary` category, with a parenthetical nod on the glossary masthead — layer: content
 
 ## Phases (merge-as-you-go)
 
 Each phase is an independent content batch: propose → Content Write Gate approval → write to Sanity drafts → Bex publishes → mini-release. Phase N's Linear sub-task (if used) is Done only after its own merge.
 
-**Phase 1** — Gap-fill. Extended definitions are the heavy interpretive part: cross-check against Bex's index where available; draft first-pass only with approval.
-**Phase 2** — Tier 1 token tiers + Theme (the highest-value import; directly closes the SUG-165 gap).
-**Phase 3** — Tier 2 + 3 taxonomy/artifacts/principles.
-**Phase 4** — Tier 4, after a `packages/design-system/src/components/` audit confirms which UI-component terms map to shipped components.
+**Phase 0** — Category render. Add the Category row to `GlossaryTermPage.jsx` `metadataItems`, positioned **before** Related Terms (+ GROQ projection if `categories[]->` is missing). No new categories created — existing editorial categories only. This is the one code touch in the epic → gets a Human QA Walkthrough row. The row must render before terms are filed (otherwise assignments are invisible).
+**Phase 1** — Gap-fill. Extended definitions are the heavy interpretive part: cross-check against Bex's index where available; draft first-pass only with approval. Assign each existing term to an existing editorial category.
+**Phase 2** — Tier 1 token tiers + Theme (the highest-value import; directly closes the SUG-165 gap), category Design Systems.
+**Phase 3** — Tier 2 ladder terms + Tier 3 artifacts/principles, category Design Systems. Each Tier 2 ladder term's `extendedDefinition` enumerates its member components/examples (audit the live DS at execution) **and** links out to its canonical surface (registry / showcase / platform page) — see the cross-reference table.
+**Phase 4** — DROPPED. Individual component definitions not imported (too extensive); the member-example lists inside the Tier 2 ladder terms cover them. No work unless Wireframe/Mockup/Prototype are later approved with a clear anchor.
 **Phase 5 — The Bextionary** — origin: a team glossary Bex maintained at a prior job for the obscure and made-up terms her reports found amusing. Sugartown already speaks this dialect; this phase files it. Two registers are kept deliberately separate: the **industry vocabulary** (Phases 1–4) must be *correct* and citable; the **Bextionary** must be *true to Bex* — node-voice definitions, em dashes and deadpan emoji permitted, `status: exploring`. Mechanism: a `Bextionary` `category` (no schema change — `glossaryTerm.categories` already exists), so the `/glossary` archive can filter to just the bextionary while formal terms stay formal. Masthead gets the wink: *"Sugartown Glossary (and the Bextionary)"* on the archive description/eyebrow. Candidate starter set (already living in the nodes): Agentic Caucus · VoPM (Voice of the PM) · Pink Moon · Forensic Storyteller · the Comedic Contract · vibing / vibe-coding · "term term term" · Left to My Own Devices. Each coinage's wording still passes the Content Write Gate.
 
 ## Acceptance criteria
@@ -105,8 +137,12 @@ Each phase is an independent content batch: propose → Content Write Gate appro
 - [ ] Abbreviations set: Design system → DS, Knowledge graph → KG
 - [ ] GROQ pronunciation set to `/ɡroʊk/`; no IPA added to plain-English terms
 - [ ] Sources added for every term with a canonical authority (list above); fuzzy terms explicitly left blank
-- [ ] Tier 1–3 terms created (deduped — Atomic Design / Design Tokens NOT recreated); each with short definition + source
-- [ ] Tier 4 terms created only for components Sugartown ships (audit recorded)
+- [ ] No new categories for DS/EDS vocabulary — existing editorial categories only (Design Systems / Content Architecture / Engineering & DX). `Bextionary` (Phase 5) is the one exception.
+- [ ] Category row renders on the term page **before** Related Terms (`GlossaryTermPage.jsx`); verified in browser
+- [ ] Tier 2 ladder terms (Foundations, Component, Composite Component, Block, Pattern, Layout) created, each with member-component examples in its `extendedDefinition` **and** an inline cross-ref link to its canonical surface (registry / showcase / platform page) per the cross-reference table
+- [ ] Tier 1 + 3 terms created (deduped — Atomic Design / Design Tokens NOT recreated); each with short definition + source + category Design Systems
+- [ ] Existing 17 terms each assigned to an existing editorial category
+- [ ] Individual component definitions (Chip/Badge/Tag/Input/Tooltip/etc.) NOT created as separate terms — they live in the ladder terms' example lists
 - [ ] Every new term passes taxonomy pre-flight (no near-duplicate of an existing `glossaryTerm`)
 - [ ] All copy passed the Content Write Gate (proposal approved) before any Sanity write; all content written via `_from_json` tools (no AI-rewriting pipeline)
 - [ ] **Bextionary facet** exists: a `Bextionary` category created (taxonomy pre-flight first), coined terms tagged with it, and the `/glossary` archive can filter to it
@@ -121,21 +157,23 @@ Each phase is an independent content batch: propose → Content Write Gate appro
 - **Content Write Gate (blocking):** all definitions are AI-interpreted copy → produce a before/after proposal table per batch and wait for explicit approval before `patch_document_from_json` / `create_documents_from_json`. Use `_from_json` tools only (no `_from_markdown` AI-rewriting).
 - **PortableText shape:** every block needs `markDefs: []`, every span needs `marks: []` (CLAUDE.md §Portable Text blocks written via MCP).
 - **Sources field shape:** `sources: [{ _key, _type: 'source', text: '...', url: '...' }]`.
-- **Render layer unchanged:** `GlossaryTermPage.jsx` already renders abbreviation (chip), pronunciation, extendedDefinition, and sources. No frontend or CSS changes for Phases 1–4 — pure content.
+- **Render layer — one change (Phase 0):** `GlossaryTermPage.jsx` already renders abbreviation (chip), pronunciation, extendedDefinition, related terms, and sources. The `categories` field is **not** currently in `metadataItems` — Phase 0 adds a Category row (Chip-row, reusing the existing `relatedTerms` chip pattern, linking via `getCanonicalPath({docType:'category', slug})`) positioned **before** the Related Terms entry. Confirm the GROQ query in `queries.js` projects `categories[]->{name, slug}` — add the projection if missing. No new CSS class (reuse `styles.chipRow`).
 - **Bextionary category + filter:** `glossaryTerm.categories` already exists, and the glossary archive already supports category context. Activation audit: confirm the `/glossary` archive can filter by category (read `GlossaryArchivePage.jsx`) — if it only filters by letter (AlphaFilter), Phase 5 may need a small category-filter addition (the one possible code touch in this epic; if so, it gets a Human QA Walkthrough row).
 - **Masthead parenthetical:** confirm where the glossary archive description/eyebrow copy lives — the `archivePage` Sanity doc (content edit, Content Write Gate) vs. a hardcoded string in `GlossaryArchivePage.jsx` (one-line copy change). Resolve at activation; prefer the content source if one exists.
 - **EDS source is local-only:** the Confluence HTML stays on Bex's Desktop. Reference it in this doc; do not copy it into the repo.
-- **Human QA Walkthrough:** N/A — no CSS, layout, or multi-page component changes (content into existing render).
+- **Human QA Walkthrough (Phase 0 only):** the Category-row render is a frontend change → walk one glossary term page on the dev server, confirm the Category row appears before Related Terms, chips link to `/categories/:slug`, and the row hides cleanly when a term has no categories. Pure-content phases (1–3, 5) remain N/A.
 
 ## Model & Mode [REQUIRED]
 
-`/model sonnet` — pure content/copy epic, no code changes. Opus planning depth is not required; the audit and relevance table are already complete. Sonnet executes phase-by-phase behind the Content Write Gate.
+`/model sonnet` — near-pure content/copy epic with **one small frontend touch** (Phase 0 Category row + possible GROQ projection). Opus planning depth is not required; the audit, relevance table, and category scheme are complete. Sonnet executes Phase 0's code change, then phases 1–5 behind the Content Write Gate.
 
 ## Non-Goals
 
-- No schema changes to `glossaryTerm` (all needed fields exist).
-- No frontend/CSS changes (render already supports every field).
-- No new DS components (Tier 4 imports define existing components as *terms*, they do not create components).
+- No schema changes to `glossaryTerm` (all needed fields exist — `categories` already references `category`).
+- No new CSS classes (the Category row reuses `styles.chipRow`); the only frontend change is one `metadataItems` entry + a possible GROQ projection add.
+- No new DS components.
+- No new categories for the DS/EDS vocabulary — existing editorial categories only. (The `Bextionary` category in Phase 5 is the one intentional exception.)
+- **No per-component glossary terms** (Chip/Badge/Tag/Input/Tooltip/Popover/Drawer/etc. — dropped; they appear as member-example lists inside the Tier 2 ladder terms).
 - Not recreating Atomic Design or Design Tokens (already exist).
 - Not importing EDS "Tout" (deprecated) or EDS process/relationship prose that has no Sugartown anchor.
 
