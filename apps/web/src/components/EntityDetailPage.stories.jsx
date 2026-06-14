@@ -22,9 +22,9 @@ import React from 'react'
  */
 import { MemoryRouter } from 'react-router-dom'
 import { EntityDetailPageDocsPage } from '../../../../apps/storybook/.storybook/stories/EntityDetailPageDocs'
-import { Grid, SectionLabel, Breadcrumb, PageHeader, Avatar } from '../design-system'
+import { Breadcrumb, PageHeader, Avatar } from '../design-system'
 import MetadataCard from './MetadataCard'
-import ContentCard from './ContentCard'
+import ContentList from './ContentList'
 import { mockArticles, mockNodes } from './__fixtures__/mockContentCards'
 import pageStyles from '../pages/pages.module.css'
 import sectionStyles from './PageSections.module.css'
@@ -61,12 +61,7 @@ function EntityShell({ breadcrumbs, colorHex, heading, description, media, metad
       <div className={sectionStyles.detailContext}>
         {sections.map((section) => (
           <section key={section.title}>
-            <SectionLabel title={section.title} kicker={String(section.items.length)} />
-            <Grid columns={2} spacing="lg">
-              {section.items.map((item) => (
-                <ContentCard key={item._id} item={item} docType={section.docType ?? item._type} showExcerpt={false} showHeroImage={false} />
-              ))}
-            </Grid>
+            <ContentList title={section.title} items={section.items} docType={section.docType} />
           </section>
         ))}
       </div>

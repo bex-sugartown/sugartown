@@ -16,6 +16,7 @@
 import { MemoryRouter } from 'react-router-dom'
 import { Container, FilterBar, Breadcrumb, PageHeader } from '../design-system'
 import ContentCard from './ContentCard'
+import ContentList from './ContentList'
 import Pagination from './Pagination'
 import { mockArticles, mockNodes, mockCaseStudies, allMockItems } from './__fixtures__/mockContentCards'
 import { mockFilterModel, mockActiveFilters } from './__fixtures__/mockFilterModel'
@@ -140,6 +141,8 @@ function ArchiveShell({
               <div className={pageStyles.archiveContent}>
                 {empty ? (
                   <p className={pageStyles.archiveEmpty}>No results found. Try adjusting your filters.</p>
+                ) : layout === 'list' ? (
+                  <ContentList items={items} docType={docType} />
                 ) : (
                   <div className={pageStyles.archiveGrid} data-layout={layout}>
                     {items.map((item) => (
@@ -147,7 +150,7 @@ function ArchiveShell({
                         key={item._id}
                         item={item}
                         docType={docType ?? item._type}
-                        variant={layout === 'list' ? 'listing' : 'default'}
+                        variant="default"
                       />
                     ))}
                   </div>

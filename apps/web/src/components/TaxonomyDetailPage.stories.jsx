@@ -10,8 +10,8 @@ import React from 'react'
  * Production routes: /tags/:slug, /categories/:slug
  */
 import { MemoryRouter } from 'react-router-dom'
-import { Grid, SectionLabel, Breadcrumb, PageHeader } from '../design-system'
-import ContentCard from './ContentCard'
+import { Breadcrumb, PageHeader } from '../design-system'
+import ContentList from './ContentList'
 import Pagination from './Pagination'
 import { mockArticles, mockNodes } from './__fixtures__/mockContentCards'
 import pageStyles from '../pages/pages.module.css'
@@ -26,47 +26,23 @@ export default {
   decorators: [withRouter],
 }
 
-const TYPE_LABELS = {
-  article: 'Articles',
-  node: 'Knowledge Nodes',
-  caseStudy: 'Case Studies',
-}
-
-function groupByType(items, defaultDocType) {
-  const groups = {}
-  for (const item of items) {
-    const type = defaultDocType ?? item._type
-    if (!groups[type]) groups[type] = []
-    groups[type].push(item)
-  }
-  return Object.entries(groups).map(([type, groupItems]) => ({ type, items: groupItems }))
-}
-
 function TaxonomyDetailShell({ name, description, breadcrumbs, items, docType }) {
-  const groups = groupByType(items, docType)
-  const totalItems = items.length
-
   return (
     <main className={pageStyles.entityDetailPage}>
       <PageHeader
         breadcrumb={<Breadcrumb items={breadcrumbs} />}
         title={name}
-        count={totalItems}
+        count={items.length}
         description={description}
       />
 
-      {groups.map((group) => (
-        <section key={group.type} style={{ marginTop: '2rem' }}>
-          <SectionLabel title={TYPE_LABELS[group.type] ?? group.type} kicker={String(group.items.length)} />
-          <Grid columns={2} spacing="lg">
-            {group.items.map((item) => (
-              <ContentCard key={item._id} item={item} docType={group.type} showExcerpt={false} showHeroImage={false} />
-            ))}
-          </Grid>
-        </section>
-      ))}
-
-      <Pagination currentPage={1} totalPages={1} onPageChange={() => {}} />
+      <section>
+        <p className={pageStyles.archiveResultCount}>
+          {items.length} item{items.length === 1 ? '' : 's'}
+        </p>
+        <ContentList items={items} docType={docType} />
+        <Pagination currentPage={1} totalPages={1} onPageChange={() => {}} />
+      </section>
     </main>
   )
 }
