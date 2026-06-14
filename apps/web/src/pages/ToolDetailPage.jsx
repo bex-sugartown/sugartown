@@ -7,7 +7,7 @@
  * All layout via shared pageStyles — no page-specific CSS module needed.
  */
 import { useParams, Link } from 'react-router-dom'
-import { Grid, SectionLabel, Breadcrumb, PageHeader } from '../design-system'
+import { Breadcrumb, PageHeader } from '../design-system'
 import { toolBySlugQuery } from '../lib/queries'
 import { useEffect } from 'react'
 import { useSanityDoc } from '../lib/useSanityDoc'
@@ -15,7 +15,7 @@ import { setPreviewDoc } from '../lib/previewDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
-import ContentCard from '../components/ContentCard'
+import ContentList from '../components/ContentList'
 import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import pageStyles from './pages.module.css'
@@ -126,34 +126,19 @@ export default function ToolDetailPage() {
       {/* ── Content sections ──────────────────────────────────────── */}
       {hasArticles && (
         <section className={styles.contentSection}>
-          <SectionLabel title="Articles" kicker={String(tool.articles.length)} />
-          <Grid columns={2} spacing="lg">
-            {tool.articles.map((item) => (
-              <ContentCard key={item._id} item={item} docType="article" showExcerpt={false} showHeroImage={false} />
-            ))}
-          </Grid>
+          <ContentList title="Articles" items={tool.articles} docType="article" />
         </section>
       )}
 
       {hasNodes && (
         <section className={styles.contentSection}>
-          <SectionLabel title="Knowledge Nodes" kicker={String(tool.nodes.length)} />
-          <Grid columns={2} spacing="lg">
-            {tool.nodes.map((item) => (
-              <ContentCard key={item._id} item={item} docType="node" showExcerpt={false} showHeroImage={false} />
-            ))}
-          </Grid>
+          <ContentList title="Knowledge Nodes" items={tool.nodes} docType="node" />
         </section>
       )}
 
       {hasCaseStudies && (
         <section className={styles.contentSection}>
-          <SectionLabel title="Case Studies" kicker={String(tool.caseStudies.length)} />
-          <Grid columns={2} spacing="lg">
-            {tool.caseStudies.map((item) => (
-              <ContentCard key={item._id} item={item} docType="caseStudy" showExcerpt={false} showHeroImage={false} />
-            ))}
-          </Grid>
+          <ContentList title="Case Studies" items={tool.caseStudies} docType="caseStudy" />
         </section>
       )}
 

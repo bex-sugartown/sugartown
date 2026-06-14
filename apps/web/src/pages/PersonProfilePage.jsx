@@ -31,7 +31,7 @@ function LinkedInIcon({ size = 24, color = 'currentColor', className, ...props }
     </svg>
   )
 }
-import { Grid, SectionLabel, Breadcrumb, Avatar, Chip, PageHeader } from '../design-system'
+import { Breadcrumb, Avatar, Chip, PageHeader } from '../design-system'
 import sharedPTComponents from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
@@ -42,7 +42,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { urlFor } from '../lib/sanity'
 import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
-import ContentCard from '../components/ContentCard'
+import ContentList from '../components/ContentList'
 import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import styles from './PersonProfilePage.module.css'
@@ -207,34 +207,19 @@ export default function PersonProfilePage() {
       {/* ── Content sections ─────────────────────────────────────── */}
       {hasArticles && (
         <section className={styles.contentSection}>
-          <SectionLabel title="Articles" kicker={String(person.articles.length)} />
-          <Grid columns={2} spacing="lg">
-            {person.articles.map((item) => (
-              <ContentCard key={item._id} item={item} docType="article" showExcerpt={false} showHeroImage={false} />
-            ))}
-          </Grid>
+          <ContentList title="Articles" items={person.articles} docType="article" />
         </section>
       )}
 
       {hasNodes && (
         <section className={styles.contentSection}>
-          <SectionLabel title="Knowledge Nodes" kicker={String(person.nodes.length)} />
-          <Grid columns={2} spacing="lg">
-            {person.nodes.map((item) => (
-              <ContentCard key={item._id} item={item} docType="node" showExcerpt={false} showHeroImage={false} />
-            ))}
-          </Grid>
+          <ContentList title="Knowledge Nodes" items={person.nodes} docType="node" />
         </section>
       )}
 
       {hasCaseStudies && (
         <section className={styles.contentSection}>
-          <SectionLabel title="Case Studies" kicker={String(person.caseStudies.length)} />
-          <Grid columns={2} spacing="lg">
-            {person.caseStudies.map((item) => (
-              <ContentCard key={item._id} item={item} docType="caseStudy" showExcerpt={false} showHeroImage={false} />
-            ))}
-          </Grid>
+          <ContentList title="Case Studies" items={person.caseStudies} docType="caseStudy" />
         </section>
       )}
 

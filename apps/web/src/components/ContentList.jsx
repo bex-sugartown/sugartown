@@ -33,8 +33,13 @@ function formatDate(iso) {
 function toRow(item, fallbackDocType) {
   const docType = fallbackDocType ?? item._type
   const status = item.status?.toLowerCase()
-  const useStatus = item._type === 'node' && status && STATUS_LABELS[status]
-  const tag = useStatus ? STATUS_LABELS[status] : item.categories?.[0]?.name
+  // Node rows show status (+ dot); others show their first category. The type
+  // check honours the passed docType (entity sections) or the item's own _type
+  // (mixed archives). Category projections alias name↔title across queries.
+  const isNode = docType === 'node' || item._type === 'node'
+  const useStatus = isNode && status && STATUS_LABELS[status]
+  const cat = item.categories?.[0]
+  const tag = useStatus ? STATUS_LABELS[status] : (cat?.name ?? cat?.title)
   return {
     key: item._id,
     tag,

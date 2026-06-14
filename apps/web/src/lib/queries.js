@@ -1251,7 +1251,8 @@ export const personProfileQuery = `
       title,
       "slug": slug.current,
       status,
-      publishedAt
+      publishedAt,
+      "categories": categories[]->{_id, name, "slug": slug.current}
     },
     "nodes": *[_type == "node" && references(^._id)] | order(publishedAt desc) {
       _id,
@@ -1259,7 +1260,8 @@ export const personProfileQuery = `
       title,
       "slug": slug.current,
       status,
-      publishedAt
+      publishedAt,
+      "categories": categories[]->{_id, name, "slug": slug.current}
     },
     "caseStudies": *[_type == "caseStudy" && references(^._id)] | order(publishedAt desc) {
       _id,
@@ -1267,7 +1269,8 @@ export const personProfileQuery = `
       title,
       "slug": slug.current,
       status,
-      publishedAt
+      publishedAt,
+      "categories": categories[]->{_id, name, "slug": slug.current}
     }
   }
 `
@@ -1300,7 +1303,8 @@ export const projectDetailQuery = `
       title,
       "slug": slug.current,
       status,
-      publishedAt
+      publishedAt,
+      "categories": categories[]->{_id, name, "slug": slug.current}
     },
     "caseStudies": *[_type == "caseStudy" && references(^._id)] | order(publishedAt desc) {
       _id,
@@ -1308,7 +1312,8 @@ export const projectDetailQuery = `
       title,
       "slug": slug.current,
       status,
-      publishedAt
+      publishedAt,
+      "categories": categories[]->{_id, name, "slug": slug.current}
     },
     "nodes": *[_type == "node" && references(^._id)] | order(publishedAt desc) {
       _id,
@@ -1316,7 +1321,8 @@ export const projectDetailQuery = `
       title,
       "slug": slug.current,
       status,
-      publishedAt
+      publishedAt,
+      "categories": categories[]->{_id, name, "slug": slug.current}
     }
   }
 `
@@ -1386,15 +1392,15 @@ export const toolBySlugQuery = `
     url,
     "logo": logo { asset->{ _id, url }, alt },
     "articles":   *[_type == "article"   && references(^._id)] | order(publishedAt desc) {
-      _id, _type, title, "slug": slug.current, publishedAt,
+      _id, _type, title, "slug": slug.current, publishedAt, status,
       "categories": categories[]->{_id, "title": name, "slug": slug.current}
     },
     "nodes":       *[_type == "node"      && references(^._id)] | order(publishedAt desc) {
-      _id, _type, title, "slug": slug.current, publishedAt,
+      _id, _type, title, "slug": slug.current, publishedAt, status,
       "categories": categories[]->{_id, "title": name, "slug": slug.current}
     },
     "caseStudies": *[_type == "caseStudy" && references(^._id)] | order(publishedAt desc) {
-      _id, _type, title, "slug": slug.current, publishedAt,
+      _id, _type, title, "slug": slug.current, publishedAt, status,
       "categories": categories[]->{_id, "title": name, "slug": slug.current}
     }
   }

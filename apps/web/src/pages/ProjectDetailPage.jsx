@@ -8,7 +8,7 @@
  * content timeline (articles + nodes + caseStudies) using ContentCard.
  */
 import { useParams, Link } from 'react-router-dom'
-import { Grid, SectionLabel, Breadcrumb, PageHeader } from '../design-system'
+import { Breadcrumb, PageHeader } from '../design-system'
 import { projectDetailQuery } from '../lib/queries'
 import { useEffect } from 'react'
 import { useSanityDoc } from '../lib/useSanityDoc'
@@ -16,7 +16,7 @@ import { setPreviewDoc } from '../lib/previewDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
-import ContentCard from '../components/ContentCard'
+import ContentList from '../components/ContentList'
 import MetadataCard from '../components/MetadataCard'
 import NotFoundPage from './NotFoundPage'
 import styles from './ProjectDetailPage.module.css'
@@ -79,34 +79,19 @@ export default function ProjectDetailPage() {
       {/* ── Content sections by type ──────────────────────────────── */}
       {project.articles?.length > 0 && (
         <section className={styles.contentSection}>
-          <SectionLabel title="Articles" kicker={String(project.articles.length)} />
-          <Grid columns={2} spacing="lg">
-            {project.articles.map((item) => (
-              <ContentCard key={item._id} item={item} docType="article" showExcerpt={false} showHeroImage={false} />
-            ))}
-          </Grid>
+          <ContentList title="Articles" items={project.articles} docType="article" />
         </section>
       )}
 
       {project.nodes?.length > 0 && (
         <section className={styles.contentSection}>
-          <SectionLabel title="Knowledge Nodes" kicker={String(project.nodes.length)} />
-          <Grid columns={2} spacing="lg">
-            {project.nodes.map((item) => (
-              <ContentCard key={item._id} item={item} docType="node" showExcerpt={false} showHeroImage={false} />
-            ))}
-          </Grid>
+          <ContentList title="Knowledge Nodes" items={project.nodes} docType="node" />
         </section>
       )}
 
       {project.caseStudies?.length > 0 && (
         <section className={styles.contentSection}>
-          <SectionLabel title="Case Studies" kicker={String(project.caseStudies.length)} />
-          <Grid columns={2} spacing="lg">
-            {project.caseStudies.map((item) => (
-              <ContentCard key={item._id} item={item} docType="caseStudy" showExcerpt={false} showHeroImage={false} />
-            ))}
-          </Grid>
+          <ContentList title="Case Studies" items={project.caseStudies} docType="caseStudy" />
         </section>
       )}
 
