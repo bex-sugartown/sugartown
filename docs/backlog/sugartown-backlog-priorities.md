@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-14 · v0.26.17 released · SUG-165 shipped (archive/detail H1 audit; PageHeader eyebrow/children slots). SUG-166 shipped (glossary 17→41 terms + Bextionary). SUG-167 added (content list view — List/ListItem ledger treatment). SUG-168/169 added (blog theses).
+> Updated 2026-06-14 · v0.26.17 released · SUG-165 shipped (archive/detail H1 audit; PageHeader eyebrow/children slots). SUG-166 shipped (glossary 17→41 terms + Bextionary). SUG-167 added (content list view — List/ListItem ledger treatment). SUG-168/169 added (blog theses). SUG-170 added (SEO auto-generation fix + autoGenerate rollout).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -83,6 +83,7 @@
 | 8 | ~~**[SUG-132](https://linear.app/sugartown/issue/SUG-132/aeo-content-pass-page-answer-leads-agentic-caucus-article-webby) · AEO Content Pass** — Direct-answer page leads on /about + homepage + /services, Agentic Caucus article, outcome-first case study rewrites, Webby citation, KG archive preamble. Shipped v0.25.3.~~ | `SEO` `AEO` `Content` `Editorial` | ✅ Shipped |
 | 2 | **Themed background images — finalize or remove** — Dark/light flourish PNGs (`std-bg-dark.png`, `std-bg-light.png`) added to `apps/web/public/` in v0.16.x cycle but currently commented out in CSS pending design iteration. Needs a design decision: integrate into theme system with proper placement/opacity, or remove to reduce asset weight. | `Design` `UX` | 🟣 Soon |
 | 3 | **[SUG-161](https://linear.app/sugartown/issue/SUG-161/storybook-testing-infrastructure-interaction-tests-a11y-ci-gate-vitest) · Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest** — Add `.play()` interaction tests, automate a11y violation gating in CI, and wire Vitest for coverage. 3 phases, merge-as-you-go. Epic: `docs/backlog/SUG-161-storybook-testing-infrastructure.md`. | `Tooling` `Design System` `Infrastructure` | ⚪ Later |
+| 1 | **[SUG-170](https://linear.app/sugartown/issue/SUG-170/seo-auto-generation-fix-seohead-wiring-resolver-field-mapping-then) · SEO auto-generation — fix SeoHead wiring + resolver field mapping, then autoGenerate rollout** — Per-page SEO meta silently broken: ~10 SeoHead call sites pass ignored `title=`/`description=` props; `resolveSeo` reads `doc.title` (glossary uses `term`). Fix engine, then bulk `autoGenerate=true`. AEO/SSR scope decision. Epic: `docs/backlog/SUG-170-seo-auto-generation-fix-seohead-wiring-resolver-field-mapping.md`. | `SEO` `Frontend` | 🟣 Soon |
 
 ---
 
