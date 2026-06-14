@@ -22,6 +22,7 @@
  */
 import { Link } from 'react-router-dom'
 import { Chip } from '../design-system'
+import TaxonomyChips from './TaxonomyChips'
 import { getAuthorByline, getPrimaryAuthor } from '../lib/person'
 import { getCanonicalPath } from '../lib/routes'
 import styles from './MetadataCard.module.css'
