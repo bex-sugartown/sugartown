@@ -27,6 +27,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - SUG-163: Design-code documentation pipeline — design handoff template (docs/conventions/design-handoff-template.md), CLAUDE.md evaluation gate, content-model codegen script (11 types, 176 fields), /platform/design-system/content-models page
 - SUG-165: Archive/detail H1 holder-header standardisation — --st-font-page-h1 token (48px); PageHeader extended with eyebrow + children slots; Tool/Person/Glossary/Series folios migrated off .narrativeHeading (deleted); dead archive components + entity-folio CSS removed; CLAUDE.md token-value cross-check + App.jsx routing + closure-grep gates, Human QA Walkthrough epic-template section
 - Storybook: divider tokens (--st-color-pt-divider-{light,dark}-2x, default darkened 2 shades); Divider/Link dark-mode stories removed in favour of topbar theme dropdown
+- SUG-166: Glossary completion — 17 → 41 terms (gap-fill of extended defs/pronunciation/sources/abbreviations/categories; Tier 1 token tiers + Theme; Tier 2 DS ladder + Tier 3 principles with member-example lists and registry/Storybook/ERD cross-refs; Bextionary category + 8 coined node-voice terms). Term detail: Category metadata row, ContentNav alphabetical prev/next footer, Status row removed, categories excluded from Related Terms. Masthead Bextionary parenthetical.
 
 ---
 
