@@ -135,8 +135,20 @@
 /* ── Hover (shared) ── whole row tints; only the TITLE recolors + underlines
    (scoped so a global a:hover doesn't decorate the gutter tag / date). */
 .row:hover {
-  background: var(--st-color-lime-100);
+  background-color: var(--st-color-lime-100);
   text-decoration: none;
+}
+/* Register: the container's two vertical rules sit behind the rows, so the
+   hover tint covers them. Re-paint them on the hovered row (full row height,
+   aligned to the same 140px / 114px x-positions) so the columns stay fenced. */
+.register .row:hover {
+  background-image:
+    linear-gradient(var(--st-color-border-medium), var(--st-color-border-medium)),
+    linear-gradient(var(--st-color-border-medium), var(--st-color-border-medium));
+  background-repeat: no-repeat, no-repeat;
+  background-origin: border-box;
+  background-size: 1px 100%, 1px 100%;
+  background-position: 140px 0, calc(100% - 114px) 0;
 }
 .row:hover .rowTitle {
   color: var(--st-color-pink);
@@ -151,7 +163,7 @@
 }
 /* Dark canvas: pale lime wash with ink tag/date (title stays brand pink). */
 [data-theme="dark-pink-moon"] .row:hover {
-  background: var(--st-color-lime-100);
+  background-color: var(--st-color-lime-100);
 }
 [data-theme="dark-pink-moon"] .row:hover .rowTag,
 [data-theme="dark-pink-moon"] .row:hover .rowDate {
@@ -185,7 +197,8 @@
    Below 560px: drop the vertical rules and stack the row as
    [ TAG ............ DATE ] over [ Title ]. */
 @container (max-width: 560px) {
-  .register {
+  .register,
+  .register .row:hover {
     background-image: none;
   }
   .row {
