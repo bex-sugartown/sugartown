@@ -1,0 +1,16 @@
+/* ContentList — app adapter styles. The only content-specific concern here is
+ * the status dot colour (the DS List primitive stays colour-agnostic). Keyed by
+ * the real node status enum; all colours resolve through --st-* tokens. */
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  display: inline-block;
+  background: var(--st-color-text-muted); /* fallback for unknown status */
+}
+.statusDot[data-status="validated"]       { background: var(--st-color-maroon); }
+.statusDot[data-status="evergreen"]       { background: var(--st-color-lime-700); }
+.statusDot[data-status="exploring"]       { background: var(--st-color-amber); }
+.statusDot[data-status="deprecated"]      { background: var(--st-color-softgrey-400); }
+.statusDot[data-status="operationalized"] { background: var(--st-color-border-medium); }

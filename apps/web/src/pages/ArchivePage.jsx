@@ -45,6 +45,7 @@ import { resolveSeo } from '../lib/seo'
 import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
+import ContentList from '../components/ContentList'
 import { FilterBar } from '../design-system'
 import Pagination from '../components/Pagination'
 import { archivePageBySlugQuery, facetsRawQuery } from '../lib/queries'
@@ -400,6 +401,11 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
                   <p>Nothing published yet. Check back soon.</p>
                 )}
               </div>
+            ) : layout === 'list' ? (
+              <ContentList
+                items={pageItems}
+                docType={isMultiType ? undefined : docType}
+              />
             ) : (
               <div className={styles.archiveGrid} data-layout={layout}>
                 {pageItems.map((item) => (
@@ -407,7 +413,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
                     key={item._id}
                     item={item}
                     docType={isMultiType ? CONTENT_TYPE_TO_DOC_TYPE[item._type] : docType}
-                    variant={layout === 'list' ? 'listing' : 'default'}
+                    variant="default"
                     showExcerpt={archiveDoc?.cardOptions?.showExcerpt ?? true}
                     showHeroImage={archiveDoc?.cardOptions?.showHeroImage ?? true}
                     imageOverride={archiveDoc?.cardOptions?.imageOverride ?? null}
