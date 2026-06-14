@@ -1659,7 +1659,6 @@ export const glossaryTermBySlugQuery = `
     "slug": slug.current,
     abbreviation,
     pronunciation,
-    status,
     definition,
     extendedDefinition,
     "categories": categories[]->{_id, name, "slug": slug.current},
