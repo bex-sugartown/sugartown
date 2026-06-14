@@ -2,7 +2,8 @@
  * RootPage — renders a Sanity `page` document fetched by slug.
  * Route: /:slug  (root pages like /about, /contact, etc.)
  */
-import { useLayoutEffect } from 'react'
+import { useLayoutEffect, useEffect } from 'react'
+import { setPreviewDoc } from '../lib/previewDoc'
 import { useParams, useOutletContext } from 'react-router-dom'
 import { pageBySlugQuery } from '../lib/queries'
 import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
@@ -30,6 +31,12 @@ export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
   const { slug: slugParam } = useParams()
   const slug = slugOverride ?? slugParam
   const { data: page, loading, notFound } = useSanityDoc(pageBySlugQuery, { slug })
+
+  // Register doc for the preview banner Studio deep-link (dev-only; no-op in prod).
+  useEffect(() => {
+    if (page?._id) setPreviewDoc({ id: page._id, type: 'page' })
+    return () => setPreviewDoc(null)
+  }, [page?._id])
   const siteSettings = useSiteSettings()
   const hasDraft = useDocHasDraft(page?._id)
 

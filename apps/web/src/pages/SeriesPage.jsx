@@ -6,7 +6,9 @@
  */
 import { Link, useParams } from 'react-router-dom'
 import { seriesBySlugQuery } from '../lib/queries'
+import { useEffect } from 'react'
 import { useSanityDoc } from '../lib/useSanityDoc'
+import { setPreviewDoc } from '../lib/previewDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { getCanonicalPath } from '../lib/routes'
 import SeoHead from '../components/SeoHead'
@@ -33,6 +35,12 @@ function buildSeriesSeo(series, siteSettings) {
 export default function SeriesPage() {
   const { slug } = useParams()
   const { data: series, loading, notFound } = useSanityDoc(seriesBySlugQuery, { slug })
+
+  // Register doc for the preview banner Studio deep-link (dev-only; no-op in prod).
+  useEffect(() => {
+    if (series?._id) setPreviewDoc({ id: series._id, type: 'series' })
+    return () => setPreviewDoc(null)
+  }, [series?._id])
   const siteSettings = useSiteSettings()
 
   const seo = buildSeriesSeo(series ?? null, siteSettings)

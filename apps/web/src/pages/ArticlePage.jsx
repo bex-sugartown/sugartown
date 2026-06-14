@@ -16,7 +16,8 @@ import { urlFor } from '../lib/sanity'
 import { getArchivePath } from '../lib/routes'
 import { generateJsonLd } from '../lib/jsonLd'
 import { extractLeadHero } from '../lib/heroUtils'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { setPreviewDoc } from '../lib/previewDoc'
 import { CitationNote, CitationZone, Media } from '../design-system'
 import ImageLightbox from '../components/ImageLightbox'
 import SeoHead from '../components/SeoHead'
@@ -76,6 +77,12 @@ const portableTextComponents = {
 export default function ArticlePage() {
   const { slug } = useParams()
   const { data: post, loading, notFound } = useSanityDoc(articleBySlugQuery, { slug })
+
+  // Register doc for the preview banner Studio deep-link (dev-only; no-op in prod).
+  useEffect(() => {
+    if (post?._id) setPreviewDoc({ id: post._id, type: 'article' })
+    return () => setPreviewDoc(null)
+  }, [post?._id])
   const siteSettings = useSiteSettings()
   const hasDraft = useDocHasDraft(post?._id)
 

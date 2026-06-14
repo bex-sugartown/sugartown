@@ -4,7 +4,9 @@
  */
 import { useParams } from 'react-router-dom'
 import { nodeBySlugQuery } from '../lib/queries'
+import { useEffect } from 'react'
 import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
+import { setPreviewDoc } from '../lib/previewDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getArchivePath } from '../lib/routes'
@@ -23,6 +25,12 @@ import styles from './pages.module.css'
 export default function NodePage() {
   const { slug } = useParams()
   const { data: node, loading, notFound } = useSanityDoc(nodeBySlugQuery, { slug })
+
+  // Register doc for the preview banner Studio deep-link (dev-only; no-op in prod).
+  useEffect(() => {
+    if (node?._id) setPreviewDoc({ id: node._id, type: 'node' })
+    return () => setPreviewDoc(null)
+  }, [node?._id])
   const siteSettings = useSiteSettings()
   const hasDraft = useDocHasDraft(node?._id)
 

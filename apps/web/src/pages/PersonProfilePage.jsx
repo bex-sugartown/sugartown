@@ -35,7 +35,9 @@ import { Grid, SectionLabel, Breadcrumb, Avatar, Chip, PageHeader } from '../des
 import sharedPTComponents from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
+import { useEffect } from 'react'
 import { useSanityDoc } from '../lib/useSanityDoc'
+import { setPreviewDoc } from '../lib/previewDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { urlFor } from '../lib/sanity'
 import { generateJsonLd } from '../lib/jsonLd'
@@ -84,6 +86,12 @@ function buildPersonSeo(person, siteSettings) {
 export default function PersonProfilePage() {
   const { slug } = useParams()
   const { data: person, loading, notFound } = useSanityDoc(personProfileQuery, { slug })
+
+  // Register doc for the preview banner Studio deep-link (dev-only; no-op in prod).
+  useEffect(() => {
+    if (person?._id) setPreviewDoc({ id: person._id, type: 'person' })
+    return () => setPreviewDoc(null)
+  }, [person?._id])
   const siteSettings = useSiteSettings()
 
   const seo = buildPersonSeo(person ?? null, siteSettings)

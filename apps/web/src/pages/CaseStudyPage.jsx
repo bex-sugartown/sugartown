@@ -4,7 +4,9 @@
  */
 import { useParams } from 'react-router-dom'
 import { caseStudyBySlugQuery } from '../lib/queries'
+import { useEffect } from 'react'
 import { useSanityDoc, useDocHasDraft } from '../lib/useSanityDoc'
+import { setPreviewDoc } from '../lib/previewDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getArchivePath } from '../lib/routes'
@@ -23,6 +25,12 @@ import styles from './pages.module.css'
 export default function CaseStudyPage() {
   const { slug } = useParams()
   const { data: caseStudy, loading, notFound } = useSanityDoc(caseStudyBySlugQuery, { slug })
+
+  // Register doc for the preview banner Studio deep-link (dev-only; no-op in prod).
+  useEffect(() => {
+    if (caseStudy?._id) setPreviewDoc({ id: caseStudy._id, type: 'caseStudy' })
+    return () => setPreviewDoc(null)
+  }, [caseStudy?._id])
   const siteSettings = useSiteSettings()
   const hasDraft = useDocHasDraft(caseStudy?._id)
 

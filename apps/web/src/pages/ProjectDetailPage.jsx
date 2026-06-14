@@ -10,7 +10,9 @@
 import { useParams, Link } from 'react-router-dom'
 import { Grid, SectionLabel, Breadcrumb, PageHeader } from '../design-system'
 import { projectDetailQuery } from '../lib/queries'
+import { useEffect } from 'react'
 import { useSanityDoc } from '../lib/useSanityDoc'
+import { setPreviewDoc } from '../lib/previewDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
@@ -41,6 +43,12 @@ function buildProjectSeo(project, siteSettings) {
 export default function ProjectDetailPage() {
   const { slug } = useParams()
   const { data: project, loading, notFound } = useSanityDoc(projectDetailQuery, { slug })
+
+  // Register doc for the preview banner Studio deep-link (dev-only; no-op in prod).
+  useEffect(() => {
+    if (project?._id) setPreviewDoc({ id: project._id, type: 'project' })
+    return () => setPreviewDoc(null)
+  }, [project?._id])
   const siteSettings = useSiteSettings()
 
   const seo = buildProjectSeo(project ?? null, siteSettings)
