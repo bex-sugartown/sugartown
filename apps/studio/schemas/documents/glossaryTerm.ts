@@ -62,22 +62,6 @@ export default defineType({
       group: ['all', 'basics'],
     }),
     defineField({
-      name: 'status',
-      title: 'Epistemic Status',
-      type: 'string',
-      description: 'How settled is this definition?',
-      options: {
-        list: [
-          {title: 'Evergreen', value: 'evergreen'},
-          {title: 'Validated', value: 'validated'},
-          {title: 'Exploring', value: 'exploring'},
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'evergreen',
-      group: ['all', 'basics'],
-    }),
-    defineField({
       name: 'definition',
       title: 'Definition',
       type: 'array',
