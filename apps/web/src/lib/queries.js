@@ -1686,6 +1686,12 @@ export const glossaryTermBySlugQuery = `
       "title": coalesce(title, term, name),
       "slug": slug.current
     },
+    "prev": *[_type == "glossaryTerm" && lower(term) < lower(^.term)] | order(lower(term) desc)[0]{
+      "title": term, "slug": slug.current
+    },
+    "next": *[_type == "glossaryTerm" && lower(term) > lower(^.term)] | order(lower(term) asc)[0]{
+      "title": term, "slug": slug.current
+    },
     ${SEO_FRAGMENT}
   }
 `

@@ -15,16 +15,10 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { Blockquote, Breadcrumb, Chip, DescriptionList, PageHeader } from '../design-system'
 import SeoHead from '../components/SeoHead'
+import ContentNav from '../components/ContentNav'
 import NotFoundPage from './NotFoundPage'
 import pageStyles from './pages.module.css'
 import styles from './GlossaryPage.module.css'
-
-// Mirrors the glossaryTerm schema's status options.list — keep in sync.
-const STATUS_LABELS = {
-  evergreen: 'Evergreen',
-  validated: 'Validated',
-  exploring: 'Exploring',
-}
 
 const REF_TYPE_LABELS = {
   article: 'Article',
@@ -94,14 +88,11 @@ export default function GlossaryTermPage() {
 
   const pronunciation = term?.pronunciation ? formatPronunciation(term.pronunciation) : null
 
+  // Related terms exclude category refs — categories have their own metadata line.
+  const relatedTermsNoCategory = term?.relatedTerms?.filter((rel) => rel._type !== 'category') ?? []
+
   const metadataItems = term
     ? [
-        term.status && STATUS_LABELS[term.status] && {
-          label: 'Status',
-          value: (
-            <Chip variant="status" status={term.status} label={STATUS_LABELS[term.status]} />
-          ),
-        },
         term.categories?.length > 0 && {
           label: 'Category',
           value: (
@@ -117,11 +108,11 @@ export default function GlossaryTermPage() {
             </div>
           ),
         },
-        term.relatedTerms?.length > 0 && {
+        relatedTermsNoCategory.length > 0 && {
           label: 'Related Terms',
           value: (
             <div className={styles.chipRow}>
-              {term.relatedTerms.map((rel) => (
+              {relatedTermsNoCategory.map((rel) => (
                 <Chip
                   key={rel._id}
                   label={rel.label}
@@ -225,6 +216,9 @@ export default function GlossaryTermPage() {
             {metadataItems.length > 0 && (
               <DescriptionList items={metadataItems} columns={2} ledger />
             )}
+
+            {/* ── Sequential nav (alphabetical) ─────────────────────── */}
+            <ContentNav prev={term.prev} next={term.next} docType="glossaryTerm" />
           </>
         )}
       </main>
