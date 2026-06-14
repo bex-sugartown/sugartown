@@ -35,6 +35,10 @@ export type { SkeletonProps, SkeletonVariant } from './components/Skeleton';
 export { DescriptionList } from './components/DescriptionList';
 export type { DescriptionListProps, DescriptionItem } from './components/DescriptionList';
 
+// ── List ───────────────────────────────────────────────────────────────────────
+export { List, ListItem } from './components/List';
+export type { ListProps, ListItemProps, ListRow, ListVariant } from './components/List';
+
 // ── Avatar ───────────────────────────────────────────────────────────────────
 export { Avatar } from './components/Avatar';
 export type { AvatarProps, AvatarSize } from './components/Avatar';
