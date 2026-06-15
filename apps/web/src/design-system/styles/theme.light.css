@@ -56,8 +56,8 @@
   --st-table-shadow:      0 4px 12px rgba(0, 0, 0, 0.06);
   --st-table-card-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 
-  /* Inline code — light: classic maroon-on-grey */
-  --st-code-inline-bg:     var(--st-color-softgrey-100);
+  /* Inline code — light: lime-100 wash (SUG-175) */
+  --st-code-inline-bg:     var(--st-color-lime-100);
   --st-code-inline-color:  var(--st-color-maroon);
   --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
 

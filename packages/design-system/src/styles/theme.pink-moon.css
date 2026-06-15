@@ -86,7 +86,7 @@
   /* row hover */
   --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
 
-  --st-code-inline-bg:          var(--st-color-softgrey-100);
+  --st-code-inline-bg:          var(--st-color-lime-100);
   --st-code-inline-color:       var(--st-color-brand-primary);
   --st-code-inline-text:        var(--st-color-brand-primary);
   --st-code-inline-border:      1px solid var(--st-color-softgrey-200);
