@@ -526,7 +526,7 @@
   width: 100%;
   z-index: 90;
   background: var(--st-color-bg-surface);
-  border-bottom: 1px solid var(--st-color-border-subtle);
+  border-bottom: 1px solid var(--st-color-border-medium);
   padding: 6px var(--st-page-gutter, 1rem);
   display: flex;
   align-items: center;
