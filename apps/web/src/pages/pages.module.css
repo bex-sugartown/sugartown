@@ -517,12 +517,13 @@
 
 /* ── Filter strip (mobile trigger bar for FilterBar drawer) ──────── */
 
-/* Fixed bar below the sticky header — same pattern as ContentsStrip */
+/* Sticky bar that renders in-flow initially (visible before scroll)
+   then sticks just below the header. Uses sticky not fixed so the
+   strip is visible on page load without being behind the preheader bars. */
 .filterStrip {
-  position: fixed;
+  position: sticky;
   top: var(--st-header-height, 56px);
-  left: 0;
-  right: 0;
+  width: 100%;
   z-index: 90;
   background: var(--st-color-bg-surface);
   border-bottom: 1px solid var(--st-color-border-subtle);
@@ -539,12 +540,6 @@
   }
 }
 
-/* Compensate for the fixed strip on mobile so content isn't covered */
-@media (max-width: 767px) {
-  .archiveSectionContent {
-    padding-top: 52px;
-  }
-}
 
 /* Chip — same visual as ContentsStrip chip */
 .filterChip {
