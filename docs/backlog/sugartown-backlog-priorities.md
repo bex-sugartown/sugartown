@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-15 · SUG-173 shipped v0.26.21 (FilterBar mobile drawer). SUG-174 created (Button ghost variant + icon support). SUG-175 created (inline code bg → lime-100, light theme).
+> Updated 2026-06-15 · SUG-175 shipped v0.26.22 (inline code bg → lime-100, light theme). Next: SUG-174 (Button ghost variant + icon support) or SUG-160 (TechTimeline).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.21 shipped ✅ 2026-06-15. SUG-173 shipped — FilterBar mobile drawer (sticky FILTERS chip, active-filter count badge, Drawer with Clear All/Done). Next: SUG-174 Button ghost variant, or SUG-160 TechTimeline.
+> **⚑ Current focus:** v0.26.22 shipped ✅ 2026-06-15. SUG-175 shipped — inline code bg lime-100 wash in light theme (two-line token swap, both mirror pairs). Next: SUG-174 Button ghost variant, or SUG-160 TechTimeline.
 
 ---
 
@@ -53,7 +53,7 @@
 | 2 | **[SUG-98](https://linear.app/sugartown/issue/SUG-98) · Component gap analysis — renderer stories + thruline audit + Phase B component parity** ✅ Shipped v0.23.13. 5 renderer stories, 13-adapter thruline, registry close-out, ContentNav relocated, FilterBar documented as web-only, inline code light-mode fixed, Storybook nav renamed Foundations/Components/Patterns/Layout. Chromatic Build 29 passed. Epic: `docs/shipped/SUG-98-component-gap-analysis.md`. | `Design System` `Tooling` | ✅ Shipped |
 | 3 | **[SUG-86](https://linear.app/sugartown/issue/SUG-86) · Style Dictionary** ✅ Shipped v0.23.14. 578 tokens migrated to `tokens/source/tokens.json`. `pnpm tokens:build` generates both `tokens.css` files via Style Dictionary v5. Pre-commit guard blocks direct edits. Chromatic Build 30 passed (zero visual changes). Epic: `docs/shipped/SUG-86-style-dictionary.md`. | `Design System` `Infrastructure` | ✅ Shipped |
 | 4 | **[SUG-102](https://linear.app/sugartown/issue/SUG-102) · DS token hygiene — Phase C: off-scale color promotion + legacy alias audit** ✅ Shipped v0.23.15. 6 new Tier-1 primitives (amber-450/650, red-400/600, crimson-500, midnight-950). 8 token references updated. 14 zero-ref legacy aliases removed. Chromatic Build 31: zero visual changes. Epic: `docs/shipped/SUG-102-ds-token-hygiene-phase-c.md`. | `Design System` `Infrastructure` | ✅ Shipped |
-| 7 | **[SUG-175](https://linear.app/sugartown/issue/SUG-175/update-inline-code-background-to-lime-100-light-theme) · Inline `code` bg → lime-100 (light theme)** — Change `--st-code-inline-bg` to `var(--st-color-lime-100)` in both light-theme files; dark theme unchanged. Two-line CSS change + mirror. Epic: `docs/backlog/SUG-175-inline-code-bg-lime-100-light-theme.md`. | `Design System` | 🟣 Soon |
+| 7 | ~~**[SUG-175](https://linear.app/sugartown/issue/SUG-175/update-inline-code-background-to-lime-100-light-theme) · Inline `code` bg → lime-100 (light theme)** — Change `--st-code-inline-bg` to `var(--st-color-lime-100)` in both light-theme files; dark theme unchanged. Shipped v0.26.22.~~ | `Design System` | ✅ Shipped |
 | 6 | ~~**[SUG-167](https://linear.app/sugartown/issue/SUG-167/content-list-view-list-listitem-ledger-treatment) · Content list view — List / ListItem ledger treatment** — ledger "register" List (DS primitive + ContentList adapter) replaces card-as-list-row in archive list mode, entity pages (Person/Project/Tool), and taxonomy detail (tags/categories). Epic: `docs/shipped/SUG-167-content-list-view-list-listitem-ledger-treatment.md`.~~ | `Design System` `UX` | ✅ Shipped |
 
 ---
@@ -237,4 +237,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-10 · v0.26.14 released · queue: SUG-160 / SUG-161 / SUG-153*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-15 · v0.26.22 released · queue: SUG-174 / SUG-160 / SUG-161*
