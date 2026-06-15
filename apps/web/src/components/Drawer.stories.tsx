@@ -59,6 +59,7 @@ const meta: Meta<typeof Drawer> = {
   parameters: {
     chromatic: { disableSnapshot: false },
     layout: 'padded',
+    docs: { story: { inline: false, height: '620px' } },
   },
 };
 
