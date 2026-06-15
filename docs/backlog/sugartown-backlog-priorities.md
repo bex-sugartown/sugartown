@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-15 · SUG-172 added (Netlify → Vercel migration scope + recommendation analysis).
+> Updated 2026-06-15 · SUG-153 Phase 1 shipped v0.26.20. SUG-173 created (FilterBar mobile drawer, Phase 2).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.16 released ✅ 2026-06-12. SUG-162 shipped — Glossary term detail redesign (DescriptionList ledger, Blockquote definition, metadata chips). SUG-163 shipped — design-code documentation pipeline (handoff template, CLAUDE.md evaluation gate, content-model codegen + /platform/design-system/content-models). Next: SUG-160 TechTimeline or SUG-161 Storybook testing infrastructure.
+> **⚑ Current focus:** v0.26.20 shipped ✅ 2026-06-15. SUG-153 Phase 1 shipped — mobile sidebar drawer (ContentsStrip chip, Drawer shell, dynamic --st-header-height, PageSidebar + PlatformSidebar wired). SUG-173 created for Phase 2 (FilterBar mobile drawer). Next: SUG-173 Phase 0 mock, or SUG-160 TechTimeline.
 
 ---
 
@@ -73,7 +73,8 @@
 | ~~1~~ | ~~**[SUG-157](https://linear.app/sugartown/issue/SUG-157/pageheader-ds-pattern-component) · PageHeader DS pattern component**~~ — Full-width identity band; italic/roman H1 rule; tint via color-mix; eyebrow removed; 6 production pages migrated. Shipped v0.26.10. Epic: `docs/shipped/SUG-157-pageheader-pattern.md`. | `Design System` `Frontend` | ✅ Shipped |
 | ~~1~~ | ~~**[SUG-152](https://linear.app/sugartown/issue/SUG-152/ds-usage-docs-storybook-documentation-audit-and-creation-phase-n) · DS Usage Docs — Storybook audit and creation**~~ — Phases 1–2 shipped v0.26.12. Phases 3–10 deferred pending doc framework strategy. Chip API updates (badge rename direction, deprecations). Epic: `docs/backlog/SUG-152-ds-storybook-usage-docs-audit.md` (on hold). | `Design System` `Documentation` `Storybook` | ⏸ On Hold |
 | ~~2~~ | ~~**[SUG-158](https://linear.app/sugartown/issue/SUG-158) · Storybook Documentation Template System**~~ — `helpers/docs.tsx` doc components (DocSection, DoDontGrid, TokenGroup, etc.), `stories.boilerplate.tsx`, Docs/Story Template story, PageHeader pilot (14 sections), table border tokens standardised. Shipped v0.26.11. Epic: `docs/shipped/SUG-158-storybook-docs-template-system.md`. | `Design System` `Tooling` `Storybook` | ✅ Shipped |
-| 2 | **[SUG-153](https://linear.app/sugartown/issue/SUG-153/mobile-responsive-layout-sidebar-drawer-multi-column-collapse) · Mobile responsive layout — sidebar drawer** — Replace stacking appendix with slide-out drawer on multi-column pages; integrate with existing MobileNav. Phase 0 mock required. Epic: `docs/backlog/SUG-153-mobile-responsive-sidebar-drawer.md`. | `Frontend` `UX` `Design System` | 🟣 Soon |
+| ~~2~~ | ~~**[SUG-153](https://linear.app/sugartown/issue/SUG-153/mobile-responsive-layout-sidebar-drawer-multi-column-collapse) · Mobile responsive layout — sidebar drawer Phase 1**~~ — ContentsStrip trigger chip, generic Drawer shell, mobileStyle="drawer", PageSidebar + PlatformSidebar wired. Shipped v0.26.20. Epic: `docs/shipped/SUG-153-mobile-responsive-sidebar-drawer.md`. | `Frontend` `UX` `Design System` | ✅ Shipped |
+| 2 | **[SUG-173](https://linear.app/sugartown/issue/SUG-173/mobile-filterbar-drawer-archive-page-filter-panel-on-mobile-sug-153) · Mobile FilterBar drawer — archive page filter panel (SUG-153 Phase 2)** — Collapse FilterBar into Drawer on mobile (<768px); trigger chip with active-filter count badge. Phase 0 mock required. Epic: `docs/backlog/SUG-173-mobile-filterbar-drawer.md`. | `Frontend` `UX` | 🟣 Soon |
 | ~~3~~ | ~~**[SUG-156](https://linear.app/sugartown/issue/SUG-156/library-ia-layout-audit-codify-page-templates-reform-archivelayout) · Library IA Layout Audit — reform ArchiveLayout story, fill Storybook gaps**~~ — Pages/ category introduced; ArchivePage, ContentDetailPage, EntityDetailPage, TaxonomyDetailPage, TaxonomyArchivePage stories with production-accurate layouts. Shipped v0.26.9. | `Design System` `Storybook` `Documentation` | ✅ Shipped |
 | ~~3~~ | ~~**[SUG-143](https://linear.app/sugartown/issue/SUG-143/archive-layout-documentation-storybook-layouts-stories-and-glossary) · Archive Layout Documentation — Storybook LAYOUTS stories & glossary scoping**~~ — Superseded by SUG-156 (broader scope; same surface area covered). | `Design System` `Storybook` `UX` | ~~🟣 Soon~~ |
 | 2 | **[SUG-107](https://linear.app/sugartown/issue/SUG-107) · Client taxonomy** — Audit `client`/`employer` string fields on caseStudy, promote to `client` reference doc. New `/clients/:slug` route + ClientDetailPage. Graph pipeline client nodes. Epic: `docs/backlog/SUG-107-client-taxonomy.md`. | `Schema` `Frontend` `UX` | 🟣 Soon |
