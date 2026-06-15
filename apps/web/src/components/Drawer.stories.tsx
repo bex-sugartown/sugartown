@@ -1,15 +1,19 @@
 /**
- * Drawer stories — slide-out mobile navigation drawer.
+ * Drawer — generic slide-out panel shell (SUG-153).
  *
- * Uses MemoryRouter (for NavLink/Link).
- * Renders in open state by default for visual testing.
- * Includes accordion submenus, CTA, footer links, social icons.
+ * Primitive API: label, open, onClose, children.
+ * Content is the caller's responsibility — see use-case stories below.
+ *
+ * Use cases shipped:
+ *   - Nav Drawer: Drawer + DrawerNav (rendered by Header on mobile)
+ *   - Filter Drawer: Drawer + FilterBar + footer (SUG-173, archive pages on mobile)
  */
 
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import Drawer from './Drawer';
+import DrawerNav from './DrawerNav';
 import ThemeToggle from './ThemeToggle';
 import { Button, FilterBar } from '../design-system';
 import {
@@ -18,84 +22,91 @@ import {
   SOCIAL_LINKS,
 } from './__fixtures__/siteSettings';
 
-const withRouter = (Story: React.ComponentType) => (
-  <MemoryRouter>
-    <Story />
-  </MemoryRouter>
-);
+// ─── Shared decorator ─────────────────────────────────────────────────────────
+// transform: translateZ(0) makes this div a containing block for position:fixed
+// children so the overlay and panel stay within the story frame in Docs view.
 
-const withMobileWidth = (Story: React.ComponentType) => (
-  <div style={{ maxWidth: '375px', height: '100vh', position: 'relative', overflow: 'hidden' }}>
-    <Story />
-  </div>
-);
+const withFrame = (w = 375, h = 600) =>
+  (Story: React.ComponentType) => (
+    <MemoryRouter>
+      <div
+        style={{
+          width: `${w}px`,
+          height: `${h}px`,
+          position: 'relative',
+          overflow: 'hidden',
+          transform: 'translateZ(0)',
+          background: 'var(--st-color-bg-surface, #fff)',
+        }}
+      >
+        <Story />
+      </div>
+    </MemoryRouter>
+  );
+
+// ─── Meta ─────────────────────────────────────────────────────────────────────
 
 const meta: Meta<typeof Drawer> = {
   title: 'Components/Drawer',
   component: Drawer,
   tags: ['autodocs'],
-  decorators: [withRouter],
   argTypes: {
-    open: { control: 'boolean', description: 'Drawer visibility state' },
-    items: { control: { type: 'object' }, description: 'Nav items array with optional children (accordion submenus)' },
-    footerColumns: { control: { type: 'object' } },
-    socialLinks: { control: { type: 'object' } },
-    copyrightText: { control: 'text' },
-    siteTitle: { control: 'text' },
-    onClose: { action: 'closed' },
-    cta: { table: { disable: true } },
-    themeToggle: { table: { disable: true } },
+    label:   { control: 'text',    description: 'Visible heading + aria-label for the panel' },
+    open:    { control: 'boolean', description: 'Controls open/closed state' },
+    onClose: { action: 'closed',   description: 'Called on overlay click, close button, or Escape' },
+    children: { table: { disable: true }, description: "Panel body content — caller's responsibility" },
   },
   parameters: {
     chromatic: { disableSnapshot: false },
-    layout: 'fullscreen',
+    layout: 'padded',
   },
 };
 
 export default meta;
 type Story = StoryObj<typeof Drawer>;
 
-const CTA_ELEMENT = (
-  <Button variant="primary" href="/contact">Get in Touch</Button>
-);
+// ─── Nav Drawer (navigation use case) ────────────────────────────────────────
 
-/** Open drawer — full nav with accordion submenu, CTA, footer, social. */
-export const Open: Story = {
-  decorators: [withMobileWidth],
-  args: {
-    items: NAV_ITEMS,
-    cta: CTA_ELEMENT,
-    themeToggle: <ThemeToggle />,
-    footerColumns: FOOTER_COLUMNS,
-    socialLinks: SOCIAL_LINKS,
-    copyrightText: 'All rights reserved.',
-    siteTitle: 'Sugartown Digital',
-    open: true,
-    onClose: () => {},
-  },
+function NavDrawerStory({ open }: { open: boolean }) {
+  const [isOpen, setIsOpen] = useState(open);
+  return (
+    <>
+      {!isOpen && (
+        <button type="button" onClick={() => setIsOpen(true)} style={{ padding: '8px 16px' }}>
+          Open menu
+        </button>
+      )}
+      <Drawer label="Menu" open={isOpen} onClose={() => setIsOpen(false)}>
+        <DrawerNav
+          items={NAV_ITEMS}
+          cta={<Button variant="primary" href="/contact">Get in Touch</Button>}
+          themeToggle={<ThemeToggle />}
+          footerColumns={FOOTER_COLUMNS}
+          socialLinks={SOCIAL_LINKS}
+          copyrightText="All rights reserved."
+          siteTitle="Sugartown Digital"
+          onClose={() => setIsOpen(false)}
+        />
+      </Drawer>
+    </>
+  );
+}
+
+/** Nav Drawer — open. Drawer shell + DrawerNav content (rendered by Header on mobile). */
+export const NavDrawerOpen: Story = {
+  name: 'Nav Drawer — open',
+  decorators: [withFrame()],
+  render: () => <NavDrawerStory open={true} />,
 };
 
-/** Closed state — drawer hidden (overlay invisible). */
-export const Closed: Story = {
-  decorators: [withMobileWidth],
-  args: {
-    ...Open.args,
-    open: false,
-  },
+/** Nav Drawer — closed. Overlay and panel hidden; only the trigger button is visible. */
+export const NavDrawerClosed: Story = {
+  name: 'Nav Drawer — closed',
+  decorators: [withFrame()],
+  render: () => <NavDrawerStory open={false} />,
 };
 
-/** Minimal — nav items only, no CTA or footer content. */
-export const Minimal: Story = {
-  name: 'Minimal (nav only)',
-  decorators: [withMobileWidth],
-  args: {
-    items: NAV_ITEMS.filter((item: { children?: unknown[] }) => !item.children),
-    open: true,
-    onClose: () => {},
-  },
-};
-
-// ─── Filter drawer (SUG-173) ─────────────────────────────────────────────────
+// ─── Filter Drawer (archive mobile use case, SUG-173) ────────────────────────
 
 const FILTER_MODEL = {
   facets: [
@@ -103,18 +114,18 @@ const FILTER_MODEL = {
       id: 'projects',
       label: 'Project',
       options: [
-        { id: 'proj-1', label: 'Brand Strategy',  slug: 'brand-strategy',  count: 12, colorHex: '#7C3AED' },
-        { id: 'proj-2', label: 'Web Platform',     slug: 'web-platform',    count: 8,  colorHex: '#0891B2' },
-        { id: 'proj-3', label: 'Design System',    slug: 'design-system',   count: 21, colorHex: '#D97706' },
+        { id: 'proj-1', label: 'Brand Strategy', slug: 'brand-strategy', count: 12, colorHex: '#7C3AED' },
+        { id: 'proj-2', label: 'Web Platform',   slug: 'web-platform',   count: 8,  colorHex: '#0891B2' },
+        { id: 'proj-3', label: 'Design System',  slug: 'design-system',  count: 21, colorHex: '#D97706' },
       ],
     },
     {
       id: 'categories',
       label: 'Category',
       options: [
-        { id: 'cat-1', label: 'Engineering',  slug: 'engineering',  count: 15 },
-        { id: 'cat-2', label: 'Strategy',     slug: 'strategy',     count: 7  },
-        { id: 'cat-3', label: 'Research',     slug: 'research',     count: 4  },
+        { id: 'cat-1', label: 'Engineering', slug: 'engineering', count: 15 },
+        { id: 'cat-2', label: 'Strategy',    slug: 'strategy',    count: 7  },
+        { id: 'cat-3', label: 'Research',    slug: 'research',    count: 4  },
       ],
     },
     {
@@ -144,7 +155,7 @@ function FilterDrawerStory() {
     <>
       {!open && (
         <button type="button" onClick={() => setOpen(true)} style={{ padding: '8px 16px' }}>
-          Open filter drawer
+          Open filters
         </button>
       )}
       <Drawer label="Filter articles" open={open} onClose={() => setOpen(false)}>
@@ -159,8 +170,7 @@ function FilterDrawerStory() {
         <div style={{ borderTop: '1px solid var(--st-color-border-subtle)', padding: '12px 16px', display: 'flex', gap: '8px' }}>
           <button
             type="button"
-            className="filterDrawerClearBtn"
-            onClick={() => setActiveFilters({})}
+            onClick={() => { setActiveFilters({}); setOpen(false); }}
             style={{ flex: 1, padding: '8px 12px', border: '1px solid #aaa', background: 'transparent', cursor: 'pointer', fontSize: '0.8125rem', color: '#666' }}
           >
             Clear all
@@ -180,18 +190,11 @@ function FilterDrawerStory() {
 
 /**
  * Filter Drawer — Drawer used as a mobile filter panel (SUG-173).
- * Generic Drawer shell wraps FilterBar + Clear All / Done footer.
- * Bespoke footer buttons will migrate to DS Button ghost/primary variants in SUG-174.
+ * Drawer shell + FilterBar content + Clear All / Done footer.
+ * Footer buttons will migrate to DS Button ghost/primary in SUG-174.
  */
 export const FilterDrawer: Story = {
   name: 'Filter Drawer (mobile archive)',
-  decorators: [
-    (Story) => (
-      <div style={{ width: '375px', height: '600px', position: 'relative', overflow: 'hidden', transform: 'translateZ(0)' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
+  decorators: [withFrame()],
   render: () => <FilterDrawerStory />,
 };
