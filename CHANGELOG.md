@@ -14,6 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.26.8.
 
+- SUG-173: FilterBar mobile drawer — sticky FILTERS chip (position:sticky, active-filter count badge) opens Drawer with full FilterBar + Clear All/Done footer; inline FilterBar hidden <768px; desktop unchanged
 - SUG-153: Mobile sidebar drawer — ContentsStrip trigger chip, generic Drawer shell, mobileStyle="drawer" on Sidebar; PageSidebar + PlatformSidebar wired; dynamic --st-header-height via ResizeObserver
 - SUG-151: DS Phase 5 — statTileSection → cardSection migration; IconButton/Pill/SegmentedControl stories; RichText canonical renderer; ContactForm + TwoColumnLayout deleted; registry + audit close-out
 - SUG-155: DS Codification Sprint — Callout banner variant, StatCard titleSize/body API, Swatch dark mode, Toolbar/Drawer renames, platform page primitives corrected (StatCard in spacing-0 grids); CLAUDE.md spacing-0 rule; SUG-152 Phases 7-8 scoped

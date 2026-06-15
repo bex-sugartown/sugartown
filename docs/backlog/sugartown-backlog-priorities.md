@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-15 · SUG-153 Phase 1 shipped v0.26.20. SUG-173 created (FilterBar mobile drawer, Phase 2). SUG-174 created (Button ghost variant + icon support).
+> Updated 2026-06-15 · SUG-173 shipped v0.26.21 (FilterBar mobile drawer). SUG-174 created (Button ghost variant + icon support).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.20 shipped ✅ 2026-06-15. SUG-153 Phase 1 shipped — mobile sidebar drawer (ContentsStrip chip, Drawer shell, dynamic --st-header-height, PageSidebar + PlatformSidebar wired). SUG-173 created for Phase 2 (FilterBar mobile drawer). Next: SUG-173 Phase 0 mock, or SUG-160 TechTimeline.
+> **⚑ Current focus:** v0.26.21 shipped ✅ 2026-06-15. SUG-173 shipped — FilterBar mobile drawer (sticky FILTERS chip, active-filter count badge, Drawer with Clear All/Done). Next: SUG-174 Button ghost variant, or SUG-160 TechTimeline.
 
 ---
 
