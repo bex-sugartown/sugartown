@@ -508,6 +508,146 @@
   min-width: 0;
 }
 
+/* On mobile the FilterBar moves into the drawer — hide the inline aside */
+@media (max-width: 767px) {
+  .archiveLayout > aside {
+    display: none;
+  }
+}
+
+/* ── Filter strip (mobile trigger bar for FilterBar drawer) ──────── */
+
+/* Fixed bar below the sticky header — same pattern as ContentsStrip */
+.filterStrip {
+  position: fixed;
+  top: var(--st-header-height, 56px);
+  left: 0;
+  right: 0;
+  z-index: 90;
+  background: var(--st-color-bg-surface);
+  border-bottom: 1px solid var(--st-color-border-subtle);
+  padding: 6px var(--st-page-gutter, 1rem);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hidden at desktop — inline FilterBar takes over */
+@media (min-width: 768px) {
+  .filterStrip {
+    display: none;
+  }
+}
+
+/* Compensate for the fixed strip on mobile so content isn't covered */
+@media (max-width: 767px) {
+  .archiveSectionContent {
+    padding-top: 52px;
+  }
+}
+
+/* Chip — same visual as ContentsStrip chip */
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  border: 1px solid var(--st-color-border-medium);
+  padding: 4px 10px;
+  border-radius: 2px;
+  background: var(--st-color-bg-surface);
+  cursor: pointer;
+  color: var(--st-color-text-default);
+  transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
+}
+
+.filterChip:hover {
+  border-color: var(--st-color-brand-primary);
+  color: var(--st-color-brand-primary);
+}
+
+.filterChip:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+/* Active: drawer open or filters applied */
+.filterChipActive {
+  background: var(--st-color-brand-primary);
+  color: var(--st-color-white);
+  border-color: var(--st-color-brand-primary);
+}
+
+.filterChipActive:hover {
+  border-color: var(--st-color-brand-primary);
+  color: var(--st-color-white);
+}
+
+/* Count badge — shown only when activeFilterCount > 0 */
+.filterChipBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--st-color-white);
+  color: var(--st-color-brand-primary);
+  border-radius: 9999px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+/* Drawer footer — clear-all + done */
+.filterDrawerFooter {
+  border-top: 1px solid var(--st-color-border-subtle);
+  padding: 12px 16px;
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.filterDrawerClearBtn {
+  flex: 1;
+  padding: 8px 12px;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  border: 1px solid var(--st-color-border-medium);
+  background: transparent;
+  color: var(--st-color-text-muted);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.filterDrawerClearBtn:hover {
+  color: var(--st-color-text-default);
+  border-color: var(--st-color-text-default);
+}
+
+.filterDrawerDoneBtn {
+  flex: 1;
+  padding: 8px 12px;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  border: 1px solid var(--st-color-brand-primary);
+  background: var(--st-color-brand-primary);
+  color: var(--st-color-white);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
 /* Content column (grid + pagination).
    flex: 1 1 400px → grows to fill remaining space; wraps below sidebar
    when container can't fit 220px + 32px gap + 400px = 652px.

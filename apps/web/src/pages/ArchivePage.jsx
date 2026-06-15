@@ -38,6 +38,7 @@
  *   - GROQ slice cap removed — all published items fetched for filtering accuracy
  */
 import { useState, useCallback, useMemo } from 'react'
+import Drawer from '../components/Drawer'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useSanityDoc, useSanityList, useDraftIds } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
@@ -254,6 +255,13 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     setSelectedGraphNode(node ?? null)
   }, [])
 
+  // ── Mobile filter drawer ───────────────────────────────────────────────────
+  const [filterDrawerOpen, setFilterDrawerOpen] = useState(false)
+  const activeFilterCount = Object.values(activeFilters).reduce((s, a) => s + a.length, 0)
+  const filterDrawerLabel = isMultiType
+    ? 'Filter library'
+    : { article: 'Filter articles', caseStudy: 'Filter case studies', node: 'Filter nodes' }[contentType] ?? 'Filters'
+
   if (!isMultiType && (!query || !docType)) {
     if (import.meta.env.DEV) {
       console.warn(`[ArchivePage] Unknown contentType: "${contentType}" — no listing query defined`)
@@ -332,6 +340,57 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
         </div>
         <span className={styles.archiveToolbarKicker}>{totalItems} {contentTypeLabel}</span>
       </div>
+
+      {/* Mobile filter strip — hidden ≥768px via CSS */}
+      {hasFilterUI && (
+        <div className={styles.filterStrip}>
+          <button
+            type="button"
+            className={`${styles.filterChip} ${(filterDrawerOpen || activeFilterCount > 0) ? styles.filterChipActive : ''}`}
+            onClick={() => setFilterDrawerOpen(true)}
+            aria-expanded={filterDrawerOpen}
+            aria-label={`Open ${filterDrawerLabel}`}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+              <line x1="4" y1="6" x2="20" y2="6" />
+              <line x1="8" y1="12" x2="20" y2="12" />
+              <line x1="12" y1="18" x2="20" y2="18" />
+            </svg>
+            Filters
+            {activeFilterCount > 0 && (
+              <span className={styles.filterChipBadge} aria-label={`${activeFilterCount} active`}>
+                {activeFilterCount}
+              </span>
+            )}
+          </button>
+        </div>
+      )}
+
+      {/* Filter drawer — mobile only; Drawer.jsx handles overlay, focus trap, Escape */}
+      {hasFilterUI && (
+        <Drawer
+          label={filterDrawerLabel}
+          open={filterDrawerOpen}
+          onClose={() => setFilterDrawerOpen(false)}
+        >
+          <div style={{ flex: 1, overflowY: 'auto' }}>
+            <FilterBar
+              filterModel={filterModel}
+              activeFilters={activeFilters}
+              onFilterChange={setFilter}
+              onClearAll={clearAll}
+            />
+          </div>
+          <div className={styles.filterDrawerFooter}>
+            <button type="button" className={styles.filterDrawerClearBtn} onClick={() => { clearAll(); setFilterDrawerOpen(false) }}>
+              Clear all
+            </button>
+            <button type="button" className={styles.filterDrawerDoneBtn} onClick={() => setFilterDrawerOpen(false)}>
+              Done
+            </button>
+          </div>
+        </Drawer>
+      )}
 
       <div className={styles.archiveSectionContent}>
       {isGraphView ? (
