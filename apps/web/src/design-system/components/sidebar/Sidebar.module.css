@@ -76,6 +76,28 @@
   border-top: 1px solid var(--st-color-border-subtle);
 }
 
+/* ── Mobile: drawer style ────────────────────────────────────
+ * Sidebar is hidden on mobile — content appears in Drawer instead.
+ * ContentsStrip trigger is rendered by the caller.
+ */
+.mobileDrawer {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .bpLg.mobileDrawer {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .bpMd.mobileDrawer {
+    display: block;
+    width: 220px;
+    flex-shrink: 0;
+  }
+}
+
 /* ── Desktop: bpLg (1024px) ──────────────────────────────── */
 
 @media (min-width: 1024px) {

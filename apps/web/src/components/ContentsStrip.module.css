@@ -1,0 +1,65 @@
+/* ContentsStrip — sticky mobile trigger for sidebar drawer (SUG-153) */
+
+.strip {
+  position: fixed;
+  top: var(--st-header-height, 56px);
+  left: 0;
+  right: 0;
+  z-index: 90;
+  background: var(--st-color-bg-surface);
+  border-bottom: 1px solid var(--st-color-border-subtle);
+  padding: 6px var(--st-page-gutter, 1rem);
+}
+
+/* Hidden above the sidebar's breakpoint — sidebar rail takes over */
+.bpLg {
+  display: flex;
+}
+@media (min-width: 1024px) {
+  .bpLg {
+    display: none;
+  }
+}
+
+.bpMd {
+  display: flex;
+}
+@media (min-width: 768px) {
+  .bpMd {
+    display: none;
+  }
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  border: 1px solid var(--st-color-border-medium);
+  padding: 4px 10px;
+  border-radius: 2px;
+  background: var(--st-color-bg-surface);
+  cursor: pointer;
+  color: var(--st-color-text-default);
+  transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
+}
+
+.chip:hover {
+  border-color: var(--st-color-brand-primary);
+  color: var(--st-color-brand-primary);
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+.chip.active {
+  background: var(--st-color-brand-primary);
+  color: var(--st-color-white);
+  border-color: var(--st-color-brand-primary);
+}

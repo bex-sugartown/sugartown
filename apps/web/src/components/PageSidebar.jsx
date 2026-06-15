@@ -16,10 +16,13 @@
  *
  * If all slots are empty, returns null.
  */
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
 import Sidebar from '../design-system/components/sidebar/Sidebar'
 import SidebarNav from '../design-system/components/sidebar-nav/SidebarNav'
+import Drawer from './Drawer'
+import ContentsStrip from './ContentsStrip'
 import styles from './PageSidebar.module.css'
 
 /** Plain text from a PortableText block. */
@@ -115,12 +118,13 @@ export default function PageSidebar({
   authors,
   aiDisclosure,
 }) {
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
   const toc = extractToc(sections, content)
   const hasToc = toc.length > 1
   const hasRelated = related?.length > 0
   const hasSeries = !!series?.title
   const hasAi = !!aiDisclosure || (tools?.some(isAiTool) ?? false)
-
 
   if (!hasToc && !hasRelated && !hasSeries && !hasAi) return null
 
@@ -138,74 +142,92 @@ export default function PageSidebar({
     }
   }
 
+  const sidebarContent = (
+    <div className={styles.blocks}>
+      {hasSeries && (
+        <div className={`${styles.block} ${styles.seriesBlock}`}>
+          <p className={styles.label}>Series</p>
+          <div className={styles.series}>
+            <Link
+              to={getCanonicalPath({ docType: 'series', slug: series.slug })}
+              className={styles.seriesLink}
+            >
+              <strong>{series.title}</strong>
+            </Link>
+            {partNumber && <span className={styles.seriesPart}>Part {partNumber}</span>}
+          </div>
+        </div>
+      )}
+
+      {hasToc && (
+        <div className={styles.block}>
+          <SidebarNav
+            label="On this page"
+            items={toc.map((e) => ({
+              id: e.anchor,
+              label: e.text,
+              href: `#${e.anchor}`,
+              level: e.level,
+            }))}
+            ariaLabel="Page contents"
+          />
+        </div>
+      )}
+
+      {hasRelated && (
+        <div className={styles.block}>
+          <p className={styles.label}>Related</p>
+          <ul className={styles.relatedList}>
+            {related.map((item) => {
+              const href = getCanonicalPath({ docType: item._type, slug: item.slug })
+              const badge = TYPE_LABELS[item._type] ?? item._type
+              return (
+                <li key={item._id} className={styles.relatedItem}>
+                  <span className={styles.relatedType}>{badge}</span>
+                  <Link to={href} className={styles.relatedLink}>{item.title}</Link>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
+
+      {aiText && (
+        <div className={styles.block}>
+          <p className={styles.label}>AI Disclosure</p>
+          <p className={styles.ai}>{aiText}</p>
+          <Link to="/ai-ethics" className={styles.ethicsLink}>AI Ethics Statement →</Link>
+        </div>
+      )}
+    </div>
+  )
+
   return (
-    <Sidebar
-      label="More from this page"
-      side="right"
-      breakpoint="lg"
-      mobileStyle="appendix"
-      aria-label="Page details"
-    >
-      <div className={styles.blocks}>
-
-          {hasSeries && (
-            <div className={`${styles.block} ${styles.seriesBlock}`}>
-              <p className={styles.label}>Series</p>
-              <div className={styles.series}>
-                <Link
-                  to={getCanonicalPath({ docType: 'series', slug: series.slug })}
-                  className={styles.seriesLink}
-                >
-                  <strong>{series.title}</strong>
-                </Link>
-                {partNumber && <span className={styles.seriesPart}>Part {partNumber}</span>}
-              </div>
-            </div>
-          )}
-
-          {hasToc && (
-            <div className={`${styles.block} ${styles.tocOnly}`}>
-              <SidebarNav
-                label="On this page"
-                items={toc.map((e) => ({
-                  id: e.anchor,
-                  label: e.text,
-                  href: `#${e.anchor}`,
-                  level: e.level,
-                }))}
-                ariaLabel="Page contents"
-              />
-            </div>
-          )}
-
-          {hasRelated && (
-            <div className={styles.block}>
-              <p className={styles.label}>Related</p>
-              <ul className={styles.relatedList}>
-                {related.map((item) => {
-                  const href = getCanonicalPath({ docType: item._type, slug: item.slug })
-                  const badge = TYPE_LABELS[item._type] ?? item._type
-                  return (
-                    <li key={item._id} className={styles.relatedItem}>
-                      <span className={styles.relatedType}>{badge}</span>
-                      <Link to={href} className={styles.relatedLink}>{item.title}</Link>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          )}
-
-
-          {aiText && (
-            <div className={styles.block}>
-              <p className={styles.label}>AI Disclosure</p>
-              <p className={styles.ai}>{aiText}</p>
-              <Link to="/ai-ethics" className={styles.ethicsLink}>AI Ethics Statement →</Link>
-            </div>
-          )}
-
-      </div>
-    </Sidebar>
+    <>
+      <ContentsStrip
+        label="Contents"
+        open={drawerOpen}
+        onOpen={() => setDrawerOpen(true)}
+        breakpoint="lg"
+      />
+      <Drawer
+        label="Page contents"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
+        <div className={styles.drawerBody}>
+          {sidebarContent}
+        </div>
+      </Drawer>
+      <Sidebar
+        label="More from this page"
+        side="right"
+        breakpoint="lg"
+        mobileStyle="drawer"
+        aria-label="Page details"
+      >
+        {sidebarContent}
+      </Sidebar>
+    </>
   )
 }

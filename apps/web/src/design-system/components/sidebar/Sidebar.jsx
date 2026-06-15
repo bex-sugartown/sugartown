@@ -8,9 +8,10 @@
  *   label        — mobile toggle label ("On this page", "Platform", etc.)
  *   side         — "right" (default) | "left" — which edge gets the border on desktop
  *   breakpoint   — "lg" (default, 1024px) | "md" (768px) — when rail activates
- *   mobileStyle  — "appendix" (default) | "strip"
+ *   mobileStyle  — "appendix" (default) | "strip" | "drawer"
  *                    appendix: flows below content with border-top (article/node sidebars)
  *                    strip:    full-width disclosure above content with border-bottom (nav rails)
+ *                    drawer:   hidden on mobile; caller renders ContentsStrip + Drawer instead
  *   aria-label   — passed through to the <aside> element
  */
 import styles from './Sidebar.module.css'
@@ -28,7 +29,7 @@ export default function Sidebar({
     styles.sidebar,
     side === 'left' ? styles.sideLeft : styles.sideRight,
     breakpoint === 'md' ? styles.bpMd : styles.bpLg,
-    mobileStyle === 'strip' ? styles.mobileStrip : styles.mobileAppendix,
+    mobileStyle === 'drawer' ? styles.mobileDrawer : mobileStyle === 'strip' ? styles.mobileStrip : styles.mobileAppendix,
     className,
   ].filter(Boolean).join(' ')
 

@@ -5,6 +5,7 @@ import { urlFor } from '../lib/sanity'
 import { Button, Container } from '../design-system'
 import NavigationItem from './atoms/NavigationItem'
 import Drawer from './Drawer'
+import DrawerNav from './DrawerNav'
 import Preheader from './Preheader'
 import ThemeToggle from './ThemeToggle'
 import styles from './Header.module.css'
@@ -96,17 +97,18 @@ export default function Header({ siteSettings }) {
       </header>
 
       {/* Mobile drawer */}
-      <Drawer
-        items={primaryNav?.items}
-        cta={ctaElement}
-        themeToggle={<ThemeToggle />}
-        footerColumns={footerColumns}
-        socialLinks={socialLinks}
-        copyrightText={copyrightText}
-        siteTitle={siteTitle}
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-      />
+      <Drawer label="Navigation menu" open={mobileOpen} onClose={() => setMobileOpen(false)}>
+        <DrawerNav
+          items={primaryNav?.items}
+          cta={ctaElement}
+          themeToggle={<ThemeToggle />}
+          footerColumns={footerColumns}
+          socialLinks={socialLinks}
+          copyrightText={copyrightText}
+          siteTitle={siteTitle}
+          onClose={() => setMobileOpen(false)}
+        />
+      </Drawer>
     </>
   )
 }

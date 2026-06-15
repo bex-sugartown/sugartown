@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { NavLink, useMatch, useLocation } from 'react-router-dom'
+import Drawer from '../Drawer'
+import ContentsStrip from '../ContentsStrip'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import useScrollspy from '../../lib/useScrollspy'
 import Sidebar from '../../design-system/components/sidebar/Sidebar'
@@ -141,20 +143,42 @@ function SidebarSection({ section, activeId }) {
 
 export default function PlatformSidebar() {
   const activeId = useActiveSection()
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
+  const navContent = (
+    <nav>
+      {NAV_SECTIONS.map((s) => (
+        <SidebarSection key={s.label} section={s} activeId={activeId} />
+      ))}
+    </nav>
+  )
 
   return (
-    <Sidebar
-      label="Platform"
-      side="left"
-      breakpoint="md"
-      mobileStyle="strip"
-      aria-label="Platform navigation"
-    >
-      <nav>
-        {NAV_SECTIONS.map((s) => (
-          <SidebarSection key={s.label} section={s} activeId={activeId} />
-        ))}
-      </nav>
-    </Sidebar>
+    <>
+      <ContentsStrip
+        label="Platform"
+        open={drawerOpen}
+        onOpen={() => setDrawerOpen(true)}
+        breakpoint="lg"
+      />
+      <Drawer
+        label="Platform navigation"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
+        <div style={{ padding: '1rem' }}>
+          {navContent}
+        </div>
+      </Drawer>
+      <Sidebar
+        label="Platform"
+        side="left"
+        breakpoint="lg"
+        mobileStyle="drawer"
+        aria-label="Platform navigation"
+      >
+        {navContent}
+      </Sidebar>
+    </>
   )
 }
