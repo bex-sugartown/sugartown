@@ -34,7 +34,7 @@ const meta: Meta<typeof Drawer> = {
   title: 'Components/Drawer',
   component: Drawer,
   tags: ['autodocs'],
-  decorators: [withRouter, withMobileWidth],
+  decorators: [withRouter],
   argTypes: {
     open: { control: 'boolean', description: 'Drawer visibility state' },
     items: { control: { type: 'object' }, description: 'Nav items array with optional children (accordion submenus)' },
@@ -61,6 +61,7 @@ const CTA_ELEMENT = (
 
 /** Open drawer — full nav with accordion submenu, CTA, footer, social. */
 export const Open: Story = {
+  decorators: [withMobileWidth],
   args: {
     items: NAV_ITEMS,
     cta: CTA_ELEMENT,
@@ -76,6 +77,7 @@ export const Open: Story = {
 
 /** Closed state — drawer hidden (overlay invisible). */
 export const Closed: Story = {
+  decorators: [withMobileWidth],
   args: {
     ...Open.args,
     open: false,
@@ -85,6 +87,7 @@ export const Closed: Story = {
 /** Minimal — nav items only, no CTA or footer content. */
 export const Minimal: Story = {
   name: 'Minimal (nav only)',
+  decorators: [withMobileWidth],
   args: {
     items: NAV_ITEMS.filter((item: { children?: unknown[] }) => !item.children),
     open: true,
@@ -182,6 +185,13 @@ function FilterDrawerStory() {
  */
 export const FilterDrawer: Story = {
   name: 'Filter Drawer (mobile archive)',
-  parameters: { chromatic: { disableSnapshot: false } },
+  decorators: [
+    (Story) => (
+      <div style={{ width: '375px', height: '600px', position: 'relative', overflow: 'hidden', transform: 'translateZ(0)' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
   render: () => <FilterDrawerStory />,
 };
