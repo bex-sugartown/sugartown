@@ -3,22 +3,21 @@
 # Separate Netlify site for the design system reference.
 # Deployment:
 #   1. Create a new site in the Netlify dashboard
-#   2. Set base directory: apps/storybook
-#   3. Build command: pnpm storybook:build
-#   4. Publish directory: apps/storybook/storybook-static
+#   2. Leave base directory BLANK in the dashboard — the ignore script is the gate
+#   3. Build command: (leave blank — netlify.toml provides it)
+#   4. Publish directory: (leave blank — netlify.toml provides it)
 #   5. Add custom domain: pinkmoon.sugartown.io
 #
-# Build triggers:
-#   - Auto-deploy on push to main (or configure manual-only
-#     to conserve deploy credits — set in dashboard)
+# Why no base directory: Netlify's base-directory pre-check cancels builds before
+# the ignore script runs. Story changes often land in packages/design-system/ or
+# apps/web/src/design-system/ — not apps/storybook/ directly. Without base set,
+# every push reaches the ignore script, which correctly decides whether to build.
 
 [build]
-  base = "apps/storybook"
-  command = "cd ../.. && pnpm install --frozen-lockfile && cd apps/storybook && pnpm storybook:build"
-  publish = "storybook-static"
-  # Rebuild when Storybook config, DS package, or web DS adapter changes —
-  # not just when apps/storybook/ itself changes.
-  ignore = "cd ../.. && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- apps/storybook/ packages/design-system/ apps/web/src/design-system/"
+  command = "pnpm install --frozen-lockfile && cd apps/storybook && pnpm storybook:build"
+  publish = "apps/storybook/storybook-static"
+  # Rebuild when Storybook config, DS package, or web DS adapter changes.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- apps/storybook/ packages/design-system/ apps/web/src/design-system/"
 
 [build.environment]
   NODE_VERSION = "22"
