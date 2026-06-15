@@ -85,8 +85,10 @@ function buildPerson(doc, base) {
   const path = slug ? getCanonicalPath({ docType: 'person', slug }) : null
   const sameAs = (doc.socialLinks || []).map(l => l.url).filter(Boolean)
   const imageUrl = doc.image?.asset?.url ?? null
+  const id = path ? `${base}${path}/#person` : undefined
   return {
     '@type': 'Person',
+    ...(id ? { '@id': id } : {}),
     name: doc.name,
     ...(doc.headline ? { description: doc.headline } : {}),
     ...(doc.titles?.[0] ? { jobTitle: doc.titles[0] } : {}),
@@ -189,7 +191,11 @@ export function generateJsonLd(doc, siteSettings) {
       case 'page':
         pageSchema = buildPage(doc, base)
         if (doc.primaryPerson) {
-          graph.push(buildPerson(doc.primaryPerson, base))
+          const personNode = buildPerson(doc.primaryPerson, base)
+          graph.push(personNode)
+          if (personNode['@id']) {
+            pageSchema.mainEntity = { '@id': personNode['@id'] }
+          }
         }
         break
     }
