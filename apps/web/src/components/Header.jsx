@@ -29,13 +29,12 @@ export default function Header({ siteSettings }) {
     const el = headerRef.current
     if (!el) return
     const update = () => {
-      document.documentElement.style.setProperty('--st-header-height', `${el.getBoundingClientRect().bottom}px`)
+      document.documentElement.style.setProperty('--st-header-height', `${el.offsetHeight}px`)
     }
     update()
     const ro = new ResizeObserver(update)
     ro.observe(el)
-    window.addEventListener('scroll', update, { passive: true })
-    return () => { ro.disconnect(); window.removeEventListener('scroll', update) }
+    return () => ro.disconnect()
   }, [siteSettings])
 
   if (!siteSettings) return null
