@@ -41,7 +41,7 @@ const MOCK_FILTER_MODEL: FilterModel = {
 // ─── Meta ─────────────────────────────────────────────────────────────────────
 
 const meta: Meta<typeof FilterBar> = {
-  title: 'Components/FilterBar',
+  title: 'Patterns/FilterBar',
   component: FilterBar,
   tags: ['autodocs'],
   argTypes: {
@@ -161,3 +161,71 @@ export const EmptyModel: Story = {
 
 /** Single facet — minimal model */
 export const SingleFacet: Story = { render: () => <SingleFacetStory /> };
+
+/**
+ * In Drawer — simulates the mobile archive drawer context (SUG-173).
+ * FilterBar fills the scrollable body of a 320px panel; footer buttons sit below.
+ */
+export const InDrawer: Story = {
+  name: 'In Drawer (mobile archive)',
+  parameters: { chromatic: { disableSnapshot: false } },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          width: '320px',
+          height: '540px',
+          display: 'flex',
+          flexDirection: 'column',
+          border: '1px solid #e5e5e5',
+          borderRadius: '4px',
+          overflow: 'hidden',
+          background: '#fff',
+        }}
+      >
+        <div style={{ flex: 1, overflowY: 'auto' }}>
+          <Story />
+        </div>
+        <div
+          style={{
+            borderTop: '1px solid #e5e5e5',
+            padding: '12px 16px',
+            display: 'flex',
+            gap: '8px',
+          }}
+        >
+          <button
+            type="button"
+            style={{
+              flex: 1,
+              padding: '8px 12px',
+              border: '1px solid #aaa',
+              background: 'transparent',
+              cursor: 'pointer',
+              fontSize: '0.8125rem',
+              color: '#666',
+            }}
+          >
+            Clear all
+          </button>
+          <button
+            type="button"
+            style={{
+              flex: 2,
+              padding: '8px 12px',
+              background: 'var(--st-color-brand-primary, #e91e8c)',
+              border: 'none',
+              color: '#fff',
+              cursor: 'pointer',
+              fontSize: '0.8125rem',
+              fontWeight: 600,
+            }}
+          >
+            Done
+          </button>
+        </div>
+      </div>
+    ),
+  ],
+  render: () => <WithActiveFiltersStory />,
+};
