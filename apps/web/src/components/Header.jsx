@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { resolveNavLink } from '../lib/resolveNavUrl'
 import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
@@ -17,12 +17,26 @@ const CTA_STYLE_TO_VARIANT = { primary: 'primary', secondary: 'secondary', terti
 export default function Header({ siteSettings }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const headerRef = useRef(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 4)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(() => {
+    const el = headerRef.current
+    if (!el) return
+    const update = () => {
+      document.documentElement.style.setProperty('--st-header-height', `${el.getBoundingClientRect().bottom}px`)
+    }
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(el)
+    window.addEventListener('scroll', update, { passive: true })
+    return () => { ro.disconnect(); window.removeEventListener('scroll', update) }
+  }, [siteSettings])
 
   if (!siteSettings) return null
 
@@ -43,7 +57,7 @@ export default function Header({ siteSettings }) {
     <>
       {preheader && <Preheader preheader={preheader} />}
 
-      <header className={`${styles.header}${scrolled ? ` ${styles.scrolled}` : ''}`}>
+      <header ref={headerRef} className={`${styles.header}${scrolled ? ` ${styles.scrolled}` : ''}`}>
         <Container size="site" className={styles.inner}>
           {siteLogo?.asset && (
             <RouterLink to="/" className={styles.logoLink}>
