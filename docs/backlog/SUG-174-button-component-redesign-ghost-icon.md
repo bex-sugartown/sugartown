@@ -72,7 +72,9 @@ Logical sequence within the branch:
 
 **Ghost dark mode:** The existing tertiary variant has a `[data-theme="dark-pink-moon"]` override block. Check whether ghost needs the same. Minimum: verify contrast on the dark canvas is acceptable before close-out.
 
-**Bespoke button audit (pre-migration):** Before deleting `filterDrawerClearBtn` and `filterDrawerDoneBtn` from `pages.module.css`, grep for any other callers in case the classes were reused:
+**Bespoke CSS intentionally left in place until this epic ships.** `filterDrawerClearBtn` and `filterDrawerDoneBtn` in `pages.module.css` are the correct implementation for SUG-173 — the DS Button has no ghost variant yet. Do not migrate them before the ghost variant exists. Migration is the close-out step of this epic, not a pre-condition.
+
+**Bespoke button audit (at migration time):** Before deleting `filterDrawerClearBtn` and `filterDrawerDoneBtn` from `pages.module.css`, grep for any other callers in case the classes were reused:
 ```bash
 grep -rn "filterDrawerClearBtn\|filterDrawerDoneBtn" apps/web/src
 ```
