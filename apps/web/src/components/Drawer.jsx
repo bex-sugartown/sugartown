@@ -68,6 +68,7 @@ export default function Drawer({ children, label, open, onClose }) {
         onKeyDown={handleTabTrap}
       >
         <div className={styles.drawerHeader}>
+          <p className={styles.drawerLabel}>{label}</p>
           <button
             ref={closeButtonRef}
             className={styles.closeButton}

@@ -38,9 +38,21 @@
 /* ── Drawer header (close button) ────────────────────────────────────────────── */
 .drawerHeader {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
   padding: var(--st-spacing-inset-md, 16px);
   flex-shrink: 0;
+  border-bottom: 1px solid var(--st-color-border-subtle);
+}
+
+.drawerLabel {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--st-color-text-muted);
+  margin: 0;
 }
 
 .closeButton {
