@@ -73,7 +73,7 @@ Schema layer: not touched. Query layer: not touched. Render layer: DS Sidebar, T
 | `article`   | ✅ Yes | Uses PageSidebar (TOC + series) |
 | `caseStudy` | ✅ Yes | Uses PageSidebar |
 | `node`      | ✅ Yes | Uses PageSidebar |
-| `archivePage` | ☐ No | Archive pages are single-column |
+| `archivePage` | ⏳ Phase 2 | Single-column but FilterBar is wide — collapses to a drawer on mobile |
 
 Platform pages (Governance, Monorepo, CMS, DS) use `PlatformLayout` — in scope but not Sanity doc types.
 
@@ -99,6 +99,30 @@ N/A — no schema changes.
   - Whether Platform sidebar nav and article TOC use the same drawer pattern or differ
 - [ ] Decision record: one shared `Drawer` primitive vs sidebar-specific implementation
 - [ ] **Phase 0 sign-off required before any JSX/CSS changes**
+
+### Phase 2 — FilterBar mobile drawer (archive pages)
+
+**Trigger:** archive pages (`/articles`, `/case-studies`, `/knowledge-graph`, `/tags/:slug`, etc.) render a `FilterBar` with faceted checkboxes (AUTHOR, TYPE, PROJECT, TOOL/PLATFORM). On mobile this is a full-column panel that forces significant scrolling before reaching content.
+
+**Pattern:** reuse the same `Drawer` shell + `ContentsStrip`-style trigger chip established in Phase 1.
+
+**Scope:**
+- [ ] Phase 0 mock — "FILTERS" trigger chip below header, drawer with facet groups + apply/clear actions
+- [ ] FilterBar renders a `<Drawer>` on mobile (≤767px); full inline panel at ≥768px
+- [ ] Trigger chip shows active filter count badge when filters are applied (`2 FILTERS`)
+- [ ] Drawer label: "Filter articles" / "Filter case studies" (contextual)
+- [ ] Escape / overlay tap closes; active filters persist across open/close
+- [ ] `ContentsStrip` trigger hidden on archive pages (no TOC content); FilterBar trigger shown instead
+- [ ] Acceptance: passes same a11y, token-validation, and Chromatic bar as Phase 1
+
+**Files likely touched:**
+- `apps/web/src/components/FilterBar.jsx` (or equivalent) — add drawer mode
+- `apps/web/src/pages/ArticlesArchivePage.jsx` and sibling archive pages
+- Possibly a shared `FilterDrawer.jsx` wrapper
+
+**Phase 0 required before any code.**
+
+---
 
 ### Phase 1 — Implementation (post Phase 0 sign-off)
 
@@ -158,7 +182,7 @@ To be completed at Phase 1. Key surfaces to verify:
 - Does not change the desktop layout (sidebar stays in-place at breakpoint and above)
 - Does not change MobileNav's existing site navigation items — only extends it (if that path is chosen)
 - Does not introduce swipe gestures — trigger + close button only for Phase 1
-- Does not cover archive page filter bar mobile behaviour (separate concern)
+- Does not cover archive page filter bar mobile behaviour — deferred to Phase 2 (below)
 - Does not rename IndexGroup/IndexCell → SegmentedControl — that decision is tracked in SUG-155 Phase 0
 
 ---

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-14T09:36:28.897Z",
+  "generatedAt": "2026-06-15T10:34:27.635Z",
   "release": {
     "current": {
       "version": "0.26.5",
@@ -45,7 +45,78 @@
         "linearIssue": null
       }
     ],
-    "latestPatches": [],
+    "latestPatches": [
+      {
+        "version": "0.26.19",
+        "descriptor": "SUG-167 content list view (List/ListItem)",
+        "kind": "PATCH",
+        "date": "2026-06-14",
+        "linearIssue": "SUG-167"
+      },
+      {
+        "version": "0.26.18",
+        "descriptor": "SUG-166 glossary completion + EDS vocabulary import",
+        "kind": "PATCH",
+        "date": "2026-06-14",
+        "linearIssue": "SUG-166"
+      },
+      {
+        "version": "0.26.17",
+        "descriptor": "SUG-165 archive/detail H1 holder-header standardisation",
+        "kind": "PATCH",
+        "date": "2026-06-13",
+        "linearIssue": "SUG-165"
+      },
+      {
+        "version": "0.26.16",
+        "descriptor": "SUG-163 design-code documentation pipeline",
+        "kind": "PATCH",
+        "date": "2026-06-12",
+        "linearIssue": "SUG-163"
+      },
+      {
+        "version": "0.26.15",
+        "descriptor": "SUG-162 Glossary Term Detail design handoff",
+        "kind": "PATCH",
+        "date": "2026-06-12",
+        "linearIssue": "SUG-162"
+      },
+      {
+        "version": "0.26.14",
+        "descriptor": "SUG-35 Glossary / Design System",
+        "kind": "PATCH",
+        "date": "2026-06-10",
+        "linearIssue": "SUG-35"
+      },
+      {
+        "version": "0.26.13",
+        "descriptor": "SUG-35 glossary + SUG-159 archive inventory",
+        "kind": "PATCH",
+        "date": "2026-06-09",
+        "linearIssue": "SUG-35"
+      },
+      {
+        "version": "0.26.12",
+        "descriptor": "SUG-152 DS Storybook Usage Docs",
+        "kind": "PATCH",
+        "date": "2026-06-08",
+        "linearIssue": "SUG-152"
+      },
+      {
+        "version": "0.26.11",
+        "descriptor": "SUG-158 Storybook Documentation Template System",
+        "kind": "PATCH",
+        "date": "2026-06-07",
+        "linearIssue": "SUG-158"
+      },
+      {
+        "version": "0.26.10",
+        "descriptor": "SUG-157 PageHeader DS Pattern Component",
+        "kind": "PATCH",
+        "date": "2026-06-06",
+        "linearIssue": "SUG-157"
+      }
+    ],
     "count": {
       "total": 24,
       "major": 0,
@@ -55,31 +126,31 @@
   },
   "ds": {
     "tokens": {
-      "total": 652,
+      "total": 655,
       "primitives": 127,
       "semantic": 28,
-      "component": 497,
+      "component": 500,
       "byCategory": {
-        "color": 186,
+        "color": 188,
         "space": 20,
-        "font": 25,
+        "font": 26,
         "shadow": 31,
         "other": 390
       }
     },
-    "dsComponents": 36,
-    "dsComponentsWithStories": 32,
-    "webAdapters": 42,
-    "componentFiles": 78,
+    "dsComponents": 37,
+    "dsComponentsWithStories": 33,
+    "webAdapters": 43,
+    "componentFiles": 80,
     "tokenCompliance": 97
   },
   "storybook": {
-    "stories": 421,
-    "components": 88
+    "stories": 424,
+    "components": 89
   },
   "repo": {
-    "commits": 1,
-    "epicsShipped": 142
+    "commits": 1857,
+    "epicsShipped": 146
   },
   "perf": {
     "stale": false,
@@ -352,13 +423,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-06-14T09:36:05.288Z",
+    "fetchedAt": "2026-06-15T10:34:03.264Z",
     "origin": "https://sugartown.io",
     "available": false,
-    "reason": "no-data"
+    "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-06-14T09:36:26.220Z",
+    "fetchedAt": "2026-06-15T10:34:26.877Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -379,21 +450,21 @@
     "lastCommit": "2026-06-13T09:01:14Z"
   },
   "sanity": {
-    "fetchedAt": "2026-06-14T09:36:28.116Z",
+    "fetchedAt": "2026-06-15T10:34:27.369Z",
     "counts": {
       "article": 15,
       "node": 51,
       "caseStudy": 7,
       "page": 10,
       "tag": 96,
-      "category": 13,
+      "category": 14,
       "project": 6,
       "person": 1,
       "tool": 58
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-06-14T09:36:28.372Z",
+    "generatedAt": "2026-06-15T10:34:27.632Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
