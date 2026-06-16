@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-16 · SUG-176 added (Storybook story coverage for app-level composites, 🟣 Soon). Next: SUG-174 (Button ghost variant + icon support) or SUG-160 (TechTimeline).
+> Updated 2026-06-16 · v0.26.23 shipped — SUG-171 green CI (DS package story lint). Next: SUG-174 (DS primitive expansion — IconButton, form controls, Button tertiary redesign) or SUG-160 (TechTimeline).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.22 shipped ✅ 2026-06-15. SUG-175 shipped — inline code bg lime-100 wash in light theme (two-line token swap, both mirror pairs). Next: SUG-174 Button ghost variant, or SUG-160 TechTimeline.
+> **⚑ Current focus:** v0.26.23 shipped ✅ 2026-06-16. SUG-171 shipped — DS package story lint green (11 errors cleared; Stack web adapter direction.lg mirror fix). Next: SUG-174 DS primitive expansion (IconButton, form controls, Button tertiary redesign) or SUG-160 TechTimeline.
 
 ---
 
