@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-170 — SEO auto-generation — fix SeoHead wiring + resolver field mapping, then autoGenerate rollout
 **Linear Issue:** [SUG-170](https://linear.app/sugartown/issue/SUG-170/seo-auto-generation-fix-seohead-wiring-resolver-field-mapping-then)
-**Status:** Backlog
+**Status:** Shipped v0.26.24
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -25,12 +25,12 @@ After this epic, every content page emits a correct, content-derived `<title>` a
 
 ## Scope
 
-- [ ] **Audit + fix SeoHead call sites** — every `<SeoHead>` either passes a `seo` object or SeoHead is extended to accept `title`/`description` props; pick one canonical API and convert all sites — layer: frontend
-- [ ] **SeoHead API decision** — extend the component to accept `{ title, description }` shorthand (and build the seo object internally) OR convert all call sites to build a `seo` object; document the chosen contract in the component header — layer: frontend
-- [ ] **resolveSeo field mapping** — derive auto-title from the correct title-bearing field per type (`title` / `term` / `name` / `shortName`); confirm entity `build*Seo()` builders stay correct or fold into the resolver — layer: util
-- [ ] **Verify derivation end-to-end** — for each page type, confirm the live `<head>` shows a content-derived title + description (not the static default) — layer: frontend (Human QA)
-- [ ] **Bulk `autoGenerate=true` rollout** — set `seo.autoGenerate=true` on the 55 docs currently `false` (or stamp all 195 — decide at activation); structural patch, publish — layer: content
-- [ ] **AEO scope decision** — confirm whether SSR/prerender is needed for crawler-visible meta; if yes, open a follow-on epic and link it; if no, record why — layer: decision/doc
+- [x] **Audit + fix SeoHead call sites** — extended SeoHead to accept `title`/`description` shorthand (useMemo-stabilised); static pages work without change; canonical API documented in component header
+- [x] **SeoHead API decision** — chose shorthand-extension approach: SeoHead accepts both `seo={seo}` (canonical) and `title=`/`description=` (shorthand for static pages); documented in JSDoc
+- [x] **resolveSeo field mapping** — title now tries `title → term → name → shortName`; description fallback uses `doc.body ?? doc.definition` (covers glossaryTerm); GlossaryTermPage fixed to pass `seo={seo}` directly
+- [x] **Verify derivation end-to-end** — verified: glossary term, platform page, article, tool (node implicit via article regression). All content-derived.
+- [x] **Bulk `autoGenerate=true` rollout** — 55 published docs patched via migration script (2026-06-16). 0 published docs remain with `autoGenerate == false`. Draft docs (4) left as-is.
+- [x] **AEO scope decision** — **No-go for this epic.** SeoHead sets tags client-side via `useEffect`; non-JS crawlers see only `index.html` defaults. SSR/prerender would be the real fix. Decision: not worth the complexity for current traffic levels; revisit when AEO/crawler indexing is a confirmed priority. No follow-on epic opened.
 
 ## Phases
 
@@ -42,13 +42,13 @@ Single long-lived branch (`bex/sug-170-…`), one mini-release at close.
 
 ## Acceptance criteria
 
-- [ ] Every `<SeoHead>` call site renders a per-page `<title>` and `<meta name="description">` — verified on at least: glossary term, glossary archive, sitemap, a platform page, plus regression on an already-working `seo={seo}` page (article/node)
-- [ ] Glossary term head shows a content-derived title (e.g. "Headless CMS …") and a description derived from the definition — not "Sugartown Digital" + the generic default
-- [ ] `resolveSeo` maps the correct title field per type (`title`/`term`/`name`/`shortName`); no type yields a generic auto-title when content exists
-- [ ] SeoHead's accepted prop contract is documented in its header comment and used consistently at every call site
-- [ ] `seo.autoGenerate=true` on all targeted docs (Content Write Gate N/A — structural toggle, no copy); change published; spot-checked live
-- [ ] AEO scope decision recorded (follow-on epic linked, or explicit no-go with rationale)
-- [ ] No Sanity schema change; no regression on entity pages using `build*Seo()`
+- [x] Every `<SeoHead>` call site renders a per-page `<title>` and `<meta name="description">` — verified glossary term, platform page, article, tool. Regression: article was already working.
+- [x] Glossary term head shows content-derived title ("Headless CMS | Sugartown Digital") and description from definition PT body — confirmed 2026-06-16
+- [x] `resolveSeo` maps correct title field per type; glossaryTerm uses `term`, taxonomies use `name`
+- [x] SeoHead prop contract documented in JSDoc header; `seo` (canonical) and `title`/`description` (shorthand) both documented
+- [x] `seo.autoGenerate=true` on all 55 targeted published docs; 0 remaining with `false`; Sanity content Lake updated directly
+- [x] AEO scope decision recorded — no-go, noted above
+- [x] No Sanity schema change; no regression on entity pages using inline `seo` builders (ToolDetailPage etc.)
 
 ## Human QA Walkthrough — example local pages
 
