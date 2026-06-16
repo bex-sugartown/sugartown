@@ -52,7 +52,7 @@ export const AllGaps: Story = {
     <Stack gap="6" direction="vertical">
       {(['0', '1', '2', '3', '4', '5', '6'] as const).map((g) => (
         <Stack key={g} gap={g} direction="horizontal">
-          <Box>gap="{g}"</Box>
+          <Box>{`gap="${g}"`}</Box>
           <Box>B</Box>
           <Box>C</Box>
         </Stack>

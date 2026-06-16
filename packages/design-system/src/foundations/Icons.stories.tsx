@@ -58,7 +58,7 @@ const grid: React.CSSProperties = {
   marginTop: '16px',
 }
 
-const cell = (deployed: boolean): React.CSSProperties => ({
+const cell = (_deployed: boolean): React.CSSProperties => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
