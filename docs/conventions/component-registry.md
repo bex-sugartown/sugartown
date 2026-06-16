@@ -1,6 +1,6 @@
 # Sugartown Component Registry
 
-> Last updated: 2026-06-06 · v0.26.9
+> Last updated: 2026-06-16 · v0.26.22
 >
 > Single source of truth for component coverage across the three app surfaces:
 > DS package primitives, web adapter layer, and app-level composites.
@@ -28,7 +28,7 @@ Web adapter stories are only created when the adapter adds **visually distinct b
 
 ## DS Primitives → Web Adapters
 
-All 14 DS primitive components have a corresponding web adapter. Four components
+All DS primitive components have a corresponding web adapter. Four components
 (Grid, SectionLabel, DataTable) exist only in the web adapter layer and are
 documented in the section below.
 
@@ -42,11 +42,14 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 | Avatar | ✅ `packages/ds/Avatar/` | ✅ `web/design-system/avatar/` | ✅ Components/Avatar | ✅ (token-inherited) | — | Image or initials fallback. sm/md/lg/xl sizes (16–88px). Circular via `--st-radius-full`. SUG-148. |
 | Box | ✅ `packages/ds/Box/` | ✅ `web/design-system/box/` | ✅ Components/Layout/Box | ✅ (token-inherited) | — | Token-driven layout base. Polymorphic `as` prop. No layout logic — padding/margin/background/radius/border via `--st-*` inline vars. SUG-148. |
 | Container | ✅ `packages/ds/Container/` | ✅ `web/design-system/container/` | ✅ Components/Layout/Container | ✅ (token-inherited) | — | Max-width scaffold. `size` prop: reading (760px) / detail (1080px) / archive (960px) / bleed. Maps to `--st-width-*` tokens only. SUG-149. |
-| Stack | ✅ `packages/ds/Stack/` | ✅ `web/design-system/stack/` | ✅ Components/Layout/Stack | ✅ (token-inherited) | — | One-axis flex spacing. `gap` = space-token key; `direction` accepts responsive object. Absorbs Flex — no standalone Flex primitive. SUG-149. |
+| Stack | ✅ `packages/ds/Stack/` | ✅ `web/design-system/stack/` | ✅ Components/Layout/Stack | ✅ (token-inherited) | — | One-axis flex spacing. `gap` = space-token key; `direction` accepts responsive object `{ base, md, lg }`. Absorbs Flex — no standalone Flex primitive. SUG-149. |
 | Columns | ✅ `packages/ds/Columns/` | ✅ `web/design-system/columns/` | ✅ Components/Layout/Columns | ✅ (token-inherited) | — | N-column grid (2/3/4). `collapse` breakpoint (sm/md/lg). Replaces TwoColumnLayout. SUG-149. |
 | Surface | ✅ `packages/ds/Surface/` | ✅ `web/design-system/surface/` | ✅ Components/Layout/Surface | ✅ | — | Elevation container (0–3) mapping to shadow tokens. Composes Box. SUG-149. |
 | Page | ✅ `packages/ds/Page/` | ✅ `web/design-system/page/` | ✅ Components/Layout/Page | ✅ (token-inherited) | — | Top-level scaffold: header/main/footer slots. Composes Container for content region — does NOT carry maxWidth prop. SUG-149. |
 | AppShell | ✅ `packages/ds/AppShell/` | ✅ `web/design-system/app-shell/` | ✅ Components/Layout/AppShell | ✅ (token-inherited) | — | Full UI shell: header/sidebar/main/footer slots. Sidebar collapses to full-width below 768px. SUG-149. |
+| List / ListItem | ✅ `packages/ds/List/` | ✅ `web/design-system/list/` | ✅ Components/List | ✅ (token-inherited) | — | Semantic `<ul>`/`<ol>`/`<li>` primitives. `as` prop on List accepts `ul`/`ol`. Gap via space-token key. SUG-167. |
+| IndexGroup | ✅ `packages/ds/IndexGroup/` | ✅ `web/design-system/IndexGroup/` | ✅ Components/IndexGroup | ✅ (token-inherited) | — | Groups IndexCell rows under a section header. Used in knowledge graph archive A–Z buckets. SUG-125. |
+| IndexCell | ✅ `packages/ds/IndexCell/` | ✅ `web/design-system/IndexCell/` | ✅ Components/IndexCell | ✅ | — | Single row within an IndexGroup. Link + inline metadata layout. Web adapter adds `<Link to>`. SUG-125. |
 | DescriptionList | ✅ `packages/ds/DescriptionList/` | ✅ `web/design-system/description-list/` | ✅ Components/DescriptionList | ✅ verified (ledger, SUG-162) | — | `<dl>` key/value grid. 1-col (stacked, border dividers) and 2-col (CSS grid) layouts. SUG-148. `ledger` prop (SUG-162): 2-col hairline treatment, full-width last row, <768px collapse. |
 | ErrorMessage | ✅ `packages/ds/ErrorMessage/` | ✅ `web/design-system/error-message/` | ✅ Components/Form/ErrorMessage | ✅ (token-inherited) | — | Inline validation feedback. `role="alert"` + `aria-live="polite"`. Wired via `aria-describedby` in Field. SUG-148. |
 | Field | ✅ `packages/ds/Field/` | ✅ `web/design-system/field/` | ✅ Components/Form/Field | ✅ (token-inherited) | — | Composes Label + control slot + HelperText + ErrorMessage. Owns all a11y wiring: `htmlFor`, `aria-describedby`, `aria-invalid`. SUG-148. |
@@ -89,6 +92,9 @@ coupled to React Router / web data patterns that has no portable use case outsid
 |-----------|-------------|-----------|-----------|-------|
 | Grid | ✅ `web/design-system/grid/` | ✅ Components/Layout/Grid | ✅ | CSS grid layout utility. Layout concern, not a DS primitive. SUG-120: `accentColor` (brand/ink) + `tabletColumns` responsive breakpoint added; composition stories added. |
 | SectionLabel | ✅ `web/design-system/section-label/` | ✅ Components/SectionLabel | ✅ | Typography-only label row. Minimal; no value in porting. |
+| Sidebar | ✅ `web/design-system/components/Sidebar/` | ✅ Components/Sidebar | ✅ (token-inherited) | Fixed-width sidebar panel. Used in PlatformLayout. No DS primitive — tightly coupled to web layout. SUG-153. |
+| SidebarNav | ✅ `web/design-system/components/SidebarNav/` | ✅ Patterns/SidebarNav | ✅ (token-inherited) | Vertical nav list with active-state scroll-spy. Used in platform sidebar. SUG-112. |
+| IconButton | ✅ `web/design-system/components/IconButton/` | ✅ Components/IconButton | ✅ (token-inherited) | Icon-only button wrapper. Canonical live instance: `ThemeToggle.jsx` (sun/moon toggle). ThemeToggle is a thin consumer — not a separate registry entry. |
 | ~~Tile~~ | ~~`web/design-system/tile/`~~ @deprecated | ~~Components/Tile~~ | ⚠️ deprecated | @deprecated — use Card + Metric/Meter. `console.warn` on import. SUG-151 retained: 8 active call-sites use `href`/`bar`/`loading`/`titleSize` not covered by StatCard. Full migration to Card+Metric is a follow-on epic. |
 | ~~TwoColumnLayout~~ | Deleted (SUG-151) | — | — | Deleted. Zero active call-sites. Superseded by `Columns count={2}`. |
 | ~~Flex~~ | — | — | — | Was synonym for Stack with `direction="horizontal"`. Use Stack `direction` prop directly. |
@@ -106,21 +112,35 @@ These components own layout and data-binding logic. They consume DS primitives a
 | Component | File | Storybook | Sanity data source | Notes |
 |-----------|------|-----------|-------------------|-------|
 | ContentCard | `web/components/ContentCard.jsx` | ✅ Patterns/ContentCard | article, caseStudy, node archive queries | Thin data adapter over web Card. Binding-only — no container CSS. |
+| ContentList | `web/components/ContentList.jsx` | ⚠️ no story | article / caseStudy / node listing queries | Vertical list layout of ContentCard items. Used in TaxonomyDetailPage related-content section. |
 | ContentNav | `web/components/ContentNav.jsx` | ✅ Patterns/ContentNav | Adjacent-item Sanity query | App composite — fetches prev/next items. Story uses plain-`<a>` inline demo. |
 | PageHeader | `web/design-system/components/PageHeader/` | ✅ Patterns/PageHeader | No Sanity data — pure DS pattern | Full-width identity band for archive, entity, taxonomy pages. ReactNode slots: breadcrumb, media, metadataCard, actions. Tint via color-mix at 10%. Web adapter only. SUG-157. |
 | MetadataCard | `web/components/MetadataCard.jsx` | ✅ Patterns/MetadataCard | All detail page queries | Canonical metadata surface — never re-implement inline. Composes Card frame via `<aside className={styles.metadataCard}>`. |
 | StatCard | `web/components/StatCard.jsx` | ✅ Patterns/StatCard | `cardSection` in `sections[]` | Replaces Tile in stat grids. Card + metric/value/sub/body layout. SUG-150. |
 | RichText | `web/components/RichText.jsx` | ✅ Patterns/RichText | Any `content` PortableText field | Canonical prose renderer. H2–H4, blockquote, bold, italic, inline code, links, lists. No image/table/citation — those are section-level. Replaces ContentBlock. `defaultRichTextComponents` exported for extension. SUG-151. |
 | Form | `web/components/Form.jsx` | ✅ Patterns/Form | — | Generic form pattern. Renders `Field[]` from schema. Netlify `action` or `onSubmit` callback. SUG-150. |
-| ~~ContactForm~~ | Deleted (SUG-151) | — | — | Deleted. Use `Form` component with `contactFormFields` schema. |
 | CardBuilderSection | `web/components/CardBuilderSection.jsx` | ✅ Patterns/CardBuilderSection | `cardBuilderSection` in `sections[]` | |
 | RecentContentSection | `web/components/RecentContentSection.jsx` | ✅ Patterns/RecentContentSection | Sanity fetch via `useSanityDoc` | Mock infrastructure in `.storybook/stories/` |
-| ~~ContentBlock~~ | `web/components/ContentBlock.jsx` — @deprecated | ~~Legacy/ContentBlock~~ | — | Deprecated — use RichText. Was orphaned (zero production callers). |
-| ~~ArchiveLayout~~ | Deleted (SUG-156) | — | — | Replaced by `Pages/ArchivePage`. Inaccurate stub — used bare Card + inline styles. |
+| Drawer | `web/components/Drawer.jsx` | ✅ Components/Drawer | — | Full-height overlay drawer. Used for mobile nav. SUG-167 (rewritten). |
+| DrawerNav | `web/components/DrawerNav.jsx` | ⚠️ no story | `navigation` document | Drawer-scoped nav list. Consumes Drawer. |
+| ContentsStrip | `web/components/ContentsStrip.jsx` | ⚠️ no story | Derived from page `sections[]` headings | In-page table of contents strip. Used above detail page body on mobile. |
+| AlphaFilter | `web/components/AlphaFilter.jsx` | ✅ Patterns/AlphaFilter | — | A–Z letter bucket filter. Used in TaxonomyArchivePage (tools). |
+| FilterStrip | `web/components/FilterStrip.jsx` | ✅ Patterns/FilterStrip | — | Horizontal strip of active filter chips with clear controls. Composes FilterBar. |
+| DraftBadge | `web/components/DraftBadge.jsx` | ⚠️ no story | Drafts via `useDocHasDraft` / `useDraftIds` | Overlays a "Draft" badge on unpublished content. Requires `hasDraft` or `draftIds` prop — never use `_id.startsWith('drafts.')`. |
+| TaxonomyChips | `web/components/TaxonomyChips.jsx` | ⚠️ no story | Taxonomy refs on content documents | Row of linked Chip components for tags/categories/projects/people/tools. |
+| CwvSnapshot | `web/components/CwvSnapshot.jsx` | ⚠️ no story | `stats.json` (CI-generated) | Core Web Vitals summary strip. Reads from build-time stats pipeline. SUG-100. |
+| TrustReportSection | `web/components/TrustReportSection.jsx` | ⚠️ no story | `stats.json` (CI-generated) | Full trust metrics section: CWV, Lighthouse, uptime. Composes CwvSnapshot + ScoreRing. SUG-100. |
+| GlossaryTermAnnotation | `web/components/GlossaryTermAnnotation.jsx` | ⚠️ no story | `glossaryTerm` documents | Inline PT mark renderer — underlines glossary terms and renders definition tooltip. |
+| PreviewBanner | `web/components/PreviewBanner.jsx` | ⚠️ no story | — | Dev-only banner shown when draft preview mode is active. |
+| SeoHead | `web/components/SeoHead.jsx` | ⚠️ no story | `seo` field on all document types | Injects `<title>`, meta description, og tags. Used by all page templates. |
+| NodesExample | `web/components/NodesExample.jsx` | ⚠️ no story | `node` documents | Interactive knowledge graph force-graph visualisation. Used on KnowledgeGraphArchivePage. |
+| LetterSectionHeader | `web/components/LetterSectionHeader.jsx` | ⚠️ no story | — | A–Z divider header used between alpha-bucket sections in TaxonomyArchivePage. |
 | ImageLightbox | `web/components/ImageLightbox.jsx` | ✅ Patterns/ImageLightbox | image galleries | |
 | PageSidebar | `web/components/PageSidebar.jsx` | ✅ Patterns/PageSidebar | TOC / related / series / AI disclosure | |
 | Pagination | `web/components/Pagination.jsx` | ✅ Patterns/Pagination | archive page query results | |
-| ThemeToggle | `web/components/ThemeToggle.jsx` | ✅ Patterns/ThemeToggle | — | |
+| ~~ContactForm~~ | Deleted (SUG-151) | — | — | Deleted. Use `Form` component with `contactFormFields` schema. |
+| ~~ContentBlock~~ | `web/components/ContentBlock.jsx` — @deprecated | ~~Legacy/ContentBlock~~ | — | Deprecated — use RichText. Was orphaned (zero production callers). |
+| ~~ArchiveLayout~~ | Deleted (SUG-156) | — | — | Replaced by `Pages/ArchivePage`. Inaccurate stub — used bare Card + inline styles. |
 
 ---
 
@@ -144,7 +164,7 @@ Each now has a standalone Storybook story added in SUG-98.
 
 ---
 
-## Layout components
+## Regions
 
 | Component | File | Storybook | Sanity data source |
 |-----------|------|-----------|-------------------|
@@ -170,6 +190,8 @@ Storybook category: `Pages/`. Zero-config — created implicitly by `title: 'Pag
 | TaxonomyDetailPage | `web/pages/TaxonomyDetailPage.jsx` | ✅ Pages/TaxonomyDetailPage | TagDetail, CategoryDetail | Detail header with optional accent bar + ContentCard listing. SUG-156. |
 | ContentDetailPage | `web/pages/ArticlePage.jsx` · `NodePage.jsx` · `CaseStudyPage.jsx` | ✅ Pages/ContentDetailPage | ArticleShell, NodeShell, CaseStudyShell | Two-column shell: MetadataCard sidebar + PortableText body. `data-has-margin` triggers grid via `pages.module.css .detailPage`. SUG-156. |
 | EntityDetailPage | `web/pages/PersonProfilePage.jsx` · `ToolDetailPage.jsx` · `ProjectDetailPage.jsx` | ✅ Pages/EntityDetailPage | PersonFolio, ToolFolio, ProjectFolio | Folio anatomy (thumbnail/avatar + identity block) + related-content Grid sections. Shared `.entityFolio` / `.narrativeHeading` / `.entityDescription` classes from `pages.module.css`. SUG-156. |
+| GlossaryArchivePage | `web/pages/GlossaryArchivePage.jsx` | ✅ Pages/GlossaryArchivePage | GlossaryArchive | A–Z glossary listing with LetterSectionHeader dividers and AlphaFilter. |
+| GlossaryTermDetailPage | `web/pages/GlossaryTermDetailPage.jsx` | ✅ Pages/GlossaryTermDetailPage | GlossaryTermDetail | Term definition detail: folio + PortableText body + related terms. |
 
 ---
 

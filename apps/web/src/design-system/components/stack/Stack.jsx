@@ -20,13 +20,16 @@ export default function Stack({
   if (typeof direction === 'object' && direction.md) {
     inlineVars['--stack-direction-md'] = direction.md === 'horizontal' ? 'row' : 'column'
   }
+  if (typeof direction === 'object' && direction.lg) {
+    inlineVars['--stack-direction-lg'] = direction.lg === 'horizontal' ? 'row' : 'column'
+  }
   if (align) inlineVars['--stack-align'] = align
   if (justify) inlineVars['--stack-justify'] = justify
   if (wrap) inlineVars['--stack-wrap'] = 'wrap'
 
   return (
     <Tag
-      className={[styles.stack, typeof direction === 'object' && direction.md && styles.responsive, className].filter(Boolean).join(' ')}
+      className={[styles.stack, typeof direction === 'object' && (direction.md || direction.lg) && styles.responsive, className].filter(Boolean).join(' ')}
       style={inlineVars}
     >
       {children}
