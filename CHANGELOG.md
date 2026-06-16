@@ -14,6 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.26.8.
 
+- SUG-170: SEO auto-generation — SeoHead shorthand props, resolveSeo multi-field title (term/name/shortName) + definition body fallback, GlossaryTermPage wiring fix, 55-doc autoGenerate rollout
 - SUG-171: Green CI — DS package story lint (11 errors across 10 stories; Stack web adapter direction.lg mirror fix)
 - SUG-175: Inline code bg → lime-100 wash in light theme (--st-code-inline-bg; both theme.light.css and theme.pink-moon.css light blocks + mirrors); dark theme unchanged
 - SUG-173: FilterBar mobile drawer — sticky FILTERS chip (position:sticky, active-filter count badge) opens Drawer with full FilterBar + Clear All/Done footer; inline FilterBar hidden <768px; desktop unchanged
