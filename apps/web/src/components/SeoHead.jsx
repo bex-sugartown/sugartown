@@ -16,17 +16,19 @@
  *   return <><SeoHead seo={seo} /><main>...</main></>
  *
  * Props:
- *   seo {object} — SeoResolved object from resolveSeo()
+ *   seo {object} — SeoResolved object from resolveSeo(). Canonical usage.
  *     .title         {string|null}
  *     .description   {string|null}
  *     .canonicalUrl  {string|null}
  *     .robots        { index: bool, follow: bool }
  *     .openGraph     { title, description, image: { asset: { url } }, type }
+ *   title {string} — shorthand for static pages with no Sanity doc. Ignored when seo is provided.
+ *   description {string} — shorthand for static pages with no Sanity doc. Ignored when seo is provided.
  *   heroImageUrl {string|null} — resolved URL for a hero/LCP image to preload
  *   jsonLd {object|null} — JSON-LD @graph object from generateJsonLd(). Injected
  *     as <script type="application/ld+json"> and removed on route change.
  */
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { urlFor } from '../lib/sanity'
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
@@ -61,7 +63,14 @@ function removeEl(el) {
 
 // ─── component ────────────────────────────────────────────────────────────────
 
-export default function SeoHead({ seo, heroImageUrl, jsonLd }) {
+export default function SeoHead({ seo: seoProp, title: titleProp, description: descProp, heroImageUrl, jsonLd }) {
+  // Shorthand: if no seo object, build a stable minimal one from title/description props.
+  // useMemo prevents a new object reference on every render, keeping the useEffect dependency stable.
+  const seo = useMemo(
+    () => seoProp ?? (titleProp || descProp ? { title: titleProp, description: descProp } : null),
+    [seoProp, titleProp, descProp]
+  )
+
   useEffect(() => {
     if (!seo) return
 

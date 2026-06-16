@@ -162,13 +162,7 @@ export default function GlossaryTermPage() {
 
   return (
     <>
-      {seo && (
-        <SeoHead
-          title={seo.title || `${term.term} — Sugartown Glossary`}
-          description={seo.description || plainText(term.definition)}
-          jsonLd={jsonLd}
-        />
-      )}
+      {seo && <SeoHead seo={seo} jsonLd={jsonLd} />}
 
       <main className={pageStyles.entityDetailPage}>
         {loading && <div className={pageStyles.loadingPage}>Loading…</div>}

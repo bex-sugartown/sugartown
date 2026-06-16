@@ -230,11 +230,13 @@ export function resolveSeo(doc, siteSettings) {
 
   let title
   if (autoGenerate) {
-    // Auto mode: use doc.title with site suffix, truncated to 60 chars total
-    if (doc?.title) {
-      const docTitle = doc.title.length > MAX_DOC_TITLE
-        ? doc.title.slice(0, MAX_DOC_TITLE - 1).trimEnd() + '…'
-        : doc.title
+    // Auto mode: resolve the primary display field across doc types.
+    // Priority: title (most types) → term (glossaryTerm) → name (taxonomies: tag/category/person/project/tool) → shortName
+    const rawTitle = doc?.title ?? doc?.term ?? doc?.name ?? doc?.shortName ?? null
+    if (rawTitle) {
+      const docTitle = rawTitle.length > MAX_DOC_TITLE
+        ? rawTitle.slice(0, MAX_DOC_TITLE - 1).trimEnd() + '…'
+        : rawTitle
       title = `${docTitle}${TITLE_SUFFIX}`
     } else {
       title = null
@@ -254,7 +256,7 @@ export function resolveSeo(doc, siteSettings) {
   let rawDescription =
     docSeo?.description ||              // explicit override (both modes)
     (autoGenerate
-      ? (doc?.excerpt || extractPlainText(doc?.body, 160))
+      ? (doc?.excerpt || extractPlainText(doc?.body ?? doc?.definition, 160))
       : null) ||
     site.defaultMetaDescription ||
     ''
