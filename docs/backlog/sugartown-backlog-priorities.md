@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-16 · v0.26.24 shipped — SUG-170 SEO auto-generation. Added SUG-177 (List component audit). Next: SUG-174 (DS primitive expansion — IconButton, form controls, Button tertiary redesign) or SUG-160 (TechTimeline).
+> Updated 2026-06-17 · v0.26.25 shipped — SUG-174 DS primitive expansion (Button Baseline Rule removal, ghost tertiary, icon prop, IconButton, form controls, rogue icon button audit). Next: SUG-160 (TechTimeline) or SUG-177 (List component audit).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.24 shipped ✅ 2026-06-16. SUG-170 shipped — SEO auto-generation fixed end-to-end (SeoHead shorthand props, resolveSeo term/name/shortName title mapping, definition body fallback, 55-doc autoGenerate rollout). Next: SUG-174 DS primitive expansion (IconButton, form controls, Button tertiary redesign) or SUG-160 TechTimeline.
+> **⚑ Current focus:** v0.26.25 shipped ✅ 2026-06-17. SUG-174 shipped — DS primitive expansion (Button Baseline Rule removal, ghost tertiary + icon prop on all variants, IconButton primitive with square/circle shapes, form controls: Select/Checkbox/Radio/Switch, rogue icon button audit). Next: SUG-160 TechTimeline or SUG-177 List component audit.
 
 ---
 
@@ -33,7 +33,7 @@
 | 3 | ~~**[SUG-111](https://linear.app/sugartown/issue/SUG-111/platform-ia-phase-ii-nested-multi-section-architecture-for-platform) · Platform IA Phase II — nested multi-section architecture** — PlatformLayout sidebar nav wrapper, 4 section hubs, hero inheritance, scrollspy, DataTable releases, Storybook BUILD_DATE freeze. Shipped v0.23.22.~~ | `Frontend` `UX` `Infrastructure` | ✅ Shipped |
 | 2 | ~~**[SUG-162](https://linear.app/sugartown/issue/SUG-162/glossary-term-detail-design-handoff-implementation-reuse-first) · Glossary Term Detail — design handoff implementation (reuse-first)** — DescriptionList ledger variant, Blockquote lead definition, metadata ledger with chips. Shipped v0.26.15.~~ | `Design System` `Frontend` `UX` | ✅ Shipped |
 | 3 | ~~**[SUG-163](https://linear.app/sugartown/issue/SUG-163/design-code-documentation-pipeline-single-source-of-truth-for-handoffs) · Design ↔ code documentation pipeline** — Handoff template, CLAUDE.md evaluation gate, content-model codegen (11 types, 176 fields), /platform/design-system/content-models page. Shipped v0.26.16.~~ | `Design System` `Tooling` `Infrastructure` | ✅ Shipped |
-| 5 | **[SUG-174](https://linear.app/sugartown/issue/SUG-174/button-component-redesign-sharp-rectangle-ghost-variant-icon-support) · Button component redesign — ghost variant + icon support** — Add ghost/outline variant and icon slot to DS Button; migrate bespoke `filterDrawerClearBtn`/`filterDrawerDoneBtn` CSS back to DS primitive. Epic: `docs/backlog/SUG-174-button-component-redesign-ghost-icon.md`. | `Design System` | 🟢 Next |
+| 5 | ~~**[SUG-174](https://linear.app/sugartown/issue/SUG-174/button-component-redesign-sharp-rectangle-ghost-variant-icon-support) · Button component redesign — ghost variant + icon support** — Baseline Rule removal; ghost tertiary token cascade; icon/iconAfter props; IconButton primitive (square/circle); form controls (Select/Checkbox/Radio/Switch); rogue icon button audit. Epic: `docs/shipped/SUG-174-button-component-redesign-ghost-icon.md`. Shipped v0.26.25.~~ | `Design System` | ✅ Shipped |
 | 4 | **[SUG-160](https://linear.app/sugartown/issue/SUG-160/article-i-was-online-before-it-was-a-thing-techtimeline-component) · Article: I Was Online Before It Was a Thing + TechTimeline component** — TechTimeline DS component (Phase 1) + personal-history article with BBS timeline, doll computer photos, and about page updates (Phase 2). Epic: `docs/backlog/SUG-160-article-i-was-online-techtimeline.md`. | `Article` `Content` `Design System` `Frontend` | 🟢 Next |
 | 6 | ~~**[SUG-166](https://linear.app/sugartown/issue/SUG-166/glossary-completion-gap-fill-eds-vocabulary-import) · Glossary completion — gap-fill + EDS vocabulary import** — glossary 17 → 41 terms (gap-fill + token tiers + DS ladder + Tier 3 principles + Bextionary); term-detail ContentNav/Status/Related-Terms polish. Phase 4 dropped. Epic: `docs/shipped/SUG-166-glossary-completion-gap-fill-eds-import.md`.~~ | `Content` `Design System` | ✅ Shipped |
 | 5 | ~~**[SUG-165](https://linear.app/sugartown/issue/SUG-165/archive-and-detail-page-h1-audit-holder-header-standardisation) · Archive and detail page H1 audit — holder header standardisation** — `--st-font-page-h1` token (3rem/48px), `PageHeader` extended with eyebrow + children slots, 4 folio pages migrated off `.narrativeHeading`. Shipped.~~ Epic: `docs/shipped/SUG-165-archive-detail-h1-holder-header-audit.md`. | `Design System` `UX` | ✅ Shipped |
@@ -135,6 +135,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-174 · DS primitive expansion — Button Baseline Rule removal, ghost tertiary, icon prop, IconButton primitive, form controls (Select/Checkbox/Radio/Switch), rogue icon button audit.** Epic: `docs/shipped/SUG-174-button-component-redesign-ghost-icon.md`.~~ | v0.26.25 | 2026-06-17 |
 | ~~**SUG-159 · Archive page component inventory** — `docs/conventions/archive-page-patterns.md` covering all 5 archive surfaces (ArchivePage, TaxonomyArchivePage, GlossaryArchivePage, SiteGraphPage, stubs). ArchiveGridDocs + FilterBarDocs Overview-only Storybook stubs (Gate 1 pending API freeze). Epic: `docs/backlog/SUG-159-archive-storybook-inventory.md`.~~ | v0.26.13 | 2026-06-09 |
 | ~~**SUG-35 · Glossary system** — `glossaryTerm` schema + `/glossary` archive + `/glossary/:slug` detail pages + `glossaryTermRef` PT annotation with hover popover. Chip DS: tag+color mode, dark mode contrast, white-50 bg. GlossaryTermPage refactored to shared page components. Epic: `docs/shipped/SUG-35-glossary.md`.~~ | v0.26.14 | 2026-06-10 |
 | ~~**SUG-158 · Storybook Documentation Template System** — `helpers/docs.tsx` doc components, `stories.boilerplate.tsx`, Docs/Story Template story, PageHeader pilot (14 sections), table border tokens standardised (`--st-table-cell-border` neutral-300, `--st-table-wrap-border` on DS Table). Epic: `docs/shipped/SUG-158-storybook-docs-template-system.md`.~~ | v0.26.11 | 2026-06-07 |
@@ -239,4 +240,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-15 · v0.26.22 released · queue: SUG-174 / SUG-160 / SUG-161*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-17 · v0.26.25 released · queue: SUG-160 / SUG-177 / SUG-161*

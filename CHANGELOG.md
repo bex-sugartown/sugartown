@@ -14,6 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.26.8.
 
+- SUG-174: DS primitive expansion — Button Baseline Rule removal (SUG-116 3px border-bottom lift removed from all 3 variants); ghost tertiary (token cascade: lime dark / pink light); icon/iconAfter props on all Button variants; IconButton primitive (square/circle shapes, pink hover); form controls: Select, Checkbox, Radio, Switch; rogue icon button audit (ThemeToggle + hamburger migrated, 6 bespoke retained with allowlist)
 - SUG-170: SEO auto-generation — SeoHead shorthand props, resolveSeo multi-field title (term/name/shortName) + definition body fallback, GlossaryTermPage wiring fix, 55-doc autoGenerate rollout
 - SUG-171: Green CI — DS package story lint (11 errors across 10 stories; Stack web adapter direction.lg mirror fix)
 - SUG-175: Inline code bg → lime-100 wash in light theme (--st-code-inline-bg; both theme.light.css and theme.pink-moon.css light blocks + mirrors); dark theme unchanged
