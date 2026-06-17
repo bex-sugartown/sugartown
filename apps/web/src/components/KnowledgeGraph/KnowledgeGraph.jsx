@@ -313,7 +313,7 @@ export default function KnowledgeGraph({
             enableNodeDrag
           />
         )}
-        <div className={styles.zoomControls}>
+        <div className={styles.zoomControls} data-theme="dark-pink-moon">
           <IconButton onClick={handleZoomIn} aria-label="Zoom in">+</IconButton>
           <IconButton onClick={handleZoomOut} aria-label="Zoom out">−</IconButton>
           {onEmbiggen && (
