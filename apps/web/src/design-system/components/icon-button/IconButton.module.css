@@ -15,7 +15,7 @@
   height: 32px;
   padding: 0;
 
-  background: var(--st-color-bg-surface);
+  background: var(--st-icon-button-bg);
   color: var(--st-color-text-muted);
   border: 1px solid var(--st-index-cell-inactive-color);
 

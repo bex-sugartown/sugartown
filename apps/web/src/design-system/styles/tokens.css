@@ -518,6 +518,7 @@
   --st-table-row-bg-zebra-subdued: var(--st-color-neutral-50);
   --st-table-zebra-bg: var(--st-color-midnight-700);
   --st-table-card-radius: var(--st-radius-md);
+  --st-icon-button-bg: var(--st-color-neutral-50);
   --st-stat-tile-border: var(--st-color-border-subtle);
   --st-stat-tile-bar-track: var(--st-color-border-subtle);
   --st-tile-padding: var(--st-stat-tile-padding);

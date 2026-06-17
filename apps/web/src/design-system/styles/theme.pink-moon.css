@@ -220,6 +220,7 @@
   --st-color-bg-surface:        rgba(255, 255, 255, 0.06);
   --st-color-bg-surface-strong: rgba(255, 255, 255, 0.10);
   /* Tile/stat surfaces — solid dark; glassmorphism is wrong for data grids */
+  --st-icon-button-bg:          var(--st-color-midnight-700);
   --st-stat-tile-bg:            var(--st-color-midnight-700);
   --st-tile-bg:                 var(--st-color-midnight-700);
   /* Wrap border — dark hairline divider between tiles (was neutral-400 #a3a3a3) */
