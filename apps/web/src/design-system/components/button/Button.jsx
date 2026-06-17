@@ -24,6 +24,9 @@ export default function Button({
   onClick,
   children,
   className = '',
+  icon,
+  iconPosition = 'left',
+  iconAfter,
   ...props
 }) {
   const variantClass =
@@ -37,6 +40,15 @@ export default function Button({
 
   const classes = [styles.button, variantClass, sizeClass, className].filter(Boolean).join(' ')
 
+  const content = (
+    <>
+      {icon && iconPosition !== 'right' && icon}
+      {children}
+      {iconAfter}
+      {icon && iconPosition === 'right' && icon}
+    </>
+  )
+
   if (href) {
     const external = isExternalUrl(href) || openInNewTab
 
@@ -49,7 +61,7 @@ export default function Button({
           rel="noopener noreferrer"
           {...props}
         >
-          {children}
+          {content}
         </a>
       )
     }
@@ -57,14 +69,14 @@ export default function Button({
     // Internal path → React Router SPA navigation
     return (
       <RouterLink className={classes} to={href} {...props}>
-        {children}
+        {content}
       </RouterLink>
     )
   }
 
   return (
     <button className={classes} onClick={onClick} type={props.type || 'button'} {...props}>
-      {children}
+      {content}
     </button>
   )
 }

@@ -47,7 +47,7 @@ import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import ContentList from '../components/ContentList'
-import { FilterBar } from '../design-system'
+import { FilterBar, Button } from '../design-system'
 import Pagination from '../components/Pagination'
 import { archivePageBySlugQuery, facetsRawQuery } from '../lib/queries'
 import { buildFilterModel } from '../lib/filterModel'
@@ -57,6 +57,7 @@ import DraftBadge from '../components/DraftBadge'
 import { PortableText } from '@portabletext/react'
 import portableTextComponents from '../lib/portableTextComponents'
 import NotFoundPage from './NotFoundPage'
+import { X, Check } from 'lucide-react'
 import KnowledgeGraph from '../components/KnowledgeGraph/KnowledgeGraph'
 import statsJson from '../generated/stats.json'
 import { Breadcrumb, PageHeader } from '../design-system'
@@ -382,12 +383,12 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
             />
           </div>
           <div className={styles.filterDrawerFooter}>
-            <button type="button" className={styles.filterDrawerClearBtn} onClick={() => { clearAll(); setFilterDrawerOpen(false) }}>
+            <Button variant="tertiary" size="sm" icon={<X size={14} />} onClick={() => { clearAll(); setFilterDrawerOpen(false) }} style={{ flex: 1 }}>
               Clear all
-            </button>
-            <button type="button" className={styles.filterDrawerDoneBtn} onClick={() => setFilterDrawerOpen(false)}>
+            </Button>
+            <Button variant="primary" size="sm" iconAfter={<Check size={14} />} onClick={() => setFilterDrawerOpen(false)} style={{ flex: 1 }}>
               Done
-            </button>
+            </Button>
           </div>
         </Drawer>
       )}

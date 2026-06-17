@@ -13,7 +13,11 @@ Expanded scope from original epic. The design handoff at `docs/drafts/design_han
 
 ## Background
 
-**Tertiary redesign (ghost treatment):** `Button.jsx`/`Button.tsx` expose `variant: primary | secondary | tertiary` — all using the Baseline Rule 3px bottom-border lift from SUG-116. The tertiary variant is being redesigned to fulfil the ghost role: 1px all-round border, transparent background, no Baseline Rule, no hover lift. Signal color is theme-aware — brand pink (`--st-color-brand-primary`) in light, lime (`--st-color-lime`) in dark. The SUG-173 FilterBar drawer introduced `filterDrawerClearBtn` / `filterDrawerDoneBtn` as bespoke CSS in `pages.module.css`; they migrate to `<Button variant="tertiary">` once this ships. The current tertiary CSS has a partial dark-mode ghost override using stale token names (`--st-code-color-button-ghost`, `--st-code-border-ghost`) — these are removed and replaced with the correct tokens in this epic. The variant string stays `tertiary`; no new `ghost` variant string is added.
+**Baseline Rule removal (all three variants):** `Button.jsx`/`Button.tsx` expose `variant: primary | secondary | tertiary` — all three currently use the Baseline Rule 3px bottom-border lift from SUG-116. **This epic removes the Baseline Rule from all three variants.** Primary and secondary retain their solid / outlined fills but drop the 3px lift and hover-lift entirely. Tertiary is additionally redesigned to the ghost treatment (see below). The SUG-173 FilterBar drawer introduced `filterDrawerClearBtn` / `filterDrawerDoneBtn` as bespoke CSS in `pages.module.css`; the clear button migrates to `<Button variant="tertiary">` (ghost) and the done button migrates to `<Button variant="primary">` — both without the Baseline Rule — once this ships. This is the canonical example of a primary + ghost tertiary button pair in a drawer footer context.
+
+**Tertiary redesign (ghost treatment):** The tertiary variant is being redesigned to fulfil the ghost role: 1px all-round border, transparent background, no Baseline Rule, no hover lift. Signal color is theme-aware — brand pink (`--st-color-brand-primary`) in light, lime (`--st-color-lime`) in dark. The current tertiary CSS has a partial dark-mode ghost override using stale token names (`--st-code-color-button-ghost`, `--st-code-border-ghost`) — these are removed and replaced with the correct tokens in this epic. The variant string stays `tertiary`; no new `ghost` variant string is added.
+
+**`icon` prop (all three variants):** The optional `icon` prop (ReactNode) and `iconPosition: 'left' | 'right'` (default `'left'`) are added to the base `Button` component and apply equally to primary, secondary, and tertiary. The icon renders in the existing `gap: var(--st-space-2)` flex row at `1em` so it scales with the size variant. The FilterBar drawer done/clear pair is the reference implementation (icon-left on primary, icon-left on ghost tertiary).
 
 **New scope (IconButton):** Three icon-only button implementations exist independently today:
 - `SegmentedControl.module.css` `.iconBtn` / `.iconBtnActive` — the archive grid/list/graph toggle
@@ -41,13 +45,14 @@ No Sanity schema, GROQ, or content changes.
 
 ## Scope
 
-### A — Button tertiary redesign + icon prop
+### A — Button redesign: Baseline Rule removal, ghost tertiary, icon prop (all variants)
 
-- [ ] **Phase 0 mock (Button)** — produce `docs/drafts/SUG-174-button-tertiary-icon-mock.html` showing: tertiary in all three sizes (light + dark theme), tertiary hover/active states showing pink vs lime signal, icon-left and icon-right layouts, tertiary alongside primary (drawer footer context). Hard stop — no CSS until approved.
-- [ ] **`tertiary` variant redesign** — update both `Button.module.css` files: 1px solid `--st-color-border-medium`, transparent bg, `--st-color-text-muted` text, no 3px bottom border rule, no hover lift. Signal (hover + active): light theme → `--st-color-brand-primary` (pink) border + text; dark theme (`[data-theme="dark-pink-moon"]`) → `--st-color-lime` border + text. Remove the stale `--st-code-color-button-ghost` / `--st-code-border-ghost` token references currently in the dark-mode tertiary block.
-- [ ] **`icon` prop** — optional `icon` prop (ReactNode) and `iconPosition: 'left' | 'right'` (default `'left'`). Renders icon in the existing `gap: var(--st-space-2)` flex row. Icon SVGs sized to `1em` to scale with size variant.
-- [ ] **`filterDrawerClearBtn` + `filterDrawerDoneBtn` migration** — grep callers, remove classes from `pages.module.css`, replace in `ArchivePage.jsx` with `<Button variant="tertiary">` and `<Button variant="primary">`
-- [ ] **Button Storybook update** — tertiary story (light + dark side by side to show signal-color switch), icon-left story, icon-right story, tertiary+primary pair
+- [ ] **Phase 0 mock (Button)** — produce `docs/drafts/SUG-174-button-tertiary-icon-mock.html` showing: all three variants (primary, secondary, tertiary/ghost) in all three sizes (light + dark theme), Baseline Rule removed on primary and secondary — solid/outlined fills retained but no 3px lift, tertiary ghost hover/active states showing pink vs lime signal, icon-left and icon-right layouts on all three variants (lucide examples), drawer footer context: primary + ghost tertiary pair with icons. Hard stop — no CSS until approved.
+- [ ] **Baseline Rule removal — primary + secondary** — update both `Button.module.css` files: remove the 3px `border-bottom` lift and any corresponding `translateY` hover offset from `variant="primary"` and `variant="secondary"`. Retain all other fill, border, and color rules for those variants.
+- [ ] **`tertiary` variant redesign (ghost)** — update both `Button.module.css` files: 1px solid `--st-color-border-medium`, transparent bg, `--st-color-text-muted` text, no 3px bottom border rule, no hover lift. Signal (hover + active): light theme → `--st-color-brand-primary` (pink) border + text; dark theme (`[data-theme="dark-pink-moon"]`) → `--st-color-lime` border + text. Remove the stale `--st-code-color-button-ghost` / `--st-code-border-ghost` token references currently in the dark-mode tertiary block.
+- [ ] **`icon` prop (all variants)** — optional `icon` prop (ReactNode) and `iconPosition: 'left' | 'right'` (default `'left'`). Renders icon in the existing `gap: var(--st-space-2)` flex row at `1em`. Applies equally to primary, secondary, and tertiary — no variant-specific icon logic.
+- [ ] **`filterDrawerClearBtn` + `filterDrawerDoneBtn` migration** — grep callers, remove classes from `pages.module.css`, replace in `ArchivePage.jsx` with `<Button variant="tertiary" icon={<X size={14} />}>Clear</Button>` and `<Button variant="primary" icon={<Check size={14} />}>Done</Button>` (lucide examples — confirm exact icon choice at implementation)
+- [ ] **Button Storybook update** — primary/secondary/tertiary row without Baseline Rule (before/after callout), tertiary ghost story (light + dark side by side, signal-color switch), icon-left and icon-right stories on all three variants, drawer footer pair (primary + ghost tertiary with icons)
 
 ### B — IconButton primitive
 
@@ -70,26 +75,47 @@ No Sanity schema, GROQ, or content changes.
 - [ ] **`Switch`** — track: 34×18px, `--st-color-bg-surface` bg, `--st-color-border-medium` border, `border-radius: 0` (Pink Moon sharp). Knob: 12×12px square, 3px inset, `--st-color-text-muted`. Checked: track + border → `--st-color-focus`; knob `#fff`, translated +16px. `focus-visible` ring 30% on track. Transition: 0.15s ease on `transform`, `background`, `border-color`. Layout: label left, switch right (`justify-content: space-between`). Optional mono hint line (`--st-font-mono`, 10px, `--st-color-text-muted`).
 - [ ] **Storybook stories for each** — default, checked/on, disabled, with error state, with helper text, dark mode (`dark-pink-moon`) for all four.
 
-## Phases
+### D — Rogue icon button audit + migration
 
-Single close-out — all items ship together on one branch.
+This scope runs after `IconButton` (B) ships so the DS standard exists to migrate to. Greps are run at the start of this phase to establish the full inventory — nothing is migrated speculatively.
+
+- [ ] **Audit** — run the following grep set to surface all bespoke icon-only button implementations:
+  ```bash
+  # Inline button/a elements with only an icon child (no visible text)
+  grep -rn "aria-label" apps/web/src/components/ apps/web/src/pages/ --include="*.jsx" --include="*.tsx"
+  grep -rn "IconBtn\|icon-btn\|iconBtn\|iconButton\|icon_btn" apps/web/src/components/ apps/web/src/pages/ --include="*.module.css"
+  grep -rn "rounded-full\|border-radius.*50%\|border-radius.*var(--st-radius-full)" apps/web/src/components/ apps/web/src/pages/ --include="*.module.css"
+  ```
+  Produce an **Audit table** listing: file path, component/class name, current shape (square / circular / irregular), current size, what it does, and migration verdict (migrate to `<IconButton shape="square">` / `<IconButton shape="circular">` / keep-bespoke with reason).
+
+- [ ] **Migration** — for every item with verdict `migrate`, replace with `<IconButton>` and remove the bespoke CSS class. Known candidates at time of writing (may expand after audit):
+  - `SegmentedControl.module.css` `.iconBtn` / `.iconBtnActive` — already scoped in B
+  - `ThemeToggle.jsx` circular toggle — already scoped in B
+  - `Header.jsx` hamburger — already scoped in B
+  - Any other icon-only `<button>` or `<a>` elements that emerge from the grep
+
+- [ ] **Bespoke retention allowlist** — document any icon buttons that legitimately cannot use `<IconButton>` (e.g. a button that renders inside a third-party library slot). State the reason in a comment in the source file.
+
+- [ ] **Storybook audit story** — add a `Patterns/IconButtonAudit` story that renders every migrated call site side by side with its replacement, confirming visual parity before the bespoke class is deleted.
 
 Logical sequence within the branch:
-1. Phase 0 mock gate for Button ghost (if needed — handoff covers IconButton; confirm if Button ghost is also covered)
-2. **A** — Button ghost CSS + icon JSX (both `Button.module.css` files in sync); bespoke migration
+1. Phase 0 mock gate for Button (all three variants, icon prop, drawer context) — handoff covers IconButton; confirm Button ghost + primary/secondary Baseline Rule removal is also covered
+2. **A** — Baseline Rule removal from primary + secondary; ghost tertiary CSS; icon prop on all variants (both `Button.module.css` files in sync); bespoke drawer migration
 3. **B** — `IconButton` component; SegmentedControl refactor; ThemeToggle + hamburger migrations; stories
 4. **C** — `Select`, `Checkbox`, `Radio`, `Switch` components + stories
-5. Token validation + style-mirror check + Chromatic
+5. **D** — Rogue icon button audit; migration; bespoke retention allowlist; audit story
+6. Token validation + style-mirror check + Chromatic
 
 ## Acceptance criteria
 
 ### Button (A)
 - [ ] Phase 0 mock approved before any Button CSS is written
+- [ ] `<Button variant="primary">` and `<Button variant="secondary">` render without 3px bottom border lift or hover-lift — solid/outlined fills otherwise unchanged
 - [ ] `<Button variant="tertiary">` renders with 1px border, transparent bg, no 3px bottom rule, no hover lift
 - [ ] Light theme: tertiary hover/active signal is brand pink (`--st-color-brand-primary`)
 - [ ] Dark theme: tertiary hover/active signal is lime (`--st-color-lime`)
 - [ ] Stale `--st-code-color-button-ghost` / `--st-code-border-ghost` references removed — `pnpm validate:tokens` passes with zero undefined-token errors
-- [ ] `<Button variant="tertiary" icon={<Icon />}>` and `iconPosition="right"` work at all sizes
+- [ ] `<Button variant="primary" icon={<Icon />}>`, `<Button variant="secondary" icon={<Icon />}>`, and `<Button variant="tertiary" icon={<Icon />}>` all work with `iconPosition="left"` and `iconPosition="right"` at all sizes
 - [ ] `filterDrawerClearBtn` and `filterDrawerDoneBtn` deleted from `pages.module.css`; no remaining callers
 - [ ] Both `Button.module.css` files byte-identical — `pnpm validate:style-mirror` passes
 
@@ -102,6 +128,13 @@ Logical sequence within the branch:
 - [ ] `Header.jsx` hamburger uses `<IconButton>`; `aria-expanded` propagates correctly
 - [ ] Old `IconButton.stories.tsx` inline-style placeholder replaced by component-backed story
 - [ ] Dark mode story passes Chromatic
+
+### Rogue icon button audit (D)
+- [ ] Audit table produced listing every bespoke icon-only button across `apps/web/src/components/` and `apps/web/src/pages/` with migration verdict
+- [ ] All items with verdict `migrate` replaced with `<IconButton shape="square">` or `<IconButton shape="circular">` as appropriate
+- [ ] Bespoke-retention items carry an in-code comment explaining why `<IconButton>` doesn't apply
+- [ ] `Patterns/IconButtonAudit` Storybook story shows before/after parity for each migration
+- [ ] No orphaned bespoke icon button CSS classes remain after migration (validate with grep)
 
 ### Form controls (C)
 - [ ] `Select` renders with custom chevron, correct focus ring, no browser chrome
@@ -144,7 +177,7 @@ Expected: one caller each (`ArchivePage.jsx`). Migrate all callers before deleti
 
 ## Non-Goals
 
-- Does not change primary, secondary, or tertiary Button variant visuals (Baseline Rule stays)
+- Does not change primary or secondary Button fills, borders, or color scheme — only the Baseline Rule lift is removed
 - Does not add animated icon transitions
 - Does not add a `danger` / `destructive` Button variant
 - Does not touch Button's link/router rendering logic

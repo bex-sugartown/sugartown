@@ -204,6 +204,10 @@
   --st-kg-chip-node-bg:         var(--st-color-ink);
   --st-kg-chip-node-fg:         var(--st-color-neutral-100);
   --st-kg-chip-node-border:     transparent;
+
+  /* Button ghost tertiary — light theme: signal is brand pink (dark theme keeps base lime) */
+  --st-button-tertiary-border:  var(--st-color-brand-primary);
+  --st-button-tertiary-text:    var(--st-color-brand-primary);
 }
 
 /* ══════════════════════════════════════════════════════════

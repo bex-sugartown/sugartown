@@ -1,11 +1,10 @@
 /*
- * Button — "Baseline Rule" (Pink Moon · Ledger Tradition)
+ * Button (Pink Moon · Ledger Tradition — SUG-174)
  *
- * Library pastiche: IBM Plex Mono uppercase, hot solid fill,
- * 3px bottom-edge rule grounds the stamp like the ruled foot
- * of a ledger entry. Treatment 02 (SUG-116).
- *
- * Visual spec: design_handoff_ledger_button_update/Button Update.html
+ * IBM Plex Mono uppercase, hot solid fill.
+ * Baseline Rule (SUG-116 3px bottom border + translateY lift) removed in SUG-174.
+ * Tertiary redesigned as ghost: 1px border, transparent bg, theme-aware signal color.
+ * Ghost default: brand pink (light) / lime (dark) — gray on hover.
  */
 
 /* ── Base ────────────────────────────────────────────── */
@@ -16,10 +15,9 @@
   justify-content: center;
   gap: var(--st-space-2);
 
-  padding: 9px 22px 11px;  /* asymmetric — bottom rule compensated */
+  padding: 10px 22px;
   border-radius: var(--st-radius-button);  /* 0 — Pink Moon */
   border: none;
-  border-bottom: 3px solid transparent;
 
   font-family: var(--st-font-family-mono);
   font-size: 0.72rem;
@@ -31,8 +29,6 @@
 
   cursor: pointer;
   transition:
-    transform 150ms ease,
-    box-shadow 150ms ease,
     background-color 150ms ease,
     color 150ms ease,
     border-color 150ms ease;
@@ -52,55 +48,43 @@
 
 /* ── Size variants ───────────────────────────────────── */
 
-.sm { font-size: 0.65rem; padding: 8px 14px 9px; }
+.sm { font-size: 0.65rem; padding: 8px 14px; }
 /* .md is default — see base .button spec */
-.lg { font-size: 0.82rem; padding: 13px 28px 15px; }
+.lg { font-size: 0.82rem; padding: 14px 28px; }
 
-/* ── Primary — pink fill, dark bottom rule ───────────── */
+/* ── Primary — pink fill ─────────────────────────────── */
 
 .primary {
   background-color: var(--st-color-brand-primary);
   color: var(--st-color-white);
-  border-bottom-color: var(--st-color-button-rule-primary);
 }
 
 .primary:hover:not(:disabled):not([aria-disabled="true"]) {
-  transform: translateY(-3px);
-  box-shadow: var(--st-shadow-button-active), 0 10px 24px rgba(255,36,125,0.28);
+  background-color: var(--st-color-pink-600);
 }
 
-/* ── Secondary — lime fill, dark bottom rule ─────────── */
+/* ── Secondary — lime fill ───────────────────────────── */
 
 .secondary {
   background-color: var(--st-color-lime);
   color: var(--st-color-charcoal);
-  border-bottom-color: var(--st-color-button-rule-secondary);
 }
 
 .secondary:hover:not(:disabled):not([aria-disabled="true"]) {
-  transform: translateY(-3px);
-  box-shadow: var(--st-shadow-button-active);
+  background-color: var(--st-color-lime-500);
 }
 
-/* ── Tertiary — neutral fill, neutral bottom rule ────── */
+/* ── Tertiary — ghost, theme-aware signal ────────────── */
+/* Default: signal color (pink light / lime dark) via --st-button-tertiary-* tokens.  */
+/* theme.pink-moon.css light block overrides to brand-primary; dark keeps base lime.   */
 
 .tertiary {
-  background-color: var(--st-color-softgrey-200);
-  color: var(--st-color-charcoal);
-  border-bottom-color: var(--st-color-button-rule-tertiary);
-}
-
-[data-theme="dark-pink-moon"] .tertiary {
-  background-color: var(--st-color-midnight-700);
-  color: var(--st-code-color-button-ghost);
-  border-bottom-color: var(--st-code-border-ghost);
+  background: transparent;
+  border: 1px solid var(--st-button-tertiary-border);
+  color: var(--st-button-tertiary-text);
 }
 
 .tertiary:hover:not(:disabled):not([aria-disabled="true"]) {
-  transform: translateY(-3px);
-  box-shadow: var(--st-shadow-button-active);
-}
-
-[data-theme="dark-pink-moon"] .tertiary:hover:not(:disabled):not([aria-disabled="true"]) {
-  box-shadow: var(--st-shadow-button-active-dark);
+  border-color: var(--st-color-border-medium);
+  color: var(--st-color-text-muted);
 }

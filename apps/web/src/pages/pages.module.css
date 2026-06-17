@@ -607,41 +607,6 @@
   flex-shrink: 0;
 }
 
-.filterDrawerClearBtn {
-  flex: 1;
-  padding: 8px 12px;
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
-  border: 1px solid var(--st-color-border-medium);
-  background: transparent;
-  color: var(--st-color-text-muted);
-  cursor: pointer;
-  border-radius: 2px;
-  transition: color 150ms ease, border-color 150ms ease;
-}
-
-.filterDrawerClearBtn:hover {
-  color: var(--st-color-text-default);
-  border-color: var(--st-color-text-default);
-}
-
-.filterDrawerDoneBtn {
-  flex: 1;
-  padding: 8px 12px;
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
-  border: 1px solid var(--st-color-brand-primary);
-  background: var(--st-color-brand-primary);
-  color: var(--st-color-white);
-  cursor: pointer;
-  border-radius: 2px;
-}
 
 /* Content column (grid + pagination).
    flex: 1 1 400px → grows to fill remaining space; wraps below sidebar

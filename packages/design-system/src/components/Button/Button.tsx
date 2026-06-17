@@ -8,6 +8,9 @@ export interface ButtonProps {
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   className?: string;
+  icon?: React.ReactNode;
+  iconPosition?: 'left' | 'right';
+  iconAfter?: React.ReactNode;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -17,6 +20,9 @@ export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   disabled = false,
   className = '',
+  icon,
+  iconPosition = 'left',
+  iconAfter,
 }) => {
   const classes = [
     styles.button,
@@ -31,7 +37,10 @@ export const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
     >
+      {icon && iconPosition !== 'right' && icon}
       {children}
+      {iconAfter}
+      {icon && iconPosition === 'right' && icon}
     </button>
   );
 };
