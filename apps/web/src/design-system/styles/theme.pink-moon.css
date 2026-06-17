@@ -284,4 +284,26 @@
   --st-card-hover-border:       var(--st-color-pink);
   --st-card-hover-translate-y:  0px;
   --st-card-hover-shadow:       none;
+
+  /* ── Site graph — dark theme (mirrors light block; canvas is always dark) ─ */
+  --st-graph-bg:              var(--st-color-midnight-800);
+  --st-graph-edge-membership: var(--st-color-white-20);
+  --st-graph-edge-lateral:    var(--st-color-white-15);
+  --st-kg-node-article:       var(--st-color-seafoam-700);
+  --st-kg-node-case:          var(--st-color-maroon-400);
+  --st-kg-node-node:          var(--st-color-lime-400);
+  --st-kg-node-project:       var(--st-color-pink);
+  --st-kg-node-category:      var(--st-color-softgrey-300);
+  --st-kg-edge-member:        var(--st-color-white-20);
+  --st-kg-edge-lateral:       var(--st-color-white-15);
+  --st-kg-legend-bg:          var(--st-color-midnight-700);
+  --st-kg-legend-border:      var(--st-color-white-15);
+  --st-kg-legend-color:       var(--st-color-softgrey-400);
+  --st-kg-legend-dot-outline-border: var(--st-color-softgrey-400);
+  --st-kg-zoom-bg:            var(--st-color-midnight-700);
+  --st-kg-zoom-border:        var(--st-color-white-15);
+  --st-kg-zoom-color:         var(--st-color-softgrey-300);
+  --st-kg-zoom-hover-color:   var(--st-color-pink);
+  --st-kg-zoom-hover-border:  var(--st-color-border-default);
+  --st-graph-node-category:   var(--st-color-softgrey-300);
 }
