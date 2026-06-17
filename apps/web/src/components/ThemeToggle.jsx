@@ -10,7 +10,7 @@
  */
 import { useState, useEffect } from 'react'
 import { Sun, Moon } from 'lucide-react'
-import styles from './ThemeToggle.module.css'
+import IconButton from '../design-system/components/icon-button/IconButton'
 
 const STORAGE_KEY = 'st-theme'
 const LIGHT = 'light-pink-moon'
@@ -45,14 +45,13 @@ export default function ThemeToggle() {
   const dark = isDarkTheme(theme)
 
   return (
-    <button
-      type="button"
+    <IconButton
+      shape="circle"
       onClick={toggle}
-      className={styles.toggle}
       aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
       title={dark ? 'Switch to light theme' : 'Switch to dark theme'}
     >
       {dark ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
-    </button>
+    </IconButton>
   )
 }

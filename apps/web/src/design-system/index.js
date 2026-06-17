@@ -1,5 +1,6 @@
 export { default as Media } from './components/media/Media'
 export { default as Button } from './components/button/Button'
+export { default as IconButton } from './components/icon-button/IconButton'
 export { default as Card } from './components/card/Card'
 export { default as Chip } from './components/chip/Chip'
 export { default as Table, TableWrap } from './components/table/Table'

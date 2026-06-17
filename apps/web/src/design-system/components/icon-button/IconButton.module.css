@@ -1,0 +1,48 @@
+/*
+ * IconButton (SUG-174)
+ *
+ * Icon-only square (4px radius) or circle (full radius) button.
+ * Token contract shared with SegmentedControl .iconBtn and ThemeToggle.
+ */
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 32px;
+  height: 32px;
+  padding: 0;
+
+  background: transparent;
+  color: var(--st-color-text-muted);
+  border: 1px solid var(--st-color-border-subtle);
+
+  cursor: pointer;
+  transition:
+    color 150ms ease,
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.square { border-radius: var(--st-radius-xs); }
+.circle { border-radius: var(--st-radius-full); }
+
+.iconButton:hover:not(:disabled):not([aria-disabled="true"]) {
+  color: var(--st-color-text-default);
+  border-color: var(--st-color-border-medium);
+  background-color: var(--st-color-bg-surface-strong);
+}
+
+.iconButton:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
+.iconButton:disabled,
+.iconButton[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}

@@ -3,6 +3,7 @@ import { resolveNavLink } from '../lib/resolveNavUrl'
 import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { Button, Container } from '../design-system'
+import { Menu } from 'lucide-react'
 import NavigationItem from './atoms/NavigationItem'
 import Drawer from './Drawer'
 import DrawerNav from './DrawerNav'
@@ -98,12 +99,9 @@ export default function Header({ siteSettings }) {
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
               aria-expanded={mobileOpen}
+              type="button"
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </svg>
+              <Menu size={24} aria-hidden="true" />
             </button>
           </div>
         </Container>
