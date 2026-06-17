@@ -1,0 +1,89 @@
+/*
+ * Switch (SUG-174) — Pink Moon sharp toggle.
+ * Track: 34×18px, radius 0. Knob: 12×12px square, 3px inset.
+ * Layout: label left, switch right (space-between).
+ */
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--st-space-3);
+  cursor: pointer;
+}
+
+.labelGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.labelText {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-default);
+  user-select: none;
+}
+
+.hint {
+  font-family: var(--st-font-family-mono);
+  font-size: 10px;
+  color: var(--st-color-text-muted);
+  user-select: none;
+}
+
+/* Visually hidden native checkbox */
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.track {
+  flex-shrink: 0;
+  position: relative;
+  width: 34px;
+  height: 18px;
+  border-radius: 0;
+  border: 1px solid var(--st-color-border-medium);
+  background: var(--st-color-bg-surface);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Knob */
+.track::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 10px;
+  height: 10px;
+  background: var(--st-color-text-muted);
+  border-radius: 0;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+/* Checked state */
+.input:checked + .track {
+  background: var(--st-color-focus);
+  border-color: var(--st-color-focus);
+}
+
+.input:checked + .track::after {
+  background: var(--st-color-white);
+  transform: translateX(16px);
+}
+
+/* Focus ring on track */
+.input:focus-visible + .track {
+  outline: 2px solid color-mix(in srgb, var(--st-color-focus) 30%, transparent);
+  outline-offset: 2px;
+}
+
+/* Disabled */
+.input:disabled + .track {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

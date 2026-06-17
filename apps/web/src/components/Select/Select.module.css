@@ -1,0 +1,51 @@
+/*
+ * Select (SUG-174) — native <select> with custom chevron.
+ * Pink Moon: sharp corners, no radius.
+ */
+
+.wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  width: 100%;
+  padding: var(--st-space-2) 34px var(--st-space-2) var(--st-space-3);
+  border: 1px solid var(--st-color-border-default);
+  border-radius: 0;
+  background: var(--st-color-bg-surface);
+  color: var(--st-color-text-default);
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-sm);
+  line-height: 1.4;
+  cursor: pointer;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.select:focus-visible {
+  outline: none;
+  border-color: var(--st-color-focus);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--st-color-focus) 18%, transparent);
+}
+
+.select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Chevron — 7×7px box, border-right + border-bottom, rotated 45° */
+.chevron {
+  pointer-events: none;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--st-color-text-muted);
+  border-bottom: 1.5px solid var(--st-color-text-muted);
+  transform: translateY(-65%) rotate(45deg);
+}

@@ -1,0 +1,58 @@
+/*
+ * Radio (SUG-174) — same row + box layout as Checkbox, circular.
+ * Checked: focus-ring border + centered 8px dot.
+ */
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--st-space-2);
+  cursor: pointer;
+}
+
+.radio {
+  flex-shrink: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--st-color-border-medium);
+  border-radius: var(--st-radius-full);
+  background: var(--st-color-bg-surface);
+  cursor: pointer;
+  position: relative;
+  transition: border-color 150ms ease;
+}
+
+.radio:checked {
+  border-color: var(--st-color-focus);
+}
+
+.radio:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--st-color-focus);
+  border-radius: var(--st-radius-full);
+  transform: translate(-50%, -50%);
+}
+
+.radio:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--st-color-focus) 30%, transparent);
+  outline-offset: 2px;
+}
+
+.radio:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.label {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-default);
+  user-select: none;
+}

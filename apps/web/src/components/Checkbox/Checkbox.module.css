@@ -1,0 +1,60 @@
+/*
+ * Checkbox (SUG-174) — matches FilterBar .optionCheckbox contract.
+ * Sharp corners (Pink Moon), brand-primary fill on checked.
+ */
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--st-space-2);
+  cursor: pointer;
+}
+
+.checkbox {
+  flex-shrink: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--st-color-border-medium);
+  border-radius: 0;
+  background: var(--st-color-bg-surface);
+  cursor: pointer;
+  position: relative;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.checkbox:checked {
+  background: var(--st-color-brand-primary);
+  border-color: var(--st-color-brand-primary);
+}
+
+.checkbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  width: 4px;
+  height: 8px;
+  border: 2px solid var(--st-color-white);
+  border-left: none;
+  border-top: none;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.checkbox:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--st-color-focus) 30%, transparent);
+  outline-offset: 2px;
+}
+
+.checkbox:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.label {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-default);
+  user-select: none;
+}
