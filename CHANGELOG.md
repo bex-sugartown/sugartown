@@ -12,32 +12,105 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.26.8.
+> Accumulates since v0.27.0.
 
-- SUG-174 (v0.26.26 follow-up): IconButton rogue audit — archive + SiteGraphPage toolbar buttons migrated to IconButton; KG zoom buttons migrated (bespoke overrides removed); dark-pink-moon KG token block (canvas + controls); --st-icon-button-bg solid token (avoids glassmorphism); data-theme scoping on zoom controls container
-- SUG-174: DS primitive expansion — Button Baseline Rule removal (SUG-116 3px border-bottom lift removed from all 3 variants); ghost tertiary (token cascade: lime dark / pink light); icon/iconAfter props on all Button variants; IconButton primitive (square/circle shapes, pink hover); form controls: Select, Checkbox, Radio, Switch; rogue icon button audit (ThemeToggle + hamburger migrated, 6 bespoke retained with allowlist)
-- SUG-170: SEO auto-generation — SeoHead shorthand props, resolveSeo multi-field title (term/name/shortName) + definition body fallback, GlossaryTermPage wiring fix, 55-doc autoGenerate rollout
-- SUG-171: Green CI — DS package story lint (11 errors across 10 stories; Stack web adapter direction.lg mirror fix)
-- SUG-175: Inline code bg → lime-100 wash in light theme (--st-code-inline-bg; both theme.light.css and theme.pink-moon.css light blocks + mirrors); dark theme unchanged
-- SUG-173: FilterBar mobile drawer — sticky FILTERS chip (position:sticky, active-filter count badge) opens Drawer with full FilterBar + Clear All/Done footer; inline FilterBar hidden <768px; desktop unchanged
-- SUG-153: Mobile sidebar drawer — ContentsStrip trigger chip, generic Drawer shell, mobileStyle="drawer" on Sidebar; PageSidebar + PlatformSidebar wired; dynamic --st-header-height via ResizeObserver
-- SUG-151: DS Phase 5 — statTileSection → cardSection migration; IconButton/Pill/SegmentedControl stories; RichText canonical renderer; ContactForm + TwoColumnLayout deleted; registry + audit close-out
-- SUG-155: DS Codification Sprint — Callout banner variant, StatCard titleSize/body API, Swatch dark mode, Toolbar/Drawer renames, platform page primitives corrected (StatCard in spacing-0 grids); CLAUDE.md spacing-0 rule; SUG-152 Phases 7-8 scoped
-- SUG-156: Library IA Layout Audit — Pages/ Storybook category introduced; ArchiveLayout retired; ArchivePage, ContentDetailPage, EntityDetailPage, TaxonomyDetailPage, TaxonomyArchivePage stories with production-accurate layouts; FilterBar, PageSidebar, MetadataCard, SectionLabel, accentBar fixtures; fullscreen stories bypass global layout wrapper
-- SUG-157: PageHeader DS pattern component — full-width identity band for archive, entity, and taxonomy pages; italic prop per H1 convention (archive masteheads + person folios italic, entity/taxonomy roman); tint via color-mix; eyebrow removed; 6 production pages migrated
-- SUG-35: Glossary system — Chip DS updates (tag+color mode, dark mode contrast, white-50 transparent bg), GlossaryTermPage refactored to shared page components (pageStyles, SectionLabel, Grid, ContentCard)
-- SUG-159: Archive page component inventory — docs/conventions/archive-page-patterns.md covering all 5 archive surfaces; ArchiveGridDocs + FilterBarDocs Overview-only Storybook stubs (Gate 1 pending)
-- SUG-35 Phase 1: Glossary system — glossaryTerm schema, /glossary archive + /glossary/:slug detail pages, glossaryTermRef PT annotation with hover popover; archive reuse consolidation (AlphaFilter, DS Chip, LetterSectionHeader, PageHeader on ArchivePage + SiteGraphPage)
-- SUG-152: DS Storybook Usage Docs Phases 1–2 shipped (Section Spacing, Entity Detail Page); Chip API updated (badge rename direction, status prop + colorHex deprecated, story cleanup); Phases 3–10 deferred pending doc framework strategy
-- SUG-158: Storybook Documentation Template System — helpers/docs.tsx (DocSection, DoDontGrid, TokenGroup, docStyles), stories.boilerplate.tsx, Docs/Story Template 14-section reference story, PageHeader Guidelines pilot; table border tokens standardised (--st-table-cell-border neutral-300, DS TableWrap uses --st-table-wrap-border)
-- SUG-162: Glossary term detail redesign — DescriptionList ledger variant (DS), Blockquote lead definition, metadata ledger with chips
-- SUG-163: Design-code documentation pipeline — design handoff template (docs/conventions/design-handoff-template.md), CLAUDE.md evaluation gate, content-model codegen script (11 types, 176 fields), /platform/design-system/content-models page
-- SUG-165: Archive/detail H1 holder-header standardisation — --st-font-page-h1 token (48px); PageHeader extended with eyebrow + children slots; Tool/Person/Glossary/Series folios migrated off .narrativeHeading (deleted); dead archive components + entity-folio CSS removed; CLAUDE.md token-value cross-check + App.jsx routing + closure-grep gates, Human QA Walkthrough epic-template section
-- Storybook: divider tokens (--st-color-pt-divider-{light,dark}-2x, default darkened 2 shades); Divider/Link dark-mode stories removed in favour of topbar theme dropdown
-- SUG-166: Glossary completion — 17 → 41 terms (gap-fill of extended defs/pronunciation/sources/abbreviations/categories; Tier 1 token tiers + Theme; Tier 2 DS ladder + Tier 3 principles with member-example lists and registry/Storybook/ERD cross-refs; Bextionary category + 8 coined node-voice terms). Term detail: Category metadata row, ContentNav alphabetical prev/next footer, Status row removed, categories excluded from Related Terms. Masthead Bextionary parenthetical.
-- SUG-167: Content list view — ledger "register" List/ListItem DS component (content-agnostic primitive + web-adapter mirror + Storybook) and ContentList app adapter (status→dot map, date format, getCanonicalPath href). Replaces card-as-list-row in archive list mode, entity pages (Person/Project/Tool), and taxonomy detail (tags/categories). Dark hover uses lime-100; hover re-paints vertical column rules. +categories/+status GROQ projections (no schema change).
-- Preview banner: dev-only "Edit this in Studio" deep-link (Sanity intent/edit URL) to the on-screen document, wired across all detail/content page types; falls back to Studio home elsewhere.
-- Studio: removed Epistemic Status field from glossaryTerm (all terms evergreen); schema deployed.
+---
+
+## [0.27.0] — 2026-06-17
+
+DS primitive expansion cycle: IconButton, form controls, Button redesign, Glossary system, mobile drawers, PageHeader, ContentList, SEO auto-generation, design-code pipeline. Aggregates v0.26.1–v0.26.26.
+
+### apps/web
+
+#### Added
+- `IconButton` primitive: square/circle shapes, muted border at rest, pink hover, solid `--st-icon-button-bg` token (avoids glassmorphism from `--st-color-bg-surface`)
+- `Select`, `Checkbox`, `Radio`, `Switch` form control components
+- Ghost tertiary Button variant; token cascade: lime dark / pink light
+- `icon` and `iconAfter` props on all Button variants for inline icon rendering
+- `--st-icon-button-bg` token: solid `neutral-50` (light) / `midnight-700` (dark); used for both rest and hover backgrounds
+- `--st-code-inline-bg` token; inline code background → lime-100 in light theme; dark theme unchanged
+- KG dark-pink-moon token block: `--st-graph-bg`, `--st-kg-node-*`, `--st-kg-legend-*`, `--st-kg-edge-*`
+- `FilterBar` mobile drawer: sticky FILTERS chip with active-filter count badge; Drawer with full FilterBar, Clear All, Done footer; inline FilterBar hidden below 768px; desktop unchanged
+- Mobile sidebar drawer: `ContentsStrip` trigger chip, `Drawer` shell, `mobileStyle="drawer"` on `Sidebar`; `PageSidebar` + `PlatformSidebar` wired; `--st-header-height` dynamic via ResizeObserver
+- `Callout` banner variant
+- `PageHeader` component: full-width identity band for archive/entity/taxonomy pages; `italic`, `eyebrow`, `children`, `tint` props; 6 production pages migrated
+- `--st-font-page-h1` token (48px)
+- `glossaryTerm` Sanity schema wired; `/glossary` archive and `/glossary/:slug` detail pages
+- `glossaryTermRef` PT annotation with hover popover; `AlphaFilter` and `LetterSectionHeader` reused on glossary archive
+- `ContentList`/`ListItem` web adapter: content-agnostic list primitive replacing card-as-list-row in archive list mode, entity pages, and taxonomy detail; dark hover lime-100; vertical column rule repainting on hover
+- `+categories`/`+status` GROQ projections added to content queries
+- `RichText` canonical renderer
+- Design-code documentation pipeline: `docs/conventions/design-handoff-template.md`; CLAUDE.md evaluation gate; content-model codegen script (11 types, 176 fields); `/platform/design-system/content-models` page
+- Archive page component inventory: `docs/conventions/archive-page-patterns.md`
+- Preview banner: dev-only "Edit this in Studio" deep-link wired across all detail/content page types
+- `SeoHead` shorthand props; `resolveSeo` multi-field title (term/name/shortName) + definition body fallback
+- Glossary content: 17 → 41 terms; Category metadata row; ContentNav alphabetical prev/next footer; Status row removed; categories excluded from Related Terms; Bextionary category; 8 coined node-voice terms
+
+#### Changed
+- Button baseline rule (3px border-bottom) removed from all three variants
+- `ThemeToggle` and hamburger button migrated from bespoke elements to `IconButton`
+- Archive layout toggle buttons (grid/list/KG) migrated to `IconButton` on `ArchivePage` and `SiteGraphPage`
+- KG canvas zoom buttons migrated to `IconButton`; bespoke `.zoomBtnCanvas` overrides and `--st-kg-zoom-*` tokens removed
+- KG zoom controls container scoped to `data-theme="dark-pink-moon"` (canvas is always dark regardless of page theme)
+- `statTileSection` migrated to `cardSection`
+- `StatCard` `titleSize`/`body` API extended; `Swatch` dark mode added; `Toolbar`/`Drawer` renamed
+- `Chip` tag+color mode and dark mode contrast fixes; white-50 transparent background
+- `GlossaryTermPage` refactored to shared page components (pageStyles, SectionLabel, Grid, ContentCard)
+- Glossary term detail redesign: `DescriptionList` ledger variant, `Blockquote` lead definition, metadata ledger with chips
+- Folios (Tool/Person/Glossary/Series) migrated off `.narrativeHeading`; dead archive components and entity-folio CSS removed
+- `Stack` responsive `direction.lg` breakpoint fix applied to web adapter mirror
+- `GlossaryTermPage` SEO wiring fixed; 55-doc `autoGenerate` rollout
+
+#### Fixed
+- KG toolbar active button: `disabled` attribute removed (was applying `opacity:0.45` via IconButton primitive CSS, washing out pink active state)
+- `--st-icon-button-bg` hover state: was `--st-color-bg-surface-strong` (`rgba(255,255,255,0.10)` in dark-pink-moon glassmorphism); now solid `--st-icon-button-bg`
+- `filterStrip` border-bottom weight and `position: sticky` (was incorrectly `position: fixed`)
+
+#### Removed
+- `ContactForm` and `TwoColumnLayout` components deleted
+- `.narrativeHeading` CSS class deleted
+- Dead archive components and entity-folio CSS removed
+
+### apps/studio
+
+#### Changed
+- `Epistemic Status` field removed from `glossaryTerm` schema (all terms are evergreen); schema deployed
+
+### packages/design-system
+
+#### Added
+- `IconButton` primitive (square/circle shapes)
+- `Select`, `Checkbox`, `Radio`, `Switch` form controls
+- `DescriptionList` ledger variant
+- `Blockquote` component
+- `RichText` component
+- `ContentList`/`ListItem` components
+- `Callout` banner variant
+- `PageHeader` component with `italic`/`eyebrow`/`children`/`tint` props
+- `Container`, `Stack`, `Columns`, `Surface`, `Page`, `AppShell` layout primitives
+- Divider tokens: `--st-color-pt-divider-{light,dark}-2x`
+- Table border tokens standardised: `--st-table-cell-border` (neutral-300), `--st-table-wrap-border`
+
+#### Changed
+- `StatCard` `titleSize`/`body` API extended; `Swatch` dark mode added
+- `Chip` tag+color mode added; dark mode contrast fixes
+- `Toolbar`/`Drawer` renamed
+
+### apps/storybook
+
+#### Added
+- `Pages/` Storybook category introduced; `ArchiveLayout` retired
+- `ArchivePage`, `ContentDetailPage`, `EntityDetailPage`, `TaxonomyDetailPage`, `TaxonomyArchivePage` production-accurate stories
+- `ArchiveGridDocs`, `FilterBarDocs`, `FilterBar` (→ Patterns), `PageHeader Guidelines` stories
+- `IconButton`, `Pill`, `SegmentedControl` stories
+- Storybook Documentation Template System: `helpers/docs.tsx` (`DocSection`, `DoDontGrid`, `TokenGroup`), `stories.boilerplate.tsx`, 14-section reference story
+
+#### Fixed
+- DS story lint: 11 errors across 10 stories resolved
+- Drawer stories: inline iframe rendering fix, apostrophe escape fix, fixed panel contained per story
+
+#### Removed
+- Divider/Link dark-mode stories removed in favour of topbar theme dropdown
 
 ---
 
