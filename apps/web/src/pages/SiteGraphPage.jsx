@@ -233,7 +233,7 @@ export default function SiteGraphPage() {
                 </IconButton>
               </>)
             })()}
-            <IconButton aria-label="Graph view" aria-pressed={true} className={pageStyles.layoutToggleBtnActive} disabled>
+            <IconButton aria-label="Graph view" aria-pressed={true} className={pageStyles.layoutToggleBtnActive}>
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
                 <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
