@@ -101,30 +101,21 @@
   gap: var(--st-space-1);
 }
 
-.zoomBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border: 1px solid var(--st-kg-zoom-border);
-  border-radius: var(--st-radius-xs, 4px);
-  background: var(--st-kg-zoom-bg);
-  color: var(--st-kg-zoom-color);
+/* Canvas zoom buttons — IconButton override for the permanently dark KG field */
+.zoomBtnCanvas {
+  width: 28px !important;
+  height: 28px !important;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1;
-  cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  color: var(--st-kg-zoom-color) !important;
+  border-color: var(--st-kg-zoom-border) !important;
+  background: var(--st-kg-zoom-bg) !important;
   box-shadow: var(--st-kg-zoom-shadow);
 }
 
-.zoomBtn:hover {
-  color: var(--st-kg-zoom-hover-color);
-  border-color: var(--st-kg-zoom-hover-border);
-}
-
-.zoomBtn:focus-visible {
-  outline: 2px solid var(--st-color-brand-primary);
-  outline-offset: 2px;
+.zoomBtnCanvas:hover:not(:disabled) {
+  color: var(--st-kg-zoom-hover-color) !important;
+  border-color: var(--st-kg-zoom-hover-border) !important;
+  background: var(--st-kg-zoom-bg) !important;
 }
