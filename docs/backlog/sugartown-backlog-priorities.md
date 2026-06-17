@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-17 · SUG-178 added (AI-generated image badge — transparency overlay, ⚪ Later).
+> Updated 2026-06-17 · v0.26.26 shipped — SUG-174 follow-up fixes (IconButton migrations, KG dark mode, solid bg token). SUG-178 added (AI-generated image badge, ⚪ Later).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
