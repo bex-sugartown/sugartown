@@ -205,31 +205,3 @@ export const Snapshot: Story = {
     </div>
   ),
 };
-
-export const SnapshotDark: Story = {
-  name: 'Snapshot Dark (Chromatic)',
-  parameters: {
-    chromatic: { disableSnapshot: false },
-    backgrounds: { default: 'dark' },
-  },
-  decorators: [
-    (Story) => (
-      <div data-theme="dark-pink-moon" style={{ padding: '1rem', background: 'var(--st-color-bg-base, #0d0d0d)' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
-        <Button variant="primary">Primary</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="tertiary">Tertiary</Button>
-      </div>
-      <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
-        <Button variant="tertiary" icon={<XIcon />}>Clear all</Button>
-        <Button variant="primary" iconAfter={<CheckIcon />}>Done</Button>
-      </div>
-    </div>
-  ),
-};

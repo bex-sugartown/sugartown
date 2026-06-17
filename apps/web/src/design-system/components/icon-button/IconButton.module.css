@@ -17,7 +17,7 @@
 
   background: transparent;
   color: var(--st-color-text-muted);
-  border: 1px solid var(--st-color-border-subtle);
+  border: 1px solid var(--st-index-cell-inactive-color);
 
   cursor: pointer;
   transition:
@@ -30,8 +30,8 @@
 .circle { border-radius: var(--st-radius-full); }
 
 .iconButton:hover:not(:disabled):not([aria-disabled="true"]) {
-  color: var(--st-color-text-default);
-  border-color: var(--st-color-border-medium);
+  color: var(--st-color-brand-primary);
+  border-color: var(--st-color-brand-primary);
   background-color: var(--st-color-bg-surface-strong);
 }
 
