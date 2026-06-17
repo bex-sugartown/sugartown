@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-17 · v0.26.26 shipped — SUG-174 follow-up fixes (IconButton migrations, KG dark mode, solid bg token). SUG-178 added (AI-generated image badge, ⚪ Later).
+> Updated 2026-06-17 · v0.27.0 shipped — DS primitive expansion cycle: IconButton, form controls, Button redesign, mobile drawers (FilterBar + sidebar), PageHeader, ContentList, Glossary, SEO auto-gen, design-code pipeline (aggregated v0.26.1–v0.26.26).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.26.25 shipped ✅ 2026-06-17. SUG-174 shipped — DS primitive expansion (Button Baseline Rule removal, ghost tertiary + icon prop on all variants, IconButton primitive with square/circle shapes, form controls: Select/Checkbox/Radio/Switch, rogue icon button audit). Next: SUG-160 TechTimeline or SUG-177 List component audit.
+> **⚑ Current focus:** v0.27.0 shipped ✅ 2026-06-17. DS primitive expansion cycle complete. Next: SUG-160 TechTimeline or SUG-177 List component audit.
 
 ---
 
@@ -76,7 +76,7 @@
 | ~~1~~ | ~~**[SUG-152](https://linear.app/sugartown/issue/SUG-152/ds-usage-docs-storybook-documentation-audit-and-creation-phase-n) · DS Usage Docs — Storybook audit and creation**~~ — Phases 1–2 shipped v0.26.12. Phases 3–10 deferred pending doc framework strategy. Chip API updates (badge rename direction, deprecations). Epic: `docs/backlog/SUG-152-ds-storybook-usage-docs-audit.md` (on hold). | `Design System` `Documentation` `Storybook` | ⏸ On Hold |
 | ~~2~~ | ~~**[SUG-158](https://linear.app/sugartown/issue/SUG-158) · Storybook Documentation Template System**~~ — `helpers/docs.tsx` doc components (DocSection, DoDontGrid, TokenGroup, etc.), `stories.boilerplate.tsx`, Docs/Story Template story, PageHeader pilot (14 sections), table border tokens standardised. Shipped v0.26.11. Epic: `docs/shipped/SUG-158-storybook-docs-template-system.md`. | `Design System` `Tooling` `Storybook` | ✅ Shipped |
 | ~~2~~ | ~~**[SUG-153](https://linear.app/sugartown/issue/SUG-153/mobile-responsive-layout-sidebar-drawer-multi-column-collapse) · Mobile responsive layout — sidebar drawer Phase 1**~~ — ContentsStrip trigger chip, generic Drawer shell, mobileStyle="drawer", PageSidebar + PlatformSidebar wired. Shipped v0.26.20. Epic: `docs/shipped/SUG-153-mobile-responsive-sidebar-drawer.md`. | `Frontend` `UX` `Design System` | ✅ Shipped |
-| 2 | **[SUG-173](https://linear.app/sugartown/issue/SUG-173/mobile-filterbar-drawer-archive-page-filter-panel-on-mobile-sug-153) · Mobile FilterBar drawer — archive page filter panel (SUG-153 Phase 2)** — Collapse FilterBar into Drawer on mobile (<768px); trigger chip with active-filter count badge. Phase 0 mock required. Epic: `docs/backlog/SUG-173-mobile-filterbar-drawer.md`. | `Frontend` `UX` | 🟣 Soon |
+| ~~2~~ | ~~**[SUG-173](https://linear.app/sugartown/issue/SUG-173/mobile-filterbar-drawer-archive-page-filter-panel-on-mobile-sug-153) · Mobile FilterBar drawer — archive page filter panel (SUG-153 Phase 2)**~~ — Sticky chip + active-filter count badge, full FilterBar in Drawer, Clear All + Done footer, inline FilterBar hidden below 768px. Shipped v0.27.0. | `Frontend` `UX` | ✅ Shipped |
 | 4 | **[SUG-176](https://linear.app/sugartown/issue/SUG-176/storybook-story-coverage-for-app-level-composites) · Storybook story coverage for app-level composites** — Add stories for 12 registered composites currently flagged ⚠️ (no story); clears Chromatic VRT blind spots. Epic: `docs/backlog/SUG-176-storybook-story-coverage-app-level-composites.md`. | `Design System` `Storybook` `Tooling` | 🟣 Soon |
 | 5 | **[SUG-177](https://linear.app/sugartown/issue/SUG-177/list-component-audit-surface-all-site-list-patterns-for-ds-list) · List component audit — surface all site list patterns for DS List integration** — Audit raw `<ul>`/`<ol>` surfaces across page templates (refList, sourcesList, seriesPartList, rolesList, linkList, enumList); migrate confirmed fits to DS List/ListItem; document keep-raw rationale; expand Storybook use-case stories. Epic: `docs/backlog/SUG-177-list-component-audit-site-list-patterns.md`. | `Design System` `Frontend` `Storybook` | 🟣 Soon |
 | ~~3~~ | ~~**[SUG-156](https://linear.app/sugartown/issue/SUG-156/library-ia-layout-audit-codify-page-templates-reform-archivelayout) · Library IA Layout Audit — reform ArchiveLayout story, fill Storybook gaps**~~ — Pages/ category introduced; ArchivePage, ContentDetailPage, EntityDetailPage, TaxonomyDetailPage, TaxonomyArchivePage stories with production-accurate layouts. Shipped v0.26.9. | `Design System` `Storybook` `Documentation` | ✅ Shipped |
@@ -136,6 +136,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-173 · Mobile FilterBar drawer** — Sticky FILTERS chip with active-filter count badge; Drawer with full FilterBar, Clear All + Done footer; inline FilterBar hidden below 768px. Epic: `docs/backlog/SUG-173-mobile-filterbar-drawer.md`.~~ | v0.27.0 | 2026-06-17 |
 | ~~**SUG-174 · DS primitive expansion — Button Baseline Rule removal, ghost tertiary, icon prop, IconButton primitive, form controls (Select/Checkbox/Radio/Switch), rogue icon button audit.** Epic: `docs/shipped/SUG-174-button-component-redesign-ghost-icon.md`.~~ | v0.26.25 | 2026-06-17 |
 | ~~**SUG-159 · Archive page component inventory** — `docs/conventions/archive-page-patterns.md` covering all 5 archive surfaces (ArchivePage, TaxonomyArchivePage, GlossaryArchivePage, SiteGraphPage, stubs). ArchiveGridDocs + FilterBarDocs Overview-only Storybook stubs (Gate 1 pending API freeze). Epic: `docs/backlog/SUG-159-archive-storybook-inventory.md`.~~ | v0.26.13 | 2026-06-09 |
 | ~~**SUG-35 · Glossary system** — `glossaryTerm` schema + `/glossary` archive + `/glossary/:slug` detail pages + `glossaryTermRef` PT annotation with hover popover. Chip DS: tag+color mode, dark mode contrast, white-50 bg. GlossaryTermPage refactored to shared page components. Epic: `docs/shipped/SUG-35-glossary.md`.~~ | v0.26.14 | 2026-06-10 |
@@ -241,4 +242,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-17 · v0.26.25 released · queue: SUG-160 / SUG-177 / SUG-161*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-17 · v0.27.0 released · queue: SUG-160 / SUG-177 / SUG-161*
