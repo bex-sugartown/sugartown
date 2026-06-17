@@ -300,10 +300,5 @@
   --st-kg-legend-border:      var(--st-color-white-15);
   --st-kg-legend-color:       var(--st-color-softgrey-400);
   --st-kg-legend-dot-outline-border: var(--st-color-softgrey-400);
-  --st-kg-zoom-bg:            var(--st-color-midnight-700);
-  --st-kg-zoom-border:        var(--st-color-white-15);
-  --st-kg-zoom-color:         var(--st-color-softgrey-300);
-  --st-kg-zoom-hover-color:   var(--st-color-pink);
-  --st-kg-zoom-hover-border:  var(--st-color-border-default);
   --st-graph-node-category:   var(--st-color-softgrey-300);
 }

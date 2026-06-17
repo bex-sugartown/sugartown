@@ -389,7 +389,6 @@
   --st-media-overlay-blend: normal;
   --st-hero-bg-image: none;
   --st-kg-legend-shadow: 0 6px 20px rgba(0, 0, 0, 0.40);
-  --st-kg-zoom-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
   --st-kg-chip-all-border: transparent;
   --st-kg-chip-article-border: transparent;
   --st-kg-chip-case-border: transparent;
@@ -540,10 +539,6 @@
   --st-kg-legend-border: var(--st-color-white-15);
   --st-kg-legend-color: var(--st-color-softgrey-400);
   --st-kg-legend-dot-outline-border: var(--st-color-softgrey-400);
-  --st-kg-zoom-bg: var(--st-color-midnight-700);
-  --st-kg-zoom-border: var(--st-color-white-15);
-  --st-kg-zoom-color: var(--st-color-softgrey-300);
-  --st-kg-zoom-hover-border: var(--st-color-border-default);
   --st-kg-chip-all-fg: var(--st-color-neutral-100);
   --st-kg-chip-article-bg: var(--st-color-seafoam-500);
   --st-kg-chip-case-fg: var(--st-color-neutral-100);
@@ -632,7 +627,6 @@
   --st-graph-node-tag: var(--st-color-text-muted);
   --st-kg-node-case: var(--st-color-pink);
   --st-kg-node-project: var(--st-color-pink);
-  --st-kg-zoom-hover-color: var(--st-color-pink);
   --st-kg-chip-all-bg: var(--st-color-ink);
   --st-kg-chip-article-fg: var(--st-color-ink);
   --st-kg-chip-case-bg: var(--st-color-pink);

@@ -314,10 +314,10 @@ export default function KnowledgeGraph({
           />
         )}
         <div className={styles.zoomControls}>
-          <IconButton className={styles.zoomBtnCanvas} onClick={handleZoomIn} aria-label="Zoom in">+</IconButton>
-          <IconButton className={styles.zoomBtnCanvas} onClick={handleZoomOut} aria-label="Zoom out">−</IconButton>
+          <IconButton onClick={handleZoomIn} aria-label="Zoom in">+</IconButton>
+          <IconButton onClick={handleZoomOut} aria-label="Zoom out">−</IconButton>
           {onEmbiggen && (
-            <IconButton className={styles.zoomBtnCanvas} onClick={onEmbiggen} aria-label="Fullscreen">
+            <IconButton onClick={onEmbiggen} aria-label="Fullscreen">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
                 <polyline points="9,1 13,1 13,5" /><line x1="13" y1="1" x2="8" y2="6" />
                 <polyline points="5,13 1,13 1,9" /><line x1="1" y1="13" x2="6" y2="8" />
