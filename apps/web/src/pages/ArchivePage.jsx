@@ -39,7 +39,7 @@
  */
 import { useState, useCallback, useMemo } from 'react'
 import Drawer from '../components/Drawer'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { useSanityDoc, useSanityList, useDraftIds } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
@@ -47,7 +47,7 @@ import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import ContentList from '../components/ContentList'
-import { FilterBar, Button } from '../design-system'
+import { FilterBar, Button, IconButton } from '../design-system'
 import Pagination from '../components/Pagination'
 import { archivePageBySlugQuery, facetsRawQuery } from '../lib/queries'
 import { buildFilterModel } from '../lib/filterModel'
@@ -146,6 +146,7 @@ const CONTENT_TYPE_TO_DOC_TYPE = {
 // ─── ArchiveListing — fetches, filters, paginates, and renders items ──────────
 
 function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
+  const navigate = useNavigate()
   const contentTypes = archiveDoc?.contentTypes ?? []
   const isMultiType = contentTypes.length > 1
 
@@ -297,12 +298,11 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     <div className={styles.archiveSection}>
       <div className={styles.archiveToolbar}>
         <div className={styles.layoutToggleGroup}>
-          <button
-            type="button"
-            className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'grid' ? styles.layoutToggleBtnActive : ''}`}
-            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('grid') }}
+          <IconButton
             aria-label="Grid view"
             aria-pressed={!isGraphView && layout === 'grid'}
+            className={!isGraphView && layout === 'grid' ? styles.layoutToggleBtnActive : ''}
+            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('grid') }}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
@@ -310,21 +310,24 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
               <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
               <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
             </svg>
-          </button>
-          <button
-            type="button"
-            className={`${styles.layoutToggleBtn} ${!isGraphView && layout === 'list' ? styles.layoutToggleBtnActive : ''}`}
-            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('list') }}
+          </IconButton>
+          <IconButton
             aria-label="List view"
             aria-pressed={!isGraphView && layout === 'list'}
+            className={!isGraphView && layout === 'list' ? styles.layoutToggleBtnActive : ''}
+            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('list') }}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
               <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
               <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
             </svg>
-          </button>
-          <Link to={graphCtaHref} className={styles.layoutToggleBtn} aria-label="View in knowledge graph">
+          </IconButton>
+          <IconButton
+            aria-label="View in knowledge graph"
+            className={isGraphView ? styles.layoutToggleBtnActive : ''}
+            onClick={() => navigate(graphCtaHref)}
+          >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
               <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
@@ -337,7 +340,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
               <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
               <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
             </svg>
-          </Link>
+          </IconButton>
         </div>
         <span className={styles.archiveToolbarKicker}>{totalItems} {contentTypeLabel}</span>
       </div>

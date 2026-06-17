@@ -380,34 +380,9 @@
   gap: var(--st-space-1);
 }
 
-.layoutToggleBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border: 1px solid var(--st-color-border-subtle);
-  border-radius: var(--st-radius-xs, 4px);
-  background: transparent;
-  color: var(--st-color-text-muted);
-  cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
-}
-
-.layoutToggleBtn:hover {
-  color: var(--st-color-text-default);
-  border-color: var(--st-color-border-medium);
-}
-
 .layoutToggleBtnActive {
-  color: var(--st-color-brand-primary);
-  border-color: var(--st-color-brand-primary);
-}
-
-.layoutToggleBtn:focus-visible {
-  outline: 2px solid var(--st-color-brand-primary);
-  outline-offset: 2px;
+  color: var(--st-color-brand-primary) !important;
+  border-color: var(--st-color-brand-primary) !important;
 }
 
 /* PortableText description fallback — used when archivePage hero.subheading
