@@ -1,14 +1,21 @@
 {
-  "generatedAt": "2026-06-17T10:57:26.992Z",
+  "generatedAt": "2026-06-18T10:24:15.015Z",
   "release": {
     "current": {
-      "version": "0.26.5",
-      "date": "2026-06-04",
-      "descriptor": "SUG-149: DS Phase 3 — core layout primitives, Card re-codification, Storybook re-bucket.",
-      "kind": "PATCH",
-      "linearIssue": "SUG-149"
+      "version": "0.27.0",
+      "date": "2026-06-17",
+      "descriptor": "DS primitive expansion cycle: IconButton, form controls, Button redesign, Glossary system, mobile drawers, PageHeader, ContentList, SEO auto-generation, design-code pipeline. Aggregates v0.26.1–v0.26.26.",
+      "kind": "MINOR",
+      "linearIssue": null
     },
     "latestN": [
+      {
+        "version": "0.27.0",
+        "date": "2026-06-17",
+        "descriptor": "DS primitive expansion cycle: IconButton, form controls, Button redesign, Glossary system, mobile drawers, PageHeader, ContentList, SEO auto-generation, design-code pipeline. Aggregates v0.26.1–v0.26.26.",
+        "kind": "MINOR",
+        "linearIssue": null
+      },
       {
         "version": "0.26.5",
         "date": "2026-06-04",
@@ -36,82 +43,75 @@
         "descriptor": "- SUG-142: AI Ethics doc v2026.06.01 — Magnifica Humanitas update; Principle 2 Tolkien quote + citation [1]; Principle 4 Pope data ownership quote; Principle 8 external accountability; Humanitarian & Institutional Ethics reference section added; blockquote style added to compactPortableText; DM Sans italic font loaded",
         "kind": "PATCH",
         "linearIssue": "SUG-142"
-      },
-      {
-        "version": "0.26.0",
-        "date": "2026-06-02",
-        "descriptor": "Design system expansion, Library unification, AEO content pass, and Trust Report pipeline. Aggregates v0.25.1–v0.25.16.",
-        "kind": "MINOR",
-        "linearIssue": null
       }
     ],
     "latestPatches": [],
     "count": {
-      "total": 24,
+      "total": 25,
       "major": 0,
-      "minor": 19,
+      "minor": 20,
       "patch": 5
     }
   },
   "ds": {
     "tokens": {
-      "total": 655,
+      "total": 650,
       "primitives": 127,
       "semantic": 28,
-      "component": 500,
+      "component": 495,
       "byCategory": {
         "color": 188,
         "space": 20,
         "font": 26,
         "shadow": 31,
-        "other": 390
+        "other": 385
       }
     },
-    "dsComponents": 37,
+    "dsComponents": 38,
     "dsComponentsWithStories": 33,
-    "webAdapters": 44,
-    "componentFiles": 80,
+    "webAdapters": 45,
+    "componentFiles": 82,
     "tokenCompliance": 97
   },
   "storybook": {
-    "stories": 425,
-    "components": 89
+    "stories": 458,
+    "components": 94
   },
   "repo": {
     "commits": 1,
-    "epicsShipped": 150
+    "epicsShipped": 151
   },
   "perf": {
     "stale": false,
-    "generatedAt": "2026-06-17T10:56:58.032Z",
+    "generatedAt": "2026-06-18T10:23:35.874Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "desktop": {
           "url": "https://sugartown.io/",
-          "lcp": 1389,
-          "cls": 0.001,
+          "lcp": 1390,
+          "cls": 0.106,
           "inp": null,
-          "performance": 96,
+          "performance": 93,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1389,
-        "cls": 0.001,
+        "lcp": 1390,
+        "cls": 0.106,
         "inp": null,
-        "performance": 96,
+        "performance": 93,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/",
-          "lcp": 1389,
-          "cls": 0.001,
+          "lcp": 1390,
+          "cls": 0.106,
           "inp": null,
-          "performance": 96,
+          "performance": 93,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
@@ -122,29 +122,29 @@
         "url": "https://sugartown.io/articles",
         "desktop": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1286,
-          "cls": 0.224,
+          "lcp": 1235,
+          "cls": 0.317,
           "inp": null,
-          "performance": 85,
+          "performance": 81,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1286,
-        "cls": 0.224,
+        "lcp": 1235,
+        "cls": 0.317,
         "inp": null,
-        "performance": 85,
+        "performance": 81,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1286,
-          "cls": 0.224,
+          "lcp": 1235,
+          "cls": 0.317,
           "inp": null,
-          "performance": 85,
+          "performance": 81,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -155,7 +155,7 @@
         "url": "https://sugartown.io/case-studies",
         "desktop": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1294,
+          "lcp": 1241,
           "cls": 0.224,
           "inp": null,
           "performance": 85,
@@ -164,7 +164,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1294,
+        "lcp": 1241,
         "cls": 0.224,
         "inp": null,
         "performance": 85,
@@ -174,7 +174,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1294,
+          "lcp": 1241,
           "cls": 0.224,
           "inp": null,
           "performance": 85,
@@ -188,29 +188,29 @@
         "url": "https://sugartown.io/knowledge-graph",
         "desktop": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1265,
-          "cls": 0.137,
+          "lcp": 1252,
+          "cls": 0.11,
           "inp": null,
-          "performance": 91,
+          "performance": 93,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1265,
-        "cls": 0.137,
+        "lcp": 1252,
+        "cls": 0.11,
         "inp": null,
-        "performance": 91,
+        "performance": 93,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1265,
-          "cls": 0.137,
+          "lcp": 1252,
+          "cls": 0.11,
           "inp": null,
-          "performance": 91,
+          "performance": 93,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -221,8 +221,8 @@
         "url": "https://sugartown.io/platform",
         "desktop": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1308,
-          "cls": 0.478,
+          "lcp": 1275,
+          "cls": 0.47,
           "inp": null,
           "performance": 76,
           "accessibility": 96,
@@ -230,8 +230,8 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1308,
-        "cls": 0.478,
+        "lcp": 1275,
+        "cls": 0.47,
         "inp": null,
         "performance": 76,
         "accessibility": 96,
@@ -240,8 +240,8 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1308,
-          "cls": 0.478,
+          "lcp": 1275,
+          "cls": 0.47,
           "inp": null,
           "performance": 76,
           "accessibility": 96,
@@ -254,7 +254,7 @@
         "url": "https://sugartown.io/about",
         "desktop": {
           "url": "https://sugartown.io/about",
-          "lcp": 1427,
+          "lcp": 1375,
           "cls": 0.227,
           "inp": null,
           "performance": 84,
@@ -263,7 +263,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1427,
+        "lcp": 1375,
         "cls": 0.227,
         "inp": null,
         "performance": 84,
@@ -273,7 +273,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/about",
-          "lcp": 1427,
+          "lcp": 1375,
           "cls": 0.227,
           "inp": null,
           "performance": 84,
@@ -287,7 +287,7 @@
         "url": "https://sugartown.io/articles/test-preview-post",
         "desktop": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1306,
+          "lcp": 1281,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -296,7 +296,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1306,
+        "lcp": 1281,
         "cls": 0.08,
         "inp": null,
         "performance": 95,
@@ -306,7 +306,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1306,
+          "lcp": 1281,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -320,29 +320,29 @@
         "url": "https://sugartown.io/nodes/test-node",
         "desktop": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1306,
-          "cls": 0.08,
+          "lcp": 1345,
+          "cls": 0,
           "inp": null,
-          "performance": 95,
+          "performance": 96,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1306,
-        "cls": 0.08,
+        "lcp": 1345,
+        "cls": 0,
         "inp": null,
-        "performance": 95,
+        "performance": 96,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1306,
-          "cls": 0.08,
+          "lcp": 1345,
+          "cls": 0,
           "inp": null,
-          "performance": 95,
+          "performance": 96,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
@@ -352,13 +352,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-06-17T10:56:58.560Z",
+    "fetchedAt": "2026-06-18T10:23:36.052Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-06-17T10:57:25.080Z",
+    "fetchedAt": "2026-06-18T10:24:13.154Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -369,17 +369,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-06-17T10:57:25.811Z",
+    "fetchedAt": "2026-06-18T10:24:13.965Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 1,
     "watchers": 1,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-06-16T16:16:19Z"
+    "lastCommit": "2026-06-17T14:07:39Z"
   },
   "sanity": {
-    "fetchedAt": "2026-06-17T10:57:26.391Z",
+    "fetchedAt": "2026-06-18T10:24:14.455Z",
     "counts": {
       "article": 15,
       "node": 52,
@@ -393,7 +393,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-06-17T10:57:26.614Z",
+    "generatedAt": "2026-06-18T10:24:14.651Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -6711,7 +6711,7 @@
     ]
   },
   "linearRoadmap": {
-    "fetchedAt": "2026-06-17T10:57:26.991Z",
+    "fetchedAt": "2026-06-18T10:24:15.013Z",
     "inProgress": [
       {
         "identifier": "SUG-152",
@@ -6730,20 +6730,25 @@
     ],
     "backlog": [
       {
+        "identifier": "SUG-178",
+        "title": "AI-generated image badge — transparency overlay",
+        "url": "https://linear.app/sugartown/issue/SUG-178/ai-generated-image-badge-transparency-overlay",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": null
+      },
+      {
         "identifier": "SUG-177",
         "title": "List component audit — surface all site list patterns for DS List integration",
         "url": "https://linear.app/sugartown/issue/SUG-177/list-component-audit-surface-all-site-list-patterns-for-ds-list",
         "priority": "Medium",
         "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-176",
-        "title": "Storybook story coverage for app-level composites",
-        "url": "https://linear.app/sugartown/issue/SUG-176/storybook-story-coverage-for-app-level-composites",
-        "priority": "Medium",
-        "status": "Todo",
         "projects": [
           {
             "name": "Pink Moon Design System",
@@ -6753,11 +6758,11 @@
         "completedAt": null
       },
       {
-        "identifier": "SUG-174",
-        "title": "Button component redesign — sharp rectangle, ghost variant, icon support",
-        "url": "https://linear.app/sugartown/issue/SUG-174/button-component-redesign-sharp-rectangle-ghost-variant-icon-support",
-        "priority": "High",
-        "status": "Todo",
+        "identifier": "SUG-176",
+        "title": "Storybook story coverage for app-level composites",
+        "url": "https://linear.app/sugartown/issue/SUG-176/storybook-story-coverage-for-app-level-composites",
+        "priority": "Low",
+        "status": "Backlog",
         "projects": [
           {
             "name": "Pink Moon Design System",
@@ -7021,6 +7026,20 @@
     ],
     "shipped": [
       {
+        "identifier": "SUG-174",
+        "title": "Button component redesign — sharp rectangle, ghost variant, icon support",
+        "url": "https://linear.app/sugartown/issue/SUG-174/button-component-redesign-sharp-rectangle-ghost-variant-icon-support",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-06-17T12:27:55.741Z"
+      },
+      {
         "identifier": "SUG-170",
         "title": "SEO auto-generation — fix SeoHead wiring + resolver field mapping, then autoGenerate rollout",
         "url": "https://linear.app/sugartown/issue/SUG-170/seo-auto-generation-fix-seohead-wiring-resolver-field-mapping-then",
@@ -7280,20 +7299,6 @@
           }
         ],
         "completedAt": "2026-06-04T16:55:59.909Z"
-      },
-      {
-        "identifier": "SUG-148",
-        "title": "DS Phase 2 — Leaf primitives: Box, Metric, Meter, Skeleton, DescriptionList, Avatar, Input, Label, Textarea, HelperText, ErrorMessage, Field",
-        "url": "https://linear.app/sugartown/issue/SUG-148/ds-phase-2-leaf-primitives-box-metric-meter-skeleton-descriptionlist",
-        "priority": "High",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Pink Moon Design System",
-            "colorHex": "#F472B6"
-          }
-        ],
-        "completedAt": "2026-06-04T15:57:03.814Z"
       }
     ]
   }
