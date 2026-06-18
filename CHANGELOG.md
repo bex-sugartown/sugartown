@@ -12,7 +12,20 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.27.0.
+> Accumulates since v0.27.1.
+
+---
+
+## [0.27.1] — 2026-06-18
+
+SUG-183 — Build-time static HTML prerendering for article, node, and case-study routes. Fixes Medium importer failure and improves AEO crawler visibility for all published content.
+
+### apps/web
+
+#### Added
+- `scripts/prerender-content.mjs` — post-build script that fetches all published articles, nodes, and case studies from Sanity and writes `dist/<prefix>/<slug>/index.html` with full `<head>` (title, description, canonical, OG tags) and serialised article body; Vite bundle tags injected so React re-renders on client load
+- Lightweight Portable Text → HTML serialiser covering `heroSection`, `textSection`, `calloutSection`, `accordionSection`, `cardSection`, `htmlSection`, `richImage`; inline marks (strong, em, code, links) and annotation marks (citationRef stripped to text)
+- `build` script updated to run `prerender-content.mjs` after `vite build` and before `build-sitemap`
 
 ---
 
