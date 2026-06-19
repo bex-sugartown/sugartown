@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-19 · Added SUG-186 (split glossaryTerm relatedTerms into terms/tags/tools sections) · Added SUG-187 (case study content refresh — Monolith to Microservice & Prestige Beauty Pilot). · v0.27.0 shipped — DS primitive expansion cycle: IconButton, form controls, Button redesign, mobile drawers (FilterBar + sidebar), PageHeader, ContentList, Glossary, SEO auto-gen, design-code pipeline (aggregated v0.26.1–v0.26.26).
+> Updated 2026-06-19 · v0.27.2 shipped — SUG-186 glossaryTerm schema split + bidirectional related sync (relatedTerms narrowed to glossaryTerm refs; relatedTags + relatedTools added; SyncRelatedAction fires on publish; 39-doc backfill). · v0.27.0 shipped — DS primitive expansion cycle: IconButton, form controls, Button redesign, mobile drawers (FilterBar + sidebar), PageHeader, ContentList, Glossary, SEO auto-gen, design-code pipeline (aggregated v0.26.1–v0.26.26).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.27.1 shipped ✅ 2026-06-18. SUG-183 prerender deployed — Medium importer and AEO crawler visibility fixed. Next: SUG-184 GSC indexing fixes, SUG-160 TechTimeline, or SUG-177 List component audit.
+> **⚑ Current focus:** v0.27.2 shipped ✅ 2026-06-19. SUG-186 glossaryTerm related field split — schema, backfill, bidirectional sync action all live. Next: SUG-184 GSC indexing fixes, SUG-187 case study content refresh, or SUG-160 TechTimeline.
 
 ---
 
@@ -36,7 +36,7 @@
 | 5 | ~~**[SUG-174](https://linear.app/sugartown/issue/SUG-174/button-component-redesign-sharp-rectangle-ghost-variant-icon-support) · Button component redesign — ghost variant + icon support** — Baseline Rule removal; ghost tertiary token cascade; icon/iconAfter props; IconButton primitive (square/circle); form controls (Select/Checkbox/Radio/Switch); rogue icon button audit. Epic: `docs/shipped/SUG-174-button-component-redesign-ghost-icon.md`. Shipped v0.26.25.~~ | `Design System` | ✅ Shipped |
 | 3 | **[SUG-184](https://linear.app/sugartown/issue/SUG-184/gsc-crawled-currently-not-indexed-resolve-all-causes) · GSC "Crawled - currently not indexed" — resolve all causes** — robots.txt (block parameterised filter URLs), thin-content noindex threshold on taxonomy/tool pages, `/gem/` bad link audit + fix, `/about` content enrichment. Epic: `docs/backlog/SUG-184-gsc-crawled-not-indexed-fixes.md`. | `SEO` `Frontend` `Content` | 🟢 Next |
 | 4 | **[SUG-160](https://linear.app/sugartown/issue/SUG-160/article-i-was-online-before-it-was-a-thing-techtimeline-component) · Article: I Was Online Before It Was a Thing + TechTimeline component** — TechTimeline DS component (Phase 1) + personal-history article with BBS timeline, doll computer photos, and about page updates (Phase 2). Epic: `docs/backlog/SUG-160-article-i-was-online-techtimeline.md`. | `Article` `Content` `Design System` `Frontend` | 🟢 Next |
-| 8 | **[SUG-186](https://linear.app/sugartown/issue/SUG-186) · Split glossaryTerm relatedTerms into dedicated sections (terms / tags / tools)** — separate the mixed relatedTerms array into related glossary terms (primary), tags, and tools; categories already separate. Schema + migration + GROQ + render. Epic: `docs/backlog/SUG-186-split-glossary-related-sections.md`. | `Schema` | 🟢 Next |
+| 8 | ~~**[SUG-186](https://linear.app/sugartown/issue/SUG-186) · Split glossaryTerm relatedTerms into dedicated sections (terms / tags / tools)** — relatedTerms narrowed to glossaryTermRef only; relatedTags + relatedTools added; SyncRelatedAction fires bidirectional sync on publish; 39-doc backfill. Shipped v0.27.2. Epic: `docs/shipped/SUG-186-split-glossary-related-sections.md`.~~ | `Schema` | ✅ Shipped |
 | 6 | ~~**[SUG-166](https://linear.app/sugartown/issue/SUG-166/glossary-completion-gap-fill-eds-vocabulary-import) · Glossary completion — gap-fill + EDS vocabulary import** — glossary 17 → 41 terms (gap-fill + token tiers + DS ladder + Tier 3 principles + Bextionary); term-detail ContentNav/Status/Related-Terms polish. Phase 4 dropped. Epic: `docs/shipped/SUG-166-glossary-completion-gap-fill-eds-import.md`.~~ | `Content` `Design System` | ✅ Shipped |
 | 5 | ~~**[SUG-165](https://linear.app/sugartown/issue/SUG-165/archive-and-detail-page-h1-audit-holder-header-standardisation) · Archive and detail page H1 audit — holder header standardisation** — `--st-font-page-h1` token (3rem/48px), `PageHeader` extended with eyebrow + children slots, 4 folio pages migrated off `.narrativeHeading`. Shipped.~~ Epic: `docs/shipped/SUG-165-archive-detail-h1-holder-header-audit.md`. | `Design System` `UX` | ✅ Shipped |
 | 1 | **[SUG-90](https://linear.app/sugartown/issue/SUG-90) · Consulting pivot — site editorial and positioning** ✅ Shipped. Services page outcome framing, availability signal on hero/About, case study narrative, Contact tone update. All Sanity drafts published 2026-05-01. Epic: `docs/backlog/SUG-90-consulting-pivot-site-editorial-positioning.md`. | `Editorial` `UX` | ✅ Shipped |
@@ -140,6 +140,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-186 · glossaryTerm related field split + bidirectional sync** — relatedTerms narrowed to glossaryTermRef; relatedTags + relatedTools added; SyncRelatedAction (publish action) fires reverse-ref patches on all 4 doc types; 39-doc backfill. Epic: `docs/shipped/SUG-186-split-glossary-related-sections.md`.~~ | v0.27.2 | 2026-06-19 |
 | ~~**SUG-173 · Mobile FilterBar drawer** — Sticky FILTERS chip with active-filter count badge; Drawer with full FilterBar, Clear All + Done footer; inline FilterBar hidden below 768px. Epic: `docs/backlog/SUG-173-mobile-filterbar-drawer.md`.~~ | v0.27.0 | 2026-06-17 |
 | ~~**SUG-174 · DS primitive expansion — Button Baseline Rule removal, ghost tertiary, icon prop, IconButton primitive, form controls (Select/Checkbox/Radio/Switch), rogue icon button audit.** Epic: `docs/shipped/SUG-174-button-component-redesign-ghost-icon.md`.~~ | v0.26.25 | 2026-06-17 |
 | ~~**SUG-159 · Archive page component inventory** — `docs/conventions/archive-page-patterns.md` covering all 5 archive surfaces (ArchivePage, TaxonomyArchivePage, GlossaryArchivePage, SiteGraphPage, stubs). ArchiveGridDocs + FilterBarDocs Overview-only Storybook stubs (Gate 1 pending API freeze). Epic: `docs/backlog/SUG-159-archive-storybook-inventory.md`.~~ | v0.26.13 | 2026-06-09 |
