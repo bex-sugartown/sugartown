@@ -1668,10 +1668,16 @@ export const glossaryTermBySlugQuery = `
     definition,
     extendedDefinition,
     "categories": categories[]->{_id, name, "slug": slug.current},
-    "relatedTerms": relatedTerms[]-> {
-      _id, _type,
-      "label": select(_type == "glossaryTerm" => term, name),
+    "relatedTerms": relatedTerms[_type == "glossaryTermRef"]-> {
+      _id,
+      "label": term,
       "slug": slug.current
+    },
+    "relatedTags": relatedTags[]-> {
+      _id, name, "slug": slug.current
+    },
+    "relatedTools": relatedTools[]-> {
+      _id, name, "slug": slug.current
     },
     "relatedContent": relatedContent[]-> {
       _id, _type,

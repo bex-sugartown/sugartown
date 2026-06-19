@@ -96,9 +96,6 @@ export default function GlossaryTermPage() {
 
   const pronunciation = term?.pronunciation ? formatPronunciation(term.pronunciation) : null
 
-  // Related terms exclude category refs — categories have their own metadata line.
-  const relatedTermsNoCategory = term?.relatedTerms?.filter((rel) => rel._type !== 'category') ?? []
-
   const metadataItems = term
     ? [
         term.categories?.length > 0 && {
@@ -116,15 +113,45 @@ export default function GlossaryTermPage() {
             </div>
           ),
         },
-        relatedTermsNoCategory.length > 0 && {
+        term.relatedTerms?.length > 0 && {
           label: 'Related Terms',
           value: (
             <div className={styles.chipRow}>
-              {relatedTermsNoCategory.map((rel) => (
+              {term.relatedTerms.map((rel) => (
                 <Chip
                   key={rel._id}
                   label={rel.label}
-                  href={getCanonicalPath({ docType: rel._type, slug: rel.slug })}
+                  href={getCanonicalPath({ docType: 'glossaryTerm', slug: rel.slug })}
+                  variant="tag"
+                />
+              ))}
+            </div>
+          ),
+        },
+        term.relatedTags?.length > 0 && {
+          label: 'Related Tags',
+          value: (
+            <div className={styles.chipRow}>
+              {term.relatedTags.map((tag) => (
+                <Chip
+                  key={tag._id}
+                  label={tag.name}
+                  href={getCanonicalPath({ docType: 'tag', slug: tag.slug })}
+                  variant="tag"
+                />
+              ))}
+            </div>
+          ),
+        },
+        term.relatedTools?.length > 0 && {
+          label: 'Related Tools',
+          value: (
+            <div className={styles.chipRow}>
+              {term.relatedTools.map((tool) => (
+                <Chip
+                  key={tool._id}
+                  label={tool.name}
+                  href={getCanonicalPath({ docType: 'tool', slug: tool.slug })}
                   variant="tag"
                 />
               ))}
