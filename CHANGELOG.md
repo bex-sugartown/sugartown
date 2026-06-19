@@ -12,7 +12,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.27.1.
+> Accumulates since v0.27.2.
+
+- SUG-186: glossaryTerm related field split — relatedTerms narrowed to glossaryTerm-only; relatedTags + relatedTools added; SyncRelatedAction bidirectional sync on publish; 39-doc backfill
 
 ---
 
