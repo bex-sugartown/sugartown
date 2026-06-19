@@ -92,11 +92,24 @@ export default defineType({
       type: 'array',
       of: [
         {name: 'glossaryTermRef', type: 'reference', to: [{type: 'glossaryTerm'}]},
-        {name: 'tagRef', type: 'reference', to: [{type: 'tag'}]},
-        {name: 'categoryRef', type: 'reference', to: [{type: 'category'}]},
-        {name: 'toolRef', type: 'reference', to: [{type: 'tool'}]},
       ],
-      description: '"See also" cross-references. Links to other glossary terms, tags, categories, or tools that share vocabulary with this term.',
+      description: '"See also" cross-references to other glossary terms. Bidirectional — adding a term here also adds this term to the target\'s Related Terms on publish.',
+      group: ['all', 'profile'],
+    }),
+    defineField({
+      name: 'relatedTags',
+      title: 'Related Tags',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'tag'}]}],
+      description: 'Tags associated with this term.',
+      group: ['all', 'profile'],
+    }),
+    defineField({
+      name: 'relatedTools',
+      title: 'Related Tools',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'tool'}]}],
+      description: 'Tools relevant to this term.',
       group: ['all', 'profile'],
     }),
     defineField({

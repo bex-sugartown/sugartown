@@ -120,6 +120,7 @@ Single-phase by intent (merge strategy b). Internal ordering: **schema split + d
   - `glossaryTerm.relatedTags` → `tag` (tag has no `relatedTerms` field)
   - `glossaryTerm.relatedTools` → `tool` (tool has no `relatedTerms` field)
   - `glossaryTerm.relatedContent` → any (targets have no `relatedGlossaryTerms` field)
+- **`wp.*` legacy docs excluded from backfill** — legacy WordPress-import documents (IDs prefixed `wp.`) are excluded from the bidirectional backfill. Their `related` sections were never curated; missing back-refs are the pre-existing state, not a regression. Patch individually as needed post-epic.
 - **Backfill audit query (run at activation to size the work):**
   ```groq
   // Find article/node/caseStudy docs where A has B in related but B does not have A
