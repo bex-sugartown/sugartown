@@ -5,6 +5,7 @@ import {colorInput} from '@sanity/color-input'
 import {codeInput} from '@sanity/code-input'
 import {schemaTypes} from './schemas'
 import {autoTimestampsPlugin} from './plugins/autoTimestamps'
+import {createSyncRelatedAction} from './components/SyncRelatedAction'
 
 export default defineConfig({
   name: 'default',
@@ -116,15 +117,19 @@ export default defineConfig({
 
   document: {
     // Suppress Sanity's cloud-injected scheduling action — not available on free tier.
-    // The built-in action surfaces as 'ScheduledPublishing.ScheduleAction'; filter by
-    // title as a belt-and-suspenders fallback since the action identifier can vary by
-    // Studio version.
-    actions: (prev) =>
-      prev.filter(
-        (action) =>
-          action.action !== 'ScheduledPublishing.ScheduleAction' &&
-          !/schedule/i.test(action.action ?? ''),
-      ),
+    // Wrap PublishAction with SyncRelatedAction for the four content types that support
+    // bidirectional related-field sync (glossaryTerm, article, node, caseStudy).
+    actions: (prev, ctx) => {
+      const filtered = prev.filter((action) => {
+        const key = action.action as string | undefined
+        return key !== 'ScheduledPublishing.ScheduleAction' && !/schedule/i.test(key ?? '')
+      })
+      const SYNC_TYPES = ['glossaryTerm', 'article', 'node', 'caseStudy']
+      if (!SYNC_TYPES.includes(ctx.schemaType)) return filtered
+      return filtered.map((action) =>
+        action.action === 'publish' ? createSyncRelatedAction(action) : action,
+      )
+    },
   },
 
   schema: {
