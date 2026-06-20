@@ -4,7 +4,9 @@ import "@sugartown/design-system/styles/tokens.css";
 import "@sugartown/design-system/styles/theme.pink-moon.css";
 import "@sugartown/design-system/styles.css";
 import { getSiteSettings } from "@/lib/queries";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { normalizeSiteSettings } from "@/lib/normalizeSiteSettings";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
@@ -24,11 +26,14 @@ const noFlashScript = `
 })();
 `;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const rawSettings = await getSiteSettings();
+  const settings = normalizeSiteSettings(rawSettings);
+
   return (
     <html lang="en" data-theme="light-pink-moon">
       <head>
@@ -36,8 +41,9 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: noFlashScript }} />
       </head>
       <body>
-        {children}
-        <ThemeToggle />
+        <SiteHeader settings={settings} />
+        <main>{children}</main>
+        <SiteFooter settings={settings} />
       </body>
     </html>
   );

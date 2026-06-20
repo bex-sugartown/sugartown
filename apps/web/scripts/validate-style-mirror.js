@@ -40,6 +40,7 @@ const MIRRORED = [
   'tokens.css',
   'theme.pink-moon.css',
   'theme.light.css',
+  'theme.shop.css',
   'globals.css',
   'utilities.css',
 ]

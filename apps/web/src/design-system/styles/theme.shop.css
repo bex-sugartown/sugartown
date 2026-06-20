@@ -1,0 +1,34 @@
+/**
+ * Sugartown Shop Theme — Commerce surface variant
+ *
+ * Activation: Set data-theme="light-shop" or data-theme="dark-shop" on <html>.
+ * Purpose: Visual brand differentiation for the Contentful commerce POC
+ * (apps/contentful-poc). Inherits all Pink Moon primitives; overrides brand
+ * colour to amber to distinguish the shop context from the editorial site.
+ *
+ * Architecture
+ * ─────────────────────────────────────────────────────────
+ * Overrides Tier 2 semantic tokens only.
+ * Primitives (--st-color-amber-*) are defined in tokens.css — not re-declared here.
+ *
+ * Seam note (SUG-179):
+ * The contentful-poc imports theme.pink-moon.css for its base layer (Pink Moon
+ * primitives + semantics). This file adds a thin override layer for shop-specific
+ * identity. Register theme-shopping as an additional data-theme on the html element
+ * to activate: <html data-theme="light-pink-moon light-shop">.
+ *
+ * Mirrored file: packages/design-system/src/styles/theme.shop.css (byte-identical).
+ * Canonical copy: web copy (this file). Fix drift: cp this file to DS package.
+ */
+
+[data-theme~="light-shop"],
+[data-theme="light-shop"] {
+  /* Brand */
+  --st-color-brand-primary: var(--st-color-amber-600);
+}
+
+[data-theme~="dark-shop"],
+[data-theme="dark-shop"] {
+  /* Brand */
+  --st-color-brand-primary: var(--st-color-amber-600);
+}
