@@ -21,6 +21,10 @@ import NotFoundPage from './NotFoundPage'
 import pageStyles from './pages.module.css'
 import styles from './ToolDetailPage.module.css'
 
+// ─── Constants ────────────────────────────────────────────────────────────────
+
+const MIN_INDEXABLE_ITEMS = 3
+
 // ─── Display label maps ───────────────────────────────────────────────────────
 
 const TOOL_TYPE_LABELS = {
@@ -83,6 +87,11 @@ export default function ToolDetailPage() {
   const hasCaseStudies = tool.caseStudies?.length > 0
   const hasContent     = hasArticles || hasNodes || hasCaseStudies
 
+  const totalItems = (tool.articles?.length ?? 0) + (tool.nodes?.length ?? 0) + (tool.caseStudies?.length ?? 0)
+  const finalSeo = totalItems < MIN_INDEXABLE_ITEMS
+    ? { ...seo, robots: { index: false, follow: true } }
+    : seo
+
   const typeLabel = TOOL_TYPE_LABELS[tool.toolType] ?? tool.toolType ?? null
   const kindLabel = KIND_LABELS[tool.kind] ?? tool.kind ?? null
   const eyebrow   = [typeLabel, kindLabel].filter(Boolean).join(' · ')
@@ -91,7 +100,7 @@ export default function ToolDetailPage() {
 
   return (
     <main className={pageStyles.entityDetailPage}>
-      <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
+      <SeoHead seo={finalSeo} jsonLd={generateJsonLd(null, siteSettings)} />
 
       {/* ── Folio ─────────────────────────────────────────────────── */}
       <PageHeader

@@ -41,6 +41,7 @@ import pageStyles from './pages.module.css'
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const PAGE_SIZE = 12
+const MIN_INDEXABLE_ITEMS = 3
 
 // Maps URL path segment → taxonomy config
 const TAXONOMY_CONFIG = {
@@ -152,10 +153,13 @@ export default function TaxonomyDetailPage() {
 
   // autoGenerate defaults to true — taxonomy docs rarely carry hand-authored seo fields.
   // Map name → title so resolveSeo can derive the meta title and canonical URL.
-  const seo = resolveSeo(
+  const baseSeo = resolveSeo(
     { ...taxDoc, title: taxDoc.name, _type: config.type },
     siteSettings
   )
+  const seo = items.length < MIN_INDEXABLE_ITEMS
+    ? { ...baseSeo, robots: { index: false, follow: true } }
+    : baseSeo
 
   return (
     <main className={pageStyles.entityDetailPage}>
