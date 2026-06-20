@@ -64,6 +64,48 @@ This PRD establishes the architectural direction for all three areas. It governs
 
 ## Technical Architecture
 
+### Pattern parity principle (applies to all areas)
+
+Every surface in this platform — `apps/web` (Sanity) and `apps/contentful-poc` / `apps/shop` (Contentful + Shopify) — follows identical DS and frontend patterns. The CMS is the only variable.
+
+**What is identical across all surfaces:**
+- DS component API: the same `Header`, `Footer`, `Card`, `Grid`, `Button`, `Chip` props are used unchanged. No component is forked or extended for a CMS.
+- Token contract: the same `--st-*` tokens drive layout, colour, and typography on every surface. Theme files override semantics; they do not redefine the component layer.
+- Rendering patterns: section arrays, archive lists, taxonomy chips, and detail page folios all use the same DS primitives. The dispatcher (`SectionList`, `PageSections`) changes per-app; the components it dispatches to do not.
+- SEO structure: `<SeoHead>` equivalent on every route; canonical URL, OG tags, and JSON-LD follow the same shape.
+
+**What differs — the adapter seam only:**
+
+The seam lives in `apps/<name>/src/lib/`. Everything outside `lib/` should look structurally the same between apps.
+
+| Concern | `apps/web` (Sanity) | `apps/contentful-poc` / `apps/shop` (Contentful) |
+|---------|--------------------|-------------------------------------------------|
+| CMS client | `@sanity/client` with GROQ | `contentful` SDK with CDA REST |
+| Query language | GROQ (`*[_type == "..."]{ ... }`) | Contentful CDA (`getEntries({ content_type, include })`) |
+| Rich text | `@portabletext/react` | `@contentful/rich-text-react-renderer` |
+| Image URLs | `urlFor(asset).width(n).url()` via `@sanity/image-url` | Direct CDN URL from asset object (`asset.fields.file.url`) |
+| Internal links | React Router `<Link to="...">` | Next.js `<Link href="...">` |
+| Content model | Inline objects (`navItem`, `socialLink`) embedded in documents | Linked entries (`navigationItem`, `socialLink`) as separate content types |
+| Reference resolution | GROQ `->` dereference operator | Contentful `include: N` depth parameter |
+| Draft preview | `perspective: 'previewDrafts'` on Sanity client | Contentful Preview API with separate preview access token |
+
+**Documentation deliverable (required at each stage):** Every epic that implements a new page type, component wire-up, or data pattern must include a **seam diff note** — a short table or paragraph documenting what the Contentful implementation does differently from the Sanity reference and why. This is not optional. The seam diff is the institutional knowledge that prevents future engineers from re-discovering the same decisions.
+
+The seam diff format:
+
+```
+## Seam diff — Contentful vs Sanity
+
+| Concern | Sanity (apps/web) | Contentful (apps/shop) | Why it differs |
+|---------|------------------|----------------------|----------------|
+| Logo image URL | urlFor(asset).width(360).url() | asset.fields.file.url + ?w=360 | No Sanity image pipeline; Contentful CDN supports query params |
+| Nav link routing | resolveNavLink(item) → React Router Link | item.fields.url + Next.js Link | No internal reference graph; URLs are plain strings |
+```
+
+This diff lives in the epic's shipped doc and is copied to `docs/architecture/` as a living reference.
+
+---
+
 ### Area 1 — Multi-brand Design System
 
 #### Current state

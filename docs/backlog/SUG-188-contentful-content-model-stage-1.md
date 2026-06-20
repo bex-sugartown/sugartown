@@ -164,6 +164,7 @@ The section content types already exist — no new section types are needed for 
 - [ ] Create homepage `page` entry: `slug: "home"`, sections array with a `heroSection` and an `articlesSection` — layer: Contentful content (authoring)
 - [ ] Update `SiteSettingsSkeleton` TypeScript type in `apps/contentful-poc/src/lib/contentful.ts` to reflect new fields and linked entry types — layer: TypeScript
 - [ ] Update `getSiteSettings()` in `apps/contentful-poc/src/lib/queries.ts` with `include: 2` to resolve `navigationMenu → navigationItem` depth — layer: query
+- [ ] Write seam diff note documenting Contentful content model decisions vs Sanity reference: what maps 1:1, what differs (inline objects → linked entries, no `->` dereferencing, flat nav only), and why — layer: documentation (delivered in shipped doc)
 
 ## Phases
 

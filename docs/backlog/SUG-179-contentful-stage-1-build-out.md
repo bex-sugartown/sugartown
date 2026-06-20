@@ -39,6 +39,7 @@ No DS component is modified. All coupling between Contentful data and DS compone
 - [ ] Verify `/articles` and `/articles/[slug]` use DS `Card` / `Grid` / `ContentCard` — document findings; fix any raw-HTML fallbacks — layer: audit + fix
 - [ ] Create `theme.shop.css` in both `apps/web/src/design-system/styles/` and `packages/design-system/src/styles/` with at minimum one semantic token override (brand primary or bg surface) — layer: DS tokens / theme
 - [ ] Register `theme.shop.css` in `validate:style-mirror` — run `pnpm validate:style-mirror` to confirm zero drift — layer: tooling
+- [ ] Write seam diff note documenting the DS/FE adapter diffs between `apps/web` (Sanity) and `apps/contentful-poc` (Contentful) — what is identical (DS component props, token contract, section rendering pattern, SEO structure) and what differs (image URL strategy, link component, nav resolution, rich text renderer) and why — layer: documentation (delivered in shipped doc, copied to `docs/architecture/`)
 
 ## Phases
 
