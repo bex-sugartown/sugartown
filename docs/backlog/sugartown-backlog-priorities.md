@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-19 · v0.27.2 shipped — SUG-186 glossaryTerm schema split + bidirectional related sync (relatedTerms narrowed to glossaryTerm refs; relatedTags + relatedTools added; SyncRelatedAction fires on publish; 39-doc backfill). · v0.27.0 shipped — DS primitive expansion cycle: IconButton, form controls, Button redesign, mobile drawers (FilterBar + sidebar), PageHeader, ContentList, Glossary, SEO auto-gen, design-code pipeline (aggregated v0.26.1–v0.26.26).
+> Updated 2026-06-20 · v0.27.3 shipped — SUG-184 GSC crawled-not-indexed fixes (robots.txt, thin-content noindex threshold, /gem/ bad link). · v0.27.2 shipped — SUG-186 glossaryTerm schema split + bidirectional related sync (relatedTerms narrowed to glossaryTerm refs; relatedTags + relatedTools added; SyncRelatedAction fires on publish; 39-doc backfill). · v0.27.0 shipped — DS primitive expansion cycle: IconButton, form controls, Button redesign, mobile drawers (FilterBar + sidebar), PageHeader, ContentList, Glossary, SEO auto-gen, design-code pipeline (aggregated v0.26.1–v0.26.26).
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.27.2 shipped ✅ 2026-06-19. SUG-186 glossaryTerm related field split — schema, backfill, bidirectional sync action all live. Next: SUG-184 GSC indexing fixes, SUG-187 case study content refresh, or SUG-160 TechTimeline.
+> **⚑ Current focus:** v0.27.3 shipped ✅ 2026-06-20. SUG-184 GSC indexing fixes — robots.txt, thin-content noindex, /gem/ bad link all resolved. Phase 3 (GSC re-validation) pending next deploy. Next: SUG-187 case study content refresh, SUG-160 TechTimeline, or SUG-160.
 
 ---
 
@@ -34,7 +34,7 @@
 | 2 | ~~**[SUG-162](https://linear.app/sugartown/issue/SUG-162/glossary-term-detail-design-handoff-implementation-reuse-first) · Glossary Term Detail — design handoff implementation (reuse-first)** — DescriptionList ledger variant, Blockquote lead definition, metadata ledger with chips. Shipped v0.26.15.~~ | `Design System` `Frontend` `UX` | ✅ Shipped |
 | 3 | ~~**[SUG-163](https://linear.app/sugartown/issue/SUG-163/design-code-documentation-pipeline-single-source-of-truth-for-handoffs) · Design ↔ code documentation pipeline** — Handoff template, CLAUDE.md evaluation gate, content-model codegen (11 types, 176 fields), /platform/design-system/content-models page. Shipped v0.26.16.~~ | `Design System` `Tooling` `Infrastructure` | ✅ Shipped |
 | 5 | ~~**[SUG-174](https://linear.app/sugartown/issue/SUG-174/button-component-redesign-sharp-rectangle-ghost-variant-icon-support) · Button component redesign — ghost variant + icon support** — Baseline Rule removal; ghost tertiary token cascade; icon/iconAfter props; IconButton primitive (square/circle); form controls (Select/Checkbox/Radio/Switch); rogue icon button audit. Epic: `docs/shipped/SUG-174-button-component-redesign-ghost-icon.md`. Shipped v0.26.25.~~ | `Design System` | ✅ Shipped |
-| 3 | **[SUG-184](https://linear.app/sugartown/issue/SUG-184/gsc-crawled-currently-not-indexed-resolve-all-causes) · GSC "Crawled - currently not indexed" — resolve all causes** — robots.txt (block parameterised filter URLs), thin-content noindex threshold on taxonomy/tool pages, `/gem/` bad link audit + fix, `/about` content enrichment. Epic: `docs/backlog/SUG-184-gsc-crawled-not-indexed-fixes.md`. | `SEO` `Frontend` `Content` | 🟢 Next |
+| 3 | ~~**[SUG-184](https://linear.app/sugartown/issue/SUG-184/gsc-crawled-currently-not-indexed-resolve-all-causes) · GSC "Crawled - currently not indexed" — resolve all causes** — robots.txt (block parameterised filter URLs), thin-content noindex threshold on taxonomy/tool pages, `/gem/` bad link audit + fix, `/about` content enrichment. Shipped v0.27.3. Epic: `docs/shipped/SUG-184-gsc-crawled-not-indexed-fixes.md`.~~ | `SEO` `Frontend` `Content` | ✅ Shipped |
 | 4 | **[SUG-160](https://linear.app/sugartown/issue/SUG-160/article-i-was-online-before-it-was-a-thing-techtimeline-component) · Article: I Was Online Before It Was a Thing + TechTimeline component** — TechTimeline DS component (Phase 1) + personal-history article with BBS timeline, doll computer photos, and about page updates (Phase 2). Epic: `docs/backlog/SUG-160-article-i-was-online-techtimeline.md`. | `Article` `Content` `Design System` `Frontend` | 🟢 Next |
 | 8 | ~~**[SUG-186](https://linear.app/sugartown/issue/SUG-186) · Split glossaryTerm relatedTerms into dedicated sections (terms / tags / tools)** — relatedTerms narrowed to glossaryTermRef only; relatedTags + relatedTools added; SyncRelatedAction fires bidirectional sync on publish; 39-doc backfill. Shipped v0.27.2. Epic: `docs/shipped/SUG-186-split-glossary-related-sections.md`.~~ | `Schema` | ✅ Shipped |
 | 6 | ~~**[SUG-166](https://linear.app/sugartown/issue/SUG-166/glossary-completion-gap-fill-eds-vocabulary-import) · Glossary completion — gap-fill + EDS vocabulary import** — glossary 17 → 41 terms (gap-fill + token tiers + DS ladder + Tier 3 principles + Bextionary); term-detail ContentNav/Status/Related-Terms polish. Phase 4 dropped. Epic: `docs/shipped/SUG-166-glossary-completion-gap-fill-eds-import.md`.~~ | `Content` `Design System` | ✅ Shipped |
@@ -140,6 +140,7 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 | Item | Version | Date |
 |------|---------|------|
+| ~~**SUG-184 · GSC "Crawled - currently not indexed" fixes** — robots.txt blocking /*?* filter URLs; thin-content noindex threshold (MIN_INDEXABLE_ITEMS=3) on TaxonomyDetailPage + ToolDetailPage; /gem/ bad link identified and fixed in Sanity. Phase 3 (GSC re-validation) post-deploy. Epic: `docs/shipped/SUG-184-gsc-crawled-not-indexed-fixes.md`.~~ | v0.27.3 | 2026-06-20 |
 | ~~**SUG-186 · glossaryTerm related field split + bidirectional sync** — relatedTerms narrowed to glossaryTermRef; relatedTags + relatedTools added; SyncRelatedAction (publish action) fires reverse-ref patches on all 4 doc types; 39-doc backfill. Epic: `docs/shipped/SUG-186-split-glossary-related-sections.md`.~~ | v0.27.2 | 2026-06-19 |
 | ~~**SUG-173 · Mobile FilterBar drawer** — Sticky FILTERS chip with active-filter count badge; Drawer with full FilterBar, Clear All + Done footer; inline FilterBar hidden below 768px. Epic: `docs/backlog/SUG-173-mobile-filterbar-drawer.md`.~~ | v0.27.0 | 2026-06-17 |
 | ~~**SUG-174 · DS primitive expansion — Button Baseline Rule removal, ghost tertiary, icon prop, IconButton primitive, form controls (Select/Checkbox/Radio/Switch), rogue icon button audit.** Epic: `docs/shipped/SUG-174-button-component-redesign-ghost-icon.md`.~~ | v0.26.25 | 2026-06-17 |
@@ -247,4 +248,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-17 · v0.27.0 released · queue: SUG-160 / SUG-177 / SUG-161*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-20 · v0.27.3 released · queue: SUG-187 / SUG-160 / SUG-177*

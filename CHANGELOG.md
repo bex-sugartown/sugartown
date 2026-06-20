@@ -12,9 +12,10 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.27.2.
+> Accumulates since v0.27.3.
 
 - SUG-186: glossaryTerm related field split — relatedTerms narrowed to glossaryTerm-only; relatedTags + relatedTools added; SyncRelatedAction bidirectional sync on publish; 39-doc backfill
+- SUG-184: GSC crawled-not-indexed fixes — robots.txt (block /*?* filter URLs), thin-content noindex threshold on taxonomy/tool pages (MIN_INDEXABLE_ITEMS=3), /gem/ bad link fixed in Sanity
 
 ---
 
