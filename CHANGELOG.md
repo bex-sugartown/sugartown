@@ -12,7 +12,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.27.4.
+> Accumulates since v0.27.5.
+
+- SUG-179: Contentful Stage 1 build-out — SiteHeader + SiteFooter Next.js adapters wired to Contentful nav; normalizeSiteSettings flattening layer; theme.shop.css in both style dirs; validate:style-mirror now checking 6 files
 
 - SUG-188: Contentful content model Stage 1 — 4 new content types (navigationItem, navigationMenu, socialLink, ctaButton); siteSettings extended with 12 nav/footer/SEO fields; siteSettings entry seeded with real nav data; homepage page entry created; TypeScript types + getSiteSettings(include:3) updated
 - SUG-186: glossaryTerm related field split — relatedTerms narrowed to glossaryTerm-only; relatedTags + relatedTools added; SyncRelatedAction bidirectional sync on publish; 39-doc backfill
