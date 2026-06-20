@@ -12,8 +12,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.27.3.
+> Accumulates since v0.27.4.
 
+- SUG-188: Contentful content model Stage 1 — 4 new content types (navigationItem, navigationMenu, socialLink, ctaButton); siteSettings extended with 12 nav/footer/SEO fields; siteSettings entry seeded with real nav data; homepage page entry created; TypeScript types + getSiteSettings(include:3) updated
 - SUG-186: glossaryTerm related field split — relatedTerms narrowed to glossaryTerm-only; relatedTags + relatedTools added; SyncRelatedAction bidirectional sync on publish; 39-doc backfill
 - SUG-184: GSC crawled-not-indexed fixes — robots.txt (block /*?* filter URLs), thin-content noindex threshold on taxonomy/tool pages (MIN_INDEXABLE_ITEMS=3), /gem/ bad link fixed in Sanity
 
