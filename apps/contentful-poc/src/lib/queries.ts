@@ -79,24 +79,82 @@ export async function getArticlesByTag(tagId: string): Promise<ArticleEntry[]> {
   return res.items as ArticleEntry[];
 }
 
+// ── nav + CTA content types (SUG-188) ─────────────────────────────────────
+
+export type NavigationItemSkeleton = EntrySkeletonType<
+  {
+    label: EntryFieldTypes.Symbol;
+    url: EntryFieldTypes.Symbol;
+    openInNewTab: EntryFieldTypes.Boolean;
+  },
+  "navigationItem"
+>;
+
+export type NavigationMenuSkeleton = EntrySkeletonType<
+  {
+    title: EntryFieldTypes.Symbol;
+    items: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<NavigationItemSkeleton>>;
+  },
+  "navigationMenu"
+>;
+
+export type SocialLinkSkeleton = EntrySkeletonType<
+  {
+    platform: EntryFieldTypes.Symbol;
+    url: EntryFieldTypes.Symbol;
+    label: EntryFieldTypes.Symbol;
+  },
+  "socialLink"
+>;
+
+export type CtaButtonSkeleton = EntrySkeletonType<
+  {
+    label: EntryFieldTypes.Symbol;
+    url: EntryFieldTypes.Symbol;
+    style: EntryFieldTypes.Symbol;
+    openInNewTab: EntryFieldTypes.Boolean;
+  },
+  "ctaButton"
+>;
+
 // ── siteSettings ───────────────────────────────────────────────────────────
 
 export type SiteSettingsSkeleton = EntrySkeletonType<
   {
+    // General
     siteTitle: EntryFieldTypes.Symbol;
     metaDescription: EntryFieldTypes.Symbol;
+    siteLogo: EntryFieldTypes.AssetLink;
+    tagline: EntryFieldTypes.Symbol;
+    // Header
+    primaryNav: EntryFieldTypes.EntryLink<NavigationMenuSkeleton>;
+    headerCta: EntryFieldTypes.EntryLink<CtaButtonSkeleton>;
+    // Footer
+    footerLogo: EntryFieldTypes.AssetLink;
+    footerColumns: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<NavigationMenuSkeleton>>;
+    socialLinks: EntryFieldTypes.Array<EntryFieldTypes.EntryLink<SocialLinkSkeleton>>;
+    copyrightText: EntryFieldTypes.Symbol;
+    licenseLabel: EntryFieldTypes.Symbol;
+    licenseUrl: EntryFieldTypes.Symbol;
+    // SEO
+    siteUrl: EntryFieldTypes.Symbol;
+    defaultOgImage: EntryFieldTypes.AssetLink;
   },
   "siteSettings"
 >;
 
-export type SiteSettingsEntry = Entry<SiteSettingsSkeleton, undefined, string>;
+// include: 3 resolves siteSettings → navigationMenu → navigationItem (depth 3)
+// and siteSettings → footerColumns[] → navigationMenu → navigationItem (depth 3)
+export type SiteSettingsEntry = Entry<SiteSettingsSkeleton, "WITHOUT_UNRESOLVABLE_LINKS", string>;
 
 export async function getSiteSettings(): Promise<SiteSettingsEntry | null> {
   const res = await contentfulClient.getEntries<SiteSettingsSkeleton>({
     content_type: "siteSettings",
     limit: 1,
-  });
-  return res.items[0] ?? null;
+    include: 3,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any);
+  return (res.items[0] as SiteSettingsEntry) ?? null;
 }
 
 // ── page + sections ────────────────────────────────────────────────────────
