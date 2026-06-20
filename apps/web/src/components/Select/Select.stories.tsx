@@ -39,24 +39,6 @@ export const Disabled: Story = {
   ),
 }
 
-export const Dark: Story = {
-  name: 'Dark theme',
-  decorators: [
-    (Story) => (
-      <div data-theme="dark-pink-moon" style={{ padding: '1rem', background: 'var(--st-color-bg-base, #0d0d0d)' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  render: () => (
-    <div style={{ maxWidth: '280px' }}>
-      <Select aria-label="Choose option">
-        {options.map(o => <option key={o}>{o}</option>)}
-      </Select>
-    </div>
-  ),
-}
-
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
   render: () => (

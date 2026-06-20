@@ -45,24 +45,6 @@ export const Group: Story = {
   ),
 }
 
-export const Dark: Story = {
-  name: 'Dark theme',
-  decorators: [
-    (Story) => (
-      <div data-theme="dark-pink-moon" style={{ padding: '1rem', background: 'var(--st-color-bg-base, #0d0d0d)' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-      <Checkbox label="Unchecked" />
-      <Checkbox label="Checked" defaultChecked />
-      <Checkbox label="Disabled" disabled />
-    </div>
-  ),
-}
-
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
   render: () => (

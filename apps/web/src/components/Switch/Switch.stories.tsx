@@ -39,24 +39,6 @@ export const DisabledOn: Story = {
   render: () => <Switch label="Disabled on" disabled defaultChecked />,
 }
 
-export const Dark: Story = {
-  name: 'Dark theme',
-  decorators: [
-    (Story) => (
-      <div data-theme="dark-pink-moon" style={{ padding: '1rem', background: 'var(--st-color-bg-base, #0d0d0d)' }}>
-        <Story />
-      </div>
-    ),
-  ],
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '280px' }}>
-      <Switch label="Dark mode off" />
-      <Switch label="Dark mode on" defaultChecked />
-      <Switch label="Disabled" disabled />
-    </div>
-  ),
-}
-
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
   render: () => (
