@@ -98,15 +98,17 @@ const meta: Meta = {
 
 ## 4. Three-story rule (going forward)
 
-New component stories should cover exactly three cases:
+New component stories should cover at most three cases:
 
 | Story name | What it covers |
 |---|---|
 | `Default` | The canonical rendered state — what the component looks like in the most common use |
-| `DarkMode` | The `dark-pink-moon` theme variant |
-| `EdgeCase` | One meaningful edge: long text, empty/null state, or a visually distinct variant |
+| `Variant` | A second genuinely distinct visual state (different tone, size, or configuration) |
+| `EdgeCase` | One meaningful edge: long text, empty/null state, or a visually distinct limit |
 
-More than three stories is permitted when the component has genuinely distinct visual states that cannot be combined (e.g. Button with 4 `tone` values, each with a distinct colour). In that case, document why in a comment above the extra stories.
+**Dark mode is not a story — it is the theme toolbar.** Switch to `dark-pink-moon` in the Storybook theme dropdown to verify dark mode on any story. Do not add a `DarkMode` story variant; it duplicates what the toolbar already provides and consumes an extra snapshot slot on every Chromatic run.
+
+Fewer than three stories is fine if the component has only one meaningful visual state. More than three is permitted when the component has genuinely distinct visual states that cannot be combined (e.g. Button covering 4 `tone` values). In that case, document why in a comment above the extra stories.
 
 **Story count audit** (files exceeding 3 stories as of SUG-191 — review individually before removing):
 
