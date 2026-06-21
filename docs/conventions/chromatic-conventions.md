@@ -128,26 +128,29 @@ icon: {
 }
 ```
 
-**Story count audit** (files exceeding 3 stories as of SUG-191 — review individually before removing):
+**Story count audit** (SUG-191 Phase 4 — updated 2026-06-21):
 
-Files with 6+ stories warrant a pass to confirm each story represents a genuinely distinct visual state:
+| File | Before | Now | Status |
+|---|---|---|---|
+| `Chip.stories.tsx` | 11 | 5 | ✅ Done |
+| `Media.stories.tsx` | 11 | 4 | ✅ Done |
+| `Grid.stories.tsx` | 10 | 3 | ✅ Done |
+| `DescriptionList.stories.tsx` | 9 | 2 | ✅ Done |
+| `CodeBlock.stories.tsx` | 13 | 3 | ✅ Done (prior session) |
+| `Button.stories.tsx` | 12 | 4 | ✅ Done (prior session) |
+| `Avatar.stories.tsx` | 11 | 4 | ✅ Done (prior session) |
+| `Callout.stories.tsx` | 11 | 7 | ⏳ Pending — target 3 |
+| `Tile.stories.tsx` (StatCard) | — | 7 | ⏳ Pending — target 3 |
+| `ScoreRing.stories.tsx` | — | 7 | ⏳ Pending — target 3 |
+| `SidebarNav.stories.tsx` | — | 8 | ⏳ Pending — target 3 |
+| `FilterBar.stories.tsx` | — | 5 | ⏳ Pending — target 3 |
+| `Accordion.stories.tsx` | — | 5 | ⏳ Pending — target 3 |
+| `Hero.stories.tsx` | 9 | — | ⏳ Pending — hero has many variants, review carefully |
+| `PageHeader.stories.jsx` | 9 | — | ⏳ Pending |
+| `PageSidebar.stories.tsx` | 9 | — | ⏳ Pending |
+| `PageSections.stories.tsx` | 10 | — | ⏳ Pending |
 
-| File | Count | Action |
-|---|---|---|
-| `CodeBlock.stories.tsx` | 13 | Review — may need consolidation |
-| `Button.stories.tsx` | 12 | Justified — covers 4 tones × sizes |
-| `Avatar.stories.tsx` | 11 | Review |
-| `Callout.stories.tsx` | 11 | Review |
-| `Chip.stories.tsx` | 11 | Review |
-| `Media.stories.tsx` | 11 | Review |
-| `PageSections.stories.tsx` | 10 | Review |
-| `Grid.stories.tsx` | 10 | Already has 1 `disableSnapshot: true` |
-| `DescriptionList.stories.tsx` | 9 | Review |
-| `Hero.stories.tsx` | 9 | Review — hero has many variants |
-| `PageHeader.stories.jsx` | 9 | Review |
-| `PageSidebar.stories.tsx` | 9 | Review |
-
-Each of these needs a per-story decision, not a blanket reduction. This list is a starting point for the Phase 4 audit pass in SUG-191.
+Each remaining file needs a per-story decision, not a blanket reduction. Pending items continue in the next SUG-191 session.
 
 ---
 
