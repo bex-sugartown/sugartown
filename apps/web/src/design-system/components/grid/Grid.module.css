@@ -26,7 +26,7 @@
 
 /* ── accentTop — rule on top edge, two colour options ───────────────────── */
 .accentTop-brand {
-  border-top: 1px solid var(--st-color-brand-primary);
+  border-top: 2px solid var(--st-color-brand-primary);
 }
 
 .accentTop-ink {

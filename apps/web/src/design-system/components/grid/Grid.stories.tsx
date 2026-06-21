@@ -1,53 +1,82 @@
 /**
- * ## Grid
+ * ## Grid — responsive tile/card grid with two spacing modes.
  *
- * Responsive tile/card grid with two spacing modes.
+ * `spacing="lg"` → 32px open gap (`--st-space-card-gap` / `space.6`)
+ * `spacing="0"` → 1px bg-through-gap hairline (`--st-space-0` / `space.0`)
  *
- * - `spacing="lg"` — 32px open gap (--st-space-card-gap, space.6)
- * - `spacing="0"` — 1px bg-through-gap hairline (--st-space-0, space.0)
+ * ```
+ * Parent background shows through gap as hairline dividers.
+ * Children must have an explicit background to cover it.
+ * ```
  *
- * `accentTop` adds a 2px brand-color rule on the top edge.
- * Children in `spacing="0"` mode must have an explicit background (bg-through-gap pattern).
+ * `columns` → integer (e.g. 2). Fixed column count via `--grid-columns`.
  *
- * ### Responsive behaviour
+ * ```
+ * Without this prop, auto-fit collapses intrinsically.
+ * ```
  *
- * Without `columns`: `auto-fit` — columns collapse intrinsically when the container
- * is too narrow for `minmax(200px, 1fr)`. No media query needed.
+ * `tabletColumns` → integer. Overrides column count at tablet width (≤900px)
  *
- * With `columns` (fixed count, e.g. `columns={2}`): a `@media (max-width: 600px)` rule
- * in Grid.module.css forces `grid-template-columns: 1fr`, collapsing all fixed-column
- * grids to a single column at mobile. This is the canonical mobile collapse — do NOT
- * add per-consumer breakpoints to override it.
+ * ```
+ * before mobile (≤600px) collapse to 1 col.
+ * Use tabletColumns={2} to get a 2×2 layout from columns={4}.
+ * ```
  *
- * SUG-96 | responsive collapse: SUG-104
+ * `accentTop` → adds a 2px rule on the grid's top edge.
+ * `accentColor` → `"brand"` (default, pink) | `"ink"` (dark neutral).
+ *
+ * ```
+ * Only applies when accentTop is true.
+ * ```
+ *
+ * SUG-96 | responsive collapse: SUG-104 | accentColor + tabletColumns: SUG-120
  */
 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import Grid from './Grid';
-import StatCard from '../../../components/StatCard';
-import Card from '../card/Card';
-import Callout from '../callout/Callout';
+
+type AccentPreset = 'none' | 'brand' | 'ink';
 
 const meta: Meta<typeof Grid> = {
   title: 'Foundations/Layout/Grid',
   component: Grid,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
+  args: {
+    spacing: 'lg',
+    columns: 3,
+  },
   argTypes: {
-    spacing:     { control: { type: 'radio' }, options: ['lg', '0'] },
-    columns:     { control: 'number' },
-    accentTop:   { control: 'boolean' },
-    accentColor: { control: { type: 'radio' }, options: ['brand', 'ink'] },
+    spacing:      { control: { type: 'radio' }, options: ['lg', '0'] },
+    columns:      { control: 'number', description: 'Fixed column count. Omit for auto-fit.' },
+    tabletColumns:{ control: 'number', description: 'Column count at tablet width (≤900px).' },
+    // Story-layer accent control — maps to accentTop + accentColor props
+    accentPreset: {
+      name: 'accentTop',
+      control: { type: 'select' },
+      options: ['none', 'brand', 'ink'] as AccentPreset[],
+      description: 'Top-edge 2px rule. `brand` = pink, `ink` = dark neutral. Maps to `accentTop` + `accentColor` props.',
+      table: { category: 'Accent' },
+    },
+    // Hide real props — managed via accentPreset above
+    accentTop:    { table: { disable: true } },
+    accentColor:  { table: { disable: true } },
+    className:    { table: { disable: true } },
+    children:     { table: { disable: true } },
   },
   decorators: [(Story) => <MemoryRouter><Story /></MemoryRouter>],
 };
 
 export default meta;
-type Story = StoryObj<typeof Grid>;
 
-const PlaceholderTile = ({ label }: { label: string }) => (
+type StoryArgs = React.ComponentProps<typeof Grid> & { accentPreset?: AccentPreset };
+type Story = StoryObj<StoryArgs>;
+
+// ─── Tile placeholder ─────────────────────────────────────────────────────────
+
+const Tile = ({ label }: { label: string }) => (
   <div style={{
     background: 'var(--st-color-bg-surface-strong)',
     border: '1px solid var(--st-color-neutral-200)',
@@ -61,193 +90,80 @@ const PlaceholderTile = ({ label }: { label: string }) => (
   </div>
 );
 
+function tiles(n: number) {
+  return ['A', 'B', 'C', 'D', 'E', 'F'].slice(0, Math.min(Math.max(n, 1), 6)).map(l => (
+    <Tile key={l} label={`Card ${l}`} />
+  ));
+}
+
+// ─── Default ──────────────────────────────────────────────────────────────────
+
 export const Default: Story = {
-  args: { spacing: 'lg', columns: 3 },
-  render: (args) => (
-    <Grid {...args}>
-      <PlaceholderTile label="Card A" />
-      <PlaceholderTile label="Card B" />
-      <PlaceholderTile label="Card C" />
+  args: { accentPreset: 'none' },
+  render: ({ accentPreset = 'none', columns = 3, ...args }) => (
+    <Grid
+      {...args}
+      columns={columns}
+      accentTop={accentPreset !== 'none'}
+      accentColor={accentPreset === 'none' ? 'brand' : accentPreset}
+    >
+      {tiles(Number(columns))}
     </Grid>
   ),
 };
 
-/** Open gap — 32px between cards (space.6 / --st-space-card-gap). */
-export const SpacingLg: Story = {
-  name: 'spacing="lg" — open gap',
-  args: { spacing: 'lg', columns: 3 },
-  render: (args) => (
-    <Grid {...args}>
-      <PlaceholderTile label="Card A" />
-      <PlaceholderTile label="Card B" />
-      <PlaceholderTile label="Card C" />
-    </Grid>
-  ),
-};
+// ─── Responsive ───────────────────────────────────────────────────────────────
 
-/** Hairline — 1px bg-through-gap dividers (space.0). */
-export const SpacingZero: Story = {
-  name: 'spacing="0" — hairline',
-  args: { spacing: '0', columns: 3 },
-  render: (args) => (
-    <Grid {...args}>
-      <PlaceholderTile label="Tile A" />
-      <PlaceholderTile label="Tile B" />
-      <PlaceholderTile label="Tile C" />
-    </Grid>
-  ),
-};
-
-/** Hairline with accentTop — 2px brand rule on top edge. */
-export const SpacingZeroAccent: Story = {
-  name: 'spacing="0" + accentTop',
-  args: { spacing: '0', columns: 4, accentTop: true },
-  render: (args) => (
-    <Grid {...args}>
-      <PlaceholderTile label="Metric A" />
-      <PlaceholderTile label="Metric B" />
-      <PlaceholderTile label="Metric C" />
-      <PlaceholderTile label="Metric D" />
-    </Grid>
-  ),
-};
-
-/**
- * Responsive collapse — resize the canvas below 600px to see fixed-column grids
- * collapse to a single column. Auto-fit (no `columns` prop) collapses intrinsically
- * at whatever width the minmax floor dictates.
- */
 export const Responsive: Story = {
-  name: 'Responsive collapse (resize below 600px)',
-  parameters: { chromatic: { disableSnapshot: true } },
+  name: 'Responsive',
+  parameters: { chromatic: { disableSnapshot: true }, controls: { disable: true } },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>columns=2 — collapses at 600px</p>
-        <Grid spacing="lg" columns={2}>
-          <PlaceholderTile label="Card A" />
-          <PlaceholderTile label="Card B" />
-          <PlaceholderTile label="Card C" />
-          <PlaceholderTile label="Card D" />
+        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>columns=3 — collapses at 600px</p>
+        <Grid spacing="lg" columns={3}>
+          <Tile label="Card A" /><Tile label="Card B" /><Tile label="Card C" />
         </Grid>
       </div>
       <div>
-        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>no columns (auto-fit) — collapses intrinsically</p>
+        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>columns=4, tabletColumns=2 — 4→2→1</p>
+        <Grid spacing="lg" columns={4} tabletColumns={2}>
+          <Tile label="Card A" /><Tile label="Card B" /><Tile label="Card C" /><Tile label="Card D" />
+        </Grid>
+      </div>
+      <div>
+        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>no columns — auto-fit collapses intrinsically</p>
         <Grid spacing="lg">
-          <PlaceholderTile label="Card A" />
-          <PlaceholderTile label="Card B" />
-          <PlaceholderTile label="Card C" />
-          <PlaceholderTile label="Card D" />
+          <Tile label="Card A" /><Tile label="Card B" /><Tile label="Card C" /><Tile label="Card D" />
         </Grid>
       </div>
     </div>
   ),
 };
 
-/** Snapshot — both spacing modes, both accent colours. */
+// ─── Snapshot (Chromatic) ─────────────────────────────────────────────────────
+
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
-  parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
+  parameters: { chromatic: { disableSnapshot: false }, layout: 'padded', controls: { disable: true } },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>spacing="lg"</p>
-        <Grid spacing="lg" columns={3}>
-          <PlaceholderTile label="Card A" /><PlaceholderTile label="Card B" /><PlaceholderTile label="Card C" />
-        </Grid>
+        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', margin: '0 0 0.5rem' }}>spacing="lg" — open gap</p>
+        <Grid spacing="lg" columns={3}><Tile label="A" /><Tile label="B" /><Tile label="C" /></Grid>
       </div>
       <div>
-        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>spacing="0" + accentTop accentColor="brand"</p>
-        <Grid spacing="0" columns={4} accentTop accentColor="brand">
-          <PlaceholderTile label="Tile A" /><PlaceholderTile label="Tile B" /><PlaceholderTile label="Tile C" /><PlaceholderTile label="Tile D" />
-        </Grid>
+        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', margin: '0 0 0.5rem' }}>spacing="0" — hairline</p>
+        <Grid spacing="0" columns={3}><Tile label="A" /><Tile label="B" /><Tile label="C" /></Grid>
       </div>
       <div>
-        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: '#888', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>spacing="0" + accentTop accentColor="ink"</p>
-        <Grid spacing="0" columns={3} accentTop accentColor="ink">
-          <PlaceholderTile label="Tile A" /><PlaceholderTile label="Tile B" /><PlaceholderTile label="Tile C" />
-        </Grid>
+        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', margin: '0 0 0.5rem' }}>accentTop brand (2px pink)</p>
+        <Grid spacing="0" columns={3} accentTop accentColor="brand"><Tile label="A" /><Tile label="B" /><Tile label="C" /></Grid>
       </div>
-    </div>
-  ),
-};
-
-// ── Composition stories ───────────────────────────────────────────────────────
-// Real DS components as children. Minimal content — the point is the
-// composition pattern (what goes inside Grid and in what configuration).
-// Rich data fixtures live in /dev/grid and PageSections.stories.tsx.
-
-/** 3-col hairline + Tile — the canonical stat strip pattern. */
-export const ThreeColTile: Story = {
-  name: '3-col Grid + Tile',
-  render: () => (
-    <Grid spacing="0" accentTop accentColor="ink" columns={3}>
-      <StatCard label="Time on site"     value="38"  unit="%" sub="up from baseline"  titleSize="display" labelColor="ink" />
-      <StatCard label="Editorial uplift" value="2.4" unit="×"                         titleSize="display" labelColor="ink" />
-      <StatCard label="Filter match"     value="91"  unit="%" sub="within 2 filters"  titleSize="display" labelColor="ink" />
-    </Grid>
-  ),
-};
-
-/** 4-col hairline + Tile artifact mode — foot slot + href link. */
-export const FourColTile: Story = {
-  name: '4-col Grid + Tile',
-  render: () => (
-    <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
-      <StatCard label="Brief"       value="IA Brief"          foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-      <StatCard label="Conventions" value="CLAUDE.md"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-      <StatCard label="Ethics"      value="AI Ethics"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-      <StatCard label="Prompt"      value="Release Assistant" foot="Prompt →"   href="#" titleSize="2xl" labelColor="ink" />
-    </Grid>
-  ),
-};
-
-/** 3-col open gap + Card — content grid pattern. */
-export const ThreeColCard: Story = {
-  name: '3-col Grid + Card',
-  render: () => (
-    <Grid spacing="lg" columns={3}>
-      <Card title="Design System" eyebrow="Platform" excerpt="Token pipeline, component registry, and Storybook coverage." />
-      <Card title="Content Lake"  eyebrow="CMS"      excerpt="Sanity v5 schema, GROQ projections, and live preview." />
-      <Card title="Monorepo"      eyebrow="Tooling"  excerpt="pnpm workspaces, Turbo, and shared packages." />
-    </Grid>
-  ),
-};
-
-/** 1-col open gap + Callout — stacked content block pattern. */
-export const OneColCallout: Story = {
-  name: '1-col Grid + Callout',
-  render: () => (
-    <Grid spacing="lg" columns={1}>
-      <Callout title="Default" variant="default">Use Grid as the outer container when callouts stack with other section types.</Callout>
-      <Callout title="Info"    variant="info">Info variant — pink accent.</Callout>
-      <Callout title="Tip"     variant="tip">Tip variant — violet accent.</Callout>
-    </Grid>
-  ),
-};
-
-/** Snapshot — composition patterns for Chromatic VRT. */
-export const SnapshotComposition: Story = {
-  name: 'Snapshot — Composition (Chromatic)',
-  parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', maxWidth: '900px' }}>
-      <Grid spacing="0" accentTop accentColor="ink" columns={3}>
-        <StatCard label="Time on site"     value="38"  unit="%" titleSize="display" labelColor="ink" />
-        <StatCard label="Editorial uplift" value="2.4" unit="×" titleSize="display" labelColor="ink" />
-        <StatCard label="Filter match"     value="91"  unit="%" titleSize="display" labelColor="ink" />
-      </Grid>
-      <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2}>
-        <StatCard label="Brief"       value="IA Brief"          foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-        <StatCard label="Conventions" value="CLAUDE.md"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-        <StatCard label="Ethics"      value="AI Ethics"         foot="Markdown →" href="#" titleSize="2xl" labelColor="ink" />
-        <StatCard label="Prompt"      value="Release Assistant" foot="Prompt →"   href="#" titleSize="2xl" labelColor="ink" />
-      </Grid>
-      <Grid spacing="lg" columns={3}>
-        <Card title="Design System" eyebrow="Platform" excerpt="Token pipeline, component registry, and Storybook coverage." />
-        <Card title="Content Lake"  eyebrow="CMS"      excerpt="Sanity v5 schema, GROQ projections, and live preview." />
-        <Card title="Monorepo"      eyebrow="Tooling"  excerpt="pnpm workspaces, Turbo, and shared packages." />
-      </Grid>
+      <div>
+        <p style={{ fontFamily: 'monospace', fontSize: '0.65rem', color: 'var(--st-color-text-muted)', margin: '0 0 0.5rem' }}>accentTop ink (2px dark)</p>
+        <Grid spacing="0" columns={3} accentTop accentColor="ink"><Tile label="A" /><Tile label="B" /><Tile label="C" /></Grid>
+      </div>
     </div>
   ),
 };
