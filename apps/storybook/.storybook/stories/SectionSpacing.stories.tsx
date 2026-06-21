@@ -139,7 +139,7 @@ function SectionSpacingPage() {
 const meta: Meta = {
   title: 'Foundations/Layout/Section',
   component: SectionSpacingPage,
-  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true } },
+  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true }, chromatic: { disableSnapshot: true } },
 };
 export default meta;
 type Story = StoryObj;

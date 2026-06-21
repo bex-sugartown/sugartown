@@ -60,7 +60,7 @@ function ThemeGuidePage() {
 const meta: Meta = {
   title: 'Foundations/Theme Guide',
   component: ThemeGuidePage,
-  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true } },
+  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true }, chromatic: { disableSnapshot: true } },
 };
 export default meta;
 type Story = StoryObj;

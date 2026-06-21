@@ -77,7 +77,7 @@ function TokenReferencePage() {
 const meta: Meta = {
   title: 'Foundations/Token Reference',
   component: TokenReferencePage,
-  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true } },
+  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true }, chromatic: { disableSnapshot: true } },
 };
 export default meta;
 type Story = StoryObj;

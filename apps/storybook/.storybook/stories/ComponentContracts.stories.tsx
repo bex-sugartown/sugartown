@@ -66,7 +66,7 @@ function ComponentContractsPage() {
 const meta: Meta = {
   title: 'Docs/Component Contracts',
   component: ComponentContractsPage,
-  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true } },
+  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true }, chromatic: { disableSnapshot: true } },
 };
 export default meta;
 type Story = StoryObj;

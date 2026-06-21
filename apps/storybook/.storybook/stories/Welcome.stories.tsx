@@ -54,6 +54,7 @@ const meta: Meta = {
     layout: 'padded',
     controls: { disable: true },
     actions: { disable: true },
+    chromatic: { disableSnapshot: true },
   },
 };
 

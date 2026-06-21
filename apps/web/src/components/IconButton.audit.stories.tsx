@@ -42,6 +42,7 @@ All icon-only buttons found during the Phase D grep sweep, with migration verdic
         `,
       },
     },
+    chromatic: { disableSnapshot: true },
   },
 }
 

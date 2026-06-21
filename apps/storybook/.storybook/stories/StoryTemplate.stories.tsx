@@ -317,6 +317,7 @@ const meta: Meta = {
     layout: 'fullscreen',
     controls: { disable: true },
     actions: { disable: true },
+    chromatic: { disableSnapshot: true },
   },
 };
 export default meta;
