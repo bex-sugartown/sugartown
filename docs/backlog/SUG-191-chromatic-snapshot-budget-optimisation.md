@@ -91,6 +91,30 @@ Not applicable — no shared CSS, token, or multi-page component changes. Chroma
 - Removing VRT coverage from any story that has genuine visual output
 - Retrofitting story count limits retroactively if stories exist for good reason (audit in Phase 4 will make per-case decisions, not blanket deletions)
 
+## Phase 4 — Story count audit progress (2026-06-21 session)
+
+Components audited this session — before/after story counts:
+
+| Component | Before | After | Notes |
+|-----------|--------|-------|-------|
+| Chip | ~8 | 5 | Removed Small, Medium, Default-no-variant, TagFeatured, BadgeAbbreviation, AllProjectColors; kept Tag, Badge, BadgeWithDots, Snapshot, Guidelines |
+| Media | ~8 | 4 | Rewrote to Default, AspectRatios, Overlays, Snapshot; flat overlay controls |
+| Grid | ~10 | 3 | Removed all tile/card/callout composition stories; kept Default (dynamic columns), Responsive, Snapshot |
+| DescriptionList | 9 | 2 | Kept Default (SingleColumn) + Ledger (LedgerWithChips); removed 7 variant stories |
+
+**Components still to audit (current counts from live files):**
+
+| Component | Current count | Target | Status |
+|-----------|--------------|--------|--------|
+| Callout | 7 | 3 | Pending |
+| Tile (StatCard) | 7 | 3 | Pending |
+| ScoreRing | 7 | 3 | Pending |
+| Sidebar / SidebarNav | 8 / 5 | 3 / 2 | Pending |
+| FilterBar | 5 | 3 | Pending |
+| Accordion | 5 | 3 | Pending |
+
+All other DS package components are at or below 5 stories and can be deferred to a later pass.
+
 ## Related
 
 - **Linear:** [SUG-191](https://linear.app/sugartown/issue/SUG-191/chromatic-snapshot-budget-optimisation-turbosnap-skip-gate-story)
