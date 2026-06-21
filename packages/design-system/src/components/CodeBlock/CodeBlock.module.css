@@ -140,16 +140,6 @@
   text-align: right;
 }
 
-/* ── Mermaid variant ──────────────────────────────────────────────────────── */
-.mermaid .pre {
-  background: transparent;
-  border-left: none;
-  box-shadow: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 /* ── Inline code — lime wash + brand pink ─────────────────────────────────── */
 .inline {
   background-color: var(--st-code-inline-bg);   /* token: lime wash */

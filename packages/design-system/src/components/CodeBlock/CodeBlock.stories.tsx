@@ -35,11 +35,8 @@ const meta: Meta<typeof CodeBlock> = {
         'tsx',
         'markdown',
         'yaml',
+        'mermaid',
       ],
-    },
-    variant: {
-      control: { type: 'select' },
-      options: ['default', 'mermaid'],
     },
     showLineNumbers: { control: 'boolean' },
     filename: { control: 'text', description: 'Filename shown in the meta bar above the code' },
@@ -58,16 +55,17 @@ const meta: Meta<typeof CodeBlock> = {
 export default meta;
 type Story = StoryObj<typeof CodeBlock>;
 
-// ── Default (no language — plain text) ───────────────────────────────────────
+// ── Default — mermaid diagram syntax as plain text ───────────────────────────
 
 export const Default: Story = {
   args: {
-    code: `# Install dependencies
-pnpm add lucide-react --filter @sugartown/design-system
-pnpm add prismjs @types/prismjs --filter @sugartown/design-system
-
-# Run Storybook
-pnpm storybook`,
+    code: `graph TD
+  A[Sanity Studio] -->|GROQ| B[Web App]
+  B --> C[DS Components]
+  C --> D[Storybook]
+  A -->|Schema| E[Portable Text]
+  E --> C`,
+    language: 'mermaid',
   },
 };
 

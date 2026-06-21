@@ -34,8 +34,6 @@ export interface CodeBlockProps {
   code: string;
   /** Prism.js language identifier (e.g. 'javascript', 'css') */
   language?: string;
-  /** Visual variant */
-  variant?: 'default' | 'mermaid';
   /** Show line numbers */
   showLineNumbers?: boolean;
   /** Optional filename label (displayed above the code) */
@@ -63,7 +61,6 @@ const LANGUAGE_LABELS: Record<string, string> = {
 export function CodeBlock({
   code,
   language,
-  variant = 'default',
   showLineNumbers = false,
   filename,
   className,
@@ -76,13 +73,11 @@ export function CodeBlock({
     }
   }, [code, language, showLineNumbers]);
 
-  const isMermaid = variant === 'mermaid';
   const langClass = language ? `language-${language}` : '';
   const label = language ? LANGUAGE_LABELS[language] ?? language : undefined;
 
   const blockClassNames = [
     styles.block,
-    isMermaid ? styles.mermaid : '',
     showLineNumbers ? styles.lineNumbers : '',
     className ?? '',
   ]
@@ -91,7 +86,7 @@ export function CodeBlock({
 
   return (
     <div className={blockClassNames}>
-      {(label || filename) && !isMermaid && (
+      {(label || filename) && (
         <div className={styles.meta}>
           {filename && <span className={styles.filename}>{filename}</span>}
           {label && <span className={styles.label}>{label}</span>}
