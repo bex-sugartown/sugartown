@@ -83,7 +83,7 @@ export const LedgerWithChips: Story = {
       items={[
         {
           label: 'Status',
-          value: <Chip variant="status" status="evergreen" label="Evergreen" />,
+          value: <Chip variant="badge" status="evergreen" label="Evergreen" />,
         },
         {
           label: 'Related Terms',

@@ -245,7 +245,7 @@ export const Card: React.FC<CardProps> = ({
     <div className={styles.cardFolio}>
       {eyebrow && <div className={styles.folioLabel}>{eyebrow}</div>}
       {badgeValue && (
-        <Chip variant="status" status={badgeValue as any} size="sm" aria-label={`Status: ${badgeValue}`}>
+        <Chip variant="badge" status={badgeValue as any} size="sm" aria-label={`Status: ${badgeValue}`}>
           {badgeValue}
         </Chip>
       )}

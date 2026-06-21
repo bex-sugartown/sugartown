@@ -10,14 +10,15 @@ export type ChipStatus = 'evergreen' | 'validated' | 'exploring' | 'active' | 'd
 export interface ChipProps {
   /** Text label displayed inside the chip */
   label?: string;
-  /** Child content — used by rule-dot chips (variant="status"|"tag") */
+  /** Child content — used by rule-dot chips (variant="badge"|"tag") */
   children?: React.ReactNode;
   /**
    * Rule-dot variant (SUG-88). When set, activates the neutral mono box system.
-   * Omit for legacy color-mix chips (backward-compatible).
+   * Omit for default color-mix chips (backward-compatible).
+   * "status" is a deprecated alias for "badge".
    */
-  variant?: 'status' | 'tag';
-  /** Status key for the semantic dot color. Only meaningful when variant="status". */
+  variant?: 'badge' | 'tag' | 'status';
+  /** Status key for the semantic dot color. Only meaningful when variant="badge". */
   status?: ChipStatus;
   /** Pink rubric — first-child taxonomy highlight. Only applied when variant="tag". */
   featured?: boolean;
@@ -74,18 +75,19 @@ export const Chip: React.FC<ChipProps> = ({
   className,
   'aria-label': ariaLabel,
 }) => {
+  const isBadge = variant === 'badge' || variant === 'status'; // 'status' is deprecated alias
   const isInteractive = Boolean(href || onClick);
-  const isRuleDot = variant === 'status' || variant === 'tag';
+  const isRuleDot = isBadge || variant === 'tag';
   const isDotColor = Boolean(dotColor);
-  // When variant="status" and color/colorHex is provided, color overrides the status dot token.
-  const hasColorDot = variant === 'status' && Boolean(color || colorHex);
+  // When variant="badge" and color/colorHex is provided, color overrides the status dot token.
+  const hasColorDot = isBadge && Boolean(color || colorHex);
   // tag + color: use the color-mix system instead of neutral ruleDot chassis
   const tagWithColor = variant === 'tag' && Boolean(color || colorHex);
 
   const classNames = [
     styles.chip,
     isRuleDot && !tagWithColor && styles.ruleDot,
-    variant === 'status' && styles.variantStatus,
+    isBadge && styles.variantStatus,
     variant === 'tag' && styles.variantTag,
     featured && variant === 'tag' && !tagWithColor && styles.featured,
     isDotColor && styles.ruleDot,
@@ -107,8 +109,8 @@ export const Chip: React.FC<ChipProps> = ({
       ? ({ '--chip-color': colorHex } as React.CSSProperties)
       : undefined;
 
-  // Render dot for status chips: use status token class unless color overrides it.
-  const dotEl = (variant === 'status' && (status || hasColorDot))
+  // Render dot for badge chips: use status token class unless color overrides it.
+  const dotEl = (isBadge && (status || hasColorDot))
     ? <span
         className={`${styles.dot} ${!hasColorDot && status ? (styles as Record<string, string>)[`dot-${status}`] ?? '' : ''}`}
         aria-hidden="true"

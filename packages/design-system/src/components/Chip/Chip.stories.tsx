@@ -12,28 +12,27 @@ const meta: Meta<typeof Chip> = {
     layout: 'centered',
   },
   argTypes: {
-    label:     { control: 'text' },
-    href:      { control: 'text' },
-    size:      { control: { type: 'select' }, options: ['sm', 'md'] },
-    variant:   {
+    label:    { control: 'text' },
+    href:     { control: 'text' },
+    size:     { control: { type: 'select' }, options: ['sm', 'md'] },
+    variant:  {
       control: { type: 'select' },
-      options: ['tag', 'status'],
-      description: '`tag` = neutral gray chassis, no dot, no active state. `status` = uppercase bold badge chassis (planned rename: `"badge"`). When `variant="status"`: dot shown if `color` has a value; no dot if `color` is null.',
+      options: ['tag', 'badge'],
+      description: '`tag` — neutral gray chassis, no dot, no active state. Use for taxonomy labels. `badge` — uppercase bold chassis with optional dot. Use for status labels, project tags, and abbreviations.',
       table: { order: 1 },
     },
-    status:    { table: { disable: true } },
-    featured:  { control: 'boolean' },
-    isActive:  {
+    featured: { control: 'boolean', description: 'Pink rubric — first-child taxonomy highlight. Only applied when `variant="tag"`.' },
+    isActive: {
       control: 'boolean',
       description: 'Active / selected state — solid accent fill, white label. Only applies to default chips (no `variant`). When `color` is set the fill reflects that color.',
     },
-    color:     { control: { type: 'select' }, options: [null, 'pink', 'seafoam', 'lime', 'violet', 'amber', 'grey'] },
-    // Hidden — internal / advanced props not needed in the controls panel
-    children:  { table: { disable: true } },
-    colorHex:  { table: { disable: true } },
-    dotColor:  { table: { disable: true } },
-    onClick:   { table: { disable: true } },
-    className: { table: { disable: true } },
+    color:    { control: { type: 'select' }, options: [null, 'pink', 'seafoam', 'lime', 'violet', 'amber', 'grey'] },
+    status:   { table: { disable: true } },
+    children: { table: { disable: true } },
+    colorHex: { table: { disable: true } },
+    dotColor: { table: { disable: true } },
+    onClick:  { table: { disable: true } },
+    className:{ table: { disable: true } },
     'aria-label': { table: { disable: true } },
   },
 };
@@ -41,72 +40,51 @@ const meta: Meta<typeof Chip> = {
 export default meta;
 type Story = StoryObj<typeof Chip>;
 
-// ─── Sizes ────────────────────────────────────────────────────────────────────
+// ─── Default chip (no variant) — isActive works here ─────────────────────────
 
-export const Small: Story = {
-  args: { label: 'sm chip', href: '#', size: 'sm', variant: 'tag' },
+/** Default chip — no variant. Supports isActive, color, href. Use Controls to explore. */
+export const Default: Story = {
+  args: { label: 'performance', href: '#' },
 };
 
-export const Medium: Story = {
-  args: { label: 'md chip (default)', href: '#', size: 'md', variant: 'tag' },
-};
+// ─── Tag variant ──────────────────────────────────────────────────────────────
 
-// ─── Rule-dot system (SUG-88) ─────────────────────────────────────────────────
-
-/** Tag chip — neutral mono box, canonical evidence/taxonomy chip */
-export const TagNeutral: Story = {
+export const Tag: Story = {
   args: { label: 'performance', variant: 'tag' },
 };
 
-/** Tag chip featured — pink rubric on the first taxonomy chip in a set */
 export const TagFeatured: Story = {
   args: { label: 'Design Systems', variant: 'tag', featured: true },
 };
 
-/** Badge (no dot) — variant="status" with no color or status prop */
-export const BadgeNoDot: Story = {
-  name: 'Badge — No Dot',
-  args: { label: 'In Review', variant: 'status' },
+// ─── Badge variant ────────────────────────────────────────────────────────────
+
+/** Badge (no dot) — label only, uppercase bold chassis */
+export const Badge: Story = {
+  args: { label: 'In Review', variant: 'badge' },
 };
 
-/** Abbreviation badge (SUG-162) — neutral md badge inside a heading,
- *  uppercase, static span (no href), explicit gap from the heading text */
-export const AbbreviationBadge: Story = {
-  name: 'Badge — Abbreviation (in heading)',
+/** Badge — abbreviation inline in a heading (SUG-162) */
+export const BadgeAbbreviation: Story = {
+  name: 'Badge — Abbreviation',
   render: () => (
     <h1 style={{ margin: 0 }}>
       Headless CMS{' '}
-      <Chip label="CMS" variant="status" aria-label="Abbreviation: CMS" />
+      <Chip label="CMS" variant="badge" aria-label="Abbreviation: CMS" />
     </h1>
   ),
   parameters: { layout: 'padded' },
 };
 
-/** Badge with color dot — color prop drives dot color */
-export const StatusColorOverride: Story = {
+/** Badge — color dot driven by named color preset */
+export const BadgeWithDot: Story = {
   name: 'Badge — Color Dot',
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-      <Chip label="Seafoam"  variant="status" color="seafoam" />
-      <Chip label="Violet"   variant="status" color="violet" />
-      <Chip label="Lime"     variant="status" color="lime" />
-      <Chip label="Amber"    variant="status" color="amber" />
-      <Chip label="Overrides Evergreen" variant="status" status="evergreen" color="violet" />
-    </div>
-  ),
-  parameters: { layout: 'padded' },
-};
-
-/** All six status dot states in a row */
-export const AllStatusStates: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-      <Chip label="Evergreen"   variant="status" status="evergreen" />
-      <Chip label="Validated"   variant="status" status="validated" />
-      <Chip label="Exploring"   variant="status" status="exploring" />
-      <Chip label="Active"      variant="status" status="active" />
-      <Chip label="Draft"       variant="status" status="draft" />
-      <Chip label="Deprecated"  variant="status" status="deprecated" />
+      <Chip label="Seafoam"  variant="badge" color="seafoam" />
+      <Chip label="Violet"   variant="badge" color="violet" />
+      <Chip label="Lime"     variant="badge" color="lime" />
+      <Chip label="Amber"    variant="badge" color="amber" />
     </div>
   ),
   parameters: { layout: 'padded' },
@@ -155,14 +133,14 @@ export const Snapshot: Story = {
         </div>
       </div>
       <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Rule-dot — status</h4>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Rule-dot — badge</h4>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-          <Chip label="Evergreen"   variant="status" status="evergreen" />
-          <Chip label="Validated"   variant="status" status="validated" />
-          <Chip label="Exploring"   variant="status" status="exploring" />
-          <Chip label="Active"      variant="status" status="active" />
-          <Chip label="Draft"       variant="status" status="draft" />
-          <Chip label="Deprecated"  variant="status" status="deprecated" />
+          <Chip label="Evergreen"   variant="badge" status="evergreen" />
+          <Chip label="Validated"   variant="badge" status="validated" />
+          <Chip label="Exploring"   variant="badge" status="exploring" />
+          <Chip label="Active"      variant="badge" status="active" />
+          <Chip label="Draft"       variant="badge" status="draft" />
+          <Chip label="Deprecated"  variant="badge" status="deprecated" />
         </div>
       </div>
       <div>

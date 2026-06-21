@@ -6,7 +6,7 @@ import React from 'react'
  *
  * Structure (must match the shipped page — drift is a Visual QA finding):
  *   Breadcrumb (Library / Glossary — no term crumb)
- *   H1 + neutral abbreviation Chip (variant="status", md, no dot)
+ *   H1 + neutral abbreviation Chip (variant="badge", md, no dot)
  *   Templated pronunciation (/ … / added by template)
  *   Lead definition in DS Blockquote
  *   Extended definition — full Portable Text incl. nested ordered lists
@@ -88,7 +88,7 @@ function TermShell({ term, abbreviation, pronunciation, items }) {
             {term}
             {abbreviation && (
               <Chip
-                variant="status"
+                variant="badge"
                 label={abbreviation}
                 className={styles.headingChip}
                 aria-label={`Abbreviation: ${abbreviation}`}
@@ -118,7 +118,7 @@ function TermShell({ term, abbreviation, pronunciation, items }) {
 
 const statusChip = (status, label) => ({
   label: 'Status',
-  value: <Chip variant="status" status={status} label={label} />,
+  value: <Chip variant="badge" status={status} label={label} />,
 })
 
 const relatedTermsRow = {

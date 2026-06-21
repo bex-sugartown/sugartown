@@ -211,7 +211,7 @@ export default function GlossaryTermPage() {
                   {term.term}
                   {term.abbreviation && (
                     <Chip
-                      variant="status"
+                      variant="badge"
                       label={term.abbreviation}
                       className={styles.headingChip}
                       aria-label={`Abbreviation: ${term.abbreviation}`}
