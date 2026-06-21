@@ -2,34 +2,68 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Media } from './Media';
 
-/**
- * ## Media
- *
- * Responsive figure with optional duotone or colour overlay.
- *
- * Duotone presets use canonical brand colours:
- * - **Pink:** `#ff247d` (Sugartown Pink)
- * - **Seafoam:** `#2bd4aa`
- *
- * The legacy `#ED008E` is deprecated — all gradients use the unified palette.
- *
- * Canonical CSS: `artifacts/style 260118.css` §st-media--duotone
- */
+const SAMPLE_IMAGE = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=1200&h=800&fit=crop';
+
+// ─── Overlay builder (story layer) ────────────────────────────────────────────
+
+type OverlayPreset = 'none' | 'duotone' | 'duotone-subtle' | 'duotone-extreme' | 'dark-scrim' | 'greyscale' | 'color';
+
+function buildOverlay(type: OverlayPreset, color = '#ff247d', opacity = 40) {
+  if (type === 'none' || !type) return undefined;
+  if (type === 'duotone')         return { type: 'duotone' as const, duotonePreset: 'standard' as const };
+  if (type === 'duotone-subtle')  return { type: 'duotone' as const, duotonePreset: 'subtle' as const };
+  if (type === 'duotone-extreme') return { type: 'duotone-extreme' as const };
+  if (type === 'dark-scrim')      return { type: 'dark-scrim' as const };
+  if (type === 'greyscale')       return { type: 'greyscale' as const };
+  if (type === 'color')           return { type: 'color' as const, color, opacity };
+  return undefined;
+}
+
+// ─── Meta ─────────────────────────────────────────────────────────────────────
+
 const meta: Meta<typeof Media> = {
   title: 'Components/Media',
   component: Media,
   tags: ['autodocs'],
   parameters: {
-    chromatic: { disableSnapshot: false },
     layout: 'padded',
   },
+  args: {
+    src: SAMPLE_IMAGE,
+    alt: 'Sample landscape photograph',
+    caption: 'Standard media component — no overlay applied.',
+  },
   argTypes: {
-    src: { control: 'text', description: 'Image URL (required)' },
-    alt: { control: 'text', description: 'Alt text for accessibility (required)' },
-    caption: { control: 'text', description: 'Optional figcaption below the image' },
-    aspectRatio: { control: 'text', description: 'CSS aspect-ratio value, e.g. "16/9", "1/1"' },
-    hoverScale: { control: 'boolean', description: 'Zoom on hover (default: true for duotone)' },
-    overlay: { control: { type: 'object' }, description: 'Overlay config — type, preset, colour, opacity' },
+    src:         { control: 'text', description: 'Image URL (required)' },
+    alt:         { control: 'text', description: 'Alt text for accessibility (required)' },
+    caption:     { control: 'text', description: 'Optional figcaption below the image' },
+    aspectRatio: {
+      control: { type: 'select' },
+      options: ['', '1/1', '4/3', '16/9', '21/9'],
+      description: 'CSS aspect-ratio value. Empty = image intrinsic ratio.',
+    },
+    hoverScale:  { control: 'boolean', description: 'Zoom on hover (default: true when overlay is set)' },
+    // Story-layer flat controls for overlay (not a real prop — mapped to overlay object in render)
+    overlayType: {
+      control: { type: 'select' },
+      options: ['none', 'duotone', 'duotone-subtle', 'duotone-extreme', 'dark-scrim', 'greyscale', 'color'],
+      description: 'Overlay treatment. Passed as `overlay.type` in the real prop.',
+      table: { category: 'Overlay' },
+    },
+    overlayColor: {
+      control: 'color',
+      description: 'Color for `color` overlay type.',
+      table: { category: 'Overlay' },
+    },
+    overlayOpacity: {
+      control: { type: 'range', min: 0, max: 100, step: 5 },
+      description: 'Opacity 0–100 for `color` overlay.',
+      table: { category: 'Overlay' },
+    },
+    // Real overlay prop — hidden; users interact via flat controls above
+    overlay:   { table: { disable: true } },
+    width:     { table: { disable: true } },
+    height:    { table: { disable: true } },
     className: { table: { disable: true } },
   },
   decorators: [
@@ -42,202 +76,108 @@ const meta: Meta<typeof Media> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Media>;
 
-const SAMPLE_IMAGE = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=1200&h=800&fit=crop';
-const SAMPLE_PORTRAIT = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=800&h=1200&fit=crop&crop=left';
+// Story args include the flat overlay controls (not real Media props)
+type StoryArgs = React.ComponentProps<typeof Media> & {
+  overlayType?: OverlayPreset;
+  overlayColor?: string;
+  overlayOpacity?: number;
+};
+type Story = StoryObj<StoryArgs>;
 
-// ── Default (no overlay) ─────────────────────────────────────────────────────
+// ─── Default ──────────────────────────────────────────────────────────────────
 
 export const Default: Story = {
   args: {
-    src: SAMPLE_IMAGE,
-    alt: 'Sample landscape photograph',
-    caption: 'Standard media component — no overlay applied.',
+    overlayType: 'none',
+    overlayColor: '#ff247d',
+    overlayOpacity: 40,
   },
+  render: ({ overlayType, overlayColor, overlayOpacity, overlay: _overlay, ...args }) => (
+    <Media
+      {...args}
+      overlay={buildOverlay(overlayType ?? 'none', overlayColor, overlayOpacity)}
+    />
+  ),
 };
 
-// ── Duotone Standard ─────────────────────────────────────────────────────────
+// ─── Aspect Ratios ────────────────────────────────────────────────────────────
 
-export const DuotoneStandard: Story = {
-  name: 'Duotone / Standard',
-  args: {
-    src: SAMPLE_IMAGE,
-    alt: 'Duotone standard preset',
-    caption: 'Standard duotone — Pink ~55% alpha, Seafoam ~45% alpha (content images).',
-    overlay: {
-      type: 'duotone',
-      duotonePreset: 'standard',
-    },
-  },
-};
-
-// ── Duotone Featured ─────────────────────────────────────────────────────────
-
-export const DuotoneFeatured: Story = {
-  name: 'Duotone / Featured',
-  args: {
-    src: SAMPLE_IMAGE,
-    alt: 'Duotone featured preset',
-    caption: 'Featured duotone — Pink ~70% alpha, Seafoam ~50% alpha (hero images).',
-    overlay: {
-      type: 'duotone',
-      duotonePreset: 'featured',
-    },
-    aspectRatio: '21/9',
-  },
-};
-
-// ── Duotone Subtle ───────────────────────────────────────────────────────────
-
-export const DuotoneSubtle: Story = {
-  name: 'Duotone / Subtle',
-  args: {
-    src: SAMPLE_IMAGE,
-    alt: 'Duotone subtle preset',
-    caption: 'Subtle duotone — Pink ~30% alpha, Seafoam ~25% alpha (background wash).',
-    overlay: {
-      type: 'duotone',
-      duotonePreset: 'subtle',
-    },
-  },
-};
-
-// ── Color Overlay: Pink 50% ──────────────────────────────────────────────────
-
-export const ColorOverlayPink: Story = {
-  name: 'Color Overlay / Pink 50%',
-  args: {
-    src: SAMPLE_IMAGE,
-    alt: 'Pink colour overlay at 50%',
-    caption: 'Solid pink (#ff247d) at 50% opacity.',
-    overlay: {
-      type: 'color',
-      color: '#ff247d',
-      opacity: 50,
-    },
-  },
-};
-
-// ── Color Overlay: Black 30% ─────────────────────────────────────────────────
-
-export const ColorOverlayBlack: Story = {
-  name: 'Color Overlay / Black 30%',
-  args: {
-    src: SAMPLE_IMAGE,
-    alt: 'Black colour overlay at 30%',
-    caption: 'Black overlay at 30% — improves text readability over images.',
-    overlay: {
-      type: 'color',
-      color: '#000000',
-      opacity: 30,
-    },
-  },
-};
-
-// ── With Aspect Ratio ────────────────────────────────────────────────────────
-
-export const WithAspectRatio: Story = {
+export const AspectRatios: Story = {
+  name: 'Aspect Ratios',
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <Media
-        src={SAMPLE_IMAGE}
-        alt="21/9 featured ratio"
-        aspectRatio="21/9"
-        overlay={{ type: 'duotone', duotonePreset: 'featured' }}
-        caption="21/9 — Featured hero image"
-      />
-      <Media
-        src={SAMPLE_IMAGE}
-        alt="16/9 standard ratio"
-        aspectRatio="16/9"
-        caption="16/9 — Standard widescreen"
-      />
-      <div style={{ maxWidth: '300px' }}>
-        <Media
-          src={SAMPLE_IMAGE}
-          alt="1/1 square ratio"
-          aspectRatio="1/1"
-          caption="1/1 — Square"
-        />
+      <div>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>1/1 — square</p>
+        <div style={{ maxWidth: '320px' }}>
+          <Media src={SAMPLE_IMAGE} alt="Square 1:1" aspectRatio="1/1" />
+        </div>
+      </div>
+      <div>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>16/9 — content width</p>
+        <Media src={SAMPLE_IMAGE} alt="Content-width 16:9" aspectRatio="16/9" />
+      </div>
+      <div>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>21/9 — full width / hero</p>
+        <Media src={SAMPLE_IMAGE} alt="Full-width 21:9" aspectRatio="21/9" overlay={{ type: 'duotone', duotonePreset: 'featured' }} />
       </div>
     </div>
   ),
 };
 
-// ── Hover Scale ──────────────────────────────────────────────────────────────
+// ─── Overlays ─────────────────────────────────────────────────────────────────
 
-export const HoverScale: Story = {
-  args: {
-    src: SAMPLE_IMAGE,
-    alt: 'Hover to zoom',
-    caption: 'Hover over the image to see the 1.05x scale animation (default for duotone).',
-    overlay: {
-      type: 'duotone',
-      duotonePreset: 'standard',
-    },
-    hoverScale: true,
-  },
-};
+const OVERLAY_SAMPLES: Array<{ label: string; overlay: React.ComponentProps<typeof Media>['overlay'] }> = [
+  { label: 'Duotone',         overlay: { type: 'duotone', duotonePreset: 'standard' } },
+  { label: 'Duotone Subtle',  overlay: { type: 'duotone', duotonePreset: 'subtle' } },
+  { label: 'Duotone Extreme', overlay: { type: 'duotone-extreme' } },
+  { label: 'Dark Scrim',      overlay: { type: 'dark-scrim' } },
+  { label: 'Greyscale',       overlay: { type: 'greyscale' } },
+  { label: 'Color Overlay',   overlay: { type: 'color', color: 'var(--st-color-pink)', overlayOpacity: 40 } },
+];
 
-// ── Stress Test: Tall Image ──────────────────────────────────────────────────
-
-export const StressTestTallImage: Story = {
-  name: 'Stress Test / Tall Image',
-  args: {
-    src: SAMPLE_PORTRAIT,
-    alt: 'Tall portrait image',
-    caption: 'A tall portrait image to test aspect ratio constraints.',
-    aspectRatio: '3/4',
-    overlay: {
-      type: 'duotone',
-      duotonePreset: 'subtle',
-    },
-  },
-  decorators: [
-    (Story) => (
-      <div style={{ maxWidth: '400px' }}>
-        <Story />
-      </div>
-    ),
-  ],
-};
-
-// ── Stress Test: No Image ────────────────────────────────────────────────────
-
-export const StressTestNoImage: Story = {
-  name: 'Stress Test / No Image',
-  args: {
-    src: '',
-    alt: 'Missing image',
-    caption: 'This should render nothing (null) when src is empty.',
-  },
-};
-
-// ── All Presets (overview) ───────────────────────────────────────────────────
-
-export const AllPresets: Story = {
-  name: 'All Duotone Presets',
+export const Overlays: Story = {
+  name: 'Overlays',
+  parameters: { controls: { disable: true } },
   render: () => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
-      <Media
-        src="https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=600&h=400&fit=crop&crop=top"
-        alt="Standard preset"
-        overlay={{ type: 'duotone', duotonePreset: 'standard' }}
-        caption="Standard (content)"
-      />
-      <Media
-        src="https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=600&h=400&fit=crop&crop=center"
-        alt="Featured preset"
-        overlay={{ type: 'duotone', duotonePreset: 'featured' }}
-        caption="Featured (hero)"
-      />
-      <Media
-        src="https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=600&h=400&fit=crop&crop=bottom"
-        alt="Subtle preset"
-        overlay={{ type: 'duotone', duotonePreset: 'subtle' }}
-        caption="Subtle (bg wash)"
-      />
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
+      {OVERLAY_SAMPLES.map(({ label, overlay }) => (
+        <div key={label}>
+          <p style={{ margin: '0 0 0.375rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>{label}</p>
+          <Media
+            src={SAMPLE_IMAGE}
+            alt={label}
+            aspectRatio="16/9"
+            overlay={overlay}
+          />
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+// ─── Snapshot (Chromatic) ─────────────────────────────────────────────────────
+
+export const Snapshot: Story = {
+  name: 'Snapshot (Chromatic)',
+  parameters: {
+    chromatic: { disableSnapshot: false },
+    controls: { disable: true },
+    layout: 'padded',
+  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '720px' }}>
+      <Media src={SAMPLE_IMAGE} alt="No overlay" aspectRatio="16/9" caption="Default" />
+      <Media src={SAMPLE_IMAGE} alt="Duotone" aspectRatio="16/9" overlay={{ type: 'duotone', duotonePreset: 'standard' }} caption="Duotone" />
+      <Media src={SAMPLE_IMAGE} alt="Dark scrim" aspectRatio="16/9" overlay={{ type: 'dark-scrim' }} caption="Dark Scrim" />
+      <Media src={SAMPLE_IMAGE} alt="Greyscale" aspectRatio="16/9" overlay={{ type: 'greyscale' }} caption="Greyscale" />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+        <div style={{ maxWidth: '320px' }}>
+          <Media src={SAMPLE_IMAGE} alt="1/1" aspectRatio="1/1" caption="1/1" />
+        </div>
+        <Media src={SAMPLE_IMAGE} alt="21/9" aspectRatio="21/9" overlay={{ type: 'duotone', duotonePreset: 'featured' }} caption="21/9" />
+      </div>
     </div>
   ),
 };

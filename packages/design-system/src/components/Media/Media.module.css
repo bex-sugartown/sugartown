@@ -84,6 +84,16 @@
   z-index: 2;
 }
 
+/* ── Greyscale modifier ───────────────────────────────────────────────────── */
+.greyscale .image {
+  filter: grayscale(100%);
+  transition: filter 0.4s ease;
+}
+
+.greyscale:hover .image {
+  filter: grayscale(0%);
+}
+
 /* ── Color overlay modifier ───────────────────────────────────────────────── */
 .colorOverlay {
   overflow: hidden;

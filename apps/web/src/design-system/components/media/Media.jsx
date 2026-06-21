@@ -161,7 +161,8 @@ export default function Media({
   const isExtremeSvg = isDuotone && preset === 'extreme'
   const isColorOverlay = parsedType === 'color'
   const isDarkScrim = parsedType === 'dark-scrim'
-  const hasOverlay = isDuotone || isDarkScrim || isColorOverlay
+  const isGreyscale = parsedType === 'greyscale'
+  const hasOverlay = isDuotone || isDarkScrim || isColorOverlay || isGreyscale
   const shouldScale = hoverScale ?? hasOverlay
 
   // Inject the SVG filter element once if extreme duotone is used
@@ -172,6 +173,7 @@ export default function Media({
     isDuotone ? styles.duotone : '',
     isExtremeSvg ? styles.duotoneExtreme : '',
     isDarkScrim ? styles.darkScrim : '',
+    isGreyscale ? styles.greyscale : '',
     isColorOverlay ? styles.colorOverlay : '',
     shouldScale ? styles.hoverScale : '',
     className ?? '',

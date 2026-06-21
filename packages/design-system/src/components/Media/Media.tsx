@@ -15,8 +15,8 @@ import styles from './Media.module.css';
 export type DuotonePreset = 'standard' | 'featured' | 'subtle' | 'extreme' | 'custom';
 
 export interface OverlayConfig {
-  /** Overlay type — supports legacy ('duotone', 'color') and schema values ('duotone-standard', 'dark-scrim', etc.) */
-  type: 'duotone' | 'duotone-standard' | 'duotone-featured' | 'duotone-subtle' | 'duotone-extreme' | 'dark-scrim' | 'color' | 'none';
+  /** Overlay type — supports legacy ('duotone', 'color') and schema values ('duotone-standard', 'dark-scrim', 'greyscale', etc.) */
+  type: 'duotone' | 'duotone-standard' | 'duotone-featured' | 'duotone-subtle' | 'duotone-extreme' | 'dark-scrim' | 'greyscale' | 'color' | 'none';
   /** Alpha-intensity preset for duotone (legacy API — ignored when type contains preset) */
   duotonePreset?: DuotonePreset;
   /** Custom gradient (only when duotonePreset='custom') */
@@ -91,6 +91,7 @@ function parseOverlay(overlay?: OverlayConfig): { parsedType: string | null; pre
   if (!overlay?.type || overlay.type === 'none') return { parsedType: null };
 
   if (overlay.type === 'dark-scrim') return { parsedType: 'dark-scrim' };
+  if (overlay.type === 'greyscale') return { parsedType: 'greyscale' };
   if (overlay.type === 'color') return { parsedType: 'color' };
 
   if (overlay.type.startsWith('duotone')) {
@@ -188,7 +189,8 @@ export function Media({
   const isExtremeSvg = isDuotone && preset === 'extreme';
   const isColorOverlay = parsedType === 'color';
   const isDarkScrim = parsedType === 'dark-scrim';
-  const hasOverlay = isDuotone || isDarkScrim || isColorOverlay;
+  const isGreyscale = parsedType === 'greyscale';
+  const hasOverlay = isDuotone || isDarkScrim || isColorOverlay || isGreyscale;
   const shouldScale = hoverScale ?? hasOverlay;
 
   if (isExtremeSvg) ensureSvgFilter();
@@ -198,6 +200,7 @@ export function Media({
     isDuotone ? styles.duotone : '',
     isExtremeSvg ? styles.duotoneExtreme : '',
     isDarkScrim ? styles.darkScrim : '',
+    isGreyscale ? styles.greyscale : '',
     isColorOverlay ? styles.colorOverlay : '',
     shouldScale ? styles.hoverScale : '',
     className ?? '',
