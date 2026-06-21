@@ -7,14 +7,16 @@ import '../../../packages/design-system/src/styles/globals.css';
 import '../../../packages/design-system/src/styles/utilities.css';
 import '../../../packages/design-system/src/styles/theme.light.css';
 import '../../../packages/design-system/src/styles/theme.pink-moon.css';
+import '../../../packages/design-system/src/styles/theme.shop.css';
 
 // Override Storybook's hardcoded-white Docs canvas boxes to respect data-theme
 import './docs-overrides.css';
 
 /** Canvas background colour for each theme token. */
 const THEME_BG: Record<string, string> = {
-  'dark-pink-moon':  '#0D1226',
-  'light-pink-moon': '#ffffff',
+  'dark-pink-moon':             '#0D1226',
+  'light-pink-moon':            '#ffffff',
+  'light-pink-moon light-shop': '#ffffff',
 }
 
 /**
@@ -52,8 +54,9 @@ const preview: Preview = {
       toolbar: {
         icon: 'circlehollow',
         items: [
-          { value: 'light-pink-moon', title: 'Pink Moon Light (default)' },
-          { value: 'dark-pink-moon',  title: 'Pink Moon Dark' },
+          { value: 'light-pink-moon',            title: 'Pink Moon Light (default)' },
+          { value: 'dark-pink-moon',             title: 'Pink Moon Dark' },
+          { value: 'light-pink-moon light-shop', title: 'Shop Light' },
         ],
         dynamicTitle: true,
       },
