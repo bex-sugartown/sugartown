@@ -12,8 +12,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.27.5.
+> Accumulates since v0.27.6.
 
+- SUG-180: Multi-brand DS theming convention — CONSUMING.md authored; theme.pink-moon.css selectors changed to ~= (includes-word) for additive data-theme support; shop amber theme applied to contentful-poc (light-pink-moon light-shop); Storybook shop theme switcher added; project Assigned content panel via defineIncomingReferenceDecoration
 - SUG-179: Contentful Stage 1 build-out — SiteHeader + SiteFooter Next.js adapters wired to Contentful nav; normalizeSiteSettings flattening layer; theme.shop.css in both style dirs; validate:style-mirror now checking 6 files
 
 - SUG-188: Contentful content model Stage 1 — 4 new content types (navigationItem, navigationMenu, socialLink, ctaButton); siteSettings extended with 12 nav/footer/SEO fields; siteSettings entry seeded with real nav data; homepage page entry created; TypeScript types + getSiteSettings(include:3) updated
