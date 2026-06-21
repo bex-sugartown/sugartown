@@ -18,15 +18,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 // Inline script runs before paint to apply persisted theme — prevents flash.
+// Theme toggle removed — always light-shop until a proper toggle is designed.
+// Clears any stale dark-mode localStorage preference from prior dev sessions.
 const noFlashScript = `
 (function() {
-  var stored = localStorage.getItem('st-poc-theme');
-  var valid = ['light-pink-moon light-shop', 'dark-pink-moon dark-shop'];
-  if (valid.indexOf(stored) !== -1) {
-    document.documentElement.setAttribute('data-theme', stored);
-  } else {
-    localStorage.removeItem('st-poc-theme');
-  }
+  localStorage.removeItem('st-poc-theme');
 })();
 `;
 
@@ -39,7 +35,7 @@ export default async function RootLayout({
   const settings = normalizeSiteSettings(rawSettings);
 
   return (
-    <html lang="en" data-theme="light-pink-moon light-shop">
+    <html lang="en" data-theme="light-pink-moon light-shop" suppressHydrationWarning>
       <head>
         {/* eslint-disable-next-line react/no-danger */}
         <script dangerouslySetInnerHTML={{ __html: noFlashScript }} />
