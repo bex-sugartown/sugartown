@@ -25,7 +25,7 @@ const meta: Meta<typeof Button> = {
         component:
           'Three-variant button (Pink Moon · Ledger Tradition — SUG-174). ' +
           'Primary (pink fill), Secondary (lime fill), Tertiary (ghost: signal colour default, grey hover). ' +
-          'Supports `icon` (start/end via `iconPosition`), `iconAfter` (always end), `size` (sm / md / lg), and `disabled`. ' +
+          'Supports `iconBefore` and `iconAfter` for start/end icon slots, `size` (sm / md / lg), and `disabled`. ' +
           'Ghost tertiary: brand pink in light theme, lime in dark theme — via token cascade.',
       },
     },
@@ -43,22 +43,17 @@ const meta: Meta<typeof Button> = {
     },
     disabled: { control: 'boolean', description: 'Disables interaction and dims the button' },
     children: { control: 'text', description: 'Button label text', table: { type: { summary: 'ReactNode' } } },
-    iconPosition: {
-      control: { type: 'select' },
-      options: ['start', 'end'],
-      description: '`icon` placement — start (default) or end',
-    },
-    icon: {
+    iconBefore: {
       control: { type: 'select' },
       options: ICON_OPTIONS,
       mapping: ICON_MAP,
-      description: 'Icon at start (or end when iconPosition="end")',
+      description: 'Icon at the start (left) of the label',
     },
     iconAfter: {
       control: { type: 'select' },
       options: ICON_OPTIONS,
       mapping: ICON_MAP,
-      description: 'Icon always at end — use alongside `icon` for both-ends layout',
+      description: 'Icon at the end (right) of the label',
     },
     onClick: { table: { disable: true } },
     className: { table: { disable: true } },
@@ -114,11 +109,11 @@ export const Snapshot: Story = {
       <div>
         <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888', fontFamily: 'monospace' }}>Icons</p>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
-          <Button variant="primary" icon={<ArrowRight size={ICON_SIZE} aria-hidden />}>Start</Button>
+          <Button variant="primary" iconBefore={<ArrowRight size={ICON_SIZE} aria-hidden />}>Start</Button>
           <Button variant="primary" iconAfter={<ArrowRight size={ICON_SIZE} aria-hidden />}>End</Button>
-          <Button variant="primary" icon={<Plus size={ICON_SIZE} aria-hidden />} iconAfter={<ArrowRight size={ICON_SIZE} aria-hidden />}>Both</Button>
-          <Button variant="tertiary" icon={<X size={ICON_SIZE} aria-hidden />}>Clear</Button>
-          <Button variant="secondary" icon={<ExternalLink size={ICON_SIZE} aria-hidden />} iconPosition="end">Open</Button>
+          <Button variant="primary" iconBefore={<Plus size={ICON_SIZE} aria-hidden />} iconAfter={<ArrowRight size={ICON_SIZE} aria-hidden />}>Both</Button>
+          <Button variant="tertiary" iconBefore={<X size={ICON_SIZE} aria-hidden />}>Clear</Button>
+          <Button variant="secondary" iconAfter={<ExternalLink size={ICON_SIZE} aria-hidden />}>Open</Button>
         </div>
       </div>
     </div>

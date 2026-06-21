@@ -8,8 +8,7 @@ export interface ButtonProps {
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   className?: string;
-  icon?: React.ReactNode;
-  iconPosition?: 'start' | 'end';
+  iconBefore?: React.ReactNode;
   iconAfter?: React.ReactNode;
 }
 
@@ -20,8 +19,7 @@ export const Button: React.FC<ButtonProps> = ({
   size = 'md',
   disabled = false,
   className = '',
-  icon,
-  iconPosition = 'start',
+  iconBefore,
   iconAfter,
 }) => {
   const classes = [
@@ -37,10 +35,9 @@ export const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {icon && iconPosition !== 'end' && icon}
+      {iconBefore}
       {children}
       {iconAfter}
-      {icon && iconPosition === 'end' && icon}
     </button>
   );
 };

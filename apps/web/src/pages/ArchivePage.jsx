@@ -386,7 +386,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
             />
           </div>
           <div className={styles.filterDrawerFooter}>
-            <Button variant="tertiary" size="sm" icon={<X size={14} />} onClick={() => { clearAll(); setFilterDrawerOpen(false) }} style={{ flex: 1 }}>
+            <Button variant="tertiary" size="sm" iconBefore={<X size={14} />} onClick={() => { clearAll(); setFilterDrawerOpen(false) }} style={{ flex: 1 }}>
               Clear all
             </Button>
             <Button variant="primary" size="sm" iconAfter={<Check size={14} />} onClick={() => setFilterDrawerOpen(false)} style={{ flex: 1 }}>
