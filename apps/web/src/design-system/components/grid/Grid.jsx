@@ -37,10 +37,12 @@ export default function Grid({
     className ?? '',
   ].filter(Boolean).join(' ')
 
+  // Auto-collapse: 3+ col grids step down to 2 at tablet unless explicit tabletColumns is provided
+  const resolvedTablet = tabletColumns ?? (columns >= 3 ? 2 : undefined)
   const style = Object.assign(
     {},
     columns ? { '--grid-columns': columns } : {},
-    tabletColumns ? { '--grid-columns-tablet': tabletColumns } : {},
+    resolvedTablet ? { '--grid-columns-tablet': resolvedTablet } : {},
   )
 
   return (
