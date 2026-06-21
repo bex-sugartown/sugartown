@@ -10,14 +10,15 @@
  *   To create a colour-aware chip, set --chip-color as an inline style:
  *     style={{ '--chip-color': '#a855f7' }}
  *   The background, border, and text all derive from that one value via color-mix().
- *   Default (no --chip-color) resolves to Sugartown pink (#ff247d).
+ *   Default (no --chip-color) resolves to neutral grey (--st-color-softgrey-500).
  */
 
 /* ── Base ────────────────────────────────────────────── */
 
 .chip {
-  /* Internal colour resolution — callers override via --chip-color inline style */
-  --_chip-color: var(--chip-color, var(--st-color-accent));
+  /* Internal colour resolution — callers override via --chip-color inline style.
+     Default (no --chip-color) resolves to neutral grey, not accent pink. */
+  --_chip-color: var(--chip-color, var(--st-color-softgrey-500));
 
   display: inline-flex;
   align-items: center;
@@ -211,10 +212,14 @@
 .dot-draft      { background: var(--st-chip-dot-draft); }
 .dot-deprecated { background: var(--st-chip-dot-deprecated); }
 
-/* color prop overrides dot color on variant="status" chips */
+/* color prop overrides dot color on variant="badge" chips */
 .colorDot .dot {
   background: var(--_chip-color);
 }
+
+/* Named color dot overrides — specific shade tuned for small dot readability */
+.colorDot.lime .dot { background: var(--st-color-lime-600); }
+.colorDot.grey .dot { background: var(--st-color-charcoal-400); }
 
 /* ── dotColor mode — project chip (inline hex via --chip-dot) ─
    Activates when dotColor prop is passed. Same neutral chassis as

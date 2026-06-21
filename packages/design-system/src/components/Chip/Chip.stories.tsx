@@ -40,43 +40,21 @@ const meta: Meta<typeof Chip> = {
 export default meta;
 type Story = StoryObj<typeof Chip>;
 
-// ─── Default chip (no variant) — isActive works here ─────────────────────────
-
-/** Default chip — no variant. Supports isActive, color, href. Use Controls to explore. */
-export const Default: Story = {
-  args: { label: 'performance', href: '#' },
-};
-
 // ─── Tag variant ──────────────────────────────────────────────────────────────
 
+/** Tag chip — neutral chassis, no dot, no active state. Use for taxonomy labels. */
 export const Tag: Story = {
-  args: { label: 'performance', variant: 'tag' },
-};
-
-export const TagFeatured: Story = {
-  args: { label: 'Design Systems', variant: 'tag', featured: true },
+  args: { label: 'Design Systems', variant: 'tag' },
 };
 
 // ─── Badge variant ────────────────────────────────────────────────────────────
 
-/** Badge (no dot) — label only, uppercase bold chassis */
+/** Badge — label-only, uppercase bold chassis. No dot. */
 export const Badge: Story = {
   args: { label: 'In Review', variant: 'badge' },
 };
 
-/** Badge — abbreviation inline in a heading (SUG-162) */
-export const BadgeAbbreviation: Story = {
-  name: 'Badge — Abbreviation',
-  render: () => (
-    <h1 style={{ margin: 0 }}>
-      Headless CMS{' '}
-      <Chip label="CMS" variant="badge" aria-label="Abbreviation: CMS" />
-    </h1>
-  ),
-  parameters: { layout: 'padded' },
-};
-
-/** Badge — color dot driven by named color preset */
+/** Badge with color dot — named color presets drive dot color. */
 export const BadgeWithDot: Story = {
   name: 'Badge — Color Dot',
   render: () => (
@@ -85,21 +63,7 @@ export const BadgeWithDot: Story = {
       <Chip label="Violet"   variant="badge" color="violet" />
       <Chip label="Lime"     variant="badge" color="lime" />
       <Chip label="Amber"    variant="badge" color="amber" />
-    </div>
-  ),
-  parameters: { layout: 'padded' },
-};
-
-// ─── dotColor mode — project chips (SUG-118) ─────────────────────────────────
-
-/** All project dotColor variants */
-export const AllProjectColors: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-      <Chip label="Pink Moon"     dotColor="#ff247d" />
-      <Chip label="Mini-repo"     dotColor="#2bd4aa" />
-      <Chip label="Sugartown CMS" dotColor="#b8e000" />
-      <Chip label="Design System" dotColor="#7C3AED" />
+      <Chip label="Grey"     variant="badge" color="grey" />
     </div>
   ),
   parameters: { layout: 'padded' },
