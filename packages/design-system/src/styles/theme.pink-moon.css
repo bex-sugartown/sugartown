@@ -26,8 +26,8 @@
 /* ══════════════════════════════════════════════════════════
    LIGHT PINK MOON (default mode)
    ══════════════════════════════════════════════════════════ */
-:root[data-theme="light-pink-moon"],
-[data-theme="light-pink-moon"] {
+:root[data-theme~="light-pink-moon"],
+[data-theme~="light-pink-moon"] {
 
   /* ── Backgrounds — Ledger Tradition surface hierarchy ── */
   --st-color-bg-canvas:         var(--st-color-neutral-100);      /* #F2F2F3 — Ledger Tradition page field */
@@ -213,8 +213,8 @@
 /* ══════════════════════════════════════════════════════════
    DARK PINK MOON
    ══════════════════════════════════════════════════════════ */
-:root[data-theme="dark-pink-moon"],
-[data-theme="dark-pink-moon"] {
+:root[data-theme~="dark-pink-moon"],
+[data-theme~="dark-pink-moon"] {
 
   /* Surface — subtle separation on dark canvas */
   --st-color-bg-surface:        rgba(255, 255, 255, 0.06);
