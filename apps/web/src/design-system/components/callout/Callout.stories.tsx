@@ -20,9 +20,21 @@ const meta: Meta<typeof Callout> = {
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
   argTypes: {
-    variant: { control: { type: 'select' }, options: ['default', 'info', 'tip', 'warn', 'danger', 'banner'] },
-    title:   { control: 'text' },
-    number:  { control: 'text' },
+    variant: {
+      control: { type: 'select' },
+      options: ['default', 'info', 'tip', 'warn', 'danger', 'banner'],
+      description: 'Colorway — default: neutral grey label / ink rule (light) / pink rule (dark). info: pink. tip: violet. warn: orange. danger: maroon. banner: full-width strip, no label column.',
+    },
+    title:   { control: 'text', description: 'Bold label shown in the label column (or inline for banner)', defaultValue: 'The Challenge' },
+    number:  { control: 'text', description: 'Folio number shown above the title (e.g. § 01)', defaultValue: '§ 01' },
+    content: { control: 'text', description: 'Body text — renders as a paragraph. Use children for rich content.' },
+    children: { table: { disable: true } },
+    className: { table: { disable: true } },
+  },
+  args: {
+    title: 'The Challenge',
+    number: '§ 01',
+    content: 'Default callout. Neutral grey label column, ink top rule in light theme, pink in dark.',
   },
   decorators: [
     (Story) => (
@@ -36,115 +48,44 @@ const meta: Meta<typeof Callout> = {
 export default meta;
 type Story = StoryObj<typeof Callout>;
 
-/** Default — neutral label column, ink top rule (light) / pink (dark). */
 export const Default: Story = {
-  args: {
-    variant: 'default',
-    children: <p>Default callout. Neutral grey label column, ink top rule in light theme, pink in dark.</p>,
-  },
+  args: { variant: 'default' },
 };
 
-/** With folio number and title — label column shows §NN above the section name. */
-export const WithNumber: Story = {
-  name: 'With number + title',
-  args: {
-    variant: 'default',
-    number: '§ 01',
-    title: 'The Challenge',
-    children: <p>The client's catalogue had grown considerably, but the site treated every entry as a peer. Discovery collapsed into endless filter menus, and the editorial voice was buried beneath a transactional interface.</p>,
-  },
-};
-
-/** Info — pink accent. */
 export const Info: Story = {
-  args: {
-    variant: 'info',
-    number: '§ 02',
-    title: 'Note',
-    children: <p>Factual context or background reading. Pink top rule and folio number.</p>,
-  },
+  args: { variant: 'info', title: 'Note', number: '§ 02', content: 'Factual context or background reading. Pink top rule and folio number.' },
 };
 
-/** Tip — violet accent. */
 export const Tip: Story = {
-  args: {
-    variant: 'tip',
-    number: '§ 03',
-    title: 'Tip',
-    children: <p>Practical guidance. Violet top rule and folio number.</p>,
-  },
+  args: { variant: 'tip', title: 'Tip', number: '§ 03', content: 'Practical guidance. Violet top rule and folio number.' },
 };
 
-/** Warn — orange accent. */
 export const Warn: Story = {
-  args: {
-    variant: 'warn',
-    number: '§ 04',
-    title: 'Warning',
-    children: <p>Caveats, known edge cases, or partial-coverage notes. Orange top rule and folio number.</p>,
-  },
+  args: { variant: 'warn', title: 'Warning', number: '§ 04', content: 'Caveats, known edge cases, or partial-coverage notes. Orange top rule.' },
 };
 
-/** Danger — maroon accent. */
 export const Danger: Story = {
-  args: {
-    variant: 'danger',
-    number: '§ 05',
-    title: 'Danger',
-    children: <p>High-risk warnings. Maroon top rule and folio number.</p>,
-  },
+  args: { variant: 'danger', title: 'Danger', number: '§ 05', content: 'High-risk warnings. Maroon top rule.' },
 };
 
-/** Without number — title-only label column (backward-compatible). */
-export const TitleOnly: Story = {
-  name: 'Title only (no number)',
-  args: {
-    variant: 'default',
-    title: "Author's note",
-    children: <p>Label column shows title only — number prop omitted. Fully backward-compatible with existing usage.</p>,
-  },
-};
-
-/** Multi-paragraph body — label column anchors to top. */
-export const MultiParagraph: Story = {
-  name: 'Multi-paragraph body',
-  args: {
-    variant: 'default',
-    number: '§ 01',
-    title: 'Context',
-    children: (
-      <>
-        <p>The label column is fixed at 130px. The body column takes the remaining width via <code>1fr</code>.</p>
-        <p>When body content spans multiple paragraphs the label stays anchored to the top of its column — it does not stretch or repeat.</p>
-        <p>Links resolve to <a href="#">the accent link colour</a>, consistent with all prose link treatment.</p>
-      </>
-    ),
-  },
-};
-
-/** Banner — single-row strip, no label column. Page-level status message (role="status"). */
+/** Banner — full-width strip, no label column. With and without title. */
 export const Banner: Story = {
-  name: 'Banner (page strip)',
-  args: {
-    variant: 'banner',
-    title: 'Note',
-    children: <p>This section covers experimental APIs that may change before general availability.</p>,
-  },
-};
-
-/** Banner without title — body-only strip. */
-export const BannerNoTitle: Story = {
-  name: 'Banner (no title)',
-  args: {
-    variant: 'banner',
-    children: <p>Draft content — not published. Visible in preview mode only.</p>,
-  },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <Callout variant="banner" title="Note">
+        <p>This section covers experimental APIs that may change before general availability.</p>
+      </Callout>
+      <Callout variant="banner">
+        <p>Draft content — not published. Visible in preview mode only.</p>
+      </Callout>
+    </div>
+  ),
 };
 
 /** Snapshot — all colorways for Chromatic VRT. */
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
-  parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
+  parameters: { chromatic: { disableSnapshot: false } },
   render: () => (
     <div style={{ maxWidth: '680px', display: 'flex', flexDirection: 'column', gap: '0' }}>
       <Callout variant="default" number="§ 01" title="The Challenge">

@@ -18,22 +18,17 @@ export default function Callout({
   variant = 'default',
   number,
   title,
+  content,
   children,
-  className,
 }) {
-  const classNames = [
-    styles.callout,
-    styles[variant] ?? '',
-    className ?? '',
-  ]
-    .filter(Boolean)
-    .join(' ')
+  const body = content ? <p>{content}</p> : children
+  const classNames = [styles.callout, styles[variant] ?? ''].filter(Boolean).join(' ')
 
   if (variant === 'banner') {
     return (
       <div className={classNames} role="status">
         {title && <span className={styles.bannerLabel}>{title}</span>}
-        <div className={styles.bannerBody}>{children}</div>
+        <div className={styles.bannerBody}>{body}</div>
       </div>
     )
   }
@@ -46,7 +41,7 @@ export default function Callout({
         {number && <span className={styles.number}>{number}</span>}
         <span className={styles.label}>{label}</span>
       </div>
-      <div className={styles.body}>{children}</div>
+      <div className={styles.body}>{body}</div>
     </aside>
   )
 }
