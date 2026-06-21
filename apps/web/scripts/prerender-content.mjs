@@ -258,6 +258,7 @@ function buildHtml({ title, description, canonicalUrl, ogImageUrl, bodyHtml, ass
   <div id="root"><article>
 ${bodyHtml}
   </article></div>
+  <script>(function(){var t=localStorage.getItem('st-theme');var valid=['light-pink-moon','dark-pink-moon'];document.documentElement.setAttribute('data-theme',valid.indexOf(t)!==-1?t:'light-pink-moon');})()</script>
   ${assets.scripts}
 </body>
 </html>`

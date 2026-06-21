@@ -25,6 +25,14 @@ export default function ThemeToggle() {
     () => document.documentElement.getAttribute('data-theme') ?? LIGHT
   )
 
+  // If the inline theme-init script didn't run (e.g. prerendered pages), sync
+  // the resolved default back to the DOM so CSS [data-theme] selectors match.
+  useEffect(() => {
+    if (!document.documentElement.hasAttribute('data-theme')) {
+      document.documentElement.setAttribute('data-theme', theme)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   // Sync React state if data-theme is changed externally (e.g. devtools)
   useEffect(() => {
     const el = document.documentElement
