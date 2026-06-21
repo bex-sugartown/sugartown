@@ -581,13 +581,13 @@ function ImageGallerySection({ section }) {
 // If you change any of these, retest against the 3 /platform diagrams
 // (architecture flow, release process, token architecture) at column +
 // wide width before merging.
-function MermaidDiagram({ section }) {
+function MermaidDiagram({ code, width, caption, sectionId, _key }) {
   const containerRef = useRef(null)
   const [error, setError] = useState(null)
-  const renderIdRef = useRef(`mermaid-${section._key || Math.random().toString(36).slice(2)}`)
+  const renderIdRef = useRef(`mermaid-${_key || Math.random().toString(36).slice(2)}`)
 
   const renderDiagram = useCallback(async () => {
-    if (!section.code || !containerRef.current) return
+    if (!code || !containerRef.current) return
     setError(null)
     try {
       const mermaid = (await import('mermaid')).default
@@ -655,7 +655,7 @@ function MermaidDiagram({ section }) {
       // overridden by hardcoded fills/strokes stored in Sanity content.
       // Also strip `:::className` inline class markers referenced by those
       // stripped classDefs so Mermaid doesn't error on unknown classes.
-      const themedCode = section.code
+      const themedCode = code
         .split('\n')
         .filter((line) => !/^\s*(style|classDef|class)\s/.test(line))
         .join('\n')
@@ -670,7 +670,7 @@ function MermaidDiagram({ section }) {
     } catch (err) {
       setError(err.message || 'Failed to render diagram')
     }
-  }, [section.code])
+  }, [code])
 
   useEffect(() => {
     renderDiagram()
@@ -687,19 +687,19 @@ function MermaidDiagram({ section }) {
     return () => observer.disconnect()
   }, [renderDiagram])
 
-  if (!section.code) return null
+  if (!code) return null
 
   const widthClass =
-    section.width === 'full'
+    width === 'full'
       ? styles.mermaidSectionFull
-      : section.width === 'wide'
+      : width === 'wide'
         ? styles.mermaidSectionWide
         : ''
 
   return (
     <section
       className={`${styles.mermaidSection}${widthClass ? ` ${widthClass}` : ''}`}
-      id={section._sectionId}
+      id={sectionId}
     >
       {error ? (
         <pre className={styles.mermaidError}>{error}</pre>
@@ -707,12 +707,12 @@ function MermaidDiagram({ section }) {
         <div
           ref={containerRef}
           className={styles.mermaidContainer}
-          aria-label={section.caption || 'Diagram'}
+          aria-label={caption || 'Diagram'}
           role="img"
         />
       )}
-      {section.caption && (
-        <p className={styles.mermaidCaption}>{section.caption}</p>
+      {caption && (
+        <p className={styles.mermaidCaption}>{caption}</p>
       )}
     </section>
   )
@@ -915,7 +915,7 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
       case 'calloutSection':
         return <CalloutSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'mermaidSection':
-        return <MermaidDiagram key={key} section={{ ...section, _sectionId: sectionId }} />
+        return <MermaidDiagram key={key} _key={key} code={section.code} width={section.width} caption={section.caption} sectionId={sectionId} />
       case 'accordionSection':
         return <AccordionSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'trustReportSection':
