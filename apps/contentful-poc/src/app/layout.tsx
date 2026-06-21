@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "@sugartown/design-system/styles/tokens.css";
 import "@sugartown/design-system/styles/theme.pink-moon.css";
+import "@sugartown/design-system/styles/theme.shop.css";
 import "@sugartown/design-system/styles.css";
 import { getSiteSettings } from "@/lib/queries";
 import { normalizeSiteSettings } from "@/lib/normalizeSiteSettings";
@@ -20,7 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
 const noFlashScript = `
 (function() {
   var stored = localStorage.getItem('st-poc-theme');
-  if (stored === 'light-pink-moon' || stored === 'dark-pink-moon') {
+  var valid = ['light-pink-moon light-shop', 'dark-pink-moon dark-shop'];
+  if (valid.indexOf(stored) !== -1) {
     document.documentElement.setAttribute('data-theme', stored);
   }
 })();
@@ -35,7 +37,7 @@ export default async function RootLayout({
   const settings = normalizeSiteSettings(rawSettings);
 
   return (
-    <html lang="en" data-theme="light-pink-moon">
+    <html lang="en" data-theme="light-pink-moon light-shop">
       <head>
         {/* eslint-disable-next-line react/no-danger */}
         <script dangerouslySetInnerHTML={{ __html: noFlashScript }} />

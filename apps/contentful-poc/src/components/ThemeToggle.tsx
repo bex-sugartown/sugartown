@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "st-poc-theme";
-const LIGHT = "light-pink-moon";
-const DARK = "dark-pink-moon";
+const LIGHT = "light-pink-moon light-shop";
+const DARK = "dark-pink-moon dark-shop";
 
 export function ThemeToggle() {
   const [theme, setTheme] = useState<string>(LIGHT);
