@@ -24,6 +24,8 @@ const noFlashScript = `
   var valid = ['light-pink-moon light-shop', 'dark-pink-moon dark-shop'];
   if (valid.indexOf(stored) !== -1) {
     document.documentElement.setAttribute('data-theme', stored);
+  } else {
+    localStorage.removeItem('st-poc-theme');
   }
 })();
 `;

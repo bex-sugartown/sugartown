@@ -18,7 +18,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import NextLink from "next/link";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import type { NormalizedSiteSettings } from "@/lib/normalizeSiteSettings";
 import styles from "./SiteHeader.module.css";
 
@@ -92,7 +91,7 @@ export function SiteHeader({
           </nav>
         )}
 
-        {/* Actions: CTA + theme toggle */}
+        {/* Actions: CTA */}
         <div className={styles.actions}>
           {headerCta && (
             <a
@@ -104,7 +103,6 @@ export function SiteHeader({
               {headerCta.label}
             </a>
           )}
-          <ThemeToggle />
         </div>
       </div>
     </header>
