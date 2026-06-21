@@ -42,7 +42,7 @@ const meta: Meta<typeof Button> = {
       description: 'Size modifier — sm / md (default) / lg',
     },
     disabled: { control: 'boolean', description: 'Disables interaction and dims the button' },
-    children: { control: 'text', description: 'Button label text' },
+    children: { control: 'text', description: 'Button label text', table: { type: { summary: 'ReactNode' } } },
     iconPosition: {
       control: { type: 'select' },
       options: ['start', 'end'],
