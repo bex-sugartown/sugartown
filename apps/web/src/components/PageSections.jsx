@@ -581,13 +581,18 @@ function ImageGallerySection({ section }) {
 // If you change any of these, retest against the 3 /platform diagrams
 // (architecture flow, release process, token architecture) at column +
 // wide width before merging.
-function MermaidDiagram({ code, width, caption, sectionId, _key }) {
+function MermaidDiagram({ code, direction, width, caption, sectionId, _key }) {
+  // Patch the layout direction into the first flowchart/graph line if specified
+  const resolvedCode = direction && code
+    ? code.replace(/^(flowchart|graph)\s+\w+/m, `$1 ${direction === 'horizontal' ? 'LR' : 'TD'}`)
+    : code
+
   const containerRef = useRef(null)
   const [error, setError] = useState(null)
   const renderIdRef = useRef(`mermaid-${_key || Math.random().toString(36).slice(2)}`)
 
   const renderDiagram = useCallback(async () => {
-    if (!code || !containerRef.current) return
+    if (!resolvedCode || !containerRef.current) return
     setError(null)
     try {
       const mermaid = (await import('mermaid')).default
@@ -655,7 +660,7 @@ function MermaidDiagram({ code, width, caption, sectionId, _key }) {
       // overridden by hardcoded fills/strokes stored in Sanity content.
       // Also strip `:::className` inline class markers referenced by those
       // stripped classDefs so Mermaid doesn't error on unknown classes.
-      const themedCode = code
+      const themedCode = resolvedCode
         .split('\n')
         .filter((line) => !/^\s*(style|classDef|class)\s/.test(line))
         .join('\n')
@@ -670,7 +675,7 @@ function MermaidDiagram({ code, width, caption, sectionId, _key }) {
     } catch (err) {
       setError(err.message || 'Failed to render diagram')
     }
-  }, [code])
+  }, [resolvedCode])
 
   useEffect(() => {
     renderDiagram()

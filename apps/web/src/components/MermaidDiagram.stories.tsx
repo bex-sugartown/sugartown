@@ -30,6 +30,11 @@ const meta: Meta<typeof MermaidDiagram> = {
       control: 'text',
       description: 'Mermaid diagram definition string',
     },
+    direction: {
+      control: { type: 'select' },
+      options: ['horizontal', 'vertical'],
+      description: 'Override flow direction — patches the first flowchart/graph line',
+    },
     width: {
       control: { type: 'select' },
       options: ['default', 'wide', 'full'],
@@ -47,25 +52,33 @@ const meta: Meta<typeof MermaidDiagram> = {
 export default meta;
 type Story = StoryObj<typeof MermaidDiagram>;
 
+const SIMPLE_FLOW = `flowchart LR
+  A[Token] --> B[Component]
+  B --> C[Page]`;
+
+const ARCHITECTURE_FLOW = `flowchart TD
+  subgraph DS[Design System]
+    T[tokens.css] --> P[DS Primitives]
+  end
+  subgraph Web[apps/web]
+    P --> A[Web Adapters]
+    A --> C[App Composites]
+  end
+  C --> Page[Pages]`;
+
 export const Default: Story = {
   args: {
-    code: `flowchart LR\n  A[Token] --> B[Component]\n  B --> C[Page]`,
+    code: SIMPLE_FLOW,
+    caption: 'Sugartown token-to-page data flow',
     _key: 'md-default',
   },
 };
 
 export const Architecture: Story = {
   args: {
-    code: `flowchart TD\n  subgraph DS[Design System]\n    T[tokens.css] --> P[DS Primitives]\n  end\n  subgraph Web[apps/web]\n    P --> A[Web Adapters]\n    A --> C[App Composites]\n  end\n  C --> Page[Pages]`,
+    code: ARCHITECTURE_FLOW,
+    caption: 'Design system layer architecture',
     width: 'wide',
     _key: 'md-arch',
-  },
-};
-
-export const WithCaption: Story = {
-  args: {
-    code: `flowchart LR\n  A[Token] --> B[Component]\n  B --> C[Page]`,
-    caption: 'Sugartown token-to-page data flow',
-    _key: 'md-caption',
   },
 };
