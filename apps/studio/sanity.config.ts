@@ -6,7 +6,6 @@ import {codeInput} from '@sanity/code-input'
 import {schemaTypes} from './schemas'
 import {autoTimestampsPlugin} from './plugins/autoTimestamps'
 import {createSyncRelatedAction} from './components/SyncRelatedAction'
-import {ProjectReferencesView} from './components/ProjectReferencesView'
 
 export default defineConfig({
   name: 'default',
@@ -17,15 +16,6 @@ export default defineConfig({
 
   plugins: [
     structureTool({
-      defaultDocumentNode: (S, {schemaType}) => {
-        if (schemaType === 'project') {
-          return S.document().views([
-            S.view.form().title('Fields'),
-            S.view.component(ProjectReferencesView).title('Referenced by'),
-          ])
-        }
-        return S.document()
-      },
       structure: (S) =>
         S.list()
           .title('Sugartown CMS')

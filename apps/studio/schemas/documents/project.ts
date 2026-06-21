@@ -1,5 +1,7 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
+import {defineIncomingReferenceDecoration} from 'sanity/structure'
 import {RocketIcon} from '@sanity/icons'
+import {createRemoveReferenceAction} from '../../components/RemoveReferenceAction'
 
 /**
  * Project Document
@@ -15,6 +17,21 @@ export default defineType({
   title: 'Project',
   type: 'document',
   icon: RocketIcon,
+
+  renderMembers: (members) => [
+    ...members,
+    defineIncomingReferenceDecoration({
+      name: 'assignedContent',
+      title: 'Assigned content',
+      types: [{type: 'article'}, {type: 'node'}, {type: 'caseStudy'}],
+      actions: [createRemoveReferenceAction('projects')],
+      onLinkDocument: (doc, reference) => {
+        const existing = ((doc as any).projects ?? []) as Array<{_ref: string}>
+        if (existing.some((r) => r._ref === reference._ref)) return false
+        return {...doc, projects: [...existing, {...reference, _key: reference._ref}]}
+      },
+    }),
+  ],
 
   groups: [
     {name: 'basics',  title: 'Basics',  default: true},

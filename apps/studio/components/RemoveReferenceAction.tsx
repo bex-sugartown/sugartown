@@ -17,12 +17,13 @@ import {type IncomingReferenceAction} from 'sanity/structure'
 import {TrashIcon} from '@sanity/icons'
 
 export function createRemoveReferenceAction(
-  fieldName: 'categories' | 'tags' | 'tools',
+  fieldName: 'categories' | 'tags' | 'tools' | 'projects',
 ): IncomingReferenceAction {
   const labelMap: Record<string, string> = {
     categories: 'category',
     tags: 'tag',
     tools: 'tool',
+    projects: 'project',
   }
   const label = labelMap[fieldName]
 
