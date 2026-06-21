@@ -42,6 +42,12 @@
   line-height: 1.6;
 }
 
+/* Line numbers require non-wrapping text so source lines align with row numbers */
+.lineNumbers .pre {
+  white-space: pre;
+  word-wrap: normal;
+}
+
 .code {
   background: none;
   padding: 0;
@@ -88,16 +94,14 @@
 /* ── Dark-theme block: differentiate from void canvas ─────────────────────── */
 /* In dark theme the canvas bg is midnight-900 (#0D1226); code uses midnight-800
    plus a ring shadow so the block has visible elevation. */
-[data-theme="dark-pink-moon"] .block {
+[data-theme~="dark-pink-moon"] .block {
   --st-code-bg: var(--st-color-midnight-800);
   --st-code-shadow: var(--st-shadow-code-dark);
 }
 
-/* ── Inline code — dark theme: dark maroon pill ───────────────────────────── */
-[data-theme="dark-pink-moon"] .inline {
-  --st-code-inline-bg: var(--st-code-inline-bg-dark-maroon);
-  --st-code-inline-color: var(--st-color-maroon-300);
-  --st-code-inline-border: var(--st-code-inline-border-dark-maroon);
+/* ── Inline code — dark theme: lime wash at higher opacity for legibility ──── */
+[data-theme~="dark-pink-moon"] .inline {
+  --st-code-inline-bg: var(--st-code-inline-bg-dark);
 }
 
 /* ── Line numbers (Prism line-numbers plugin) ─────────────────────────────── */
@@ -107,7 +111,7 @@
   position: relative !important;
   padding-left: 3.8em !important;
   counter-reset: linenumber;
-  overflow: hidden !important;
+  overflow-x: auto !important; /* allow horizontal scroll; plugin default is hidden */
 }
 
 :global(.line-numbers-rows) {
@@ -146,14 +150,10 @@
   align-items: center;
 }
 
-/* ── Inline code ──────────────────────────────────────────────────────────── */
+/* ── Inline code — lime wash + brand pink ─────────────────────────────────── */
 .inline {
-  --st-code-inline-bg: var(--st-color-softgrey-100);
-  --st-code-inline-color: var(--st-color-maroon);
-  --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
-
-  background-color: var(--st-code-inline-bg);
-  color: var(--st-code-inline-color);
+  background-color: var(--st-code-inline-bg);   /* token: lime wash */
+  color: var(--st-code-inline-color);            /* token: brand pink */
   padding: 0.2em 0.5em;
   border-radius: 4px;
   border: var(--st-code-inline-border);

@@ -74,7 +74,7 @@ export function CodeBlock({
     if (codeRef.current && language) {
       Prism.highlightElement(codeRef.current);
     }
-  }, [code, language]);
+  }, [code, language, showLineNumbers]);
 
   const isMermaid = variant === 'mermaid';
   const langClass = language ? `language-${language}` : '';

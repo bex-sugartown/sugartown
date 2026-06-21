@@ -360,7 +360,8 @@
   --st-code-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   --st-code-padding: 2rem;
   --st-code-margin-block: 3rem;
-  --st-code-inline-bg: rgba(209, 255, 29, 0.10);
+  --st-code-inline-bg: rgba(209, 255, 29, 0.12);
+  --st-code-inline-bg-dark: rgba(209, 255, 29, 0.20);
   --st-code-inline-border: 1px solid rgba(209, 255, 29, 0.30);
   --st-code-font-size: 0.9rem;
   --st-citation-size: 0.72rem;
@@ -615,8 +616,6 @@
   --st-tile-bg-hover: var(--st-color-bg-subtle);
   --st-blockquote-color: var(--st-color-text-secondary);
   --st-code-bg: var(--st-color-midnight);
-  --st-code-inline-color: var(--st-color-lime);
-  --st-code-inline-text: var(--st-color-lime);
   --st-citation-color: var(--st-color-text-secondary);
   --st-citation-index-color: var(--st-color-pink);
   --st-citation-marker-color: var(--st-color-pink);
@@ -650,6 +649,8 @@
   --st-tile-value-color: var(--st-stat-tile-value-color);
   --st-tile-sub-color: var(--st-stat-tile-sub-color);
   --st-blockquote-border-color: var(--st-color-brand-primary);
+  --st-code-inline-color: var(--st-color-brand-primary);
+  --st-code-inline-text: var(--st-color-brand-primary);
   --st-graph-node-item: var(--st-color-brand-primary);
   --st-graph-bg: var(--st-color-bg-canvas);
   --st-color-bg-void: var(--st-color-bg-midnight);
