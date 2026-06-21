@@ -49,15 +49,28 @@ type Story = StoryObj<typeof Grid>;
 
 const PlaceholderTile = ({ label }: { label: string }) => (
   <div style={{
-    background: 'var(--st-color-bg-surface, #fff)',
-    padding: '20px',
-    fontFamily: 'monospace',
+    background: 'var(--st-color-bg-surface-strong)',
+    border: '1px solid var(--st-color-neutral-200)',
+    padding: '2rem 1.25rem',
+    fontFamily: 'var(--st-font-family-mono)',
     fontSize: '0.7rem',
-    color: '#888',
+    color: 'var(--st-color-text-muted)',
+    textAlign: 'center' as const,
   }}>
     {label}
   </div>
 );
+
+export const Default: Story = {
+  args: { spacing: 'lg', columns: 3 },
+  render: (args) => (
+    <Grid {...args}>
+      <PlaceholderTile label="Card A" />
+      <PlaceholderTile label="Card B" />
+      <PlaceholderTile label="Card C" />
+    </Grid>
+  ),
+};
 
 /** Open gap — 32px between cards (space.6 / --st-space-card-gap). */
 export const SpacingLg: Story = {
