@@ -96,19 +96,37 @@ const meta: Meta = {
 
 ---
 
-## 4. Three-story rule (going forward)
+## 4. Stories = variants. Props = everything else.
 
-New component stories should cover at most three cases:
+**One story per named visual variant.** Button has three variants (Primary, Secondary, Tertiary) — three stories. That is the ceiling, not the floor. States (disabled, loading), sizes, icon positions, edge cases, and content variations are explored through the Controls panel on any story — not through additional story exports.
 
-| Story name | What it covers |
+**Dark mode is the theme toolbar, not a story.** Switch to `dark-pink-moon` in the Storybook theme dropdown. Do not add a `DarkMode` story export.
+
+**`+ Snapshot (Chromatic)`** — a single catch-all story that renders all variant × state combinations in one frame, permanently preserved for VRT. This is the only story that needs to show multiple states together. Named `Snapshot (Chromatic)` by convention.
+
+| What you need to show | How to show it |
 |---|---|
-| `Default` | The canonical rendered state — what the component looks like in the most common use |
-| `Variant` | A second genuinely distinct visual state (different tone, size, or configuration) |
-| `EdgeCase` | One meaningful edge: long text, empty/null state, or a visually distinct limit |
+| Named visual variants (Primary, Secondary…) | One story per variant |
+| States: disabled, loading, error | Controls panel — `disabled: true` toggle |
+| Sizes | Controls panel — `size` select |
+| Icon start/end | Controls panel — `icon` / `iconAfter` / `iconPosition` selects |
+| Long label edge case | Controls panel — `children` text input |
+| All states at once for VRT | `Snapshot (Chromatic)` story |
+| Dark mode | Theme toolbar — `dark-pink-moon` |
 
-**Dark mode is not a story — it is the theme toolbar.** Switch to `dark-pink-moon` in the Storybook theme dropdown to verify dark mode on any story. Do not add a `DarkMode` story variant; it duplicates what the toolbar already provides and consumes an extra snapshot slot on every Chromatic run.
+**Icon controls** — when a component accepts a React node for an icon slot, expose it as a select with a named mapping to 5 common Lucide icons (`ArrowRight`, `Check`, `X`, `ExternalLink`, `Plus`) plus `none`. This keeps the control serialisable and lets reviewers test icon combinations without separate stories:
 
-Fewer than three stories is fine if the component has only one meaningful visual state. More than three is permitted when the component has genuinely distinct visual states that cannot be combined (e.g. Button covering 4 `tone` values). In that case, document why in a comment above the extra stories.
+```ts
+icon: {
+  control: { type: 'select' },
+  options: ['none', 'ArrowRight', 'Check', 'X', 'ExternalLink', 'Plus'],
+  mapping: {
+    none: undefined,
+    ArrowRight: <ArrowRight size={14} aria-hidden />,
+    // …
+  },
+}
+```
 
 **Story count audit** (files exceeding 3 stories as of SUG-191 — review individually before removing):
 
