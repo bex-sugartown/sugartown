@@ -181,6 +181,14 @@ export const CwvFieldMetrics: Story = {
 };
 
 /** Multiple sections — demonstrates vertical rhythm across all section types. */
+export const MermaidSection: Story = {
+  parameters: { chromatic: { disableSnapshot: false, delay: 2000 } },
+  args: {
+    sections: [{ _type: 'mermaidSection', _key: 'md-1', code: 'flowchart LR\n  A[Token] --> B[Component]\n  B --> C[Page]' }],
+    context: 'detail',
+  },
+};
+
 export const MultipleSections: Story = {
   args: {
     sections: [
