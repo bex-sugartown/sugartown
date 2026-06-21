@@ -9,7 +9,6 @@ export interface AvatarProps {
   /** Name used to derive initials when src is absent */
   name: string;
   size?: AvatarSize;
-  className?: string;
 }
 
 function getInitials(name: string): string {
@@ -18,10 +17,10 @@ function getInitials(name: string): string {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 }
 
-export function Avatar({ src, name, size = 'md', className }: AvatarProps) {
+export function Avatar({ src, name, size = 'xl' }: AvatarProps) {
   return (
     <div
-      className={[styles.avatar, styles[size], className].filter(Boolean).join(' ')}
+      className={[styles.avatar, styles[size]].filter(Boolean).join(' ')}
       aria-label={name}
       role="img"
     >

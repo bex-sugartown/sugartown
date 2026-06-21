@@ -10,10 +10,10 @@ function getInitials(name) {
   return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase()
 }
 
-export default function Avatar({ src, name, size = 'md', className }) {
+export default function Avatar({ src, name, size = 'xl' }) {
   return (
     <div
-      className={[styles.avatar, styles[size], className].filter(Boolean).join(' ')}
+      className={[styles.avatar, styles[size]].filter(Boolean).join(' ')}
       aria-label={name}
       role="img"
     >
