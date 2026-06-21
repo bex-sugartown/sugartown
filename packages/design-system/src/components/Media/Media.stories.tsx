@@ -106,22 +106,21 @@ export const Default: Story = {
 
 export const AspectRatios: Story = {
   name: 'Aspect Ratios',
-  parameters: { controls: { disable: true }, layout: 'fullscreen' },
-  decorators: [],
+  parameters: { controls: { disable: true } },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <div style={{ padding: '0 2rem' }}>
+      <div>
         <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>1/1 — square</p>
         <div style={{ maxWidth: '320px' }}>
           <Media src={SAMPLE_IMAGE} alt="Square 1:1" aspectRatio="1/1" />
         </div>
       </div>
-      <div style={{ padding: '0 2rem' }}>
+      <div>
         <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>16/9 — content width</p>
         <Media src={SAMPLE_IMAGE} alt="Content-width 16:9" aspectRatio="16/9" />
       </div>
       <div>
-        <p style={{ margin: '0 0 0.5rem 2rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>21/9 — full width / hero</p>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>21/9 — full bleed / hero (0 radius, 0 margin)</p>
         <Media
           src={SAMPLE_IMAGE}
           alt="Full-width 21:9 hero"
