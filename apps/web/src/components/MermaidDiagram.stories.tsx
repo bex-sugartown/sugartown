@@ -35,15 +35,11 @@ const meta: Meta<typeof MermaidDiagram> = {
       options: ['horizontal', 'vertical'],
       description: 'Override flow direction — patches the first flowchart/graph line',
     },
-    width: {
-      control: { type: 'select' },
-      options: ['default', 'wide', 'full'],
-      description: 'Layout width — default fits prose column, wide expands, full bleeds',
-    },
     caption: {
       control: 'text',
       description: 'Optional caption displayed below the diagram',
     },
+    className: { table: { disable: true } },
     sectionId: { table: { disable: true } },
     _key: { table: { disable: true } },
   },
@@ -78,7 +74,6 @@ export const Architecture: Story = {
   args: {
     code: ARCHITECTURE_FLOW,
     caption: 'Design system layer architecture',
-    width: 'wide',
     _key: 'md-arch',
   },
 };

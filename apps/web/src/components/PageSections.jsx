@@ -581,7 +581,7 @@ function ImageGallerySection({ section }) {
 // If you change any of these, retest against the 3 /platform diagrams
 // (architecture flow, release process, token architecture) at column +
 // wide width before merging.
-function MermaidDiagram({ code, direction, width, caption, sectionId, _key }) {
+function MermaidDiagram({ code, direction, caption, sectionId, className, _key }) {
   // Patch the layout direction into the first flowchart/graph line if specified
   const resolvedCode = direction && code
     ? code.replace(/^(flowchart|graph)\s+\w+/m, `$1 ${direction === 'horizontal' ? 'LR' : 'TD'}`)
@@ -694,16 +694,9 @@ function MermaidDiagram({ code, direction, width, caption, sectionId, _key }) {
 
   if (!code) return null
 
-  const widthClass =
-    width === 'full'
-      ? styles.mermaidSectionFull
-      : width === 'wide'
-        ? styles.mermaidSectionWide
-        : ''
-
   return (
     <section
-      className={`${styles.mermaidSection}${widthClass ? ` ${widthClass}` : ''}`}
+      className={[styles.mermaidSection, className].filter(Boolean).join(' ')}
       id={sectionId}
     >
       {error ? (
@@ -919,8 +912,10 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
         return <CardBuilderSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'calloutSection':
         return <CalloutSection key={key} section={{ ...section, _sectionId: sectionId }} />
-      case 'mermaidSection':
-        return <MermaidDiagram key={key} _key={key} code={section.code} width={section.width} caption={section.caption} sectionId={sectionId} />
+      case 'mermaidSection': {
+        const mermaidWidthClass = section.width === 'full' ? styles.mermaidSectionFull : section.width === 'wide' ? styles.mermaidSectionWide : undefined
+        return <MermaidDiagram key={key} _key={key} code={section.code} caption={section.caption} sectionId={sectionId} className={mermaidWidthClass} />
+      }
       case 'accordionSection':
         return <AccordionSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'trustReportSection':
