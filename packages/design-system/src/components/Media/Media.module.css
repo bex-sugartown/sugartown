@@ -9,13 +9,10 @@
 
 /* ── Base figure + component tokens ──────────────────────────────────────── */
 .figure {
-  /* tokens */
-  --st-media-duotone-radius: 35px;
   --st-media-duotone-shadow: var(--st-shadow-media-duotone);
   --st-media-overlay-blend-mode: hard-light;
   --st-media-duotone-angle: 135deg;
 
-  /* styles */
   margin: var(--st-space-5, 1.5rem) 0;
   position: relative;
 }
@@ -23,7 +20,7 @@
 .image {
   width: 100%;
   height: auto;
-  border-radius: var(--st-radius-md, 12px);
+  border-radius: var(--st-radius-media);
   display: block;
 }
 
@@ -38,7 +35,7 @@
 .duotone {
   overflow: hidden;
   isolation: isolate;
-  border-radius: var(--st-media-duotone-radius);
+  border-radius: var(--st-radius-media);
   box-shadow: var(--st-media-duotone-shadow);
   transform: translateZ(0); /* GPU layer promotion */
 }
@@ -68,7 +65,7 @@
 .darkScrim {
   overflow: hidden;
   position: relative;
-  border-radius: var(--st-media-duotone-radius);
+  border-radius: var(--st-radius-media);
 }
 
 .darkScrim .image {
@@ -97,7 +94,7 @@
 /* ── Color overlay modifier ───────────────────────────────────────────────── */
 .colorOverlay {
   overflow: hidden;
-  border-radius: var(--st-radius-md, 12px);
+  border-radius: var(--st-radius-media);
 }
 
 .colorOverlay .image {
@@ -118,7 +115,7 @@
 /* ── Hover scale ──────────────────────────────────────────────────────────── */
 .hoverScale {
   overflow: hidden;
-  border-radius: var(--st-media-duotone-radius, 35px);
+  border-radius: var(--st-radius-media);
 }
 
 .hoverScale .image {
@@ -127,6 +124,19 @@
 
 .hoverScale:hover .image {
   transform: scale(1.05);
+}
+
+/* ── Bleed / full-width — zero radius, no margin ─────────────────────────── */
+.bleed {
+  margin: 0;
+}
+
+.bleed .image,
+.bleed.duotone,
+.bleed.darkScrim,
+.bleed.colorOverlay,
+.bleed.hoverScale {
+  border-radius: 0;
 }
 
 /* ── Aspect ratio support ─────────────────────────────────────────────────── */

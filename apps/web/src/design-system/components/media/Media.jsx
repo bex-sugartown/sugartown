@@ -150,9 +150,10 @@ export default function Media({
   aspectRatio,
   hotspot,
   hoverScale,
+  bleed,
   className,
-  width,   // Intrinsic image width — rendered as <img width=""> for CLS prevention
-  height,  // Intrinsic image height — rendered as <img height=""> for CLS prevention
+  width,
+  height,
 }) {
   if (!src) return null
 
@@ -176,6 +177,7 @@ export default function Media({
     isGreyscale ? styles.greyscale : '',
     isColorOverlay ? styles.colorOverlay : '',
     shouldScale ? styles.hoverScale : '',
+    bleed ? styles.bleed : '',
     className ?? '',
   ]
     .filter(Boolean)

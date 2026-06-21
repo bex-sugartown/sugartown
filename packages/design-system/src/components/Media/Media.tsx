@@ -51,6 +51,8 @@ export interface MediaProps {
   /** Zoom on hover — default true for duotone, false otherwise */
   hoverScale?: boolean;
   className?: string;
+  /** Full-bleed mode — zero border-radius and no margin. Use for full-width hero images. */
+  bleed?: boolean;
   /** Intrinsic image width — rendered as <img width=""> for CLS prevention (SUG-63) */
   width?: number;
   /** Intrinsic image height — rendered as <img height=""> for CLS prevention (SUG-63) */
@@ -178,6 +180,7 @@ export function Media({
   overlay,
   aspectRatio,
   hoverScale,
+  bleed,
   className,
   width,
   height,
@@ -203,6 +206,7 @@ export function Media({
     isGreyscale ? styles.greyscale : '',
     isColorOverlay ? styles.colorOverlay : '',
     shouldScale ? styles.hoverScale : '',
+    bleed ? styles.bleed : '',
     className ?? '',
   ]
     .filter(Boolean)

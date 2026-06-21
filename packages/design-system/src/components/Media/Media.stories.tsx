@@ -43,6 +43,7 @@ const meta: Meta<typeof Media> = {
       description: 'CSS aspect-ratio value. Empty = image intrinsic ratio.',
     },
     hoverScale:  { control: 'boolean', description: 'Zoom on hover (default: true when overlay is set)' },
+    bleed:       { control: 'boolean', description: 'Full-bleed — zero border-radius, no margin. Use for full-width hero images.' },
     // Story-layer flat controls for overlay (not a real prop — mapped to overlay object in render)
     overlayType: {
       control: { type: 'select' },
@@ -105,22 +106,29 @@ export const Default: Story = {
 
 export const AspectRatios: Story = {
   name: 'Aspect Ratios',
-  parameters: { controls: { disable: true } },
+  parameters: { controls: { disable: true }, layout: 'fullscreen' },
+  decorators: [],
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-      <div>
+      <div style={{ padding: '0 2rem' }}>
         <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>1/1 — square</p>
         <div style={{ maxWidth: '320px' }}>
           <Media src={SAMPLE_IMAGE} alt="Square 1:1" aspectRatio="1/1" />
         </div>
       </div>
-      <div>
+      <div style={{ padding: '0 2rem' }}>
         <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>16/9 — content width</p>
         <Media src={SAMPLE_IMAGE} alt="Content-width 16:9" aspectRatio="16/9" />
       </div>
       <div>
-        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>21/9 — full width / hero</p>
-        <Media src={SAMPLE_IMAGE} alt="Full-width 21:9" aspectRatio="21/9" overlay={{ type: 'duotone', duotonePreset: 'featured' }} />
+        <p style={{ margin: '0 0 0.5rem 2rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>21/9 — full width / hero</p>
+        <Media
+          src={SAMPLE_IMAGE}
+          alt="Full-width 21:9 hero"
+          aspectRatio="21/9"
+          bleed
+          overlay={{ type: 'duotone', duotonePreset: 'featured' }}
+        />
       </div>
     </div>
   ),
