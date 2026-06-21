@@ -293,8 +293,8 @@
   --st-code-color-comment: rgba(209, 255, 29, 0.50);
   --st-code-color-meta-dim: rgba(255, 255, 255, 0.40);
   --st-code-color-meta-mid: rgba(255, 255, 255, 0.60);
-  --st-code-color-line-num: rgba(255, 255, 255, 0.25);
-  --st-code-color-line-border: rgba(255, 255, 255, 0.10);
+  --st-code-color-line-num: rgba(255, 255, 255, 0.45);
+  --st-code-color-line-border: rgba(255, 255, 255, 0.15);
   --st-code-color-meta-border: rgba(255, 255, 255, 0.08);
   --st-code-inline-bg-dark-maroon: rgba(185, 28, 104, 0.18);
   --st-code-inline-border-dark-maroon: 1px solid rgba(185, 28, 104, 0.30);
