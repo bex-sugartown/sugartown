@@ -1,9 +1,9 @@
 /**
- * Hero stories — heroSection with full schema prop coverage.
+ * Hero stories — heroSection with flat individual controls.
  *
  * Uses HeroSection from PageSections (the real page-section renderer).
- * Two width variants: full-width (edge-to-edge) and content-width (max-width + radius).
- * When no backgroundImage is supplied, the hero renders on a white background.
+ * Args are flat fields (text, boolean, select); render() composes them into the section object.
+ * When no backgroundImage asset is present, the hero renders on a white background.
  */
 
 import React from 'react';
@@ -11,69 +11,134 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import { HeroSection } from './PageSections';
 
+// Flat arg type — mirrors Studio settings panel fields
+type HeroArgs = {
+  eyebrow: string;
+  heading: string;
+  subheading: string;
+  altText: string;
+  overlayType: string;
+  panel: boolean;
+  imageWidth: 'full-width' | 'content-width';
+  showStatRail: boolean;
+  showMetaFinePrint: boolean;
+  ctaLabel: string;
+  ctaUrl: string;
+};
+
 const withRouter = (Story: React.ComponentType) => (
   <MemoryRouter>
     <Story />
   </MemoryRouter>
 );
 
-const meta: Meta<typeof HeroSection> = {
+// Composes flat story args into the heroSection object HeroSection expects
+function buildSection(args: HeroArgs, extra?: object) {
+  return {
+    _type: 'heroSection' as const,
+    eyebrow: args.eyebrow,
+    heading: args.heading,
+    subheading: args.subheading,
+    backgroundImage: {
+      asset: { _id: 'image-hero-platform-mock' },
+      hotspot: { x: 0.5, y: 0.4 },
+      alt: args.altText,
+    },
+    imageTreatment: { type: args.overlayType, panel: args.panel },
+    imageWidth: args.imageWidth,
+    showStatRail: args.showStatRail,
+    showMetaFinePrint: args.showMetaFinePrint,
+    _meta: { date: '2024-03-01' },
+    ctas: args.ctaLabel
+      ? [{ _key: 'cta-1', label: args.ctaLabel, url: args.ctaUrl, style: 'secondary', openInNewTab: false }]
+      : [],
+    ...extra,
+  };
+}
+
+const meta: Meta<HeroArgs> = {
   title: 'Regions/Hero',
-  component: HeroSection,
   tags: ['autodocs'],
   decorators: [withRouter],
-  parameters: {
-    layout: 'fullscreen',
-  },
+  parameters: { layout: 'fullscreen' },
   argTypes: {
-    section: {
-      control: { type: 'object' },
-      description:
-        'heroSection object — eyebrow, heading, subheading, backgroundImage (image + alt + hotspot), ' +
-        'imageTreatment { type: none | duotone | duotone-subtle | duotone-extreme | dark-scrim | greyscale | color, panel: boolean }, ' +
-        'imageWidth: full-width | content-width, ' +
-        'showStatRail: boolean, showMetaFinePrint: boolean, ctas[] { label, url, style, openInNewTab }.',
+    eyebrow: {
+      control: 'text',
+      description: 'Short label above the heading. Renders in lime uppercase.',
     },
+    heading: {
+      control: 'text',
+      description: 'Main hero heading.',
+    },
+    subheading: {
+      control: 'text',
+      description: 'Optional supporting text below the heading.',
+    },
+    altText: {
+      control: 'text',
+      description: 'Alt text for the background image.',
+    },
+    overlayType: {
+      control: { type: 'select' },
+      options: ['none', 'duotone', 'duotone-subtle', 'duotone-extreme', 'dark-scrim', 'greyscale', 'color'],
+      description: 'Image treatment overlay type.',
+    },
+    panel: {
+      control: 'boolean',
+      description: 'Adds a frosted glass panel behind the text content. Suppresses text glow.',
+    },
+    imageWidth: {
+      control: { type: 'radio' },
+      options: ['full-width', 'content-width'],
+      description: 'Full-width stretches edge to edge. Content-width constrains with 35px radius.',
+    },
+    showStatRail: {
+      control: 'boolean',
+      description: 'Show build-time trust metrics rail (version, epics, commits, vulnerabilities).',
+    },
+    showMetaFinePrint: {
+      control: 'boolean',
+      description: 'Show published date as fine print below the CTAs.',
+    },
+    ctaLabel: {
+      control: 'text',
+      description: 'CTA button label. Leave empty to hide the button.',
+    },
+    ctaUrl: {
+      control: 'text',
+      description: 'CTA button URL.',
+    },
+  },
+  args: {
+    eyebrow: 'Platform',
+    heading: 'Built as infrastructure.',
+    subheading: 'A governed monorepo: versioned releases, enforced boundaries, a portable design system.',
+    altText: 'Vercel Production and Preview deployments dashboard',
+    overlayType: 'duotone-extreme',
+    panel: true,
+    imageWidth: 'full-width',
+    showStatRail: false,
+    showMetaFinePrint: true,
+    ctaLabel: 'View the platform',
+    ctaUrl: '/platform',
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof HeroSection>;
+type Story = StoryObj<HeroArgs>;
 
-// Full heroSection prop set — matches Sanity heroSection schema and Studio settings panel
-const BASE_SECTION = {
-  _type: 'heroSection' as const,
-  eyebrow: 'Platform',
-  heading: 'Built as infrastructure.',
-  subheading: 'A governed monorepo: versioned releases, enforced boundaries, a portable design system.',
-  backgroundImage: {
-    asset: { _id: 'image-hero-platform-mock' },
-    hotspot: { x: 0.5, y: 0.4 },
-    alt: 'Vercel Production and Preview deployments dashboard',
-  },
-  imageTreatment: { type: 'duotone-extreme', panel: true },
-  showStatRail: false,
-  showMetaFinePrint: true,
-  _meta: { date: '2024-03-01' },
-  ctas: [
-    { _key: 'cta-1', label: 'View the platform', url: '/platform', style: 'secondary', openInNewTab: false },
-  ],
-};
-
-/** Full-width hero — image stretches edge to edge. Duotone extreme treatment with frosted panel. */
+/** Full-width hero — image stretches edge to edge. */
 export const Default: Story = {
   name: 'Default (full width)',
-  args: {
-    section: { ...BASE_SECTION, imageWidth: 'full-width' },
-  },
+  args: { imageWidth: 'full-width' },
+  render: (args) => <HeroSection section={buildSection(args)} />,
 };
 
 /** Content-width hero — constrained to reading column width with 35px radius. */
 export const ContentWidth: Story = {
   name: 'Content width',
-  args: {
-    section: { ...BASE_SECTION, imageWidth: 'content-width' },
-  },
+  args: { imageWidth: 'content-width' },
+  render: (args) => <HeroSection section={buildSection(args)} />,
 };
 
 // ═══════════════════════════════════════════════════════════════════
@@ -86,10 +151,10 @@ export const Snapshot: Story = {
     chromatic: { disableSnapshot: false },
     layout: 'fullscreen',
   },
-  render: () => (
+  render: (args) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '2rem', background: 'var(--st-color-bg-surface)' }}>
-      <HeroSection section={{ ...BASE_SECTION, imageWidth: 'full-width' }} />
-      <HeroSection section={{ ...BASE_SECTION, imageWidth: 'content-width' }} />
+      <HeroSection section={buildSection(args, { imageWidth: 'full-width' })} />
+      <HeroSection section={buildSection(args, { imageWidth: 'content-width' })} />
     </div>
   ),
 };
