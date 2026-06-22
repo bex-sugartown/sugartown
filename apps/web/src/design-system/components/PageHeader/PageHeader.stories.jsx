@@ -23,6 +23,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { PageHeader } from './PageHeader'
 import Breadcrumb from '../Breadcrumb/Breadcrumb'
 import Avatar from '../avatar/Avatar'
+import DescriptionList from '../description-list/DescriptionList'
 import {
   DocSection,
   OverviewItem,
@@ -108,7 +109,7 @@ export const Default = {
     },
     showMetadataCard: {
       name: 'Show MetadataCard slot',
-      description: 'Renders a placeholder MetadataCard below the identity block.',
+      description: 'Renders a DescriptionList (ledger) in the metadataCard slot — representative of entity detail page usage.',
       control: { type: 'boolean' },
     },
   },
@@ -145,9 +146,15 @@ export const Default = {
           count={parsedCount}
         />
         {showMetadataCard && (
-          <div style={{ padding: '16px 32px', background: 'var(--st-color-bg)', borderTop: '1px solid var(--st-color-border-default)', fontSize: '0.8125rem', color: 'var(--st-color-neutral-500)', fontFamily: 'var(--st-font-family-mono)' }}>
-            MetadataCard slot
-          </div>
+          <DescriptionList
+            ledger
+            items={[
+              { label: 'Role', value: 'Design Engineer' },
+              { label: 'Location', value: 'San Francisco Bay Area' },
+              { label: 'Pronouns', value: 'she/her/hers' },
+              { label: 'Availability', value: 'Open to contract' },
+            ]}
+          />
         )}
       </div>
     )
@@ -572,7 +579,7 @@ export const Snapshot = {
   name: 'Snapshot (Chromatic)',
   parameters: { chromatic: { disableSnapshot: false }, layout: 'fullscreen' },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', padding: '1rem' }}>
       <PageHeader
         breadcrumb={<Breadcrumb items={[{ label: 'Articles' }]} />}
         title="Articles"
