@@ -56,7 +56,6 @@ export default {
   tags: ['autodocs'],
   decorators: [withRouter],
   parameters: {
-    layout: 'fullscreen',
     docs: {
       description: {
         component:
