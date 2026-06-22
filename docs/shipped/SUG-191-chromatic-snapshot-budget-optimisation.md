@@ -123,6 +123,8 @@ Components audited this session — before/after story counts:
 
 All other DS package components are at or below 5 stories and can be deferred to a later pass.
 
+Remaining items moved to [SUG-192](https://linear.app/sugartown/issue/SUG-192/chromatic-story-count-audit-phase-4-remainder-callout-tile-scorering) — `docs/backlog/SUG-192-chromatic-story-count-audit-remainder.md`.
+
 ## Related
 
 - **Linear:** [SUG-191](https://linear.app/sugartown/issue/SUG-191/chromatic-snapshot-budget-optimisation-turbosnap-skip-gate-story)
