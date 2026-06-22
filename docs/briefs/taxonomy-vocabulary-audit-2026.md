@@ -94,26 +94,26 @@ Live data surfaced additional tags that have a corresponding glossary term. Thes
 
 ## Table D — Single-use tags (retirement candidates)
 
-All tags below had exactly 1 content reference in the pre-populated data. Live data has been cross-checked: `blob`, `Requirements`, and `ATS` moved to 2 uses and are NOT included here. The default decision is retire unless noted otherwise.
+All tags below had exactly 1 content reference in the pre-populated data. Live data has been cross-checked: `blob`, `Requirements`, and `ATS` moved to 2 uses and are NOT included here. The default decision is retire unless the tag serves a voice or humour purpose. Exceptions: `#resist`, `britbox`, `em dash` are kept as personality tags regardless of use count.
 
 | Tag | ID | Live uses | Notes | Proposed action | Decision |
 |-----|----|-----------|-------|-----------------|----------|
-| `#resist` | wp.tag.455 | 1 | WordPress-era political tag from 2017–2018 era; no editorial relevance | Retire | |
-| `AEO/GEO` | 167a173a | 1 | Niche acronym (Answer Engine Optimisation / Generative Engine Optimisation); the AI category covers the concept; no audience need for this specificity | Retire | |
-| `Alt Text` | wp.tag.441 | 1 | Specific accessibility technique; `Accessibility` tag (4 uses) covers the topic | Retire; confirm doc has `Accessibility` tag or category | |
-| `britbox` | eee7c7da | 1 | Proper noun / client or project reference; if it is a client project, it belongs as a `project` reference on the content doc, not a tag | Retire tag; check if content should reference a Britbox `project` doc | |
-| `content audit` | wp.tag.243 | 1 | Activity label; `Audit` tag (2 uses) covers the concept and is broader | Retire; confirm doc has `Audit` tag | |
-| `data integrity` | wp.tag.339 | 1 | One use; broad enough to not need its own tag | Retire | |
-| `devtools` | wp.tag.387 | 1 | One use; `tooling` tag (3 uses) covers the category | Retire; confirm doc has `tooling` tag | |
-| `em dash` | 15690652 | 1 | Hyper-specific writing style note; not a thematic browse bucket | Retire | |
-| `Glassmorphism` | 889f7fa5 | 1 | One-time design system technique; not a content category | Retire | |
-| `performance` | wp.tag.388 | 1 | One use; too broad as a tag; `core web vitals` tag (2 uses) or the category covers it | Retire | |
-| `product discovery` | wp.tag.381 | 1 | One use; covered by `product management` tag (3 uses) | Retire; confirm doc has `product management` tag | |
+| `#resist` | wp.tag.455 | 1 | WordPress-era political tag; kept for voice/humour | **Keep** | Approved |
+| `AEO/GEO` | 167a173a | 1 | Niche acronym (Answer Engine Optimisation / Generative Engine Optimisation); the AI category covers the concept; no audience need for this specificity | Retire | Approved |
+| `Alt Text` | wp.tag.441 | 1 | Specific accessibility technique; `Accessibility` tag (4 uses) covers the topic | Retire; confirm doc has `Accessibility` tag or category | Approved |
+| `britbox` | eee7c7da | 1 | Proper noun; kept for voice/humour | **Keep** | Approved |
+| `content audit` | wp.tag.243 | 1 | Activity label; `Audit` tag (2 uses) covers the concept and is broader | Retire; confirm doc has `Audit` tag | Approved |
+| `data integrity` | wp.tag.339 | 1 | One use; broad enough to not need its own tag | Retire | Approved |
+| `devtools` | wp.tag.387 | 1 | One use; `tooling` tag (3 uses) covers the category | Retire; confirm doc has `tooling` tag | Approved |
+| `em dash` | 15690652 | 1 | Writing style humour tag; kept for voice | **Keep** | Approved |
+| `Glassmorphism` | 889f7fa5 | 1 | One-time design system technique; not a content category | Retire | Approved |
+| `performance` | wp.tag.388 | 1 | One use; too broad as a tag; `core web vitals` tag (2 uses) or the category covers it | Retire | Approved |
+| `product discovery` | wp.tag.381 | 1 | One use; covered by `product management` tag (3 uses) | Retire; confirm doc has `product management` tag | Approved |
 | `product ops` | wp.tag.409 | 2 | Updated: 2 uses in live data (was 1). Not a single-use tag — moved out of default retire. | Audit: is `product ops` meaningfully distinct from `product management` (3 uses)? | |
-| `QA` | wp.tag.335 | 1 | One use; specific enough to be reasonable but too niche for a browse bucket | Retire | |
-| `separation of concerns` | wp.tag.410 | 1 | A software principle, not a thematic browse bucket | Retire | |
-| `Spacing` | 8903596b | 1 | One DS-specific use; design token / design system category covers it | Retire | |
-| `VQA` | ec8af7c3 | 1 | Acronym (Visual Quality Assurance), 1 use; too niche for browse | Retire | |
+| `QA` | wp.tag.335 | 1 | One use; specific enough to be reasonable but too niche for a browse bucket | Retire | Approved |
+| `separation of concerns` | wp.tag.410 | 1 | A software principle, not a thematic browse bucket | Retire | Approved |
+| `Spacing` | 8903596b | 1 | One DS-specific use; design token / design system category covers it | Retire | Approved |
+| `VQA` | ec8af7c3 | 1 | Acronym (Visual Quality Assurance), 1 use; too niche for browse | Retire | Approved |
 
 **Note:** `product ops` (wp.tag.409) has 2 uses in live data — the epic pre-populated it as 1 use. It has been moved to its own row with an "audit" decision pending rather than a default retire.
 
