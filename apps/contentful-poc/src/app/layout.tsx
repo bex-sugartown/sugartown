@@ -8,6 +8,7 @@ import { getSiteSettings } from "@/lib/queries";
 import { normalizeSiteSettings } from "@/lib/normalizeSiteSettings";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
@@ -44,6 +45,7 @@ export default async function RootLayout({
         <SiteHeader settings={settings} />
         <main>{children}</main>
         <SiteFooter settings={settings} />
+        <SpeedInsights />
       </body>
     </html>
   );

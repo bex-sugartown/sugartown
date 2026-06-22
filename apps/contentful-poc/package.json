@@ -12,6 +12,7 @@
     "@contentful/rich-text-react-renderer": "^16.2.1",
     "@contentful/rich-text-types": "^17.2.7",
     "@sugartown/design-system": "workspace:*",
+    "@vercel/speed-insights": "^2.0.0",
     "contentful": "^11.12.2",
     "next": "16.2.6",
     "react": "19.2.4",
