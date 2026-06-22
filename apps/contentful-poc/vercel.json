@@ -1,0 +1,3 @@
+{
+  "ignoreCommand": "bash apps/contentful-poc/scripts/vercel-ignore-build.sh"
+}
