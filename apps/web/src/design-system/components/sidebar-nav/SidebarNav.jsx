@@ -20,7 +20,7 @@
  *   defaultOpen – initial open state when collapsible=true (default true)
  *   ariaLabel   – <nav> aria-label (default: value of label prop)
  */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import useScrollspy from '../../../lib/useScrollspy'
 import styles from './SidebarNav.module.css'
 
@@ -34,6 +34,7 @@ export default function SidebarNav({
   ariaLabel,
 }) {
   const [open, setOpen] = useState(defaultOpen)
+  useEffect(() => { setOpen(defaultOpen) }, [defaultOpen])
 
   const ids = items.map((item) => item.id)
   // Always call useScrollspy (rules of hooks); ignore result when activeId is controlled externally
