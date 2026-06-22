@@ -39,8 +39,8 @@ These tags duplicate an existing category name exactly. The content already has 
 
 | Tag | Tag ID | Tag uses (live) | Category | Category uses | Rationale | Proposed action | Decision |
 |-----|--------|-----------------|----------|---------------|-----------|-----------------|----------|
-| `Content Architecture` | wp.tag.257 | 8 | `Content Architecture` | 29 | Exact name duplicate. 8 docs are tagged; all likely have or should have the category. | Retire tag; confirm `Content Architecture` category is set on the 8 affected docs | |
-| `Documentation` | wp.tag.379 | 12 | `Documentation` | 2 | Exact name duplicate. The tag has more uses than the category, suggesting most of the 12 tagged docs lack the category. | Retire tag; audit the 12 tagged docs — add `Documentation` category where absent | |
+| `Content Architecture` | wp.tag.257 | 8 | `Content Architecture` | 29 | Exact name duplicate. 8 docs are tagged; all likely have or should have the category. | Retire tag; confirm `Content Architecture` category is set on the 8 affected docs | Approved |
+| `Documentation` | wp.tag.379 | 12 | `Documentation` | 2 | Exact name duplicate. The tag has more uses than the category, suggesting most of the 12 tagged docs lack the category. | Retire tag; audit the 12 tagged docs — add `Documentation` category where absent | Approved |
 
 ---
 
@@ -50,13 +50,13 @@ These pairs represent the same or overlapping concepts. The proposed action in e
 
 | Tag A | Uses | Tag B | Uses | Relationship | Rationale | Proposed action | Decision |
 |-------|------|-------|------|--------------|-----------|-----------------|----------|
-| `AI Workflows` (wp.tag.382) | 8 | `LLM workflows` (wp.tag.317) | 3 | Near-synonym — LLM workflows is a subset of AI Workflows | LLM workflow is a specific implementation mode; the broader term covers it without loss | Merge: retire `LLM workflows`, re-tag its 3 docs with `AI Workflows` | |
-| `automation` (wp.tag.341) | 2 | `AI Automation` (tag-ai-automation) | 5 | `automation` is broader; `AI Automation` is a specific subcategory | If the 2 `automation` docs are genuinely non-AI automation (e.g. build pipelines, CI), keep both. If both are AI-adjacent, merge. | Audit the 2 `automation` docs: if AI-adjacent → merge into `AI Automation`; if not → keep separate | |
-| `source control` (wp.tag.346) | 2 | `version control` (wp.tag.393) | 3 | Near-synonyms for the same concept | "Version control" is the more widely used and precise term | Merge: retire `source control`, re-tag its 2 docs with `version control` | |
-| `Workflow` (wp.tag.242) | 4 | `AI Workflows` (wp.tag.382) | 8 | `Workflow` is broader — the 4 docs may be non-AI process content | If the 4 `Workflow` docs are AI-adjacent, the more specific tag applies. If they are genuinely about process (not AI), the generic tag has editorial value. | Audit the 4 `Workflow` docs: AI-adjacent → re-tag with `AI Workflows` and retire `Workflow`; if mixed → keep both | |
-| `Agentic Systems` (wp.tag.313) | 3 | `agentic caucus` (wp.tag.436) | 13 | Different concepts: "Agentic Systems" = a conceptual/technical term; "agentic caucus" = a content series name | The series tag is justified. "Agentic Systems" as a concept is now better served by the `Agentic Caucus` glossary term (which exists). | Retire `Agentic Systems` tag; confirm the 3 docs are tagged with `agentic caucus` or another appropriate tag; add `relatedTags` wire on the Agentic Caucus glossary term pointing to the `agentic caucus` tag | |
-| `Generative AI` (1814fc30) | 2 | `AI` category | 13 | The AI category covers this concept | "Generative AI" as a tag offers no precision the AI category doesn't already provide | Retire `Generative AI` tag; confirm AI category is set on the 2 affected docs | |
-| `product management` (wp.tag.413) | 3 | `Product & Platform Strategy` category | 18 | Near-overlap between tag and category | If the 3 docs cover product management activities meaningfully distinct from the category (e.g. tooling, methodology), the tag has some value. If they are simply strategic content, the category covers it. | Audit the 3 docs: if no meaningful distinction → retire tag; if distinct → keep with note | |
+| `AI Workflows` (wp.tag.382) | 8 | `LLM workflows` (wp.tag.317) | 3 | Near-synonym — LLM workflows is a subset of AI Workflows | LLM workflow is a specific implementation mode; the broader term covers it without loss | Merge: retire `LLM workflows`, re-tag its 3 docs with `AI Workflows` | Approved |
+| `automation` (wp.tag.341) | 2 | `AI Automation` (tag-ai-automation) | 5 | `automation` is broader; `AI Automation` is a specific subcategory | If the 2 `automation` docs are genuinely non-AI automation (e.g. build pipelines, CI), keep both. If both are AI-adjacent, merge. | Audit the 2 `automation` docs: if AI-adjacent → merge into `AI Automation`; if not → keep separate | Approved |
+| `source control` (wp.tag.346) | 2 | `version control` (wp.tag.393) | 3 | Near-synonyms for the same concept | "Version control" is the more widely used and precise term | Merge: retire `source control`, re-tag its 2 docs with `version control` | Approved |
+| `Workflow` (wp.tag.242) | 4 | `AI Workflows` (wp.tag.382) | 8 | `Workflow` is broader — the 4 docs may be non-AI process content | If the 4 `Workflow` docs are AI-adjacent, the more specific tag applies. If they are genuinely about process (not AI), the generic tag has editorial value. | Audit the 4 `Workflow` docs: AI-adjacent → re-tag with `AI Workflows` and retire `Workflow`; if mixed → keep both | Approved |
+| `Agentic Systems` (wp.tag.313) | 3 | `agentic caucus` (wp.tag.436) | 13 | Different concepts: "Agentic Systems" = a conceptual/technical term; "agentic caucus" = a content series name | The series tag is justified. "Agentic Systems" as a concept is now better served by the `Agentic Caucus` glossary term (which exists). | Retire `Agentic Systems` tag; confirm the 3 docs are tagged with `agentic caucus` or another appropriate tag; add `relatedTags` wire on the Agentic Caucus glossary term pointing to the `agentic caucus` tag | Approved |
+| `Generative AI` (1814fc30) | 2 | `AI` category | 13 | The AI category covers this concept | "Generative AI" as a tag offers no precision the AI category doesn't already provide | Retire `Generative AI` tag; confirm AI category is set on the 2 affected docs | Approved |
+| `product management` (wp.tag.413) | 3 | `Product & Platform Strategy` category | 18 | Near-overlap between tag and category | If the 3 docs cover product management activities meaningfully distinct from the category (e.g. tooling, methodology), the tag has some value. If they are simply strategic content, the category covers it. | Audit the 3 docs: if no meaningful distinction → retire tag; if distinct → keep with note | Approved |
 
 ---
 
@@ -66,16 +66,16 @@ These tags represent concepts that need a definition, not just a label. All have
 
 | Tag | Uses | Glossary term exists? | Glossary slug | Relationship | Proposed action | Decision |
 |-----|------|-----------------------|---------------|--------------|-----------------|----------|
-| `Atomic Design` (wp.tag.259) | 9 | Yes — "Atomic design" | `atomic-design` | Exact concept match | Retire tag; add `relatedTags` wire on the Atomic design glossary term pointing to a surviving thematic tag (e.g. `Design Ops`) | |
-| `composable` (wp.tag.103) | 7 | Yes — "Composable architecture" | `composable-architecture` | Partial: "composable" is broader than "composable architecture". The tag may cover content beyond architecture. | Decision: is "composable" as a tag meaningfully broader? If yes, keep and add `relatedTags` wire. If the 7 docs all concern architecture, retire and wire. | |
-| `knowledge graph` (wp.tag.344) | 7 | Yes — "Knowledge graph" | `knowledge-graph` | Exact concept match | Retire tag; add `relatedTags` wire on the Knowledge graph glossary term | |
-| `human-in-the-loop` (wp.tag.385) | 6 | No | — | Coined term, definition-worthy | Create a glossary term for "Human-in-the-loop"; then retire this tag and add `relatedTags` wire (or keep tag as a thematic bucket and add `relatedTags` to the new term pointing to it) | |
-| `content-as-code` (wp.tag.428) | 5 | Yes — "Content-as-code" | `content-as-code` | Exact concept match | Retire tag; add `relatedTags` wire on the Content-as-code glossary term | |
-| `Context Engineering` (ace3d14c) | 3 | No | — | Recent coinage, definition-worthy | Create a glossary term for "Context Engineering"; then retire this tag and add `relatedTags` wire, or keep tag as thematic bucket and wire | |
-| `ontology` (wp.tag.411) | 2 | Yes — "Ontology" | `ontology` | Exact concept match | Retire tag; add `relatedTags` wire on the Ontology glossary term | |
-| `MACH` (f283da5e) | 3 | No | — | Architecture acronym needing explanation for non-enterprise audience | Create a glossary term for "MACH" (Microservices, API-first, Cloud-native, Headless); then retire this tag | |
-| `BEM` (1abb1141) | 2 | Yes — "Block Element Modifier" | `bem` | Exact concept match | Retire tag; add `relatedTags` wire on the Block Element Modifier glossary term | |
-| `structured content` (wp.tag.307) | 7 | Yes — "Structured content" | `structured-content` | Exact concept match | Retire tag; add `relatedTags` wire on the Structured content glossary term | |
+| `Atomic Design` (wp.tag.259) | 9 | Yes — "Atomic design" | `atomic-design` | Exact concept match | Retire tag; add `relatedTags` wire on the Atomic design glossary term pointing to a surviving thematic tag (e.g. `Design Ops`) | Approved |
+| `composable` (wp.tag.103) | 7 | Yes — "Composable architecture" | `composable-architecture` | Partial: "composable" is broader than "composable architecture". The tag may cover content beyond architecture. | Decision: is "composable" as a tag meaningfully broader? If yes, keep and add `relatedTags` wire. If the 7 docs all concern architecture, retire and wire. | Approved |
+| `knowledge graph` (wp.tag.344) | 7 | Yes — "Knowledge graph" | `knowledge-graph` | Exact concept match | Retire tag; add `relatedTags` wire on the Knowledge graph glossary term | Approved |
+| `human-in-the-loop` (wp.tag.385) | 6 | No | — | Coined term, definition-worthy | Create a glossary term for "Human-in-the-loop"; then retire this tag and add `relatedTags` wire (or keep tag as a thematic bucket and add `relatedTags` to the new term pointing to it) | Approved |
+| `content-as-code` (wp.tag.428) | 5 | Yes — "Content-as-code" | `content-as-code` | Exact concept match | Retire tag; add `relatedTags` wire on the Content-as-code glossary term | Approved |
+| `Context Engineering` (ace3d14c) | 3 | No | — | Recent coinage, definition-worthy | Create a glossary term for "Context Engineering"; then retire this tag and add `relatedTags` wire, or keep tag as thematic bucket and wire | Approved |
+| `ontology` (wp.tag.411) | 2 | Yes — "Ontology" | `ontology` | Exact concept match | Retire tag; add `relatedTags` wire on the Ontology glossary term | Approved |
+| `MACH` (f283da5e) | 3 | No | — | Architecture acronym needing explanation for non-enterprise audience | Create a glossary term for "MACH" (Microservices, API-first, Cloud-native, Headless); then retire this tag | Approved |
+| `BEM` (1abb1141) | 2 | Yes — "Block Element Modifier" | `bem` | Exact concept match | Retire tag; add `relatedTags` wire on the Block Element Modifier glossary term | Approved |
+| `structured content` (wp.tag.307) | 7 | Yes — "Structured content" | `structured-content` | Exact concept match | Retire tag; add `relatedTags` wire on the Structured content glossary term | Approved |
 
 ### Additional tag/glossary overlaps (not in original scope — flagged for decision)
 
@@ -83,12 +83,12 @@ Live data surfaced additional tags that have a corresponding glossary term. Thes
 
 | Tag | Uses | Glossary term | Relationship | Proposed action | Decision |
 |-----|------|---------------|--------------|-----------------|----------|
-| `Accessibility` (wp.tag.248) | 4 | "Accessibility" (slug: `accessibility`) | Exact concept match | Retire tag (the category and glossary term together cover it); confirm affected docs have the Accessibility category or another meaningful tag | |
-| `WCAG` (wp.tag.247) | 3 | "Web Content Accessibility Guidelines" (slug: `wcag`) | Exact concept match | Retire tag; add `relatedTags` wire on the WCAG glossary term | |
-| `VoPM` (a6e892a9) | 1 | "VoPM" (slug: `vopm`) | Exact concept match — tag is superseded by glossary term | Retire tag; the glossary term is the canonical surface | |
-| `monorepo` (wp.tag.374) | 3 | "Monorepo" (slug: `monorepo`) | Exact concept match | Decision: is "monorepo" a useful thematic browse bucket (keep as tag, add `relatedTags` wire) or is the glossary term sufficient? | |
-| `portable text` (d40bfa72) | 2 | "Portable Text" (slug: `portable-text`) | Exact concept match, capitalisation differs | Retire tag; content about Portable Text is a narrow technical topic best served by the glossary term | |
-| `agentic caucus` (wp.tag.436) | 13 | "Agentic Caucus" (slug: `agentic-caucus`) | Series tag with a corresponding definition — both serve different purposes | Keep tag (series/browse use); add `relatedTags` wire on the Agentic Caucus glossary term pointing to this tag | |
+| `Accessibility` (wp.tag.248) | 4 | "Accessibility" (slug: `accessibility`) | Exact concept match | Retire tag (the category and glossary term together cover it); confirm affected docs have the Accessibility category or another meaningful tag | Approved |
+| `WCAG` (wp.tag.247) | 3 | "Web Content Accessibility Guidelines" (slug: `wcag`) | Exact concept match | Retire tag; add `relatedTags` wire on the WCAG glossary term | Approved |
+| `VoPM` (a6e892a9) | 1 | "VoPM" (slug: `vopm`) | Exact concept match — tag is superseded by glossary term | Retire tag; the glossary term is the canonical surface | Approved |
+| `monorepo` (wp.tag.374) | 3 | "Monorepo" (slug: `monorepo`) | Exact concept match | Decision: is "monorepo" a useful thematic browse bucket (keep as tag, add `relatedTags` wire) or is the glossary term sufficient? | Approved |
+| `portable text` (d40bfa72) | 2 | "Portable Text" (slug: `portable-text`) | Exact concept match, capitalisation differs | Retire tag; content about Portable Text is a narrow technical topic best served by the glossary term | Approved |
+| `agentic caucus` (wp.tag.436) | 13 | "Agentic Caucus" (slug: `agentic-caucus`) | Series tag with a corresponding definition — both serve different purposes | Keep tag (series/browse use); add `relatedTags` wire on the Agentic Caucus glossary term pointing to this tag | Approved |
 
 ---
 
@@ -109,13 +109,13 @@ All tags below had exactly 1 content reference in the pre-populated data. Live d
 | `Glassmorphism` | 889f7fa5 | 1 | One-time design system technique; not a content category | Retire | Approved |
 | `performance` | wp.tag.388 | 1 | One use; too broad as a tag; `core web vitals` tag (2 uses) or the category covers it | Retire | Approved |
 | `product discovery` | wp.tag.381 | 1 | One use; covered by `product management` tag (3 uses) | Retire; confirm doc has `product management` tag | Approved |
-| `product ops` | wp.tag.409 | 2 | Updated: 2 uses in live data (was 1). Not a single-use tag — moved out of default retire. | Audit: is `product ops` meaningfully distinct from `product management` (3 uses)? | |
+| `product ops` | wp.tag.409 | 2 | 2 uses in live data. Not meaningfully distinct from `product management`. | Merge: re-tag its 2 docs with `product management`, then delete `product ops` | Approved |
 | `QA` | wp.tag.335 | 1 | One use; specific enough to be reasonable but too niche for a browse bucket | Retire | Approved |
 | `separation of concerns` | wp.tag.410 | 1 | A software principle, not a thematic browse bucket | Retire | Approved |
 | `Spacing` | 8903596b | 1 | One DS-specific use; design token / design system category covers it | Retire | Approved |
 | `VQA` | ec8af7c3 | 1 | Acronym (Visual Quality Assurance), 1 use; too niche for browse | Retire | Approved |
 
-**Note:** `product ops` (wp.tag.409) has 2 uses in live data — the epic pre-populated it as 1 use. It has been moved to its own row with an "audit" decision pending rather than a default retire.
+
 
 ---
 
