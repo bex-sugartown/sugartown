@@ -14,6 +14,8 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.27.7.
 
+- SUG-189 Phase 1: Glossary term-linking — 14/15 articles (93%) and 52/53 nodes (98%) now carry inline `glossaryTermRef` marks; 39 of 65 terms linked across corpus
+
 - SUG-191: Chromatic budget optimisation — TurboSnap, skip gate, disableSnapshot on docs stories, story count audit (Hero, PageSidebar, SidebarNav, Chip, Media, Grid, DescriptionList, Button, CodeBlock, Avatar reduced to ≤4 stories each)
 
 - SUG-180: Multi-brand DS theming convention — CONSUMING.md authored; theme.pink-moon.css selectors changed to ~= (includes-word) for additive data-theme support; shop amber theme applied to contentful-poc (light-pink-moon light-shop); Storybook shop theme switcher added; project Assigned content panel via defineIncomingReferenceDecoration

@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-22 · v0.27.8 shipped — SUG-190 taxonomy vocabulary audit (97→64 tags, zero orphaned refs, 3 new glossary terms). · SUG-193 added — MetadataCard glossary terms row (Phase 2b from SUG-190).
+> Updated 2026-06-22 · v0.27.9 shipped — SUG-189 Phase 1 glossary term-linking (14/15 articles, 52/53 nodes, 39 of 65 terms linked). Phases 2–3 still open.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.27.8 shipped ✅ 2026-06-22. SUG-190 taxonomy vocabulary audit complete — 97→64 tags, zero orphaned refs, 3 new glossary terms. SUG-193 (MetadataCard glossary row, Phase 0 pending). Next: SUG-192 story count remainder, or SUG-160 TechTimeline article.
+> **⚑ Current focus:** v0.27.9 shipped ✅ 2026-06-22. SUG-189 Phase 1 complete — 14/15 articles + 52/53 nodes now carry inline glossaryTermRef marks. Phases 2–3 (taxonomy sweep + people=Bex) remain. Next: SUG-189 Phases 2–3, SUG-192 story count remainder, or SUG-160 TechTimeline article.
 
 ---
 
