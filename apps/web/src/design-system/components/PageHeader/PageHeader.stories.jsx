@@ -60,7 +60,7 @@ export default {
     docs: {
       description: {
         component:
-          'Full-width identity band at the top of archive, entity, and taxonomy pages. Accepts MetadataCard as a slot — see Patterns/MetadataCard for that pattern.',
+          'Full-width identity band at the top of archive, entity, and taxonomy pages. Accepts a structured content node (e.g. DescriptionList) via the metadataCard slot rendered below the identity block.',
       },
     },
   },
@@ -107,9 +107,9 @@ export const Default = {
       description: 'Number shown next to the title. Leave empty to hide.',
       control: { type: 'text' },
     },
-    showMetadataCard: {
+    showDescriptionList: {
       name: 'Show DescriptionList',
-      description: 'Passes a 2-col ledger DescriptionList into the metadataCard slot — representative of entity detail page usage.',
+      description: 'Passes a 2-col ledger DescriptionList into the slot below the identity block — representative of entity detail page usage.',
       control: { type: 'boolean' },
     },
   },
@@ -118,9 +118,9 @@ export const Default = {
     tint: 'Seafoam',
     avatarSize: 'xl',
     count: '',
-    showMetadataCard: false,
+    showDescriptionList: false,
   },
-  render: ({ titleStyle, tint, avatarSize, count, showMetadataCard }) => {
+  render: ({ titleStyle, tint, avatarSize, count, showDescriptionList }) => {
     const tintMap = {
       None:     undefined,
       Seafoam:  'var(--st-color-seafoam-300)',
@@ -134,7 +134,7 @@ export const Default = {
       ? <Avatar name="Bex Walton" size={avatarSize} />
       : undefined
 
-    const descriptionList = showMetadataCard ? (
+    const descriptionList = showDescriptionList ? (
       <DescriptionList
         ledger
         columns={2}
@@ -317,7 +317,7 @@ function PageHeaderGuidelinesPage() {
           <OverviewItem>Accepts a <code style={s.code}>media</code> slot for Avatar or logo images — used by entity folios, absent on archives and taxonomy pages.</OverviewItem>
           <OverviewItem>Accepts a <code style={s.code}>breadcrumb</code> slot and an <code style={s.code}>actions</code> slot (e.g. "Edit in Studio") rendered in a top row above the identity block.</OverviewItem>
           <OverviewItem>Applies a tint wash via <code style={s.code}>color-mix</code> when a <code style={s.code}>tint</code> prop is provided — used by entity folios to echo the entity's brand colour.</OverviewItem>
-          <OverviewItem>Accepts a <code style={s.code}>metadataCard</code> slot rendered below the identity block — used by entity detail pages.</OverviewItem>
+          <OverviewItem>Accepts a structured content node via the <code style={s.code}>metadataCard</code> prop, rendered below the identity block — entity detail pages pass a DescriptionList here.</OverviewItem>
         </ul>
         <h3 style={s.h3}>What it is not</h3>
         <ul style={{ listStyle: 'none', padding: 0 }}>
@@ -396,9 +396,9 @@ function PageHeaderGuidelinesPage() {
 
         <h3 style={s.h3}>metadataCard slot</h3>
         <p style={s.prose}>
-          Pass a <code style={s.code}>{'<MetadataCard />'}</code> node. The slot renders it below the identity block
-          with <code style={s.code}>margin-top: var(--st-space-5)</code>. Do not wrap MetadataCard in any additional
-          container — the slot div provides the only spacing.
+          Pass any structured content node — entity detail pages use a <code style={s.code}>{'<DescriptionList ledger />'}</code>.
+          The slot renders it below the identity block with <code style={s.code}>margin-top: var(--st-space-5)</code>.
+          Do not wrap the node in any additional container — the slot div provides the only spacing.
         </p>
       </DocSection>
 
@@ -436,7 +436,7 @@ function PageHeaderGuidelinesPage() {
           <TokenRow token="--st-width-archive" value="1100px" role="max-width of .inner — constrains header width on wide viewports" />
           <TokenRow token="--st-page-gutter" value="2rem" role="horizontal padding on .inner" />
           <TokenRow token="--st-space-6" value="3rem" role="vertical padding on .inner (top and bottom)" />
-          <TokenRow token="--st-space-5" value="2rem" role="gap between topRow and body; metadataCard margin-top; body flex gap on mobile" />
+          <TokenRow token="--st-space-5" value="2rem" role="gap between topRow and body; structured content slot margin-top; body flex gap on mobile" />
           <TokenRow token="--st-space-4" value="1.5rem" role="mobile: vertical padding on .inner; topRow gap; body flex gap" />
           <TokenRow token="--st-space-3" value="1rem" role="gap between title and count badge; description margin-top" />
         </TokenGroup>
@@ -485,7 +485,7 @@ function PageHeaderGuidelinesPage() {
           .count          ← aria-labelled count badge (rendered only when count !== undefined)
         .description      ← p element; max-width: 62ch; only rendered when description present
         {children}        ← trailing slot below description (tool URL, social links, pronunciation)
-    .metadataCard         ← margin-top wrapper for metadataCard slot`}</pre>
+    .metadataCard         ← margin-top wrapper for structured content slot`}</pre>
       </DocSection>
 
       {/* 10 — Responsive */}
@@ -530,9 +530,9 @@ function PageHeaderGuidelinesPage() {
             when="Entity folio pages where the entity has a recognisable identity mark."
           />
           <RelatedCard
-            name="MetadataCard"
-            why="Passed into the metadataCard slot — renders taxonomy chips, status badge, and links below the identity block."
-            when="Entity detail pages (person, tool, project) that carry structured metadata."
+            name="DescriptionList"
+            why="Canonical structured content for the metadataCard slot on entity detail pages — ledger variant in 2-col layout."
+            when="Person, tool, and project detail pages that show structured metadata below the identity block."
           />
           <RelatedCard
             name="PageSections / SectionLabel"
