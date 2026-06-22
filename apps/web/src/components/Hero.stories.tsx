@@ -3,7 +3,6 @@
  *
  * Uses HeroSection from PageSections (the real page-section renderer).
  * Args are flat fields (text, boolean, select); render() composes them into the section object.
- * When no backgroundImage asset is present, the hero renders on a white background.
  */
 
 import React from 'react';
@@ -25,6 +24,8 @@ function buildOverlay(type: OverlayPreset, panel: boolean, color = '#ff247d', op
   return undefined;
 }
 
+type CtaVariant = 'primary' | 'secondary' | 'tertiary';
+
 // Flat arg type — mirrors Studio settings panel fields
 type HeroArgs = {
   eyebrow: string;
@@ -39,6 +40,7 @@ type HeroArgs = {
   showStatRail: boolean;
   showMetaFinePrint: boolean;
   ctaLabel: string;
+  ctaVariant: CtaVariant;
   ctaUrl: string;
 };
 
@@ -66,7 +68,7 @@ function buildSection(args: HeroArgs, extra?: object) {
     showMetaFinePrint: args.showMetaFinePrint,
     _meta: { date: '2024-03-01' },
     ctas: args.ctaLabel
-      ? [{ _key: 'cta-1', label: args.ctaLabel, url: args.ctaUrl, style: 'secondary', openInNewTab: false }]
+      ? [{ _key: 'cta-1', label: args.ctaLabel, url: args.ctaUrl, style: args.ctaVariant, openInNewTab: false }]
       : [],
     ...extra,
   };
@@ -130,11 +132,19 @@ const meta: Meta<HeroArgs> = {
     },
     ctaLabel: {
       control: 'text',
-      description: 'CTA button label. Leave empty to hide the button.',
+      description: 'Button label text. Leave empty to hide the CTA.',
+      table: { category: 'CTA' },
+    },
+    ctaVariant: {
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'tertiary'],
+      description: 'Visual variant',
+      table: { category: 'CTA' },
     },
     ctaUrl: {
       control: 'text',
-      description: 'CTA button URL.',
+      description: 'Button href URL.',
+      table: { category: 'CTA' },
     },
   },
   args: {
@@ -150,6 +160,7 @@ const meta: Meta<HeroArgs> = {
     showStatRail: false,
     showMetaFinePrint: true,
     ctaLabel: 'View the platform',
+    ctaVariant: 'secondary',
     ctaUrl: '/platform',
   },
 };
