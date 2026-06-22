@@ -108,8 +108,8 @@ export const Default = {
       control: { type: 'text' },
     },
     showMetadataCard: {
-      name: 'Show MetadataCard slot',
-      description: 'Renders a DescriptionList (ledger) in the metadataCard slot — representative of entity detail page usage.',
+      name: 'Show DescriptionList',
+      description: 'Passes a 2-col ledger DescriptionList into the metadataCard slot — representative of entity detail page usage.',
       control: { type: 'boolean' },
     },
   },
@@ -134,29 +134,30 @@ export const Default = {
       ? <Avatar name="Bex Walton" size={avatarSize} />
       : undefined
 
+    const descriptionList = showMetadataCard ? (
+      <DescriptionList
+        ledger
+        columns={2}
+        items={[
+          { label: 'Role', value: 'Design Engineer' },
+          { label: 'Location', value: 'San Francisco Bay Area' },
+          { label: 'Pronouns', value: 'she/her/hers' },
+          { label: 'Availability', value: 'Open to contract' },
+        ]}
+      />
+    ) : undefined
+
     return (
-      <div>
-        <PageHeader
-          breadcrumb={<Breadcrumb items={[{ label: 'People', href: '/people' }]} />}
-          media={media}
-          title="Bex Walton"
-          description="Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller."
-          tint={tintMap[tint]}
-          italic={titleStyle === 'Italic'}
-          count={parsedCount}
-        />
-        {showMetadataCard && (
-          <DescriptionList
-            ledger
-            items={[
-              { label: 'Role', value: 'Design Engineer' },
-              { label: 'Location', value: 'San Francisco Bay Area' },
-              { label: 'Pronouns', value: 'she/her/hers' },
-              { label: 'Availability', value: 'Open to contract' },
-            ]}
-          />
-        )}
-      </div>
+      <PageHeader
+        breadcrumb={<Breadcrumb items={[{ label: 'People', href: '/people' }]} />}
+        media={media}
+        title="Bex Walton"
+        description="Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller."
+        tint={tintMap[tint]}
+        italic={titleStyle === 'Italic'}
+        count={parsedCount}
+        metadataCard={descriptionList}
+      />
     )
   },
 }
