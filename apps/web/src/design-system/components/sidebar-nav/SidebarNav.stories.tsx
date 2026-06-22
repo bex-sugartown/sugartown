@@ -30,12 +30,25 @@ const meta: Meta<typeof SidebarNav> = {
       </div>
     ),
   ],
+  argTypes: {
+    collapsible: {
+      control: 'boolean',
+      description: 'Wrap the list in a `<details>` disclosure element. Use at sm/md breakpoints; leave false (default) at lg+.',
+    },
+    defaultOpen: {
+      control: 'boolean',
+      description: 'Initial open state when `collapsible` is true.',
+    },
+  },
+  args: {
+    collapsible: false,
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof SidebarNav>;
 
-/** Standard sidebar nav — active link and indented sub-items visible. */
+/** Large-screen layout — always visible, no disclosure wrapper (`collapsible=false`). */
 export const Default: Story = {
   args: {
     label: 'On this page',
@@ -44,7 +57,7 @@ export const Default: Story = {
   },
 };
 
-/** Collapsible variant — wraps the list in a `<details>` disclosure element. */
+/** Small/medium breakpoint layout — list wrapped in a `<details>` disclosure, open by default. */
 export const Collapsible: Story = {
   args: {
     label: 'On this page',
