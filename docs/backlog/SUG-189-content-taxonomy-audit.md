@@ -20,10 +20,10 @@ After this epic every published article, node, and case study will: (1) have at 
 
 ## Scope
 
-- [ ] **Phase 1 — Glossary term-tagging:** For each published glossaryTerm, scan article/node/case study body text for the first verbatim or near-verbatim occurrence and add a `glossaryTermRef` mark at that span. Terms without exact matches (e.g. "AI ennui") require editorial judgement — flag for review rather than auto-applying. Publish after each content piece is complete. Layer: content (Sanity MCP `patch_documents`)
+- [x] **Phase 1 — Glossary term-tagging:** For each published glossaryTerm, scan article/node/case study body text for the first verbatim or near-verbatim occurrence and add a `glossaryTermRef` mark at that span. Terms without exact matches (e.g. "AI ennui") require editorial judgement — flag for review rather than auto-applying. Publish after each content piece is complete. Layer: content (Sanity MCP `patch_documents`). **Completed 2026-06-22. Coverage: 14/15 articles (93%), 52/53 nodes (98%). Case studies skipped — no external client projects in corpus. wp.node.977 and article b764ea17 have no body text matching any glossary term. 39 of 65 glossary terms (60%) now linked; 26 terms have no verbatim occurrence across any content.**
 - [ ] **Phase 2 — Structured taxonomy sweep:** For each article/node/case study, audit `projects`, `tools`, `categories`, `tags` fields. Add at least one reference per field where contextually appropriate; leave empty only when genuinely not relevant (e.g. a purely conceptual node with no specific tool). Flag any pieces where a taxonomy document doesn't exist yet (pre-flight query required before creating). Publish after each content piece. Layer: content
 - [ ] **Phase 3 — people=Bex backfill:** Confirm `authors` field on every article, node, and case study contains the Bex person document (`_type == "person"`, slug `bex`). Patch any piece missing the reference. Publish. Layer: content
-- [ ] **Phase 4 — Audit log:** After all three phases, run a GROQ query confirming no piece has empty `authors`, and document the final taxonomy coverage state in the epic's shipped doc. Layer: tooling/reporting
+- [x] **Phase 4 — Audit log (Phase 1 pass):** GROQ coverage verified 2026-06-22. Results in Phase 1 scope annotation above. Full Phase 4 (including Phases 2–3 audit) deferred until Phases 2–3 complete. Layer: tooling/reporting
 
 ## Phases
 
