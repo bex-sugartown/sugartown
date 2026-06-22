@@ -12,7 +12,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.27.6.
+> Accumulates since v0.27.7.
+
+- SUG-191: Chromatic budget optimisation — TurboSnap, skip gate, disableSnapshot on docs stories, story count audit (Hero, PageSidebar, SidebarNav, Chip, Media, Grid, DescriptionList, Button, CodeBlock, Avatar reduced to ≤4 stories each)
 
 - SUG-180: Multi-brand DS theming convention — CONSUMING.md authored; theme.pink-moon.css selectors changed to ~= (includes-word) for additive data-theme support; shop amber theme applied to contentful-poc (light-pink-moon light-shop); Storybook shop theme switcher added; project Assigned content panel via defineIncomingReferenceDecoration
 - SUG-179: Contentful Stage 1 build-out — SiteHeader + SiteFooter Next.js adapters wired to Contentful nav; normalizeSiteSettings flattening layer; theme.shop.css in both style dirs; validate:style-mirror now checking 6 files
