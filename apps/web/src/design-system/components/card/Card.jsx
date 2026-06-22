@@ -161,7 +161,7 @@ export default function Card({
     <div className={styles.cardFolio}>
       {eyebrow && <div className={styles.folioLabel}>{eyebrow}</div>}
       {badgeValue && (
-        <Chip variant="badge" status={badgeValue} size="sm" aria-label={`Status: ${badgeValue}`}>
+        <Chip variant="status" status={badgeValue} size="sm" aria-label={`Status: ${badgeValue}`}>
           {badgeValue}
         </Chip>
       )}

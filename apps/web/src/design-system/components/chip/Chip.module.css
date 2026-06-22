@@ -215,7 +215,8 @@
 .dot-exploring  { background: var(--st-chip-dot-exploring); }
 .dot-active     { background: var(--st-chip-dot-active); }
 .dot-draft      { background: var(--st-chip-dot-draft); }
-.dot-deprecated { background: var(--st-chip-dot-deprecated); }
+.dot-deprecated      { background: var(--st-chip-dot-deprecated); }
+.dot-operationalized { background: var(--st-chip-dot-operationalized); }
 
 /* color prop overrides dot color on variant="badge" chips */
 .colorDot .dot {

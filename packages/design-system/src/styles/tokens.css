@@ -594,6 +594,7 @@
   --st-chip-rubric-fg: var(--st-color-maroon);
   --st-chip-dot-active: var(--st-color-pink);
   --st-chip-dot-draft: var(--st-color-violet);
+  --st-chip-dot-operationalized: var(--st-color-seafoam);
   --st-card-bg: var(--st-color-bg-surface);
   --st-card-bg-alt: var(--st-color-bg-surface-alt);
   --st-card-text: var(--st-color-text-default);
