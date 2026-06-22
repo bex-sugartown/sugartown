@@ -180,8 +180,8 @@ function StatRail() {
   )
 }
 
-// Hero Section Component
-function HeroSection({ section }) {
+// Hero Section Component — exported for Storybook
+export function HeroSection({ section }) {
   const { heading, subheading, eyebrow, imageTreatment, backgroundImage, ctas, imageWidth, showStatRail, showMetaFinePrint } = section
   const backgroundStyles = {}
   const hasImage = backgroundImage?.asset

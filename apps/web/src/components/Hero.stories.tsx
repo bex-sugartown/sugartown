@@ -1,14 +1,15 @@
 /**
- * Hero stories — page hero section with heading, subheading, CTAs,
- * and background style variants (colour fills or image with duotone).
+ * Hero stories — heroSection with full schema prop coverage.
  *
- * Uses Button (needs MemoryRouter) and urlFor (mocked via vite alias).
+ * Uses HeroSection from PageSections (the real page-section renderer).
+ * Two width variants: full-width (edge-to-edge) and content-width (max-width + radius).
+ * When no backgroundImage is supplied, the hero renders on a white background.
  */
 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
-import Hero from './Hero';
+import { HeroSection } from './PageSections';
 
 const withRouter = (Story: React.ComponentType) => (
   <MemoryRouter>
@@ -16,131 +17,69 @@ const withRouter = (Story: React.ComponentType) => (
   </MemoryRouter>
 );
 
-const meta: Meta<typeof Hero> = {
+const meta: Meta<typeof HeroSection> = {
   title: 'Regions/Hero',
-  component: Hero,
+  component: HeroSection,
   tags: ['autodocs'],
   decorators: [withRouter],
-  argTypes: {
-    // Sub-prop enums synced with schemas/sections/hero.ts (SUG-47):
-    //   imageWidth: 'content-width' | 'full-width'
-    //   backgroundMedia.imageTreatment.type (via mediaOverlay.ts): 'none' | 'duotone-featured' | 'duotone-subtle' | 'duotone-extreme' | 'dark-scrim' | 'color'
-    hero: { control: { type: 'object' }, description: 'Hero config: heading, subheading, backgroundStyle (default|pink|green|white|image), backgroundMedia {image, useDuotone, imageTreatment}, ctas[]' },
-  },
   parameters: {
     layout: 'fullscreen',
+  },
+  argTypes: {
+    section: {
+      control: { type: 'object' },
+      description:
+        'heroSection object — eyebrow, heading, subheading, backgroundImage (image + alt + hotspot), ' +
+        'imageTreatment { type: none | duotone | duotone-subtle | duotone-extreme | dark-scrim | greyscale | color, panel: boolean }, ' +
+        'imageWidth: full-width | content-width, ' +
+        'showStatRail: boolean, showMetaFinePrint: boolean, ctas[] { label, url, style, openInNewTab }.',
+    },
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof Hero>;
+type Story = StoryObj<typeof HeroSection>;
 
-const BASE_HERO = {
-  heading: 'Building content-driven digital experiences',
-  subheading: 'Strategy, architecture, and engineering for teams that publish at scale.',
+// Full heroSection prop set — matches Sanity heroSection schema and Studio settings panel
+const BASE_SECTION = {
+  _type: 'heroSection' as const,
+  eyebrow: 'Platform',
+  heading: 'Built as infrastructure.',
+  subheading: 'A governed monorepo: versioned releases, enforced boundaries, a portable design system.',
+  backgroundImage: {
+    asset: { _id: 'image-hero-platform-mock' },
+    hotspot: { x: 0.5, y: 0.4 },
+    alt: 'Vercel Production and Preview deployments dashboard',
+  },
+  imageTreatment: { type: 'duotone-extreme', panel: true },
+  showStatRail: false,
+  showMetaFinePrint: true,
+  _meta: { date: '2024-03-01' },
   ctas: [
-    { url: '/services', label: 'Our Services', openInNewTab: false },
-    { url: '/case-studies', label: 'See Our Work', openInNewTab: false },
+    { _key: 'cta-1', label: 'View the platform', url: '/platform', style: 'secondary', openInNewTab: false },
   ],
 };
 
-/** Default — dark background (no explicit style). */
+/** Full-width hero — image stretches edge to edge. Duotone extreme treatment with frosted panel. */
 export const Default: Story = {
+  name: 'Default (full width)',
   args: {
-    hero: { ...BASE_HERO },
+    section: { ...BASE_SECTION, imageWidth: 'full-width' },
   },
 };
 
-/** Pink background fill. */
-export const PinkBackground: Story = {
-  name: 'Pink Background',
+/** Content-width hero — constrained to reading column width with 35px radius. */
+export const ContentWidth: Story = {
+  name: 'Content width',
   args: {
-    hero: { ...BASE_HERO, backgroundStyle: 'pink' },
-  },
-};
-
-/** Green background fill. */
-export const GreenBackground: Story = {
-  name: 'Green Background',
-  args: {
-    hero: { ...BASE_HERO, backgroundStyle: 'green' },
-  },
-};
-
-/** White background fill. */
-export const WhiteBackground: Story = {
-  name: 'White Background',
-  args: {
-    hero: { ...BASE_HERO, backgroundStyle: 'white' },
-  },
-};
-
-/** Background image with hotspot (uses mocked urlFor). */
-export const BackgroundImage: Story = {
-  name: 'Background Image',
-  args: {
-    hero: {
-      ...BASE_HERO,
-      backgroundStyle: 'image',
-      backgroundMedia: {
-        image: {
-          asset: { _id: 'image-hero-bg' },
-          hotspot: { x: 0.5, y: 0.3 },
-        },
-        useDuotone: false,
-      },
-    },
-  },
-};
-
-/** Background image with duotone filter. */
-export const BackgroundImageDuotone: Story = {
-  name: 'Background Image + Duotone',
-  args: {
-    hero: {
-      ...BASE_HERO,
-      backgroundStyle: 'image',
-      backgroundMedia: {
-        image: {
-          asset: { _id: 'image-hero-bg' },
-          hotspot: { x: 0.5, y: 0.3 },
-        },
-        useDuotone: true,
-      },
-    },
-  },
-};
-
-/** Single CTA only. */
-export const SingleCta: Story = {
-  name: 'Single CTA',
-  args: {
-    hero: {
-      ...BASE_HERO,
-      ctas: [{ url: '/contact', label: 'Get in Touch', openInNewTab: false }],
-    },
-  },
-};
-
-/** Heading only — no subheading or CTAs. */
-export const HeadingOnly: Story = {
-  name: 'Heading Only',
-  args: {
-    hero: {
-      heading: 'Sugartown Digital',
-      backgroundStyle: 'pink',
-    },
+    section: { ...BASE_SECTION, imageWidth: 'content-width' },
   },
 };
 
 // ═══════════════════════════════════════════════════════════════════
-// SNAPSHOT — Chromatic composite (all background variants)
+// SNAPSHOT — Chromatic VRT (both width variants in one capture)
 // ═══════════════════════════════════════════════════════════════════
 
-/**
- * Chromatic snapshot — all background style variants stacked into a
- * single screenshot for VRT baseline.
- */
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
   parameters: {
@@ -148,12 +87,9 @@ export const Snapshot: Story = {
     layout: 'fullscreen',
   },
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', background: '#888' }}>
-      <Hero hero={{ ...BASE_HERO, heading: 'Default (dark)' }} />
-      <Hero hero={{ ...BASE_HERO, heading: 'Pink Background', backgroundStyle: 'pink' }} />
-      <Hero hero={{ ...BASE_HERO, heading: 'Green Background', backgroundStyle: 'green' }} />
-      <Hero hero={{ ...BASE_HERO, heading: 'White Background', backgroundStyle: 'white' }} />
-      <Hero hero={{ heading: 'Heading Only', backgroundStyle: 'pink' }} />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '2rem', background: 'var(--st-color-bg-surface)' }}>
+      <HeroSection section={{ ...BASE_SECTION, imageWidth: 'full-width' }} />
+      <HeroSection section={{ ...BASE_SECTION, imageWidth: 'content-width' }} />
     </div>
   ),
 };
