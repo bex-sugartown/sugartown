@@ -1,5 +1,5 @@
 #!/bin/bash
-# start-dev.sh — Start all three Sugartown dev servers
+# start-dev.sh — Start all four Sugartown dev servers
 # Run from repo root in a dedicated terminal tab:
 #   ./scripts/start-dev.sh
 #
@@ -21,6 +21,9 @@ echo "  Studio     → http://localhost:3333"
 
 pnpm --filter storybook storybook &
 echo "  Storybook  → http://localhost:6006"
+
+pnpm --filter contentful-poc dev &
+echo "  Contentful → http://localhost:3000"
 
 echo ""
 echo "All servers running. Ctrl+C to stop all."
