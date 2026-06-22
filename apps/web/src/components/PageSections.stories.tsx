@@ -13,9 +13,9 @@ const meta: Meta<typeof PageSections> = {
       </MemoryRouter>
     ),
   ],
+  tags: ['autodocs'],
   parameters: {
     chromatic: { disableSnapshot: false },
-    layout: 'fullscreen',
   },
 };
 
