@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './Meter.module.css';
 
 export interface MeterProps {

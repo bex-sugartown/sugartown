@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './Metric.module.css';
 
 export type MetricTrend = 'up' | 'down' | 'neutral';

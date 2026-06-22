@@ -29,7 +29,8 @@ export function Field({
 
   const describedBy = [helperId, errorId].filter(Boolean).join(' ') || undefined;
 
-  const control = React.Children.only(children) as React.ReactElement;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const control = React.Children.only(children) as React.ReactElement<any>;
   const controlWithProps = React.cloneElement(control, {
     'aria-describedby': describedBy,
     hasError: Boolean(errorMessage),
