@@ -11,13 +11,29 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import { HeroSection } from './PageSections';
 
+type OverlayPreset = 'none' | 'duotone' | 'duotone-subtle' | 'duotone-extreme' | 'dark-scrim' | 'greyscale' | 'color';
+
+// Mirrors buildOverlay from Media.stories — produces the imageTreatment object HeroSection expects
+function buildOverlay(type: OverlayPreset, panel: boolean, color = '#ff247d', opacity = 40) {
+  if (type === 'none' || !type) return panel ? { type: 'none' as const, panel } : undefined;
+  if (type === 'duotone')         return { type: 'duotone' as const,         duotonePreset: 'standard' as const, panel };
+  if (type === 'duotone-subtle')  return { type: 'duotone' as const,         duotonePreset: 'subtle' as const,   panel };
+  if (type === 'duotone-extreme') return { type: 'duotone-extreme' as const,                                     panel };
+  if (type === 'dark-scrim')      return { type: 'dark-scrim' as const,                                          panel };
+  if (type === 'greyscale')       return { type: 'greyscale' as const,                                           panel };
+  if (type === 'color')           return { type: 'color' as const, color, opacity,                               panel };
+  return undefined;
+}
+
 // Flat arg type — mirrors Studio settings panel fields
 type HeroArgs = {
   eyebrow: string;
   heading: string;
   subheading: string;
   altText: string;
-  overlayType: string;
+  overlayType: OverlayPreset;
+  overlayColor: string;
+  overlayOpacity: number;
   panel: boolean;
   imageWidth: 'full-width' | 'content-width';
   showStatRail: boolean;
@@ -44,7 +60,7 @@ function buildSection(args: HeroArgs, extra?: object) {
       hotspot: { x: 0.5, y: 0.4 },
       alt: args.altText,
     },
-    imageTreatment: { type: args.overlayType, panel: args.panel },
+    imageTreatment: buildOverlay(args.overlayType, args.panel, args.overlayColor, args.overlayOpacity),
     imageWidth: args.imageWidth,
     showStatRail: args.showStatRail,
     showMetaFinePrint: args.showMetaFinePrint,
@@ -81,11 +97,23 @@ const meta: Meta<HeroArgs> = {
     overlayType: {
       control: { type: 'select' },
       options: ['none', 'duotone', 'duotone-subtle', 'duotone-extreme', 'dark-scrim', 'greyscale', 'color'],
-      description: 'Image treatment overlay type.',
+      description: 'Overlay treatment. Passed as `imageTreatment.type` in the real prop.',
+      table: { category: 'Overlay' },
+    },
+    overlayColor: {
+      control: 'color',
+      description: 'Color for `color` overlay type.',
+      table: { category: 'Overlay' },
+    },
+    overlayOpacity: {
+      control: { type: 'range', min: 0, max: 100, step: 5 },
+      description: 'Opacity 0–100 for `color` overlay.',
+      table: { category: 'Overlay' },
     },
     panel: {
       control: 'boolean',
       description: 'Adds a frosted glass panel behind the text content. Suppresses text glow.',
+      table: { category: 'Overlay' },
     },
     imageWidth: {
       control: { type: 'radio' },
@@ -115,6 +143,8 @@ const meta: Meta<HeroArgs> = {
     subheading: 'A governed monorepo: versioned releases, enforced boundaries, a portable design system.',
     altText: 'Vercel Production and Preview deployments dashboard',
     overlayType: 'duotone-extreme',
+    overlayColor: '#ff247d',
+    overlayOpacity: 40,
     panel: true,
     imageWidth: 'full-width',
     showStatRail: false,
