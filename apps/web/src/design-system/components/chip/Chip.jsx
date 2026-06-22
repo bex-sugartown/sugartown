@@ -15,8 +15,8 @@ import styles from './Chip.module.css'
 
 export default function Chip({
   // Rule-dot system props (SUG-88)
-  variant,       // 'status' | 'tag' — activates rule-dot system; omit for legacy color-mix chips
-  status,        // status key for dot color: 'evergreen' | 'validated' | 'exploring' | 'active' | 'draft' | 'deprecated'
+  variant,       // 'badge' | 'tag' — activates rule-dot system; 'status' is a deprecated alias for 'badge'
+  status,        // status key for dot color: 'evergreen' | 'validated' | 'exploring' | 'active' | 'draft' | 'deprecated' | 'operationalized'
   featured,      // boolean — pink rubric on variant="tag" chips only
   // Project dot-color mode (SUG-118): hex from Sanity project.colorHex
   dotColor,      // hex string — activates dotColor mode; renders 6px dot at this color
@@ -46,7 +46,8 @@ export default function Chip({
     }
   }
   const isInteractive = Boolean(href || onClick)
-  const isRuleDot = variant === 'status' || variant === 'tag'
+  const isBadge = variant === 'badge' || variant === 'status' // 'status' is deprecated alias
+  const isRuleDot = isBadge || variant === 'tag'
   const isDotColor = Boolean(dotColor)
   // tag + color: use the color-mix system instead of neutral ruleDot chassis
   const tagWithColor = variant === 'tag' && Boolean(color || colorHex)
@@ -55,7 +56,7 @@ export default function Chip({
     styles.chip,
     // Rule-dot system modifiers (skipped when tag has an explicit color)
     isRuleDot && !tagWithColor && styles.ruleDot,
-    variant === 'status' && styles.variantStatus,
+    isBadge && styles.variantStatus,
     variant === 'tag' && styles.variantTag,
     featured && variant === 'tag' && !tagWithColor && styles.featured,
     // dotColor mode — project chip with inline hex dot
@@ -79,7 +80,7 @@ export default function Chip({
     : (colorHex && (!isRuleDot || tagWithColor) ? { '--chip-color': colorHex } : undefined)
 
   // Content: rule-dot status chips prepend a semantic dot span; dotColor mode too
-  const dotEl = (variant === 'status' && status)
+  const dotEl = (isBadge && status)
     ? <span className={`${styles.dot} ${styles[`dot-${status}`] ?? ''}`} aria-hidden="true" />
     : isDotColor
       ? <span className={styles.dot} aria-hidden="true" />

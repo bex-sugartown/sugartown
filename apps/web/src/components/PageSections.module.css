@@ -150,7 +150,7 @@
 .heroImageless {
   color: var(--st-color-text-default);
   min-height: 180px;
-  background: var(--st-color-white);
+  background: transparent;
 }
 
 /* Imageless eyebrow: pink in light mode, lime in dark mode */
