@@ -33,11 +33,12 @@ const meta: Meta<typeof SidebarNav> = {
   argTypes: {
     collapsible: {
       control: 'boolean',
-      description: 'Wrap the list in a `<details>` disclosure element. Use at sm/md breakpoints; leave false (default) at lg+.',
+      description: 'Wrap the list in a `<details>` disclosure element. Use at sm/md breakpoints; leave `false` (default) at lg+.',
     },
     defaultOpen: {
       control: 'boolean',
-      description: 'Initial open state when `collapsible` is true.',
+      description: 'Initial open state when `collapsible=true`. `true` → nav open; `false` → nav collapsed.',
+      if: { arg: 'collapsible', truthy: true },
     },
   },
   args: {
