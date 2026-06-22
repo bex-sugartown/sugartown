@@ -24,8 +24,7 @@ export default function Button({
   onClick,
   children,
   className = '',
-  icon,
-  iconPosition = 'left',
+  iconBefore,
   iconAfter,
   ...props
 }) {
@@ -42,10 +41,9 @@ export default function Button({
 
   const content = (
     <>
-      {icon && iconPosition !== 'right' && icon}
+      {iconBefore}
       {children}
       {iconAfter}
-      {icon && iconPosition === 'right' && icon}
     </>
   )
 
