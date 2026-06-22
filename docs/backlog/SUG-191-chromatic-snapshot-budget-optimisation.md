@@ -102,6 +102,14 @@ Components audited this session — before/after story counts:
 | Grid | ~10 | 3 | Removed all tile/card/callout composition stories; kept Default (dynamic columns), Responsive, Snapshot |
 | DescriptionList | 9 | 2 | Kept Default (SingleColumn) + Ledger (LedgerWithChips); removed 7 variant stories |
 
+**Session 2026-06-21 completions:**
+
+| Component | Before | After | Notes |
+|-----------|--------|-------|-------|
+| Hero | 9 | 3 | Default (full-width), Content width, Snapshot; flat controls with Overlay + CTA categories |
+| PageSidebar | 9 | 2 | Default (boolean slot toggles), Snapshot; removed 7 individual-slot stories |
+| SidebarNav | 8 | 2 | Default (lg, always visible), Collapsible (sm/md); autodocs added |
+
 **Components still to audit (current counts from live files):**
 
 | Component | Current count | Target | Status |
@@ -109,9 +117,9 @@ Components audited this session — before/after story counts:
 | Callout | 7 | 3 | Pending |
 | Tile (StatCard) | 7 | 3 | Pending |
 | ScoreRing | 7 | 3 | Pending |
-| Sidebar / SidebarNav | 8 / 5 | 3 / 2 | Pending |
 | FilterBar | 5 | 3 | Pending |
 | Accordion | 5 | 3 | Pending |
+| PageSections | 11 | TBD | Pending — review for docs/snapshot consolidation |
 
 All other DS package components are at or below 5 stories and can be deferred to a later pass.
 

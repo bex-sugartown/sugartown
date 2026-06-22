@@ -128,7 +128,7 @@ icon: {
 }
 ```
 
-**Story count audit** (SUG-191 Phase 4 — updated 2026-06-21):
+**Story count audit** (SUG-191 Phase 4 — updated 2026-06-22):
 
 | File | Before | Now | Status |
 |---|---|---|---|
@@ -139,16 +139,15 @@ icon: {
 | `CodeBlock.stories.tsx` | 13 | 3 | ✅ Done (prior session) |
 | `Button.stories.tsx` | 12 | 4 | ✅ Done (prior session) |
 | `Avatar.stories.tsx` | 11 | 4 | ✅ Done (prior session) |
+| `Hero.stories.tsx` | 9 | 3 | ✅ Done |
+| `PageSidebar.stories.tsx` | 9 | 2 | ✅ Done |
+| `SidebarNav.stories.tsx` | 8 | 2 | ✅ Done |
 | `Callout.stories.tsx` | 11 | 7 | ⏳ Pending — target 3 |
 | `Tile.stories.tsx` (StatCard) | — | 7 | ⏳ Pending — target 3 |
 | `ScoreRing.stories.tsx` | — | 7 | ⏳ Pending — target 3 |
-| `SidebarNav.stories.tsx` | — | 8 | ⏳ Pending — target 3 |
 | `FilterBar.stories.tsx` | — | 5 | ⏳ Pending — target 3 |
 | `Accordion.stories.tsx` | — | 5 | ⏳ Pending — target 3 |
-| `Hero.stories.tsx` | 9 | — | ⏳ Pending — hero has many variants, review carefully |
-| `PageHeader.stories.jsx` | 9 | — | ⏳ Pending |
-| `PageSidebar.stories.tsx` | 9 | — | ⏳ Pending |
-| `PageSections.stories.tsx` | 10 | — | ⏳ Pending |
+| `PageSections.stories.tsx` | 10 | 11 | ⏳ Pending — review for docs/snapshot consolidation |
 
 Each remaining file needs a per-story decision, not a blanket reduction. Pending items continue in the next SUG-191 session.
 
