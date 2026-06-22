@@ -36,8 +36,9 @@ This is the editorial framework for Phase 1 decisions. Include it in the shipped
 
 ## Scope
 
-- [ ] **Phase 1 — Audit and recommendation doc:** Produce `docs/briefs/taxonomy-vocabulary-audit-2026.md` containing: the four decision tables below, a rationale for each proposed action, and a section explaining the glossary-vs-tag rule for future editors. No Sanity writes yet. Layer: documentation
+- [x] **Phase 1 — Audit and recommendation doc:** Produce `docs/briefs/taxonomy-vocabulary-audit-2026.md` containing: the four decision tables below, a rationale for each proposed action, and a section explaining the glossary-vs-tag rule for future editors. No Sanity writes yet. Layer: documentation
 - [ ] **Phase 2 — Execute approved changes:** Apply the Bex-approved decisions from Phase 1: retire/delete tags, merge near-duplicates (re-tag content), promote tags to glossary terms where applicable, add `relatedTags` wiring on glossary terms that absorb a retired tag, update categories where needed. Layer: content (Sanity MCP `patch_documents`, Sanity Studio deletes)
+- [ ] **Phase 2b — Glossary terms in MetadataCard:** Surface glossary terms on content document metadata. Two-source model: derive from inline `glossaryTermRef` markDefs in portable text (query-time extraction, zero editorial overhead) plus an explicit `relatedTerms[]` field on article/node/caseStudy schemas for terms implied but not marked inline. MetadataCard gets a `terms` prop that merges both sources and deduplicates. During Phase 2 tag retirement, backfill `relatedTerms[]` on affected docs as a one-time migration. Phase 0 required for the MetadataCard chip row addition. Layer: schema + component + content migration
 - [ ] **Phase 3 — Publish and verify:** Confirm all affected content is published (not left as draft), all deleted tags have zero `usedBy` references before deletion, and the `validate:content` script passes. Layer: tooling/verification
 
 ## Phase 1 — Pre-populated audit findings
@@ -120,6 +121,9 @@ All of these have exactly 1 content reference. Each needs a brief editorial call
 - [ ] `validate:content` passes (no orphaned taxonomy refs) after all deletes
 - [ ] Tag count is materially reduced — target under 70 (from 97), documented in shipped doc
 - [ ] The glossary-vs-tag decision rule is written into the shipped doc for future editorial reference
+- [ ] `relatedTerms[]` field added to `article`, `node`, and `caseStudy` schemas; schema deployed
+- [ ] MetadataCard renders a "Terms" row derived from inline `glossaryTermRef` markDefs + `relatedTerms[]`, deduplicated, linking to glossary term pages
+- [ ] Docs affected by Phase 2 tag retirements have `relatedTerms[]` backfilled with the corresponding glossary term where one exists
 
 ## Human QA Walkthrough
 
@@ -138,6 +142,14 @@ Note: verify the tag archive page (`/tags`) and affected tag detail pages (`/tag
 **Glossary `relatedTags` wiring:** When a tag is retired because a glossary term supersedes it, add the nearest surviving broader tag to the glossary term's `relatedTags[]` field — this ensures the knowledge graph still surfaces the connection. Example: retire `knowledge graph` tag → add `knowledge graph` to the KG glossary term's `relatedTags`.
 
 **`validate:content` must pass before close-out:** Run `pnpm validate:content` from `apps/web/` after all deletions. Dangling taxonomy refs are a silent failure mode — the archive page just shows fewer results with no error.
+
+**Phase 2b — MetadataCard terms derivation:** The GROQ to extract inline-marked terms from portable text (works across `content`, `body`, `sections[].content` fields):
+```groq
+"inlineTerms": array::unique(content[].markDefs[_type == "glossaryTermRef"].term->{_id, term, "slug": slug.current})
+```
+Merge with `relatedTerms[]->{ _id, term, "slug": slug.current }` in the component and deduplicate by `_id`. MetadataCard receives a `terms` prop (array); renders as a labelled chip row below tags. Links to `/knowledge-graph/:slug` (the glossary term detail page route — confirm in `routes.js` before wiring).
+
+**Phase 2b — Schema addition:** `relatedTerms` is an array of references to `glossaryTerm` on `article`, `node`, and `caseStudy`. Field should be hidden behind a "Metadata" collapsible group in Studio so it doesn't crowd the editor — use `group: 'metadata'` on the field definition. Phase 0 required for the MetadataCard chip row visual before any JSX is written.
 
 **Activation audits:**
 - Run `*[_type == "glossaryTerm"]{ _id, term, "slug": slug.current }` at activation to get the full current term list for Table C cross-checks.
