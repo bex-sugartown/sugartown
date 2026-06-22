@@ -1,12 +1,10 @@
 /**
  * PageSidebar stories — right-rail at 1024px+, disclosure below content otherwise (SUG-69).
  *
- * Uses MemoryRouter for <Link> support. Fixture data mirrors real Sanity document shapes.
- * Individual slot stories + a composite Snapshot story for Chromatic VRT.
- *
+ * Uses MemoryRouter for <Link> support. Boolean controls toggle each slot on/off.
  * Note: sticky positioning and the two-column grid only activate when the sidebar is
  * rendered inside `.detailPage[data-has-margin]`. In Storybook isolation we show the
- * sidebar contents at their natural width (~220px).
+ * sidebar contents at their natural width (~240px).
  */
 
 import React from 'react';
@@ -14,15 +12,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import PageSidebar from './PageSidebar';
 
-const withRouter = (Story: React.ComponentType) => (
-  <MemoryRouter>
-    <Story />
-  </MemoryRouter>
-);
-
 // ─── Fixture data ───────────────────────────────────────────────────────────
 
-const SECTIONS_WITH_HEADINGS = [
+const SECTIONS = [
   {
     _key: 'sec-1',
     _type: 'textSection',
@@ -50,101 +42,74 @@ const SECTIONS_WITH_HEADINGS = [
   },
 ];
 
-const SECTIONS_SINGLE_HEADING = [
-  { _key: 'sec-solo', _type: 'textSection', heading: 'Only Section', content: [] },
+const RELATED = [
+  { _id: 'node-001',    _type: 'node',      title: 'The Great Disconnection',    slug: 'the-great-disconnection' },
+  { _id: 'article-001', _type: 'article',   title: 'Building a Knowledge Graph', slug: 'building-a-knowledge-graph' },
+  { _id: 'cs-001',      _type: 'caseStudy', title: 'Sugartown CMS Migration',    slug: 'sugartown-cms-migration' },
 ];
 
-const RELATED_CONTENT = [
-  { _id: 'node-001', _type: 'node', title: 'The Great Disconnection', slug: 'the-great-disconnection' },
-  { _id: 'article-001', _type: 'article', title: 'Building a Knowledge Graph', slug: 'building-a-knowledge-graph' },
-  { _id: 'cs-001', _type: 'caseStudy', title: 'Sugartown CMS Migration', slug: 'sugartown-cms-migration' },
-];
-
-const SERIES = { title: 'AI Collaboration Patterns', slug: 'ai-collaboration-patterns' };
+const SERIES   = { title: 'AI Collaboration Patterns', slug: 'ai-collaboration-patterns' };
 const AI_TOOLS = [
   { _id: 'tool-claude-code', name: 'Claude Code', slug: 'claude-code' },
-  { _id: 'tool-sanity', name: 'Sanity', slug: 'sanity' },
+  { _id: 'tool-sanity',      name: 'Sanity',      slug: 'sanity' },
 ];
 const AUTHORS = [{ name: 'Rebecca Alice' }];
 
-// ─── Meta ───────────────────────────────────────────────────────────────────
+// ─── Flat arg type ───────────────────────────────────────────────────────────
 
-const meta: Meta<typeof PageSidebar> = {
+type SidebarArgs = {
+  showSeries:      boolean;
+  showToc:         boolean;
+  showRelated:     boolean;
+  showAiDisclosure: boolean;
+};
+
+function buildProps(args: SidebarArgs) {
+  return {
+    sections:    args.showToc         ? SECTIONS  : undefined,
+    related:     args.showRelated     ? RELATED   : undefined,
+    series:      args.showSeries      ? SERIES    : undefined,
+    partNumber:  args.showSeries      ? 2         : undefined,
+    tools:       args.showAiDisclosure ? AI_TOOLS : undefined,
+    authors:     args.showAiDisclosure ? AUTHORS  : undefined,
+  };
+}
+
+// ─── Meta ────────────────────────────────────────────────────────────────────
+
+const meta: Meta<SidebarArgs> = {
   title: 'Patterns/PageSidebar',
-  component: PageSidebar,
   tags: ['autodocs'],
-  decorators: [withRouter],
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <div style={{ maxWidth: '240px' }}>
+          <Story />
+        </div>
+      </MemoryRouter>
+    ),
+  ],
   parameters: { layout: 'padded' },
+  argTypes: {
+    showSeries:       { control: 'boolean', description: 'Show the series membership block.' },
+    showToc:          { control: 'boolean', description: 'Show the on-this-page table of contents.' },
+    showRelated:      { control: 'boolean', description: 'Show the related content block.' },
+    showAiDisclosure: { control: 'boolean', description: 'Show the AI disclosure block (auto-generated from tools + authors).' },
+  },
+  args: {
+    showSeries:       true,
+    showToc:          true,
+    showRelated:      true,
+    showAiDisclosure: true,
+  },
 };
 
 export default meta;
-type Story = StoryObj<typeof PageSidebar>;
+type Story = StoryObj<SidebarArgs>;
 
-const wrap = (Story: React.ComponentType) => (
-  <div style={{ maxWidth: '240px' }}>
-    <Story />
-  </div>
-);
-
-// ─── Individual slots ───────────────────────────────────────────────────────
-
-export const TocOnly: Story = {
-  name: 'TOC Only',
-  decorators: [wrap],
-  args: { sections: SECTIONS_WITH_HEADINGS },
-};
-
-export const RelatedOnly: Story = {
-  name: 'Related Only',
-  decorators: [wrap],
-  args: { related: RELATED_CONTENT },
-};
-
-export const SeriesOnly: Story = {
-  name: 'Series Only',
-  decorators: [wrap],
-  args: { series: SERIES, partNumber: 3 },
-};
-
-export const AiDisclosureAuto: Story = {
-  name: 'AI Disclosure · Auto',
-  decorators: [wrap],
-  args: { tools: AI_TOOLS, authors: AUTHORS },
-};
-
-export const AiDisclosureManual: Story = {
-  name: 'AI Disclosure · Manual',
-  decorators: [wrap],
-  args: {
-    aiDisclosure: 'This document was co-authored with Claude Code. All editorial decisions are human-made.',
-  },
-};
-
-// ─── Combined / edge ────────────────────────────────────────────────────────
-
-export const AllSlots: Story = {
-  name: 'All Slots',
-  decorators: [wrap],
-  args: {
-    sections: SECTIONS_WITH_HEADINGS,
-    related: RELATED_CONTENT,
-    series: SERIES,
-    partNumber: 2,
-    tools: AI_TOOLS,
-    authors: AUTHORS,
-  },
-};
-
-export const Empty: Story = {
-  name: 'Empty (renders null)',
-  decorators: [wrap],
-  args: {},
-};
-
-export const SingleHeading: Story = {
-  name: 'Single Heading (no TOC)',
-  decorators: [wrap],
-  args: { sections: SECTIONS_SINGLE_HEADING, related: RELATED_CONTENT },
+/** All four slots active — toggle each with the checkboxes above. */
+export const Default: Story = {
+  render: (args) => <PageSidebar {...buildProps(args)} />,
 };
 
 // ─── Chromatic snapshot ─────────────────────────────────────────────────────
@@ -153,34 +118,13 @@ export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
   parameters: { chromatic: { disableSnapshot: false } },
   render: () => (
-    <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', alignItems: 'start' }}>
-      <div style={{ maxWidth: '240px' }}>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>All Slots</h4>
-        <PageSidebar
-          sections={SECTIONS_WITH_HEADINGS}
-          related={RELATED_CONTENT}
-          series={SERIES}
-          partNumber={2}
-          tools={AI_TOOLS}
-          authors={AUTHORS}
-        />
-      </div>
-      <div style={{ maxWidth: '240px' }}>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>TOC Only</h4>
-        <PageSidebar sections={SECTIONS_WITH_HEADINGS} />
-      </div>
-      <div style={{ maxWidth: '240px' }}>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Related Only</h4>
-        <PageSidebar related={RELATED_CONTENT} />
-      </div>
-      <div style={{ maxWidth: '240px' }}>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Series + AI</h4>
-        <PageSidebar series={SERIES} partNumber={3} tools={AI_TOOLS} authors={AUTHORS} />
-      </div>
-      <div style={{ maxWidth: '240px' }}>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Manual Disclosure</h4>
-        <PageSidebar aiDisclosure="Co-authored with Claude Code. All decisions are human-made." />
-      </div>
-    </div>
+    <PageSidebar
+      sections={SECTIONS}
+      related={RELATED}
+      series={SERIES}
+      partNumber={2}
+      tools={AI_TOOLS}
+      authors={AUTHORS}
+    />
   ),
 };
