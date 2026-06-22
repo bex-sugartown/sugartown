@@ -1,10 +1,13 @@
 #!/bin/bash
 # vercel-ignore-build.sh — Skip Vercel build when no contentful-poc-relevant files changed.
 #
-# Vercel calls this as the "Ignored Build Step" command.
+# Vercel calls this as the "Ignored Build Step" (ignoreCommand in vercel.json).
 # Exit 0 = skip build. Exit 1 = proceed with build.
 #
-# Relevant paths (any change here triggers a build):
+# Uses VERCEL_GIT_PREVIOUS_SHA / VERCEL_GIT_COMMIT_SHA env vars provided by Vercel.
+# Falls back to HEAD^..HEAD for local testing.
+#
+# Relevant paths (any change triggers a build):
 #   apps/contentful-poc/**
 #   packages/design-system/**
 #   pnpm-lock.yaml
@@ -13,7 +16,12 @@
 
 echo "Checking for contentful-poc-relevant changes..."
 
-git diff HEAD^ HEAD --name-only | grep -qE \
+PREV=${VERCEL_GIT_PREVIOUS_SHA:-HEAD^}
+CURR=${VERCEL_GIT_COMMIT_SHA:-HEAD}
+
+echo "Diff: $PREV → $CURR"
+
+git diff "$PREV" "$CURR" --name-only | grep -qE \
   '^(apps/contentful-poc/|packages/design-system/|pnpm-lock\.yaml|turbo\.json|package\.json)'
 
 if [ $? -eq 0 ]; then
