@@ -89,6 +89,19 @@ export const PROJECT_FRAGMENT = `
 `
 
 /**
+ * GLOSSARY_TERM_FRAGMENT
+ * Compact projection for glossary term references in popovers and MetadataCard chips.
+ * Usage: relatedTerms[]->{${GLOSSARY_TERM_FRAGMENT}}
+ */
+export const GLOSSARY_TERM_FRAGMENT = `
+  _id,
+  term,
+  abbreviation,
+  "slug": slug.current,
+  "definitionPreview": definition[0..0]
+`
+
+/**
  * TAXONOMY_FRAGMENT
  * Composite canonical taxonomy projection for all top-level content types.
  * Bundles all five taxonomy primitives into a single reusable spread.
@@ -1631,17 +1644,6 @@ export const latestNodeQuery = `
 
 // ─── GLOSSARY QUERIES (SUG-35) ──────────────────────────────────────────────
 
-/**
- * GLOSSARY_TERM_FRAGMENT
- * Compact projection for glossary term references in popovers and chips.
- */
-export const GLOSSARY_TERM_FRAGMENT = `
-  _id,
-  term,
-  abbreviation,
-  "slug": slug.current,
-  "definitionPreview": definition[0..0]
-`
 
 /**
  * allGlossaryTermsQuery
