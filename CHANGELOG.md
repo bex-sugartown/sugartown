@@ -12,19 +12,91 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.27.7.
+> Accumulates since v0.28.0.
 
-- SUG-193: MetadataCard glossary terms row — Terms+Tags chipRowPair, two-source merge (inline PT markDefs + relatedTerms[]), archive label links, relatedTerms[] schema on article/node/caseStudy
-- SUG-189: Content taxonomy audit complete — glossary term-linking (14/15 articles, 52/53 nodes, 39/65 terms), structured taxonomy sweep (zero field gaps across 75 documents), authors backfill confirmed across all content
+---
 
-- SUG-191: Chromatic budget optimisation — TurboSnap, skip gate, disableSnapshot on docs stories, story count audit (Hero, PageSidebar, SidebarNav, Chip, Media, Grid, DescriptionList, Button, CodeBlock, Avatar reduced to ≤4 stories each)
+## [0.28.0] — 2026-06-23
 
-- SUG-180: Multi-brand DS theming convention — CONSUMING.md authored; theme.pink-moon.css selectors changed to ~= (includes-word) for additive data-theme support; shop amber theme applied to contentful-poc (light-pink-moon light-shop); Storybook shop theme switcher added; project Assigned content panel via defineIncomingReferenceDecoration
-- SUG-179: Contentful Stage 1 build-out — SiteHeader + SiteFooter Next.js adapters wired to Contentful nav; normalizeSiteSettings flattening layer; theme.shop.css in both style dirs; validate:style-mirror now checking 6 files
+Taxonomy surface expansion, Chromatic optimisation, Contentful POC Stage 1, and DS
+multi-brand theming. Aggregates v0.27.2–v0.27.11.
 
-- SUG-188: Contentful content model Stage 1 — 4 new content types (navigationItem, navigationMenu, socialLink, ctaButton); siteSettings extended with 12 nav/footer/SEO fields; siteSettings entry seeded with real nav data; homepage page entry created; TypeScript types + getSiteSettings(include:3) updated
-- SUG-186: glossaryTerm related field split — relatedTerms narrowed to glossaryTerm-only; relatedTags + relatedTools added; SyncRelatedAction bidirectional sync on publish; 39-doc backfill
-- SUG-184: GSC crawled-not-indexed fixes — robots.txt (block /*?* filter URLs), thin-content noindex threshold on taxonomy/tool pages (MIN_INDEXABLE_ITEMS=3), /gem/ bad link fixed in Sanity
+### apps/web
+
+#### Added
+- MetadataCard glossary Terms row: two-source merge of inline PT markDefs
+  (auto-extracted from body) and explicit `relatedTerms[]` array, deduped by `_id`;
+  Terms+Tags rendered as `chipRowPair` grid mirroring the existing Tools|Category pair;
+  chip label names link to archive indexes (`/glossary`, `/tags`, `/tools`,
+  `/categories`) (SUG-193)
+
+#### Changed
+- Content taxonomy audit complete — glossary term-linking across 14/15 articles,
+  52/53 nodes, 39/65 terms; structured taxonomy sweep (zero field gaps across 75 docs);
+  author field backfill confirmed (SUG-189)
+
+#### Fixed
+- GSC crawled-not-indexed: `robots.txt` blocks `/*?*` filter URLs; thin-content
+  `noindex` threshold on taxonomy/tool archive pages (`MIN_INDEXABLE_ITEMS=3`);
+  broken `/gem/` link fixed in Sanity (SUG-184)
+- `/people/beehead` → `/people/bex` 301 redirect added
+- SiteGraphPage white screen on Knowledge Graph node click — `Link` was used at
+  lines 316 and 383 but missing from the `react-router-dom` import
+- Prerendered pages rendering with partial dark mode — theme-init script was absent
+  from prerendered route HTML
+- Vercel ignore script: switched to `VERCEL_GIT_*_SHA` env vars; contentful-poc
+  build now skips when no relevant files changed
+
+### apps/studio
+
+#### Added
+- `relatedTerms[]` (array of `glossaryTerm` references) added to `article`, `node`,
+  and `caseStudy` schemas; deployed to production (SUG-193)
+- `glossaryTerm` schema: `relatedTerms` narrowed to glossaryTerm-only refs;
+  `relatedTags` and `relatedTools` fields added; `SyncRelatedAction` triggers
+  bidirectional related-field sync on publish; 39-doc backfill applied (SUG-186)
+- `project` schema: Assigned content panel via `defineIncomingReferenceDecoration`;
+  Referenced by view pane added (SUG-180)
+
+### packages/design-system
+
+#### Changed
+- `theme.pink-moon.css` attribute selectors changed from `=` to `~=`
+  (includes-word) to support additive `data-theme` values (SUG-180)
+- `theme.shop.css` added to both style dirs (`apps/web` and `packages/design-system`);
+  `validate:style-mirror` extended to check 6 files (SUG-180)
+
+#### Fixed
+- Unused React imports removed across DS components (TS6133); `cloneElement` cast to
+  `ReactElement<any>` for aria prop compatibility (TS2769)
+
+### apps/storybook
+
+#### Added
+- `chromatic-conventions.md` authored documenting snapshot budget rules (SUG-191)
+
+#### Changed
+- TurboSnap (`--only-changed`) enabled to reduce Chromatic snapshot consumption (SUG-191)
+- CI skip gate added; `disableSnapshot` applied to all docs stories (SUG-191)
+- Story count reduced to ≤4 per component on: Hero, PageSidebar, SidebarNav, Chip,
+  Media, Grid, DescriptionList, Button, CodeBlock, Avatar (SUG-191)
+
+### Other (apps/contentful-poc)
+
+#### Added
+- SiteHeader + SiteFooter Next.js adapters wired to Contentful nav data;
+  `normalizeSiteSettings` flattening layer (SUG-179)
+- 4 Contentful content types added (navigationItem, navigationMenu, socialLink,
+  ctaButton); siteSettings extended with 12 nav/footer/SEO fields; homepage entry
+  seeded; TypeScript types updated (SUG-188)
+- Vercel Speed Insights added
+
+#### Changed
+- Shop amber theme applied (`data-theme="light-pink-moon light-shop"`) (SUG-180)
+
+#### Fixed
+- `suppressHydrationWarning` added to `<html>`; stale localStorage theme cleared on
+  load to prevent theme flash
 
 ---
 
