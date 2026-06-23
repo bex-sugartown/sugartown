@@ -85,6 +85,7 @@ export default function CaseStudyPage() {
           tools={caseStudy.tools}
           categories={caseStudy.categories}
           tags={caseStudy.tags}
+          relatedTerms={caseStudy.relatedTerms}
           projects={caseStudy.projects}
           draftBadge={<DraftBadge docId={caseStudy._id} hasDraft={hasDraft} />}
         />
