@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-22 · v0.27.9 shipped — SUG-189 Phase 1 glossary term-linking (14/15 articles, 52/53 nodes, 39 of 65 terms linked). Phases 2–3 still open.
+> Updated 2026-06-23 · v0.27.10 shipped — SUG-189 content taxonomy audit complete (all 4 phases). Zero field gaps across 75 documents.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.27.9 shipped ✅ 2026-06-22. SUG-189 Phase 1 complete — 14/15 articles + 52/53 nodes now carry inline glossaryTermRef marks. Phases 2–3 (taxonomy sweep + people=Bex) remain. Next: SUG-189 Phases 2–3, SUG-192 story count remainder, or SUG-160 TechTimeline article.
+> **⚑ Current focus:** v0.27.10 shipped ✅ 2026-06-23. SUG-189 fully closed — all 4 phases complete, 75 documents audited. Next: SUG-193 MetadataCard glossary terms row (Phase 0 mock required), SUG-192 Chromatic story count remainder, or SUG-160 TechTimeline article.
 
 ---
 
@@ -42,6 +42,7 @@
 | 0 | ~~**[SUG-180](https://linear.app/sugartown/issue/SUG-180) · Multi-brand DS theming convention** — CONSUMING.md authored; ~= includes-word selectors in theme.pink-moon.css enable additive data-theme; shop amber theme (light-pink-moon light-shop) applied to contentful-poc; Storybook shop theme switcher added; project "Assigned content" panel via defineIncomingReferenceDecoration. Shipped v0.27.6. Epic: `docs/shipped/SUG-180-multi-brand-ds-theming-convention.md`.~~ | `Design System` `Infrastructure` | ✅ Shipped |
 | 4 | **[SUG-160](https://linear.app/sugartown/issue/SUG-160/article-i-was-online-before-it-was-a-thing-techtimeline-component) · Article: I Was Online Before It Was a Thing + TechTimeline component** — TechTimeline DS component (Phase 1) + personal-history article with BBS timeline, doll computer photos, and about page updates (Phase 2). Epic: `docs/backlog/SUG-160-article-i-was-online-techtimeline.md`. | `Article` `Content` `Design System` `Frontend` | 🟢 Next |
 | 0 | ~~**[SUG-190](https://linear.app/sugartown/issue/SUG-190/taxonomy-vocabulary-audit-tag-deduplication-categorytag-overlap) · Taxonomy vocabulary audit — tag deduplication, category/tag overlap, glossary vs tag distinction** — 97→64 tags, zero orphaned refs, 3 new glossary terms (human-in-the-loop, Context Engineering, MACH). Phase 2b migrated to SUG-193. Shipped v0.27.8. Epic: `docs/shipped/SUG-190-taxonomy-vocabulary-audit.md`.~~ | `Content` | ✅ Shipped |
+| 0 | ~~**[SUG-189](https://linear.app/sugartown/issue/SUG-189/content-taxonomy-audit-glossary-term-linking-full-taxonomy-coverage) · Content taxonomy audit — glossary term-linking, full taxonomy coverage, people=Bex** — Phase 1: 14/15 articles + 52/53 nodes with glossaryTermRef marks, 39/65 terms linked. Phases 2–4: zero field gaps across 75 documents, authors confirmed on all content. Shipped v0.27.10. Epic: `docs/shipped/SUG-189-content-taxonomy-audit.md`.~~ | `Content` | ✅ Shipped |
 | 0 | **[SUG-193](https://linear.app/sugartown/issue/SUG-193/metadatacard-glossary-terms-row-phase-2b-of-sug-190) · MetadataCard glossary terms row** — Surface glossary terms on content pages via MetadataCard. Two-source model: inline `glossaryTermRef` markDefs + explicit `relatedTerms[]` field on article/node/caseStudy. Phase 0 mock required. Epic: `docs/backlog/SUG-193-metadatacard-glossary-terms-row.md`. | `Frontend` `Schema` `Content` | 🟣 Soon |
 | 8 | ~~**[SUG-186](https://linear.app/sugartown/issue/SUG-186) · Split glossaryTerm relatedTerms into dedicated sections (terms / tags / tools)** — relatedTerms narrowed to glossaryTermRef only; relatedTags + relatedTools added; SyncRelatedAction fires bidirectional sync on publish; 39-doc backfill. Shipped v0.27.2. Epic: `docs/shipped/SUG-186-split-glossary-related-sections.md`.~~ | `Schema` | ✅ Shipped |
 | 6 | ~~**[SUG-166](https://linear.app/sugartown/issue/SUG-166/glossary-completion-gap-fill-eds-vocabulary-import) · Glossary completion — gap-fill + EDS vocabulary import** — glossary 17 → 41 terms (gap-fill + token tiers + DS ladder + Tier 3 principles + Bextionary); term-detail ContentNav/Status/Related-Terms polish. Phase 4 dropped. Epic: `docs/shipped/SUG-166-glossary-completion-gap-fill-eds-import.md`.~~ | `Content` `Design System` | ✅ Shipped |

@@ -14,7 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.27.7.
 
-- SUG-189 Phase 1: Glossary term-linking — 14/15 articles (93%) and 52/53 nodes (98%) now carry inline `glossaryTermRef` marks; 39 of 65 terms linked across corpus
+- SUG-189: Content taxonomy audit complete — glossary term-linking (14/15 articles, 52/53 nodes, 39/65 terms), structured taxonomy sweep (zero field gaps across 75 documents), authors backfill confirmed across all content
 
 - SUG-191: Chromatic budget optimisation — TurboSnap, skip gate, disableSnapshot on docs stories, story count audit (Hero, PageSidebar, SidebarNav, Chip, Media, Grid, DescriptionList, Button, CodeBlock, Avatar reduced to ≤4 stories each)
 
