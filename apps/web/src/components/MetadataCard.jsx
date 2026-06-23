@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom'
 import { Chip } from '../design-system'
 import TaxonomyChips from './TaxonomyChips'
 import { getAuthorByline, getPrimaryAuthor } from '../lib/person'
-import { getCanonicalPath } from '../lib/routes'
+import { getCanonicalPath, GLOSSARY_ROUTES, TAXONOMY_NAMESPACES } from '../lib/routes'
 import styles from './MetadataCard.module.css'
 
 // ─── Display label maps (mirror Sanity schema option lists) ───────────────────
@@ -110,6 +110,8 @@ export default function MetadataCard({
   // Taxonomy
   categories,
   tags,
+  inlineTerms,
+  relatedTerms,
   projects,
   // Slots
   draftBadge,
@@ -176,6 +178,12 @@ export default function MetadataCard({
   const hasCategories = categories?.length > 0
   const hasTags       = tags?.length > 0
 
+  // Merge inline terms (extracted from PT markDefs) + explicit relatedTerms, deduped by _id
+  const seenTermIds = new Set()
+  const mergedTerms = [...(inlineTerms ?? []), ...(relatedTerms ?? [])]
+    .filter((t) => t?._id && !seenTermIds.has(t._id) && seenTermIds.add(t._id))
+  const hasTerms = mergedTerms.length > 0
+
   // Project chips only when no call number ID available (fallback)
   const hasProjects      = projects?.length > 0
   const showProjectChips = hasProjects && !callNumber
@@ -184,11 +192,17 @@ export default function MetadataCard({
 
   if (
     !callNumber && !hasScalars && !hasTools &&
-    !showProjectChips && !hasCategories && !hasTags && !draftBadge
+    !showProjectChips && !hasCategories && !hasTags && !hasTerms && !draftBadge
   ) return null
 
   // Check if any chip sections exist
-  const hasChips = hasTools || showProjectChips || hasCategories || hasTags
+  const hasChips = hasTools || showProjectChips || hasCategories || hasTags || hasTerms
+
+  // Archive paths for chip label links
+  const toolsArchivePath = `/${TAXONOMY_NAMESPACES.tool}`
+  const categoriesArchivePath = `/${TAXONOMY_NAMESPACES.category}`
+  const tagsArchivePath = `/${TAXONOMY_NAMESPACES.tag}`
+  const termsArchivePath = GLOSSARY_ROUTES.root
 
   return (
     <aside className={styles.metadataCard}>
@@ -238,7 +252,9 @@ export default function MetadataCard({
               <div className={styles.chipRowPair}>
                 {hasTools && (
                   <div className={styles.chipRow}>
-                    <p className={styles.chipLabel}>Tools</p>
+                    <p className={styles.chipLabel}>
+                      <Link to={toolsArchivePath} className={styles.chipLabelLink}>Tools</Link>
+                    </p>
                     <ul className={styles.chipList}>
                       {validTools.map((tool) => (
                         <li key={tool._id}>
@@ -255,7 +271,9 @@ export default function MetadataCard({
                 )}
                 {hasCategories && (
                   <div className={styles.chipRow}>
-                    <p className={styles.chipLabel}>Category</p>
+                    <p className={styles.chipLabel}>
+                      <Link to={categoriesArchivePath} className={styles.chipLabelLink}>Category</Link>
+                    </p>
                     <ul className={styles.chipList}>
                       {categories.map((cat) => (
                         <li key={cat._id}>
@@ -280,22 +298,48 @@ export default function MetadataCard({
               </div>
             )}
 
-            {hasTags && (
-              <div className={styles.chipRow}>
-                <p className={styles.chipLabel}>Tags</p>
-                <ul className={styles.chipList}>
-                  {tags.map((tag, i) => (
-                    <li key={tag._id}>
-                      <Chip
-                        variant="tag"
-                        featured={i === 0}
-                        label={tag.name}
-                        href={tag.slug ? getCanonicalPath({ docType: 'tag', slug: tag.slug }) : undefined}
-                        size="sm"
-                      />
-                    </li>
-                  ))}
-                </ul>
+            {/* Terms + Tags — side by side per SUG-193 mock; pair suppressed when both absent */}
+            {(hasTerms || hasTags) && (
+              <div className={styles.chipRowPair}>
+                {hasTerms && (
+                  <div className={styles.chipRow}>
+                    <p className={styles.chipLabel}>
+                      <Link to={termsArchivePath} className={styles.chipLabelLink}>Terms</Link>
+                    </p>
+                    <ul className={styles.chipList}>
+                      {mergedTerms.map((t) => (
+                        <li key={t._id}>
+                          <Chip
+                            variant="tag"
+                            label={t.term}
+                            href={t.slug ? getCanonicalPath({ docType: 'glossaryTerm', slug: t.slug }) : undefined}
+                            size="sm"
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {hasTags && (
+                  <div className={styles.chipRow}>
+                    <p className={styles.chipLabel}>
+                      <Link to={tagsArchivePath} className={styles.chipLabelLink}>Tags</Link>
+                    </p>
+                    <ul className={styles.chipList}>
+                      {tags.map((tag, i) => (
+                        <li key={tag._id}>
+                          <Chip
+                            variant="tag"
+                            featured={i === 0}
+                            label={tag.name}
+                            href={tag.slug ? getCanonicalPath({ docType: 'tag', slug: tag.slug }) : undefined}
+                            size="sm"
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
           </div>

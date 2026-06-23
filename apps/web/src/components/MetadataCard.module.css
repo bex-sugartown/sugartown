@@ -101,6 +101,18 @@
   color: var(--st-color-brand-primary);
 }
 
+/* Chip label archive links (Tools, Category, Terms, Tags headings) */
+.chipLabelLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.chipLabelLink:hover {
+  color: var(--st-color-brand-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* ── Chip sections — border-based dividers (no bg-through-gap) ── */
 
 .chipColumns {
