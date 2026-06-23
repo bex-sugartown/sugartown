@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-23 · v0.27.11 shipped — SUG-193 MetadataCard glossary terms row — Terms+Tags chipRowPair, two-source merge (inline PT markDefs + relatedTerms[]).
+> Updated 2026-06-23 · v0.28.0 released — taxonomy surface expansion (SUG-193), Chromatic optimisation (SUG-191), Contentful POC Stage 1 (SUG-179/188), DS multi-brand theming (SUG-180). Aggregates v0.27.2–v0.27.11.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.27.11 shipped ✅ 2026-06-23. SUG-193 fully closed — Terms+Tags chipRowPair in MetadataCard, two-source inline+relatedTerms merge. Next: SUG-192 Chromatic story count remainder, SUG-160 TechTimeline article, or SUG-193 Phase 4 backfill (relatedTerms on docs that lost tags in SUG-190).
+> **⚑ Current focus:** v0.28.0 released ✅ 2026-06-23. Taxonomy surface (SUG-193/189/186), Chromatic budget (SUG-191), Contentful POC Stage 1 (SUG-179/188), DS multi-brand theming (SUG-180) all shipped. Next: SUG-192 Chromatic story count remainder or SUG-160 TechTimeline article.
 
 ---
 
@@ -87,9 +87,9 @@
 | ~~2~~ | ~~**[SUG-158](https://linear.app/sugartown/issue/SUG-158) · Storybook Documentation Template System**~~ — `helpers/docs.tsx` doc components (DocSection, DoDontGrid, TokenGroup, etc.), `stories.boilerplate.tsx`, Docs/Story Template story, PageHeader pilot (14 sections), table border tokens standardised. Shipped v0.26.11. Epic: `docs/shipped/SUG-158-storybook-docs-template-system.md`. | `Design System` `Tooling` `Storybook` | ✅ Shipped |
 | ~~2~~ | ~~**[SUG-153](https://linear.app/sugartown/issue/SUG-153/mobile-responsive-layout-sidebar-drawer-multi-column-collapse) · Mobile responsive layout — sidebar drawer Phase 1**~~ — ContentsStrip trigger chip, generic Drawer shell, mobileStyle="drawer", PageSidebar + PlatformSidebar wired. Shipped v0.26.20. Epic: `docs/shipped/SUG-153-mobile-responsive-sidebar-drawer.md`. | `Frontend` `UX` `Design System` | ✅ Shipped |
 | ~~2~~ | ~~**[SUG-173](https://linear.app/sugartown/issue/SUG-173/mobile-filterbar-drawer-archive-page-filter-panel-on-mobile-sug-153) · Mobile FilterBar drawer — archive page filter panel (SUG-153 Phase 2)**~~ — Sticky chip + active-filter count badge, full FilterBar in Drawer, Clear All + Done footer, inline FilterBar hidden below 768px. Shipped v0.27.0. | `Frontend` `UX` | ✅ Shipped |
-| 0 | **[SUG-180](https://linear.app/sugartown/issue/SUG-180/multi-brand-ds-theming-convention-theme-file-contract-consumingmd) · Multi-brand DS theming convention — theme file contract, CONSUMING.md, validate:style-mirror** — Formalise the multi-brand theme file convention; write `packages/design-system/CONSUMING.md`; create/register `theme.shop.css`; add shop theme to Storybook switcher. Epic: `docs/backlog/SUG-180-multi-brand-ds-theming-convention.md`. | `Design System` `Tooling` `Documentation` | 🟣 Soon |
+| 0 | ~~**[SUG-180](https://linear.app/sugartown/issue/SUG-180/multi-brand-ds-theming-convention-theme-file-contract-consumingmd) · Multi-brand DS theming convention — theme file contract, CONSUMING.md, validate:style-mirror** — CONSUMING.md authored; ~= includes-word selectors; theme.shop.css in both style dirs; shop theme in Storybook; validate:style-mirror checks 6 files. Shipped v0.27.6. Epic: `docs/shipped/SUG-180-multi-brand-ds-theming-convention.md`.~~ | `Design System` `Tooling` `Documentation` | ✅ Shipped |
 | 6 | **[SUG-187](https://linear.app/sugartown/issue/SUG-187) · Case study content refresh — Monolith to Microservice & Prestige Beauty Pilot** — deepen and re-voice two live case studies from Drive archive notes; incorporate cowork review (close MACH + DS threads, strip enterprise phrasing); build out Prestige Beauty from scratch. Epic: `docs/backlog/SUG-187-case-study-content-refresh.md`. | `Content` | 🟣 Soon |
-| 7 | **[SUG-189](https://linear.app/sugartown/issue/SUG-189/content-taxonomy-audit-glossary-term-linking-full-taxonomy-coverage) · Content taxonomy audit — glossary term-linking, full taxonomy coverage, people=Bex** — Audit every article/node/case study: term-tag first glossary matches inline, ensure at least one entry per taxonomy type, backfill authors=Bex. 4 phases, merge-as-you-go. Epic: `docs/backlog/SUG-189-content-taxonomy-audit.md`. | `Content` | 🟣 Soon |
+| 7 | ~~**[SUG-189](https://linear.app/sugartown/issue/SUG-189/content-taxonomy-audit-glossary-term-linking-full-taxonomy-coverage) · Content taxonomy audit — glossary term-linking, full taxonomy coverage, people=Bex** — 14/15 articles, 52/53 nodes, 39/65 terms linked; zero field gaps across 75 docs; authors confirmed. Shipped v0.27.10. Epic: `docs/shipped/SUG-189-content-taxonomy-audit.md`.~~ | `Content` | ✅ Shipped |
 | 3 | **[SUG-185](https://linear.app/sugartown/issue/SUG-185/ab-testing-use-case-exploration-and-tooling-evaluation-for-sugartownio) · A/B testing — use case exploration and tooling evaluation** — Traffic baseline audit, use case inventory (5–8 test surfaces), tooling evaluation (GrowthBook, Netlify split testing, custom), GDPR/consent implications, written go/hold/no recommendation at `docs/reports/ab-testing-recommendation.md`. Epic: `docs/backlog/SUG-185-ab-testing-use-case-exploration-tooling-evaluation.md`. | `Tooling` `Infrastructure` `UX` `SEO` | 🟣 Soon |
 | 4 | **[SUG-176](https://linear.app/sugartown/issue/SUG-176/storybook-story-coverage-for-app-level-composites) · Storybook story coverage for app-level composites** — Add stories for 12 registered composites currently flagged ⚠️ (no story); clears Chromatic VRT blind spots. Epic: `docs/backlog/SUG-176-storybook-story-coverage-app-level-composites.md`. | `Design System` `Storybook` `Tooling` | 🟣 Soon |
 | 5 | **[SUG-177](https://linear.app/sugartown/issue/SUG-177/list-component-audit-surface-all-site-list-patterns-for-ds-list) · List component audit — surface all site list patterns for DS List integration** — Audit raw `<ul>`/`<ol>` surfaces across page templates (refList, sourcesList, seriesPartList, rolesList, linkList, enumList); migrate confirmed fits to DS List/ListItem; document keep-raw rationale; expand Storybook use-case stories. Epic: `docs/backlog/SUG-177-list-component-audit-site-list-patterns.md`. | `Design System` `Frontend` `Storybook` | 🟣 Soon |
@@ -261,4 +261,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-20 · v0.27.4 released · queue: SUG-179 / SUG-187 / SUG-160*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-23 · v0.28.0 released · queue: SUG-192 / SUG-160 / SUG-187*
