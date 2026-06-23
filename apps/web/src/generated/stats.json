@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-20T16:15:46.574Z",
+  "generatedAt": "2026-06-23T09:40:57.756Z",
   "release": {
     "current": {
       "version": "0.27.1",
@@ -45,78 +45,7 @@
         "linearIssue": "SUG-148"
       }
     ],
-    "latestPatches": [
-      {
-        "version": "0.27.5",
-        "descriptor": "SUG-179 Contentful POC Stage 1",
-        "kind": "PATCH",
-        "date": "2026-06-20",
-        "linearIssue": "SUG-179"
-      },
-      {
-        "version": "0.27.4",
-        "descriptor": "SUG-188 Contentful content model Stage 1",
-        "kind": "PATCH",
-        "date": "2026-06-20",
-        "linearIssue": "SUG-188"
-      },
-      {
-        "version": "0.27.3",
-        "descriptor": "SUG-184 GSC crawled-not-indexed fixes",
-        "kind": "PATCH",
-        "date": "2026-06-20",
-        "linearIssue": "SUG-184"
-      },
-      {
-        "version": "0.27.2",
-        "descriptor": "SUG-186 glossaryTerm schema split + bidirectional related sync",
-        "kind": "PATCH",
-        "date": "2026-06-19",
-        "linearIssue": "SUG-186"
-      },
-      {
-        "version": "0.27.1",
-        "descriptor": "SUG-183 prerender routes",
-        "kind": "PATCH",
-        "date": "2026-06-18",
-        "linearIssue": "SUG-183"
-      },
-      {
-        "version": "0.27.0",
-        "descriptor": "DS primitive expansion cycle",
-        "kind": "PATCH",
-        "date": "2026-06-17",
-        "linearIssue": null
-      },
-      {
-        "version": "0.26.26",
-        "descriptor": "SUG-174 follow-up fixes",
-        "kind": "PATCH",
-        "date": "2026-06-17",
-        "linearIssue": "SUG-174"
-      },
-      {
-        "version": "0.26.25",
-        "descriptor": "SUG-174 button-component-redesign-ghost-icon",
-        "kind": "PATCH",
-        "date": "2026-06-17",
-        "linearIssue": "SUG-174"
-      },
-      {
-        "version": "0.26.24",
-        "descriptor": "SUG-170 SEO auto-generation fix",
-        "kind": "PATCH",
-        "date": "2026-06-16",
-        "linearIssue": "SUG-170"
-      },
-      {
-        "version": "0.26.23",
-        "descriptor": "SUG-171 green CI DS story lint",
-        "kind": "PATCH",
-        "date": "2026-06-16",
-        "linearIssue": "SUG-171"
-      }
-    ],
+    "latestPatches": [],
     "count": {
       "total": 26,
       "major": 0,
@@ -126,63 +55,63 @@
   },
   "ds": {
     "tokens": {
-      "total": 650,
+      "total": 652,
       "primitives": 127,
       "semantic": 28,
-      "component": 495,
+      "component": 497,
       "byCategory": {
         "color": 188,
         "space": 20,
         "font": 26,
         "shadow": 31,
-        "other": 385
+        "other": 387
       }
     },
     "dsComponents": 38,
     "dsComponentsWithStories": 33,
-    "webAdapters": 44,
+    "webAdapters": 45,
     "componentFiles": 82,
     "tokenCompliance": 97
   },
   "storybook": {
-    "stories": 458,
+    "stories": 377,
     "components": 94
   },
   "repo": {
-    "commits": 1955,
-    "epicsShipped": 155
+    "commits": 1,
+    "epicsShipped": 158
   },
   "perf": {
     "stale": false,
-    "generatedAt": "2026-06-19T10:28:44.737Z",
+    "generatedAt": "2026-06-23T09:40:24.652Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "desktop": {
           "url": "https://sugartown.io/",
-          "lcp": 1499,
+          "lcp": 1381,
           "cls": 0.228,
           "inp": null,
-          "performance": 83,
+          "performance": 84,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1499,
+        "lcp": 1381,
         "cls": 0.228,
         "inp": null,
-        "performance": 83,
+        "performance": 84,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/",
-          "lcp": 1499,
+          "lcp": 1381,
           "cls": 0.228,
           "inp": null,
-          "performance": 83,
+          "performance": 84,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
@@ -193,29 +122,29 @@
         "url": "https://sugartown.io/articles",
         "desktop": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1351,
+          "lcp": 1214,
           "cls": 0.317,
           "inp": null,
-          "performance": 80,
+          "performance": 81,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1351,
+        "lcp": 1214,
         "cls": 0.317,
         "inp": null,
-        "performance": 80,
+        "performance": 81,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1351,
+          "lcp": 1214,
           "cls": 0.317,
           "inp": null,
-          "performance": 80,
+          "performance": 81,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -226,29 +155,29 @@
         "url": "https://sugartown.io/case-studies",
         "desktop": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1396,
+          "lcp": 1272,
           "cls": 0.224,
           "inp": null,
-          "performance": 84,
+          "performance": 85,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1396,
+        "lcp": 1272,
         "cls": 0.224,
         "inp": null,
-        "performance": 84,
+        "performance": 85,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1396,
+          "lcp": 1272,
           "cls": 0.224,
           "inp": null,
-          "performance": 84,
+          "performance": 85,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -259,29 +188,29 @@
         "url": "https://sugartown.io/knowledge-graph",
         "desktop": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1363,
+          "lcp": 1320,
           "cls": 0.11,
           "inp": null,
-          "performance": 92,
+          "performance": 93,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1363,
+        "lcp": 1320,
         "cls": 0.11,
         "inp": null,
-        "performance": 92,
+        "performance": 93,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1363,
+          "lcp": 1320,
           "cls": 0.11,
           "inp": null,
-          "performance": 92,
+          "performance": 93,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -292,29 +221,29 @@
         "url": "https://sugartown.io/platform",
         "desktop": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1413,
-          "cls": 0.478,
+          "lcp": 1291,
+          "cls": 0.414,
           "inp": null,
-          "performance": 75,
+          "performance": 77,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1413,
-        "cls": 0.478,
+        "lcp": 1291,
+        "cls": 0.414,
         "inp": null,
-        "performance": 75,
+        "performance": 77,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1413,
-          "cls": 0.478,
+          "lcp": 1291,
+          "cls": 0.414,
           "inp": null,
-          "performance": 75,
+          "performance": 77,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
@@ -325,29 +254,29 @@
         "url": "https://sugartown.io/about",
         "desktop": {
           "url": "https://sugartown.io/about",
-          "lcp": 1512,
-          "cls": 0.231,
+          "lcp": 1415,
+          "cls": 0.227,
           "inp": null,
-          "performance": 83,
+          "performance": 84,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1512,
-        "cls": 0.231,
+        "lcp": 1415,
+        "cls": 0.227,
         "inp": null,
-        "performance": 83,
+        "performance": 84,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/about",
-          "lcp": 1512,
-          "cls": 0.231,
+          "lcp": 1415,
+          "cls": 0.227,
           "inp": null,
-          "performance": 83,
+          "performance": 84,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
@@ -358,29 +287,29 @@
         "url": "https://sugartown.io/articles/test-preview-post",
         "desktop": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1192,
-          "cls": 0.142,
+          "lcp": 1286,
+          "cls": 0.08,
           "inp": null,
-          "performance": 92,
+          "performance": 95,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1192,
-        "cls": 0.142,
+        "lcp": 1286,
+        "cls": 0.08,
         "inp": null,
-        "performance": 92,
+        "performance": 95,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1192,
-          "cls": 0.142,
+          "lcp": 1286,
+          "cls": 0.08,
           "inp": null,
-          "performance": 92,
+          "performance": 95,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
@@ -391,29 +320,29 @@
         "url": "https://sugartown.io/nodes/test-node",
         "desktop": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1220,
+          "lcp": 1172,
           "cls": 0.142,
           "inp": null,
-          "performance": 91,
+          "performance": 92,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1220,
+        "lcp": 1172,
         "cls": 0.142,
         "inp": null,
-        "performance": 91,
+        "performance": 92,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1220,
+          "lcp": 1172,
           "cls": 0.142,
           "inp": null,
-          "performance": 91,
+          "performance": 92,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
@@ -423,13 +352,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-06-20T16:15:06.479Z",
+    "fetchedAt": "2026-06-23T09:40:24.941Z",
     "origin": "https://sugartown.io",
     "available": false,
-    "reason": "no-api-key"
+    "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-06-20T16:15:45.902Z",
+    "fetchedAt": "2026-06-23T09:40:55.195Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -440,31 +369,31 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-06-19T10:29:20.281Z",
+    "fetchedAt": "2026-06-23T09:40:56.286Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 1,
     "watchers": 1,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-06-18T14:44:07Z"
+    "lastCommit": "2026-06-22T22:40:07Z"
   },
   "sanity": {
-    "fetchedAt": "2026-06-20T16:15:46.304Z",
+    "fetchedAt": "2026-06-23T09:40:57.018Z",
     "counts": {
       "article": 15,
-      "node": 52,
+      "node": 53,
       "caseStudy": 7,
       "page": 10,
-      "tag": 97,
+      "tag": 63,
       "category": 14,
-      "project": 6,
+      "project": 7,
       "person": 1,
       "tool": 58
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-06-20T16:15:46.569Z",
+    "generatedAt": "2026-06-23T09:40:57.289Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -492,6 +421,13 @@
         "type": "project",
         "label": "Knowledge Graph Viz",
         "href": "/projects/knowledge-graph-viz",
+        "size": "large"
+      },
+      {
+        "id": "project:poc",
+        "type": "project",
+        "label": "POC: Contentful + Shopify",
+        "href": "/projects/poc",
         "size": "large"
       },
       {
@@ -527,6 +463,13 @@
         "type": "category",
         "label": "Content Architecture",
         "href": "/categories/content-architecture",
+        "size": "medium"
+      },
+      {
+        "id": "category:documentation",
+        "type": "category",
+        "label": "Documentation",
+        "href": "/categories/documentation",
         "size": "medium"
       },
       {
@@ -586,24 +529,10 @@
         "size": "medium"
       },
       {
-        "id": "tag:accessibility",
-        "type": "tag",
-        "label": "Accessibility",
-        "href": "/tags/accessibility",
-        "size": "small"
-      },
-      {
         "id": "tag:ai-ethics",
         "type": "tag",
         "label": "AI Ethics",
         "href": "/tags/ai-ethics",
-        "size": "small"
-      },
-      {
-        "id": "tag:alt-text",
-        "type": "tag",
-        "label": "Alt Text",
-        "href": "/tags/alt-text",
         "size": "small"
       },
       {
@@ -614,24 +543,17 @@
         "size": "small"
       },
       {
-        "id": "tag:separation-of-concerns",
-        "type": "tag",
-        "label": "separation of concerns",
-        "href": "/tags/separation-of-concerns",
-        "size": "small"
-      },
-      {
-        "id": "tag:source-control",
-        "type": "tag",
-        "label": "source control",
-        "href": "/tags/source-control",
-        "size": "small"
-      },
-      {
         "id": "tag:architecture",
         "type": "tag",
         "label": "Architecture",
         "href": "/tags/architecture",
+        "size": "small"
+      },
+      {
+        "id": "tag:version-control",
+        "type": "tag",
+        "label": "version control",
+        "href": "/tags/version-control",
         "size": "small"
       },
       {
@@ -656,13 +578,6 @@
         "size": "small"
       },
       {
-        "id": "tag:monorepo",
-        "type": "tag",
-        "label": "monorepo",
-        "href": "/tags/monorepo",
-        "size": "small"
-      },
-      {
         "id": "tag:prd",
         "type": "tag",
         "label": "PRD",
@@ -684,17 +599,10 @@
         "size": "small"
       },
       {
-        "id": "tag:Automation",
+        "id": "tag:ai-automation",
         "type": "tag",
-        "label": "automation",
-        "href": "/tags/Automation",
-        "size": "small"
-      },
-      {
-        "id": "tag:documentation",
-        "type": "tag",
-        "label": "Documentation",
-        "href": "/tags/documentation",
+        "label": "AI Automation",
+        "href": "/tags/ai-automation",
         "size": "small"
       },
       {
@@ -702,20 +610,6 @@
         "type": "tag",
         "label": "metadata strategy",
         "href": "/tags/metadata-strategy",
-        "size": "small"
-      },
-      {
-        "id": "tag:ontology",
-        "type": "tag",
-        "label": "ontology",
-        "href": "/tags/ontology",
-        "size": "small"
-      },
-      {
-        "id": "tag:structured-content",
-        "type": "tag",
-        "label": "structured content",
-        "href": "/tags/structured-content",
         "size": "small"
       },
       {
@@ -744,20 +638,6 @@
         "type": "tag",
         "label": "Design Ops",
         "href": "/tags/design-ops",
-        "size": "small"
-      },
-      {
-        "id": "tag:atomic-design",
-        "type": "tag",
-        "label": "Atomic Design",
-        "href": "/tags/atomic-design",
-        "size": "small"
-      },
-      {
-        "id": "tag:composable",
-        "type": "tag",
-        "label": "composable",
-        "href": "/tags/composable",
         "size": "small"
       },
       {
@@ -796,13 +676,6 @@
         "size": "small"
       },
       {
-        "id": "tag:content-audit",
-        "type": "tag",
-        "label": "content audit",
-        "href": "/tags/content-audit",
-        "size": "small"
-      },
-      {
         "id": "tag:customer-journey",
         "type": "tag",
         "label": "customer journey",
@@ -810,10 +683,10 @@
         "size": "small"
       },
       {
-        "id": "tag:version-control",
+        "id": "tag:audit",
         "type": "tag",
-        "label": "version control",
-        "href": "/tags/version-control",
+        "label": "Audit",
+        "href": "/tags/audit",
         "size": "small"
       },
       {
@@ -831,6 +704,13 @@
         "size": "small"
       },
       {
+        "id": "tag:ai-workflows",
+        "type": "tag",
+        "label": "AI Workflows",
+        "href": "/tags/ai-workflows",
+        "size": "small"
+      },
+      {
         "id": "tag:debugging",
         "type": "tag",
         "label": "debugging",
@@ -838,10 +718,10 @@
         "size": "small"
       },
       {
-        "id": "tag:devtools",
+        "id": "tag:tooling",
         "type": "tag",
-        "label": "devtools",
-        "href": "/tags/devtools",
+        "label": "tooling",
+        "href": "/tags/tooling",
         "size": "small"
       },
       {
@@ -863,20 +743,6 @@
         "type": "tag",
         "label": "AI Limitations",
         "href": "/tags/ai-limitations",
-        "size": "small"
-      },
-      {
-        "id": "tag:product-discovery",
-        "type": "tag",
-        "label": "product discovery",
-        "href": "/tags/product-discovery",
-        "size": "small"
-      },
-      {
-        "id": "tag:performance",
-        "type": "tag",
-        "label": "performance",
-        "href": "/tags/performance",
         "size": "small"
       },
       {
@@ -908,24 +774,10 @@
         "size": "small"
       },
       {
-        "id": "tag:qa",
+        "id": "tag:Automation",
         "type": "tag",
-        "label": "QA",
-        "href": "/tags/qa",
-        "size": "small"
-      },
-      {
-        "id": "tag:llm-workflows",
-        "type": "tag",
-        "label": "LLM workflows",
-        "href": "/tags/llm-workflows",
-        "size": "small"
-      },
-      {
-        "id": "tag:wcag",
-        "type": "tag",
-        "label": "WCAG",
-        "href": "/tags/wcag",
+        "label": "automation",
+        "href": "/tags/Automation",
         "size": "small"
       },
       {
@@ -940,13 +792,6 @@
         "type": "tag",
         "label": "Post Mortem",
         "href": "/tags/post-mortem",
-        "size": "small"
-      },
-      {
-        "id": "tag:tooling",
-        "type": "tag",
-        "label": "tooling",
-        "href": "/tags/tooling",
         "size": "small"
       },
       {
@@ -985,20 +830,6 @@
         "size": "small"
       },
       {
-        "id": "tag:portable-text",
-        "type": "tag",
-        "label": "portable text",
-        "href": "/tags/portable-text",
-        "size": "small"
-      },
-      {
-        "id": "tag:human-in-the-loop",
-        "type": "tag",
-        "label": "human-in-the-loop",
-        "href": "/tags/human-in-the-loop",
-        "size": "small"
-      },
-      {
         "id": "tag:content-modeling",
         "type": "tag",
         "label": "Content Modeling",
@@ -1010,13 +841,6 @@
         "type": "tag",
         "label": "API",
         "href": "/tags/api",
-        "size": "small"
-      },
-      {
-        "id": "tag:product-management",
-        "type": "tag",
-        "label": "product management",
-        "href": "/tags/product-management",
         "size": "small"
       },
       {
@@ -1055,13 +879,6 @@
         "size": "small"
       },
       {
-        "id": "tag:knowledge-graph",
-        "type": "tag",
-        "label": "knowledge graph",
-        "href": "/tags/knowledge-graph",
-        "size": "small"
-      },
-      {
         "id": "tag:platform-strategy",
         "type": "tag",
         "label": "platform strategy",
@@ -1073,34 +890,6 @@
         "type": "tag",
         "label": "Roadmap",
         "href": "/tags/roadmap",
-        "size": "small"
-      },
-      {
-        "id": "tag:content-architecture",
-        "type": "tag",
-        "label": "Content Architecture",
-        "href": "/tags/content-architecture",
-        "size": "small"
-      },
-      {
-        "id": "tag:ai-workflows",
-        "type": "tag",
-        "label": "AI Workflows",
-        "href": "/tags/ai-workflows",
-        "size": "small"
-      },
-      {
-        "id": "tag:ai-automation",
-        "type": "tag",
-        "label": "AI Automation",
-        "href": "/tags/ai-automation",
-        "size": "small"
-      },
-      {
-        "id": "tag:audit",
-        "type": "tag",
-        "label": "Audit",
-        "href": "/tags/audit",
         "size": "small"
       },
       {
@@ -1118,20 +907,6 @@
         "size": "small"
       },
       {
-        "id": "tag:context-engineering",
-        "type": "tag",
-        "label": "Context Engineering",
-        "href": "/tags/context-engineering",
-        "size": "small"
-      },
-      {
-        "id": "tag:data-integrity",
-        "type": "tag",
-        "label": "data integrity",
-        "href": "/tags/data-integrity",
-        "size": "small"
-      },
-      {
         "id": "tag:release-management",
         "type": "tag",
         "label": "release management",
@@ -1139,59 +914,10 @@
         "size": "small"
       },
       {
-        "id": "tag:product-ops",
-        "type": "tag",
-        "label": "product ops",
-        "href": "/tags/product-ops",
-        "size": "small"
-      },
-      {
-        "id": "tag:glassmorphism",
-        "type": "tag",
-        "label": "Glassmorphism",
-        "href": "/tags/glassmorphism",
-        "size": "small"
-      },
-      {
         "id": "tag:cross-functional-collaboration",
         "type": "tag",
         "label": "Cross-functional Collaboration",
         "href": "/tags/cross-functional-collaboration",
-        "size": "small"
-      },
-      {
-        "id": "tag:content-as-code",
-        "type": "tag",
-        "label": "content-as-code",
-        "href": "/tags/content-as-code",
-        "size": "small"
-      },
-      {
-        "id": "tag:agentic-interfaces",
-        "type": "tag",
-        "label": "Agentic Systems",
-        "href": "/tags/agentic-interfaces",
-        "size": "small"
-      },
-      {
-        "id": "tag:vqa",
-        "type": "tag",
-        "label": "VQA",
-        "href": "/tags/vqa",
-        "size": "small"
-      },
-      {
-        "id": "tag:spacing",
-        "type": "tag",
-        "label": "Spacing",
-        "href": "/tags/spacing",
-        "size": "small"
-      },
-      {
-        "id": "tag:vopm",
-        "type": "tag",
-        "label": "VoPM",
-        "href": "/tags/vopm",
         "size": "small"
       },
       {
@@ -1223,13 +949,6 @@
         "size": "small"
       },
       {
-        "id": "tag:aeo-geo",
-        "type": "tag",
-        "label": "AEO/GEO",
-        "href": "/tags/aeo-geo",
-        "size": "small"
-      },
-      {
         "id": "item:node:ai-illustration-review-ethics-accessibility-ip-guardrails",
         "_id": "wp.node.1654",
         "type": "item",
@@ -1240,16 +959,8 @@
         "size": "small",
         "tags": [
           {
-            "slug": "accessibility",
-            "label": "Accessibility"
-          },
-          {
             "slug": "ai-ethics",
             "label": "AI Ethics"
-          },
-          {
-            "slug": "alt-text",
-            "label": "Alt Text"
           }
         ]
       },
@@ -1268,16 +979,12 @@
             "label": "Headless"
           },
           {
-            "slug": "separation-of-concerns",
-            "label": "separation of concerns"
-          },
-          {
-            "slug": "source-control",
-            "label": "source control"
-          },
-          {
             "slug": "architecture",
             "label": "Architecture"
+          },
+          {
+            "slug": "version-control",
+            "label": "version control"
           }
         ]
       },
@@ -1332,10 +1039,6 @@
             "label": "migration"
           },
           {
-            "slug": "monorepo",
-            "label": "monorepo"
-          },
-          {
             "slug": "prd",
             "label": "PRD"
           },
@@ -1384,16 +1087,16 @@
         "size": "small",
         "tags": [
           {
-            "slug": "Automation",
-            "label": "automation"
-          },
-          {
             "slug": "resume-as-code",
             "label": "resume-as-code"
           },
           {
             "slug": "ai-ethics",
             "label": "AI Ethics"
+          },
+          {
+            "slug": "ai-automation",
+            "label": "AI Automation"
           }
         ]
       },
@@ -1407,10 +1110,6 @@
         "href": "/nodes/architecture-the-sugartown-digital-ecosystem-v1-0",
         "size": "small",
         "tags": [
-          {
-            "slug": "documentation",
-            "label": "Documentation"
-          },
           {
             "slug": "headless",
             "label": "Headless"
@@ -1434,14 +1133,6 @@
           {
             "slug": "metadata-strategy",
             "label": "metadata strategy"
-          },
-          {
-            "slug": "ontology",
-            "label": "ontology"
-          },
-          {
-            "slug": "structured-content",
-            "label": "structured content"
           },
           {
             "slug": "taxonomy",
@@ -1483,14 +1174,6 @@
         "href": "/case-studies/beauty-retail-from-monolith-to-microservice",
         "size": "small",
         "tags": [
-          {
-            "slug": "atomic-design",
-            "label": "Atomic Design"
-          },
-          {
-            "slug": "composable",
-            "label": "composable"
-          },
           {
             "slug": "digital-transformation",
             "label": "Digital Transformation"
@@ -1556,10 +1239,6 @@
         "size": "small",
         "tags": [
           {
-            "slug": "content-audit",
-            "label": "content audit"
-          },
-          {
             "slug": "migration",
             "label": "migration"
           },
@@ -1578,6 +1257,10 @@
           {
             "slug": "vendor-evaluation",
             "label": "Vendor Evaluation"
+          },
+          {
+            "slug": "audit",
+            "label": "Audit"
           }
         ]
       },
@@ -1596,16 +1279,16 @@
             "label": "version control"
           },
           {
-            "slug": "workflow",
-            "label": "Workflow"
-          },
-          {
             "slug": "agentic-caucus",
             "label": "agentic caucus"
           },
           {
             "slug": "ai-collaboration",
             "label": "AI Collaboration"
+          },
+          {
+            "slug": "ai-workflows",
+            "label": "AI Workflows"
           }
         ]
       },
@@ -1624,12 +1307,12 @@
             "label": "debugging"
           },
           {
-            "slug": "devtools",
-            "label": "devtools"
-          },
-          {
             "slug": "ai-collaboration",
             "label": "AI Collaboration"
+          },
+          {
+            "slug": "tooling",
+            "label": "tooling"
           }
         ]
       },
@@ -1646,10 +1329,6 @@
           {
             "slug": "metadata-strategy",
             "label": "metadata strategy"
-          },
-          {
-            "slug": "structured-content",
-            "label": "structured content"
           },
           {
             "slug": "system-thinking",
@@ -1686,14 +1365,6 @@
           {
             "slug": "ai-limitations",
             "label": "AI Limitations"
-          },
-          {
-            "slug": "documentation",
-            "label": "Documentation"
-          },
-          {
-            "slug": "product-discovery",
-            "label": "product discovery"
           }
         ]
       },
@@ -1716,16 +1387,8 @@
             "label": "Headless"
           },
           {
-            "slug": "performance",
-            "label": "performance"
-          },
-          {
             "slug": "seo",
             "label": "SEO"
-          },
-          {
-            "slug": "structured-content",
-            "label": "structured content"
           }
         ]
       },
@@ -1768,10 +1431,6 @@
         "size": "small",
         "tags": [
           {
-            "slug": "atomic-design",
-            "label": "Atomic Design"
-          },
-          {
             "slug": "design-ops",
             "label": "Design Ops"
           },
@@ -1796,12 +1455,16 @@
         "size": "small",
         "tags": [
           {
-            "slug": "documentation",
-            "label": "Documentation"
+            "slug": "version-control",
+            "label": "version control"
           },
           {
-            "slug": "qa",
-            "label": "QA"
+            "slug": "resume-as-code",
+            "label": "resume-as-code"
+          },
+          {
+            "slug": "Automation",
+            "label": "automation"
           }
         ]
       },
@@ -1816,20 +1479,16 @@
         "size": "small",
         "tags": [
           {
-            "slug": "llm-workflows",
-            "label": "LLM workflows"
-          },
-          {
-            "slug": "structured-content",
-            "label": "structured content"
-          },
-          {
             "slug": "system-thinking",
             "label": "system thinking"
           },
           {
             "slug": "resume-as-code",
             "label": "resume-as-code"
+          },
+          {
+            "slug": "ai-workflows",
+            "label": "AI Workflows"
           }
         ]
       },
@@ -1843,14 +1502,6 @@
         "href": "/case-studies/fx-networks-website-redesign-nominated-for-webby",
         "size": "small",
         "tags": [
-          {
-            "slug": "accessibility",
-            "label": "Accessibility"
-          },
-          {
-            "slug": "wcag",
-            "label": "WCAG"
-          },
           {
             "slug": "agile",
             "label": "Agile"
@@ -1968,14 +1619,6 @@
             "label": "ux"
           },
           {
-            "slug": "portable-text",
-            "label": "portable text"
-          },
-          {
-            "slug": "human-in-the-loop",
-            "label": "human-in-the-loop"
-          },
-          {
             "slug": "migration",
             "label": "migration"
           },
@@ -2012,14 +1655,6 @@
             "label": "migration"
           },
           {
-            "slug": "portable-text",
-            "label": "portable text"
-          },
-          {
-            "slug": "human-in-the-loop",
-            "label": "human-in-the-loop"
-          },
-          {
             "slug": "api",
             "label": "API"
           }
@@ -2042,10 +1677,6 @@
           {
             "slug": "resume-as-code",
             "label": "resume-as-code"
-          },
-          {
-            "slug": "product-management",
-            "label": "product management"
           },
           {
             "slug": "data-science",
@@ -2116,10 +1747,6 @@
             "label": "Headless"
           },
           {
-            "slug": "knowledge-graph",
-            "label": "knowledge graph"
-          },
-          {
             "slug": "platform-strategy",
             "label": "platform strategy"
           },
@@ -2144,10 +1771,6 @@
             "label": "ux"
           },
           {
-            "slug": "content-architecture",
-            "label": "Content Architecture"
-          },
-          {
             "slug": "stakeholder-alignment",
             "label": "Stakeholder Alignment"
           }
@@ -2164,14 +1787,6 @@
         "size": "small",
         "tags": [
           {
-            "slug": "composable",
-            "label": "composable"
-          },
-          {
-            "slug": "content-architecture",
-            "label": "Content Architecture"
-          },
-          {
             "slug": "content-modeling",
             "label": "Content Modeling"
           },
@@ -2182,10 +1797,6 @@
           {
             "slug": "omnichannel",
             "label": "omnichannel"
-          },
-          {
-            "slug": "atomic-design",
-            "label": "Atomic Design"
           }
         ]
       },
@@ -2238,6 +1849,26 @@
           {
             "slug": "migration",
             "label": "migration"
+          }
+        ]
+      },
+      {
+        "id": "item:node:meta-analysis-am-i-crazy-for-building-this",
+        "_id": "wp.node.977",
+        "type": "item",
+        "docType": "node",
+        "slug": "meta-analysis-am-i-crazy-for-building-this",
+        "label": "Meta-Analysis: Am I Crazy for Building This?",
+        "href": "/nodes/meta-analysis-am-i-crazy-for-building-this",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "content-ops",
+            "label": "content ops"
+          },
+          {
+            "slug": "platform-strategy",
+            "label": "platform strategy"
           }
         ]
       },
@@ -2296,18 +1927,6 @@
             "label": "Content Modeling"
           },
           {
-            "slug": "atomic-design",
-            "label": "Atomic Design"
-          },
-          {
-            "slug": "composable",
-            "label": "composable"
-          },
-          {
-            "slug": "content-architecture",
-            "label": "Content Architecture"
-          },
-          {
             "slug": "headless",
             "label": "Headless"
           },
@@ -2358,10 +1977,6 @@
           {
             "slug": "prd",
             "label": "PRD"
-          },
-          {
-            "slug": "product-management",
-            "label": "product management"
           }
         ]
       },
@@ -2382,10 +1997,6 @@
           {
             "slug": "ai-collaboration",
             "label": "AI Collaboration"
-          },
-          {
-            "slug": "documentation",
-            "label": "Documentation"
           },
           {
             "slug": "design-ops",
@@ -2420,16 +2031,16 @@
             "label": "Headless"
           },
           {
-            "slug": "composable",
-            "label": "composable"
-          },
-          {
             "slug": "architecture",
             "label": "Architecture"
           },
           {
             "slug": "stakeholder-alignment",
             "label": "Stakeholder Alignment"
+          },
+          {
+            "slug": "poc",
+            "label": "POC"
           }
         ]
       },
@@ -2452,24 +2063,12 @@
             "label": "AI Workflows"
           },
           {
-            "slug": "human-in-the-loop",
-            "label": "human-in-the-loop"
-          },
-          {
-            "slug": "llm-workflows",
-            "label": "LLM workflows"
-          },
-          {
             "slug": "process-insight",
             "label": "process insight"
           },
           {
             "slug": "post-mortem",
             "label": "Post Mortem"
-          },
-          {
-            "slug": "context-engineering",
-            "label": "Context Engineering"
           },
           {
             "slug": "ai-collaboration",
@@ -2490,14 +2089,6 @@
           {
             "slug": "tech-debt",
             "label": "tech debt"
-          },
-          {
-            "slug": "atomic-design",
-            "label": "Atomic Design"
-          },
-          {
-            "slug": "composable",
-            "label": "composable"
           },
           {
             "slug": "design-tokens",
@@ -2538,10 +2129,6 @@
           {
             "slug": "Automation",
             "label": "automation"
-          },
-          {
-            "slug": "data-integrity",
-            "label": "data integrity"
           },
           {
             "slug": "system-thinking",
@@ -2588,14 +2175,6 @@
             "label": "agentic caucus"
           },
           {
-            "slug": "content-architecture",
-            "label": "Content Architecture"
-          },
-          {
-            "slug": "knowledge-graph",
-            "label": "knowledge graph"
-          },
-          {
             "slug": "roadmap",
             "label": "Roadmap"
           },
@@ -2628,14 +2207,6 @@
             "label": "Headless"
           },
           {
-            "slug": "knowledge-graph",
-            "label": "knowledge graph"
-          },
-          {
-            "slug": "structured-content",
-            "label": "structured content"
-          },
-          {
             "slug": "system-thinking",
             "label": "system thinking"
           },
@@ -2655,10 +2226,6 @@
         "href": "/nodes/release-assistant-governance-inputs-outputs-no-vibes",
         "size": "small",
         "tags": [
-          {
-            "slug": "documentation",
-            "label": "Documentation"
-          },
           {
             "slug": "release-management",
             "label": "release management"
@@ -2692,14 +2259,6 @@
         "size": "small",
         "tags": [
           {
-            "slug": "documentation",
-            "label": "Documentation"
-          },
-          {
-            "slug": "product-ops",
-            "label": "product ops"
-          },
-          {
             "slug": "release-management",
             "label": "release management"
           }
@@ -2726,10 +2285,6 @@
           {
             "slug": "process-insight",
             "label": "process insight"
-          },
-          {
-            "slug": "glassmorphism",
-            "label": "Glassmorphism"
           }
         ]
       },
@@ -2768,10 +2323,6 @@
         "size": "small",
         "tags": [
           {
-            "slug": "content-as-code",
-            "label": "content-as-code"
-          },
-          {
             "slug": "headless",
             "label": "Headless"
           },
@@ -2792,14 +2343,6 @@
         "size": "small",
         "tags": [
           {
-            "slug": "agentic-interfaces",
-            "label": "Agentic Systems"
-          },
-          {
-            "slug": "llm-workflows",
-            "label": "LLM workflows"
-          },
-          {
             "slug": "ai-workflows",
             "label": "AI Workflows"
           },
@@ -2819,10 +2362,6 @@
         "href": "/nodes/changelog",
         "size": "small",
         "tags": [
-          {
-            "slug": "documentation",
-            "label": "Documentation"
-          },
           {
             "slug": "system-thinking",
             "label": "system thinking"
@@ -2852,14 +2391,6 @@
             "label": "Design Tokens"
           },
           {
-            "slug": "vqa",
-            "label": "VQA"
-          },
-          {
-            "slug": "spacing",
-            "label": "Spacing"
-          },
-          {
             "slug": "architecture",
             "label": "Architecture"
           }
@@ -2882,10 +2413,6 @@
           {
             "slug": "ai-collaboration",
             "label": "AI Collaboration"
-          },
-          {
-            "slug": "vopm",
-            "label": "VoPM"
           }
         ]
       },
@@ -2920,10 +2447,6 @@
             "label": "AI Workflows"
           },
           {
-            "slug": "human-in-the-loop",
-            "label": "human-in-the-loop"
-          },
-          {
             "slug": "post-mortem",
             "label": "Post Mortem"
           },
@@ -2952,10 +2475,6 @@
         "size": "small",
         "tags": [
           {
-            "slug": "human-in-the-loop",
-            "label": "human-in-the-loop"
-          },
-          {
             "slug": "ai-ethics",
             "label": "AI Ethics"
           },
@@ -2966,10 +2485,6 @@
           {
             "slug": "process-insight",
             "label": "process insight"
-          },
-          {
-            "slug": "agentic-interfaces",
-            "label": "Agentic Systems"
           },
           {
             "slug": "prompt-engineering",
@@ -2996,20 +2511,16 @@
             "label": "agentic caucus"
           },
           {
-            "slug": "source-control",
-            "label": "source control"
-          },
-          {
-            "slug": "context-engineering",
-            "label": "Context Engineering"
-          },
-          {
             "slug": "britbox",
             "label": "britbox"
           },
           {
             "slug": "ai-collaboration",
             "label": "AI Collaboration"
+          },
+          {
+            "slug": "version-control",
+            "label": "version control"
           }
         ]
       },
@@ -3104,10 +2615,6 @@
         "size": "small",
         "tags": [
           {
-            "slug": "atomic-design",
-            "label": "Atomic Design"
-          },
-          {
             "slug": "best-practices",
             "label": "best practices"
           },
@@ -3118,10 +2625,6 @@
           {
             "slug": "post-mortem",
             "label": "Post Mortem"
-          },
-          {
-            "slug": "context-engineering",
-            "label": "Context Engineering"
           }
         ]
       },
@@ -3150,10 +2653,6 @@
           {
             "slug": "platform-strategy",
             "label": "platform strategy"
-          },
-          {
-            "slug": "human-in-the-loop",
-            "label": "human-in-the-loop"
           }
         ]
       },
@@ -3168,16 +2667,8 @@
         "size": "small",
         "tags": [
           {
-            "slug": "knowledge-graph",
-            "label": "knowledge graph"
-          },
-          {
             "slug": "agentic-caucus",
             "label": "agentic caucus"
-          },
-          {
-            "slug": "content-as-code",
-            "label": "content-as-code"
           },
           {
             "slug": "headless",
@@ -3228,10 +2719,6 @@
             "label": "agentic caucus"
           },
           {
-            "slug": "documentation",
-            "label": "Documentation"
-          },
-          {
             "slug": "tooling",
             "label": "tooling"
           },
@@ -3254,10 +2741,6 @@
           {
             "slug": "data-science",
             "label": "data science"
-          },
-          {
-            "slug": "knowledge-graph",
-            "label": "knowledge graph"
           },
           {
             "slug": "system-thinking",
@@ -3284,10 +2767,6 @@
             "label": "agentic caucus"
           },
           {
-            "slug": "documentation",
-            "label": "Documentation"
-          },
-          {
             "slug": "process-insight",
             "label": "process insight"
           }
@@ -3308,16 +2787,8 @@
             "label": "blob"
           },
           {
-            "slug": "aeo-geo",
-            "label": "AEO/GEO"
-          },
-          {
             "slug": "seo",
             "label": "SEO"
-          },
-          {
-            "slug": "structured-content",
-            "label": "structured content"
           },
           {
             "slug": "content-modeling",
@@ -3339,10 +2810,6 @@
         "href": "/nodes/which-chatbot-is-best-for-web-design",
         "size": "small",
         "tags": [
-          {
-            "slug": "product-management",
-            "label": "product management"
-          },
           {
             "slug": "prompt-engineering",
             "label": "prompt engineering"
@@ -3479,6 +2946,11 @@
         "kind": "membership"
       },
       {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "category:documentation",
+        "kind": "membership"
+      },
+      {
         "source": "item:node:architecture-the-unified-taxonomy-strategy",
         "target": "project:sugartown-cms",
         "kind": "membership"
@@ -3569,6 +3041,11 @@
         "kind": "membership"
       },
       {
+        "source": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
+        "target": "category:documentation",
+        "kind": "membership"
+      },
+      {
         "source": "item:article:core-web-vitals-dont-belong-to-frontend",
         "target": "category:governance",
         "kind": "membership"
@@ -3601,6 +3078,11 @@
       {
         "source": "item:node:devops-building-the-undo-button-for-my-career",
         "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:devops-building-the-undo-button-for-my-career",
+        "target": "category:documentation",
         "kind": "membership"
       },
       {
@@ -3641,6 +3123,11 @@
       {
         "source": "item:node:feature-the-resume-factory-the-sugartown-pink-design-system",
         "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:unsupervised-design-system-theme-drift",
+        "target": "project:sugartown-design-system",
         "kind": "membership"
       },
       {
@@ -3744,6 +3231,16 @@
         "kind": "membership"
       },
       {
+        "source": "item:caseStudy:launching-lunar-landing",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
+        "source": "item:caseStudy:launching-lunar-landing",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
         "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
         "target": "category:content-architecture",
         "kind": "membership"
@@ -3774,6 +3271,16 @@
         "kind": "membership"
       },
       {
+        "source": "item:node:meta-analysis-am-i-crazy-for-building-this",
+        "target": "project:knowledge-graph-viz",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:meta-analysis-am-i-crazy-for-building-this",
+        "target": "category:sugartown-notes",
+        "kind": "membership"
+      },
+      {
         "source": "item:node:no-forking-around-the-three-table-problem",
         "target": "project:sugartown-design-system",
         "kind": "membership"
@@ -3801,6 +3308,11 @@
       {
         "source": "item:article:why-cms-and-design-systems-belong-together",
         "target": "category:design-systems",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:poc-platform-agnostic-by-design",
+        "target": "project:poc",
         "kind": "membership"
       },
       {
@@ -3844,8 +3356,23 @@
         "kind": "membership"
       },
       {
+        "source": "item:article:pink-moon-and-ledger",
+        "target": "category:documentation",
+        "kind": "membership"
+      },
+      {
         "source": "item:article:platform-selection-risk-composable-architecture",
         "target": "project:sugartown-cms",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "project:poc",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "project:mini-repo",
         "kind": "membership"
       },
       {
@@ -3909,6 +3436,11 @@
         "kind": "membership"
       },
       {
+        "source": "item:node:project-knowledge-graph-topology-over-chronology",
+        "target": "category:content-architecture",
+        "kind": "membership"
+      },
+      {
         "source": "item:node:project-sugartown-cms-architecture",
         "target": "project:sugartown-cms",
         "kind": "membership"
@@ -3926,6 +3458,11 @@
       {
         "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
         "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
+        "target": "category:documentation",
         "kind": "membership"
       },
       {
@@ -3951,6 +3488,11 @@
       {
         "source": "item:node:release-governance-yyyy-mm-dd-workflow",
         "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:release-governance-yyyy-mm-dd-workflow",
+        "target": "category:documentation",
         "kind": "membership"
       },
       {
@@ -4006,6 +3548,11 @@
       {
         "source": "item:node:changelog",
         "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:changelog",
+        "target": "category:documentation",
         "kind": "membership"
       },
       {
@@ -4194,6 +3741,11 @@
         "kind": "membership"
       },
       {
+        "source": "item:node:two-weeks-inside-the-machine",
+        "target": "category:documentation",
+        "kind": "membership"
+      },
+      {
         "source": "item:node:visualizing-the-knowledge-graph",
         "target": "project:knowledge-graph-viz",
         "kind": "membership"
@@ -4211,6 +3763,11 @@
       {
         "source": "item:node:we-fixed-the-same-white-screen",
         "target": "category:governance",
+        "kind": "membership"
+      },
+      {
+        "source": "item:node:we-fixed-the-same-white-screen",
+        "target": "category:documentation",
         "kind": "membership"
       },
       {
@@ -4453,16 +4010,10 @@
         "weight": 2
       },
       {
-        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
-        "target": "item:node:two-weeks-inside-the-machine",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
         "source": "item:node:architecture-the-unified-taxonomy-strategy",
         "target": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
         "kind": "sharedTag",
-        "weight": 3
+        "weight": 2
       },
       {
         "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
@@ -4474,13 +4025,7 @@
         "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
         "target": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
         "kind": "sharedTag",
-        "weight": 4
-      },
-      {
-        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
-        "target": "item:article:why-cms-and-design-systems-belong-together",
-        "kind": "sharedTag",
-        "weight": 3
+        "weight": 2
       },
       {
         "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
@@ -4492,13 +4037,13 @@
         "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
         "target": "item:article:platform-selection-risk-composable-architecture",
         "kind": "sharedTag",
-        "weight": 4
+        "weight": 3
       },
       {
         "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
-        "weight": 6
+        "weight": 4
       },
       {
         "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
@@ -4538,7 +4083,19 @@
       },
       {
         "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "item:node:post-mortems-as-system-upgrades",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
         "target": "item:article:the-agentic-caucus",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "item:node:the-em-dash-that-came-back-from-the-dead",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4546,13 +4103,13 @@
         "source": "item:article:claude-code-joins-the-agentic-caucus",
         "target": "item:node:the-great-disconnection",
         "kind": "sharedTag",
-        "weight": 2
+        "weight": 3
       },
       {
         "source": "item:article:claude-code-joins-the-agentic-caucus",
         "target": "item:article:the-great-icloud-divorce",
         "kind": "sharedTag",
-        "weight": 2
+        "weight": 3
       },
       {
         "source": "item:article:claude-code-joins-the-agentic-caucus",
@@ -4561,8 +4118,8 @@
         "weight": 2
       },
       {
-        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
-        "target": "item:node:engineering-the-perfect-resume-workflow",
+        "source": "item:node:claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
+        "target": "item:node:the-em-dash-that-came-back-from-the-dead",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4573,22 +4130,10 @@
         "weight": 2
       },
       {
-        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
-        "target": "item:node:project-sugartown-cms-architecture",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:article:core-web-vitals-dont-belong-to-frontend",
-        "target": "item:node:project-sugartown-cms-architecture",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
         "source": "item:article:core-web-vitals-dont-belong-to-frontend",
         "target": "item:article:we-never-adopted-structured-content",
         "kind": "sharedTag",
-        "weight": 3
+        "weight": 2
       },
       {
         "source": "item:article:dashboards-arent-dead-neither-are-design-systems",
@@ -4629,12 +4174,6 @@
       {
         "source": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
-        "kind": "sharedTag",
-        "weight": 3
-      },
-      {
-        "source": "item:node:engineering-the-perfect-resume-workflow",
-        "target": "item:node:project-sugartown-cms-architecture",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4684,7 +4223,7 @@
         "source": "item:node:sanity-custom-table-input",
         "target": "item:article:sanity-table-authoring-ux",
         "kind": "sharedTag",
-        "weight": 6
+        "weight": 4
       },
       {
         "source": "item:node:sanity-custom-table-input",
@@ -4693,26 +4232,8 @@
         "weight": 2
       },
       {
-        "source": "item:node:sanity-custom-table-input",
-        "target": "item:article:site-that-built-itself",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
         "source": "item:article:sanity-table-authoring-ux",
         "target": "item:node:market-scan-top-headless-cms-platforms-2025",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:article:sanity-table-authoring-ux",
-        "target": "item:article:site-that-built-itself",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:article:job-search-funnel-data-postmortem",
-        "target": "item:node:prd-visualization-engine",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4754,25 +4275,7 @@
       },
       {
         "source": "item:node:knowledge-graph-roadmap",
-        "target": "item:node:project-knowledge-graph-topology-over-chronology",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:knowledge-graph-roadmap",
-        "target": "item:node:project-sugartown-cms-architecture",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:knowledge-graph-roadmap",
         "target": "item:node:sugartown-platform-roadmap-updated",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:knowledge-graph-roadmap",
-        "target": "item:node:this-knowledge-graph-origin-story",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4786,19 +4289,7 @@
         "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
         "target": "item:article:why-cms-and-design-systems-belong-together",
         "kind": "sharedTag",
-        "weight": 5
-      },
-      {
-        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
-        "target": "item:article:platform-selection-risk-composable-architecture",
-        "kind": "sharedTag",
         "weight": 2
-      },
-      {
-        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
-        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
-        "kind": "sharedTag",
-        "weight": 3
       },
       {
         "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
@@ -4868,24 +4359,6 @@
       },
       {
         "source": "item:article:why-cms-and-design-systems-belong-together",
-        "target": "item:article:platform-selection-risk-composable-architecture",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
-        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
-        "kind": "sharedTag",
-        "weight": 3
-      },
-      {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
-        "target": "item:node:project-knowledge-graph-topology-over-chronology",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
         "target": "item:node:project-sugartown-cms-architecture",
         "kind": "sharedTag",
         "weight": 3
@@ -4906,7 +4379,7 @@
         "source": "item:node:poc-platform-agnostic-by-design",
         "target": "item:article:platform-selection-risk-composable-architecture",
         "kind": "sharedTag",
-        "weight": 2
+        "weight": 3
       },
       {
         "source": "item:node:poc-platform-agnostic-by-design",
@@ -4939,22 +4412,10 @@
         "weight": 2
       },
       {
-        "source": "item:article:pink-moon-and-ledger",
-        "target": "item:node:two-weeks-inside-the-machine",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:article:pink-moon-and-ledger",
-        "target": "item:node:we-fixed-the-same-white-screen",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
         "source": "item:article:platform-selection-risk-composable-architecture",
         "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "kind": "sharedTag",
-        "weight": 4
+        "weight": 3
       },
       {
         "source": "item:article:platform-selection-risk-composable-architecture",
@@ -4970,43 +4431,25 @@
       },
       {
         "source": "item:node:post-mortems-as-system-upgrades",
-        "target": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:post-mortems-as-system-upgrades",
         "target": "item:node:the-em-dash-that-came-back-from-the-dead",
-        "kind": "sharedTag",
-        "weight": 4
-      },
-      {
-        "source": "item:node:post-mortems-as-system-upgrades",
-        "target": "item:node:the-epic-that-executed-itself",
-        "kind": "sharedTag",
-        "weight": 4
-      },
-      {
-        "source": "item:node:post-mortems-as-system-upgrades",
-        "target": "item:node:the-great-disconnection",
         "kind": "sharedTag",
         "weight": 3
       },
       {
         "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "item:node:the-epic-that-executed-itself",
+        "kind": "sharedTag",
+        "weight": 3
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
+        "target": "item:node:the-great-disconnection",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:post-mortems-as-system-upgrades",
         "target": "item:article:the-great-icloud-divorce",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:post-mortems-as-system-upgrades",
-        "target": "item:node:seafoam-vs-lime-component-reuse-guardrails",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:post-mortems-as-system-upgrades",
-        "target": "item:article:site-that-built-itself",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -5030,25 +4473,7 @@
       },
       {
         "source": "item:node:project-knowledge-graph-topology-over-chronology",
-        "target": "item:node:project-sugartown-cms-architecture",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:project-knowledge-graph-topology-over-chronology",
-        "target": "item:node:this-knowledge-graph-origin-story",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:project-knowledge-graph-topology-over-chronology",
         "target": "item:node:visualizing-the-knowledge-graph",
-        "kind": "sharedTag",
-        "weight": 3
-      },
-      {
-        "source": "item:node:project-sugartown-cms-architecture",
-        "target": "item:node:this-knowledge-graph-origin-story",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -5060,37 +4485,7 @@
       },
       {
         "source": "item:node:project-sugartown-cms-architecture",
-        "target": "item:node:visualizing-the-knowledge-graph",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:project-sugartown-cms-architecture",
         "target": "item:article:we-never-adopted-structured-content",
-        "kind": "sharedTag",
-        "weight": 3
-      },
-      {
-        "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
-        "target": "item:node:release-governance-yyyy-mm-dd-workflow",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
-        "target": "item:node:changelog",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:release-governance-yyyy-mm-dd-workflow",
-        "target": "item:node:changelog",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:sugartown-platform-roadmap-updated",
-        "target": "item:node:this-knowledge-graph-origin-story",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -5120,12 +4515,6 @@
       },
       {
         "source": "item:node:the-em-dash-that-came-back-from-the-dead",
-        "target": "item:node:the-epic-that-executed-itself",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
         "target": "item:node:the-great-disconnection",
         "kind": "sharedTag",
         "weight": 2
@@ -5137,20 +4526,8 @@
         "weight": 2
       },
       {
-        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
-        "target": "item:article:site-that-built-itself",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
         "source": "item:node:the-great-disconnection",
         "target": "item:article:the-great-icloud-divorce",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:the-great-disconnection",
-        "target": "item:node:seafoam-vs-lime-component-reuse-guardrails",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -5185,24 +4562,8 @@
         "weight": 2
       },
       {
-        "source": "item:node:two-weeks-inside-the-machine",
-        "target": "item:node:we-fixed-the-same-white-screen",
-        "kind": "sharedTag",
-        "weight": 2
-      },
-      {
-        "source": "item:node:ai-illustration-review-ethics-accessibility-ip-guardrails",
-        "target": "tag:accessibility",
-        "kind": "tag-membership"
-      },
-      {
         "source": "item:node:ai-illustration-review-ethics-accessibility-ip-guardrails",
         "target": "tag:ai-ethics",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:ai-illustration-review-ethics-accessibility-ip-guardrails",
-        "target": "tag:alt-text",
         "kind": "tag-membership"
       },
       {
@@ -5212,17 +4573,12 @@
       },
       {
         "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
-        "target": "tag:separation-of-concerns",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
-        "target": "tag:source-control",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
         "target": "tag:architecture",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "tag:version-control",
         "kind": "tag-membership"
       },
       {
@@ -5262,11 +4618,6 @@
       },
       {
         "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
-        "target": "tag:monorepo",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
         "target": "tag:prd",
         "kind": "tag-membership"
       },
@@ -5297,11 +4648,6 @@
       },
       {
         "source": "item:node:architecture-update-the-resume-factory-v2-0",
-        "target": "tag:Automation",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:architecture-update-the-resume-factory-v2-0",
         "target": "tag:resume-as-code",
         "kind": "tag-membership"
       },
@@ -5311,8 +4657,8 @@
         "kind": "tag-membership"
       },
       {
-        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
-        "target": "tag:documentation",
+        "source": "item:node:architecture-update-the-resume-factory-v2-0",
+        "target": "tag:ai-automation",
         "kind": "tag-membership"
       },
       {
@@ -5328,16 +4674,6 @@
       {
         "source": "item:node:architecture-the-unified-taxonomy-strategy",
         "target": "tag:metadata-strategy",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:architecture-the-unified-taxonomy-strategy",
-        "target": "tag:ontology",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:architecture-the-unified-taxonomy-strategy",
-        "target": "tag:structured-content",
         "kind": "tag-membership"
       },
       {
@@ -5358,16 +4694,6 @@
       {
         "source": "item:caseStudy:bare-minerals-from-bottlenecks-to-brilliance",
         "target": "tag:design-ops",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
-        "target": "tag:atomic-design",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
-        "target": "tag:composable",
         "kind": "tag-membership"
       },
       {
@@ -5422,11 +4748,6 @@
       },
       {
         "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
-        "target": "tag:content-audit",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
         "target": "tag:migration",
         "kind": "tag-membership"
       },
@@ -5451,13 +4772,13 @@
         "kind": "tag-membership"
       },
       {
-        "source": "item:article:claude-code-joins-the-agentic-caucus",
-        "target": "tag:version-control",
+        "source": "item:caseStudy:charting-a-new-course-for-backroads-com",
+        "target": "tag:audit",
         "kind": "tag-membership"
       },
       {
         "source": "item:article:claude-code-joins-the-agentic-caucus",
-        "target": "tag:workflow",
+        "target": "tag:version-control",
         "kind": "tag-membership"
       },
       {
@@ -5471,13 +4792,13 @@
         "kind": "tag-membership"
       },
       {
-        "source": "item:node:claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
-        "target": "tag:debugging",
+        "source": "item:article:claude-code-joins-the-agentic-caucus",
+        "target": "tag:ai-workflows",
         "kind": "tag-membership"
       },
       {
         "source": "item:node:claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
-        "target": "tag:devtools",
+        "target": "tag:debugging",
         "kind": "tag-membership"
       },
       {
@@ -5486,13 +4807,13 @@
         "kind": "tag-membership"
       },
       {
-        "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
-        "target": "tag:metadata-strategy",
+        "source": "item:node:claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
+        "target": "tag:tooling",
         "kind": "tag-membership"
       },
       {
         "source": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
-        "target": "tag:structured-content",
+        "target": "tag:metadata-strategy",
         "kind": "tag-membership"
       },
       {
@@ -5526,16 +4847,6 @@
         "kind": "tag-membership"
       },
       {
-        "source": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
-        "target": "tag:documentation",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
-        "target": "tag:product-discovery",
-        "kind": "tag-membership"
-      },
-      {
         "source": "item:article:core-web-vitals-dont-belong-to-frontend",
         "target": "tag:core-web-vitals",
         "kind": "tag-membership"
@@ -5547,17 +4858,7 @@
       },
       {
         "source": "item:article:core-web-vitals-dont-belong-to-frontend",
-        "target": "tag:performance",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:core-web-vitals-dont-belong-to-frontend",
         "target": "tag:seo",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:core-web-vitals-dont-belong-to-frontend",
-        "target": "tag:structured-content",
         "kind": "tag-membership"
       },
       {
@@ -5582,11 +4883,6 @@
       },
       {
         "source": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
-        "target": "tag:atomic-design",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
         "target": "tag:design-ops",
         "kind": "tag-membership"
       },
@@ -5602,22 +4898,17 @@
       },
       {
         "source": "item:node:devops-building-the-undo-button-for-my-career",
-        "target": "tag:documentation",
+        "target": "tag:version-control",
         "kind": "tag-membership"
       },
       {
         "source": "item:node:devops-building-the-undo-button-for-my-career",
-        "target": "tag:qa",
+        "target": "tag:resume-as-code",
         "kind": "tag-membership"
       },
       {
-        "source": "item:node:engineering-the-perfect-resume-workflow",
-        "target": "tag:llm-workflows",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:engineering-the-perfect-resume-workflow",
-        "target": "tag:structured-content",
+        "source": "item:node:devops-building-the-undo-button-for-my-career",
+        "target": "tag:Automation",
         "kind": "tag-membership"
       },
       {
@@ -5631,13 +4922,8 @@
         "kind": "tag-membership"
       },
       {
-        "source": "item:caseStudy:fx-networks-website-redesign-nominated-for-webby",
-        "target": "tag:accessibility",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:caseStudy:fx-networks-website-redesign-nominated-for-webby",
-        "target": "tag:wcag",
+        "source": "item:node:engineering-the-perfect-resume-workflow",
+        "target": "tag:ai-workflows",
         "kind": "tag-membership"
       },
       {
@@ -5727,16 +5013,6 @@
       },
       {
         "source": "item:node:sanity-custom-table-input",
-        "target": "tag:portable-text",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:sanity-custom-table-input",
-        "target": "tag:human-in-the-loop",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:sanity-custom-table-input",
         "target": "tag:migration",
         "kind": "tag-membership"
       },
@@ -5767,16 +5043,6 @@
       },
       {
         "source": "item:article:sanity-table-authoring-ux",
-        "target": "tag:portable-text",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:sanity-table-authoring-ux",
-        "target": "tag:human-in-the-loop",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:sanity-table-authoring-ux",
         "target": "tag:api",
         "kind": "tag-membership"
       },
@@ -5788,11 +5054,6 @@
       {
         "source": "item:article:job-search-funnel-data-postmortem",
         "target": "tag:resume-as-code",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:job-search-funnel-data-postmortem",
-        "target": "tag:product-management",
         "kind": "tag-membership"
       },
       {
@@ -5852,11 +5113,6 @@
       },
       {
         "source": "item:node:knowledge-graph-roadmap",
-        "target": "tag:knowledge-graph",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:knowledge-graph-roadmap",
         "target": "tag:platform-strategy",
         "kind": "tag-membership"
       },
@@ -5872,22 +5128,7 @@
       },
       {
         "source": "item:caseStudy:launching-lunar-landing",
-        "target": "tag:content-architecture",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:caseStudy:launching-lunar-landing",
         "target": "tag:stakeholder-alignment",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
-        "target": "tag:composable",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
-        "target": "tag:content-architecture",
         "kind": "tag-membership"
       },
       {
@@ -5903,11 +5144,6 @@
       {
         "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
         "target": "tag:omnichannel",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
-        "target": "tag:atomic-design",
         "kind": "tag-membership"
       },
       {
@@ -5943,6 +5179,16 @@
       {
         "source": "item:node:market-scan-top-headless-cms-platforms-2025",
         "target": "tag:migration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:meta-analysis-am-i-crazy-for-building-this",
+        "target": "tag:content-ops",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:meta-analysis-am-i-crazy-for-building-this",
+        "target": "tag:platform-strategy",
         "kind": "tag-membership"
       },
       {
@@ -5987,21 +5233,6 @@
       },
       {
         "source": "item:article:why-cms-and-design-systems-belong-together",
-        "target": "tag:atomic-design",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
-        "target": "tag:composable",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
-        "target": "tag:content-architecture",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
         "target": "tag:headless",
         "kind": "tag-membership"
       },
@@ -6036,11 +5267,6 @@
         "kind": "tag-membership"
       },
       {
-        "source": "item:node:prd-visualization-engine",
-        "target": "tag:product-management",
-        "kind": "tag-membership"
-      },
-      {
         "source": "item:article:pink-moon-and-ledger",
         "target": "tag:design-tokens",
         "kind": "tag-membership"
@@ -6048,11 +5274,6 @@
       {
         "source": "item:article:pink-moon-and-ledger",
         "target": "tag:ai-collaboration",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:pink-moon-and-ledger",
-        "target": "tag:documentation",
         "kind": "tag-membership"
       },
       {
@@ -6082,17 +5303,17 @@
       },
       {
         "source": "item:article:platform-selection-risk-composable-architecture",
-        "target": "tag:composable",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:platform-selection-risk-composable-architecture",
         "target": "tag:architecture",
         "kind": "tag-membership"
       },
       {
         "source": "item:article:platform-selection-risk-composable-architecture",
         "target": "tag:stakeholder-alignment",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:platform-selection-risk-composable-architecture",
+        "target": "tag:poc",
         "kind": "tag-membership"
       },
       {
@@ -6107,16 +5328,6 @@
       },
       {
         "source": "item:node:post-mortems-as-system-upgrades",
-        "target": "tag:human-in-the-loop",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:post-mortems-as-system-upgrades",
-        "target": "tag:llm-workflows",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:post-mortems-as-system-upgrades",
         "target": "tag:process-insight",
         "kind": "tag-membership"
       },
@@ -6127,27 +5338,12 @@
       },
       {
         "source": "item:node:post-mortems-as-system-upgrades",
-        "target": "tag:context-engineering",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:post-mortems-as-system-upgrades",
         "target": "tag:ai-collaboration",
         "kind": "tag-membership"
       },
       {
         "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
         "target": "tag:tech-debt",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
-        "target": "tag:atomic-design",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
-        "target": "tag:composable",
         "kind": "tag-membership"
       },
       {
@@ -6187,11 +5383,6 @@
       },
       {
         "source": "item:node:process-insight-the-csv-reality-check",
-        "target": "tag:data-integrity",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:process-insight-the-csv-reality-check",
         "target": "tag:system-thinking",
         "kind": "tag-membership"
       },
@@ -6217,16 +5408,6 @@
       },
       {
         "source": "item:node:project-knowledge-graph-topology-over-chronology",
-        "target": "tag:content-architecture",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:project-knowledge-graph-topology-over-chronology",
-        "target": "tag:knowledge-graph",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:project-knowledge-graph-topology-over-chronology",
         "target": "tag:roadmap",
         "kind": "tag-membership"
       },
@@ -6252,16 +5433,6 @@
       },
       {
         "source": "item:node:project-sugartown-cms-architecture",
-        "target": "tag:knowledge-graph",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:project-sugartown-cms-architecture",
-        "target": "tag:structured-content",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:project-sugartown-cms-architecture",
         "target": "tag:system-thinking",
         "kind": "tag-membership"
       },
@@ -6272,27 +5443,12 @@
       },
       {
         "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
-        "target": "tag:documentation",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
         "target": "tag:release-management",
         "kind": "tag-membership"
       },
       {
         "source": "item:node:release-governance-storybook-smoke-check-design-system",
         "target": "tag:release-management",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:release-governance-yyyy-mm-dd-workflow",
-        "target": "tag:documentation",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:release-governance-yyyy-mm-dd-workflow",
-        "target": "tag:product-ops",
         "kind": "tag-membership"
       },
       {
@@ -6316,11 +5472,6 @@
         "kind": "tag-membership"
       },
       {
-        "source": "item:node:show-me-the-computed-values",
-        "target": "tag:glassmorphism",
-        "kind": "tag-membership"
-      },
-      {
         "source": "item:node:status-update-the-great-re-platforming",
         "target": "tag:cross-functional-collaboration",
         "kind": "tag-membership"
@@ -6337,11 +5488,6 @@
       },
       {
         "source": "item:node:sugartown-platform-roadmap-updated",
-        "target": "tag:content-as-code",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:sugartown-platform-roadmap-updated",
         "target": "tag:headless",
         "kind": "tag-membership"
       },
@@ -6352,27 +5498,12 @@
       },
       {
         "source": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
-        "target": "tag:agentic-interfaces",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
-        "target": "tag:llm-workflows",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
         "target": "tag:ai-workflows",
         "kind": "tag-membership"
       },
       {
         "source": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
         "target": "tag:ai-automation",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:changelog",
-        "target": "tag:documentation",
         "kind": "tag-membership"
       },
       {
@@ -6397,16 +5528,6 @@
       },
       {
         "source": "item:node:80px-gap-section-spacing-framework",
-        "target": "tag:vqa",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:80px-gap-section-spacing-framework",
-        "target": "tag:spacing",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:80px-gap-section-spacing-framework",
         "target": "tag:architecture",
         "kind": "tag-membership"
       },
@@ -6421,11 +5542,6 @@
         "kind": "tag-membership"
       },
       {
-        "source": "item:article:the-agentic-caucus",
-        "target": "tag:vopm",
-        "kind": "tag-membership"
-      },
-      {
         "source": "item:node:button-two-names-single-field-authority",
         "target": "tag:content-modeling",
         "kind": "tag-membership"
@@ -6433,11 +5549,6 @@
       {
         "source": "item:node:the-em-dash-that-came-back-from-the-dead",
         "target": "tag:ai-workflows",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:the-em-dash-that-came-back-from-the-dead",
-        "target": "tag:human-in-the-loop",
         "kind": "tag-membership"
       },
       {
@@ -6462,11 +5573,6 @@
       },
       {
         "source": "item:node:the-epic-that-executed-itself",
-        "target": "tag:human-in-the-loop",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:the-epic-that-executed-itself",
         "target": "tag:ai-ethics",
         "kind": "tag-membership"
       },
@@ -6478,11 +5584,6 @@
       {
         "source": "item:node:the-epic-that-executed-itself",
         "target": "tag:process-insight",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:the-epic-that-executed-itself",
-        "target": "tag:agentic-interfaces",
         "kind": "tag-membership"
       },
       {
@@ -6502,22 +5603,17 @@
       },
       {
         "source": "item:node:the-great-disconnection",
-        "target": "tag:source-control",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:the-great-disconnection",
-        "target": "tag:context-engineering",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:the-great-disconnection",
         "target": "tag:britbox",
         "kind": "tag-membership"
       },
       {
         "source": "item:node:the-great-disconnection",
         "target": "tag:ai-collaboration",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:node:the-great-disconnection",
+        "target": "tag:version-control",
         "kind": "tag-membership"
       },
       {
@@ -6577,11 +5673,6 @@
       },
       {
         "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
-        "target": "tag:atomic-design",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
         "target": "tag:best-practices",
         "kind": "tag-membership"
       },
@@ -6593,11 +5684,6 @@
       {
         "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
         "target": "tag:post-mortem",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:seafoam-vs-lime-component-reuse-guardrails",
-        "target": "tag:context-engineering",
         "kind": "tag-membership"
       },
       {
@@ -6621,23 +5707,8 @@
         "kind": "tag-membership"
       },
       {
-        "source": "item:article:site-that-built-itself",
-        "target": "tag:human-in-the-loop",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:this-knowledge-graph-origin-story",
-        "target": "tag:knowledge-graph",
-        "kind": "tag-membership"
-      },
-      {
         "source": "item:node:this-knowledge-graph-origin-story",
         "target": "tag:agentic-caucus",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:this-knowledge-graph-origin-story",
-        "target": "tag:content-as-code",
         "kind": "tag-membership"
       },
       {
@@ -6672,11 +5743,6 @@
       },
       {
         "source": "item:node:two-weeks-inside-the-machine",
-        "target": "tag:documentation",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:two-weeks-inside-the-machine",
         "target": "tag:tooling",
         "kind": "tag-membership"
       },
@@ -6688,11 +5754,6 @@
       {
         "source": "item:node:visualizing-the-knowledge-graph",
         "target": "tag:data-science",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:visualizing-the-knowledge-graph",
-        "target": "tag:knowledge-graph",
         "kind": "tag-membership"
       },
       {
@@ -6712,11 +5773,6 @@
       },
       {
         "source": "item:node:we-fixed-the-same-white-screen",
-        "target": "tag:documentation",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:we-fixed-the-same-white-screen",
         "target": "tag:process-insight",
         "kind": "tag-membership"
       },
@@ -6727,17 +5783,7 @@
       },
       {
         "source": "item:article:we-never-adopted-structured-content",
-        "target": "tag:aeo-geo",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:we-never-adopted-structured-content",
         "target": "tag:seo",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:article:we-never-adopted-structured-content",
-        "target": "tag:structured-content",
         "kind": "tag-membership"
       },
       {
@@ -6748,11 +5794,6 @@
       {
         "source": "item:article:we-never-adopted-structured-content",
         "target": "tag:headless",
-        "kind": "tag-membership"
-      },
-      {
-        "source": "item:node:which-chatbot-is-best-for-web-design",
-        "target": "tag:product-management",
         "kind": "tag-membership"
       },
       {
@@ -6798,13 +5839,13 @@
     ]
   },
   "linearRoadmap": {
-    "fetchedAt": "2026-06-19T10:29:21.559Z",
+    "fetchedAt": "2026-06-23T09:40:57.753Z",
     "inProgress": [
       {
         "identifier": "SUG-152",
         "title": "DS Usage Docs — Storybook documentation audit and creation (Phase N)",
         "url": "https://linear.app/sugartown/issue/SUG-152/ds-usage-docs-storybook-documentation-audit-and-creation-phase-n",
-        "priority": "High",
+        "priority": "Low",
         "status": "In Review",
         "projects": [
           {
@@ -6817,9 +5858,46 @@
     ],
     "backlog": [
       {
-        "identifier": "SUG-185",
-        "title": "A/B testing — use case exploration and tooling evaluation for sugartown.io",
-        "url": "https://linear.app/sugartown/issue/SUG-185/ab-testing-use-case-exploration-and-tooling-evaluation-for-sugartownio",
+        "identifier": "SUG-193",
+        "title": "MetadataCard glossary terms row — Phase 2b of SUG-190",
+        "url": "https://linear.app/sugartown/issue/SUG-193/metadatacard-glossary-terms-row-phase-2b-of-sug-190",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": [],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-192",
+        "title": "Chromatic story count audit — Phase 4 remainder (Callout, Tile, ScoreRing, FilterBar, Accordion, PageSections)",
+        "url": "https://linear.app/sugartown/issue/SUG-192/chromatic-story-count-audit-phase-4-remainder-callout-tile-scorering",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-189",
+        "title": "Content taxonomy audit — glossary term-linking, full taxonomy coverage, people=Bex across all content",
+        "url": "https://linear.app/sugartown/issue/SUG-189/content-taxonomy-audit-glossary-term-linking-full-taxonomy-coverage",
+        "priority": "Medium",
+        "status": "Todo",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": null
+      },
+      {
+        "identifier": "SUG-187",
+        "title": "Case study content refresh — Monolith to Microservice & Prestige Beauty Pilot",
+        "url": "https://linear.app/sugartown/issue/SUG-187/case-study-content-refresh-monolith-to-microservice-and-prestige",
         "priority": "Medium",
         "status": "Backlog",
         "projects": [
@@ -6831,10 +5909,10 @@
         "completedAt": null
       },
       {
-        "identifier": "SUG-184",
-        "title": "GSC \"Crawled - currently not indexed\" — resolve all causes",
-        "url": "https://linear.app/sugartown/issue/SUG-184/gsc-crawled-currently-not-indexed-resolve-all-causes",
-        "priority": "High",
+        "identifier": "SUG-185",
+        "title": "A/B testing — use case exploration and tooling evaluation for sugartown.io",
+        "url": "https://linear.app/sugartown/issue/SUG-185/ab-testing-use-case-exploration-and-tooling-evaluation-for-sugartownio",
+        "priority": "Medium",
         "status": "Backlog",
         "projects": [
           {
@@ -6868,34 +5946,6 @@
           {
             "name": "Sugartown Shopify",
             "colorHex": "#bec2c8"
-          }
-        ],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-180",
-        "title": "Multi-brand DS theming convention — theme file contract, CONSUMING.md, validate:style-mirror",
-        "url": "https://linear.app/sugartown/issue/SUG-180/multi-brand-ds-theming-convention-theme-file-contract-consumingmd",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [
-          {
-            "name": "Pink Moon Design System",
-            "colorHex": "#F472B6"
-          }
-        ],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-179",
-        "title": "Contentful Stage 1 build-out — DS header/footer, homepage, article archive",
-        "url": "https://linear.app/sugartown/issue/SUG-179/contentful-stage-1-build-out-ds-headerfooter-homepage-article-archive",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [
-          {
-            "name": "Sugartown CMS",
-            "colorHex": "#FF69B4"
           }
         ],
         "completedAt": null
@@ -6946,7 +5996,7 @@
         "identifier": "SUG-172",
         "title": "Netlify → Vercel migration — scope, recommendation analysis, and migration plan for sugartown.io",
         "url": "https://linear.app/sugartown/issue/SUG-172/netlify-vercel-migration-scope-recommendation-analysis-and-migration",
-        "priority": "Low",
+        "priority": "No priority",
         "status": "Backlog",
         "projects": [
           {
@@ -6960,7 +6010,7 @@
         "identifier": "SUG-169",
         "title": "Article: Architecting flexibility — DS + content model and the \"feeling\" of freedom for business users",
         "url": "https://linear.app/sugartown/issue/SUG-169/article-architecting-flexibility-ds-content-model-and-the-feeling-of",
-        "priority": "High",
+        "priority": "Medium",
         "status": "Backlog",
         "projects": [
           {
@@ -7058,7 +6108,7 @@
         "identifier": "SUG-72",
         "title": "Shopify MVP — /platform + /services content sections (follow-on)",
         "url": "https://linear.app/sugartown/issue/SUG-72/shopify-mvp-platform-services-content-sections-follow-on",
-        "priority": "Low",
+        "priority": "High",
         "status": "Backlog",
         "projects": [
           {
@@ -7196,6 +6246,99 @@
       }
     ],
     "shipped": [
+      {
+        "identifier": "SUG-190",
+        "title": "Taxonomy vocabulary audit — tag deduplication, category/tag overlap, glossary vs tag distinction",
+        "url": "https://linear.app/sugartown/issue/SUG-190/taxonomy-vocabulary-audit-tag-deduplication-categorytag-overlap",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": "2026-06-22T13:29:26.940Z"
+      },
+      {
+        "identifier": "SUG-191",
+        "title": "Chromatic snapshot budget optimisation — TurboSnap, skip gate, story discipline",
+        "url": "https://linear.app/sugartown/issue/SUG-191/chromatic-snapshot-budget-optimisation-turbosnap-skip-gate-story",
+        "priority": "Urgent",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-06-22T11:02:36.081Z"
+      },
+      {
+        "identifier": "SUG-180",
+        "title": "Multi-brand DS theming convention — theme file contract, CONSUMING.md, validate:style-mirror",
+        "url": "https://linear.app/sugartown/issue/SUG-180/multi-brand-ds-theming-convention-theme-file-contract-consumingmd",
+        "priority": "Medium",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Pink Moon Design System",
+            "colorHex": "#F472B6"
+          }
+        ],
+        "completedAt": "2026-06-21T12:09:18.876Z"
+      },
+      {
+        "identifier": "SUG-179",
+        "title": "Contentful Stage 1 build-out — DS header/footer, homepage, article archive",
+        "url": "https://linear.app/sugartown/issue/SUG-179/contentful-stage-1-build-out-ds-headerfooter-homepage-article-archive",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": "2026-06-20T16:13:42.258Z"
+      },
+      {
+        "identifier": "SUG-188",
+        "title": "Contentful content model Stage 1 — siteSettings nav, navigationItem, homepage page entry",
+        "url": "https://linear.app/sugartown/issue/SUG-188/contentful-content-model-stage-1-sitesettings-nav-navigationitem",
+        "priority": "Urgent",
+        "status": "Done",
+        "projects": [],
+        "completedAt": "2026-06-20T15:48:30.251Z"
+      },
+      {
+        "identifier": "SUG-184",
+        "title": "GSC \"Crawled - currently not indexed\" — resolve all causes",
+        "url": "https://linear.app/sugartown/issue/SUG-184/gsc-crawled-currently-not-indexed-resolve-all-causes",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Content",
+            "colorHex": "#bec2c8"
+          }
+        ],
+        "completedAt": "2026-06-20T12:16:54.061Z"
+      },
+      {
+        "identifier": "SUG-186",
+        "title": "Related field refactor: glossaryTerm split + taxonomy-wide bidirectional sync",
+        "url": "https://linear.app/sugartown/issue/SUG-186/related-field-refactor-glossaryterm-split-taxonomy-wide-bidirectional",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Sugartown CMS",
+            "colorHex": "#FF69B4"
+          }
+        ],
+        "completedAt": "2026-06-19T17:17:41.426Z"
+      },
       {
         "identifier": "SUG-183",
         "title": "Prerender article/node routes — fix Medium importer and AEO crawler visibility",
@@ -7372,104 +6515,6 @@
           }
         ],
         "completedAt": "2026-06-10T14:28:42.971Z"
-      },
-      {
-        "identifier": "SUG-159",
-        "title": "Archive Page Component Inventory",
-        "url": "https://linear.app/sugartown/issue/SUG-159/archive-page-component-inventory",
-        "priority": "High",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Sugartown CMS",
-            "colorHex": "#FF69B4"
-          }
-        ],
-        "completedAt": "2026-06-09T09:48:15.424Z"
-      },
-      {
-        "identifier": "SUG-158",
-        "title": "Storybook Documentation Template System",
-        "url": "https://linear.app/sugartown/issue/SUG-158/storybook-documentation-template-system",
-        "priority": "Urgent",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Pink Moon Design System",
-            "colorHex": "#F472B6"
-          }
-        ],
-        "completedAt": "2026-06-08T12:36:54.932Z"
-      },
-      {
-        "identifier": "SUG-157",
-        "title": "PageHeader DS pattern component",
-        "url": "https://linear.app/sugartown/issue/SUG-157/pageheader-ds-pattern-component",
-        "priority": "Urgent",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Pink Moon Design System",
-            "colorHex": "#F472B6"
-          }
-        ],
-        "completedAt": "2026-06-06T15:38:28.478Z"
-      },
-      {
-        "identifier": "SUG-156",
-        "title": "Library IA layout audit — introduce Pages/ Storybook category, retire ArchiveLayout, fill page template gaps",
-        "url": "https://linear.app/sugartown/issue/SUG-156/library-ia-layout-audit-introduce-pages-storybook-category-retire",
-        "priority": "Urgent",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Pink Moon Design System",
-            "colorHex": "#F472B6"
-          }
-        ],
-        "completedAt": "2026-06-06T14:35:58.982Z"
-      },
-      {
-        "identifier": "SUG-155",
-        "title": "DS Codification Sprint — Storybook coverage, To Codify close-out, deprecation cleanup",
-        "url": "https://linear.app/sugartown/issue/SUG-155/ds-codification-sprint-storybook-coverage-to-codify-close-out",
-        "priority": "Medium",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Pink Moon Design System",
-            "colorHex": "#F472B6"
-          }
-        ],
-        "completedAt": "2026-06-05T16:43:17.377Z"
-      },
-      {
-        "identifier": "SUG-151",
-        "title": "DS Phase 5 — Schema migration, registry & audit close-out",
-        "url": "https://linear.app/sugartown/issue/SUG-151/ds-phase-5-schema-migration-registry-and-audit-close-out",
-        "priority": "Medium",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Pink Moon Design System",
-            "colorHex": "#F472B6"
-          }
-        ],
-        "completedAt": "2026-06-05T12:44:19.247Z"
-      },
-      {
-        "identifier": "SUG-150",
-        "title": "DS Phase 4 — Patterns & retirements: StatCard, Form, ContactForm, MetadataCard/ContentCard recompose, region recomposition, Archive Layout stories",
-        "url": "https://linear.app/sugartown/issue/SUG-150/ds-phase-4-patterns-and-retirements-statcard-form-contactform",
-        "priority": "Medium",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Pink Moon Design System",
-            "colorHex": "#F472B6"
-          }
-        ],
-        "completedAt": "2026-06-05T00:25:01.181Z"
       }
     ]
   }
