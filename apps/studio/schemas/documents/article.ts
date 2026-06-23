@@ -266,6 +266,21 @@ export default defineType({
       ],
       validation: (Rule) => Rule.unique()
     }),
+    // SUG-193: explicit glossary term links (complements inline glossaryTermRef marks in body PT)
+    defineField({
+      name: 'relatedTerms',
+      title: 'Glossary Terms',
+      type: 'array',
+      description: 'Glossary terms relevant to this article. Inline terms are extracted automatically from body text — add terms here only when they are implied by the content but not marked inline.',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'glossaryTerm'}]
+        })
+      ],
+      validation: (Rule) => Rule.unique()
+    }),
     // SUG-48: relatedProjects deprecated — projects[] is canonical
     defineField({
       name: 'relatedProjects',
