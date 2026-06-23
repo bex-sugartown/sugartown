@@ -7,7 +7,7 @@
  * below the page header content.
  */
 import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
-import { useSearchParams, useNavigate } from 'react-router-dom'
+import { useSearchParams, useNavigate, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import { client } from '../lib/sanity'
 import { allSiteItemsQuery, archivePageBySlugQuery } from '../lib/queries'
