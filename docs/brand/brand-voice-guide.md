@@ -100,7 +100,7 @@ The shared rule: **"we"** is only used when it means the actual caucus (Bex + AI
 | "Talk to a lawyer" | "Please consult with appropriate legal counsel" | Direct > polite-but-empty. |
 | "Reduced component surface by 40%" | "Significantly reduced complexity" | Numbers are social proof. Adjectives are not. |
 | "Unicorns are allowed; just keep them away from production" | "Creative exploration is encouraged within appropriate boundaries" | Personality earns trust faster than formality. |
-| "The pipeline is a bully (and it wins)" | "The pipeline — which has been a persistent source of friction — continues to cause issues" | Em dashes are AI's favourite parenthetical crutch. Use commas, parens, or just write two sentences. |
+| "The pipeline is a bully (and it wins)" | "The pipeline — which has been a persistent source of friction — continues to cause issues" | Em dashes are AI's favourite parenthetical crutch. Use commas, parens, or just write two sentences. Exception: `Title — Subtitle` separator in headings is permitted. |
 
 ---
 
@@ -141,7 +141,7 @@ If Claude drafted it, a human sharpened it. That's the deal.
 
 The checklist above catches word-level tells. These catch structural habits that betray AI drafting even when the vocabulary is clean:
 
-- [ ] **No em dashes:** the single most reliable structural AI tell. Use commas, parentheses, colons, or full stops instead. **Exception:** nodes, where em dashes are part of the forensic storyteller register and read as intentional voice.
+- [ ] **No em dashes:** the single most reliable structural AI tell. Use commas, parentheses, colons, or full stops instead. **Exceptions:** (1) nodes, where em dashes are part of the forensic storyteller register and read as intentional voice; (2) `Title — Subtitle` separator usage in headings, which is a typographic convention, not a prose pattern.
 - [ ] **No decorative emoji or icons:** no "🚀 Let's dive in!" energy. Emoji on Sugartown earns its place or doesn't appear. **Exception:** nodes, where emoji is used sarcastically or as deadpan humour (a 🎉 after breaking production is comedy; a 🌟 before a heading is slop).
 - [ ] **Vary sentence openings:** three consecutive sentences starting with the same word ("This… This… This…" or "The… The… The…") is a rewrite signal. AI defaults to repetitive openers when it runs out of narrative steam.
 - [ ] **No filler transitions (expanded):** beyond "Moving on," the worst offenders are: "That said," / "With that in mind," / "That being said," / "It's worth noting that" / "At the end of the day." If the next paragraph follows logically, it doesn't need a bridge.

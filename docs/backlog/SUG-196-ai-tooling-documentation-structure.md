@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-196 — AI tooling documentation structure
 **Linear Issue:** [SUG-196](https://linear.app/sugartown/issue/SUG-196/ai-tooling-documentation-structure)
-**Status:** Drafts received — pending review
+**Status:** Phase 1 complete — Phase 2 pending
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---

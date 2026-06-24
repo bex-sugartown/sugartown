@@ -430,7 +430,7 @@ Do not use `set: { markDefs: [] }` — Sanity's `set` merges rather than replace
 All AI-drafted content (copy, descriptions, alt text, commit messages, doc prose) must pass the anti-slop checks documented in `docs/brand/brand-voice-guide.md`. The key enforcement rules:
 
 **Banned in all non-node content:**
-- **Em dashes** (`—`). Use commas, parentheses, colons, or separate sentences. Em dashes are the single most reliable structural AI tell.
+- **Em dashes** (`—`). Use commas, parentheses, colons, or separate sentences. Em dashes are the single most reliable structural AI tell. **Exception:** `Title — Subtitle` separator usage in headings is permitted — this is a typographic convention, not a prose pattern.
 - **Decorative emoji/icons.** No `🚀`, `✨`, `🌟` garnish. If an emoji doesn't earn its place through humour or irony, it doesn't appear.
 - **Filler transitions:** "That said," / "With that in mind," / "That being said," / "It's worth noting that" / "At the end of the day." If the next paragraph follows logically, it doesn't need a bridge.
 - **AI vocabulary:** "delve into", "leverage", "utilize", "facilitate", "synergize", "ideate", "learnings", "passionate about", "excited to announce", "in today's landscape."
