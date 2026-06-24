@@ -48,7 +48,7 @@ Before writing copy, know what's real and shipped. Every claim on this page must
 |----------|-----------------|--------|----------------|
 | CHANGELOG.md | `docs/CHANGELOG.md` (repo) | Shipped, maintained | Versioned releases with SemVer |
 | Release Notes (per version) | `docs/release-notes/RELEASE_NOTES_vX.Y.Z.md` | Shipped, 6+ versions | Narrative documentation per release |
-| Release Assistant Prompt | `docs/release-assistant-prompt.md` | Shipped | Governed, gated release process with human-in-the-loop |
+| Release Assistant Prompt | `docs/workflows/release-assistant-prompt.md` | Shipped | Governed, gated release process with human-in-the-loop |
 | Design System PRD v2.0 | `docs/briefs/design-system/design-system-prd.md` | Active | Three-layer token architecture, component contracts, accessibility governance |
 | Monorepo PRD | `docs/briefs/monorepo-prd.md` | Active | MACH principles, boundary enforcement, migration strategy |
 | IA Brief | `docs/briefs/ia-brief.md` | Locked constraint doc | Information architecture decisions, phase gates |

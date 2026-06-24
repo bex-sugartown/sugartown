@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-196 — AI tooling documentation structure
 **Linear Issue:** [SUG-196](https://linear.app/sugartown/issue/SUG-196/ai-tooling-documentation-structure)
-**Status:** Phase 1 complete — Phase 2 pending
+**Status:** Phase 2 in progress
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -46,7 +46,7 @@ Before writing any of the four files to `docs/ai/`:
 
 The AI tooling for this repo spans Claude Code skills, Linear MCP workflows, Sanity MCP tools, and the agentic-caucus session-governance pattern — but none of it is documented in a discoverable, navigable place. The closest thing is the Content Store gem and scattered CLAUDE.md sections. The gap matters most for the agentic-caucus methodology: it exists as a practised pattern but not as a governance document that can be shared, cited, or evolved deliberately.
 
-The existing workflow prompts (`morning-housekeeping-prompt.md`, `eod-prompt.md`, `release-assistant-prompt.md`) already live in `docs/` and are referenced from CLAUDE.md skill definitions. Moving them would break those references. The correct action is to create a parallel `docs/ai/` folder that indexes and contextualises them without relocating anything.
+The existing workflow prompts (`morning-housekeeping-prompt.md`, `eod-prompt.md`, `release-assistant-prompt.md`) previously lived at the `docs/` root and are referenced from Claude Code skill definitions. Phase 2 of this epic moves them to `docs/workflows/` and updates all references.
 
 ## Objective
 
@@ -162,5 +162,5 @@ This mirrors the Linear lifecycle (backlog → shipped) and makes both states na
 
 - **Linear:** [SUG-196](https://linear.app/sugartown/issue/SUG-196/ai-tooling-documentation-structure)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
-- **Existing workflow prompts:** `docs/morning-housekeeping-prompt.md`, `docs/eod-prompt.md`, `docs/release-assistant-prompt.md`
+- **Workflow prompts (moved in Phase 2):** `docs/workflows/morning-housekeeping-prompt.md`, `docs/workflows/eod-prompt.md`, `docs/workflows/release-assistant-prompt.md`
 - **Skills directory:** `.claude/skills/`

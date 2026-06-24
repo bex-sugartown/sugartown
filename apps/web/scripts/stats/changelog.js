@@ -2,7 +2,7 @@
  * changelog.js — release namespace collector (SUG-67)
  *
  * Parses CHANGELOG.md and returns structured release data.
- * The CHANGELOG format is the contract — see docs/release-assistant-prompt.md.
+ * The CHANGELOG format is the contract — see docs/workflows/release-assistant-prompt.md.
  *
  * ## [x.y.z] — YYYY-MM-DD
  * Descriptor line (first non-empty, non-heading line after the version heading)

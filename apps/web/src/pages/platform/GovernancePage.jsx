@@ -118,7 +118,7 @@ const ARTIFACTS = [
     eyebrow: 'Prompt',
     title: 'Release Assistant',
     body: 'Structured prompt for running the mini-release sequence — CHANGELOG stub, version bump, and ship doc.',
-    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/release-assistant-prompt.md',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/workflows/release-assistant-prompt.md',
   },
 ]
 

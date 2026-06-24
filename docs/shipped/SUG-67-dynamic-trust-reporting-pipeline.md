@@ -237,7 +237,7 @@ N/A for most namespaces. `sanity` namespace uses a single `count(*[_type == $typ
 - **Fail modes are explicit.** Local collectors fail the build. Network collectors degrade to stale data with a flag.
 - **Serializer parity.** Pre-processor must apply to all three serializer entry points or be centralised.
 - **Fail-visible in dev, explicit in prod.** Unknown tokens render literally during authoring.
-- **CHANGELOG.md format is the contract.** If the parser requires stricter CHANGELOG format, update `docs/release-assistant-prompt.md` in the same commit.
+- **CHANGELOG.md format is the contract.** If the parser requires stricter CHANGELOG format, update `docs/workflows/release-assistant-prompt.md` in the same commit.
 - **No secrets in committed JSON.** `stats.json` is public (shipped to client). Only aggregate counts and non-PII.
 - **CrUX origin must exist in the dataset.** CrUX only returns data for origins with sufficient traffic. If `sugartown.io` doesn't yet qualify, the collector logs a "no data" flag and the `crux` namespace renders as stale/unavailable. Document this explicitly.
 
