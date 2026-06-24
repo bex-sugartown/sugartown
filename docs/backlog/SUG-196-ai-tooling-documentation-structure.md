@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-196 — AI tooling documentation structure
 **Linear Issue:** [SUG-196](https://linear.app/sugartown/issue/SUG-196/ai-tooling-documentation-structure)
-**Status:** Backlog
+**Status:** Drafts received — pending review
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -9,6 +9,38 @@
 # SUG-196 — AI tooling documentation structure
 
 Create a `docs/ai/` folder with four net-new files: a README index, agentic-caucus methodology and failure-modes docs, and a skills inventory. No existing files moved or edited.
+
+## Drafts
+
+All four files received from Claude (claude.ai session) on 2026-06-24. Stored locally at `docs/drafts/SUG-196/` (gitignored). **Do not commit until review flags below are resolved.**
+
+### Review flags — required before commit
+
+**`methodology.md` — 2 issues**
+
+1. **Em dashes throughout.** CLAUDE.md bans em dashes in all non-node content. Full list of occurrences to fix:
+   - "It is not a product. It is not a brand. It is a methodology: systematic AI collaboration with documented failure modes, strategic tool selection, and a human who holds the vision while agents propose, iterate, and occasionally contradict each other." — the dash in "orient-before-acting" is a hyphen (fine); the standalone em dashes in "Agents propose. Bex decides." paragraphs are fine (no em dashes there actually — need to re-read). Actually on second look — the em dashes appear inline in the agent description blocks. Grep: `sed -n '/—/p' docs/drafts/SUG-196/methodology.md`
+   - Replace all `—` with commas, colons, or sentence breaks as appropriate.
+2. **Skills section references `/mnt/skills/user/`.** This is a claude.ai internal path that means nothing to a reader of the repo. The repo equivalent is `.claude/skills/`. Update the reference or clarify that this is a claude.ai path, not a repo path.
+
+**`README.md` — 1 issue**
+
+3. **Factual error: `docs/prompts/` does not exist.** The line "The epic archive (in `docs/prompts/` and `docs/backlog/`)" references a directory that is not in the repo. Shipped epics are in `docs/shipped/`, in-flight and backlog epics are in `docs/backlog/`. Fix: "The epic archive (`docs/backlog/` for active, `docs/shipped/` for shipped)".
+
+**`skills-index.md` — 1 issue**
+
+4. **Skills inventory is incomplete and mis-categorised.** The table lists claude.ai project skills only. The repo also has `.claude/skills/` entries invocable via `/` in Claude Code that are not listed: `becky-boop`, `chromatic`, `storybook-docs` (`write-node`), `update-cwv`, `write-blog`, `new-epic`, `restart`. Additionally, `/morning` and `/eod` are listed as "paste prompts" but they are actual `.claude/skills/` entries — they live in the skill system, not just in `docs/`. The table needs a second section (or column) covering Claude Code skills separately from claude.ai skills.
+
+**`failure-modes.md` — no issues.** Content is accurate, format is correct, no em dashes.
+
+### Review instruction for activation
+
+Before writing any of the four files to `docs/ai/`:
+1. Apply fixes for all four flags above to the drafts in `docs/drafts/SUG-196/`
+2. Show diffs or updated content to Bex for explicit approval on `methodology.md` (voice check) and `skills-index.md` (accuracy check against actual `.claude/skills/` listing)
+3. Only after approval: create `docs/ai/` directory and write the four files
+
+---
 
 ## Background
 
