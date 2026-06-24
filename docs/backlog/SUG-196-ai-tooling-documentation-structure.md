@@ -94,6 +94,29 @@ Not applicable — no shared CSS, token, or multi-page component changes.
 - Editing CLAUDE.md or MEMORY.md to add references to the new folder — the README covers navigation; CLAUDE.md is not in scope
 - Creating any new skills or modifying existing skill prompts
 - Publishing any of these docs to the Sanity content lake
+- Renaming or reorganising `docs/prompts/` — tracked as a deferred workstream below; not in scope for this commit
+
+## Deferred Workstream — `docs/prompts/` rename
+
+**Decision recorded 2026-06-24. Do not act on this in SUG-196.**
+
+`docs/prompts/` currently contains completed execution briefs (`EPIC-0145-*.md`, `EPIC-0152-*.html`, etc.) — not prompts in the conventional sense. The name creates the wrong expectation for any reader unfamiliar with the repo's history.
+
+**Why not now:** CLAUDE.md, the morning housekeeping prompt, and the release assistant likely reference `docs/prompts/` by path. Renaming without a full search-and-replace across all references would break internal links and confuse Claude Code sessions. The change also has zero functional benefit — it is a pure naming correction.
+
+**Recommended target state when this is eventually actioned:**
+
+```
+docs/epics/
+├── backlog/       # active backlog stubs (currently docs/backlog/)
+└── shipped/       # completed execution briefs (currently docs/prompts/)
+```
+
+This mirrors the Linear lifecycle (backlog → shipped) and makes both states navigable at a glance.
+
+**Sequencing rule:** Do this rename only when already touching the docs structure for another reason, so the path audit (`grep -r "docs/prompts" .`) can be bundled into the same commit rather than a standalone chore.
+
+**Note for `docs/ai/README.md` draft:** The current draft at `docs/drafts/SUG-196/README.md` references `docs/prompts/` as "The epic archive". This is one of the four review flags. When fixing that flag, use the current real paths (`docs/backlog/` and `docs/shipped/`) rather than the aspirational restructured paths above — do not pre-empt the rename.
 
 ## Related
 
