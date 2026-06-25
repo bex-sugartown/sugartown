@@ -4,7 +4,7 @@
 **Status:** Active
 **Owner:** Bex Head
 **Last updated:** June 2026
-**Related:** `docs/ai/agentic-caucus/methodology.md`
+**Related:** `docs/ai/agentic-caucus/methodology.md`, `docs/ai/agentic-caucus/governance-coverage.md`
 
 ---
 
