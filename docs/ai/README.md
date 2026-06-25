@@ -24,7 +24,9 @@ docs/ai/
 ├── agentic-caucus/
 │   ├── methodology.md                # the framework: what it is, how it works, core principles
 │   ├── failure-modes.md              # documented failure modes per tool, cross-agent patterns
-│   └── governance-coverage.md        # coverage map vs the 6-layer AI governance model
+│   ├── governance-coverage.md        # coverage map vs the 6-layer AI governance model
+│   ├── agent-cards.md                # per-agent registry: model, strengths, failure modes, use rules
+│   └── risk-tiers.md                 # action risk tiers (A–D) mapped to CLAUDE.md gates
 └── skills-index.md                   # inventory of Claude Code skills + claude.ai skills
 ```
 

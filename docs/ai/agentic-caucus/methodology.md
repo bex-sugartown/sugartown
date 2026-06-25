@@ -171,6 +171,12 @@ invokable via `/skill-name` in any Claude Code session. claude.ai project skills
 claude.ai project knowledge (not on disk); they tell claude.ai how to behave for specific
 writing and planning tasks. Full inventory: `docs/ai/skills-index.md`.
 
+### Risk tiers and agent cards
+Every agent action falls into one of four risk tiers (Autonomous, Gated execution, Proposal
+required, Human only), each mapped to a gate and a named authority: `docs/ai/agentic-caucus/risk-tiers.md`.
+Each agent has a registry card recording its model, strengths, and failure modes:
+`docs/ai/agentic-caucus/agent-cards.md`.
+
 ---
 
 ## What This Is Not

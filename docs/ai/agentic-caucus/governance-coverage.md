@@ -56,9 +56,9 @@ informal), **Inherited** (delegated to a platform), **Gap** (worth filling, see 
 |---|---|---|
 | Shadow-AI detection | Strong | Every agent is named and deliberately deployed. The methodology is itself the inventory. |
 | System classification | Strong | Agents classified by role (Architect, Integrator, Strategist) in [[methodology]]. |
-| Risk tiering | Gap | Implicit only, via action gates. Not written down as tiers. |
+| Risk tiering | Strong | Four tiers (A–D) mapped to gates in [[risk-tiers]]. |
 | Ownership assignment | Strong | Single owner (Bex). Decision authority is explicit in `CLAUDE.md`. |
-| Model registry | Partial | `skills-index.md` lists tools; model IDs named in `CLAUDE.md`. No version tracking. |
+| Model registry | Strong | Per-agent cards with model and surface in [[agent-cards]]. |
 
 ### Layer 2 — Data Foundation · Partial
 
@@ -84,7 +84,7 @@ informal), **Inherited** (delegated to a platform), **Gap** (worth filling, see 
 
 | Component | Status | What covers it |
 |---|---|---|
-| Model cards | Partial | `failure-modes.md` is a capability-and-failure card per agent. Missing model ID and version. |
+| Model cards | Strong | Per-agent cards with model, surface, and failure-mode cross-refs in [[agent-cards]]. |
 | Performance benchmarks | N/A | Tool selection is observed-heuristic, which is right-sized. Product perf (Chromatic, CWV) is separate. |
 | Fairness testing | N/A | No model fairness in scope. |
 | Red-teaming | Partial | Adversarial verify patterns, no-speculative-fixes rule, validators acting as adversaries. |
@@ -114,14 +114,15 @@ informal), **Inherited** (delegated to a platform), **Gap** (worth filling, see 
 
 | Status | Count |
 |---|---|
-| Strong (owned in code) | 12 |
-| Partial | 8 |
-| Inherited from platform | 4 |
-| Gap to fill | 2 |
-| N/A by design | 4 |
+| Strong (owned in code) | 17 |
+| Partial | 5 |
+| Inherited from platform | 2 |
+| Gap to fill | 1 |
+| N/A by design | 5 |
 
-Roughly 40% strongly owned, 27% partial. The strong coverage sits on the inventory,
-oversight, and audit layers.
+Over half the components are strongly owned, with the strong coverage concentrated on the
+inventory, oversight, and audit layers. Two fills remain tracked for a future pass: the GDPR
+data-handling note (Gap) and the incident-log cadence (currently Partial).
 
 ---
 
@@ -129,20 +130,18 @@ oversight, and audit layers.
 
 Cheap, high-leverage, and they close coverage that is already most of the way built.
 
-1. **Risk tiering (Layer 1).** Write down the tiers that already exist implicitly: map each
-   action type to its gate (publish is human-gated; refactor is auto; schema change gets its
-   own commit). Half a page. Converts an implicit rule into an auditable one.
+1. **Risk tiering (Layer 1).** Done. Four tiers mapped to existing gates in [[risk-tiers]].
 
-2. **Agent cards (Layer 4).** `failure-modes.md` is already a capability-and-failure card per
-   agent. Add model ID, version, and a "when to use" line per agent and it becomes a real
-   registry entry. The hard part is done.
+2. **Agent cards (Layer 4).** Done. Per-agent registry with model, surface, and failure-mode
+   cross-references in [[agent-cards]].
 
-3. **Standing incident log (Layer 6).** Post-mortems are ad hoc today. Give confirmed failures
-   one append-only home so the registry grows instead of scattering. The node schema or an
-   appendix to `failure-modes.md` both work.
+3. **Standing incident log (Layer 6).** Open. Post-mortems are ad hoc today. Give confirmed
+   failures one append-only home so the registry grows instead of scattering. The node schema
+   or an appendix to `failure-modes.md` both work.
 
-4. **Data-handling note (Layer 6, GDPR).** The site is public and consulting-facing. A short
-   note covering what the site collects and how AI is used in the build is reasonable hygiene.
+4. **Data-handling note (Layer 6, GDPR).** Open. The site is public and consulting-facing. A
+   short note covering what the site collects and how AI is used in the build is reasonable
+   hygiene.
 
 ---
 
