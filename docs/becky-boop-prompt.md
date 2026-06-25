@@ -1,4 +1,4 @@
-# PROMPT — Becky Boop Hero Banner Generator
+# PROMPT — Becky B00p Hero Banner Generator
 **Version:** v1.0 (2026-05-23)
 **Run with:** Claude Code (project context required)
 **Invoked via:** `/becky-boop [optional: content description or article context]`
@@ -7,7 +7,7 @@
 
 ## What this prompt does
 
-Generates a complete, self-contained Becky Boop & The Agentic Caucus hero banner prompt
+Generates a complete, self-contained Becky B00p & The Agentic Caucus hero banner prompt
 ready to paste directly into any AI image generator (Midjourney, Ideogram, DALL-E, Firefly,
 Stable Diffusion, etc.) with no additional context required.
 
@@ -63,7 +63,7 @@ description of the scene."
 
 ## Step 2 — Determine casting
 
-Use the casting table below to select which characters appear alongside Becky Boop.
+Use the casting table below to select which characters appear alongside Becky B00p.
 Becky is always present. Apply the rule that fits the article's subject:
 
 | Cast | Use when |
@@ -129,7 +129,7 @@ Output a single, complete image-generation prompt. Format rules:
 
 ## Character reference (bake into the prompt verbatim)
 
-### Becky Boop (always present)
+### Becky B00p (always present)
 Curly cherry-red bob, straight blunt bangs, small star-cluster hair accessories scattered
 through the curls. Oversized angular black cat-eye glasses with thick frames and pronounced
 upswept outer corners. Large prominent rosy blush circles on a round soft face. Medium gold

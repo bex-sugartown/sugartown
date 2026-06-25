@@ -18,7 +18,7 @@ Invokable via `/skill-name` in any Claude Code session. Skills live on disk in `
 
 | Skill | Trigger | What it does |
 |---|---|---|
-| `becky-boop` | `/becky-boop` | Generates a Becky Boop hero banner prompt for any AI image generator, contextualised to the current article or node |
+| `becky-boop` | `/becky-boop` | Generates a Becky B00p hero banner prompt for any AI image generator, contextualised to the current article or node |
 | `chromatic` | `/chromatic` | Runs Chromatic VRT, reports visual diffs, gates on human approval, records status |
 | `eod` | `/eod` | End-of-day: commits uncommitted work, single push to trigger one Netlify deploy, verifies deploy |
 | `glossy` | `/glossy` | Two-gate flow: proposes a glossaryTerm for approval, then posts it live to sugartown.io/glossary |
