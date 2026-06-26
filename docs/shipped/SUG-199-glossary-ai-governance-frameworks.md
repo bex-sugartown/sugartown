@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-199 — Glossary: AI governance frameworks
 **Linear Issue:** [SUG-199](https://linear.app/sugartown/issue/SUG-199)
-**Status:** Backlog
+**Status:** Shipped ✓ 2026-06-26
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -9,6 +9,8 @@
 # SUG-199 — Glossary: AI governance frameworks
 
 Research and publish 4 `glossaryTerm` documents for the AI-governance framework vocabulary referenced by the `/services` card-4 copy: NIST AI RMF, ISO/IEC 42001, Model Card, Policy-as-Code.
+
+> **Shipped 2026-06-26.** All 4 terms published live via `/glossy` (Gate 1 proposal approved, Gate 2 published): [/glossary/nist-ai-rmf](https://sugartown.io/glossary/nist-ai-rmf), [/glossary/iso-iec-42001](https://sugartown.io/glossary/iso-iec-42001), [/glossary/model-card](https://sugartown.io/glossary/model-card), [/glossary/policy-as-code](https://sugartown.io/glossary/policy-as-code). Sibling cross-links wired (NIST RMF ↔ ISO 42001, Model Card ↔ Policy-as-Code). Pure-content epic — terms live in Sanity production; no code merged. The doc-move commit batches to origin at `/eod`.
 
 ## Background
 
