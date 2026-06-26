@@ -1,5 +1,5 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
-import {BlockContentIcon} from '@sanity/icons'
+import {BlockContentIcon, BookIcon} from '@sanity/icons'
 
 /**
  * Card Builder Item — EPIC-0160
@@ -140,6 +140,24 @@ export default defineType({
                     initialValue: 1,
                     validation: (Rule: any) => Rule.required().min(1)
                   }
+                ]
+              }),
+              // Inline glossary term reference — dotted underline link + hover popover
+              // on the web frontend. Shares the glossaryTermRef shape used in
+              // portableTextConfig.ts (article/node/caseStudy body PT).
+              defineArrayMember({
+                name: 'glossaryTermRef',
+                type: 'object',
+                title: 'Glossary Term',
+                icon: BookIcon,
+                fields: [
+                  defineField({
+                    name: 'term',
+                    type: 'reference',
+                    to: [{type: 'glossaryTerm'}],
+                    title: 'Term',
+                    validation: (Rule) => Rule.required()
+                  })
                 ]
               })
             ]
