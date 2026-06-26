@@ -18,6 +18,7 @@ import { getCanonicalPath } from '../lib/routes'
 import { Card, Chip, CitationMarker, CitationNote, CitationZone, SectionLabel, Grid } from '../design-system'
 import StatCard from './StatCard'
 import { LinkAnnotation } from './portableTextComponents'
+import GlossaryTermAnnotation from './GlossaryTermAnnotation'
 import { getOverlayStyles, parseOverlay, ensureSvgFilter } from '../design-system/components/media/Media'
 import styles from './CardBuilderSection.module.css'
 
@@ -68,6 +69,9 @@ function makeBodyComponents(citationIndexMap) {
           </>
         )
       },
+      glossaryTermRef: ({ value, children }) => (
+        <GlossaryTermAnnotation value={value}>{children}</GlossaryTermAnnotation>
+      ),
     },
   }
 }

@@ -390,7 +390,7 @@ export const nodeBySlugQuery = `
           eyebrow,
           categoryPosition,
           subtitle,
-          body,
+          body${PT_CONTENT_PROJECTION},
           citations[]{
             text,
             link {
@@ -592,7 +592,7 @@ export const articleBySlugQuery = `
           eyebrow,
           categoryPosition,
           subtitle,
-          body,
+          body${PT_CONTENT_PROJECTION},
           citations[]{
             text,
             link {
@@ -775,7 +775,7 @@ export const pageBySlugQuery = `
           eyebrow,
           categoryPosition,
           subtitle,
-          body,
+          body${PT_CONTENT_PROJECTION},
           citations[]{
             text,
             link {
@@ -1005,7 +1005,7 @@ export const caseStudyBySlugQuery = `
           eyebrow,
           categoryPosition,
           subtitle,
-          body,
+          body${PT_CONTENT_PROJECTION},
           citations[]{
             text,
             link {
