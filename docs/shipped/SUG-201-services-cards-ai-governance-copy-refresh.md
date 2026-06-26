@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-201 — Services cards: AI governance copy refresh + glossary linking
 **Linear Issue:** [SUG-201](https://linear.app/sugartown/issue/SUG-201)
-**Status:** Backlog
+**Status:** Shipped ✓ 2026-06-26
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -9,6 +9,8 @@
 # SUG-201 — Services cards: AI governance copy refresh + glossary linking
 
 Finalize the `/services` "What I Do" card copy (cards 1, 2, 4, 5) and wire inline glossary links from card 4 to the four AI-governance terms shipped in SUG-199.
+
+> **Shipped 2026-06-26.** Cards 1, 2, 4, 5 patched and published to Sanity (`page` doc `40df3ddc`, live at [sugartown.io/services](https://sugartown.io/services)). Card 4 retitled "AI Content Governance" with the two-half body and four inline `glossaryTermRef` links (model-card, policy-as-code, nist-ai-rmf, iso-iec-42001), all verified to dereference. Hero subheading dropped; cards 3/6/CTA untouched. Pure-content epic — copy lives in Sanity production; no code merged. Doc-move commit batches to origin at `/eod`.
 
 ## Background
 
