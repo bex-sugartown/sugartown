@@ -4,7 +4,7 @@
 **Status:** Active
 **Owner:** Bex Head
 **Last updated:** June 2026
-**Related:** [[methodology]] (`docs/ai/agentic-caucus/methodology.md`), [[failure-modes]] (`docs/ai/agentic-caucus/failure-modes.md`)
+**Related:** [[methodology]] (`docs/ai/agentic-caucus/methodology.md`), [[failure-modes]] (`docs/ai/agentic-caucus/failure-modes.md`), [[incident-log]] (`docs/ai/agentic-caucus/incident-log.md`), [[data-handling]] (`docs/ai/agentic-caucus/data-handling.md`)
 
 ---
 
@@ -105,24 +105,26 @@ informal), **Inherited** (delegated to a platform), **Gap** (worth filling, see 
 | Component | Status | What covers it |
 |---|---|---|
 | EU AI Act mapping | N/A | No high-risk AI system deployed, nothing trained. |
-| GDPR alignment | Gap | Site-level privacy policy exists; no data-handling note for the AI layer. |
+| GDPR alignment | Partial | Site-level privacy policy plus a data-handling note for the AI layer ([[data-handling]]): collection points, processors, build-only AI boundary. Not a formal DPIA. |
 | Policy enforcement | Strong | `CLAUDE.md` is enforced policy: pre-commit hooks, validators, gates. |
-| Incident reporting | Partial | `failure-modes.md`, session post-mortems, "process failure" annotations. Ad hoc cadence. |
+| Incident reporting | Strong | Standing append-only [[incident-log]] with a defined format; `failure-modes.md` and session post-mortems feed it. No longer ad hoc. |
 | Audit trails | Strong | Git history, Linear, ship docs, CHANGELOG, the node schema. Everything is logged. |
 
 ### Tally
 
 | Status | Count |
 |---|---|
-| Strong (owned in code) | 17 |
+| Strong (owned in code) | 18 |
 | Partial | 5 |
 | Inherited from platform | 2 |
-| Gap to fill | 1 |
+| Gap to fill | 0 |
 | N/A by design | 5 |
 
 Over half the components are strongly owned, with the strong coverage concentrated on the
-inventory, oversight, and audit layers. Two fills remain tracked for a future pass: the GDPR
-data-handling note (Gap) and the incident-log cadence (currently Partial).
+inventory, oversight, and audit layers. Both previously-open fills are now closed: the GDPR
+data-handling note ([[data-handling]]) and the standing incident log ([[incident-log]]). No
+Gap-status components remain; what is left is Partial coverage that is informal by choice and
+the layers that are N/A by design.
 
 ---
 
@@ -135,13 +137,13 @@ Cheap, high-leverage, and they close coverage that is already most of the way bu
 2. **Agent cards (Layer 4).** Done. Per-agent registry with model, surface, and failure-mode
    cross-references in [[agent-cards]].
 
-3. **Standing incident log (Layer 6).** Open. Post-mortems are ad hoc today. Give confirmed
-   failures one append-only home so the registry grows instead of scattering. The node schema
-   or an appendix to `failure-modes.md` both work.
+3. **Standing incident log (Layer 6).** Done. Confirmed failures now have one append-only
+   home in [[incident-log]], with a defined format and the failure-mode/incident distinction
+   documented. Markdown doc (no schema), seeded with two dated incidents.
 
-4. **Data-handling note (Layer 6, GDPR).** Open. The site is public and consulting-facing. A
-   short note covering what the site collects and how AI is used in the build is reasonable
-   hygiene.
+4. **Data-handling note (Layer 6, GDPR).** Done. [[data-handling]] records the three
+   collection points (contact form, analytics, hosting logs), the verified analytics
+   behaviour, the build-only AI boundary, and the third-party processor list.
 
 ---
 
@@ -158,6 +160,11 @@ Named here so they read as decisions, not oversights.
 ---
 
 ## Changelog
+
+### v1.1 — 30 June 2026
+SUG-198. Closed the two remaining fills: GDPR row Gap → Partial ([[data-handling]]) and
+Incident reporting Partial → Strong ([[incident-log]]). Tally updated (Strong 17 → 18, Gap
+1 → 0). "Gaps Worth Filling" items 3 and 4 marked Done.
 
 ### v1.0 — June 2026
 Initial document. Coverage mapped against a six-layer AI governance model. Tally, four
