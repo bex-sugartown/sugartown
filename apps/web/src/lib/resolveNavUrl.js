@@ -14,6 +14,8 @@
  *   import { resolveNavLink } from '../lib/resolveNavUrl'
  *   const { url, openInNewTab } = resolveNavLink(navItem)
  */
+import { toInternalPath } from './linkUtils'
+
 export function resolveNavLink(item) {
   if (!item) return {url: null, openInNewTab: false}
 
@@ -34,17 +36,25 @@ export function resolveNavLink(item) {
         openInNewTab: false
       }
 
-    case 'external':
+    case 'external': {
+      // A self-link typed as "external" (e.g. a hardcoded https://sugartown.io/…
+      // for a code-routed page with no page doc to reference) is normalised to a
+      // relative path so it routes via the SPA. A true self-link doesn't open in
+      // a new tab.
+      const internal = toInternalPath(externalUrl)
       return {
-        url: externalUrl || null,
-        openInNewTab: openInNewTab ?? false
+        url: internal ?? externalUrl ?? null,
+        openInNewTab: internal ? false : (openInNewTab ?? false)
       }
+    }
 
-    default:
+    default: {
       // Legacy fallback — items stored before typed link migration keep working
+      const internal = toInternalPath(link?.url)
       return {
-        url: link?.url || null,
-        openInNewTab: link?.openInNewTab ?? false
+        url: internal ?? link?.url ?? null,
+        openInNewTab: internal ? false : (link?.openInNewTab ?? false)
       }
+    }
   }
 }
