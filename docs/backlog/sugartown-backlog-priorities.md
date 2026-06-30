@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-06-26 · SUG-199 shipped ✅ (4 AI-governance glossary terms live via /glossy). Added SUG-201 (services card copy refresh + glossary linking, 🟢 Next) + SUG-200 (glossary vocabulary, ⚪ Later). Enabled `glossaryTermRef` in cardBuilder PT (schema + serializer). Prior 2026-06-25: v0.28.1 — SUG-196 AI tooling docs structure; added SUG-194/195/197/198.
+> Updated 2026-06-30 · v0.28.2 — SUG-195 shipped ✅ (design-reviewer VQA subagent + vqa-workflow.md). Prior 2026-06-26: SUG-199 shipped (4 AI-governance glossary terms live via /glossy); added SUG-201 (services card copy refresh + glossary linking, 🟢 Next) + SUG-200 (glossary vocabulary, ⚪ Later); enabled `glossaryTermRef` in cardBuilder PT (schema + serializer). Prior 2026-06-25: v0.28.1 — SUG-196 AI tooling docs structure; added SUG-194/195/197/198.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.28.1 released ✅ 2026-06-24. SUG-196 AI tooling docs structure shipped (docs/ai/ + docs/workflows/). Next: SUG-192 Chromatic story count remainder or SUG-160 TechTimeline article.
+> **⚑ Current focus:** v0.28.2 released ✅ 2026-06-30. SUG-195 design-reviewer VQA subagent shipped (`.claude/agents/design-reviewer.md` + `docs/conventions/vqa-workflow.md`). Next: SUG-192 Chromatic story count remainder or SUG-160 TechTimeline article.
 
 ---
 
@@ -67,7 +67,7 @@
 | 4 | **[SUG-102](https://linear.app/sugartown/issue/SUG-102) · DS token hygiene — Phase C: off-scale color promotion + legacy alias audit** ✅ Shipped v0.23.15. 6 new Tier-1 primitives (amber-450/650, red-400/600, crimson-500, midnight-950). 8 token references updated. 14 zero-ref legacy aliases removed. Chromatic Build 31: zero visual changes. Epic: `docs/shipped/SUG-102-ds-token-hygiene-phase-c.md`. | `Design System` `Infrastructure` | ✅ Shipped |
 | 10 | ~~**[SUG-196](https://linear.app/sugartown/issue/SUG-196/ai-tooling-documentation-structure) · AI tooling documentation structure** — `docs/ai/` (README, agentic-caucus methodology + failure-modes, skills index) + `docs/workflows/` (3 prompt moves, all references updated). Em dash heading exception added to CLAUDE.md + brand-voice-guide. Shipped v0.28.1. Epic: `docs/shipped/SUG-196-ai-tooling-documentation-structure.md`.~~ | `Tooling` `Documentation` `Infrastructure` | ✅ Shipped |
 | 11 | **[SUG-198](https://linear.app/sugartown/issue/SUG-198/gap-analysis-6-layers-of-effective-ai-governance) · Gap analysis: 6 layers of effective AI governance** — Close the two remaining Agentic Caucus governance gaps (incident log, data-handling/GDPR note), surface the governance coverage on the live site, and align the AI ethics + legal docs. Builds on SUG-196. Epic: `docs/backlog/SUG-198-gap-analysis-6-layers-of-effective-ai-governance.md`. | `Documentation` `Content` `Infrastructure` | 🟣 Soon |
-| 9 | **[SUG-195](https://linear.app/sugartown/issue/SUG-195/design-reviewer-subagent-vqa-gate-automation) · Design-Reviewer Subagent — VQA Gate Automation** — `.claude/agents/design-reviewer.md` subagent (read-only, Haiku model) that produces a Match / Drift / Missing table against Phase 0 mocks, token rules, and CLAUDE.md VQA criteria after every implementation commit. Epic: `docs/backlog/SUG-195-design-reviewer-subagent-vqa-gate-automation.md`. | `Design System` `Tooling` `Infrastructure` | 🟣 Soon |
+| 9 | ~~**[SUG-195](https://linear.app/sugartown/issue/SUG-195/design-reviewer-subagent-vqa-gate-automation) · Design-Reviewer Subagent — VQA Gate Automation** — `.claude/agents/design-reviewer.md` subagent (read-only, Haiku model) that produces a Match / Drift / Missing table against Phase 0 mocks, token rules, and CLAUDE.md VQA criteria after every implementation commit. Plus `docs/conventions/vqa-workflow.md`. Shipped v0.28.2. Epic: `docs/shipped/SUG-195-design-reviewer-subagent-vqa-gate-automation.md`.~~ | `Design System` `Tooling` `Infrastructure` | ✅ Shipped |
 | 8 | **[SUG-194](https://linear.app/sugartown/issue/SUG-194/update-ds-architecture-figjam-diagram) · Update DS Architecture FigJam Diagram** — Sync board to v0.28.0 reality: promote Style Dictionary + validate:style-mirror from 🔮 to shipped, add theme.shop.css, Contentful POC consumer node, fix Storybook category count, add missing validators. Epic: `docs/backlog/SUG-194-update-ds-architecture-figjam-diagram.md`. | `Design System` `Tooling` `Documentation` | 🟣 Soon |
 | 7 | ~~**[SUG-175](https://linear.app/sugartown/issue/SUG-175/update-inline-code-background-to-lime-100-light-theme) · Inline `code` bg → lime-100 (light theme)** — Change `--st-code-inline-bg` to `var(--st-color-lime-100)` in both light-theme files; dark theme unchanged. Shipped v0.26.22.~~ | `Design System` | ✅ Shipped |
 | 6 | ~~**[SUG-167](https://linear.app/sugartown/issue/SUG-167/content-list-view-list-listitem-ledger-treatment) · Content list view — List / ListItem ledger treatment** — ledger "register" List (DS primitive + ContentList adapter) replaces card-as-list-row in archive list mode, entity pages (Person/Project/Tool), and taxonomy detail (tags/categories). Epic: `docs/shipped/SUG-167-content-list-view-list-listitem-ledger-treatment.md`.~~ | `Design System` `UX` | ✅ Shipped |
@@ -269,4 +269,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-24 · v0.28.1 released · queue: SUG-192 / SUG-160 / SUG-187*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-06-30 · v0.28.2 released · queue: SUG-192 / SUG-160 / SUG-187*
