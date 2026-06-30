@@ -15,6 +15,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > Accumulates since v0.28.0.
 
 - SUG-196: AI tooling documentation structure — `docs/ai/` (agentic-caucus methodology, failure-modes, skills index, README), `docs/workflows/` (3 prompt files moved, all references updated), `Title — Subtitle` heading exception added to em dash rule
+- SUG-195: Design-reviewer VQA subagent — read-only `.claude/agents/design-reviewer.md` (haiku) producing Match/Drift/Missing tables in a fresh context, plus `docs/conventions/vqa-workflow.md`
 
 ---
 
