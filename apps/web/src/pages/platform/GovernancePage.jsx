@@ -135,6 +135,42 @@ const RELEASE_DIAGRAM = {
   caption: 'Release process',
 }
 
+// ── AI governance coverage (SUG-198) ──────────────────────
+// Data sourced verbatim from docs/ai/agentic-caucus/governance-coverage.md v1.1
+const POSTURE = {
+  strong:    { color: 'var(--st-posture-strong)',    label: 'Strong' },
+  partial:   { color: 'var(--st-posture-partial)',   label: 'Partial' },
+  inherited: { color: 'var(--st-posture-inherited)', label: 'Inherited' },
+  na:        { color: 'var(--st-posture-na)',        label: 'N/A' },
+}
+
+const COVERAGE_TALLY = [
+  { label: 'Strong · owned in code', value: 18, sub: 'of 30 components' },
+  { label: 'Partial · informal',     value: 5,  sub: 'by choice' },
+  { label: 'Inherited · platform',   value: 2,  sub: 'Sanity · GitHub · Netlify' },
+  { label: 'N/A · by design',        value: 5,  sub: 'nothing trained' },
+]
+
+const COVERAGE_LAYERS = [
+  { layer: '1 · AI Inventory',           posture: 'strong',    cover: 'Every agent named and deliberately deployed; risk-tiered A–D; per-agent model cards.' },
+  { layer: '2 · Data Foundation',        posture: 'partial',   cover: 'Git as source of truth, verbatim content, full validator suite. Lineage and freshness tracked informally.' },
+  { layer: '3 · Data Security & Access', posture: 'inherited', cover: 'Encryption and key management owned by Sanity, GitHub, Netlify, and the model providers.' },
+  { layer: '4 · Model Assurance',        posture: 'partial',   cover: 'Model cards and drift detection strong; red-teaming via adversarial-verify patterns and validators.' },
+  { layer: '5 · Human Oversight',        posture: 'strong',    cover: 'Epic gates, Phase 0, Visual QA, Content Write Gate. Agents propose; Bex decides.' },
+  { layer: '6 · Compliance & Audit',     posture: 'strong',    cover: 'Enforced policy in code, standing incident log, data-handling note, full git / Linear / CHANGELOG audit trail.' },
+]
+
+const COVERAGE_COLUMNS = [
+  { key: 'layer',   label: 'Layer',          width: 230 },
+  { key: 'posture', label: 'Posture',        width: 130 },
+  { key: 'cover',   label: 'What covers it'             },
+]
+
+const toCoverageRow = (r) => {
+  const p = POSTURE[r.posture]
+  return { layer: r.layer, posture: <Swatch color={p.color} label={p.label} />, cover: r.cover }
+}
+
 function RoadmapLane({ label, epics }) {
   const rows = epics.map((r) => toRoadmapRow(r, styles.issueId, styles.statusCell, styles.labelChips))
   const captionMeta = epics.length ? `${epics.length} ${epics.length === 1 ? 'epic' : 'epics'}` : undefined
@@ -244,10 +280,28 @@ export default function GovernancePage() {
           <CwvSnapshot section={{ cwvUrl: 'https://sugartown.io/' }} />
         </section>
 
-        <section id="governance-artifacts" className={styles.section}>
+        <section id="ai-governance" className={styles.section}>
           <SectionLabel
             level="h3"
             number="§05"
+            name="AI GOVERNANCE COVERAGE"
+            title="Enforced policy, measured"
+            kicker="30 components · 0 gaps"
+          />
+          <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2} className={styles.statsSection}>
+            {COVERAGE_TALLY.map((s) => (
+              <StatCard key={s.label} label={s.label} value={s.value} sub={s.sub} />
+            ))}
+          </Grid>
+          <TableWrap caption="Six-layer coverage" captionMeta="6 layers">
+            <Table tone="subdued" zebra={false} columns={COVERAGE_COLUMNS} rows={COVERAGE_LAYERS.map(toCoverageRow)} />
+          </TableWrap>
+        </section>
+
+        <section id="governance-artifacts" className={styles.section}>
+          <SectionLabel
+            level="h3"
+            number="§06"
             name="ARTIFACTS"
             title="Briefs, prompts, conventions"
             kicker={`${ARTIFACTS.length} documents`}
