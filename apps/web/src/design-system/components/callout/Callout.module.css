@@ -61,6 +61,7 @@
   font-size: 1rem;
   line-height: 1.6;
   color: var(--st-color-text-default);
+  align-self: stretch; /* match .labelCol — else body falls short of row height when label wraps taller, exposing parent bg below the text */
 }
 
 .body p { margin: 0; }
