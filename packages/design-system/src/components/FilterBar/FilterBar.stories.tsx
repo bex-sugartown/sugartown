@@ -3,6 +3,19 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { FilterBar } from './FilterBar';
 import type { FilterModel } from './FilterBar';
 
+/**
+ * ## FilterBar
+ *
+ * No variant prop — FilterBar has a single visual form. `In Drawer` below
+ * shows the same component rendered inside the mobile archive drawer
+ * context (SUG-173); that's a usage context, not a component variant.
+ *
+ * Each facet (`filterModel.facets[]`) renders as a `<fieldset>` of
+ * checkboxes — every facet supports selecting more than one option at
+ * once (multi-select), not just "tags". The Default story below has two
+ * Category options checked simultaneously to show this.
+ */
+
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
 const MOCK_FILTER_MODEL: FilterModel = {
@@ -45,8 +58,16 @@ const meta: Meta<typeof FilterBar> = {
   component: FilterBar,
   tags: ['autodocs'],
   argTypes: {
-    filterModel: { control: { type: 'object' }, description: 'Filter facets and options' },
-    activeFilters: { control: { type: 'object' }, description: 'Currently active filter selections' },
+    filterModel: {
+      control: { type: 'object' },
+      description:
+        'FilterModel — { facets: FilterFacet[] }. Each facet is { id, label, options: FilterOption[] }; each option is { id, label, slug?, count, colorHex? }. Renders nothing when null or facets is empty.',
+    },
+    activeFilters: {
+      control: { type: 'object' },
+      description:
+        'Record<facetId, string[]>. Every facet is multi-select (checkboxes, not radios) — a facet\'s array can hold more than one selected value at a time.',
+    },
     onFilterChange: { table: { disable: true } },
     onClearAll: { table: { disable: true } },
   },
@@ -66,29 +87,13 @@ const meta: Meta<typeof FilterBar> = {
 export default meta;
 type Story = StoryObj<typeof FilterBar>;
 
-// ─── Story wrapper components (hooks require named components) ────────────────
+// ─── Story wrapper component (hooks require a named component) ────────────────
 
-function DefaultStory() {
-  const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
-  const handleChange = (facetId: string, value: string, checked: boolean) => {
-    setActiveFilters((prev) => {
-      const current = prev[facetId] ?? [];
-      return { ...prev, [facetId]: checked ? [...current, value] : current.filter((v) => v !== value) };
-    });
-  };
-  return (
-    <FilterBar
-      filterModel={MOCK_FILTER_MODEL}
-      activeFilters={activeFilters}
-      onFilterChange={handleChange}
-      onClearAll={() => setActiveFilters({})}
-    />
-  );
-}
-
-function WithActiveFiltersStory() {
+/** Starts with two Category options checked at once, to demonstrate multi-select on a single facet. */
+function FilterBarStory() {
   const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({
-    projects: ['brand-strategy', 'web-platform'],
+    categories: ['engineering', 'strategy'],
+    projects: ['brand-strategy'],
     tags: ['accessibility'],
   });
   const handleChange = (facetId: string, value: string, checked: boolean) => {
@@ -107,60 +112,10 @@ function WithActiveFiltersStory() {
   );
 }
 
-function SingleFacetStory() {
-  const [activeFilters, setActiveFilters] = useState<Record<string, string[]>>({});
-  const model: FilterModel = {
-    facets: [
-      {
-        id: 'categories',
-        label: 'Category',
-        options: [
-          { id: 'cat-1', label: 'Engineering', slug: 'engineering', count: 15 },
-          { id: 'cat-2', label: 'Strategy',    slug: 'strategy',    count: 7  },
-        ],
-      },
-    ],
-  };
-  return (
-    <FilterBar
-      filterModel={model}
-      activeFilters={activeFilters}
-      onFilterChange={(facetId, value, checked) =>
-        setActiveFilters((prev) => ({
-          ...prev,
-          [facetId]: checked
-            ? [...(prev[facetId] ?? []), value]
-            : (prev[facetId] ?? []).filter((v) => v !== value),
-        }))
-      }
-      onClearAll={() => setActiveFilters({})}
-    />
-  );
-}
-
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
-/** Fully populated filter model, no active filters */
-export const Default: Story = { render: () => <DefaultStory /> };
-
-/** Filter model with some pre-selected active filters */
-export const WithActiveFilters: Story = { render: () => <WithActiveFiltersStory /> };
-
-/** Null filter model — renders nothing (null guard) */
-export const EmptyModel: Story = {
-  render: () => (
-    <div>
-      <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '1rem' }}>
-        FilterBar renders nothing when filterModel is null or has no facets.
-      </p>
-      <FilterBar filterModel={null} activeFilters={{}} onFilterChange={() => {}} onClearAll={() => {}} />
-      <p style={{ fontSize: '0.875rem', color: '#999' }}>(Nothing rendered above)</p>
-    </div>
-  ),
-};
-
-/** Single facet — minimal model */
-export const SingleFacet: Story = { render: () => <SingleFacetStory /> };
+/** Fully populated filter model — two Category options checked to show multi-select on one facet. */
+export const Default: Story = { render: () => <FilterBarStory /> };
 
 /**
  * In Drawer — simulates the mobile archive drawer context (SUG-173).
@@ -227,5 +182,5 @@ export const InDrawer: Story = {
       </div>
     ),
   ],
-  render: () => <WithActiveFiltersStory />,
+  render: () => <FilterBarStory />,
 };
