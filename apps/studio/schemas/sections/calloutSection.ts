@@ -5,14 +5,15 @@ import {summaryPortableText} from '../objects/portableTextConfig'
 /**
  * calloutSection — section builder block for highlighted callouts.
  *
- * Renders via the DS Callout component. Five variants:
- *   default (pink/Heart), info (muted/Info), tip (seafoam/Lightbulb),
- *   warn (amber/AlertTriangle), danger (red/AlertOctagon).
+ * Renders via the DS Callout component. Four variants:
+ *   info (pink), tip (seafoam/Lightbulb), warn (amber/AlertTriangle),
+ *   danger (red/AlertOctagon).
  *
  * Body uses summaryPortableText (inline links, bold, italic — no headings,
  * no lists, no images). Upgraded from plain text in EPIC-0173.
  *
  * EPIC-0164: Callout Section Type
+ * SUG-192: 'default' variant removed — it was CSS-identical to 'info'.
  */
 export default defineType({
   name: 'calloutSection',
@@ -26,7 +27,6 @@ export default defineType({
       type: 'string',
       options: {
         list: [
-          {title: 'Default (pink)', value: 'default'},
           {title: 'Info', value: 'info'},
           {title: 'Tip', value: 'tip'},
           {title: 'Warning', value: 'warn'},
@@ -34,7 +34,7 @@ export default defineType({
         ],
         layout: 'radio',
       },
-      initialValue: 'default',
+      initialValue: 'info',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -68,7 +68,6 @@ export default defineType({
     },
     prepare({title, variant, body}) {
       const VARIANT_LABELS: Record<string, string> = {
-        default: 'Default',
         info: 'Info',
         tip: 'Tip',
         warn: 'Warning',
@@ -79,7 +78,7 @@ export default defineType({
       const previewText = block?.children?.[0]?.text ?? ''
       return {
         title: title || 'Callout',
-        subtitle: `Callout · ${VARIANT_LABELS[variant] ?? variant ?? 'Default'}${previewText ? ` — ${previewText.slice(0, 60)}` : ''}`,
+        subtitle: `Callout · ${VARIANT_LABELS[variant] ?? variant ?? 'Info'}${previewText ? ` — ${previewText.slice(0, 60)}` : ''}`,
       }
     },
   },
