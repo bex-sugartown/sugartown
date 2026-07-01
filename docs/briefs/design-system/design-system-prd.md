@@ -8,6 +8,7 @@
 | **Owner** | Product (Bex Head) |
 | **Primary Repo** | `sugartown` (pnpm monorepo) |
 | **Scope** | Design System (Portable, CMS-Agnostic) |
+| **Project ID** | PROJ-003 (Pink Moon Design System) |
 | **Supersedes** | PRD v2.0 (Sanity Claus) |
 | **Last Reviewed** | 2026-04-08 |
 

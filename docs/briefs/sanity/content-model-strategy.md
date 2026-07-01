@@ -1,5 +1,7 @@
-# Product Requirements Document (PRD)
+# Sugartown Content Model Strategy — Product Requirements Document
 ## Sugartown Sanity CMS — V1 Strategy
+
+**Project ID:** PROJ-001 (Sugartown CMS)
 
 ---
 

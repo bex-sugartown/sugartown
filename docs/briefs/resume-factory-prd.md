@@ -1,5 +1,7 @@
-# Product Requirements Document (PRD)
+# The Resume Factory — Product Requirements Document
 ## Sugartown Resume Factory v3.0 — Sanity + React Migration
+
+**Project ID:** PROJ-002 (The Resume Factory)
 
 ---
 

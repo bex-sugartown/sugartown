@@ -3,6 +3,7 @@
 **Status:** In Review
 **Author:** Bex Head
 **Domain:** CMS/Headless
+**Project ID:** PROJ-001 (Sugartown CMS)
 **Last updated:** 2026-05-09
 **Related epics:** All shipped SUG-* epics through v0.23.17
 **Supersedes:** `docs/briefs/sanity/content-model-strategy.md`, `docs/briefs/sanity/studio-setup.md` (both remain as historical context; this document is the consolidated canonical reference)
