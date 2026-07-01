@@ -36,6 +36,7 @@ Mini-releases accumulate as PATCH versions. A **full release** (run separately v
 ## Invariants
 
 - Working tree must be clean before starting. If it is not, stop and tell the human to commit or stash first.
+- **Must run on `main` (or an equivalent already-merged trunk), never on an unmerged feature branch.** `package.json`'s version is a shared counter — a branch computes "next version" from a disconnected view of it. If the current branch is not `main`, stop and tell the human to merge first. Two branches each mini-releasing pre-merge is how version numbers collide or silently mis-resolve at merge time.
 - One mini-release per epic. Do not bundle multiple epics into a single patch.
 - Nothing is written to disk until the human says "Write it".
 - Nothing is committed until the human says "Commit it".
