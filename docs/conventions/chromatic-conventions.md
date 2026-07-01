@@ -148,6 +148,7 @@ icon: {
 | `packages/design-system/src/components/FilterBar/FilterBar.stories.tsx` | 5 | 2 | ✅ Done — SUG-192 |
 | `apps/web/src/design-system/components/accordion/Accordion.stories.tsx` | 5 | 2 | ✅ Done — SUG-192 |
 | `apps/web/src/components/PageSections.stories.tsx` | 11 | 9 | ✅ Done — SUG-192 (one story per section *type*, not per variant — see note below) |
+| **Total (16 files, SUG-191 + SUG-192)** | **142** | **51** | **−91 stories (−64.1%)** |
 
 **PageSections is the one file that legitimately sits above 3.** It's a section-builder registry, not a single component with visual variants — each story documents a distinct section *type* (Hero, Text, CTA, Callout, Accordion, StatCard, Mermaid, CardBuilder), so one story per type plus one combined `Snapshot (Chromatic)` is the correct shape, not a violation of the rule above. Don't flag it in a future audit pass.
 
