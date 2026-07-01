@@ -3,6 +3,30 @@
 
 ---
 
+## ✅ CLOSED 2026-07-01 — shipped for what shipped; remainder → SUG-204
+
+This epic is **closed for the phases that shipped**. The 8 deferred phases + Contributing
+sub-task were carried into a continuation epic: **[SUG-204](https://linear.app/sugartown/issue/SUG-204/ds-usage-docs-deferred-phases-sug-152-continuation)**
+(`docs/backlog/SUG-204-ds-usage-docs-deferred-phases.md`).
+
+**Shipped & released (this epic):**
+- Phase 1 — Section Spacing Contract (`SectionSpacing.stories.tsx`) — v0.26.12
+- Phase 2 — EntityDetailPage folio, Format A (`EntityDetailPageDocs.stories.tsx`) — v0.26.12
+- Phase 6b — MDX infrastructure (addon-docs glob) — **shipped** (the ⏸ marker on Phase 6b below is stale)
+- Foundations/Layout reorg (Phase 7 prep — `Components/Layout/` → `Foundations/Layout/`)
+- Releases: v0.26.9 (audit) and v0.26.12 (usage docs)
+
+**Deferred → SUG-204** (blocked on the doc-framework strategic review; Phase 3 also on Chip API):
+Phases 3, 4, 5, 6, 7, 8, 9, 10 + Contributing category-taxonomy sub-task. Full topic briefs,
+CSS surfaces, token lists, and SUG-156 live references for each remain below — SUG-204 reuses them
+at activation.
+
+> Note on stale in-body markers: Phase 6b reads "⏸ DEFERRED" but actually shipped; Phases 3 and 4
+> shipped skeletons that were then deferred/reverted (`ChipDocs.tsx` Overview kept; `CardComposition.tsx`
+> deleted). The closure summary above is authoritative over the per-phase markers.
+
+---
+
 ## Model & Mode
 
 `/model sonnet` — pure content/editorial epic. Prose authoring and Storybook TSX only. No architecture decisions.
