@@ -11,7 +11,7 @@ const withRouter = (Story: React.ComponentType) => (
 );
 
 const meta: Meta<typeof CardBuilderSection> = {
-  title: 'Patterns/CardBuilderSection',
+  title: 'Patterns/CardBuilder',
   component: CardBuilderSection,
   tags: ['autodocs'],
   decorators: [withRouter],

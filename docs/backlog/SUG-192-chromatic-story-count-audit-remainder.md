@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-192 — Chromatic story count audit — Phase 4 remainder
 **Linear Issue:** [SUG-192](https://linear.app/sugartown/issue/SUG-192/chromatic-story-count-audit-phase-4-remainder-callout-tile-scorering)
-**Status:** In Progress (Callout done, StatCard docs/footer done, ScoreRing done, FilterBar done, Accordion done, 1 component remaining)
+**Status:** Done — all six components addressed
 **Priority:** 🟡 Medium
 **Follows from:** SUG-191
 ---
@@ -23,7 +23,7 @@ SUG-191 established the convention (one story per named visual variant, Controls
 | ScoreRing | `packages/design-system/src/components/ScoreRing/ScoreRing.stories.tsx` (the row's original path, `apps/web/src/design-system/components/score-ring/`, has no `.stories.tsx` — that dir is the web adapter, undocumented) | 7 | 2 | ✅ Done — `good` (score 96) promoted to meta-level `args` as the `Default` story; removed Warn/Poor/BoundaryEdge/LargeSize/NoLabel (all covered by the `score`/`category` Controls); kept `All three categories` |
 | FilterBar | `packages/design-system/src/components/FilterBar/FilterBar.stories.tsx` (the row's original path, `apps/web/src/design-system/components/FilterBar/`, has no `.stories.tsx` — that's the web adapter) | 5 | 2 | ✅ Done — argTypes now document the real `FilterModel`/`FilterOption` shape and note every facet is multi-select (checkboxes); Default now starts with two Category options checked to demonstrate it; removed WithActiveFilters/EmptyModel/SingleFacet, kept Default + In Drawer |
 | Accordion | `apps/web/src/design-system/components/accordion/Accordion.stories.tsx` | 5 | 2 | ✅ Done — removed Default/First Open, Numbered/First Open, Snapshot; kept Default + Numbered (the two named visual variants — open/closed state is a Controls concern via `defaultOpen`) |
-| PageSections | `apps/web/src/components/PageSections.stories.tsx` | 11 | TBD — review for docs/snapshot consolidation | ⏳ Pending |
+| PageSections | `apps/web/src/components/PageSections.stories.tsx` | 11 | 9 | ✅ Done — removed Text Section Content Only, both Cited Block stories, CWV field metrics, and Multiple Sections; added Hero Section (mirrors Regions/Hero Default, spot 1), rewrote CTA Section to the real post-GROQ shape (heading/description/buttons[], 2-button group), added Card Builder Section (mirrors Patterns/CardBuilder's Grid · Full Options), added a combined Snapshot (Chromatic) with one of each. Renamed `Patterns/CardBuilderSection` → `Patterns/CardBuilder` |
 
 Each file needs a per-story decision. Do not blanket-delete — check whether each story's visual state is covered by an existing story's Controls before removing.
 
