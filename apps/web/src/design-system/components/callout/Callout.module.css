@@ -62,6 +62,9 @@
   line-height: 1.6;
   color: var(--st-color-text-default);
   align-self: stretch; /* match .labelCol — else body falls short of row height when label wraps taller, exposing parent bg below the text */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centers short (1-2 line) content in the stretched box; has no visible effect once content fills the row (3+ lines), which naturally lines up flush with the label/number column */
 }
 
 .body p { margin: 0; }
