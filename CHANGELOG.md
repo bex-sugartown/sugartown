@@ -20,6 +20,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - glossaryTermRef: cardBuilder Portable Text — new `glossaryTermRef` annotation on `cardBuilderItem` (studio schema) rendered in `CardBuilderSection` (web) with the `queries.js` projection, enabling inline glossary links in card bodies
 - SUG-201: Services page card copy refresh (cards 1, 2, 4, 5) + inline glossary linking on card 4
 - SUG-195: Design-reviewer VQA subagent — read-only `.claude/agents/design-reviewer.md` (haiku) producing Match/Drift/Missing tables in a fresh context, plus `docs/conventions/vqa-workflow.md`
+- SUG-198: Gap analysis — 6 layers of effective AI governance. Closed Layer 6 gaps (standing incident log, data-handling/GDPR note); added `--st-posture-{strong,partial,inherited,na}` semantic tokens with dark-pink-moon overrides; surfaced §05 AI Governance Coverage block on `/platform/governance`
 
 ---
 

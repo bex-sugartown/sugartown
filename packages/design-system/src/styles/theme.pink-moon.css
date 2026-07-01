@@ -234,6 +234,12 @@
   --st-color-canvas:            var(--st-color-midnight-800);     /* #141830 — elevated dark field */
   --st-color-rule-accent:       rgba(255, 255, 255, 0.15);        /* soft light divider on dark */
 
+  /* Posture signal colours (SUG-198) — brighter variants for legibility on dark midnight */
+  --st-posture-strong:          var(--st-color-seafoam-400);      /* #48d4b8 — vs light seafoam-700 */
+  --st-posture-partial:         var(--st-color-amber-450);        /* #f0b429 — vs light amber-650 */
+  --st-posture-inherited:       var(--st-color-sky-400);          /* #7ec8f5 — vs light blue-500 (too dark on midnight) */
+  --st-posture-na:              var(--st-color-softgrey-300);     /* #bcc5d1 — vs light softgrey-400 */
+
   /* Effects */
   --st-effect-backdrop-blur-md: 14px;
   --st-effect-accent-glow:      rgba(255, 36, 125, 0.18);

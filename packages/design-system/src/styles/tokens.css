@@ -560,6 +560,10 @@
   --st-segmented-border: var(--st-color-border-subtle);
   --st-pri-med: var(--st-color-amber-450);
   --st-pri-low: var(--st-color-softgrey-400);
+  --st-posture-strong: var(--st-color-seafoam-700);
+  --st-posture-partial: var(--st-color-amber-650);
+  --st-posture-inherited: var(--st-color-blue-500);
+  --st-posture-na: var(--st-color-softgrey-400);
   --st-color-button-rule-primary: var(--st-color-pink-700);
   --st-color-button-rule-secondary: var(--st-color-lime-500);
   --st-color-button-rule-tertiary: var(--st-color-neutral-300);
