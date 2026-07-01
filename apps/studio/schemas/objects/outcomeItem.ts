@@ -12,7 +12,7 @@ import {defineType, defineField} from 'sanity'
  *   metric      → StatCard label
  *   valueAfter  → StatCard value (large display)
  *   valueBefore → StatCard sub ("Was:" label — SUG-96)
- *   evidenceType → StatCard chip
+ *   evidenceType → StatCard foot (footer, bottom-aligned — last field, SUG-192)
  *
  * SUG-94: extracted from inline outcome object on caseStudy
  */
