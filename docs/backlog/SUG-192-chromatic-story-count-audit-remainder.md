@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-192 — Chromatic story count audit — Phase 4 remainder
 **Linear Issue:** [SUG-192](https://linear.app/sugartown/issue/SUG-192/chromatic-story-count-audit-phase-4-remainder-callout-tile-scorering)
-**Status:** In Progress (Callout done, 5 components remaining)
+**Status:** In Progress (Callout done, StatCard docs/footer done, 4 components remaining)
 **Priority:** 🟡 Medium
 **Follows from:** SUG-191
 ---
@@ -19,7 +19,7 @@ SUG-191 established the convention (one story per named visual variant, Controls
 | Component | File | Current count | Target | Status |
 |-----------|------|--------------|--------|--------|
 | Callout | `apps/web/src/design-system/components/callout/Callout.stories.tsx` | 7 | 3 | ✅ Done — merged redundant `default`/`info` variants (CSS-identical), migrated 9 live Sanity docs default→info, removed `default` from `calloutSection` schema |
-| Tile (StatCard) | `apps/web/src/design-system/components/tile/Tile.stories.tsx` | 7 | 3 | ⏳ Pending |
+| ~~Tile (StatCard)~~ → StatCard | `apps/web/src/components/StatCard.stories.jsx` (the live pattern — `apps/web/src/design-system/components/tile/Tile.stories.tsx` is the deprecated `Legacy/Tile` component, out of scope, still 7 stories, see SUG-149) | 4 | 1 | ✅ Done — added `tags:['autodocs']` + argTypes/options for every prop, `evidenceType` (last field on `outcomeItem`) now renders via StatCard's `foot` (bottom-aligned footer, matches Card/ContentCard) instead of `chip`, consolidated Minimal Value/With Trend/Loading into one Default story with all fields populated |
 | ScoreRing | `apps/web/src/design-system/components/score-ring/ScoreRing.stories.tsx` | 7 | 3 | ⏳ Pending |
 | FilterBar | `apps/web/src/design-system/components/filter-bar/FilterBar.stories.tsx` | 5 | 3 | ⏳ Pending |
 | Accordion | `apps/web/src/design-system/components/accordion/Accordion.stories.tsx` | 5 | 3 | ⏳ Pending |
