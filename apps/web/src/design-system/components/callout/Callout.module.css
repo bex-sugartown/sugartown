@@ -28,6 +28,7 @@
   padding: 1rem 1rem 1rem 1.25rem;
   display: flex;
   flex-direction: column;
+  justify-content: center; /* matches .body — else it stays flex-start while body centers, misaligning short 1-line title vs 1-line content */
   gap: 0.3rem;
   align-self: stretch;
 }
