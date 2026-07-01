@@ -128,28 +128,36 @@ icon: {
 }
 ```
 
-**Story count audit** (SUG-191 Phase 4 — updated 2026-06-22):
+**Story count audit** (SUG-191 Phase 4, completed by SUG-192 — closed 2026-07-01):
 
 | File | Before | Now | Status |
 |---|---|---|---|
-| `Chip.stories.tsx` | 11 | 5 | ✅ Done |
-| `Media.stories.tsx` | 11 | 4 | ✅ Done |
-| `Grid.stories.tsx` | 10 | 3 | ✅ Done |
-| `DescriptionList.stories.tsx` | 9 | 2 | ✅ Done |
-| `CodeBlock.stories.tsx` | 13 | 3 | ✅ Done (prior session) |
-| `Button.stories.tsx` | 12 | 4 | ✅ Done (prior session) |
-| `Avatar.stories.tsx` | 11 | 4 | ✅ Done (prior session) |
-| `Hero.stories.tsx` | 9 | 3 | ✅ Done |
-| `PageSidebar.stories.tsx` | 9 | 2 | ✅ Done |
-| `SidebarNav.stories.tsx` | 8 | 2 | ✅ Done |
-| `Callout.stories.tsx` | 11 | 3 | ✅ Done (SUG-192) |
-| `Tile.stories.tsx` (StatCard) | — | 7 | ⏳ Pending — target 3 |
-| `ScoreRing.stories.tsx` | — | 7 | ⏳ Pending — target 3 |
-| `FilterBar.stories.tsx` | — | 5 | ⏳ Pending — target 3 |
-| `Accordion.stories.tsx` | — | 5 | ⏳ Pending — target 3 |
-| `PageSections.stories.tsx` | 10 | 11 | ⏳ Pending — review for docs/snapshot consolidation |
+| `Chip.stories.tsx` | 11 | 5 | ✅ Done — SUG-191 |
+| `Media.stories.tsx` | 11 | 4 | ✅ Done — SUG-191 |
+| `Grid.stories.tsx` | 10 | 3 | ✅ Done — SUG-191 |
+| `DescriptionList.stories.tsx` | 9 | 2 | ✅ Done — SUG-191 |
+| `CodeBlock.stories.tsx` | 13 | 3 | ✅ Done — SUG-191 |
+| `Button.stories.tsx` | 12 | 4 | ✅ Done — SUG-191 |
+| `Avatar.stories.tsx` | 11 | 4 | ✅ Done — SUG-191 |
+| `Hero.stories.tsx` | 9 | 3 | ✅ Done — SUG-191 |
+| `PageSidebar.stories.tsx` | 9 | 2 | ✅ Done — SUG-191 |
+| `SidebarNav.stories.tsx` | 8 | 2 | ✅ Done — SUG-191 |
+| `apps/web/src/design-system/components/callout/Callout.stories.tsx` | 7 | 3 | ✅ Done — SUG-192 |
+| `apps/web/src/components/StatCard.stories.jsx` | 4 | 1 | ✅ Done — SUG-192 |
+| `packages/design-system/src/components/ScoreRing/ScoreRing.stories.tsx` | 7 | 2 | ✅ Done — SUG-192 |
+| `packages/design-system/src/components/FilterBar/FilterBar.stories.tsx` | 5 | 2 | ✅ Done — SUG-192 |
+| `apps/web/src/design-system/components/accordion/Accordion.stories.tsx` | 5 | 2 | ✅ Done — SUG-192 |
+| `apps/web/src/components/PageSections.stories.tsx` | 11 | 9 | ✅ Done — SUG-192 (one story per section *type*, not per variant — see note below) |
 
-Each remaining file needs a per-story decision, not a blanket reduction. Pending items continue in the next SUG-191 session.
+**PageSections is the one file that legitimately sits above 3.** It's a section-builder registry, not a single component with visual variants — each story documents a distinct section *type* (Hero, Text, CTA, Callout, Accordion, StatCard, Mermaid, CardBuilder), so one story per type plus one combined `Snapshot (Chromatic)` is the correct shape, not a violation of the rule above. Don't flag it in a future audit pass.
+
+**Naming trap found during SUG-192** — three of the six original audit rows named the wrong file, because a differently-named or deprecated component shared the visual name:
+- "Tile (StatCard)" → the *actual* live pattern is `apps/web/src/components/StatCard.stories.jsx`. `apps/web/src/design-system/components/tile/Tile.stories.tsx` is a **deprecated, unrelated** component (`Legacy/Tile`, see SUG-149) — still at 7 stories, intentionally out of scope, not a lingering violation.
+- "ScoreRing" and "FilterBar" — both rows originally pointed at `apps/web/src/design-system/components/{score-ring,FilterBar}/`, which have no `.stories.tsx` at all (that's the web-adapter directory). The real story files live in `packages/design-system/src/components/`.
+
+Before auditing a component's story count, confirm the path actually resolves and renders in Storybook — don't trust a prior audit's file reference without checking.
+
+Chromatic VRT was not re-run to confirm these reductions produce clean diffs (credits constraint at SUG-192 close-out) — every change was verified manually in Storybook instead. See `docs/shipped/SUG-192-chromatic-story-count-audit-remainder.md` for the full before/after breakdown and the pending-Chromatic note. Full narrative for both epics: `docs/shipped/SUG-191-chromatic-snapshot-budget-optimisation.md`, `docs/shipped/SUG-192-chromatic-story-count-audit-remainder.md`.
 
 ---
 
