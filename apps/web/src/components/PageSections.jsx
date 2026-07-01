@@ -872,7 +872,7 @@ function StatCardSectionRenderer({ section }) {
             value={item.valueAfter}
             sub={item.valueBefore || undefined}
             body={item.impactStatement || undefined}
-            chip={item.evidenceType || undefined}
+            foot={item.evidenceType || undefined}
           />
         ))}
       </Grid>
