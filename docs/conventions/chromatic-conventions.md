@@ -142,7 +142,7 @@ icon: {
 | `Hero.stories.tsx` | 9 | 3 | ✅ Done |
 | `PageSidebar.stories.tsx` | 9 | 2 | ✅ Done |
 | `SidebarNav.stories.tsx` | 8 | 2 | ✅ Done |
-| `Callout.stories.tsx` | 11 | 7 | ⏳ Pending — target 3 |
+| `Callout.stories.tsx` | 11 | 3 | ✅ Done (SUG-192) |
 | `Tile.stories.tsx` (StatCard) | — | 7 | ⏳ Pending — target 3 |
 | `ScoreRing.stories.tsx` | — | 7 | ⏳ Pending — target 3 |
 | `FilterBar.stories.tsx` | — | 5 | ⏳ Pending — target 3 |

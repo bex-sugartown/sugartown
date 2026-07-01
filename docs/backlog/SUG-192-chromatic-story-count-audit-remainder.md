@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-192 — Chromatic story count audit — Phase 4 remainder
 **Linear Issue:** [SUG-192](https://linear.app/sugartown/issue/SUG-192/chromatic-story-count-audit-phase-4-remainder-callout-tile-scorering)
-**Status:** Backlog
+**Status:** In Progress (Callout done, 5 components remaining)
 **Priority:** 🟡 Medium
 **Follows from:** SUG-191
 ---
@@ -16,14 +16,14 @@ SUG-191 established the convention (one story per named visual variant, Controls
 
 ## Scope
 
-| Component | File | Current count | Target |
-|-----------|------|--------------|--------|
-| Callout | `apps/web/src/design-system/components/callout/Callout.stories.tsx` | 7 | 3 |
-| Tile (StatCard) | `apps/web/src/design-system/components/tile/Tile.stories.tsx` | 7 | 3 |
-| ScoreRing | `apps/web/src/design-system/components/score-ring/ScoreRing.stories.tsx` | 7 | 3 |
-| FilterBar | `apps/web/src/design-system/components/filter-bar/FilterBar.stories.tsx` | 5 | 3 |
-| Accordion | `apps/web/src/design-system/components/accordion/Accordion.stories.tsx` | 5 | 3 |
-| PageSections | `apps/web/src/components/PageSections.stories.tsx` | 11 | TBD — review for docs/snapshot consolidation |
+| Component | File | Current count | Target | Status |
+|-----------|------|--------------|--------|--------|
+| Callout | `apps/web/src/design-system/components/callout/Callout.stories.tsx` | 7 | 3 | ✅ Done — merged redundant `default`/`info` variants (CSS-identical), migrated 9 live Sanity docs default→info, removed `default` from `calloutSection` schema |
+| Tile (StatCard) | `apps/web/src/design-system/components/tile/Tile.stories.tsx` | 7 | 3 | ⏳ Pending |
+| ScoreRing | `apps/web/src/design-system/components/score-ring/ScoreRing.stories.tsx` | 7 | 3 | ⏳ Pending |
+| FilterBar | `apps/web/src/design-system/components/filter-bar/FilterBar.stories.tsx` | 5 | 3 | ⏳ Pending |
+| Accordion | `apps/web/src/design-system/components/accordion/Accordion.stories.tsx` | 5 | 3 | ⏳ Pending |
+| PageSections | `apps/web/src/components/PageSections.stories.tsx` | 11 | TBD — review for docs/snapshot consolidation | ⏳ Pending |
 
 Each file needs a per-story decision. Do not blanket-delete — check whether each story's visual state is covered by an existing story's Controls before removing.
 

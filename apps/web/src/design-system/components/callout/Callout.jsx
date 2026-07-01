@@ -4,18 +4,19 @@
  * Two-column grid: solid label column (--st-card-label-bg) + body column.
  * 2px accent top border, 1px rule-accent box border. No radius.
  *
- * Variants: default (ink accent light / pink dark), info (pink), tip (violet),
- *           warn (orange), danger (maroon), banner (single-row strip)
+ * Variants: info (pink, default), tip (violet), warn (orange), danger (maroon),
+ *           banner (single-row strip)
  *
  * banner: flat flex row — inline label + body, full-width, no label column.
  * Used for page-level status messages (role="status").
  *
+ * SUG-192: 'default' removed — it was CSS-identical to 'info'.
  * Mirrors: packages/design-system/src/components/Callout/Callout.tsx
  */
 import styles from './Callout.module.css'
 
 export default function Callout({
-  variant = 'default',
+  variant = 'info',
   number,
   title,
   content,

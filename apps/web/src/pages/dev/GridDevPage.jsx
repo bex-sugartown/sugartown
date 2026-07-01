@@ -150,8 +150,7 @@ export default function GridDevPage() {
 
         <Section id="one-col-callout" label="1-col Grid + Callout (open gap)">
           <Grid spacing="lg" columns={1}>
-            <Callout title="Default callout" variant="default">Body text goes here. Use Grid as the outer container when callouts stack with other section types.</Callout>
-            <Callout title="Info callout" variant="info">Info variant — pink accent.</Callout>
+            <Callout title="Info callout" variant="info">Body text goes here. Use Grid as the outer container when callouts stack with other section types.</Callout>
             <Callout title="Tip callout" variant="tip">Tip variant — violet accent.</Callout>
           </Grid>
         </Section>
