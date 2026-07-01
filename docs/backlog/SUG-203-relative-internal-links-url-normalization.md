@@ -20,9 +20,9 @@ After this epic, an absolute URL whose host is the site's own domain renders as 
 
 ## Scope
 
-- [ ] Same-origin normalization in `apps/web/src/lib/linkUtils.js` — a helper that, given a URL whose host is `sugartown.io`, `www.sugartown.io`, or the current `window.location.host`, returns the relative `pathname + search + hash`; `isExternalUrl` / `getLinkProps` treat such URLs as internal (React Router `to`). Prerender-safe (guard `typeof window`). Layer: app utility.
-- [ ] Repoint the 4 Platform nav children in the `navigation` doc (`89b0c0bc-...`) from absolute `externalUrl` to relative paths (`/platform/governance`, `/platform/monorepo`, `/platform/cms`, `/platform/design-system`). Layer: Sanity content (structural). Patch lands as a draft; human publishes.
-- [ ] Audit for any other absolute same-origin self-links (footer, CTAs, body links, nav top-level items) and confirm they normalize correctly or list any that need data fixes. Layer: validation.
+- [x] Same-origin normalization in `apps/web/src/lib/linkUtils.js` — `toInternalPath()` converts an absolute URL on our own host to a relative path; applied in `getLinkProps` and in `resolveNavUrl.resolveNavLink` (nav layer). `isExternalUrl` and the mirrored DS Button left untouched to avoid regression/mirror churn. Prerender-safe. Shipped `79f67a19`.
+- [x] ~~Repoint the 4 Platform nav children to relative paths.~~ **Decided 2026-06-30: leave data as-is.** `childNavItem.externalUrl` validation is `Rule.uri({scheme:[http,https,mailto,tel]})` with no `allowRelative`, so a relative value would fail validation. Cleaning the stored data would need an `allowRelative` schema change + deploy — deferred as out of scope. The code normalization renders these relative everywhere, so no functional gap remains.
+- [x] Audit for other absolute same-origin self-links. **Finding:** the 4 header Platform dropdown links are fixed by the code fix; the only other absolute self-link is a footer/drawer social icon pointing at `https://sugartown.io` — an intentionally-external social link, left as-is. No other data fixes needed.
 
 ## Acceptance criteria
 
