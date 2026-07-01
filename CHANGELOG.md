@@ -15,6 +15,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > Accumulates since v0.28.0.
 
 - SUG-196: AI tooling documentation structure — `docs/ai/` (agentic-caucus methodology, failure-modes, skills index, README), `docs/workflows/` (3 prompt files moved, all references updated), `Title — Subtitle` heading exception added to em dash rule
+- SUG-198: Gap analysis — 6 layers of effective AI governance. Closed Layer 6 gaps (standing incident log, data-handling/GDPR note); added `--st-posture-{strong,partial,inherited,na}` semantic tokens with dark-pink-moon overrides; surfaced §05 AI Governance Coverage block on `/platform/governance`
 
 ---
 
