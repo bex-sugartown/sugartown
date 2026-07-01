@@ -1,6 +1,6 @@
 # Sugartown — Backlog & Priority Stack
 
-> Updated 2026-07-01 · Added SUG-204 (DS Usage Docs — deferred phases, SUG-152 continuation, ⚪ Later). Closing SUG-152 for shipped phases (1, 2, 6b + Layout reorg). Prior 2026-06-26: SUG-199 shipped ✅ (4 AI-governance glossary terms live via /glossy). Added SUG-201 (services card copy refresh + glossary linking, 🟢 Next) + SUG-200 (glossary vocabulary, ⚪ Later). Enabled `glossaryTermRef` in cardBuilder PT (schema + serializer). Prior 2026-06-25: v0.28.1 — SUG-196 AI tooling docs structure; added SUG-194/195/197/198.
+> Updated 2026-07-01 · v0.28.2 released — SUG-192 Chromatic story-count audit closed (39→19 stories across Callout/StatCard/ScoreRing/FilterBar/Accordion/PageSections), bundled with catch-up mini-release for SUG-199 + SUG-201 (both shipped 2026-06-26 without their own version bump, per their single-close-out merge strategy). Chromatic VRT deferred (credits) — pending. Prior 2026-07-01: Added SUG-204 (DS Usage Docs — deferred phases, SUG-152 continuation, ⚪ Later). Closing SUG-152 for shipped phases (1, 2, 6b + Layout reorg). Prior 2026-06-26: SUG-199 shipped ✅ (4 AI-governance glossary terms live via /glossy). Added SUG-201 (services card copy refresh + glossary linking) + SUG-200 (glossary vocabulary, ⚪ Later). Enabled `glossaryTermRef` in cardBuilder PT (schema + serializer). Prior 2026-06-25: v0.28.1 — SUG-196 AI tooling docs structure; added SUG-194/195/197/198.
 >
 > **Linear is the single source of truth for prioritization.** This file is a convenience view.
 > Epic docs use Linear issue IDs (SUG-{N}) as filenames. Backlog: `docs/backlog/SUG-{N}-*.md`. Shipped: `docs/shipped/SUG-{N}-*.md`. Linear has tracking/status; local file has the full spec.
@@ -11,7 +11,7 @@
 
 ---
 
-> **⚑ Current focus:** v0.28.1 released ✅ 2026-06-24. SUG-196 AI tooling docs structure shipped (docs/ai/ + docs/workflows/). Next: SUG-192 Chromatic story count remainder or SUG-160 TechTimeline article.
+> **⚑ Current focus:** v0.28.2 released ✅ 2026-07-01. SUG-192 Chromatic story-count audit closed (Chromatic VRT still pending — credits constraint); SUG-199 + SUG-201 catch-up mini-release bundled in. Next: SUG-160 TechTimeline article, or SUG-198 governance gap analysis.
 
 ---
 
@@ -20,7 +20,7 @@
 | # | Item | Tags | Priority |
 |---|------|------|----------|
 | 0 | ~~**[SUG-191](https://linear.app/sugartown/issue/SUG-191/chromatic-snapshot-budget-optimisation-turbosnap-skip-gate-story) · Chromatic snapshot budget optimisation** — TurboSnap (`--only-changed`), CSS-only skip gate, `disableSnapshot` on docs stories, three-story-per-component convention. Shipped v0.27.7. Epic: `docs/shipped/SUG-191-chromatic-snapshot-budget-optimisation.md`.~~ | `Tooling` `Infrastructure` | ✅ Shipped |
-| 0 | **[SUG-192](https://linear.app/sugartown/issue/SUG-192/chromatic-story-count-audit-phase-4-remainder-callout-tile-scorering) · Chromatic story count audit — Phase 4 remainder** — Callout (7→3), Tile (7→3), ScoreRing (7→3), FilterBar (5→3), Accordion (5→3), PageSections (TBD). Follow-on from SUG-191. Epic: `docs/backlog/SUG-192-chromatic-story-count-audit-remainder.md`. | `Tooling` `Storybook` | 🟢 Next |
+| 0 | ~~**[SUG-192](https://linear.app/sugartown/issue/SUG-192/chromatic-story-count-audit-phase-4-remainder-callout-tile-scorering) · Chromatic story count audit — Phase 4 remainder** — 39→19 stories across Callout (7→3), StatCard (4→1), ScoreRing (7→2), FilterBar (5→2), Accordion (5→2), PageSections (11→9). Follow-on from SUG-191. Shipped v0.28.2. Epic: `docs/shipped/SUG-192-chromatic-story-count-audit-remainder.md`.~~ | `Tooling` `Storybook` | ✅ Shipped |
 | 1 | ~~**[SUG-140](https://linear.app/sugartown/issue/SUG-140/knowledge-graph-dark-field) · Knowledge Graph — Dark Field** — midnight-800 canvas, lifted category/case colours, dark overlay chrome; 13 new --st-kg-* tokens. Shipped v0.25.16.~~ | `Design System` `Frontend` | ✅ Shipped |
 | 5 | ~~**[SUG-118](https://linear.app/sugartown/issue/SUG-118) · Platform Stats Page II — governance design refresh** — RoadmapTable DS component (sticky thead, white/gray bg, priority chips), LaneHeader pinned-state rewrite, SectionLabel geometric centering, shadow tokens. Shipped v0.23.30.~~ | `Design System` `Frontend` `UX` | ✅ Shipped |
 | 6 | ~~**[SUG-120](https://linear.app/sugartown/issue/SUG-120/grid-audit-converge-to-a-single-grid-andor-container-component) · Consolidate StatGrid + StatTileSection into Grid primitive** — StatGrid + SectionContainer deleted; all callsites migrated to `Grid spacing="0" accentTop`. Shipped v0.23.33.~~ | `Design System` `Infrastructure` | ✅ Shipped |
@@ -270,4 +270,4 @@ The site is repositioning from personal experiment/build log to consulting/contr
 
 ---
 
-*sugartown.io · docs/backlog/priority-stack · updated 2026-06-24 · v0.28.1 released · queue: SUG-192 / SUG-160 / SUG-187*
+*sugartown.io · docs/backlog/priority-stack · updated 2026-07-01 · v0.28.2 released · queue: SUG-160 / SUG-198 / SUG-187*
