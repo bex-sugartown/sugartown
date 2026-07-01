@@ -35,3 +35,22 @@ Each file needs a per-story decision. Do not blanket-delete — check whether ea
 - States (disabled, loading, error), sizes, edge cases → Controls panel
 - Single `Snapshot (Chromatic)` story for VRT
 - Dark mode → theme toolbar, not a story export
+
+## Close-out summary
+
+Story counts are the real counts measured on the actual live component files (see the path corrections in the Scope table above — three of the six original rows pointed at the wrong file: a deprecated component, or a web-adapter directory with no stories file at all).
+
+| Component | Before | After |
+|-----------|-------:|------:|
+| Callout | 7 | 3 |
+| StatCard | 4 | 1 |
+| ScoreRing | 7 | 2 |
+| FilterBar | 5 | 2 |
+| Accordion | 5 | 2 |
+| PageSections | 11 | 9 |
+| **Total** | **39** | **19** |
+
+39 → 19 stories (−51%). None of the six components exceed the 3-story cap anymore except PageSections, which is a section-builder registry (one story per section *type*, not per variant) — 9 stories for 8 distinct section types + 1 combined Snapshot is the correct shape for that file, not a violation of the convention.
+
+<!-- Chromatic: pending -->
+Chromatic VRT was not run for this epic (credits constraint at close-out time). Every story-level change was instead verified manually in Storybook (screenshots taken for each new/changed story across both themes where relevant — see session transcript). This is a real gap, not a formality: the actual pixel diffs from consolidating/renaming/removing stories have not been confirmed by Chromatic. Run it at the next opportunity and treat any diffs as expected (removed stories won't re-baseline; changed stories should show only the intended layout/content changes).
