@@ -10,7 +10,7 @@
 
 Pink Moon is no longer a theme variant. It is becoming the primary design system identity. Classic dark/light modes served as scaffolding — the system needed a stable baseline before it could develop a voice. It has one now.
 
-Final specs will be delivered as an **updated PRD** (`docs/briefs/design-system/design-system-prd.md`). The PRD update consolidates working documents, retires redundant docs, and absorbs the manifesto decisions.
+Final specs will be delivered as an **updated PRD** (`docs/briefs/design-system/PROJ-003-design-system-prd.md`). The PRD update consolidates working documents, retires redundant docs, and absorbs the manifesto decisions.
 
 ---
 
@@ -18,7 +18,7 @@ Final specs will be delivered as an **updated PRD** (`docs/briefs/design-system/
 
 | Document | Purpose |
 |----------|---------|
-| `pink-moon-manifesto.md` | Visual philosophy: sharp neutral + hot signal, academic interface, component direction, migration path. **Updated 2026-04-07 to reflect Mock B direction.** |
+| `PROJ-003-pink-moon-manifesto.md` | Visual philosophy: sharp neutral + hot signal, academic interface, component direction, migration path. **Updated 2026-04-07 to reflect Mock B direction.** |
 | `ai-slop-manifesto.md` | Design governance: earmarks of AI-generated slop, anti-slop tests, Sugartown audit (pass/fail zones) |
 | `pink-moon-mock-B-sharp-paper.html` | **Current direction.** Interactive mock: frosted hero panel over greyscale image, solid surfaces, zero radius, visible borders, Courier Prime mono, colophon footer, metadata card. Light/dark toggle. |
 | `pink-moon-mock-A-quiet-glass.html` | Alternative explored: neutral translucent surfaces, colour only at edges. Retained for reference. |
@@ -32,8 +32,8 @@ Final specs will be delivered as an **updated PRD** (`docs/briefs/design-system/
 
 | File | Lines | Tier | Role | Action |
 |------|-------|------|------|--------|
-| **`docs/briefs/design-system/design-system-prd.md`** | 543 | 1 — Canonical | Strategy: token architecture, theme governance, migration phases, component contracts | **UPDATE** — absorb manifesto decisions, Pink Moon as primary identity, revised component direction, new layout patterns |
-| **`docs/briefs/design-system/design-system-ruleset.md`** | 1170 | 4 — Split | Philosophy + tactical naming + AI agent guidelines + a11y checklist + pre-ship checklist | **SPLIT** — extract philosophy into PRD §1, extract AI agent rules into CLAUDE.md, extract a11y into PRD §accessibility. What remains (~400 lines): tactical naming/BEM guide as a standalone reference. |
+| **`docs/briefs/design-system/PROJ-003-design-system-prd.md`** | 543 | 1 — Canonical | Strategy: token architecture, theme governance, migration phases, component contracts | **UPDATE** — absorb manifesto decisions, Pink Moon as primary identity, revised component direction, new layout patterns |
+| **`docs/briefs/design-system/PROJ-003-design-system-ruleset.md`** | 1170 | 4 — Split | Philosophy + tactical naming + AI agent guidelines + a11y checklist + pre-ship checklist | **SPLIT** — extract philosophy into PRD §1, extract AI agent rules into CLAUDE.md, extract a11y into PRD §accessibility. What remains (~400 lines): tactical naming/BEM guide as a standalone reference. |
 | **`packages/design-system/src/styles/tokens.css`** | 546 | 1 — Canonical | Token definitions (Tier 1/2/3) | **KEEP** — living source of truth. Validated by `pnpm validate:tokens`. |
 | **`packages/design-system/src/components/COMPONENT_CONTRACTS.md`** | 382 | 2 → Retire | Chip, FilterBar, Card visual contracts | **RETIRE** — Chip and Card now have own README. Extract FilterBar into `FilterBar/README.md`, then archive this file to `docs/shipped/`. |
 | **`packages/design-system/VISUAL_AUDIT.md`** | 351 | 4 — Retire | Epic 7 drift analysis vs WordPress `style 260118.css` | **ARCHIVE** — drift it maps is against the old WordPress source. Components have been rebuilt since. Move to `docs/shipped/`. |

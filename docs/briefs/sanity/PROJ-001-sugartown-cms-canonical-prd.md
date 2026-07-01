@@ -6,7 +6,7 @@
 **Project ID:** PROJ-001 (Sugartown CMS)
 **Last updated:** 2026-05-09
 **Related epics:** All shipped SUG-* epics through v0.23.17
-**Supersedes:** `docs/briefs/sanity/content-model-strategy.md`, `docs/briefs/sanity/studio-setup.md` (both remain as historical context; this document is the consolidated canonical reference)
+**Supersedes:** `docs/briefs/sanity/PROJ-001-content-model-strategy-superseded.md`, `docs/briefs/sanity/PROJ-001-studio-setup.md` (both remain as historical context; this document is the consolidated canonical reference)
 
 ---
 
@@ -35,9 +35,9 @@ Sugartown.io migrated from WordPress to a headless Sanity + React stack. The con
 
 | Non-Goal | Why excluded |
 |----------|-------------|
-| Frontend component specifications | Covered by the Design System PRD (`docs/briefs/design-system/design-system-prd.md`) |
+| Frontend component specifications | Covered by the Design System PRD (`docs/briefs/design-system/PROJ-003-design-system-prd.md`) |
 | GROQ query implementations | Live in `apps/web/src/lib/queries.js`; this doc specifies the contract, not the code |
-| Deployment and CI pipeline | Covered by the monorepo PRD (`docs/briefs/monorepo-prd.md`) |
+| Deployment and CI pipeline | Covered by the monorepo PRD (`docs/briefs/PROJ-005-monorepo-prd.md`) |
 | Commerce/ecommerce integration | Not in scope for current platform |
 | Multi-tenant or multi-workspace configuration | Single project (`poalmzla`), single dataset (`production`) |
 
@@ -1500,7 +1500,7 @@ Issues observed in the current implementation that are not bugs but represent au
 
 - **v1.3 (2026-05-09):** Corrected `seoMetadata.autoGenerate` — derives from document's own `title`/`excerpt`/`body`, not siteSettings. Added resolution order table. siteSettings defaults are last-resort fallback only. Fixed US-011 AC to match.
 
-- **v1.4 (2026-05-09):** Added §5.5 Content Modeling Strategy — CMS-agnostic design, atomic content modelling with layer hierarchy table, schema-mirrors-component-contract mapping, references-over-copies decision rule, flexibility-vs-governance principle, validation-first patterns, migration compatibility. Sourced from and supersedes `content-model-strategy.md` §4–§5.
+- **v1.4 (2026-05-09):** Added §5.5 Content Modeling Strategy — CMS-agnostic design, atomic content modelling with layer hierarchy table, schema-mirrors-component-contract mapping, references-over-copies decision rule, flexibility-vs-governance principle, validation-first patterns, migration compatibility. Sourced from and supersedes `PROJ-001-content-model-strategy-superseded.md` §4–§5.
 
 - **v1.5 (2026-05-09):** Annotated §5.5 with omnichannel implications at CMS-agnostic design, references-over-copies, and flexibility-vs-governance principles. Added Multi-Surface Extension Pattern sub-section — architecture diagram, email extension group field table, GROQ projection examples by surface, shared-vs-surface-specific decision table, and extension group vs new document type decision rule.
 

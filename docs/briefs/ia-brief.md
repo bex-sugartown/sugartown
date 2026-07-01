@@ -227,7 +227,7 @@ The manifesto proposed 8 sections. Here's the reality check — what maps to exi
 
 **Route:** `/cv` (new page, redirect from `/cv-resume/`)
 
-**What exists:** WordPress site has `/cv-resume/` as an L1 nav item. No equivalent exists in the new site. The Resume Factory PRD (`docs/briefs/resume-factory-prd.md`) describes a separate multi-variant resume builder tool — that is an internal authoring system, not a public page.
+**What exists:** WordPress site has `/cv-resume/` as an L1 nav item. No equivalent exists in the new site. The Resume Factory PRD (`docs/briefs/PROJ-002-resume-factory-prd.md`) describes a separate multi-variant resume builder tool — that is an internal authoring system, not a public page.
 
 **What's needed:**
 - A single `/cv` page using the section builder — professional summary, experience timeline, skills, education

@@ -28,13 +28,13 @@ const ARTIFACTS = [
     eyebrow: 'PRD',
     title: 'Design System PRD',
     body: 'Pink Moon v3.0 — sharp surfaces, hot colour signal, EB Garamond headings, zero radius.',
-    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/briefs/design-system/design-system-prd.md',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/briefs/design-system/PROJ-003-design-system-prd.md',
   },
   {
     eyebrow: 'Brand',
     title: 'Pink Moon Manifesto',
     body: 'Visual direction, typographic voice, and colour philosophy for the Ledger Tradition aesthetic.',
-    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/briefs/design-system/pink-moon-manifesto.md',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/briefs/design-system/PROJ-003-pink-moon-manifesto.md',
   },
   {
     eyebrow: 'Conventions',

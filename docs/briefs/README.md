@@ -8,15 +8,19 @@ A brief is a **prescriptive** document that constrains future work. It answers "
 
 Not every brief needs a matching entry in the site's `project` taxonomy (`/projects`), and not every project needs a brief. See **Project ID litmus test** below before creating either one.
 
+## Naming convention
+
+Files that map to a live `project` doc are prefixed with that project's ID: `PROJ-{NNN}-{descriptive-name}.md`. This keeps one project's multiple PRDs (e.g. PROJ-001 has a canonical PRD plus two superseded/companion docs) visually grouped by filename without needing per-project subfolders. Briefs with no project mapping (audits, ADRs, content briefs, umbrella strategy docs) keep a plain descriptive filename — no prefix. When a brief later gains a Project ID (see litmus test below), rename the file to add the prefix in the same commit that adds the ID to its header, and grep the repo (including `apps/studio`) for references to the old filename before renaming.
+
 ### Strategy & Governance
 
 | Brief | Scope | Project ID | Status |
 |-------|-------|------------|--------|
 | [ia-brief.md](ia-brief.md) | Information architecture — routing, navigation, content types, archive setup, phase gates | N/A — site-wide constraint, not a single project | Locked (2026-02-26) |
 | [ai-ethics-and-operations.md](ai-ethics-and-operations.md) | AI ethics policy — 12 operating principles, accountability, transparency, bias, attribution | N/A — policy, not a project | Active (review June 2026) |
-| [monorepo-prd.md](monorepo-prd.md) | Monorepo consolidation — MACH alignment, CMS portability, pnpm/Turbo architecture | **PROJ-005** (Mini-repo) | Complete (implemented) |
+| [PROJ-005-monorepo-prd.md](PROJ-005-monorepo-prd.md) | Monorepo consolidation — MACH alignment, CMS portability, pnpm/Turbo architecture | **PROJ-005** (Mini-repo) | Complete (implemented) |
 | [platform-evolution-prd.md](platform-evolution-prd.md) | Platform-wide evolution strategy — spans multiple projects (references PROJ-005 directly) | N/A — umbrella strategy doc, not a single project | Active |
-| [resume-factory-prd.md](resume-factory-prd.md) | Resume Factory v3 — Sanity + React migration from Python/CSV, slot/variant data model, PDF/MD/HTML export | **PROJ-002** (The Resume Factory) | Not started |
+| [PROJ-002-resume-factory-prd.md](PROJ-002-resume-factory-prd.md) | Resume Factory v3 — Sanity + React migration from Python/CSV, slot/variant data model, PDF/MD/HTML export | **PROJ-002** (The Resume Factory) | Not started |
 | [sugartown-mcp-prd.md](sugartown-mcp-prd.md) | Sugartown MCP Server | Gap — no matching `project` doc exists yet | Draft |
 | [lightroom-sanity-publish-prd.md](lightroom-sanity-publish-prd.md) | Lightroom Publish Adapter (Sugartown Asset Pipeline) | Gap — no matching `project` doc exists yet | Draft |
 | [design-alignment-checker-prd.md](design-alignment-checker-prd.md) | Design Alignment Checker POC — upload-based Match/Drift/Missing comparison tool | Intentionally none yet — app name is an open decision in the PRD itself; create the project doc once named | Draft |
@@ -29,17 +33,17 @@ Not every brief needs a matching entry in the site's `project` taxonomy (`/proje
 
 | Brief | Scope | Project ID | Status |
 |-------|-------|------------|--------|
-| [design-system/design-system-prd.md](design-system/design-system-prd.md) | DS philosophy — three-layer token architecture, component contracts, portability, accessibility | **PROJ-003** (Pink Moon Design System) | Active (component contracts evolving) |
-| [design-system/design-system-ruleset.md](design-system/design-system-ruleset.md) | DS governance — dependency direction, separation of concerns, progressive enhancement, pre-ship checklist | Companion to PROJ-003, not a separate project | Active |
-| [design-system/pink-moon-manifesto.md](design-system/pink-moon-manifesto.md) | Visual identity manifesto | Companion to PROJ-003, not a separate project | Reference |
+| [design-system/PROJ-003-design-system-prd.md](design-system/PROJ-003-design-system-prd.md) | DS philosophy — three-layer token architecture, component contracts, portability, accessibility | **PROJ-003** (Pink Moon Design System) | Active (component contracts evolving) |
+| [design-system/PROJ-003-design-system-ruleset.md](design-system/PROJ-003-design-system-ruleset.md) | DS governance — dependency direction, separation of concerns, progressive enhancement, pre-ship checklist | Companion to PROJ-003, not a separate project | Active |
+| [design-system/PROJ-003-pink-moon-manifesto.md](design-system/PROJ-003-pink-moon-manifesto.md) | Visual identity manifesto | Companion to PROJ-003, not a separate project | Reference |
 
 ### Sanity & CMS
 
 | Brief | Scope | Project ID | Status |
 |-------|-------|------------|--------|
-| [sanity/sugartown-cms-canonical-prd.md](sanity/sugartown-cms-canonical-prd.md) | Canonical CMS PRD — supersedes the two rows below | **PROJ-001** (Sugartown CMS) | In Review |
-| [sanity/studio-setup.md](sanity/studio-setup.md) | Studio configuration — project, dataset, scheduling policy, schema registration | Companion to PROJ-001, not a separate project | Active |
-| [sanity/content-model-strategy.md](sanity/content-model-strategy.md) | V1 content model — three-layer content architecture, reference-over-string principles, migration readiness | **PROJ-001** (Sugartown CMS) | Superseded by the canonical PRD above — kept as historical context |
+| [sanity/PROJ-001-sugartown-cms-canonical-prd.md](sanity/PROJ-001-sugartown-cms-canonical-prd.md) | Canonical CMS PRD — supersedes the two rows below | **PROJ-001** (Sugartown CMS) | In Review |
+| [sanity/PROJ-001-studio-setup.md](sanity/PROJ-001-studio-setup.md) | Studio configuration — project, dataset, scheduling policy, schema registration | Companion to PROJ-001, not a separate project | Active |
+| [sanity/PROJ-001-content-model-strategy-superseded.md](sanity/PROJ-001-content-model-strategy-superseded.md) | V1 content model — three-layer content architecture, reference-over-string principles, migration readiness | **PROJ-001** (Sugartown CMS) | Superseded by the canonical PRD above — kept as historical context |
 
 ### Content Briefs
 
@@ -79,7 +83,9 @@ Only if it names something with its own users, scope, and success criteria disti
 - a companion/governance doc for a project that already has its own entity (reference that project's ID instead of minting a new one)
 - describing something not yet locked enough to name (state that explicitly as an Open Decision in the PRD, the way `design-alignment-checker-prd.md` does, rather than creating a placeholder project early)
 
-When a brief does map to a live project, put a **Project ID** line in the doc's own header (see `monorepo-prd.md`, `resume-factory-prd.md`, or `sanity/sugartown-cms-canonical-prd.md` for the pattern) — not just in this index. The index can drift; the doc's own header shouldn't.
+When a brief does map to a live project, put a **Project ID** line in the doc's own header (see `PROJ-005-monorepo-prd.md`, `PROJ-002-resume-factory-prd.md`, or `sanity/PROJ-001-sugartown-cms-canonical-prd.md` for the pattern) — not just in this index. The index can drift; the doc's own header shouldn't.
+
+**Aside — no Project ID means the project is still Dreaming.** If a brief has no Project ID yet (per the table above, or the litmus test says it doesn't need a project entity at all), the corresponding project — if and when one is minted — starts at `status: 💭 Dreaming` in the `project` schema (`apps/studio/schemas/documents/project.ts`), not further along the enum (🎨 Designing → 🔄 Iterating). A PRD's scope must be locked and executed first; only then does it earn a Project ID and a live `project` doc. Don't create the `project` document while the PRD is still speculative or its Open Decisions are unresolved — that's how a project doc ends up tracking a thing that doesn't exist yet. `design-alignment-checker-prd.md` is the current example: no Project ID until the app name (an open decision in the PRD itself) is locked.
 
 ## How briefs fit the development workflow
 

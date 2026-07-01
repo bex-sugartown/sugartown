@@ -3,7 +3,7 @@
 **Linear Issue:** SUG-59
 **Status:** Backlog
 **Priority:** Medium
-**Source:** `docs/drafts/pink-moon-mock-B-sharp-paper.html` + `docs/briefs/design-system/pink-moon-manifesto.md` §Hero Panel
+**Source:** `docs/drafts/pink-moon-mock-B-sharp-paper.html` + `docs/briefs/design-system/PROJ-003-pink-moon-manifesto.md` §Hero Panel
 **Depends on:** SUG-21 (done), SUG-53 (done)
 
 ---

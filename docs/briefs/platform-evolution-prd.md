@@ -468,7 +468,7 @@ The following Linear issues need to be created or updated before execution begin
 
 ---
 
-### Reference 1 — `docs/briefs/monorepo-prd.md` (PROJ-005, 2026-02-01)
+### Reference 1 — `docs/briefs/PROJ-005-monorepo-prd.md` (PROJ-005, 2026-02-01)
 
 **What it is:** The founding architecture PRD for the Sugartown monorepo. Written before any epics were executed. Establishes the philosophical and structural contracts the whole platform is built on.
 
@@ -607,7 +607,7 @@ The following rows supplement the Dependencies and Risks table in the main PRD b
 
 | Document | Path | Pertinent sections |
 |----------|------|--------------------|
-| Monorepo PRD (PROJ-005) | `docs/briefs/monorepo-prd.md` | MACH positioning, boundary rules, `packages/content/` gap, DS external publish intent |
+| Monorepo PRD (PROJ-005) | `docs/briefs/PROJ-005-monorepo-prd.md` | MACH positioning, boundary rules, `packages/content/` gap, DS external publish intent |
 | SUG-127 architecture decisions | `docs/briefs/SUG-127-architecture-decisions.md` | All 15 decisions; Decisions 1/3/10/11/12 most relevant to multi-brand DS |
 | SUG-127 epic (shipped) | `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md` | Four-bucket content model, adapter seam contract, coupling point map actuals |
 | SUG-127 vendor eval | `docs/briefs/vendor-eval-vercel-vs-netlify.md` | Netlify/Vercel axis-by-axis comparison, hybrid recommendation |

@@ -400,7 +400,7 @@ Reverting any one does not break the others. The adapter lib can exist without `
 
 ## References
 
-- [docs/briefs/monorepo-prd.md](../briefs/monorepo-prd.md) — monorepo boundary rules
+- [docs/briefs/PROJ-005-monorepo-prd.md](../briefs/monorepo-prd.md) — monorepo boundary rules
 - [docs/brand/brand-voice-guide.md](../brand/brand-voice-guide.md) — product copy register
 - [docs/epic-template.md](../epic-template.md) — gate + rollback conventions
 - Shopify Starter plan — https://www.shopify.com/starter

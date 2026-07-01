@@ -13,7 +13,7 @@ const ARTIFACTS = [
     eyebrow: 'PRD',
     title: 'Monorepo PRD',
     body: 'Monorepo architecture — pnpm workspaces, Turbo pipeline, package boundaries, and build conventions.',
-    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/briefs/monorepo-prd.md',
+    href: 'https://github.com/bex-sugartown/sugartown/blob/main/docs/briefs/PROJ-005-monorepo-prd.md',
   },
   {
     eyebrow: 'Architecture',

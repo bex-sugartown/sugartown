@@ -12,7 +12,7 @@ Create `docs/architecture/platform-topology.md` as the single-document reference
 
 ## Background
 
-The monorepo now operates two permanent parallel surfaces and a shared design system package. The decisions that govern this topology are scattered: shipped epics (SUG-127, SUG-128), PRD (`platform-evolution-prd.md`), monorepo brief (`monorepo-prd.md`), and `CLAUDE.md`. There is no single document a new contributor or a future Claude Code session can read to understand the full picture without archaeology.
+The monorepo now operates two permanent parallel surfaces and a shared design system package. The decisions that govern this topology are scattered: shipped epics (SUG-127, SUG-128), PRD (`platform-evolution-prd.md`), monorepo brief (`PROJ-005-monorepo-prd.md`), and `CLAUDE.md`. There is no single document a new contributor or a future Claude Code session can read to understand the full picture without archaeology.
 
 This is also the prerequisite for a planned content cluster: the `docs/architecture` page is referenced by the node `poc-platform-agnostic-by-design` (in Sanity) and by SUG-130 (the "Platform selection risk" article). Both content pieces need the architecture page to exist before they can reference it.
 
@@ -46,7 +46,7 @@ Not applicable — this epic produces a documentation file only. No shared CSS, 
 
 **Anti-slop rules (CLAUDE.md):** No em dashes (`—`). No filler transitions ("That said", "With that in mind"). No AI vocabulary ("leverage", "utilize", "facilitate"). No empty adjective triads. Write in declarative sentences about the actual system.
 
-**Source materials:** Synthesise from `docs/briefs/platform-evolution-prd.md`, `docs/briefs/monorepo-prd.md`, `docs/briefs/SUG-127-architecture-decisions.md`, and `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`. Do not invent decisions — cite which doc each claim comes from.
+**Source materials:** Synthesise from `docs/briefs/platform-evolution-prd.md`, `docs/briefs/PROJ-005-monorepo-prd.md`, `docs/briefs/SUG-127-architecture-decisions.md`, and `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`. Do not invent decisions — cite which doc each claim comes from.
 
 **Model & Mode [REQUIRED]:** `/model sonnet` — documentation synthesis with no code changes.
 
@@ -60,6 +60,6 @@ Not applicable — this epic produces a documentation file only. No shared CSS, 
 
 - **Linear:** [SUG-182](https://linear.app/sugartown/issue/SUG-182/docsarchitecture-platform-topology-page-documenting-permanent-parallel)
 - **PRD:** `docs/briefs/platform-evolution-prd.md`
-- **Monorepo PRD:** `docs/briefs/monorepo-prd.md`
+- **Monorepo PRD:** `docs/briefs/PROJ-005-monorepo-prd.md`
 - **SUG-127 shipped:** `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`
 - **Epic template:** `docs/epic-template.md`

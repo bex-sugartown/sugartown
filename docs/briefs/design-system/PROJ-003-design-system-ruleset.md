@@ -7,7 +7,7 @@
 
 > **SUG-21 consolidation note:** This file was the "Design System Ruleset" (1170 lines).
 > Sections absorbed into other documents:
-> - **Philosophy Layer** → PRD v3.0 §1-2 (`design-system-prd.md`)
+> - **Philosophy Layer** → PRD v3.0 §1-2 (`PROJ-003-design-system-prd.md`)
 > - **AI Agent Guidelines** → `CLAUDE.md`
 > - **Anti-slop governance** → PRD v3.0 §11
 >
