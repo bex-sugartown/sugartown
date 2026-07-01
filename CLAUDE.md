@@ -21,14 +21,18 @@ When an epic is complete, run these steps in order before starting the next epic
 3. **Visual QA gate (hard stop)** — if the epic has a Phase 0 mock or any visual output, produce the mock-to-implementation comparison table (every visual element: typography, spacing, colours, layout — flagged as Match / Drift / Missing). Present the table and wait for the explicit text **"Visual QA approved"** before proceeding. The `docs/shipped/` move and mini-release are structurally blocked until this approval is received. A component that builds without errors is not the same as a component that matches the spec. **If the epic shipped a detail, archive, or entity page:** open one existing sibling page of the same kind (e.g. new entity page vs `/tools/vercel`) and compare structure — shell, folio, section labels, grids, chips. Unjustified structural divergence is a Drift row in the table.
 4. **Chromatic** — run Chromatic VRT. If deferred, annotate the shipped doc with `<!-- Chromatic: pending -->` and a note. Deferral is a checklist deferral only — it does not unblock the shipped/ move. **"Defer Chromatic" is not the same as "epic is closed."**
 5. **Data pipeline gap check** — if the epic extended a build-time data pipeline (stats, CrUX, LHCI, etc.) and real data has not yet flowed through CI, document the gap in the shipped doc: what env var or cron is needed, what the expected data shape looks like, and what the current `stats.json` state represents (real vs seeded). Close-out is permitted but the gap must be explicit and visible.
-6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`
-7. **Mini-release** — run `/mini-release` to produce a patch version bump and CHANGELOG stub
+6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`. **If this move follows an edit to the doc in the same turn** (e.g. adding a close-out summary before moving it), run `git diff --cached --stat` (or `git show --stat HEAD` right after committing) to confirm the file actually carries the expected content change, not just a rename with 0 insertions/deletions. `git mv` does not guarantee a prior unstaged edit rides along silently — verify, don't assume.
+7. **Mini-release** — run `/mini-release` to produce a patch version bump and CHANGELOG stub. **If the epic's merge strategy is "(b) single close-out — one mini-release at the end" (or the mini-release step is otherwise deferred for any reason), still add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at ship time** — do not wait for the eventual version bump to write it. The CHANGELOG line and the version bump are separate obligations; deferring one must never silently defer the other. An epic whose close-out doc says "Done" but has no `[Unreleased]` line is incompletely closed.
 8. **Update Linear** — transition the SUG-{N} issue to **Done**
 9. **Clean tree** — confirm `git status` is clean before starting the next epic
 
 Do not carry uncommitted changes across epic boundaries. If the working tree is dirty when a new epic begins, stop and commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) before proceeding.
 
 A dirty tree at epic start is a process failure, not a starting condition.
+
+### Verify before citing — don't trust a prior audit's claim
+
+When an epic's job is to audit or report on the state of *other* files (story counts, prop shapes, schema fields, token values, anything one epic writes about a surface it doesn't directly touch), verify the claim directly before recording it — confirm the file path exists and resolves, and measure the count/value with a direct check (`grep -c`, opening the file, rendering it), not by copying a prior audit doc's stated number. A stale or wrong reference in a convention doc becomes the next session's false starting assumption. This bit SUG-192: three of SUG-191's audit rows named the wrong file (a deprecated component, or a directory with no stories file at all), and the error propagated silently until this session read the live files.
 
 ### Epic authoring — Linear-first workflow
 

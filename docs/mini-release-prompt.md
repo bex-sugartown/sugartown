@@ -84,6 +84,8 @@ AI determines:
 - **Epic ID and name** — derived from the commit scopes (`feat(sug-NNN):`, `fix(sug-NNN):`) since the last `chore(release):` commit. Do NOT use the epic ID stated verbatim in the human's message. If multiple epic IDs appear in commits, list them all. If an epic context argument was passed to `/mini-release`, cross-check it against the derived ID — if they differ, raise a mismatch warning before proceeding (see Step 1).
 - **Changed surfaces** grouped by: `apps/web`, `apps/studio`, `packages/design-system`, `apps/storybook`, other
 
+**Deferred-epic accumulation check:** If commit scopes since the last `chore(release):` show **more than one epic ID that each represents a separately-shippable unit** (not just the epic driving this mini-release), this is expected when one or more of those epics declared a "single close-out — one mini-release at the end" merge strategy (check their `docs/shipped/*.md` header for `**Merge strategy:**`). This is not an error — git history is linear, so a deferred epic's commits cannot be retroactively split into their own patch version. Surface it plainly in Gate 1 (see the accumulation-check block below) rather than silently bundling it in without comment or treating it as a mismatch.
+
 Step 0 has no gate — purely mechanical.
 
 ---
@@ -105,7 +107,27 @@ Reply with the correct epic ID to continue, or "abort" to cancel.
 
 Do not proceed to the version bump gate until the human confirms the correct epic ID.
 
-If no mismatch (or no epic argument was passed), show the standard gate:
+**Deferred-epic accumulation gate:** If Step 0B found more than one separately-shippable epic in scope (see the accumulation check above), do not silently fold them into the primary epic's gate as if they don't need mentioning. Present this instead, before the standard gate:
+
+```
+━━━ MULTIPLE EPICS SINCE LAST VERSION BUMP ━━━━━━━━━━━━━━━━━━━━
+Primary epic (this mini-release): SUG-NNN — [name]
+Also unreleased (deferred single-close-out strategy):
+  SUG-MMM — [name] — shipped [date], no prior version bump
+  SUG-PPP — [name] — shipped [date], no prior version bump
+
+This version bump will cover all of the above — git history is linear,
+so their commits cannot be split into separate patch versions after
+the fact. CHANGELOG [Unreleased] will get one line per epic listed here.
+
+Reply "bundle all" to proceed with all epics in this bump, or name
+which epic(s) to exclude (their commits will still be in the diff,
+but won't be named in the release commit or CHANGELOG).
+```
+
+Wait for the human's reply before showing Gate 1. Do not decide unilaterally to bundle or exclude an epic.
+
+If no mismatch and no deferred-epic accumulation (or after the human resolves either), show the standard gate:
 
 ```
 ━━━ GATE 1 — VERSION BUMP ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
