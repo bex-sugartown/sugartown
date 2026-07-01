@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-198 — Gap analysis: 6 layers of effective AI governance
 **Linear Issue:** [SUG-198](https://linear.app/sugartown/issue/SUG-198/gap-analysis-6-layers-of-effective-ai-governance)
-**Status:** Backlog
+**Status:** Shipped ✓ 2026-07-01 (v0.28.4)
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -9,6 +9,8 @@
 # SUG-198 — Gap analysis: 6 layers of effective AI governance
 
 Close the two remaining Agentic Caucus governance gaps (standing incident log, data-handling note) and surface the governance coverage publicly, with an alignment pass on the AI ethics and legal docs.
+
+> **Shipped 2026-07-01 (v0.28.4).** Standing incident log + data-handling/GDPR note closed Layer 6 gaps. Added `--st-posture-{strong,partial,inherited,na}` semantic tokens (with dark-pink-moon overrides) and a §05 AI Governance Coverage block on `/platform/governance`. This epic completed its work on `bex/sug-198-gap-analysis-6-layers-of-effective-ai-governance`, which sat unmerged for several hours (branched independently of, and in parallel with, the SUG-192 session); merged to `main` and re-versioned at `/eod` after its own pre-merge mini-release collided with another stranded branch's version number. See CLAUDE.md's mini-release-on-main-only rule.
 
 ## Background
 
