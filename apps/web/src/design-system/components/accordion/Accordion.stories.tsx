@@ -74,34 +74,8 @@ export const Default: Story = {
   args: { items: CS_QUESTIONS },
 };
 
-/** Default with first item open — pink chevron visible. */
-export const DefaultOpen: Story = {
-  name: 'Default / First Open',
-  args: { items: CS_QUESTIONS, defaultOpen: ['q1'] },
-};
-
 /** Numbered — Q.NN pink mono prefix, Cormorant question text. */
 export const Numbered: Story = {
   name: 'Numbered',
   args: { items: CS_QUESTIONS, numbered: true },
-};
-
-/** Numbered with first item open — pink chevron visible. */
-export const NumberedOpen: Story = {
-  name: 'Numbered / First Open',
-  args: { items: CS_QUESTIONS, numbered: true, defaultOpen: ['q1'] },
-};
-
-/** Snapshot for Chromatic VRT — all four states. */
-export const Snapshot: Story = {
-  name: 'Snapshot (Chromatic)',
-  parameters: { chromatic: { disableSnapshot: false }, layout: 'padded' },
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem', maxWidth: '640px' }}>
-      <Accordion items={CS_QUESTIONS} />
-      <Accordion items={CS_QUESTIONS} defaultOpen={['q1']} />
-      <Accordion items={CS_QUESTIONS} numbered />
-      <Accordion items={CS_QUESTIONS} numbered defaultOpen={['q1']} />
-    </div>
-  ),
 };
