@@ -38,33 +38,49 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 
 ## Model & Mode [REQUIRED]
 
-> Use Claude Code's `opusplan` alias for this epic. Opus handles planning
-> (Pre-Execution Gate → Files to Modify), Sonnet handles execution
-> (code changes, migration runs, acceptance tests). The handoff is automatic
-> when you exit plan mode.
+> **Updated for Sonnet 5** (confirmed via anthropic.com/news/claude-sonnet-5, 2026-07-01):
+> Sonnet 5 benchmarks close to Opus 4.8 on coding/agentic work at roughly a third
+> of the price ($2–3/$10–15 per MTok vs Opus 4.8's $5/$25) and holds a much larger
+> component-graph in view before dropping detail — the failure mode that used to
+> force `opusplan` on multi-component epics. That changes the default.
 >
-> **Session setup:**
+> **Default: plain `/model sonnet`.** Use it for the epic types that make up
+> most of this repo's work — building/iterating DS components, wiring section
+> renderers, story consolidation, schema-driven CRUD, migration scripts,
+> content/copy epics. No plan-mode handoff needed; Sonnet executes directly.
+>
+> **Use `opusplan` (Opus plans, Sonnet executes) only for epics with genuine
+> architectural ambiguity** — Schema ERD changes, SSR/rendering strategy,
+> monorepo boundary changes, a new cross-cutting abstraction with no existing
+> pattern to extend. These are the epics where the *plan itself* is the hard
+> part, not the execution.
+>
+> **Session setup (opusplan epics only):**
 > 1. `/model opusplan` — set once at session start
 > 2. `Shift+Tab` until status bar reads "plan mode"
 > 3. Paste this epic as the first prompt
 > 4. Review Opus's plan against the gates below; push back until aligned
 > 5. Exit plan mode (`Shift+Tab`) — Sonnet takes over for execution
 >
-> **Override rule:** if Sonnet stalls during execution on something that's
-> architectural rather than mechanical (e.g. an unexpected cross-workspace
-> type error, a token cascade that isn't resolving), type `/model opus`
-> for that single question, then `/model opusplan` to return. Note the
-> override in the epic's post-mortem so we learn where Sonnet's ceiling is.
+> **Override rule:** if Sonnet stalls — on either a plain-`/model sonnet` epic
+> or during opusplan execution — on something architectural rather than
+> mechanical (e.g. an unexpected cross-workspace type error, a token cascade
+> that isn't resolving), type `/model opus` for that single question, then
+> return to the epic's normal mode. Note the override in the epic's
+> post-mortem so we keep learning where Sonnet 5's ceiling actually is —
+> don't assume the old Sonnet 4.6 ceiling still applies.
 >
-> **When to deviate from opusplan:**
-> - Pure copy/content epics (no code): use `/model sonnet` — no planning depth needed
-> - Pure architecture epics (Schema ERD, SSR strategy, monorepo boundary changes): use `/model opus` — execution benefits from sustained depth too
+> **Reserve `/model opus` outright (no plan-mode handoff) for:** epics where
+> execution itself benefits from sustained depth throughout, not just at the
+> planning stage — e.g. a large, ambiguous refactor with no clear stopping
+> point. Also use Opus 4.8 for anything security-hardening or reduced-guardrail
+> — Anthropic's own guidance flags Sonnet 5 as measurably weaker there.
 
 ---
 
 ## Pre-Execution Completeness Gate [REQUIRED — complete before writing Scope or Phases]
 
-> **Model phase:** Opus (plan mode). Do not exit plan mode until this gate and the audits below are clean.
+> **Model phase:** On an `opusplan` epic, this gate runs under Opus in plan mode — do not exit plan mode until it and the audits below are clean. On a plain-`/model sonnet` epic (the default — see Model & Mode above), this gate still applies in full; Sonnet completes it before writing Scope or Phases, there's just no separate plan-mode handoff.
 
 > This checklist must be fully ticked before execution begins. An incomplete brief is a
 > process failure, not a starting condition. If any item cannot be answered, resolve it
