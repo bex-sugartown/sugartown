@@ -14,27 +14,13 @@ const meta: Meta<typeof ScoreRing> = {
     category:    { control: { type: 'select' }, options: [undefined, 'good', 'warn', 'poor'] },
     label:       { control: 'text' },
   },
+  args: { score: 96, label: 'Performance' },
 };
 
 export default meta;
 type Story = StoryObj<typeof ScoreRing>;
 
-export const Good: Story = {
-  args: { score: 96, label: 'Performance' },
-};
-
-export const Warn: Story = {
-  args: { score: 67, label: 'Performance' },
-};
-
-export const Poor: Story = {
-  args: { score: 34, label: 'Performance' },
-};
-
-export const BoundaryEdge: Story = {
-  name: 'Boundary — 90 (good/warn edge)',
-  args: { score: 90, label: 'Accessibility' },
-};
+export const Default: Story = {};
 
 export const AllThree: Story = {
   name: 'All three categories',
@@ -45,12 +31,4 @@ export const AllThree: Story = {
       <ScoreRing score={34} label="Best Practices" />
     </div>
   ),
-};
-
-export const LargeSize: Story = {
-  args: { score: 91, label: 'Performance', size: 120, strokeWidth: 8 },
-};
-
-export const NoLabel: Story = {
-  args: { score: 78 },
 };
