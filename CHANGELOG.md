@@ -17,7 +17,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - SUG-196: AI tooling documentation structure — `docs/ai/` (agentic-caucus methodology, failure-modes, skills index, README), `docs/workflows/` (3 prompt files moved, all references updated), `Title — Subtitle` heading exception added to em dash rule
 - SUG-192: Chromatic story-count audit closed — 39→19 stories across Callout, StatCard, ScoreRing, FilterBar, Accordion, PageSections; Callout `default`/`info` variant merge (content migration + schema); Callout body/label vertical-centering fix
 - SUG-199: Glossary — 4 AI-governance framework terms published (NIST AI RMF, ISO/IEC 42001, Model Card, Policy-as-Code)
+- glossaryTermRef: cardBuilder Portable Text — new `glossaryTermRef` annotation on `cardBuilderItem` (studio schema) rendered in `CardBuilderSection` (web) with the `queries.js` projection, enabling inline glossary links in card bodies
 - SUG-201: Services page card copy refresh (cards 1, 2, 4, 5) + inline glossary linking on card 4
+- SUG-195: Design-reviewer VQA subagent — read-only `.claude/agents/design-reviewer.md` (haiku) producing Match/Drift/Missing tables in a fresh context, plus `docs/conventions/vqa-workflow.md`
 
 ---
 
