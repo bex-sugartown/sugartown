@@ -102,7 +102,7 @@ export default function DesignSystemPage() {
 
         <section id="token-architecture" className={styles.section}>
           <SectionLabel level="h3" number="§01" name="TOKEN ARCHITECTURE" title="Base → semantic → component" kicker={ds.tokens?.total ? `${ds.tokens.total} tokens` : 'Base → semantic → component'} />
-          <MermaidDiagram section={TOKEN_DIAGRAM} />
+          <MermaidDiagram _key={TOKEN_DIAGRAM._key} code={TOKEN_DIAGRAM.code} caption={TOKEN_DIAGRAM.caption} />
         </section>
 
         <section id="component-registry" className={styles.section}>

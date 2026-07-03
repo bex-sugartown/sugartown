@@ -13,6 +13,7 @@ import CwvSnapshot from '../../components/CwvSnapshot'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import stats from '../../generated/stats.json'
 import styles from './PlatformHubPage.module.css'
+import pageSectionStyles from '../../components/PageSections.module.css'
 
 // ── KindBadge — inline after DataTable shim deletion ──────
 function KindBadge({ kind }) {
@@ -266,7 +267,12 @@ export default function GovernancePage() {
             title="How a change reaches production"
             kicker="Gate model"
           />
-          <MermaidDiagram section={RELEASE_DIAGRAM} />
+          <MermaidDiagram
+            _key={RELEASE_DIAGRAM._key}
+            code={RELEASE_DIAGRAM.code}
+            caption={RELEASE_DIAGRAM.caption}
+            className={pageSectionStyles.mermaidSectionWide}
+          />
         </section>
 
         <section id="site-performance" className={styles.section}>

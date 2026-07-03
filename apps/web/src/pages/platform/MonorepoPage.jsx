@@ -7,6 +7,7 @@ import CodeBlock from '../../design-system/components/codeblock/CodeBlock'
 import { MermaidDiagram } from '../../components/PageSections'
 import { TRUST_LINKS } from '../../lib/routes'
 import styles from './PlatformHubPage.module.css'
+import pageSectionStyles from '../../components/PageSections.module.css'
 
 const ARTIFACTS = [
   {
@@ -82,7 +83,12 @@ export default function MonorepoPage() {
 
         <section id="workspace-topology" className={styles.section}>
           <SectionLabel level="h3" number="§01" name="ARCHITECTURE" title="Workspace topology" kicker="4 packages" />
-          <MermaidDiagram section={ARCHITECTURE_DIAGRAM} />
+          <MermaidDiagram
+            _key={ARCHITECTURE_DIAGRAM._key}
+            code={ARCHITECTURE_DIAGRAM.code}
+            caption={ARCHITECTURE_DIAGRAM.caption}
+            className={pageSectionStyles.mermaidSectionWide}
+          />
         </section>
 
         <section id="build-pipeline" className={styles.section}>
