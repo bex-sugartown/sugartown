@@ -98,6 +98,7 @@ export default defineType({
           {title: 'Productivity', value: 'productivity'},
           {title: 'Visualization', value: 'visualization'},
           {title: 'Analytics', value: 'analytics'},
+          {title: 'MarTech', value: 'martech'},
           {title: 'Other', value: 'other'},
         ],
         layout: 'dropdown',
@@ -153,6 +154,7 @@ export default defineType({
         productivity: 'Productivity',
         visualization: 'Visualization',
         analytics: 'Analytics',
+        martech: 'MarTech',
         other: 'Other',
       }
       return {
