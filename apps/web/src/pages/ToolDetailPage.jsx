@@ -40,6 +40,7 @@ const TOOL_TYPE_LABELS = {
   productivity:  'Productivity',
   visualization: 'Visualization',
   analytics:     'Analytics',
+  martech:       'MarTech',
   other:         'Other',
 }
 
