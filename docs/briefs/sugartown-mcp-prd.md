@@ -5,7 +5,7 @@
 **Author:** Bex Head
 **Domain:** Mixed (Platform / Tooling / AI Workflow)
 **Last updated:** 2026-07-13
-**Related epics:** SUG-207 _(placeholder — Linear write access blocked at authoring time; confirm real issue ID and update this reference)_, `docs/backlog/SUG-207-sugartown-mcp-server-v1.md`
+**Related epics:** SUG-208 _(user-created in Linear; not independently verified via API — see epic doc header)_, `docs/backlog/SUG-208-sugartown-mcp-server-v1.md`
 **Sits alongside:** `CLAUDE.md`, `epic-template.md`, `SUGARTOWN_DESIGN_SYSTEM_RULESET.md`
 
 ---
@@ -192,7 +192,7 @@ This is a tooling package, not a UI surface. Standard Pink Moon design constrain
 
 ---
 
-## 6. Open Decisions — RESOLVED (see epic doc `docs/backlog/SUG-207-sugartown-mcp-server-v1.md` §Open Decisions Resolved)
+## 6. Open Decisions — RESOLVED (see epic doc `docs/backlog/SUG-208-sugartown-mcp-server-v1.md` §Open Decisions Resolved)
 
 | Decision | Options | Owner | Resolution |
 |----------|---------|-------|------------------|

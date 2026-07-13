@@ -1,4 +1,4 @@
-**Linear Issue:** SUG-207 _(placeholder — Linear MCP write access was blocked by a connector-level "tool call requires approval" error during authoring; create/confirm the real issue and rename this file once access is restored. Do not treat SUG-207 as final until confirmed against Linear.)_
+**Linear Issue:** SUG-208 _(user-created manually in Linear after this session's Linear MCP write access was blocked by a "tool call requires approval" error. NOT independently verified — `get_issue("SUG-208")` against the Sugartown team returned "Could not find referenced Issue" when checked from this session, possibly because the issue landed in a different Linear team, a sync delay, or an access-scope gap. Confirm the issue resolves at linear.app before treating this ID as final.)_
 ## EPIC NAME: Sugartown MCP Server — v1 Implementation
 
 ---
@@ -205,7 +205,7 @@ N/A — no migration or backfill script is in scope.
 
 **Docs**
 - `CLAUDE.md` — add MCP Server + MCP Tool Aliases sections (top of file, per PRD §4)
-- `docs/briefs/sugartown-mcp-prd.md` — update header: `Related epics: SUG-207` (or confirmed real ID), `Status: Draft` → `Status: In implementation`
+- `docs/briefs/sugartown-mcp-prd.md` — update header: `Related epics: SUG-208` (confirm against Linear before final), `Status: Draft` → `Status: In implementation`
 
 **No changes to:** `apps/studio/schemas/**` (read-only source), `apps/web/**`, `apps/web/src/lib/queries.js`, any `.module.css` file, `pnpm-workspace.yaml` (glob already covers new package).
 
@@ -275,8 +275,8 @@ Standard sequence per CLAUDE.md, with tooling-epic adjustments:
 1. **Visual QA gate** — N/A, skip (no visual output; see Visual QA Gate section above for the substituted tool-output verification).
 2. **Chromatic** — N/A, skip (no Storybook story, no visual surface).
 3. **Data pipeline gap check** — N/A, this epic does not extend a build-time data pipeline.
-4. **Move epic doc** — `docs/backlog/SUG-207-sugartown-mcp-server-v1.md` → `docs/shipped/SUG-207-sugartown-mcp-server-v1.md` (confirm real Linear ID first if it differs from the SUG-207 placeholder; rename file to match before moving).
+4. **Move epic doc** — `docs/backlog/SUG-208-sugartown-mcp-server-v1.md` → `docs/shipped/SUG-208-sugartown-mcp-server-v1.md` (confirm the SUG-208 issue actually resolves in Linear first — it was not independently verifiable via the API when this doc was authored; rename file to match if the number turns out to be wrong).
 5. **Confirm clean tree** — `git status` clean.
-6. **Mini-release** — `/mini-release SUG-207 Sugartown MCP Server v1` (or confirmed ID) — this is a new package/feature surface; consider whether `/release` (MINOR bump) is more appropriate than `/mini-release` (patch), per CLAUDE.md's guidance that new feature surfaces may warrant MINOR.
+6. **Mini-release** — `/mini-release SUG-208 Sugartown MCP Server v1` (confirm ID first) — this is a new package/feature surface; consider whether `/release` (MINOR bump) is more appropriate than `/mini-release` (patch), per CLAUDE.md's guidance that new feature surfaces may warrant MINOR.
 7. **Update Linear** — transition the confirmed issue to **Done**.
-8. **Confirm SUG-207 is not a stale placeholder** — before Linear close-out, verify the real Linear issue identifier matches this file's name and the PRD header. If Linear assigned a different number, rename the backlog file and update all cross-references (this doc's header, `docs/backlog/sugartown-backlog-priorities.md`, the PRD's `Related epics` field) in the same commit as the close-out move.
+8. **Confirm SUG-208 actually resolves in Linear** — before Linear close-out, open `linear.app/sugartown/issue/SUG-208` directly and confirm it exists and matches this epic. It was not independently verifiable via the MCP API when this doc was authored (`get_issue` returned "not found" against the connected Sugartown team). If the ID is wrong or belongs to a different team, rename the backlog file and update all cross-references (this doc's header, `docs/backlog/sugartown-backlog-priorities.md`, the PRD's `Related epics` field) in the same commit as the close-out move.
