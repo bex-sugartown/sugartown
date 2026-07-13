@@ -54,7 +54,7 @@ Applicable — this touches a shared list-row component and/or the taxonomy deta
 
 ## Model & Mode [REQUIRED]
 
-`/model sonnet` — this is a small, well-scoped render-layer change with no architectural ambiguity once the Phase 0 mock is approved (per the updated `docs/epic-template.md` guidance: Sonnet 5 is the default for implementation-heavy but non-architectural epics). No `opusplan` needed.
+`/model sonnet` — this is a small, well-scoped render-layer change with no architectural ambiguity once the Phase 0 mock is approved (per the updated `docs/epic-template.md` guidance: Sonnet 5 is the default for implementation-heavy but non-architectural epics). No plan-first pass needed.
 
 ## Non-Goals
 

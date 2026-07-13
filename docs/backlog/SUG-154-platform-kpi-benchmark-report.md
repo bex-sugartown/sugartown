@@ -6,7 +6,7 @@
 
 ## Model & Mode
 
-Use `opusplan` for the planning phase. This is primarily a content/data epic with one
+Use the Opus plan-first workflow (`/model opus` + plan mode) for the planning phase. This is primarily a content/data epic with one
 HTML document output and a possible Sanity page publish — no complex code architecture.
 Sonnet executes.
 

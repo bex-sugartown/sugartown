@@ -79,7 +79,7 @@ Not applicable — no shared CSS, token, or multi-page component changes. Conten
 
 ## Model & Mode [REQUIRED]
 
-`/model opusplan` — Opus plans (source note synthesis, narrative decisions, cowork notes integration), Sonnet executes after plan-mode exit. The commercetools scope decision and design system thread closure require editorial judgment before any writing begins.
+`/model opus` — Opus plans (source note synthesis, narrative decisions, cowork notes integration), Sonnet executes after plan-mode exit. The commercetools scope decision and design system thread closure require editorial judgment before any writing begins.
 
 ## Non-Goals
 

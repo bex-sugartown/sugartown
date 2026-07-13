@@ -44,7 +44,7 @@ After this epic, an absolute URL whose host is the site's own domain renders as 
 - **Same-origin host list:** `sugartown.io`, `www.sugartown.io`, plus runtime `window.location.host`. Use `new URL(url, base)` inside a try/catch; on parse failure leave the URL untouched. Subdomains like `pinkmoon.sugartown.io` are NOT in the list — they stay external.
 - **Prerender safety:** the helper must guard `typeof window === 'undefined'` (the prerender step runs in Node) and fall back to the static host list only.
 - **Activation audits:** (1) read `lib/linkUtils.js` + `lib/resolveNavUrl.js` before editing; (2) re-query the `navigation` doc `89b0c0bc-...` for current child `_key`s before patching (Sanity may reassign keys).
-- **Model & Mode [REQUIRED]:** `/model opusplan` — small but shared-utility change with regression risk; Opus plans the `linkUtils` edit + consumer check, Sonnet executes.
+- **Model & Mode [REQUIRED]:** `/model opus` — small but shared-utility change with regression risk; Opus plans the `linkUtils` edit + consumer check, Sonnet executes.
 
 ## Non-Goals
 

@@ -56,11 +56,11 @@ Single phase — audit → migrate confirmed surfaces → Storybook stories → 
 - **CSS removal rule:** when a bespoke class is removed from a page, grep for it across the entire repo to confirm it has no other consumers before deleting from the CSS module.
 - **No Content Write Gate** — no Sanity content changes in scope.
 - **No schema changes** — no Sanity deploy needed.
-- **Model & Mode [REQUIRED]:** `/model opusplan` — multi-file frontend audit + selective migration + Storybook story additions; Opus plans the audit table + Files to Modify; Sonnet executes after plan-mode exit.
+- **Model & Mode [REQUIRED]:** `/model opus` — multi-file frontend audit + selective migration + Storybook story additions; Opus plans the audit table + Files to Modify; Sonnet executes after plan-mode exit.
 
 ## Model & Mode [REQUIRED]
 
-`/model opusplan` — audit spans multiple page files + CSS modules + DS component + Storybook; Opus builds the migration table and files-to-modify list at plan time, Sonnet executes.
+`/model opus` — audit spans multiple page files + CSS modules + DS component + Storybook; Opus builds the migration table and files-to-modify list at plan time, Sonnet executes.
 
 ## Non-Goals
 

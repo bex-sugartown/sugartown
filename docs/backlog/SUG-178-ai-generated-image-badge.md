@@ -52,11 +52,11 @@ Single-phase — all work touches the same GROQ + frontend + Storybook layer.
 - **Activation audit — query coverage:** Before writing any projection changes, grep `queries.js` for every location that dereferences a `richImage` or hero image field. Hero image projections on `articleBySlugQuery`, `nodeBySlugQuery`, `caseStudyBySlugQuery`, and card projections in `allSiteItemsQuery` / `allArticlesQuery` etc. must all be audited.
 - **Badge positioning:** `position: absolute; bottom: var(--st-space-2); right: var(--st-space-2)` inside a `position: relative` image wrapper. Confirm the image wrapper in `InlineImage` is already `position: relative` before writing new CSS.
 - **Hover expand:** CSS transition on `max-width` or `width` from pill (monogram only) to extended (monogram + tool label). No JS required.
-- **Model & Mode:** `/model opusplan` — Opus plans the GROQ projection audit and component API; Sonnet executes.
+- **Model & Mode:** `/model opus` — Opus plans the GROQ projection audit and component API; Sonnet executes.
 
 ## Model & Mode [REQUIRED]
 
-`/model opusplan` — schema is already done; the work is GROQ audit + new DS component + multi-surface integration. Opus plans the projection coverage and component API; Sonnet executes.
+`/model opus` — schema is already done; the work is GROQ audit + new DS component + multi-surface integration. Opus plans the projection coverage and component API; Sonnet executes.
 
 ## Non-Goals
 

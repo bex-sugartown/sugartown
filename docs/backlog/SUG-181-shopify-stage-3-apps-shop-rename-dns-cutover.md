@@ -84,7 +84,7 @@ Activation audit: read the renamed `apps/shop/src/app/` to list all routes. Buil
 
 **Open decisions (from PRD):** Cart state management library (React context vs zustand vs `@shopify/hydrogen-react` hooks without Hydrogen framework) — resolve at Phase 3 activation.
 
-**Model & Mode [REQUIRED]:** `/model opusplan` — this epic involves significant architectural decisions (cart state management, data authority enforcement, monorepo rename). Opus plans, Sonnet executes.
+**Model & Mode [REQUIRED]:** `/model opus` — this epic involves significant architectural decisions (cart state management, data authority enforcement, monorepo rename). Opus plans, Sonnet executes.
 
 ## Non-Goals
 

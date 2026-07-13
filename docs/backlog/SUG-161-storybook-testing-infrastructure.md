@@ -54,11 +54,11 @@ Install `@storybook/addon-vitest`. Configure workspace. Pipe coverage to CI summ
 - **a11y severity config:** The test-runner can read `addon-a11y` config from story parameters. Define a shared `a11yConfig` in `apps/storybook/.storybook/preview.ts` with `rules` set to downgrade noisy rules (e.g. `color-contrast` for stories that deliberately use brand accent on brand bg) to `warn`. Only genuine structural violations (`role` misuse, missing `aria-*`, keyboard traps) should be `error`.
 - **CI job placement:** Add a new `storybook-tests` job to `ci.yml` that runs after the main lint/build job (to avoid redundant installs). The Chromatic job already handles visual regression; the new job handles behavioural + a11y.
 - **Activation audit:** Before Phase 1, read `.github/workflows/ci.yml` in full to understand the current job structure and pnpm cache setup, then model the new job to match.
-- **Model & Mode:** `/model opusplan` — Opus plans (Pre-Execution Gate → Files to Modify), Sonnet executes after plan-mode exit.
+- **Model & Mode:** `/model opus` — Opus plans (Pre-Execution Gate → Files to Modify), Sonnet executes after plan-mode exit.
 
 ## Model & Mode [REQUIRED]
 
-`/model opusplan` — tooling + config changes across multiple files (package.json, main.ts, ci.yml, story files); planning pass needed to avoid mis-sequencing the three phases and breaking the existing Chromatic job.
+`/model opus` — tooling + config changes across multiple files (package.json, main.ts, ci.yml, story files); planning pass needed to avoid mis-sequencing the three phases and breaking the existing Chromatic job.
 
 ## Non-Goals
 

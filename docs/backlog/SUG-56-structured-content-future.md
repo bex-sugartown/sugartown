@@ -10,25 +10,25 @@
 
 ## Model & Mode [REQUIRED]
 
-> Use Claude Code's `opusplan` alias for this epic. Opus handles planning
-> (Pre-Execution Gate → Files to Modify), Sonnet handles execution
-> (code changes, migration runs, acceptance tests). The handoff is automatic
-> when you exit plan mode.
+> Use the Opus plan-first workflow for this epic. Opus handles planning
+> (Pre-Execution Gate → Files to Modify) in plan mode, then Sonnet handles
+> execution (code changes, migration runs, acceptance tests) after you exit
+> plan mode. (The `opusplan` preset was retired — set the split up manually.)
 >
 > **Session setup:**
-> 1. `/model opusplan` — set once at session start
+> 1. `/model opus` — set once at session start
 > 2. `Shift+Tab` until status bar reads "plan mode"
 > 3. Paste this epic as the first prompt
 > 4. Review Opus's plan against the gates below; push back until aligned
-> 5. Exit plan mode (`Shift+Tab`) — Sonnet takes over for execution
+> 5. Exit plan mode (`Shift+Tab`), then `/model sonnet` takes over for execution
 >
 > **Override rule:** if Sonnet stalls during execution on something that's
 > architectural rather than mechanical (e.g. an unexpected cross-workspace
 > type error, a token cascade that isn't resolving), type `/model opus`
-> for that single question, then `/model opusplan` to return. Note the
+> for that single question, then `/model sonnet` to return. Note the
 > override in the epic's post-mortem so we learn where Sonnet's ceiling is.
 >
-> **When to deviate from opusplan:**
+> **When to deviate from the plan-first workflow:**
 > - Pure copy/content epics (no code): use `/model sonnet` — no planning depth needed
 > - Pure architecture epics (Schema ERD, SSR strategy, monorepo boundary changes): use `/model opus` — execution benefits from sustained depth too
 

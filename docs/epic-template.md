@@ -49,21 +49,22 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 > renderers, story consolidation, schema-driven CRUD, migration scripts,
 > content/copy epics. No plan-mode handoff needed; Sonnet executes directly.
 >
-> **Use `opusplan` (Opus plans, Sonnet executes) only for epics with genuine
+> **Use the Opus plan-first workflow only for epics with genuine
 > architectural ambiguity** — Schema ERD changes, SSR/rendering strategy,
 > monorepo boundary changes, a new cross-cutting abstraction with no existing
 > pattern to extend. These are the epics where the *plan itself* is the hard
-> part, not the execution.
+> part, not the execution. (The `opusplan` preset was retired; the plan/execute
+> split is now set up manually — Opus in plan mode, then Sonnet for execution.)
 >
-> **Session setup (opusplan epics only):**
-> 1. `/model opusplan` — set once at session start
+> **Session setup (Opus plan-first epics only):**
+> 1. `/model opus` — set once at session start
 > 2. `Shift+Tab` until status bar reads "plan mode"
 > 3. Paste this epic as the first prompt
 > 4. Review Opus's plan against the gates below; push back until aligned
-> 5. Exit plan mode (`Shift+Tab`) — Sonnet takes over for execution
+> 5. Exit plan mode (`Shift+Tab`), then `/model sonnet` takes over for execution
 >
 > **Override rule:** if Sonnet stalls — on either a plain-`/model sonnet` epic
-> or during opusplan execution — on something architectural rather than
+> or during Opus plan-first execution — on something architectural rather than
 > mechanical (e.g. an unexpected cross-workspace type error, a token cascade
 > that isn't resolving), type `/model opus` for that single question, then
 > return to the epic's normal mode. Note the override in the epic's
@@ -80,7 +81,7 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 
 ## Pre-Execution Completeness Gate [REQUIRED — complete before writing Scope or Phases]
 
-> **Model phase:** On an `opusplan` epic, this gate runs under Opus in plan mode — do not exit plan mode until it and the audits below are clean. On a plain-`/model sonnet` epic (the default — see Model & Mode above), this gate still applies in full; Sonnet completes it before writing Scope or Phases, there's just no separate plan-mode handoff.
+> **Model phase:** On an Opus plan-first epic, this gate runs under Opus in plan mode — do not exit plan mode until it and the audits below are clean. On a plain-`/model sonnet` epic (the default — see Model & Mode above), this gate still applies in full; Sonnet completes it before writing Scope or Phases, there's just no separate plan-mode handoff.
 
 > This checklist must be fully ticked before execution begins. An incomplete brief is a
 > process failure, not a starting condition. If any item cannot be answered, resolve it

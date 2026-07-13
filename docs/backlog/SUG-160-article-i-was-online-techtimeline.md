@@ -84,7 +84,7 @@ Uses the Phase 1 component. Ships as its own merge + mini-release.
 4. Mondo 2000 connection: reader or contributor?
 5. Name first boyfriend and BBS friends, or keep as "people I still know"?
 
-**Model & Mode:** `/model opusplan` — Opus plans Phase 1 component architecture (DS primitive + schema design), Sonnet executes. Phase 2 is pure content with Content Write Gate; `/model sonnet` for Phase 2 session.
+**Model & Mode:** `/model opus` — Opus plans Phase 1 component architecture (DS primitive + schema design), Sonnet executes. Phase 2 is pure content with Content Write Gate; `/model sonnet` for Phase 2 session.
 
 ### Schema field proposal
 
@@ -97,7 +97,7 @@ Uses the Phase 1 component. Ships as its own merge + mini-release.
 
 ## Model & Mode
 
-`/model opusplan` for Phase 1 (component architecture decision: DS primitive vs page-specific, schema design, file structure). `/model sonnet` for Phase 2 (content-only session, Content Write Gate enforced).
+`/model opus` for Phase 1 (component architecture decision: DS primitive vs page-specific, schema design, file structure). `/model sonnet` for Phase 2 (content-only session, Content Write Gate enforced).
 
 ## Non-Goals
 

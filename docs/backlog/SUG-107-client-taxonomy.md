@@ -74,7 +74,7 @@ The existing `project` taxonomy represents Sugartown's internal passion projects
 
 ## Model & Mode [REQUIRED]
 
-`/model opusplan` — schema field promotion + GROQ query changes + new route and detail page. Opus plans the migration sequence and route architecture; Sonnet executes migrations, schema deploy, and component implementation.
+`/model opus` — schema field promotion + GROQ query changes + new route and detail page. Opus plans the migration sequence and route architecture; Sonnet executes migrations, schema deploy, and component implementation.
 
 ## Acceptance Criteria
 

@@ -6,7 +6,7 @@
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
 
-> **Phase 0 sign-off (2026-07-13):** HTML mock at `docs/drafts/SUG-207-north-star-case-study-template.html` reviewed and approved by Bex. All decision-table items (challenge block, outcomes mechanism, stat/card type name, FAQ elevation, `keyQuestions[]` retirement, the three bespoke-logic resolutions, empty-state contract, outcome-tile framing) are Approved. **Implementation has NOT begun** — this doc is activation-ready. Activate under `/model opusplan` (Opus plans the Pre-Execution Gate, Sonnet executes).
+> **Phase 0 sign-off (2026-07-13):** HTML mock at `docs/drafts/SUG-207-north-star-case-study-template.html` reviewed and approved by Bex. All decision-table items (challenge block, outcomes mechanism, stat/card type name, FAQ elevation, `keyQuestions[]` retirement, the three bespoke-logic resolutions, empty-state contract, outcome-tile framing) are Approved. **Implementation has NOT begun** — this doc is activation-ready. Activate under `/model opus` in plan mode (Opus plans the Pre-Execution Gate, then Sonnet executes).
 
 # SUG-207 — North Star Case Study Template
 
@@ -76,7 +76,7 @@ After this epic: the case study detail page has one canonical section order and 
   - Read `apps/web/src/lib/queries.js` `caseStudyBySlugQuery` (~line 927) at activation to confirm the exact `statTileSection` branch to remove.
   - Read `apps/studio/schemas/objects/outcomeItem.ts` and `apps/studio/schemas/documents/caseStudy.ts` `outcomes` field at activation to write the exact schema diff.
   - Check whether any live Sanity case study document currently has populated `outcomes[]` data that would need reshaping when the field type changes — query `*[_type == "caseStudy" && count(outcomes) > 0]{ _id, title, outcomes }` before making the schema change.
-- **Model & Mode [REQUIRED]:** `/model opusplan` — this epic spans schema design, GROQ query changes, and React render logic with a structural decision (fold bespoke logic into shared recipe vs. justify divergence) that benefits from a Pre-Execution Gate plan before Sonnet executes.
+- **Model & Mode [REQUIRED]:** `/model opus` (plan mode) — this epic spans schema design, GROQ query changes, and React render logic with a structural decision (fold bespoke logic into shared recipe vs. justify divergence) that benefits from a Pre-Execution Gate plan before Sonnet executes.
 
 ### Schema field proposal
 
@@ -86,7 +86,7 @@ After this epic: the case study detail page has one canonical section order and 
 
 ## Model & Mode [REQUIRED]
 
-`/model opusplan` — Opus plans the Pre-Execution Gate (Files to Modify, schema diff, GROQ diff) before Sonnet executes. This is not a pure content epic (schema + query + frontend all change) and not a pure architecture epic (it's bounded to one doc type and one page), so the default applies.
+`/model opus` (plan mode) — Opus plans the Pre-Execution Gate (Files to Modify, schema diff, GROQ diff) before Sonnet executes. This is not a pure content epic (schema + query + frontend all change) and not a pure architecture epic (it's bounded to one doc type and one page), but the structural decision warrants a plan-first pass rather than the `/model sonnet` default.
 
 ## Non-Goals
 

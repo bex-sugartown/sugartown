@@ -158,10 +158,9 @@ section with "Not applicable — no shared CSS, token, or multi-page component c
 {- **Upstream dependencies**: any epics this depends on (e.g. schema change must land before content edit)}
 {- **Activation audits**: specific GROQ queries or file reads needed before execution begins — write them out, not "check the schema"}
 {- **Model & Mode [REQUIRED]:** state which model and mode to use at session start. Options:}
-{  - `/model sonnet` — pure content/copy epics, no code changes}
-{  - `/model opusplan` — default for most epics: Opus plans (Pre-Execution Gate → Files to Modify), Sonnet executes after plan-mode exit}
-{  - `/model opus` — pure architecture epics (SSR strategy, monorepo boundary, schema ERD design)}
-{  Do not leave this as a guess — pick one based on the scope bullets above.}
+{  - `/model sonnet` — default for most epics: DS components, section wiring, schema-driven CRUD, migrations, content/copy. Sonnet 5 executes directly, no plan-mode handoff.}
+{  - `/model opus` — architecture epics (SSR strategy, monorepo boundary, schema ERD) or high-ambiguity multi-component work. Use plan mode (Shift+Tab) for the Pre-Execution Gate, then exit to execute.}
+{  Do not leave this as a guess — pick one based on the scope bullets above. (The `opusplan` preset was retired — the plan/execute split is now "/model opus + plan mode," set up manually, not a single command.)}
 
 {If this epic adds or changes schema fields, include the following table. One row per proposed field. Skip if no schema changes.}
 
@@ -174,9 +173,9 @@ section with "Not applicable — no shared CSS, token, or multi-page component c
 ## Model & Mode [REQUIRED]
 
 {Pick exactly one and state why:}
-{- `/model sonnet` — pure content/copy epics, no code changes}
-{- `/model opusplan` — default: Opus plans (Pre-Execution Gate → Files to Modify), Sonnet executes after plan-mode exit}
-{- `/model opus` — pure architecture epics (SSR strategy, monorepo boundary, schema ERD design)}
+{- `/model sonnet` — default for most epics: DS components, section wiring, schema-driven CRUD, migrations, content/copy. Sonnet 5 executes directly.}
+{- `/model opus` — architecture epics (SSR, monorepo boundary, schema ERD) or high-ambiguity multi-component work; use plan mode (Shift+Tab) for the Pre-Execution Gate, then exit to execute.}
+{Note: the `opusplan` preset was retired — the plan/execute split is now "/model opus + plan mode," not a single command.}
 
 ## Non-Goals
 
