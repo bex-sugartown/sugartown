@@ -1,10 +1,12 @@
 ---
 **Epic:** SUG-207 — North Star Case Study Template
 **Linear Issue:** [SUG-207](https://linear.app/sugartown/issue/SUG-207/north-star-case-study-template)
-**Status:** Backlog
+**Status:** Backlog — Phase 0 mock approved 2026-07-13, awaiting activation (not yet executing)
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
+
+> **Phase 0 sign-off (2026-07-13):** HTML mock at `docs/drafts/SUG-207-north-star-case-study-template.html` reviewed and approved by Bex. All decision-table items (challenge block, outcomes mechanism, stat/card type name, FAQ elevation, `keyQuestions[]` retirement, the three bespoke-logic resolutions, empty-state contract, outcome-tile framing) are Approved. **Implementation has NOT begun** — this doc is activation-ready. Activate under `/model opusplan` (Opus plans the Pre-Execution Gate, Sonnet executes).
 
 # SUG-207 — North Star Case Study Template
 
@@ -20,7 +22,7 @@ After this epic: the case study detail page has one canonical section order and 
 
 ## Scope
 
-- [ ] Phase 0 HTML mock at `docs/drafts/SUG-207-*.html` showing the full canonical section order, using the Backroads case study (`charting-a-new-course-for-backroads-com`) as worked reference content — layer: design/mock
+- [x] Phase 0 HTML mock at `docs/drafts/SUG-207-north-star-case-study-template.html` showing the full canonical section order, using the Backroads case study (`charting-a-new-course-for-backroads-com`) as worked reference content — **approved 2026-07-13** — layer: design/mock
 - [ ] Resolve `challengeSummary` vs `calloutSection`: pick one canonical mechanism for the Challenge block (the SUG-96 mock recommends the existing `Callout` component, `title="Challenge"`) and remove the losing path from `CaseStudyPage.jsx` — layer: frontend
 - [ ] Point `caseStudy.outcomes[]` at the shared `outcomeItem` object schema instead of the duplicated inline shape — layer: schema
 - [ ] Remove dead `statTileSection` branches from `caseStudyBySlugQuery` (queries.js) and `CaseStudyPage.jsx`'s lead-stat-card peeling logic; confirm `cardSection` is the only live type checked — layer: query, frontend
@@ -36,7 +38,7 @@ After this epic: the case study detail page has one canonical section order and 
 
 ## Acceptance criteria
 
-- [ ] Phase 0 mock reviewed and explicit "Visual QA approved" received before any JSX/schema edit lands (per CLAUDE.md Phase 0 hard-stop)
+- [x] Phase 0 mock reviewed and approved (2026-07-13) before any JSX/schema edit lands (per CLAUDE.md Phase 0 hard-stop) — implementation gate cleared, activation not yet begun
 - [ ] `grep -r "statTileSection"` across `apps/web/src` and `apps/studio/schemas` returns zero matches (or only a documented, justified legacy-doc compatibility shim)
 - [ ] `caseStudy.outcomes[]` schema field references `outcomeItem` type, not an inline anonymous object — schema deployed (`npx sanity schema deploy`) and MCP writes against it succeed
 - [ ] `CaseStudyPage.jsx` contains exactly one render path for the Challenge block (no dual `calloutSection`/`challengeSummary` branch)
