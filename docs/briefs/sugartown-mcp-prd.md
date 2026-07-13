@@ -1,11 +1,11 @@
 # Sugartown MCP Server — Product Requirements Document
 
 **PRD Version:** v1.0
-**Status:** Draft
+**Status:** In implementation
 **Author:** Bex Head
 **Domain:** Mixed (Platform / Tooling / AI Workflow)
-**Last updated:** 2026-06-21
-**Related epics:** TBD
+**Last updated:** 2026-07-13
+**Related epics:** SUG-207 _(placeholder — Linear write access blocked at authoring time; confirm real issue ID and update this reference)_, `docs/backlog/SUG-207-sugartown-mcp-server-v1.md`
 **Sits alongside:** `CLAUDE.md`, `epic-template.md`, `SUGARTOWN_DESIGN_SYSTEM_RULESET.md`
 
 ---
@@ -192,14 +192,14 @@ This is a tooling package, not a UI surface. Standard Pink Moon design constrain
 
 ---
 
-## 6. Open Decisions
+## 6. Open Decisions — RESOLVED (see epic doc `docs/backlog/SUG-207-sugartown-mcp-server-v1.md` §Open Decisions Resolved)
 
-| Decision | Options | Owner | Target resolution |
+| Decision | Options | Owner | Resolution |
 |----------|---------|-------|------------------|
-| How to parse TypeScript schema files | ts-morph (full AST), regex-over-exports, or a build step that pre-compiles schemas to JSON | Bex + Claude Code | Before implementation epic |
-| Gate status source of truth | Flat file in `docs/`, CHANGELOG convention, or Linear issue state | Bex | Before implementation epic |
-| MCP server startup: manual or pnpm script | Manual `node dist/index.js` vs a `predev` hook in the workspace root | Bex | Implementation epic |
-| Whether to publish `@sugartown/mcp-server` externally | Keep internal-only for now; publish to npm later as a reference implementation | Bex | Defer to v2 decision |
+| How to parse TypeScript schema files | ts-morph (full AST), regex-over-exports, or a build step that pre-compiles schemas to JSON | Bex + Claude Code | **ts-morph** — regex is the exact brittleness risk flagged in §7; a JSON pre-compile step adds staleness risk for no benefit |
+| Gate status source of truth | Flat file in `docs/`, CHANGELOG convention, or Linear issue state | Bex | **No resolution needed** — tool is cut from v1 scope per §9, decision only becomes live if v2 picks it back up |
+| MCP server startup: manual or pnpm script | Manual `node dist/index.js` vs a `predev` hook in the workspace root | Bex | **Workspace-scoped pnpm script** (`pnpm --filter @sugartown/mcp-server dev`, already shown in §4), not a `predev` hook — MCP servers are spawned by the MCP client, not the app's dev pipeline |
+| Whether to publish `@sugartown/mcp-server` externally | Keep internal-only for now; publish to npm later as a reference implementation | Bex | **Internal-only for v1** — confirmed, not re-opened |
 
 ---
 
