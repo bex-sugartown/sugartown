@@ -91,5 +91,29 @@ Two phases — schema deploy must complete before content phase:
 - **Linear:** [SUG-93](https://linear.app/sugartown/issue/SUG-93)
 - **SUG-91:** [Case study outcomes narrative](https://linear.app/sugartown/issue/SUG-91) — upstream dependency; outcomes[] must be populated before aeoSummary can be written
 - **SUG-92:** [Case study discovery metadata](https://linear.app/sugartown/issue/SUG-92) — upstream dependency; industry context informs geoSummary
-- **SUG-94:** [Structured retrieval objects + JSON-LD](https://linear.app/sugartown/issue/SUG-94) — downstream; keyQuestions[] drives FAQPage JSON-LD output
+- **SUG-94:** [Structured retrieval objects + JSON-LD](https://linear.app/sugartown/issue/SUG-94) — downstream; the FAQPage JSON-LD is driven by `accordionSection` blocks with `semantic: "faq"` (see addendum below — `keyQuestions[]` never drove it)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage Audit, Query Layer Checklist, and Files to Modify at activation
+
+---
+
+## Addendum — keyQuestions render decision resolved (SUG-207, 2026-07-14)
+
+The SUG-93 record never documented how the "Key Questions" FAQ render decision
+resolved. It resolved toward **`accordionSection` with `semantic: "faq"`**, not the
+`keyQuestions[]` field:
+
+- **`generateJsonLd()` (`jsonLd.js`) reads only `accordionSection` blocks with
+  `semantic: "faq"`** to emit the schema.org `FAQPage` structured data. It never
+  read `keyQuestions[]`. A stale schema comment (`caseStudy.ts:504`) claiming
+  otherwise was corrected in SUG-207.
+- **`CaseStudyPage.jsx` had no render path for `keyQuestions[]`** — the field was
+  fully orphaned, not even a legacy fallback.
+- A SUG-207 live-data probe confirmed all 7 published case studies already carried
+  the `keyQuestions[]` content **byte-identical** inside a `semantic: "faq"`
+  accordion (verified per-doc: question↔title and answer↔`pt::text(content)`).
+
+**SUG-207 retired `keyQuestions[]`** — no content migration was needed (data already
+duplicated forward). Cleanup was: unset the field on the 7 documents, remove the
+schema field + GROQ projection, and delete the orphaned `.keyQuestionsZone` /
+`.keyQuestionsLabel` CSS. The `outcomes[]` field was retired in the same epic (0/7
+docs used it; the canonical outcomes mechanism is `cardSection`).

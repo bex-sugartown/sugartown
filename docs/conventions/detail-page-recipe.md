@@ -54,3 +54,30 @@ Genuinely page-specific presentation with no structural equivalent — e.g. glos
 Before Visual QA, open one existing sibling page of the same kind (e.g. a new entity
 page vs `/tools/vercel`) and compare structure: shell, folio, headings, section labels,
 grids, chips. Structural divergence without justification is drift.
+
+## Two detail-page families (SUG-207)
+
+`ToolDetailPage` (above) is the reference for the **`entityDetailPage`** family —
+logo/avatar folio pages: `ToolDetailPage`, `GlossaryTermPage`, `SeriesPage`,
+`TaxonomyDetailPage`. There is a second, distinct family this recipe was never
+scoped to: the **`.detailPage` prose-content** family — `CaseStudyPage`,
+`ArticlePage`, `NodePage`, `RootPage` — which share `PageSidebar`, `MetadataCard`,
+`extractLeadHero` (`lib/heroUtils.js`), and the `--sidebar-row` grid.
+
+**Close-out rule:** compare a new page against a sibling *from its own family*.
+A content-page-family epic (case study, article, node) compares against
+`ArticlePage` or `NodePage` — **not** `ToolDetailPage`. Comparing across families
+tests the wrong structure.
+
+### Justified content-family divergences
+
+- **Lead-stat-card peeling** (`CaseStudyPage`): the leading run of `cardSection`
+  blocks is promoted full-span above the two-column split. Case-study-only — kept
+  page-local, not folded into `PageSections` (SUG-207 Option B). It is page
+  *composition* (which blocks go full-span), not section *rendering*.
+- **Challenge-block hoist** (`CaseStudyPage`): the `calloutSection` is hoisted out
+  of the linear section flow to render as the full-span Challenge block.
+  Case-study-only; kept page-local for the same reason.
+- **`--sidebar-row`** is *not* page-specific — `CaseStudyPage` and `RootPage` both
+  need it. Shared via `getSidebarRowStart(precedingFullSpanRows)` in `lib/`. Do not
+  re-inline a per-page formula; extend the shared util if a third page needs it.
