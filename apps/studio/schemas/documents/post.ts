@@ -28,7 +28,7 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      description: 'The blog post title',
+      description: 'The blog post title (max. 100 characters)',
       group: 'content',
       validation: (Rule) =>
         Rule.required()
@@ -53,7 +53,7 @@ export default defineType({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
-      description: 'Brief summary for post listings and social sharing',
+      description: 'Brief summary for post listings and social sharing (soft max. 300 characters)',
       group: 'content',
       rows: 3,
       validation: (Rule) =>
@@ -83,7 +83,7 @@ export default defineType({
       type: 'string',
       // Stage 5: hidden from Studio — use authors[] (person references) instead.
       // Data preserved in Sanity for migration. TODO Stage 6+: remove after migration.
-      description: 'Legacy plain-text author. Superseded by "Authors" (person references). Hidden from Studio.',
+      description: 'Legacy plain-text author. Superseded by "Authors" (person references). Hidden from Studio. (max. 100 characters)',
       group: 'metadata',
       hidden: true,
       validation: (Rule) => Rule.max(100)

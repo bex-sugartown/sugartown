@@ -21,7 +21,7 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      description: 'Main headline for the homepage hero',
+      description: 'Main headline for the homepage hero (max. 100 characters)',
       validation: (Rule) =>
         Rule.required()
           .max(100)
@@ -32,7 +32,7 @@ export default defineType({
       title: 'Subtitle',
       type: 'text',
       rows: 2,
-      description: 'Supporting text beneath the title',
+      description: 'Supporting text beneath the title (soft max. 200 characters)',
       validation: (Rule) =>
         Rule.max(200)
           .warning('Subtitle should be under 200 characters')
@@ -48,7 +48,7 @@ export default defineType({
           title: 'Callout Text',
           type: 'text',
           rows: 2,
-          description: 'Featured message or announcement',
+          description: 'Featured message or announcement (max. 200 characters)',
           validation: (Rule) => Rule.max(200)
         }),
         defineField({
@@ -102,7 +102,7 @@ export default defineType({
           name: 'metaTitle',
           title: 'Meta Title',
           type: 'string',
-          description: 'Override the default meta title',
+          description: 'Override the default meta title (soft max. 60 characters)',
           validation: (Rule) =>
             Rule.max(60)
               .warning('Meta titles should be under 60 characters')
@@ -112,7 +112,7 @@ export default defineType({
           title: 'Meta Description',
           type: 'text',
           rows: 2,
-          description: 'Override the default meta description',
+          description: 'Override the default meta description (soft max. 160 characters)',
           validation: (Rule) =>
             Rule.max(160)
               .warning('Meta descriptions should be under 160 characters')

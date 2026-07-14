@@ -26,7 +26,7 @@ export default defineType({
       name: 'siteTitle',
       title: 'Site Title',
       type: 'string',
-      description: 'The main site name (e.g., "Sugartown")',
+      description: 'The main site name (e.g., "Sugartown", max. 60 characters)',
       group: 'general',
       validation: (Rule) =>
         Rule.required()
@@ -37,7 +37,7 @@ export default defineType({
       name: 'tagline',
       title: 'Tagline',
       type: 'string',
-      description: 'A short tagline or slogan (e.g., "AI Collaboration Knowledge Base")',
+      description: 'A short tagline or slogan (e.g., "AI Collaboration Knowledge Base", soft max. 100 characters)',
       group: 'general',
       validation: (Rule) => Rule.max(100).warning('Tagline should be under 100 characters')
     }),
@@ -138,7 +138,7 @@ export default defineType({
       name: 'copyrightText',
       title: 'Copyright Text',
       type: 'string',
-      description: 'Appended after "© {year} {siteTitle}." (e.g., "All rights reserved.")',
+      description: 'Appended after "© {year} {siteTitle}." (e.g., "All rights reserved.", max. 100 characters)',
       group: 'footer',
       validation: (Rule) => Rule.max(100)
     }),
@@ -161,7 +161,7 @@ export default defineType({
       name: 'licenseLabel',
       title: 'License Label',
       type: 'string',
-      description: 'e.g. "Content CC BY-NC 4.0 · Code MIT"',
+      description: 'e.g. "Content CC BY-NC 4.0 · Code MIT" (max. 100 characters)',
       group: 'footer',
       validation: (Rule) => Rule.max(100)
     }),
@@ -187,7 +187,7 @@ export default defineType({
       name: 'defaultMetaTitle',
       title: 'Default Meta Title',
       type: 'string',
-      description: 'Fallback title for pages without custom SEO (e.g., "Sugartown - AI Collaboration Knowledge Base")',
+      description: 'Fallback title for pages without custom SEO (e.g., "Sugartown - AI Collaboration Knowledge Base", soft max. 60 characters)',
       group: 'seo',
       validation: (Rule) =>
         Rule.max(60)
@@ -198,7 +198,7 @@ export default defineType({
       title: 'Default Meta Description',
       type: 'text',
       rows: 2,
-      description: 'Fallback description for search results and social sharing',
+      description: 'Fallback description for search results and social sharing (soft max. 160 characters)',
       group: 'seo',
       validation: (Rule) =>
         Rule.max(160)

@@ -24,7 +24,7 @@ export default defineType({
       name: 'message',
       title: 'Message',
       type: 'string',
-      description: 'The announcement text displayed in the preheader',
+      description: 'The announcement text displayed in the preheader (soft max. 150 characters)',
       validation: (Rule) => Rule.max(150).warning('Keep message under 150 characters for best display')
     }),
     defineField({

@@ -29,7 +29,7 @@ export default defineType({
       name: 'title',
       title: 'Internal Title',
       type: 'string',
-      description: 'Internal reference title — used for SEO <title>, Studio previews, and slugs. The visible page title is the Hero Section heading.',
+      description: 'Internal reference title — used for SEO <title>, Studio previews, and slugs. The visible page title is the Hero Section heading. (max. 100 characters)',
       group: 'content',
       validation: (Rule) =>
         Rule.required()
@@ -54,7 +54,7 @@ export default defineType({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
-      description: 'Brief summary for article listings and social sharing',
+      description: 'Brief summary for article listings and social sharing (soft max. 300 characters)',
       group: 'content',
       rows: 3,
       validation: (Rule) =>
@@ -142,7 +142,7 @@ export default defineType({
       name: 'readingTime',
       title: 'Reading Time',
       type: 'number',
-      description: 'Estimated reading time in minutes. Manual entry or computed from word count.',
+      description: 'Estimated reading time in minutes. Manual entry or computed from word count. (1–60)',
       group: 'metadata',
       validation: (Rule) => Rule.min(1).max(60).integer(),
     }),
@@ -182,7 +182,7 @@ export default defineType({
       name: 'aiDisclosure',
       title: 'AI Collaboration Disclosure',
       type: 'string',
-      description: 'AI collaboration disclosure — e.g. "Drafted with Claude, edited by Bex Head." Renders below byline on detail pages. Leave blank for fully human-authored content.',
+      description: 'AI collaboration disclosure — e.g. "Drafted with Claude, edited by Bex Head." Renders below byline on detail pages. Leave blank for fully human-authored content. (max. 300 characters)',
       group: 'metadata',
       validation: (Rule) => Rule.max(300),
     }),
@@ -302,7 +302,7 @@ export default defineType({
       name: 'author',
       title: 'Author (Legacy)',
       type: 'string',
-      description: 'Legacy plain-text author. Superseded by "Authors" (person references). Hidden from Studio.',
+      description: 'Legacy plain-text author. Superseded by "Authors" (person references). Hidden from Studio. (max. 100 characters)',
       group: 'metadata',
       hidden: true,
       validation: (Rule) => Rule.max(100)

@@ -20,7 +20,7 @@ export default defineType({
       name: 'title',
       title: 'Menu Title',
       type: 'string',
-      description: 'Internal identifier (e.g., "Primary Nav", "Footer Nav", "Mobile Menu")',
+      description: 'Internal identifier (e.g., "Primary Nav", "Footer Nav", "Mobile Menu", max. 50 characters)',
       validation: (Rule) =>
         Rule.required()
           .max(50)
@@ -30,6 +30,7 @@ export default defineType({
       name: 'header',
       title: 'Display Header',
       type: 'string',
+      description: '(max. 50 characters)',
       description:
         'Optional public-facing heading for this menu (e.g. shown as footer column heading). If empty, no heading is displayed.',
       validation: (Rule) => Rule.max(50),
@@ -38,7 +39,7 @@ export default defineType({
       name: 'items',
       title: 'Menu Items',
       type: 'array',
-      description: 'The navigation menu structure',
+      description: 'The navigation menu structure (min. 1 item)',
       of: [defineArrayMember({type: 'navItem'})],
       validation: (Rule) =>
         Rule.required()

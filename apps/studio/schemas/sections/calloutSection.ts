@@ -41,14 +41,14 @@ export default defineType({
       name: 'number',
       title: 'Folio Number',
       type: 'string',
-      description: 'Optional section number displayed in the label column, e.g. § 01',
+      description: 'Optional section number displayed in the label column, e.g. § 01 (max. 20 characters)',
       validation: (Rule) => Rule.max(20),
     }),
     defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
-      description: 'Optional bold title above the callout body.',
+      description: 'Optional bold title above the callout body. (max. 100 characters)',
       validation: (Rule) => Rule.max(100),
     }),
     defineField({

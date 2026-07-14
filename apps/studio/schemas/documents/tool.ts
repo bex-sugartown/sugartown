@@ -44,7 +44,7 @@ export default defineType({
       title: 'Tool Name',
       type: 'string',
       group: 'basics',
-      description: 'The tool, platform, or technology name (e.g., "Claude Code", "React", "Figma")',
+      description: 'The tool, platform, or technology name (e.g., "Claude Code", "React", "Figma", max. 60 characters)',
       validation: (Rule) =>
         Rule.required()
           .max(60)
@@ -112,7 +112,7 @@ export default defineType({
       title: 'Description',
       type: 'text',
       group: 'basics',
-      description: 'What is this tool and when should it be tagged? Helps editors maintain consistent vocabulary.',
+      description: 'What is this tool and when should it be tagged? Helps editors maintain consistent vocabulary. (max. 300 characters)',
       rows: 2,
       validation: (Rule) => Rule.max(300)
     }),

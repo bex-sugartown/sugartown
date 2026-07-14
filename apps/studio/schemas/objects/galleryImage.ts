@@ -28,7 +28,7 @@ export default defineType({
       name: 'alt',
       title: 'Alt Text',
       type: 'string',
-      description: 'Describe the image for accessibility and SEO (required)',
+      description: 'Describe the image for accessibility and SEO (required, soft max. 125 characters)',
       validation: (Rule) =>
         Rule.required()
           .max(125)
@@ -38,14 +38,14 @@ export default defineType({
       name: 'caption',
       title: 'Caption',
       type: 'string',
-      description: 'Optional visible caption displayed below the image',
+      description: 'Optional visible caption displayed below the image (max. 200 characters)',
       validation: (Rule) => Rule.max(200)
     }),
     defineField({
       name: 'credit',
       title: 'Photo Credit',
       type: 'string',
-      description: 'Attribution for the photographer or image source',
+      description: 'Attribution for the photographer or image source (max. 100 characters)',
       validation: (Rule) => Rule.max(100)
     }),
     defineField({

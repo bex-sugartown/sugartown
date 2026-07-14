@@ -29,7 +29,7 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      description: 'Card heading — required',
+      description: 'Card heading — required (max. 100 characters)',
       validation: (Rule) => Rule.required().max(100)
     }),
     defineField({
@@ -66,7 +66,7 @@ export default defineType({
       name: 'eyebrow',
       title: 'Eyebrow',
       type: 'string',
-      description: 'Small label above the title (e.g. category, date)',
+      description: 'Small label above the title (e.g. category, date, max. 50 characters)',
       validation: (Rule) => Rule.max(50)
     }),
     defineField({
@@ -89,7 +89,7 @@ export default defineType({
       name: 'subtitle',
       title: 'Subtitle',
       type: 'string',
-      description: 'Supporting line below the title',
+      description: 'Supporting line below the title (max. 150 characters)',
       validation: (Rule) => Rule.max(150)
     }),
     defineField({
@@ -194,7 +194,7 @@ export default defineType({
               name: 'linkLabel',
               title: 'Link Display Text',
               type: 'string',
-              description: 'Visible linked text (e.g. "Resume Factory v2.0"). For internal links, defaults to the page title if empty.',
+              description: 'Visible linked text (e.g. "Resume Factory v2.0"). For internal links, defaults to the page title if empty. (max. 100 characters)',
               validation: (Rule) => Rule.max(100)
             })
           ],

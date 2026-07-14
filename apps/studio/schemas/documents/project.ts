@@ -67,7 +67,7 @@ export default defineType({
       name: 'name',
       title: 'Project Name',
       type: 'string',
-      description: 'Human-readable project name',
+      description: 'Human-readable project name (max. 100 characters)',
       group: 'basics',
       validation: (Rule) =>
         Rule.required()
@@ -154,7 +154,7 @@ export default defineType({
       name: 'description',
       title: 'Description',
       type: 'text',
-      description: 'Brief overview of the project goals and scope',
+      description: 'Brief overview of the project goals and scope (max. 500 characters)',
       group: 'profile',
       rows: 4,
       validation: (Rule) => Rule.max(500)
@@ -216,21 +216,21 @@ export default defineType({
               name: 'metric',
               title: 'Metric',
               type: 'string',
-              description: 'What are you measuring? (e.g., "Monthly Active Users")',
+              description: 'What are you measuring? (e.g., "Monthly Active Users", max. 100 characters)',
               validation: (Rule) => Rule.required().max(100)
             }),
             defineField({
               name: 'target',
               title: 'Target',
               type: 'string',
-              description: 'Goal value (e.g., "1,000 users")',
+              description: 'Goal value (e.g., "1,000 users", max. 50 characters)',
               validation: (Rule) => Rule.max(50)
             }),
             defineField({
               name: 'current',
               title: 'Current',
               type: 'string',
-              description: 'Current value (e.g., "742 users")',
+              description: 'Current value (e.g., "742 users", max. 50 characters)',
               validation: (Rule) => Rule.max(50)
             })
           ],

@@ -42,7 +42,7 @@ export default defineType({
       name: 'name',
       title: 'Tag Name',
       type: 'string',
-      description: 'The tag label — conceptual/thematic only (e.g., "AI Ethics", "Governance", "Content Modeling")',
+      description: 'The tag label — conceptual/thematic only (e.g., "AI Ethics", "Governance", "Content Modeling", max. 50 characters)',
       validation: (Rule) =>
         Rule.required()
           .max(50)
@@ -65,7 +65,7 @@ export default defineType({
       name: 'description',
       title: 'Description',
       type: 'text',
-      description: 'What does this tag mean and when should it be applied? Helps editors maintain consistent vocabulary.',
+      description: 'What does this tag mean and when should it be applied? Helps editors maintain consistent vocabulary. (max. 300 characters)',
       rows: 2,
       validation: (Rule) => Rule.max(300)
     }),

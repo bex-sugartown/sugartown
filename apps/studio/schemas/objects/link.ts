@@ -28,7 +28,7 @@ export default defineType({
       name: 'label',
       title: 'Label',
       type: 'string',
-      description: 'The text displayed for this link',
+      description: 'The text displayed for this link (soft max. 100 characters)',
       validation: (Rule) => Rule.max(100).warning('Label should be under 100 characters')
     }),
     defineField({

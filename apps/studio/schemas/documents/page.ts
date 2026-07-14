@@ -36,7 +36,7 @@ export default defineType({
       name: 'title',
       title: 'Internal Title',
       type: 'string',
-      description: 'Internal reference title — used for SEO <title>, Studio previews, and slugs. The visible page title is the Hero Section heading.',
+      description: 'Internal reference title — used for SEO <title>, Studio previews, and slugs. The visible page title is the Hero Section heading. (max. 100 characters)',
       group: 'content',
       validation: (Rule) =>
         Rule.required()
@@ -144,7 +144,7 @@ export default defineType({
       name: 'aiDisclosure',
       title: 'AI Collaboration Disclosure',
       type: 'string',
-      description: 'AI collaboration disclosure — e.g. "Content drafted with Claude, edited by Bex Head." Renders below byline on detail pages. Leave blank for fully human-authored content.',
+      description: 'AI collaboration disclosure — e.g. "Content drafted with Claude, edited by Bex Head." Renders below byline on detail pages. Leave blank for fully human-authored content. (max. 300 characters)',
       group: 'metadata',
       validation: (Rule) => Rule.max(300),
     }),

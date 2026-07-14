@@ -18,7 +18,7 @@ export default defineType({
       name: 'heading',
       title: 'Section Heading',
       type: 'string',
-      description: 'Optional heading for this section',
+      description: 'Optional heading for this section (max. 100 characters)',
       validation: (Rule) => Rule.max(100)
     }),
     defineField({

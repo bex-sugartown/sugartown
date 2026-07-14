@@ -134,7 +134,7 @@ export default defineType({
       name: 'title',
       title: 'Archive Title',
       type: 'string',
-      description: 'e.g., "Case Studies" or "Knowledge Graph"',
+      description: 'e.g., "Case Studies" or "Knowledge Graph" (max. 100 characters)',
       group: 'content',
       validation: (Rule) =>
         Rule.required()
@@ -167,7 +167,7 @@ export default defineType({
       name: 'eyebrow',
       title: 'Eyebrow Label [DEPRECATED]',
       type: 'string',
-      description: '⚠️ Deprecated (SUG-138). Archive pages now show a ← Library breadcrumb instead of a static eyebrow label. This field is no longer rendered on the web. Safe to leave blank.',
+      description: '⚠️ Deprecated (SUG-138). Archive pages now show a ← Library breadcrumb instead of a static eyebrow label. This field is no longer rendered on the web. Safe to leave blank. (max. 60 characters)',
       group: 'content',
       validation: (Rule) => Rule.max(60),
     }),
@@ -419,7 +419,7 @@ export default defineType({
                   name: 'label',
                   title: 'Label Override',
                   type: 'string',
-                  description: 'Optional: override the default facet label (e.g., "Topic" instead of "Category")',
+                  description: 'Optional: override the default facet label (e.g., "Topic" instead of "Category", max. 50 characters)',
                   validation: (Rule) => Rule.max(50)
                 }),
                 defineField({
@@ -666,7 +666,7 @@ export default defineType({
       name: 'itemsPerPage',
       title: 'Items Per Page (coming soon)',
       type: 'number',
-      description: 'Coming soon — number of items to show before pagination. Not yet wired in the web app.',
+      description: 'Coming soon — number of items to show before pagination. Not yet wired in the web app. (6–50)',
       group: 'deferred',
       validation: (Rule) =>
         Rule.required()

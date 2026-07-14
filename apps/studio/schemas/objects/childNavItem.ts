@@ -15,6 +15,7 @@ export default defineType({
       name: 'label',
       title: 'Label',
       type: 'string',
+      description: '(max. 50 characters)',
       validation: (Rule) => Rule.required().max(50),
     }),
     defineField({

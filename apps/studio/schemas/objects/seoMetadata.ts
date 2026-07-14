@@ -50,6 +50,7 @@ export default defineType({
       name: 'title',
       title: 'Meta Title',
       type: 'string',
+      description: '(soft max. 60 characters)',
       hidden: ({parent}) => parent?.autoGenerate !== false,
       description:
         'Enter the exact title for search engines to use. Leave empty to fall back to the site default. (Only shown when Auto-generate is OFF.)',
@@ -61,6 +62,7 @@ export default defineType({
       name: 'description',
       title: 'Meta Description',
       type: 'text',
+      description: '(soft max. 160 characters)',
       rows: 3,
       description:
         'Overrides the auto-generated description in both modes. Leave empty to let the frontend derive from excerpt or body text (auto mode), or fall back to site default.',
@@ -102,7 +104,7 @@ export default defineType({
           name: 'title',
           title: 'OG Title',
           type: 'string',
-          description: 'Leave empty to inherit from SEO title',
+          description: 'Leave empty to inherit from SEO title (soft max. 60 characters)',
           validation: (Rule) =>
             Rule.max(60)
               .warning('OG titles should be under 60 characters')
@@ -112,7 +114,7 @@ export default defineType({
           title: 'OG Description',
           type: 'text',
           rows: 2,
-          description: 'Leave empty to inherit from SEO description',
+          description: 'Leave empty to inherit from SEO description (soft max. 160 characters)',
           validation: (Rule) =>
             Rule.max(160)
               .warning('OG descriptions should be under 160 characters')

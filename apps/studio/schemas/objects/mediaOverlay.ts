@@ -53,6 +53,7 @@ export default defineType({
       name: 'overlayOpacity',
       title: 'Overlay Opacity (%)',
       type: 'number',
+      description: '(0–100)',
       validation: (Rule) => Rule.min(0).max(100),
       initialValue: 50,
       hidden: ({parent}) => parent?.type !== 'color',

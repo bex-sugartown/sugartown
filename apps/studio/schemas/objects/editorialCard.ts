@@ -17,7 +17,7 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      description: 'Card headline',
+      description: 'Card headline (max. 100 characters)',
       validation: (Rule) => Rule.required().max(100)
     }),
     defineField({
@@ -25,7 +25,7 @@ export default defineType({
       title: 'Description',
       type: 'text',
       rows: 3,
-      description: 'Brief description or summary',
+      description: 'Brief description or summary (soft max. 250 characters)',
       validation: (Rule) => Rule.max(250).warning('Keep descriptions concise')
     }),
     defineField({

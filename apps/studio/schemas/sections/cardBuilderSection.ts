@@ -21,7 +21,7 @@ export default defineType({
       name: 'heading',
       title: 'Section Heading',
       type: 'string',
-      description: 'Optional heading displayed above the card grid',
+      description: 'Optional heading displayed above the card grid (max. 100 characters)',
       validation: (Rule) => Rule.max(100)
     }),
     defineField({
@@ -43,7 +43,7 @@ export default defineType({
       name: 'cards',
       title: 'Cards',
       type: 'array',
-      description: 'Add one or more cards to this section',
+      description: 'Add one or more cards to this section (min. 1)',
       of: [
         defineArrayMember({type: 'cardBuilderItem'})
       ],

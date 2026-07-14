@@ -17,7 +17,7 @@ export default defineType({
       name: 'heading',
       title: 'Section Heading',
       type: 'string',
-      description: 'Main CTA heading. Optional — leave blank for a buttons-only section.',
+      description: 'Main CTA heading. Optional — leave blank for a buttons-only section. (max. 100 characters)',
       validation: (Rule) =>
         Rule.max(100).error('Heading must be under 100 characters')
     }),
@@ -25,7 +25,7 @@ export default defineType({
       name: 'description',
       title: 'Description',
       type: 'text',
-      description: 'Supporting text for the CTA',
+      description: 'Supporting text for the CTA (max. 300 characters)',
       rows: 2,
       validation: (Rule) => Rule.max(300)
     }),
@@ -33,7 +33,7 @@ export default defineType({
       name: 'buttons',
       title: 'CTA Buttons',
       type: 'array',
-      description: 'Call-to-action buttons (up to 3: primary, secondary, tertiary)',
+      description: 'Call-to-action buttons (up to 3: primary, secondary, tertiary, min. 1)',
       of: [
         defineArrayMember({
           type: 'ctaButton'

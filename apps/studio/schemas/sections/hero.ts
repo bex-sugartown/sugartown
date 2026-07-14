@@ -17,14 +17,14 @@ export default defineType({
       name: 'eyebrow',
       title: 'Eyebrow',
       type: 'string',
-      description: 'Short label above the heading (e.g. section name, category). Renders in lime uppercase.',
+      description: 'Short label above the heading (e.g. section name, category). Renders in lime uppercase. (soft max. 80 characters)',
       validation: (Rule) => Rule.max(80).warning('Eyebrow labels work best under 80 characters')
     }),
     defineField({
       name: 'heading',
       title: 'Heading',
       type: 'string',
-      description: 'Main hero heading (usually large and prominent)',
+      description: 'Main hero heading (usually large and prominent, max. 100 characters)',
       validation: (Rule) =>
         Rule.required()
           .max(100)
@@ -34,7 +34,7 @@ export default defineType({
       name: 'subheading',
       title: 'Subheading',
       type: 'string',
-      description: 'Optional supporting text below the heading',
+      description: 'Optional supporting text below the heading (max. 200 characters)',
       validation: (Rule) => Rule.max(200)
     }),
     defineField({

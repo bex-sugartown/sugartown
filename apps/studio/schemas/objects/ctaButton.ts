@@ -17,7 +17,7 @@ export default defineType({
       name: 'text',
       title: 'Button Text',
       type: 'string',
-      description: 'The label displayed on the button. Leave blank to use the Link label instead.',
+      description: 'The label displayed on the button. Leave blank to use the Link label instead. (soft max. 50 characters)',
       hidden: true, // Deprecated — use link.label instead. Hidden but kept for backward compat with existing data.
       validation: (Rule) => Rule.max(50).warning('Button text should be under 50 characters')
     }),

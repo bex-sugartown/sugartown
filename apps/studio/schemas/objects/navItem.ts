@@ -15,7 +15,7 @@ export default defineType({
       name: 'label',
       title: 'Label',
       type: 'string',
-      description: 'The text displayed for this menu item',
+      description: 'The text displayed for this menu item (max. 50 characters)',
       validation: (Rule) =>
         Rule.required()
           .max(50)

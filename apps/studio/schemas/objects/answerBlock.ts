@@ -23,7 +23,7 @@ export default defineType({
       name: 'heading',
       title: 'Heading',
       type: 'string',
-      description: 'Section heading for this block',
+      description: 'Section heading for this block (max. 200 characters)',
       validation: (Rule) => Rule.required().max(200),
     }),
     defineField({

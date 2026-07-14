@@ -33,7 +33,7 @@ export default defineType({
       name: 'name',
       title: 'Category Name',
       type: 'string',
-      description: 'The display name for this category',
+      description: 'The display name for this category (max. 60 characters)',
       validation: (Rule) =>
         Rule.required()
           .max(60)
@@ -56,7 +56,7 @@ export default defineType({
       name: 'description',
       title: 'Description',
       type: 'text',
-      description: 'Brief description of what this category covers',
+      description: 'Brief description of what this category covers (max. 200 characters)',
       rows: 3,
       validation: (Rule) => Rule.max(200)
     }),

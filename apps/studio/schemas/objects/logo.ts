@@ -38,7 +38,7 @@ export default defineType({
       name: 'width',
       title: 'Display Width (px)',
       type: 'number',
-      description: 'Logo width in pixels (height auto-scales)',
+      description: 'Logo width in pixels (height auto-scales, 40–400px)',
       initialValue: 120,
       validation: (Rule) => Rule.min(40).max(400),
     }),

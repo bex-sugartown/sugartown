@@ -23,7 +23,7 @@ export default defineType({
       name: 'heading',
       title: 'Section Heading',
       type: 'string',
-      description: 'Optional heading displayed above the accordion.',
+      description: 'Optional heading displayed above the accordion. (max. 120 characters)',
       validation: (Rule) => Rule.max(120),
     }),
     defineField({
@@ -54,7 +54,7 @@ export default defineType({
       name: 'numberPrefix',
       title: 'Number Prefix',
       type: 'string',
-      description: 'Prefix for numbered items, e.g. "Q" → Q.01. Only used when Numbered is enabled.',
+      description: 'Prefix for numbered items, e.g. "Q" → Q.01. Only used when Numbered is enabled. (max. 4 characters)',
       initialValue: 'Q',
       validation: (Rule) => Rule.max(4),
       hidden: ({parent}) => !parent?.numbered,
@@ -73,6 +73,7 @@ export default defineType({
               name: 'title',
               title: 'Title',
               type: 'string',
+              description: '(max. 200 characters)',
               validation: (Rule) => Rule.required().max(200),
             }),
             defineField({

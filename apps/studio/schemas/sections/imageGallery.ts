@@ -17,14 +17,14 @@ export default defineType({
       name: 'heading',
       title: 'Section Heading',
       type: 'string',
-      description: 'Optional heading displayed above the gallery',
+      description: 'Optional heading displayed above the gallery (max. 100 characters)',
       validation: (Rule) => Rule.max(100)
     }),
     defineField({
       name: 'images',
       title: 'Images',
       type: 'array',
-      description: 'The images to display in this gallery',
+      description: 'The images to display in this gallery (min. 1 image)',
       of: [
         defineArrayMember({
           type: 'galleryImage'

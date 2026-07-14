@@ -62,6 +62,7 @@ export default defineType({
       name: 'label',
       title: 'Label',
       type: 'string',
+      description: '(soft max. 100 characters)',
       description:
         'Display text for this link. For internal pages this overrides the page title.',
       validation: (Rule) => Rule.max(100).warning('Label should be under 100 characters')
