@@ -276,68 +276,6 @@ export default defineType({
       validation: (Rule) => Rule.max(600),
     }),
     defineField({
-      name: 'outcomes',
-      title: 'Outcomes (migrate to sections)',
-      type: 'array',
-      description: 'Migrate this data: add a "Stat Cards" block to the sections array above, then clear these items.',
-      group: 'legacy',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          name: 'outcome',
-          title: 'Outcome',
-          fields: [
-            defineField({
-              name: 'metric',
-              title: 'Metric',
-              type: 'string',
-              description: 'What was measured (e.g. "Analyst prep time", "Conversion rate", max. 100 characters)',
-              validation: (Rule) => Rule.required().max(100),
-            }),
-            defineField({
-              name: 'valueBefore',
-              title: 'Value Before',
-              type: 'string',
-              description: 'State before the engagement (e.g. "14 manual steps, ~3 hours per intake", max. 150 characters)',
-              validation: (Rule) => Rule.max(150),
-            }),
-            defineField({
-              name: 'valueAfter',
-              title: 'Value After',
-              type: 'string',
-              description: 'State after — the result (e.g. "Automated pipeline, ~18 minutes per intake", max. 150 characters)',
-              validation: (Rule) => Rule.required().max(150),
-            }),
-            defineField({
-              name: 'impactStatement',
-              title: 'Impact Statement',
-              type: 'text',
-              description: 'Plain-language sentence explaining what changed for the client. (max. 400 characters)',
-              rows: 2,
-              validation: (Rule) => Rule.max(400),
-            }),
-            defineField({
-              name: 'evidenceType',
-              title: 'Evidence Type',
-              type: 'string',
-              description: 'How solid is this number?',
-              options: {
-                list: [
-                  {title: 'Measured', value: 'measured'},
-                  {title: 'Estimated', value: 'estimated'},
-                  {title: 'Qualitative', value: 'qualitative'},
-                ],
-                layout: 'radio',
-              },
-            }),
-          ],
-          preview: {
-            select: {title: 'metric', subtitle: 'valueAfter'},
-          },
-        }),
-      ],
-    }),
-    defineField({
       name: 'series',
       title: 'Series',
       type: 'reference',
@@ -501,7 +439,6 @@ export default defineType({
     // Machine-readable summaries for AI answer engines and LLMs.
     // aeoSummary: direct-answer paragraph for featured snippets + AI citation.
     // geoSummary: fact-dense third-person inventory for LLM extraction.
-    // keyQuestions[]: FAQ pairs driving visible accordion + SUG-94 JSON-LD output.
     defineField({
       name: 'aeoSummary',
       title: 'AEO Summary',
@@ -520,43 +457,6 @@ export default defineType({
       rows: 4,
       validation: (Rule) => Rule.max(600),
     }),
-    defineField({
-      name: 'keyQuestions',
-      title: 'Key Questions (Deprecated)',
-      type: 'array',
-      description: '⚠️ Deprecated — use an Accordion Section with semantic role "FAQ" in the Content sections instead. Existing data still displays but new content should use the section builder.',
-      group: 'retrieval',
-      hidden: true,
-      deprecated: {reason: 'Replaced by accordionSection with semantic: "faq". Add a new Accordion Section in Content and set its Semantic Role to FAQ. Migration: SUG-94.'},
-      of: [
-        defineArrayMember({
-          type: 'object',
-          name: 'keyQuestion',
-          title: 'Key Question',
-          fields: [
-            defineField({
-              name: 'question',
-              title: 'Question',
-              type: 'string',
-              description: '(max. 200 characters)',
-              validation: (Rule) => Rule.required().max(200),
-            }),
-            defineField({
-              name: 'answer',
-              title: 'Answer',
-              type: 'text',
-              description: '(max. 400 characters)',
-              rows: 3,
-              validation: (Rule) => Rule.required().max(400),
-            }),
-          ],
-          preview: {
-            select: {title: 'question', subtitle: 'answer'},
-          },
-        }),
-      ],
-    }),
-
     // LEGACY GROUP — deprecated fields + migration data from WordPress import
     defineField({
       name: 'legacySource',

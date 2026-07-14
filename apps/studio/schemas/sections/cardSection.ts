@@ -4,8 +4,8 @@ import {BarChartIcon} from '@sanity/icons'
 /**
  * cardSection — mid-content stat/evidence cluster.
  *
- * Renamed from statTileSection (SUG-151). Section builder block for 1–4
- * outcome/metric items in a grid. Renders via StatCard primitives.
+ * Renamed from the legacy stat-tile section type (SUG-151). Section builder
+ * block for 1–4 outcome/metric items in a grid. Renders via StatCard primitives.
  * SectionLabel above the container takes: number, name, title, kicker.
  *
  * Available in: caseStudy, article, node, page sections[]
