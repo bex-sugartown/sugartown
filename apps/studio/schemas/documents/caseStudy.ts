@@ -78,7 +78,16 @@ export default defineType({
         defineArrayMember({type: 'trustReportSection'}),
         defineArrayMember({type: 'citedBlock'}),
         defineArrayMember({type: 'cardSection'}),
-      ]
+      ],
+      validation: (Rule) =>
+        Rule.custom((sections) => {
+          const hasFaq = (sections || []).some(
+            (s) => s._type === 'accordionSection' && s.semantic === 'faq'
+          )
+          return hasFaq
+            ? true
+            : 'No FAQ accordion found. Add an Accordion Section with Semantic Role "FAQ": it drives the schema.org FAQPage JSON-LD (AEO/GEO). Without it, no structured data is emitted.'
+        }).warning(),
     }),
     defineField({
       name: 'citations',
@@ -264,16 +273,6 @@ export default defineType({
       description: 'Primary geography of the engagement (e.g. "UK", "US", "Remote", "US / UK / AU"). (max. 100 characters)',
       group: 'metadata',
       validation: (Rule) => Rule.max(100),
-    }),
-    defineField({
-      name: 'challengeSummary',
-      title: 'Challenge Summary (deprecated)',
-      type: 'text',
-      description: '⚠️ Deprecated — use a calloutSection in sections[] instead. Kept as fallback only; will be removed once all case studies are migrated. (max. 600 characters)',
-      group: 'legacy',
-      rows: 4,
-      hidden: ({ document }) => !document?.challengeSummary,
-      validation: (Rule) => Rule.max(600),
     }),
     defineField({
       name: 'series',

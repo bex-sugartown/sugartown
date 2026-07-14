@@ -281,7 +281,7 @@
       "route": "/case-studies/:slug",
       "displayField": "title",
       "taxonomyNote": null,
-      "fieldCount": 32,
+      "fieldCount": 31,
       "fields": [
         {
           "name": "title",
@@ -530,16 +530,6 @@
           "required": false,
           "isArray": false,
           "description": "Primary geography of the engagement (e.g. \"UK\", \"US\", \"Remote\", \"US / UK / AU\"). (max. 100 characters)",
-          "initialValue": null,
-          "refsTo": [],
-          "enumValues": null
-        },
-        {
-          "name": "challengeSummary",
-          "type": "text",
-          "required": false,
-          "isArray": false,
-          "description": "⚠️ Deprecated — use a calloutSection in sections[] instead. Kept as fallback only; will be removed once all case studies are migrated. (max. 600 characters)",
           "initialValue": null,
           "refsTo": [],
           "enumValues": null
