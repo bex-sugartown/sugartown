@@ -12,7 +12,8 @@ import { resolveSeo } from '../lib/seo'
 import { getArchivePath } from '../lib/routes'
 import { generateJsonLd } from '../lib/jsonLd'
 import { extractLeadHero } from '../lib/heroUtils'
-import { CitationNote, CitationZone, Callout } from '../design-system'
+import { getSidebarRowStart } from '../lib/getSidebarRowStart'
+import { CitationNote, CitationZone } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
 import ContentNav from '../components/ContentNav'
@@ -50,16 +51,15 @@ export default function CaseStudyPage() {
   // Pull any cardSections that open the body (after hero) — render full-span above sidebar
   let leadStatCount = 0
   for (const s of nonCalloutSections) {
-    if (s._type === 'cardSection' || s._type === 'statTileSection') leadStatCount++
+    if (s._type === 'cardSection') leadStatCount++
     else break
   }
   const leadStatCards = nonCalloutSections.slice(0, leadStatCount)
   const bodySections  = nonCalloutSections.slice(leadStatCount)
 
-  // Row 1 = MetadataCard (full-span). Each full-span block before PageSections adds a row.
-  const sidebarRow = 2
-    + (challengeSection || caseStudy.challengeSummary ? 1 : 0)
-    + leadStatCount
+  // Full-span rows before the two-column split: MetadataCard (always) + optional
+  // challenge block + each lead stat card. Sidebar starts one row past them.
+  const sidebarRow = getSidebarRowStart(1 + (challengeSection ? 1 : 0) + leadStatCount)
 
   return (
     <main>
@@ -91,17 +91,11 @@ export default function CaseStudyPage() {
           draftBadge={<DraftBadge docId={caseStudy._id} hasDraft={hasDraft} />}
         />
 
-        {challengeSection ? (
+        {challengeSection && (
           <div className={styles.challengeSummary}>
             <PageSections sections={[challengeSection]} context="detail" />
           </div>
-        ) : caseStudy.challengeSummary ? (
-          <div className={styles.challengeSummary}>
-            <Callout title="Challenge">
-              <p>{caseStudy.challengeSummary}</p>
-            </Callout>
-          </div>
-        ) : null}
+        )}
 
         {leadStatCards.length > 0 && (
           <div className={styles.outcomesFullSpan}>

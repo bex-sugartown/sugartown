@@ -11,6 +11,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { generateJsonLd } from '../lib/jsonLd'
 import { extractLeadHero } from '../lib/heroUtils'
+import { getSidebarRowStart } from '../lib/getSidebarRowStart'
 import SeoHead from '../components/SeoHead'
 import PageSections from '../components/PageSections'
 import DraftBadge from '../components/DraftBadge'
@@ -82,7 +83,7 @@ export default function RootPage({ slugOverride, hideSidebar = false } = {}) {
     <main>
       <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(page, siteSettings)} />
       {leadHero && !hideSidebar && <PageSections sections={[leadHero]} docMeta={{ date: page.publishedAt, updatedAt: page.updatedAt }} />}
-      <div className={styles.detailPage} data-has-margin={showMargin || undefined} data-no-sidebar={hideSidebar || undefined} style={showMargin ? { '--sidebar-row': hasEyebrow ? 2 : 1 } : undefined}>
+      <div className={styles.detailPage} data-has-margin={showMargin || undefined} data-no-sidebar={hideSidebar || undefined} style={showMargin ? { '--sidebar-row': getSidebarRowStart(hasEyebrow ? 1 : 0) } : undefined}>
 
         {hasEyebrow && (
           <div className={styles.pageEyebrow}>
