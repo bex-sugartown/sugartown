@@ -441,7 +441,7 @@ export const nodeBySlugQuery = `
         "body": body${PT_CONTENT_PROJECTION},
         references[]->{_id, _type, title, "slug": slug.current}
       },
-      _type == "statTileSection" => {
+      _type == "cardSection" => {
         number,
         name,
         title,
@@ -643,7 +643,7 @@ export const articleBySlugQuery = `
         "body": body${PT_CONTENT_PROJECTION},
         references[]->{_id, _type, title, "slug": slug.current}
       },
-      _type == "statTileSection" => {
+      _type == "cardSection" => {
         number,
         name,
         title,
@@ -826,7 +826,7 @@ export const pageBySlugQuery = `
         "body": body${PT_CONTENT_PROJECTION},
         references[]->{_id, _type, title, "slug": slug.current}
       },
-      _type == "statTileSection" => {
+      _type == "cardSection" => {
         number,
         name,
         title,
@@ -1056,7 +1056,7 @@ export const caseStudyBySlugQuery = `
         "body": body${PT_CONTENT_PROJECTION},
         references[]->{_id, _type, title, "slug": slug.current}
       },
-      _type == "statTileSection" => {
+      _type == "cardSection" => {
         number,
         name,
         title,
@@ -1071,18 +1071,8 @@ export const caseStudyBySlugQuery = `
         }
       },
     },
-    challengeSummary,
     aeoSummary,
     geoSummary,
-    keyQuestions[]{ _key, question, answer },
-    outcomes[]{
-      _key,
-      metric,
-      valueBefore,
-      valueAfter,
-      impactStatement,
-      evidenceType
-    },
     aiDisclosure,
     authors[]->{${PERSON_FRAGMENT}},
     status,

@@ -923,7 +923,6 @@ export default function PageSections({ sections, context = 'full', docMeta }) {
       case 'citedBlock':
         return <CitedBlockSection key={key} section={{ ...section, _sectionId: sectionId }} />
       case 'cardSection':
-      case 'statTileSection': // legacy — migrated to cardSection (SUG-151)
         return <StatCardSectionRenderer key={key} section={{ ...section, _sectionId: sectionId }} />
       default:
         console.warn(`Unknown section type: ${section._type}`)
