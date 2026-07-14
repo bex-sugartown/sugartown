@@ -4,7 +4,7 @@
  *
  * Reads apps/studio/schemas/documents/*.ts for content-facing doc types,
  * extracts field names, types, required flags, descriptions, enum values,
- * and initialValues, then emits apps/web/src/generated/content-models.json.
+ * and initialValues, then emits apps/web/src/data/content-models.json.
  *
  * Run manually:   node scripts/generate-content-models.mjs
  * Or via pnpm:    pnpm generate:content-models
