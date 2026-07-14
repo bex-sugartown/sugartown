@@ -1,7 +1,8 @@
 ---
 **Epic:** SUG-207 — North Star Case Study Template
 **Linear Issue:** [SUG-207](https://linear.app/sugartown/issue/SUG-207/north-star-case-study-template)
-**Status:** Backlog — Phase 0 mock approved 2026-07-13, awaiting activation (not yet executing)
+**Status:** Shipped 2026-07-14 — Visual QA approved. <!-- Chromatic: pending -->
+
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -9,6 +10,25 @@
 > **Phase 0 sign-off (2026-07-13):** HTML mock at `docs/drafts/SUG-207-north-star-case-study-template.html` reviewed and approved by Bex. All decision-table items (challenge block, outcomes mechanism, stat/card type name, FAQ elevation, `keyQuestions[]` retirement, the three bespoke-logic resolutions, empty-state contract, outcome-tile framing) are Approved. **Implementation has NOT begun** — this doc is activation-ready. Activate under `/model opus` in plan mode (Opus plans the Pre-Execution Gate, then Sonnet executes).
 
 # SUG-207 — North Star Case Study Template
+
+## Close-out summary (2026-07-14)
+
+Shipped via merge strategy (b), one branch. **Visual QA approved** against the Phase 0 mock on the Backroads case study.
+
+**Headline:** a latent live bug was found and fixed — `cardSection` outcome tiles rendered **blank on all 7 case studies**. The SUG-151 `statTileSection`→`cardSection` rename updated the schema and the `PageSections` render case but never the GROQ projections, which still matched only `statTileSection` for `items[]` (a type 0 docs use). Fixed by renaming the projection in all 4 sections queries; verified in-browser (tiles now render).
+
+**Decisions taken during the pre-execution gate (all live-data-verified):**
+- `outcomes[]` — **retired**, not converted to `outcomeItem` (0/7 docs used it; `cardSection` is the canonical outcomes mechanism per the mock).
+- `statTileSection` — **renamed → cardSection** in the 4 queries (not deleted — deletion would have made the outcomes bug permanent).
+- `getSidebarRowStart()` — **extracted** to `lib/`, adopted by `CaseStudyPage` + `RootPage`.
+- `challengeSummary` — schema field **retired** (approved as a scope addition; 0 data, fully unwired).
+- FAQ-accordion soft validation nudge — **added** (`.warning()` on `caseStudy.sections`).
+
+**Deferred / pending human action:**
+- <!-- Chromatic: pending --> Chromatic VRT not yet run.
+- **7 case-study drafts** (`wp.caseStudy.166/271/274/280/286/294/388`) carry the `keyQuestions` unset and **must be published** by a human — MCP writes to drafts only. `keyQuestions` content was verified byte-preserved in every FAQ accordion before the unset.
+
+---
 
 Redesign the case study detail page (`CaseStudyPage.jsx` + `caseStudy` schema) into a purpose-built, canonical template, and close out the schema/code drift that's accumulated around it since SUG-91/92/93/95/151.
 
