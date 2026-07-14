@@ -509,6 +509,7 @@ Full schema authoring rules are in `docs/conventions/schema-conventions.md`. Key
 - **Taxonomy primary field is `name`** — all five taxonomy types (`tag`, `category`, `person`, `project`, `tool`) use `name` as the field identifier, not `title`. GROQ queries use `->name`; never `->title`. The `queries.js` fragments alias it as `"title": name` for component consumption.
 - **Preview block** must use `select: { title: 'name' }` so Studio lists display correctly.
 - When creating a new taxonomy type, follow the required-fields table in `docs/conventions/schema-conventions.md`.
+- **Field descriptions must state validation limits inline** — any field with a `Rule.max()`/`Rule.min()` char or count constraint states it in `description`, one parenthetical, e.g. `(max. 100 characters)` / `(soft max. 125 characters)` / `(min. 1)`. Merge into an existing trailing parenthetical rather than stacking a second one. Applies to any structured-content schema in the monorepo, not just Sanity. See `docs/conventions/schema-conventions.md` §Field descriptions.
 
 ---
 
