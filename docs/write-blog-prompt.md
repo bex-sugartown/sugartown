@@ -81,7 +81,9 @@ Structure the sections to serve the argument, not a template. Use `heroSection` 
 - Specific over general: numbers, names, examples, not adjectives
 - Anti-slop checklist from `docs/brand/brand-voice-guide.md` before finalising
 
-**Word count:** 400–1,200 for standard articles. Long-form (1,200–2,500) only if the argument genuinely requires it.
+**Length budget (declare before drafting):** state the target word count and one line of justification against the band — 400–1,200 for standard articles, long-form (1,200–2,500) only if the argument genuinely requires it. Length is a budget, not a ceiling: readers skim roughly a fifth of the words on a page, engagement peaks around 1,600 words and declines after, and the bail-out point is the middle third. Words past the payload are debt. If the draft runs over budget, detail sections pay first — the thesis and the closer are never the cut.
+
+**Skim skeleton self-check (after drafting, before Step 2.5):** extract the title, the subheads, the first sentence of each section, and the closer. That artifact is the whole piece for a 30-second reader. If it does not carry the thesis and the argument's shape on its own, fix the skeleton before fixing anything else — no amount of good paragraph interior rescues a skeleton that doesn't tell the story.
 
 ---
 

@@ -77,6 +77,10 @@ Write the full node content following the style guide arc. Sections:
 
 The subtitle format: *Or, How [the specific embarrassing thing that happened]*
 
+**Length budget (declare before drafting):** state the target word count and one line of justification against the guide's band (600–1,800; 600–1,200 is the sweet spot for single-incident nodes). Length is a budget, not a ceiling: readers skim roughly a fifth of the words on a page and bail in the middle third, so words past the payload are debt. If the draft runs over budget, the Investigation pays first — the Failure, the Lesson, and the closer are never the cut.
+
+**Skim skeleton self-check (after drafting, before Step 2.5):** extract the title, the subtitle, the section headings, the first sentence of each section, and the closer. That artifact is the whole node for a 30-second reader — it should carry the arc (failure → investigation → fix → lesson) on its own. If it doesn't, fix the skeleton before fixing anything else.
+
 Check the anti-pattern checklist from the style guide before finalising:
 - Arc present (all five stages)
 - Title earns a click

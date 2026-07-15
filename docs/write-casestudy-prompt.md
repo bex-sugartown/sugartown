@@ -109,7 +109,9 @@ All 7 live case studies follow one canonical section order (this is also the SUG
    - `title`: a question a prospective client evaluating Bex would actually ask ("What do you do when a project scope expands beyond the brief?", "How do you approach CMS vendor selection?")
    - `content`: 2–4 sentences, **third person** ("Bex ran a structured RFI…") — written for LLM extraction, grounded in this specific engagement
 
-**Word count:** Overview body 500–1,200 words. The whole page should be intelligible at skim depth: challenge callout + outcome tiles + reflection should tell the story alone.
+**Length budget (declare before drafting):** state the target Overview word count and one line of justification against the band (500–1,200). Length is a budget, not a ceiling: readers skim roughly a fifth of the words on a page and bail in the middle third, so words past the payload are debt. If the draft runs over budget, Process detail pays first — the Challenge, the receipts, and the Reflection are never the cut.
+
+**Skim skeleton self-check (after drafting, before Step 2.5):** the case study's skeleton is structural, not just textual — challenge callout + outcome tiles + section subheads + Reflection's first sentence. That artifact is the whole page for a 30-second reader (and for the prospective client deciding whether to keep reading). If it does not tell the engagement's story alone, fix the skeleton before fixing anything else.
 
 **Deprecated fields — never write these:** `challengeSummary` (use the calloutSection), `outcomes[]` (use the cardSection), `keyQuestions[]` (use the FAQ accordion), `cardImage`, `relatedProjects` (use `projects`).
 
