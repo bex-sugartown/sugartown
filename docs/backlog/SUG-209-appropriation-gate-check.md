@@ -47,7 +47,7 @@ Not applicable — no shared CSS, token, or multi-page component changes. This e
 
 - **Content Write Gate**: this epic composes with, and extends discoverability of, CLAUDE.md's existing Content Write Gate. It does not replace it — the gate rule for content writes (before/after proposal + explicit approval) still applies to every patch this epic's retrofit audit produces.
 - **Schema changes**: unresolved — see the "Assess whether the existing citation mechanism is sufficient" scope bullet. Do not add a new schema field speculatively; decide from the activation audit.
-- **Upstream dependencies**: none blocking. Composes with the red-pen show-don't-tell/theme-discipline update (2026-07-15, same session that surfaced this parking-lot note) as prior art for "how to add a new pass to red-pen with an eval fixture."
+- **Upstream dependencies**: none blocking. Composes with the red-pen show-don't-tell/theme-discipline update (2026-07-15, same session that surfaced this parking-lot note) as prior art for "how to add a new pass to red-pen with an eval fixture." **Cross-referenced with SUG-210 (Content Pipeline Rules Consolidation)** — not blocking, but if SUG-210 has shipped by the time this epic activates, the "Wire the check into red-pen" scope bullet should target SUG-210's shared write-time-rules doc directly instead of patching `write-node-prompt.md`/`write-blog-prompt.md`/`write-casestudy-prompt.md`/`glossy-prompt.md` separately.
 - **Activation audits** (do these before writing anything):
   1. Read `docs/briefs/ai-ethics-and-operations.md` in full, particularly Principle 11 ("Attribution Matters") and the "Licensing & Copyright" section, before drafting the in-scope definition.
   2. Read `.claude/skills/red-pen/SKILL.md` Pass 1 and Pass 2 in full to decide the detection-mechanism question.
@@ -73,3 +73,4 @@ Not applicable — no shared CSS, token, or multi-page component changes. This e
 - **Prior art (same-session):** red-pen show-don't-tell + theme discipline update, 2026-07-15 — reference for "how to add a new pass to `.claude/skills/red-pen/SKILL.md` with a matching eval fixture"
 - **`docs/briefs/ai-ethics-and-operations.md`** — Principle 11 ("Attribution Matters") is this epic's ethical grounding
 - **`docs/reviews/red-pen/2026-07-15-the-control-group-kept-taking-the-medicine.md`** — origin of the parking-lot note
+- **SUG-210** (`docs/backlog/SUG-210-content-pipeline-rules-consolidation.md`) — cross-referenced, not blocking; consolidates the write-\* prompt files this epic's mechanism decision would otherwise patch separately
