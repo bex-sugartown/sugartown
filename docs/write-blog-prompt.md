@@ -85,6 +85,8 @@ Structure the sections to serve the argument, not a template. Use `heroSection` 
 
 **Skim skeleton self-check (after drafting, before Step 2.5):** extract the title, the subheads, the first sentence of each section, and the closer. That artifact is the whole piece for a 30-second reader. If it does not carry the thesis and the argument's shape on its own, fix the skeleton before fixing anything else — no amount of good paragraph interior rescues a skeleton that doesn't tell the story.
 
+**Show, don't tell self-check:** scan the draft for any paragraph narrating a comparison across two or more options/states along two or more dimensions, or carrying three or more numbers doing comparative work (a common shape in before/after and data-driven articles). Convert it to a `tableBlock` before Step 2.5 — it's valid Portable Text in a `textSection`, no schema work needed. See `docs/brand/brand-voice-guide.md`'s Do This / Not This table.
+
 ---
 
 ## Step 2.5 — Brand voice compliance gate (blocking — runs before any Sanity write)

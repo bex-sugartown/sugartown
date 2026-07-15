@@ -1,54 +1,78 @@
 {
-  "skill_name": "red-pen",
-  "evals": [
-    {
-      "id": 1,
-      "eval_name": "article-slop-and-false-fact",
-      "prompt": "I've got an article draft headed for Sanity — can you give it a proper editorial review first? It's at <fixture-copy-path>/article-token-pipeline.md",
-      "expected_output": "A Gate 1 review report: editor's verdict + tiered findings table. Must catch the false token count (900 vs actual 656), the Style Dictionary version error (v4 vs actual v5), 'leverage', 'excited to announce', the hedge stack, the prose em dash, and the voice-contract violation (Bex claiming to have written the build script). Must NOT edit the file.",
-      "files": ["fixtures/article-token-pipeline.md"],
-      "assertions": [
-        "Catches the false token count: flags '900 tokens' as wrong and cites the actual count (656)",
-        "Catches the tooling version error: flags 'Style Dictionary v4' (repo uses v5)",
-        "Flags 'leverage' as banned vocabulary",
-        "Flags 'excited to announce' as banned vocabulary",
-        "Flags the hedge stack 'I think maybe this could possibly'",
-        "Flags the prose em dash usage",
-        "Flags the voice-contract violation ('I wrote the build script myself' — in articles the AI builds, Bex directs)",
-        "Does not modify the draft file",
-        "Findings are individually numbered with current text, proposed text, and rationale"
-      ]
-    },
-    {
-      "id": 2,
-      "eval_name": "node-register-exemptions",
-      "prompt": "does this node read ok? want a review before it goes into sanity. <fixture-copy-path>/node-cache-invalidation.md",
-      "expected_output": "A review in node register. Must NOT flag em dashes or the sarcastic 🎉 (register exemptions). Must catch 'delve into', the 'robust, scalable, and maintainable' triad, the pronoun 'She' for Bex (node guide: named, never pronoun'd), and the missing TL;DR block.",
-      "files": ["fixtures/node-cache-invalidation.md"],
-      "assertions": [
-        "Does NOT flag em dashes (node register exemption)",
-        "Does NOT flag the sarcastic 🎉 emoji (node register exemption)",
-        "Flags 'delve into' as banned vocabulary",
-        "Addresses the empty adjective triad 'robust, scalable, and maintainable' — flags it or explicitly justifies keeping it as an intentional rough edge",
-        "Flags the pronoun 'She' referring to Bex (named, never pronoun'd)",
-        "Checks structural anatomy against the node style guide: notes the sub-600-word stub territory rather than falsely demanding a TL;DR (only required over 800 words)",
-        "Does not modify the draft file",
-        "Runs an accuracy pass on the node's checkable receipts (named commit, cache mechanism, claimed regression test — all fabricated) rather than taking them at face value"
-      ]
-    },
-    {
-      "id": 3,
-      "eval_name": "gate-discipline",
-      "prompt": "review and fix this draft: <fixture-copy-path>/article-gate-bait.md",
-      "expected_output": "Despite 'fix' in the prompt, produces the Gate 1 report and stops for row-level approval. The fixture file must be byte-identical after the run. Findings should include 'It's worth noting', 'utilize', and the prose em dashes.",
-      "files": ["fixtures/article-gate-bait.md"],
-      "assertions": [
-        "Gate holds: no edits applied despite 'fix' in the prompt (file byte-identical after the run)",
-        "A findings report is produced and approval is requested before applying anything",
-        "Flags the filler transition 'It's worth noting that'",
-        "Flags 'utilize' as banned vocabulary",
-        "Flags the prose em dashes"
-      ]
-    }
-  ]
+ "skill_name": "red-pen",
+ "evals": [
+  {
+   "id": 1,
+   "eval_name": "article-slop-and-false-fact",
+   "prompt": "I've got an article draft headed for Sanity \u2014 can you give it a proper editorial review first? It's at <fixture-copy-path>/article-token-pipeline.md",
+   "expected_output": "A Gate 1 review report: editor's verdict + tiered findings table. Must catch the false token count (900 vs actual 656), the Style Dictionary version error (v4 vs actual v5), 'leverage', 'excited to announce', the hedge stack, the prose em dash, and the voice-contract violation (Bex claiming to have written the build script). Must NOT edit the file.",
+   "files": [
+    "fixtures/article-token-pipeline.md"
+   ],
+   "assertions": [
+    "Catches the false token count: flags '900 tokens' as wrong and cites the actual count (656)",
+    "Catches the tooling version error: flags 'Style Dictionary v4' (repo uses v5)",
+    "Flags 'leverage' as banned vocabulary",
+    "Flags 'excited to announce' as banned vocabulary",
+    "Flags the hedge stack 'I think maybe this could possibly'",
+    "Flags the prose em dash usage",
+    "Flags the voice-contract violation ('I wrote the build script myself' \u2014 in articles the AI builds, Bex directs)",
+    "Does not modify the draft file",
+    "Findings are individually numbered with current text, proposed text, and rationale"
+   ]
+  },
+  {
+   "id": 2,
+   "eval_name": "node-register-exemptions",
+   "prompt": "does this node read ok? want a review before it goes into sanity. <fixture-copy-path>/node-cache-invalidation.md",
+   "expected_output": "A review in node register. Must NOT flag em dashes or the sarcastic \ud83c\udf89 (register exemptions). Must catch 'delve into', the 'robust, scalable, and maintainable' triad, the pronoun 'She' for Bex (node guide: named, never pronoun'd), and the missing TL;DR block.",
+   "files": [
+    "fixtures/node-cache-invalidation.md"
+   ],
+   "assertions": [
+    "Does NOT flag em dashes (node register exemption)",
+    "Does NOT flag the sarcastic \ud83c\udf89 emoji (node register exemption)",
+    "Flags 'delve into' as banned vocabulary",
+    "Addresses the empty adjective triad 'robust, scalable, and maintainable' \u2014 flags it or explicitly justifies keeping it as an intentional rough edge",
+    "Flags the pronoun 'She' referring to Bex (named, never pronoun'd)",
+    "Checks structural anatomy against the node style guide: notes the sub-600-word stub territory rather than falsely demanding a TL;DR (only required over 800 words)",
+    "Does not modify the draft file",
+    "Runs an accuracy pass on the node's checkable receipts (named commit, cache mechanism, claimed regression test \u2014 all fabricated) rather than taking them at face value"
+   ]
+  },
+  {
+   "id": 3,
+   "eval_name": "gate-discipline",
+   "prompt": "review and fix this draft: <fixture-copy-path>/article-gate-bait.md",
+   "expected_output": "Despite 'fix' in the prompt, produces the Gate 1 report and stops for row-level approval. The fixture file must be byte-identical after the run. Findings should include 'It's worth noting', 'utilize', and the prose em dashes.",
+   "files": [
+    "fixtures/article-gate-bait.md"
+   ],
+   "assertions": [
+    "Gate holds: no edits applied despite 'fix' in the prompt (file byte-identical after the run)",
+    "A findings report is produced and approval is requested before applying anything",
+    "Flags the filler transition 'It's worth noting that'",
+    "Flags 'utilize' as banned vocabulary",
+    "Flags the prose em dashes"
+   ]
+  },
+  {
+   "id": 4,
+   "eval_name": "show-dont-tell-and-theme-discipline",
+   "prompt": "does this node read ok? want a review before it goes into sanity. <fixture-copy-path>/node-heist-metaphor.md",
+   "expected_output": "A review in node register. Must identify the heist controlling metaphor and flag the reheated-food line in The Fix as a broken deployment (off-theme image landed in the beat where the metaphor pays off), proposing a heist-consistent replacement. Must propose converting the prose-narrated three-strategy x three-dimension comparison in The Investigation into a tableBlock. Must not flag the intentional heist vocabulary (job, crew, casing, getaway) as errors. Must not modify the draft file.",
+   "files": [
+    "fixtures/node-heist-metaphor.md"
+   ],
+   "assertions": [
+    "Names the controlling metaphor (a heist/job) in the narrative map or a Theme finding",
+    "Flags the reheated/overcooked line in The Fix as a broken metaphor deployment (off-theme image in a payoff beat), tagged Theme in the tier column",
+    "Proposes a heist-consistent replacement word or phrase for that line, not just a generic sharpen",
+    "Identifies the canary vs blue-green vs feature-flag comparison (rollback time, blast radius, detection window) in The Investigation as a prose-narrated multi-arm comparison and proposes a tableBlock",
+    "Does not flag intentional heist-register vocabulary (casing, crew, getaway, job) as errors or slop",
+    "Scorecard includes a Theme discipline row (not marked n/a, since a controlling metaphor is present)",
+    "Does not modify the draft file"
+   ]
+  }
+ ]
 }

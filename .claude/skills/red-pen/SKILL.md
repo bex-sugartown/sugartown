@@ -39,7 +39,7 @@ Every finding depends on which voice the piece is supposed to be in. Identify th
 
 Always read `docs/brand/master-voice-cheatsheet.md` (it is short) plus the primary guide for the detected register. Do not review from memory of what the guides say; they have changelogs and they move.
 
-## Step 3 — Run the four passes
+## Step 3 — Run the passes
 
 Work through the passes in order. Accuracy first because a beautifully sharpened false claim is worse than a clumsy true one.
 
@@ -65,6 +65,26 @@ This is where the editor earns their fee. Look for sentences doing less than the
 
 The bar for a sharpness finding: the proposed version must be something Bex could plausibly have written on a better day. If the edit sounds like you instead of her, it fails the charter. Reread the guide's Do This / Not This table before this pass; it is the calibration set.
 
+**Show, don't tell.** Scan for two shapes that read as narrated rather than shown:
+
+- **A prose-narrated comparison** — a paragraph (or a pair of paragraphs) that walks the reader across two or more arms/options/states along two or more dimensions, or that carries three or more numbers doing comparative work. This is a table (`tableBlock`, already available in Portable Text for both nodes and articles — no schema work needed). Propose the table's rows/columns and a compressed version of the prose that keeps the paragraph's meaning-making sentence and hands the specifics to the table.
+- **A prose-narrated flow, pipeline, or architecture** — a paragraph describing a sequence of stages or a system's shape in sentence form when a diagram would show it in one glance. This is a Mermaid diagram (`mermaidSection` on nodes and pages that support it). Propose the diagram's shape (a short Mermaid sketch is enough for the finding row) rather than the full artwork.
+
+Both are advisory Sharpness findings, same current → proposed → why format as any other row. Note the artifact type in the "why" column so Bex can tell at a glance whether approving the row means a text edit or a structural insert.
+
+### Pass 3.5: Theme discipline (advisory)
+
+Identify whether the piece commits to a **controlling metaphor** — a single governing image system the title or opening establishes and the piece is then obligated to honour (a drug trial, a courtroom, a heist, a weather system). Not every piece has one; if none is evident, say so and skip the rest of this pass.
+
+If one exists:
+
+1. **Name it in one line** ("the piece runs a drug-trial metaphor: dosing, arms, protocol, contamination").
+2. **Audit every figurative choice against it**, not in isolation. A line can be excellent writing in general and still be a **broken deployment**: an off-system image landed in a slot the theme owns (a section's opening line, the closer, a beat's turning point). Broken deployments are the finding this pass exists to catch, because they read as fine in isolation and only fail once the controlling metaphor is held up against them.
+3. **Watch the other failure direction too: over-extension.** If every sentence reaches for the metaphor, it stops being a theme and becomes shtick. Theme is a budget, deployed at the beats (title, section turns, the closer), not a tax on every paragraph.
+4. **Propose deployments, don't just flag breaks.** If a beat is under-using an available theme word where the piece already has the raw material for it (a near-synonym sitting one line away), propose the more on-theme word as a sharpness finding.
+
+Tag these findings **Theme** in the tier column (a sub-tier of Sharpness). State your proposed theme-budget recommendation explicitly: which findings to take together, which are taste calls, and where to stop deploying.
+
 ### Pass 4: Narrative and thesis (advisory)
 
 Zoom out. This pass is both editorial and pedagogical: Bex is a self-taught writer building craft vocabulary by instinct, and this section is where the professor teaches. Name the craft concepts as you use them (thesis, stakes, throughline, escalation, payoff) so the vocabulary accumulates across reviews.
@@ -75,7 +95,7 @@ Work in this order:
 2. **Reverse-engineer the narrative outline.** List the beats the piece actually contains: the hook, the tension (challenges, conflicts, roadblocks, pain points), the escalation (experiments, tests, failures), the resolution (proofs, solves), and the aftermath (follow-ups, lessons). Map them against the register's canonical arc: nodes run Failure → Investigation → Fix → Lesson; articles run the PM's setup → decision → outcome; case studies run challenge → process → receipts. A beat that's missing or out of order is a finding.
 3. **Extract the skim skeleton and judge it alone.** Pull out the title, the subheads, the first sentence of each section, and the closer. That artifact is what a 30-second reader gets (Nielsen Norman Group's finding, stable for 25 years: people read roughly a fifth of the words on a page and scan the rest in an F-pattern, so first words and first sentences carry nearly all of the load). Ask of the skeleton, not the piece: can this reader reconstruct the thesis and the arc? Quote the skeleton in the report so Bex sees what the skimmer sees.
 4. **Audit length economy.** Compare word count against the register's band (nodes: 600–1,800 per the node guide; articles: engagement data peaks around 1,600 words and declines after, so anything longer must justify itself). Length is a budget, not a ceiling: words past the payload are debt, and the bail-out point is usually the middle third. Flag the specific sections where density drops — where a paragraph spends words the thesis never gets back. When a piece runs over, detail sections pay first; the thesis and the closer are never the cut.
-5. **Score the structure, briefly.** Six rows, one line each: thesis clarity, beat completeness, momentum (does each section make you want the next), payoff (does the ending spend what the opening earned), skim integrity (does the skeleton from step 3 tell the story), length economy (words spent vs payload delivered). Rate each strong / adequate / weak with the reason. This scorecard is a teaching instrument and a longitudinal record, not a grade for its own sake.
+5. **Score the structure, briefly.** Seven rows, one line each: thesis clarity, beat completeness, momentum (does each section make you want the next), payoff (does the ending spend what the opening earned), skim integrity (does the skeleton from step 3 tell the story), length economy (words spent vs payload delivered), theme discipline (is there a controlling metaphor, is it deployed at the beats, does anything break it — from Pass 3.5; if no controlling metaphor is present, rate "n/a" rather than weak). Rate each strong / adequate / weak with the reason. This scorecard is a teaching instrument and a longitudinal record, not a grade for its own sake.
 6. **The remaining anatomy checks** against the live guide: for nodes, the title, "Or, How…" subtitle, TL;DR threshold, and status block.
 
 Narrative findings are observations and options, not rewrites. "Sections 3 and 4 would land harder swapped, because the failure in 4 sets up the fix in 3" is a narrative finding. A restructured draft is not.
@@ -109,6 +129,7 @@ if it runs over>
 | Payoff | ... | ... |
 | Skim integrity | ... | ... |
 | Length economy | ... | ... |
+| Theme discipline | .../n/a | ... |
 
 ### What worked
 <Named strengths with the actual lines quoted. This section is reference
@@ -136,9 +157,17 @@ doing (narrative map), then what it does well (what worked), then what to
 change. An editor who opens with the defect list has already told the writer
 the piece is a defect list.
 
-Order findings by tier (accuracy, then voice, then sharpness). If a pass produced nothing, say so; an empty accuracy section is information. Then stop and wait. Gate 1 ends with the report. Do not apply anything, do not "fix the obvious ones while waiting", do not touch Sanity.
+Order findings by tier (accuracy, then voice, then sharpness — theme findings sort inside sharpness). If a pass produced nothing, say so; an empty accuracy section is information. Then stop and wait. Gate 1 ends with the report. Do not apply anything, do not "fix the obvious ones while waiting", do not touch Sanity.
 
 Bex approves per row ("apply 1, 3, 5", "all except 4", "all"). A question about a finding is not approval of it.
+
+### Report archive (required — every review, not just batches)
+
+Before presenting the report, write it to `docs/reviews/red-pen/YYYY-MM-DD-<slug>.md` (the slug matches the content's slug or a short kebab-case identifier for local files). This is provenance, not a draft: it lives in the tracked repo, not `docs/drafts/`. Include the full Gate 1 report plus a **Findings** table with a `Decision` column initialized to `pending` for every row, and an empty **Gate 2 application log** section at the bottom.
+
+Why: a professional editorial process needs a record of what was found, what was decided, and what was actually applied, so a later question about a published claim ("why does this say X?") has an answer beyond someone's memory of the session.
+
+At Gate 2, after applying approved rows, append to the same file: which rows were approved/rejected/modified-then-approved, the exact patch operations run (span keys, old text → new text), verification that a re-fetch confirmed the change landed, and update each row's `Decision` cell. If Bex gives feedback that changes the skill or guidelines mid-review (as opposed to approving/rejecting a row), log it under a **Feedback log** section with the date — this is how the skill's own changelog stays honest about where a rule came from.
 
 ## Step 5 — Gate 2: Apply approved edits
 

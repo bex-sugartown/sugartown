@@ -101,6 +101,7 @@ The shared rule: **"we"** is only used when it means the actual caucus (Bex + AI
 | "Reduced component surface by 40%" | "Significantly reduced complexity" | Numbers are social proof. Adjectives are not. |
 | "Unicorns are allowed; just keep them away from production" | "Creative exploration is encouraged within appropriate boundaries" | Personality earns trust faster than formality. |
 | "The pipeline is a bully (and it wins)" | "The pipeline — which has been a persistent source of friction — continues to cause issues" | Em dashes are AI's favourite parenthetical crutch. Use commas, parens, or just write two sentences. Exception: `Title — Subtitle` separator in headings is permitted. |
+| A comparison table showing three metrics across two engagements | "Engagement A improved conversion by 12% and load time by 40%, while Engagement B saw an 8% lift and a 25% improvement" | Show, don't tell: a paragraph narrating a multi-arm, multi-dimension comparison is a table. Applies to case-study outcome comparisons and any article walking through more than two data points at once — see the node style guide's "Show, Don't Tell" section for the fuller rule (nodes get the same treatment, plus diagrams for pipelines). |
 
 ---
 
@@ -229,6 +230,10 @@ These are the voices Sugartown sits alongside — not templates to copy, but pee
 ---
 
 ## Changelog
+
+### v2026.07.15
+
+- Added "show, don't tell" row to the Do This / Not This table: prose-narrated multi-arm/multi-dimension comparisons become tables, for articles and case studies (cross-ref: Node Style Guide's fuller version, which also covers diagrams for pipelines)
 
 ### v2026.04.10
 

@@ -195,6 +195,23 @@ Don't just explain what broke and what fixed it. Say what would have continued t
 
 **With stakes:** "Each session I started fresh and re-discovered the same bug. Without the housekeeping prompt, there was nothing preventing a fourth fix, a fifth — an infinite loop of correct patches that never reached `main`. Bex would have kept filing the same ticket. I would have kept solving it. Neither of us would have noticed."
 
+### Show, Don't Tell
+
+If a paragraph narrates a comparison across two or more arms, options, or states along two or more dimensions, or carries three or more numbers doing comparative work, it should be a table, not prose. Nodes can carry a `tableBlock` directly in a `textSection`'s content (it's a member of the standard Portable Text set) — no schema work required. Keep the paragraph's meaning-making sentence (the thesis of that beat) and hand the specifics to the table.
+
+If a paragraph is narrating a flow, pipeline, or architecture (a sequence of stages, a system's shape), consider a Mermaid diagram via `mermaidSection` instead of describing it in sentence form. A diagram earns its place when a reader would otherwise have to hold three or more sequential steps in their head from prose alone.
+
+**Not every comparison needs a table** — a single before/after or a two-item contrast is often stronger as a sentence ("the fix took one line; finding it took four hours"). The trigger is density: multiple arms crossed with multiple dimensions is where prose stops being the right shape.
+
+### Theme: The Controlling Metaphor
+
+Some nodes commit to a **controlling metaphor** — a single governing image system, established by the title or opening, that the rest of the piece is then obligated to honour (a drug trial, a courtroom, a heist, a weather system). Not every node needs one. When one is present, it becomes a craft discipline of its own:
+
+- **Deploy it at the beats**, not in every sentence. Theme is a budget: spend it at the title, at section turns, at the closer. A metaphor used in every paragraph stops working as a metaphor and starts reading as a tic.
+- **Audit every figurative choice against the controlling metaphor, not in isolation.** A line can be a genuinely strong sentence in the deadpan register and still be a **broken deployment** — an off-system image landed in a slot the theme owns (a section's opening line, a beat's turning point). "The three without came back wearing the skill" is a good sentence on its own; in a node whose controlling metaphor is a drug trial, "the three without came back infected" is the same sentence in the right system. The failure is invisible until you hold the specific line up against the theme the rest of the piece already committed to.
+- **When the piece already has the raw material for a better word one line away** (a near-synonym sitting in an adjacent sentence, unused), that's a legitimate sharpness finding: propose the more on-theme word.
+- **Over-extension is the opposite failure.** If every sentence takes the medicine, the metaphor has become shtick. Two or three well-placed deployments across a piece's beats usually outperform ten.
+
 ### Credibility Through Candor
 
 The most credible thing in a node is the admission of what went wrong. Don't soften failures. Don't add "but we learned a lot!" caveats unless the learning is specific and actionable.
@@ -261,6 +278,8 @@ Before publishing a node, confirm:
 - [ ] **Word count is 600–1,800** — if outside this range, justify or restructure
 - [ ] **Related nodes linked** (if connections are material)
 - [ ] **Smart outsider test** — could a senior engineer unfamiliar with the Sugartown stack follow this? If a piece of jargon appears without a one-clause explanation, add it. If an analogy would help, use it.
+- [ ] **Show, don't tell** — any prose-narrated multi-arm/multi-dimension comparison converted to a table; any prose-narrated pipeline/flow considered for a diagram
+- [ ] **Theme discipline** (if a controlling metaphor is present) — deployed at the beats, no broken deployments, no over-extension
 
 ---
 
@@ -315,6 +334,12 @@ WORD COUNT: ~1,300 (within range)
 ---
 
 ## Changelog
+
+### v2026.07.15
+
+- Added "Show, Don't Tell" section: prose-narrated multi-arm comparisons become `tableBlock`s (already valid Portable Text, no schema work); prose-narrated flows/pipelines become `mermaidSection` diagrams
+- Added "Theme: The Controlling Metaphor" section: naming and auditing a piece's governing image system, broken-deployment vs over-extension failure modes
+- Added two rows to the node-specific anti-pattern checklist for both
 
 ### v2026.04.10
 

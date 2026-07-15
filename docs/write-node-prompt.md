@@ -81,6 +81,10 @@ The subtitle format: *Or, How [the specific embarrassing thing that happened]*
 
 **Skim skeleton self-check (after drafting, before Step 2.5):** extract the title, the subtitle, the section headings, the first sentence of each section, and the closer. That artifact is the whole node for a 30-second reader — it should carry the arc (failure → investigation → fix → lesson) on its own. If it doesn't, fix the skeleton before fixing anything else.
 
+**Show, don't tell self-check:** scan the draft for any paragraph narrating a comparison across two or more arms/options/states along two or more dimensions, or carrying three or more numbers doing comparative work. Convert it to a `tableBlock` before Step 2.5 rather than waiting for red-pen to catch it downstream — it's already valid Portable Text in a `textSection`, no schema work needed. Same check for any paragraph narrating a flow, pipeline, or architecture: consider a `mermaidSection` diagram instead.
+
+**Theme self-check:** if the title or opening commits to a controlling metaphor (a drug trial, a courtroom, a heist), name it in one line before finalising, and re-read every figurative choice against it, not in isolation — a strong sentence in the wrong image system is a broken deployment. Deploy the theme at the beats (title, section turns, closer), not in every paragraph; over-extension is the opposite failure. See the Node Style Guide's "Theme: The Controlling Metaphor" section.
+
 Check the anti-pattern checklist from the style guide before finalising:
 - Arc present (all five stages)
 - Title earns a click
@@ -90,6 +94,8 @@ Check the anti-pattern checklist from the style guide before finalising:
 - Ending lands
 - Smart outsider test passes
 - Word count 600–1,800
+- Show, don't tell — narrated comparisons tabled, narrated flows diagrammed
+- Theme discipline (if a controlling metaphor is present)
 
 ---
 
