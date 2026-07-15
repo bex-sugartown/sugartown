@@ -659,7 +659,7 @@
   width: 100%;
   display: block;
   margin: 0;
-  --st-media-duotone-radius: var(--st-radius-md, 12px); /* smaller radius for gallery thumbs */
+  --st-radius-media: var(--st-radius-md, 12px); /* overrides DS default xl radius so image, duotone/scrim wrappers, and .galleryItem clip match */
 }
 
 .galleryCaptionOverlay {
