@@ -16,8 +16,11 @@
 [build]
   command = "pnpm install --frozen-lockfile && cd apps/storybook && pnpm storybook:build"
   publish = "apps/storybook/storybook-static"
-  # Rebuild when Storybook config, DS package, or web DS adapter changes.
-  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- apps/storybook/ packages/design-system/ apps/web/src/design-system/"
+  # Rebuild when Storybook config, DS package, web DS adapter, or app-level
+  # component changes. apps/web/src/components/ holds 33 component stories
+  # (ImageGallery, PageSections, Hero, MetadataCard, …) rendered in this
+  # Storybook — visual fixes there must trigger a rebuild too.
+  ignore = "git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- apps/storybook/ packages/design-system/ apps/web/src/design-system/ apps/web/src/components/"
 
 [build.environment]
   NODE_VERSION = "22"
