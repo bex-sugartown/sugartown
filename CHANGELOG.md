@@ -14,6 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.28.0.
 
+- SUG-203: Relative internal links — `toInternalPath()` in `lib/linkUtils.js` normalizes same-origin absolute URLs (`https://sugartown.io/...`) to relative SPA paths so internal nav routes client-side instead of full-reloading/bouncing to prod; applied in `getLinkProps` + `resolveNavLink`. (Code shipped 2026-07-03; nav-doc data repoint deferred — schema `externalUrl` has no `allowRelative`; code backstop covers it.)
 - SUG-212: Reconciled the drifted web↔package `CodeBlock.module.css` mirror (now byte-identical across 7 divergent areas); inline code aligned to the SUG-211 Option E treatment (removed CodeBlock's local maroon/lime overrides); deleted 3 dead `--st-code-inline-*-dark*` tokens. Root cause: `validate-style-mirror` doesn't cover DS component CSS mirrors — flagged as a follow-up
 - SUG-211: Glossary chips prefer `abbreviation` over full `term` (MetadataCard Terms row, GlossaryTermPage Related Terms + its query); Option E inline-term treatment — annotation trigger takes the lime/pink pill, inline `code` recolored to a recessive neutral seafoam treatment site-wide via reassigned `--st-code-inline-*` + new `--st-glossary-annotation-*` tokens
 - Skills: `/red-pen` editorial review skill + show-don't-tell / theme-discipline self-checks in the write-* skills

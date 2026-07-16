@@ -1,12 +1,20 @@
 ---
 **Epic:** SUG-203 — Relative internal links — same-origin URL normalization + nav data fix
 **Linear Issue:** [SUG-203](https://linear.app/sugartown/issue/SUG-203/relative-internal-links-same-origin-url-normalization-nav-data-fix)
-**Status:** Backlog
+**Status:** Shipped
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
 
 # SUG-203 — Relative internal links — same-origin URL normalization + nav data fix
+
+> **CLOSE-OUT SUMMARY (reconciled 2026-07-16; code shipped 2026-07-03)**
+> Reconciled retroactively — the code merged to `main` on 2026-07-03 (feat `79f67a19`, merge `818b8a0d`, both confirmed on `origin/main`) but the epic was never formally closed out.
+> - **Code (scope item 1):** shipped — `toInternalPath()` in `lib/linkUtils.js` normalizes same-origin absolute URLs to relative SPA paths, applied in `getLinkProps` + `resolveNavLink`. Live in production ~2 weeks with no reported regressions.
+> - **Nav-data repoint (scope item 2):** deliberately **deferred, not done** — `childNavItem.externalUrl` validation has no `allowRelative`, so the 4 Platform nav children still store absolute `https://sugartown.io/platform/*` URLs. The code backstop renders them relative everywhere, so there is **no functional gap**; cleaning the stored data would need an `allowRelative` schema change + deploy. Left as a documented known-limitation. *(Optional future follow-up if the stored data itself should be clean — low value; flag if wanted.)*
+> - **Audit (scope item 3):** complete — only other same-origin absolute link is an intentionally-external social icon, left as-is.
+> - **No separate mini-release:** the code already rode along in the 0.28.x patch line (merged after v0.28.2), so a retroactive version bump would be wrong. Recorded in `CHANGELOG.md` `[Unreleased]` instead, pending the next full `/release`.
+> - **Human QA walkthrough:** never formally executed; the fix has been live in production since 2026-07-03 without incident. The AC checkboxes below remain unticked because they were never formally walked through — not because the behaviour is unverified in the wild.
 
 Internal pages are linked with absolute prod URLs (`https://sugartown.io/...`) instead of relative paths, so on localhost they bounce to production and even in prod they trigger a full page reload instead of client-side SPA routing.
 
