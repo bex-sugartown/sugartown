@@ -669,7 +669,7 @@ Some files exist in two locations and **must be byte-identical**. Each must have
 |---------|-----------|-----------------|-------------|
 | `tokens.css` | `apps/web/src/design-system/styles/` ↔ `packages/design-system/src/styles/` | generated from `tokens/source/tokens.json` | `pnpm tokens:build` + pre-commit "Do not edit directly" block + `validate:style-mirror` |
 | `theme.pink-moon.css`, `theme.light.css`, `theme.shop.css`, `globals.css`, `utilities.css` | same two style dirs | **web copy is canonical** (hand-authored) | `validate:style-mirror` (pre-commit) |
-| DS component CSS mirrors (e.g. `IndexCell.module.css`) | `apps/web/src/design-system/components/<name>/` ↔ `packages/design-system/src/components/<Name>/` | web adapter mirrors DS | drift rule (manual) — see §Design System → Web Adapter Sync |
+| DS component CSS mirrors (e.g. `IndexCell.module.css`) | `apps/web/src/design-system/components/<name>/` ↔ `packages/design-system/src/components/<Name>/` | web adapter mirrors DS | `validate:style-mirror` pass 2 (SUG-214) — diffs every `<Name>.module.css` present in both trees, matched by filename (dir case differs). Blocks new/regressed drift. 11 pre-existing drifts are grandfathered on `KNOWN_DRIFT` in `validate-style-mirror.js`, burning down via SUG-217/218/219 — delete each from the set as it's reconciled. |
 
 When you edit a hand-authored mirrored file (any theme/style file), update **both** copies in the same commit, or `validate:style-mirror` will block the commit. When adding a new must-be-identical pair, register it here and wire it into `validate-style-mirror.js`.
 
