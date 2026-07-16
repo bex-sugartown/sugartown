@@ -8,6 +8,16 @@
 
 # SUG-211 — Glossary Chip Abbreviation Preference
 
+> **CLOSE-OUT SUMMARY (shipped 2026-07-16)**
+> Both fixes implemented and Visual-QA-approved (Option E, token-level match confirmed against the mock).
+> - **Fix 1 (chip abbreviation):** `5ae228c7` — query projection + two render lines (`t.abbreviation ?? t.term`, `rel.abbreviation ?? rel.label`) + Storybook fixtures (NodeFull + Snapshot demonstrate abbrev and full-term fallback).
+> - **Fix 2 (Option E inline-term treatment):** `3ac0564d` — new `--st-glossary-annotation-{bg,color}` tokens, reassigned `--st-code-inline-*` site-wide, light + dark `theme.pink-moon.css` overrides (both mirrors), `.glossaryLink` rewrite. `validate:tokens`, `--strict-colors`, `validate:style-mirror`, lint all pass.
+> - **Two deviations from this doc (deliberate):**
+>   1. **`theme.light.css` left untouched** — it is deprecated (SUG-83, "do not add new overrides here") and never applied at runtime (`index.html` only sets `light-pink-moon`/`dark-pink-moon`). The change lives in `theme.pink-moon.css` only; zero runtime difference.
+>   2. **Orphaned-token cleanup NOT done** — the audit's claim that `--st-code-inline-bg-dark` is unreferenced is **false**: it is live at `packages/design-system` CodeBlock `.inline` dark override (line 104). Deleting it would fail `validate:tokens`. Left in place. The web↔package CodeBlock mirror has also drifted (web uses `-bg-dark-maroon`, package uses `-bg-dark`) — a pre-existing issue this epic already scoped out. **Recommended follow-up ticket:** reconcile the CodeBlock inline-code mirror drift and decide the orphan's fate.
+> - **Chromatic:** deferred at ship time. <!-- Chromatic: pending -->
+> - **Hover:** `.glossaryLink:hover` deepens to solid `lime-200` (not in the mock; approved at VQA).
+
 Two related glossary-term display fixes, bundled into one epic at Bex's request:
 
 1. When a `glossaryTerm` has an `abbreviation` (e.g. "ASCII"), every chip/tag rendering of that term should prefer the abbreviation over the full `term` string (e.g. "American Standard Code for Information Interchange"). Full-label contexts (H1s, SEO, archive lists) are correct as-is and explicitly excluded.
