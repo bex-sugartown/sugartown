@@ -1,12 +1,20 @@
 ---
 **Epic:** SUG-214 — Extend style-mirror validator to cover DS component CSS mirrors
 **Linear Issue:** [SUG-214](https://linear.app/sugartown/issue/SUG-214)
-**Status:** Backlog
+**Status:** Shipped
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 
 # SUG-214 — Extend style-mirror validator to cover DS component CSS mirrors
+
+> **CLOSE-OUT SUMMARY (shipped 2026-07-16)** — commit `99b89f9b`.
+> - **Delivered:** `validate-style-mirror.js` pass 2 diffs every `<Name>.module.css` present in both component trees, matched by filename (dir case differs: web `codeblock/` vs package `CodeBlock/`). 38 pairs compared; 6 web-only adapters (Grid, PageHeader, SectionLabel, Sidebar, SidebarNav, Tile) reported as informational skips, not failures. No new pre-commit wiring — extends the script the hook already runs.
+> - **Rollout — allowlist ratchet (decided with Bex):** the enumeration surfaced **11 pre-existing drifts** (not just CodeBlock, already fixed by SUG-212). Rather than fix them here (contradicting Non-Goals) or ship non-blocking, the check BLOCKS on any new/regressed drift + the 27 currently-clean pairs, and grandfathers the 11 on `KNOWN_DRIFT`. The SUG-212 failure mode (silent new drift) is now caught at commit time.
+> - **Burndown split into 3 follow-up epics (per Bex):** **SUG-217** (the 9 smaller drifts — Media, Breadcrumb, IconButton, Accordion, Chip, Citation, ScoreRing, Table, FilterBar), **SUG-218** (Callout — ~170-line major divergence), **SUG-219** (Card). Each pair is deleted from `KNOWN_DRIFT` as reconciled; the validator then enforces it permanently. Goal: `KNOWN_DRIFT` shrinks to empty.
+> - **CLAUDE.md Mirrored File Registry updated:** component CSS mirrors row now names `validate:style-mirror` pass 2 as the enforcement mechanism (was "drift rule (manual)").
+> - **AC met:** clean tree passes; a byte diff in any non-allowlisted pair fails with a non-zero exit + names the file (verified — the pre-ratchet run failed on all 11); one-sided files don't false-positive; wired into the same pre-commit hook. `validate:style-mirror`, `validate:tokens`, `--strict-colors`, lint all pass.
+> - **Chromatic/Visual QA:** N/A — no rendered output changed (validator + docs only).
 
 Extend `validate-style-mirror.js` (or add a sibling check) so DS **component** `.module.css` mirrors are compared for byte-identity between `apps/web` and `packages/design-system`, not just the six style-dir files.
 
