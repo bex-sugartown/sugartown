@@ -169,6 +169,8 @@ Why: a professional editorial process needs a record of what was found, what was
 
 At Gate 2, after applying approved rows, append to the same file: which rows were approved/rejected/modified-then-approved, the exact patch operations run (span keys, old text → new text), verification that a re-fetch confirmed the change landed, and update each row's `Decision` cell. If Bex gives feedback that changes the skill or guidelines mid-review (as opposed to approving/rejecting a row), log it under a **Feedback log** section with the date — this is how the skill's own changelog stays honest about where a rule came from.
 
+**Real-world example:** [`docs/reviews/red-pen/2026-07-16-sugartown-platform-is-the-portfolio.md`](../../../docs/reviews/red-pen/2026-07-16-sugartown-platform-is-the-portfolio.md) — a full case-study review that went well past a single Gate 1/Gate 2 pass: mid-review scope creep handled cleanly (an out-of-band glossary-tagging request, a new Bextionary term, dictated new copy), a real process failure caught and fixed in the open (a blanket Portable Text `set` silently overwrote a link Bex had added directly in Studio — root-caused, fixed, and turned into a standing rule about always re-fetching live state before patching), and two Feedback log entries recording where Bex's judgment diverged from the finding's proposed resolution. Worth reading end to end as a model of what "the archive is provenance, not a formality" actually looks like under real editorial back-and-forth, not just the happy path.
+
 ## Step 5 — Gate 2: Apply approved edits
 
 Only after explicit row-level approval:
