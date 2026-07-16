@@ -14,6 +14,8 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.28.0.
 
+- SUG-211: Glossary chips prefer `abbreviation` over full `term` (MetadataCard Terms row, GlossaryTermPage Related Terms + its query); Option E inline-term treatment — annotation trigger takes the lime/pink pill, inline `code` recolored to a recessive neutral seafoam treatment site-wide via reassigned `--st-code-inline-*` + new `--st-glossary-annotation-*` tokens
+- Skills: `/red-pen` editorial review skill + show-don't-tell / theme-discipline self-checks in the write-* skills
 - SUG-207: North Star case study template — **fixed a live bug** where `cardSection` outcome tiles rendered blank on all 7 case studies (`items[]` orphaned to the renamed `statTileSection` in all 4 sections queries since SUG-151); retired dead legacy fields (`keyQuestions[]`, `outcomes[]`, `challengeSummary`) from the `caseStudy` schema + GROQ + CSS; consolidated the challenge block to a single `calloutSection` path; extracted shared `getSidebarRowStart()` (closes RootPage/CaseStudyPage drift); added a soft FAQ-accordion validation nudge; documented the two detail-page families in `detail-page-recipe.md`
 - SUG-196: AI tooling documentation structure — `docs/ai/` (agentic-caucus methodology, failure-modes, skills index, README), `docs/workflows/` (3 prompt files moved, all references updated), `Title — Subtitle` heading exception added to em dash rule
 - SUG-192: Chromatic story-count audit closed — 39→19 stories across Callout, StatCard, ScoreRing, FilterBar, Accordion, PageSections; Callout `default`/`info` variant merge (content migration + schema); Callout body/label vertical-centering fix
