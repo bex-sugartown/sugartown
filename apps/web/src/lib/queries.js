@@ -1669,6 +1669,7 @@ export const glossaryTermBySlugQuery = `
     "relatedTerms": relatedTerms[_type == "glossaryTermRef"]-> {
       _id,
       "label": term,
+      abbreviation,
       "slug": slug.current
     },
     "relatedTags": relatedTags[]-> {

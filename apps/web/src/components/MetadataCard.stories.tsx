@@ -70,6 +70,22 @@ const TAGS = {
   pimPxm:       { _id: 'tag-pim-pxm',      name: 'PIM / PXM',            slug: 'pim-pxm' },
 };
 
+// Glossary terms — one with an abbreviation (chip prefers "ASCII" over the full
+// term per SUG-211), one without (chip falls back to the full term).
+const GLOSSARY_TERMS = {
+  ascii: {
+    _id: 'term-ascii',
+    term: 'American Standard Code for Information Interchange',
+    abbreviation: 'ASCII',
+    slug: 'ascii',
+  },
+  headlessCms: {
+    _id: 'term-headless-cms',
+    term: 'Headless CMS',
+    slug: 'headless-cms',
+  },
+};
+
 const PROJECTS = {
   sugartown: {
     _id: 'proj-001',
@@ -157,6 +173,7 @@ export const NodeFull: Story = {
       TAGS.llmWorkflows, TAGS.waysWorking, TAGS.claudeCode,
       TAGS.processInsight, TAGS.postMortem, TAGS.contextEng,
     ],
+    relatedTerms: [GLOSSARY_TERMS.ascii, GLOSSARY_TERMS.headlessCms],
     projects: [PROJECTS.sugartown],
   },
 };
@@ -345,6 +362,7 @@ export const Snapshot: Story = {
             tools={[TOOLS.claudeCode, TOOLS.sanity]}
             categories={[CATEGORIES.aiCollab, CATEGORIES.waysWorking]}
             tags={[TAGS.promptEng, TAGS.aiWorkflows, TAGS.humanInLoop, TAGS.llmWorkflows, TAGS.waysWorking, TAGS.claudeCode]}
+            relatedTerms={[GLOSSARY_TERMS.ascii, GLOSSARY_TERMS.headlessCms]}
             projects={[PROJECTS.sugartown]}
           />
         </div>

@@ -311,7 +311,7 @@ export default function MetadataCard({
                         <li key={t._id}>
                           <Chip
                             variant="tag"
-                            label={t.term}
+                            label={t.abbreviation ?? t.term}
                             href={t.slug ? getCanonicalPath({ docType: 'glossaryTerm', slug: t.slug }) : undefined}
                             size="sm"
                           />

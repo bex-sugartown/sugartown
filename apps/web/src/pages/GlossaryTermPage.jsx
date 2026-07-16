@@ -120,7 +120,7 @@ export default function GlossaryTermPage() {
               {term.relatedTerms.map((rel) => (
                 <Chip
                   key={rel._id}
-                  label={rel.label}
+                  label={rel.abbreviation ?? rel.label}
                   href={getCanonicalPath({ docType: 'glossaryTerm', slug: rel.slug })}
                   variant="tag"
                 />
