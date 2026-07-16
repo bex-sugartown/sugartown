@@ -156,18 +156,25 @@
   color: var(--st-color-brand-primary);
 }
 
-/* ── Glossary annotation — inline PT mark ─────────────────────────────── */
+/* ── Glossary annotation — inline PT mark (SUG-211 Option E) ───────────────
+   Term takes the vivid lime/pink pairing inline code used to own: a lime-tint
+   background + pink text/underline. Far stronger affordance than the old thin
+   dotted underline, and distinct from the now-recessive inline-code treatment.
+   Colours resolve per-theme via --st-glossary-annotation-* (theme.pink-moon.css). */
 .glossaryLink {
-  color: inherit;
+  color: var(--st-glossary-annotation-color);
+  background-color: var(--st-glossary-annotation-bg);
+  border-radius: 3px;
+  padding: 0.05em 0.25em;
   text-decoration: underline;
-  text-decoration-style: dotted;
-  text-decoration-color: var(--st-color-seafoam-700);
+  text-decoration-color: var(--st-glossary-annotation-color);
   text-underline-offset: 3px;
   cursor: help;
 }
 
+/* Hover deepens the wash to solid lime-200 (light: tint → solid; dark: already solid) */
 .glossaryLink:hover {
-  text-decoration-color: var(--st-color-seafoam-500);
+  background-color: var(--st-color-lime-200);
 }
 
 dfn.glossaryLink {

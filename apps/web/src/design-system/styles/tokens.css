@@ -360,9 +360,7 @@
   --st-code-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   --st-code-padding: 2rem;
   --st-code-margin-block: 3rem;
-  --st-code-inline-bg: rgba(209, 255, 29, 0.12);
-  --st-code-inline-bg-dark: rgba(209, 255, 29, 0.20);
-  --st-code-inline-border: 1px solid rgba(209, 255, 29, 0.30);
+  --st-code-inline-bg-dark: rgba(209, 255, 29, 0.20); /** Legacy dark inline-code wash. Still referenced by packages/design-system CodeBlock .inline dark override — do NOT delete without reconciling that mirror (SUG-211 audit correction). */
   --st-code-font-size: 0.9rem;
   --st-citation-size: 0.72rem;
   --st-citation-marker-bg: transparent;
@@ -526,6 +524,11 @@
   --st-callout-radius: var(--st-radius-callout);
   --st-callout-border: var(--st-color-border-subtle);
   --st-code-radius: var(--st-radius-code);
+  --st-code-inline-bg: var(--st-color-softgrey-100); /** Inline code pill bg. SUG-211: recessive neutral (was lime wash); code cedes the vivid lime/pink pairing to the glossary-term annotation. Per-theme in theme.pink-moon.css. */
+  --st-code-inline-color: var(--st-color-seafoam-800);
+  --st-code-inline-text: var(--st-color-seafoam-800);
+  --st-code-inline-border: 1px solid var(--st-color-seafoam-300);
+  --st-glossary-annotation-bg: var(--st-color-lime-200); /** Inline glossary-term annotation trigger bg (SUG-211 Option E). Base is solid lime-200; light-pink-moon softens to a 45% tint, dark-pink-moon keeps it solid. */
   --st-citation-font: var(--st-font-family-mono);
   --st-citation-zone-gap: var(--st-space-3);
   --st-hero-text-color: var(--st-color-white);
@@ -621,6 +624,7 @@
   --st-tile-bg-hover: var(--st-color-bg-subtle);
   --st-blockquote-color: var(--st-color-text-secondary);
   --st-code-bg: var(--st-color-midnight);
+  --st-glossary-annotation-color: var(--st-color-pink); /** Inline glossary-term annotation trigger text + underline (SUG-211 Option E). Pink in both themes. */
   --st-citation-color: var(--st-color-text-secondary);
   --st-citation-index-color: var(--st-color-pink);
   --st-citation-marker-color: var(--st-color-pink);
@@ -654,8 +658,6 @@
   --st-tile-value-color: var(--st-stat-tile-value-color);
   --st-tile-sub-color: var(--st-stat-tile-sub-color);
   --st-blockquote-border-color: var(--st-color-brand-primary);
-  --st-code-inline-color: var(--st-color-brand-primary);
-  --st-code-inline-text: var(--st-color-brand-primary);
   --st-graph-node-item: var(--st-color-brand-primary);
   --st-graph-bg: var(--st-color-bg-canvas);
   --st-color-bg-void: var(--st-color-bg-midnight);

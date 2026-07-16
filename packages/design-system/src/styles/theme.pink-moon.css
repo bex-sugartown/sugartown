@@ -86,10 +86,14 @@
   /* row hover */
   --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
 
-  --st-code-inline-bg:          var(--st-color-lime-100);
-  --st-code-inline-color:       var(--st-color-brand-primary);
-  --st-code-inline-text:        var(--st-color-brand-primary);
-  --st-code-inline-border:      1px solid var(--st-color-softgrey-200);
+  /* Inline code — SUG-211 Option E: recessive neutral grey, seafoam text, lighter seafoam outline */
+  --st-code-inline-bg:          var(--st-color-softgrey-100);
+  --st-code-inline-color:       var(--st-color-seafoam-800);
+  --st-code-inline-text:        var(--st-color-seafoam-800);
+  --st-code-inline-border:      1px solid var(--st-color-seafoam-300);
+
+  /* Inline glossary-term annotation trigger — SUG-211 Option E: lime tint + pink (color from token base) */
+  --st-glossary-annotation-bg:  color-mix(in srgb, var(--st-color-lime-200) 45%, transparent);
 
   --st-color-text-eyebrow:      var(--st-color-pink);
   --st-color-category-link:     var(--st-color-category-link-light);
@@ -283,6 +287,17 @@
   --st-table-header-bg-subdued:       var(--st-color-midnight-700);   /* #1c2240 — opaque, no glassmorphism */
   --st-table-header-color-subdued:    var(--st-color-text-muted);
   --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 4%, transparent);
+
+  /* Inline code — SUG-211 Option E: recessive solid midnight (no glassmorphism), seafoam text,
+     darker seafoam outline (recedes against the dark page — opposite direction from light) */
+  --st-code-inline-bg:          var(--st-color-midnight-700);
+  --st-code-inline-color:       var(--st-color-seafoam-500);
+  --st-code-inline-text:        var(--st-color-seafoam-500);
+  --st-code-inline-border:      1px solid var(--st-color-seafoam-700);
+
+  /* Inline glossary-term annotation trigger — SUG-211 Option E: solid lime-200 (not a tint,
+     so it reads on the dark canvas the way light-mode code always got a solid fill) */
+  --st-glossary-annotation-bg:  var(--st-color-lime-200);
 
   /* IndexCell — inactive state on dark canvas */
   --st-index-cell-inactive-color: rgba(255, 255, 255, 0.18);
