@@ -3,7 +3,7 @@
  * Canonical CSS extracted from: artifacts/style 260118.css §02
  *
  * Block code: dark background, pink left border, monospace.
- * Inline code: light grey background, maroon text.
+ * Inline code: inherits the global Option E treatment (recessive seafoam, SUG-211).
  * Syntax theme: Sugartown custom (pink keywords, seafoam strings, lime comments).
  */
 
@@ -16,7 +16,7 @@
   --st-code-shadow: var(--st-shadow-code-base);
   --st-code-padding: 2rem;
   --st-code-margin-block: 3rem;
-  --st-code-radius: var(--st-radius-sm, 8px);
+  --st-code-radius: var(--st-radius-code, 0); /* Pink Moon */
   --st-code-font-size: 0.9rem;
 
   /* styles */
@@ -40,6 +40,12 @@
   word-wrap: break-word;
   margin: 0;
   line-height: 1.6;
+}
+
+/* Line numbers require non-wrapping text so source lines align with row numbers */
+.lineNumbers .pre {
+  white-space: pre;
+  word-wrap: normal;
 }
 
 .code {
@@ -86,24 +92,25 @@
 }
 
 /* ── Dark-theme block: differentiate from void canvas ─────────────────────── */
-[data-theme="dark-pink-moon"] .block {
+/* In dark theme the canvas bg is midnight-900 (#0D1226); code uses midnight-800
+   plus a ring shadow so the block has visible elevation. */
+[data-theme~="dark-pink-moon"] .block {
   --st-code-bg: var(--st-color-midnight-800);
   --st-code-shadow: var(--st-shadow-code-dark);
 }
 
-/* ── Inline code — dark theme: dark maroon pill ───────────────────────────── */
-[data-theme="dark-pink-moon"] .inline {
-  --st-code-inline-bg: var(--st-code-inline-bg-dark-maroon);
-  --st-code-inline-color: var(--st-color-maroon-300);
-  --st-code-inline-border: var(--st-code-inline-border-dark-maroon);
-}
+/* Inline code takes no dark-theme override — it inherits the global Option E
+   --st-code-inline-* tokens (themed in theme.pink-moon.css), matching prose
+   inline code in both light and dark. See SUG-212 (reconciliation) / SUG-211. */
 
 /* ── Line numbers (Prism line-numbers plugin) ─────────────────────────────── */
+/* The plugin adds class="line-numbers" to <pre> and injects
+   <span class="line-numbers-rows"> with one child per line. */
 :global(.line-numbers) {
   position: relative !important;
   padding-left: 3.8em !important;
   counter-reset: linenumber;
-  overflow: hidden !important;
+  overflow-x: auto !important; /* allow horizontal scroll; plugin default is hidden */
 }
 
 :global(.line-numbers-rows) {
@@ -142,12 +149,10 @@
   align-items: center;
 }
 
-/* ── Inline code ──────────────────────────────────────────────────────────── */
+/* ── Inline code — inherits the global Option E treatment (SUG-211): a recessive
+   seafoam pill in both themes, matching :not(pre) > code. No local override so
+   there is a single inline-code look site-wide. ───────────────────────────── */
 .inline {
-  --st-code-inline-bg: var(--st-color-softgrey-100);
-  --st-code-inline-color: var(--st-color-maroon);
-  --st-code-inline-border: 1px solid var(--st-color-softgrey-200);
-
   background-color: var(--st-code-inline-bg);
   color: var(--st-code-inline-color);
   padding: 0.2em 0.5em;

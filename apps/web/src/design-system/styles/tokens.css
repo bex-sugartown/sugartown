@@ -296,8 +296,6 @@
   --st-code-color-line-num: rgba(255, 255, 255, 0.45);
   --st-code-color-line-border: rgba(255, 255, 255, 0.15);
   --st-code-color-meta-border: rgba(255, 255, 255, 0.08);
-  --st-code-inline-bg-dark-maroon: rgba(185, 28, 104, 0.18);
-  --st-code-inline-border-dark-maroon: 1px solid rgba(185, 28, 104, 0.30);
   --st-code-color-button-ghost: rgba(255, 255, 255, 0.80);
   --st-code-border-ghost: rgba(255, 255, 255, 0.12);
   --st-color-category-link-light: #666680;
@@ -360,7 +358,6 @@
   --st-code-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   --st-code-padding: 2rem;
   --st-code-margin-block: 3rem;
-  --st-code-inline-bg-dark: rgba(209, 255, 29, 0.20); /** Legacy dark inline-code wash. Still referenced by packages/design-system CodeBlock .inline dark override — do NOT delete without reconciling that mirror (SUG-211 audit correction). */
   --st-code-font-size: 0.9rem;
   --st-citation-size: 0.72rem;
   --st-citation-marker-bg: transparent;
