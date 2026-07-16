@@ -2,7 +2,7 @@
 **Epic:** SUG-210 — Content Pipeline Rules Consolidation
 **Linear Issue:** [SUG-210](https://linear.app/sugartown/issue/SUG-210)
 **Status:** Backlog
-**Priority:** 🟢 Next
+**Priority:** 🔴 Now
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 
