@@ -8,6 +8,15 @@
 
 # SUG-212 — CodeBlock inline-code mirror reconciliation + orphan token cleanup
 
+> **CLOSE-OUT SUMMARY (shipped 2026-07-16)** — commit `558aeccd`, Visual-QA-approved.
+> - **Decisions (approved at activation):** inline code → align to the SUG-211 global Option E treatment (removed CodeBlock's local overrides so inline matches prose inline code in both themes); **full-file reconciliation** (not inline-only — the diff revealed 7 divergent areas, not 1).
+> - **Activation audit finding that expanded scope:** the two `CodeBlock.module.css` copies had drifted across 7 areas (block radius, `.lineNumbers .pre`, `.block` dark selector, inline dark override, line-numbers overflow, `.mermaid .pre` variant, inline light base). Notably the web copy *locally redefined* `--st-code-inline-*` to maroon, so SUG-211's Option E never actually reached the web CodeBlock in light mode.
+> - **Reconciled to:** DS-package canonical for most drifts (radius `--st-radius-code: 0`, tilde selector, `overflow-x: auto`, `.lineNumbers .pre`) + the web-only `.mermaid .pre` variant the package lacked. Both copies now **byte-identical** (diff verified).
+> - **Tokens deleted (all confirmed unreferenced after reconciliation):** `--st-code-inline-bg-dark`, `--st-code-inline-bg-dark-maroon`, `--st-code-inline-border-dark-maroon`. `--st-color-maroon-300` kept (referenced elsewhere). Token count 658 → 655.
+> - **Root cause confirmed:** `validate-style-mirror.js` covers only the 6 style-dir files, **not** DS component CSS mirrors — so this drift was invisible to CI. **Recommended follow-up:** extend `validate-style-mirror.js` (or a sibling check) to cover DS component `.module.css` mirrors, so component drift is caught automatically.
+> - **Validators:** `validate:tokens`, `--strict-colors`, `validate:style-mirror`, lint all pass.
+> - **Chromatic:** deferred at ship time. <!-- Chromatic: pending -->
+
 Reconcile the drifted web↔package `CodeBlock.module.css` inline-code mirror and resolve the orphaned `--st-code-inline-bg-dark` token, both surfaced during SUG-211.
 
 ## Background
