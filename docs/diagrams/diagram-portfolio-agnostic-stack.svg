@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 512" font-family="'Courier Prime','Courier New',monospace">
+  <defs>
+    <marker id="mInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0d1226"/>
+    </marker>
+    <marker id="mPink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ff247d"/>
+    </marker>
+    <marker id="mMute" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0d1226" fill-opacity="0.45"/>
+    </marker>
+  </defs>
+
+  <rect width="880" height="512" fill="#f8f8fa"/>
+
+  <text x="32" y="40" font-size="10" letter-spacing="1.5" fill="#ff247d">ONE SOURCE · TWO STACKS</text>
+  <text x="32" y="70" font-size="26" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">Agnostic by design</text>
+
+  <!-- top row: the two stacks -->
+  <rect x="32" y="92" width="380" height="88" fill="#ffffff" stroke="#0d1226"/>
+  <text x="48" y="116" font-size="10" letter-spacing="1.2" fill="#0d1226" fill-opacity="0.55">PRODUCTION · LIVE</text>
+  <text x="48" y="144" font-size="19" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">Sanity + React</text>
+  <text x="48" y="166" font-size="10" fill="#0d1226" fill-opacity="0.7">Netlify · apps/web</text>
+
+  <rect x="468" y="92" width="380" height="88" fill="#ffffff" stroke="#0d1226"/>
+  <text x="484" y="116" font-size="10" letter-spacing="1.2" fill="#ff247d">POC · SHIPPED LIVE</text>
+  <text x="484" y="144" font-size="19" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">Contentful + Next.js</text>
+  <text x="484" y="166" font-size="10" fill="#0d1226" fill-opacity="0.7">Vercel · apps/contentful-poc</text>
+
+  <!-- middle row: the shared foundation -->
+  <rect x="32" y="300" width="250" height="92" fill="#ffffff" stroke="#0d1226"/>
+  <text x="46" y="322" font-size="10" letter-spacing="1.2" fill="#0d1226" fill-opacity="0.55">ONE SOURCE</text>
+  <text x="46" y="348" font-size="16" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">Design tokens</text>
+  <text x="46" y="366" font-size="9.5" fill="#0d1226" fill-opacity="0.7">tokens.json · Style Dictionary</text>
+  <text x="46" y="380" font-size="9.5" fill="#0d1226" fill-opacity="0.7">generated ×2 · style validator</text>
+
+  <rect x="312" y="300" width="250" height="92" fill="#ffffff" stroke="#0d1226"/>
+  <text x="326" y="322" font-size="10" letter-spacing="1.2" fill="#0d1226" fill-opacity="0.55">COMPONENT PACKAGE</text>
+  <text x="326" y="350" font-size="12.5" font-weight="bold" fill="#0d1226">@sugartown/design-system</text>
+  <text x="326" y="368" font-size="9.5" fill="#0d1226" fill-opacity="0.7">React components + styles</text>
+  <text x="326" y="382" font-size="9.5" fill="#0d1226" fill-opacity="0.7">consumed as a workspace dep</text>
+
+  <rect x="592" y="300" width="256" height="92" fill="#ffffff" stroke="#0d1226"/>
+  <text x="606" y="322" font-size="10" letter-spacing="1.2" fill="#0d1226" fill-opacity="0.55">SCHEMA</text>
+  <text x="606" y="348" font-size="16" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">Content model</text>
+  <text x="606" y="366" font-size="9.5" fill="#0d1226" fill-opacity="0.7">23 document types</text>
+  <text x="606" y="380" font-size="9.5" fill="#0d1226" fill-opacity="0.7">Portable Text · typed blocks</text>
+
+  <!-- arrows: foundation → stacks -->
+  <line x1="100" y1="300" x2="100" y2="186" stroke="#0d1226" stroke-opacity="0.8" marker-end="url(#mInk)"/>
+  <line x1="215" y1="300" x2="530" y2="186" stroke="#0d1226" stroke-opacity="0.8" marker-end="url(#mInk)"/>
+  <line x1="390" y1="300" x2="240" y2="186" stroke="#0d1226" stroke-opacity="0.45" stroke-dasharray="5 4" marker-end="url(#mMute)"/>
+  <line x1="495" y1="300" x2="650" y2="186" stroke="#ff247d" stroke-width="2" marker-end="url(#mPink)"/>
+  <line x1="790" y1="300" x2="790" y2="186" stroke="#0d1226" stroke-opacity="0.8" marker-end="url(#mInk)"/>
+  <line x1="650" y1="300" x2="360" y2="186" stroke="#0d1226" stroke-opacity="0.8" marker-end="url(#mInk)"/>
+  <text x="700" y="242" font-size="9.5" fill="#0d1226" fill-opacity="0.7">ported unchanged</text>
+
+  <!-- receipts -->
+  <text x="32" y="428" font-size="10.5">
+    <tspan fill="#ff247d">POC RESULTS</tspan>
+    <tspan fill="#0d1226"> · 0 COMPONENT CHANGES · 0 SCHEMA REBUILD · 2 PACKAGING GAPS FIXED · 15 DECISION RECORDS</tspan>
+  </text>
+
+  <!-- legend -->
+  <line x1="32" y1="452" x2="72" y2="452" stroke="#0d1226" stroke-opacity="0.8"/>
+  <text x="80" y="456" font-size="9.5" fill="#0d1226" fill-opacity="0.75">solid · one source, generated or ported — enforced in code</text>
+  <line x1="460" y1="452" x2="500" y2="452" stroke="#ff247d" stroke-width="2"/>
+  <text x="508" y="456" font-size="9.5" fill="#0d1226" fill-opacity="0.75">pink · direct dependency, zero component changes</text>
+  <line x1="32" y1="476" x2="72" y2="476" stroke="#0d1226" stroke-opacity="0.45" stroke-dasharray="5 4"/>
+  <text x="80" y="480" font-size="9.5" fill="#0d1226" fill-opacity="0.75">dashed · hand-synced mirror in apps/web; styles validator-checked · roadmap: consume the package</text>
+</svg>

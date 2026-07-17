@@ -695,6 +695,25 @@ If the commits are not on `origin/main`, halt the audit and surface the gap to t
 
 Produce a **mock-to-implementation comparison table** before requesting close-out. The table must list every visual element in the mock (field order, spacing values, chip styles, typography, colours) and flag each as Match, Drift, or Missing. Present this table to Bex for review. Do not close the epic until "Visual QA approved."
 
+### Technical diagram red-pen gate (blocking — fires before any diagram is uploaded or published)
+
+Applies to any technical or architecture diagram destined for a published surface: Sanity upload, case study, article, docs site, social post.
+
+1. **Source is committed first.** The diagram's source (SVG or Mermaid) lives in `docs/diagrams/` and is committed before upload. `docs/drafts/` does not satisfy this — it is local-only and gitignored. A published diagram with no committed source cannot be fact-checked by a later session except by forensic reconstruction (the platform-is-the-portfolio failure: three published SVGs, zero sources in the repo, one overstated claim each).
+2. **Red-pen accuracy pass.** Before upload, produce a claim table — one row per box, arrow, or label that asserts something about the system. Captions and alt text are claims too; include them as rows. Each row names the file or mechanism that makes it true and classifies it:
+
+   | Diagram element | Evidence (file / mechanism) | Class |
+   |---|---|---|
+   | e.g. "one token source" | `tokens/source/tokens.json` → `pnpm tokens:build` | enforced-by-code |
+   | e.g. "0 component changes" | `docs/shipped/SUG-127-*.md` | measured |
+   | e.g. "Content Write Gate" | CLAUDE.md §Content Write Gate | convention |
+   | e.g. "apps/web consumes DS package" | open TODO in `Card.jsx` | roadmap |
+
+   **Classes:** `enforced-by-code` (a validator, hook, build step, or platform guarantee makes it true), `measured` (an empirical result with a committed record — name the record), `convention` (a documented rule agents follow — true by discipline, not machinery), `roadmap` (not true yet).
+3. **Roadmap items may not be drawn as current state.** Label them (dashed stroke, "roadmap" tag) or cut them. A convention drawn as if it were a technical layer must be labelled as governance, not infrastructure. If an element's Evidence cell is blank, the element is cut or the diagram doesn't ship.
+
+The table lives in the owning epic doc, or in `docs/diagrams/redpen-{target}.md` for diagrams without an epic. A diagram uploaded without a committed source and claim table is a process failure — same severity as a Phase 0 violation.
+
 ### For every CSS property you write
 
 Confirm:
