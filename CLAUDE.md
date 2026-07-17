@@ -389,6 +389,16 @@ The agent drafts. The agent proposes. The agent patches Sanity documents once a 
 
 This is the fail-softly layer referenced above: even a Content Write Gate failure — content written without a proper proposal — stays contained to a draft nobody sees until a human deliberately publishes it. Every skill that writes to Sanity (`/glossy`, `/write-blog`, `/write-node`, `/write-casestudy`, `/red-pen`) stops at this same line.
 
+### Instruction & Rule File Write Gate (hard stop — skill/CLAUDE.md/governance doc edits)
+
+The agent — or any subagent it spawns — never edits a rule-defining file (`.claude/skills/**`, this file, or anything under `docs/ai/agentic-caucus/` or `docs/conventions/`) without first showing the human the exact diff and getting explicit approval. Applies even when the edit is accurate and well-intentioned.
+
+**Why its own gate:** Sanity content has a draft/published split — an unapproved write stays inert until a human publishes it. Rule files don't have that boundary. A committed change to CLAUDE.md or a skill definition is load-bearing immediately, for every future session.
+
+**Scope:** covers the orchestrating session *and* any subagent it spawns. A subagent told to review X has no implicit authority to also edit X's own instructions, however reasonable the addition looks.
+
+**For subagents specifically:** when a task could plausibly touch a rule-defining file, forbid it from writing there and have it return proposed changes as text in its report instead. A subagent's own commit is never the final word — the orchestrating session reviews before surfacing anything to the human.
+
 ### Sanity MCP content writes — no AI rewriting
 
 > **Note:** This rule governs the *tool* used to write content (no AI rewriting pipeline). The Content Write Gate above governs *whether* to write at all without prior human approval. Both apply independently.
