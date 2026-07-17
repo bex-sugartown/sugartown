@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" font-family="'Courier Prime','Courier New',monospace">
+  <defs>
+    <marker id="mInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0d1226"/>
+    </marker>
+  </defs>
+
+  <rect width="900" height="500" fill="#f8f8fa"/>
+
+  <text x="32" y="40" font-size="10" letter-spacing="1.5" fill="#ff247d">ONE QUERY LAYER AT RUNTIME · ONE ARTIFACT AT BUILD</text>
+  <text x="32" y="70" font-size="26" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">The read path</text>
+
+  <!-- runtime lane -->
+  <text x="32" y="106" font-size="10" letter-spacing="1.2" fill="#0d1226" fill-opacity="0.55">RUNTIME · EVERY PAGE VIEW</text>
+
+  <rect x="32" y="118" width="200" height="80" fill="#ffffff" stroke="#0d1226"/>
+  <text x="46" y="140" font-size="10" letter-spacing="1.2" fill="#0d1226" fill-opacity="0.55">SANITY</text>
+  <text x="46" y="166" font-size="15" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">Content Lake</text>
+  <text x="46" y="184" font-size="9.5" fill="#0d1226" fill-opacity="0.7">documents · CDN-cached</text>
+
+  <rect x="300" y="118" width="260" height="80" fill="#ffffff" stroke="#0d1226"/>
+  <text x="314" y="140" font-size="10" letter-spacing="1.2" fill="#ff247d">ONE QUERY LAYER</text>
+  <text x="314" y="166" font-size="15" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">GROQ</text>
+  <text x="314" y="184" font-size="9.5" fill="#0d1226" fill-opacity="0.7">lib/queries.js · lib/sanity.js</text>
+
+  <rect x="640" y="118" width="228" height="190" fill="#ffffff" stroke="#0d1226"/>
+  <text x="654" y="140" font-size="10" letter-spacing="1.2" fill="#0d1226" fill-opacity="0.55">BROWSER</text>
+  <text x="654" y="166" font-size="15" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">React client</text>
+  <text x="654" y="184" font-size="9.5" fill="#0d1226" fill-opacity="0.7">Vite SPA · React Router</text>
+
+  <rect x="32" y="228" width="200" height="80" fill="#ffffff" stroke="#0d1226"/>
+  <text x="46" y="250" font-size="10" letter-spacing="1.2" fill="#0d1226" fill-opacity="0.55">SANITY</text>
+  <text x="46" y="276" font-size="15" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">Image CDN</text>
+  <text x="46" y="294" font-size="9.5" fill="#0d1226" fill-opacity="0.7">urlFor() · direct fetch</text>
+
+  <line x1="232" y1="158" x2="294" y2="158" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="560" y1="158" x2="634" y2="158" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="232" y1="268" x2="634" y2="268" stroke="#0d1226" stroke-opacity="0.8" marker-end="url(#mInk)"/>
+  <text x="300" y="260" font-size="9" fill="#0d1226" fill-opacity="0.65">images fetched direct · GROQ returns the refs</text>
+
+  <!-- build lane -->
+  <text x="32" y="356" font-size="10" letter-spacing="1.2">
+    <tspan fill="#0d1226" fill-opacity="0.55">BUILD TIME · DAILY CRON, </tspan>
+    <tspan fill="#ff247d">NOT GROQ</tspan>
+  </text>
+
+  <rect x="32" y="368" width="270" height="80" fill="#ffffff" stroke="#0d1226"/>
+  <text x="46" y="390" font-size="10" letter-spacing="1.2" fill="#0d1226" fill-opacity="0.55">GITHUB ACTIONS CRON</text>
+  <text x="46" y="416" font-size="15" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">Stats pipeline</text>
+  <text x="46" y="434" font-size="9.5" fill="#0d1226" fill-opacity="0.7">perf · CrUX · repo · Linear · Sanity</text>
+
+  <rect x="352" y="368" width="200" height="80" fill="#ffffff" stroke="#0d1226"/>
+  <text x="366" y="390" font-size="10" letter-spacing="1.2" fill="#0d1226" fill-opacity="0.55">COMMITTED TO REPO</text>
+  <text x="366" y="416" font-size="15" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">stats.json</text>
+  <text x="366" y="434" font-size="9.5" fill="#0d1226" fill-opacity="0.7">imported, not queried</text>
+
+  <rect x="602" y="368" width="210" height="80" fill="#ffffff" stroke="#0d1226"/>
+  <text x="616" y="390" font-size="10" letter-spacing="1.2" fill="#0d1226" fill-opacity="0.55">DEPLOY</text>
+  <text x="616" y="416" font-size="15" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">Vite build</text>
+  <text x="616" y="434" font-size="9.5" fill="#0d1226" fill-opacity="0.7">→ Netlify CDN</text>
+
+  <line x1="302" y1="408" x2="346" y2="408" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="552" y1="408" x2="596" y2="408" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="707" y1="368" x2="734" y2="314" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <text x="722" y="348" font-size="9" fill="#0d1226" fill-opacity="0.65">ships in the bundle</text>
+
+  <text x="32" y="482" font-size="9.5" fill="#0d1226" fill-opacity="0.7">Two data paths, one honest diagram: runtime content is queried through GROQ; build-time stats are a committed artifact.</text>
+</svg>
