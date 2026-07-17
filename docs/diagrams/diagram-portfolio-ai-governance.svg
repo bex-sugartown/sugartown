@@ -69,5 +69,6 @@
     <tspan fill="#ff247d">STRUCTURAL GUARANTEE</tspan>
     <tspan fill="#0d1226"> · nothing goes live without a human: Sanity's draft/publish split enforces it</tspan>
   </text>
-  <text x="32" y="474" font-size="9" fill="#0d1226" fill-opacity="0.6">ENFORCED · platform or code makes it true&#160;&#160;&#160;&#160;CONVENTION · documented rule the agents follow (CLAUDE.md + risk tiers)</text>
+  <text x="32" y="474" font-size="9" fill="#0d1226" fill-opacity="0.6">ENFORCED · platform or code makes it true</text>
+  <text x="300" y="474" font-size="9" fill="#0d1226" fill-opacity="0.6">CONVENTION · documented rule the agents follow (CLAUDE.md + risk tiers)</text>
 </svg>
