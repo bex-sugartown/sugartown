@@ -273,16 +273,20 @@ not proceed to Gate 2 on a partial yes.
 
 ---
 
-## Gate 2 — Post to /glossary (after explicit approval only)
+## Gate 2 — Create the draft(s) (after explicit approval only)
 
-Only run once Gate 1 is explicitly approved. The human approval at Gate 1 **is** the
-human sign-off required by AI Ethics Principle 1 ("if something publishes, a human
-signs for it").
+Only run once Gate 1 is explicitly approved. The human approval at Gate 1 authorizes
+writing the approved content to Sanity as a **draft** — it is the human sign-off
+required by AI Ethics Principles 6 and 7 and the Content Write Gate (CLAUDE.md). It
+does **not** authorize publishing. Publishing is governed separately by CLAUDE.md's
+Human-Publishes Rule: the agent creates drafts, a human publishes them, and approving
+the copy is not the same action as approving the publish. If the user wants a term
+live immediately, that requires its own explicit instruction ("publish that") — never
+inferred from the Gate 1 "approved."
 
 **Batch:** post only the rows the user approved. `create_documents` accepts an array
-— create the approved set in one call, then publish all returned `drafts.*` IDs in
-one `publish_documents` call. If any single term fails validation, post the rest and
-report the failure rather than aborting the whole batch.
+— create the approved set in one call. If any single term fails validation, create the
+rest and report the failure rather than aborting the whole batch.
 
 ### 2a — Create the draft
 
@@ -328,21 +332,17 @@ Content shape:
 }
 ```
 
-### 2b — Publish
+### 2b — Report back and hand off to the human
 
-`create_documents` returns a `drafts.<id>` ID. Publish it live with
-`mcp__Sanity__publish_documents`, `ids: ["<the drafts id>"]`,
-`resource: { projectId: "poalmzla", dataset: "production" }`. This is the step that
-makes the term appear at `/glossary`.
-
-### 2c — Report back
-
-- Published document `_id` and live URL `https://sugartown.io/glossary/<slug>`
+- Draft document `_id`(s) for each term created (`drafts.<id>`)
 - Fields written vs left blank
 - Relations wired (with names)
 - Sources attached
-- Note: the web client uses `perspective: 'published'`, so the term is live as soon
-  as `publish_documents` succeeds (no draft shadowing).
+- Tell the user the term(s) are drafted and ready, and that publishing is theirs to
+  do — from Studio, or by giving you a separate explicit "publish that" instruction
+  if they want it live now. The web client uses `perspective: 'published'`, so
+  nothing appears at `/glossary` until a human (or an explicitly-instructed you)
+  actually publishes it.
 
 ---
 
@@ -354,7 +354,7 @@ makes the term appear at `/glossary`.
   every term, canonical-first, all verified this session. No source → don't post.
 - **Gate 1 = read + research + propose.** No Sanity writes. Output is a table (per
   term in a batch) plus a summary index for selective approval.
-- **Gate 2 = create + publish.** Only after explicit approval.
+- **Gate 2 = create the draft only.** Publishing is a separate human action (or a separate, explicit instruction) — never bundled into Gate 1's "approved."
 - **No hallucination.** Every claim sourced; unverified optional fields stay blank.
 - **Glossary is not a node.** No em dashes, no emoji, anti-slop bans in force.
 - **Cheek lives in `extendedDefinition`.** `definition` stays clean and quotable.

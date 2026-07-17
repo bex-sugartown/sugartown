@@ -68,14 +68,22 @@ Mechanically, this is clean: no accuracy errors this pass (a genuinely good outc
 
 | # | Tier | Decision |
 |---|------|----------|
-| 1 | Voice | pending |
-| 2 | Sharpness | pending |
-| 3 | Sharpness / Theme | pending |
+| 1 | Voice | approved as proposed |
+| 2 | Sharpness | approved as proposed |
+| 3 | Sharpness / Theme | kept as-is — Bex's explicit call: the parenthetical stays. Not a rewrite; the question resolved in favor of the rough edge. |
 
 ## Gate 2 application log
 
-*(empty — Gate 1 only; no edits applied yet)*
+Both approved edits applied via `patch_documents` to `drafts.d34d2a54-32f7-414d-b0a4-fdbb057fbefb` in a single transaction, then re-verified via a fresh `raw`-perspective re-fetch.
+
+1. **Finding 1 (`ov6` glossary density)** — dropped the "composable" `glossaryTermRef` markDef and merged its span back into the surrounding plain text (`ov6s-c` + `ov6s-d` + `ov6s-e` → one span `ov6s-c2`: ": 23 document types, 11 composable section blocks, rich text as "). Kept the "content model" and "Portable Text" tags. `ov6.markDefs` now holds only `content-model-ref` and `portable-text-ref`. Confirmed via re-fetch — text reconstructs identically to before, minus the one mark.
+2. **Finding 2 (`fig-b3` filler cut)** — `fig-b3s-c`'s text changed "...so the viewer, the user, or whoever's deciding whether to hire me next can see..." → "...so whoever's deciding whether to hire me next can see...". Plain text replace, no marks affected (the span carries no marks). Confirmed via re-fetch.
+3. **Finding 3** — no Sanity write. Bex's decision was to keep the `ov26` parenthetical exactly as written.
+
+**Not published.** These two edits landed on the draft only. Per this session's Human-Publishes Rule work (see CLAUDE.md), publishing them (or not) is Bex's call — note that the *published* copy of this document currently predates these two fixes, so the live page and the draft now differ by these two spans until she re-publishes.
 
 ## Feedback log
 
-*(empty)*
+**2026-07-16:** A message meant to answer this re-review's Gate 1 findings ("1&2=approve. 3=keep editorial flourish, is a good human signal") was initially misapplied to a different, concurrent approval request (CLAUDE.md/glossy-prompt.md publish-rule edits) earlier in the same session, because both were pending at once and the message didn't name which one it was answering. Bex caught it and re-supplied the correct routing. No content was harmed — the misapplied reading ("decline fixing CLAUDE.md's stale tool names") turned out to *also* get corrected and approved moments later once the mix-up was found — but worth naming as a process note: when multiple approval requests are open in the same conversation, don't assume a short reply resolves whichever one is most recent: confirm which it's answering if there's any ambiguity, rather than picking the most recent open question by default.
+
+**On finding 3's resolution, as a durable calibration note for future reviews:** Bex's reasoning for keeping the "(omg the card catalog, ledger theme...)" parenthetical — "editorial flourish, is a good human signal" — is a real data point for this skill's Voice/Sharpness passes going forward: a zero-setup, in-register personality aside is not automatically a clarity problem to flag for cutting, even when (as here) it sits right next to a named external audience (a hiring manager). The specific charter principle this confirms: rough edges that read as *evidence a human wrote this* are a feature worth defending, not a bug worth smoothing, even under real audience-clarity pressure. Future passes should weigh this before proposing a cut to a similar aside.

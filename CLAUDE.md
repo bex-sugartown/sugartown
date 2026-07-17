@@ -247,7 +247,7 @@ Commit prefix: `feat(studio):` or `fix(studio):`.
 
 If a schema change is needed to unblock a component epic, commit the schema change first, then begin the component work in a subsequent commit.
 
-**Schema changes are not live until deployed.** The local Studio uses your code directly, but MCP tools (`create_documents_from_json`, `patch_document_from_json`, etc.) and the Content Lake API validate against the **deployed** schema. After any schema change, run:
+**Schema changes are not live until deployed.** The local Studio uses your code directly, but MCP tools (`create_documents`, `patch_documents`, etc.) and the Content Lake API validate against the **deployed** schema. After any schema change, run:
 
 ```bash
 npx sanity schema deploy
@@ -355,7 +355,7 @@ Shape content to the schema, not the schema to the content. If a requested label
 
 ### Content Write Gate (hard stop — all Sanity MCP writes)
 
-Before writing any content to Sanity via `patch_document_from_json`, `create_documents_from_json`, or any equivalent MCP tool — when the content was not explicitly pre-specified by the user — produce a proposal and wait for explicit approval.
+Before writing any content to Sanity via `patch_documents`, `create_documents`, or any equivalent MCP tool — when the content was not explicitly pre-specified by the user — produce a proposal and wait for explicit approval.
 
 **Proposal format:** For each document being changed, show a before/after table:
 
@@ -371,11 +371,23 @@ Before writing any content to Sanity via `patch_document_from_json`, `create_doc
 **The gate does NOT fire for:**
 - Field values explicitly dictated word-for-word by the user in their message
 - Pure structural/technical patches: taxonomy backfill, slug fixes, schema migration, field reordering — no human-readable copy touched
-- Publish/unpublish operations (governed separately by the human-publishes rule)
+- Publish/unpublish operations (governed separately — see §The Human-Publishes Rule below)
 
 **Wait for** explicit approval — "yes", "confirmed", "looks good", or equivalent — before executing any patch. A follow-up question from the user is not approval.
 
 This rule operationalizes `ai-ethics-and-operations.md` Principle 6 ("AI can suggest copy; humans verify it isn't confidently wrong") and Principle 7 ("every AI-generated output has a human checkpoint") as a structural enforcement gate rather than aspiration. The fail-softly layer (drafts require human publish) is the last line; this gate is the first.
+
+### The Human-Publishes Rule (hard stop — publish/unpublish operations)
+
+The agent drafts. The agent proposes. The agent patches Sanity documents once a proposal is approved. The agent never publishes them.
+
+**Scope:** every action that makes a Sanity document, or an edit to one, go live — `publish_documents` and `unpublish_documents`, and any equivalent tool call, on any document type, in any dataset. No exceptions by content type: this covers glossary terms, articles, nodes, case studies, taxonomy, schema-adjacent content, everything.
+
+**No prior approval carries forward to publish.** Approving a proposal under the Content Write Gate authorizes the write to the *draft*. It does not authorize the publish. These are two separate actions requiring two separate sign-offs, even when they happen in the same conversation. "Yes, that copy looks good" approves the draft. It is not "yes, publish it."
+
+**The only way the agent publishes something is an explicit, standalone instruction to do so** — "publish that," "make it live," "go ahead and publish" — given as its own instruction, not inferred from approval of the content itself. Absent that explicit instruction, every skill and every session stops at the draft and tells the human what's ready and where to find it — typically: open it in Studio and click Publish.
+
+This is the fail-softly layer referenced above: even a Content Write Gate failure — content written without a proper proposal — stays contained to a draft nobody sees until a human deliberately publishes it. Every skill that writes to Sanity (`/glossy`, `/write-blog`, `/write-node`, `/write-casestudy`, `/red-pen`) stops at this same line.
 
 ### Sanity MCP content writes — no AI rewriting
 
@@ -384,21 +396,19 @@ This rule operationalizes `ai-ethics-and-operations.md` Principle 6 ("AI can sug
 When writing content to Sanity via MCP tools, **assume all content is final, proofed copy**. Do not use tools that pass content through Sanity's AI pipeline unless the user explicitly requests AI-assisted drafting.
 
 **Default tools (verbatim, no rewriting):**
-- `patch_document_from_json` — sets exact field values
-- `create_documents_from_json` — creates docs with precise content
+- `patch_documents` — sets exact field values
+- `create_documents` — creates docs with precise content, structured JSON only
 - `@sanity/client` via migration scripts — direct API, no intermediary
 
 **AI-assisted tools (rewrite content — require explicit user consent):**
-- `patch_document_from_markdown` — Sanity AI interprets and may reword
-- `create_documents_from_markdown` — same; AI restructures prose
-- `create_version` with `instruction` param — intentional AI rewrite
+- `create_version` with an `instruction` param — intentional AI rewrite of a document
 - `generate_image` / `transform_image` — AI image generation
 
-**Rule:** If a user provides copy to write to Sanity, use `_from_json` tools or the Sanity client directly. Never route authored content through an AI rewriting layer without saying so. If AI-assisted drafting would be helpful, ask first: "Want me to use Sanity AI to help draft this, or should I save it exactly as written?"
+**Rule:** If a user provides copy to write to Sanity, use `patch_documents`/`create_documents` with exact JSON values, or the Sanity client directly. Never route authored content through an AI rewriting layer without saying so. If AI-assisted drafting would be helpful, ask first: "Want me to use Sanity AI to help draft this, or should I save it exactly as written?"
 
 ### Portable Text blocks written via MCP — required fields
 
-`patch_document_from_json` omits empty arrays during serialisation. Sanity's PT editor in Studio requires explicit empty arrays to enable the toolbar — blocks with missing `marks` or `markDefs` render as read-only (toolbar grayed out, style dropdown shows "No style").
+`patch_documents`/`create_documents` omit empty arrays during serialisation. Sanity's PT editor in Studio requires explicit empty arrays to enable the toolbar — blocks with missing `marks` or `markDefs` render as read-only (toolbar grayed out, style dropdown shows "No style").
 
 **Every block must include `markDefs: []`** even if no annotations are used.
 **Every span must include `marks: []`** even if no marks are applied.
