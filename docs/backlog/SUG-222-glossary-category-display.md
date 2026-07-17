@@ -21,6 +21,8 @@ The `glossaryTerm.categories[]` field works and is populated (e.g. 9 published t
 
 Trigger: publishing the "Clicky Burden" Bextionary term (2026-07-17) made the gap concrete — a freshly minted category chip leading nowhere, and a category page claiming emptiness while holding 9 terms.
 
+**The larger frame (added at Bex's direction, 2026-07-17):** this gap is one instance of a class. Sugartown's ontology — which document types connect to which, through which fields, surfaced on which pages — was never written down as a spec; it accreted epic by epic. The ask: reverse-engineer that spec. Not a taxonomy inventory (the content-models page from SUG-163 already inventories types and fields) but a **map** — the document written as if it had preceded the build: approved connections between nodes, and for each connection, whether it is schema-only, query-supported, or actually displayed somewhere. The Bextionary situation (edge exists in schema and data; no display surface; queries actively exclude it) is exactly the pattern the map exists to expose — so the map doubles as a standing gap register for finding the next one before a screenshot does.
+
 Reference surfaces: `apps/web/src/pages/GlossaryArchivePage.jsx`, `GlossaryTermPage.jsx`, `TaxonomyPlaceholderPage.jsx`, `TaxonomyDetailPage.jsx`, `apps/web/src/lib/queries.js` (taxonomy count + content queries), `apps/web/src/App.jsx` (routing), `apps/studio/schemas/documents/category.ts`.
 
 ## Objective
@@ -30,6 +32,8 @@ After this epic: glossary categories are a designed, navigable part of the gloss
 ## Scope
 
 - [ ] **Current-state audit** — layer: audit. Read `App.jsx` for the full category/glossary route map (blocking per the incomplete-epic rule: the placeholder-vs-detail-page split must be mapped, not assumed); trace what the term-page chip currently links to; inventory which queries exclude `glossaryTerm`; confirm what SUG-166's filter actually shipped vs. planned.
+- [ ] **Reverse-engineered ontology map** — layer: documentation. Produce `docs/briefs/sugartown-ontology-map.md`: the spec that would have preceded the build. Nodes = every document type and taxonomy primitive; edges = every approved reference connection (which field, which direction, bidirectional-sync or not). Format: nested outline plus Mermaid diagram(s). Each edge annotated with its actual coverage tier: **schema-only** (field exists, nothing reads it), **query-supported** (projected somewhere), or **displayed** (a real page surface renders it, named). Source from the schema files, `queries.js`, and the page components — not from memory or prior audit docs (verify-before-citing applies).
+- [ ] **Ontology gap register** — layer: documentation. The improvement-areas view: a table in the same doc listing every edge whose coverage tier falls short of intent (schema-only or query-supported edges that plausibly deserve display, orphaned fields, queries that enumerate content types inconsistently). The glossaryTerm→category edge is entry one. Each row gets a severity/effort note so future epics (and SUG-221 audit cycles) can pick from it.
 - [ ] **Phase 0 mock** — layer: design. HTML mock at `docs/drafts/SUG-222-*.html` covering: the glossary archive's category presentation, the category detail page with glossary terms present, and the term-page chip behavior. Interaction annotations required for any nav/filter surface per CLAUDE.md (active state, URL behavior, existing-pattern reuse). Hard stop: no JSX/CSS before mock approval.
 - [ ] **Category queries include glossaryTerm** — layer: query. Extend the taxonomy content and count queries so category pages see glossary terms; decide (at Phase 0) whether terms list inline with other content or as their own section.
 - [ ] **Category page implementation** — layer: frontend. Whatever Phase 0 approves for `/categories/:slug` — likely graduating Bextionary-style categories off `TaxonomyPlaceholderPage`.
@@ -39,7 +43,7 @@ After this epic: glossary categories are a designed, navigable part of the gloss
 
 ## Phases
 
-**Phase 0 — Audit + mock.** Current-state audit, then the HTML mock. Ends at the hard stop: mock approved before any implementation path is touched.
+**Phase 0 — Audit + ontology map + mock.** Current-state audit, then the ontology map and gap register (the map's category/glossary corner directly informs the mock's IA decisions), then the HTML mock. Ends at the hard stop: mock approved before any implementation path is touched. The map is reviewable on its own before the mock work starts — present it as a checkpoint, since Bex may reprioritize this epic's Phases 1–2 based on what the gap register surfaces.
 
 **Phase 1 — Queries + category page.** GROQ extensions and the category detail page. Ships the "Bextionary page shows its 9 terms" fix.
 
@@ -47,6 +51,7 @@ After this epic: glossary categories are a designed, navigable part of the gloss
 
 ## Acceptance criteria
 
+- [ ] `docs/briefs/sugartown-ontology-map.md` exists with every document type and taxonomy primitive as a node, every reference edge tiered (schema-only / query-supported / displayed), a Mermaid diagram, and a gap register with the glossaryTerm→category edge as entry one — every edge claim verified against live code, not prior docs
 - [ ] `/categories/bextionary` lists its glossary terms; the "no content" false-empty state is gone (verified on the rendered page, not just query output)
 - [ ] Taxonomy count queries include `glossaryTerm` wherever content types are enumerated for categories (each site audited and either extended or exempted with a reason)
 - [ ] The term-page category chip navigates somewhere approved at Phase 0, built via `getCanonicalPath`
@@ -75,7 +80,9 @@ After this epic: glossary categories are a designed, navigable part of the gloss
   2. `queries.js`: enumerate every `_type in [...]` list that should arguably include `glossaryTerm`; produce the extend-vs-exempt table before editing.
   3. `GlossaryTermPage.jsx`: what the category chip currently renders/links.
   4. SUG-166's shipped doc for what the archive filter was specified to do vs. what exists.
-- **Model & Mode [REQUIRED]:** `/model sonnet` — section wiring, GROQ extensions, and mock-gated frontend work; no architecture ambiguity.
+- **Ontology map — existing assets to build on, not duplicate:** the `SchemaERD` component (`apps/web/src/components/SchemaERD/`) and SUG-163's content-model codegen page (`/platform/design-system/content-models`, 11 types / 176 fields) already inventory *structure*. The map's job is *intent and coverage* — which connections are approved, and how far each one actually made it toward a reader. Cross-reference them; do not re-derive field inventories. The map is a repo doc first; whether it graduates to a `/platform` page (via `mermaidSection`) is a future-epic question, noted in the doc but out of scope here.
+- **Gap register feeds SUG-221:** the register is a natural standing input to Rules & Tools Audit cycles (an audit pass can re-tier edges and catch regressions). Note the linkage in both docs at close-out; no process wiring in this epic.
+- **Model & Mode [REQUIRED]:** `/model sonnet` — section wiring, GROQ extensions, and mock-gated frontend work; no architecture ambiguity. The ontology map is careful reading, not architecture invention.
 
 ## Model & Mode [REQUIRED]
 
@@ -92,5 +99,6 @@ After this epic: glossary categories are a designed, navigable part of the gloss
 
 - **Linear:** [SUG-222](https://linear.app/sugartown/issue/SUG-222/glossary-category-display-surface-categories-across-glossary-and)
 - **Prior art:** SUG-166 (`docs/shipped/SUG-166-glossary-completion-gap-fill-eds-import.md`) — shipped the Bextionary category + archive filter chips + masthead parenthetical; this epic builds the display layer it stopped short of
+- **Structure inventories (build on, don't duplicate):** SUG-163 content-model codegen + `/platform/design-system/content-models`; `SchemaERD` component; `docs/conventions/schema-conventions.md`; MEMORY.md taxonomy-architecture entry (verify against live code before citing)
 - **Adjacent:** SUG-125 (IndexGroup/IndexCell primitives), SUG-162 (glossary term detail design)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, and Files to Modify at activation
