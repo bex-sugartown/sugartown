@@ -39,7 +39,9 @@ Sourcing pattern established this session: [simple-icons](https://simpleicons.or
 
 All 30 Tier A tools patched — `description`, `url` (where findable), and `logo` (simple-icons SVG, brand-hex fill, `tool-{slug}-logo.svg`) — via Content Write Gate proposal, approved, written to `drafts.*`, not yet published.
 
-**Discrepancy found during execution:** the audit table below claims a confirmed simple-icons match for **Claude Code** (`claudecode` #D97757). The installed package (`@icons-pack/react-simple-icons@13.12.0`) has no `SiClaudecode` icon — only `SiClaude` exists. Claude Code shipped with `description` + `url` only; `logo` is unset pending a decision: reuse the Claude mark (same vendor, same brand color), source a Claude-Code-specific mark separately (Tier B), or leave it logo-less. All other 29 Tier A tools' simple-icons matches were verified accurate against the live package before use.
+**Discrepancy found during execution:** the audit table below claims a confirmed simple-icons match for **Claude Code** (`claudecode` #D97757). The installed package (`@icons-pack/react-simple-icons@13.12.0`) has no `SiClaudecode` icon — only `SiClaude` exists. All other 29 Tier A tools' simple-icons matches were verified accurate against the live package before use.
+
+**Resolved 2026-07-18:** Bex opted to reuse the Claude mark (same vendor, same #D97757 brand color) for Claude Code. Sanity's asset store deduplicates by content hash — uploading the identical SVG under `tool-claude-code-logo.svg` resolved to the same existing asset (`image-71056c942ddf421824ed701cd6f8ea2dd9dccfb7-24x24-svg`) rather than creating a duplicate. Claude and Claude Code now share one logo asset. All 30/30 Tier A tools complete.
 
 ## Full audit — all 60 `tool` documents
 
@@ -118,7 +120,7 @@ After this epic: every `tool` document that plausibly can have a logo, has one �
 
 ### Phase 1 — Tier A: 30 tools, confirmed simple-icons match — ✅ Shipped 2026-07-18
 
-- [x] For each of the 30 tools in the audit table with a confirmed `SI match`: draft `description` (practical/editorial register, same voice as the four shipped — not marketing copy), find/confirm `url`, download the simple-icons SVG, apply the correct brand-hex `fill` (none of simple-icons' raw SVGs ship with an explicit fill), upload as a Sanity image asset named `tool-{slug}-logo.svg`, patch all three fields. 29/30 complete — Claude Code shipped desc+url only, logo pending (see Phase 1 shipped note above).
+- [x] For each of the 30 tools in the audit table with a confirmed `SI match`: draft `description` (practical/editorial register, same voice as the four shipped — not marketing copy), find/confirm `url`, download the simple-icons SVG, apply the correct brand-hex `fill` (none of simple-icons' raw SVGs ship with an explicit fill), upload as a Sanity image asset named `tool-{slug}-logo.svg`, patch all three fields. 30/30 complete — Claude Code reuses the Claude mark, see Phase 1 shipped note above.
 - [x] Present as one Content Write Gate proposal table (or a few batches of ~10, to keep review manageable) before any write — same pattern as the four already shipped. Do not write descriptions for 30 tools unilaterally; get explicit approval first, per CLAUDE.md's Content Write Gate (AI-interpreted copy). Presented as 3 batches of 10, approved.
 - [x] Leave all patches as `drafts.*` — publishing is a separate, explicit human action, not implied by content approval.
 
@@ -143,7 +145,7 @@ Candidates, each needing its own official-site logo lookup and its own download-
 
 ## Acceptance criteria
 
-- [x] All 30 Tier A tools have `description`, `url` (where findable), and `logo` set, approved via Content Write Gate proposal before any write, left as drafts pending publish — 29/30; Claude Code logo unset, see Phase 1 shipped note
+- [x] All 30 Tier A tools have `description`, `url` (where findable), and `logo` set, approved via Content Write Gate proposal before any write, left as drafts pending publish — 30/30 complete
 - [ ] Tier B scope is either explicitly approved by Bex and executed tool-by-tool (each with its own download-permission ask), or explicitly deferred — not left ambiguous
 - [ ] Tier C tools are recorded as intentionally skipped with reasoning, not silently forgotten
 - [x] No logo is uploaded without an explicit brand-hex `fill` applied first (raw simple-icons SVGs default to black/no-fill, which renders wrong as a standalone Sanity image asset — same fix applied to the first four)
