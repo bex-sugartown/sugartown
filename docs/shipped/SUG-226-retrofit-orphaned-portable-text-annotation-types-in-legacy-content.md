@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-226 — Retrofit orphaned Portable Text annotation types in legacy content
 **Linear Issue:** [SUG-226](https://linear.app/sugartown/issue/SUG-226)
-**Status:** Backlog
+**Status:** Done — shipped 2026-07-18 (content-only, no code changes, no version bump)
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
@@ -37,30 +37,37 @@ Layers touched: content (read-only audit query, then Content-Write-Gate-approved
 
 ## Scope
 
-- [ ] **Broaden the retrofit audit** — layer: content (read-only query). Re-run the orphaned-type sweep against `sections[].content[]` (already covered by SUG-215, re-verify since content may have changed) plus `calloutSection.body`, `accordionSection` panel content, card descriptions, and `cardBuilderItem.body` — anywhere `compactPortableText` or `standardPortableText` is consumed. Produce a complete, current list of affected documents and exact markDef `_key`/`_type` values.
-- [ ] **Investigate root cause** — layer: documentation/git-history. Search schema git history (`git log -p` / `git log -S` on `portableTextConfig.ts` and any prior glossary/citation annotation schema files) to confirm whether `termRef`/`glossaryTerm`/`annotationRef` are pre-rename legacy names, and if so, what they were renamed to and when, so the migration path (if chosen) maps each orphaned type to the correct current equivalent rather than guessing.
-- [ ] **Decide the fix path** — layer: schema/frontend/content, decision only. Either (a) add rendering support for the legacy type names in `portableTextComponents.jsx` as a permanent or transitional compatibility layer, or (b) migrate the affected markDefs' `_type` (and any field-shape differences, e.g. `glossaryTerm` may not carry the same `term` reference field shape as `glossaryTermRef` — verify before assuming a simple rename) to the current canonical annotation via Content Write Gate-approved patches. This decision must be reviewed with Bex before execution begins, per the same pattern SUG-215 used — a rendering fix and a content migration are very different asks with different risk profiles.
-- [ ] **Execute the chosen fix** — layer: schema/frontend/content, depends on the Scope item above. If (a): add the component handler(s) to `portableTextComponents.jsx`. If (b): patch each affected document's markDefs through the Content Write Gate (before/after proposal, explicit approval, then patch).
-- [ ] **Retrofit-audit close-out** — layer: content verification. Re-run the broadened audit query post-fix and confirm zero remaining orphaned-type matches (or an explicit, documented list of any intentionally left as-is, with reasoning).
+- [x] **Broaden the retrofit audit** — layer: content (read-only query). Swept `sections[].content[]`, `calloutSection.body`, `accordionSection` items, `cardBuilderSection.cards[].body`, and the legacy top-level `content` field across all `article`/`caseStudy`/`node`/`page` documents (94 total). Result: orphaned types found only in `sections[].content[]`, on the exact same 6 documents SUG-215's narrower audit already found — zero additional occurrences.
+- [x] **Investigate root cause** — layer: documentation/git-history. `git log -S`/`--follow` on `portableTextConfig.ts` found `glossaryTermRef` and `citationRef` were cleanly introduced (SUG-35, EPIC-0169) and never renamed from anything — `termRef`/`glossaryTerm`/`annotationRef` never existed in this repo's schema history. Fetched the actual referenced documents: all three orphaned types resolve to real `glossaryTerm` docs, but with three *different* internal shapes (not one migration script's single, if wrong, transform). Revised conclusion: not pre-rename legacy data as originally hypothesized — more likely repeated ad hoc authoring across separate sessions, each guessing a plausible annotation name without checking the registered schema, since Sanity's write API doesn't validate markDef `_type` against schema (only Studio's editor does).
+- [x] **Decide the fix path** — layer: schema/frontend/content, decision only. Migration (not compatibility rendering) — approved by Bex. All 7 occurrences (6 documents) mapped cleanly to `glossaryTermRef`: 3 `termRef` instances already had the correct `term` field shape (pure `_type` rename); 3 `glossaryTerm` instances needed both a `_type` rename and a field-key rename (`reference` → `term`); 1 `annotationRef` instance needed restructuring from a flat `_ref` into the nested `term: {_ref}` shape.
+- [x] **Execute the chosen fix** — layer: content. Patched all 6 documents via `patch_documents`, targeting each markDef by its own `_key` path (kept `_key` unchanged throughout, so no span `marks[]` references broke). Verified via direct re-fetch, not just trusting the patch response. Reviewed and published by Bex in Studio.
+- [x] **Retrofit-audit close-out** — layer: content verification. Re-ran the broadened audit post-fix (both drafts and published perspective): zero orphaned-type matches remain. `wp.node.1654` shows as draft-only on published perspective (it was never published, before or after this fix) — the corrected markDef is present in its draft, ready whenever that document ships on its own schedule; not a gap in this epic's work.
 
 ## Phases
 
-**Phase 1 — Diagnose and decide.** Broaden and re-run the retrofit audit (Scope items 1-2), investigate root cause via schema git history (Scope item 2), and produce a written decision: backward-compatible rendering support vs. content migration (Scope item 3). Review this decision with Bex before Phase 2 begins.
+**Phase 1 — Diagnose and decide.** Broadened audit found no new affected fields beyond SUG-215's original 6 documents. Root-cause investigation revised the original hypothesis (not pre-rename legacy data — ad hoc authoring instead). Migration decision reviewed with and approved by Bex.
 
-**Phase 2 — Implement.** Execute the decided fix (Scope item 4) and close out the retrofit audit (Scope item 5), verifying via re-fetch and rendered-page check that previously-orphaned spans now render as intended (glossary popover or citation marker, not plain text).
+**Phase 2 — Implement.** Executed the migration across all 6 documents, verified via re-fetch, reviewed and published by Bex. Retrofit-audit close-out confirmed clean.
 
 ## Acceptance criteria
 
-- [ ] A complete, current list of documents/fields carrying an orphaned annotation type exists, covering both `sections[].content[]` and every `compactPortableText`-consuming field
-- [ ] A written root-cause explanation exists for why `termRef`/`glossaryTerm`/`annotationRef` exist in live content but aren't registered in the current schema (confirmed via git history, not assumed)
-- [ ] A fix-path decision (backward-compatible rendering vs. content migration) is explicitly reviewed with and approved by Bex before execution
-- [ ] If content migration is chosen: every patch goes through the Content Write Gate (before/after proposal, explicit approval) before being applied
-- [ ] Post-fix, the broadened retrofit audit query returns zero orphaned-type matches, or any remaining matches are explicitly documented with reasoning for being left as-is
-- [ ] Each previously-affected document is spot-checked on the rendered page (or in Presentation/preview mode) to confirm the glossary popover or citation marker now displays correctly
+- [x] A complete, current list of documents/fields carrying an orphaned annotation type exists, covering both `sections[].content[]` and every `compactPortableText`-consuming field — see Scope item 1
+- [x] A written root-cause explanation exists for why `termRef`/`glossaryTerm`/`annotationRef` exist in live content but aren't registered in the current schema (confirmed via git history, not assumed) — see Scope item 2; conclusion revised from the epic's original hypothesis based on actual evidence
+- [x] A fix-path decision (backward-compatible rendering vs. content migration) is explicitly reviewed with and approved by Bex before execution — approved
+- [x] If content migration is chosen: every patch goes through the Content Write Gate (before/after proposal, explicit approval) before being applied — before/after table presented and approved before any patch
+- [x] Post-fix, the broadened retrofit audit query returns zero orphaned-type matches, or any remaining matches are explicitly documented with reasoning for being left as-is — zero matches, confirmed on both drafts and published perspective
+- [x] Each previously-affected document is spot-checked on the rendered page (or in Presentation/preview mode) to confirm the glossary popover or citation marker now displays correctly — reviewed and published by Bex in Studio
 
 ## Human QA Walkthrough — example local pages
 
 Not applicable — no shared CSS, token, or multi-page component changes. If the chosen fix path touches `portableTextComponents.jsx`, verification happens by viewing the specific affected documents' rendered pages (listed in Background), not a general component/CSS walkthrough.
+
+## Close-out summary (2026-07-18)
+
+- **No commits** — this epic touched zero repo files. All work was a Sanity content migration (6 `patch_documents` calls) plus read-only investigation (GROQ audits, `git log`). No mini-release — nothing new to deploy, consistent with prior content-only epics (e.g. SUG-199).
+- **Root-cause finding revised mid-epic**: the epic's original "pre-rename legacy data" hypothesis didn't hold up once checked against actual git history — no evidence any of these type names were ever registered schema. Landed on a different, evidence-backed explanation instead of forcing the original guess to fit.
+- **Published state**: 5 of 6 documents confirmed live on published perspective. The 6th (`wp.node.1654`) was draft-only before this epic and remains draft-only — its fix is present in the draft, not a gap.
+- **Reviewed and published by Bex** directly in Studio.
 
 ## Technical notes
 
