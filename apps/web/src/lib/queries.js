@@ -410,7 +410,7 @@ export const nodeBySlugQuery = `
         variant,
         number,
         title,
-        body
+        "body": body${PT_CONTENT_PROJECTION}
       },
       _type == "mermaidSection" => {
         code,
@@ -612,7 +612,7 @@ export const articleBySlugQuery = `
         variant,
         number,
         title,
-        body
+        "body": body${PT_CONTENT_PROJECTION}
       },
       _type == "mermaidSection" => {
         code,
@@ -795,7 +795,7 @@ export const pageBySlugQuery = `
         variant,
         number,
         title,
-        body
+        "body": body${PT_CONTENT_PROJECTION}
       },
       _type == "mermaidSection" => {
         code,
@@ -1025,7 +1025,7 @@ export const caseStudyBySlugQuery = `
         variant,
         number,
         title,
-        body
+        "body": body${PT_CONTENT_PROJECTION}
       },
       _type == "mermaidSection" => {
         code,
