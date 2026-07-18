@@ -167,7 +167,6 @@ export default defineType({
       type: 'array',
       description: 'Page categories — optional for organisation',
       group: 'metadata',
-      hidden: true,
       of: [
         defineArrayMember({
           type: 'reference',
@@ -181,7 +180,6 @@ export default defineType({
       type: 'array',
       description: 'Page tags — optional for organisation',
       group: 'metadata',
-      hidden: true,
       of: [
         defineArrayMember({
           type: 'reference',
@@ -235,6 +233,35 @@ export default defineType({
       group: 'metadata',
       hidden: ({document}) => !document?.series,
       validation: (Rule) => Rule.min(1).integer(),
+    }),
+    // SUG-210 Tier 1: related + relatedTerms added to page — same shape as article/node/caseStudy (was missing, schema field only, no GROQ projection or rendering wired)
+    defineField({
+      name: 'related',
+      title: 'Related',
+      type: 'array',
+      description: 'Cross-references to related content. Populates the margin column on detail pages.',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'node'}, {type: 'article'}, {type: 'caseStudy'}]
+        })
+      ],
+      validation: (Rule) => Rule.unique()
+    }),
+    defineField({
+      name: 'relatedTerms',
+      title: 'Glossary Terms',
+      type: 'array',
+      description: 'Glossary terms relevant to this page. Inline terms are extracted automatically from body text — add terms here only when they are implied by the content but not marked inline.',
+      group: 'metadata',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [{type: 'glossaryTerm'}]
+        })
+      ],
+      validation: (Rule) => Rule.unique()
     }),
 
     // SEO GROUP — shared seoMetadata object (Schema 1: SEO Metadata)
