@@ -436,20 +436,9 @@ Correct shape:
 
 Omitting either field produces content that saves and renders correctly on the web but cannot be edited in Studio. This is not a schema issue — refreshing Studio or deploying the schema will not fix it. The blocks must be re-patched with the fields present.
 
-**`citationRef` markDefs in nested PT fields lock the entire section.** If a block inside a `textSection.content` field carries a `markDefs` entry of type `citationRef`, the entire PT field becomes uneditable in Studio — toolbar grayed out, style dropdown locked — even if no span actually references the mark. This is because the `citationRef` annotation type is only resolvable at the document level (`citations[]`), not inside a nested array field like `sections[].content`. The fix is to `unset` the `markDefs` field on each affected block individually:
+**`citationRef` markDefs in nested PT fields — investigated, not reproducible (SUG-215, 2026-07-18).** A 2026-05-14 note here claimed a `citationRef` markDef inside `sections[].content` locks the entire PT field in Studio. SUG-215 investigated directly: reproduced the exact pattern on a scratch document (well-formed `citationRef`, and separately a block with `markDefs`/`marks` genuinely omitted) — confirmed visually in Studio, the toolbar stayed fully functional in both cases. A retrofit audit found 11 live documents already using `citationRef` inside `sections[].content` with no sign of being locked. The original claim likely conflated this with the separate, still-valid missing-`markDefs`/`marks` bug documented immediately above (added the same day, four hours earlier).
 
-```
-// One unset call per block — Sanity rejects batched unsets targeting the same parent array
-unset: ["sections[_key==\"<sectionKey>\"].content[_key==\"<blockKey>\"].markDefs"]
-```
-
-Do not use `set: { markDefs: [] }` — Sanity's `set` merges rather than replaces the `markDefs` array on existing blocks, leaving the annotation in place. `unset` on the field path is the only reliable removal method.
-
-**Recovery sequence when a textSection is entirely uneditable:**
-1. Fetch the document and find the section key (Sanity reassigns `_key` values — never assume the original key survives a patch)
-2. Identify which blocks carry `markDefs` with unresolvable types (e.g. `citationRef` in a nested field)
-3. `unset` the `markDefs` field on each affected block, one call per block
-4. Verify by re-fetching — the field should be absent, not an empty array
+**Current guidance: `citationRef` is safe to use in `sections[].content`, including via MCP writes, provided the block has well-formed `markDefs: []`/`marks: []`.** If a genuine citationRef-specific lock recurs, capture the document ID, whether `markDefs`/`marks` were well-formed, and any console errors before re-adding a prevention rule here — don't restate the causal claim from memory.
 
 ### Anti-Slop Content Rules
 

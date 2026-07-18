@@ -102,7 +102,7 @@ bake-off, a multi-phase timeline with different metrics per phase) — that shap
 
 **Deprecated fields — never write these:** `challengeSummary` (use the calloutSection), `outcomes[]` (use the cardSection), `keyQuestions[]` (use the FAQ accordion), `cardImage`, `relatedProjects` (use `projects`).
 
-**Citations:** do NOT add `citationRef` markDefs to section content via MCP — a `citationRef` inside nested PT locks the entire section in Studio (see CLAUDE.md). If the case study needs endnotes, flag it in the report and leave citations for manual Studio work.
+**Citations:** `citationRef` markDefs are safe to add to section content via MCP (SUG-215 investigated and found no evidence of the previously-suspected Studio lock, see CLAUDE.md). Add the endnote to the document-level `citations[]` array and the matching `citationRef` markDef in the body, ensuring the block has well-formed `markDefs: []`/`marks: []` per the shared doc's Sanity write mechanics.
 
 ### Retrieval fields (required)
 
