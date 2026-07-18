@@ -1,4 +1,4 @@
-**Linear Issue:** SUG-TBD _(placeholder — the original author assigned SUG-208, but that ID is already taken by "MetadataCard: Max-Density Support + Page-Type Metadata Audit" (created 2026-07-14, confirmed live in Linear). This epic has no confirmed Linear issue yet. Create one via the Linear-first workflow in CLAUDE.md §Epic authoring before starting implementation, then rename this file and every cross-reference below to the real SUG-{N}.)_
+**Linear Issue:** SUG-225 _(the original author assigned SUG-207, then SUG-208 — both already taken by other epics. Confirmed and created via the Linear-first workflow on 2026-07-18.)_
 ## EPIC NAME: Sugartown MCP Server — v1 Implementation
 
 ---
@@ -205,7 +205,7 @@ N/A — no migration or backfill script is in scope.
 
 **Docs**
 - `CLAUDE.md` — add MCP Server + MCP Tool Aliases sections (top of file, per PRD §4)
-- `docs/briefs/sugartown-mcp-prd.md` — update header: `Related epics: SUG-{N}` once the real Linear ID exists, `Status: Draft` → `Status: In implementation`
+- `docs/briefs/sugartown-mcp-prd.md` — update header: `Related epics: SUG-225`, `Status: Draft` → `Status: In implementation`
 
 **No changes to:** `apps/studio/schemas/**` (read-only source), `apps/web/**`, `apps/web/src/lib/queries.js`, any `.module.css` file, `pnpm-workspace.yaml` (glob already covers new package).
 
@@ -275,8 +275,7 @@ Standard sequence per CLAUDE.md, with tooling-epic adjustments:
 1. **Visual QA gate** — N/A, skip (no visual output; see Visual QA Gate section above for the substituted tool-output verification).
 2. **Chromatic** — N/A, skip (no Storybook story, no visual surface).
 3. **Data pipeline gap check** — N/A, this epic does not extend a build-time data pipeline.
-0. **Create the real Linear issue first** — per CLAUDE.md's Linear-first epic authoring workflow, before any implementation begins. Then rename `docs/backlog/SUG-TBD-sugartown-mcp-server-v1.md` and every cross-reference below (this doc, `docs/backlog/sugartown-backlog-priorities.md`, the PRD's `Related epics` field) to the confirmed `SUG-{N}` in one commit.
-4. **Move epic doc** — `docs/backlog/SUG-{N}-sugartown-mcp-server-v1.md` → `docs/shipped/SUG-{N}-sugartown-mcp-server-v1.md`.
+4. **Move epic doc** — `docs/backlog/SUG-225-sugartown-mcp-server-v1.md` → `docs/shipped/SUG-225-sugartown-mcp-server-v1.md`.
 5. **Confirm clean tree** — `git status` clean.
-6. **Mini-release** — `/mini-release SUG-{N} Sugartown MCP Server v1` — this is a new package/feature surface; consider whether `/release` (MINOR bump) is more appropriate than `/mini-release` (patch), per CLAUDE.md's guidance that new feature surfaces may warrant MINOR.
-7. **Update Linear** — transition the issue to **Done**.
+6. **Mini-release** — `/mini-release SUG-225 Sugartown MCP Server v1` — this is a new package/feature surface; consider whether `/release` (MINOR bump) is more appropriate than `/mini-release` (patch), per CLAUDE.md's guidance that new feature surfaces may warrant MINOR.
+7. **Update Linear** — transition SUG-225 to **Done**.
