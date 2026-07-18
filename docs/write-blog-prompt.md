@@ -23,40 +23,15 @@ Key reminders for articles (opposite of nodes):
 
 ## Step 1 — Pre-flight taxonomy
 
-Before drafting, query Sanity for existing taxonomy. Do NOT create new taxonomy documents unless asked.
+Run the standard taxonomy pre-flight — see `docs/write-pipeline-prompt.md` §1 for the
+queries — and consult its §2 metadata reference field matrix for what `article` supports.
 
-**Sanity project:** `poalmzla` / dataset: `production` / perspective: `published`
-
-Run these queries in parallel:
-
-```groq
-// Tools
-*[_type == "tool"]{ _id, name } | order(name asc)
-
-// Categories
-*[_type == "category"]{ _id, name } | order(name asc)
-
-// Tags
-*[_type == "tag"]{ _id, name } | order(name asc)
-
-// Persons (authors)
-*[_type == "person"]{ _id, name } | order(name asc)
-
-// Projects
-*[_type == "project"]{ _id, name } | order(name asc)
-```
-
-Identify best-fit refs. Aim for:
+Article-specific target ranges:
 - 1–2 categories
 - 3–6 tags
 - Tools only if the article is specifically about those tools
 - Authors: Bex Head by default (look up her person _id)
 - Project: Sugartown CMS if relevant
-
-Also query for related content:
-```groq
-*[_type in ["node", "article", "caseStudy"] && defined(slug.current)] | order(publishedAt desc) [0..20] { _id, _type, title, slug }
-```
 
 ---
 
@@ -81,17 +56,23 @@ Structure the sections to serve the argument, not a template. Use `heroSection` 
 - Specific over general: numbers, names, examples, not adjectives
 - Anti-slop checklist from `docs/brand/brand-voice-guide.md` before finalising
 
-**Length budget (declare before drafting):** state the target word count and one line of justification against the band — 400–1,200 for standard articles, long-form (1,200–2,500) only if the argument genuinely requires it. Length is a budget, not a ceiling: readers skim roughly a fifth of the words on a page, engagement peaks around 1,600 words and declines after, and the bail-out point is the middle third. Words past the payload are debt. If the draft runs over budget, detail sections pay first — the thesis and the closer are never the cut.
+Run the shared write-time self-checks (`docs/write-pipeline-prompt.md` §3) before Step 2.5.
 
-**Skim skeleton self-check (after drafting, before Step 2.5):** extract the title, the subheads, the first sentence of each section, and the closer. That artifact is the whole piece for a 30-second reader. If it does not carry the thesis and the argument's shape on its own, fix the skeleton before fixing anything else — no amount of good paragraph interior rescues a skeleton that doesn't tell the story.
+**Length budget:** target band 400–1,200 for standard articles, long-form (1,200–2,500) only
+if the argument genuinely requires it (engagement peaks around 1,600 words and declines
+after). If the draft runs over budget, detail sections pay first — the thesis and the closer
+are never the cut.
 
-**Show, don't tell self-check:** scan the draft for any paragraph narrating a comparison across two or more options/states along two or more dimensions, or carrying three or more numbers doing comparative work (a common shape in before/after and data-driven articles). Convert it to a `tableBlock` before Step 2.5 — it's valid Portable Text in a `textSection`, no schema work needed. See `docs/brand/brand-voice-guide.md`'s Do This / Not This table.
+**Skim skeleton:** title, subheads, first sentence of each section, and the closer. It
+should carry the thesis and the argument's shape on its own.
 
 ---
 
 ## Step 2.5 — Brand voice compliance gate (blocking — runs before any Sanity write)
 
 Do not call `create_documents_from_json` until every item below is resolved. This is not a suggestion pass — it is a blocking checklist. Fix violations in the draft before proceeding.
+Run the shared compliance gate (`docs/write-pipeline-prompt.md` §4 — banned vocabulary,
+filler transitions, structural tells) alongside the article-specific items below.
 
 **Em dashes (zero tolerance in articles):**
 Scan all drafted text for `—`. Replace every instance:
@@ -99,20 +80,8 @@ Scan all drafted text for `—`. Replace every instance:
 - Around a parenthetical: use parentheses or commas.
 - No exceptions. The em dash is the single most reliable AI-output tell.
 
-**Banned vocabulary — replace if found:**
-`leverage`, `utilize`, `delve into`, `facilitate`, `synergize`, `ideate`, `learnings`,
-`passionate about`, `excited to announce`, `in today's landscape`, `robust`, `scalable`,
-`seamless`, `cutting-edge`, `game-changing`, `innovative`, `unlock`
-
-**Filler transitions — delete, don't replace:**
-`That said,` / `With that in mind,` / `That being said,` / `It's worth noting that` /
-`At the end of the day` / `It goes without saying` / `Needless to say`
-
-**Structural tells:**
-- Three consecutive sentences starting with the same word → rewrite at least one.
-- More than two bullet lists in the full article → convert at least one to prose.
-- Any adjective triad ("robust, scalable, and maintainable") → delete two adjectives or replace with a specific number or example.
-- Hedge stacks ("I think maybe this could possibly") → pick a position.
+**Article-specific structural tell:** more than two bullet lists in the full article →
+convert at least one to prose.
 
 **"I" check:**
 Verify every first-person sentence is attributable to Bex. If a sentence reads as AI narrating its own process ("I generated", "I produced", "I drafted"), rewrite: "Claude drafted X. I reviewed it."
@@ -123,7 +92,8 @@ After completing this scan, state explicitly: **"Compliance gate passed — no v
 
 ## Step 2.6 — Disclosure & attribution (required)
 
-Per `docs/briefs/ai-ethics-and-operations.md` Principles 3, 11, and 13, AI-generated or AI-assisted content requires explicit disclosure before publication (EU AI Act Article 50, enforceable August 2026; US state disclosure laws).
+See `docs/write-pipeline-prompt.md` §5 for the shared disclosure mechanics (ethics-doc
+citation, tools-field attribution, images/alt-text rule). Article-specific mechanism:
 
 **Articles have no `aiDisclosure` schema field**, so disclosure is expressed through two mechanisms:
 
@@ -135,36 +105,16 @@ Per `docs/briefs/ai-ethics-and-operations.md` Principles 3, 11, and 13, AI-gener
 | AI assisted with research/structure, Bex wrote | `"Research and structural assistance by Claude (Anthropic). Written and edited by Bex Head."` |
 | Bex wrote entirely, AI only reviewed | No disclosure callout required. |
 
-**2. Tools taxonomy as machine-readable attribution** — include the relevant AI tool refs (e.g. `tool-claude-code`) in the `tools` field. This is the structured attribution record for search and the knowledge graph.
-
-**Images:** any images in the article require:
-- Descriptive `alt` text (WCAG 2.1 AA — conveys meaning, not just "decorative image")
-- If AI-generated: the `alt` or `caption` must name the generation tool (e.g. "AI-generated illustration via [tool name]")
-
 **The disclosure callout is not a weakness.** Per the ethics doc: "Credit your tools like you'd credit a co-author." The Sugartown brand is transparent about AI collaboration by design — the disclosure is part of the story, not a footnote.
-
----
-
-## Step 2.75 — Brand voice compliance pass (hard stop before any Sanity write)
-
-Scan all drafted text before calling `create_documents_from_json`. Fix every violation in the draft first.
-
-**Em dashes (—):** replace every instance. Use a colon, comma, parentheses, or restructure the sentence into two. Zero em dashes permitted.
-
-**Banned terms — find and replace:**
-- AI vocabulary: "leverage", "utilize", "facilitate", "delve into", "synergize", "ideate", "learnings", "passionate about", "excited to announce", "in today's landscape"
-- Filler transitions: "That said,", "With that in mind,", "That being said,", "It's worth noting that", "At the end of the day"
-- Hedge stacks: "I think maybe this could possibly" — pick a position
-- Empty adjective triads: "robust, scalable, and maintainable" — one specific adjective or a number
-- Sentence-opening repetition: three consecutive sentences starting with the same word — rewrite one
-
-Do not proceed to Step 3 until all of the above are resolved. Confirming compliance is part of the pre-write report.
 
 ---
 
 ## Step 3 — Create the Sanity draft
 
 Use `create_documents_from_json` (NOT `create_documents_from_markdown` — no AI rewriting).
+See `docs/write-pipeline-prompt.md` §6 for Portable Text block requirements. This subsumes
+the compliance re-scan formerly in a separate Step 2.75 — Step 2.5 already covers the full
+checklist; do not proceed here until it and Step 2.6 are resolved.
 
 ```json
 {
@@ -194,17 +144,13 @@ Use `create_documents_from_json` (NOT `create_documents_from_markdown` — no AI
 }
 ```
 
-All array items must have a unique `_key`. PortableText blocks need `_key`, `_type`, `style`, `markDefs: []`, and `children` with `_key`, `_type`, `marks`, `text`.
+All array items must have a unique `_key`.
 
 ---
 
 ## Step 4 — Report back
 
-After creating the draft, report:
-- Sanity draft ID (`drafts.*`)
+Report the shared checklist (`docs/write-pipeline-prompt.md` §8: draft ID, taxonomy
+attached, related content linked, images alt text confirmed) plus, article-specific:
 - Slug (`/articles/<slug>`)
 - Disclosure callout included (yes/no) and which string was used
-- Taxonomy attached (categories, tags, tools — tools list confirms attribution record)
-- Any taxonomy concepts with no existing match (flag for possible new docs)
-- Any related content linked
-- Any images included — confirm alt text is present

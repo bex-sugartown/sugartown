@@ -54,40 +54,15 @@ If the client name is confidential, redact consistently everywhere (title, body,
 
 ### Taxonomy
 
-Query Sanity for existing taxonomy. Do NOT create new taxonomy documents unless asked.
+Run the standard taxonomy pre-flight — see `docs/write-pipeline-prompt.md` §1 for the
+queries — and consult its §2 metadata reference field matrix for what `caseStudy` supports.
 
-**Sanity project:** `poalmzla` / dataset: `production` / perspective: `published`
-
-Run these queries in parallel:
-
-```groq
-// Tools
-*[_type == "tool"]{ _id, name } | order(name asc)
-
-// Categories
-*[_type == "category"]{ _id, name } | order(name asc)
-
-// Tags
-*[_type == "tag"]{ _id, name } | order(name asc)
-
-// Persons (authors)
-*[_type == "person"]{ _id, name } | order(name asc)
-
-// Projects
-*[_type == "project"]{ _id, name } | order(name asc)
-```
-
-Identify best-fit refs. Aim for:
+Case-study-specific target ranges:
 - 1–2 categories (schema warns at 3+)
 - 3–6 tags
 - Tools: what **Bex** used in the engagement (`tools` is "Bex's Tools" — practitioner tools like Storybook, Claude, dbt; client-operated platforms are tagged `kind=platform` on the tool doc)
 - Authors: Bex Head by default (look up her person _id)
 - Project: only if the engagement maps to an existing project doc
-
-Also query for related content:
-```groq
-*[_type in ["node", "article", "caseStudy"] && defined(slug.current)] | order(publishedAt desc) [0..20] { _id, _type, title, slug }
-```
 
 ---
 
@@ -109,11 +84,21 @@ All 7 live case studies follow one canonical section order (this is also the SUG
    - `title`: a question a prospective client evaluating Bex would actually ask ("What do you do when a project scope expands beyond the brief?", "How do you approach CMS vendor selection?")
    - `content`: 2–4 sentences, **third person** ("Bex ran a structured RFI…") — written for LLM extraction, grounded in this specific engagement
 
-**Length budget (declare before drafting):** state the target Overview word count and one line of justification against the band (500–1,200). Length is a budget, not a ceiling: readers skim roughly a fifth of the words on a page and bail in the middle third, so words past the payload are debt. If the draft runs over budget, Process detail pays first — the Challenge, the receipts, and the Reflection are never the cut.
+Run the shared write-time self-checks (`docs/write-pipeline-prompt.md` §3) before Step 2.5.
 
-**Skim skeleton self-check (after drafting, before Step 2.5):** the case study's skeleton is structural, not just textual — challenge callout + outcome tiles + section subheads + Reflection's first sentence. That artifact is the whole page for a 30-second reader (and for the prospective client deciding whether to keep reading). If it does not tell the engagement's story alone, fix the skeleton before fixing anything else.
+**Length budget:** target Overview band 500–1,200. If the draft runs over budget, Process
+detail pays first — the Challenge, the receipts, and the Reflection are never the cut.
 
-**Show, don't tell self-check:** the outcome tiles (`cardSection` step 3, above) are already the canonical table for before/after metrics — do not also narrate those same numbers as prose in the Overview; state the outcome once, in the tiles, and let the Overview's prose interpret it rather than repeat it. Separately, scan the Process subsection for any prose narrating a comparison across multiple options, vendors, or phases along multiple dimensions (a vendor bake-off, a multi-phase timeline with different metrics per phase) — that shape is a `tableBlock`, not a paragraph walking the reader across each one in turn. `tableBlock` is valid Portable Text inside the Overview `textSection`, no schema work needed. See `docs/brand/brand-voice-guide.md`'s Do This / Not This table.
+**Skim skeleton:** structural, not just textual — challenge callout + outcome tiles +
+section subheads + Reflection's first sentence. That artifact is the whole page for a
+30-second reader (and for the prospective client deciding whether to keep reading).
+
+**Show, don't tell:** the outcome tiles (`cardSection` step 3, above) are already the
+canonical table for before/after metrics — do not also narrate those same numbers as prose
+in the Overview. Separately, scan the Process subsection for any prose narrating a
+comparison across multiple options, vendors, or phases along multiple dimensions (a vendor
+bake-off, a multi-phase timeline with different metrics per phase) — that shape is a
+`tableBlock`, not a paragraph walking the reader across each one in turn.
 
 **Deprecated fields — never write these:** `challengeSummary` (use the calloutSection), `outcomes[]` (use the cardSection), `keyQuestions[]` (use the FAQ accordion), `cardImage`, `relatedProjects` (use `projects`).
 
@@ -130,28 +115,17 @@ All 7 live case studies follow one canonical section order (this is also the SUG
 ## Step 2.5 — Brand voice compliance gate (blocking — runs before any Sanity write)
 
 Do not call `create_documents_from_json` until every item below is resolved. Fix violations in the draft first.
+Run the shared compliance gate (`docs/write-pipeline-prompt.md` §4 — banned vocabulary,
+filler transitions, structural tells) alongside the case-study-specific items below.
 
 **Em dashes (zero tolerance — case studies have no node exemption):**
 Scan all drafted text for `—`. Replace every instance with a colon, comma, parentheses, or two sentences. Only `Title — Subtitle` heading separators may remain.
-
-**Banned vocabulary — replace if found:**
-`leverage`, `utilize`, `delve into`, `facilitate`, `synergize`, `ideate`, `learnings`,
-`passionate about`, `excited to announce`, `in today's landscape`, `robust`, `scalable`,
-`seamless`, `cutting-edge`, `game-changing`, `innovative`, `unlock`
 
 **Enterprise-deck phrasing — replace with what actually happened:**
 `omnichannel enablement`, `unified model powering`, `digital transformation journey`,
 `best-in-class`, `end-to-end solution`, `drive business value`, `strategic initiative`
 
-**Filler transitions — delete, don't replace:**
-`That said,` / `With that in mind,` / `That being said,` / `It's worth noting that` /
-`At the end of the day` / `It goes without saying` / `Needless to say`
-
-**Structural tells:**
-- Three consecutive sentences starting with the same word → rewrite at least one.
-- Any adjective triad → delete two adjectives or replace with a specific number.
-- Hedge stacks → pick a position.
-- Bullets that aren't parallel items → write prose.
+**Case-study-specific structural tell:** bullets that aren't parallel items → write prose.
 
 **Receipts check (case-study-specific):**
 - Every outcome tile has an honest `evidenceType`.
@@ -167,7 +141,8 @@ After completing this scan, state explicitly: **"Compliance gate passed — no v
 
 ## Step 2.6 — Disclosure & attribution (required)
 
-Per `docs/briefs/ai-ethics-and-operations.md` Principles 3, 11, and 13 (EU AI Act Article 50, enforceable August 2026; US state disclosure laws).
+See `docs/write-pipeline-prompt.md` §5 for the shared disclosure mechanics (ethics-doc
+citation, tools-field attribution, images/alt-text rule). Case-study-specific mechanism:
 
 **`aiDisclosure` field is mandatory when this skill drafts the copy.** It renders below the byline. Use the appropriate string:
 
@@ -179,15 +154,14 @@ Per `docs/briefs/ai-ethics-and-operations.md` Principles 3, 11, and 13 (EU AI Ac
 
 When this skill produces the draft, the first string is the default. The engagement itself was human work; the disclosure covers the write-up, not the work.
 
-**Tools field as attribution:** if AI tools were used **in the engagement**, they belong in `tools` (machine-readable attribution). Do not add Claude to `tools` merely for drafting this page — `tools` records the engagement stack, `aiDisclosure` records the authorship.
-
-**Images:** any images require descriptive `alt` text (WCAG 2.1 AA). If AI-generated, name the generation tool in `alt` or `caption`.
+**Tools field as attribution — case-study nuance:** if AI tools were used **in the engagement**, they belong in `tools` (machine-readable attribution). Do not add Claude to `tools` merely for drafting this page — `tools` records the engagement stack, `aiDisclosure` records the authorship. (This is a sharper rule than the shared doc's general "include the AI tool used" note — case studies distinguish the engagement's tool stack from the drafting tool.)
 
 ---
 
 ## Step 3 — Create the Sanity draft
 
 Use `create_documents_from_json` (NOT `create_documents_from_markdown` — no AI rewriting).
+See `docs/write-pipeline-prompt.md` §6 for Portable Text block requirements.
 
 ```json
 {
@@ -270,7 +244,7 @@ Use `create_documents_from_json` (NOT `create_documents_from_markdown` — no AI
 }
 ```
 
-All array items must have a unique `_key`. PortableText blocks need `_key`, `_type`, `style`, `markDefs: []`, and `children` with `_key`, `_type`, `marks`, `text` — omitting `markDefs`/`marks` makes the content uneditable in Studio.
+All array items must have a unique `_key`.
 
 **Double-check `semantic: "faq"` is set on the accordion before writing** — it is an easy-to-miss field and its absence silently drops the FAQPage JSON-LD.
 
@@ -278,8 +252,8 @@ All array items must have a unique `_key`. PortableText blocks need `_key`, `_ty
 
 ## Step 4 — Report back
 
-After creating the draft, report:
-- Sanity draft ID (`drafts.*`)
+Report the shared checklist (`docs/write-pipeline-prompt.md` §8: draft ID, taxonomy
+attached, related content linked, images alt text confirmed) plus, case-study-specific:
 - Slug (`/case-studies/<slug>`)
 - `aiDisclosure` string used and why
 - Engagement facts recorded (client, employer, contractType, role, dateRange, industry, companySize, region) — flag any left blank
@@ -287,6 +261,3 @@ After creating the draft, report:
 - FAQ accordion present with `semantic: "faq"` confirmed (JSON-LD will emit)
 - `aeoSummary` / `geoSummary` populated
 - Any `[NEEDS FACT: …]` placeholders remaining (these block publish)
-- Taxonomy attached (categories, tags, tools) and any concepts with no existing match
-- Any related content linked
-- Any images included — confirm alt text is present

@@ -89,13 +89,14 @@ content modelling, publishing pipelines, the agentic build). Read
   actually say about the term at a whiteboard. Still grounded in fact — opinion is
   earned, not invented.
 - A glossary term is **not a node**. The node em-dash and emoji exemptions do
-  **not** apply. Site-wide anti-slop bans are in force:
-  - No em dashes (`—`). Commas, parentheses, colons, full stops.
-  - No decorative emoji.
-  - No banned vocabulary: `leverage`, `utilize`, `delve into`, `facilitate`,
-    `synergize`, `ideate`, `learnings`, `robust`, `scalable`, `seamless`,
-    `cutting-edge`, `game-changing`, `innovative`, `unlock`, `in today's landscape`.
-  - No filler transitions, no adjective triads, no hedge stacks.
+  **not** apply. No em dashes (`—`) — commas, parentheses, colons, full stops. No
+  decorative emoji. Run the shared brand voice compliance gate
+  (`docs/write-pipeline-prompt.md` §4 — banned vocabulary, filler transitions,
+  structural tells) before finalising. Note: consolidating onto the shared canonical
+  banned-vocabulary list adds `passionate about` and `excited to announce` to what's
+  enforced here — this glossary-specific list previously omitted those two relative
+  to the other write-*-prompt.md files (SUG-210 flagged this gap; it wasn't a
+  deliberate register difference).
 - The opinion is Sugartown's, not a vendor's. If a term is marketing spin dressed
   as a concept, the cheek is in *saying so*, not in repeating the pitch.
 

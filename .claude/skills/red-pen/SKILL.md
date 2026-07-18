@@ -57,6 +57,8 @@ Do not guess. "I could not verify the 40% figure" is a legitimate finding. A con
 
 Run the anti-slop checklist from the brand voice guide mechanically, respecting the register exemptions from Step 2: banned vocabulary, em dashes (outside nodes), decorative emoji (outside nodes), hedge stacking, filler transitions, unearned "we", empty adjective triads, sentence-opening repetition, list-itis. Also check the first-person contract: in articles, Bex directs and the AI builds; a sentence where Bex claims to have written the migration script is a voice violation, not a style preference.
 
+Cross-check against `docs/write-pipeline-prompt.md` §4 — the write-time compliance gate all four write-*-prompt.md skills enforce before drafting. Its banned-vocabulary list is a superset of `brand-voice-guide.md`'s Anti-AI-Generated Checklist (it treats `robust`/`scalable`/`seamless`/`cutting-edge`/`game-changing`/`innovative`/`unlock` as individually banned words, where the voice guide treats them only as an example of the adjective-triad pattern). Flag findings against the wider list — a draft that passed its write-time gate should also pass review.
+
 These findings are near-mechanical, so keep the commentary short. "Line 34: 'leverage' → 'use'" needs no essay.
 
 ### Pass 3: Sharpness (advisory)
