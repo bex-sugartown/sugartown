@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-220 — Tool Taxonomy Metadata & Logo Backfill
 **Linear Issue:** [SUG-220](https://linear.app/sugartown/issue/SUG-220)
-**Status:** In Progress
+**Status:** Done — shipped v0.28.9, 2026-07-18
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit/mini-release per phase
 ---
