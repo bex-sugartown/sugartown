@@ -148,7 +148,13 @@ Candidates, each needing its own official-site logo lookup and its own download-
 
 **Discrepancy resolved:** Bex's "commercetools updated and published" referred to tagging commercetools onto a case study (a reference *to* the tool doc), not editing the tool document's own fields — which is why `_updatedAt` looked stale; referencing a document doesn't mutate it. Once clarified, completed commercetools the same way as the rest of Group A: `description` + the logo already downloaded in the original batch (`tool-commercetools-logo.svg`, verified colored — teal/navy/purple/yellow, no fill injection needed), `url` was already correct. Written to `drafts.a949d032-...`, verified via re-fetch. Group A is now the originally-scoped 5/5, not 4/5.
 
-**Published:** all Group A/C additions with a logo, plus every description/url change, written to `drafts.*` — not yet published, pending the same explicit standalone publish approval Phase 1 required.
+**Published (2026-07-18):** all 16 Phase 2 tools (Group A 5, Group B 7, Group C 4) are live. Explicit standalone publish approval received, separate from the content-write approval. 14 published directly in this session's final batch (fresh-verified immediately before publish); commercetools and AEM Assets were already published by the concurrent session by the time this session got to them — confirmed via direct re-fetch rather than assumed, content matched exactly what was proposed in both cases, no conflict.
+
+**Total scoped-so-far tally: 50/60 tools are now live** (original 4 + Phase 1's 30 + Phase 2's 16).
+
+**Gap discovered while computing this tally, not previously scoped in any tier:** `Celum` and `ChatGPT (Canvas)` are absent from the original Tier A/B/C audit entirely — a genuine miss in this epic's own scoping, not a deliberate skip. Both confirmed still empty (`description: null` on both; Celum already has an existing PNG logo and a `url`, ChatGPT (Canvas) has neither). Adding to Phase 3 scope rather than silently leaving them stranded: `Celum` needs only a `description` (existing logo/url are fine, matching the audit's original note that no simple-icons match exists for it); `ChatGPT (Canvas)` needs the same three-field treatment as `ChatGPT` — likely the same "referenced across multi-agent nodes" grounding if a content reference exists, unverified as of this entry. Not yet executed.
+
+Remaining after this correction: the two newly-found gaps above, Phase 3's original 7 Tier C tools (CWV, Claude Design, Forrester Wave, Gartner, DevTools, eWinery, Oracle ATG — flagged skip/defer, no execution scoped), and FileMaker Pro (explicitly left untouched). 60 − 50 = 10 accounted for exactly (2 gap + 7 Tier C + 1 FileMaker Pro).
 
 ### Phase 3 — Tier C: flagged skip/defer, not scoped for execution
 
