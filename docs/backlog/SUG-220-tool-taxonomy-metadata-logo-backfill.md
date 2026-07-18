@@ -43,6 +43,8 @@ All 30 Tier A tools patched — `description`, `url` (where findable), and `logo
 
 **Resolved 2026-07-18:** Bex opted to reuse the Claude mark (same vendor, same #D97757 brand color) for Claude Code. Sanity's asset store deduplicates by content hash — uploading the identical SVG under `tool-claude-code-logo.svg` resolved to the same existing asset (`image-71056c942ddf421824ed701cd6f8ea2dd9dccfb7-24x24-svg`) rather than creating a duplicate. Claude and Claude Code now share one logo asset. All 30/30 Tier A tools complete.
 
+**Published:** all 30 Tier A drafts published live (explicit standalone approval, separate from the earlier content-write approval, per the site's human-publishes rule). Verified via fresh `drafts.*` existence check immediately before publish (all 30 present with description+logo populated) and a post-publish spot-check on three published documents. The original four (Sanity, Contentful, Vercel, Netlify) were already published earlier. **All 34 tools scoped so far (original 4 + Tier A 30) are now live.**
+
 ## Full audit — all 60 `tool` documents
 
 Legend: **desc** = `description` populated · **url** = `url` populated · **logo** = `logo` populated · **SI match** = confirmed simple-icons entry (slug/hex) or "—"
@@ -145,7 +147,7 @@ Candidates, each needing its own official-site logo lookup and its own download-
 
 ## Acceptance criteria
 
-- [x] All 30 Tier A tools have `description`, `url` (where findable), and `logo` set, approved via Content Write Gate proposal before any write, left as drafts pending publish — 30/30 complete
+- [x] All 30 Tier A tools have `description`, `url` (where findable), and `logo` set, approved via Content Write Gate proposal before any write — 30/30 complete, published live
 - [ ] Tier B scope is either explicitly approved by Bex and executed tool-by-tool (each with its own download-permission ask), or explicitly deferred — not left ambiguous
 - [ ] Tier C tools are recorded as intentionally skipped with reasoning, not silently forgotten
 - [x] No logo is uploaded without an explicit brand-hex `fill` applied first (raw simple-icons SVGs default to black/no-fill, which renders wrong as a standalone Sanity image asset — same fix applied to the first four)
