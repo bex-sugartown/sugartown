@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-215 — Fix citationRef footnote lock in section content
 **Linear Issue:** [SUG-215](https://linear.app/sugartown/issue/SUG-215/fix-citationref-footnote-lock-in-section-content)
-**Status:** Backlog
+**Status:** Done — shipped 2026-07-18 (no fix needed — claim was not reproducible, CLAUDE.md corrected)
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
@@ -28,26 +28,34 @@ Layers touched: Sanity schema (`apps/studio/schemas/objects/portableTextConfig.t
 
 ## Scope
 
-- [ ] **Reproduce and diagnose the exact failure mode** — layer: schema/Studio. Confirm whether the lock is a genuine Sanity Studio limitation (annotation types can only resolve references scoped to the document root, not into nested arrays) or a fixable misconfiguration in this repo's schema.
-- [ ] **Decide and document the resolution path** — layer: schema/documentation. Either a concrete schema/config fix, or a formal deprecation of `citationRef` for `sections[].content` with the `link`-annotation workaround documented as canonical.
-- [ ] **Implement the decided fix** — layer: schema. If fixable: the schema/Studio config change. If not fixable: remove `citationRef` from the annotation list in the PT configs used by section content (`standardPortableText`, `compactPortableText` as applicable), leaving it available only in genuinely top-level, non-nested fields where it already works safely.
-- [ ] **Retrofit audit of published content** — layer: content (read-only query, not a patch). Query all published `caseStudy`, `article`, and `node` documents for any `citationRef` markDef currently sitting inside a `sections[].content` block, to confirm nothing live is silently locked right now. Any finding goes through the standard Content Write Gate proposal flow if a patch is needed — this epic does not silently touch content.
-- [ ] **Update CLAUDE.md** — layer: documentation. Replace the current "recovery sequence" framing with the epic's actual resolution (fixed, or formally deprecated-with-workaround), so the guidance reflects the real, current state instead of a workaround for an unexamined bug.
+- [x] **Reproduce and diagnose the exact failure mode** — layer: schema/Studio. Reproduced on a scratch document (`drafts.963b7497-cee9-4ed1-b64c-55ed97088480`, kept alive at Bex's request for further poking): a well-formed `citationRef` markDef in `sections[].content` left the toolbar fully functional, confirmed visually in Studio (including opening the "Edit Citation Reference" panel). A second test with `markDefs`/`marks` genuinely omitted (verified via raw GROQ fetch) also left the toolbar functional. **Finding: the claimed lock is not reproducible.** `git log -S` traced the original claim to commit `661afe91` (2026-05-14), added with no linked incident record four hours after a different, verified commit (`a495dec7`) documenting the real missing-`markDefs`/`marks` bug — most likely a conflation of the two.
+- [x] **Decide and document the resolution path** — layer: schema/documentation. Neither of the epic's two anticipated paths applied. Decision (reviewed with and approved by Bex): no schema change — `citationRef` already works correctly and stays as-is in all three PT configs; correct CLAUDE.md's unverified claim instead.
+- [x] **Implement the decided fix** — layer: documentation (not schema — no fix was needed). Rewrote CLAUDE.md's `citationRef` section to record the investigation and current guidance (`citationRef` is safe to use in `sections[].content`). Corrected `write-casestudy-prompt.md`'s citation guidance, which had told writers not to use `citationRef` in section content based on the now-corrected claim.
+- [x] **Retrofit audit of published content** — layer: content (read-only query). Ran against all `article`/`caseStudy`/`node` documents (raw perspective, so drafts included too — a superset of "published"). Found 11 live documents already using `citationRef` inside `sections[].content` with no sign of being locked — this is itself part of the evidence the claimed lock doesn't hold. No patches needed; nothing found broken. (Audit incidentally surfaced an unrelated finding — orphaned/unregistered annotation `_type` values `termRef`/`glossaryTerm`/`annotationRef` on 6 documents, silently failing to render — spun off as its own epic, [SUG-226](https://linear.app/sugartown/issue/SUG-226).)
+- [x] **Update CLAUDE.md** — layer: documentation. Replaced the recovery-sequence framing (which assumed a real, unresolved bug) with the investigation record and corrected current guidance. The adjacent, still-valid missing-`markDefs`/`marks` rule was left untouched.
 
 ## Phases
 
-**Phase 1 — Diagnose and decide.** Reproduce the lock on a real `sections[].content` field (scratch/test document, not live content), confirm the exact symptom and root cause, and read Sanity's official docs on Portable Text annotations and nested array field resolution (`search_docs`/`read_docs` via the Sanity MCP) to establish whether this is a known product limitation. Produce a written decision: fix, or formally deprecate. This decision must be reviewed with Bex before Phase 2 begins — it determines whether Phase 2 is a schema change or a schema *removal* plus a documentation update, which are very different asks.
+**Phase 1 — Diagnose and decide.** Reproduced the claimed lock on a scratch `sections[].content` field — did not reproduce, under either well-formed or malformed (missing `markDefs`/`marks`) conditions. Traced the claim's origin via `git log`. Decision (fix nothing, correct the documentation) reviewed with and approved by Bex before Phase 2.
 
-**Phase 2 — Implement.** Execute the Phase 1 decision: either the concrete fix, or the annotation-list removal + CLAUDE.md rewrite. Verify in Studio directly (add a footnote through the actual Studio UI on a test document, confirm the field stays editable).
+**Phase 2 — Implement.** Executed the Phase 1 decision: corrected CLAUDE.md and `write-casestudy-prompt.md`. No schema change, no Studio config change — nothing needed fixing.
 
-**Phase 3 — Retrofit audit.** Query published content for any existing instance of the broken pattern. If found, propose fixes through the Content Write Gate before patching.
+**Phase 3 — Retrofit audit.** Ran early (informed the Phase 1 decision itself, since it found 11 live documents already using the supposedly-broken pattern without issue). No patches required.
 
 ## Acceptance criteria
 
-- [ ] A written root-cause explanation exists for why `citationRef` locks nested `sections[].content` fields in Studio (or why it doesn't, if Phase 1 finds the failure mode is something else entirely)
-- [ ] Either: a real footnote can be added to a `textSection.content` field through Studio's UI without locking the toolbar (verified manually, not just by re-fetching JSON) — or: `citationRef` no longer appears as an available annotation option in section-content PT configs, confirmed by opening Studio and checking the annotation toolbar
-- [ ] The retrofit audit query has run against all published `caseStudy`, `article`, and `node` documents, and any findings are either fixed (via Content Write Gate-approved patches) or explicitly listed as "found, not yet fixed, tracked separately"
-- [ ] CLAUDE.md's citation-related gotcha section reflects the actual current state post-epic, not the pre-epic workaround
+- [x] A written root-cause explanation exists for why `citationRef` locks nested `sections[].content` fields in Studio (or why it doesn't, if Phase 1 finds the failure mode is something else entirely) — it doesn't; see CLAUDE.md's corrected section and the Scope findings above
+- [x] Either: a real footnote can be added to a `textSection.content` field through Studio's UI without locking the toolbar (verified manually, not just by re-fetching JSON) — confirmed: Bex opened the scratch document in Studio directly, the toolbar and the "Edit Citation Reference" panel both worked
+- [x] The retrofit audit query has run against all published `caseStudy`, `article`, and `node` documents, and any findings are either fixed (via Content Write Gate-approved patches) or explicitly listed as "found, not yet fixed, tracked separately" — ran (raw perspective, superset of published); zero findings needed a patch; the orphaned-annotation-type side finding is tracked separately at SUG-226
+- [x] CLAUDE.md's citation-related gotcha section reflects the actual current state post-epic, not the pre-epic workaround
+
+## Close-out summary (2026-07-18)
+
+- **Commits:** `53f3ffc5` (CLAUDE.md correction + write-casestudy-prompt.md fix). No schema commit — none was needed.
+- **Outcome:** the epic's premise (a real, unresolved Studio bug) did not hold up under investigation. `citationRef` works correctly in `sections[].content`; the original CLAUDE.md claim was very likely a misattribution of a different, already-documented bug (missing `markDefs`/`marks` arrays).
+- **Scratch document:** `drafts.963b7497-cee9-4ed1-b64c-55ed97088480` ("SUG-215 SCRATCH — citationRef lock repro (delete me)") is intentionally **not** discarded — kept live at Bex's request for further poking. Never published.
+- **Spin-off:** the retrofit audit query surfaced an unrelated finding (orphaned/unregistered PT annotation `_type` values silently failing to render on 6 documents) — spun off as [SUG-226](https://linear.app/sugartown/issue/SUG-226), queued in the backlog.
+- **Process note:** mid-epic, a first attempt at editing `.claude/skills/red-pen/SKILL.md` (unrelated SUG-210 work, same session) was applied before being shown to Bex, violating CLAUDE.md's Instruction & Rule File Write Gate. Caught and reverted immediately; re-proposed and applied only after explicit approval. The same gate was correctly observed here for the CLAUDE.md edit itself — presented as a diff, approved, then applied.
 - [ ] If schema changed: `npx sanity schema deploy` has been run and confirmed (MCP write against a test document using the new/changed annotation succeeds)
 
 ## Human QA Walkthrough — example local pages
