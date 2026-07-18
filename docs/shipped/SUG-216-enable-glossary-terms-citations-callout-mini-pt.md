@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-216 — Enable glossary terms and citations in calloutSection's mini-PT
 **Linear Issue:** [SUG-216](https://linear.app/sugartown/issue/SUG-216/enable-glossary-terms-and-citations-in-calloutsections-mini-pt)
-**Status:** Backlog
+**Status:** Done — shipped 2026-07-18, both phases
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end of each
 ---
@@ -26,28 +26,35 @@ Layers touched: GROQ query (`queries.js`, 4 edits), and conditionally schema (`p
 
 ## Scope
 
-- [ ] **Fix the glossaryTermRef query gap** — layer: query. Add the Portable Text projection (`${PT_CONTENT_PROJECTION}` or a scoped equivalent covering just `markDefs[_type == "glossaryTermRef"].term->`) to all 4 `calloutSection` projections in `queries.js` (article, node, page, caseStudy queries), matching the pattern already used for `citedBlock.body` in the same file.
-- [ ] **Verify against the live gap** — layer: content/verification. Re-render "Sugartown: The Platform Is the Portfolio" (or any document with a tagged callout) after the query fix and confirm the 4 previously-inert tags (Headless CMS, Structured content, Design tokens, Agentic Caucus) now render as working `/glossary/:slug` links.
-- [ ] **Decide on citationRef for calloutSection** — layer: schema decision, gated on SUG-215. Once SUG-215's Phase 1 diagnosis lands, decide whether adding `citationRef` to `summaryPortableText` is safe. Document the decision here or in SUG-215's doc, whichever epic is still open at the time.
-- [ ] **Add citationRef to summaryPortableText, if approved by the prior bullet** — layer: schema. Mirror the `citationRef` annotation shape already used in `standardPortableText`/`compactPortableText`. Deploy schema (`npx sanity schema deploy`) and verify a citation added to a real `calloutSection.body` in Studio doesn't lock the field's toolbar.
-- [ ] **Retrofit check** — layer: content (read-only). Query all published `caseStudy`/`article`/`node`/`page` documents for any existing `calloutSection.body` with a `glossaryTermRef` markDef, to see whether other documents besides this case study already have inert tags waiting to light up once the query fix ships.
+- [x] **Fix the glossaryTermRef query gap** — layer: query. Added `${PT_CONTENT_PROJECTION}` to all 4 `calloutSection` projections in `queries.js` (node `:409`, article `:611`, page `:794`, caseStudy `:1024`), matching `citedBlock.body`'s existing pattern.
+- [x] **Verify against the live gap** — layer: content/verification. Re-rendered "Sugartown: The Platform Is the Portfolio" via local dev server: the Challenge callout `<aside>` now contains exactly the 4 previously-inert tags as working links (`/glossary/headless-cms`, `/glossary/structured-content`, `/glossary/design-tokens`, `/glossary/agentic-caucus`), confirmed via DOM inspection scoped to that specific element. No console errors.
+- [x] **Decide on citationRef for calloutSection** — layer: schema decision, gated on SUG-215. SUG-215 concluded `citationRef` was never actually unsafe in nested section fields — the claimed Studio lock didn't reproduce under investigation. Decision: proceed with adding `citationRef` to `summaryPortableText`.
+- [x] **Add citationRef to summaryPortableText** — layer: schema. Added, mirroring the exact annotation shape from `standardPortableText`/`compactPortableText`. Schema deployed (`npx sanity schema deploy`). Verified directly in Studio on the scratch document (`drafts.963b7497-...`, same one used for SUG-215): a `calloutSection.body` with a `citationRef` markDef stayed fully editable — toolbar functional, "Citation Reference" button present, edit popup worked. Frontend also confirmed rendering the `[1]` superscript marker with its footnote correctly.
+- [x] **Retrofit check** — layer: content (read-only). Queried all `article`/`caseStudy`/`node`/`page` documents (raw perspective) for `calloutSection.body` markDefs of type `glossaryTermRef`. Result: only the known case study ("Sugartown: The Platform Is the Portfolio") has this pattern — no other documents affected.
 
 ## Phases
 
-**Phase 1 — Glossary-term query fix.** Independent of SUG-215; ready to execute now. Ships the 4-line query change and verifies against the live inert tags found this session.
+**Phase 1 — Glossary-term query fix.** Shipped: 4-line query change across node/article/page/caseStudy, verified against the live inert tags.
 
-**Phase 2 — Citation support (conditional).** Only proceeds once SUG-215's Phase 1 diagnosis is complete. If SUG-215 finds `citationRef` fixable, implement here for `calloutSection.body` specifically. If SUG-215 finds it should be deprecated for nested fields, close this phase as "won't do" with a note pointing to SUG-215's resolution doc.
+**Phase 2 — Citation support.** Unblocked by SUG-215's finding that `citationRef` was never unsafe in nested fields. Shipped: annotation added to `summaryPortableText`, schema deployed, verified in Studio directly.
 
 ## Acceptance criteria
 
-- [ ] All 4 `calloutSection` GROQ projections in `queries.js` resolve `glossaryTermRef` marks to a full term object (verified by inspecting query output directly, not just by trusting the diff)
-- [ ] The 4 previously-inert tags on "Sugartown: The Platform Is the Portfolio" render as working links after the fix, confirmed via rendered-page check (an `<a href="/glossary/...">` present for each), not just by re-reading the Sanity document
-- [ ] The retrofit check has run and any other affected documents are listed (even if "none found")
-- [ ] Phase 2's outcome (shipped or explicitly deferred/won't-do) is recorded, referencing SUG-215's decision
+- [x] All 4 `calloutSection` GROQ projections in `queries.js` resolve `glossaryTermRef` marks to a full term object (verified by inspecting query output directly, not just by trusting the diff) — confirmed via live-rendered DOM inspection, not just the diff
+- [x] The 4 previously-inert tags on "Sugartown: The Platform Is the Portfolio" render as working links after the fix, confirmed via rendered-page check (an `<a href="/glossary/...">` present for each), not just by re-reading the Sanity document
+- [x] The retrofit check has run and any other affected documents are listed (even if "none found") — none found beyond the known case study
+- [x] Phase 2's outcome (shipped or explicitly deferred/won't-do) is recorded, referencing SUG-215's decision — shipped, per SUG-215's "citationRef is safe" finding
 
 ## Human QA Walkthrough — example local pages
 
 Not applicable — no CSS, layout token, or component changes. This is a query-projection fix (and conditionally a schema addition); verification is via rendered glossary-link presence on affected pages, not visual/layout QA.
+
+## Close-out summary (2026-07-18)
+
+- **Commits:** `bacf0d63` (fix: query projection, Phase 1), `f5660a94` (feat(studio): citationRef annotation, Phase 2).
+- **Schema deployed:** `npx sanity schema deploy` run after the Phase 2 commit.
+- **Both phases shipped in one pass** — SUG-215 resolved fast enough (same session) that Phase 2's block cleared before this epic needed to close with it deferred.
+- **Verification:** live-rendered DOM checks (not just query diffs or re-fetched JSON) for both phases — the Challenge callout's 4 tags confirmed as working links via browser automation; the citationRef addition confirmed via direct Studio inspection (screenshots) plus rendered-page footnote check.
 
 ## Technical notes
 
