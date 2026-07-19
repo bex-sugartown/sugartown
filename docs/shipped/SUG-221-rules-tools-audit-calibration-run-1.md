@@ -1,12 +1,28 @@
 ---
 **Epic:** SUG-221 — Rules & Tools Audit — process establishment + calibration run 1
 **Linear Issue:** [SUG-221](https://linear.app/sugartown/issue/SUG-221/rules-and-tools-audit-process-establishment-calibration-run-1)
-**Status:** Backlog
+**Status:** Shipped
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 
 # SUG-221 — Rules & Tools Audit — process establishment + calibration run 1
+
+## Close-out summary (2026-07-19)
+
+All three phases shipped in one session, worked directly on `main` (no feature branch). Runbook written at `docs/workflows/rules-tools-audit-runbook.md`. Calibration run 1 executed full-corpus: inventory + mechanical staleness sweep (orchestrating session + 3 parallel research agents), gate efficacy + contradiction sweep (3 fresh-context subagents under the no-rule-file-writes contract), housekeeping pass (D-6 set count-based, keep newest ~30 shipped docs flat), disposition report archived to `docs/reviews/rules-audit/2026-07.md`.
+
+**Results:** 24 mechanical staleness findings (8 High, 9 Medium, 6 Low, 1 informational) — all reviewed and applied except 3 informational/unverifiable items with no fix needed. 15 gates reviewed for efficacy — zero retired outright, 1 merged (Taxonomy pre-flight → Atomic Reuse Gate), 1 simplified (Atomic Reuse Gate scoped down to schema objects + utilities, CSS/component territory ceded to its two specialized descendant gates). Contradiction sweep came back clean — the `/glossy` auto-publish failure class that motivated this epic does not recur anywhere else in the corpus. 3 items retired (orphaned `storybook-docs` skill folder, a 4-month-stale duplicate root validator, an orphaned Lit/Shadow-DOM reference doc that doesn't match this stack). 154 of 184 shipped docs archived to `docs/shipped/zArchive/2026/`; all cross-references broken by that move were found and fixed; priority-stack header capped at 5 entries with older history moved to a Changelog section.
+
+**Review method:** Bex chose blanket-approve-with-exceptions for the ~40-item disposition table (no exceptions raised), plus 4 standalone decisions asked explicitly (D-6 threshold, and retire-vs-keep for each of the 3 flagged items). The 3 CLAUDE.md gate-structure changes were shown as an explicit diff description and approved as a unit before any edit, per the Instruction & Rule File Write Gate.
+
+**Open items carried to future cycles:** D-1 (Linear tracking shape), D-2 (steady-state cadence), D-4 (trigger mechanism), D-5 (scripting the staleness sweep) all still need calibration data from run 2. D-3 (token budget) only got a partial baseline this run — Phase 2's 3 subagents reported ~534K tokens combined, but Phase 1's subagent token counts weren't surfaced by the tool, so this is flagged as an instrumentation gap rather than a clean number. `docs/ai/agentic-caucus/incident-log.md` has a coverage gap (none of the 15 gates' firings this run are logged there, despite 2 meeting its own stated bar) — not fixed this cycle, carried as a finding. `docs/conventions/archive-page-patterns.md` + its addendum were annotated as superseded rather than fully rewritten — a real rewrite is future work, not done here.
+
+**No Sanity writes, no schema changes, no visual/CSS changes this epic** — Visual QA gate and Chromatic are both not applicable per the epic's own scope.
+
+Full findings, evidence, and KPI table: `docs/reviews/rules-audit/2026-07.md`.
+
+---
 
 Stand up the scheduled governance audit defined in `docs/briefs/rules-tools-audit-prd.md` and execute its first calibration run: inventory every rule-defining surface, mechanically verify staleness, review gate efficacy, sweep for skill-vs-rule contradictions, run the housekeeping pass, and report keep/simplify/merge/retire/archive dispositions with burden-vs-benefit KPIs and a token budget baseline.
 
