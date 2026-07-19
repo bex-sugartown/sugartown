@@ -83,4 +83,4 @@ Single component (`TaxonomyArchivePage.jsx`) serves all five archive URLs via `A
 - `apps/web/src/pages/PersonProfilePage.jsx` + `.module.css`
 - `apps/web/src/pages/pages.module.css`
 - `docs/conventions/component-registry.md` — DS primitive registry (separate concern)
-- `docs/backlog/SUG-123-taxonomy-listview-audit.md` — full epic with Storybook phase
+- `docs/shipped/zArchive/2026/SUG-123-taxonomy-listview-audit.md` — full epic with Storybook phase

@@ -145,7 +145,7 @@ Copied here from `docs/drafts/SUG-222-glossary-category-display-mock.html` becau
 ## Related
 
 - **Linear:** [SUG-222](https://linear.app/sugartown/issue/SUG-222/glossary-category-display-surface-categories-across-glossary-and)
-- **Prior art:** SUG-166 (`docs/shipped/SUG-166-glossary-completion-gap-fill-eds-import.md`) — shipped the Bextionary category + archive filter chips + masthead parenthetical; this epic builds the display layer it stopped short of
+- **Prior art:** SUG-166 (`docs/shipped/zArchive/2026/SUG-166-glossary-completion-gap-fill-eds-import.md`) — shipped the Bextionary category + archive filter chips + masthead parenthetical; this epic builds the display layer it stopped short of
 - **Structure inventories (build on, don't duplicate):** SUG-163 content-model codegen + `/platform/design-system/content-models`; `SchemaERD` component; `docs/conventions/schema-conventions.md`; MEMORY.md taxonomy-architecture entry (verify against live code before citing)
 - **Adjacent:** SUG-125 (IndexGroup/IndexCell primitives), SUG-162 (glossary term detail design)
 - **Ontology map addendum (added 2026-07-19):** `docs/briefs/sugartown-ontology-map.md` §"Addendum — original intention vs. current state" traces the MVP-era deprecated types (`post`/`homepage`/`header`/`footer`/`hero`/`contentBlock`) to their schema-documented successors, and shows the V1 strategy PRD's "future content growth without rework" goal holding up against `tool`/`series`/`glossaryTerm`'s later, rework-free additions — including the IA brief predicting Glossary by name three months before it shipped. Concludes gap register #1 is a display-layer execution lag, not an architecture failure.

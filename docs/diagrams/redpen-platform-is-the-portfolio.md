@@ -16,7 +16,7 @@ Classes: **enforced-by-code** (validator, hook, build step, or platform guarante
 | Design tokens: one source, generated ×2 | `tokens/source/tokens.json` → `pnpm tokens:build` (Style Dictionary) → both `tokens.css` outputs | enforced-by-code |
 | Generated copies byte-identical (style files) | `apps/web/scripts/validate-style-mirror.js` (pre-commit) | enforced-by-code |
 | `@sugartown/design-system` → POC: direct dependency | `apps/contentful-poc/package.json` (`workspace:*`); direct imports in `apps/contentful-poc/src/components/*.tsx` | enforced-by-code |
-| POC: 0 component changes, 0 schema rebuild, 2 packaging gaps fixed, 15 ADRs | `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md` | measured |
+| POC: 0 component changes, 0 schema rebuild, 2 packaging gaps fixed, 15 ADRs | `docs/shipped/zArchive/2026/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md` | measured |
 | Content model ported unchanged | same SUG-127 record | measured |
 | Production consumes the package | **Not true yet** — `apps/web` has no dependency on `@sugartown/design-system`; mirror components at `apps/web/src/design-system/` (see TODO in `Card.jsx`). Drawn as a **dashed** arrow, named in the legend as "hand-synced mirror … roadmap: consume the package" | roadmap |
 | Production mirror: components hand-synced, styles validator-checked | CLAUDE.md §Mirrored File Registry — component mirrors are a manual drift rule; only style files are validator-enforced. Legend wording reflects this split | convention |

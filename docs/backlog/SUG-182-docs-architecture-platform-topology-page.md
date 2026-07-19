@@ -46,7 +46,7 @@ Not applicable — this epic produces a documentation file only. No shared CSS, 
 
 **Anti-slop rules (CLAUDE.md):** No em dashes (`—`). No filler transitions ("That said", "With that in mind"). No AI vocabulary ("leverage", "utilize", "facilitate"). No empty adjective triads. Write in declarative sentences about the actual system.
 
-**Source materials:** Synthesise from `docs/briefs/platform-evolution-prd.md`, `docs/briefs/PROJ-005-monorepo-prd.md`, `docs/briefs/SUG-127-architecture-decisions.md`, and `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`. Do not invent decisions — cite which doc each claim comes from.
+**Source materials:** Synthesise from `docs/briefs/platform-evolution-prd.md`, `docs/briefs/PROJ-005-monorepo-prd.md`, `docs/briefs/SUG-127-architecture-decisions.md`, and `docs/shipped/zArchive/2026/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`. Do not invent decisions — cite which doc each claim comes from.
 
 **Model & Mode [REQUIRED]:** `/model sonnet` — documentation synthesis with no code changes.
 
@@ -61,5 +61,5 @@ Not applicable — this epic produces a documentation file only. No shared CSS, 
 - **Linear:** [SUG-182](https://linear.app/sugartown/issue/SUG-182/docsarchitecture-platform-topology-page-documenting-permanent-parallel)
 - **PRD:** `docs/briefs/platform-evolution-prd.md`
 - **Monorepo PRD:** `docs/briefs/PROJ-005-monorepo-prd.md`
-- **SUG-127 shipped:** `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`
+- **SUG-127 shipped:** `docs/shipped/zArchive/2026/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`
 - **Epic template:** `docs/epic-template.md`

@@ -48,4 +48,4 @@ There is no automated reminder for this. Options:
 
 ## AEO note
 
-The /now page is referenced in `docs/backlog/SUG-133-aeo-authority-building.md` as a core entity freshness signal. A stale /now page (more than 90 days old) weakens the active-practitioner signal AI systems use when building entity profiles for Becky Head / sugartown.io.
+The /now page is referenced in `docs/shipped/zArchive/2026/SUG-133-aeo-authority-building.md` as a core entity freshness signal. A stale /now page (more than 90 days old) weakens the active-practitioner signal AI systems use when building entity profiles for Becky Head / sugartown.io.

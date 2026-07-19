@@ -83,6 +83,6 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 ## Related
 
 - **Linear:** [SUG-224](https://linear.app/sugartown/issue/SUG-224)
-- **Evidence base:** `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`
+- **Evidence base:** `docs/shipped/zArchive/2026/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`
 - **Diagram + red-pen table:** `docs/diagrams/redpen-platform-is-the-portfolio.md`
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time

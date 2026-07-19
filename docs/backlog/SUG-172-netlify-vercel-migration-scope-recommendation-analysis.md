@@ -60,10 +60,10 @@ Not applicable — no shared CSS, token, or multi-page component changes in this
 
 - **Content Write Gate:** does not fire — no Sanity content writes.
 - **Schema changes:** none.
-- **Upstream dependencies:** none hard. SUG-127 shipped and its learnings (`docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`) are the primary input for the monorepo config and DNS sections.
+- **Upstream dependencies:** none hard. SUG-127 shipped and its learnings (`docs/shipped/zArchive/2026/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`) are the primary input for the monorepo config and DNS sections.
 - **Prior art to read at activation:**
   - `docs/reports/hosting-evaluation.md` — original Netlify decision with the full Vercel assessment from March 2026. Read this first — it already contains a Vercel section with a detailed candidate assessment. The key open question it left was query-parameter redirects and Netlify Forms; those are the two blockers to resolve.
-  - `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md` — Vercel monorepo setup, pnpm config, and DNS pattern proven in the POC.
+  - `docs/shipped/zArchive/2026/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md` — Vercel monorepo setup, pnpm config, and DNS pattern proven in the POC.
   - `apps/web/public/_redirects` — the actual redirect file; count the query-param rules before claiming they're a blocker.
   - `apps/storybook/netlify.toml` — Storybook deploy config, just fixed 2026-06-15; assess whether it should migrate.
   - `apps/web/src/pages/ContactPage.jsx` (or equivalent) — understand the current Netlify Forms integration before scoping a replacement.
@@ -85,6 +85,6 @@ Not applicable — no shared CSS, token, or multi-page component changes in this
 
 - **Linear:** [SUG-172](https://linear.app/sugartown/issue/SUG-172/netlify-vercel-migration-scope-recommendation-analysis-and-migration)
 - **Prior hosting evaluation:** `docs/reports/hosting-evaluation.md` (March 2026 Netlify decision + Vercel candidate section)
-- **Contentful + Vercel POC:** `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`
+- **Contentful + Vercel POC:** `docs/shipped/zArchive/2026/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`
 - **Storybook Netlify fix:** `apps/storybook/netlify.toml` (base-directory bug fixed 2026-06-15)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, and Files to Modify at activation time

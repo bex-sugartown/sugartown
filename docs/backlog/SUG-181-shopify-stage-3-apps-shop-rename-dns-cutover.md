@@ -100,6 +100,6 @@ Activation audit: read the renamed `apps/shop/src/app/` to list all routes. Buil
 - **Linear:** [SUG-181](https://linear.app/sugartown/issue/SUG-181/shopify-stage-3-rename-appscontentful-poc-appsshop-add-shopify)
 - **Blocked by:** SUG-179, SUG-71, SUG-72
 - **PRD:** `docs/briefs/platform-evolution-prd.md` Area 2 (Stage 3) + Area 3 (Shopify)
-- **DNS pattern:** `docs/shipped/SUG-128-contentful-poc-custom-domain-vercel.md`
+- **DNS pattern:** `docs/shipped/zArchive/2026/SUG-128-contentful-poc-custom-domain-vercel.md`
 - **Architecture decisions:** `docs/briefs/SUG-127-architecture-decisions.md`
 - **Epic template:** `docs/epic-template.md`

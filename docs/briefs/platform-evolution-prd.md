@@ -499,7 +499,7 @@ These rules are the enforcement layer for the multi-brand DS. They are why a bra
 
 ---
 
-### Reference 2 — `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`
+### Reference 2 — `docs/shipped/zArchive/2026/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md`
 
 **What it is:** The full epic doc for the Contentful + Vercel POC (shipped). Complements the architecture decisions file already reviewed; the epic doc adds the coupling point map hypotheses vs actuals and the four-bucket content model.
 
@@ -534,7 +534,7 @@ Any new app adding a data source adds a new `cms-client` + `queries` pair. The D
 
 ---
 
-### Reference 3 — `docs/shipped/SUG-128-contentful-poc-custom-domain-vercel.md`
+### Reference 3 — `docs/shipped/zArchive/2026/SUG-128-contentful-poc-custom-domain-vercel.md`
 
 **What it is:** The epic covering the DNS setup for `poc.sugartown.io`. Entirely infra; no architecture changes.
 
@@ -559,7 +559,7 @@ This pattern applies to any new Vercel-hosted app in the monorepo. Stage 3's sub
 
 ---
 
-### Reference 4 — `docs/shipped/SUG-130-platform-selection-risk-composable-architecture.md`
+### Reference 4 — `docs/shipped/zArchive/2026/SUG-130-platform-selection-risk-composable-architecture.md`
 
 **What it is:** A content backlog item for an article ("Platform selection risk is real. Here's what reduces it.") written in Bex's VoPM voice. Primarily a content piece, but contains practitioner research that surfaces real architectural risks.
 
@@ -609,9 +609,9 @@ The following rows supplement the Dependencies and Risks table in the main PRD b
 |----------|------|--------------------|
 | Monorepo PRD (PROJ-005) | `docs/briefs/PROJ-005-monorepo-prd.md` | MACH positioning, boundary rules, `packages/content/` gap, DS external publish intent |
 | SUG-127 architecture decisions | `docs/briefs/SUG-127-architecture-decisions.md` | All 15 decisions; Decisions 1/3/10/11/12 most relevant to multi-brand DS |
-| SUG-127 epic (shipped) | `docs/shipped/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md` | Four-bucket content model, adapter seam contract, coupling point map actuals |
+| SUG-127 epic (shipped) | `docs/shipped/zArchive/2026/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md` | Four-bucket content model, adapter seam contract, coupling point map actuals |
 | SUG-127 vendor eval | `docs/briefs/vendor-eval-vercel-vs-netlify.md` | Netlify/Vercel axis-by-axis comparison, hybrid recommendation |
-| SUG-128 (shipped) | `docs/shipped/SUG-128-contentful-poc-custom-domain-vercel.md` | DNS pattern for Vercel subdomains (Pair CNAME → `cname.vercel-dns.com`) |
-| SUG-130 (backlog) | `docs/shipped/SUG-130-platform-selection-risk-composable-architecture.md` | Headless preview gap, graceful degradation principle, TCO framing, content cluster sequencing |
+| SUG-128 (shipped) | `docs/shipped/zArchive/2026/SUG-128-contentful-poc-custom-domain-vercel.md` | DNS pattern for Vercel subdomains (Pair CNAME → `cname.vercel-dns.com`) |
+| SUG-130 (backlog) | `docs/shipped/zArchive/2026/SUG-130-platform-selection-risk-composable-architecture.md` | Headless preview gap, graceful degradation principle, TCO framing, content cluster sequencing |
 | Hosting evaluation | `docs/reports/hosting-evaluation.md` | Original March 2026 Netlify decision; Vercel candidate assessment |
 | SUG-172 (backlog) | `docs/backlog/SUG-172-netlify-vercel-migration-scope-recommendation-analysis.md` | Migration scope and activation conditions |
