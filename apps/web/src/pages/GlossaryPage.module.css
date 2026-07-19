@@ -14,6 +14,17 @@
   margin-bottom: 1rem;
 }
 
+/* Category description reveal (SUG-222) — shown only while a category with a
+   description is selected. Instant show/hide, no transition (matches the
+   filter row's own lack of animation). */
+.categoryDescriptor {
+  font-size: 0.9rem;
+  color: var(--st-color-text-muted);
+  border-left: 2px solid var(--st-color-brand-primary);
+  padding-left: 0.6rem;
+  margin-top: 0.7rem;
+}
+
 /* AlphaFilter wrapper — consistent bottom spacing before letter groups */
 .alphaFilterRow {
   margin-bottom: 2rem;

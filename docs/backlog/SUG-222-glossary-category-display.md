@@ -37,9 +37,9 @@ After this epic: glossary categories are a designed, navigable part of the gloss
 - [x] **Phase 0 mock** — layer: design. HTML mock at `docs/drafts/SUG-222-*.html` covering: the glossary archive's category presentation, the category detail page with glossary terms present, and the term-page chip behavior. Interaction annotations required for any nav/filter surface per CLAUDE.md (active state, URL behavior, existing-pattern reuse). Hard stop: no JSX/CSS before mock approval. **Mock approved by Bex 2026-07-19** (`docs/drafts/SUG-222-glossary-category-display-mock.html`, local-only). Revised twice during review: (1) fixed an error where the term-list abbreviation badge showed a category name instead of the term's own `abbreviation`; (2) Glossary Terms section reordered to render first (above Content, not below); (3) added per-section empty-hiding — each section hides independently when empty, combined "no content" message only when both are empty.
 - [x] **Category queries include glossaryTerm** — layer: query. Extend the taxonomy content and count queries so category pages see glossary terms; decide (at Phase 0) whether terms list inline with other content or as their own section. Done 2026-07-19 — new `glossaryTermsByCategoryQuery` (separate from `contentByTaxonomyQuery`, per Phase 0 decision); `allCategoriesQuery`'s count extended to include `glossaryTerm` via `references()`. `contentByTaxonomyQuery` deliberately left untouched (would've broken the separate-section decision for other taxonomy types too — see Technical notes).
 - [x] **Category page implementation** — layer: frontend. Whatever Phase 0 approves for `/categories/:slug` — likely graduating Bextionary-style categories off `TaxonomyPlaceholderPage`. Done 2026-07-19 — `TaxonomyDetailPage.jsx` extended (not forked): Glossary Terms section first, Content section second, two-tier empty-hiding, combined SEO thin-content threshold now counts `items.length + terms.length`. Zero behavior change confirmed for tags/projects/people in browser (agentic-caucus tag walked live, byte-identical to pre-change).
-- [ ] **Glossary archive category presentation** — layer: frontend. Implement the approved mock (grouping/descriptions/brand-color chips as decided).
+- [x] **Glossary archive category presentation** — layer: frontend. Implement the approved mock (grouping/descriptions/brand-color chips as decided). Done 2026-07-19 — `allGlossaryTermsQuery`'s category fragment extended to project `colorHex`/`description`; `Chip dotColor` wired; `.categoryDescriptor` reveal strip added. Verified live in both themes.
 - [x] **Term-page chip link** — layer: frontend. Wire the chip to the approved destination via `getCanonicalPath` (URL Authority Rule). No code change required — confirmed already correct in Phase 0 audit, and now confirmed end-to-end in the browser 2026-07-19 (clicked from `/glossary/clicky-burden` → landed on `/categories/bextionary` with all 10 terms + 1 content item listed).
-- [ ] **brandColor backfill (conditional)** — layer: content. If the mock uses brand color, propose values for existing categories through the Content Write Gate before patching.
+- [x] **brandColor backfill (conditional)** — layer: content. If the mock uses brand color, propose values for existing categories through the Content Write Gate before patching. Proposed and approved by Bex 2026-07-19; 6 categories (AI, Bextionary, Content Architecture, Documentation, Governance, Project Management) patched via `patch_documents` — **saved to Sanity drafts, not yet published** (Human-Publishes Rule — publish is Bex's action in Studio).
 
 ## Phases
 
@@ -47,7 +47,7 @@ After this epic: glossary categories are a designed, navigable part of the gloss
 
 **Phase 1 — Queries + category page.** GROQ extensions and the category detail page. Ships the "Bextionary page shows its 9 terms" fix. **Done 2026-07-19** — verified live against production data (Bextionary went from 0→11 items on both the archive list and detail page; mixed category Design Systems confirmed both sections render together correctly; no console errors; all validators — tokens, style-mirror, lint, urls — pass clean, `validate:urls` warnings are pre-existing nav-data gaps unrelated to this change).
 
-**Phase 2 — Glossary archive + chip.** Archive presentation per mock, term-page chip link, conditional brandColor backfill. Visual QA gate against the mock before close-out. Term-page chip link already satisfied by Phase 1 (no code change was needed) — Phase 2 scope reduces to glossary archive category presentation + conditional brandColor.
+**Phase 2 — Glossary archive + chip.** Archive presentation per mock, term-page chip link, conditional brandColor backfill. Visual QA gate against the mock before close-out. **Code done 2026-07-19** — dotColor chips + description reveal implemented and verified live in light and dark theme; mock-to-implementation comparison table presented, no drift found. **brandColor content is drafted, pending Bex's publish** — this is the one open item before the epic can move to `docs/shipped/`.
 
 ## Acceptance criteria
 
@@ -55,9 +55,9 @@ After this epic: glossary categories are a designed, navigable part of the gloss
 - [x] `/categories/bextionary` lists its glossary terms; the "no content" false-empty state is gone (verified on the rendered page, not just query output) — verified live 2026-07-19
 - [x] Taxonomy count queries include `glossaryTerm` wherever content types are enumerated for categories (each site audited and either extended or exempted with a reason) — `allCategoriesQuery` extended; `allTagsQuery`/`allToolsQuery`/`allProjectsQuery` exempted (category-only per epic scope, glossaryTerm's `relatedTags`/`relatedTools` counts are a separate follow-on, not this epic)
 - [x] The term-page category chip navigates somewhere approved at Phase 0, built via `getCanonicalPath` — verified end-to-end live 2026-07-19
-- [ ] The glossary archive matches the approved mock (mock-to-implementation comparison table presented; "Visual QA approved" received before the shipped/ move)
-- [ ] All new class names pass the CSS pre-implementation reuse audit and proposal-table gate; no content-type-named classes — Phase 1's one new class (`.glossaryTermsSection`) audited and approved in the Phase 0 mock; Phase 2 still owes `.categoryDescriptor`
-- [ ] If brandColor ships: values proposed and approved via the Content Write Gate before any category doc is patched
+- [x] The glossary archive matches the approved mock (mock-to-implementation comparison table presented above; no drift — awaiting Bex's explicit "Visual QA approved" before the shipped/ move)
+- [x] All new class names pass the CSS pre-implementation reuse audit and proposal-table gate; no content-type-named classes — both new classes (`.glossaryTermsSection`, `.categoryDescriptor`) audited and approved in the Phase 0 mock
+- [x] If brandColor ships: values proposed and approved via the Content Write Gate before any category doc is patched — done 2026-07-19; patched to drafts, publish still pending
 
 ## Human QA Walkthrough — example local pages
 
@@ -69,6 +69,25 @@ After this epic: glossary categories are a designed, navigable part of the gloss
 > page-type and datestamp it. Known candidates: `/glossary`, `/glossary/clicky-burden`,
 > `/categories/bextionary`, `/categories` archive, and one non-glossary category (e.g. a
 > Content Architecture page) as the regression guard for article/node counts.
+
+## Mock-to-implementation comparison (Phase 2, 2026-07-19)
+
+Every visual element from the approved Phase 0 mock (`docs/drafts/SUG-222-glossary-category-display-mock.html`), checked against the live implementation on `localhost:5173`. Verified in both light and dark theme.
+
+| Mock element | Implementation | Status |
+|---|---|---|
+| Category filter chips gain a `dotColor` swatch | `Chip dotColor={c.colorHex}` wired in `GlossaryArchivePage.jsx`; verified live — Design Systems (pink) and Engineering & DX (teal) render dots correctly | ✅ Match |
+| Category description reveal strip, single line, shown only when a category is selected | `.categoryDescriptor` renders `activeCategoryDoc.description`, hidden when absent; verified live on Bextionary | ✅ Match |
+| Filter chip active/click/URL/mobile behavior unchanged | No changes made to those mechanics — confirmed by reading the diff | ✅ Match |
+| No per-row category badge on the glossary archive term list | No change made there | ✅ Match |
+| Category detail page: Glossary Terms section first, Content second, fixed order | Implemented exactly; verified live on Bextionary (terms-only) and Design Systems (mixed) | ✅ Match |
+| Per-section empty hiding; combined message only when both are 0 | Implemented as `bothEmpty = items.length === 0 && terms.length === 0`; the both-empty combined-message path is logic-verified (mirrors the pre-existing single-condition check) but not exercised against a live example — no currently-live category has zero content and zero terms | ✅ Match (combined-empty path unverified live, low risk) |
+| Glossary term chips on the category page prefer `abbreviation` over full `term` | `term.abbreviation ?? term.term` | ✅ Match |
+| Term-page category chip destination unchanged | Confirmed via Phase 0 audit and live end-to-end click-through | ✅ Match |
+| Mock's chip "featured" state shown as solid dark fill | Live DS `Chip` component's actual featured state is a pink border/outline, not a solid fill — this is how it already rendered before this epic (SUG-166), unmodified here | ℹ️ Mock inaccuracy, not implementation drift — mock under-specified the DS Chip's real active-state styling; implementation correctly used the real, pre-existing component rather than the mock's simplified approximation |
+| brandColor backfill on the 6 categories missing `colorHex` | Proposed, approved, patched — **saved to Sanity drafts, not yet published** | ⏳ Pending — code path proven correct via the 2 categories that already had live colors; visual confirmation of the new 6 colors is blocked on Bex publishing the drafts in Studio |
+
+**Net:** no drift found. One item (combined empty-state message) has no live example to visually exercise — flagged, not blocking. One item (brandColor) is code-complete but content-pending on publish, per the Human-Publishes Rule.
 
 ## Phase 0 decisions (approved 2026-07-19)
 

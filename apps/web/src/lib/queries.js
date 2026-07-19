@@ -1664,6 +1664,8 @@ export const latestNodeQuery = `
  * allGlossaryTermsQuery
  * Full archive listing — all terms ordered A-Z with short definition and categories.
  */
+// categories[] adds colorHex + description (SUG-222) — feeds the archive's
+// category filter chip dotColor and the description reveal strip.
 export const allGlossaryTermsQuery = `
   *[_type == "glossaryTerm"] | order(lower(term) asc) {
     _id,
@@ -1672,7 +1674,7 @@ export const allGlossaryTermsQuery = `
     abbreviation,
     status,
     definition,
-    "categories": categories[]->{_id, name, "slug": slug.current}
+    "categories": categories[]->{_id, name, "slug": slug.current, "colorHex": colorHex.hex, description}
   }
 `
 
