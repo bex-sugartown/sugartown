@@ -744,18 +744,21 @@ Only then write the target component's CSS to match. Working forward from token 
 
 ### Storybook — build-time globals must be frozen
 
-Any `__VARIABLE__` injected by `vite.config.js` `define:` that changes at build time (dates, commit SHAs, env-specific values) **must be overridden to a fixed sentinel in Storybook's `viteFinal` define block**. Otherwise Chromatic will diff the story on every build even when nothing visual changed.
+Any `__VARIABLE__` injected by `vite.config.js` `define:` that changes at build time (dates, commit SHAs, env-specific values, **version numbers**) **must be overridden to a fixed sentinel in Storybook's `viteFinal` define block**. Otherwise Chromatic will diff the story on every build even when nothing visual changed.
 
-Convention: freeze to a semantically neutral but obviously-fake value:
+**Every current instance must be frozen, not just the one that prompted this rule.** As of this writing, `apps/web/vite.config.js`'s `define` block has two build-time globals, and Storybook's `viteFinal` must freeze both:
 ```ts
 // apps/storybook/.storybook/main.ts — viteFinal
 viteConfig.define = {
   ...viteConfig.define,
   __BUILD_DATE__: JSON.stringify('2026-01-01'),
+  __APP_VERSION__: JSON.stringify('0.0.0-storybook'),
 }
 ```
 
-When a new `define:` entry is added to `apps/web/vite.config.js`, check whether it produces visible output in any story. If yes, add the freeze to Storybook's `viteFinal` in the same commit.
+A partial fix (freezing only the variable that triggered the original bug report, not auditing sibling `define:` entries introduced in the same feature) is exactly how `__APP_VERSION__` went unfrozen for over two months after `__BUILD_DATE__` was fixed — every version bump kept diffing the Footer story on Chromatic. See `docs/reviews/rules-audit/2026-07.md` for the post-mortem.
+
+When a new `define:` entry is added to `apps/web/vite.config.js`, check whether it produces visible output in any story. If yes, add the freeze to Storybook's `viteFinal` in the same commit — and re-check every *existing* `define:` entry against this rule at the same time, not just the new one.
 
 ### Storybook coverage requirement
 

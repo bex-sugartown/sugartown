@@ -92,11 +92,14 @@ const config: StorybookConfig = {
       },
     });
 
-    // Fix BUILD_DATE to a stable value in Storybook so Footer stories don't
-    // produce a Chromatic diff on every build (the real value changes daily).
+    // Freeze build-time globals to stable values in Storybook so Footer stories
+    // don't produce a Chromatic diff on every build (BUILD_DATE changes daily;
+    // APP_VERSION changes on every mini-release/release version bump — see
+    // CLAUDE.md "Storybook — build-time globals must be frozen").
     viteConfig.define = {
       ...viteConfig.define,
       __BUILD_DATE__: JSON.stringify('2026-01-01'),
+      __APP_VERSION__: JSON.stringify('0.0.0-storybook'),
     };
 
     return viteConfig;
