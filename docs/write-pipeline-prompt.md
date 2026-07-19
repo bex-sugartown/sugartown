@@ -80,11 +80,11 @@ supports.
 | **article** | `categories` (max 2) `:235` | `tags` `:253` | `tools` `:221` | `related` → node\|article\|caseStudy `:168` | `relatedTerms` `:271` + inline `glossaryTermRef` | `citations[]` (`citationItem`) `:95` + inline `citationRef` |
 | **node** | `categories` (max 2) `:300` | `tags` `:318` | `tools` `:284` | `related` → node\|article\|caseStudy `:351` | `relatedTerms` `:336` + inline `glossaryTermRef` | `citations[]` (`citationItem`) `:106` + inline `citationRef` |
 | **caseStudy** | `categories` (max 2) `:348` | `tags` `:365` | `tools` `:334` | `related` → node\|article\|caseStudy `:398` | `relatedTerms` `:383` + inline `glossaryTermRef` | `citations[]` (`citationItem`) `:93` + inline `citationRef` |
-| **glossaryTerm** | `categories` (no max) `:82` | `relatedTags` (⚠ different name) `:99` | `relatedTools` (⚠ different name) `:107` | `relatedContent` → article\|caseStudy\|node\|page\|person\|project\|tool (⚠ different name + shape) `:115` | `relatedTerms` (bidirectional — adding here also updates the target's Related Terms on publish) `:89` + inline `glossaryTermRef` | `sources[]` — plain `{text, url}`, **not** the shared `citationItem` type `:131` |
-| **page** | `categories` `:164` — **`hidden: true`**, editors can't set it | `tags` `:178` — **`hidden: true`** | `tools` `:206` (visible) | **none** | **none** (inline `glossaryTermRef` only, no curated array) | `citations[]` (`citationItem`) `:116` + inline `citationRef` (added via SUG-48, was previously missing) |
-| **project** | `categories` `:176` | `tags` `:189` | `tools` `:162` | — | — | — (no Portable Text field on this schema, so no inline mechanism either) |
-| **person** | `expertise` → category (⚠ different name) `:136` | — | — | — | — (inline `glossaryTermRef` possible in `bio`, no backing array) | — (inline `citationRef` possible in `bio`, no `citations[]` to resolve against) |
-| **series** | — | — | — | `parts` → article\|node\|caseStudy\|page (⚠ third field name for the same concept) `:43` | — | — |
+| **glossaryTerm** | `categories` (no max) `:82` | `relatedTags` (⚠ different name) `:100` | `relatedTools` (⚠ different name) `:108` | `relatedContent` → article\|caseStudy\|node\|page\|person\|project\|tool (⚠ different name + shape) `:116` | `relatedTerms` (bidirectional — adding here also updates the target's Related Terms on publish) `:90` + inline `glossaryTermRef` | `sources[]` — plain `{text, url}`, **not** the shared `citationItem` type `:132` |
+| **page** | `categories` `:165` — **`hidden: true`**, editors can't set it | `tags` `:178` — **`hidden: true`** | `tools` `:205` (visible) | **none** | **none** (inline `glossaryTermRef` only, no curated array) | `citations[]` (`citationItem`) `:116` + inline `citationRef` (added via SUG-48, was previously missing) |
+| **project** | `categories` `:177` | `tags` `:190` | `tools` `:163` | — | — | — (no Portable Text field on this schema, so no inline mechanism either) |
+| **person** | `expertise` → category (⚠ different name) `:137` | — | — | — | — (inline `glossaryTermRef` possible in `bio`, no backing array) | — (inline `citationRef` possible in `bio`, no `citations[]` to resolve against) |
+| **series** | — | — | — | `parts` → article\|node\|caseStudy\|page (⚠ third field name for the same concept) `:44` | — | — |
 | **tool** | — | — | — | — | — | — (pure taxonomy leaf, zero content-type fields — expected, not a gap) |
 
 **Tier 1 recommendations (schema, pending approval — see SUG-210's own doc for the full
@@ -223,9 +223,9 @@ credit a co-author." The Sugartown brand is transparent about AI collaboration b
 
 ## 6. Sanity write mechanics
 
-Use `create_documents_from_json` (or the equivalent structured-JSON MCP tool) — never a
-markdown/AI-rewrite tool. See CLAUDE.md's "Sanity MCP content writes — no AI rewriting"
-section for the full rule; it is not restated here.
+Use `create_documents` with precise, structured JSON — never a markdown/AI-rewrite tool.
+See CLAUDE.md's "Sanity MCP content writes — no AI rewriting" section for the full rule;
+it is not restated here.
 
 Portable Text block requirements (every block needs `markDefs: []`, every span needs
 `marks: []`, even when empty) are documented in CLAUDE.md's "Portable Text blocks written
@@ -274,7 +274,7 @@ used; case study's engagement facts, outcome tile `evidenceType` values, FAQ/`ae
 ### v2026.07.18 (SUG-210 — initial creation)
 - Extracted from `write-node-prompt.md`, `write-blog-prompt.md`, `write-casestudy-prompt.md`,
   and `glossy-prompt.md`'s duplicated write-time mechanics. See
-  `docs/backlog/SUG-210-content-pipeline-rules-consolidation.md` for the full audit.
+  `docs/shipped/SUG-210-content-pipeline-rules-consolidation.md` for the full audit.
 - This epic did not change what any rule says, only where it lives, with one flagged
   exception: consolidating glossy onto the canonical 17-item banned-vocabulary list adds
   "passionate about" and "excited to announce" to glossy's enforced list (glossy's own prior

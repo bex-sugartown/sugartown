@@ -5,7 +5,7 @@ description: Research, draft, and publish Sugartown glossaryTerm(s) to /glossary
 
 Base directory for this skill: /Users/beckyalice/SUGARTOWN_DEV/sugartown/.claude/skills/glossy
 
-Read and follow all instructions in `docs/glossy-prompt.md`.
+Read and follow all instructions in `docs/glossy-prompt.md` (repo root, not under this skill's own base directory).
 
 **Argument:** the source term(s) to define, plus any related content or context. If no term is given, ask first.
 

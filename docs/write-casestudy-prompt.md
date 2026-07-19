@@ -114,7 +114,7 @@ bake-off, a multi-phase timeline with different metrics per phase) — that shap
 
 ## Step 2.5 — Brand voice compliance gate (blocking — runs before any Sanity write)
 
-Do not call `create_documents_from_json` until every item below is resolved. Fix violations in the draft first.
+Do not call `create_documents` until every item below is resolved. Fix violations in the draft first.
 Run the shared compliance gate (`docs/write-pipeline-prompt.md` §4 — banned vocabulary,
 filler transitions, structural tells) alongside the case-study-specific items below.
 
@@ -160,7 +160,7 @@ When this skill produces the draft, the first string is the default. The engagem
 
 ## Step 3 — Create the Sanity draft
 
-Use `create_documents_from_json` (NOT `create_documents_from_markdown` — no AI rewriting).
+Use `create_documents` with precise, structured JSON (NOT any AI-rewriting/markdown-ingestion tool — no AI rewriting).
 See `docs/write-pipeline-prompt.md` §6 for Portable Text block requirements.
 
 ```json

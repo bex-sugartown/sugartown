@@ -109,7 +109,11 @@ The `validate:css-names` script (`pnpm validate:css-names`) blocks these content
 - `tax*` — taxonomy-specific (use `index*`, `list*`, or shared page classes)
 - `alpha*` — alpha-strip-specific (use `index*`)
 - `toolLogo*`, `toolUrl*` — tool-specific (use `entityFolio*` or `pages.module.css`)
-- `profileHeadline*` — person-specific (use `archiveHeading` or `detailEyebrow`)
+- `profileHeadline*`, `profileShortName*` — person-specific (use `archiveHeading` or `detailEyebrow`)
+- `term*`, `glossary*` — glossary-term-specific (use `entity*`/`detail*` classes or a DS component)
+- `node*`, `article*`, `caseStudy*`, `series*` — content-type-specific (use `entity*`/`detail*` classes from `pages.module.css`)
+
+(Full current list lives in `apps/web/scripts/validate-css-names.js`'s `BLOCKED_PREFIXES` — check there before adding a new blocked prefix, since this list is documentation of that source, not the source itself.)
 
 To add a blocked prefix, update `apps/web/scripts/validate-css-names.js`.
 

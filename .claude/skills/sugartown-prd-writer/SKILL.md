@@ -56,7 +56,7 @@ Never more than three total. Default assumptions listed below — use them unles
 ## Output Format
 
 Produce a single Markdown file. Filename: `[project-slug]-prd.md`.
-Place in `/mnt/user-data/outputs/` and call `present_files`.
+Write it with the Write tool to `docs/briefs/` in the repo.
 
 **Never output the PRD as inline prose.** It's a document, not a chat response.
 

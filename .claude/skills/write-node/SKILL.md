@@ -5,4 +5,4 @@ description: Draft and create a Knowledge Graph node post as a Sanity draft — 
 
 Base directory for this skill: /Users/beckyalice/SUGARTOWN_DEV/sugartown/.claude/skills/write-node
 
-Read and follow all instructions in `docs/write-node-prompt.md`.
+Read and follow all instructions in `docs/write-node-prompt.md` (repo root, not under this skill's own base directory).

@@ -28,8 +28,8 @@ Web adapter stories are only created when the adapter adds **visually distinct b
 
 ## DS Primitives → Web Adapters
 
-All DS primitive components have a corresponding web adapter. Four components
-(Grid, SectionLabel, DataTable) exist only in the web adapter layer and are
+All DS primitive components have a corresponding web adapter. Two components
+(Grid, SectionLabel) exist only in the web adapter layer and are
 documented in the section below.
 
 **Thruline audit (SUG-98, 2026-05-07):** All adapter pairs verified. No adapter
@@ -185,7 +185,7 @@ Storybook category: `Pages/`. Zero-config — created implicitly by `title: 'Pag
 
 | Page template | Source file | Storybook | Exports | Notes |
 |---------------|-------------|-----------|---------|-------|
-| ArchivePage | `web/pages/ArchivePage.jsx` | ✅ Pages/ArchivePage | ArticlesArchive, KnowledgeGraphArchive, CaseStudiesArchive, TaxonomyArchive, EmptyState | Unified archive template for /articles, /case-studies, /knowledge-graph, /library. Shows FilterBar + ContentCard grid + Pagination. SUG-156. |
+| ArchivePage | `web/pages/ArchivePage.jsx` | ✅ Pages/ArchivePage | ArticlesArchive, CaseStudiesArchive, TaxonomyArchive, EmptyState | Unified archive template for /articles, /case-studies, /library. Shows FilterBar + ContentCard grid + Pagination. SUG-156. Note: `/knowledge-graph` moved to `SiteGraphPage` in SUG-81 (2026-05-08) — no longer an `ArchivePage` route. |
 | TaxonomyArchivePage | `web/pages/TaxonomyArchivePage.jsx` | ✅ Pages/TaxonomyArchivePage | RowLayout, AlphaBucketLayout, PeopleLayout, ProjectsLayout | Four layout variants: row list (tags/categories), A–Z alpha-bucket (tools), avatar row (people), colour-dot row (projects). SUG-156. |
 | TaxonomyDetailPage | `web/pages/TaxonomyDetailPage.jsx` | ✅ Pages/TaxonomyDetailPage | TagDetail, CategoryDetail | Detail header with optional accent bar + ContentCard listing. SUG-156. |
 | ContentDetailPage | `web/pages/ArticlePage.jsx` · `NodePage.jsx` · `CaseStudyPage.jsx` | ✅ Pages/ContentDetailPage | ArticleShell, NodeShell, CaseStudyShell | Two-column shell: MetadataCard sidebar + PortableText body. `data-has-margin` triggers grid via `pages.module.css .detailPage`. SUG-156. |

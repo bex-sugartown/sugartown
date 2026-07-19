@@ -70,7 +70,7 @@ should carry the thesis and the argument's shape on its own.
 
 ## Step 2.5 — Brand voice compliance gate (blocking — runs before any Sanity write)
 
-Do not call `create_documents_from_json` until every item below is resolved. This is not a suggestion pass — it is a blocking checklist. Fix violations in the draft before proceeding.
+Do not call `create_documents` until every item below is resolved. This is not a suggestion pass — it is a blocking checklist. Fix violations in the draft before proceeding.
 Run the shared compliance gate (`docs/write-pipeline-prompt.md` §4 — banned vocabulary,
 filler transitions, structural tells) alongside the article-specific items below.
 
@@ -111,7 +111,7 @@ citation, tools-field attribution, images/alt-text rule). Article-specific mecha
 
 ## Step 3 — Create the Sanity draft
 
-Use `create_documents_from_json` (NOT `create_documents_from_markdown` — no AI rewriting).
+Use `create_documents` with precise, structured JSON (NOT any AI-rewriting/markdown-ingestion tool — no AI rewriting).
 See `docs/write-pipeline-prompt.md` §6 for Portable Text block requirements. This subsumes
 the compliance re-scan formerly in a separate Step 2.75 — Step 2.5 already covers the full
 checklist; do not proceed here until it and Step 2.6 are resolved.

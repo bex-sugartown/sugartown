@@ -5,4 +5,4 @@ description: Draft and create an article (blog post) as a Sanity draft — Bex v
 
 Base directory for this skill: /Users/beckyalice/SUGARTOWN_DEV/sugartown/.claude/skills/write-blog
 
-Read and follow all instructions in `docs/write-blog-prompt.md`.
+Read and follow all instructions in `docs/write-blog-prompt.md` (repo root, not under this skill's own base directory).

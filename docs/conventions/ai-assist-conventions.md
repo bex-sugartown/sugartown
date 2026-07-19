@@ -164,7 +164,7 @@ Structurally equivalent to the above. The Content Write Gate in CLAUDE.md is the
 1. Claude reads documents via GROQ, drafts field values
 2. Before/after proposal table shown to editor (checkpoint 1 — Content Write Gate)
 3. Editor approves
-4. `patch_document_from_json` writes to draft
+4. `patch_documents` writes to draft
 5. Editor publishes from Studio (checkpoint 2)
 
 The exclude configuration applies equally to both tiers. Factual fields are never AI-generated via either route — the convention lives in the schema and is enforced by this doc.
@@ -175,7 +175,7 @@ The exclude configuration applies equally to both tiers. Factual fields are neve
 
 | Doc type | Status |
 |---------|--------|
-| `caseStudy` | Configured (SUG-95) |
+| `caseStudy` | Added (SUG-95), then reverted — the `@sanity/assist` plugin is currently **uninstalled** (document-context injection bug). Field tier classification and instruction text below are preserved for future re-enablement, not currently live. |
 | `article` | Not yet — conventions apply, configuration deferred |
 | `node` | Not yet — conventions apply, configuration deferred |
 

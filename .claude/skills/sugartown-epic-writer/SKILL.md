@@ -30,7 +30,7 @@ you're making in lieu of one.
 
 ## Source of Truth
 
-The epic template lives at `/mnt/project/epic-template.md`.
+The epic template lives at `docs/epic-template.md` (repo root).
 
 **Before writing any epic: read `epic-template.md` in full.** The template is the contract.
 This skill explains when and how to fill it in; the template defines the sections.
@@ -70,7 +70,7 @@ should block on missing information, not paper over it.
 ## Output Format
 
 Produce a single Markdown file. Filename: `EPIC-[XXXX]-[slug].md`.
-Place in `/mnt/user-data/outputs/` and call `present_files`.
+Write it with the Write tool to `docs/backlog/` in the repo.
 
 The file must be paste-ready into a Claude Code session. No explanatory prose around the
 template — just the completed template.

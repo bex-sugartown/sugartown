@@ -114,7 +114,7 @@ literal `{{token}}` form in dev (fail-visible), and are stripped in production.
 | `apps/web/src/lib/stats.js` | Exports `stats`, helpers, `interpolateStatsVars`, `useStats` |
 | `apps/web/src/lib/portableTextStatsVars.js` | `preprocessPortableText(blocks)` |
 | `apps/web/vite.config.js` | `sugartown:stats` plugin — runs collector on `buildStart` |
-| `lighthouserc.js` | Lighthouse CI config (pages to audit, thresholds) |
+| `lighthouserc.cjs` | Lighthouse CI config (pages to audit, thresholds) |
 | `.github/workflows/stats.yml` | Daily CI workflow — network collectors + commit |
 | `apps/web/src/generated/stats.json` | Full merged output (gitignored — regenerated every build) |
 | `apps/web/src/generated/stats.last-good.json` | Per-collector success cache (gitignored — write-once-on-success) |

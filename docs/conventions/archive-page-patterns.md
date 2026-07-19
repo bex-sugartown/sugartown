@@ -4,6 +4,16 @@
 **Status:** Phase 1 complete — verified against source
 **Last verified:** 2026-06-09
 
+> **⚠ Superseded (found stale by SUG-221 audit, 2026-07-19):** the `/knowledge-graph` route now
+> renders `SiteGraphPage`, not `ArchivePage` (shipped in SUG-81, 2026-05-08 — before this doc's own
+> "last verified" date, so the drift was never caught). Separately, `ArchivePage.jsx` now uses
+> `PageHeader` rather than the raw `.masthead`/`.archiveHeading` markup in §5, and
+> `GlossaryArchivePage` now uses `AlphaFilter` and DS `Chip` rather than the hand-rolled
+> `.azNav`/`.filterChip` classes in §6 (both fixed in `f838fb8c`, SUG-35, which predates this doc's
+> own verification date). Treat §1's route table, and §5–§6's masthead/filter markup, as historical
+> reference only until this doc gets a real re-verification pass — don't build new pages off them
+> as written below.
+
 This document is the canonical reference for what DS components, CSS classes, tokens, and patterns are used on archive and listing pages. Use it when mocking new archive-style surfaces so you can reuse confirmed patterns rather than re-auditing source.
 
 ---
@@ -29,7 +39,7 @@ This document is the canonical reference for what DS components, CSS classes, to
 |-------|-------------|--------------|
 | `/articles` | `articles` | `[article]` |
 | `/case-studies` | `case-studies` | `[caseStudy]` |
-| `/knowledge-graph` | `knowledge-graph` | `[node]` |
+| ~~`/knowledge-graph`~~ | ~~`knowledge-graph`~~ | **Stale — now `SiteGraphPage`, not `ArchivePage` (SUG-81). Node archive is `/nodes`.** |
 | `/library` | `library` | `[article, node, caseStudy]` |
 
 ### DS components

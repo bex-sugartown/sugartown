@@ -4,6 +4,8 @@
 **Created:** 2026-06-09 — post-SUG-159 audit
 **Purpose:** Identifies reuse gaps and consolidation recommendations found during the Phase 1 inventory.
 
+> **✅ Resolved (found by SUG-221 audit, 2026-07-19):** all four fixes below were already shipped in `f838fb8c` (SUG-35, 2026-06-12), which landed the same day as this doc but was never cross-referenced back to it. `ArchivePage` now uses `PageHeader`; `GlossaryArchivePage` now uses `AlphaFilter` + DS `Chip`. This doc's recommendations are historical record of what was fixed, not open items.
+
 Each item below names the specific divergence, the recommended fix, and whether it is a new epic or an in-situ correction.
 
 ---

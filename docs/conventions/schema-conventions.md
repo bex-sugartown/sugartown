@@ -158,6 +158,6 @@ The generator walks `apps/studio/schemas/documents/` and `apps/studio/schemas/ob
 - `portableTextConfig` — configuration object, not a schema type; excluded by design
 - `answerBlock.ts` — filename is stale; the file defines `citedBlock`, which IS included in the manifest
 
-**Count assertion:** The generator exits non-zero if `entities.length < 42` (the known baseline at SUG-114 ship). If a type is intentionally removed, update `ENTITY_FLOOR` in the generator.
+**Count assertion:** The generator exits non-zero if `entities.length < ENTITY_FLOOR` (currently 53 — lowered from 54 at SUG-126 when the DataTable shim was removed; 42 was the baseline at SUG-114 ship but has since moved twice). If a type is intentionally removed, update `ENTITY_FLOOR` in the generator.
 
 **When you add a new schema type:** No action needed — the generator picks it up automatically on next build. If the new type is a reference target for existing types, the new relationship edges will also appear automatically.
