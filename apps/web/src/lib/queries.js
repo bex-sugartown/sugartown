@@ -1338,6 +1338,10 @@ export const projectDetailQuery = `
 
 // ---- TAXONOMY BROWSING ----
 
+// count includes glossaryTerm (SUG-222) — category is the one taxonomy primitive
+// glossaryTerm actually references (via its own categories[] field), so
+// references(^._id) picks it up correctly. Tag/tool/project counts intentionally
+// left as article/node/caseStudy-only — out of this epic's scope.
 export const allCategoriesQuery = `
   *[_type == "category"] | order(name asc) {
     _id,
@@ -1345,7 +1349,7 @@ export const allCategoriesQuery = `
     "slug": slug.current,
     "colorHex": colorHex.hex,
     description,
-    "count": count(*[_type in ["article","node","caseStudy"] && references(^._id)])
+    "count": count(*[_type in ["article","node","caseStudy","glossaryTerm"] && references(^._id)])
   }
 `
 
@@ -1375,6 +1379,26 @@ export const categoryBySlugQuery = `
     "slug": slug.current,
     description,
     "colorHex": colorHex.hex
+  }
+`
+
+/**
+ * glossaryTermsByCategoryQuery (SUG-222)
+ * Glossary terms referencing a given category, by category _id.
+ *
+ * Deliberately separate from contentByTaxonomyQuery: that query is shared
+ * across all five taxonomy types via explicit field-name matching
+ * (categories[]/tags[]/tools[]/projects[]/authors[]) and its results feed
+ * ContentList, whose row adapter assumes title/publishedAt/node-only status —
+ * none of which glossaryTerm has. Category pages render this as its own
+ * "Glossary Terms" section instead (Phase 0 decision, SUG-222).
+ */
+export const glossaryTermsByCategoryQuery = `
+  *[_type == "glossaryTerm" && $taxonomyId in categories[]._ref] | order(lower(term) asc) {
+    _id,
+    term,
+    abbreviation,
+    "slug": slug.current
   }
 `
 
