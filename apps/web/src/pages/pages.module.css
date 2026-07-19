@@ -381,6 +381,13 @@
   text-align: center;
 }
 
+/* ── Glossary Terms section on TaxonomyDetailPage (SUG-222) ────────── */
+/* Thin spacing wrapper only — .tagList (below) already provides the chip-row
+   layout and was unused prior to this. Reused rather than adding a new class. */
+.glossaryTermsSection {
+  margin-bottom: 2rem;
+}
+
 /* ── Series part list ────────────────────────────────────────────── */
 .seriesPartList {
   list-style: none;

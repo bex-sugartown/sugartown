@@ -40,6 +40,13 @@ export default function GlossaryArchivePage() {
     return Array.from(seen.values()).sort((a, b) => a.name.localeCompare(b.name))
   }, [terms])
 
+  // Description strip shows only while a specific category is selected —
+  // gracefully absent for categories with no description set (SUG-222).
+  const activeCategoryDoc = useMemo(
+    () => categories.find((c) => c._id === activeCategory) ?? null,
+    [categories, activeCategory]
+  )
+
   const filtered = useMemo(() => {
     if (!activeCategory) return terms
     return terms.filter((t) =>
@@ -109,12 +116,16 @@ export default function GlossaryArchivePage() {
                 key={c._id}
                 variant="tag"
                 featured={activeCategory === c._id}
+                dotColor={c.colorHex}
                 onClick={() => setActiveCategory(c._id)}
               >
                 {c.name}
               </Chip>
             ))}
           </div>
+        )}
+        {activeCategoryDoc?.description && (
+          <p className={styles.categoryDescriptor}>{activeCategoryDoc.description}</p>
         )}
 
         {/* A-Z filter */}
