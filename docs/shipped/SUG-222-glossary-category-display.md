@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-222 — Glossary category display — surface categories across glossary and category pages
 **Linear Issue:** [SUG-222](https://linear.app/sugartown/issue/SUG-222/glossary-category-display-surface-categories-across-glossary-and)
-**Status:** Backlog
+**Status:** Done — shipped v0.28.13, 2026-07-19
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
