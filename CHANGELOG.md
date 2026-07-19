@@ -12,23 +12,88 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.28.0.
+> Accumulates since v0.29.0.
 
-- SUG-221: Stood up the Rules & Tools Audit runbook (`docs/workflows/rules-tools-audit-runbook.md`) and executed calibration run 1 full-corpus — 24 mechanical staleness findings applied (the same nonexistent-MCP-tool-name bug that motivated this epic recurred across 3 write-skills + 2 memory files) and 15 gate-efficacy dispositions (Taxonomy pre-flight merged into Atomic Reuse Gate; Atomic Reuse Gate scoped down to schema objects + utilities; 3 retirements: orphaned `storybook-docs` skill, stale root token-validator duplicate, orphaned Lit/Shadow-DOM doc). Contradiction sweep clean. Housekeeping archived 154 of 184 shipped docs to `docs/shipped/zArchive/2026/` and capped the priority-stack header. Full report: `docs/reviews/rules-audit/2026-07.md`
-- SUG-222: `/categories/:slug` no longer falsely reports "no content" for categories only referenced by glossary terms — a dedicated `glossaryTermsByCategoryQuery` surfaces them in their own "Glossary Terms" section (fixed order above Content, per-section empty-hiding); `/glossary` archive filter chips gained `colorHex` dots + a description reveal; reverse-engineered ontology map + gap register shipped alongside (`docs/briefs/sugartown-ontology-map.md`)
-- SUG-214: `validate:style-mirror` now diffs DS component `.module.css` mirrors (pass 2), matched by filename across the case-mismatched web/package dirs. Allowlist ratchet — blocks new/regressed drift + the 27 clean pairs; 11 pre-existing drifts grandfathered on `KNOWN_DRIFT`, burning down via SUG-217 (9 small) / SUG-218 (Callout) / SUG-219 (Card). Closes the invisible-drift gap that produced the SUG-212 CodeBlock divergence
-- SUG-203: Relative internal links — `toInternalPath()` in `lib/linkUtils.js` normalizes same-origin absolute URLs (`https://sugartown.io/...`) to relative SPA paths so internal nav routes client-side instead of full-reloading/bouncing to prod; applied in `getLinkProps` + `resolveNavLink`. (Code shipped 2026-07-03; nav-doc data repoint deferred — schema `externalUrl` has no `allowRelative`; code backstop covers it.)
-- SUG-212: Reconciled the drifted web↔package `CodeBlock.module.css` mirror (now byte-identical across 7 divergent areas); inline code aligned to the SUG-211 Option E treatment (removed CodeBlock's local maroon/lime overrides); deleted 3 dead `--st-code-inline-*-dark*` tokens. Root cause: `validate-style-mirror` doesn't cover DS component CSS mirrors — flagged as a follow-up
-- SUG-211: Glossary chips prefer `abbreviation` over full `term` (MetadataCard Terms row, GlossaryTermPage Related Terms + its query); Option E inline-term treatment — annotation trigger takes the lime/pink pill, inline `code` recolored to a recessive neutral seafoam treatment site-wide via reassigned `--st-code-inline-*` + new `--st-glossary-annotation-*` tokens
-- Skills: `/red-pen` editorial review skill + show-don't-tell / theme-discipline self-checks in the write-* skills
-- SUG-207: North Star case study template — **fixed a live bug** where `cardSection` outcome tiles rendered blank on all 7 case studies (`items[]` orphaned to the renamed `statTileSection` in all 4 sections queries since SUG-151); retired dead legacy fields (`keyQuestions[]`, `outcomes[]`, `challengeSummary`) from the `caseStudy` schema + GROQ + CSS; consolidated the challenge block to a single `calloutSection` path; extracted shared `getSidebarRowStart()` (closes RootPage/CaseStudyPage drift); added a soft FAQ-accordion validation nudge; documented the two detail-page families in `detail-page-recipe.md`
-- SUG-196: AI tooling documentation structure — `docs/ai/` (agentic-caucus methodology, failure-modes, skills index, README), `docs/workflows/` (3 prompt files moved, all references updated), `Title — Subtitle` heading exception added to em dash rule
-- SUG-192: Chromatic story-count audit closed — 39→19 stories across Callout, StatCard, ScoreRing, FilterBar, Accordion, PageSections; Callout `default`/`info` variant merge (content migration + schema); Callout body/label vertical-centering fix
-- SUG-199: Glossary — 4 AI-governance framework terms published (NIST AI RMF, ISO/IEC 42001, Model Card, Policy-as-Code)
-- glossaryTermRef: cardBuilder Portable Text — new `glossaryTermRef` annotation on `cardBuilderItem` (studio schema) rendered in `CardBuilderSection` (web) with the `queries.js` projection, enabling inline glossary links in card bodies
-- SUG-201: Services page card copy refresh (cards 1, 2, 4, 5) + inline glossary linking on card 4
-- SUG-195: Design-reviewer VQA subagent — read-only `.claude/agents/design-reviewer.md` (haiku) producing Match/Drift/Missing tables in a fresh context, plus `docs/conventions/vqa-workflow.md`
-- SUG-198: Gap analysis — 6 layers of effective AI governance. Closed Layer 6 gaps (standing incident log, data-handling/GDPR note); added `--st-posture-{strong,partial,inherited,na}` semantic tokens with dark-pink-moon overrides; surfaced §05 AI Governance Coverage block on `/platform/governance`
+---
+
+## [0.29.0] — 2026-07-19
+
+Glossary/taxonomy display fixes, case study schema cleanup, AI governance tooling, and the Rules & Tools Audit. Aggregates v0.28.1–v0.28.14.
+
+### apps/web
+
+#### Added
+- §05 AI Governance Coverage block on `/platform/governance`
+- Inline glossary linking on Services page card 4; card copy refresh (cards 1, 2, 4, 5)
+- MarTech tool-type label
+- `glossaryTermRef` annotation renders in `CardBuilderSection` body
+
+#### Changed
+- Glossary chips prefer `abbreviation` over full `term` (MetadataCard Terms row, GlossaryTermPage Related Terms); Option E inline-term treatment — annotation trigger takes the lime/pink pill, inline `code` recolored to a recessive seafoam treatment site-wide
+- Same-origin absolute URLs normalize to relative SPA paths (`toInternalPath()` in `linkUtils.js`), so internal nav routes client-side instead of full-reloading
+- Consolidated the case study challenge block to a single `calloutSection` path; extracted shared `getSidebarRowStart()`
+
+#### Fixed
+- `/categories/:slug` no longer falsely reports "no content" for categories only referenced by glossary terms — dedicated `glossaryTermsByCategoryQuery` surfaces them in a "Glossary Terms" section
+- `/glossary` archive filter chips gained `colorHex` dots + description reveal
+- All 4 `calloutSection` GROQ projections (article/node/page/caseStudy) now resolve `glossaryTermRef` — 4 previously-inert Challenge-callout tags on "Sugartown: The Platform Is the Portfolio" render as working links
+- `cardSection` outcome tiles were rendering blank on all 7 case studies — `items[]` had been orphaned to the renamed `statTileSection` since SUG-151
+- Gallery thumbnail radius mismatch across image/duotone/scrim/galleryItem clips
+- Mermaid diagrams not rendering on design-system, monorepo, and governance pages
+- 2 diagram-rendering bugs: missing explicit width/height on case-study SVGs; `&nbsp;` entities replaced with positioned text in the AI-governance legend diagram
+
+### apps/studio
+
+#### Added
+- `citationRef` annotation added to `summaryPortableText`
+- `glossaryTermRef` annotation added to `cardBuilderItem` body
+- MarTech tool-type option
+- `page.ts` `relatedTerms`/`related` fields (schema-only, no rendering wired yet)
+- Field char/count limits surfaced in schema support text
+
+#### Changed
+- `page.ts` `categories`/`tags` unhidden
+
+#### Removed
+- Dead legacy fields (`keyQuestions[]`, `outcomes[]`, `challengeSummary`) retired from the `caseStudy` schema, replaced by the consolidated `calloutSection` path
+
+#### Fixed
+- Investigated a claimed `citationRef` footnote-lock in `sections[].content` — not reproducible under either well-formed or malformed test conditions; corrected the unverified CLAUDE.md claim that originated it; no schema change needed
+
+### packages/design-system
+
+#### Added
+- `--st-posture-{strong,partial,inherited,na}` semantic tokens with dark-pink-moon overrides
+- `--st-glossary-annotation-*` tokens; `--st-code-inline-*` reassigned for the recessive seafoam treatment
+
+### apps/storybook
+
+#### Added
+- `validate:style-mirror` now diffs DS component `.module.css` mirrors (pass 2); allowlist ratchet blocks new/regressed drift; 11 pre-existing drifts grandfathered on `KNOWN_DRIFT`
+
+#### Changed
+- Chromatic story-count audit closed — 39→19 stories across Callout, StatCard, ScoreRing, FilterBar, Accordion, PageSections
+- Callout `default`/`info` variant merge (content migration + schema)
+
+#### Fixed
+- Callout body/label vertical-centering
+- Pinkmoon theme rebuilds not triggering on `apps/web/src/components/` changes
+- CI: bumped `.nvmrc` to 20.19.0 (Storybook 9 requires Node 20.19+ or 22.12+)
+
+### Sanity production data
+
+- Tool Taxonomy Metadata & Logo Backfill — 50/60 tools now have description + url + logo live (4 original + 30 simple-icons matches + 16 individually-sourced); 2-tool scoping gap flagged (Celum, ChatGPT (Canvas))
+- 4 AI-governance glossary terms published (NIST AI RMF, ISO/IEC 42001, Model Card, Policy-as-Code)
+- 6 documents migrated from three inconsistent orphaned Portable Text markDef types to canonical `glossaryTermRef`
+
+### Other
+
+- Extracted write-time rules duplicated across write-node/write-blog/write-casestudy/glossy prompts into a shared `docs/write-pipeline-prompt.md`; verified metadata reference field matrix
+- `docs/ai/` added (agentic-caucus methodology, failure modes, skills index, README); `docs/workflows/` created; `Title — Subtitle` heading exception added to the em-dash rule
+- Read-only design-reviewer VQA subagent added, producing Match/Drift/Missing tables in a fresh context
+- `/red-pen` editorial review skill added, plus show-don't-tell/theme-discipline self-checks and length/appeal gates in the write-* skills
+- `/write-casestudy` authoring skill added
+- Rules & Tools Audit runbook stood up; calibration run 1 executed full-corpus — 24 mechanical staleness findings and 15 gate-efficacy dispositions applied (Taxonomy pre-flight merged into Atomic Reuse Gate; Atomic Reuse Gate scoped down to schema objects + utilities; 3 retirements: orphaned `storybook-docs` skill, stale root token-validator duplicate, orphaned Lit/Shadow-DOM doc); contradiction sweep clean; 154 of 184 shipped docs archived to `zArchive/2026/`; priority-stack header capped
 
 ---
 
