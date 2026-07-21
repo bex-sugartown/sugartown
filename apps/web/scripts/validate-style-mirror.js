@@ -121,21 +121,12 @@ function collectModuleCss(absDir) {
 // removed. Goal: this set shrinks to empty.
 //
 // Burndown owners (surfaced by SUG-214):
-//   SUG-217 — the 9 smaller drifts (all below except Callout/Card)
+//   SUG-217 — the 9 smaller drifts — ✅ RECONCILED 2026-07-21, all removed from this set
 //   SUG-218 — Callout.module.css (major divergence)
 //   SUG-219 — Card.module.css
 const KNOWN_DRIFT = new Set([
-  'Accordion.module.css',  // SUG-217
-  'Breadcrumb.module.css', // SUG-217
   'Callout.module.css',    // SUG-218
   'Card.module.css',       // SUG-219
-  'Chip.module.css',       // SUG-217
-  'Citation.module.css',   // SUG-217
-  'FilterBar.module.css',  // SUG-217
-  'IconButton.module.css', // SUG-217
-  'Media.module.css',      // SUG-217
-  'ScoreRing.module.css',  // SUG-217
-  'Table.module.css',      // SUG-217
 ])
 
 const webComponents = collectModuleCss(resolve(REPO_ROOT, WEB_COMPONENTS_DIR))

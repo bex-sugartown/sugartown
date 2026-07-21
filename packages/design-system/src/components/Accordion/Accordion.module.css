@@ -31,9 +31,9 @@
   text-align: left;
   color: var(--st-color-text-primary);
   font-family: inherit;
-  font-size: var(--st-font-size-lg, 1.125rem);
-  font-weight: var(--st-font-weight-semibold, 600);
-  line-height: var(--st-line-height-tight, 1.25);
+  font-size: var(--st-font-size-lg);
+  font-weight: var(--st-font-weight-semibold);
+  line-height: var(--st-line-height-tight);
   transition: color 0.2s ease;
 }
 

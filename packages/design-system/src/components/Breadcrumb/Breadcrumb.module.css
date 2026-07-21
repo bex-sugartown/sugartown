@@ -11,6 +11,10 @@
   margin: 0 0 16px;
 }
 
+.crumb {
+  display: contents;
+}
+
 .link {
   color: var(--st-breadcrumb-link-color);
   text-decoration: none;

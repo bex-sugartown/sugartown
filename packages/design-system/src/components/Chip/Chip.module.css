@@ -107,7 +107,7 @@
 .lime    { --chip-color: var(--st-color-lime); }
 .violet  { --chip-color: var(--st-color-violet); }
 .amber   { --chip-color: var(--st-color-amber); }
-.grey    { --chip-color: var(--st-color-softgrey-500); }
+.grey    { --chip-color: var(--st-color-softgrey-700); }
 
 /* ── Light-theme chip color overrides ─────────────────────
    On light backgrounds, bright palette colors (seafoam, lime, amber)
@@ -137,7 +137,7 @@
 }
 
 /* ── Dark Pink Moon — grey chip override ─────────────────
-   softgrey-700 is nearly invisible on dark bg.
+   softgrey-700 (#3d4a57) is nearly invisible on dark bg.
    Shift to softgrey-300 for readable contrast.
    ──────────────────────────────────────────────────────── */
 :global([data-theme="dark-pink-moon"]) .grey {
@@ -163,12 +163,14 @@
   gap: 5px;
 }
 
+/* Status chips: uppercase mono, bold, with dot */
 .variantStatus {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
+/* Taxonomy chips: normal-case mono, regular weight */
 .variantTag {
   font-weight: 400;
   text-transform: none;
@@ -176,12 +178,15 @@
   background: var(--st-chip-tag-bg);
 }
 
+/* Pink rubric — first taxonomy chip */
 .featured {
   background: var(--st-chip-rubric-bg);
   border-color: var(--st-chip-rubric-border);
   color: var(--st-chip-rubric-fg);
   font-weight: 600;
 }
+
+/* ── Status dot ──────────────────────────────────────── */
 
 .dot {
   display: inline-block;

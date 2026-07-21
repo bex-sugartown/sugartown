@@ -15,7 +15,7 @@
   height: 32px;
   padding: 0;
 
-  background: transparent;
+  background: var(--st-icon-button-bg);
   color: var(--st-color-text-muted);
   border: 1px solid var(--st-index-cell-inactive-color);
 
@@ -32,7 +32,7 @@
 .iconButton:hover:not(:disabled):not([aria-disabled="true"]) {
   color: var(--st-color-brand-primary);
   border-color: var(--st-color-brand-primary);
-  background-color: var(--st-color-bg-surface-strong);
+  background-color: var(--st-icon-button-bg);
 }
 
 .iconButton:focus-visible {

@@ -13,7 +13,6 @@
   --st-media-overlay-blend-mode: hard-light;
   --st-media-duotone-angle: 135deg;
 
-  /* styles */
   margin: var(--st-space-5, 1.5rem) 0;
   position: relative;
 }
