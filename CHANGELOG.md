@@ -14,6 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.29.0.
 
+- SUG-217 + SUG-219: Component CSS mirror reconciliation — all 9 smaller drifted pairs plus Card are now byte-identical across `apps/web` and `@sugartown/design-system`; `KNOWN_DRIFT` reduced from 11 entries to 1. Canonical direction decided per pair from git evidence (IconButton's glassmorphism fix and Chip's grey value both traced to their originating commits). Web app rendering unchanged; the package moved to match production. SUG-218 (Callout) cancelled as a duplicate of SUG-231 — the two Callouts are different components, so its CSS cannot be reconciled without reconciling the component first.
 - SUG-227: Formalize AI/Claude workflow — 5-category human-gate taxonomy + `AskUserQuestion` response-mechanism standard (`docs/conventions/human-gate-conventions.md`), cross-referenced from CLAUDE.md's six canonical gate definitions; pilot conversions of `/release` (7 gates) and `/red-pen` (batch multi-select) shipped and verified live. Deferred Conversion Inventory (11 remaining skills/docs) tracked forward as SUG-229.
 
 ---
