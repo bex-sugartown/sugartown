@@ -139,7 +139,7 @@ const RouterLinkAdapter = ({ href, ...rest }) => <RouterLink to={href} {...rest}
 - [x] The injection mechanism decision is recorded in this doc with its rationale before any implementation commit
 - [ ] All 5 components (`Card`, `Chip`, `Breadcrumb`, `IndexCell`, `List`) resolve links through the injected component and fall back to `<a href>` when none is supplied
 - [x] `packages/design-system/src/` contains no import of `react-router-dom`, `next/link`, or any other router — verified by grep (only a doc-comment mention in `LinkContext.tsx`)
-- [ ] Chromatic shows zero visual diffs on the default (non-injected) path for all 5 components
+- [x] Chromatic shows zero visual diffs on the default (non-injected) path for all 5 components — build #77, 4 changes, all first-time baselines for the new `Foundations/Link Seam` entries; reviewed and accepted by Bex 2026-07-21
 - [x] Storybook covers default + injected paths for each of the 5, rendering correctly on `default` and `dark-pink-moon`
 - [x] `Breadcrumb`, `ButtonGroup`, and `IconButton` are exported from the package barrel
 - [x] apps/contentful-poc navigates client-side (no full page reload) on a Card title link, verified in the browser
@@ -170,6 +170,19 @@ Barrel additions: `Breadcrumb`, `ButtonGroup`, `IconButton` (the latter two need
 **Client-side navigation in apps/contentful-poc.** Against a running dev server on `/articles`: a value stamped on `window` survived clicking both a Card title link and a Chip, and `performance.getEntriesByType('navigation').length` stayed at 1. A full document load resets both. URL and rendered content both updated (`/articles/article-3` → h1 "Article 3"; `/tags/vercel` → h1 "Vercel"). Zero console errors.
 
 **Invalid HTML fixed.** `document.querySelectorAll('a a').length` is now 0 on the poc's article detail page. It was non-zero before: the app wrapped `Card` in a `next/link`, and Card renders its own internal links.
+
+### Chromatic
+
+Build **#77** — passed. 360 stories across 95 components, 349 snapshots, 47s.
+4 visual changes, all first-time baselines for the new `Foundations/Link Seam` entries
+(`--default`, `--injected`, `--snapshot`, `--docs`). No existing component reported a
+change, confirming the seam is inert on the default path. Accepted by Bex 2026-07-21.
+<https://www.chromatic.com/build?appId=69de2a8dfe5a14bc405087d5&number=77>
+
+**Two run-time notes worth carrying forward:**
+
+1. **The wrapper's skip gate would have skipped this run entirely.** `apps/storybook/scripts/chromatic.sh` derives its changed-file set from `git diff --name-only HEAD~1`. This epic's tip commit was docs-only, so that set was a single `.md` file, which its `^docs/` and `\.md$` exclusions strip — leaving `VISUAL` empty and exiting 0 before any snapshot. The run was done by invoking `chromatic` directly. This is the already-documented HEAD~1 skip-gate trap; it fires whenever an epic's final commit is documentation, which is the normal close-out shape.
+2. **TurboSnap was unavailable** ("not available until at least 10 builds are created from CI"), so `--only-changed` degraded to a full-suite run. That is more coverage than intended, not less — every seamed component was snapshotted regardless of the dependency trace.
 
 ### Deviations from the epic as written
 
