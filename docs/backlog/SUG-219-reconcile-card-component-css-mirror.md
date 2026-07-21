@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-219 — Reconcile Card component CSS mirror
 **Linear Issue:** [SUG-219](https://linear.app/sugartown/issue/SUG-219)
-**Status:** Backlog
+**Status:** ✅ Shipped 2026-07-21
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -27,6 +27,26 @@ After this epic, one canonical `Card.module.css` exists byte-identical in both t
 - [ ] Produce one canonical version (per-cluster merge; preserve load-bearing one-sided rules), write byte-identical to both trees.
 - [ ] Confirm no raw colours / no banned token fallbacks.
 - [ ] Delete `Card.module.css` from `KNOWN_DRIFT` in `validate-style-mirror.js`.
+
+## Close-out (2026-07-21)
+
+`Card.module.css` byte-identical across both trees; removed from `KNOWN_DRIFT`. Visual QA approved.
+
+**Card was a genuine CSS-only drift** — verified before starting: both trees' JSX use the same 56 classes, so no component change was needed. (Contrast SUG-218/Callout, where the same check found nearly disjoint class sets and killed the CSS-only approach.)
+
+**Seven drift clusters resolved:**
+
+| Cluster | Canonical | Basis |
+|---|---|---|
+| `.folioLabel a` colour/underline | web | Functional rules the package lacked |
+| `.footerCategoryLink:has(a)` multi-link suppression | web | Functional; prevents double-underline on nested links |
+| `.compact` font sizes (folioLabel, footerCategoryLink, date) | web | Density refinement the package never received |
+| File header comment | package | The old web header asserted a hand-sync obligation that `validate:style-mirror` now enforces automatically |
+| "DS Chip component" attribution comment | package | Accurate for a file that is now shared |
+| Light-theme status-badge colour-family reference block | package | Useful documentation, no behavioural effect |
+| `.thumbnailRail` border-radius | package | Resolves to `0` today (`--st-radius-card: 0`, Pink Moon is zero-radius) so there is no visual change, but it stays correct if a brand theme such as `theme.shop.css` sets a non-zero card radius |
+
+**Visual result:** no change on either surface. Verified by computed value — `.thumbnailRail` computes `border-radius: 0px`, and all six web-canonical rules were confirmed present in the package's Storybook build. Web app regression guard on `/articles`: 24 cards, 126 chips, zero console errors.
 
 ## Acceptance criteria
 

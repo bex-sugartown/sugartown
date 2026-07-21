@@ -1,6 +1,6 @@
 /* FilterBar — archive filter sidebar */
 
-/* ─── Outer wrapper ─────────────────────────────────────────────────────────── */
+/* ─── Outer wrapper ──────────────────────────────────────────────────────────── */
 
 .filterBar {
   display: flex;
@@ -14,7 +14,7 @@
   font-size: var(--st-font-size-sm);
 }
 
-/* ─── Header row (title + clear all) ───────────────────────────────────────── */
+/* ─── Header row (title + clear all) ────────────────────────────────────────── */
 
 .filterHeader {
   display: flex;
@@ -57,7 +57,7 @@
   outline-offset: 2px;
 }
 
-/* ─── Facet list ────────────────────────────────────────────────────────────── */
+/* ─── Facet list ─────────────────────────────────────────────────────────────── */
 
 .facetList {
   display: flex;
@@ -65,7 +65,7 @@
   gap: 0;
 }
 
-/* ─── Facet group (fieldset) ────────────────────────────────────────────────── */
+/* ─── Facet group (fieldset) ─────────────────────────────────────────────────── */
 
 .facetGroup {
   border: none;
@@ -90,7 +90,7 @@
   border-bottom: 2px solid var(--st-color-text-primary);
 }
 
-/* ─── Option list ───────────────────────────────────────────────────────────── */
+/* ─── Option list ────────────────────────────────────────────────────────────── */
 
 .optionList {
   display: flex;
@@ -118,7 +118,7 @@
   background: var(--st-color-canvas);
 }
 
-/* ─── Checkbox ──────────────────────────────────────────────────────────────── */
+/* ─── Checkbox ───────────────────────────────────────────────────────────────── */
 
 .optionCheckbox {
   flex-shrink: 0;
@@ -140,7 +140,8 @@
   border-color: var(--st-color-brand-primary);
 }
 
-/* Checkmark via rotated border — no hardcoded colors */
+/* Checkmark via rotated border — anchored at box center, translated back by half
+   its own size. top: 47% (not 50%) compensates for optical low-sitting after rotation. */
 .optionCheckbox:checked::after {
   content: '';
   position: absolute;
@@ -159,7 +160,7 @@
   outline-offset: 2px;
 }
 
-/* ─── Option label ──────────────────────────────────────────────────────────── */
+/* ─── Option label ───────────────────────────────────────────────────────────── */
 
 .optionLabel {
   display: flex;
@@ -175,7 +176,7 @@
   color: var(--st-color-brand-primary);
 }
 
-/* ─── Color swatch (for project / category) ─────────────────────────────────── */
+/* ─── Color swatch (project / category options) ──────────────────────────────── */
 
 .optionSwatch {
   display: inline-block;
@@ -190,7 +191,7 @@
   background-color: var(--chip-color, transparent);
 }
 
-/* ─── Option name ───────────────────────────────────────────────────────────── */
+/* ─── Option name ────────────────────────────────────────────────────────────── */
 
 .optionName {
   flex: 1;
@@ -198,7 +199,7 @@
   transition: color 0.15s ease;
 }
 
-/* ─── Option count ──────────────────────────────────────────────────────────── */
+/* ─── Option count ───────────────────────────────────────────────────────────── */
 
 .optionCount {
   font-family: var(--st-font-family-mono);
