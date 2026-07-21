@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Chip } from "@sugartown/design-system";
 
 type TagSummary = { id: string; name: string; slug: string };
@@ -13,9 +12,7 @@ export function TagList({ tags }: { tags: TagSummary[] }) {
       </h1>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
         {tags.map((t) => (
-          <Link key={t.id} href={`/tags/${t.slug}`} style={{ textDecoration: "none" }}>
-            <Chip label={t.name} />
-          </Link>
+          <Chip key={t.id} label={t.name} href={`/tags/${t.slug}`} />
         ))}
       </div>
     </main>

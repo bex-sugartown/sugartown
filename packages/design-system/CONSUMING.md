@@ -2,6 +2,10 @@
 
 How to apply a brand theme to a new app that uses `packages/design-system`.
 
+Sections 1–7 cover theming. **[Section 8](#8-wire-the-link-seam-navigation) covers
+navigation** — if your app is client-routed (Next.js, React Router), wire the link
+seam or every DS link will trigger a full page load.
+
 ---
 
 ## 1. Install
@@ -178,6 +182,122 @@ In `apps/storybook/.storybook/preview.ts`:
 
 ---
 
+## 8. Wire the link seam (navigation)
+
+The package renders no router. `Card`, `Chip`, `Breadcrumb`, `IndexCell`, and `List`
+resolve their links through an injectable seam, so each app supplies its own link
+component (SUG-230).
+
+**With nothing injected, every link is a plain `<a href>`.** That is the documented
+default and it works — it just costs a full document load in a client-routed app.
+
+### Next.js (App Router)
+
+`next/link` already takes `href` plus the standard anchor attributes, so it is close to
+a drop-in. The provider must be a client component; `children` stay server-rendered.
+
+```tsx
+// components/DesignSystemProvider.tsx
+"use client";
+
+import NextLink from "next/link";
+import { LinkProvider } from "@sugartown/design-system";
+import type { LinkRenderProps } from "@sugartown/design-system";
+
+function NextLinkAdapter({ href, children, ...rest }: LinkRenderProps) {
+  return <NextLink href={href} {...rest}>{children}</NextLink>;
+}
+
+export function DesignSystemProvider({ children }: { children: React.ReactNode }) {
+  return <LinkProvider component={NextLinkAdapter}>{children}</LinkProvider>;
+}
+```
+
+```tsx
+// app/layout.tsx — wrap the tree once
+<body>
+  <DesignSystemProvider>{children}</DesignSystemProvider>
+</body>
+```
+
+### React Router
+
+React Router's `Link` takes `to`, not `href`, so it needs a one-line adapter:
+
+```jsx
+import { Link as RouterLink } from 'react-router-dom'
+import { LinkProvider } from '@sugartown/design-system'
+
+function RouterLinkAdapter({ href, children, ...rest }) {
+  return <RouterLink to={href} {...rest}>{children}</RouterLink>
+}
+
+// Mount inside the router, above your routes:
+<BrowserRouter>
+  <LinkProvider component={RouterLinkAdapter}>
+    <App />
+  </LinkProvider>
+</BrowserRouter>
+```
+
+### Declare the adapter at module scope
+
+`LinkProvider`'s `component` must be a **stable reference**. Declaring the adapter at
+module scope (as above) is enough. Passing a fresh inline arrow:
+
+```tsx
+// Wrong — a new element type on every render
+<LinkProvider component={props => <NextLink {...props} />}>
+```
+
+gives React a different component identity each render, which unmounts and remounts
+every link beneath the provider, losing focus and DOM state. It fails quietly, so it is
+worth getting right once.
+
+### What the seam deliberately does not route
+
+| Href | Falls back to `<a>` because |
+|------|------------------------------|
+| `https://…`, `mailto:…`, `tel:…`, any scheme | a router cannot navigate off-origin |
+| `//cdn.example.com/…` (protocol-relative) | leaves the origin without naming a scheme |
+| `#footnotes` (bare fragment) | a fragment is not a route |
+
+A path that merely *contains* a hash (`/articles/x#section`) is a real route and is
+routed normally.
+
+The seam does **not** add `target="_blank"` / `rel="noopener noreferrer"` to external
+links — whether an external link opens in a new tab is an app-level editorial choice.
+Pass `target`/`rel` at the call site if you want it.
+
+### Pass links via each component's own `href` props
+
+Once the provider is mounted, do **not** wrap a DS component in your router's link:
+
+```tsx
+// Right
+<Card title="…" href="/articles/slug" category={{ label: "…", href: "/categories/x" }} />
+<Chip label="Vercel" href="/tags/vercel" />
+
+// Wrong — Card renders its own internal links, so this nests anchors (invalid HTML)
+<NextLink href="/articles/slug"><Card title="…" /></NextLink>
+```
+
+`Card` seams five links (title, category, project, footer category, KPI) and renders
+`Chip`s internally for its tag and tool rows. Those inner chips read the same context,
+so nothing needs threading through.
+
+### Exports
+
+```ts
+import { LinkProvider, useLinkComponent, Link, isExternalHref, isFragmentHref } from '@sugartown/design-system'
+import type { LinkComponent, LinkRenderProps, LinkProviderProps, LinkProps } from '@sugartown/design-system'
+```
+
+Reference implementation: `apps/contentful-poc/src/components/DesignSystemProvider.tsx`.
+Live demo of both paths: Storybook → `Foundations/Link Seam`.
+
+---
+
 ## Summary checklist for a new brand theme
 
 - [ ] Brand colour primitives added to `tokens/source/tokens.json` and built via `pnpm tokens:build`
@@ -189,3 +309,5 @@ In `apps/storybook/.storybook/preview.ts`:
 - [ ] `pnpm validate:tokens --strict-colors` passes (no raw colour values)
 - [ ] Imported and added to Storybook theme switcher
 - [ ] `data-theme` activation verified in the consuming app
+- [ ] Link seam wired (section 8) if the app is client-routed — verified by clicking a
+      Card title and confirming no full page reload

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Card } from "@sugartown/design-system";
 
 type ArticleSummary = {
@@ -34,13 +33,13 @@ export function ArticleList({ articles }: { articles: ArticleSummary[] }) {
       </h2>
       <div style={{ display: "grid", gap: "var(--st-space-card-gap)" }}>
         {sorted.map((a) => (
-          <Link key={a.id} href={`/articles/${a.slug}`} style={{ textDecoration: "none" }}>
-            <Card
-              title={a.title}
-              eyebrow={a.publishDate ? new Date(a.publishDate).toLocaleDateString() : undefined}
-              excerpt={a.summary}
-            />
-          </Link>
+          <Card
+            key={a.id}
+            href={`/articles/${a.slug}`}
+            title={a.title}
+            eyebrow={a.publishDate ? new Date(a.publishDate).toLocaleDateString() : undefined}
+            excerpt={a.summary}
+          />
         ))}
       </div>
     </section>

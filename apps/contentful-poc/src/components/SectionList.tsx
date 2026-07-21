@@ -146,13 +146,12 @@ function ArticleListSection({ fields }: { fields: ArticleListFields }) {
       }}>
         {articles.map((article) => (
           <li key={article.id}>
-            <Link href={`/articles/${article.slug}`} style={{ textDecoration: "none" }}>
-              <Card
-                title={article.title}
-                eyebrow={article.publishDate ? new Date(article.publishDate).toLocaleDateString() : undefined}
-                excerpt={article.summary}
-              />
-            </Link>
+            <Card
+              href={`/articles/${article.slug}`}
+              title={article.title}
+              eyebrow={article.publishDate ? new Date(article.publishDate).toLocaleDateString() : undefined}
+              excerpt={article.summary}
+            />
           </li>
         ))}
       </ul>

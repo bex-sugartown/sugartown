@@ -8,6 +8,7 @@ import { getSiteSettings } from "@/lib/queries";
 import { normalizeSiteSettings } from "@/lib/normalizeSiteSettings";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { DesignSystemProvider } from "@/components/DesignSystemProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -42,9 +43,11 @@ export default async function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: noFlashScript }} />
       </head>
       <body>
-        <SiteHeader settings={settings} />
-        <main>{children}</main>
-        <SiteFooter settings={settings} />
+        <DesignSystemProvider>
+          <SiteHeader settings={settings} />
+          <main>{children}</main>
+          <SiteFooter settings={settings} />
+        </DesignSystemProvider>
         <SpeedInsights />
       </body>
     </html>
