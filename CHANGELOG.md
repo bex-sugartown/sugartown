@@ -14,7 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.29.0.
 
-- SUG-227: Human gate conventions taxonomy — 5-category gate taxonomy + `AskUserQuestion` response-mechanism standard (`docs/conventions/human-gate-conventions.md`), cross-referenced from CLAUDE.md's six canonical gate definitions (Phase 1 of 4; pilot conversions of `/release` and `/red-pen` still to come)
+- SUG-227: Formalize AI/Claude workflow — 5-category human-gate taxonomy + `AskUserQuestion` response-mechanism standard (`docs/conventions/human-gate-conventions.md`), cross-referenced from CLAUDE.md's six canonical gate definitions; pilot conversions of `/release` (7 gates) and `/red-pen` (batch multi-select) shipped and verified live. Deferred Conversion Inventory (11 remaining skills/docs) tracked forward as SUG-229.
 
 ---
 
