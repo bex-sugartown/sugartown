@@ -161,7 +161,7 @@ the piece is a defect list.
 
 Order findings by tier (accuracy, then voice, then sharpness — theme findings sort inside sharpness). If a pass produced nothing, say so; an empty accuracy section is information. Then stop and wait. Gate 1 ends with the report. Do not apply anything, do not "fix the obvious ones while waiting", do not touch Sanity.
 
-Bex approves per row ("apply 1, 3, 5", "all except 4", "all"). A question about a finding is not approval of it.
+Bex approves per row via `AskUserQuestion` (multi-select batch gate per `docs/conventions/human-gate-conventions.md`), not by typing row numbers. Group findings into multi-select questions, one option per finding labeled `#N — <short summary> (<tier>)`, up to 4 findings per question and up to 4 questions per call (16 findings per call). Always include an `"Approve all N"` option on the first question so a clean report can be cleared in one click. For a findings table over 16 rows, don't force per-row selection — ask a single question: `"Approve all N findings, or flag specific ones to discuss?"` with an `"Approve all"` option and a `"Let me flag exceptions"` option, then follow up on flagged rows only. A follow-up question about a finding is not approval of it — that finding stays pending until explicitly selected.
 
 ### Report archive (required — every review, not just batches)
 
