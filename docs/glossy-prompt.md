@@ -191,13 +191,13 @@ existing term rather than creating a duplicate.
 Pull candidate references so the proposal can wire real `_id`s, never invented ones:
 
 ```groq
-// Categories (for categories[] and relatedTerms categoryRef)
+// Categories (for categories[])
 *[_type == "category"]{ _id, name } | order(name asc)
 
-// Other glossary terms (for relatedTerms)
+// Other glossary terms (for relatedTerms[] — glossaryTerm refs only)
 *[_type == "glossaryTerm"]{ _id, term } | order(lower(term) asc)
 
-// Tags / tools (relatedTerms also accepts tagRef, toolRef)
+// Tags (for relatedTags[]) and tools (for relatedTools[]) — separate fields since SUG-186
 *[_type == "tag"]{ _id, name } | order(name asc)
 *[_type == "tool"]{ _id, name } | order(name asc)
 
@@ -226,10 +226,12 @@ Fill as much of the schema as the research supports:
 | `definition` | ✅ | 1–3 sentences, `X is Y` opener, succinct. |
 | `extendedDefinition` | — | The opinionated deep-dive. Omit if you have nothing earned to add. |
 | `categories[]` | — | Real `category` `_id`s from 1b. |
-| `relatedTerms[]` | — | Real `_id`s (glossaryTerm / tag / category / tool). |
+| `relatedTerms[]` | — | Real `glossaryTerm` `_id`s **only**. Bidirectional: publishing syncs the reverse link onto the target. |
+| `relatedTags[]` | — | Real `tag` `_id`s. Separate field since SUG-186. |
+| `relatedTools[]` | — | Real `tool` `_id`s. Separate field since SUG-186. |
 | `relatedContent[]` | — | Real `_id`s (article / caseStudy / node / etc.). |
 | `sources[]` | ✅ | Verified `{ text, url }` entries. |
-| `seo` | — | `metaTitle`, `metaDescription` if the term warrants it. |
+| `seo` | — | `seoMetadata` object. Leave `autoGenerate: true` unless the term needs exact overrides, then set `title` / `description` (**not** `metaTitle`/`metaDescription` — those fields do not exist). |
 
 ### 1e — Present the proposal (inline table)
 
@@ -257,10 +259,12 @@ Detail table (per term):
 | definition | *(full text, as it will be written)* |
 | extendedDefinition | *(full text, or "—")* |
 | categories | Name → `_id`, … *(or "none — no match")* |
-| relatedTerms | Name → `_id`, … |
+| relatedTerms | Name → `_id`, … *(glossaryTerm only)* |
+| relatedTags | Name → `_id`, … |
+| relatedTools | Name → `_id`, … |
 | relatedContent | Title → `_id`, … |
 | sources | "Label", url *(canonical)* / "Label", url *(from export)* — tag each by provenance, canonical first |
-| seo.metaTitle / metaDescription | … |
+| seo | `autoGenerate: true`, or the exact `title` / `description` overrides |
 
 Below the table, add:
 - **Voice check:** confirm no em dashes / emoji / banned vocab in the copy.
@@ -301,9 +305,13 @@ web but locks the block in Studio (see CLAUDE.md).
 
 Reference `_type` values follow the schema's named array members:
 - `categories[]` items: `{ "_type": "reference", "_key": "...", "_ref": "<id>" }`
-- `relatedTerms[]` items: `{ "_type": "glossaryTermRef" | "tagRef" | "categoryRef" | "toolRef", "_key": "...", "_ref": "<id>" }`
+- `relatedTerms[]` items: `{ "_type": "glossaryTermRef", "_key": "...", "_ref": "<id>" }` — glossaryTerm targets only
+- `relatedTags[]` items: `{ "_type": "reference", "_key": "...", "_ref": "<id>" }`
+- `relatedTools[]` items: `{ "_type": "reference", "_key": "...", "_ref": "<id>" }`
 - `relatedContent[]` items: `{ "_type": "articleRef" | "caseStudyRef" | "nodeRef" | "pageRef" | "personRef" | "projectRef" | "toolContentRef", "_key": "...", "_ref": "<id>" }`
 - `sources[]` items: `{ "_type": "source", "_key": "...", "text": "...", "url": "..." }`
+
+**SUG-186 split tags and tools out of `relatedTerms` into their own fields.** Writing a `tagRef`, `toolRef`, or `categoryRef` into `relatedTerms` now produces an invalid document — that array accepts glossaryTerm references only. Note the `_type` asymmetry: `relatedTerms` items are `glossaryTermRef` (the schema names that array member), while `relatedTags`/`relatedTools`/`categories` items are plain `reference`.
 
 Content shape:
 
@@ -323,17 +331,39 @@ Content shape:
     ],
     "extendedDefinition": [ /* optional, same block shape */ ],
     "categories": [ /* reference items */ ],
-    "relatedTerms": [ /* named ref items */ ],
+    "relatedTerms": [ /* glossaryTermRef items */ ],
+    "relatedTags": [ /* reference items */ ],
+    "relatedTools": [ /* reference items */ ],
     "relatedContent": [ /* named ref items */ ],
     "sources": [
       { "_key": "src1", "_type": "source", "text": "<label>", "url": "<url>" }
     ],
-    "seo": { "metaTitle": "<optional>", "metaDescription": "<optional>" }
+    "seo": { "_type": "seoMetadata", "autoGenerate": true }
   }
 }
 ```
 
-### 2b — Report back and hand off to the human
+### 2b — Revising an existing term (not a create)
+
+When Gate 1 approved an edit to a term that already exists, use `mcp__Sanity__patch_documents`, not `create_documents`. Passing the **published** `_id` routes the edit to the draft automatically; published content is never modified directly, so the Human-Publishes Rule holds without extra effort.
+
+- **Re-fetch the live document immediately before patching** and confirm the `_key`s you are about to target still match. Keys do not reliably survive prior patches, and a human may have edited in Studio since Gate 1. If you find unexpected content in place of what you expected, stop and ask — do not overwrite (see CLAUDE.md §PT array clobbering).
+- **Use keyed paths, never whole-array replacement.** `set` on `definition[_key=="b01"].children[_key=="s01"].text` edits one span. Replacing the whole `definition` array drops `_type`/`style`/`markDefs` and crashes the renderer.
+- **Appending a block:** `insert` with `{ after: "extendedDefinition[-1]", items: [ … ] }`. The array must already exist; use `setIfMissing` first if it may not.
+- **`ifRevisionId` does not work on a first, draft-creating patch.** The draft is created inside the same transaction and gets a fresh `_rev`, which is then compared against the `_rev` you supplied (the published document's). It can never match, and the failure message reads as though a draft already exists with an unfamiliar revision — a false "someone else edited this" signal. Use the guard only when a draft already exists; otherwise verify by re-fetching before and after.
+- **Verify after writing.** Re-query the draft and confirm the changed field landed *and* that neighbouring fields (other blocks, relations) are untouched.
+
+### 2c — Code blocks in `extendedDefinition`
+
+`extendedDefinition` accepts `code` blocks, rendered through the DS `CodeBlock`. Useful for a small ASCII diagram that earns its place; not for decoration.
+
+- **Omit `language`** for ASCII diagrams. The serializer passes `language ?? undefined`, and `CodeBlock` skips Prism entirely when it is falsy, so the block renders as clean unhighlighted monospace with no language chip. Setting `markdown` or `bash` would syntax-colour `---`, `|`, and `>` and look worse.
+- **Keep lines under ~26 characters.** `CodeBlock` is `white-space: pre-wrap` with no horizontal scroll container, so long lines *reflow* instead of scrolling. At a 360px viewport roughly 28 characters fit; anything longer wraps and destroys the alignment that makes ASCII art legible. Prose captions inside the block may exceed this — sentences wrap harmlessly.
+- **Verify at 360px, not just desktop.** A diagram that looks correct in the detail column can collapse into noise on a phone. Measure the widest line against the available width rather than eyeballing it.
+
+Block shape: `{ "_key": "...", "_type": "code", "code": "<the literal text with \n line breaks>" }`.
+
+### 2d — Report back and hand off to the human
 
 - Draft document `_id`(s) for each term created (`drafts.<id>`)
 - Fields written vs left blank
