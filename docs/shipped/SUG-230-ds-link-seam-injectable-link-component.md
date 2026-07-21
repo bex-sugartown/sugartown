@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-230 — DS link seam — injectable link component for framework-agnostic navigation
 **Linear Issue:** [SUG-230](https://linear.app/sugartown/issue/SUG-230)
-**Status:** Backlog
+**Status:** Shipped (2026-07-21)
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
