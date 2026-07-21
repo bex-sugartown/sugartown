@@ -131,6 +131,8 @@ For any epic that includes a mockup/design phase (Phase 0 or equivalent):
 Permitted before Phase 0 sign-off: backlog doc edits, schema planning notes, query design notes.
 Not permitted: any JSX, CSS, schema TypeScript, or migration scripts.
 
+**Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the mock, then ask via a single select option.
+
 Updating the backlog spec (e.g. in response to user feedback) triggers a corresponding mock update in the same response — backlog doc and mock must stay in sync. If the user asks to update the spec, update the mock too before closing the response.
 
 A Phase 0 violation (FE code committed before mock approval) is a process failure, not a shortcut.
@@ -360,6 +362,8 @@ Before writing any content to Sanity via `patch_documents`, `create_documents`, 
 
 This rule operationalizes `ai-ethics-and-operations.md` Principle 6 ("AI can suggest copy; humans verify it isn't confidently wrong") and Principle 7 ("every AI-generated output has a human checkpoint") as a structural enforcement gate rather than aspiration. The fail-softly layer (drafts require human publish) is the last line; this gate is the first.
 
+**Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the before/after table, then ask via a single select option rather than requiring a typed word.
+
 ### The Human-Publishes Rule (hard stop — publish/unpublish operations)
 
 The agent drafts. The agent proposes. The agent patches Sanity documents once a proposal is approved. The agent never publishes them.
@@ -372,6 +376,8 @@ The agent drafts. The agent proposes. The agent patches Sanity documents once a 
 
 This is the fail-softly layer referenced above: even a Content Write Gate failure — content written without a proper proposal — stays contained to a draft nobody sees until a human deliberately publishes it. Every skill that writes to Sanity (`/glossy`, `/write-blog`, `/write-node`, `/write-casestudy`, `/red-pen`) stops at this same line.
 
+**Response mechanism:** a negative/absence gate per `docs/conventions/human-gate-conventions.md` — no prompt shown; block on the absence of a standalone publish instruction, message kept to one sentence.
+
 ### Instruction & Rule File Write Gate (hard stop — skill/CLAUDE.md/governance doc edits)
 
 The agent — or any subagent it spawns — never edits a rule-defining file (`.claude/skills/**`, this file, or anything under `docs/ai/agentic-caucus/` or `docs/conventions/`) without first showing the human the exact diff and getting explicit approval. Applies even when the edit is accurate and well-intentioned.
@@ -381,6 +387,8 @@ The agent — or any subagent it spawns — never edits a rule-defining file (`.
 **Scope:** covers the orchestrating session *and* any subagent it spawns. A subagent told to review X has no implicit authority to also edit X's own instructions, however reasonable the addition looks.
 
 **For subagents specifically:** when a task could plausibly touch a rule-defining file, forbid it from writing there and have it return proposed changes as text in its report instead. A subagent's own commit is never the final word — the orchestrating session reviews before surfacing anything to the human.
+
+**Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — show the exact diff, then ask via a single select option.
 
 ### Sanity MCP content writes — no AI rewriting
 
@@ -469,6 +477,8 @@ Before writing content for a component doc, present a structure table and wait f
 | Design Tokens | Yes/No | … |
 
 Wait for "yes", "looks good", or equivalent before writing section content.
+
+**Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the structure table, then ask via a single select option rather than requiring a typed word.
 
 ### Gate 3 — Framework-agnostic constraint
 
@@ -586,6 +596,8 @@ Location-named or page-scoped class names (e.g. `toolUrl`, `lv-*`, `folioHead`, 
 | `.listRow` | None found — new semantic pattern | New class approved |
 
 Do not make any `Edit` or `Write` call to a CSS module file until this table has been shown and the user has confirmed the names. "Looks good", "yes", or equivalent is sufficient approval. A new CSS class written without a prior proposal table is a process failure.
+
+**Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the naming proposal table, then ask via a single select option rather than requiring a typed word.
 
 ### Component choice gate (blocking — fires before any new JSX surface)
 
