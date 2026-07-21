@@ -9,9 +9,9 @@ import cssModulesPlugin from 'esbuild-css-modules-plugin';
 // module's default export. `packages: 'external'` keeps react, lucide, prismjs
 // etc. out of the bundle (same as tsup's dependency externalisation).
 //
-// Type declarations (dist/index.d.ts) are NOT regenerated here — DTS is blocked by
-// a lucide-react x React 19 @types skew (separate finding). The last-good d.ts is
-// retained until that skew is resolved.
+// Type declarations are not emitted by this script; the package's `build` script
+// chains `tsc -p tsconfig.json --emitDeclarationOnly` after it, which regenerates
+// the full dist/*.d.ts tree. Run that too if you invoke build.mjs directly.
 
 const shared = {
   entryPoints: ['src/index.ts'],
