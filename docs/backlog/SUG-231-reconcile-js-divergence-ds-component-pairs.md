@@ -32,12 +32,17 @@ After this epic, the 6 diverged pairs behave identically, the two live bugs are 
 - [ ] Reconcile Accordion: add the empty-items guard to the package copy — layer: design-system
 - [ ] Reconcile Container: add `style` passthrough to the package copy — layer: design-system
 - [ ] Reconcile Stack: fix the package's responsive condition to `(direction.md || direction.lg)` — layer: design-system
+- [ ] **Add `href` to the package `Button`** — the web `Button` takes `href` and branches external-anchor / RouterLink / `<button>`; the package `Button` has no `href` field at all and renders only `<button>`. Consume SUG-230's link seam (`<Link>` from `src/link/`) rather than importing a router, and port the external-URL handling from `apps/web/src/lib/linkUtils.js`. Decide whether `target="_blank"`/`rel` on external hrefs comes to the package — SUG-230 deliberately kept that out of the shared resolver as an app-level editorial choice — layer: design-system
+- [ ] **Reconcile `Breadcrumb` DOM divergence** — verified divergent 2026-07-21, not a drifted copy: web wraps each crumb in `<span className={styles.crumb}>` while the package uses `React.Fragment`; web's `isHighlighted = isLast` vs the package's `isCurrent = isLast && !item.href`; web emits `← ` and the package `←&nbsp;`; `aria-current` sits on the link in web and on the current `<span>` in the package. Pick a canonical side, then check whether the two `Breadcrumb.module.css` copies still match after the JSX converges. Note the Storybook title collision: `Components/Breadcrumb` is currently owned by the web mirror's story, so a package story cannot be added until this reconciliation decides which survives — layer: design-system + frontend
+- [ ] **Fix `List`'s `href || '#'` fallback** — `ListItem` renders `<Link className={styles.row} href={href || '#'}>`, so every row without an href becomes a live `#` link that is focusable and navigable. Since SUG-230 it resolves as a fragment bypass rather than a router link, which makes the behaviour visible but no more correct. Render a non-interactive element when `href` is absent — layer: design-system
 - [ ] Storybook coverage for each reconciled behaviour, including the previously-broken paths (a story that would have caught the FilterBar and CodeBlock bugs) — layer: Storybook
 - [ ] Decide and record whether behavioural parity can be validated automatically, or is inherently a review-time concern — layer: tooling/docs
 
 ## Phases
 
 **Phase 1 — The two live bugs.** FilterBar and CodeBlock, each with a Storybook story that fails before the fix and passes after. Ships first because these are the only rows with users on the other end.
+
+**Phase 1b — SUG-230 handoff items.** Package `Button` `href`, `Breadcrumb` DOM divergence, and `List`'s `href || '#'`. Added 2026-07-21 when SUG-230 shipped: its close-out deferred all three here, but they were not in this epic's Scope at the time, so they would have fallen through the gap between the two epics. `Button` depends on SUG-230's seam being merged — it is (v0.29.4). Sequence `Button` before `Breadcrumb`, since both are seam consumers and `Button` is the simpler of the two.
 
 **Phase 2 — The three trivial reconciliations.** Accordion guard, Container `style`, Stack responsive condition. Web is canonical in all three; the package copy moves. Low risk, converts them to pure mirrors.
 
