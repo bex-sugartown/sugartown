@@ -1,8 +1,5 @@
 /**
- * Card — web app adapter CSS.
- *
- * Mirrors: packages/design-system/src/components/Card/Card.module.css
- * CSS sync: Must match DS Card.module.css (see MEMORY.md token drift rules).
+ * Card — Sugartown Design System
  *
  * Architecture: flex column, header + footer shrink-0, body flex:1 1 auto.
  * This is the Layout Contract from EPIC-0156 Section 00.
@@ -408,7 +405,7 @@
 }
 
 /* ── Chip rows ───────────────────────────────────────────────────────────── */
-/* Visual chip rendering is handled by the web Chip adapter (<Chip />).
+/* Visual chip rendering is handled by the DS Chip component (<Chip />).
    These classes provide:
    - toolsRow / tagsRow: flex layout containers
    - chipTag: marker class for accentColor cascade (see above)
@@ -541,6 +538,7 @@
   overflow: hidden;
   align-self: stretch;
   aspect-ratio: 16 / 9;
+  border-radius: var(--st-card-radius) 0 0 var(--st-card-radius);
 }
 
 .listingContent {
@@ -643,6 +641,16 @@
 
    Approach: shift text + border to darker shades from the same hue family;
    background wash stays light via lower-opacity mix.
+
+   Colour families:
+     seafoam → seafoam-700 (#1d9679) / seafoam-800 (#15735c)
+     lime    → lime-800 (#526600)
+     amber   → dark goldenrod (#92700c)
+     violet  → violet-600 (#7c3aed)
+     orange  → orange-700 (#c2410c)
+     sky     → sky-700 (#0369a1)
+     pink    → maroon (#b91c68)  — Deep Pink Rule
+     grey    → softgrey-500 (#6e7f96)
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Status token overrides for light/light-pink-moon themes are handled via

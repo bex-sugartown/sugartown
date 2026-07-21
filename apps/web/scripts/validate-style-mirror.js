@@ -122,11 +122,15 @@ function collectModuleCss(absDir) {
 //
 // Burndown owners (surfaced by SUG-214):
 //   SUG-217 — the 9 smaller drifts — ✅ RECONCILED 2026-07-21, all removed from this set
-//   SUG-218 — Callout.module.css (major divergence)
-//   SUG-219 — Card.module.css
+//   SUG-219 — Card.module.css — ✅ RECONCILED 2026-07-21, removed from this set
+//   SUG-218 — Callout.module.css — BLOCKED, not a CSS-only reconciliation. The web and
+//             package Callouts are different components: their class sets are nearly
+//             disjoint (web uses labelCol/number/label/banner*, package uses
+//             header/icon/title; only .callout and .body overlap). Making the CSS
+//             byte-identical would break whichever side's JSX lost its classes. The
+//             component-level divergence must be resolved first — see SUG-231.
 const KNOWN_DRIFT = new Set([
-  'Callout.module.css',    // SUG-218
-  'Card.module.css',       // SUG-219
+  'Callout.module.css',    // SUG-218 — blocked on component reconciliation, see above
 ])
 
 const webComponents = collectModuleCss(resolve(REPO_ROOT, WEB_COMPONENTS_DIR))
