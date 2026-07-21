@@ -1,10 +1,15 @@
 ---
 **Epic:** SUG-224 — apps/web consumes @sugartown/design-system
 **Linear Issue:** [SUG-224](https://linear.app/sugartown/issue/SUG-224)
-**Status:** Backlog
+**Status:** Backlog — ⛔ **BLOCKED** on SUG-217 / SUG-218 / SUG-219 (see Phase 1 Findings)
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
+
+> **⚠️ Phase 1 ran 2026-07-21 and parked the epic. Read §Phase 1 Findings before touching anything.**
+> The consumption-strategy decision is recorded and Phase 1 is complete. Phases 2–3 are blocked:
+> the CSS mirror reconciliation epics must ship first, and this epic's Scope/AC/Non-Goals need
+> amending before execution resumes (they are mutually contradictory as originally written).
 
 # SUG-224 — apps/web consumes @sugartown/design-system
 
@@ -31,11 +36,65 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 
 ## Phases
 
-**Phase 1 — Consumption spike (decision ships, no page changes).** Wire the dependency, prove one component (Card) consumed from the package renders identically in apps/web dev + build + Storybook. Output: the recorded consumption-strategy decision and a working single-component branch state.
+**Phase 1 — Consumption spike (decision ships, no page changes).** ✅ **COMPLETE 2026-07-21** — decision recorded in §Phase 1 Findings. Ran as a read-only audit; no dependency was wired and no branch state was produced, because the spike surfaced three blockers that must be resolved first. ~~Prove one component (Card)~~ — when execution resumes, spike a pure mirror, not Card (see Corrections).
 
 **Phase 2 — Component migration.** Replace the remaining mirrors with re-exports, dedupe CSS modules, fix import sites. Output: zero mirror component implementations left; `grep` structural-closure check passes.
 
 **Phase 3 — Verification + docs close-out.** Full visual QA walkthrough, Chromatic run, registry/CLAUDE.md/epic-template updates, diagram + caption update via Content Write Gate. Output: epic ships, mini-release from main.
+
+## Phase 1 Findings (2026-07-21) — decision shipped, execution parked
+
+Phase 1 ran as a read-only consumption spike (Opus, no code written). Every activation audit in §Technical notes was executed. Findings below supersede the assumptions in §Background and §Non-Goals where they conflict.
+
+### Decision: consumption strategy (the Phase 1 deliverable)
+
+**Consume the built package via its `exports` map.** `apps/web/package.json` declares `@sugartown/design-system: workspace:*`; imports resolve `@sugartown/design-system` → `dist/index.mjs`; styles come from a single `@sugartown/design-system/styles.css` import in `main.jsx`, placed **before** app CSS. Turbo gains a build-ordering dependency (package builds before web).
+
+Rejected alternative: aliasing `@sugartown/design-system` to `packages/design-system/src` in Vite config. It is lower-risk (Vite-native CSS module handling preserved, HMR across the boundary retained) but it is source-sharing, not package consumption — it would not honestly support the agnostic-stack diagram's solid-arrow claim, which is this epic's whole purpose.
+
+**Known risk carried by this decision:** DS component CSS moves from per-module injection (Vite decides order from the import graph) to one pre-built 79KB stylesheet. Cascade order relative to app-level CSS (`pages.module.css` et al.) shifts. Chromatic is the net; "it builds" proves nothing here.
+
+Package build verified working at decision time: `dist/index.css` 78.7kb, `dist/index.mjs` 73.0kb, `dist/index.js` 80.3kb.
+
+### The mirrors are not mirrors — full classification of all 38 pairs
+
+| Class | Count | Components |
+|---|---|---|
+| **Pure mirror** | 26 | AppShell, Avatar, Blockquote, Box, ButtonGroup, Citation, Columns, DescriptionList, ErrorMessage, Field, HelperText, IconButton, IndexGroup, Input, Label, List, Meter, Metric, Page, ScoreRing, SegmentedControl, Skeleton, Surface, Swatch, Table, Textarea |
+| **Adapter** (genuine functional differences) | 6 | Breadcrumb, Button, Card, Chip, IndexCell, Media |
+| **Diverged** (drifted, neither canonical) | 6 | Accordion, Callout, CodeBlock, Container, FilterBar, Stack |
+
+Plus 6 web-only components with no package counterpart (Grid, PageHeader, SectionLabel, Sidebar, SidebarNav, Tile) and zero package-only components.
+
+### Blocker 1 — there is no link seam, and adding one violates this epic's Non-Goals
+
+The package hard-codes `<a href>` in Card, Chip, Button, Breadcrumb, and IndexCell. apps/web needs react-router `<Link>` for SPA navigation. **A straight re-export turns every card/chip/button click into a full page reload** — a functional regression, not a refactor.
+
+Closing this requires adding link injection (`linkComponent` / polymorphic `as` prop / a Link context) to those package components. That is a DS API change, which §Non-Goals explicitly forbids ("No visual or API changes to any DS component"). **The epic as written cannot reach its stated end-state without contradicting itself.** Resolving this is a prerequisite scope amendment, not an implementation detail.
+
+### Blocker 2 — the structural-closure AC is unachievable as written
+
+"No file under `apps/web/src/design-system/components/` contains a component implementation" cannot hold for: the 6 adapters (link seam), the 6 web-only components (no package equivalent exists), or the 3 substantively diverged components (Callout, CodeBlock, FilterBar). That AC must be rewritten to name the achievable set before execution resumes.
+
+### Blocker 3 — SUG-217 / SUG-218 / SUG-219 are real prerequisites
+
+§Technical notes claims "Upstream dependencies: none blocking." **This is wrong.** 11 component CSS pairs are drifted and grandfathered on `KNOWN_DRIFT` in `validate-style-mirror.js`. Four of them — **Citation, ScoreRing, Table, IconButton — are pure mirrors in JS but drifted in CSS**: re-exporting them makes apps/web silently adopt the package's different stylesheet, i.e. an unreviewed visual change.
+
+Only the **22 pure mirrors with byte-identical CSS** are safe to convert today. **Decision 2026-07-21: park the epic until SUG-217/218/219 ship**, then execute against clean CSS rather than reconciling drift inside this epic.
+
+### Corrections to stated assumptions
+
+- §Background/§Technical notes cite SUG-127's `"use client"` wrappers as starting state. **Zero `"use client"` directives exist in the package** — verified by grep across `packages/design-system/src/`. The `exports` map fix is real; the `"use client"` one is not (or was since removed).
+- §Phases picks Card as the Phase 1 proof component. **Card is the single worst candidate** — the most complex adapter (382 lines vs the package's 340, react-router Links, `getLinkProps`, `children`/`footerChildren`/`thumbnailStyle` escape hatches). When execution resumes, spike a clean pure mirror (e.g. Box or Surface) instead.
+- The package barrel (`packages/design-system/src/index.ts`) does not export `Breadcrumb`, `ButtonGroup`, or `IconButton`. Barrel additions are needed before those can be imported (trivial, not an API change).
+- Web `Card.jsx`'s header comment claims `tags[]` is extended with `colorHex`; the implementation never reads it. Stale comment, worth correcting whenever Card is next touched.
+
+### Resume checklist
+
+1. Confirm SUG-217, SUG-218, SUG-219 are all shipped and `KNOWN_DRIFT` is empty.
+2. Amend §Scope, §Acceptance criteria, and §Non-Goals to resolve Blockers 1 and 2 — decide explicitly whether the link seam is in scope (and if so, drop the "no API changes" Non-Goal and add a DS visual QA gate for the 5 affected components).
+3. Re-run the pair classification — it will have changed once the CSS epics land.
+4. Spike a pure mirror, not Card.
 
 ## Acceptance criteria
 
@@ -59,13 +118,13 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 
 - **Content Write Gate:** fires once, in Phase 3 — the case study diagram caption/legend update on the Sanity draft. All other work is code/docs.
 - **Schema changes:** none. No Sanity or GROQ surface is touched.
-- **Upstream dependencies:** none blocking. SUG-127 (shipped) is the evidence base; its two packaging fixes (`exports` map, `"use client"` wrappers) are the starting state of the package.
+- ~~**Upstream dependencies:** none blocking. SUG-127 (shipped) is the evidence base; its two packaging fixes (`exports` map, `"use client"` wrappers) are the starting state of the package.~~ **CORRECTED 2026-07-21 (Phase 1):** SUG-217/218/219 ARE blocking — see §Phase 1 Findings Blocker 3. And the `"use client"` claim is false; zero such directives exist in the package. Only the `exports` map fix is real.
 - **Activation audits:**
   - `ls apps/web/src/design-system/components/` and diff the component list against `packages/design-system/src/components/` — enumerate every mirror pair and any web-only component that has no package equivalent (those stay, explicitly listed).
   - Read `packages/design-system/package.json` `exports` map and confirm it covers subpath imports apps/web needs (styles, individual components) or plan additions.
   - Check whether `"use client"` directives in the package are inert under Vite/React SPA (they should be — verify, don't assume).
   - Read `apps/storybook` config to see which tree its stories import components from today.
-- **Consumption-strategy decision (Phase 1 output, record here):** source-consumption via Vite alias vs built package output; how CSS modules are shipped (class-name hashing must not change rendered output vs current mirrors, or Chromatic diffs everything).
+- **Consumption-strategy decision (Phase 1 output, record here):** ✅ **DECIDED 2026-07-21 — built package output via the `exports` map.** Full rationale, rejected alternative, and the cascade-order risk it carries: §Phase 1 Findings → Decision.
 - **Risk:** CSS module class-name hashes and specificity order may shift when styles move from app-local modules to package modules. Chromatic is the net; do not trust "it builds".
 
 ## Model & Mode [REQUIRED]
