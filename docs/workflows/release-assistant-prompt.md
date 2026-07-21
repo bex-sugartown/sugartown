@@ -36,14 +36,16 @@ Paste this entire prompt into Claude Code at the start of a release session.
 
 The release process has **7 gates**. The AI stops at each gate and waits for your response before proceeding. Nothing is written to disk until you explicitly say so.
 
-Expected human responses at each gate:
-- Gate 1 (Step 1): Edit the bullets, or reply **"Approved"** to accept as-is.
-- Gate 2 (Step 2): Edit the normalized list, or reply **"Approved"** to accept.
-- Gate 3 (Step 3A): Edit the CHANGELOG entry, or reply **"Write it"** to write to disk.
-- Gate 4 (Step 3B): Edit the Release Notes, or reply **"Write it"** to write to disk.
-- Gate 5 (Step 3C): Review the commit plan, then reply **"Commit it"** to commit.
-- Gate 6 (Step 4): Review the backlog reconciliation, or reply **"Write it"** to update the backlog file.
-- Gate 7 (Step 4): Review the backlog commit plan, then reply **"Commit it"** to commit.
+Expected human responses at each gate: each gate is presented via the `AskUserQuestion`
+tool (select-list gate per `docs/conventions/human-gate-conventions.md`) — the human
+clicks/selects a labeled option, not a typed word.
+- Gate 1 (Step 1): "Approved — continue to Step 2" / "Needs edits"
+- Gate 2 (Step 2): "Approved — continue to Step 3A" / "Needs edits"
+- Gate 3 (Step 3A): "Write it — save to CHANGELOG.md" / "Needs edits"
+- Gate 4 (Step 3B): "Write it — save Release Notes" / "Needs edits"
+- Gate 5 (Step 3C): "Commit it — create the release commit" / "Stop — let me review again"
+- Gate 6 (Step 4): "Write it — update the backlog file" / "Needs edits"
+- Gate 7 (Step 4): "Commit it — create the backlog commit" / "Stop — let me review again"
 
 ---
 
@@ -106,17 +108,16 @@ Rules:
 
 ### ✅ GATE 1 — STOP
 
-AI outputs the Source of Truth bullets to chat, then prints:
+AI outputs the Source of Truth bullets to chat, then asks via `AskUserQuestion`:
 
 ```
-━━━ GATE 1 — SOURCE OF TRUTH ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Review the bullets above. This is the input to the CHANGELOG.
-Edit any bullet, add missing items, or remove incorrect ones.
-When satisfied: reply "Approved" to continue to Step 2.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Question: "Review the Source of Truth bullets above — ready for the CHANGELOG?"
+Options:
+  - "Approved — continue to Step 2"
+  - "Needs edits" (say what to change; AI revises and re-asks)
 ```
 
-**AI must not proceed to Step 2 until the human replies.**
+**AI must not proceed to Step 2 until "Approved — continue to Step 2" is selected.**
 
 ---
 
@@ -133,16 +134,16 @@ This is the canonical change input for Step 3.
 
 ### ✅ GATE 2 — STOP
 
-AI outputs the normalized list to chat, then prints:
+AI outputs the normalized list to chat, then asks via `AskUserQuestion`:
 
 ```
-━━━ GATE 2 — NORMALIZED CHANGE LIST ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Review the normalized list above. This is what goes into the CHANGELOG.
-Edit if needed, or reply "Approved" to continue to Step 3A.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Question: "Review the normalized change list above — ready for Step 3A?"
+Options:
+  - "Approved — continue to Step 3A"
+  - "Needs edits"
 ```
 
-**AI must not proceed to Step 3A until the human replies.**
+**AI must not proceed to Step 3A until "Approved — continue to Step 3A" is selected.**
 
 ---
 
@@ -236,17 +237,16 @@ This is the permanent historical record.
 ### ✅ GATE 3 — STOP
 
 AI outputs the proposed CHANGELOG entry to chat only. **AI must not write to CHANGELOG.md yet.**
+Then asks via `AskUserQuestion`:
 
 ```
-━━━ GATE 3 — CHANGELOG ENTRY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Review the proposed CHANGELOG entry above.
-Edit if needed, or reply "Write it" to:
-  - Replace [Unreleased] with the new [X.(Y+1).0] entry in CHANGELOG.md
-  - Reset [Unreleased] to an empty accumulation block
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Question: "Review the proposed CHANGELOG entry above — write it to CHANGELOG.md?"
+Options:
+  - "Write it — replace [Unreleased] with this entry" (also resets [Unreleased] to empty)
+  - "Needs edits"
 ```
 
-**AI must not write to CHANGELOG.md until the human replies "Write it".**
+**AI must not write to CHANGELOG.md until "Write it — replace [Unreleased] with this entry" is selected.**
 
 ---
 
@@ -326,17 +326,18 @@ Edit if needed, or reply "Write it" to:
 ### ✅ GATE 4 — STOP
 
 AI outputs the proposed Release Notes to chat only. **AI must not write any files yet.**
+Then asks via `AskUserQuestion`:
 
 ```
-━━━ GATE 4 — RELEASE NOTES ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Review the proposed Release Notes above.
-Edit if needed, or reply "Write it" to write the files.
-AI will: archive existing RELEASE_NOTES.md → docs/release-notes/RELEASE_NOTES_vX.Y.Z.md,
-         then write new RELEASE_NOTES.md (vX.(Y+1).0) and docs/release-notes/RELEASE_NOTES_vX.(Y+1).0.md.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Question: "Review the proposed Release Notes above — write the files?"
+Options:
+  - "Write it — archive old notes + write new Release Notes"
+    (archives RELEASE_NOTES.md → docs/release-notes/RELEASE_NOTES_vX.Y.Z.md, writes new
+    RELEASE_NOTES.md and docs/release-notes/RELEASE_NOTES_vX.(Y+1).0.md)
+  - "Needs edits"
 ```
 
-**AI must not write any files until the human replies "Write it".**
+**AI must not write any files until "Write it — archive old notes + write new Release Notes" is selected.**
 
 ---
 
@@ -360,7 +361,6 @@ On "Write it" for Gate 4, AI writes to disk in this order:
 AI prints the proposed commit plan:
 
 ```
-━━━ GATE 5 — COMMIT PLAN ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Files to commit:
   CHANGELOG.md          ([Unreleased] → [X.(Y+1).0], empty [Unreleased] restored)
   RELEASE_NOTES.md      (updated to vX.(Y+1).0)
@@ -370,12 +370,18 @@ Files to commit:
 
 Proposed commit message:
   docs: release vX.(Y+1).0 — [brief descriptor]
-
-Reply "Commit it" to create the commit.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**AI must not commit until the human replies "Commit it".**
+Then asks via `AskUserQuestion`:
+
+```
+Question: "Create the release commit shown above?"
+Options:
+  - "Commit it — create the release commit"
+  - "Stop — let me review again"
+```
+
+**AI must not commit until "Commit it — create the release commit" is selected.**
 
 > **Note — RELEASE_STATE.json (retired):**
 > This artifact was carried over from the WP/Python pipeline era. Its role has no direct equivalent in the monorepo. The monorepo's accountability artifacts are `pnpm validate:tokens`, `pnpm lint`, and validator output, captured in the Release Notes "Validator state" section. Do not generate `RELEASE_STATE.json`.
@@ -419,7 +425,6 @@ With shipped items moved and new items added, re-sequence the remaining backlog:
 AI outputs the proposed backlog changes to chat as a summary:
 
 ```
-━━━ GATE 6 — BACKLOG RECONCILIATION ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Shipped (moved to bottom):
   - [item title] — was rank N, now shipped vX.(Y+1).0
   - ...
@@ -432,32 +437,43 @@ Priority restack:
   1. [new rank 1 title] — [tier]
   2. [new rank 2 title] — [tier]
   ...
-
-Review above. Edit if needed, or reply "Write it" to update the backlog file.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**AI must not write to the backlog file until the human replies "Write it".**
+Then asks via `AskUserQuestion`:
 
-On "Write it", AI updates `docs/backlog/sugartown-backlog-priorities.md` in place.
+```
+Question: "Review the backlog reconciliation above — update the backlog file?"
+Options:
+  - "Write it — update the backlog file"
+  - "Needs edits"
+```
+
+**AI must not write to the backlog file until "Write it — update the backlog file" is selected.**
+
+On approval, AI updates `docs/backlog/sugartown-backlog-priorities.md` in place.
 
 ### ✅ GATE 7 — STOP
 
 AI prints the proposed commit plan for the backlog update:
 
 ```
-━━━ GATE 7 — BACKLOG COMMIT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Files to commit:
   docs/backlog/sugartown-backlog-priorities.md
 
 Proposed commit message:
   docs(backlog): reconcile priority stack after vX.(Y+1).0 release
-
-Reply "Commit it" to create the commit.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**AI must not commit until the human replies "Commit it".**
+Then asks via `AskUserQuestion`:
+
+```
+Question: "Create the backlog commit shown above?"
+Options:
+  - "Commit it — create the commit"
+  - "Stop — let me review again"
+```
+
+**AI must not commit until "Commit it — create the commit" is selected.**
 
 ---
 
@@ -492,6 +508,7 @@ Backlog reconciled:
 
 Fail if:
 - AI skips a gate without explicit human approval.
+- A gate is presented as free-form chat text instead of an `AskUserQuestion` call — every gate above must render as a selectable option list, per `docs/conventions/human-gate-conventions.md`.
 - Release Notes include a change not present in CHANGELOG.
 - CHANGELOG omits a normalized change from Step 2.
 - Marketing language appears in CHANGELOG.
