@@ -1,0 +1,95 @@
+---
+**Epic:** SUG-231 — Reconcile JS divergence in DS component pairs (incl. 2 live bugs)
+**Linear Issue:** [SUG-231](https://linear.app/sugartown/issue/SUG-231)
+**Status:** Backlog
+**Priority:** 🟢 Next
+**Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
+---
+
+# SUG-231 — Reconcile JS divergence in DS component pairs
+
+Reconcile the **behavioural** divergence between the web and package copies of 6 DS component pairs. Two of the six are live bugs in production today.
+
+## Background
+
+SUG-214 built a validator that diffs component `.module.css` mirrors, and SUG-217/218/219 are burning down the 11 CSS drifts it grandfathered. All of that covers **CSS only**. Nothing checks whether the two copies of a component *behave* the same, and SUG-224's Phase 1 spike (2026-07-21) found that six pairs don't — including two where the web copy is silently broken:
+
+- **FilterBar** renders no `filterHeader`, no "Filter" title, and no clear-all button. The package has all three. `onClearAll` is passed into the web copy and never used, with an `// eslint-disable-next-line no-unused-vars` sitting on top of it — the lint suppression is the tell that someone noticed and moved on.
+- **CodeBlock**'s `showLineNumbers` prop applies `styles.lineNumbers` but the web copy never imports `prismjs/plugins/line-numbers`, so the plugin that injects the row markup never runs. The prop is inert.
+
+These are user-facing defects, not hygiene. They were invisible because the only mirror validator in the repo looks at stylesheets.
+
+## Objective
+
+After this epic, the 6 diverged pairs behave identically, the two live bugs are fixed on the surface users actually hit, and the pair classification moves from 26 pure / 6 adapter / 6 diverged to **29 / 6 / 3**. Where the two copies disagree, this epic picks a canonical side per component and states why. It touches the render layer of both trees plus Storybook; no Sanity schema, GROQ, or content changes. It does not touch CSS (SUG-217/218/219) and does not touch link behaviour (SUG-230).
+
+## Scope
+
+- [ ] Fix FilterBar: restore the filter header, title, and clear-all button in the web copy; wire `onClearAll` and remove the lint suppression — layer: frontend
+- [ ] Fix CodeBlock: import the Prism line-numbers plugin in the web copy so `showLineNumbers` renders row markup — layer: frontend
+- [ ] Reconcile Callout: decide the canonical variant set (`banner` vs `default`, and whether the package's `icon` prop comes to web) and align both copies — layer: design-system + frontend
+- [ ] Reconcile Accordion: add the empty-items guard to the package copy — layer: design-system
+- [ ] Reconcile Container: add `style` passthrough to the package copy — layer: design-system
+- [ ] Reconcile Stack: fix the package's responsive condition to `(direction.md || direction.lg)` — layer: design-system
+- [ ] Storybook coverage for each reconciled behaviour, including the previously-broken paths (a story that would have caught the FilterBar and CodeBlock bugs) — layer: Storybook
+- [ ] Decide and record whether behavioural parity can be validated automatically, or is inherently a review-time concern — layer: tooling/docs
+
+## Phases
+
+**Phase 1 — The two live bugs.** FilterBar and CodeBlock, each with a Storybook story that fails before the fix and passes after. Ships first because these are the only rows with users on the other end.
+
+**Phase 2 — The three trivial reconciliations.** Accordion guard, Container `style`, Stack responsive condition. Web is canonical in all three; the package copy moves. Low risk, converts them to pure mirrors.
+
+**Phase 3 — Callout.** The only substantive design decision: web dropped `default` and added `banner` (SUG-192); the package kept `default` and has an `icon` prop with lucide per-variant defaults that web lacks. Needs a decision on the canonical variant set before code, and the DOM structures differ (web: two-column label/body grid; package: header/body with icon). Note SUG-218 is separately reconciling Callout's CSS — sequence with it, don't collide.
+
+## Acceptance criteria
+
+- [ ] FilterBar's clear-all button appears and works on a live archive page with active filters; the `eslint-disable` on `onClearAll` is gone
+- [ ] CodeBlock with `showLineNumbers` renders visible line numbers in the web app, verified in the browser
+- [ ] Accordion renders `null` rather than throwing for `items={undefined}` in **both** copies
+- [ ] Container applies a passed `style` prop in both copies
+- [ ] Stack goes horizontal at `lg` for `direction={{ base: 'vertical', lg: 'horizontal' }}` in both copies
+- [ ] Callout's canonical variant set is decided and recorded in this doc before implementation; both copies then expose the same variants
+- [ ] Storybook has a story per fixed behaviour, on `default` and `dark-pink-moon`
+- [ ] Chromatic diffs reviewed — FilterBar and Callout will legitimately diff (new UI); Accordion/Container/Stack/CodeBlock should not diff on their default paths
+- [ ] The behavioural-parity validation question is answered in writing (implemented, or explicitly declined with reasoning)
+
+## Human QA Walkthrough — example local pages
+
+> Activation audit: read `apps/web/src/App.jsx` and list every route rendering FilterBar (archive
+> pages), CodeBlock (article/node detail with code), Callout (detail pages with callout sections),
+> Accordion (case study FAQ), Container, and Stack. Build the table with one example local URL per
+> page-type plus unchanged pages as regression guards, per `docs/epic-template.md` §Human QA
+> Walkthrough. Capture one real published slug per detail page-type and datestamp it. FilterBar and
+> Callout carry deliberate visual change — flag those rows as expected-diff, not regression.
+
+## Technical notes
+
+- **Two epics touch these files on other axes.** SUG-217/218/219 reconcile the same components' CSS; SUG-230 adds a link seam to Chip and Breadcrumb. Keep each concern in its own commit, and re-read the files at activation rather than trusting the 2026-07-21 classification.
+- **Callout is the sequencing risk.** SUG-218 reconciles Callout's CSS (171 changed lines, the largest drift in the repo) while Phase 3 here reconciles its JS and variant set. Doing both blind will conflict. Either sequence SUG-218 first and build Phase 3 on its result, or scope them together at activation — decide explicitly, don't discover it mid-merge.
+- **The "which side is canonical" question is per-component, not global.** Web is canonical for Accordion, Container, and Stack (it has the fix). The package is canonical for FilterBar (it has the feature web lost) and CodeBlock (it has the working plugin import). Callout is genuinely contested. Do not apply a blanket "package wins" or "web wins" rule.
+- **Root-cause note worth capturing:** every one of these divergences happened because the mirror is maintained by hand and only its CSS is validated. If the behavioural-parity question in Scope is answered "can't automate this," that answer belongs in the shipped doc as the standing rationale — and it strengthens the case for SUG-224 removing the second copy entirely.
+- **Activation audits:**
+  - Re-read all 6 pairs; confirm the divergences still exist and no new ones appeared.
+  - For FilterBar, check whether any web caller currently passes `onClearAll` expecting it to work (grep call sites) — that tells you whether this is a regression or a never-implemented feature.
+  - For CodeBlock, confirm the package's line-numbers CSS is present in the web copy's stylesheet before adding the plugin import, or the numbers will render unstyled.
+
+## Model & Mode [REQUIRED]
+
+`/model sonnet` — the work is well-defined per component with a known canonical side for 5 of 6. Callout's variant-set decision (Phase 3) is the only judgement call, and it is a small, bounded one that does not need plan mode.
+
+## Non-Goals
+
+- **CSS reconciliation** — SUG-217/218/219 own that. This epic changes JS/JSX only, except where a fixed behaviour requires a class that does not yet exist in one copy.
+- **Link behaviour** — SUG-230 owns the link seam. Chip and Breadcrumb appear in both epics; keep the commits separate.
+- **The 6 adapters' intentional differences** (Card's `children` escape hatch, Media's `hotspot`, Button's `href`). Those are deliberate app-layer extensions, not drift, and they stay until SUG-224 decides their fate.
+- **Deleting either copy.** Consolidation is SUG-224. This epic makes the two copies agree; it does not remove one.
+
+## Related
+
+- **Linear:** [SUG-231](https://linear.app/sugartown/issue/SUG-231)
+- **Sibling (CSS axis):** [SUG-217](https://linear.app/sugartown/issue/SUG-217) / [SUG-218](https://linear.app/sugartown/issue/SUG-218) / [SUG-219](https://linear.app/sugartown/issue/SUG-219)
+- **Sibling (link axis):** [SUG-230](https://linear.app/sugartown/issue/SUG-230)
+- **Downstream:** [SUG-224](https://linear.app/sugartown/issue/SUG-224) — consolidation gets simpler the fewer diverged pairs remain
+- **Origin:** `docs/backlog/SUG-224-apps-web-consumes-design-system-package.md` §Phase 1 Findings
+- **Epic template:** `docs/epic-template.md`
