@@ -30,9 +30,11 @@ Do not carry uncommitted changes across epic boundaries. If the working tree is 
 
 A dirty tree at epic start is a process failure, not a starting condition.
 
-### Verify before citing — don't trust a prior audit's claim
+### Verify before citing — don't trust a prior claim
 
 When an epic's job is to audit or report on the state of *other* files (story counts, prop shapes, schema fields, token values, anything one epic writes about a surface it doesn't directly touch), verify the claim directly before recording it — confirm the file path exists and resolves, and measure the count/value with a direct check (`grep -c`, opening the file, rendering it), not by copying a prior audit doc's stated number. A stale or wrong reference in a convention doc becomes the next session's false starting assumption. This bit SUG-192: three of SUG-191's audit rows named the wrong file (a deprecated component, or a directory with no stories file at all), and the error propagated silently until this session read the live files.
+
+**This applies to all epic authoring, not only audit epics.** Two claim types recur and must be checked directly before being written into an epic doc: (a) **claims about a prior epic's outputs** ("SUG-127 added `use client` wrappers") — open the files and confirm the output exists; (b) **"no blocking dependencies" assertions** — check the backlog for in-flight epics touching the same files or the same layer, and state why each is or isn't blocking. Both failed in SUG-224: the `"use client"` claim was false (zero such directives exist in the package), and "Upstream dependencies: none blocking" was wrong (three CSS epics gate it).
 
 ### Epic authoring — Linear-first workflow
 
@@ -161,6 +163,7 @@ Before executing any epic from `docs/backlog/SUG-{N}-*.md`, check the file for c
 2. **Scope items are incomplete or contain `TODO`** — no defined acceptance surface means no defined stopping point
 3. **Phases are undefined** — multi-phase work cannot be sequenced
 4. **"All pages" scope without App.jsx routing read** — any epic that claims to cover "all pages", "all archive pages", "all detail pages", or any broad page category must include a pre-execution audit that reads `apps/web/src/App.jsx` to verify the actual component-to-route mapping. Memory and agent outputs are not authoritative. An epic that lists pages without reading App.jsx is an incomplete epic — the page inventory may be wrong (wrong component per route, missing pages, extra pages). Read App.jsx and diff the listed pages against the actual routes before the Scope section is considered complete.
+5. **Mechanical-transform scope without a verified per-item classification** — any epic whose Scope proposes the same operation across a set of files ("replace every X with Y", "migrate all N components", "convert each Z") must carry a verified, per-item classification of that set before Scope is considered complete. Read the items; do not infer the set's uniformity from one representative file or from a TODO comment. An epic that says "44 mirrors" without having read 44 files has an unverified Scope. This bit SUG-224: the "mirror" framing came from a single TODO comment in `Card.jsx`, and the audit found 26 pure mirrors, 6 adapters, 6 diverged components, and 6 with no package counterpart at all.
 
 **Correct response to an incomplete epic:**
 - Name the specific sections that are stubs: "Background is TODO, Phases are undefined"
@@ -380,7 +383,7 @@ This is the fail-softly layer referenced above: even a Content Write Gate failur
 
 ### Instruction & Rule File Write Gate (hard stop — skill/CLAUDE.md/governance doc edits)
 
-The agent — or any subagent it spawns — never edits a rule-defining file (`.claude/skills/**`, this file, or anything under `docs/ai/agentic-caucus/` or `docs/conventions/`) without first showing the human the exact diff and getting explicit approval. Applies even when the edit is accurate and well-intentioned.
+The agent — or any subagent it spawns — never edits a rule-defining file (`.claude/skills/**`, this file, `docs/epic-template.md`, or anything under `docs/ai/agentic-caucus/`, `docs/conventions/`, or `docs/diagrams/`) without first showing the human the exact diff and getting explicit approval. Applies even when the edit is accurate and well-intentioned.
 
 **Why its own gate:** Sanity content has a draft/published split — an unapproved write stays inert until a human publishes it. Rule files don't have that boundary. A committed change to CLAUDE.md or a skill definition is load-bearing immediately, for every future session.
 
@@ -433,10 +436,14 @@ Omitting either field produces content that saves and renders correctly on the w
 
 ### Anti-Slop Content Rules
 
-All AI-drafted content (copy, descriptions, alt text, commit messages, doc prose) must pass the anti-slop checks documented in `docs/brand/brand-voice-guide.md`. The key enforcement rules:
+All AI-drafted content must pass the anti-slop checks documented in `docs/brand/brand-voice-guide.md`.
+
+**Scope:** these rules apply in full to *reader-facing* content — anything shipped to a human audience: Sanity content (articles, nodes, case studies, glossary terms, page copy), alt text, meta descriptions, and commit messages (public in repo history). *Internal planning docs* (`docs/backlog/`, `docs/shipped/`, `docs/reviews/`, `docs/diagrams/`, epic docs, post-mortems) are exempt from the **em dash ban specifically** — they are structural working documents, not prose anyone reads for AI tells. Every other rule below still applies to them. If internal doc text is lifted into published content, the full ban applies at the point of lift.
+
+The key enforcement rules:
 
 **Banned in all non-node content:**
-- **Em dashes** (`—`). Use commas, parentheses, colons, or separate sentences. Em dashes are the single most reliable structural AI tell. **Exception:** `Title — Subtitle` separator usage in headings is permitted — this is a typographic convention, not a prose pattern.
+- **Em dashes** (`—`) in reader-facing content. Use commas, parentheses, colons, or separate sentences. Em dashes are the single most reliable structural AI tell. **Exceptions:** `Title — Subtitle` separator usage in headings (a typographic convention, not a prose pattern); and internal planning docs per the scope note above.
 - **Decorative emoji/icons.** No `🚀`, `✨`, `🌟` garnish. If an emoji doesn't earn its place through humour or irony, it doesn't appear.
 - **Filler transitions:** "That said," / "With that in mind," / "That being said," / "It's worth noting that" / "At the end of the day." If the next paragraph follows logically, it doesn't need a bridge.
 - **AI vocabulary:** "delve into", "leverage", "utilize", "facilitate", "synergize", "ideate", "learnings", "passionate about", "excited to announce", "in today's landscape."
