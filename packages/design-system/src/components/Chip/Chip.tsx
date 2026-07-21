@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Chip.module.css';
+import { Link } from '../../link/Link';
 
 /** Named color presets for the Chip component. */
 export type ChipColor = 'pink' | 'seafoam' | 'lime' | 'violet' | 'amber' | 'grey';
@@ -23,8 +24,9 @@ export interface ChipProps {
   /** Pink rubric — first-child taxonomy highlight. Only applied when variant="tag". */
   featured?: boolean;
   /**
-   * When provided, the chip renders as an <a> tag.
-   * Pass a full URL; routing is the caller's responsibility.
+   * When provided, the chip renders as a link.
+   * Pass a full URL. The element is resolved through the DS link seam:
+   * the app's injected link component, or <a href> when none is injected.
    */
   href?: string;
   /**
@@ -125,9 +127,9 @@ export const Chip: React.FC<ChipProps> = ({
 
   if (href) {
     return (
-      <a href={href} className={classNames} style={chipStyle} aria-label={ariaLabel}>
+      <Link href={href} className={classNames} style={chipStyle} aria-label={ariaLabel}>
         {content}
-      </a>
+      </Link>
     );
   }
 

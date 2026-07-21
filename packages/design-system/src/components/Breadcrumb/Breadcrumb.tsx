@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Breadcrumb.module.css';
+import { Link } from '../../link/Link';
 
 export interface BreadcrumbItem {
   /** Display label */
@@ -33,10 +34,10 @@ export default function Breadcrumb({ items, className }: BreadcrumbProps) {
                 {item.label}
               </span>
             ) : (
-              <a href={item.href} className={styles.link}>
+              <Link href={item.href} className={styles.link}>
                 {isFirst && <span className={styles.arrow} aria-hidden="true">←&nbsp;</span>}
                 {item.label}
-              </a>
+              </Link>
             )}
           </React.Fragment>
         );

@@ -60,6 +60,14 @@ export type { FieldProps } from './components/Field';
 // ── Button ───────────────────────────────────────────────────────────────────
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';
+export { ButtonGroup } from './components/ButtonGroup';
+export type { ButtonGroupProps } from './components/ButtonGroup';
+export { IconButton } from './components/IconButton';
+export type { IconButtonProps } from './components/IconButton';
+
+// ── Breadcrumb ───────────────────────────────────────────────────────────────
+export { default as Breadcrumb } from './components/Breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
 
 // ── Chip ─────────────────────────────────────────────────────────────────────
 export { Chip } from './components/Chip';
@@ -120,6 +128,13 @@ export type { IndexCellProps, IndexCellState } from './components/IndexCell';
 // ── IndexGroup ───────────────────────────────────────────────────────────────
 export { IndexGroup } from './components/IndexGroup';
 export type { IndexGroupProps } from './components/IndexGroup';
+
+// ── Link seam (SUG-230) ──────────────────────────────────────────────────────
+// Inject the host router's link component once at the app root and every DS
+// component below resolves its links through it. Nothing injected = <a href>.
+// See CONSUMING.md for the React Router and Next.js wiring.
+export { LinkProvider, useLinkComponent, Link, isExternalHref, isFragmentHref } from './link';
+export type { LinkComponent, LinkRenderProps, LinkProviderProps, LinkProps } from './link';
 
 // ── useStickyState (SUG-118) ─────────────────────────────────────────────────
 export { useStickyState } from './hooks/useStickyState';

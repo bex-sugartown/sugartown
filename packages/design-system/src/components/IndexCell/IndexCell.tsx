@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './IndexCell.module.css';
+import { Link } from '../../link/Link';
 
 export type IndexCellState = 'active' | 'selected' | 'inactive';
 
@@ -39,9 +40,9 @@ export const IndexCell: React.FC<IndexCellProps> = ({
 
   if (Tag === 'a' && href) {
     return (
-      <a href={href} className={classNames} aria-label={ariaLabel}>
+      <Link href={href} className={classNames} aria-label={ariaLabel}>
         {children}
-      </a>
+      </Link>
     );
   }
 

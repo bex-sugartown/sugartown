@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import styles from './List.module.css'
+import { Link } from '../../link/Link'
 
 /**
  * List / ListItem — ledger "register" list presentation of a content collection.
@@ -47,14 +48,14 @@ export interface ListProps {
 
 export function ListItem({ tag, tagTitle, leading, title, date, href }: ListItemProps) {
   return (
-    <a className={styles.row} href={href || '#'}>
+    <Link className={styles.row} href={href || '#'}>
       <span className={styles.rowTag} title={tagTitle ?? tag ?? undefined}>
         {leading}
         {tag != null && <span className={styles.rowTagText}>{tag}</span>}
       </span>
       <span className={styles.rowTitle}>{title}</span>
       {date && <time className={styles.rowDate}>{date}</time>}
-    </a>
+    </Link>
   )
 }
 

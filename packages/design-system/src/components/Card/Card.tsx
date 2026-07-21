@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Card.module.css';
 import { Chip } from '../Chip/Chip';
+import { Link } from '../../link/Link';
 
 // ─── Status badge colours ───────────────────────────────────────────────────
 const STATUS_BADGE_CLASS: Record<string, string> = {
@@ -219,9 +220,9 @@ export const Card: React.FC<CardProps> = ({
 
   // ── Title node: full-card link via ::after, or plain text ─────────────────
   const titleNode = href ? (
-    <a href={href} className={styles.titleLink} aria-label={title}>
+    <Link href={href} className={styles.titleLink} aria-label={title}>
       {title}
-    </a>
+    </Link>
   ) : (
     title
   );
@@ -230,9 +231,9 @@ export const Card: React.FC<CardProps> = ({
   const categoryEl = category ? (
     <div className={styles.category}>
       <span className={styles.categoryLabel}>Category: </span>
-      <a href={category.href} className={styles.categoryLink}>
+      <Link href={category.href} className={styles.categoryLink}>
         {category.label}
-      </a>
+      </Link>
     </div>
   ) : null;
 
@@ -285,9 +286,9 @@ export const Card: React.FC<CardProps> = ({
         <div className={styles.projectAttribution}>
           <span className={styles.projectLabel}>Project: </span>
           {project.href ? (
-            <a href={project.href} className={[styles.projectLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}>
+            <Link href={project.href} className={[styles.projectLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}>
               {project.label}
-            </a>
+            </Link>
           ) : (
             <span className={styles.projectValue}>{project.label}</span>
           )}
@@ -354,12 +355,12 @@ export const Card: React.FC<CardProps> = ({
       <div className={styles.footerLeft}>
         {showFolio && category && (
           category.href ? (
-            <a
+            <Link
               href={category.href}
               className={[styles.footerCategoryLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
             >
               {category.label}
-            </a>
+            </Link>
           ) : (
             <span className={styles.footerCategoryLink}>{category.label}</span>
           )
@@ -377,12 +378,12 @@ export const Card: React.FC<CardProps> = ({
           </span>
         )}
         {kpiLink && (
-          <a
+          <Link
             href={kpiLink.href}
             className={[styles.kpiLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
           >
             KPIs: {kpiLink.label} →
-          </a>
+          </Link>
         )}
       </div>
       <div className={styles.footerRight}>
