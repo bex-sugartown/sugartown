@@ -109,9 +109,11 @@ New module `packages/design-system/src/link/`:
 
 Resolver rule, in order:
 1. no `href` → render children unwrapped (caller's existing non-link branch is unchanged)
-2. `href` is external / protocol-relative / a bare fragment → plain `<a href>`; external also gets `target="_blank" rel="noopener noreferrer"`, matching apps/web Button
+2. `href` is external / protocol-relative / a bare fragment → plain `<a href>`
 3. no provider mounted → plain `<a href>` (the documented default; this is what keeps the change additive)
 4. otherwise → the injected component, receiving `href` and all pass-through props
+
+**The resolver does not add `target="_blank" rel="noopener noreferrer"` to external links,** even though apps/web's Button does. Whether an external link opens in a new tab is an editorial decision that these five components do not currently make, and adding it would change the default path's rendered DOM and its click behaviour for apps/contentful-poc today. The AC is that the default path is unchanged, so the resolver's only job is choosing the element, not restyling the interaction. apps/web Button keeps its own `openInNewTab` behaviour at its own layer.
 
 Consumers adapt at the root, and the package imports no router:
 
@@ -136,12 +138,51 @@ const RouterLinkAdapter = ({ href, ...rest }) => <RouterLink to={href} {...rest}
 
 - [x] The injection mechanism decision is recorded in this doc with its rationale before any implementation commit
 - [ ] All 5 components (`Card`, `Chip`, `Breadcrumb`, `IndexCell`, `List`) resolve links through the injected component and fall back to `<a href>` when none is supplied
-- [ ] `packages/design-system/src/` contains no import of `react-router-dom`, `next/link`, or any other router — verified by grep
+- [x] `packages/design-system/src/` contains no import of `react-router-dom`, `next/link`, or any other router — verified by grep (only a doc-comment mention in `LinkContext.tsx`)
 - [ ] Chromatic shows zero visual diffs on the default (non-injected) path for all 5 components
-- [ ] Storybook covers default + injected paths for each of the 5, rendering correctly on `default` and `dark-pink-moon`
-- [ ] `Breadcrumb`, `ButtonGroup`, and `IconButton` are exported from the package barrel
-- [ ] apps/contentful-poc navigates client-side (no full page reload) on a Card title link, verified in the browser
-- [ ] Consuming documentation includes a working example for both React Router and Next.js
+- [x] Storybook covers default + injected paths for each of the 5, rendering correctly on `default` and `dark-pink-moon`
+- [x] `Breadcrumb`, `ButtonGroup`, and `IconButton` are exported from the package barrel
+- [x] apps/contentful-poc navigates client-side (no full page reload) on a Card title link, verified in the browser
+- [x] Consuming documentation includes a working example for both React Router and Next.js
+
+---
+
+## Close-out summary (2026-07-21)
+
+| Phase | Commit | Result |
+|---|---|---|
+| 0 — mechanism decision | `e8c6cb08` | Context + internal `<Link>` resolver chosen; two scope corrections |
+| 1 — seam + Storybook + barrel | `ed5f9861` | 9 anchors across 5 components seamed; 3 components un-orphaned from the barrel |
+| 2 — poc wiring + docs | `2cb09995` | next/link injected; invalid anchor nesting removed; CONSUMING.md §8 |
+
+### What shipped
+
+`packages/design-system/src/link/` — `LinkProvider`, `useLinkComponent`, `isExternalHref`/`isFragmentHref`, and the internal `Link` resolver. Nine bare `<a href>` renders became `<Link>`: Card ×5 (title, category, project, footer category, kpiLink), Chip ×1, Breadcrumb ×1, IndexCell ×1, List ×1. `Citation`'s `<a href="#id">` was left alone — it is a same-page fragment, not navigation.
+
+Barrel additions: `Breadcrumb`, `ButtonGroup`, `IconButton` (the latter two needed `index.ts` files that did not exist).
+
+### Evidence
+
+**Default/injected parity — the core AC.** The `Foundations/Link Seam` Snapshot story renders both paths in one page. Comparing the two columns' `innerHTML` with the mock's `data-injected` attribute stripped: **identical, 4118 characters each, first difference at index −1 (none)**. This is stronger than a visual match — the DOM is the same, so a Chromatic diff between the paths is impossible by construction.
+
+**Seam fires correctly.** In the injected column: 15 internal links routed through the injected component; `https://vercel.com` and `#footnotes` correctly bypassed to plain anchors. Confirmed on `light-pink-moon` and `dark-pink-moon`.
+
+**Client-side navigation in apps/contentful-poc.** Against a running dev server on `/articles`: a value stamped on `window` survived clicking both a Card title link and a Chip, and `performance.getEntriesByType('navigation').length` stayed at 1. A full document load resets both. URL and rendered content both updated (`/articles/article-3` → h1 "Article 3"; `/tags/vercel` → h1 "Vercel"). Zero console errors.
+
+**Invalid HTML fixed.** `document.querySelectorAll('a a').length` is now 0 on the poc's article detail page. It was non-zero before: the app wrapped `Card` in a `next/link`, and Card renders its own internal links.
+
+### Deviations from the epic as written
+
+1. **Button out, List in** — approved scope correction, rationale in Phase 0 above. Adding `href` to the package Button moves to SUG-231.
+2. **No package `Components/Breadcrumb` story.** apps/web's mirror already owns that Storybook title; a second file would be the repo's first duplicate story id. Breadcrumb's default and injected paths are covered in `Foundations/Link Seam` instead. The two Breadcrumb implementations are genuinely divergent (wrapper `<span>` vs `Fragment`, `isHighlighted` vs `isCurrent`, `←&nbsp;` vs `← `, differing `aria-current` placement) — that is SUG-231's axis and a Non-Goal here.
+3. **No `Guidelines` story.** Writing one would trip the DS-documentation Gate 2 (template lock) for content the epic scoped as CONSUMING.md's job. The seam's usage documentation lives there; the story carries Overview prose only.
+4. **The resolver does not add `target`/`rel` to external links**, despite apps/web's Button doing so. Rationale recorded in the Phase 0 decision — it would change the default path's behaviour, which the ACs forbid.
+
+### Follow-ups (not blocking)
+
+- `packages/design-system/build.mjs` carries a comment saying DTS emit is blocked by a lucide-react × React 19 `@types` skew. It is not: `tsc -p tsconfig.json --emitDeclarationOnly` ran clean this session. The comment is stale.
+- `List`'s `href={href || '#'}` turns every hrefless row into a `#` link. Left as-is (SUG-231's axis), now visible through the seam as a fragment bypass.
+- `.claude/launch.json` gained `storybook-alt` (6007) and `contentful-poc-alt` (3001) so a second session can run these servers when the default ports are held.
 
 ## Human QA Walkthrough — example local pages
 
