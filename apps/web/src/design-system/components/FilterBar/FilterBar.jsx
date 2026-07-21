@@ -80,7 +80,6 @@ export default function FilterBar({
   filterModel,
   activeFilters,
   onFilterChange,
-  // eslint-disable-next-line no-unused-vars
   onClearAll,
 }) {
   if (!filterModel || !filterModel.facets || filterModel.facets.length === 0) {
@@ -94,8 +93,26 @@ export default function FilterBar({
 
   if (visibleFacets.length === 0) return null
 
+  const hasActiveFilters = Object.values(activeFilters).some(
+    (values) => values && values.length > 0
+  )
+
   return (
     <aside className={styles.filterBar} aria-label="Filter content">
+      <div className={styles.filterHeader}>
+        <span className={styles.filterTitle}>Filter</span>
+        {hasActiveFilters && (
+          <button
+            type="button"
+            onClick={onClearAll}
+            className={styles.clearAllButton}
+            aria-label="Clear all filters"
+          >
+            Clear all
+          </button>
+        )}
+      </div>
+
       <div className={styles.facetList}>
         {visibleFacets.map((facet) => (
           <FacetGroup
