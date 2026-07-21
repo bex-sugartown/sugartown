@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-217 — Reconcile 9 smaller drifted component CSS mirrors
 **Linear Issue:** [SUG-217](https://linear.app/sugartown/issue/SUG-217)
-**Status:** Backlog
+**Status:** ✅ Shipped 2026-07-21
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -33,6 +33,30 @@ One commit per component is fine; all land on one branch (strategy b). Each: dif
 - [ ] **ScoreRing** — package has banned raw fallbacks; web is clean + has a comment. Web canonical.
 - [ ] **Table** — divergent both ways: web has comments + `!important` on `.row:hover` + mobile `padding-inline: 8px`; package has a `.wrapWide` 100vw breakout + different mobile margins (`14px 16px` vs `10px 0`). Per-hunk merge — neither side is a clean superset. Visual.
 - [ ] **FilterBar** — almost entirely cosmetic (divider-comment dash counts) + one richer checkmark comment in the package. Pick one comment style; confirm no actual value differs (`top: 47%` note).
+
+## Close-out (2026-07-21)
+
+All 9 pairs byte-identical; `KNOWN_DRIFT` dropped from 11 entries to 2 at this commit (Callout, Card), then to 1 once SUG-219 landed in the same batch. Visual QA approved.
+
+**Canonical direction, decided from evidence rather than the registry's nominal "package wins" default:**
+
+| Component | Canonical | Basis |
+|---|---|---|
+| IconButton | web | Commit `755daa1f` *"IconButton bg — dedicated token to avoid glassmorphism"* landed web-only; the package copy was the pre-fix state still using `--st-color-bg-surface-strong`, which carries a dark-pink-moon `rgba()` glassmorphism override |
+| Chip | web (`softgrey-700`) | Commit `87f4840f` wrote the two files with different values *in the same commit*, so neither side was a fix. Web matches the shared explanatory comment and is what production renders |
+| Breadcrumb, Citation | web | Load-bearing rules absent from the package (`.crumb { display: contents }`, `.note a` footnote link styling) |
+| Accordion, ScoreRing | web | Package carried banned raw token fallbacks |
+| Media, FilterBar | package | Empty `/* styles */` comment dropped; package's checkmark comment explains the `top: 47%` optical correction that web's had lost |
+| Table | per-hunk | web for the `!important` hover, comments, and mobile values; **package for the `.wrapWide` block**, which web's `Table.jsx` references but web's CSS never defined |
+
+**Corrections to this doc's own Scope, found during the activation audit:**
+- The Accordion row claimed "web is clean" of raw fallbacks. False — web had 4, package had 7. The *drifted* lines were package-only, but 4 further fallbacks are shared by both copies and remain. Only ScoreRing's web copy was genuinely fallback-free.
+- That shared-fallback class of violation passes CI silently (`validate:tokens --strict-colors` checks colours only). 23 occurrences in web, 32 in the package → logged as **SUG-232**.
+
+**Out-of-scope findings logged, not fixed:**
+- `.wide` (distinct from `.wrapWide`) is referenced by `Table.jsx`/`Table.tsx` in **both** trees and defined in **neither** → added to SUG-231's scope.
+
+**Visual result:** the web app is unchanged — every visual decision resolved to web, and `.wrapWide` has zero callers. The package moved to match production, so Chromatic diffs on IconButton/Chip/Citation/Table stories are expected.
 
 ## Acceptance criteria
 

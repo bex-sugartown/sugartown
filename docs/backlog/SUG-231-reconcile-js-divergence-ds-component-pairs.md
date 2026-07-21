@@ -27,7 +27,8 @@ After this epic, the 6 diverged pairs behave identically, the two live bugs are 
 
 - [ ] Fix FilterBar: restore the filter header, title, and clear-all button in the web copy; wire `onClearAll` and remove the lint suppression — layer: frontend
 - [ ] Fix CodeBlock: import the Prism line-numbers plugin in the web copy so `showLineNumbers` renders row markup — layer: frontend
-- [ ] Reconcile Callout: decide the canonical variant set (`banner` vs `default`, and whether the package's `icon` prop comes to web) and align both copies — layer: design-system + frontend
+- [ ] Reconcile Callout **including its CSS** (absorbed from SUG-218, closed as duplicate 2026-07-21): decide the canonical variant set (`banner` vs `default`, and whether the package's `icon` prop comes to web), align the component *and* `Callout.module.css` in both copies, and delete `Callout.module.css` from `KNOWN_DRIFT` in `validate-style-mirror.js` — layer: design-system + frontend
+- [ ] Define `.wide` in Table's CSS, or remove the dead reference: `Table.jsx`/`Table.tsx` in **both** trees apply `styles.wide` for `variant="wide"`, but neither stylesheet defines it. Same dead-prop family as FilterBar's `onClearAll` and CodeBlock's `showLineNumbers` — layer: design-system
 - [ ] Reconcile Accordion: add the empty-items guard to the package copy — layer: design-system
 - [ ] Reconcile Container: add `style` passthrough to the package copy — layer: design-system
 - [ ] Reconcile Stack: fix the package's responsive condition to `(direction.md || direction.lg)` — layer: design-system
@@ -40,7 +41,13 @@ After this epic, the 6 diverged pairs behave identically, the two live bugs are 
 
 **Phase 2 — The three trivial reconciliations.** Accordion guard, Container `style`, Stack responsive condition. Web is canonical in all three; the package copy moves. Low risk, converts them to pure mirrors.
 
-**Phase 3 — Callout.** The only substantive design decision: web dropped `default` and added `banner` (SUG-192); the package kept `default` and has an `icon` prop with lucide per-variant defaults that web lacks. Needs a decision on the canonical variant set before code, and the DOM structures differ (web: two-column label/body grid; package: header/body with icon). Note SUG-218 is separately reconciling Callout's CSS — sequence with it, don't collide.
+**Phase 3 — Callout (component + CSS together).** The only substantive design decision, and now the sole owner of Callout after SUG-218 was closed as a duplicate.
+
+SUG-218 was scoped as a CSS-only reconciliation of `Callout.module.css`. Executing it on 2026-07-21 proved that impossible: the web and package Callouts are **different components**, not drifted copies. Their class sets are nearly disjoint — web's JSX uses `callout/labelCol/number/label/body/bannerLabel/bannerBody`, the package's TSX uses `callout/header/icon/title/body`; only `.callout` and `.body` are shared. Making the CSS byte-identical would leave whichever side lost its classes rendering unstyled. Web carries the SUG-99 "row format" redesign (two-column label + body grid, §NN folio number, `banner` variant); the package is the pre-SUG-99 design sourced from `artifacts/style 260118.css` (padded box, lucide icon, title). **The package never received the redesign.**
+
+So the CSS drift is a symptom, and the real work is porting one canonical Callout across both trees: component, CSS, and stories. Web is the presumed canonical side (it is newer, deliberate, and what production renders), but confirm that at activation rather than assuming it.
+
+Blast radius is small: `apps/contentful-poc` does not use Callout at all (0 files), so changing the package Callout affects Storybook only. `Callout.module.css` remains on `KNOWN_DRIFT` with an explanatory comment until this phase lands.
 
 ## Acceptance criteria
 
@@ -65,8 +72,8 @@ After this epic, the 6 diverged pairs behave identically, the two live bugs are 
 
 ## Technical notes
 
-- **Two epics touch these files on other axes.** SUG-217/218/219 reconcile the same components' CSS; SUG-230 adds a link seam to Chip and Breadcrumb. Keep each concern in its own commit, and re-read the files at activation rather than trusting the 2026-07-21 classification.
-- **Callout is the sequencing risk.** SUG-218 reconciles Callout's CSS (171 changed lines, the largest drift in the repo) while Phase 3 here reconciles its JS and variant set. Doing both blind will conflict. Either sequence SUG-218 first and build Phase 3 on its result, or scope them together at activation — decide explicitly, don't discover it mid-merge.
+- **SUG-217 and SUG-219 shipped 2026-07-21**, so the CSS axis is clear for every component in this epic *except* Callout. `KNOWN_DRIFT` is down to that one entry. SUG-230 still adds a link seam to Chip and Breadcrumb — keep that concern in its own commit, and re-read the files at activation rather than trusting the 2026-07-21 classification.
+- **SUG-218 absorbed into Phase 3** (closed as duplicate 2026-07-21). The sequencing risk this section previously flagged turned out to be worse than sequencing: the two epics were the same work, because Callout's CSS cannot be reconciled without first reconciling the component. Phase 3 now owns both.
 - **The "which side is canonical" question is per-component, not global.** Web is canonical for Accordion, Container, and Stack (it has the fix). The package is canonical for FilterBar (it has the feature web lost) and CodeBlock (it has the working plugin import). Callout is genuinely contested. Do not apply a blanket "package wins" or "web wins" rule.
 - **Root-cause note worth capturing:** every one of these divergences happened because the mirror is maintained by hand and only its CSS is validated. If the behavioural-parity question in Scope is answered "can't automate this," that answer belongs in the shipped doc as the standing rationale — and it strengthens the case for SUG-224 removing the second copy entirely.
 - **Activation audits:**

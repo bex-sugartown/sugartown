@@ -1,10 +1,36 @@
 ---
 **Epic:** SUG-218 — Reconcile Callout component CSS mirror (major divergence)
 **Linear Issue:** [SUG-218](https://linear.app/sugartown/issue/SUG-218)
-**Status:** Backlog
+**Status:** ❌ Cancelled 2026-07-21 — duplicate of [SUG-231](https://linear.app/sugartown/issue/SUG-231) Phase 3
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
+
+> **⛔ This epic is closed. Do not execute it. The work lives in SUG-231 Phase 3.**
+>
+> Attempted 2026-07-21 alongside SUG-217 and SUG-219. **It cannot be done as scoped.** Its
+> Objective ("one canonical `Callout.module.css` … Layers touched: component CSS only") is
+> impossible, because the web and package Callouts are not drifted copies of one component —
+> they are two different components:
+>
+> | | Classes its JSX/TSX uses |
+> |---|---|
+> | web `Callout.jsx` | `callout` `labelCol` `number` `label` `body` `bannerLabel` `bannerBody` |
+> | package `Callout.tsx` | `callout` `header` `icon` `title` `body` |
+>
+> Only `.callout` and `.body` overlap. Making the CSS byte-identical would leave whichever side
+> lost its classes rendering unstyled. The divergence is deliberate, not accidental: web carries
+> the SUG-99 "row format" redesign (two-column label + body grid, §NN folio number, `banner`
+> variant); the package is the pre-SUG-99 design from `artifacts/style 260118.css` (padded box,
+> lucide icon, title). **The package never received the redesign.**
+>
+> The CSS drift is therefore a *symptom* of a component-level divergence that SUG-231 Phase 3
+> already owned. Rather than have two epics race on one file, Phase 3 absorbed this epic's CSS
+> scope and its `KNOWN_DRIFT` removal. `Callout.module.css` stays on `KNOWN_DRIFT` with an
+> inline comment until Phase 3 lands. Blast radius when it does: Storybook only —
+> `apps/contentful-poc` does not use Callout at all.
+>
+> Everything below is the original spec, retained as the record of what was assumed.
 
 # SUG-218 — Reconcile Callout component CSS mirror (major divergence)
 
