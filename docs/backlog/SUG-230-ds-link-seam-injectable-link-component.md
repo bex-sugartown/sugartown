@@ -25,8 +25,10 @@ After this epic, every linked element in the DS package resolves its link elemen
 
 ## Scope
 
-- [ ] Decide the injection mechanism (prop vs context vs polymorphic `as`) and record the decision with rationale in this doc — layer: design-system
-- [ ] Implement the seam in `Card`, `Chip`, `Button`, `Breadcrumb`, `IndexCell`, defaulting to `<a href>` when nothing is injected — layer: design-system
+- [x] Decide the injection mechanism (prop vs context vs polymorphic `as`) and record the decision with rationale in this doc — layer: design-system
+- [ ] Implement the seam in `Card`, `Chip`, `Breadcrumb`, `IndexCell`, `List`, defaulting to `<a href>` when nothing is injected — layer: design-system
+      <!-- Set corrected in Phase 0: Button has no href prop and cannot be seamed (→ SUG-231); List renders a bare <a href> and was omitted. -->
+- [ ] Add a package Storybook story for `Breadcrumb` (it has none today — only the apps/web mirror does) — layer: Storybook
 - [ ] Add `Breadcrumb`, `ButtonGroup`, `IconButton` to `packages/design-system/src/index.ts` (currently absent from the barrel, so they are unimportable regardless of this epic) — layer: design-system
 - [ ] Storybook stories covering both the default `<a>` path and an injected-link path, on `default` and `dark-pink-moon` — layer: Storybook
 - [ ] Wire apps/contentful-poc to inject `next/link` and verify SPA-style navigation works — layer: frontend
@@ -40,10 +42,100 @@ After this epic, every linked element in the DS package resolves its link elemen
 
 **Phase 2 — Consumer wiring + docs.** Inject `next/link` in apps/contentful-poc, verify navigation, write the consuming docs. apps/web wiring is explicitly deferred to SUG-224.
 
+---
+
+## Phase 0 — Activation audit + mechanism decision (2026-07-21)
+
+### Activation audit findings
+
+Every claim below was verified by reading the live file, not carried over from SUG-224's dated classification.
+
+**Finding 1 (scope correction, blocking) — `Button` has no anchor to seam; `List` does.**
+An exhaustive grep for anchor renders across `packages/design-system/src/components/` returns exactly six files:
+
+| Component | Anchor render | In epic's list of 5? |
+|---|---|---|
+| `Card` | 5 × `<a href>` (title, category, project, footer category, kpiLink) | yes |
+| `Chip` | 1 × `<a href>` | yes |
+| `Breadcrumb` | 1 × `<a href={item.href}>` | yes |
+| `IndexCell` | 1 × `<a href>` (via `as="a"`) | yes |
+| `List` / `ListItem` | 1 × `<a href={href \|\| '#'}>` | **no — omitted** |
+| `Citation` | 1 × `<a href={`#${id}`}>` — same-page fragment, correctly not navigation | n/a |
+| `Button` | **none.** Renders `<button>` only; the package `ButtonProps` has no `href` field at all | **yes — cannot be seamed** |
+
+The package `Button` is not a component that hard-codes `<a href>`; it is a component that cannot link at all. Its apps/web counterpart (`apps/web/src/design-system/components/button/Button.jsx`) *does* take `href` and already branches external-anchor / RouterLink / button. That gap is a JS divergence between the two Button implementations, which is SUG-231's axis, not this epic's.
+
+**Finding 2 — the reference implementation already exists in apps/web.**
+`Button.jsx` + `apps/web/src/lib/linkUtils.js` already codify the external-URL rule this seam needs: `isExternalUrl()` is `/^[a-z][a-z0-9+.-]*:/i` (any protocol scheme), and external hrefs get a plain `<a target="_blank" rel="noopener noreferrer">` rather than a router link. Seven call sites use it. The DS seam should reproduce this behaviour rather than invent a second rule.
+
+**Finding 3 — apps/contentful-poc currently produces invalid HTML as its workaround.**
+`ArticleList.tsx` and `TagList.tsx` wrap `<Card>` / `<Chip>` in a `next/link`. Card's own README forbids exactly this: "Never wrap the card in an `<a>` tag containing child links — invalid HTML." Any Card with a category, project, tag, or kpiLink in that app is nesting anchors today. The seam fixes a correctness bug there, not only a navigation-quality one.
+
+**Finding 4 — context costs the poc nothing.** All four DS consumers in apps/contentful-poc (`ArticleList`, `TagList`, `ArticleTags`, `SectionList`) already carry `"use client"`. The DS package has zero `"use client"` directives, so package components inherit client-ness from their importer. Adding `useContext` does not push a new client boundary onto that app. `layout.tsx` is an async server component with no existing provider to join, so the provider goes in a small client wrapper around `{children}`.
+
+**Finding 5 — the esbuild build is compatible.** `build.mjs` sets `packages: 'external'`, so React is never bundled; `createContext` resolves to the host app's single React instance. Both consumers import from the one `src/index.ts` entry, so the context is a single module-level singleton per app. No build change required.
+
+**Finding 6 — `Breadcrumb` has no package story.** Storybook's glob covers `packages/design-system/src/**/*.stories.*` (37 stories today), but Breadcrumb's only story is the apps/web mirror's. `Card`, `Chip`, `IndexCell`, and `List` all have package stories. Breadcrumb needs a new one, and it has no Chromatic baseline to diff against.
+
+**Finding 7 — `Breadcrumb` and `ButtonGroup` are default exports**, `IconButton` is a named export. The barrel additions are not uniform: `export { default as Breadcrumb }` / `export { default as ButtonGroup }` / `export { IconButton }`.
+
+### Mechanism comparison
+
+The binding constraint is composition: `Card` renders `Chip` internally for both the tags and tools rows, so any mechanism that travels by prop must cross a component boundary the consumer does not control.
+
+| | Prop (`linkComponent` per component) | Polymorphic `as` | **React context (chosen)** |
+|---|---|---|---|
+| Card → Chip composition | Card must forward `linkComponent` into every internal `<Chip>`; the same for any future internal composition | same forwarding problem, plus the prop is now the element type rather than a component | resolved automatically — Chip reads the same context regardless of who rendered it |
+| Call-site burden | every call site of all 5 components, forever | same | one provider at the app root |
+| Adding a 6th linked component | new prop, new plumbing, all call sites updated | same | free — it calls the same internal resolver |
+| Testability in isolation | trivial, explicit | trivial, explicit | needs a provider; one Storybook decorator covers every story |
+| Typing | 5 near-identical prop declarations | polymorphic generics are the hardest to type well of the three | one exported `LinkComponent` type |
+| Failure mode when unset | prop absent → `<a>` default | `as` absent → `<a>` default | context null → `<a>` default (identical) |
+| RSC impact | none | none | forces `useContext`, so components must be client — already true in both consumers (Finding 4) |
+
+Prop and `as` both fail the Card→Chip constraint at the same place, and both make every future linked component a fresh plumbing exercise. Context's real costs are the implicit dependency and the Storybook provider, and the second is one decorator.
+
+### Decision
+
+**React context, consumed through a single internal `<Link>` resolver, with a plain-`<a>` bypass for external URLs.**
+
+New module `packages/design-system/src/link/`:
+
+- `LinkContext` — `React.createContext<LinkComponent | null>(null)`
+- `LinkProvider` — `{ component, children }`, set once at the app root
+- `useLinkComponent()` — the hook
+- `isExternalHref()` — ports `apps/web/src/lib/linkUtils.js`'s rule verbatim (`/^[a-z][a-z0-9+.-]*:/i`), plus protocol-relative `//` and bare `#` fragments
+- `Link` — the internal resolver every seamed component renders instead of `<a>`
+
+Resolver rule, in order:
+1. no `href` → render children unwrapped (caller's existing non-link branch is unchanged)
+2. `href` is external / protocol-relative / a bare fragment → plain `<a href>`; external also gets `target="_blank" rel="noopener noreferrer"`, matching apps/web Button
+3. no provider mounted → plain `<a href>` (the documented default; this is what keeps the change additive)
+4. otherwise → the injected component, receiving `href` and all pass-through props
+
+Consumers adapt at the root, and the package imports no router:
+
+```tsx
+// apps/contentful-poc — next/link takes href, so it is a drop-in
+<LinkProvider component={NextLink}>{children}</LinkProvider>
+
+// apps/web (SUG-224) — React Router takes `to`, so a 1-line adapter
+const RouterLinkAdapter = ({ href, ...rest }) => <RouterLink to={href} {...rest} />
+<LinkProvider component={RouterLinkAdapter}>{children}</LinkProvider>
+```
+
+**Why no per-component prop override on top of the context.** The one case that genuinely needs to escape the router is external URLs, and rule 2 handles it inside the resolver, where it cannot be forgotten. Adding a redundant prop escape hatch would double the API surface of all 5 components for a case that no longer exists. If a real need appears later, the prop is additive on top of this design.
+
+### Scope corrections carried into Phase 1
+
+- `Button` is **out** of the seam scope: nothing to seam. Adding `href` to the package Button is JS divergence work and moves to SUG-231, which will consume this seam once it lands.
+- `List` / `ListItem` is **in**: it renders a bare `<a href>`, it is exported from the barrel, and it has a package story. Its `href || '#'` fallback (every hrefless row becomes a `#` link) is noted for SUG-231, not fixed here.
+- The seamed set is therefore **Card, Chip, Breadcrumb, IndexCell, List** — still five components.
+
 ## Acceptance criteria
 
-- [ ] The injection mechanism decision is recorded in this doc with its rationale before any implementation commit
-- [ ] All 5 components accept an injected link component and fall back to `<a href>` when none is supplied
+- [x] The injection mechanism decision is recorded in this doc with its rationale before any implementation commit
+- [ ] All 5 components (`Card`, `Chip`, `Breadcrumb`, `IndexCell`, `List`) resolve links through the injected component and fall back to `<a href>` when none is supplied
 - [ ] `packages/design-system/src/` contains no import of `react-router-dom`, `next/link`, or any other router — verified by grep
 - [ ] Chromatic shows zero visual diffs on the default (non-injected) path for all 5 components
 - [ ] Storybook covers default + injected paths for each of the 5, rendering correctly on `default` and `dark-pink-moon`
