@@ -11,14 +11,28 @@ import styles from './List.module.css'
  */
 
 export function ListItem({ tag, tagTitle, leading, title, date, href }) {
-  return (
-    <a className={styles.row} href={href || '#'}>
+  const content = (
+    <>
       <span className={styles.rowTag} title={tagTitle ?? tag ?? undefined}>
         {leading}
         {tag != null && <span className={styles.rowTagText}>{tag}</span>}
       </span>
       <span className={styles.rowTitle}>{title}</span>
       {date && <time className={styles.rowDate}>{date}</time>}
+    </>
+  )
+
+  // No href → a non-interactive row. Previously this fell back to href="#",
+  // which made every hrefless row a focusable link that navigated nowhere.
+  // href is built by the caller via getCanonicalPath(), which yields nothing
+  // for an item with no slug, so this path is reachable in production. SUG-231.
+  if (!href) {
+    return <div className={styles.row}>{content}</div>
+  }
+
+  return (
+    <a className={`${styles.row} ${styles.rowLink}`} href={href}>
+      {content}
     </a>
   )
 }

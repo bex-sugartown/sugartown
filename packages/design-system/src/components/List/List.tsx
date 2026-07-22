@@ -47,14 +47,29 @@ export interface ListProps {
 }
 
 export function ListItem({ tag, tagTitle, leading, title, date, href }: ListItemProps) {
-  return (
-    <Link className={styles.row} href={href || '#'}>
+  const content = (
+    <>
       <span className={styles.rowTag} title={tagTitle ?? tag ?? undefined}>
         {leading}
         {tag != null && <span className={styles.rowTagText}>{tag}</span>}
       </span>
       <span className={styles.rowTitle}>{title}</span>
       {date && <time className={styles.rowDate}>{date}</time>}
+    </>
+  )
+
+  // No href → a non-interactive row. Previously this fell back to href="#",
+  // which made every hrefless row a focusable link that navigated nowhere.
+  // Note this cannot be delegated to <Link>: given no href it renders its
+  // children unwrapped, which would drop .row and collapse the row layout.
+  // SUG-231.
+  if (!href) {
+    return <div className={styles.row}>{content}</div>
+  }
+
+  return (
+    <Link className={`${styles.row} ${styles.rowLink}`} href={href}>
+      {content}
     </Link>
   )
 }

@@ -86,6 +86,30 @@ export const LongContent: Story = {
   },
 }
 
+/**
+ * Rows with no `href` — non-interactive (SUG-231).
+ *
+ * These previously fell back to `href="#"`, making every hrefless row a
+ * focusable link that navigated nowhere. They now render as plain elements:
+ * same layout, but no pointer cursor, no hover tint, and skipped by Tab.
+ * Reachable in production when an item has no slug, so `getCanonicalPath()`
+ * yields no href.
+ *
+ * Tab through this story: focus should stop only on the two linked rows.
+ */
+export const WithoutLinks: Story = {
+  args: {
+    variant: 'register',
+    title: 'Mixed',
+    items: [
+      { tag: 'Design Systems', title: 'Linked row — interactive', date: '14 Apr 2026', href: '#' },
+      { tag: 'Draft', title: 'No href — not focusable, no hover tint', date: '12 Apr 2026' },
+      { tag: 'Draft', title: 'No href — layout identical to a linked row', date: '9 Apr 2026' },
+      { tag: 'Content Architecture', title: 'Linked row — interactive', date: '2 Apr 2026', href: '#' },
+    ],
+  },
+}
+
 /** Narrow container — drop into a 360px column to exercise the @container
  *  query (vertical rules drop; row wraps to [tag … date] / title). */
 export const NarrowColumn: Story = {
