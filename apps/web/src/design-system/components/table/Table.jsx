@@ -59,7 +59,11 @@ export default function Table({
     tone === 'subdued'       ? styles.toneSubdued : styles.toneAccent,
     zebraOn && tone === 'subdued' ? styles.zebra : '',
     variant === 'responsive' ? styles.responsive  : '',
-    variant === 'wide'       ? styles.wide        : '',
+    // No `.wide` class on the <table> itself: `variant="wide"` is implemented
+    // entirely by `.wrapWide` on TableWrap (full-bleed 100vw + overflow-x).
+    // A `styles.wide` reference lived here with nothing behind it in either
+    // stylesheet — it resolved to undefined and was silently dropped by the
+    // filter below, so removing it changes no rendered output. SUG-231.
     layout === 'fixed'       ? styles.layoutFixed : '',
     density === 'compact'    ? styles.compact     : '',
     !zebraOn                 ? styles.noZebra     : '',
