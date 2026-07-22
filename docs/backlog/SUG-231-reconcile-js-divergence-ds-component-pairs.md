@@ -1,9 +1,10 @@
 ---
 **Epic:** SUG-231 — Reconcile JS divergence in DS component pairs (incl. 2 live bugs)
 **Linear Issue:** [SUG-231](https://linear.app/sugartown/issue/SUG-231)
-**Status:** Backlog
+**Status:** ✅ Shipped 2026-07-22
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
+**Visual QA:** approved 2026-07-22 · **Chromatic:** build 78, 11 changes approved
 ---
 
 # SUG-231 — Reconcile JS divergence in DS component pairs
@@ -35,7 +36,7 @@ After this epic, the 6 diverged pairs behave identically, the two live bugs are 
 - [x] ~~**Add `href` to the package `Button`**~~ — **moved to SUG-224 (2026-07-22).** This line contradicted Non-Goals, which lists Button's `href` among the intentional adapter differences that "stay until SUG-224 decides their fate". Non-Goals was right: the package Button lacking navigation is a *feature gap blocking consolidation*, not mirror drift, and it is the one item here that only matters once the package Button is the sole Button. Settling `target="_blank"`/`rel` now would also re-litigate a decision SUG-230 made deliberately a week ago, for a component with one package consumer (`apps/contentful-poc/src/components/SiteHeader.tsx`). Recorded as a SUG-224 prerequisite instead — layer: design-system
 - [x] **Reconcile `Breadcrumb`** — done 2026-07-22, narrower than originally scoped. The audit found a **live a11y defect** rather than cosmetic drift: web drove both `.current` styling and `aria-current` off the same `isLast` flag, so on `/tools/vercel` the trailing crumb rendered `<a href="/tools" aria-current="page">` — announcing the wrong element as the current page on every detail page using the one-or-two-crumb pattern. Fixed by splitting the two concerns (`isHighlighted = isLast` for the pink styling, `isCurrent = isLast && !item.href` for `aria-current`), which repairs the semantics with zero visual change. The package rule is recorded in-file as canonical. **The remaining DOM differences are deliberately not reconciled:** web imports `react-router-dom` while the package uses the SUG-230 seam — these *cannot* converge while both copies exist, since web is the app and the package must not import a router. `.crumb` is `display: contents`, so the wrapper-vs-Fragment difference renders identically and converging it is churn on a file SUG-224 deletes. Both `Breadcrumb.module.css` copies were already byte-identical and remain so — layer: design-system + frontend
 - [x] **Fix `List`'s `href || '#'` fallback** — done 2026-07-22. **Present in both copies, not just the package one this line named.** Rows without an href now render a plain `<div className={styles.row}>`; this could not be delegated to `<Link>`, which renders children unwrapped when given no href and would have dropped `.row` and collapsed the layout. Required one CSS change in both (byte-identical) copies: `.row` owned layout *and* interactive affordance, so a non-link row kept its pointer cursor and hover tint. Split out a `.rowLink` modifier applied only when an href is present, and moved `cursor: pointer` plus all six hover selectors onto it — layer: design-system
-- [ ] Storybook coverage for each reconciled behaviour, including the previously-broken paths (a story that would have caught the FilterBar and CodeBlock bugs) — layer: Storybook
+- [x] Storybook coverage for each reconciled behaviour, including the previously-broken paths — **partial, with a named gap.** Added: `Components/Accordion → EmptyItems`, `Components/List → WithoutLinks`, `Foundations/Layout/Container → StylePassthrough`, `Foundations/Layout/Stack → ResponsiveLgOnly`. **Not added:** stories for the package `Callout`, `Accordion`, `Breadcrumb`, `ButtonGroup`, `IconButton` — `Components/<Name>` is owned by the web mirror's story file in each case, so a package story collides on title. Phase 3's Callout port is therefore not snapshotted by Chromatic at all. This is the same absence that let the drift go unseen; it resolves when SUG-224 picks a surviving copy — layer: Storybook
 - [x] Decide and record whether behavioural parity can be validated automatically, or is inherently a review-time concern — **answered 2026-07-22: declined, it is a review-time concern.** Full reasoning in §Behavioural parity below — layer: tooling/docs
 
 ## Phases
@@ -155,8 +156,11 @@ The root cause is not a missing validator. It is that **two hand-maintained copi
 - [x] Container applies a passed `style` prop in both copies — package verified in the browser: `outline: dashed 2px`, `background: rgb(242,255,191)`, `padding-block: 24px` all applied from `style`
 - [x] Stack goes horizontal at `lg` for `direction={{ base: 'vertical', lg: 'horizontal' }}` in both copies — package verified in the browser: `flex-direction: row` at 1280px, `column` at 900px, so the `lg` breakpoint fires and nothing fires below it
 - [x] Callout's canonical variant set is decided and recorded in this doc before implementation; both copies then expose the same variants — decision recorded in `357713f7`, implemented in `29fae02d`, in that order
-- [ ] Storybook has a story per fixed behaviour, on `default` and `dark-pink-moon`
-- [ ] Chromatic diffs reviewed — FilterBar and Callout will legitimately diff (new UI); Accordion/Container/Stack/CodeBlock should not diff on their default paths
+- [x] Storybook has a story per fixed behaviour, on `default` and `dark-pink-moon` — met for every behaviour whose component has a story; **not met for the package `Callout`**, which has no story to add one to (see the Scope item above for why)
+- [x] Chromatic diffs reviewed — **build 78, 11 visual changes, reviewed and approved by Bex 2026-07-22.** [Build 78](https://www.chromatic.com/build?appId=69de2a8dfe5a14bc405087d5&number=78) · 364 stories across 95 components, 353 snapshots, 0 errors.
+  - **The skip-gate had to be bypassed.** `apps/storybook/scripts/chromatic.sh` diffs `HEAD~1` to decide whether to run; this epic's tip commit was docs-only, so `VISUAL` came back empty and the script would have exited 0 at line 34 — silently skipping VRT for all 43 changed component/story files in the batch. Ran `chromatic --build-script-name=storybook:build --exit-zero-on-changes --only-changed` directly instead. This is the known batched-push gotcha and it fired exactly as documented.
+  - **TurboSnap was unavailable** (needs ≥10 CI builds), so the full suite ran rather than a changed-only subset — broader coverage than intended, not narrower.
+  - **This was the consolidated VRT for all 42 unpushed commits**, not SUG-231 alone: the batch also carries SUG-227, SUG-217/219 and SUG-230, so some of the 11 diffs belong to those epics.
 - [x] The behavioural-parity validation question is answered in writing (implemented, or explicitly declined with reasoning) — **explicitly declined**, with reasoning and two cheaper alternatives proposed, in §Behavioural parity
 
 ## Human QA Walkthrough — example local pages
@@ -189,6 +193,36 @@ The root cause is not a missing validator. It is that **two hand-maintained copi
 - **Link behaviour** — SUG-230 owns the link seam. Chip and Breadcrumb appear in both epics; keep the commits separate.
 - **The 6 adapters' intentional differences** (Card's `children` escape hatch, Media's `hotspot`, Button's `href`). Those are deliberate app-layer extensions, not drift, and they stay until SUG-224 decides their fate. *(This line and the former Scope entry for Button's `href` contradicted each other from 2026-07-21 to 2026-07-22. Resolved in favour of this one — see Phase 1b.)*
 - **Deleting either copy.** Consolidation is SUG-224. This epic makes the two copies agree; it does not remove one.
+
+## Close-out summary (2026-07-22)
+
+All six diverged pairs reconciled. Pair classification moved **26 pure / 6 adapter / 6 diverged → 29 / 6 / 3**, and `KNOWN_DRIFT` went to **empty** — every one of the 38 component CSS mirrors is now enforced, closing the SUG-214 burndown that SUG-217/218/219 opened.
+
+| Phase | Shipped | Commits |
+|---|---|---|
+| 1 — the two live bugs (FilterBar, CodeBlock) | 2026-07-21 | `43dcf0f0` |
+| 1b — SUG-230 handoff, re-scoped 3 items → 2 | 2026-07-22 | `70e8ea56`, `7efe8143`, `75547722` |
+| 2 — Accordion, Container, Stack | 2026-07-22 | `61b3c85b`, `39fad772` |
+| 3 — Callout (component + CSS) | 2026-07-22 | `357713f7` (decision), `29fae02d` (impl) |
+| Table `.wide` (belonged to no phase) | 2026-07-22 | `3f13daf5` |
+
+### What the epic found that it wasn't looking for
+
+- **A third live bug.** Breadcrumb drove `.current` styling and `aria-current` off one `isLast` flag, so on `/tools/vercel` the trailing crumb rendered `<a href="/tools" aria-current="page">` — announcing the wrong element as the current page on every detail page. Scoped as cosmetic DOM drift; it was an a11y defect. Fixed by splitting the visual and semantic flags, with no visual change.
+- **The `List` bug was in both copies**, not just the package one the Scope named.
+- **A self-contradicting epic doc.** Scope said "add `href` to the package Button"; Non-Goals said Button's `href` stays until SUG-224. Resolved in favour of Non-Goals and handed to SUG-224 as Blocker 4, with the open `target`/`rel` question recorded.
+- **An orphaned Scope item.** Table's `.wide` belonged to no phase and would have shipped unnoticed.
+- **The Chromatic skip-gate fired.** A docs-only tip commit would have silently skipped VRT for 43 changed files.
+
+### The root cause, stated once
+
+Three of the six diverged pairs — Accordion, Breadcrumb, Callout — **have no Storybook story in the package**. Neither does ButtonGroup or IconButton. What is not rendered is not reviewed, and what is not reviewed drifts. The CSS mirror validator now guards their stylesheets; nothing guards their JS, and §Behavioural parity explains why nothing proportionately can. The fix is SUG-224 removing the second copy, not a parity harness.
+
+### Handed onward
+
+- **SUG-224** — package `Button` `href` (Blocker 4, with the `target`/`rel` decision); the declined Breadcrumb DOM convergence; the five missing package stories.
+- **Proposed, not built** — two single-copy static checks that would have caught real bugs here and survive consolidation: `styles.X` referenced but undefined in the paired module (catches Table's `.wide`), and a destructured prop never referenced in the body (catches FilterBar's `onClearAll`). No epic owns these yet.
+- **Pre-existing, unrelated** — `ArchivePage.jsx` mounts FilterBar twice (mobile drawer + desktop rail), producing 158 filter inputs with 79 unique IDs. Every `<label for=…>` resolves to the hidden drawer copy. Not functionally broken (both instances share one state object) but invalid HTML and an a11y smell. No issue open.
 
 ## Related
 
