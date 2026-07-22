@@ -89,12 +89,22 @@ Only the **22 pure mirrors with byte-identical CSS** are safe to convert today. 
 - The package barrel (`packages/design-system/src/index.ts`) does not export `Breadcrumb`, `ButtonGroup`, or `IconButton`. Barrel additions are needed before those can be imported (trivial, not an API change).
 - Web `Card.jsx`'s header comment claims `tags[]` is extended with `colorHex`; the implementation never reads it. Stale comment, worth correcting whenever Card is next touched.
 
+### Blocker 4 — the package `Button` cannot navigate (inherited from SUG-231, 2026-07-22)
+
+The web `Button` accepts `href` and branches external-anchor / RouterLink / `<button>`. **The package `Button` has no `href` in its props at all** — it renders only `<button>`. apps/web cannot consume a Button that cannot navigate, so this is a hard prerequisite for converting that pair.
+
+Handed over from SUG-231 Phase 1b, where it sat in Scope while that epic's own Non-Goals listed Button's `href` among the intentional adapter differences that "stay until SUG-224 decides their fate". Non-Goals won: this is a feature gap blocking consolidation, not mirror drift, and it belongs to whichever epic owns the merged component — this one.
+
+**Open decision when this is picked up:** whether `target="_blank"` / `rel="noopener noreferrer"` on external hrefs comes to the package. Web's Button sets them unconditionally and also honours an `openInNewTab` prop. SUG-230's `<Link>` resolver **deliberately does not** add target/rel ([`packages/design-system/src/link/Link.tsx`](../../packages/design-system/src/link/Link.tsx) — "That is an editorial choice these components do not currently make"). Porting web's Button faithfully means either dropping that behaviour or overriding SUG-230's decision. Decide it here, where the merged Button is the only Button, rather than in isolation. Current package consumer to check against: `apps/contentful-poc/src/components/SiteHeader.tsx`.
+
 ### Resume checklist
 
 1. Confirm SUG-217, SUG-218, SUG-219 are all shipped and `KNOWN_DRIFT` is empty.
 2. Amend §Scope, §Acceptance criteria, and §Non-Goals to resolve Blockers 1 and 2 — decide explicitly whether the link seam is in scope (and if so, drop the "no API changes" Non-Goal and add a DS visual QA gate for the 5 affected components).
 3. Re-run the pair classification — it will have changed once the CSS epics land.
 4. Spike a pure mirror, not Card.
+5. Add `href` to the package `Button` via the SUG-230 seam, and settle the target/rel question (Blocker 4).
+6. Fold in SUG-231's declined Breadcrumb work: web's `react-router-dom` import vs the package's seam, and the `.crumb` wrapper vs `React.Fragment`. Both were left unreconciled on the explicit grounds that this epic deletes the web copy — if that changes, they come back into play.
 
 ## Acceptance criteria
 

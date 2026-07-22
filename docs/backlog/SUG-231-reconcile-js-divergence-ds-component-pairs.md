@@ -32,9 +32,9 @@ After this epic, the 6 diverged pairs behave identically, the two live bugs are 
 - [ ] Reconcile Accordion: add the empty-items guard to the package copy — layer: design-system
 - [ ] Reconcile Container: add `style` passthrough to the package copy — layer: design-system
 - [ ] Reconcile Stack: fix the package's responsive condition to `(direction.md || direction.lg)` — layer: design-system
-- [ ] **Add `href` to the package `Button`** — the web `Button` takes `href` and branches external-anchor / RouterLink / `<button>`; the package `Button` has no `href` field at all and renders only `<button>`. Consume SUG-230's link seam (`<Link>` from `src/link/`) rather than importing a router, and port the external-URL handling from `apps/web/src/lib/linkUtils.js`. Decide whether `target="_blank"`/`rel` on external hrefs comes to the package — SUG-230 deliberately kept that out of the shared resolver as an app-level editorial choice — layer: design-system
-- [ ] **Reconcile `Breadcrumb` DOM divergence** — verified divergent 2026-07-21, not a drifted copy: web wraps each crumb in `<span className={styles.crumb}>` while the package uses `React.Fragment`; web's `isHighlighted = isLast` vs the package's `isCurrent = isLast && !item.href`; web emits `← ` and the package `←&nbsp;`; `aria-current` sits on the link in web and on the current `<span>` in the package. Pick a canonical side, then check whether the two `Breadcrumb.module.css` copies still match after the JSX converges. Note the Storybook title collision: `Components/Breadcrumb` is currently owned by the web mirror's story, so a package story cannot be added until this reconciliation decides which survives — layer: design-system + frontend
-- [ ] **Fix `List`'s `href || '#'` fallback** — `ListItem` renders `<Link className={styles.row} href={href || '#'}>`, so every row without an href becomes a live `#` link that is focusable and navigable. Since SUG-230 it resolves as a fragment bypass rather than a router link, which makes the behaviour visible but no more correct. Render a non-interactive element when `href` is absent — layer: design-system
+- [x] ~~**Add `href` to the package `Button`**~~ — **moved to SUG-224 (2026-07-22).** This line contradicted Non-Goals, which lists Button's `href` among the intentional adapter differences that "stay until SUG-224 decides their fate". Non-Goals was right: the package Button lacking navigation is a *feature gap blocking consolidation*, not mirror drift, and it is the one item here that only matters once the package Button is the sole Button. Settling `target="_blank"`/`rel` now would also re-litigate a decision SUG-230 made deliberately a week ago, for a component with one package consumer (`apps/contentful-poc/src/components/SiteHeader.tsx`). Recorded as a SUG-224 prerequisite instead — layer: design-system
+- [x] **Reconcile `Breadcrumb`** — done 2026-07-22, narrower than originally scoped. The audit found a **live a11y defect** rather than cosmetic drift: web drove both `.current` styling and `aria-current` off the same `isLast` flag, so on `/tools/vercel` the trailing crumb rendered `<a href="/tools" aria-current="page">` — announcing the wrong element as the current page on every detail page using the one-or-two-crumb pattern. Fixed by splitting the two concerns (`isHighlighted = isLast` for the pink styling, `isCurrent = isLast && !item.href` for `aria-current`), which repairs the semantics with zero visual change. The package rule is recorded in-file as canonical. **The remaining DOM differences are deliberately not reconciled:** web imports `react-router-dom` while the package uses the SUG-230 seam — these *cannot* converge while both copies exist, since web is the app and the package must not import a router. `.crumb` is `display: contents`, so the wrapper-vs-Fragment difference renders identically and converging it is churn on a file SUG-224 deletes. Both `Breadcrumb.module.css` copies were already byte-identical and remain so — layer: design-system + frontend
+- [x] **Fix `List`'s `href || '#'` fallback** — done 2026-07-22. **Present in both copies, not just the package one this line named.** Rows without an href now render a plain `<div className={styles.row}>`; this could not be delegated to `<Link>`, which renders children unwrapped when given no href and would have dropped `.row` and collapsed the layout. Required one CSS change in both (byte-identical) copies: `.row` owned layout *and* interactive affordance, so a non-link row kept its pointer cursor and hover tint. Split out a `.rowLink` modifier applied only when an href is present, and moved `cursor: pointer` plus all six hover selectors onto it — layer: design-system
 - [ ] Storybook coverage for each reconciled behaviour, including the previously-broken paths (a story that would have caught the FilterBar and CodeBlock bugs) — layer: Storybook
 - [ ] Decide and record whether behavioural parity can be validated automatically, or is inherently a review-time concern — layer: tooling/docs
 
@@ -42,7 +42,20 @@ After this epic, the 6 diverged pairs behave identically, the two live bugs are 
 
 **Phase 1 — The two live bugs.** FilterBar and CodeBlock, each with a Storybook story that fails before the fix and passes after. Ships first because these are the only rows with users on the other end.
 
-**Phase 1b — SUG-230 handoff items.** Package `Button` `href`, `Breadcrumb` DOM divergence, and `List`'s `href || '#'`. Added 2026-07-21 when SUG-230 shipped: its close-out deferred all three here, but they were not in this epic's Scope at the time, so they would have fallen through the gap between the two epics. `Button` depends on SUG-230's seam being merged — it is (v0.29.4). Sequence `Button` before `Breadcrumb`, since both are seam consumers and `Button` is the simpler of the two.
+**Phase 1b — SUG-230 handoff items.** ✅ Shipped 2026-07-22, re-scoped at activation from three items to two.
+
+Added 2026-07-21 when SUG-230 shipped: its close-out deferred all three here, but they were not in this epic's Scope at the time, so they would have fallen through the gap between the two epics. Appending them to Scope without re-reading Non-Goals is what produced the `Button` contradiction — the same failure mode as SUG-224's "no blocking dependencies" error, one section of a doc updated without checking the section that disagrees with it.
+
+**Re-scope decision (2026-07-22).** The three items were sorted by a single test: *does this work survive SUG-224?* SUG-224 deletes one of the two copies, so anything that exists only to make two hand-maintained copies agree is thrown away when one copy dies.
+
+| Item | Survives SUG-224 | Disposition |
+|---|---|---|
+| `List` hrefless rows | Yes — a focusable dead link is a bug in whichever copy survives | **Fixed, both copies** |
+| Breadcrumb `aria-current` | Yes — the semantic lives in the package and outlives consolidation | **Fixed** (found to be a live a11y bug, not cosmetic drift) |
+| Breadcrumb DOM convergence | No — maintenance on a file SUG-224 deletes, zero visual payoff | **Declined**, documented in-file |
+| Package `Button` `href` | Yes — but it is a consolidation prerequisite, not mirror drift | **Moved to SUG-224** |
+
+Commits: `70e8ea56` (List), `7efe8143` (Breadcrumb).
 
 **Phase 2 — The three trivial reconciliations.** Accordion guard, Container `style`, Stack responsive condition. Web is canonical in all three; the package copy moves. Low risk, converts them to pure mirrors.
 
@@ -94,7 +107,7 @@ Blast radius is small: `apps/contentful-poc` does not use Callout at all (0 file
 
 - **CSS reconciliation** — SUG-217/218/219 own that. This epic changes JS/JSX only, except where a fixed behaviour requires a class that does not yet exist in one copy.
 - **Link behaviour** — SUG-230 owns the link seam. Chip and Breadcrumb appear in both epics; keep the commits separate.
-- **The 6 adapters' intentional differences** (Card's `children` escape hatch, Media's `hotspot`, Button's `href`). Those are deliberate app-layer extensions, not drift, and they stay until SUG-224 decides their fate.
+- **The 6 adapters' intentional differences** (Card's `children` escape hatch, Media's `hotspot`, Button's `href`). Those are deliberate app-layer extensions, not drift, and they stay until SUG-224 decides their fate. *(This line and the former Scope entry for Button's `href` contradicted each other from 2026-07-21 to 2026-07-22. Resolved in favour of this one — see Phase 1b.)*
 - **Deleting either copy.** Consolidation is SUG-224. This epic makes the two copies agree; it does not remove one.
 
 ## Related
