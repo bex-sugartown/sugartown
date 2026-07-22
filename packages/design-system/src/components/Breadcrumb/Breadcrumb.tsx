@@ -23,6 +23,12 @@ export default function Breadcrumb({ items, className }: BreadcrumbProps) {
       {items.map((item, i) => {
         const isFirst = i === 0;
         const isLast = i === items.length - 1;
+        // CANONICAL (SUG-231): current = last AND not navigable. A crumb that
+        // still has an href points somewhere else, so it is not the current
+        // page and must not carry aria-current="page". The web mirror uses
+        // plain `isLast`, which mislabels a linked final crumb; that copy is
+        // scheduled for removal in SUG-224. Do not "reconcile" this toward the
+        // web rule — this is the correct side.
         const isCurrent = isLast && !item.href;
 
         return (
