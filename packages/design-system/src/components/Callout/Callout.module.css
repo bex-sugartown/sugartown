@@ -1,59 +1,75 @@
 /**
- * Callout — Sugartown Design System
- * Canonical CSS extracted from: artifacts/style 260118.css §.st-callout
+ * Callout — row format (SUG-99)
  *
- * Variants: default (pink), info, tip, warn, danger
- * Each variant overrides --st-callout-bg and --st-callout-border-color.
+ * Two-column grid: solid label column + body column.
+ * --_callout-accent drives the 2px top border and the §NN folio number color.
+ * Base value = pink (dark-first). Light theme overrides per variant below.
  */
 
-/* ── Base + component tokens ──────────────────────────────────────────────── */
+/* ── Base ─────────────────────────────────────────────────────────────────── */
 .callout {
-  /* tokens — bg + border-color managed by tokens.css (dark) + theme.light.css (light) */
-  --st-callout-radius: var(--st-radius-callout, 0); /* Pink Moon */
-  --st-callout-padding: 1.25rem 1.5rem;
-  --st-callout-margin-block: 2.5rem;
-  --st-callout-icon-color: currentColor;
+  --_callout-accent: var(--st-color-pink);
 
-  /* styles */
-  background: var(--st-callout-bg);
-  border: 1px solid var(--st-callout-border-color);
-  border-radius: var(--st-callout-radius);
-  padding: var(--st-callout-padding);
+  border-top:    2px solid var(--_callout-accent);
+  border-right:  1px solid var(--st-color-rule-accent);
+  border-bottom: 1px solid var(--st-color-rule-accent);
+  border-left:   1px solid var(--st-color-rule-accent);
   margin: var(--st-callout-margin-block) 0;
+
+  display: grid;
+  grid-template-columns: var(--st-callout-label-width) 1fr;
+  align-items: start;
 }
 
-/* ── Header (icon + title row) ────────────────────────────────────────────── */
-.header {
+/* ── Label column ─────────────────────────────────────────────────────────── */
+.labelCol {
+  background: var(--st-card-label-bg);    /* covers parent bg — bg-through-gap safe */
+  border-right: 1px solid var(--st-color-rule-accent);
+  padding: 1rem 1rem 1rem 1.25rem;
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  flex-direction: column;
+  justify-content: center; /* matches .body — else it stays flex-start while body centers, misaligning short 1-line title vs 1-line content */
+  gap: 0.3rem;
+  align-self: stretch;
 }
 
-.icon {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  color: var(--st-callout-icon-color);
+/* folio number — e.g. "§ 01" */
+.number {
+  font-family: var(--st-font-family-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--_callout-accent);
+  line-height: 1;
 }
 
-.title {
-  font-size: 0.95rem;
-  font-weight: 700;
+/* label / variant name */
+.label {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
   line-height: 1.3;
-}
-
-/* ── Body ─────────────────────────────────────────────────────────────────── */
-.body p {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.55;
   color: var(--st-color-text-default);
+  word-break: break-word;
 }
 
-.body p + p {
-  margin-top: 0.75rem;
+/* ── Body column ──────────────────────────────────────────────────────────── */
+.body {
+  background: var(--st-metadata-body-bg);  /* white light / midnight-700 dark */
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--st-color-text-default);
+  align-self: stretch; /* match .labelCol — else body falls short of row height when label wraps taller, exposing parent bg below the text */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* centers short (1-2 line) content in the stretched box; has no visible effect once content fills the row (3+ lines), which naturally lines up flush with the label/number column */
 }
+
+.body p { margin: 0; }
+.body p + p { margin-top: 0.75rem; }
 
 .body a {
   color: var(--st-color-accent);
@@ -62,61 +78,42 @@
   text-underline-offset: 0.15em;
 }
 
-/* ── Variant: default (pink) ──────────────────────────────────────────────── */
-/* Uses base tokens — no overrides needed */
-.default {
-  --st-callout-icon-color: var(--st-color-brand-primary);
+/* ── Light theme — accent matches variant; info is pink ──────────────────── */
+[data-theme="light-pink-moon"] .info    { --_callout-accent: var(--st-color-pink);       }
+[data-theme="light-pink-moon"] .tip     { --_callout-accent: var(--st-color-violet);     }
+[data-theme="light-pink-moon"] .warn    { --_callout-accent: var(--st-color-orange-400); }
+[data-theme="light-pink-moon"] .danger  { --_callout-accent: var(--st-color-maroon);     }
+
+/* ── Variant accents (dark default) ──────────────────────────────────────── */
+.info    { --_callout-accent: var(--st-color-pink);       }
+.tip     { --_callout-accent: var(--st-color-violet);     }
+.warn    { --_callout-accent: var(--st-color-orange-400); }
+.danger  { --_callout-accent: var(--st-color-maroon);     }
+
+/* ── Banner variant — single-row strip, no label column ──────────────────── */
+.banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  grid-template-columns: unset;
+  padding: 0.75rem 1.25rem;
+  background: var(--st-card-label-bg);  /* covers parent bg — bg-through-gap safe */
+  margin: 0;
 }
 
-/* ── Variant: info (dark default) ─────────────────────────────────────────── */
-.info {
-  --st-callout-bg: var(--st-callout-info-bg);
-  --st-callout-border-color: var(--st-callout-info-border);
-  --st-callout-icon-color: var(--st-callout-info-icon);
+.bannerLabel {
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  color: var(--_callout-accent);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-/* ── Variant: tip (dark default) ──────────────────────────────────────────── */
-.tip {
-  --st-callout-bg: var(--st-callout-tip-bg);
-  --st-callout-border-color: var(--st-callout-tip-border);
-  --st-callout-icon-color: var(--st-callout-tip-icon);
-}
-
-/* ── Variant: warn (dark default) ─────────────────────────────────────────── */
-.warn {
-  --st-callout-bg: var(--st-callout-warn-bg);
-  --st-callout-border-color: var(--st-callout-warn-border);
-  --st-callout-icon-color: var(--st-callout-warn-icon);
-}
-
-/* ── Variant: danger (dark default) ───────────────────────────────────────── */
-.danger {
-  --st-callout-bg: var(--st-callout-danger-bg);
-  --st-callout-border-color: var(--st-callout-danger-border);
-  --st-callout-icon-color: var(--st-callout-danger-icon);
-}
-
-/* ── Light theme overrides — all variants ─────────────────────────────────── */
-[data-theme="light-pink-moon"] .info {
-  --st-callout-bg: var(--st-callout-info-bg-light);
-  --st-callout-border-color: var(--st-callout-info-border-light);
-  --st-callout-icon-color: var(--st-callout-info-icon-light);
-}
-
-[data-theme="light-pink-moon"] .tip {
-  --st-callout-bg: var(--st-callout-tip-bg-light);
-  --st-callout-border-color: var(--st-callout-tip-border-light);
-  --st-callout-icon-color: var(--st-callout-tip-icon-light);
-}
-
-[data-theme="light-pink-moon"] .warn {
-  --st-callout-bg: var(--st-callout-warn-bg-light);
-  --st-callout-border-color: var(--st-callout-warn-border-light);
-  --st-callout-icon-color: var(--st-callout-warn-icon-light);
-}
-
-[data-theme="light-pink-moon"] .danger {
-  --st-callout-bg: var(--st-callout-danger-bg-light);
-  --st-callout-border-color: var(--st-callout-danger-border-light);
-  --st-callout-icon-color: var(--st-callout-danger-icon-light);
+.bannerBody {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--st-color-text-default);
 }

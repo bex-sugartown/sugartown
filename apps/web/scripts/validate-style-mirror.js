@@ -123,15 +123,19 @@ function collectModuleCss(absDir) {
 // Burndown owners (surfaced by SUG-214):
 //   SUG-217 — the 9 smaller drifts — ✅ RECONCILED 2026-07-21, all removed from this set
 //   SUG-219 — Card.module.css — ✅ RECONCILED 2026-07-21, removed from this set
-//   SUG-218 — Callout.module.css — BLOCKED, not a CSS-only reconciliation. The web and
-//             package Callouts are different components: their class sets are nearly
-//             disjoint (web uses labelCol/number/label/banner*, package uses
-//             header/icon/title; only .callout and .body overlap). Making the CSS
-//             byte-identical would break whichever side's JSX lost its classes. The
-//             component-level divergence must be resolved first — see SUG-231.
-const KNOWN_DRIFT = new Set([
-  'Callout.module.css',    // SUG-218 — blocked on component reconciliation, see above
-])
+//   SUG-218 — Callout.module.css — closed as a duplicate; the work moved to SUG-231
+//             Phase 3, because it was never a CSS-only reconciliation. The two Callouts
+//             were different components with nearly disjoint class sets (web used
+//             labelCol/number/label/banner*, the package header/icon/title; only
+//             .callout and .body overlapped), so making the CSS byte-identical would
+//             have left whichever side lost its classes rendering unstyled.
+//             ✅ RECONCILED 2026-07-22 by SUG-231 Phase 3 — the package adopted web's
+//             SUG-99 row format (component + CSS together) and this entry was removed.
+//
+// The set is now EMPTY, and every component CSS mirror is enforced. Adding an entry
+// here again should be a deliberate, documented decision with a named burndown owner —
+// not a way to land a drifted pair.
+const KNOWN_DRIFT = new Set([])
 
 const webComponents = collectModuleCss(resolve(REPO_ROOT, WEB_COMPONENTS_DIR))
 const dsComponents = collectModuleCss(resolve(REPO_ROOT, DS_COMPONENTS_DIR))
@@ -189,7 +193,10 @@ if (failures > 0) {
   process.exit(1)
 }
 
+// SUG-217/218/219 all closed 2026-07-21/22 and KNOWN_DRIFT is empty, so this note no
+// longer prints. Kept generic rather than naming those epics: if an entry is ever added
+// back, the message should point at the set, not at a burndown that has finished.
 const grandfatheredNote = grandfathered > 0
-  ? ` (${grandfathered} component pair(s) grandfathered on KNOWN_DRIFT, burning down via SUG-217/218/219)`
+  ? ` (${grandfathered} component pair(s) grandfathered on KNOWN_DRIFT — see the burndown owners noted beside the set)`
   : ''
 console.log(`\n✅  All enforced style + component mirrors are byte-identical across web and the DS package.${grandfatheredNote}\n`)
