@@ -36,7 +36,7 @@ After this epic, the 6 diverged pairs behave identically, the two live bugs are 
 - [x] **Reconcile `Breadcrumb`** — done 2026-07-22, narrower than originally scoped. The audit found a **live a11y defect** rather than cosmetic drift: web drove both `.current` styling and `aria-current` off the same `isLast` flag, so on `/tools/vercel` the trailing crumb rendered `<a href="/tools" aria-current="page">` — announcing the wrong element as the current page on every detail page using the one-or-two-crumb pattern. Fixed by splitting the two concerns (`isHighlighted = isLast` for the pink styling, `isCurrent = isLast && !item.href` for `aria-current`), which repairs the semantics with zero visual change. The package rule is recorded in-file as canonical. **The remaining DOM differences are deliberately not reconciled:** web imports `react-router-dom` while the package uses the SUG-230 seam — these *cannot* converge while both copies exist, since web is the app and the package must not import a router. `.crumb` is `display: contents`, so the wrapper-vs-Fragment difference renders identically and converging it is churn on a file SUG-224 deletes. Both `Breadcrumb.module.css` copies were already byte-identical and remain so — layer: design-system + frontend
 - [x] **Fix `List`'s `href || '#'` fallback** — done 2026-07-22. **Present in both copies, not just the package one this line named.** Rows without an href now render a plain `<div className={styles.row}>`; this could not be delegated to `<Link>`, which renders children unwrapped when given no href and would have dropped `.row` and collapsed the layout. Required one CSS change in both (byte-identical) copies: `.row` owned layout *and* interactive affordance, so a non-link row kept its pointer cursor and hover tint. Split out a `.rowLink` modifier applied only when an href is present, and moved `cursor: pointer` plus all six hover selectors onto it — layer: design-system
 - [ ] Storybook coverage for each reconciled behaviour, including the previously-broken paths (a story that would have caught the FilterBar and CodeBlock bugs) — layer: Storybook
-- [ ] Decide and record whether behavioural parity can be validated automatically, or is inherently a review-time concern — layer: tooling/docs
+- [x] Decide and record whether behavioural parity can be validated automatically, or is inherently a review-time concern — **answered 2026-07-22: declined, it is a review-time concern.** Full reasoning in §Behavioural parity below — layer: tooling/docs
 
 ## Phases
 
@@ -92,6 +92,61 @@ Confirmed at activation rather than assumed, and the confirmation turned up *why
 
 Five package components have no Storybook story: **Accordion, Breadcrumb, ButtonGroup, Callout, IconButton.** Three of those — Accordion, Breadcrumb, Callout — are diverged pairs in this epic. What is not rendered in Storybook is not reviewed, and what is not reviewed drifts. That is a sharper argument for removing the second copy than "two copies is untidy," and it is the same gap recorded against Phase 2's package Accordion fix.
 
+## Behavioural parity — can it be validated automatically? (answered 2026-07-22)
+
+**No. Declining to build a cross-copy parity validator. Behavioural parity is a review-time concern, and the proportionate fix is SUG-224 removing the second copy.**
+
+### Why byte-comparison cannot extend to JS
+
+`validate-style-mirror.js` works because the two `<Name>.module.css` files are *meant* to be byte-identical. The JS copies are not, and never can be: web is `.jsx` with a default export importing `react-router-dom`; the package is `.tsx` with a named export consuming the SUG-230 link seam. Those differences are the architecture, not drift. Byte-identity is not a goal that can be adapted here.
+
+### Why the rest of the toolchain cannot see it either
+
+Parity is a *relation between two files*. Every other tool in this stack evaluates **one artifact against its own history or its own rules**:
+
+- **Lint** checks a file against rules, not against its twin.
+- **TypeScript** checks the package copy; the web copy is untyped JS, so there is nothing to compare against.
+- **Chromatic** diffs a story against *its own previous baseline*. Two copies can each be perfectly stable and mutually different forever and Chromatic stays green — which is exactly what happened. It catches regression over time, not divergence across copies.
+
+The CSS mirror validator is the only relational check in the repo, and it is relational only because byte-identity gave it something to compare.
+
+### Would a render-diff harness work?
+
+In principle: render both copies with the same props, normalise the CSS-module class hashes, diff the DOM. In practice, two problems.
+
+**It would have to be built from nothing.** The repo has **no test infrastructure at all** — no vitest, no jest, no `@testing-library`, no test script, zero `*.test.*` or `*.spec.*` files (verified 2026-07-22). That is SUG-161's scope, and it is Low priority.
+
+**More important: it pins known divergences, it does not find unknown ones.** A render-diff only catches what its fixtures exercise. Checked against this epic's actual bugs:
+
+| Divergence | Caught by render-diff only if the fixture… |
+|---|---|
+| Accordion missing guard | passes `items={undefined}` |
+| Stack `md`-only condition | renders at a ≥1024px viewport |
+| Breadcrumb `aria-current` | gives the trailing crumb an `href` |
+| CodeBlock missing plugin | asserts on injected row markup |
+| FilterBar unused `onClearAll` | asserts the button exists *and* fires |
+
+Every one needs the fixture author to already suspect the bug. None of these were found by tooling — they were found by a human reading both files side by side in SUG-224's Phase 1 spike. A parity harness would have encoded that human's findings after the fact, not produced them.
+
+### What is worth building instead
+
+Two cheap **single-copy** static checks. Both would have caught real bugs here, and both keep their value after SUG-224 deletes the second copy — unlike a parity harness, which becomes dead code the moment consolidation lands:
+
+1. **`styles.X` referenced but undefined in the paired `.module.css`.** Catches Table's `styles.wide` — still open in this epic's Scope, and the exact same dead-reference family as `onClearAll` and `showLineNumbers`.
+2. **Destructured prop never referenced in the component body.** Catches FilterBar's `onClearAll`, where an `// eslint-disable-next-line no-unused-vars` was sitting on top of the bug as a signed confession.
+
+Neither is a parity check. Both are "this file contradicts itself" checks, which is a tractable problem where parity is not.
+
+### The Storybook gap is not a substitute
+
+Five package components have no story: **Accordion, Breadcrumb, ButtonGroup, Callout, IconButton** — and Accordion, Breadcrumb and Callout are three of this epic's diverged pairs. Adding stories is worth doing, but be clear about what it buys: **visibility to a human reviewer, not automated parity.** As noted above, Chromatic cannot compare the two copies. Callout is the proof — its package copy had no story, so it had no baseline, so nothing was ever green or red about it; it simply was not looked at for months.
+
+For Accordion, Breadcrumb and Callout the story is currently blocked anyway: `Components/<Name>` is owned by the web mirror's story file, so a package story collides on title. That resolves when SUG-224 decides which copy survives.
+
+### Conclusion
+
+The root cause is not a missing validator. It is that **two hand-maintained copies of the same component exist**, and only one axis of them (CSS) has a property strong enough to check mechanically. Building a parity harness would be investing in the duplication rather than removing it. Ship the two self-contradiction checks, add the missing stories where the title collision allows, and let SUG-224 delete the second copy — after which this question stops existing.
+
 ## Acceptance criteria
 
 - [ ] FilterBar's clear-all button appears and works on a live archive page with active filters; the `eslint-disable` on `onClearAll` is gone
@@ -102,7 +157,7 @@ Five package components have no Storybook story: **Accordion, Breadcrumb, Button
 - [x] Callout's canonical variant set is decided and recorded in this doc before implementation; both copies then expose the same variants — decision recorded in `357713f7`, implemented in `29fae02d`, in that order
 - [ ] Storybook has a story per fixed behaviour, on `default` and `dark-pink-moon`
 - [ ] Chromatic diffs reviewed — FilterBar and Callout will legitimately diff (new UI); Accordion/Container/Stack/CodeBlock should not diff on their default paths
-- [ ] The behavioural-parity validation question is answered in writing (implemented, or explicitly declined with reasoning)
+- [x] The behavioural-parity validation question is answered in writing (implemented, or explicitly declined with reasoning) — **explicitly declined**, with reasoning and two cheaper alternatives proposed, in §Behavioural parity
 
 ## Human QA Walkthrough — example local pages
 
