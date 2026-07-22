@@ -69,6 +69,27 @@ So the CSS drift is a symptom, and the real work is porting one canonical Callou
 
 Blast radius is small: `apps/contentful-poc` does not use Callout at all (0 files), so changing the package Callout affects Storybook only. `Callout.module.css` remains on `KNOWN_DRIFT` with an explanatory comment until this phase lands.
 
+### Canonical decision — recorded 2026-07-22, before implementation (satisfies the AC)
+
+**Web is canonical. The package Callout adopts web's SUG-99 row format wholesale.**
+
+Confirmed at activation rather than assumed, and the confirmation turned up *why* the package drifted: **`Components/Callout` is owned by the web copy's story file, and the package Callout has no story at all.** The published Storybook at `pinkmoon.sugartown.io/?path=/docs/components-callout--docs` has therefore only ever rendered the web component. The lucide-icon package variant has never been visible to anyone reviewing the DS — so "align with Storybook" and "align with web" are the same instruction.
+
+| | Package today | After Phase 3 |
+|---|---|---|
+| Variants | `default` `info` `tip` `warn` `danger` | `info` (default) `tip` `warn` `danger` `banner` |
+| `icon` prop | per-variant lucide defaults + override | **removed** |
+| DOM | `header` / `icon` / `title` / `body` | `labelCol` / `number` / `label` / `body`; banner uses `bannerLabel` / `bannerBody` |
+| Props gained | — | `number`, `content` |
+
+`default` is dropped because SUG-192 already removed it from web as CSS-identical to `info`. The lucide icons go because they are decorative per-variant ornaments; this is **not** a general anti-lucide rule — Accordion's `ChevronDown` is a functional control, exists identically in both copies, and stays.
+
+**This is a breaking change to the package's public API** — `Callout` and `CalloutProps` are barrel-exported from `packages/design-system/src/index.ts`. Blast radius re-verified directly rather than taken from the paragraph above: `apps/contentful-poc` references Callout in **0 files**. No known consumer, but the break is real and named rather than discovered later.
+
+### Root cause worth carrying to SUG-224
+
+Five package components have no Storybook story: **Accordion, Breadcrumb, ButtonGroup, Callout, IconButton.** Three of those — Accordion, Breadcrumb, Callout — are diverged pairs in this epic. What is not rendered in Storybook is not reviewed, and what is not reviewed drifts. That is a sharper argument for removing the second copy than "two copies is untidy," and it is the same gap recorded against Phase 2's package Accordion fix.
+
 ## Acceptance criteria
 
 - [ ] FilterBar's clear-all button appears and works on a live archive page with active filters; the `eslint-disable` on `onClearAll` is gone
