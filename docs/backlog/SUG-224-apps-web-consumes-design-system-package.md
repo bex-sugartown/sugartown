@@ -1,15 +1,23 @@
 ---
 **Epic:** SUG-224 — apps/web consumes @sugartown/design-system
 **Linear Issue:** [SUG-224](https://linear.app/sugartown/issue/SUG-224)
-**Status:** Backlog — ⛔ **BLOCKED** on SUG-217 / SUG-218 / SUG-219 (see Phase 1 Findings)
+**Status:** Backlog — 🟢 **Prerequisites cleared 2026-07-22.** Re-phased; Phase 0 (spec amendment) is the entry point
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
 
-> **⚠️ Phase 1 ran 2026-07-21 and parked the epic. Read §Phase 1 Findings before touching anything.**
-> The consumption-strategy decision is recorded and Phase 1 is complete. Phases 2–3 are blocked:
-> the CSS mirror reconciliation epics must ship first, and this epic's Scope/AC/Non-Goals need
-> amending before execution resumes (they are mutually contradictory as originally written).
+> **⚠️ Read §Phase 1 Findings and §Re-phased 2026-07-22 before touching anything.**
+>
+> Phase 1 ran 2026-07-21 and parked the epic. **All four blockers are now resolved or scheduled:**
+> Blocker 1 (no link seam) — solved upstream by SUG-230, which shipped v0.29.4; `apps/web` just
+> needs to mount a `LinkProvider`. Blocker 2 (unachievable structural-closure AC) — AC amended
+> 2026-07-22, replaced by a 44-row disposition table. Blocker 3 (CSS epics) — SUG-217/219 shipped,
+> SUG-218 absorbed into SUG-231, and `KNOWN_DRIFT` is **empty**. Blocker 4 (package `Button` has no
+> `href`) — inherited from SUG-231 and scheduled as Phase 1b.
+>
+> **Entry point is Phase 0**, which is spec work only: complete the disposition table and confirm
+> no remaining AC is unachievable. The epic parked the first time because execution started against
+> a spec that could not pass — do not skip it.
 
 # SUG-224 — apps/web consumes @sugartown/design-system
 
@@ -25,7 +33,14 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 
 ## Scope
 
-- [ ] Add `@sugartown/design-system` as a workspace dependency of apps/web — layer: tooling
+> **Every Scope item below names its phase** (added 2026-07-22 — SUG-231 shipped with a Scope item, Table's `.wide`, that belonged to no phase at all and would have gone unnoticed).
+
+- [ ] **Phase 0 —** Fill in the per-component **disposition table** below: all 44 web component directories classified re-export / promote / stays-web-only, with a reason on every stays-web-only row — layer: docs
+- [ ] **Phase 0 —** Amend §Acceptance criteria and §Non-Goals per Blockers 2 and 4 (done 2026-07-22; verify no other AC is unachievable before execution resumes) — layer: docs
+- [ ] **Phase 1b —** Add `href` to the package `Button` via the SUG-230 seam; decide `target="_blank"`/`rel` — layer: design-system
+- [ ] **Phase 2 —** Mount `LinkProvider` in `apps/web` supplying `react-router`'s `Link`; verify SPA nav unchanged on a real page — layer: frontend
+- [ ] **Phase 3 —** Add package Storybook stories for Accordion, Breadcrumb, ButtonGroup, Callout, IconButton; resolve the `Components/<Name>` title collision — layer: Storybook
+- [ ] **Phase 1 —** Add `@sugartown/design-system` as a workspace dependency of apps/web — layer: tooling
 - [ ] Resolve the JSX↔TSX consumption strategy (source vs built package, CSS module handling, `exports` map coverage) and record it as a decision note in this doc — layer: tooling
 - [ ] Replace each mirror component in `apps/web/src/design-system/components/` with a re-export from the package (or delete + update import sites) — layer: frontend
 - [ ] Dedupe mirrored component CSS modules (package copy becomes the only copy) — layer: frontend
@@ -38,9 +53,29 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 
 **Phase 1 — Consumption spike (decision ships, no page changes).** ✅ **COMPLETE 2026-07-21** — decision recorded in §Phase 1 Findings. Ran as a read-only audit; no dependency was wired and no branch state was produced, because the spike surfaced three blockers that must be resolved first. ~~Prove one component (Card)~~ — when execution resumes, spike a pure mirror, not Card (see Corrections).
 
-**Phase 2 — Component migration.** Replace the remaining mirrors with re-exports, dedupe CSS modules, fix import sites. Output: zero mirror component implementations left; `grep` structural-closure check passes.
+---
 
-**Phase 3 — Verification + docs close-out.** Full visual QA walkthrough, Chromatic run, registry/CLAUDE.md/epic-template updates, diagram + caption update via Content Write Gate. Output: epic ships, mini-release from main.
+### Re-phased 2026-07-22 (SUG-231 post-mortem)
+
+The original Phases 2–3 assumed the only work left was mechanical replacement. It isn't, and the epic parked once already because the AC could not pass. Phases below are ordered by what unblocks what, not by tidiness.
+
+**Inventory verified 2026-07-22 by direct count, not read from this doc:** 44 web component dirs, 38 package dirs — **38 paired, 6 web-only, 0 package-only.** 23 web files declare themselves mirrors. 6 web *implementations* import `react-router`: `Card`, `Chip`, `Tile`, `Button`, `Breadcrumb`, `IndexCell`.
+
+**The unlock that changes this epic's shape:** SUG-230's link seam already covers **Card, Chip, Breadcrumb, IndexCell and List** in the package, and `apps/web` does **not** yet mount a `LinkProvider` — only `apps/contentful-poc` does. Mounting one at the web root converts five of the six router-importing adapters into plain re-exports. Blocker 1 ("the package hard-codes `<a href>`, and fixing it needs a DS API change our Non-Goals forbid") is therefore already solved upstream; what remains is wiring, not design.
+
+**Phase 0 — Fix the spec before touching code.** Amend §Scope, §Acceptance criteria and §Non-Goals per Blockers 2 and 4. Specifically: replace the `grep`-returns-zero structural-closure AC with an explicit per-component **disposition table** (re-export / stays web-only / promoted to package), and drop the "no API changes" Non-Goal, which makes Blocker 4 unresolvable inside the epic that owns it. No code. Output: an epic whose ACs can actually pass.
+
+**Phase 1b — Package `Button` gains `href` (Blocker 4).** Consume the SUG-230 seam; settle whether `target="_blank"`/`rel` comes to the package. Sole remaining hard prerequisite. Inherited from SUG-231, which correctly refused to decide it in isolation.
+
+**Phase 2 — Mount `LinkProvider` in `apps/web`.** One provider at the app root supplying `react-router`'s `Link`. Verify SPA navigation is unchanged on a real page before converting anything. Highest-leverage step in the epic: it retires the adapter justification for five components at once.
+
+**Phase 3 — Storybook coverage for the surviving copy.** Add package stories for **Accordion, Breadcrumb, ButtonGroup, Callout, IconButton**, resolving the `Components/<Name>` title collision by deciding which copy survives. Must precede Phase 4 so Chromatic has baselines for the components being migrated. Without this, migration is unverifiable — the absence of these five stories is what let all the SUG-217/218/219/231 drift go unseen in the first place.
+
+**Phase 4 — Convert the pure mirrors in batches.** Re-export from the package, delete the web implementation, dedupe the CSS module. Chromatic between batches. Mechanical once Phases 1b–3 land.
+
+**Phase 5 — Dispose of the remainder explicitly.** The 6 web-only components (`Grid`, `PageHeader`, `SectionLabel`, `Sidebar`, `SidebarNav`, `Tile`) plus any adapter that keeps a genuine app-layer difference: each gets a row in the disposition table saying promoted-to-package or stays-web-only-because-X. This is what closes the AC honestly instead of fudging a `grep`.
+
+**Phase 6 — Docs + diagram close-out.** Retire the DS-component-mirror row from CLAUDE.md §Mirrored File Registry and the web-adapter-sync steps in `docs/epic-template.md`; update `validate-style-mirror.js` scope; diagram dashed→solid + caption via the Content Write Gate.
 
 ## Phase 1 Findings (2026-07-21) — decision shipped, execution parked
 
@@ -106,10 +141,63 @@ Handed over from SUG-231 Phase 1b, where it sat in Scope while that epic's own N
 5. Add `href` to the package `Button` via the SUG-230 seam, and settle the target/rel question (Blocker 4).
 6. Fold in SUG-231's declined Breadcrumb work: web's `react-router-dom` import vs the package's seam, and the `.crumb` wrapper vs `React.Fragment`. Both were left unreconciled on the explicit grounds that this epic deletes the web copy — if that changes, they come back into play.
 
+## Disposition table (Phase 0 deliverable)
+
+Generated 2026-07-22 from the live directory listing — **44 rows, one per web component directory.**
+Every row must reach a non-TBD verdict before Phase 4 begins; the amended structural-closure AC is
+satisfied by this table being complete, not by a grep returning zero.
+
+| Component | Pairing | Verdict | Note |
+|---|---|---|---|
+| `Breadcrumb` | paired | TBD | router import retired by Phase 2 LinkProvider |
+| `FilterBar` | paired | TBD | candidate re-export |
+| `PageHeader` | web-only | stays web-only | no package counterpart — promote or justify |
+| `accordion` | paired | TBD | candidate re-export |
+| `app-shell` | paired | TBD | candidate re-export |
+| `avatar` | paired | TBD | candidate re-export |
+| `blockquote` | paired | TBD | candidate re-export |
+| `box` | paired | TBD | candidate re-export |
+| `button` | paired | TBD | blocked on Phase 1b — package Button has no `href` |
+| `button-group` | paired | TBD | candidate re-export |
+| `callout` | paired | TBD | candidate re-export |
+| `card` | paired | TBD | router import retired by Phase 2 LinkProvider |
+| `chip` | paired | TBD | router import retired by Phase 2 LinkProvider |
+| `citation` | paired | TBD | candidate re-export |
+| `codeblock` | paired | TBD | candidate re-export |
+| `columns` | paired | TBD | candidate re-export |
+| `container` | paired | TBD | candidate re-export |
+| `description-list` | paired | TBD | candidate re-export |
+| `error-message` | paired | TBD | candidate re-export |
+| `field` | paired | TBD | candidate re-export |
+| `grid` | web-only | stays web-only | no package counterpart — promote or justify |
+| `helper-text` | paired | TBD | candidate re-export |
+| `icon-button` | paired | TBD | candidate re-export |
+| `index-cell` | paired | TBD | router import retired by Phase 2 LinkProvider |
+| `index-group` | paired | TBD | candidate re-export |
+| `input` | paired | TBD | candidate re-export |
+| `label` | paired | TBD | candidate re-export |
+| `list` | paired | TBD | router import retired by Phase 2 LinkProvider |
+| `media` | paired | TBD | candidate re-export |
+| `meter` | paired | TBD | candidate re-export |
+| `metric` | paired | TBD | candidate re-export |
+| `page` | paired | TBD | candidate re-export |
+| `score-ring` | paired | TBD | candidate re-export |
+| `section-label` | web-only | stays web-only | no package counterpart — promote or justify |
+| `segmented-control` | paired | TBD | candidate re-export |
+| `sidebar` | web-only | stays web-only | no package counterpart — promote or justify |
+| `sidebar-nav` | web-only | stays web-only | no package counterpart — promote or justify |
+| `skeleton` | paired | TBD | candidate re-export |
+| `stack` | paired | TBD | candidate re-export |
+| `surface` | paired | TBD | candidate re-export |
+| `swatch` | paired | TBD | candidate re-export |
+| `table` | paired | TBD | candidate re-export |
+| `textarea` | paired | TBD | candidate re-export |
+| `tile` | web-only | stays web-only | no package counterpart — promote or justify |
+
 ## Acceptance criteria
 
 - [ ] `apps/web/package.json` contains `@sugartown/design-system` and `pnpm build` succeeds from a clean install
-- [ ] Structural closure: `grep -rn "Mirrors: packages/design-system" apps/web/src/` returns zero results; no file under `apps/web/src/design-system/components/` contains a component implementation (re-exports only, or directory removed)
+- [ ] **Structural closure, stated as a disposition rather than a grep** (amended 2026-07-22 — Blocker 2): every one of the 44 web component directories has a row in the disposition table with one of three verdicts — **re-exported** from the package, **promoted** to the package, or **stays web-only** with a stated reason. No directory is unaccounted for. The original AC — `grep -rn "Mirrors: packages/design-system" apps/web/src/` returns zero — is **retired**: 6 components are legitimately web-only with no package counterpart, so it could never pass, and an AC that cannot pass is what parked this epic the first time. The grep survives only as a narrower check: no file under `apps/web/src/design-system/components/` that the table marks **re-exported** still contains an implementation.
 - [ ] Every route in the Human QA Walkthrough table renders identically to pre-epic (spot-checked on `default` and `dark-pink-moon`); Chromatic diff review shows no unapproved visual change
 - [ ] Storybook builds and all existing stories render without console errors
 - [ ] `pnpm validate:tokens`, `validate:tokens --strict-colors`, and `validate:style-mirror` all pass (style-mirror scope updated if the epic changes which files are mirrored)
@@ -143,7 +231,7 @@ Handed over from SUG-231 Phase 1b, where it sat in Scope while that epic's own N
 
 ## Non-Goals
 
-- No visual or API changes to any DS component — this epic moves where components live, not what they render. Any wanted component change is its own epic.
+- ~~No visual or API changes to any DS component~~ — **amended 2026-07-22 (Blocker 4).** No **visual** changes: this epic moves where components live, not what they render, and any wanted *visual* change is still its own epic. But the blanket "no API changes" is retired, because it made Blocker 4 unresolvable inside the epic that owns it — the package `Button` has no `href` at all, and `apps/web` cannot consume a Button that cannot navigate. **Permitted API changes are narrowly scoped to closing consumption gaps**: adding a prop the web adapter already has and the package lacks. Adding a *new* capability neither copy has remains out of scope. Each permitted change is listed in the disposition table with the web-side prop it is matching. This is the same self-contradiction shape SUG-231 hit (its Scope said add `href`, its Non-Goals said don't) — resolved here rather than passed on again.
 - No new components, tokens, or theme work.
 - No change to the token pipeline (`tokens.json` → generated `tokens.css` ×2 stays as is; whether the web copy of generated tokens can also be retired is a follow-up question, out of scope here).
 - apps/contentful-poc is untouched (already consumes the package).
