@@ -10,6 +10,8 @@ export interface ContainerProps {
   as?: React.ElementType;
   children?: React.ReactNode;
   className?: string;
+  /** Inline style passthrough, for one-off overrides the size prop cannot express. */
+  style?: React.CSSProperties;
 }
 
 const SIZE_CLASS: Record<ContainerSize, string> = {
@@ -20,10 +22,10 @@ const SIZE_CLASS: Record<ContainerSize, string> = {
   bleed:   styles.bleed,
 };
 
-export function Container({ size = 'reading', as, children, className }: ContainerProps) {
+export function Container({ size = 'reading', as, children, className, style }: ContainerProps) {
   const Tag = as || 'div';
   return (
-    <Tag className={[styles.container, SIZE_CLASS[size], className].filter(Boolean).join(' ')}>
+    <Tag className={[styles.container, SIZE_CLASS[size], className].filter(Boolean).join(' ')} style={style}>
       {children}
     </Tag>
   );

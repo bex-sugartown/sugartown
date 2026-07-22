@@ -23,8 +23,8 @@ export interface AccordionItem {
 }
 
 export interface AccordionProps {
-  /** Array of accordion items */
-  items: AccordionItem[];
+  /** Array of accordion items. Absent or empty renders nothing. */
+  items?: AccordionItem[];
   /** Allow multiple items open at once (default: false — single-expand) */
   multi?: boolean;
   /** IDs of items that should be open initially */
@@ -60,6 +60,12 @@ export function Accordion({
   };
 
   const classNames = [styles.accordion, numbered ? styles.accordionNumbered : '', className].filter(Boolean).join(' ');
+
+  // Empty/absent collections render nothing rather than throwing on items.map.
+  // Deliberately below the hooks — an early return above useState/useId would
+  // break the Rules of Hooks. Matches the web copy, which is canonical here
+  // (SUG-231 Phase 2).
+  if (!items || items.length === 0) return null;
 
   return (
     <div className={classNames}>

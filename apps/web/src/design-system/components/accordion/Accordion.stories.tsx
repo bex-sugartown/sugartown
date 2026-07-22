@@ -79,3 +79,18 @@ export const Numbered: Story = {
   name: 'Numbered',
   args: { items: CS_QUESTIONS, numbered: true },
 };
+
+/**
+ * No items — renders nothing rather than throwing (SUG-231).
+ *
+ * The package copy had no guard and threw on `items.map` for `items={undefined}`;
+ * this copy already returned null and is canonical. Both now match. The guard
+ * sits below the hooks deliberately — an early return above `useState`/`useId`
+ * would break the Rules of Hooks.
+ *
+ * Renders an empty frame. A thrown error here is the regression.
+ */
+export const EmptyItems: Story = {
+  name: 'Empty / undefined items',
+  args: { items: undefined },
+};

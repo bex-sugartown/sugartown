@@ -48,6 +48,27 @@ export const Bleed: Story = {
   ),
 };
 
+/**
+ * Inline `style` passthrough (SUG-231).
+ *
+ * The package copy accepted no `style` prop, so a one-off override the `size`
+ * prop cannot express was silently dropped. Both copies now apply it.
+ *
+ * The outline and tinted background below come from `style` — if they are
+ * missing, the passthrough regressed.
+ */
+export const StylePassthrough: Story = {
+  name: 'Inline style passthrough',
+  render: () => (
+    <Container
+      size="reading"
+      style={{ outline: '2px dashed var(--st-color-brand-primary)', background: 'var(--st-color-lime-100)', paddingBlock: '24px' }}
+    >
+      <DemoBlock label="style={{ outline, background, paddingBlock }} applied" />
+    </Container>
+  ),
+};
+
 export const AllSizes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingBlock: '24px' }}>

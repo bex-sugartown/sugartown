@@ -53,7 +53,12 @@ export function Stack({
     <Tag
       className={[
         styles.stack,
-        typeof direction === 'object' && direction.md && styles.responsive,
+        // Gate on md OR lg: keying off md alone meant { base, lg } — a valid
+        // shape with no md breakpoint — never got .responsive, so the
+        // --stack-direction-lg var set below had no rule to apply it and the
+        // stack silently stayed vertical at lg. Web copy is canonical
+        // (SUG-231 Phase 2).
+        typeof direction === 'object' && (direction.md || direction.lg) && styles.responsive,
         className,
       ].filter(Boolean).join(' ')}
       style={inlineVars as React.CSSProperties}
