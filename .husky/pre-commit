@@ -28,5 +28,11 @@ pnpm --filter web validate:style-mirror || exit 1
 # Raw value lint — no hardcoded hex/rgba in component CSS files
 pnpm --filter web validate:tokens:strict || exit 1
 
+# Dead-reference check — styles.X with no matching class, and destructured props
+# never referenced. Both are invisible to lint/TS/Chromatic: valid code, stable
+# output, silently doing nothing. Caught Table's styles.wide and FilterBar's
+# onClearAll after each had shipped. SUG-231 post-mortem.
+pnpm --filter web validate:dead-refs || exit 1
+
 # ESLint — zero errors required (warnings are allowed)
 pnpm --filter web lint || exit 1

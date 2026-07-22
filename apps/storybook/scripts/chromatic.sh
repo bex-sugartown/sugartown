@@ -18,7 +18,25 @@
 
 set -a; . ./.env 2>/dev/null; set +a
 
-CHANGED=$(git diff --name-only HEAD~1 2>/dev/null)
+# Compare against the last PUSHED commit, not HEAD~1.
+#
+# HEAD~1 is only correct when every commit is pushed individually. This repo
+# batches commits between /eod pushes, so HEAD~1 asks "did the tip commit touch
+# visual files?" when the real question is "did anything since the last push?".
+# An epic that ends on a docs commit — which every close-out does — then skips
+# VRT for its entire batch.
+#
+# This fired for real on SUG-231 (2026-07-22): the tip commit was docs-only, so
+# CHANGED held one .md file, VISUAL came back empty, and the script would have
+# exited 0 while 43 changed component/story files went unsnapshotted. Chromatic
+# had to be invoked manually to get build 78.
+#
+# origin/main is the correct baseline: it is what production/Chromatic last saw.
+# Falls back to HEAD~1 only when there is no origin/main to compare against.
+BASE=$(git rev-parse --verify --quiet origin/main || echo "HEAD~1")
+CHANGED=$(git diff --name-only "$BASE"...HEAD 2>/dev/null)
+
+echo "[chromatic] Comparing against $BASE ($(printf '%s\n' "$CHANGED" | grep -c . ) changed file(s))"
 
 if [ -z "$CHANGED" ]; then
   echo "[chromatic] No changed files detected — skipping"
