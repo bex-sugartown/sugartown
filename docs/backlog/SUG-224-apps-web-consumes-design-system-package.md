@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-224 — apps/web consumes @sugartown/design-system
 **Linear Issue:** [SUG-224](https://linear.app/sugartown/issue/SUG-224)
-**Status:** Backlog — 🟢 **Phase 0 complete 2026-07-23.** Disposition table filled (44/44), decisions A/B/C recorded, Non-Goals amended. Prerequisites verified live: `KNOWN_DRIFT` empty, SUG-217/218/219 shipped, all mirror CSS byte-identical. **Next: Phase 1b (package Button gains href + target/rel).**
+**Status:** In Progress — 🟢 **Phase 0 + Phase 1b complete 2026-07-23.** Disposition table filled (44/44), decisions A/B/C recorded, Non-Goals amended. Package `Button` now accepts `href` (commit `0bb66ecc`). **Next: Phase 2 (mount `LinkProvider` in apps/web).**
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -37,7 +37,7 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 
 - [x] **Phase 0 —** Fill in the per-component **disposition table** below: all 44 web component directories classified re-export / promote / stays-web-only, with a reason on every stays-web-only row — layer: docs ✅ 2026-07-23 (26 re-export · 4 P2 · 1 P1b · 7 P4 · 4 promote · 2 web-only)
 - [x] **Phase 0 —** Amend §Acceptance criteria and §Non-Goals per Blockers 2 and 4 (done 2026-07-22); decisions A/B/C recorded 2026-07-23; verified no remaining AC is unachievable — layer: docs
-- [ ] **Phase 1b —** Add `href` to the package `Button` via the SUG-230 seam; decide `target="_blank"`/`rel` — layer: design-system
+- [x] **Phase 1b —** Add `href` to the package `Button` via the SUG-230 seam; decide `target="_blank"`/`rel` — layer: design-system ✅ 2026-07-23 (commit `0bb66ecc`) — target/rel brought to package per decision C
 - [ ] **Phase 2 —** Mount `LinkProvider` in `apps/web` supplying `react-router`'s `Link`; verify SPA nav unchanged on a real page — layer: frontend
 - [ ] **Phase 3 —** Add package Storybook stories for Accordion, Breadcrumb, ButtonGroup, Callout, IconButton; resolve the `Components/<Name>` title collision — layer: Storybook
 - [ ] **Phase 1 —** Add `@sugartown/design-system` as a workspace dependency of apps/web — layer: tooling
@@ -65,7 +65,7 @@ The original Phases 2–3 assumed the only work left was mechanical replacement.
 
 **Phase 0 — Fix the spec before touching code.** Amend §Scope, §Acceptance criteria and §Non-Goals per Blockers 2 and 4. Specifically: replace the `grep`-returns-zero structural-closure AC with an explicit per-component **disposition table** (re-export / stays web-only / promoted to package), and drop the "no API changes" Non-Goal, which makes Blocker 4 unresolvable inside the epic that owns it. No code. Output: an epic whose ACs can actually pass.
 
-**Phase 1b — Package `Button` gains `href` (Blocker 4).** Consume the SUG-230 seam; settle whether `target="_blank"`/`rel` comes to the package. Sole remaining hard prerequisite. Inherited from SUG-231, which correctly refused to decide it in isolation.
+**Phase 1b — Package `Button` gains `href` (Blocker 4).** ✅ **COMPLETE 2026-07-23** (commit `0bb66ecc`). Consumed the SUG-230 seam for internal hrefs; `target="_blank"`/`rel="noopener noreferrer"` brought to the package for external hrefs (decision C) — overrides the seam's default for Button only. Verified in Storybook light + dark-pink-moon. Sole remaining hard prerequisite, now cleared. Inherited from SUG-231, which correctly refused to decide it in isolation.
 
 **Phase 2 — Mount `LinkProvider` in `apps/web`.** One provider at the app root supplying `react-router`'s `Link`. Verify SPA navigation is unchanged on a real page before converting anything. Highest-leverage step in the epic: it retires the adapter justification for five components at once.
 
