@@ -14,7 +14,7 @@ function buildKicker() {
 }
 import { TRUST_LINKS } from '../lib/routes'
 import Tile from '../design-system/components/tile/Tile'
-import Table, { TableWrap } from '../design-system/components/table/Table'
+import { Table, TableWrap } from '@sugartown/design-system'
 import SectionLabel from '../design-system/components/section-label/SectionLabel'
 import CwvSnapshot from './CwvSnapshot'
 import styles from './TrustReportSection.module.css'

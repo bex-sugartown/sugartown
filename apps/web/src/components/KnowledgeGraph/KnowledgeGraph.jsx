@@ -7,7 +7,7 @@
  * MutationObserver on data-theme triggers re-resolution on theme switch.
  */
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
-import IconButton from '../../design-system/components/icon-button/IconButton'
+import { IconButton } from '@sugartown/design-system'
 import styles from './KnowledgeGraph.module.css'
 
 // Node visual radii by type

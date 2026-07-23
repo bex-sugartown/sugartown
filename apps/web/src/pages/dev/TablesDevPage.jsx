@@ -6,8 +6,7 @@
  * Roadmap fixture = actual production data from stats.json (linearRoadmap).
  * Projects field omitted in stats pipeline — rendered as empty chip list.
  */
-import Table, { TableWrap } from '../../design-system/components/table/Table'
-import Swatch from '../../design-system/components/swatch/Swatch'
+import { Table, TableWrap, Swatch } from '@sugartown/design-system'
 import Chip from '../../design-system/components/chip/Chip'
 import styles from './TablesDevPage.module.css'
 

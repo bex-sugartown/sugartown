@@ -9,7 +9,7 @@
  *   filterLetter   {string | null}        — currently selected letter (null = all)
  *   onSelect       {function}             — (letter: string | null) → void
  */
-import IndexGroup from '../design-system/components/index-group/IndexGroup'
+import { IndexGroup } from '@sugartown/design-system'
 import IndexCell from '../design-system/components/index-cell/IndexCell'
 import styles from './AlphaFilter.module.css'
 

@@ -1,9 +1,0 @@
-.surface {
-  background: var(--st-color-bg-surface);
-  border-radius: var(--st-radius-card);
-}
-
-.elevation0 { box-shadow: none; }
-.elevation1 { box-shadow: var(--st-shadow-sm); }
-.elevation2 { box-shadow: var(--st-shadow-md); }
-.elevation3 { box-shadow: var(--st-shadow-elevation-float); }

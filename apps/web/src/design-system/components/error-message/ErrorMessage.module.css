@@ -1,7 +1,0 @@
-.errorMessage {
-  margin: 0;
-  font-family: var(--st-font-family-ui);
-  font-size: var(--st-font-size-xs);
-  color: var(--st-color-brand-primary);
-  line-height: 1.4;
-}

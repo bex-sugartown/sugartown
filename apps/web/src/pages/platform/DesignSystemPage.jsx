@@ -4,7 +4,7 @@ import Tile from '../../design-system/components/tile/Tile' // bar callers only 
 import StatCard from '../../components/StatCard'
 import Grid from '../../design-system/components/grid/Grid'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import Table, { TableWrap } from '../../design-system/components/table/Table'
+import { Table, TableWrap } from '@sugartown/design-system'
 import { MermaidDiagram } from '../../components/PageSections'
 import { PLATFORM_ROUTES, TRUST_LINKS, FIGJAM_URLS } from '../../lib/routes'
 import stats from '../../generated/stats.json'
