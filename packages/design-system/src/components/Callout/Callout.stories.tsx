@@ -9,11 +9,14 @@
  *
  * SUG-99. Colorways consolidated to Controls-only per SUG-192
  * (`default` removed — it was CSS-identical to `info`).
+ *
+ * Package copy is canonical (SUG-224 Phase 0 decision A, 2026-07-23) — API
+ * confirmed identical to apps/web/src/design-system/components/callout/Callout.jsx.
  */
 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import Callout from './Callout';
+import { Callout } from './Callout';
 
 const meta: Meta<typeof Callout> = {
   title: 'Components/Callout',

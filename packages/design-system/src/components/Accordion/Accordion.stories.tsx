@@ -4,12 +4,13 @@
  * Expand/collapse component with ink top rule, hairline dividers, and pink
  * open chevron. `numbered` adds a Q.NN prefix column and Cormorant question text.
  *
- * SUG-99
+ * SUG-99. Package copy is canonical (SUG-224 Phase 0 decision A, 2026-07-23) —
+ * ported from apps/web/src/design-system/components/accordion/Accordion.jsx.
  */
 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import Accordion from './Accordion';
+import { Accordion } from './Accordion';
 
 const meta: Meta<typeof Accordion> = {
   title: 'Components/Accordion',
@@ -81,14 +82,10 @@ export const Numbered: Story = {
 };
 
 /**
- * No items — renders nothing rather than throwing (SUG-231).
- *
- * The package copy had no guard and threw on `items.map` for `items={undefined}`;
- * this copy already returned null and is canonical. Both now match. The guard
- * sits below the hooks deliberately — an early return above `useState`/`useId`
- * would break the Rules of Hooks.
- *
- * Renders an empty frame. A thrown error here is the regression.
+ * No items — renders nothing rather than throwing. The guard sits below the
+ * hooks deliberately — an early return above `useState`/`useId` would break
+ * the Rules of Hooks. Renders an empty frame; a thrown error here is the
+ * regression.
  */
 export const EmptyItems: Story = {
   name: 'Empty / undefined items',

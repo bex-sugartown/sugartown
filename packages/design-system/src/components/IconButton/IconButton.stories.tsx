@@ -3,20 +3,26 @@
  *
  * Two shapes:
  *   square — 4px radius (default). Matches SegmentedControl `.iconBtn` token contract.
- *   circle — full radius. ThemeToggle is the canonical live instance.
+ *   circle — full radius.
  *
  * Hover / active: brand-pink border + icon.
  * Rest: `--st-index-cell-inactive-color` border, `--st-color-text-muted` icon.
  * Always requires `aria-label` — no visible text.
+ *
+ * Ported to the package SUG-224 Phase 3 (2026-07-23) — pure mirror
+ * (byte-identical CSS). Retires apps/web/src/components/IconButton.stories.tsx,
+ * which collided on this same `Components/IconButton` title. The composite
+ * "ThemeToggle (live)" story is dropped here — that live-usage coverage
+ * belongs to ThemeToggle's own story (`Legacy/ThemeToggle`), not the DS
+ * primitive's.
  */
 
 import React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import { Sun, Moon, ExternalLink, Globe, ChevronDown, X } from 'lucide-react'
-import IconButton from '../design-system/components/icon-button/IconButton'
-import ThemeToggle from './ThemeToggle'
+import { Sun, Moon, ExternalLink, X } from 'lucide-react'
+import { IconButton } from './IconButton'
 
-/* ── Custom (non-Lucide) SVGs sourced from ArchivePage.jsx ── */
+/* ── Custom (non-Lucide) SVGs sourced from apps/web/src/pages/ArchivePage.jsx ── */
 const GridIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
     <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
@@ -139,12 +145,6 @@ export const ArchiveLayoutToggle: Story = {
       </div>
     </div>
   ),
-}
-
-export const ThemeToggleStory: Story = {
-  name: 'ThemeToggle (live)',
-  parameters: { controls: { disable: true } },
-  render: () => <ThemeToggle />,
 }
 
 export const AllStates: Story = {

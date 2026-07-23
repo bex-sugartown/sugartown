@@ -1,24 +1,20 @@
 /**
- * ButtonGroup stories — SUG-126
+ * ButtonGroup stories — SUG-126, ported to the package SUG-224 Phase 3
+ * (2026-07-23) — package copy is a pure mirror (byte-identical CSS).
  *
- * Layout-only primitive that codifies multi-button flex strips.
- * Uses MemoryRouter because Button renders <Link> for internal hrefs.
+ * No MemoryRouter needed: Button renders internal hrefs through the DS Link
+ * seam (SUG-230), which falls back to a plain <a> when no LinkProvider is
+ * mounted — Storybook doesn't mount one.
  */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
 import ButtonGroup from './ButtonGroup';
-import Button from '../button/Button';
-
-const withRouter = (Story: React.ComponentType) => (
-  <MemoryRouter><Story /></MemoryRouter>
-);
+import { Button } from '../Button/Button';
 
 const meta: Meta<typeof ButtonGroup> = {
   title: 'Components/ButtonGroup',
   component: ButtonGroup,
   tags: ['autodocs'],
-  decorators: [withRouter],
   argTypes: {
     align: { control: { type: 'select' }, options: ['start', 'center', 'end'] },
     wrap: { control: 'boolean' },
