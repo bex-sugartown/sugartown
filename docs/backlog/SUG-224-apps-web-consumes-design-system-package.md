@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-224 — apps/web consumes @sugartown/design-system
 **Linear Issue:** [SUG-224](https://linear.app/sugartown/issue/SUG-224)
-**Status:** In Progress — 🟢 **Phase 0 + Phase 1b complete 2026-07-23.** Disposition table filled (44/44), decisions A/B/C recorded, Non-Goals amended. Package `Button` now accepts `href` (commit `0bb66ecc`). **Next: Phase 2 (mount `LinkProvider` in apps/web).**
+**Status:** In Progress — 🟢 **Phase 0, 1, 1b, 2 complete 2026-07-23.** Disposition table filled (44/44), decisions A/B/C recorded, Non-Goals amended. `apps/web` now depends on `@sugartown/design-system`; package `Button` accepts `href` (`0bb66ecc`); `LinkProvider` mounted at the app root, verified via SPA-nav smoke test (`d9a4a481`). **Next: Phase 3 (package Storybook stories for Accordion, Breadcrumb, ButtonGroup, Callout, IconButton).**
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -38,10 +38,10 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 - [x] **Phase 0 —** Fill in the per-component **disposition table** below: all 44 web component directories classified re-export / promote / stays-web-only, with a reason on every stays-web-only row — layer: docs ✅ 2026-07-23 (26 re-export · 4 P2 · 1 P1b · 7 P4 · 4 promote · 2 web-only)
 - [x] **Phase 0 —** Amend §Acceptance criteria and §Non-Goals per Blockers 2 and 4 (done 2026-07-22); decisions A/B/C recorded 2026-07-23; verified no remaining AC is unachievable — layer: docs
 - [x] **Phase 1b —** Add `href` to the package `Button` via the SUG-230 seam; decide `target="_blank"`/`rel` — layer: design-system ✅ 2026-07-23 (commit `0bb66ecc`) — target/rel brought to package per decision C
-- [ ] **Phase 2 —** Mount `LinkProvider` in `apps/web` supplying `react-router`'s `Link`; verify SPA nav unchanged on a real page — layer: frontend
+- [x] **Phase 2 —** Mount `LinkProvider` in `apps/web` supplying `react-router`'s `Link`; verify SPA nav unchanged on a real page — layer: frontend ✅ 2026-07-23 (commit `d9a4a481`)
 - [ ] **Phase 3 —** Add package Storybook stories for Accordion, Breadcrumb, ButtonGroup, Callout, IconButton; resolve the `Components/<Name>` title collision — layer: Storybook
-- [ ] **Phase 1 —** Add `@sugartown/design-system` as a workspace dependency of apps/web — layer: tooling
-- [ ] Resolve the JSX↔TSX consumption strategy (source vs built package, CSS module handling, `exports` map coverage) and record it as a decision note in this doc — layer: tooling
+- [x] **Phase 1 —** Add `@sugartown/design-system` as a workspace dependency of apps/web — layer: tooling ✅ 2026-07-23 (commit `d9a4a481`) — the un-executed mechanical remainder of the Phase 1 decision spike (spike ran 2026-07-21 read-only, decided the strategy, "wired no dependency"); executed now as a hard prerequisite to Phase 2
+- [x] Resolve the JSX↔TSX consumption strategy (source vs built package, CSS module handling, `exports` map coverage) and record it as a decision note in this doc — layer: tooling — **retroactively tagged Phase 1 2026-07-23** (was missing a phase tag — see §Phase 0 note below); decision recorded 2026-07-21 in §Phase 1 Findings
 - [ ] Replace each mirror component in `apps/web/src/design-system/components/` with a re-export from the package (or delete + update import sites) — layer: frontend
 - [ ] Dedupe mirrored component CSS modules (package copy becomes the only copy) — layer: frontend
 - [ ] Storybook (pinkmoon) resolves the package build without breaking HMR or Chromatic baselines — layer: Storybook
@@ -63,11 +63,25 @@ The original Phases 2–3 assumed the only work left was mechanical replacement.
 
 **The unlock that changes this epic's shape:** SUG-230's link seam already covers **Card, Chip, Breadcrumb, IndexCell and List** in the package, and `apps/web` does **not** yet mount a `LinkProvider` — only `apps/contentful-poc` does. Mounting one at the web root converts five of the six router-importing adapters into plain re-exports. Blocker 1 ("the package hard-codes `<a href>`, and fixing it needs a DS API change our Non-Goals forbid") is therefore already solved upstream; what remains is wiring, not design.
 
+**Note (found + fixed 2026-07-23, during Phase 2 execution):** two Scope rows were unphased —
+"Add `@sugartown/design-system` as a workspace dependency of apps/web" carried a stray "Phase 1"
+tag that didn't correspond to any walkthrough step below (the walkthrough's "Phase 1" is the
+*completed spike*, not this mechanical follow-through), and "Resolve the JSX↔TSX consumption
+strategy..." carried no phase tag at all. Both are the Phase 1 spike's undone mechanical remainder
+(the spike explicitly "wired no dependency"). Retagged both as Phase 1 and executed as a hard
+prerequisite to Phase 2 (LinkProvider needs the package importable). Same failure shape as the
+Incomplete Epic Doc Hard Stop's rule 6 (`Scope ∖ Phases` must be empty) — caught mid-epic rather
+than at activation, so noting it here instead of treating it as a fresh block.
+
 **Phase 0 — Fix the spec before touching code.** Amend §Scope, §Acceptance criteria and §Non-Goals per Blockers 2 and 4. Specifically: replace the `grep`-returns-zero structural-closure AC with an explicit per-component **disposition table** (re-export / stays web-only / promoted to package), and drop the "no API changes" Non-Goal, which makes Blocker 4 unresolvable inside the epic that owns it. No code. Output: an epic whose ACs can actually pass.
 
 **Phase 1b — Package `Button` gains `href` (Blocker 4).** ✅ **COMPLETE 2026-07-23** (commit `0bb66ecc`). Consumed the SUG-230 seam for internal hrefs; `target="_blank"`/`rel="noopener noreferrer"` brought to the package for external hrefs (decision C) — overrides the seam's default for Button only. Verified in Storybook light + dark-pink-moon. Sole remaining hard prerequisite, now cleared. Inherited from SUG-231, which correctly refused to decide it in isolation.
 
-**Phase 2 — Mount `LinkProvider` in `apps/web`.** One provider at the app root supplying `react-router`'s `Link`. Verify SPA navigation is unchanged on a real page before converting anything. Highest-leverage step in the epic: it retires the adapter justification for five components at once.
+**Phase 2 — Mount `LinkProvider` in `apps/web`.** ✅ **COMPLETE 2026-07-23** (commit `d9a4a481`). One provider (`apps/web/src/components/DesignSystemProvider.jsx`) mounted at the app root, inside `BrowserRouter`, wrapping `App`, supplying a `RouterLinkAdapter` per the documented pattern in `packages/design-system/CONSUMING.md` §React Router. No component consumes the seam yet (that's Phase 4) — this is pure prep, zero visible effect on any page today.
+
+Verified via a temporary smoke test (not committed — added and removed within this session): rendered the package's `Link` directly on the `/dev/tables` sandbox page, clicked it, confirmed a JS marker set before the click survived the navigation (proof of client-side `pushState`, since a full reload would wipe the JS context). Also confirmed an unrelated, pre-existing app nav link still navigates via SPA routing — no regression from the new provider wrapper. Highest-leverage step in the epic: it retires the adapter justification for five components at once (Phase 4).
+
+**Operational note:** wiring the workspace dependency mid-session (while the Vite dev server was already running) produced a `504 Outdated Optimize Dep` on `react/jsx-runtime` and a blank page — the package's built `dist/index.mjs` pulls the prod jsx-runtime, which wasn't in Vite's already-optimized deps cache. Fixed by a full dev-server restart (not just a browser reload). Future phases that add new package-level imports to `apps/web` should expect the same and restart the dev server proactively rather than debugging a blank page.
 
 **Phase 3 — Storybook coverage for the surviving copy.** Add package stories for **Accordion, Breadcrumb, ButtonGroup, Callout, IconButton**, resolving the `Components/<Name>` title collision by deciding which copy survives. Must precede Phase 4 so Chromatic has baselines for the components being migrated. Without this, migration is unverifiable — the absence of these five stories is what let all the SUG-217/218/219/231 drift go unseen in the first place.
 
