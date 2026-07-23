@@ -10,11 +10,14 @@ import './design-system/styles/utilities.css'
 import './index.css'
 
 import App from './App.jsx'
+import DesignSystemProvider from './components/DesignSystemProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <DesignSystemProvider>
+        <App />
+      </DesignSystemProvider>
     </BrowserRouter>
   </StrictMode>,
 )
