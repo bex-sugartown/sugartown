@@ -22,8 +22,7 @@ import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { PageHeader } from './PageHeader'
 import Breadcrumb from '../Breadcrumb/Breadcrumb'
-import Avatar from '../avatar/Avatar'
-import DescriptionList from '../description-list/DescriptionList'
+import { Avatar, DescriptionList } from '@sugartown/design-system'
 import {
   DocSection,
   OverviewItem,

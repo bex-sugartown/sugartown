@@ -8,7 +8,7 @@
 
 import React from 'react'
 import type { Meta } from '@storybook/react'
-import IconButton from '../design-system/components/icon-button/IconButton'
+import { IconButton } from '@sugartown/design-system'
 import { Sun, Moon, Menu, ExternalLink } from 'lucide-react'
 
 const meta: Meta = {
