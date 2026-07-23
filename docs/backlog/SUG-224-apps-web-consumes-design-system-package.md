@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-224 — apps/web consumes @sugartown/design-system
 **Linear Issue:** [SUG-224](https://linear.app/sugartown/issue/SUG-224)
-**Status:** Backlog — 🟢 **Prerequisites cleared 2026-07-22.** Re-phased; Phase 0 (spec amendment) is the entry point
+**Status:** Backlog — 🟢 **Phase 0 complete 2026-07-23.** Disposition table filled (44/44), decisions A/B/C recorded, Non-Goals amended. Prerequisites verified live: `KNOWN_DRIFT` empty, SUG-217/218/219 shipped, all mirror CSS byte-identical. **Next: Phase 1b (package Button gains href + target/rel).**
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -35,8 +35,8 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 
 > **Every Scope item below names its phase** (added 2026-07-22 — SUG-231 shipped with a Scope item, Table's `.wide`, that belonged to no phase at all and would have gone unnoticed).
 
-- [ ] **Phase 0 —** Fill in the per-component **disposition table** below: all 44 web component directories classified re-export / promote / stays-web-only, with a reason on every stays-web-only row — layer: docs
-- [ ] **Phase 0 —** Amend §Acceptance criteria and §Non-Goals per Blockers 2 and 4 (done 2026-07-22; verify no other AC is unachievable before execution resumes) — layer: docs
+- [x] **Phase 0 —** Fill in the per-component **disposition table** below: all 44 web component directories classified re-export / promote / stays-web-only, with a reason on every stays-web-only row — layer: docs ✅ 2026-07-23 (26 re-export · 4 P2 · 1 P1b · 7 P4 · 4 promote · 2 web-only)
+- [x] **Phase 0 —** Amend §Acceptance criteria and §Non-Goals per Blockers 2 and 4 (done 2026-07-22); decisions A/B/C recorded 2026-07-23; verified no remaining AC is unachievable — layer: docs
 - [ ] **Phase 1b —** Add `href` to the package `Button` via the SUG-230 seam; decide `target="_blank"`/`rel` — layer: design-system
 - [ ] **Phase 2 —** Mount `LinkProvider` in `apps/web` supplying `react-router`'s `Link`; verify SPA nav unchanged on a real page — layer: frontend
 - [ ] **Phase 3 —** Add package Storybook stories for Accordion, Breadcrumb, ButtonGroup, Callout, IconButton; resolve the `Components/<Name>` title collision — layer: Storybook
@@ -73,7 +73,7 @@ The original Phases 2–3 assumed the only work left was mechanical replacement.
 
 **Phase 4 — Convert the pure mirrors in batches.** Re-export from the package, delete the web implementation, dedupe the CSS module. Chromatic between batches. Mechanical once Phases 1b–3 land.
 
-**Phase 5 — Dispose of the remainder explicitly.** The 6 web-only components (`Grid`, `PageHeader`, `SectionLabel`, `Sidebar`, `SidebarNav`, `Tile`) plus any adapter that keeps a genuine app-layer difference: each gets a row in the disposition table saying promoted-to-package or stays-web-only-because-X. This is what closes the AC honestly instead of fudging a `grep`.
+**Phase 5 — Dispose of the remainder explicitly.** ✅ **Verdicts decided in Phase 0 (2026-07-23):** of the 6 web-only components, **`Grid`, `PageHeader`, `SectionLabel`, `Sidebar` are promoted to the package** (DS primitives, zero app coupling — see amended §Non-Goals), and **`SidebarNav` (couples to `useScrollspy`) and `Tile` (couples to `linkUtils` + react-router) stay web-only.** Phase 5 executes the four promotions (TSX port + package story + dark-mode story + Chromatic baseline + barrel export each). This is what closes the AC honestly instead of fudging a `grep`.
 
 **Phase 6 — Docs + diagram close-out.** Retire the DS-component-mirror row from CLAUDE.md §Mirrored File Registry and the web-adapter-sync steps in `docs/epic-template.md`; update `validate-style-mirror.js` scope; diagram dashed→solid + caption via the Content Write Gate.
 
@@ -121,7 +121,7 @@ Only the **22 pure mirrors with byte-identical CSS** are safe to convert today. 
 
 - §Background/§Technical notes cite SUG-127's `"use client"` wrappers as starting state. **Zero `"use client"` directives exist in the package** — verified by grep across `packages/design-system/src/`. The `exports` map fix is real; the `"use client"` one is not (or was since removed).
 - §Phases picks Card as the Phase 1 proof component. **Card is the single worst candidate** — the most complex adapter (382 lines vs the package's 340, react-router Links, `getLinkProps`, `children`/`footerChildren`/`thumbnailStyle` escape hatches). When execution resumes, spike a clean pure mirror (e.g. Box or Surface) instead.
-- The package barrel (`packages/design-system/src/index.ts`) does not export `Breadcrumb`, `ButtonGroup`, or `IconButton`. Barrel additions are needed before those can be imported (trivial, not an API change).
+- ~~The package barrel (`packages/design-system/src/index.ts`) does not export `Breadcrumb`, `ButtonGroup`, or `IconButton`.~~ **RESOLVED — verified 2026-07-23:** the barrel now exports all three (`Breadcrumb` line 69, `ButtonGroup` line 63, `IconButton` line 65). No barrel additions needed for these; the gap was closed since this correction was written (likely SUG-231).
 - Web `Card.jsx`'s header comment claims `tags[]` is extended with `colorHex`; the implementation never reads it. Stale comment, worth correcting whenever Card is next touched.
 
 ### Blocker 4 — the package `Button` cannot navigate (inherited from SUG-231, 2026-07-22)
@@ -130,7 +130,7 @@ The web `Button` accepts `href` and branches external-anchor / RouterLink / `<bu
 
 Handed over from SUG-231 Phase 1b, where it sat in Scope while that epic's own Non-Goals listed Button's `href` among the intentional adapter differences that "stay until SUG-224 decides their fate". Non-Goals won: this is a feature gap blocking consolidation, not mirror drift, and it belongs to whichever epic owns the merged component — this one.
 
-**Open decision when this is picked up:** whether `target="_blank"` / `rel="noopener noreferrer"` on external hrefs comes to the package. Web's Button sets them unconditionally and also honours an `openInNewTab` prop. SUG-230's `<Link>` resolver **deliberately does not** add target/rel ([`packages/design-system/src/link/Link.tsx`](../../packages/design-system/src/link/Link.tsx) — "That is an editorial choice these components do not currently make"). Porting web's Button faithfully means either dropping that behaviour or overriding SUG-230's decision. Decide it here, where the merged Button is the only Button, rather than in isolation. Current package consumer to check against: `apps/contentful-poc/src/components/SiteHeader.tsx`.
+**Open decision — ✅ RESOLVED 2026-07-23 (decision C): `target`/`rel` come to the package.** The package `Button` gains `href` and an external-anchor branch that sets `target="_blank"` / `rel="noopener noreferrer"` on external hrefs, plus an `openInNewTab` prop — porting web's Button faithfully. This deliberately overrides SUG-230's `<Link>`-resolver editorial choice **for `Button` specifically** (the merged Button is the only Button; a Button that silently drops external-tab behaviour on consumption would be a functional regression). SUG-230's resolver is unchanged for other components. Internal hrefs still route through the `LinkProvider` seam. Current package consumer to check against: `apps/contentful-poc/src/components/SiteHeader.tsx`.
 
 ### Resume checklist
 
@@ -147,52 +147,61 @@ Generated 2026-07-22 from the live directory listing — **44 rows, one per web 
 Every row must reach a non-TBD verdict before Phase 4 begins; the amended structural-closure AC is
 satisfied by this table being complete, not by a grep returning zero.
 
+**Completed 2026-07-23.** All 44 rows carry a non-TBD verdict. Five verdict classes:
+**re-export** (safe now — pure mirror, CSS byte-identical, barrel-exported); **re-export (P1b)**
+(after package Button gains `href`); **re-export (P2)** (after `LinkProvider` mounts, retiring the
+router import); **re-export (P4)** (diverged/adapter, package copy is canonical per decision
+2026-07-23 — reconcile JS + Chromatic-verify during conversion); **promote** (web-only DS primitive
+moved into the package); **web-only** (genuine app-layer coupling — stays).
+
 | Component | Pairing | Verdict | Note |
 |---|---|---|---|
-| `Breadcrumb` | paired | TBD | router import retired by Phase 2 LinkProvider |
-| `FilterBar` | paired | TBD | candidate re-export |
-| `PageHeader` | web-only | stays web-only | no package counterpart — promote or justify |
-| `accordion` | paired | TBD | candidate re-export |
-| `app-shell` | paired | TBD | candidate re-export |
-| `avatar` | paired | TBD | candidate re-export |
-| `blockquote` | paired | TBD | candidate re-export |
-| `box` | paired | TBD | candidate re-export |
-| `button` | paired | TBD | blocked on Phase 1b — package Button has no `href` |
-| `button-group` | paired | TBD | candidate re-export |
-| `callout` | paired | TBD | candidate re-export |
-| `card` | paired | TBD | router import retired by Phase 2 LinkProvider |
-| `chip` | paired | TBD | router import retired by Phase 2 LinkProvider |
-| `citation` | paired | TBD | candidate re-export |
-| `codeblock` | paired | TBD | candidate re-export |
-| `columns` | paired | TBD | candidate re-export |
-| `container` | paired | TBD | candidate re-export |
-| `description-list` | paired | TBD | candidate re-export |
-| `error-message` | paired | TBD | candidate re-export |
-| `field` | paired | TBD | candidate re-export |
-| `grid` | web-only | stays web-only | no package counterpart — promote or justify |
-| `helper-text` | paired | TBD | candidate re-export |
-| `icon-button` | paired | TBD | candidate re-export |
-| `index-cell` | paired | TBD | router import retired by Phase 2 LinkProvider |
-| `index-group` | paired | TBD | candidate re-export |
-| `input` | paired | TBD | candidate re-export |
-| `label` | paired | TBD | candidate re-export |
-| `list` | paired | TBD | router import retired by Phase 2 LinkProvider |
-| `media` | paired | TBD | candidate re-export |
-| `meter` | paired | TBD | candidate re-export |
-| `metric` | paired | TBD | candidate re-export |
-| `page` | paired | TBD | candidate re-export |
-| `score-ring` | paired | TBD | candidate re-export |
-| `section-label` | web-only | stays web-only | no package counterpart — promote or justify |
-| `segmented-control` | paired | TBD | candidate re-export |
-| `sidebar` | web-only | stays web-only | no package counterpart — promote or justify |
-| `sidebar-nav` | web-only | stays web-only | no package counterpart — promote or justify |
-| `skeleton` | paired | TBD | candidate re-export |
-| `stack` | paired | TBD | candidate re-export |
-| `surface` | paired | TBD | candidate re-export |
-| `swatch` | paired | TBD | candidate re-export |
-| `table` | paired | TBD | candidate re-export |
-| `textarea` | paired | TBD | candidate re-export |
-| `tile` | web-only | stays web-only | no package counterpart — promote or justify |
+| `Breadcrumb` | paired | re-export (P2) | router import retired by Phase 2 LinkProvider |
+| `FilterBar` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `PageHeader` | web-only | promote | DS layout primitive, no app coupling — promoted (decision 2026-07-23) |
+| `accordion` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `app-shell` | paired | re-export | pure mirror |
+| `avatar` | paired | re-export | pure mirror |
+| `blockquote` | paired | re-export | pure mirror |
+| `box` | paired | re-export | pure mirror |
+| `button` | paired | re-export (P1b) | package Button gains `href` + external-anchor `target`/`rel` + `openInNewTab` (decision C, 2026-07-23) |
+| `button-group` | paired | re-export | pure mirror — barrel export confirmed present 2026-07-23 |
+| `callout` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `card` | paired | re-export (P2) | router import retired by Phase 2 LinkProvider |
+| `chip` | paired | re-export (P2) | router import retired by Phase 2 LinkProvider |
+| `citation` | paired | re-export | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
+| `codeblock` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `columns` | paired | re-export | pure mirror |
+| `container` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `description-list` | paired | re-export | pure mirror |
+| `error-message` | paired | re-export | pure mirror |
+| `field` | paired | re-export | pure mirror |
+| `grid` | web-only | promote | DS primitive (CLAUDE.md reuse-audit + Storybook Foundations/Layout/Grid), no app coupling — promoted |
+| `helper-text` | paired | re-export | pure mirror |
+| `icon-button` | paired | re-export | pure mirror — CSS now identical (was Blocker 3); barrel export confirmed present 2026-07-23 |
+| `index-cell` | paired | re-export (P2) | router import retired by Phase 2 LinkProvider |
+| `index-group` | paired | re-export | pure mirror |
+| `input` | paired | re-export | pure mirror |
+| `label` | paired | re-export | pure mirror |
+| `list` | paired | re-export | pure mirror — web copy has no router import (package copy carries the seam) |
+| `media` | paired | re-export (P4) | adapter, no app coupling, CSS byte-identical — package canonical |
+| `meter` | paired | re-export | pure mirror |
+| `metric` | paired | re-export | pure mirror |
+| `page` | paired | re-export | pure mirror |
+| `score-ring` | paired | re-export | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
+| `section-label` | web-only | promote | DS primitive (CLAUDE.md reuse-audit), no app coupling — promoted (decision 2026-07-23) |
+| `segmented-control` | paired | re-export | pure mirror |
+| `sidebar` | web-only | promote | DS layout shell, separable from SidebarNav, no app coupling — promoted (decision 2026-07-23) |
+| `sidebar-nav` | web-only | web-only | genuine app coupling: `../../../lib/useScrollspy` — stays web-only |
+| `skeleton` | paired | re-export | pure mirror |
+| `stack` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `surface` | paired | re-export | pure mirror |
+| `swatch` | paired | re-export | pure mirror |
+| `table` | paired | re-export | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
+| `textarea` | paired | re-export | pure mirror |
+| `tile` | web-only | web-only | genuine app coupling: `../../../lib/linkUtils` + react-router — stays web-only |
+
+**Tally:** 26 re-export now · 4 re-export (P2) · 1 re-export (P1b) · 7 re-export (P4) · 4 promote · 2 web-only = 44.
 
 ## Acceptance criteria
 
@@ -232,7 +241,7 @@ satisfied by this table being complete, not by a grep returning zero.
 ## Non-Goals
 
 - ~~No visual or API changes to any DS component~~ — **amended 2026-07-22 (Blocker 4).** No **visual** changes: this epic moves where components live, not what they render, and any wanted *visual* change is still its own epic. But the blanket "no API changes" is retired, because it made Blocker 4 unresolvable inside the epic that owns it — the package `Button` has no `href` at all, and `apps/web` cannot consume a Button that cannot navigate. **Permitted API changes are narrowly scoped to closing consumption gaps**: adding a prop the web adapter already has and the package lacks. Adding a *new* capability neither copy has remains out of scope. Each permitted change is listed in the disposition table with the web-side prop it is matching. This is the same self-contradiction shape SUG-231 hit (its Scope said add `href`, its Non-Goals said don't) — resolved here rather than passed on again.
-- No new components, tokens, or theme work.
+- ~~No new components, tokens, or theme work.~~ — **amended 2026-07-23 (Phase 0, decision B).** No *net-new* components, tokens, or theme work. But **promoting an existing web-only DS primitive into the package is permitted and in scope** — `grid`, `page-header`, `section-label`, and `sidebar` are DS primitives misfiled in the app tree (Grid and SectionLabel are already treated as DS components in CLAUDE.md's reuse-audit guidance), with zero app-layer coupling. Leaving them web-only would keep the exact mirror-maintenance burden this epic exists to kill. Each promoted component ships with a package story + dark-mode story + Chromatic baseline + barrel export. This is a move, not an invention; adding a capability neither copy has remains out of scope.
 - No change to the token pipeline (`tokens.json` → generated `tokens.css` ×2 stays as is; whether the web copy of generated tokens can also be retired is a follow-up question, out of scope here).
 - apps/contentful-poc is untouched (already consumes the package).
 - No Sanity schema or content changes beyond the single Content Write Gate caption/legend update in Phase 3.
