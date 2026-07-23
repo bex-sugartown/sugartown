@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-224 — apps/web consumes @sugartown/design-system
 **Linear Issue:** [SUG-224](https://linear.app/sugartown/issue/SUG-224)
-**Status:** In Progress — 🟢 **Phase 0, 1, 1b, 2, 3 complete 2026-07-23.** Disposition table filled (44/44), decisions A/B/C recorded, Non-Goals amended. `apps/web` now depends on `@sugartown/design-system`; package `Button` accepts `href` (`0bb66ecc`); `LinkProvider` mounted at the app root, verified via SPA-nav smoke test (`d9a4a481`); package Storybook coverage added for Accordion/Breadcrumb/ButtonGroup/Callout/IconButton, `Components/<Name>` title collision resolved (`85234285`). **Next: Phase 4 (convert the pure mirrors to re-exports in batches, starting with the 26 already-safe components).**
+**Status:** In Progress — 🟢 **Phase 0, 1, 1b, 2, 3 complete; Phase 4 batch 1/N complete, 2026-07-23.** Disposition table filled (44/44), decisions A/B/C recorded, Non-Goals amended. `apps/web` now depends on `@sugartown/design-system`; package `Button` accepts `href` (`0bb66ecc`); `LinkProvider` mounted at the app root (`d9a4a481`); package Storybook coverage + title-collision resolution for Accordion/Breadcrumb/ButtonGroup/Callout/IconButton (`85234285`); **26/44 mirror components converted to re-exports** (`545df6ff`). **Next: Phase 4 batch 2 — Breadcrumb/Card/Chip/IndexCell (P2) + Button (P1b), then batch 3 — the 7 diverged components (P4, need JS reconciliation).**
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -42,8 +42,8 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 - [x] **Phase 3 —** Add package Storybook stories for Accordion, Breadcrumb, ButtonGroup, Callout, IconButton; resolve the `Components/<Name>` title collision — layer: Storybook ✅ 2026-07-23 (commit `85234285`)
 - [x] **Phase 1 —** Add `@sugartown/design-system` as a workspace dependency of apps/web — layer: tooling ✅ 2026-07-23 (commit `d9a4a481`) — the un-executed mechanical remainder of the Phase 1 decision spike (spike ran 2026-07-21 read-only, decided the strategy, "wired no dependency"); executed now as a hard prerequisite to Phase 2
 - [x] Resolve the JSX↔TSX consumption strategy (source vs built package, CSS module handling, `exports` map coverage) and record it as a decision note in this doc — layer: tooling — **retroactively tagged Phase 1 2026-07-23** (was missing a phase tag — see §Phase 0 note below); decision recorded 2026-07-21 in §Phase 1 Findings
-- [ ] Replace each mirror component in `apps/web/src/design-system/components/` with a re-export from the package (or delete + update import sites) — layer: frontend
-- [ ] Dedupe mirrored component CSS modules (package copy becomes the only copy) — layer: frontend
+- [ ] Replace each mirror component in `apps/web/src/design-system/components/` with a re-export from the package (or delete + update import sites) — layer: frontend — 🔶 **26/44 converted 2026-07-23** (Phase 4 batch 1, commit `545df6ff`): AppShell, Avatar, Blockquote, Box, ButtonGroup, Citation, Columns, DescriptionList, ErrorMessage, Field, HelperText, IconButton, IndexGroup, Input, Label, List, Meter, Metric, Page, ScoreRing, SegmentedControl, Skeleton, Surface, Swatch, Table, Textarea. Remaining: Breadcrumb/Card/Chip/IndexCell (P2, router import only), Button (P1b, already has href), 7 diverged (P4, need JS reconciliation), 4 promotions (Phase 5), 2 stay web-only.
+- [ ] Dedupe mirrored component CSS modules (package copy becomes the only copy) — layer: frontend — 🔶 26/38 done (the 26 converted directories were deleted wholesale, so their CSS modules are already deduped — package copy is now the only copy for those)
 - [ ] Storybook (pinkmoon) resolves the package build without breaking HMR or Chromatic baselines — layer: Storybook
 - [ ] Retire the DS-component-mirror row from CLAUDE.md §Mirrored File Registry and the web-adapter-sync steps in `docs/epic-template.md` §Design System → Web Adapter Sync — layer: tooling/docs
 - [ ] Update `docs/diagrams/diagram-portfolio-agnostic-stack.svg` (dashed → solid) + red-pen table, and propose the matching case study caption/legend change through the Content Write Gate — layer: content
@@ -88,6 +88,14 @@ Verified via a temporary smoke test (not committed — added and removed within 
 **Operational note:** deleting story files mid-session while Storybook's dev server was running left a stale in-memory duplicate-ID error that neither a page reload nor a full dev-server restart cleared on the already-open tab — required also opening a fresh browser tab to see the corrected index. The server-side `/index.json` was actually correct immediately after the restart; only the existing tab's client-side state was stale. Future phases that delete/rename story files should verify via a fresh tab (or a direct `/index.json` fetch) rather than trusting a reload of an already-open Storybook tab.
 
 **Phase 4 — Convert the pure mirrors in batches.** Re-export from the package, delete the web implementation, dedupe the CSS module. Chromatic between batches. Mechanical once Phases 1b–3 land.
+
+**Batch 1 — ✅ COMPLETE 2026-07-23** (commit `545df6ff`). All 26 "re-export now" pure mirrors converted: barrel (`apps/web/src/design-system/index.js`) re-pointed for the 23 barrel-listed ones; 12 consumer files updated where a component was imported directly from a subpath rather than the barrel (a mixed convention that pre-existed this epic — `Form.jsx`, `ThemeToggle.jsx`, `KnowledgeGraph.jsx`, `AlphaFilter.jsx`, `SchemaERD.jsx`, `CwvSnapshot.jsx`, `GovernancePage.jsx`, `TablesDevPage.jsx`, `TrustReportSection.jsx`, `DesignSystemRegistryPage.jsx`, `ContentModelsPage.jsx`, `DesignSystemPage.jsx`); all 26 web component directories deleted. Verified: zero remaining references to any deleted local path (grepped before deleting); `validate:style-mirror` now reports exactly 26 DS-package-only (matches); all validators + lint clean; live-verified in a fresh browser tab on homepage, `/platform/governance`, `/dev/tables`, and the header theme toggle (IconButton — clicked, confirmed working, dark theme applied).
+
+**Caught before it happened:** an early grep-based batch script accidentally included `stack` in the "safe to convert" list. Cross-checked against the Phase 0 classification before touching any file — `Stack` is in the *diverged* bucket (re-export P4, needs JS reconciliation), not pure mirror. Excluded from batch 1.
+
+**Operational pattern confirmed again:** deleting files mid-session while the Vite dev server is running produces stale HMR "failed to reload" errors that persist even after a full dev-server restart — but only in browser tabs that were already open. A fresh tab shows the correct, clean state immediately. Same root cause as the Storybook stale-index issue in Phase 3. Future batches: after any file-deletion batch, verify in a **new** tab, not a reload of an existing one.
+
+**Remaining for Phase 4:** Breadcrumb, Card, Chip, IndexCell (re-export P2 — router import removal only, now unblocked by Phase 2's `LinkProvider`); Button (re-export P1b — already has `href` since Phase 1b, just needs the web copy deleted and imports repointed); the 7 diverged components (re-export P4 — Accordion, Callout, CodeBlock, Container, FilterBar, Media, Stack — need JS reconciliation per decision A before conversion, plus Chromatic verification). Card is flagged in Phase 1 Findings as "the single worst candidate" (382 vs 340 lines, extra escape hatches) — treat it with more scrutiny than the P4 disposition-table note alone implies.
 
 **Phase 5 — Dispose of the remainder explicitly.** ✅ **Verdicts decided in Phase 0 (2026-07-23):** of the 6 web-only components, **`Grid`, `PageHeader`, `SectionLabel`, `Sidebar` are promoted to the package** (DS primitives, zero app coupling — see amended §Non-Goals), and **`SidebarNav` (couples to `useScrollspy`) and `Tile` (couples to `linkUtils` + react-router) stay web-only.** Phase 5 executes the four promotions (TSX port + package story + dark-mode story + Chromatic baseline + barrel export each). This is what closes the AC honestly instead of fudging a `grep`.
 
@@ -176,48 +184,48 @@ moved into the package); **web-only** (genuine app-layer coupling — stays).
 | `FilterBar` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
 | `PageHeader` | web-only | promote | DS layout primitive, no app coupling — promoted (decision 2026-07-23) |
 | `accordion` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
-| `app-shell` | paired | re-export | pure mirror |
-| `avatar` | paired | re-export | pure mirror |
-| `blockquote` | paired | re-export | pure mirror |
-| `box` | paired | re-export | pure mirror |
+| `app-shell` | paired | ✅ converted (545df6ff) | pure mirror |
+| `avatar` | paired | ✅ converted (545df6ff) | pure mirror |
+| `blockquote` | paired | ✅ converted (545df6ff) | pure mirror |
+| `box` | paired | ✅ converted (545df6ff) | pure mirror |
 | `button` | paired | re-export (P1b) | package Button gains `href` + external-anchor `target`/`rel` + `openInNewTab` (decision C, 2026-07-23) |
-| `button-group` | paired | re-export | pure mirror — barrel export confirmed present 2026-07-23 |
+| `button-group` | paired | ✅ converted (545df6ff) | pure mirror — barrel export confirmed present 2026-07-23 |
 | `callout` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
 | `card` | paired | re-export (P2) | router import retired by Phase 2 LinkProvider |
 | `chip` | paired | re-export (P2) | router import retired by Phase 2 LinkProvider |
-| `citation` | paired | re-export | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
+| `citation` | paired | ✅ converted (545df6ff) | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
 | `codeblock` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
-| `columns` | paired | re-export | pure mirror |
+| `columns` | paired | ✅ converted (545df6ff) | pure mirror |
 | `container` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
-| `description-list` | paired | re-export | pure mirror |
-| `error-message` | paired | re-export | pure mirror |
-| `field` | paired | re-export | pure mirror |
+| `description-list` | paired | ✅ converted (545df6ff) | pure mirror |
+| `error-message` | paired | ✅ converted (545df6ff) | pure mirror |
+| `field` | paired | ✅ converted (545df6ff) | pure mirror |
 | `grid` | web-only | promote | DS primitive (CLAUDE.md reuse-audit + Storybook Foundations/Layout/Grid), no app coupling — promoted |
-| `helper-text` | paired | re-export | pure mirror |
-| `icon-button` | paired | re-export | pure mirror — CSS now identical (was Blocker 3); barrel export confirmed present 2026-07-23 |
+| `helper-text` | paired | ✅ converted (545df6ff) | pure mirror |
+| `icon-button` | paired | ✅ converted (545df6ff) | pure mirror — CSS now identical (was Blocker 3); barrel export confirmed present 2026-07-23 |
 | `index-cell` | paired | re-export (P2) | router import retired by Phase 2 LinkProvider |
-| `index-group` | paired | re-export | pure mirror |
-| `input` | paired | re-export | pure mirror |
-| `label` | paired | re-export | pure mirror |
-| `list` | paired | re-export | pure mirror — web copy has no router import (package copy carries the seam) |
+| `index-group` | paired | ✅ converted (545df6ff) | pure mirror |
+| `input` | paired | ✅ converted (545df6ff) | pure mirror |
+| `label` | paired | ✅ converted (545df6ff) | pure mirror |
+| `list` | paired | ✅ converted (545df6ff) | pure mirror — web copy has no router import (package copy carries the seam) |
 | `media` | paired | re-export (P4) | adapter, no app coupling, CSS byte-identical — package canonical |
-| `meter` | paired | re-export | pure mirror |
-| `metric` | paired | re-export | pure mirror |
-| `page` | paired | re-export | pure mirror |
-| `score-ring` | paired | re-export | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
+| `meter` | paired | ✅ converted (545df6ff) | pure mirror |
+| `metric` | paired | ✅ converted (545df6ff) | pure mirror |
+| `page` | paired | ✅ converted (545df6ff) | pure mirror |
+| `score-ring` | paired | ✅ converted (545df6ff) | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
 | `section-label` | web-only | promote | DS primitive (CLAUDE.md reuse-audit), no app coupling — promoted (decision 2026-07-23) |
-| `segmented-control` | paired | re-export | pure mirror |
+| `segmented-control` | paired | ✅ converted (545df6ff) | pure mirror |
 | `sidebar` | web-only | promote | DS layout shell, separable from SidebarNav, no app coupling — promoted (decision 2026-07-23) |
 | `sidebar-nav` | web-only | web-only | genuine app coupling: `../../../lib/useScrollspy` — stays web-only |
-| `skeleton` | paired | re-export | pure mirror |
+| `skeleton` | paired | ✅ converted (545df6ff) | pure mirror |
 | `stack` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
-| `surface` | paired | re-export | pure mirror |
-| `swatch` | paired | re-export | pure mirror |
-| `table` | paired | re-export | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
-| `textarea` | paired | re-export | pure mirror |
+| `surface` | paired | ✅ converted (545df6ff) | pure mirror |
+| `swatch` | paired | ✅ converted (545df6ff) | pure mirror |
+| `table` | paired | ✅ converted (545df6ff) | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
+| `textarea` | paired | ✅ converted (545df6ff) | pure mirror |
 | `tile` | web-only | web-only | genuine app coupling: `../../../lib/linkUtils` + react-router — stays web-only |
 
-**Tally:** 26 re-export now · 4 re-export (P2) · 1 re-export (P1b) · 7 re-export (P4) · 4 promote · 2 web-only = 44.
+**Tally:** 26 re-export now (✅ **all 26 converted 2026-07-23, commit `545df6ff`**) · 4 re-export (P2) · 1 re-export (P1b) · 7 re-export (P4) · 4 promote · 2 web-only = 44.
 
 ## Acceptance criteria
 
