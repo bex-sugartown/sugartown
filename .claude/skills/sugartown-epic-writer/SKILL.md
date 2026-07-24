@@ -49,7 +49,11 @@ gather what's missing.
 
 **Resolve before writing (or explicitly flag as open):**
 
-1. **Epic ID** — check `CHANGELOG.md` or backlog for next available EPIC-XXXX
+1. **Epic ID** — create a Linear backlog item first (`mcp__plugin_linear_linear__save_issue`,
+   team Sugartown, status Backlog) and read back the issue identifier (e.g. `SUG-87`). This
+   is the canonical ID — never guess it or derive it from CHANGELOG/backlog scanning. See
+   `.claude/skills/new-epic/docs/new-epic-prompt.md` STEP 1 for the exact tool call pattern.
+   If a Linear issue already exists for this epic, reuse that ID instead of creating a duplicate.
 2. **Domain** — CMS schema work, frontend render work, design system work, or a combination
 3. **Doc type coverage** — which of the five primary doc types are in scope (page, article,
    caseStudy, node, archivePage)
@@ -69,7 +73,12 @@ should block on missing information, not paper over it.
 
 ## Output Format
 
-Produce a single Markdown file. Filename: `EPIC-[XXXX]-[slug].md`.
+Produce a single Markdown file. Filename: `docs/backlog/SUG-{N}-{slug}.md`.
+
+**Linear-first (blocking) — the SUG-{N} ID must exist before any file is written.**
+Before filling the template, create the Linear backlog item and read back the issue
+identifier (see Intake item 1 above). Do not proceed to filling the template without a
+confirmed ID.
 
 **Gap-fill gate (SUG-229) — this skill previously had no approval step before writing.**
 After filling the template (per "How to Fill the Template" below), present a one-paragraph
@@ -77,7 +86,7 @@ summary (epic ID, scope-item count, phase count, any open/flagged items from the
 Completeness Gate) to the human, then ask via `AskUserQuestion`:
 
 ```
-Question: "Epic drafted — write it to docs/backlog/EPIC-[XXXX]-[slug].md?"
+Question: "Epic drafted — write it to docs/backlog/SUG-{N}-{slug}.md?"
 Options:
   - "Write it — save the epic"
   - "Needs edits"
@@ -171,7 +180,7 @@ Add domain-specific ACs from the reference files below.
 The template has a mandatory close-out sequence. Do not modify it. It must appear verbatim:
 
 1. `git status` must show nothing staged or unstaged
-2. Run `/mini-release EPIC-XXXX [Epic name]` or `/release` for MINOR version bumps
+2. Run `/mini-release SUG-{N} [Epic name]` or `/release` for MINOR version bumps
 3. Start next epic only after mini-release commit is confirmed
 
 ---
