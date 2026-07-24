@@ -21,6 +21,52 @@ cheeky/succinct two-gate register and its own Sanity-write architecture (glossy'
 
 ---
 
+## 0. Linear tracking ticket (single ticket, created early)
+
+Before the taxonomy pre-flight, create **one** Linear issue that tracks the piece
+end-to-end — discovery, drafting, and the publish decision — rather than a ticket per
+phase or a ticket created only at publish time. This gives content pieces the same
+"assign an ID first" discipline CLAUDE.md's epic-authoring workflow already requires for
+engineering work.
+
+**When to create it:**
+- On the first message that clearly commits to writing a specific piece (a topic,
+  incident, or engagement is named) — not on speculative "should I write about X?"
+  questions, and after Step 0's voice-guide read, before Step 1's taxonomy queries.
+- If the user already supplied a Linear ticket link or ID for this piece, use it. Do not
+  create a duplicate.
+
+**Ticket shape:**
+- Team: Sugartown · Project: **Content**
+- Title: `<Register>: <working title>` — e.g. `Node: The Witness Who Was Never in the Room`
+- Labels: `Content`, plus any other label that clearly applies. No register-specific
+  label exists for node/article/case-study beyond `Content` — don't invent one.
+- Description: the brief or topic in one paragraph, plus a tracking checklist:
+  - [ ] Discovery run (taxonomy pre-flight + related-content check)
+  - [ ] Draft created (Sanity draft ID)
+  - [ ] Compliance gate passed
+  - [ ] Human review
+  - [ ] Publish decision
+
+**As the piece progresses, update the same ticket** — never create a second one for the
+same piece:
+- After Step 3 (Sanity draft created): add the draft ID, slug, and taxonomy attached, as
+  a description edit or a comment.
+- At Step 4 (report-back): the report content is what goes into the ticket.
+
+**State transitions:**
+- `Backlog` → `In Progress` when drafting begins (Step 2).
+- `In Progress` → `Done` only after the human's separate, explicit instruction to
+  publish — never inferred from approval of the drafted content. This mirrors
+  CLAUDE.md's Human-Publishes Rule: the ticket's publish checkbox is not the agent's to
+  tick on its own judgment.
+- If the piece stalls or the user drops it, leave the ticket in its last state. Don't
+  auto-cancel it.
+
+Each `write-*-prompt.md`'s own Step 0.5 points here instead of repeating this section.
+
+---
+
 ## 1. Taxonomy pre-flight
 
 Before drafting any node, article, or case study, query Sanity for existing taxonomy to use
@@ -262,6 +308,7 @@ After creating any draft, report at minimum:
   (flag for possible new docs)
 - Any related content linked
 - Any images included — confirm alt text is present
+- Linear tracking ticket link (created in §0) and its current state
 
 Register-specific report items (node's `aiDisclosure` string; article's disclosure callout
 used; case study's engagement facts, outcome tile `evidenceType` values, FAQ/`aeoSummary`/

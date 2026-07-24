@@ -21,6 +21,13 @@ Key reminders for articles (opposite of nodes):
 
 ---
 
+## Step 0.5 — Linear tracking ticket
+
+Create the single tracking ticket per `docs/write-pipeline-prompt.md` §0 before running
+the taxonomy pre-flight below. Title it `Article: <working title>`.
+
+---
+
 ## Step 1 — Pre-flight taxonomy
 
 Run the standard taxonomy pre-flight — see `docs/write-pipeline-prompt.md` §1 for the
