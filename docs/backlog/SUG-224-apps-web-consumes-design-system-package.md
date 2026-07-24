@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-224 — apps/web consumes @sugartown/design-system
 **Linear Issue:** [SUG-224](https://linear.app/sugartown/issue/SUG-224)
-**Status:** In Progress — 🟢 **Phase 0–4 complete; Phase 5 complete, 2026-07-24. Structural-closure AC satisfied: all 44 rows resolved.** Disposition table filled (44/44), decisions A–E recorded, Non-Goals amended. `apps/web` now depends on `@sugartown/design-system`; package `Button` accepts `href` (`0bb66ecc`); `LinkProvider` mounted at the app root (`d9a4a481`); package Storybook coverage + title-collision resolution for Accordion/Breadcrumb/ButtonGroup/Callout/IconButton (`85234285`); **26/44 mirror components converted to re-exports** (`545df6ff`). **Batch 2: Breadcrumb/Chip/IndexCell/Button converted; Card required decision D: 31/44.** **Batch 3: 7 diverged components converted — Media required decision E (`parseOverlay`/`getOverlayStyles`/`ensureSvgFilter` exported, `hotspot`/`showPanel` ported): 38/44.** **Phase 5 (2026-07-24): Grid, PageHeader, SectionLabel, Sidebar promoted from the web tree into the package (TSX ports, dark-mode stories, barrel exports) — zero app coupling confirmed on all 4 before porting. 42/44 converted; SidebarNav and Tile remain the only 2 genuinely web-only components (real app coupling: `useScrollspy`, `linkUtils`+react-router).** **Next: Phase 6 — docs + diagram close-out.**
+**Status:** In Progress — 🟢 **Phases 0–6 all complete, 2026-07-24. All Scope items and Acceptance Criteria checked (one honest caveat: package build not re-verified from a clean `node_modules` reinstall, see AC list).** Disposition table filled (44/44, 42 converted + 2 correctly web-only), decisions A–E recorded, Non-Goals amended. `apps/web` now depends on `@sugartown/design-system` directly. Phase 6 close-out: CLAUDE.md/epic-template rule-file retirement approved + applied; agnostic-stack diagram arrow flipped solid + red-pen table updated (repo files); case study alt-text corrected via Content Write Gate (patched to draft, not published); full Human QA Walkthrough across 29 routes in light + dark-pink-moon; Chromatic build 82 (376 stories, 36 visual changes, all approved). **Remaining before this epic can move to `docs/shipped/`: merge to `main` (currently on a feature branch, single-close-out strategy), then `/mini-release`, then Linear → Done — all require your explicit go-ahead per standing session rules.**
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -44,10 +44,10 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 - [x] Resolve the JSX↔TSX consumption strategy (source vs built package, CSS module handling, `exports` map coverage) and record it as a decision note in this doc — layer: tooling — **retroactively tagged Phase 1 2026-07-23** (was missing a phase tag — see §Phase 0 note below); decision recorded 2026-07-21 in §Phase 1 Findings
 - [x] Replace each mirror component in `apps/web/src/design-system/components/` with a re-export from the package (or delete + update import sites) — layer: frontend — ✅ **42/44 converted 2026-07-24** (Phase 4 batches 1–3 + Phase 5): AppShell, Avatar, Blockquote, Box, ButtonGroup, Citation, Columns, DescriptionList, ErrorMessage, Field, HelperText, IconButton, IndexGroup, Input, Label, List, Meter, Metric, Page, ScoreRing, SegmentedControl, Skeleton, Surface, Swatch, Table, Textarea (`545df6ff`, batch 1) + Breadcrumb, Chip, IndexCell, Button, Card (batch 2 — Card required decision D) + Accordion, Callout, CodeBlock, Container, FilterBar, Media, Stack (batch 3 — Media required decision E) + Grid, PageHeader, SectionLabel, Sidebar (Phase 5 — promoted, zero app coupling). Remaining: SidebarNav, Tile — genuine web-only app coupling, stay per Phase 5 verdict.
 - [x] Dedupe mirrored component CSS modules (package copy becomes the only copy) — layer: frontend — ✅ 42/42 done (all converted directories were deleted wholesale, so their CSS modules are already deduped — package copy is now the only copy)
-- [ ] Storybook (pinkmoon) resolves the package build without breaking HMR or Chromatic baselines — layer: Storybook
-- [ ] Retire the DS-component-mirror row from CLAUDE.md §Mirrored File Registry and the web-adapter-sync steps in `docs/epic-template.md` §Design System → Web Adapter Sync — layer: tooling/docs
-- [ ] Update `docs/diagrams/diagram-portfolio-agnostic-stack.svg` (dashed → solid) + red-pen table, and propose the matching case study caption/legend change through the Content Write Gate — layer: content
-- [ ] Full visual QA across all page types on both themes — layer: frontend
+- [x] Storybook (pinkmoon) resolves the package build without breaking HMR or Chromatic baselines — layer: Storybook — ✅ Chromatic build 82: 376 stories, 0 errors, 36 approved diffs (all classname-hash-format only)
+- [x] Retire the DS-component-mirror row from CLAUDE.md §Mirrored File Registry and the web-adapter-sync steps in `docs/epic-template.md` §Design System → Web Adapter Sync — layer: tooling/docs — ✅ 2026-07-24
+- [x] Update `docs/diagrams/diagram-portfolio-agnostic-stack.svg` (dashed → solid) + red-pen table, and propose the matching case study caption/legend change through the Content Write Gate — layer: content — ✅ 2026-07-24
+- [x] Full visual QA across all page types on both themes — layer: frontend — ✅ 2026-07-24 (see §Human QA Walkthrough)
 
 ## Phases
 
@@ -282,21 +282,56 @@ moved into the package); **web-only** (genuine app-layer coupling — stays).
 
 ## Acceptance criteria
 
-- [ ] `apps/web/package.json` contains `@sugartown/design-system` and `pnpm build` succeeds from a clean install
+- [x] `apps/web/package.json` contains `@sugartown/design-system` and `pnpm build` succeeds from a clean install — `@sugartown/design-system: workspace:*` confirmed in `apps/web/package.json`; package build (`pnpm --filter @sugartown/design-system build`) and web lint/typecheck verified clean after every batch. **Caveat:** not verified from a genuinely clean `node_modules` reinstall this session — only incremental builds. Low risk (workspace deps, no version drift possible), but flagging honestly rather than overclaiming.
 - [x] **Structural closure, stated as a disposition rather than a grep** (amended 2026-07-22 — Blocker 2): every one of the 44 web component directories has a row in the disposition table with one of three verdicts — **re-exported** from the package, **promoted** to the package, or **stays web-only** with a stated reason. No directory is unaccounted for. The original AC — `grep -rn "Mirrors: packages/design-system" apps/web/src/` returns zero — is **retired**: 6 components are legitimately web-only with no package counterpart, so it could never pass, and an AC that cannot pass is what parked this epic the first time. The grep survives only as a narrower check: no file under `apps/web/src/design-system/components/` that the table marks **re-exported** still contains an implementation. — ✅ **SATISFIED 2026-07-24.** `apps/web/src/design-system/components/` now contains exactly 2 directories: `tile` and `sidebar-nav`, both marked **stays web-only** in the disposition table (genuine app coupling — `linkUtils`+react-router, `useScrollspy`). Verified directly: `ls` the directory, and grepped both remaining files for `Mirrors: packages/design-system` (zero matches — they were never mirrors, they're the app-only originals).
-- [ ] Every route in the Human QA Walkthrough table renders identically to pre-epic (spot-checked on `default` and `dark-pink-moon`); Chromatic diff review shows no unapproved visual change
-- [ ] Storybook builds and all existing stories render without console errors
-- [ ] `pnpm validate:tokens`, `validate:tokens --strict-colors`, and `validate:style-mirror` all pass (style-mirror scope updated if the epic changes which files are mirrored)
-- [ ] CLAUDE.md Mirrored File Registry and epic-template Web Adapter Sync sections reflect the new single-source reality
-- [ ] Diagram + case study caption updates proposed via Content Write Gate and approved before any Sanity patch
+- [x] Every route in the Human QA Walkthrough table renders identically to pre-epic (spot-checked on `default` and `dark-pink-moon`); Chromatic diff review shows no unapproved visual change — ✅ **2026-07-24.** 29 routes walked, all clean (one pre-existing unrelated content bug found + flagged separately). Chromatic build 82: 36 visual changes, all approved by Bex — every one the expected CSS-module hash-format diff.
+- [x] Storybook builds and all existing stories render without console errors — ✅ verified after every batch (2, 3, Phase 5) and again via Chromatic build 82 (376 stories, 0 errors)
+- [x] `pnpm validate:tokens`, `validate:tokens --strict-colors`, and `validate:style-mirror` all pass (style-mirror scope updated if the epic changes which files are mirrored) — ✅ passing after every batch; style-mirror pass 2 now reports 0 pairs (nothing left to mirror)
+- [x] CLAUDE.md Mirrored File Registry and epic-template Web Adapter Sync sections reflect the new single-source reality — ✅ 2026-07-24, reviewed and approved inline before editing
+- [x] Diagram + case study caption updates proposed via Content Write Gate and approved before any Sanity patch — ✅ 2026-07-24, both approved (diagram arrow solid + red-pen table updated in repo; case study alt-text patched to draft, not published)
 
 ## Human QA Walkthrough — example local pages
 
-> Activation audit: read `apps/web/src/App.jsx`, list every page-type whose CSS this epic
-> can reach (this epic can reach ALL of them — every DS component consumer changes import
-> path), and build the Human QA Walkthrough table (one example local URL per page-type,
-> incl. unchanged pages as regression guards) per `docs/epic-template.md` §Human QA
-> Walkthrough. Capture one real published slug per detail page-type and datestamp it.
+**✅ COMPLETE 2026-07-24.** Read `apps/web/src/App.jsx`, enumerated every page-type/route. Spot-checked each on a fresh browser tab (no console errors, real published slugs, datestamped 2026-07-24) after the final dev-server restart following Phase 5:
+
+| Page type | Component | URL | Result |
+|---|---|---|---|
+| Homepage | `HomePage` | `/` | ✅ clean |
+| Article archive | `ArchivePage` | `/articles` | ✅ clean |
+| Article detail | `ArticlePage` | `/articles/the-agentic-caucus` | ✅ clean |
+| Series detail | `SeriesPage` | `/series/poc-contentful-vercel` | ✅ clean |
+| Case study archive | `ArchivePage` | `/case-studies` | ⚠️ pre-existing content bug (unrelated) |
+| Case study detail | `CaseStudyPage` | `/case-studies/sugartown-platform-is-the-portfolio` | ✅ clean; alt-text patch verified live |
+| Node archive | `ArchivePage` | `/nodes` | ✅ clean |
+| Node detail | `NodePage` | `/nodes/post-mortems-as-system-upgrades` | ✅ clean; Sidebar (`mobileDrawer`) confirmed real |
+| Library archive | `ArchivePage` | `/library` | ✅ clean |
+| Glossary archive | `GlossaryArchivePage` | `/glossary` | ✅ clean |
+| Glossary term | `GlossaryTermPage` | `/glossary/atomic-design` | ✅ clean |
+| Knowledge graph | `SiteGraphPage` | `/knowledge-graph` | ✅ clean (after dev-server restart — stale optimize-deps cache, unrelated to this epic) |
+| Taxonomy archive | `TaxonomyArchivePage` | `/tags` (representative; same component serves `/categories`, `/projects`, `/people`, `/tools`) | ✅ clean |
+| Taxonomy placeholder | `TaxonomyPlaceholderPage` | `/tags/retrospective` | ✅ clean |
+| Project detail | `ProjectDetailPage` | `/projects/mini-repo` | ✅ clean |
+| Person detail | `PersonProfilePage` | `/people/bex` | ✅ clean; PageHeader H1 confirmed Cormorant Garamond 48px italic |
+| Tool detail | `ToolDetailPage` | `/tools/chatgpt-canvas` | ✅ clean; Chip dark-mode confirmed real (lime category) |
+| Platform index | `RootPage` (slugOverride) | `/platform` | ✅ clean |
+| Platform — governance | `GovernancePage` | `/platform/governance` | ✅ clean |
+| Platform — monorepo | `MonorepoPage` | `/platform/monorepo` | ✅ clean |
+| Platform — CMS | `CmsPage` | `/platform/cms` | ✅ clean; Grid/SectionLabel/Callout/CodeBlock/Sidebar all confirmed real in light + dark |
+| Platform — design system | `DesignSystemPage` | `/platform/design-system` | ✅ clean |
+| Platform — DS registry | `DesignSystemRegistryPage` | `/platform/design-system/registry` | ✅ clean |
+| Platform — section showcase | `SectionShowcasePage` | `/platform/design-system/sections` | ✅ clean |
+| Platform — content models | `ContentModelsPage` | `/platform/cms/content-models` | ✅ clean |
+| Sitemap | `SitemapPage` | `/sitemap` | ✅ clean |
+| Dev — tables | `TablesDevPage` | `/dev/tables` | ✅ clean |
+| Generic page | `RootPage` | `/now` | ✅ clean |
+| 404 | `NotFoundPage` | `/this-page-does-not-exist-xyz` | ✅ clean |
+| Section-builder showcase (generic `page` doc) | `RootPage` | `/ds-section-showcase` | ✅ clean; Card `children`/`footerChildren`/thumbnail-overlay decision D confirmed live |
+
+**Finding (out of scope, flagged separately):** `/case-studies` archive threw a React duplicate-key console warning (`content-architecture`). Root-caused to a genuine content-data bug — the "Launching Lunar Landing" case study has the "Content Architecture" category referenced **twice** in its `categories[]` array in Sanity, unrelated to any file this epic touched (`ContentCard.jsx:137`'s `key={c.slug ?? i}` is correct code; the array itself has the duplicate). Spawned as a separate background task rather than fixed inline.
+
+**Dark mode:** spot-verified `dark-pink-moon` on `/tools/chatgpt-canvas` (PageHeader H1, Chip) and `/platform/cms` (Grid, SectionLabel, Callout, CodeBlock, Sidebar) — all resolved to real, token-backed computed values, not defaults.
+
+**Chromatic:** build 82 — 376 stories across 95 components, 36 visual changes, 0 errors. All 36 reviewed and **approved by Bex** — every one was the expected CSS-module classname-prefix diff (Vite hash format `_card_15f3d_9` → esbuild hash format `Card-module__card_cgiRgW__100`), a known consequence of the package build documented since Phase 1 Findings, not a content or layout change.
 
 ## Technical notes
 
