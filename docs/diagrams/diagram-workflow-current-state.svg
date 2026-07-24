@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="440" viewBox="0 0 920 440" font-family="'Courier Prime','Courier New',monospace">
+  <defs>
+    <marker id="mInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0d1226"/>
+    </marker>
+    <marker id="mPink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ff247d"/>
+    </marker>
+  </defs>
+
+  <rect width="920" height="440" fill="#f8f8fa"/>
+
+  <text x="32" y="40" font-size="10" letter-spacing="1.5" fill="#ff247d">EPIC LIFECYCLE · VERIFIED AGAINST THE REPO, 2026-07-24</text>
+  <text x="32" y="72" font-size="26" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">Eight phases, three enforcement gaps</text>
+  <text x="32" y="94" font-size="10.5" fill="#0d1226" fill-opacity="0.65">Pink markers are tracked, not hypothetical — each maps to an open Linear epic</text>
+
+  <!-- ═══ 8 phase boxes ═══ -->
+  <!-- box geometry: x start 32, width 96, gap 12, step 108, y 150, h 64 -->
+  <!-- L-badge geometry: 20×14 tab, top-right corner of each box, y overlaps box top edge by 7px -->
+
+  <!-- 1 Intake — L1 Inventory -->
+  <rect x="32" y="150" width="96" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="80" y="176" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">INTAKE</text>
+  <text x="80" y="198" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.6">optional</text>
+  <rect x="106" y="143" width="20" height="14" fill="#0d1226"/>
+  <text x="116" y="153" font-size="7.5" font-weight="bold" text-anchor="middle" fill="#f8f8fa">L1</text>
+
+  <!-- 2 Planning — L5 Human Oversight -->
+  <rect x="140" y="150" width="96" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="188" y="176" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">PLANNING</text>
+  <text x="188" y="198" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.6">Linear-first</text>
+  <rect x="214" y="143" width="20" height="14" fill="#0d1226"/>
+  <text x="224" y="153" font-size="7.5" font-weight="bold" text-anchor="middle" fill="#f8f8fa">L5</text>
+
+  <!-- 3 Design — L5 Human Oversight -->
+  <rect x="248" y="150" width="96" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="296" y="176" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">DESIGN</text>
+  <text x="296" y="198" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.6">Phase 0 gate</text>
+  <rect x="322" y="143" width="20" height="14" fill="#0d1226"/>
+  <text x="332" y="153" font-size="7.5" font-weight="bold" text-anchor="middle" fill="#f8f8fa">L5</text>
+
+  <!-- 4 Implementation — L6 Compliance (GAP: design-reviewer not wired, SUG-239) -->
+  <rect x="356" y="150" width="96" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="404" y="172" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">IMPLEMEN-</text>
+  <text x="404" y="184" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">TATION</text>
+  <text x="404" y="200" font-size="7.5" text-anchor="middle" fill="#ff247d">reviewer unwired</text>
+  <rect x="430" y="143" width="20" height="14" fill="#ff247d"/>
+  <text x="440" y="153" font-size="7.5" font-weight="bold" text-anchor="middle" fill="#f8f8fa">L6</text>
+
+  <!-- 5 Verification — L6 Compliance (GAP: orphaned validators + no smoke tests, SUG-239/240) -->
+  <rect x="464" y="150" width="96" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="512" y="176" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">VERIFICATION</text>
+  <text x="512" y="200" font-size="7.5" text-anchor="middle" fill="#ff247d">3 validators orphaned</text>
+  <rect x="538" y="143" width="20" height="14" fill="#ff247d"/>
+  <text x="548" y="153" font-size="7.5" font-weight="bold" text-anchor="middle" fill="#f8f8fa">L6</text>
+
+  <!-- 6 Close-out — L2 Data Foundation -->
+  <rect x="572" y="150" width="96" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="620" y="176" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">CLOSE-OUT</text>
+  <text x="620" y="198" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.6">merge ≠ shipped</text>
+  <rect x="646" y="143" width="20" height="14" fill="#0d1226"/>
+  <text x="656" y="153" font-size="7.5" font-weight="bold" text-anchor="middle" fill="#f8f8fa">L2</text>
+
+  <!-- 7 Release — L6 Compliance -->
+  <rect x="680" y="150" width="96" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="728" y="176" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">RELEASE</text>
+  <text x="728" y="198" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.6">7 gates, kept</text>
+  <rect x="754" y="143" width="20" height="14" fill="#0d1226"/>
+  <text x="764" y="153" font-size="7.5" font-weight="bold" text-anchor="middle" fill="#f8f8fa">L6</text>
+
+  <!-- 8 Feedback — L6 Compliance (GAP: loop not closed, SUG-241) -->
+  <rect x="788" y="150" width="96" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="836" y="176" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">FEEDBACK</text>
+  <text x="836" y="200" font-size="7.5" text-anchor="middle" fill="#ff247d">loop not closed</text>
+  <rect x="862" y="143" width="20" height="14" fill="#ff247d"/>
+  <text x="872" y="153" font-size="7.5" font-weight="bold" text-anchor="middle" fill="#f8f8fa">L6</text>
+
+  <!-- ═══ connectors ═══ -->
+  <line x1="128" y1="182" x2="138" y2="182" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="236" y1="182" x2="246" y2="182" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="344" y1="182" x2="354" y2="182" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="452" y1="182" x2="462" y2="182" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="560" y1="182" x2="570" y2="182" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="668" y1="182" x2="678" y2="182" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="776" y1="182" x2="786" y2="182" stroke="#0d1226" marker-end="url(#mInk)"/>
+
+  <!-- feedback loop: Feedback → Planning, dashed pink (not yet real) -->
+  <path d="M836,150 L836,120 L188,120 L188,148" fill="none" stroke="#ff247d" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#mPink)"/>
+  <text x="512" y="114" font-size="8.5" text-anchor="middle" fill="#ff247d" letter-spacing="0.5">EVIDENCE LOOP — PROPOSED, NOT YET BUILT (SUG-241)</text>
+
+  <!-- ═══ legend ═══ -->
+  <rect x="32" y="252" width="12" height="12" fill="#ffffff" stroke="#0d1226"/>
+  <text x="52" y="262" font-size="9" fill="#0d1226" fill-opacity="0.75">Verified, currently working as documented</text>
+
+  <rect x="32" y="272" width="12" height="12" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="52" y="282" font-size="9" fill="#0d1226" fill-opacity="0.75">Enforcement gap — tracked in Linear (SUG-239, SUG-240, SUG-241)</text>
+
+  <line x1="32" y1="300" x2="44" y2="300" stroke="#ff247d" stroke-width="1.2" stroke-dasharray="4 3"/>
+  <text x="52" y="304" font-size="9" fill="#0d1226" fill-opacity="0.75">Proposed connection, not yet built</text>
+
+  <rect x="32" y="312" width="20" height="14" fill="#0d1226"/>
+  <text x="42" y="322" font-size="7.5" font-weight="bold" text-anchor="middle" fill="#f8f8fa">L#</text>
+  <text x="60" y="322" font-size="9" fill="#0d1226" fill-opacity="0.75">Primary AI-governance layer this phase serves — L1 Inventory · L2 Data Foundation · L5 Human Oversight · L6 Compliance &amp; Audit</text>
+
+  <!-- ═══ footer ═══ -->
+  <line x1="32" y1="350" x2="888" y2="350" stroke="#0d1226" stroke-opacity="0.15"/>
+  <text x="32" y="368" font-size="8.5" fill="#0d1226" fill-opacity="0.55">Companion claim table: docs/diagrams/redpen-workflow-current-state.md · Full detail: docs/diagrams/diagram-workflow-full-detail.svg</text>
+  <text x="32" y="384" font-size="8.5" fill="#0d1226" fill-opacity="0.55">Source epics: SUG-239 (enforcement gaps) · SUG-240 (route smoke tests) · SUG-241 (feedback loop) · SUG-242 (vspec rename) · SUG-244 (this diagram, live on /governance) · SUG-245 (page accuracy)</text>
+  <text x="32" y="400" font-size="8.5" fill="#0d1226" fill-opacity="0.55">L-badges: layers L3 (Data Security) and L4 (Model Assurance) are inherited/partial and don't map to a single phase — see the six-layer table for full coverage.</text>
+</svg>

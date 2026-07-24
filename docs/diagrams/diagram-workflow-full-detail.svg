@@ -1,0 +1,287 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2100" viewBox="0 0 1600 2100" font-family="'Courier Prime','Courier New',monospace">
+  <defs>
+    <marker id="mInk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0d1226"/>
+    </marker>
+    <marker id="mPink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ff247d"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="2100" fill="#f8f8fa"/>
+
+  <!-- ═══════════════════ MASTHEAD ═══════════════════ -->
+  <text x="48" y="46" font-size="10.5" letter-spacing="2" fill="#ff247d">EPIC LIFECYCLE · FULL DETAIL</text>
+  <text x="48" y="104" font-size="44" font-family="'EB Garamond',Georgia,'Times New Roman',serif" fill="#0d1226">The eight-phase workflow, node by node</text>
+  <text x="48" y="134" font-size="17" font-family="'EB Garamond',Georgia,'Times New Roman',serif" font-style="italic" fill="#0d1226" fill-opacity="0.72">Every claim on this page traces to a file, a gate, or an open Linear epic. None of it is hypothetical.</text>
+  <text x="48" y="160" font-size="9" fill="#0d1226" fill-opacity="0.5">Verified against the repo, 2026-07-24 · Companion: diagram-workflow-current-state.svg · Claims: redpen-workflow-full-detail.md</text>
+  <rect x="48" y="180" width="1504" height="3" fill="#ff247d"/>
+
+  <!-- ═══════════════════ EVIDENCE LOOP (drawn first, sits behind rows) ═══════════════════ -->
+  <path d="M950,1667 L12,1667 L12,497 L168,497" fill="none" stroke="#ff247d" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#mPink)"/>
+  <text x="16" y="1080" font-size="9" fill="#ff247d" letter-spacing="0.5" transform="rotate(-90 16 1080)" text-anchor="middle">EVIDENCE LOOP — PROPOSED, NOT YET BUILT · SUG-241</text>
+
+  <!-- ═══════════════════ PHASE 1 · INTAKE ═══════════════════ -->
+  <text x="50" y="318" font-size="104" font-family="'EB Garamond',Georgia,serif" fill="#0d1226" fill-opacity="0.08">01</text>
+  <text x="170" y="230" font-size="11.5" font-weight="bold" letter-spacing="0.6" fill="#0d1226">PHASE 1 · INTAKE</text>
+  <text x="170" y="244" font-size="9" fill="#0d1226" fill-opacity="0.55">optional</text>
+
+  <rect x="170" y="270" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="280" y="298" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">INTENT</text>
+
+  <rect x="430" y="270" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="540" y="298" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">DISCOVERY?</text>
+  <text x="540" y="316" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">optional</text>
+
+  <rect x="690" y="270" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="800" y="298" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">BRAINSTORM</text>
+  <text x="800" y="316" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">optional caucus pass</text>
+
+  <rect x="950" y="270" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="1060" y="298" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">AUDIENCE CHECK</text>
+  <text x="1060" y="316" font-size="8" text-anchor="middle" fill="#ff247d">deferred — external readers</text>
+
+  <rect x="1210" y="270" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="1320" y="298" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">BRIEF / IA</text>
+
+  <line x1="390" y1="302" x2="428" y2="302" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="650" y1="302" x2="688" y2="302" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="910" y1="302" x2="948" y2="302" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="1170" y1="302" x2="1208" y2="302" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <path d="M1430,334 L1430,349 L170,349 L170,463" fill="none" stroke="#0d1226" stroke-opacity="0.35" stroke-width="1.2" marker-end="url(#mInk)"/>
+
+  <!-- ═══════════════════ PHASE 2 · PLANNING (banded) ═══════════════════ -->
+  <rect x="0" y="395" width="1600" height="195" fill="#0d1226" fill-opacity="0.035"/>
+  <text x="50" y="513" font-size="104" font-family="'EB Garamond',Georgia,serif" fill="#0d1226" fill-opacity="0.08">02</text>
+  <text x="170" y="425" font-size="11.5" font-weight="bold" letter-spacing="0.6" fill="#0d1226">PHASE 2 · PLANNING</text>
+  <text x="170" y="439" font-size="9" fill="#0d1226" fill-opacity="0.55">required</text>
+
+  <rect x="170" y="465" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="280" y="493" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">LINEAR SUG-N</text>
+  <text x="280" y="511" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">ID assigned first</text>
+
+  <rect x="430" y="465" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="540" y="493" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">PRD</text>
+
+  <rect x="690" y="465" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="800" y="493" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">EPIC DOC</text>
+
+  <rect x="950" y="465" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="1060" y="493" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">COMPLETENESS GATE</text>
+  <text x="1060" y="511" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">7 conditions checked</text>
+
+  <rect x="1210" y="465" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="1320" y="493" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">REUSE MANIFEST</text>
+
+  <line x1="390" y1="497" x2="428" y2="497" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="650" y1="497" x2="688" y2="497" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="910" y1="497" x2="948" y2="497" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="1170" y1="497" x2="1208" y2="497" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <path d="M1430,529 L1430,544 L170,544 L170,658" fill="none" stroke="#0d1226" stroke-opacity="0.35" stroke-width="1.2" marker-end="url(#mInk)"/>
+
+  <!-- ═══════════════════ PHASE 3 · DESIGN ═══════════════════ -->
+  <text x="50" y="708" font-size="104" font-family="'EB Garamond',Georgia,serif" fill="#0d1226" fill-opacity="0.08">03</text>
+  <text x="170" y="620" font-size="11.5" font-weight="bold" letter-spacing="0.6" fill="#0d1226">PHASE 3 · DESIGN</text>
+  <text x="170" y="634" font-size="9" fill="#0d1226" fill-opacity="0.55">required if it has UI</text>
+
+  <rect x="170" y="660" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="280" y="688" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">HAS UI?</text>
+
+  <rect x="430" y="660" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="540" y="688" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">REUSE AUDIT</text>
+  <text x="540" y="706" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">variant-first, no forks</text>
+
+  <rect x="690" y="660" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="800" y="688" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">VSPEC</text>
+  <text x="800" y="706" font-size="8" text-anchor="middle" fill="#ff247d">still "mock" today · SUG-242</text>
+
+  <rect x="950" y="660" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="1060" y="682" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">INTERACTION</text>
+  <text x="1060" y="695" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">ANNOTATION</text>
+
+  <rect x="1210" y="660" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="1320" y="688" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">PHASE 0 SIGN-OFF</text>
+  <text x="1320" y="706" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">strongest gate, untouched</text>
+
+  <line x1="390" y1="692" x2="428" y2="692" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="650" y1="692" x2="688" y2="692" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="910" y1="692" x2="948" y2="692" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="1170" y1="692" x2="1208" y2="692" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <path d="M1430,724 L1430,739 L170,739 L170,853" fill="none" stroke="#0d1226" stroke-opacity="0.35" stroke-width="1.2" marker-end="url(#mInk)"/>
+
+  <!-- ═══════════════════ PHASE 4 · IMPLEMENTATION (banded) ═══════════════════ -->
+  <rect x="0" y="785" width="1600" height="195" fill="#0d1226" fill-opacity="0.035"/>
+  <text x="50" y="903" font-size="104" font-family="'EB Garamond',Georgia,serif" fill="#0d1226" fill-opacity="0.08">04</text>
+  <text x="170" y="815" font-size="11.5" font-weight="bold" letter-spacing="0.6" fill="#0d1226">PHASE 4 · IMPLEMENTATION</text>
+  <text x="170" y="829" font-size="9" fill="#0d1226" fill-opacity="0.55">required</text>
+
+  <rect x="170" y="855" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="280" y="883" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">ORIENT</text>
+
+  <rect x="430" y="855" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="540" y="883" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">CONFIRM</text>
+  <text x="540" y="901" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">gate</text>
+
+  <rect x="690" y="855" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="800" y="883" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">BUILD + COMMIT</text>
+
+  <rect x="950" y="855" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="1060" y="878" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">STORY +</text>
+  <text x="1060" y="891" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">DARK MODE</text>
+
+  <rect x="1210" y="855" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="1320" y="883" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">DESIGN-REVIEWER</text>
+  <text x="1320" y="901" font-size="8" text-anchor="middle" fill="#ff247d">exists, unwired · SUG-239</text>
+
+  <line x1="390" y1="887" x2="428" y2="887" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="650" y1="887" x2="688" y2="887" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="910" y1="887" x2="948" y2="887" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="1170" y1="887" x2="1208" y2="887" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <path d="M1430,919 L1430,934 L170,934 L170,1048" fill="none" stroke="#0d1226" stroke-opacity="0.35" stroke-width="1.2" marker-end="url(#mInk)"/>
+
+  <!-- ═══════════════════ PHASE 5 · VERIFICATION ═══════════════════ -->
+  <text x="50" y="1098" font-size="104" font-family="'EB Garamond',Georgia,serif" fill="#0d1226" fill-opacity="0.08">05</text>
+  <text x="170" y="1010" font-size="11.5" font-weight="bold" letter-spacing="0.6" fill="#0d1226">PHASE 5 · VERIFICATION</text>
+  <text x="170" y="1024" font-size="9" fill="#0d1226" fill-opacity="0.55">required</text>
+
+  <rect x="170" y="1050" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="280" y="1073" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">CI · LINT/TYPE/BUILD</text>
+  <text x="280" y="1096" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">+ Chromatic, advisory</text>
+
+  <rect x="430" y="1050" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="540" y="1078" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">VALIDATORS</text>
+  <text x="540" y="1096" font-size="8" text-anchor="middle" fill="#ff247d">3 orphaned · SUG-239</text>
+
+  <rect x="690" y="1050" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="800" y="1078" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">SMOKE TESTS</text>
+  <text x="800" y="1096" font-size="8" text-anchor="middle" fill="#ff247d">don't exist · SUG-240</text>
+
+  <rect x="950" y="1050" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="1060" y="1078" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">AXE / A11Y</text>
+  <text x="1060" y="1096" font-size="8" text-anchor="middle" fill="#ff247d">installed, not gated · SUG-161</text>
+
+  <rect x="1210" y="1050" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="1320" y="1073" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">VSPEC-TO-BUILD</text>
+  <text x="1320" y="1096" font-size="8" text-anchor="middle" fill="#ff247d">still "mock-to-impl." · SUG-242</text>
+
+  <line x1="390" y1="1082" x2="428" y2="1082" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="650" y1="1082" x2="688" y2="1082" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="910" y1="1082" x2="948" y2="1082" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="1170" y1="1082" x2="1208" y2="1082" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <path d="M1430,1114 L1430,1129 L170,1129 L170,1243" fill="none" stroke="#0d1226" stroke-opacity="0.35" stroke-width="1.2" marker-end="url(#mInk)"/>
+
+  <!-- ═══════════════════ PHASE 6 · CLOSE-OUT (banded) ═══════════════════ -->
+  <rect x="0" y="1175" width="1600" height="195" fill="#0d1226" fill-opacity="0.035"/>
+  <text x="50" y="1293" font-size="104" font-family="'EB Garamond',Georgia,serif" fill="#0d1226" fill-opacity="0.08">06</text>
+  <text x="170" y="1205" font-size="11.5" font-weight="bold" letter-spacing="0.6" fill="#0d1226">PHASE 6 · CLOSE-OUT</text>
+  <text x="170" y="1219" font-size="9" fill="#0d1226" fill-opacity="0.55">required</text>
+
+  <rect x="170" y="1245" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="280" y="1273" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">MERGE TO MAIN</text>
+  <text x="280" y="1291" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">branch ≠ shipped</text>
+
+  <rect x="430" y="1245" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="540" y="1273" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">SHIP DOC</text>
+
+  <rect x="690" y="1245" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="800" y="1273" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">FRICTION CHECK</text>
+  <text x="800" y="1291" font-size="8" text-anchor="middle" fill="#ff247d">proposed · SUG-241</text>
+
+  <rect x="950" y="1245" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="1060" y="1273" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">MINI-RELEASE</text>
+
+  <rect x="1210" y="1245" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="1320" y="1273" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">LINEAR DONE</text>
+  <text x="1320" y="1291" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">+ clean tree</text>
+
+  <line x1="390" y1="1277" x2="428" y2="1277" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="650" y1="1277" x2="688" y2="1277" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="910" y1="1277" x2="948" y2="1277" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="1170" y1="1277" x2="1208" y2="1277" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <path d="M1430,1309 L1430,1324 L170,1324 L170,1438" fill="none" stroke="#0d1226" stroke-opacity="0.35" stroke-width="1.2" marker-end="url(#mInk)"/>
+
+  <!-- ═══════════════════ PHASE 7 · RELEASE ═══════════════════ -->
+  <text x="50" y="1488" font-size="104" font-family="'EB Garamond',Georgia,serif" fill="#0d1226" fill-opacity="0.08">07</text>
+  <text x="170" y="1400" font-size="11.5" font-weight="bold" letter-spacing="0.6" fill="#0d1226">PHASE 7 · RELEASE</text>
+  <text x="170" y="1414" font-size="9" fill="#0d1226" fill-opacity="0.55">7 gates, kept</text>
+
+  <rect x="170" y="1440" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="280" y="1468" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">COLLECT SIGNALS</text>
+
+  <rect x="430" y="1440" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="540" y="1468" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">SOURCE OF TRUTH</text>
+  <text x="540" y="1486" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">Gate 1</text>
+
+  <rect x="690" y="1440" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="800" y="1468" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">NORMALIZE</text>
+  <text x="800" y="1486" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">Gate 2</text>
+
+  <rect x="950" y="1440" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="1060" y="1463" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">CHANGELOG + NOTES</text>
+  <text x="1060" y="1486" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">Gates 3–4</text>
+
+  <rect x="1210" y="1440" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="1320" y="1463" font-size="10.5" font-weight="bold" text-anchor="middle" fill="#0d1226">COMMIT + BACKLOG</text>
+  <text x="1320" y="1486" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">Gates 5–7, all select-list</text>
+
+  <line x1="390" y1="1472" x2="428" y2="1472" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="650" y1="1472" x2="688" y2="1472" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="910" y1="1472" x2="948" y2="1472" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="1170" y1="1472" x2="1208" y2="1472" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <path d="M1430,1504 L1430,1519 L170,1519 L170,1633" fill="none" stroke="#ff247d" stroke-opacity="0.6" stroke-width="1.2" marker-end="url(#mPink)"/>
+
+  <!-- ═══════════════════ PHASE 8 · FEEDBACK (banded, pink-flagged) ═══════════════════ -->
+  <rect x="0" y="1565" width="1600" height="175" fill="#ff247d" fill-opacity="0.04"/>
+  <text x="50" y="1683" font-size="104" font-family="'EB Garamond',Georgia,serif" fill="#ff247d" fill-opacity="0.12">08</text>
+  <text x="170" y="1595" font-size="11.5" font-weight="bold" letter-spacing="0.6" fill="#ff247d">PHASE 8 · FEEDBACK</text>
+  <text x="170" y="1609" font-size="9" fill="#ff247d" fill-opacity="0.75">loop not closed</text>
+
+  <rect x="170" y="1635" width="220" height="64" fill="#ffffff" stroke="#0d1226"/>
+  <text x="280" y="1663" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">STATS.YML · DAILY</text>
+  <text x="280" y="1681" font-size="8" text-anchor="middle" fill="#0d1226" fill-opacity="0.55">real, running</text>
+
+  <rect x="430" y="1635" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="540" y="1663" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">MONTHLY DIGEST</text>
+  <text x="540" y="1681" font-size="8" text-anchor="middle" fill="#ff247d">proposed · SUG-241</text>
+
+  <rect x="690" y="1635" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="800" y="1663" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">RETROSPECTIVE</text>
+  <text x="800" y="1681" font-size="8" text-anchor="middle" fill="#ff247d">/post-mortem exists, no trigger</text>
+
+  <rect x="950" y="1635" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="1060" y="1663" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">RE-PRIORITIZE</text>
+  <text x="1060" y="1681" font-size="8" text-anchor="middle" fill="#ff247d">loop not closed · SUG-241</text>
+
+  <line x1="390" y1="1667" x2="428" y2="1667" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="650" y1="1667" x2="688" y2="1667" stroke="#0d1226" marker-end="url(#mInk)"/>
+  <line x1="910" y1="1667" x2="948" y2="1667" stroke="#0d1226" marker-end="url(#mInk)"/>
+
+  <!-- ═══════════════════ MARGINALIA — WHY PHASE 1 IS THIN ═══════════════════ -->
+  <line x1="170" y1="1758" x2="170" y2="1830" stroke="#ff247d" stroke-width="2.5"/>
+  <text x="188" y="1772" font-size="9.5" font-weight="bold" letter-spacing="0.5" fill="#0d1226">WHY PHASE 1 IS THIN</text>
+  <text x="188" y="1790" font-size="12" font-family="'EB Garamond',Georgia,serif" font-style="italic" fill="#0d1226" fill-opacity="0.8">Deliberately shallow, not underbuilt — Sugartown has one VoPM. Bex is the requirements source, stakeholder, and</text>
+  <text x="188" y="1808" font-size="12" font-family="'EB Garamond',Georgia,serif" font-style="italic" fill="#0d1226" fill-opacity="0.8">sign-off in the same person. A structural fact, not a gap. Audience Check stays pink for a different reason: the</text>
+  <text x="188" y="1826" font-size="12" font-family="'EB Garamond',Georgia,serif" font-style="italic" fill="#0d1226" fill-opacity="0.8">actual readers — recruiters, hiring managers — are genuinely external. No amount of solo rigor substitutes for them.</text>
+
+  <!-- ═══════════════════ LEGEND ═══════════════════ -->
+  <line x1="170" y1="1864" x2="1430" y2="1864" stroke="#0d1226" stroke-opacity="0.15"/>
+  <rect x="170" y="1884" width="13" height="13" fill="#ffffff" stroke="#0d1226"/>
+  <text x="192" y="1895" font-size="9.5" fill="#0d1226" fill-opacity="0.75">Verified, working as documented</text>
+
+  <rect x="490" y="1884" width="13" height="13" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
+  <text x="512" y="1895" font-size="9.5" fill="#0d1226" fill-opacity="0.75">Gap or not-yet-built — tracked in Linear</text>
+
+  <line x1="850" y1="1891" x2="874" y2="1891" stroke="#0d1226" stroke-opacity="0.35" stroke-width="1.2" marker-end="url(#mInk)"/>
+  <text x="882" y="1895" font-size="9.5" fill="#0d1226" fill-opacity="0.75">Real hand-off between steps</text>
+
+  <line x1="1130" y1="1891" x2="1154" y2="1891" stroke="#ff247d" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#mPink)"/>
+  <text x="1162" y="1895" font-size="9.5" fill="#0d1226" fill-opacity="0.75">Proposed, not yet built</text>
+
+  <!-- ═══════════════════ COLOPHON ═══════════════════ -->
+  <line x1="170" y1="1930" x2="1430" y2="1930" stroke="#0d1226" stroke-opacity="0.15"/>
+  <text x="170" y="1952" font-size="8.5" letter-spacing="0.8" fill="#0d1226" fill-opacity="0.5">SOURCE EPICS</text>
+  <text x="170" y="1970" font-size="9" fill="#0d1226" fill-opacity="0.62">SUG-238 user stories · SUG-239 enforcement gaps · SUG-240 smoke tests · SUG-241 feedback loop</text>
+  <text x="170" y="1986" font-size="9" fill="#0d1226" fill-opacity="0.62">SUG-242 vspec rename · SUG-243 CLAUDE.md split · SUG-244 this diagram, live on /governance · SUG-245 page accuracy</text>
+  <text x="170" y="2016" font-size="8.5" letter-spacing="0.8" fill="#0d1226" fill-opacity="0.5">SEE ALSO</text>
+  <text x="170" y="2034" font-size="9" fill="#0d1226" fill-opacity="0.62">Short summary — diagram-workflow-current-state.svg · Claim table — redpen-workflow-full-detail.md</text>
+</svg>
