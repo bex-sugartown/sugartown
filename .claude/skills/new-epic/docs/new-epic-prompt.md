@@ -27,20 +27,32 @@ This is a stub, not a full spec. The full spec is filled in when the epic is act
 
 ## STEP 0 — GATHER
 
-Ask the human for:
+If the human invokes `/new-epic` with inline arguments (e.g. `/new-epic Token sync audit | Design System | 🟢`), parse them directly and skip prompting for provided fields. Still gather any missing required fields below.
 
+**Structured multi-field intake — free text for the open fields, `AskUserQuestion` for the enumerated ones:**
+
+Ask for these as free text (open-ended, no fixed option set):
 1. **Epic name** — short title (e.g. "Token file sync audit", "Site-wide search")
 2. **One-line description** — what problem this solves or what it delivers (1–2 sentences max)
 3. **Tags** — comma-separated (e.g. "Design System, Infrastructure"). Common tags: `Design System`, `Infrastructure`, `UX`, `Schema`, `Content`, `SEO`, `Performance`, `Tooling`
-4. **Priority** — choose one:
-   - 🔴 Now (blocks current work)
-   - 🟢 Next (high value, ready to pick up)
-   - 🟣 Soon (post-sprint)
-   - ⚪ Later (pre-launch, no urgency)
-   - ⬛ Deferred (post-launch)
-5. **Merge strategy** — `(a)` merge-as-you-go (one commit per phase, one mini-release at end of each) or `(b)` single close-out (one long-lived branch, one mini-release at the end)
 
-If the human invokes `/new-epic` with inline arguments (e.g. `/new-epic Token sync audit | Design System | 🟢`), parse them directly and skip prompting for provided fields. Still ask for any missing required fields.
+Then ask the two enumerated fields together in one `AskUserQuestion` call (two questions, one call):
+
+```
+Question 1: "Priority?"
+Options:
+  - "🔴 Now — blocks current work"
+  - "🟢 Next — high value, ready to pick up"
+  - "🟣 Soon — post-sprint"
+  - "⚪ Later — pre-launch, no urgency"
+  (⬛ Deferred — post-launch: offer as a follow-up if selected isn't quite right —
+  AskUserQuestion caps at 4 options per question)
+
+Question 2: "Merge strategy?"
+Options:
+  - "(a) Merge-as-you-go — one commit per phase, one mini-release at end of each"
+  - "(b) Single close-out — one long-lived branch, one mini-release at the end"
+```
 
 ---
 
@@ -253,7 +265,13 @@ using docs/epic-template.md as the reference.
 - Never write to disk before Step 1 completes (no ID, no file).
 - Never leave Background, Objective, Scope, or Acceptance Criteria as `TODO` — fill from invocation context.
 - For sections requiring a codebase audit (Doc Type Coverage, Query Layer, Files to Modify), write a specific activation audit instruction, not `TODO`.
-- Never create a duplicate: before Step 1, grep `docs/backlog/` for an existing file with a similar name. If one exists, tell the human and ask for confirmation before proceeding.
+- Never create a duplicate: before Step 1, grep `docs/backlog/` for an existing file with a similar name. If one exists, show it and ask via `AskUserQuestion`:
+  ```
+  Question: "A similar epic already exists: [filename] — proceed anyway?"
+  Options:
+    - "Yes — this is a genuinely different epic"
+    - "Stop — let me look at the existing one first"
+  ```
 - If any Scope bullet touches CSS, a layout token, or a multi-page component, the stub MUST include the **Human QA Walkthrough** section (with the App.jsx activation instruction) — not as a `TODO`, but as the written activation audit. A CSS/layout epic stub without this section is incomplete.
 
 ---
@@ -269,6 +287,13 @@ Phase 0 means: complete the spec collaboratively using `docs/epic-template.md` a
 1. Stop. Do not write any code, schema, CSS, or content.
 2. Tell the human: "This epic is still a stub. Background/Scope/Phases have TODO placeholders. Phase 0 is required before implementation — let's complete the spec first."
 3. Open `docs/epic-template.md` and walk through each section collaboratively with the human.
-4. Only proceed with implementation after the human says the spec is complete.
+4. Once every section is filled, ask via `AskUserQuestion`:
+   ```
+   Question: "Spec looks complete — start implementation?"
+   Options:
+     - "Yes — the spec is complete, begin implementation"
+     - "Not yet — more sections need work"
+   ```
+   Only proceed with implementation after "Yes — the spec is complete, begin implementation" is selected.
 
 **Why this rule exists:** SUG-90 was executed from a stub. The TODO placeholders were never filled in. The AI interpreted "execute this epic" as permission to invent the scope and write content directly to Sanity — without a proposal, without approval, without the human seeing what was being written before it happened. The CLAUDE.md Content Write Gate and this gate together close the gap. The stub says "fill me in before activating." Now the system enforces it.

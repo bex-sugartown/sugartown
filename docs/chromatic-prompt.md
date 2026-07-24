@@ -103,18 +103,28 @@ Proceed (no gate).
 ```
 🆕 {N} new stories detected — these need first-time baseline acceptance.
    Open the Chromatic build URL above and click "Accept" on each new story.
-   Reply "approved" when done, or "skip" to defer to /eod.
 ```
-Wait for human reply before proceeding.
+Then ask via `AskUserQuestion`:
+```
+Question: "New story baselines accepted in Chromatic?"
+Options:
+  - "Approved — baselines accepted"
+  - "Skip — defer to /eod"
+```
 
 **Case C — N visual changes (regressions or intentional diffs):**
 ```
 ⚠️  {N} visual changes detected — review required before merging to main.
    Open the Chromatic build URL above.
    For each change: "Accept" if intentional, "Deny" if a regression.
-   Reply "approved" when all changes are reviewed, or "skip" to defer.
 ```
-Wait for human reply before proceeding.
+Then ask via `AskUserQuestion`:
+```
+Question: "All {N} visual changes reviewed in Chromatic?"
+Options:
+  - "Approved — all changes reviewed"
+  - "Skip — defer to /eod"
+```
 
 **Case D — Errors:**
 ```

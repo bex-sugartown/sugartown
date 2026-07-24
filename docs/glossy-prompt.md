@@ -271,10 +271,31 @@ Below the table, add:
 - **Sourcing check:** every definitional claim maps to a listed source.
 - **Gaps:** fields left blank and why; any relation with no existing doc.
 
-Then stop and ask: **"Approve for posting to /glossary?"** A follow-up question is
-not approval. Wait for explicit "yes" / "approved" / "looks good" (CLAUDE.md
-Content Write Gate). If the user requests edits, revise the table and re-ask — do
-not proceed to Gate 2 on a partial yes.
+Then ask via `AskUserQuestion`. A follow-up question is not approval — this call is
+required before Gate 2, no exceptions (CLAUDE.md Content Write Gate).
+
+**Single term:**
+```
+Question: "Approve this term for posting to /glossary?"
+Options:
+  - "Approved — post it"
+  - "Needs edits"
+```
+
+**Batch (multi-select, chunked ≤4 per question per
+`docs/conventions/human-gate-conventions.md` §Row-level multi-select batch gate):**
+```
+Question: "Approve these terms for posting? (chunk 1 of N)"
+multiSelect: true
+Options: one per term in this chunk, labeled "<term> — <one-line gap/quality note>"
+```
+Repeat per chunk of ≤4. For batches too large for granular per-row selection, default
+to "approve all / flag exceptions": one question, "Approve all {N} terms, or flag
+specific ones?" with options "Approve all" / "Let me flag exceptions" (leads to a
+follow-up multi-select on the flagged subset).
+
+If the user requests edits, revise the table and re-ask — do not proceed to Gate 2 on
+a partial yes.
 
 ---
 

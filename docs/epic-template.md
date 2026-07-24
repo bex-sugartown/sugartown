@@ -199,8 +199,16 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 >   file exists on disk and Phase 0 checkboxes are marked complete by the human.
 > - If the backlog spec changes mid-epic (before Phase 0 sign-off), update the mock
 >   in the same response as the spec change. Backlog doc and mock must stay in sync.
-> - Phase 0 sign-off is a **human gate** — the agent marks it complete only after
->   the human explicitly approves the mock.
+> - Phase 0 sign-off is a **human gate**. Agent presents the mock, then asks via
+>   `AskUserQuestion`:
+>   ```
+>   Question: "Mock approved — start implementation?"
+>   Options:
+>     - "Approved — start implementation"
+>     - "Needs changes"
+>   ```
+>   The agent marks Phase 0 complete only after "Approved — start implementation" is
+>   selected.
 
 - [ ] Studio schema changes
 - [ ] Schema registration (`index.ts`)
@@ -551,10 +559,14 @@ State how re-running the script produces no change:
    - Flag any route where the component appears visually different from Storybook
 
 ### Human gate:
-> Agent presents the evidence table above.
-> Human reviews Storybook rendering and cross-surface spot check.
-> Human approves or returns with specific visual corrections.
-> Agent does NOT proceed to close-out until human says "Visual QA approved."
+> Agent presents the evidence table above, then asks via `AskUserQuestion`:
+> ```
+> Question: "Review the evidence above — Visual QA approved?"
+> Options:
+>   - "Visual QA approved — proceed to close-out"
+>   - "Needs corrections" (human states what's wrong; agent revises and re-asks)
+> ```
+> Agent does NOT proceed to close-out until "Visual QA approved — proceed to close-out" is selected.
 
 ---
 

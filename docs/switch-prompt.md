@@ -104,7 +104,17 @@ Then classify the situation into exactly one of these and state which it is:
 
 ### PHASE 3 — EXECUTE (with confirmation)
 
-Do **one action at a time.** Show the exact command, say what it does in plain English, wait for "yes / go / skip / stop." After each, confirm what happened.
+Do **one action at a time.** Show the exact command, say what it does in plain English, then ask via `AskUserQuestion`:
+
+```
+Question: "[plain-English description of the action] — go ahead?"
+Options:
+  - "Yes — do it"
+  - "Skip this one"
+  - "Stop — pause here"
+```
+
+After each, confirm what happened.
 
 **✅ Clean fast-forward:**
 ```bash
@@ -114,18 +124,26 @@ git pull --ff-only origin main
 After pulling, report what arrived in plain English: `git diff --stat HEAD@{1} HEAD` (files touched), and call out anything notable (schema changes → remind to `npx sanity schema deploy`; `pnpm-lock.yaml` changed → remind to run `pnpm install`).
 
 **⚠️ Uncommitted local changes (before any pull):**
-- Offer two paths and let the user choose:
-  - **Stash** (named): `git stash push -m "switch: WIP on [machine] [date]"` — then pull, then `git stash pop`.
-  - **Commit**: draft a `wip(switch):` message, show it, commit, then pull.
+- Ask via `AskUserQuestion`:
+  ```
+  Question: "You have uncommitted changes — stash them or commit them before pulling?"
+  Options:
+    - "Stash — park them, pull, then restore" (named: git stash push -m "switch: WIP on [machine] [date]")
+    - "Commit — draft a wip(switch): message, then pull"
+  ```
 - Never discard changes. Never `git checkout -- .` or `git reset --hard` to clear the tree.
 
 **🚨 Divergence (both machines have commits on `main`):**
 - STOP. Do not pull, merge, or rebase automatically. Explain in plain English: "Both this machine and the other one added commits to `main` independently. They have to be reconciled deliberately."
 - Show both sides: `git log --oneline origin/main..main` (yours here) and `git log --oneline main..origin/main` (theirs from origin).
-- Offer options and wait for an explicit choice:
-  1. **Rebase your local commits on top of origin** (clean history, recommended if your local commits aren't pushed anywhere): `git pull --rebase origin main` — warn that it replays your commits and may surface conflicts to resolve.
-  2. **Merge** the two histories: `git pull --no-rebase origin main` — creates a merge commit.
-  3. **Stop and inspect** — do nothing, let the user look first.
+- Ask via `AskUserQuestion`:
+  ```
+  Question: "How do you want to reconcile the divergence?"
+  Options:
+    - "Rebase mine on top of origin" (recommended if local commits aren't pushed anywhere — replays your commits, may surface conflicts)
+    - "Merge the two histories" (creates a merge commit)
+    - "Stop and inspect first" (do nothing yet)
+  ```
 - If conflicts appear during rebase/merge, resolve them with the user one file at a time; never abandon a conflicted state (per CLAUDE.md — no unresolved merge left at session end).
 
 **🟡 Local-only ahead (commits here never pushed):**
@@ -138,7 +156,13 @@ After pulling, report what arrived in plain English: `git diff --stat HEAD@{1} H
   git merge --ff-only origin/handoff/<name>
   ```
   `--ff-only` here confirms the handoff branch is simply `main` plus new commits (the expected shape). If it refuses, the branch has diverged — fall back to the 🚨 divergence handling.
-- After a successful merge, offer to delete the consumed handoff branch (free, no deploy): `git push origin --delete handoff/<name>`. Confirm before deleting.
+- After a successful merge, ask via `AskUserQuestion` whether to delete the consumed handoff branch (free, no deploy):
+  ```
+  Question: "Merged. Delete the consumed branch handoff/<name>?"
+  Options:
+    - "Yes — delete it" (git push origin --delete handoff/<name>)
+    - "Keep it for now"
+  ```
 
 **Hard rules for ARRIVE:**
 - Default pull is `--ff-only` — never a silent merge or rebase.
@@ -163,7 +187,15 @@ Unresolved: [none / describe]
 You're in sync. Run /morning next to check service health and start the day.
 ```
 
-Then offer: "Want me to run `/morning` now to check dev servers and git health, or `/restart` to bring the dev servers up?"
+Then ask via `AskUserQuestion`:
+
+```
+Question: "Want me to run /morning now to check dev servers and git health, or /restart to bring them up?"
+Options:
+  - "Run /morning"
+  - "Run /restart"
+  - "Neither — I'll do it myself"
+```
 
 ---
 
@@ -187,19 +219,31 @@ State plainly:
 - Current branch and how many commits are unpushed.
 - Any uncommitted/untracked files (these need to be committed to travel — a branch only carries commits, not working-tree changes).
 - The plan: "I'll commit your in-progress work, then push it to a free `handoff/*` branch. No Netlify deploy. On the other machine, `/switch` will find it and merge it onto `main`."
-- Proposed branch name: `handoff/<this-machine>-<YYYY-MM-DD-HHMM>` (e.g. `handoff/desktop-2026-06-12-1530`). Ask the user to confirm or rename. If the machine name isn't obvious, ask which machine this is (desktop / laptop).
+- Proposed branch name: `handoff/<this-machine>-<YYYY-MM-DD-HHMM>` (e.g. `handoff/desktop-2026-06-12-1530`). If the machine name isn't obvious, ask which machine this is (desktop / laptop) — free text, it's a short factual answer, not a decision. Then ask via `AskUserQuestion`:
+  ```
+  Question: "Use branch name handoff/<name>?"
+  Options:
+    - "Yes — use that name"
+    - "I'll rename it" (human supplies the name)
+  ```
 
 ### PHASE 3 — EXECUTE (with confirmation)
 
 1. **Commit work-in-progress** (if the tree is dirty):
-   - Draft a `wip(handoff): <short description>` message, show it, wait for confirmation, then commit.
-   - If the tree is already clean, skip.
+   - Draft a `wip(handoff): <short description>` message and show it.
+   - If the tree is already clean, skip straight to step 2.
 
 2. **Push to the handoff branch** (free — no deploy):
-   ```bash
-   git push origin HEAD:handoff/<name>
-   ```
-   Confirm in plain English: "This pushes your current commits to `handoff/<name>`. It does NOT touch `main`, so no Netlify deploy and no credits. `main` on origin is unchanged."
+   - Show the plan: the commit message (if step 1 applies) plus "This pushes your current commits to `handoff/<name>`. It does NOT touch `main`, so no Netlify deploy and no credits."
+   - Ask via `AskUserQuestion`:
+     ```
+     Question: "Commit and push to handoff/<name>?"
+     Options:
+       - "Yes — commit and push"
+       - "Needs edits" (to the commit message)
+       - "Stop — let me review again"
+     ```
+   - On confirmation: commit (if applicable), then `git push origin HEAD:handoff/<name>`.
 
 3. **Confirm the handoff:**
    ```
