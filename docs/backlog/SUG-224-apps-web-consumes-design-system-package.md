@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-224 — apps/web consumes @sugartown/design-system
 **Linear Issue:** [SUG-224](https://linear.app/sugartown/issue/SUG-224)
-**Status:** In Progress — 🟢 **Phase 0, 1, 1b, 2, 3 complete; Phase 4 batch 1+2 complete, 2026-07-24.** Disposition table filled (44/44), decisions A/B/C recorded, Non-Goals amended. `apps/web` now depends on `@sugartown/design-system`; package `Button` accepts `href` (`0bb66ecc`); `LinkProvider` mounted at the app root (`d9a4a481`); package Storybook coverage + title-collision resolution for Accordion/Breadcrumb/ButtonGroup/Callout/IconButton (`85234285`); **26/44 mirror components converted to re-exports** (`545df6ff`). **Batch 2 (2026-07-24): Breadcrumb/Chip/IndexCell (P2, router-import-only) + Button (P1b, already had parity) converted cleanly. Card (P2) required a decision D first — see below — before converting: 31/44 now converted.** **Next: Phase 4 batch 3 — the 7 diverged components (P4, need JS reconciliation).**
+**Status:** In Progress — 🟢 **Phase 0, 1, 1b, 2, 3 complete; Phase 4 batch 1+2+3 complete, 2026-07-24.** Disposition table filled (44/44), decisions A/B/C recorded, Non-Goals amended. `apps/web` now depends on `@sugartown/design-system`; package `Button` accepts `href` (`0bb66ecc`); `LinkProvider` mounted at the app root (`d9a4a481`); package Storybook coverage + title-collision resolution for Accordion/Breadcrumb/ButtonGroup/Callout/IconButton (`85234285`); **26/44 mirror components converted to re-exports** (`545df6ff`). **Batch 2 (2026-07-24): Breadcrumb/Chip/IndexCell/Button converted; Card required decision D (children/footerChildren/thumbnail overrides/external-href target-rel ported to package): 31/44.** **Batch 3 (2026-07-24): the 7 diverged components converted — Accordion/Callout/CodeBlock/Container/FilterBar/Stack confirmed already-reconciled (no port needed); Media required decision E (`parseOverlay`/`getOverlayStyles`/`ensureSvgFilter` promoted to package exports, `hotspot` prop + `showPanel`/`greyscale-panel` behavior ported) — see below. 38/44 now converted.** **Next: Phase 5 — promote Grid/PageHeader/SectionLabel/Sidebar to the package; SidebarNav/Tile stay web-only.**
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -42,8 +42,8 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 - [x] **Phase 3 —** Add package Storybook stories for Accordion, Breadcrumb, ButtonGroup, Callout, IconButton; resolve the `Components/<Name>` title collision — layer: Storybook ✅ 2026-07-23 (commit `85234285`)
 - [x] **Phase 1 —** Add `@sugartown/design-system` as a workspace dependency of apps/web — layer: tooling ✅ 2026-07-23 (commit `d9a4a481`) — the un-executed mechanical remainder of the Phase 1 decision spike (spike ran 2026-07-21 read-only, decided the strategy, "wired no dependency"); executed now as a hard prerequisite to Phase 2
 - [x] Resolve the JSX↔TSX consumption strategy (source vs built package, CSS module handling, `exports` map coverage) and record it as a decision note in this doc — layer: tooling — **retroactively tagged Phase 1 2026-07-23** (was missing a phase tag — see §Phase 0 note below); decision recorded 2026-07-21 in §Phase 1 Findings
-- [ ] Replace each mirror component in `apps/web/src/design-system/components/` with a re-export from the package (or delete + update import sites) — layer: frontend — 🔶 **31/44 converted 2026-07-24** (Phase 4 batch 1+2): AppShell, Avatar, Blockquote, Box, ButtonGroup, Citation, Columns, DescriptionList, ErrorMessage, Field, HelperText, IconButton, IndexGroup, Input, Label, List, Meter, Metric, Page, ScoreRing, SegmentedControl, Skeleton, Surface, Swatch, Table, Textarea (`545df6ff`, batch 1) + Breadcrumb, Chip, IndexCell, Button, Card (batch 2, 2026-07-24 — Card required decision D, package API gained `children`/`footerChildren`/`thumbnailClassName`/`thumbnailStyle`/external-href target-rel). Remaining: 7 diverged (P4, need JS reconciliation), 4 promotions (Phase 5), 2 stay web-only.
-- [ ] Dedupe mirrored component CSS modules (package copy becomes the only copy) — layer: frontend — 🔶 31/38 done (converted directories were deleted wholesale, so their CSS modules are already deduped — package copy is now the only copy for those)
+- [ ] Replace each mirror component in `apps/web/src/design-system/components/` with a re-export from the package (or delete + update import sites) — layer: frontend — 🔶 **38/44 converted 2026-07-24** (Phase 4 batches 1–3): AppShell, Avatar, Blockquote, Box, ButtonGroup, Citation, Columns, DescriptionList, ErrorMessage, Field, HelperText, IconButton, IndexGroup, Input, Label, List, Meter, Metric, Page, ScoreRing, SegmentedControl, Skeleton, Surface, Swatch, Table, Textarea (`545df6ff`, batch 1) + Breadcrumb, Chip, IndexCell, Button, Card (batch 2 — Card required decision D) + Accordion, Callout, CodeBlock, Container, FilterBar, Media, Stack (batch 3 — Media required decision E, package gained exported `parseOverlay`/`getOverlayStyles`/`ensureSvgFilter` + `hotspot`/`showPanel` support). Remaining: 4 promotions (Phase 5), 2 stay web-only.
+- [ ] Dedupe mirrored component CSS modules (package copy becomes the only copy) — layer: frontend — 🔶 38/38 done (all converted directories were deleted wholesale, so their CSS modules are already deduped — package copy is now the only copy)
 - [ ] Storybook (pinkmoon) resolves the package build without breaking HMR or Chromatic baselines — layer: Storybook
 - [ ] Retire the DS-component-mirror row from CLAUDE.md §Mirrored File Registry and the web-adapter-sync steps in `docs/epic-template.md` §Design System → Web Adapter Sync — layer: tooling/docs
 - [ ] Update `docs/diagrams/diagram-portfolio-agnostic-stack.svg` (dashed → solid) + red-pen table, and propose the matching case study caption/legend change through the Content Write Gate — layer: content
@@ -120,7 +120,23 @@ Presented to Bex as a choice: defer Card to batch 3 (reclassify P4) vs. port the
 
 Verified live on `/ds-section-showcase` (a real published page with `cardBuilderSection` blocks): package-styled cards render with real PT body content, citation footers (`Card-module__footer` containing a `Citation-module__zone`), and thumbnail overlay classes (`_cardDuotoneExtreme_`, `_cardColorOverlay_`) all present with correct computed styles — not just structurally present with no console error.
 
-**Remaining for Phase 4:** the 7 diverged components (re-export P4 — Accordion, Callout, CodeBlock, Container, FilterBar, Media, Stack — need JS reconciliation per decision A before conversion, plus Chromatic verification).
+**Batch 3 — ✅ COMPLETE 2026-07-24.** The 7 diverged components (Accordion, Callout, CodeBlock, Container, FilterBar, Media, Stack). Six converted cleanly after diffing web vs package line-by-line:
+- **Accordion, Callout, Container, FilterBar, Stack** — functionally identical to the package already (package already carries the SUG-231 Phase 2/3 fixes the code comments describe as "canonical"). No divergence to reconcile.
+- **CodeBlock** — web has a dead `variant="mermaid"` branch the package lacks. Checked all 4 real consumers (`PageSections.jsx`, `portableTextComponents.jsx`, `CmsPage.jsx`, `MonorepoPage.jsx`) — none ever pass `variant`. Mermaid diagrams route through a wholly separate `MermaidDiagram` component. Confirmed dead code, not ported.
+
+**Decision E (2026-07-24) — Media needed more than a prop port; it needed new package exports.** Two live consumers (`CardBuilderSection.jsx`, `PageSections.jsx`) import `getOverlayStyles`/`parseOverlay`/`ensureSvgFilter` as named functions directly from the web Media module — not through the `Media` component. The package defined these same functions internally but never exported them. Also missing: the `hotspot` prop (Sanity hotspot → `object-position`) and `showPanel` tracking in `parseOverlay` (including the legacy `greyscale-panel` type, which the package's parser didn't recognize at all — it fell through to no overlay rather than greyscale).
+
+Presented to Bex as a choice: convert the other 6 now and defer Media (bigger blast radius — it's an export-surface change, not just a prop), or port everything now. **Decision: port now.** Changes to `packages/design-system/src/components/Media/Media.tsx`:
+- `hotspot?: { x: number; y: number }` prop, ported verbatim from the web adapter
+- `panel?: boolean` added to `OverlayConfig`; `'greyscale-panel'` added to the `type` union
+- `parseOverlay` now returns `showPanel` and handles the `greyscale-panel` legacy case
+- `parseOverlay`, `getOverlayStyles`, `ensureSvgFilter` all gained `export` and are re-exported from both `components/Media/index.ts` and the top-level `src/index.ts`
+
+`CardBuilderSection.jsx` and `PageSections.jsx` repointed their helper imports to `@sugartown/design-system`. Storybook coverage added: `WithHotspot`.
+
+Verified live on `/ds-section-showcase`: duotone-extreme overlay computed gradient present and correct (`linear-gradient(135deg, rgba(255, 36, 125, 0.85), rgba(43, 212, 170, 0.70))`), no console errors. Also spot-checked Accordion (toggle click → `aria-expanded` flips), Callout (`/platform/cms`, real computed border/grid layout), FilterBar (`/articles`, 79 checkboxes, real classnames) — all live, no regressions.
+
+**Bonus find:** the pre-commit `validate:dead-refs` hook flagged 3 `KNOWN_DEAD` grandfather entries in `apps/web/scripts/validate-dead-refs.js` (`Accordion.jsx`, `Container.jsx` variants) that pointed at files this batch just deleted. Removed the stale entries — the `.tsx` (package) counterparts remain, since those dead-style-reference cases are still real in the package copy.
 
 **Phase 5 — Dispose of the remainder explicitly.** ✅ **Verdicts decided in Phase 0 (2026-07-23):** of the 6 web-only components, **`Grid`, `PageHeader`, `SectionLabel`, `Sidebar` are promoted to the package** (DS primitives, zero app coupling — see amended §Non-Goals), and **`SidebarNav` (couples to `useScrollspy`) and `Tile` (couples to `linkUtils` + react-router) stay web-only.** Phase 5 executes the four promotions (TSX port + package story + dark-mode story + Chromatic baseline + barrel export each). This is what closes the AC honestly instead of fudging a `grep`.
 
@@ -206,22 +222,22 @@ moved into the package); **web-only** (genuine app-layer coupling — stays).
 | Component | Pairing | Verdict | Note |
 |---|---|---|---|
 | `Breadcrumb` | paired | ✅ converted (batch 2, 2026-07-24) | router import retired by Phase 2 LinkProvider |
-| `FilterBar` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `FilterBar` | paired | ✅ converted (batch 3, 2026-07-24) | JS identical to package (own comment already said so), CSS byte-identical |
 | `PageHeader` | web-only | promote | DS layout primitive, no app coupling — promoted (decision 2026-07-23) |
-| `accordion` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `accordion` | paired | ✅ converted (batch 3, 2026-07-24) | JS identical to package (already reconciled per SUG-231 Phase 2), CSS byte-identical |
 | `app-shell` | paired | ✅ converted (545df6ff) | pure mirror |
 | `avatar` | paired | ✅ converted (545df6ff) | pure mirror |
 | `blockquote` | paired | ✅ converted (545df6ff) | pure mirror |
 | `box` | paired | ✅ converted (545df6ff) | pure mirror |
 | `button` | paired | ✅ converted (batch 2, 2026-07-24) | package Button gains `href` + external-anchor `target`/`rel` + `openInNewTab` (decision C, 2026-07-23) |
 | `button-group` | paired | ✅ converted (545df6ff) | pure mirror — barrel export confirmed present 2026-07-23 |
-| `callout` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `callout` | paired | ✅ converted (batch 3, 2026-07-24) | JS identical to package (already reconciled per SUG-231 Phase 3), CSS byte-identical |
 | `card` | paired | ✅ converted (batch 2, 2026-07-24) | router import retired by Phase 2 LinkProvider; **plus decision D** — package gains `children`/`footerChildren`/`thumbnailClassName`/`thumbnailStyle` + external-href target/rel on title link (see Phase 4 batch 2 note) |
 | `chip` | paired | ✅ converted (batch 2, 2026-07-24) | router import retired by Phase 2 LinkProvider |
 | `citation` | paired | ✅ converted (545df6ff) | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
-| `codeblock` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `codeblock` | paired | ✅ converted (batch 3, 2026-07-24) | web's `variant="mermaid"` branch confirmed dead (checked all 4 real consumers, none pass `variant` — mermaid routes through a separate `MermaidDiagram` component) — not ported, CSS byte-identical |
 | `columns` | paired | ✅ converted (545df6ff) | pure mirror |
-| `container` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `container` | paired | ✅ converted (batch 3, 2026-07-24) | JS identical to package (extra TS typing only), CSS byte-identical |
 | `description-list` | paired | ✅ converted (545df6ff) | pure mirror |
 | `error-message` | paired | ✅ converted (545df6ff) | pure mirror |
 | `field` | paired | ✅ converted (545df6ff) | pure mirror |
@@ -233,7 +249,7 @@ moved into the package); **web-only** (genuine app-layer coupling — stays).
 | `input` | paired | ✅ converted (545df6ff) | pure mirror |
 | `label` | paired | ✅ converted (545df6ff) | pure mirror |
 | `list` | paired | ✅ converted (545df6ff) | pure mirror — web copy has no router import (package copy carries the seam) |
-| `media` | paired | re-export (P4) | adapter, no app coupling, CSS byte-identical — package canonical |
+| `media` | paired | ✅ converted (batch 3, 2026-07-24) | **decision E** — package gained exported `parseOverlay`/`getOverlayStyles`/`ensureSvgFilter` (CardBuilderSection/PageSections import these directly) + `hotspot` prop + `showPanel`/`greyscale-panel` handling; CSS byte-identical |
 | `meter` | paired | ✅ converted (545df6ff) | pure mirror |
 | `metric` | paired | ✅ converted (545df6ff) | pure mirror |
 | `page` | paired | ✅ converted (545df6ff) | pure mirror |
@@ -243,14 +259,14 @@ moved into the package); **web-only** (genuine app-layer coupling — stays).
 | `sidebar` | web-only | promote | DS layout shell, separable from SidebarNav, no app coupling — promoted (decision 2026-07-23) |
 | `sidebar-nav` | web-only | web-only | genuine app coupling: `../../../lib/useScrollspy` — stays web-only |
 | `skeleton` | paired | ✅ converted (545df6ff) | pure mirror |
-| `stack` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
+| `stack` | paired | ✅ converted (batch 3, 2026-07-24) | JS identical to package (already carries the SUG-231 Phase 2 responsive-gating fix), CSS byte-identical |
 | `surface` | paired | ✅ converted (545df6ff) | pure mirror |
 | `swatch` | paired | ✅ converted (545df6ff) | pure mirror |
 | `table` | paired | ✅ converted (545df6ff) | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
 | `textarea` | paired | ✅ converted (545df6ff) | pure mirror |
 | `tile` | web-only | web-only | genuine app coupling: `../../../lib/linkUtils` + react-router — stays web-only |
 
-**Tally:** 26 re-export now (✅ converted 2026-07-23, commit `545df6ff`) · 4 re-export (P2) + 1 re-export (P1b), all 5 ✅ **converted 2026-07-24, batch 2** · 7 re-export (P4) remaining (batch 3) · 4 promote · 2 web-only = 44. **31/44 converted.**
+**Tally:** 26 re-export now (✅ converted 2026-07-23, commit `545df6ff`) · 4 re-export (P2) + 1 re-export (P1b), all 5 ✅ **converted 2026-07-24, batch 2** · 7 re-export (P4), all 7 ✅ **converted 2026-07-24, batch 3** · 4 promote · 2 web-only = 44. **38/44 converted.**
 
 ## Acceptance criteria
 
