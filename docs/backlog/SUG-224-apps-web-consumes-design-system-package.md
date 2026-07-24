@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-224 — apps/web consumes @sugartown/design-system
 **Linear Issue:** [SUG-224](https://linear.app/sugartown/issue/SUG-224)
-**Status:** In Progress — 🟢 **Phase 0, 1, 1b, 2, 3 complete; Phase 4 batch 1/N complete, 2026-07-23.** Disposition table filled (44/44), decisions A/B/C recorded, Non-Goals amended. `apps/web` now depends on `@sugartown/design-system`; package `Button` accepts `href` (`0bb66ecc`); `LinkProvider` mounted at the app root (`d9a4a481`); package Storybook coverage + title-collision resolution for Accordion/Breadcrumb/ButtonGroup/Callout/IconButton (`85234285`); **26/44 mirror components converted to re-exports** (`545df6ff`). **Next: Phase 4 batch 2 — Breadcrumb/Card/Chip/IndexCell (P2) + Button (P1b), then batch 3 — the 7 diverged components (P4, need JS reconciliation).**
+**Status:** In Progress — 🟢 **Phase 0, 1, 1b, 2, 3 complete; Phase 4 batch 1+2 complete, 2026-07-24.** Disposition table filled (44/44), decisions A/B/C recorded, Non-Goals amended. `apps/web` now depends on `@sugartown/design-system`; package `Button` accepts `href` (`0bb66ecc`); `LinkProvider` mounted at the app root (`d9a4a481`); package Storybook coverage + title-collision resolution for Accordion/Breadcrumb/ButtonGroup/Callout/IconButton (`85234285`); **26/44 mirror components converted to re-exports** (`545df6ff`). **Batch 2 (2026-07-24): Breadcrumb/Chip/IndexCell (P2, router-import-only) + Button (P1b, already had parity) converted cleanly. Card (P2) required a decision D first — see below — before converting: 31/44 now converted.** **Next: Phase 4 batch 3 — the 7 diverged components (P4, need JS reconciliation).**
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -42,8 +42,8 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 - [x] **Phase 3 —** Add package Storybook stories for Accordion, Breadcrumb, ButtonGroup, Callout, IconButton; resolve the `Components/<Name>` title collision — layer: Storybook ✅ 2026-07-23 (commit `85234285`)
 - [x] **Phase 1 —** Add `@sugartown/design-system` as a workspace dependency of apps/web — layer: tooling ✅ 2026-07-23 (commit `d9a4a481`) — the un-executed mechanical remainder of the Phase 1 decision spike (spike ran 2026-07-21 read-only, decided the strategy, "wired no dependency"); executed now as a hard prerequisite to Phase 2
 - [x] Resolve the JSX↔TSX consumption strategy (source vs built package, CSS module handling, `exports` map coverage) and record it as a decision note in this doc — layer: tooling — **retroactively tagged Phase 1 2026-07-23** (was missing a phase tag — see §Phase 0 note below); decision recorded 2026-07-21 in §Phase 1 Findings
-- [ ] Replace each mirror component in `apps/web/src/design-system/components/` with a re-export from the package (or delete + update import sites) — layer: frontend — 🔶 **26/44 converted 2026-07-23** (Phase 4 batch 1, commit `545df6ff`): AppShell, Avatar, Blockquote, Box, ButtonGroup, Citation, Columns, DescriptionList, ErrorMessage, Field, HelperText, IconButton, IndexGroup, Input, Label, List, Meter, Metric, Page, ScoreRing, SegmentedControl, Skeleton, Surface, Swatch, Table, Textarea. Remaining: Breadcrumb/Card/Chip/IndexCell (P2, router import only), Button (P1b, already has href), 7 diverged (P4, need JS reconciliation), 4 promotions (Phase 5), 2 stay web-only.
-- [ ] Dedupe mirrored component CSS modules (package copy becomes the only copy) — layer: frontend — 🔶 26/38 done (the 26 converted directories were deleted wholesale, so their CSS modules are already deduped — package copy is now the only copy for those)
+- [ ] Replace each mirror component in `apps/web/src/design-system/components/` with a re-export from the package (or delete + update import sites) — layer: frontend — 🔶 **31/44 converted 2026-07-24** (Phase 4 batch 1+2): AppShell, Avatar, Blockquote, Box, ButtonGroup, Citation, Columns, DescriptionList, ErrorMessage, Field, HelperText, IconButton, IndexGroup, Input, Label, List, Meter, Metric, Page, ScoreRing, SegmentedControl, Skeleton, Surface, Swatch, Table, Textarea (`545df6ff`, batch 1) + Breadcrumb, Chip, IndexCell, Button, Card (batch 2, 2026-07-24 — Card required decision D, package API gained `children`/`footerChildren`/`thumbnailClassName`/`thumbnailStyle`/external-href target-rel). Remaining: 7 diverged (P4, need JS reconciliation), 4 promotions (Phase 5), 2 stay web-only.
+- [ ] Dedupe mirrored component CSS modules (package copy becomes the only copy) — layer: frontend — 🔶 31/38 done (converted directories were deleted wholesale, so their CSS modules are already deduped — package copy is now the only copy for those)
 - [ ] Storybook (pinkmoon) resolves the package build without breaking HMR or Chromatic baselines — layer: Storybook
 - [ ] Retire the DS-component-mirror row from CLAUDE.md §Mirrored File Registry and the web-adapter-sync steps in `docs/epic-template.md` §Design System → Web Adapter Sync — layer: tooling/docs
 - [ ] Update `docs/diagrams/diagram-portfolio-agnostic-stack.svg` (dashed → solid) + red-pen table, and propose the matching case study caption/legend change through the Content Write Gate — layer: content
@@ -105,7 +105,22 @@ Verified via a temporary smoke test (not committed — added and removed within 
 
 **Standing lesson across all three instances:** "consumed via the built package" has exactly two entry points that each need the CSS bundle wired in independently — `apps/web/src/main.jsx` and `apps/storybook/.storybook/preview.ts`. Any future third consumer of `@sugartown/design-system` (e.g. if `apps/contentful-poc` patterns ever route through this same barrel) needs the same check.
 
-**Remaining for Phase 4:** Breadcrumb, Card, Chip, IndexCell (re-export P2 — router import removal only, now unblocked by Phase 2's `LinkProvider`); Button (re-export P1b — already has `href` since Phase 1b, just needs the web copy deleted and imports repointed); the 7 diverged components (re-export P4 — Accordion, Callout, CodeBlock, Container, FilterBar, Media, Stack — need JS reconciliation per decision A before conversion, plus Chromatic verification). Card is flagged in Phase 1 Findings as "the single worst candidate" (382 vs 340 lines, extra escape hatches) — treat it with more scrutiny than the P4 disposition-table note alone implies.
+**Batch 2 — ✅ COMPLETE 2026-07-24.** Breadcrumb, Chip, IndexCell (P2) and Button (P1b) converted after confirming each was genuinely router-import-only (CSS byte-identical, JS parity verified line-by-line). Card required an extra step first:
+
+**Decision D (2026-07-24) — Card's disposition-table entry ("re-export (P2) — router import only") was incomplete.** Diffing web Card.jsx against the package (430 vs 382 lines, not the 340 recorded at Phase 1) surfaced three real prop divergences beyond routing, all load-bearing in `CardBuilderSection.jsx` (a live consumer, not dead code):
+- `children` — custom Portable Text body content
+- `footerChildren` — custom footer content (citations)
+- `thumbnailClassName` / `thumbnailStyle` — overlay/effect treatment + hotspot-driven `object-position` on the thumbnail wrapper
+
+A straight re-export would have silently dropped all three — React ignores unknown props with no warning, so the PT body, citations, and thumbnail overlays would vanish with zero console error, passing every check except looking at the actual page. Same failure shape as the batch-1 CSS-import regressions.
+
+Presented to Bex as a choice: defer Card to batch 3 (reclassify P4) vs. port the props into the package now (same pattern as Button's decision C). **Decision: port now.** All four props added to `packages/design-system/src/components/Card/Card.tsx` (`CardProps` interface + render logic), faithfully mirroring the web adapter's exact structure (including the footer's conditional-wrapper shape, so a footer with only `footerChildren` and no standard fields doesn't render empty `footerLeft`/`footerRight` divs). Storybook coverage added: `WithBodyAndFooterChildren`, `WithThumbnailOverride`.
+
+**A second, related gap found in the same pass:** web Card's title link uses `getLinkProps()` to add `target="_blank" rel="noopener noreferrer"` for external hrefs; the package Card's title link went through the DS Link seam, which deliberately omits target/rel for external links (SUG-230 editorial choice). `CardBuilderSection`'s `resolveLinkHref()` can genuinely produce an external URL from a Sanity `titleLink` of `type="external"`, so this was a real regression risk, not theoretical. Fixed the same way as decision C: Card's title link now branches on `isExternalHref()` and renders a plain `<a target="_blank" rel="noopener noreferrer">` for external hrefs, bypassing the seam for that one case. Storybook coverage added: `WithExternalHref`. (The seam's self-link normalization — `toInternalPath()` treating an absolute same-origin URL as internal — was *not* ported; that's a pre-existing, already-accepted gap across every seamed component, not specific to Card, and out of scope here.)
+
+Verified live on `/ds-section-showcase` (a real published page with `cardBuilderSection` blocks): package-styled cards render with real PT body content, citation footers (`Card-module__footer` containing a `Citation-module__zone`), and thumbnail overlay classes (`_cardDuotoneExtreme_`, `_cardColorOverlay_`) all present with correct computed styles — not just structurally present with no console error.
+
+**Remaining for Phase 4:** the 7 diverged components (re-export P4 — Accordion, Callout, CodeBlock, Container, FilterBar, Media, Stack — need JS reconciliation per decision A before conversion, plus Chromatic verification).
 
 **Phase 5 — Dispose of the remainder explicitly.** ✅ **Verdicts decided in Phase 0 (2026-07-23):** of the 6 web-only components, **`Grid`, `PageHeader`, `SectionLabel`, `Sidebar` are promoted to the package** (DS primitives, zero app coupling — see amended §Non-Goals), and **`SidebarNav` (couples to `useScrollspy`) and `Tile` (couples to `linkUtils` + react-router) stay web-only.** Phase 5 executes the four promotions (TSX port + package story + dark-mode story + Chromatic baseline + barrel export each). This is what closes the AC honestly instead of fudging a `grep`.
 
@@ -190,7 +205,7 @@ moved into the package); **web-only** (genuine app-layer coupling — stays).
 
 | Component | Pairing | Verdict | Note |
 |---|---|---|---|
-| `Breadcrumb` | paired | re-export (P2) | router import retired by Phase 2 LinkProvider |
+| `Breadcrumb` | paired | ✅ converted (batch 2, 2026-07-24) | router import retired by Phase 2 LinkProvider |
 | `FilterBar` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
 | `PageHeader` | web-only | promote | DS layout primitive, no app coupling — promoted (decision 2026-07-23) |
 | `accordion` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
@@ -198,11 +213,11 @@ moved into the package); **web-only** (genuine app-layer coupling — stays).
 | `avatar` | paired | ✅ converted (545df6ff) | pure mirror |
 | `blockquote` | paired | ✅ converted (545df6ff) | pure mirror |
 | `box` | paired | ✅ converted (545df6ff) | pure mirror |
-| `button` | paired | re-export (P1b) | package Button gains `href` + external-anchor `target`/`rel` + `openInNewTab` (decision C, 2026-07-23) |
+| `button` | paired | ✅ converted (batch 2, 2026-07-24) | package Button gains `href` + external-anchor `target`/`rel` + `openInNewTab` (decision C, 2026-07-23) |
 | `button-group` | paired | ✅ converted (545df6ff) | pure mirror — barrel export confirmed present 2026-07-23 |
 | `callout` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
-| `card` | paired | re-export (P2) | router import retired by Phase 2 LinkProvider |
-| `chip` | paired | re-export (P2) | router import retired by Phase 2 LinkProvider |
+| `card` | paired | ✅ converted (batch 2, 2026-07-24) | router import retired by Phase 2 LinkProvider; **plus decision D** — package gains `children`/`footerChildren`/`thumbnailClassName`/`thumbnailStyle` + external-href target/rel on title link (see Phase 4 batch 2 note) |
+| `chip` | paired | ✅ converted (batch 2, 2026-07-24) | router import retired by Phase 2 LinkProvider |
 | `citation` | paired | ✅ converted (545df6ff) | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
 | `codeblock` | paired | re-export (P4) | diverged JS, CSS byte-identical, no app coupling — package canonical |
 | `columns` | paired | ✅ converted (545df6ff) | pure mirror |
@@ -213,7 +228,7 @@ moved into the package); **web-only** (genuine app-layer coupling — stays).
 | `grid` | web-only | promote | DS primitive (CLAUDE.md reuse-audit + Storybook Foundations/Layout/Grid), no app coupling — promoted |
 | `helper-text` | paired | ✅ converted (545df6ff) | pure mirror |
 | `icon-button` | paired | ✅ converted (545df6ff) | pure mirror — CSS now identical (was Blocker 3); barrel export confirmed present 2026-07-23 |
-| `index-cell` | paired | re-export (P2) | router import retired by Phase 2 LinkProvider |
+| `index-cell` | paired | ✅ converted (batch 2, 2026-07-24) | router import retired by Phase 2 LinkProvider |
 | `index-group` | paired | ✅ converted (545df6ff) | pure mirror |
 | `input` | paired | ✅ converted (545df6ff) | pure mirror |
 | `label` | paired | ✅ converted (545df6ff) | pure mirror |
@@ -235,7 +250,7 @@ moved into the package); **web-only** (genuine app-layer coupling — stays).
 | `textarea` | paired | ✅ converted (545df6ff) | pure mirror |
 | `tile` | web-only | web-only | genuine app coupling: `../../../lib/linkUtils` + react-router — stays web-only |
 
-**Tally:** 26 re-export now (✅ **all 26 converted 2026-07-23, commit `545df6ff`**) · 4 re-export (P2) · 1 re-export (P1b) · 7 re-export (P4) · 4 promote · 2 web-only = 44.
+**Tally:** 26 re-export now (✅ converted 2026-07-23, commit `545df6ff`) · 4 re-export (P2) + 1 re-export (P1b), all 5 ✅ **converted 2026-07-24, batch 2** · 7 re-export (P4) remaining (batch 3) · 4 promote · 2 web-only = 44. **31/44 converted.**
 
 ## Acceptance criteria
 
