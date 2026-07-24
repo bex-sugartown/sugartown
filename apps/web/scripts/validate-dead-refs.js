@@ -56,12 +56,13 @@ const ROOTS = [
 //   rather than a visible break. Resolving it means either writing the missing
 //   rules or deleting the references — a visual decision, not a cleanup.
 //   Sidebar `.sidebar` — the stylesheet defines `.panel`/`.sideLeft`/`.sideRight`
-//   and never `.sidebar`. Web-only component, no package counterpart.
+//   and never `.sidebar`. Promoted to the package (SUG-224 Phase 5) unchanged —
+//   a visual decision, not this move's concern.
 const KNOWN_DEAD = new Set([
   'Container.tsx styles.bleed',   // by design — see above
   'Accordion.tsx styles.accordionNumbered',
   'Accordion.tsx styles.itemOpen',
-  'Sidebar.jsx styles.sidebar',
+  'Sidebar.tsx styles.sidebar',
 ])
 
 // Props that are legitimately declared but not referenced in the body.

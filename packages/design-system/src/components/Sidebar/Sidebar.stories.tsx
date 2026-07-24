@@ -1,5 +1,6 @@
 /**
  * Sidebar stories — layout primitive (sticky shell + mobile disclosure).
+ * SUG-224 Phase 5 (promoted from apps/web)
  *
  * Note: sticky positioning only activates in a tall scroll context.
  * Stories show the disclosure/rail structure; use the platform or detail
@@ -8,7 +9,7 @@
 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import Sidebar from './Sidebar';
+import { Sidebar } from './Sidebar';
 
 const meta: Meta<typeof Sidebar> = {
   title: 'Components/Sidebar',
@@ -48,6 +49,27 @@ export const RightRail: Story = {
         <Placeholder label="TOC — SidebarNav goes here" />
         <Placeholder label="Related content" />
         <Placeholder label="AI Disclosure" />
+      </Sidebar>
+    </div>
+  ),
+};
+
+/** Dark theme — border and toggle chevron on dark-pink-moon. */
+export const DarkMode: Story = {
+  name: 'DarkMode',
+  globals: { theme: 'dark-pink-moon' },
+  args: {
+    label: 'On this page',
+    side: 'right',
+    breakpoint: 'lg',
+    mobileStyle: 'appendix',
+    'aria-label': 'Page details',
+  },
+  render: (args) => (
+    <div style={{ maxWidth: '240px' }}>
+      <Sidebar {...args}>
+        <Placeholder label="TOC — SidebarNav goes here" />
+        <Placeholder label="Related content" />
       </Sidebar>
     </div>
   ),
@@ -97,5 +119,27 @@ export const MobileStrip: Story = {
     <Sidebar label="Platform" mobileStyle="strip" side="left" breakpoint="md" aria-label="Platform navigation">
       <Placeholder label="Nav sections" />
     </Sidebar>
+  ),
+};
+
+// ── Snapshot (Chromatic) ─────────────────────────────────────
+
+export const Snapshot: Story = {
+  name: 'Snapshot (Chromatic)',
+  parameters: { chromatic: { disableSnapshot: false }, layout: 'padded', controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'flex', gap: '2rem' }}>
+      <div style={{ maxWidth: '240px' }}>
+        <Sidebar label="On this page" side="right" breakpoint="lg" mobileStyle="appendix" aria-label="Page details">
+          <Placeholder label="TOC links" />
+          <Placeholder label="Related content" />
+        </Sidebar>
+      </div>
+      <div style={{ width: '220px' }}>
+        <Sidebar label="Platform" side="left" breakpoint="md" mobileStyle="strip" aria-label="Platform navigation">
+          <Placeholder label="Nav sections" />
+        </Sidebar>
+      </div>
+    </div>
   ),
 };

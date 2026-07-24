@@ -15,13 +15,14 @@
  *   italic=true  — archive masteheads, person folios
  *   italic=false — entity folios (project, tool), taxonomy detail pages
  *
- * SUG-157
+ * SUG-157 | SUG-224 Phase 5 (promoted from apps/web)
  */
 
-import React from 'react'
-import { MemoryRouter } from 'react-router-dom'
-import { PageHeader } from './PageHeader'
-import { Avatar, Breadcrumb, DescriptionList } from '@sugartown/design-system'
+import React from 'react';
+import { PageHeader } from './PageHeader';
+import { Avatar } from '../Avatar/Avatar';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
+import { DescriptionList } from '../DescriptionList/DescriptionList';
 import {
   DocSection,
   OverviewItem,
@@ -39,13 +40,7 @@ import {
   ChangelogItem,
   docStyles,
   AiGeneratedFooter,
-} from '../../../../../../apps/storybook/.storybook/helpers/docs'
-
-// ─── Shared decorator ────────────────────────────────────────────────────────
-
-function withRouter(StoryFn) {
-  return React.createElement(MemoryRouter, null, React.createElement(StoryFn))
-}
+} from '../../../../../apps/storybook/.storybook/helpers/docs'
 
 // ─── Meta ─────────────────────────────────────────────────────────────────────
 
@@ -53,7 +48,6 @@ export default {
   title: 'Patterns/PageHeader',
   component: PageHeader,
   tags: ['autodocs'],
-  decorators: [withRouter],
   parameters: {
     docs: {
       description: {
@@ -158,6 +152,22 @@ export const Default = {
       />
     )
   },
+}
+
+/** Dark theme — tint wash, H1, and breadcrumb on dark-pink-moon. */
+export const DarkMode = {
+  name: 'DarkMode',
+  globals: { theme: 'dark-pink-moon' },
+  render: () => (
+    <PageHeader
+      breadcrumb={<Breadcrumb items={[{ label: 'People', href: '/people' }]} />}
+      media={<Avatar name="Bex Walton" size="xl" />}
+      title="Bex Walton"
+      description="Design engineer and content strategist. Builds systems that make the gap between design intent and implementation reality smaller."
+      tint="var(--st-color-seafoam-300)"
+      italic
+    />
+  ),
 }
 
 // ─── Archive ─────────────────────────────────────────────────────────────────
@@ -542,6 +552,9 @@ function PageHeaderGuidelinesPage() {
 
       {/* 14 — Changelog */}
       <DocSection n="14" title="Changelog" priority="should">
+        <ChangelogEntry version="SUG-224" date="2026-07-24">
+          <ChangelogItem>Promoted from <code style={s.code}>apps/web/src/design-system/components/PageHeader/</code> into the package — zero app coupling, no API or visual change (Phase 5, decided in Phase 0).</ChangelogItem>
+        </ChangelogEntry>
         <ChangelogEntry version="SUG-165" date="2026-06-13">
           <ChangelogItem>H1 size corrected to the page-level spec: <code style={s.code}>.title</code> now uses <code style={s.code}>--st-font-page-h1</code> (3rem / 48px), replacing <code style={s.code}>--st-font-heading-2</code> (2.25rem / 36px). All pages using PageHeader render the H1 at 48px.</ChangelogItem>
           <ChangelogItem>Added <code style={s.code}>eyebrow</code> prop (mono uppercase kicker above the title) and a <code style={s.code}>children</code> slot (trailing content below the description). Enabled migrating the Tool, Person, Glossary, and Series entity folios off the legacy <code style={s.code}>.narrativeHeading</code> pattern, which is now removed.</ChangelogItem>
@@ -595,7 +608,7 @@ export const Snapshot = {
         italic
       />
       <PageHeader
-        breadcrumb={<Breadcrumb items={[{ label: 'Tags', href: '/tags' }]} />}
+        breadcrumb={<Breadcrumb items={[{ label: 'Tags' }]} />}
         title="Design Systems"
         count={12}
         description="Articles, nodes, and case studies tagged with Design Systems."

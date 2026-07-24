@@ -4,7 +4,7 @@ import Drawer from '../Drawer'
 import ContentsStrip from '../ContentsStrip'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
 import useScrollspy from '../../lib/useScrollspy'
-import Sidebar from '../../design-system/components/sidebar/Sidebar'
+import { Sidebar } from '@sugartown/design-system'
 import SidebarNav from '../../design-system/components/sidebar-nav/SidebarNav'
 import styles from './PlatformSidebar.module.css'
 

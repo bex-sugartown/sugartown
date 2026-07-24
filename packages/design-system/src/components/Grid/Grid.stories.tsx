@@ -1,12 +1,11 @@
 /**
  * Grid — responsive tile/card grid. Two spacing modes, optional accent rule.
- * SUG-96 | SUG-104 | SUG-120
+ * SUG-96 | SUG-104 | SUG-120 | SUG-224 Phase 5 (promoted from apps/web)
  */
 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
-import Grid from './Grid';
+import { Grid } from './Grid';
 
 type AccentPreset = 'none' | 'brand' | 'ink';
 
@@ -35,7 +34,6 @@ const meta: Meta<typeof Grid> = {
     className:    { table: { disable: true } },
     children:     { table: { disable: true } },
   },
-  decorators: [(Story) => <MemoryRouter><Story /></MemoryRouter>],
 };
 
 export default meta;
@@ -79,6 +77,24 @@ export const Default: Story = {
   render: ({ accentPreset = 'none', columns = 3, ...args }) => (
     <Grid
       {...args}
+      columns={columns}
+      accentTop={accentPreset !== 'none'}
+      accentColor={accentPreset === 'none' ? 'brand' : accentPreset}
+    >
+      {tiles(Number(columns))}
+    </Grid>
+  ),
+};
+
+/** Dark theme — accent rules and hairline dividers on dark-pink-moon. */
+export const DarkMode: Story = {
+  name: 'DarkMode',
+  globals: { theme: 'dark-pink-moon' },
+  args: { accentPreset: 'brand' },
+  render: ({ accentPreset = 'brand', columns = 3, ...args }) => (
+    <Grid
+      {...args}
+      spacing="0"
       columns={columns}
       accentTop={accentPreset !== 'none'}
       accentColor={accentPreset === 'none' ? 'brand' : accentPreset}

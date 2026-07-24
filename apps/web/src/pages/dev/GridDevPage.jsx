@@ -7,10 +7,8 @@
  * Section 1: Structural (PlaceholderTile children — spacing modes, column counts)
  * Section 2: Composition patterns (real DS components, naming convention: "N-col Grid + Component")
  */
-import Grid from '../../design-system/components/grid/Grid'
-import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import StatCard from '../../components/StatCard'
-import { Card, Callout } from '@sugartown/design-system'
+import { Card, Callout, Grid, SectionLabel } from '@sugartown/design-system'
 import styles from './TablesDevPage.module.css'
 import pageStyles from './GridDevPage.module.css'
 

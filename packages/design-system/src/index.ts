@@ -10,6 +10,10 @@ export { Container } from './components/Container';
 export type { ContainerProps, ContainerSize } from './components/Container';
 export { Stack } from './components/Stack';
 export type { StackProps, StackGap, StackDirection, StackAlign, StackJustify } from './components/Stack';
+export { Grid } from './components/Grid';
+export type { GridProps, GridSpacing, GridAccentColor } from './components/Grid';
+export { Sidebar } from './components/Sidebar';
+export type { SidebarProps, SidebarSide, SidebarBreakpoint, SidebarMobileStyle } from './components/Sidebar';
 export { Columns } from './components/Columns';
 export type { ColumnsProps, ColumnsGap, ColumnsBreakpoint } from './components/Columns';
 export { Surface } from './components/Surface';
@@ -139,3 +143,11 @@ export type { LinkComponent, LinkRenderProps, LinkProviderProps, LinkProps } fro
 // ── useStickyState (SUG-118) ─────────────────────────────────────────────────
 export { useStickyState } from './hooks/useStickyState';
 export type { StickyState } from './hooks/useStickyState';
+
+// ── SectionLabel (SUG-99) ────────────────────────────────────────────────────
+export { SectionLabel } from './components/SectionLabel';
+export type { SectionLabelProps, SectionLabelLevel } from './components/SectionLabel';
+
+// ── PageHeader (SUG-157) ─────────────────────────────────────────────────────
+export { PageHeader } from './components/PageHeader';
+export type { PageHeaderProps } from './components/PageHeader';

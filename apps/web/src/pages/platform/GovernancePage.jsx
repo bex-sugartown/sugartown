@@ -1,10 +1,8 @@
 import { useRef } from 'react' // roadmapRef kept for future scroll-spy use
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
-import Grid from '../../design-system/components/grid/Grid'
-import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import StatCard from '../../components/StatCard'
-import { Table, TableWrap, Swatch, Chip, Callout } from '@sugartown/design-system'
+import { Table, TableWrap, Swatch, Chip, Callout, Grid, SectionLabel } from '@sugartown/design-system'
 import { MermaidDiagram } from '../../components/PageSections'
 import CwvSnapshot from '../../components/CwvSnapshot'
 import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'

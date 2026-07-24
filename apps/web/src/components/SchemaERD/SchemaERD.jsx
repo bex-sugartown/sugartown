@@ -1,9 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
-import SectionLabel from '../../design-system/components/section-label/SectionLabel'
-import { Chip, Button, IndexGroup, IndexCell } from '@sugartown/design-system'
+import { Chip, Button, IndexGroup, IndexCell, SectionLabel, Grid } from '@sugartown/design-system'
 import StatCard from '../StatCard'
-import Grid from '../../design-system/components/grid/Grid'
 import { PLATFORM_ROUTES } from '../../lib/routes'
 import styles from './SchemaERD.module.css'
 
