@@ -58,11 +58,8 @@ const ROOTS = [
 //   Sidebar `.sidebar` — the stylesheet defines `.panel`/`.sideLeft`/`.sideRight`
 //   and never `.sidebar`. Web-only component, no package counterpart.
 const KNOWN_DEAD = new Set([
-  'Container.jsx styles.bleed',   // by design — see above
   'Container.tsx styles.bleed',   // by design — see above
-  'Accordion.jsx styles.accordionNumbered',
   'Accordion.tsx styles.accordionNumbered',
-  'Accordion.jsx styles.itemOpen',
   'Accordion.tsx styles.itemOpen',
   'Sidebar.jsx styles.sidebar',
 ])

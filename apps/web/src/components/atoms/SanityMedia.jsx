@@ -1,5 +1,5 @@
 import { urlFor } from '../../lib/sanity'
-import Media from '../../design-system/components/media/Media'
+import { Media } from '@sugartown/design-system'
 
 export default function SanityMedia({ image, caption, width = 800, quality = 90 }) {
   if (!image?.asset) return null

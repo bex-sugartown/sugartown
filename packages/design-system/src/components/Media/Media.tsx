@@ -15,10 +15,16 @@ import styles from './Media.module.css';
 export type DuotonePreset = 'standard' | 'featured' | 'subtle' | 'extreme' | 'custom';
 
 export interface OverlayConfig {
-  /** Overlay type — supports legacy ('duotone', 'color') and schema values ('duotone-standard', 'dark-scrim', 'greyscale', etc.) */
-  type: 'duotone' | 'duotone-standard' | 'duotone-featured' | 'duotone-subtle' | 'duotone-extreme' | 'dark-scrim' | 'greyscale' | 'color' | 'none';
+  /**
+   * Overlay type — supports legacy ('duotone', 'color') and schema values
+   * ('duotone-standard', 'dark-scrim', 'greyscale', etc.). 'greyscale-panel'
+   * is a deprecated legacy value, treated as greyscale + panel.
+   */
+  type: 'duotone' | 'duotone-standard' | 'duotone-featured' | 'duotone-subtle' | 'duotone-extreme' | 'dark-scrim' | 'greyscale' | 'greyscale-panel' | 'color' | 'none';
   /** Alpha-intensity preset for duotone (legacy API — ignored when type contains preset) */
   duotonePreset?: DuotonePreset;
+  /** Renders an additional panel treatment alongside the overlay (consumed by CardBuilderSection/PageSections). */
+  panel?: boolean;
   /** Custom gradient (only when duotonePreset='custom') */
   customGradient?: {
     startColor: string;
@@ -48,6 +54,8 @@ export interface MediaProps {
   overlay?: OverlayConfig;
   /** CSS aspect-ratio (e.g. '21/9', '16/9', '1/1') */
   aspectRatio?: string;
+  /** Sanity hotspot (x, y: 0–1) — translated to CSS object-position for object-fit: cover. Defaults to center when absent. */
+  hotspot?: { x: number; y: number };
   /** Zoom on hover — default true for duotone, false otherwise */
   hoverScale?: boolean;
   className?: string;
@@ -89,24 +97,30 @@ const DUOTONE_PRESETS: Record<string, { start: string; end: string }> = {
  * The component needs to split these into a type ('duotone') and preset ('standard').
  * Also handles legacy API where type='duotone' and duotonePreset is a separate field.
  */
-function parseOverlay(overlay?: OverlayConfig): { parsedType: string | null; preset?: string } {
-  if (!overlay?.type || overlay.type === 'none') return { parsedType: null };
+export function parseOverlay(overlay?: OverlayConfig): { parsedType: string | null; preset?: string; showPanel: boolean } {
+  if (!overlay?.type || overlay.type === 'none') return { parsedType: null, showPanel: false };
 
-  if (overlay.type === 'dark-scrim') return { parsedType: 'dark-scrim' };
-  if (overlay.type === 'greyscale') return { parsedType: 'greyscale' };
-  if (overlay.type === 'color') return { parsedType: 'color' };
+  const showPanel = overlay.panel ?? false;
+
+  if (overlay.type === 'dark-scrim') return { parsedType: 'dark-scrim', showPanel };
+
+  // Backward compat: legacy 'greyscale-panel' type treated as greyscale + panel
+  if (overlay.type === 'greyscale-panel') return { parsedType: 'greyscale', showPanel: true };
+
+  if (overlay.type === 'greyscale') return { parsedType: 'greyscale', showPanel };
+  if (overlay.type === 'color') return { parsedType: 'color', showPanel };
 
   if (overlay.type.startsWith('duotone')) {
     const preset = overlay.type === 'duotone'
       ? (overlay.duotonePreset ?? 'standard')
       : overlay.type.replace('duotone-', '');
-    return { parsedType: 'duotone', preset };
+    return { parsedType: 'duotone', preset, showPanel };
   }
 
-  return { parsedType: null };
+  return { parsedType: null, showPanel: false };
 }
 
-function getOverlayStyles(overlay: OverlayConfig): React.CSSProperties {
+export function getOverlayStyles(overlay: OverlayConfig): React.CSSProperties {
   const { parsedType, preset } = parseOverlay(overlay);
 
   if (parsedType === 'duotone') {
@@ -152,7 +166,7 @@ function getOverlayStyles(overlay: OverlayConfig): React.CSSProperties {
  */
 let svgFilterInjected = false;
 const SVG_FILTER_ID = 'st-duotone-extreme';
-function ensureSvgFilter(): void {
+export function ensureSvgFilter(): void {
   if (svgFilterInjected || typeof document === 'undefined') return;
   svgFilterInjected = true;
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -179,6 +193,7 @@ export function Media({
   caption,
   overlay,
   aspectRatio,
+  hotspot,
   hoverScale,
   bleed,
   className,
@@ -217,12 +232,19 @@ export function Media({
     ...(overlay ? getOverlayStyles(overlay) : {}),
   };
 
+  // Translate Sanity hotspot (x, y: 0–1) to CSS object-position for object-fit: cover.
+  // Defaults to center when no hotspot is defined.
+  const imgStyle: React.CSSProperties = hotspot
+    ? { objectPosition: `${(hotspot.x * 100).toFixed(1)}% ${(hotspot.y * 100).toFixed(1)}%` }
+    : {};
+
   return (
     <figure className={figureClassNames} style={figureStyle}>
       <img
         src={src}
         alt={alt}
         className={styles.image}
+        style={imgStyle}
         {...(width ? { width } : {})}
         {...(height ? { height } : {})}
         loading="lazy"

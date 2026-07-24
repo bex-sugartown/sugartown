@@ -106,7 +106,7 @@ export { Accordion } from './components/Accordion';
 export type { AccordionProps, AccordionItem } from './components/Accordion';
 
 // ── Media ────────────────────────────────────────────────────────────────────
-export { Media } from './components/Media';
+export { Media, parseOverlay, getOverlayStyles, ensureSvgFilter } from './components/Media';
 export type { MediaProps, OverlayConfig, DuotonePreset } from './components/Media';
 
 // ── SegmentedControl ─────────────────────────────────────────────────────────

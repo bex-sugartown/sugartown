@@ -16,10 +16,10 @@ import { PortableText } from '@portabletext/react'
 import { urlFor } from '../lib/sanity'
 import { getCanonicalPath } from '../lib/routes'
 import { Card, Chip, CitationMarker, CitationNote, CitationZone, SectionLabel, Grid } from '../design-system'
+import { getOverlayStyles, parseOverlay, ensureSvgFilter } from '@sugartown/design-system'
 import StatCard from './StatCard'
 import { LinkAnnotation } from './portableTextComponents'
 import GlossaryTermAnnotation from './GlossaryTermAnnotation'
-import { getOverlayStyles, parseOverlay, ensureSvgFilter } from '../design-system/components/media/Media'
 import styles from './CardBuilderSection.module.css'
 
 /**

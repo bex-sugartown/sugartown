@@ -58,7 +58,7 @@ export function FilterBarGuidelinesPage() {
 
         <h3 style={s.h3}>4. UI — <code style={s.code}>FilterBar</code></h3>
         <p style={s.prose}>
-          DS component that renders facet groups as checkbox or button lists. Receives <code style={s.code}>filterModel</code>, <code style={s.code}>activeFilters</code>, <code style={s.code}>onFilterChange</code>, and <code style={s.code}>onClearAll</code>. Only rendered when <code style={s.code}>filterModel.facets.some(f =&gt; f.options.length &gt; 0)</code> — FilterBar does not render on empty archives. Source: <code style={s.code}>apps/web/src/design-system/components/FilterBar/</code>.
+          DS component that renders facet groups as checkbox or button lists. Receives <code style={s.code}>filterModel</code>, <code style={s.code}>activeFilters</code>, <code style={s.code}>onFilterChange</code>, and <code style={s.code}>onClearAll</code>. Only rendered when <code style={s.code}>filterModel.facets.some(f =&gt; f.options.length &gt; 0)</code> — FilterBar does not render on empty archives. Source: <code style={s.code}>packages/design-system/src/components/FilterBar/</code>.
         </p>
         <p style={s.prose}>
           FilterBar sits in a flex sidebar at <strong>220px</strong> (<code style={s.code}>.archiveLayout &gt; aside { flex: 0 0 220px }</code>). The content column grows to fill remaining space (<code style={s.code}>flex: 1 1 400px</code>). The layout wraps intrinsically when the container is narrower than 652px (220 + 32 gap + 400) — no media query needed.

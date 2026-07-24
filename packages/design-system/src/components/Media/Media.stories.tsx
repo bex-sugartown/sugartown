@@ -44,6 +44,7 @@ const meta: Meta<typeof Media> = {
     },
     hoverScale:  { control: 'boolean', description: 'Zoom on hover (default: true when overlay is set)' },
     bleed:       { control: 'boolean', description: 'Full-bleed — zero border-radius, no margin. Use for full-width hero images.' },
+    hotspot:     { table: { disable: true } },
     // Story-layer flat controls for overlay (not a real prop — mapped to overlay object in render)
     overlayType: {
       control: { type: 'select' },
@@ -160,6 +161,31 @@ export const Overlays: Story = {
           />
         </div>
       ))}
+    </div>
+  ),
+};
+
+// ─── Hotspot ──────────────────────────────────────────────────────────────────
+
+/**
+ * hotspot — Sanity hotspot (x, y: 0–1) translated to CSS object-position, so a
+ * cropped/cover-fit image keeps the subject in frame instead of snapping to
+ * center. SUG-224 Phase 4 batch 3: ported from the web adapter, which
+ * PageSections/CardBuilderSection depend on for hotspot-aware thumbnails.
+ */
+export const WithHotspot: Story = {
+  name: 'WithHotspot',
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+      <div>
+        <p style={{ margin: '0 0 0.375rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>No hotspot (centered)</p>
+        <Media src={SAMPLE_IMAGE} alt="Centered crop" aspectRatio="1/1" />
+      </div>
+      <div>
+        <p style={{ margin: '0 0 0.375rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>hotspot={'{'}x: 0.2, y: 0.1{'}'}</p>
+        <Media src={SAMPLE_IMAGE} alt="Hotspot-cropped" aspectRatio="1/1" hotspot={{ x: 0.2, y: 0.1 }} />
+      </div>
     </div>
   ),
 };
