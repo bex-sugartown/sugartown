@@ -56,7 +56,20 @@ Never more than three total. Default assumptions listed below — use them unles
 ## Output Format
 
 Produce a single Markdown file. Filename: `[project-slug]-prd.md`.
-Write it with the Write tool to `docs/briefs/` in the repo.
+
+**Gap-fill gate (SUG-229) — this skill previously had no approval step before writing.**
+After drafting all sections below, present a one-paragraph summary of the PRD (problem
+statement, goal count, section count, any open decisions) to the human, then ask via
+`AskUserQuestion`:
+
+```
+Question: "PRD drafted — write it to docs/briefs/[project-slug]-prd.md?"
+Options:
+  - "Write it — save the PRD"
+  - "Needs edits"
+```
+
+Only call the Write tool after "Write it — save the PRD" is selected.
 
 **Never output the PRD as inline prose.** It's a document, not a chat response.
 

@@ -55,17 +55,30 @@ Read the previous values from the current `PERF_BACKUP` block in `CwvSnapshot.js
 
 ### STEP 4 — Offer to commit
 
-Ask:
-> Scores look good? I can commit with `chore(stats): update PERF_BACKUP from LHCI run YYYY-MM-DD`.
+If any score dropped by more than 5 points (per Step 3), ask via `AskUserQuestion` before offering the commit at all:
 
-Wait for explicit confirmation ("yes", "commit", "looks good") before running:
+```
+Question: "[metric] dropped [N] points on [URL] — investigate before committing?"
+Options:
+  - "Investigate first — don't commit yet"
+  - "Commit anyway — I'll look into it separately"
+```
+
+Otherwise (or once the regression question is resolved as "Commit anyway"), ask via `AskUserQuestion`:
+
+```
+Question: "Scores look good — commit with chore(stats): update PERF_BACKUP from LHCI run YYYY-MM-DD?"
+Options:
+  - "Commit it — use this message"
+  - "Not yet"
+```
+
+On "Commit it":
 
 ```bash
 git add apps/web/src/components/CwvSnapshot.jsx
 git commit -m "chore(stats): update PERF_BACKUP from LHCI run $(date +%Y-%m-%d)"
 ```
-
-If any score dropped significantly, flag it and ask whether to investigate before committing.
 
 ---
 

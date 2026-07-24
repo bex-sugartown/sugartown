@@ -70,7 +70,20 @@ should block on missing information, not paper over it.
 ## Output Format
 
 Produce a single Markdown file. Filename: `EPIC-[XXXX]-[slug].md`.
-Write it with the Write tool to `docs/backlog/` in the repo.
+
+**Gap-fill gate (SUG-229) — this skill previously had no approval step before writing.**
+After filling the template (per "How to Fill the Template" below), present a one-paragraph
+summary (epic ID, scope-item count, phase count, any open/flagged items from the
+Completeness Gate) to the human, then ask via `AskUserQuestion`:
+
+```
+Question: "Epic drafted — write it to docs/backlog/EPIC-[XXXX]-[slug].md?"
+Options:
+  - "Write it — save the epic"
+  - "Needs edits"
+```
+
+Only call the Write tool after "Write it — save the epic" is selected.
 
 The file must be paste-ready into a Claude Code session. No explanatory prose around the
 template — just the completed template.
