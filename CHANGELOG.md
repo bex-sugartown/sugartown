@@ -14,6 +14,8 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.30.0.
 
+- SUG-229: Convert remaining human-gate skills to AskUserQuestion — `/mini-release`, `/morning`, `/eod`, `/switch`, `/new-epic`, `/glossy`, `/chromatic`, `docs/epic-template.md`, `/update-cwv` converted; new approval gates added to `sugartown-prd-writer` and `sugartown-epic-writer`
+
 ---
 
 ## [0.30.0] — 2026-07-24
