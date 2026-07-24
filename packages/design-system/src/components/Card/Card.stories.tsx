@@ -239,6 +239,89 @@ export const WithFolioSlot: Story = {
 };
 
 // ═══════════════════════════════════════════════════════════════════
+// ESCAPE HATCHES — children / footerChildren / thumbnail overrides
+// ═══════════════════════════════════════════════════════════════════
+
+/**
+ * children + footerChildren — the CardBuilderSection shape (SUG-224 Phase 4
+ * batch 2): custom body content (e.g. Portable Text) below the standard body
+ * fields, and custom footer content (e.g. citations) alongside the standard
+ * footer fields.
+ */
+export const WithBodyAndFooterChildren: Story = {
+  name: 'WithBodyAndFooterChildren',
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: '420px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    title: 'A Card Builder Section Card',
+    eyebrow: 'Page Section',
+    href: '/case-studies/example',
+    children: (
+      <div style={{ fontSize: '0.875rem', lineHeight: 1.5 }}>
+        Custom Portable Text body content renders here, below the standard
+        excerpt/metadata/chip rows.
+      </div>
+    ),
+    footerChildren: (
+      <div style={{ fontSize: '0.75rem', color: '#888' }}>
+        [1] Custom citation content renders here, alongside the standard footer fields.
+      </div>
+    ),
+  },
+};
+
+/**
+ * thumbnailClassName + thumbnailStyle — overlay/effect treatments applied to
+ * the thumbnail wrapper (hero or rail) from the caller, e.g. CardBuilderSection's
+ * duotone/greyscale overlay classes and hotspot-driven object-position.
+ */
+export const WithThumbnailOverride: Story = {
+  name: 'WithThumbnailOverride',
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: '420px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    ...CASE_STUDY_FULL,
+    thumbnailUrl: THUMB_16_9,
+    thumbnailAlt: 'Design system token architecture diagram',
+    thumbnailStyle: { '--st-card-thumb-position': '30% 70%' } as React.CSSProperties,
+  },
+};
+
+/**
+ * External href — the full-card title link opens in a new tab with
+ * rel="noopener noreferrer" rather than routing through the DS Link seam
+ * (which deliberately omits target/rel for seamed components). CardBuilderSection
+ * cards can carry a Sanity titleLink of type="external", so dropping this
+ * would be a functional regression (same reasoning as Button's decision C).
+ */
+export const WithExternalHref: Story = {
+  name: 'WithExternalHref',
+  decorators: [
+    (Story) => (
+      <div style={{ maxWidth: '420px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+  args: {
+    title: 'A Card Linking Off-Site',
+    eyebrow: 'Case Study',
+    excerpt: 'The full-card link points to an external URL and opens in a new tab.',
+    href: 'https://example.com/case-study',
+  },
+};
+
+// ═══════════════════════════════════════════════════════════════════
 // SNAPSHOT — Chromatic composite
 // ═══════════════════════════════════════════════════════════════════
 

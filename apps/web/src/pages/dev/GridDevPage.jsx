@@ -10,7 +10,7 @@
 import Grid from '../../design-system/components/grid/Grid'
 import SectionLabel from '../../design-system/components/section-label/SectionLabel'
 import StatCard from '../../components/StatCard'
-import Card from '../../design-system/components/card/Card'
+import { Card } from '@sugartown/design-system'
 import Callout from '../../design-system/components/callout/Callout'
 import styles from './TablesDevPage.module.css'
 import pageStyles from './GridDevPage.module.css'

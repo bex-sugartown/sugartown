@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { getLinkProps } from '../../../lib/linkUtils'
-import Chip from '../chip/Chip'
+import { Chip } from '@sugartown/design-system'
 import styles from './Tile.module.css'
 
 /**

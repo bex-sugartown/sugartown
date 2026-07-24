@@ -6,9 +6,8 @@
  * Roadmap fixture = actual production data from stats.json (linearRoadmap).
  * Projects field omitted in stats pipeline — rendered as empty chip list.
  */
-import { Table, TableWrap, Swatch } from '@sugartown/design-system'
+import { Table, TableWrap, Swatch, Chip } from '@sugartown/design-system'
 import SeoHead from '../../components/SeoHead'
-import Chip from '../../design-system/components/chip/Chip'
 import styles from './TablesDevPage.module.css'
 
 // KindBadge — inline after DataTable shim deletion (SUG-126)

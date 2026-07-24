@@ -1,7 +1,7 @@
 /* TaxonomyChips — layout-only CSS for chip list wrapper.
  *
  * Chip visual rendering is handled by the DS Chip component
- * (via the web adapter at design-system/components/chip/Chip).
+ * (re-exported from @sugartown/design-system).
  * This file only provides the flex layout for the <ul> container.
  */
 
