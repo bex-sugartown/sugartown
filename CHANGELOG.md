@@ -12,13 +12,61 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.29.0.
+> Accumulates since v0.30.0.
 
-- SUG-224: apps/web consumes @sugartown/design-system — 42/44 disposition-table components now re-export directly from the package (26 pure mirrors, 5 P2/P1b router-seam conversions, 7 diverged components, and 4 promoted web-only primitives — Grid, PageHeader, SectionLabel, Sidebar); `SidebarNav` and `Tile` remain the only genuinely web-only components. Retires the manual DS-component-mirror pattern from both the codebase and CLAUDE.md/epic-template.md. Card and Media each needed a real API extension to the package (custom body/footer content and thumbnail overrides for Card; exported overlay-parsing helpers and hotspot support for Media) rather than a mechanical swap, caught by diffing web against package line-by-line instead of trusting the disposition table. Diagram + case study caption corrected to reflect production package consumption.
-- SUG-231: DS component pair reconciliation — all 6 behaviourally diverged pairs now agree, taking the classification from 26 pure / 6 adapter / 6 diverged to **29 / 6 / 3**, and emptying `KNOWN_DRIFT` so every one of the 38 component CSS mirrors is enforced (closing the SUG-214 burndown). Three user-facing bugs fixed: `List` rows without an `href` were focusable links navigating nowhere (both copies); `Breadcrumb` marked a still-linked trailing crumb `aria-current="page"`, announcing the wrong element as the current page on every detail page; and Phase 1's `FilterBar` clear-all and `CodeBlock` line numbers. `Callout` was never drifted CSS but a different component — the package carried the pre-SUG-99 padded-box design with lucide icons and has been replaced by web's row format, dropping the `icon` prop and `default` variant (breaking change to a barrel export, 0 consumers). Package `Button`'s missing `href` moved to SUG-224 as a consolidation prerequisite. Behavioural parity was assessed and explicitly declined as automatable — recorded with reasoning and two cheaper single-copy checks proposed instead.
-- SUG-230: DS link seam — `Card`, `Chip`, `Breadcrumb`, `IndexCell`, and `List` now resolve navigation through an injectable `LinkProvider` instead of hard-coded `<a href>`, so each app supplies its own router (`next/link`, React Router) while the package imports none. Defaults to `<a href>` when nothing is injected, and bypasses the injected component for external, protocol-relative, and fragment hrefs. Rendered DOM on the default path is byte-identical (Chromatic #77: 4 changes, all new baselines). `apps/contentful-poc` now navigates client-side and no longer nests anchors inside `Card`. `Breadcrumb`, `ButtonGroup`, and `IconButton` added to the package barrel — previously unimportable.
-- SUG-217 + SUG-219: Component CSS mirror reconciliation — all 9 smaller drifted pairs plus Card are now byte-identical across `apps/web` and `@sugartown/design-system`; `KNOWN_DRIFT` reduced from 11 entries to 1. Canonical direction decided per pair from git evidence (IconButton's glassmorphism fix and Chip's grey value both traced to their originating commits). Web app rendering unchanged; the package moved to match production. SUG-218 (Callout) cancelled as a duplicate of SUG-231 — the two Callouts are different components, so its CSS cannot be reconciled without reconciling the component first.
-- SUG-227: Formalize AI/Claude workflow — 5-category human-gate taxonomy + `AskUserQuestion` response-mechanism standard (`docs/conventions/human-gate-conventions.md`), cross-referenced from CLAUDE.md's six canonical gate definitions; pilot conversions of `/release` (7 gates) and `/red-pen` (batch multi-select) shipped and verified live. Deferred Conversion Inventory (11 remaining skills/docs) tracked forward as SUG-229.
+---
+
+## [0.30.0] — 2026-07-24
+
+Design system consolidation: apps/web now consumes @sugartown/design-system directly, retiring the hand-synced mirror-component pattern. Aggregates v0.29.1–v0.29.6.
+
+### apps/web
+
+#### Changed
+- apps/web now depends on `@sugartown/design-system` directly; 42/44 web-tree DS component copies replaced with direct package re-exports (26 pure mirrors, 5 router-seam conversions, 7 diverged components, 4 promoted primitives: Grid, PageHeader, SectionLabel, Sidebar). `SidebarNav` and `Tile` remain web-only (real app coupling, no package equivalent).
+- `LinkProvider` mounted at the app root, supplying react-router's `Link` to the DS package's link seam.
+
+#### Fixed
+- `/dev/tables` debug page set to noindex.
+
+### packages/design-system
+
+#### Added
+- `Card`, `Chip`, `Breadcrumb`, `IndexCell`, and `List` navigate through an injectable `LinkProvider` instead of hard-coded `<a href>`; falls back to `<a href>` when nothing is injected, and bypasses the injected component for external, protocol-relative, and fragment hrefs.
+- `Breadcrumb`, `ButtonGroup`, and `IconButton` added to the package barrel (previously unimportable).
+- `Button` gained an `href` prop with external-link `target`/`rel` handling (previously could not navigate at all).
+- `Card` gained `children`, `footerChildren`, `thumbnailClassName`, and `thumbnailStyle` props.
+- `Media` gained a `hotspot` prop; `parseOverlay`, `getOverlayStyles`, and `ensureSvgFilter` are now exported (previously internal-only).
+
+#### Fixed
+- 9 smaller drifted component CSS mirrors plus `Card` reconciled to byte-identical across `apps/web` and the package; `KNOWN_DRIFT` emptied from 11 entries to 0.
+- `FilterBar` was missing its clear-all button/header.
+- `CodeBlock`'s `showLineNumbers` prop was inert.
+- `Breadcrumb` marked a still-linked trailing crumb `aria-current="page"`, announcing the wrong element as the current page on every detail page.
+- `List` rows without an `href` were focusable links navigating nowhere.
+
+#### Breaking
+- `Callout` replaced with web's row-format design; the `icon` prop and `default` variant are removed. Affected the package's barrel export; 0 consumers at time of change.
+
+### apps/storybook
+
+#### Added
+- Package stories added for `Accordion`, `Breadcrumb`, `ButtonGroup`, `Callout`, and `IconButton`.
+- A dead-reference validator, catching undefined `styles.X` references and unused destructured props.
+
+#### Fixed
+- `__APP_VERSION__` frozen in `viteFinal` (previously re-resolved on every build, causing the Footer story to diff on every mini-release regardless of actual changes).
+- Chromatic skip-gate now diffs against `origin/main` instead of `HEAD~1` — the old logic silently skipped VRT for an entire batch of changes whenever an epic's tip commit was docs-only.
+
+### apps/contentful-poc
+
+#### Changed
+- Now navigates client-side via `next/link` injected into the DS link seam; no longer nests anchors inside `Card`.
+
+### Other
+
+- Added a 5-category human-response-gate taxonomy and an `AskUserQuestion` conversion standard (`docs/conventions/human-gate-conventions.md`); piloted on `/release` (7 gates) and `/red-pen` (batch multi-select approval).
+- Fixed the `/glossy` skill's documented write shape, which had drifted from the deployed schema: `relatedTerms[]` no longer accepts tag/category/tool references (`glossaryTerm` only, since an earlier field split), and added missing revise + code-block paths.
 
 ---
 
