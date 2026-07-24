@@ -47,25 +47,42 @@ Mini-releases accumulate as PATCH versions. A **full release** (run separately v
 
 ### 0A — Chromatic VRT check (if epic touched CSS or components)
 
-If the epic modified any CSS files, component JSX, or Storybook stories, Chromatic must run before the work reaches `origin/main`. Two paths:
+If the epic modified any CSS files, component JSX, or Storybook stories, Chromatic must run before the work reaches `origin/main`.
 
-**Path A — Run now (default for solo or pre-push releases):**
+**Chromatic timing — STOP**
+
+AI asks via `AskUserQuestion`:
+
+```
+Question: "This epic touched CSS/components — run Chromatic now, or defer to /eod?"
+Options:
+  - "Run it now — check for visual diffs before this release"
+  - "Defer to /eod — batch it with the day's other Chromatic checks"
+```
+
+**On "Run it now":**
 
 ```bash
 pnpm --filter storybook chromatic --exit-zero-on-changes
 ```
 
 - If Chromatic reports **no changes**: proceed to 0B.
-- If Chromatic reports **visual changes**: tell the human "Chromatic detected visual diffs — review and approve baselines at [Chromatic URL] before continuing." Wait for confirmation.
+- If Chromatic reports **visual changes**, AI shows the Chromatic review URL, then asks via `AskUserQuestion`:
+
+  ```
+  Question: "Chromatic detected visual diffs — approved in the Chromatic UI?"
+  Options:
+    - "Approved — baselines accepted, continue to 0B"
+    - "Stop — let me review again"
+  ```
+
+  **AI must not proceed to 0B until "Approved — baselines accepted, continue to 0B" is selected.**
+
 - If Chromatic is not configured or fails: note it in the release output and proceed. This is advisory, not blocking (until the team decides otherwise).
 
 The `--exit-zero-on-changes` flag prevents CI failure on expected visual changes; human review is the gate.
 
-**Path B — Defer to /eod (cheap-path mode):**
-
-When the human is batching multiple mini-releases between pushes (cheap-path, no per-epic push), Chromatic can be deferred to the `/eod` push step, which runs Chromatic once across all accumulated commits before triggering the Netlify deploy. This avoids burning Chromatic snapshots per mini-release.
-
-To defer: ask the human "Run Chromatic now or defer to /eod?" If they choose defer, note it in the release output (`Chromatic: deferred to /eod`) and proceed.
+**On "Defer to /eod":** note it in the release output (`Chromatic: deferred to /eod`) and proceed to 0B. This batches multiple mini-releases' Chromatic checks into the `/eod` push step, avoiding redundant snapshots.
 
 ### 0B — Version collection
 
@@ -95,20 +112,27 @@ Step 0 has no gate — purely mechanical.
 
 AI produces a summary of what will happen.
 
-**Epic ID mismatch check (blocking):** If the epic ID passed as an argument (e.g. from `/mini-release SUG-NNN`) does not match the ID(s) derived from recent commit scopes, output this warning instead of the standard gate and stop:
+**Epic ID mismatch check (blocking):** If the epic ID passed as an argument (e.g. from `/mini-release SUG-NNN`) does not match the ID(s) derived from recent commit scopes, AI shows the mismatch:
 
 ```
 ⚠️  EPIC MISMATCH — action required
 Stated epic:  SUG-NNN
 Commits show: SUG-MMM (e.g. fix(sug-mmm):, feat(sug-mmm):)
-
-These don't match. Confirm which epic this release is for before proceeding.
-Reply with the correct epic ID to continue, or "abort" to cancel.
 ```
 
-Do not proceed to the version bump gate until the human confirms the correct epic ID.
+Then asks via `AskUserQuestion`:
 
-**Deferred-epic accumulation gate:** If Step 0B found more than one separately-shippable epic in scope (see the accumulation check above), do not silently fold them into the primary epic's gate as if they don't need mentioning. Present this instead, before the standard gate:
+```
+Question: "These don't match — which epic is this release actually for?"
+Options:
+  - "Use SUG-MMM — the ID the commits show"
+  - "It's neither — I'll type the correct ID" (human replies with the ID; AI re-confirms before proceeding)
+  - "Abort — stop the mini-release"
+```
+
+Do not proceed to the version bump gate until the human's answer resolves the mismatch.
+
+**Deferred-epic accumulation gate:** If Step 0B found more than one separately-shippable epic in scope (see the accumulation check above), do not silently fold them into the primary epic's gate as if they don't need mentioning. AI shows the accumulation:
 
 ```
 ━━━ MULTIPLE EPICS SINCE LAST VERSION BUMP ━━━━━━━━━━━━━━━━━━━━
@@ -120,15 +144,25 @@ Also unreleased (deferred single-close-out strategy):
 This version bump will cover all of the above — git history is linear,
 so their commits cannot be split into separate patch versions after
 the fact. CHANGELOG [Unreleased] will get one line per epic listed here.
-
-Reply "bundle all" to proceed with all epics in this bump, or name
-which epic(s) to exclude (their commits will still be in the diff,
-but won't be named in the release commit or CHANGELOG).
 ```
 
-Wait for the human's reply before showing Gate 1. Do not decide unilaterally to bundle or exclude an epic.
+Then asks via `AskUserQuestion`:
+
+```
+Question: "Bundle all of the above into this version bump?"
+Options:
+  - "Bundle all — proceed with every epic listed above"
+  - "I'll specify which to exclude" (human names the epic(s); AI confirms the final list before proceeding)
+  - "Stop — let me review the commit history first"
+```
+
+Wait for the human's answer before showing Gate 1. Do not decide unilaterally to bundle or exclude an epic.
 
 If no mismatch and no deferred-epic accumulation (or after the human resolves either), show the standard gate:
+
+### ✅ GATE 1 — STOP
+
+AI outputs the version bump summary to chat:
 
 ```
 ━━━ GATE 1 — VERSION BUMP ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -144,12 +178,20 @@ Files to update:
 
 Proposed commit message:
   chore(release): mini-release vX.Y.Z+1 — EPIC-XXXX [Epic name]
-
-Reply "Write it" to bump versions and commit.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-**AI must not write anything until the human replies.**
+Then asks via `AskUserQuestion`:
+
+```
+Question: "Review the version bump above — write it?"
+Options:
+  - "Write it — bump versions and commit"
+  - "Needs edits"
+  - "Stop — let me review again"
+```
+
+**AI must not write anything until "Write it — bump versions and commit" is selected.**
 
 ---
 

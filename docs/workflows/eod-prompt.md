@@ -74,7 +74,14 @@ Write a short end-of-day summary using this structure:
 
 - List any feature branch with commits not on `main`
 - For each: SUG-ID, commit count, last commit date, last commit subject
-- For each, ask: **merge today? hold (why)? abandon?**
+- For each, ask via `AskUserQuestion`:
+  ```
+  Question: "Branch [name] (SUG-ID, N commits, last: [date] [subject]) — what should happen to it?"
+  Options:
+    - "Merge today"
+    - "Hold" (human states why; AI notes the reason)
+    - "Abandon"
+  ```
 - A branch pushed to `origin/<branch>` but never merged to `main` is NOT shipped. Do not let `/eod` close with stranded branches unaccounted for.
 
 ---
@@ -85,20 +92,40 @@ After delivering the summary, propose actions in this order:
 
 1. **Commit** any uncommitted changes (if any)
    - Draft a commit message and show it
-   - Wait for confirmation
+   - Ask via `AskUserQuestion`:
+     ```
+     Question: "Review the commit message above — commit it?"
+     Options:
+       - "Commit it — use this message"
+       - "Needs edits"
+     ```
 
 2. **Chromatic VRT pre-flight** (if any pushed commits touched CSS, component JSX, or Storybook stories)
    - Detect: `git diff --name-only origin/main..HEAD` — if any match `**/*.css`, `**/*.jsx`, `**/*.tsx`, or `apps/storybook/**`, run Chromatic.
    - Run: `pnpm --filter storybook chromatic --exit-zero-on-changes`
    - If Chromatic reports **no changes**: proceed to push.
-   - If Chromatic reports **visual changes**: print the Chromatic review URL and wait for confirmation. Do NOT push until the human says "approved" (or "skip chromatic" to override).
-   - If Chromatic fails or is misconfigured: note it and ask whether to push anyway.
+   - If Chromatic reports **visual changes**: print the Chromatic review URL, then ask via `AskUserQuestion`:
+     ```
+     Question: "Chromatic detected visual diffs — approved?"
+     Options:
+       - "Approved — continue to push"
+       - "Skip Chromatic — push anyway"
+       - "Stop — let me review the diffs first"
+     ```
+     Do NOT push until "Approved — continue to push" or "Skip Chromatic — push anyway" is selected.
+   - If Chromatic fails or is misconfigured: note it, then ask via `AskUserQuestion` (options: "Push anyway" / "Stop — let me investigate").
    - This catches drift accumulated across mid-session mini-releases that skipped their own Chromatic check.
 
 3. **Push to origin** (single push for all accumulated commits)
    - Show: "This will push N commits to origin/main, triggering 1 Netlify deploy"
    - List the commits that will be pushed
-   - Wait for confirmation
+   - Ask via `AskUserQuestion`:
+     ```
+     Question: "Push N commits to origin/main? This triggers 1 Netlify deploy."
+     Options:
+       - "Push it — trigger the deploy"
+       - "Stop — let me review again"
+     ```
 
 4. **Verify deploy** (after push)
    - Wait 30 seconds, then check if the site is responding:

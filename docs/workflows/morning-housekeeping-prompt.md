@@ -248,23 +248,40 @@ If the tree has unpushed commits from a previous session, flag it as unfinished 
 
 ### PHASE 3 — EXECUTE (with confirmation)
 
-After delivering the briefing, ask me:
+After delivering the briefing, AI asks via `AskUserQuestion`:
 
-> "Ready to execute the recommended actions? I'll walk through them one at a time and confirm each with you before running anything."
+```
+Question: "Ready to execute the recommended actions?"
+Options:
+  - "Yes — walk me through them one at a time"
+  - "Not now — I'll review manually"
+  - "Skip — nothing needs action"
+```
 
-Then, when I say yes:
+On "Yes — walk me through them one at a time":
 - Do **one action at a time**
 - Show me the exact command before running it
 - Tell me what it will do in plain English
-- Wait for me to confirm ("yes", "go ahead", "skip", or "stop")
+- Ask via `AskUserQuestion`:
+  ```
+  Question: "[plain-English description of the action] — go ahead?"
+  Options:
+    - "Yes — do it"
+    - "Skip this one"
+    - "Stop — pause here"
+  ```
 - After each action, briefly confirm what happened
 - Do not batch actions together without asking
 
 **Hard rules for execution:**
 - Never `git push --force` under any circumstances
-- Never `git reset --hard` without explicit confirmation and a clear warning that it is destructive
-- Never delete a branch (local or remote) without showing me its last commit and asking explicitly
-- Never merge into `main` without saying "this will merge X into main — are you sure?"
+- `git reset --hard`, branch deletion (local or remote), and merges into `main` each require their own confirmation — show the specific detail (last commit for a deletion, the branch name for a merge, an explicit destructive-action warning for `reset --hard`), then ask via `AskUserQuestion`:
+  ```
+  Question: "[specific destructive action, e.g. 'Delete branch feat/foo — last commit: abc123 fix something'] — confirm?"
+  Options:
+    - "Yes — proceed"
+    - "Stop — let me review again"
+  ```
 - Stash operations: always name the stash before creating it
 - If anything looks ambiguous or risky, stop and ask
 
