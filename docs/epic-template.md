@@ -387,14 +387,10 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
   - Light override location: `[data-theme="light"]` block in `tokens.css`
 - Run `pnpm validate:tokens --strict-colors` from `apps/web/` before every component CSS commit. Zero violations is the gate.
 
-**Design System → Web Adapter Sync**
-- `apps/web` does NOT import from `@sugartown/design-system`. It has its own JSX adapter layer at `apps/web/src/design-system/components/`.
-- When a DS component is created or modified in `packages/design-system/src/components/`, a matching web adapter **must** be created or updated in the same epic:
-  1. **JSX adapter** — `apps/web/src/design-system/components/{name}/{Name}.jsx` — thin JSX wrapper mirroring the DS `.tsx` (strip TypeScript, same props/structure)
-  2. **CSS module** — copy the `.module.css` from the DS component directory verbatim
-  3. **Index** — add the export to `apps/web/src/design-system/index.js`
-  4. **Dependencies** — if the DS component uses a library (e.g. `lucide-react`, `prismjs`), add it to `apps/web/package.json` too
-- If a DS component's CSS module changes, the web adapter's CSS module must be updated to match (same drift rule as `tokens.css`)
+**Design System — direct package consumption (SUG-224, 2026-07-24)**
+- `apps/web` imports directly from `@sugartown/design-system` — there is no JSX adapter layer to sync.
+- When a DS component is created or modified in `packages/design-system/src/components/`, export it from the package's top-level `src/index.ts` barrel. No matching web-tree file is needed.
+- The only exception: `SidebarNav` and `Tile` are genuinely web-only (real app coupling — `useScrollspy`, `linkUtils` + react-router) and have no package counterpart — they are not adapters, they are the only implementation.
 
 ---
 
@@ -441,10 +437,8 @@ State how re-running the script produces no change:
 - `apps/web/src/components/PageSections.module.css` — new styles
 - `apps/web/src/pages/[Page].jsx` — one entry per in-scope page from doc type audit
 
-**Web Adapter Sync** (if DS component created or modified)
-- `apps/web/src/design-system/components/[name]/[Name].jsx` — CREATE or UPDATE
-- `apps/web/src/design-system/components/[name]/[Name].module.css` — COPY from DS
-- `apps/web/src/design-system/index.js` — add export
+**Package barrel export** (if DS component created or modified)
+- `packages/design-system/src/index.ts` — add export (component + types)
 - `apps/web/package.json` — add runtime deps if needed (e.g. `lucide-react`, `prismjs`)
 
 **Scripts**
