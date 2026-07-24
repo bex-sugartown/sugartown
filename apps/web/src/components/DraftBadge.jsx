@@ -12,7 +12,7 @@
  * EPIC-preview-ui · Preview UI Chrome
  */
 import { isPreviewMode } from '../lib/contentState'
-import Chip from '../design-system/components/chip/Chip'
+import { Chip } from '@sugartown/design-system'
 
 export default function DraftBadge({ docId, hasDraft }) {
   if (!isPreviewMode()) return null

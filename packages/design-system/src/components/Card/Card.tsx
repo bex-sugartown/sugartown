@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './Card.module.css';
 import { Chip } from '../Chip/Chip';
 import { Link } from '../../link/Link';
+import { isExternalHref } from '../../link/isExternalHref';
 
 // ─── Status badge colours ───────────────────────────────────────────────────
 const STATUS_BADGE_CLASS: Record<string, string> = {
@@ -129,6 +130,10 @@ export interface CardProps {
   thumbnailUrl?: string;
   /** Alt text for thumbnail image. */
   thumbnailAlt?: string;
+  /** Extra class name applied to the thumbnail wrapper (hero or rail). For overlay/effect treatments. */
+  thumbnailClassName?: string;
+  /** Inline style applied to the thumbnail wrapper (hero or rail). For overlay styles or hotspot-driven object-position. */
+  thumbnailStyle?: React.CSSProperties;
 
   // Project colorway
   /**
@@ -149,6 +154,11 @@ export interface CardProps {
 
   /** Extra class names for layout overrides from parent grid. */
   className?: string;
+
+  /** Escape hatch for custom body content (e.g. Portable Text). Rendered after the tags row. */
+  children?: React.ReactNode;
+  /** Escape hatch for custom footer content (e.g. citations). Rendered after the standard footer fields. */
+  footerChildren?: React.ReactNode;
 
   /**
    * Render the folio row above the card header.
@@ -197,9 +207,13 @@ export const Card: React.FC<CardProps> = ({
   kpiLink,
   thumbnailUrl,
   thumbnailAlt = '',
+  thumbnailClassName,
+  thumbnailStyle,
   accentColor,
   href,
   className,
+  children,
+  footerChildren,
   showFolio = false,
 }) => {
   // ── Root class list ───────────────────────────────────────────────────────
@@ -219,10 +233,21 @@ export const Card: React.FC<CardProps> = ({
   const isListingWithThumb = variant === 'listing' && !!thumbnailUrl;
 
   // ── Title node: full-card link via ::after, or plain text ─────────────────
+  // External hrefs get target/rel here rather than through the Link seam,
+  // which deliberately omits them (SUG-230 editorial choice). Card's full-card
+  // link is real Sanity-authored content (CardBuilderSection titleLink can be
+  // type="external") and dropping target/rel would be a functional regression
+  // for that consumer — same reasoning as Button's decision C (SUG-224 Phase 0).
   const titleNode = href ? (
-    <Link href={href} className={styles.titleLink} aria-label={title}>
-      {title}
-    </Link>
+    isExternalHref(href) ? (
+      <a href={href} target="_blank" rel="noopener noreferrer" className={styles.titleLink} aria-label={title}>
+        {title}
+      </a>
+    ) : (
+      <Link href={href} className={styles.titleLink} aria-label={title}>
+        {title}
+      </Link>
+    )
   ) : (
     title
   );
@@ -276,7 +301,8 @@ export const Card: React.FC<CardProps> = ({
     (metadata && metadata.length > 0) ||
     (tools && tools.length > 0) ||
     (tags && tags.length > 0) ||
-    project;
+    project ||
+    children;
 
   const bodyEl = hasBody ? (
     <div className={styles.body}>
@@ -344,51 +370,59 @@ export const Card: React.FC<CardProps> = ({
           </ul>
         </div>
       )}
+
+      {/* Escape hatch: custom body content (e.g. Portable Text) */}
+      {children}
     </div>
   ) : null;
 
   // ── Footer ────────────────────────────────────────────────────────────────
-  const hasFooter = nextStep || aiTool || kpiLink || date || (!!category && showFolio);
+  const hasFooter = nextStep || aiTool || kpiLink || date || footerChildren || (!!category && showFolio);
 
   const footerEl = hasFooter ? (
     <div className={styles.footer}>
-      <div className={styles.footerLeft}>
-        {showFolio && category && (
-          category.href ? (
-            <Link
-              href={category.href}
-              className={[styles.footerCategoryLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
-            >
-              {category.label}
-            </Link>
-          ) : (
-            <span className={styles.footerCategoryLink}>{category.label}</span>
-          )
-        )}
-        {nextStep && (
-          <span className={styles.nextStep}>
-            <span className={styles.nextStepLabel}>Next Step: </span>
-            {nextStep}
-          </span>
-        )}
-        {aiTool && (
-          <span className={styles.aiTool}>
-            <span className={styles.aiToolLabel}>AI: </span>
-            {aiTool}
-          </span>
-        )}
-        {kpiLink && (
-          <Link
-            href={kpiLink.href}
-            className={[styles.kpiLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
-          >
-            KPIs: {kpiLink.label} →
-          </Link>
-        )}
-      </div>
-      <div className={styles.footerRight}>
-        {date && <time className={styles.date} dateTime={date}>{formatDate(date)}</time>}
-      </div>
+      {(nextStep || aiTool || kpiLink || date || (!!category && showFolio)) && (
+        <>
+          <div className={styles.footerLeft}>
+            {showFolio && category && (
+              category.href ? (
+                <Link
+                  href={category.href}
+                  className={[styles.footerCategoryLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
+                >
+                  {category.label}
+                </Link>
+              ) : (
+                <span className={styles.footerCategoryLink}>{category.label}</span>
+              )
+            )}
+            {nextStep && (
+              <span className={styles.nextStep}>
+                <span className={styles.nextStepLabel}>Next Step: </span>
+                {nextStep}
+              </span>
+            )}
+            {aiTool && (
+              <span className={styles.aiTool}>
+                <span className={styles.aiToolLabel}>AI: </span>
+                {aiTool}
+              </span>
+            )}
+            {kpiLink && (
+              <Link
+                href={kpiLink.href}
+                className={[styles.kpiLink, href ? styles.hasCardLink : ''].filter(Boolean).join(' ')}
+              >
+                KPIs: {kpiLink.label} →
+              </Link>
+            )}
+          </div>
+          <div className={styles.footerRight}>
+            {date && <time className={styles.date} dateTime={date}>{formatDate(date)}</time>}
+          </div>
+        </>
+      )}
+      {footerChildren}
     </div>
   ) : null;
 
@@ -398,7 +432,7 @@ export const Card: React.FC<CardProps> = ({
       {/* Hero thumbnail — default variant, full-width above header.
           width/height attrs give browser intrinsic 16:9 ratio before image loads → no CLS. */}
       {variant === 'default' && thumbnailUrl && (
-        <div className={styles.thumbnailHero}>
+        <div className={[styles.thumbnailHero, thumbnailClassName].filter(Boolean).join(' ')} style={thumbnailStyle}>
           <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" decoding="async" width="1600" height="900" />
         </div>
       )}
@@ -409,7 +443,7 @@ export const Card: React.FC<CardProps> = ({
       {/* Listing variant: row layout when thumbnail present */}
       {isListingWithThumb ? (
         <div className={styles.listingRow}>
-          <div className={styles.thumbnailRail}>
+          <div className={[styles.thumbnailRail, thumbnailClassName].filter(Boolean).join(' ')} style={thumbnailStyle}>
             <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" decoding="async" width="400" height="225" />
           </div>
           <div className={styles.listingContent}>

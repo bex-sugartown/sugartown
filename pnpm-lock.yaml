@@ -198,6 +198,9 @@ importers:
       '@sanity/image-url':
         specifier: ^2.0.3
         version: 2.0.3
+      '@sugartown/design-system':
+        specifier: workspace:*
+        version: link:../../packages/design-system
       lucide-react:
         specifier: ^0.575.0
         version: 0.575.0(react@19.2.4)

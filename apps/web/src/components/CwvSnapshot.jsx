@@ -15,8 +15,7 @@
  */
 import { useState } from 'react'
 import stats from '../generated/stats.json'
-import ScoreRing from '../design-system/components/score-ring/ScoreRing'
-import SegmentedControl from '../design-system/components/segmented-control/SegmentedControl'
+import { ScoreRing, SegmentedControl } from '@sugartown/design-system'
 import styles from './CwvSnapshot.module.css'
 
 // Static backup data — manual Lighthouse run 2026-05-15 (sugartown.io homepage).

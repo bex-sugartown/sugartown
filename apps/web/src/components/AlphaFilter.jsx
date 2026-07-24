@@ -9,8 +9,7 @@
  *   filterLetter   {string | null}        — currently selected letter (null = all)
  *   onSelect       {function}             — (letter: string | null) → void
  */
-import IndexGroup from '../design-system/components/index-group/IndexGroup'
-import IndexCell from '../design-system/components/index-cell/IndexCell'
+import { IndexGroup, IndexCell } from '@sugartown/design-system'
 import styles from './AlphaFilter.module.css'
 
 const ALL_LETTERS = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')

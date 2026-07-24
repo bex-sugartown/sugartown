@@ -6,9 +6,8 @@
  * Roadmap fixture = actual production data from stats.json (linearRoadmap).
  * Projects field omitted in stats pipeline — rendered as empty chip list.
  */
-import Table, { TableWrap } from '../../design-system/components/table/Table'
-import Swatch from '../../design-system/components/swatch/Swatch'
-import Chip from '../../design-system/components/chip/Chip'
+import { Table, TableWrap, Swatch, Chip } from '@sugartown/design-system'
+import SeoHead from '../../components/SeoHead'
 import styles from './TablesDevPage.module.css'
 
 // KindBadge — inline after DataTable shim deletion (SUG-126)
@@ -152,6 +151,13 @@ function Section({ id, label, children }) {
 export default function TablesDevPage() {
   return (
     <div className={styles.page}>
+      <SeoHead
+        seo={{
+          title: 'Table component test bench (dev) — Sugartown Digital',
+          robots: { index: false, follow: true },
+        }}
+      />
+
       <header className={styles.header}>
         <p className={styles.badge}>DEV</p>
         <h1 className={styles.title}>Table component test bench</h1>

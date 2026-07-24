@@ -11,7 +11,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
 import Tile from './Tile';
-import Grid from '../grid/Grid';
+import { Grid } from '@sugartown/design-system';
 
 const meta: Meta<typeof Tile> = {
   title: 'Legacy/Tile',

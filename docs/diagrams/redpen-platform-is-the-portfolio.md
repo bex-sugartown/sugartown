@@ -18,10 +18,11 @@ Classes: **enforced-by-code** (validator, hook, build step, or platform guarante
 | `@sugartown/design-system` → POC: direct dependency | `apps/contentful-poc/package.json` (`workspace:*`); direct imports in `apps/contentful-poc/src/components/*.tsx` | enforced-by-code |
 | POC: 0 component changes, 0 schema rebuild, 2 packaging gaps fixed, 15 ADRs | `docs/shipped/zArchive/2026/SUG-127-contentful-vercel-poc-platform-vendor-evaluation.md` | measured |
 | Content model ported unchanged | same SUG-127 record | measured |
-| Production consumes the package | **Not true yet** — `apps/web` has no dependency on `@sugartown/design-system`; mirror components at `apps/web/src/design-system/` (see TODO in `Card.jsx`). Drawn as a **dashed** arrow, named in the legend as "hand-synced mirror … roadmap: consume the package" | roadmap |
-| Production mirror: components hand-synced, styles validator-checked | CLAUDE.md §Mirrored File Registry — component mirrors are a manual drift rule; only style files are validator-enforced. Legend wording reflects this split | convention |
+| Production consumes the package | **True as of 2026-07-24 (SUG-224).** `apps/web/package.json` declares `@sugartown/design-system: workspace:*`; 42 of 44 disposition-table components are re-exported directly from the package (`docs/backlog/SUG-224-apps-web-consumes-design-system-package.md`). Drawn as a **solid** ink arrow, matching the other enforced-in-code claims. | enforced-by-code |
 
-**v1 → v2 change:** v1 drew one design system serving both stacks as current state. v2 splits the claim: tokens + content model are genuinely single-sourced (solid); package consumption is direct for the POC (solid pink) and a dashed roadmap item for production.
+**v1 → v2 change (2026-07-17):** v1 drew one design system serving both stacks as current state. v2 splits the claim: tokens + content model are genuinely single-sourced (solid); package consumption is direct for the POC (solid pink) and a dashed roadmap item for production.
+
+**v2 → v3 change (2026-07-24, SUG-224 close-out):** the roadmap item shipped. The production arrow is now solid ink (previously dashed muted), the "Production mirror" convention row and its dashed-legend entry are retired (there is no more mirror to describe — `apps/web/src/design-system/components/` holds only `SidebarNav` and `Tile`, both genuine web-only app coupling with no package counterpart), and the orphaned `mMute` marker def is removed from the SVG.
 
 ## Diagram 2 — AI governance (`diagram-portfolio-ai-governance.svg`)
 

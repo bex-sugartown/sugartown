@@ -19,7 +19,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
-import Sidebar from '../design-system/components/sidebar/Sidebar'
+import { Sidebar } from '@sugartown/design-system'
 import SidebarNav from '../design-system/components/sidebar-nav/SidebarNav'
 import Drawer from './Drawer'
 import ContentsStrip from './ContentsStrip'

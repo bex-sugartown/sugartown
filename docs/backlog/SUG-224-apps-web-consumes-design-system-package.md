@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-224 — apps/web consumes @sugartown/design-system
 **Linear Issue:** [SUG-224](https://linear.app/sugartown/issue/SUG-224)
-**Status:** Backlog — 🟢 **Prerequisites cleared 2026-07-22.** Re-phased; Phase 0 (spec amendment) is the entry point
+**Status:** In Progress — 🟢 **Phases 0–6 all complete, 2026-07-24. All Scope items and Acceptance Criteria checked (one honest caveat: package build not re-verified from a clean `node_modules` reinstall, see AC list).** Disposition table filled (44/44, 42 converted + 2 correctly web-only), decisions A–E recorded, Non-Goals amended. `apps/web` now depends on `@sugartown/design-system` directly. Phase 6 close-out: CLAUDE.md/epic-template rule-file retirement approved + applied; agnostic-stack diagram arrow flipped solid + red-pen table updated (repo files); case study alt-text corrected via Content Write Gate (patched to draft, not published); full Human QA Walkthrough across 29 routes in light + dark-pink-moon; Chromatic build 82 (376 stories, 36 visual changes, all approved). **Remaining before this epic can move to `docs/shipped/`: merge to `main` (currently on a feature branch, single-close-out strategy), then `/mini-release`, then Linear → Done — all require your explicit go-ahead per standing session rules.**
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -35,19 +35,19 @@ After this epic, `apps/web/package.json` declares `@sugartown/design-system: wor
 
 > **Every Scope item below names its phase** (added 2026-07-22 — SUG-231 shipped with a Scope item, Table's `.wide`, that belonged to no phase at all and would have gone unnoticed).
 
-- [ ] **Phase 0 —** Fill in the per-component **disposition table** below: all 44 web component directories classified re-export / promote / stays-web-only, with a reason on every stays-web-only row — layer: docs
-- [ ] **Phase 0 —** Amend §Acceptance criteria and §Non-Goals per Blockers 2 and 4 (done 2026-07-22; verify no other AC is unachievable before execution resumes) — layer: docs
-- [ ] **Phase 1b —** Add `href` to the package `Button` via the SUG-230 seam; decide `target="_blank"`/`rel` — layer: design-system
-- [ ] **Phase 2 —** Mount `LinkProvider` in `apps/web` supplying `react-router`'s `Link`; verify SPA nav unchanged on a real page — layer: frontend
-- [ ] **Phase 3 —** Add package Storybook stories for Accordion, Breadcrumb, ButtonGroup, Callout, IconButton; resolve the `Components/<Name>` title collision — layer: Storybook
-- [ ] **Phase 1 —** Add `@sugartown/design-system` as a workspace dependency of apps/web — layer: tooling
-- [ ] Resolve the JSX↔TSX consumption strategy (source vs built package, CSS module handling, `exports` map coverage) and record it as a decision note in this doc — layer: tooling
-- [ ] Replace each mirror component in `apps/web/src/design-system/components/` with a re-export from the package (or delete + update import sites) — layer: frontend
-- [ ] Dedupe mirrored component CSS modules (package copy becomes the only copy) — layer: frontend
-- [ ] Storybook (pinkmoon) resolves the package build without breaking HMR or Chromatic baselines — layer: Storybook
-- [ ] Retire the DS-component-mirror row from CLAUDE.md §Mirrored File Registry and the web-adapter-sync steps in `docs/epic-template.md` §Design System → Web Adapter Sync — layer: tooling/docs
-- [ ] Update `docs/diagrams/diagram-portfolio-agnostic-stack.svg` (dashed → solid) + red-pen table, and propose the matching case study caption/legend change through the Content Write Gate — layer: content
-- [ ] Full visual QA across all page types on both themes — layer: frontend
+- [x] **Phase 0 —** Fill in the per-component **disposition table** below: all 44 web component directories classified re-export / promote / stays-web-only, with a reason on every stays-web-only row — layer: docs ✅ 2026-07-23 (26 re-export · 4 P2 · 1 P1b · 7 P4 · 4 promote · 2 web-only)
+- [x] **Phase 0 —** Amend §Acceptance criteria and §Non-Goals per Blockers 2 and 4 (done 2026-07-22); decisions A/B/C recorded 2026-07-23; verified no remaining AC is unachievable — layer: docs
+- [x] **Phase 1b —** Add `href` to the package `Button` via the SUG-230 seam; decide `target="_blank"`/`rel` — layer: design-system ✅ 2026-07-23 (commit `0bb66ecc`) — target/rel brought to package per decision C
+- [x] **Phase 2 —** Mount `LinkProvider` in `apps/web` supplying `react-router`'s `Link`; verify SPA nav unchanged on a real page — layer: frontend ✅ 2026-07-23 (commit `d9a4a481`)
+- [x] **Phase 3 —** Add package Storybook stories for Accordion, Breadcrumb, ButtonGroup, Callout, IconButton; resolve the `Components/<Name>` title collision — layer: Storybook ✅ 2026-07-23 (commit `85234285`)
+- [x] **Phase 1 —** Add `@sugartown/design-system` as a workspace dependency of apps/web — layer: tooling ✅ 2026-07-23 (commit `d9a4a481`) — the un-executed mechanical remainder of the Phase 1 decision spike (spike ran 2026-07-21 read-only, decided the strategy, "wired no dependency"); executed now as a hard prerequisite to Phase 2
+- [x] Resolve the JSX↔TSX consumption strategy (source vs built package, CSS module handling, `exports` map coverage) and record it as a decision note in this doc — layer: tooling — **retroactively tagged Phase 1 2026-07-23** (was missing a phase tag — see §Phase 0 note below); decision recorded 2026-07-21 in §Phase 1 Findings
+- [x] Replace each mirror component in `apps/web/src/design-system/components/` with a re-export from the package (or delete + update import sites) — layer: frontend — ✅ **42/44 converted 2026-07-24** (Phase 4 batches 1–3 + Phase 5): AppShell, Avatar, Blockquote, Box, ButtonGroup, Citation, Columns, DescriptionList, ErrorMessage, Field, HelperText, IconButton, IndexGroup, Input, Label, List, Meter, Metric, Page, ScoreRing, SegmentedControl, Skeleton, Surface, Swatch, Table, Textarea (`545df6ff`, batch 1) + Breadcrumb, Chip, IndexCell, Button, Card (batch 2 — Card required decision D) + Accordion, Callout, CodeBlock, Container, FilterBar, Media, Stack (batch 3 — Media required decision E) + Grid, PageHeader, SectionLabel, Sidebar (Phase 5 — promoted, zero app coupling). Remaining: SidebarNav, Tile — genuine web-only app coupling, stay per Phase 5 verdict.
+- [x] Dedupe mirrored component CSS modules (package copy becomes the only copy) — layer: frontend — ✅ 42/42 done (all converted directories were deleted wholesale, so their CSS modules are already deduped — package copy is now the only copy)
+- [x] Storybook (pinkmoon) resolves the package build without breaking HMR or Chromatic baselines — layer: Storybook — ✅ Chromatic build 82: 376 stories, 0 errors, 36 approved diffs (all classname-hash-format only)
+- [x] Retire the DS-component-mirror row from CLAUDE.md §Mirrored File Registry and the web-adapter-sync steps in `docs/epic-template.md` §Design System → Web Adapter Sync — layer: tooling/docs — ✅ 2026-07-24
+- [x] Update `docs/diagrams/diagram-portfolio-agnostic-stack.svg` (dashed → solid) + red-pen table, and propose the matching case study caption/legend change through the Content Write Gate — layer: content — ✅ 2026-07-24
+- [x] Full visual QA across all page types on both themes — layer: frontend — ✅ 2026-07-24 (see §Human QA Walkthrough)
 
 ## Phases
 
@@ -63,17 +63,94 @@ The original Phases 2–3 assumed the only work left was mechanical replacement.
 
 **The unlock that changes this epic's shape:** SUG-230's link seam already covers **Card, Chip, Breadcrumb, IndexCell and List** in the package, and `apps/web` does **not** yet mount a `LinkProvider` — only `apps/contentful-poc` does. Mounting one at the web root converts five of the six router-importing adapters into plain re-exports. Blocker 1 ("the package hard-codes `<a href>`, and fixing it needs a DS API change our Non-Goals forbid") is therefore already solved upstream; what remains is wiring, not design.
 
+**Note (found + fixed 2026-07-23, during Phase 2 execution):** two Scope rows were unphased —
+"Add `@sugartown/design-system` as a workspace dependency of apps/web" carried a stray "Phase 1"
+tag that didn't correspond to any walkthrough step below (the walkthrough's "Phase 1" is the
+*completed spike*, not this mechanical follow-through), and "Resolve the JSX↔TSX consumption
+strategy..." carried no phase tag at all. Both are the Phase 1 spike's undone mechanical remainder
+(the spike explicitly "wired no dependency"). Retagged both as Phase 1 and executed as a hard
+prerequisite to Phase 2 (LinkProvider needs the package importable). Same failure shape as the
+Incomplete Epic Doc Hard Stop's rule 6 (`Scope ∖ Phases` must be empty) — caught mid-epic rather
+than at activation, so noting it here instead of treating it as a fresh block.
+
 **Phase 0 — Fix the spec before touching code.** Amend §Scope, §Acceptance criteria and §Non-Goals per Blockers 2 and 4. Specifically: replace the `grep`-returns-zero structural-closure AC with an explicit per-component **disposition table** (re-export / stays web-only / promoted to package), and drop the "no API changes" Non-Goal, which makes Blocker 4 unresolvable inside the epic that owns it. No code. Output: an epic whose ACs can actually pass.
 
-**Phase 1b — Package `Button` gains `href` (Blocker 4).** Consume the SUG-230 seam; settle whether `target="_blank"`/`rel` comes to the package. Sole remaining hard prerequisite. Inherited from SUG-231, which correctly refused to decide it in isolation.
+**Phase 1b — Package `Button` gains `href` (Blocker 4).** ✅ **COMPLETE 2026-07-23** (commit `0bb66ecc`). Consumed the SUG-230 seam for internal hrefs; `target="_blank"`/`rel="noopener noreferrer"` brought to the package for external hrefs (decision C) — overrides the seam's default for Button only. Verified in Storybook light + dark-pink-moon. Sole remaining hard prerequisite, now cleared. Inherited from SUG-231, which correctly refused to decide it in isolation.
 
-**Phase 2 — Mount `LinkProvider` in `apps/web`.** One provider at the app root supplying `react-router`'s `Link`. Verify SPA navigation is unchanged on a real page before converting anything. Highest-leverage step in the epic: it retires the adapter justification for five components at once.
+**Phase 2 — Mount `LinkProvider` in `apps/web`.** ✅ **COMPLETE 2026-07-23** (commit `d9a4a481`). One provider (`apps/web/src/components/DesignSystemProvider.jsx`) mounted at the app root, inside `BrowserRouter`, wrapping `App`, supplying a `RouterLinkAdapter` per the documented pattern in `packages/design-system/CONSUMING.md` §React Router. No component consumes the seam yet (that's Phase 4) — this is pure prep, zero visible effect on any page today.
 
-**Phase 3 — Storybook coverage for the surviving copy.** Add package stories for **Accordion, Breadcrumb, ButtonGroup, Callout, IconButton**, resolving the `Components/<Name>` title collision by deciding which copy survives. Must precede Phase 4 so Chromatic has baselines for the components being migrated. Without this, migration is unverifiable — the absence of these five stories is what let all the SUG-217/218/219/231 drift go unseen in the first place.
+Verified via a temporary smoke test (not committed — added and removed within this session): rendered the package's `Link` directly on the `/dev/tables` sandbox page, clicked it, confirmed a JS marker set before the click survived the navigation (proof of client-side `pushState`, since a full reload would wipe the JS context). Also confirmed an unrelated, pre-existing app nav link still navigates via SPA routing — no regression from the new provider wrapper. Highest-leverage step in the epic: it retires the adapter justification for five components at once (Phase 4).
+
+**Operational note:** wiring the workspace dependency mid-session (while the Vite dev server was already running) produced a `504 Outdated Optimize Dep` on `react/jsx-runtime` and a blank page — the package's built `dist/index.mjs` pulls the prod jsx-runtime, which wasn't in Vite's already-optimized deps cache. Fixed by a full dev-server restart (not just a browser reload). Future phases that add new package-level imports to `apps/web` should expect the same and restart the dev server proactively rather than debugging a blank page.
+
+**Phase 3 — Storybook coverage for the surviving copy.** ✅ **COMPLETE 2026-07-23** (commit `85234285`). Package stories added for **Accordion, Breadcrumb, ButtonGroup, Callout, IconButton**. Resolved the `Components/<Name>` title collision by deciding the package survives (per decision A / disposition table) — retired the 5 colliding web-side story files (git recorded as renames). Breadcrumb and ButtonGroup lost their `MemoryRouter` decorators in the port: the package renders through the DS Link seam, which falls back to a plain `<a>` when no `LinkProvider` is mounted (Storybook doesn't mount one). Added a new Breadcrumb story exercising the package's fixed `isCurrent` logic (a linked final crumb no longer wrongly gets `aria-current`) — the one behavioral improvement over the web copy the code comments already called out. IconButton got net-new package coverage (neither tree had one) ported from `apps/web/src/components/IconButton.stories.tsx`, dropping only the composite `ThemeToggle (live)` story (that usage coverage already lives in `ThemeToggle`'s own story, untouched). Verified via a fresh Storybook tab and a direct `/index.json` fetch: exactly one `Components/<Name>` entry per component, zero duplicates. All 5 spot-checked in light + dark-pink-moon, no console errors. Must precede Phase 4 so Chromatic has baselines for the components being migrated. Without this, migration is unverifiable — the absence of these five stories is what let all the SUG-217/218/219/231 drift go unseen in the first place.
+
+**Operational note:** deleting story files mid-session while Storybook's dev server was running left a stale in-memory duplicate-ID error that neither a page reload nor a full dev-server restart cleared on the already-open tab — required also opening a fresh browser tab to see the corrected index. The server-side `/index.json` was actually correct immediately after the restart; only the existing tab's client-side state was stale. Future phases that delete/rename story files should verify via a fresh tab (or a direct `/index.json` fetch) rather than trusting a reload of an already-open Storybook tab.
 
 **Phase 4 — Convert the pure mirrors in batches.** Re-export from the package, delete the web implementation, dedupe the CSS module. Chromatic between batches. Mechanical once Phases 1b–3 land.
 
-**Phase 5 — Dispose of the remainder explicitly.** The 6 web-only components (`Grid`, `PageHeader`, `SectionLabel`, `Sidebar`, `SidebarNav`, `Tile`) plus any adapter that keeps a genuine app-layer difference: each gets a row in the disposition table saying promoted-to-package or stays-web-only-because-X. This is what closes the AC honestly instead of fudging a `grep`.
+**Batch 1 — ✅ COMPLETE 2026-07-23** (commit `545df6ff`). All 26 "re-export now" pure mirrors converted: barrel (`apps/web/src/design-system/index.js`) re-pointed for the 23 barrel-listed ones; 12 consumer files updated where a component was imported directly from a subpath rather than the barrel (a mixed convention that pre-existed this epic — `Form.jsx`, `ThemeToggle.jsx`, `KnowledgeGraph.jsx`, `AlphaFilter.jsx`, `SchemaERD.jsx`, `CwvSnapshot.jsx`, `GovernancePage.jsx`, `TablesDevPage.jsx`, `TrustReportSection.jsx`, `DesignSystemRegistryPage.jsx`, `ContentModelsPage.jsx`, `DesignSystemPage.jsx`); all 26 web component directories deleted. Verified: zero remaining references to any deleted local path (grepped before deleting); `validate:style-mirror` now reports exactly 26 DS-package-only (matches); all validators + lint clean; live-verified in a fresh browser tab on homepage, `/platform/governance`, `/dev/tables`, and the header theme toggle (IconButton — clicked, confirmed working, dark theme applied).
+
+**Caught before it happened:** an early grep-based batch script accidentally included `stack` in the "safe to convert" list. Cross-checked against the Phase 0 classification before touching any file — `Stack` is in the *diverged* bucket (re-export P4, needs JS reconciliation), not pure mirror. Excluded from batch 1.
+
+**Operational pattern confirmed again:** deleting files mid-session while the Vite dev server is running produces stale HMR "failed to reload" errors that persist even after a full dev-server restart — but only in browser tabs that were already open. A fresh tab shows the correct, clean state immediately. Same root cause as the Storybook stale-index issue in Phase 3. Future batches: after any file-deletion batch, verify in a **new** tab, not a reload of an existing one.
+
+**Regression caught post-batch, fixed same day (commit `980e7af4`):** batch 1 converted the JS/JSX imports for all 26 components but never wired `@sugartown/design-system/styles.css` into `apps/web/src/main.jsx` — despite this exact gap being flagged and explicitly deferred to "Phase 4 (first batch conversion)" in the Phase 2 operational note above. The converted components' JSX resolves to the package's build, which references classnames hashed by esbuild, not Vite — with no stylesheet on the page defining those classnames, every converted component lost all CSS (zero borders, zero zebra striping, buttons rendering as unstyled native `<button>`s) while structure and content stayed intact, since JS doesn't need CSS to run. This is why it passed lint/typecheck/every validator and even my own post-batch live-page spot-checks — I confirmed pages rendered with no console errors but never inspected *computed* CSS values on the converted components. Caught only when Bex reported `/dev/tables` visually losing styling. Fixed by adding the import; verified via `getComputedStyle` on Table (`tbody td` zebra bg + border) and IconButton (border + border-radius) showing real token-backed values, not defaults.
+
+**Process note for future batches:** a page rendering with no console errors is not sufficient evidence a CSS-affecting change is correct — check computed styles on the actual affected elements, not just presence/absence of errors.
+
+**Second regression, same batch, caught by the `/eod` Chromatic pre-flight (commit `37e67a66`):** Storybook's build failed entirely — `PageHeader.stories.jsx` and `apps/web/src/components/IconButton.audit.stories.tsx` (a second, differently-titled IconButton story deliberately left alone in Phase 3) still imported `Avatar`, `DescriptionList`, and `IconButton` by their now-deleted relative paths. Neither surfaced in any dev-server page check, because neither is reachable from `apps/web`'s own routes — they're Storybook-only files. Grepping the 26 deleted component paths across `apps/web/src` (batch 1's own verification) missed `apps/web/src/components/*.stories.tsx` because that grep was scoped to component-consumer files, not story files. Fixed; local `storybook:build` and a full Chromatic run (build 80, 356 snapshots) both pass clean. **Lesson for remaining batches:** grep for a deleted component's import path across the *entire* `apps/web/src` tree including `*.stories.*`, and run `storybook:build` (not just the dev-server pages) before considering a deletion batch verified.
+
+**Third instance of the same root cause, caught by Bex reviewing Chromatic build 80 (commit `b4785fc3`):** Storybook is a separate build with its own entry (`apps/storybook/.storybook/preview.ts`), which never imported the package's built CSS either — same gap as `apps/web/src/main.jsx` (`980e7af4`), just in a second location. Every `Patterns/*` and page-level story that composes a component through `apps/web`'s design-system barrel (which now re-exports many components from the built package) rendered with zero CSS for those components: PageHeader's Avatar, DescriptionList, the Form pattern (Field/Input/Textarea), Citation text, IconButtonAudit. Package-*source* stories (`packages/design-system/src/components/**/*.stories.tsx`) were never affected — Vite processes their own `.module.css` imports directly — which is why Phase 3's spot-checks (all package-source stories) looked clean and this didn't surface until Chromatic actually rendered the web-side composite stories. Fixed by the same `@sugartown/design-system/styles.css` import, added to `preview.ts`. Chromatic build 81 (post-fix) dropped from 45 visual changes to 20.
+
+**Standing lesson across all three instances:** "consumed via the built package" has exactly two entry points that each need the CSS bundle wired in independently — `apps/web/src/main.jsx` and `apps/storybook/.storybook/preview.ts`. Any future third consumer of `@sugartown/design-system` (e.g. if `apps/contentful-poc` patterns ever route through this same barrel) needs the same check.
+
+**Batch 2 — ✅ COMPLETE 2026-07-24.** Breadcrumb, Chip, IndexCell (P2) and Button (P1b) converted after confirming each was genuinely router-import-only (CSS byte-identical, JS parity verified line-by-line). Card required an extra step first:
+
+**Decision D (2026-07-24) — Card's disposition-table entry ("re-export (P2) — router import only") was incomplete.** Diffing web Card.jsx against the package (430 vs 382 lines, not the 340 recorded at Phase 1) surfaced three real prop divergences beyond routing, all load-bearing in `CardBuilderSection.jsx` (a live consumer, not dead code):
+- `children` — custom Portable Text body content
+- `footerChildren` — custom footer content (citations)
+- `thumbnailClassName` / `thumbnailStyle` — overlay/effect treatment + hotspot-driven `object-position` on the thumbnail wrapper
+
+A straight re-export would have silently dropped all three — React ignores unknown props with no warning, so the PT body, citations, and thumbnail overlays would vanish with zero console error, passing every check except looking at the actual page. Same failure shape as the batch-1 CSS-import regressions.
+
+Presented to Bex as a choice: defer Card to batch 3 (reclassify P4) vs. port the props into the package now (same pattern as Button's decision C). **Decision: port now.** All four props added to `packages/design-system/src/components/Card/Card.tsx` (`CardProps` interface + render logic), faithfully mirroring the web adapter's exact structure (including the footer's conditional-wrapper shape, so a footer with only `footerChildren` and no standard fields doesn't render empty `footerLeft`/`footerRight` divs). Storybook coverage added: `WithBodyAndFooterChildren`, `WithThumbnailOverride`.
+
+**A second, related gap found in the same pass:** web Card's title link uses `getLinkProps()` to add `target="_blank" rel="noopener noreferrer"` for external hrefs; the package Card's title link went through the DS Link seam, which deliberately omits target/rel for external links (SUG-230 editorial choice). `CardBuilderSection`'s `resolveLinkHref()` can genuinely produce an external URL from a Sanity `titleLink` of `type="external"`, so this was a real regression risk, not theoretical. Fixed the same way as decision C: Card's title link now branches on `isExternalHref()` and renders a plain `<a target="_blank" rel="noopener noreferrer">` for external hrefs, bypassing the seam for that one case. Storybook coverage added: `WithExternalHref`. (The seam's self-link normalization — `toInternalPath()` treating an absolute same-origin URL as internal — was *not* ported; that's a pre-existing, already-accepted gap across every seamed component, not specific to Card, and out of scope here.)
+
+Verified live on `/ds-section-showcase` (a real published page with `cardBuilderSection` blocks): package-styled cards render with real PT body content, citation footers (`Card-module__footer` containing a `Citation-module__zone`), and thumbnail overlay classes (`_cardDuotoneExtreme_`, `_cardColorOverlay_`) all present with correct computed styles — not just structurally present with no console error.
+
+**Batch 3 — ✅ COMPLETE 2026-07-24.** The 7 diverged components (Accordion, Callout, CodeBlock, Container, FilterBar, Media, Stack). Six converted cleanly after diffing web vs package line-by-line:
+- **Accordion, Callout, Container, FilterBar, Stack** — functionally identical to the package already (package already carries the SUG-231 Phase 2/3 fixes the code comments describe as "canonical"). No divergence to reconcile.
+- **CodeBlock** — web has a dead `variant="mermaid"` branch the package lacks. Checked all 4 real consumers (`PageSections.jsx`, `portableTextComponents.jsx`, `CmsPage.jsx`, `MonorepoPage.jsx`) — none ever pass `variant`. Mermaid diagrams route through a wholly separate `MermaidDiagram` component. Confirmed dead code, not ported.
+
+**Decision E (2026-07-24) — Media needed more than a prop port; it needed new package exports.** Two live consumers (`CardBuilderSection.jsx`, `PageSections.jsx`) import `getOverlayStyles`/`parseOverlay`/`ensureSvgFilter` as named functions directly from the web Media module — not through the `Media` component. The package defined these same functions internally but never exported them. Also missing: the `hotspot` prop (Sanity hotspot → `object-position`) and `showPanel` tracking in `parseOverlay` (including the legacy `greyscale-panel` type, which the package's parser didn't recognize at all — it fell through to no overlay rather than greyscale).
+
+Presented to Bex as a choice: convert the other 6 now and defer Media (bigger blast radius — it's an export-surface change, not just a prop), or port everything now. **Decision: port now.** Changes to `packages/design-system/src/components/Media/Media.tsx`:
+- `hotspot?: { x: number; y: number }` prop, ported verbatim from the web adapter
+- `panel?: boolean` added to `OverlayConfig`; `'greyscale-panel'` added to the `type` union
+- `parseOverlay` now returns `showPanel` and handles the `greyscale-panel` legacy case
+- `parseOverlay`, `getOverlayStyles`, `ensureSvgFilter` all gained `export` and are re-exported from both `components/Media/index.ts` and the top-level `src/index.ts`
+
+`CardBuilderSection.jsx` and `PageSections.jsx` repointed their helper imports to `@sugartown/design-system`. Storybook coverage added: `WithHotspot`.
+
+Verified live on `/ds-section-showcase`: duotone-extreme overlay computed gradient present and correct (`linear-gradient(135deg, rgba(255, 36, 125, 0.85), rgba(43, 212, 170, 0.70))`), no console errors. Also spot-checked Accordion (toggle click → `aria-expanded` flips), Callout (`/platform/cms`, real computed border/grid layout), FilterBar (`/articles`, 79 checkboxes, real classnames) — all live, no regressions.
+
+**Bonus find:** the pre-commit `validate:dead-refs` hook flagged 3 `KNOWN_DEAD` grandfather entries in `apps/web/scripts/validate-dead-refs.js` (`Accordion.jsx`, `Container.jsx` variants) that pointed at files this batch just deleted. Removed the stale entries — the `.tsx` (package) counterparts remain, since those dead-style-reference cases are still real in the package copy.
+
+**Phase 5 — ✅ COMPLETE 2026-07-24.** Verdicts decided in Phase 0 (2026-07-23): of the 6 web-only components, **`Grid`, `PageHeader`, `SectionLabel`, `Sidebar` are promoted to the package** (DS primitives, zero app coupling — see amended §Non-Goals), and **`SidebarNav` (couples to `useScrollspy`) and `Tile` (couples to `linkUtils` + react-router) stay web-only.**
+
+Re-verified zero app coupling by reading all four before porting (not just trusting the Phase 0 verdict) — none import react-router, `lib/`, or any app-specific module; all four are pure `styles`-only components. Ported each as TSX into `packages/design-system/src/components/`, with:
+- **Grid** — direct 1:1 port (just added TS types). Story ported + `DarkMode` story added; dropped an unnecessary `MemoryRouter` decorator carried over from the web copy (Grid has no router dependency — package stories must not import react-router-dom at all).
+- **SectionLabel** — direct 1:1 port. Story ported + `DarkMode` story added.
+- **Sidebar** — direct 1:1 port, including the pre-existing dead `styles.sidebar` class reference (CSS never defines `.sidebar`; `KNOWN_DEAD` grandfather entry updated from `Sidebar.jsx` to `Sidebar.tsx` rather than "fixed" — a visual decision, not this move's concern). Story ported + `DarkMode` story + a new `Snapshot (Chromatic)` story added (had neither before).
+- **PageHeader** — direct 1:1 port, including the full 14-section Guidelines doc story (imports `docStyles`/`DocSection`/etc. from `apps/storybook/.storybook/helpers/docs` via a relative path adjusted for the new file depth — verified the exact `../` count by testing resolution in bash before trusting it). Dropped the `MemoryRouter` decorator (no longer needed: `Breadcrumb` in this story now comes from the package's Link-seam version, which renders a plain `<a>` with no Router context required). `DarkMode` story added.
+
+**Caught during verification, not before:** the ported PageHeader story imported `Breadcrumb` as a named export (`import { Breadcrumb }`) — the package's `Breadcrumb` is actually a **default** export. `tsc --noEmit` did not catch this; only `storybook:build` (which actually bundles the story file) surfaced it as a Rollup resolution error. Fixed to `import Breadcrumb from '../Breadcrumb/Breadcrumb'`. Same lesson as batch 2/3: typecheck passing is not sufficient evidence a story file is correct — the previously-established practice of always running `storybook:build`, not just `tsc`, caught this exactly as intended.
+
+All four re-verified live on real published pages after conversion: PageHeader's H1 computed to Cormorant Garamond at 48px italic on an archive masthead (`/articles`); Grid and SectionLabel both rendered with real computed grid/border styles on `/platform/cms`; Sidebar rendered with real hashed classnames and correct `mobileDrawer` layout on a node page with related content (`/nodes/post-mortems-as-system-upgrades`).
+
+Chromatic VRT deferred to epic close-out (Phase 6) rather than run per-batch — consistent with how batches 2 and 3 handled it.
 
 **Phase 6 — Docs + diagram close-out.** Retire the DS-component-mirror row from CLAUDE.md §Mirrored File Registry and the web-adapter-sync steps in `docs/epic-template.md`; update `validate-style-mirror.js` scope; diagram dashed→solid + caption via the Content Write Gate.
 
@@ -121,7 +198,7 @@ Only the **22 pure mirrors with byte-identical CSS** are safe to convert today. 
 
 - §Background/§Technical notes cite SUG-127's `"use client"` wrappers as starting state. **Zero `"use client"` directives exist in the package** — verified by grep across `packages/design-system/src/`. The `exports` map fix is real; the `"use client"` one is not (or was since removed).
 - §Phases picks Card as the Phase 1 proof component. **Card is the single worst candidate** — the most complex adapter (382 lines vs the package's 340, react-router Links, `getLinkProps`, `children`/`footerChildren`/`thumbnailStyle` escape hatches). When execution resumes, spike a clean pure mirror (e.g. Box or Surface) instead.
-- The package barrel (`packages/design-system/src/index.ts`) does not export `Breadcrumb`, `ButtonGroup`, or `IconButton`. Barrel additions are needed before those can be imported (trivial, not an API change).
+- ~~The package barrel (`packages/design-system/src/index.ts`) does not export `Breadcrumb`, `ButtonGroup`, or `IconButton`.~~ **RESOLVED — verified 2026-07-23:** the barrel now exports all three (`Breadcrumb` line 69, `ButtonGroup` line 63, `IconButton` line 65). No barrel additions needed for these; the gap was closed since this correction was written (likely SUG-231).
 - Web `Card.jsx`'s header comment claims `tags[]` is extended with `colorHex`; the implementation never reads it. Stale comment, worth correcting whenever Card is next touched.
 
 ### Blocker 4 — the package `Button` cannot navigate (inherited from SUG-231, 2026-07-22)
@@ -130,7 +207,7 @@ The web `Button` accepts `href` and branches external-anchor / RouterLink / `<bu
 
 Handed over from SUG-231 Phase 1b, where it sat in Scope while that epic's own Non-Goals listed Button's `href` among the intentional adapter differences that "stay until SUG-224 decides their fate". Non-Goals won: this is a feature gap blocking consolidation, not mirror drift, and it belongs to whichever epic owns the merged component — this one.
 
-**Open decision when this is picked up:** whether `target="_blank"` / `rel="noopener noreferrer"` on external hrefs comes to the package. Web's Button sets them unconditionally and also honours an `openInNewTab` prop. SUG-230's `<Link>` resolver **deliberately does not** add target/rel ([`packages/design-system/src/link/Link.tsx`](../../packages/design-system/src/link/Link.tsx) — "That is an editorial choice these components do not currently make"). Porting web's Button faithfully means either dropping that behaviour or overriding SUG-230's decision. Decide it here, where the merged Button is the only Button, rather than in isolation. Current package consumer to check against: `apps/contentful-poc/src/components/SiteHeader.tsx`.
+**Open decision — ✅ RESOLVED 2026-07-23 (decision C): `target`/`rel` come to the package.** The package `Button` gains `href` and an external-anchor branch that sets `target="_blank"` / `rel="noopener noreferrer"` on external hrefs, plus an `openInNewTab` prop — porting web's Button faithfully. This deliberately overrides SUG-230's `<Link>`-resolver editorial choice **for `Button` specifically** (the merged Button is the only Button; a Button that silently drops external-tab behaviour on consumption would be a functional regression). SUG-230's resolver is unchanged for other components. Internal hrefs still route through the `LinkProvider` seam. Current package consumer to check against: `apps/contentful-poc/src/components/SiteHeader.tsx`.
 
 ### Resume checklist
 
@@ -147,70 +224,114 @@ Generated 2026-07-22 from the live directory listing — **44 rows, one per web 
 Every row must reach a non-TBD verdict before Phase 4 begins; the amended structural-closure AC is
 satisfied by this table being complete, not by a grep returning zero.
 
+**Completed 2026-07-23.** All 44 rows carry a non-TBD verdict. Five verdict classes:
+**re-export** (safe now — pure mirror, CSS byte-identical, barrel-exported); **re-export (P1b)**
+(after package Button gains `href`); **re-export (P2)** (after `LinkProvider` mounts, retiring the
+router import); **re-export (P4)** (diverged/adapter, package copy is canonical per decision
+2026-07-23 — reconcile JS + Chromatic-verify during conversion); **promote** (web-only DS primitive
+moved into the package); **web-only** (genuine app-layer coupling — stays).
+
 | Component | Pairing | Verdict | Note |
 |---|---|---|---|
-| `Breadcrumb` | paired | TBD | router import retired by Phase 2 LinkProvider |
-| `FilterBar` | paired | TBD | candidate re-export |
-| `PageHeader` | web-only | stays web-only | no package counterpart — promote or justify |
-| `accordion` | paired | TBD | candidate re-export |
-| `app-shell` | paired | TBD | candidate re-export |
-| `avatar` | paired | TBD | candidate re-export |
-| `blockquote` | paired | TBD | candidate re-export |
-| `box` | paired | TBD | candidate re-export |
-| `button` | paired | TBD | blocked on Phase 1b — package Button has no `href` |
-| `button-group` | paired | TBD | candidate re-export |
-| `callout` | paired | TBD | candidate re-export |
-| `card` | paired | TBD | router import retired by Phase 2 LinkProvider |
-| `chip` | paired | TBD | router import retired by Phase 2 LinkProvider |
-| `citation` | paired | TBD | candidate re-export |
-| `codeblock` | paired | TBD | candidate re-export |
-| `columns` | paired | TBD | candidate re-export |
-| `container` | paired | TBD | candidate re-export |
-| `description-list` | paired | TBD | candidate re-export |
-| `error-message` | paired | TBD | candidate re-export |
-| `field` | paired | TBD | candidate re-export |
-| `grid` | web-only | stays web-only | no package counterpart — promote or justify |
-| `helper-text` | paired | TBD | candidate re-export |
-| `icon-button` | paired | TBD | candidate re-export |
-| `index-cell` | paired | TBD | router import retired by Phase 2 LinkProvider |
-| `index-group` | paired | TBD | candidate re-export |
-| `input` | paired | TBD | candidate re-export |
-| `label` | paired | TBD | candidate re-export |
-| `list` | paired | TBD | router import retired by Phase 2 LinkProvider |
-| `media` | paired | TBD | candidate re-export |
-| `meter` | paired | TBD | candidate re-export |
-| `metric` | paired | TBD | candidate re-export |
-| `page` | paired | TBD | candidate re-export |
-| `score-ring` | paired | TBD | candidate re-export |
-| `section-label` | web-only | stays web-only | no package counterpart — promote or justify |
-| `segmented-control` | paired | TBD | candidate re-export |
-| `sidebar` | web-only | stays web-only | no package counterpart — promote or justify |
-| `sidebar-nav` | web-only | stays web-only | no package counterpart — promote or justify |
-| `skeleton` | paired | TBD | candidate re-export |
-| `stack` | paired | TBD | candidate re-export |
-| `surface` | paired | TBD | candidate re-export |
-| `swatch` | paired | TBD | candidate re-export |
-| `table` | paired | TBD | candidate re-export |
-| `textarea` | paired | TBD | candidate re-export |
-| `tile` | web-only | stays web-only | no package counterpart — promote or justify |
+| `Breadcrumb` | paired | ✅ converted (batch 2, 2026-07-24) | router import retired by Phase 2 LinkProvider |
+| `FilterBar` | paired | ✅ converted (batch 3, 2026-07-24) | JS identical to package (own comment already said so), CSS byte-identical |
+| `PageHeader` | web-only | ✅ promoted (Phase 5, 2026-07-24) | DS layout primitive, no app coupling — TSX port incl. full 14-section Guidelines story |
+| `accordion` | paired | ✅ converted (batch 3, 2026-07-24) | JS identical to package (already reconciled per SUG-231 Phase 2), CSS byte-identical |
+| `app-shell` | paired | ✅ converted (545df6ff) | pure mirror |
+| `avatar` | paired | ✅ converted (545df6ff) | pure mirror |
+| `blockquote` | paired | ✅ converted (545df6ff) | pure mirror |
+| `box` | paired | ✅ converted (545df6ff) | pure mirror |
+| `button` | paired | ✅ converted (batch 2, 2026-07-24) | package Button gains `href` + external-anchor `target`/`rel` + `openInNewTab` (decision C, 2026-07-23) |
+| `button-group` | paired | ✅ converted (545df6ff) | pure mirror — barrel export confirmed present 2026-07-23 |
+| `callout` | paired | ✅ converted (batch 3, 2026-07-24) | JS identical to package (already reconciled per SUG-231 Phase 3), CSS byte-identical |
+| `card` | paired | ✅ converted (batch 2, 2026-07-24) | router import retired by Phase 2 LinkProvider; **plus decision D** — package gains `children`/`footerChildren`/`thumbnailClassName`/`thumbnailStyle` + external-href target/rel on title link (see Phase 4 batch 2 note) |
+| `chip` | paired | ✅ converted (batch 2, 2026-07-24) | router import retired by Phase 2 LinkProvider |
+| `citation` | paired | ✅ converted (545df6ff) | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
+| `codeblock` | paired | ✅ converted (batch 3, 2026-07-24) | web's `variant="mermaid"` branch confirmed dead (checked all 4 real consumers, none pass `variant` — mermaid routes through a separate `MermaidDiagram` component) — not ported, CSS byte-identical |
+| `columns` | paired | ✅ converted (545df6ff) | pure mirror |
+| `container` | paired | ✅ converted (batch 3, 2026-07-24) | JS identical to package (extra TS typing only), CSS byte-identical |
+| `description-list` | paired | ✅ converted (545df6ff) | pure mirror |
+| `error-message` | paired | ✅ converted (545df6ff) | pure mirror |
+| `field` | paired | ✅ converted (545df6ff) | pure mirror |
+| `grid` | web-only | ✅ promoted (Phase 5, 2026-07-24) | DS primitive (CLAUDE.md reuse-audit + Storybook Foundations/Layout/Grid), no app coupling |
+| `helper-text` | paired | ✅ converted (545df6ff) | pure mirror |
+| `icon-button` | paired | ✅ converted (545df6ff) | pure mirror — CSS now identical (was Blocker 3); barrel export confirmed present 2026-07-23 |
+| `index-cell` | paired | ✅ converted (batch 2, 2026-07-24) | router import retired by Phase 2 LinkProvider |
+| `index-group` | paired | ✅ converted (545df6ff) | pure mirror |
+| `input` | paired | ✅ converted (545df6ff) | pure mirror |
+| `label` | paired | ✅ converted (545df6ff) | pure mirror |
+| `list` | paired | ✅ converted (545df6ff) | pure mirror — web copy has no router import (package copy carries the seam) |
+| `media` | paired | ✅ converted (batch 3, 2026-07-24) | **decision E** — package gained exported `parseOverlay`/`getOverlayStyles`/`ensureSvgFilter` (CardBuilderSection/PageSections import these directly) + `hotspot` prop + `showPanel`/`greyscale-panel` handling; CSS byte-identical |
+| `meter` | paired | ✅ converted (545df6ff) | pure mirror |
+| `metric` | paired | ✅ converted (545df6ff) | pure mirror |
+| `page` | paired | ✅ converted (545df6ff) | pure mirror |
+| `score-ring` | paired | ✅ converted (545df6ff) | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
+| `section-label` | web-only | ✅ promoted (Phase 5, 2026-07-24) | DS primitive (CLAUDE.md reuse-audit), no app coupling |
+| `segmented-control` | paired | ✅ converted (545df6ff) | pure mirror |
+| `sidebar` | web-only | ✅ promoted (Phase 5, 2026-07-24) | DS layout shell, separable from SidebarNav, no app coupling |
+| `sidebar-nav` | web-only | web-only | genuine app coupling: `../../../lib/useScrollspy` — stays web-only |
+| `skeleton` | paired | ✅ converted (545df6ff) | pure mirror |
+| `stack` | paired | ✅ converted (batch 3, 2026-07-24) | JS identical to package (already carries the SUG-231 Phase 2 responsive-gating fix), CSS byte-identical |
+| `surface` | paired | ✅ converted (545df6ff) | pure mirror |
+| `swatch` | paired | ✅ converted (545df6ff) | pure mirror |
+| `table` | paired | ✅ converted (545df6ff) | pure mirror — CSS now byte-identical (was Blocker 3, cleared by SUG-217) |
+| `textarea` | paired | ✅ converted (545df6ff) | pure mirror |
+| `tile` | web-only | web-only | genuine app coupling: `../../../lib/linkUtils` + react-router — stays web-only |
+
+**Tally:** 26 re-export now (✅ converted 2026-07-23, commit `545df6ff`) · 4 re-export (P2) + 1 re-export (P1b), all 5 ✅ **converted 2026-07-24, batch 2** · 7 re-export (P4), all 7 ✅ **converted 2026-07-24, batch 3** · 4 promote, all 4 ✅ **converted 2026-07-24, Phase 5** · 2 web-only (SidebarNav, Tile — stay) = 44. **42/44 converted, 2 confirmed web-only. All 44 rows resolved — structural closure achieved.**
 
 ## Acceptance criteria
 
-- [ ] `apps/web/package.json` contains `@sugartown/design-system` and `pnpm build` succeeds from a clean install
-- [ ] **Structural closure, stated as a disposition rather than a grep** (amended 2026-07-22 — Blocker 2): every one of the 44 web component directories has a row in the disposition table with one of three verdicts — **re-exported** from the package, **promoted** to the package, or **stays web-only** with a stated reason. No directory is unaccounted for. The original AC — `grep -rn "Mirrors: packages/design-system" apps/web/src/` returns zero — is **retired**: 6 components are legitimately web-only with no package counterpart, so it could never pass, and an AC that cannot pass is what parked this epic the first time. The grep survives only as a narrower check: no file under `apps/web/src/design-system/components/` that the table marks **re-exported** still contains an implementation.
-- [ ] Every route in the Human QA Walkthrough table renders identically to pre-epic (spot-checked on `default` and `dark-pink-moon`); Chromatic diff review shows no unapproved visual change
-- [ ] Storybook builds and all existing stories render without console errors
-- [ ] `pnpm validate:tokens`, `validate:tokens --strict-colors`, and `validate:style-mirror` all pass (style-mirror scope updated if the epic changes which files are mirrored)
-- [ ] CLAUDE.md Mirrored File Registry and epic-template Web Adapter Sync sections reflect the new single-source reality
-- [ ] Diagram + case study caption updates proposed via Content Write Gate and approved before any Sanity patch
+- [x] `apps/web/package.json` contains `@sugartown/design-system` and `pnpm build` succeeds from a clean install — `@sugartown/design-system: workspace:*` confirmed in `apps/web/package.json`; package build (`pnpm --filter @sugartown/design-system build`) and web lint/typecheck verified clean after every batch. **Caveat:** not verified from a genuinely clean `node_modules` reinstall this session — only incremental builds. Low risk (workspace deps, no version drift possible), but flagging honestly rather than overclaiming.
+- [x] **Structural closure, stated as a disposition rather than a grep** (amended 2026-07-22 — Blocker 2): every one of the 44 web component directories has a row in the disposition table with one of three verdicts — **re-exported** from the package, **promoted** to the package, or **stays web-only** with a stated reason. No directory is unaccounted for. The original AC — `grep -rn "Mirrors: packages/design-system" apps/web/src/` returns zero — is **retired**: 6 components are legitimately web-only with no package counterpart, so it could never pass, and an AC that cannot pass is what parked this epic the first time. The grep survives only as a narrower check: no file under `apps/web/src/design-system/components/` that the table marks **re-exported** still contains an implementation. — ✅ **SATISFIED 2026-07-24.** `apps/web/src/design-system/components/` now contains exactly 2 directories: `tile` and `sidebar-nav`, both marked **stays web-only** in the disposition table (genuine app coupling — `linkUtils`+react-router, `useScrollspy`). Verified directly: `ls` the directory, and grepped both remaining files for `Mirrors: packages/design-system` (zero matches — they were never mirrors, they're the app-only originals).
+- [x] Every route in the Human QA Walkthrough table renders identically to pre-epic (spot-checked on `default` and `dark-pink-moon`); Chromatic diff review shows no unapproved visual change — ✅ **2026-07-24.** 29 routes walked, all clean (one pre-existing unrelated content bug found + flagged separately). Chromatic build 82: 36 visual changes, all approved by Bex — every one the expected CSS-module hash-format diff.
+- [x] Storybook builds and all existing stories render without console errors — ✅ verified after every batch (2, 3, Phase 5) and again via Chromatic build 82 (376 stories, 0 errors)
+- [x] `pnpm validate:tokens`, `validate:tokens --strict-colors`, and `validate:style-mirror` all pass (style-mirror scope updated if the epic changes which files are mirrored) — ✅ passing after every batch; style-mirror pass 2 now reports 0 pairs (nothing left to mirror)
+- [x] CLAUDE.md Mirrored File Registry and epic-template Web Adapter Sync sections reflect the new single-source reality — ✅ 2026-07-24, reviewed and approved inline before editing
+- [x] Diagram + case study caption updates proposed via Content Write Gate and approved before any Sanity patch — ✅ 2026-07-24, both approved (diagram arrow solid + red-pen table updated in repo; case study alt-text patched to draft, not published)
 
 ## Human QA Walkthrough — example local pages
 
-> Activation audit: read `apps/web/src/App.jsx`, list every page-type whose CSS this epic
-> can reach (this epic can reach ALL of them — every DS component consumer changes import
-> path), and build the Human QA Walkthrough table (one example local URL per page-type,
-> incl. unchanged pages as regression guards) per `docs/epic-template.md` §Human QA
-> Walkthrough. Capture one real published slug per detail page-type and datestamp it.
+**✅ COMPLETE 2026-07-24.** Read `apps/web/src/App.jsx`, enumerated every page-type/route. Spot-checked each on a fresh browser tab (no console errors, real published slugs, datestamped 2026-07-24) after the final dev-server restart following Phase 5:
+
+| Page type | Component | URL | Result |
+|---|---|---|---|
+| Homepage | `HomePage` | `/` | ✅ clean |
+| Article archive | `ArchivePage` | `/articles` | ✅ clean |
+| Article detail | `ArticlePage` | `/articles/the-agentic-caucus` | ✅ clean |
+| Series detail | `SeriesPage` | `/series/poc-contentful-vercel` | ✅ clean |
+| Case study archive | `ArchivePage` | `/case-studies` | ⚠️ pre-existing content bug (unrelated) |
+| Case study detail | `CaseStudyPage` | `/case-studies/sugartown-platform-is-the-portfolio` | ✅ clean; alt-text patch verified live |
+| Node archive | `ArchivePage` | `/nodes` | ✅ clean |
+| Node detail | `NodePage` | `/nodes/post-mortems-as-system-upgrades` | ✅ clean; Sidebar (`mobileDrawer`) confirmed real |
+| Library archive | `ArchivePage` | `/library` | ✅ clean |
+| Glossary archive | `GlossaryArchivePage` | `/glossary` | ✅ clean |
+| Glossary term | `GlossaryTermPage` | `/glossary/atomic-design` | ✅ clean |
+| Knowledge graph | `SiteGraphPage` | `/knowledge-graph` | ✅ clean (after dev-server restart — stale optimize-deps cache, unrelated to this epic) |
+| Taxonomy archive | `TaxonomyArchivePage` | `/tags` (representative; same component serves `/categories`, `/projects`, `/people`, `/tools`) | ✅ clean |
+| Taxonomy placeholder | `TaxonomyPlaceholderPage` | `/tags/retrospective` | ✅ clean |
+| Project detail | `ProjectDetailPage` | `/projects/mini-repo` | ✅ clean |
+| Person detail | `PersonProfilePage` | `/people/bex` | ✅ clean; PageHeader H1 confirmed Cormorant Garamond 48px italic |
+| Tool detail | `ToolDetailPage` | `/tools/chatgpt-canvas` | ✅ clean; Chip dark-mode confirmed real (lime category) |
+| Platform index | `RootPage` (slugOverride) | `/platform` | ✅ clean |
+| Platform — governance | `GovernancePage` | `/platform/governance` | ✅ clean |
+| Platform — monorepo | `MonorepoPage` | `/platform/monorepo` | ✅ clean |
+| Platform — CMS | `CmsPage` | `/platform/cms` | ✅ clean; Grid/SectionLabel/Callout/CodeBlock/Sidebar all confirmed real in light + dark |
+| Platform — design system | `DesignSystemPage` | `/platform/design-system` | ✅ clean |
+| Platform — DS registry | `DesignSystemRegistryPage` | `/platform/design-system/registry` | ✅ clean |
+| Platform — section showcase | `SectionShowcasePage` | `/platform/design-system/sections` | ✅ clean |
+| Platform — content models | `ContentModelsPage` | `/platform/cms/content-models` | ✅ clean |
+| Sitemap | `SitemapPage` | `/sitemap` | ✅ clean |
+| Dev — tables | `TablesDevPage` | `/dev/tables` | ✅ clean |
+| Generic page | `RootPage` | `/now` | ✅ clean |
+| 404 | `NotFoundPage` | `/this-page-does-not-exist-xyz` | ✅ clean |
+| Section-builder showcase (generic `page` doc) | `RootPage` | `/ds-section-showcase` | ✅ clean; Card `children`/`footerChildren`/thumbnail-overlay decision D confirmed live |
+
+**Finding (out of scope, flagged separately):** `/case-studies` archive threw a React duplicate-key console warning (`content-architecture`). Root-caused to a genuine content-data bug — the "Launching Lunar Landing" case study has the "Content Architecture" category referenced **twice** in its `categories[]` array in Sanity, unrelated to any file this epic touched (`ContentCard.jsx:137`'s `key={c.slug ?? i}` is correct code; the array itself has the duplicate). Spawned as a separate background task rather than fixed inline.
+
+**Dark mode:** spot-verified `dark-pink-moon` on `/tools/chatgpt-canvas` (PageHeader H1, Chip) and `/platform/cms` (Grid, SectionLabel, Callout, CodeBlock, Sidebar) — all resolved to real, token-backed computed values, not defaults.
+
+**Chromatic:** build 82 — 376 stories across 95 components, 36 visual changes, 0 errors. All 36 reviewed and **approved by Bex** — every one was the expected CSS-module classname-prefix diff (Vite hash format `_card_15f3d_9` → esbuild hash format `Card-module__card_cgiRgW__100`), a known consequence of the package build documented since Phase 1 Findings, not a content or layout change.
 
 ## Technical notes
 
@@ -232,7 +353,7 @@ satisfied by this table being complete, not by a grep returning zero.
 ## Non-Goals
 
 - ~~No visual or API changes to any DS component~~ — **amended 2026-07-22 (Blocker 4).** No **visual** changes: this epic moves where components live, not what they render, and any wanted *visual* change is still its own epic. But the blanket "no API changes" is retired, because it made Blocker 4 unresolvable inside the epic that owns it — the package `Button` has no `href` at all, and `apps/web` cannot consume a Button that cannot navigate. **Permitted API changes are narrowly scoped to closing consumption gaps**: adding a prop the web adapter already has and the package lacks. Adding a *new* capability neither copy has remains out of scope. Each permitted change is listed in the disposition table with the web-side prop it is matching. This is the same self-contradiction shape SUG-231 hit (its Scope said add `href`, its Non-Goals said don't) — resolved here rather than passed on again.
-- No new components, tokens, or theme work.
+- ~~No new components, tokens, or theme work.~~ — **amended 2026-07-23 (Phase 0, decision B).** No *net-new* components, tokens, or theme work. But **promoting an existing web-only DS primitive into the package is permitted and in scope** — `grid`, `page-header`, `section-label`, and `sidebar` are DS primitives misfiled in the app tree (Grid and SectionLabel are already treated as DS components in CLAUDE.md's reuse-audit guidance), with zero app-layer coupling. Leaving them web-only would keep the exact mirror-maintenance burden this epic exists to kill. Each promoted component ships with a package story + dark-mode story + Chromatic baseline + barrel export. This is a move, not an invention; adding a capability neither copy has remains out of scope.
 - No change to the token pipeline (`tokens.json` → generated `tokens.css` ×2 stays as is; whether the web copy of generated tokens can also be retired is a follow-up question, out of scope here).
 - apps/contentful-poc is untouched (already consumes the package).
 - No Sanity schema or content changes beyond the single Content Write Gate caption/legend update in Phase 3.

@@ -10,7 +10,7 @@
  */
 import { useState, useEffect } from 'react'
 import { Sun, Moon } from 'lucide-react'
-import IconButton from '../design-system/components/icon-button/IconButton'
+import { IconButton } from '@sugartown/design-system'
 
 const STORAGE_KEY = 'st-theme'
 const LIGHT = 'light-pink-moon'

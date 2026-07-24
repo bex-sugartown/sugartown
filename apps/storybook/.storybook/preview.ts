@@ -9,6 +9,20 @@ import '../../../packages/design-system/src/styles/theme.light.css';
 import '../../../packages/design-system/src/styles/theme.pink-moon.css';
 import '../../../packages/design-system/src/styles/theme.shop.css';
 
+// Package component CSS (SUG-224 Phase 4) — required for any story that renders
+// a component consumed via the built @sugartown/design-system package output
+// rather than package source. Stories under packages/design-system/src/**
+// import component .tsx files directly, so Vite processes their own
+// .module.css normally and this import is a no-op for them. But apps/web's
+// design-system barrel (apps/web/src/design-system/index.js) now re-exports
+// many components from the built package, and any apps/web story that
+// composes those (Patterns/*, page-level stories) needs this bundle — its
+// classnames are hashed by the package's own esbuild build, not Vite's.
+// Same fix as apps/web/src/main.jsx; see that file's comment for the full
+// reasoning. Harmless duplication for the tokens/theme/globals/utilities
+// rules already imported above from source — same values, different hash.
+import '@sugartown/design-system/styles.css';
+
 // Override Storybook's hardcoded-white Docs canvas boxes to respect data-theme
 import './docs-overrides.css';
 

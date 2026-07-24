@@ -15,7 +15,7 @@
  *   - Prev/Next disabled (not just styled) when at edges
  *   - All interactive elements are semantic <button> elements
  */
-import IndexCell from '../design-system/components/index-cell/IndexCell'
+import { IndexCell } from '@sugartown/design-system'
 import styles from './Pagination.module.css'
 
 // ─── Page number list builder ─────────────────────────────────────────────────

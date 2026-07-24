@@ -1,8 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import Button from '../design-system/components/button/Button'
-import Field from '../design-system/components/field/Field'
-import Input from '../design-system/components/input/Input'
-import Textarea from '../design-system/components/textarea/Textarea'
+import { Button, Field, Input, Textarea } from '@sugartown/design-system'
 import styles from './Form.module.css'
 
 const RECAPTCHA_SITE_KEY = '6Lcf9pMsAAAAAOM7s8cUPaoyhFEnV3WE5cZfXusG'

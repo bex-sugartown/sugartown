@@ -1,5 +1,5 @@
 import Link from './atoms/Link'
-import Container from '../design-system/components/container/Container'
+import { Container } from '@sugartown/design-system'
 import styles from './Preheader.module.css'
 
 /**

@@ -76,6 +76,61 @@ export const Tertiary: Story = {
   args: { children: 'Tertiary Button', variant: 'tertiary' },
 };
 
+export const AsExternalLink: Story = {
+  name: 'As link — external href',
+  args: {
+    children: 'Visit sugartown.io',
+    variant: 'primary',
+    href: 'https://sugartown.io',
+    iconAfter: <ExternalLink size={ICON_SIZE} aria-hidden />,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Renders `<a target="_blank" rel="noopener noreferrer">` for any href with a URL scheme ' +
+          '(SUG-224 Phase 1b — decided to bring target/rel to the package Button rather than the ' +
+          'seam default, since a Button that silently drops external-tab behaviour on consumption ' +
+          'would be a functional regression for the web adapter Button being merged in).',
+      },
+    },
+  },
+};
+
+export const AsInternalLink: Story = {
+  name: 'As link — internal href, no LinkProvider',
+  args: { children: 'Internal link', variant: 'secondary', href: '/articles' },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'No `LinkProvider` is mounted in Storybook, so the DS Link seam (SUG-230) falls back to a ' +
+          'plain `<a>` — its documented default. In apps/web (after Phase 2 mounts a `LinkProvider`), ' +
+          'this same href renders via react-router `<Link>` for SPA navigation instead.',
+      },
+    },
+  },
+};
+
+export const AsLinkOpenInNewTab: Story = {
+  name: 'As link — internal href, openInNewTab',
+  args: {
+    children: 'Force new tab',
+    variant: 'tertiary',
+    href: '/articles',
+    openInNewTab: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`openInNewTab` forces external-style rendering (target/rel) even for an internal href — ' +
+          'matches the Sanity `openInNewTab` field on link/ctaButton objects.',
+      },
+    },
+  },
+};
+
 // Chromatic VRT — all variant × state combinations in one snapshot
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
@@ -114,6 +169,14 @@ export const Snapshot: Story = {
           <Button variant="primary" iconBefore={<Plus size={ICON_SIZE} aria-hidden />} iconAfter={<ArrowRight size={ICON_SIZE} aria-hidden />}>Both</Button>
           <Button variant="tertiary" iconBefore={<X size={ICON_SIZE} aria-hidden />}>Clear</Button>
           <Button variant="secondary" iconAfter={<ExternalLink size={ICON_SIZE} aria-hidden />}>Open</Button>
+        </div>
+      </div>
+      <div>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888', fontFamily: 'monospace' }}>As link (href)</p>
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
+          <Button variant="primary" href="https://sugartown.io" iconAfter={<ExternalLink size={ICON_SIZE} aria-hidden />}>External</Button>
+          <Button variant="secondary" href="/articles">Internal (no provider → &lt;a&gt;)</Button>
+          <Button variant="tertiary" href="/articles" openInNewTab>Internal, openInNewTab</Button>
         </div>
       </div>
     </div>
