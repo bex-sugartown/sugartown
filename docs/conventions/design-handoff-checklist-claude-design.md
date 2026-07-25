@@ -113,7 +113,7 @@ CSS system:       CSS Modules + --st-* design tokens — no inline styles, no Ta
 
 A handoff ready for Claude Code to implement without a correction cycle includes:
 
-1. **Visual output** — HTML mock or screenshot showing the design
+1. **Visual output** — vspec or screenshot showing the design
 2. **Stack declaration** — verbatim block from §1 above
 3. **Token table** — every design decision mapped to a `--st-*` token (§2)
 4. **Schema field table** — every data field named, sourced from the schema (§3)

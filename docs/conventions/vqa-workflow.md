@@ -1,8 +1,8 @@
 # Visual QA Workflow
 
 **Origin:** SUG-195 (2026-06-30). Sugartown's VQA gate is defined in CLAUDE.md
-§Visual Verification Rules: after every implementation epic, a mock-to-
-implementation comparison table flags every visual element as Match / Drift /
+§Visual Verification Rules: after every implementation epic, a vspec-to-build
+comparison table flags every visual element as Match / Drift /
 Missing, presented to Bex before close-out, blocked until the explicit text
 **"Visual QA approved."**
 
@@ -45,7 +45,7 @@ Examples:
 ### What it reads
 
 - The component/page CSS module and JSX under `apps/web/src/`.
-- The Phase 0 mock at `docs/drafts/SUG-{N}-*.html`, if one exists.
+- The Phase 0 vspec at `docs/drafts/SUG-{N}-*.vspec.html`, if one exists.
 - The token source of truth `apps/web/src/design-system/styles/tokens.css`.
 - It may run `pnpm validate:tokens` and `pnpm validate:tokens --strict-colors`
   for corroboration.
@@ -56,8 +56,8 @@ Six dimensions, each mapped to a CLAUDE.md rule:
 
 1. **Token compliance** — every colour/font property resolves through a
    `--st-*` token; raw hex/rgba/hsla is a Blocker; referenced tokens must exist.
-2. **Phase 0 mock comparison** — typography, spacing, colour, layout against the
-   mock when one is present.
+2. **Phase 0 vspec comparison** — typography, spacing, colour, layout against the
+   vspec when one is present.
 3. **Component choice** — DS-primitive reuse; raw `<table>`/`<button>` or
    re-implemented primitives are Drift.
 4. **Spacing contract** — no hardcoded `px` margins/padding; section-break
