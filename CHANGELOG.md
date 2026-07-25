@@ -16,6 +16,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 - SUG-229: Convert remaining human-gate skills to AskUserQuestion — `/mini-release`, `/morning`, `/eod`, `/switch`, `/new-epic`, `/glossy`, `/chromatic`, `docs/epic-template.md`, `/update-cwv` converted; new approval gates added to `sugartown-prd-writer` and `sugartown-epic-writer`
 - SUG-246: Linear workflow status sync — Backlog/Todo/In Progress/Done transitions wired into `/new-epic`, activation, and close-out; backfilled 3 missing `blockedBy` relations and fixed 2 priority drifts found by direct Linear audit
+- SUG-242: Vspec rename + prototype trigger — Phase 0 artifact renamed from "mock" to "vspec" across CLAUDE.md, `docs/epic-template.md`, and 3 convention/agent files, including the design-reviewer subagent's runtime glob; adds a `docs/shipped/` durability rule and a mechanical prototype-fidelity trigger
 
 ---
 
