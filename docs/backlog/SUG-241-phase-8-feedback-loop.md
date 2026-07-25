@@ -83,21 +83,23 @@ than judgment alone.
   (`registry:build`, `migrate:taxonomy`), not a workspace-scoped one.
 
 **Phase 2 — Process loop + retrospective trigger**
-- [ ] Add a friction line to `docs/epic-template.md`'s Post-Epic Close-Out and
+- [x] Add a friction line to `docs/epic-template.md`'s Post-Epic Close-Out and
   Definition of Done: "What cost a correction commit this time" (one sentence,
-  required, `none` is a valid answer)
-- [ ] Document the three-strike counting rule in CLAUDE.md: when the same friction
+  required, `none` is a valid answer) — added to Post-Epic Close-Out (step 3b) and
+  Acceptance Criteria (no literal "Definition of Done" heading exists in this file)
+- [x] Document the three-strike counting rule in CLAUDE.md: when the same friction
   (by plain-language similarity, human judgment call, not string matching) appears in
   three shipped docs, run `/post-mortem` against the pattern. **Diff shown, approved,
   before writing.**
-- [ ] Write `docs/conventions/feedback-loop.md` describing the monthly cadence and the
+- [x] Write `docs/conventions/feedback-loop.md` describing the monthly cadence and the
   three-strike rule in one place, referenced from CLAUDE.md and the epic template rather
   than duplicated in both
 
 **Phase 3 — Proof of format**
-- [ ] One backfilled evidence block, written from the last month of real
+- [x] One backfilled evidence block, written from the last month of real
   `stats.json` history, as proof the script's output format is actually useful before
-  relying on it going forward
+  relying on it going forward — real git history (`git show <sha>:...stats.json` from
+  2026-06-25), not synthetic data; delivered as part of Phase 1's commit
 
 ## Non-Goals [REQUIRED]
 
@@ -138,16 +140,29 @@ than judgment alone.
 
 ## Acceptance Criteria [REQUIRED]
 
-- [ ] Script runs and appends a correctly formatted dated block
-- [ ] Re-running on the same day does not duplicate the block (idempotent)
-- [ ] Every value in the block traces to a real `stats.json` source — zero fabricated or
-  defaulted numbers; unavailable sources write `unavailable`, not `0`
-- [ ] Friction line present in `docs/epic-template.md`'s Definition of Done
-- [ ] Three-strike trigger documented in CLAUDE.md with an explicit counting rule and an
-  explicit statement that similarity judgment is human, not mechanical
-- [ ] One backfilled block written from real historical `stats.json` data, as proof the
-  format works
-- [ ] The CLAUDE.md diff was shown and approved before writing
+- [x] Script runs and appends a correctly formatted dated block — verified live,
+  `pnpm collect:evidence-digest`
+- [x] Re-running on the same day does not duplicate the block (idempotent) — verified
+  live across 4 runs (today twice, a historical backfill, today again after the
+  backfill); caught and fixed two real bugs in the process (see Phase 1 commit message)
+- [x] Every value in the block traces to a real `stats.json` source — zero fabricated or
+  defaulted numbers; unavailable sources write `unavailable`, not `0` — verified: CrUX
+  is genuinely unavailable in the live data (`no-api-key`) and the block says so
+- [x] Friction line present in `docs/epic-template.md` — no literal "Definition of Done"
+  heading exists (same grounding gap SUG-242 hit in this file); added to both
+  Acceptance Criteria and Post-Epic Close-Out step 3b instead
+- [x] Three-strike trigger documented in CLAUDE.md with an explicit counting rule and an
+  explicit statement that similarity judgment is human, not mechanical — new
+  "Process feedback loop" subsection, points to `docs/conventions/feedback-loop.md`
+- [x] One backfilled block written from real historical `stats.json` data, as proof the
+  format works — `git show`'d the real 2026-06-25 commit of `stats.json` (not
+  synthetic data) and ran the script against it with `--stats-path`/`--date`; both the
+  2026-06-25 and 2026-07-25 blocks are live in `docs/backlog/sugartown-backlog-priorities.md`
+- [x] The CLAUDE.md diff was shown and approved before writing — confirmed; also caught
+  and corrected mid-epic that `docs/epic-template.md` and the new
+  `docs/conventions/feedback-loop.md` file are equally covered by the same gate (both
+  are explicitly named in CLAUDE.md's Instruction & Rule File Write Gate scope) — those
+  two were written before the gate fired and corrected retroactively before committing
 
 ## Risks / Edge Cases [REQUIRED]
 
@@ -159,6 +174,15 @@ than judgment alone.
   the loop produces no signal. Not solved by this epic mechanically — worth a spot-check
   after the first 5–10 shipped docs post-launch to confirm the line is actually being
   used honestly.
+
+## Friction line [REQUIRED — step 3b]
+
+Two rule-defining files (`docs/epic-template.md`, `docs/conventions/feedback-loop.md`)
+were written before the Instruction & Rule File Write Gate fired for them — both are
+explicitly in its scope, and I initially only gated the CLAUDE.md edit. Caught and
+corrected before committing (diff shown, approved retroactively), so no separate
+correction commit resulted — but it's the same failure shape as any other missed gate,
+worth recording rather than letting the clean outcome erase the near-miss.
 
 ## Post-Epic Close-Out [REQUIRED]
 
