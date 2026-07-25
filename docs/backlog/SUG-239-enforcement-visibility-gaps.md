@@ -152,28 +152,55 @@ design-reviewer subagent as the producer of the VQA table's evidence, linking
 
 ## Files to Modify [REQUIRED]
 
-- `.husky/pre-commit` — add two validator calls + the meta-check — Phase 1/1b
+- `.husky/pre-commit` — add `validate:css-names` + `validate:validators` — Phase 1/1b
+- `.github/workflows/ci.yml` — add `validate:taxonomy` job (deviation from literal
+  scope — see AC; same Sanity-secrets pattern as `validate:urls`/`validate:filters`) —
+  Phase 1
+- `apps/web/scripts/validate-tokens.js` — remove `--check-sync` flag + dead helpers —
+  Phase 1
+- `apps/web/package.json`, `package.json` (root) — remove `validate:tokens:sync`, add
+  `validate:validators` — Phase 1/1b
 - `scripts/validate-validators.js` — CREATE — Phase 1b
-- `package.json` (root) — add `validate:validators` script entry — Phase 1b
 - `CLAUDE.md` — close-out step 3, one new sentence + link — Phase 2 (gated)
+- `apps/web/src/pages/platform/ContentModelsPage.{jsx,module.css}` — pre-existing
+  `validate:css-names` violation fixed before the hook could go blocking (not
+  originally listed; required by the epic's own Risk section)
 
 ## Deliverables [REQUIRED]
 
-1. `validate:css-names` and `validate:taxonomy` block commits on violation
+1. `validate:css-names` blocks commits on violation (pre-commit); `validate:taxonomy`
+   blocks CI builds on violation (CI, not pre-commit — see AC deviation)
 2. `validate:validators` exists and fails on any unwired `validate:*` script
 3. CLAUDE.md close-out step 3 names the design-reviewer subagent
 
 ## Acceptance Criteria [REQUIRED]
 
-- [ ] `.husky/pre-commit` runs `validate:css-names` and `validate:taxonomy`; a
-  deliberately seeded violation of each blocks the commit
-- [ ] `validate:validators` fails when a test `validate:*` script is added to
-  `package.json` without hook/CI wiring or an allowlist entry, and passes once wired
-- [ ] `validate:tokens:sync` is either wired into pre-commit or removed — not left
-  ambiguous — with the decision and one-sentence reasoning recorded in this doc
-- [ ] `grep -n "design-reviewer" CLAUDE.md` returns ≥1 hit in the close-out section
-- [ ] The CLAUDE.md diff was shown and approved before writing, confirmed by the
+- [x] `.husky/pre-commit` runs `validate:css-names`; a deliberately seeded violation
+  blocks the commit — confirmed via the real pre-existing `.taxonomyNote` violation
+  found and fixed during Phase 1. **Deviation from literal scope, approved
+  mid-execution:** `validate:taxonomy` was wired into `.github/workflows/ci.yml`
+  instead of `.husky/pre-commit` — it hits the live Sanity API, which the pre-commit
+  hook's own header comment explicitly excludes ("validators that require Sanity API
+  run manually pre-PR"), same reason `validate:urls`/`validate:filters` are CI-only.
+  Blocks the CI build on a real error-level finding (`errors > 0` exit path), not
+  local commits.
+- [x] `validate:validators` fails when a test `validate:*` script is added to
+  `package.json` without hook/CI wiring or an allowlist entry, and passes once
+  removed — verified via a live smoke test (added `validate:smoke-test-orphan`,
+  confirmed exit 1 + correct error output, reverted)
+- [x] `validate:tokens:sync` removed (not wired) — decision + reasoning recorded above
+  in Context: it diffs `:root` values between exactly the two files
+  `validate:style-mirror` already requires to be byte-identical, so it can never fail
+  when style-mirror passes. Pure redundancy.
+- [x] `grep -n "design-reviewer" CLAUDE.md` returns ≥1 hit in the close-out section —
+  confirmed
+- [x] The CLAUDE.md diff was shown and approved before writing, confirmed by the
   approval existing in the session transcript
+
+**Found during execution, not in original AC:** a fourth orphaned validator
+(`apps/studio`'s `validate:schema-parity`) — allowlisted with its real reason
+(comparison logic incomplete, not just unwired); follow-on task spun off to finish
+the actual diff logic before it's wired into CI.
 
 ## Risks / Edge Cases [REQUIRED]
 
