@@ -69,3 +69,18 @@ Not applicable — no shared CSS, token, layout, or multi-page component changes
 
 - **Linear:** [SUG-246](https://linear.app/sugartown/issue/SUG-246/linear-workflow-status-sync-priority-dependency-alignment)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time (Doc Type Coverage / Query Layer / Schema Enum Audit are not applicable to this epic since it touches no schema or GROQ; Files to Modify should be completed from the activation audits above).
+
+## Close-out summary (2026-07-25)
+
+All Scope items shipped in a single pass:
+
+- **Status transition convention**: documented as a 4-stage map (Backlog → Todo → In Progress → Done) in a new CLAUDE.md `### Linear status = workflow stage` section, `docs/epic-template.md`'s rewritten `## Epic Lifecycle` (now 3 stages: Backlog / Active / Shipped), and the `new-epic` skill's Invariants + Step 4 + Enforcement rules.
+- **Activation → In Progress hook**: `docs/epic-template.md` now instructs the transition immediately after the Pre-Execution Completeness Gate, before the first `Edit`/`Write` call. Verified live on this epic itself (SUG-246 was moved to `In Progress` at that exact point during its own execution).
+- **Priority-stack promotion → Todo hook**: added to `/new-epic` Step 4. Verified live — SUG-246 was moved to `Todo` when it was filed at the top of `## 01 · Next`.
+- **Dependency relation backfill**: the epic doc's original assumption — that no "blocked on SUG-X" prose statement had ever been mirrored to Linear — was **wrong**. Checked all 5 stated dependencies directly against live Linear relations (not doc text): `SUG-223→SUG-222` and `SUG-197→SUG-196` already had correct `blockedBy` relations. Three real gaps found and fixed: `SUG-244` (added `blockedBy SUG-245`), `SUG-72` (added `blockedBy SUG-71`), `SUG-181` (added `blockedBy SUG-179, SUG-71, SUG-72` — previously only loose `relatedTo` links, missing SUG-179 entirely). Confirmed via `get_issue(includeRelations: true)` after writing.
+- **Priority-field drift check**: spot-checked 6 open epics with canonical priority-emoji headers against live Linear values. Found and fixed 2 real drifts: `SUG-205` and `SUG-160` were both marked 🟢 Next (should be Linear priority 2/High) but sat at 3/Medium — corrected. Also surfaced a separate, out-of-scope finding: the 2026-07-24 process-hardening batch (SUG-238–245) uses a non-canonical priority-label vocabulary ("🔴 High" / "🟡 Medium" / "⚪ Low") that doesn't map unambiguously onto the Sugartown scheme — flagged as a background task rather than fixed here, since normalizing 8 epic docs' priority vocabulary is a larger, separate change than this epic's drift *check*.
+- **Ordering-parity investigation**: resolved as a documented gap, not implemented. Confirmed via the Linear MCP `save_issue` tool schema that only a 4-tier `priority` field is exposed — no manual sort-order field. CLAUDE.md's new section states the fallback explicitly: priority tier + Linear's own default sort.
+
+All three rule-file edits (CLAUDE.md, `docs/epic-template.md`, `.claude/skills/new-epic/docs/new-epic-prompt.md`) went through the Instruction & Rule File Write Gate — exact diff shown, approved by Bex before any edit was made.
+
+**Merge strategy note:** filed as (b) single close-out but the work was small enough to land in one session on `feat/sug-246-linear-workflow-status-sync`, merged to `main`, then closed out per the standard sequence.
