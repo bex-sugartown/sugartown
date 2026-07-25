@@ -10,15 +10,24 @@
 
 ## Epic Lifecycle
 
-Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequential EPIC numbers):
+Epics follow a three-stage lifecycle, tracked by **Linear issue ID** (not sequential EPIC
+numbers). Linear status is a byproduct of running this lifecycle, not a separately maintained
+field — see CLAUDE.md §Linear status = workflow stage (SUG-246).
 
 **1. Backlog** (`docs/backlog/SUG-{N}-{name}.md`)
 - When authoring a new epic, **create a corresponding Linear backlog item first**
 - Use the Linear issue ID in the filename: `SUG-30-image-treatments-gallery.md`
 - Update the **Linear Issue** field in the file header with the issue link
-- Status in Linear: **Backlog** or **Todo**
+- Status in Linear: **Backlog** (just filed) → **Todo** (promoted to the top of `## 01 · Next`
+  in the priority stack — `/new-epic` Step 4 sets this automatically)
 
-**2. Shipped** (when the epic is complete)
+**2. Active** (implementation underway)
+- Status in Linear: **In Progress** — set as soon as the Pre-Execution Completeness Gate below
+  is clean and code changes are about to begin, before the first `Edit`/`Write` call
+- Any cross-epic dependency stated in this doc ("blocked on SUG-X") must also exist as a real
+  Linear `blockedBy`/`blocks` relation (Linear MCP `save_issue`), not prose alone
+
+**3. Shipped** (when the epic is complete)
 - Move the file from `docs/backlog/` to `docs/shipped/`
 - Keep the same filename (e.g. `SUG-30-image-treatments-gallery.md`)
 - Remove the file from `docs/backlog/` (it now lives in `docs/shipped/`)
@@ -104,6 +113,10 @@ Epics follow a two-stage lifecycle, tracked by **Linear issue ID** (not sequenti
 - [ ] **Spike component selection (epics with a proof-of-concept phase)** — a spike proves the approach on the *simplest representative* case, never the most complex or most salient one. Name the chosen case and say why it is representative. (SUG-224 nominated `Card`, its most complex adapter, because Card carried the TODO comment that motivated the epic. Salience is not suitability.)
 - [ ] **Component registry update** — if this epic creates, retires, or structurally changes a component: `docs/conventions/component-registry.md` is updated in the same commit. New component = new row with all health columns filled (Storybook, dark mode, DS primitive or web-only, ⚠️ gaps). Retired component = row removed or marked deprecated. This is not a post-epic cleanup step — the registry is updated at creation time, before the component ships.
 - [ ] **Technical diagram red-pen gate** — if this epic produces or publishes any technical/architecture diagram: the diagram source (SVG or Mermaid) is committed to `docs/diagrams/` and the red-pen claim table (element → evidence → enforced-by-code / measured / convention / roadmap) is completed before upload. Captions and alt text count as claims. Roadmap items are drawn dashed/labelled, never as current state. See CLAUDE.md §Technical diagram red-pen gate.
+
+> **Once this gate is clean:** transition the Linear issue's `state` to `In Progress` via
+> `save_issue` before making the first `Edit`/`Write` call. This is the concrete
+> "implementation begins" moment referenced in §Epic Lifecycle above.
 
 ---
 

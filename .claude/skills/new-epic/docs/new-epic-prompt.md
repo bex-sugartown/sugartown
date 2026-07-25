@@ -22,6 +22,12 @@ This is a stub, not a full spec. The full spec is filled in when the epic is act
 - Nothing is written to disk until the Linear issue exists and has a confirmed ID.
 - The backlog file and priority stack entry are committed together in a single commit.
 - Do not pre-fill spec sections with guesses. Stub sections use "TODO" as a placeholder.
+- Linear status is a byproduct of this workflow, not separately maintained: `Backlog` at
+  creation → `Todo` when promoted to `## 01 · Next` (Step 4) → `In Progress` at activation
+  (`docs/epic-template.md` Pre-Execution Completeness Gate) → `Done` at close-out (CLAUDE.md
+  close-out sequence step 8).
+- A stated cross-epic dependency ("blocked on SUG-X") must be mirrored as a real Linear
+  `blockedBy`/`blocks` relation in the same step it's written, not left as prose alone (SUG-246).
 
 ---
 
@@ -227,6 +233,16 @@ Also update the header block at the top of the file:
 - Update the `> Updated` line with today's date and the new SUG-{N} addition
 - Update `⚑ Current focus` only if priority is 🔴 Now — otherwise leave unchanged
 
+**Sync Linear status:** if the epic's section is `## 01 · Next — high value, ready to pick up`,
+transition the Linear issue to `Todo` (it was created as `Backlog` in Step 1). For any other
+section (Soon/Later/Deferred), leave it as `Backlog` — do not set `Todo` prematurely.
+
+**Sync dependency relations:** if the invocation context or epic doc states an explicit
+"blocked on SUG-X" / "blocked by SUG-X" dependency, call `save_issue` on this epic's issue
+with `blockedBy: ["SUG-X"]` (or `blocks` on the blocking issue) in this same step — a
+dependency stated only as prose in the backlog doc is invisible to anyone using Linear as
+the priority queue (SUG-246).
+
 ---
 
 ## STEP 5 — COMMIT
@@ -246,7 +262,7 @@ Print:
 
 ```
 ━━━ NEW EPIC CREATED ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ✅  Linear: SUG-{N} → {url}
+  ✅  Linear: SUG-{N} → {url} (status: {Backlog|Todo})
   ✅  Backlog stub: docs/backlog/SUG-{N}-{kebab-name}.md
   ✅  Priority stack: added to {section name}
   ✅  Committed: docs(sug-{N}): add {epic name} backlog epic
@@ -273,6 +289,10 @@ using docs/epic-template.md as the reference.
     - "Stop — let me look at the existing one first"
   ```
 - If any Scope bullet touches CSS, a layout token, or a multi-page component, the stub MUST include the **Human QA Walkthrough** section (with the App.jsx activation instruction) — not as a `TODO`, but as the written activation audit. A CSS/layout epic stub without this section is incomplete.
+- Linear status must reflect the section the epic lands in: `Todo` for `## 01 · Next`,
+  `Backlog` otherwise. Never leave an epic that's actually next-up sitting in `Backlog`.
+- Any "blocked on/by SUG-X" dependency stated in Background/Technical notes must get a
+  matching Linear `blockedBy`/`blocks` relation before Step 5 (Commit).
 
 ---
 
