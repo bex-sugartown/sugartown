@@ -56,6 +56,15 @@ jobs:
           VITE_SANITY_DATASET: ${{ secrets.VITE_SANITY_DATASET }}
           VITE_SANITY_API_VERSION: ${{ secrets.VITE_SANITY_API_VERSION }}
 
+      - name: Validate schema parity
+        run: pnpm validate:schema-parity
+        env:
+          # Sanity CLI auth (schema list/manifest extract), NOT the VITE_SANITY_*
+          # content API vars used above. The @sanity/cli package only reads the
+          # token from an env var literally named SANITY_AUTH_TOKEN, so the repo
+          # secret (named SANITY_SCHEMA_PARITY) is mapped to that name here.
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_SCHEMA_PARITY }}
+
       - name: Build
         run: pnpm build
 

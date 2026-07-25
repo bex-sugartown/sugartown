@@ -14,6 +14,7 @@
     "validate:urls": "pnpm --filter web validate:urls",
     "validate:filters": "pnpm --filter web validate:filters",
     "validate:content": "pnpm --filter web validate:content",
+    "validate:schema-parity": "pnpm --filter studio validate:schema-parity",
     "tokens:build": "node sd.config.mjs",
     "tokens:migrate": "node tokens/scripts/migrate-css-to-json.mjs",
     "validate:tokens": "pnpm --filter web validate:tokens",
