@@ -70,7 +70,7 @@ function DocTypeSection({ docType, number }) {
           display field: <strong>{docType.displayField}</strong>
         </code>
         {docType.taxonomyNote && (
-          <span className={pageStyles.taxonomyNote}>{docType.taxonomyNote}</span>
+          <span className={pageStyles.fieldNote}>{docType.taxonomyNote}</span>
         )}
       </div>
       <TableWrap>

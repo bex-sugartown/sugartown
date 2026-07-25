@@ -45,7 +45,7 @@
   color: var(--st-color-text-secondary);
 }
 
-.taxonomyNote {
+.fieldNote {
   color: var(--st-color-text-secondary);
   font-size: var(--st-font-size-xs);
 }
