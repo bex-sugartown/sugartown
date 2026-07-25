@@ -2,7 +2,7 @@
 **Epic:** SUG-245 — GovernancePage accuracy pass (AI governance tiles, release diagram, stale source doc)
 **Linear Issue:** [SUG-245](https://linear.app/sugartown/issue/SUG-245/governancepage-accuracy-pass-ai-governance-tiles-release-diagram-stale)
 **Status:** Backlog
-**Priority:** 🔴 High — a live public page currently asserts something false ("0 gaps")
+**Priority:** 🔴 Now — a live public page currently asserts something false ("0 gaps"), and it blocks SUG-244
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 

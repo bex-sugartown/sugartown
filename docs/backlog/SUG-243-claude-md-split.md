@@ -2,7 +2,7 @@
 **Epic:** SUG-243 — Split CLAUDE.md (hard stops/conventions vs. rationale/incident history)
 **Linear Issue:** [SUG-243](https://linear.app/sugartown/issue/SUG-243/split-claudemd-hard-stopsconventions-vs-rationaleincident-history)
 **Status:** Backlog
-**Priority:** ⚪ Low — worth doing, not urgent, and must run last in this batch
+**Priority:** ⚪ Later — worth doing, not urgent, and must run last in this batch
 **Merge strategy:** (b) Single close-out — this epic should not be interleaved with the
 other five in this batch, since it restructures the file all of them are actively
 editing. See Risks.

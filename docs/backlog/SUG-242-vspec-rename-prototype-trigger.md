@@ -2,7 +2,7 @@
 **Epic:** SUG-242 — Vspec rename + prototype trigger (mock → visual spec)
 **Linear Issue:** [SUG-242](https://linear.app/sugartown/issue/SUG-242/vspec-rename-prototype-trigger-mock-visual-spec)
 **Status:** Backlog
-**Priority:** 🟡 Medium — docs-only, no code impact, but blocks nothing else in the queue
+**Priority:** 🟢 Next — docs-only, no code impact, but blocks nothing else in the queue
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 

@@ -2,7 +2,7 @@
 **Epic:** SUG-240 — Route smoke tests, five-route Playwright tripwire
 **Linear Issue:** [SUG-240](https://linear.app/sugartown/issue/SUG-240/route-smoke-tests-five-route-playwright-tripwire)
 **Status:** Backlog
-**Priority:** 🟡 Medium — real gap, not urgent; no route has actually gone blank recently
+**Priority:** 🟣 Soon — real gap, not urgent; no route has actually gone blank recently
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 

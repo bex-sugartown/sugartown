@@ -2,7 +2,7 @@
 **Epic:** SUG-238 — Epic → User Story decomposition (AC/DoD per story, Linear sub-issues)
 **Linear Issue:** [SUG-238](https://linear.app/sugartown/issue/SUG-238/epic-user-story-decomposition-acdod-per-story-linear-sub-issues)
 **Status:** Backlog
-**Priority:** 🟡 Medium — not blocking, but the PM-vibe gap is live feedback, not speculative
+**Priority:** 🟣 Soon — not blocking, but the PM-vibe gap is live feedback, not speculative
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 
