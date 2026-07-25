@@ -50,6 +50,10 @@ When creating a new epic in `docs/backlog/`:
 
 The `docs/shipped/` folder holds shipped epics. The `docs/backlog/` folder holds unscheduled and in-flight epics. Legacy `EPIC-NNNN` numbered files in `docs/shipped/` are retained as-is.
 
+### Process feedback loop — three-strike retrospective trigger
+
+Every shipped epic doc's Post-Epic Close-Out states one sentence: what cost a correction commit this time (`none` is a valid answer — `docs/epic-template.md` step 3b). When the same friction — by plain-language similarity, a human judgment call, **not a string match** — appears in three shipped docs, run `/post-mortem` against that pattern. Full mechanics, the monthly product-evidence loop it pairs with, and why this stays a human read rather than a mechanized check: `docs/conventions/feedback-loop.md` (SUG-241).
+
 ### Mid-epic commit checkpoints
 
 Within a multi-feature epic, commit after each independently-working feature. Do not accumulate all changes for a single end-of-epic commit.
