@@ -108,7 +108,7 @@ field — see CLAUDE.md §Linear status = workflow stage (SUG-246).
 - [ ] **Atomic Reuse Gate** — for every new component, schema object, CSS surface, or utility in this epic: (1) confirm no existing equivalent across all 5 layers, (2) confirm it will be consumed by >1 caller or justify single-use, (3) confirm the API is composable (children over fixed slots, tokens over hardcoded values). See CLAUDE.md §Atomic Reuse Gate.
 - [ ] **Token value cross-check (DS component epics — blocking)** — if this epic uses any `--st-*` token for a typography or spacing decision on a DS component: (1) grep for the token's resolved value in `tokens.css`, (2) open the DS typography/spacing convention Storybook story (`/story/foundations-typography-conventions--default`) and confirm the resolved value matches the spec. Record both values in the epic doc. A token that resolves at the wrong tier (e.g. `--st-font-heading-2` = 36px when the spec calls for 48px) must be addressed with a new semantic token before implementation begins. See CLAUDE.md §DS Component Authoring Token-First Rule.
 - [ ] **App.jsx routing pre-flight (epics that touch "all pages" or any page set)** — if this epic's scope covers a set of pages (archive pages, detail pages, "all X pages"), read `apps/web/src/App.jsx` before finalising the page inventory. Diff the routes against the epic's page list and correct any mismatch. Missing or wrong entries in the page list invalidate the Scope and Acceptance Criteria sections. Record the verified route-to-component mapping in Technical Notes before proceeding.
-- [ ] **Component-Reuse Manifest** — if this epic adds any page, section, or visual surface: the manifest table below is filled in **before any JSX or CSS is written**. An epic doc without the manifest is incomplete (same severity as a missing Phase 0 mock).
+- [ ] **Component-Reuse Manifest** — if this epic adds any page, section, or visual surface: the manifest table below is filled in **before any JSX or CSS is written**. An epic doc without the manifest is incomplete (same severity as a missing Phase 0 vspec).
 - [ ] **Scope ↔ Non-Goals consistency** — read the Non-Goals section against every Scope bullet and Acceptance Criterion. A Non-Goal that forbids something a Scope bullet requires is a contradiction to resolve at authoring time, not discover mid-execution. State explicitly that the check was run. (SUG-224 shipped with "no DS API changes" in Non-Goals and an end-state that required one; the epic was unexecutable as written and nobody noticed until the spike.)
 - [ ] **Spike component selection (epics with a proof-of-concept phase)** — a spike proves the approach on the *simplest representative* case, never the most complex or most salient one. Name the chosen case and say why it is representative. (SUG-224 nominated `Card`, its most complex adapter, because Card carried the TODO comment that motivated the epic. Salience is not suitability.)
 - [ ] **Component registry update** — if this epic creates, retires, or structurally changes a component: `docs/conventions/component-registry.md` is updated in the same commit. New component = new row with all health columns filled (Storybook, dark mode, DS primitive or web-only, ⚠️ gaps). Retired component = row removed or marked deprecated. This is not a post-epic cleanup step — the registry is updated at creation time, before the component ships.
@@ -205,17 +205,17 @@ field — see CLAUDE.md §Linear status = workflow stage (SUG-246).
 > Bullet list of included tasks. Every task must map to at least one
 > Deliverable and at least one Acceptance Criterion below.
 >
-> **If this epic includes a Phase 0 (mockup / design review):**
-> - The mock file MUST be created at `docs/drafts/SUG-{N}-{name}-mock.html` before any
+> **If this epic includes a Phase 0 (vspec / design review):**
+> - The vspec file MUST be created at `docs/drafts/SUG-{N}-{name}.vspec.html` before any
 >   implementation phases begin. A layout diagram in the epic doc is NOT a substitute.
-> - No code in `apps/web/src/` or `apps/studio/schemas/` may be written until the mock
+> - No code in `apps/web/src/` or `apps/studio/schemas/` may be written until the vspec
 >   file exists on disk and Phase 0 checkboxes are marked complete by the human.
-> - If the backlog spec changes mid-epic (before Phase 0 sign-off), update the mock
->   in the same response as the spec change. Backlog doc and mock must stay in sync.
-> - Phase 0 sign-off is a **human gate**. Agent presents the mock, then asks via
+> - If the backlog spec changes mid-epic (before Phase 0 sign-off), update the vspec
+>   in the same response as the spec change. Backlog doc and vspec must stay in sync.
+> - Phase 0 sign-off is a **human gate**. Agent presents the vspec, then asks via
 >   `AskUserQuestion`:
 >   ```
->   Question: "Mock approved — start implementation?"
+>   Question: "Vspec approved — start implementation?"
 >   Options:
 >     - "Approved — start implementation"
 >     - "Needs changes"
@@ -500,7 +500,8 @@ State how re-running the script produces no change:
 - [ ] **Route smoke-test**: navigate to the archive route (e.g. `/projects`) AND the detail route (e.g. `/projects/sugartown-cms`) for at least one real published document — both routes must render without 404, without runtime errors, and with correct Sanity data (not an empty/placeholder state). If this epic adds a new doc type, test both archive and detail.
 - [ ] **Structural closure** (migration epics — required): if this epic migrates all callsites of a pattern, CSS class, or component away from the old surface, run a grep confirming zero remaining references before close-out. Document the exact command and paste the result: `grep -rn "<old pattern>" apps/web/src/` must return zero results. A migration epic is not done until this is clean.
 - [ ] **Visual QA** (required for any epic that changes visible output): render the new component/section on a real page with realistic adjacent content. Screenshot or preview-inspect to verify spacing, typography, and colour consistency with neighbouring elements. Check at desktop and mobile breakpoints. Specifically verify: no double-padding when sections render inside a detail page container, heading colours match the brand-primary token, and font sizes match the design system type scale.
-- [ ] **Mock fidelity** (required if Phase 0 produced an HTML mock): agent produces the mock-to-implementation comparison table in the Visual QA Gate below. Human reviews and approves before close-out. This line item cannot be ticked by the agent alone.
+- [ ] **Vspec fidelity** (required if Phase 0 produced a vspec): agent produces the vspec-to-build comparison table in the Visual QA Gate below. Human reviews and approves before close-out. This line item cannot be ticked by the agent alone.
+- [ ] **Prototype trigger evaluated.** If any trigger fired, the interaction is built in the vspec (see CLAUDE.md §Vspec fidelity — the prototype trigger).
 
 ---
 
@@ -552,15 +553,15 @@ State how re-running the script produces no change:
 
 2. **Component registry updated** (if applicable): `docs/conventions/component-registry.md` reflects the final state — new rows added, gaps flagged, retired rows removed.
 
-2. **Mock-to-implementation comparison table** (required if Phase 0 produced an HTML mock)
-   - List every visual element in the mock and confirm or flag each one:
+2. **Vspec-to-build comparison table** (required if Phase 0 produced a vspec)
+   - List every visual element in the vspec and confirm or flag each one:
 
-   | Mock Element | Status | Notes |
+   | Vspec Element | Status | Notes |
    |---|---|---|
    | _e.g. Metadata field order_ | _Match / Drift / Missing_ | _detail_ |
-   | _e.g. Chip gap spacing_ | _Match / Drift / Missing_ | _Mock: 8px, Impl: 12px_ |
+   | _e.g. Chip gap spacing_ | _Match / Drift / Missing_ | _Vspec: 8px, Impl: 12px_ |
 
-   - If no mock exists: agent produces a self-audit against the component contract or DS ruleset
+   - If no vspec exists: agent produces a self-audit against the component contract or DS ruleset
 
 3. **Token compliance audit**
    - `grep` the modified CSS for any hardcoded values (hex colors, px font sizes, font stacks)
@@ -615,7 +616,7 @@ State how re-running the script produces no change:
 
 > Run these steps in order after all Acceptance Criteria are met and the working tree is committed.
 
-1. **Visual QA gate (hard stop)** — if this epic has a Phase 0 mock or any visual output, produce the mock-to-implementation comparison table before proceeding. Every visual element (typography, spacing, colours, layout states) must be flagged as Match / Drift / Missing. Present the table and wait for **"Visual QA approved"** in the chat. The shipped/ move and mini-release are blocked until this text is received.
+1. **Visual QA gate (hard stop)** — if this epic has a Phase 0 vspec or any visual output, produce the vspec-to-build comparison table before proceeding. Every visual element (typography, spacing, colours, layout states) must be flagged as Match / Drift / Missing. Present the table and wait for **"Visual QA approved"** in the chat. The shipped/ move and mini-release are blocked until this text is received.
 2. **Chromatic** — run Chromatic VRT. If deferred, annotate the shipped doc: `<!-- Chromatic: pending — deferred YYYY-MM-DD -->`. Deferral does not unblock close-out, but "Defer Chromatic" is not equivalent to "no Chromatic needed".
 3. **Data pipeline gap check** — if this epic extended a build-time pipeline (stats, CrUX, LHCI, imports, etc.) and real data has not yet flowed through CI, document in the shipped doc:
    - What env var or scheduled cron produces real data
