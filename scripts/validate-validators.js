@@ -33,7 +33,6 @@ const ROOT = resolve(__dirname, '..')
 
 const MANUAL_BY_DESIGN = {
   'validate:content': 'requires Sanity API + long runtime — run manually pre-PR, not on every commit or push',
-  'validate:schema-parity': 'comparison logic incomplete — Step 4 (local-vs-deployed type diff) was never implemented, so it can never currently fail; wiring it now would be checkbox theater, not enforcement. Follow-on task tracks finishing the real diff logic before it gets wired into CI (SUG-239).',
 }
 
 // ─── Discover every package.json in the workspace ─────────────────────────────
