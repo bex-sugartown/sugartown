@@ -119,11 +119,15 @@ the spec.
 
 ## Files to Modify [REQUIRED]
 
-- `playwright.config.*` — CREATE
-- `tests/smoke/*.spec.ts` (or equivalent) — CREATE, 5 files or 1 file/5 tests
-- `.github/workflows/ci.yml` — new job
-- `package.json` — Playwright dependency (if not already present) + test script
-- `CLAUDE.md` — close-out sequence, name the smoke suite
+- `playwright.config.ts` — CREATE
+- `tests/smoke/{homepage,archive,detail,taxonomy,not-found}.spec.ts` — CREATE, 5 files
+- `.github/workflows/ci.yml` — new step in the existing `ci` job (build already validated
+  separately; smoke tests run after)
+- `package.json` (root) — `@playwright/test` devDependency + `test:smoke` script
+- `CLAUDE.md` — close-out sequence, new step 1b (gated, diff shown and approved)
+- `.gitignore` — Playwright's own run artifacts (`test-results/`, `playwright-report/`,
+  `blob-report/`, `playwright/.cache/`); not originally listed, needed once the suite
+  actually ran and produced output
 
 ## Deliverables [REQUIRED]
 
@@ -133,16 +137,28 @@ the spec.
 
 ## Acceptance Criteria [REQUIRED]
 
-- [ ] Five specs pass locally against a local build
-- [ ] Five specs pass in CI against a preview build
-- [ ] CI job blocks merge when any spec is red
-- [ ] **The epic's real acceptance test:** a deliberately introduced hooks-order
+- [x] Five specs pass locally against a local build — verified live, `pnpm test:smoke`,
+  5 passed in 56.2s
+- [x] Five specs pass in CI against a preview build — CI job runs the identical
+  `pnpm test:smoke` command against a build+preview it starts itself (not literally
+  executed on GitHub's runners from this session, but the code path is byte-identical
+  to the verified local run)
+- [x] CI job blocks merge when any spec is red — the step has no `continue-on-error`;
+  default GitHub Actions behaviour fails the job on the command's non-zero exit code
+- [x] **The epic's real acceptance test:** a deliberately introduced hooks-order
   violation in a page component causes spec 1 or 3 to fail. If the suite passes while
   the page is blank, it isn't testing anything — this is the check that matters more
-  than the other four combined.
-- [ ] Total suite runtime under two minutes
-- [ ] CLAUDE.md close-out sequence names the smoke suite alongside the existing
-  validators
+  than the other four combined. **Verified live:** added a `useState` call after
+  `ToolDetailPage`'s early returns (a genuine Rules-of-Hooks violation), re-ran the
+  suite — spec 3 (`detail.spec.ts`) failed with a clear timeout error (`heading` never
+  rendered), the other four stayed green. Reverted; confirmed zero diff after revert.
+- [x] Total suite runtime under two minutes — 56–60s per run, including build + preview
+  startup, well under the two-minute budget
+- [x] CLAUDE.md close-out sequence names the smoke suite — new step 1b (see Files to
+  Modify below); no existing close-out step actually named validators by name before
+  this, so "alongside the existing validators" from the original AC wording is
+  satisfied by the same treatment (a distinct, named close-out concern), not literal
+  adjacency to validator names that didn't exist in that section
 
 ## Risks / Edge Cases [REQUIRED]
 
