@@ -22,6 +22,7 @@
     "validate:style-mirror": "pnpm --filter web validate:style-mirror",
     "validate:taxonomy": "pnpm --filter web validate:taxonomy",
     "validate:validators": "node scripts/validate-validators.js",
+    "collect:evidence-digest": "node scripts/monthly-evidence-digest.js",
     "registry:build": "node scripts/registry-build.js",
     "migrate:taxonomy": "node scripts/migrate-taxonomy.js",
     "storybook": "turbo run storybook",

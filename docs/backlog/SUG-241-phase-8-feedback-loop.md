@@ -70,12 +70,17 @@ than judgment alone.
 ## Scope [REQUIRED]
 
 **Phase 1 — Monthly product loop**
-- [ ] `scripts/monthly-evidence-digest.js`: reads `apps/web/src/generated/stats.json`,
+- [x] `scripts/monthly-evidence-digest.js`: reads `apps/web/src/generated/stats.json`,
   writes a dated block to `docs/backlog/sugartown-backlog-priorities.md` — four numbers,
   three sentences
-- [ ] Idempotent per calendar day (re-running on the same day doesn't duplicate the block)
-- [ ] If a source is unavailable, write `unavailable` — never a defaulted zero
-- [ ] Add `collect:evidence-digest` script entry to `apps/web/package.json`
+- [x] Idempotent per calendar day (re-running on the same day doesn't duplicate the block)
+- [x] If a source is unavailable, write `unavailable` — never a defaulted zero
+- [x] Add `collect:evidence-digest` script entry — **correction: added to root
+  `package.json`, not `apps/web/package.json` as originally scoped.** The script is
+  root-located (`scripts/monthly-evidence-digest.js`, per this doc's own Files to Modify)
+  and operates cross-package — reads from `apps/web/src/generated/`, writes to
+  `docs/backlog/` at repo root — matching the pattern of other root scripts
+  (`registry:build`, `migrate:taxonomy`), not a workspace-scoped one.
 
 **Phase 2 — Process loop + retrospective trigger**
 - [ ] Add a friction line to `docs/epic-template.md`'s Post-Epic Close-Out and
