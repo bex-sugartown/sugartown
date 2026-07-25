@@ -15,6 +15,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > Accumulates since v0.30.0.
 
 - SUG-229: Convert remaining human-gate skills to AskUserQuestion — `/mini-release`, `/morning`, `/eod`, `/switch`, `/new-epic`, `/glossy`, `/chromatic`, `docs/epic-template.md`, `/update-cwv` converted; new approval gates added to `sugartown-prd-writer` and `sugartown-epic-writer`
+- SUG-246: Linear workflow status sync — Backlog/Todo/In Progress/Done transitions wired into `/new-epic`, activation, and close-out; backfilled 3 missing `blockedBy` relations and fixed 2 priority drifts found by direct Linear audit
 
 ---
 
