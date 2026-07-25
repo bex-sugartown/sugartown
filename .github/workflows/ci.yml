@@ -59,6 +59,14 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Route smoke tests
+        run: pnpm test:smoke
+        env:
+          CI: true
+
   chromatic:
     name: Chromatic VRT
     runs-on: ubuntu-latest
