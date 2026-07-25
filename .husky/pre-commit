@@ -34,5 +34,14 @@ pnpm --filter web validate:tokens:strict || exit 1
 # onClearAll after each had shipped. SUG-231 post-mortem.
 pnpm --filter web validate:dead-refs || exit 1
 
+# CSS class naming — blocks content-type- or call-site-scoped class names
+# (tax*, tag*, term*, etc.) in apps/web/src/pages/. Built by SUG-124, ran
+# silently unenforced (no hook, no CI job) until SUG-239 wired it up here.
+pnpm --filter web validate:css-names || exit 1
+
+# Every validate:* script must be wired into a hook or CI job, or explicitly
+# allowlisted as manual-by-design. Prevents this exact class of silent decay.
+pnpm validate:validators || exit 1
+
 # ESLint — zero errors required (warnings are allowed)
 pnpm --filter web lint || exit 1

@@ -17,7 +17,6 @@
     "validate:content": "node scripts/validate-content.js",
     "validate:tokens": "node scripts/validate-tokens.js",
     "validate:tokens:strict": "node scripts/validate-tokens.js --strict-colors",
-    "validate:tokens:sync": "node scripts/validate-tokens.js --check-sync",
     "validate:style-mirror": "node scripts/validate-style-mirror.js",
     "validate:dead-refs": "node scripts/validate-dead-refs.js",
     "validate:taxonomy": "node scripts/validate-taxonomy.js",

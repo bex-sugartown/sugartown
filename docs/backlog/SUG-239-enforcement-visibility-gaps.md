@@ -55,6 +55,33 @@ similarly orphaned, but it's unclear whether it does anything `validate:style-mi
 doesn't already cover. This epic's Phase 1 includes reading both scripts to decide wire
 vs. delete, rather than assuming.
 
+**Decision (recorded during Phase 1 execution): deleted, not wired.**
+`validate:tokens:sync` (`validate-tokens.js --check-sync`) diffs `:root` token *values*
+between exactly the same two files (`apps/web/.../tokens.css`,
+`packages/design-system/.../tokens.css`) that `validate:style-mirror` already requires to
+be **byte-identical**. Byte-identical files trivially have identical `:root` values, so
+`--check-sync` can never fail when `validate:style-mirror` passes — it is a strict subset
+check of a stronger guarantee already enforced elsewhere, and it's weaker in one respect
+too (it silently skips web-only keys `pkgTokens` doesn't have, where `validate:style-mirror`
+would catch any diff at all). Removed the flag, its two now-dead helper functions
+(`extractRootBlock`, `parseTokenBlock`), and the `validate:tokens:sync` script entries from
+both `package.json` files.
+
+**Phase 1 finding, discovered during execution (not in the originating audit):**
+`apps/studio`'s `validate:schema-parity` is a fourth orphaned validator — the originating
+audit only scanned root + `apps/web` package.json files, missing `apps/studio` entirely.
+Worse: it isn't just unwired, it's functionally incomplete. `validate-schema-parity.js`
+extracts the local schema and tries to fetch deployed schema info via
+`npx sanity schema list --json`, but Step 4 (the actual local-vs-deployed type diff) was
+never implemented — the script unconditionally prints "run npx sanity schema deploy" and
+exits 0 in every case except a hard extraction/parse failure. It can never currently detect
+real drift. Wiring a check that can't fail into CI would be checkbox theater, not
+enforcement, and completing its comparison logic is new validator work this epic's own
+Non-Goals rule out ("wire up what exists, build nothing new"). **Decision: allowlisted in
+`validate:validators`'s `MANUAL_BY_DESIGN` with the real reason recorded (not just
+"unwired" — "comparison logic incomplete"), and spun off as a separate follow-on task to
+implement the real diff and wire it into CI once it can actually fail.**
+
 **Phase 2 finding:** `.claude/agents/design-reviewer.md` exists — fresh context,
 read-only by design (`Read, Grep, Glob, Bash`, deliberately no `Write`), six review
 dimensions each mapped to a CLAUDE.md rule, documented in

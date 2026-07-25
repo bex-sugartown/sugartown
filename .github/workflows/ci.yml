@@ -49,6 +49,13 @@ jobs:
           VITE_SANITY_DATASET: ${{ secrets.VITE_SANITY_DATASET }}
           VITE_SANITY_API_VERSION: ${{ secrets.VITE_SANITY_API_VERSION }}
 
+      - name: Validate taxonomy
+        run: pnpm validate:taxonomy
+        env:
+          VITE_SANITY_PROJECT_ID: ${{ secrets.VITE_SANITY_PROJECT_ID }}
+          VITE_SANITY_DATASET: ${{ secrets.VITE_SANITY_DATASET }}
+          VITE_SANITY_API_VERSION: ${{ secrets.VITE_SANITY_API_VERSION }}
+
       - name: Build
         run: pnpm build
 
