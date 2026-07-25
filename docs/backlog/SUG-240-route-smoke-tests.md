@@ -88,6 +88,17 @@ Real published documents only — if a candidate route depends on seeded or plac
 content, pick a different route and record which, and why, in this doc before writing
 the spec.
 
+**Routes chosen (recorded during execution, verified via live GROQ queries against
+`production`, `perspective: 'published'`):**
+
+| # | Route | Why this one |
+|---|---|---|
+| 1 | `/` | Homepage — no candidate selection needed |
+| 2 | `/articles` | Archive route with the deepest, most stable content set of any archive type; asserts shape (`article` element count > 0) not exact count, so legitimate publishing doesn't break it |
+| 3 | `/tools/vercel` | Real published `tool` document, already the canonical sibling-comparison reference elsewhere in the repo's own conventions (CLAUDE.md §Visual QA gate cites `/tools/vercel` for structural comparison) |
+| 4 | `/categories/governance` | Real published `category` with 18 associated documents at time of writing (verified via `count(*[_type in ["article","node","caseStudy"] && references(^._id)])`) — the highest-count category found, safest against ever going empty |
+| 5 | `/this-route-does-not-exist-smoke-test` | Deliberately nonexistent — matches no route pattern in `App.jsx`, falls through to the `*` catch-all |
+
 ## Non-Goals [REQUIRED]
 
 - **Coverage as a target.** Five routes, not a percentage, not a suite that grows by

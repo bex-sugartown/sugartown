@@ -38,6 +38,12 @@ pnpm-debug.log*
 # Testing
 coverage
 
+# Playwright (SUG-240 route smoke tests) — local run artifacts, not committed
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
 # Misc
 *.tsbuildinfo
 .cache
