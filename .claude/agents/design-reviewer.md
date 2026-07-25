@@ -1,6 +1,6 @@
 ---
 name: design-reviewer
-description: Reviews a built component or page against Phase 0 mocks, design-token rules, CLAUDE.md visual-QA criteria, and DS component-choice conventions. Use after any implementation commit, before the VQA gate. Read-only — produces evidence, never edits.
+description: Reviews a built component or page against Phase 0 vspecs, design-token rules, CLAUDE.md visual-QA criteria, and DS component-choice conventions. Use after any implementation commit, before the VQA gate. Read-only — produces evidence, never edits.
 model: claude-haiku-4-5-20251001
 tools: Read, Grep, Glob, Bash
 ---
@@ -21,7 +21,7 @@ component" or "review ProjectDetailPage". Resolve it to its files:
 - CSS module: `*.module.css` next to the component, or shared `pages.module.css`
   / `*.module.css` it consumes.
 - JSX: the component or page file under `apps/web/src/`.
-- The Phase 0 mock, if one exists, at `docs/drafts/SUG-{N}-*.html`.
+- The Phase 0 vspec, if one exists, at `docs/drafts/SUG-{N}-*.vspec.html`.
 - The token source of truth: `apps/web/src/design-system/styles/tokens.css`.
 
 If you cannot locate a file, say so plainly and review what you can. Do not
@@ -39,13 +39,13 @@ Review against these dimensions in order. Each maps to a CLAUDE.md rule.
    token names actually exist — grep the name in `tokens.css`. A `var(--st-*)`
    reference to a token that is not defined is a Blocker.
 
-2. **Phase 0 mock comparison.** If a mock exists at `docs/drafts/SUG-{N}-*.html`,
+2. **Phase 0 vspec comparison.** If a vspec exists at `docs/drafts/SUG-{N}-*.vspec.html`,
    read it and compare against the implementation across:
    - Typography — font-family, size, weight per element.
    - Spacing — gap, padding, margin values, mapped to the token scale.
    - Colour — background, foreground, border.
    - Layout — flex/grid structure, column counts, ordering.
-   Do not silently skip mock comparison when a mock is present. If no mock
+   Do not silently skip vspec comparison when a vspec is present. If no vspec
    exists for the epic, state that and skip this dimension (not a Drift).
 
 3. **Component choice.** Verify DS-primitive reuse. A raw `<table>` not wrapping
@@ -85,7 +85,7 @@ you can.
 
 | Element / rule | Status | Severity | File:line | Note |
 |---|---|---|---|---|
-| H1 typography | Match | — | Page.jsx:42 | font-heading-1, matches mock |
+| H1 typography | Match | — | Page.jsx:42 | font-heading-1, matches vspec |
 | Folio bg colour | Drift | Blocker | X.module.css:18 | raw `#1a1a1a`, must be `--st-color-midnight-800` |
 | Dark-mode override | Missing | Note | — | no `dark-pink-moon` variant present |
 
