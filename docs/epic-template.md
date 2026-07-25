@@ -502,6 +502,7 @@ State how re-running the script produces no change:
 - [ ] **Visual QA** (required for any epic that changes visible output): render the new component/section on a real page with realistic adjacent content. Screenshot or preview-inspect to verify spacing, typography, and colour consistency with neighbouring elements. Check at desktop and mobile breakpoints. Specifically verify: no double-padding when sections render inside a detail page container, heading colours match the brand-primary token, and font sizes match the design system type scale.
 - [ ] **Vspec fidelity** (required if Phase 0 produced a vspec): agent produces the vspec-to-build comparison table in the Visual QA Gate below. Human reviews and approves before close-out. This line item cannot be ticked by the agent alone.
 - [ ] **Prototype trigger evaluated.** If any trigger fired, the interaction is built in the vspec (see CLAUDE.md §Vspec fidelity — the prototype trigger).
+- [ ] **Friction line present.** The shipped doc states, in one sentence, what cost a correction commit this time — `none` is a valid answer. See Post-Epic Close-Out step 3b.
 
 ---
 
@@ -622,6 +623,7 @@ State how re-running the script produces no change:
    - What env var or scheduled cron produces real data
    - What the current `stats.json` (or equivalent) contains: real data or seeded scaffold
    - Expected shape once the pipeline runs
+3b. **Friction line** — one sentence in the shipped doc: "What cost a correction commit this time." `none` is a valid, honest answer. Feeds the SUG-241 three-strike retrospective trigger (CLAUDE.md §Process feedback loop — three-strike retrospective trigger) — when the same friction (human judgment on similarity, not string matching) shows up across three shipped docs, that pattern gets a `/post-mortem`.
 4. **Move the epic doc to production**:
    - Move: `docs/backlog/SUG-{N}-{name}.md` → `docs/shipped/SUG-{N}-{name}.md`
    - Remove from `docs/backlog/`
