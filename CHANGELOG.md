@@ -19,6 +19,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - SUG-242: Vspec rename + prototype trigger — Phase 0 artifact renamed from "mock" to "vspec" across CLAUDE.md, `docs/epic-template.md`, and 3 convention/agent files, including the design-reviewer subagent's runtime glob; adds a `docs/shipped/` durability rule and a mechanical prototype-fidelity trigger
 - SUG-239: Close the enforcement-visibility gaps — `validate:css-names` wired into pre-commit, `validate:taxonomy` into CI (Sanity API dependency); new `validate:validators` meta-check catches unwired validators going forward, found a 4th orphaned one (`validate:schema-parity`) the original audit missed; CLAUDE.md close-out step 3 now names the design-reviewer subagent
 - SUG-240: Route smoke tests — five Playwright specs (homepage, archive, detail, taxonomy, 404) run against a built preview, wired into CI to block merge on red; real acceptance test verified live with a deliberate hooks-order violation; first Playwright install in the repo
+- SUG-241: Phase 8 feedback loop — monthly product loop reads real `stats.json` into a dated evidence block in the backlog priorities file; process loop adds a friction line to every shipped doc plus a three-strike retrospective trigger (explicitly human judgment, not string-matching), documented in new `docs/conventions/feedback-loop.md`
 
 ---
 
