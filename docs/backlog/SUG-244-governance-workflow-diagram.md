@@ -2,7 +2,7 @@
 **Epic:** SUG-244 — GovernancePage: workflow lifecycle diagram + governance doc index
 **Linear Issue:** [SUG-244](https://linear.app/sugartown/issue/SUG-244/governancepage-add-workflow-lifecycle-diagram-governance-doc-index)
 **Status:** Backlog — **proposal, awaiting explicit go-ahead before Phase 1 begins**
-**Priority:** ⚪ Low — nice-to-have, not blocking anything
+**Priority:** ⬛ Deferred — nice-to-have, not blocking anything
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 
