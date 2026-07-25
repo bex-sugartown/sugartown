@@ -69,6 +69,26 @@ git branch --contains <commit-sha> | grep -qE '^(\*|\s)+ main$' && echo "on main
 
 A Linear issue marked Done with commits only on a feature branch is a process failure. The close-out sequence enforces this naturally (merge → mini-release → ship doc → Linear Done), but if the close-out is skipped or partial (e.g. multi-phase epic where one phase didn't merge), this rule is the backstop.
 
+### Linear status = workflow stage
+
+Linear issue status is a byproduct of running the existing Sugartown epic workflow, not a
+separately maintained field:
+
+| Sugartown stage | Trigger | Linear status |
+|---|---|---|
+| Epic created | `/new-epic` Step 1 | `Backlog` |
+| Promoted to `## 01 · Next` in the priority stack | `/new-epic` Step 4, or any later reprioritization | `Todo` |
+| Implementation begins | Pre-Execution Completeness Gate passes (`docs/epic-template.md`) | `In Progress` |
+| Epic ships | Close-out sequence step 8 (below) | `Done` |
+
+Full mechanics: `.claude/skills/new-epic/docs/new-epic-prompt.md` and `docs/epic-template.md`
+§Epic Lifecycle. Cross-epic dependencies stated as "blocked on SUG-X" in a backlog doc must
+also exist as a real Linear `blockedBy`/`blocks` relation (Linear MCP `save_issue`) — a
+dependency written only as prose is invisible to anyone using Linear as the priority queue.
+Linear's priority field (4 tiers) mirrors the backlog priority emoji; there is no API-exposed
+manual sort-order field, so exact drag-order parity within a tier is not guaranteed — priority
+tier + Linear's own default sort is the accepted fallback (SUG-246).
+
 ### Multi-phase epic merge cadence
 
 When an epic has numbered phases (e.g. SUG-63 Phase 1 / 1b / 1c), pick **one** of two strategies at the start of the epic and stick with it:
