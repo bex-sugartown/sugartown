@@ -2,7 +2,7 @@
 **Epic:** SUG-241 — Phase 8 feedback loop (monthly evidence read-back + retrospective trigger)
 **Linear Issue:** [SUG-241](https://linear.app/sugartown/issue/SUG-241/phase-8-feedback-loop-monthly-evidence-read-back-retrospective-trigger)
 **Status:** Backlog
-**Priority:** 🟡 Medium — the most valuable gap in the audit, sequenced after the ones that make its evidence trustworthy
+**Priority:** 🟣 Soon — the most valuable gap in the audit, sequenced after the ones that make its evidence trustworthy
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 

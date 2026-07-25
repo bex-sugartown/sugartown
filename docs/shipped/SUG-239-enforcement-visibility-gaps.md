@@ -2,7 +2,7 @@
 **Epic:** SUG-239 — Close the enforcement-visibility gaps (orphaned validators + design-reviewer wiring)
 **Linear Issue:** [SUG-239](https://linear.app/sugartown/issue/SUG-239/close-the-enforcement-visibility-gaps-orphaned-validators-design)
 **Status:** Backlog
-**Priority:** 🔴 High — the docs currently claim coverage that doesn't exist
+**Priority:** 🟢 Next — the docs currently claim coverage that doesn't exist
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 
