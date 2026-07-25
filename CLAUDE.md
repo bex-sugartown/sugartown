@@ -18,11 +18,12 @@ When an epic is complete, run these steps in order before starting the next epic
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
 2. **Deploy schema** (if epic touched `apps/studio/schemas/`) — run `npx sanity schema deploy` from `apps/studio/`. Schema changes are not live until deployed. MCP tools, the Content Lake API, and embedded Studios all validate against the deployed schema, not local code. Skipping this step causes silent write failures.
-3. **Visual QA gate (hard stop)** — if the epic has a Phase 0 mock, produce the mock-to-implementation comparison table (every visual element: typography, spacing, colours, layout — flagged as Match / Drift / Missing). **If there is no mock and every visual element was verified in-browser during implementation, state that instead and cite the evidence per element** — a table of rows all reading "Match", assembled after the fact from checks already run, is ceremony rather than verification and gives false confidence that a fresh review happened. The gate still fires, still requires **"Visual QA approved"**, and still blocks, whenever a mock exists or *any* element was not verified at implementation time; list those elements explicitly rather than padding the table with ones that were. Present the table (or the evidence statement) and wait for the explicit text **"Visual QA approved"** before proceeding. The `docs/shipped/` move and mini-release are structurally blocked until this approval is received. A component that builds without errors is not the same as a component that matches the spec. **If the epic shipped a detail, archive, or entity page:** open one existing sibling page of the same kind (e.g. new entity page vs `/tools/vercel`) and compare structure — shell, folio, section labels, grids, chips. Unjustified structural divergence is a Drift row in the table.
+3. **Visual QA gate (hard stop)** — if the epic has a Phase 0 vspec, produce the vspec-to-build comparison table (every visual element: typography, spacing, colours, layout — flagged as Match / Drift / Missing). **If there is no vspec and every visual element was verified in-browser during implementation, state that instead and cite the evidence per element** — a table of rows all reading "Match", assembled after the fact from checks already run, is ceremony rather than verification and gives false confidence that a fresh review happened. The gate still fires, still requires **"Visual QA approved"**, and still blocks, whenever a vspec exists or *any* element was not verified at implementation time; list those elements explicitly rather than padding the table with ones that were. Present the table (or the evidence statement) and wait for the explicit text **"Visual QA approved"** before proceeding. The `docs/shipped/` move and mini-release are structurally blocked until this approval is received. A component that builds without errors is not the same as a component that matches the spec. **If the epic shipped a detail, archive, or entity page:** open one existing sibling page of the same kind (e.g. new entity page vs `/tools/vercel`) and compare structure — shell, folio, section labels, grids, chips. Unjustified structural divergence is a Drift row in the table.
 4. **Chromatic** — run Chromatic VRT. If deferred, annotate the shipped doc with `<!-- Chromatic: pending -->` and a note. Deferral is a checklist deferral only — it does not unblock the shipped/ move. **"Defer Chromatic" is not the same as "epic is closed."**
 5. **Data pipeline gap check** — if the epic extended a build-time data pipeline (stats, CrUX, LHCI, etc.) and real data has not yet flowed through CI, document the gap in the shipped doc: what env var or cron is needed, what the expected data shape looks like, and what the current `stats.json` state represents (real vs seeded). Close-out is permitted but the gap must be explicit and visible.
 5b. **Verify handoffs landed.** If close-out defers any work to another epic, open that epic's doc and confirm each deferred item is present in its **Scope** — not merely mentioned in prose, and not merely assumed to be "that epic's axis". Add it if it is missing. An assertion is not a handoff. SUG-230's close-out deferred three items to SUG-231 on the stated grounds that they belonged to SUG-231's axis; none of the three was in SUG-231's Scope, and they survived only because a later session happened to re-read both docs. Items handed between epics are the most likely of all work to be silently dropped, because each side assumes the other owns it.
 6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`. **If this move follows an edit to the doc in the same turn** (e.g. adding a close-out summary before moving it), run `git diff --cached --stat` (or `git show --stat HEAD` right after committing) to confirm the file actually carries the expected content change, not just a rename with 0 insertions/deletions. `git mv` does not guarantee a prior unstaged edit rides along silently — verify, don't assume.
+6b. **Preserve the vspec** — copy the approved vspec from `docs/drafts/` to `docs/shipped/SUG-{N}-{slug}.vspec.html`. Commit with the step 6 doc move. Skip only if the epic had no vspec.
 7. **Mini-release** — run `/mini-release` to produce a patch version bump and CHANGELOG stub. **Mini-release only runs on `main`, after the epic's commits are merged — never on an unmerged feature branch.** `package.json`'s version is a shared, global counter; a branch computes "next version" from its own disconnected view of it, so two branches racing to close out independently will compute colliding or incompatible numbers that only surface as a conflict (or worse, a silent false-resolve) at merge time. If an epic's work is sitting on a feature branch, merge to `main` first, *then* run `/mini-release` from `main`. **If the epic's merge strategy is "(b) single close-out — one mini-release at the end" (or the mini-release step is otherwise deferred for any reason), still add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at ship time** — do not wait for the eventual version bump to write it. The CHANGELOG line and the version bump are separate obligations; deferring one must never silently defer the other. An epic whose close-out doc says "Done" but has no `[Unreleased]` line is incompletely closed.
 8. **Update Linear** — transition the SUG-{N} issue to **Done**
 9. **Clean tree** — confirm `git status` is clean before starting the next epic
@@ -129,7 +130,7 @@ A white-screen debug cycle caused by local ↔ remote divergence is a process fa
 
 One `docs/` subdirectory is **local-only** — gitignored and never committed:
 
-- **`docs/drafts/`** — working drafts, manifestos, HTML mocks, GIFs, exploration docs. Content here is in flux and stays on Bex's machine until it's ready to move elsewhere (Sanity, `docs/briefs/`, `docs/shipped/`).
+- **`docs/drafts/`** — working drafts, manifestos, in-flight vspecs, GIFs, exploration docs. Content here is in flux and stays on Bex's machine until it's ready to move elsewhere (Sanity, `docs/briefs/`, `docs/shipped/`).
 
 **Rules:**
 - Never `git add` files in these directories. They are gitignored for a reason.
@@ -145,28 +146,30 @@ One `docs/` subdirectory is **local-only** — gitignored and never committed:
 
 The `.gitignore` entry prevents `git add <path>` from staging them directly, but `git add -u` (update tracked files) will still stage them. This inconsistency is expected — CI is the authoritative committer for these files.
 
-### Phase 0 hard-stop (mockup gate)
+### Phase 0 hard-stop (visual spec gate)
 
-**What triggers this gate:** an **unreviewed visual format reaching a user** — not an epic's structure, and not the presence or absence of a phase labelled "Phase 0". The test is: *would this change render something a human has not signed off on?* If the work adopts an already-shipped, already-reviewed design — porting a canonical component to a second copy, or a change whose only rendered surface is Storybook — the gate does **not** fire; record the decision in the epic doc instead. SUG-231 Phase 3 (porting web's canonical Callout to the package) was wrongly assumed to require a mock on structural grounds; it changed nothing a user could see, because `apps/contentful-poc` used Callout in zero files. Conversely, an epic with no phase called "Phase 0" still trips this gate the moment it invents a visual format.
+**What triggers this gate:** an **unreviewed visual format reaching a user** — not an epic's structure, and not the presence or absence of a phase labelled "Phase 0". The test is: *would this change render something a human has not signed off on?* If the work adopts an already-shipped, already-reviewed design — porting a canonical component to a second copy, or a change whose only rendered surface is Storybook — the gate does **not** fire; record the decision in the epic doc instead. SUG-231 Phase 3 (porting web's canonical Callout to the package) was wrongly assumed to require a vspec on structural grounds; it changed nothing a user could see, because `apps/contentful-poc` used Callout in zero files. Conversely, an epic with no phase called "Phase 0" still trips this gate the moment it invents a visual format.
 
-For any epic that includes a mockup/design phase (Phase 0 or equivalent):
+For any epic that includes a vspec/design phase (Phase 0 or equivalent):
 
 **No code in `apps/web/src/`, `apps/studio/schemas/`, or any other implementation path may be written until:**
-1. The HTML mock exists on disk at `docs/drafts/SUG-{N}-*.html`
-2. The user has reviewed the mock and Phase 0 checkboxes are marked complete
+1. The vspec exists on disk at `docs/drafts/SUG-{N}-{slug}.vspec.html`
+2. The user has reviewed the vspec and Phase 0 checkboxes are marked complete
+
+A vspec is a visual specification, not a sketch. Its class names, spacing values, and annotated behaviours are binding on the implementation. It is the artifact the vspec-to-build comparison table judges against.
 
 Permitted before Phase 0 sign-off: backlog doc edits, schema planning notes, query design notes.
 Not permitted: any JSX, CSS, schema TypeScript, or migration scripts.
 
-**Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the mock, then ask via a single select option.
+**Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the vspec, then ask via a single select option.
 
-Updating the backlog spec (e.g. in response to user feedback) triggers a corresponding mock update in the same response — backlog doc and mock must stay in sync. If the user asks to update the spec, update the mock too before closing the response.
+Updating the backlog spec (e.g. in response to user feedback) triggers a corresponding vspec update in the same response — backlog doc and vspec must stay in sync. If the user asks to update the spec, update the vspec too before closing the response.
 
-A Phase 0 violation (FE code committed before mock approval) is a process failure, not a shortcut.
+A Phase 0 violation (FE code committed before vspec approval) is a process failure, not a shortcut.
 
-**Phase 0 applies to new blocks on existing pages, not just new page types.** Adding a new data-backed block (e.g. a challenge summary, an outcomes strip, a sidebar widget) to an existing page template requires a mock and review before any JSX is written — even if the page template itself already exists. The test is: "does this block have a visual format that hasn't been reviewed?" If yes, it's a Phase 0 item regardless of scope.
+**Phase 0 applies to new blocks on existing pages, not just new page types.** Adding a new data-backed block (e.g. a challenge summary, an outcomes strip, a sidebar widget) to an existing page template requires a vspec and review before any JSX is written — even if the page template itself already exists. The test is: "does this block have a visual format that hasn't been reviewed?" If yes, it's a Phase 0 item regardless of scope.
 
-**Phase 0 for navigation surfaces requires an interaction annotation layer.** If the mock includes any sidebar, nav rail, tab bar, or anchor-bearing surface, the mock must annotate — not just show visually — the following before sign-off:
+**Phase 0 for navigation surfaces requires an interaction annotation layer.** If the vspec includes any sidebar, nav rail, tab bar, or anchor-bearing surface, the vspec must annotate — not just show visually — the following before sign-off:
 - Active state (which item is highlighted, and how — border, colour, weight)
 - Hash/anchor behaviour (does clicking scroll? does the URL update?)
 - Scroll-spy behaviour (does the active item update on scroll?)
@@ -174,11 +177,22 @@ A Phase 0 violation (FE code committed before mock approval) is a process failur
 - Mobile collapse (how does it behave below the breakpoint?)
 - Any click side-effects (scroll-to-top, panel open/close, etc.)
 
-A mock that shows nav items but does not annotate these behaviours is incomplete for Phase 0 sign-off. **Existing patterns (e.g. right-rail PageSidebar) count as the spec** — if the new nav reuses an existing behaviour, annotate "same as PageSidebar scrollspy" rather than leaving it blank. The failure mode is re-discovering and re-implementing behaviour that was already codified elsewhere.
+A vspec that shows nav items but does not annotate these behaviours is incomplete for Phase 0 sign-off. **Existing patterns (e.g. right-rail PageSidebar) count as the spec** — if the new nav reuses an existing behaviour, annotate "same as PageSidebar scrollspy" rather than leaving it blank. The failure mode is re-discovering and re-implementing behaviour that was already codified elsewhere.
 
-**Mock proxy class names must use the intended production semantic name.** HTML mock classes are the first expression of a CSS class's name — if the mock uses `.tag-row`, that name will drift into implementation. Rules: (a) use the production semantic name you intend to ship (e.g. `.listRow`, `.flatGridRow`); (b) if the production name is not yet settled, use a clearly generic placeholder (`.list-row`, `.btn-strip`) and mark it `/* TBD */`; (c) never name a mock class after its content type (`.tag-row`, `.tool-folio`, `.tax-item`) — that name will survive into production unchanged. A mock class name that would fail the CSS pre-implementation reuse audit is a Phase 0 violation.
+**Vspec fidelity — the prototype trigger.** A vspec is static HTML by default. It becomes an interactive prototype when the epic introduces behaviour a static render can't convey. Trigger list — any one firing means build the interaction, not just annotate it:
+- Scroll-spy (active state that changes on scroll)
+- Filtering (visible content changes based on user input)
+- Expand/collapse
+- Tab or panel switching
+- Sticky positioning whose effect depends on scroll
+- Drag/reorder
+- Persisted state (survives navigation or reload)
 
-**Phase 0 applies to new entity detail pages (Person, Project, Tool, Client, etc.) even when a general page shell already exists.** Each entity detail page has a folio — the logo/avatar + identity block with eyebrow, name, description, and metadata. The folio layout, thumbnail size, eyebrow content, and any interactive links (URL, social) must be locked in the mock before any JSX is written. "The shell exists, I'll figure out the folio interactively" is a Phase 0 violation. The mock tab for a new entity type must be added to the epic's HTML mock file and approved before implementation begins for that entity type.
+"Build the interaction" means vanilla JS in a `<script>` tag inside the vspec file — no framework, no build step. ~20 lines is normal for most triggers. A prototype is the same artifact as the vspec: same file, same Phase 0 gate, same vspec-to-build comparison table — not a second artifact requiring its own review. Interaction annotation (above) is not replaced by a working prototype — both are required when a trigger fires: annotate the intended behaviour AND build it. If no trigger fires, do not add JS — a static vspec is correct and sufficient.
+
+**Vspec class names are the production class names. Not a proxy, not a placeholder.** Vspec classes are the first expression of a CSS class's name — if the vspec uses `.tag-row`, that name will drift into implementation. Rules: (a) use the production semantic name you intend to ship (e.g. `.listRow`, `.flatGridRow`); (b) if the production name is not yet settled, use a clearly generic placeholder (`.list-row`, `.btn-strip`) and mark it `/* TBD */`; (c) never name a vspec class after its content type (`.tag-row`, `.tool-folio`, `.tax-item`) — that name will survive into production unchanged. A vspec class name that would fail the CSS pre-implementation reuse audit is a Phase 0 violation. A vspec that leans on the `/* TBD */` escape hatch for most of its classes has not finished Phase 0.
+
+**Phase 0 applies to new entity detail pages (Person, Project, Tool, Client, etc.) even when a general page shell already exists.** Each entity detail page has a folio — the logo/avatar + identity block with eyebrow, name, description, and metadata. The folio layout, thumbnail size, eyebrow content, and any interactive links (URL, social) must be locked in the vspec before any JSX is written. "The shell exists, I'll figure out the folio interactively" is a Phase 0 violation. The vspec tab for a new entity type must be added to the epic's vspec file and approved before implementation begins for that entity type.
 
 ### Incomplete epic doc hard stop
 
@@ -199,11 +213,11 @@ Before executing any epic from `docs/backlog/SUG-{N}-*.md`, check the file for c
 
 A sparse epic doc is a signal that the planning phase was not completed. It is not a prompt to use editorial judgment and execute. Proceeding without a defined scope is a process failure, not a shortcut.
 
-**This rule applies to all epic types, including pure content/editorial epics.** The Phase 0 mockup gate covers visual design review; this rule covers scope completeness for all epics regardless of type.
+**This rule applies to all epic types, including pure content/editorial epics.** The Phase 0 visual spec gate covers visual design review; this rule covers scope completeness for all epics regardless of type.
 
 ### Design handoff evaluation gate (SUG-163)
 
-Before scoping any epic that originates from a design handoff (mock, gap-analysis doc, Figma export, or equivalent), evaluate the handoff against `docs/conventions/design-handoff-template.md`. Run the anti-checklist and flag every item that would introduce a framework assumption, invented schema field, literal URL path, content-type-prefixed CSS class, or PT-replacement array. Surface corrections in the epic doc's "Handoff corrections" section before Phase 0 sign-off.
+Before scoping any epic that originates from an *external* design handoff (gap-analysis doc, Figma export, or equivalent), evaluate the handoff against `docs/conventions/design-handoff-template.md`. Run the anti-checklist and flag every item that would introduce a framework assumption, invented schema field, literal URL path, content-type-prefixed CSS class, or PT-replacement array. Surface corrections in the epic doc's "Handoff corrections" section before Phase 0 sign-off.
 
 ### React hooks — Outlet context pre-flight
 
@@ -639,7 +653,7 @@ When a new block, container, or layout surface is needed, run this audit **befor
 
 1. **Name the candidate existing components.** List every DS or app-level component that could plausibly render this content — Card, Callout, StatTile, MetadataCard, blockquote, etc. If the content is prose/text, explicitly check Callout and blockquote before inventing a new container.
 2. **State why each candidate doesn't fit** (or why it does). One sentence per candidate. If a candidate covers 80%+ of the use case, extend it via props — do not fork.
-3. **If no existing component fits**, stop — this triggers the Phase 0 hard-stop (mockup gate) above. Produce the mock there; don't restate that process here.
+3. **If no existing component fits**, stop — this triggers the Phase 0 hard-stop (visual spec gate) above. Produce the vspec there; don't restate that process here.
 
 **This gate is not optional for "small" blocks.** A coloured callout container, a stat grid wrapper, a challenge summary card — all are new visual surfaces that require this audit. The size of the block does not determine whether the gate fires; the novelty of the visual format does.
 
@@ -652,7 +666,7 @@ Candidates checked:
 - Callout (aside): covers prose + left accent. Missing: label + coloured bg. → 80% fit — extend via prop.
 - Card: covers bg + border. Missing: left accent, no title slot. → 60% fit.
 Decision: Extend Callout with a label prop, or use it as-is and add label via SectionLabel above.
-Mock: not required — extending existing component.
+Vspec: not required — extending existing component.
 ```
 
 ---
@@ -748,9 +762,9 @@ git log origin/main..<branch>          # must be empty (branch merged)
 
 If the commits are not on `origin/main`, halt the audit and surface the gap to the user before running anything.
 
-### When a visual mock or spec exists
+### When a vspec exists
 
-Produce a **mock-to-implementation comparison table** before requesting close-out. The table must list every visual element in the mock (field order, spacing values, chip styles, typography, colours) and flag each as Match, Drift, or Missing. Present this table to Bex for review. Do not close the epic until "Visual QA approved."
+Produce a **vspec-to-build comparison table** before requesting close-out. The table must list every visual element in the vspec (field order, spacing values, chip styles, typography, colours) and flag each as Match, Drift, or Missing. Present this table to Bex for review. Do not close the epic until "Visual QA approved."
 
 ### Technical diagram red-pen gate (blocking — fires before any diagram is uploaded or published)
 
@@ -775,8 +789,8 @@ The table lives in the owning epic doc, or in `docs/diagrams/redpen-{target}.md`
 
 Confirm:
 1. The value is a token reference (`var(--st-*)`) not a hardcoded value. If hardcoded, state why.
-2. The computed layout matches the dimensional contract. Show the arithmetic (e.g. "Mock: 3-col grid at 1200px. Card 340px, gap 24px. 340x3 + 24x2 = 1068px + padding = 1200px").
-3. Spacing and gap values match the mock or spec. Numbers, not vibes.
+2. The computed layout matches the dimensional contract. Show the arithmetic (e.g. "Vspec: 3-col grid at 1200px. Card 340px, gap 24px. 340x3 + 24x2 = 1068px + padding = 1200px").
+3. Spacing and gap values match the vspec. Numbers, not vibes.
 
 ### Dark mode surface work — pre-flight
 
@@ -814,4 +828,4 @@ Every new or modified component that has visual output must have a Storybook sto
 
 ### Honesty over confidence
 
-List visual elements you cannot verify without a browser. "I cannot confirm the hover state transition timing matches the mock" is acceptable. "Everything looks good" without evidence is not.
+List visual elements you cannot verify without a browser. "I cannot confirm the hover state transition timing matches the vspec" is acceptable. "Everything looks good" without evidence is not.
