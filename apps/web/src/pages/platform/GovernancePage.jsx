@@ -145,10 +145,10 @@ const POSTURE = {
 }
 
 const COVERAGE_TALLY = [
-  { label: '18 checks · Enforced automatically', value: 18, body: 'Code and pre-commit hooks catch these, not just written policy.' },
-  { label: '5 checks · Written down, followed by habit', value: 5, body: 'Real, but no automated check yet.' },
-  { label: '2 checks · Handled by our vendors', value: 2, body: 'Sanity, GitHub, and Netlify own these.' },
-  { label: "5 checks · Doesn't apply here", value: 5, body: 'No AI model is trained on this platform.' },
+  { label: 'Enforced automatically',          value: 18, body: 'Code and pre-commit hooks catch these, not just written policy.' },
+  { label: 'Written down, followed by habit', value: 5,  body: 'Real, but no automated check yet.' },
+  { label: 'Handled by our vendors',          value: 2,  body: 'Sanity, GitHub, and Netlify own these.' },
+  { label: "Doesn't apply here",              value: 5,  body: 'No AI model is trained on this platform.' },
 ]
 
 const COVERAGE_LAYERS = [
