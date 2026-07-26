@@ -23,11 +23,16 @@ adding an unrelated §07. The six-layer `COVERAGE_LAYERS` table is replaced by t
 diagram's own L-badges + legend; the plain-language tally strip (SUG-245's fix) stays as
 a compact companion for the "at a glance" reading mode a diagram doesn't serve well.
 
-**Hard dependency on SUG-245.** The layer-tag design uses corrected numbers (3 open
-gaps, not 0) as its factual basis. Do not execute this epic's live-page phase before
-SUG-245 Phase 1 (fix the false claim) has landed — tagging a diagram with "Strong ·
-Compliance" using a tally that's currently wrong would just move the same inaccuracy
-into a new visual format.
+**Hard dependency on SUG-245 — updated 2026-07-26, handoff verified, not assumed.**
+SUG-245 Phase 1 landed. The premise above ("corrected numbers: 3 open gaps, not 0") did
+**not** hold — SUG-239 shipped in between and closed the exact three counterexamples
+SUG-245 had flagged (`validate:css-names`/`validate:taxonomy` now wired,
+design-reviewer named in CLAUDE.md), so `governance-coverage.md` and
+`COVERAGE_TALLY`/`COVERAGE_LAYERS` were re-verified accurate and left unchanged: Layer 6
+stays **Strong**, tally stays **Gap: 0**. The layer-tag design should use these
+re-confirmed current numbers (Strong: 18, Gap: 0), not the "3 open gaps" figure this doc
+originally assumed. This epic is no longer blocked — SUG-245 has landed — but its Layer
+6 badge (e.g. "Strong · Compliance") should read `Strong`, not a downgraded posture.
 
 ## Template adaptation — declared once
 
