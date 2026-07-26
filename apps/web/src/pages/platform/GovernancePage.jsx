@@ -135,41 +135,65 @@ const RELEASE_DIAGRAM = {
   caption: 'Release process — 7 gates',
 }
 
-// ── AI governance coverage (SUG-198) ──────────────────────
-// Data sourced verbatim from docs/ai/agentic-caucus/governance-coverage.md v1.1
-const POSTURE = {
-  strong:    { color: 'var(--st-posture-strong)',    label: 'Strong' },
-  partial:   { color: 'var(--st-posture-partial)',   label: 'Partial' },
-  inherited: { color: 'var(--st-posture-inherited)', label: 'Inherited' },
-  na:        { color: 'var(--st-posture-na)',        label: 'N/A' },
+// ── Workflow lifecycle diagram (SUG-244) ──────────────────
+// Layer badges verified against docs/ai/agentic-caucus/governance-coverage.md's
+// evidence rows (see SUG-244's Governance-layer mapping table) — re-check there
+// before changing which layer a phase is tagged with. L3/L4 are deliberately
+// not badged on any node — explained in the legend paragraph below the diagram.
+const WORKFLOW_DIAGRAM = {
+  _key: 'gov-workflow-lifecycle',
+  code: `flowchart LR
+    A["Intake\\n[L1]"] --> B["Planning\\n[L5]"]
+    B --> C["Design\\n[L5]"]
+    C --> D["Implementation\\n[L6]"]
+    D --> E["Verification\\n[L6]"]
+    E --> F["Close-out\\n[L2]"]
+    F --> G["Release\\n[L6]"]
+    G --> H["Feedback\\n[L6]"]
+    H -.-> B`,
+  width: 'wide',
+  caption: 'Epic lifecycle — 8 phases, layer-tagged',
 }
 
+// ── Governance doc index (SUG-244 Phase 2) ────────────────
+// Paths re-verified against the live repo 2026-07-26 — both epics this table
+// originally marked "pending" (SUG-241 feedback-loop.md, SUG-242 vspec naming)
+// have since shipped, so no row is flagged proposed/pending anymore.
+const GH = 'https://github.com/bex-sugartown/sugartown/blob/main/'
+const WORKFLOW_DOCS = [
+  { phase: 'Intake', docLabel: 'IA Brief + PRD-writer skill', docHref: `${GH}docs/briefs/ia-brief.md`, outputLabel: 'Linear issue (SUG-N assigned)', outputHref: null },
+  { phase: 'Planning', docLabel: 'Epic Template + CLAUDE.md §Epic authoring', docHref: `${GH}docs/epic-template.md`, outputLabel: 'Backlog epic doc', outputHref: null },
+  { phase: 'Design', docLabel: 'CLAUDE.md §Phase 0 + Design Handoff Template', docHref: `${GH}docs/conventions/design-handoff-template.md`, outputLabel: 'Vspec (drafts/ → shipped/ copy)', outputHref: null },
+  { phase: 'Implementation', docLabel: 'CLAUDE.md conventions', docHref: `${GH}CLAUDE.md`, outputLabel: 'Commits, Storybook stories', outputHref: null },
+  { phase: 'Verification', docLabel: 'VQA Workflow + CLAUDE.md §Visual Verification', docHref: `${GH}docs/conventions/vqa-workflow.md`, outputLabel: 'VQA table, Chromatic build', outputHref: null },
+  { phase: 'Close-out', docLabel: 'CLAUDE.md §Session Discipline', docHref: `${GH}CLAUDE.md`, outputLabel: 'Shipped epic doc, mini-release commit', outputHref: null },
+  { phase: 'Release', docLabel: 'Release Assistant', docHref: `${GH}docs/workflows/release-assistant-prompt.md`, outputLabel: 'CHANGELOG', outputHref: TRUST_LINKS.changelog },
+  { phase: 'Feedback', docLabel: 'Feedback Loop', docHref: `${GH}docs/conventions/feedback-loop.md`, outputLabel: 'Backlog priorities (dated block)', outputHref: `${GH}docs/backlog/sugartown-backlog-priorities.md` },
+]
+
+const WORKFLOW_DOCS_COLUMNS = [
+  { key: 'phase',  label: 'Phase',          width: 140 },
+  { key: 'doc',    label: 'Governing doc'              },
+  { key: 'output', label: 'Output artifact'             },
+]
+
+const linkOrText = (label, href) =>
+  href ? <a href={href} target="_blank" rel="noopener noreferrer">{label}</a> : label
+
+const toWorkflowDocRow = (r) => ({
+  phase: r.phase,
+  doc: linkOrText(r.docLabel, r.docHref),
+  output: linkOrText(r.outputLabel, r.outputHref),
+})
+
+// ── AI governance coverage (SUG-198) ──────────────────────
+// Data sourced verbatim from docs/ai/agentic-caucus/governance-coverage.md v1.1
 const COVERAGE_TALLY = [
   { label: 'Automated checks',    value: 18, body: 'Enforced by code and pre-commit hooks.' },
   { label: 'Documented checks',   value: 5,  body: 'To be automated or kept human.' },
   { label: 'Vendor-owned checks', value: 2,  body: 'Owned by Sanity, GitHub, and Netlify.' },
   { label: 'Out-of-scope checks', value: 5,  body: 'No AI model is trained on this platform.' },
 ]
-
-const COVERAGE_LAYERS = [
-  { layer: '1 · AI Inventory',           posture: 'strong',    cover: 'Every agent named and deliberately deployed; risk-tiered A–D; per-agent model cards.' },
-  { layer: '2 · Data Foundation',        posture: 'partial',   cover: 'Git as source of truth, verbatim content, full validator suite. Lineage and freshness tracked informally.' },
-  { layer: '3 · Data Security & Access', posture: 'inherited', cover: 'Encryption and key management owned by Sanity, GitHub, Netlify, and the model providers.' },
-  { layer: '4 · Model Assurance',        posture: 'partial',   cover: 'Model cards and drift detection strong; red-teaming via adversarial-verify patterns and validators.' },
-  { layer: '5 · Human Oversight',        posture: 'strong',    cover: 'Epic gates, Phase 0, Visual QA, Content Write Gate. Agents propose; Bex decides.' },
-  { layer: '6 · Compliance & Audit',     posture: 'strong',    cover: 'Enforced policy in code, standing incident log, data-handling note, full git / Linear / CHANGELOG audit trail.' },
-]
-
-const COVERAGE_COLUMNS = [
-  { key: 'layer',   label: 'Layer',          width: 230 },
-  { key: 'posture', label: 'Posture',        width: 130 },
-  { key: 'cover',   label: 'What covers it'             },
-]
-
-const toCoverageRow = (r) => {
-  const p = POSTURE[r.posture]
-  return { layer: r.layer, posture: <Swatch color={p.color} label={p.label} />, cover: r.cover }
-}
 
 function RoadmapLane({ label, epics }) {
   const rows = epics.map((r) => toRoadmapRow(r, styles.issueId, styles.statusCell, styles.labelChips))
@@ -293,6 +317,18 @@ export default function GovernancePage() {
             title="Enforced policy, measured"
             kicker="30 checks · 0 gaps"
           />
+          <MermaidDiagram
+            _key={WORKFLOW_DIAGRAM._key}
+            code={WORKFLOW_DIAGRAM.code}
+            caption={WORKFLOW_DIAGRAM.caption}
+            className={pageSectionStyles.mermaidSectionWide}
+          />
+          <p className={styles.intro}>
+            Each phase is tagged with its primary AI-governance layer (L1 AI Inventory, L2
+            Data Foundation, L5 Human Oversight, L6 Compliance &amp; Audit). L3 Data
+            Security &amp; Access is inherited from platform vendors and L4 Model Assurance
+            is diffuse across phases, so neither is tied to a single node.
+          </p>
           <p className={styles.intro}>
             Every release is checked against 30 governance checkpoints across six areas —
             from who can publish what, to how model risk is tracked. Here&rsquo;s how those
@@ -303,8 +339,8 @@ export default function GovernancePage() {
               <StatCard key={s.label} label={s.label} value={s.value} body={s.body} />
             ))}
           </Grid>
-          <TableWrap caption="Six-layer coverage" captionMeta="6 layers">
-            <Table tone="subdued" zebra={false} columns={COVERAGE_COLUMNS} rows={COVERAGE_LAYERS.map(toCoverageRow)} />
+          <TableWrap caption="Governance doc index" captionMeta="8 phases">
+            <Table tone="subdued" zebra={false} columns={WORKFLOW_DOCS_COLUMNS} rows={WORKFLOW_DOCS.map(toWorkflowDocRow)} />
           </TableWrap>
         </section>
 
