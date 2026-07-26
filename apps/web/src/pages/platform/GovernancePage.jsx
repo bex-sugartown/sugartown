@@ -146,7 +146,7 @@ const POSTURE = {
 
 const COVERAGE_TALLY = [
   { label: 'Automated checks',    value: 18, body: 'Enforced by code and pre-commit hooks.' },
-  { label: 'Documented checks',   value: 5,  body: 'Followed by convention, not yet automated.' },
+  { label: 'Documented checks',   value: 5,  body: 'To be automated or kept human.' },
   { label: 'Vendor-owned checks', value: 2,  body: 'Owned by Sanity, GitHub, and Netlify.' },
   { label: 'Out-of-scope checks', value: 5,  body: 'No AI model is trained on this platform.' },
 ]
