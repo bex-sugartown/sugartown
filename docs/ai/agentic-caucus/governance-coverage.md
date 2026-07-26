@@ -3,7 +3,7 @@
 **Version:** v1.0
 **Status:** Active
 **Owner:** Bex Head
-**Last updated:** June 2026
+**Last updated:** July 2026
 **Related:** [[methodology]] (`docs/ai/agentic-caucus/methodology.md`), [[failure-modes]] (`docs/ai/agentic-caucus/failure-modes.md`), [[incident-log]] (`docs/ai/agentic-caucus/incident-log.md`), [[data-handling]] (`docs/ai/agentic-caucus/data-handling.md`)
 
 ---
@@ -160,6 +160,17 @@ Named here so they read as decisions, not oversights.
 ---
 
 ## Changelog
+
+### v1.2 — 2026-07-26
+SUG-245 (accuracy pass) + SUG-239 (enforcement fix). SUG-245's review found Layer 6
+"Policy enforcement · Strong" potentially stale: `validate:css-names` and
+`validate:taxonomy` existed but ran on no hook and no CI job, and the design-reviewer
+subagent was never named in CLAUDE.md's close-out. SUG-239 shipped the same session and
+closed all three: `validate:css-names` now blocks commits via `.husky/pre-commit`,
+`validate:taxonomy` blocks CI via `.github/workflows/ci.yml`, and CLAUDE.md's close-out
+step 3 now names design-reviewer. A `validate:validators` meta-check was added so this
+class of drift can't recur silently. Layer 6 and the tally are unchanged (Strong /
+Gap: 0) — re-verified accurate as of this entry, not carried forward unchecked.
 
 ### v1.1 — 30 June 2026
 SUG-198. Closed the two remaining fills: GDPR row Gap → Partial ([[data-handling]]) and
