@@ -184,6 +184,15 @@ time, since some rows depend on epics in this same batch landing first:
 | Release | `docs/workflows/release-assistant-prompt.md` | `CHANGELOG.md`, `RELEASE_NOTES.md` |
 | Feedback | `docs/conventions/feedback-loop.md` *(pending SUG-241)*, `docs/post-mortem-prompt.md` | `docs/backlog/sugartown-backlog-priorities.md` dated block, `docs/reviews/post-mortem/*.md` |
 
+- [ ] **Soft dependency, not blocking: check SUG-248's status before building this as a
+  hardcoded array.** `WORKFLOW_DOCS` follows the same `eyebrow`/`title`/`body`/`href`
+  shape as the existing `ARTIFACTS` const — the exact pattern SUG-248 (Formalize
+  stat-card/card-builder content schema pattern) is auditing as duplicated across 4
+  files with zero Sanity backing. If SUG-248 has landed and decided "migrate hardcoded
+  arrays to `cardBuilderSection`," author `WORKFLOW_DOCS` as real Sanity content from
+  the start instead of adding a 5th hardcoded copy of the same shape. If SUG-248 hasn't
+  landed yet, proceed with the hardcoded array as originally scoped below — this is not
+  a hard block on this epic.
 - [ ] Add `WORKFLOW_DOCS` const array, following the existing `ARTIFACTS` const's shape
   (`eyebrow`/`title`/`body`/`href`) but with an added `output` field
 - [ ] Render as a `TableWrap`/`Table` immediately below the diagram — columns: Phase,
