@@ -250,7 +250,43 @@ page.
 ## Related
 
 - **Linear:** [SUG-248](https://linear.app/sugartown/issue/SUG-248/formalize-stat-card-card-builder-content-schema-pattern)
-- **Related backlog:** `docs/backlog/SUG-19-kpi-dashboard-cards.md` (kpiDashboardSection proposal, to be reconciled)
+- **Related backlog:** `docs/backlog/SUG-19-kpi-dashboard-cards.md` (`kpiDashboardSection` proposal — reconciled, no conflict, cross-check note added to its own doc)
 - **Prior rename epic:** `docs/shipped/zArchive/2026/SUG-151-ds-phase-5-schema-closeout.md` (statTileSection → cardSection)
 - **Unrelated origin epic:** `docs/shipped/zArchive/2026/EPIC-0160-card-builder-section.md` (cardBuilderSection's original build)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+## Post-Epic Close-Out
+
+1. **Visual QA gate** — N/A, confirmed no CSS/layout/component rendering touched (per
+   this epic's own Non-Goals).
+2. **Chromatic** — N/A, no components or Storybook stories touched.
+3. **Data pipeline gap check** — N/A.
+3b. **Friction line.** None — every scope item resolved cleanly on first pass. The one
+    thing worth noting for future sessions: this epic's own Background section
+    understated SUG-19's actual difference from `cardSection` (quoted only the "same
+    pattern as `cardBuilderSection`" line without reading the full proposal) — caught by
+    the epic's own activation-audit instruction to read SUG-19 in full before deciding,
+    not by a correction commit.
+4. **AC note — `outcomeItem.ts` comment grep.** The AC states "contains no reference to
+   `caseStudy.outcomes[]` or `proofPointSection` — verified by grep returning zero hits."
+   A literal grep does **not** return zero — the corrected comment intentionally keeps
+   one historical sentence ("This comment previously referenced a `caseStudy.outcomes[]`
+   field and a `proofPointSection` type — neither exists in the current schema
+   (SUG-248)") explaining what was wrong and why, matching this repo's own convention of
+   documenting corrections rather than silently erasing them. The AC's actual intent —
+   no false claim that these fields/types currently exist — is satisfied; its literal
+   mechanical form is not. Flagging the discrepancy rather than quietly claiming full
+   literal compliance.
+5. **Linear relation note.** The Technical Notes above proposed setting a `blocks`
+   relation from SUG-248 → SUG-19 "once the reconciliation decision is made." Since the
+   decision was "no conflict, no dependency," no relation was set — there is nothing to
+   block. Noted here so this isn't mistaken for an oversight.
+6. Schema deployed (`npx sanity schema deploy`, 1/1 schemas) after the `outcomeItem.ts`
+   field-description edits.
+7. Route smoke tests green (5/5) before close-out.
+8. Moving `docs/backlog/SUG-248-formalize-stat-card-schema-pattern.md` →
+   `docs/shipped/SUG-248-formalize-stat-card-schema-pattern.md` in the same commit as
+   this edit.
+9. `/mini-release SUG-248 Formalize stat-card/card-builder content schema pattern` —
+   next step.
+10. Transition SUG-248 to **Done** in Linear — next step.
