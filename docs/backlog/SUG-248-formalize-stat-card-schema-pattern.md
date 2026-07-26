@@ -35,8 +35,20 @@ on a casual read of the live page — a `cardSection` block visibly labeled with
 type name, sitting next to a `cardBuilderSection` block. Separately, `outcomeItem.ts`'s
 header comment still references a `caseStudy.outcomes[]` field and a `proofPointSection`
 type that no longer exist anywhere in the schemas directory (confirmed via grep,
-zero hits) — both stale leftovers from before the same rename. And a fourth pattern is
-queued to join this family: `SUG-19` (backlog, not yet built) proposes a
+zero hits) — both stale leftovers from before the same rename.
+
+**New finding, added 2026-07-26 while recasting `GovernancePage`'s tally content to
+match `outcomeItem`'s real field intent:** `outcomeItem.ts`'s `impactStatement` field
+description in Studio reads *"Plain-language sentence explaining what changed for the
+client. **Not shown on the tile** — used for tooltips and retrieval."* But
+`StatCardSectionRenderer` (`PageSections.jsx`) maps `impactStatement → body`, and
+`StatCard.jsx`'s `body` prop **does render visibly on the tile** — there is no tooltip
+mechanism anywhere in the component. Either the schema's field description is stale/
+aspirational (a tooltip treatment that was planned but never built), or the renderer is
+doing something the schema never intended. Needs a decision: update the field
+description to match reality, or build the tooltip behavior the description promises.
+
+And a fourth pattern is queued to join this family: `SUG-19` (backlog, not yet built) proposes a
 `kpiDashboardSection` explicitly modeled "same pattern as `cardBuilderSection`" with
 trend/sparkline stat cards — a live risk of forking a third near-identical stat schema
 if this isn't reconciled first.
@@ -123,6 +135,13 @@ or the `StatCard`/`Grid`/`CardBuilderSection` components' rendering logic.
       (e.g. add optional `trend`/`sparkline` fields) rather than fork a new schema type,
       and update SUG-19's backlog doc to reflect the decision — layer: **schema
       decision / documentation**
+- [ ] **Decide: fix `outcomeItem.ts`'s `impactStatement` field description, or build the
+      tooltip behavior it promises?** — the description says "not shown on the tile,"
+      but `PageSections.jsx` renders it directly via `StatCard`'s `body` prop, on every
+      live tile across all 10 `cardSection` documents. Record the decision (update the
+      description to match reality vs. build a real tooltip/retrieval treatment) and
+      execute it — layer: **schema description** (if description-only) or **schema +
+      frontend** (if a tooltip mechanism is built)
 
 ## Acceptance Criteria
 
@@ -140,6 +159,9 @@ or the `StatCard`/`Grid`/`CardBuilderSection` components' rendering logic.
       before any Sanity write (proposal + approval), and schema is deployed via
       `npx sanity schema deploy` if any schema addition is needed — proposal approved
       before patch
+- [ ] This doc records an explicit decision on `impactStatement`'s description-vs-render
+      mismatch, and either `outcomeItem.ts`'s field description or the render behavior
+      is updated to match — verified by re-reading both after the change
 
 ## Human QA Walkthrough — example local pages
 
