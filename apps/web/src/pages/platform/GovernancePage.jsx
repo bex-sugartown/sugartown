@@ -178,7 +178,7 @@ const WORKFLOW_DOCS_COLUMNS = [
 ]
 
 const linkOrText = (label, href) =>
-  href ? <a href={href} target="_blank" rel="noopener noreferrer">{label}</a> : label
+  href ? <a href={href} target="_blank" rel="noopener noreferrer" className={styles.releaseVersionLink}>{label}</a> : label
 
 const toWorkflowDocRow = (r) => ({
   phase: r.phase,
@@ -317,18 +317,6 @@ export default function GovernancePage() {
             title="Enforced policy, measured"
             kicker="30 checks · 0 gaps"
           />
-          <MermaidDiagram
-            _key={WORKFLOW_DIAGRAM._key}
-            code={WORKFLOW_DIAGRAM.code}
-            caption={WORKFLOW_DIAGRAM.caption}
-            className={pageSectionStyles.mermaidSectionWide}
-          />
-          <p className={styles.intro}>
-            Each phase is tagged with its primary AI-governance layer (L1 AI Inventory, L2
-            Data Foundation, L5 Human Oversight, L6 Compliance &amp; Audit). L3 Data
-            Security &amp; Access is inherited from platform vendors and L4 Model Assurance
-            is diffuse across phases, so neither is tied to a single node.
-          </p>
           <p className={styles.intro}>
             Every release is checked against 30 governance checkpoints across six areas —
             from who can publish what, to how model risk is tracked. Here&rsquo;s how those
@@ -339,6 +327,18 @@ export default function GovernancePage() {
               <StatCard key={s.label} label={s.label} value={s.value} body={s.body} />
             ))}
           </Grid>
+          <Callout variant="info">
+            Each phase is tagged with its primary AI-governance layer (L1 AI Inventory, L2
+            Data Foundation, L5 Human Oversight, L6 Compliance &amp; Audit). L3 Data
+            Security &amp; Access is inherited from platform vendors and L4 Model Assurance
+            is diffuse across phases, so neither is tied to a single node.
+          </Callout>
+          <MermaidDiagram
+            _key={WORKFLOW_DIAGRAM._key}
+            code={WORKFLOW_DIAGRAM.code}
+            caption={WORKFLOW_DIAGRAM.caption}
+            className={pageSectionStyles.mermaidSectionWide}
+          />
           <TableWrap caption="Governance doc index" captionMeta="8 phases">
             <Table tone="subdued" zebra={false} columns={WORKFLOW_DOCS_COLUMNS} rows={WORKFLOW_DOCS.map(toWorkflowDocRow)} />
           </TableWrap>
