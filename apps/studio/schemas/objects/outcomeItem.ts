@@ -3,18 +3,22 @@ import {defineType, defineField} from 'sanity'
 /**
  * outcomeItem — shared atomic stat object.
  *
- * Used in two places:
- *   - outcomes[] on caseStudy (document-level, fixed render position)
- *   - proofPointSection items[] (section builder block, editorial placement)
+ * Used in one place: cardSection.items[] (section builder block, editorial
+ * placement) — cardSection is registered in sections[] on page, article,
+ * caseStudy, and node.
  *
- * Both surfaces render via the same StatCard + Grid primitives in the DS.
- * Field names are the canonical mapping contract for those components:
+ * Renders via the same StatCard + Grid primitives in the DS. Field names are
+ * the canonical mapping contract for that component:
  *   metric      → StatCard label
  *   valueAfter  → StatCard value (large display)
  *   valueBefore → StatCard sub ("Was:" label — SUG-96)
  *   evidenceType → StatCard foot (footer, bottom-aligned — last field, SUG-192)
  *
  * SUG-94: extracted from inline outcome object on caseStudy
+ * SUG-151: statTileSection renamed to cardSection; usage consolidated to
+ *   cardSection.items[] only. This comment previously referenced a
+ *   caseStudy.outcomes[] field and a proofPointSection type — neither exists
+ *   in the current schema (SUG-248).
  */
 export default defineType({
   name: 'outcomeItem',
