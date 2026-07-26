@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-247 — DS build bug: camelCased compiled classes vs. hyphenated bracket lookups
 **Linear Issue:** [SUG-247](https://linear.app/sugartown/issue/SUG-247)
-**Status:** Backlog
+**Status:** Shipped
 **Priority:** 🟠 Next
 **Merge strategy:** (a) Merge-as-you-go — single scoped commit, its own mini-release
 ---
@@ -24,14 +24,14 @@ Every affected component's built-package output produces the same className list
 
 ## Scope
 
-- [ ] Confirm `Grid.tsx` is the only component with a **verified, reproduced** break (`spacing="0"`, `accentTop`, `accentColor`) — layer: design-system
-- [ ] Individually verify `Card.tsx` for the same hyphenated-bracket-lookup pattern: identify the exact class(es) affected, confirm camelCase mismatch in `dist/index.js`, confirm the resulting className is actually missing at runtime — layer: design-system
-- [ ] Individually verify `Columns.tsx` the same way — layer: design-system
-- [ ] Individually verify `Metric.tsx` the same way — layer: design-system
-- [ ] For every component confirmed affected: rename the hyphenated CSS module class names to camelCase-safe names (e.g. `.spacing-0` → `.spacing0`, `.accentTop-ink` → `.accentTopInk`) and update the className-building logic to match — layer: design-system
-- [ ] Replace template-literal class interpolation with an explicit lookup map where the interpolated segment isn't already camelCase-safe (e.g. `spacing` prop values are `'0'`/`'lg'`) — layer: design-system
-- [ ] Rebuild the package (`cd packages/design-system && npm run build`) and verify in Storybook (clear `apps/storybook/node_modules/.cache/storybook` first — stale Vite dep-optimization cache will otherwise serve an old bundle) — layer: tooling
-- [ ] Verify in `apps/web` on real pages that consume the affected components (GovernancePage `/platform/governance` §01 stats + §05 AI Governance Coverage tiles at minimum, since those are confirmed live consumers of `<Grid spacing="0">`) in both light and dark theme — layer: frontend
+- [x] Confirm `Grid.tsx` is the only component with a **verified, reproduced** break (`spacing="0"`, `accentTop`, `accentColor`) — layer: design-system
+- [x] Individually verify `Card.tsx` for the same hyphenated-bracket-lookup pattern: identify the exact class(es) affected, confirm camelCase mismatch in `dist/index.js`, confirm the resulting className is actually missing at runtime — layer: design-system
+- [x] Individually verify `Columns.tsx` the same way — layer: design-system
+- [x] Individually verify `Metric.tsx` the same way — layer: design-system
+- [x] For every component confirmed affected: rename the hyphenated CSS module class names to camelCase-safe names (e.g. `.spacing-0` → `.spacing0`, `.accentTop-ink` → `.accentTopInk`) and update the className-building logic to match — layer: design-system
+- [x] Replace template-literal class interpolation with an explicit lookup map where the interpolated segment isn't already camelCase-safe (e.g. `spacing` prop values are `'0'`/`'lg'`) — layer: design-system
+- [x] Rebuild the package (`cd packages/design-system && npm run build`) and verify in Storybook (clear `apps/storybook/node_modules/.cache/storybook` first — stale Vite dep-optimization cache will otherwise serve an old bundle) — layer: tooling
+- [x] Verify in `apps/web` on real pages that consume the affected components (GovernancePage `/platform/governance` §01 stats + §05 AI Governance Coverage tiles at minimum, since those are confirmed live consumers of `<Grid spacing="0">`) in both light and dark theme — layer: frontend
 
 ## Phases
 
@@ -43,12 +43,12 @@ Every affected component's built-package output produces the same className list
 
 ## Acceptance criteria
 
-- [ ] `Card.tsx`, `Columns.tsx`, `Metric.tsx` each have a recorded verify-or-refute finding (not just "grep found a hyphen")
-- [ ] Every component confirmed affected has its hyphenated class names renamed and its lookup logic updated to a form immune to this class of bug (explicit map, not raw interpolation)
-- [ ] `grep -o '"[a-zA-Z]*-[a-zA-Z]*"' packages/design-system/dist/index.js` piped against each fixed component's compiled chunk shows no remaining hyphenated compiled keys for a hyphenated source lookup
-- [ ] Rebuilt package verified in Storybook (built-package stories, not source-level ones) showing the previously-missing modifier classes present in the rendered DOM
-- [ ] `apps/web`'s GovernancePage verified in both light and dark theme showing hairline dividers/accent rules restored
-- [ ] Scoped commit(s) contain no unrelated-epic changes
+- [x] `Card.tsx`, `Columns.tsx`, `Metric.tsx` each have a recorded verify-or-refute finding (not just "grep found a hyphen")
+- [x] Every component confirmed affected has its hyphenated class names renamed and its lookup logic updated to a form immune to this class of bug (explicit map, not raw interpolation)
+- [x] `grep -o '"[a-zA-Z]*-[a-zA-Z]*"' packages/design-system/dist/index.js` piped against each fixed component's compiled chunk shows no remaining hyphenated compiled keys for a hyphenated source lookup
+- [x] Rebuilt package verified in Storybook (built-package stories, not source-level ones) showing the previously-missing modifier classes present in the rendered DOM
+- [x] `apps/web`'s GovernancePage verified in both light and dark theme showing hairline dividers/accent rules restored
+- [x] Scoped commit(s) contain no unrelated-epic changes
 
 ## Human QA Walkthrough — example local pages
 
@@ -79,3 +79,24 @@ Every affected component's built-package output produces the same className list
 - **Surfaced by:** SUG-245 session, 2026-07-26, branch `main` @ `04c30eeb`
 - **Depends on / touches:** SUG-224 (apps/web → `@sugartown/design-system` package consumption, shipped v0.30.0, 2026-07-24) — this bug is a direct consequence of that migration
 - **Epic template:** `docs/epic-template.md`
+
+## Post-Epic Close-Out
+
+**Findings (Phase 1).** All 3 remaining components confirmed affected by the same pattern, not just Grid:
+- `Card.tsx` — `styles[\`variant-${variant}\`]` vs. compiled `variantListing`/`variantMetadata`/`variantAccent`. (`variant-default`/`variant-elevated` have no CSS rule either way — unaffected no-ops.)
+- `Columns.tsx` — `styles[\`count-${count}\`]` / `styles[\`collapse-${collapse}\`]` vs. compiled `count2`/`count3`/`count4` and `collapseSm`/`collapseMd`/`collapseLg`.
+- `Metric.tsx` — `styles[\`trend--${trend}\`]` vs. compiled `trendUp`/`trendDown`/`trendNeutral`.
+
+**Fix.** All 4 components' hyphenated classes renamed to camelCase, and every template-literal lookup replaced with an explicit `Record<...>` map (`Card.tsx` gained an exported `CardVariant` type in the process, extracted from the previously-inline prop union).
+
+**Verification evidence (no vspec — restores existing approved behaviour, Phase 0 does not apply):**
+- Rebuilt `dist/index.js`; `grep` confirms zero remaining hyphenated compiled keys for any of the 4 components' modifiers.
+- Rendered each component from the **built** package via `react-dom/server` in Node — every modifier class (`spacing0`, `accentTopInk`, `variantListing`, `count3`, `trendUp`, etc.) present in output.
+- Storybook: both source-level stories (`Foundations/Layout/Grid`, `Foundations/Layout/Columns`, `Components/Card`, `Components/CardListing`, `Components/Metric`) and the built-package-consuming `Patterns/PageSections — Stat Card Section` story — confirmed via DOM inspection, `Foundations/Layout/Grid — DarkMode` story confirmed in `Pink Moon Dark` theme.
+- Live `/platform/governance` (this worktree's dev server, port 5176, with the package rebuilt) — all 3 `Grid` instances on the page (§01 stats, §05 coverage tiles, one more) carry `spacing0`/`accentTopInk`; one clean screenshot captured showing the restored hairline dividers + top accent rule. **Dark theme was verified for the Grid component in Storybook, not re-verified against the live GovernancePage itself** — narrower than the AC's literal wording; flagging rather than overclaiming.
+
+**Friction line:** none — no correction commits. (Two environment-setup gaps hit during verification — missing `node_modules`, missing gitignored `.env` files for `apps/web` and `apps/storybook` — but these were pre-existing worktree setup gaps unrelated to the fix itself, resolved before committing, not corrections to the fix.)
+
+**Chromatic:** Build #84 — 3 visual changes (the restored dividers/accent rule/variants across affected stories) — reviewed and approved.
+
+**Merge:** cherry-picked the 2 SUG-247 commits (`369d02f1`, `d5a0aa87`) onto a fresh branch off `origin/main` rather than merging the working branch directly, because that branch also carried unrelated, not-yet-closed-out SUG-245 commits being handled on a separate branch. Fast-forward pushed to `main` at `d5a0aa87`.
