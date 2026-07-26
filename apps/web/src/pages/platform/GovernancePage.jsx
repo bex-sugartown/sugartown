@@ -315,13 +315,8 @@ export default function GovernancePage() {
             number="§05"
             name="AI GOVERNANCE COVERAGE"
             title="Enforced policy, measured"
-            kicker="30 checks · 0 gaps"
+            kicker="30 checkpoints · 0 gaps"
           />
-          <p className={styles.intro}>
-            Every release is checked against 30 governance checkpoints across six areas —
-            from who can publish what, to how model risk is tracked. Here&rsquo;s how those
-            checks actually happen.
-          </p>
           <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2} className={styles.statsSection}>
             {COVERAGE_TALLY.map((s) => (
               <StatCard key={s.label} label={s.label} value={s.value} body={s.body} />
