@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-244 — GovernancePage: workflow lifecycle diagram + governance doc index
 **Linear Issue:** [SUG-244](https://linear.app/sugartown/issue/SUG-244/governancepage-add-workflow-lifecycle-diagram-governance-doc-index)
-**Status:** Backlog — **proposal, awaiting explicit go-ahead before Phase 1 begins**
+**Status:** In Progress — explicit go-ahead received 2026-07-26, executing Phase 1
 **Priority:** ⬛ Deferred — nice-to-have, not blocking anything
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
@@ -76,8 +76,9 @@ specified below before execution, re-evaluate this decision at that time.
   `MermaidDiagram`'s implementation: it already reads `document.documentElement`'s
   `data-theme` attribute and switches to a WCAG AA-compliant token-driven palette (≥4.5:1
   text, ≥3:1 node-on-canvas) per theme. No new work needed — verify, don't rebuild.
-- [ ] **Explicit go-ahead** — this checkbox stays unticked until Bex confirms beyond
-  this doc's creation that Phase 1 should begin
+- [x] **Explicit go-ahead** — received 2026-07-26 in chat: "execute SUG-244... explicitly
+  say 'yes, start SUG-244 Phase 1' (not just 'let's do 244')" followed by "execute
+  SUG-244" as the standalone instruction, satisfying this gate.
 
 ## Context [REQUIRED]
 
@@ -258,17 +259,25 @@ time, since some rows depend on epics in this same batch landing first:
 
 ## Acceptance Criteria [REQUIRED]
 
-- [ ] Diagram renders correctly on both `light` and `dark-pink-moon` themes — confirmed
-  in-browser, not assumed from the component's existing token-driven design
-- [ ] Every table link resolves — no 404s, no links to files that don't exist yet
-  without a visible "pending" marker
-- [ ] Section reuses `MermaidDiagram`/`Table`/`TableWrap`/`SectionLabel` with zero new
-  components
-- [ ] `securityLevel` in `MermaidDiagram.jsx` is unchanged — `git diff` confirms no
-  modification to that file
-- [ ] Cross-surface spot check: page renders without console errors, matches the visual
-  weight/spacing of the existing §03 and §05 sections (no double-padding, consistent
-  `SectionLabel` usage)
+- [x] Diagram renders correctly on both `light` and `dark-pink-moon` themes — confirmed
+  in-browser (toggled both, checked SVG present + consistent dimensions, zero console
+  errors) and visually approved by Bex after live review
+- [x] Every table link resolves — no 404s. All 10 links (8 doc + 2 output) verified
+  against real files on disk. No "pending" markers needed — both epics the doc
+  originally expected to still be pending (SUG-241, SUG-242) had already shipped by
+  execution time
+- [x] Section reuses `MermaidDiagram`/`Table`/`TableWrap`/`SectionLabel` with zero new
+  components — also reuses the already-imported `Callout` (used elsewhere on this same
+  page, §02 Roadmap) for the layer-legend text, added after live review flagged the
+  plain-paragraph version as an awkward wall of text. Not a new component.
+- [x] `securityLevel` in `MermaidDiagram.jsx` is unchanged — confirmed, that file was
+  never touched
+- [x] Cross-surface spot check: page renders without console errors (checked every
+  commit), matches visual weight/spacing of neighbouring sections — confirmed via 3
+  rounds of live review and fixes (reorder stat-card/Callout/diagram/table, table link
+  color corrected to the brand token instead of browser-default blue, redundant intro
+  paragraph removed with its two load-bearing facts folded into the kicker and Callout
+  instead)
 
 ## Risks / Edge Cases [REQUIRED]
 
@@ -282,16 +291,33 @@ time, since some rows depend on epics in this same batch landing first:
 
 ## Post-Epic Close-Out [REQUIRED]
 
-1. **Visual QA gate (hard stop)** — this epic DOES touch visual output. Produce the
-   comparison evidence per CLAUDE.md's Visual Verification Rules: screenshot both
-   themes, confirm spacing/typography match neighbouring sections. Wait for "Visual QA
-   approved."
-2. Chromatic — N/A, `GovernancePage` is not currently in Storybook's story set (page-level
-   composite, not a DS component) — confirm this is still true at execution time
-3. Data pipeline gap check — N/A
-4. Move `docs/backlog/SUG-244-governance-workflow-diagram.md` →
-   `docs/shipped/SUG-244-governance-workflow-diagram.md`
-5. Confirm clean tree
-6. `/mini-release SUG-244 GovernancePage workflow lifecycle diagram`
-7. Transition SUG-244 to **Done** in Linear
-8. Start next epic only after mini-release commit is confirmed
+1. **Visual QA gate — "Visual QA approved" received 2026-07-26.** Live review surfaced
+   4 real issues, all fixed before approval: (a) hairline dividers on the stat-card Grid
+   not rendering — identified as the separate, already-tracked SUG-247 build bug, not
+   fixed here; (b) legend text read as an awkward wall of plain paragraph text —
+   converted to the already-imported `Callout` component; (c) reading order was
+   diagram-first, moved to stat card → Callout → diagram → doc-index table; (d)
+   doc-index table links rendered browser-default blue — applied the existing
+   `.releaseVersionLink` class (brand pink, same class the Release table's version
+   links already use) instead of leaving them unstyled. A follow-up request also
+   removed a redundant intro paragraph, folding its two load-bearing facts (the 30
+   count; six areas) into the kicker and the already-existing Callout instead.
+2. **Chromatic** — N/A, confirmed at execution time: `GovernancePage` still has no
+   Storybook story.
+3. **Data pipeline gap check** — N/A.
+3b. **Friction line.** Four real issues surfaced only after live visual review, not
+    caught at implementation time: unstyled table links (browser default, not the
+    brand token), a plain-paragraph legend that should have been a `Callout` from the
+    start, a reading order that didn't match how a reader would actually want to
+    consume the section, and a redundant intro paragraph. Root cause: verification
+    leaned on DOM/structural checks (content present, links resolve, no console
+    errors) because the screenshot tool was unreliable this session — structural
+    correctness isn't the same as visual/UX correctness, and this epic needed an actual
+    human look to catch all four.
+4. Moving `docs/backlog/SUG-244-governance-workflow-diagram.md` →
+   `docs/shipped/SUG-244-governance-workflow-diagram.md` in the same commit as this
+   edit.
+5. Clean tree confirmed before the ship commit.
+6. `/mini-release SUG-244 GovernancePage workflow lifecycle diagram` — next step.
+7. Transition SUG-244 to **Done** in Linear — next step.
+8. Next epic starts only after the mini-release commit is confirmed.
