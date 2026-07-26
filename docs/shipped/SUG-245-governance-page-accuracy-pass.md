@@ -204,15 +204,24 @@ again.
 
 ## Post-Epic Close-Out [REQUIRED]
 
-1. **Visual QA gate (hard stop)** — this epic touches live visual output. Screenshot
-   §05 and §03 in both themes, confirm spacing/typography unchanged from the redesign,
-   confirm the diagram doesn't overflow at 8 nodes. Wait for "Visual QA approved."
-2. Chromatic — N/A, `GovernancePage` is not in Storybook's story set (confirm still true
-   at execution time)
-3. Data pipeline gap check — N/A
-4. Move `docs/backlog/SUG-245-governance-page-accuracy-pass.md` →
-   `docs/shipped/SUG-245-governance-page-accuracy-pass.md`
-5. Confirm clean tree
-6. `/mini-release SUG-245 GovernancePage accuracy pass`
-7. Transition SUG-245 to **Done** in Linear
-8. Start next epic only after mini-release commit is confirmed
+1. **Visual QA gate — "Visual QA approved" received 2026-07-26.** Verified §03's
+   9-node diagram and §05's 4 tiles in-browser, both `light-pink-moon` and
+   `dark-pink-moon`, no overflow/wrapping, no regression to the Six-Layer Coverage
+   table. Screenshots captured during the session (not re-attached to this doc).
+2. **Chromatic** — N/A, confirmed at execution time: no story file under
+   `apps/storybook` or `apps/web/src` references `GovernancePage`.
+3. **Data pipeline gap check** — N/A, no build-time pipeline touched.
+3b. **Friction line.** Phase 3's first commit (`04c30eeb`) shipped tile labels that
+    packed a full sentence into `StatCard`'s short eyebrow-caption slot (wrapped to two
+    tracked-uppercase lines) and wrote Metric/Value/Impact-Statement copy without first
+    checking `outcomeItem`'s actual field intent against the Studio schema — both caught
+    only after Visual QA hold and a follow-up content-schema review, costing three
+    correction commits (`decb1fc7`, `30f8a501`, `123fc275`). Root cause: drafted StatCard
+    copy from the visual pattern alone, not from the schema fields backing it.
+4. Moving `docs/backlog/SUG-245-governance-page-accuracy-pass.md` →
+   `docs/shipped/SUG-245-governance-page-accuracy-pass.md` in the same commit as this
+   edit.
+5. Clean tree confirmed before the ship commit.
+6. `/mini-release SUG-245 GovernancePage accuracy pass` — next step.
+7. Transition SUG-245 to **Done** in Linear — next step.
+8. Next epic starts only after the mini-release commit is confirmed.
