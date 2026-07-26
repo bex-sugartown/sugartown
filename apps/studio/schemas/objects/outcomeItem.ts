@@ -9,10 +9,11 @@ import {defineType, defineField} from 'sanity'
  *
  * Renders via the same StatCard + Grid primitives in the DS. Field names are
  * the canonical mapping contract for that component:
- *   metric      → StatCard label
- *   valueAfter  → StatCard value (large display)
- *   valueBefore → StatCard sub ("Was:" label — SUG-96)
- *   evidenceType → StatCard foot (footer, bottom-aligned — last field, SUG-192)
+ *   metric          → StatCard label
+ *   valueAfter      → StatCard value (large display)
+ *   valueBefore     → StatCard sub ("Was:" label — SUG-96)
+ *   impactStatement → StatCard body (visible, below the value — SUG-248)
+ *   evidenceType    → StatCard foot (footer, bottom-aligned — last field, SUG-192)
  *
  * SUG-94: extracted from inline outcome object on caseStudy
  * SUG-151: statTileSection renamed to cardSection; usage consolidated to
@@ -50,7 +51,7 @@ export default defineType({
       name: 'impactStatement',
       title: 'Impact Statement',
       type: 'text',
-      description: 'Plain-language sentence explaining what changed for the client. Not shown on the tile — used for tooltips and retrieval. (max. 400 characters)',
+      description: 'Plain-language sentence explaining what changed for the client. Renders visibly on the tile below the value (max. 400 characters)',
       rows: 2,
       validation: (Rule) => Rule.max(400),
     }),
