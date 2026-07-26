@@ -7,6 +7,17 @@
 **Epic doc created:** 2026-03-26
 **Depends on:** SUG-87 (ships `StatTile` and `DataTable` primitives — use these, do not fork)
 
+**Cross-checked against `cardSection`/`outcomeItem` — 2026-07-26 (SUG-248).** SUG-248
+audited the stat-card/card-builder schema family and considered whether this epic's
+`kpiDashboardSection` (Phase 3) should extend `cardSection`/`outcomeItem` instead of
+introducing a new pattern. **Decision: no conflict, proceed as scoped below.**
+`kpiDashboardSection` wraps new `Card` variants (`stat`/`bar`/`insight`), not `StatCard`,
+and its data is build-time-computed or authored via a separate `kpiMetric` doc type —
+a fundamentally different lifecycle from `outcomeItem`'s static, editor-authored
+case-study proof points. The only resemblance to `cardBuilderSection` is architectural
+(a section schema wrapping a Card-family variant), not a content-shape match to
+`cardSection`. This doc's own scope is unaffected by that audit.
+
 ---
 
 ## Primitive Foundation (from SUG-87)

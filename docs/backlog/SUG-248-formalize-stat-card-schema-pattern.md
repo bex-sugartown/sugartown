@@ -124,17 +124,39 @@ or the `StatCard`/`Grid`/`CardBuilderSection` components' rendering logic.
       only, across page/article/caseStudy/node `sections[]`) — layer: **schema**
       (comment-only, no field/behavior change, still gets its own Studio-scoped commit
       per CLAUDE.md)
-- [ ] **Decide: migrate the 4 hardcoded `ARTIFACTS` arrays to `cardBuilderSection`
-      content?** — write the decision and reasoning into this doc. If yes: scope the
-      migration (likely its own phase or follow-on epic given it touches 4 page files
-      and changes their data source from a JS const to a Sanity query) — layer:
-      **schema decision / possible frontend follow-on**
-- [ ] **Reconcile SUG-19's `kpiDashboardSection` proposal** — read
-      `docs/backlog/SUG-19-kpi-dashboard-cards.md` in full at execution time, decide
-      whether its stat-card-with-trend concept should extend `cardSection`/`outcomeItem`
-      (e.g. add optional `trend`/`sparkline` fields) rather than fork a new schema type,
-      and update SUG-19's backlog doc to reflect the decision — layer: **schema
-      decision / documentation**
+- [x] **Decide: migrate the 4 hardcoded `ARTIFACTS` arrays to `cardBuilderSection`
+      content?** — **Decided 2026-07-26: do not migrate.** Reasoning: (1) these are
+      internal engineering doc links (`CLAUDE.md`, `docs/briefs/ai-ethics-and-operations.md`,
+      the release-assistant prompt) — literal paths into this repo, best kept in code and
+      versioned with the commits that would break them; moving to Sanity creates a new
+      way for a renamed file to silently 404 with no PR diff to catch it. (2) Schema
+      mismatch — `cardBuilderItem` is a full composable-card object (image, citations,
+      tools, tags, Portable Text body); no existing renderer maps its fields to
+      `StatCard` props, and building one (or switching to `CardBuilderSection`'s own
+      renderer) is net-new frontend/visual work that would violate this epic's own
+      Non-Goals. (3) Re-checked the content: each page's `ARTIFACTS` array has its own
+      distinct values — what's duplicated is the *shape* (a 4-field local array), not
+      the content. That's an ordinary pattern, not a real DRY violation. (4) These 4
+      pages currently have zero Sanity data-fetching at all; migrating means adding a
+      query/fetch layer, not swapping a data source. **Layer: schema decision only —
+      no follow-on epic needed.**
+- [x] **Reconcile SUG-19's `kpiDashboardSection` proposal** — read
+      `docs/backlog/SUG-19-kpi-dashboard-cards.md` in full (not just the
+      "same pattern as `cardBuilderSection`" line quoted in this doc's Background,
+      which understated the actual difference). **Decided 2026-07-26: no conflict,
+      no schema change — SUG-19 proceeds independently as already scoped.**
+      `kpiDashboardSection` (its Phase 3) wraps new `Card` variants
+      (`stat`/`bar`/`insight`), not `StatCard`, and its data is build-time-computed
+      (`build-kpi-index.js`) or authored via a separate `kpiMetric` document type — a
+      fundamentally different lifecycle from `outcomeItem`'s static, editor-authored
+      case-study proof points. Extending `outcomeItem` with `trend`/`sparkline` fields
+      (this doc's original speculative direction) would have conflated a static
+      editorial fact with a computed live metric — the two schemas should stay
+      separate. The only real resemblance to `cardBuilderSection` is architectural (a
+      section schema wrapping a Card-family variant), not a content-shape match to
+      `cardSection`. Cross-check note added to SUG-19's own doc so this isn't
+      re-litigated blind later — layer: **schema decision / documentation, no code
+      change**
 - [ ] **Decide: fix `outcomeItem.ts`'s `impactStatement` field description, or build the
       tooltip behavior it promises?** — the description says "not shown on the tile,"
       but `PageSections.jsx` renders it directly via `StatCard`'s `body` prop, on every
