@@ -120,15 +120,19 @@ const ARTIFACTS = [
 
 const RELEASE_DIAGRAM = {
   _key: 'gov-release-process',
+  // Node-for-node mapping verified against docs/workflows/release-assistant-prompt.md's
+  // Step/Gate table — re-check there before editing either side alone (SUG-245).
   code: `flowchart LR
-    A["Git Log\\n+ Diff"] -->|"Collect"| B["Normalize\\nChanges"]
-    B -->|"Gate 1"| C["CHANGELOG\\nEntry"]
-    C -->|"Gate 2"| D["Release\\nNotes"]
-    D -->|"Gate 3"| E["Version\\nBump"]
-    E -->|"Gate 4"| F["Backlog\\nReconcile"]
-    F -->|"Gate 5"| G["Ship"]`,
+    A["Collect\\nSignals"] -->|"Collect"| B["Source of\\nTruth"]
+    B -->|"Gate 1"| C["Normalize"]
+    C -->|"Gate 2"| D["CHANGELOG\\nEntry"]
+    D -->|"Gate 3"| E["Release\\nNotes"]
+    E -->|"Gate 4"| F["Commit +\\nVersion"]
+    F -->|"Gate 5"| G["Backlog\\nReconcile"]
+    G -->|"Gate 6"| H["Backlog\\nWrite"]
+    H -->|"Gate 7"| I["Backlog\\nCommit"]`,
   width: 'wide',
-  caption: 'Release process',
+  caption: 'Release process — 7 gates',
 }
 
 // ── AI governance coverage (SUG-198) ──────────────────────
@@ -141,10 +145,10 @@ const POSTURE = {
 }
 
 const COVERAGE_TALLY = [
-  { label: 'Strong · owned in code', value: 18, sub: 'of 30 components' },
-  { label: 'Partial · informal',     value: 5,  sub: 'by choice' },
-  { label: 'Inherited · platform',   value: 2,  sub: 'Sanity · GitHub · Netlify' },
-  { label: 'N/A · by design',        value: 5,  sub: 'nothing trained' },
+  { label: '18 checks · Enforced automatically', value: 18, body: 'Code and pre-commit hooks catch these, not just written policy.' },
+  { label: '5 checks · Written down, followed by habit', value: 5, body: 'Real, but no automated check yet.' },
+  { label: '2 checks · Handled by our vendors', value: 2, body: 'Sanity, GitHub, and Netlify own these.' },
+  { label: "5 checks · Doesn't apply here", value: 5, body: 'No AI model is trained on this platform.' },
 ]
 
 const COVERAGE_LAYERS = [
@@ -287,11 +291,16 @@ export default function GovernancePage() {
             number="§05"
             name="AI GOVERNANCE COVERAGE"
             title="Enforced policy, measured"
-            kicker="30 components · 0 gaps"
+            kicker="30 checks · 0 gaps"
           />
+          <p className={styles.intro}>
+            Every release is checked against 30 governance checkpoints across six areas —
+            from who can publish what, to how model risk is tracked. Here&rsquo;s how those
+            checks actually happen.
+          </p>
           <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2} className={styles.statsSection}>
             {COVERAGE_TALLY.map((s) => (
-              <StatCard key={s.label} label={s.label} value={s.value} sub={s.sub} />
+              <StatCard key={s.label} label={s.label} value={s.value} body={s.body} />
             ))}
           </Grid>
           <TableWrap caption="Six-layer coverage" captionMeta="6 layers">
