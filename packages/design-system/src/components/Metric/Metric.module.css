@@ -18,15 +18,15 @@
   font-weight: var(--st-font-weight-semibold);
 }
 
-.trend--up {
+.trendUp {
   color: var(--st-color-lime-500);
 }
 
-.trend--down {
+.trendDown {
   color: var(--st-color-brand-primary);
 }
 
-.trend--neutral {
+.trendNeutral {
   color: var(--st-color-text-muted);
 }
 

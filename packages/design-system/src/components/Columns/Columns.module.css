@@ -3,25 +3,25 @@
   gap: var(--columns-gap, var(--st-space-5));
 }
 
-.count-2 { grid-template-columns: repeat(2, 1fr); }
-.count-3 { grid-template-columns: repeat(3, 1fr); }
-.count-4 { grid-template-columns: repeat(4, 1fr); }
+.count2 { grid-template-columns: repeat(2, 1fr); }
+.count3 { grid-template-columns: repeat(3, 1fr); }
+.count4 { grid-template-columns: repeat(4, 1fr); }
 
 /* Collapse to single column below breakpoint */
 @media (max-width: 599px) {
-  .collapse-sm.count-2,
-  .collapse-sm.count-3,
-  .collapse-sm.count-4 { grid-template-columns: 1fr; }
+  .collapseSm.count2,
+  .collapseSm.count3,
+  .collapseSm.count4 { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 767px) {
-  .collapse-md.count-2,
-  .collapse-md.count-3,
-  .collapse-md.count-4 { grid-template-columns: 1fr; }
+  .collapseMd.count2,
+  .collapseMd.count3,
+  .collapseMd.count4 { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 1023px) {
-  .collapse-lg.count-2,
-  .collapse-lg.count-3,
-  .collapse-lg.count-4 { grid-template-columns: 1fr; }
+  .collapseLg.count2,
+  .collapseLg.count3,
+  .collapseLg.count4 { grid-template-columns: 1fr; }
 }

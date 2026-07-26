@@ -60,6 +60,22 @@
       "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
     },
     {
+      "name": "web-sug247",
+      "runtimeExecutable": "/opt/homebrew/bin/pnpm",
+      "runtimeArgs": ["--filter", "web", "dev", "--port", "5176"],
+      "port": 5176,
+      "cwd": "/Users/beckyalice/SUGARTOWN_DEV/sugartown/.claude/worktrees/hungry-wilbur-b3495f",
+      "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
+    },
+    {
+      "name": "storybook-sug247",
+      "runtimeExecutable": "/opt/homebrew/bin/pnpm",
+      "runtimeArgs": ["--filter", "storybook", "exec", "storybook", "dev", "-p", "6008"],
+      "port": 6008,
+      "cwd": "/Users/beckyalice/SUGARTOWN_DEV/sugartown/.claude/worktrees/hungry-wilbur-b3495f",
+      "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
+    },
+    {
       "name": "mock",
       "runtimeExecutable": "/usr/bin/python3",
       "runtimeArgs": ["-m", "http.server", "8765"],

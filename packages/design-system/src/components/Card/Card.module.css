@@ -432,8 +432,8 @@
 }
 
 /* Listing & metadata variants: chips wrap, label stays top-left */
-.variant-listing .chipGroup,
-.variant-metadata .chipGroup {
+.variantListing .chipGroup,
+.variantMetadata .chipGroup {
   flex-wrap: wrap;
 }
 
@@ -549,7 +549,7 @@
 }
 
 /* Listing: excerpt clamped to 3 lines */
-.variant-listing .excerpt {
+.variantListing .excerpt {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -557,16 +557,16 @@
 }
 
 /* ── Variant: metadata ───────────────────────────────────────────────────── */
-.variant-metadata {
+.variantMetadata {
   cursor: default;
 }
 
-.variant-metadata.card:has(.titleLink):hover {
+.variantMetadata.card:has(.titleLink):hover {
   box-shadow: var(--st-card-shadow);
   transform: none;
 }
 
-.variant-metadata .header {
+.variantMetadata .header {
   padding-bottom: var(--st-space-2);
 }
 
@@ -618,12 +618,12 @@
 /* ── variant-elevated ── alias for default; explicit for API clarity ──────── */
 /* .card defaults to elevated appearance; no additional rules needed */
 
-/* ── variant-accent ── 3px left rule + tinted header bg ──────────────────── */
-.variant-accent {
+/* ── variantAccent ── 3px left rule + tinted header bg ──────────────────── */
+.variantAccent {
   border-left: 3px solid var(--st-color-brand-primary);
 }
 
-.variant-accent .header {
+.variantAccent .header {
   background: color-mix(in srgb, var(--st-color-brand-primary) 6%, transparent);
 }
 

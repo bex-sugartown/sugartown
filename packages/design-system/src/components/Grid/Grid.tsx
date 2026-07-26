@@ -19,6 +19,16 @@ export interface GridProps {
   children?: React.ReactNode;
 }
 
+const SPACING_CLASS: Record<GridSpacing, string> = {
+  lg: styles.spacingLg,
+  '0': styles.spacing0,
+};
+
+const ACCENT_TOP_CLASS: Record<GridAccentColor, string> = {
+  brand: styles.accentTopBrand,
+  ink: styles.accentTopInk,
+};
+
 export function Grid({
   spacing = 'lg',
   columns,
@@ -30,8 +40,8 @@ export function Grid({
 }: GridProps) {
   const classNames = [
     styles.grid,
-    styles[`spacing-${spacing}`],
-    accentTop ? styles[`accentTop-${accentColor}`] : '',
+    SPACING_CLASS[spacing],
+    accentTop ? ACCENT_TOP_CLASS[accentColor] : '',
     className ?? '',
   ].filter(Boolean).join(' ');
 

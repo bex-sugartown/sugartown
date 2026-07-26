@@ -18,12 +18,18 @@ const TREND_SYMBOL: Record<MetricTrend, string> = {
   neutral: '→',
 };
 
+const TREND_CLASS: Record<MetricTrend, string> = {
+  up: styles.trendUp,
+  down: styles.trendDown,
+  neutral: styles.trendNeutral,
+};
+
 export function Metric({ value, label, trend, className }: MetricProps) {
   return (
     <div className={[styles.metric, className].filter(Boolean).join(' ')}>
       <span className={styles.value}>{value}</span>
       {trend && (
-        <span className={[styles.trend, styles[`trend--${trend}`]].join(' ')} aria-hidden="true">
+        <span className={[styles.trend, TREND_CLASS[trend]].join(' ')} aria-hidden="true">
           {TREND_SYMBOL[trend]}
         </span>
       )}

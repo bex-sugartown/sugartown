@@ -4,6 +4,8 @@ import { Chip } from '../Chip/Chip';
 import { Link } from '../../link/Link';
 import { isExternalHref } from '../../link/isExternalHref';
 
+export type CardVariant = 'default' | 'elevated' | 'listing' | 'metadata' | 'accent';
+
 // ─── Status badge colours ───────────────────────────────────────────────────
 const STATUS_BADGE_CLASS: Record<string, string> = {
   // Legacy / generic
@@ -27,6 +29,15 @@ const STATUS_BADGE_CLASS: Record<string, string> = {
   iterating:        styles.statusIterating,
 };
 
+// ─── Variant classes ─────────────────────────────────────────────────────────
+// 'default' and 'elevated' intentionally have no dedicated class (elevated is
+// .card's default appearance) — they resolve to undefined and are filtered out.
+const VARIANT_CLASS: Partial<Record<CardVariant, string>> = {
+  listing: styles.variantListing,
+  metadata: styles.variantMetadata,
+  accent: styles.variantAccent,
+};
+
 // ─── Types ──────────────────────────────────────────────────────────────────
 
 export interface CardProps {
@@ -38,7 +49,7 @@ export interface CardProps {
    * - metadata — structured field grid layout
    * - accent — 3px brand-primary left rule + tinted header bg
    */
-  variant?: 'default' | 'elevated' | 'listing' | 'metadata' | 'accent';
+  variant?: CardVariant;
   /** Density modifier — 'compact' reduces padding + type scale. Default: 'default'. */
   density?: 'default' | 'compact';
 
@@ -219,7 +230,7 @@ export const Card: React.FC<CardProps> = ({
   // ── Root class list ───────────────────────────────────────────────────────
   const rootClasses = [
     styles.card,
-    styles[`variant-${variant}`],
+    VARIANT_CLASS[variant],
     density === 'compact' && styles.compact,
     className,
   ]
