@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-254 — Fix ESLint architectural boundary enforcement
 **Linear Issue:** [SUG-254](https://linear.app/sugartown/issue/SUG-254/fix-eslint-architectural-boundary-enforcement-no-restricted-imports)
-**Status:** Backlog
+**Status:** Backlog — **paused 2026-07-27, blocked by [SUG-255](https://linear.app/sugartown/issue/SUG-255/restore-green-ci-zero-passing-runs-on-main-since-2026-05-10)**
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -9,6 +9,57 @@
 # SUG-254 — Fix ESLint architectural boundary enforcement
 
 `packages/eslint-config/boundaries.js`'s `no-restricted-imports` rules have never actually fired for any package in the monorepo. Fix the enforcement mechanism across both legacy-eslintrc and flat-config packages, and remediate the real violations that surface once it's turned on.
+
+---
+
+## ⏸ Paused 2026-07-27 — read this before resuming
+
+Activation began on 2026-07-27 and stopped during Phase 0. Its own Phase 0 (get to a green lint baseline so enforcement could be verified against something) uncovered that **CI has not passed once on `main` in the last 100 runs, since 2026-05-10**. That is now [SUG-255](https://linear.app/sugartown/issue/SUG-255/restore-green-ci-zero-passing-runs-on-main-since-2026-05-10), which **blocks this epic**: SUG-254's acceptance criterion "`pnpm lint` passes clean repo-wide" is unmeetable until CI is green.
+
+No SUG-254 implementation work was done. The Phase 0 lint fixes (79 errors) were moved to SUG-255 where they belong, and landed on `main` as `52eb7702`. The feature branch was reset and holds nothing unique.
+
+The activation audits **were** completed, and their results are recorded below. Do not re-derive them; re-verify cheaply and move on.
+
+### Activation audit results (2026-07-27, empirical)
+
+Verified via `--print-config` against each package's own ESLint binary and via the ESLint Node API. **Four** root causes, not the three this doc originally described:
+
+| | Cause | Affects | Status |
+|---|---|---|---|
+| **A** | `overrides[].files` globs are repo-root-relative, but ESLint anchors them to the **consuming config's own directory** (the basePath of the config owning the extends chain), not repo root and not `boundaries.js`'s dir. `root: true` pins it, so changing cwd cannot help. | Rules 1, 2, 4 | confirmed; the competing "anchored to `packages/eslint-config/`" hypothesis was ruled out directly |
+| **B** | Rules 1 and 2 both set `no-restricted-imports` on overlapping globs. ESLint override merge is **last-wins per rule** and does not merge `patterns` arrays — Rule 1 matches, then is discarded. | design-system, once A is fixed | confirmed: Rule1-only → `[["**/apps/**"]]`; Rule1+Rule2 as shipped → only Rule 2's patterns |
+| **C** | `apps/web` / `apps/studio` / `apps/contentful-poc` are v9 flat config and cannot consume legacy `overrides[].files` at all. `@sugartown/eslint-config` also peer-deps `eslint ^8.0.0`. | Rule 3 | confirmed |
+| **D** | **NEW.** Rule 4's glob is `packages/mcp-server/**/*.{ts}`. minimatch does **not** expand a single-element brace: `**/*.{ts}` vs `src/index.ts` → false; `{ts,tsx}` → true. | Rule 4 | confirmed; survives any fix to A |
+
+**Net: exactly one boundary rule is live repo-wide** — the hand-redeclared block in `packages/mcp-server/.eslintrc.cjs` (`files: ['**/*.ts']`), which works because it is relative to that package's own directory. Fixing A alone is actively misleading: it leaves D dead, silently drops "packages cannot import apps" for design-system via B, and does nothing for C, while making the config *look* repaired.
+
+### Three findings this doc did not anticipate
+
+1. **`@sb-helpers/ChipDocs` can never be caught by Rule 1.** `no-restricted-imports` matches the **literal specifier string**, not the resolved path. Proven with the DS package's own ESLint: the deep relative path errors, the alias does not. The Vite alias at `apps/storybook/.storybook/main.ts:60` is a linter blindfold. Deleting the alias is the only Non-Goal-compliant remedy, and it is possible because `Chip.stories.tsx` is its sole consumer. **This must be an explicit deliverable, not a side effect.**
+2. **`packages/mcp-server/src/tools/boundary.ts:31-36` live-`require`s `boundaries.js`** and reads `mod.overrides`, interpreting the globs as repo-root-relative — i.e. as *intended*, not as ESLint behaves. Its comment claims it "can never drift from what `pnpm lint` actually checks", while `pnpm lint` checked nothing. `sugartown_check_boundary` has been correctly answering "not permitted" for imports ESLint silently allowed: a false-confidence oracle. It breaks if `boundaries.js` is restructured, so it must change in the **same commit**.
+3. **Two Scope items are vacuous as written.** No rule names `apps/studio` or `apps/storybook` as the *importing* side (Rule 3 restricts web FROM studio; nothing restricts studio itself), so there is no "equivalent enforcement to port" and no deliberate violation constructible. Adding one would violate this epic's own Non-Goals. `apps/studio` additionally has **no `lint` script at all** and 86 pre-existing problems (70 errors) if one were added. **Decision taken: strike both Scope items and their ACs**, record the reasoning, and encode the absence as an explicit allowlist entry rather than an omission. The "is storybook a package or an app?" item dissolves rather than resolves — storybook stays an app; moving the helper code out of `apps/` removes the tension.
+
+### Confirmed violations (re-verify, do not re-derive)
+
+| # | Rule | Location | Specifier |
+|---|---|---|---|
+| 1 | Rule 1 | `packages/design-system/src/components/PageHeader/PageHeader.stories.tsx:43` | `'../../../../../apps/storybook/.storybook/helpers/docs'` |
+| 2 | Rule 1 | `packages/design-system/src/components/Chip/Chip.stories.tsx:5` | `'@sb-helpers/ChipDocs'` — invisible to lint, see finding 1 |
+| 3 | *none* | `apps/web/src/components/EntityDetailPage.stories.jsx:24` | `'../../../../apps/storybook/.storybook/stories/EntityDetailPageDocs'` — app→app, not a rule violation, but breaks the moment the helpers move, so it must be handled in the same change |
+
+Rules 2, 3 and 4 are otherwise clean, verified exhaustively (no dynamic imports, no type-only reaches, no workspace dep edges, no tsconfig paths into `apps/`).
+
+### Approved approach
+
+Replace glob-matched overrides with **explicit, glob-free scope keys** — a data-only `boundary-rules.js` (rules keyed by name + a `SCOPES` map + `patternsFor(scope)` returning one flat merged array, throwing loudly on an unknown scope) and a `boundaries-for.js` adapter consumed by **both** the v8 eslintrc packages and `apps/web`'s v9 flat config. Each package's lint run is already scoped to its own directory, so a rule never needs to know its own path — which is exactly what made the globs inert. This makes A, B and D structurally impossible rather than patched.
+
+The two shared Storybook doc helpers move to a new source-only `packages/storybook-docs` (**not** into `packages/design-system`, whose tsconfig includes `src/` and would emit `.d.ts` for doc scaffolding unless given a second exclude — another "in `src/` but invisible to the build" island, which is why these violations went unnoticed in the first place).
+
+Two helpers were already deleted as part of SUG-255's lint fix: `FilterBarDocs.tsx` and `ArchiveGridDocs.tsx`, zero importers, both unparseable, both marked "Gate 1 (API stability) NOT PASSED". Recoverable at `69d50c1b`. **Note:** `docs/reviews/rules-audit/2026-07.md:63` cites those two files as its only live evidence that the DS Documentation Authoring Gates are active; that row still needs annotating.
+
+Full phase-by-phase plan, verification strategy, and file-level design: `~/.claude/plans/majestic-frolicking-sketch.md` (local only — reconstruct into this doc at resume).
+
+---
 
 ## Background
 
