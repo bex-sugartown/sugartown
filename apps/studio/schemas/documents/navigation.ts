@@ -30,9 +30,8 @@ export default defineType({
       name: 'header',
       title: 'Display Header',
       type: 'string',
-      description: '(max. 50 characters)',
       description:
-        'Optional public-facing heading for this menu (e.g. shown as footer column heading). If empty, no heading is displayed.',
+        'Optional public-facing heading for this menu (e.g. shown as footer column heading). If empty, no heading is displayed. (max. 50 characters)',
       validation: (Rule) => Rule.max(50),
     }),
     defineField({
