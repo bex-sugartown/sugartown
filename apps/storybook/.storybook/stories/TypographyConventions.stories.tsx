@@ -112,7 +112,7 @@ function TypographyConventionsPage() {
         </tbody>
       </table>
 
-      <h2 style={s.h2}>Do / Don't</h2>
+      <h2 style={s.h2}>Do / Don&rsquo;t</h2>
       <div style={s.pairRow}>
         <div style={s.doBox}>
           <p style={{ ...s.label, color: '#16a34a' }}>Do</p>
@@ -120,7 +120,7 @@ function TypographyConventionsPage() {
           <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Italic on archive mastheads — they are named, curated spaces.</p>
         </div>
         <div style={s.dontBox}>
-          <p style={{ ...s.label, color: '#dc2626' }}>Don't</p>
+          <p style={{ ...s.label, color: '#dc2626' }}>Don&rsquo;t</p>
           <p style={italic}>Vercel</p>
           <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Italic on tool folios — tools are catalogue entries, not voices.</p>
         </div>
@@ -132,7 +132,7 @@ function TypographyConventionsPage() {
           <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Roman in Hero — large roman at weight 600 reads as a proclamation.</p>
         </div>
         <div style={s.dontBox}>
-          <p style={{ ...s.label, color: '#dc2626' }}>Don't</p>
+          <p style={{ ...s.label, color: '#dc2626' }}>Don&rsquo;t</p>
           <p style={italic}>The Epic That Executed Itself</p>
           <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Italic in Hero — lighter, less commanding at hero scale.</p>
         </div>

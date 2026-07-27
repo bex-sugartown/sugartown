@@ -237,15 +237,15 @@ export const Guidelines: Story = {
             <div style={{ ...styles.ddHd, ...styles.ddDoHd }}>Do</div>
             <ul style={styles.list}>
               <DoItem>Use DS colour tokens for the <code style={styles.code}>tint</code> prop — never freeform hex values.</DoItem>
-              <DoItem>Pass only the props relevant to your context — omit slots that don't apply.</DoItem>
+              <DoItem>Pass only the props relevant to your context — omit slots that don&rsquo;t apply.</DoItem>
               {/* Add up to 3 more items */}
             </ul>
           </div>
           <div style={styles.ddCol}>
-            <div style={{ ...styles.ddHd, ...styles.ddDontHd }}>Don't</div>
+            <div style={{ ...styles.ddHd, ...styles.ddDontHd }}>Don&rsquo;t</div>
             <ul style={styles.list}>
-              <DontItem>Don't use <code style={styles.code}>[prop]</code> for [wrong use case] — it means [correct meaning].</DontItem>
-              <DontItem>Don't nest [ComponentName] inside [container] — it must [constraint].</DontItem>
+              <DontItem>Don&rsquo;t use <code style={styles.code}>[prop]</code> for [wrong use case] — it means [correct meaning].</DontItem>
+              <DontItem>Don&rsquo;t nest [ComponentName] inside [container] — it must [constraint].</DontItem>
               {/* Add up to 3 more items */}
             </ul>
           </div>
@@ -278,7 +278,7 @@ export const Guidelines: Story = {
             The component does not rely on colour alone to convey meaning.
           </A11yItem>
           <A11yItem label="Motion">
-            Respects <code style={styles.code}>prefers-reduced-motion</code>. [Describe animation or state "No animations."]
+            Respects <code style={styles.code}>prefers-reduced-motion</code>. [Describe animation or state &ldquo;No animations.&rdquo;]
           </A11yItem>
         </ul>
       </DocSection>
@@ -409,19 +409,19 @@ export const Guidelines: Story = {
               <td style={{ ...styles.td, ...styles.tdMono }}>title</td>
               <td style={styles.td}>Sentence case. No terminal punctuation. No verbs.</td>
               <td style={{ ...styles.td, ...styles.tdMono }}>—</td>
-              <td style={styles.td}>"Articles" not "View articles."</td>
+              <td style={styles.td}>&ldquo;Articles&rdquo; not &ldquo;View articles.&rdquo;</td>
             </tr>
             <tr>
               <td style={{ ...styles.td, ...styles.tdMono }}>eyebrow</td>
               <td style={styles.td}>Uppercase noun phrase. Max 3 words. No verbs.</td>
               <td style={{ ...styles.td, ...styles.tdMono }}>3 words</td>
-              <td style={styles.td}>"Design Engineer" not "Works as a designer"</td>
+              <td style={styles.td}>&ldquo;Design Engineer&rdquo; not &ldquo;Works as a designer&rdquo;</td>
             </tr>
             <tr>
               <td style={{ ...styles.td, ...styles.tdMono }}>description</td>
               <td style={styles.td}>Present tense. 1–3 sentences. No markdown.</td>
               <td style={{ ...styles.td, ...styles.tdMono }}>62ch/line</td>
-              <td style={styles.td}>"Writing on design engineering and content strategy."</td>
+              <td style={styles.td}>&ldquo;Writing on design engineering and content strategy.&rdquo;</td>
             </tr>
             {/* Add rows for every text-bearing prop */}
           </tbody>

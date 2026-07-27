@@ -116,7 +116,7 @@ function ConventionNamePage() {
       </table>
 
       {/* ── 5. Do / Don't ────────────────────────────────────────────────── */}
-      <h2 style={s.h2}>Do / Don't</h2>
+      <h2 style={s.h2}>Do / Don&rsquo;t</h2>
 
       <div style={s.pairRow}>
         <div style={s.doBox}>
@@ -125,7 +125,7 @@ function ConventionNamePage() {
           <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Short label — no explanatory prose.</p>
         </div>
         <div style={s.dontBox}>
-          <p style={{ ...s.label, color: 'var(--st-color-status-danger-bg, #dc2626)' }}>Don't</p>
+          <p style={{ ...s.label, color: 'var(--st-color-status-danger-bg, #dc2626)' }}>Don&rsquo;t</p>
           {/* visual example */}
           <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Short label — no explanatory prose.</p>
         </div>

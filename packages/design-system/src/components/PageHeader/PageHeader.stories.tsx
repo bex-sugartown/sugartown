@@ -323,8 +323,8 @@ function PageHeaderGuidelinesPage() {
         <ul style={{ listStyle: 'none', padding: 0 }}>
           <OverviewItem>Renders an H1 with optional italic style, optional count badge, and optional description.</OverviewItem>
           <OverviewItem>Accepts a <code style={s.code}>media</code> slot for Avatar or logo images — used by entity folios, absent on archives and taxonomy pages.</OverviewItem>
-          <OverviewItem>Accepts a <code style={s.code}>breadcrumb</code> slot and an <code style={s.code}>actions</code> slot (e.g. "Edit in Studio") rendered in a top row above the identity block.</OverviewItem>
-          <OverviewItem>Applies a tint wash via <code style={s.code}>color-mix</code> when a <code style={s.code}>tint</code> prop is provided — used by entity folios to echo the entity's brand colour.</OverviewItem>
+          <OverviewItem>Accepts a <code style={s.code}>breadcrumb</code> slot and an <code style={s.code}>actions</code> slot (e.g. &ldquo;Edit in Studio&rdquo;) rendered in a top row above the identity block.</OverviewItem>
+          <OverviewItem>Applies a tint wash via <code style={s.code}>color-mix</code> when a <code style={s.code}>tint</code> prop is provided — used by entity folios to echo the entity&rsquo;s brand colour.</OverviewItem>
           <OverviewItem>Accepts a structured content node via the <code style={s.code}>metadataCard</code> prop, rendered below the identity block — entity detail pages pass a DescriptionList here.</OverviewItem>
         </ul>
         <h3 style={s.h3}>What it is not</h3>
@@ -376,7 +376,7 @@ function PageHeaderGuidelinesPage() {
         <p style={s.prose}>
           Person folios and archive masteheads use italic Cormorant Garamond (<code style={s.code}>italic=true</code>).
           All other surface types (tool folio, project folio, taxonomy detail) use roman. This distinction is
-          typographic personality — italic signals a living person's name; roman signals a tool, concept, or collection.
+          typographic personality — italic signals a living person&rsquo;s name; roman signals a tool, concept, or collection.
         </p>
         <DoDontGrid>
           <DoGroup label={<>Do — pass <code>italic</code></>}>
@@ -385,7 +385,7 @@ function PageHeaderGuidelinesPage() {
               <DoItem>Person folio pages (<code style={s.code}>/people/:slug</code>)</DoItem>
             </ul>
           </DoGroup>
-          <DontGroup label={<>Don't — omit <code>italic</code></>}>
+          <DontGroup label={<>Don&rsquo;t — omit <code>italic</code></>}>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               <DontItem>Tool folio pages — roman only</DontItem>
               <DontItem>Project folio pages — roman only</DontItem>
@@ -419,7 +419,7 @@ function PageHeaderGuidelinesPage() {
           </A11yItem>
           <A11yItem label="count is labelled">
             The count badge uses <code style={s.code}>aria-label={'{`${count} items`}'}</code> so screen readers
-            announce "24 items" rather than reading a bare number adjacent to the heading.
+            announce &ldquo;24 items&rdquo; rather than reading a bare number adjacent to the heading.
           </A11yItem>
           <A11yItem label="Breadcrumb and actions are in document order">
             The topRow renders <code style={s.code}>breadcrumb</code> before <code style={s.code}>actions</code>

@@ -36,7 +36,7 @@ function SectionSpacingPage() {
           <OverviewItem>Individual section components must have zero <code style={s.code}>margin-block</code>. Internal padding is allowed; external margin is not.</OverviewItem>
           <OverviewItem>Boundary elements sitting outside <code style={s.code}>.detailContext</code> (e.g. MetadataCard) need an explicit <code style={s.code}>margin-bottom</code> equal to the section gap.</OverviewItem>
         </ul>
-        <p style={{ ...s.prose, marginTop: '0.75rem' }}>This pattern applies whenever <code style={s.code}>PageSections.jsx</code> renders in <code style={s.code}>context="detail"</code>. It does not apply to full-width standalone pages.</p>
+        <p style={{ ...s.prose, marginTop: '0.75rem' }}>This pattern applies whenever <code style={s.code}>PageSections.jsx</code> renders in <code style={s.code}>context=&quot;detail&quot;</code>. It does not apply to full-width standalone pages.</p>
         <ul style={s.list}>
           <NotItem>Do not use this pattern for top-level full-width marketing pages — those sections use their own margin strategy.</NotItem>
           <NotItem>Do not zero out section margin globally. Only sections inside <code style={s.code}>.detailContext</code> must be zero-margin.</NotItem>
@@ -95,7 +95,7 @@ function SectionSpacingPage() {
         <ul style={s.list}>
           <li>If the component has its own <code style={s.code}>margin-block</code> in its CSS module, add a zero-margin override in <code style={s.code}>.detailContext</code> in <code style={s.code}>PageSections.module.css</code>.</li>
           <li>The <code style={s.code}>&gt; *</code> catch-all handles <code style={s.code}>width: 100%</code> and <code style={s.code}>margin: 0</code> automatically — no explicit registration needed for new section types.</li>
-          <li>Internal box padding (callout inset, code block padding) is the component's concern. External spacing is the layout's concern.</li>
+          <li>Internal box padding (callout inset, code block padding) is the component&rsquo;s concern. External spacing is the layout&rsquo;s concern.</li>
           <li>Test against <code style={s.code}>/articles/test-preview-post</code> to verify spacing at every transition between section types.</li>
         </ul>
 
@@ -103,7 +103,7 @@ function SectionSpacingPage() {
         <ul style={s.list}>
           <li><code style={s.code}>apps/web/src/pages/pages.module.css</code> — <code style={s.code}>.detailPage</code>, <code style={s.code}>.detailContext</code> (flex + gap), <code style={s.code}>.detailPage[data-has-margin]</code> (two-column shell)</li>
           <li><code style={s.code}>apps/web/src/components/PageSections.module.css</code> — <code style={s.code}>.detailContext &gt; *</code> catch-all override, per-component zero-margin exceptions</li>
-          <li><code style={s.code}>apps/web/src/components/PageSections.jsx</code> — applies <code style={s.code}>context="detail"</code> which activates <code style={s.code}>.detailContext</code> on the wrapper</li>
+          <li><code style={s.code}>apps/web/src/components/PageSections.jsx</code> — applies <code style={s.code}>context=&quot;detail&quot;</code> which activates <code style={s.code}>.detailContext</code> on the wrapper</li>
         </ul>
       </DocSection>
 

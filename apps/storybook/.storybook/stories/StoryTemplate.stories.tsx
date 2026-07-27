@@ -229,13 +229,13 @@ function StoryTemplatePage() {
           <DoGroup>
             <ul style={s.list}>
               <DoItem>Use DS colour tokens for the <code style={s.code}>tint</code> prop — never freeform hex.</DoItem>
-              <DoItem>Pass only the props relevant to your context — omit slots that don't apply.</DoItem>
+              <DoItem>Pass only the props relevant to your context — omit slots that don&rsquo;t apply.</DoItem>
             </ul>
           </DoGroup>
           <DontGroup>
             <ul style={s.list}>
-              <DontItem>Don't use <code style={s.code}>[prop]</code> for [wrong use case] — it means [correct meaning].</DontItem>
-              <DontItem>Don't nest [ComponentName] inside [container] — it must [constraint].</DontItem>
+              <DontItem>Don&rsquo;t use <code style={s.code}>[prop]</code> for [wrong use case] — it means [correct meaning].</DontItem>
+              <DontItem>Don&rsquo;t nest [ComponentName] inside [container] — it must [constraint].</DontItem>
             </ul>
           </DontGroup>
         </DoDontGrid>

@@ -77,7 +77,7 @@ export function EntityDetailPageDocsPage() {
             <tr>
               <td style={s.td}>Person</td>
               <td style={s.td}>80px</td>
-              <td style={s.td}>Avatar component, <code style={s.code}>size="xl"</code></td>
+              <td style={s.td}>Avatar component, <code style={s.code}>size=&quot;xl&quot;</code></td>
             </tr>
             <tr>
               <td style={s.td}>Tool</td>
@@ -169,9 +169,9 @@ export function EntityDetailPageDocsPage() {
       <DocSection n="07" title="Accessibility" priority="must">
         <ul style={s.a11yList}>
           <A11yItem label="Heading hierarchy">Each entity detail page must have exactly one <code style={s.code}>&lt;h1&gt;</code> — the entity name rendered via <code style={s.code}>PageHeader</code>. Section labels use <code style={s.code}>SectionLabel</code>, which renders a visually styled label without promoting to a heading level. Do not add a second <code style={s.code}>&lt;h1&gt;</code> within the page.</A11yItem>
-          <A11yItem label="Avatar alt text">When an Avatar or entity thumbnail is decorative (the entity name is already in the adjacent <code style={s.code}>&lt;h1&gt;</code>), set <code style={s.code}>alt=""</code> to suppress duplicate announcements. If the image is the only identity signal, provide a descriptive alt.</A11yItem>
-          <A11yItem label="Landmark navigation">The entity shell wraps content in <code style={s.code}>&lt;main className={'{'}pageStyles.entityDetailPage{'}'}&gt;</code>. This provides the page's <code style={s.code}>main</code> landmark. Do not add a second <code style={s.code}>&lt;main&gt;</code> inside.</A11yItem>
-          <A11yItem label="MetadataCard links">Category and tag chips inside MetadataCard are interactive links. Ensure each chip's label is descriptive enough to make sense out of context (e.g. "Design Systems" not just "tag").</A11yItem>
+          <A11yItem label="Avatar alt text">When an Avatar or entity thumbnail is decorative (the entity name is already in the adjacent <code style={s.code}>&lt;h1&gt;</code>), set <code style={s.code}>alt=&quot;&quot;</code> to suppress duplicate announcements. If the image is the only identity signal, provide a descriptive alt.</A11yItem>
+          <A11yItem label="Landmark navigation">The entity shell wraps content in <code style={s.code}>&lt;main className={'{'}pageStyles.entityDetailPage{'}'}&gt;</code>. This provides the page&rsquo;s <code style={s.code}>main</code> landmark. Do not add a second <code style={s.code}>&lt;main&gt;</code> inside.</A11yItem>
+          <A11yItem label="MetadataCard links">Category and tag chips inside MetadataCard are interactive links. Ensure each chip&rsquo;s label is descriptive enough to make sense out of context (e.g. &ldquo;Design Systems&rdquo; not just &ldquo;tag&rdquo;).</A11yItem>
           <A11yItem label="Focus order">The folio flex layout is CSS-only and does not reorder DOM nodes, so keyboard focus order matches visual order. No <code style={s.code}>tabindex</code> adjustments are needed.</A11yItem>
         </ul>
       </DocSection>
