@@ -9,7 +9,7 @@
     "build:sitemap": "node scripts/build-sitemap.js",
     "generate:content-models": "node ../../scripts/generate-content-models.mjs",
     "generate:schema-manifest": "node ../../scripts/generate-schema-manifest.mjs",
-    "build": "node ../../scripts/generate-schema-manifest.mjs && node ../../scripts/generate-content-models.mjs && node scripts/build-redirects.js && vite build && node scripts/prerender-content.mjs && node scripts/build-sitemap.js",
+    "build": "pnpm --filter @sugartown/design-system build && node ../../scripts/generate-schema-manifest.mjs && node ../../scripts/generate-content-models.mjs && node scripts/build-redirects.js && vite build && node scripts/prerender-content.mjs && node scripts/build-sitemap.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "validate:urls": "node scripts/validate-urls.js",
