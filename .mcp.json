@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sugartown-mcp-server": {
+      "command": "node",
+      "args": ["packages/mcp-server/dist/index.js"]
+    }
+  }
+}
