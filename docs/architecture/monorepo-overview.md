@@ -65,6 +65,14 @@ This matters because generated build output (`dist/`) is correctly gitignored �
 
 **Rule for any new external build integration (hosting platform, CI job, Dockerfile):** either invoke `turbo run build --filter=<workspace>...` (the `...` suffix pulls in dependencies) from the monorepo root, or, if the platform requires a leaf-scoped command, make that leaf's own `build` script self-sufficient by building its internal workspace dependencies first (e.g. `pnpm --filter @sugartown/design-system build && vite build`). Prefer the Turbo-routed form — it stays correct automatically as the dependency graph changes; a hardcoded leaf-script prefix has to be remembered and updated by hand at every consuming leaf.
 
+### Shell Scripts in CI Must Be Tested Under `dash`
+
+macOS `/bin/sh` is bash in POSIX mode; Ubuntu CI runners use `dash`. They differ in ways that fail silently. Most consequential: the POSIX **dot command is a special builtin**, so `. ./missing-file` exits a non-interactive shell immediately, and a trailing `2>/dev/null` suppresses the message without suppressing the exit. dash exits `2`, macOS `sh` exits `1`, both abort before the next line.
+
+**Materialized 2026-06-21 → 2026-07-27:** `apps/storybook/scripts/chromatic.sh` opened with `set -a; . ./.env 2>/dev/null; set +a`. `.env` is gitignored, so it never exists in CI. The script died before its first `echo` on every run for five weeks, and because it produced no output the failure read as a Chromatic problem rather than a shell one. VRT did not run in CI for that entire period, and a design-system regression reached production during it (SUG-247).
+
+**Rule:** any shell script invoked by CI must be run once under `dash`, with CI's assumptions (no `.env`, no local caches), before it is relied on — `dash script.sh`, or `docker run --rm -v "$PWD":/w -w /w debian:stable-slim sh script.sh`. Guard optional sourcing explicitly: `[ -f ./.env ] && { set -a; . ./.env; set +a; }`.
+
 ### Key Commands
 
 ```bash
@@ -93,3 +101,4 @@ pnpm format           # Format all files with Prettier
 | 2026-02-19 | v0.8.0 — routing, taxonomy, SEO, authorship complete |
 | 2026-02-20 | Moved to `docs/architecture/` during doc consolidation |
 | 2026-07-27 | Added "External Build Commands Must Route Through Turbo" — both Netlify sites (`apps/web`, Storybook) broke independently because their build commands bypassed Turbo's `dependsOn` dependency ordering |
+| 2026-07-27 | Added "Shell Scripts in CI Must Be Tested Under `dash`" — `chromatic.sh` sourced a gitignored `.env` via the POSIX dot special-builtin, killing the script before its first line on every CI run for five weeks (SUG-255) |
