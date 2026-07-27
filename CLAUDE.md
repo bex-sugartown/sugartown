@@ -10,6 +10,25 @@
 
 ---
 
+## MCP Server
+This project runs a local MCP server at packages/mcp-server.
+Start it with: pnpm --filter @sugartown/mcp-server dev
+Tools available: sugartown_get_schema, sugartown_get_tokens, sugartown_get_component,
+sugartown_check_boundary, sugartown_get_rule, sugartown_validate_field,
+sugartown_get_epic, sugartown_get_changelog
+Orient-before-acting: call sugartown_get_epic() and sugartown_get_changelog(3) at session start.
+
+## MCP Tool Aliases
+When Bex uses a shorthand, map it to the full tool name:
+  getschema      → sugartown_get_schema
+  gettokens      → sugartown_get_tokens
+  getcomponent   → sugartown_get_component
+  checkboundary  → sugartown_check_boundary
+  getrule        → sugartown_get_rule
+  validatefield  → sugartown_validate_field
+  getepic        → sugartown_get_epic
+  getchangelog   → sugartown_get_changelog
+
 ## Session Discipline
 
 ### Epic close-out sequence

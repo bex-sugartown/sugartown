@@ -60,5 +60,22 @@ module.exports = {
         ],
       },
     },
+    {
+      // Rule 4: packages/mcp-server reads the design system as data, not as a dependency (SUG-225)
+      files: ['packages/mcp-server/**/*.{ts}'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              {
+                group: ['**/packages/design-system/**', '@sugartown/design-system'],
+                message: 'packages/mcp-server reads the design system as data, not as a dependency. No import from packages/design-system allowed.',
+              },
+            ],
+          },
+        ],
+      },
+    },
   ],
 };
