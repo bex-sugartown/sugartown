@@ -51,6 +51,19 @@ After this epic, `pnpm lint`, `pnpm typecheck`, `pnpm build` and `pnpm test:smok
 - [ ] Confirm the four `validate:*` CI steps actually pass in CI once reachable — layer: verification. They pass locally but have never run there; several need Sanity credentials, so a CI-specific failure is plausible.
 - [ ] Achieve one genuinely green CI run on `main` and record its run ID — layer: verification.
 
+### Added 2026-07-27 by post-mortem (see §Post-mortem additions)
+
+- [ ] **`validate:enforcement-liveness`** — assert each gate actually *fires*, not merely that it is wired — layer: tooling. Extends `scripts/validate-validators.js` (SUG-239) rather than sitting beside it. That script passes green today while CI is red, because it verifies a validator is attached to a hook and cannot verify anyone reads the result. Proven by disabling a gate and confirming the check fails. **Must-have. Depends on:** Phases 1–3 landing first (a liveness check written against a red pipeline cannot distinguish "gate broken" from "gate correctly reporting breakage"). **Absorbs** SUG-254's proposed `validate:boundary-wiring` — see that epic's note; two checkers with the same purpose is the failure mode this whole epic documents.
+- [ ] **CI failure notification** — layer: tooling/process. CI ran red 100+ times with no signal reaching a human. Evaluate branch protection on `main` (activation audit already asks whether it is enabled) plus a notification path for a red run on `main`. **Must-have. No dependencies** — can land in parallel with Phases 1–3, and arguably should, since it is what prevents a *future* three-month silence regardless of whether today's failures are fixed.
+- [ ] **`/eod` reports the triggered CI run's outcome** — layer: process. `docs/workflows/eod-prompt.md` Phase 4 currently confirms the Netlify deploy responds but never looks at the CI run the push triggered. Today's session did this manually and it immediately produced the most useful datapoint of the day. **Nice-to-have. Depends on:** nothing technically, but low value until CI is green — until then it reports a known failure every time.
+- [ ] **Gate-liveness line in the monthly evidence digest** — layer: tooling. `scripts/monthly-evidence-digest.js` (SUG-241) already writes a dated evidence block into the backlog priorities file. Add the date and conclusion of the most recent CI run on `main`, so a red pipeline appears in the same artifact used to set priority. **Nice-to-have. Depends on:** nothing; complements rather than replaces the notification above (one is real-time, one is the periodic backstop).
+
+## Post-mortem additions (2026-07-27)
+
+A post-mortem covering 2026-07-25→27 traced five separate mechanisms that were *declared and not firing*: `boundaries.js`'s four rules (SUG-254), the Chromatic job, the CI suite itself, `sugartown_check_boundary`, and `validate:validators` — which was built by SUG-239 expressly to stop enforcement decaying silently, and which passes green throughout because it checks wiring rather than liveness. The four Scope items above exist because fixing today's three failures does not address the class of fault.
+
+Impact already materialised in the window, all traceable to the same absence: a design-system regression reached production and was found by accident during unrelated work (SUG-247, live ~2 days), both Netlify sites broke independently on a build-orchestration bypass, and six releases (v0.30.6 → v0.31.0) shipped against a pipeline nobody could have known was passing. The live `/platform/governance` page meanwhile publishes "30 checkpoints · 0 gaps" — rendered, as it happens, inside the exact `<Grid spacing="0" accentTop>` that SUG-247 proved was silently broken. That claim is handled separately (see §Related).
+
 ## Phases
 
 Strategy (a): each phase merges to `main` on completion with its own mini-release.
@@ -58,8 +71,9 @@ Strategy (a): each phase merges to `main` on completion with its own mini-releas
 1. **Lint green** — `apps/contentful-poc`'s 5 errors. Ends with `pnpm lint` exiting 0 repo-wide. (`52eb7702` already landed the other 79.)
 2. **Typecheck green** — `@storybook/react` repointing, TS6133s, boilerplate placeholder. Ends with `pnpm typecheck` exiting 0.
 3. **Chromatic** — `chromatic.sh` `.env` guard, verified under dash. Ends with the Chromatic job running to a real result rather than exiting 2.
-4. **Visibility hardening** — pre-commit widening, `--continue` for full-picture reporting. Ends with a local regression in any package being caught pre-commit.
-5. **Verify** — a green CI run on `main`, run ID recorded; confirm the `validate:*` steps pass in CI.
+4. **Visibility hardening** — pre-commit widening, `--continue` for full-picture reporting, CI failure notification / branch-protection decision. Ends with a local regression in any package being caught pre-commit, and a red `main` reaching a human.
+5. **Liveness enforcement** — `validate:enforcement-liveness` extending `validate-validators.js`, absorbing SUG-254's `validate:boundary-wiring`. Sequenced after 1–3 so it runs against a green pipeline; a liveness check authored against a red one cannot tell "gate broken" from "gate correctly reporting breakage". Ends with a deliberately-disabled gate failing the check.
+6. **Verify** — a green CI run on `main`, run ID recorded; confirm the `validate:*` steps pass in CI. Then the two nice-to-haves (`/eod` CI reporting, monthly-digest gate line), which are only meaningful once green is the expected state.
 
 ## Acceptance criteria
 
@@ -71,6 +85,8 @@ Strategy (a): each phase merges to `main` on completion with its own mini-releas
 - [ ] A commit is pushed to `main` and the resulting CI run concludes `success`. Its run ID is recorded in the close-out. This is the epic's real acceptance test — nothing else substitutes for it.
 - [ ] `.husky/pre-commit` runs full `pnpm lint`, verified by staging a deliberate lint error in a non-`web` package, confirming the hook blocks it, then reverting.
 - [ ] A single `pnpm lint` run reports failures from *all* failing packages, verified by deliberately breaking two packages at once.
+- [ ] `validate:enforcement-liveness` **fails** when a wired gate is deliberately disabled, and passes when it is restored. Asserting that it passes on a healthy repo is not sufficient — that is exactly the property `validate:validators` already has while CI is red.
+- [ ] A red run on `main` produces a signal that reaches a human, verified once by observation (branch protection blocking a merge, or a notification received).
 
 ## Human QA Walkthrough — example local pages
 
@@ -105,3 +121,4 @@ Not applicable — no shared CSS, layout token, or multi-page component changes.
 - **Chromatic regression introduced by:** `93c8f80a` (SUG-191), 2026-06-21
 - **Lint regression introduced by:** `5710db69` (SUG-224 Phase 5), 2026-07-24
 - **Epic template:** `docs/epic-template.md` — Doc Type Coverage, Query Layer Checklist and Schema Enum Audit are all not applicable to this epic (no schema or GROQ surface); state that explicitly at activation rather than leaving them blank.
+- **Needs its own Linear issue — not yet created:** `/platform/governance` §05 publishes "30 checkpoints · 0 gaps" (`GovernancePage.jsx:318`) with no measurement date and no source, while the pipeline behind the claim has been red since 2026-05-10. The same section renders through `<Grid spacing="0" accentTop accentColor="ink">` — the exact component and props SUG-247 proved were silently broken in the built package. This is a **reputational** exposure rather than a technical one, and on a platform whose positioning *is* the portfolio it plausibly outranks most of the current backlog. Out of scope here (SUG-255 restores the gates; it does not adjudicate public claims), but it should not sit only in a post-mortem. Related rule change: CLAUDE.md's red-pen gate extended to governance statistics.

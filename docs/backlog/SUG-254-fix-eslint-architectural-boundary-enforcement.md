@@ -59,6 +59,14 @@ Two helpers were already deleted as part of SUG-255's lint fix: `FilterBarDocs.t
 
 Full phase-by-phase plan, verification strategy, and file-level design: `~/.claude/plans/majestic-frolicking-sketch.md` (local only — reconstruct into this doc at resume).
 
+### Amendment 2026-07-27 (post-mortem) — do not ship a second liveness checker
+
+This epic's plan included a `scripts/validate-boundary-wiring.js` asserting that each boundary rule genuinely resolves. **That must not ship as its own mechanism.** SUG-255 now owns `validate:enforcement-liveness`, a general "does this gate actually fire" check extending `scripts/validate-validators.js`; boundary rules become one input to it.
+
+The reason is this epic's own subject matter. The 2026-07-25→27 post-mortem found *five* separate declared-but-not-firing mechanisms — `boundaries.js`'s four rules, the Chromatic job, the CI suite, `sugartown_check_boundary`, and `validate:validators` itself, which SUG-239 built expressly to prevent silent enforcement decay and which passes green while CI is red, because it verifies a validator is wired rather than that its result is read. Adding a fourth single-purpose checker to that pile reproduces the fault it is meant to catch. One liveness mechanism, many inputs.
+
+**Sequencing consequence:** SUG-254's verification phase now depends on SUG-255 Phase 5, in addition to the existing block on SUG-255 Phases 1–3 for a green baseline.
+
 ---
 
 ## Background
