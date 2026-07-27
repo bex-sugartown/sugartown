@@ -12,20 +12,56 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.30.0.
+> Accumulates since v0.31.0.
 
-- SUG-247: DS build camelCase class lookup mismatch — Grid/Card/Columns/Metric's hyphenated CSS-module class lookups silently missed against esbuild's camelCased compiled class map in the built `@sugartown/design-system` package only, dropping Grid's hairline dividers/accent rule, Card's variant styling, Columns' count/collapse layout, and Metric's trend colour; renamed to camelCase + explicit lookup maps
-- SUG-239 (follow-on): `validate:schema-parity` now does a real local-vs-deployed schema diff instead of an always-passing stub
-- SUG-244: GovernancePage workflow lifecycle diagram — merged an 8-phase, layer-tagged epic lifecycle diagram into §05 (replacing the six-layer table, keeping SUG-245's tally strip), added a governance doc-index table mapping each phase to its real governing doc and output artifact
-- SUG-248: Formalize stat-card/card-builder content schema pattern — fixed a stale pre-rename `cardSection` title (published), corrected `outcomeItem.ts`'s stale header comment and `impactStatement` field description, decided not to migrate 4 hardcoded `ARTIFACTS` arrays to `cardBuilderSection` (schema/rendering mismatch), reconciled SUG-19's `kpiDashboardSection` (no conflict — different lifecycle)
-- SUG-245: GovernancePage accuracy pass — re-verified the "0 gaps" claim (SUG-239 had already closed it, so Layer 6/tally stayed accurate rather than downgrading), rewrote the AI Governance Coverage tiles in plain language aligned to `outcomeItem`'s real field intent, corrected the Release Process diagram's gate numbering against the real 7-gate table
-- SUG-246 follow-up: priority-vocabulary drift fixed on 8 process-hardening epic docs (ad hoc labels normalized to the canonical 🔴/🟢/🟣/⚪/⬛ tier vocabulary)
-- SUG-229: Convert remaining human-gate skills to AskUserQuestion — `/mini-release`, `/morning`, `/eod`, `/switch`, `/new-epic`, `/glossy`, `/chromatic`, `docs/epic-template.md`, `/update-cwv` converted; new approval gates added to `sugartown-prd-writer` and `sugartown-epic-writer`
-- SUG-246: Linear workflow status sync — Backlog/Todo/In Progress/Done transitions wired into `/new-epic`, activation, and close-out; backfilled 3 missing `blockedBy` relations and fixed 2 priority drifts found by direct Linear audit
-- SUG-242: Vspec rename + prototype trigger — Phase 0 artifact renamed from "mock" to "vspec" across CLAUDE.md, `docs/epic-template.md`, and 3 convention/agent files, including the design-reviewer subagent's runtime glob; adds a `docs/shipped/` durability rule and a mechanical prototype-fidelity trigger
-- SUG-239: Close the enforcement-visibility gaps — `validate:css-names` wired into pre-commit, `validate:taxonomy` into CI (Sanity API dependency); new `validate:validators` meta-check catches unwired validators going forward, found a 4th orphaned one (`validate:schema-parity`) the original audit missed; CLAUDE.md close-out step 3 now names the design-reviewer subagent
-- SUG-240: Route smoke tests — five Playwright specs (homepage, archive, detail, taxonomy, 404) run against a built preview, wired into CI to block merge on red; real acceptance test verified live with a deliberate hooks-order violation; first Playwright install in the repo
-- SUG-241: Phase 8 feedback loop — monthly product loop reads real `stats.json` into a dated evidence block in the backlog priorities file; process loop adds a friction line to every shipped doc plus a three-strike retrospective trigger (explicitly human judgment, not string-matching), documented in new `docs/conventions/feedback-loop.md`
+---
+
+## [0.31.0] — 2026-07-27
+
+MCP server v1, GovernancePage accuracy pass, enforcement-visibility hardening, and workflow gate conversions. Aggregates v0.30.1–v0.30.10.
+
+### packages/mcp-server
+
+#### Added
+- New package exposing 8 read-only MCP tools over stdio for repo-aware Claude Code sessions: `sugartown_get_schema`, `sugartown_get_tokens`, `sugartown_get_component`, `sugartown_check_boundary`, `sugartown_get_rule`, `sugartown_validate_field`, `sugartown_get_epic`, `sugartown_get_changelog`. `sugartown_get_gate_status` deferred to v2.
+
+#### Fixed
+- Corrected 3 of 6 governance rules exposed by `sugartown_get_rule` against live repo state rather than the original spec: `web-adapter-rule` marked retired (SUG-224 made `apps/web` consume `@sugartown/design-system` directly, reversing the original prohibition); `orient-before-acting` and `four-slug-queries` re-sourced to their actual current files instead of a stale CLAUDE.md citation.
+- `packages/eslint-config/boundaries.js`'s architectural-boundary ESLint rules were never actually firing for any package under `pnpm lint`, due to glob-path anchoring resolving relative to the linting package's own config directory rather than repo root. Fixed locally for `packages/mcp-server` (rules redeclared in its own `.eslintrc.cjs`). The same defect remains unfixed for the other 3 boundary rules repo-wide — flagged as a follow-up, not fixed in this release.
+
+### apps/web
+
+#### Changed
+- GovernancePage: 8-phase, layer-tagged workflow lifecycle diagram replaces the six-layer table; added a governance doc-index table mapping each phase to its governing doc and output artifact.
+- GovernancePage: AI Governance Coverage tiles rewritten in plain language matching `outcomeItem`'s field intent; Release Process diagram gate numbering corrected to match the real 7-gate table.
+
+### packages/design-system
+
+#### Fixed
+- Grid/Card/Columns/Metric CSS-module class lookups were silently missing in the built package (hyphenated class names vs. esbuild's camelCased compiled class map), dropping Grid's hairline dividers/accent rule, Card's variant styling, Columns' count/collapse layout, and Metric's trend colour. Renamed to camelCase with explicit lookup maps.
+
+### apps/studio
+
+#### Fixed
+- `validate:schema-parity` now runs a real local-vs-deployed schema diff instead of an always-passing stub.
+- Corrected a stale pre-rename `cardSection` title, `outcomeItem.ts`'s stale header comment, and `impactStatement`'s field description.
+
+### Other
+
+#### Added
+- Playwright route smoke tests (homepage, archive, detail, taxonomy, 404) run against a built preview, wired into CI to block merge on red — first Playwright install in the repo.
+- `validate:validators` meta-check catches unwired validators going forward.
+- Monthly product-evidence loop reads real `stats.json` into a dated evidence block in the backlog priorities file.
+
+#### Changed
+- `validate:css-names` wired into pre-commit; `validate:taxonomy` wired into CI.
+- Remaining human-gate skills (`/mini-release`, `/morning`, `/eod`, `/switch`, `/new-epic`, `/glossy`, `/chromatic`, `/update-cwv`, epic-template) converted to `AskUserQuestion`; approval gates added to `sugartown-prd-writer` and `sugartown-epic-writer`.
+- Linear workflow status sync: Backlog/Todo/In Progress/Done transitions wired into epic lifecycle; backfilled 3 missing `blockedBy` relations, fixed 2 priority drifts.
+- Phase 0 artifact renamed from "mock" to "vspec" across CLAUDE.md and convention/agent files; added a `docs/shipped/` durability rule and a prototype-fidelity trigger.
+- Epic close-out now records a friction-line + three-strike retrospective trigger.
+
+#### Fixed
+- Priority-vocabulary drift fixed on 8 process-hardening epic docs.
 
 ---
 
