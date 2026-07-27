@@ -14,7 +14,7 @@
 # every push reaches the ignore script, which correctly decides whether to build.
 
 [build]
-  command = "pnpm install --frozen-lockfile && cd apps/storybook && pnpm storybook:build"
+  command = "pnpm install --frozen-lockfile && pnpm --filter @sugartown/design-system build && cd apps/storybook && pnpm storybook:build"
   publish = "apps/storybook/storybook-static"
   # Rebuild when Storybook config, DS package, web DS adapter, or app-level
   # component changes. apps/web/src/components/ holds 33 component stories
