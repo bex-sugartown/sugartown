@@ -57,6 +57,14 @@ typecheck → lint → build
 
 Tasks with `dependsOn: ["^build"]` wait for dependency workspaces to build first. `dev` and `storybook` are persistent and not cached.
 
+### External Build Commands Must Route Through Turbo
+
+`dependsOn: ["^build"]` only fires when a task is invoked *through Turbo* (`turbo run build`, or `pnpm build` at the workspace root, which calls it). It does **not** fire when something outside the monorepo — a hosting platform, a CI step, a Dockerfile — runs a workspace member's own `build` script directly (e.g. `cd apps/web && pnpm build`, or a platform's "base directory" setting scoping the build command to one app). That invocation never touches `turbo.json`, so internal workspace dependencies (`packages/design-system`, etc.) never build first.
+
+This matters because generated build output (`dist/`) is correctly gitignored — it's not in the git checkout a fresh CI/deploy environment starts from. If a workspace member imports another workspace member's built output (e.g. `apps/web` importing `@sugartown/design-system/styles.css` from `packages/design-system/dist/`) and the external build command bypasses Turbo, the import fails to resolve because nothing built it. Both `apps/web`'s Netlify deploy and the Storybook (`pinkmoon`) Netlify deploy hit exactly this failure independently — each site's build command called a leaf script (`pnpm build` scoped to `apps/web`, `pnpm storybook:build` scoped to `apps/storybook`) instead of the Turbo-aware root command. Full incident: `docs/briefs/PROJ-005-monorepo-prd.md` §7, Risk: Build Orchestration Bypass.
+
+**Rule for any new external build integration (hosting platform, CI job, Dockerfile):** either invoke `turbo run build --filter=<workspace>...` (the `...` suffix pulls in dependencies) from the monorepo root, or, if the platform requires a leaf-scoped command, make that leaf's own `build` script self-sufficient by building its internal workspace dependencies first (e.g. `pnpm --filter @sugartown/design-system build && vite build`). Prefer the Turbo-routed form — it stays correct automatically as the dependency graph changes; a hardcoded leaf-script prefix has to be remembered and updated by hand at every consuming leaf.
+
 ### Key Commands
 
 ```bash
@@ -84,3 +92,4 @@ pnpm format           # Format all files with Prettier
 | 2026-01-31 | Monorepo baseline created from subtree merge |
 | 2026-02-19 | v0.8.0 — routing, taxonomy, SEO, authorship complete |
 | 2026-02-20 | Moved to `docs/architecture/` during doc consolidation |
+| 2026-07-27 | Added "External Build Commands Must Route Through Turbo" — both Netlify sites (`apps/web`, Storybook) broke independently because their build commands bypassed Turbo's `dependsOn` dependency ordering |

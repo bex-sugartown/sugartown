@@ -197,6 +197,14 @@ Archived WP artifacts should live outside the monorepo (or under `/archive` if r
 
 **Mitigation:** Migrate recent work first; avoid rewrites
 
+### Risk: Build Orchestration Bypass
+
+An external build command (hosting platform, CI job, Dockerfile) that invokes a single workspace member's own `build` script directly — rather than `turbo run build` from the monorepo root — skips Turbo's `dependsOn: ["^build"]` dependency ordering entirely. If that workspace member imports another workspace member's generated (gitignored) build output, the import fails to resolve, because nothing built the dependency first. This is not a Netlify-specific failure mode; it can occur on any hosting platform, CI runner, or container build that scopes its build command to a leaf app instead of routing through Turbo.
+
+**Materialized 2026-07-27:** both the `apps/web` and Storybook (`pinkmoon`) Netlify sites broke independently on the same root cause — each site's build command (`cd apps/web && pnpm build`; `cd apps/storybook && pnpm storybook:build`) bypassed Turbo, so `packages/design-system/dist/` never built before `apps/web`/Storybook tried to import from it.
+
+**Mitigation:** any new external build integration must either (a) invoke `turbo run build --filter=<workspace>...` from the monorepo root, or (b) if the platform requires a leaf-scoped command, make that leaf's own `build` script self-sufficient by building its internal workspace dependencies first. Documented as a standing rule in `docs/architecture/monorepo-overview.md` §External Build Commands Must Route Through Turbo.
+
 ---
 
 ## 8. Open Questions
