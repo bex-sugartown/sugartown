@@ -275,7 +275,29 @@ Standard sequence per CLAUDE.md, with tooling-epic adjustments:
 1. **Visual QA gate** — N/A, skip (no visual output; see Visual QA Gate section above for the substituted tool-output verification).
 2. **Chromatic** — N/A, skip (no Storybook story, no visual surface).
 3. **Data pipeline gap check** — N/A, this epic does not extend a build-time data pipeline.
+3b. **Friction line** — none. Two accuracy gaps were caught and corrected during implementation, before any commit, rather than via a follow-up correction commit: (a) 3 of the 6 "sourced from CLAUDE.md" governance rules named in the PRD no longer matched the live repo — `web-adapter-rule` was actually inverted by SUG-224 (apps/web now consumes `@sugartown/design-system` directly, the opposite of the PRD's stated prohibition), and `orient-before-acting`/`four-slug-queries` live in sibling docs, never in CLAUDE.md itself. Resolved with the user via AskUserQuestion; `governance.ts` ships corrected, verified-live content. (b) `packages/eslint-config/boundaries.js`'s `no-restricted-imports` overrides have never actually fired for any package in this monorepo — ESLint resolves `overrides[].files` globs relative to the *linting* package's own root config directory, not repo root, so `boundaries.js`'s repo-root-relative globs (e.g. `'packages/**/*.{ts,tsx,js,jsx}'`) never match under `pnpm lint`'s per-package invocation via Turbo. Confirmed empirically, including against the pre-existing `packages/design-system` package. Fixed locally for `packages/mcp-server` (boundary rules redeclared in its own `.eslintrc.cjs` with package-relative globs) so this epic's own Deliverable #3 is genuinely enforced, not just documented; **Rules 1–3 in `boundaries.js` remain broken repo-wide and are out of scope here** — flagged as a follow-up (see below).
 4. **Move epic doc** — `docs/backlog/SUG-225-sugartown-mcp-server-v1.md` → `docs/shipped/SUG-225-sugartown-mcp-server-v1.md`.
 5. **Confirm clean tree** — `git status` clean.
-6. **Mini-release** — `/mini-release SUG-225 Sugartown MCP Server v1` — this is a new package/feature surface; consider whether `/release` (MINOR bump) is more appropriate than `/mini-release` (patch), per CLAUDE.md's guidance that new feature surfaces may warrant MINOR.
+6. **Release** — ran `/release` (MINOR bump), not `/mini-release`, per this doc's own note that a new package/feature surface may warrant MINOR — confirmed with the user before running.
 7. **Update Linear** — transition SUG-225 to **Done**.
+
+### Acceptance Criteria — actual results
+
+All spot-checked directly against a built server (`node dist/index.js`) over stdio, plus `@modelcontextprotocol/inspector --cli`:
+
+- `pnpm --filter @sugartown/mcp-server build` — zero TypeScript errors.
+- `pnpm --filter @sugartown/mcp-server lint` — zero violations on clean tree; deliberately-introduced imports from `../../apps/web/...` and `@sugartown/design-system` (test-only, reverted) both triggered `no-restricted-imports` errors.
+- `sugartown_get_schema("caseStudy")` — 12 top-level fields including nested `cardImage.fields[]` and `sections.arrayOf` (12 section types), validation chains resolved (e.g. `title`: `required().max(100).error(...)`). Also spot-checked `category.ts` (simple), `node.ts` (30 fields, `sections[]`), `tool.ts` (7 fields) — no parser crash across all 4 shapes.
+- `sugartown_get_tokens("semantic")` — filtered correctly (e.g. `st-color-brand-primary` → `var(--st-color-pink)`, tier `semantic`); 655 tokens total (373 primitive / 198 component / 84 semantic per the naming-convention heuristic — no ground-truth tier field exists in `tokens.json`, documented as a heuristic in `tokens.ts`); zero mirror drift detected between the web and DS-package `tokens.css` copies.
+- `sugartown_check_boundary("packages/mcp-server", "apps/web")` → `permitted: false`, rule text sourced live from `boundaries.js` via `createRequire`.
+- `sugartown_check_boundary("packages/mcp-server", "packages/design-system")` → `permitted: false` once the new override was added.
+- `sugartown_get_rule("featuredImage")` → returns corrected live status (see friction line above), not the original PRD paraphrase.
+- `sugartown_get_component("Button")` → real path + `storyCount: 7`; `sugartown_get_component("Frobnicator")` → `not_found` with Levenshtein-nearest suggestions.
+- `sugartown_get_epic()` → most-recently-modified file in `docs/backlog/` (currently `sugartown-backlog-priorities.md`, correct per the literal mtime rule — this is the priority index, not an individual epic; worth a note if the intent was ever "most recent SUG-* epic specifically").
+- `sugartown_get_changelog(3)` → 3 entries, `[Unreleased]` first (non-empty), then the 2 most recent versioned sections.
+- All 8 tools passed `@modelcontextprotocol/inspector --cli ... --method tools/list` schema validation and a live `tools/call`.
+- `grep -rn "@sanity/client\|from 'sanity'" packages/mcp-server/src/` → no matches.
+
+### Follow-up flagged (out of scope for SUG-225)
+
+`packages/eslint-config/boundaries.js` Rules 1–3 (packages↔apps, design-system CMS-agnostic, web↔studio) do not actually fire under any current `pnpm lint` invocation, repo-wide, for the anchor-resolution reason above. This has been true since the rules were authored. Needs its own audit epic: confirm the scope of packages/files affected, decide the fix (per-package local overrides vs. a repo-root-invoked lint pass), and re-run lint to see what — if anything — was silently passing that shouldn't have been.
