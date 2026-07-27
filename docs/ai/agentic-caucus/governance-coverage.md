@@ -1,9 +1,9 @@
 # Agentic Caucus — Governance Coverage
 
-**Version:** v1.0
+**Version:** v1.3
 **Status:** Active
 **Owner:** Bex Head
-**Last updated:** July 2026
+**Last updated:** 2026-07-27 · **coverage re-measurement pending — see the liveness caveat below**
 **Related:** [[methodology]] (`docs/ai/agentic-caucus/methodology.md`), [[failure-modes]] (`docs/ai/agentic-caucus/failure-modes.md`), [[incident-log]] (`docs/ai/agentic-caucus/incident-log.md`), [[data-handling]] (`docs/ai/agentic-caucus/data-handling.md`)
 
 ---
@@ -50,6 +50,16 @@ Each of the 30 components is marked: **Strong** (owned in code), **Partial** (co
 informal), **Inherited** (delegated to a platform), **Gap** (worth filling, see below), or
 **N/A** (out of scope by design).
 
+> ⚠️ **Enforcement liveness caveat (2026-07-27).** The status values below describe coverage
+> as *configured*. On 2026-07-27 CI was found to have failed every run on `main` since
+> 2026-05-10, dying at its first step — so `typecheck`, `validate:urls`, `validate:filters`,
+> `validate:taxonomy`, `validate:schema-parity`, `build` and the route smoke tests have not
+> executed in CI for roughly three months, and the Chromatic job has not run since 2026-06-21.
+> The six pre-commit validators are unaffected and do fire on every commit. Rows that depend
+> on CI-side enforcement are annotated ⚠️, and the tally is **not** re-asserted until SUG-255
+> restores the pipeline and adds a liveness check. Configured is not enforced; this document
+> previously did not distinguish the two.
+
 ### Layer 1 — AI Inventory · Strong
 
 | Component | Status | What covers it |
@@ -66,7 +76,7 @@ informal), **Inherited** (delegated to a platform), **Gap** (worth filling, see 
 |---|---|---|
 | Source tracking | Strong | Git is source of truth. Content is written verbatim, no AI rewriting pipeline. |
 | Lineage mapping | Partial | Epic doc, commit, ship doc trace decision lineage. The node schema documents session lineage. |
-| Quality validation | Strong | `validate:tokens`, `validate:content`, `validate:urls`, lint, anti-slop checks. |
+| Quality validation | Strong ⚠️ | `validate:tokens` fires at pre-commit. But `validate:urls` is CI-only and CI has not reached it since 2026-05-10, and `lint` runs web-only at pre-commit while being red repo-wide. Re-measure after SUG-255. |
 | Freshness monitoring | Partial | "Context degrades" is a documented failure mode; `/morning` re-establishes ground truth. No systematic monitor. |
 | Data bias screening | N/A | No training corpus. Editorial bias is human-reviewed at the Content Write Gate. |
 
@@ -85,7 +95,7 @@ informal), **Inherited** (delegated to a platform), **Gap** (worth filling, see 
 | Component | Status | What covers it |
 |---|---|---|
 | Model cards | Strong | Per-agent cards with model, surface, and failure-mode cross-refs in [[agent-cards]]. |
-| Performance benchmarks | N/A | Tool selection is observed-heuristic, which is right-sized. Product perf (Chromatic, CWV) is separate. |
+| Performance benchmarks | N/A | Tool selection is observed-heuristic, which is right-sized. Product perf (CWV) is separate. ⚠️ The Chromatic half of that parenthetical was false when written: the job had not run in CI since 2026-06-21. |
 | Fairness testing | N/A | No model fairness in scope. |
 | Red-teaming | Partial | Adversarial verify patterns, no-speculative-fixes rule, validators acting as adversaries. |
 | Drift detection | Strong | "Context degrades mid-session" is a documented drift mode with mitigation. `validate:style-mirror` catches token and style drift. |
@@ -106,7 +116,7 @@ informal), **Inherited** (delegated to a platform), **Gap** (worth filling, see 
 |---|---|---|
 | EU AI Act mapping | N/A | No high-risk AI system deployed, nothing trained. |
 | GDPR alignment | Partial | Site-level privacy policy plus a data-handling note for the AI layer ([[data-handling]]): collection points, processors, build-only AI boundary. Not a formal DPIA. |
-| Policy enforcement | Strong | `CLAUDE.md` is enforced policy: pre-commit hooks, validators, gates. |
+| Policy enforcement | Strong ⚠️ | The pre-commit half holds: six validators fire on every commit. The CI half did not — all seven CI gates unreached since 2026-05-10. Enforced locally, advisory in CI. Re-measure after SUG-255. |
 | Incident reporting | Strong | Standing append-only [[incident-log]] with a defined format; `failure-modes.md` and session post-mortems feed it. No longer ad hoc. |
 | Audit trails | Strong | Git history, Linear, ship docs, CHANGELOG, the node schema. Everything is logged. |
 
@@ -160,6 +170,30 @@ Named here so they read as decisions, not oversights.
 ---
 
 ## Changelog
+
+### v1.3 — 2026-07-27
+SUG-255 (CI recovery). No status value changed, but three rows gained a ⚠️ liveness caveat
+and the header version was corrected — it still read v1.0 while this changelog ran to v1.2,
+so `GovernancePage.jsx`'s "sourced verbatim from v1.1" cited a version that never existed.
+
+The finding: CI has failed every run on `main` since 2026-05-10, dying at its first step, so
+`typecheck`, `validate:urls`, `validate:filters`, `validate:taxonomy`, `validate:schema-parity`,
+`build` and the route smoke tests have not executed in CI for ~3 months. The Chromatic job has
+not run since 2026-06-21 (a missing `.env` kills the script via the POSIX dot special-builtin).
+The six pre-commit validators are unaffected and do fire.
+
+**On v1.2's own claim.** That entry closed with "re-verified accurate as of this entry, not
+carried forward unchecked" — written 2026-07-26, one day before the above was found. The
+re-verification was real but checked the wrong property: it confirmed each validator was
+*wired* (`validate:css-names` in `.husky/pre-commit`, `validate:taxonomy` in
+`.github/workflows/ci.yml`), not that anything *ran*. `validate:taxonomy` is wired into a CI
+job that has not reached it once. The `validate:validators` meta-check added in the same entry
+"so this class of drift can't recur silently" passed green throughout, because it verifies
+wiring and cannot verify liveness.
+
+The tally is deliberately **not** re-asserted here. Gap: 0 may still be right, but it cannot be
+claimed until SUG-255 restores the pipeline and ships a liveness check. Configured is not
+enforced, and this document did not previously distinguish the two.
 
 ### v1.2 — 2026-07-26
 SUG-245 (accuracy pass) + SUG-239 (enforcement fix). SUG-245's review found Layer 6

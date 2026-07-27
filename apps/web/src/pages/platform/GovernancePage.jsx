@@ -187,7 +187,8 @@ const toWorkflowDocRow = (r) => ({
 })
 
 // ── AI governance coverage (SUG-198) ──────────────────────
-// Data sourced verbatim from docs/ai/agentic-caucus/governance-coverage.md v1.1
+// Data sourced verbatim from docs/ai/agentic-caucus/governance-coverage.md v1.3.
+// Tally is as-configured, not as-measured — liveness re-measurement pending SUG-255.
 const COVERAGE_TALLY = [
   { label: 'Automated checks',    value: 18, body: 'Enforced by code and pre-commit hooks.' },
   { label: 'Documented checks',   value: 5,  body: 'To be automated or kept human.' },
@@ -315,7 +316,7 @@ export default function GovernancePage() {
             number="§05"
             name="AI GOVERNANCE COVERAGE"
             title="Enforced policy, measured"
-            kicker="30 checkpoints · 0 gaps"
+            kicker="30 checkpoints · mapped 2026-07-26"
           />
           <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2} className={styles.statsSection}>
             {COVERAGE_TALLY.map((s) => (
