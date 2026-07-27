@@ -47,7 +47,8 @@
     "audit:urls": "node scripts/audit/wp-url-spider.js",
     "bulk:export": "node scripts/bulk/export-csv.js",
     "bulk:import": "node scripts/bulk/import-csv.js",
-    "generate:schema-manifest": "node scripts/generate-schema-manifest.mjs"
+    "generate:schema-manifest": "node scripts/generate-schema-manifest.mjs",
+    "mttn": "node scripts/mttn.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.62.0",
