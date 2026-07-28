@@ -134,6 +134,20 @@ After delivering the summary, propose actions in this order:
    ```
    - Report the result
 
+5. **Verify the CI run the push just triggered** (after push)
+   - The push starts a CI run. Watch it to a conclusion — do not stop at "the deploy responded":
+   ```bash
+   gh run list --branch main --workflow CI --limit 1 --json databaseId,status,conclusion,headSha
+   ```
+   - If still `in_progress`, wait and re-check (a full run is ~5 min). If waiting isn't practical, say so explicitly and record the run ID as unresolved — never report it as green.
+   - If it concludes `failure`, get the actual failing step before closing the day:
+   ```bash
+   gh run view <databaseId> --log-failed
+   ```
+   - Report the run ID and its conclusion in Phase 4. **A run ID is the artifact; "CI is green" is not.**
+
+   *Why this step exists:* until 2026-07-28, `/eod` confirmed the Netlify deploy responded and never looked at the CI run the same push had triggered. Netlify deploys from a build that does not run the test suite, so a green site and a red pipeline coexist comfortably — and did, for 212 consecutive runs between 2026-05-10 and 2026-07-28, across six releases. The deploy check answers "is the site up". This one answers "did anything verify it". They are not the same question, and only one of them was being asked.
+
 Execute **one action at a time**. Wait for confirmation before each step.
 
 **Hard rules:**
@@ -153,6 +167,7 @@ Branch: [current branch]
 Commits pushed: [count or "none"]
 Chromatic: [no changes / N changes (approved | overridden) / skipped — no visual surfaces / not run]
 Netlify deploy: [triggered / not needed]
+CI run: [run ID] — [success / failure (failing step) / still running at close]
 Uncommitted changes: [none / list]
 Stashes: [none / list]
 

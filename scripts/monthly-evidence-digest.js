@@ -25,6 +25,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { execFileSync } from 'child_process'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
@@ -59,6 +60,47 @@ function pct(n) {
   return n == null ? 'unavailable' : `${n}`
 }
 
+// ─── Gate liveness — the most recent CI run on main ─────────────────────────
+//
+// The other four numbers describe the product. This one describes whether
+// anything is checking the product. CI ran red on `main` 212 consecutive times
+// between 2026-05-10 and 2026-07-28 while this digest kept reporting healthy
+// performance, security and content figures every month — all of them true, and
+// all of them measured by a pipeline nobody could have known was passing.
+//
+// Reads GitHub rather than stats.json, so it degrades to "unavailable" when gh
+// is missing or unauthenticated. A missing number is reported as missing; it is
+// never silently omitted, because an absent row reads as "fine" (SUG-255).
+
+function ciLiveness() {
+  try {
+    const raw = execFileSync(
+      'gh',
+      ['run', 'list', '--branch', 'main', '--workflow', 'CI', '--limit', '1',
+       '--json', 'databaseId,conclusion,createdAt'],
+      { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }
+    )
+    const [run] = JSON.parse(raw)
+    if (!run) return { line: '- **Gate liveness:** no CI run found on `main`', sentence: 'No CI run was found on `main`.' }
+
+    const when = fmtDate(run.createdAt)
+    const outcome = run.conclusion || 'still running'
+    const mark = run.conclusion === 'success' ? '' : ' ⚠️'
+    return {
+      line: `- **Gate liveness:** last CI run on \`main\` concluded \`${outcome}\`${mark} (${when}, run ${run.databaseId})`,
+      sentence:
+        run.conclusion === 'success'
+          ? `The most recent CI run on \`main\` passed (run ${run.databaseId}, ${when}), so the figures above were measured by a pipeline known to be working.`
+          : `The most recent CI run on \`main\` concluded \`${outcome}\` (run ${run.databaseId}, ${when}) — treat every figure above as unverified until it is green.`,
+    }
+  } catch {
+    return {
+      line: '- **Gate liveness:** unavailable (gh CLI missing or unauthenticated)',
+      sentence: 'CI status could not be read this month, so the figures above are unverified.',
+    }
+  }
+}
+
 // ─── Pull the four numbers, guarding every field ───────────────────────────
 
 function buildDigest(stats) {
@@ -85,10 +127,13 @@ function buildDigest(stats) {
 
   const statsDate = stats.generatedAt ? fmtDate(stats.generatedAt) : 'unknown date'
 
+  const ci = ciLiveness()
+
   const sentences = [
     `Homepage Lighthouse performance held at ${performanceScore} (desktop) with ${vulnerabilities} known dependency vulnerabilit${vulnTotal === 1 ? 'y' : 'ies'}.`,
     `${contentDocs} published documents across article, node, case study, and page types; the Linear backlog holds ${backlogSize} open item${backlogSize === 1 ? '' : 's'} not yet started.`,
     `${cruxNote} Source: stats.json generated ${statsDate}.`,
+    ci.sentence,
   ]
 
   return {
@@ -98,6 +143,7 @@ function buildDigest(stats) {
       `- **Security:** ${vulnerabilities} known vulnerabilit${vulnTotal === 1 ? 'y' : 'ies'}`,
       `- **Content:** ${contentDocs} published documents (article + node + caseStudy + page)`,
       `- **Backlog:** ${backlogSize} open Linear items`,
+      ci.line,
     ],
     sentences,
   }
