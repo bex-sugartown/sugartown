@@ -235,6 +235,9 @@ importers:
       '@eslint/js':
         specifier: ^9.39.1
         version: 9.39.2
+      '@sugartown/storybook-docs':
+        specifier: workspace:*
+        version: link:../../packages/storybook-docs
       '@types/react':
         specifier: ^19.2.5
         version: 19.2.10

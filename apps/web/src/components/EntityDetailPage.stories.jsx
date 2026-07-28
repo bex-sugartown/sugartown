@@ -21,7 +21,7 @@ import React from 'react'
  *   /projects/:slug  → ProjectDetailPage.jsx
  */
 import { MemoryRouter } from 'react-router-dom'
-import { EntityDetailPageDocsPage } from '../../../../apps/storybook/.storybook/stories/EntityDetailPageDocs'
+import { EntityDetailPageDocsPage } from './EntityDetailPageDocs'
 import { Breadcrumb, PageHeader, Avatar } from '../design-system'
 import MetadataCard from './MetadataCard'
 import ContentList from './ContentList'

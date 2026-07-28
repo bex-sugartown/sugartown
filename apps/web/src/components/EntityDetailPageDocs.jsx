@@ -9,7 +9,7 @@ import {
   AiGeneratedFooter,
 } from '@sugartown/storybook-docs';
 
-const s: Record<string, React.CSSProperties> = {
+const s = {
   ...docStyles,
   page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px', background: 'var(--st-color-bg)' },
   h1:       { fontFamily: 'var(--st-font-family-narrative)', fontSize: '2.25rem', fontWeight: 600, marginBottom: '0.25rem' },

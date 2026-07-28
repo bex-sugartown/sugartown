@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-28T08:36:43.134Z",
+  "generatedAt": "2026-07-28T15:00:19.618Z",
   "release": {
     "current": {
       "version": "0.31.0",
@@ -45,7 +45,78 @@
         "linearIssue": "SUG-183"
       }
     ],
-    "latestPatches": [],
+    "latestPatches": [
+      {
+        "version": "0.31.1",
+        "descriptor": "SUG-255 restore green CI",
+        "kind": "PATCH",
+        "date": "2026-07-28",
+        "linearIssue": "SUG-255"
+      },
+      {
+        "version": "0.30.10",
+        "descriptor": "SUG-244 GovernancePage workflow lifecycle diagram",
+        "kind": "PATCH",
+        "date": "2026-07-26",
+        "linearIssue": "SUG-244"
+      },
+      {
+        "version": "0.30.9",
+        "descriptor": "SUG-248 Formalize stat-card/card-builder content schema pattern",
+        "kind": "PATCH",
+        "date": "2026-07-26",
+        "linearIssue": "SUG-248"
+      },
+      {
+        "version": "0.30.8",
+        "descriptor": "SUG-245 GovernancePage accuracy pass",
+        "kind": "PATCH",
+        "date": "2026-07-26",
+        "linearIssue": "SUG-245"
+      },
+      {
+        "version": "0.30.7",
+        "descriptor": "SUG-247 DS build camelCase class lookup mismatch",
+        "kind": "PATCH",
+        "date": "2026-07-26",
+        "linearIssue": "SUG-247"
+      },
+      {
+        "version": "0.30.6",
+        "descriptor": "SUG-241 Phase 8 feedback loop",
+        "kind": "PATCH",
+        "date": "2026-07-25",
+        "linearIssue": "SUG-241"
+      },
+      {
+        "version": "0.30.5",
+        "descriptor": "SUG-240 Route smoke tests",
+        "kind": "PATCH",
+        "date": "2026-07-25",
+        "linearIssue": "SUG-240"
+      },
+      {
+        "version": "0.30.4",
+        "descriptor": "SUG-239 Close the enforcement-visibility gaps",
+        "kind": "PATCH",
+        "date": "2026-07-25",
+        "linearIssue": "SUG-239"
+      },
+      {
+        "version": "0.30.3",
+        "descriptor": "SUG-242 Vspec rename and prototype trigger",
+        "kind": "PATCH",
+        "date": "2026-07-25",
+        "linearIssue": "SUG-242"
+      },
+      {
+        "version": "0.30.2",
+        "descriptor": "SUG-246 Linear workflow status sync — priority + dependency alignment",
+        "kind": "PATCH",
+        "date": "2026-07-25",
+        "linearIssue": "SUG-246"
+      }
+    ],
     "count": {
       "total": 30,
       "major": 0,
@@ -78,8 +149,8 @@
     "components": 95
   },
   "repo": {
-    "commits": 1,
-    "epicsShipped": 49
+    "commits": 2509,
+    "epicsShipped": 50
   },
   "perf": {
     "stale": false,
@@ -352,13 +423,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-07-28T08:35:22.061Z",
+    "fetchedAt": "2026-07-28T14:59:32.142Z",
     "origin": "https://sugartown.io",
     "available": false,
-    "reason": "no-data"
+    "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-07-28T08:36:40.601Z",
+    "fetchedAt": "2026-07-28T15:00:18.786Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -379,13 +450,13 @@
     "lastCommit": "2026-07-27T15:56:55Z"
   },
   "sanity": {
-    "fetchedAt": "2026-07-28T08:36:42.315Z",
+    "fetchedAt": "2026-07-28T15:00:19.326Z",
     "counts": {
       "article": 15,
       "node": 52,
       "caseStudy": 8,
       "page": 10,
-      "tag": 63,
+      "tag": 64,
       "category": 14,
       "project": 7,
       "person": 1,
@@ -393,7 +464,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-07-28T08:36:42.580Z",
+    "generatedAt": "2026-07-28T15:00:19.615Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
