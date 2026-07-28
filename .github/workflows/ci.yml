@@ -11,6 +11,27 @@ jobs:
     name: Lint · Typecheck · Validate · Build
     runs-on: ubuntu-latest
 
+    # Sanity content-API config for the validate:* steps below.
+    #
+    # These are deliberately NOT secrets. Every VITE_-prefixed variable is inlined into
+    # the client bundle at build time, so all three already ship to every visitor's
+    # browser; poalmzla is additionally hardcoded in apps/studio/sanity.config.ts and in
+    # eight migration scripts. Storing public config in the secret store bought no
+    # security and cost reviewability: on 2026-07-28, validate:taxonomy ran in CI for the
+    # first time in its existence and reported 19 tag documents, 63 dangling tag refs and
+    # 24 dangling author refs — against a project that has 64 tags, 0 dangling refs, and
+    # exactly one person document. The values in the secret store had drifted from the
+    # real project and nothing could see it, because a secret cannot be read back.
+    #
+    # Public config belongs in the repo where a diff can catch it. The genuine credential
+    # (a write token) is not needed here: these validators read published content only,
+    # which is the correct thing to gate on — CI should check what visitors actually see,
+    # not the state of unpublished drafts.
+    env:
+      VITE_SANITY_PROJECT_ID: poalmzla
+      VITE_SANITY_DATASET: production
+      VITE_SANITY_API_VERSION: '2025-02-02'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,24 +58,12 @@ jobs:
 
       - name: Validate URLs
         run: pnpm validate:urls
-        env:
-          VITE_SANITY_PROJECT_ID: ${{ secrets.VITE_SANITY_PROJECT_ID }}
-          VITE_SANITY_DATASET: ${{ secrets.VITE_SANITY_DATASET }}
-          VITE_SANITY_API_VERSION: ${{ secrets.VITE_SANITY_API_VERSION }}
 
       - name: Validate filters
         run: pnpm validate:filters
-        env:
-          VITE_SANITY_PROJECT_ID: ${{ secrets.VITE_SANITY_PROJECT_ID }}
-          VITE_SANITY_DATASET: ${{ secrets.VITE_SANITY_DATASET }}
-          VITE_SANITY_API_VERSION: ${{ secrets.VITE_SANITY_API_VERSION }}
 
       - name: Validate taxonomy
         run: pnpm validate:taxonomy
-        env:
-          VITE_SANITY_PROJECT_ID: ${{ secrets.VITE_SANITY_PROJECT_ID }}
-          VITE_SANITY_DATASET: ${{ secrets.VITE_SANITY_DATASET }}
-          VITE_SANITY_API_VERSION: ${{ secrets.VITE_SANITY_API_VERSION }}
 
       - name: Validate schema parity
         run: pnpm validate:schema-parity
