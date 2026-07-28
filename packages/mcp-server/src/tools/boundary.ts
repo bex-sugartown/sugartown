@@ -2,7 +2,7 @@ import { createRequire } from 'node:module'
 import { z } from 'zod'
 import { repoPath } from '../lib/repo-root.js'
 
-const BOUNDARIES_SOURCE = 'packages/eslint-config/boundaries.js'
+const BOUNDARIES_SOURCE = 'packages/eslint-config/boundary-rules.js'
 
 export const checkBoundaryInputSchema = {
   from: z.string().describe('Repo-relative path of the importing module, e.g. "apps/web" or "packages/mcp-server"'),
@@ -13,6 +13,8 @@ export interface BoundaryResult {
   permitted: boolean
   rule?: string
   source: string
+  /** Set when `from` is a workspace deliberately outside boundary enforcement. */
+  unenforced?: string
 }
 
 interface RestrictedImportPattern {
@@ -20,28 +22,40 @@ interface RestrictedImportPattern {
   message: string
 }
 
-interface EslintOverride {
-  files: string[]
-  rules: {
-    'no-restricted-imports'?: ['error', { patterns: RestrictedImportPattern[] }]
-  }
+interface BoundaryRulesModule {
+  SCOPES: Record<string, string[]>
+  NO_BOUNDARY_SCOPE: Record<string, string>
+  patternsFor: (scope: string) => RestrictedImportPattern[]
 }
 
-function loadOverrides(): EslintOverride[] {
+function loadBoundaryRules(): BoundaryRulesModule {
   const require = createRequire(import.meta.url)
-  // Live require of the real ESLint config — this is the enforced source of truth,
-  // not a copy, so the tool can never drift from what `pnpm lint` actually checks.
+  // Live require of the same module the ESLint configs consume — one source, so
+  // this tool and `pnpm lint` cannot disagree.
+  //
+  // The previous version made that claim too, and it was false. It read
+  // boundaries.js's `overrides[].files` globs and interpreted them as
+  // repo-root-relative — i.e. as their author intended, not as ESLint actually
+  // resolves them. ESLint matched nothing while this tool confidently answered
+  // "not permitted", so `sugartown_check_boundary` spent 176 days as a
+  // false-confidence oracle: right about the rules, wrong about reality.
+  //
+  // Reading SCOPES instead of globs removes the interpretation step entirely.
+  // There is no glob left to disagree about. SUG-254.
   delete require.cache[require.resolve(repoPath(BOUNDARIES_SOURCE))]
-  const mod = require(repoPath(BOUNDARIES_SOURCE)) as { overrides: EslintOverride[] }
-  return mod.overrides
+  return require(repoPath(BOUNDARIES_SOURCE)) as BoundaryRulesModule
 }
 
-/** Converts an eslint `files` glob (e.g. 'packages/**\/*.{ts,tsx}') to a directory-prefix check. */
-function filesGlobMatches(glob: string, from: string): boolean {
-  const starIndex = glob.indexOf('*')
-  const prefix = (starIndex === -1 ? glob : glob.slice(0, starIndex)).replace(/\/+$/, '')
-  const normalizedFrom = from.replace(/\/+$/, '')
-  return normalizedFrom === prefix || normalizedFrom.startsWith(`${prefix}/`)
+/**
+ * Resolve an importing path to the workspace scope that owns it.
+ * `apps/web/src/lib/foo.js` → `apps/web`. Longest match wins, so a nested
+ * workspace resolves to itself rather than to its parent.
+ */
+function scopeFor(from: string, known: string[]): string | undefined {
+  const normalized = from.replace(/\/+$/, '')
+  return known
+    .filter((scope) => normalized === scope || normalized.startsWith(`${scope}/`))
+    .sort((a, b) => b.length - a.length)[0]
 }
 
 /** Converts a no-restricted-imports group pattern (e.g. '**\/apps/**', '@sanity/**', 'sanity') to a match check. */
@@ -58,18 +72,28 @@ function importPatternMatches(pattern: string, to: string): boolean {
 }
 
 export function checkBoundary(from: string, to: string): BoundaryResult {
-  const overrides = loadOverrides()
+  const { SCOPES, NO_BOUNDARY_SCOPE, patternsFor } = loadBoundaryRules()
 
-  for (const override of overrides) {
-    if (!override.files.some((glob) => filesGlobMatches(glob, from))) continue
+  const unenforcedScope = scopeFor(from, Object.keys(NO_BOUNDARY_SCOPE))
+  const enforcedScope = scopeFor(from, Object.keys(SCOPES))
 
-    const restricted = override.rules['no-restricted-imports']
-    if (!restricted) continue
+  // A deliberately-unenforced workspace answers "permitted", but says why rather
+  // than implying the import was checked and cleared. The old tool could not
+  // draw this distinction: an unmatched glob and a genuinely absent rule both
+  // fell through to the same bare `permitted: true`.
+  if (!enforcedScope) {
+    return unenforcedScope
+      ? { permitted: true, source: BOUNDARIES_SOURCE, unenforced: NO_BOUNDARY_SCOPE[unenforcedScope] }
+      : {
+          permitted: true,
+          source: BOUNDARIES_SOURCE,
+          unenforced: `"${from}" matches no workspace in SCOPES or NO_BOUNDARY_SCOPE — it is outside boundary enforcement entirely.`,
+        }
+  }
 
-    for (const pattern of restricted[1].patterns) {
-      if (pattern.group.some((g) => importPatternMatches(g, to))) {
-        return { permitted: false, rule: pattern.message, source: BOUNDARIES_SOURCE }
-      }
+  for (const pattern of patternsFor(enforcedScope)) {
+    if (pattern.group.some((g) => importPatternMatches(g, to))) {
+      return { permitted: false, rule: pattern.message, source: BOUNDARIES_SOURCE }
     }
   }
 

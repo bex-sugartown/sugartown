@@ -1,34 +1,15 @@
+const boundariesFor = require('@sugartown/eslint-config/boundaries-for.js')
+
 module.exports = {
   root: true,
-  extends: ['@sugartown/eslint-config/base', '@sugartown/eslint-config/boundaries'],
+  extends: ['@sugartown/eslint-config/base'],
   env: {
     node: true,
   },
-  // ESLint resolves overrides[].files in boundaries.js relative to THIS file's directory, not
-  // repo root — so its repo-root-relative globs never match when `pnpm lint` runs `eslint .`
-  // from here (confirmed empirically; a repo-wide bug, out of scope for this package to fix).
-  // Redeclared locally so this package's own boundaries are actually enforced, not just documented.
-  overrides: [
-    {
-      files: ['**/*.ts'],
-      rules: {
-        'no-restricted-imports': [
-          'error',
-          {
-            patterns: [
-              {
-                group: ['**/apps/**'],
-                message: 'Packages cannot import from apps. This violates architectural boundaries.',
-              },
-              {
-                group: ['**/packages/design-system/**', '@sugartown/design-system'],
-                message:
-                  'packages/mcp-server reads the design system as data, not as a dependency. No import from packages/design-system allowed.',
-              },
-            ],
-          },
-        ],
-      },
-    },
-  ],
+  // Was a 20-line hand-copied overrides block, added by SUG-225 as a local
+  // workaround when boundaries.js was found inert. It worked — it was the only
+  // live boundary rule in the monorepo — but it worked by duplicating rule text
+  // that could drift from the shared source silently. SUG-254 retires the
+  // local-redeclare pattern rather than replicating it to the other packages.
+  rules: boundariesFor('packages/mcp-server').rules,
 }
