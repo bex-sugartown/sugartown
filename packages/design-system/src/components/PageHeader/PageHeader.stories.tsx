@@ -40,7 +40,7 @@ import {
   ChangelogItem,
   docStyles,
   AiGeneratedFooter,
-} from '../../../../../apps/storybook/.storybook/helpers/docs'
+} from '@sugartown/storybook-docs'
 
 // ─── Meta ─────────────────────────────────────────────────────────────────────
 

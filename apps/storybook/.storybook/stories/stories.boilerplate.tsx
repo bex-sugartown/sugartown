@@ -55,7 +55,7 @@ import {
   RelatedCard,
   ChangelogEntry,
   ChangelogItem,
-} from '../../.storybook/helpers/docs';
+} from '@sugartown/storybook-docs';
 
 
 // ══════════════════════════════════════════════════════════════════════════════

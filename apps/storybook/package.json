@@ -13,6 +13,7 @@
   "dependencies": {
     "@portabletext/react": "^6.0.0",
     "@sugartown/design-system": "workspace:*",
+    "@sugartown/storybook-docs": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^7.0.0"

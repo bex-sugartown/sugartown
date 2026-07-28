@@ -87,5 +87,5 @@ function CodeFooter({ code }: { code: string }) {
   );
 }
 
-// DoRow removed — use DoItem/DontItem from helpers/docs.tsx for prose items,
-// or inline the ddGrid/ddCol pattern from helpers/docs.tsx for code/visual content.
+// DoRow removed — use DoItem/DontItem from @sugartown/storybook-docs for prose items,
+// or inline the ddGrid/ddCol pattern from @sugartown/storybook-docs for code/visual content.

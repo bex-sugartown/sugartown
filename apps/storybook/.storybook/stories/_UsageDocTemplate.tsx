@@ -31,7 +31,7 @@
  */
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { AiGeneratedFooter } from '../helpers/docs';
+import { AiGeneratedFooter } from '@sugartown/storybook-docs';
 
 // ─── Shared style object ─────────────────────────────────────────────────────
 // Extend this as needed. All colours via var(--st-*) tokens — no hex values.

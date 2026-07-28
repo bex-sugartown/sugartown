@@ -97,6 +97,9 @@ importers:
       '@sugartown/design-system':
         specifier: workspace:*
         version: link:../../packages/design-system
+      '@sugartown/storybook-docs':
+        specifier: workspace:*
+        version: link:../../packages/storybook-docs
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -281,6 +284,9 @@ importers:
       '@sugartown/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
+      '@sugartown/storybook-docs':
+        specifier: workspace:*
+        version: link:../storybook-docs
       '@sugartown/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
@@ -345,6 +351,28 @@ importers:
       '@types/node':
         specifier: ^20.11.0
         version: 20.19.41
+      eslint:
+        specifier: ^8.56.0
+        version: 8.57.1
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  packages/storybook-docs:
+    dependencies:
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+    devDependencies:
+      '@sugartown/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@sugartown/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/react':
+        specifier: ^18.2.48
+        version: 18.3.27
       eslint:
         specifier: ^8.56.0
         version: 8.57.1

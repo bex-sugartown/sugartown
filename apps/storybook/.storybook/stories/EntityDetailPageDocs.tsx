@@ -7,7 +7,7 @@ import {
   TokenGroup, TokenRow,
   docStyles,
   AiGeneratedFooter,
-} from '../helpers/docs';
+} from '@sugartown/storybook-docs';
 
 const s: Record<string, React.CSSProperties> = {
   ...docStyles,

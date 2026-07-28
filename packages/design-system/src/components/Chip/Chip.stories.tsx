@@ -1,8 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Chip } from './Chip';
-// @ts-expect-error — @sb-helpers alias is resolved by Storybook's viteFinal; not in tsconfig
-import { ChipGuidelinesPage } from '@sb-helpers/ChipDocs';
+import { ChipGuidelinesPage } from '@sugartown/storybook-docs';
 
 const meta: Meta<typeof Chip> = {
   title: 'Components/Chip',

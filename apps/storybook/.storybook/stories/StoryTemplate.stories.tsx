@@ -3,7 +3,7 @@
  *
  * Reference this page when authoring a new component's stories.tsx file.
  * The boilerplate is at: apps/storybook/.storybook/stories/stories.boilerplate.tsx
- * Shared doc helpers: apps/storybook/.storybook/helpers/docs.tsx
+ * Shared doc helpers: packages/storybook-docs (import from '@sugartown/storybook-docs')
  * Section rules: docs/conventions/storybook-section-rules.md
  */
 
@@ -24,7 +24,7 @@ import {
   ChangelogEntry,
   ChangelogItem,
   docStyles as s,
-} from '../helpers/docs';
+} from '@sugartown/storybook-docs';
 
 // ─── Checkbox helper (coverage table) ────────────────────────────────────────
 
@@ -177,9 +177,9 @@ function StoryTemplatePage() {
           Start from the boilerplate at{' '}
           <code style={s.code}>apps/storybook/.storybook/stories/stories.boilerplate.tsx</code>.
           Import doc helpers from{' '}
-          <code style={s.code}>../../.storybook/helpers/docs</code> (relative to your component folder),
-          or <code style={s.code}>../helpers/docs</code> from inside{' '}
-          <code style={s.code}>.storybook/stories/</code>.
+          <code style={s.code}>@sugartown/storybook-docs</code> — the same bare specifier from
+          everywhere, whether your story lives in{' '}
+          <code style={s.code}>.storybook/stories/</code> or in a package alongside its component.
         </p>
         <pre style={s.anatomy}>{`import {
   DocSection,
@@ -189,8 +189,8 @@ function StoryTemplatePage() {
   TokenGroup, TokenRow,
   RelatedCard,
   ChangelogEntry, ChangelogItem,
-} from '../../.storybook/helpers/docs';
-// ^ adjust path based on your component's location`}</pre>
+} from '@sugartown/storybook-docs';
+`}</pre>
       </section>
 
       {/* ── Section rules ─────────────────────────────────────────────────── */}

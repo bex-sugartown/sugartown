@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "@sugartown/eslint-config": "workspace:*",
+    "@sugartown/storybook-docs": "workspace:*",
     "@sugartown/tsconfig": "workspace:*",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",

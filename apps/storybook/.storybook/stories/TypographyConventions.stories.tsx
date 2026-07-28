@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { AiGeneratedFooter } from '../helpers/docs';
+import { AiGeneratedFooter } from '@sugartown/storybook-docs';
 
 const s = {
   page:     { fontFamily: 'var(--st-font-family-ui)', color: 'var(--st-color-text-primary)', lineHeight: 1.6, maxWidth: '860px' } as React.CSSProperties,
