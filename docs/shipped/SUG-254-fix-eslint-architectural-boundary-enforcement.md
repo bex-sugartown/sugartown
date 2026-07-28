@@ -193,11 +193,15 @@ An unknown scope **throws** rather than returning `[]`. A scope typo that quietl
 - **`apps/studio` has no lint script**, 86 pre-existing problems if one were added. **SUG-257.**
 - **`apps/web`'s 30 remaining `@storybook/react` imports** stay undeclared. SUG-255 Ph2 scoped them out; SUG-258 will begin linting them.
 
+### Green CI run
+
+**[30377541485](https://github.com/bex-sugartown/sugartown/actions/runs/30377541485)** — `success` on `c595dae5`. The **Enforcement liveness** job passed there, which means the four boundary probes ran in CI and each required every rule in its scope to report. The rules are not merely configured on a developer machine; a hosted runner proved them firing against deliberate violations.
+
 ### Close-out checklist
 
 | Step | State |
 |---|---|
-| 1b · Route smoke tests + run ID | see run ID recorded below |
+| 1b · Route smoke tests + run ID | ✅ [30377541485](https://github.com/bex-sugartown/sugartown/actions/runs/30377541485) — all three jobs `success` |
 | 2 · Schema deploy | n/a — no `apps/studio/schemas/` change |
 | 3 · Visual QA gate | ✅ approved 2026-07-28 |
 | 4 · Chromatic | ✅ build 85, 3 changes reviewed and approved |
