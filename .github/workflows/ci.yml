@@ -101,6 +101,49 @@ jobs:
         env:
           CI: true
 
+  liveness:
+    name: Enforcement liveness
+    runs-on: ubuntu-latest
+
+    # Its own job, not a step in `ci`, for two reasons. It deliberately mutates
+    # the working tree (that is the whole method — break a gate, prove it fails,
+    # restore), so it must not share a checkout with build or the smoke tests.
+    # And its result is orthogonal: "are the gates real?" is a different question
+    # from "does this commit pass them", and a reader should be able to see which
+    # of the two went red without reading the log.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.1.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Prove every gate fires
+        run: pnpm validate:enforcement-liveness
+
+      - name: Confirm the probes left no residue
+        # Every probe restores what it touched via a cleanup stack. If the tree
+        # is dirty here, a probe leaked — and a liveness checker that corrupts
+        # the thing it inspects is worse than no liveness checker.
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Liveness probes left the working tree dirty:"
+            git status --porcelain
+            exit 1
+          fi
+          echo "Working tree clean — all probes restored cleanly."
+
   chromatic:
     name: Chromatic VRT
     runs-on: ubuntu-latest
