@@ -24,6 +24,7 @@
     "validate:taxonomy": "pnpm --filter web validate:taxonomy",
     "validate:validators": "node scripts/validate-validators.js",
     "validate:enforcement-liveness": "node scripts/validate-enforcement-liveness.js",
+    "validate:controls": "node scripts/validate-control-register.js",
     "collect:evidence-digest": "node scripts/monthly-evidence-digest.js",
     "registry:build": "node scripts/registry-build.js",
     "migrate:taxonomy": "node scripts/migrate-taxonomy.js",
