@@ -88,10 +88,20 @@ and `**/*.{ts}`, a single-element brace minimatch does not expand.
 `packages/design-system`. Worse, `sugartown_check_boundary` read the same file and interpreted
 its globs as *intended*, so the MCP tool confidently answered "not permitted" for imports
 ESLint was silently allowing — a false-confidence oracle built on a dead rule.
-**Resolution:** SUG-254 (paused behind SUG-255). Approved design replaces glob-matched
-overrides with explicit, glob-free scope keys, making three of the four causes structurally
-impossible. `docs/epic-template.md` gained an enforcement-liveness gate: prove a rule fires,
-do not confirm it exists.
+**Resolved:** 2026-07-28, SUG-254 Phases 1–7. Glob-matched overrides replaced with glob-free
+scope keys — causes A, B and D are now structurally impossible rather than patched, and C is
+closed by one adapter serving both the v8 and v9 config systems. All four rules verified live:
+`--print-config` per package (design-system 2 patterns, mcp-server 2, storybook-docs 1, web 1,
+storybook `null` as a negative assertion), plus deliberate violations failing real lint runs,
+with design-system firing Rules 1 and 2 simultaneously on a single import. The two real
+violations are remediated by relocating the shared doc helpers to `packages/storybook-docs`,
+which dissolves the package-vs-app tension rather than exempting it. `sugartown_check_boundary`
+now reads the scope map directly, ending the false-confidence oracle. Made permanent as
+boundary probes in `validate:enforcement-liveness`, each requiring every rule in its scope to
+report — proven by reintroducing the last-wins collision and confirming the probe reports
+"1 of 2 rule(s) never reported" rather than passing on the one surviving rule.
+`docs/epic-template.md` gained an enforcement-liveness gate: prove a rule fires, do not confirm
+it exists.
 
 ### INC-010 — CI workflow has never passed
 **Introduced:** 2026-02-20 · **Noticed:** 2026-07-27 · **Severity:** High

@@ -15,6 +15,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > Accumulates since v0.31.0.
 
 - SUG-255: CI green on `main` for the first time in the workflow's existence (run 30365991635, 212 runs since 2026-02-20). Adds `validate:enforcement-liveness` and a CI failure alert; widens the pre-commit lint scope and makes lint/typecheck/build report every failing package.
+- SUG-254: architectural boundary rules now actually fire — all four were inert for 176 days. Glob-matched ESLint overrides replaced with glob-free scope keys shared across the v8/v9 config split; shared Storybook doc helpers moved to a new `packages/storybook-docs`; `sugartown_check_boundary` no longer answers from intent; boundary probes added to `validate:enforcement-liveness`.
 
 ---
 

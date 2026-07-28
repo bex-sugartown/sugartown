@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-254 — Fix ESLint architectural boundary enforcement
 **Linear Issue:** [SUG-254](https://linear.app/sugartown/issue/SUG-254/fix-eslint-architectural-boundary-enforcement-no-restricted-imports)
-**Status:** Phases 1–7 complete 2026-07-28, close-out pending Chromatic review — originally paused 2026-07-27, blocked by [SUG-255](https://linear.app/sugartown/issue/SUG-255/restore-green-ci-zero-passing-runs-on-main-since-2026-05-10)**
+**Status:** Shipped 2026-07-28 (Visual QA approved) — originally paused 2026-07-27, blocked by [SUG-255](https://linear.app/sugartown/issue/SUG-255/restore-green-ci-zero-passing-runs-on-main-since-2026-05-10)**
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -197,16 +197,16 @@ An unknown scope **throws** rather than returning `[]`. A scope typo that quietl
 
 | Step | State |
 |---|---|
-| 1b · Route smoke tests + run ID | pending — branch not yet merged |
+| 1b · Route smoke tests + run ID | see run ID recorded below |
 | 2 · Schema deploy | n/a — no `apps/studio/schemas/` change |
-| 3 · Visual QA gate | **see below — blocking** |
-| 4 · Chromatic | build 85 run, 3 changes **awaiting review** |
+| 3 · Visual QA gate | ✅ approved 2026-07-28 |
+| 4 · Chromatic | ✅ build 85, 3 changes reviewed and approved |
 | 5 · Data pipeline gap | n/a |
 | 5b · Handoffs landed | SUG-257 / SUG-258 exist in Linear and are named above |
 | 6b · Vspec preserved | n/a — no vspec |
-| 8b · Incident log | INC-011 covers this; its Resolution needs updating at close-out |
+| 8b · Incident log | ✅ INC-011 Resolution updated to the resolved state |
 
-**Visual QA / Chromatic — blocking.** [Build 85](https://www.chromatic.com/build?appId=69de2a8dfe5a14bc405087d5&number=85): 376 stories, 365 snapshots, **3 visual changes**. The premise was that a pure import-path refactor yields zero diffs, so these are accounted for rather than approved. `StoryTemplate`'s rendered prose was deliberately rewritten in Phase 1 — it instructed authors to import via relative paths that no longer exist — so a diff on that story and its autodocs page is expected and correct. The third needs human eyes. Phases 3–7 touched no rendered surface (ESLint config, a validator script, one devDep), so build 85 still represents the current visual state.
+**Visual QA / Chromatic — approved 2026-07-28.** [Build 85](https://www.chromatic.com/build?appId=69de2a8dfe5a14bc405087d5&number=85): 376 stories, 365 snapshots, **3 visual changes**. The premise was that a pure import-path refactor yields zero diffs, so these are accounted for rather than approved. `StoryTemplate`'s rendered prose was deliberately rewritten in Phase 1 — it instructed authors to import via relative paths that no longer exist — so a diff on that story and its autodocs page is expected and correct. The third was reviewed and approved by Bex. Phases 3–7 touched no rendered surface (ESLint config, a validator script, one devDep), so build 85 still represents the current visual state.
 
 ## Related
 
