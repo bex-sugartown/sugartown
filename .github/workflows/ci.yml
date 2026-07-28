@@ -92,6 +92,25 @@ jobs:
 
       - name: Build
         run: pnpm build
+        env:
+          # apps/contentful-poc throws at module load without these
+          # (src/lib/contentful.ts), so the whole build fails without them.
+          # Latent until 2026-07-28: CI had never reached the Build step, because
+          # it died at Lint or Typecheck on every run since 2026-05-10.
+          #
+          # These ARE secrets, unlike the VITE_SANITY_* config above. That config
+          # is inlined into a client bundle and already public; this is a
+          # server-side Contentful Content Delivery API key that never reaches a
+          # browser (note the deliberate absence of a NEXT_PUBLIC_ prefix). It is
+          # read-only and scoped to published content — the Content Management
+          # token, which can write, is used only by migration scripts and must
+          # never appear here.
+          #
+          # CONTENTFUL_ENVIRONMENT is omitted: the code already defaults to
+          # "master", and a second way to say the same thing is a second thing to
+          # keep in sync.
+          CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
+          CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
