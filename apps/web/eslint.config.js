@@ -4,6 +4,17 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
+// Architectural boundary rules, from the same source the v8 packages consume.
+// apps/web has NEVER had these wired in — not a regression, a gap: boundaries.js
+// was a legacy eslintrc `overrides` block, which flat config cannot consume at
+// all, so Rule 3 ("apps/web cannot import apps/studio") was unenforceable here
+// independent of the glob bug that killed the other three. SUG-254.
+//
+// The `.js` extension is load-bearing. @sugartown/eslint-config has no `exports`
+// map — adding one breaks v8's extension-search for the three legacy consumers —
+// and Node's ESM resolver does not extension-search.
+import boundariesFor from '@sugartown/eslint-config/boundaries-for.js'
+
 export default defineConfig([
   globalIgnores([
     'dist',
@@ -33,6 +44,7 @@ export default defineConfig([
       // useSanityDoc sets loading state synchronously at the top of useEffect
       // before the async fetch — this is intentional and safe.
       'react-hooks/set-state-in-effect': 'off',
+      ...boundariesFor('apps/web').rules,
     },
   },
 
