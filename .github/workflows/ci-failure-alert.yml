@@ -1,0 +1,98 @@
+name: CI failure alert
+
+# CI ran red on `main` 212 times between 2026-05-10 and 2026-07-28 and no signal
+# ever reached a human. Six releases shipped through it. This workflow is the
+# missing signal.
+#
+# Why not branch protection: `main` had no protection rule at all (confirmed
+# 2026-07-28 — the API returns "Branch not protected", and there are zero
+# rulesets). Adding required status checks would block the merge-as-you-go
+# strategy this repo actually uses, where epic phases are committed directly to
+# `main`. Protection prevents a bad push; a notification tells you about one.
+# The failure mode here was never "a red commit landed" — it was "a red commit
+# landed and nobody found out for three months". So: notify, don't block.
+#
+# `workflow_run` runs the copy of this file on the default branch, so edits only
+# take effect once merged to `main`.
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    types: [completed]
+    branches: [main]
+
+permissions:
+  issues: write
+  actions: read
+
+jobs:
+  alert:
+    name: Open or update the CI-red issue
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'failure'
+    steps:
+      - name: File the alert
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+
+          BODY=$(printf '%s\n' \
+            "CI concluded \`failure\` on \`main\`." \
+            "" \
+            "- Run: $RUN_URL" \
+            "- Run ID: \`$RUN_ID\`" \
+            "- Commit: \`$SHA\`" \
+            "" \
+            "Inspect with:" \
+            "" \
+            '```bash' \
+            "gh run view $RUN_ID --log-failed" \
+            '```' \
+            "" \
+            "_This issue stays open until a run on \`main\` concludes \`success\`, at which point the next green run closes it. Do not close it by hand while CI is red._")
+
+          # One rolling issue, not one per failure — 212 consecutive red runs
+          # would otherwise have produced 212 issues, which is its own kind of
+          # silence.
+          EXISTING=$(gh issue list --repo "$REPO" --state open --label ci-red \
+            --json number --jq '.[0].number // empty')
+
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --repo "$REPO" --body "$BODY"
+            echo "Commented on existing CI-red issue #$EXISTING"
+          else
+            gh label create ci-red --repo "$REPO" --color B60205 \
+              --description "CI is failing on main" 2>/dev/null || true
+            gh issue create --repo "$REPO" \
+              --title "CI is red on main" \
+              --label ci-red \
+              --body "$BODY"
+            echo "Opened a new CI-red issue"
+          fi
+
+  resolve:
+    name: Close the CI-red issue on green
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Close any open CI-red issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+        run: |
+          set -euo pipefail
+          EXISTING=$(gh issue list --repo "$REPO" --state open --label ci-red \
+            --json number --jq '.[0].number // empty')
+          if [ -n "$EXISTING" ]; then
+            gh issue close "$EXISTING" --repo "$REPO" \
+              --comment "CI is green again on \`main\`: $RUN_URL"
+            echo "Closed CI-red issue #$EXISTING"
+          else
+            echo "No open CI-red issue — nothing to close."
+          fi

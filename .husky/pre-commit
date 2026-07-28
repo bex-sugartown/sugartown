@@ -43,5 +43,13 @@ pnpm --filter web validate:css-names || exit 1
 # allowlisted as manual-by-design. Prevents this exact class of silent decay.
 pnpm validate:validators || exit 1
 
-# ESLint — zero errors required (warnings are allowed)
-pnpm --filter web lint || exit 1
+# ESLint — zero errors required (warnings are allowed), across EVERY package.
+#
+# This was `pnpm --filter web lint` until SUG-255. That narrowing is the exact
+# visibility gap that let lint regressions in packages/design-system,
+# apps/storybook and apps/contentful-poc accumulate to 84 errors while every
+# local commit passed: the hook only ever looked at one of five packages, and CI
+# — the only thing that looked at the rest — had been red since 2026-05-10 with
+# nobody reading it. A gate that inspects a fifth of the repo reports on a fifth
+# of the repo. `pnpm lint` is turbo-cached and costs ~4s warm.
+pnpm lint || exit 1
