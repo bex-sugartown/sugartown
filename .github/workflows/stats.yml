@@ -55,10 +55,17 @@ jobs:
       - name: Collect all stats
         run: pnpm --filter web collect:stats
         env:
-          VITE_SANITY_PROJECT_ID:   ${{ secrets.VITE_SANITY_PROJECT_ID }}
-          VITE_SANITY_DATASET:      ${{ secrets.VITE_SANITY_DATASET }}
-          VITE_SANITY_API_VERSION:  ${{ secrets.VITE_SANITY_API_VERSION }}
-          VITE_SANITY_TOKEN:        ${{ secrets.VITE_SANITY_TOKEN }}
+          # Public by construction — VITE_-prefixed values are inlined into the client
+          # bundle at build time, so all three already ship to every visitor's browser,
+          # and poalmzla is additionally hardcoded in apps/studio/sanity.config.ts. Kept
+          # inline (matching ci.yml) so one diff can catch a wrong value; a secret cannot
+          # be read back, which is how a mismatch here went unnoticed until 2026-07-28.
+          VITE_SANITY_PROJECT_ID:   poalmzla
+          VITE_SANITY_DATASET:      production
+          VITE_SANITY_API_VERSION:  '2025-02-02'
+          # The genuine credential. Stays a secret. Removable once SUG-260 migrates the
+          # wp.* dotted ids and anonymous reads can see the whole dataset.
+          VITE_SANITY_TOKEN:        ${{ secrets.CI_SANITY_READ_TOKEN }}
           GITHUB_TOKEN:             ${{ secrets.GITHUB_TOKEN }}
           CRUX_API_KEY:             ${{ secrets.CRUX_API_KEY }}
           LINEAR_API_KEY:           ${{ secrets.LINEAR_SUGARTOWN_STATS }}
