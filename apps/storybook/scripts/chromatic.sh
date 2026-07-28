@@ -16,7 +16,18 @@
 #   apps/web/src/generated/  CI-produced stats files
 #   apps/web/scripts/    build scripts
 
-set -a; . ./.env 2>/dev/null; set +a
+# Load local secrets if present. `.env` is gitignored, so it never exists in CI —
+# CHROMATIC_PROJECT_TOKEN comes from the workflow environment there instead.
+#
+# The existence check is load-bearing, not defensive. The POSIX dot command is a
+# *special builtin*: if the file is missing it terminates a non-interactive shell
+# outright, and a trailing 2>/dev/null hides the message without preventing the exit.
+# The unguarded form killed this script before its first echo on every CI run from
+# 2026-06-21 to 2026-07-28 — 36 days with no visual regression testing, and no output
+# to indicate why (SUG-255 / INC-009).
+if [ -f ./.env ]; then
+  set -a; . ./.env; set +a
+fi
 
 # Compare against the last PUSHED commit, not HEAD~1.
 #
