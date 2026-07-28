@@ -7,7 +7,7 @@
   "scripts": {
     "prepare": "husky",
     "dev": "turbo run dev --filter=web --filter=studio",
-    "build": "turbo run build",
+    "build": "turbo run build --continue",
     "lint": "turbo run lint --continue",
     "lint:css": "stylelint \"**/*.css\" --ignore-path .gitignore",
     "typecheck": "turbo run typecheck --continue",
