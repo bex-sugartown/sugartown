@@ -47,6 +47,7 @@ import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'fs'
 import { resolve, dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { spawnSync } from 'child_process'
+import { createRequire } from 'module'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
@@ -146,8 +147,118 @@ function gateProbe({ cmd, args, breakIt, success }) {
   return {
     live: violated.code !== 0,
     detail: violated.code !== 0 ? success : violated.out.trim().slice(-400),
+    // Full violating output, so a caller can assert on WHAT was reported and not
+    // merely that something was. Exit code proves a gate fired; it cannot prove
+    // which of a scope's rules fired.
+    out: violated.out,
   }
 }
+
+// ─── Architectural boundary probes (SUG-254) ─────────────────────────────────
+//
+// One probe per enforced scope, generated from the same SCOPES map the ESLint
+// configs consume — so a scope added there without a probe here is impossible,
+// and a probe cannot drift from the rule it claims to test.
+//
+// These deserve more than a "does lint fail" check. `boundaries.js` declared
+// four rules and enforced none for 176 days through four independent
+// file-matching bugs, one of which (ESLint's last-wins override merge) silently
+// discarded a rule that *did* match while the other rule on the same file kept
+// working. A probe that only asserted "lint exited non-zero" would have passed
+// throughout that: one live rule is enough to fail a lint run.
+//
+// So each probe imports a violating specifier for EVERY pattern in its scope and
+// asserts every rule's own message appears in the output. Partial enforcement
+// reads as failure, which is the only way the collision bug stays fixed.
+
+const { SCOPES, patternsFor } = createRequire(import.meta.url)(
+  resolve(ROOT, 'packages/eslint-config/boundary-rules.js')
+)
+
+/** A concrete import specifier that the given no-restricted-imports group forbids. */
+function specimenFor(group) {
+  const SPECIMENS = {
+    '**/apps/**': '../../apps/web/src/main',
+    '**/apps/studio/**': '../../apps/studio/schemas/index',
+    '**/packages/design-system/**': '../../packages/design-system/src/index',
+    '@sugartown/design-system': '@sugartown/design-system',
+    '@sanity/**': '@sanity/client',
+    sanity: 'sanity',
+    groq: 'groq',
+  }
+  const hit = group.find((g) => g in SPECIMENS)
+  if (!hit) {
+    throw new Error(
+      `no specimen import known for group [${group.join(', ')}] — add one to SPECIMENS ` +
+        `so this rule is actually exercised rather than silently skipped`
+    )
+  }
+  return SPECIMENS[hit]
+}
+
+// Each scope's real lint invocation, run through pnpm rather than turbo so no
+// cache can replay a pass computed before the probe existed.
+const BOUNDARY_SCOPE_META = {
+  'packages/design-system': { pkg: '@sugartown/design-system', probe: 'src/__boundary_probe__.ts' },
+  'packages/mcp-server': { pkg: '@sugartown/mcp-server', probe: 'src/__boundary_probe__.ts' },
+  'packages/storybook-docs': { pkg: '@sugartown/storybook-docs', probe: 'src/__boundary_probe__.ts' },
+  'apps/web': { pkg: 'web', probe: 'src/__boundary_probe__.js' },
+}
+
+const BOUNDARY_PROBES = Object.keys(SCOPES).map((scope) => {
+  const meta = BOUNDARY_SCOPE_META[scope]
+  const patterns = patternsFor(scope)
+  return {
+    gate: `boundary: ${scope}`,
+    why: `every boundary rule for ${scope} must reject a forbidden import`,
+    run() {
+      if (!meta) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            `scope "${scope}" is in SCOPES but has no entry in BOUNDARY_SCOPE_META, ` +
+            `so its rules are unprobed. Add one — an enforced scope with no liveness ` +
+            `probe is the state this whole harness exists to prevent.`,
+        }
+      }
+      const result = gateProbe({
+        cmd: 'pnpm',
+        args: ['--filter', meta.pkg, 'lint'],
+        success: `all ${patterns.length} rule(s) fired`,
+        breakIt: () =>
+          tempFile(
+            `${scope}/${meta.probe}`,
+            patterns.map((p) => `import '${specimenFor(p.group)}'\n`).join('') + 'export const probe = 1\n'
+          ),
+      })
+      if (result.invalid || !result.live) return result
+
+      // Exit code alone is not enough: it proves *a* rule fired, not that each
+      // one did. This is the check that would have caught the last-wins merge
+      // silently dropping Rule 1 from design-system while Rule 2 kept passing.
+      // ESLint's stylish formatter strips the trailing period from a rule
+      // message, so a naive `out.includes(p.message)` never matches and every
+      // rule reads as silent — which is how the first version of this probe
+      // reported all four scopes inert against rules that demonstrably fire.
+      // Normalise both sides rather than trusting the formatter's punctuation.
+      const norm = (s) => s.replace(/\s+/g, ' ').replace(/\.\s*$/, '').trim()
+      const reported = norm(result.out || '')
+      const missing = patterns.filter((p) => !reported.includes(norm(p.message)))
+      if (missing.length) {
+        return {
+          live: false,
+          detail:
+            `lint failed, but ${missing.length} of ${patterns.length} rule(s) never reported. ` +
+            `Silent: ${missing.map((p) => JSON.stringify(p.message.slice(0, 60))).join(', ')}. ` +
+            `A scope where some rules fire and others vanish is the ESLint last-wins ` +
+            `override collision (cause B) — partial enforcement, not enforcement.`,
+        }
+      }
+      return { live: true, detail: `all ${patterns.length} rule(s) fired` }
+    },
+  }
+})
 
 // ─── Probes ──────────────────────────────────────────────────────────────────
 //
@@ -327,6 +438,10 @@ const PROBES = [
       }
     },
   },
+
+  // Architectural boundary rules — one probe per enforced scope, generated from
+  // SCOPES above. SUG-254.
+  ...BOUNDARY_PROBES,
 ]
 
 // ─── Main ────────────────────────────────────────────────────────────────────
