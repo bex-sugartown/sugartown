@@ -14,6 +14,23 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.31.0.
 
+### CI / tooling
+
+#### Fixed
+
+- **SUG-255 — CI is green on `main` for the first time.** Run [30365991635](https://github.com/bex-sugartown/sugartown/actions/runs/30365991635) is the workflow's first `success` in 212 recorded runs (2026-02-20 → 2026-07-28). Lint and typecheck cleared repo-wide; `chromatic.sh` no longer dies on a missing `.env` (an unguarded POSIX `.` exits a non-interactive shell outright), so Chromatic VRT ran in CI for the first time since 2026-06-21. Fixing the early steps then exposed four latent defects in steps CI had never reached: drifted Sanity config in the secret store, validators authenticating against a view no visitor gets, an undeclared `@sanity/ui` dependency that resolved only via a stale local `node_modules`, and `apps/contentful-poc` throwing at module load without its Contentful credentials.
+
+#### Added
+
+- **`validate:enforcement-liveness`** — proves each gate *fires* rather than merely being *wired*, by running it against a deliberate violation and asserting it fails. Eight probes, one harness. `validate:validators` passed green throughout all 212 red runs because wiring is a property of configuration and firing is a property of behaviour.
+- **CI failure alert** — a red run on `main` opens a rolling `ci-red` issue and a green run closes it. CI ran red 212 times with no signal reaching a human. Branch protection was rejected deliberately: `main` has no protection rule at all, and required status checks would block the merge-as-you-go strategy this repo uses.
+
+#### Changed
+
+- `.husky/pre-commit` runs full `pnpm lint` rather than `pnpm --filter web lint` — the hook inspected one of five packages while 84 errors accumulated in the other four.
+- `pnpm lint`, `typecheck` and `build` pass `--continue`, so one run reports every failing package. Turbo's fail-fast default is why a CI log showing 7 lint errors understated the real count by an order of magnitude.
+- `/eod` now watches the CI run its push triggered through to a conclusion and records the run ID; the monthly evidence digest carries a gate-liveness line and states that its other figures are unverified when CI is not green.
+
 ---
 
 ## [0.31.0] — 2026-07-27

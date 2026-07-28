@@ -3,7 +3,7 @@
 **Version:** v1.0
 **Status:** Active
 **Owner:** Bex Head
-**Last updated:** 30 June 2026
+**Last updated:** 28 July 2026
 **Related:** [[failure-modes]] (`docs/ai/agentic-caucus/failure-modes.md`), [[governance-coverage]] (`docs/ai/agentic-caucus/governance-coverage.md`), [[methodology]] (`docs/ai/agentic-caucus/methodology.md`)
 
 ---
@@ -103,9 +103,16 @@ four `validate:*` steps, `build` and the route smoke tests have never executed i
 **Consequence:** Every close-out gate reading "CI green" was unverifiable for 157 days. Six
 releases shipped through it in the final 48 hours alone. Because CI was never green there was
 no transition to notice — an always-red gate is indistinguishable from an unread one.
-**Resolution:** SUG-255. 79 of 84 lint errors cleared; typecheck, Chromatic and a failure
-notification tracked. CLAUDE.md close-out step 1b now requires a named green run ID rather
-than an assertion.
+**Resolved:** 2026-07-28, run 30365991635 — the workflow's first `success` in 212 runs. Lint,
+typecheck and Chromatic cleared. Fixing the early steps then exposed four latent defects in
+steps CI had never reached: drifted Sanity config in the secret store, validators
+authenticating against a view no visitor gets, an undeclared `@sanity/ui` dependency
+resolving only via a stale local `node_modules`, and `apps/contentful-poc` throwing without
+its Contentful credentials. None were regressions; all were revealed by the same act of
+making the pipeline run to completion. `validate:enforcement-liveness` now proves each gate
+fires rather than merely being wired, and a red run on `main` opens a `ci-red` issue that a
+green run closes. CLAUDE.md close-out step 1b requires a named green run ID rather than an
+assertion.
 
 ### INC-009 — Chromatic VRT died before its first line, on every CI run
 **Introduced:** 2026-06-21 · **Noticed:** 2026-07-27 · **Severity:** High
@@ -240,6 +247,40 @@ new detail page starts from the shared map instead of rediscovering it.
 ---
 
 ## Changelog
+
+### v1.2 — 2026-07-28
+SUG-255 closed. INC-010 is the **first incident in this log to reach a verified resolution** —
+CI concluded `success` on `main` (run 30365991635) for the first time in the workflow's
+existence, 212 runs after it was added.
+
+**MTTN is unmoved by this close-out.** `pnpm mttn` reports **69 days mean, 51 median, range
+1–176, 0 of 11 caught by a gate** (n = 10 measurable; INC-003 excluded for an unknown
+introduction date rather than guessed). Time to *notice* is fixed the moment a failure is
+seen — when it gets fixed does not move it. Recorded explicitly because the temptation to let
+a green run improve the number is exactly the pressure that makes a metric stop measuring
+anything.
+
+**Correction to v1.1.** That entry states "MTTN 65 days, median 36". The script reports 69 and
+51 against the same entries — no `Introduced` or `Noticed` date has changed since, so the
+v1.1 figures were wrong when written, most likely hand-computed rather than read from
+`pnpm mttn`. The numbers above are the script's output, quoted from a run on 2026-07-28. This
+is a small instance of the thing this log exists to catch: a stated measurement nobody
+re-derived. Cite the command, not the previous citation.
+
+The four latent defects SUG-255 surfaced — drifted secret-store config, validators
+authenticating against a view no visitor gets, an undeclared dependency resolving via a stale
+`node_modules`, and a POC app throwing without its credentials — are folded into INC-010's
+Resolution rather than logged separately. None reached production; they sat in steps CI had
+never executed. Per §When to append, this log records what got through, and the honest
+description is one incident (a pipeline that never ran) with four consequences, not five
+incidents.
+
+One observation worth keeping. v1.1 noted that CI produced no usable history to mine because
+it had never passed, and that prose written at the time proved better telemetry than the
+pipeline built to produce telemetry. That is now half-fixed: there is a red-to-green
+transition on the record for the first time. It took a human reading a CI log during unrelated
+work to start it — still not an automated gate. The `Found by` column across all eleven
+incidents continues to read `investigation`, never `gate`.
 
 ### v1.1 — 2026-07-27
 SUG-255 / SUG-259. Format changed: `Date` split into **`Introduced`** and **`Noticed`**, and

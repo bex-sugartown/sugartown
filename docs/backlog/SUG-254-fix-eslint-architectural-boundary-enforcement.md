@@ -99,6 +99,9 @@ After this epic: every package that should enforce an architectural boundary rul
 - [ ] Decide whether `apps/storybook` is a "package" or an "app" for Rule 1 purposes — layer: process/rule design. Packages currently cannot import ANY `apps/**`, including `apps/storybook` — but `packages/design-system`'s own Storybook stories naturally need Storybook helper code that lives in `apps/storybook`. This may require a documented exemption or a restructuring of where that helper code lives, not just a rule tweak.
 - [ ] Remediate the 2 confirmed real violations in `packages/design-system` — layer: source code. Fix `PageHeader.stories.tsx:43` and `Chip.stories.tsx:5` by moving the shared Storybook-helper code (`apps/storybook/.storybook/helpers/docs`, `apps/storybook/.storybook/helpers/ChipDocs.tsx`) to a location `packages/design-system` can legitimately depend on (or restructure so design-system's own stories don't need it) — not by carving out a rule exception for these two files.
 - [ ] Re-run `pnpm lint` (`turbo run lint`) across the whole repo with every corrected rule active and confirm zero unintended new violations beyond the 2 already known and remediated above — layer: verification.
+- [ ] **Add a boundary probe to `scripts/validate-enforcement-liveness.js`** — layer: tooling. **Added 2026-07-28 by SUG-255's close-out (step 5b).** SUG-255 Phase 5 built the single liveness harness this epic asked for and absorbed the proposed `validate:boundary-wiring` into it, per this epic's own "one liveness mechanism, many inputs" — so do **not** write a separate boundary checker. The remaining work is one probe in the existing harness: introduce an import that each corrected rule should forbid, run that package's own lint invocation, and assert it fails. That is the same deliberate-violation method the acceptance criteria below already require, expressed as a permanent check rather than a one-time verification, so a rule that goes inert again fails CI instead of waiting 176 days for the next investigation. Follow the existing probe contract: the harness runs every gate clean first and requires exit 0 before trusting a failure as detection, so a probe whose lint invocation is wrong reports `invalid` rather than falsely reporting the gate live.
+
+  *Why this item exists:* SUG-255's close-out recorded the absorption in its own doc and nothing more. This Scope had no corresponding entry, which is exactly the SUG-230 → SUG-231 failure that CLAUDE.md close-out step 5b was written to prevent — each side assuming the other owned it. An assertion is not a handoff.
 
 ## Acceptance criteria
 
@@ -110,6 +113,7 @@ After this epic: every package that should enforce an architectural boundary rul
 - [ ] `apps/storybook`'s lint-script scope decision (fix or documented exemption) is written down in this epic's close-out and, if fixed, verified the same deliberate-violation way.
 - [ ] The `apps/storybook` package-vs-app classification decision for Rule 1 is written down explicitly, with the rule or exemption reflecting it.
 - [ ] `pnpm lint` passes clean repo-wide with all corrected rules active.
+- [ ] `pnpm validate:enforcement-liveness` carries a boundary probe that **fails** when a corrected rule is reverted to its inert form, and passes when restored. Asserting it passes on a healthy repo is not sufficient — that is the property `validate:validators` had throughout the 176 days these rules were dead.
 
 ## Human QA Walkthrough — example local pages
 
