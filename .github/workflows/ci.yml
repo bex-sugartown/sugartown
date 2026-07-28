@@ -32,6 +32,22 @@ jobs:
       VITE_SANITY_DATASET: production
       VITE_SANITY_API_VERSION: '2025-02-02'
 
+      # TEMPORARY — remove when SUG-260 lands. This is the one genuine secret here.
+      #
+      # 133 published documents carry WordPress-migration ids of the form wp.<type>.<id>.
+      # Sanity reads dots as path segments, and the dataset's public grant covers path `*`
+      # (one segment), so every dotted id is invisible to anonymous queries. The web client
+      # works around this by shipping a viewer token to the browser (see apps/web/src/lib/
+      # sanity.js), which means the site's *effective* view is authenticated.
+      #
+      # So CI must authenticate too, or it validates a view no actual visitor gets: on
+      # 2026-07-28 an unauthenticated run reported 63 dangling tag refs and 24 dangling
+      # author refs that resolve perfectly well for every real reader.
+      #
+      # When SUG-260 migrates the ids, the frontend token goes away and this line goes with
+      # it. `validate:taxonomy` passing with NO token is that epic's acceptance test.
+      VITE_SANITY_TOKEN: ${{ secrets.CI_SANITY_READ_TOKEN }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
