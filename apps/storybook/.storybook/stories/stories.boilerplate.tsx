@@ -29,11 +29,18 @@
  * Sections 01, 06–14 require the `Guidelines` story at the bottom of this file.
  */
 
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 // ─── Replace with real import ─────────────────────────────────────────────────
-import { ComponentName } from './ComponentName';
+// When you copy this file, delete the stand-in below and import your component:
+//     import { ComponentName } from '@sugartown/design-system';
+//
+// The stand-in exists so this template typechecks where it lives. It previously
+// imported './ComponentName', a file that has never existed — so the template was
+// broken as shipped and nothing caught it, because a failing typecheck was the
+// normal state of this package (SUG-255).
+type ComponentNameProps = { requiredProp: string };
+const ComponentName = (_props: ComponentNameProps) => null;
 
 // ─── Helpers (copy .storybook/helpers/ into your project) ───────────────────
 import {

@@ -30,7 +30,7 @@
  * Do not include: origin stories, phase candidates, rationale prose, uncertainty markers.
  */
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { AiGeneratedFooter } from '../helpers/docs';
 
 // ─── Shared style object ─────────────────────────────────────────────────────
