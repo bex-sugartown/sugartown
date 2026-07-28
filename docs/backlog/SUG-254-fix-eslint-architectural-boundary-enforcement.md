@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-254 — Fix ESLint architectural boundary enforcement
 **Linear Issue:** [SUG-254](https://linear.app/sugartown/issue/SUG-254/fix-eslint-architectural-boundary-enforcement-no-restricted-imports)
-**Status:** Backlog — **paused 2026-07-27, blocked by [SUG-255](https://linear.app/sugartown/issue/SUG-255/restore-green-ci-zero-passing-runs-on-main-since-2026-05-10)**
+**Status:** Phases 1–7 complete 2026-07-28, close-out pending Chromatic review — originally paused 2026-07-27, blocked by [SUG-255](https://linear.app/sugartown/issue/SUG-255/restore-green-ci-zero-passing-runs-on-main-since-2026-05-10)**
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
@@ -92,28 +92,28 @@ After this epic: every package that should enforce an architectural boundary rul
 
 ## Scope
 
-- [ ] Decide and implement a corrected enforcement mechanism for the legacy-eslintrc packages (`packages/design-system`, `packages/mcp-server`, `apps/storybook`) — layer: tooling. At activation, evaluate at least two real options: (a) replicate `packages/mcp-server`'s local-override pattern (redeclare a correctly-scoped `overrides` block directly in each package's own `.eslintrc.cjs`), vs (b) restructure `boundaries.js` into per-rule shareable modules with no file-glob dependency at all (since each package's own lint invocation is already scoped to itself, a rule doesn't need a repo-root-relative path to know which package it's running in). Whichever is chosen must also fix the Rule 1 / Rule 2 collision (#2 in Background) so both patterns are simultaneously active for `packages/design-system`.
-- [ ] Port equivalent boundary enforcement into `apps/web`'s `eslint.config.js` (flat config) — layer: tooling. This is a new code path, not a fix to something broken — apps/web has never had this rule wired in.
-- [ ] Port equivalent boundary enforcement into `apps/studio`'s `eslint.config.mjs` (flat config) — layer: tooling. Same caveat as above.
-- [ ] Resolve `apps/storybook`'s lint-script scope gap (#4 in Background) — layer: tooling. Either widen `"lint": "eslint .storybook --ext .ts,.tsx"` to also cover whatever `.storybook`-adjacent source the boundary rule needs to see, or write an explicit, reasoned decision for why `apps/storybook`'s boundary rule is intentionally inert and where that's documented.
-- [ ] Decide whether `apps/storybook` is a "package" or an "app" for Rule 1 purposes — layer: process/rule design. Packages currently cannot import ANY `apps/**`, including `apps/storybook` — but `packages/design-system`'s own Storybook stories naturally need Storybook helper code that lives in `apps/storybook`. This may require a documented exemption or a restructuring of where that helper code lives, not just a rule tweak.
-- [ ] Remediate the 2 confirmed real violations in `packages/design-system` — layer: source code. Fix `PageHeader.stories.tsx:43` and `Chip.stories.tsx:5` by moving the shared Storybook-helper code (`apps/storybook/.storybook/helpers/docs`, `apps/storybook/.storybook/helpers/ChipDocs.tsx`) to a location `packages/design-system` can legitimately depend on (or restructure so design-system's own stories don't need it) — not by carving out a rule exception for these two files.
-- [ ] Re-run `pnpm lint` (`turbo run lint`) across the whole repo with every corrected rule active and confirm zero unintended new violations beyond the 2 already known and remediated above — layer: verification.
-- [ ] **Add a boundary probe to `scripts/validate-enforcement-liveness.js`** — layer: tooling. **Added 2026-07-28 by SUG-255's close-out (step 5b).** SUG-255 Phase 5 built the single liveness harness this epic asked for and absorbed the proposed `validate:boundary-wiring` into it, per this epic's own "one liveness mechanism, many inputs" — so do **not** write a separate boundary checker. The remaining work is one probe in the existing harness: introduce an import that each corrected rule should forbid, run that package's own lint invocation, and assert it fails. That is the same deliberate-violation method the acceptance criteria below already require, expressed as a permanent check rather than a one-time verification, so a rule that goes inert again fails CI instead of waiting 176 days for the next investigation. Follow the existing probe contract: the harness runs every gate clean first and requires exit 0 before trusting a failure as detection, so a probe whose lint invocation is wrong reports `invalid` rather than falsely reporting the gate live.
+- [x] Decide and implement a corrected enforcement mechanism for the legacy-eslintrc packages (`packages/design-system`, `packages/mcp-server`, `apps/storybook`) — layer: tooling. At activation, evaluate at least two real options: (a) replicate `packages/mcp-server`'s local-override pattern (redeclare a correctly-scoped `overrides` block directly in each package's own `.eslintrc.cjs`), vs (b) restructure `boundaries.js` into per-rule shareable modules with no file-glob dependency at all (since each package's own lint invocation is already scoped to itself, a rule doesn't need a repo-root-relative path to know which package it's running in). Whichever is chosen must also fix the Rule 1 / Rule 2 collision (#2 in Background) so both patterns are simultaneously active for `packages/design-system`.
+- [x] Port equivalent boundary enforcement into `apps/web`'s `eslint.config.js` (flat config) — layer: tooling. This is a new code path, not a fix to something broken — apps/web has never had this rule wired in.
+- [x] ~~Port equivalent boundary enforcement into `apps/studio`'s `eslint.config.mjs` (flat config)~~ — **STRUCK, vacuous.** No rule names `apps/studio` as the *importing* side: Rule 3 restricts web FROM studio, and nothing restricts studio itself. There was no enforcement to port and no deliberate violation constructible; inventing one would have meant a fifth rule, which this epic's Non-Goals forbid. `apps/studio` additionally has no `lint` script at all (86 pre-existing problems if one were added — tracked as SUG-257). Recorded as an explicit `NO_BOUNDARY_SCOPE` entry in `packages/eslint-config/boundary-rules.js` with its reason, so the absence is auditable rather than looking like an oversight.
+- [x] ~~Resolve `apps/storybook`'s lint-script scope gap~~ — **STRUCK, vacuous for the same reason.** The gap was only a gap if a boundary rule needed to see `.storybook`-adjacent source, and no rule names `apps/storybook` as the importing side. Its `extends: [.../boundaries]` line is removed rather than repaired — it added the appearance of enforcement and none of the substance. `NO_BOUNDARY_SCOPE` entry with reason.
+- [x] ~~Decide whether `apps/storybook` is a "package" or an "app" for Rule 1 purposes~~ — **DISSOLVED rather than decided.** The question only existed because shared doc helpers sat inside `apps/`. Phase 1 moved them to `packages/storybook-docs`, so a package importing them is a package importing a package. Storybook stays an app, no exemption exists, and no reclassification was needed. Restructuring where the code lives beat adjudicating a rule — which is what the Scope item itself suspected.
+- [x] Remediate the 2 confirmed real violations in `packages/design-system` — layer: source code. Fix `PageHeader.stories.tsx:43` and `Chip.stories.tsx:5` by moving the shared Storybook-helper code (`apps/storybook/.storybook/helpers/docs`, `apps/storybook/.storybook/helpers/ChipDocs.tsx`) to a location `packages/design-system` can legitimately depend on (or restructure so design-system's own stories don't need it) — not by carving out a rule exception for these two files.
+- [x] Re-run `pnpm lint` (`turbo run lint`) across the whole repo with every corrected rule active and confirm zero unintended new violations beyond the 2 already known and remediated above — layer: verification.
+- [x] **Add a boundary probe to `scripts/validate-enforcement-liveness.js`** — layer: tooling. **Added 2026-07-28 by SUG-255's close-out (step 5b).** SUG-255 Phase 5 built the single liveness harness this epic asked for and absorbed the proposed `validate:boundary-wiring` into it, per this epic's own "one liveness mechanism, many inputs" — so do **not** write a separate boundary checker. The remaining work is one probe in the existing harness: introduce an import that each corrected rule should forbid, run that package's own lint invocation, and assert it fails. That is the same deliberate-violation method the acceptance criteria below already require, expressed as a permanent check rather than a one-time verification, so a rule that goes inert again fails CI instead of waiting 176 days for the next investigation. Follow the existing probe contract: the harness runs every gate clean first and requires exit 0 before trusting a failure as detection, so a probe whose lint invocation is wrong reports `invalid` rather than falsely reporting the gate live.
 
   *Why this item exists:* SUG-255's close-out recorded the absorption in its own doc and nothing more. This Scope had no corresponding entry, which is exactly the SUG-230 → SUG-231 failure that CLAUDE.md close-out step 5b was written to prevent — each side assuming the other owned it. An assertion is not a handoff.
 
 ## Acceptance criteria
 
-- [ ] `packages/design-system`, `packages/mcp-server`, `apps/storybook` each have a `no-restricted-imports` config that is empirically confirmed via `eslint --print-config` (run against a real source file, using each package's own actual lint invocation) to apply its intended rule(s).
-- [ ] Rule 1 and Rule 2 no longer collide for `packages/design-system` — `eslint --print-config` on a design-system source file shows both patterns' `group`/`message` present simultaneously (or a single merged declaration covering both), not just the last-declared one.
-- [ ] `apps/web`'s flat config enforces "cannot import `apps/studio`" — verified by introducing a deliberate test violation, confirming `pnpm --filter web lint` fails on it, then reverting the test violation.
-- [ ] `apps/studio`'s flat config enforces its applicable boundary rule(s) — verified the same way (deliberate violation → lint fails → revert).
-- [ ] `PageHeader.stories.tsx:43` and `Chip.stories.tsx:5` no longer import anything under `apps/storybook`, and `pnpm --filter @sugartown/design-system lint` passes clean with the corrected rules active.
-- [ ] `apps/storybook`'s lint-script scope decision (fix or documented exemption) is written down in this epic's close-out and, if fixed, verified the same deliberate-violation way.
-- [ ] The `apps/storybook` package-vs-app classification decision for Rule 1 is written down explicitly, with the rule or exemption reflecting it.
-- [ ] `pnpm lint` passes clean repo-wide with all corrected rules active.
-- [ ] `pnpm validate:enforcement-liveness` carries a boundary probe that **fails** when a corrected rule is reverted to its inert form, and passes when restored. Asserting it passes on a healthy repo is not sufficient — that is the property `validate:validators` had throughout the 176 days these rules were dead.
+- [x] `packages/design-system`, `packages/mcp-server`, `apps/storybook` each have a `no-restricted-imports` config that is empirically confirmed via `eslint --print-config` (run against a real source file, using each package's own actual lint invocation) to apply its intended rule(s).
+- [x] Rule 1 and Rule 2 no longer collide for `packages/design-system` — `eslint --print-config` on a design-system source file shows both patterns' `group`/`message` present simultaneously (or a single merged declaration covering both), not just the last-declared one.
+- [x] `apps/web`'s flat config enforces "cannot import `apps/studio`" — verified by introducing a deliberate test violation, confirming `pnpm --filter web lint` fails on it, then reverting the test violation.
+- [x] ~~`apps/studio`'s flat config enforces its applicable boundary rule(s)~~ — **struck with its Scope item**; no rule applies, so nothing is constructible to verify.
+- [x] `PageHeader.stories.tsx:43` and `Chip.stories.tsx:5` no longer import anything under `apps/storybook`, and `pnpm --filter @sugartown/design-system lint` passes clean with the corrected rules active.
+- [x] `apps/storybook`'s lint-script scope decision is written down — documented exemption, not a fix. `NO_BOUNDARY_SCOPE` entry plus the close-out below. Verified negatively: `--print-config` on `.storybook/main.ts` returns `null` for `no-restricted-imports`, proving the decoration is gone rather than silently present.
+- [x] The `apps/storybook` package-vs-app classification is written down: **it stays an app, and the question dissolved** when the helpers moved to `packages/storybook-docs`. No rule and no exemption encode a reclassification, because none happened.
+- [x] `pnpm lint` passes clean repo-wide with all corrected rules active.
+- [x] `pnpm validate:enforcement-liveness` carries a boundary probe that **fails** when a corrected rule is reverted to its inert form, and passes when restored. Asserting it passes on a healthy repo is not sufficient — that is the property `validate:validators` had throughout the 176 days these rules were dead.
 
 ## Human QA Walkthrough — example local pages
 
@@ -137,6 +137,76 @@ Not applicable — no shared CSS, layout token, or multi-page rendered component
 - Not migrating `packages/design-system`, `apps/storybook`, or `packages/mcp-server` off legacy ESLint v8 to flat config v9 — that is a separate, larger tooling migration. This epic's fix must work within the current legacy/flat split as it exists today.
 - Not auditing `packages/design-system`, `apps/web`, or `apps/studio` for violations of any lint rule other than these 4 `no-restricted-imports` boundary rules.
 - Not resolving `apps/contentful-poc`'s boundary-enforcement status beyond a one-line note (see Activation audits) — flagged as a possible future gap, not remediated here, since it wasn't part of the original audit scope.
+
+## Post-Epic Close-Out (2026-07-28) — Phases 1–7
+
+Boundary enforcement is live for the first time. Before this epic, exactly **one** of four declared rules fired anywhere in the monorepo, and it fired only because SUG-225 had hand-copied it into `packages/mcp-server`'s own config as a local workaround.
+
+### Fixed structurally, not patched
+
+Every one of the four causes was a **file-matching** failure, so the replacement does no file matching. Rules are data (`boundary-rules.js`: `RULES` + a `SCOPES` map + `patternsFor()`); one adapter (`boundaries-for.js`) serves both ESLint config systems.
+
+| Cause | Why it cannot recur |
+|---|---|
+| A — globs anchored to the consuming config's dir | No globs. Each package's lint run is already scoped to itself; the rule never needs its own path. |
+| B — last-wins override merge discarded a colliding rule | `patternsFor()` returns one flat merged array. A single declaration cannot collide with itself. |
+| C — flat config can't consume legacy `overrides` | Both systems consume the same adapter. |
+| D — `**/*.{ts}` single-element brace matched nothing | No braces, no globs. |
+
+An unknown scope **throws** rather than returning `[]`. A scope typo that quietly resolves to "no rules" is how this stayed healthy-looking for 176 days.
+
+### Verification
+
+**A — `--print-config`**, each package's own binary from its own cwd:
+
+| Scope | Patterns | Expected |
+|---|---|---|
+| `packages/design-system` | 2 | 2 |
+| `packages/mcp-server` | 2 | 2 |
+| `packages/storybook-docs` | 1 | 1 |
+| `apps/web` | 1 | 1 |
+| `apps/storybook` | `null` | `null` — negative assertion, proves the decoration is gone rather than silently present |
+
+**B — deliberate violation → lint fails → revert**, `--force` throughout so no replayed cache entry could mask a new failure. design-system fired **Rule 1 and Rule 2 simultaneously on a single import** (the collision criterion). `apps/web` fired Rule 3 for the first time in the repo's history.
+
+**C — permanent.** Phase 5 added one probe per scope to `validate:enforcement-liveness`, generated from the same `SCOPES` map the configs consume, so a scope added without a probe is impossible. Each probe requires **every** rule in its scope to report — not merely that lint failed. Proven against both failure shapes: rules removed → inert, exit 1; cause B reintroduced → *"1 of 2 rule(s) never reported"*, naming the last-wins collision, exit 1. An exit-code-only probe would have passed that second test, which is exactly how the original bug hid.
+
+**D — end-to-end:** `pnpm lint` 0 repo-wide, `pnpm typecheck` 0, `pnpm --filter web build` 0, `pnpm --filter storybook storybook:build` 0.
+
+### Decisions taken
+
+- **Two Scope items struck as vacuous** (`apps/studio` enforcement, `apps/storybook` lint-script scope). No rule names either as the *importing* side, so there was nothing to port and no deliberate violation constructible. Both are `NO_BOUNDARY_SCOPE` entries with stated reasons — an audited absence, not an omission. `apps/contentful-poc` gets the same treatment as its one-line note.
+- **The package-vs-app question dissolved.** Moving the helpers out of `apps/` removed the tension; storybook stays an app, with no exemption and no reclassification.
+- **The `@sb-helpers` alias was a linter blindfold.** `no-restricted-imports` matches the literal specifier string, not the resolved path, so `@sb-helpers/ChipDocs` could never have been caught by Rule 1 even after the rule was repaired. Deleted, not exempted — `Chip.stories.tsx` was its sole consumer. Its `@ts-expect-error` went with it (the alias was never in tsconfig, which is why the import needed suppressing).
+- **`sugartown_check_boundary` was a false-confidence oracle.** It read the old globs as repo-root-relative — as intended, not as ESLint resolves them — so it answered "not permitted" for imports ESLint silently allowed. It now reads `SCOPES` directly, and distinguishes "checked and allowed" from "not enforced here", a distinction the old tool could not draw.
+- **Orphan helpers:** `FilterBarDocs.tsx` and `ArchiveGridDocs.tsx` were deleted by SUG-255's lint pass, recoverable at `69d50c1b`. `docs/reviews/rules-audit/2026-07.md` row 8 was already annotated by SUG-255's `f2fc6b46` — verified present rather than re-applied.
+
+### Corrections to this epic's own plan
+
+- **The Phase 1/2 boundary was unreachable as drawn.** Phase 1 was scoped to the six in-storybook importers with design-system's two violations left to Phase 2, but Phase 1's gate is `storybook:build` — and Storybook compiles design-system's stories. Relocation is one atomic unit: every consumer moves or the tree does not build.
+- **Phase 7's `@storybook/react` item rested on a false premise.** SUG-254's plan inherited SUG-255's epic-doc claim that the package "does not exist in SB10", which would have made declaring it impossible. SUG-255 Ph2 disproved that. Re-verified here before acting: not resolvable from `packages/design-system` before, resolvable after. 46 undeclared imports now declared.
+- **Two verification helpers were themselves wrong**, in opposite directions. Verification A first reported `null` for `apps/web` against a correct config — it compared severity to the string `'error'`, but ESLint v9 emits the number `2`. The Phase 5 boundary probe first reported all four scopes inert against rules that demonstrably fire — ESLint's formatter strips a rule message's trailing period, so `includes(message)` never matched. Both are the same defect class as the gates being tested: a checker confidently wrong about its own evidence.
+
+### Residual gaps — documented, not fixed here
+
+- **`apps/web` lints only `src/**/*.{js,jsx}`.** Exactly **32** `.ts`/`.tsx` files under `apps/web/src` (measured, not cited) are linted by nothing. Rule 3 is clean across all of them today. Covering them needs `typescript-eslint` in web's flat config — real scope creep. **SUG-258.**
+- **`apps/studio` has no lint script**, 86 pre-existing problems if one were added. **SUG-257.**
+- **`apps/web`'s 30 remaining `@storybook/react` imports** stay undeclared. SUG-255 Ph2 scoped them out; SUG-258 will begin linting them.
+
+### Close-out checklist
+
+| Step | State |
+|---|---|
+| 1b · Route smoke tests + run ID | pending — branch not yet merged |
+| 2 · Schema deploy | n/a — no `apps/studio/schemas/` change |
+| 3 · Visual QA gate | **see below — blocking** |
+| 4 · Chromatic | build 85 run, 3 changes **awaiting review** |
+| 5 · Data pipeline gap | n/a |
+| 5b · Handoffs landed | SUG-257 / SUG-258 exist in Linear and are named above |
+| 6b · Vspec preserved | n/a — no vspec |
+| 8b · Incident log | INC-011 covers this; its Resolution needs updating at close-out |
+
+**Visual QA / Chromatic — blocking.** [Build 85](https://www.chromatic.com/build?appId=69de2a8dfe5a14bc405087d5&number=85): 376 stories, 365 snapshots, **3 visual changes**. The premise was that a pure import-path refactor yields zero diffs, so these are accounted for rather than approved. `StoryTemplate`'s rendered prose was deliberately rewritten in Phase 1 — it instructed authors to import via relative paths that no longer exist — so a diff on that story and its autodocs page is expected and correct. The third needs human eyes. Phases 3–7 touched no rendered surface (ESLint config, a validator script, one devDep), so build 85 still represents the current visual state.
 
 ## Related
 
