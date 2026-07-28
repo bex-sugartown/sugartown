@@ -46,16 +46,28 @@ export type NormalizedSiteSettings = {
   licenseUrl: string | null;
 };
 
+/**
+ * A resolved Contentful linked entry. The SDK does not type field contents at this
+ * depth, so they arrive as `unknown` and each read narrows at its use site.
+ */
+type LinkedEntry = { fields?: Record<string, unknown> };
+type ResolvedEntry = { fields: Record<string, unknown> };
+
+/** Narrows away link entries Contentful did not resolve (missing or unpublished targets). */
+function isResolved(entry: LinkedEntry | null | undefined): entry is ResolvedEntry {
+  return Boolean(entry?.fields);
+}
+
 function prefixProtocol(url: string | null | undefined): string | null {
   if (!url) return null;
   return url.startsWith("//") ? `https:${url}` : url;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function navItems(items: any[] | undefined): NavItem[] {
+function navItems(items: unknown): NavItem[] {
   if (!Array.isArray(items)) return [];
-  return items
-    .filter((item) => item?.fields?.label && item?.fields?.url)
+  return (items as LinkedEntry[])
+    .filter(isResolved)
+    .filter((item) => item.fields.label && item.fields.url)
     .map((item) => ({
       label: item.fields.label as string,
       url: item.fields.url as string,
@@ -94,9 +106,9 @@ export function normalizeSiteSettings(
 
   // Footer columns: array of navigationMenu entries; each menu.title = column heading
   const footerColumns: NavColumn[] = Array.isArray(f.footerColumns)
-    ? f.footerColumns
-        .filter((col: any) => col?.fields)
-        .map((col: any) => ({
+    ? (f.footerColumns as LinkedEntry[])
+        .filter(isResolved)
+        .map((col) => ({
           title: (col.fields.title as string) ?? "",
           items: navItems(col.fields.items),
         }))
@@ -104,9 +116,10 @@ export function normalizeSiteSettings(
 
   // Social links
   const socialLinks: SocialLinkData[] = Array.isArray(f.socialLinks)
-    ? f.socialLinks
-        .filter((sl: any) => sl?.fields?.platform && sl?.fields?.url)
-        .map((sl: any) => ({
+    ? (f.socialLinks as LinkedEntry[])
+        .filter(isResolved)
+        .filter((sl) => sl.fields.platform && sl.fields.url)
+        .map((sl) => ({
           platform: sl.fields.platform as string,
           url: sl.fields.url as string,
           label: (sl.fields.label as string | null) ?? null,

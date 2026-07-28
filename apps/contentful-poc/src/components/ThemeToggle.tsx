@@ -10,9 +10,22 @@ export function ThemeToggle() {
   const [theme, setTheme] = useState<string>(LIGHT);
 
   useEffect(() => {
-    // Read persisted preference on mount
+    // Read persisted preference on mount.
+    //
+    // This genuinely needs an effect rather than a lazy useState initializer: the page is
+    // server-rendered, localStorage does not exist on the server, and initializing from it
+    // on the client would render a different first tree than the server sent — a hydration
+    // mismatch. Setting state after mount is the correct trade for SSR, at the cost of one
+    // extra render.
+    //
+    // The rule is still pointing at something real. Removing the extra render properly means
+    // useSyncExternalStore, or a pre-paint inline script that sets data-theme before React
+    // boots (which would also fix the brief light-mode flash a returning dark-mode visitor
+    // sees today). Both are behavioural changes, out of scope for a lint-recovery pass —
+    // tracked separately.
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === LIGHT || stored === DARK) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTheme(stored);
       document.documentElement.setAttribute("data-theme", stored);
     }
