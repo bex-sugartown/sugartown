@@ -77,6 +77,32 @@ Rewritten, 38 words:
 Same instruction. Same evidence. Half the words. The epic number stays because it makes
 the claim checkable.
 
+## Words to avoid
+
+These are the ones that keep appearing. Plain replacements on the right.
+
+| Avoid | Use |
+|---|---|
+| brevity | shorter, fewer words |
+| fortnight | two weeks |
+| archaeology | reading back through, reconstructing |
+| an order of magnitude | much, 10x |
+| inert | does nothing, does not fire |
+| theatre | does nothing, is not read |
+| launder | hide, disguise |
+| folklore | undocumented, tribal knowledge |
+| by construction | by design, always |
+| in miniature | a small version of |
+| contagious, spreads | copied, picked up |
+
+Check before committing:
+
+```bash
+grep -onE "brevity|fortnight|archaeology|order of magnitude|inert|theatre|launder|folklore|by construction|in miniature|contagious" <file>
+```
+
+The list is not exhaustive. Add to it when a new one shows up.
+
 ## What not to cut
 
 Do not compress a rule until it stops working. Specifically, keep:

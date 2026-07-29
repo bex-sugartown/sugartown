@@ -57,8 +57,8 @@ path, or published claim — answer all five. Not once for the plan as a whole.
    a measurement date and the command or file that reproduces the number. A published
    tally with neither is a Blocker.
 5. **Reader.** Who or what reads the result, on what cadence, and by what date does
-   that reading go stale? A named human cadence or a named machine. A control with no
-   reader is theatre however well it is wired.
+   that reading go stale? A named human cadence or a named machine. A control nobody reads
+   does not do anything, however well it is wired.
 
 ## Verify, never infer
 

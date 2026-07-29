@@ -19,11 +19,11 @@ rule. Evidence from SUG-221 says that shape does not work:
 - The audit's own KPI note explains why the merge added lines: it kept all merged content
   verbatim and added cross-references.
 
-Moving text without shortening it, and without capping the file, clears space that refills
-in about a fortnight. Three changes to scope follow:
+Moving text without shortening it, and without capping the file, clears space that fills
+back up in about two weeks. Three changes to scope follow:
 
-1. **Rewriting for brevity is now in scope.** It was a Non-Goal. That Non-Goal is why the
-   last pass was net-additive.
+1. **Rewriting rules to be shorter is now in scope.** It was a Non-Goal, and that is why the
+   last pass added lines instead of removing them.
 2. **A size cap is added**, enforced in CI. Nothing else acts on the rate of growth.
 3. **Rules get stable IDs.** Incidents (`INC-NNN`), failure modes (`FM-C-NN`), and controls
    (`CTL-NNN`) all have them. Rules are the only governed object without one, and
@@ -34,12 +34,12 @@ in about a fortnight. Three changes to scope follow:
 ## Why IDs matter more than the move
 
 Most of SUG-221's cost went on working out when each rule last fired, by reading shipped
-epic docs. Nothing records it. A rule register with a `last fired` field turns that
-archaeology into a lookup, and makes the next audit an order of magnitude cheaper.
+epic docs. Nothing records it. A rule register with a `last fired` field makes that a
+lookup, so the next audit is much cheaper.
 
-It also answers questions that are currently unanswerable: which rules have never fired,
-which cite an incident that no longer applies, which cross-references broke when a heading
-was renamed.
+It also answers questions nothing can answer today: which rules have never fired, which
+cite an incident that no longer applies, which cross-references broke when a heading was
+renamed.
 
 ## Template adaptation
 
@@ -106,7 +106,7 @@ check keeps the file under a fixed line count.
   substance. If a rule looks wrong, note it and raise it separately.
 
 > **Reversed from the original epic:** "Rewriting rules for clarity while moving them" was a
-> Non-Goal. It is now the main work. Moving text without shortening it is what produced +2.
+> Non-Goal. It is now the main work.
 
 ## Technical Constraints
 
@@ -155,9 +155,8 @@ check keeps the file under a fixed line count.
 
 ## Follow-up
 
-Node: how a house style for published writing spread into the tools nobody publishes.
-Premise, briefly — the repo's instruction docs were written in the same register as its
-articles, so CLAUDE.md reached 12,246 words while the brand voice guide governing actual
-published content is 2,770. Voice is contagious across surfaces that were never meant to
-share one. Draft via `/write-node` after this epic ships, so the before-and-after numbers
-are real.
+Node: how the house style for published writing spread into the tools nobody publishes.
+The repo's instruction docs got written in the same voice as its articles, so CLAUDE.md
+reached 12,246 words while the brand voice guide covering actual published content is
+2,770. Draft via `/write-node` after this epic ships, so the before and after numbers are
+real.
