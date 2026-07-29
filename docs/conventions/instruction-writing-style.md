@@ -1,6 +1,6 @@
 # Instruction Writing Style
 
-**Version:** v1.0
+**Version:** v1.1
 **Status:** Active
 **Owner:** Bex Head
 **Last updated:** 2026-07-29
@@ -10,7 +10,7 @@
 
 ## What this covers
 
-Agent-facing docs. Anything written to be followed rather than read:
+Anything written to be followed rather than read. The surface does not matter:
 
 - `CLAUDE.md`
 - `.claude/skills/**/SKILL.md`
@@ -18,6 +18,8 @@ Agent-facing docs. Anything written to be followed rather than read:
 - `docs/conventions/*.md`
 - `docs/ai/agentic-caucus/*.md`
 - README and setup docs
+- Session replies that recommend, compare, or propose a course of action (a briefing
+  asked for in full is a report, not an instruction)
 
 `docs/brand/brand-voice-guide.md` covers reader-facing content: articles, nodes, case
 studies, page copy. That guide is about personality. This one is about speed.

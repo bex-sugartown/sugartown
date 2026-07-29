@@ -79,10 +79,11 @@ ratify its own reasoning. Enforced by `pnpm validate:controls`. Full rules:
 
 ### Instruction writing style
 
-Agent-facing docs (this file, skills, epic template, conventions) follow
+Anything written to be followed rather than read follows
 `docs/conventions/instruction-writing-style.md`: instruction first, said once, no closing
-aphorism, rationale gets one clause or its own file. `docs/brand/brand-voice-guide.md`
-covers reader-facing content and does not apply here.
+aphorism, rationale gets one clause or its own file. Applies to this file, skills,
+conventions, epic docs and session replies alike. `docs/brand/brand-voice-guide.md` covers
+reader-facing content only.
 
 ### Epic authoring — Linear-first workflow
 
