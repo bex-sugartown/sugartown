@@ -84,6 +84,9 @@ jobs:
       - name: Validate control register
         run: pnpm validate:controls
 
+      - name: Validate doc budget
+        run: pnpm validate:doc-budget
+
       - name: Validate schema parity
         run: pnpm validate:schema-parity
         env:

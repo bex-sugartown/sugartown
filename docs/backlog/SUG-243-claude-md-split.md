@@ -83,16 +83,16 @@ check keeps the file under a fixed line count.
 
 **Phase 1 — Machinery (small, do first)**
 
-- [ ] Add `pnpm validate:doc-budget`. **Measures the session-loaded surface, not one file:**
+- [x] Add `pnpm validate:doc-budget`. **Measures the session-loaded surface, not one file:**
       CLAUDE.md plus every `docs/conventions/*.md` it references. Counts **words**, not
       lines — 322 of CLAUDE.md's 907 lines are blank, so a line cap is met by deleting
       blank lines with zero content removed. Wire into CI and add a probe to
       `scripts/validate-enforcement-liveness.js`
-- [ ] **Set an interim cap in Phase 1 that the current tree passes.** `gateProbe` requires
+- [x] **Set an interim cap in Phase 1 that the current tree passes.** Set to 22,000 words against a measured 21,757. `gateProbe` requires
       the control to exit 0 on a clean tree; a Phase 1 cap set to the Phase 3 target would
       make the probe report `PROBE INVALID` for the epic's whole duration. Phase 3 tightens
       it to the achieved figure plus 5%
-- [ ] Add a row to `docs/ai/agentic-caucus/control-register.md` for the new gate (CTL-025).
+- [x] Add a row to `docs/ai/agentic-caucus/control-register.md` for the new gate (CTL-025).
       Its Bypass cell records that `MEMORY.md` is auto-loaded from outside the repo and no
       repo-side cap can reach it, and that the gate is CI-only, so a local commit is
       unchecked until CI

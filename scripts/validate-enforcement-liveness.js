@@ -419,6 +419,24 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:doc-budget',
+    why: 'instruction text pushed past the cap must be rejected, wherever it sits',
+    // The violation is added to a *referenced conventions file*, not to
+    // CLAUDE.md. That is deliberate: a single-file cap would pass this probe
+    // while the surface a session actually reads grew without limit, and
+    // relocation is precisely the escape SUG-243's verification review found.
+    // Breaking the cheaper-looking side proves both sides are counted.
+    run: () =>
+      gateProbe({
+        cmd: 'pnpm',
+        args: ['validate:doc-budget'],
+        success: 'rejected the over-budget surface',
+        breakIt: () =>
+          mutateFile('docs/conventions/vqa-workflow.md', (src) => `${src}\n${'padding '.repeat(400)}\n`),
+      }),
+  },
+
+  {
     gate: 'chromatic.sh reachability',
     why: 'the VRT script must reach its own first statement when .env is absent',
     // Not a violate-and-assert-failure probe: the failure mode here was the
