@@ -11,36 +11,32 @@
 ## Purpose
 
 One row per control: every gate, validator, test, deploy path, and published claim the
-platform relies on. It is the inventory that did not exist, and its absence is why the
-2026-07-28 post-mortem found six gaps at once rather than one at a time.
+platform relies on.
 
-[[governance-coverage]] maps the platform against a governance model and answers *what
-layers are covered*. This answers the narrower, sharper question: **for each individual
-control, is it probed, and who reads its result?**
+[[governance-coverage]] maps the platform against a governance model and answers which layers
+are covered. This answers a narrower question: for each control, is it probed, and who reads
+its result?
 
-Enforced by `pnpm validate:controls` (`scripts/validate-control-register.js`), which runs in
-CI. The checker asserts every row is complete, every `enforced-by-code` row's probe genuinely
-exists in the `PROBES` array of `scripts/validate-enforcement-liveness.js`, every `validate:*`
-script in the workspace has a row, and no `Next read` date has passed.
+Enforced by `pnpm validate:controls` (`scripts/validate-control-register.js`) in CI. See
+`docs/conventions/verification-review.md` for what it checks and why.
 
 ## How to read a row
 
-- **Class** — `enforced-by-code` (a validator, hook, or build step makes it true),
-  `measured` (an empirical result with a committed record), `convention` (true by discipline),
-  `roadmap` (not true yet). Same four values the red-pen diagram gate uses.
-- **Probe** — the `gate:` string in the `PROBES` array that proves this control fails against
-  a deliberately broken input. `none — <reason>` is legitimate; blank is not.
+- **Class** — `enforced-by-code` (a validator, hook, or build step makes it true), `measured`
+  (an empirical result with a committed record), `convention` (true by discipline), `roadmap`
+  (not true yet). Same four values as the red-pen diagram gate.
+- **Probe** — the `gate:` string in the `PROBES` array of
+  `scripts/validate-enforcement-liveness.js`. `none — <reason>` is fine; blank is not.
 - **Reader** — who or what reads the result. `continuous` in *Next read* means a machine reads
-  every run; a date means a human must look by then.
-- **Bypass** — known paths to production that skip this control. `none known` is an assertion
-  someone made, not a guarantee.
+  every run. A date means a human must look by then.
+- **Bypass** — paths to production that skip this control. `none known` is someone's
+  assertion, not a guarantee.
 
 ## How to add a row
 
-Run the `verification-reviewer` subagent against the plan. It emits paste-ready rows. Allocate
-the next free `CTL-NNN`; IDs are monotonic and never reused. A new gate ships with its probe
-and its row **in the same epic** — that is the rule that keeps the probe set from silently
-falling behind the gate set.
+Run the `verification-reviewer` subagent against the plan. It emits paste-ready rows. Use the
+next free `CTL-NNN`; IDs are never reused. A new gate ships with its probe and its row in the
+same epic, so the probe set does not fall behind the gate set.
 
 ---
 
@@ -76,22 +72,16 @@ falling behind the gate set.
 
 ## Known coverage gaps
 
-Stated here because a register that only lists what is covered is the failure it exists to
-prevent. Measured 2026-07-28 by reading `PROBES` and every workspace `package.json`:
+Measured 2026-07-28 by reading `PROBES` and every workspace `package.json`.
 
-- **6 of 12 `validate:*` scripts have no probe** (CTL-008 through CTL-012, CTL-014). They are
-  wired and they run; nothing proves they would fail against a broken input. The probe set has
-  been growing more slowly than the gate set.
-- **`typecheck`, `build`, and `test:smoke` have no probes** (CTL-016 through CTL-018).
-- **Four controls are `convention` with no machine backstop at all** (CTL-012, CTL-020,
-  CTL-022, CTL-023). Three of the four appear in the 2026-07-28 post-mortem as materialised
-  gaps. Convention is a legitimate class; three-quarters of it failing in one quarter is a
-  signal about how much weight it can carry.
-- **CTL-019's probe checks reachability, not detection.** `chromatic.sh` dying on line 1 for
-  36 days is now caught; Chromatic running and catching nothing would not be.
-- **CTL-013 is the backstop for eleven other rows and is itself unprobed.** Its failure mode is
-  silence, which is the hardest to notice. Shortest re-read interval in the register for that
-  reason.
+- **6 of 12 `validate:*` scripts have no probe** (CTL-008 to CTL-012, CTL-014). They are wired
+  and they run. Nothing proves they would fail against a broken input.
+- **`typecheck`, `build` and `test:smoke` have no probes** (CTL-016 to CTL-018).
+- **4 controls are `convention` with no machine backstop** (CTL-012, CTL-020, CTL-022,
+  CTL-023). Three of the four are materialised gaps in the 2026-07-28 post-mortem.
+- **CTL-019's probe checks reachability, not detection.** It catches `chromatic.sh` dying on
+  line 1. It would not catch Chromatic running and finding nothing.
+- **CTL-013 backs up eleven other rows and has no probe.** It fails silently, so it has the
+  shortest re-read interval here.
 
-Closing these is scoped as SUG-256 follow-up work, not as a precondition for the register
-being useful. An accurate register with named holes is worth more than a tidy one.
+Closing these is SUG-256 follow-up work, not a precondition for the register being useful.

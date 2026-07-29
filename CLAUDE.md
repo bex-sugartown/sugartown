@@ -63,6 +63,27 @@ When an epic's job is to audit or report on the state of *other* files (story co
 
 **CI logs are not an audit oracle.** When measuring the state of a gate (lint errors, test failures, validator results), run it locally and read the real output — never summarise from a CI log. `turbo run <task>` is fail-fast: it reports the first failing package and never reaches the rest, so a CI log systematically *understates* breakage. This bit SUG-255's own scoping — the CI log showed 7 lint errors in one package; a local run found 84 across three. An audit quoting a CI log is quoting a truncated view.
 
+### Verification review (blocking)
+
+Before building anything that adds or changes a gate, validator, test, deploy path, or a
+published claim about the platform, run the `verification-reviewer` subagent and add a row
+to `docs/ai/agentic-caucus/control-register.md`.
+
+Five questions per control: what artifact proves it ran, what broken input must make it
+fail, what path reaches production without it, does it publish a claim (needs a measurement
+date and a reproducing command), and who reads the result by when.
+
+Run it as a subagent, not inline. A review inside the session that wrote the plan will
+ratify its own reasoning. Enforced by `pnpm validate:controls`. Full rules:
+`docs/conventions/verification-review.md`.
+
+### Instruction writing style
+
+Agent-facing docs (this file, skills, epic template, conventions) follow
+`docs/conventions/instruction-writing-style.md`: instruction first, said once, no closing
+aphorism, rationale gets one clause or its own file. `docs/brand/brand-voice-guide.md`
+covers reader-facing content and does not apply here.
+
 ### Epic authoring — Linear-first workflow
 
 When creating a new epic in `docs/backlog/`:
