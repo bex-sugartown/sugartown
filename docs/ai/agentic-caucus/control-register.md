@@ -67,6 +67,7 @@ same epic, so the probe set does not fall behind the gate set.
 | CTL-021 | `/platform/governance` published statistics | measured | none — not machine-checked | human, on re-measurement | 2026-08-28 | published "30 checkpoints · 0 gaps" with no date and no reproducing command while the pipeline was red (G11). Re-measurement is pending; the claim carries a liveness caveat until then |
 | CTL-022 | `sugartown_check_boundary` (MCP tool) | convention | none — answers from documented intent, not behaviour | agent at call time; no human reads it | 2026-08-28 | reports boundary status from rules as written rather than as enforced, so it returns a pass where `boundaries.js` matched nothing (G8/G9) |
 | CTL-023 | Release history pushed to remote | convention | none — a workflow habit, not a gate | human, at `/eod` | 2026-08-28 | nothing detects unpushed commits between `/eod` runs; 48 commits sat on one disk for two days (G10) |
+| CTL-024 | Scope-creep filing (mid-epic findings) | convention | none — `validate:epic-docs` not built | human, at close-out step 5b | 2026-08-28 | a finding recorded only in chat or a draft never reaches Linear; 6 issues reached Linear with no backlog doc and no priority row (2026-07-27→28), and a sequencing note lost the SUG-254 Ph4 bundling window |
 
 ---
 

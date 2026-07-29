@@ -141,6 +141,29 @@ Linear's priority field (4 tiers) mirrors the backlog priority emoji; there is n
 manual sort-order field, so exact drag-order parity within a tier is not guaranteed — priority
 tier + Linear's own default sort is the accepted fallback (SUG-246).
 
+### Scope creep (blocking)
+
+Work found mid-epic that will not be done in this epic gets filed before the epic
+continues. Claude files it, not the human.
+
+| The finding | Destination | Artifact |
+|---|---|---|
+| Belongs to the current epic | Scope line, assigned to a phase | doc edit |
+| Belongs to an existing epic | Sub-issue under it, plus a Scope line in its doc | Linear + doc edit |
+| Net-new | `/new-epic`: Linear issue, backlog stub, priority row | full stub |
+
+In the same turn the finding is recorded, Claude owns: the Linear issue or sub-issue, the
+backlog doc or Scope line, a proposed priority, the execution order relative to the current
+epic, and any `blockedBy`/`blocks` relation (SUG-246). Priority is proposed, not set: the
+Linear queue stays the human's.
+
+Does not fire for a finding fixed inline in the same session, or an observation with no
+proposed change.
+
+Verified at close-out step 5b, and by `pnpm validate:epic-docs` once it exists. Sub-issues
+depend on SUG-238; until it lands, use a Scope line in the target epic's doc for the middle
+row. (2026-07-27→28: six issues reached Linear with no doc and no priority row.)
+
 ### Multi-phase epic merge cadence
 
 When an epic has numbered phases (e.g. SUG-63 Phase 1 / 1b / 1c), pick **one** of two strategies at the start of the epic and stick with it:
