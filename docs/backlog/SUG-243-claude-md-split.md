@@ -1,158 +1,163 @@
 ---
-**Epic:** SUG-243 — Split CLAUDE.md (hard stops/conventions vs. rationale/incident history)
+**Epic:** SUG-243 — Shrink CLAUDE.md: rule IDs, plain English, and a size cap
 **Linear Issue:** [SUG-243](https://linear.app/sugartown/issue/SUG-243/split-claudemd-hard-stopsconventions-vs-rationaleincident-history)
 **Status:** Backlog
-**Priority:** ⚪ Later — worth doing, not urgent, and must run last in this batch
-**Merge strategy:** (b) Single close-out — this epic should not be interleaved with the
-other five in this batch, since it restructures the file all of them are actively
-editing. See Risks.
+**Priority:** 🟠 Next — the earlier "⚪ Later" rating assumed this was a filing exercise. Rescoped 2026-07-29.
+**Merge strategy:** (b) Single close-out. This epic restructures the file every other epic edits.
 ---
 
-# SUG-243 — Split CLAUDE.md
+# SUG-243 — Shrink CLAUDE.md
 
-CLAUDE.md holds hard stops, conventions, tooling notes, and incident post-mortems in one
-file, and grows by appending. At 797 lines it is still read in full every session, but
-the trend line doesn't stay that way for free. This epic keeps hard stops and
-conventions in CLAUDE.md; rationale and incident history move to `docs/conventions/`
-(22 files already exist there — the destination isn't new, just under-used for this
-purpose) and are referenced by path.
+## What changed in this rescope (2026-07-29)
 
-## Template adaptation — declared once
+The original epic moved rationale out of CLAUDE.md and forbade removing or rewriting any
+rule. Evidence from SUG-221 says that shape does not work:
 
-Process/documentation epic. No Sanity schema, GROQ, or render-layer work.
+- SUG-221's rules audit spent about 534,000 tokens across 6 subagents. It retired 3 items,
+  merged 1, and simplified 1. Net effect on CLAUDE.md: **+2 lines**.
+- CLAUDE.md then grew from 768 to 862 lines in the following 8 days.
+- The audit's own KPI note explains why the merge added lines: it kept all merged content
+  verbatim and added cross-references.
 
-| Template section | Status | Reason |
-|---|---|---|
-| Component-Reuse Manifest | N/A | No visual surface |
-| Doc Type Coverage Audit | N/A | No content doc type touched |
-| Schema Field Proposal | N/A | No schema field added |
-| Query Layer Checklist | N/A | No GROQ touched |
-| Schema Enum Audit | N/A | No enum field rendered |
-| Metadata Field Inventory | N/A | No metadata surface touched |
-| Themed Colour Variant Audit | N/A | No themed surface touched |
-| Migration Script Constraints | N/A | No data transform |
-| Human QA Walkthrough | N/A | No CSS/layout/rendering |
-| Visual QA Gate | N/A | No visual output |
+Moving text without shortening it, and without capping the file, clears space that refills
+in about a fortnight. Three changes to scope follow:
 
-Phase 0 does not fire.
+1. **Rewriting for brevity is now in scope.** It was a Non-Goal. That Non-Goal is why the
+   last pass was net-additive.
+2. **A size cap is added**, enforced in CI. Nothing else acts on the rate of growth.
+3. **Rules get stable IDs.** Incidents (`INC-NNN`), failure modes (`FM-C-NN`), and controls
+   (`CTL-NNN`) all have them. Rules are the only governed object without one, and
+   references are already drifting: `docs/conventions/` contains both
+   `CLAUDE.md §CSS class pre-implementation` and
+   `CLAUDE.md §CSS class pre-implementation reuse audit` for the same rule.
 
-## Pre-Execution Completeness Gate [REQUIRED]
+## Why IDs matter more than the move
 
-- [x] **Correct audit file paths** — `CLAUDE.md` (797 lines, confirmed), `docs/conventions/`
-  (22 files present, confirmed) — both verified during the originating audit
-- [x] **Scope ↔ Non-Goals consistency** — checked
-- [ ] **Instruction & Rule File Write Gate pre-flight** — this entire epic is a rewrite
-  of CLAUDE.md. Diff must be shown and approved before writing — not a single diff, but
-  section-by-section, since a rewrite this size approved as one giant block defeats the
-  point of the gate.
+Most of SUG-221's cost went on working out when each rule last fired, by reading shipped
+epic docs. Nothing records it. A rule register with a `last fired` field turns that
+archaeology into a lookup, and makes the next audit an order of magnitude cheaper.
 
-## Context [REQUIRED]
+It also answers questions that are currently unanswerable: which rules have never fired,
+which cite an incident that no longer applies, which cross-references broke when a heading
+was renamed.
 
-`CLAUDE.md` currently does four jobs in one file: hard stops (things that block
-execution), conventions (patterns to follow), tooling notes (how a script or validator
-works), and incident post-mortems (narrative explaining why a rule exists, often
-including a specific SUG-N story). New rules get appended, so the file grows in the
-direction of eventually being long enough that it stops being read in full — a form of
-the same "planning-layer staleness" already flagged elsewhere in this repo's own
-conventions.
+## Template adaptation
 
-This is the last epic in the SUG-239–SUG-243 batch specifically because every other epic
-in that batch edits CLAUDE.md directly. Running this epic mid-batch would mean later
-epics' diffs are computed against a moving target.
+Process and documentation epic. No schema, GROQ, or render work. Phase 0 does not fire.
 
-## Objective [REQUIRED]
+| Template section | Status |
+|---|---|
+| Component-Reuse Manifest, Doc Type Coverage, Schema Field Proposal, Query Layer, Schema Enum, Metadata Inventory, Themed Colour Variant, Migration Constraints, Human QA, Visual QA | N/A — no visual or data surface |
 
-After this epic, `CLAUDE.md` holds hard stops and conventions only — short enough to be
-read in full each session — with rationale and incident history moved to
-`docs/conventions/` and referenced by path from the rule they support. Every rule that
-was moved is referenced from CLAUDE.md by a one-line pointer; zero rules are lost, only
-relocated.
+## Pre-Execution Completeness Gate
 
-## Scope [REQUIRED]
+- [x] **Audit file paths** — `CLAUDE.md` **862 lines** (re-measured 2026-07-29; the earlier
+  "797 lines, confirmed" is stale), `docs/conventions/` 24 files
+- [x] **Scope ↔ Non-Goals consistency** — checked; the Non-Goal forbidding rewrites is
+  removed in this rescope, see below
+- [ ] **Instruction & Rule File Write Gate pre-flight** — this epic rewrites CLAUDE.md.
+  Show diffs section by section, not as one block.
 
-- [ ] Read CLAUDE.md in full and classify every section: **Hard stop** (blocks
-  execution, stays), **Convention** (a pattern to follow, stays, but strip inline
-  incident narrative if present), or **Rationale/incident** (explains *why* via a
-  specific story — e.g. "SUG-192 bit three of the audit rows..." — moves out)
-- [ ] For each Rationale/incident section, find or create the matching
-  `docs/conventions/*.md` file and move the narrative there in full, preserving the
-  specific detail (commit hashes, SUG-N references, dates) that makes it a real
-  post-mortem rather than a generic rule
-- [ ] Replace the moved narrative in CLAUDE.md with a one-line rule statement + a path
-  reference to the full rationale (matching the existing pattern already used for
-  `docs/conventions/vqa-workflow.md` and similar)
-- [ ] Enumerate every rule before moving anything — a checklist of "rule → destination"
-  — and verify after the move that every item on the checklist is present somewhere
-  (CLAUDE.md as a pointer, `docs/conventions/` as the full text)
-- [ ] Consolidate the reuse rule to exactly one canonical location if it's currently
-  duplicated across CLAUDE.md and `docs/epic-template.md` (verify first — don't assume
-  the duplication is exactly as described in the originating audit's Simplification S1
-  without re-checking against the current file state at execution time)
+## Objective
 
-## Non-Goals [REQUIRED]
+CLAUDE.md holds rules only: each with an ID, stated in plain English, short enough to read
+in full every session. Rationale lives in the rule register and the incident log. A CI
+check keeps the file under a fixed line count.
 
-- **Removing or weakening any rule.** This epic relocates rationale, it does not delete
-  a hard stop or a convention. If a rule seems safe to remove entirely while doing this,
-  that's a separate epic's decision, not a side effect of this one.
-- **Rewriting rules for clarity while moving them.** Move the text as-is unless a
-  factual error is found (in which case, fix and note the correction, same as any other
-  epic's "verify before citing" discipline) — this is a structural move, not a rewrite
-  pass.
-- **Reorganizing `docs/conventions/` itself.** New files land using the existing naming
-  pattern; no epic-scope reshuffling of what's already there.
+## Scope
 
-## Technical Constraints [REQUIRED]
+**Phase 1 — Machinery (small, do first)**
 
-- Every rule moved out of CLAUDE.md must be referenced from it by path — a rule with no
-  pointer back is a rule a future session won't find.
-- `grep -c "reuse" CLAUDE.md docs/epic-template.md` should show references after this
-  epic, not duplicated rule text, if consolidation applies.
+- [ ] Add `pnpm validate:doc-budget`: fails if CLAUDE.md exceeds its cap. Wire into CI and
+      add a probe to `scripts/validate-enforcement-liveness.js`
+- [ ] Add a row to `docs/ai/agentic-caucus/control-register.md` for the new gate
+- [ ] Create `docs/ai/agentic-caucus/rule-register.md`, columns:
+      `ID | Rule | Origin incident | Created | Last fired | Class | Location`
+- [ ] `Class` is one of: `enforced-by-code`, `detectable` (code can flag a candidate, human
+      decides), `human` (judgment only)
 
-## Files to Modify [REQUIRED]
+**Phase 2 — Enumerate and classify (the expensive read, done once)**
 
-- `CLAUDE.md` — line count reduced, rationale/incident sections replaced with pointers
-- `docs/conventions/*.md` — new files for relocated rationale (exact filenames determined
-  during execution, from the enumeration checklist)
+- [ ] Read CLAUDE.md in full. For every rule record: ID, current text, whether rationale is
+      inline, and `Class`
+- [ ] This single pass produces the move checklist, the register rows, and the
+      code-vs-prose triage. Do not split it across epics
 
-## Deliverables [REQUIRED]
+**Phase 3 — Rewrite and move**
 
-1. `CLAUDE.md`, restructured: hard stops + conventions only
-2. Every relocated rule present in full at its new `docs/conventions/` home
-3. A before/after line count for CLAUDE.md, reported in this doc at close-out
+- [ ] Rewrite each rule per `docs/conventions/instruction-writing-style.md`: instruction
+      first, said once, no closing aphorism, rationale reduced to one clause
+- [ ] Move incident narrative to the rule register or the incident log, linked by ID
+- [ ] Retire the strikethrough convention. CLAUDE.md:772 keeps a retired rule's full text
+      plus an explanatory paragraph. Retired rules move to the register
+- [ ] Set the cap to the resulting line count plus 5%
 
-## Acceptance Criteria [REQUIRED]
+**Phase 4 — Other high-traffic docs**
 
-- [ ] `CLAUDE.md` line count reduced — report before (797) and after
-- [ ] Every rule moved out of CLAUDE.md is referenced from it by path — zero rules lost,
-  verified against the pre-move enumeration checklist
-- [ ] `grep -c "reuse" CLAUDE.md docs/epic-template.md` shows references, not duplicated
-  rule text (if consolidation applies after re-verification)
-- [ ] A rule picked at random from the pre-move enumeration is spot-checked: confirm it
-  reads correctly in its new location and its CLAUDE.md pointer resolves to it
-- [ ] Every section-level diff was shown and approved before writing
+- [ ] Apply the style guide to `docs/epic-template.md` (6,782 words)
+- [ ] Apply to the 3 largest `docs/conventions/` files
 
-## Risks / Edge Cases [REQUIRED]
+## Non-Goals
 
-- **This epic rewrites the process every other epic in this batch closes out with.**
-  Run it last, and only after SUG-239 through SUG-242 have merged — not concurrently.
-  Do not run any other epic's close-out against a half-migrated CLAUDE.md.
-- **Losing a rule silently during the move.** The zero-rules-lost AC is the mitigation:
-  enumerate before moving, verify after. A rule that existed in CLAUDE.md and exists
-  nowhere post-move is a regression, not a simplification.
-- **Approving the whole diff as one block defeats the gate's purpose.** Given the size
-  of this rewrite, request section-by-section approval rather than one giant diff — the
-  Instruction & Rule File Write Gate exists to let a human actually read what's changing,
-  and a 400-line single diff undermines that regardless of technical compliance.
+- **Silent removal.** A rule may be cut only with a recorded decision, the same as
+  SUG-221's disposition column. Shortening is not removal.
+- **Reorganising `docs/conventions/` itself.**
+- **Re-litigating what a rule means.** This pass changes wording and location, not
+  substance. If a rule looks wrong, note it and raise it separately.
 
-## Post-Epic Close-Out [REQUIRED]
+> **Reversed from the original epic:** "Rewriting rules for clarity while moving them" was a
+> Non-Goal. It is now the main work. Moving text without shortening it is what produced +2.
 
-1. Visual QA gate — N/A
-2. Chromatic — N/A
-3. Data pipeline gap check — N/A
-4. Move `docs/backlog/SUG-243-claude-md-split.md` → `docs/shipped/SUG-243-claude-md-split.md`
-5. Confirm clean tree
-6. `/release` rather than `/mini-release` — this is a process-surface change to the file
-   every session reads, and warrants a minor bump per CLAUDE.md's own existing
-   mini-release-vs-release convention
-7. Transition SUG-243 to **Done** in Linear
-8. Sprint/batch complete once SUG-239 through SUG-243 have all shipped
+## Technical Constraints
+
+- Every rule moved out of CLAUDE.md is reachable from it by ID.
+- A rule must be followable from its CLAUDE.md text alone, without opening the register. If
+  it is not, it was compressed too far.
+- Cap the session-loaded surface, not just one file, or text moves to
+  `docs/conventions/` and the count looks better while nothing improves.
+
+## Files to Modify
+
+- `CLAUDE.md`
+- `docs/ai/agentic-caucus/rule-register.md` (new)
+- `docs/ai/agentic-caucus/control-register.md` (one row)
+- `scripts/validate-doc-budget.js` (new), `scripts/validate-enforcement-liveness.js`,
+  `package.json`, `.github/workflows/ci.yml`
+- `docs/epic-template.md` and 3 `docs/conventions/*.md` files (Phase 4)
+
+## Acceptance Criteria
+
+- [ ] CLAUDE.md under 650 lines (from 862). Report the actual figure
+- [ ] `pnpm validate:doc-budget` passes, is wired into CI, and has a liveness probe
+- [ ] Every rule has an ID and a register row
+- [ ] Zero rules lost: every ID from the Phase 2 enumeration resolves
+- [ ] Three rules picked at random read correctly and are followable without the register
+- [ ] Every section diff was shown and approved before writing
+
+## Risks
+
+- **Compressing a rule until it stops working.** Mitigation: the followable-without-the-
+  register check, on a sample, before close-out.
+- **The 650-line target driving deletion for its own sake.** The target is a goal; the
+  Non-Goal on silent removal is the limit. If the honest result is 700, report 700.
+- **Rewriting during an active rules review.** Do not restyle a rule whose substance is
+  under review in another epic.
+- **Approving one large diff.** Section by section, per the original epic's own risk note.
+
+## Post-Epic Close-Out
+
+1. Visual QA, Chromatic, data pipeline: N/A
+2. Record the before and after line counts in this doc
+3. Move to `docs/shipped/`
+4. `/release`, not `/mini-release` — this changes the file every session reads
+5. Transition SUG-243 to Done in Linear
+6. Incident log: no incident, unless a rule is found to have been lost
+
+## Follow-up
+
+Node: how a house style for published writing spread into the tools nobody publishes.
+Premise, briefly — the repo's instruction docs were written in the same register as its
+articles, so CLAUDE.md reached 12,246 words while the brand voice guide governing actual
+published content is 2,770. Voice is contagious across surfaces that were never meant to
+share one. Draft via `/write-node` after this epic ships, so the before-and-after numbers
+are real.
