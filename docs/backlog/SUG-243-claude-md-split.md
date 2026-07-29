@@ -33,13 +33,18 @@ back up in about two weeks. Three changes to scope follow:
 
 ## Why IDs matter more than the move
 
-Most of SUG-221's cost went on working out when each rule last fired, by reading shipped
-epic docs. Nothing records it. A rule register with a `last fired` field makes that a
-lookup, so the next audit is much cheaper.
+Stable IDs make a rule referenceable. Today `docs/conventions/` cites the same rule under
+two different headings, so a reference breaks silently whenever a heading is reworded.
 
-It also answers questions nothing can answer today: which rules have never fired, which
-cite an incident that no longer applies, which cross-references broke when a heading was
-renamed.
+The register answers questions nothing can answer today: which rules cite an incident that
+no longer applies, which cross-references are dangling, which rules exist at all as a
+countable set.
+
+**It does not record when a rule last fired.** That was the original rationale, and the
+2026-07-29 verification review removed it: nothing observes a rule firing, so the column
+would have been populated once and decayed from that day with no updater and no staleness
+check. A stale `last fired` is worse than an absent one, because the next audit would use
+it to retire a rule that does fire. The next audit re-measures instead.
 
 ## Template adaptation
 
@@ -51,12 +56,22 @@ Process and documentation epic. No schema, GROQ, or render work. Phase 0 does no
 
 ## Pre-Execution Completeness Gate
 
-- [x] **Audit file paths** — `CLAUDE.md` **862 lines** (re-measured 2026-07-29; the earlier
-  "797 lines, confirmed" is stale), `docs/conventions/` 24 files
+- [x] **Audit file paths** — `CLAUDE.md` **907 lines / 12,855 words**, `docs/conventions/`
+  **24 files / 3,511 lines**, of which CLAUDE.md references 11 across 19 links. Measured
+  2026-07-29 by `wc -l` / `wc -w`. The earlier "862 lines, re-measured 2026-07-29" was
+  itself stale within hours — the file grew 45 lines the same day across three additions.
+  **Record the command with any future figure, not just the number**
 - [x] **Scope ↔ Non-Goals consistency** — checked; the Non-Goal forbidding rewrites is
   removed in this rescope, see below
 - [ ] **Instruction & Rule File Write Gate pre-flight** — this epic rewrites CLAUDE.md.
   Show diffs section by section, not as one block.
+- [x] **Verification review** — run 2026-07-29 as a subagent per
+  `docs/conventions/verification-review.md`. Returned **2 blockers**, both resolved in this
+  doc: (1) the cap measured lines in one file, defeatable by deleting blank lines (585 of
+  907 are non-blank) or relocating text to `docs/conventions/` — now measures words across
+  the referenced surface; (2) `rule-register.md`'s `Last fired` had no updater, reader or
+  staleness check — column dropped. Also corrected three stale baselines. Proposed rows
+  CTL-025 (kept, amended) and CTL-026 (dropped with the column)
 
 ## Objective
 
@@ -68,11 +83,22 @@ check keeps the file under a fixed line count.
 
 **Phase 1 — Machinery (small, do first)**
 
-- [ ] Add `pnpm validate:doc-budget`: fails if CLAUDE.md exceeds its cap. Wire into CI and
-      add a probe to `scripts/validate-enforcement-liveness.js`
-- [ ] Add a row to `docs/ai/agentic-caucus/control-register.md` for the new gate
+- [ ] Add `pnpm validate:doc-budget`. **Measures the session-loaded surface, not one file:**
+      CLAUDE.md plus every `docs/conventions/*.md` it references. Counts **words**, not
+      lines — 322 of CLAUDE.md's 907 lines are blank, so a line cap is met by deleting
+      blank lines with zero content removed. Wire into CI and add a probe to
+      `scripts/validate-enforcement-liveness.js`
+- [ ] **Set an interim cap in Phase 1 that the current tree passes.** `gateProbe` requires
+      the control to exit 0 on a clean tree; a Phase 1 cap set to the Phase 3 target would
+      make the probe report `PROBE INVALID` for the epic's whole duration. Phase 3 tightens
+      it to the achieved figure plus 5%
+- [ ] Add a row to `docs/ai/agentic-caucus/control-register.md` for the new gate (CTL-025).
+      Its Bypass cell records that `MEMORY.md` is auto-loaded from outside the repo and no
+      repo-side cap can reach it, and that the gate is CI-only, so a local commit is
+      unchecked until CI
 - [ ] Create `docs/ai/agentic-caucus/rule-register.md`, columns:
-      `ID | Rule | Origin incident | Created | Last fired | Class | Location`
+      `ID | Rule | Origin incident | Created | Class | Location`
+      (**no `Last fired`** — see §Why IDs matter, and the 2026-07-29 verification review)
 - [ ] `Class` is one of: `enforced-by-code`, `detectable` (code can flag a candidate, human
       decides), `human` (judgment only)
 
@@ -133,8 +159,13 @@ check keeps the file under a fixed line count.
 
 ## Acceptance Criteria
 
-- [ ] CLAUDE.md under 650 lines (from 862). Report the actual figure
-- [ ] `pnpm validate:doc-budget` passes, is wired into CI, and has a liveness probe
+- [ ] CLAUDE.md under 650 lines (from **907**). Report the actual figure and the command
+      that produced it
+- [ ] The session-loaded surface (CLAUDE.md + referenced `docs/conventions/*.md`) is
+      smaller in **words** than at epic start (12,855 + 3,511 lines of conventions).
+      A total that fell only because text moved between the two is a failed epic
+- [ ] `pnpm validate:doc-budget` passes, is wired into CI, and has a liveness probe that
+      proves it fails — confirmed by exceeding the cap deliberately, not assumed
 - [ ] Every rule has an ID and a register row
 - [ ] Zero rules lost: every ID from the Phase 2 enumeration resolves
 - [ ] Three rules picked at random read correctly and are followable without the register
@@ -163,6 +194,7 @@ check keeps the file under a fixed line count.
 
 Node: how the house style for published writing spread into the tools nobody publishes.
 The repo's instruction docs got written in the same voice as its articles, so CLAUDE.md
-reached 12,246 words while the brand voice guide covering actual published content is
-2,770. Draft via `/write-node` after this epic ships, so the before and after numbers are
+reached 12,855 words while the brand voice guide covering actual published content is
+2,799 (both `wc -w`, 2026-07-29). Draft via `/write-node` after this epic ships, so the
+before and after numbers are
 real.
