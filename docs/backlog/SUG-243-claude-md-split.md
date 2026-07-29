@@ -96,6 +96,12 @@ check keeps the file under a fixed line count.
 
 - [ ] Apply the style guide to `docs/epic-template.md` (6,782 words)
 - [ ] Apply to the 3 largest `docs/conventions/` files
+- [ ] Fix the two live `inert` uses: `CLAUDE.md:480`, `docs/epic-template.md:110`
+      (measured 2026-07-29; the style guide shipped 2026-07-29 and these predate it)
+- [ ] Make the style guide's own banned-word grep usable: it currently matches its own
+      words-to-avoid table, so all 22 hits in `instruction-writing-style.md` are false
+      positives and the check cannot be wired as written. Exclude the table or the file,
+      then decide whether it becomes a validator or stays manual
 
 ## Non-Goals
 
