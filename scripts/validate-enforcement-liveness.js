@@ -397,6 +397,28 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:controls',
+    why: 'a register row naming a probe that does not exist must be rejected',
+    // A check about checks that exempted itself would be absurd. The violation
+    // is a row claiming `enforced-by-code` against a gate absent from this very
+    // array: a register that can assert coverage it does not have is worth less
+    // than no register, because it launders belief into evidence.
+    run: () =>
+      gateProbe({
+        cmd: 'pnpm',
+        args: ['validate:controls'],
+        success: 'rejected the dangling probe reference',
+        breakIt: () =>
+          mutateFile('docs/ai/agentic-caucus/control-register.md', (src) =>
+            src.replace(
+              '\n## Known coverage gaps',
+              '\n| CTL-999 | `__liveness_probe__` | enforced-by-code | `__no_such_probe__` | liveness probe | continuous | none known |\n\n## Known coverage gaps'
+            )
+          ),
+      }),
+  },
+
+  {
     gate: 'chromatic.sh reachability',
     why: 'the VRT script must reach its own first statement when .env is absent',
     // Not a violate-and-assert-failure probe: the failure mode here was the

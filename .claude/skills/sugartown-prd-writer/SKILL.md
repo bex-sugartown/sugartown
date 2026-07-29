@@ -257,14 +257,34 @@ Verifiable. Every metric must be checkable without opening a ticket.
 
 ---
 
-### 11. Out of Scope (Deferred)
+### 11. Verification & Ownership
+
+Required if scope includes a gate, validator, test, review step, deploy path, or a published
+claim about the platform. One row per control.
+
+| Control | Liveness proof | Probe | Bypass paths | Reader + cadence |
+|---------|----------------|-------|--------------|------------------|
+
+- **Liveness proof** is an artifact: a run ID, timestamp, file path, or commit SHA. "CI is
+  green" does not count.
+- **Probe** is the deliberately broken input that must make it fail, named in
+  `scripts/validate-enforcement-liveness.js`, or `none — <reason>`.
+- A published statistic needs a measurement date and the command that reproduces it.
+
+Run the `verification-reviewer` subagent to fill this in. Rows land in
+`docs/ai/agentic-caucus/control-register.md`. Full rules:
+`docs/conventions/verification-review.md`.
+
+---
+
+### 12. Out of Scope (Deferred)
 
 Explicit list of things that came up during scoping but are not in this PRD.
 Name the epic, backlog item, or decision that owns them.
 
 ---
 
-### 12. Authoring Checklist
+### 13. Authoring Checklist
 
 Before marking the PRD as "In Review":
 
@@ -274,6 +294,8 @@ Before marking the PRD as "In Review":
 - [ ] Non-goals name the reason for exclusion, not just the exclusion
 - [ ] Open decisions have owners
 - [ ] Success criteria are independently verifiable
+- [ ] Every control has a named probe, or a stated reason it has none
+- [ ] Every published claim carries a measurement date and a reproducing command
 - [ ] `featuredImage` does not appear anywhere (it's deprecated)
 - [ ] Brand voice check: no em dashes, no adjective triads, no future-tense promises on shipped surfaces
 - [ ] A senior engineer could start writing epics from this doc without a meeting

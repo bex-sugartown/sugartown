@@ -81,6 +81,9 @@ jobs:
       - name: Validate taxonomy
         run: pnpm validate:taxonomy
 
+      - name: Validate control register
+        run: pnpm validate:controls
+
       - name: Validate schema parity
         run: pnpm validate:schema-parity
         env:
