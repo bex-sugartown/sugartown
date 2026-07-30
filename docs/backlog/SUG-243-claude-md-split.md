@@ -99,8 +99,14 @@ check keeps the file under a fixed line count.
 - [ ] Create `docs/ai/agentic-caucus/rule-register.md`, columns:
       `ID | Rule | Origin incident | Created | Class | Location`
       (**no `Last fired`** — see §Why IDs matter, and the 2026-07-29 verification review)
-- [ ] `Class` is one of: `enforced-by-code`, `detectable` (code can flag a candidate, human
-      decides), `human` (judgment only)
+- [x] **`Class` reuses the control register's four values**, decided 2026-07-30:
+      `enforced-by-code`, `measured`, `convention`, `roadmap`. The originally scoped
+      `enforced-by-code / detectable / human` would have put a second vocabulary one
+      directory from the first, sharing exactly one word, and
+      `validate-control-register.js:57` already validates the four. `convention` covers
+      what `human` meant (true by discipline). **`detectable` is dropped** — a real
+      category (code can flag a candidate, a human decides) with no counterpart in the
+      four; revisit if Phase 2's enumeration finds rules that genuinely need it
 
 **Phase 2 — Enumerate and classify (the expensive read, done once)**
 
