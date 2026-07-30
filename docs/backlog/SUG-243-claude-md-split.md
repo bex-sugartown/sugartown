@@ -141,10 +141,50 @@ check keeps the file under a fixed line count.
 
 **Phase 2 — Enumerate and classify (the expensive read, done once)**
 
-- [ ] Read CLAUDE.md in full. For every rule record: ID, current text, whether rationale is
-      inline, and `Class`
-- [ ] This single pass produces the move checklist, the register rows, and the
+- [x] Read CLAUDE.md in full. For every rule record: ID, current text, whether rationale is
+      inline, and `Class`. **Done 2026-07-30 against CLAUDE.md at 907 lines. 60 rules**,
+      `RULE-001`..`RULE-060`, contiguous, in `docs/ai/agentic-caucus/rule-register.md`
+- [x] This single pass produces the move checklist, the register rows, and the
       code-vs-prose triage. Do not split it across epics
+
+**Definition settled:** one rule = one CLAUDE.md heading. Citations are written
+`CLAUDE.md §Heading`, so IDs replace them 1:1 and `Location` stays uniquely resolvable by a
+future checker. Two headings carry no instruction and get no ID: `§MCP Tool Aliases` (lookup
+table) and `§DS Documentation Authoring — Pre-Authoring Gates` (container for Gates 1–3).
+
+**Findings:**
+
+- **54 of 60 rules are `convention`** — true by discipline, no machine backing. 6 are
+  `enforced-by-code` (RULE-004, 043, 047, 049, 050, 051); zero `measured` or `roadmap`. The
+  control register is the inverse: 19 of 25 rows `enforced-by-code`. Not a defect to fix here
+  — most of these rules govern judgment, which no validator holds — but it is the honest
+  shape of the rule surface, and it is the answer to "which rules exist as a countable set"
+- **RULE-046 is misfiled.** The `spacing-0` Grid rule sits at CLAUDE.md:694 inside
+  `§Taxonomy pre-flight` and is unrelated to taxonomy. One placement error in 60
+- **Nine headings bundle independent instructions** (listed in the register's §Bundled
+  headings). The three largest — RULE-029 `§Section Layout Contract` (49 lines),
+  RULE-017 `§Phase 0 hard-stop` (48), RULE-049 `§DS Component Authoring` (38) — are 135
+  lines, 15% of the file. **Phase 3's line reduction comes from these, not from trimming the
+  57 short rules evenly**
+- **`git log -S` dates the heading, not the rule.** Three dates returned rename dates;
+  RULE-017 was off by three months. Corrected in the register with raw figures retained. A
+  heading reworded after 2026-07-30 will need the same correction
+
+**Phase 3 move checklist (highest-yield first, produced by this pass):**
+
+| Rule | Heading | Lines | What moves out |
+|---|---|---|---|
+| RULE-029 | Section Layout Contract | 49 | 7 numbered rules → `docs/conventions/`; keep the parent-owns-gap rule inline |
+| RULE-017 | Phase 0 hard-stop | 48 | nav annotation layer (6 items) and prototype trigger (7 items) → `docs/conventions/`; keep the trigger test and no-code-until inline |
+| RULE-049 | DS Component Authoring | 38 | the 386-violations narrative → node/incident log; 9 sub-rules stay but compress |
+| RULE-002 | Epic close-out sequence | 24 | the CI-red, SUG-230 and incident-log narratives → register/incident log; keep the 13 steps |
+| RULE-035 | Portable Text via MCP | 24 | the 10-line `citationRef` investigation history → SUG-215's shipped doc |
+| RULE-018 | Incomplete epic doc hard stop | 21 | SUG-224 and SUG-231 narratives → register |
+| RULE-003 | Verify before citing | 8 | SUG-192/224/255 narratives → register |
+| RULE-046 | (misfiled) | 6 | relocate out of `§Taxonomy pre-flight` to a Grid/layout heading |
+
+Ten rules carry heavy inline narrative (RULE-002, 003, 008, 012, 017, 018, 035, 049, 055,
+058). Those are the rationale-extraction targets; the other 50 need wording compression only.
 
 **Phase 3 — Rewrite and move**
 
