@@ -305,6 +305,21 @@ Merriam-Webster sample, a pasted hex value. SUG-163 turned that into
 `docs/conventions/design-handoff-template.md`, which routes every decision back to a source of
 truth the validators enforce.
 
+### RULE-033 — Instruction & Rule File Write Gate
+
+The copy-first clause was added 2026-07-30 after the gate held six times in one session and was
+skipped on the seventh. The cause was not a misreading: the rule already says "never" and
+already pre-empts the "but the edit is correct" excuse. In rounds 1 to 5 the editing script
+wrote to a scratchpad copy, which was then diffed and gated; in round 6 it wrote straight to
+`docs/conventions/`, and the diff was produced afterwards. Same rule, same understanding,
+different plumbing.
+
+Nothing landed unreviewed — the edit was reverted, the diff shown, and the change re-applied
+after approval. The point is that self-catching is the only mechanism this gate has. It is
+`convention` class: no validator can hold it, because approval happens in conversation and the
+gap between edit and commit produces no artifact a hook could read. A copy-first method is a
+weaker guarantee than a gate but a stronger one than memory.
+
 ### RULE-035 — citationRef investigation
 
 A 2026-05-14 note claimed a `citationRef` markDef inside `sections[].content` locks the whole
