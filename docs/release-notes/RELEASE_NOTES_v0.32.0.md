@@ -108,6 +108,6 @@ validate:doc-budget           18,906 / 20,150 words — 1,244 headroom
 validate:controls             every row complete, every probe reference resolves, nothing overdue
 validate:enforcement-liveness 13 gates proven live, 0 inert
 validate:validators           13 wired, 1 manual-by-design, 0 orphaned
-pnpm lint                     0 packages with errors (5 warnings across 4 packages)
+pnpm lint                     0 errors; 4 warnings across 3 packages
 CI                            run 30542636194, success on 02599e2c
 ```
