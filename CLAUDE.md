@@ -224,51 +224,44 @@ The `.gitignore` entry prevents `git add <path>` from staging them directly, but
 
 ### Phase 0 hard-stop (visual spec gate)
 
-**What triggers this gate:** an **unreviewed visual format reaching a user** — not an epic's structure, and not the presence or absence of a phase labelled "Phase 0". The test is: *would this change render something a human has not signed off on?* If the work adopts an already-shipped, already-reviewed design — porting a canonical component to a second copy, or a change whose only rendered surface is Storybook — the gate does **not** fire; record the decision in the epic doc instead. SUG-231 Phase 3 (porting web's canonical Callout to the package) was wrongly assumed to require a vspec on structural grounds; it changed nothing a user could see, because `apps/contentful-poc` used Callout in zero files. Conversely, an epic with no phase called "Phase 0" still trips this gate the moment it invents a visual format.
+**What triggers this gate: an unreviewed visual format reaching a user.** Not an epic's structure, and not whether a phase is labelled "Phase 0". The test: would this change render something a human has not signed off on? If the work adopts an already-shipped, already-reviewed design — porting a canonical component to a second copy, or a change whose only rendered surface is Storybook — the gate does not fire; record that decision in the epic doc. An epic with no phase called "Phase 0" still trips the gate the moment it invents a visual format. Narrative: [[rule-register]] §RULE-017.
 
-For any epic that includes a vspec/design phase (Phase 0 or equivalent):
+**No code in `apps/web/src/`, `apps/studio/schemas/`, or any other implementation path until** (a) the vspec exists at `docs/drafts/SUG-{N}-{slug}.vspec.html`, and (b) the user has reviewed it and the Phase 0 checkboxes are marked complete. Permitted before sign-off: backlog doc edits, schema planning notes, query design notes. Not permitted: any JSX, CSS, schema TypeScript, or migration scripts. Committing FE code before vspec approval is a process failure.
 
-**No code in `apps/web/src/`, `apps/studio/schemas/`, or any other implementation path may be written until:**
-1. The vspec exists on disk at `docs/drafts/SUG-{N}-{slug}.vspec.html`
-2. The user has reviewed the vspec and Phase 0 checkboxes are marked complete
-
-A vspec is a visual specification, not a sketch. Its class names, spacing values, and annotated behaviours are binding on the implementation. It is the artifact the vspec-to-build comparison table judges against.
-
-Permitted before Phase 0 sign-off: backlog doc edits, schema planning notes, query design notes.
-Not permitted: any JSX, CSS, schema TypeScript, or migration scripts.
+A vspec is a specification, not a sketch: its class names, spacing values, and annotated behaviours bind the implementation, and it is what the vspec-to-build comparison table judges against. Updating the backlog spec triggers a vspec update in the same response, so the two stay in sync.
 
 **Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the vspec, then ask via a single select option.
 
-Updating the backlog spec (e.g. in response to user feedback) triggers a corresponding vspec update in the same response — backlog doc and vspec must stay in sync. If the user asks to update the spec, update the vspec too before closing the response.
+Three cases look exempt and are not:
 
-A Phase 0 violation (FE code committed before vspec approval) is a process failure, not a shortcut.
+- **A new block on an existing page.** A new data-backed block (challenge summary, outcomes strip, sidebar widget) needs a vspec even though the page template exists. The test is whether the block's visual format has been reviewed, not the size of the change.
+- **A new entity detail page** (Person, Project, Tool, Client) even when a general shell exists. Each has a folio: logo/avatar plus identity block with eyebrow, name, description, metadata. Lock the folio layout, thumbnail size, eyebrow content, and any interactive links in the vspec before writing JSX. "The shell exists, I'll figure out the folio interactively" is a violation. A new entity type needs its own approved vspec tab.
+- **A navigation surface**, which needs the annotation layer below.
 
-**Phase 0 applies to new blocks on existing pages, not just new page types.** Adding a new data-backed block (e.g. a challenge summary, an outcomes strip, a sidebar widget) to an existing page template requires a vspec and review before any JSX is written — even if the page template itself already exists. The test is: "does this block have a visual format that hasn't been reviewed?" If yes, it's a Phase 0 item regardless of scope.
+**A nav surface must annotate behaviour, not just show it.** Any sidebar, nav rail, tab bar, or anchor-bearing surface annotates all six before sign-off:
 
-**Phase 0 for navigation surfaces requires an interaction annotation layer.** If the vspec includes any sidebar, nav rail, tab bar, or anchor-bearing surface, the vspec must annotate — not just show visually — the following before sign-off:
-- Active state (which item is highlighted, and how — border, colour, weight)
+- Active state (which item, and how — border, colour, weight)
 - Hash/anchor behaviour (does clicking scroll? does the URL update?)
-- Scroll-spy behaviour (does the active item update on scroll?)
+- Scroll-spy (does the active item update on scroll?)
 - Sticky/fixed behaviour (does the nav stay in view while content scrolls?)
-- Mobile collapse (how does it behave below the breakpoint?)
-- Any click side-effects (scroll-to-top, panel open/close, etc.)
+- Mobile collapse (below the breakpoint)
+- Click side-effects (scroll-to-top, panel open/close)
 
-A vspec that shows nav items but does not annotate these behaviours is incomplete for Phase 0 sign-off. **Existing patterns (e.g. right-rail PageSidebar) count as the spec** — if the new nav reuses an existing behaviour, annotate "same as PageSidebar scrollspy" rather than leaving it blank. The failure mode is re-discovering and re-implementing behaviour that was already codified elsewhere.
+Reusing an existing behaviour is annotated as such — "same as PageSidebar scrollspy" — not left blank, or the behaviour gets re-discovered and re-implemented. A vspec showing nav items without these six is incomplete for sign-off.
 
-**Vspec fidelity — the prototype trigger.** A vspec is static HTML by default. It becomes an interactive prototype when the epic introduces behaviour a static render can't convey. Trigger list — any one firing means build the interaction, not just annotate it:
+**A vspec becomes an interactive prototype when any of these fires:**
+
 - Scroll-spy (active state that changes on scroll)
-- Filtering (visible content changes based on user input)
+- Filtering (visible content changes on user input)
 - Expand/collapse
 - Tab or panel switching
 - Sticky positioning whose effect depends on scroll
 - Drag/reorder
 - Persisted state (survives navigation or reload)
 
-"Build the interaction" means vanilla JS in a `<script>` tag inside the vspec file — no framework, no build step. ~20 lines is normal for most triggers. A prototype is the same artifact as the vspec: same file, same Phase 0 gate, same vspec-to-build comparison table — not a second artifact requiring its own review. Interaction annotation (above) is not replaced by a working prototype — both are required when a trigger fires: annotate the intended behaviour AND build it. If no trigger fires, do not add JS — a static vspec is correct and sufficient.
+Build the interaction as vanilla JS in a `<script>` tag in the vspec file — no framework, no build step, ~20 lines is normal. It is the same artifact: same file, same gate, same comparison table, not a second review. Annotation is still required alongside a working prototype. If no trigger fires, add no JS.
 
-**Vspec class names are the production class names. Not a proxy, not a placeholder.** Vspec classes are the first expression of a CSS class's name — if the vspec uses `.tag-row`, that name will drift into implementation. Rules: (a) use the production semantic name you intend to ship (e.g. `.listRow`, `.flatGridRow`); (b) if the production name is not yet settled, use a clearly generic placeholder (`.list-row`, `.btn-strip`) and mark it `/* TBD */`; (c) never name a vspec class after its content type (`.tag-row`, `.tool-folio`, `.tax-item`) — that name will survive into production unchanged. A vspec class name that would fail the CSS pre-implementation reuse audit is a Phase 0 violation. A vspec that leans on the `/* TBD */` escape hatch for most of its classes has not finished Phase 0.
-
-**Phase 0 applies to new entity detail pages (Person, Project, Tool, Client, etc.) even when a general page shell already exists.** Each entity detail page has a folio — the logo/avatar + identity block with eyebrow, name, description, and metadata. The folio layout, thumbnail size, eyebrow content, and any interactive links (URL, social) must be locked in the vspec before any JSX is written. "The shell exists, I'll figure out the folio interactively" is a Phase 0 violation. The vspec tab for a new entity type must be added to the epic's vspec file and approved before implementation begins for that entity type.
+**Vspec class names are the production class names.** They are the first expression of a CSS class's name, so `.tag-row` in a vspec ships as `.tag-row`. Use the semantic name you intend to ship (`.listRow`, `.flatGridRow`); if it is not settled, use a generic placeholder (`.list-row`, `.btn-strip`) marked `/* TBD */`; never name a class after its content type (`.tag-row`, `.tool-folio`, `.tax-item`). A vspec class that would fail the CSS pre-implementation reuse audit is a violation, and a vspec leaning on `/* TBD */` for most of its classes has not finished Phase 0.
 
 ### Incomplete epic doc hard stop
 
@@ -389,52 +382,17 @@ Two fields that could plausibly hold the same value is a bug, not a feature. Whe
 
 ### Section Layout Contract
 
-All page sections rendered by `PageSections.jsx` must follow these layout rules:
+All page sections rendered by `PageSections.jsx` follow these rules. The principle behind 1–5: **internal padding is the component's concern, external spacing is the layout's.**
 
-**1. Parent Owns Gap (the foundational rule)**
+1. **Parent owns gap.** In `context="detail"`, `.detailContext` owns inter-section spacing via `display: flex; flex-direction: column; gap: var(--st-space-section-break-detail)`. Sections carry **zero vertical margin and zero vertical padding** there. Internal component padding is fine; external margin is not. (Without this, adjacent sections stacked 40+40=80px.)
+2. **Flex child width.** All direct children of `.detailContext` need `width: 100%`, or they shrink to content width — heroes collapse to their inner max-width, callouts hug text, CTA sections shrink to button width. `.detailPage` controls max-width (760px); children stretch to fill.
+3. **Catch-all over whitelist.** The `.detailContext` override uses `> *`, so new section types inherit the rules without registration, including those with their own CSS modules. Apply targeted exceptions (e.g. hero `overflow: visible` for overlays) as named overrides after the catch-all.
+4. **Component margin zero.** A component with `margin-block` in its own CSS module needs a zero-margin override in detail context: `.detailContext .calloutSection :global(aside) { margin-block: 0 }`.
+5. **Boundary elements.** Elements between two spacing contexts (e.g. MetadataCard between the hero and `.detailContext`) belong to neither flex container and need explicit margin: `.detailPage > aside:first-child { margin-bottom: var(--st-space-section-break-detail) }`. When adding an element to a detail page template, check which side of the `.detailContext` wrapper it falls on.
+6. **Typography.** Body text uses `var(--st-font-heading-4)`, headings the `var(--st-font-heading-*)` scale, h2 colour `var(--st-color-brand-primary)`.
+7. **Container width pre-flight before adding a grid.** A 2-col `<Grid spacing="lg">` needs `2 × 200px + 32px = 432px` minimum content width. If the container is `--st-width-detail` (760px) or narrower, check whether that width was chosen for prose density rather than grids — entity detail pages with content grids need `--st-width-detail-wide` (1080px). Update the container in the same commit as the grid.
 
-In detail page context (`context="detail"`), the parent `.detailContext` container owns inter-section spacing via `display: flex; flex-direction: column; gap: var(--st-space-section-break-detail)`. Individual sections must have **zero vertical margin and zero vertical padding** in this context. Internal component padding (box inset for callouts, code blocks, etc.) is allowed; external margin is not.
-
-This prevents double-padding at section boundaries (the original failure mode: each section had its own padding-block, so adjacent sections stacked 40+40=80px).
-
-**2. Flex Child Width Contract**
-
-All direct children of `.detailContext` must have `width: 100%`. Without it, flex children shrink to their content width (heroes collapse to their inner max-width, callouts hug text, CTA sections shrink to button width). The parent `.detailPage` container controls max-width (760px); children stretch to fill it.
-
-**3. Catch-All Over Whitelist**
-
-The `.detailContext` override uses `> *` (catch-all) rather than a named selector list. This ensures new section types (including those with their own CSS modules, like CardBuilderSection) automatically inherit the layout rules without needing explicit registration. Targeted exceptions (e.g. hero `overflow: visible` for overlays) are applied as named overrides after the catch-all.
-
-**4. Component Margin Zero**
-
-When a component renders inside a layout container that uses `gap`, the component must zero its own external margin. Components like the callout `<aside>` have their own `margin-block` in standalone context, but this conflicts with the parent gap in detail context. Override with `.detailContext .calloutSection :global(aside) { margin-block: 0 }`.
-
-The rule: **internal padding = component's concern. External spacing = layout's concern.** If a component has `margin-block` in its own CSS module, it needs a zero-margin override in detail context.
-
-**5. Boundary Elements**
-
-Elements that sit between two spacing contexts (e.g. MetadataCard between the hero and detailContext) belong to neither flex container. They need explicit margin: `.detailPage > aside:first-child { margin-bottom: var(--st-space-section-break-detail) }`. When adding a new element to a detail page template, check whether it falls inside or outside the detailContext wrapper.
-
-**6. Typography** (unchanged)
-
-Body text uses `var(--st-font-heading-4)`, headings use `var(--st-font-heading-*)` scale, h2 colour is `var(--st-color-brand-primary)`.
-
-**7. Container width pre-flight when adding grids**
-
-Before adding a multi-column `<Grid>` (or any fixed-column layout) to an existing page, verify the page container width accommodates it. For a 2-col grid with `spacing="lg"` (32px gap), the minimum content width is:
-
-```
-minContentWidth = 2 × minCardWidth + gap = 2 × 200px + 32px = 432px
-```
-
-If the page container's `max-width` is set to `--st-width-detail` (760px) or narrower, check whether that width was chosen for prose density (single-column text) rather than grid layout. Prose containers are typically `--st-width-detail` (760px); entity detail pages with content grids need `--st-width-detail-wide` (1080px). Audit the container and update it in the same commit as the grid addition.
-
-**When adding a new section type:**
-- Verify it renders correctly adjacent to existing section types on a real page (not just in isolation)
-- Test inside both `context="detail"` (detail pages) and `context="full"` (standalone pages)
-- Confirm it stretches to full width in detail context (the `> *` catch-all should handle this automatically)
-- If the component has its own `margin-block` in its CSS module, add a zero-margin override in the `.detailContext` section of `PageSections.module.css`
-- **Visual QA:** verify spacing against the test preview post at `/articles/test-preview-post`, which covers every section type and spacing transition
+**When adding a new section type:** verify it renders next to existing section types on a real page, not in isolation; test both `context="detail"` and `context="full"`; confirm it stretches to full width; add a zero-margin override in `PageSections.module.css` if the component has its own `margin-block`; and check spacing against `/articles/test-preview-post`, which covers every section type and transition.
 
 ### GROQ projection audit for nested image types
 
@@ -739,39 +697,31 @@ Vspec: not required — extending existing component.
 
 ## DS Component Authoring — Token-First Rule (blocking)
 
-When writing or modifying any component CSS file (in `apps/web/src/design-system/` or `packages/design-system/src/`):
+Applies to any component CSS file in `apps/web/src/design-system/` or `packages/design-system/src/`. A hardcoded value bypasses the token graph: the theme system cannot override it and the validator cannot audit it. Narrative: [[rule-register]] §RULE-049.
 
-**Verify every token name exists before writing it.** Before using any `--st-*` token in a new CSS file, grep for the exact name:
-```bash
-grep "token-name" apps/web/src/design-system/styles/tokens.css
-```
-Do not use plausible-sounding names without confirming they exist. Tokens are named by concept (`--st-font-family-narrative`), not by analogy (`--st-font-family-heading`). The pre-commit validator will catch it, but catching it there costs a correction commit — catching it before writing costs nothing.
+**Verify every token name exists before writing it** — `grep "token-name" apps/web/src/design-system/styles/tokens.css`. Tokens are named by concept (`--st-font-family-narrative`), not by analogy (`--st-font-family-heading`). Pre-commit catches this, but catching it there costs a correction commit.
 
-**Verify the computed value, not just the name.** When a token is used for typography or spacing in a DS component epic, grep for the token's resolved value in `tokens.css` and cross-check it against the DS typography/spacing convention story (`/story/foundations-typography-conventions--default` in Storybook). A token name can exist at the wrong tier — `--st-font-heading-2` resolves to 2.25rem (36px), not the 48px page-H1 spec. "Token found in tokens.css" is not sufficient confirmation — record the resolved value and confirm it matches the spec. A mismatch is a scope gap that must be fixed with a new semantic token before implementation begins.
+**Verify the computed value, not just the name.** For typography or spacing, grep the resolved value in `tokens.css` and cross-check it against `/story/foundations-typography-conventions--default` in Storybook. A name can exist at the wrong tier: `--st-font-heading-2` resolves to 2.25rem (36px), not the 48px page-H1 spec. Record the resolved value. A mismatch needs a new semantic token before implementation begins.
 
-**Inline CSS custom property injection on DS components is banned.** Writing `style={{ '--st-table-header-bg': '#fff' }}` or `style={{ '--st-table-header-bg': someVar }}` on a DS component bypasses the token graph entirely — the theme system cannot override it, the validator cannot audit it, and the injection must be removed every time the token is renamed. The correct path: define a `tone` prop (or equivalent), add the corresponding token to `tokens.json`, and apply the token in the component CSS. If you need to vary a visual zone from the call site, the answer is a new `tone` value — not an inline style.
+**No raw colour value in a component CSS file.** Every colour resolves through a `--st-*` token reference. If the token does not exist yet, add it to `tokens.css` first, in a separate commit.
 
-**No raw color value may appear in a component CSS file.** Every color must resolve through a `--st-*` token reference. If the token doesn't exist yet, add it to `tokens.css` first — in a separate commit — before writing the component CSS.
+**Inline CSS custom property injection on DS components is banned.** `style={{ '--st-table-header-bg': '#fff' }}` bypasses the token graph and has to be removed every time the token is renamed. To vary a visual zone from the call site, add a `tone` value: define the prop, add the token to `tokens.json`, apply it in the component CSS.
 
-**Fallback syntax rule:** `var(--st-token, #hex)` is banned. The only permitted fallback form is `var(--st-token, var(--st-primitive))`. If a matching primitive doesn't exist, add it to `tokens.css` first. If no fallback is needed, omit it entirely.
+**Fallback syntax:** `var(--st-token, #hex)` is banned. The only permitted form is `var(--st-token, var(--st-primitive))`. If no matching primitive exists, add it to `tokens.css` first. If no fallback is needed, omit it.
 
-**Token naming — concept not placement:** Token names are contracts, not descriptions. A token used in 2+ distinct surfaces must have a name that works for all of them, not just the first. If a name is placement-specific (e.g. `--st-card-folio-bg`) but the token is also used in FilterBar headers and MetadataCard label cells, rename it to reflect the shared concept (`--st-card-label-bg`). Full naming rules: `docs/conventions/token-naming.md`.
+**Token names are contracts, not descriptions.** A token used in 2+ distinct surfaces needs a name that works for all of them. A placement-specific name (`--st-card-folio-bg`) also used in FilterBar headers and MetadataCard label cells is renamed to the shared concept (`--st-card-label-bg`). Full rules: `docs/conventions/token-naming.md`.
 
-**Theme files are override-only:** `theme.light.css`, `theme.pink-moon.css`, and any future theme files may only *override* existing `--st-*` token names with other token references. They may not introduce a color value (hex, rgba, hsla) that has no primitive anchor in `tokens.css`. If a theme-specific color value (e.g. a shadow, a glow, a callout wash) doesn't exist as a named primitive, add the primitive first.
+**Theme files are override-only.** `theme.light.css`, `theme.pink-moon.css`, and any future theme file may only override existing `--st-*` names with other token references. They may not introduce a colour value (hex, rgba, hsla) with no primitive anchor in `tokens.css`; add the primitive first.
 
-These rules exist because a hardcoded value in a component bypasses the token graph entirely — the theme system cannot override it, the validator cannot audit it, and every DS mirror compounds the violation. One inline rgba in a first-pass component becomes four violations by the time both mirrors and both theme overrides are written. 386 of them became an epic. See: node *"The Validator Said Zero Errors. It Was Watching the Wrong Door."*
+**A component with chip/badge/status colour states** defines all `--st-status-<state>-{bg,fg,border}` tokens for every state in `tokens.css`, plus light-theme overrides, before the component CSS is written. Not deferrable: Card's status chips accumulated 90 hardcoded values by skipping it.
 
-**When creating a component with chip/badge/status color states** (any enumerated set of visual states with distinct colors): define all `--st-status-<state>-{bg,fg,border}` tokens for every state in `tokens.css` before writing the component CSS. Add light-theme overrides in the same commit. This is not deferrable — the status chip system in Card accumulated 90 hardcoded values by skipping this step.
-
-**Theme cascade audit before using any background token:** The Pink Moon theme has a glassmorphism layer in its dark block that overrides semantic `--st-color-bg-surface*` tokens to semi-transparent `rgba()` values, not the solid dark primitives from `tokens.css`. Before using any `--st-*` token for a `background` or `background-color` declaration in a component, trace the full override chain:
+**Trace the theme cascade before using any token for a `background`.** Pink Moon's dark block overrides semantic `--st-color-bg-surface*` tokens to semi-transparent `rgba()` values rather than the solid dark primitives in `tokens.css`:
 
 1. `tokens.css` — default value
-2. `theme.pink-moon.css` light block — light-theme override
-3. `theme.pink-moon.css` dark block — dark-theme override (most likely to surprise)
+2. `theme.pink-moon.css` light block
+3. `theme.pink-moon.css` dark block — most likely to surprise
 
-If the dark-block value is `rgba(...)`, using that token for a label cell or header bg will produce a glassmorphism wash, not a solid surface. Switch to a raw primitive token (e.g. `--st-color-midnight-800`) or a semantic alias that points directly to a primitive with no glassmorphism override.
-
-Tokens with glassmorphism overrides in dark-pink-moon: `--st-color-bg-surface`, `--st-color-bg-surface-strong`, `--st-card-bg`.
+If the dark-block value is `rgba(...)`, that token produces a glassmorphism wash, not a solid surface. Use a raw primitive (`--st-color-midnight-800`) or an alias pointing straight at one. Already overridden in dark-pink-moon: `--st-color-bg-surface`, `--st-color-bg-surface-strong`, `--st-card-bg`.
 
 ---
 

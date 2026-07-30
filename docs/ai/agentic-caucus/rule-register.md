@@ -217,6 +217,17 @@ in the package), and "Upstream dependencies: none blocking" was wrong (three CSS
 it). SUG-255: `turbo run` is fail-fast, so the CI log showed 7 lint errors in one package
 while a local run found 84 across three.
 
+### RULE-017 — Phase 0 hard-stop
+
+SUG-231 Phase 3 (porting web's canonical Callout to the package) was assumed to need a vspec
+on structural grounds. It changed nothing a user could see, because `apps/contentful-poc` used
+Callout in zero files. That is why the gate's trigger is a rendered surface a human has not
+signed off on, not an epic's shape.
+
+The nav annotation layer exists because behaviour already codified elsewhere kept being
+re-discovered and re-implemented. Annotating "same as PageSidebar scrollspy" is cheaper than
+rebuilding it, and a blank annotation reads as "no behaviour" rather than "behaviour inherited".
+
 ### RULE-018 — Incomplete epic doc hard stop
 
 SUG-224: the "44 mirrors" framing came from a single TODO comment in `Card.jsx`; the audit
@@ -225,6 +236,17 @@ SUG-231: "define or remove Table's `.wide`" sat outside Phases 1/1b/2/3 and was 
 at close-out, after surviving four phases of review. SUG-231 again: Scope said "add `href` to
 the package `Button`" while Non-Goals said Button's `href` stays until SUG-224 — both written
 2026-07-21, the contradiction caught at activation the next day.
+
+### RULE-049 — DS Component Authoring, Token-First
+
+One inline `rgba` in a first-pass component became four violations by the time both DS mirrors
+and both theme overrides were written. 386 of them became an epic (SUG-68). A hardcoded value
+bypasses the token graph completely: the theme system cannot override it and the validator
+cannot audit it, so the count only ever grows. Written up in the node *"The Validator Said Zero
+Errors. It Was Watching the Wrong Door."*
+
+Card's status chip system accumulated 90 hardcoded values by deferring its
+`--st-status-<state>-*` token definitions, which is why that sub-rule says "not deferrable".
 
 ### RULE-035 — citationRef investigation
 
