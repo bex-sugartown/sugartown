@@ -752,6 +752,8 @@ Produce a **vspec-to-build comparison table** before requesting close-out. The t
 
 Applies to any technical or architecture diagram destined for a published surface: Sanity upload, case study, article, docs site, social post.
 
+**Any figure you report carries the command that produced it.** A count, size, line number or measurement in a shipped doc, release note, commit message or Linear description names the command, not the document you read it from. Quoting a figure from a prior doc is how it goes stale without anyone noticing. (SUG-243 reported four wrong numbers this way, each corrected by running something.)
+
 **This gate also fires on published governance statistics** — any rendered count, tally, or coverage claim about the platform's own rigour (`/platform/governance`'s "30 checkpoints · 0 gaps", validator counts, enforcement tallies). Same claim table and evidence classes, plus two requirements: the claim carries a **measurement date**, and its Evidence cell names the command or file producing the number, not the intent behind it. A tally that is true when written and never re-measured becomes a false public claim silently. Narrative: [[rule-register]] §RULE-055.
 
 1. **Source is committed first.** The diagram's source (SVG or Mermaid) lives in `docs/diagrams/` and is committed before upload. `docs/drafts/` does not count — it is local-only and gitignored. A published diagram with no committed source cannot be fact-checked later except by reconstructing it.

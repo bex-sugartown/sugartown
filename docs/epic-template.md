@@ -504,6 +504,15 @@ State how re-running the script produces no change:
 - [ ] **Vspec fidelity** (required if Phase 0 produced a vspec): agent produces the vspec-to-build comparison table in the Visual QA Gate below. Human reviews and approves before close-out. This line item cannot be ticked by the agent alone.
 - [ ] **Prototype trigger evaluated.** If any trigger fired, the interaction is built in the vspec (see CLAUDE.md §Vspec fidelity — the prototype trigger).
 - [ ] **Friction line present.** The shipped doc states, in one sentence, what cost a correction commit this time — `none` is a valid answer. See Post-Epic Close-Out step 3b.
+- [ ] **Findings ledger present.** Every finding raised during the epic has a row naming where it went. A finding whose only record is this conversation has not been filed. `none` is a valid answer where nothing surfaced.
+
+  | Finding | Destination | Artifact |
+  |---|---|---|
+  | e.g. `/release` skips the header cap | new epic | SUG-265 + stub + priority row |
+  | e.g. ScoreRing dep array | new epic | SUG-266 + stub + priority row |
+  | e.g. epic-template full restyle | decided against | recorded in this doc |
+
+  Close-out step 5b verifies handoffs to *named* epics. This covers findings with no epic yet, which is how they end up in chat and nowhere else (CTL-024).
 
 ---
 
