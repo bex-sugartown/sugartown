@@ -425,7 +425,7 @@ This is the fail-softly layer referenced above: even a Content Write Gate failur
 
 The agent — or any subagent it spawns — never edits a rule-defining file (`.claude/skills/**`, this file, `docs/epic-template.md`, or anything under `docs/ai/agentic-caucus/`, `docs/conventions/`, or `docs/diagrams/`) without first showing the human the exact diff and getting explicit approval. Applies even when the edit is accurate and well-intentioned.
 
-**Why its own gate:** Sanity content has a draft/published split — an unapproved write stays inert until a human publishes it. Rule files don't have that boundary. A committed change to CLAUDE.md or a skill definition is load-bearing immediately, for every future session.
+**Why its own gate:** Sanity content has a draft/published split — an unapproved write does nothing until a human publishes it. Rule files don't have that boundary. A committed change to CLAUDE.md or a skill definition is load-bearing immediately, for every future session.
 
 **Scope:** covers the orchestrating session *and* any subagent it spawns. A subagent told to review X has no implicit authority to also edit X's own instructions, however reasonable the addition looks.
 

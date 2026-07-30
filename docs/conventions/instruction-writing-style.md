@@ -100,7 +100,9 @@ These are the ones that keep appearing. Plain replacements on the right.
 Check before committing:
 
 ```bash
-grep -onE "brevity|fortnight|archaeology|order of magnitude|inert|theatre|launder|folklore|by construction|in miniature|contagious" <file>
+grep -rnoiE "brevity|fortnight|archaeology|order of magnitude|inert|theatre|launder|folklore|by construction|in miniature|contagious" \
+  CLAUDE.md docs/epic-template.md docs/conventions/ docs/ai/agentic-caucus/ .claude/ \
+  --exclude=instruction-writing-style.md
 ```
 
 The list is not exhaustive. Add to it when a new one shows up.

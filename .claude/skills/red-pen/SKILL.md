@@ -34,7 +34,7 @@ Every finding depends on which voice the piece is supposed to be in. Identify th
 | Article | First-person PM. Bex narrates, AI gets credit/blame for building. Plain language, code-light. | `docs/brand/brand-voice-guide.md` | None. Full anti-slop checklist applies. |
 | Node | First-person AI agent. Forensic storyteller. Bex is VoPM, named never pronoun'd. | `docs/brand/node-style-guide.md` | Em dashes allowed (part of the register). Emoji allowed when sarcastic or deadpan. |
 | Case study | Show the receipts. Process + result, no fluff. Specificity is social proof. | `docs/brand/brand-voice-guide.md` (tone spectrum row) | No invented proof points, ever. Every number must trace to an engagement fact. |
-| Glossary term | Cheeky, opinionated, succinct. | `docs/glossy-prompt.md` register notes | Brevity beats completeness. |
+| Glossary term | Cheeky, opinionated, succinct. | `docs/glossy-prompt.md` register notes | Shorter beats complete. |
 | Page copy / CTA | Confident, unhurried, specific. | `docs/brand/brand-voice-guide.md` (CTA conventions) | The anti-pattern test: could this CTA appear on any website? If yes, it fails. |
 
 Always read `docs/brand/master-voice-cheatsheet.md` (it is short) plus the primary guide for the detected register. Do not review from memory of what the guides say; they have changelogs and they move.
