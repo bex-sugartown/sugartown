@@ -27,14 +27,39 @@ back up in about two weeks. Three changes to scope follow:
 2. **A size cap is added**, enforced in CI. Nothing else acts on the rate of growth.
 3. **Rules get stable IDs.** Incidents (`INC-NNN`), failure modes (`FM-C-NN`), and controls
    (`CTL-NNN`) all have them. Rules are the only governed object without one, and
-   references are already drifting: `docs/conventions/` contains both
-   `CLAUDE.md §CSS class pre-implementation` and
-   `CLAUDE.md §CSS class pre-implementation reuse audit` for the same rule.
+   references are already dangling — see §Why IDs matter for the two measured cases.
 
 ## Why IDs matter more than the move
 
-Stable IDs make a rule referenceable. Today `docs/conventions/` cites the same rule under
-two different headings, so a reference breaks silently whenever a heading is reworded.
+Stable IDs make a rule referenceable. A citation by heading text breaks silently the moment
+the heading is reworded, and two such citations are dangling right now. Both measured
+2026-07-30 by joining wrapped lines and extracting every `CLAUDE.md §…` citation under
+`docs/` and `.claude/` (74 citation lines, 71 distinct headings cited):
+
+```bash
+for f in $(grep -rl "CLAUDE\.md §" docs/ .claude/ | grep -v node_modules); do
+  tr '\n' ' ' < "$f" | grep -o "CLAUDE\.md §[^).,;]*" | sed "s|^|$f :: |"
+done | sort -u
+```
+
+| Cited heading | Actual heading | Where |
+|---|---|---|
+| `§Phase 0 hard-stop (mockup gate)` | `§Phase 0 hard-stop (visual spec gate)` (CLAUDE.md:223) | `docs/diagrams/redpen-workflow-current-state.md:25`, and `docs/backlog/SUG-208:27` cites "the Phase 0 mockup gate in CLAUDE.md" |
+| `§Linear Done = code in remote` | `§Linear Done = code on main` (CLAUDE.md:113) | `docs/shipped/zArchive/2026/SUG-68:156` |
+
+The first case is the strongest available argument for IDs, because it survived a deliberate
+cleanup. SUG-242 renamed that heading and made a zero-results grep for `mockup gate` an
+acceptance criterion (`docs/shipped/SUG-242-vspec-rename-prototype-trigger.md:226`) — but the
+grep enumerated six files by hand, and `docs/diagrams/` was not among them. A hand-listed
+file set is not a reference check. An ID would have made it one.
+
+**Corrected 2026-07-30.** This section previously claimed `docs/conventions/` cited the same
+CSS rule under two different headings. It does not: `css-class-naming.md:131`,
+`detail-page-recipe.md:10` and `design-handoff-template.md:70` all cite
+`§CSS class pre-implementation reuse audit` correctly — the apparent second heading was a
+line wrap in `design-handoff-template.md`, where line 70 ends mid-phrase and line 71 continues
+`reuse audit`. The claim was read off a `grep -rn` whose output was truncated by the wrap,
+which is the failure mode CLAUDE.md §Verify before citing describes.
 
 The register answers questions nothing can answer today: which rules cite an incident that
 no longer applies, which cross-references are dangling, which rules exist at all as a
@@ -96,9 +121,15 @@ check keeps the file under a fixed line count.
       Its Bypass cell records that `MEMORY.md` is auto-loaded from outside the repo and no
       repo-side cap can reach it, and that the gate is CI-only, so a local commit is
       unchecked until CI
-- [ ] Create `docs/ai/agentic-caucus/rule-register.md`, columns:
+- [x] Create `docs/ai/agentic-caucus/rule-register.md`, columns:
       `ID | Rule | Origin incident | Created | Class | Location`
-      (**no `Last fired`** — see §Why IDs matter, and the 2026-07-29 verification review)
+      (**no `Last fired`** — see §Why IDs matter, and the 2026-07-29 verification review).
+      Written 2026-07-30, 82 lines, register table empty by design. **IDs are `RULE-NNN`**,
+      decided 2026-07-30: the prefix is cited from `CLAUDE.md`, the one file this epic exists
+      to keep readable in full, and nothing parses a fixed-width prefix (`FM-C-NN` already
+      breaks it; `validate-control-register.js` hardcodes the register path). The file states
+      outright that no script reads it, so it does not read as enforced by sitting beside a
+      register that is
 - [x] **`Class` reuses the control register's four values**, decided 2026-07-30:
       `enforced-by-code`, `measured`, `convention`, `roadmap`. The originally scoped
       `enforced-by-code / detectable / human` would have put a second vocabulary one
