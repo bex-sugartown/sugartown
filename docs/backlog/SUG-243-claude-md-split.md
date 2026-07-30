@@ -218,14 +218,38 @@ Ten rules carry heavy inline narrative (RULE-002, 003, 008, 012, 017, 018, 035, 
 
 **Phase 4 — Other high-traffic docs**
 
-- [ ] Apply the style guide to `docs/epic-template.md` (6,782 words)
-- [ ] Apply to the 3 largest `docs/conventions/` files
-- [ ] Fix the two live `inert` uses: `CLAUDE.md:480`, `docs/epic-template.md:110`
-      (measured 2026-07-29; the style guide shipped 2026-07-29 and these predate it)
-- [ ] Make the style guide's own banned-word grep usable: it currently matches its own
-      words-to-avoid table, so all 22 hits in `instruction-writing-style.md` are false
-      positives and the check cannot be wired as written. Exclude the table or the file,
-      then decide whether it becomes a validator or stays manual
+- [x] Apply the style guide to `docs/epic-template.md`. **Re-measured 2026-07-30: 7,034
+      words / 641 lines** by `wc`, not the 6,782 this line originally stated. Result:
+      **640 lines, 6,989 words — 1 line and 45 words.** That is the honest yield, and the
+      reason is that the file is not padded: it is 641 lines of checklist items, and a
+      checklist item is one line whether it runs 60 characters or 990. A grep for narrative
+      markers across all 641 lines found them in exactly five places, all five fixed, so
+      the pass is bounded and complete. **A line-by-line rewrite was deliberately not done**
+      — the checklist scaffolding is the product, and a shortened checklist item is a weaker
+      prompt. The real gain is line 110, formerly 993 characters (the longest in the file by
+      50%) with 90 words of incident narrative buried mid-sentence; it now states the check
+      and points at INC-009 to INC-011, keeping only the non-obvious part: `validate:validators`
+      passed through all five failures because it checks a validator is wired and cannot check
+      its result is read. `epic-template.md` sits outside the capped surface, so none of this
+      moved the budget
+- [x] Apply to the 3 largest `docs/conventions/` files. Two changed:
+      `usage-doc-style-guide.md` 220→183 lines (the four-option DS tooling analysis moved to
+      `docs/reviews/ds-docs-tooling-options.md`, stamped with its measurement version and
+      re-evaluation trigger) and `design-handoff-template.md` 132→131.
+      **`schema-conventions.md` was read and left unchanged** — every section is a rule or a
+      table, no aphorisms, no narrative; churning it would add risk for nothing
+- [x] Fix the live banned-word uses. **Three, not two.** The stated "two `inert` uses" was
+      wrong because the grep below was case-sensitive: `Brevity` at
+      `.claude/skills/red-pen/SKILL.md:37` was invisible to it. Fixed at `CLAUDE.md:428`
+      (line number also corrected from 480), `docs/epic-template.md:110`, and the skill
+- [x] Make the style guide's own banned-word grep usable. Three fixes: added `-i`, excluded
+      `instruction-writing-style.md`, and scoped it to the agent-facing surface. Scanning all
+      of `docs/` instead returns hits in **37 files**, nearly all shipped docs and post-mortems
+      whose historical narrative must not be rewritten. The check now returns zero. **Stays
+      manual; wiring it as a validator is [SUG-264](https://linear.app/sugartown/issue/SUG-264/wire-the-banned-word-check-as-validatebanned-words)**
+      — a new control needs a verification review, a register row and a probe, which is its
+      own piece of work. Filed with Linear issue, backlog stub and priority row per
+      CLAUDE.md §Scope creep
 
 ## Non-Goals
 
@@ -293,7 +317,19 @@ Ten rules carry heavy inline narrative (RULE-002, 003, 008, 012, 017, 018, 035, 
 3. Move to `docs/shipped/`
 4. `/release`, not `/mini-release` — this changes the file every session reads
 5. Transition SUG-243 to Done in Linear
-6. Incident log: no incident, unless a rule is found to have been lost
+6. **Incident log: no incident.** Decided 2026-07-30 after checking the log's own bar. The
+   candidate was Phase 3's liveness probe, which stopped violating when the cap tightened
+   (headroom 243→963, hardcoded 400-word injection) and reported
+   `STAYED GREEN against a known violation`. It does **not** qualify: the log says "do not
+   log routine corrections, expected gate stops, or anything caught before it cost
+   something — the log is a record of what got through, not a diary." The probe caught its
+   own failure in the same session, in an uncommitted tree, minutes after the change.
+   Nothing got through. The counter-reading — that the hardcoded coupling shipped
+   2026-07-29 and would have silently disarmed on any future cap change — was considered and
+   rejected, because it never produced a wrong result in a shipped state. Padding this log is
+   the one thing that would undermine it. The lesson is carried forward instead, in SUG-264's
+   Scope: derive an injected violation from the check's own output, never a fixed value.
+   No rules were lost: all 60 IDs resolve.
 
 ## Follow-up
 
