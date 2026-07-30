@@ -12,11 +12,83 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.31.0.
+> Accumulates since v0.32.0.
 
-- SUG-256: verification review framework. Adds a control register of every gate, validator, deploy path and published claim (23 rows), a `verification-reviewer` subagent, and `validate:controls` in CI to check rows are complete, probe references resolve against the real `PROBES` array, and no re-read date has passed. Adds an instruction writing style guide for agent-facing docs, and rescopes SUG-243 around rule IDs, plain English and a size cap.
-- SUG-255: CI green on `main` for the first time in the workflow's existence (run 30365991635, 212 runs since 2026-02-20). Adds `validate:enforcement-liveness` and a CI failure alert; widens the pre-commit lint scope and makes lint/typecheck/build report every failing package.
-- SUG-254: architectural boundary rules now actually fire — all four were inert for 176 days. Glob-matched ESLint overrides replaced with glob-free scope keys shared across the v8/v9 config split; shared Storybook doc helpers moved to a new `packages/storybook-docs`; `sugartown_check_boundary` no longer answers from intent; boundary probes added to `validate:enforcement-liveness`.
+---
+
+## [0.32.0] — 2026-07-30
+
+Enforcement liveness and instruction-surface governance. Aggregates v0.31.1–v0.31.2.
+
+### apps/web
+
+#### Changed
+- `/platform/governance` no longer asserts "0 gaps". The published claim carries a liveness caveat until enforcement liveness is measured.
+- `EntityDetailPageDocs` relocated from `apps/storybook` into `apps/web`, the app that owns it. `content-models.json` updated to match.
+- Boundary ESLint config uses glob-free scope keys.
+
+### apps/studio
+
+#### Fixed
+- Duplicate `description` keys in `seoMetadata`, `linkItem` and `navigation` meant the later key silently overwrote the earlier one, so stated validation limits never reached editors in Studio. Keys merged.
+
+### packages/eslint-config
+
+#### Changed
+- `boundaries.js` replaced by `boundary-rules.js` and `boundaries-for.js`. Scope keys are now glob-free and shared across the ESLint v8/v9 config split.
+
+#### Fixed
+- All four architectural boundary rules now fire. Glob-matched overrides silently matched nothing, leaving the rules inert for 176 days while reporting as configured.
+
+### packages/storybook-docs
+
+#### Added
+- New package holding shared Storybook doc helpers, so `apps/storybook` no longer reaches across package boundaries to reach them.
+
+### apps/storybook
+
+#### Changed
+- Four doc helpers (`ArchiveGridDocs`, `ChipDocs`, `FilterBarDocs`, `docs`) removed and relocated to `packages/storybook-docs`.
+
+#### Fixed
+- Build-time globals frozen in `main.ts`. `__APP_VERSION__` was unfrozen, so every version bump produced a Chromatic diff on the Footer story with no visual change.
+
+### packages/design-system
+
+#### Changed
+- Chip and PageHeader stories updated for the doc-helper relocation.
+
+### packages/mcp-server
+
+#### Fixed
+- `sugartown_check_boundary` reported boundary status from rules as documented rather than as enforced, returning a pass where the ESLint config matched nothing. It now reports enforced behaviour.
+
+### apps/contentful-poc
+
+#### Fixed
+- Lint errors resolved; `pnpm lint` exits 0 repo-wide.
+
+### Other
+
+#### Added
+- `validate:enforcement-liveness` — probes gates against deliberately broken input to prove they fail, rather than confirming they exist. 13 gates proven live.
+- `validate:controls` and a control register of every gate, validator, deploy path and published claim (25 rows), each naming its probe, its reader and its next-read date.
+- `verification-reviewer` subagent, run before building any gate, validator, test, deploy path or published claim.
+- `validate:doc-budget` — caps the session-loaded instruction surface at 20,150 words, measured across CLAUDE.md plus the `docs/conventions/` files it references. Wired into CI with a liveness probe.
+- `ci-failure-alert.yml` — surfaces a red CI run on `main` via a rolling issue.
+- `scripts/mttn.js` — computes Mean Time To Notice from the incident log.
+- Rule register: all 60 CLAUDE.md rules given stable `RULE-NNN` IDs and classified by enforcement (54 `convention`, 6 `enforced-by-code`). Nine incident narratives moved out of CLAUDE.md and keyed by rule ID.
+- Conventions added: instruction writing style, user story conventions, verification review.
+
+#### Changed
+- CLAUDE.md reduced from 907 to 811 lines and 12,855 to 10,331 words. The session-loaded surface fell from 21,757 to 18,906 words.
+- Pre-commit lint scope widened; `lint`, `typecheck` and `build` now report every failing package instead of stopping at the first.
+
+#### Fixed
+- CI passed on `main` for the first time in the workflow's existence (run `30365991635`, 212 runs since 2026-02-20).
+
+#### Removed
+- Strikethrough convention for retired rules. Retired rules now live in the rule register with their IDs preserved.
 
 ---
 
