@@ -57,11 +57,13 @@ A dirty tree at epic start is a process failure, not a starting condition.
 
 ### Verify before citing — don't trust a prior claim
 
-When an epic's job is to audit or report on the state of *other* files (story counts, prop shapes, schema fields, token values, anything one epic writes about a surface it doesn't directly touch), verify the claim directly before recording it — confirm the file path exists and resolves, and measure the count/value with a direct check (`grep -c`, opening the file, rendering it), not by copying a prior audit doc's stated number. A stale or wrong reference in a convention doc becomes the next session's false starting assumption. This bit SUG-192: three of SUG-191's audit rows named the wrong file (a deprecated component, or a directory with no stories file at all), and the error propagated silently until this session read the live files.
+**Before recording any claim about a file you did not just read, check it directly.** Confirm the path resolves, and measure counts and values with a direct check (`grep -c`, opening the file, rendering it) rather than copying a prior audit doc's number. A wrong reference becomes the next session's false starting assumption. (SUG-192: three of SUG-191's audit rows named a file that does not exist.)
 
-**This applies to all epic authoring, not only audit epics.** Two claim types recur and must be checked directly before being written into an epic doc: (a) **claims about a prior epic's outputs** ("SUG-127 added `use client` wrappers") — open the files and confirm the output exists; (b) **"no blocking dependencies" assertions** — check the backlog for in-flight epics touching the same files or the same layer, and state why each is or isn't blocking. Both failed in SUG-224: the `"use client"` claim was false (zero such directives exist in the package), and "Upstream dependencies: none blocking" was wrong (three CSS epics gate it).
+**This applies to all epic authoring, not only audit epics.** Check two claim types before writing them into an epic doc: (a) claims about a prior epic's outputs — open the files and confirm the output exists; (b) "no blocking dependencies" — read the backlog for in-flight epics touching the same files or layer, and state why each is or isn't blocking. (SUG-224 got both wrong.)
 
-**CI logs are not an audit oracle.** When measuring the state of a gate (lint errors, test failures, validator results), run it locally and read the real output — never summarise from a CI log. `turbo run <task>` is fail-fast: it reports the first failing package and never reaches the rest, so a CI log systematically *understates* breakage. This bit SUG-255's own scoping — the CI log showed 7 lint errors in one package; a local run found 84 across three. An audit quoting a CI log is quoting a truncated view.
+**To measure a gate's state, run it locally and read the output.** Do not summarise from a CI log. `turbo run` stops at the first failing package, so CI logs undercount. (SUG-255: CI showed 7 lint errors, a local run found 84 across three packages.)
+
+Narrative: [[rule-register]] §RULE-003.
 
 ### Verification review (blocking)
 
@@ -275,19 +277,14 @@ Before executing any epic from `docs/backlog/SUG-{N}-*.md`, check the file for c
 1. **Background is `TODO`** — the motivation is unclear; execution without it is guesswork
 2. **Scope items are incomplete or contain `TODO`** — no defined acceptance surface means no defined stopping point
 3. **Phases are undefined** — multi-phase work cannot be sequenced
-4. **"All pages" scope without App.jsx routing read** — any epic that claims to cover "all pages", "all archive pages", "all detail pages", or any broad page category must include a pre-execution audit that reads `apps/web/src/App.jsx` to verify the actual component-to-route mapping. Memory and agent outputs are not authoritative. An epic that lists pages without reading App.jsx is an incomplete epic — the page inventory may be wrong (wrong component per route, missing pages, extra pages). Read App.jsx and diff the listed pages against the actual routes before the Scope section is considered complete.
-5. **Mechanical-transform scope without a verified per-item classification** — any epic whose Scope proposes the same operation across a set of files ("replace every X with Y", "migrate all N components", "convert each Z") must carry a verified, per-item classification of that set before Scope is considered complete. Read the items; do not infer the set's uniformity from one representative file or from a TODO comment. An epic that says "44 mirrors" without having read 44 files has an unverified Scope. This bit SUG-224: the "mirror" framing came from a single TODO comment in `Card.jsx`, and the audit found 26 pure mirrors, 6 adapters, 6 diverged components, and 6 with no package counterpart at all.
-6. **A Scope item that names no phase** — every Scope item must be assignable to a declared phase; `Scope ∖ Phases` must be empty. An item that sits outside every phase never gets sequenced, and ships by accident or not at all. SUG-231's "define or remove Table's `.wide`" sat outside Phases 1/1b/2/3 and was only caught at close-out, by which point it had survived four phases of review.
-7. **Scope amended mid-epic without re-reading Non-Goals** — when Scope gains an item after the epic opens, re-read Non-Goals in the same edit and reconcile any conflict before writing code. SUG-231's Scope said "add `href` to the package `Button`" while its own Non-Goals said Button's `href` stays until SUG-224. Both were written on 2026-07-21; the contradiction was caught only at activation the next day. This is the same failure shape as SUG-224's false "no blocking dependencies" claim: one section of a doc updated without checking the section that disagrees with it.
+4. **"All pages" scope without an `App.jsx` routing read** — any epic claiming to cover "all pages", "all archive pages", "all detail pages", or any broad page category must read `apps/web/src/App.jsx` and diff the listed pages against the actual routes before Scope is complete. Memory and agent outputs are not authoritative
+5. **Mechanical-transform scope without a verified per-item classification** — any epic proposing the same operation across a set of files ("replace every X with Y", "migrate all N components") must classify every item first. Do not infer the set's uniformity from one representative file or a TODO comment. (SUG-224: "44 mirrors" was 26 mirrors, 6 adapters, 6 diverged, and 6 with no counterpart.)
+6. **A Scope item that names no phase** — `Scope ∖ Phases` must be empty. An item outside every phase never gets sequenced. (SUG-231: one survived four phases of review.)
+7. **Scope amended without re-reading Non-Goals** — when Scope gains an item, re-read Non-Goals in the same edit and reconcile any conflict before writing code. (SUG-231: Scope and Non-Goals contradicted each other for a day.)
 
-**Correct response to an incomplete epic:**
-- Name the specific sections that are stubs: "Background is TODO, Phases are undefined"
-- Offer one of two paths: (a) fill the epic doc collaboratively before proceeding, or (b) run an audit pass — read the affected surfaces, produce a specific before/after proposal — and wait for approval before any implementation
-- Do NOT fill in the blanks on your own and proceed
+**Correct response:** name the stub sections ("Background is TODO, Phases are undefined"), then offer either (a) fill the doc collaboratively, or (b) run an audit pass and wait for approval before implementing. Do not fill in the blanks yourself and proceed.
 
-A sparse epic doc is a signal that the planning phase was not completed. It is not a prompt to use editorial judgment and execute. Proceeding without a defined scope is a process failure, not a shortcut.
-
-**This rule applies to all epic types, including pure content/editorial epics.** The Phase 0 visual spec gate covers visual design review; this rule covers scope completeness for all epics regardless of type.
+Applies to all epic types, including pure content and editorial epics. Narrative: [[rule-register]] §RULE-018.
 
 ### Design handoff evaluation gate (SUG-163)
 
@@ -527,10 +524,7 @@ When writing content to Sanity via MCP tools, **assume all content is final, pro
 
 ### Portable Text blocks written via MCP — required fields
 
-`patch_documents`/`create_documents` omit empty arrays during serialisation. Sanity's PT editor in Studio requires explicit empty arrays to enable the toolbar — blocks with missing `marks` or `markDefs` render as read-only (toolbar grayed out, style dropdown shows "No style").
-
-**Every block must include `markDefs: []`** even if no annotations are used.
-**Every span must include `marks: []`** even if no marks are applied.
+**Every block must include `markDefs: []` and every span must include `marks: []`**, even when empty. `patch_documents`/`create_documents` omit empty arrays during serialisation, and Sanity's PT editor needs them to enable the toolbar — without them a block renders read-only (toolbar greyed out, style dropdown shows "No style").
 
 Correct shape:
 ```json
@@ -543,11 +537,9 @@ Correct shape:
 }
 ```
 
-Omitting either field produces content that saves and renders correctly on the web but cannot be edited in Studio. This is not a schema issue — refreshing Studio or deploying the schema will not fix it. The blocks must be re-patched with the fields present.
+Omitting either field saves and renders correctly on the web but cannot be edited in Studio. Refreshing Studio and deploying the schema do not fix it; the blocks must be re-patched.
 
-**`citationRef` markDefs in nested PT fields — investigated, not reproducible (SUG-215, 2026-07-18).** A 2026-05-14 note here claimed a `citationRef` markDef inside `sections[].content` locks the entire PT field in Studio. SUG-215 investigated directly: reproduced the exact pattern on a scratch document (well-formed `citationRef`, and separately a block with `markDefs`/`marks` genuinely omitted) — confirmed visually in Studio, the toolbar stayed fully functional in both cases. A retrofit audit found 11 live documents already using `citationRef` inside `sections[].content` with no sign of being locked. The original claim likely conflated this with the separate, still-valid missing-`markDefs`/`marks` bug documented immediately above (added the same day, four hours earlier).
-
-**Current guidance: `citationRef` is safe to use in `sections[].content`, including via MCP writes, provided the block has well-formed `markDefs: []`/`marks: []`.** If a genuine citationRef-specific lock recurs, capture the document ID, whether `markDefs`/`marks` were well-formed, and any console errors before re-adding a prevention rule here — don't restate the causal claim from memory.
+**`citationRef` is safe in `sections[].content`, including via MCP writes**, provided the block has well-formed `markDefs: []`/`marks: []`. If a genuine citationRef-specific lock recurs, capture the document ID, whether `markDefs`/`marks` were well-formed, and any console errors before adding a rule here. Do not restate the causal claim from memory. Narrative: [[rule-register]] §RULE-035.
 
 ### Anti-Slop Content Rules
 

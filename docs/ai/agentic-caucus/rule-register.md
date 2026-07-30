@@ -202,6 +202,41 @@ enumeration found. Moving it is a Phase 3 edit.
 
 ---
 
+## Rationale
+
+Narrative moved out of `CLAUDE.md` by SUG-243 Phase 3, keyed by rule ID. Each rule's own text
+links here. Nothing in this section is an instruction: the rule is followable without reading
+it, and if it is not, the rule was compressed too far.
+
+### RULE-003 — Verify before citing
+
+SUG-192: three of SUG-191's audit rows named the wrong file — a deprecated component, or a
+directory with no stories file at all. The error propagated silently until a later session
+read the live files. SUG-224: the `"use client"` claim was false (zero such directives exist
+in the package), and "Upstream dependencies: none blocking" was wrong (three CSS epics gate
+it). SUG-255: `turbo run` is fail-fast, so the CI log showed 7 lint errors in one package
+while a local run found 84 across three.
+
+### RULE-018 — Incomplete epic doc hard stop
+
+SUG-224: the "44 mirrors" framing came from a single TODO comment in `Card.jsx`; the audit
+found 26 pure mirrors, 6 adapters, 6 diverged components, and 6 with no package counterpart.
+SUG-231: "define or remove Table's `.wide`" sat outside Phases 1/1b/2/3 and was caught only
+at close-out, after surviving four phases of review. SUG-231 again: Scope said "add `href` to
+the package `Button`" while Non-Goals said Button's `href` stays until SUG-224 — both written
+2026-07-21, the contradiction caught at activation the next day.
+
+### RULE-035 — citationRef investigation
+
+A 2026-05-14 note claimed a `citationRef` markDef inside `sections[].content` locks the whole
+PT field in Studio. SUG-215 (2026-07-18) reproduced the exact pattern on a scratch document,
+plus a block with `markDefs`/`marks` genuinely omitted, and confirmed visually that the
+toolbar stayed functional in both cases. A retrofit audit found 11 live documents already
+using `citationRef` there, none locked. The original claim likely conflated this with the
+missing-`markDefs` bug added the same day, four hours earlier.
+
+---
+
 ## Not yet enforced
 
 **No script reads this file.** `pnpm validate:controls` validates [[control-register]] only.

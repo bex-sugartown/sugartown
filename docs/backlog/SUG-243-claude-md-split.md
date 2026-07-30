@@ -236,8 +236,15 @@ Ten rules carry heavy inline narrative (RULE-002, 003, 008, 012, 017, 018, 035, 
 
 ## Acceptance Criteria
 
-- [ ] CLAUDE.md under 650 lines (from **907**). Report the actual figure and the command
-      that produced it
+- [ ] **Report the achieved line count and the command that produced it.** 650 stays the
+      goal, not a binding number — decided 2026-07-30 after Phase 3 Round 1 measured the real
+      rate. Extraction and compression yield 2–3 lines per rule, so 60 rules land near 740,
+      and the three big bundles pull it toward ~700. Reaching 650 would need either
+      relocating whole sub-rule blocks to `docs/conventions/` (which this epic's own
+      Technical Constraints forbid, since the word count follows them) or deleting rules
+      (which Non-Goals forbid without a recorded decision). **No rules are deleted to hit a
+      number.** This is the Risks section's stated position — "if the honest result is 700,
+      report 700" — applied
 - [ ] The session-loaded surface (CLAUDE.md + referenced `docs/conventions/*.md`) is
       smaller in **words** than at epic start (12,855 + 3,511 lines of conventions).
       A total that fell only because text moved between the two is a failed epic
