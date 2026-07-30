@@ -148,7 +148,7 @@ for citing by ID.
 | RULE-043 | URL Authority — all internal URLs via `getCanonicalPath()` | none | 2026-04-16 | enforced-by-code (CTL-008) | `CLAUDE.md §URL Authority Rule (blocking)` |
 | RULE-044 | Atomic Reuse Gate (3 written questions) | none | 2026-03-16 | convention | `CLAUDE.md §Atomic Reuse Gate (blocking)` |
 | RULE-045 | Taxonomy pre-flight before creating a taxonomy doc | SUG-74 | 2026-04-20 | convention | `CLAUDE.md §Taxonomy pre-flight (blocking)` |
-| RULE-046 | `spacing-0` Grid takes borderless tiles only | SUG-152 Ph7 | 2026-04-20 | convention | `CLAUDE.md §Taxonomy pre-flight (blocking)` — misfiled, see §Bundled headings |
+| RULE-046 | `spacing-0` Grid takes borderless tiles only | SUG-152 Ph7 | 2026-04-20 | convention | ``CLAUDE.md §`Grid spacing="0"` takes borderless children only`` |
 | RULE-047 | CSS class pre-implementation reuse audit + proposal table | SUG-191/192 | 2026-05-10 | enforced-by-code (CTL-005, partial) | `CLAUDE.md §CSS class pre-implementation reuse audit (blocking — fires before any new CSS class)` |
 | RULE-048 | Component choice gate + variant-first rule | none | 2026-05-02 | convention | `CLAUDE.md §Component choice gate (blocking — fires before any new JSX surface)` |
 | RULE-049 | DS Component Authoring — Token-First Rule (9 sub-rules) | 386 hardcoded values; SUG-68 | 2026-04-22 | enforced-by-code (CTL-001, CTL-002) | `CLAUDE.md §DS Component Authoring — Token-First Rule (blocking)` |
@@ -196,9 +196,10 @@ whether to split.
 | RULE-047 | CSS class reuse audit | 24 | 4-step audit + proposal table gate |
 | RULE-048 | Component choice gate | 24 | 3-step audit + variant-first hard stop |
 
-**RULE-046 is misfiled.** The `spacing-0` Grid rule sits inside `§Taxonomy pre-flight`
-(CLAUDE.md:694) and has nothing to do with taxonomy. It is the one placement error the
-enumeration found. Moving it is a Phase 3 edit.
+**RULE-046 was misfiled and has been moved.** The `spacing-0` Grid rule sat inside
+`§Taxonomy pre-flight` and had nothing to do with taxonomy. It was the one placement error the
+enumeration found. Phase 3 Round 3 gave it its own heading; no renumbering was needed, because
+Phase 2 had already assigned it an ID.
 
 ---
 
@@ -208,6 +209,24 @@ Narrative moved out of `CLAUDE.md` by SUG-243 Phase 3, keyed by rule ID. Each ru
 links here. Nothing in this section is an instruction: the rule is followable without reading
 it, and if it is not, the rule was compressed too far.
 
+### RULE-002 — Epic close-out sequence
+
+**Step 1b, recording the CI run ID.** "CI is green" was accepted as a close-out artifact for
+months. Because no run was ever named, nobody could audit the claim afterwards, and CI sat red
+on `main` for 100+ consecutive runs (2026-05-10 → 2026-07-27) while six releases shipped
+through it. A named run ID makes the claim checkable by the next session.
+
+**Step 5b, verifying handoffs.** SUG-230's close-out deferred three items to SUG-231 on the
+stated grounds that they belonged to SUG-231's axis. None of the three was in SUG-231's Scope.
+They survived only because a later session happened to re-read both docs. Items handed between
+epics are the most likely of all work to be dropped, because each side assumes the other owns
+it.
+
+**Step 8b, the incident log.** The log went 27 days un-appended after its own creation,
+including a shipped-then-reverted production regression (INC-008) that met its own stated High
+bar. A log nobody appends to is another mechanism that is declared and does not fire, which is
+the failure class most of its entries describe.
+
 ### RULE-003 — Verify before citing
 
 SUG-192: three of SUG-191's audit rows named the wrong file — a deprecated component, or a
@@ -216,6 +235,16 @@ read the live files. SUG-224: the `"use client"` claim was false (zero such dire
 in the package), and "Upstream dependencies: none blocking" was wrong (three CSS epics gate
 it). SUG-255: `turbo run` is fail-fast, so the CI log showed 7 lint errors in one package
 while a local run found 84 across three.
+
+### RULE-008 — Mid-epic commit checkpoints
+
+SUG-231 closed with 48 commits on `main` that existed nowhere else, for two days, across five
+mini-releases. The rule's `main`-branch clause exists because the free-push escape hatch does
+not apply there: pushing `main` triggers a Netlify deploy, and avoiding that deploy became the
+reason to accumulate. One deploy costs less than two days of work.
+
+Uncommitted code that survives a session break is lost context, which is why work-in-progress
+gets a `wip(epic):` commit rather than being left in the tree.
 
 ### RULE-017 — Phase 0 hard-stop
 
@@ -236,6 +265,26 @@ SUG-231: "define or remove Table's `.wide`" sat outside Phases 1/1b/2/3 and was 
 at close-out, after surviving four phases of review. SUG-231 again: Scope said "add `href` to
 the package `Button`" while Non-Goals said Button's `href` stays until SUG-224 — both written
 2026-07-21, the contradiction caught at activation the next day.
+
+### RULE-055 — Technical diagram red-pen gate
+
+The gate was written after the platform-is-the-portfolio failure: three published SVGs, zero
+sources committed to the repo, one overstated claim each. With no committed source, a later
+session cannot fact-check a published diagram except by reconstructing it from the rendered
+image.
+
+The published-statistics clause was added because `/platform/governance` §05 published
+"30 checkpoints · 0 gaps" with neither a measurement date nor a source, while the pipeline
+behind it had been red for three months (as of 2026-07-27). On a platform whose positioning is
+the portfolio, the reputational exposure exceeds the technical one.
+
+### RULE-058 — Storybook build-time globals
+
+`__APP_VERSION__` went unfrozen for over two months after `__BUILD_DATE__` was fixed, so every
+version bump kept diffing the Footer story on Chromatic. The cause was a partial fix: the
+variable named in the original bug report was frozen, and the sibling `define:` entry
+introduced by the same feature was never audited. Post-mortem:
+`docs/reviews/rules-audit/2026-07.md`.
 
 ### RULE-049 — DS Component Authoring, Token-First
 

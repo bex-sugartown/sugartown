@@ -36,24 +36,20 @@ When Bex uses a shorthand, map it to the full tool name:
 When an epic is complete, run these steps in order before starting the next epic:
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
-1b. **Route smoke tests** — `pnpm test:smoke` passes locally **and** the CI run for the merged commit concludes `success`. Five Playwright specs prove the app actually renders end-to-end (not just builds cleanly) — homepage, one archive, one detail, one taxonomy route, and a 404. A red suite blocks merge to `main`. See SUG-240.
-   **Record the run ID in the shipped doc** — `gh run list --branch main --workflow CI --limit 1 --json databaseId,conclusion`. "CI is green" is not a close-out artifact; a named run is. An unrecorded claim cannot be audited later, and that gap let CI sit red on `main` for 100+ consecutive runs (2026-05-10 → 2026-07-27) while six releases shipped through it. If CI is known-red for reasons outside the epic, say so and name the tracking issue — a recorded exception is fine, an unexamined assumption is not.
+1b. **Route smoke tests** — `pnpm test:smoke` passes locally **and** the CI run for the merged commit concludes `success`. Five Playwright specs prove the app renders end-to-end, not just builds: homepage, one archive, one detail, one taxonomy route, a 404. A red suite blocks merge to `main` (SUG-240). **Record the run ID in the shipped doc** — `gh run list --branch main --workflow CI --limit 1 --json databaseId,conclusion`. "CI is green" is not an artifact; a named run is. If CI is known-red for reasons outside the epic, say so and name the tracking issue.
 2. **Deploy schema** (if epic touched `apps/studio/schemas/`) — run `npx sanity schema deploy` from `apps/studio/`. Schema changes are not live until deployed. MCP tools, the Content Lake API, and embedded Studios all validate against the deployed schema, not local code. Skipping this step causes silent write failures.
-3. **Visual QA gate (hard stop)** — if the epic has a Phase 0 vspec, produce the vspec-to-build comparison table (every visual element: typography, spacing, colours, layout — flagged as Match / Drift / Missing). Use the design-reviewer subagent (`.claude/agents/design-reviewer.md`, documented in `docs/conventions/vqa-workflow.md`) to produce this table in a fresh context with no visibility into the session that wrote the code — it proposes the evidence with file/line references, the human still approves. **If there is no vspec and every visual element was verified in-browser during implementation, state that instead and cite the evidence per element** — a table of rows all reading "Match", assembled after the fact from checks already run, is ceremony rather than verification and gives false confidence that a fresh review happened. The gate still fires, still requires **"Visual QA approved"**, and still blocks, whenever a vspec exists or *any* element was not verified at implementation time; list those elements explicitly rather than padding the table with ones that were. Present the table (or the evidence statement) and wait for the explicit text **"Visual QA approved"** before proceeding. The `docs/shipped/` move and mini-release are structurally blocked until this approval is received. A component that builds without errors is not the same as a component that matches the spec. **If the epic shipped a detail, archive, or entity page:** open one existing sibling page of the same kind (e.g. new entity page vs `/tools/vercel`) and compare structure — shell, folio, section labels, grids, chips. Unjustified structural divergence is a Drift row in the table.
+3. **Visual QA gate (hard stop)** — wait for the literal text **"Visual QA approved"** before proceeding. The `docs/shipped/` move and mini-release are blocked until it arrives. If the epic has a vspec, produce the vspec-to-build comparison table (typography, spacing, colours, layout, each flagged Match / Drift / Missing) via the design-reviewer subagent (`.claude/agents/design-reviewer.md`, `docs/conventions/vqa-workflow.md`), which runs in a fresh context with no view of the session that wrote the code. **With no vspec, and only if every visual element was verified in-browser during implementation, cite that evidence per element instead of building a table** — rows all reading "Match", assembled afterwards from checks already run, give false confidence that a fresh review happened. The gate still fires and still blocks whenever a vspec exists or *any* element went unverified at implementation time; list those elements rather than padding the table with the ones that were. **If the epic shipped a detail, archive, or entity page**, open a sibling page of the same kind (e.g. new entity page vs `/tools/vercel`) and compare shell, folio, section labels, grids, chips. Unjustified structural divergence is a Drift row.
 4. **Chromatic** — run Chromatic VRT. If deferred, annotate the shipped doc with `<!-- Chromatic: pending -->` and a note. Deferral is a checklist deferral only — it does not unblock the shipped/ move. **"Defer Chromatic" is not the same as "epic is closed."**
 5. **Data pipeline gap check** — if the epic extended a build-time data pipeline (stats, CrUX, LHCI, etc.) and real data has not yet flowed through CI, document the gap in the shipped doc: what env var or cron is needed, what the expected data shape looks like, and what the current `stats.json` state represents (real vs seeded). Close-out is permitted but the gap must be explicit and visible.
-5b. **Verify handoffs landed.** If close-out defers any work to another epic, open that epic's doc and confirm each deferred item is present in its **Scope** — not merely mentioned in prose, and not merely assumed to be "that epic's axis". Add it if it is missing. An assertion is not a handoff. SUG-230's close-out deferred three items to SUG-231 on the stated grounds that they belonged to SUG-231's axis; none of the three was in SUG-231's Scope, and they survived only because a later session happened to re-read both docs. Items handed between epics are the most likely of all work to be silently dropped, because each side assumes the other owns it.
+5b. **Verify handoffs landed.** If close-out defers work to another epic, open that epic's doc and confirm each deferred item is in its **Scope** — not mentioned in prose, not assumed to be "that epic's axis". Add it if missing. (SUG-230 deferred three items to SUG-231; none reached its Scope.)
 6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`. **If this move follows an edit to the doc in the same turn** (e.g. adding a close-out summary before moving it), run `git diff --cached --stat` (or `git show --stat HEAD` right after committing) to confirm the file actually carries the expected content change, not just a rename with 0 insertions/deletions. `git mv` does not guarantee a prior unstaged edit rides along silently — verify, don't assume.
 6b. **Preserve the vspec** — copy the approved vspec from `docs/drafts/` to `docs/shipped/SUG-{N}-{slug}.vspec.html`. Commit with the step 6 doc move. Skip only if the epic had no vspec.
-7. **Mini-release** — run `/mini-release` to produce a patch version bump and CHANGELOG stub. **Mini-release only runs on `main`, after the epic's commits are merged — never on an unmerged feature branch.** `package.json`'s version is a shared, global counter; a branch computes "next version" from its own disconnected view of it, so two branches racing to close out independently will compute colliding or incompatible numbers that only surface as a conflict (or worse, a silent false-resolve) at merge time. If an epic's work is sitting on a feature branch, merge to `main` first, *then* run `/mini-release` from `main`. **If the epic's merge strategy is "(b) single close-out — one mini-release at the end" (or the mini-release step is otherwise deferred for any reason), still add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at ship time** — do not wait for the eventual version bump to write it. The CHANGELOG line and the version bump are separate obligations; deferring one must never silently defer the other. An epic whose close-out doc says "Done" but has no `[Unreleased]` line is incompletely closed.
+7. **Mini-release** — run `/mini-release` for a patch bump and CHANGELOG stub. **Only on `main`, after the epic's commits are merged, never on an unmerged branch**, because `package.json`'s version is a shared counter and a branch computes "next version" from a disconnected view of it. Merge first, then run it from `main`. **Whenever this step is deferred** (strategy (b), or any other reason), still add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at ship time. The CHANGELOG line and the version bump are separate obligations. A close-out doc saying "Done" with no `[Unreleased]` line is incompletely closed.
 8. **Update Linear** — transition the SUG-{N} issue to **Done**
-8b. **Incident log check** — if this epic fixed something that had already shipped (a regression that reached production, a gate found not firing, a published claim found false), append an entry to `docs/ai/agentic-caucus/incident-log.md` before closing. Record both `Introduced` and `Noticed` dates: Mean Time To Notice is only computable if both are captured at the time, and reconstructing an introduction date later is forensic work. If the epic fixed nothing already-shipped, state "no incident" in the close-out — silence is not an answer.
-   This exists because the log went 27 days un-appended after its own creation, including a shipped-then-reverted production regression (INC-008) that met its own stated High bar. A log nobody appends to is another mechanism that is declared and not firing — the exact failure class most of its entries describe. Run `pnpm mttn` after appending to see the effect on the running metric.
+8b. **Incident log check** — if this epic fixed something already shipped (a regression that reached production, a gate found not firing, a published claim found false), append an entry to `docs/ai/agentic-caucus/incident-log.md` before closing, with both `Introduced` and `Noticed` dates — Mean Time To Notice needs both captured at the time. Run `pnpm mttn` afterwards. If the epic fixed nothing already-shipped, state "no incident" in the close-out; silence is not an answer.
 9. **Clean tree** — confirm `git status` is clean before starting the next epic
 
-Do not carry uncommitted changes across epic boundaries. If the working tree is dirty when a new epic begins, stop and commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) before proceeding.
-
-A dirty tree at epic start is a process failure, not a starting condition.
+Do not carry uncommitted changes across epic boundaries. If the tree is dirty when a new epic begins, commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) first. Narrative: [[rule-register]] §RULE-002.
 
 ### Verify before citing — don't trust a prior claim
 
@@ -104,13 +100,11 @@ Every shipped epic doc's Post-Epic Close-Out states one sentence: what cost a co
 
 ### Mid-epic commit checkpoints
 
-Within a multi-feature epic, commit after each independently-working feature. Do not accumulate all changes for a single end-of-epic commit.
+Commit after each independently-working feature. Do not save it all for one end-of-epic commit. If a session may run out of context, commit work-in-progress with a `wip(epic):` prefix before it ends.
 
-**After each commit checkpoint, push the feature branch to remote.** Feature branch pushes do not trigger Netlify deploys — they are free. Code that exists only on a local machine is one hardware failure away from being lost.
+**Push the feature branch after each checkpoint.** Branch pushes do not trigger Netlify deploys, so they are free, and code on one disk is one hardware failure from gone.
 
-If a session may run out of context, commit work-in-progress with `wip(epic):` prefix before the session ends. Uncommitted code that survives a session break is lost context — treat it as a process failure.
-
-**When an epic runs directly on `main`** (merge-as-you-go strategy, or no feature branch was cut), the free-push escape hatch above does not apply — pushing `main` triggers a Netlify deploy. Do not let that become a reason to accumulate. **Above ~15 unpushed commits, or at any session end, either push and accept one deploy, or create a `wip/<epic>` branch and push that instead** — a branch push is free and gets the work off a single disk. SUG-231 closed with 48 commits on `main` that existed nowhere else for two days across five mini-releases. One deploy costs less than two days of work.
+**When the epic runs directly on `main`**, pushing triggers a deploy, so the free-push escape hatch does not apply. **Above ~15 unpushed commits, or at any session end, either push and accept one deploy or create a `wip/<epic>` branch and push that.** (SUG-231: 48 commits existed nowhere but one disk for two days.)
 
 ### Linear Done = code on main
 
@@ -168,17 +162,14 @@ row. (2026-07-27→28: six issues reached Linear with no doc and no priority row
 
 ### Multi-phase epic merge cadence
 
-When an epic has numbered phases (e.g. SUG-63 Phase 1 / 1b / 1c), pick **one** of two strategies at the start of the epic and stick with it:
+When an epic has numbered phases, declare one of two strategies in the epic doc header when the epic opens, and stick to it:
 
-**(a) Merge-as-you-go** — each phase merges to `main` on completion with its own mini-release. All phases ship independently. Phase N is "Done" in Linear only after its own merge.
+- **(a) Merge-as-you-go** — each phase merges to `main` on completion with its own mini-release. Phase N is "Done" in Linear only after its own merge.
+- **(b) Single close-out** — all phases accumulate on one feature branch. Nothing merges until the epic ships. One mini-release at the end.
 
-**(b) Single close-out** — all phases accumulate on one long-lived feature branch. Nothing merges until the full epic ships. One mini-release at the end.
+**Do not mix.** Merging Phase 1 and 1b while leaving 1c on a side branch is what stranded SUG-63 Phase 1c for days. At `/eod`, any branch ahead of `main` belonging to an (a)-strategy epic is resolved — merged, held with a stated reason, or abandoned — before the day closes.
 
-**Do not mix.** Merging Phase 1 + 1b to main but leaving Phase 1c on a side branch is the failure mode that stranded SUG-63 Phase 1c invisibly for days. If you start with strategy (a), every subsequent phase uses (a). If strategy (b), no phase merges until the epic closes.
-
-Declare the strategy in the epic doc header when the epic is opened. At `/eod`, any branch with commits ahead of main that belongs to an (a)-strategy epic must be resolved (merge, hold with explicit reason, or abandon) before the day closes.
-
-**Never run `/mini-release` on the feature branch itself, before merging.** Two epics can be independently mid-flight on separate branches without knowing about each other; if each runs its own mini-release pre-merge, each computes the "next version" from its own stale, disconnected `package.json`, producing numbers that collide or silently mis-resolve once both eventually merge to `main` (a same-value bump on both sides resolves with no conflict but is still wrong — it hides that two different epics were stamped with the same version). Merge to `main` first, then run `/mini-release` from `main` so it sees the true current version.
+**Never run `/mini-release` on a feature branch before merging.** Two epics mid-flight on separate branches each compute "next version" from a stale `package.json`, producing numbers that collide or silently mis-resolve at merge. A same-value bump on both sides resolves without conflict and is still wrong. Merge to `main` first.
 
 ### Merge conflict cleanup
 
@@ -393,6 +384,10 @@ All page sections rendered by `PageSections.jsx` follow these rules. The princip
 7. **Container width pre-flight before adding a grid.** A 2-col `<Grid spacing="lg">` needs `2 × 200px + 32px = 432px` minimum content width. If the container is `--st-width-detail` (760px) or narrower, check whether that width was chosen for prose density rather than grids — entity detail pages with content grids need `--st-width-detail-wide` (1080px). Update the container in the same commit as the grid.
 
 **When adding a new section type:** verify it renders next to existing section types on a real page, not in isolation; test both `context="detail"` and `context="full"`; confirm it stretches to full width; add a zero-margin override in `PageSections.module.css` if the component has its own `margin-block`; and check spacing against `/articles/test-preview-post`, which covers every section type and transition.
+
+### `Grid spacing="0"` takes borderless children only
+
+A `<Grid spacing="0">` draws its hairlines with a bg-through-gap pattern, so its children must be borderless tile primitives (`StatCard`, or any component with no `border` declaration of its own). Never put `<Card>` inside one — it carries `border: 1px solid var(--st-card-border)`, which stacks against the grid's outer border and renders a double border. Full usage rules: `Foundations/Layout/Grid` in Storybook (SUG-152 Phase 7).
 
 ### GROQ projection audit for nested image types
 
@@ -645,8 +640,6 @@ Then:
 
 Shape content to the schema, not the schema to the content. If a requested label has no good match, note what doesn't exist and create only those — not everything on the list.
 
-**`spacing-0` Grid primitive rule:** A `<Grid spacing="0">` uses a bg-through-gap hairline pattern — its children must be borderless tile primitives (`StatCard`, or any component with no own `border` declaration). Never place `<Card>` (which carries `border: 1px solid var(--st-card-border)`) inside a `spacing-0` Grid — the card border stacks against the grid's outer border and produces a visual double-border. Full usage rules: `Foundations/Layout/Grid` in Storybook (SUG-152 Phase 7).
-
 ### CSS class pre-implementation reuse audit (blocking — fires before any new CSS class)
 
 For any new detail/entity page, start from the canonical component map: `docs/conventions/detail-page-recipe.md` (ToolDetailPage is the reference implementation). The epic doc must contain a filled-in **Component-Reuse Manifest** (see `docs/epic-template.md`) before any JSX or CSS is written — its absence is an incomplete-epic-doc hard stop.
@@ -786,9 +779,9 @@ Produce a **vspec-to-build comparison table** before requesting close-out. The t
 
 Applies to any technical or architecture diagram destined for a published surface: Sanity upload, case study, article, docs site, social post.
 
-**This gate also fires on published governance statistics** — any rendered count, tally, or coverage claim asserting something about the platform's own rigour (`/platform/governance`'s "30 checkpoints · 0 gaps", validator counts, enforcement tallies). Same claim table, same evidence classes, plus two requirements: the claim carries a **measurement date**, and its Evidence cell names the command or file producing the number, not the intent behind it. A tally true when written and never re-measured becomes a false public claim silently. As of 2026-07-27 §05 publishes "0 gaps" with neither date nor source, while the pipeline behind it had been red for three months. On a platform whose positioning is the portfolio, the reputational exposure exceeds the technical one.
+**This gate also fires on published governance statistics** — any rendered count, tally, or coverage claim about the platform's own rigour (`/platform/governance`'s "30 checkpoints · 0 gaps", validator counts, enforcement tallies). Same claim table and evidence classes, plus two requirements: the claim carries a **measurement date**, and its Evidence cell names the command or file producing the number, not the intent behind it. A tally that is true when written and never re-measured becomes a false public claim silently. Narrative: [[rule-register]] §RULE-055.
 
-1. **Source is committed first.** The diagram's source (SVG or Mermaid) lives in `docs/diagrams/` and is committed before upload. `docs/drafts/` does not satisfy this — it is local-only and gitignored. A published diagram with no committed source cannot be fact-checked by a later session except by forensic reconstruction (the platform-is-the-portfolio failure: three published SVGs, zero sources in the repo, one overstated claim each).
+1. **Source is committed first.** The diagram's source (SVG or Mermaid) lives in `docs/diagrams/` and is committed before upload. `docs/drafts/` does not count — it is local-only and gitignored. A published diagram with no committed source cannot be fact-checked later except by reconstructing it.
 2. **Red-pen accuracy pass.** Before upload, produce a claim table — one row per box, arrow, or label that asserts something about the system. Captions and alt text are claims too; include them as rows. Each row names the file or mechanism that makes it true and classifies it:
 
    | Diagram element | Evidence (file / mechanism) | Class |
@@ -824,7 +817,7 @@ Only then write the target component's CSS to match. Working forward from token 
 
 Any `__VARIABLE__` injected by `vite.config.js` `define:` that changes at build time (dates, commit SHAs, env-specific values, **version numbers**) **must be overridden to a fixed sentinel in Storybook's `viteFinal` define block**. Otherwise Chromatic will diff the story on every build even when nothing visual changed.
 
-**Every current instance must be frozen, not just the one that prompted this rule.** As of this writing, `apps/web/vite.config.js`'s `define` block has two build-time globals, and Storybook's `viteFinal` must freeze both:
+**Freeze every instance, not just the one that prompted the fix.** `apps/web/vite.config.js`'s `define` block currently has two build-time globals, and Storybook's `viteFinal` must freeze both:
 ```ts
 // apps/storybook/.storybook/main.ts — viteFinal
 viteConfig.define = {
@@ -834,9 +827,7 @@ viteConfig.define = {
 }
 ```
 
-A partial fix (freezing only the variable that triggered the original bug report, not auditing sibling `define:` entries introduced in the same feature) is exactly how `__APP_VERSION__` went unfrozen for over two months after `__BUILD_DATE__` was fixed — every version bump kept diffing the Footer story on Chromatic. See `docs/reviews/rules-audit/2026-07.md` for the post-mortem.
-
-When a new `define:` entry is added to `apps/web/vite.config.js`, check whether it produces visible output in any story. If yes, add the freeze to Storybook's `viteFinal` in the same commit — and re-check every *existing* `define:` entry against this rule at the same time, not just the new one.
+When a `define:` entry is added to `apps/web/vite.config.js`, check whether it produces visible output in any story. If it does, add the freeze in the same commit, and re-check every *existing* entry at the same time. Narrative: [[rule-register]] §RULE-058.
 
 ### Storybook coverage requirement
 
