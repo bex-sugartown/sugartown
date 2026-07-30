@@ -141,44 +141,7 @@ A Guidelines story in Storybook is a lightweight wrapper around the `helpers/*Do
 - The rule can be version-controlled and diffed in plain text
 - The rule can be linked from CLAUDE.md, commit messages, and epic docs
 
-If a rule is only discoverable in Storybook, it is not discoverable enough.
-
----
-
-## DS documentation tooling — options evaluated
-
-As of v0.26.12, the monorepo uses Storybook as its only documentation surface for component-level guidance. The following options were evaluated for expanding coverage:
-
-### Option A — Storybook + structured Guidelines stories (current path)
-One `helpers/*Docs.tsx` helper per component. Four fixed sections: Overview, Usage, Accessibility, Tokens. Incomplete sections render a `<!-- PENDING -->` placeholder instead of stale content. The helper file is the source of truth; the Guidelines story wraps it.
-
-**Best for:** component-level API rules, live visual examples.
-**Weak for:** cross-component rules, rationale prose, system-level architecture decisions.
-**Status:** in use. Formalise the section dependency map and API stability gate.
-
-### Option B — docs/conventions/ markdown (already in use for CLAUDE.md + style guides)
-Plain markdown in `docs/conventions/`. Machine-readable, searchable, diffable. No live examples.
-
-**Best for:** system-level rules, cross-component decisions, CLAUDE.md supplements.
-**Weak for:** visual examples, interactive demos.
-**Status:** in use. Extend to cover component rules that span multiple stories (e.g. chip taxonomy, card composition rules).
-
-### Option C — Claude-generated API docs via MCP/scripts
-A build-time script reads component source (`*.tsx`, `*.module.css`, `tokens.json`) and generates a `docs/generated/` markdown file per component: props table, token usage, CSS variable inventory. Human edits the rationale layer; the script keeps the API layer current on each build.
-
-**Best for:** keeping prop tables and token inventories accurate as the component evolves.
-**Weak for:** design rationale, usage examples.
-**Status:** not implemented. Viable with existing Claude/MCP tooling. Add to backlog when component count justifies the maintenance overhead.
-
-### Option D — Zeroheight / Supernova
-Design-system-specific platforms that bridge Figma tokens → code → docs. Require Figma component parity first (SUG-109 is a prerequisite).
-
-**Best for:** stakeholder-facing DS showcasing, design-to-code token sync.
-**Weak for:** developer-facing rules, monorepo-embedded workflow.
-**Status:** deferred until Figma parity exists (SUG-109).
-
-### Recommended path
-**A + B together.** Storybook Guidelines stories for component-level examples. `docs/conventions/` markdown for system-level rules. CLAUDE.md links to both. When component count warrants it, add Option C for automated API doc generation.
+**Surface decision: Storybook Guidelines stories for component-level examples, `docs/conventions/` markdown for system-level rules, CLAUDE.md linking to both.** Options A–D were evaluated at v0.26.12; the analysis and the two paths not taken are in `docs/reviews/ds-docs-tooling-options.md`.
 
 ---
 

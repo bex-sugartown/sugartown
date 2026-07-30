@@ -297,6 +297,14 @@ Errors. It Was Watching the Wrong Door."*
 Card's status chip system accumulated 90 hardcoded values by deferring its
 `--st-status-<state>-*` token definitions, which is why that sub-rule says "not deferrable".
 
+### RULE-019 — Design handoff evaluation gate
+
+SUG-162's handoff carried seven correctable errors, every one attributable to design reading
+inferred state rather than the files that govern the build: a Next.js project skeleton, one
+Merriam-Webster sample, a pasted hex value. SUG-163 turned that into
+`docs/conventions/design-handoff-template.md`, which routes every decision back to a source of
+truth the validators enforce.
+
 ### RULE-035 — citationRef investigation
 
 A 2026-05-14 note claimed a `citationRef` markDef inside `sections[].content` locks the whole

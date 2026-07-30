@@ -1,9 +1,8 @@
 # Design Handoff Template
 
-**Origin:** SUG-163. Exists because SUG-162's handoff had seven correctable errors — every
-one attributable to design reading inferred state (a Next.js project skeleton, one
-Merriam-Webster sample, a pasted hex value) rather than the files that govern the build.
-This template routes every decision back to a source of truth the validators enforce.
+**Origin:** SUG-163. Every decision routes back to a source of truth the validators enforce,
+because design reading inferred state is what produced SUG-162's seven errors. Narrative:
+`docs/ai/agentic-caucus/rule-register.md` §RULE-019.
 
 **How to use:** copy this file, fill in the bracketed sections, delete instructions.
 The epic author reviews it at Phase 0 gate before any JSX is written.
