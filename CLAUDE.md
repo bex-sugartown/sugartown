@@ -11,12 +11,10 @@
 ---
 
 ## MCP Server
-This project runs a local MCP server at packages/mcp-server.
-Start it with: pnpm --filter @sugartown/mcp-server dev
-Tools available: sugartown_get_schema, sugartown_get_tokens, sugartown_get_component,
-sugartown_check_boundary, sugartown_get_rule, sugartown_validate_field,
-sugartown_get_epic, sugartown_get_changelog
-Orient-before-acting: call sugartown_get_epic() and sugartown_get_changelog(3) at session start.
+
+**Call `sugartown_get_epic()` and `sugartown_get_changelog(3)` at session start**, before acting.
+
+Local MCP server at `packages/mcp-server`, started with `pnpm --filter @sugartown/mcp-server dev`. Tools: `sugartown_get_schema`, `sugartown_get_tokens`, `sugartown_get_component`, `sugartown_check_boundary`, `sugartown_get_rule`, `sugartown_validate_field`, `sugartown_get_epic`, `sugartown_get_changelog`.
 
 ## MCP Tool Aliases
 When Bex uses a shorthand, map it to the full tool name:
@@ -64,16 +62,15 @@ Narrative: [[rule-register]] §RULE-003.
 ### Verification review (blocking)
 
 Before building anything that adds or changes a gate, validator, test, deploy path, or a
-published claim about the platform, run the `verification-reviewer` subagent and add a row
-to `docs/ai/agentic-caucus/control-register.md`.
+published claim about the platform, run the `verification-reviewer` subagent and add a row to
+`docs/ai/agentic-caucus/control-register.md`. Run it as a subagent, not inline: a review inside
+the session that wrote the plan ratifies its own reasoning.
 
-Five questions per control: what artifact proves it ran, what broken input must make it
-fail, what path reaches production without it, does it publish a claim (needs a measurement
-date and a reproducing command), and who reads the result by when.
+Five questions per control: what artifact proves it ran, what broken input must make it fail,
+what path reaches production without it, does it publish a claim (needs a measurement date and
+a reproducing command), and who reads the result by when.
 
-Run it as a subagent, not inline. A review inside the session that wrote the plan will
-ratify its own reasoning. Enforced by `pnpm validate:controls`. Full rules:
-`docs/conventions/verification-review.md`.
+Enforced by `pnpm validate:controls`. Full rules: `docs/conventions/verification-review.md`.
 
 ### Instruction writing style
 
@@ -92,7 +89,7 @@ When creating a new epic in `docs/backlog/`:
 3. **Link the Linear issue** in the file header (`**Linear Issue:** SUG-{N}`)
 4. **Prioritize in Linear** — the Linear queue is the single source of truth for priority order
 
-The `docs/shipped/` folder holds shipped epics. The `docs/backlog/` folder holds unscheduled and in-flight epics. Legacy `EPIC-NNNN` numbered files in `docs/shipped/` are retained as-is.
+`docs/shipped/` holds shipped epics; `docs/backlog/` holds unscheduled and in-flight ones. Legacy `EPIC-NNNN` files in `docs/shipped/` stay as-is.
 
 ### Process feedback loop — three-strike retrospective trigger
 
@@ -108,14 +105,12 @@ Commit after each independently-working feature. Do not save it all for one end-
 
 ### Linear Done = code on main
 
-Before transitioning any Linear issue to **Done**, verify that the work is merged to `origin/main` — not merely pushed to a feature branch. A branch that exists at `origin/<feat-branch>` but is not merged into `main` is **not shipped**.
-
-Verification command:
+**Before transitioning any Linear issue to Done, confirm the work is merged to `origin/main`**, not merely pushed to a feature branch:
 ```bash
 git branch --contains <commit-sha> | grep -qE '^(\*|\s)+ main$' && echo "on main" || echo "NOT on main"
 ```
 
-A Linear issue marked Done with commits only on a feature branch is a process failure. The close-out sequence enforces this naturally (merge → mini-release → ship doc → Linear Done), but if the close-out is skipped or partial (e.g. multi-phase epic where one phase didn't merge), this rule is the backstop.
+The close-out sequence enforces this naturally (merge → mini-release → ship doc → Linear Done). This rule is the backstop for a skipped or partial close-out, e.g. a multi-phase epic where one phase did not merge.
 
 ### Linear status = workflow stage
 
@@ -173,45 +168,33 @@ When an epic has numbered phases, declare one of two strategies in the epic doc 
 
 ### Merge conflict cleanup
 
-Never end a session with an unresolved merge conflict. If a merge conflicts:
-1. Resolve it and commit the merge, OR
-2. Abort the merge (`git merge --abort`) and document why
-
-An unresolved merge left overnight will block the next session's morning housekeeping and create confusion about the working tree state.
+Never end a session with an unresolved merge conflict. Either resolve it and commit the merge, or abort it (`git merge --abort`) and document why. One left overnight blocks the next session's morning housekeeping and leaves the working tree state unclear.
 
 ### Browser testing pre-flight
 
 Before asking the user to test anything in their browser:
 
 1. **Confirm they have pulled the latest code** — "Have you pulled the branch? `git pull origin <branch>`"
-2. **Never claim a dev server is reachable at `localhost`** unless the session is running on the user's local machine. If the environment is remote/cloud, tell the user to start the server from their local terminal.
-3. **Worktree sessions: verify which server is serving which tree.** The main app and each worktree can have independent dev servers on different ports. Before running any preview verification, confirm the server port matches the worktree:
+2. **Never claim a dev server is reachable at `localhost`** unless the session runs on the user's own machine. If the environment is remote, tell them to start the server from their local terminal.
+3. **In a worktree session, check which tree the server is serving** before any preview verification. The main app and each worktree run independent servers on different ports:
    ```bash
    lsof -ti:5173 | xargs -I{} lsof -p {} 2>/dev/null | grep cwd
    ```
-   If the `cwd` path does not contain the current worktree name, the server is from a different tree. Start the dev server from within the worktree directory — it will bind to `5173` locally (or the next free port if 5173 is taken).
-
-A white-screen debug cycle caused by local ↔ remote divergence is a process failure. A routing-failure debug cycle caused by verifying against the wrong tree's server is the same failure in a worktree context.
+   If the `cwd` path does not contain the current worktree name, that server belongs to another tree. Start one from inside the worktree; it binds to `5173`, or the next free port.
 
 ### Local-only directories (gitignored)
 
-One `docs/` subdirectory is **local-only** — gitignored and never committed:
+**`docs/drafts/` is local-only: gitignored, never committed.** It holds working drafts, manifestos, in-flight vspecs, GIFs, and exploration docs, which stay on Bex's machine until they move elsewhere (Sanity, `docs/briefs/`, `docs/shipped/`).
 
-- **`docs/drafts/`** — working drafts, manifestos, in-flight vspecs, GIFs, exploration docs. Content here is in flux and stays on Bex's machine until it's ready to move elsewhere (Sanity, `docs/briefs/`, `docs/shipped/`).
-
-**Rules:**
-- Never `git add` files in these directories. They are gitignored for a reason.
-- Never ask "should we commit these drafts?" — the answer is always no.
-- If a draft graduates to a brief or a Sanity document, copy it to the destination and leave the draft in place as a local archive.
-- If git shows these files as "deleted" in `git status`, it means they were previously tracked and need to be untracked with `git rm --cached`.
+- Never `git add` a file there, and never ask whether to commit drafts. The answer is no.
+- When a draft graduates to a brief or a Sanity document, copy it to the destination and leave the draft in place as a local archive.
+- If `git status` shows one as "deleted", it was previously tracked — untrack it with `git rm --cached`.
 
 ### Generated stats files — dirty tree behaviour
 
-`apps/web/src/generated/stats.json` and `apps/web/src/generated/stats.last-good.json` are **tracked files** updated by the CI stats pipeline on every build. They are committed by CI via `chore(stats): update trust signals [skip ci]` — not by local sessions.
+`apps/web/src/generated/stats.json` and `stats.last-good.json` are **tracked files** that the CI stats pipeline updates on every build, committed as `chore(stats): update trust signals [skip ci]` rather than by local sessions.
 
-**If these files appear as modified in `git status`:** this is normal and expected. The local copy reflects the last CI run; the tracked copy reflects whatever was last committed by CI. **Do not commit them manually and do not treat them as a dirty tree blocker.** When checking tree cleanliness before a mini-release or `/eod`, ignore modifications to these two files. They cannot be staged via `git add` (gitignore blocks it) but will appear in `git diff --cached` if `git add -u` was run — in that case they have been staged and can be committed normally.
-
-The `.gitignore` entry prevents `git add <path>` from staging them directly, but `git add -u` (update tracked files) will still stage them. This inconsistency is expected — CI is the authoritative committer for these files.
+**Showing as modified is their normal state: do not commit them manually and do not treat them as a dirty-tree blocker.** Ignore them when checking tree cleanliness before a mini-release or `/eod`. `.gitignore` blocks `git add <path>` but not `git add -u`, so they can still end up staged — in which case committing them is fine. CI is the authoritative committer.
 
 ### Phase 0 hard-stop (visual spec gate)
 
