@@ -308,6 +308,28 @@ missing-`markDefs` bug added the same day, four hours earlier.
 
 ---
 
+## Retired
+
+Rules that no longer apply. They live here rather than in `CLAUDE.md` with a strikethrough,
+because a struck-through rule still occupies a session's attention and still has to be read to
+learn it does not apply. SUG-243 Phase 3 retired that convention; `CLAUDE.md` carries no
+strikethroughs.
+
+A retired rule keeps its ID. IDs are never reused.
+
+### DS component CSS mirrors — retired 2026-07-24 (SUG-224)
+
+Part of RULE-051 (Mirrored File Registry). `apps/web/src/design-system/components/` used to hold
+a mirror of every DS package component, kept byte-identical by hand and by
+`validate:style-mirror` pass 2.
+
+`apps/web` now consumes `@sugartown/design-system` directly, so the mirror-adapter pattern no
+longer exists. The directory holds only `SidebarNav` and `Tile` — genuine app coupling with no
+package counterpart, nothing to mirror against. `validate:style-mirror` pass 2 still runs as a
+harmless no-op (0 pairs to compare), kept as a backstop in case the pattern reappears.
+
+---
+
 ## Not yet enforced
 
 **No script reads this file.** `pnpm validate:controls` validates [[control-register]] only.

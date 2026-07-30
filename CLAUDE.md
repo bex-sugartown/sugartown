@@ -265,7 +265,7 @@ Before adding `useOutletContext()`, `useContext()`, or any new hook to a compone
 2. **Confirm all hook calls appear before the first early return** — hooks must be called unconditionally on every render.
 3. If the hook's _logic_ depends on data that isn't available yet (e.g. `leadHero` before the page loads), put the guard inside the hook's callback or effect — not around the hook call itself.
 
-This is a React Rules of Hooks enforcement step. A hooks-order violation crashes silently in dev (React error boundary) and produces a blank page with a cryptic "change in order of Hooks" warning. The fix is always the same — move the hook up — but it costs a correction commit. The pre-flight costs 30 seconds.
+A hooks-order violation renders a blank page with a cryptic "change in order of Hooks" warning. The fix is always to move the hook up.
 
 ### No speculative fixes
 
@@ -284,9 +284,7 @@ Before the first file write in any worktree session:
 1. Confirm the target path starts with the worktree root: `.claude/worktrees/<worktree-name>/`
 2. If the environment block shows `Primary working directory: /Users/.../sugartown/.claude/worktrees/<name>`, every file path in `Edit`/`Write` calls must use that prefix — not `/Users/.../sugartown/apps/web/...`
 
-**The failure mode:** writing shared CSS (e.g. `pages.module.css`) to the main app's copy instead of the worktree's copy produces a silent visual regression — the main tree's dev server shows the change, but the worktree branch does not. The build succeeds; the layout breaks.
-
-**Recovery:** if a wrong-path write has occurred, read the worktree file to confirm it's missing the change, then re-apply the edit to the correct path. Do not assume the file state is correct without verifying the path.
+Writing shared CSS (e.g. `pages.module.css`) to the main app's copy instead of the worktree's produces a silent regression: the build succeeds, the main tree's dev server shows the change, the worktree branch does not. **To recover**, read the worktree file to confirm it is missing the change, then re-apply the edit to the correct path.
 
 ### CSS Triage Protocol
 
@@ -295,7 +293,7 @@ Before writing a CSS fix for overflow, scrollbar, or layout collapse: **identify
 2. Its computed `overflow`, `width`, and `box-sizing` values
 3. Its parent's containment context
 
-Do not write CSS until this is documented. Guessing which container has the overflow leads to multi-round blind patching.
+Do not write CSS until this is documented; guessing which container overflows leads to rounds of blind patching.
 
 **bg-through-gap pattern documentation rule:** When a container uses `background-color: var(--st-color-rule-accent)` with `gap: 1px` to produce hairline dividers, every child element that covers the gap background must carry an explicit `background` declaration — even if it looks redundant. Annotate it:
 
@@ -303,15 +301,13 @@ Do not write CSS until this is documented. Guessing which container has the over
 background: var(--st-card-bg); /* covers parent --st-color-rule-accent gap bg */
 ```
 
-Removing this annotation-less `background` declaration is a recurring mistake: the repair looks like dead code but is load-bearing. If a bg-through-gap pattern is not serving the layout (because all dividers can be expressed as `border` rules on adjacent siblings), replace the pattern entirely with `> * + *` adjacent-sibling border rules — and document the replacement in the commit message — so it cannot be misread as dead code in future.
+Without the annotation the declaration looks like dead code and gets removed, though it is load-bearing. If the pattern is not serving the layout, because every divider can be a `border` on adjacent siblings, replace it with `> * + *` border rules and say so in the commit message.
 
 ### CSS layout fix escalation rule
 
-When a CSS layout fix fails and requires a follow-up commit, **stop and diagnose before patching**. Write a 1-paragraph root-cause analysis covering the full cascade (containment → flex/grid → margin → max-width → child sizing) before writing the next fix.
+**When a CSS layout fix needs a follow-up commit, write a one-paragraph root-cause analysis before patching again**, covering the full cascade: containment → flex/grid → margin → max-width → child sizing.
 
-If 2+ fix commits address the same layout surface in sequence, treat it as a signal to step back, map the full constraint chain, and fix the root cause, not the symptom.
-
-**Self-check after every CSS fix commit:** grep for the same selector(s) in the prior 3 commits. If the same surface appears in a recent fix, halt and write the root-cause paragraph before the next fix. Two consecutive fix commits on the same CSS surface without a documented root-cause analysis is a process failure.
+**Self-check after every CSS fix commit:** grep for the same selectors in the prior 3 commits. If that surface appears in a recent fix, write the root-cause paragraph before the next fix rather than patching the symptom again.
 
 ### `container-type` guardrail
 
@@ -325,11 +321,7 @@ If a layout collapses after adding `container-type`, remove the containment firs
 
 ### Studio schema changes get their own commit
 
-Any change to `apps/studio/schemas/` that is **not** a direct consequence of a DS component API decision belongs in a separate commit scoped to a studio concern — it must **not** be bundled into a component, tooling, or web epic commit.
-
-Commit prefix: `feat(studio):` or `fix(studio):`.
-
-If a schema change is needed to unblock a component epic, commit the schema change first, then begin the component work in a subsequent commit.
+Any change to `apps/studio/schemas/` that is **not** a direct consequence of a DS component API decision goes in its own commit, prefixed `feat(studio):` or `fix(studio):`, never bundled into a component, tooling, or web epic commit. If a schema change unblocks a component epic, commit the schema first and the component work after.
 
 **Schema changes are not live until deployed.** The local Studio uses your code directly, but MCP tools (`create_documents`, `patch_documents`, etc.) and the Content Lake API validate against the **deployed** schema. After any schema change, run:
 
@@ -337,7 +329,7 @@ If a schema change is needed to unblock a component epic, commit the schema chan
 npx sanity schema deploy
 ```
 
-If you skip this step, MCP writes will fail with validation errors listing the old allowed types, even though Studio works fine locally. This is the single most common cause of "the schema has the field but MCP rejects it" confusion.
+Skipping it makes MCP writes fail with validation errors listing the old allowed types while Studio works fine locally — the most common cause of "the schema has the field but MCP rejects it".
 
 ### Paired schema convention
 
@@ -352,7 +344,7 @@ When adding a new object/document pair, register it in this list. A fix to one h
 
 Each user-facing concept (label, title, description, URL) must resolve from **exactly one field**. If a sub-object (e.g. `linkItem`) brings a field that overlaps with a parent schema field (e.g. `ctaButton.text` vs `linkItem.label`), one must be canonical and the other must be hidden or removed in the same commit.
 
-Two fields that could plausibly hold the same value is a bug, not a feature. When composing a sub-object into an existing schema, audit the parent for field-purpose overlap before merging.
+When composing a sub-object into an existing schema, audit the parent for field-purpose overlap before merging. Two fields that could hold the same value is a bug.
 
 ### Section Layout Contract
 
@@ -590,7 +582,7 @@ All internal URLs must be built via `getCanonicalPath({ docType, slug })` from `
 
 **The only exception:** redirects in `App.jsx` that explicitly map legacy routes (e.g. `/blog → /articles`). These are route definitions, not link targets.
 
-If a utility link set (e.g. footer legal row) needs hardcoded paths, those paths must be registered as named constants in `routes.js` and imported from there — not defined inline in the component.
+A utility link set (e.g. the footer legal row) registers its paths as named constants in `routes.js` and imports them, rather than defining them inline.
 
 ---
 
@@ -602,9 +594,7 @@ Before creating any new **schema object** or **shared utility** (`lib/` function
 2. **Will this be consumed by more than one caller?** — If yes, it must live in a shared location (`lib/`, `schemas/objects/`), never inline in a page file.
 3. **Is the API composable?** — Fields/params should be named so it can be extended without forking.
 
-This is the "Before You Build" reuse audit formalized as a **blocking checklist**, not a suggestion. A new schema object or utility that fails any of these three checks is a process failure.
-
-**New CSS classes and new JSX components/blocks have their own, more specific gates — see "CSS class pre-implementation reuse audit" and "Component choice gate" below. Don't re-run this generic checklist for those; their gates supersede it.**
+**New CSS classes and new JSX components or blocks have their own, more specific gates below** — §CSS class pre-implementation reuse audit and §Component choice gate. Do not re-run this generic checklist for those; their gates supersede it.
 
 ### Taxonomy pre-flight (blocking)
 
@@ -643,7 +633,7 @@ Location-named or page-scoped class names (e.g. `toolUrl`, `lv-*`, `folioHead`, 
 | `.myNewClass` | `pages.module.css .entityFolio` (80% match) | Extend existing |
 | `.listRow` | None found — new semantic pattern | New class approved |
 
-Do not make any `Edit` or `Write` call to a CSS module file until this table has been shown and the user has confirmed the names. "Looks good", "yes", or equivalent is sufficient approval. A new CSS class written without a prior proposal table is a process failure.
+Do not `Edit` or `Write` a CSS module file until the table has been shown and the names confirmed. "Looks good" or "yes" is sufficient.
 
 **Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the naming proposal table, then ask via a single select option rather than requiring a typed word.
 
@@ -655,9 +645,9 @@ When a new block, container, or layout surface is needed, run this audit **befor
 2. **State why each candidate doesn't fit** (or why it does). One sentence per candidate. If a candidate covers 80%+ of the use case, extend it via props — do not fork.
 3. **If no existing component fits**, stop — this triggers the Phase 0 hard-stop (visual spec gate) above. Produce the vspec there; don't restate that process here.
 
-**This gate is not optional for "small" blocks.** A coloured callout container, a stat grid wrapper, a challenge summary card — all are new visual surfaces that require this audit. The size of the block does not determine whether the gate fires; the novelty of the visual format does.
+**The gate is not optional for "small" blocks.** A coloured callout container, a stat grid wrapper, a challenge summary card all require the audit. Novelty of the visual format decides whether it fires, not size.
 
-**Variant-first rule (hard stop):** A visual variation of an existing DS primitive is ALWAYS a prop on that primitive — never a new component. "Same component, different header color" is `tone="subdued"`, not `<RoadmapTable>`. "Same component, different label position" is `captionSide="bottom"`, not `<LabeledTable>`. If you find yourself writing a new component that renders an `<table>` (or any other primitive's root element), stop. The correct path is: define the prop on the DS primitive, then compose from it. A new component that wraps or reimplements a primitive without extending it is a fork — and forks diverge.
+**Variant-first rule (hard stop):** A visual variation of an existing DS primitive is ALWAYS a prop on that primitive — never a new component. "Same component, different header color" is `tone="subdued"`, not `<RoadmapTable>`. "Same component, different label position" is `captionSide="bottom"`, not `<LabeledTable>`. If you find yourself writing a new component that renders an `<table>` (or any other primitive's root element), stop. Define the prop on the DS primitive, then compose from it. A component that wraps or reimplements a primitive without extending it is a fork.
 
 Example audit (correct):
 ```
@@ -722,7 +712,7 @@ Whenever `tokens/source/tokens.json` is edited, or whenever any component CSS fi
 `validate:tokens --strict-colors` catches: raw hex, rgba, or hsla values in any component or theme CSS file outside `tokens.css`.
 `validate:style-mirror` catches: drift between the duplicated DS style files (theme/tokens/globals/utilities) across web ↔ DS package.
 
-**`validate:tokens` does NOT check theme-file parity.** It verifies that every `var(--st-*)` reference *resolves* — not that the two theme files carry the same override *set*. A token missing from one theme file still resolves via the shared `tokens.css`, so theme drift is invisible to it. "Refs resolve" ≠ "themes match". Theme/style-file parity is enforced by `validate:style-mirror`, not `validate:tokens`. (Origin: the `theme.pink-moon.css` drift post-mortem, 2026-06-13 — the DS-package copy had silently decayed to a stale subset of 93 missing tokens, breaking DS components in Storybook while production looked fine.)
+**`validate:tokens` does not check theme-file parity.** It verifies that every `var(--st-*)` reference resolves, not that the two theme files carry the same override set — a token missing from one theme still resolves via the shared `tokens.css`, so drift is invisible to it. Parity is `validate:style-mirror`'s job. (2026-06-13: the DS-package copy of `theme.pink-moon.css` had decayed to a stale subset missing 93 tokens, breaking DS components in Storybook while production looked fine.)
 
 ### Mirrored File Registry (must-be-identical pairs)
 
@@ -732,9 +722,7 @@ Some files exist in two locations and **must be byte-identical**. Each must have
 |---------|-----------|-----------------|-------------|
 | `tokens.css` | `apps/web/src/design-system/styles/` ↔ `packages/design-system/src/styles/` | generated from `tokens/source/tokens.json` | `pnpm tokens:build` + pre-commit "Do not edit directly" block + `validate:style-mirror` |
 | `theme.pink-moon.css`, `theme.light.css`, `theme.shop.css`, `globals.css`, `utilities.css` | same two style dirs | **web copy is canonical** (hand-authored) | `validate:style-mirror` (pre-commit) |
-~~DS component CSS mirrors~~ — **retired 2026-07-24 (SUG-224).** `apps/web` now consumes `@sugartown/design-system` directly; the mirror-adapter pattern no longer exists. `apps/web/src/design-system/components/` holds only `SidebarNav` and `Tile` (genuine app coupling, no package counterpart) — nothing left to mirror. `validate:style-mirror` pass 2 still runs (harmless no-op: 0 pairs to compare) as a backstop against the pattern reappearing.
-
-When you edit a hand-authored mirrored file (any theme/style file), update **both** copies in the same commit, or `validate:style-mirror` will block the commit. When adding a new must-be-identical pair, register it here and wire it into `validate-style-mirror.js`.
+When you edit a hand-authored mirrored file (any theme/style file), update **both** copies in the same commit, or `validate:style-mirror` will block the commit. When adding a new must-be-identical pair, register it here and wire it into `validate-style-mirror.js`. One pair was retired in SUG-224: [[rule-register]] §Retired.
 
 ---
 
@@ -794,7 +782,7 @@ Before any structured-surface dark mode CSS pass (MetadataCard, Card, FilterBar,
 2. Use DevTools to inspect computed `background-color`, `border-color`, and `color` on each visual zone (card bg, folio/label strip, body, dividers)
 3. Record the exact computed values and trace them back to their tokens via `tokens.css` and `theme.pink-moon.css`
 
-Only then write the target component's CSS to match. Working forward from token names ("I'll use `--st-card-bg`") without verifying what those tokens resolve to in dark theme leads to glassmorphism surprises. The MetadataCard dark mode repair cycle (3+ correction rounds) was caused by this exact failure.
+Only then write the target component's CSS. Working forward from token names without checking what they resolve to in dark theme produces glassmorphism surprises. (MetadataCard's dark mode took 3+ correction rounds this way.)
 
 ### Storybook — build-time globals must be frozen
 
@@ -816,7 +804,7 @@ When a `define:` entry is added to `apps/web/vite.config.js`, check whether it p
 
 Every new or modified component that has visual output must have a Storybook story before close-out. The story must cover: default state, all meaningful variants, and at least one edge case (long text, missing fields, empty arrays). Components without stories are invisible to Chromatic VRT.
 
-**Dark mode is a shipping AC, not a follow-up task.** A DS component that ships without a `dark-pink-moon` story has an open gap — it is not done. "Untested" in the dark mode column of the component registry is a blocking state. Before close-out, every story must render correctly on both `default` and `dark-pink-moon` themes and that must be confirmed via Storybook (not assumed). A component added to the registry with dark mode marked "Untested" must have a Linear issue open for the gap before the epic closes.
+**Dark mode is a shipping AC, not a follow-up.** Before close-out, confirm in Storybook — not by assumption — that every story renders correctly on both `default` and `dark-pink-moon`. "Untested" in the registry's dark mode column is a blocking state, and a component entered that way needs an open Linear issue before the epic closes.
 
 ### Honesty over confidence
 

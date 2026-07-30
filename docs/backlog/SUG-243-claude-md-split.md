@@ -188,12 +188,33 @@ Ten rules carry heavy inline narrative (RULE-002, 003, 008, 012, 017, 018, 035, 
 
 **Phase 3 — Rewrite and move**
 
-- [ ] Rewrite each rule per `docs/conventions/instruction-writing-style.md`: instruction
-      first, said once, no closing aphorism, rationale reduced to one clause
-- [ ] Move incident narrative to the rule register or the incident log, linked by ID
-- [ ] Retire the strikethrough convention. CLAUDE.md:772 keeps a retired rule's full text
-      plus an explanatory paragraph. Retired rules move to the register
-- [ ] Set the cap to the resulting line count plus 5%
+- [x] Rewrite each rule per `docs/conventions/instruction-writing-style.md`: instruction
+      first, said once, no closing aphorism, rationale reduced to one clause. **Done across
+      5 rounds, each gated section by section.** 43 of 60 rules rewritten; **17 checked and
+      deliberately left unchanged** (RULE-005, 007, 010, 011, 012, 021, 025, 027, 030, 041,
+      042, 045, 052, 053, 054, 056, 060) — all recent, already instruction-first, already
+      pointing rationale at their own files. Rewriting them would be churn, and each is
+      listed in its round's commit message
+- [x] Move incident narrative to the rule register or the incident log, linked by ID. Nine
+      rules had extractable narrative: RULE-002, 003, 008, 017, 018, 035, 049, 055, 058. All
+      now in `rule-register.md` §Rationale, reachable from the rule by ID
+- [x] Retire the strikethrough convention. **Zero `~~` remain in CLAUDE.md.** The retired
+      DS-component-mirror rule kept its full text plus a five-sentence explanation inside the
+      live registry, so a reader had to work out that it no longer applied. Moved to
+      `rule-register.md` §Retired; the live rule ends with a pointer. Retired rules keep
+      their IDs
+- [x] Set the cap to the achieved figure plus 5%: **20,150**, from 19,187 measured
+      2026-07-30 by `pnpm validate:doc-budget` (22,000 was the Phase 1 interim). **Note: the
+      cap is words, not lines** — this Scope line originally said "line count plus 5%",
+      which contradicted the Phase 1 item that built the gate. Words is correct; a line cap
+      is what the 2026-07-29 verification review rejected
+- [x] **Fixed the probe the tightened cap broke.** `validate-enforcement-liveness.js`
+      padded `vqa-workflow.md` with a hardcoded 400 words to prove the gate fires. Headroom
+      went from 243 to 963 when the cap moved, so 400 words no longer violated anything and
+      the probe reported `STAYED GREEN against a known violation` — the probe broke, not the
+      gate. It now derives the padding from the gate's own `--json` output (headroom + 50),
+      so tightening the cap can never silently disarm it again. Re-run: 13 gates proven live,
+      0 inert, no residue left in the tree
 
 **Phase 4 — Other high-traffic docs**
 

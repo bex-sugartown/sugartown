@@ -48,15 +48,17 @@ const ROOT_DOC = 'CLAUDE.md'
 /**
  * Word budget for the whole surface.
  *
- * Interim value, set at SUG-243 Phase 1 to sit just above the measured total so
- * the liveness probe's control run passes on a clean tree. A cap set to the
- * Phase 3 *target* would make the gate red from the day it landed, and
- * `gateProbe` would report PROBE INVALID for the epic's whole duration rather
- * than proving anything.
+ * Set at SUG-243 Phase 3 to the achieved figure plus 5%: 19,187 measured on
+ * 2026-07-30 by this script, rounded up from 20,146. The Phase 1 interim value
+ * was 22,000, chosen to sit just above the then-current total so the liveness
+ * probe's control run passed on a clean tree.
  *
- * Phase 3 tightens this to the achieved figure plus 5%.
+ * Reproduce the measurement with `pnpm validate:doc-budget`. Tighten this only
+ * against a fresh measurement, never against an estimate: a cap set below the
+ * current total makes the gate red on landing and `gateProbe` reports
+ * PROBE INVALID rather than proving anything.
  */
-const CAP_WORDS = 22_000
+const CAP_WORDS = 20_150
 
 /** Files matching this are part of the surface when CLAUDE.md references them. */
 const REFERENCE_PATTERN = /docs\/conventions\/[a-z0-9-]+\.md/g

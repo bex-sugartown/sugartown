@@ -426,13 +426,23 @@ const PROBES = [
     // while the surface a session actually reads grew without limit, and
     // relocation is precisely the escape SUG-243's verification review found.
     // Breaking the cheaper-looking side proves both sides are counted.
+    // The padding size is derived from the gate's own reported headroom, never
+    // hardcoded. A fixed size silently stops violating the moment the cap is
+    // tightened: SUG-243 Phase 3 cut the cap from 22,000 to 20,150, headroom
+    // went from 243 words to 963, and a hardcoded 400-word injection reported
+    // STAYED GREEN — the probe broke, not the gate.
     run: () =>
       gateProbe({
         cmd: 'pnpm',
         args: ['validate:doc-budget'],
         success: 'rejected the over-budget surface',
-        breakIt: () =>
-          mutateFile('docs/conventions/vqa-workflow.md', (src) => `${src}\n${'padding '.repeat(400)}\n`),
+        breakIt: () => {
+          const probe = run('pnpm', ['validate:doc-budget', '--json'])
+          const json = probe.out.slice(probe.out.indexOf('{'))
+          const { cap, total } = JSON.parse(json)
+          const words = Math.max(cap - total, 0) + 50
+          mutateFile('docs/conventions/vqa-workflow.md', (src) => `${src}\n${'padding '.repeat(words)}\n`)
+        },
       }),
   },
 
