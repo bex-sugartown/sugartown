@@ -75,6 +75,49 @@ not measurable is shown as such rather than folded into a total.
       column in `control-register.md`, or a third file. **Whichever is chosen, name what keeps it
       current** — an unmaintained mapping recreates this epic
 
+**Phase 1 output — the mapping (completed 2026-08-01)**
+
+All 30 components classified by whether their status depends on a control *firing* or on an
+artifact *existing*. Measured by parsing the six layer tables in `governance-coverage.md` v1.3
+and cross-referencing `control-register.md`.
+
+**5 of 30 are control-dependent. 25 are not.**
+
+| # | Component | Layer | Status | Controls it rests on | Liveness evidence |
+|---|---|---|---|---|---|
+| 1 | Quality validation | 2 | Strong ⚠️ | CTL-001 `validate:tokens`, CTL-007 `pnpm lint`, CTL-008 `validate:urls` | 2 of 3 probed — **CTL-008 has none** |
+| 2 | Performance benchmarks | 4 | N/A ⚠️ | CTL-019 Chromatic | probe proves *reachability*, not detection |
+| 3 | Drift detection | 4 | Strong | CTL-003 `validate:style-mirror` | probed, passing |
+| 4 | Output validation | 5 | Strong | validator suite + human QA gates | suite mostly probed; gates are `convention` |
+| 5 | Policy enforcement | 6 | Strong ⚠️ | 6 pre-commit validators + the CI gates | pre-commit probed; **most CI gates unprobed** |
+
+The other 25 rest on an artifact existing — a document, a git property, or a platform
+guarantee. Liveness data says nothing about them, and no probe ever will. Examples: Risk
+tiering rests on `risk-tiers.md`; Encryption rests on Sanity/GitHub/Netlify; Override authority
+rests on a sentence in `CLAUDE.md`.
+
+**This reframes the epic.** "Re-derive the tally from measured liveness" moves **5 rows at
+most**. The remaining 25 need a different check — does the named artifact still exist and still
+say what the row claims — which is artifact verification, not liveness. Conflating the two is
+what produced an undated "0 gaps" in the first place.
+
+Two corrections found while mapping, both by reading files rather than trusting a search:
+
+- A `grep` of `.husky/pre-commit` appeared to show `validate:urls` and `validate:content`
+  running at pre-commit, contradicting CTL-008, CTL-012 and the coverage doc. Reading the file
+  showed both names appear only in a **comment** on line 3. The hook invokes six `validate:*`
+  scripts plus `pnpm lint`. All three sources were correct; the search was not.
+- That same comment says `validate:urls` runs "manually pre-PR", while CTL-008 records it in CI
+  at `ci.yml:76`. The comment is stale. Cosmetic, but it is the kind of stale note that becomes
+  a false premise later.
+
+**Where the mapping lives — decided.** A `Enforced by` column in `governance-coverage.md`
+itself, naming the `CTL-NNN` rows or `artifact` for the other 25. Not a third file: two
+registries already disagree, and an unmaintained third would make it worse. What keeps it
+current: `validate:controls` already fails when a `CTL-NNN` reference dangles, so pointing the
+coverage doc at control IDs puts the mapping inside an existing gate's reach rather than
+inventing one. **That wiring is Phase 2's first item, not an assumption.**
+
 **Phase 2 — Re-derive the tally**
 
 - [ ] Recompute `Automated / Documented / Vendor-owned / Out-of-scope` from the Phase 1 mapping
