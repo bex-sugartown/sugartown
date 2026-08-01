@@ -51,17 +51,17 @@ same epic, so the probe set does not fall behind the gate set.
 | CTL-005 | `validate:css-names` | enforced-by-code | `validate:css-names` | `.husky/pre-commit` blocks the commit | continuous | `git commit --no-verify`; only scans `apps/web/src/pages/` |
 | CTL-006 | `validate:validators` | enforced-by-code | `validate:validators` | `.husky/pre-commit` blocks the commit | continuous | `git commit --no-verify` |
 | CTL-007 | `pnpm lint` (incl. `boundaries.js`) | enforced-by-code | `pnpm lint` | `.husky/pre-commit` + `ci.yml` | continuous | `git commit --no-verify`; pre-commit ran web-only while repo-wide lint was red (SUG-255) |
-| CTL-008 | `validate:urls` | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml:76` → `ci-failure-alert.yml` | 2026-10-28 | not in pre-commit; a local commit is unchecked until it reaches CI |
-| CTL-009 | `validate:filters` | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml:79` → `ci-failure-alert.yml` | 2026-10-28 | not in pre-commit; unchecked until CI |
-| CTL-010 | `validate:taxonomy` | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml:82` → `ci-failure-alert.yml` | 2026-10-28 | not in pre-commit; unchecked until CI |
-| CTL-011 | `validate:schema-parity` | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml:85` → `ci-failure-alert.yml` | 2026-10-28 | not in pre-commit; unchecked until CI |
+| CTL-008 | `validate:urls` | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml` step *Validate URLs* → `ci-failure-alert.yml` | 2026-10-28 | not in pre-commit; a local commit is unchecked until it reaches CI |
+| CTL-009 | `validate:filters` | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml` step *Validate filters* → `ci-failure-alert.yml` | 2026-10-28 | not in pre-commit; unchecked until CI |
+| CTL-010 | `validate:taxonomy` | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml` step *Validate taxonomy* → `ci-failure-alert.yml` | 2026-10-28 | not in pre-commit; unchecked until CI |
+| CTL-011 | `validate:schema-parity` | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml` step *Validate schema parity* → `ci-failure-alert.yml` | 2026-10-28 | not in pre-commit; unchecked until CI |
 | CTL-012 | `validate:content` | convention | none — needs Sanity API + long runtime | human, pre-PR (`MANUAL_BY_DESIGN`) | 2026-10-28 | runs on no hook and no CI job by design; nothing detects it being skipped |
 | CTL-013 | `ci-failure-alert.yml` (the CI-red signal) | enforced-by-code | none — needs a genuinely red run on `main` to exercise | human, via the rolling `ci-red` issue | 2026-08-28 | `workflow_run` runs the `main` copy, so an unmerged fix does nothing; silent if `GITHUB_TOKEN` issue perms are revoked |
-| CTL-014 | `validate:enforcement-liveness` | enforced-by-code | none — the probe harness cannot probe itself | `ci.yml:152` → `ci-failure-alert.yml` | 2026-10-28 | probes only the 8 gates in `PROBES`; a gate with no probe is invisible to it |
+| CTL-014 | `validate:enforcement-liveness` | enforced-by-code | none — the probe harness cannot probe itself | `ci.yml` step *Prove every gate fires* → `ci-failure-alert.yml` | 2026-10-28 | probes only the 8 gates in `PROBES`; a gate with no probe is invisible to it |
 | CTL-015 | `validate:controls` (this register) | enforced-by-code | `validate:controls` | `ci.yml` → `ci-failure-alert.yml` | continuous | rows enter only when a human or the reviewer adds them; non-script controls are not auto-discovered |
-| CTL-016 | `pnpm typecheck` | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml:73` → `ci-failure-alert.yml` | 2026-10-28 | not in pre-commit; `turbo` is fail-fast so a later package's errors stay hidden |
-| CTL-017 | `pnpm build` | enforced-by-code | none — a broken build is self-evident | `ci.yml:94` → `ci-failure-alert.yml` | continuous | Netlify builds independently of CI; a green Netlify deploy does not imply CI ran |
-| CTL-018 | `pnpm test:smoke` (5 route specs) | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml:119` → `ci-failure-alert.yml` | 2026-10-28 | covers 5 routes; every other route is unproven at runtime |
+| CTL-016 | `pnpm typecheck` | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml` step *Type check* → `ci-failure-alert.yml` | 2026-10-28 | not in pre-commit; `turbo` is fail-fast so a later package's errors stay hidden |
+| CTL-017 | `pnpm build` | enforced-by-code | none — a broken build is self-evident | `ci.yml` step *Build* → `ci-failure-alert.yml` | continuous | Netlify builds independently of CI; a green Netlify deploy does not imply CI ran |
+| CTL-018 | `pnpm test:smoke` (5 route specs) | enforced-by-code | none — no probe yet, SUG-256 follow-up | `ci.yml` step *Route smoke tests* → `ci-failure-alert.yml` | 2026-10-28 | covers 5 routes; every other route is unproven at runtime |
 | CTL-019 | Chromatic VRT | enforced-by-code | `chromatic.sh reachability` | human approval of diffs | 2026-08-28 | probe proves the script is *reachable*, not that it *catches a diff*; deferral is permitted per close-out step 4, and a deferred run has no reader |
 | CTL-020 | Netlify deploy path | convention | none — no probe; deploy is external to CI | human, at deploy time | 2026-08-28 | Netlify builds from `main` on push regardless of CI conclusion (G4). Preview and staging targets would each be a separate unprobed path |
 | CTL-021 | `/platform/governance` published statistics | measured | none — not machine-checked | human, on re-measurement | 2026-08-28 | published "30 checkpoints · 0 gaps" with no date and no reproducing command while the pipeline was red (G11). Re-measurement is pending; the claim carries a liveness caveat until then |
@@ -69,6 +69,7 @@ same epic, so the probe set does not fall behind the gate set.
 | CTL-023 | Release history pushed to remote | convention | none — a workflow habit, not a gate | human, at `/eod` | 2026-08-28 | nothing detects unpushed commits between `/eod` runs; 48 commits sat on one disk for two days (G10) |
 | CTL-024 | Scope-creep filing (mid-epic findings) | convention | none — `validate:epic-docs` not built | human, at close-out step 5b | 2026-08-28 | a finding recorded only in chat or a draft never reaches Linear; 6 issues reached Linear with no backlog doc and no priority row (2026-07-27→28), and a sequencing note lost the SUG-254 Ph4 bundling window |
 | CTL-025 | `validate:doc-budget` | enforced-by-code | `validate:doc-budget` | `ci.yml` → `ci-failure-alert.yml` | continuous | not in pre-commit, so a local commit is unchecked until CI. Measures words across `CLAUDE.md` plus the `docs/conventions/` files it references, so neither blank-line collapsing nor relocation between the two moves the number — but `~/.claude/projects/.../memory/MEMORY.md` is auto-loaded from outside the repo and no repo-side cap can reach it. Cap is 20,150 words: the achieved figure plus 5%, from 19,187 measured 2026-07-30 by `pnpm validate:doc-budget` (SUG-243 Ph3). Probe padding derives from the gate's own reported headroom, not a fixed size — a hardcoded 400 words stopped violating when the cap tightened and the probe reported STAYED GREEN |
+| CTL-027 | `validate:governance-tally` (page tally ≡ `governance-coverage.md` layer tables) | enforced-by-code | `validate:governance-tally` | `ci.yml` step *Validate governance tally* → `ci-failure-alert.yml` | continuous | not in `.husky/pre-commit`, so a local commit is unchecked until CI; a `[skip ci]` commit runs no CI at all. Checks that the derived, stated and published tallies agree — **not** that any status value is still true. A component marked Strong whose control went inert still counts as Strong. `Gap` is derived and compared against the doc, but has no page tile to compare against |
 
 ---
 
@@ -87,3 +88,13 @@ Measured 2026-07-28 by reading `PROBES` and every workspace `package.json`.
   shortest re-read interval here.
 
 Closing these is SUG-256 follow-up work, not a precondition for the register being useful.
+
+**`Reader` cells now name the CI step, not a line number (2026-08-01, SUG-256).** The SUG-256
+verification review found four cells citing the wrong `ci.yml` line — CTL-011, CTL-014, CTL-017
+and CTL-018 pointed at a different validator, a comment, an env var and a cache directive. The
+first fix attempted was to correct the numbers. That fix broke itself: adding the
+`Validate governance tally` step in the same change shifted every line below it, so four
+freshly-corrected references were wrong again before they were committed.
+
+Line numbers cannot survive an insertion, and nothing checks them. Step names can, and they
+match on the workflow's own `- name:` values. Corrected references point at steps from here on.

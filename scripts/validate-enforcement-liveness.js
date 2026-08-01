@@ -447,6 +447,49 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:governance-tally',
+    why: 'the published tally must not be allowed to drift from the rows it claims to count',
+    // Asserts on the OUTPUT TEXT, not the exit code. The script reports several
+    // disagreements under one exit code, so a non-zero exit proves *a* check
+    // fired, not *this* one — the false-assurance path the verification review
+    // flagged, and the same shape as a probe whose fixed-size injection stops
+    // violating a tightened threshold.
+    run() {
+      const result = gateProbe({
+        cmd: 'pnpm',
+        args: ['validate:governance-tally'],
+        success: 'caught the page/doc tally drift',
+        breakIt: () =>
+          mutateFile('apps/web/src/pages/platform/GovernancePage.jsx', (src) =>
+            src.replace(
+              "{ label: 'Automated checks',    value: 18",
+              "{ label: 'Automated checks',    value: 19"
+            )
+          ),
+      })
+      if (result.invalid || !result.live) return result
+
+      // Exit code alone is not enough. The script reports every disagreement it
+      // finds under a single exit code, so a non-zero exit proves *a* check
+      // fired — not the page-vs-doc one this probe injects. Without asserting on
+      // the text, an unrelated failure (say the doc's own Tally block drifting)
+      // would satisfy this probe while the page comparison sat broken. Same
+      // false-assurance shape as `gateProbe`'s own control run guards against.
+      const want = 'page publishes 19, layer tables give 18'
+      if (!(result.out || '').includes(want)) {
+        return {
+          live: false,
+          detail:
+            `validate:governance-tally failed, but never reported the injected drift ` +
+            `(${JSON.stringify(want)}). Some other disagreement failed the run, so this ` +
+            `probe proves nothing about the page-vs-doc comparison it exists to test.`,
+        }
+      }
+      return result
+    },
+  },
+
+  {
     gate: 'chromatic.sh reachability',
     why: 'the VRT script must reach its own first statement when .env is absent',
     // Not a violate-and-assert-failure probe: the failure mode here was the

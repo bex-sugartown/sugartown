@@ -114,20 +114,95 @@ Two corrections found while mapping, both by reading files rather than trusting 
 **Where the mapping lives — decided.** A `Enforced by` column in `governance-coverage.md`
 itself, naming the `CTL-NNN` rows or `artifact` for the other 25. Not a third file: two
 registries already disagree, and an unmaintained third would make it worse. What keeps it
-current: `validate:controls` already fails when a `CTL-NNN` reference dangles, so pointing the
-coverage doc at control IDs puts the mapping inside an existing gate's reach rather than
-inventing one. **That wiring is Phase 2's first item, not an assumption.**
+current: **decided 2026-08-01 after testing the assumption and finding it false.**
 
-**Phase 2 — Re-derive the tally**
+The Phase 1 draft of this section claimed `validate:controls` already fails on a dangling
+`CTL-NNN` reference, so the coverage doc would fall inside an existing gate's reach for free.
+**It does not.** `scripts/validate-control-register.js` reads exactly two files —
+`control-register.md` and `validate-enforcement-liveness.js` — and checks that *probe*
+references inside the register resolve against the `PROBES` array. It has no concept of a
+`CTL-NNN` cited from anywhere else, so a dangling reference in `governance-coverage.md` would be
+invisible to it. Verified by reading the script's `REGISTER`/`LIVENESS` constants and its
+`COLUMNS` check.
+
+The alternative placement is no cheaper: `COLUMNS` enforces exact column names and count
+(`validate-control-register.js:99,183`), so adding a `Covers` column to the register would fail
+the validator until the script is updated too.
+
+**Chosen: extend `validate:controls` to scan `governance-coverage.md` and require every
+`CTL-NNN` it cites to exist in the register.** Small — one more file read, one more check — and
+it extends an existing control rather than adding one. Only 5 of the 30 rows carry a `CTL-NNN`,
+so the policed surface is deliberately tiny.
+
+This changes a gate, so `verification-reviewer` runs first and is blocking
+(CLAUDE.md §Verification review).
+
+**Verification review — 2026-08-01, `verification-reviewer` subagent, blocking**
+
+Returned **1 Blocker** and resequenced this epic. Findings, all verified against files:
+
+- **Blocker.** The existing `validate:controls` probe mutates only `control-register.md`
+  (`validate-enforcement-liveness.js:399-419`). The proposed cross-reference check would have
+  shipped with its new code path unexercised — the same `STAYED GREEN against a known
+  violation` shape SUG-243 hit when a hardcoded probe injection stopped violating a tightened
+  cap.
+- **The cross-reference check guards the wrong drift mode.** The register is append-only with
+  never-reused IDs, so a dangling reference needs a deliberate deletion. The drift that has
+  *already happened* is the page drifting from its source doc: `GovernancePage.jsx` cited
+  coverage-doc v1.1, a version that never existed.
+- **A whole-file `CTL-\d{3}` scan would break on history.** `governance-coverage.md` carries a
+  45-line append-only Changelog, and Phase 3 adds an entry naming CTL-021. Retiring any control
+  later would turn a correct historical sentence into an unfixable CI failure.
+- **Latent false positive in the gate itself.** `readProbeGates`
+  (`validate-control-register.js:125`) matches `/gate:\s*'([^']+)'/g` — single quotes only. The
+  four `boundary:` probes use a template literal, so the validator sees 10 probes where 14
+  exist and would reject a legitimate row citing `boundary: apps/web`.
+- **Four `Reader` cells already cite the wrong `ci.yml` line** — CTL-011, CTL-014, CTL-017,
+  CTL-018. The same drift class this epic proposes to police, already live inside the register.
+
+**Resequenced accordingly.** Deriving the tally makes page-vs-doc drift impossible to ship and
+supplies the reproducing command AC 2 requires, because the command is the script name. The
+cross-reference check drops to Phase 4 with the reviewer's four required changes recorded.
+
+Baseline verified 2026-08-01 — all three sources agree, which is why this is the moment to lock
+it:
+
+```bash
+awk '/^### Layer/{inl=1;next} /^### Tally|^---/{inl=0} inl && /^\|/ {split($0,a,"|"); s=a[3]; gsub(/[⚠️ ]/,"",s); if(s!="Status" && s !~ /^-*$/) print s}' \
+  docs/ai/agentic-caucus/governance-coverage.md | sort | uniq -c
+# 18 Strong · 5 Partial · 5 N/A · 2 Inherited  — matches the doc's Tally and GovernancePage.jsx:192
+```
+
+**Phase 2 — Derive the tally and enforce it (CTL-027)**
+
+- [x] `scripts/validate-governance-tally.js`: parses the six layer tables, compares against the
+      doc's own `### Tally` block **and** `COVERAGE_TALLY` in `GovernancePage.jsx`. Fails on any
+      disagreement. Verified both directions: injecting `18→19` on the page, and flipping one
+      layer row's status, each produce a named failure. Wired into CI as *Validate governance
+      tally*
+- [x] Probe added, asserting on output text. **The first version was wrong**: it passed an
+      `assert` key that `gateProbe` does not accept, so it would have been silently ignored and
+      the probe would have passed on any non-zero exit — the exact false-assurance path the
+      review flagged. Rewritten to post-process `result.out` per the boundary-probe precedent
+- [x] `CTL-027` row added. Liveness now reports **14 gates proven live, 0 inert** (was 13)
+- [x] `readProbeGates` blind spot fixed. It matched single quotes only, so the four
+      `` `boundary: ${scope}` `` probes were invisible and a legitimate row citing one would
+      have been rejected as dangling. Now handles all three quote styles; a template literal
+      captures source text rather than its resolved value, so interpolated gates are matched by
+      the literal prefix before `${`. Verified it accepts `boundary: apps/web` and still rejects
+      `validate:nonexistent`
+- [x] **Stale `Reader` references fixed by changing their format, not their digits.** The review
+      found four cells citing the wrong `ci.yml` line. Correcting the numbers broke itself:
+      inserting the new CI step shifted every line below it, so four freshly-corrected
+      references were wrong again before being committed. All eight now name the CI step
+      (`ci.yml` step *Build*), matched against the workflow's own `- name:` values — a
+      reference that survives insertion. Each of the nine cited names verified to exist
+
+**Phase 3 — Fix the published surface**
 
 - [ ] Recompute `Automated / Documented / Vendor-owned / Out-of-scope` from the Phase 1 mapping
 - [ ] Decide the true `Gap` count. **0 remains a legitimate outcome** — but measured, not carried
       forward
-- [ ] Report each figure with the command that produced it (CLAUDE.md §Technical diagram red-pen
-      gate)
-
-**Phase 3 — Fix the published surface**
-
 - [ ] Update the tally on `/platform/governance` with a measurement date and named source
 - [ ] **Fix the `AUTOMATED CHECKS · 18` tile.** It reads "Enforced by code and pre-commit hooks",
       which overstates: only 6 validators run at pre-commit; the rest are CI-only, and CI-only is
@@ -137,6 +212,16 @@ inventing one. **That wiring is Phase 2's first item, not an assumption.**
       array at `GovernancePage.jsx:191` sourced verbatim from markdown, and that copy has already
       drifted once: the page cited v1.1, a version that never existed, while the doc header read
       v1.0 and its changelog ran to v1.2
+
+**Phase 4 — Coverage cross-reference (CTL-026), with the review's required changes**
+
+- [ ] Scan the `Enforced by` column of the six layer tables only, never the whole file
+- [ ] Widen the pattern to `/\bCTL-\d+\b/i` once column-scoped, catching `CTL-01`/`ctl-021` typos
+- [ ] Allocate **CTL-026** rather than widening CTL-015, so the new probe is cited by a row
+- [ ] Dedicated probe, gate string `validate:controls (coverage xref)`, sentinel `CTL-998` —
+      not `CTL-999`, which the existing probe already uses
+- [ ] State the residual gap in the row and the doc: **dangling IDs only.** An ID that resolves
+      but names the wrong control is invisible to it
 
 ## Non-Goals
 

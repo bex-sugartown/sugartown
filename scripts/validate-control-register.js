@@ -122,11 +122,30 @@ function readProbeGates() {
     return new Set()
   }
   const src = readFileSync(LIVENESS, 'utf8')
-  const gates = [...src.matchAll(/gate:\s*'([^']+)'/g)].map((m) => m[1])
-  if (!gates.length) {
+  // Gate strings appear as 'single', "double" or `template` literals. Matching
+  // single quotes only left the four `boundary: ${scope}` probes invisible, so a
+  // legitimate row citing one would have been rejected as dangling — a false
+  // positive in the gate that polices this register (found by the SUG-256
+  // verification review).
+  //
+  // A template literal captures its source text, not its resolved value, so
+  // `boundary: ${scope}` cannot be compared directly. Interpolated gates are
+  // recorded as the literal prefix before the first `${`, and matched by prefix
+  // below. Less precise than exact matching, and the honest limit of reading a
+  // value that only exists at runtime.
+  const gates = new Set()
+  const prefixes = []
+  for (const m of src.matchAll(/gate:\s*(?:'([^']+)'|"([^"]+)"|`([^`]+)`)/g)) {
+    const literal = m[1] ?? m[2]
+    const template = m[3]
+    if (literal !== undefined) gates.add(literal)
+    else if (template.includes('${')) prefixes.push(template.slice(0, template.indexOf('${')))
+    else gates.add(template)
+  }
+  if (!gates.size && !prefixes.length) {
     errors.push('No `gate:` entries found in validate-enforcement-liveness.js — probe cross-reference cannot run')
   }
-  return new Set(gates)
+  return { gates, prefixes }
 }
 
 // ─── Enumerate every validate:* script in the workspace ──────────────────────
@@ -215,7 +234,9 @@ function run() {
         }
       } else {
         const gate = probe.replace(/`/g, '').trim()
-        if (!probeGates.has(gate)) {
+        const known =
+          probeGates.gates.has(gate) || probeGates.prefixes.some((pre) => pre && gate.startsWith(pre))
+        if (!known) {
           errors.push(
             `${where} [${id}] — Probe "${gate}" is not in the PROBES array of validate-enforcement-liveness.js. ` +
               `Add the probe, or set \`none — <reason>\`.`

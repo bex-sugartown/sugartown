@@ -87,6 +87,9 @@ jobs:
       - name: Validate doc budget
         run: pnpm validate:doc-budget
 
+      - name: Validate governance tally
+        run: pnpm validate:governance-tally
+
       - name: Validate schema parity
         run: pnpm validate:schema-parity
         env:
