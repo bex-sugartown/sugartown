@@ -50,8 +50,11 @@ It is registered as CTL-024 at `convention` class because this validator does no
 **Phase 1 — Backfill (no new tooling)**
 
 - [ ] Stub + priority-stack row for SUG-249, 257, 259, 260
-- [ ] Stub for SUG-256, carrying a Scope item to reconcile its shipped work against its
-      stated scope and correct the `[Unreleased]` CHANGELOG line
+- [x] Stub for SUG-256, carrying a Scope item to reconcile its shipped work against its
+      stated scope and correct the `[Unreleased]` CHANGELOG line. **Done 2026-08-01:**
+      `docs/backlog/SUG-256-governance-tally-measured-liveness.md`. The audit that wrote it
+      found the epic unexecutable as scoped — the tally and the liveness data live in two
+      registries with no mapping — so Phase 1 is now building that mapping
 - [ ] Stub for SUG-258, recording that the SUG-254 Ph4 bundling window closed and it now
       stands alone, touching `apps/web/eslint.config.js` a second time
 - [ ] Stub + priority row for SUG-262 and SUG-263 (this epic and its sibling — filed

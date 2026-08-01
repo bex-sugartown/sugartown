@@ -1,0 +1,162 @@
+---
+**Epic:** SUG-256 — Re-derive the GovernancePage coverage tally from measured enforcement liveness
+**Linear Issue:** [SUG-256](https://linear.app/sugartown/issue/SUG-256/re-derive-governancepage-coverage-tally-from-measured-enforcement)
+**Status:** In Progress (since 2026-07-29)
+**Priority:** 🟢 Next — High. Reputational exposure, not technical debt
+**Merge strategy:** (a) Merge-as-you-go. Phase 1 is a research output and ships on its own.
+---
+
+# SUG-256 — Governance tally from measured liveness
+
+**Doc created 2026-08-01**, backfilling a gap: this epic reached In Progress on 2026-07-29 with
+its Background and Scope living only in Linear and no `docs/backlog/` file at all. Creating it
+satisfies SUG-262 Phase 1's "Stub for SUG-256" item, ticked there in the same commit.
+
+## Background
+
+`/platform/governance` §05 published **"30 checkpoints · 0 gaps"** with no measurement date and
+no source, while the pipeline behind the claim had failed every CI run on `main` since
+2026-05-10.
+
+A partial fix landed 2026-07-27 in `52a86dbb`: the kicker became `30 checkpoints · mapped
+2026-07-26`, `governance-coverage.md` went to v1.3 with a liveness caveat and three ⚠️ rows, and
+the tally was deliberately **not** re-asserted. This epic does the other half — replacing "not
+asserted" with a measured number.
+
+The failure was never the wrong number. It was a claim about the platform's own rigour that
+nothing re-verified. SUG-245 ran a GovernancePage accuracy pass on 2026-07-26 and closed it
+"re-verified accurate as of this entry, not carried forward unchecked" — one day before the
+pipeline was found red for three months. That re-verification was real, but it checked
+validators were *wired*, not that anything *ran*.
+
+## The blocker found before execution (2026-08-01 audit)
+
+**The epic as scoped in Linear is not executable as written.** Linear says "re-measure all 30
+components against real liveness data". There is no path from the liveness data to those 30
+components, because they are counted in a different registry.
+
+| Source | Holds | Used by the page? | Measured 2026-08-01 by |
+|---|---|---|---|
+| `docs/ai/agentic-caucus/governance-coverage.md` v1.3 | ~30 components; tally **18 / 5 / 2 / 5** | **yes** — copied verbatim into `GovernancePage.jsx:191` | reading the file |
+| `docs/ai/agentic-caucus/control-register.md` | **25** controls, each with probe / reader / bypass | no | `grep -c "^| CTL-"` |
+| `pnpm validate:enforcement-liveness` | **13 gates proven live**, 0 inert, 1 skipped | no | running it |
+
+**Two registries, two taxonomies, no mapping.** Liveness describes the control register's rows.
+The published tally describes governance-coverage's components. Deriving a number in one from
+measurements in the other is not possible until something maps them, and nothing does.
+
+It is not simply "13 of 30 are measurable" either. **15 of the 25 control rows have no probe**,
+nine of them `enforced-by-code` — CTL-008, 009, 010, 011, 013, 014, 016, 017, 018. They are wired
+and they run; nothing proves they would fail against broken input. So even inside the control
+register, most rows carry no liveness evidence.
+
+```bash
+# reproduce both figures
+grep -c "^| CTL-" docs/ai/agentic-caucus/control-register.md
+node scripts/validate-enforcement-liveness.js | grep -E "proven live|inert|skipped"
+```
+
+## Objective
+
+`/platform/governance` publishes a coverage claim that carries a measurement date and a named
+reproducing command, where every number is derived from something that ran — and where anything
+not measurable is shown as such rather than folded into a total.
+
+## Scope
+
+**Phase 1 — Map the two registries (research; no page changes)**
+
+- [ ] Produce a mapping table: each `governance-coverage.md` component → the `CTL-NNN` row(s)
+      that enforce it, or `no control` where none exists
+- [ ] For each mapped row, record whether it has a probe and whether that probe passed
+- [ ] **Name the unmeasurable set explicitly.** Components with no control, and controls with no
+      probe, cannot contribute to a measured tally. The size of that set is a finding in itself
+- [ ] Decide where the mapping lives so it cannot drift: a column in `governance-coverage.md`, a
+      column in `control-register.md`, or a third file. **Whichever is chosen, name what keeps it
+      current** — an unmaintained mapping recreates this epic
+
+**Phase 2 — Re-derive the tally**
+
+- [ ] Recompute `Automated / Documented / Vendor-owned / Out-of-scope` from the Phase 1 mapping
+- [ ] Decide the true `Gap` count. **0 remains a legitimate outcome** — but measured, not carried
+      forward
+- [ ] Report each figure with the command that produced it (CLAUDE.md §Technical diagram red-pen
+      gate)
+
+**Phase 3 — Fix the published surface**
+
+- [ ] Update the tally on `/platform/governance` with a measurement date and named source
+- [ ] **Fix the `AUTOMATED CHECKS · 18` tile.** It reads "Enforced by code and pre-commit hooks",
+      which overstates: only 6 validators run at pre-commit; the rest are CI-only, and CI-only is
+      unenforced locally. Flagged in `52a86dbb` and deliberately left
+- [ ] Update CTL-021's register row — it currently carries a liveness caveat pending this epic
+- [ ] Decide whether the tally should be generated rather than hand-maintained. It is a hardcoded
+      array at `GovernancePage.jsx:191` sourced verbatim from markdown, and that copy has already
+      drifted once: the page cited v1.1, a version that never existed, while the doc header read
+      v1.0 and its changelog ran to v1.2
+
+## Non-Goals
+
+- **Building probes for the 15 unprobed controls.** That is SUG-256 follow-up work already named
+  in the control register's §Known coverage gaps. This epic reports the gap honestly; it does not
+  close it.
+- **Re-measuring anything CI cannot reach.** If a control has no probe, the honest output is
+  "unmeasured", not an estimate.
+- Redesigning `/platform/governance`. Numbers and their evidence only.
+
+## Technical Constraints
+
+- Any published figure carries a measurement date and a reproducing command.
+- A number that cannot be derived from something that ran is not published as if it were.
+- Phase 3 touches a rendered page, so the Phase 0 visual-spec gate must be assessed before any
+  JSX change — see Pre-Execution Gate below.
+
+## Files to Modify
+
+- `docs/ai/agentic-caucus/governance-coverage.md` (mapping + tally)
+- `docs/ai/agentic-caucus/control-register.md` (CTL-021 row) — **gated**
+- `apps/web/src/pages/platform/GovernancePage.jsx` (tally array ~:191, kicker ~:319, tile copy)
+
+## Pre-Execution Completeness Gate
+
+- [x] **Background** — from the Linear issue, 2026-07-27
+- [x] **Scope** — three phases, sequenced 2026-08-01
+- [x] **Audit file paths verified** — `GovernancePage.jsx:191` and `:319` confirmed by `grep -n`;
+      `governance-coverage.md` v1.3 confirmed by reading its header
+- [x] **Figures measured, not quoted** — 25 control rows, 15 without a probe, 13 gates proven
+      live, all measured 2026-08-01 with the commands recorded above
+- [ ] **Phase 0 assessment** — Phase 3 changes rendered output on `/platform/governance`. The
+      gate's test is "would this change render something a human has not signed off on?" Changing
+      numbers and one tile's body copy inside an existing, already-reviewed layout is arguably
+      not a new visual format — **but that decision must be recorded before Phase 3 starts**, not
+      assumed here
+- [ ] **Verification review** — Phase 3 changes a published claim, which CLAUDE.md
+      §Verification review makes blocking. Run `verification-reviewer` as a subagent before
+      Phase 3
+
+## Acceptance Criteria
+
+- [ ] Every component in the published tally traces to a control, or is shown as having none
+- [ ] The claim carries a measurement date and a command that reproduces it
+- [ ] The unmeasurable set is stated on the page or in its linked doc, not omitted
+- [ ] `AUTOMATED CHECKS · 18`'s body copy matches what actually enforces those checks
+- [ ] A named mechanism keeps the mapping current, or a recorded decision says why none is needed
+
+## Risks
+
+- **Publishing a smaller, honest number reads as a regression.** It is not — it is the first
+  number with evidence behind it. Say so on the page rather than letting the drop speak.
+- **The mapping becomes a third thing that drifts.** Two registries already disagree; a third
+  artifact with no maintainer makes it worse. Phase 1's last item exists for this.
+- **Scope pull toward building the 15 missing probes.** Explicitly a Non-Goal. Filing them is
+  fine; building them here is not.
+
+## Post-Epic Close-Out
+
+1. Visual QA: required if Phase 3 changes rendered output beyond numbers
+2. Record before/after tally figures with their commands
+3. Move to `docs/shipped/`
+4. `/mini-release`
+5. Transition SUG-256 to Done in Linear
+6. **Incident log:** likely yes. This corrects a published claim found false — the log's stated
+   bar. Needs `Introduced` (when "0 gaps" was first published) and `Noticed` (2026-07-27)
