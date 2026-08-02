@@ -186,15 +186,15 @@ const toWorkflowDocRow = (r) => ({
   output: linkOrText(r.outputLabel, r.outputHref),
 })
 
-// ── AI governance coverage (SUG-198) ──────────────────────
-// Data sourced verbatim from docs/ai/agentic-caucus/governance-coverage.md v1.3.
-// Tally is as-configured, not as-measured — liveness re-measurement pending SUG-255.
-const COVERAGE_TALLY = [
-  { label: 'Automated checks',    value: 18, body: 'Enforced by code and pre-commit hooks.' },
-  { label: 'Documented checks',   value: 5,  body: 'To be automated or kept human.' },
-  { label: 'Vendor-owned checks', value: 2,  body: 'Owned by Sanity, GitHub, and Netlify.' },
-  { label: 'Out-of-scope checks', value: 5,  body: 'No AI model is trained on this platform.' },
-]
+// ── AI governance coverage tally — MOVED (SUG-256 Phase 3, 2026-08-02) ────────
+// COVERAGE_TALLY now lives in GovernanceDraftPage.jsx, on a noindex route, while
+// it is re-measured. Three of the claims around it were measurable as false or
+// unbacked, and iterating on public claims about this platform's own rigour costs
+// credibility on every deploy. §05 below keeps the workflow diagram and doc index
+// (SUG-244), which publish attribution rather than sufficiency, and carries a
+// dated notice where the tally was.
+//
+// Do not re-add a tally here without re-running the verification review.
 
 function RoadmapLane({ label, epics }) {
   const rows = epics.map((r) => toRoadmapRow(r, styles.issueId, styles.statusCell, styles.labelChips))
@@ -224,7 +224,11 @@ export default function GovernancePage() {
           <StatCard label="In flight"       value={inProgress.length || '—'} href="https://linear.app/sugartown" />
           <StatCard label="Current release" value={stats.release?.current?.version ?? '—'} href={TRUST_LINKS.changelog} />
           <StatCard label="Epics shipped"   value={stats.repo?.epicsShipped ?? '—'} href={TRUST_LINKS.commits} />
-          <StatCard label="Vulnerabilities" value="0" href={TRUST_LINKS.security} />
+          {/* Derived from `pnpm audit` via apps/web/scripts/stats/security.js, not
+              hardcoded (SUG-256 Ph3 / CTL-029). The measurement date rides along at
+              stats.security.fetchedAt. Was the string literal "0": no date, no source,
+              and nothing failed when it stopped being true. */}
+          <StatCard label="Vulnerabilities" value={stats.security?.vulnerabilities?.total ?? '—'} href={TRUST_LINKS.security} />
         </Grid>
 
         <section id="recent-releases" className={styles.section}>
@@ -314,20 +318,18 @@ export default function GovernancePage() {
           <SectionLabel
             level="h3"
             number="§05"
-            name="AI GOVERNANCE COVERAGE"
-            title="Enforced policy, measured"
-            kicker="30 checkpoints · mapped 2026-07-26"
+            name="AI GOVERNANCE WORKFLOW"
+            title="Epic lifecycle, layer-tagged"
+            kicker="8 phases"
           />
-          <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2} className={styles.statsSection}>
-            {COVERAGE_TALLY.map((s) => (
-              <StatCard key={s.label} label={s.label} value={s.value} body={s.body} />
-            ))}
-          </Grid>
+          <Callout variant="warn" title="COVERAGE MAP">
+            The AI-governance coverage tally is being re-measured and is not published here
+            while that work runs. Tracked as SUG-256, started 2026-08-02.
+          </Callout>
           <Callout variant="info">
             Each phase is tagged with its primary AI-governance layer (L1 AI Inventory, L2
             Data Foundation, L5 Human Oversight, L6 Compliance &amp; Audit). L3 Data
-            Security &amp; Access is inherited from platform vendors and L4 Model Assurance
-            is diffuse across phases, so neither is tied to a single node.
+            Security &amp; Access and L4 Model Assurance are not tied to a single node.
           </Callout>
           <MermaidDiagram
             _key={WORKFLOW_DIAGRAM._key}

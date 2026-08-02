@@ -9,7 +9,7 @@
  *
  *   1. DERIVED  — counted from the six layer tables in governance-coverage.md
  *   2. STATED   — the `### Tally` block in that same doc
- *   3. PUBLISHED— the COVERAGE_TALLY array rendered by GovernancePage.jsx
+ *   3. PUBLISHED— the COVERAGE_TALLY array rendered by GovernanceDraftPage.jsx
  *
  * Why derivation rather than a cross-reference check: the drift that has already
  * happened is the page drifting from its source. GovernancePage.jsx cited
@@ -19,7 +19,15 @@
  *
  * This checks that the three agree. It does NOT check that any status value is
  * still true — a component marked Strong whose control went inert still counts as
- * Strong here. That is the residual gap, recorded in CTL-027's Bypass cell.
+ * Strong here. That is the residual gap, recorded in CTL-027's Bypass cell and
+ * tracked as CTL-028.
+ *
+ * SUG-256 Phase 3 (2026-08-02): the tally moved off `/platform/governance` to the
+ * noindex `/platform/governance-draft`, so PAGE points at GovernanceDraftPage.jsx.
+ * The liveness probe in validate-enforcement-liveness.js mutates the same file and
+ * derives its injection from the value it finds there — if you move this array
+ * again, both must follow it, or the harness reports the GATE inert when the
+ * PROBE is what broke.
  *
  * Exit codes:
  *   0 — all three agree
@@ -34,7 +42,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
 
 const COVERAGE = resolve(ROOT, 'docs/ai/agentic-caucus/governance-coverage.md')
-const PAGE = resolve(ROOT, 'apps/web/src/pages/platform/GovernancePage.jsx')
+const PAGE = resolve(ROOT, 'apps/web/src/pages/platform/GovernanceDraftPage.jsx')
 
 /** Status value in the coverage doc → the label the page renders it under. */
 const STATUS_TO_LABEL = {
@@ -98,12 +106,12 @@ function readStatedTally(src) {
   return stated
 }
 
-// ─── 3. PUBLISHED — COVERAGE_TALLY in GovernancePage.jsx ─────────────────────
+// ─── 3. PUBLISHED — COVERAGE_TALLY in GovernanceDraftPage.jsx ────────────────
 
 function readPublishedTally(src) {
   const start = src.indexOf('const COVERAGE_TALLY')
   if (start === -1) {
-    errors.push('GovernancePage.jsx has no `const COVERAGE_TALLY` — the page may have been restructured')
+    errors.push('GovernanceDraftPage.jsx has no `const COVERAGE_TALLY` — the page may have been restructured')
     return null
   }
   const block = src.slice(start, src.indexOf(']', start))
@@ -117,7 +125,7 @@ function readPublishedTally(src) {
 
 // ─── Run ─────────────────────────────────────────────────────────────────────
 
-for (const [label, path] of [['governance-coverage.md', COVERAGE], ['GovernancePage.jsx', PAGE]]) {
+for (const [label, path] of [['governance-coverage.md', COVERAGE], ['GovernanceDraftPage.jsx', PAGE]]) {
   if (!existsSync(path)) errors.push(`${label} not found at ${path}`)
 }
 if (errors.length) {
@@ -152,7 +160,7 @@ for (const [status, label] of Object.entries(STATUS_TO_LABEL)) {
   if (s === undefined) errors.push(`\`${status}\` missing from the doc's ### Tally block`)
   else if (s !== d) errors.push(`\`${status}\`: doc's Tally says ${s}, layer tables give ${d}`)
 
-  if (p === undefined) errors.push(`\`${label}\` missing from COVERAGE_TALLY in GovernancePage.jsx`)
+  if (p === undefined) errors.push(`\`${label}\` missing from COVERAGE_TALLY in GovernanceDraftPage.jsx`)
   else if (p !== d) errors.push(`\`${label}\`: page publishes ${p}, layer tables give ${d}`)
 }
 
@@ -171,7 +179,7 @@ if (errors.length) {
   console.error(`❌  Governance tally does not agree across its three sources.\n`)
   for (const e of errors) console.error(`    • ${e}`)
   console.error(`\n    The layer tables are the source. Fix the doc's ### Tally block and`)
-  console.error(`    COVERAGE_TALLY in GovernancePage.jsx to match what the rows actually say —`)
+  console.error(`    COVERAGE_TALLY in GovernanceDraftPage.jsx to match what the rows say —`)
   console.error(`    do not edit the rows to match a published number.\n`)
   process.exit(1)
 }

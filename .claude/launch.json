@@ -6,6 +6,7 @@
       "runtimeExecutable": "/opt/homebrew/bin/pnpm",
       "runtimeArgs": ["--filter", "web", "dev"],
       "port": 5173,
+      "autoPort": true,
       "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
     },
     {

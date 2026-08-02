@@ -1,4 +1,8 @@
 User-agent: *
 Disallow: /*?*
 
+# Working surface, not a published claim (SUG-256 Ph3, CTL-030).
+# Also served with X-Robots-Tag: noindex, nofollow — see netlify.toml.
+Disallow: /platform/governance-draft
+
 Sitemap: https://sugartown.io/sitemap.xml

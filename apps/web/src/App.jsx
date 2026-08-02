@@ -25,6 +25,7 @@ import SiteGraphPage from './pages/SiteGraphPage'
 import SchemaErdPage from './pages/SchemaErdPage'
 import PlatformLayout from './components/PlatformLayout/PlatformLayout'
 import GovernancePage from './pages/platform/GovernancePage'
+import GovernanceDraftPage from './pages/platform/GovernanceDraftPage'
 import MonorepoPage from './pages/platform/MonorepoPage'
 import CmsPage from './pages/platform/CmsPage'
 import DesignSystemPage from './pages/platform/DesignSystemPage'
@@ -156,6 +157,8 @@ function App() {
             {/* /platform/schema → /platform/cms redirect (SUG-111) */}
             <Route path="schema" element={<Navigate to="/platform/cms" replace />} />
             <Route path="governance" element={<GovernancePage />} />
+            {/* noindex working surface (SUG-256 Ph3) — unlinked by design */}
+            <Route path="governance-draft" element={<GovernanceDraftPage />} />
             <Route path="monorepo" element={<MonorepoPage />} />
             <Route path="cms" element={<CmsPage />} />
             <Route path="design-system" element={<DesignSystemPage />} />

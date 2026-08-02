@@ -299,32 +299,79 @@ as long as it needs without the wrong version being live meanwhile.
 
 **Scope**
 
-- [ ] Decide the route. Suggested `/platform/governance-draft`, registered in `PLATFORM_ROUTES`.
-      **Not** a `/drafts/` namespace — check `docs/briefs/…/PROJ-IA` reserved namespaces first
-- [ ] New page component rendering §05 only: the tally `Grid`, the `Callout`, the workflow
-      `MermaidDiagram`, the governance doc-index `Table`
-- [ ] `robots: { index: false, follow: false }` — **`follow: false` too**, since the point is
-      that nothing about this page is ready to be trusted
-- [ ] **Remove §05 from `GovernancePage.jsx`.** A copy left behind is the two-registries problem
-      again, one directory over
-- [ ] Decide what `/platform/governance` shows in its place: nothing, or a short line saying the
-      coverage map is being re-measured. **A silent removal reads as a retraction nobody
-      explained** — the page has published this section since SUG-198
-- [ ] Confirm the page is not linked from nav, the sitemap page, or the governance doc index
-- [ ] `validate:governance-tally` must follow §05 to the new page. Its `PAGE` constant
-      (`scripts/validate-governance-tally.js:38`) points at `GovernancePage.jsx`, and its probe
-      (`validate-enforcement-liveness.js:464-467`) hardcodes a string from that file. **Both
-      break the moment §05 moves** — same coupling the review flagged for the rename
-- [ ] Re-run `pnpm validate:enforcement-liveness` and confirm 14 gates still proven live
+- [x] Route decided: `/platform/governance-draft`, registered as `PLATFORM_ROUTES.governanceDraft`
+      (`routes.js:83`). Reserved namespaces in `ia-brief.md:297` are top-level only, and
+      `/platform` has explicit children with no `*` or `:slug`, so no collision. `validate:urls`
+      inlines its own registry and never reads `PLATFORM_ROUTES`, so registering it triggers nothing
+- [x] **Only the tally moved, not all of §05** — decided 2026-08-02, superseding the four-block
+      plan drafted above. The tally publishes **sufficiency** (how many components are Strong), and
+      all three ⚠️ liveness caveats attach to sufficiency rows. The workflow diagram publishes
+      **attribution** (which layer a phase belongs to), which no ⚠️ row disputes, and the doc index
+      is a link table. Moving accurate week-old artifacts off a public page makes the visible
+      retraction larger than the actual problem
+- [x] `robots: { index: false, follow: false }` — plus two mechanisms the plan did not have. See
+      **CTL-030** below; the meta alone was not sufficient
+- [x] `COVERAGE_TALLY` removed from `GovernancePage.jsx`, with a comment naming where it went and
+      forbidding a re-add without a fresh verification review
+- [x] **What `/platform/governance` shows in its place — resolved by Bex 2026-08-02.** A
+      `Callout variant="warn"` in §05's slot, keeping the folio number so §06 needs no renumbering.
+      Copy approved: *"The AI-governance coverage tally is being re-measured and is not published
+      here while that work runs. Tracked as SUG-256, started 2026-08-02."* Section retitled
+      `AI GOVERNANCE WORKFLOW` / `Epic lifecycle, layer-tagged` / kicker `8 phases`
+- [x] Confirmed unlinked: `PlatformSidebar` never listed `#ai-governance` and lists no draft route;
+      `SitemapPage` reads from Sanity; `llms.txt` does not enumerate platform routes;
+      `build-sitemap.js` `STATIC_ROUTES` untouched
+- [x] `validate:governance-tally` followed the tally. **8 filename sites**, not the one the plan
+      named. `:15` deliberately still says `GovernancePage.jsx` — it is a historical statement about
+      the v1.1 drift that already happened, and remains accurate
+- [x] `pnpm validate:enforcement-liveness` → **14 proven live, 0 inert, 1 skipped**, with
+      `validate:governance-tally` proven live against the relocated file
 
-**Phase 3 gates that apply**
+**Phase 3 gates — assessed and recorded**
 
-- **Phase 0:** a new page shell is a new visual surface even though the section inside it is
-  already-reviewed. The existing §05 blocks are reviewed; the *page* around them is not.
-  Assess and record before writing JSX — do not assume it is exempt as I nearly did for the
-  in-place edit
-- **Verification review:** required again. The 2026-08-01 review reviewed *fixing §05 in place*;
-  it did not review *moving it*. Its 4 blockers still stand and are listed above
+- **Phase 0: does not fire.** Recorded per the gate's own instruction rather than assumed. The new
+  page reuses `PlatformLayout`, `usePlatformHero`, and `PlatformHubPage.module.css` with **zero new
+  CSS classes**, and composes only already-reviewed primitives (`SectionLabel`, `Grid`, `StatCard`,
+  `Callout`). The `warn` callout is an existing variant of an existing primitive dropped into an
+  existing section slot. No new visual format is invented, so nothing renders that a human has not
+  signed off on. Had either introduced a new class or a new arrangement, the gate would fire.
+- **Verification review: run 2026-08-02**, `verification-reviewer` subagent, blocking. Returned
+  **5 blockers**, all closed below.
+
+**Phase 3 verification review — 2026-08-02. 5 Blockers, all closed.**
+
+| # | Blocker | How it was closed |
+|---|---|---|
+| 1 | **CTL-027's probe hardcoded `18`, `19`, and the array's four-space alignment.** A stale needle makes `mutateFile`'s `String.replace` a no-op, the gate runs on a clean tree, exits 0, and the harness reports **the gate inert** — when the probe is what broke. That misattribution invites a future session to weaken a working gate. Same class as CTL-025's fixed-size injection | Probe now reads the current `Automated checks` value out of the page and injects `value + 1`, building its assertion string from the same two numbers. `mutateFile` throws on a no-op transform. **Verified by deliberately staling the needle**: the harness reported `PROBE INVALID — cannot vouch for this gate` and *"fix the probe, not the gate"* |
+| 2 | **8 filename sites, not 1** | All updated; `:15` correctly left as history |
+| 3 | **`noindex` is JS-injected on a non-prerendered route** (`prerender-content.mjs` covers article/node/caseStudy only), so a non-JS crawler gets the SPA shell with no robots directive | Three mechanisms shipped together: `X-Robots-Tag: noindex, nofollow` in `netlify.toml` (load-bearing, needs no JS), `Disallow` in `robots.txt`, and the `SeoHead` meta. The Disallow-blocks-the-noindex tradeoff does not bite: it only matters when de-indexing an already-indexed URL, and this one never was |
+| 4 | **The WIP callout would be an undated claim** — the exact shape this epic corrects | Copy carries `2026-08-02` and the tracking ID in rendered text. CTL-021's `Next read` pulled in to **2026-09-02**, since that date is the only reader that will ever notice it going stale |
+| 5 | **CTL-028 must come along** — the draft page publishes 18/5/2/5 derived from three ⚠️-caveated rows that CTL-027 explicitly does not validate | CTL-028 added. The draft page also carries a second `warn` callout stating exactly what the command does and does not prove |
+
+**Register rows: CTL-021 narrowed, CTL-027 amended, CTL-028 / CTL-029 / CTL-030 added.**
+CTL-026 remains reserved for Phase 4 and was not reallocated. Diff shown and approved under the
+Instruction & Rule File Write Gate before writing.
+
+**Three things found while building that the review could not have caught**
+
+1. **`SeoHead` ignored the `robots` prop.** It is only honoured inside the `seo` object; the
+   top-level `title`/`description` shorthand silently drops it. The page shipped with **no robots
+   meta at all** until this was caught **in the browser** — the one mechanism the whole rescope
+   depends on. A build-passes check would have missed it entirely.
+2. **The new page's own doc comment broke the gate.** `validate-governance-tally.js` locates the
+   array by a plain `indexOf` on its declaration and reads to the first `]`. A comment above it
+   restating that declaration and a `label: … value:` example made the parser lock onto the prose
+   and drop the first tile. **The gate caught it**, which is the first evidence CTL-027 does useful
+   work on a real change rather than a synthetic probe.
+3. **The platform rail highlights `Overview` on an unlisted route.** Recorded as an observation, not
+   filed: no item falsely activates as *Governance*, only the `/platform` prefix match, and this is
+   pre-existing behaviour for any unlisted `/platform` child. It surfaces only on a deliberately
+   unlinked page.
+
+**Correction to this doc's own AC.** "Confirm 14 gates still proven live" is environment-dependent:
+15 probes exist, and the chromatic probe skips locally (`apps/storybook/.env` present) while running
+in CI (`.env` is gitignored). The durable AC is **exit 0 with 0 inert**, recording the live/skipped
+split and the environment it was measured in.
 
 **Phase 3 (superseded) — fix the published surface in place**
 
@@ -380,9 +427,18 @@ next session knows what is upstream, what is downstream, and what merely overlap
 Anything touching `apps/web/src/pages/platform/GovernancePage.jsx`. Phase 3 removes a section
 from it, and `validate:governance-tally` plus its probe both hardcode strings from that file.
 
-## Open decisions for the next session
+## Open decisions — both resolved 2026-08-02 by Bex
 
-Both change what gets built. Neither should be answered by inference.
+1. **Widen. RESOLVED — yes, include the hero statistic.** It turned out materially cheaper than
+   this doc assumed: `stats.json` already carries `security.vulnerabilities.total` with
+   `security.fetchedAt`, derived from `pnpm audit` via `apps/web/scripts/stats/security.js`, in the
+   object `GovernancePage.jsx:9` already imports. The fix was one line replacing the string literal
+   with the derived value, so **CTL-029 is `measured`, not `convention`**. The register row still
+   records the residual gap: no hero tile renders its measurement date, so a reader cannot tell how
+   fresh any of the four are.
+2. **RESOLVED — a `warn` callout carrying a date, not silence.** See Phase 3 above.
+
+The original text of both, preserved:
 
 1. **Does Phase 3 stay narrow or widen to every published statistic on the page?**
    The review's position, which I share: `Vulnerabilities · 0` is a string literal at

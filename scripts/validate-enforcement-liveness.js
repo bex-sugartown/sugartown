@@ -91,12 +91,27 @@ function tempFile(relPath, contents) {
   return full
 }
 
-/** Mutate an existing tracked file, registering byte-exact restoration. */
+/**
+ * Mutate an existing tracked file, registering byte-exact restoration.
+ *
+ * Throws when the transform is a no-op. Without this, a stale `String.replace`
+ * needle writes the file back byte-identical, the gate runs on a clean tree and
+ * exits 0, and the harness reports the GATE as inert — when the truth is the
+ * PROBE's needle went stale. That misattribution invites a future session to
+ * weaken a gate that was working fine. Fail loudly as an invalid probe instead.
+ */
 function mutateFile(relPath, transform) {
   const full = resolve(ROOT, relPath)
   const original = readFileSync(full, 'utf8')
+  const mutated = transform(original)
+  if (mutated === original) {
+    throw new Error(
+      `probe transform was a no-op on ${relPath} — the injection needle is stale, ` +
+      `so this probe would prove nothing. Fix the probe, not the gate.`
+    )
+  }
   cleanups.push(() => writeFileSync(full, original, 'utf8'))
-  writeFileSync(full, transform(original), 'utf8')
+  writeFileSync(full, mutated, 'utf8')
   return full
 }
 
@@ -455,17 +470,32 @@ const PROBES = [
     // flagged, and the same shape as a probe whose fixed-size injection stops
     // violating a tightened threshold.
     run() {
+      // The injection is DERIVED from the page, not hardcoded. The previous
+      // version pinned the literal `18`, the literal `19`, and the array's
+      // four-space alignment — all three stale the moment the tally is
+      // re-measured, which is the whole objective of the epic that added this
+      // gate. Same defect class as CTL-025's fixed-size doc-budget injection.
+      const PAGE = 'apps/web/src/pages/platform/GovernanceDraftPage.jsx'
+      const NEEDLE = /(label:\s*'Automated checks',\s*value:\s*)(\d+)/
+      const found = readFileSync(resolve(ROOT, PAGE), 'utf8').match(NEEDLE)
+      if (!found) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            `could not read the 'Automated checks' tally value out of ${PAGE}. The probe's ` +
+            `needle is stale or the tally moved again — fix the probe, not the gate.`,
+        }
+      }
+      const current = Number(found[2])
+      const injected = current + 1
+
       const result = gateProbe({
         cmd: 'pnpm',
         args: ['validate:governance-tally'],
         success: 'caught the page/doc tally drift',
         breakIt: () =>
-          mutateFile('apps/web/src/pages/platform/GovernancePage.jsx', (src) =>
-            src.replace(
-              "{ label: 'Automated checks',    value: 18",
-              "{ label: 'Automated checks',    value: 19"
-            )
-          ),
+          mutateFile(PAGE, (src) => src.replace(NEEDLE, `$1${injected}`)),
       })
       if (result.invalid || !result.live) return result
 
@@ -475,7 +505,7 @@ const PROBES = [
       // the text, an unrelated failure (say the doc's own Tally block drifting)
       // would satisfy this probe while the page comparison sat broken. Same
       // false-assurance shape as `gateProbe`'s own control run guards against.
-      const want = 'page publishes 19, layer tables give 18'
+      const want = `page publishes ${injected}, layer tables give ${current}`
       if (!(result.out || '').includes(want)) {
         return {
           live: false,
