@@ -38,14 +38,14 @@ components, because they are counted in a different registry.
 | Source | Holds | Used by the page? | Measured 2026-08-01 by |
 |---|---|---|---|
 | `docs/ai/agentic-caucus/governance-coverage.md` v1.3 | ~30 components; tally **18 / 5 / 2 / 5** | **yes** — copied verbatim into `GovernancePage.jsx:191` | reading the file |
-| `docs/ai/agentic-caucus/control-register.md` | **25** controls, each with probe / reader / bypass | no | `grep -c "^| CTL-"` |
+| `docs/ai/agentic-caucus/control-register.md` | **26** controls, each with probe / reader / bypass (25 when this was first measured; CTL-027 landed in Phase 2) | no | `grep -c "^| CTL-"` |
 | `pnpm validate:enforcement-liveness` | **13 gates proven live**, 0 inert, 1 skipped | no | running it |
 
 **Two registries, two taxonomies, no mapping.** Liveness describes the control register's rows.
 The published tally describes governance-coverage's components. Deriving a number in one from
 measurements in the other is not possible until something maps them, and nothing does.
 
-It is not simply "13 of 30 are measurable" either. **15 of the 25 control rows have no probe**,
+It is not simply "13 of 30 are measurable" either. **15 of the 26 control rows have no probe**,
 nine of them `enforced-by-code` — CTL-008, 009, 010, 011, 013, 014, 016, 017, 018. They are wired
 and they run; nothing proves they would fail against broken input. So even inside the control
 register, most rows carry no liveness evidence.
@@ -197,6 +197,44 @@ awk '/^### Layer/{inl=1;next} /^### Tally|^---/{inl=0} inl && /^\|/ {split($0,a,
       references were wrong again before being committed. All eight now name the CI step
       (`ci.yml` step *Build*), matched against the workflow's own `- name:` values — a
       reference that survives insertion. Each of the nine cited names verified to exist
+
+**Phase 3 verification review — 2026-08-01, blocking. 4 Blockers. PAUSED.**
+
+Phase 3 is **not written**. The review reshaped it beyond what the phase was scoped to hold, so
+scope is being decided fresh rather than absorbed silently.
+
+| # | Blocker | Evidence |
+|---|---|---|
+| 1 | **`validate:governance-tally` has never run in CI.** The proposed kicker cites it as the command behind a published number, while the gate has no CI artifact — wiring, not liveness, which is the distinction this epic exists to fix | `gh run list` latest `30550425440` @ `1a498e3f`; the script does not exist at that commit |
+| 2 | **The change touches two files the plan said it would not.** `STATUS_TO_LABEL` hardcodes `Strong → 'Automated checks'`; the probe's `breakIt` hardcodes the same string twice. Renaming a tile breaks both — loudly, but unlisted | `validate-governance-tally.js:41`, `validate-enforcement-liveness.js:465-466` |
+| 3 | **Tile 1's body would be the strongest liveness sentence on the page, in the one cell nothing checks.** 2 of the 4 control-backed rows still carry the ⚠️ "re-measure after SUG-255" caveat, and Quality validation rests on CTL-008, which has no probe. The page would read more confident than its source doc | `governance-coverage.md:6,79,119`; `control-register.md` CTL-008 |
+| 4 | **`Vulnerabilities · 0` is a string literal** inside CTL-021's page-wide scope — no date, no source, nothing fails when it stops being true. Structurally identical to the "0 gaps" claim this epic corrects, three sections above it | `GovernancePage.jsx:227` |
+
+**Where it corrected this epic's own judgement**
+
+- `Owned in code` is a softer mechanism claim, not the absence of one. `risk-tiers.md` is not code. Adopting the source doc's phrase *after* Phase 1 measured it false for 14 of 18 is worse than inheriting it unexamined.
+- `committed artifacts` covers roughly 7 of the 14. Five rest on **convention** — human discipline a document describes but does not create — and two cite Linear, which is committed nowhere. Phase 1 said "a document, a git property, or a platform guarantee"; the proposed copy compressed three categories into the most flattering one and dropped the register's own word.
+- One date was covering two things: today's count and 2026-07-27's status judgements. `counted`, not `derived`, and the status date stated separately.
+- On withholding "0 gaps": **ban the phrase, not the number.** Otherwise a future session reads "we do not publish gaps" and omits a real one. The honest rigour statistic is available and measured — **15 of 26 controls have no probe.**
+- "CTL-027 makes drift unshippable" is **false**, and this doc said it. CI-only, `[skip ci]` commits are routine, and Netlify publishes regardless of CI (CTL-020). Drift is detectable after publication, not unshippable. The cheap close is `.husky/pre-commit` — the script runs in 0.08s, filesystem-only.
+
+**Proposed copy, held for the rescope** (reviewer's wording, better than this epic's):
+
+```js
+{ label: 'Owned here', value: 18, body: '4 backed by validators; 14 by documents and process.' }
+```
+
+plus a `Callout` under the tally stating what the command does not prove, and
+`kicker="30 components · counted 2026-08-01 by pnpm validate:governance-tally"`.
+
+**Rows the review proposes, held with it:** CTL-021 amended (values only; body copy and kicker
+unparsed by anything), **CTL-028** (`governance-coverage.md` status values — `convention`, no
+machine can assert a status), **CTL-029** (hero statistics, incl. the hardcoded
+`Vulnerabilities · 0`).
+
+**Also found: this doc's own figures were stale.** It said 25 controls and "15 of the 25";
+`grep -c "^| CTL-"` returns **26** as of 2026-08-01, because CTL-027 landed in Phase 2 after the
+text was written. Corrected above. Same class the epic corrects.
 
 **Phase 3 — Fix the published surface**
 
