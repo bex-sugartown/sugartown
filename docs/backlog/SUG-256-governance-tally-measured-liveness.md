@@ -1,12 +1,33 @@
 ---
 **Epic:** SUG-256 — Re-derive the GovernancePage coverage tally from measured enforcement liveness
 **Linear Issue:** [SUG-256](https://linear.app/sugartown/issue/SUG-256/re-derive-governancepage-coverage-tally-from-measured-enforcement)
-**Status:** In Progress (since 2026-07-29)
+**Status:** In Review (2026-08-02) — Ph1–2 shipped and CI-verified; Ph3 rescoped, not started
 **Priority:** 🟢 Next — High. Reputational exposure, not technical debt
 **Merge strategy:** (a) Merge-as-you-go. Phase 1 is a research output and ships on its own.
 ---
 
 # SUG-256 — Governance tally from measured liveness
+
+> ## ⚑ HANDOFF — read this first (2026-08-02)
+>
+> **Phases 1 and 2 are shipped and verified in CI.** Phase 3 was scoped, reviewed, and
+> **deliberately not written** — the blocking review returned 4 blockers that reshaped it.
+>
+> **The plan changed on 2026-08-02.** Rather than fixing §05 in place on a live indexed page,
+> **§05 moves to its own standalone `noindex` page** and is worked there until it is provably
+> correct. Rationale: the section publishes claims about the platform's own rigour, three of
+> which are currently measurable as false or unbacked, and iterating on them in public costs
+> credibility on every deploy. See §Phase 3 (rescoped).
+>
+> **Do not start by writing code.** Start by reading §Phase 3 (rescoped) and §Open decisions.
+> Two decisions are unresolved and change what gets built.
+>
+> **What is already true and must not be re-derived:**
+> - `validate:governance-tally` (CTL-027) is live in CI — run `30745403529`, `success` on
+>   `0411b5fc`, step *Validate governance tally* confirmed `completed / success`
+> - Liveness: **14 gates proven live, 0 inert**
+> - The published tally (18 / 5 / 2 / 5) agrees across all three sources **today**
+> - 5 of the 30 coverage components are control-dependent; 25 are artifact-backed
 
 **Doc created 2026-08-01**, backfilling a gap: this epic reached In Progress on 2026-07-29 with
 its Background and Scope living only in Linear and no `docs/backlog/` file at all. Creating it
@@ -255,7 +276,57 @@ the mechanism without invoking it. This doc does that above.
 
 Filed to SUG-265 Part B, which already covers the close-out-needs-CI problem.
 
-**Phase 3 — Fix the published surface**
+**Phase 3 (RESCOPED 2026-08-02) — move §05 to a standalone `noindex` page**
+
+Supersedes the original "fix the published surface" plan, which is preserved below as
+§Phase 3 (superseded) because its individual fixes still apply once §05 has somewhere safe to
+live.
+
+**Why the change.** Three of §05's claims are currently measurable as false or unbacked, and
+the blocking review found a fourth on the same page. Fixing them in place means iterating on
+public claims about the platform's own rigour, on an indexed page, one deploy at a time. Moving
+§05 to a `noindex` page decouples "getting it right" from "publishing it", so the work can take
+as long as it needs without the wrong version being live meanwhile.
+
+**Mechanisms confirmed 2026-08-02 by reading the code — do not re-derive:**
+
+| Need | Mechanism | Evidence |
+|---|---|---|
+| `noindex` | `SeoHead` takes `robots: { index: false, follow: true }` | `apps/web/src/components/SeoHead.jsx:87-95`; precedent at `ToolDetailPage.jsx:93` for thin pages |
+| Route registration | `PLATFORM_ROUTES` in `apps/web/src/lib/routes.js:80` | URL Authority Rule — never hard-code the path |
+| Routing | nested under `platform` in `App.jsx` | existing `<Route path="governance" …>` at `App.jsx:158` |
+| Sitemap exclusion | **nothing to do** — `build-sitemap.js` uses a hand-maintained `STATIC_ROUTES` array (`apps/web/scripts/build-sitemap.js:115`), so a new route is not auto-added | verified; the risk is a later session *adding* it |
+
+**Scope**
+
+- [ ] Decide the route. Suggested `/platform/governance-draft`, registered in `PLATFORM_ROUTES`.
+      **Not** a `/drafts/` namespace — check `docs/briefs/…/PROJ-IA` reserved namespaces first
+- [ ] New page component rendering §05 only: the tally `Grid`, the `Callout`, the workflow
+      `MermaidDiagram`, the governance doc-index `Table`
+- [ ] `robots: { index: false, follow: false }` — **`follow: false` too**, since the point is
+      that nothing about this page is ready to be trusted
+- [ ] **Remove §05 from `GovernancePage.jsx`.** A copy left behind is the two-registries problem
+      again, one directory over
+- [ ] Decide what `/platform/governance` shows in its place: nothing, or a short line saying the
+      coverage map is being re-measured. **A silent removal reads as a retraction nobody
+      explained** — the page has published this section since SUG-198
+- [ ] Confirm the page is not linked from nav, the sitemap page, or the governance doc index
+- [ ] `validate:governance-tally` must follow §05 to the new page. Its `PAGE` constant
+      (`scripts/validate-governance-tally.js:38`) points at `GovernancePage.jsx`, and its probe
+      (`validate-enforcement-liveness.js:464-467`) hardcodes a string from that file. **Both
+      break the moment §05 moves** — same coupling the review flagged for the rename
+- [ ] Re-run `pnpm validate:enforcement-liveness` and confirm 14 gates still proven live
+
+**Phase 3 gates that apply**
+
+- **Phase 0:** a new page shell is a new visual surface even though the section inside it is
+  already-reviewed. The existing §05 blocks are reviewed; the *page* around them is not.
+  Assess and record before writing JSX — do not assume it is exempt as I nearly did for the
+  in-place edit
+- **Verification review:** required again. The 2026-08-01 review reviewed *fixing §05 in place*;
+  it did not review *moving it*. Its 4 blockers still stand and are listed above
+
+**Phase 3 (superseded) — fix the published surface in place**
 
 - [ ] Recompute `Automated / Documented / Vendor-owned / Out-of-scope` from the Phase 1 mapping
 - [ ] Decide the true `Gap` count. **0 remains a legitimate outcome** — but measured, not carried
@@ -279,6 +350,50 @@ Filed to SUG-265 Part B, which already covers the close-out-needs-CI problem.
       not `CTL-999`, which the existing probe already uses
 - [ ] State the residual gap in the row and the doc: **dangling IDs only.** An ID that resolves
       but names the wrong control is invisible to it
+
+## Linear dependencies
+
+Verified against Linear 2026-08-02. **None of these block starting Phase 3** — recorded so the
+next session knows what is upstream, what is downstream, and what merely overlaps.
+
+**Upstream — shipped, this epic consumes their output**
+
+| Issue | Status | What this epic depends on |
+|---|---|---|
+| [SUG-255](https://linear.app/sugartown/issue/SUG-255/restore-green-ci-zero-passing-runs-on-main-since-2026-05-10) | Done | Restored CI and shipped `validate:enforcement-liveness`. Without it there is no liveness data to derive from, which is why SUG-256 waited |
+| [SUG-198](https://linear.app/sugartown/issue/SUG-198/gap-analysis-6-layers-of-effective-ai-governance) | Done | Created the six-layer model and the 30 components. The taxonomy this epic is trying to map |
+| [SUG-245](https://linear.app/sugartown/issue/SUG-245/governancepage-accuracy-pass-ai-governance-tiles-release-diagram-stale) | Done | The accuracy pass that closed "re-verified accurate" one day before CI was found red for three months. The cautionary precedent, not a dependency |
+| [SUG-244](https://linear.app/sugartown/issue/SUG-244/governancepage-add-workflow-lifecycle-diagram-governance-doc-index) | Done | Added the workflow diagram and doc index that live inside §05 and must move with it |
+| [SUG-243](https://linear.app/sugartown/issue/SUG-243/shrink-claudemd-rule-ids-plain-english-and-a-size-cap) | Done | Added the rule that any reported figure names the command producing it — the standard Phase 2 was built to |
+
+**Downstream / sibling — filed from this epic's findings, not blocking**
+
+| Issue | Status | Relationship |
+|---|---|---|
+| [SUG-262](https://linear.app/sugartown/issue/SUG-262/linear-backlog-doc-parity-backfill-6-orphaned-issues-validateepic-docs) | Backlog · High | Owned "Stub for SUG-256" — **satisfied 2026-08-01** by this doc, and ticked in SUG-262's Scope. Its Phase 2 (`validate:epic-docs`) would have caught this epic running with no doc |
+| [SUG-265](https://linear.app/sugartown/issue/SUG-265/release-flow-release-skips-mini-release-steps-and-close-out-costs-two) | Backlog · Medium | Part B carries the two findings that cost this epic two deploys: close-out needs a CI run but pushing deploys, and a commit message can silently suppress its own CI run |
+| [SUG-264](https://linear.app/sugartown/issue/SUG-264/wire-the-banned-word-check-as-validatebanned-words) | Backlog · Low | Sibling governance-tooling work. Its Scope carries the derive-the-probe-from-output lesson |
+| [SUG-267](https://linear.app/sugartown/issue/SUG-267/rule-file-write-gate-has-no-artifact-between-edit-and-commit) | Backlog · Low | Same class: a `convention` control with no artifact |
+
+**Not a dependency, but will collide**
+
+Anything touching `apps/web/src/pages/platform/GovernancePage.jsx`. Phase 3 removes a section
+from it, and `validate:governance-tally` plus its probe both hardcode strings from that file.
+
+## Open decisions for the next session
+
+Both change what gets built. Neither should be answered by inference.
+
+1. **Does Phase 3 stay narrow or widen to every published statistic on the page?**
+   The review's position, which I share: `Vulnerabilities · 0` is a string literal at
+   `GovernancePage.jsx:227` — no date, no source, nothing fails when it becomes false — sitting
+   inside CTL-021's page-wide Control cell. Fixing §05 while leaving it makes CTL-021 claim
+   coverage it does not have. The review proposes **CTL-028** (status values, `convention`) and
+   **CTL-029** (hero statistics) to close that. Widening is the honest scope and materially more
+   work.
+
+2. **What does `/platform/governance` say where §05 used to be?**
+   Silent removal reads as an unexplained retraction of a section published since SUG-198.
 
 ## Non-Goals
 
