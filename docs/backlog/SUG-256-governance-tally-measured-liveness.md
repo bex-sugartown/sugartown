@@ -236,6 +236,25 @@ machine can assert a status), **CTL-029** (hero statistics, incl. the hardcoded
 `grep -c "^| CTL-"` returns **26** as of 2026-08-01, because CTL-027 landed in Phase 2 after the
 text was written. Corrected above. Same class the epic corrects.
 
+**Blocker 1 got worse before it got better — CI was skipped by the commit that described the skip (2026-08-02).**
+
+The commit recording this review carried the line *"CI-only, `[skip ci]` is routine"*, quoting the
+reviewer's finding about the CTL-020 bypass. GitHub scans the **entire commit message** for that
+marker, not just its first line. So the commit documenting the bypass triggered the bypass, and
+CI never ran on `8cdb74fa`.
+
+Confirmed: CodeQL ran on that SHA (it fires on a different event) while the CI workflow, which
+triggers on `push`, produced no run at all.
+
+**This is a live trap, not a one-off.** Any commit message that explains this bypass disables
+the run that would have caught the change. Prose in *files* is safe — `control-register.md`
+CTL-025 and CTL-027 both discuss it harmlessly. Commit **messages** are not.
+
+**How to write about it:** spell the marker as `skip-ci`, or split it, so the message describes
+the mechanism without invoking it. This doc does that above.
+
+Filed to SUG-265 Part B, which already covers the close-out-needs-CI problem.
+
 **Phase 3 — Fix the published surface**
 
 - [ ] Recompute `Automated / Documented / Vendor-owned / Out-of-scope` from the Phase 1 mapping

@@ -47,6 +47,15 @@ On 2026-07-30 that cost **two production deploys in one day**:
 sets the threshold at "~15 unpushed commits, or at any session end" — there were 12, mid-session,
 so it said wait. Close-out step 1b said it needed CI to close.
 
+**A commit can suppress its own CI run (found 2026-08-02).** GitHub scans the whole commit
+message for the skip marker, not just the subject line. A SUG-256 commit whose body quoted
+*"`[skip ci]` is routine"* — describing the CTL-020 bypass — skipped CI entirely. CodeQL ran on
+that SHA; the CI workflow produced no run.
+
+Consequence for this epic: close-out step 1b requires a CI run for the epic's own commits, and a
+commit message discussing a bypass can silently prevent one. Nothing warns at push time. Writing
+the marker as `skip-ci` avoids it, but that is a convention nobody currently knows.
+
 ### Verified vs unknown
 
 - **Verified** from `.github/workflows/ci.yml`: CI triggers on `push: branches: [main]` **and**
