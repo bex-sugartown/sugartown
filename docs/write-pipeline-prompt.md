@@ -247,10 +247,13 @@ obligation and a regulatory one (EU AI Act Article 50, enforceable August 2026; 
 disclosure laws).
 
 **Mechanism varies by schema:**
-- Node and case study have an `aiDisclosure` field — mandatory when this skill drafts the
-  copy. See each file's own value table for the exact strings.
-- Article has no `aiDisclosure` schema field, so disclosure is expressed via a
-  `calloutSection` at the end of the article instead. See `write-blog-prompt.md` Step 2.6.
+- Node, article, and case study all have an `aiDisclosure` field — mandatory when this
+  skill drafts the copy. See each file's own value table for the exact strings.
+- Articles render it via `PageSidebar`, which falls back when the field is blank: first to
+  a string assembled from AI-tagged `tools[]`, then to a `"Written and edited by {author}"`
+  default. A blank field on an AI-drafted article therefore renders a false human-authorship
+  claim — see `write-blog-prompt.md` Step 2.6, which also covers the optional end-of-article
+  `calloutSection` supplement.
 - Glossary terms don't currently carry a disclosure mechanism in this doc's scope — see
   `docs/glossy-prompt.md` if that changes.
 
@@ -310,13 +313,21 @@ After creating any draft, report at minimum:
 - Any images included — confirm alt text is present
 - Linear tracking ticket link (created in §0) and its current state
 
-Register-specific report items (node's `aiDisclosure` string; article's disclosure callout
-used; case study's engagement facts, outcome tile `evidenceType` values, FAQ/`aeoSummary`/
-`geoSummary` status) live in each file's own Step 4.
+Register-specific report items (node's `aiDisclosure` string; article's `aiDisclosure`
+string plus any optional disclosure callout; case study's engagement facts, outcome tile
+`evidenceType` values, FAQ/`aeoSummary`/`geoSummary` status) live in each file's own Step 4.
 
 ---
 
 ## Changelog
+
+### v2026.08.03 (aiDisclosure correction)
+- §5 and §8: corrected the false claim that article has no `aiDisclosure` field. The field
+  exists in `apps/studio/schemas/documents/article.ts`, is projected by every article query
+  in `queries.js`, and renders via `PageSidebar` with a `tools[]`-assembled fallback and a
+  human-authorship default (commit e871ebab, 2026-08-03). `write-blog-prompt.md` Step 2.6
+  rewritten to match; the end-of-article `calloutSection` demoted from sole mechanism to
+  optional supplement.
 
 ### v2026.07.18 (SUG-210 — initial creation)
 - Extracted from `write-node-prompt.md`, `write-blog-prompt.md`, `write-casestudy-prompt.md`,

@@ -102,17 +102,23 @@ After completing this scan, state explicitly: **"Compliance gate passed — no v
 See `docs/write-pipeline-prompt.md` §5 for the shared disclosure mechanics (ethics-doc
 citation, tools-field attribution, images/alt-text rule). Article-specific mechanism:
 
-**Articles have no `aiDisclosure` schema field**, so disclosure is expressed through two mechanisms:
+**Articles have an `aiDisclosure` schema field** (string, max. 300 characters — `apps/studio/schemas/documents/article.ts`), projected by every article query in `apps/web/src/lib/queries.js` and rendered in the page sidebar. **Set it whenever this skill drafts the copy:**
 
-**1. A disclosure callout section** — always include a `calloutSection` at the end of the article when AI was involved in drafting. Use plain, non-apologetic language. Suggested strings:
-
-| Involvement level | Disclosure text |
-|-------------------|-----------------|
-| AI drafted, Bex edited | `"This article was drafted with Claude (Anthropic). All editorial decisions, accuracy verification, and publication are Bex Head's responsibility."` |
+| Authorship | `aiDisclosure` value |
+|-----------|----------------------|
+| AI drafted, Bex edited | `"Drafted with Claude, edited by Bex Head."` |
 | AI assisted with research/structure, Bex wrote | `"Research and structural assistance by Claude (Anthropic). Written and edited by Bex Head."` |
-| Bex wrote entirely, AI only reviewed | No disclosure callout required. |
+| Bex wrote entirely, AI only reviewed | Leave blank — the sidebar default (below) covers it. |
 
-**The disclosure callout is not a weakness.** Per the ethics doc: "Credit your tools like you'd credit a co-author." The Sugartown brand is transparent about AI collaboration by design — the disclosure is part of the story, not a footnote.
+**What renders when the field is blank** — `PageSidebar.jsx` never leaves the disclosure slot empty on a page that already shows a sidebar. It falls back in order:
+
+1. The `aiDisclosure` field value, verbatim, if set
+2. Assembled from AI-tagged `tools[]`: `"Drafted with {tool names}, edited by {author}. All analysis and conclusions are human-authored."`
+3. Default: `"Written and edited by {author}. How Sugartown uses AI: see the AI Ethics policy."`
+
+Fallback 3 asserts human authorship, so **a blank field on an AI-drafted article renders a false claim, not a missing one**. Set the field (or tag the AI tool in `tools[]`, which triggers fallback 2) before creating the draft.
+
+**Optional disclosure callout** — when the AI collaboration is part of the article's story, a `calloutSection` at the end may carry a longer prose disclosure. It supplements the sidebar disclosure; it never replaces the field.
 
 ---
 
@@ -130,6 +136,7 @@ checklist; do not proceed here until it and Step 2.6 are resolved.
   "slug": { "_type": "slug", "current": "<slug>" },
   "excerpt": "<one-sentence summary — what does the reader learn or take away?>",
   "publishedAt": "<today's date ISO>",
+  "aiDisclosure": "<string from Step 2.6, or omit if Bex wrote entirely>",
   "authors": [{ "_type": "reference", "_ref": "<bex person _id>", "_key": "author-1" }],
   "tools": [...],
   "categories": [...],
@@ -160,4 +167,5 @@ All array items must have a unique `_key`.
 Report the shared checklist (`docs/write-pipeline-prompt.md` §8: draft ID, taxonomy
 attached, related content linked, images alt text confirmed) plus, article-specific:
 - Slug (`/articles/<slug>`)
-- Disclosure callout included (yes/no) and which string was used
+- `aiDisclosure` string set (or the reason it was left blank), and whether an optional
+  disclosure callout was included
