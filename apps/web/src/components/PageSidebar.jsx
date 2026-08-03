@@ -128,17 +128,17 @@ export default function PageSidebar({
 
   if (!hasToc && !hasRelated && !hasSeries && !hasAi) return null
 
-  let aiText = null
-  if (hasAi) {
-    if (aiDisclosure) {
-      aiText = aiDisclosure
+  let aiText = aiDisclosure ?? null
+  if (!aiText) {
+    const aiTools = tools?.filter(isAiTool) ?? []
+    const authorName = authors?.[0]?.name ?? 'the author'
+    if (aiTools.length > 0) {
+      const toolNames = aiTools.map((t) => t.name || t.title).join(', ')
+      aiText = `Drafted with ${toolNames}, edited by ${authorName}. All analysis and conclusions are human-authored.`
     } else {
-      const aiTools = tools?.filter(isAiTool) ?? []
-      const authorName = authors?.[0]?.name ?? 'the author'
-      if (aiTools.length > 0) {
-        const toolNames = aiTools.map((t) => t.name || t.title).join(', ')
-        aiText = `Drafted with ${toolNames}, edited by ${authorName}. All analysis and conclusions are human-authored.`
-      }
+      // Default when no override and no AI tools tagged — the disclosure slot
+      // never renders empty on a page that already shows a sidebar.
+      aiText = `Written and edited by ${authorName}. How Sugartown uses AI: see the AI Ethics policy.`
     }
   }
 
