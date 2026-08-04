@@ -3,7 +3,7 @@
 **Version:** v1.0
 **Status:** Active
 **Owner:** Bex Head
-**Last updated:** 28 July 2026
+**Last updated:** 4 August 2026
 **Related:** [[failure-modes]] (`docs/ai/agentic-caucus/failure-modes.md`), [[governance-coverage]] (`docs/ai/agentic-caucus/governance-coverage.md`), [[methodology]] (`docs/ai/agentic-caucus/methodology.md`)
 
 ---
@@ -168,7 +168,17 @@ exact `<Grid spacing="0">` that INC-008 proved was broken.
 **Resolution:** Claim replaced with "30 checkpoints · mapped 2026-07-26" and deployed.
 `governance-coverage.md` v1.3 added a liveness caveat and three ⚠️ rows. CLAUDE.md's red-pen
 gate now covers published governance statistics: measurement date plus a named source.
-Re-derivation tracked as SUG-256.
+**SUG-256 closed 2026-08-04**, superseding "tracked as SUG-256" above: Phase 1 mapped the
+coverage taxonomy to the control register (5 of 30 components control-dependent, 25
+artifact-backed), Phase 2 shipped `validate:governance-tally` (CTL-027) so the
+derived/stated/published tally can never silently disagree again, and Phase 3 (2026-08-02)
+moved the tally itself off the live, indexed page entirely to `/platform/governance-draft`
+(`noindex`) until it carries real evidence — kicker now reads `"30 components · counted
+2026-08-02 by pnpm validate:governance-tally"`. The live page's §05 slot shows a dated
+`Callout` naming the gap instead of a number. Phase 4 (a standalone coverage cross-reference
+validator) was scoped, then deferred: `docs/briefs/governance-data-layer-prd.md` §12 absorbs
+it into a closed-world schema validation, planned to ship stronger than the standalone version
+would have been.
 
 ### INC-006 — Repo-wide lint red for three days, reported as one-twelfth its size
 **Introduced:** 2026-07-24 · **Noticed:** 2026-07-27 · **Severity:** Medium

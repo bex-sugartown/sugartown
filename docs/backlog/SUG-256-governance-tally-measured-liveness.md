@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-256 — Re-derive the GovernancePage coverage tally from measured enforcement liveness
 **Linear Issue:** [SUG-256](https://linear.app/sugartown/issue/SUG-256/re-derive-governancepage-coverage-tally-from-measured-enforcement)
-**Status:** In Review (2026-08-02) — Ph1–2 shipped and CI-verified; Ph3 rescoped, not started
+**Status:** Ph1–3 shipped and CI-verified (run `30832193045` on `7da1429a`). Phase 4 deferred — see §Phase 4 below. Closing out 2026-08-04.
 **Priority:** 🟢 Next — High. Reputational exposure, not technical debt
 **Merge strategy:** (a) Merge-as-you-go. Phase 1 is a research output and ships on its own.
 ---
@@ -388,15 +388,44 @@ split and the environment it was measured in.
       drifted once: the page cited v1.1, a version that never existed, while the doc header read
       v1.0 and its changelog ran to v1.2
 
-**Phase 4 — Coverage cross-reference (CTL-026), with the review's required changes**
+**Phase 4 — Coverage cross-reference (CTL-026) — DEFERRED, not built standalone (2026-08-04)**
 
-- [ ] Scan the `Enforced by` column of the six layer tables only, never the whole file
-- [ ] Widen the pattern to `/\bCTL-\d+\b/i` once column-scoped, catching `CTL-01`/`ctl-021` typos
-- [ ] Allocate **CTL-026** rather than widening CTL-015, so the new probe is cited by a row
-- [ ] Dedicated probe, gate string `validate:controls (coverage xref)`, sentinel `CTL-998` —
-      not `CTL-999`, which the existing probe already uses
-- [ ] State the residual gap in the row and the doc: **dangling IDs only.** An ID that resolves
-      but names the wrong control is invisible to it
+Phase 4 as scoped below (a regex scan of the `Enforced by` column, allocating CTL-026 to a
+dedicated probe) is **cancelled in this form.** It is absorbed by
+`docs/briefs/governance-data-layer-prd.md` §12 ("SUG-256 Ph4 (CTL-026) is absorbed by
+closed-world referential integrity (§5.3) and should be closed against this PRD when it ships,
+not built separately") and §5.3's consumer-contract table, last row.
+
+**Why deferring beats building it here.** The PRD's `component.enforcedBy` field (§5.2) is a
+closed-world validation — every entry must resolve to an `active` control or an existing
+`artifact:` path, anything else is a build error — which is a strict superset of what the
+regex scan below would have caught, plus it adds retirement protection the scan never had.
+Building the scan now would ship a throwaway parser this PRD explicitly plans to delete within
+the same cycle the plan below describes (§5.3: "regex over the harness JS is forbidden... this
+PRD exists to kill" the fragile-parser class).
+
+**What this leaves undone.** Until the PRD's implementing epic ships, a dangling `CTL-NNN`
+reference in `governance-coverage.md`'s `Enforced by` column (once that column exists — SUG-256
+Ph1 decided it should) is not machine-checked. This is the same "unmeasurable set" honesty
+this epic exists to practice: named as a gap, not silently absorbed into "handled."
+
+**CTL-026 stays reserved**, not reallocated — confirmed against `control-register.md`, which
+has no CTL-026 row today (the register skips straight from CTL-025 to CTL-027). The PRD's
+`status: reserved` / `reservedFor` fields (§5.2, control entity) are exactly this reservation
+made structural. No `control-register.md` edit needed now: an unused, unreallocated ID number
+needs no row to stay reserved, and adding one would be a rule-file edit this cancellation does
+not require.
+
+**Original Phase 4 scope, preserved for the implementing epic's reference:**
+
+- [ ] ~~Scan the `Enforced by` column of the six layer tables only, never the whole file~~
+- [ ] ~~Widen the pattern to `/\bCTL-\d+\b/i` once column-scoped, catching `CTL-01`/`ctl-021`
+      typos~~
+- [ ] ~~Allocate **CTL-026** rather than widening CTL-015, so the new probe is cited by a row~~
+- [ ] ~~Dedicated probe, gate string `validate:controls (coverage xref)`, sentinel `CTL-998` —
+      not `CTL-999`, which the existing probe already uses~~
+- [ ] ~~State the residual gap in the row and the doc: **dangling IDs only.** An ID that
+      resolves but names the wrong control is invisible to it~~
 
 ## Linear dependencies
 
@@ -481,22 +510,30 @@ The original text of both, preserved:
       `governance-coverage.md` v1.3 confirmed by reading its header
 - [x] **Figures measured, not quoted** — 25 control rows, 15 without a probe, 13 gates proven
       live, all measured 2026-08-01 with the commands recorded above
-- [ ] **Phase 0 assessment** — Phase 3 changes rendered output on `/platform/governance`. The
-      gate's test is "would this change render something a human has not signed off on?" Changing
-      numbers and one tile's body copy inside an existing, already-reviewed layout is arguably
-      not a new visual format — **but that decision must be recorded before Phase 3 starts**, not
-      assumed here
-- [ ] **Verification review** — Phase 3 changes a published claim, which CLAUDE.md
-      §Verification review makes blocking. Run `verification-reviewer` as a subagent before
-      Phase 3
+- [x] **Phase 0 assessment** — recorded 2026-08-02 under §Phase 3 gates: does not fire (reuses
+      `PlatformLayout`/`PlatformHubPage.module.css` and already-reviewed primitives, zero new
+      CSS classes)
+- [x] **Verification review** — run 2026-08-02, `verification-reviewer` subagent, 5 blockers
+      returned, all closed (see §Phase 3 verification review table)
 
 ## Acceptance Criteria
 
-- [ ] Every component in the published tally traces to a control, or is shown as having none
-- [ ] The claim carries a measurement date and a command that reproduces it
-- [ ] The unmeasurable set is stated on the page or in its linked doc, not omitted
-- [ ] `AUTOMATED CHECKS · 18`'s body copy matches what actually enforces those checks
-- [ ] A named mechanism keeps the mapping current, or a recorded decision says why none is needed
+- [x] Every component in the published tally traces to a control, or is shown as having none —
+      Phase 1 mapping: 5 of 30 control-dependent, 25 artifact-backed, recorded in
+      `governance-coverage.md`
+- [x] The claim carries a measurement date and a command that reproduces it —
+      `GovernanceDraftPage.jsx:81` kicker: `"30 components · counted 2026-08-02 by pnpm
+      validate:governance-tally"`
+- [x] The unmeasurable set is stated on the page or in its linked doc, not omitted —
+      `GovernanceDraftPage.jsx:88-100` "WHAT THIS DOES NOT PROVE" callout states 15 of 26
+      controls have no probe
+- [x] `AUTOMATED CHECKS · 18`'s body copy matches what actually enforces those checks —
+      `GovernanceDraftPage.jsx:42`: "6 run at pre-commit; the rest in CI only," replacing the
+      overstated "enforced by code and pre-commit hooks"
+- [x] A named mechanism keeps the mapping current, or a recorded decision says why none is
+      needed — **satisfied by the Phase 4 deferral (2026-08-04):** the mechanism is named
+      (`governance-data-layer-prd.md` §5.2 `component.enforcedBy` closed-world validation) and
+      the decision not to build a standalone version is recorded in full above
 
 ## Risks
 
@@ -509,10 +546,28 @@ The original text of both, preserved:
 
 ## Post-Epic Close-Out
 
-1. Visual QA: required if Phase 3 changes rendered output beyond numbers
-2. Record before/after tally figures with their commands
-3. Move to `docs/shipped/`
-4. `/mini-release`
-5. Transition SUG-256 to Done in Linear
-6. **Incident log:** likely yes. This corrects a published claim found false — the log's stated
-   bar. Needs `Introduced` (when "0 gaps" was first published) and `Noticed` (2026-07-27)
+1. **Visual QA: required** — Phase 3 rendered a new page (`/platform/governance-draft`). No
+   vspec exists (Phase 0 did not fire, see gate above), so per CLAUDE.md the evidence-per-element
+   path applies: elements verified in-browser during implementation are cited as such; anything
+   not verified at implementation time is checked now rather than assumed. See in-session VQA
+   pass, 2026-08-04. **Blocking** until "Visual QA approved" is given.
+2. **Before/after tally figures.** Before: `/platform/governance` published "30 checkpoints ·
+   0 gaps" undated (introduced 2026-06-30, `50598f8c`). After: the tally is not published on
+   the live page at all — `COVERAGE_TALLY` removed from `GovernancePage.jsx`, replaced by a
+   dated `Callout` pointing to this epic; the real, evidence-carrying tally lives on
+   `/platform/governance-draft` (`noindex`), kicker `"30 components · counted 2026-08-02 by
+   pnpm validate:governance-tally"`.
+3. Move to `docs/shipped/` — blocked on Visual QA approval (step 1)
+4. `/mini-release` — **deferred this session** (batching pushes to `/eod` per session
+   convention). `CHANGELOG.md` `[Unreleased]` line added in the same commit as this close-out
+   per CLAUDE.md's "CHANGELOG line and version bump are separate obligations."
+5. Transition SUG-256 to Done in Linear — blocked on steps 1 and 3
+6. **Incident log: yes, already logged** — `docs/ai/agentic-caucus/incident-log.md` INC-007
+   already records this claim (`Introduced` 2026-06-30 / `Noticed` 2026-07-27) and already said
+   "Re-derivation tracked as SUG-256." **Checked before filing a new entry** — a fresh INC-012
+   was drafted first, then found to duplicate INC-007 exactly via `pnpm mttn`'s output (both
+   showed identically as 27d/investigation). Discarded the duplicate; updated INC-007's
+   Resolution instead with what actually shipped. `pnpm mttn` re-run clean after.
+7. **Phase 4 (CTL-026): deferred, not built.** Absorbed by
+   `docs/briefs/governance-data-layer-prd.md` §12 — see §Phase 4 above for the full decision.
+   This is not a close-out gap; it is a recorded scope decision.

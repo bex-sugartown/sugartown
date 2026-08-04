@@ -14,6 +14,16 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 > Accumulates since v0.32.0.
 
+### apps/web
+
+#### Changed
+- `/platform/governance` no longer publishes the coverage tally ("30 checkpoints · 0 gaps" was undated and, for three claims, measurably false). It moved to `/platform/governance-draft` (`noindex`), which carries a measurement date and reproducing command instead. §05 retitled "AI Governance Workflow," keeping the workflow diagram and doc index. SUG-256.
+
+### docs
+
+#### Fixed
+- `AUTOMATED CHECKS · 18` tile body corrected from "enforced by code and pre-commit hooks" (overstated) to "6 run at pre-commit; the rest in CI only" (measured). SUG-256.
+
 ---
 
 ## [0.32.0] — 2026-07-30
