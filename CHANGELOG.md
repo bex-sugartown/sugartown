@@ -26,6 +26,12 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 #### Added
 - User Story Decomposition: epics with more than 5 Scope items or numbered phases now decompose into Linear sub-issues, one ticket per user story, defined in `docs/conventions/user-story-conventions.md` and referenced from `docs/epic-template.md` and CLAUDE.md's Epic authoring section. SUG-238.
+- 5 orphaned Linear issues backfilled with `docs/backlog/` stubs and priority-stack rows (SUG-249, 257, 258, 259, 260); `pnpm validate:epic-docs` added, wired into CI, checking every non-Done issue against both artifacts. SUG-262 Ph1–2 (epic not yet closed — CTL-024's `enforced-by-code` flip awaits a real CI run).
+
+### tooling
+
+#### Fixed
+- `collectLinear()` (`apps/web/scripts/stats/linear.js`) silently truncated at 250 issues with no pagination (team has 268) and dropped `triage`-state issues from every bucket. Now pages through the full result set and buckets triage with backlog/unstarted. SUG-262.
 
 ---
 

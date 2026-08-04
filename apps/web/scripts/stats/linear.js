@@ -35,9 +35,9 @@ const TEAMS_QUERY = `
 `
 
 const ISSUES_QUERY = `
-  query SugIssues($teamId: String!) {
+  query SugIssues($teamId: String!, $after: String) {
     team(id: $teamId) {
-      issues(first: 250) {
+      issues(first: 250, after: $after) {
         nodes {
           identifier
           title
@@ -47,6 +47,7 @@ const ISSUES_QUERY = `
           state { name type }
           project { name color }
         }
+        pageInfo { hasNextPage endCursor }
       }
     }
   }
@@ -92,9 +93,22 @@ export async function collectLinear() {
   if (!team) throw new Error('Linear API: team with key "SUG" not found')
 
   // Step 2: fetch issues for that team by UUID (avoids complexity explosion
-  // that occurs when fetching issues nested under all teams at once)
-  const issuesData = await linearPost(key, ISSUES_QUERY, { teamId: team.id })
-  const nodes = issuesData?.team?.issues?.nodes ?? []
+  // that occurs when fetching issues nested under all teams at once), paging
+  // through every result. The team has 268 issues as of 2026-08-04 — already
+  // past a single first:250 page, so an unpaginated fetch silently drops
+  // whichever issues Linear's default order puts last. Harmless for a roadmap
+  // widget's "recent" lists; not harmless for SUG-262's validate:epic-docs,
+  // which treats this as a completeness oracle over every non-Done issue.
+  const nodes = []
+  let after = null
+  let hasNextPage = true
+  while (hasNextPage) {
+    const issuesData = await linearPost(key, ISSUES_QUERY, { teamId: team.id, after })
+    const page = issuesData?.team?.issues
+    nodes.push(...(page?.nodes ?? []))
+    hasNextPage = page?.pageInfo?.hasNextPage ?? false
+    after = page?.pageInfo?.endCursor ?? null
+  }
 
   const inProgress = []
   const backlog    = []
@@ -104,11 +118,18 @@ export async function collectLinear() {
     const type = node.state?.type
     if (type === 'started') {
       inProgress.push(normalise(node))
-    } else if (type === 'backlog' || type === 'unstarted') {
+    } else if (type === 'backlog' || type === 'unstarted' || type === 'triage') {
+      // `triage` is non-Done the same as `backlog`/`unstarted` — an issue sitting
+      // in triage still needs a doc once validate:epic-docs checks for one.
+      // Previously dropped silently: neither bucket matched it and it fell
+      // through unlogged, the same "designed for a widget, not an oracle"
+      // gap as the missing pagination above.
       backlog.push(normalise(node))
     } else if (type === 'completed') {
       shipped.push(normalise(node))
     }
+    // `canceled` issues are deliberately excluded from every bucket — a
+    // canceled issue needs no backlog doc.
   }
 
   // Most recent 20 shipped, sorted newest first

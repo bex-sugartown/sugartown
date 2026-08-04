@@ -520,6 +520,69 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:epic-docs',
+    why: 'a non-Done Linear issue missing a backlog doc must fail the gate, not pass silently',
+    // This gate depends on live Linear data (SUG-262's own resolved Open Question:
+    // reuse collectLinear(), not a committed manifest, because a manifest is stale
+    // by construction the moment a new orphan issue is created). That makes the
+    // usual "mutate a file and observe" probe insufficient on its own: if Linear
+    // is unreachable, the gate reports SKIPPED (exit 0) rather than failing, and a
+    // probe that only checked "still exits 0 after I broke something" would read a
+    // permanently-SKIPPED gate as live — the exact false-assurance shape this
+    // harness exists to catch. So the CONTROL run must additionally prove it saw
+    // real Linear data (absence of the SKIPPED marker), not merely that it exited 0.
+    //
+    // Deletes SUG-249's real backlog stub (additive/reversible, restored in
+    // `finally` via the cleanup stack) rather than mutating page JSX — this is the
+    // probe SUG-262's own Acceptance Criteria specifies ("delete a stub, confirm
+    // the gate goes red"), and it exercises collectLinear() for real rather than
+    // injecting a synthetic issue list that would test the comparison logic only.
+    run() {
+      const control = run('pnpm', ['validate:epic-docs'])
+      if (control.out.includes('SKIPPED')) {
+        // Environment gap, not a broken probe — same shape as the chromatic
+        // probe's local-.env-present skip. Reported `live: null` (skipped), not
+        // `invalid`, so a missing local LINEAR_API_KEY does not fail the whole
+        // harness. CI carries the real secret (ci.yml), so this branch is the
+        // expected local-dev path, not the CI path this gate actually depends on.
+        return {
+          live: null,
+          detail:
+            'no LINEAR_API_KEY available — validate:epic-docs ran SKIPPED, so this probe ' +
+            'cannot exercise the real gate here. Expected outside CI; CI carries the secret.',
+        }
+      }
+      if (control.code !== 0) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            `control run failed — pnpm validate:epic-docs exits ${control.code} on a CLEAN ` +
+            `tree (real orphans exist today, or the script itself errored), so this probe ` +
+            `cannot distinguish a live gate from a broken invocation. ` +
+            `Output: ${control.out.trim().slice(-300)}`,
+        }
+      }
+
+      const STUB = 'docs/backlog/SUG-249-rescope-platform-dashboards.md'
+      const full = resolve(ROOT, STUB)
+      const original = readFileSync(full, 'utf8')
+      rmSync(full)
+      cleanups.push(() => writeFileSync(full, original, 'utf8'))
+
+      const violated = run('pnpm', ['validate:epic-docs'])
+      const caught = violated.code !== 0 && violated.out.includes('SUG-249')
+      return {
+        live: caught,
+        detail: caught
+          ? 'caught the deleted SUG-249 backlog stub, named it in the failure output'
+          : violated.out.trim().slice(-400),
+        out: violated.out,
+      }
+    },
+  },
+
+  {
     gate: 'chromatic.sh reachability',
     why: 'the VRT script must reach its own first statement when .env is absent',
     // Not a violate-and-assert-failure probe: the failure mode here was the

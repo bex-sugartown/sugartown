@@ -27,6 +27,7 @@
     "validate:controls": "node scripts/validate-control-register.js",
     "validate:doc-budget": "node scripts/validate-doc-budget.js",
     "validate:governance-tally": "node scripts/validate-governance-tally.js",
+    "validate:epic-docs": "node scripts/validate-epic-docs.js",
     "collect:evidence-digest": "node scripts/monthly-evidence-digest.js",
     "registry:build": "node scripts/registry-build.js",
     "migrate:taxonomy": "node scripts/migrate-taxonomy.js",

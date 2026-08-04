@@ -99,6 +99,15 @@ jobs:
           # secret (named SANITY_SCHEMA_PARITY) is mapped to that name here.
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_SCHEMA_PARITY }}
 
+      - name: Validate epic docs
+        run: pnpm validate:epic-docs
+        env:
+          # Reuses the same repo secret the stats pipeline already authenticates
+          # with (stats.yml). Missing key or an API failure is not a failure here —
+          # collectLinear()'s graceful degradation makes this step SKIPPED (exit 0,
+          # ::warning:: annotation), not a false pass. See scripts/validate-epic-docs.js.
+          LINEAR_API_KEY: ${{ secrets.LINEAR_SUGARTOWN_STATS }}
+
       - name: Build
         run: pnpm build
         env:
