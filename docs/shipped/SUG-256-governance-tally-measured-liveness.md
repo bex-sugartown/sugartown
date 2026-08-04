@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-256 — Re-derive the GovernancePage coverage tally from measured enforcement liveness
 **Linear Issue:** [SUG-256](https://linear.app/sugartown/issue/SUG-256/re-derive-governancepage-coverage-tally-from-measured-enforcement)
-**Status:** Ph1–3 shipped and CI-verified (run `30832193045` on `7da1429a`). Phase 4 deferred — see §Phase 4 below. Closing out 2026-08-04.
+**Status:** Done — shipped 2026-08-04. Ph1–3 shipped and CI-verified (run `30832193045` on `7da1429a`). Phase 4 deferred to SUG-268 — see §Phase 4 below. Visual QA approved 2026-08-04 (Bex, manual review of `/platform/governance-draft` and the live `/platform/governance` §05 change).
 **Priority:** 🟢 Next — High. Reputational exposure, not technical debt
 **Merge strategy:** (a) Merge-as-you-go. Phase 1 is a research output and ships on its own.
 ---
@@ -546,22 +546,22 @@ The original text of both, preserved:
 
 ## Post-Epic Close-Out
 
-1. **Visual QA: required** — Phase 3 rendered a new page (`/platform/governance-draft`). No
-   vspec exists (Phase 0 did not fire, see gate above), so per CLAUDE.md the evidence-per-element
-   path applies: elements verified in-browser during implementation are cited as such; anything
-   not verified at implementation time is checked now rather than assumed. See in-session VQA
-   pass, 2026-08-04. **Blocking** until "Visual QA approved" is given.
+1. **Visual QA: approved 2026-08-04.** Phase 3 rendered a new page (`/platform/governance-draft`).
+   No vspec exists (Phase 0 did not fire, see gate above), so per CLAUDE.md the evidence-per-element
+   path applied: elements verified in-browser during the close-out session were cited as such
+   (full-page screenshot, robots meta/`robots.txt`/`netlify.toml` header, nav-unlinked check,
+   live `/platform/governance` §05 copy). Bex reviewed and gave "Visual QA approved" manually.
 2. **Before/after tally figures.** Before: `/platform/governance` published "30 checkpoints ·
    0 gaps" undated (introduced 2026-06-30, `50598f8c`). After: the tally is not published on
    the live page at all — `COVERAGE_TALLY` removed from `GovernancePage.jsx`, replaced by a
    dated `Callout` pointing to this epic; the real, evidence-carrying tally lives on
    `/platform/governance-draft` (`noindex`), kicker `"30 components · counted 2026-08-02 by
    pnpm validate:governance-tally"`.
-3. Move to `docs/shipped/` — blocked on Visual QA approval (step 1)
+3. Move to `docs/shipped/` — 2026-08-04, this commit
 4. `/mini-release` — **deferred this session** (batching pushes to `/eod` per session
-   convention). `CHANGELOG.md` `[Unreleased]` line added in the same commit as this close-out
+   convention). `CHANGELOG.md` `[Unreleased]` line added in commit `14e925d8`
    per CLAUDE.md's "CHANGELOG line and version bump are separate obligations."
-5. Transition SUG-256 to Done in Linear — blocked on steps 1 and 3
+5. Transition SUG-256 to Done in Linear — 2026-08-04
 6. **Incident log: yes, already logged** — `docs/ai/agentic-caucus/incident-log.md` INC-007
    already records this claim (`Introduced` 2026-06-30 / `Noticed` 2026-07-27) and already said
    "Re-derivation tracked as SUG-256." **Checked before filing a new entry** — a fresh INC-012
@@ -570,4 +570,6 @@ The original text of both, preserved:
    Resolution instead with what actually shipped. `pnpm mttn` re-run clean after.
 7. **Phase 4 (CTL-026): deferred, not built.** Absorbed by
    `docs/briefs/governance-data-layer-prd.md` §12 — see §Phase 4 above for the full decision.
+   Tracked going forward as [SUG-268](https://linear.app/sugartown/issue/SUG-268/governance-data-layer-phase-1-resolve-open-decisions-source-schema),
+   `docs/backlog/SUG-268-governance-data-layer.md`.
    This is not a close-out gap; it is a recorded scope decision.
