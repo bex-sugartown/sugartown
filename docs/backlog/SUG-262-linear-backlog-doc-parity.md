@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-262 — Linear ↔ backlog doc parity (backfill 6 orphans + `validate:epic-docs`)
 **Linear Issue:** [SUG-262](https://linear.app/sugartown/issue/SUG-262/linear-backlog-doc-parity-backfill-6-orphaned-issues-validateepic-docs)
-**Status:** Backlog
+**Status:** In Progress — Phase 1 (backfill) shipped 2026-08-04; Phase 2 (`validate:epic-docs`) executing
 **Priority:** 🟢 Next — CLAUDE.md §Scope creep is discipline until this validator exists
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end of each
 ---
@@ -49,16 +49,22 @@ It is registered as CTL-024 at `convention` class because this validator does no
 
 **Phase 1 — Backfill (no new tooling)**
 
-- [ ] Stub + priority-stack row for SUG-249, 257, 259, 260
+- [x] Stub + priority-stack row for SUG-249, 257, 259, 260 — done 2026-08-04:
+      `docs/backlog/SUG-249-rescope-platform-dashboards.md`,
+      `SUG-257-studio-lint-script.md`, `SUG-259-node-fire-alarm-wired-to-nothing.md`,
+      `SUG-260-migrate-wp-dotted-document-ids.md`
 - [x] Stub for SUG-256, carrying a Scope item to reconcile its shipped work against its
       stated scope and correct the `[Unreleased]` CHANGELOG line. **Done 2026-08-01:**
       `docs/backlog/SUG-256-governance-tally-measured-liveness.md`. The audit that wrote it
       found the epic unexecutable as scoped — the tally and the liveness data live in two
       registries with no mapping — so Phase 1 is now building that mapping
-- [ ] Stub for SUG-258, recording that the SUG-254 Ph4 bundling window closed and it now
-      stands alone, touching `apps/web/eslint.config.js` a second time
-- [ ] Stub + priority row for SUG-262 and SUG-263 (this epic and its sibling — filed
-      2026-07-29, same gap)
+- [x] Stub for SUG-258, recording that the SUG-254 Ph4 bundling window closed and it now
+      stands alone, touching `apps/web/eslint.config.js` a second time — done 2026-08-04:
+      `docs/backlog/SUG-258-web-typescript-lint-coverage.md`
+- [x] Stub + priority row for SUG-262 and SUG-263 (this epic and its sibling — filed
+      2026-07-29, same gap) — **already existed** (this doc and
+      `docs/backlog/SUG-263-chromatic-gating-status.md`), both confirmed present with
+      priority rows 2026-08-04, no action needed
 
 **Phase 2 — `validate:epic-docs` (adds a gate — verification review required first)**
 
@@ -85,7 +91,12 @@ It is registered as CTL-024 at `convention` class because this validator does no
   Decide in Phase 2, before writing the script.
 - Content-type issues (articles, nodes: SUG-233, 234, 237, 259) have inconsistent
   precedent — some have docs, some do not. Decide whether they are in the validator's
-  scope or allowlisted.
+  scope or allowlisted. **Partially resolved 2026-08-04:** SUG-259 (named in this
+  epic's own Phase 1 list) got a stub, following the SUG-213/223/200 majority precedent
+  rather than the SUG-233/234/237 minority. SUG-233/234/237 themselves are out of this
+  epic's scope (Non-Goals: "retrofitting older orphans") and remain open — Phase 2 still
+  needs to decide whether content-type issues are in `validate:epic-docs`'s scope or
+  allowlisted, since three real orphans of that shape currently exist unaddressed.
 
 ## Acceptance Criteria
 
