@@ -82,35 +82,35 @@
   },
   "perf": {
     "stale": false,
-    "generatedAt": "2026-08-03T09:44:10.918Z",
+    "generatedAt": "2026-08-04T08:38:18.050Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "desktop": {
           "url": "https://sugartown.io/",
-          "lcp": 1443,
-          "cls": 0.001,
+          "lcp": 1413,
+          "cls": 0.228,
           "inp": null,
-          "performance": 95,
+          "performance": 84,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1443,
-        "cls": 0.001,
+        "lcp": 1413,
+        "cls": 0.228,
         "inp": null,
-        "performance": 95,
+        "performance": 84,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/",
-          "lcp": 1443,
-          "cls": 0.001,
+          "lcp": 1413,
+          "cls": 0.228,
           "inp": null,
-          "performance": 95,
+          "performance": 84,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
@@ -121,29 +121,29 @@
         "url": "https://sugartown.io/articles",
         "desktop": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1260,
-          "cls": 0.317,
+          "lcp": 1307,
+          "cls": 0.224,
           "inp": null,
-          "performance": 81,
+          "performance": 85,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1260,
-        "cls": 0.317,
+        "lcp": 1307,
+        "cls": 0.224,
         "inp": null,
-        "performance": 81,
+        "performance": 85,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1260,
-          "cls": 0.317,
+          "lcp": 1307,
+          "cls": 0.224,
           "inp": null,
-          "performance": 81,
+          "performance": 85,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -154,7 +154,7 @@
         "url": "https://sugartown.io/case-studies",
         "desktop": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1273,
+          "lcp": 1354,
           "cls": 0.224,
           "inp": null,
           "performance": 85,
@@ -163,7 +163,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1273,
+        "lcp": 1354,
         "cls": 0.224,
         "inp": null,
         "performance": 85,
@@ -173,7 +173,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1273,
+          "lcp": 1354,
           "cls": 0.224,
           "inp": null,
           "performance": 85,
@@ -187,29 +187,29 @@
         "url": "https://sugartown.io/knowledge-graph",
         "desktop": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1319,
+          "lcp": 1274,
           "cls": 0.137,
           "inp": null,
-          "performance": 91,
+          "performance": 90,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1319,
+        "lcp": 1274,
         "cls": 0.137,
         "inp": null,
-        "performance": 91,
+        "performance": 90,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1319,
+          "lcp": 1274,
           "cls": 0.137,
           "inp": null,
-          "performance": 91,
+          "performance": 90,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -220,8 +220,8 @@
         "url": "https://sugartown.io/platform",
         "desktop": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1340,
-          "cls": 0.477,
+          "lcp": 1348,
+          "cls": 0.478,
           "inp": null,
           "performance": 75,
           "accessibility": 96,
@@ -229,8 +229,8 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1340,
-        "cls": 0.477,
+        "lcp": 1348,
+        "cls": 0.478,
         "inp": null,
         "performance": 75,
         "accessibility": 96,
@@ -239,8 +239,8 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1340,
-          "cls": 0.477,
+          "lcp": 1348,
+          "cls": 0.478,
           "inp": null,
           "performance": 75,
           "accessibility": 96,
@@ -253,29 +253,29 @@
         "url": "https://sugartown.io/about",
         "desktop": {
           "url": "https://sugartown.io/about",
-          "lcp": 1472,
+          "lcp": 1502,
           "cls": 0.227,
           "inp": null,
-          "performance": 84,
+          "performance": 83,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1472,
+        "lcp": 1502,
         "cls": 0.227,
         "inp": null,
-        "performance": 84,
+        "performance": 83,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/about",
-          "lcp": 1472,
+          "lcp": 1502,
           "cls": 0.227,
           "inp": null,
-          "performance": 84,
+          "performance": 83,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
@@ -286,7 +286,7 @@
         "url": "https://sugartown.io/articles/test-preview-post",
         "desktop": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1307,
+          "lcp": 1314,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -295,7 +295,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1307,
+        "lcp": 1314,
         "cls": 0.08,
         "inp": null,
         "performance": 95,
@@ -305,7 +305,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1307,
+          "lcp": 1314,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -319,29 +319,29 @@
         "url": "https://sugartown.io/nodes/test-node",
         "desktop": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1317,
-          "cls": 0.08,
+          "lcp": 1190,
+          "cls": 0.141,
           "inp": null,
-          "performance": 95,
+          "performance": 92,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1317,
-        "cls": 0.08,
+        "lcp": 1190,
+        "cls": 0.141,
         "inp": null,
-        "performance": 95,
+        "performance": 92,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1317,
-          "cls": 0.08,
+          "lcp": 1190,
+          "cls": 0.141,
           "inp": null,
-          "performance": 95,
+          "performance": 92,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
@@ -351,13 +351,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-08-03T09:44:11.463Z",
+    "fetchedAt": "2026-08-04T08:38:18.517Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-08-03T09:45:29.370Z",
+    "fetchedAt": "2026-08-04T08:39:43.092Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -368,17 +368,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-08-03T09:45:30.264Z",
+    "fetchedAt": "2026-08-04T08:39:44.940Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 1,
     "watchers": 1,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-08-02T11:15:52Z"
+    "lastCommit": "2026-08-03T16:25:12Z"
   },
   "sanity": {
-    "fetchedAt": "2026-08-03T09:45:30.673Z",
+    "fetchedAt": "2026-08-04T08:39:45.371Z",
     "counts": {
       "article": 15,
       "node": 52,
@@ -392,7 +392,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-08-03T09:45:30.884Z",
+    "generatedAt": "2026-08-04T08:39:45.568Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -1896,13 +1896,13 @@
         ]
       },
       {
-        "id": "item:article:why-cms-and-design-systems-belong-together",
+        "id": "item:article:oh-oh-atomic-one-model-two-systems",
         "_id": "wp.article.410",
         "type": "item",
         "docType": "article",
-        "slug": "why-cms-and-design-systems-belong-together",
-        "label": "Oh, oh… Atomic: CMS and Design Systems 4evar",
-        "href": "/articles/why-cms-and-design-systems-belong-together",
+        "slug": "oh-oh-atomic-one-model-two-systems",
+        "label": "Oh, oh… Atomic! Shared model for a Composable Content & Design Ecosystem",
+        "href": "/articles/oh-oh-atomic-one-model-two-systems",
         "size": "small",
         "tags": [
           {
@@ -1916,6 +1916,10 @@
           {
             "slug": "system-thinking",
             "label": "system thinking"
+          },
+          {
+            "slug": "architecture",
+            "label": "Architecture"
           }
         ]
       },
@@ -3301,17 +3305,17 @@
         "kind": "membership"
       },
       {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
         "target": "project:sugartown-design-system",
         "kind": "membership"
       },
       {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
         "target": "category:content-architecture",
         "kind": "membership"
       },
       {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
         "target": "category:design-systems",
         "kind": "membership"
       },
@@ -3867,6 +3871,12 @@
       },
       {
         "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
+        "target": "item:article:oh-oh-atomic-one-model-two-systems",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
         "target": "item:article:platform-selection-risk-composable-architecture",
         "kind": "sharedTag",
         "weight": 2
@@ -3915,9 +3925,9 @@
       },
       {
         "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
-        "target": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "item:article:oh-oh-atomic-one-model-two-systems",
         "kind": "sharedTag",
-        "weight": 2
+        "weight": 3
       },
       {
         "source": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
@@ -3963,6 +3973,12 @@
       },
       {
         "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
+        "target": "item:article:oh-oh-atomic-one-model-two-systems",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-deep-dive-resume-factory-v3-0",
         "target": "item:article:platform-selection-risk-composable-architecture",
         "kind": "sharedTag",
         "weight": 2
@@ -3999,6 +4015,12 @@
       },
       {
         "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
+        "target": "item:article:oh-oh-atomic-one-model-two-systems",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
         "target": "item:article:platform-selection-risk-composable-architecture",
         "kind": "sharedTag",
         "weight": 2
@@ -4018,6 +4040,12 @@
       {
         "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
         "target": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
+        "target": "item:article:oh-oh-atomic-one-model-two-systems",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4054,6 +4082,12 @@
       {
         "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
         "target": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
+        "target": "item:article:oh-oh-atomic-one-model-two-systems",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4323,7 +4357,7 @@
       },
       {
         "source": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
-        "target": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "item:article:oh-oh-atomic-one-model-two-systems",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -4353,7 +4387,7 @@
       },
       {
         "source": "item:node:market-scan-top-headless-cms-platforms-2025",
-        "target": "item:article:why-cms-and-design-systems-belong-together",
+        "target": "item:article:oh-oh-atomic-one-model-two-systems",
         "kind": "sharedTag",
         "weight": 3
       },
@@ -4394,19 +4428,31 @@
         "weight": 2
       },
       {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
-        "target": "item:node:project-sugartown-cms-architecture",
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
+        "target": "item:article:platform-selection-risk-composable-architecture",
         "kind": "sharedTag",
-        "weight": 3
+        "weight": 2
       },
       {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
+        "target": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
+        "target": "item:node:project-sugartown-cms-architecture",
+        "kind": "sharedTag",
+        "weight": 4
+      },
+      {
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
         "target": "item:article:three-headless-cmses-walk-into-a-bar",
         "kind": "sharedTag",
         "weight": 2
       },
       {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
         "target": "item:article:we-never-adopted-structured-content",
         "kind": "sharedTag",
         "weight": 2
@@ -5282,18 +5328,23 @@
         "kind": "tag-membership"
       },
       {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
         "target": "tag:content-modeling",
         "kind": "tag-membership"
       },
       {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
         "target": "tag:headless",
         "kind": "tag-membership"
       },
       {
-        "source": "item:article:why-cms-and-design-systems-belong-together",
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
         "target": "tag:system-thinking",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:oh-oh-atomic-one-model-two-systems",
+        "target": "tag:architecture",
         "kind": "tag-membership"
       },
       {
@@ -5919,7 +5970,7 @@
     ]
   },
   "linearRoadmap": {
-    "fetchedAt": "2026-08-03T09:45:31.253Z",
+    "fetchedAt": "2026-08-04T08:39:45.960Z",
     "inProgress": [
       {
         "identifier": "SUG-256",
@@ -7031,5 +7082,5 @@
       }
     ]
   },
-  "updatedAt": "2026-08-03T09:45:31.253Z"
+  "updatedAt": "2026-08-04T08:39:45.960Z"
 }
