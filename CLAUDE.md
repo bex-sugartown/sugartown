@@ -88,6 +88,8 @@ When creating a new epic in `docs/backlog/`:
 2. **Name the file** `docs/backlog/SUG-{N}-{descriptive-name}.md`
 3. **Link the Linear issue** in the file header (`**Linear Issue:** SUG-{N}`)
 4. **Prioritize in Linear** — the Linear queue is the single source of truth for priority order
+5. **Decompose above the sizing gate** — epics with more than 5 Scope items or numbered
+   phases get user-story sub-issues; see `docs/conventions/user-story-conventions.md`
 
 `docs/shipped/` holds shipped epics; `docs/backlog/` holds unscheduled and in-flight ones. Legacy `EPIC-NNNN` files in `docs/shipped/` stay as-is.
 

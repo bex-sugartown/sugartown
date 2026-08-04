@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-238 — Epic → User Story decomposition (AC/DoD per story, Linear sub-issues)
 **Linear Issue:** [SUG-238](https://linear.app/sugartown/issue/SUG-238/epic-user-story-decomposition-acdod-per-story-linear-sub-issues)
-**Status:** Backlog
+**Status:** Done — shipped 2026-08-04. Phase 1 shipped 2026-07-29 (`1b345b19`); Phases 2–3 shipped 2026-08-04.
 **Priority:** 🟣 Soon — not blocking, but the PM-vibe gap is live feedback, not speculative
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
@@ -50,7 +50,7 @@ tracking pattern. Nothing here is a rendered surface.
 - [x] **Web adapter sync scoped** — N/A, no DS component touched
 - [x] **Scope ↔ Non-Goals consistency** — checked; no Non-Goal below contradicts a Scope
   item (see both sections)
-- [ ] **Instruction & Rule File Write Gate pre-flight (this epic's own hard stop)** —
+- [x] **Instruction & Rule File Write Gate pre-flight (this epic's own hard stop)** — satisfied 2026-08-04, both diffs shown from scratchpad copies and approved before writing —
   two of the three files this epic modifies (`docs/epic-template.md`, `CLAUDE.md`) are
   rule-defining files under CLAUDE.md's own Instruction & Rule File Write Gate. **The
   executing session must show the exact diff for each and get explicit approval before
@@ -99,7 +99,8 @@ rewrite of the existing Scope/Deliverables/AC flow.
 
 ## Scope [REQUIRED]
 
-- [ ] Write `docs/conventions/user-story-conventions.md` — layer: docs (new file) — Phase 1
+- [x] Write `docs/conventions/user-story-conventions.md` — layer: docs (new file) — Phase 1
+  (shipped `1b345b19`, 2026-07-29)
   - Define "user story" as the canonical term; explicitly state bare "story"/"stories"
     remains reserved for Storybook everywhere in this repo
   - Define the sizing gate: candidate threshold is "multi-phase epics, or >5 Scope items"
@@ -116,16 +117,16 @@ rewrite of the existing Scope/Deliverables/AC flow.
     independently scoped to one skill's gate conversion) and show what its user-story
     breakdown would have looked like, to prove the sizing gate produces sensible output
     against a real epic rather than a hypothetical one
-- [ ] Update `docs/epic-template.md` — layer: rule-defining doc (gated, see Pre-Execution
-  Gate above) — Phase 2
+- [x] Update `docs/epic-template.md` — layer: rule-defining doc (gated, see Pre-Execution
+  Gate above) — Phase 2 (2026-08-04)
   - Add a **User Story Decomposition** section between `Scope` and `Query Layer
     Checklist`, referencing `docs/conventions/user-story-conventions.md` rather than
     restating its content
   - State the sizing gate inline as a one-line pointer, not a duplicate definition
   - Leave the existing `Scope`/`Deliverables`/`Acceptance Criteria` flow untouched for
     epics below the sizing threshold
-- [ ] Update `CLAUDE.md`'s Epic authoring — Linear-first workflow section — layer:
-  rule-defining doc (gated) — Phase 3
+- [x] Update `CLAUDE.md`'s Epic authoring — Linear-first workflow section — layer:
+  rule-defining doc (gated) — Phase 3 (2026-08-04)
   - Add one line referencing `docs/conventions/user-story-conventions.md`, consistent
     with the existing "consolidate to one canonical location, reference from the rest"
     pattern already used for the reuse rule
@@ -202,30 +203,29 @@ rewrite of the existing Scope/Deliverables/AC flow.
 
 ## Acceptance Criteria [REQUIRED]
 
-- [ ] `docs/conventions/user-story-conventions.md` exists and defines: the term "user
+- [x] `docs/conventions/user-story-conventions.md` exists and defines: the term "user
   story" (with an explicit statement that bare "story"/"stories" stays reserved for
   Storybook), the sizing gate threshold, the Linear sub-issue shape (title pattern,
   AC/DoD fields, `parentId` usage), and the source-of-truth statement (epic doc, not
-  sub-issues, remains canonical)
-- [ ] The SUG-229 worked example is present in the conventions doc: its 11 Scope bullets
-  mapped to a proposed user-story breakdown, demonstrating the sizing gate against a real
-  epic
-- [ ] `docs/epic-template.md`'s new section references
+  sub-issues, remains canonical) — verified by reading the file 2026-08-04
+- [x] The SUG-229 worked example is present in the conventions doc: its 11 Scope bullets
+  mapped to a proposed user-story breakdown (10 stories, items 10–11 merged with reason
+  given), demonstrating the sizing gate against a real epic — verified 2026-08-04
+- [x] `docs/epic-template.md`'s new section references
   `docs/conventions/user-story-conventions.md` by path rather than restating its content
-  — `grep -c "user-story-conventions.md" docs/epic-template.md` returns ≥1
-- [ ] `CLAUDE.md`'s Epic authoring section references the same file —
-  `grep -c "user-story-conventions.md" CLAUDE.md` returns ≥1
-- [ ] **Collision self-check (mechanical, not a judgment call):** `grep -inE "\bstor(y|ies)\b"` 
-  against the new conventions doc and both diffs — every match is either "user story" /
-  "User Story" (agile) or explicitly paired with "Storybook"/"component" (e.g.
-  "Storybook story," "component story"). Zero bare, ambiguous uses of "story"/"stories"
-  in the new or modified prose.
-- [ ] Both `docs/epic-template.md` and `CLAUDE.md` diffs were shown and approved before
-  writing, per the Instruction & Rule File Write Gate — confirmed by the approval
-  message existing in the session transcript, not assumed
-- [ ] Existing epics below the sizing threshold are unaffected — spot-check one recent
-  small epic doc (e.g. a single-phase epic) against the updated template and confirm
-  nothing in its existing structure is now required to change
+  — `grep -c "user-story-conventions.md" docs/epic-template.md` returns 1
+- [x] `CLAUDE.md`'s Epic authoring section references the same file —
+  `grep -c "user-story-conventions.md" CLAUDE.md` returns 1
+- [x] **Collision self-check (mechanical, not a judgment call):** `grep -inE "\bstor(y|ies)\b"` 
+  against both diffs — every match is "user story" / "User Story" / "user-story-sub-issues"
+  (agile). Zero bare, ambiguous uses of "story"/"stories" in the new prose.
+- [x] Both `docs/epic-template.md` and `CLAUDE.md` diffs were shown and approved before
+  writing, per the Instruction & Rule File Write Gate — approval message ("Yes — approved,
+  write both") exists in the session transcript, 2026-08-04
+- [x] Existing epics below the sizing threshold are unaffected — spot-checked
+  `SUG-266-scorering-reduced-motion.md` (3 Scope items, 0 phase mentions, well below the
+  gate): its existing Scope/Non-Goals structure needs no change, since the new section is
+  optional and additive
 
 ---
 
@@ -259,8 +259,12 @@ rewrite of the existing Scope/Deliverables/AC flow.
 2. **Chromatic** — N/A, no component or Storybook story changes
 3. **Data pipeline gap check** — N/A, no build-time pipeline touched
 4. **Move the epic doc**: `docs/backlog/SUG-238-epic-user-story-decomposition.md` →
-   `docs/shipped/SUG-238-epic-user-story-decomposition.md`
-5. **Confirm clean tree**
-6. **Run mini-release** — `/mini-release SUG-238 Epic user story decomposition`
-7. **Update Linear** — transition SUG-238 to **Done**
-8. **Start next epic** — only after mini-release commit is confirmed
+   `docs/shipped/SUG-238-epic-user-story-decomposition.md` — this commit
+5. **Confirm clean tree** — confirmed after this commit
+6. **Run mini-release** — **deferred**, same as SUG-256 earlier this session: batching
+   both epics' version bump into one `/mini-release` at `/eod` rather than two in one
+   session. `CHANGELOG.md` `[Unreleased]` line added in this close-out commit per
+   CLAUDE.md's "CHANGELOG line and version bump are separate obligations."
+7. **Update Linear** — transition SUG-238 to **Done**, this session
+8. **Start next epic** — mini-release deferral noted above; not blocking the next pick,
+   per the same reasoning applied to SUG-256's close-out

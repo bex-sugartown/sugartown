@@ -24,6 +24,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 #### Fixed
 - `AUTOMATED CHECKS · 18` tile body corrected from "enforced by code and pre-commit hooks" (overstated) to "6 run at pre-commit; the rest in CI only" (measured). SUG-256.
 
+#### Added
+- User Story Decomposition: epics with more than 5 Scope items or numbered phases now decompose into Linear sub-issues, one ticket per user story, defined in `docs/conventions/user-story-conventions.md` and referenced from `docs/epic-template.md` and CLAUDE.md's Epic authoring section. SUG-238.
+
 ---
 
 ## [0.32.0] — 2026-07-30
