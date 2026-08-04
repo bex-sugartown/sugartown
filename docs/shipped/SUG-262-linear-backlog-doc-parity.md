@@ -1,9 +1,9 @@
 ---
 **Epic:** SUG-262 — Linear ↔ backlog doc parity (backfill 6 orphans + `validate:epic-docs`)
 **Linear Issue:** [SUG-262](https://linear.app/sugartown/issue/SUG-262/linear-backlog-doc-parity-backfill-6-orphaned-issues-validateepic-docs)
-**Status:** In Progress — Phase 1 (backfill) and Phase 2 (`validate:epic-docs`) code-complete
-2026-08-04. Not closed: CTL-024's `enforced-by-code` flip waits on a real CI run proving the
-probe live (no `LINEAR_API_KEY` available in this session).
+**Status:** Done — shipped 2026-08-04. Phases 1–2 complete; CTL-024 flipped to
+`enforced-by-code` after the first real CI run proved it live and found 10 more real
+orphans (see §Round 2), backfilled the same day, second CI run green.
 **Priority:** 🟢 Next — CLAUDE.md §Scope creep is discipline until this validator exists
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end of each
 ---
@@ -138,31 +138,42 @@ It is registered as CTL-024 at `convention` class because this validator does no
       in the failure output, restores the file — verified against real `collectLinear()`
       logic (matching succeeds/fails correctly on real files, see local test); the probe
       itself reports **skipped**, not live, without a local `LINEAR_API_KEY`
-- [ ] **CTL-024 reads `enforced-by-code` with a resolving probe reference — NOT done,
-      deliberately.** Stays `convention`: liveness unproven in this session (see Phase 2
-      note above). The probe reference *does* resolve (`validate:controls` passes), but
-      the class is honest about what's actually verified
+- [x] **CTL-024 reads `enforced-by-code` — flipped 2026-08-04**, once the first real CI
+      run (`30930818744` on `f82e50ed`) proved it live: ran against real Linear data,
+      correctly failed the build, named 10 real orphans by identifier. See §Round 2 below
 - [x] `pnpm validate:controls` passes
+
+## Round 2 — CI proved the gate live, and found 10 more real orphans (2026-08-04)
+
+The first real CI run after push (`30930818744` on `f82e50ed`) exercised
+`validate:epic-docs` against live Linear data for the first time — and failed, correctly.
+It found **10 non-Done issues** outside this epic's original scope (SUG-249/256/257/258/
+259/260) and outside the 9-issue historical allowlist: **SUG-261, 154, 72, 71, 60, 57, 56,
+51, 50, 18**.
+
+- **SUG-261** — "Test sub-issue," description literally "ignore me, I'm a test." Not real
+  work; canceled in Linear rather than given a stub.
+- **7 of the remaining 9 already had backlog docs** (SUG-154, 71, 57, 56, 51, 50, 18) —
+  just no priority-stack row. One (SUG-18) existed as unlinked prose in the Deferred
+  section predating the `[SUG-N]` linking convention; linked in place rather than
+  duplicated. SUG-71's doc was found stale (predates its 2026-06-18 re-scope) — noted in
+  its priority row rather than rewritten tonight, per this epic's own Non-Goal against
+  filling in full specs.
+- **2 needed new stubs** (SUG-72, SUG-60) — written same as Round 1's five.
+
+This is the gate doing exactly what it was built for: SUG-262's own Non-Goals excluded
+retrofitting 9 *named* historical orphans, not "any old issue." These 10 were never named
+anywhere — they were simply undiscovered until something actually checked. Second CI run
+confirmed green; CTL-024 flipped to `enforced-by-code` the same day.
 
 ## Post-Epic Close-Out
 
 1. Visual QA, Chromatic, data pipeline: N/A — no rendered surface
-2. **Move to `docs/shipped/` — NOT done yet.** Phases 1–2 are code-complete and
-   committed, but one AC is explicitly unmet (CTL-024 stays `convention`, not
-   `enforced-by-code`, because liveness is unproven from this session — see Phase 2
-   and the AC list above). Staying in `docs/backlog/` until that's resolved, not
-   moved prematurely with an open checkbox.
+2. **Move to `docs/shipped/` — done**, this commit. All ACs met, CTL-024 flipped,
+   confirmed by a real green CI run.
 3. `/mini-release` — deferred, same as SUG-256/238 earlier this session (batching
-   into one `/eod` version bump). `CHANGELOG.md` `[Unreleased]` line added in this
-   close-out commit.
-4. **Transition SUG-262 to Done — NOT done yet**, same reason as step 2. Left
-   **In Progress** in Linear. **The one remaining step:** after this session's
-   commits reach `origin/main` and a real CI run completes, run
-   `pnpm validate:enforcement-liveness` (with real Linear access this time) and
-   confirm the `validate:epic-docs` probe reports **live**, not skipped. If it
-   does, flip CTL-024 to `enforced-by-code` in its own small commit and *then*
-   close this epic. If the CI step errors instead of running clean, that's a bug
-   in the wiring to fix before flipping anything.
+   into one `/eod` version bump). `CHANGELOG.md` `[Unreleased]` line added.
+4. **Transition SUG-262 to Done** — this session.
 5. **Incident log: no incident.** CTL-024 was registered `convention` from
    creation (2026-07-29) specifically because no validator existed — it never
    claimed enforcement it didn't have, unlike the INC-007/010/011 shape (a gate

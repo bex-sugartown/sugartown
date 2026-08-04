@@ -33,6 +33,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 #### Fixed
 - `collectLinear()` (`apps/web/scripts/stats/linear.js`) silently truncated at 250 issues with no pagination (team has 268) and dropped `triage`-state issues from every bucket. Now pages through the full result set and buckets triage with backlog/unstarted. SUG-262.
 
+#### Added
+- First real CI run of `validate:epic-docs` found 10 more orphaned issues outside SUG-262's original scope (SUG-154, 72, 71, 60, 57, 56, 51, 50, 18 backfilled; SUG-261 was a stray test issue, canceled). CTL-024 flipped to `enforced-by-code`. SUG-262.
+
 ---
 
 ## [0.32.0] — 2026-07-30
