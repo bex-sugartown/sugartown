@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-268 — Governance Data Layer — Phase 1: resolve open decisions + source schema skeleton
 **Linear Issue:** [SUG-268](https://linear.app/sugartown/issue/SUG-268/governance-data-layer-phase-1-resolve-open-decisions-source-schema)
-**Status:** In Progress — Phase 1 (decisions resolved 2026-08-05; schema code not yet written)
+**Status:** In Progress — **Phase 1 complete and merged** (2026-08-05, CI 31026674863 green). Phases 2–4 outstanding.
 **Priority:** 🟢 Next — high value, ready to pick up
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end of each
 ---
@@ -59,7 +59,7 @@ GROQ (none exists for this data).
 
 ## Scope
 
-### Phase 1 — Resolve open decisions + source schema skeleton (this Linear issue)
+### Phase 1 — Resolve open decisions + source schema skeleton ✅ COMPLETE 2026-08-05
 
 - [x] Resolve PRD §8's six Open Decisions with Bex, in session, before writing schema code —
       layer: process. **Done 2026-08-05** — see §Open Decisions Log. Each has a stated
@@ -318,10 +318,12 @@ explicitly labelled "not a consumer contract" in its own `_note` field.
 | 6 · `docs/shipped/` move | **Does not apply** — this doc owns Phases 2–4 and stays in `docs/backlog/` |
 | 8b · Incident log | **No incident.** The defects fixed this phase were in code written this phase; nothing already shipped was found broken. The two register defects below are pre-existing but are being fixed in Phase 3, not here |
 
-**Deferred to `/eod` (Bex's call, 2026-08-05):** close-out steps 1b (CI run ID), 7 (mini-release)
-and 8 (Linear → Done). Pushing mid-session triggers a Netlify deploy, and step 1b needs a *named*
-green CI run rather than an assertion — so the 5 commits batch to `/eod`, and Phase 1 formally
-closes when that run is green and recorded here.
+**Step 1b — route smoke tests + CI: satisfied 2026-08-05.** Run
+[31026674863](https://github.com/bex-sugartown/sugartown/actions/runs/31026674863) concluded
+`success` on `a9c516e0`, the merge commit carrying all of Phase 1. A named run, not an
+assertion that CI is green.
+
+Reproduce: `gh run list --branch main --workflow CI --limit 1 --json databaseId,conclusion`
 
 **Friction line (step 3b):** what cost a correction commit this time — **a determinism
 requirement applied to the wrong artifact.** PRD §3 binds generated output bytes; I read it as
