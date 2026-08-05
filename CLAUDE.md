@@ -31,7 +31,10 @@ When Bex uses a shorthand, map it to the full tool name:
 
 ### Epic close-out sequence
 
-When an epic is complete, run these steps in order before starting the next epic:
+When an epic is complete, run these steps in order before starting the next epic.
+
+Steps 1, 1b, 7, 8, 8b and 9 always run. **Steps 2–6b fire only on their stated trigger**; a
+step whose trigger did not fire is recorded as N/A with the reason, never silently skipped.
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
 1b. **Route smoke tests** — `pnpm test:smoke` passes locally **and** the CI run for the merged commit concludes `success`. Five Playwright specs prove the app renders end-to-end, not just builds: homepage, one archive, one detail, one taxonomy route, a 404. A red suite blocks merge to `main` (SUG-240). **Record the run ID in the shipped doc** — `gh run list --branch main --workflow CI --limit 1 --json databaseId,conclusion`. "CI is green" is not an artifact; a named run is. If CI is known-red for reasons outside the epic, say so and name the tracking issue.
@@ -122,47 +125,57 @@ separately maintained field:
 | Sugartown stage | Trigger | Linear status |
 |---|---|---|
 | Epic created | `/new-epic` Step 1 | `Backlog` |
-| Promoted to `## 01 · Next` in the priority stack | `/new-epic` Step 4, or any later reprioritization | `Todo` |
+| Prioritized for pickup | Set in Linear, by the human | `Todo` |
 | Implementation begins | Pre-Execution Completeness Gate passes (`docs/epic-template.md`) | `In Progress` |
 | Epic ships | Close-out sequence step 8 (below) | `Done` |
+
+**Linear is the priority queue; there is no second copy.**
+`docs/backlog/sugartown-backlog-priorities.md` was retired 2026-08-05.
+`/platform/governance` renders priority data from `stats.linearRoadmap`.
 
 Full mechanics: `.claude/skills/new-epic/docs/new-epic-prompt.md` and `docs/epic-template.md`
 §Epic Lifecycle. Cross-epic dependencies stated as "blocked on SUG-X" in a backlog doc must
 also exist as a real Linear `blockedBy`/`blocks` relation (Linear MCP `save_issue`) — a
 dependency written only as prose is invisible to anyone using Linear as the priority queue.
-Linear's priority field (4 tiers) mirrors the backlog priority emoji; there is no API-exposed
-manual sort-order field, so exact drag-order parity within a tier is not guaranteed — priority
-tier + Linear's own default sort is the accepted fallback (SUG-246).
 
 ### Scope creep (blocking)
 
 Work found mid-epic that will not be done in this epic gets filed before the epic
 continues. Claude files it, not the human.
 
-| The finding | Destination | Artifact |
-|---|---|---|
-| Belongs to the current epic | Scope line, assigned to a phase | doc edit |
-| Belongs to an existing epic | Sub-issue under it, plus a Scope line in its doc | Linear + doc edit |
-| Net-new | `/new-epic`: Linear issue, backlog stub, priority row | full stub |
+Route by size, in this order:
 
-In the same turn the finding is recorded, Claude owns: the Linear issue or sub-issue, the
-backlog doc or Scope line, a proposed priority, the execution order relative to the current
-epic, and any `blockedBy`/`blocks` relation (SUG-246). Priority is proposed, not set: the
-Linear queue stays the human's.
+1. **Already inside an approved epic's Scope?** Execute it. No new container.
+2. **Otherwise, does a heavy gate fire** — new visual format, schema change, new
+   gate/validator, or a new published claim?
+
+| | Destination | Artifact |
+|---|---|---|
+| A heavy gate fires | `/new-epic` | Linear issue + backlog doc |
+| No gate, fits one commit | Scope line on the nearest owning doc | doc edit |
+| No gate, needs several commits | Sub-issue under that doc's epic | Linear (inherits the parent's doc) |
+
+In the same turn the finding is recorded, Claude owns the artifact its row names, the
+execution order relative to the current epic, and any `blockedBy`/`blocks` relation
+(SUG-246). Priority is proposed, not set: the Linear queue stays the human's.
 
 Does not fire for a finding fixed inline in the same session, or an observation with no
 proposed change.
 
-Verified at close-out step 5b, and by `pnpm validate:epic-docs` once it exists. Sub-issues
-depend on SUG-238; until it lands, use a Scope line in the target epic's doc for the middle
-row. (2026-07-27→28: six issues reached Linear with no doc and no priority row.)
+Verified at close-out step 5b and by `pnpm validate:epic-docs`. (2026-07-27→28: six issues
+reached Linear with no doc.)
 
 ### Multi-phase epic merge cadence
 
-When an epic has numbered phases, declare one of two strategies in the epic doc header when the epic opens, and stick to it:
+**Phases are execution units, not work items.** One epic is one Linear issue, one backlog
+doc, one mini-release, however many phases. Phases get checkboxes in the parent doc. A phase
+that outgrows the epic's Objective splits out via `/new-epic`.
 
-- **(a) Merge-as-you-go** — each phase merges to `main` on completion with its own mini-release. Phase N is "Done" in Linear only after its own merge.
-- **(b) Single close-out** — all phases accumulate on one feature branch. Nothing merges until the epic ships. One mini-release at the end.
+Strategy governs merge cadence only. Declare one in the epic doc header when the epic opens,
+and stick to it:
+
+- **(a) Merge-as-you-go** — each phase merges to `main` on completion.
+- **(b) Single close-out** — all phases accumulate on one feature branch, merging once.
 
 **Do not mix.** Merging Phase 1 and 1b while leaving 1c on a side branch is what stranded SUG-63 Phase 1c for days. At `/eod`, any branch ahead of `main` belonging to an (a)-strategy epic is resolved — merged, held with a stated reason, or abandoned — before the day closes.
 

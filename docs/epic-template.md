@@ -19,7 +19,7 @@ field — see CLAUDE.md §Linear status = workflow stage (SUG-246).
 - Use the Linear issue ID in the filename: `SUG-30-image-treatments-gallery.md`
 - Update the **Linear Issue** field in the file header with the issue link
 - Status in Linear: **Backlog** (just filed) → **Todo** (promoted to the top of `## 01 · Next`
-  in the priority stack — `/new-epic` Step 4 sets this automatically)
+  by the human when they prioritize it for pickup)
 
 **2. Active** (implementation underway)
 - Status in Linear: **In Progress** — set as soon as the Pre-Execution Completeness Gate below
@@ -36,7 +36,6 @@ field — see CLAUDE.md §Linear status = workflow stage (SUG-246).
 > **`docs/backlog/`** — full epic specs. The working document Claude Code reads during execution.
 > **`docs/shipped/`** — completed epics. Historical reference. (Renamed from `docs/prompts/`.)
 > **Linear** — tracking, prioritization, status. Short description + links. Not the full spec.
-> The backlog priority index (`docs/backlog/sugartown-backlog-priorities.md`) is a convenience view.
 
 ---
 
@@ -521,8 +520,8 @@ State how re-running the script produces no change:
 
   | Finding | Destination | Artifact |
   |---|---|---|
-  | e.g. `/release` skips the header cap | new epic | SUG-265 + stub + priority row |
-  | e.g. ScoreRing dep array | new epic | SUG-266 + stub + priority row |
+  | e.g. `/release` skips the header cap | new epic | SUG-265 + stub |
+  | e.g. ScoreRing dep array | new epic | SUG-266 + stub |
   | e.g. epic-template full restyle | decided against | recorded in this doc |
 
   Close-out step 5b verifies handoffs to *named* epics. This covers findings with no epic yet, which is how they end up in chat and nowhere else (CTL-024).

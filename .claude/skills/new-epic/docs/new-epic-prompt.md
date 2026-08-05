@@ -1,7 +1,7 @@
 # PROMPT — Sugartown New Epic Assistant
 **Version:** v1 (2026-04-27)
 
-Run this to create a new backlog epic: Linear issue + backlog stub + priority stack entry + commit.
+Run this to create a new backlog epic: Linear issue + backlog stub + commit.
 
 ---
 
@@ -9,7 +9,6 @@ Run this to create a new backlog epic: Linear issue + backlog stub + priority st
 
 - A new **Linear issue** in the Sugartown team with the correct title, description, and priority
 - A new **backlog stub file** at `docs/backlog/SUG-{N}-{kebab-name}.md` with standard header block and empty section stubs
-- An entry in `docs/backlog/sugartown-backlog-priorities.md` in the correct priority section
 - A single commit: `docs(sug-{N}): add {title} backlog epic`
 
 This is a stub, not a full spec. The full spec is filled in when the epic is activated.
@@ -20,10 +19,10 @@ This is a stub, not a full spec. The full spec is filled in when the epic is act
 
 - The Linear issue must be created FIRST — the SUG-{N} ID it assigns is the canonical identifier for the file and commit.
 - Nothing is written to disk until the Linear issue exists and has a confirmed ID.
-- The backlog file and priority stack entry are committed together in a single commit.
+- The backlog file is committed in a single commit.
 - Do not pre-fill spec sections with guesses. Stub sections use "TODO" as a placeholder.
 - Linear status is a byproduct of this workflow, not separately maintained: `Backlog` at
-  creation → `Todo` when promoted to `## 01 · Next` (Step 4) → `In Progress` at activation
+  creation → `Todo` when the human prioritizes it for pickup → `In Progress` at activation
   (`docs/epic-template.md` Pre-Execution Completeness Gate) → `Done` at close-out (CLAUDE.md
   close-out sequence step 8).
 - A stated cross-epic dependency ("blocked on SUG-X") must be mirrored as a real Linear
@@ -208,34 +207,10 @@ section with "Not applicable — no shared CSS, token, or multi-page component c
 
 ---
 
-## STEP 4 — ADD TO PRIORITY STACK
+## STEP 4 — SYNC LINEAR
 
-Open `docs/backlog/sugartown-backlog-priorities.md`.
-
-Determine which section to insert into based on the priority:
-
-| Priority | Section |
-|----------|---------|
-| 🔴 Now | `## 01 · Next — high value, ready to pick up` (top of list) |
-| 🟢 Next | `## 01 · Next — high value, ready to pick up` |
-| 🟣 Soon | `## 02 · Soon` (match the nearest matching section heading) |
-| ⚪ Later | `## 03 · Soon — post-sprint, pre-launch` or deferred, whichever fits |
-| ⬛ Deferred | `## 03 · Deferred — post-launch` |
-
-Add a new table row in the correct section:
-
-```markdown
-| {next number} | **[SUG-{N}](https://linear.app/sugartown/issue/SUG-{N}) · {Epic name}** — {one-line description}. Epic: `docs/backlog/SUG-{N}-{kebab-name}.md`. | `{Tag1}` `{Tag2}` | {priority emoji} {label} |
-```
-
-Also update the header block at the top of the file:
-
-- Update the `> Updated` line with today's date and the new SUG-{N} addition
-- Update `⚑ Current focus` only if priority is 🔴 Now — otherwise leave unchanged
-
-**Sync Linear status:** if the epic's section is `## 01 · Next — high value, ready to pick up`,
-transition the Linear issue to `Todo` (it was created as `Backlog` in Step 1). For any other
-section (Soon/Later/Deferred), leave it as `Backlog` — do not set `Todo` prematurely.
+**Sync Linear status:** leave the issue as `Backlog`. The human sets `Todo` when they
+prioritize it for pickup.
 
 **Sync dependency relations:** if the invocation context or epic doc states an explicit
 "blocked on SUG-X" / "blocked by SUG-X" dependency, call `save_issue` on this epic's issue
@@ -247,10 +222,8 @@ the priority queue (SUG-246).
 
 ## STEP 5 — COMMIT
 
-Stage and commit both files together:
-
 ```bash
-git add docs/backlog/SUG-{N}-{kebab-name}.md docs/backlog/sugartown-backlog-priorities.md
+git add docs/backlog/SUG-{N}-{kebab-name}.md
 git commit -m "docs(sug-{N}): add {epic name} backlog epic"
 ```
 
@@ -262,9 +235,8 @@ Print:
 
 ```
 ━━━ NEW EPIC CREATED ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ✅  Linear: SUG-{N} → {url} (status: {Backlog|Todo})
+  ✅  Linear: SUG-{N} → {url} (status: Backlog)
   ✅  Backlog stub: docs/backlog/SUG-{N}-{kebab-name}.md
-  ✅  Priority stack: added to {section name}
   ✅  Committed: docs(sug-{N}): add {epic name} backlog epic
 
 Epic doc is a filled execution brief — Background, Objective, Scope, AC, and Technical Notes are populated.
@@ -289,8 +261,7 @@ using docs/epic-template.md as the reference.
     - "Stop — let me look at the existing one first"
   ```
 - If any Scope bullet touches CSS, a layout token, or a multi-page component, the stub MUST include the **Human QA Walkthrough** section (with the App.jsx activation instruction) — not as a `TODO`, but as the written activation audit. A CSS/layout epic stub without this section is incomplete.
-- Linear status must reflect the section the epic lands in: `Todo` for `## 01 · Next`,
-  `Backlog` otherwise. Never leave an epic that's actually next-up sitting in `Backlog`.
+- Leave the issue in `Backlog`. The human sets `Todo` when they prioritize it for pickup.
 - Any "blocked on/by SUG-X" dependency stated in Background/Technical notes must get a
   matching Linear `blockedBy`/`blocks` relation before Step 5 (Commit).
 

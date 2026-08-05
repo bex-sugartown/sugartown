@@ -4,9 +4,15 @@
  *
  * Reads apps/web/src/generated/stats.json (real, daily-collected pipeline
  * output — see CLAUDE.md §Generated stats files) and writes a dated
- * evidence block into docs/backlog/sugartown-backlog-priorities.md: four
- * numbers, three sentences. Nothing measured after ship currently feeds
- * back into planning — this closes that loop. See SUG-241.
+ * evidence block into docs/reports/evidence-digest.md: four numbers, three
+ * sentences. Nothing measured after ship currently feeds back into planning —
+ * this closes that loop. See SUG-241.
+ *
+ * Retargeted 2026-08-05: the digest previously lived inside
+ * docs/backlog/sugartown-backlog-priorities.md, which was retired for
+ * duplicating Linear by hand. This digest was the only content there with no
+ * other home, because it is generated from the stats pipeline rather than
+ * mirrored from Linear.
  *
  * Every number traces to a real stats.json field. If a source is
  * unavailable, the block says "unavailable" — never a defaulted zero.
@@ -39,7 +45,7 @@ const STATS_PATH = argValue('--stats-path')
   ? resolve(process.cwd(), argValue('--stats-path'))
   : resolve(ROOT, 'apps/web/src/generated/stats.json')
 const OVERRIDE_DATE = argValue('--date')
-const BACKLOG_PATH = resolve(ROOT, 'docs/backlog/sugartown-backlog-priorities.md')
+const DIGEST_PATH = resolve(ROOT, 'docs/reports/evidence-digest.md')
 
 const SECTION_HEADING = '## 📊 Evidence Digest — monthly product signal'
 const SECTION_INTRO =
@@ -182,15 +188,12 @@ function upsertDigest(fileContent, block, date) {
   const headingIdx = fileContent.indexOf(SECTION_HEADING)
 
   if (headingIdx === -1) {
-    // Section doesn't exist yet — create it, placed before "## 01 · Next"
-    // so the evidence is visible before the priority table it should inform.
-    const nextSectionMarker = '## 01 · Next'
-    const insertAt = fileContent.indexOf(nextSectionMarker)
-    if (insertAt === -1) {
-      throw new Error(`Could not find "${nextSectionMarker}" in ${BACKLOG_PATH} to anchor the new section`)
-    }
-    const newSection = `${SECTION_HEADING}\n\n${SECTION_INTRO}\n\n${block.trimEnd()}\n\n---\n\n`
-    return fileContent.slice(0, insertAt) + newSection + fileContent.slice(insertAt)
+    // Section doesn't exist yet — append it. The digest now owns its own file,
+    // so there is no sibling section to anchor against; before 2026-08-05 this
+    // branch positioned the section before "## 01 · Next" inside the retired
+    // backlog-priorities doc.
+    const newSection = `${SECTION_HEADING}\n\n${SECTION_INTRO}\n\n${block.trimEnd()}\n\n---\n`
+    return `${fileContent.trimEnd()}\n\n${newSection}`
   }
 
   // Find the end of the section (next "---" divider after the heading).
@@ -229,12 +232,12 @@ function run() {
 
   console.log(block)
 
-  const backlogContent = readFileSync(BACKLOG_PATH, 'utf8')
-  const updated = upsertDigest(backlogContent, block, digest.date)
-  writeFileSync(BACKLOG_PATH, updated, 'utf8')
+  const digestContent = readFileSync(DIGEST_PATH, 'utf8')
+  const updated = upsertDigest(digestContent, block, digest.date)
+  writeFileSync(DIGEST_PATH, updated, 'utf8')
 
   console.log(`   ✅ Wrote evidence block for ${digest.date} to`)
-  console.log(`      ${BACKLOG_PATH}\n`)
+  console.log(`      ${DIGEST_PATH}\n`)
 }
 
 run()

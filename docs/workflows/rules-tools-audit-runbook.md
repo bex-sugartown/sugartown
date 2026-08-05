@@ -57,7 +57,7 @@ Runs after the staleness sweep (moves should be informed by which files are stil
 | `docs/drafts/` (gitignored, local-only) | Executed/dead drafts → `docs/drafts/zArchive/`. Never delete. | None — stays gitignored. |
 | `docs/shipped/` | Files older than the D-6 threshold → `docs/shipped/zArchive/YYYY/`. Current-period epics stay flat. | Move-only commit; link fixes in a follow-up commit; re-run path check. |
 | `docs/backlog/` | Superseded/abandoned stubs → `docs/backlog/zArchive/` with a one-line header naming what superseded them; strike through the priority-stack row. | Same move-only discipline. |
-| `docs/backlog/sugartown-backlog-priorities.md` header | Cap the `> Updated...` blockquote at the last 5 entries; older entries move to a `## Changelog` section at the bottom. | Content edit, one-time then maintained per cycle. |
+| ~~`sugartown-backlog-priorities.md` header~~ (file retired 2026-08-05) | Cap the `> Updated...` blockquote at the last 5 entries; older entries move to a `## Changelog` section at the bottom. | Content edit, one-time then maintained per cycle. |
 | Git branches | Merged branches pruned locally + remote. Unmerged branches older than 30 days get a disposition: merge / hold with reason / delete. | Branch deletion only after the merged-into-main check (CLAUDE.md §Linear Done = code on main). |
 
 **Hard rules:** `git mv` only, zero content edits in a move commit; link fixes are a separate commit; housekeeping commits never mix with rule-file edits or audit-finding fixes; moves are batched once per cycle, not ad hoc; after the sweep, re-run the path-resolution check — zero broken links is the exit condition.

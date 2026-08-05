@@ -168,7 +168,7 @@ const WORKFLOW_DOCS = [
   { phase: 'Verification', docLabel: 'VQA Workflow + CLAUDE.md §Visual Verification', docHref: `${GH}docs/conventions/vqa-workflow.md`, outputLabel: 'VQA table, Chromatic build', outputHref: null },
   { phase: 'Close-out', docLabel: 'CLAUDE.md §Session Discipline', docHref: `${GH}CLAUDE.md`, outputLabel: 'Shipped epic doc, mini-release commit', outputHref: null },
   { phase: 'Release', docLabel: 'Release Assistant', docHref: `${GH}docs/workflows/release-assistant-prompt.md`, outputLabel: 'CHANGELOG', outputHref: TRUST_LINKS.changelog },
-  { phase: 'Feedback', docLabel: 'Feedback Loop', docHref: `${GH}docs/conventions/feedback-loop.md`, outputLabel: 'Backlog priorities (dated block)', outputHref: `${GH}docs/backlog/sugartown-backlog-priorities.md` },
+  { phase: 'Feedback', docLabel: 'Feedback Loop', docHref: `${GH}docs/conventions/feedback-loop.md`, outputLabel: 'Evidence digest (dated block)', outputHref: `${GH}docs/reports/evidence-digest.md` },
 ]
 
 const WORKFLOW_DOCS_COLUMNS = [

@@ -61,7 +61,7 @@ Before writing copy, know what's real and shipped. Every claim on this page must
 | Content State Governance | `apps/web/src/lib/contentState.js` | Shipped (v0.17.7) | Published-only content posture, build-time safety plugin |
 | Brand Voice Guide | `docs/brand-voice-guide.md` | Active | Copy governance with anti-AI-generated checklist |
 | Epic Template | `docs/epic-template.md` | Active | Standardized epic format with confirmation gates |
-| Backlog Priorities | `docs/backlog/sugartown-backlog-priorities.html` | Maintained | Prioritized, version-tagged, date-stamped |
+| Backlog Priorities | retired 2026-08-05 — Linear is the queue | Retired | Prioritized, version-tagged, date-stamped |
 
 ---
 

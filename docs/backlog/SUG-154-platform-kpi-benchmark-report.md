@@ -220,7 +220,7 @@ Not applicable — no new enum fields.
 - `docs/reports/sugartown-kpi-dashboard-v2.html` — CREATE (updated static dashboard)
 
 **Docs (no change unless platform page is approved)**
-- `docs/backlog/sugartown-backlog-priorities.md` — mark SUG-154 active
+- Linear — set SUG-154 to `In Progress` at activation
 
 **Sanity (gated on human approval)**
 - New `page` doc: `{ _type: 'page', slug: { current: 'kpi-report' }, ... }` under the

@@ -4,7 +4,7 @@
 missing loop rather than a missing link: `stats.yml` runs daily, collects real Lighthouse
 CI, CrUX, security, GitHub, Sanity, and Linear roadmap data, and that data renders on
 `/governance` — then stops. Nothing measured after ship fed back into planning. Priority
-in `docs/backlog/sugartown-backlog-priorities.md` came from judgment, not evidence.
+in the backlog came from judgment, not evidence.
 
 Two loops close that gap. This doc is their single source of truth — CLAUDE.md and
 `docs/epic-template.md` reference it rather than duplicating it.
@@ -15,7 +15,7 @@ Two loops close that gap. This doc is their single source of truth — CLAUDE.md
 
 `scripts/monthly-evidence-digest.js` reads `apps/web/src/generated/stats.json` (real,
 daily-collected pipeline output — see CLAUDE.md §Generated stats files) and writes a
-dated block into `docs/backlog/sugartown-backlog-priorities.md`'s
+dated block into `docs/reports/evidence-digest.md`'s
 **📊 Evidence Digest** section: four numbers, three sentences.
 
 ```bash

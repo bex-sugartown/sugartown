@@ -31,7 +31,7 @@ const RULES: Record<string, GovernanceRule> = {
       'post→article rename). Do not add `featuredImage` to any new or existing schema — canonical thumbnail ' +
       'sources are `hero.media[0]` or `sections[]` (or `cardImage` specifically on `caseStudy`, itself deprecated ' +
       'in favour of an auto-derived hero image per SUG-50).',
-    source: 'docs/backlog/sugartown-backlog-priorities.md (BL-07); apps/studio/schemas/documents/post.ts',
+    source: 'apps/studio/schemas/documents/post.ts (BL-07 originated in the retired backlog-priorities doc)',
   },
   'web-adapter-rule': {
     rule: 'web-adapter-rule',

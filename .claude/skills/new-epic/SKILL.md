@@ -1,6 +1,6 @@
 ---
 name: new-epic
-description: Create a new Sugartown epic — Linear issue + backlog stub + priority stack entry + commit
+description: Create a new Sugartown epic — Linear issue + backlog stub + commit
 ---
 
 Base directory for this skill: /Users/beckyalice/SUGARTOWN_DEV/sugartown/.claude/skills/new-epic

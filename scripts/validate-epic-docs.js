@@ -1,16 +1,29 @@
 #!/usr/bin/env node
 /**
- * validate-epic-docs.js — every non-Done Linear issue gets a backlog doc + a
- * priority-stack row (SUG-262, CTL-024).
+ * validate-epic-docs.js — every non-Done Linear issue gets a backlog doc
+ * (SUG-262, CTL-024).
  *
  *   pnpm validate:epic-docs
  *
- * `/new-epic` is the only path that produces a `docs/backlog/SUG-{N}-*.md` stub
- * and a `docs/backlog/sugartown-backlog-priorities.md` row. It runs at the start
- * of an epic, never mid-epic when a finding spawns a new issue. Six issues were
- * spun off that way between 2026-07-27 15:54 and 2026-07-28 12:44 with neither
- * artifact — one of them (SUG-256) then shipped work outside its stated Linear
- * scope, because no doc meant no Pre-Execution Completeness Gate to bound it.
+ * `/new-epic` is the only path that produces a `docs/backlog/SUG-{N}-*.md` stub.
+ * It runs at the start of an epic, never mid-epic when a finding spawns a new
+ * issue. Six issues were spun off that way between 2026-07-27 15:54 and
+ * 2026-07-28 12:44 with no doc — one of them (SUG-256) then shipped work outside
+ * its stated Linear scope, because no doc meant no Pre-Execution Completeness
+ * Gate to bound it.
+ *
+ * The priority-row half of this check was REMOVED 2026-08-05. It required a
+ * hand-written row in `docs/backlog/sugartown-backlog-priorities.md` for every
+ * non-Done issue — a 24,115-word mirror of Linear that the only human reader
+ * confirmed she never opens. Its sole consumer was this gate, so the check
+ * existed to keep a duplicate in sync rather than to protect anything. The
+ * surface that actually renders priority data (`/platform/governance`) already
+ * reads live Linear data via `stats.linearRoadmap`, and SUG-246 had already
+ * accepted the one thing Linear cannot express (drag-order within a tier) as an
+ * acceptable loss. Removing it also removed the perverse incentive it created:
+ * because sub-issues got no exemption, the cheapest legal response to a finding
+ * was to not file the sub-issue at all (SUG-269, created and cancelled the same
+ * day for exactly this reason).
  *
  * Data source: reuses `apps/web/scripts/stats/linear.js`'s `collectLinear()`
  * rather than a second Linear API client. That module already has the graceful
@@ -31,12 +44,12 @@
  * gap it was covering — same shape as validate-dead-refs.js's KNOWN_DEAD check.
  *
  * Exit codes:
- *   0 — every non-Done issue has both artifacts, or the check was SKIPPED (no
+ *   0 — every non-Done issue has a backlog doc, or the check was SKIPPED (no
  *       live Linear data)
- *   1 — at least one non-Done issue is missing a backlog doc or a priority row
+ *   1 — at least one non-Done issue is missing a backlog doc
  */
 
-import { readFileSync, readdirSync } from 'fs'
+import { readdirSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { collectLinear } from '../apps/web/scripts/stats/linear.js'
@@ -46,7 +59,6 @@ const ROOT = resolve(__dirname, '..')
 
 const BACKLOG_DIR = resolve(ROOT, 'docs/backlog')
 const SHIPPED_DIR = resolve(ROOT, 'docs/shipped')
-const PRIORITIES_FILE = resolve(ROOT, 'docs/backlog/sugartown-backlog-priorities.md')
 
 // Historical orphans pre-dating this gate (SUG-262 Non-Goals: no retrofit).
 // Measured 2026-08-04: all nine still non-Done in Linear.
@@ -63,12 +75,6 @@ function docExists(identifier) {
   return false
 }
 
-function hasPriorityRow(identifier, prioritiesText) {
-  // Word-boundary match: \b prevents SUG-25 from matching inside SUG-256 — the
-  // digit sequence's own edges are the only place a \b can fall.
-  return new RegExp(`\\b${identifier}\\]`).test(prioritiesText)
-}
-
 async function main() {
   const data = await collectLinear()
 
@@ -80,7 +86,6 @@ async function main() {
     process.exit(0)
   }
 
-  const prioritiesText = readFileSync(PRIORITIES_FILE, 'utf8')
   const nonDone = [...data.inProgress, ...data.backlog]
 
   const missing = []
@@ -88,20 +93,17 @@ async function main() {
 
   for (const issue of nonDone) {
     const hasDoc = docExists(issue.identifier)
-    const hasRow = hasPriorityRow(issue.identifier, prioritiesText)
 
     if (ALLOWLIST.has(issue.identifier)) {
-      if (hasDoc && hasRow) staleAllowlist.push(issue.identifier)
+      if (hasDoc) staleAllowlist.push(issue.identifier)
       continue
     }
 
-    if (!hasDoc || !hasRow) {
+    if (!hasDoc) {
       missing.push({
         identifier: issue.identifier,
         title: issue.title,
         url: issue.url,
-        missingDoc: !hasDoc,
-        missingRow: !hasRow,
       })
     }
   }
@@ -111,23 +113,20 @@ async function main() {
   console.log(`   Checked ${nonDone.length} non-Done issue(s), ${ALLOWLIST.size} allowlisted (historical)\n`)
 
   if (staleAllowlist.length > 0) {
-    console.log(`   ⚠️   ${staleAllowlist.length} allowlist entr${staleAllowlist.length === 1 ? 'y' : 'ies'} now ha${staleAllowlist.length === 1 ? 's' : 've'} both artifacts and should be removed from ALLOWLIST:`)
+    console.log(`   ⚠️   ${staleAllowlist.length} allowlist entr${staleAllowlist.length === 1 ? 'y' : 'ies'} now ha${staleAllowlist.length === 1 ? 's' : 've'} a backlog doc and should be removed from ALLOWLIST:`)
     for (const id of staleAllowlist) console.log(`        ${id}`)
     console.log('')
   }
 
   if (missing.length === 0) {
-    console.log('✅  Every non-Done issue has a backlog doc and a priority-stack row.')
+    console.log('✅  Every non-Done issue has a backlog doc.')
     process.exit(0)
   }
 
-  console.log(`❌  ${missing.length} issue(s) missing required artifacts:\n`)
+  console.log(`❌  ${missing.length} issue(s) missing a backlog doc:\n`)
   for (const m of missing) {
-    const gaps = [m.missingDoc && 'no docs/backlog or docs/shipped stub', m.missingRow && 'no priority-stack row']
-      .filter(Boolean)
-      .join(', ')
     console.log(`   ${m.identifier} — ${m.title}`)
-    console.log(`      ${gaps}`)
+    console.log(`      no docs/backlog or docs/shipped stub`)
     console.log(`      ${m.url}\n`)
   }
   process.exit(1)

@@ -156,5 +156,5 @@ fixes can close perhaps 5–8 Lighthouse points.
 Image-specific fixes (hero fetchpriority, CardBuilderSection srcset) can ship as a single
 low-risk epic. SSR is a separate architectural decision.
 
-Open epics that touch this surface: none currently in backlog. Add to priority stack when
+Open epics that touch this surface: none currently in backlog. File via `/new-epic` when
 mobile lab score becomes a stakeholder concern.

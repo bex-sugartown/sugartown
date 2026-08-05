@@ -388,94 +388,24 @@ Options:
 
 ---
 
-## STEP 4 — BACKLOG RECONCILIATION
+## STEP 4 — LOG WHAT DIDN'T SHIP
 
-After the release commit lands, reconcile the backlog priority stack (`docs/backlog/sugartown-backlog-priorities.md`) against reality.
+Linear is the priority queue; there is no backlog file to reconcile
+(`docs/backlog/sugartown-backlog-priorities.md` was retired 2026-08-05). Shipped issues are
+transitioned to `Done` at each epic's own close-out, not here.
 
-### 4A — Ship completed items
-
-Cross-reference the CHANGELOG entry against the backlog. For every backlog item that was delivered in this release:
-
-1. Move it to the **Shipped** section at the bottom of the file.
-2. Update its entry with the release version and date (e.g. "Shipped v0.24.0, 2026-05-14").
-3. Mark with `✅ Shipped` tag.
-
-### 4B — Log new scope items
-
-Review the release scope for work that surfaced during implementation but was **not** completed. Sources:
+Review the release scope for work that surfaced during implementation but was **not**
+completed. Sources:
 
 - "Not in this release" section of the Release Notes
 - Tech debt, TODOs, or partial implementations noted in commit messages or epic close-out docs
-- New epic prompts created in `docs/shipped/` that have no backlog entry yet
 - Validator warnings or errors that represent actionable future work
 
-For each new item, draft a backlog entry with: title, summary, tags, and a suggested priority tier (Now / Next / Soon / Later / Deferred).
-
-### 4C — Re-prioritize the queue
-
-With shipped items moved and new items added, re-sequence the remaining backlog:
-
-1. Renumber active items sequentially — shipped items have no rank.
-2. Update the `> Updated` header line with current date, version, and shipped epic range.
-3. Update the `⚑ Current focus` block to reflect what shipped and what's next.
-4. Update footer date.
-
-### ✅ GATE 6 — STOP
-
-AI outputs the proposed backlog changes to chat as a summary:
-
-```
-Shipped (moved to bottom):
-  - [item title] — was rank N, now shipped vX.(Y+1).0
-  - ...
-
-New items added:
-  - [item title] — [priority tier] — [1-line reason]
-  - ...
-
-Priority restack:
-  1. [new rank 1 title] — [tier]
-  2. [new rank 2 title] — [tier]
-  ...
-```
-
-Then asks via `AskUserQuestion`:
-
-```
-Question: "Review the backlog reconciliation above — update the backlog file?"
-Options:
-  - "Write it — update the backlog file"
-  - "Needs edits"
-```
-
-**AI must not write to the backlog file until "Write it — update the backlog file" is selected.**
-
-On approval, AI updates `docs/backlog/sugartown-backlog-priorities.md` in place.
-
-### ✅ GATE 7 — STOP
-
-AI prints the proposed commit plan for the backlog update:
-
-```
-Files to commit:
-  docs/backlog/sugartown-backlog-priorities.md
-
-Proposed commit message:
-  docs(backlog): reconcile priority stack after vX.(Y+1).0 release
-```
-
-Then asks via `AskUserQuestion`:
-
-```
-Question: "Create the backlog commit shown above?"
-Options:
-  - "Commit it — create the commit"
-  - "Stop — let me review again"
-```
-
-**AI must not commit until "Commit it — create the commit" is selected.**
+Route each finding by size per CLAUDE.md §Scope creep. Anything needing its own container gets
+`/new-epic`; priority is proposed, not set.
 
 ---
+
 
 ## RELEASE COMPLETION CHECKLIST
 
@@ -496,8 +426,8 @@ Version bumps confirmed:
 Validators run:
   [paste final validator output here or note "not run"]
 
-Backlog reconciled:
-  ✅  docs/backlog/sugartown-backlog-priorities.md — shipped items moved, new items added, priorities restacked
+Unshipped work logged:
+  ✅  filed per CLAUDE.md §Scope creep — issue IDs listed, or "none"
   ✅  Committed: [commit hash]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```

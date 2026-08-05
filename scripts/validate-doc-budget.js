@@ -60,6 +60,30 @@ const ROOT_DOC = 'CLAUDE.md'
  */
 const CAP_WORDS = 20_150
 
+/**
+ * Decision-point cap — added 2026-08-05.
+ *
+ * Words measure how much a session must read. They do not measure how many
+ * times it must stop and decide, and those are different failure modes.
+ * SUG-243's friction line records the rule-file write gate holding six times in
+ * one session and being skipped on the seventh, with the explicit note that
+ * "the wording was not at fault". That is a count failure, invisible to a word
+ * cap: rewriting a gate more tersely reduces words and leaves the number of
+ * stops unchanged.
+ *
+ * Measured 2026-08-05 by this script: 24 stops (16 in CLAUDE.md, 7 in
+ * design-handoff-template.md, 1 in usage-doc-style-guide.md). Cap set to 26 —
+ * the achieved figure plus ~10%, the same method as CAP_WORDS.
+ *
+ * Reproduce with `pnpm validate:doc-budget`. Tighten only against a fresh
+ * measurement, never an estimate — a cap below the current total makes the gate
+ * red on landing, and `gateProbe` then reports PROBE INVALID rather than proving
+ * anything. A cap set far above the total is the opposite failure and just as
+ * useless: the first draft of this constant was 60, which left 36 stops of
+ * headroom and could never have fired.
+ */
+const CAP_DECISIONS = 26
+
 /** Files matching this are part of the surface when CLAUDE.md references them. */
 const REFERENCE_PATTERN = /docs\/conventions\/[a-z0-9-]+\.md/g
 
@@ -67,6 +91,20 @@ const REFERENCE_PATTERN = /docs\/conventions\/[a-z0-9-]+\.md/g
 function countWords(text) {
   const trimmed = text.trim()
   return trimmed === '' ? 0 : trimmed.split(/\s+/).length
+}
+
+/**
+ * Count the places a session has to stop and make a call: a declared gate, or a
+ * checklist item it must tick.
+ *
+ * Deliberately counts headings and checkboxes rather than every occurrence of
+ * the word "blocking" — prose that *describes* a gate is not another gate, and
+ * counting mentions would make explaining a rule as expensive as adding one.
+ */
+function countDecisionPoints(text) {
+  const gateHeadings = text.match(/^#{2,4} .*(hard stop|blocking).*$/gim) || []
+  const checkboxes = text.match(/^\s*- \[[ x]\] /gim) || []
+  return gateHeadings.length + checkboxes.length
 }
 
 function readOrDie(relPath) {
@@ -95,16 +133,27 @@ if (missing.length > 0) {
 }
 
 const rows = [
-  { path: ROOT_DOC, words: countWords(rootText) },
-  ...referenced.map((p) => ({ path: p, words: countWords(readFileSync(resolve(ROOT, p), 'utf8')) })),
+  { path: ROOT_DOC, words: countWords(rootText), decisions: countDecisionPoints(rootText) },
+  ...referenced.map((p) => {
+    const text = readFileSync(resolve(ROOT, p), 'utf8')
+    return { path: p, words: countWords(text), decisions: countDecisionPoints(text) }
+  }),
 ]
 
 const total = rows.reduce((sum, r) => sum + r.words, 0)
+const totalDecisions = rows.reduce((sum, r) => sum + r.decisions, 0)
 const over = total - CAP_WORDS
+const overDecisions = totalDecisions - CAP_DECISIONS
 
 if (process.argv.includes('--json')) {
-  console.log(JSON.stringify({ cap: CAP_WORDS, total, over, files: rows }, null, 2))
-  process.exit(over > 0 ? 1 : 0)
+  console.log(
+    JSON.stringify(
+      { cap: CAP_WORDS, total, over, capDecisions: CAP_DECISIONS, totalDecisions, overDecisions, files: rows },
+      null,
+      2
+    )
+  )
+  process.exit(over > 0 || overDecisions > 0 ? 1 : 0)
 }
 
 console.log(`\n📏  Sugartown Instruction Surface Budget`)
@@ -114,20 +163,36 @@ console.log(`   ${referenced.length} docs/conventions/ file(s) it references.\n`
 
 const width = Math.max(...rows.map((r) => r.path.length))
 for (const r of rows) {
-  console.log(`   ${String(r.words).padStart(6)}  ${r.path.padEnd(width)}`)
+  console.log(`   ${String(r.words).padStart(6)}  ${String(r.decisions).padStart(4)}  ${r.path.padEnd(width)}`)
 }
 
 console.log(`\n${'─'.repeat(46)}`)
-console.log(`   ${String(total).padStart(6)}  TOTAL`)
-console.log(`   ${String(CAP_WORDS).padStart(6)}  CAP\n`)
+console.log(`   ${String(total).padStart(6)}  ${String(totalDecisions).padStart(4)}  TOTAL`)
+console.log(`   ${String(CAP_WORDS).padStart(6)}  ${String(CAP_DECISIONS).padStart(4)}  CAP`)
+console.log(`    words  stops\n`)
+
+let failed = false
 
 if (over > 0) {
-  console.error(`❌  Over budget by ${over} word(s).\n`)
+  console.error(`❌  Over the word budget by ${over} word(s).\n`)
   console.error(`    Moving text from ${ROOT_DOC} into a referenced conventions file`)
   console.error(`    will not help — both sides are counted. Shorten it, or move it`)
   console.error(`    somewhere a session does not read (the incident log, a rules`)
   console.error(`    audit, an epic doc) and link to it.\n`)
-  process.exit(1)
+  failed = true
 }
 
-console.log(`✅  Within budget — ${CAP_WORDS - total} word(s) of headroom.\n`)
+if (overDecisions > 0) {
+  console.error(`❌  Over the decision budget by ${overDecisions} stop(s).\n`)
+  console.error(`    A session has to stop and make ${totalDecisions} separate calls. Rewording`)
+  console.error(`    will not help — this counts gates and checkboxes, not prose.`)
+  console.error(`    Remove a gate, merge two that fire on the same condition, or`)
+  console.error(`    make one conditional on the size of the change.\n`)
+  failed = true
+}
+
+if (failed) process.exit(1)
+
+console.log(
+  `✅  Within budget — ${CAP_WORDS - total} word(s) and ${CAP_DECISIONS - totalDecisions} stop(s) of headroom.\n`
+)

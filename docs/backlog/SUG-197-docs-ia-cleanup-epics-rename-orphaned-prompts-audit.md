@@ -39,7 +39,6 @@ After this epic, the docs IA is complete: epics are navigable under `docs/epics/
 - [ ] Create `docs/epics/shipped/` and move all files from `docs/prompts/` into it. Layer: documentation structure.
 - [ ] Create `docs/epics/backlog/` and move all files from `docs/backlog/` into it. Layer: documentation structure.
 - [ ] Update all references found in the audit to point to the new paths. Layer: tooling/documentation.
-- [ ] Update `sugartown-backlog-priorities.md` (now at `docs/epics/backlog/`) Epic file path references. Layer: documentation.
 
 **Phase 3 — CLAUDE.md nav reference update**
 
@@ -72,7 +71,6 @@ Not applicable — no shared CSS, token, or multi-page component changes.
 
 - **Activation dependency:** Do not activate this epic until SUG-196 Phase 2 is shipped. The `docs/workflows/` path established in SUG-196 Phase 2 is a dependency — the orphaned prompts audit in Phase 1 needs to know which files have already been moved before making disposition decisions.
 - **Phase 2 move order matters:** Create destination directories before moving files. Use `git mv` (not `mv`) so Git tracks the rename rather than treating it as delete + add. This preserves `git log --follow` history.
-- **`sugartown-backlog-priorities.md` will move:** After Phase 2, the priority stack file lives at `docs/epics/backlog/sugartown-backlog-priorities.md`. Any session that references it by the old path will break. Update MEMORY.md Key File Locations entry in the same commit.
 - **Model & Mode:** `/model sonnet` — pure file moves, audit, and documentation updates. No schema, no JSX, no CSS.
 
 ## Model & Mode [REQUIRED]

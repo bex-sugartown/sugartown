@@ -234,19 +234,15 @@ rm docs/backlog/EPIC-content-state-governance.md  # if it exists
 
 Only delete files that match the shipped epic. Do not touch other backlog files.
 
-### 3B — Update backlog priority stack
+### 3B — Update Linear
 
-In `docs/backlog/sugartown-backlog-priorities.md`:
-
-1. **Ship the epic** — if it appears as an active item (in sections 01 or 02), move it to the Shipped section (04) with the version and date.
-2. **Update header meta** — prepend the new entry to the `> Updated` line with current date, version, and shipped epic name. **Cap that line at the 8 most recent entries**; move anything older down to the `## Changelog` section at the bottom of the file. The line is a single unbroken paragraph, so it grows without visible warning — it reached **20,391 characters on one line** by 2026-07-22, which no editor wraps usefully and no diff review can read. Trimming it is part of the mini-release, not a separate housekeeping task.
-3. **Update current focus** — update the `⚑ Current focus` block to reflect what shipped and what's next.
-4. **Renumber** — if active items were removed, renumber the remaining items sequentially.
-5. **Update footer date**.
+Transition the shipped epic's Linear issue to `Done`. Linear is the priority queue; there is
+no second copy to reconcile. (`docs/backlog/sugartown-backlog-priorities.md` was retired
+2026-08-05.)
 
 ### 3C — Commit backlog cleanup
 
-Stage and commit the backlog changes (deleted file + updated priority stack):
+Stage and commit the backlog changes:
 
 ```
 docs: mark EPIC-NNNN shipped in backlog and close epic prompt
