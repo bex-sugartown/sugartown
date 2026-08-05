@@ -23,8 +23,11 @@
  *   notFuture     date must not be after the build's reference date
  *   minItems      array minimum length
  *   itemEnum      every array entry must be one of these
- *   ref           entity name this value must resolve to
- *   refStatus     when ref is set, the required status of the target record
+ *   ref           entity name this value must resolve to; the engine resolves it
+ *                 generically (validate.js pass 2). A declared ref that nothing
+ *                 read would be an inert control inside the tool built to stop
+ *                 inert controls, so this key is wired, not decorative.
+ *   refDenyStatus when ref is set, target statuses that are NOT citable
  *   forbidden     predicate (record) => boolean; field must be ABSENT when true
  */
 
@@ -50,15 +53,26 @@ export const ENTITIES = {
 
       name: { type: 'string', required: isNotReserved, nonEmpty: true, forbidden: isReserved },
       class: { type: 'string', required: isNotReserved, enum: EVIDENCE_CLASSES, forbidden: isReserved },
-      probeId: { type: 'string', required: isNotReserved, nullable: true, ref: 'probe', forbidden: isReserved },
+      probeId: {
+        type: 'string',
+        required: isNotReserved,
+        nullable: true,
+        ref: 'probe',
+        forbidden: isReserved,
+      },
       noProbeReason: {
         type: 'string',
         required: (r) => isNotReserved(r) && r.probeId === null,
         nonEmpty: true,
+        forbidden: isReserved,
       },
       reader: { type: 'string', required: isNotReserved, nonEmpty: true, forbidden: isReserved },
       cadence: { type: 'string', required: isNotReserved, enum: ['continuous', 'dated'], forbidden: isReserved },
-      nextRead: { type: 'date', required: (r) => isNotReserved(r) && r.cadence === 'dated' },
+      nextRead: {
+        type: 'date',
+        required: (r) => isNotReserved(r) && r.cadence === 'dated',
+        forbidden: isReserved,
+      },
       bypass: { type: 'string', required: isNotReserved, nonEmpty: true, forbidden: isReserved },
     },
   },
@@ -95,13 +109,32 @@ export const ENTITIES = {
       surface: { type: 'string', required: true, nonEmpty: true },
       type: { type: 'string', required: true, enum: ['sufficiency', 'attribution', 'count'] },
       valueSource: { type: 'string', required: true, enum: ['derived', 'external'] },
+
+      // `value` and `statsKey` are NOT in the PRD §5.2 claim table, which is
+      // internally inconsistent with the rest of the PRD: §3's "Typed claim
+      // contract" goal and US-005's P0 acceptance criterion both require a
+      // value, and §5.2's own note on `valueSource: external` says the record
+      // "names a pipeline key that must resolve in stats.json" while giving no
+      // field to hold that key. Without these two, no claim can produce a
+      // number, which is the entity's whole purpose. Flagged for Bex as a PRD
+      // correction rather than silently omitted (SUG-268 Phase 1 review).
+      value: { type: 'string', required: true, nonEmpty: true },
+      statsKey: {
+        type: 'string',
+        required: (r) => r.valueSource === 'external',
+        nonEmpty: true,
+        forbidden: (r) => r.valueSource === 'derived',
+      },
+
       // Always a source field, never a build-time stamp. A wall-clock value here
       // would be Date.now() laundered into a measurement date and would break
       // diff-clean on a clean tree the day after the last build (PRD §5.2).
       measuredAt: { type: 'date', required: true, notFuture: true },
       command: { type: 'string', required: true, nonEmpty: true },
       evidenceClass: { type: 'string', required: true, enum: EVIDENCE_CLASSES },
-      controlId: { type: 'string', required: true, ref: 'control' },
+      // A reserved ID is an ID placeholder, not a control; a retired one cannot
+      // police a live claim. Both are non-citable.
+      controlId: { type: 'string', required: true, ref: 'control', refDenyStatus: ['reserved', 'retired'] },
     },
   },
 
@@ -113,7 +146,12 @@ export const ENTITIES = {
       id: { type: 'string', required: true, nonEmpty: true, unique: true },
       // Two-way checked against the liveness harness via --list-gates (PRD §8
       // Decision 4). Wired in Phase 2; Phase 1 validates shape only.
-      gate: { type: 'string', required: true, nonEmpty: true },
+      //
+      // `gate` is the join key for that check, so it must be unique here: two
+      // probes claiming one gate make "every harness entry has a probe record"
+      // satisfiable twice over and the reverse direction ambiguous. Cheap now,
+      // needs a migration later.
+      gate: { type: 'string', required: true, nonEmpty: true, unique: true },
       derivation: { type: 'string', required: true, enum: ['derived-from-target', 'static-input'] },
       staticJustification: {
         type: 'string',

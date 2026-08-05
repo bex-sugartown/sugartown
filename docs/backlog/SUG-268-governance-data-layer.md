@@ -90,9 +90,10 @@ GROQ (none exists for this data).
       **Done 2026-08-05** — `scripts/governance-build.js`, wired as `pnpm governance:build`.
       Writes only to `.governance-build/` (gitignored). Takes `--source` so the schema can be run
       against a deliberately broken fixture; `--reference-date` and `--out` for the Phase 2 probe.
-- [ ] `verification-reviewer` subagent review of the schema + build skeleton before Phase 2
+- [x] `verification-reviewer` subagent review of the schema + build skeleton before Phase 2
       adds real gates, per CLAUDE.md §Verification review (this epic adds validators) —
-      layer: process
+      layer: process. **Done 2026-08-05** — 4 blockers returned, all reproduced independently
+      and closed; see §Verification review above.
 
 ### Phase 2 — Generator + structural agreement (not detailed here — see PRD §5.1, §5.3, §10)
 
@@ -133,9 +134,11 @@ sufficient Scope detail to start Phase 2+ from.*
       currently-tracked generated file (`control-register.md`, `governance-coverage.md`,
       `GovernancePage.jsx`, `GovernanceDraftPage.jsx` all byte-identical before/after) — **met
       2026-08-05**, `git status --porcelain` returns empty for all four after a build run.
-- [ ] `verification-reviewer` run recorded in `docs/ai/agentic-caucus/control-register.md`
-      (no new row yet — Phase 1 ships no gate — but the review itself is recorded per CLAUDE.md
-      §Verification review, ahead of Phase 2 adding CTL-031)
+- [x] `verification-reviewer` run recorded — **met 2026-08-05**, in §Verification review of this
+      doc. No `control-register.md` row was added and none should be: Phase 1 ships no gate, and
+      `validate:controls` cross-references every `enforced-by-code` row's probe against the real
+      `PROBES` array, so a CTL-031 row landing before Phase 2's gate and probe would turn CI red.
+      The proposed row text is held for Phase 2 to paste in the same commit as the gate.
 
 ## Human QA Walkthrough — example local pages
 
@@ -216,6 +219,47 @@ record and field:
 The typo-form row is the one that matters most: PRD §5.3 makes closed-world rejection the
 condition on which SUG-256 Phase 4's absorption is a strict superset of the regex scan it
 replaces. A `ctl-015` that merged silently would break that claim.
+
+### Verification review — 4 blockers returned, all closed 2026-08-05
+
+Run as a subagent per CLAUDE.md §Verification review, against the schema and build
+skeleton. Verdict: *"the schema design is sound and does not need redesign,"* with 4
+blockers scoped to Phase 2 gate-readiness. Every blocker was reproduced independently
+before being accepted, and every fix is proven by the command shown.
+
+The review's framing correction is the most valuable thing it returned, and it is now
+the rule this pipeline is built on:
+
+> PRD §3's determinism goal binds **generated output bytes**, not the validator's
+> comparison reference. A wall-clock read for a validation-only comparison breaks
+> nothing, *provided the date is never written into output*.
+
+Phase 1 had that backwards — it avoided the clock, then wrote the reference date into the
+artifact, realising PRD §9's named High risk (*"a non-deterministic generator turns
+diff-clean into a flake, then normalized into being ignored"*).
+
+| # | Blocker | Fix | Proof |
+|---|---|---|---|
+| B1 | `--reference-date garbage` disabled every not-in-the-future check while the banner reported it as configured — the same silent-pass class this epic exists to kill, through a second door | Reference is ISO-validated before use; an unusable one aborts the build | `node scripts/governance-build.js --reference-date garbage` → exit 1 |
+| B2 | The git-unavailable path printed *"This is not a pass"* and then **exited 0**. A gate reads the exit code, not the prose above it | Refuses to validate rather than reporting an unearned pass | git removed from `PATH` → exit 1 |
+| B3 | `referenceDate` was written into the artifact, so identical source hashed differently on different days | Removed from output; records additionally sorted by ID so array order in source cannot affect output bytes | Two runs, reference dates `2026-08-05` and `2026-12-31`, produce byte-identical output (sha256 `8a18d2de…`) |
+| B4 | `governance:*` sits outside the `validate:*` prefix that `validate:validators` and `validate-control-register` use to auto-discover gates, so a deleted CI step or missing register row would go undetected | **Decision:** Phase 2's gate is named `validate:governance`, not `governance:validate`. `governance:build` keeps its name — it is a build, matching `tokens:build` and `registry:build`, and builds are correctly outside the gate net | `scripts/validate-validators.js:63`, `scripts/validate-control-register.js:176` both filter on `startsWith('validate:')` |
+
+Gaps also closed in the same pass, each proven by an adversarial fixture:
+
+- **`ref`/`refStatus` were declared on two fields and read by nothing** — an inert control inside the tool built to eliminate inert controls. The engine now resolves `ref` generically from the field spec, and the hand-coded duplicates are gone.
+- **`artifact:` paths accepted anything `existsSync` liked**: absolute paths, traversal that escaped and re-entered, directories, and wrong-case spellings. The case one was the sharpest — macOS is case-insensitive and Linux CI is not, so `DOCS/…` passed pre-commit and would have failed CI on identical bytes. Canonical form is now enforced via `realpathSync.native`.
+- **`probe.gate` had no uniqueness constraint** despite being the join key for Phase 2's two-way probe↔harness check. Added now; it would need a migration later.
+- **Reserved control rows accepted `noProbeReason` and `nextRead`**, against PRD §5.2's "reserved rows carry only `id`, `status`, `reservedFor`".
+- **Claims could cite a retired control.** Retirement protection previously covered `component.enforcedBy` only.
+- **`2026-02-30` was accepted** — `Date.parse` rolls invalid days forward. Now round-tripped.
+
+Two items deliberately **not** fixed in Phase 1, both recorded rather than silently carried:
+
+- **`claim.command` existence check** (PRD §5.2). It is a `governance:validate` behaviour, not a shape rule, so it belongs to Phase 2 — on two conditions the reviewer set and this doc adopts: it enters the CTL-031 fixture, and the seed's three commands all resolve today, which they do.
+- **A pre-commit timing flake.** HEAD is the *parent* commit inside a pre-commit hook, so the day's first commit adding a record dated today would fail. Phase 2 must pass an explicit `--reference-date` in the hook rather than relying on the HEAD default.
+
+The reviewer also flagged, about the **existing** register rather than this epic: `CTL-026` has no row in `control-register.md`, so a first-free-ID computation over that table today would reallocate it. Its `reserved` record now exists in `governance/source/controls.json`, but the reservation is only load-bearing once the register is generated from source (Phase 3). Proposed CTL-031 row text is held in the reviewer's report and is deliberately **not** pasted into the register — `validate:controls` cross-references every `enforced-by-code` row's probe against the real `PROBES` array, so pasting before Phase 2 lands the gate would turn CI red.
 
 ### Defect found and fixed during Phase 1
 

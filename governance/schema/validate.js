@@ -15,8 +15,8 @@
  * a rejection, not an ignored typo.
  */
 
-import { existsSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { existsSync, statSync, realpathSync } from 'node:fs'
+import { resolve, relative, isAbsolute } from 'node:path'
 
 import { ENTITIES } from './entities.js'
 
@@ -103,12 +103,24 @@ function validateField(entity, id, name, spec, record, referenceDate) {
         findings.push(err(entity, id, name, `must be an ISO date (YYYY-MM-DD), got ${JSON.stringify(value)}`))
         return findings
       }
-      if (Number.isNaN(Date.parse(value))) {
+      // Date.parse accepts 2026-02-30 and rolls it forward, so round-tripping
+      // is the only way to reject a date that looks well-formed and is not real.
+      if (new Date(`${value}T00:00:00Z`).toISOString().slice(0, 10) !== value) {
         findings.push(err(entity, id, name, `"${value}" is not a real calendar date`))
         return findings
       }
-      if (spec.notFuture && referenceDate && value > referenceDate) {
-        findings.push(err(entity, id, name, `"${value}" is in the future (reference date ${referenceDate})`))
+      if (spec.notFuture && referenceDate) {
+        if (!ISO_DATE.test(referenceDate)) {
+          // Refuse to compare against a malformed reference. A raw string
+          // comparison against e.g. "garbage" silently passes every date while
+          // the banner reports the check as configured — the same silent-pass
+          // class this pipeline exists to kill, through a second door.
+          findings.push(
+            err(entity, id, name, `cannot be range-checked: reference date "${referenceDate}" is not an ISO date`)
+          )
+        } else if (value > referenceDate) {
+          findings.push(err(entity, id, name, `"${value}" is in the future (reference date ${referenceDate})`))
+        }
       }
       break
 
@@ -147,6 +159,48 @@ function validateNoUnknownFields(entity, id, spec, record) {
 }
 
 /**
+ * An `artifact:` entry must name a tracked file inside the repo. `existsSync`
+ * alone treats "resolves on this machine" as "is a repo artifact", which lets
+ * through absolute paths, traversal that escapes the repo, and directories.
+ *
+ * The case check is the one that bites hardest in practice: macOS is
+ * case-insensitive and Linux CI is not, so `DOCS/...` passes pre-commit locally
+ * and fails in CI on identical bytes.
+ */
+function validateArtifactPath(recordId, field, path, root) {
+  const findings = []
+  const f = (msg) => err('component', recordId, field, msg)
+
+  if (path.trim() === '') return [f('is an empty artifact: path')]
+  if (isAbsolute(path)) return [f(`"${path}" must be repo-relative, not absolute`)]
+
+  const abs = resolve(root, path)
+  const rel = relative(root, abs)
+  if (rel.startsWith('..')) return [f(`"${path}" resolves outside the repository`)]
+
+  if (!existsSync(abs)) return [f(`names artifact path "${path}", which does not exist on disk`)]
+  if (!statSync(abs).isFile()) return [f(`"${path}" is a directory — name a file`)]
+
+  // Canonical form. `resolve()` preserves whatever casing the caller wrote, so
+  // comparing against it would compare the input to itself; realpathSync.native
+  // returns the real on-disk spelling. This matters because macOS is
+  // case-insensitive and Linux CI is not: without it, `DOCS/...` passes
+  // pre-commit locally and fails CI on identical bytes.
+  let canonical = rel
+  try {
+    canonical = relative(root, realpathSync.native(abs))
+  } catch {
+    // Unreadable path — existence already passed, so leave canonical as-is.
+  }
+
+  if (canonical !== path.replace(/^\.\//, '')) {
+    findings.push(f(`"${path}" is not the canonical repo-relative path — write it as "${canonical}"`))
+  }
+
+  return findings
+}
+
+/**
  * `component.enforcedBy` is the closed-world case that carries the most weight:
  * it is the machine-readable form of the mapping SUG-256 had to research by
  * hand. Every entry is either a CTL id resolving to an ACTIVE control, or an
@@ -177,12 +231,7 @@ function validateEnforcedBy(record, controlsById, root) {
     }
 
     if (entry.startsWith('artifact:')) {
-      const path = entry.slice('artifact:'.length)
-      if (path.trim() === '') {
-        findings.push(err('component', record.id, field, 'is an empty artifact: path'))
-      } else if (!existsSync(resolve(root, path))) {
-        findings.push(err('component', record.id, field, `names artifact path "${path}", which does not exist on disk`))
-      }
+      findings.push(...validateArtifactPath(record.id, field, entry.slice('artifact:'.length), root))
       return
     }
 
@@ -247,22 +296,45 @@ export function validateSource(source, { root, referenceDate }) {
 
   // Pass 2 — referential integrity, closed-world.
   const controlsById = new Map((source.control ?? []).map((c) => [c.id, c]))
-  const probesById = new Map((source.probe ?? []).map((p) => [p.id, p]))
 
-  for (const control of source.control ?? []) {
-    if (control.probeId === undefined || control.probeId === null) continue
-    if (!probesById.has(control.probeId)) {
-      errors.push(err('control', control.id, 'probeId', `cites probe "${control.probeId}", which does not exist`))
-    }
+  // Index every entity by its declared id field, so `ref` resolves generically.
+  const byEntity = {}
+  for (const [entityName, spec] of Object.entries(ENTITIES)) {
+    byEntity[entityName] = new Map((source[entityName] ?? []).map((r) => [r[spec.idField], r]))
   }
 
-  for (const claim of source.claim ?? []) {
-    if (claim.controlId === undefined) continue
-    const target = controlsById.get(claim.controlId)
-    if (!target) {
-      errors.push(err('claim', claim.id, 'controlId', `cites ${claim.controlId}, which does not exist`))
-    } else if (target.status === 'reserved') {
-      errors.push(err('claim', claim.id, 'controlId', `cites ${claim.controlId}, which is a reserved ID, not a control`))
+  // Driven by the `ref` key on the field spec rather than hand-coded per field.
+  // A declared ref that nothing resolved would be exactly the inert control this
+  // pipeline exists to eliminate.
+  for (const [entityName, spec] of Object.entries(ENTITIES)) {
+    for (const record of source[entityName] ?? []) {
+      for (const [fieldName, fieldSpec] of Object.entries(spec.fields)) {
+        if (!fieldSpec.ref) continue
+        const value = record[fieldName]
+        if (value === undefined || value === null) continue
+
+        const targetIndex = byEntity[fieldSpec.ref]
+        if (!targetIndex) {
+          errors.push(err(entityName, record[spec.idField], fieldName, `schema bug: unknown ref entity "${fieldSpec.ref}"`))
+          continue
+        }
+
+        const target = targetIndex.get(value)
+        if (!target) {
+          errors.push(
+            err(entityName, record[spec.idField], fieldName, `cites ${fieldSpec.ref} "${value}", which does not exist`)
+          )
+        } else if (fieldSpec.refDenyStatus?.includes(target.status)) {
+          errors.push(
+            err(
+              entityName,
+              record[spec.idField],
+              fieldName,
+              `cites ${value}, which is ${target.status} — a ${target.status} record cannot be cited here`
+            )
+          )
+        }
+      }
     }
   }
 

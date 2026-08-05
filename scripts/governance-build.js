@@ -10,17 +10,25 @@
  * acceptance criterion is that all four are byte-identical before and after a
  * run of this script.
  *
- * Determinism (PRD §3): this script reads no clock. `--reference-date` supplies
- * the date used for not-in-the-future checks, defaulting to the newest date
- * present in source. A wall-clock read here would make diff-clean fail on a
- * clean tree the day after the last build.
+ * Determinism (PRD §3) binds GENERATED OUTPUT BYTES, not the validator's
+ * comparison reference. Those are different things, and conflating them is what
+ * produced this script's first two defects: a reference date derived from the
+ * data under test (which always passes its own newest record), and then that
+ * reference written into the artifact (which makes identical source hash
+ * differently on different days — PRD §9's named diff-clean flake risk).
+ *
+ * The rule now: the not-in-the-future reference comes from HEAD's committer
+ * date or an explicit `--reference-date`, is validated as ISO before use, and is
+ * NEVER written into output. When it cannot be established the build FAILS
+ * rather than reporting a pass it did not earn.
  *
  * Usage:
  *   node scripts/governance-build.js [--out <dir>] [--reference-date YYYY-MM-DD]
  *
  * Exit codes:
  *   0 — source is schema-valid and referentially whole; scratch output written
- *   1 — at least one validation error (every one names its record and field)
+ *   1 — at least one validation error (every one names its record and field),
+ *       or the not-in-the-future reference could not be established
  */
 
 import { execFileSync } from 'node:child_process'
@@ -132,7 +140,25 @@ function main() {
     process.exit(1)
   }
 
+  // Establish the reference BEFORE validating. An unusable reference is a build
+  // failure, not a skipped check reported as a pass — a gate reads the exit
+  // code, not the warning text above it.
   const referenceDate = cliDate ?? gitCommitDate()
+
+  if (!referenceDate || !/^\d{4}-\d{2}-\d{2}$/.test(referenceDate)) {
+    console.log('❌  Cannot establish a not-in-the-future reference date.\n')
+    if (cliDate) {
+      console.log(`   --reference-date was given as "${cliDate}", which is not an ISO date (YYYY-MM-DD).`)
+    } else {
+      console.log('   No --reference-date given, and HEAD\'s committer date could not be read')
+      console.log('   (git missing, or a repository with no commits).')
+    }
+    console.log('\n   Refusing to validate: comparing dates against an unusable reference')
+    console.log('   passes every record while reporting the check as configured.')
+    console.log('   Pass --reference-date YYYY-MM-DD explicitly.\n')
+    process.exit(1)
+  }
+
   const { errors, counts } = validateSource(source, { root: ROOT, referenceDate })
 
   const total = Object.values(counts).reduce((a, b) => a + b, 0)
@@ -141,15 +167,9 @@ function main() {
     console.log(`     ${String(n).padStart(3)}  ${entity}`)
   }
 
-  if (referenceDate) {
-    const origin = cliDate ? '--reference-date' : 'HEAD committer date'
-    console.log(`\n   Not-in-the-future reference: ${referenceDate} (${origin})`)
-    console.log('   Deterministic per commit, and external to the records under test.\n')
-  } else {
-    console.log('\n   ⚠️   Not-in-the-future checks SKIPPED — git unavailable and no')
-    console.log('       --reference-date given. This is not a pass: no date was')
-    console.log('       range-checked. Pass --reference-date YYYY-MM-DD to enable.\n')
-  }
+  const origin = cliDate ? '--reference-date' : 'HEAD committer date'
+  console.log(`\n   Not-in-the-future reference: ${referenceDate} (${origin})`)
+  console.log('   External to the records under test; never written to output.\n')
 
   if (errors.length > 0) {
     console.log(`❌  ${errors.length} validation error(s):\n`)
@@ -163,12 +183,23 @@ function main() {
   // Phase 1 writes a normalised snapshot to scratch. Phase 2 replaces this with
   // the real generated register, coverage doc, and apps/web governance.json.
   mkdirSync(out, { recursive: true })
+  // referenceDate is deliberately NOT in the snapshot: it varies by commit while
+  // source does not, so writing it would make identical source produce different
+  // bytes on different days and turn Phase 2's diff-clean check into a flake.
+  // Records are sorted by id so output bytes never depend on array order in the
+  // source file either.
+  const sortedEntities = {}
+  for (const [entityName, spec] of Object.entries(ENTITIES)) {
+    sortedEntities[entityName] = [...(source[entityName] ?? [])].sort((a, b) =>
+      String(a[spec.idField]) < String(b[spec.idField]) ? -1 : String(a[spec.idField]) > String(b[spec.idField]) ? 1 : 0
+    )
+  }
+
   const snapshot = {
     _note:
       'SUG-268 Phase 1 scratch output. Not a consumer contract — Phase 2 replaces this with generated control-register.md, governance-coverage.md, and apps/web/src/generated/governance.json.',
-    referenceDate,
     counts,
-    entities: source,
+    entities: sortedEntities,
   }
   const outFile = join(out, 'governance.snapshot.json')
   writeFileSync(outFile, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf8')
