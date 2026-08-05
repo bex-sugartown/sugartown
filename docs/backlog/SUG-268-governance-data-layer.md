@@ -74,13 +74,22 @@ GROQ (none exists for this data).
   5. `stats.json` relationship: separate pipeline (PRD recommends, different cadences) vs merge
   6. Rule register (RULE-NNN) migration: in v1 scope or deferred to v2 (PRD recommends defer)
 - [x] Record each decision's resolution in this doc's §Open Decisions Log before proceeding — layer: docs. **Done 2026-08-05**
-- [ ] Define the JSON Schema (or equivalent runtime validator) for the five entities per PRD
-      §5.2 field tables — layer: tooling, new `governance/schema/` or equivalent
-- [ ] Stand up `governance/source/` directory with the migrated shape for a *small* seed set
+- [x] Define the JSON Schema (or equivalent runtime validator) for the five entities per PRD
+      §5.2 field tables — layer: tooling, new `governance/schema/` or equivalent.
+      **Done 2026-08-05** — `governance/schema/entities.js` (declarative field specs) +
+      `governance/schema/validate.js` (engine: field validation, then closed-world referential
+      integrity). Hand-rolled, no dependency, per Decision 1's "zero new dependencies" rationale
+      and PRD §9's "plain Node script, no framework" mitigation.
+- [x] Stand up `governance/source/` directory with the migrated shape for a *small* seed set
       (not the full 29 controls / 30 components — enough to exercise the schema, e.g. 3–5 of
-      each) — layer: tooling
-- [ ] First-cut `pnpm governance:build`: reads `governance/source/`, validates against schema,
-      writes to a scratch/throwaway location (not the real generated paths yet) — layer: tooling
+      each) — layer: tooling. **Done 2026-08-05** — 17 records drawn from the *real* registers,
+      not invented: 4 controls (CTL-010, CTL-012, CTL-015, plus CTL-026 as a `reserved` row to
+      exercise that variant), 4 components, 3 claims, 3 probes, 3 crosswalk rows.
+- [x] First-cut `pnpm governance:build`: reads `governance/source/`, validates against schema,
+      writes to a scratch/throwaway location (not the real generated paths yet) — layer: tooling.
+      **Done 2026-08-05** — `scripts/governance-build.js`, wired as `pnpm governance:build`.
+      Writes only to `.governance-build/` (gitignored). Takes `--source` so the schema can be run
+      against a deliberately broken fixture; `--reference-date` and `--out` for the Phase 2 probe.
 - [ ] `verification-reviewer` subagent review of the schema + build skeleton before Phase 2
       adds real gates, per CLAUDE.md §Verification review (this epic adds validators) —
       layer: process
@@ -115,11 +124,15 @@ sufficient Scope detail to start Phase 2+ from.*
 ## Acceptance Criteria (Phase 1 only)
 
 - [x] All six PRD §8 Open Decisions have a recorded resolution (owner: Bex) in this doc — **met 2026-08-05**
-- [ ] `governance/schema/` (or equivalent) validates a conforming seed record for each of the
-      five entities and rejects a record with a bad enum value, naming the field
-- [ ] `pnpm governance:build` runs against the seed source set and exits 0 without touching any
+- [x] `governance/schema/` (or equivalent) validates a conforming seed record for each of the
+      five entities and rejects a record with a bad enum value, naming the field — **met
+      2026-08-05, proven by deliberate violation, not by inspection.** See §Phase 1 liveness
+      evidence below: a broken fixture produced 15 findings, exit 1, each naming entity, record
+      and field. The valid seed set exits 0.
+- [x] `pnpm governance:build` runs against the seed source set and exits 0 without touching any
       currently-tracked generated file (`control-register.md`, `governance-coverage.md`,
-      `GovernancePage.jsx`, `GovernanceDraftPage.jsx` all byte-identical before/after)
+      `GovernancePage.jsx`, `GovernanceDraftPage.jsx` all byte-identical before/after) — **met
+      2026-08-05**, `git status --porcelain` returns empty for all four after a build run.
 - [ ] `verification-reviewer` run recorded in `docs/ai/agentic-caucus/control-register.md`
       (no new row yet — Phase 1 ships no gate — but the review itself is recorded per CLAUDE.md
       §Verification review, ahead of Phase 2 adding CTL-031)
@@ -169,6 +182,53 @@ on 2026-08-05, not assumed:
 
 This satisfies PRD §5.2's constraint that the two-way probe↔gate check is built against a
 machine-readable interface, never regex over the harness source.
+
+## Phase 1 liveness evidence
+
+Per CLAUDE.md's Pre-Execution Gate item *"Enforcement liveness — declared is not effective"*:
+proof is a deliberate violation that fails, not a passing run. Phase 1 ships no gate, so this
+proves the **schema** rejects, ahead of Phase 2 wiring it into `governance:validate` (CTL-031).
+
+Reproduce:
+
+```bash
+node scripts/governance-build.js                      # valid seed  → exit 0
+node scripts/governance-build.js --source <fixture>   # broken      → exit 1, 15 findings
+```
+
+A fixture breaking ten rule classes at once returned 15 findings, every one naming entity,
+record and field:
+
+| Rule class | Finding |
+|---|---|
+| Bad enum | `control CTL-010.class — "stongly-enforced" is not a valid value — expected one of: enforced-by-code, measured, convention, roadmap` |
+| Forbidden field on a `reserved` row | `control CTL-026.bypass — must be absent on this record (status: reserved)` |
+| Integer out of range | `component COMP-001.layer — must be <= 6, got 9` |
+| Future date | `component COMP-001.statusDate — "2099-01-01" is in the future (reference date 2026-08-05)` |
+| Required field missing | `claim CLM-001.measuredAt — is required but missing` |
+| Conditional requirement | `probe PRB-001.staticJustification — is required but missing` |
+| Bad array item enum | `crosswalk 1.airmfFunctions[1] — "SUPERVISE" is not valid` |
+| Dangling reference | `control CTL-015.probeId — cites probe "PRB-999", which does not exist` |
+| **Typo form rejected, not skipped** | `component COMP-001.enforcedBy[1] — "ctl-015" matches no recognized form — expected a CTL-NNN id or an "artifact:<path>" entry` |
+| Missing artifact path | `component COMP-001.enforcedBy[2] — names artifact path "docs/does-not-exist.md", which does not exist on disk` |
+| Retirement protection (both directions) | `component COMP-001.enforcedBy[3] — cites CTL-015, which is retired` and `control CTL-015.status — is retired but still cited by: COMP-001` |
+
+The typo-form row is the one that matters most: PRD §5.3 makes closed-world rejection the
+condition on which SUG-256 Phase 4's absorption is a strict superset of the regex scan it
+replaces. A `ctl-015` that merged silently would break that claim.
+
+### Defect found and fixed during Phase 1
+
+The first implementation derived the not-in-the-future reference date from the newest date in
+source. That was wrong twice over: `nextRead` values are legitimately in the future, so the
+maximum sat ahead of every real measurement; and a reference drawn from the data under test
+always passes its own newest record. The check rendered as configured while catching nothing —
+precisely the failure class this pipeline exists to kill, reproduced inside the tool built to
+kill it.
+
+Now: HEAD's committer date (`git show -s --format=%cs`), deterministic per commit and external
+to the records. When git is unavailable the check is **skipped loudly** rather than run against
+a fabricated reference, on the same principle as `validate:epic-docs`'s "This is NOT a pass".
 
 ## Technical notes
 

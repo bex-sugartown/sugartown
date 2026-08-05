@@ -1,0 +1,41 @@
+[
+  {
+    "id": "CTL-010",
+    "status": "active",
+    "name": "validate:taxonomy",
+    "class": "enforced-by-code",
+    "probeId": null,
+    "noProbeReason": "none — no probe yet, SUG-256 follow-up",
+    "reader": "ci.yml step 'Validate taxonomy' → ci-failure-alert.yml",
+    "cadence": "dated",
+    "nextRead": "2026-10-28",
+    "bypass": "not in pre-commit; unchecked until CI"
+  },
+  {
+    "id": "CTL-012",
+    "status": "active",
+    "name": "validate:content",
+    "class": "convention",
+    "probeId": null,
+    "noProbeReason": "none — needs Sanity API + long runtime",
+    "reader": "human, pre-PR (MANUAL_BY_DESIGN)",
+    "cadence": "dated",
+    "nextRead": "2026-10-28",
+    "bypass": "runs on no hook and no CI job by design; nothing detects it being skipped"
+  },
+  {
+    "id": "CTL-015",
+    "status": "active",
+    "name": "validate:controls (this register)",
+    "class": "enforced-by-code",
+    "probeId": "PRB-003",
+    "reader": "ci.yml → ci-failure-alert.yml",
+    "cadence": "continuous",
+    "bypass": "rows enter only when a human or the reviewer adds them; non-script controls are not auto-discovered"
+  },
+  {
+    "id": "CTL-026",
+    "status": "reserved",
+    "reservedFor": "SUG-256 Phase 4 coverage cross-reference, absorbed by SUG-268 as closed-world enforcedBy validation. Held so a next-free-ID computation cannot reallocate it."
+  }
+]

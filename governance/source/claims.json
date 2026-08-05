@@ -1,0 +1,32 @@
+[
+  {
+    "id": "CLM-001",
+    "surface": "/platform/governance#05-coverage",
+    "type": "count",
+    "valueSource": "derived",
+    "measuredAt": "2026-08-04",
+    "command": "pnpm validate:governance-tally",
+    "evidenceClass": "enforced-by-code",
+    "controlId": "CTL-015"
+  },
+  {
+    "id": "CLM-002",
+    "surface": "/platform/governance#hero",
+    "type": "sufficiency",
+    "valueSource": "derived",
+    "measuredAt": "2026-08-04",
+    "command": "pnpm validate:enforcement-liveness",
+    "evidenceClass": "measured",
+    "controlId": "CTL-015"
+  },
+  {
+    "id": "CLM-003",
+    "surface": "/platform/governance#taxonomy-integrity",
+    "type": "attribution",
+    "valueSource": "external",
+    "measuredAt": "2026-07-28",
+    "command": "pnpm validate:taxonomy",
+    "evidenceClass": "enforced-by-code",
+    "controlId": "CTL-010"
+  }
+]

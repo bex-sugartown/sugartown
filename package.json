@@ -30,6 +30,7 @@
     "validate:epic-docs": "node scripts/validate-epic-docs.js",
     "collect:evidence-digest": "node scripts/monthly-evidence-digest.js",
     "registry:build": "node scripts/registry-build.js",
+    "governance:build": "node scripts/governance-build.js",
     "migrate:taxonomy": "node scripts/migrate-taxonomy.js",
     "storybook": "turbo run storybook",
     "storybook:build": "turbo run storybook:build",

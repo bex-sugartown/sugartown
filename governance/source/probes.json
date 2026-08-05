@@ -1,0 +1,18 @@
+[
+  {
+    "id": "PRB-001",
+    "gate": "validate:tokens",
+    "derivation": "derived-from-target"
+  },
+  {
+    "id": "PRB-002",
+    "gate": "validate:tokens:strict",
+    "derivation": "static-input",
+    "staticJustification": "The violation is a raw hex literal, which is the fixed thing the gate exists to reject. There is no target value to derive from — any hex triggers it."
+  },
+  {
+    "id": "PRB-003",
+    "gate": "validate:controls",
+    "derivation": "derived-from-target"
+  }
+]

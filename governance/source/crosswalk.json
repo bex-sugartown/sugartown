@@ -1,0 +1,23 @@
+[
+  {
+    "layer": 1,
+    "airmfFunctions": ["MAP"],
+    "airmfVersion": "1.0",
+    "assessedAt": "2026-08-05",
+    "rationale": "AI system inventory and classification are MAP activities: establishing context and categorising the systems in use before risk is assessed."
+  },
+  {
+    "layer": 2,
+    "airmfFunctions": ["MAP", "MEASURE"],
+    "airmfVersion": "1.0",
+    "assessedAt": "2026-08-05",
+    "rationale": "Data provenance and handling span MAP (understanding data context) and MEASURE (tracking what flows where)."
+  },
+  {
+    "layer": 6,
+    "airmfFunctions": ["GOVERN", "MEASURE"],
+    "airmfVersion": "1.0",
+    "assessedAt": "2026-08-05",
+    "rationale": "The control register and liveness harness are GOVERN (policy and accountability structures) exercised through MEASURE (proving each gate fires against a deliberate violation)."
+  }
+]

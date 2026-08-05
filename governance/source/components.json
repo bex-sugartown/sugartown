@@ -1,0 +1,39 @@
+[
+  {
+    "id": "COMP-001",
+    "name": "Shadow-AI detection",
+    "layer": 1,
+    "layerStatus": "strong",
+    "statusDate": "2026-08-01",
+    "statusEvidence": "Every agent is named and deliberately deployed. The methodology is itself the inventory.",
+    "enforcedBy": ["artifact:docs/ai/agentic-caucus/methodology.md"]
+  },
+  {
+    "id": "COMP-002",
+    "name": "System classification",
+    "layer": 1,
+    "layerStatus": "strong",
+    "statusDate": "2026-08-01",
+    "statusEvidence": "Agents classified by role (Architect, Integrator, Strategist) in the methodology doc.",
+    "enforcedBy": ["artifact:docs/ai/agentic-caucus/agent-cards.md"]
+  },
+  {
+    "id": "COMP-003",
+    "name": "Risk tiering",
+    "layer": 1,
+    "layerStatus": "strong",
+    "statusDate": "2026-08-01",
+    "statusEvidence": "Four tiers (A–D) mapped to gates in the risk-tiers doc.",
+    "enforcedBy": ["artifact:docs/ai/agentic-caucus/risk-tiers.md"]
+  },
+  {
+    "id": "COMP-004",
+    "name": "Control register completeness",
+    "layer": 6,
+    "layerStatus": "partial",
+    "statusDate": "2026-08-04",
+    "statusEvidence": "validate:controls proves every row carries a probe, a reader and a next-read date. It cannot prove the row set is complete — non-script controls are not auto-discovered.",
+    "enforcedBy": ["CTL-015", "artifact:docs/ai/agentic-caucus/control-register.md"],
+    "livenessCaveat": "Row entry is human-initiated, so a control that never gets a row is invisible to this check."
+  }
+]
