@@ -111,6 +111,21 @@ is an atomic single-branch merge (PRD §5.4 step 3) — this is a property of th
 itself, not a departure from this epic's overall (a) merge-as-you-go cadence: the phase completes
 in full before it merges, same as any other phase boundary.
 
+**Two pre-existing register defects are fixed here** (folded in 2026-08-05, Bex's call, rather
+than filed as a separate epic — Phase 3 rewrites this file anyway, so fixing them in the
+migration avoids touching a gated file twice):
+
+- [ ] **`CTL-026` has no row in `control-register.md`** — the reservation lives only in PRD/epic
+      prose and in `governance/source/controls.json`. A first-free-ID computation over the
+      register as it stands today would reallocate it. The generated register must emit reserved
+      rows, and the migration's count check must include the reservation (PRD §10, US-009) —
+      layer: docs (generated), tooling
+- [ ] **`CTL-014`'s Bypass cell is stale** — it reads "probes only the 8 gates in `PROBES`".
+      `PROBES` now composes 13 static entries plus the runtime `BOUNDARY_PROBES` spread
+      (`scripts/validate-enforcement-liveness.js:630`). Re-measure the real number at migration
+      time with a command, per CLAUDE.md's "any figure you report carries the command that
+      produced it" — do not copy 13 from this line — layer: docs (generated)
+
 ### Phase 4 — Consumer cutover + new controls (see PRD §5.3, §11)
 
 `GovernancePage.jsx`/`GovernanceDraftPage.jsx` import `governance.json`. `validate-governance-tally.js`
@@ -273,6 +288,59 @@ kill it.
 Now: HEAD's committer date (`git show -s --format=%cs`), deterministic per commit and external
 to the records. When git is unavailable the check is **skipped loudly** rather than run against
 a fabricated reference, on the same principle as `validate:epic-docs`'s "This is NOT a pass".
+
+## Phase 1 close-out
+
+**Data pipeline gap check (close-out step 5) — gap is open and stated.**
+
+`pnpm governance:build` is a new build-time pipeline, and **no real data has flowed through
+it**. What exists today:
+
+| | |
+|---|---|
+| What the source holds | A **17-record seed**: 4 controls, 4 components, 3 claims, 3 probes, 3 crosswalk rows |
+| What the real substrate holds | **29 control rows** (`control-register.md`) and **30 components** (`governance-coverage.md`) |
+| Seed provenance | Drawn from the real registers (CTL-010, CTL-012, CTL-015, CTL-026), not invented — but a deliberately small subset chosen to exercise the schema |
+| What produces real data | Phase 3's migration, verified by `scripts/verify-migration.js` against a pinned pre-cutover SHA using the *old* regex parsers as independent verifier |
+| CI status | The pipeline runs in **no CI job**. Phase 1 wires nothing; `validate:governance` is Phase 2 |
+| Expected shape once migrated | Same five entity files, same schema, ~59+ records instead of 17 |
+
+Nothing consumes this output. `.governance-build/governance.snapshot.json` is gitignored scratch,
+explicitly labelled "not a consumer contract" in its own `_note` field.
+
+**Close-out steps not applicable, with reasons:**
+
+| Step | Status |
+|---|---|
+| 2 · Schema deploy | N/A — no `apps/studio/schemas/` change; Sanity is a PRD §3 Non-Goal |
+| 3 · Visual QA gate | N/A — Phase 1 ships no rendered surface, no CSS, no component |
+| 4 · Chromatic | N/A — no visual output to diff |
+| 6 · `docs/shipped/` move | **Does not apply** — this doc owns Phases 2–4 and stays in `docs/backlog/` |
+| 8b · Incident log | **No incident.** The defects fixed this phase were in code written this phase; nothing already shipped was found broken. The two register defects below are pre-existing but are being fixed in Phase 3, not here |
+
+**Deferred to `/eod` (Bex's call, 2026-08-05):** close-out steps 1b (CI run ID), 7 (mini-release)
+and 8 (Linear → Done). Pushing mid-session triggers a Netlify deploy, and step 1b needs a *named*
+green CI run rather than an assertion — so the 5 commits batch to `/eod`, and Phase 1 formally
+closes when that run is green and recorded here.
+
+**Friction line (step 3b):** what cost a correction commit this time — **a determinism
+requirement applied to the wrong artifact.** PRD §3 binds generated output bytes; I read it as
+binding the validator's comparison reference, which produced a reference date derived from the
+data under test, then that same date written into the output. Both were caught by the
+verification review, not by me, and both are the failure class this epic exists to eliminate.
+
+### Findings ledger
+
+| Finding | Destination | Artifact |
+|---|---|---|
+| `claim.command` existence check unimplemented (PRD §5.2) | SUG-268 Phase 2 | §Verification review, with the reviewer's two conditions adopted |
+| Pre-commit HEAD-is-parent date flake | SUG-268 Phase 2 | §Verification review — Phase 2 passes `--reference-date` explicitly |
+| `governance:*` outside `validate:*` auto-discovery | Decided in Phase 1 | Phase 2's gate is named `validate:governance`; recorded as B4 |
+| PRD §5.2 claim table omits `value`/`statsKey`, contradicting §3 and US-005 | **Open — needs Bex** | Fields added to `entities.js` with an inline note; the PRD itself is unedited |
+| `CTL-026` has no `control-register.md` row | SUG-268 Phase 3 | Scope line added above |
+| `CTL-014` bypass cell says "8 gates", now stale | SUG-268 Phase 3 | Scope line added above |
+| Duplicate CTL id inside one `enforcedBy` array is accepted | Decided against fixing | Redundant, not incorrect; generated output dedupes at render. Recorded rather than silently skipped |
+| SUG-269 lacked a backlog doc + priority row, would have failed `validate:epic-docs` | Cancelled 2026-08-05 | Scope absorbed into `docs/backlog/SUG-177-*.md` |
 
 ## Technical notes
 
