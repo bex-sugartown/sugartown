@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-268 — Governance Data Layer — Phase 1: resolve open decisions + source schema skeleton
 **Linear Issue:** [SUG-268](https://linear.app/sugartown/issue/SUG-268/governance-data-layer-phase-1-resolve-open-decisions-source-schema)
-**Status:** Backlog
+**Status:** In Progress — Phase 1 (decisions resolved 2026-08-05; schema code not yet written)
 **Priority:** 🟢 Next — high value, ready to pick up
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end of each
 ---
@@ -61,8 +61,9 @@ GROQ (none exists for this data).
 
 ### Phase 1 — Resolve open decisions + source schema skeleton (this Linear issue)
 
-- [ ] Resolve PRD §8's six Open Decisions with Bex, in session, before writing schema code —
-      layer: process. Each has a stated recommendation already; confirm or override each:
+- [x] Resolve PRD §8's six Open Decisions with Bex, in session, before writing schema code —
+      layer: process. **Done 2026-08-05** — see §Open Decisions Log. Each has a stated
+      recommendation already; confirm or override each:
   1. Source format: JSON vs YAML (PRD recommends JSON)
   2. Framework anchor: six-layer model + NIST AI RMF crosswalk vs AI RMF as primary vs
      dual-publish (PRD recommends keep six-layer + crosswalk)
@@ -72,7 +73,7 @@ GROQ (none exists for this data).
      module both import (regex over harness JS is forbidden either way)
   5. `stats.json` relationship: separate pipeline (PRD recommends, different cadences) vs merge
   6. Rule register (RULE-NNN) migration: in v1 scope or deferred to v2 (PRD recommends defer)
-- [ ] Record each decision's resolution in this doc's §Open Decisions Log before proceeding — layer: docs
+- [x] Record each decision's resolution in this doc's §Open Decisions Log before proceeding — layer: docs. **Done 2026-08-05**
 - [ ] Define the JSON Schema (or equivalent runtime validator) for the five entities per PRD
       §5.2 field tables — layer: tooling, new `governance/schema/` or equivalent
 - [ ] Stand up `governance/source/` directory with the migrated shape for a *small* seed set
@@ -113,7 +114,7 @@ sufficient Scope detail to start Phase 2+ from.*
 
 ## Acceptance Criteria (Phase 1 only)
 
-- [ ] All six PRD §8 Open Decisions have a recorded resolution (owner: Bex) in this doc
+- [x] All six PRD §8 Open Decisions have a recorded resolution (owner: Bex) in this doc — **met 2026-08-05**
 - [ ] `governance/schema/` (or equivalent) validates a conforming seed record for each of the
       five entities and rejects a record with a bad enum value, naming the field
 - [ ] `pnpm governance:build` runs against the seed source set and exits 0 without touching any
@@ -134,14 +135,40 @@ are touched.)
 *Filled during Phase 1 activation, before schema code is written. Do not proceed past the
 first Scope checkbox until this section has six resolved rows.*
 
+All six resolved 2026-08-05, before any schema code was written. Decisions 1, 2, 3, 5 and 6
+are Bex's per PRD §8; decision 4 is assigned to the implementing epic, resolved here on
+evidence read from the harness (rationale below the table).
+
 | # | Decision | Resolution | Date | Resolved by |
 |---|----------|-----------|------|-------------|
-| 1 | Source format | — | — | — |
-| 2 | Framework anchor | — | — | — |
-| 3 | Gated-file scope | — | — | — |
-| 4 | Harness interface | — | — | — |
-| 5 | `stats.json` relationship | — | — | — |
-| 6 | Rule register migration | — | — | — |
+| 1 | Source format | **A — JSON.** Matches the `tokens/source/tokens.json` precedent, no new parser dependency, native Node parsing. Prose-as-string accepted; revisit only if hand-editing friction proves real | 2026-08-05 | Bex |
+| 2 | Framework anchor | **A — six-layer model stays primary, plus a machine-readable NIST AI RMF crosswalk.** AI RMF is public and freely citable where ISO/IEC 42001 is paywalled; a full remap would churn shipped content for no reader benefit | 2026-08-05 | Bex |
+| 3 | Gated-file scope | **Move at cutover (Phase 3), gating both paths.** `governance/source/**` is added to the Rule File Write Gate and `docs/ai/agentic-caucus/**` is *retained* rather than swapped out, so generated registers cannot be hand-edited unnoticed. The CLAUDE.md edit ships on the cutover branch and is itself gated | 2026-08-05 | Bex |
+| 4 | Harness interface | **A — `--list-gates` JSON flag on `validate-enforcement-liveness.js`** | 2026-08-05 | Claude (implementing epic, per PRD §8) |
+| 5 | `stats.json` relationship | **A — separate pipelines.** Different cadences: stats is CI-cron, governance is commit-time | 2026-08-05 | Bex |
+| 6 | Rule register migration | **Defer to v2.** Different lifecycle (narrative incident records, CLAUDE.md coupling). Revisit at the cutover retrospective, per PRD §12 | 2026-08-05 | Bex |
+
+**Decision 3 note:** gating both paths closes the PRD §9 risk "the Rule File Write Gate
+briefly covers neither source nor output during cutover" outright, rather than mitigating it
+by sequencing.
+
+**Decision 4 rationale** — read from `scripts/validate-enforcement-liveness.js` (713 lines)
+on 2026-08-05, not assumed:
+
+1. `BOUNDARY_PROBES` (line 223) is **computed at runtime** from `Object.keys(SCOPES)`, imported
+   from `packages/eslint-config/boundaries.js`. Option B (gate names in a shared static module
+   both import) cannot express that without duplicating the derivation, which recreates the
+   two-sources-of-truth failure this PRD exists to kill.
+2. The final `PROBES` array is composed by spread at line 630 (`...BOUNDARY_PROBES`). Only
+   executing the harness's own composition reports the true gate list; any static declaration
+   is a second copy that can drift.
+3. The harness has **no `process.argv` handling today**, so `--list-gates` is purely additive
+   and cannot alter existing invocations.
+4. Each probe already carries a `gate: string` field (e.g. `'validate:tokens'`, line 293), so
+   the JSON emission needs no new data shape.
+
+This satisfies PRD §5.2's constraint that the two-way probe↔gate check is built against a
+machine-readable interface, never regex over the harness source.
 
 ## Technical notes
 
