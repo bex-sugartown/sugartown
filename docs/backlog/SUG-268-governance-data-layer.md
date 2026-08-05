@@ -1,9 +1,9 @@
 ---
-**Epic:** SUG-268 — Governance Data Layer — Phase 1: resolve open decisions + source schema skeleton
-**Linear Issue:** [SUG-268](https://linear.app/sugartown/issue/SUG-268/governance-data-layer-phase-1-resolve-open-decisions-source-schema)
+**Epic:** SUG-268 — Governance Data Layer
+**Linear Issue:** [SUG-268](https://linear.app/sugartown/issue/SUG-268/governance-data-layer) — one issue covers all four phases (retitled 2026-08-05, per CLAUDE.md §Multi-phase: phases are execution units, not work items)
 **Status:** In Progress — **Phase 1 complete and merged** (2026-08-05, CI 31026674863 green). Phases 2–4 outstanding.
 **Priority:** 🟢 Next — high value, ready to pick up
-**Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end of each
+**Merge strategy:** (a) Merge-as-you-go — each phase merges to `main` on completion. One mini-release for the epic, at Phase 4.
 ---
 
 # SUG-268 — Governance Data Layer
