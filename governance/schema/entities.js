@@ -110,14 +110,9 @@ export const ENTITIES = {
       type: { type: 'string', required: true, enum: ['sufficiency', 'attribution', 'count'] },
       valueSource: { type: 'string', required: true, enum: ['derived', 'external'] },
 
-      // `value` and `statsKey` are NOT in the PRD §5.2 claim table, which is
-      // internally inconsistent with the rest of the PRD: §3's "Typed claim
-      // contract" goal and US-005's P0 acceptance criterion both require a
-      // value, and §5.2's own note on `valueSource: external` says the record
-      // "names a pipeline key that must resolve in stats.json" while giving no
-      // field to hold that key. Without these two, no claim can produce a
-      // number, which is the entity's whole purpose. Flagged for Bex as a PRD
-      // correction rather than silently omitted (SUG-268 Phase 1 review).
+      // PRD §5.2 (v1.1). Both fields were missing from v1.0's claim table while
+      // §3 and US-005 required a value — no claim could produce a number. Added
+      // here during SUG-268 Phase 1 and back-specified into the PRD 2026-08-05.
       value: { type: 'string', required: true, nonEmpty: true },
       statsKey: {
         type: 'string',

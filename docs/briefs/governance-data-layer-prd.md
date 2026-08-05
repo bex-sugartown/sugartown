@@ -1,12 +1,19 @@
 # Governance Data Layer — Product Requirements Document
 
-**PRD Version:** v1.0
+**PRD Version:** v1.1
 **Status:** Draft
 **Author:** Bex Head
 **Domain:** Mixed (platform tooling; touches the web render surface as a consumer only)
-**Last updated:** 2026-08-02
-**Related epics:** SUG-256 (Ph4 absorbed by this scope, see §12), successor implementation epics TBD
+**Last updated:** 2026-08-05
+**Related epics:** SUG-256 (Ph4 absorbed by this scope, see §12), SUG-268 (implementing, Phase 1 shipped)
 **Verification review:** run 2026-08-02 against this draft. 3 blockers (one specification cluster) and 10 gaps returned; all incorporated below. Verdict: architecture sound, no redesign required.
+
+**v1.1 (2026-08-05) — §5.2 claim table gains `value` and `statsKey`.** The table specified
+neither, while §3's "Typed claim contract" goal and US-005's P0 acceptance criterion both
+require a value, and the `valueSource` row described an `external` claim as naming "a pipeline
+key that must resolve in `stats.json`" with no field to hold that key. As written, no claim
+could produce a number. Found during SUG-268 Phase 1's verification review; the schema shipped
+with both fields and an inline note pending this correction.
 
 ---
 
@@ -111,7 +118,9 @@ Field types are explicit. Enums are exhaustive.
 | `id` | string | Yes | `^CLM-\d{3}$`, unique | |
 | `surface` | string | Yes | route + location, e.g. `/platform/governance#hero` | |
 | `type` | string enum | Yes | `sufficiency` / `attribution` / `count` | the distinction that made SUG-256 Ph3's split coherent |
-| `valueSource` | string enum | Yes | `derived` / `external` | `derived` values are computed from other source records; `external` names a pipeline key that must resolve in `stats.json` |
+| `value` | string | Yes | non-empty | the published figure as it renders, e.g. `30 checkpoints`. String rather than number because claims publish units and qualifiers, not bare integers |
+| `valueSource` | string enum | Yes | `derived` / `external` | `derived` values are computed from other source records; `external` values come from the pipeline key in `statsKey` |
+| `statsKey` | string | Required when `valueSource` is `external` | non-empty; must resolve in `stats.json`. Forbidden when `valueSource` is `derived` | the pipeline key, e.g. `security.vulnerabilities`. Closes the `Vulnerabilities: 0` failure class: a published statistic whose derived value already existed in `stats.json`, unwired |
 | `measuredAt` | date | Yes | ISO date, not in the future. **A source field in all cases, never a build-time stamp**: the generator is deterministic, and it fails when a derived value changes without a same-commit `measuredAt` update. A wall-clock stamp would be `Date.now()` laundered into a measurement date, and would make the diff-clean check fail on a clean tree the day after the last build | |
 | `command` | string | Yes | non-empty; cheap existence check: the first token resolves to a `package.json` script or an existing repo path | full run-and-compare is a Non-Goal (§3) |
 | `evidenceClass` | string enum | Yes | same enum as control `class` | |

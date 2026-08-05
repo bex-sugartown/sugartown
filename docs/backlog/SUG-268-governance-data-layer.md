@@ -336,7 +336,7 @@ verification review, not by me, and both are the failure class this epic exists 
 | `claim.command` existence check unimplemented (PRD §5.2) | SUG-268 Phase 2 | §Verification review, with the reviewer's two conditions adopted |
 | Pre-commit HEAD-is-parent date flake | SUG-268 Phase 2 | §Verification review — Phase 2 passes `--reference-date` explicitly |
 | `governance:*` outside `validate:*` auto-discovery | Decided in Phase 1 | Phase 2's gate is named `validate:governance`; recorded as B4 |
-| PRD §5.2 claim table omits `value`/`statsKey`, contradicting §3 and US-005 | **Open — needs Bex** | Fields added to `entities.js` with an inline note; the PRD itself is unedited |
+| PRD §5.2 claim table omits `value`/`statsKey`, contradicting §3 and US-005 | Closed 2026-08-05 | PRD bumped to v1.1 with both fields specified; `entities.js` comment now cites it |
 | `CTL-026` has no `control-register.md` row | SUG-268 Phase 3 | Scope line added above |
 | `CTL-014` bypass cell says "8 gates", now stale | SUG-268 Phase 3 | Scope line added above |
 | Duplicate CTL id inside one `enforcedBy` array is accepted | Decided against fixing | Redundant, not incorrect; generated output dedupes at render. Recorded rather than silently skipped |
