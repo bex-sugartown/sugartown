@@ -16,11 +16,13 @@ The DS `List`/`ListItem` primitive (shipped SUG-167) is wired for content-list a
 
 The trigger is a post-SUG-167 cleanup pass: now that the primitive exists, close the gap and use it as documentation fodder for Storybook use-case stories.
 
-**Folded in 2026-08-05 (sub-issue [SUG-269](https://linear.app/sugartown/issue/SUG-269/glossarytermpage-ai-attribution-item-descriptionlistlist-migration)):** GlossaryTermPage additionally gets an **AI Attribution** metadata item — the glossary disclosure mechanism that `docs/glossy-prompt.md` and `docs/write-pipeline-prompt.md` §5 currently state doesn't exist — and its metadata ledger (currently `DescriptionList columns={2} ledger`, `GlossaryTermPage.jsx:246`) joins the DescriptionList→List migration scope, since this epic already touches every other list on that page.
+**Scope added 2026-08-05:** GlossaryTermPage additionally gets an **AI Attribution** metadata item — the glossary disclosure mechanism that `docs/glossy-prompt.md` and `docs/write-pipeline-prompt.md` §5 currently state doesn't exist — and its metadata ledger (currently `DescriptionList columns={2} ledger`, `GlossaryTermPage.jsx:246`) joins the DescriptionList→List migration scope, since this epic already touches every other list on that page.
+
+This briefly existed as sub-issue SUG-269, cancelled the same day and absorbed here. `validate:epic-docs` (SUG-262) requires every non-Done issue to carry its own backlog doc and priority-stack row, and grants sub-issues no exemption — it never reads `parentId`. A parallel stub would have duplicated the scope below in two places, which is the drift that gate exists to prevent.
 
 ## Objective
 
-After this epic, every site list surface that maps cleanly to the DS List/ListItem API is either migrated to the primitive or has a documented rationale for why it stays raw. The DS List Storybook story covers all confirmed use-case variants (ledger, inline chip, numbered, link, source citation). The glossary term page also carries an AI Attribution metadata item (SUG-269), closing the one register with no disclosure mechanism. Layers touched: frontend (page JSX + CSS), Storybook stories, docs (glossy/pipeline prompt updates); schema + GROQ only via the SUG-269 carve-out in Technical notes.
+After this epic, every site list surface that maps cleanly to the DS List/ListItem API is either migrated to the primitive or has a documented rationale for why it stays raw. The DS List Storybook story covers all confirmed use-case variants (ledger, inline chip, numbered, link, source citation). The glossary term page also carries an AI Attribution metadata item, closing the one register with no disclosure mechanism. Layers touched: frontend (page JSX + CSS), Storybook stories, docs (glossy/pipeline prompt updates); schema + GROQ only via the AI Attribution carve-out in Technical notes.
 
 ## Scope
 
@@ -33,9 +35,9 @@ After this epic, every site list surface that maps cleanly to the DS List/ListIt
 - [ ] **Assess `linkList` (SitemapPage)** — grouped URL lists; migrate if link-list variant is added to DS List — layer: frontend
 - [ ] **Assess `enumList` (ContentModelsPage)** — monospace schema enum display; likely stays raw (code context) — document rationale — layer: frontend (decision)
 - [ ] **Storybook stories — expanded use cases** — add stories covering: ledger row (Chip + Link), source citation, numbered episode, link list; update existing List story if new props are added — layer: Storybook
-- [ ] **[SUG-269] AI Attribution item (GlossaryTermPage)** — add an "AI Attribution" entry to the term page metadata; mechanism (static default derived from the /glossy workflow vs. a `glossaryTerm` field + GROQ projection) decided at activation against the site convention in `PageSidebar.jsx` (commit 9daa3a12) and `write-pipeline-prompt.md` §5 — layer: frontend (+ schema/query only if the field mechanism is chosen)
-- [ ] **[SUG-269] Migrate the metadata ledger (GlossaryTermPage)** — `DescriptionList items columns={2} ledger` → DS List, per the audit's API-fit table; the Storybook `Components/List` story is the canonical usage reference; extend the primitive first if the label/value ledger fit requires it — layer: frontend + Storybook
-- [ ] **[SUG-269] Document the glossary disclosure mechanism** — update `docs/glossy-prompt.md` and `docs/write-pipeline-prompt.md` §5 (glossary bullet) once the AI Attribution item ships; both are rule-defining files, so the Instruction & Rule File Write Gate fires at execution — layer: docs
+- [ ] **AI Attribution item (GlossaryTermPage)** — add an "AI Attribution" entry to the term page metadata; mechanism (static default derived from the /glossy workflow vs. a `glossaryTerm` field + GROQ projection) decided at activation against the site convention in `PageSidebar.jsx` (commit 9daa3a12) and `write-pipeline-prompt.md` §5 — layer: frontend (+ schema/query only if the field mechanism is chosen)
+- [ ] **Migrate the metadata ledger (GlossaryTermPage)** — `DescriptionList items columns={2} ledger` → DS List, per the audit's API-fit table; the Storybook `Components/List` story is the canonical usage reference; extend the primitive first if the label/value ledger fit requires it — layer: frontend + Storybook
+- [ ] **Document the glossary disclosure mechanism** — update `docs/glossy-prompt.md` and `docs/write-pipeline-prompt.md` §5 (glossary bullet) once the AI Attribution item ships; both are rule-defining files, so the Instruction & Rule File Write Gate fires at execution — layer: docs
 
 ## Phases
 
@@ -62,9 +64,9 @@ Single phase — audit → migrate confirmed surfaces → Storybook stories → 
 
 - **Activation audit — List primitive API:** read `apps/web/src/design-system/components/list/List.jsx` to confirm current props (`ordered`, `variant`, `spacing`, etc.) before assessing fit for each surface. Any "extend" decision requires the primitive to accept the new prop first.
 - **CSS removal rule:** when a bespoke class is removed from a page, grep for it across the entire repo to confirm it has no other consumers before deleting from the CSS module.
-- **No Content Write Gate** — no Sanity content changes in scope. (If the SUG-269 field mechanism is chosen and existing glossary terms need backfilled values, the gate fires for that patch — proposal table first.)
-- **No schema changes, with one carve-out** — the SUG-269 AI Attribution item may add a `glossaryTerm` disclosure field + GROQ projection if activation decides against a static default; that path requires `npx sanity schema deploy`. Everything else in this epic remains schema-free.
-- **Phase 0 check (SUG-269):** an AI Attribution row inside the existing metadata ledger adopts an already-reviewed format — the gate does not fire for a plain ledger row. If activation proposes a novel visual treatment (badge, callout, icon), it does.
+- **No Content Write Gate** — no Sanity content changes in scope. (If the AI Attribution field mechanism is chosen and existing glossary terms need backfilled values, the gate fires for that patch — proposal table first.)
+- **No schema changes, with one carve-out** — the AI Attribution item may add a `glossaryTerm` disclosure field + GROQ projection if activation decides against a static default; that path requires `npx sanity schema deploy`. Everything else in this epic remains schema-free.
+- **Phase 0 check (AI Attribution):** a row inside the existing metadata ledger adopts an already-reviewed format — the gate does not fire for a plain ledger row. If activation proposes a novel visual treatment (badge, callout, icon), it does.
 - **Model & Mode [REQUIRED]:** `/model opus` — multi-file frontend audit + selective migration + Storybook story additions; Opus plans the audit table + Files to Modify; Sonnet executes after plan-mode exit.
 
 ## Model & Mode [REQUIRED]
@@ -75,13 +77,13 @@ Single phase — audit → migrate confirmed surfaces → Storybook stories → 
 
 - No new DS List props beyond what is needed to cover confirmed migration targets — if a surface needs a net-new primitive feature, scope that separately.
 - No changes to ContentList adapter or archive-mode list rendering.
-- No Sanity schema or GROQ query changes, **except** the SUG-269 AI Attribution carve-out above (a `glossaryTerm` disclosure field + projection, only if activation chooses the field mechanism over a static default).
+- No Sanity schema or GROQ query changes, **except** the AI Attribution carve-out above (a `glossaryTerm` disclosure field + projection, only if activation chooses the field mechanism over a static default).
 - No migration of FilterBar internal `<ul>` list — FilterBar has its own controlled rendering.
 
 ## Related
 
 - **Linear:** [SUG-177](https://linear.app/sugartown/issue/SUG-177/list-component-audit-surface-all-site-list-patterns-for-ds-list)
-- **Sub-issue:** [SUG-269](https://linear.app/sugartown/issue/SUG-269/glossarytermpage-ai-attribution-item-descriptionlistlist-migration) — AI Attribution item + DescriptionList→List migration (folded in 2026-08-05)
+- **Absorbed:** SUG-269 (AI Attribution item + DescriptionList→List migration) — created and cancelled 2026-08-05; its scope is carried in this doc, not tracked separately
 - **Upstream:** SUG-167 (List/ListItem DS primitive, shipped v0.26.9) — prerequisite
 - **Adjacent:** SUG-228 item 6 flags the same page's "Used In" list as off-pattern — resolve consistently with this epic's migration, not separately
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
