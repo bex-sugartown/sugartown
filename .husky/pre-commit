@@ -46,6 +46,14 @@ pnpm --filter web validate:css-names || exit 1
 # Regeneration goes to a scratch dir; this never writes a tracked file.
 pnpm validate:governance-diff || exit 1
 
+# Governance source: schema, closed-world referential integrity, overdue reads,
+# and a scan for governance data authored outside governance/source/. Reads the
+# INDEX, so it gates the staged state rather than whatever the worktree holds.
+# --reference-date pins the not-in-the-future comparison to today: HEAD is the
+# PARENT commit during a pre-commit hook, so a record dated today would fail
+# against yesterday's committer date (SUG-268 Phase 1 findings ledger).
+pnpm validate:governance --reference-date "$(date -u +%Y-%m-%d)" || exit 1
+
 # Every validate:* script must be wired into a hook or CI job, or explicitly
 # allowlisted as manual-by-design. Prevents this exact class of silent decay.
 pnpm validate:validators || exit 1

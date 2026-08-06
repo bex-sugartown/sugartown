@@ -627,6 +627,76 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:governance',
+    why: 'a governance table authored outside governance/source/ must not be committable',
+    // The gate reads the INDEX, so this probe STAGES its injection. The obvious
+    // version — write a temp file, run the check — proves nothing: `git ls-files`
+    // cannot see an untracked file, so the gate would correctly find nothing and
+    // the probe would report STAYED GREEN against a violation that was never in
+    // the corpus. A false-negative probe on a new gate is worse than no probe,
+    // because it launders absence of enforcement into evidence of it.
+    //
+    // Cleanup must UNSTAGE as well as delete: a staged-then-deleted file leaves
+    // `AD <path>` in `git status --porcelain`, which fails CI's no-residue step.
+    // Pushed after tempFile() so it runs BEFORE the removal (cleanups are LIFO).
+    run() {
+      const PROBE_DOC = 'docs/ai/agentic-caucus/__liveness_probe__.md'
+
+      const control = run('pnpm', ['validate:governance'])
+      if (control.code !== 0) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            `control run failed — pnpm validate:governance exits ${control.code} on a CLEAN tree, ` +
+            `so this probe cannot distinguish a live gate from a broken invocation. ` +
+            `Output: ${control.out.trim().slice(-300)}`,
+        }
+      }
+
+      // A control-register table header, which is what a hand-written second
+      // copy of the register would open with. Written literally rather than
+      // imported: importing the gate would execute it (main() runs at module
+      // scope). If the register's columns are ever changed, this stops matching
+      // and the probe reports STAYED GREEN — loudly wrong, never silently green.
+      tempFile(
+        PROBE_DOC,
+        '# Liveness probe\n\n| ID | Control | Class | Probe | Reader | Next read | Bypass |\n' +
+          '|---|---|---|---|---|---|---|\n| CTL-999 | probe | convention | none | nobody | continuous | none |\n'
+      )
+
+      const staged = run('git', ['add', '--', PROBE_DOC])
+      if (staged.code !== 0) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            `probe could not stage ${PROBE_DOC} (git add exited ${staged.code}), so the index — ` +
+            `which is what this gate reads — never carried the violation. ` +
+            `Output: ${staged.out.trim().slice(-200)}`,
+        }
+      }
+      cleanups.push(() => run('git', ['restore', '--staged', '--', PROBE_DOC]))
+
+      const violated = run('pnpm', ['validate:governance'])
+      const namesIt =
+        violated.out.includes(PROBE_DOC) && violated.out.includes('register-table')
+
+      return {
+        live: violated.code !== 0 && namesIt,
+        detail:
+          violated.code === 0
+            ? `gate exited 0 with a register table staged at ${PROBE_DOC}`
+            : namesIt
+              ? 'caught the staged register table and named the file and pattern'
+              : `exited ${violated.code} but never named ${PROBE_DOC} and the register-table ` +
+                `pattern, so it may have failed for an unrelated reason: ${violated.out.trim().slice(-300)}`,
+        out: violated.out,
+      }
+    },
+  },
+
+  {
     gate: 'validate:governance-tally',
     why: 'the published tally must not be allowed to drift from the rows it claims to count',
     // Asserts on the OUTPUT TEXT, not the exit code. The script reports several

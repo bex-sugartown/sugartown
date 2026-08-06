@@ -47,6 +47,7 @@
     "validate:enforcement-liveness": "node scripts/validate-enforcement-liveness.js",
     "validate:epic-docs": "node scripts/validate-epic-docs.js",
     "validate:filters": "pnpm --filter web validate:filters",
+    "validate:governance": "node scripts/validate-governance.js",
     "validate:governance-diff": "node scripts/validate-governance-diff.js",
     "validate:governance-tally": "node scripts/validate-governance-tally.js",
     "validate:schema-parity": "pnpm --filter studio validate:schema-parity",

@@ -44,12 +44,12 @@
  *       or the not-in-the-future reference could not be established
  */
 
-import { execFileSync } from 'node:child_process'
-import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs'
+import { writeFileSync, mkdirSync, readdirSync } from 'node:fs'
 import { dirname, resolve, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { ENTITIES } from '../governance/schema/entities.js'
+import { readSource, resolveReferenceDate } from '../governance/schema/load.js'
 import { validateSource, formatErrors } from '../governance/schema/validate.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -99,63 +99,8 @@ function parseArgs(argv) {
   return args
 }
 
-function readSource(sourceDir) {
-  const source = {}
-  const problems = []
-
-  for (const [entityName, spec] of Object.entries(ENTITIES)) {
-    const path = join(sourceDir, spec.file)
-    let raw
-    try {
-      raw = readFileSync(path, 'utf8')
-    } catch {
-      problems.push(`missing source file: governance/source/${spec.file} (for ${entityName})`)
-      source[entityName] = []
-      continue
-    }
-    try {
-      const parsed = JSON.parse(raw)
-      if (!Array.isArray(parsed)) {
-        problems.push(`governance/source/${spec.file} must contain a JSON array`)
-        source[entityName] = []
-      } else {
-        source[entityName] = parsed
-      }
-    } catch (e) {
-      problems.push(`governance/source/${spec.file} is not valid JSON — ${e.message}`)
-      source[entityName] = []
-    }
-  }
-
-  return { source, problems }
-}
-
-/**
- * The reference date for not-in-the-future checks must be BOTH deterministic
- * and external to the data under test.
- *
- * Deriving it from source is tempting and wrong twice over: `nextRead` dates are
- * legitimately in the future, so the maximum source date sits ahead of every
- * real measurement, and a reference taken from the values being checked always
- * passes the newest one. Either way the check renders as configured while
- * catching nothing — the exact failure class this pipeline exists to kill.
- *
- * HEAD's committer date is deterministic for a given commit and comes from
- * outside the records. When git is unavailable the check is SKIPPED loudly
- * rather than run against a fabricated reference.
- */
-function gitCommitDate() {
-  try {
-    const out = execFileSync('git', ['show', '-s', '--format=%cs', 'HEAD'], {
-      cwd: ROOT,
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-    }).trim()
-    return /^\d{4}-\d{2}-\d{2}$/.test(out) ? out : null
-  } catch {
-    return null
-  }
-}
+// readSource() and the reference-date resolution moved to
+// governance/schema/load.js when validate:governance became a second caller.
 
 function main() {
   const { out, referenceDate: cliDate, source: sourceDir } = parseArgs(process.argv.slice(2))
@@ -179,21 +124,18 @@ function main() {
   // Establish the reference BEFORE validating. An unusable reference is a build
   // failure, not a skipped check reported as a pass — a gate reads the exit
   // code, not the warning text above it.
-  const referenceDate = cliDate ?? gitCommitDate()
+  const reference = resolveReferenceDate(cliDate, ROOT)
 
-  if (!referenceDate || !/^\d{4}-\d{2}-\d{2}$/.test(referenceDate)) {
+  if (!reference.date) {
     console.log('❌  Cannot establish a not-in-the-future reference date.\n')
-    if (cliDate) {
-      console.log(`   --reference-date was given as "${cliDate}", which is not an ISO date (YYYY-MM-DD).`)
-    } else {
-      console.log('   No --reference-date given, and HEAD\'s committer date could not be read')
-      console.log('   (git missing, or a repository with no commits).')
-    }
+    console.log(`   ${reference.reason}`)
     console.log('\n   Refusing to validate: comparing dates against an unusable reference')
     console.log('   passes every record while reporting the check as configured.')
     console.log('   Pass --reference-date YYYY-MM-DD explicitly.\n')
     process.exit(1)
   }
+
+  const referenceDate = reference.date
 
   const { errors, counts } = validateSource(source, { root: ROOT, referenceDate })
 
@@ -203,8 +145,7 @@ function main() {
     console.log(`     ${String(n).padStart(3)}  ${entity}`)
   }
 
-  const origin = cliDate ? '--reference-date' : 'HEAD committer date'
-  console.log(`\n   Not-in-the-future reference: ${referenceDate} (${origin})`)
+  console.log(`\n   Not-in-the-future reference: ${referenceDate} (${reference.origin})`)
   console.log('   External to the records under test; never written to output.\n')
 
   if (errors.length > 0) {

@@ -93,6 +93,14 @@ jobs:
         # pre-commit variant compares against the index instead.
         run: pnpm validate:governance-diff --ref HEAD
 
+      - name: Validate governance
+        # Schema, closed-world referential integrity, overdue reads, and the
+        # outside-source scan. Wired here as well as at pre-commit deliberately:
+        # validate:validators is satisfied by EITHER, so a pre-commit-only gate
+        # would pass every meta-check while being invisible on `main` — and
+        # merge commits run no pre-commit hook at all.
+        run: pnpm validate:governance
+
       - name: Validate governance tally
         run: pnpm validate:governance-tally
 

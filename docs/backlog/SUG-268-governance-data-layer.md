@@ -138,10 +138,13 @@ in which the generator writes a gated path before the CLAUDE.md edit lands.
       register row at all. `validate-validators.js:74-78` already matches correctly; copy that.
       This is a change to a shared meta-check, so it lands with its own probe proving the masked
       case now fails — layer: tooling
-- [ ] **Seed all 16 probe records before the two-way check goes blocking.** The harness composes
-      12 static `gate:` literals plus 4 `BOUNDARY_PROBES` from `Object.keys(SCOPES)`;
-      `governance/source/probes.json` holds 3. The check as specified fails 13 times on a clean
-      tree, and because `gateProbe`'s control run reads a non-zero exit, CTL-031 would report
+- [ ] **Seed every probe record before the two-way check goes blocking. Re-measure the count
+      at that moment; do not copy a number from this line.** Three sub-issues in this phase each
+      add a probe, so any figure written here is stale within days — it has already gone stale
+      twice. Measured 2026-08-06 after SUG-272: **15** static `gate:` literals plus **4**
+      `BOUNDARY_PROBES` from `Object.keys(SCOPES)` = **19**;
+      `governance/source/probes.json` holds 3. The check as specified fails once per unseeded
+      gate on a clean tree, and because `gateProbe`'s control run reads a non-zero exit, CTL-031 would report
       `PROBE INVALID` and take the whole liveness job red — reporting an unverified gate rather
       than a missing record. Probe records are four fields; seeding them here is cheap — layer: tooling
 - [ ] **`--list-gates` JSON flag on `validate-enforcement-liveness.js`, spawned as a subprocess,
@@ -168,7 +171,7 @@ in which the generator writes a gated path before the CLAUDE.md edit lands.
       injects into a scanned, non-allowlisted file and asserts the **message**, not just the exit
       code. This is the Phase 2 item most likely to ship matching nothing, which is this epic's
       founding failure class — layer: tooling
-- [ ] **Register rows: CTL-031 and CTL-034**, committed with their gates. **CTL-027 is not
+- [x] **Register rows: CTL-031 and CTL-034**, committed with their gates. **CTL-027 is not
       amended in Phase 2** — `validate:governance-tally` stays in `package.json` until Phase 4, so
       rewriting its Control cell now would leave no row naming that script and turn CI red.
       Allocate CTL-034 for `validate:governance-diff`; amend and retire CTL-027 at Phase 4, in the
@@ -176,8 +179,9 @@ in which the generator writes a gated path before the CLAUDE.md edit lands.
 - [x] **Two one-line corrections, since both files are open anyway:**
       `validate-control-register.js:280` reads `probeGates.size` on a `{gates, prefixes}` object
       and publishes `undefined probes in the liveness harness` — a control misreporting its own
-      coverage. And this doc's Phase 3 scope line below said "13 static entries"; measured, it is
-      12 static and 16 total — layer: tooling, docs
+      coverage. And this doc's Phase 3 scope line below said "13 static entries"; it has since
+      been measured three times and been wrong twice, which is the argument for the line below
+      naming a command instead of a number — layer: tooling, docs
 
 **Deferred out of Phase 2, recorded rather than dropped:**
 
@@ -209,11 +213,12 @@ migration avoids touching a gated file twice):
       register as it stands today would reallocate it. The generated register must emit reserved
       rows, and the migration's count check must include the reservation (PRD §10, US-009) —
       layer: docs (generated), tooling
-- [ ] **`CTL-014`'s Bypass cell is stale** — it reads "probes only the 8 gates in `PROBES`".
-      Measured 2026-08-06: **12** static `gate:` literals plus **4** `BOUNDARY_PROBES` derived
-      from `Object.keys(SCOPES)` = **16** runtime gates. Re-measure at migration time rather than
-      copying 16 from this line, per CLAUDE.md's "any figure you report carries the command that
-      produced it" — layer: docs (generated)
+- [x] **`CTL-014`'s Bypass cell was stale** — it read "probes only the 8 gates in `PROBES`".
+      **Closed in Phase 2 (SUG-275) by removing the figure rather than replacing it**, because the
+      count moved three times inside this phase alone: 16 when this line was written, 18 after
+      SUG-271, 19 after SUG-272. The cell now reads "the gates listed in `PROBES`", which is both
+      more accurate and incapable of decaying. Nothing left to re-measure at migration time — the
+      commands below stay for anyone who wants the number — layer: docs (generated)
 
       ```bash
       node -e "const s=require('fs').readFileSync('scripts/validate-enforcement-liveness.js','utf8');console.log((s.match(/gate:\s*'[^']+'/g)||[]).length)"
