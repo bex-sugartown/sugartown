@@ -103,6 +103,18 @@ Full pipeline: `governance:build` writes real generated `control-register.md`,
 bytes). `governance:validate` (schema + referential integrity + overdue `nextRead` + outside-source
 scan) — CTL-031.
 
+**One shape decision must be settled before the gate freezes it** (added 2026-08-06, external
+prior art — see §External prior art below):
+
+- [ ] **Decide whether `class` is doing more than one job, and record the outcome in §Open
+      Decisions Log.** `class` (`enforced-by-code | measured | convention | roadmap`) currently
+      encodes requirement strength, blocking behaviour, and enforcement mechanism in a single
+      enum. Cloudflare's Codex holds two orthogonal axes instead — `MUST`/`SHOULD` for strength,
+      `approved`/`enforced` for lifecycle state — which buys a deliberate soak period: findings
+      surface non-blocking, then an explicit promotion step turns on blocking. Keep-as-is is a
+      legitimate answer; the point is that splitting the enum after Phase 3 has migrated 59
+      records is itself a migration — layer: tooling, docs
+
 ### Phase 3 — Migration (see PRD §5.4)
 
 Migrate the real 29 control rows and 30 components. `scripts/verify-migration.js` byte-compares
@@ -125,6 +137,15 @@ migration avoids touching a gated file twice):
       (`scripts/validate-enforcement-liveness.js:630`). Re-measure the real number at migration
       time with a command, per CLAUDE.md's "any figure you report carries the command that
       produced it" — do not copy 13 from this line — layer: docs (generated)
+
+**One field decision rides with the migration** (added 2026-08-06, external prior art — see
+§External prior art below):
+
+- [ ] **Decide whether entities carry an SDLC `stage` (`design | implementation | runtime`), and
+      if adopted, land it in this migration rather than after it.** Cloudflare names stage
+      metadata as their own next step, for scoping which statements an agent loads at a given
+      lifecycle point. The argument is cost asymmetry, not certainty: one field while 59 records
+      are already being rewritten, versus a second migration later — layer: tooling
 
 ### Phase 4 — Consumer cutover + new controls (see PRD §5.3, §11)
 
@@ -343,6 +364,32 @@ verification review, not by me, and both are the failure class this epic exists 
 | `CTL-014` bypass cell says "8 gates", now stale | SUG-268 Phase 3 | Scope line added above |
 | Duplicate CTL id inside one `enforcedBy` array is accepted | Decided against fixing | Redundant, not incorrect; generated output dedupes at render. Recorded rather than silently skipped |
 | SUG-269 lacked a backlog doc + priority row, would have failed `validate:epic-docs` | Cancelled 2026-08-05 | Scope absorbed into `docs/backlog/SUG-177-*.md` |
+| `class` may be conflating requirement strength, blocking behaviour and enforcement mechanism | SUG-268 Phase 2 | Scope line added above; source in §External prior art |
+| Entities carry no SDLC `stage`; one field during migration vs a second migration after | SUG-268 Phase 3 | Scope line added above; source in §External prior art |
+
+### External prior art
+
+**Cloudflare, "How Cloudflare enforces engineering standards using AI," 2026-08-04**
+(`https://blog.cloudflare.com/engineering-standards-enforcement/`), read 2026-08-05, one day
+after Phase 1 merged. Their Codex is the same architecture this epic is building: normative
+statements extracted from prose into structured JSON with stable per-statement IDs that survive
+edits to their source document, consumed by review agents and published to a generated site.
+Independently arrived at. It is the reason the two scope items above exist.
+
+Confirms, needing no action: JSON over Markdown for the source (they started in Markdown and
+moved, for filterability); stable IDs as the join key for tracking a statement across systems
+over time; mechanically-checkable rules going to linters while the rest go to LLM review, which
+is `enforced-by-code` vs `convention`; and a review agent that runs outside the authoring
+session, which is `verification-reviewer`'s rationale.
+
+**Does not transfer:** their RFC review rounds, domain-owner model, and internal publication
+site are large-org shapes with no analogue here.
+
+**Not evidence this design works.** Their post reports throughput — violations flagged, merges
+blocked — not whether a blocked merge should have been blocked, and none of it was measured
+against this repo. Treating convergent design as verification would reproduce the error
+`docs/drafts/node-outline-the-fire-alarm.md` documents. The only local evidence remains the
+Phase 1 liveness evidence above: a broken fixture, a non-zero exit code, 17 records.
 
 ## Technical notes
 
