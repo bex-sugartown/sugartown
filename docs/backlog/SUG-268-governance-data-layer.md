@@ -366,6 +366,51 @@ verification review, not by me, and both are the failure class this epic exists 
 | SUG-269 lacked a backlog doc + priority row, would have failed `validate:epic-docs` | Cancelled 2026-08-05 | Scope absorbed into `docs/backlog/SUG-177-*.md` |
 | `class` may be conflating requirement strength, blocking behaviour and enforcement mechanism | SUG-268 Phase 2 | Scope line added above; source in §External prior art |
 | Entities carry no SDLC `stage`; one field during migration vs a second migration after | SUG-268 Phase 3 | Scope line added above; source in §External prior art |
+| `apps/web/.env.local.example` documents a mechanism that does not work | One-commit doc fix, **not SUG-268 scope** | §Local environment hazard below — evidence recorded, fix unassigned |
+| Env vars in `~/.zshrc` are invisible to non-interactive shells, which is what husky hooks are | SUG-268 Phase 2 | §Local environment hazard below — second pre-commit hazard, alongside the HEAD-is-parent flake |
+
+### Local environment hazard
+
+*Recorded 2026-08-06 after `validate:epic-docs` was found skipping locally for a day. Both rows
+above are evidence-complete; neither is a governance-data-layer design defect, and the first is
+not this epic's to fix.*
+
+**`apps/web/.env.local.example` is wrong.** It instructs the reader to put `LINEAR_API_KEY` in
+`apps/web/.env.local` to "collect live data locally". That value reaches neither consumer.
+`scripts/validate-epic-docs.js` imports `collectLinear`, which reads `process.env.LINEAR_API_KEY`
+directly (`apps/web/scripts/stats/linear.js:84`); nothing in that path loads a `.env` file, and
+`dotenv` is not a dependency of this repo. The dev-server path is the same: `statsPlugin` spawns
+the collector with `spawnSync(..., { cwd, stdio: 'inherit' })` and no `env` option
+(`apps/web/vite.config.js:90`), so the child inherits the Vite process's environment, and Vite
+does not write `.env` values into `process.env`.
+
+Proven by three runs on 2026-08-06, not by reading the code:
+
+| Test | Setup | Result |
+|---|---|---|
+| A | `.env.local` present with a dummy key, standalone `node scripts/collect-stats.js` | `LINEAR_API_KEY not set — using last-good data` |
+| B | Same `.env.local`, collector spawned by Vite | Live fetch succeeded — so the dummy was **not** what it used |
+| C | `.env.local` **deleted**, collector spawned by Vite | Live fetch still succeeded — proving the key came from the shell, never the file |
+
+A dummy value was used throughout; no real credential was handled. The distinguishing signal is
+that `collectLinear` warns and returns without a network call when the var is absent, but throws
+on Linear's response when it is present and invalid, so the two states cannot be confused.
+
+**What actually works** is a shell-level export, which is how `CHROMATIC_PROJECT_TOKEN` was
+already being supplied.
+
+**The Phase 2 half.** The export lives in `~/.zshrc`, which zsh sources for *interactive* shells
+only. A login+interactive `zsh -lic` sees the variable; a non-interactive shell does not. Husky
+pre-commit hooks run non-interactively. This is not biting today — `validate:epic-docs` is wired
+to CI only (`.github/workflows/ci.yml:103`), never to `.husky/pre-commit`, and CI supplies the
+value from `secrets.LINEAR_SUGARTOWN_STATS`. It becomes live the moment any env-dependent gate is
+added to pre-commit. Phase 2 adds `validate:governance` to pre-commit, so the check is: if that
+gate ever reads an env var, it must fail loudly on absence rather than skip, and `~/.zshenv`
+(sourced by all shells, and currently absent on this machine) is the file that would carry it.
+
+This is the same failure class the epic exists to close, arriving through the environment rather
+than the data: a check that reported as configured and examined nothing. Its own output said so
+plainly — *"This is NOT a pass"* — which is why it cost a morning and not three months.
 
 ### External prior art
 
