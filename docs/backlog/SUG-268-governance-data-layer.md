@@ -108,23 +108,23 @@ Phase 2 writes **no** file under `docs/ai/agentic-caucus/`. That is deliberate a
 benefit: Decision 3's Rule File Write Gate scope move stays a Phase 3 concern, with no interval
 in which the generator writes a gated path before the CLAUDE.md edit lands.
 
-- [ ] **Generator writes `apps/web/src/generated/governance.json` only** — a new artifact no
+- [x] **Generator writes `apps/web/src/generated/governance.json` only** — a new artifact no
       consumer reads until Phase 4, so regenerating it destroys nothing. The two Markdown
       registers stay hand-maintained until Phase 3. Generator owns pipe-escaping now, though
       nothing exercises it until Phase 3 — layer: tooling
-- [ ] **Un-ignore the output path.** `.gitignore:76` ignores `apps/web/src/generated/`, so
+- [x] **Un-ignore the output path.** `.gitignore:76` ignores `apps/web/src/generated/`, so
       `governance.json` cannot be staged or committed and the diff-clean check would have nothing
       to compare against, passing vacuously forever. Add a `!` negation for this one file, in the
       same commit as the generator. Unlike `stats.json`, which survives being ignored only because
       Vite regenerates it every build, this is a commit-time pipeline (Decision 5) — a clean clone
       would have no file at all — layer: tooling
-- [ ] **`validate:governance-diff`** (regenerate into scratch, byte-compare) — **renamed** from
+- [x] **`validate:governance-diff`** (regenerate into scratch, byte-compare) — **renamed** from
       the PRD's `governance:diff-clean`. Under a `governance:` prefix it is invisible to both
       `validate-validators.js:63` and `validate-control-register.js:176`, so deleting its
       pre-commit line and its CI step leaves every meta-check green while the probe still reports
       it live. B4's "builds sit outside the gate net" reasoning covers `governance:build`; this is
       a gate, not a build — layer: tooling
-- [ ] **Diff-clean compares against the index, not the working tree.** Materialise the staged
+- [x] **Diff-clean compares against the index, not the working tree.** Materialise the staged
       state into scratch (`git checkout-index`, or `git ls-files -s` + `git cat-file`) and build
       from that. Building from the worktree and comparing against the index passes when the
       generated output is staged and its source is not, committing output that does not
@@ -132,7 +132,7 @@ in which the generator writes a gated path before the CLAUDE.md edit lands.
       source staged without output, output deleted — layer: tooling
 - [ ] **`validate:governance`** — schema + closed-world referential integrity + overdue
       `nextRead` + outside-source scan + the two-way probe↔harness check. CTL-031 — layer: tooling
-- [ ] **Fix `validate-control-register.js`'s completeness check to delimited-token matching.**
+- [x] **Fix `validate-control-register.js`'s completeness check to delimited-token matching.**
       It currently does `blob.includes(name)` (`:267-276`), so `validate:governance` is satisfied
       by CTL-027's existing `validate:governance-tally` cell and the new gate could ship with no
       register row at all. `validate-validators.js:74-78` already matches correctly; copy that.
@@ -173,7 +173,7 @@ in which the generator writes a gated path before the CLAUDE.md edit lands.
       rewriting its Control cell now would leave no row naming that script and turn CI red.
       Allocate CTL-034 for `validate:governance-diff`; amend and retire CTL-027 at Phase 4, in the
       same commit that deletes the script — layer: docs, tooling
-- [ ] **Two one-line corrections, since both files are open anyway:**
+- [x] **Two one-line corrections, since both files are open anyway:**
       `validate-control-register.js:280` reads `probeGates.size` on a `{gates, prefixes}` object
       and publishes `undefined probes in the liveness harness` — a control misreporting its own
       coverage. And this doc's Phase 3 scope line below said "13 static entries"; measured, it is
