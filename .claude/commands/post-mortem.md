@@ -1,4 +1,4 @@
-Read the file at `/Users/beckyalice/SUGARTOWN_DEV/sugartown/docs/post-mortem-prompt.md` and follow all instructions in it exactly.
+Read the file at `./docs/post-mortem-prompt.md` and follow all instructions in it exactly.
 
 Use the **Minimal + Surgical** version by default. If I ask for more depth, escalate to the Sharper Systems Lens or Release Discipline version.
 

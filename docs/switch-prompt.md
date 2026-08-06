@@ -49,7 +49,7 @@ First, confirm the runtime environment:
 ```bash
 pwd
 ```
-- If `pwd` returns `/Users/beckyalice/...` → running locally ✅
+- If `pwd` returns a path under `/Users/` (macOS home) → running locally ✅
 - Otherwise → **STOP and warn the user**: this session is a cloud VM, not the local machine. Pulling here will not update the local filesystem. Recommend running `claude` from the local terminal instead.
 
 Then fetch and assess (fetch only updates remote-tracking refs — it changes nothing in the working tree):
@@ -211,7 +211,7 @@ git status
 git branch --show-current
 git rev-list --count origin/main..main 2>/dev/null || echo 0   # unpushed commits on main
 ```
-Environment guard: same as ARRIVE — if not a local `/Users/beckyalice/...` path, warn and stop.
+Environment guard: same as ARRIVE — if `pwd` is not under `/Users/`, warn and stop.
 
 ### PHASE 2 — BRIEFING
 

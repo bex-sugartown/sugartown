@@ -27,7 +27,7 @@ First, check the runtime environment:
 ```bash
 pwd
 ```
-- If `pwd` returns `/Users/beckyalice/...` → running locally ✅
+- If `pwd` returns a path under `/Users/` (macOS home) → running locally ✅
 - If `pwd` returns `/home/user/...` or any other path → **STOP and warn the user**: "This session is running in a cloud VM, not on your local machine. Files written here won't appear on your local filesystem. You may want to use the Claude CLI (`claude`) from your terminal instead."
 
 Then collect git state:
