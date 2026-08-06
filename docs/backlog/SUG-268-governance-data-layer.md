@@ -95,25 +95,102 @@ GROQ (none exists for this data).
       layer: process. **Done 2026-08-05** — 4 blockers returned, all reproduced independently
       and closed; see §Verification review above.
 
-### Phase 2 — Generator + structural agreement (not detailed here — see PRD §5.1, §5.3, §10)
+### Phase 2 — Gates, against the seed only (activated 2026-08-06)
 
-Full pipeline: `governance:build` writes real generated `control-register.md`,
-`governance-coverage.md` tables/tally, and `apps/web/src/generated/governance.json`.
-`governance:diff-clean` guard (regenerate-into-scratch, byte-compare against staged/committed
-bytes). `governance:validate` (schema + referential integrity + overdue `nextRead` + outside-source
-scan) — CTL-031.
+**Scope redrawn at activation**, after a `verification-reviewer` run returned 7 blockers against
+the original one-paragraph summary. Full findings and reproductions: §Phase 2 verification review
+below. The headline: writing the real `control-register.md` from source *is* the migration, so
+the original Phase 2 and Phase 3 were mutually inconsistent. Phase 2 now builds and proves the
+gates against the 17-record seed and one new tracked artifact; Phase 3 owns every write to an
+existing consumer path.
 
-**One shape decision must be settled before the gate freezes it** (added 2026-08-06, external
-prior art — see §External prior art below):
+Phase 2 writes **no** file under `docs/ai/agentic-caucus/`. That is deliberate and has a second
+benefit: Decision 3's Rule File Write Gate scope move stays a Phase 3 concern, with no interval
+in which the generator writes a gated path before the CLAUDE.md edit lands.
 
-- [ ] **Decide whether `class` is doing more than one job, and record the outcome in §Open
-      Decisions Log.** `class` (`enforced-by-code | measured | convention | roadmap`) currently
-      encodes requirement strength, blocking behaviour, and enforcement mechanism in a single
-      enum. Cloudflare's Codex holds two orthogonal axes instead — `MUST`/`SHOULD` for strength,
-      `approved`/`enforced` for lifecycle state — which buys a deliberate soak period: findings
-      surface non-blocking, then an explicit promotion step turns on blocking. Keep-as-is is a
-      legitimate answer; the point is that splitting the enum after Phase 3 has migrated 59
-      records is itself a migration — layer: tooling, docs
+- [ ] **Generator writes `apps/web/src/generated/governance.json` only** — a new artifact no
+      consumer reads until Phase 4, so regenerating it destroys nothing. The two Markdown
+      registers stay hand-maintained until Phase 3. Generator owns pipe-escaping now, though
+      nothing exercises it until Phase 3 — layer: tooling
+- [ ] **Un-ignore the output path.** `.gitignore:76` ignores `apps/web/src/generated/`, so
+      `governance.json` cannot be staged or committed and the diff-clean check would have nothing
+      to compare against, passing vacuously forever. Add a `!` negation for this one file, in the
+      same commit as the generator. Unlike `stats.json`, which survives being ignored only because
+      Vite regenerates it every build, this is a commit-time pipeline (Decision 5) — a clean clone
+      would have no file at all — layer: tooling
+- [ ] **`validate:governance-diff`** (regenerate into scratch, byte-compare) — **renamed** from
+      the PRD's `governance:diff-clean`. Under a `governance:` prefix it is invisible to both
+      `validate-validators.js:63` and `validate-control-register.js:176`, so deleting its
+      pre-commit line and its CI step leaves every meta-check green while the probe still reports
+      it live. B4's "builds sit outside the gate net" reasoning covers `governance:build`; this is
+      a gate, not a build — layer: tooling
+- [ ] **Diff-clean compares against the index, not the working tree.** Materialise the staged
+      state into scratch (`git checkout-index`, or `git ls-files -s` + `git cat-file`) and build
+      from that. Building from the worktree and comparing against the index passes when the
+      generated output is staged and its source is not, committing output that does not
+      correspond to committed source. Handle three cases explicitly: output staged without source,
+      source staged without output, output deleted — layer: tooling
+- [ ] **`validate:governance`** — schema + closed-world referential integrity + overdue
+      `nextRead` + outside-source scan + the two-way probe↔harness check. CTL-031 — layer: tooling
+- [ ] **Fix `validate-control-register.js`'s completeness check to delimited-token matching.**
+      It currently does `blob.includes(name)` (`:267-276`), so `validate:governance` is satisfied
+      by CTL-027's existing `validate:governance-tally` cell and the new gate could ship with no
+      register row at all. `validate-validators.js:74-78` already matches correctly; copy that.
+      This is a change to a shared meta-check, so it lands with its own probe proving the masked
+      case now fails — layer: tooling
+- [ ] **Seed all 16 probe records before the two-way check goes blocking.** The harness composes
+      12 static `gate:` literals plus 4 `BOUNDARY_PROBES` from `Object.keys(SCOPES)`;
+      `governance/source/probes.json` holds 3. The check as specified fails 13 times on a clean
+      tree, and because `gateProbe`'s control run reads a non-zero exit, CTL-031 would report
+      `PROBE INVALID` and take the whole liveness job red — reporting an unverified gate rather
+      than a missing record. Probe records are four fields; seeding them here is cheap — layer: tooling
+- [ ] **`--list-gates` JSON flag on `validate-enforcement-liveness.js`, spawned as a subprocess,
+      never imported.** `main()` runs at module scope and calls `process.exit`, so importing it
+      inside a pre-commit hook would execute all 16 probes, mutating `package.json`,
+      `control-register.md`, `globals.css` and `GovernanceDraftPage.jsx` and deleting a backlog
+      doc. The flag short-circuits before `main()`. The consuming check asserts a non-empty list:
+      an empty array would make the harness→record direction pass vacuously — layer: tooling
+- [ ] **`claim.command` existence check, with a closed-world runner list.** PRD §5.2's algorithm
+      ("first token resolves to a `package.json` script or an existing repo path") rejects all
+      three seed claims, whose first token is `pnpm`. Enumerate runner prefixes
+      (`pnpm`/`npm`/`npx`/`node`/`bash`/`sh`/`git`/`curl`) and check the next token; an
+      unrecognised first token is an error, never a skip. CTL-031's fixture carries a claim whose
+      command does not resolve — layer: tooling
+- [ ] **Two date references with distinct semantics.** `--reference-date` drives the
+      not-in-the-future checks. Overdue `nextRead` needs wall-clock today, because it is the decay
+      catcher (`validate-control-register.js:184-188` reads `new Date()` on purpose). One flag
+      driving both would let the pre-commit `--reference-date` suppress overdue detection. Also
+      decide how an overdue date reports, since a clean-tree exit 1 currently surfaces as
+      `PROBE INVALID` — layer: tooling
+- [ ] **Outside-source scan, specified against silent-no-match.** Fail if the scanned corpus is
+      zero files; fail if any allowlist entry resolves to no existing file; anchor paths on
+      `resolve(__dirname, '..')`, never `process.cwd()`; report the file count scanned. The probe
+      injects into a scanned, non-allowlisted file and asserts the **message**, not just the exit
+      code. This is the Phase 2 item most likely to ship matching nothing, which is this epic's
+      founding failure class — layer: tooling
+- [ ] **Register rows: CTL-031 and CTL-034**, committed with their gates. **CTL-027 is not
+      amended in Phase 2** — `validate:governance-tally` stays in `package.json` until Phase 4, so
+      rewriting its Control cell now would leave no row naming that script and turn CI red.
+      Allocate CTL-034 for `validate:governance-diff`; amend and retire CTL-027 at Phase 4, in the
+      same commit that deletes the script — layer: docs, tooling
+- [ ] **Two one-line corrections, since both files are open anyway:**
+      `validate-control-register.js:280` reads `probeGates.size` on a `{gates, prefixes}` object
+      and publishes `undefined probes in the liveness harness` — a control misreporting its own
+      coverage. And this doc's Phase 3 scope line below said "13 static entries"; measured, it is
+      12 static and 16 total — layer: tooling, docs
+
+**Deferred out of Phase 2, recorded rather than dropped:**
+
+- `claim.statsKey`'s "must resolve in `stats.json`" is declared in PRD §5.2 and enforced by
+  nothing (`governance/schema/entities.js:117-122`) — a declared rule read by nothing, inside the
+  pipeline built to kill declared rules read by nothing. `stats.json` is itself gitignored and
+  regenerated per build, so resolution is machine-dependent. Decide at Phase 3 with the migration,
+  or state the deferral with a date.
+- Seed record **CLM-003** is internally incoherent: `value: "0 known vulnerabilities"` against
+  `statsKey: security.vulnerabilities`, which resolves to an object rather than a scalar, with an
+  unrelated `command`. Fix during Phase 3's migration when real claims land.
+- **US-007's crosswalk completeness** ("maps each layer") is unenforced; `crosswalk.json` covers
+  layers 1, 2 and 6 of 6. Add the check with the real records in Phase 3.
 
 ### Phase 3 — Migration (see PRD §5.4)
 
@@ -133,10 +210,26 @@ migration avoids touching a gated file twice):
       rows, and the migration's count check must include the reservation (PRD §10, US-009) —
       layer: docs (generated), tooling
 - [ ] **`CTL-014`'s Bypass cell is stale** — it reads "probes only the 8 gates in `PROBES`".
-      `PROBES` now composes 13 static entries plus the runtime `BOUNDARY_PROBES` spread
-      (`scripts/validate-enforcement-liveness.js:630`). Re-measure the real number at migration
-      time with a command, per CLAUDE.md's "any figure you report carries the command that
-      produced it" — do not copy 13 from this line — layer: docs (generated)
+      Measured 2026-08-06: **12** static `gate:` literals plus **4** `BOUNDARY_PROBES` derived
+      from `Object.keys(SCOPES)` = **16** runtime gates. Re-measure at migration time rather than
+      copying 16 from this line, per CLAUDE.md's "any figure you report carries the command that
+      produced it" — layer: docs (generated)
+
+      ```bash
+      node -e "const s=require('fs').readFileSync('scripts/validate-enforcement-liveness.js','utf8');console.log((s.match(/gate:\s*'[^']+'/g)||[]).length)"
+      node --input-type=module -e "import {SCOPES} from './packages/eslint-config/boundary-rules.js';console.log(Object.keys(SCOPES).length)"
+      ```
+
+      *This line previously read "13 static entries", uncommanded, inside its own instruction not
+      to copy figures. Corrected 2026-08-06 by the Phase 2 verification review.*
+
+- [ ] **The real-path write, moved here from Phase 2** (2026-08-06). `governance:build` begins
+      generating `control-register.md` and `governance-coverage.md` tables/tally at their existing
+      paths. This is the same operation as the migration and cannot precede it: regenerating from
+      the 17-record seed would delete 25 of the register's 29 rows, after which `validate:controls`
+      errors once per `validate:*` script with no row, and CTL-013's CI-red issue is the only thing
+      that notices — after Netlify has deployed `main` (CTL-020). Decision 3's Rule File Write Gate
+      scope move lands on this same branch — layer: tooling, docs (generated)
 
 **One field decision rides with the migration** (added 2026-08-06, external prior art — see
 §External prior art below):
@@ -202,7 +295,54 @@ evidence read from the harness (rationale below the table).
 
 **Decision 3 note:** gating both paths closes the PRD §9 risk "the Rule File Write Gate
 briefly covers neither source nor output during cutover" outright, rather than mitigating it
-by sequencing.
+by sequencing. Reinforced 2026-08-06: Phase 2 now writes no file under
+`docs/ai/agentic-caucus/`, so there is no interval in which the generator writes a gated path
+before the CLAUDE.md edit lands.
+
+### Phase 2 activation decisions (2026-08-06)
+
+Taken at Phase 2 activation, before any code. Decisions 7 and 8 are Bex's; 9 and 10 follow from
+the verification review's reproduced findings and are recorded here rather than left in a session.
+
+| # | Decision | Resolution | Date | Resolved by |
+|---|----------|-----------|------|-------------|
+| 7 | Does `class` conflate strength, blocking behaviour and mechanism? | **Keep one enum for v1.** The two-axis split buys a soak period between "flagged" and "blocking"; a single human and her agents do not need that runway. Revisit at the cutover retrospective with the deferred RULE-NNN question | 2026-08-06 | Bex |
+| 8 | PRD says `governance:validate` 13×; B4 renamed it `validate:governance` | **Keep `validate:governance`; bump the PRD to v1.2** to match. The `validate:` prefix is what `validate:validators` and `validate-control-register` auto-discover on | 2026-08-06 | Bex |
+| 9 | Phase 2 vs Phase 3 boundary | **Phase 2 builds gates against the seed; every write to an existing consumer path moves to Phase 3.** Writing the real register from source is the migration, and no intermediate state has both the generator and `validate:controls` correct | 2026-08-06 | Bex |
+| 10 | `validate:governance` masked by substring match | **Fix the check, not the name.** `validate-control-register.js:267-276` uses `blob.includes()`, so any gate whose name prefixes another is silently exempt. The weakness is general; the fix lands with its own probe | 2026-08-06 | Bex |
+
+**Decision 8 caveat, found after the fact:** the rename alone does not achieve what B4 chose it
+for. `'validate:governance-tally'.includes('validate:governance')` is `true`, so CTL-027's
+existing row satisfies the completeness check for the new gate. Decision 10 is what actually
+closes it. B4 was right about the prefix and wrong to treat the rename as sufficient.
+
+### Phase 2 verification review — 7 blockers, scope redrawn
+
+Run as a subagent 2026-08-06 per CLAUDE.md §Verification review, against the proposed Phase 2
+design **before any code**. Verdict: *"The plan does not clear the verification gate."* Every
+load-bearing finding was reproduced independently before being accepted, per the discipline
+Phase 1 set.
+
+| # | Blocker | Reproduced | Resolution |
+|---|---|---|---|
+| B1 | `validate:governance` is masked by `validate:governance-tally` in the register completeness check, so the gate could ship with no row and `validate:controls` stay green | `'validate:governance-tally'.includes('validate:governance')` → `true`; CTL-027's row confirmed at `control-register.md:72` | Decision 10 — fix the check to delimited-token matching, with its own probe |
+| B2 | `apps/web/src/generated/` is gitignored, so `governance.json` can never be staged and diff-clean has nothing to compare against | `git check-ignore -v` → `.gitignore:76` | Phase 2 scope — `!` negation for the one file, same commit as the generator |
+| B3 | Pre-commit diff-clean builds from the worktree and compares against the index: staging the output without its source is a false pass | design read; the failing sequence is stated in the scope item | Phase 2 scope — materialise the index into scratch and build from that |
+| B4 | Phase 2's real-path write and Phase 3's migration are the same operation; doing the first from a 17-record seed deletes 25 of 29 register rows | 29 rows vs 4 source records, both measured | Decision 9 — real-path write moved to Phase 3 |
+| B4a | Amending CTL-027 in Phase 2 leaves no row naming `validate:governance-tally`, which stays in `package.json` until Phase 4 → CI red | same `blob.includes` loop over the register | Phase 2 scope — allocate CTL-034; amend and retire CTL-027 at Phase 4 |
+| B5 | The two-way probe↔harness check fails 13 times on a clean tree and misreports as `PROBE INVALID`, taking the liveness job red for a working gate | 12 static `gate:` literals + 4 `SCOPES` keys = 16 runtime gates; `probes.json` holds 3 | Phase 2 scope — seed all 16 probe records before the check goes blocking |
+| B6 | `governance:diff-clean` sits outside the `validate:` prefix, so unwiring it from pre-commit and CI leaves both meta-checks green while the probe still reports it live | `validate-validators.js:63`, `validate-control-register.js:176` | Phase 2 scope — renamed `validate:governance-diff` |
+| B7 | `claim.command`'s specified algorithm rejects all three seed claims | ran the algorithm over `claims.json`: every first token is `pnpm`, neither a script nor a path | Phase 2 scope — closed-world runner-prefix list; unrecognised token is an error |
+
+**B7 is the one worth naming plainly.** Phase 1's close-out recorded this check's deferral
+condition as *"the seed's three commands all resolve today, which they do."* That was asserted,
+not run. A claim about verification, published in the epic that exists to stop claims being
+published without verification, one day after the phase that recorded it.
+
+Non-blocking gaps also returned and folded into the scope above: silent-no-match risk in the
+outside-source scan, the two-date-semantics collision, `--list-gates` needing a subprocess rather
+than an import, the empty-gate-list floor, `claim.statsKey` declared and unenforced, CLM-003's
+incoherence, and US-007's unenforced crosswalk completeness.
 
 **Decision 4 rationale** — read from `scripts/validate-enforcement-liveness.js` (713 lines)
 on 2026-08-05, not assumed:
