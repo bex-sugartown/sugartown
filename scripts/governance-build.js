@@ -1,14 +1,27 @@
 #!/usr/bin/env node
 /**
- * governance-build.js — first-cut generator for the governance data layer.
- * SUG-268 Phase 1. Implements `docs/briefs/governance-data-layer-prd.md` §5.1.
+ * governance-build.js — generator for the governance data layer.
+ * SUG-268 Phase 2. Implements `docs/briefs/governance-data-layer-prd.md` §5.1.
  *
- * Phase 1 scope, deliberately narrow: read `governance/source/`, validate it
- * against the schema, and write to a SCRATCH directory. It does not touch
- * `control-register.md`, `governance-coverage.md`, or any page JSX — those
- * consumers keep running on the hand-maintained files until Phase 4. The epic's
- * acceptance criterion is that all four are byte-identical before and after a
- * run of this script.
+ * Phase 2 scope: read `governance/source/`, validate it, and write ONE real
+ * artifact — `apps/web/src/generated/governance.json`. Nothing reads that file
+ * until Phase 4, so regenerating it destroys nothing.
+ *
+ * It deliberately does NOT write `control-register.md` or
+ * `governance-coverage.md`. Generating those from source IS the migration:
+ * the register holds 29 rows and the seed holds 4 records, so a run today would
+ * delete 25 controls, after which `validate:controls` errors once per
+ * `validate:*` script with no row — on a branch Netlify deploys regardless of CI
+ * (CTL-020). That write moves to Phase 3, alongside the records that justify it.
+ * (Phase 2 verification review, blocker B4.)
+ *
+ * Keeping Phase 2 out of `docs/ai/agentic-caucus/` has a second benefit: that
+ * path is covered by CLAUDE.md's Instruction & Rule File Write Gate today, and
+ * Decision 3 moves the gated scope at Phase 3. Nothing generates into a gated
+ * path before the CLAUDE.md edit lands.
+ *
+ * `--out` redirects the write, which is how `validate:governance-diff`
+ * regenerates into scratch without touching the tracked file.
  *
  * Determinism (PRD §3) binds GENERATED OUTPUT BYTES, not the validator's
  * comparison reference. Those are different things, and conflating them is what
@@ -42,7 +55,30 @@ import { validateSource, formatErrors } from '../governance/schema/validate.js'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
 const SOURCE_DIR = resolve(ROOT, 'governance/source')
-const DEFAULT_OUT = resolve(ROOT, '.governance-build')
+const DEFAULT_OUT = resolve(ROOT, 'apps/web/src/generated')
+const OUT_FILE = 'governance.json'
+
+/**
+ * The consumer contract's version. Phase 4's page import pins it; a shape change
+ * that would break a consumer bumps this rather than silently altering the file.
+ */
+const SCHEMA_VERSION = 1
+
+/**
+ * Derived tally, computed from `component.layerStatus` rather than restated.
+ * Every key in the enum is present even at zero — an absent key and a zero
+ * count read identically to a consumer, and "no components are in this state"
+ * is a different claim from "this state was never considered".
+ */
+const LAYER_STATUSES = ['strong', 'partial', 'inherited', 'not-applicable']
+
+function deriveTally(components) {
+  const tally = Object.fromEntries(LAYER_STATUSES.map((s) => [s, 0]))
+  for (const c of components) {
+    if (c.layerStatus in tally) tally[c.layerStatus] += 1
+  }
+  return tally
+}
 
 function parseArgs(argv) {
   const args = { out: DEFAULT_OUT, referenceDate: null, source: SOURCE_DIR }
@@ -180,14 +216,16 @@ function main() {
 
   console.log('✅  Source is schema-valid and referentially whole.\n')
 
-  // Phase 1 writes a normalised snapshot to scratch. Phase 2 replaces this with
-  // the real generated register, coverage doc, and apps/web governance.json.
   mkdirSync(out, { recursive: true })
-  // referenceDate is deliberately NOT in the snapshot: it varies by commit while
-  // source does not, so writing it would make identical source produce different
-  // bytes on different days and turn Phase 2's diff-clean check into a flake.
-  // Records are sorted by id so output bytes never depend on array order in the
-  // source file either.
+
+  // Output bytes must depend on SOURCE ALONE.
+  //
+  // referenceDate is deliberately absent: it varies by commit while source does
+  // not, so writing it would make identical source produce different bytes on
+  // different days and turn `validate:governance-diff` into a flake that gets
+  // normalised into being ignored (PRD §9's named High risk). Records are sorted
+  // by id so array order in the source file cannot affect output either. Object
+  // key order below is fixed by insertion order in this literal.
   const sortedEntities = {}
   for (const [entityName, spec] of Object.entries(ENTITIES)) {
     sortedEntities[entityName] = [...(source[entityName] ?? [])].sort((a, b) =>
@@ -195,27 +233,35 @@ function main() {
     )
   }
 
-  const snapshot = {
-    _note:
-      'SUG-268 Phase 1 scratch output. Not a consumer contract — Phase 2 replaces this with generated control-register.md, governance-coverage.md, and apps/web/src/generated/governance.json.',
+  const artifact = {
+    _generated:
+      'GENERATED FILE — do not edit. Source: governance/source/*.json. Rebuild: pnpm governance:build. Hand edits are caught by pnpm validate:governance-diff.',
+    schemaVersion: SCHEMA_VERSION,
     counts,
-    entities: sortedEntities,
+    tally: deriveTally(sortedEntities.component ?? []),
+    controls: sortedEntities.control ?? [],
+    components: sortedEntities.component ?? [],
+    claims: sortedEntities.claim ?? [],
+    probes: sortedEntities.probe ?? [],
+    crosswalk: sortedEntities.crosswalk ?? [],
   }
-  const outFile = join(out, 'governance.snapshot.json')
-  writeFileSync(outFile, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf8')
 
-  console.log(`   Wrote scratch snapshot: ${outFile.replace(`${ROOT}/`, '')}`)
-  console.log('   No tracked generated file was touched (Phase 1 is additive).\n')
+  const outFile = join(out, OUT_FILE)
+  writeFileSync(outFile, `${JSON.stringify(artifact, null, 2)}\n`, 'utf8')
 
-  // Make the "touched nothing tracked" claim checkable rather than asserted.
-  const untouched = [
-    'docs/ai/agentic-caucus/control-register.md',
-    'docs/ai/agentic-caucus/governance-coverage.md',
-    'apps/web/src/pages/platform/GovernancePage.jsx',
-    'apps/web/src/pages/platform/GovernanceDraftPage.jsx',
-  ]
-  console.log('   Consumers left untouched by design (verify with git status):')
-  untouched.forEach((f) => console.log(`     · ${f}`))
+  const rel = outFile.replace(`${ROOT}/`, '')
+  console.log(`   Wrote ${rel}`)
+  if (out !== DEFAULT_OUT) {
+    console.log('   (--out override — the tracked artifact was not touched)')
+  }
+  console.log('')
+
+  // The registers are NOT generated in Phase 2. Say so on every run, because a
+  // generator that silently declines to write half its outputs is indisputably
+  // worse than one that says which half and why.
+  console.log('   Not generated until Phase 3 (writing them IS the migration):')
+  console.log('     · docs/ai/agentic-caucus/control-register.md')
+  console.log('     · docs/ai/agentic-caucus/governance-coverage.md')
   console.log('')
 
   process.exit(0)

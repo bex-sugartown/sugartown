@@ -1,0 +1,191 @@
+{
+  "_generated": "GENERATED FILE — do not edit. Source: governance/source/*.json. Rebuild: pnpm governance:build. Hand edits are caught by pnpm validate:governance-diff.",
+  "schemaVersion": 1,
+  "counts": {
+    "control": 4,
+    "component": 4,
+    "claim": 3,
+    "probe": 3,
+    "crosswalk": 3
+  },
+  "tally": {
+    "strong": 3,
+    "partial": 1,
+    "inherited": 0,
+    "not-applicable": 0
+  },
+  "controls": [
+    {
+      "id": "CTL-010",
+      "status": "active",
+      "name": "validate:taxonomy",
+      "class": "enforced-by-code",
+      "probeId": null,
+      "noProbeReason": "none — no probe yet, SUG-256 follow-up",
+      "reader": "ci.yml step 'Validate taxonomy' → ci-failure-alert.yml",
+      "cadence": "dated",
+      "nextRead": "2026-10-28",
+      "bypass": "not in pre-commit; unchecked until CI"
+    },
+    {
+      "id": "CTL-012",
+      "status": "active",
+      "name": "validate:content",
+      "class": "convention",
+      "probeId": null,
+      "noProbeReason": "none — needs Sanity API + long runtime",
+      "reader": "human, pre-PR (MANUAL_BY_DESIGN)",
+      "cadence": "dated",
+      "nextRead": "2026-10-28",
+      "bypass": "runs on no hook and no CI job by design; nothing detects it being skipped"
+    },
+    {
+      "id": "CTL-015",
+      "status": "active",
+      "name": "validate:controls (this register)",
+      "class": "enforced-by-code",
+      "probeId": "PRB-003",
+      "reader": "ci.yml → ci-failure-alert.yml",
+      "cadence": "continuous",
+      "bypass": "rows enter only when a human or the reviewer adds them; non-script controls are not auto-discovered"
+    },
+    {
+      "id": "CTL-026",
+      "status": "reserved",
+      "reservedFor": "SUG-256 Phase 4 coverage cross-reference, absorbed by SUG-268 as closed-world enforcedBy validation. Held so a next-free-ID computation cannot reallocate it."
+    }
+  ],
+  "components": [
+    {
+      "id": "COMP-001",
+      "name": "Shadow-AI detection",
+      "layer": 1,
+      "layerStatus": "strong",
+      "statusDate": "2026-08-01",
+      "statusEvidence": "Every agent is named and deliberately deployed. The methodology is itself the inventory.",
+      "enforcedBy": [
+        "artifact:docs/ai/agentic-caucus/methodology.md"
+      ]
+    },
+    {
+      "id": "COMP-002",
+      "name": "System classification",
+      "layer": 1,
+      "layerStatus": "strong",
+      "statusDate": "2026-08-01",
+      "statusEvidence": "Agents classified by role (Architect, Integrator, Strategist) in the methodology doc.",
+      "enforcedBy": [
+        "artifact:docs/ai/agentic-caucus/agent-cards.md"
+      ]
+    },
+    {
+      "id": "COMP-003",
+      "name": "Risk tiering",
+      "layer": 1,
+      "layerStatus": "strong",
+      "statusDate": "2026-08-01",
+      "statusEvidence": "Four tiers (A–D) mapped to gates in the risk-tiers doc.",
+      "enforcedBy": [
+        "artifact:docs/ai/agentic-caucus/risk-tiers.md"
+      ]
+    },
+    {
+      "id": "COMP-004",
+      "name": "Control register completeness",
+      "layer": 6,
+      "layerStatus": "partial",
+      "statusDate": "2026-08-04",
+      "statusEvidence": "validate:controls proves every row carries a probe, a reader and a next-read date. It cannot prove the row set is complete — non-script controls are not auto-discovered.",
+      "enforcedBy": [
+        "CTL-015",
+        "artifact:docs/ai/agentic-caucus/control-register.md"
+      ],
+      "livenessCaveat": "Row entry is human-initiated, so a control that never gets a row is invisible to this check."
+    }
+  ],
+  "claims": [
+    {
+      "id": "CLM-001",
+      "surface": "/platform/governance#05-coverage",
+      "type": "count",
+      "valueSource": "derived",
+      "value": "30 checkpoints",
+      "measuredAt": "2026-08-04",
+      "command": "pnpm validate:governance-tally",
+      "evidenceClass": "enforced-by-code",
+      "controlId": "CTL-015"
+    },
+    {
+      "id": "CLM-002",
+      "surface": "/platform/governance#hero",
+      "type": "sufficiency",
+      "valueSource": "derived",
+      "value": "14 gates live, 0 inert",
+      "measuredAt": "2026-08-04",
+      "command": "pnpm validate:enforcement-liveness",
+      "evidenceClass": "measured",
+      "controlId": "CTL-015"
+    },
+    {
+      "id": "CLM-003",
+      "surface": "/platform/governance#taxonomy-integrity",
+      "type": "attribution",
+      "valueSource": "external",
+      "value": "0 known vulnerabilities",
+      "statsKey": "security.vulnerabilities",
+      "measuredAt": "2026-07-28",
+      "command": "pnpm validate:taxonomy",
+      "evidenceClass": "enforced-by-code",
+      "controlId": "CTL-010"
+    }
+  ],
+  "probes": [
+    {
+      "id": "PRB-001",
+      "gate": "validate:tokens",
+      "derivation": "derived-from-target"
+    },
+    {
+      "id": "PRB-002",
+      "gate": "validate:tokens:strict",
+      "derivation": "static-input",
+      "staticJustification": "The violation is a raw hex literal, which is the fixed thing the gate exists to reject. There is no target value to derive from — any hex triggers it."
+    },
+    {
+      "id": "PRB-003",
+      "gate": "validate:controls",
+      "derivation": "derived-from-target"
+    }
+  ],
+  "crosswalk": [
+    {
+      "layer": 1,
+      "airmfFunctions": [
+        "MAP"
+      ],
+      "airmfVersion": "1.0",
+      "assessedAt": "2026-08-05",
+      "rationale": "AI system inventory and classification are MAP activities: establishing context and categorising the systems in use before risk is assessed."
+    },
+    {
+      "layer": 2,
+      "airmfFunctions": [
+        "MAP",
+        "MEASURE"
+      ],
+      "airmfVersion": "1.0",
+      "assessedAt": "2026-08-05",
+      "rationale": "Data provenance and handling span MAP (understanding data context) and MEASURE (tracking what flows where)."
+    },
+    {
+      "layer": 6,
+      "airmfFunctions": [
+        "GOVERN",
+        "MEASURE"
+      ],
+      "airmfVersion": "1.0",
+      "assessedAt": "2026-08-05",
+      "rationale": "The control register and liveness harness are GOVERN (policy and accountability structures) exercised through MEASURE (proving each gate fires against a deliberate violation)."
+    }
+  ]
+}
