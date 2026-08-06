@@ -462,6 +462,94 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:governance-diff',
+    why: 'generated output that no longer matches its source must not be committable',
+    // The gate compares the INDEX against the INDEX, deliberately (SUG-268 Ph2,
+    // blocker B3). A worktree-only edit is therefore correctly a non-event, and
+    // the obvious probe — mutate the generated file, run the check — would prove
+    // NOTHING while looking like a passing liveness test.
+    //
+    // So this probe STAGES its mutation. Committing generated output that does
+    // not correspond to committed source is the actual failure being guarded. It
+    // asserts on OUTPUT TEXT as well as exit code: a non-zero exit proves *a*
+    // check fired, not *this* one.
+    run() {
+      const ARTIFACT = 'apps/web/src/generated/governance.json'
+      const full = resolve(ROOT, ARTIFACT)
+
+      // Refuse to run against a dirty artifact: cleanup restores from HEAD, which
+      // would discard a pre-existing staged edit.
+      const dirty = run('git', ['status', '--porcelain', '--', ARTIFACT])
+      if (dirty.out.trim() !== '') {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            `${ARTIFACT} has uncommitted changes. This probe stages a mutation and restores from ` +
+            `HEAD, which would discard them. Commit or stash first.`,
+        }
+      }
+
+      const control = run('pnpm', ['validate:governance-diff'])
+      if (control.code !== 0) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            `control run failed — pnpm validate:governance-diff exits ${control.code} on a CLEAN ` +
+            `tree, so this probe cannot distinguish a live gate from a broken invocation. ` +
+            `Output: ${control.out.trim().slice(-300)}`,
+        }
+      }
+
+      const original = readFileSync(full, 'utf8')
+      cleanups.push(() => {
+        writeFileSync(full, original, 'utf8')
+        run('git', ['checkout', 'HEAD', '--', ARTIFACT])
+      })
+
+      // Two spaces before the final newline: different bytes, still valid JSON, so
+      // the failure under test is drift rather than a parse error.
+      const mutated = original.replace(/\n$/, '  \n')
+      if (mutated === original) {
+        return {
+          live: false,
+          invalid: true,
+          detail: `probe transform was a no-op on ${ARTIFACT} — the needle is stale. Fix the probe, not the gate.`,
+        }
+      }
+      writeFileSync(full, mutated, 'utf8')
+
+      const staged = run('git', ['add', '--', ARTIFACT])
+      if (staged.code !== 0) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            `probe could not stage ${ARTIFACT} (git add exited ${staged.code}), so the index never ` +
+            `carried the drift this gate reads. Output: ${staged.out.trim().slice(-200)}`,
+        }
+      }
+
+      const violated = run('pnpm', ['validate:governance-diff'])
+      const namesTheFix =
+        /governance\/source/.test(violated.out) && /governance:build/.test(violated.out)
+
+      return {
+        live: violated.code !== 0 && namesTheFix,
+        detail:
+          violated.code === 0
+            ? `gate exited 0 with drift staged in ${ARTIFACT}`
+            : namesTheFix
+              ? 'rejected the staged drift and named the source to edit'
+              : `exited ${violated.code} but did not name governance/source or governance:build, so ` +
+                `it may have failed for an unrelated reason: ${violated.out.trim().slice(-300)}`,
+        output: violated.out,
+      }
+    },
+  },
+
+  {
     gate: 'validate:governance-tally',
     why: 'the published tally must not be allowed to drift from the rows it claims to count',
     // Asserts on the OUTPUT TEXT, not the exit code. The script reports several

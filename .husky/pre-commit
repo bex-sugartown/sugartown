@@ -39,6 +39,13 @@ pnpm --filter web validate:dead-refs || exit 1
 # silently unenforced (no hook, no CI job) until SUG-239 wired it up here.
 pnpm --filter web validate:css-names || exit 1
 
+# Generated governance artifact must still correspond to its source. Compares
+# against the INDEX, not the worktree: rebuilding from the worktree and comparing
+# against staged bytes passes when the generated file is staged and its source is
+# not, committing output that does not match committed source (SUG-268 Ph2, B3).
+# Regeneration goes to a scratch dir; this never writes a tracked file.
+pnpm validate:governance-diff || exit 1
+
 # Every validate:* script must be wired into a hook or CI job, or explicitly
 # allowlisted as manual-by-design. Prevents this exact class of silent decay.
 pnpm validate:validators || exit 1

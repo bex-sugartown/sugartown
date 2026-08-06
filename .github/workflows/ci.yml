@@ -87,6 +87,12 @@ jobs:
       - name: Validate doc budget
         run: pnpm validate:doc-budget
 
+      - name: Validate governance diff-clean
+        # Compares the committed governance.json against what governance/source/
+        # produces. --ref HEAD because in CI the commit under test IS HEAD; the
+        # pre-commit variant compares against the index instead.
+        run: pnpm validate:governance-diff --ref HEAD
+
       - name: Validate governance tally
         run: pnpm validate:governance-tally
 
