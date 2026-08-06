@@ -10,9 +10,10 @@
  *
  * None of them can see a gate that nobody wrote a probe for, a control that is
  * not an npm script at all (a deploy path, a published claim), or a result with
- * no reader. `validate:enforcement-liveness` proves the eight gates in its
- * PROBES array are live; it is structurally incapable of noticing a ninth. That
- * blind spot is the same shape as the failure it was built to fix, one level up
+ * no reader. `validate:enforcement-liveness` proves the gates in its PROBES
+ * array are live; it is structurally incapable of noticing one that is absent
+ * from it. That blind spot is the same shape as the failure it was built to fix,
+ * one level up
  * — which is the 2026-07-28 post-mortem's finding in one sentence: every
  * unfilled role was the one that reads the result rather than performs the work.
  *
@@ -27,7 +28,8 @@
  *      repo's incident log.
  *   3. Every `validate:*` script defined in any workspace package.json has a
  *      row. This is the completeness check: a new gate cannot be added without
- *      being registered.
+ *      being registered. Matched as a delimited token, never as a substring —
+ *      see isRegistered() below.
  *   4. No row's `Next read` date is in the past.
  *
  * Check 4 is the forcing function, and the only part of the framework that
@@ -119,7 +121,10 @@ function parseRegister() {
 function readProbeGates() {
   if (!existsSync(LIVENESS)) {
     errors.push(`Cannot verify probes: ${LIVENESS} not found`)
-    return new Set()
+    // Same shape as the success path. Returning a bare Set here made every
+    // caller's `probeGates.gates` undefined, so a missing harness crashed the
+    // run instead of reporting the error already pushed above.
+    return { gates: new Set(), prefixes: [] }
   }
   const src = readFileSync(LIVENESS, 'utf8')
   // Gate strings appear as 'single', "double" or `template` literals. Matching
@@ -177,6 +182,27 @@ function findValidateScripts() {
     }
   }
   return names
+}
+
+// ─── Is a script name named by a register row, as itself? ────────────────────
+//
+// Delimited-token matching, not `blob.includes(name)`. The substring version
+// exempted any gate whose name is a prefix of another gate's: SUG-268 Phase 2
+// found `validate:governance` satisfied by CTL-027's `validate:governance-tally`
+// cell, so a new gate could have shipped with no row at all and this check would
+// have stayed green — a completeness check that cannot see the thing it exists
+// to see. The weakness is general, not specific to that pair, and it grows with
+// every namespaced script added under an existing prefix.
+//
+// `:` is excluded from the delimiter class as well as `\w` and `-`, so
+// `validate:tokens` does not match inside `validate:tokens:strict`.
+// Same rule as validate-validators.js isReferenced(); the two answer the same
+// question about different corpora and must not disagree.
+
+function isRegistered(name, text) {
+  const escaped = name.replace(/[.*+?^${}()|[\]\\:]/g, '\\$&')
+  const re = new RegExp(`(^|[^:\\w-])${escaped}($|[^:\\w-])`)
+  return re.test(text)
 }
 
 // ─── Checks ──────────────────────────────────────────────────────────────────
@@ -267,7 +293,7 @@ function run() {
   const blob = registeredText.join(' \n ')
   for (const name of [...scripts].sort()) {
     if (name in NOT_A_CONTROL) continue
-    if (!blob.includes(name)) {
+    if (!isRegistered(name, blob)) {
       errors.push(
         `\`${name}\` is defined in a workspace package.json but has no row in the control register. ` +
           `Every gate needs a row naming its probe and its reader.`
@@ -277,7 +303,21 @@ function run() {
 
   // ─── Report ────────────────────────────────────────────────────────────────
 
-  console.log(`\nControl register: ${rows.length} rows · ${probeGates.size} probes in the liveness harness · ${scripts.size} validate:* scripts\n`)
+  // `probeGates` is `{gates, prefixes}`; this line read `probeGates.size` and
+  // published `undefined probes in the liveness harness` — a control misreporting
+  // its own coverage, in the register that exists to stop exactly that.
+  //
+  // Counted as what it actually is: gate literals read out of the harness source,
+  // plus interpolated forms (`boundary: ${scope}`) that stand for an unknown
+  // number of runtime gates. This script reads source text, so it cannot know the
+  // runtime total; `validate-enforcement-liveness.js` is the authority on that.
+  const literals = probeGates.gates.size
+  const interpolated = probeGates.prefixes.length
+  console.log(
+    `\nControl register: ${rows.length} rows · ${literals} gate literal(s)` +
+      `${interpolated ? ` + ${interpolated} interpolated form(s)` : ''} read from the liveness harness · ` +
+      `${scripts.size} validate:* scripts\n`
+  )
 
   if (warnings.length) {
     console.log('Coverage gaps (recorded, not blocking):')

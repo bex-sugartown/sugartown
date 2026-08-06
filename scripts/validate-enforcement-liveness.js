@@ -434,6 +434,83 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:controls (completeness)',
+    why: 'a validate:* script with no row must be caught even when a longer registered name contains it',
+    // A second probe on the same script, deliberately. The probe above exercises
+    // check 2 (a Probe cell naming a gate that does not exist); this one
+    // exercises check 3 (every validate:* script has a row), which failed
+    // silently for a whole class of names until SUG-268 Phase 2: the check did
+    // `blob.includes(name)`, so `validate:governance` was satisfied by CTL-027's
+    // `validate:governance-tally` cell. Any gate whose name prefixed another
+    // could have shipped unregistered with the register green.
+    //
+    // The injected name is DERIVED from the live script set, never hardcoded.
+    // A hardcoded prefix stops being masked the day its longer sibling is
+    // renamed, and the probe would then quietly test the ordinary unmasked case
+    // — which the OLD code also caught — while reporting the fix proven. Same
+    // stale-needle shape as CTL-025's fixed-size doc-budget injection.
+    run() {
+      const pkgPath = resolve(ROOT, 'package.json')
+      const scripts = Object.keys(JSON.parse(readFileSync(pkgPath, 'utf8')).scripts || {})
+      const defined = new Set(scripts)
+
+      // Take a registered script name and truncate it at its last delimiter.
+      // The control run below proves every defined script is named by some row,
+      // so the truncation is necessarily a SUBSTRING of the register — while
+      // being no script's own name, it has no row of its own. That is precisely
+      // the masked state, and it is derived rather than assumed.
+      const masked = scripts
+        .filter((n) => n.startsWith('validate:'))
+        .map((n) => {
+          const tail = n.slice('validate:'.length)
+          const cut = Math.max(tail.lastIndexOf('-'), tail.lastIndexOf(':'))
+          return cut > 0 ? `validate:${tail.slice(0, cut)}` : null
+        })
+        .filter((n) => n && !defined.has(n))
+        .sort()[0]
+
+      if (!masked) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            'no validate:* script name yields a truncation that is not itself a defined script, ' +
+            'so this probe cannot construct the masked case. Verify the completeness check by ' +
+            'hand rather than trusting this result.',
+        }
+      }
+
+      const result = gateProbe({
+        cmd: 'pnpm',
+        args: ['validate:controls'],
+        success: `caught \`${masked}\`, masked in the register by a longer name`,
+        breakIt: () =>
+          mutateFile('package.json', (src) => {
+            const pkg = JSON.parse(src)
+            pkg.scripts[masked] = 'node -e "process.exit(0)"'
+            return `${JSON.stringify(pkg, null, 2)}\n`
+          }),
+      })
+      if (result.invalid || !result.live) return result
+
+      // Exit code alone is not enough: this script reports every register defect
+      // under one exit code, so a non-zero exit proves *a* check fired, not the
+      // completeness one. Assert it named the injected script.
+      const out = result.out || ''
+      if (!(out.includes(masked) && out.includes('no row in the control register'))) {
+        return {
+          live: false,
+          detail:
+            `validate:controls failed, but never reported \`${masked}\` as unregistered. Some ` +
+            `other defect failed the run, so this probe proves nothing about the completeness ` +
+            `check it exists to test: ${out.trim().slice(-300)}`,
+        }
+      }
+      return result
+    },
+  },
+
+  {
     gate: 'validate:doc-budget',
     why: 'instruction text pushed past the cap must be rejected, wherever it sits',
     // The violation is added to a *referenced conventions file*, not to
