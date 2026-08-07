@@ -26,7 +26,24 @@ Scanning all of `docs/` instead returns hits in **37 files**, nearly all shipped
 post-mortems whose historical narrative should not be rewritten. Measured 2026-07-30 with
 `grep -rloiE "<list>" docs/ | wc -l`.
 
-The check now returns zero hits. It stays manual, which is why this epic exists.
+The check returned zero hits on 2026-07-30. It no longer does. Re-measured 2026-08-07 with
+the guide's own command: **17 hits, 13 of them genuine** — 4 are the exempt defined term
+`Canary`. Whether all 13 arrived since 2026-07-30, or the earlier zero was measured against a
+different scope, is not established here — run `git log -S` per word at activation if it
+matters.
+
+| File | Word | Hits |
+|---|---|---|
+| `CLAUDE.md` :323, :449 | load-bearing | 2 |
+| `docs/ai/agentic-caucus/control-register.md` :61, :72, :73 | inert | 4 |
+| `docs/ai/agentic-caucus/control-register.md` :75 | load-bearing | 1 |
+| `docs/ai/agentic-caucus/governance-coverage.md` :39, :81 | corpus | 2 |
+| `docs/conventions/human-gate-conventions.md` :13 | corpus | 1 |
+| `docs/conventions/taxonomy-listview-spec.md` :30 | load-bearing | 1 |
+| `docs/conventions/user-story-conventions.md` :17 | load-bearing | 1 |
+| `docs/ai/agentic-caucus/rule-register.md` :228 | failure class | 1 |
+
+Wiring the gate without clearing these first lands it red on `main`.
 
 ## Objective
 
@@ -37,6 +54,10 @@ probe proving it fails and a register row naming who reads the result.
 
 - [ ] **Verification review first.** This adds a control, so `verification-reviewer` is
       blocking per CLAUDE.md §Verification review. Run it as a subagent
+- [ ] **Re-measure before writing the script, and clear the surface first.** Run the command
+      and act on that day's output, not the table in Background. Each hit is either rewritten
+      to a plain word or added to the exempt list with a reason. A gate wired over a red
+      surface cannot land
 - [ ] `scripts/validate-banned-words.js` — same scope and `-i` flag as the fixed command
 - [ ] `CTL-NNN` row in `docs/ai/agentic-caucus/control-register.md`
 - [ ] Probe in `scripts/validate-enforcement-liveness.js`. **Derive the injected violation
