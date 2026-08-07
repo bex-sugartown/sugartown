@@ -40,7 +40,7 @@
  *   1 — at least one failure; every one names its record and field, or its file
  */
 
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -314,6 +314,106 @@ function scanOutsideSource() {
   return { errors, scanned: entries.length, anchors }
 }
 
+// ─── Two-way probe ↔ harness correspondence ──────────────────────────────────
+
+/**
+ * Every probe record names a gate the harness really has, and every harness gate
+ * has a probe record.
+ *
+ * The gate list comes from SPAWNING `validate-enforcement-liveness.js
+ * --list-gates`, never from importing it: that file runs `main()` at module
+ * scope, so an import inside a pre-commit hook would execute all its probes —
+ * mutating four tracked files, staging others, and deleting a backlog doc.
+ * Regex over the harness source is forbidden (PRD §5.2) and would be wrong
+ * anyway: the boundary gates are computed at runtime from Object.keys(SCOPES),
+ * so only the harness's own composition reports the true list.
+ *
+ * `process.execPath` rather than 'node': a bare 'node' is ENOENT under a minimal
+ * PATH. Not through pnpm either — a package manager is free to write banner
+ * lines to stdout ahead of the payload, and this parses stdout.
+ *
+ * What this proves is CORRESPONDENCE, not coverage. A gate with neither a probe
+ * nor a record satisfies both directions vacuously, and a record asserts a probe
+ * exists rather than that it ran. Coverage of npm-script gates belongs to
+ * validate:controls check 3. CTL-031's Bypass cell says so.
+ */
+function checkProbeCorrespondence(probeRecords) {
+  const errors = []
+  const HARNESS = 'scripts/validate-enforcement-liveness.js'
+
+  const res = spawnSync(process.execPath, [resolve(ROOT, HARNESS), '--list-gates'], {
+    cwd: ROOT,
+    encoding: 'utf8',
+    maxBuffer: 16 * 1024 * 1024,
+  })
+
+  if (res.error || res.status !== 0) {
+    errors.push(
+      `could not read the gate list: ${HARNESS} --list-gates ` +
+        `${res.error ? `failed to spawn (${res.error.code})` : `exited ${res.status}`}. ` +
+        'This check cannot run, which is a failure and never a skip.'
+    )
+    return { errors, gateCount: 0 }
+  }
+
+  let gates
+  try {
+    gates = JSON.parse(res.stdout)
+  } catch (e) {
+    // One JSON array, so a 64KB pipe truncation lands here rather than yielding
+    // a short-but-valid list that would read as the complete gate set.
+    errors.push(`gate list from ${HARNESS} --list-gates is not parseable JSON — ${e.message}`)
+    return { errors, gateCount: 0 }
+  }
+
+  if (!Array.isArray(gates) || gates.some((g) => typeof g !== 'string')) {
+    errors.push(`gate list from ${HARNESS} --list-gates is not an array of strings`)
+    return { errors, gateCount: 0 }
+  }
+
+  if (gates.length === 0) {
+    // Floor. An empty list makes the harness→record direction pass over nothing.
+    errors.push(
+      `${HARNESS} --list-gates returned no gates. Either the harness has no probes, or the ` +
+        'flag is not reading the PROBES array — both make this check vacuous.'
+    )
+    return { errors, gateCount: 0 }
+  }
+
+  if (new Set(gates).size !== gates.length) {
+    // Two probes sharing a label map onto one record, leaving another probe
+    // recordless while set-comparison in both directions still passes.
+    const seen = new Set()
+    const dupes = [...new Set(gates.filter((g) => (seen.has(g) ? true : (seen.add(g), false))))]
+    errors.push(
+      `${HARNESS} declares duplicate gate label(s): ${dupes.join(', ')}. ` +
+        'Probe records are keyed by gate, so a duplicate hides an unprobed gate from this check.'
+    )
+  }
+
+  const recorded = new Map(probeRecords.map((p) => [p.gate, p.id]))
+
+  for (const gate of gates) {
+    if (!recorded.has(gate)) {
+      errors.push(
+        `the liveness harness runs a probe for "${gate}", which has no record in ` +
+          'governance/source/probes.json. Add one naming its derivation.'
+      )
+    }
+  }
+
+  for (const record of probeRecords) {
+    if (!gates.includes(record.gate)) {
+      errors.push(
+        `probe record ${record.id} names gate "${record.gate}", which the liveness harness ` +
+          'does not run. Remove the record, or add the probe.'
+      )
+    }
+  }
+
+  return { errors, gateCount: gates.length }
+}
+
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 function parseArgs(argv) {
@@ -361,10 +461,12 @@ function main() {
   const { errors: schemaErrors, counts } = validateSource(source, { root: ROOT, referenceDate: reference.date })
   const overdue = checkOverdue(source.control ?? [])
   const scan = scanOutsideSource()
+  const correspondence = checkProbeCorrespondence(source.probe ?? [])
 
   const total = Object.values(counts).reduce((a, b) => a + b, 0)
   console.log(`   ${total} source record(s) · reference ${reference.date} (${reference.origin})`)
-  console.log(`   Outside-source scan: ${scan.scanned} file(s) across ${SCAN_ROOTS.length} root(s), read from the index\n`)
+  console.log(`   Outside-source scan: ${scan.scanned} file(s) across ${SCAN_ROOTS.length} root(s), read from the index`)
+  console.log(`   Probe correspondence: ${(source.probe ?? []).length} record(s) against ${correspondence.gateCount} harness gate(s)\n`)
 
   let failed = false
 
@@ -382,6 +484,13 @@ function main() {
     console.log('')
   }
 
+  if (correspondence.errors.length > 0) {
+    failed = true
+    console.log(`❌  ${correspondence.errors.length} probe correspondence finding(s):\n`)
+    correspondence.errors.forEach((e) => console.log(`   ✗  ${e}`))
+    console.log('')
+  }
+
   if (scan.errors.length > 0) {
     failed = true
     console.log(`❌  ${scan.errors.length} outside-source finding(s):\n`)
@@ -395,7 +504,8 @@ function main() {
   }
 
   console.log('✅  Source is schema-valid and referentially whole, nothing is overdue,')
-  console.log('    and no governance data was found outside governance/source/.\n')
+  console.log('    no governance data was found outside governance/source/, and every')
+  console.log('    probe record matches a real harness gate in both directions.\n')
   process.exit(0)
 }
 

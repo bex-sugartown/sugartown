@@ -5,7 +5,7 @@
     "control": 4,
     "component": 4,
     "claim": 3,
-    "probe": 3,
+    "probe": 21,
     "crosswalk": 3
   },
   "tally": {
@@ -143,7 +143,8 @@
     {
       "id": "PRB-001",
       "gate": "validate:tokens",
-      "derivation": "derived-from-target"
+      "derivation": "static-input",
+      "staticJustification": "The violation is a var(--st-*) reference to a name chosen to exist nowhere. There is no target value to derive from — the gate's job is that unresolvable references fail, and any unresolvable name exercises it."
     },
     {
       "id": "PRB-002",
@@ -153,7 +154,108 @@
     },
     {
       "id": "PRB-003",
+      "gate": "validate:css-names",
+      "derivation": "static-input",
+      "staticJustification": "The violation is a class name carrying a content-type prefix. The banned prefixes are the gate's own subject, so a fixed `tax*` name is the thing under test rather than a stand-in for it."
+    },
+    {
+      "id": "PRB-004",
+      "gate": "validate:dead-refs",
+      "derivation": "static-input",
+      "staticJustification": "The violation is a styles.X reference with no matching class in the sibling CSS module. Both halves are written by the probe, so the mismatch is constructed rather than derived from any existing value."
+    },
+    {
+      "id": "PRB-005",
+      "gate": "validate:style-mirror",
+      "derivation": "static-input",
+      "staticJustification": "The violation is any byte difference between two files required to be identical. There is no target value to derive: appending a comment to one copy is drift by construction."
+    },
+    {
+      "id": "PRB-006",
+      "gate": "validate:validators",
+      "derivation": "static-input",
+      "staticJustification": "The violation is a validate:* script referenced by no hook, no CI job and no allowlist entry. The script's name is arbitrary — what matters is that nothing references it."
+    },
+    {
+      "id": "PRB-007",
+      "gate": "pnpm lint",
+      "derivation": "static-input",
+      "staticJustification": "The violation is an unparseable TypeScript file. A syntax error is error-level in every config, so nothing needs deriving from the rule set."
+    },
+    {
+      "id": "PRB-008",
       "gate": "validate:controls",
+      "derivation": "static-input",
+      "staticJustification": "The violation is a register row citing a probe absent from the PROBES array. The cited name is arbitrary precisely because it must resolve to nothing."
+    },
+    {
+      "id": "PRB-009",
+      "gate": "validate:controls (completeness)",
+      "derivation": "derived-from-target"
+    },
+    {
+      "id": "PRB-010",
+      "gate": "validate:doc-budget",
+      "derivation": "derived-from-target"
+    },
+    {
+      "id": "PRB-011",
+      "gate": "validate:governance-diff",
+      "derivation": "static-input",
+      "staticJustification": "The violation is drift between generated output and its source. The injection is a byte-level nudge that keeps the file valid JSON, so the failure under test is drift rather than a parse error. There is no target value to derive from — any differing byte is the violation."
+    },
+    {
+      "id": "PRB-012",
+      "gate": "validate:governance",
+      "derivation": "static-input",
+      "staticJustification": "The violation is a control-register table header written into a scanned, non-allowlisted file. The column set is written literally because importing the gate to read it would execute the gate. If the register's columns change, the injection stops matching and the probe reports STAYED GREEN — loudly wrong rather than silently green."
+    },
+    {
+      "id": "PRB-013",
+      "gate": "--list-gates contract",
+      "derivation": "static-input",
+      "staticJustification": "Not a violate-and-assert probe: it asserts the flag emits a non-empty gate list, exits 0, and leaves the working tree unchanged. There is no violating input, so there is no target value to derive from."
+    },
+    {
+      "id": "PRB-014",
+      "gate": "validate:governance (probe correspondence)",
+      "derivation": "derived-from-target"
+    },
+    {
+      "id": "PRB-015",
+      "gate": "validate:governance-tally",
+      "derivation": "derived-from-target"
+    },
+    {
+      "id": "PRB-016",
+      "gate": "validate:epic-docs",
+      "derivation": "static-input",
+      "staticJustification": "The violation is a non-Done Linear issue with no backlog doc, produced by deleting one real stub at a hardcoded path (SUG-249). The live Linear data it is compared against is not derived by the probe; the stub path is fixed, and if that doc is ever removed or renamed the probe fails as invalid rather than passing."
+    },
+    {
+      "id": "PRB-017",
+      "gate": "chromatic.sh reachability",
+      "derivation": "static-input",
+      "staticJustification": "Not a violate-and-assert probe: the failure mode was the script exiting before running anything, so liveness here means reaching its own first statement under dash with no .env. There is no violating input and so no target to derive from."
+    },
+    {
+      "id": "PRB-018",
+      "gate": "boundary: packages/design-system",
+      "derivation": "derived-from-target"
+    },
+    {
+      "id": "PRB-019",
+      "gate": "boundary: packages/mcp-server",
+      "derivation": "derived-from-target"
+    },
+    {
+      "id": "PRB-020",
+      "gate": "boundary: packages/storybook-docs",
+      "derivation": "derived-from-target"
+    },
+    {
+      "id": "PRB-021",
+      "gate": "boundary: apps/web",
       "derivation": "derived-from-target"
     }
   ],

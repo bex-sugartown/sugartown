@@ -43,7 +43,7 @@
  *   1 — at least one gate stayed green against a known-bad input, or a probe errored
  */
 
-import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'fs'
+import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, readdirSync } from 'fs'
 import { resolve, dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { spawnSync } from 'child_process'
@@ -697,6 +697,132 @@ const PROBES = [
   },
 
   {
+    gate: '--list-gates contract',
+    why: 'the gate list must be emittable without executing a single probe',
+    // Not a violate-and-assert probe. The thing that can break here is placement:
+    // if the --list-gates short-circuit ever moves below main(), the flag runs
+    // all of these probes before emitting anything — mutating tracked files,
+    // staging others, and deleting a backlog doc inside someone's `git commit`.
+    // The consuming check would notice only via a parse error, long after.
+    //
+    // So the load-bearing assertion is the THIRD one: the working tree is
+    // unchanged afterwards. Exit code and JSON shape would both still pass under
+    // the destructive placement.
+    run() {
+      const before = run('git', ['status', '--porcelain'])
+      const res = run(process.execPath, [resolve(ROOT, 'scripts/validate-enforcement-liveness.js'), '--list-gates'])
+
+      if (res.code !== 0) {
+        return { live: false, detail: `--list-gates exited ${res.code}: ${res.out.trim().slice(-200)}` }
+      }
+
+      let gates
+      try {
+        gates = JSON.parse(res.out)
+      } catch (e) {
+        return { live: false, detail: `--list-gates output is not parseable JSON — ${e.message}` }
+      }
+      if (!Array.isArray(gates) || gates.length === 0 || gates.some((g) => typeof g !== 'string')) {
+        return { live: false, detail: `--list-gates did not return a non-empty array of strings: ${JSON.stringify(gates).slice(0, 200)}` }
+      }
+
+      const after = run('git', ['status', '--porcelain'])
+      if (after.out !== before.out) {
+        return {
+          live: false,
+          detail:
+            '--list-gates CHANGED THE WORKING TREE. The short-circuit has moved below main(), so ' +
+            'the flag is executing probes. Diff: ' +
+            JSON.stringify(after.out.replace(before.out, '').trim().slice(0, 300)),
+        }
+      }
+
+      return { live: true, detail: `emitted ${gates.length} gate(s), ran no probe, left the tree clean` }
+    },
+  },
+
+  {
+    gate: 'validate:governance (probe correspondence)',
+    why: 'a probe record with no harness gate, and a harness gate with no record, must both fail',
+    // The two-way check is invisible to the outside-source-scan probe above: it
+    // could go inert — wrong source path, empty record set, comparison never
+    // reached — and that probe would still report validate:governance live.
+    //
+    // The fixture is DERIVED from the real source at probe time, never committed.
+    // A committed fixture goes stale, and one placed under a scanned root would
+    // trip the record-id pattern and fail the gate closed on a clean tree.
+    // governance/ sits outside every SCAN_ROOT, so the temp dir is invisible to
+    // the scan.
+    run() {
+      const FIXTURE = 'governance/__liveness_fixture__'
+
+      const control = run('pnpm', ['validate:governance'])
+      if (control.code !== 0) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            `control run failed — pnpm validate:governance exits ${control.code} on a CLEAN tree, ` +
+            `so this probe cannot distinguish a live check from a broken invocation. ` +
+            `Output: ${control.out.trim().slice(-300)}`,
+        }
+      }
+
+      const src = resolve(ROOT, 'governance/source')
+      const probes = JSON.parse(readFileSync(join(src, 'probes.json'), 'utf8'))
+      if (probes.length < 2) {
+        return {
+          live: false,
+          invalid: true,
+          detail: `probes.json holds ${probes.length} record(s); this probe needs at least 2 to orphan one.`,
+        }
+      }
+
+      // Built at runtime. A literal record id written into scripts/ would be
+      // matched by the outside-source scan's record-id pattern and fail the gate
+      // closed — the scan covers this file.
+      const ORPHAN_ID = ['PRB', '909'].join('-')
+      const ORPHAN_GATE = '__no_such_gate_liveness_probe__'
+
+      const dropped = probes[probes.length - 1]
+      const mutated = probes.slice(0, -1).concat([
+        { id: ORPHAN_ID, gate: ORPHAN_GATE, derivation: 'derived-from-target' },
+      ])
+
+      for (const file of readdirSync(src)) {
+        if (!file.endsWith('.json')) continue
+        tempFile(
+          `${FIXTURE}/${file}`,
+          file === 'probes.json'
+            ? `${JSON.stringify(mutated, null, 2)}\n`
+            : readFileSync(join(src, file), 'utf8')
+        )
+      }
+
+      const violated = run('pnpm', ['validate:governance', '--source', FIXTURE])
+
+      // Both directions, asserted by message. Exit code alone proves only that
+      // something failed, and this gate reports schema, referential, overdue,
+      // scan and correspondence findings under one exit code.
+      const namesRecordOrphan = violated.out.includes(ORPHAN_GATE)
+      const namesGateOrphan = violated.out.includes(dropped.gate)
+
+      return {
+        live: violated.code !== 0 && namesRecordOrphan && namesGateOrphan,
+        detail:
+          violated.code === 0
+            ? 'gate exited 0 against a fixture with an orphan in each direction'
+            : namesRecordOrphan && namesGateOrphan
+              ? 'named both orphans: the record with no gate, and the gate with no record'
+              : `exited ${violated.code} but named ${namesRecordOrphan ? '' : 'neither the record orphan'}` +
+                `${!namesRecordOrphan && !namesGateOrphan ? ' nor ' : ''}${namesGateOrphan ? '' : 'the gate orphan'}` +
+                ` — it may have failed for an unrelated reason: ${violated.out.trim().slice(-300)}`,
+        out: violated.out,
+      }
+    },
+  },
+
+  {
     gate: 'validate:governance-tally',
     why: 'the published tally must not be allowed to drift from the rows it claims to count',
     // Asserts on the OUTPUT TEXT, not the exit code. The script reports several
@@ -865,9 +991,61 @@ const PROBES = [
   ...BOUNDARY_PROBES,
 ]
 
+// ─── --list-gates ────────────────────────────────────────────────────────────
+//
+// Emits the gate list as JSON for `validate:governance`'s probe-record check
+// (SUG-268 PRD §8 Decision 4). Reading this array is the ONLY honest way to know
+// the gate set: BOUNDARY_PROBES is computed at runtime from Object.keys(SCOPES),
+// so any static list is a second copy that can drift, and regex over this file
+// is forbidden by PRD §5.2.
+//
+// PLACEMENT IS LOAD-BEARING. This block must sit after PROBES is composed and
+// before main() is invoked below. Appending it to the end of the file — the most
+// natural way to add a flag — runs every probe first, mutating package.json,
+// control-register.md, globals.css and GovernanceDraftPage.jsx, staging files,
+// and deleting a backlog doc, during someone's `git commit`. The consuming
+// check's parse error would arrive long after the damage.
+//
+// Composing PROBES is safe: only patternsFor() runs at composition time, and
+// every mutation lives inside a probe's run().
+//
+// One JSON array on one line, deliberately. A pipe truncates at 64KB, and a
+// truncated array fails JSON.parse — loud. Line-delimited output would truncate
+// into a short but valid list, which reads as "these are all the gates".
+if (process.argv.includes('--list-gates')) {
+  console.log(JSON.stringify(PROBES.map((p) => p.gate)))
+  process.exit(0)
+}
+
 // ─── Main ────────────────────────────────────────────────────────────────────
 
+/**
+ * Re-entrancy guard. `validate:governance` is probed by this harness AND spawns
+ * this harness for its gate list, so the two call each other. That terminates
+ * only because --list-gates exits above without reaching main().
+ *
+ * If that short-circuit ever regresses, the failure is not degraded — it is
+ * exponential: each harness run executes the probe that runs the gate that
+ * spawns the harness, with nested cleanup snapshots taken at different depths,
+ * so restores race against each other on the real working tree.
+ *
+ * run() spreads process.env into every child, so this marker propagates for
+ * free. Three lines against an unbounded cost.
+ */
+const REENTRY = 'SUGARTOWN_LIVENESS_RUNNING'
+
 function main() {
+  if (process.env[REENTRY] === '1') {
+    console.error(
+      '\n❌  validate-enforcement-liveness.js re-entered itself.\n\n' +
+        '    Something invoked the full harness from inside a probe. The only\n' +
+        '    intended nested call is `--list-gates`, which must exit before main().\n' +
+        '    Check that the --list-gates short-circuit still sits above main().\n'
+    )
+    process.exit(1)
+  }
+  process.env[REENTRY] = '1'
+
   console.log('\n🔬  Sugartown Enforcement-Liveness Check')
   console.log('══════════════════════════════════════════════\n')
   console.log('   Each gate is run against a deliberate violation.')
