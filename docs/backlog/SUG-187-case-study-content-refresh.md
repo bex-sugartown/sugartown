@@ -135,6 +135,29 @@ written.** Each row is a question only Bex can answer; none can be resolved from
 Sanity, or the Resume Factory, because the sources disagree or are silent. No row may be
 closed by inference.
 
+### Resolved rows
+
+| # | Answer | Answered |
+|---|---|---|
+| **P9** | **Sequence at Estée Lauder: (1) Storyblok pilot, (2) CMS RFP, (3) Shopify decision and migration to non-modular Shopify.** The RFP followed the pilot. The Shopify decision came third and ended the composable path. | 2026-08-07, Bex |
+
+**New fact volunteered with the answer, not previously recorded anywhere:** the migration
+target was **non-modular Shopify**. This is stronger than the correction doc's framing
+("Shopify does not share the data shape") and it settles P10 by a cleaner route: an atomic,
+deliberately portable content model could not have carried to a non-modular target, so the
+portability claim is untestable in principle here, not merely untested in practice. Frame it
+as design intent, never as a demonstrated outcome.
+
+Two sub-questions from `Story-Library_Module9_CORRECTION-PENDING.md` remain open and are
+**not** inferable from the ordering above. Do not close them by reasoning from the sequence:
+
+- **P9a** — Did the Storyblok pilot feed the CMS RFP's requirements framework? Resume r7 says
+  the RFP "delivered a requirements framework as a foundation for future CMS strategy"; it
+  does not say where the requirements came from.
+- **P9b** — Was the Shopify decision made independently of the RFP, or did it emerge from it
+  and override the shortlist? Story bank #6 says the RFP "was cut short by a leadership
+  decision to migrate to Shopify instead", which is consistent with either.
+
 ### Cross-cutting policy (decide once, applies to all 7)
 
 | # | Question | Why it blocks | Current state |
@@ -159,8 +182,10 @@ closed by inference.
 | P6 | Does the **Shopify aftermath** go in? | An enterprise-wide decision moved the portfolio to Shopify, ending the composable path (Module 9 correction doc). As published, "validated as a replicable template" implies a template that went on to be used. |
 | P7 | Are `in-house ecommerce` and `PIM` genuinely part of the stack? | Asserted in `aeoSummary` and `geoSummary`; the body never mentions either. These are the fields AI answer engines quote. |
 | P8 | Is "Parallel stacks (Liquid vs. Elixir/Phoenix)" accurate as written? | Liquid is Shopify's template language, which sits oddly in a headless-CMS pilot. Either it needs a clause of explanation or it is wrong. |
-| P9 | **Module 9 sequence** (blocking, from the correction doc): in what order did the Storyblok pilot, the headless CMS RFP, and the Shopify decision happen? Did the pilot feed the RFP's requirements framework? Was the Shopify call independent of both? | The old module collapsed three events into one. Getting the sequence right is what makes the rewrite safe. |
-| P10 | Confirm the guardrail holds: the content model's portability is **design intent, never demonstrated**. | Module 9 correction doc, defect 2. The rewrite must not claim it in either direction. |
+| ~~P9~~ | **Answered 2026-08-07.** See §Resolved rows. | — |
+| P9a | Did the Storyblok pilot feed the CMS RFP's requirements framework? | Open. Not inferable from the sequence. |
+| P9b | Was the Shopify decision independent of the RFP, or did it override the shortlist? | Open. Story bank #6's "cut short by a leadership decision" is consistent with either. |
+| P10 | Confirm the guardrail holds: the content model's portability is **design intent, never demonstrated**. | Settled by the non-modular Shopify fact (see §Resolved rows), but confirm the wording before it is written. |
 
 ### Beauty Retail (Sephora)
 
