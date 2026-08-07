@@ -5,7 +5,7 @@
     "control": 4,
     "component": 4,
     "claim": 3,
-    "probe": 21,
+    "probe": 22,
     "crosswalk": 3
   },
   "tally": {
@@ -132,7 +132,7 @@
       "type": "attribution",
       "valueSource": "external",
       "value": "0 known vulnerabilities",
-      "statsKey": "security.vulnerabilities",
+      "statsKey": "security.vulnerabilities.total",
       "measuredAt": "2026-07-28",
       "command": "pnpm validate:taxonomy",
       "evidenceClass": "enforced-by-code",
@@ -223,38 +223,43 @@
     },
     {
       "id": "PRB-015",
-      "gate": "validate:governance-tally",
+      "gate": "validate:governance (claim evidence)",
       "derivation": "derived-from-target"
     },
     {
       "id": "PRB-016",
+      "gate": "validate:governance-tally",
+      "derivation": "derived-from-target"
+    },
+    {
+      "id": "PRB-017",
       "gate": "validate:epic-docs",
       "derivation": "static-input",
       "staticJustification": "The violation is a non-Done Linear issue with no backlog doc, produced by deleting one real stub at a hardcoded path (SUG-249). The live Linear data it is compared against is not derived by the probe; the stub path is fixed, and if that doc is ever removed or renamed the probe fails as invalid rather than passing."
     },
     {
-      "id": "PRB-017",
+      "id": "PRB-018",
       "gate": "chromatic.sh reachability",
       "derivation": "static-input",
       "staticJustification": "Not a violate-and-assert probe: the failure mode was the script exiting before running anything, so liveness here means reaching its own first statement under dash with no .env. There is no violating input and so no target to derive from."
     },
     {
-      "id": "PRB-018",
+      "id": "PRB-019",
       "gate": "boundary: packages/design-system",
       "derivation": "derived-from-target"
     },
     {
-      "id": "PRB-019",
+      "id": "PRB-020",
       "gate": "boundary: packages/mcp-server",
       "derivation": "derived-from-target"
     },
     {
-      "id": "PRB-020",
+      "id": "PRB-021",
       "gate": "boundary: packages/storybook-docs",
       "derivation": "derived-from-target"
     },
     {
-      "id": "PRB-021",
+      "id": "PRB-022",
       "gate": "boundary: apps/web",
       "derivation": "derived-from-target"
     }

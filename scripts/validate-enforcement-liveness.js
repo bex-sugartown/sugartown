@@ -823,6 +823,82 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:governance (claim evidence)',
+    why: 'a claim naming a command that resolves to nothing must fail, in both failure shapes',
+    // Two injections, not one. A check that resolves script names but silently
+    // accepts an unknown runner is half dead, and a single-shape probe cannot
+    // tell the halves apart. Asserts on OUTPUT TEXT: this gate reports schema,
+    // referential, overdue, scan, correspondence and claim findings under one
+    // exit code, so a non-zero exit proves only that something failed.
+    //
+    // Claim ids are read out of the real source rather than written here — a
+    // literal id in this file would be matched by the outside-source scan's
+    // record-id pattern and fail the gate closed on a clean tree.
+    run() {
+      const FIXTURE = 'governance/__liveness_fixture_claims__'
+
+      const control = run('pnpm', ['validate:governance'])
+      if (control.code !== 0) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            `control run failed — pnpm validate:governance exits ${control.code} on a CLEAN tree, ` +
+            `so this probe cannot distinguish a live check from a broken invocation. ` +
+            `Output: ${control.out.trim().slice(-300)}`,
+        }
+      }
+
+      const src = resolve(ROOT, 'governance/source')
+      const claims = JSON.parse(readFileSync(join(src, 'claims.json'), 'utf8'))
+      if (claims.length < 2) {
+        return {
+          live: false,
+          invalid: true,
+          detail: `claims.json holds ${claims.length} record(s); this probe needs 2 to inject both shapes.`,
+        }
+      }
+
+      const NO_SUCH_SCRIPT = '__no_such_script_liveness_probe__'
+      const NO_SUCH_RUNNER = '__no_such_runner_liveness_probe__'
+      const mutated = claims.map((c, i) =>
+        i === 0
+          ? { ...c, command: `pnpm ${NO_SUCH_SCRIPT}` }
+          : i === 1
+            ? { ...c, command: `${NO_SUCH_RUNNER} --all` }
+            : c
+      )
+
+      for (const file of readdirSync(src)) {
+        if (!file.endsWith('.json')) continue
+        tempFile(
+          `${FIXTURE}/${file}`,
+          file === 'claims.json'
+            ? `${JSON.stringify(mutated, null, 2)}\n`
+            : readFileSync(join(src, file), 'utf8')
+        )
+      }
+
+      const violated = run('pnpm', ['validate:governance', '--source', FIXTURE])
+
+      const namesScript = violated.out.includes(NO_SUCH_SCRIPT) && violated.out.includes(claims[0].id)
+      const namesRunner = violated.out.includes(NO_SUCH_RUNNER) && violated.out.includes(claims[1].id)
+
+      return {
+        live: violated.code !== 0 && namesScript && namesRunner,
+        detail:
+          violated.code === 0
+            ? 'gate exited 0 against claims whose commands resolve to nothing'
+            : namesScript && namesRunner
+              ? 'caught both shapes: an unresolvable script name and an unrecognised runner, each with its claim id'
+              : `exited ${violated.code} but reported ${namesScript ? 'only the unresolvable script' : namesRunner ? 'only the unrecognised runner' : 'neither shape'} ` +
+                `— half the check may be dead: ${violated.out.trim().slice(-300)}`,
+        out: violated.out,
+      }
+    },
+  },
+
+  {
     gate: 'validate:governance-tally',
     why: 'the published tally must not be allowed to drift from the rows it claims to count',
     // Asserts on the OUTPUT TEXT, not the exit code. The script reports several

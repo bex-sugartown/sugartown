@@ -130,7 +130,7 @@ in which the generator writes a gated path before the CLAUDE.md edit lands.
       generated output is staged and its source is not, committing output that does not
       correspond to committed source. Handle three cases explicitly: output staged without source,
       source staged without output, output deleted — layer: tooling
-- [ ] **`validate:governance`** — schema + closed-world referential integrity + overdue
+- [x] **`validate:governance`** — schema + closed-world referential integrity + overdue
       `nextRead` + outside-source scan + the two-way probe↔harness check. CTL-031 — layer: tooling
 - [x] **Fix `validate-control-register.js`'s completeness check to delimited-token matching.**
       It currently does `blob.includes(name)` (`:267-276`), so `validate:governance` is satisfied
@@ -138,7 +138,7 @@ in which the generator writes a gated path before the CLAUDE.md edit lands.
       register row at all. `validate-validators.js:74-78` already matches correctly; copy that.
       This is a change to a shared meta-check, so it lands with its own probe proving the masked
       case now fails — layer: tooling
-- [ ] **Seed every probe record before the two-way check goes blocking. Re-measure the count
+- [x] **Seed every probe record before the two-way check goes blocking. Re-measure the count
       at that moment; do not copy a number from this line.** Three sub-issues in this phase each
       add a probe, so any figure written here is stale within days — it has already gone stale
       twice. Measured 2026-08-06 after SUG-272: **15** static `gate:` literals plus **4**
@@ -147,25 +147,25 @@ in which the generator writes a gated path before the CLAUDE.md edit lands.
       gate on a clean tree, and because `gateProbe`'s control run reads a non-zero exit, CTL-031 would report
       `PROBE INVALID` and take the whole liveness job red — reporting an unverified gate rather
       than a missing record. Probe records are four fields; seeding them here is cheap — layer: tooling
-- [ ] **`--list-gates` JSON flag on `validate-enforcement-liveness.js`, spawned as a subprocess,
+- [x] **`--list-gates` JSON flag on `validate-enforcement-liveness.js`, spawned as a subprocess,
       never imported.** `main()` runs at module scope and calls `process.exit`, so importing it
       inside a pre-commit hook would execute all 16 probes, mutating `package.json`,
       `control-register.md`, `globals.css` and `GovernanceDraftPage.jsx` and deleting a backlog
       doc. The flag short-circuits before `main()`. The consuming check asserts a non-empty list:
       an empty array would make the harness→record direction pass vacuously — layer: tooling
-- [ ] **`claim.command` existence check, with a closed-world runner list.** PRD §5.2's algorithm
+- [x] **`claim.command` existence check, with a closed-world runner list.** PRD §5.2's algorithm
       ("first token resolves to a `package.json` script or an existing repo path") rejects all
       three seed claims, whose first token is `pnpm`. Enumerate runner prefixes
       (`pnpm`/`npm`/`npx`/`node`/`bash`/`sh`/`git`/`curl`) and check the next token; an
       unrecognised first token is an error, never a skip. CTL-031's fixture carries a claim whose
       command does not resolve — layer: tooling
-- [ ] **Two date references with distinct semantics.** `--reference-date` drives the
+- [x] **Two date references with distinct semantics.** `--reference-date` drives the
       not-in-the-future checks. Overdue `nextRead` needs wall-clock today, because it is the decay
       catcher (`validate-control-register.js:184-188` reads `new Date()` on purpose). One flag
       driving both would let the pre-commit `--reference-date` suppress overdue detection. Also
       decide how an overdue date reports, since a clean-tree exit 1 currently surfaces as
       `PROBE INVALID` — layer: tooling
-- [ ] **Outside-source scan, specified against silent-no-match.** Fail if the scanned corpus is
+- [x] **Outside-source scan, specified against silent-no-match.** Fail if the scanned corpus is
       zero files; fail if any allowlist entry resolves to no existing file; anchor paths on
       `resolve(__dirname, '..')`, never `process.cwd()`; report the file count scanned. The probe
       injects into a scanned, non-allowlisted file and asserts the **message**, not just the exit
@@ -244,6 +244,29 @@ migration avoids touching a gated file twice):
       metadata as their own next step, for scoping which statements an agent loads at a given
       lifecycle point. The argument is cost asymmetry, not certainty: one field while 59 records
       are already being rewritten, versus a second migration later — layer: tooling
+
+**A second field decision, filed 2026-08-07 (Bex):**
+
+- [ ] **Split `Next read` by what the date actually means.** Today one column does three jobs and
+      the reader cannot tell which one they are in when it fires. Every date is `+1 month` or
+      `+3 months` from the day the register was written (2026-07-28), so nothing happens on those
+      dates — they are a forced re-read interval, not a prediction.
+
+      | What the date means today | Rows | What should happen when it fires |
+      |---|---|---|
+      | A human genuinely has to look; no machine can | CTL-020, CTL-022, CTL-023 | read it — the recurring read *is* the control |
+      | "No probe yet" — a backlog item wearing a date | CTL-008 to CTL-011, CTL-016, CTL-018 | write the probe; re-dating is avoidance |
+      | Cannot be exercised locally | CTL-013, CTL-019 | a third thing again, currently unnamed |
+
+      `control.cadence` is already a schema field with exactly this shape, so the migration is the
+      cheap moment. **Proposal:** keep dates only for the first kind; the "no probe yet" rows become
+      Linear issues, where they can be prioritised against everything else instead of firing as CI
+      failures nobody chose. Measured 2026-08-07 by reading the `Next read` column of
+      `control-register.md` — layer: tooling, docs (generated)
+
+      Paired obligation, due **2026-08-28**: the rows in the first group keep their dates for now,
+      and by that date each must be explained, documented, and shown to be the right control in the
+      right place. Tracked separately, not by this epic.
 
 ### Phase 4 — Consumer cutover + new controls (see PRD §5.3, §11)
 

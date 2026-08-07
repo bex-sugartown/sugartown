@@ -41,8 +41,8 @@
  */
 
 import { execFileSync, spawnSync } from 'node:child_process'
-import { existsSync } from 'node:fs'
-import { dirname, resolve } from 'node:path'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { dirname, resolve, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { readSource, resolveReferenceDate } from '../governance/schema/load.js'
@@ -314,6 +314,219 @@ function scanOutsideSource() {
   return { errors, scanned: entries.length, anchors }
 }
 
+// ─── claim.command resolution ────────────────────────────────────────────────
+//
+// A published claim names the command that reproduces it. This checks the
+// command names something that EXISTS — never that running it returns the
+// published value (full run-and-compare is a Non-Goal, PRD §3).
+//
+// Closed world: an unrecognised runner is an error, never a skip. "Skip what I
+// don't recognise" is how a check comes to pass everything, which is the failure
+// class this pipeline exists to kill.
+//
+// Three runners can be recognised but not verified offline — `git` and `curl`
+// have no repo-local target, and `npx` may name a package that is not installed.
+// Those report as UNVERIFIABLE: counted and printed on every run rather than
+// quietly folded into the pass. CTL-031's row names them, so the register does
+// not overstate what this proves.
+
+const PNPM_VALUE_FLAGS = ['--filter', '-F', '--dir', '-C', '--config', '--workspace-dir', '--reporter']
+const PNPM_BOOL_FLAGS = [
+  '-r', '--recursive', '-w', '--workspace-root', '--silent', '--if-present',
+  '--parallel', '--no-bail', '--force', '--stream', '--aggregate-output',
+]
+// pnpm's own subcommands. Recognised, but they run pnpm itself rather than a
+// script, so there is no script name to resolve.
+const PNPM_BUILTINS = [
+  'audit', 'exec', 'dlx', 'install', 'i', 'add', 'remove', 'update', 'why', 'list',
+  'outdated', 'store', 'licenses', 'link', 'publish', 'pack', 'deploy', 'env', 'patch', 'rebuild',
+]
+
+/** name -> Set(script names), for the root manifest and every workspace package. */
+function readWorkspaceScripts() {
+  const manifests = new Map()
+  const files = [['<root>', resolve(ROOT, 'package.json')]]
+  for (const group of ['apps', 'packages']) {
+    const groupDir = resolve(ROOT, group)
+    if (!existsSync(groupDir)) continue
+    for (const entry of readdirSync(groupDir)) {
+      const pkgPath = join(groupDir, entry, 'package.json')
+      if (existsSync(pkgPath)) files.push([null, pkgPath])
+    }
+  }
+  for (const [label, file] of files) {
+    try {
+      const pkg = JSON.parse(readFileSync(file, 'utf8'))
+      manifests.set(label ?? pkg.name, new Set(Object.keys(pkg.scripts || {})))
+    } catch {
+      /* a malformed manifest is already reported by other gates */
+    }
+  }
+  return manifests
+}
+
+function resolvePnpmLike(tokens, manifests) {
+  let filter = null
+  let i = 0
+
+  while (i < tokens.length && tokens[i].startsWith('-')) {
+    const flag = tokens[i]
+    if (PNPM_VALUE_FLAGS.includes(flag)) {
+      if (flag === '--filter' || flag === '-F') filter = tokens[i + 1]
+      i += 2
+      continue
+    }
+    if (PNPM_BOOL_FLAGS.includes(flag)) {
+      i += 1
+      continue
+    }
+    // Closed world for flags too. An unlisted value-taking flag would otherwise
+    // shift the token window by one and resolve the WRONG token — and a wrong
+    // token that happens to name a real script reports PASS, which is worse
+    // than a miss.
+    return { status: 'error', detail: `unrecognised flag "${flag}" — add it to the value or boolean flag list` }
+  }
+
+  let script = tokens[i]
+  if (script === 'run') script = tokens[i + 1]
+  else if (PNPM_BUILTINS.includes(script)) {
+    return { status: 'unverifiable', detail: `"${script}" is a package-manager subcommand, not a script` }
+  }
+
+  if (!script) return { status: 'error', detail: 'names no script' }
+
+  // Scope matters. `pnpm validate:css-names` from the repo root is
+  // "command not found" — that exact false positive is why the liveness
+  // harness has a control run at all. So a bare invocation resolves against the
+  // ROOT manifest only, and --filter resolves against that package's.
+  const target = filter ?? '<root>'
+  const scripts = manifests.get(target)
+  if (!scripts) {
+    return { status: 'error', detail: `--filter names package "${filter}", which has no package.json in this workspace` }
+  }
+  if (!scripts.has(script)) {
+    return {
+      status: 'error',
+      detail: `script "${script}" is not defined in ${filter ? `package "${filter}"` : 'the root package.json'}`,
+    }
+  }
+  return { status: 'resolved', detail: script }
+}
+
+function resolveCommand(command, manifests) {
+  // Only the first clause of a compound command is checked; CTL-031 says so.
+  const firstClause = command.split(/&&|\|\||;/)[0].trim()
+  // Leading FOO=bar environment assignments are not the runner.
+  const tokens = firstClause.split(/\s+/).filter((t) => t && !/^[A-Za-z_][A-Za-z0-9_]*=/.test(t))
+  const runner = tokens[0]
+
+  if (!runner) return { status: 'error', detail: 'is empty' }
+
+  switch (runner) {
+    case 'pnpm':
+    case 'npm':
+      return resolvePnpmLike(tokens.slice(1), manifests)
+
+    case 'npx': {
+      const pkg = tokens.slice(1).find((t) => !t.startsWith('-'))
+      if (!pkg) return { status: 'error', detail: 'npx names no package' }
+      return existsSync(resolve(ROOT, 'node_modules/.bin', pkg))
+        ? { status: 'resolved', detail: `node_modules/.bin/${pkg}` }
+        : { status: 'unverifiable', detail: `"${pkg}" is not in node_modules/.bin; npx would fetch it` }
+    }
+
+    case 'node':
+    case 'bash':
+    case 'sh': {
+      const arg = tokens.slice(1).find((t) => !t.startsWith('-'))
+      if (!arg) return { status: 'unverifiable', detail: `${runner} was given no script path (inline -e or stdin)` }
+      return existsSync(resolve(ROOT, arg))
+        ? { status: 'resolved', detail: arg }
+        : { status: 'error', detail: `names path "${arg}", which does not exist` }
+    }
+
+    case 'git':
+    case 'curl':
+    case 'gh':
+      return { status: 'unverifiable', detail: `"${runner}" has no repo-local target to check` }
+
+    default:
+      return {
+        status: 'error',
+        detail:
+          `"${runner}" is not a recognised runner. Add it to RUNNERS in scripts/validate-governance.js ` +
+          'with how its target is verified — an unrecognised runner is an error, never a skip.',
+      }
+  }
+}
+
+/**
+ * `claim.statsKey` must resolve in stats.json (PRD §5.2), and must resolve to a
+ * PRIMITIVE.
+ *
+ * Both halves are load-bearing. `security.vulnerabilities` resolves to an object
+ * while the published `0` comes from `.total` — so a bare "does the path
+ * resolve" check passes the one seed record it exists to police, and would let
+ * the register claim this rule is enforced when it is not.
+ *
+ * Unconditional, deliberately. stats.json is matched by .gitignore AND tracked
+ * at HEAD, so it is present in every clone and every CI checkout. A "check only
+ * when present" branch would have a permanently-true condition and an
+ * unreachable skip path — which becomes a silent no-op the day someone untracks
+ * the file, with no signal at all.
+ */
+function checkStatsKeys(claims) {
+  const errors = []
+  const STATS = 'apps/web/src/generated/stats.json'
+  const withKeys = claims.filter((c) => typeof c.statsKey === 'string' && c.statsKey !== '')
+  if (withKeys.length === 0) return errors
+
+  let stats
+  try {
+    stats = JSON.parse(readFileSync(resolve(ROOT, STATS), 'utf8'))
+  } catch (e) {
+    errors.push(
+      `${withKeys.length} claim(s) carry a statsKey but ${STATS} could not be read — ${e.message}. ` +
+        'This is a failure, not a skip: the file is tracked and present in every checkout.'
+    )
+    return errors
+  }
+
+  for (const claim of withKeys) {
+    let node = stats
+    for (const part of claim.statsKey.split('.')) {
+      node = node && typeof node === 'object' ? node[part] : undefined
+    }
+    if (node === undefined) {
+      errors.push(`claim ${claim.id} — statsKey "${claim.statsKey}" does not resolve in ${STATS}`)
+    } else if (node !== null && typeof node === 'object') {
+      errors.push(
+        `claim ${claim.id} — statsKey "${claim.statsKey}" resolves to ${Array.isArray(node) ? 'an array' : 'an object'}, ` +
+          'not a published value. Name the leaf key that carries the figure.'
+      )
+    }
+  }
+  return errors
+}
+
+function checkClaimCommands(claims) {
+  const errors = []
+  const unverifiable = []
+  const manifests = readWorkspaceScripts()
+
+  for (const claim of claims) {
+    if (typeof claim.command !== 'string' || claim.command.trim() === '') continue
+    const result = resolveCommand(claim.command, manifests)
+    if (result.status === 'error') {
+      errors.push(`claim ${claim.id} — command ${JSON.stringify(claim.command)} ${result.detail}`)
+    } else if (result.status === 'unverifiable') {
+      unverifiable.push(`${claim.id}: ${JSON.stringify(claim.command)} — ${result.detail}`)
+    }
+  }
+
+  return { errors, unverifiable }
+}
+
 // ─── Two-way probe ↔ harness correspondence ──────────────────────────────────
 
 /**
@@ -462,11 +675,22 @@ function main() {
   const overdue = checkOverdue(source.control ?? [])
   const scan = scanOutsideSource()
   const correspondence = checkProbeCorrespondence(source.probe ?? [])
+  const commands = checkClaimCommands(source.claim ?? [])
+  const statsKeys = checkStatsKeys(source.claim ?? [])
 
   const total = Object.values(counts).reduce((a, b) => a + b, 0)
   console.log(`   ${total} source record(s) · reference ${reference.date} (${reference.origin})`)
   console.log(`   Outside-source scan: ${scan.scanned} file(s) across ${SCAN_ROOTS.length} root(s), read from the index`)
-  console.log(`   Probe correspondence: ${(source.probe ?? []).length} record(s) against ${correspondence.gateCount} harness gate(s)\n`)
+  console.log(`   Probe correspondence: ${(source.probe ?? []).length} record(s) against ${correspondence.gateCount} harness gate(s)`)
+  console.log(`   Claim commands: ${(source.claim ?? []).length} claim(s), ${commands.unverifiable.length} unverifiable\n`)
+  if (commands.unverifiable.length > 0) {
+    // Printed on every run, pass or fail. A runner this check cannot verify is
+    // a known hole, and a known hole folded silently into a pass is the thing
+    // the register row would then be overstating.
+    console.log('   Commands recognised but not verifiable offline:')
+    commands.unverifiable.forEach((u) => console.log(`     ·  ${u}`))
+    console.log('')
+  }
 
   let failed = false
 
@@ -481,6 +705,14 @@ function main() {
     failed = true
     console.log(`❌  ${overdue.length} control(s) overdue for reading:\n`)
     overdue.forEach((o) => console.log(`   ✗  ${o}`))
+    console.log('')
+  }
+
+  const claimErrors = [...commands.errors, ...statsKeys]
+  if (claimErrors.length > 0) {
+    failed = true
+    console.log(`❌  ${claimErrors.length} claim evidence finding(s):\n`)
+    claimErrors.forEach((e) => console.log(`   ✗  ${e}`))
     console.log('')
   }
 

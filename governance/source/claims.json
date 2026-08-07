@@ -27,7 +27,7 @@
     "type": "attribution",
     "valueSource": "external",
     "value": "0 known vulnerabilities",
-    "statsKey": "security.vulnerabilities",
+    "statsKey": "security.vulnerabilities.total",
     "measuredAt": "2026-07-28",
     "command": "pnpm validate:taxonomy",
     "evidenceClass": "enforced-by-code",
