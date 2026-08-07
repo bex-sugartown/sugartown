@@ -1,9 +1,9 @@
 # Instruction Writing Style
 
-**Version:** v1.1
+**Version:** v1.2
 **Status:** Active
 **Owner:** Bex Head
-**Last updated:** 2026-07-29
+**Last updated:** 2026-08-07
 **Related:** `docs/brand/brand-voice-guide.md`, `docs/conventions/verification-review.md`
 
 ---
@@ -96,13 +96,24 @@ These are the ones that keep appearing. Plain replacements on the right.
 | by construction | by design, always |
 | in miniature | a small version of |
 | contagious, spreads | copied, picked up |
+| canary | test, the thing that tells us it broke |
+| corpus | the files it looks at |
+| load-bearing | if this is wrong, the rest breaks |
+| failure class, failure shape | the way this goes wrong |
+| vacuous, vacuously | passes because there was nothing to check |
+| the cadence is the control | someone has to look at this regularly |
+
+**Defined terms are exempt.** `Canary`, `Liveness`, `Bypass`, `Reader` and `Claim` are the
+five verification questions named in `verification-review.md`, and register column headers
+are fixed. The ban is on reaching for these words in prose, not on the vocabulary a
+framework defines.
 
 Check before committing:
 
 ```bash
-grep -rnoiE "brevity|fortnight|archaeology|order of magnitude|inert|theatre|launder|folklore|by construction|in miniature|contagious" \
+grep -rnoiE "brevity|fortnight|archaeology|order of magnitude|inert|theatre|launder|folklore|by construction|in miniature|contagious|canary|corpus|load-bearing|failure (class|shape)|vacuous|cadence is the control" \
   CLAUDE.md docs/epic-template.md docs/conventions/ docs/ai/agentic-caucus/ .claude/ \
-  --exclude=instruction-writing-style.md
+  --exclude=instruction-writing-style.md --exclude-dir=evals
 ```
 
 The list is not exhaustive. Add to it when a new one shows up.
