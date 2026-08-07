@@ -88,6 +88,17 @@ content modelling, publishing pipelines, the agentic build). Read
   live. A point of view, a dry aside, the thing a senior practitioner would
   actually say about the term at a whiteboard. Still grounded in fact — opinion is
   earned, not invented.
+
+  **Editorial flavour is the point here, and it is governed by the voice guides,
+  not by the flattened register of an internal doc.** Write this field to
+  `docs/brand/brand-voice-guide.md` and the voice registers in
+  `docs/brand/node-style-guide.md` §Voice: structural metaphor, ironic distance,
+  analogy as a first-class tool, and a closing line that lands. The Ontology term
+  is the reference implementation ("a taxonomy that grew up and got opinions about
+  relationships"). A hedged, summary-shaped paragraph that reads like a neutral
+  encyclopedia entry has failed this field even when every fact in it is correct.
+  The bans below (em dash, emoji, banned vocabulary) still apply; they constrain
+  the surface, not the voice.
 - A glossary term is **not a node**. The node em-dash and emoji exemptions do
   **not** apply. No em dashes (`—`) — commas, parentheses, colons, full stops. No
   decorative emoji. Run the shared brand voice compliance gate
