@@ -2,11 +2,11 @@
 
 > **The rule of thumb:** a doc succeeds when a technical PM who does not write code can make the decision or complete the task without asking a developer.
 
-**Version:** v2026.08.07
+**Version:** v1.1
 **Status:** Active (advisory)
 **Owner:** Bex Head
 **Last updated:** 2026-08-07
-**See also:** [Brand Voice Guide](../brand/brand-voice-guide.md) · [Node Style Guide](../brand/node-style-guide.md) · [Usage Doc Style Guide](./usage-doc-style-guide.md) · `CLAUDE.md`
+**Related:** [[machine-readable-docs]] (`docs/conventions/machine-readable-docs.md`), [[instruction-writing-style]] (`docs/conventions/instruction-writing-style.md`), [[usage-doc-style-guide]] (`docs/conventions/usage-doc-style-guide.md`), `docs/brand/brand-voice-guide.md`, `docs/brand/node-style-guide.md`, `CLAUDE.md`
 
 ---
 
@@ -47,7 +47,19 @@ by `pnpm validate:doc-budget`, which this guide at its full length would exceed 
 
 ### Authority
 
-This guide is **advisory**. It does not block a release. Where it conflicts with `CLAUDE.md`, `CLAUDE.md` wins. Where it conflicts with the Brand Voice Guide on matters of tone, the Brand Voice Guide wins. Where a document type has its own template, the template wins on structure and this guide governs the prose inside it.
+This guide is **advisory**. It does not block a release. Where it conflicts, the other doc
+wins:
+
+| Conflict | Winner |
+|---|---|
+| Anything in `CLAUDE.md` | `CLAUDE.md` |
+| Tone in reader-facing content | `docs/brand/brand-voice-guide.md` |
+| How a sentence in a followed doc is written | `docs/conventions/instruction-writing-style.md` |
+| The structure of a type that has its own template | that template |
+
+The third row is the one that needs stating. `instruction-writing-style.md` governs any doc
+written to be followed, which includes the runbooks, setup guides and gates here. It decides
+how a sentence reads; this guide decides which sections exist and what a decision block holds.
 
 ### Not governed by anything
 
@@ -87,7 +99,7 @@ Each type has a fixed purpose and a fixed set of required sections. Pick the typ
 
 | Type | Answers | Required sections | Lifecycle |
 |---|---|---|---|
-| **PRD** | What are we building, for whom, and how will we know it worked? | Problem, Users, Requirements, Out of Scope, Success Criteria, Open Decisions | Draft → Active → Superseded |
+| **PRD** | What are we building, for whom, and how will we know it worked? | The 13 in `.claude/skills/sugartown-prd-writer/SKILL.md` §PRD Section Order | Draft → Active → Superseded |
 | **Architecture doc** | How is this shaped and what constrains it? | Context, Structure, Data flow, Boundaries, Trade-offs accepted | Active → Superseded |
 | **ADR** | Why did we choose this? | Context, Options considered, Decision, Consequences, Reversibility | Proposed → Accepted → Superseded |
 | **Runbook** | How do I do this safely, again? | Prerequisites, Steps, Verification, Failure modes, Rollback | Active → Deprecated |
@@ -103,18 +115,24 @@ Each type has a fixed purpose and a fixed set of required sections. Pick the typ
 Every doc carries this block, immediately after the H1 and the rule-of-thumb line:
 
 ```markdown
-**Version:** vYYYY.MM.DD
+**Version:** vN.N
 **Status:** Draft | Active | Superseded | Deprecated
 **Owner:** <name>
-**Last updated:** <date>
+**Last updated:** YYYY-MM-DD
+**Related:** [[doc-name]] (`path/to/doc.md`), `path/to/other.md`
 **Supersedes:** <link, if applicable>
-**See also:** <links>
 ```
+
+This is the shape already in `instruction-writing-style.md`, `verification-review.md`,
+`user-story-conventions.md` and `machine-readable-docs.md`. Match it rather than starting a
+second one.
 
 Rules:
 
 - **Status is not optional.** An undated doc with no status is treated as stale by default.
 - **A doc without an owner is nobody's job to fix.** Name a person, not a team.
+- **`Related` uses the `[[wikilink]] (path)` form** for docs inside the repo, so the link
+  survives a file move and still resolves by name.
 - **`Supersedes` is a link, not a description.** If you cannot link the thing you replaced, you have not replaced it.
 
 ---
@@ -188,6 +206,8 @@ A technical doc frequently asks the reader to choose. Most documentation present
 **Why:** <two sentences maximum. The reason, not the summary.>
 
 **What I need from you:** a letter.
+
+**Decided:** <letter · YYYY-MM-DD · who> — filled in when the answer arrives, in this block.
 ```
 
 ### The rules
@@ -203,6 +223,8 @@ A technical doc frequently asks the reader to choose. Most documentation present
 5. **Two to four options.** One option is not a decision, write it as a statement. Five options means you have not done the thinking yet.
 
 6. **Do not hide the recommendation in prose.** It goes on its own line, in bold, with a letter.
+
+7. **Record the answer in the block, not in the conversation that produced it.** A decision block with no `Decided` line is still open, whatever was agreed verbally. A block past its `Decide by` date with no `Decided` line is a finding at the next review of that doc.
 
 ### Right
 
@@ -290,26 +312,25 @@ That is a rule, not a gate. The reader cannot tell what "validated" means or how
 
 ## 7. Terminology
 
-### Canon
+### Where terms are defined
 
-Use these spellings and capitalizations. This table is a starting set. Extend it as terms stabilize.
+This guide defines no terms. Each is owned by the doc closest to the thing it names:
 
-| Term | Use | Do not use |
-|---|---|---|
-| Pink Moon | The design system's name | Sugartown Pink (former name) |
-| `st-*` | The design system namespace prefix | Any other prefix for design system tokens or classes |
-| vspec | The preserved HTML mock artifact | Phase 0 mock, prototype |
-| Node | The on-site knowledge-graph content type | Post, blog entry |
-| Article | Content that travels to LinkedIn and Medium | Blog post |
-| Monorepo | One repo, multiple apps and packages | Mono-repo, mono repo |
-| Design token | A named value in the three-tier system | Variable, when you mean a token |
-| Agentic Caucus | The multi-AI collaboration framework | AI team, the bots |
-
-### Deprecated terms
-
-| Term | Rule |
+| Terms | Owner |
 |---|---|
-| `featuredImage` | Never appears in new implementations. If referenced at all, it carries an explicit "is deprecated" label. Never silently reused. |
+| `--st-*` names, token tiers, aliases | `docs/conventions/token-naming.md` |
+| vspec, prototype trigger, Phase 0 | `CLAUDE.md` §Phase 0 hard-stop, SUG-242 |
+| Node, Article, case study, glossary term | `docs/brand/node-style-guide.md`, `docs/brand/brand-voice-guide.md` |
+| Liveness, Canary, Bypass, Claim, Reader | `docs/conventions/verification-review.md` |
+| Words to avoid in instructions | `docs/conventions/instruction-writing-style.md` |
+
+A term with no owner in this table has none. Say so when you use it, rather than defining it
+here and creating a second answer.
+
+**One rule has no owner and stays here until it gets one:** `featuredImage` never appears in a
+new implementation, and any reference to it carries an explicit deprecation label. Grepped
+2026-08-07 across `docs/conventions/` and `CLAUDE.md`: this guide is the only place it is
+stated. `schema-conventions.md` is where it belongs.
 
 ### Naming discipline
 
@@ -432,6 +453,23 @@ The exception: a one-line summary plus a link is acceptable when the reader need
 > **Right:** "Web does not import from the design system directly. The boundary is enforced by ESLint. See [Architecture § Boundaries](#)."
 >
 > **Wrong:** A three-paragraph reproduction of the boundary rules.
+
+### Every figure carries the command that produced it
+
+A count, size, duration, line number or percentage names the command or file that produces it,
+and the date it was run. Quote a figure from another doc and you have copied a number that was
+true once, with nothing attached that would tell a reader it has stopped being true.
+
+> **Right:** "13 genuine hits (`grep -rnoiE "<list>" CLAUDE.md docs/conventions/ …`, 2026-08-07)."
+>
+> **Wrong:** "The check returns zero hits."
+
+This is `CLAUDE.md`'s red-pen rule applied to prose rather than diagrams. It is the most
+repeated correction in this repo's recent history: SUG-243 carried three stale figures in its
+own Scope, SUG-245 cost three correction commits, and SUG-256 exists because a published
+tally was true when written and never re-measured.
+
+A figure you cannot attach a command to is an estimate. Label it as one.
 
 ### Conflict resolution
 
@@ -564,7 +602,8 @@ Advisory. Run it before sharing a doc.
 
 **Decisions and gates**
 - [ ] Every choice carries a recommendation, a reason, and a reversibility statement
-- [ ] Every gate states what it checks, how to verify, what to do on failure, and who can waive
+- [ ] Every resolved choice carries a `Decided` line with the letter, the date, and who
+- [ ] Every gate states what it checks, how to verify, what must make it fail, what reaches production without it, what to do on failure, and who can waive
 - [ ] Every "how to verify" step is observable by someone who does not read code
 
 **Commands**
@@ -587,6 +626,8 @@ Advisory. Run it before sharing a doc.
 
 **References**
 - [ ] No procedure or explanation restated from another doc, only linked
+- [ ] Every figure names the command that produced it and the date it was run
+- [ ] No term defined here that § 7 assigns to another doc
 - [ ] All links resolve
 
 **Machine-readable**
@@ -608,6 +649,16 @@ Note that most of § 15 is machine-checkable, which makes it the cheapest sectio
 ---
 
 ## Changelog
+
+### v1.1 — 2026-08-07
+
+- § 0 authority became a table, adding the row for `instruction-writing-style.md`: it owns how a sentence in a followed doc is written, this guide owns which sections exist.
+- § 2's PRD row now points at `sugartown-prd-writer`'s 13 sections instead of naming a conflicting 6.
+- § 3 front matter matches the shape four convention docs already use: `vN.N`, ISO dates, `Related` with `[[wikilink]] (path)`.
+- § 5 decision blocks gain a `Decided` line. A block with no `Decided` line is open, whatever was agreed in conversation.
+- § 7 stopped defining terms and now names the doc that owns each. `featuredImage` is the one rule with no owner elsewhere and stays until it has one.
+- § 11 gains the rule that every figure carries its command and date.
+- Version scheme moved from `vYYYY.MM.DD` to `vN.N` to match the rest of `docs/conventions/`.
 
 ### v2026.08.07
 
