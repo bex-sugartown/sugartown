@@ -75,17 +75,22 @@ Case-study-specific target ranges:
 
 ## Step 2 — Draft the case study
 
-All 7 live case studies follow one canonical section order (this is also the SUG-207 north-star template). Use it — do not invent a new shape:
+**Read `docs/conventions/case-study-north-star.md` before drafting.** It governs the shape:
+which layer is fixed, which is yours to decide, and how to write headings that belong to this
+engagement rather than to a template. This step covers only the schema mechanics.
+
+The **section order is fixed**, because it drives the FAQPage JSON-LD, the archive card, and
+the metadata rail:
 
 1. **heroSection** — `eyebrow: "Case Study"`, `heading: <display title>`
 2. **calloutSection** — `title: "Challenge"`, body: one tight paragraph naming what was broken and what it was costing the business. This is the hoisted challenge block; write it to stand alone.
-3. **cardSection** — `label: "Outcomes"`, items: 3–4 `outcomeItem` tiles. Each: `metric` (what was measured), `valueBefore` / `valueAfter` (the receipt), `impactStatement` (plain-language sentence), `evidenceType` (`measured` / `estimated` / `qualitative` — honest, see Step 0). Lead with the strongest number.
-4. **textSection** — `heading: "Overview"`, the narrative body. Open with a 2–3 sentence engagement summary, then `h3` subsections:
-   - **Challenge** — expanded version of the callout: systemic issues found, business impact
-   - **My Role** — role title bold, then bulleted responsibilities (parallel, verb-first)
-   - **Process** — how the work actually unfolded (discovery, evaluation, implementation — name the phases for what they were, not template labels)
-   - **Key Outcomes** — bulleted, each anchored to something specific
-   - **Reflection** — 2–4 sentences of honest hindsight. This is where the best line of the case study usually lives; don't waste it on summary.
+3. **cardSection** — `label: "Outcomes"`, items: 3–4 `outcomeItem` tiles. Each: `metric` (what was measured), `valueBefore` / `valueAfter` (the receipt), `impactStatement` (plain-language sentence), `evidenceType` (`measured` / `estimated` / `qualitative` — honest, see Step 0). Lead with the strongest number. Every tile carries a `valueBefore` or is honestly marked `qualitative`.
+4. **textSection** — `heading: "Overview"`, the narrative body. Open with a 2–3 sentence engagement summary, then `h3` subsections.
+
+   **The subsection headings are not fixed. Do not reuse a heading set from another case
+   study.** Pick an archetype and derive the beats from the engagement, per the north star.
+   Whatever the headings say, the narrative must do all five jobs: stakes, judgment,
+   mechanism, receipts, candour. Apply the north star's heading test before moving on.
 5. **imageGallery** — "Visuals / Artifacts", only if the user provides images. Never invent artifacts.
 6. **accordionSection** — `heading: "Key Questions"`, **`semantic: "faq"` (required — this exact value drives the schema.org FAQPage JSON-LD; without it, no structured data is emitted)**. This is the AEO/GEO delivery mechanism and a base template concern, not an optional extra. 3–4 `accordionItem`s:
    - `title`: a question a prospective client evaluating Bex would actually ask ("What do you do when a project scope expands beyond the brief?", "How do you approach CMS vendor selection?")
@@ -93,11 +98,12 @@ All 7 live case studies follow one canonical section order (this is also the SUG
 
 Run the shared write-time self-checks (`docs/write-pipeline-prompt.md` §3) before Step 2.5.
 
-**Length budget:** target Overview band 500–1,200. If the draft runs over budget, Process
-detail pays first — the Challenge, the receipts, and the Reflection are never the cut.
+**Length budget:** target Overview band 500–1,200. If the draft runs over budget, mechanism
+detail pays first: stakes, receipts and candour are never the cut. Under 500 usually means a
+skeleton of fragments rather than a tight case study.
 
 **Skim skeleton:** structural, not just textual — challenge callout + outcome tiles +
-section subheads + Reflection's first sentence. That artifact is the whole page for a
+section subheads + the closing sentence. That artifact is the whole page for a
 30-second reader (and for the prospective client deciding whether to keep reading).
 
 **Show, don't tell:** the outcome tiles (`cardSection` step 3, above) are already the

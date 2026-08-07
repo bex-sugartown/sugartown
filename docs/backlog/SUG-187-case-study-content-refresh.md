@@ -211,6 +211,34 @@ closed by inference.
 | M1 | Source for "40% productivity increase" and "8 weeks → 5 weeks"? | Both flagged `measured`; neither appears on resume r7 or in the story bank. |
 | M2 | Should Bare Minerals be on resume r7 at all? | Currently in the older-roles reference only, while carrying the corpus's cleanest measured receipts. |
 
+## The template is the defect
+
+Added 2026-08-07, after the red-pen review's finding that all seven case studies carry the
+identical five headings (Challenge / My Role / Process / Key Outcomes / Reflection).
+
+**That finding was aimed at the wrong target.** `docs/write-casestudy-prompt.md` Step 2 says,
+verbatim:
+
+> All 7 live case studies follow one canonical section order (this is also the SUG-207
+> north-star template). Use it — do not invent a new shape
+
+and then prescribes those exact five headings. The seven documents are not failing the
+standard. They comply with it. SUG-207 took the shape of the WordPress imports, named it the
+north star, and the skill locked it in, so every future case study would reproduce it.
+
+Two consequences for this epic:
+
+1. **The north star has to be rewritten before any case study is.** Rewriting seven documents
+   against the standard that caused the problem reproduces the problem seven times.
+2. **These are from-scratch rewrites, not patches.** A patch keeps the heading skeleton, and
+   the heading skeleton is the defect. The surviving material is the facts (once Phase 0
+   settles them), the artifacts, the Cathy Sullivan testimonials if cleared, and a small
+   number of sentences named in §Carried forward.
+
+The fix splits the **fixed schema contract** (section order, which drives the FAQPage
+JSON-LD, the archive card, and the metadata rail) from the **variable narrative surface**
+(headings, beat order, weight). The previous standard fixed both.
+
 ## Scope
 
 - [ ] **Phase 0 — resolve the fact litigation register.** Every row above answered by Bex and
@@ -219,17 +247,19 @@ closed by inference.
 - [ ] **Resolve the Module 9 correction upstream** (P9, P10) and apply the fix to the story
       bank master, the reader HTML, and the `sugartown-resume-tailor` skill bundle per
       `Skill-Update_Workflow.md`. Layer: Resume Factory (outside this repo)
+- [ ] **Write the case study north star and unfix the heading template.** Blocks every
+      rewrite below. See §The template is the defect. Layer: docs
 - [ ] **Write down the cross-cutting field policy** (C1–C7) as a short convention doc, so the
       next case study written does not re-litigate it. Layer: docs
-- [ ] **Mechanical compliance sweep across all 7** — 54 em dashes, 7 emoji, banned and
-      enterprise-deck vocabulary, 6 broken excerpts, 5 truncated `seo.title` values,
-      `aiDisclosure`. Content Write Gate fires. Layer: content
+- [ ] **Metadata and retrieval field sweep across all 7** — 6 broken excerpts, 5 truncated
+      `seo.title` values, `aiDisclosure`, and the `role` / `employer` / `contractType` /
+      `dateRange` values settled in Phase 0. Content Write Gate fires. Layer: content
 - [ ] **Build the Studio ↔ Resume Factory fact reconciliation** per the C6 decision. Layer:
       tooling
-- [ ] **Rebuild `prestige-beauty` and `beauty-retail`** to the `/write-casestudy` canonical
-      section order, first person, sourced receipts. Layer: content
-- [ ] **Rebuild `fx-networks`, `backroads`, `bare-minerals`.** Layer: content
-- [ ] **Rebuild `beringer`, `launching-lunar-landing`.** Layer: content
+- [ ] **Rewrite `prestige-beauty` and `beauty-retail` from scratch** against the north star.
+      Layer: content
+- [ ] **Rewrite `fx-networks`, `backroads`, `bare-minerals` from scratch.** Layer: content
+- [ ] **Rewrite `beringer`, `launching-lunar-landing` from scratch.** Layer: content
 - [ ] **Retrieval and linking pass across all 7** — rewrite `aeoSummary` / `geoSummary` /
       `excerpt` against the resolved facts, populate `relatedTerms`, fill `related` on the
       four documents that have none. Layer: content
@@ -250,14 +280,15 @@ workspace allows. Do not treat their absence from Linear as a scope reduction.
 |---|---|---|
 | Resolve the fact litigation register (Phase 0 hard stop) | [SUG-278](https://linear.app/sugartown/issue/SUG-278) | created |
 | Resolve the Module 9 correction upstream | [SUG-279](https://linear.app/sugartown/issue/SUG-279) | created |
-| Case-study engagement-fact field policy convention | — | **blocked on Linear issue limit** |
-| Mechanical compliance sweep across all 7 | — | blocked on Linear issue limit |
+| **Write the case study north star and unfix the heading template** | — | **blocked on Linear issue limit.** Blocks every rewrite below |
+| Case-study engagement-fact field policy convention | — | blocked on Linear issue limit |
+| Metadata and retrieval field sweep across all 7 | — | blocked on Linear issue limit |
 | Studio ↔ Resume Factory fact reconciliation | — | blocked on Linear issue limit |
-| Rebuild `prestige-beauty` + `beauty-retail` | — | blocked on Linear issue limit |
-| Rebuild `fx-networks` + `backroads` + `bare-minerals` | — | blocked on Linear issue limit |
-| Rebuild `beringer` + `launching-lunar-landing` | — | blocked on Linear issue limit |
+| Rewrite `prestige-beauty` + `beauty-retail` from scratch | — | blocked on Linear issue limit |
+| Rewrite `fx-networks` + `backroads` + `bare-minerals` from scratch | — | blocked on Linear issue limit |
+| Rewrite `beringer` + `launching-lunar-landing` from scratch | — | blocked on Linear issue limit |
 | Retrieval and linking pass across all 7 | — | blocked on Linear issue limit |
-| `/red-pen` each rebuilt document | — | blocked on Linear issue limit |
+| `/red-pen` each rewritten document | — | blocked on Linear issue limit |
 
 ## Phases
 
@@ -273,17 +304,24 @@ end, from `main`.
 | Phase | Ships | Gate |
 |---|---|---|
 | **0** | Fact register fully answered; field-policy convention doc; Module 9 correction applied upstream | **Hard stop.** No Sanity write of any kind until every register row is closed |
-| **1** | Mechanical compliance sweep across all 7 (em dash, emoji, vocabulary, excerpt, `seo.title`, `aiDisclosure`) | Content Write Gate proposal per document |
+| **0b** | `case-study-north-star.md`; `write-casestudy-prompt.md` Step 2 unfixed | **Hard stop.** Instruction & Rule File Write Gate. No rewrite starts before this lands |
+| **1** | Metadata and retrieval field sweep across all 7 (`excerpt`, `seo.title`, `aiDisclosure`, `role`, `employer`, `contractType`, `dateRange`) | Content Write Gate proposal per document |
 | **2** | Fact reconciliation mechanism built and both sides agreeing | Verification review if it lands as a validator (see §Technical notes) |
-| **3** | `prestige-beauty` + `beauty-retail` rebuilt | Content Write Gate, then `/red-pen`, then Bex publishes |
-| **4** | `fx-networks` + `backroads` + `bare-minerals` rebuilt | same |
-| **5** | `beringer` + `launching-lunar-landing` rebuilt | same |
+| **3** | `prestige-beauty` + `beauty-retail` rewritten from scratch | Content Write Gate, then `/red-pen`, then Bex publishes |
+| **4** | `fx-networks` + `backroads` + `bare-minerals` rewritten from scratch | same |
+| **5** | `beringer` + `launching-lunar-landing` rewritten from scratch | same |
 | **6** | Retrieval and linking pass across all 7 | Content Write Gate |
 
-Phase 1 before Phase 3 deliberately: the mechanical sweep is cheap and independently
-verifiable by re-running one command, so it clears the measurable violations off the corpus
-before the judgment-heavy rewrites begin, and any later `/red-pen` finding is then a real
-editorial finding rather than a restatement of a known em dash.
+**Phase 0b is a hard stop for the reason in §The template is the defect:** rewriting seven
+documents against the standard that produced the problem reproduces it seven times.
+
+**Phase 1 narrowed on 2026-08-07 to metadata and retrieval fields only.** The original phase
+included a body-level sweep of 54 em dashes, 7 emoji and the banned vocabulary. From-scratch
+rewrites make that sweep wasted work, since none of that body copy survives. The fields in
+Phase 1 are the ones a narrative rewrite does not touch, and they sit live on the archive and
+in search results for however long the rewrites take. The corpus-wide acceptance criteria
+(zero em dashes, zero emoji, zero banned vocabulary) still hold, measured at close-out
+against the rewritten documents.
 
 ## Acceptance criteria
 
@@ -299,8 +337,14 @@ editorial finding rather than a restatement of a known em dash.
       the Background command
 - [ ] Every outcome tile has either a `valueBefore` or an `evidenceType` of `qualitative`.
       No tile claims `measured` without a named source in the register
-- [ ] Every rebuilt document contains at least one first-person sentence attributable to Bex
-      directing, deciding, or aligning, and no headless-verb sentence openers
+- [ ] `docs/conventions/case-study-north-star.md` exists, and `write-casestudy-prompt.md`
+      Step 2 no longer prescribes a heading set
+- [ ] **No two of the seven share a narrative heading**, and each document's heading set
+      passes the north star's heading test read against the other six
+- [ ] Every rewritten narrative does all five jobs (stakes, judgment, mechanism, receipts,
+      candour), and none of them contains a "My Role" responsibilities list
+- [ ] Every rewritten document contains at least one first-person sentence attributable to
+      Bex directing, deciding, or aligning, and no headless-verb sentence openers
 - [ ] No two of {Sanity `caseStudy`, resume r7 prototypes, story bank master} disagree on any
       role title, date, employer, or contract type. Verified by running the Phase 2 mechanism
       and getting zero diffs
@@ -352,11 +396,19 @@ Spot-check each rebuilt document at `http://localhost:5173`:
   or the block renders read-only in Studio. Re-fetch the live document immediately before any
   `set` on a PT array — `_key` values do not reliably survive prior patches, and a human
   Studio edit found in place of expected content means ask, do not overwrite.
-- **Instruction & Rule File Write Gate fires on the field-policy convention.** That Scope
-  item writes to `docs/conventions/`, and the cross-reference edit touches
-  `docs/write-casestudy-prompt.md`. Produce the diff from a scratchpad copy, not by editing
-  in place and reverting, and get explicit approval before either file lands. No other Scope
-  item in this epic touches a rule-defining file.
+- **Instruction & Rule File Write Gate fires on three files:**
+  `docs/conventions/case-study-north-star.md` (new), the field-policy convention (new), and
+  `docs/write-casestudy-prompt.md` (Step 2 edit). Produce each diff from a scratchpad copy,
+  not by editing in place and reverting, and get explicit approval before any of them lands.
+  No other Scope item in this epic touches a rule-defining file.
+- **Doc budget.** A file in `docs/conventions/` counts against `pnpm validate:doc-budget`
+  only when CLAUDE.md references it. The north star is referenced from
+  `write-casestudy-prompt.md`, not CLAUDE.md, so it does not load into every session and does
+  not consume budget. Keep it that way; if a reference is added to CLAUDE.md later, re-run
+  the budget check in the same commit.
+- **`/write-casestudy` was written from the imported documents, not against them.** Treat
+  every other instruction in it as suspect until checked the same way the heading list was.
+  Worth a deliberate pass during Phase 0b rather than trusting it by default.
 - **Live-site read gap, discovered 2026-08-07.** An unauthenticated query of
   `*[_type=="caseStudy"]` returns **1 of 8 documents** — only the native
   `sugartown-platform-is-the-portfolio`. The seven `wp.caseStudy.NNN` dotted IDs are
