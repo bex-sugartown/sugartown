@@ -22,7 +22,8 @@
  *   VITE_SANITY_PROJECT_ID
  *   VITE_SANITY_DATASET
  *   VITE_SANITY_API_VERSION
- *   VITE_SANITY_TOKEN   (read-only viewer token — needed for wp.* docs)
+ *   VITE_SANITY_TOKEN   (optional since SUG-260 — only needed to read drafts)
+ *   --no-token          (force an anonymous run)
  */
 
 import { createClient } from '@sanity/client'
@@ -59,12 +60,20 @@ loadEnv()
 const projectId = process.env.VITE_SANITY_PROJECT_ID
 const dataset = process.env.VITE_SANITY_DATASET ?? 'production'
 const apiVersion = process.env.VITE_SANITY_API_VERSION ?? '2025-02-02'
-const token = process.env.VITE_SANITY_TOKEN
+
+// --no-token forces an anonymous run. `loadEnv()` above reads apps/web/.env with
+// `if (!process.env[key])`, so unsetting or blanking VITE_SANITY_TOKEN in the
+// shell is overwritten by the file and cannot produce a token-free run. Without
+// this flag, SUG-260's acceptance criterion ("passes with no token") is not
+// executable on a machine that has a .env.
+const NO_TOKEN = process.argv.includes('--no-token')
+const token = NO_TOKEN ? undefined : process.env.VITE_SANITY_TOKEN
 
 if (!projectId) {
   console.error('[validate-taxonomy] ERROR: VITE_SANITY_PROJECT_ID is not set.')
   process.exit(1)
 }
+if (NO_TOKEN) console.log('🔓  --no-token: querying anonymously\n')
 
 const client = createClient({ projectId, dataset, apiVersion, token, useCdn: false })
 

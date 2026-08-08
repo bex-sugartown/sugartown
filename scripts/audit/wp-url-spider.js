@@ -525,9 +525,14 @@ function buildSanityReadClient() {
     fail('Missing VITE_SANITY_PROJECT_ID env var')
     process.exit(1)
   }
+  // No longer fatal. SUG-260 (2026-08-08) migrated the wp.* dotted ids, so
+  // published content is visible anonymously. A token is only needed to read
+  // drafts, which are still stored as `drafts.<id>`.
   if (!token) {
-    fail('Missing VITE_SANITY_TOKEN or SANITY_AUTH_TOKEN env var (required for wp.* ID visibility)')
-    process.exit(1)
+    console.warn(
+      '[wp-url-spider] Running anonymously. Published content is fully visible; ' +
+        'drafts are not. Set VITE_SANITY_TOKEN or SANITY_AUTH_TOKEN to include drafts.\n',
+    )
   }
 
   return createClient({ projectId, dataset, apiVersion, useCdn: false, token })

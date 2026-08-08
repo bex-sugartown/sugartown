@@ -20,7 +20,8 @@
  *   VITE_SANITY_PROJECT_ID
  *   VITE_SANITY_DATASET
  *   VITE_SANITY_API_VERSION
- *   VITE_SANITY_TOKEN    (read-only — required for wp.* dot-namespace docs)
+ *   VITE_SANITY_TOKEN    (optional since SUG-260 — only needed to read drafts)
+ *   --no-token           (force an anonymous run)
  */
 
 import { createClient } from '@sanity/client'
@@ -57,13 +58,18 @@ loadEnv()
 const projectId = process.env.VITE_SANITY_PROJECT_ID
 const dataset   = process.env.VITE_SANITY_DATASET ?? 'production'
 const apiVersion = process.env.VITE_SANITY_API_VERSION ?? '2025-02-02'
-// Token required to read wp.* dot-namespace docs (system namespace; invisible without auth)
-const token = process.env.VITE_SANITY_TOKEN
+// --no-token forces an anonymous run, so SUG-260's "passes with no token" claim
+// is testable on a machine that has an apps/web/.env. Published content no
+// longer needs authentication; only drafts do, since `drafts.<id>` is still a
+// dotted id.
+const NO_TOKEN = process.argv.includes('--no-token')
+const token = NO_TOKEN ? undefined : process.env.VITE_SANITY_TOKEN
 
 if (!projectId) {
   console.error('[validate-filters] ERROR: VITE_SANITY_PROJECT_ID is not set.')
   process.exit(1)
 }
+if (NO_TOKEN) console.log('🔓  --no-token: querying anonymously\n')
 
 const client = createClient({ projectId, dataset, apiVersion, token, useCdn: false })
 

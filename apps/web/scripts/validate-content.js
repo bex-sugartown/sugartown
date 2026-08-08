@@ -82,7 +82,9 @@ if (!projectId) {
 
 if (!token) {
   console.warn(
-    '[validate-content] WARN: VITE_SANITY_TOKEN is not set — wp.* dot-namespace documents will not be visible. Set a read-only viewer token to get full coverage.\n',
+    '[validate-content] Running anonymously. Published content is fully visible since ' +
+      'SUG-260 migrated the wp.* dotted ids; only draft-only detection is skipped, ' +
+      'because drafts are still stored as `drafts.<id>`.\n',
   )
 }
 
