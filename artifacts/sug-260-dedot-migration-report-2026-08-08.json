@@ -1,0 +1,682 @@
+{
+  "generatedAt": "2026-08-08T10:32:34.512Z",
+  "mode": "execute",
+  "counts": {
+    "documentsInDataset": 789,
+    "renamed": 111,
+    "patched": 111,
+    "touched": 222,
+    "referencesRewritten": 612,
+    "payloadBytes": 1670306
+  },
+  "mapping": {
+    "drafts.wp.node.1654": "drafts.node-ai-illustration-review-ethics-accessibility-ip",
+    "wp.article.1025": "article-dashboards-arent-dead-neither-are-design-systems",
+    "wp.article.1437": "article-core-web-vitals-dont-belong-to-frontend",
+    "wp.article.1788": "article-claude-code-joins-the-agentic-caucus",
+    "wp.article.1804": "article-the-great-icloud-divorce",
+    "wp.article.410": "article-oh-oh-atomic-one-model-two-systems",
+    "wp.article.736": "article-lessons-from-replacing-oracle-atg-bcc-with-a",
+    "wp.article.814": "article-luxury-dot-com",
+    "wp.caseStudy.166": "caseStudy-beauty-retail-from-monolith-to-microservice",
+    "wp.caseStudy.271": "caseStudy-fx-networks-website-redesign-nominated-for-webby",
+    "wp.caseStudy.274": "caseStudy-charting-a-new-course-for-backroads-com",
+    "wp.caseStudy.280": "caseStudy-bare-minerals-from-bottlenecks-to-brilliance",
+    "wp.caseStudy.286": "caseStudy-beringer-com-raising-a-glass-to-a-digital-refresh",
+    "wp.caseStudy.294": "caseStudy-launching-lunar-landing",
+    "wp.caseStudy.388": "caseStudy-prestige-beauty-pilot-headless-cms-enterprise",
+    "wp.category.290": "category-design-systems",
+    "wp.category.291": "category-content-architecture",
+    "wp.category.292": "category-product-platform-strategy",
+    "wp.category.295": "category-engineering-dx",
+    "wp.category.296": "category-sugartown-notes",
+    "wp.category.297": "category-ways-of-working",
+    "wp.category.405": "category-documentation",
+    "wp.category.406": "category-career-engineering",
+    "wp.category.412": "category-visualization",
+    "wp.category.417": "category-governance",
+    "wp.node.1023": "node-architecture-the-sugartown-digital-ecosystem-v1-0",
+    "wp.node.1028": "node-architecture-decision-the-two-repo-solution-theme",
+    "wp.node.1029": "node-architecture-the-unified-taxonomy-strategy",
+    "wp.node.1054": "node-feature-the-resume-factory-the-sugartown-pink",
+    "wp.node.1079": "node-prd-visualization-engine",
+    "wp.node.1094": "node-architecture-insight-the-sugartown-2-0-system",
+    "wp.node.1121": "node-architecture-update-the-resume-factory-v2-0",
+    "wp.node.1335": "node-design-ops-the-pre-design-system-surviving-the",
+    "wp.node.1395": "node-architecture-deep-dive-resume-factory-v3-0",
+    "wp.node.1397": "node-confession-i-dont-lack-memory-i-just-forgot-to",
+    "wp.node.1447": "node-changelog",
+    "wp.node.1451": "node-process-insight-when-to-fire-your-ai",
+    "wp.node.1514": "node-the-release-that-ate-the-card-system",
+    "wp.node.1551": "node-this-knowledge-graph-origin-story",
+    "wp.node.1552": "node-knowledge-graph-roadmap",
+    "wp.node.1568": "node-the-great-versioning-reconciliation",
+    "wp.node.1569": "node-how-i-learned-to-stop-renaming-and-love-the",
+    "wp.node.1570": "node-project-knowledge-graph-topology-over-chronology",
+    "wp.node.1646": "node-which-chatbot-is-best-for-web-design",
+    "wp.node.1653": "node-release-assistant-governance-inputs-outputs-no",
+    "wp.node.1702": "node-claude-vs-devtools-a-cautionary-tale-of-assumed",
+    "wp.node.1733": "node-sugartown-platform-roadmap-updated",
+    "wp.node.1796": "node-two-weeks-inside-the-machine",
+    "wp.node.1815": "node-we-fixed-the-same-white-screen",
+    "wp.node.852": "node-market-scan-top-headless-cms-platforms-2025",
+    "wp.node.853": "node-engineering-the-perfect-resume-workflow",
+    "wp.node.863": "node-sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
+    "wp.node.942": "node-process-insight-the-csv-reality-check",
+    "wp.node.946": "node-project-sugartown-cms-architecture",
+    "wp.node.949": "node-architecture-decision-the-overwrite-risk-in",
+    "wp.node.950": "node-visualizing-the-knowledge-graph",
+    "wp.node.952": "node-confession-i-dont-hate-blogs-i-just-hate",
+    "wp.node.953": "node-release-governance-yyyy-mm-dd-workflow",
+    "wp.node.954": "node-market-scan-top-ai-tools-for-data-architecture",
+    "wp.node.977": "node-meta-analysis-am-i-crazy-for-building-this",
+    "wp.node.993": "node-status-update-the-great-re-platforming",
+    "wp.node.994": "node-devops-building-the-undo-button-for-my-career",
+    "wp.page.1644": "page-ai-ethics",
+    "wp.page.207": "page-cv-resume",
+    "wp.page.210": "page-privacy-and-terms",
+    "wp.page.218": "page-contact",
+    "wp.person.bhead": "person-bex",
+    "wp.tag.12": "tag-ux",
+    "wp.tag.20": "tag-best-practices",
+    "wp.tag.235": "tag-design-tokens",
+    "wp.tag.242": "tag-workflow",
+    "wp.tag.258": "tag-reusable",
+    "wp.tag.264": "tag-stakeholder-alignment",
+    "wp.tag.270": "tag-omnichannel",
+    "wp.tag.271": "tag-digital-transformation",
+    "wp.tag.274": "tag-tech-debt",
+    "wp.tag.301": "tag-design-ops",
+    "wp.tag.306": "tag-content-modeling",
+    "wp.tag.308": "tag-metadata-strategy",
+    "wp.tag.309": "tag-taxonomy",
+    "wp.tag.318": "tag-dashboards",
+    "wp.tag.325": "tag-cross-functional-collaboration",
+    "wp.tag.328": "tag-content-ops",
+    "wp.tag.340": "tag-audit",
+    "wp.tag.341": "tag-Automation",
+    "wp.tag.351": "tag-prd",
+    "wp.tag.353": "tag-data-science",
+    "wp.tag.357": "tag-resume-as-code",
+    "wp.tag.372": "tag-architecture",
+    "wp.tag.373": "tag-migration",
+    "wp.tag.374": "tag-monorepo",
+    "wp.tag.378": "tag-ai-limitations",
+    "wp.tag.382": "tag-ai-workflows",
+    "wp.tag.386": "tag-core-web-vitals",
+    "wp.tag.389": "tag-seo",
+    "wp.tag.393": "tag-version-control",
+    "wp.tag.394": "tag-refactoring",
+    "wp.tag.396": "tag-release-management",
+    "wp.tag.415": "tag-ai-hallucinations",
+    "wp.tag.421": "tag-system-thinking",
+    "wp.tag.422": "tag-roadmap",
+    "wp.tag.423": "tag-scope-creep",
+    "wp.tag.425": "tag-platform-strategy",
+    "wp.tag.434": "tag-debugging",
+    "wp.tag.436": "tag-agentic-caucus",
+    "wp.tag.437": "tag-prompt-engineering",
+    "wp.tag.440": "tag-ai-ethics",
+    "wp.tag.451": "tag-tooling",
+    "wp.tag.455": "tag-resist",
+    "wp.tag.456": "tag-process-insight",
+    "wp.tag.81": "tag-headless"
+  },
+  "patchedDocuments": [
+    {
+      "id": "011d3e02-79f0-44b3-bff2-34c6fe809dc1",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "03de9c87-ceaa-4789-a034-e9a54569e9c9",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "0811c2dc-ce7b-4b47-a6a7-5d4d4628666e",
+      "type": "node",
+      "refCount": 5
+    },
+    {
+      "id": "0910a28b-23bf-4f68-a0ef-15be37d93cfd",
+      "type": "node",
+      "refCount": 9
+    },
+    {
+      "id": "09fabeab-6555-491c-8ad2-da21f2905dd8",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "0c6fccae-b6ee-40b8-8821-f85c31ac6153",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "0d2cf6ab-78a4-42cc-b13e-7a97fc3f7b96",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "0ecf3c90-9875-4502-8983-9015a4b0fce8",
+      "type": "page",
+      "refCount": 2
+    },
+    {
+      "id": "0f8eab6b-0d10-4ce6-8037-ce3fa99413c6",
+      "type": "article",
+      "refCount": 8
+    },
+    {
+      "id": "101d00b0-7ab6-47b7-a6db-77bc9fe743a5",
+      "type": "project",
+      "refCount": 3
+    },
+    {
+      "id": "146d9300-0b13-47af-8cd1-e4525a5a087e",
+      "type": "node",
+      "refCount": 6
+    },
+    {
+      "id": "146e3afb-9cd4-4592-91b0-907158840022",
+      "type": "page",
+      "refCount": 10
+    },
+    {
+      "id": "14b39d84-0657-4e67-9526-32c174074b80",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "14e435e4-2f95-4a35-b224-031d7fb68541",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "15a886f3-ad07-4cea-80a5-31b9c4659633",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "177482aa-9daf-40ec-9b9c-94d7df6cb57f",
+      "type": "node",
+      "refCount": 4
+    },
+    {
+      "id": "1d5c044c-1663-424e-8751-db2a618f36c0",
+      "type": "article",
+      "refCount": 6
+    },
+    {
+      "id": "2119f13e-e393-4135-9897-4204a54b73f1",
+      "type": "node",
+      "refCount": 8
+    },
+    {
+      "id": "22329a14-6bea-4c4d-b37f-e9b8aff4cf09",
+      "type": "page",
+      "refCount": 8
+    },
+    {
+      "id": "2246d8e1-9d1a-469e-b0d5-f0d19e3f3f07",
+      "type": "node",
+      "refCount": 6
+    },
+    {
+      "id": "24673550-9c8c-444a-a883-ca43d0d04f10",
+      "type": "node",
+      "refCount": 7
+    },
+    {
+      "id": "25f64ac8-4035-4d94-b75b-6955e4f3e7cb",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "27a34fa0-6e89-42e9-94b5-654c6850679c",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "30cc5148-318e-44af-8b2e-524ceeef946e",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "312d3f2c-3c8f-4011-b86a-07ca9d58afd4",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "33a205e9-0d46-4333-9507-3408a380dda4",
+      "type": "page",
+      "refCount": 1
+    },
+    {
+      "id": "34c52d43-c966-4874-be2e-61a3fd21fc3b",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "36945ce7-5274-4cb9-8426-6e363684e618",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "37ab0cfe-b254-4dae-bd32-bb1cbf3b5d5d",
+      "type": "article",
+      "refCount": 9
+    },
+    {
+      "id": "37de2c1f-7449-47d5-b048-f43bd8d1b249",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "3bda2954-4ae8-464e-93bc-3a54dc4756f1",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "40df3ddc-c637-45ca-9d1c-56a4ab7ea088",
+      "type": "page",
+      "refCount": 15
+    },
+    {
+      "id": "41b5cdef-b03f-414f-bebb-2ea9d1928386",
+      "type": "ctaButtonDoc",
+      "refCount": 1
+    },
+    {
+      "id": "425ba824-09c7-4923-b04c-19cf1682efd0",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "43b5ab5b-4b7c-4b0f-8b7a-4af5e538b590",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "44772834-384b-47fd-a142-35fd1402debb",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "456120f8-5fc9-4135-9eaa-c49891fe4de1",
+      "type": "node",
+      "refCount": 4
+    },
+    {
+      "id": "488fadba-de83-41a4-97d1-3a32da3843c7",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "4a41dafd-c72d-4c91-b648-2abfd43e6007",
+      "type": "glossaryTerm",
+      "refCount": 5
+    },
+    {
+      "id": "5360a9a6-3769-42cd-9c9e-24e793b66125",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "562b7b2c-c36c-4bee-8dbf-05377a10c6c1",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "56d226f8-c801-4d71-804a-9cc81d17cd55",
+      "type": "node",
+      "refCount": 5
+    },
+    {
+      "id": "56d6ec57-4081-4593-8eb8-7043ec817b77",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "5b0046ad-d405-41c9-8af7-c0b83e7e0c09",
+      "type": "article",
+      "refCount": 7
+    },
+    {
+      "id": "5b9c7550-38f9-466c-afbf-8375c84ee481",
+      "type": "navigation",
+      "refCount": 3
+    },
+    {
+      "id": "5bea4730-dd8d-4d43-b368-6636910a5bb3",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "611f3cec-23de-4455-aa54-6e8cba99faa0",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "62092c32-eb01-4d1b-8571-c8b13c42fa2c",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "62954cac-db9e-4d06-9da1-a2f93631d775",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "62c63594-9d16-476d-b019-3a4337d832f0",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "6474eac2-2e7c-4c5c-8abc-2e4d38823c62",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "6695774e-1c62-4ce1-b22b-2222e6cebb7d",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "687bce25-3fda-45e4-b83f-6ff289c4e681",
+      "type": "node",
+      "refCount": 5
+    },
+    {
+      "id": "69dfe5a0-c65e-4aa2-a46e-18d9cfade3db",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "6b0b2219-7757-41da-9ab7-d118d233bae0",
+      "type": "project",
+      "refCount": 3
+    },
+    {
+      "id": "7122c690-a840-47a7-a528-9a3e12b626a9",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "72009d76-41c4-4abe-9e5a-feaf16f76248",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "7369a4dc-8e19-4767-8377-82f0b1d7d792",
+      "type": "ctaButtonDoc",
+      "refCount": 1
+    },
+    {
+      "id": "79caef10-96cb-4993-88ff-f406653d7b72",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "79d4465c-32d6-4c47-b865-dd3a19415437",
+      "type": "article",
+      "refCount": 5
+    },
+    {
+      "id": "7b1224d0-91bd-4d8c-b582-92064007ecc1",
+      "type": "node",
+      "refCount": 4
+    },
+    {
+      "id": "7bc98136-f008-4e8b-bc92-61fbe8d68282",
+      "type": "navigation",
+      "refCount": 1
+    },
+    {
+      "id": "7cfa7045-ba54-41a0-bc58-bce48631f418",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "7d295517-2340-4c0b-bc4b-b06b014e1725",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "80a2e315-bd20-458d-8d84-e7b11f694c31",
+      "type": "project",
+      "refCount": 4
+    },
+    {
+      "id": "83abcffd-78f8-41f8-887b-d8f4013740bd",
+      "type": "project",
+      "refCount": 1
+    },
+    {
+      "id": "84a7830f-e4c6-4a1c-8c54-86113a6781cb",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "84d31e26-5025-4ede-b537-2b8aed11c934",
+      "type": "node",
+      "refCount": 5
+    },
+    {
+      "id": "87862607-6b6e-4379-bb80-7235e6ba44bf",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "87d4ca02-6c2a-4d85-8f35-18466a777c55",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "89b0c0bc-826f-4647-ba9a-fb5262b6b669",
+      "type": "navigation",
+      "refCount": 1
+    },
+    {
+      "id": "8a8cef83-f8fc-4abe-a2a8-f61b0e380213",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "8c3a30c8-bf0f-4ad8-b87a-af370fc87fcb",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "92931080-220b-4911-934d-ba3dd3090c26",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "951ec89b-b8bf-4d6e-970d-cdc83f8e2a5d",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "9b5acb4d-719e-4c26-b198-747d296feba7",
+      "type": "glossaryTerm",
+      "refCount": 3
+    },
+    {
+      "id": "a7e2229a-0d0e-40ea-802e-969a2ba6497d",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "ae8a5c40-f1b6-459b-830e-230ccc1b41f4",
+      "type": "project",
+      "refCount": 3
+    },
+    {
+      "id": "b252a92b-29d3-4abb-b068-504ab86bc941",
+      "type": "project",
+      "refCount": 1
+    },
+    {
+      "id": "b2dc3849-677c-4295-bffa-4d8c873a3aea",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "b44f2b69-6371-4e39-b0e1-aa6c84a53b84",
+      "type": "page",
+      "refCount": 3
+    },
+    {
+      "id": "b764ea17-4014-4721-aa28-94255b499395",
+      "type": "article",
+      "refCount": 7
+    },
+    {
+      "id": "bea4d93a-07df-4d0c-aa7a-953c71396a6d",
+      "type": "glossaryTerm",
+      "refCount": 5
+    },
+    {
+      "id": "becd8434-1342-4b90-9d3d-b7c34198b6e6",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "c1b2fe49-6e47-4444-bdf5-6c08b1ae28c8",
+      "type": "article",
+      "refCount": 7
+    },
+    {
+      "id": "cbd3ec60-e955-425f-8705-b106ba1f6a2e",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "ce3e9e89-122a-48e9-8deb-a6285d0c08ea",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "d0fc8013-ee84-4de5-bdd5-ad0e07e13acd",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "d34d2a54-32f7-414d-b0a4-fdbb057fbefb",
+      "type": "caseStudy",
+      "refCount": 9
+    },
+    {
+      "id": "d5300aa4-791f-44ee-a2a8-c030f4124b5b",
+      "type": "node",
+      "refCount": 4
+    },
+    {
+      "id": "ddb7b267-a151-4bad-ab84-fdab4156a41c",
+      "type": "ctaButtonDoc",
+      "refCount": 1
+    },
+    {
+      "id": "drafts.35374994-a25e-436d-81c7-bf5076ef94e9",
+      "type": "article",
+      "refCount": 7
+    },
+    {
+      "id": "drafts.963b7497-cee9-4ed1-b64c-55ed97088480",
+      "type": "article",
+      "refCount": 2
+    },
+    {
+      "id": "drafts.983c29c6-b196-48d5-919e-1c87c2c3051c",
+      "type": "node",
+      "refCount": 8
+    },
+    {
+      "id": "drafts.9c7e6d31-4a1d-43b7-894e-56e1bb092c62",
+      "type": "glossaryTerm",
+      "refCount": 5
+    },
+    {
+      "id": "drafts.b10246b1-c007-42b0-a8f9-479d4e038a22",
+      "type": "node",
+      "refCount": 6
+    },
+    {
+      "id": "drafts.fb4676cf-60dd-4de9-a073-ce9feb40fd4c",
+      "type": "article",
+      "refCount": 6
+    },
+    {
+      "id": "e1861159-473b-4ca8-a7e5-522638f80564",
+      "type": "series",
+      "refCount": 1
+    },
+    {
+      "id": "e670ca90-3ce4-4003-a7d9-3b4bc34c57d0",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "e7a2ba22-bb06-4f7c-8bb2-2ef1c8615890",
+      "type": "glossaryTerm",
+      "refCount": 2
+    },
+    {
+      "id": "ed0080f2-9da3-42d9-b32d-7c74e21c67e0",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "ed512231-c611-41de-a834-3e27e000f28b",
+      "type": "article",
+      "refCount": 8
+    },
+    {
+      "id": "f02c656c-5041-4d83-a3cc-8d9e48ed5d17",
+      "type": "node",
+      "refCount": 5
+    },
+    {
+      "id": "f1075c12-2817-4d71-9569-7035376b7890",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "f1c67d7b-d719-4a15-9524-639fe3a553b3",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "f2c85873-df0a-4616-9824-5d68e1b8ce28",
+      "type": "ctaButtonDoc",
+      "refCount": 1
+    },
+    {
+      "id": "fa6b2817-b26e-4694-af9a-47fe56b296a1",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "fae09c00-beba-46a2-b1f3-b17cf9ebe53d",
+      "type": "archivePage",
+      "refCount": 1
+    },
+    {
+      "id": "fb61a62b-066f-43e4-aa40-16503ad43102",
+      "type": "glossaryTerm",
+      "refCount": 1
+    },
+    {
+      "id": "fd8c1f98-0569-4f1d-9e66-3b47e8e7c5ad",
+      "type": "node",
+      "refCount": 5
+    },
+    {
+      "id": "ff9773f0-b443-4ee4-84ea-f200fc8ef5a1",
+      "type": "glossaryTerm",
+      "refCount": 1
+    }
+  ]
+}

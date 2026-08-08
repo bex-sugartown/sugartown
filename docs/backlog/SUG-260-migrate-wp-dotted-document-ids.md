@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-260 — Migrate wp.* dotted document IDs — 110 docs invisible to anonymous reads
 **Linear Issue:** [SUG-260](https://linear.app/sugartown/issue/SUG-260/migrate-wp-dotted-document-ids-133-docs-invisible-to-anonymous-reads)
-**Status:** In Progress — Phases 0–3 complete 2026-08-08; one human action outstanding (delete `web-frontend-read`)
+**Status:** In Progress — Phases 0–3 complete 2026-08-08. **Phase 4 BLOCKED**: Phase 3 introduced a CORS regression; add `http://localhost:4173` as a Sanity CORS origin before pushing.
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — audit and tooling phases ship independently;
 the migration-execution phase is internally atomic (see Non-Goals)
@@ -353,6 +353,69 @@ Two things to confirm first:
 values inside permission-allowlist strings** — write-capable tokens, in a file, in the repo
 tree. Also present in `.claude/worktrees/pensive-brattain/.claude/settings.local.json`. Out of
 scope for SUG-260 and not touched here. Worth its own issue.
+
+## Phase 4 — BLOCKED 2026-08-08. Phase 3 introduced a CORS regression.
+
+**Do not push until the CORS origin below is added.** The smoke suite is red locally and
+would be red in CI. Production is unaffected; nothing is deployed.
+
+### What happened
+
+`pnpm test:smoke` failed 3 of 5 after Phase 3: the articles archive, a tool detail page, and
+a category detail page. All three are routes the build does **not** prerender, so they need a
+live client-side Sanity fetch. All three were blocked by CORS.
+
+Sanity's CORS behaves the opposite way round from the assumption Phase 3 was built on.
+Measured 2026-08-08 against origin `http://localhost:4173`:
+
+| Request | `Access-Control-Allow-Origin` returned |
+|---|---|
+| **With** a token | ✅ `http://localhost:4173` |
+| **Without** a token | ❌ none |
+
+An **authenticated** request gets its origin echoed back. An **anonymous** request requires
+the origin to be explicitly allowlisted in the project's CORS settings. So removing the token
+from the bundle moved every browser origin from "works automatically" to "must be on the
+list", and `localhost:4173` is not on it.
+
+Reproduce:
+
+```bash
+Q="query=count(*%5B_type%3D%3D%22article%22%5D)"
+curl -s -D- -o /dev/null -H "Origin: http://localhost:4173" \
+  "https://poalmzla.apicdn.sanity.io/v2025-02-02/data/query/production?$Q" | grep -i access-control
+```
+
+### Blast radius — production is fine
+
+| Origin | Anonymous |
+|---|---|
+| `https://sugartown.io`, `https://www.sugartown.io` | ✅ allowed |
+| `https://sugartown.netlify.app`, deploy previews | ✅ allowed |
+| `http://localhost:5173` (dev server) | ✅ allowed |
+| **`http://localhost:4173` (smoke-test preview)** | ❌ **blocked** |
+| `http://localhost:3000` (contentful-poc) | ❌ blocked (does not query Sanity) |
+
+The last CI run before Phase 3 was green (`31169229182`, `daac000a`, 2026-08-07), which is
+consistent: the bundle carried a token then, so the requests were authenticated.
+
+### The fix — requires Bex
+
+**Add `http://localhost:4173` as a CORS origin at sanity.io/manage → API → CORS origins.**
+"Allow credentials" is not needed; the whole point is that these requests carry no
+credentials. Adding a CORS origin is a security-settings change and is a human action.
+
+Rejected alternatives: running the preview on the already-allowlisted `:5173` collides with
+the dev server; prerendering the archive routes would defeat what these tests check, which is
+that client-side rendering works.
+
+### Why this is worth writing down
+
+The smoke suite did exactly its job. Every other check in this epic passed: the token is
+absent from the bundle, `validate:taxonomy --no-token` exits 0, anonymous queries return the
+full dataset. All of that is true and none of it caught this, because the failure only
+appears in a browser, from a non-allowlisted origin, against routes that are not prerendered.
+A server-side check could not have found it.
 
 ## Objective
 
