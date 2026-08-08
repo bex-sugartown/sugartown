@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-260 — Migrate wp.* dotted document IDs — 110 docs invisible to anonymous reads
 **Linear Issue:** [SUG-260](https://linear.app/sugartown/issue/SUG-260/migrate-wp-dotted-document-ids-133-docs-invisible-to-anonymous-reads)
-**Status:** In Progress — Phases 0–4 complete 2026-08-08, smoke suite green. Close-out pending a push: CI run ID, mini-release, Linear Done. One human action outstanding (delete `web-frontend-read`).
+**Status:** ✅ Shipped 2026-08-08 — CI run `31259842296` green
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — audit and tooling phases ship independently;
 the migration-execution phase is internally atomic (see Non-Goals)
@@ -541,3 +541,56 @@ Phase 2 is one transaction. Phases 1, 3 and 4 merge independently.
   first time in its existence and reported anonymous-only dangling references
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer
   Checklist and Files to Modify at Phase 1 activation
+
+---
+
+## Post-Epic Close-Out — 2026-08-08
+
+| Step | Result |
+|---|---|
+| 1. Commit | ✅ 23 commits |
+| 1b. Route smoke tests | ✅ 5/5 locally; **CI run `31259842296` concluded `success`**, `Route smoke tests` step green |
+| 2. Deploy schema | N/A — no `apps/studio/schemas/` change |
+| 3. Visual QA gate | N/A — no visual format changed. Data, tooling and config only; no vspec exists |
+| 4. Chromatic | ⚠️ ran, **0 snapshots** — monthly quota exhausted. Storybook 10.3.4→10.5.7 (unrelated commit in the same batch) is **visually unverified**. TurboSnap inactive until 10 CI-originated builds exist |
+| 5. Data pipeline gap | `stats.yml` now runs the collectors anonymously. Both query `perspective: 'published'` and never read drafts, and CI run `31259842296` passed, but no *scheduled* stats run has exercised it yet. First cron run is the real test |
+| 5b. Handoffs landed | ✅ SUG-187 unblocked; its doc carries the stale-`_id` warning and the SUG-260-first sequencing decision |
+| 6. Move to `docs/shipped/` | ✅ this commit |
+| 6b. Preserve vspec | N/A — no vspec |
+| 7. Mini-release | see below |
+| 8. Linear → Done | see below |
+| 8b. Incident log | ✅ **INC-012** logged; `pnpm mttn` rerun (12 logged, 11 measurable, mean 77 days) |
+| 9. Clean tree | ✅ CI-owned stats files only |
+
+### Acceptance criteria
+
+| Criterion | Result |
+|---|---|
+| `validate:taxonomy` passes with no token | ✅ `--no-token` exits 0 locally **and** green in CI with no `VITE_SANITY_TOKEN` in the job env |
+| Anonymous = authenticated across the 7 content types | ✅ 110 hidden → **0** |
+| Zero `wp.*` ids remain | ✅ 0 |
+| Dangling references 0 after migration | ✅ 0 |
+| Reference edges conserved | ✅ 1,835 before and after, same walker |
+| No `VITE_SANITY_*` token in the bundle | ✅ absent from all 61 bundles in a real production build |
+| `web-frontend-read` deleted | ✅ revoked — "Session not found" |
+| Migration report durable | ✅ `artifacts/sug-260-dedot-migration-report-2026-08-08.json` |
+| The one draft stays a draft | ✅ nothing published |
+
+### Friction line (epic-template step 3b)
+
+**Phase 3's CORS regression.** Removing the browser token passed every server-side check —
+token absent from the bundle, anonymous full-dataset query, `validate:taxonomy --no-token`
+— and still broke three routes, because Sanity echoes the request origin for *authenticated*
+requests but requires an allowlist entry for *anonymous* ones. Only the Playwright suite
+could see it: a browser, on a non-prerendered route, from a non-allowlisted origin. Cost one
+correction commit (`75d49288`) and a CORS origin addition. Recorded in `playwright.config.ts`
+at the point of failure.
+
+### Out of scope, still open
+
+- **Bex's Sanity CLI session token** (`skoWGYkt…`) is live and reads drafts. Rotate with
+  `npx sanity logout && npx sanity login`. Not a SUG-260 deliverable; surfaced by the
+  credential audit that followed Phase 3.
+- **`validate:doc-budget` is CI-only**, not in pre-commit, so under `/eod` batching it
+  cannot fail until after the deploy. It red-lit run `31258189587` for reasons unrelated to
+  this epic. Worth its own decision.
