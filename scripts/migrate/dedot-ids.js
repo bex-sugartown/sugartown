@@ -70,6 +70,16 @@ async function main() {
   const { edges, sources } = countMappedEdges(docs, mapping)
   const danglingBefore = findDangling(docs)
 
+  // Already migrated: nothing in scope and nothing to remap is success, not
+  // failure. Without this, a re-run reports red against a pre-migration
+  // baseline and reads like a broken dataset.
+  if (mapping.size === 0 && edges === 0) {
+    console.log('✅ Nothing in scope. The dataset carries no wp.* ids.')
+    console.log(`   ${docs.length} documents · ${danglingBefore.length} dangling references`)
+    console.log('   Migration already applied. Nothing to do.\n')
+    return
+  }
+
   // ── Pre-flight assertions ────────────────────────────────────────────────
   // Every one of these has to hold before a single mutation is queued.
   console.log('Pre-flight')

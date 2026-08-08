@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-260 — Migrate wp.* dotted document IDs — 110 docs invisible to anonymous reads
 **Linear Issue:** [SUG-260](https://linear.app/sugartown/issue/SUG-260/migrate-wp-dotted-document-ids-133-docs-invisible-to-anonymous-reads)
-**Status:** In Progress — Phase 0 audit complete 2026-08-08
+**Status:** In Progress — Phases 0–2 complete 2026-08-08; Phase 3 (token removal) next
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — audit and tooling phases ship independently;
 the migration-execution phase is internally atomic (see Non-Goals)
@@ -249,6 +249,53 @@ Sanity's own Tasks feature. Weak references are designed to survive a missing ta
 cross-dataset reference resolves against a different dataset, so checking either against
 local ids is wrong by construction. The check was fixed to skip both; the baseline was not
 adjusted to make a red run go green.
+
+## Phase 2 — executed 2026-08-08 ✅
+
+**333 mutations in one transaction. 111 renames (create + delete) and 111 in-place patches.**
+
+Backup taken first: `~/SUGARTOWN_DEV/sanity-backups/production-pre-sug260-2026-08-08.tar.gz`
+(132 MB, 599 documents, 177 assets). Verified before executing by extracting `data.ndjson`
+and counting: **111 `wp.*` documents present**, all 10 drafts, type counts matching
+(node 38, tag 44, category 10, article 7, caseStudy 7, page 4, person 1). Studio was stopped
+for the duration, so nothing could be mid-edit.
+
+### Verified after, independently of the script's own success message
+
+| Check | Before | After |
+|---|---|---|
+| Content-type documents hidden from anonymous reads | **110** | **0** |
+| Documents carrying a `wp.*` id | 110 + 1 draft | **0** |
+| Dangling references | 0 | **0** |
+| Reference edges (same walker both sides) | 1,835 | **1,835** — conserved exactly |
+| Documents in dataset | 789 | **789** — none lost |
+
+All 14 content types now return fully to an unauthenticated query: `archivePage`, `article`,
+`caseStudy`, `category`, `ctaButtonDoc`, `glossaryTerm`, `navigation`, `node`, `page`,
+`person`, `project`, `series`, `tag`, `tool`.
+
+Rendering confirmed in-browser on `/case-studies/beauty-retail-from-monolith-to-microservice`
+(author, 5 tools, 2 categories, 6 tags all resolving) and `/tags/headless` (reverse lookup,
+20 items). Zero console errors.
+
+### The acceptance criterion cannot be run until Phase 3
+
+`pnpm validate:taxonomy` passes, but **not token-free**, and the script cannot be made
+token-free from the shell. `apps/web/scripts/validate-taxonomy.js:37` loads `apps/web/.env`
+with `if (!process.env[key])`, so both unsetting and blanking `VITE_SANITY_TOKEN` are
+overwritten by the file's value. A genuine anonymous run of *that script* requires Phase 3's
+token removal.
+
+The migration's anonymous behaviour is proven instead by a raw request with **no
+`Authorization` header**, which is stronger evidence than the validator. Phase 3 should add
+an explicit `--no-token` flag to the validator so the criterion becomes runnable on demand
+rather than only as a side effect of removing the token.
+
+### Note for Phase 3 onward
+
+`scripts/migrate/dedot-ids.js` now detects the migrated state and exits 0 with "Nothing in
+scope" rather than failing against a pre-migration baseline. Its `EXPECT` constants describe
+the 2026-08-08 pre-migration dataset and are historical.
 
 ## Objective
 
