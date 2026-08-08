@@ -273,8 +273,9 @@ rewritten in the same atomic operation, the viewer token removed from the web cl
 - [ ] **Re-run `validate:taxonomy` with no token** — the acceptance test — layer: tooling
 - [ ] **Update SUG-187's stale `_id` references** (`wp.caseStudy.388` and siblings) — layer: docs
 
-Ten Scope items and numbered phases, so this decomposes into user-story sub-issues per
-`docs/conventions/user-story-conventions.md`. **The Linear workspace is at its free issue
+Ten Scope items, so this decomposes into user-story sub-issues per
+`docs/conventions/user-story-conventions.md`. This epic's numbered phases are not a
+decomposition trigger (conventions v1.1, 2026-08-08). **The Linear workspace is at its free issue
 limit as of 2026-08-07**, so sub-issues are recorded here until that clears. Their absence
 from Linear is not a scope reduction.
 

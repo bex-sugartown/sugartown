@@ -237,10 +237,10 @@ field — see CLAUDE.md §Linear status = workflow stage (SUG-246).
 
 ## User Story Decomposition [REQUIRED if epic crosses the sizing gate]
 
-> Decompose into user-story sub-issues when the epic has more than 5 Scope items or
-> numbered phases. Below that, skip this section — most Sugartown epics are single-session
-> and gain nothing from one ticket per Scope item. Full definition, the Linear sub-issue
-> shape, and a worked example: `docs/conventions/user-story-conventions.md`.
+> Decompose into user-story sub-issues when the epic has more than 5 Scope items. Numbered
+> phases do not trigger this. Below that, skip this section — most Sugartown epics are
+> single-session and gain nothing from one ticket per Scope item. Full definition, the
+> Linear sub-issue shape, and a worked example: `docs/conventions/user-story-conventions.md`.
 
 - [ ] Sizing gate checked — epic crosses it / stays flat (state which)
 - [ ] If crossing: user stories filed as Linear sub-issues (`parentId` = this epic),

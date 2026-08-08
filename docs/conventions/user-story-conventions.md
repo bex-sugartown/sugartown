@@ -1,9 +1,9 @@
 # User Story Conventions
 
-**Version:** v1.0
+**Version:** v1.1
 **Status:** Active
 **Owner:** Bex Head
-**Last updated:** 2026-07-29
+**Last updated:** 2026-08-08
 **Related:** `docs/epic-template.md`, `CLAUDE.md` §Epic authoring,
 `docs/conventions/instruction-writing-style.md`
 
@@ -24,16 +24,32 @@ runs against Storybook stories, and a dark-mode Storybook story is an acceptance
 
 ## When to decompose
 
-Decompose an epic into user stories when **either** is true:
+Decompose an epic into user stories when it has **more than 5 Scope items**. Below that,
+keep the epic flat. Most Sugartown epics are single-session and gain nothing from one
+ticket per Scope item.
 
-- more than 5 Scope items, or
-- numbered phases
-
-Below that, keep the epic flat. Most Sugartown epics are single-session and gain nothing
-from one ticket per Scope item.
+**Numbered phases do not trigger decomposition.** Phases are execution units, not work
+items — see CLAUDE.md §Multi-phase epic merge cadence — and one epic stays one Linear
+issue however many phases it carries.
 
 The threshold is a starting value, not a measurement. Check it against the first two epics
 that cross it and revise if it is miscalibrated.
+
+### Recalibration — 2026-08-08
+
+v1.0 also fired the gate on numbered phases. Nearly every Sugartown epic has numbered
+phases, so that clause made the Scope-item threshold inoperative: the gate fired on almost
+every epic, which is the opposite of a gate.
+
+SUG-187 and SUG-260 were the first two epics to cross it, per the check this section
+requires. **Both cross on Scope-item count alone — 11 and 10 items.** Removing the phases
+clause changes neither epic's outcome, and neither relieves the Linear free-issue ceiling
+both hit on 2026-08-07. The clause was removed because it was structurally miscalibrated,
+not because it produced measured over-decomposition. Reproduce the counts:
+
+```bash
+for f in docs/backlog/SUG-187-*.md docs/backlog/SUG-260-*.md; do echo -n "$f: "; awk '/^## Scope$/{f=1;next} /^### |^## /{if(f)exit} f&&/^- \[[ x]\]/{c++} END{print c+0}' "$f"; done
+```
 
 ## The Linear shape
 
@@ -57,8 +73,8 @@ into the epic doc will disagree silently.
 
 ## Worked example — SUG-229
 
-SUG-229 ("Convert remaining human-gate skills to AskUserQuestion") had 11 Scope items
-across 3 phases, so it crosses the gate on both counts.
+SUG-229 ("Convert remaining human-gate skills to AskUserQuestion") had 11 Scope items, so
+it crosses the gate. Its 3 phases are not why.
 
 | # | User story | Phase | Scope items |
 |---|---|---|---|

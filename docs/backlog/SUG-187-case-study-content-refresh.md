@@ -293,12 +293,13 @@ JSON-LD, the archive card, and the metadata rail) from the **variable narrative 
 
 ### User-story decomposition
 
-Ten Scope items and numbered phases, so this decomposes into user-story sub-issues per
+Eleven Scope items, so this decomposes into user-story sub-issues per
 `docs/conventions/user-story-conventions.md`. One sub-issue per Scope item, parented to
-SUG-187. The epic doc stays authoritative on conflict.
+SUG-187. The epic doc stays authoritative on conflict. This epic's numbered phases are not
+a decomposition trigger (conventions v1.1, 2026-08-08).
 
 **The Linear workspace hit its free issue limit on 2026-08-07 after two sub-issues.** The two
-that exist are the blocking ones; the remaining eight are recorded here and created when the
+that exist are the blocking ones; the remaining nine are recorded here and created when the
 workspace allows. Do not treat their absence from Linear as a scope reduction.
 
 | Scope item | Sub-issue | State |
