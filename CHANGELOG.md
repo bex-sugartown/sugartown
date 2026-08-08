@@ -25,8 +25,12 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - `AUTOMATED CHECKS · 18` tile body corrected from "enforced by code and pre-commit hooks" (overstated) to "6 run at pre-commit; the rest in CI only" (measured). SUG-256.
 
 #### Added
-- User Story Decomposition: epics with more than 5 Scope items or numbered phases now decompose into Linear sub-issues, one ticket per user story, defined in `docs/conventions/user-story-conventions.md` and referenced from `docs/epic-template.md` and CLAUDE.md's Epic authoring section. SUG-238.
+- User Story Decomposition: epics with more than 5 Scope items decompose into work units, recorded as a scope-to-phase mapping in the epic doc, defined in `docs/conventions/user-story-conventions.md` and referenced from `docs/epic-template.md` and CLAUDE.md's Epic authoring section. SUG-238, revised twice before release (see Changed below).
 - 5 orphaned Linear issues backfilled with `docs/backlog/` stubs and priority-stack rows (SUG-249, 257, 258, 259, 260); `pnpm validate:epic-docs` added, wired into CI, checking every non-Done issue against both artifacts. SUG-262 Ph1–2 (epic not yet closed — CTL-024's `enforced-by-code` flip awaits a real CI run).
+
+#### Changed
+- Sizing gate recalibrated (`user-story-conventions.md` v1.1, 2026-08-08): `numbered phases` dropped as a decomposition trigger, leaving `>5 Scope items` alone. Nearly every Sugartown epic has numbered phases, so the clause made the Scope-item threshold inoperative. Checked against SUG-187 and SUG-260, the first two epics to cross the gate, per the instruction the section itself carried.
+- Linear sub-issues withdrawn as the decomposition mechanism (`user-story-conventions.md` v2.0, 2026-08-08). One epic is one Linear issue; decomposition is a scope-to-phase mapping in the epic doc. Sub-issues have no backlog doc by design, so every one filed failed `validate:epic-docs` and turned CI red, and they consumed a free-plan issue budget the workspace had already exhausted. CLAUDE.md's scope-creep routing table and `docs/epic-template.md` updated to match; SUG-277, SUG-278 and SUG-279 cancelled.
 
 ### tooling
 
