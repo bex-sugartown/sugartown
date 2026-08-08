@@ -16,6 +16,9 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### apps/web
 
+#### Fixed
+- 110 published documents were invisible to every unauthenticated reader for 158 days: Sanity reads dots in an `_id` as path segments, and the WordPress import minted ids as `wp.<type>.<id>`. Migrated 111 ids to `<type>-<slug>` and rewrote 612 references across 39 field paths in one atomic transaction, verified by 0 hidden documents, 0 dangling references and reference-edge count conserved at 1,835. The viewer token the workaround shipped to every browser is removed from production bundles and revoked; `validate:taxonomy` now passes anonymously in CI, which was the epic's acceptance test. Logged as INC-012. SUG-260.
+
 #### Changed
 - `/platform/governance` no longer publishes the coverage tally ("30 checkpoints · 0 gaps" was undated and, for three claims, measurably false). It moved to `/platform/governance-draft` (`noindex`), which carries a measurement date and reproducing command instead. §05 retitled "AI Governance Workflow," keeping the workflow diagram and doc index. SUG-256.
 
