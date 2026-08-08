@@ -138,7 +138,7 @@ Two of these change the plan:
 
 ## 5. Open decisions for Bex
 
-Not resolvable without you.
+**Resolved 2026-08-08 — see §10.** Retained for the reasoning that produced them.
 
 | # | Decision | Why it blocks |
 |---|---|---|
@@ -227,3 +227,91 @@ W2, W4, W5 independent
 - **Workflow post-mortem:** run 2026-08-08 against 2026-08-01→08 git history. Measurements reproducible from `git log`, `gh run list`, and the session transcript.
 - **Voice Governance Audit:** authored in claude.ai chat 2026-08-08. Verified, corrected and extended here; two of its findings are void (F6, F8-as-written) and one is understated (F3).
 - **ORIENT:** run 2026-08-08 in this repo. Every "No" row in the audit's §2 verification table is now resolved.
+
+---
+
+## 10. Decisions — resolved 2026-08-08 by Bex
+
+| # | Decision | Resolution |
+|---|---|---|
+| **B1** | Rule delivery vs the budget cap | **Raise the cap, or suspend `validate:doc-budget`, until CI-green is proven.** Unblocks V1/V2 immediately |
+| **B2** | Two registers or three | **Two.** Recommendation accepted below — chat is a *mode* of Technical, not a third register |
+| **B3** | Em-dash ban scope | **FE brand/Bex human-authored content only.** Not nodes (AI-authored), not technical docs, not technical chat |
+| **B4** | Gate posture | **Warn until CI-green is proven** |
+| **B5** | Gate tiering | Needs the inventory first — Appendix A |
+| **B6** | Manual claude.ai skill sync | **Acceptable** |
+
+### B1 + B4 share one mechanism, and need one definition
+
+Both are "relax now, re-arm on proof". That proof has to be a number, or the relaxation is permanent by drift.
+
+**Proposed:** *CI-green is proven when 10 consecutive runs on `main` conclude `success`.* Today's baseline is 1. Re-arm both gates when it reaches 10, and record the run IDs.
+
+Two guardrails so the suspension does not become the new normal:
+
+- A dated re-arm note in the control register, with the counter checked at every `/eod`.
+- The counter resets on any red run, so a flaky gate cannot age its way to permanence.
+
+**One caveat on suspending `validate:doc-budget`.** It is the only thing measuring the instruction surface. Suspending it while V1 changes rule delivery means no measurement during exactly the period the surface is being restructured. Recommend **raise the cap to 26,000 and keep it enforcing**, rather than suspend: it still catches runaway growth, it stops blocking, and it keeps a number on the thing V1 is trying to fix.
+
+### B2 — recommendation: two registers, chat as a mode
+
+**Two, not three.**
+
+The decay mechanism is duplication: 49 files restate the em-dash rule. A third register means a third place every shared rule is restated, and the problem is already restatement.
+
+Chat's real problems are not register problems. They are behavioural: replies too long, decisions hedged, and making you ask what happens next. Those belong in operating rules, not a voice guide — and they already exist as memory feedback (`reporting-style`, `decision-answers`, `florid-phrases`, `docs-format`).
+
+So: **chat inherits the Technical register**, plus a short conversational delta — lead with the recommendation, tables over paragraphs, never end a turn leaving the next step unstated. That delta lives with the operating rules, not as a third voice.
+
+### B3 — the surface map this produces
+
+| Surface | Authorship | Em dashes |
+|---|---|:--:|
+| Articles, case studies, page copy | Bex, human | **Banned** |
+| Glossary terms | Bex voice, `/glossy`-drafted | **Banned** — FE brand content |
+| Nodes | AI agent | **Allowed** |
+| Technical docs, conventions, epics, PRDs | Either | **Allowed** |
+| Commit messages | Agent | **Allowed** — reversal of current rule |
+| Chat execution | Agent | **Allowed** |
+
+This collapses the exemption chain: one positive rule replaces a ban plus three exemptions across 49 files.
+
+**Two surfaces need your call before V4 writes it down:** PR descriptions (technical, so allowed by the logic above) and alt text / meta descriptions (FE-facing but machine-consumed). Both currently sit under the editorial ban.
+
+---
+
+## Appendix A — Gate inventory for B5 tiering
+
+**24 gate sections in `CLAUDE.md`, 10 skills carrying gates, 16 validators.**
+
+Proposed three-tier model. Tier 1 is the only one that costs a click.
+
+**Tier 1 — Stop and ask.** Irreversible, outward-facing, or writes content.
+
+| Gate | Where |
+|---|---|
+| Content Write Gate | CLAUDE.md:405 |
+| Human-Publishes Rule | CLAUDE.md:431 |
+| Instruction & Rule File Write Gate | CLAUDE.md:445 |
+| Phase 0 visual spec gate | CLAUDE.md:220 |
+| Technical diagram red-pen gate | CLAUDE.md:772 |
+| Push to `origin` | `/eod` |
+| Destructive git (`reset --hard`, branch delete, force) | `/eod`, `/morning` |
+| Production data mutation | ad hoc |
+
+**8 gates. These are worth the interruption.**
+
+**Tier 2 — Decide, act, report.** The rule states the answer; the agent applies it and says what it did. No click.
+
+Atomic Reuse Gate · CSS class pre-implementation audit · Component choice gate · Taxonomy pre-flight · Token-First rule · URL Authority rule · Design handoff evaluation · Verification review · Scope creep routing · Incomplete epic doc hard stop · DS Doc Gates 1–3 · Worktree path discipline · CSS layout fix escalation · Pre-commit CSS token checklist · Visual verification rules
+
+**16 gates, currently written as hard stops with select-list response mechanisms. This is where the click inflation lives.**
+
+**Tier 3 — Automated, silent unless failing.** All 16 validators, pre-commit, CI steps. No human in the loop by design.
+
+### What this changes
+
+Today's session fired **24 prompts**. Under this model, the Tier-1 actions in it were: the production migration, the rule-file edits, the pushes, and the Chromatic override. **Roughly 8.** The other 16 were Tier 2 decisions I should have made and reported.
+
+Awaiting your approval or adjustment of the tier assignments, then W2 implements them.
