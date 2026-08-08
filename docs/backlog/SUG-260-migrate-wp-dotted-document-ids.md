@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-260 — Migrate wp.* dotted document IDs — 110 docs invisible to anonymous reads
 **Linear Issue:** [SUG-260](https://linear.app/sugartown/issue/SUG-260/migrate-wp-dotted-document-ids-133-docs-invisible-to-anonymous-reads)
-**Status:** In Progress — Phases 0–2 complete 2026-08-08; Phase 3 (token removal) next
+**Status:** In Progress — Phases 0–3 complete 2026-08-08; one human action outstanding (delete `web-frontend-read`)
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — audit and tooling phases ship independently;
 the migration-execution phase is internally atomic (see Non-Goals)
@@ -296,6 +296,63 @@ rather than only as a side effect of removing the token.
 `scripts/migrate/dedot-ids.js` now detects the migrated state and exits 0 with "Nothing in
 scope" rather than failing against a pre-migration baseline. Its `EXPECT` constants describe
 the 2026-08-08 pre-migration dataset and are historical.
+
+## Phase 3 — executed 2026-08-08 ✅ (one item outstanding, see below)
+
+**The epic's premise was wrong in one respect, and Phase 3 corrects it.** The plan was
+"remove the token entirely". Drafts are stored as `drafts.<id>`, and `drafts.` is itself a
+dotted prefix, so **reading drafts still requires authentication after this migration**. The
+token cannot be deleted outright without breaking dev preview.
+
+What is actually true: production never reads drafts. `getContentPerspective()` returns
+`published` whenever `PROD` is set, and `vite.config.js`'s `contentStateSafety` plugin
+hard-fails a production build with `VITE_SANITY_PREVIEW=true`. So the correct fix is **never
+inline the token into a production bundle**, which is what shipped.
+
+| Change | File |
+|---|---|
+| Token gated behind `import.meta.env.PROD`, both clients | `apps/web/src/lib/sanity.js` |
+| `VITE_SANITY_TOKEN` injection removed | `.github/workflows/ci.yml`, `stats.yml` |
+| `--no-token` flag added | `validate-taxonomy.js`, `validate-filters.js` |
+| No longer hard-exits without a token | `scripts/audit/wp-url-spider.js` |
+| False "wp.* invisible" warning corrected | `apps/web/scripts/validate-content.js` |
+
+The guard is `import.meta.env.PROD`, not `isPreviewMode()`. Vite replaces it with a literal
+at build time so the minifier folds the branch and the string never reaches the bundle; a
+cross-module call would not reliably eliminate.
+
+### Verified
+
+- **Token absent from a real production build.** The 180-character string appears in none of
+  the 61 bundles in `apps/web/dist/`, and no `sk`-prefixed secret appears anywhere in the
+  output. This is the acceptance criterion "no `VITE_SANITY_*` token in the web client bundle".
+- **`validate:taxonomy --no-token` exits 0**, seeing 64 tags where anonymous previously saw
+  20. `validate:filters --no-token` exits 0. This is the epic's headline acceptance test, now
+  genuinely runnable.
+- **Zero `CI_SANITY_READ_TOKEN` references remain** in `.github/`.
+- Dev preview still renders with drafts, references resolving, zero console errors.
+- Stats collectors unaffected: both query `perspective: 'published'` and never read drafts.
+
+### Outstanding — requires Bex, not the agent
+
+**Delete the `web-frontend-read` token at sanity.io/manage → API → Tokens.** Modifying
+security settings is outside what the agent does; this one is a human action.
+
+Two things to confirm first:
+
+1. **Is `CI_SANITY_READ_TOKEN` the same underlying token as `web-frontend-read`?** A repo
+   secret cannot be read back, so this cannot be checked from here. Nothing in `.github/`
+   references it any more, so deleting it is safe either way, but confirm before assuming.
+2. **`apps/web/.env` keeps `VITE_SANITY_TOKEN` deliberately** — dev preview needs it to read
+   drafts. Deleting `web-frontend-read` breaks local preview unless that `.env` value is a
+   different token. Check which one it is before deleting.
+
+### Unrelated security finding, filed not fixed
+
+`.claude/settings.local.json` lines 298–299 and 639 contain **hardcoded `SANITY_AUTH_TOKEN`
+values inside permission-allowlist strings** — write-capable tokens, in a file, in the repo
+tree. Also present in `.claude/worktrees/pensive-brattain/.claude/settings.local.json`. Out of
+scope for SUG-260 and not touched here. Worth its own issue.
 
 ## Objective
 
