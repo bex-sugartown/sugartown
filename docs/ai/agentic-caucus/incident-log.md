@@ -75,6 +75,41 @@ a gate is a log describing gates that do not work.
 
 ## Incident Registry
 
+### INC-012 — 110 published documents invisible to every unauthenticated reader
+**Introduced:** 2026-02-21 · **Noticed:** 2026-07-28 · **Severity:** High
+**Failure mode:** FM-X-02 (confidence without verification) · **Found by:** automated gate
+
+**What happened:** The WordPress migration minted document ids as `wp.<type>.<id>`. Sanity
+reads dots in an `_id` as path segments, and a dataset's public-read grant covers path `*`
+(one segment), so every dotted id was invisible to anonymous queries even on a `public`
+dataset. 110 published documents — every author, 44 of 64 tags, 37 nodes, 7 of 8 case
+studies — could not be read without a credential. The workaround shipped a viewer token to
+the browser, which made the site's effective view authenticated and hid the defect from
+everyone who looked.
+**Consequence:** 158 days. A read credential inlined into every deployed bundle and
+extractable with one `curl`, unscopeable and unrotatable without a redeploy. Every consumer
+of the dataset forced to authenticate. And a false-negative-shaped gate: on 2026-07-28
+`validate:taxonomy` reported 63 dangling tag refs and 24 dangling author refs that resolved
+perfectly well for every real reader, because CI was the only unauthenticated reader anyone
+had.
+**Resolution:** Found by `validate:taxonomy` executing in CI for the first time in its
+existence during SUG-255 — the workflow had failed at step 1 since it was created, so the
+check had never run. Fixed 2026-08-08 in SUG-260: 111 ids migrated to `<type>-<slug>` and 612
+references rewritten across 39 field paths in one atomic transaction, verified by 0 hidden
+documents, 0 dangling references and reference-edge count conserved at 1,835. The browser
+token is gone; `validate:taxonomy --no-token` now exits 0 and is the standing proof, where
+previously the criterion was not executable at all because the script's own env loader
+overwrote a blanked token from `apps/web/.env`.
+
+**Note, not a separate incident:** Phase 3 of the same epic introduced a CORS regression —
+Sanity echoes the request origin for authenticated requests but requires an allowlist entry
+for anonymous ones, so dropping the token broke every non-allowlisted origin. It was caught
+by the route smoke tests before any push and never reached production, which is below this
+log's bar ("a record of what got through, not a diary"). Recorded because of what it says
+about coverage: the token's absence from the bundle, an anonymous full-dataset query, and
+`validate:taxonomy --no-token` all passed while it was broken. Only a browser, on a
+non-prerendered route, from a non-allowlisted origin, could see it.
+
 ### INC-011 — Four architectural boundary rules declared, none ever firing
 **Introduced:** 2026-02-01 · **Noticed:** 2026-07-27 · **Severity:** High
 **Failure mode:** FM-X-02 (confidence without verification) · **Found by:** investigation

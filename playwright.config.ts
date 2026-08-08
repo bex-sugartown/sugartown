@@ -11,6 +11,23 @@ import { defineConfig, devices } from '@playwright/test'
  * instead.
  */
 
+/**
+ * `http://localhost:4173` must be registered as a Sanity CORS origin
+ * (sanity.io/manage → API → CORS origins). Do not change this port without
+ * adding the new one there first.
+ *
+ * Why it matters, and why the failure is confusing (SUG-260, 2026-08-08):
+ * Sanity echoes the request origin back in Access-Control-Allow-Origin for
+ * *authenticated* requests, but requires an explicit allowlist entry for
+ * *anonymous* ones. The web client dropped its viewer token in SUG-260 Phase 3,
+ * so every browser origin now has to be on that list.
+ *
+ * Three of these five specs hit routes the build does not prerender (the
+ * articles archive, a tool detail page, a category detail page) and therefore
+ * need a live client-side fetch. Without the CORS entry they fail as "zero
+ * cards rendered", which reads like a content problem and is not one. Check the
+ * browser console for a CORS error before investigating the data.
+ */
 const PORT = 4173
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? `http://localhost:${PORT}`
 

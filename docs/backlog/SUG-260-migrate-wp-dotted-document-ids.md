@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-260 — Migrate wp.* dotted document IDs — 110 docs invisible to anonymous reads
 **Linear Issue:** [SUG-260](https://linear.app/sugartown/issue/SUG-260/migrate-wp-dotted-document-ids-133-docs-invisible-to-anonymous-reads)
-**Status:** In Progress — Phases 0–3 complete 2026-08-08. **Phase 4 BLOCKED**: Phase 3 introduced a CORS regression; add `http://localhost:4173` as a Sanity CORS origin before pushing.
+**Status:** In Progress — Phases 0–4 complete 2026-08-08, smoke suite green. Close-out pending a push: CI run ID, mini-release, Linear Done. One human action outstanding (delete `web-frontend-read`).
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — audit and tooling phases ship independently;
 the migration-execution phase is internally atomic (see Non-Goals)
@@ -354,10 +354,15 @@ values inside permission-allowlist strings** — write-capable tokens, in a file
 tree. Also present in `.claude/worktrees/pensive-brattain/.claude/settings.local.json`. Out of
 scope for SUG-260 and not touched here. Worth its own issue.
 
-## Phase 4 — BLOCKED 2026-08-08. Phase 3 introduced a CORS regression.
+## Phase 4 — CORS regression found and fixed 2026-08-08 ✅
 
-**Do not push until the CORS origin below is added.** The smoke suite is red locally and
-would be red in CI. Production is unaffected; nothing is deployed.
+**Resolved.** `http://localhost:4173` was added as a Sanity CORS origin by Bex, and
+`pnpm test:smoke` now passes 5 of 5. Production was never affected and nothing was deployed
+while it was broken.
+
+The dependency is recorded at the point of failure, in `playwright.config.ts` above the port
+constant: changing the smoke-test port without registering the new origin reproduces this,
+and it presents as "zero cards rendered", which reads like a content problem and is not one.
 
 ### What happened
 
@@ -399,11 +404,11 @@ curl -s -D- -o /dev/null -H "Origin: http://localhost:4173" \
 The last CI run before Phase 3 was green (`31169229182`, `daac000a`, 2026-08-07), which is
 consistent: the bundle carried a token then, so the requests were authenticated.
 
-### The fix — requires Bex
+### The fix — done
 
-**Add `http://localhost:4173` as a CORS origin at sanity.io/manage → API → CORS origins.**
-"Allow credentials" is not needed; the whole point is that these requests carry no
-credentials. Adding a CORS origin is a security-settings change and is a human action.
+`http://localhost:4173` added as a CORS origin at sanity.io/manage → API → CORS origins,
+2026-08-08, by Bex. "Allow credentials" not needed: these requests carry none. Verified by
+re-running the ACAO check and then the full smoke suite, 5 of 5 green.
 
 Rejected alternatives: running the preview on the already-allowlisted `:5173` collides with
 the dev server; prerendering the archive routes would defeat what these tests check, which is
