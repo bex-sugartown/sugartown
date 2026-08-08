@@ -291,30 +291,34 @@ JSON-LD, the archive card, and the metadata rail) from the **variable narrative 
 - [ ] **`/red-pen` each rebuilt document** before it is proposed for publish. Layer:
       editorial QA
 
-### User-story decomposition
+### Scope-to-phase mapping
 
-Eleven Scope items, so this decomposes into user-story sub-issues per
-`docs/conventions/user-story-conventions.md`. One sub-issue per Scope item, parented to
-SUG-187. The epic doc stays authoritative on conflict. This epic's numbered phases are not
-a decomposition trigger (conventions v1.1, 2026-08-08).
+**This epic is one Linear issue. Decomposition lives in §Phases below, not in Linear
+sub-issues.** Every Scope item names the phase that ships it, so `Scope ∖ Phases` is empty
+per CLAUDE.md §Incomplete epic doc hard stop, item 6.
 
-**The Linear workspace hit its free issue limit on 2026-08-07 after two sub-issues.** The two
-that exist are the blocking ones; the remaining nine are recorded here and created when the
-workspace allows. Do not treat their absence from Linear as a scope reduction.
+| Scope item | Phase |
+|---|---|
+| Resolve the fact litigation register | 0 |
+| Resolve the Module 9 correction upstream | 0 |
+| Case-study engagement-fact field policy convention | 0 |
+| Write the case study north star and unfix the heading template | 0b |
+| Metadata and retrieval field sweep across all 7 | 1 |
+| Studio ↔ Resume Factory fact reconciliation | 2 |
+| Rewrite `prestige-beauty` + `beauty-retail` from scratch | 3 |
+| Rewrite `fx-networks` + `backroads` + `bare-minerals` from scratch | 4 |
+| Rewrite `beringer` + `launching-lunar-landing` from scratch | 5 |
+| Retrieval and linking pass across all 7 | 6 |
+| `/red-pen` each rewritten document | gate on 3, 4 and 5 |
 
-| Scope item | Sub-issue | State |
-|---|---|---|
-| Resolve the fact litigation register (Phase 0 hard stop) | [SUG-278](https://linear.app/sugartown/issue/SUG-278) | created |
-| Resolve the Module 9 correction upstream | [SUG-279](https://linear.app/sugartown/issue/SUG-279) | created |
-| **Write the case study north star and unfix the heading template** | — | **blocked on Linear issue limit.** Blocks every rewrite below |
-| Case-study engagement-fact field policy convention | — | blocked on Linear issue limit |
-| Metadata and retrieval field sweep across all 7 | — | blocked on Linear issue limit |
-| Studio ↔ Resume Factory fact reconciliation | — | blocked on Linear issue limit |
-| Rewrite `prestige-beauty` + `beauty-retail` from scratch | — | blocked on Linear issue limit |
-| Rewrite `fx-networks` + `backroads` + `bare-minerals` from scratch | — | blocked on Linear issue limit |
-| Rewrite `beringer` + `launching-lunar-landing` from scratch | — | blocked on Linear issue limit |
-| Retrieval and linking pass across all 7 | — | blocked on Linear issue limit |
-| `/red-pen` each rewritten document | — | blocked on Linear issue limit |
+Two sub-issues briefly existed, SUG-278 and SUG-279, created 2026-08-07 and cancelled
+2026-08-08 when this epic moved to phase-based decomposition. Nothing was descoped. The
+two facts that lived only in their Linear descriptions are carried into Phase 0 below:
+
+- **Check story bank module 21 for the same inherited claim** as module 9. The portability
+  claim propagates, so correcting module 9 alone leaves the defect live elsewhere.
+- **Update the JD-0284 tracker row** once the correction lands, so the loop closes where it
+  opened.
 
 ## Phases
 
@@ -329,7 +333,7 @@ end, from `main`.
 
 | Phase | Ships | Gate |
 |---|---|---|
-| **0** | Fact register fully answered; field-policy convention doc; Module 9 correction applied upstream | **Hard stop.** No Sanity write of any kind until every register row is closed |
+| **0** | Fact register fully answered; field-policy convention doc; Module 9 correction applied upstream, including the module 21 check and the JD-0284 tracker row | **Hard stop.** No Sanity write of any kind until every register row is closed |
 | **0b** | `case-study-north-star.md`; `write-casestudy-prompt.md` Step 2 unfixed | **Hard stop.** Instruction & Rule File Write Gate. No rewrite starts before this lands |
 | **1** | Metadata and retrieval field sweep across all 7 (`excerpt`, `seo.title`, `aiDisclosure`, `role`, `employer`, `contractType`, `dateRange`) | Content Write Gate proposal per document |
 | **2** | Fact reconciliation mechanism built and both sides agreeing | Verification review if it lands as a validator (see §Technical notes) |

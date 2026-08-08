@@ -95,9 +95,10 @@ When creating a new epic in `docs/backlog/`:
 2. **Name the file** `docs/backlog/SUG-{N}-{descriptive-name}.md`
 3. **Link the Linear issue** in the file header (`**Linear Issue:** SUG-{N}`)
 4. **Prioritize in Linear** — the Linear queue is the single source of truth for priority order
-5. **Decompose above the sizing gate** — epics with more than 5 Scope items get user-story
-   sub-issues. Numbered phases do not trigger it: phases are execution units, not work
-   items. See `docs/conventions/user-story-conventions.md`
+5. **Decompose above the sizing gate** — epics with more than 5 Scope items carry a
+   scope-to-phase mapping in the epic doc. Numbered phases do not trigger it. **One epic is
+   one Linear issue; never file sub-issues.** See
+   `docs/conventions/user-story-conventions.md`
 
 `docs/shipped/` holds shipped epics; `docs/backlog/` holds unscheduled and in-flight ones. Legacy `EPIC-NNNN` files in `docs/shipped/` stay as-is.
 
@@ -158,7 +159,7 @@ Route by size, in this order:
 |---|---|---|
 | A heavy gate fires | `/new-epic` | Linear issue + backlog doc |
 | No gate, fits one commit | Scope line on the nearest owning doc | doc edit |
-| No gate, needs several commits | Sub-issue under that doc's epic | Linear (inherits the parent's doc) |
+| No gate, needs several commits | New phase on the nearest owning epic doc, with its Scope items mapped to it | doc edit (no Linear sub-issue) |
 
 In the same turn the finding is recorded, Claude owns the artifact its row names, the
 execution order relative to the current epic, and any `blockedBy`/`blocks` relation

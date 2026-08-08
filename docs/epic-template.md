@@ -237,14 +237,16 @@ field — see CLAUDE.md §Linear status = workflow stage (SUG-246).
 
 ## User Story Decomposition [REQUIRED if epic crosses the sizing gate]
 
-> Decompose into user-story sub-issues when the epic has more than 5 Scope items. Numbered
-> phases do not trigger this. Below that, skip this section — most Sugartown epics are
-> single-session and gain nothing from one ticket per Scope item. Full definition, the
-> Linear sub-issue shape, and a worked example: `docs/conventions/user-story-conventions.md`.
+> Decompose when the epic has more than 5 Scope items. Numbered phases do not trigger this.
+> Below that, skip this section — most Sugartown epics are single-session and gain nothing
+> from one work unit per Scope item. **Decomposition lives in this doc, not in Linear: one
+> epic is one Linear issue, never sub-issues.** Full definition and a worked example:
+> `docs/conventions/user-story-conventions.md`.
 
 - [ ] Sizing gate checked — epic crosses it / stays flat (state which)
-- [ ] If crossing: user stories filed as Linear sub-issues (`parentId` = this epic),
-  titled `User Story: <title>`, each carrying its own Acceptance Criteria
+- [ ] If crossing: scope-to-phase mapping table present, every Scope item naming the phase
+  that ships it, so `Scope ∖ Phases` is empty
+- [ ] No Linear sub-issues filed for this epic
 
 ---
 
@@ -654,7 +656,7 @@ State how re-running the script produces no change:
 6. **Run mini-release** — `/mini-release SUG-{N} [Epic name]`
    - Produces a patch version bump and lightweight CHANGELOG stub
    - Two gates: review stub → "Write it", then commit plan → "Commit it"
-7. **Update Linear** — transition SUG-{N} to **Done**. If the epic has sub-issues, close those first.
+7. **Update Linear** — transition SUG-{N} to **Done**. One epic is one issue, so there are no sub-issues to close.
 8. **Start next epic** — only after mini-release commit is confirmed
 
 > If this epic warrants a MINOR version bump (new feature surface, new schema fields,

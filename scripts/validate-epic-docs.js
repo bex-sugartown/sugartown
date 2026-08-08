@@ -25,6 +25,13 @@
  * was to not file the sub-issue at all (SUG-269, created and cancelled the same
  * day for exactly this reason).
  *
+ * That incentive is now gone at the source. Linear sub-issues were withdrawn on
+ * 2026-08-08 (`docs/conventions/user-story-conventions.md` v2.0): an epic is one
+ * Linear issue, and decomposition is recorded as phases in the epic doc. So this
+ * gate needs no `parentId` exemption — under the current convention there are no
+ * sub-issues for it to catch. SUG-277, SUG-278 and SUG-279 were the last three,
+ * cancelled the same day.
+ *
  * Data source: reuses `apps/web/scripts/stats/linear.js`'s `collectLinear()`
  * rather than a second Linear API client. That module already has the graceful
  * degradation this gate needs — missing `LINEAR_API_KEY` or an API failure

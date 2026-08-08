@@ -1,6 +1,6 @@
 # User Story Conventions
 
-**Version:** v1.1
+**Version:** v2.0
 **Status:** Active
 **Owner:** Bex Head
 **Last updated:** 2026-08-08
@@ -51,32 +51,53 @@ not because it produced measured over-decomposition. Reproduce the counts:
 for f in docs/backlog/SUG-187-*.md docs/backlog/SUG-260-*.md; do echo -n "$f: "; awk '/^## Scope$/{f=1;next} /^### |^## /{if(f)exit} f&&/^- \[[ x]\]/{c++} END{print c+0}' "$f"; done
 ```
 
-## The Linear shape
+## Decomposition is phases in the epic doc
 
-| Field | Value |
+**One epic is one Linear issue. Sugartown does not file user stories as Linear sub-issues.**
+
+A decomposed epic carries a scope-to-phase mapping in its backlog doc. Every Scope item
+names the phase that ships it, so `Scope ∖ Phases` is empty per CLAUDE.md §Incomplete epic
+doc hard stop, item 6.
+
+| What | Where it lives |
 |---|---|
-| `parentId` | the epic's issue ID |
-| Title | `User Story: <title>` |
-| Description | its own Acceptance Criteria, then Definition of Done |
-| Definition of Done | inherits the epic's by reference unless this unit needs its own |
+| The work units | `docs/backlog/SUG-N-*.md` §Scope |
+| Which phase ships each unit | same doc, §Scope-to-phase mapping |
+| What each phase ships, and its gate | same doc, §Phases |
+| Acceptance Criteria | same doc, §Acceptance criteria |
+| Tracking | the epic's single Linear issue |
 
-Linear generates a normal SUG-N identifier for each sub-issue. No separate numbering
-scheme is needed.
+`docs/backlog/SUG-187-case-study-content-refresh.md` is the reference shape.
+
+### Why not sub-issues — withdrawn 2026-08-08
+
+Linear sub-issues were the v1.0 mechanism. They were withdrawn after their first real use,
+on three measured costs:
+
+- **They break `validate:epic-docs`.** That gate requires a `docs/backlog/SUG-N-*.md` for
+  every non-Done issue, and a sub-issue has no doc by design. Every sub-issue filed turns
+  CI red. SUG-278 and SUG-279 did exactly that, found the moment the gate first ran with a
+  live `LINEAR_API_KEY` on 2026-08-08.
+- **They consume the Linear issue budget.** The workspace hit its free-plan ceiling on
+  2026-08-07, after two sub-issues.
+- **They split one spec across two systems** with nothing keeping the halves in sync.
+
+The incentive this created is already on the record in `scripts/validate-epic-docs.js`
+lines 23–26: because sub-issues got no exemption from the doc-parity gate, the cheapest
+legal response to a finding was to not file the sub-issue at all. SUG-269 was created and
+cancelled the same day for that reason. Phases remove the conflict rather than carving an
+exemption into the gate.
 
 ## Source of truth
 
-`docs/backlog/SUG-N-*.md` stays authoritative. Sub-issues are a tracking layer for
-visibility, not a second spec. The epic doc wins on conflict.
-
-Nothing enforces this. A sub-issue's Acceptance Criteria edited in Linear and not mirrored
-into the epic doc will disagree silently.
+`docs/backlog/SUG-N-*.md` is the only spec. There is no second copy to keep in sync.
 
 ## Worked example — SUG-229
 
 SUG-229 ("Convert remaining human-gate skills to AskUserQuestion") had 11 Scope items, so
 it crosses the gate. Its 3 phases are not why.
 
-| # | User story | Phase | Scope items |
+| # | Work unit | Phase | Scope items |
 |---|---|---|---|
 | 1 | Convert `/mini-release`'s 4 gates | 1 | 1 |
 | 2 | Convert `/morning`'s 3 gates | 1 | 1 |
@@ -89,11 +110,11 @@ it crosses the gate. Its 3 phases are not why.
 | 9 | Convert `/update-cwv`'s 2 gates | 3 | 1 |
 | 10 | Gate the two ungated writers | 3 | 2 |
 
-Eleven Scope items produced ten user stories. The mapping is not one-to-one: items 10 and
-11 merge because `sugartown-prd-writer` and `sugartown-epic-writer` are a single design
-task, a new gate designed from scratch, where the other nine translate an existing gate.
-Splitting them would have cut one piece of work in half.
+Eleven Scope items produced ten work units across three phases. The mapping is not
+one-to-one: items 10 and 11 merge because `sugartown-prd-writer` and `sugartown-epic-writer`
+are a single design task, a new gate designed from scratch, where the other nine translate
+an existing gate. Splitting them would have cut one piece of work in half.
 
-Each user story carries its own Acceptance Criteria (that skill's gates render as a
+Each work unit carries its own Acceptance Criteria (that skill's gates render as a
 clickable option list, diff shown and approved before commit) and inherits SUG-229's
-Definition of Done.
+Definition of Done. All of it lives in the epic doc; none of it becomes a Linear issue.

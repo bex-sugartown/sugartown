@@ -377,11 +377,25 @@ rewritten in the same atomic operation, the viewer token removed from the web cl
 - [ ] **Re-run `validate:taxonomy` with no token** — the acceptance test — layer: tooling
 - [ ] **Update SUG-187's stale `_id` references** (`wp.caseStudy.388` and siblings) — layer: docs
 
-Ten Scope items, so this decomposes into user-story sub-issues per
-`docs/conventions/user-story-conventions.md`. This epic's numbered phases are not a
-decomposition trigger (conventions v1.1, 2026-08-08). **The Linear workspace is at its free issue
-limit as of 2026-08-07**, so sub-issues are recorded here until that clears. Their absence
-from Linear is not a scope reduction.
+### Scope-to-phase mapping
+
+**This epic is one Linear issue.** Ten Scope items crosses the sizing gate, so the
+decomposition is recorded as phases here rather than as Linear sub-issues, per
+`docs/conventions/user-story-conventions.md` v2.0. Every Scope item names the phase that
+ships it, so `Scope ∖ Phases` is empty.
+
+| Scope item | Phase |
+|---|---|
+| Phase 0 audit | 0 ✅ |
+| ID mapping module | 1 |
+| Migration script | 1 |
+| Pre-flight assertions in the script itself | 1 |
+| Dry-run mode | 1 |
+| Execute the migration against `production` | 2 |
+| Remove `token` from the web client | 3 |
+| Delete `web-frontend-read`; drop `CI_SANITY_READ_TOKEN` | 3 |
+| Re-run `validate:taxonomy` with no token | 4 |
+| Update SUG-187's stale `_id` references | 4 |
 
 ## Phases
 
