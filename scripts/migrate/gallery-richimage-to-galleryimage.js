@@ -12,12 +12,20 @@ import { createClient } from '@sanity/client'
 
 const DRY_RUN = process.argv.includes('--dry-run')
 
-// Token sourced from Sanity CLI auth (sanity debug --secrets)
+// Project token from apps/web/.env, matching every other script in this
+// directory (see lib.js `buildSanityClient`).
+//
+// This previously suggested `sanity debug --secrets`, which extracts the Sanity
+// CLI *login session* — a credential carrying the logged-in user's full
+// permissions, not a scoped project token. Exporting it into the shell is how
+// an owner-level credential ended up recorded verbatim in a Claude Code
+// permission allowlist (found 2026-08-08). Do not reintroduce that hint.
 const token = process.env.SANITY_AUTH_TOKEN || process.env.SANITY_TOKEN
 
 if (!token) {
-  console.error('Set SANITY_AUTH_TOKEN or SANITY_TOKEN env var.')
-  console.error('Hint: export SANITY_AUTH_TOKEN=$(sanity debug --secrets 2>&1 | grep "Auth token" | head -1 | sed "s/.*\'\\(.*\\)\'.*/\\1/")')
+  console.error('Set SANITY_AUTH_TOKEN (a project token with write access).')
+  console.error('It is already in apps/web/.env — other scripts here load it via scripts/migrate/lib.js.')
+  console.error('Create one at sanity.io/manage -> API -> Tokens. Never use the CLI login session.')
   process.exit(1)
 }
 
