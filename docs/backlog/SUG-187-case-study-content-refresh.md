@@ -447,10 +447,25 @@ Spot-check each rebuilt document at `http://localhost:5173`:
   blocking and a `CTL-NNN` row in `docs/ai/agentic-caucus/control-register.md` is required
   before it is built. If Phase 2 lands as a plain export with no failing check, it is not a
   control and no register row applies. Decide in Phase 2, record which.
-- **Upstream dependency, not blocking:** [SUG-260](docs/backlog/SUG-260-migrate-wp-dotted-document-ids.md)
-  migrates the `wp.caseStudy.NNN` dotted document IDs. It touches the same seven documents. If
-  SUG-260 runs first, every ID in this epic changes. Sequence them at activation; do not run
-  both concurrently.
+- **Upstream dependency, now blocking. SUG-260 runs first. Decided 2026-08-08 by Bex.**
+  [SUG-260](SUG-260-migrate-wp-dotted-document-ids.md) migrates the `wp.caseStudy.NNN` dotted
+  document IDs and touches the same seven documents.
+
+  Two reasons the order settled this way:
+
+  1. **The pages are not publicly readable today.** Sanity treats dots in `_id` as path
+     segments and a public-read grant covers one segment, so all seven legacy case studies are
+     invisible to anonymous queries. Reproduced 2026-08-07: an unauthenticated
+     `*[_type=="caseStudy"]` returns 1 of 8 documents. Rewriting content on pages a recruiter
+     without a token cannot load is work landing behind a shut door.
+  2. **Every `_id` in this epic changes when SUG-260 runs.** A draft created beforehand is
+     keyed to an ID that will not exist afterwards, so any Phase 1 or Phase 3 draft written
+     first is orphaned work.
+
+  **No Sanity write in this epic starts until SUG-260 has migrated the case study IDs.**
+  Phase 0 and Phase 0b are unaffected: the fact register and the north star are docs work and
+  proceed in parallel. Every `_id` written in this doc (`wp.caseStudy.388` and siblings) is
+  stale after the migration; re-query by slug rather than trusting them.
 - **Source notes:** `/Volumes/Angelique/Google Drive Archive 26`. Confirm mounted before
   Phase 3; surface to Bex if not.
 - **Resume Factory paths** (second working directory, outside this repo):
