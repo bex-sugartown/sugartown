@@ -88,7 +88,7 @@ Read-only. All figures below came from a fresh fetch of all 789 documents (779 p
 |---|---|
 | IDs that must change (`wp.*` targets) | 110 published + 1 draft |
 | Documents rewritten because they **reference** a `wp.*` id | **166** |
-| Both at once (id changes **and** contains refs) | 54 |
+| Both at once (id changes **and** contains refs) | 55 |
 | **Distinct documents touched** | **222** |
 
 The prior scope was drawn by *which documents are hidden*. The migration also rewrites
@@ -199,6 +199,57 @@ same type produce the same capped base, append the source WP number. A draft alw
 `drafts.` plus its published twin's final id, computed from the published core id so the
 pair can never diverge.
 
+## Phase 1 — tooling, dry run green 2026-08-08
+
+- `scripts/migrate/dedot-id-map.js` — pure mapping and reference-walk functions, no I/O
+- `scripts/migrate/dedot-ids.js` — the migration; dry-run by default, `--execute` to apply
+- `pnpm migrate:dedot-ids`
+
+Dry-run output, nothing written:
+
+```
+Pre-flight
+  ✅ documents in scope                   111 (expected 111)
+  ✅ reference edges to remap             612 (expected 612)
+  ✅ id collisions with existing docs     0
+  ✅ duplicate generated ids              0
+  ✅ in-scope docs with no slug           0
+  ✅ dangling refs before migration       0
+Plan
+  111 renamed · 111 patched in place · 222 touched · 612 references rewritten
+  by type: node ×38, article ×7, caseStudy ×7, category ×10, page ×4, person ×1, tag ×44
+  transaction payload: 1.59 MB
+Simulated post-state
+  ✅ dangling references                      0
+  ✅ documents still carrying a wp.* id       0
+  ✅ references still pointing at a wp.* id   0
+  ✅ total documents                          789
+```
+
+The script simulates the whole post-migration dataset in memory and asserts it is
+referentially whole **before** queuing a single mutation. Baselines (111 documents, 612
+edges) are asserted, not assumed: a filter that silently drops documents fails the run
+instead of migrating a subset.
+
+**Payload is 1.59 MB across 333 mutations**, comfortably inside Sanity's transaction limits,
+so Phase 2 stays a single atomic commit with no chunking and therefore no partial-state risk.
+
+### Two corrections the dry run forced
+
+**The Phase 0 "both" figure was 54, not 55.** The audit's `wp_ids` set was built with
+`startswith('wp.')`, which excludes `drafts.wp.node.1654`. The same one-document blind spot
+that produced a 110-entry map where 111 was correct, in a second place. The blast-radius
+table above is corrected. `166` and `222` were unaffected.
+
+**"Zero dangling references today" was scoped to `wp.*` targets only.** Checked across all
+references, the pre-flight found one on its first run:
+`drafts.55a784b8-…` (`tasks.task`) → `a7a11a1c-…` at `target.document`. It is a **weak
+cross-dataset reference** — `_weak: true`, `_type: "crossDatasetReference"` — belonging to
+Sanity's own Tasks feature. Weak references are designed to survive a missing target, and a
+cross-dataset reference resolves against a different dataset, so checking either against
+local ids is wrong by construction. The check was fixed to skip both; the baseline was not
+adjusted to make a red run go green.
+
 ## Objective
 
 Every `wp.*` id (and `drafts.wp.*`) is migrated to the scheme above, every inbound reference
@@ -282,6 +333,14 @@ Phase 2 is one transaction. Phases 1, 3 and 4 merge independently.
 - **Sanity has no rename.** A document id change is create-new plus delete-old. If the delete
   half fails, both copies exist and references point at one of them. Mitigation: a single
   transaction, and a dataset export taken immediately before Phase 2.
+- **`_createdAt` resets on all 111 renamed documents.** Sanity has no rename, so a renamed
+  document is a new document and the server sets a fresh `_createdAt`. **`publishedAt` is a
+  user field and survives untouched**, so every displayed date is unaffected; nothing in
+  `apps/web` was found reading `_createdAt`. Accepted rather than mitigated. Confirm at
+  Phase 2 that no Studio view or query orders by it.
+- **A full-document replace clobbers concurrent edits.** Phase 2 writes whole documents, so
+  anything edited in Studio between the dry run and the commit is overwritten. Mitigation:
+  take the export immediately before, and do not run Phase 2 while anyone is in Studio.
 - **Stale `_id` references in other docs.** SUG-187's epic doc names `wp.caseStudy.388`
   throughout; anything keyed to an old id is wrong after Phase 2. Mitigation: a Scope item,
   and re-query by slug rather than by id.

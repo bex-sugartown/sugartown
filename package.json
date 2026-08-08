@@ -22,6 +22,7 @@
     "migrate:card-section": "node scripts/migrate/statTileSection-to-cardSection.js",
     "migrate:cleanup-orphan-tags": "node scripts/migrate/cleanup-orphan-tags.js",
     "migrate:cleanup-tags": "node scripts/migrate/cleanup-tag-tool-duplicates.js",
+    "migrate:dedot-ids": "node scripts/migrate/dedot-ids.js",
     "migrate:export": "node scripts/migrate/export.js",
     "migrate:featured-to-hero": "node scripts/migrate/featured-to-hero.js",
     "migrate:html-tables": "node scripts/migrate/html-tables-to-tableblock.js",
