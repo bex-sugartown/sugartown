@@ -20,6 +20,15 @@ storybook-static
 .env.local
 .env*.local
 
+# Claude Code local settings. Machine-specific, and the Bash permission
+# allowlist records commands verbatim — so a one-off `TOKEN=sk... node script.js`
+# is stored in full. 5 distinct credentials were found in this file on
+# 2026-08-08, 3 of them still live.
+#
+# It was already ignored via ~/.config/git/ignore, but that is one machine.
+# The rule lives here so it travels to every clone and every machine.
+**/.claude/settings.local.json
+
 # Debug
 npm-debug.log*
 yarn-debug.log*
