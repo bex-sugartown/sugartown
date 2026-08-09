@@ -14,7 +14,7 @@
 Both halves answer one question: **when may a gate interrupt you, and when may it block a
 commit?** W4 sets posture (block vs warn), W2 sets tiering (which gates cost a click). They
 touch the same surfaces and share one acceptance test, so splitting them means reclassifying
-the same 24 gate sections twice.
+the same 16 gate sections twice.
 
 ## Context
 
@@ -38,7 +38,7 @@ Reason: W4 and W1 are only related by *size*. W4 and W2 are related by *subject*
 rewrite when a gate fires, both edit `human-gate-conventions.md` and the CLAUDE.md gate
 sections, and both are proven by the same test. W1 moves to AOP-2, where it belongs with the
 rest of the epic execution loop. Grouping by size optimises one session; grouping by subject
-avoids touching 24 gate sections in two separate passes.
+avoids touching 16 gate sections in two separate passes.
 
 ## Activation decisions (2026-08-09, Bex)
 
@@ -89,6 +89,45 @@ constraint`, `Dark mode surface work — pre-flight`).
 undercount.** Fixing the regex will raise the measured stop count, so the stop cap must be
 re-derived in the same commit or the fix immediately turns the gate red. Added to Scope below.
 
+## Verification review (2026-08-09) — **7 blockers, does not clear the gate**
+
+Run as a subagent in a fresh context. Read-only. No implementation code was written.
+
+### The central blocker: "warn-only" has no chosen implementation, and both options break something
+
+| Where warn is implemented | What breaks |
+|---|---|
+| **In-script** (a `--warn` default, script exits 0) | The liveness probe's violating run now exits 0, so the gate reports `STAYED GREEN`, and `validate:enforcement-liveness` returns 1 on any inert gate (`validate-enforcement-liveness.js:1275-1287`). Decision A2 keeps liveness **blocking**, so the change is **red on landing** |
+| **In-wiring** (`continue-on-error` / `\|\| true`) | The run concludes `success`, so `ci-failure-alert.yml:31` never opens a `ci-red` issue and `/eod` (`eod-prompt.md:137-147`) reports green. The only artifact is a log line nobody opens — **the 212-run shape: healthy conclusion, control checking nothing** |
+
+**Decide the location in this doc before any code.** It is not an implementation detail.
+
+### Other blockers
+
+| # | Finding | Evidence |
+|---|---|---|
+| B-2 | **`validate:epic-docs` would block nowhere at all.** It exits 0 as `SKIPPED` without `LINEAR_API_KEY`, so it never blocks locally and its probe returns `live: null` there. CI is its only teeth. Warn it in CI and it blocks nowhere and is read nowhere | `validate-epic-docs.js:89-93`, probe `:977-991` |
+| B-3 | **Scope item 1 says "move to pre-commit".** If the `ci.yml` step is removed, the only machine reader disappears: `--no-verify`, merge commits (no pre-commit hook at all), an uninstalled-hook machine, `[skip ci]`, and Netlify publishing regardless. Must read **pre-commit *in addition to* CI** | `.husky/pre-commit`, `ci.yml:87-88`, CTL-020 |
+| B-4 | **The stop cap has no probe, and Phase 2 rewrites its input.** The doc-budget probe pads *words* only. `countDecisionPoints` matches the literal strings `hard stop` / `blocking` — if tier tags replace those words, the count silently collapses toward 0 while the gate reports enormous headroom | `validate-doc-budget.js:85, 104-108`; probe `:526-538` |
+| B-5 | **The re-arm counter has no artifact.** The register's columns are fixed — `ID, Control, Class, Probe, Reader, Next read, Bypass` — with **no posture field and no re-arm field**. A re-arm date written as prose in `Bypass` is checked by nothing; only `Next read` is machine-validated. This doc's own Risks section says: if the counter is not built, convert nothing | `validate-control-register.js:60, 275-286` |
+| B-6 | **AC #1 and the Scope-to-phase table still say 24** while §Evidence says 16. The acceptance test "every one of the 24 gate sections carries exactly one tier" can never pass against a corpus of 17, and would be quietly reinterpreted at close-out | this doc |
+| B-7 | **The 3-tier model does not cover all 16 sections.** 13 map cleanly. Outside both tier lists entirely: the **"Visual QA approved" gate** (close-out step 3), **Chromatic approval** (step 4), and `### Sanity MCP content writes` (`CLAUDE.md:459`). The first two are Tier-1-shaped human sign-offs. **This is the same shape as SUG-268's cadence enum covering 11 of 32 rows** | Appendix A vs the measured heading list |
+
+### Three claims of mine the review corrected
+
+| Claim | I said | Measured |
+|---|---|---|
+| Consequence of the regex fix | "an unchanged cap turns the gate red on landing" | **False.** Stops go 24 → **25**, cap 26. Headroom 1. Re-deriving the cap is still right, but not for the reason I gave |
+| Headings the fix recovers | "six" | **One.** Only `CLAUDE.md:220` contains `hard-stop`. The other five carry **no keyword at all** and stay missed before and after |
+| Validators in the tier model | 16 (from Appendix A) | **18** |
+
+### Also flagged
+
+- **Class after conversion.** CTL-024 and CTL-025 are `enforced-by-code`. A gate that runs and cannot fail a build is not enforced by code — `measured` is the honest class while warn-only, reverting on re-arm.
+- **"Reset on any red run" is undefined against bookkeeping reds** — and a scheduled one already exists: five rows go overdue **2026-08-29**, exiting 1 with no defect present. Under "any red", that resets the counter and the re-arm recedes. The "temporary becomes permanent" mechanism, arriving on a known date.
+- **Tier 1 contains items with no owning file** — "Production data mutation — ad hoc" has no CLAUDE.md section, no skill line, no register row.
+- **Register-row IDs must start at CTL-040.** SUG-268 has reserved CTL-036 to CTL-039 in text; CTL-026/032/033 are also reserved. Proposed rows CTL-040 to CTL-044 are held in the review output for the implementing branch.
+
 ## Scope
 
 **W4 — gate placement and posture**
@@ -114,7 +153,7 @@ Nine Scope items, above the 5-item sizing gate (`docs/conventions/user-story-con
 | Phase | Scope items | Ships when |
 |---|---|---|
 | **Phase 1 — W4 posture** | items 1–5 | Bookkeeping gates warn, doc-budget enforces at 26,000 from its new position, re-arm counter live in `/eod` |
-| **Phase 2 — W2 tiering** | items 6–8 | All 24 gate sections carry a tier; `human-gate-conventions.md` rewritten |
+| **Phase 2 — W2 tiering** | items 6–8 | Every measured gate section carries a tier; `human-gate-conventions.md` rewritten |
 
 ## Non-Goals
 
@@ -131,7 +170,7 @@ Nine Scope items, above the 5-item sizing gate (`docs/conventions/user-story-con
 ## Files to modify
 
 - `docs/conventions/human-gate-conventions.md` — rewritten
-- `CLAUDE.md` — 24 gate sections tagged with tiers
+- `CLAUDE.md` — 16 gate sections tagged with tiers (measured 2026-08-09; re-derive at execution)
 - `docs/ai/agentic-caucus/control-register.md` — re-arm notes, posture rows
 - `scripts/validate-doc-budget.js` and its CI/pre-commit wiring
 - `.claude/skills/eod/` — re-arm counter check
@@ -139,7 +178,7 @@ Nine Scope items, above the 5-item sizing gate (`docs/conventions/user-story-con
 
 ## Acceptance criteria
 
-- [ ] Every one of the 24 gate sections carries exactly one tier
+- [ ] Every measured gate section carries exactly one tier — count re-derived at execution, never copied (16 in CLAUDE.md as of 2026-08-09, 17 with the hard-stop fix)
 - [ ] Running the full validator suite against a deliberately bad input shows each gate **either blocking or warning as its register row states** — measured by running it, not by reading the config
 - [ ] `validate:doc-budget` can fail before a deploy
 - [ ] Every warn-converted gate has a re-arm date and a named reader
