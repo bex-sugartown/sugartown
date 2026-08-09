@@ -502,9 +502,20 @@ the reviewer rather than taken from this doc.
 
 ### ⏳ Time-critical: a repo-wide commit block on 2026-08-29
 
-Once the register lives in `controls.json`, `validate:governance` runs at pre-commit and an
-overdue `nextRead` exits 1 — **blocking every commit in the repo**, not just governance ones.
-Decision 12 keeps CTL-020, CTL-022 and CTL-023 at **2026-08-28**, which is 19 days from today.
+**Two different hazards, on the same date. Measured 2026-08-09, not inferred:**
+
+| | Today (pre-Phase-3) | After Phase 3 |
+|---|---|---|
+| What checks the date | `validate:controls`, **CI-only** (`ci.yml:85`; absent from `.husky/pre-commit`) | `validate:governance`, which **is** in pre-commit (`.husky/pre-commit:55`) |
+| What happens on 2026-08-29 | **CI goes red on `main`** until the rows are re-read | **Every commit in the repo is blocked**, not just governance ones |
+
+So the commit block is a Phase 3 consequence, as the review stated. The **CI-red is not** — it
+fires on 2026-08-28 whether Phase 3 ships or not. Decision 12 keeps CTL-020, CTL-022 and CTL-023
+at that date, which is 19 days from today.
+
+Side note found while measuring: `validate-control-register.js` reads wall-clock time with no
+`--reference-date` flag, unlike `validate:governance`. Its overdue behaviour cannot be tested for
+a future date without changing the system clock.
 The paired obligation is recorded as "tracked separately, not by this epic" and names no artifact
 and no owner. Either those three rows get re-read before then, or Phase 3 lands a commit block
 with a known date.
