@@ -40,6 +40,55 @@ sections, and both are proven by the same test. W1 moves to AOP-2, where it belo
 rest of the epic execution loop. Grouping by size optimises one session; grouping by subject
 avoids touching 24 gate sections in two separate passes.
 
+## Activation decisions (2026-08-09, Bex)
+
+| # | Question | Decision |
+|---|---|---|
+| A1 | Where does `validate:doc-budget` run, and at what cap | **Pre-commit, cap 26,000.** Satisfies B1's *raise* branch (not *suspend*), closes C10 — it can now fail before a deploy — and ~6,000 words of headroom means it will not fire on every commit |
+| A2 | Which gates convert to warn-only under B4 | **`validate:epic-docs` and `validate:doc-budget`.** Both still run; neither blocks. **`validate:enforcement-liveness` stays blocking** — it is the gate that proves other gates fire, so softening it would weaken the whole liveness chain |
+| A3 | Consecutive green CI runs on `main` before new validators are allowed | **5.** Currently at 2 |
+| A4 | Verification review | **Run it**, per this doc's Technical constraints |
+
+**A1 and A2 combine deliberately:** `doc-budget` moves to pre-commit *and* warns there. It
+becomes visible early and blocks nothing, with a dated re-arm restoring blocking later. The cap
+raise is not a softening — it is what makes an early, non-blocking check meaningful rather than
+constant noise.
+
+## Evidence gathered at activation (2026-08-09)
+
+**C7's premise verified, not assumed.** The last three red CI runs on `main`, by failed step:
+
+| Run | Failed step(s) |
+|---|---|
+| `31258189587` | *Prove every gate fires*, *Validate doc budget* |
+| `31168947110` | *Validate epic docs* |
+| `30930818744` | *Validate epic docs* |
+
+**Three red builds, zero code defects.** Every one was bookkeeping. Reproduce:
+`gh run list --branch main --workflow CI --limit 12 --json databaseId,conclusion`
+
+**Two corrections to this doc's own figures, both measured today:**
+
+| Claim | This doc said | Measured | Command |
+|---|---|---|---|
+| CLAUDE.md gate sections | 24 | **16** by the counter's own regex; 19 by a looser match. The 24 is the total across CLAUDE.md **plus** the `docs/conventions/` files | `grep -cE '^#{2,4} .*(hard stop\|blocking)' CLAUDE.md` |
+| Headroom | — | **204 words, 2 stops** against caps of 20,150 and 26 | `pnpm validate:doc-budget` |
+
+The 24 came from Appendix A and was written into this doc without being re-run. Phase 2 is
+smaller than originally scoped.
+
+### Defect found while measuring — `validate:doc-budget` undercounts stops
+
+Its stop-counter (`scripts/validate-doc-budget.js:105`) matches `hard stop` and `blocking` but
+**not `hard-stop`**, so it silently misses `### Phase 0 hard-stop (visual spec gate)` — one of the
+most consequential gates in the file — plus five other headings (`Browser testing pre-flight`,
+`Design handoff evaluation gate`, `React hooks — Outlet context pre-flight`, `Gate 3 — Framework-agnostic
+constraint`, `Dark mode surface work — pre-flight`).
+
+**The cap meant to limit "places a session must stop and decide" is measured against an
+undercount.** Fixing the regex will raise the measured stop count, so the stop cap must be
+re-derived in the same commit or the fix immediately turns the gate red. Added to Scope below.
+
 ## Scope
 
 **W4 — gate placement and posture**
@@ -52,8 +101,10 @@ avoids touching 24 gate sections in two separate passes.
 
 **W2 — gate severity tiers**
 
+- [ ] Fix `validate-doc-budget.js:105`'s stop regex to match `hard-stop` as well as `hard stop`, and **re-derive the stop cap in the same commit** — the fix raises the measured count, so an unchanged cap turns the gate red on landing — layer: tooling
 - [ ] Rewrite `docs/conventions/human-gate-conventions.md` around the 3-tier model
-- [ ] Reclassify all **24 CLAUDE.md gate sections** against Appendix A's inventory (the PRD's own §7 row says 15; Appendix A measured 24 — trust the appendix, and correct §7)
+- [ ] Reclassify the **16 CLAUDE.md gate sections** (measured 2026-08-09; the doc's earlier "24" was the whole-corpus figure, and the PRD's §7 row says 15 — correct both)
+- [ ] Reclassify the remaining gate sections in the `docs/conventions/` half of the corpus, so the tiering covers what the budget counts
 - [ ] Confirm Appendix A's **Tier 1 = 8 gates** survives contact with the full inventory, or amend it
 
 ## Scope-to-phase mapping
