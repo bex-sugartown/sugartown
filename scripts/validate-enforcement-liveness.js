@@ -1146,6 +1146,31 @@ const PROBES = [
           ),
       })
 
+      // Degrade to SKIPPED, not INVALID, when the Sanity CLI has no auth.
+      //
+      // gateProbe reports INVALID when its control run fails, and the harness
+      // exits 1 on any invalid probe. That is right for a broken probe and wrong
+      // for a missing credential: on 2026-08-09 it took CI red (run
+      // 31321405963) with no gate broken, because the liveness job carried no
+      // SANITY_AUTH_TOKEN. The token is supplied in ci.yml now, so this branch
+      // should not fire there — it exists so a rotated or revoked secret reports
+      // "could not check" rather than failing the harness about a probe rather
+      // than a gate. Same shape as the validate:epic-docs probe's SKIPPED path.
+      //
+      // Read off gateProbe's own result rather than pre-running the gate: its
+      // `detail` carries the failing control-run output, and an extra probe run
+      // would cost ~16s on every harness invocation to learn what this already
+      // knows.
+      if (res.invalid && /AUTH_TOKEN|CLI auth|not logged in|unauthorized/i.test(res.detail || '')) {
+        return {
+          live: null,
+          detail:
+            'no Sanity CLI auth available — `validate:schema-parity` cannot reach the deployed ' +
+            'schema here, so this probe cannot exercise the real gate. Expected where ' +
+            'SANITY_AUTH_TOKEN is absent; CI supplies it.',
+        }
+      }
+
       if (res.live && !(res.out || '').includes(FIELD)) {
         return {
           live: false,

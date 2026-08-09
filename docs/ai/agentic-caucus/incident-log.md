@@ -75,6 +75,35 @@ a gate is a log describing gates that do not work.
 
 ## Incident Registry
 
+### INC-013 — a liveness probe took CI red about itself, not about a gate
+**Introduced:** 2026-08-09 · **Noticed:** 2026-08-09 · **Severity:** Low
+**Failure mode:** FM-X-02 (confidence without verification) · **Found by:** automated gate
+
+**What happened:** AOP-0 added a liveness probe for `validate:schema-parity` (CTL-011,
+`8108ea60`). The gate shells out to the Sanity CLI for the deployed side of its comparison.
+The `ci` job maps the repo secret to `SANITY_AUTH_TOKEN` for its own schema-parity step, but
+the `Enforcement liveness` job is a separate job with its own checkout and carried no such
+mapping. There, the gate exited 1 on a clean tree, `gateProbe` correctly reported PROBE
+INVALID, and the harness exited 1 on the rule that an unverified gate must never be reported
+as live. Run `31321405963` went red with **no gate broken and nothing wrong with the code**.
+**Consequence:** ~1 hour, caught by the `/eod` CI check on the same push that introduced it.
+No production impact; the Netlify deploy was unaffected. The cost is that it reddened `main`
+on exactly the day the point of the work was to stop bookkeeping failures reddening `main`.
+
+**Why it is FM-X-02 rather than an oversight:** the register row written alongside the probe
+*names this exact condition* — "where credentials are absent it reports PROBE INVALID rather
+than the gate inert — an honest could-not-check, never a silent pass." The failure mode was
+predicted in prose and then not checked against the system: nobody asked what the harness
+**does** with INVALID, which is exit 1. An established pattern for precisely this sat one
+function away — the `validate:epic-docs` probe returns `live: null` (skipped) when its secret
+is missing, with a comment explaining why — and was not followed.
+
+**Fixed by:** supplying `SANITY_AUTH_TOKEN` to the liveness job so the probe genuinely proves
+the gate in CI, **and** degrading the probe to SKIPPED rather than INVALID when the CLI has no
+auth, so a rotated secret reports "could not check" instead of failing the harness about a
+probe rather than a gate. Both, deliberately: the first makes it work, the second makes it
+fail well.
+
 ### INC-012 — 110 published documents invisible to every unauthenticated reader
 **Introduced:** 2026-02-21 · **Noticed:** 2026-07-28 · **Severity:** High
 **Failure mode:** FM-X-02 (confidence without verification) · **Found by:** automated gate

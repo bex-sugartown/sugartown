@@ -198,6 +198,17 @@ jobs:
 
       - name: Prove every gate fires
         run: pnpm validate:enforcement-liveness
+        env:
+          # This job runs the probes, and the validate:schema-parity probe
+          # (CTL-011) shells out to the Sanity CLI for the deployed side. Without
+          # this the control run exits 1 on a clean tree, gateProbe reports PROBE
+          # INVALID, and the harness exits 1 — which took run 31321405963 red on
+          # 2026-08-09 with no gate actually broken.
+          #
+          # Same secret and same mapping as the *Validate schema parity* step in
+          # the `ci` job. It is repeated rather than shared because this is a
+          # separate job with its own checkout, by design (see the job comment).
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_SCHEMA_PARITY }}
 
       - name: Confirm the probes left no residue
         # Every probe restores what it touched via a cleanup stack. If the tree
