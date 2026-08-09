@@ -434,6 +434,35 @@ PRD §5.4 step 2 requires prose cells to survive byte-exact. Longest cell in the
 factor of four; if any cell breaks round-tripping or GitHub table rendering, it is this one.
 Test it first, not last.
 
+### Decision 12 extended — all 32 rows classified (2026-08-09, Bex)
+
+The activation audit found Decision 12 covered 11 of 32 rows. Extended here to cover the rest.
+**The `cadence` enum goes from 3 values to 5.**
+
+| Cadence kind | Meaning | Rows | Count |
+|---|---|---|:--:|
+| `recurring-read` | A human has to look; the reading **is** the control | CTL-014, CTL-020, CTL-021, CTL-022, CTL-023, CTL-028, CTL-029, CTL-035 | 8 |
+| `no-probe-yet` | A probe could be written and has not been; re-dating is avoidance. Routed to `AOP-0` | CTL-008, CTL-009, CTL-010, CTL-011, CTL-016, CTL-018 | 6 |
+| `ci-only` | Cannot be exercised locally | CTL-013, CTL-019 | 2 |
+| **`continuous`** *(new)* | Runs on every commit; no read date applies. Register cell reads `continuous`, not a date | CTL-001 to CTL-007, CTL-015, CTL-017, CTL-024, CTL-025, CTL-027, CTL-031, CTL-034 | 14 |
+| **`manual-run`** *(new)* | A human must **perform an action** on a schedule, not merely read | CTL-012, CTL-030 | 2 |
+| | | **Total** | **32** |
+
+**Why `manual-run` exists rather than folding into `recurring-read`.** `recurring-read`'s
+defining property is that the reading is itself the control. CTL-012 (`validate:content`, manual
+by design, needs the Sanity API) and CTL-030 (`curl` against the deployed site) require an action
+to be *performed*. Filing them as reads would lose the distinction the split exists to create:
+Decision 12's own test is that the reader can tell what to do when the date fires.
+
+**CTL-014 is a judgement call, recorded as such.** Its probe cannot exist by construction — the
+probe harness cannot probe itself. So it is not `no-probe-yet`, which means "write one", and
+re-dating it forever is the avoidance Decision 12 targets. Filed `recurring-read` because its
+date genuinely prompts a human to check whether newly added gates have slipped in unprobed,
+which is a read. Revisit at the cutover retrospective if that reading does not hold up in use.
+
+**Migration consequence:** `cadence` is no longer a free string. The schema must constrain it to
+these five values, and `nextRead` must be null for every `continuous` record.
+
 ### Blockers before Phase 3 can start
 
 1. **Decision 12 must be extended to the remaining 21 rows** (owner: Bex). Cannot be inferred.
