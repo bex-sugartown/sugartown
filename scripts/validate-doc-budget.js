@@ -48,17 +48,29 @@ const ROOT_DOC = 'CLAUDE.md'
 /**
  * Word budget for the whole surface.
  *
- * Set at SUG-243 Phase 3 to the achieved figure plus 5%: 19,187 measured on
- * 2026-07-30 by this script, rounded up from 20,146. The Phase 1 interim value
- * was 22,000, chosen to sit just above the then-current total so the liveness
- * probe's control run passed on a clean tree.
+ * Raised to 26,000 at AOP-1 Phase 1 (2026-08-09), superseding the 20,150 set at
+ * SUG-243 Phase 3 (achieved-plus-5% against 19,187 measured 2026-07-30).
  *
- * Reproduce the measurement with `pnpm validate:doc-budget`. Tighten this only
- * against a fresh measurement, never against an estimate: a cap set below the
- * current total makes the gate red on landing and `gateProbe` reports
- * PROBE INVALID rather than proving anything.
+ * Derivation, all measured 2026-08-09, none copied:
+ *
+ *   19,946   current total          `pnpm validate:doc-budget`
+ * +  5,419   technical-doc-style-guide.md, which AOP-3 (PRD §7 V2) must deliver
+ *            into the session surface to close finding C2
+ *            `wc -w docs/conventions/technical-doc-style-guide.md`
+ * = 25,365
+ * +    635   margin
+ * = 26,000
+ *
+ * This is a raise, not a suspension — PRD §10 B1 offered both and §B1's caveat
+ * argues the raise: suspending removes the only measurement of the instruction
+ * surface during exactly the period AOP-3 restructures it.
+ *
+ * Reproduce with `pnpm validate:doc-budget`. Tighten only against a fresh
+ * measurement, never an estimate: a cap set below the current total makes the
+ * gate red on landing and `gateProbe` reports PROBE INVALID rather than proving
+ * anything.
  */
-const CAP_WORDS = 20_150
+const CAP_WORDS = 26_000
 
 /**
  * Decision-point cap — added 2026-08-05.
@@ -72,8 +84,23 @@ const CAP_WORDS = 20_150
  * stops unchanged.
  *
  * Measured 2026-08-05 by this script: 24 stops (16 in CLAUDE.md, 7 in
- * design-handoff-template.md, 1 in usage-doc-style-guide.md). Cap set to 26 —
+ * design-handoff-template.md, 1 in usage-doc-style-guide.md). Cap was 26 —
  * the achieved figure plus ~10%, the same method as CAP_WORDS.
+ *
+ * **Re-derived 2026-08-09 at AOP-1 Phase 1: 25 stops, cap 28.** The count rose
+ * by one because `countDecisionPoints` was fixed to match `hard-stop` as well
+ * as `hard stop`; the gate it had been missing since the counter was written is
+ * `### Phase 0 hard-stop (visual spec gate)`. Nothing was added to the surface —
+ * the stop was always there and was not being counted. 25 + ~10% = 28.
+ *
+ * The count remains a floor, not a total: five gate headings carry neither
+ * keyword and stay invisible (listed in `countDecisionPoints`).
+ *
+ * **This cap has no probe.** The liveness probe for this gate pads *words* only,
+ * so the stop half is unexercised — and AOP-1 Phase 2 rewrites the very heading
+ * text this counter matches on, which could collapse the count toward zero while
+ * the gate reports headroom. Tracked as AOP-1 review blocker B-4; do not run
+ * Phase 2 before it is closed.
  *
  * Reproduce with `pnpm validate:doc-budget`. Tighten only against a fresh
  * measurement, never an estimate — a cap below the current total makes the gate
@@ -82,7 +109,7 @@ const CAP_WORDS = 20_150
  * useless: the first draft of this constant was 60, which left 36 stops of
  * headroom and could never have fired.
  */
-const CAP_DECISIONS = 26
+const CAP_DECISIONS = 28
 
 /** Files matching this are part of the surface when CLAUDE.md references them. */
 const REFERENCE_PATTERN = /docs\/conventions\/[a-z0-9-]+\.md/g
@@ -102,7 +129,18 @@ function countWords(text) {
  * counting mentions would make explaining a rule as expensive as adding one.
  */
 function countDecisionPoints(text) {
-  const gateHeadings = text.match(/^#{2,4} .*(hard stop|blocking).*$/gim) || []
+  // `hard[ -]stop`, not `hard stop`: the hyphenated spelling was invisible to
+  // this counter until 2026-08-09, so `### Phase 0 hard-stop (visual spec gate)`
+  // — one of the heaviest gates in CLAUDE.md — was never counted. Measured
+  // effect of the fix: 24 stops → 25.
+  //
+  // This still undercounts. Five gate headings carry neither keyword and remain
+  // invisible: CLAUDE.md `Browser testing pre-flight` (:194), `Design handoff
+  // evaluation gate` (:277), `React hooks — Outlet context pre-flight` (:281),
+  // `Gate 3 — Framework-agnostic constraint` (:548), `Dark mode surface work —
+  // pre-flight` (:802). Widening the pattern to catch them would change the cap
+  // again, so it is a separate, measured change — not folded in here.
+  const gateHeadings = text.match(/^#{2,4} .*(hard[ -]stop|blocking).*$/gim) || []
   const checkboxes = text.match(/^\s*- \[[ x]\] /gim) || []
   return gateHeadings.length + checkboxes.length
 }

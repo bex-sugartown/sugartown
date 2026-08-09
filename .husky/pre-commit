@@ -58,6 +58,21 @@ pnpm validate:governance --reference-date "$(date -u +%Y-%m-%d)" || exit 1
 # allowlisted as manual-by-design. Prevents this exact class of silent decay.
 pnpm validate:validators || exit 1
 
+# Instruction-surface budget — BLOCKS here, warns in CI (AOP-1 Phase 1, A5).
+#
+# The split is deliberate. This is the only reader that sees the problem while
+# it is still cheap: in the committer's own terminal, before the commit exists.
+# CI keeps running it as a warning so `main` stops going red for a document
+# growing — three of the last three red runs on `main` were bookkeeping gates,
+# none a code defect — but the CI step is NOT removed. It is the only reader
+# that survives `--no-verify`, a merge commit (which runs no pre-commit hook at
+# all), a machine with hooks uninstalled, and `[skip ci]`.
+#
+# Blocking here and warning there means the script's exit code is unchanged, so
+# the liveness probe on this gate stays valid. Making the script itself exit 0
+# would have reported it inert and taken `validate:enforcement-liveness` red.
+pnpm validate:doc-budget || exit 1
+
 # ESLint — zero errors required (warnings are allowed), across EVERY package.
 #
 # This was `pnpm --filter web lint` until SUG-255. That narrowing is the exact

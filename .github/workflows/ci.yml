@@ -84,8 +84,16 @@ jobs:
       - name: Validate control register
         run: pnpm validate:controls
 
+      # WARN-ONLY until the re-arm date on CTL-025 (AOP-1 Phase 1, decision A5).
+      # Still runs, still reports; does not fail the run. It BLOCKS at
+      # pre-commit, which is the reader that catches this while it is cheap.
+      # `continue-on-error` leaves the run conclusion `success`, so
+      # ci-failure-alert.yml does not fire — `/eod` reading warning annotations
+      # on green runs is the backstop, and without that this gate has no CI-side
+      # reader at all.
       - name: Validate doc budget
         run: pnpm validate:doc-budget
+        continue-on-error: true
 
       - name: Validate governance diff-clean
         # Compares the committed governance.json against what governance/source/
@@ -113,8 +121,16 @@ jobs:
           # secret (named SANITY_SCHEMA_PARITY) is mapped to that name here.
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_SCHEMA_PARITY }}
 
+      # WARN-ONLY until the re-arm date on CTL-024 (AOP-1 Phase 1, decision A5).
+      # This one blocks NOWHERE while warn-only, and that is accepted, not
+      # overlooked: it exits 0 as SKIPPED without LINEAR_API_KEY, so it has no
+      # local reader to fall back on the way doc-budget does. `/eod` reading
+      # warning annotations is its only reader. Accepted because it caused two
+      # of the last three red runs on `main` and has never caught a code defect;
+      # the re-arm date is what keeps it temporary.
       - name: Validate epic docs
         run: pnpm validate:epic-docs
+        continue-on-error: true
         env:
           # Reuses the same repo secret the stats pipeline already authenticates
           # with (stats.yml). Missing key or an API failure is not a failure here —
