@@ -463,6 +463,68 @@ which is a read. Revisit at the cutover retrospective if that reading does not h
 **Migration consequence:** `cadence` is no longer a free string. The schema must constrain it to
 these five values, and `nextRead` must be null for every `continuous` record.
 
+### Phase 3 verification review (2026-08-09) — **5 blockers, does not clear the gate**
+
+Run as a subagent per CLAUDE.md §Verification review, in a fresh context with no view of the
+session that wrote this plan. Read-only; it wrote nothing. Every figure below was re-measured by
+the reviewer rather than taken from this doc.
+
+**Blockers:**
+
+| # | Finding | Evidence |
+|---|---|---|
+| **B-1** | `validate:governance-diff` polices **one hardcoded artifact**. `ARTIFACT_REL` at `scripts/validate-governance-diff.js:51` is `apps/web/src/generated/governance.json`. Phase 3 creates two more generated files and nothing in Scope extends it. A hand edit to the generated register passes pre-commit and CI, deploys via Netlify (CTL-020), and is silently reverted by the next `governance:build` | `validate-governance-diff.js:51` |
+| **B-2** | The **probe** for that gate is hardcoded to the same single artifact (`validate-enforcement-liveness.js:554`), so post-Phase-3 it proves one of three outputs while the register reports the gate live for all three | `validate-enforcement-liveness.js:554` |
+| **B-3** | The extended `cadence` enum **deletes the value `dated`**, and `checkOverdue()` (`validate-governance.js:235`) short-circuits on `cadence !== 'dated'`. Unless rewritten in the same commit, the decay catcher matches zero records and exits 0 forever. No `PROBES` entry covers overdue | `validate-governance.js:235`, `governance/schema/entities.js:70` |
+| **B-4** | **The Instruction & Rule File Write Gate has no register row at all**, in any of the 32. Phase 3 changes its scope and the plan's central safety argument depends on it. No row, no probe, no reader, no bypass enumeration, no mechanical enforcement of any kind | `control-register.md:47-78` |
+| **B-5** | PRD §5.4 step 3 sequences the CLAUDE.md scope edit **last** on the branch. From the first commit landing real records until that edit, `governance/source/**` is the register's authority and is covered by nothing. Fix is free: land it as commit 1 | PRD §5.4 step 3 |
+
+**Two fears the review retired, measured:**
+
+- CTL-031's bypass cell round-trips **byte-exact** — all 32 rows × 7 cells through JSON, 0 anomalies, zero pipes in the register. The residual risk is the *generator* reflowing, not the data.
+- The component count of **30** is correct.
+
+**Three errors in this doc's own prose, corrected by the review:**
+
+| Claim | Was | Actually |
+|---|---|---|
+| Basis for the component count | "the first `\| Component \| Status \|` table holds 30 rows" | **False.** First table holds **5**. The 30 is the union of six `### Layer N` tables, corroborated by the Tally summing 18+5+2+0+5 |
+| Decision 11's cost argument | "59 records already being rewritten" | **63** control+component records, before claims, probes and crosswalk |
+| CTL-031 bypass length | 2,633 chars | **2,635** |
+
+**Four further gaps, non-blocking but unowned:**
+
+- `scripts/verify-migration.js` cannot reuse `parseRegister()` (`validate-control-register.js:73`) — not exported, hardcoded path. Modifying it on the cutover branch destroys the independence the design rests on. **Pin the parser's SHA too, not just the register's.**
+- "Old parsers deleted only after the exit-0 output is committed" is enforced by prose only. No commit-order check.
+- **Crosswalk layer completeness (US-007) was deferred *to* Phase 3 by CTL-031's own cell and is absent *from* Phase 3's Scope.** `crosswalk.json` covers 3 of 6 layers. Dropped handoff, close-out 5b class.
+- **Claims migration is unspecified.** Scope names controls and components only, and says nothing about CTL-021's four published items, CTL-029's four hero stats, or the incoherent seed CLM-003 that Phase 2 deferred here.
+- The generator's pipe-escaper has **zero live inputs** after migration (0 escaped pipes in the register). It ships matching nothing — the founding failure class. Carry a fixture cell containing an escaped pipe, or state that it is unexercised.
+
+### ⏳ Time-critical: a repo-wide commit block on 2026-08-29
+
+Once the register lives in `controls.json`, `validate:governance` runs at pre-commit and an
+overdue `nextRead` exits 1 — **blocking every commit in the repo**, not just governance ones.
+Decision 12 keeps CTL-020, CTL-022 and CTL-023 at **2026-08-28**, which is 19 days from today.
+The paired obligation is recorded as "tracked separately, not by this epic" and names no artifact
+and no owner. Either those three rows get re-read before then, or Phase 3 lands a commit block
+with a known date.
+
+### Proposed register rows (NOT applied — `control-register.md` is behind the Rule File Write Gate)
+
+Four new IDs (CTL-036 to CTL-039; CTL-032/033 stay reserved for Phase 4, CTL-026 stays reserved),
+plus amendments to CTL-034 and CTL-031. Full text as returned by the review is held for the
+implementing branch. Headlines:
+
+- **CTL-036** — `verify-migration.js`, class `measured`. Counts computed at runtime on **both** sides, no integer literal in the script. Expected **33 control records** (32 rows + the CTL-026 reservation) and **30 components**.
+- **CTL-037** — `control.cadence` classification, class `convention`. Records that `no-probe-yet` is the honest label and `recurring-read` the comfortable one, so drift runs one way, and that nothing detects a relabel.
+- **CTL-038** — `entity.stage`, class **`roadmap`** — not `enforced-by-code`, because it has no reader until AOP-3 ships. Its `Next read` is the check that AOP-3 is scheduled, or the field is deleted.
+- **CTL-039** — the Instruction & Rule File Write Gate itself, class `convention`, closing B-4.
+- **CTL-034 amended** — scope becomes all three generated outputs; the probe must mutate a Markdown register, not only `governance.json`.
+- **CTL-031 amended** — Bypass cell records the `checkOverdue()` enum coupling from B-3.
+
+**Do not paste any `enforced-by-code` row before its gate and probe exist** — `validate:controls`
+check 2 reads the real `PROBES` array and will turn CI red.
+
 ### Blockers before Phase 3 can start
 
 1. **Decision 12 must be extended to the remaining 21 rows** (owner: Bex). Cannot be inferred.
