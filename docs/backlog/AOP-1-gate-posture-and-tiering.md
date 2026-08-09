@@ -165,15 +165,15 @@ Run as a subagent in a fresh context. Read-only. No implementation code was writ
 
 **W4 — gate placement and posture**
 
-- [ ] Move `validate:doc-budget` to pre-commit, or make it advisory — decide which, and record why (C10: CI-only cannot fail before a deploy)
-- [ ] Convert bookkeeping gates to **warn**, each with a **dated re-arm note** in the control register, per B4
+- [x] **Done 499bb33f.** `validate:doc-budget` runs at pre-commit (blocking) **and** in CI (warn) — per A5 it is added, not moved, or make it advisory — decide which, and record why (C10: CI-only cannot fail before a deploy)
+- [~] **Wiring done 499bb33f** (`continue-on-error` on both CI steps, probes verified still valid). **Register re-arm notes still owed — gated file.** Convert bookkeeping gates to **warn**, each with a **dated re-arm note** in the control register, per B4
 - [ ] Wire the re-arm counter into `/eod`; reset it on any red run so a flaky gate cannot age its way to permanence (PRD §B1 guardrails)
-- [ ] Raise the `validate:doc-budget` cap to **26,000 and keep it enforcing**, rather than suspending it — PRD §B1's explicit caveat: suspending removes the only measurement of the instruction surface during exactly the period V1 restructures it
+- [x] **Done 499bb33f.** Raise the `validate:doc-budget` cap to **26,000 and keep it enforcing**, rather than suspending it — PRD §B1's explicit caveat: suspending removes the only measurement of the instruction surface during exactly the period V1 restructures it
 - [ ] Freeze new validators until **N consecutive green runs** on `main`; state N in the control register
 
 **W2 — gate severity tiers**
 
-- [ ] Fix `validate-doc-budget.js:105`'s stop regex to match `hard-stop` as well as `hard stop`, and **re-derive the stop cap in the same commit** — the fix raises the measured count, so an unchanged cap turns the gate red on landing — layer: tooling
+- [x] **Done 499bb33f** (24→25 stops, cap re-derived to 28). Fix `validate-doc-budget.js:105`'s stop regex to match `hard-stop` as well as `hard stop`, and **re-derive the stop cap in the same commit** — the fix raises the measured count, so an unchanged cap turns the gate red on landing — layer: tooling
 - [ ] Rewrite `docs/conventions/human-gate-conventions.md` around the 3-tier model
 - [ ] Reclassify the **16 CLAUDE.md gate sections** (measured 2026-08-09; the doc's earlier "24" was the whole-corpus figure, and the PRD's §7 row says 15 — correct both)
 - [ ] Reclassify the remaining gate sections in the `docs/conventions/` half of the corpus, so the tiering covers what the budget counts
