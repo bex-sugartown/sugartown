@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-08T06:53:25.478Z",
+  "generatedAt": "2026-08-09T06:59:40.494Z",
   "release": {
     "current": {
       "version": "0.32.0",
@@ -83,35 +83,35 @@
   },
   "perf": {
     "stale": false,
-    "generatedAt": "2026-08-08T06:51:51.678Z",
+    "generatedAt": "2026-08-09T06:57:58.158Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "desktop": {
           "url": "https://sugartown.io/",
-          "lcp": 1406,
-          "cls": 0.106,
+          "lcp": 1394,
+          "cls": 0.228,
           "inp": null,
-          "performance": 93,
+          "performance": 85,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1406,
-        "cls": 0.106,
+        "lcp": 1394,
+        "cls": 0.228,
         "inp": null,
-        "performance": 93,
+        "performance": 85,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/",
-          "lcp": 1406,
-          "cls": 0.106,
+          "lcp": 1394,
+          "cls": 0.228,
           "inp": null,
-          "performance": 93,
+          "performance": 85,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
@@ -122,7 +122,7 @@
         "url": "https://sugartown.io/articles",
         "desktop": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1310,
+          "lcp": 1311,
           "cls": 0.224,
           "inp": null,
           "performance": 85,
@@ -131,7 +131,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1310,
+        "lcp": 1311,
         "cls": 0.224,
         "inp": null,
         "performance": 85,
@@ -141,7 +141,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1310,
+          "lcp": 1311,
           "cls": 0.224,
           "inp": null,
           "performance": 85,
@@ -155,29 +155,29 @@
         "url": "https://sugartown.io/case-studies",
         "desktop": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1222,
+          "lcp": 1298,
           "cls": 0.224,
           "inp": null,
-          "performance": 86,
+          "performance": 85,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1222,
+        "lcp": 1298,
         "cls": 0.224,
         "inp": null,
-        "performance": 86,
+        "performance": 85,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1222,
+          "lcp": 1298,
           "cls": 0.224,
           "inp": null,
-          "performance": 86,
+          "performance": 85,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -188,29 +188,29 @@
         "url": "https://sugartown.io/knowledge-graph",
         "desktop": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1314,
-          "cls": 0.125,
+          "lcp": 1347,
+          "cls": 0.109,
           "inp": null,
-          "performance": 91,
+          "performance": 92,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1314,
-        "cls": 0.125,
+        "lcp": 1347,
+        "cls": 0.109,
         "inp": null,
-        "performance": 91,
+        "performance": 92,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1314,
-          "cls": 0.125,
+          "lcp": 1347,
+          "cls": 0.109,
           "inp": null,
-          "performance": 91,
+          "performance": 92,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -221,29 +221,29 @@
         "url": "https://sugartown.io/platform",
         "desktop": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1318,
-          "cls": 0.477,
+          "lcp": 1358,
+          "cls": 0.414,
           "inp": null,
-          "performance": 76,
+          "performance": 77,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1318,
-        "cls": 0.477,
+        "lcp": 1358,
+        "cls": 0.414,
         "inp": null,
-        "performance": 76,
+        "performance": 77,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1318,
-          "cls": 0.477,
+          "lcp": 1358,
+          "cls": 0.414,
           "inp": null,
-          "performance": 76,
+          "performance": 77,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
@@ -254,7 +254,7 @@
         "url": "https://sugartown.io/about",
         "desktop": {
           "url": "https://sugartown.io/about",
-          "lcp": 1414,
+          "lcp": 1408,
           "cls": 0.227,
           "inp": null,
           "performance": 84,
@@ -263,7 +263,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1414,
+        "lcp": 1408,
         "cls": 0.227,
         "inp": null,
         "performance": 84,
@@ -273,7 +273,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/about",
-          "lcp": 1414,
+          "lcp": 1408,
           "cls": 0.227,
           "inp": null,
           "performance": 84,
@@ -287,29 +287,29 @@
         "url": "https://sugartown.io/articles/test-preview-post",
         "desktop": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1345,
-          "cls": 0,
+          "lcp": 1348,
+          "cls": 0.08,
           "inp": null,
-          "performance": 96,
+          "performance": 94,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1345,
-        "cls": 0,
+        "lcp": 1348,
+        "cls": 0.08,
         "inp": null,
-        "performance": 96,
+        "performance": 94,
         "accessibility": 94,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1345,
-          "cls": 0,
+          "lcp": 1348,
+          "cls": 0.08,
           "inp": null,
-          "performance": 96,
+          "performance": 94,
           "accessibility": 94,
           "bestPractices": 100,
           "seo": 100,
@@ -320,7 +320,7 @@
         "url": "https://sugartown.io/nodes/test-node",
         "desktop": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1285,
+          "lcp": 1291,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -329,7 +329,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1285,
+        "lcp": 1291,
         "cls": 0.08,
         "inp": null,
         "performance": 95,
@@ -339,7 +339,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1285,
+          "lcp": 1291,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -352,13 +352,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-08-08T06:51:51.991Z",
+    "fetchedAt": "2026-08-09T06:57:58.441Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-08-08T06:53:22.987Z",
+    "fetchedAt": "2026-08-09T06:59:37.951Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -369,17 +369,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-08-08T06:53:23.950Z",
+    "fetchedAt": "2026-08-09T06:59:39.055Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 1,
     "watchers": 1,
     "forks": 0,
     "openIssues": 11,
     "contributors": 3,
-    "lastCommit": "2026-08-07T10:13:40Z"
+    "lastCommit": "2026-08-08T13:33:39Z"
   },
   "sanity": {
-    "fetchedAt": "2026-08-08T06:53:24.662Z",
+    "fetchedAt": "2026-08-09T06:59:39.505Z",
     "counts": {
       "article": 15,
       "node": 52,
@@ -393,7 +393,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-08-08T06:53:24.922Z",
+    "generatedAt": "2026-08-09T06:59:39.749Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -950,7 +950,7 @@
       },
       {
         "id": "item:node:architecture-decision-the-two-repo-solution-theme-vs-content",
-        "_id": "wp.node.1028",
+        "_id": "node-architecture-decision-the-two-repo-solution-theme",
         "type": "item",
         "docType": "node",
         "slug": "architecture-decision-the-two-repo-solution-theme-vs-content",
@@ -974,7 +974,7 @@
       },
       {
         "id": "item:node:architecture-decision-the-overwrite-risk-in-sugartown-cms",
-        "_id": "wp.node.949",
+        "_id": "node-architecture-decision-the-overwrite-risk-in",
         "type": "item",
         "docType": "node",
         "slug": "architecture-decision-the-overwrite-risk-in-sugartown-cms",
@@ -1002,7 +1002,7 @@
       },
       {
         "id": "item:node:architecture-deep-dive-resume-factory-v3-0",
-        "_id": "wp.node.1395",
+        "_id": "node-architecture-deep-dive-resume-factory-v3-0",
         "type": "item",
         "docType": "node",
         "slug": "architecture-deep-dive-resume-factory-v3-0",
@@ -1034,7 +1034,7 @@
       },
       {
         "id": "item:node:architecture-insight-the-sugartown-2-0-system-contract",
-        "_id": "wp.node.1094",
+        "_id": "node-architecture-insight-the-sugartown-2-0-system",
         "type": "item",
         "docType": "node",
         "slug": "architecture-insight-the-sugartown-2-0-system-contract",
@@ -1062,7 +1062,7 @@
       },
       {
         "id": "item:node:architecture-update-the-resume-factory-v2-0",
-        "_id": "wp.node.1121",
+        "_id": "node-architecture-update-the-resume-factory-v2-0",
         "type": "item",
         "docType": "node",
         "slug": "architecture-update-the-resume-factory-v2-0",
@@ -1086,7 +1086,7 @@
       },
       {
         "id": "item:node:architecture-the-sugartown-digital-ecosystem-v1-0",
-        "_id": "wp.node.1023",
+        "_id": "node-architecture-the-sugartown-digital-ecosystem-v1-0",
         "type": "item",
         "docType": "node",
         "slug": "architecture-the-sugartown-digital-ecosystem-v1-0",
@@ -1106,7 +1106,7 @@
       },
       {
         "id": "item:node:architecture-the-unified-taxonomy-strategy",
-        "_id": "wp.node.1029",
+        "_id": "node-architecture-the-unified-taxonomy-strategy",
         "type": "item",
         "docType": "node",
         "slug": "architecture-the-unified-taxonomy-strategy",
@@ -1126,7 +1126,7 @@
       },
       {
         "id": "item:caseStudy:bare-minerals-from-bottlenecks-to-brilliance",
-        "_id": "wp.caseStudy.280",
+        "_id": "caseStudy-bare-minerals-from-bottlenecks-to-brilliance",
         "type": "item",
         "docType": "caseStudy",
         "slug": "bare-minerals-from-bottlenecks-to-brilliance",
@@ -1150,7 +1150,7 @@
       },
       {
         "id": "item:caseStudy:beauty-retail-from-monolith-to-microservice",
-        "_id": "wp.caseStudy.166",
+        "_id": "caseStudy-beauty-retail-from-monolith-to-microservice",
         "type": "item",
         "docType": "caseStudy",
         "slug": "beauty-retail-from-monolith-to-microservice",
@@ -1186,7 +1186,7 @@
       },
       {
         "id": "item:caseStudy:beringer-com-raising-a-glass-to-a-digital-refresh",
-        "_id": "wp.caseStudy.286",
+        "_id": "caseStudy-beringer-com-raising-a-glass-to-a-digital-refresh",
         "type": "item",
         "docType": "caseStudy",
         "slug": "beringer-com-raising-a-glass-to-a-digital-refresh",
@@ -1214,7 +1214,7 @@
       },
       {
         "id": "item:caseStudy:charting-a-new-course-for-backroads-com",
-        "_id": "wp.caseStudy.274",
+        "_id": "caseStudy-charting-a-new-course-for-backroads-com",
         "type": "item",
         "docType": "caseStudy",
         "slug": "charting-a-new-course-for-backroads-com",
@@ -1250,7 +1250,7 @@
       },
       {
         "id": "item:article:claude-code-joins-the-agentic-caucus",
-        "_id": "wp.article.1788",
+        "_id": "article-claude-code-joins-the-agentic-caucus",
         "type": "item",
         "docType": "article",
         "slug": "claude-code-joins-the-agentic-caucus",
@@ -1278,7 +1278,7 @@
       },
       {
         "id": "item:node:claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
-        "_id": "wp.node.1702",
+        "_id": "node-claude-vs-devtools-a-cautionary-tale-of-assumed",
         "type": "item",
         "docType": "node",
         "slug": "claude-vs-devtools-a-cautionary-tale-of-assumed-striping",
@@ -1302,7 +1302,7 @@
       },
       {
         "id": "item:node:confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
-        "_id": "wp.node.952",
+        "_id": "node-confession-i-dont-hate-blogs-i-just-hate",
         "type": "item",
         "docType": "node",
         "slug": "confession-i-dont-hate-blogs-i-just-hate-unstructured-data",
@@ -1330,7 +1330,7 @@
       },
       {
         "id": "item:node:confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
-        "_id": "wp.node.1397",
+        "_id": "node-confession-i-dont-lack-memory-i-just-forgot-to",
         "type": "item",
         "docType": "node",
         "slug": "confession-i-dont-lack-memory-i-just-forgot-to-mention-projects",
@@ -1354,7 +1354,7 @@
       },
       {
         "id": "item:article:core-web-vitals-dont-belong-to-frontend",
-        "_id": "wp.article.1437",
+        "_id": "article-core-web-vitals-dont-belong-to-frontend",
         "type": "item",
         "docType": "article",
         "slug": "core-web-vitals-dont-belong-to-frontend",
@@ -1378,7 +1378,7 @@
       },
       {
         "id": "item:article:dashboards-arent-dead-neither-are-design-systems",
-        "_id": "wp.article.1025",
+        "_id": "article-dashboards-arent-dead-neither-are-design-systems",
         "type": "item",
         "docType": "article",
         "slug": "dashboards-arent-dead-neither-are-design-systems",
@@ -1406,7 +1406,7 @@
       },
       {
         "id": "item:node:design-ops-the-pre-design-system-surviving-the-css-chaos",
-        "_id": "wp.node.1335",
+        "_id": "node-design-ops-the-pre-design-system-surviving-the",
         "type": "item",
         "docType": "node",
         "slug": "design-ops-the-pre-design-system-surviving-the-css-chaos",
@@ -1430,7 +1430,7 @@
       },
       {
         "id": "item:node:devops-building-the-undo-button-for-my-career",
-        "_id": "wp.node.994",
+        "_id": "node-devops-building-the-undo-button-for-my-career",
         "type": "item",
         "docType": "node",
         "slug": "devops-building-the-undo-button-for-my-career",
@@ -1454,7 +1454,7 @@
       },
       {
         "id": "item:node:engineering-the-perfect-resume-workflow",
-        "_id": "wp.node.853",
+        "_id": "node-engineering-the-perfect-resume-workflow",
         "type": "item",
         "docType": "node",
         "slug": "engineering-the-perfect-resume-workflow",
@@ -1478,7 +1478,7 @@
       },
       {
         "id": "item:caseStudy:fx-networks-website-redesign-nominated-for-webby",
-        "_id": "wp.caseStudy.271",
+        "_id": "caseStudy-fx-networks-website-redesign-nominated-for-webby",
         "type": "item",
         "docType": "caseStudy",
         "slug": "fx-networks-website-redesign-nominated-for-webby",
@@ -1498,7 +1498,7 @@
       },
       {
         "id": "item:node:feature-the-resume-factory-the-sugartown-pink-design-system",
-        "_id": "wp.node.1054",
+        "_id": "node-feature-the-resume-factory-the-sugartown-pink",
         "type": "item",
         "docType": "node",
         "slug": "feature-the-resume-factory-the-sugartown-pink-design-system",
@@ -1554,7 +1554,7 @@
       },
       {
         "id": "item:node:how-i-learned-to-stop-renaming-and-love-the-existing-classes",
-        "_id": "wp.node.1569",
+        "_id": "node-how-i-learned-to-stop-renaming-and-love-the",
         "type": "item",
         "docType": "node",
         "slug": "how-i-learned-to-stop-renaming-and-love-the-existing-classes",
@@ -1718,7 +1718,7 @@
       },
       {
         "id": "item:node:knowledge-graph-roadmap",
-        "_id": "wp.node.1552",
+        "_id": "node-knowledge-graph-roadmap",
         "type": "item",
         "docType": "node",
         "slug": "knowledge-graph-roadmap",
@@ -1742,7 +1742,7 @@
       },
       {
         "id": "item:caseStudy:launching-lunar-landing",
-        "_id": "wp.caseStudy.294",
+        "_id": "caseStudy-launching-lunar-landing",
         "type": "item",
         "docType": "caseStudy",
         "slug": "launching-lunar-landing",
@@ -1762,7 +1762,7 @@
       },
       {
         "id": "item:article:lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
-        "_id": "wp.article.736",
+        "_id": "article-lessons-from-replacing-oracle-atg-bcc-with-a",
         "type": "item",
         "docType": "article",
         "slug": "lessons-from-replacing-oracle-atg-bcc-with-a-headless-cms",
@@ -1786,7 +1786,7 @@
       },
       {
         "id": "item:node:market-scan-top-ai-tools-for-data-architecture-diagrams",
-        "_id": "wp.node.954",
+        "_id": "node-market-scan-top-ai-tools-for-data-architecture",
         "type": "item",
         "docType": "node",
         "slug": "market-scan-top-ai-tools-for-data-architecture-diagrams",
@@ -1810,7 +1810,7 @@
       },
       {
         "id": "item:node:market-scan-top-headless-cms-platforms-2025",
-        "_id": "wp.node.852",
+        "_id": "node-market-scan-top-headless-cms-platforms-2025",
         "type": "item",
         "docType": "node",
         "slug": "market-scan-top-headless-cms-platforms-2025",
@@ -1838,7 +1838,7 @@
       },
       {
         "id": "item:node:meta-analysis-am-i-crazy-for-building-this",
-        "_id": "wp.node.977",
+        "_id": "node-meta-analysis-am-i-crazy-for-building-this",
         "type": "item",
         "docType": "node",
         "slug": "meta-analysis-am-i-crazy-for-building-this",
@@ -1898,7 +1898,7 @@
       },
       {
         "id": "item:article:oh-oh-atomic-one-model-two-systems",
-        "_id": "wp.article.410",
+        "_id": "article-oh-oh-atomic-one-model-two-systems",
         "type": "item",
         "docType": "article",
         "slug": "oh-oh-atomic-one-model-two-systems",
@@ -1950,7 +1950,7 @@
       },
       {
         "id": "item:node:prd-visualization-engine",
-        "_id": "wp.node.1079",
+        "_id": "node-prd-visualization-engine",
         "type": "item",
         "docType": "node",
         "slug": "prd-visualization-engine",
@@ -2066,7 +2066,7 @@
       },
       {
         "id": "item:caseStudy:prestige-beauty-pilot-headless-cms-enterprise-design-system",
-        "_id": "wp.caseStudy.388",
+        "_id": "caseStudy-prestige-beauty-pilot-headless-cms-enterprise",
         "type": "item",
         "docType": "caseStudy",
         "slug": "prestige-beauty-pilot-headless-cms-enterprise-design-system",
@@ -2102,7 +2102,7 @@
       },
       {
         "id": "item:node:process-insight-the-csv-reality-check",
-        "_id": "wp.node.942",
+        "_id": "node-process-insight-the-csv-reality-check",
         "type": "item",
         "docType": "node",
         "slug": "process-insight-the-csv-reality-check",
@@ -2126,7 +2126,7 @@
       },
       {
         "id": "item:node:process-insight-when-to-fire-your-ai",
-        "_id": "wp.node.1451",
+        "_id": "node-process-insight-when-to-fire-your-ai",
         "type": "item",
         "docType": "node",
         "slug": "process-insight-when-to-fire-your-ai",
@@ -2150,7 +2150,7 @@
       },
       {
         "id": "item:node:project-knowledge-graph-topology-over-chronology",
-        "_id": "wp.node.1570",
+        "_id": "node-project-knowledge-graph-topology-over-chronology",
         "type": "item",
         "docType": "node",
         "slug": "project-knowledge-graph-topology-over-chronology",
@@ -2178,7 +2178,7 @@
       },
       {
         "id": "item:node:project-sugartown-cms-architecture",
-        "_id": "wp.node.946",
+        "_id": "node-project-sugartown-cms-architecture",
         "type": "item",
         "docType": "node",
         "slug": "project-sugartown-cms-architecture",
@@ -2206,7 +2206,7 @@
       },
       {
         "id": "item:node:release-assistant-governance-inputs-outputs-no-vibes",
-        "_id": "wp.node.1653",
+        "_id": "node-release-assistant-governance-inputs-outputs-no",
         "type": "item",
         "docType": "node",
         "slug": "release-assistant-governance-inputs-outputs-no-vibes",
@@ -2238,7 +2238,7 @@
       },
       {
         "id": "item:node:release-governance-yyyy-mm-dd-workflow",
-        "_id": "wp.node.953",
+        "_id": "node-release-governance-yyyy-mm-dd-workflow",
         "type": "item",
         "docType": "node",
         "slug": "release-governance-yyyy-mm-dd-workflow",
@@ -2278,7 +2278,7 @@
       },
       {
         "id": "item:node:status-update-the-great-re-platforming",
-        "_id": "wp.node.993",
+        "_id": "node-status-update-the-great-re-platforming",
         "type": "item",
         "docType": "node",
         "slug": "status-update-the-great-re-platforming",
@@ -2302,7 +2302,7 @@
       },
       {
         "id": "item:node:sugartown-platform-roadmap-updated",
-        "_id": "wp.node.1733",
+        "_id": "node-sugartown-platform-roadmap-updated",
         "type": "item",
         "docType": "node",
         "slug": "sugartown-platform-roadmap-updated",
@@ -2354,7 +2354,7 @@
       },
       {
         "id": "item:node:sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
-        "_id": "wp.node.863",
+        "_id": "node-sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
         "type": "item",
         "docType": "node",
         "slug": "sweet-upgrades-why-gemini-3-is-the-cherry-on-top",
@@ -2374,7 +2374,7 @@
       },
       {
         "id": "item:node:changelog",
-        "_id": "wp.node.1447",
+        "_id": "node-changelog",
         "type": "item",
         "docType": "node",
         "slug": "changelog",
@@ -2546,7 +2546,7 @@
       },
       {
         "id": "item:node:the-great-versioning-reconciliation",
-        "_id": "wp.node.1568",
+        "_id": "node-the-great-versioning-reconciliation",
         "type": "item",
         "docType": "node",
         "slug": "the-great-versioning-reconciliation",
@@ -2574,7 +2574,7 @@
       },
       {
         "id": "item:article:the-great-icloud-divorce",
-        "_id": "wp.article.1804",
+        "_id": "article-the-great-icloud-divorce",
         "type": "item",
         "docType": "article",
         "slug": "the-great-icloud-divorce",
@@ -2606,7 +2606,7 @@
       },
       {
         "id": "item:node:the-release-that-ate-the-card-system",
-        "_id": "wp.node.1514",
+        "_id": "node-the-release-that-ate-the-card-system",
         "type": "item",
         "docType": "node",
         "slug": "the-release-that-ate-the-card-system",
@@ -2678,7 +2678,7 @@
       },
       {
         "id": "item:node:this-knowledge-graph-origin-story",
-        "_id": "wp.node.1551",
+        "_id": "node-this-knowledge-graph-origin-story",
         "type": "item",
         "docType": "node",
         "slug": "this-knowledge-graph-origin-story",
@@ -2726,7 +2726,7 @@
       },
       {
         "id": "item:node:two-weeks-inside-the-machine",
-        "_id": "wp.node.1796",
+        "_id": "node-two-weeks-inside-the-machine",
         "type": "item",
         "docType": "node",
         "slug": "two-weeks-inside-the-machine",
@@ -2750,7 +2750,7 @@
       },
       {
         "id": "item:node:visualizing-the-knowledge-graph",
-        "_id": "wp.node.950",
+        "_id": "node-visualizing-the-knowledge-graph",
         "type": "item",
         "docType": "node",
         "slug": "visualizing-the-knowledge-graph",
@@ -2774,7 +2774,7 @@
       },
       {
         "id": "item:node:we-fixed-the-same-white-screen",
-        "_id": "wp.node.1815",
+        "_id": "node-we-fixed-the-same-white-screen",
         "type": "item",
         "docType": "node",
         "slug": "we-fixed-the-same-white-screen",
@@ -2822,7 +2822,7 @@
       },
       {
         "id": "item:node:which-chatbot-is-best-for-web-design",
-        "_id": "wp.node.1646",
+        "_id": "node-which-chatbot-is-best-for-web-design",
         "type": "item",
         "docType": "node",
         "slug": "which-chatbot-is-best-for-web-design",
@@ -2866,7 +2866,7 @@
       },
       {
         "id": "item:article:luxury-dot-com",
-        "_id": "wp.article.814",
+        "_id": "article-luxury-dot-com",
         "type": "item",
         "docType": "article",
         "slug": "luxury-dot-com",
@@ -5971,7 +5971,7 @@
     ]
   },
   "linearRoadmap": {
-    "fetchedAt": "2026-08-08T06:53:25.477Z",
+    "fetchedAt": "2026-08-09T06:59:40.492Z",
     "inProgress": [
       {
         "identifier": "SUG-268",
@@ -5984,38 +5984,6 @@
       }
     ],
     "backlog": [
-      {
-        "identifier": "SUG-279",
-        "title": "User Story: Resolve the Module 9 correction upstream in the Resume Factory",
-        "url": "https://linear.app/sugartown/issue/SUG-279/user-story-resolve-the-module-9-correction-upstream-in-the-resume",
-        "priority": "No priority",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-278",
-        "title": "User Story: Resolve the fact litigation register (Phase 0, hard stop)",
-        "url": "https://linear.app/sugartown/issue/SUG-278/user-story-resolve-the-fact-litigation-register-phase-0-hard-stop",
-        "priority": "No priority",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-277",
-        "title": "testing adding subissue",
-        "url": "https://linear.app/sugartown/issue/SUG-277/testing-adding-subissue",
-        "priority": "Urgent",
-        "status": "Backlog",
-        "projects": [
-          {
-            "name": "Pink Moon Design System",
-            "colorHex": "#F472B6"
-          }
-        ],
-        "completedAt": null
-      },
       {
         "identifier": "SUG-276",
         "title": "Justify or retire the dated rows in the control register (due 2026-08-28)",
@@ -6068,20 +6036,6 @@
         "priority": "Low",
         "status": "Backlog",
         "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-260",
-        "title": "Migrate wp.* dotted document IDs — 133 docs invisible to anonymous reads, forces a public client token",
-        "url": "https://linear.app/sugartown/issue/SUG-260/migrate-wp-dotted-document-ids-133-docs-invisible-to-anonymous-reads",
-        "priority": "High",
-        "status": "Todo",
-        "projects": [
-          {
-            "name": "Mini Repo",
-            "colorHex": "#0099FF"
-          }
-        ],
         "completedAt": null
       },
       {
@@ -6801,6 +6755,20 @@
     ],
     "shipped": [
       {
+        "identifier": "SUG-260",
+        "title": "Migrate wp.* dotted document IDs — 110 docs invisible to anonymous reads, forces a public client token",
+        "url": "https://linear.app/sugartown/issue/SUG-260/migrate-wp-dotted-document-ids-110-docs-invisible-to-anonymous-reads",
+        "priority": "High",
+        "status": "Done",
+        "projects": [
+          {
+            "name": "Mini Repo",
+            "colorHex": "#0099FF"
+          }
+        ],
+        "completedAt": "2026-08-08T13:47:47.383Z"
+      },
+      {
         "identifier": "SUG-274",
         "title": "Ph2: Claims and dates validate correctly",
         "url": "https://linear.app/sugartown/issue/SUG-274/ph2-claims-and-dates-validate-correctly",
@@ -7030,20 +6998,6 @@
           }
         ],
         "completedAt": "2026-07-25T14:07:55.555Z"
-      },
-      {
-        "identifier": "SUG-239",
-        "title": "Close the enforcement-visibility gaps (orphaned validators + design-reviewer wiring)",
-        "url": "https://linear.app/sugartown/issue/SUG-239/close-the-enforcement-visibility-gaps-orphaned-validators-design",
-        "priority": "High",
-        "status": "Done",
-        "projects": [
-          {
-            "name": "Mini Repo",
-            "colorHex": "#0099FF"
-          }
-        ],
-        "completedAt": "2026-07-25T13:25:11.588Z"
       }
     ]
   }
