@@ -1105,6 +1105,60 @@ const PROBES = [
     },
   },
 
+  {
+    gate: 'validate:schema-parity',
+    why: 'a local schema field absent from the deployed schema must be reported as drift',
+    // CTL-011. Reaches the network: the deployed side comes from `sanity schema
+    // list --json`. Where credentials are absent the control run exits non-zero
+    // and gateProbe reports the probe INVALID rather than the gate inert, which
+    // is the honest outcome — see the `live: null` contract at the top of PROBES.
+    //
+    // Asserts on WHAT was reported, not merely that something was. Exit 1 alone
+    // would also be produced by a schema that fails to parse, which would prove
+    // the extractor is strict rather than that drift detection works. The field
+    // name must appear in the drift output.
+    run() {
+      const dir = 'apps/studio/schemas/documents'
+      const full = resolve(ROOT, dir)
+      if (!existsSync(full)) {
+        return { live: null, invalid: true, detail: `${dir} not found — probe target gone` }
+      }
+      // Derived, not hardcoded: the first document schema by name. A hardcoded
+      // filename silently stops being a registered schema the day it is renamed.
+      const target = readdirSync(full).filter((f) => f.endsWith('.ts')).sort()[0]
+      if (!target) {
+        return { live: null, invalid: true, detail: `no .ts schema found in ${dir}` }
+      }
+
+      const FIELD = 'livenessProbeField'
+      const res = gateProbe({
+        cmd: 'pnpm',
+        args: ['validate:schema-parity'],
+        success: `reported the drift, naming ${FIELD}`,
+        // mutateFile throws when the needle is stale, so a drifted `fields: [`
+        // shape fails the PROBE loudly instead of reporting the GATE inert.
+        breakIt: () =>
+          mutateFile(`${dir}/${target}`, (s) =>
+            s.replace(
+              /fields: \[/,
+              `fields: [\n    { name: '${FIELD}', title: 'Liveness Probe', type: 'string' },`
+            )
+          ),
+      })
+
+      if (res.live && !(res.out || '').includes(FIELD)) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            `the gate exited non-zero but its output never names ${FIELD}, so this proves ` +
+            `something failed rather than that drift was detected. Output: ${(res.out || '').trim().slice(-300)}`,
+        }
+      }
+      return res
+    },
+  },
+
   // Architectural boundary rules — one probe per enforced scope, generated from
   // SCOPES above. SUG-254.
   ...BOUNDARY_PROBES,
