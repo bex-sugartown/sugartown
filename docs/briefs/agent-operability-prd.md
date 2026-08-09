@@ -1,10 +1,11 @@
 # Agent Operability — Product Requirements Document
 
-**PRD Version:** v0.1
-**Status:** Draft for review
+**PRD Version:** v1.0
+**Status:** **Approved 2026-08-09 by Bex.** Every open decision in §5 is resolved in §10 (B1–B6, plus B3a on 2026-08-09). B5's blocker — "needs the inventory first" — is closed by Appendix A. Nothing in this document is now awaiting an answer.
 **Author:** Claude Code, from a workflow post-mortem (2026-08-08) and a Voice Governance Audit (chat, 2026-08-08)
 **Domain:** Platform governance and agent instruction surface. No FE render surface, no Sanity schema.
-**Last updated:** 2026-08-08
+**Last updated:** 2026-08-09
+**Execution:** §7's 12 epics are grouped into 5 dependency-ordered tranches, one backlog doc each: `docs/backlog/AOP-1`…`AOP-5`. Those docs are the executable containers; this PRD stays the spec.
 **ORIENT phase:** complete. Every "unverified" row in the source audit is resolved in §2.
 **Related:** SUG-260 (shipped), SUG-268 (in progress), `docs/conventions/user-story-conventions.md`, `validate:doc-budget`
 
@@ -138,7 +139,7 @@ Two of these change the plan:
 
 ## 5. Open decisions for Bex
 
-**Resolved 2026-08-08 — see §10.** Retained for the reasoning that produced them.
+**All resolved — see §10.** B1–B6 on 2026-08-08; B3a, the two surfaces B3 left open, on 2026-08-09. Retained for the reasoning that produced them.
 
 | # | Decision | Why it blocks |
 |---|---|---|
@@ -230,13 +231,14 @@ W2, W4, W5 independent
 
 ---
 
-## 10. Decisions — resolved 2026-08-08 by Bex
+## 10. Decisions — resolved by Bex, 2026-08-08 and 2026-08-09
 
 | # | Decision | Resolution |
 |---|---|---|
 | **B1** | Rule delivery vs the budget cap | **Raise the cap, or suspend `validate:doc-budget`, until CI-green is proven.** Unblocks V1/V2 immediately |
 | **B2** | Two registers or three | **Two.** Recommendation accepted below — chat is a *mode* of Technical, not a third register |
 | **B3** | Em-dash ban scope | **FE brand/Bex human-authored content only.** Not nodes (AI-authored), not technical docs, not technical chat |
+| **B3a** | The two surfaces B3 left open — PR descriptions, alt text / meta descriptions | **Allowed in both** (2026-08-09). Full reasoning and the correction it carries: §B3 above. V4 writes it down |
 | **B4** | Gate posture | **Warn until CI-green is proven** |
 | **B5** | Gate tiering | Needs the inventory first — Appendix A |
 | **B6** | Manual claude.ai skill sync | **Acceptable** |
@@ -277,7 +279,18 @@ So: **chat inherits the Technical register**, plus a short conversational delta 
 
 This collapses the exemption chain: one positive rule replaces a ban plus three exemptions across 49 files.
 
-**Two surfaces need your call before V4 writes it down:** PR descriptions (technical, so allowed by the logic above) and alt text / meta descriptions (FE-facing but machine-consumed). Both currently sit under the editorial ban.
+**Two surfaces resolved 2026-08-09 by Bex — em dashes allowed in both:**
+
+| Surface | Authorship | Em dashes | Reasoning |
+|---|---|:--:|---|
+| PR descriptions | Agent | **Allowed** | Technical surface, same content class as commit messages, which B3 already allows. Read by reviewers, never by a site visitor. Splitting them would rebuild the exemption chain B3 collapses. |
+| Alt text / meta descriptions | Either | **Allowed** | Machine-consumed. Screen readers, crawlers and answer engines do not read for AI tells, which is the entire basis of the ban. |
+
+One correction to the sentence this replaces: it claimed both surfaces sat under the editorial ban. Only alt text and meta descriptions did (`CLAUDE.md:499` names them in the reader-facing scope list). **PR descriptions were governed by nothing** — `docs/conventions/technical-doc-style-guide.md:66` independently records code comments, JSDoc, PR descriptions and commit messages as outside every Sugartown writing guide. So this decision *closes a gap* for PR descriptions and *lifts a ban* for alt text.
+
+The accepted counter-argument, recorded so it is not relitigated: alt text is published, and a sighted user can surface it. It is the one item here a visitor could plausibly meet as prose. Allowing it trades that edge case for one fewer exemption row.
+
+**V4 writes both rows down.** Until then `CLAUDE.md:499` still bans alt text and meta descriptions, and the two states disagree.
 
 ---
 
