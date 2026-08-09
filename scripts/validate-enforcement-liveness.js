@@ -1062,6 +1062,49 @@ const PROBES = [
     },
   },
 
+  {
+    gate: 'pnpm typecheck',
+    why: 'a type error in a typechecked package must not compile',
+    // CTL-016. Invocation matches ci.yml step *Type check* (`pnpm typecheck` at
+    // repo root), not a per-package filter — `turbo run typecheck --continue`
+    // fans out itself, and probing one package would prove one of four.
+    //
+    // The target directory is DERIVED from the package's own tsconfig `include`,
+    // never hardcoded. A hardcoded path stops being typechecked the day that
+    // include changes, and the probe would then drop its file somewhere tsc
+    // never looks: the gate exits 0, and the harness reports the GATE inert when
+    // the truth is the probe missed. Same stale-needle misattribution
+    // `mutateFile` throws on.
+    run() {
+      const pkg = 'packages/design-system'
+      const tsconfigPath = resolve(ROOT, pkg, 'tsconfig.json')
+      if (!existsSync(tsconfigPath)) {
+        return { live: null, invalid: true, detail: `${pkg}/tsconfig.json not found — probe target gone` }
+      }
+      const include = JSON.parse(readFileSync(tsconfigPath, 'utf8')).include
+      if (!Array.isArray(include) || include.length === 0) {
+        return {
+          live: null,
+          invalid: true,
+          detail: `${pkg}/tsconfig.json has no "include" array, so this probe cannot derive a typechecked directory`,
+        }
+      }
+      // Strip any glob suffix ("src/**/*" -> "src") to get a real directory.
+      const dir = include[0].replace(/\/\*.*$/, '')
+
+      return gateProbe({
+        cmd: 'pnpm',
+        args: ['typecheck'],
+        success: 'rejected the type error',
+        breakIt: () =>
+          tempFile(
+            `${pkg}/${dir}/__liveness_probe__.ts`,
+            'export const probe: number = "not a number"\n'
+          ),
+      })
+    },
+  },
+
   // Architectural boundary rules — one probe per enforced scope, generated from
   // SCOPES above. SUG-254.
   ...BOUNDARY_PROBES,

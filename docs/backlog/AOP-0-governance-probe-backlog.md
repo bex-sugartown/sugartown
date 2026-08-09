@@ -5,7 +5,7 @@
 **Status:** Backlog
 **Priority:** 🟣 Soon — no deadline, but each row is a gate currently trusted without proof
 **Merge strategy:** (a) Merge-as-you-go — one probe per commit
-**Depends on:** SUG-268 Phase 3 (the `cadence` split is what routes these rows here)
+**Depends on:** nothing. SUG-268 Phase 3 *routed* these six rows here, but it is not a prerequisite — all six gates exist and run today, so all six can be probed today. Corrected 2026-08-09; the original header overstated this as a dependency. Doing this work first makes Phase 3 smaller
 ---
 
 # AOP-0 — Governance probe backlog

@@ -5,7 +5,7 @@
     "control": 4,
     "component": 4,
     "claim": 3,
-    "probe": 22,
+    "probe": 23,
     "crosswalk": 3
   },
   "tally": {
@@ -262,6 +262,12 @@
       "id": "PRB-022",
       "gate": "boundary: apps/web",
       "derivation": "derived-from-target"
+    },
+    {
+      "id": "PRB-023",
+      "gate": "pnpm typecheck",
+      "derivation": "static-input",
+      "staticJustification": "The violation is a string assigned to a number-typed export. There is no target value to derive from — the gate's job is that ill-typed code fails to compile, and any type error exercises it. The probe's file LOCATION is derived from the package tsconfig's include array, because a hardcoded path would stop being typechecked if that include changed and the probe would then report the gate inert when the truth is the probe missed."
     }
   ],
   "crosswalk": [
