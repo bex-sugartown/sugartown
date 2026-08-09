@@ -388,6 +388,61 @@ container, renamed to `SUG-{N}-` when an ID exists. The *intent* of the proposal
 (the rows stop firing as CI failures nobody chose, and become prioritisable work); only the
 destination changes.
 
+### Phase 3 activation audit (2026-08-09) — **gate FAILS, execution not started**
+
+Run per CLAUDE.md §Incomplete epic doc hard stop item 5: a scope proposing the same operation
+across a set must classify **every** item first, never infer the set's uniformity from a
+subset. Migrating "the real control rows and components" is exactly that shape.
+
+**Per-item classification of all 32 control rows, measured from `control-register.md`:**
+
+| Decision 12 kind | Rows | Count |
+|---|---|:--:|
+| `recurring-read` | CTL-020, CTL-022, CTL-023 | 3 |
+| `no-probe-yet` | CTL-008, CTL-009, CTL-010, CTL-011, CTL-016, CTL-018 | 6 |
+| `ci-only` | CTL-013, CTL-019 | 2 |
+| **UNCLASSIFIED — reads `continuous`** | CTL-001 to CTL-007, CTL-015, CTL-017, CTL-024, CTL-025, CTL-027, CTL-031, CTL-034 | **14** |
+| **UNCLASSIFIED — carries a date** | CTL-012, CTL-014, CTL-021, CTL-028, CTL-029, CTL-030, CTL-035 | **7** |
+
+**Decision 12 classifies 11 of 32 rows. 21 are unclassified, so Phase 3 cannot migrate the
+`cadence` field without inventing a classification for two thirds of the register.**
+
+**One thing the audit did *not* find.** Decision 12's rationale states every date is `+1 month`
+or `+3 months` from 2026-07-28. That is **true of all 11 rows it examined** — every one is
+2026-08-28 or 2026-10-28. It is only false if generalised to the full register, where four other
+dates exist (2026-09-02, 2026-09-30, 2026-11-06). The rationale was correctly scoped to its
+evidence; the gap is coverage, not accuracy.
+
+**Three stale figures corrected by this audit:**
+
+| Figure | Doc said | Measured 2026-08-09 | Command |
+|---|---|---|---|
+| Control rows | 29 | **32** | `grep -cE '^\| \`?CTL-[0-9]+' docs/ai/agentic-caucus/control-register.md` |
+| Seed size | 17 records | **36 records** | `validate:governance` header; Phase 2 seeded all 22 probes |
+| Phase 2 register rows added | CTL-031, CTL-034 | **CTL-031, CTL-034, CTL-035** | `git log -S CTL-035` → `74e8ec47` |
+
+`CTL-035` (`probe.derivation`) is the row that reconciles 29 to 32. It shipped in Phase 2 and was
+omitted from the Phase 2 record.
+
+**Component count still unmeasured.** `governance-coverage.md` holds seven tables; the first
+`| Component | Status |` table has exactly 30 data rows. Whether "30 components" ever meant that
+one table is unconfirmed. Resolve before the migration's count check is written, since that
+check is the proof nothing was lost.
+
+**One fidelity risk, recorded not resolved.** CTL-031's `bypass` cell is **2,633 characters**.
+PRD §5.4 step 2 requires prose cells to survive byte-exact. Longest cell in the register by a
+factor of four; if any cell breaks round-tripping or GitHub table rendering, it is this one.
+Test it first, not last.
+
+### Blockers before Phase 3 can start
+
+1. **Decision 12 must be extended to the remaining 21 rows** (owner: Bex). Cannot be inferred.
+2. **Phase 3 has no Acceptance Criteria.** The only such section in this doc is titled
+   "(Phase 1 only)". PRD §10 supplies derivable criteria; they need writing in before execution.
+3. **Verification review has not run.** Phase 3 changes validators, begins writing a published
+   register from source, and moves the Rule File Write Gate's scope. CLAUDE.md requires the
+   `verification-reviewer` subagent, explicitly not an inline review.
+
 ### Phase 2 verification review — 7 blockers, scope redrawn
 
 Run as a subagent 2026-08-06 per CLAUDE.md §Verification review, against the proposed Phase 2
