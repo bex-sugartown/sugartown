@@ -8,6 +8,28 @@
 
 # SUG-268 — Governance Data Layer
 
+> ## ⏸ ON HOLD 2026-08-09 — read this before restarting Phase 3
+>
+> Phase 3 was activated, audited and verification-reviewed on 2026-08-09. **It did not clear the
+> gate: 5 blockers. No implementation code was written.** Bex moved to the AOP track.
+>
+> **Resume by reading, in this order:** §Phase 3 activation audit → §Decision 12 extended →
+> §Phase 3 verification review → §Blockers before Phase 3 can start.
+>
+> **What is done:** all 32 control rows classified (`cadence` enum 3 → 5). Decisions 11 and 12
+> closed. Phase 1–2 CHANGELOG lines written. Verification review run as a subagent and recorded.
+>
+> **What is not:** the 5 blockers, Phase 3 acceptance criteria (still absent — the only such
+> section in this doc is titled "Phase 1 only"), and the proposed register rows CTL-036 to
+> CTL-039, which are proposals in this doc and have **not** been written to `control-register.md`.
+>
+> **Do not start by writing migration code.** Four of the five blockers are edits to existing
+> validators and take about an hour; the fifth (the Rule File Write Gate has no register row)
+> needs a decision from Bex about what that row says.
+>
+> **Unrelated to this epic but on a clock:** [SUG-276](https://linear.app/sugartown/issue/SUG-276)
+> covers the five rows dated 2026-08-28 and is not on hold. See §Time-critical below.
+
 Replace the hand-maintained, regex-parsed governance substrate (`control-register.md`,
 `governance-coverage.md`, hardcoded arrays in `GovernancePage.jsx`/`GovernanceDraftPage.jsx`)
 with a single structured, schema-validated source that generates all of them — the same
@@ -510,8 +532,17 @@ the reviewer rather than taken from this doc.
 | What happens on 2026-08-29 | **CI goes red on `main`** until the rows are re-read | **Every commit in the repo is blocked**, not just governance ones |
 
 So the commit block is a Phase 3 consequence, as the review stated. The **CI-red is not** — it
-fires on 2026-08-28 whether Phase 3 ships or not. Decision 12 keeps CTL-020, CTL-022 and CTL-023
-at that date, which is 19 days from today.
+fires on 2026-08-28 whether Phase 3 ships or not, 19 days from today.
+
+**Already tracked, and this doc is not the owner.**
+[SUG-276](https://linear.app/sugartown/issue/SUG-276) (`docs/backlog/SUG-276-justify-dated-register-rows.md`)
+covers it, was filed 2026-08-07, and already carries the pre-commit-vs-CI distinction correctly.
+It names **five** rows on that date — CTL-013, CTL-019, CTL-020, CTL-022, CTL-023 — not the three
+`recurring-read` ones alone; CTL-013 and CTL-019 are `ci-only` and dated the same day. It also
+records a second-order effect this doc missed: `gateProbe`'s control run reads the non-zero exit,
+so **both probes on `validate:controls` report `PROBE INVALID`** and the liveness job goes red
+saying "Fix the probe" about probes that are working, with the "Inert gates" summary suppressed
+for that run. **No new artifact is owed here.** SUG-276 stays open while this epic is on hold.
 
 Side note found while measuring: `validate-control-register.js` reads wall-clock time with no
 `--reference-date` flag, unlike `validate:governance`. Its overdue behaviour cannot be tested for
