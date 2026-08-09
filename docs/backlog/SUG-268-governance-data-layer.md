@@ -198,6 +198,19 @@ in which the generator writes a gated path before the CLAUDE.md edit lands.
 
 ### Phase 3 — Migration (see PRD §5.4)
 
+> **⚠ Both counts below are stale as of 2026-08-09. Re-measure at activation; do not migrate against them.**
+> `control-register.md` now holds **32** control rows, not 29 — measured by
+> `grep -cE '^\| \`?CTL-[0-9]+' docs/ai/agentic-caucus/control-register.md`. Phase 2 added CTL-031
+> and CTL-034, which accounts for two of the three; the third is unaccounted for and should be
+> identified before the migration's count check is written, since that check is what proves the
+> migration lost nothing.
+> The component figure needs its own measurement: `governance-coverage.md` contains **seven**
+> tables, so "30 components" does not have a self-evident scope. The first `| Component | Status |`
+> table holds exactly 30 data rows, which may be all the figure ever meant — confirm which tables
+> are in scope before trusting it.
+> This is the failure this epic exists to remove, appearing in the epic's own doc: a figure
+> written once and carried forward without re-running the command.
+
 Migrate the real 29 control rows and 30 components. `scripts/verify-migration.js` byte-compares
 against the pinned pre-cutover SHA using the *old* regex parsers as independent verifier. Cutover
 is an atomic single-branch merge (PRD §5.4 step 3) — this is a property of the migration step
@@ -239,15 +252,21 @@ migration avoids touching a gated file twice):
 **One field decision rides with the migration** (added 2026-08-06, external prior art — see
 §External prior art below):
 
-- [ ] **Decide whether entities carry an SDLC `stage` (`design | implementation | runtime`), and
-      if adopted, land it in this migration rather than after it.** Cloudflare names stage
+- [ ] **Land the SDLC `stage` field (`design | implementation | runtime`) in this migration.**
+      **Decided 2026-08-09 — adopt, with AOP-3's rule-delivery carrier as the named consumer.**
+      See §Phase 3 activation decisions, Decision 11, including the stated orphaning risk. The
+      decision is closed; this item stays open because landing it is the work. Cloudflare names stage
       metadata as their own next step, for scoping which statements an agent loads at a given
       lifecycle point. The argument is cost asymmetry, not certainty: one field while 59 records
       are already being rewritten, versus a second migration later — layer: tooling
 
 **A second field decision, filed 2026-08-07 (Bex):**
 
-- [ ] **Split `Next read` by what the date actually means.** Today one column does three jobs and
+- [ ] **Split `Next read` by what the date actually means.** **Decided 2026-08-09 — three cadence
+      kinds (`recurring-read`, `no-probe-yet`, `ci-only`), with the `no-probe-yet` rows routed to
+      `docs/backlog/AOP-0-governance-probe-backlog.md` rather than to Linear, whose issue budget is
+      exhausted.** See §Phase 3 activation decisions, Decision 12. The decision is closed; this
+      item stays open because the migration is the work. Today one column does three jobs and
       the reader cannot tell which one they are in when it fires. Every date is `+1 month` or
       `+3 months` from the day the register was written (2026-07-28), so nothing happens on those
       dates — they are a forced re-read interval, not a prediction.
@@ -343,6 +362,31 @@ the verification review's reproduced findings and are recorded here rather than 
 for. `'validate:governance-tally'.includes('validate:governance')` is `true`, so CTL-027's
 existing row satisfies the completeness check for the new gate. Decision 10 is what actually
 closes it. B4 was right about the prefix and wrong to treat the rename as sufficient.
+
+### Phase 3 activation decisions (2026-08-09)
+
+Both were filed as Phase 3 Scope items in the form "decide X". Both are now decided, so Phase 3
+activates without re-opening them. **Neither is implemented** — the Scope items stay unticked
+because the landing is the work.
+
+| # | Question | Decision | Date | Decided by |
+|---|----------|----------|------|-------------|
+| 11 | Do entities carry an SDLC `stage` (`design \| implementation \| runtime`)? | **Adopt, with a named consumer.** The consumer is AOP-3's rule-delivery carrier (`docs/backlog/AOP-3-rule-delivery-carrier.md`, PRD §7 V1), whose job is scoping which rules load at which lifecycle point — exactly what `stage` encodes. Land it in this migration on the cost-asymmetry argument: one field while 59 records are already being rewritten, versus a second migration later | 2026-08-09 | Bex |
+| 12 | Split `Next read` by what the date actually means | **Three cadence kinds.** `recurring-read` — a human genuinely has to look and the read *is* the control (CTL-020, CTL-022, CTL-023), keeps its date. `no-probe-yet` — a backlog item wearing a date (CTL-008 to CTL-011, CTL-016, CTL-018), loses its date and moves to a backlog doc. `ci-only` — cannot be exercised locally (CTL-013, CTL-019), previously the unnamed third kind | 2026-08-09 | Bex |
+
+**Decision 11 carries a stated risk.** If AOP-3 is deprioritised, `stage` becomes metadata with
+no reader — the failure class this epic exists to remove. The mitigation is that the consumer is
+named here, in writing, so an orphaned `stage` is visible as a broken link rather than as a field
+nobody remembers deciding on. Re-check at the Phase 4 cutover retrospective.
+
+**Decision 12 deviates from the proposal in the Scope item on one point, deliberately.** The
+Scope item says the `no-probe-yet` rows "become Linear issues, where they can be prioritised
+against everything else". The Linear issue budget is exhausted as of 2026-08-09 — the same
+constraint that put the AOP tranches in `docs/backlog/` as placeholders. So those six rows go to
+**`docs/backlog/AOP-0-governance-probe-backlog.md`** instead, on the same terms: a placeholder
+container, renamed to `SUG-{N}-` when an ID exists. The *intent* of the proposal is preserved
+(the rows stop firing as CI failures nobody chose, and become prioritisable work); only the
+destination changes.
 
 ### Phase 2 verification review — 7 blockers, scope redrawn
 
