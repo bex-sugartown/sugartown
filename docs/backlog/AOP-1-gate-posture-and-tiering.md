@@ -49,9 +49,42 @@ avoids touching 16 gate sections in two separate passes.
 | A3 | Consecutive green CI runs on `main` before new validators are allowed | **5.** Currently at 2 |
 | A4 | Verification review | **Run it**, per this doc's Technical constraints |
 
-**A1 and A2 combine deliberately:** `doc-budget` moves to pre-commit *and* warns there. It
-becomes visible early and blocks nothing, with a dated re-arm restoring blocking later. The cap
-raise is not a softening — it is what makes an early, non-blocking check meaningful rather than
+### A5 — what reads a warning (2026-08-09, Bex). Resolves the review's central blocker
+
+A blocking gate reads itself: it stops you. A warning is read by nothing unless something looks,
+and today nothing does — `/eod` keys on the run's `conclusion` (`eod-prompt.md:137-147`) and
+`ci-failure-alert.yml:31` fires only on `failure`. A run carrying warnings concludes `success`,
+so both would report green.
+
+**Decision: block locally where possible, warn in CI, and teach `/eod` to read warning
+annotations on green runs as the backstop.**
+
+| Gate | Pre-commit | CI | Reader |
+|---|---|---|---|
+| `validate:doc-budget` | **blocks** | warns | the committer, in their own terminal, at the moment they cause it; `/eod` as backstop |
+| `validate:epic-docs` | cannot run — exits 0 as `SKIPPED` with no `LINEAR_API_KEY` | warns | **`/eod` only.** No local reader exists for it |
+
+This supersedes A1's "pre-commit" as a *move*: **doc-budget runs in pre-commit *in addition to*
+CI**, never instead of it (review B-3). Removing the CI step would delete the only reader that
+survives `--no-verify`, merge commits, an uninstalled hook, and `[skip ci]`.
+
+**Accepted cost, stated plainly:** this makes `validate:epic-docs` genuinely weaker than it is
+today — it will block nowhere. That is defensible because it caused two of the three recent red
+builds and has never caught a code defect, but it is a real reduction, not a free one, and the
+re-arm date is what makes it temporary.
+
+### A6 — where the re-arm date lives. Resolves review B-5
+
+The review found the register has no posture field and no re-arm field, so a re-arm date written
+as prose in `Bypass` is checked by nothing.
+
+**Decision: the re-arm date goes in `Next read`**, which is the one column
+`validate-control-register.js:275-286` already machine-validates and fails the build on when it
+passes. No schema change, no new field, and the existing gate becomes the enforcement.
+
+**A1 and A2 combine deliberately:** `doc-budget` moves to pre-commit *and* warns in CI. It
+becomes visible early and stops reddening `main`, with a dated re-arm restoring blocking later.
+The cap raise is not a softening — it is what makes an early check meaningful rather than
 constant noise.
 
 ## Evidence gathered at activation (2026-08-09)
