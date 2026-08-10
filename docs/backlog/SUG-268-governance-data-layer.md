@@ -286,7 +286,7 @@ migration avoids touching a gated file twice):
 
 - [ ] **Split `Next read` by what the date actually means.** **Decided 2026-08-09 — three cadence
       kinds (`recurring-read`, `no-probe-yet`, `ci-only`), with the `no-probe-yet` rows routed to
-      `docs/backlog/AOP-0-governance-probe-backlog.md` rather than to Linear, whose issue budget is
+      `docs/shipped/AOP-0-governance-probe-backlog.md` rather than to Linear, whose issue budget is
       exhausted.** See §Phase 3 activation decisions, Decision 12. The decision is closed; this
       item stays open because the migration is the work. Today one column does three jobs and
       the reader cannot tell which one they are in when it fires. Every date is `+1 month` or
@@ -405,7 +405,7 @@ nobody remembers deciding on. Re-check at the Phase 4 cutover retrospective.
 Scope item says the `no-probe-yet` rows "become Linear issues, where they can be prioritised
 against everything else". The Linear issue budget is exhausted as of 2026-08-09 — the same
 constraint that put the AOP tranches in `docs/backlog/` as placeholders. So those six rows go to
-**`docs/backlog/AOP-0-governance-probe-backlog.md`** instead, on the same terms: a placeholder
+**`docs/shipped/AOP-0-governance-probe-backlog.md`** instead, on the same terms: a placeholder
 container, renamed to `SUG-{N}-` when an ID exists. The *intent* of the proposal is preserved
 (the rows stop firing as CI failures nobody chose, and become prioritisable work); only the
 destination changes.

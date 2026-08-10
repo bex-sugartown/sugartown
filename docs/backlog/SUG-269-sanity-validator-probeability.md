@@ -1,6 +1,6 @@
 ---
-**Epic:** AOP-0b — Make the Sanity-backed validators probeable
-**Linear Issue:** ⚠️ **NONE — PLACEHOLDER.** Linear issue budget exhausted 2026-08-09. This doc is the container until an ID exists. **Before execution:** file the Linear issue, rename this file to `SUG-{N}-sanity-validator-probeability.md` (`git mv`), and replace this line.
+**Epic:** SUG-269 — Make the Sanity-backed validators probeable
+**Linear Issue:** [SUG-269](https://linear.app/sugartown/issue/SUG-269/make-the-sanity-backed-validators-probeable) — **this ID was reused.** It previously held "GlossaryTermPage: AI Attribution item + DescriptionList→List migration", cancelled the same day it was created and absorbed into [SUG-177](docs/backlog/SUG-177-list-component-audit-site-list-patterns.md). Repurposed 2026-08-10: the workspace is at its issue limit and deletion holds a slot for a month, so reusing a fully-superseded ID beats creating one. **References to "SUG-269, cancelled the same day" in `SUG-268-governance-data-layer.md` and `SUG-177-*.md` describe that prior life, not this epic.** The sub-issue parent link it inherited was cleared at repurposing, per one-epic-one-issue.
 **Origin:** AOP-0, 2026-08-09. Three of its six controls turned out to be structurally unprobeable; this is the fix, filed rather than absorbed
 **Status:** Backlog
 **Priority:** 🟣 Soon — three CI gates are trusted without proof, but none is newly broken
@@ -8,7 +8,7 @@
 **Depends on:** nothing
 ---
 
-# AOP-0b — Make the Sanity-backed validators probeable
+# SUG-269 — Make the Sanity-backed validators probeable
 
 Three controls cannot be given a liveness probe as the validators are currently written:
 
