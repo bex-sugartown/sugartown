@@ -1,15 +1,15 @@
 ---
-**Epic:** AOP-1 — Gate posture and tiering
-**Linear Issue:** ⚠️ **NONE — PLACEHOLDER.** Linear issue budget exhausted 2026-08-09. This doc is the container until an ID exists. **Before execution:** file the Linear issue, rename this file to `SUG-{N}-gate-posture-and-tiering.md` (`git mv`), and replace this line.
+**Epic:** SUG-281 — Gate posture and tiering
+**Linear Issue:** [SUG-281](https://linear.app/sugartown/issue/SUG-281/gate-posture-and-tiering-aop-1) — **repurposed 2026-08-10 from a test issue, not newly filed.** The workspace is at its issue limit and deletion holds the slot for a month, so reusing a dead ID is cheaper than creating one. Tracked as `AOP-1` in the PRD; the AOP prefix survives only where the PRD's own tranche numbering is being cited.
 **Source PRD:** `docs/briefs/agent-operability-prd.md` v1.0 §7 — covers **W4** and **W2**
-**Status:** Backlog
+**Status:** In Progress — **Phase 1 non-gated half shipped 2026-08-10** (`499bb33f`, CI `31399091551` green). Phase 1 gated half and all of Phase 2 outstanding
 **Priority:** 🔴 Now — PRD §7 names W4 first of the recommended three
 **Merge strategy:** (a) Merge-as-you-go — Phase 1 (W4) merges before Phase 2 (W2) begins
 **Depends on:** B4 and B5, both resolved (PRD §10, Appendix A)
 **Blocks:** AOP-2 (the close-out runner needs the tier model to know what to stop for)
 ---
 
-# AOP-1 — Gate posture and tiering
+# SUG-281 — Gate posture and tiering
 
 Both halves answer one question: **when may a gate interrupt you, and when may it block a
 commit?** W4 sets posture (block vs warn), W2 sets tiering (which gates cost a click). They

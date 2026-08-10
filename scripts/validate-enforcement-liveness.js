@@ -1003,7 +1003,7 @@ const PROBES = [
         //   script errored the probe genuinely cannot vouch for the gate. INVALID.
         //
         // Collapsing them means an untidy Linear state reddens CI through the
-        // (blocking) liveness job, which would undo AOP-1's warn conversion of
+        // (blocking) liveness job, which would undo SUG-281's warn conversion of
         // this very gate by moving the red rather than removing it.
         const realOrphans = /issue\(s\) missing a backlog doc/.test(control.out)
         if (realOrphans) {

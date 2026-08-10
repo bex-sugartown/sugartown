@@ -48,7 +48,7 @@ const ROOT_DOC = 'CLAUDE.md'
 /**
  * Word budget for the whole surface.
  *
- * Raised to 26,000 at AOP-1 Phase 1 (2026-08-09), superseding the 20,150 set at
+ * Raised to 26,000 at SUG-281 Phase 1 (2026-08-09), superseding the 20,150 set at
  * SUG-243 Phase 3 (achieved-plus-5% against 19,187 measured 2026-07-30).
  *
  * Derivation, all measured 2026-08-09, none copied:
@@ -87,7 +87,7 @@ const CAP_WORDS = 26_000
  * design-handoff-template.md, 1 in usage-doc-style-guide.md). Cap was 26 —
  * the achieved figure plus ~10%, the same method as CAP_WORDS.
  *
- * **Re-derived 2026-08-09 at AOP-1 Phase 1: 25 stops, cap 28.** The count rose
+ * **Re-derived 2026-08-09 at SUG-281 Phase 1: 25 stops, cap 28.** The count rose
  * by one because `countDecisionPoints` was fixed to match `hard-stop` as well
  * as `hard stop`; the gate it had been missing since the counter was written is
  * `### Phase 0 hard-stop (visual spec gate)`. Nothing was added to the surface —
@@ -97,9 +97,9 @@ const CAP_WORDS = 26_000
  * keyword and stay invisible (listed in `countDecisionPoints`).
  *
  * **This cap has no probe.** The liveness probe for this gate pads *words* only,
- * so the stop half is unexercised — and AOP-1 Phase 2 rewrites the very heading
+ * so the stop half is unexercised — and SUG-281 Phase 2 rewrites the very heading
  * text this counter matches on, which could collapse the count toward zero while
- * the gate reports headroom. Tracked as AOP-1 review blocker B-4; do not run
+ * the gate reports headroom. Tracked as SUG-281 review blocker B-4; do not run
  * Phase 2 before it is closed.
  *
  * Reproduce with `pnpm validate:doc-budget`. Tighten only against a fresh

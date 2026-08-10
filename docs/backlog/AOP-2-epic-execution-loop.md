@@ -5,7 +5,7 @@
 **Status:** Backlog
 **Priority:** 🔴 Now — W1 is second of the PRD's recommended three
 **Merge strategy:** (a) Merge-as-you-go — W1 must be live and proven before the close-out runner is built on it
-**Depends on:** AOP-1 (the runner must know the tier model to know what to stop for)
+**Depends on:** SUG-281 (the runner must know the tier model to know what to stop for)
 **Blocks:** —
 ---
 
@@ -31,10 +31,10 @@ click-heavy, and phases stalled with no prompt to continue.
 An epic with defined phases executes to the next human gate without being driven turn by
 turn, and closes out through one owner rather than a seam between two skills.
 
-## Why AOP-1 first
+## Why SUG-281 first
 
 W3's runner executes close-out steps 1b–9, several of which *are* gates. If it is built
-before AOP-1 assigns tiers, it will hardcode today's undifferentiated ceremony and need
+before SUG-281 assigns tiers, it will hardcode today's undifferentiated ceremony and need
 rewriting the moment tiers land. The dependency is real, not hygiene.
 
 ## Scope
@@ -67,7 +67,7 @@ Seven Scope items, above the 5-item sizing gate.
 
 ## Non-Goals
 
-- Changing which actions are gates. That is AOP-1's decision; this tranche consumes it.
+- Changing which actions are gates. That is SUG-281's decision; this tranche consumes it.
 - Removing human gates. Auto-advance runs *to* a gate, never *through* one.
 - Any register or voice work — that is AOP-3 through AOP-5.
 

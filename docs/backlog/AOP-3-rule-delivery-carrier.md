@@ -35,7 +35,7 @@ A rule can load when it is needed without permanently consuming the instruction 
 
 **V1 — rule delivery mechanism**
 
-- [ ] Implement B1's resolution: raise the cap (or suspend `validate:doc-budget`) **until CI-green is proven** — note AOP-1 already sets the cap to 26,000 enforcing, so confirm the two decisions agree before building, and reconcile in the PRD if not
+- [ ] Implement B1's resolution: raise the cap (or suspend `validate:doc-budget`) **until CI-green is proven** — note SUG-281 already sets the cap to 26,000 enforcing, so confirm the two decisions agree before building, and reconcile in the PRD if not
 - [ ] Choose and build the carrier from B1's candidates: MCP-on-demand (`sugartown_get_rule`), `.claude/rules/` path-scoped, or skills. Record why the others lost
 - [ ] Prove a rule loads through the carrier **without** appearing in the session-loaded surface — measured by `validate:doc-budget`'s word count before and after
 
@@ -59,14 +59,14 @@ Six Scope items, above the 5-item sizing gate.
 - De-duplicating the 49-file restatement. That is AOP-5 (V4), and it needs this carrier plus AOP-4's census.
 - Building the chat-side half. That is AOP-4 (V6).
 - Rewriting the brand voice itself (PRD §6).
-- Adding any new validator (PRD §6, until C7 clears — AOP-1's job).
+- Adding any new validator (PRD §6, until C7 clears — SUG-281's job).
 
 ## Technical constraints
 
 - **Verification review is blocking.** V1 changes how rules reach a session, which is the substrate every other gate stands on. `verification-reviewer` runs before implementation; control-register rows for the carrier and for the budget change.
 - **Instruction & Rule File Write Gate applies.** `CLAUDE.md:499`, `docs/conventions/**`, `.claude/rules/**` and `.claude/skills/**` are all in scope.
 - **A rule that loads on demand must be *reachable*, not merely *stored*.** The acceptance test is a session actually retrieving it, not the file existing at a path. C2 is precisely the failure of a good guide sitting where nothing loads it.
-- **B1 vs AOP-1 conflict is live and must be resolved before Phase 1 starts.** B1 says raise-or-suspend; PRD §B1's caveat and AOP-1 both say raise to 26,000 and keep enforcing. They are compatible only if "raise" is chosen over "suspend". Confirm, and record the resolution in the PRD rather than in this doc.
+- **B1 vs SUG-281 conflict is live and must be resolved before Phase 1 starts.** B1 says raise-or-suspend; PRD §B1's caveat and SUG-281 both say raise to 26,000 and keep enforcing. They are compatible only if "raise" is chosen over "suspend". Confirm, and record the resolution in the PRD rather than in this doc.
 
 ## Files to modify
 

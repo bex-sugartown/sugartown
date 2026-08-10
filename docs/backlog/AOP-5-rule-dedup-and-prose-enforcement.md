@@ -41,7 +41,7 @@ hook detects the next restatement rather than waiting for an audit to find it.
 
 - [ ] Path-scoped anti-slop pre-commit check, **warn-only first** per B4
 - [ ] Scope the hook's paths from AOP-4's register map, so an editorial rule never fires on a technical surface — the exact failure the whole PRD exists to fix
-- [ ] Dated re-arm for the warn→block transition, consistent with AOP-1's re-arm mechanism
+- [ ] Dated re-arm for the warn→block transition, consistent with SUG-281's re-arm mechanism
 
 ## Scope-to-phase mapping
 
@@ -62,7 +62,7 @@ Seven Scope items, above the 5-item sizing gate.
 
 - **Verification review is blocking** — V5 adds a gate. `verification-reviewer` runs before implementation, and the hook gets a control-register row naming its probe, its reader and its next-read date.
 - **Instruction & Rule File Write Gate applies at maximum surface.** This tranche edits the canonical location of essentially every rule, including `CLAUDE.md`, `docs/conventions/**`, `.claude/skills/**` and `docs/ai/agentic-caucus/**`. Scratchpad-copy-then-diff is not optional here; it is the only safe way to review a diff this wide.
-- **The new validator freeze from AOP-1 applies to V5.** PRD §6 forbids adding a validator until C7 clears, and AOP-1 sets the N-green-runs condition. **Confirm N has been met before building the hook.** If it has not, Phase 1 still ships; Phase 2 waits.
+- **The new validator freeze from SUG-281 applies to V5.** PRD §6 forbids adding a validator until C7 clears, and SUG-281 sets the N-green-runs condition. **Confirm N has been met before building the hook.** If it has not, Phase 1 still ships; Phase 2 waits.
 - **A link is only a de-duplication if it resolves.** After collapsing, every link must be checked to resolve — a broken link to a canonical rule is strictly worse than the restatement it replaced, because the rule then reaches nobody.
 
 ## Files to modify

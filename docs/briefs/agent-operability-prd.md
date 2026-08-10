@@ -5,7 +5,7 @@
 **Author:** Claude Code, from a workflow post-mortem (2026-08-08) and a Voice Governance Audit (chat, 2026-08-08)
 **Domain:** Platform governance and agent instruction surface. No FE render surface, no Sanity schema.
 **Last updated:** 2026-08-09
-**Execution:** §7's 12 epics are grouped into 5 dependency-ordered tranches, one backlog doc each: `docs/backlog/AOP-1`…`AOP-5`. Those docs are the executable containers; this PRD stays the spec.
+**Execution:** §7's 12 epics are grouped into 5 dependency-ordered tranches, one backlog doc each in `docs/backlog/`. Those docs are the executable containers; this PRD stays the spec. Tranche 1 is `SUG-281-gate-posture-and-tiering.md` (a real Linear ID, repurposed 2026-08-10 from a dead test issue); tranches 2–5 remain `AOP-2` … `AOP-5` placeholders and take real IDs as they are picked up. `AOP-0` and `AOP-0b` are off-sequence spin-offs, not part of §7.
 **ORIENT phase:** complete. Every "unverified" row in the source audit is resolved in §2.
 **Related:** SUG-260 (shipped), SUG-268 (in progress), `docs/conventions/user-story-conventions.md`, `validate:doc-budget`
 
