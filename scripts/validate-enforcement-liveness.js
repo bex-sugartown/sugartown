@@ -990,13 +990,39 @@ const PROBES = [
         }
       }
       if (control.code !== 0) {
+        // Split the two reasons this can exit non-zero. The message here used to
+        // name both ("real orphans exist today, or the script itself errored")
+        // and then collapse them into INVALID, which fails the whole harness.
+        // They are not the same thing:
+        //
+        //   real orphans   the gate is working, and firing, on a true finding
+        //                  about the repo. Nothing is wrong with the probe. It
+        //                  simply cannot run its controlled experiment while the
+        //                  gate is already red — there is no clean baseline to
+        //                  break. That is SKIPPED.
+        //   script errored the probe genuinely cannot vouch for the gate. INVALID.
+        //
+        // Collapsing them means an untidy Linear state reddens CI through the
+        // (blocking) liveness job, which would undo AOP-1's warn conversion of
+        // this very gate by moving the red rather than removing it.
+        const realOrphans = /issue\(s\) missing a backlog doc/.test(control.out)
+        if (realOrphans) {
+          return {
+            live: null,
+            detail:
+              'validate:epic-docs is already failing on real orphaned issues, so there is no ' +
+              'clean baseline to break and the controlled probe cannot run. The gate is ' +
+              'demonstrably firing — fix the orphans and this probe resumes proving it. ' +
+              `Output: ${control.out.trim().slice(-200)}`,
+          }
+        }
         return {
           live: false,
           invalid: true,
           detail:
             `control run failed — pnpm validate:epic-docs exits ${control.code} on a CLEAN ` +
-            `tree (real orphans exist today, or the script itself errored), so this probe ` +
-            `cannot distinguish a live gate from a broken invocation. ` +
+            `tree and the output carries no orphan report, so the script itself errored and ` +
+            `this probe cannot distinguish a live gate from a broken invocation. ` +
             `Output: ${control.out.trim().slice(-300)}`,
         }
       }

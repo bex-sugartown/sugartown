@@ -210,6 +210,20 @@ jobs:
           # separate job with its own checkout, by design (see the job comment).
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_SCHEMA_PARITY }}
 
+          # Same reason, different gate: the validate:epic-docs probe (CTL-024)
+          # needs Linear to reach the real gate. Without this it reported
+          # `skipped — no LINEAR_API_KEY available` *inside CI*, while its own
+          # message claimed "CI carries the secret" — so the gate was proven
+          # nowhere: skipped locally and skipped here.
+          #
+          # Same secret as the *Validate epic docs* step in the `ci` job.
+          # An orphaned issue does NOT redden this job: the probe distinguishes
+          # a real-orphan control failure (SKIPPED — the gate is firing on a true
+          # finding) from a script error (INVALID). Without that split, adding
+          # this key would have moved AOP-1's warn conversion red rather than
+          # removing it, since this job blocks.
+          LINEAR_API_KEY: ${{ secrets.LINEAR_SUGARTOWN_STATS }}
+
       - name: Confirm the probes left no residue
         # Every probe restores what it touched via a cleanup stack. If the tree
         # is dirty here, a probe leaked — and a liveness checker that corrupts
