@@ -234,6 +234,31 @@ substring. Re-run after the fix: the drift is caught on both steps, and the gate
 problems against the real file. **The harness earned its place here** — nothing else in the chain
 would have noticed, and the check would have shipped reporting green over a channel it could not see.
 
+**The warn channel proven end-to-end — PR #34, run `31490233162` (2026-08-11).** A throwaway
+branch lowered `CAP_WORDS` 26,000 → 1,000 so the warn-only step failed deterministically, touching
+no instruction content. Three questions, all previously unexecuted in this repo:
+
+| Question | Answer |
+|---|---|
+| Does `if: steps.<id>.outcome == 'failure'` fire the annotation when the step it names was swallowed by `continue-on-error`? | **Yes.** `[warning] title="WARN-GATE" :: validate:doc-budget FAILED (warn-only until re-arm, CTL-025)` |
+| Does GitHub emit its own annotation for a swallowed step? | **Yes**, at `failure` level — but with an **empty title** (`Process completed with exit code 1.`), and it does not name the step |
+| Does REST `steps[].conclusion` stay `failure` inside a `success` job? | **No.** The `ci` job's failed-step list came back **empty** while doc-budget had genuinely failed |
+
+The third answer is the one that matters. **A `/eod` reader built on step conclusions would have
+returned nothing, forever, and reported it as green** — the precise failure this tranche exists to
+end, reproduced in the tranche's own fix had the design gone the obvious way. It was rejected on
+suspicion (no historical instance existed to check against) and is now rejected on evidence.
+
+The second answer justifies the filter design: because GitHub's own failure annotation carries no
+title, `/eod` filters on `annotation_level == "failure"` and uses `WARN-GATE` only to *name* the
+gate. A dropped title degrades to "a warn gate fired, name unknown", never to silence.
+
+The `ci` job concluded `success` with a red gate inside it, confirming `continue-on-error` behaves
+as A5 assumed. The run's overall `failure` conclusion came from two other jobs, both expected
+collateral of the sabotage: *Enforcement liveness* failed because a doc-budget gate that is red on a
+clean tree makes its own probe PROBE INVALID (CTL-015's documented behaviour), and Chromatic exited
+105.
+
 **Harness after the fix, `pnpm validate:enforcement-liveness`:** **24 gates proven live, 0 inert,
 1 skipped** (`chromatic.sh reachability` — it tests the ABSENT case and `apps/storybook/.env` is
 present), exit 0. The new pairing gate is among the 24.
