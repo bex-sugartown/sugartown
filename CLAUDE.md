@@ -7,6 +7,10 @@
 > `docs/briefs/design-system/PROJ-003-design-system-prd.md`. Visual direction: sharp
 > neutral surfaces, hot colour signal, EB Garamond headings,
 > Courier Prime metadata, zero/minimal radius. Default mode: light.
+>
+> **Gate tiers.** Tier 1 gates stop and ask; they are the closed list in
+> `docs/conventions/human-gate-conventions.md`. Every other rule in this file is Tier 2 —
+> apply it and report what you did, without asking. Validators and CI steps are Tier 3.
 
 ---
 
@@ -39,8 +43,8 @@ step whose trigger did not fire is recorded as N/A with the reason, never silent
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
 1b. **Route smoke tests** — `pnpm test:smoke` passes locally **and** the CI run for the merged commit concludes `success`. Five Playwright specs prove the app renders end-to-end, not just builds: homepage, one archive, one detail, one taxonomy route, a 404. A red suite blocks merge to `main` (SUG-240). **Record the run ID in the shipped doc** — `gh run list --branch main --workflow CI --limit 1 --json databaseId,conclusion`. "CI is green" is not an artifact; a named run is. If CI is known-red for reasons outside the epic, say so and name the tracking issue.
 2. **Deploy schema** (if epic touched `apps/studio/schemas/`) — run `npx sanity schema deploy` from `apps/studio/`. Schema changes are not live until deployed. MCP tools, the Content Lake API, and embedded Studios all validate against the deployed schema, not local code. Skipping this step causes silent write failures.
-3. **Visual QA gate (hard stop)** — wait for the literal text **"Visual QA approved"** before proceeding. The `docs/shipped/` move and mini-release are blocked until it arrives. If the epic has a vspec, produce the vspec-to-build comparison table (typography, spacing, colours, layout, each flagged Match / Drift / Missing) via the design-reviewer subagent (`.claude/agents/design-reviewer.md`, `docs/conventions/vqa-workflow.md`), which runs in a fresh context with no view of the session that wrote the code. **With no vspec, and only if every visual element was verified in-browser during implementation, cite that evidence per element instead of building a table** — rows all reading "Match", assembled afterwards from checks already run, give false confidence that a fresh review happened. The gate still fires and still blocks whenever a vspec exists or *any* element went unverified at implementation time; list those elements rather than padding the table with the ones that were. **If the epic shipped a detail, archive, or entity page**, open a sibling page of the same kind (e.g. new entity page vs `/tools/vercel`) and compare shell, folio, section labels, grids, chips. Unjustified structural divergence is a Drift row.
-4. **Chromatic** — run Chromatic VRT. If deferred, annotate the shipped doc with `<!-- Chromatic: pending -->` and a note. Deferral is a checklist deferral only — it does not unblock the shipped/ move. **"Defer Chromatic" is not the same as "epic is closed."**
+3. **Visual QA gate (Tier 1 — stop and ask)** — wait for the literal text **"Visual QA approved"** before proceeding. The `docs/shipped/` move and mini-release are blocked until it arrives. If the epic has a vspec, produce the vspec-to-build comparison table (typography, spacing, colours, layout, each flagged Match / Drift / Missing) via the design-reviewer subagent (`.claude/agents/design-reviewer.md`, `docs/conventions/vqa-workflow.md`), which runs in a fresh context with no view of the session that wrote the code. **With no vspec, and only if every visual element was verified in-browser during implementation, cite that evidence per element instead of building a table** — rows all reading "Match", assembled afterwards from checks already run, give false confidence that a fresh review happened. The gate still fires and still blocks whenever a vspec exists or *any* element went unverified at implementation time; list those elements rather than padding the table with the ones that were. **If the epic shipped a detail, archive, or entity page**, open a sibling page of the same kind (e.g. new entity page vs `/tools/vercel`) and compare shell, folio, section labels, grids, chips. Unjustified structural divergence is a Drift row.
+4. **Chromatic (Tier 1 — stop and ask)** — run Chromatic VRT. If deferred, annotate the shipped doc with `<!-- Chromatic: pending -->` and a note. Deferral is a checklist deferral only — it does not unblock the shipped/ move. **"Defer Chromatic" is not the same as "epic is closed."**
 5. **Data pipeline gap check** — if the epic extended a build-time data pipeline (stats, CrUX, LHCI, etc.) and real data has not yet flowed through CI, document the gap in the shipped doc: what env var or cron is needed, what the expected data shape looks like, and what the current `stats.json` state represents (real vs seeded). Close-out is permitted but the gap must be explicit and visible.
 5b. **Verify handoffs landed.** If close-out defers work to another epic, open that epic's doc and confirm each deferred item is in its **Scope** — not mentioned in prose, not assumed to be "that epic's axis". Add it if missing. (SUG-230 deferred three items to SUG-231; none reached its Scope.)
 6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`. **If this move follows an edit to the doc in the same turn** (e.g. adding a close-out summary before moving it), run `git diff --cached --stat` (or `git show --stat HEAD` right after committing) to confirm the file actually carries the expected content change, not just a rename with 0 insertions/deletions. `git mv` does not guarantee a prior unstaged edit rides along silently — verify, don't assume.
@@ -217,7 +221,7 @@ Before asking the user to test anything in their browser:
 
 **Showing as modified is their normal state: do not commit them manually and do not treat them as a dirty-tree blocker.** Ignore them when checking tree cleanliness before a mini-release or `/eod`. `.gitignore` blocks `git add <path>` but not `git add -u`, so they can still end up staged — in which case committing them is fine. CI is the authoritative committer.
 
-### Phase 0 hard-stop (visual spec gate)
+### Phase 0 visual spec gate (Tier 1 — stop and ask)
 
 **What triggers this gate: an unreviewed visual format reaching a user.** Not an epic's structure, and not whether a phase is labelled "Phase 0". The test: would this change render something a human has not signed off on? If the work adopts an already-shipped, already-reviewed design — porting a canonical component to a second copy, or a change whose only rendered surface is Storybook — the gate does not fire; record that decision in the epic doc. An epic with no phase called "Phase 0" still trips the gate the moment it invents a visual format. Narrative: [[rule-register]] §RULE-017.
 
@@ -402,7 +406,7 @@ images[] {
 
 Do **not** write `asset->` on a `richImage` — that dereferences the `image` object, not the reference inside it, and silently returns null.
 
-### Content Write Gate (hard stop — all Sanity MCP writes)
+### Content Write Gate (Tier 1 — stop and ask; all Sanity MCP writes)
 
 Before writing any content to Sanity via `patch_documents`, `create_documents`, or any equivalent MCP tool — when the content was not explicitly pre-specified by the user — produce a proposal and wait for explicit approval.
 
@@ -428,7 +432,7 @@ This rule operationalizes `ai-ethics-and-operations.md` Principle 6 ("AI can sug
 
 **Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the before/after table, then ask via a single select option rather than requiring a typed word.
 
-### The Human-Publishes Rule (hard stop — publish/unpublish operations)
+### The Human-Publishes Rule (Tier 1 — stop and ask; publish/unpublish operations)
 
 The agent drafts. The agent proposes. The agent patches Sanity documents once a proposal is approved. The agent never publishes them.
 
@@ -442,7 +446,7 @@ This is the fail-softly layer referenced above: even a Content Write Gate failur
 
 **Response mechanism:** a negative/absence gate per `docs/conventions/human-gate-conventions.md` — no prompt shown; block on the absence of a standalone publish instruction, message kept to one sentence.
 
-### Instruction & Rule File Write Gate (hard stop — skill/CLAUDE.md/governance doc edits)
+### Instruction & Rule File Write Gate (Tier 1 — stop and ask; skill/CLAUDE.md/governance doc edits)
 
 The agent — or any subagent it spawns — never edits a rule-defining file (`.claude/skills/**`, this file, `docs/epic-template.md`, or anything under `docs/ai/agentic-caucus/`, `docs/conventions/`, or `docs/diagrams/`) without first showing the human the exact diff and getting explicit approval. Applies even when the edit is accurate and well-intentioned.
 
@@ -765,11 +769,11 @@ git log origin/main..<branch>          # must be empty (branch merged)
 
 If the commits are not on `origin/main`, halt the audit and surface the gap to the user before running anything.
 
-### When a vspec exists
+### Visual QA approval — when a vspec exists (Tier 1 — stop and ask)
 
 Produce a **vspec-to-build comparison table** before requesting close-out. The table must list every visual element in the vspec (field order, spacing values, chip styles, typography, colours) and flag each as Match, Drift, or Missing. Present this table to Bex for review. Do not close the epic until "Visual QA approved."
 
-### Technical diagram red-pen gate (blocking — fires before any diagram is uploaded or published)
+### Technical diagram red-pen gate (Tier 1 — stop and ask; fires before any diagram is uploaded or published)
 
 Applies to any technical or architecture diagram destined for a published surface: Sanity upload, case study, article, docs site, social post.
 

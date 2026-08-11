@@ -592,9 +592,16 @@ const PROBES = [
       // reason as the word probe: a fixed count silently stops violating the
       // moment the cap moves, and the probe breaks rather than the gate.
       const needed = Math.max(capDecisions - totalDecisions, 0) + 1
+      // The injected heading must carry the marker the gate actually counts.
+      // SUG-281 Phase 2 changed that marker from `hard stop` to the `(Tier 1 —`
+      // tag, and this probe injected the old form for exactly as long as it took
+      // to run it once: the gate stopped counting the injection and the probe
+      // reported the gate inert. That coupling is the whole of blocker B-4 —
+      // the marker and its probe move together or the probe silently stops
+      // proving anything.
       const headings = Array.from(
         { length: needed },
-        (_, i) => `#### Liveness probe stop ${i + 1} (hard stop)\n`
+        (_, i) => `#### Liveness probe stop ${i + 1} (Tier 1 — stop and ask)\n`
       ).join('')
 
       const res = gateProbe({

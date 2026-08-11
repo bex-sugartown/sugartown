@@ -173,7 +173,7 @@ Sizes are session-based: **S** = one session · **M** = two to three · **L** = 
 | Epic | Scope | Size | Priority | Depends on |
 |---|---|:--:|---|---|
 | **W1 — Phase auto-advance** | Epic phases execute to the next declared gate without per-phase prompting. Updates CLAUDE.md §Session discipline + `docs/epic-template.md` | **S** | 🔴 Now | — |
-| **W2 — Gate severity tiers** | Rewrite `human-gate-conventions.md` with a 3-tier model. Reclassify all 15 CLAUDE.md gate sections | **M** | 🔴 Now | B5 |
+| **W2 — Gate severity tiers** | Rewrite `human-gate-conventions.md` with a 3-tier model. Tag the Tier 1 gates in CLAUDE.md; Tier 2 is the default (shipped 2026-08-11 — see Appendix A) | **M** | 🔴 Now | B5 |
 | **W3 — Close-out runner** | `/close-out` skill executing steps 1b–9, reporting N/A with reasons. Removes the `/eod` seam | **M** | 🟢 Next | W1 |
 | **W4 — Gate placement + posture** | `validate:doc-budget` to pre-commit or advisory; bookkeeping gates to warn with a dated re-arm; freeze new validators until N green runs | **S** | 🔴 Now | B4 |
 | **W5 — Paused-epic resume** | `/morning` names In Progress epics with open phases and offers to resume | **S** | 🟣 Soon | — |
@@ -296,7 +296,7 @@ The accepted counter-argument, recorded so it is not relitigated: alt text is pu
 
 ## Appendix A — Gate inventory for B5 tiering
 
-**24 gate sections in `CLAUDE.md`, 10 skills carrying gates, 16 validators.**
+**Superseded 2026-08-11 by SUG-281 Phase 2 — figures below were estimates and three of them were wrong.** Measured: CLAUDE.md has 62 headings, of which 17 carried a gate keyword and ~49 gate an action; `countDecisionPoints` saw 17 while at least 6 more gate-shaped sections carried no keyword. The "24" was CLAUDE.md plus the `docs/conventions/` corpus, not CLAUDE.md alone. 18 validators, not 16.
 
 Proposed three-tier model. Tier 1 is the only one that costs a click.
 
@@ -313,13 +313,13 @@ Proposed three-tier model. Tier 1 is the only one that costs a click.
 | Destructive git (`reset --hard`, branch delete, force) | `/eod`, `/morning` |
 | Production data mutation | ad hoc |
 
-**8 gates. These are worth the interruption.**
+**Shipped as 10, not 8** (2026-08-11): Visual QA approval and Chromatic approval were Tier-1-shaped human sign-offs missing from this list — found by the SUG-281 verification review as blocker B-7. Canonical register: `docs/conventions/human-gate-conventions.md`.
 
 **Tier 2 — Decide, act, report.** The rule states the answer; the agent applies it and says what it did. No click.
 
 Atomic Reuse Gate · CSS class pre-implementation audit · Component choice gate · Taxonomy pre-flight · Token-First rule · URL Authority rule · Design handoff evaluation · Verification review · Scope creep routing · Incomplete epic doc hard stop · DS Doc Gates 1–3 · Worktree path discipline · CSS layout fix escalation · Pre-commit CSS token checklist · Visual verification rules
 
-**16 gates, currently written as hard stops with select-list response mechanisms. This is where the click inflation lives.**
+**Not tagged individually.** Tagging ~49 sections would be a very large diff against the highest-traffic instruction file, and every rule added later would need remembering to tag or fall outside the model. Tier 2 is the **default** instead: everything not in the Tier 1 register is Tier 2 unless it names a validator. Same coverage, ~10 heading edits, and no section can fall outside a model that has a default.
 
 **Tier 3 — Automated, silent unless failing.** All 16 validators, pre-commit, CI steps. No human in the loop by design.
 

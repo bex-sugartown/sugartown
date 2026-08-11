@@ -93,6 +93,13 @@ const CAP_WORDS = 26_000
  * `### Phase 0 hard-stop (visual spec gate)`. Nothing was added to the surface —
  * the stop was always there and was not being counted. 25 + ~10% = 28.
  *
+ * **Re-derived 2026-08-11 at SUG-281 Phase 2: 13 stops, cap 15.** The count fell
+ * because the matcher now counts Tier 1 tags rather than the `hard stop` /
+ * `blocking` keywords, and Tier 2 gates — which cost no click — correctly stopped
+ * counting as interruptions. **Nothing was removed from the surface**; the same
+ * rules apply, and the words went *up* (19,946 → 20,543). This is the drop B-4
+ * warned could happen silently, happening deliberately and measured. 13 + ~15% = 15.
+ *
  * The count remains a floor, not a total: five gate headings carry neither
  * keyword and stay invisible (listed in `countDecisionPoints`).
  *
@@ -116,7 +123,7 @@ const CAP_WORDS = 26_000
  * useless: the first draft of this constant was 60, which left 36 stops of
  * headroom and could never have fired.
  */
-const CAP_DECISIONS = 28
+const CAP_DECISIONS = 15
 
 /** Files matching this are part of the surface when CLAUDE.md references them. */
 const REFERENCE_PATTERN = /docs\/conventions\/[a-z0-9-]+\.md/g
@@ -136,18 +143,25 @@ function countWords(text) {
  * counting mentions would make explaining a rule as expensive as adding one.
  */
 function countDecisionPoints(text) {
-  // `hard[ -]stop`, not `hard stop`: the hyphenated spelling was invisible to
-  // this counter until 2026-08-09, so `### Phase 0 hard-stop (visual spec gate)`
-  // — one of the heaviest gates in CLAUDE.md — was never counted. Measured
-  // effect of the fix: 24 stops → 25.
+  // Counts INTERRUPTIONS — Tier 1 gates, the ones that stop and ask. Not every
+  // rule a session must obey.
   //
-  // This still undercounts. Five gate headings carry neither keyword and remain
-  // invisible: CLAUDE.md `Browser testing pre-flight` (:194), `Design handoff
-  // evaluation gate` (:277), `React hooks — Outlet context pre-flight` (:281),
-  // `Gate 3 — Framework-agnostic constraint` (:548), `Dark mode surface work —
-  // pre-flight` (:802). Widening the pattern to catch them would change the cap
-  // again, so it is a separate, measured change — not folded in here.
-  const gateHeadings = text.match(/^#{2,4} .*(hard[ -]stop|blocking).*$/gim) || []
+  // Until SUG-281 Phase 2 this matched `hard[ -]stop|blocking`, which was a
+  // keyword applied by hand and inconsistently: it saw 17 of CLAUDE.md's gate
+  // sections while at least 6 more were gate-shaped and carried no keyword, and
+  // it counted Tier 2 rules — which cost no click — as though they did. A cap on
+  // "how many times a session must stop and decide" was measuring neither the
+  // real set nor the real cost.
+  //
+  // The tier tag is the marker now, so the count tracks the tier model instead
+  // of drifting from it. Tier 2 is the default and carries no tag by design
+  // (`docs/conventions/human-gate-conventions.md`), so a rule added later cannot
+  // silently inflate this number — only a deliberate Tier 1 promotion can.
+  //
+  // The dash matters. The defining doc has a heading reading
+  // `## Response mechanisms (Tier 1 only)`, and a looser `\(Tier 1` matched it —
+  // counting a definition as a gate. Requiring the `(Tier 1 —` form excludes it.
+  const gateHeadings = text.match(/^#{2,4} .*\(Tier 1 [—-].*$/gim) || []
   const checkboxes = text.match(/^\s*- \[[ x]\] /gim) || []
   return gateHeadings.length + checkboxes.length
 }

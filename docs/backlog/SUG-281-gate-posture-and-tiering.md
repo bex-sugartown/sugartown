@@ -2,7 +2,9 @@
 **Epic:** SUG-281 — Gate posture and tiering
 **Linear Issue:** [SUG-281](https://linear.app/sugartown/issue/SUG-281/gate-posture-and-tiering-aop-1) — **repurposed 2026-08-10 from a test issue, not newly filed.** The workspace is at its issue limit and deletion holds the slot for a month, so reusing a dead ID is cheaper than creating one. Tracked as `AOP-1` in the PRD; the AOP prefix survives only where the PRD's own tranche numbering is being cited.
 **Source PRD:** `docs/briefs/agent-operability-prd.md` v1.0 §7 — covers **W4** and **W2**
-**Status:** In Progress — **Phase 1 complete 2026-08-11.** Non-gated half shipped 2026-08-10 (`499bb33f`, CI `31399091551` green); gated half (register re-arm rows, `/eod` reader, validator freeze) plus the warn-gate annotation channel the second review forced. **Phase 2 (W2 tiering) outstanding.** One Phase 1 item is deliberately open: the PR experiment settling `steps.<id>.outcome` semantics under `continue-on-error` — approved, not yet run, needs a push
+**Status:** **Phases 1 and 2 both complete 2026-08-11.** Not yet closed out: the close-out
+sequence (CHANGELOG line, mini-release, incident-log entry, Linear → Done) is outstanding.
+Phase 1 detail — **Phase 1 complete 2026-08-11.** Non-gated half shipped 2026-08-10 (`499bb33f`, CI `31399091551` green); gated half (register re-arm rows, `/eod` reader, validator freeze) plus the warn-gate annotation channel the second review forced. **Phase 2 (W2 tiering) outstanding.** One Phase 1 item is deliberately open: the PR experiment settling `steps.<id>.outcome` semantics under `continue-on-error` — approved, not yet run, needs a push
 **Priority:** 🔴 Now — PRD §7 names W4 first of the recommended three
 **Merge strategy:** (a) Merge-as-you-go — Phase 1 (W4) merges before Phase 2 (W2) begins
 **Depends on:** B4 and B5, both resolved (PRD §10, Appendix A)
@@ -303,10 +305,48 @@ cap and the matcher in the same commit, measured by running it.
 **W2 — gate severity tiers**
 
 - [x] **Done 499bb33f** (24→25 stops, cap re-derived to 28). Fix `validate-doc-budget.js:105`'s stop regex to match `hard-stop` as well as `hard stop`, and **re-derive the stop cap in the same commit** — the fix raises the measured count, so an unchanged cap turns the gate red on landing — layer: tooling
-- [ ] Rewrite `docs/conventions/human-gate-conventions.md` around the 3-tier model
-- [ ] Reclassify the **16 CLAUDE.md gate sections** (measured 2026-08-09; the doc's earlier "24" was the whole-corpus figure, and the PRD's §7 row says 15 — correct both)
-- [ ] Reclassify the remaining gate sections in the `docs/conventions/` half of the corpus, so the tiering covers what the budget counts
-- [ ] Confirm Appendix A's **Tier 1 = 8 gates** survives contact with the full inventory, or amend it
+- [x] **Done 2026-08-11.** `human-gate-conventions.md` rewritten around the 3-tier model: tiers as the governing layer, response mechanisms scoped to Tier 1 (Tier 2 needs none), a Tier 1 register, and a Known gaps section. The five mechanism names are preserved verbatim — CLAUDE.md and `/red-pen` reference them by name
+- [x] **Done 2026-08-11.** Tier 1 tagged explicitly in CLAUDE.md (6 headings + close-out steps 3 and 4); **Tier 2 is the default**, stated once in the header block. Not a per-section tag — see the count finding below
+- [x] **Done 2026-08-11.** Coverage is total by construction rather than by enumeration, so the `docs/conventions/` half needs no separate pass: anything not in the Tier 1 register is Tier 2 unless it names a validator
+- [x] **Done 2026-08-11.** Appendix A's **Tier 1 = 8** did not survive contact: it ships as **10**. Visual QA approval and Chromatic approval were Tier-1-shaped human sign-offs absent from the list (review blocker B-7). PRD §7 and Appendix A corrected in the same commit
+
+### The count finding that reshaped this phase
+
+Every figure in circulation was wrong, and re-deriving them changed the approach:
+
+| Source | Claimed CLAUDE.md gate sections |
+|---|---|
+| PRD §7 W2 row | 15 |
+| PRD Appendix A | 24 (actually CLAUDE.md + the conventions corpus, not CLAUDE.md alone) |
+| This doc, §Evidence 2026-08-09 | 16 |
+| AC #1 | 16, "17 with the hard-stop fix" |
+| **Measured 2026-08-11** | 62 headings; **17** keyword-carrying, **~49** that gate an action |
+
+`validate-doc-budget.js`'s own comment names 5 keyword-less gate headings it misses. That
+list is itself incomplete — B-7 separately cites `### Sanity MCP content writes` (`:459`),
+which appears in neither set. **The keyword was never a reliable boundary**, so a phase
+scoped as "reclassify the 16" would have tiered a set defined by an accident of wording.
+
+Tagging all ~49 was rejected: a very large diff against the highest-traffic instruction file
+(this doc's own Risks section names that risk), and every future rule would need remembering
+to tag or fall outside the model. **Tier 2 as the default** gives the same coverage in ~10
+edits, and makes B-7 structurally impossible — a rule added next year is Tier 2 automatically
+rather than silently untiered.
+
+### Budget effect, re-derived by running the gate
+
+| Metric | Before | After |
+|---|---|---|
+| Stops counted | 25 | **13** |
+| `CAP_DECISIONS` | 28 | **15** (13 + ~15%) |
+| Words | 19,946 | 20,543 |
+| `CAP_WORDS` | 26,000 | 26,000 (headroom 5,457) |
+
+The matcher counts the `(Tier 1 —` tag rather than `hard stop` / `blocking`. **Nothing was
+removed from the surface** — the same rules apply and the words went *up*. This is exactly
+the fall B-4 warned could happen silently, happening deliberately, measured, with the cap
+re-derived in the same commit. The dashed form is required because the defining doc has a
+heading reading `Response mechanisms (Tier 1 only)`, which a looser match counted as a gate.
 
 ## Scope-to-phase mapping
 
@@ -340,12 +380,20 @@ Nine Scope items, above the 5-item sizing gate (`docs/conventions/user-story-con
 
 ## Acceptance criteria
 
-- [ ] Every measured gate section carries exactly one tier — count re-derived at execution, never copied (16 in CLAUDE.md as of 2026-08-09, 17 with the hard-stop fix)
-- [ ] Running the full validator suite against a deliberately bad input shows each gate **either blocking or warning as its register row states** — measured by running it, not by reading the config
-- [ ] `validate:doc-budget` can fail before a deploy
-- [ ] Every warn-converted gate has a re-arm date and a named reader
-- [ ] `pnpm validate:controls` passes
-- [ ] The count in PRD §7's W2 row matches Appendix A
+- [x] **Every gate section carries exactly one tier — by construction, not enumeration.** The
+      original wording ("16 … 17 with the hard-stop fix") was itself a copied figure and wrong:
+      measured 2026-08-11, CLAUDE.md has 62 headings, 17 keyword-carrying and ~49 that gate an
+      action. Tier 1 is tagged explicitly (10 gates); everything else is Tier 2 by default, so
+      no section can be untiered
+- [x] **`pnpm validate:enforcement-liveness`: 25 gates proven live, 0 inert, exit 0** (2026-08-11).
+      Includes both doc-budget halves — the stop cap was unprobed until this phase
+- [x] `validate:doc-budget` blocks at `.husky/pre-commit`, so it fails before a deploy (Phase 1)
+- [x] Both warn-converted gates carry a dated re-arm and a named reader (CTL-024, CTL-025), and
+      the deadline is machine-capped at `since + 60d` by `validate-control-register.js` check 5
+- [x] `pnpm validate:controls` passes (2026-08-11)
+- [x] PRD §7's W2 row and Appendix A corrected in the same commit as the implementation. Appendix
+      A's Tier 1 = 8 became **10**; its "24 gate sections" and "16 validators" were both wrong and
+      are marked superseded rather than silently overwritten
 
 ## Risks
 
