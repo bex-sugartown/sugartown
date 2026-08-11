@@ -269,6 +269,27 @@ during implementation that the first draft of the parser silently missed — `st
 trailing comment after `true`, which an end-anchored regex did not match. Same undercount shape as
 `validate-doc-budget.js`'s `hard-stop` stop regex, fixed in the same pass rather than shipped.
 
+## Phase 2 Step 0 — B-4 closed (2026-08-11)
+
+`validate-doc-budget.js` carried an explicit precondition in its own header: *"do not run
+Phase 2 before it is closed."* The stop cap had been unprobed since it was added 2026-08-05 —
+the gate's liveness probe pads **words** only, so nothing proved the stop counter could fail a
+build.
+
+Closed by `validate:doc-budget (stop cap)` (record `PRB-026`): it injects a derived number of
+gate headings into a referenced conventions file that carries 0 stops today, and asserts the
+gate reports `Over the decision budget by N stop(s)` rather than merely exiting non-zero —
+exit 1 alone would equally be produced by blowing the word cap, which would prove the wrong
+half. Proven live 2026-08-11: *"rejected the surface on stops alone (+4 stop(s), words
+untouched)"*.
+
+**B-4's premise refined while closing it.** The blocker feared the tier rewrite would "collapse
+the count toward zero while the gate reports headroom". The count is *expected* to fall — Tier
+2's whole point is that those gates stop being hard stops, so they correctly stop counting as
+stops. The real risk is the fall happening **silently**, with nobody re-deriving the cap. The
+protocol is now recorded in the script: any change to the tier vocabulary re-derives both the
+cap and the matcher in the same commit, measured by running it.
+
 ## Scope
 
 **W4 — gate placement and posture**

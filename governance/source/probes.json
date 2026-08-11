@@ -138,5 +138,10 @@
     "id": "PRB-025",
     "gate": "validate:validators (warn-gate pairing)",
     "derivation": "derived-from-target"
+  },
+  {
+    "id": "PRB-026",
+    "gate": "validate:doc-budget (stop cap)",
+    "derivation": "derived-from-target"
   }
 ]

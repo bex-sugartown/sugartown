@@ -5,7 +5,7 @@
     "control": 4,
     "component": 4,
     "claim": 3,
-    "probe": 25,
+    "probe": 26,
     "crosswalk": 3
   },
   "tally": {
@@ -278,6 +278,11 @@
     {
       "id": "PRB-025",
       "gate": "validate:validators (warn-gate pairing)",
+      "derivation": "derived-from-target"
+    },
+    {
+      "id": "PRB-026",
+      "gate": "validate:doc-budget (stop cap)",
       "derivation": "derived-from-target"
     }
   ],

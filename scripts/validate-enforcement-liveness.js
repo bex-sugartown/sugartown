@@ -564,6 +564,64 @@ const PROBES = [
   },
 
   {
+    // The gate has TWO caps and the probe above exercises only one. Words and
+    // stops are different failure modes by design — rewriting a gate more
+    // tersely cuts words and leaves the number of times a session must stop
+    // unchanged — so a probe that pads words proves nothing about the stop half.
+    // It was unprobed from the day the cap was added (2026-08-05) until now.
+    //
+    // This is SUG-281 review blocker B-4, and it had to close before Phase 2:
+    // Phase 2 rewrites the very heading text `countDecisionPoints` matches on.
+    // The count is *expected* to fall when Tier 2 gates stop being hard stops.
+    // What must not happen is it falling silently, with nobody re-deriving the
+    // cap and phantom headroom sitting there for months. An exercised counter
+    // is what makes the re-derivation trustworthy.
+    //
+    // Injected into a different file from the word probe, and one that carries
+    // 0 stops today, so the delta is unambiguous — and, like its sibling, into a
+    // referenced conventions file rather than CLAUDE.md, because a cap that only
+    // saw CLAUDE.md would pass while the surface a session reads grew by
+    // relocation.
+    gate: 'validate:doc-budget (stop cap)',
+    why: 'a surface that grows in decision points rather than words must be rejected too',
+    run: () => {
+      const probe = run('pnpm', ['validate:doc-budget', '--json'])
+      const json = probe.out.slice(probe.out.indexOf('{'))
+      const { capDecisions, totalDecisions } = JSON.parse(json)
+      // Derived from the gate's own reported headroom, never hardcoded — same
+      // reason as the word probe: a fixed count silently stops violating the
+      // moment the cap moves, and the probe breaks rather than the gate.
+      const needed = Math.max(capDecisions - totalDecisions, 0) + 1
+      const headings = Array.from(
+        { length: needed },
+        (_, i) => `#### Liveness probe stop ${i + 1} (hard stop)\n`
+      ).join('')
+
+      const res = gateProbe({
+        cmd: 'pnpm',
+        args: ['validate:doc-budget'],
+        success: `rejected the surface on stops alone (+${needed} stop(s), words untouched)`,
+        breakIt: () =>
+          mutateFile('docs/conventions/feedback-loop.md', (src) => `${src}\n${headings}`),
+      })
+
+      // Exit 1 alone would equally be produced by blowing the WORD cap, which
+      // would prove the wrong half. Assert the gate said what it rejected.
+      if (res.live && !/decision budget by \d+ stop/i.test(res.out || '')) {
+        return {
+          live: false,
+          invalid: true,
+          detail:
+            'the gate exited non-zero but its output never reports a stop overage, so this ' +
+            'proves something failed rather than that the stop cap fired. Output: ' +
+            `${(res.out || '').trim().slice(-300)}`,
+        }
+      }
+      return res
+    },
+  },
+
+  {
     gate: 'validate:governance-diff',
     why: 'generated output that no longer matches its source must not be committable',
     // The gate compares the INDEX against the INDEX, deliberately (SUG-268 Ph2,

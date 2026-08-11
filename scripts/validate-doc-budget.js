@@ -96,11 +96,18 @@ const CAP_WORDS = 26_000
  * The count remains a floor, not a total: five gate headings carry neither
  * keyword and stay invisible (listed in `countDecisionPoints`).
  *
- * **This cap has no probe.** The liveness probe for this gate pads *words* only,
- * so the stop half is unexercised — and SUG-281 Phase 2 rewrites the very heading
- * text this counter matches on, which could collapse the count toward zero while
- * the gate reports headroom. Tracked as SUG-281 review blocker B-4; do not run
- * Phase 2 before it is closed.
+ * **Probed since 2026-08-11** by `validate:doc-budget (stop cap)`, which injects
+ * derived-count gate headings into a referenced conventions file and asserts the
+ * gate reports a *stop* overage rather than merely exiting non-zero — exit 1
+ * alone would equally be produced by blowing the word cap. This closes SUG-281
+ * review blocker B-4, which held Phase 2: from 2026-08-05 until then the stop
+ * half was unexercised, so nothing proved this counter could fail a build.
+ *
+ * Phase 2 rewrites the heading text this counter matches on, and the count is
+ * *expected* to fall as Tier 2 gates stop being hard stops. That is the intended
+ * outcome, not a regression. What must not happen is it falling silently: any
+ * change to the tier vocabulary re-derives both this cap and the matcher below
+ * in the same commit, measured by running this script — never estimated.
  *
  * Reproduce with `pnpm validate:doc-budget`. Tighten only against a fresh
  * measurement, never an estimate — a cap below the current total makes the gate
