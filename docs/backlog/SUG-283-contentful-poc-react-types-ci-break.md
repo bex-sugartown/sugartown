@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-283 — `apps/contentful-poc` build fails in CI on a React types conflict
 **Linear Issue:** [SUG-283](https://linear.app/sugartown/issue/SUG-283/appscontentful-poc-build-fails-in-ci-on-a-react-types-conflict-green)
-**Status:** Todo — **`main` is red**
+**Status:** Todo — **confirmed flaky, not a regression.** `main` is green again on `b3cda562` after a no-change re-run
 **Priority:** 🟠 High
 **Merge strategy:** (a) Merge-as-you-go. Single-phase.
 ---
@@ -36,19 +36,35 @@ Recorded so the next session does not re-derive it, and does not act on the unco
 | Not a stale turbo cache | Last green run `31491365962` (12:29) shows `cache miss, executing` throughout and `Tasks: 5 successful, 5 total` — the build ran and passed. Red run: `Tasks: 4 successful, 5 total` |
 | Does not reproduce locally | `pnpm --filter contentful-poc build` exits 0 on this machine, same commit |
 
-The same code built green at 12:29 and red at 16:17 on the same lockfile. **Unconfirmed
-suspect:** the runner environment. Every run carries `Node.js 20 is deprecated ... forced to
-run on Node.js 24`, which points at a runner image rollout between the two. Do not treat that
-as the cause without checking it.
+The runner hypothesis was **checked and is wrong**: both runs used `ubuntu-24.04` image
+`20260720.247.2`. Remote caching is disabled, so every CI run cache-misses and builds this
+package from scratch — both runs did.
+
+**Confirmed flaky by re-running the identical commit.** `gh run rerun 31511487229 --failed`,
+no code change, concluded **success** with `Build: success`. Same commit, same lockfile, same
+image, opposite outcomes. This is non-determinism in type resolution across two reachable
+`@types/react` copies, not a break introduced by any commit.
 
 ## Scope
 
-- [ ] Confirm the trigger — compare runner image and Node version between `31491365962`
-      (green) and `31511487229` (red) **before changing any code**
-- [ ] Resolve the duplicate `@types/react`. `apps/contentful-poc` declares `"@types/react": "^19"`
-      while the rest of the workspace is on 18.3.27. Options: a pnpm `overrides` pin, aligning
-      the POC's range, or `resolutions`. Pick one and record why
-- [ ] Green CI run on `main`, recorded by ID
+- [x] **Done 2026-08-11.** Trigger confirmed as non-determinism, not a regression: runner images
+      identical, and a no-change re-run of the red commit went green
+- [ ] Resolve the duplicate `@types/react` reachable from `apps/contentful-poc`. **The workspace
+      is deliberately split across two React majors** (measured 2026-08-11), so a blanket
+      override is not available:
+
+      | React 19 | React 18 |
+      |---|---|
+      | `apps/web` (`^19.2.0`), `apps/studio` (`^19.1`), `apps/contentful-poc` (`19.2.4`), `packages/design-system` (types `^19.0.0`) | `apps/storybook` (`^18.2.0`), `packages/storybook-docs` (`^18.2.0`) |
+
+      Root `pnpm.overrides` is currently empty. Pinning `@types/react` globally to 19 would put
+      React-19 types against a React-18 runtime in Storybook. Prefer a scoped fix — a selector
+      override (`"pkg>@types/react"`), or `paths`/`typeRoots` in `apps/contentful-poc/tsconfig.json`,
+      which cannot affect any other package. Record which and why.
+- [ ] **Acceptance is structural, not statistical.** A green run proves nothing here — it was
+      green 4 hours before it was red, and green again on re-run. The criterion is that only
+      **one** `@types/react` is reachable from `apps/contentful-poc`, verified by inspecting the
+      resolved tree (`pnpm why @types/react`), not by counting green runs
 
 ## Non-Goals
 

@@ -402,5 +402,29 @@ Nine Scope items, above the 5-item sizing gate (`docs/conventions/user-story-con
 
 ## Post-Epic Close-Out
 
-- [ ] Friction line: what cost a correction commit (`none` is valid)
-- [ ] Incident log: this tranche fixes already-shipped behaviour (C7's red runs), so an entry is expected — state "no incident" only if genuinely none
+- [x] **Friction line: one — a dated figure went stale on the date it carried.** CTL-040's
+      "streak = 2" was true when written and 4 by the time the phase's own pushes landed, costing
+      correction commit `75cce585`. The register's rule is that figures are re-run, never copied;
+      the gap it did not cover is a figure that is *re-run correctly and then moves*. The fix that
+      landed was to say in the cell that `/eod` recomputes it live and the cell is a dated
+      snapshot, not a source. Nothing else cost a correction commit: the substring collision, the
+      probe/marker coupling and the `stats.yml` parser undercount were all caught by running the
+      gates before committing, not after.
+- [x] **Incident log: INC-014.** Two gates softened to warn-only with no reader, and a register
+      that named one. Introduced 2026-08-10 (`499bb33f`), noticed 2026-08-11, Medium, found by
+      investigation. `pnpm mttn` re-run: 14 logged, 13 measurable, median 36 days, caught by a
+      gate 2 of 14.
+
+### Close-out notes
+
+**CI went red mid-close-out and it was not this epic.** Run `31511487229` failed on
+`apps/contentful-poc`'s build — two `@types/react` copies resolving differently. Filed as
+SUG-283 and **confirmed flaky rather than a regression**: the identical commit re-run with no
+code change concluded `success`, and both runs used the same runner image, so the
+runner-rollout hypothesis was checked and discarded rather than assumed. `main` is green.
+
+Two controls got their first real exercise as a side effect. `ci-failure-alert.yml` (CTL-013)
+fired correctly, opening GitHub issue #35 five minutes after the failure — that control has no
+probe and had never seen a genuine red. And the `/eod` warn-gate read ran against a real red
+run and correctly reported no `WARN-GATE` annotation, distinguishing "a gate fired" from
+"something else broke" on its first outing.
