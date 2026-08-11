@@ -70,7 +70,7 @@ const ROOT_DOC = 'CLAUDE.md'
  * gate red on landing and `gateProbe` reports PROBE INVALID rather than proving
  * anything.
  */
-const CAP_WORDS = 26_000
+const CAP_WORDS = 1_000 // EXPERIMENT ONLY — SUG-281 warn-gate semantics. Never merge.
 
 /**
  * Decision-point cap — added 2026-08-05.
