@@ -3,7 +3,7 @@
 **Version:** v1.0
 **Status:** Active
 **Owner:** Bex Head
-**Last updated:** 4 August 2026
+**Last updated:** 11 August 2026
 **Related:** [[failure-modes]] (`docs/ai/agentic-caucus/failure-modes.md`), [[governance-coverage]] (`docs/ai/agentic-caucus/governance-coverage.md`), [[methodology]] (`docs/ai/agentic-caucus/methodology.md`)
 
 ---
@@ -74,6 +74,45 @@ a gate is a log describing gates that do not work.
 ---
 
 ## Incident Registry
+
+### INC-014 — Two gates softened to warn-only with no reader, and a register that named one
+
+**Introduced:** 2026-08-10 · **Noticed:** 2026-08-11 · **Severity:** Medium
+**Failure mode:** FM-X-02 (confidence without verification) · **Found by:** investigation
+
+**What happened:** `499bb33f` converted `validate:doc-budget` and `validate:epic-docs` to
+warn-only in CI with `continue-on-error`, on the stated basis (SUG-281 decision A5) that
+`/eod` would read warning annotations on green runs as the backstop. Neither script emits an
+annotation on its failure path — `validate-doc-budget.js` emits none at all, and
+`validate-epic-docs.js` only on its SKIPPED path. The promised reader had nothing to read.
+Meanwhile `control-register.md` still named `ci-failure-alert.yml` as both gates' reader;
+that workflow fires only on `conclusion == 'failure'` (`ci-failure-alert.yml:32`), which
+`continue-on-error` makes unreachable. `pnpm validate:controls` passed throughout, because
+it checks that a Reader cell is non-empty, never that it is true.
+**Consequence:** 1 day. Two gates on `main` that ran, could fail, and would have reported to
+nobody — INC-011's shape one level up, inside the epic built to end it. No breach occurred in
+the window. Both register rows published a false reader for its duration.
+**Resolution:** Found by measurement during SUG-281 Phase 1 — grepping both scripts for
+`::warning::` instead of trusting A5's premise, and searching 40 CI runs and 40 stats runs
+for a `success` job containing a `failure` step (none existed). Fixed 2026-08-11: `ci.yml`
+emits a `WARN-GATE` annotation gated on `steps.<id>.outcome`; `/eod` step 6 reads
+annotations on **every** concluded run; `validate:validators` check 2 makes the pairing
+structural, so a renamed step id or title cannot silently break it; both Reader cells
+corrected. Proven end-to-end by PR #34, run `31490233162`.
+
+**The run also settled the design question underneath it.** REST `steps[].conclusion` does
+**not** stay `failure` for a `continue-on-error` step — the job's failed-step list came back
+empty while the gate had genuinely failed. A reader built on step conclusions, the obvious
+implementation, would have returned nothing forever and reported it as green. It was rejected
+on suspicion before the run only because no historical instance existed to check against.
+
+**Two defects the new probes caught in the gates they guard**, both within a day of being
+written, neither findable by reading: the pairing check used `includes('WARN-GATE')`, which
+the drifted title `WARN-GATE-DRIFTED` satisfied as a substring; and the stop-cap probe
+injected `(hard stop)` headings, so when Phase 2 changed the marker to the `(Tier 1 —` tag
+the gate stopped counting the injection and the probe reported the gate inert. Logged because
+`Found by` across this register has read `investigation` far more often than `gate`, and
+these are instances of a control surfacing its own defect rather than a human finding it later.
 
 ### INC-013 — a liveness probe took CI red about itself, not about a gate
 **Introduced:** 2026-08-09 · **Noticed:** 2026-08-09 · **Severity:** Low
