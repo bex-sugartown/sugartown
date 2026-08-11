@@ -5,7 +5,7 @@
     "control": 4,
     "component": 4,
     "claim": 3,
-    "probe": 24,
+    "probe": 25,
     "crosswalk": 3
   },
   "tally": {
@@ -274,6 +274,11 @@
       "gate": "validate:schema-parity",
       "derivation": "static-input",
       "staticJustification": "The violation is a string field injected into a local schema and absent from the deployed one. There is no target value to derive from: the gate's job is that any local-only field reads as drift. The target SCHEMA FILE is derived (first document schema by name) rather than hardcoded, and the injection uses mutateFile so a stale needle fails the probe loudly instead of reporting the gate inert. The probe additionally asserts the drift output names the injected field, because exit 1 alone would also be produced by a schema that fails to parse."
+    },
+    {
+      "id": "PRB-025",
+      "gate": "validate:validators (warn-gate pairing)",
+      "derivation": "derived-from-target"
     }
   ],
   "crosswalk": [

@@ -59,6 +59,59 @@ const LIVENESS = resolve(ROOT, 'scripts/validate-enforcement-liveness.js')
 const CLASSES = ['enforced-by-code', 'measured', 'convention', 'roadmap']
 const COLUMNS = ['ID', 'Control', 'Class', 'Probe', 'Reader', 'Next read', 'Bypass']
 
+const CI_WORKFLOW = resolve(ROOT, '.github/workflows/ci.yml')
+
+// ─── Check 5: warn re-arm rows (SUG-281 Phase 1) ─────────────────────────────
+//
+// A gate softened to `continue-on-error` in ci.yml is supposed to be temporary,
+// and its `Next read` date is the deadline. Check 4 alone cannot enforce that:
+// when the date passes it says "Read it, record what you found, and set the next
+// date", so the cheapest legal response — read the row, note "still warn-only",
+// set a date three months out — passes every check in this repo. Warn becomes
+// permanent on a schedule, which is the failure the deadline exists to prevent.
+//
+// So a re-arm row declares when the softening STARTED and how long it may last,
+// and `Next read` may not exceed that ceiling. Moving the date is then not a
+// legal move: the only ways to clear an overdue re-arm row are to remove
+// `continue-on-error` from the named step, or to edit `since` — which is a
+// visible, deliberate backdating edit rather than the path of least resistance.
+// That is the honest claim: this does not make deferral impossible, it makes it
+// require an obvious lie instead of a plausible-looking date change.
+//
+// Syntax, in the row's Control cell:
+//   Re-arm: remove `continue-on-error` from ci.yml step "Validate epic docs" (warn since 2026-08-10, max 60d)
+
+const REARM_RE =
+  /Re-arm:.*?ci\.yml step "([^"]+)".*?warn since (\d{4}-\d{2}-\d{2}), max (\d+)d/
+
+function ciStepHasContinueOnError(stepName) {
+  if (!existsSync(CI_WORKFLOW)) return null
+  const lines = readFileSync(CI_WORKFLOW, 'utf8').split('\n')
+  const escaped = stepName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const startRe = new RegExp(`^(\\s*)- name:\\s*${escaped}\\s*$`)
+
+  for (let i = 0; i < lines.length; i++) {
+    const m = lines[i].match(startRe)
+    if (!m) continue
+    const indent = m[1].length
+    for (let j = i + 1; j < lines.length; j++) {
+      const line = lines[j]
+      if (/^\s*$/.test(line)) continue
+      const ind = line.match(/^(\s*)/)[1].length
+      if (ind <= indent) break // next step at the same level ends this one
+      if (/^\s*continue-on-error:\s*true\s*(?:#.*)?$/.test(line)) return true
+    }
+    return false
+  }
+  return null // step not found
+}
+
+function addDays(iso, days) {
+  const d = new Date(`${iso}T00:00:00Z`)
+  d.setUTCDate(d.getUTCDate() + days)
+  return d
+}
+
 // `validate:*` scripts that legitimately have no register row. Audited, not a
 // dumping ground — same discipline as validate-validators.js MANUAL_BY_DESIGN.
 const NOT_A_CONTROL = {}
@@ -266,6 +319,50 @@ function run() {
           errors.push(
             `${where} [${id}] — Probe "${gate}" is not in the PROBES array of validate-enforcement-liveness.js. ` +
               `Add the probe, or set \`none — <reason>\`.`
+          )
+        }
+      }
+    }
+
+    // 5. Warn re-arm ceiling. Runs before staleness so an over-long date is
+    //    reported as what it is, rather than only once it eventually goes overdue.
+    const rearm = control?.match(REARM_RE)
+    if (rearm) {
+      const [, stepName, since, maxDaysRaw] = rearm
+      const maxDays = Number(maxDaysRaw)
+      const stillWarn = ciStepHasContinueOnError(stepName)
+
+      if (stillWarn === null) {
+        errors.push(
+          `${where} [${id}] — Re-arm names ci.yml step "${stepName}", which does not exist in ` +
+            `.github/workflows/ci.yml. Renaming a step silently orphans its re-arm deadline.`
+        )
+      } else if (!stillWarn) {
+        errors.push(
+          `${where} [${id}] — RE-ARMED. ci.yml step "${stepName}" no longer carries ` +
+            `\`continue-on-error\`, so this gate blocks again. Remove the Re-arm clause from the ` +
+            `Control cell and restore the row's real Class, Reader and \`Next read\`.`
+        )
+      } else {
+        const ceiling = addDays(since, maxDays)
+        const iso = (d) => d.toISOString().slice(0, 10)
+
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(nextRead)) {
+          errors.push(
+            `${where} [${id}] — a Re-arm row needs a dated "Next read" (the deadline), found "${nextRead}".`
+          )
+        } else if (new Date(`${nextRead}T00:00:00Z`) > ceiling) {
+          errors.push(
+            `${where} [${id}] — "Next read" ${nextRead} is beyond the declared warn ceiling of ` +
+              `${iso(ceiling)} (warn since ${since}, max ${maxDays}d). The deadline cannot be moved past ` +
+              `the ceiling: re-arm the gate by removing \`continue-on-error\` from ci.yml step ` +
+              `"${stepName}", or change \`warn since\` deliberately and say why.`
+          )
+        } else if (ceiling < today()) {
+          errors.push(
+            `${where} [${id}] — WARN LIFETIME EXCEEDED. "${control?.slice(0, 40)}…" has been warn-only ` +
+              `since ${since}, past its ${maxDays}-day ceiling (${iso(ceiling)}), and ci.yml step ` +
+              `"${stepName}" still carries \`continue-on-error\`. Re-arm it or extend \`warn since\` explicitly.`
           )
         }
       }

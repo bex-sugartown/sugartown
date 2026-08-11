@@ -395,6 +395,31 @@ const PROBES = [
   },
 
   {
+    // Separate aspect of the same script, named like the other multi-aspect
+    // gates (`validate:controls (completeness)`). The orphan probe above cannot
+    // exercise this: a warn-only step is fully *wired*, which is precisely why
+    // check 1 passes it while it reports to nobody.
+    //
+    // The mutation renames the annotation title on the ci.yml side only,
+    // reproducing the exact silent-drift scenario — /eod keeps grepping a
+    // literal that no longer appears, so a fired gate is indistinguishable from
+    // no gate firing. mutateFile throws on a no-op, so if the needle ever stops
+    // appearing in ci.yml this reports PROBE INVALID rather than a false pass.
+    gate: 'validate:validators (warn-gate pairing)',
+    why: 'a warn-only CI step whose annotation title drifts must be reported, not silently accepted',
+    run: () =>
+      gateProbe({
+        cmd: 'pnpm',
+        args: ['validate:validators'],
+        success: 'caught the warn-gate title drift',
+        breakIt: () =>
+          mutateFile('.github/workflows/ci.yml', (src) =>
+            src.replace(/title=WARN-GATE::/g, 'title=WARN-GATE-DRIFTED::')
+          ),
+      }),
+  },
+
+  {
     gate: 'pnpm lint',
     why: 'an error-level ESLint violation in any package must fail the run',
     run: () =>

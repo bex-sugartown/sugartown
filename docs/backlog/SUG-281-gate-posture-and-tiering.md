@@ -2,7 +2,7 @@
 **Epic:** SUG-281 — Gate posture and tiering
 **Linear Issue:** [SUG-281](https://linear.app/sugartown/issue/SUG-281/gate-posture-and-tiering-aop-1) — **repurposed 2026-08-10 from a test issue, not newly filed.** The workspace is at its issue limit and deletion holds the slot for a month, so reusing a dead ID is cheaper than creating one. Tracked as `AOP-1` in the PRD; the AOP prefix survives only where the PRD's own tranche numbering is being cited.
 **Source PRD:** `docs/briefs/agent-operability-prd.md` v1.0 §7 — covers **W4** and **W2**
-**Status:** In Progress — **Phase 1 non-gated half shipped 2026-08-10** (`499bb33f`, CI `31399091551` green). Phase 1 gated half and all of Phase 2 outstanding
+**Status:** In Progress — **Phase 1 complete 2026-08-11.** Non-gated half shipped 2026-08-10 (`499bb33f`, CI `31399091551` green); gated half (register re-arm rows, `/eod` reader, validator freeze) plus the warn-gate annotation channel the second review forced. **Phase 2 (W2 tiering) outstanding.** One Phase 1 item is deliberately open: the PR experiment settling `steps.<id>.outcome` semantics under `continue-on-error` — approved, not yet run, needs a push
 **Priority:** 🔴 Now — PRD §7 names W4 first of the recommended three
 **Merge strategy:** (a) Merge-as-you-go — Phase 1 (W4) merges before Phase 2 (W2) begins
 **Depends on:** B4 and B5, both resolved (PRD §10, Appendix A)
@@ -87,6 +87,55 @@ becomes visible early and stops reddening `main`, with a dated re-arm restoring 
 The cap raise is not a softening — it is what makes an early check meaningful rather than
 constant noise.
 
+### A7 — the warn ceiling. Supersedes the first draft of A7 and resolves review B-5 (2026-08-11, Bex)
+
+**The finding that forced this.** A5's backstop — "`/eod` reads warning annotations on green runs" —
+was measured on 2026-08-11 and **had no artifact to read**:
+
+| Check | Result |
+|---|---|
+| Does `validate:doc-budget` emit `::warning::`? | No, on any path |
+| Does `validate:epic-docs`? | Only at `:92`, the SKIPPED path — never on failure |
+| Is the annotation channel clean enough to read? | No — a green run carries 7 unrelated entries (Node 20 deprecation ×3, ESLint ×3, Playwright notice) |
+| Does a green run record its failed warn-step? | **Unverified here** — no `success` job containing a `failure` step exists in 40 CI runs or 40 `stats.yml` runs |
+
+So `499bb33f` converted both gates to warn and left them with **no CI-side reader at all** — B-1's
+second row arriving in practice: healthy conclusion, control checking nothing.
+
+**The first draft of A7** said: the re-arm *date* is the guaranteed trigger, the streak only an early
+one. The review killed it (B-5). `validate-control-register.js:283-286`'s overdue message says
+*"Read it, record what you found, and set the next date"* — so the cheapest legal response is to move
+the date, and warn becomes permanent on a schedule. A7 relocated the failure rather than resolving it.
+
+**Decision: a declared warn ceiling, machine-enforced.** Each softened gate's Control cell carries
+`Re-arm: remove continue-on-error from ci.yml step "<name>" (warn since <date>, max <N>d)`, and
+`validate-control-register.js` gains check 5: `Next read` may not exceed `since + N days`. Moving the
+date past the ceiling is no longer a legal move. The honest claim, stated as such in the register:
+this does not make deferral impossible — it makes deferral require a visible backdating edit instead
+of a plausible-looking date change.
+
+Check 5 also fails when the named ci.yml step no longer carries `continue-on-error` (the gate was
+re-armed and the clause was left behind) and when the named step does not exist (a rename silently
+orphaning its deadline). All three proven by running them, 2026-08-11 — see Evidence below.
+
+## Verification review (2026-08-11) — 5 blockers, all resolved before implementation
+
+Run as a subagent in a fresh context against the annotation-channel design, because A5/A6 predate it.
+
+| # | Blocker | Resolution |
+|---|---|---|
+| B1 | CTL-024/025 `Reader` cells named `ci-failure-alert.yml`, which fires only on `conclusion == 'failure'` and so cannot read a warn-only gate. **False on `main` from `499bb33f` onward**; `validate:controls` passed it because it only checks cells are non-empty | Both cells corrected to name `/eod` step 6 (CTL-042), each stating why the old reader was unreachable |
+| B2 | The `/eod` reader is a prompt — no exit code, no probe, no artifact | Its *wiring* is now enforced: CTL-041's check fails if `eod-prompt.md` stops mentioning the shared title. The residual gap — nobody detects a skipped `/eod` day — is recorded in CTL-042's Bypass rather than smoothed over |
+| B3 | Reading only green runs is blind whenever CI is red | `/eod` reads **every** concluded run. (Review said 21/40 runs red; over the last 20 it is 4 — the 40-run figure is dominated by the pre-fix era. The conclusion stands, the framing was corrected) |
+| B4 | `WARN-GATE` would exist in two files with nothing syncing them; a mistyped step `id` makes `if:` evaluate false silently | Both closed by CTL-041's check: the title is declared once in `validate-validators.js` and asserted in both `ci.yml` and `eod-prompt.md`; every `continue-on-error` step must carry an `id` and a follow-on step keying on that exact id |
+| B5 | The re-arm date can be satisfied by moving the date | A7 above |
+
+**Two of the review's own recommendations were improved on.** It proposed CTL-041 as `convention`
+with `none — the harness cannot evaluate a GitHub Actions if: expression`. The pairing check is a Node
+script reading YAML text, so it **is** probeable: it ships `enforced-by-code` with probe
+`validate:validators (warn-gate pairing)` and record `PRB-025`. It also proposed `measured` for
+CTL-024; `convention` is the register's own honest label and is what landed.
+
 ## Evidence gathered at activation (2026-08-09)
 
 **C7's premise verified, not assumed.** The last three red CI runs on `main`, by failed step:
@@ -161,15 +210,49 @@ Run as a subagent in a fresh context. Read-only. No implementation code was writ
 - **Tier 1 contains items with no owning file** — "Production data mutation — ad hoc" has no CLAUDE.md section, no skill line, no register row.
 - **Register-row IDs must start at CTL-040.** SUG-268 has reserved CTL-036 to CTL-039 in text; CTL-026/032/033 are also reserved. Proposed rows CTL-040 to CTL-044 are held in the review output for the implementing branch.
 
+## Evidence from implementation (2026-08-11) — measured by running it
+
+Every claim below was produced by running the command, not by reading the config (AC #2).
+
+**Check 5 (the warn ceiling) fails on all three broken inputs:**
+
+| Injected violation | Result |
+|---|---|
+| `Next read` moved to 2026-12-01, past the 2026-10-09 ceiling | exit 1 — *"is beyond the declared warn ceiling of 2026-10-09 (warn since 2026-08-10, max 60d)"* |
+| `continue-on-error` removed from ci.yml while the `Re-arm:` clause remained | exit 1 — *"RE-ARMED. … Remove the Re-arm clause and restore the row's real Class, Reader and `Next read`"* |
+| `Re-arm:` naming a ci.yml step that does not exist | exit 1 — *"Renaming a step silently orphans its re-arm deadline"* |
+
+**The new pairing probe caught a defect in its own gate, first run.** `validate:validators
+(warn-gate pairing)` reported **STAYED GREEN against a known violation** — inert. Cause: the check
+tested `includes('WARN-GATE')`, and the probe's drifted title `WARN-GATE-DRIFTED` *contains* that
+substring, so a renamed channel passed as correctly paired. This is the same substring-collision
+class `validate-control-register.js:188-200` documents for gate names, reproduced independently in
+a new gate written by a session that had read that comment the same day.
+
+Fixed by matching the full delimited token `::warning title=WARN-GATE::` rather than a bare
+substring. Re-run after the fix: the drift is caught on both steps, and the gate reports 0 pairing
+problems against the real file. **The harness earned its place here** — nothing else in the chain
+would have noticed, and the check would have shipped reporting green over a channel it could not see.
+
+**Harness after the fix, `pnpm validate:enforcement-liveness`:** **24 gates proven live, 0 inert,
+1 skipped** (`chromatic.sh reachability` — it tests the ABSENT case and `apps/storybook/.env` is
+present), exit 0. The new pairing gate is among the 24.
+
+**Warn-gate pairing state, `pnpm validate:validators`:** 2 warn-only gate steps, 1 allowlisted
+non-gate (`stats.yml` Lighthouse), 0 pairing problems. A third `continue-on-error` step was found
+during implementation that the first draft of the parser silently missed — `stats.yml:53` carries a
+trailing comment after `true`, which an end-anchored regex did not match. Same undercount shape as
+`validate-doc-budget.js`'s `hard-stop` stop regex, fixed in the same pass rather than shipped.
+
 ## Scope
 
 **W4 — gate placement and posture**
 
 - [x] **Done 499bb33f.** `validate:doc-budget` runs at pre-commit (blocking) **and** in CI (warn) — per A5 it is added, not moved, or make it advisory — decide which, and record why (C10: CI-only cannot fail before a deploy)
-- [~] **Wiring done 499bb33f** (`continue-on-error` on both CI steps, probes verified still valid). **Register re-arm notes still owed — gated file.** Convert bookkeeping gates to **warn**, each with a **dated re-arm note** in the control register, per B4
-- [ ] Wire the re-arm counter into `/eod`; reset it on any red run so a flaky gate cannot age its way to permanence (PRD §B1 guardrails)
+- [x] **Done 2026-08-11.** Wiring landed `499bb33f`; register re-arm notes landed with the annotation channel. Both gates carry a `Re-arm:` clause naming the ci.yml step, the date warn began, and a 60-day ceiling. CTL-024 dropped `enforced-by-code` → `convention` (it blocks nowhere); CTL-025 stays `enforced-by-code` (it blocks at pre-commit)
+- [x] **Done 2026-08-11.** Re-arm counter wired into `/eod` Phase 3 step 6 (CTL-042), plus the warn-gate annotation read it depends on. The streak is **derived** from `gh run list`, never stored — so there is no counter to reset and no second copy to drift, and "reset on any red run" is inherent rather than a maintained operation
 - [x] **Done 499bb33f.** Raise the `validate:doc-budget` cap to **26,000 and keep it enforcing**, rather than suspending it — PRD §B1's explicit caveat: suspending removes the only measurement of the instruction surface during exactly the period V1 restructures it
-- [ ] Freeze new validators until **N consecutive green runs** on `main`; state N in the control register
+- [x] **Done 2026-08-11.** Validator freeze recorded as **CTL-040**, N = 5, with the exact `gh run list` command and the definition of "consecutive" (leading `success` entries; an in-flight `null` is neither green nor skippable; runs, not commits). Streak measured 2026-08-11: **2**
 
 **W2 — gate severity tiers**
 

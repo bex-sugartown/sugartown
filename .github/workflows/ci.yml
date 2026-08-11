@@ -87,13 +87,26 @@ jobs:
       # WARN-ONLY until the re-arm date on CTL-025 (SUG-281 Phase 1, decision A5).
       # Still runs, still reports; does not fail the run. It BLOCKS at
       # pre-commit, which is the reader that catches this while it is cheap.
+      #
       # `continue-on-error` leaves the run conclusion `success`, so
-      # ci-failure-alert.yml does not fire — `/eod` reading warning annotations
-      # on green runs is the backstop, and without that this gate has no CI-side
-      # reader at all.
+      # ci-failure-alert.yml (which fires only on `conclusion == 'failure'`,
+      # ci-failure-alert.yml:32) cannot read this gate at all. The follow-on
+      # step below is therefore the ONLY CI-side artifact that this gate fired,
+      # and `/eod` Phase 3 step 5b is its only reader (CTL-041, CTL-042).
+      #
+      # `outcome`, not `conclusion`: `outcome` is the step's result BEFORE
+      # continue-on-error is applied and is the documented way to see through it.
+      # The exit code of the script itself is untouched, so the liveness probe on
+      # this gate stays valid — making the script exit 0 would have reported it
+      # inert and taken validate:enforcement-liveness red.
       - name: Validate doc budget
+        id: doc_budget
         run: pnpm validate:doc-budget
         continue-on-error: true
+
+      - name: Warn-gate annotation — doc budget
+        if: steps.doc_budget.outcome == 'failure'
+        run: echo "::warning title=WARN-GATE::validate:doc-budget FAILED (warn-only until re-arm, CTL-025). The run still concludes success; this annotation is the only signal."
 
       - name: Validate governance diff-clean
         # Compares the committed governance.json against what governance/source/
@@ -124,11 +137,14 @@ jobs:
       # WARN-ONLY until the re-arm date on CTL-024 (SUG-281 Phase 1, decision A5).
       # This one blocks NOWHERE while warn-only, and that is accepted, not
       # overlooked: it exits 0 as SKIPPED without LINEAR_API_KEY, so it has no
-      # local reader to fall back on the way doc-budget does. `/eod` reading
-      # warning annotations is its only reader. Accepted because it caused two
-      # of the last three red runs on `main` and has never caught a code defect;
-      # the re-arm date is what keeps it temporary.
+      # local reader to fall back on the way doc-budget does. The follow-on
+      # annotation step plus `/eod` (CTL-041, CTL-042) is its ONLY reader.
+      # Accepted because it caused two of the last three red runs on `main` and
+      # has never caught a code defect; the re-arm date is what keeps it
+      # temporary. See the doc-budget step above for why `outcome`, not
+      # `conclusion`.
       - name: Validate epic docs
+        id: epic_docs
         run: pnpm validate:epic-docs
         continue-on-error: true
         env:
@@ -137,6 +153,10 @@ jobs:
           # collectLinear()'s graceful degradation makes this step SKIPPED (exit 0,
           # ::warning:: annotation), not a false pass. See scripts/validate-epic-docs.js.
           LINEAR_API_KEY: ${{ secrets.LINEAR_SUGARTOWN_STATS }}
+
+      - name: Warn-gate annotation — epic docs
+        if: steps.epic_docs.outcome == 'failure'
+        run: echo "::warning title=WARN-GATE::validate:epic-docs FAILED (warn-only until re-arm, CTL-024). The run still concludes success; this annotation is the only signal."
 
       - name: Build
         run: pnpm build
