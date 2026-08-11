@@ -277,7 +277,7 @@ trailing comment after `true`, which an end-anchored regex did not match. Same u
 - [x] **Done 2026-08-11.** Wiring landed `499bb33f`; register re-arm notes landed with the annotation channel. Both gates carry a `Re-arm:` clause naming the ci.yml step, the date warn began, and a 60-day ceiling. CTL-024 dropped `enforced-by-code` → `convention` (it blocks nowhere); CTL-025 stays `enforced-by-code` (it blocks at pre-commit)
 - [x] **Done 2026-08-11.** Re-arm counter wired into `/eod` Phase 3 step 6 (CTL-042), plus the warn-gate annotation read it depends on. The streak is **derived** from `gh run list`, never stored — so there is no counter to reset and no second copy to drift, and "reset on any red run" is inherent rather than a maintained operation
 - [x] **Done 499bb33f.** Raise the `validate:doc-budget` cap to **26,000 and keep it enforcing**, rather than suspending it — PRD §B1's explicit caveat: suspending removes the only measurement of the instruction surface during exactly the period V1 restructures it
-- [x] **Done 2026-08-11.** Validator freeze recorded as **CTL-040**, N = 5, with the exact `gh run list` command and the definition of "consecutive" (leading `success` entries; an in-flight `null` is neither green nor skippable; runs, not commits). Streak measured 2026-08-11: **2**
+- [x] **Done 2026-08-11.** Validator freeze recorded as **CTL-040**, N = 5, with the exact `gh run list` command and the definition of "consecutive" (leading `success` entries; an in-flight `null` is neither green nor skippable; runs, not commits). Streak measured 2026-08-11 after this phase's own pushes: **4** of 5
 
 **W2 — gate severity tiers**
 
