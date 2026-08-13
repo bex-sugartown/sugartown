@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-284 — Unwind the governance/verification-review layer
 **Linear Issue:** [SUG-284](https://linear.app/sugartown/issue/SUG-284/unwind-the-governanceverification-review-layer-waves-2-3-since-2026-07)
-**Status:** In Progress — Phases 1–8 done, Phase 9 (release) remaining
+**Status:** In Progress — Phases 1–8 done, Phase 9 CHANGELOG entry done, mini-release deferred
 **Priority:** 🟠 High
 **Merge strategy:** (a) Merge-as-you-go — each phase merges to `main` on completion.
 ---
@@ -118,7 +118,10 @@ explicit approval, before this file is touched)
 - [x] Leave SUG-198, 227, 254 as historical — their wave-1/2 doc output partially survives
 
 ### Phase 9 — Release
-- [ ] Mini-release with a `[Unreleased]` → `Removed` CHANGELOG section naming what came out and why
+- [x] `[Unreleased]` → `Removed` CHANGELOG section written — **done 2026-08-13**
+- [ ] Actual `/mini-release` (version bump) — deferred per CLAUDE.md §Mini-release: "whenever
+      this step is deferred, still add the epic's one-line summary to CHANGELOG.md's
+      `[Unreleased]` buffer at ship time" (satisfied above). Run at next natural release point.
 
 ## Non-Goals
 

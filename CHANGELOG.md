@@ -39,6 +39,25 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### tooling
 
+#### Removed
+- The governance/verification-review layer that grew from 2026-07-21 to 2026-08-13: the gate
+  taxonomy's Tier 1/2/3 register machinery, the verification-review-before-any-gate requirement
+  and its subagent, `control-register.md`, `rule-register.md`, `governance-coverage.md`, the
+  doc-budget word cap, `validate:enforcement-liveness`, the SUG-268 governance data layer
+  (`governance/` source, its generator, 3 validators; the generated `governance.json` had zero
+  consumers anywhere in the app), and SUG-281's gate tiering. Also removed: CLAUDE.md's
+  Verification Review, Process feedback loop and Scope creep sections; the epic close-out's
+  mandatory incident-log step; and the `/platform/governance-draft` page, which existed solely
+  to host the retired coverage tally.
+  Kept, by deliberate decision: `docs/ai/agentic-caucus/incident-log.md`, `methodology.md`,
+  `failure-modes.md`, `risk-tiers.md`, `agent-cards.md`, `data-handling.md` as inert reference;
+  the Tier 1/2/3 taxonomy in `human-gate-conventions.md`, since the Content Write Gate and
+  Human-Publishes Rule depend on it; and the Instruction & Rule File Write Gate itself, which
+  gated this removal's own CLAUDE.md edits.
+  Everything decommissioned moved to `zArchive/2026-08-sug284-governance-layer/` via `git mv`
+  rather than deletion, preserving full history and a resurrection path. 8 forward commits, no
+  git history rewrite. SUG-284, superseding SUG-243, 256, 262, 268, 276, 281, 282.
+
 #### Fixed
 - `collectLinear()` (`apps/web/scripts/stats/linear.js`) silently truncated at 250 issues with no pagination (team has 268) and dropped `triage`-state issues from every bucket. Now pages through the full result set and buckets triage with backlog/unstarted. SUG-262.
 
