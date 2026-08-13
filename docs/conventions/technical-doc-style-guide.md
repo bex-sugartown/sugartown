@@ -123,9 +123,8 @@ Every doc carries this block, immediately after the H1 and the rule-of-thumb lin
 **Supersedes:** <link, if applicable>
 ```
 
-This is the shape already in `instruction-writing-style.md`, `verification-review.md`,
-`user-story-conventions.md` and `machine-readable-docs.md`. Match it rather than starting a
-second one.
+This is the shape already in `instruction-writing-style.md`, `user-story-conventions.md`
+and `machine-readable-docs.md`. Match it rather than starting a second one.
 
 Rules:
 
@@ -276,10 +275,8 @@ Every gate states all four. Missing any one makes the gate unclearable by someon
 **Who can waive:** <name, or "nobody">
 ```
 
-The last two fields are the Canary and Bypass questions from
-`docs/conventions/verification-review.md`. A gate documented here that also exists in code
-belongs in `docs/ai/agentic-caucus/control-register.md`; fill these two fields from its row
-rather than writing a second answer.
+Fill the last two fields from direct inspection of the gate — what input would actually
+break it, and who is actually authorized to turn it off — not from memory or intent.
 
 ### Right
 
@@ -321,7 +318,6 @@ This guide defines no terms. Each is owned by the doc closest to the thing it na
 | `--st-*` names, token tiers, aliases | `docs/conventions/token-naming.md` |
 | vspec, prototype trigger, Phase 0 | `CLAUDE.md` §Phase 0 hard-stop, SUG-242 |
 | Node, Article, case study, glossary term | `docs/brand/node-style-guide.md`, `docs/brand/brand-voice-guide.md` |
-| Liveness, Canary, Bypass, Claim, Reader | `docs/conventions/verification-review.md` |
 | Words to avoid in instructions | `docs/conventions/instruction-writing-style.md` |
 
 A term with no owner in this table has none. Say so when you use it, rather than defining it

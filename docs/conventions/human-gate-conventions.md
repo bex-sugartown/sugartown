@@ -33,9 +33,7 @@ output; silence is not.
 
 ### Tier 3 — Automated, silent unless failing
 
-Validators, pre-commit hooks, CI steps. No human in the loop by design. A Tier 3 control
-that goes warn-only needs a named reader and a dated re-arm — see
-`docs/ai/agentic-caucus/control-register.md`.
+Validators, pre-commit hooks, CI steps. No human in the loop by design.
 
 ## Tier 1 register
 

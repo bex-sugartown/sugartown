@@ -37,7 +37,7 @@ When Bex uses a shorthand, map it to the full tool name:
 
 When an epic is complete, run these steps in order before starting the next epic.
 
-Steps 1, 1b, 7, 8, 8b and 9 always run. **Steps 2–6b fire only on their stated trigger**; a
+Steps 1, 1b, 7, 8 and 9 always run. **Steps 2–6b fire only on their stated trigger**; a
 step whose trigger did not fire is recorded as N/A with the reason, never silently skipped.
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
@@ -51,10 +51,9 @@ step whose trigger did not fire is recorded as N/A with the reason, never silent
 6b. **Preserve the vspec** — copy the approved vspec from `docs/drafts/` to `docs/shipped/SUG-{N}-{slug}.vspec.html`. Commit with the step 6 doc move. Skip only if the epic had no vspec.
 7. **Mini-release** — run `/mini-release` for a patch bump and CHANGELOG stub. **Only on `main`, after the epic's commits are merged, never on an unmerged branch**, because `package.json`'s version is a shared counter and a branch computes "next version" from a disconnected view of it. Merge first, then run it from `main`. **Whenever this step is deferred** (strategy (b), or any other reason), still add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at ship time. The CHANGELOG line and the version bump are separate obligations. A close-out doc saying "Done" with no `[Unreleased]` line is incompletely closed.
 8. **Update Linear** — transition the SUG-{N} issue to **Done**
-8b. **Incident log check** — if this epic fixed something already shipped (a regression that reached production, a gate found not firing, a published claim found false), append an entry to `docs/ai/agentic-caucus/incident-log.md` before closing, with both `Introduced` and `Noticed` dates — Mean Time To Notice needs both captured at the time. Run `pnpm mttn` afterwards. If the epic fixed nothing already-shipped, state "no incident" in the close-out; silence is not an answer.
 9. **Clean tree** — confirm `git status` is clean before starting the next epic
 
-Do not carry uncommitted changes across epic boundaries. If the tree is dirty when a new epic begins, commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) first. Narrative: [[rule-register]] §RULE-002.
+Do not carry uncommitted changes across epic boundaries. If the tree is dirty when a new epic begins, commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) first.
 
 ### Verify before citing — don't trust a prior claim
 
@@ -63,21 +62,6 @@ Do not carry uncommitted changes across epic boundaries. If the tree is dirty wh
 **This applies to all epic authoring, not only audit epics.** Check two claim types before writing them into an epic doc: (a) claims about a prior epic's outputs — open the files and confirm the output exists; (b) "no blocking dependencies" — read the backlog for in-flight epics touching the same files or layer, and state why each is or isn't blocking. (SUG-224 got both wrong.)
 
 **To measure a gate's state, run it locally and read the output.** Do not summarise from a CI log. `turbo run` stops at the first failing package, so CI logs undercount. (SUG-255: CI showed 7 lint errors, a local run found 84 across three packages.)
-
-Narrative: [[rule-register]] §RULE-003.
-
-### Verification review (blocking)
-
-Before building anything that adds or changes a gate, validator, test, deploy path, or a
-published claim about the platform, run the `verification-reviewer` subagent and add a row to
-`docs/ai/agentic-caucus/control-register.md`. Run it as a subagent, not inline: a review inside
-the session that wrote the plan ratifies its own reasoning.
-
-Five questions per control: what artifact proves it ran, what broken input must make it fail,
-what path reaches production without it, does it publish a claim (needs a measurement date and
-a reproducing command), and who reads the result by when.
-
-Enforced by `pnpm validate:controls`. Full rules: `docs/conventions/verification-review.md`.
 
 ### Instruction writing style
 
@@ -105,10 +89,6 @@ When creating a new epic in `docs/backlog/`:
    `docs/conventions/user-story-conventions.md`
 
 `docs/shipped/` holds shipped epics; `docs/backlog/` holds unscheduled and in-flight ones. Legacy `EPIC-NNNN` files in `docs/shipped/` stay as-is.
-
-### Process feedback loop — three-strike retrospective trigger
-
-Every shipped epic doc's Post-Epic Close-Out states one sentence: what cost a correction commit this time (`none` is a valid answer — `docs/epic-template.md` step 3b). When the same friction — by plain-language similarity, a human judgment call, **not a string match** — appears in three shipped docs, run `/post-mortem` against that pattern. Full mechanics, the monthly product-evidence loop it pairs with, and why this stays a human read rather than a mechanized check: `docs/conventions/feedback-loop.md` (SUG-241).
 
 ### Mid-epic commit checkpoints
 
@@ -147,33 +127,6 @@ Full mechanics: `.claude/skills/new-epic/docs/new-epic-prompt.md` and `docs/epic
 §Epic Lifecycle. Cross-epic dependencies stated as "blocked on SUG-X" in a backlog doc must
 also exist as a real Linear `blockedBy`/`blocks` relation (Linear MCP `save_issue`) — a
 dependency written only as prose is invisible to anyone using Linear as the priority queue.
-
-### Scope creep (blocking)
-
-Work found mid-epic that will not be done in this epic gets filed before the epic
-continues. Claude files it, not the human.
-
-Route by size, in this order:
-
-1. **Already inside an approved epic's Scope?** Execute it. No new container.
-2. **Otherwise, does a heavy gate fire** — new visual format, schema change, new
-   gate/validator, or a new published claim?
-
-| | Destination | Artifact |
-|---|---|---|
-| A heavy gate fires | `/new-epic` | Linear issue + backlog doc |
-| No gate, fits one commit | Scope line on the nearest owning doc | doc edit |
-| No gate, needs several commits | New phase on the nearest owning epic doc, with its Scope items mapped to it | doc edit (no Linear sub-issue) |
-
-In the same turn the finding is recorded, Claude owns the artifact its row names, the
-execution order relative to the current epic, and any `blockedBy`/`blocks` relation
-(SUG-246). Priority is proposed, not set: the Linear queue stays the human's.
-
-Does not fire for a finding fixed inline in the same session, or an observation with no
-proposed change.
-
-Verified at close-out step 5b and by `pnpm validate:epic-docs`. (2026-07-27→28: six issues
-reached Linear with no doc.)
 
 ### Multi-phase epic merge cadence
 
@@ -223,7 +176,7 @@ Before asking the user to test anything in their browser:
 
 ### Phase 0 visual spec gate (Tier 1 — stop and ask)
 
-**What triggers this gate: an unreviewed visual format reaching a user.** Not an epic's structure, and not whether a phase is labelled "Phase 0". The test: would this change render something a human has not signed off on? If the work adopts an already-shipped, already-reviewed design — porting a canonical component to a second copy, or a change whose only rendered surface is Storybook — the gate does not fire; record that decision in the epic doc. An epic with no phase called "Phase 0" still trips the gate the moment it invents a visual format. Narrative: [[rule-register]] §RULE-017.
+**What triggers this gate: an unreviewed visual format reaching a user.** Not an epic's structure, and not whether a phase is labelled "Phase 0". The test: would this change render something a human has not signed off on? If the work adopts an already-shipped, already-reviewed design — porting a canonical component to a second copy, or a change whose only rendered surface is Storybook — the gate does not fire; record that decision in the epic doc. An epic with no phase called "Phase 0" still trips the gate the moment it invents a visual format.
 
 **No code in `apps/web/src/`, `apps/studio/schemas/`, or any other implementation path until** (a) the vspec exists at `docs/drafts/SUG-{N}-{slug}.vspec.html`, and (b) the user has reviewed it and the Phase 0 checkboxes are marked complete. Permitted before sign-off: backlog doc edits, schema planning notes, query design notes. Not permitted: any JSX, CSS, schema TypeScript, or migration scripts. Committing FE code before vspec approval is a process failure.
 
@@ -276,7 +229,7 @@ Before executing any epic from `docs/backlog/SUG-{N}-*.md`, check the file for c
 
 **Correct response:** name the stub sections ("Background is TODO, Phases are undefined"), then offer either (a) fill the doc collaboratively, or (b) run an audit pass and wait for approval before implementing. Do not fill in the blanks yourself and proceed.
 
-Applies to all epic types, including pure content and editorial epics. Narrative: [[rule-register]] §RULE-018.
+Applies to all epic types, including pure content and editorial epics.
 
 ### Design handoff evaluation gate (SUG-163)
 
@@ -450,7 +403,7 @@ This is the fail-softly layer referenced above: even a Content Write Gate failur
 
 The agent — or any subagent it spawns — never edits a rule-defining file (`.claude/skills/**`, this file, `docs/epic-template.md`, or anything under `docs/ai/agentic-caucus/`, `docs/conventions/`, or `docs/diagrams/`) without first showing the human the exact diff and getting explicit approval. Applies even when the edit is accurate and well-intentioned.
 
-**Produce the diff from a copy, not from the file.** Write the change to a scratchpad copy and diff it against the original. Editing in place and reverting if unapproved works only when you remember the gate applies; a copy-first method cannot forget. Narrative: [[rule-register]] §RULE-033.
+**Produce the diff from a copy, not from the file.** Write the change to a scratchpad copy and diff it against the original. Editing in place and reverting if unapproved works only when you remember the gate applies; a copy-first method cannot forget.
 
 **Why its own gate:** Sanity content has a draft/published split — an unapproved write does nothing until a human publishes it. Rule files don't have that boundary. A committed change to CLAUDE.md or a skill definition is load-bearing immediately, for every future session.
 
@@ -494,7 +447,7 @@ Correct shape:
 
 Omitting either field saves and renders correctly on the web but cannot be edited in Studio. Refreshing Studio and deploying the schema do not fix it; the blocks must be re-patched.
 
-**`citationRef` is safe in `sections[].content`, including via MCP writes**, provided the block has well-formed `markDefs: []`/`marks: []`. If a genuine citationRef-specific lock recurs, capture the document ID, whether `markDefs`/`marks` were well-formed, and any console errors before adding a rule here. Do not restate the causal claim from memory. Narrative: [[rule-register]] §RULE-035.
+**`citationRef` is safe in `sections[].content`, including via MCP writes**, provided the block has well-formed `markDefs: []`/`marks: []`. If a genuine citationRef-specific lock recurs, capture the document ID, whether `markDefs`/`marks` were well-formed, and any console errors before adding a rule here. Do not restate the causal claim from memory.
 
 ### Anti-Slop Content Rules
 
@@ -690,7 +643,7 @@ Vspec: not required — extending existing component.
 
 ## DS Component Authoring — Token-First Rule (blocking)
 
-Applies to any component CSS file in `apps/web/src/design-system/` or `packages/design-system/src/`. A hardcoded value bypasses the token graph: the theme system cannot override it and the validator cannot audit it. Narrative: [[rule-register]] §RULE-049.
+Applies to any component CSS file in `apps/web/src/design-system/` or `packages/design-system/src/`. A hardcoded value bypasses the token graph: the theme system cannot override it and the validator cannot audit it.
 
 **Verify every token name exists before writing it** — `grep "token-name" apps/web/src/design-system/styles/tokens.css`. Tokens are named by concept (`--st-font-family-narrative`), not by analogy (`--st-font-family-heading`). Pre-commit catches this, but catching it there costs a correction commit.
 
@@ -749,7 +702,7 @@ Some files exist in two locations and **must be byte-identical**. Each must have
 |---------|-----------|-----------------|-------------|
 | `tokens.css` | `apps/web/src/design-system/styles/` ↔ `packages/design-system/src/styles/` | generated from `tokens/source/tokens.json` | `pnpm tokens:build` + pre-commit "Do not edit directly" block + `validate:style-mirror` |
 | `theme.pink-moon.css`, `theme.light.css`, `theme.shop.css`, `globals.css`, `utilities.css` | same two style dirs | **web copy is canonical** (hand-authored) | `validate:style-mirror` (pre-commit) |
-When you edit a hand-authored mirrored file (any theme/style file), update **both** copies in the same commit, or `validate:style-mirror` will block the commit. When adding a new must-be-identical pair, register it here and wire it into `validate-style-mirror.js`. One pair was retired in SUG-224: [[rule-register]] §Retired.
+When you edit a hand-authored mirrored file (any theme/style file), update **both** copies in the same commit, or `validate:style-mirror` will block the commit. When adding a new must-be-identical pair, register it here and wire it into `validate-style-mirror.js`. One pair was retired in SUG-224.
 
 ---
 
@@ -779,7 +732,7 @@ Applies to any technical or architecture diagram destined for a published surfac
 
 **Any figure you report carries the command that produced it.** A count, size, line number or measurement in a shipped doc, release note, commit message or Linear description names the command, not the document you read it from. Quoting a figure from a prior doc is how it goes stale without anyone noticing. (SUG-243 reported four wrong numbers this way, each corrected by running something.)
 
-**This gate also fires on published governance statistics** — any rendered count, tally, or coverage claim about the platform's own rigour (`/platform/governance`'s "30 checkpoints · 0 gaps", validator counts, enforcement tallies). Same claim table and evidence classes, plus two requirements: the claim carries a **measurement date**, and its Evidence cell names the command or file producing the number, not the intent behind it. A tally that is true when written and never re-measured becomes a false public claim silently. Narrative: [[rule-register]] §RULE-055.
+**This gate also fires on published governance statistics** — any rendered count, tally, or coverage claim about the platform's own rigour (`/platform/governance`'s "30 checkpoints · 0 gaps", validator counts, enforcement tallies). Same claim table and evidence classes, plus two requirements: the claim carries a **measurement date**, and its Evidence cell names the command or file producing the number, not the intent behind it. A tally that is true when written and never re-measured becomes a false public claim silently.
 
 1. **Source is committed first.** The diagram's source (SVG or Mermaid) lives in `docs/diagrams/` and is committed before upload. `docs/drafts/` does not count — it is local-only and gitignored. A published diagram with no committed source cannot be fact-checked later except by reconstructing it.
 2. **Red-pen accuracy pass.** Before upload, produce a claim table — one row per box, arrow, or label that asserts something about the system. Captions and alt text are claims too; include them as rows. Each row names the file or mechanism that makes it true and classifies it:
@@ -827,7 +780,7 @@ viteConfig.define = {
 }
 ```
 
-When a `define:` entry is added to `apps/web/vite.config.js`, check whether it produces visible output in any story. If it does, add the freeze in the same commit, and re-check every *existing* entry at the same time. Narrative: [[rule-register]] §RULE-058.
+When a `define:` entry is added to `apps/web/vite.config.js`, check whether it produces visible output in any story. If it does, add the freeze in the same commit, and re-check every *existing* entry at the same time.
 
 ### Storybook coverage requirement
 
