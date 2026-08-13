@@ -17,18 +17,3 @@
 # If Search Console shows 404 traffic on /?p=, /?cat=, or /?tag= patterns,
 # the fix is a Netlify Edge Function (runs before _redirects), not this file.
 # See: docs/reports/hosting-evaluation.md §Query-param redirects.
-
-# ─── noindex working surfaces (SUG-256 Ph3, CTL-030) ──────────────────────────
-#
-# This header is the load-bearing part of keeping /platform/governance-draft out
-# of search, because it needs no JS. SeoHead's robots meta is injected by script
-# and platform routes are NOT prerendered (apps/web/scripts/prerender-content.mjs
-# covers article/node/caseStudy only), so a non-JS crawler receives the SPA shell
-# with no robots directive at all. robots.txt Disallow is the third mechanism.
-#
-# Verify after deploy — this is CTL-030's only liveness artifact:
-#   curl -sI https://sugartown.io/platform/governance-draft | grep -i x-robots-tag
-[[headers]]
-  for = "/platform/governance-draft"
-  [headers.values]
-    X-Robots-Tag = "noindex, nofollow"

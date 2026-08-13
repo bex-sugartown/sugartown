@@ -186,15 +186,13 @@ const toWorkflowDocRow = (r) => ({
   output: linkOrText(r.outputLabel, r.outputHref),
 })
 
-// ── AI governance coverage tally — MOVED (SUG-256 Phase 3, 2026-08-02) ────────
-// COVERAGE_TALLY now lives in GovernanceDraftPage.jsx, on a noindex route, while
-// it is re-measured. Three of the claims around it were measurable as false or
-// unbacked, and iterating on public claims about this platform's own rigour costs
-// credibility on every deploy. §05 below keeps the workflow diagram and doc index
-// (SUG-244), which publish attribution rather than sufficiency, and carries a
-// dated notice where the tally was.
-//
-// Do not re-add a tally here without re-running the verification review.
+// ── AI governance coverage tally — RETIRED (SUG-284, 2026-08-13) ──────────────
+// Originally moved to a noindex draft page pending re-measurement (SUG-256 Ph3,
+// 2026-08-02) after three of its claims proved false or unbacked. The apparatus
+// it depended on (control-register.md, verification-review, the SUG-268
+// governance data layer) was retired wholesale by SUG-284, so the tally is not
+// coming back. §05 below keeps the workflow diagram and doc index (SUG-244),
+// which publish attribution rather than sufficiency.
 
 function RoadmapLane({ label, epics }) {
   const rows = epics.map((r) => toRoadmapRow(r, styles.issueId, styles.statusCell, styles.labelChips))
@@ -322,10 +320,6 @@ export default function GovernancePage() {
             title="Epic lifecycle, layer-tagged"
             kicker="8 phases"
           />
-          <Callout variant="warn" title="COVERAGE MAP">
-            The AI-governance coverage tally is being re-measured and is not published here
-            while that work runs. Tracked as SUG-256, started 2026-08-02.
-          </Callout>
           <Callout variant="info">
             Each phase is tagged with its primary AI-governance layer (L1 AI Inventory, L2
             Data Foundation, L5 Human Oversight, L6 Compliance &amp; Audit). L3 Data

@@ -80,9 +80,6 @@ export const TAXONOMY_NAMESPACES = {
 export const PLATFORM_ROUTES = {
   root:           '/platform',
   governance:     '/platform/governance',
-  // SUG-256 Ph3 — noindex working surface for the coverage tally. Deliberately
-  // unlinked: not in PlatformSidebar, not in build-sitemap.js STATIC_ROUTES.
-  governanceDraft: '/platform/governance-draft',
   monorepo:       '/platform/monorepo',
   cms:            '/platform/cms',
   designSystem:   '/platform/design-system',
