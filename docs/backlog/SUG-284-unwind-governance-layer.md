@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-284 — Unwind the governance/verification-review layer
 **Linear Issue:** [SUG-284](https://linear.app/sugartown/issue/SUG-284/unwind-the-governanceverification-review-layer-waves-2-3-since-2026-07)
-**Status:** Backlog — Phase 1 in progress
+**Status:** In Progress — Phases 1–8 done, Phase 9 (release) remaining
 **Priority:** 🟠 High
 **Merge strategy:** (a) Merge-as-you-go — each phase merges to `main` on completion.
 ---
@@ -106,13 +106,16 @@ explicit approval, before this file is touched)
 - [ ] Trim §Instruction & Rule File Write Gate's "copy-first method" elaboration — **keep the
       gate itself**, locked decision
 
-### Phase 8 — Linear cleanup + archive the retired epic docs
-- [x] Cancel SUG-243, 256, 262, 268, 276, 281, 282 with a comment linking to this epic — **done 2026-08-13**
+### Phase 8 — Linear cleanup + archive the retired epic docs — **done 2026-08-13**
+- [x] Cancel SUG-243, 256, 262, 268, 276, 281, 282 with a comment linking to this epic
 - [x] SUG-255 evaluated and **kept as Done** — its core deliverable (green CI, real lint/Chromatic/typecheck
       fixes) is not being reverted; only its Ph4/Ph5 tail (`validate-enforcement-liveness.js`) is governance
       output and gets archived alongside the rest. Comment recorded on the issue.
-- [ ] `git mv` the 7 cancelled issues' backlog docs (`docs/backlog/SUG-243-*.md` etc.) into `zArchive/2026-08-sug284-governance-layer/docs/backlog/`
-- [ ] Leave SUG-198, 227, 254 as historical — their wave-1/2 doc output partially survives
+- [x] Of the 7 cancelled issues, only 3 had a live backlog doc — the other 4 (SUG-243, 256, 262, 281)
+      had already shipped, so their docs stay in `docs/shipped/` per the shipped-docs-stay-as-is
+      convention. `git mv` SUG-268, SUG-276, SUG-282's backlog docs into
+      `zArchive/2026-08-sug284-governance-layer/docs/backlog/`
+- [x] Leave SUG-198, 227, 254 as historical — their wave-1/2 doc output partially survives
 
 ### Phase 9 — Release
 - [ ] Mini-release with a `[Unreleased]` → `Removed` CHANGELOG section naming what came out and why

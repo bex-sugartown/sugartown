@@ -38,8 +38,12 @@ including everything that happened before it was moved.
 
 - `docs/ai/agentic-caucus/` — `control-register.md`, `rule-register.md`, `governance-coverage.md`
 - `docs/conventions/verification-review.md`
-- `docs/backlog/` — the 8 superseded epic docs (SUG-243, 255, 256, 262, 268, 276, 281, 282) plus
-  the AOP-2/3/4/5 proposal docs (never implemented, never tracked in Linear)
+- `docs/backlog/` — the 3 cancelled epics that were still unshipped when retired (SUG-268, 276,
+  282), plus the AOP-2/3/4/5 proposal docs (never implemented, never tracked in Linear). Four
+  more Linear issues were cancelled as superseded (SUG-243, 256, 262, 281) but had already
+  shipped — their epic docs stay in `docs/shipped/` untouched, per the "shipped docs stay as-is"
+  convention. SUG-255 was evaluated and deliberately kept as Done, not cancelled — see its
+  Linear comment.
 - `scripts/` — `governance-build.js`, `validate-governance.js`, `validate-governance-diff.js`,
   `validate-governance-tally.js`, `validate-control-register.js`, `validate-doc-budget.js`,
   `validate-enforcement-liveness.js`, `validate-epic-docs.js`, `mttn.js`, `validate-validators.js`
