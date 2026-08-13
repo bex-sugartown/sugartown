@@ -68,18 +68,32 @@ standalone files — those get recorded in the archive `README.md` instead. Full
       negation (`!apps/web/src/generated/governance.json`) in the same commit
 - [ ] `git mv` `.claude/agents/verification-reviewer.md` into the archive
 
-### Phase 5 — The governance-draft page
-- [ ] `git mv` `apps/web/src/pages/platform/GovernanceDraftPage.jsx` into the archive
-- [ ] Remove its route from `App.jsx` and `routes.js`
-- [ ] Remove the `robots.txt` disallow line and the `netlify.toml` header block
-- [ ] Remove the `.claude/launch.json` entry if any
+### Phase 5 — The governance-draft page — **done 2026-08-13** (`70a2d42e`)
+- [x] `git mv` `apps/web/src/pages/platform/GovernanceDraftPage.jsx` into the archive
+- [x] Removed its route from `App.jsx` and `routes.js`
+- [x] Removed the `robots.txt` disallow line and the `netlify.toml` header block
+- [x] `.claude/launch.json` checked — no entry existed
+- [x] Bonus: `GovernancePage.jsx` §05's "COVERAGE MAP" callout claimed the tally was
+      "being re-measured, tracked as SUG-256" — now false since SUG-256 is cancelled.
+      Removed as a factual correction, verified in-browser (renders clean, 0 console errors,
+      `/platform/governance-draft` 404s correctly)
 
-### Phase 6 — Docs corpus
-- [ ] `git mv` `control-register.md`, `rule-register.md`, `governance-coverage.md`,
+### Phase 6 — Docs corpus — **done 2026-08-13**
+- [x] `git mv` `control-register.md`, `rule-register.md`, `governance-coverage.md`,
       `docs/conventions/verification-review.md` into the archive
-- [ ] Keep `incident-log.md`, `methodology.md`, `failure-modes.md`, `risk-tiers.md`,
-      `agent-cards.md`, `data-handling.md` — locked decision, inert reference, nothing gates on them
-- [ ] Review `docs/ai/README.md` (broader index — may need trimming, not deleting)
+- [x] Kept `incident-log.md`, `methodology.md`, `failure-modes.md`, `risk-tiers.md`,
+      `agent-cards.md`, `data-handling.md` — locked decision, inert reference, nothing gates on them.
+      Left their internal cross-references to the archived docs untouched — they're a historical
+      snapshot, not live instructions
+- [x] Trimmed `docs/ai/README.md` — removed `governance-coverage.md` from the directory listing
+      and the Quick Reference section (2 small edits, not a rewrite)
+- [ ] **Found during Phase 6, deferred to Phase 7:** `docs/conventions/human-gate-conventions.md`
+      (line ~38) and `docs/conventions/technical-doc-style-guide.md` (lines ~126, ~279-282, ~324)
+      — both kept — contain prescriptive instructions pointing at `verification-review.md` and
+      `control-register.md` (e.g. "fill these two fields from its row"). These need editing
+      alongside CLAUDE.md's Verification Review section since they're the same concept's
+      downstream documentation, not a separate concern. Not touched yet — both are CLAUDE.md-
+      adjacent conventions docs, so the Instruction & Rule File Write Gate applies.
 
 ### Phase 7 — CLAUDE.md (Instruction & Rule File Write Gate applies — diff from a scratch copy,
 explicit approval, before this file is touched)

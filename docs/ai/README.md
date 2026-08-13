@@ -24,7 +24,6 @@ docs/ai/
 ├── agentic-caucus/
 │   ├── methodology.md                # the framework: what it is, how it works, core principles
 │   ├── failure-modes.md              # documented failure modes per tool, cross-agent patterns
-│   ├── governance-coverage.md        # coverage map vs the 6-layer AI governance model
 │   ├── agent-cards.md                # per-agent registry: model, strengths, failure modes, use rules
 │   ├── risk-tiers.md                 # action risk tiers (A–D) mapped to CLAUDE.md gates
 │   ├── incident-log.md               # append-only registry of confirmed dated incidents
@@ -63,7 +62,6 @@ Frequently used:
 ### Agentic Caucus
 The multi-agent collaboration framework. Full doc: `docs/ai/agentic-caucus/methodology.md`.
 Documented failure modes: `docs/ai/agentic-caucus/failure-modes.md`.
-Governance coverage map: `docs/ai/agentic-caucus/governance-coverage.md`.
 
 **One-line version:** Gemini for vision. ChatGPT for fresh perspective. Claude for
 architecture, execution, and governance. Bex decides everything.
