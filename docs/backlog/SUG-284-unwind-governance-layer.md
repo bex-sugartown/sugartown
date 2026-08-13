@@ -46,22 +46,21 @@ standalone files — those get recorded in the archive `README.md` instead. Full
       evaluated and kept as Done, see Phase 8 note)
 - [x] SUG-268 confirmed not left "In Progress" — cancelled
 
-### Phase 2 — CI + pre-commit first
-- [ ] Strip the 6 governance steps from `.github/workflows/ci.yml` (doc-budget, governance-diff,
-      governance, governance-tally, epic-docs, enforcement-liveness)
-- [ ] Strip WARN-GATE-specific logic from `.github/workflows/ci-failure-alert.yml`; keep the
-      generic red-CI-on-main alert
-- [ ] Strip the 3 governance steps from `.husky/pre-commit` (governance-diff, governance,
+### Phase 2 — CI + pre-commit first — **done 2026-08-13** (`6e17f8fa`)
+- [x] Strip the 6 governance steps from `.github/workflows/ci.yml` (control register, doc-budget,
+      governance-diff, governance, governance-tally, epic-docs) + the entire `liveness` job
+      (enforcement-liveness)
+- [x] `ci-failure-alert.yml` checked — it never had WARN-GATE-specific logic (that lived in
+      `ci.yml` itself, removed above); no changes needed
+- [x] Strip the 3 governance steps from `.husky/pre-commit` (governance-diff, governance,
       validate:validators)
-- [ ] Must land before Phase 3 — deleting scripts before CI/pre-commit stop referencing them
-      turns every subsequent commit red
 
-### Phase 3 — Scripts + package.json
-- [ ] `git mv` `scripts/governance-build.js`, `validate-governance.js`, `validate-governance-diff.js`,
+### Phase 3 — Scripts + package.json — **done 2026-08-13** (`99666f30`, `6e17f8fa`)
+- [x] `git mv` `scripts/governance-build.js`, `validate-governance.js`, `validate-governance-diff.js`,
       `validate-governance-tally.js`, `validate-control-register.js`, `validate-doc-budget.js`,
       `validate-enforcement-liveness.js`, `validate-epic-docs.js`, `mttn.js`, `validate-validators.js`
       into `zArchive/2026-08-sug284-governance-layer/scripts/`
-- [ ] Remove the 8 corresponding `package.json` script entries (recorded in archive README, not archived as files)
+- [x] Removed the 10 corresponding `package.json` script entries (recorded in archive README, not archived as files)
 
 ### Phase 4 — Generated artifacts + agent
 - [ ] `git mv` `governance/` (schema + source, 8 files) into the archive; `rm -rf .governance-build/` (gitignored, untracked, nothing to preserve)

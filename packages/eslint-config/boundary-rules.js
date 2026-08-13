@@ -70,8 +70,7 @@ const SCOPES = {
 }
 
 // ─── Workspaces deliberately outside boundary enforcement ────────────────────
-// Each entry states why. This is an audited list, not a dumping ground — the
-// same contract as MANUAL_BY_DESIGN in scripts/validate-validators.js.
+// Each entry states why. This is an audited list, not a dumping ground.
 //
 // The two `apps/` entries below are why SUG-254's original Scope items "port
 // enforcement into apps/studio" and "resolve apps/storybook's lint-script scope"
