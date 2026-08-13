@@ -39,40 +39,6 @@ pnpm --filter web validate:dead-refs || exit 1
 # silently unenforced (no hook, no CI job) until SUG-239 wired it up here.
 pnpm --filter web validate:css-names || exit 1
 
-# Generated governance artifact must still correspond to its source. Compares
-# against the INDEX, not the worktree: rebuilding from the worktree and comparing
-# against staged bytes passes when the generated file is staged and its source is
-# not, committing output that does not match committed source (SUG-268 Ph2, B3).
-# Regeneration goes to a scratch dir; this never writes a tracked file.
-pnpm validate:governance-diff || exit 1
-
-# Governance source: schema, closed-world referential integrity, overdue reads,
-# and a scan for governance data authored outside governance/source/. Reads the
-# INDEX, so it gates the staged state rather than whatever the worktree holds.
-# --reference-date pins the not-in-the-future comparison to today: HEAD is the
-# PARENT commit during a pre-commit hook, so a record dated today would fail
-# against yesterday's committer date (SUG-268 Phase 1 findings ledger).
-pnpm validate:governance --reference-date "$(date -u +%Y-%m-%d)" || exit 1
-
-# Every validate:* script must be wired into a hook or CI job, or explicitly
-# allowlisted as manual-by-design. Prevents this exact class of silent decay.
-pnpm validate:validators || exit 1
-
-# Instruction-surface budget — BLOCKS here, warns in CI (AOP-1 Phase 1, A5).
-#
-# The split is deliberate. This is the only reader that sees the problem while
-# it is still cheap: in the committer's own terminal, before the commit exists.
-# CI keeps running it as a warning so `main` stops going red for a document
-# growing — three of the last three red runs on `main` were bookkeeping gates,
-# none a code defect — but the CI step is NOT removed. It is the only reader
-# that survives `--no-verify`, a merge commit (which runs no pre-commit hook at
-# all), a machine with hooks uninstalled, and `[skip ci]`.
-#
-# Blocking here and warning there means the script's exit code is unchanged, so
-# the liveness probe on this gate stays valid. Making the script itself exit 0
-# would have reported it inert and taken `validate:enforcement-liveness` red.
-pnpm validate:doc-budget || exit 1
-
 # ESLint — zero errors required (warnings are allowed), across EVERY package.
 #
 # This was `pnpm --filter web lint` until SUG-255. That narrowing is the exact

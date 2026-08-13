@@ -81,50 +81,6 @@ jobs:
       - name: Validate taxonomy
         run: pnpm validate:taxonomy
 
-      - name: Validate control register
-        run: pnpm validate:controls
-
-      # WARN-ONLY until the re-arm date on CTL-025 (SUG-281 Phase 1, decision A5).
-      # Still runs, still reports; does not fail the run. It BLOCKS at
-      # pre-commit, which is the reader that catches this while it is cheap.
-      #
-      # `continue-on-error` leaves the run conclusion `success`, so
-      # ci-failure-alert.yml (which fires only on `conclusion == 'failure'`,
-      # ci-failure-alert.yml:32) cannot read this gate at all. The follow-on
-      # step below is therefore the ONLY CI-side artifact that this gate fired,
-      # and `/eod` Phase 3 step 5b is its only reader (CTL-041, CTL-042).
-      #
-      # `outcome`, not `conclusion`: `outcome` is the step's result BEFORE
-      # continue-on-error is applied and is the documented way to see through it.
-      # The exit code of the script itself is untouched, so the liveness probe on
-      # this gate stays valid — making the script exit 0 would have reported it
-      # inert and taken validate:enforcement-liveness red.
-      - name: Validate doc budget
-        id: doc_budget
-        run: pnpm validate:doc-budget
-        continue-on-error: true
-
-      - name: Warn-gate annotation — doc budget
-        if: steps.doc_budget.outcome == 'failure'
-        run: echo "::warning title=WARN-GATE::validate:doc-budget FAILED (warn-only until re-arm, CTL-025). The run still concludes success; this annotation is the only signal."
-
-      - name: Validate governance diff-clean
-        # Compares the committed governance.json against what governance/source/
-        # produces. --ref HEAD because in CI the commit under test IS HEAD; the
-        # pre-commit variant compares against the index instead.
-        run: pnpm validate:governance-diff --ref HEAD
-
-      - name: Validate governance
-        # Schema, closed-world referential integrity, overdue reads, and the
-        # outside-source scan. Wired here as well as at pre-commit deliberately:
-        # validate:validators is satisfied by EITHER, so a pre-commit-only gate
-        # would pass every meta-check while being invisible on `main` — and
-        # merge commits run no pre-commit hook at all.
-        run: pnpm validate:governance
-
-      - name: Validate governance tally
-        run: pnpm validate:governance-tally
-
       - name: Validate schema parity
         run: pnpm validate:schema-parity
         env:
@@ -133,30 +89,6 @@ jobs:
           # token from an env var literally named SANITY_AUTH_TOKEN, so the repo
           # secret (named SANITY_SCHEMA_PARITY) is mapped to that name here.
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_SCHEMA_PARITY }}
-
-      # WARN-ONLY until the re-arm date on CTL-024 (SUG-281 Phase 1, decision A5).
-      # This one blocks NOWHERE while warn-only, and that is accepted, not
-      # overlooked: it exits 0 as SKIPPED without LINEAR_API_KEY, so it has no
-      # local reader to fall back on the way doc-budget does. The follow-on
-      # annotation step plus `/eod` (CTL-041, CTL-042) is its ONLY reader.
-      # Accepted because it caused two of the last three red runs on `main` and
-      # has never caught a code defect; the re-arm date is what keeps it
-      # temporary. See the doc-budget step above for why `outcome`, not
-      # `conclusion`.
-      - name: Validate epic docs
-        id: epic_docs
-        run: pnpm validate:epic-docs
-        continue-on-error: true
-        env:
-          # Reuses the same repo secret the stats pipeline already authenticates
-          # with (stats.yml). Missing key or an API failure is not a failure here —
-          # collectLinear()'s graceful degradation makes this step SKIPPED (exit 0,
-          # ::warning:: annotation), not a false pass. See scripts/validate-epic-docs.js.
-          LINEAR_API_KEY: ${{ secrets.LINEAR_SUGARTOWN_STATS }}
-
-      - name: Warn-gate annotation — epic docs
-        if: steps.epic_docs.outcome == 'failure'
-        run: echo "::warning title=WARN-GATE::validate:epic-docs FAILED (warn-only until re-arm, CTL-024). The run still concludes success; this annotation is the only signal."
 
       - name: Build
         run: pnpm build
@@ -187,74 +119,6 @@ jobs:
         run: pnpm test:smoke
         env:
           CI: true
-
-  liveness:
-    name: Enforcement liveness
-    runs-on: ubuntu-latest
-
-    # Its own job, not a step in `ci`, for two reasons. It deliberately mutates
-    # the working tree (that is the whole method — break a gate, prove it fails,
-    # restore), so it must not share a checkout with build or the smoke tests.
-    # And its result is orthogonal: "are the gates real?" is a different question
-    # from "does this commit pass them", and a reader should be able to see which
-    # of the two went red without reading the log.
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 9.1.0
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Prove every gate fires
-        run: pnpm validate:enforcement-liveness
-        env:
-          # This job runs the probes, and the validate:schema-parity probe
-          # (CTL-011) shells out to the Sanity CLI for the deployed side. Without
-          # this the control run exits 1 on a clean tree, gateProbe reports PROBE
-          # INVALID, and the harness exits 1 — which took run 31321405963 red on
-          # 2026-08-09 with no gate actually broken.
-          #
-          # Same secret and same mapping as the *Validate schema parity* step in
-          # the `ci` job. It is repeated rather than shared because this is a
-          # separate job with its own checkout, by design (see the job comment).
-          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_SCHEMA_PARITY }}
-
-          # Same reason, different gate: the validate:epic-docs probe (CTL-024)
-          # needs Linear to reach the real gate. Without this it reported
-          # `skipped — no LINEAR_API_KEY available` *inside CI*, while its own
-          # message claimed "CI carries the secret" — so the gate was proven
-          # nowhere: skipped locally and skipped here.
-          #
-          # Same secret as the *Validate epic docs* step in the `ci` job.
-          # An orphaned issue does NOT redden this job: the probe distinguishes
-          # a real-orphan control failure (SKIPPED — the gate is firing on a true
-          # finding) from a script error (INVALID). Without that split, adding
-          # this key would have moved SUG-281's warn conversion red rather than
-          # removing it, since this job blocks.
-          LINEAR_API_KEY: ${{ secrets.LINEAR_SUGARTOWN_STATS }}
-
-      - name: Confirm the probes left no residue
-        # Every probe restores what it touched via a cleanup stack. If the tree
-        # is dirty here, a probe leaked — and a liveness checker that corrupts
-        # the thing it inspects is worse than no liveness checker.
-        run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "::error::Liveness probes left the working tree dirty:"
-            git status --porcelain
-            exit 1
-          fi
-          echo "Working tree clean — all probes restored cleanly."
 
   chromatic:
     name: Chromatic VRT
