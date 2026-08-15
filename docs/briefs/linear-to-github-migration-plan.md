@@ -332,6 +332,60 @@ No Linear writes.
 **Exit criterion:** the project contains only current work, and every `docs/backlog/` doc is
 accounted for.
 
+### 5.1 Phase 2 execution log — 2026-08-15
+
+**Legacy items: 20 → 3.** Each of the 20 was verified against the codebase rather than assumed
+shipped after six months. **17 were done; 3 were not.**
+
+Closed with per-issue evidence in the comment, then **archived from the board** (the issues stay
+closed in the repo; `archiveProjectV2Item` only removes the project row).
+
+The 3 survivors were renumbered into the GitHub-era range, given backlog docs, and prioritised:
+
+| Was | Now | Priority | Why it survived |
+|---|---|---|---|
+| #16 | **SUG-1003** — htmlSection XSS hardening | High | `PageSections.jsx` renders `dangerouslySetInnerHTML` with **no sanitiser installed**, then re-appends `<script>` tags as live DOM so embeds initialise. Deliberate and not an active vulnerability — single trusted author — but undocumented and unbounded. The epic exists to *decide* accept / allow-list / remove, not to presuppose |
+| #22 | **SUG-1004** — `apps/studio` has no typecheck script | Medium | Verified: no `typecheck` in `apps/studio/package.json`. Same shape as SUG-257 and SUG-258 |
+| #23 | **SUG-1005** — Nav content trailing slashes | Low | Still listed in MEMORY.md as open. A content defect, not a code defect |
+
+> **The `Item closed` workflow cannot heal pre-existing drift.** #8, #9 and #10 were already
+> closed on 2026-02-23, so `gh issue close` was a no-op, no close *event* fired, and the
+> workflow never ran. Their `Status` still read `In Progress` — three issues closed for six
+> months, showing as active on the board. Corrected by hand.
+>
+> **The automation is forward-looking only.** Any board it inherits must be reconciled once,
+> manually, before its state can be trusted.
+
+**Bot issues: nothing to triage.** The `ci-red` issues from `ci-failure-alert.yml` self-close
+when CI recovers, and all were already closed. With `Auto-add to project` left off, they never
+reach the board.
+
+**Parity audit** — first since `validate:epic-docs` was archived by SUG-284 on 2026-08-14:
+
+| Check | Result |
+|---|---|
+| A. Backlog doc with no Linear issue | **0** |
+| B. Linear open with no doc anywhere | **9** — see below |
+| C. Doc in `backlog/` but Linear says Done | **1** — SUG-109, fixed |
+| D. Doc in `shipped/` but Linear still open | **0** |
+
+**C, fixed:** SUG-109 completed 2026-05-13 and its doc sat in `docs/backlog/` reading
+`Status: Backlog` for three months. Moved to `docs/shipped/` with a note that its body
+describes intent, not outcome.
+
+**B, not fixed — needs a decision, not a stub:** nine open Linear issues have no backlog doc.
+
+`SUG-164` · `SUG-168` · `SUG-169` · **`SUG-202`** · `SUG-233` · `SUG-234` · `SUG-235` ·
+`SUG-236` · `SUG-237`
+
+Deliberately **not** auto-generated as stubs. The post-mortem's root cause was bookkeeping
+outgrowing the work, and several of these are small (an article to write, a contrast fix). The
+options are: write real docs for the ones that warrant them, or accept that not every issue
+needs one and relax the rule in CLAUDE.md. Both are legitimate; picking one is the point.
+
+**`SUG-202` is worth surfacing on its own:** *"Cookie consent + analytics decision: GA runs with
+no consent banner"*. High priority, and the only one of the nine with a compliance dimension.
+
 ---
 
 ## 6. Phase 3 — Migration (runs during the trial; no Linear writes)

@@ -1,10 +1,16 @@
 ---
 **Epic:** SUG-109 — Figma DS backwards-engineer — Code Connect + variables pipeline
 **Linear Issue:** [SUG-109](https://linear.app/sugartown/issue/SUG-109/figma-ds-backwards-engineer-code-connect-variables-pipeline)
-**Status:** Backlog
+**Status:** Shipped 2026-05-13 (per Linear `Completed`)
 **Priority:** ⚪ Later
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
+
+> **Moved to `docs/shipped/` on 2026-08-15**, three months late. Linear recorded this Done on
+> 2026-05-13 but the doc stayed in `docs/backlog/` reading `Status: Backlog`. Found by the
+> parity audit in migration Phase 2 — the first such audit since `validate:epic-docs` was
+> archived by SUG-284. The body below was not updated at ship time and describes intent rather
+> than outcome; read it as the plan, not the record.
 
 # SUG-109 — Figma DS backwards-engineer — Code Connect + variables pipeline
 
