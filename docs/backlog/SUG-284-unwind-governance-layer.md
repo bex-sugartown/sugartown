@@ -1,8 +1,9 @@
 ---
 **Epic:** SUG-284 — Unwind the governance/verification-review layer
 **Linear Issue:** [SUG-284](https://linear.app/sugartown/issue/SUG-284/unwind-the-governanceverification-review-layer-waves-2-3-since-2026-07)
-**Status:** In Progress — Phases 1–6 and 8 done; **Phase 7 has 2 items open** (the CLAUDE.md
-"gate tiers" note and the copy-first elaboration, both verified still present 2026-08-15);
+**Status:** In Progress — Phases 1–6 and 8 done; **Phase 7 has 3 items open** (the CLAUDE.md
+"gate tiers" note, the copy-first elaboration, and close-out step 1b's evidence-recording
+ceremony — all verified still present 2026-08-15);
 Phase 9 CHANGELOG entry done, mini-release deferred. Not closeable until Phase 7 finishes and
 the epic's commits reach `origin/main` with a named green CI run (close-out step 1b). Count
 unpushed commits with `git rev-list --count origin/main..main` rather than trusting a figure
@@ -128,6 +129,29 @@ explicit approval, before this file is touched) — **mostly done 2026-08-13** (
       elaboration — **keep the gate itself**, locked decision. Verified 2026-08-15: the
       elaboration is still present at `CLAUDE.md:406`; only its trailing `[[rule-register]]`
       citation was cut in `ad5d60ba`.
+- [ ] **STILL OPEN, added to scope 2026-08-15** — Trim close-out step 1b's evidence-recording
+      ceremony (`CLAUDE.md:44`). **Keep** the engineering requirement: `pnpm test:smoke` passes
+      locally, the CI run for the merged commit concludes `success`, a red suite blocks merge
+      to `main` (SUG-240). **Cut** the recorded-artifact apparatus: "Record the run ID in the
+      shipped doc", the `gh run list --json databaseId,conclusion` incantation, and the
+      "'CI is green' is not an artifact; a named run is" framing.
+
+      Lineage checked rather than assumed — `git log -S` on CLAUDE.md dates step 1b to
+      `7b5c2eed` (2026-07-25) and the run-ID clause to `6db48693` (2026-07-27,
+      `docs(governance): close five rule gaps found by the 2026-07-25..27 post-mortem`).
+      Both fall after the 07-21 cutoff (`e1f94373`), and the clause is claim-and-evidence
+      vocabulary from the control-register lineage — the same apparatus close-out step 8b was
+      removed for. Phase 7's original scope list did not name it, so it survived the sweep.
+
+      **The underlying gate is not governance and stays.** The Playwright route smoke tests
+      are real tests of whether the app renders. `ci.yml` after Ph2 runs lint, typecheck,
+      4 validators, build, smoke and Chromatic — ordinary engineering, untouched by this epic.
+      What goes is the ceremony of recording a `databaseId` as evidence for an audit trail
+      that no longer has a reader.
+
+      **Scope confirmed contained:** `grep` for `not an artifact|named run is` across the repo
+      outside `zArchive/` returns exactly one hit, `CLAUDE.md:44`. `docs/epic-template.md`
+      is clean.
 
 > Phases 4 and 7 were both recorded as done in the header on 2026-08-13 while their checkboxes
 > stayed unticked. Reconciled 2026-08-15 by checking each claim against the file on disk rather
