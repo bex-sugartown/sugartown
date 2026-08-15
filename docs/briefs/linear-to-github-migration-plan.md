@@ -14,19 +14,37 @@
 arithmetically sufficient once auto-archive completes, which means migration is no longer forced
 by capacity. The decision is now about fragility, not headroom.
 
+**Structure: this is a trial, not a committed migration.**
+
+| | |
+|---|---|
+| **Trial period** | 2026-08-15 → 2026-09-09 |
+| **Final decision** | **2026-09-09**, once auto-archive has run and Linear is back at 58 of 250 |
+| **Trial scope** | Phases 1 and 2, plus the post-mortem build-back items 1–3 logged as real GitHub issues (§10.4) |
+| **Trial cost** | Zero. No Linear writes, no code changes, no spend |
+| **What the trial proves** | Whether GitHub Projects handles Sugartown's actual workflow well enough to be worth the cutover in §7 |
+
+Nothing in Phases 1 and 2 is wasted if the answer on 09-09 is "stay on Linear" — a clean project
+with working fields is worth having either way. Phase 3 and Phase 4 are the committing steps and
+neither runs before the decision.
+
+Operating model in §10. Data map in §11. Governance-unwind annotations in §12.
+
 ---
 
 ## Overview
 
 Linear's free plan caps **lifetime** issues at 250, not active ones. The Sugartown workspace is
-at 260 of 250 and blocked from creating new issues. 193 of those 260 are `Done`. Auto-archive
-would reclaim them, but a bulk project-removal on 2026-08-08/09 reset the one-month inactivity
-timer on ~154 completed issues, so nothing archives until roughly **2026-09-08**. There is no
-manual archive on the free plan.
+at 260 of 250 and blocked from creating new issues. 206 of those are closed (196 `Done`,
+10 `Canceled`) and 202 are awaiting auto-archive. Auto-archive would reclaim them, but a bulk
+project-removal on 2026-08-09 reset the one-month inactivity timer on 182 of them at once, so
+the bulk does not clear until roughly **2026-09-08**. There is no manual archive on the free
+plan.
 
-This document defines the target GitHub setup, the cleanup required before migrating, and the
-cutover procedure. It does not decide whether to migrate — see §2, which is the decision the
-plan turns on.
+This document defines the target GitHub setup, the operating model, the cleanup required before
+migrating, and the cutover procedure. It does not assume migration is the right answer — §9.1
+shows the free plan is arithmetically sufficient once archiving completes, so the decision rests
+on fragility rather than capacity and is deferred to 2026-09-09.
 
 **Kill criterion** (per post-mortem §6.7): if migration is not underway by **2026-12-01**, this
 plan is deleted rather than left as a stale artifact. Check date: 2026-12-01.
@@ -242,7 +260,7 @@ Of those 58: 42 carry labels, 33 have `Related to`, 7 are High priority, 18 Medi
 3. **Resolve the single-queue rule.** CLAUDE.md currently states Linear is the priority queue
    with no second copy. That sentence becomes false at cutover and must change in the same
    commit.
-4. **Set Linear read-only.** Do not delete the workspace; it is the archive of 193 completed
+4. **Set Linear read-only.** Do not delete the workspace; it is the archive of 206 closed
    issues and the historical record behind every `SUG-NNN` in the CHANGELOG.
 
 **Exit criterion:** `/platform/governance` renders roadmap data from GitHub, and no code path
@@ -305,3 +323,156 @@ not the same reason as "we ran out of room", and the decision should be made on 
 three weeks can be spent on Phases 1 and 2, which are useful whether or not Phase 3 ever runs —
 a working GitHub project with clean fields and no stale items has value on its own. Revisit this
 question on **2026-09-08** with the workspace back at 58 of 250 and no deadline pressure.
+
+---
+
+## 10. Operating model — how Projects and Issues are used
+
+The mechanics differ from Linear in one way that governs everything else: **an issue's
+open/closed state and its project `Status` are separate values that do not sync by default.**
+Every rule below follows from that.
+
+### 10.1 What lives where
+
+| Concern | Home | Why |
+|---|---|---|
+| **The record of work** | `docs/backlog/SUG-{N}-{slug}.md` | Already the source of truth, already in git, already public. Unchanged by this migration |
+| **Status, priority, ordering** | GitHub Project item fields | The layer being migrated |
+| **Discussion, decisions in flight** | GitHub Issue comments | Linked to commits and PRs natively |
+| **The canonical ID** | `SUG-NNN`, in the doc filename | §2 decision. Issue number is incidental |
+
+**The issue is not the spec.** It carries a title, a one-paragraph summary, and a link to the
+epic doc. Full scope stays in the doc. This is deliberate: the post-mortem's root cause was a
+system where the bookkeeping outgrew the work, and a thin issue keeps the doc canonical.
+
+### 10.2 Issue conventions
+
+- **Title:** `SUG-284 — Unwind the governance/verification-review layer`. The ID leads so the
+  issue is findable by the identifier used in 109 docs and every commit message.
+- **Body:** three lines — one-sentence objective, link to the epic doc, link to the Linear
+  original during the trial.
+- **Labels:** carry across from Linear's `Labels` column. 42 of the 58 have them.
+- **One issue per epic.** No sub-issues. This is the SUG-238 rule and it survives the move:
+  phases are checkboxes in the doc, not separate issues.
+
+### 10.3 Project fields and views
+
+Required fields beyond the defaults:
+
+| Field | Type | Values |
+|---|---|---|
+| `Status` | single-select | `Backlog`, `Todo`, `In Progress`, `Done`, `Canceled` — mirrors Linear exactly so the workflow table in CLAUDE.md needs no rewrite |
+| `Priority` | single-select | `Urgent`, `High`, `Medium`, `Low`, `No priority` — mirrors Linear's 0–4 |
+
+**Do not add:** `Iteration`, `Estimate`, `SLA`, or size fields. Sugartown has never used Linear
+cycles (`Cycle Number` is empty on all 58 in scope) and adding fields nobody fills is how the
+last system got heavy.
+
+Views to create:
+
+1. **Priority queue** (table, grouped by `Priority`, filtered `Status != Done`) — this is the
+   view that replaces Linear as "the priority queue" in CLAUDE.md
+2. **Board** (grouped by `Status`) — day-to-day
+3. **Roadmap** — only if `Start Date`/`End Date` actually get filled. Currently 0 of 20 items
+   carry dates, so this view renders empty and should stay unbuilt until there is data
+
+### 10.4 Required automation, before any trust is placed in the board
+
+Enable these built-in project workflows in Phase 1. Without them, `Status` drifts from reality
+silently — the exact failure class the post-mortem is about.
+
+| Trigger | Action |
+|---|---|
+| Item closed | set `Status: Done` |
+| Item reopened | set `Status: In Progress` |
+| PR merged linking the issue | set `Status: Done` |
+| Issue added to project | set `Status: Backlog` |
+
+**Verification, not assumption:** the Phase 1 exit criterion is a test issue observed to flip
+to `Done` on close. If it does not, the automation is off and the board is decorative.
+
+### 10.5 Trial content — post-mortem build-back items 1–3
+
+The trial is exercised with real work, not fixtures. The three build-back items from
+`docs/reviews/post-mortem/2026-08-15-…` §7 become the first three GitHub issues:
+
+| # | Issue title | Post-mortem source |
+|---|---|---|
+| 1 | `SUG-285 — Liveness probes only, no register` | §7 item 1. Highest-value: 6 of 14 incidents are inert-mechanism bugs |
+| 2 | `SUG-286 — Claim honesty for published statistics` | §7 item 2 |
+| 3 | `SUG-287 — Generated index, only if 1 and 2 prove out` | §7 item 3 |
+
+Each carries its **kill criterion** from §7 in the issue body, per post-mortem recommendation
+6.7. Each also gets a `docs/backlog/SUG-{N}-*.md` doc, because the doc is canonical and the
+issue is the mirror.
+
+**Next ID is derived, not assigned:**
+
+```bash
+ls docs/backlog docs/shipped | grep -oE 'SUG-[0-9]+' | sort -t- -k2 -n | tail -1
+```
+
+Sequencing discipline from §7 holds: item 1 ships alone and runs for a full epic cycle before
+item 2 opens. Two consecutive "caught nothing a human wouldn't have" answers end the rebuild.
+
+---
+
+## 11. Data map
+
+Linear CSV column → GitHub destination. Verified against the export's 34 columns.
+
+| Linear column | GitHub destination | Notes |
+|---|---|---|
+| `ID` | Issue **title** prefix (`SUG-284 — …`) | Canonical per §2. Not the issue number |
+| `Title` | Issue title, after the ID | |
+| `Description` | Issue body | Markdown carries across. Linear issue-mention links become plain text and need rewriting |
+| `Status` | Project `Status` field | 1:1 value mapping |
+| `Priority` | Project `Priority` field | `No priority`/`Low`/`Medium`/`High` → same names |
+| `Labels` | Issue labels | 42 of 58 populated. Labels must exist in the repo first |
+| `Blocked by` | Task-list line in body: `- [ ] Blocked by SUG-N` | **5 of 58.** No native equivalent |
+| `Related to` | `Related: SUG-N, SUG-M` line in body | **33 of 58.** No native equivalent |
+| `Parent issue` | GitHub sub-issue (`Parent issue` field exists) | **1 of 58** |
+| `Duplicate of` | Close as duplicate, comment with the ID | Check before import |
+| `Project` | Label | **3 of 58.** Not worth a Milestone |
+| `Created` / `Updated` / `Completed` | Nothing | GitHub sets its own. Original dates live in the export and the epic doc |
+| `Assignee` / `Creator` | Assignee = Bex | Single-operator workspace |
+| `Estimate`, `Cycle *`, `SLA Status`, `Time in status`, `Initiatives`, `Project Milestone *`, `Due Date`, `Triaged`, `Started`, `Canceled`, `Archived`, `Team`, `UUID` | **Not migrated** | Empty or unused across the 58 in scope |
+
+**Not migrated at all:** the 206 closed issues (196 `Done` + 10 `Canceled`). They archive in
+Linear and their record already exists in `docs/shipped/`. The export CSV is retained as the
+durable copy — **commit it to the repo** before Linear is set read-only, or it exists only in
+`~/Downloads`.
+
+---
+
+## 12. Governance-unwind annotations
+
+**Finding: no backlog item is fully moot after SUG-284.** Six carry stale premises and need
+annotation before or during migration; one is unscoped and should not migrate as-is.
+
+Classified by reading each description, not inferred from titles.
+
+| ID | Disposition | Annotation needed |
+|---|---|---|
+| **SUG-264** Wire the banned-word check | **Migrate, re-scope** | Filed from SUG-243, cancelled by SUG-284. But the check lives in `instruction-writing-style.md`, which survived (v1.3, 2026-08-15), so the work is still valid. It adds a validator: sequence it behind build-back item 1 and give it a kill criterion |
+| **SUG-265** Release flow defects | **Migrate, re-verify first** | Filed from SUG-243. **Partly resolved 2026-08-15** — `release-assistant-prompt.md`'s vestigial gates 6/7 and its dead §Scope creep reference were fixed. Part A (prompt parity with `/mini-release`) is untouched. Re-scope before migrating |
+| **SUG-267** Rule-file write gate has no artifact | **Migrate, re-frame** | Premise cites `RULE-033` and the rule register, both archived. The gate itself survived deliberately and the question is still live. Strip the register references |
+| **SUG-269** Make Sanity validators probeable | **Migrate, reconcile** | Overlaps post-mortem build-back item 1 (liveness probes) directly. Decide whether it merges into SUG-285 or stays separate. Also still carries the ID-reuse warning in its own description |
+| **SUG-250** Agentic Caucus tool-selection audit | **Migrate, retitle** | Substance is unaffected — auditing 52 KG nodes for which agent produced what. But "Agentic Caucus" now names an inert doc corpus, so the title misleads |
+| **SUG-259** Node: The Fire Alarm Was Wired to Nothing | **Migrate, update outline** | Subject matter changed. The layer was unwound, and on 2026-08-15 `/eod` step 6 was found to be another fire alarm wired to nothing — inside the file written to prevent that. The story has a better ending than outline v2 records |
+
+**Confirmed unaffected**, checked and not assumed:
+
+- **SUG-209** Appropriation Gate Check — extends the **Content Write Gate**, SUG-90 lineage,
+  explicitly out of SUG-284's scope
+- **SUG-263** Chromatic gating status — Pink Moon lineage, explicitly out of scope. Still live:
+  the 2026-08-15 release ran Chromatic with `--exit-zero-on-changes` and it behaved exactly as
+  this issue describes
+- **SUG-232** Non-colour raw token fallbacks — token validators all survived
+- **SUG-257**, **SUG-258** lint coverage — ordinary engineering
+
+**Separate finding, unrelated to governance:**
+
+- **SUG-249** Rescope to incorporate /platform dashboards — **empty description.** Title only.
+  Under CLAUDE.md's incomplete-epic-doc hard stop this cannot be executed as written. Scope it
+  or cancel it; do not migrate a placeholder.
