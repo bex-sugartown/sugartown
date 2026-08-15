@@ -20,7 +20,7 @@ and the existing precedent leans toward having one more often than not.
 
 ## Background
 
-**Status: outline v2.** No Sanity draft, no Studio entry yet. Full outline lives at
+**Status: outline v3.** No Sanity draft, no Studio entry yet. Full outline lives at
 `docs/drafts/node-outline-the-fire-alarm.md` (local-only, gitignored per repo convention
 for drafts — do not expect it in a fresh clone).
 
@@ -34,11 +34,12 @@ Decisions already taken (see the drafts outline for full reasoning):
   roles become evidence for the argument, not the argument itself
 - Controlling metaphor: fire safety system, deployed at the beats only
 
-**Also surfaced, needs its own decision:** `CLAUDE.md:723` cites a node — *"The
+**Also surfaced, needs its own decision:** ~~`CLAUDE.md:723` cites a node — *"The
 Validator Said Zero Errors. It Was Watching the Wrong Door."* — that does not exist in
 published content or drafts (14 nodes, none of them it). A live false reference in a
-file every session loads. Write it, or remove the citation — not this epic's scope to
-resolve, but flagged here so it isn't lost.
+file every session loads.~~ **Resolved 2026-08-15:** SUG-284's CLAUDE.md edits removed
+the citation. `grep -rn "wrong door" CLAUDE.md docs/conventions/ .claude/` returns 0
+hits. Whether the node itself gets written is still open; the false reference is gone.
 
 ## Objective
 
@@ -50,8 +51,7 @@ passes the compliance gate and is reviewed before publish.
 
 - [x] Outline of facts
 - [x] Theme + spine selected
-- [ ] Open questions resolved (name SUG-245 directly? status field? phantom-node
-      decision — see Background above) — layer: editorial
+- [ ] Open questions resolved (name SUG-245 directly? status field?) — layer: editorial
 - [ ] Discovery run — taxonomy pre-flight + related-content check — layer: content
 - [ ] Draft created in Sanity (draft ID recorded here once it exists) — layer: content
 - [ ] Compliance gate passed — layer: process
@@ -60,8 +60,11 @@ passes the compliance gate and is reviewed before publish.
 
 ## Non-Goals
 
-- Resolving the `CLAUDE.md:723` phantom-node citation — flagged, not owned here
-- A second node — one node was the explicit decision above
+- ~~Resolving the `CLAUDE.md:723` phantom-node citation~~ — resolved by SUG-284, see
+  Background. Whether the node gets written is still not owned here.
+- A second node — one node was the explicit decision above. This means this *story* is
+  not split; it does not mean the project has one node. Part 2 is a separate node on a
+  separate subject (see Impact review below) and does not violate this.
 
 ## Acceptance Criteria
 
@@ -76,3 +79,56 @@ passes the compliance gate and is reviewed before publish.
 - **Outline:** `docs/drafts/node-outline-the-fire-alarm.md` (local-only)
 - **Referenced fixes:** SUG-245 (accuracy pass), SUG-244 (workflow diagram), SUG-256
   (the eventual re-derivation, shipped 2026-08-04)
+- **Impact review 2026-08-15:** [issue #87 comment](https://github.com/bex-sugartown/sugartown/issues/87#issuecomment-5302925808)
+  mirrors the section below.
+
+## Impact review — 2026-08-15
+
+Mirrored to [issue #87](https://github.com/bex-sugartown/sugartown/issues/87#issuecomment-5302925808).
+Parking list, not a scope change. Nothing below is actioned.
+
+The governance layer this node's Fix section scheduled its repairs into was built, ran
+seven weeks, and was removed by SUG-284 (shipped 2026-08-15, `99a964d2`, released in
+v0.33.0). Post-mortem:
+`docs/reviews/post-mortem/2026-08-15-governance-layer-buildup-and-unwind.md`.
+**The diagnosis is unaffected** — outline sections 1 to 5 stand, one row changed.
+
+### Decided 2026-08-15
+
+- Two nodes, not three. This issue is Part 1, the diagnosis. Part 2 carries the rebuild
+  **and** the unwind in one piece; they share a root cause, so splitting leaves the
+  middle piece without an ending.
+- The Fix row rewritten in the outline: the repairs went into a layer subsequently
+  removed by hand. One clause plus a forward link, no chronology. Length band holds.
+- Diagram: three-lane redraw accepted. The two-lane version is invalidated — seven of
+  its nine Sugartown boxes are now false.
+
+### Needs a decision, unowned
+
+- Part 2 has no tracking issue. New IDs start at `SUG-1000` per the migration plan.
+  Needs a `docs/backlog/SUG-{N}-*.md` doc and a GitHub issue.
+- Part 2's working title is retired. Five candidates recorded in the outline.
+- The `series` document does not exist for either configuration. Create it, set
+  `parts[]` in order, set `partNumber` on both, keeping the two consistent since
+  `parts[]` wins when populated. Blocks the series widget on both parts.
+
+### Dangling references found while checking, not owned here
+
+Three live documents carry acceptance criteria against `validate-enforcement-liveness.js`,
+which no longer exists. The post-mortem's residue sweep (section 3.7) counted five
+surviving items and did not catch these.
+
+| Where | Line | The dangling requirement |
+|---|---|---|
+| `docs/backlog/SUG-269-sanity-validator-probeability.md` ([#93](https://github.com/bex-sugartown/sugartown/issues/93)) | 75 | AC requires `pnpm validate:enforcement-liveness` to report 3 more gates live |
+| `docs/backlog/SUG-264-validate-banned-words.md` ([#89](https://github.com/bex-sugartown/sugartown/issues/89)) | 63, 79 | AC requires a probe in the deleted script; Files names it, `package.json`, `ci.yml` |
+| `docs/briefs/governance-data-layer-prd.md` | 183, 231 | live PRD for the cancelled SUG-268; acceptance set "post-cutover" |
+
+### Also raised, lower priority
+
+- The technical-diagram red-pen gate has no class for *was true, then removed on
+  purpose*. Its four classes are `enforced-by-code`, `measured`, `convention`,
+  `roadmap`. Worked around for the draft by classing peak-state rows `measured` with a
+  mandatory as-of date and an evidence path into `zArchive/`.
+- The diagram needs a committed source in `docs/diagrams/` and a completed claim table
+  before any published version. Alt text is a claim and needs its own row.
