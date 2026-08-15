@@ -34,7 +34,7 @@ Reality → Changelog → Release Notes
 
 Paste this entire prompt into Claude Code at the start of a release session.
 
-The release process has **7 gates**. The AI stops at each gate and waits for your response before proceeding. Nothing is written to disk until you explicitly say so.
+The release process has **5 gates**. The AI stops at each gate and waits for your response before proceeding. Nothing is written to disk until you explicitly say so.
 
 Expected human responses at each gate: each gate is presented via the `AskUserQuestion`
 tool (select-list gate per `docs/conventions/human-gate-conventions.md`) — the human
@@ -44,8 +44,6 @@ clicks/selects a labeled option, not a typed word.
 - Gate 3 (Step 3A): "Write it — save to CHANGELOG.md" / "Needs edits"
 - Gate 4 (Step 3B): "Write it — save Release Notes" / "Needs edits"
 - Gate 5 (Step 3C): "Commit it — create the release commit" / "Stop — let me review again"
-- Gate 6 (Step 4): "Write it — update the backlog file" / "Needs edits"
-- Gate 7 (Step 4): "Commit it — create the backlog commit" / "Stop — let me review again"
 
 ---
 
@@ -401,8 +399,10 @@ completed. Sources:
 - Tech debt, TODOs, or partial implementations noted in commit messages or epic close-out docs
 - Validator warnings or errors that represent actionable future work
 
-Route each finding by size per CLAUDE.md §Scope creep. Anything needing its own container gets
-`/new-epic`; priority is proposed, not set.
+Route each finding by size. Anything needing its own container gets `/new-epic`; anything
+smaller gets a Scope line or a new phase on the nearest owning doc. Priority is proposed, not
+set — the Linear queue stays the human's. Note that the Linear workspace has a finite issue
+budget, so prefer the smallest container that fits.
 
 ---
 
@@ -427,8 +427,7 @@ Validators run:
   [paste final validator output here or note "not run"]
 
 Unshipped work logged:
-  ✅  filed per CLAUDE.md §Scope creep — issue IDs listed, or "none"
-  ✅  Committed: [commit hash]
+  ✅  routed — issue IDs or owning docs listed, or "none"
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
