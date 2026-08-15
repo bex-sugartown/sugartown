@@ -292,8 +292,25 @@ flip to `Status: Done` automatically.
 `deleteProjectV2Workflow` could remove the sub-issue workflow but deletion is irreversible and
 disabling is a toggle in the UI. Left for the UI pass rather than deleted.
 
-**Phase 1 status: fields and views done, automation outstanding.** The exit criterion cannot be
-met until the workflows are enabled by hand.
+### 4.2 Phase 1 complete — 2026-08-15
+
+UI pass done by Bex; state verified from the API rather than from screenshots.
+
+| Workflow | State |
+|---|---|
+| `Item closed` → `Status: Done` | **ON** |
+| `Pull request merged` → `Status: Done` | **ON** |
+| `Auto-add sub-issues to project` | **off** — was on as found; conflicts with §10.2 |
+| `Item added to project` | off — dropped from scope. Phase 3 sets `Status` explicitly on all 58, so it would only fire for hand-added items |
+
+**Exit criterion met.** Test issue `#36` created, added to the project, closed. `Status` flipped
+from empty to `Done` **within 5 seconds**, unattended. Test issue deleted; project back to 20
+items, no residue. The board reflects reality rather than decorating it.
+
+**Outstanding, cosmetic:** view filters and grouping on `Priority queue` and `Board`
+(UI-only — `ProjectV2ViewConfigurationInput` exposes just `visibleFieldIds`).
+
+**Phase 1 is done.** Phase 2 needs nothing from it.
 
 ---
 
