@@ -8,9 +8,8 @@
 > neutral surfaces, hot colour signal, EB Garamond headings,
 > Courier Prime metadata, zero/minimal radius. Default mode: light.
 >
-> **Gate tiers.** Tier 1 gates stop and ask; they are the closed list in
-> `docs/conventions/human-gate-conventions.md`. Every other rule in this file is Tier 2 —
-> apply it and report what you did, without asking. Validators and CI steps are Tier 3.
+> **Tier 1 gates stop and ask.** Sections below carry the label inline; the closed list and
+> the full tier model live in `docs/conventions/human-gate-conventions.md`.
 
 ---
 
@@ -41,7 +40,7 @@ Steps 1, 1b, 7, 8 and 9 always run. **Steps 2–6b fire only on their stated tri
 step whose trigger did not fire is recorded as N/A with the reason, never silently skipped.
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
-1b. **Route smoke tests** — `pnpm test:smoke` passes locally **and** the CI run for the merged commit concludes `success`. Five Playwright specs prove the app renders end-to-end, not just builds: homepage, one archive, one detail, one taxonomy route, a 404. A red suite blocks merge to `main` (SUG-240). **Record the run ID in the shipped doc** — `gh run list --branch main --workflow CI --limit 1 --json databaseId,conclusion`. "CI is green" is not an artifact; a named run is. If CI is known-red for reasons outside the epic, say so and name the tracking issue.
+1b. **Route smoke tests** — `pnpm test:smoke` passes locally **and** the CI run for the merged commit concludes `success`. Five Playwright specs prove the app renders end-to-end, not just builds: homepage, one archive, one detail, one taxonomy route, a 404. A red suite blocks merge to `main` (SUG-240). If CI is known-red for reasons outside the epic, say so and name the tracking issue.
 2. **Deploy schema** (if epic touched `apps/studio/schemas/`) — run `npx sanity schema deploy` from `apps/studio/`. Schema changes are not live until deployed. MCP tools, the Content Lake API, and embedded Studios all validate against the deployed schema, not local code. Skipping this step causes silent write failures.
 3. **Visual QA gate (Tier 1 — stop and ask)** — wait for the literal text **"Visual QA approved"** before proceeding. The `docs/shipped/` move and mini-release are blocked until it arrives. If the epic has a vspec, produce the vspec-to-build comparison table (typography, spacing, colours, layout, each flagged Match / Drift / Missing) via the design-reviewer subagent (`.claude/agents/design-reviewer.md`, `docs/conventions/vqa-workflow.md`), which runs in a fresh context with no view of the session that wrote the code. **With no vspec, and only if every visual element was verified in-browser during implementation, cite that evidence per element instead of building a table** — rows all reading "Match", assembled afterwards from checks already run, give false confidence that a fresh review happened. The gate still fires and still blocks whenever a vspec exists or *any* element went unverified at implementation time; list those elements rather than padding the table with the ones that were. **If the epic shipped a detail, archive, or entity page**, open a sibling page of the same kind (e.g. new entity page vs `/tools/vercel`) and compare shell, folio, section labels, grids, chips. Unjustified structural divergence is a Drift row.
 4. **Chromatic (Tier 1 — stop and ask)** — run Chromatic VRT. If deferred, annotate the shipped doc with `<!-- Chromatic: pending -->` and a note. Deferral is a checklist deferral only — it does not unblock the shipped/ move. **"Defer Chromatic" is not the same as "epic is closed."**
@@ -403,7 +402,7 @@ This is the fail-softly layer referenced above: even a Content Write Gate failur
 
 The agent — or any subagent it spawns — never edits a rule-defining file (`.claude/skills/**`, this file, `docs/epic-template.md`, or anything under `docs/ai/agentic-caucus/`, `docs/conventions/`, or `docs/diagrams/`) without first showing the human the exact diff and getting explicit approval. Applies even when the edit is accurate and well-intentioned.
 
-**Produce the diff from a copy, not from the file.** Write the change to a scratchpad copy and diff it against the original. Editing in place and reverting if unapproved works only when you remember the gate applies; a copy-first method cannot forget.
+**Produce the diff from a copy, not from the file.** Write the change to a scratchpad copy and diff it against the original.
 
 **Why its own gate:** Sanity content has a draft/published split — an unapproved write does nothing until a human publishes it. Rule files don't have that boundary. A committed change to CLAUDE.md or a skill definition is load-bearing immediately, for every future session.
 
