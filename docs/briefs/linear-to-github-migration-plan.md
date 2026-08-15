@@ -2,8 +2,17 @@
 
 **Status:** DRAFT — setup and plan only. Nothing executes until the freeze lifts.
 **Author:** drafted 2026-08-15
-**Blocking constraint:** the Linear auto-archive freeze, below. **Earliest execution date: 2026-09-09.**
+**Blocking constraint:** the Linear auto-archive freeze, below. **Earliest execution date: 2026-09-08** (bulk), **2026-09-14** (tail).
 **Related:** `docs/reviews/post-mortem/2026-08-15-governance-layer-buildup-and-unwind.md` §8
+**Export:** `~/Downloads/Export Sat Aug 15 2026.csv` — 264 rows, 34 columns, verified 2026-08-15
+
+**Decisions locked 2026-08-15 (Bex):**
+1. **`SUG-NNN` stays canonical** (§2 option B). Docs are updated to align; GitHub issue numbers are incidental.
+2. **No paid tier.** Linear Basic is out of scope on cost grounds.
+
+**Read §9 first.** Analysis of the export after those decisions were taken shows the free plan is
+arithmetically sufficient once auto-archive completes, which means migration is no longer forced
+by capacity. The decision is now about fragility, not headroom.
 
 ---
 
@@ -30,13 +39,36 @@ All figures measured 2026-08-15. Commands named so they can be re-run rather tha
 
 ### Linear
 
+Authoritative source is the CSV export, not the UI.
+
 | Measure | Value | Source |
 |---|---|---|
-| Issues used | 260 of 250 | Linear UI limit dialog |
-| `Done` | 193 | Linear UI, All Issues view |
-| Active working set | ~67 | 58 backlog + 4 Todo + cancelled, per `stats.linearRoadmap` |
-| Awaiting auto-archive | ~154 | completed/cancelled before 2026-07-15 |
-| Archive unblocks | ~2026-09-08 | one month from the 08-08/09 edits |
+| Total issues | 264 | export row count |
+| `Done` | 196 | export `Status` |
+| `Canceled` | 10 | export `Status` |
+| `Backlog` | 54 | export `Status` |
+| `Todo` | 4 | export `Status` |
+| `In Progress` | **0** | export `Status` |
+| Already archived | 4 | export `Archived` populated |
+| Counting against cap | 260 of 250 | 264 − 4 archived; matches the UI dialog |
+| **Awaiting auto-archive** | **202** | closed and unarchived |
+
+**Archive behaviour, verified against the export rather than taken on Linear's word:**
+
+The 4 issues that *did* archive (SUG-64, 143, 175, 193) all have `Updated` equal to `Completed`,
+in April–June. They were never touched in the August sweep, and archived on 2026-08-08.
+
+All 202 that did *not* archive have `Updated` in 2026-08. Every one. Auto-archive is working
+exactly as documented; the bulk project-removal reset their clocks.
+
+| Last touched | Count | Earliest archive |
+|---|---|---|
+| 2026-08-06 → 08-08 | 9 | already passed / imminent |
+| **2026-08-09** | **182** | **~2026-09-08** |
+| 2026-08-13 | 10 | ~2026-09-12 |
+| 2026-08-15 | 1 | ~2026-09-14 (SUG-284, moved to Done that day) |
+
+**When all 202 archive, the workspace sits at 58 of 250.**
 
 ### GitHub
 
@@ -94,7 +126,9 @@ ls docs/backlog docs/shipped | grep -oE 'SUG-[0-9]+' | sort -t- -k2 -n | tail -1
 That satisfies post-mortem §6.4 — registers are generated or they do not exist. There is no new
 register to drift.
 
-**This decision must be settled before Phase 1.** Everything downstream depends on it.
+**Settled 2026-08-15 (Bex): option B.** `SUG-NNN` remains canonical and the instruction docs are
+updated to say so. GitHub issue numbers carry no meaning; the issue title leads with the SUG ID.
+The counter is derived from the filesystem by the command above, so no new register exists.
 
 ---
 
@@ -163,14 +197,25 @@ accounted for.
 
 ## 6. Phase 3 — Migration (blocked until 2026-09-09)
 
-**Input:** the Linear CSV export. *Path TBD — supply before execution.* Verify its actual
-columns before writing any importer; do not assume the schema.
+**Input:** `~/Downloads/Export Sat Aug 15 2026.csv` — 264 rows, 34 columns, verified 2026-08-15.
+
+Columns available: `ID`, `Team`, `Title`, `Description`, `Status`, `Estimate`, `Priority`,
+`Project ID`, `Project`, `Creator`, `Assignee`, `Labels`, `Cycle Number/Name/Start/End`,
+`Created`, `Updated`, `Started`, `Triaged`, `Completed`, `Canceled`, `Archived`, `Due Date`,
+`Parent issue`, `Initiatives`, `Project Milestone ID/Name`, `SLA Status`, `UUID`,
+`Time in status (minutes)`, **`Related to`**, **`Blocked by`**, **`Duplicate of`**.
+
+**Relations are in the export.** This materially de-risks step 5 below — the dependency graph
+does not have to be reconstructed by hand.
 
 **Scope: open and backlog items only.** Completed and cancelled work stays in Linear and
 archives there. The 109 epic docs in git are already the durable record of shipped work; there
-is no value in recreating 193 closed issues in GitHub.
+is no value in recreating 206 closed issues in GitHub.
 
-Expected volume: **~62 items** (58 backlog + 4 Todo). In-progress count was 0 as of 2026-08-15.
+**Measured volume: 58 items** — 54 `Backlog` + 4 `Todo`. Zero `In Progress`.
+
+Of those 58: 42 carry labels, 33 have `Related to`, 7 are High priority, 18 Medium, 29 Low,
+4 unprioritised, 5 have `Blocked by`, 3 belong to a Project, and 1 has a `Parent issue`.
 
 1. Confirm Linear auto-archive has run and the workspace is back under 250.
 2. From the export, filter to states `Backlog`, `Todo`, `In Progress`.
@@ -220,10 +265,43 @@ This migration moves the *status layer*, not the record.
 
 ## 9. Open questions
 
-1. **§2 ID decision** — settle before Phase 1.
-2. **Export path and columns** — needed before Phase 3.
-3. **Dependency representation** — sub-issues or task lists? Phase 1 step 4.
-4. **Is migration warranted at all?** The alternative is Linear Basic at $10/user/month billed
-   yearly (~$120/yr), zero migration, and none of the losses in §8. This plan does not assume
-   migration is the right answer; it exists so the comparison can be made against a real scope
-   rather than a guess.
+1. ~~**§2 ID decision**~~ — **closed 2026-08-15**: `SUG-NNN` canonical, option B.
+2. ~~**Export path and columns**~~ — **closed 2026-08-15**: path and all 34 columns verified, §6.
+3. **Dependency representation** — sub-issues or task lists? Phase 1 step 4. Lower stakes than
+   first assessed: only 5 of the 58 in scope carry `Blocked by`, and the export supplies them.
+4. **Is migration warranted at all?** — **reopened on new evidence.**
+
+### 9.1 The capacity problem is self-correcting
+
+Analysing the export after the migrate decision was taken produced a result that undercuts its
+premise. Recorded here rather than buried, because it changes the calculus.
+
+| | |
+|---|---|
+| Workspace once the 202 archive | **58 of 250** |
+| Free slots | **192** |
+| Issue creation rate | **44/month** (264 over 6 months; peak 62 in June and July) |
+| Steady state with 1-month auto-archive | ~58 backlog + ~44 rolling completions ≈ **102 of 250** |
+
+**The free plan is arithmetically sufficient.** The cap was never structurally too small for
+Sugartown's rate. The current lockout was caused by one bulk edit on 2026-08-09 that reset 182
+timers simultaneously, and auto-archive is demonstrably functioning — it cleared the 4 issues
+nobody touched, on schedule.
+
+So the real option set is three, not two:
+
+| Option | Cost | Risk |
+|---|---|---|
+| **Wait** to ~2026-09-08, touch nothing | £0, ~3 weeks | Recurs on any future bulk edit of closed issues |
+| **Pay** for Linear Basic | ~$120/yr | Ruled out 2026-08-15 |
+| **Migrate** per this plan | 9 code files, 12 instruction files, ~1 week | Loses cycles and dependency graph |
+
+**The remaining case for migrating is fragility, not headroom.** The 250 cap means closed-issue
+hygiene can never be performed again without a one-month lockout — Linear becomes a system that
+punishes tidying. That is a genuine ongoing constraint and a legitimate reason to leave. It is
+not the same reason as "we ran out of room", and the decision should be made on it explicitly.
+
+**Recommendation: wait first, decide second.** Waiting costs nothing, is reversible, and the
+three weeks can be spent on Phases 1 and 2, which are useful whether or not Phase 3 ever runs —
+a working GitHub project with clean fields and no stale items has value on its own. Revisit this
+question on **2026-09-08** with the workspace back at 58 of 250 and no deadline pressure.
