@@ -20,13 +20,31 @@ by capacity. The decision is now about fragility, not headroom.
 |---|---|
 | **Trial period** | 2026-08-15 → 2026-09-09 |
 | **Final decision** | **2026-09-09**, once auto-archive has run and Linear is back at 58 of 250 |
-| **Trial scope** | Phases 1 and 2, plus the post-mortem build-back items 1–3 logged as real GitHub issues (§10.4) |
+| **Trial scope** | Phases 1, 2 **and 3** — the full backlog migrated and used daily. Plus the post-mortem build-back items 1–3 (§10.5) |
 | **Trial cost** | Zero. No Linear writes, no code changes, no spend |
+| **Trial boundary** | Between **Phase 3 and Phase 4**. Phases 1–3 are reversible; Phase 4 is not |
 | **What the trial proves** | Whether GitHub Projects handles Sugartown's actual workflow well enough to be worth the cutover in §7 |
 
-Nothing in Phases 1 and 2 is wasted if the answer on 09-09 is "stay on Linear" — a clean project
-with working fields is worth having either way. Phase 3 and Phase 4 are the committing steps and
-neither runs before the decision.
+**Re-gated 2026-08-15.** An earlier draft blocked Phase 3 until the archive cleared. That was
+wrong: **Phase 3 writes only to GitHub and never touches Linear**, so the archive freeze does not
+constrain it. The gate was conflating "the decision waits for the archive" with "the work waits
+for the archive" — only the first is true.
+
+The boundary belongs between Phase 3 and Phase 4, by reversibility:
+
+| Phase | Reversible? | Cost to undo |
+|---|---|---|
+| 1 — fields, views | Yes | Delete a field |
+| 2 — close 20 legacy items | Yes | Reopen them |
+| 3 — migrate 58 issues | Yes | Delete 58 issues, one script |
+| **4 — cutover** | **No, realistically** | **9 code files + 12 instruction files rewritten** |
+
+A trial with 3 issues proves nothing about whether GitHub works as a priority queue. A trial with
+all 58, ordered and used daily for three weeks, proves it either way.
+
+**Dual-system rule for the trial.** For three weeks both systems hold the same 58 items and can
+drift. **GitHub is where work happens; Linear is frozen in practice.** Without this the 09-09
+decision starts with reconciling two backlogs, which is the second-copy problem v0.33.0 ended.
 
 Operating model in §10. Data map in §11. Governance-unwind annotations in §12.
 **The 2026-09-09 review checklist is §13.**
@@ -193,9 +211,10 @@ the one-month inactivity timer and pushes the archive date out another month. Th
 - status tidying, reassignment, or renaming
 - adding comments
 
-**Safe during the freeze:** reading, exporting, and all GitHub-side work in Phases 1 and 2.
+**Safe during the freeze:** reading, exporting, and **all GitHub-side work, Phases 1 through 3**.
+None of it writes to Linear.
 
-Phase 3 cannot start until archiving is confirmed complete.
+**Only Phase 4 waits**, and it waits on the 2026-09-09 decision rather than on the archive.
 
 ---
 
@@ -298,7 +317,7 @@ accounted for.
 
 ---
 
-## 6. Phase 3 — Migration (blocked until 2026-09-09)
+## 6. Phase 3 — Migration (runs during the trial; no Linear writes)
 
 **Input:** `docs/briefs/data/linear-export-2026-08-15.csv` — 264 rows, 34 columns, committed to the repo 2026-08-15.
 
@@ -320,13 +339,12 @@ is no value in recreating 206 closed issues in GitHub.
 Of those 58: 42 carry labels, 33 have `Related to`, 7 are High priority, 18 Medium, 29 Low,
 4 unprioritised, 5 have `Blocked by`, 3 belong to a Project, and 1 has a `Parent issue`.
 
-1. Confirm Linear auto-archive has run and the workspace is back under 250.
-2. From the export, filter to states `Backlog`, `Todo`, `In Progress`.
-3. For each, create a GitHub issue titled `SUG-{N} — {title}`, body carrying the Linear
+1. From the export, filter to states `Backlog`, `Todo`, `In Progress`.
+2. For each, create a GitHub issue titled `SUG-{N} — {title}`, body carrying the Linear
    description plus a link to `docs/backlog/SUG-{N}-{slug}.md`.
-4. Add each to `Sugartown Roadmap`; set `Status` and `Priority` from the export.
-5. Re-create `blockedBy`/`blocks` relations using whatever representation Phase 1 step 4 chose.
-6. **Verify by count and by sample**: issue count equals filtered export row count; spot-check
+3. Add each to `Sugartown Roadmap`; set `Status` and `Priority` from the export.
+4. Re-create `blockedBy`/`blocks` relations using whatever representation Phase 1 step 4 chose.
+5. **Verify by count and by sample**: issue count equals filtered export row count; spot-check
    5 issues field by field against the export.
 
 **Exit criterion:** every non-closed Linear issue has a GitHub counterpart, and the counts match.
