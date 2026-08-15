@@ -135,18 +135,41 @@ The epic doc is already the durable artifact, already in git, already public, an
 title, so the ID is visible and searchable, and the issue becomes a status/discussion surface
 rather than a second source of truth.
 
-**The counter is derived, not maintained.** Next ID comes from the filesystem:
-
-```bash
-ls docs/backlog docs/shipped | grep -oE 'SUG-[0-9]+' | sort -t- -k2 -n | tail -1
-```
-
-That satisfies post-mortem §6.4 — registers are generated or they do not exist. There is no new
-register to drift.
+**The counter is derived, not maintained** — from the filesystem, with the §2.1 floor applied.
+See §2.1 for the command. That satisfies post-mortem §6.4: registers are generated or they do
+not exist. There is no new register to drift.
 
 **Settled 2026-08-15 (Bex): option B.** `SUG-NNN` remains canonical and the instruction docs are
 updated to say so. GitHub issue numbers carry no meaning; the issue title leads with the SUG ID.
-The counter is derived from the filesystem by the command above, so no new register exists.
+
+### 2.1 Numbering scheme — migrated IDs keep their numbers, new IDs start at SUG-1000
+
+**Settled 2026-08-15 (Bex).** Existing issues migrate with their numbers unchanged (`SUG-5`
+through `SUG-284`). **Every new issue created from the trial onward starts at `SUG-1000`.**
+
+**This closes a real collision, not a hypothetical one.** Linear's per-team counter is at 284
+and does not reset on archive. When auto-archive clears around 2026-09-08, Linear regains 192
+free slots and can create issues again — its next would be **`SUG-285`**. That is exactly the
+number a naive `max + 1` would mint in GitHub. The risk window opens on the day of the trial
+decision.
+
+A 716-number gap makes the collision structurally impossible rather than merely unlikely, and
+makes an ID's origin readable at a glance: **three digits means Linear era, four digits means
+GitHub era.** No boundary number has to be remembered.
+
+Verified before adopting: nothing in the repo parses `SUG-NNN` with a fixed or bounded digit
+width. `grep` for width-constrained patterns across `.claude/`, `scripts/`, `apps/web/scripts/`
+and `packages/` returns nothing, so four-digit IDs are safe everywhere the pattern appears.
+
+**The counter is derived with a floor, not maintained:**
+
+```bash
+ls docs/backlog docs/shipped | grep -oE 'SUG-[0-9]+' | grep -oE '[0-9]+' \
+  | sort -n | tail -1 | awk '{print "SUG-" ($1 < 1000 ? 1000 : $1+1)}'
+```
+
+Returns `SUG-1000` today; `SUG-1003` once 1002 exists. Still satisfies post-mortem §6.4 —
+generated from the filesystem, no register to drift.
 
 ---
 
@@ -398,19 +421,15 @@ The trial is exercised with real work, not fixtures. The three build-back items 
 
 | # | Issue title | Post-mortem source |
 |---|---|---|
-| 1 | `SUG-285 — Liveness probes only, no register` | §7 item 1. Highest-value: 6 of 14 incidents are inert-mechanism bugs |
-| 2 | `SUG-286 — Claim honesty for published statistics` | §7 item 2 |
-| 3 | `SUG-287 — Generated index, only if 1 and 2 prove out` | §7 item 3 |
+| 1 | `SUG-1000 — Liveness probes only, no register` | §7 item 1. Highest-value: 6 of 14 incidents are inert-mechanism bugs |
+| 2 | `SUG-1001 — Claim honesty for published statistics` | §7 item 2 |
+| 3 | `SUG-1002 — Generated index, only if 1 and 2 prove out` | §7 item 3 |
 
-Each carries its **kill criterion** from §7 in the issue body, per post-mortem recommendation
-6.7. Each also gets a `docs/backlog/SUG-{N}-*.md` doc, because the doc is canonical and the
-issue is the mirror.
+These are the first IDs in the new range per §2.1. Each carries its **kill criterion** from §7
+in the issue body, per post-mortem recommendation 6.7. Each also gets a
+`docs/backlog/SUG-{N}-*.md` doc, because the doc is canonical and the issue is the mirror.
 
-**Next ID is derived, not assigned:**
-
-```bash
-ls docs/backlog docs/shipped | grep -oE 'SUG-[0-9]+' | sort -t- -k2 -n | tail -1
-```
+**Next ID is derived with the 1000 floor, not assigned** — see §2.1 for the command.
 
 Sequencing discipline from §7 holds: item 1 ships alone and runs for a full epic cycle before
 item 2 opens. Two consecutive "caught nothing a human wouldn't have" answers end the rebuild.
@@ -457,7 +476,7 @@ Classified by reading each description, not inferred from titles.
 | **SUG-264** Wire the banned-word check | **Migrate, re-scope** | Filed from SUG-243, cancelled by SUG-284. But the check lives in `instruction-writing-style.md`, which survived (v1.3, 2026-08-15), so the work is still valid. It adds a validator: sequence it behind build-back item 1 and give it a kill criterion |
 | **SUG-265** Release flow defects | **Migrate, re-verify first** | Filed from SUG-243. **Partly resolved 2026-08-15** — `release-assistant-prompt.md`'s vestigial gates 6/7 and its dead §Scope creep reference were fixed. Part A (prompt parity with `/mini-release`) is untouched. Re-scope before migrating |
 | **SUG-267** Rule-file write gate has no artifact | **Migrate, re-frame** | Premise cites `RULE-033` and the rule register, both archived. The gate itself survived deliberately and the question is still live. Strip the register references |
-| **SUG-269** Make Sanity validators probeable | **Migrate, reconcile** | Overlaps post-mortem build-back item 1 (liveness probes) directly. Decide whether it merges into SUG-285 or stays separate. Also still carries the ID-reuse warning in its own description |
+| **SUG-269** Make Sanity validators probeable | **Migrate, reconcile** | Overlaps post-mortem build-back item 1 (liveness probes) directly. Decide whether it merges into SUG-1000 or stays separate. Also still carries the ID-reuse warning in its own description |
 | **SUG-250** Agentic Caucus tool-selection audit | **Migrate, retitle** | Substance is unaffected — auditing 52 KG nodes for which agent produced what. But "Agentic Caucus" now names an inert doc corpus, so the title misleads |
 | **SUG-259** Node: The Fire Alarm Was Wired to Nothing | **Migrate, update outline** | Subject matter changed. The layer was unwound, and on 2026-08-15 `/eod` step 6 was found to be another fire alarm wired to nothing — inside the file written to prevent that. The story has a better ending than outline v2 records |
 
@@ -473,6 +492,26 @@ Classified by reading each description, not inferred from titles.
 
 **Separate finding, unrelated to governance:**
 
-- **SUG-249** Rescope to incorporate /platform dashboards — **empty description.** Title only.
-  Under CLAUDE.md's incomplete-epic-doc hard stop this cannot be executed as written. Scope it
-  or cancel it; do not migrate a placeholder.
+- **SUG-249** Rescope to incorporate /platform dashboards — **empty description**, title only.
+  Under CLAUDE.md's incomplete-epic-doc hard stop this cannot be executed as written.
+
+  **It is also a sub-issue of SUG-19** (`parentId: SUG-19`), which is why searching Linear for
+  it returns nothing — it is nested under its parent rather than listed. Confirmed live and in
+  `Backlog` via the API, not archived or deleted.
+
+  This is a survivor of the practice SUG-238 withdrew: Linear sub-issues have no backlog doc by
+  design, so they fail every parity check and stay invisible. The empty description and the
+  invisibility are the same symptom.
+
+  **Disposition: scope it, fold it into SUG-19, or cancel it. Do not migrate a placeholder.**
+
+### 12.1 Sub-issues
+
+16 sub-issues exist across all 264 rows, but **only SUG-249 is in migration scope** — the other
+15 are `Done` (SUG-23–29 under SUG-5, SUG-270–275 under SUG-268) or `Canceled` (SUG-278, 279
+under SUG-187) and are not migrated.
+
+So the sub-issue question needs one decision, not sixteen. GitHub does support sub-issues
+natively (the `Parent issue` field already exists on the project), but §10.2 keeps the SUG-238
+rule: **one issue per epic, phases as checkboxes in the doc.** Adopting GitHub sub-issues would
+re-introduce exactly what SUG-238 withdrew.

@@ -351,13 +351,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-08-15T06:38:04.826Z",
+    "fetchedAt": "2026-08-15T11:08:06.742Z",
     "origin": "https://sugartown.io",
     "available": false,
-    "reason": "no-data"
+    "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-08-15T06:39:03.506Z",
+    "fetchedAt": "2026-08-15T11:09:36.484Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -378,7 +378,7 @@
     "lastCommit": "2026-08-14T07:26:11Z"
   },
   "sanity": {
-    "fetchedAt": "2026-08-15T06:39:04.957Z",
+    "fetchedAt": "2026-08-15T11:09:37.162Z",
     "counts": {
       "article": 15,
       "node": 52,
@@ -392,7 +392,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-08-15T06:39:05.175Z",
+    "generatedAt": "2026-08-15T11:09:37.636Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -5970,18 +5970,9 @@
     ]
   },
   "linearRoadmap": {
-    "fetchedAt": "2026-08-15T06:39:05.810Z",
+    "fetchedAt": "2026-08-15T11:09:38.356Z",
     "inProgress": [],
     "backlog": [
-      {
-        "identifier": "SUG-284",
-        "title": "Unwind the governance/verification-review layer (waves 2-3, since 2026-07-21)",
-        "url": "https://linear.app/sugartown/issue/SUG-284/unwind-the-governanceverification-review-layer-waves-2-3-since-2026-07",
-        "priority": "High",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
       {
         "identifier": "SUG-283",
         "title": "apps/contentful-poc build fails in CI on a React types conflict — green locally, red on the runner",
@@ -6522,6 +6513,15 @@
     ],
     "shipped": [
       {
+        "identifier": "SUG-284",
+        "title": "Unwind the governance/verification-review layer (waves 2-3, since 2026-07-21)",
+        "url": "https://linear.app/sugartown/issue/SUG-284/unwind-the-governanceverification-review-layer-waves-2-3-since-2026-07",
+        "priority": "High",
+        "status": "Done",
+        "projects": [],
+        "completedAt": "2026-08-15T10:46:51.729Z"
+      },
+      {
         "identifier": "SUG-260",
         "title": "Migrate wp.* dotted document IDs — 110 docs invisible to anonymous reads, forces a public client token",
         "url": "https://linear.app/sugartown/issue/SUG-260/migrate-wp-dotted-document-ids-110-docs-invisible-to-anonymous-reads",
@@ -6691,17 +6691,8 @@
         "status": "Done",
         "projects": [],
         "completedAt": "2026-07-25T11:12:56.109Z"
-      },
-      {
-        "identifier": "SUG-246",
-        "title": "Linear workflow status sync — priority + dependency alignment",
-        "url": "https://linear.app/sugartown/issue/SUG-246/linear-workflow-status-sync-priority-dependency-alignment",
-        "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-25T10:16:29.583Z"
       }
     ]
   },
-  "updatedAt": "2026-08-15T06:39:05.810Z"
+  "updatedAt": "2026-08-15T11:09:38.356Z"
 }

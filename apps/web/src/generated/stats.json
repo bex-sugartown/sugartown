@@ -1,14 +1,21 @@
 {
-  "generatedAt": "2026-08-15T06:39:05.812Z",
+  "generatedAt": "2026-08-15T11:09:38.359Z",
   "release": {
     "current": {
-      "version": "0.32.0",
-      "date": "2026-07-30",
-      "descriptor": "Enforcement liveness and instruction-surface governance. Aggregates v0.31.1–v0.31.2.",
+      "version": "0.33.0",
+      "date": "2026-08-15",
+      "descriptor": "Governance layer built and withdrawn, WordPress ID migration, and the retirement of the",
       "kind": "MINOR",
-      "linearIssue": null
+      "linearIssue": "SUG-284"
     },
     "latestN": [
+      {
+        "version": "0.33.0",
+        "date": "2026-08-15",
+        "descriptor": "Governance layer built and withdrawn, WordPress ID migration, and the retirement of the",
+        "kind": "MINOR",
+        "linearIssue": "SUG-284"
+      },
       {
         "version": "0.32.0",
         "date": "2026-07-30",
@@ -36,20 +43,84 @@
         "descriptor": "Glossary/taxonomy display fixes, case study schema cleanup, AI governance tooling, and the Rules & Tools Audit. Aggregates v0.28.1–v0.28.14.",
         "kind": "MINOR",
         "linearIssue": "SUG-151"
-      },
-      {
-        "version": "0.28.0",
-        "date": "2026-06-23",
-        "descriptor": "Taxonomy surface expansion, Chromatic optimisation, Contentful POC Stage 1, and DS",
-        "kind": "MINOR",
-        "linearIssue": "SUG-193"
       }
     ],
-    "latestPatches": [],
+    "latestPatches": [
+      {
+        "version": "0.32.3",
+        "descriptor": "SUG-284 unwind the governance/verification-review layer",
+        "kind": "PATCH",
+        "date": "2026-08-15",
+        "linearIssue": "SUG-284"
+      },
+      {
+        "version": "0.32.2",
+        "descriptor": "SUG-281 gate posture and tiering",
+        "kind": "PATCH",
+        "date": "2026-08-12",
+        "linearIssue": "SUG-281"
+      },
+      {
+        "version": "0.32.1",
+        "descriptor": "SUG-260 migrate wp.* dotted document IDs",
+        "kind": "PATCH",
+        "date": "2026-08-08",
+        "linearIssue": "SUG-260"
+      },
+      {
+        "version": "0.31.2",
+        "descriptor": "SUG-254 fix ESLint boundary enforcement",
+        "kind": "PATCH",
+        "date": "2026-07-28",
+        "linearIssue": "SUG-254"
+      },
+      {
+        "version": "0.31.1",
+        "descriptor": "SUG-255 restore green CI",
+        "kind": "PATCH",
+        "date": "2026-07-28",
+        "linearIssue": "SUG-255"
+      },
+      {
+        "version": "0.30.10",
+        "descriptor": "SUG-244 GovernancePage workflow lifecycle diagram",
+        "kind": "PATCH",
+        "date": "2026-07-26",
+        "linearIssue": "SUG-244"
+      },
+      {
+        "version": "0.30.9",
+        "descriptor": "SUG-248 Formalize stat-card/card-builder content schema pattern",
+        "kind": "PATCH",
+        "date": "2026-07-26",
+        "linearIssue": "SUG-248"
+      },
+      {
+        "version": "0.30.8",
+        "descriptor": "SUG-245 GovernancePage accuracy pass",
+        "kind": "PATCH",
+        "date": "2026-07-26",
+        "linearIssue": "SUG-245"
+      },
+      {
+        "version": "0.30.7",
+        "descriptor": "SUG-247 DS build camelCase class lookup mismatch",
+        "kind": "PATCH",
+        "date": "2026-07-26",
+        "linearIssue": "SUG-247"
+      },
+      {
+        "version": "0.30.6",
+        "descriptor": "SUG-241 Phase 8 feedback loop",
+        "kind": "PATCH",
+        "date": "2026-07-25",
+        "linearIssue": "SUG-241"
+      }
+    ],
     "count": {
-      "total": 31,
+      "total": 32,
       "major": 0,
-      "minor": 25,
+      "minor": 26,
       "patch": 6
     }
   },
@@ -78,8 +149,8 @@
     "components": 95
   },
   "repo": {
-    "commits": 1,
-    "epicsShipped": 58
+    "commits": 2689,
+    "epicsShipped": 59
   },
   "perf": {
     "stale": false,
@@ -352,13 +423,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-08-15T06:38:04.826Z",
+    "fetchedAt": "2026-08-15T11:08:06.742Z",
     "origin": "https://sugartown.io",
     "available": false,
-    "reason": "no-data"
+    "reason": "no-api-key"
   },
   "security": {
-    "fetchedAt": "2026-08-15T06:39:03.506Z",
+    "fetchedAt": "2026-08-15T11:09:36.484Z",
     "vulnerabilities": {
       "total": 0,
       "critical": 0,
@@ -379,7 +450,7 @@
     "lastCommit": "2026-08-14T07:26:11Z"
   },
   "sanity": {
-    "fetchedAt": "2026-08-15T06:39:04.957Z",
+    "fetchedAt": "2026-08-15T11:09:37.162Z",
     "counts": {
       "article": 15,
       "node": 52,
@@ -393,7 +464,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-08-15T06:39:05.175Z",
+    "generatedAt": "2026-08-15T11:09:37.636Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -5971,18 +6042,9 @@
     ]
   },
   "linearRoadmap": {
-    "fetchedAt": "2026-08-15T06:39:05.810Z",
+    "fetchedAt": "2026-08-15T11:09:38.356Z",
     "inProgress": [],
     "backlog": [
-      {
-        "identifier": "SUG-284",
-        "title": "Unwind the governance/verification-review layer (waves 2-3, since 2026-07-21)",
-        "url": "https://linear.app/sugartown/issue/SUG-284/unwind-the-governanceverification-review-layer-waves-2-3-since-2026-07",
-        "priority": "High",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
       {
         "identifier": "SUG-283",
         "title": "apps/contentful-poc build fails in CI on a React types conflict — green locally, red on the runner",
@@ -6523,6 +6585,15 @@
     ],
     "shipped": [
       {
+        "identifier": "SUG-284",
+        "title": "Unwind the governance/verification-review layer (waves 2-3, since 2026-07-21)",
+        "url": "https://linear.app/sugartown/issue/SUG-284/unwind-the-governanceverification-review-layer-waves-2-3-since-2026-07",
+        "priority": "High",
+        "status": "Done",
+        "projects": [],
+        "completedAt": "2026-08-15T10:46:51.729Z"
+      },
+      {
         "identifier": "SUG-260",
         "title": "Migrate wp.* dotted document IDs — 110 docs invisible to anonymous reads, forces a public client token",
         "url": "https://linear.app/sugartown/issue/SUG-260/migrate-wp-dotted-document-ids-110-docs-invisible-to-anonymous-reads",
@@ -6692,15 +6763,6 @@
         "status": "Done",
         "projects": [],
         "completedAt": "2026-07-25T11:12:56.109Z"
-      },
-      {
-        "identifier": "SUG-246",
-        "title": "Linear workflow status sync — priority + dependency alignment",
-        "url": "https://linear.app/sugartown/issue/SUG-246/linear-workflow-status-sync-priority-dependency-alignment",
-        "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-25T10:16:29.583Z"
       }
     ]
   }
