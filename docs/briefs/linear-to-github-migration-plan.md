@@ -4,7 +4,7 @@
 **Author:** drafted 2026-08-15
 **Blocking constraint:** the Linear auto-archive freeze, below. **Earliest execution date: 2026-09-08** (bulk), **2026-09-14** (tail).
 **Related:** `docs/reviews/post-mortem/2026-08-15-governance-layer-buildup-and-unwind.md` §8
-**Export:** `~/Downloads/Export Sat Aug 15 2026.csv` — 264 rows, 34 columns, verified 2026-08-15
+**Export:** `docs/briefs/data/linear-export-2026-08-15.csv` — 264 rows, 34 columns, committed 2026-08-15
 
 **Decisions locked 2026-08-15 (Bex):**
 1. **`SUG-NNN` stays canonical** (§2 option B). Docs are updated to align; GitHub issue numbers are incidental.
@@ -238,7 +238,7 @@ accounted for.
 
 ## 6. Phase 3 — Migration (blocked until 2026-09-09)
 
-**Input:** `~/Downloads/Export Sat Aug 15 2026.csv` — 264 rows, 34 columns, verified 2026-08-15.
+**Input:** `docs/briefs/data/linear-export-2026-08-15.csv` — 264 rows, 34 columns, committed to the repo 2026-08-15.
 
 Columns available: `ID`, `Team`, `Title`, `Description`, `Status`, `Estimate`, `Priority`,
 `Project ID`, `Project`, `Creator`, `Assignee`, `Labels`, `Cycle Number/Name/Start/End`,
@@ -458,9 +458,9 @@ Linear CSV column → GitHub destination. Verified against the export's 34 colum
 | `Estimate`, `Cycle *`, `SLA Status`, `Time in status`, `Initiatives`, `Project Milestone *`, `Due Date`, `Triaged`, `Started`, `Canceled`, `Archived`, `Team`, `UUID` | **Not migrated** | Empty or unused across the 58 in scope |
 
 **Not migrated at all:** the 206 closed issues (196 `Done` + 10 `Canceled`). They archive in
-Linear and their record already exists in `docs/shipped/`. The export CSV is retained as the
-durable copy — **commit it to the repo** before Linear is set read-only, or it exists only in
-`~/Downloads`.
+Linear and their record already exists in `docs/shipped/`. The export CSV is the durable copy of
+all 264 and is **committed at `docs/briefs/data/linear-export-2026-08-15.csv`**, so the record
+survives Linear being set read-only or the workspace lapsing.
 
 ---
 
