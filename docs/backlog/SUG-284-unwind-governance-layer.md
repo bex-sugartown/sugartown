@@ -1,13 +1,18 @@
 ---
 **Epic:** SUG-284 — Unwind the governance/verification-review layer
 **Linear Issue:** [SUG-284](https://linear.app/sugartown/issue/SUG-284/unwind-the-governanceverification-review-layer-waves-2-3-since-2026-07)
-**Status:** In Progress — Phases 1–6 and 8 done; **Phase 7 has 3 items open** (the CLAUDE.md
-"gate tiers" note, the copy-first elaboration, and close-out step 1b's evidence-recording
-ceremony — all verified still present 2026-08-15);
-Phase 9 CHANGELOG entry done, mini-release deferred. Not closeable until Phase 7 finishes and
-the epic's commits reach `origin/main` with a named green CI run (close-out step 1b). Count
-unpushed commits with `git rev-list --count origin/main..main` rather than trusting a figure
-written here.
+**Status:** In Progress — **Phases 1–9 complete as of 2026-08-15.** All implementation is on
+local `main`. Remaining before close-out: push to `origin/main` and confirm CI concludes
+`success` (step 1b), then Linear → Done. The `/mini-release` version bump stays deferred to
+the next natural release point; the `[Unreleased]` CHANGELOG entry is written, which is the
+separate obligation CLAUDE.md §Mini-release requires at ship time.
+
+Count unpushed commits with `git rev-list --count origin/main..main` rather than trusting a
+figure written here.
+
+**Why the push matters, beyond process:** Phase 2 removed six governance steps and the entire
+`liveness` job from `.github/workflows/ci.yml`, and that configuration has never executed. The
+green run is real signal about whether the unwind broke the pipeline, not a box to tick.
 **Priority:** 🟠 High
 **Merge strategy:** (a) Merge-as-you-go — each phase merges to `main` on completion.
 ---
@@ -113,8 +118,8 @@ standalone files — those get recorded in the archive `README.md` instead. Full
       `docs/epic-template.md` and `.claude/skills/`.
 
 ### Phase 7 — CLAUDE.md (Instruction & Rule File Write Gate applies — diff from a scratch copy,
-explicit approval, before this file is touched) — **mostly done 2026-08-13** (`ad5d60ba`);
-**2 items still open**
+explicit approval, before this file is touched) — **done**: bulk 2026-08-13 (`ad5d60ba`),
+remaining 3 items 2026-08-15 (`c8d469b3`, `27607437`)
 - [x] Copy every removed section's verbatim text into `zArchive/2026-08-sug284-governance-layer/CLAUDE-md-removed-sections.md` before removing it from CLAUDE.md
       — **missed on 2026-08-13, written 2026-08-15** (`c8d469b3`). The removal shipped without
       it, so the archive README listed a file that did not exist for two days. Text recovered
@@ -122,14 +127,22 @@ explicit approval, before this file is touched) — **mostly done 2026-08-13** (
 - [x] Remove §Verification review (blocking)
 - [x] Remove §Process feedback loop — three-strike retrospective trigger
 - [x] Remove §Scope creep (blocking)
-- [ ] **STILL OPEN** — Remove/simplify the "gate tiers" note at the top of the file.
-      Verified 2026-08-15: still present at `CLAUDE.md:11`.
+- [x] Remove/simplify the "gate tiers" note at the top of the file — **done 2026-08-15**
+      (`27607437`). Simplified rather than removed: kept "Tier 1 gates stop and ask", because
+      8 section headings carry `(Tier 1 — stop and ask)` inline; dropped the Tier 2 default
+      and the Tier 3 sentence, which appear nowhere else in CLAUDE.md. The concept is not
+      lost — `human-gate-conventions.md` §Tier model (locked keep) defines all three tiers
+      and the Tier 2 default at its line 23, so CLAUDE.md now points at the owner instead of
+      restating it.
 - [x] Remove epic close-out step 8b's hard requirement (keep `incident-log.md` as reference only)
-- [ ] **STILL OPEN** — Trim §Instruction & Rule File Write Gate's "copy-first method"
-      elaboration — **keep the gate itself**, locked decision. Verified 2026-08-15: the
-      elaboration is still present at `CLAUDE.md:406`; only its trailing `[[rule-register]]`
-      citation was cut in `ad5d60ba`.
-- [ ] **STILL OPEN, added to scope 2026-08-15** — Trim close-out step 1b's evidence-recording
+- [x] Trim §Instruction & Rule File Write Gate's "copy-first method" elaboration — **keep the
+      gate itself**, locked decision — **done 2026-08-15** (`27607437`). Cut the trailing
+      rationale ("Editing in place and reverting if unapproved works only when you remember
+      the gate applies; a copy-first method cannot forget"), the closing aphorism
+      `instruction-writing-style.md` bans. The instruction is untouched, and was the method
+      used to produce that commit's own diff.
+- [x] **Added to scope 2026-08-15, done same day** (`27607437`) — Trim close-out step 1b's
+      evidence-recording
       ceremony (`CLAUDE.md:44`). **Keep** the engineering requirement: `pnpm test:smoke` passes
       locally, the CI run for the merged commit concludes `success`, a red suite blocks merge
       to `main` (SUG-240). **Cut** the recorded-artifact apparatus: "Record the run ID in the
