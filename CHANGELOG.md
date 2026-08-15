@@ -12,64 +12,57 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-> Accumulates since v0.32.0.
+---
+
+## [0.33.0] — 2026-08-15
+
+Governance layer built and withdrawn, WordPress ID migration, and the retirement of the
+backlog priority stack. Aggregates v0.32.1–v0.32.3.
+
+> Entries marked **⊘ Withdrawn in this release** describe work that shipped in a
+> 0.32.x patch and was removed again by SUG-284 before this release was cut. They are
+> recorded because they happened, not because they exist. Nothing marked ⊘ is present
+> on `main` at 0.33.0.
 
 ### apps/web
 
 #### Fixed
 - 110 published documents were invisible to every unauthenticated reader for 158 days: Sanity reads dots in an `_id` as path segments, and the WordPress import minted ids as `wp.<type>.<id>`. Migrated 111 ids to `<type>-<slug>` and rewrote 612 references across 39 field paths in one atomic transaction, verified by 0 hidden documents, 0 dangling references and reference-edge count conserved at 1,835. The viewer token the workaround shipped to every browser is removed from production bundles and revoked; `validate:taxonomy` now passes anonymously in CI, which was the epic's acceptance test. Logged as INC-012. SUG-260.
+- `collectLinear()` (`apps/web/scripts/stats/linear.js`) silently truncated at 250 issues with no pagination (team has 268) and dropped `triage`-state issues from every bucket. Now pages through the full result set and buckets triage with backlog/unstarted. SUG-262.
 
 #### Changed
-- `/platform/governance` no longer publishes the coverage tally ("30 checkpoints · 0 gaps" was undated and, for three claims, measurably false). It moved to `/platform/governance-draft` (`noindex`), which carries a measurement date and reproducing command instead. §05 retitled "AI Governance Workflow," keeping the workflow diagram and doc index. SUG-256.
+- `/platform/governance` no longer publishes the coverage tally ("30 checkpoints · 0 gaps" was undated and, for three claims, measurably false). §05 retitled "AI Governance Workflow," keeping the workflow diagram and doc index. SUG-256.
+- **⊘ Withdrawn in this release.** The tally moved to `/platform/governance-draft` (`noindex`), which carried a measurement date and reproducing command. That page existed solely to host the retired tally and was removed by SUG-284; the tally is not published anywhere at 0.33.0.
 
 ### docs
+
+#### Added
+- User Story Decomposition: epics with more than 5 Scope items decompose into work units, recorded as a scope-to-phase mapping in the epic doc, defined in `docs/conventions/user-story-conventions.md` and referenced from `docs/epic-template.md` and CLAUDE.md's Epic authoring section. SUG-238.
+
+#### Changed
+- Sizing gate recalibrated (`user-story-conventions.md` v1.1, 2026-08-08): `numbered phases` dropped as a decomposition trigger, leaving `>5 Scope items` alone. Nearly every Sugartown epic has numbered phases, so the clause made the Scope-item threshold inoperative. Checked against SUG-187 and SUG-260, the first two epics to cross the gate.
+- Linear sub-issues withdrawn as the decomposition mechanism (`user-story-conventions.md` v2.0, 2026-08-08). One epic is one Linear issue; decomposition is a scope-to-phase mapping in the epic doc. Sub-issues have no backlog doc by design, so every one filed failed `validate:epic-docs` and turned CI red, and they consumed a free-plan issue budget the workspace had already exhausted. SUG-277, SUG-278 and SUG-279 cancelled.
+- Backlog priority stack retired. `docs/backlog/sugartown-backlog-priorities.md` (499 lines) deleted; Linear is the single priority queue, with no second copy to reconcile. Size-aware routing replaces it across CLAUDE.md, the `/new-epic` skill, `docs/epic-template.md`, and the mini-release and release prompts. `GovernancePage.jsx` and `packages/mcp-server/src/tools/governance.ts` updated to match.
+- Tier 1/2/3 gate model in `docs/conventions/human-gate-conventions.md` retained deliberately — the Content Write Gate and the Human-Publishes Rule depend on it for their approval mechanism. SUG-281.
+- **⊘ Withdrawn in this release.** CLAUDE.md carried a gate-tiering note declaring Tier 2 the default for every untiered rule and Tier 3 for validators and CI steps. Measurement drove the original design: every count in circulation was wrong (PRD §7 said 15 gate sections, Appendix A said 24, the epic said 16), and against 62 headings, 17 carried a gate keyword while ~49 actually gate an action. Removed by SUG-284; the tier model survives only in `human-gate-conventions.md`. SUG-281.
 
 #### Fixed
 - `AUTOMATED CHECKS · 18` tile body corrected from "enforced by code and pre-commit hooks" (overstated) to "6 run at pre-commit; the rest in CI only" (measured). SUG-256.
 
-#### Added
-- User Story Decomposition: epics with more than 5 Scope items decompose into work units, recorded as a scope-to-phase mapping in the epic doc, defined in `docs/conventions/user-story-conventions.md` and referenced from `docs/epic-template.md` and CLAUDE.md's Epic authoring section. SUG-238, revised twice before release (see Changed below).
-- 5 orphaned Linear issues backfilled with `docs/backlog/` stubs and priority-stack rows (SUG-249, 257, 258, 259, 260); `pnpm validate:epic-docs` added, wired into CI, checking every non-Done issue against both artifacts. SUG-262 Ph1–2 (epic not yet closed — CTL-024's `enforced-by-code` flip awaits a real CI run).
-
-#### Changed
-- Sizing gate recalibrated (`user-story-conventions.md` v1.1, 2026-08-08): `numbered phases` dropped as a decomposition trigger, leaving `>5 Scope items` alone. Nearly every Sugartown epic has numbered phases, so the clause made the Scope-item threshold inoperative. Checked against SUG-187 and SUG-260, the first two epics to cross the gate, per the instruction the section itself carried.
-- Linear sub-issues withdrawn as the decomposition mechanism (`user-story-conventions.md` v2.0, 2026-08-08). One epic is one Linear issue; decomposition is a scope-to-phase mapping in the epic doc. Sub-issues have no backlog doc by design, so every one filed failed `validate:epic-docs` and turned CI red, and they consumed a free-plan issue budget the workspace had already exhausted. CLAUDE.md's scope-creep routing table and `docs/epic-template.md` updated to match; SUG-277, SUG-278 and SUG-279 cancelled.
-
-- Gates carry tiers. `human-gate-conventions.md` rewritten around a 3-tier model: Tier 1 stops and asks and is a **closed register of 10 gates**; Tier 2 is the **default** — apply the rule and report, no click; Tier 3 is validators and CI steps. Measurement drove the design. Every count in circulation was wrong (PRD §7 said 15 CLAUDE.md gate sections, Appendix A said 24, the epic said 16), and against 62 headings, 17 carried a gate keyword while ~49 actually gate an action. Tagging ~49 was rejected as a very large diff against the highest-traffic instruction file; a default gives the same coverage in ~10 edits and makes an untiered rule structurally impossible. Appendix A's "Tier 1 = 8" did not survive contact — Visual QA approval and Chromatic approval were missing — and ships as 10. Stops counted fell 25 → 13 with the cap re-derived 28 → 15 by running the gate: nothing was removed from the surface, and the word count rose. SUG-281.
-
 ### tooling
 
 #### Removed
-- The governance/verification-review layer that grew from 2026-07-21 to 2026-08-13: the gate
-  taxonomy's Tier 1/2/3 register machinery, the verification-review-before-any-gate requirement
-  and its subagent, `control-register.md`, `rule-register.md`, `governance-coverage.md`, the
-  doc-budget word cap, `validate:enforcement-liveness`, the SUG-268 governance data layer
-  (`governance/` source, its generator, 3 validators; the generated `governance.json` had zero
-  consumers anywhere in the app), and SUG-281's gate tiering. Also removed: CLAUDE.md's
-  Verification Review, Process feedback loop and Scope creep sections; the epic close-out's
-  mandatory incident-log step; and the `/platform/governance-draft` page, which existed solely
-  to host the retired coverage tally.
-  Kept, by deliberate decision: `docs/ai/agentic-caucus/incident-log.md`, `methodology.md`,
-  `failure-modes.md`, `risk-tiers.md`, `agent-cards.md`, `data-handling.md` as inert reference;
-  the Tier 1/2/3 taxonomy in `human-gate-conventions.md`, since the Content Write Gate and
-  Human-Publishes Rule depend on it; and the Instruction & Rule File Write Gate itself, which
-  gated this removal's own CLAUDE.md edits.
-  Everything decommissioned moved to `zArchive/2026-08-sug284-governance-layer/` via `git mv`
-  rather than deletion, preserving full history and a resurrection path. 8 forward commits, no
-  git history rewrite. SUG-284, superseding SUG-243, 256, 262, 268, 276, 281, 282.
-
-#### Fixed
-- `collectLinear()` (`apps/web/scripts/stats/linear.js`) silently truncated at 250 issues with no pagination (team has 268) and dropped `triage`-state issues from every bucket. Now pages through the full result set and buckets triage with backlog/unstarted. SUG-262.
+- The governance/verification-review layer that grew from 2026-07-21 to 2026-08-13: the gate taxonomy's Tier 1/2/3 register machinery, the verification-review-before-any-gate requirement and its subagent, `control-register.md`, `rule-register.md`, `governance-coverage.md`, the doc-budget word cap, `validate:enforcement-liveness`, the SUG-268 governance data layer (`governance/` source, its generator, 3 validators; the generated `governance.json` had zero consumers anywhere in the app), and SUG-281's gate tiering. Also removed: CLAUDE.md's Verification Review, Process feedback loop and Scope creep sections; the epic close-out's mandatory incident-log step; the `/eod` warn-gate annotation reader; and the `/platform/governance-draft` page.
+  Kept, by deliberate decision: `docs/ai/agentic-caucus/incident-log.md`, `methodology.md`, `failure-modes.md`, `risk-tiers.md`, `agent-cards.md`, `data-handling.md` as inert reference; the Tier 1/2/3 taxonomy in `human-gate-conventions.md`; and the Instruction & Rule File Write Gate itself, which gated this removal's own CLAUDE.md edits.
+  Everything decommissioned moved to `zArchive/2026-08-sug284-governance-layer/` via `git mv` rather than deletion, preserving full history and a resurrection path. Forward commits only, no git history rewrite. SUG-284, superseding SUG-243, 256, 262, 268, 276, 281, 282.
 
 #### Added
-- First real CI run of `validate:epic-docs` found 10 more orphaned issues outside SUG-262's original scope (SUG-154, 72, 71, 60, 57, 56, 51, 50, 18 backfilled; SUG-261 was a stray test issue, canceled). CTL-024 flipped to `enforced-by-code`. SUG-262.
-- Governance source of truth stood up under `governance/source/`, with a schema covering five entities (controls, components, claims, probes, crosswalk) that rejects a bad enum value naming the field, proven by a deliberately broken fixture producing 15 findings and exit 1 rather than by inspection. `governance:build` emits `apps/web/src/generated/governance.json`. SUG-268 Ph1, CI run 31026674863 green on `a9c516e0`.
-- Two gates over that source: `validate:governance-diff` regenerates into scratch and byte-compares against the **index** rather than the working tree, so a staged-but-unbuilt change cannot pass; `validate:governance` checks schema, closed-world referential integrity, overdue `nextRead`, a two-way probe↔harness correspondence, and an outside-source scan that fails on a silent no-match rather than reporting green over an empty corpus. Register rows CTL-031 and CTL-034. Also fixed `validate-control-register.js`'s completeness check, which used `blob.includes(name)` and so was satisfied by any substring collision, and added a `--list-gates` JSON flag to `validate-enforcement-liveness.js` plus a `claim.command` existence check with a closed-world runner list. SUG-268 Ph2, CI run 31169229182 green on `daac000a`.
-- Liveness probes for `pnpm typecheck` (CTL-016) and `validate:schema-parity` (CTL-011), the first two of six controls whose Bypass cell read "none — no probe yet". Both proven by running them: `typecheck` exits 2 naming the injected `TS2322`, `schema-parity` exits 1 reporting `article: +field(s) livenessProbeField`. The schema-parity probe asserts on the drift output rather than the exit code alone, because exit 1 would equally be produced by a schema that fails to parse — which would prove the extractor is strict, not that drift detection works. Harness went 21 → 24 gates proven live, 0 inert. AOP-0.
-- Three of those six turned out to be **structurally unprobeable**: `validate:urls`, `validate:filters` and `validate:taxonomy` judge published Sanity documents rather than repo files, so no file in this repo can make them fail and the only way to break them would be writing bad data to production. Reclassified rather than left reading "no probe yet, SUG-256 follow-up", which implied an oversight. The refactor that would make them probeable — separating fetching from judging — is SUG-269. `pnpm test:smoke` (CTL-018) is probeable but its probe needs a full production build on every harness run; recorded as an undecided cost.
-- **Not yet migrated.** `control-register.md` and `governance-coverage.md` are still hand-maintained, and the source holds a 17-record seed against the real substrate's 29 control rows and 30 components. Phase 3 does the migration and the real-path write; Phase 4 the consumer cutover. SUG-268 is In Progress, not closed — the version bump for it is due at Phase 4 per the epic's merge strategy.
-
-- Warn-only CI gates gained a readable artifact and a machine-capped deadline. `499bb33f` softened `validate:doc-budget` and `validate:epic-docs` with `continue-on-error`, on the premise that `/eod` would read warning annotations — but neither script emits one on its failure path, and the control register still named `ci-failure-alert.yml` as their reader, which cannot fire on a run concluding `success`. Both gates ran, could fail, and reported to nobody (INC-014). Now `ci.yml` emits a `WARN-GATE` annotation gated on `steps.<id>.outcome`; `/eod` step 6 reads annotations on every concluded run; `validate:validators` makes the pairing structural, so a renamed step id or title cannot silently break it; and `validate-control-register.js` enforces a re-arm ceiling, so a softened gate's deadline cannot be pushed past `since + 60d`. Proven end-to-end by PR #34, run 31490233162 — which also established that REST `steps[].conclusion` does **not** stay `failure` for a `continue-on-error` step, so the obvious implementation would have returned nothing forever and reported it as green. The doc-budget stop cap was probed for the first time since it was added on 2026-08-05, closing the precondition that blocked this work. SUG-281.
+- 15 orphaned Linear issues backfilled with `docs/backlog/` stubs (SUG-249, 257, 258, 259, 260, then SUG-154, 72, 71, 60, 57, 56, 51, 50, 18; SUG-261 was a stray test issue, cancelled). The issues and their stubs remain at 0.33.0. SUG-262.
+- `validate:urls`, `validate:filters` and `validate:taxonomy` classified as structurally unprobeable: they judge published Sanity documents rather than repo files, so no file in this repo can make them fail. The classification stands; the refactor that would make them probeable, separating fetching from judging, is not scheduled. AOP-0.
+- **⊘ Withdrawn in this release.** `validate:epic-docs`, wired into CI, checking every non-Done Linear issue against both a backlog doc and a priority-stack row. Its first real run produced the 10-issue backfill recorded above. Removed by SUG-284 along with the priority stack it checked against. SUG-262.
+- **⊘ Withdrawn in this release.** Governance source of truth under `governance/source/`, with a schema covering five entities (controls, components, claims, probes, crosswalk), proven by a deliberately broken fixture producing 15 findings and exit 1. `governance:build` emitted `apps/web/src/generated/governance.json`, which had zero consumers. Two gates over it, `validate:governance-diff` and `validate:governance`. SUG-268.
+- **⊘ Withdrawn in this release.** Enforcement-liveness probes for `pnpm typecheck` (CTL-016) and `validate:schema-parity` (CTL-011), each proven by running it against deliberately broken input rather than by inspection. Harness went 21 → 24 gates proven live, 0 inert. AOP-0.
+- **⊘ Withdrawn in this release.** Warn-only CI gates gained a readable artifact and a machine-capped deadline: `ci.yml` emitted a `WARN-GATE` annotation gated on `steps.<id>.outcome`, `/eod` step 6 read annotations on every concluded run, `validate:validators` made the pairing structural, and `validate-control-register.js` enforced a re-arm ceiling. Proven end-to-end by PR #34, run 31490233162, which established that REST `steps[].conclusion` does not stay `failure` for a `continue-on-error` step. All of it removed by SUG-284; `/eod` step 6 was itself deleted after being found to read artifacts that no longer existed. SUG-281.
 
 ---
 
