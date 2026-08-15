@@ -420,6 +420,50 @@ Of those 58: 42 carry labels, 33 have `Related to`, 7 are High priority, 18 Medi
 
 **Exit criterion:** every non-closed Linear issue has a GitHub counterpart, and the counts match.
 
+### 6.1 Phase 3 execution log — 2026-08-15
+
+**58 issues imported.** Board now holds **61** — the 58 plus SUG-1003/1004/1005 from Phase 2.
+
+| Check | Expected | Actual |
+|---|---|---|
+| Issues created | 58 | **58** |
+| Status | 54 Backlog · 4 Todo | **54 · 4** (+3 survivors = 7 Todo) |
+| Priority | 7 High · 18 Med · 29 Low · 4 none | **matches** (+3 survivors = 8 · 19 · 30 · 4) |
+| Doc link in body | 58 | **58** |
+| Labels applied | 42 | **42** |
+
+**Labels.** 14 created to receive the Linear set (`CMS`, `Design System`, `Schema`,
+`Infrastructure`, `Metadata`, `POC`, `AI Ethics`, `UX`, `Studio UX`, `Design`, `Contentful`,
+`Glossary`, `Sanity`, `Clicky burden`). Linear's `Content` mapped onto the repo's existing
+lowercase `content` rather than creating a near-duplicate.
+
+**Issue bodies are thin by design** (§10.1): first line of the Linear description, a link to the
+canonical `docs/backlog/SUG-NNN-*.md`, a link to the Linear original, and any relations. Full
+scope stays in the doc.
+
+**Relations — 7 edges, not 5.** Five issues carry `Blocked by`, but they describe seven edges.
+
+Four had both ends in scope and were created as **native GitHub dependencies** via
+`addBlockedBy`, verified bidirectional:
+
+| Blocked | Blocker | GitHub |
+|---|---|---|
+| SUG-72 | SUG-71 | #46 ← #45 |
+| SUG-181 | SUG-71 | #58 ← #45 |
+| SUG-181 | SUG-72 | #58 ← #46 |
+| SUG-252 | SUG-251 | #83 ← #82 |
+
+Three point at blockers already `Done` and therefore not migrated — SUG-181←SUG-179,
+SUG-197←SUG-196, SUG-223←SUG-222. Those dependencies are **satisfied**, so no native relation
+was created; they remain as body text for provenance.
+
+**Not migrated, as planned:** the 206 closed issues. Their record is
+`docs/briefs/data/linear-export-2026-08-15.csv` plus the 59 docs in `docs/shipped/`.
+
+**Phase 3 complete. The trial is now live** — GitHub holds the full working backlog. Per the
+dual-system rule, **GitHub is where work happens from here; Linear is frozen in practice** until
+the 2026-09-09 decision.
+
 ---
 
 ## 7. Phase 4 — Cutover (after Phase 3 verifies)
