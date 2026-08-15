@@ -204,10 +204,11 @@ No Linear writes. Can proceed during the freeze.
    - PR merged → set `Status: Done`
 3. **Decide the `Project` equivalent.** Linear projects map to GitHub Milestones, a label, or a
    second Project. Sugartown's Linear projects are lightly used; a `label` is likely sufficient.
-4. **Decide the dependency representation.** GitHub has no true `blockedBy`/`blocks` graph. The
-   options are sub-issues (the `Parent issue` field already exists) or task lists in the body.
-   This is the weakest area of the target system and should be decided explicitly, not
-   discovered during migration.
+4. **Dependency representation — largely resolved, see §11.1.** GitHub *does* have a native
+   bidirectional dependency graph (`addBlockedBy` / `Issue.blocking`), verified against the
+   schema 2026-08-15. The 5 `Blocked by` relations migrate natively. Only `Related to` (33
+   items) still needs a body-line convention, because "Relates to" shipped UI-only on
+   2026-08-07 and is not yet in the API.
 5. **Create a roadmap view** with `Start Date`/`End Date` and confirm it renders. Currently 0 of
    20 items carry dates, so the view is empty.
 
@@ -344,8 +345,13 @@ reads `LINEAR_API_KEY`.
 
 ## 8. What this costs and what it loses
 
-**Loses:** cycles, Linear's dependency graph, the Linear roadmap UI, and issue-level SLA
-fields. Sub-issue and dependency modelling on GitHub is materially weaker.
+**Loses:** cycles, the Linear roadmap UI, issue-level SLA fields, and native `Related to`
+(see §11 — shipped 2026-08-07 but UI-only, not yet in the GraphQL schema).
+
+**Corrected 2026-08-15.** An earlier draft said GitHub's dependency modelling was "materially
+weaker" and that `blockedBy`/`blocks` had "no native equivalent". **That is wrong.** GitHub has
+a real bidirectional dependency graph — see §11.1. The claim was written from pre-May-2026
+knowledge and not checked against the live API.
 
 **Gains:** no issue cap, no archive timer, project management in the same place as code, CI and
 PRs, and one fewer external system with its own API key in CI.
@@ -499,8 +505,8 @@ Linear CSV column → GitHub destination. Verified against the export's 34 colum
 | `Status` | Project `Status` field | 1:1 value mapping |
 | `Priority` | Project `Priority` field | `No priority`/`Low`/`Medium`/`High` → same names |
 | `Labels` | Issue labels | 42 of 58 populated. Labels must exist in the repo first |
-| `Blocked by` | Task-list line in body: `- [ ] Blocked by SUG-N` | **5 of 58.** No native equivalent |
-| `Related to` | `Related: SUG-N, SUG-M` line in body | **33 of 58.** No native equivalent |
+| `Blocked by` | **Native `addBlockedBy` mutation** | **5 of 58.** See §11.1 |
+| `Related to` | `Related: SUG-N, SUG-M` line in body, for now | **33 of 58.** Native "Relates to" shipped 2026-08-07 but is UI-only; not in the GraphQL schema yet |
 | `Parent issue` | GitHub sub-issue (`Parent issue` field exists) | **1 of 58** |
 | `Duplicate of` | Close as duplicate, comment with the ID | Check before import |
 | `Project` | Label | **3 of 58.** Not worth a Milestone |
@@ -512,6 +518,25 @@ Linear CSV column → GitHub destination. Verified against the export's 34 colum
 Linear and their record already exists in `docs/shipped/`. The export CSV is the durable copy of
 all 264 and is **committed at `docs/briefs/data/linear-export-2026-08-15.csv`**, so the record
 survives Linear being set read-only or the workspace lapsing.
+
+### 11.1 Platform features that postdate this plan's assumptions
+
+Flagged by Bex 2026-08-15 from the GitHub changelog. **Verified against the live GraphQL schema,
+not the blog posts.** Three of this document's earlier claims were stale, written from
+pre-May-2026 knowledge.
+
+| Feature | Shipped | API state, verified | Effect here |
+|---|---|---|---|
+| **Issue dependencies** | before 08-07 | **Available.** `Issue.blockedBy`, `Issue.blocking`, `issueDependenciesSummary`; mutations `addBlockedBy(issueId, blockingIssueId)`, `removeBlockedBy` | **Corrects §8 and §11.** The 5 `Blocked by` relations migrate natively and bidirectionally. This was the weakest area of the target system and is no longer weak |
+| **"Relates to"** | 2026-08-07, public preview | **Not in the schema.** Nothing matching `Relat*` beyond an unrelated Dependabot type | The 33 `Related to` items stay as body lines until the API exposes it. Re-check before Phase 3 |
+| **Multi-select fields** | 2026-08-07 GA (preview 07-23) | **Available.** `MULTI_SELECT` is a valid `ProjectV2CustomFieldType` | Optional. §10.3's restraint still applies: do not add fields nobody fills |
+| **Advanced search for Projects** | 2026-07-16 GA | UI feature — AND/OR in the filter bar | Makes §10.3's "Priority queue" view filter easier to express |
+| **Sub-issues** | — | **Available.** `addSubIssue`, `removeSubIssue`, `reprioritizeSubIssue`, `Issue.parent`, `Issue.subIssues` | Available but **deliberately unused** per §10.2 and §12.1 |
+
+**Standing caveat.** This plan's author has a May 2026 knowledge cutoff and does not track the
+GitHub changelog. Any claim here about what GitHub can or cannot do is only as fresh as the last
+time it was checked against the API. **Re-verify §8, §10.3 and §11 against the schema
+immediately before Phase 3**, not against this document.
 
 ---
 
