@@ -144,38 +144,9 @@ After delivering the summary, propose actions in this order:
    ```bash
    gh run view <databaseId> --log-failed
    ```
-   - Report the run ID and its conclusion in Phase 4. **A run ID is the artifact; "CI is green" is not.**
+   - Report the run ID and its conclusion in Phase 4.
 
    *Why this step exists:* until 2026-07-28, `/eod` confirmed the Netlify deploy responded and never looked at the CI run the same push had triggered. Netlify deploys from a build that does not run the test suite, so a green site and a red pipeline coexist comfortably — and did, for 212 consecutive runs between 2026-05-10 and 2026-07-28, across six releases. The deploy check answers "is the site up". This one answers "did anything verify it". They are not the same question, and only one of them was being asked.
-
-6. **Read the warn-gate annotations, then report the re-arm streak** (after step 5)
-
-   Two gates are warn-only — `validate:doc-budget` (CTL-025) and `validate:epic-docs` (CTL-024). They run in CI, and when one fails the run still concludes `success`. So step 5 above reports green, and `ci-failure-alert.yml` never fires: it triggers only on `conclusion == 'failure'` (`ci-failure-alert.yml:32`). The annotation emitted by `ci.yml`'s `Warn-gate annotation — …` steps is the **only** artifact that either gate fired, and this step is its only reader.
-
-   Read it on **every** concluded run, green or red. A green-only filter is blind exactly when CI is red.
-
-   ```bash
-   RUN=<databaseId from step 5>
-   for JOB in $(gh api repos/:owner/:repo/actions/runs/$RUN/jobs --jq '.jobs[].id'); do
-     gh api --paginate repos/:owner/:repo/check-runs/$JOB/annotations \
-       --jq '.[] | select(.annotation_level=="failure" or ((.title // "") | contains("WARN-GATE"))) | "\(.title // "(untitled)") — \(.message)"'
-   done
-   ```
-
-   Three things this command gets right, each of which was wrong in an earlier draft:
-   - **Iterate every job.** The warn steps sit in the third job the API returns (order: Chromatic, Enforcement liveness, then `ci`). A reader that looks at `.jobs[0]` sees nothing, always.
-   - **`--paginate`.** Annotations default to 30 per job, and ESLint already contributes several per run ahead of the warn steps.
-   - **`annotation_level == "failure"` is the primary filter**, not the title. A failure-level annotation on a run that concluded `success` is a combination only a `continue-on-error` step can produce. `WARN-GATE` only *names* which gate, so a dropped or renamed title degrades to "a warn gate fired, name unknown" rather than to silence.
-
-   If a warn gate fired, say which one, and say plainly that `main` carries the breach — the run is green and nothing else will tell you.
-
-   Then report the validator-freeze streak (CTL-040). New `validate:*` gates are frozen until **5** consecutive green runs on `main`:
-
-   ```bash
-   gh run list --branch main --workflow CI --limit 40 --json databaseId,conclusion,status
-   ```
-
-   Count leading `success` entries, stopping at the first non-`success`. An in-flight run (`conclusion: null`) is neither green nor skippable — wait for it. The count is of *runs*, not commits: a `[skip ci]` commit produces no run at all.
 
 Execute **one action at a time**. Wait for confirmation before each step.
 
@@ -197,8 +168,6 @@ Commits pushed: [count or "none"]
 Chromatic: [no changes / N changes (approved | overridden) / skipped — no visual surfaces / not run]
 Netlify deploy: [triggered / not needed]
 CI run: [run ID] — [success / failure (failing step) / still running at close]
-Warn gates fired: [none / CTL-0NN name(s) — green run, breach is on main]
-Green streak on main: [N]/5 — validator freeze [holds / lifted] (CTL-040)
 Uncommitted changes: [none / list]
 Stashes: [none / list]
 
