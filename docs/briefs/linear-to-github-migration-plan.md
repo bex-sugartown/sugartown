@@ -214,6 +214,57 @@ No Linear writes. Can proceed during the freeze.
 **Exit criterion:** a test issue can be created, added to the project, closed, and observed to
 flip to `Status: Done` automatically.
 
+### 4.1 Phase 1 execution log — 2026-08-15
+
+**Done via API (`gh` + GraphQL):**
+
+| Step | Result |
+|---|---|
+| `Status` options | Was `Todo \| In Progress \| Done`. Now **`Backlog \| Todo \| In Progress \| Done \| Canceled`**, mirroring Linear. 54 of the 58 in scope are `Backlog`, which had no option at all |
+| `Priority` field | Created: **`Urgent \| High \| Medium \| Low \| No priority`**, mirroring Linear's 0–4 |
+| Views | `Priority queue` (table) and `Board` (board) created, **unconfigured** |
+| `Iteration` | Deliberately not added, per §10.3 |
+
+> ### ⚠️ `updateProjectV2Field` on a single-select WIPES every item value
+>
+> Adding the two `Status` options cleared the `Status` of all 20 existing items — before: 11
+> Todo, 6 Done, 3 In Progress; after: 20 blank. The mutation **recreates options with new IDs**
+> rather than matching on name, so every item's stored option ID becomes a dangling reference.
+>
+> Recovered in full from a snapshot taken before the change, verified per item and not by count.
+>
+> **This matters for Phase 3.** Once 58 migrated items carry `Status` and `Priority` values, any
+> later edit to either field's option list destroys them all. Freeze both option sets before
+> importing, or snapshot first:
+> ```bash
+> gh project item-list 1 --owner bex-sugartown --limit 200 --format json > snapshot.json
+> ```
+
+**Cannot be done via API — UI required.** Verified against the GraphQL schema, not assumed:
+
+| Step | Why blocked |
+|---|---|
+| Enable the 4 workflows | Only `deleteProjectV2Workflow` exists. There is no create/update/enable mutation |
+| View filters and grouping | `ProjectV2ViewConfigurationInput` exposes only `visibleFieldIds` |
+| §4 exit criterion | Depends on the `Item closed` workflow being enabled first |
+
+**Workflow state as found** — the four §10.4 needs are all off, and one we do not want is on:
+
+| Workflow | State | Wanted |
+|---|---|---|
+| Auto-add sub-issues to project | **enabled** | **No** — §10.2 keeps the SUG-238 one-issue-per-epic rule |
+| Item closed | disabled | Yes → `Status: Done` |
+| Pull request merged | disabled | Yes → `Status: Done` |
+| Item added to project | disabled | Yes → `Status: Backlog` |
+| Auto-close issue | disabled | No |
+| Pull request linked to issue | disabled | Optional |
+
+`deleteProjectV2Workflow` could remove the sub-issue workflow but deletion is irreversible and
+disabling is a toggle in the UI. Left for the UI pass rather than deleted.
+
+**Phase 1 status: fields and views done, automation outstanding.** The exit criterion cannot be
+met until the workflows are enabled by hand.
+
 ---
 
 ## 5. Phase 2 — Cleanup (safe now)
