@@ -180,6 +180,35 @@ The layer's original failure was that all seven features arrived in five weeks w
 
 Recorded 2026-08-15. Recommendation 9 (file this document) actioned immediately.
 
-Recommendations 6.1 through 6.8 are **held pending a fix to the Linear issue-capacity problem** — the workspace is at its issue limit, and deletion holds a slot for a month, so new backlog items cannot be logged cleanly. Noted by Bex 2026-08-15. That constraint is itself a finding: it has already distorted at least one decision, the reuse of the SUG-269 ID for unrelated scope (recorded in that issue's own description).
+### 8.1 The Linear capacity constraint
 
-Note on 6.1, 6.2, 6.4 and 6.7: all four add rules to the instruction surface, in a post-mortem about that surface growing too fast. Roughly 150 words against CLAUDE.md's 10,093. Defensible, but it is the same motion that started this, and warrants an explicit decision rather than an assumed one.
+Measured 2026-08-15 from the Linear workspace UI, not inferred:
+
+| Fact | Value |
+|---|---|
+| Issues used | **260 of 250** (free plan, over cap) |
+| Issues in `Done` | **193** |
+| Active working set | ~67 (58 backlog + Todo + in-flight, per `stats.linearRoadmap`) |
+| Lift available | Basic plan, $10/user/month billed yearly, unlimited issues |
+
+**Done issues are not archived and continue to count.** An earlier working assumption in this session was that archiving would reclaim slots; the UI disproves it. The free plan caps *lifetime* issues, not active ones, so 74% of the quota is held by completed work that will never be reopened. Deletion is not a workaround either: per SUG-269's own description, a deleted issue holds its slot for a month.
+
+**This collides with a decision shipped in v0.33.0.** The backlog priority stack (`docs/backlog/sugartown-backlog-priorities.md`, 499 lines) was retired on 2026-08-05, making Linear the single priority queue with no second copy, and CLAUDE.md now states that as a rule. Linear ran out of room ten issues later. The workflow mandates a single queue; the queue cannot accept new entries. Either the plan changes or the "no second copy" rule needs a stated exception.
+
+The constraint has already distorted the record once: SUG-269's ID was reused for unrelated scope because no new slot was available, so that identifier means two different things depending on the date, and the issue description now carries a warning about itself.
+
+### 8.2 Execution plan for recommendations 1 through 8
+
+The capacity blocker gates far less than it first appears. Only one of the eight needs a Linear slot.
+
+| Route | Recommendations | Artifact | Blocked by Linear? |
+|---|---|---|---|
+| **Doc edits** | 6.1, 6.2, 6.4 (CLAUDE.md); 6.5, 6.6, 6.7 (`docs/epic-template.md`) | Rule changes, not work items. One session, one commit each or one batched commit under the Instruction & Rule File Write Gate. | **No** |
+| **Needs an epic** | 6.8 — the three-step build-back (liveness probes → claim honesty → generated index) | `/new-epic`: Linear issue + backlog doc | **Yes** |
+| **Held in reserve** | 6.3 — measure-the-whole-surface spec | Nothing to log; no cap currently exists | **No** — nothing to do |
+
+Six of eight can proceed immediately without consuming any capacity. 6.8 waits on either a plan upgrade or a deliberate exception to the single-queue rule.
+
+### 8.3 Standing note on adding rules
+
+6.1, 6.2, 6.4 and 6.7 all add rules to the instruction surface, in a post-mortem about that surface growing too fast. Roughly 150 words against CLAUDE.md's 10,093. Defensible, but it is the same motion that started this, and warrants an explicit decision rather than an assumed one.
