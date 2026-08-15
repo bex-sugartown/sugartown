@@ -4,7 +4,9 @@
 **Status:** In Progress — Phases 1–6 and 8 done; **Phase 7 has 2 items open** (the CLAUDE.md
 "gate tiers" note and the copy-first elaboration, both verified still present 2026-08-15);
 Phase 9 CHANGELOG entry done, mini-release deferred. Not closeable until Phase 7 finishes and
-the 12 unpushed commits reach `origin/main` with a named green CI run (close-out step 1b).
+the epic's commits reach `origin/main` with a named green CI run (close-out step 1b). Count
+unpushed commits with `git rev-list --count origin/main..main` rather than trusting a figure
+written here.
 **Priority:** 🟠 High
 **Merge strategy:** (a) Merge-as-you-go — each phase merges to `main` on completion.
 ---
