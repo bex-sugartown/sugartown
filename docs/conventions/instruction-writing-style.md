@@ -1,10 +1,10 @@
 # Instruction Writing Style
 
-**Version:** v1.2
+**Version:** v1.3
 **Status:** Active
 **Owner:** Bex Head
-**Last updated:** 2026-08-07
-**Related:** `docs/brand/brand-voice-guide.md`, `docs/conventions/verification-review.md`
+**Last updated:** 2026-08-15
+**Related:** `docs/brand/brand-voice-guide.md`
 
 ---
 
@@ -102,11 +102,6 @@ These are the ones that keep appearing. Plain replacements on the right.
 | failure class, failure shape | the way this goes wrong |
 | vacuous, vacuously | passes because there was nothing to check |
 | the cadence is the control | someone has to look at this regularly |
-
-**Defined terms are exempt.** `Canary`, `Liveness`, `Bypass`, `Reader` and `Claim` are the
-five verification questions named in `verification-review.md`, and register column headers
-are fixed. The ban is on reaching for these words in prose, not on the vocabulary a
-framework defines.
 
 Check before committing:
 
