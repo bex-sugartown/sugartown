@@ -29,6 +29,7 @@ with working fields is worth having either way. Phase 3 and Phase 4 are the comm
 neither runs before the decision.
 
 Operating model in §10. Data map in §11. Governance-unwind annotations in §12.
+**The 2026-09-09 review checklist is §13.**
 
 ---
 
@@ -591,3 +592,82 @@ So the sub-issue question needs one decision, not sixteen. GitHub does support s
 natively (the `Parent issue` field already exists on the project), but §10.2 keeps the SUG-238
 rule: **one issue per epic, phases as checkboxes in the doc.** Adopting GitHub sub-issues would
 re-introduce exactly what SUG-238 withdrew.
+
+---
+
+## 13. The 2026-09-09 review — what to evaluate
+
+The trial's decision point. Work through these in order; each is checkable rather than a
+judgement call, except §13.5 which is the actual decision.
+
+### 13.1 Capacity — did the original blocker clear?
+
+```bash
+# Linear: is the workspace back under cap?
+#   expected ~58 of 250 once all three archive batches have run
+#   batches: ~182 on 09-08, ~10 on 09-12, SUG-284 on 09-14
+```
+
+- [ ] Workspace back near **58 of 250**
+- [ ] All three batches archived. If not, something was edited — find what, and reset expectations by one month from that edit
+- [ ] Confirm no closed issue was touched during the freeze
+
+**If capacity cleared, the original reason for migrating is gone.** §9.1's arithmetic says the
+free plan is sufficient at 44 issues/month. Judge the migration on fragility alone from here.
+
+### 13.2 Platform capability re-check — §11.1 standing caveat
+
+Every platform claim in this document was last verified 2026-08-15 by an author with a May 2026
+knowledge cutoff who does not track the GitHub changelog. **Re-run these before trusting §8,
+§10.3 or §11.**
+
+```bash
+# Has "Relates to" reached the GraphQL API? (UI-only public preview as of 2026-08-07)
+gh api graphql -f query='{ __schema{ mutationType{ fields{ name } } } }' \
+  --jq '.data.__schema.mutationType.fields[].name | select(test("[Rr]elat"))'
+
+# Are the dependency mutations still present?
+gh api graphql -f query='{ __type(name:"Issue"){ fields{ name } } }' \
+  --jq '.data.__type.fields[].name | select(test("[Bb]lock|[Rr]elat|[Ss]ubIssue|[Pp]arent"))'
+```
+
+- [ ] **"Relates to" in the API?** If yes, the **33 `Related to`** relations migrate natively and
+      §11's body-line workaround is dropped. This is the single most likely thing to have changed
+- [ ] `blockedBy` / `blocking` / `addBlockedBy` still present
+- [ ] Scan https://github.blog/changelog/label/projects-and-issues/ for anything since 2026-08-15
+
+### 13.3 Trial outcome — did the GitHub setup actually work?
+
+- [ ] Were the four §10.4 workflows enabled? (Phase 1 could not do this via API)
+- [ ] **Did `Status` track reality without manual correction?** This is the real test. If items
+      sat closed with `Status: Todo`, the automation is not doing its job and the board is
+      decorative — the exact drift class the post-mortem is about
+- [ ] Was the `Priority queue` view actually used as the priority queue, or did the epic docs
+      remain the working surface?
+- [ ] Was `Auto-add sub-issues to project` disabled? (It was enabled as found, against §10.2)
+- [ ] Did the three trial issues (`SUG-1000/1001/1002`) work as thin mirrors of their epic docs,
+      or did scope leak into the issue bodies?
+
+### 13.4 Outstanding decisions carried into the review
+
+- [ ] **SUG-249** — scope it, fold into SUG-19, or cancel. Empty description, sub-issue of
+      SUG-19, invisible to Linear search (§12)
+- [ ] **`Related to` convention** — depends on 13.2
+- [ ] **Refresh the export?** `docs/briefs/data/linear-export-2026-08-15.csv` is a point-in-time
+      snapshot. If the backlog changed during the trial, re-export before Phase 3
+- [ ] **The six annotated items** (§12) — SUG-264, 265, 267, 269, 250, 259 still need their
+      re-scoping applied, whichever system they live in
+
+### 13.5 The decision
+
+Three outcomes, not two:
+
+| Outcome | Then |
+|---|---|
+| **Migrate** | Run Phases 3 and 4. Re-verify §11.1 first. Budget the 9 code files and 12 instruction files |
+| **Stay on Linear** | Keep the GitHub project as a roadmap view if it earned its place. Record how the tidying-lockout fragility will be lived with — that was the remaining case for leaving |
+| **Extend the trial** | Only with a new decision date. An open-ended trial is how the last system grew |
+
+Whichever is chosen, **record it in this document with the date and the reason**, then apply
+this plan's kill criterion: if the answer is stay, delete this plan rather than leave it as a
+stale artifact.
