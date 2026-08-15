@@ -166,6 +166,24 @@ remaining 3 items 2026-08-15 (`c8d469b3`, `27607437`)
       outside `zArchive/` returns exactly one hit, `CLAUDE.md:44`. `docs/epic-template.md`
       is clean.
 
+- [x] **Added to scope 2026-08-15, done same day** (`a1e25101`) — Remove `/eod`'s dead
+      warn-gate reader (`docs/workflows/eod-prompt.md` step 6) and step 5's
+      "A run ID is the artifact" framing. Step 6 read `validate:doc-budget` (CTL-025),
+      `validate:epic-docs` (CTL-024), `ci.yml`'s `WARN-GATE` annotations, an
+      "Enforcement liveness" job, and CTL-040's freeze streak — all removed by this epic,
+      each verified absent. Left standing it would match nothing and report silence,
+      indistinguishable from "no gate fired", in a step that calls itself "its only reader".
+      Kept: watch the run to a conclusion, `--log-failed`, never report an in-flight run as
+      green, and the 212-red-runs history.
+
+> **Pattern worth noting.** Phase 7's scope was written as a list of CLAUDE.md *sections*, so
+> anything governance-shaped living outside CLAUDE.md was never enumerated. That missed
+> close-out step 1b (found 2026-08-15 when Bex questioned whether the green-CI requirement was
+> itself part of the unwind) and `/eod` step 6 (found the same day, when reading the skill
+> before running it). Both were caught by asking "does this rule still have a referent?"
+> rather than by the scope list. Any future sweep of this kind should enumerate *surfaces*
+> — CLAUDE.md, skills, workflows, templates, CI config — not sections of one file.
+
 > Phases 4 and 7 were both recorded as done in the header on 2026-08-13 while their checkboxes
 > stayed unticked. Reconciled 2026-08-15 by checking each claim against the file on disk rather
 > than against the commit messages. Phase 4 was complete; Phase 7 was not — the two items above
