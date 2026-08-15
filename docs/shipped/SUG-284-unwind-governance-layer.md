@@ -1,18 +1,42 @@
 ---
 **Epic:** SUG-284 — Unwind the governance/verification-review layer
 **Linear Issue:** [SUG-284](https://linear.app/sugartown/issue/SUG-284/unwind-the-governanceverification-review-layer-waves-2-3-since-2026-07)
-**Status:** In Progress — **Phases 1–9 complete as of 2026-08-15.** All implementation is on
-local `main`. Remaining before close-out: push to `origin/main` and confirm CI concludes
-`success` (step 1b), then Linear → Done. The `/mini-release` version bump stays deferred to
-the next natural release point; the `[Unreleased]` CHANGELOG entry is written, which is the
-separate obligation CLAUDE.md §Mini-release requires at ship time.
+**Status:** **Shipped 2026-08-15.** Phases 1–9 complete, merged to `origin/main`, CI green.
+The `/mini-release` version bump stays deferred to the next natural release point; the
+`[Unreleased]` CHANGELOG entry is written, which is the separate obligation CLAUDE.md
+§Mini-release requires at ship time.
 
-Count unpushed commits with `git rev-list --count origin/main..main` rather than trusting a
-figure written here.
+## Close-out
 
-**Why the push matters, beyond process:** Phase 2 removed six governance steps and the entire
-`liveness` job from `.github/workflows/ci.yml`, and that configuration has never executed. The
-green run is real signal about whether the unwind broke the pipeline, not a box to tick.
+19 commits merged to `origin/main` (`5acd8460..e4027d70`).
+
+**The pipeline was the real risk.** Phase 2 deleted six governance steps and the entire
+`liveness` job from `.github/workflows/ci.yml`, and that configuration had never executed.
+CI run 31879933820 on `e4027d70` concluded `success` with both jobs green and all 14 steps
+in `Lint · Typecheck · Validate · Build` running to completion, route smoke tests included.
+The unwind did not break CI.
+
+- **Route smoke tests** — 5/5 pass locally against a production build, and again in CI.
+- **Chromatic** — build 89, 365 snapshots, 3 changes. All three are the AI Disclosure rail in
+  `PageSidebar.jsx` (landed 2026-04-19, `f24ed98c`, SUG-69), diffed against a stale baseline
+  accepted on the `bex/sug-224-*` branch. `git log origin/main..main -- PageSidebar.jsx`
+  returns nothing, and the only `.jsx`/`.css` files in the whole 19-commit range are
+  `App.jsx`, `GovernancePage.jsx` and the archived `GovernanceDraftPage.jsx`. Not this epic's
+  work; accepted to reset the baseline onto `main`.
+- **Visual QA** — approved. Two rendered surfaces, both verified in-browser at close-out
+  rather than quoted from Phase 5: `/platform/governance` renders with §05 retitled
+  "AI Governance Workflow" and no `COVERAGE MAP` / `SUG-256` / "30 checkpoints" text,
+  0 console errors; `/platform/governance-draft` renders the 404 view in `<main>` with no
+  draft-page content leaking, 0 console errors.
+- **Netlify** — deploy triggered, `https://sugartown.io` returns 200.
+
+**Four pieces of residue were found after the bulk removal, not by the scope list.** Phase 7's
+scope enumerated CLAUDE.md *sections*, so anything governance-shaped elsewhere was structurally
+invisible to it: the missing `CLAUDE-md-removed-sections.md`, two dangling convention
+references, close-out step 1b's evidence ceremony, and `/eod` step 6's dead warn-gate reader.
+Each was caught by asking "does this rule still have a referent?" A future sweep of this kind
+should enumerate surfaces — CLAUDE.md, skills, workflows, templates, CI config — not sections
+of one file.
 **Priority:** 🟠 High
 **Merge strategy:** (a) Merge-as-you-go — each phase merges to `main` on completion.
 ---
