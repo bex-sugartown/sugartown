@@ -98,13 +98,22 @@ exactly as documented; the bulk project-removal reset their clocks.
 | Project | `Sugartown Roadmap`, user-level, `PVT_kwHODqg2Fc4BP7M2` | `gh project list --owner bex-sugartown` |
 | Project items | 20, all issues from `sugartown` | `gh project item-list 1` |
 | Item status | 11 Todo · 6 Done · 3 In Progress | same |
-| Items with Start/End dates | **0 of 20** | same — roadmap view renders empty |
+| Items with Start/End dates | **20 of 20** | same — corrected 2026-08-15, see note |
 
 Existing project fields: `Status`, `Labels`, `Milestone`, `Linked pull requests`, `Parent issue`,
 `Sub-issues progress`, `Start Date`, `End Date`, `Repository`, `Assignees`, `Reviewers`,
 `Created`, `Updated`, `Closed`.
 
 Missing versus Linear: **Priority**, **Iteration**.
+
+Existing views: `View 1` (table), `Roadmap` (roadmap layout), `Board` — all created 2026-02-23.
+
+> **Correction, 2026-08-15.** An earlier draft of this table said **0 of 20** items carried
+> Start/End dates and concluded the roadmap view renders empty. That was a key-casing bug in the
+> check, not a fact: `gh project item-list --format json` returns `start Date` / `end Date`
+> (lower-case first word) and the check queried `Start Date` / `End Date`. **All 20 items carry
+> both dates**, spanning 2026-01-18 to 2026-03-07, and the `Roadmap` view already existed and
+> has data. Caught by Bex from a screenshot of the issue drawer.
 
 ### Coupling to Linear in this repo
 
@@ -224,7 +233,7 @@ flip to `Status: Done` automatically.
 |---|---|
 | `Status` options | Was `Todo \| In Progress \| Done`. Now **`Backlog \| Todo \| In Progress \| Done \| Canceled`**, mirroring Linear. 54 of the 58 in scope are `Backlog`, which had no option at all |
 | `Priority` field | Created: **`Urgent \| High \| Medium \| Low \| No priority`**, mirroring Linear's 0–4 |
-| Views | `Priority queue` (table) and `Board` (board) created, **unconfigured** |
+| Views | `Priority queue` (table) created, **unconfigured**. A `Board` was also created, then **deleted as a duplicate** — `View 1`, `Roadmap` and `Board` already existed from 2026-02-23, which was not checked first |
 | `Iteration` | Deliberately not added, per §10.3 |
 
 > ### ⚠️ `updateProjectV2Field` on a single-select WIPES every item value
@@ -454,8 +463,9 @@ Views to create:
 1. **Priority queue** (table, grouped by `Priority`, filtered `Status != Done`) — this is the
    view that replaces Linear as "the priority queue" in CLAUDE.md
 2. **Board** (grouped by `Status`) — day-to-day
-3. **Roadmap** — only if `Start Date`/`End Date` actually get filled. Currently 0 of 20 items
-   carry dates, so this view renders empty and should stay unbuilt until there is data
+3. **Roadmap** — already exists (created 2026-02-23) and all 20 items carry dates. Keep it.
+   The open question is whether *migrated* epics get dates, since Linear's `Due Date` is empty
+   across the 58 in scope; without them new items will not appear on the timeline
 
 ### 10.4 Required automation, before any trust is placed in the board
 
