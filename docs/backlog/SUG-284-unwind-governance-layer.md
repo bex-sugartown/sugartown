@@ -1,7 +1,10 @@
 ---
 **Epic:** SUG-284 — Unwind the governance/verification-review layer
 **Linear Issue:** [SUG-284](https://linear.app/sugartown/issue/SUG-284/unwind-the-governanceverification-review-layer-waves-2-3-since-2026-07)
-**Status:** In Progress — Phases 1–8 done, Phase 9 CHANGELOG entry done, mini-release deferred
+**Status:** In Progress — Phases 1–6 and 8 done; **Phase 7 has 2 items open** (the CLAUDE.md
+"gate tiers" note and the copy-first elaboration, both verified still present 2026-08-15);
+Phase 9 CHANGELOG entry done, mini-release deferred. Not closeable until Phase 7 finishes and
+the 12 unpushed commits reach `origin/main` with a named green CI run (close-out step 1b).
 **Priority:** 🟠 High
 **Merge strategy:** (a) Merge-as-you-go — each phase merges to `main` on completion.
 ---
@@ -62,11 +65,17 @@ standalone files — those get recorded in the archive `README.md` instead. Full
       into `zArchive/2026-08-sug284-governance-layer/scripts/`
 - [x] Removed the 10 corresponding `package.json` script entries (recorded in archive README, not archived as files)
 
-### Phase 4 — Generated artifacts + agent
-- [ ] `git mv` `governance/` (schema + source, 8 files) into the archive; `rm -rf .governance-build/` (gitignored, untracked, nothing to preserve)
-- [ ] `git mv` `apps/web/src/generated/governance.json` into the archive **and** remove its `.gitignore`
+### Phase 4 — Generated artifacts + agent — **done 2026-08-13** (`ffa42403`, `d51bae3e`)
+- [x] `git mv` `governance/` (schema + source, 8 files) into the archive; `rm -rf .governance-build/` (gitignored, untracked, nothing to preserve)
+- [x] `git mv` `apps/web/src/generated/governance.json` into the archive **and** remove its `.gitignore`
       negation (`!apps/web/src/generated/governance.json`) in the same commit
-- [ ] `git mv` `.claude/agents/verification-reviewer.md` into the archive
+- [x] `git mv` `.claude/agents/verification-reviewer.md` into the archive
+
+> Checkboxes ticked 2026-08-15 after verifying on disk, not from the commit messages:
+> `apps/web/src/generated/governance.json` absent, `.governance-build/` absent, no `governance`
+> line in `.gitignore`, `verification-reviewer.md` present at
+> `zArchive/2026-08-sug284-governance-layer/claude-agents/`. An empty `governance/` directory
+> remains on disk — git does not track empty directories, so it is cosmetic only.
 
 ### Phase 5 — The governance-draft page — **done 2026-08-13** (`70a2d42e`)
 - [x] `git mv` `apps/web/src/pages/platform/GovernanceDraftPage.jsx` into the archive
@@ -87,24 +96,42 @@ standalone files — those get recorded in the archive `README.md` instead. Full
       snapshot, not live instructions
 - [x] Trimmed `docs/ai/README.md` — removed `governance-coverage.md` from the directory listing
       and the Quick Reference section (2 small edits, not a rewrite)
-- [ ] **Found during Phase 6, deferred to Phase 7:** `docs/conventions/human-gate-conventions.md`
-      (line ~38) and `docs/conventions/technical-doc-style-guide.md` (lines ~126, ~279-282, ~324)
-      — both kept — contain prescriptive instructions pointing at `verification-review.md` and
-      `control-register.md` (e.g. "fill these two fields from its row"). These need editing
-      alongside CLAUDE.md's Verification Review section since they're the same concept's
-      downstream documentation, not a separate concern. Not touched yet — both are CLAUDE.md-
-      adjacent conventions docs, so the Instruction & Rule File Write Gate applies.
+- [x] **Found during Phase 6, deferred to Phase 7 — closed 2026-08-15** (`c76dd6b2`).
+      The two files named here (`human-gate-conventions.md`, `technical-doc-style-guide.md`)
+      were both handled inside Phase 7's own commit (`ad5d60ba`) and are clean. Re-grepping
+      2026-08-15 found the actual survivors were two *different* files:
+      `docs/conventions/instruction-writing-style.md` (line 7 `**Related:**`, and the
+      "Defined terms are exempt" paragraph naming `verification-review.md`) and
+      `docs/conventions/design-handoff-template.md` (line 5, `rule-register.md` §RULE-019).
+      Both fixed under the Instruction & Rule File Write Gate: scratchpad copy, diff, approval,
+      apply. `instruction-writing-style.md` bumped v1.2 → v1.3.
+      **Verified:** 0 references to `verification-review` / `control-register` / `rule-register` /
+      `governance-coverage` remain outside `zArchive/` across `docs/conventions/`, `CLAUDE.md`,
+      `docs/epic-template.md` and `.claude/skills/`.
 
 ### Phase 7 — CLAUDE.md (Instruction & Rule File Write Gate applies — diff from a scratch copy,
-explicit approval, before this file is touched)
-- [ ] Copy every removed section's verbatim text into `zArchive/2026-08-sug284-governance-layer/CLAUDE-md-removed-sections.md` before removing it from CLAUDE.md
-- [ ] Remove §Verification review (blocking)
-- [ ] Remove §Process feedback loop — three-strike retrospective trigger
-- [ ] Remove §Scope creep (blocking)
-- [ ] Remove/simplify the "gate tiers" note at the top of the file
-- [ ] Remove epic close-out step 8b's hard requirement (keep `incident-log.md` as reference only)
-- [ ] Trim §Instruction & Rule File Write Gate's "copy-first method" elaboration — **keep the
-      gate itself**, locked decision
+explicit approval, before this file is touched) — **mostly done 2026-08-13** (`ad5d60ba`);
+**2 items still open**
+- [x] Copy every removed section's verbatim text into `zArchive/2026-08-sug284-governance-layer/CLAUDE-md-removed-sections.md` before removing it from CLAUDE.md
+      — **missed on 2026-08-13, written 2026-08-15** (`c8d469b3`). The removal shipped without
+      it, so the archive README listed a file that did not exist for two days. Text recovered
+      verbatim from `git show ad5d60ba^:CLAUDE.md`; nothing was lost.
+- [x] Remove §Verification review (blocking)
+- [x] Remove §Process feedback loop — three-strike retrospective trigger
+- [x] Remove §Scope creep (blocking)
+- [ ] **STILL OPEN** — Remove/simplify the "gate tiers" note at the top of the file.
+      Verified 2026-08-15: still present at `CLAUDE.md:11`.
+- [x] Remove epic close-out step 8b's hard requirement (keep `incident-log.md` as reference only)
+- [ ] **STILL OPEN** — Trim §Instruction & Rule File Write Gate's "copy-first method"
+      elaboration — **keep the gate itself**, locked decision. Verified 2026-08-15: the
+      elaboration is still present at `CLAUDE.md:406`; only its trailing `[[rule-register]]`
+      citation was cut in `ad5d60ba`.
+
+> Phases 4 and 7 were both recorded as done in the header on 2026-08-13 while their checkboxes
+> stayed unticked. Reconciled 2026-08-15 by checking each claim against the file on disk rather
+> than against the commit messages. Phase 4 was complete; Phase 7 was not — the two items above
+> are genuinely outstanding, and both are CLAUDE.md edits, so the Instruction & Rule File Write
+> Gate applies to closing them.
 
 ### Phase 8 — Linear cleanup + archive the retired epic docs — **done 2026-08-13**
 - [x] Cancel SUG-243, 256, 262, 268, 276, 281, 282 with a comment linking to this epic
