@@ -13,7 +13,7 @@
 Epics follow a three-stage lifecycle, tracked by **issue ID** (not sequential EPIC numbers):
 `SUG-{N}` on epics created in Linear, `ST-{n}` on epics created from 2026-08-16, where `{n}` is
 the GitHub issue number. Issue status is a byproduct of running this lifecycle, not a separately
-maintained field — see CLAUDE.md §Linear status = workflow stage (SUG-246).
+maintained field — see CLAUDE.md §Issue status = workflow stage (SUG-246).
 
 **1. Backlog** (`docs/backlog/ST-{n}-{name}.md`)
 - When authoring a new epic, **create the GitHub issue first**. Until 2026-09-09 tracker writes
@@ -28,6 +28,8 @@ maintained field — see CLAUDE.md §Linear status = workflow stage (SUG-246).
 **2. Active** (implementation underway)
 - Status: **In Progress** — set as soon as the Pre-Execution Completeness Gate below
   is clean and code changes are about to begin, before the first `Edit`/`Write` call
+- Status: **On Hold** if the epic is paused, for a blocker or by choice (CLAUDE.md §Issue
+  status = workflow stage)
 - Any cross-epic dependency stated in this doc ("blocked on X") must also exist on the issue,
   not prose alone. GitHub has no relation field, so state it in the issue body
 

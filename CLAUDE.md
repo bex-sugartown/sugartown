@@ -115,17 +115,25 @@ git branch --contains <commit-sha> | grep -qE '^(\*|\s)+ main$' && echo "on main
 
 The close-out sequence enforces this naturally (merge → mini-release → ship doc → Linear Done). This rule is the backstop for a skipped or partial close-out, e.g. a multi-phase epic where one phase did not merge.
 
-### Linear status = workflow stage
+### Issue status = workflow stage
 
-Linear issue status is a byproduct of running the existing Sugartown epic workflow, not a
-separately maintained field:
+Issue status is a byproduct of running the existing Sugartown epic workflow, not a separately
+maintained field:
 
-| Sugartown stage | Trigger | Linear status |
+| Sugartown stage | Trigger | Status |
 |---|---|---|
 | Epic created | `/new-epic` Step 1 | `Backlog` |
-| Prioritized for pickup | Set in Linear, by the human | `Todo` |
+| Prioritized for pickup | Set by the human | `Todo` |
 | Implementation begins | Pre-Execution Completeness Gate passes (`docs/epic-template.md`) | `In Progress` |
+| Paused for any reason | Set by the human | `On Hold` |
 | Epic ships | Close-out sequence step 8 (below) | `Done` |
+
+**`On Hold` is the one status a workflow step does not set.** It covers both a blocker outside
+your control and work deliberately parked, and it is the human's call in both directions.
+Exits to `In Progress` when work resumes, or to `Canceled` if it never does.
+
+`On Hold` exists on the GitHub board only; Linear has no equivalent, so the two are not a
+strict mirror. That ends with the trial (§Tracker writes go to GitHub only).
 
 **Linear is the priority queue; there is no second copy.**
 `docs/backlog/sugartown-backlog-priorities.md` was retired 2026-08-05.
