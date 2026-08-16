@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-98 — Apply the six post-mortem rule changes
 **GitHub Issue:** [#98](https://github.com/bex-sugartown/sugartown/issues/98)
-**Status:** In Progress
+**Status:** Done — shipped v0.33.1, 2026-08-16
 **Priority:** 🟡 Medium
 **Merge strategy:** (b) Single close-out — one session, one batched commit
 ---
@@ -114,3 +114,43 @@ Two additions were made in the same pass, both outside the original six and both
 a kill criterion at birth, and 6.1 forbids shipping a generator before its reader exists.
 Building the liveness probes first means building them without the rules meant to constrain
 them. 6.4 likewise governs ST-97. Decided 2026-08-16.
+
+
+---
+
+## Close-out — 2026-08-16, v0.33.1
+
+| Step | Result |
+|---|---|
+| 1 Commit | ✅ `061b4c35`, confirmed on `origin/main` |
+| 1b Route smoke tests | ✅ 5/5 locally (1.4m), CI run `31955334195` concluded `success` |
+| 2 Deploy schema | N/A — commit touched no `apps/studio/schemas/` file |
+| 3 Visual QA gate | N/A — no rendered surface and no vspec; nothing a human could review |
+| 4 Chromatic | N/A — zero `*.css`, `*.jsx`, `*.tsx` or `apps/storybook/**` files in the commit |
+| 5 Data pipeline gap check | N/A — commit touched no stats collector |
+| 5b Verify handoffs landed | ✅ one deferral found with no owner (the 58-doc header sweep) and given one in `docs/briefs/linear-to-github-migration-plan.md` §2.1, commit `4557bb0f` |
+| 6 Move doc → `docs/shipped/` | ✅ this commit |
+| 6b Preserve the vspec | N/A — no vspec |
+| 7 Mini-release | ✅ 0.33.0 → 0.33.1, commit `f21d0e95` |
+| 8 Update the tracker | ✅ [#98](https://github.com/bex-sugartown/sugartown/issues/98) closed, board `Status: Done` |
+| 9 Clean tree | ✅ |
+
+### Found during close-out
+
+**`/mini-release` step 0B derives the wrong baseline.** It says scope from the last
+`chore(release):` commit, which is `v0.32.3`. But `v0.33.0` shipped 2026-08-15 through
+`/release`, which writes `docs: release vX.Y.Z` instead. Following 0B literally would have
+scoped this patch across 30+ commits from an already-shipped release cycle. Scoped by hand from
+`fd838697`. This is a second instance of SUG-265 Part A — two prompts, no parity — logged to
+[#90](https://github.com/bex-sugartown/sugartown/issues/90).
+
+**Step 6 versus `/mini-release` §3A disagree, confirmed live.** CLAUDE.md step 6 says *move* the
+doc to `docs/shipped/`; `/mini-release` §3A says *delete* the backlog copy if a shipped copy
+already exists. Its precondition was false here (nothing had been moved yet), so following it
+would have deleted the only copy. Followed CLAUDE.md. This is ST-100 scope item S15, now with a
+live instance rather than a hypothesis.
+
+**The `Item closed` → `Status: Done` project automation fired.** Observed directly: closing
+[#98](https://github.com/bex-sugartown/sugartown/issues/98) moved its board item to `Done` with
+no manual step. This resolves ST-99 run 1's finding F5, which recorded the automation as a
+documented-but-unobserved dependency.
