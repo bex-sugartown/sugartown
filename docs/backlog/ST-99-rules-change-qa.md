@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-99 — QA walkthrough for rule-file changes
 **GitHub Issue:** [#99](https://github.com/bex-sugartown/sugartown/issues/99)
-**Status:** Backlog
+**Status:** In Progress
 **Priority:** 🟡 Medium
 **Merge strategy:** (a) Merge-as-you-go
 ---
@@ -45,7 +45,7 @@ Finding classes used so far, not a fixed taxonomy: `unfollowable`, `contradictio
 
 ## Scope
 
-- [ ] Run v1 on the next three rule-file changes — layer: process
+- [ ] Run v1 on the next three rule-file changes — layer: process (1 of 3 done)
 - [ ] Record each run's findings table in its commit — layer: process
 - [ ] After three runs, review which steps kept earning their place — layer: process
 

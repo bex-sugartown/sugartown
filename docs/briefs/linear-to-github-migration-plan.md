@@ -308,9 +308,16 @@ flip to `Status: Done` automatically.
 >
 > Recovered in full from a snapshot taken before the change, verified per item and not by count.
 >
+> **Measured correction, 2026-08-16.** `On Hold` was added to `Status` through the **project
+> UI** after all 66 items carried values, and **nothing was wiped**: 57 `Backlog`, 9 `Todo`,
+> 0 blank, counted with `gh project item-list` immediately afterwards. Every pre-existing
+> option ID was also unchanged, `Priority`'s included. So the destructive behaviour above is
+> specific to the `updateProjectV2Field` **API mutation**, not to adding an option in the UI.
+> The API path has not been retested and the warning still stands for it.
+>
 > **This matters for Phase 3.** Once 58 migrated items carry `Status` and `Priority` values, any
-> later edit to either field's option list destroys them all. Freeze both option sets before
-> importing, or snapshot first:
+> later edit to either field's option list **via the API** destroys them all. Freeze both option
+> sets before importing, or snapshot first:
 > ```bash
 > gh project item-list 1 --owner bex-sugartown --limit 200 --format json > snapshot.json
 > ```
@@ -631,7 +638,7 @@ Required fields beyond the defaults:
 
 | Field | Type | Values |
 |---|---|---|
-| `Status` | single-select | `Backlog`, `Todo`, `In Progress`, `Done`, `Canceled` — mirrors Linear exactly so the workflow table in CLAUDE.md needs no rewrite |
+| `Status` | single-select | `Backlog`, `Todo`, `In Progress`, `On Hold`, `Done`, `Canceled`. **`On Hold` added 2026-08-16 (Bex)** — it has no Linear equivalent, so the board is no longer a strict mirror and CLAUDE.md's workflow table needs the extra row |
 | `Priority` | single-select | `Urgent`, `High`, `Medium`, `Low`, `No priority` — mirrors Linear's 0–4 |
 
 **Do not add:** `Iteration`, `Estimate`, `SLA`, or size fields. Sugartown has never used Linear
@@ -655,6 +662,8 @@ silently — the exact failure class the post-mortem is about.
 | Trigger | Action |
 |---|---|
 | Item closed | set `Status: Done` |
+
+**`On Hold` has no automation and no defined entry or exit trigger** as of 2026-08-16. It is set and cleared by hand. Decide what it means before relying on it, or it becomes a status items enter and never leave.
 | Item reopened | set `Status: In Progress` |
 | PR merged linking the issue | set `Status: Done` |
 | Issue added to project | set `Status: Backlog` |
